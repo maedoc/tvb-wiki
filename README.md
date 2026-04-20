@@ -50,4 +50,8 @@ To extend the automation:
 
 Built with Hermes Agent's `llm‑wiki` and `obsidian` skills.
 
+## Static Site
+
+This wiki is also a static site built with MkDocs + Material theme. The `site/` directory contains the generated HTML. A GitHub Actions workflow automatically deploys the site to GitHub Pages on every push to `main`.
+
 Last seeded: 2026‑04‑20 with 122 arXiv papers.
