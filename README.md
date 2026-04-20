@@ -38,6 +38,30 @@ The `SCHEMA.md` file defines the tag taxonomy used for categorizing pages.
 2. Run the ingest script to update entity/concept pages.
 3. Or just edit pages directly.
 
+## AI-Powered Content Enrichment (Feynman)
+
+This wiki integrates [Feynman](https://feynman.is) research skills for automated content generation:
+
+- **`/lit`** - Literature reviews for concept pages
+- **`/deepresearch`** - Deep investigations for complex topics  
+- **`alpha`** - AlphaXiv paper search and Q&A
+- **`/audit`** - Paper-code consistency checks
+
+### Quick Enrichment
+
+```bash
+# Analyze wiki for placeholder content
+python3 scripts/enrich_wiki.py
+
+# Run full enrichment pipeline
+python3 scripts/feynman_wiki_pipeline.py --full
+
+# Then execute generated Feynman commands
+/lit "NEST simulator features architecture"
+```
+
+See [docs/FEYNMAN_INTEGRATION.md](docs/FEYNMAN_INTEGRATION.md) for detailed workflows.
+
 ## Development
 
 To extend the automation:
@@ -45,6 +69,7 @@ To extend the automation:
 - Edit `scripts/hourly_update.py` to add new sources (bioRxiv, medRxiv, GitHub).
 - Adjust entity extraction logic in the same script.
 - Modify `SCHEMA.md` to refine the tag taxonomy.
+- Use Feynman skills (`/lit`, `/deepresearch`) to fill placeholder content.
 
 ## Credits
 

@@ -1,8 +1,8 @@
 {
   "$schema": "https://hermes-agent.com/schemas/skill-manifest-v1.json",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "repo": "https://github.com/maedoc/tvb-wiki",
-  "description": "Skill bundle for the TVB research wiki: automated ingestion, static site generation, and maintenance.",
+  "description": "Skill bundle for the TVB research wiki: automated ingestion, static site generation, and AI-powered content enrichment using Feynman research skills.",
   "skills": [
     {
       "name": "tvb-wiki-maintenance",
@@ -30,6 +30,42 @@
       "dependencies": ["python3", "mkdocs", "git"],
       "schedule": "hourly (via full pipeline)",
       "tags": ["static-site", "mkdocs", "github-pages", "deployment"]
+    },
+    {
+      "name": "wiki-content-enrichment",
+      "path": "skills/deep-research/SKILL.md",
+      "description": "Fill placeholder wiki content using Feynman deep research. Analyzes pages needing content, generates research commands, integrates findings.",
+      "entry_point": "scripts/feynman_wiki_pipeline.py",
+      "dependencies": ["python3", "feynman"],
+      "schedule": "weekly",
+      "tags": ["wiki", "content", "research", "enrichment", "feynman"]
+    },
+    {
+      "name": "wiki-literature-review",
+      "path": "skills/literature-review/SKILL.md",
+      "description": "Generate literature reviews for wiki concepts using Feynman /lit workflow. Creates cited summaries for concept pages.",
+      "entry_point": "scripts/enrich_wiki.py",
+      "dependencies": ["python3", "feynman"],
+      "schedule": "on-demand",
+      "tags": ["wiki", "literature-review", "concepts", "feynman"]
+    },
+    {
+      "name": "wiki-paper-integration",
+      "path": "skills/alpha-research/SKILL.md",
+      "description": "Find and integrate relevant papers from alphaXiv into wiki pages. Links papers to concepts and entities.",
+      "entry_point": "scripts/alpha_enrich.py",
+      "dependencies": ["python3", "alpha"],
+      "schedule": "weekly",
+      "tags": ["wiki", "papers", "alphaxiv", "research"]
+    },
+    {
+      "name": "wiki-comparison-generator",
+      "path": "skills/deep-research/SKILL.md",
+      "description": "Generate comparison pages (TVB vs NEST, fMRI vs EEG, etc.) using Feynman deep research.",
+      "entry_point": "scripts/generate_comparisons.py",
+      "dependencies": ["python3", "feynman"],
+      "schedule": "on-demand",
+      "tags": ["wiki", "comparisons", "research", "feynman"]
     }
   ],
   "agent_compatibility": {
@@ -40,8 +76,16 @@
     },
     "pi": {
       "skill_format": "SKILL.md with YAML frontmatter",
-      "slash_commands": ["/update-wiki", "/ingest-arxiv", "/build-site"],
-      "notes": "Slash commands are not automatically expanded; refer to the skill's metadata for mapping."
+      "slash_commands": [
+        "/update-wiki",
+        "/ingest-arxiv",
+        "/build-site",
+        "/enrich-wiki",
+        "/lit \"<topic>\"",
+        "/deepresearch \"<topic>\"",
+        "/audit <arxiv-id>"
+      ],
+      "notes": "Feynman commands (/lit, /deepresearch, /audit) can be used to fill wiki content. Run scripts/feynman_wiki_pipeline.py for batch enrichment."
     },
     "codex": {
       "skill_format": "SKILL.md with YAML frontmatter",
