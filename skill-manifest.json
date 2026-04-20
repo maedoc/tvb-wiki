@@ -1,0 +1,56 @@
+{
+  "$schema": "https://hermes-agent.com/schemas/skill-manifest-v1.json",
+  "version": "1.0.0",
+  "repo": "https://github.com/maedoc/tvb-wiki",
+  "description": "Skill bundle for the TVB research wiki: automated ingestion, static site generation, and maintenance.",
+  "skills": [
+    {
+      "name": "tvb-wiki-maintenance",
+      "path": "skills/tvb-wiki-maintenance/SKILL.md",
+      "description": "Full pipeline for maintaining the TVB research wiki: hourly arXiv ingestion, static site build, git commit, and GitHub Pages deployment.",
+      "entry_point": "scripts/hourly_full.py",
+      "dependencies": ["python3", "git", "mkdocs"],
+      "schedule": "hourly",
+      "tags": ["wiki", "automation", "research", "arxiv", "static-site", "github-pages"]
+    },
+    {
+      "name": "tvb-wiki-ingestion",
+      "path": "skills/tvb-wiki-ingestion/SKILL.md",
+      "description": "arXiv paper ingestion for the TVB research wiki: fetch new papers, extract entities/concepts, update raw/ and meta/.",
+      "entry_point": "scripts/hourly_update.py",
+      "dependencies": ["python3"],
+      "schedule": "hourly",
+      "tags": ["wiki", "ingestion", "arxiv", "research", "entities"]
+    },
+    {
+      "name": "tvb-wiki-static-site",
+      "path": "skills/tvb-wiki-static-site/SKILL.md",
+      "description": "Build and deploy the TVB research wiki as a static site using MkDocs and GitHub Pages.",
+      "entry_point": "mkdocs build",
+      "dependencies": ["python3", "mkdocs", "git"],
+      "schedule": "hourly (via full pipeline)",
+      "tags": ["static-site", "mkdocs", "github-pages", "deployment"]
+    }
+  ],
+  "agent_compatibility": {
+    "hermes": {
+      "skill_format": "SKILL.md with YAML frontmatter",
+      "load_command": "skill_view(name)",
+      "notes": "Skills can be loaded directly from the repo's skills/ directory."
+    },
+    "pi": {
+      "skill_format": "SKILL.md with YAML frontmatter",
+      "slash_commands": ["/update-wiki", "/ingest-arxiv", "/build-site"],
+      "notes": "Slash commands are not automatically expanded; refer to the skill's metadata for mapping."
+    },
+    "codex": {
+      "skill_format": "SKILL.md with YAML frontmatter",
+      "notes": "Codex can read the SKILL.md files and execute the described steps."
+    }
+  },
+  "installation": {
+    "hermes": "Copy skills directory to ~/.hermes/skills/ or symlink: ln -s $(pwd)/skills/tvb-wiki-* ~/.hermes/skills/",
+    "pi": "Clone the repo and add its skills directory to Pi's skill search path.",
+    "generic": "Read SKILL.md files from skills/ directory and follow instructions."
+  }
+}
