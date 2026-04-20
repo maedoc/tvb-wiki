@@ -17,9 +17,9 @@ whole-brain is a key concept in connectome‑based whole‑brain modeling.
 *Placeholder for how this concept is used in modeling.*
 
 ## Related Concepts
-* [neural mass model](neural-mass-model.md)
-* [functional connectivity](functional-connectivity.md)
-* [whole‑brain](whole-brain.md)
+* [[neural mass model]]
+* [[functional connectivity]]
+* whole‑brain
 
 ## References
 *Links to relevant papers.*

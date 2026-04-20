@@ -35,6 +35,14 @@ Connectome‑based whole‑brain modeling, neural mass models, neuroimaging moda
 - network‑dynamics
 - bifurcation‑analysis
 - parameter‑estimation
+- dynamical‑systems‑theory
+- bifurcation‑theory
+- nonlinear‑dynamics
+- variational‑bayes
+- free‑energy‑principle
+- mean‑field‑theory
+- stochastic‑differential‑equations
+- fokker‑planck‑equation
 
 **Neuroimaging Modalities**
 - neuroimaging‑fmri
@@ -50,9 +58,13 @@ Connectome‑based whole‑brain modeling, neural mass models, neuroimaging moda
 **Software & Tools**
 - software‑tvb
 - software‑nest
+- software‑neuron
 - software‑brian
 - software‑neuroml
 - software‑brain‑modeling
+- software‑ants
+- software‑graphvar
+- software‑modeldb
 - software‑visualization
 - database‑hcp
 - database‑uk‑biobank
@@ -67,6 +79,7 @@ Connectome‑based whole‑brain modeling, neural mass models, neuroimaging moda
 - lab‑institute
 - people‑researcher
 - funding‑project
+- reproducibility
 
 **Domain Topics**
 - brain‑oscillations
@@ -77,6 +90,8 @@ Connectome‑based whole‑brain modeling, neural mass models, neuroimaging moda
 - brain‑stimulation
 - neurodevelopment
 - aging‑brain
+- personalized‑brain‑modeling
+- spiking‑neural‑networks
 
 **Meta**
 - comparison

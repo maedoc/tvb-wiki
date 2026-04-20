@@ -20,5 +20,5 @@ Researcher in connectome‑based whole‑brain modeling.
 *Placeholder*
 
 ## Links
-* [TVB](tvb.md)
-* [neural mass model](../concepts/neural-mass-model.md)
+* [[TVB]]
+* [[neural mass model]]

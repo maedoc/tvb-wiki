@@ -17,9 +17,9 @@ Brain networks represent the brain as a graph of nodes (regions) and edges (stru
 *Placeholder for how this concept is used in modeling.*
 
 ## Related Concepts
-* [neural mass model](neural-mass-model.md)
-* [functional connectivity](functional-connectivity.md)
-* [whole‑brain](whole-brain.md)
+* [[neural mass model]]
+* [[functional connectivity]]
+* whole‑brain
 
 ## References
 *Links to relevant papers.*
