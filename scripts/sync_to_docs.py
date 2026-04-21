@@ -1,96 +1,49 @@
 #!/usr/bin/env python3
 """
-Sync the wiki source (entities/, concepts/, etc.) to the docs/ directory,
-convert wikilinks, and optionally build the static site.
+Sync wiki content into docs/ for MkDocs build WITHOUT converting wikilinks.
+Wikilinks are resolved at build time by hooks/obsidian_support.py.
 """
-import os, sys, shutil, subprocess, datetime, argparse
+import os, shutil
 
-WIKI_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DOCS_DIR = os.path.join(WIKI_ROOT, 'docs')
+REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SOURCE_DIRS = ['entities', 'concepts', 'comparisons', 'raw', 'hooks']
+TARGET_DIR = os.path.join(REPO, 'docs')
 
-def ensure_dir(path):
-    os.makedirs(path, exist_ok=True)
-
-def clean_dir(path):
-    """Remove all .md files in directory, keep subdirectories."""
-    if not os.path.exists(path):
-        return
-    for f in os.listdir(path):
-        if f.endswith('.md'):
-            os.remove(os.path.join(path, f))
-
-def copy_md_files(src, dst):
-    """Copy all .md files from src to dst."""
-    if not os.path.exists(src):
-        return 0
-    count = 0
-    for f in os.listdir(src):
-        if f.endswith('.md'):
-            shutil.copy2(os.path.join(src, f), os.path.join(dst, f))
-            count += 1
-    return count
-
-def sync(args):
-    print(f"🔀 Syncing wiki to docs at {datetime.datetime.now().isoformat()}")
+def sync():
+    # Ensure target dirs exist
+    os.makedirs(TARGET_DIR, exist_ok=True)
+    print(f"Syncing wiki to {TARGET_DIR} at {datetime.now().isoformat()}")
     
-    # Ensure directories
-    for d in ['entities', 'concepts', 'comparisons', 'queries']:
-        ensure_dir(os.path.join(DOCS_DIR, d))
+    copied = 0
+    for d in SOURCE_DIRS:
+        src = os.path.join(REPO, d)
+        if not os.path.isdir(src):
+            print(f"  Warning: {src} not found")
+            continue
+        dst = os.path.join(TARGET_DIR, d)
+        if os.path.exists(dst):
+            shutil.rmtree(dst)
+        shutil.copytree(src, dst)
+        n = sum(1 for _, _, fs in os.walk(dst) for _ in fs)
+        copied += n
+        print(f"  Copied {n} files from {d}/")
     
-    # Clean existing .md files (except index.md and about.md)
-    for d in ['entities', 'concepts', 'comparisons', 'queries']:
-        clean_dir(os.path.join(DOCS_DIR, d))
-    
-    # Copy source files
-    ent_count = copy_md_files(
-        os.path.join(WIKI_ROOT, 'entities'),
-        os.path.join(DOCS_DIR, 'entities')
-    )
-    conc_count = copy_md_files(
-        os.path.join(WIKI_ROOT, 'concepts'),
-        os.path.join(DOCS_DIR, 'concepts')
-    )
-    
-    # Copy index files if they exist
-    index_files = [
-        (os.path.join(WIKI_ROOT, 'index.md'), os.path.join(DOCS_DIR, 'index.md')),
-        (os.path.join(WIKI_ROOT, 'SCHEMA.md'), os.path.join(DOCS_DIR, 'schema.md')),
-        (os.path.join(WIKI_ROOT, 'about.md'), os.path.join(DOCS_DIR, 'about.md')),
-        (os.path.join(WIKI_ROOT, 'comparisons', 'index.md'), os.path.join(DOCS_DIR, 'comparisons', 'index.md')),
-        (os.path.join(WIKI_ROOT, 'queries', 'index.md'), os.path.join(DOCS_DIR, 'queries', 'index.md')),
-    ]
-    for src, dst in index_files:
+    # Copy root pages that are not already in docs/
+    for fn in ['index.md', 'schema.md', 'about.md', 'log.md', 'queries']:
+        src = os.path.join(REPO, fn)
         if os.path.exists(src):
-            ensure_dir(os.path.dirname(dst))
-            shutil.copy2(src, dst)
+            dst = os.path.join(TARGET_DIR, fn)
+            if os.path.isdir(src):
+                if os.path.exists(dst):
+                    shutil.rmtree(dst)
+                shutil.copytree(src, dst)
+            else:
+                shutil.copy2(src, dst)
+            copied += 1
+            print(f"  Copied {fn}")
     
-    print(f"  Copied {ent_count} entity files, {conc_count} concept files.")
-    
-    # Run wikilink conversion
-    conv_script = os.path.join(WIKI_ROOT, 'scripts', 'convert_wikilinks.py')
-    if os.path.exists(conv_script):
-        subprocess.run([sys.executable, conv_script], cwd=WIKI_ROOT, check=False)
-        print("  Ran wikilink conversion.")
-    else:
-        print("  Warning: convert_wikilinks.py not found.")
-    
-    # Build static site if requested
-    if args.build:
-        mkdocs_path = shutil.which('mkdocs')
-        if mkdocs_path:
-            print("  Building static site...")
-            subprocess.run([mkdocs_path, 'build'], cwd=WIKI_ROOT, check=True)
-            print("  Site built.")
-        else:
-            print("  Error: mkdocs not found in PATH.")
-    
-    print("✅ Sync complete.")
-
-def main():
-    parser = argparse.ArgumentParser(description="Sync wiki to docs directory")
-    parser.add_argument("--build", action="store_true", help="Build static site after sync")
-    args = parser.parse_args()
-    sync(args)
+    print(f"✅ Sync complete. {copied} files total.")
 
 if __name__ == '__main__':
-    main()
+    from datetime import datetime
+    sync()
