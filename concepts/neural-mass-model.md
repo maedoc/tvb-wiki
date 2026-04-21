@@ -51,13 +51,33 @@ Where S_E, S_I are sigmoid response functions, P and Q are external inputs.
 
 ## Types of Neural Mass Models
 
+### Classical Models
+
 | Model | Populations | Primary Use | Key Feature |
 |-------|-------------|-------------|-------------|
-| Wilson-Cowan | 2 (E, I) | General dynamics | Firing-rate formulation |
+| [[Wilson-Cowan]] | 2 (E, I) | General dynamics | Firing-rate formulation |
 | Lopes da Silva | 3 (E, E, I) | EEG/alpha rhythms | Thalamocortical loops |
-| Jansen-Rit | 3 (P, E, I) | EEG/MEG/VEP | Cortical column structure |
+| [[Jansen-Rit]] | 3 (P, E, I) | EEG/MEG/VEP | Cortical column structure |
 | Wendling | 4 (P, E, I_slow, I_fast) | Epilepsy | Separate GABA-A/GABA-B |
 | Zetterberg | 3+ | Sleep rhythms | Multiple cortical layers |
+
+### TVB Model Library
+
+| Model | Dim | Best For | Key Characteristics |
+|-------|-----|----------|---------------------|
+| [[Epileptor]] | 6D | Seizure dynamics | Composite fast/slow system |
+| [[EpileptorCodim3]] | 2D | Bifurcation analysis | Universal unfolding |
+| [[EpileptorRS]] | 6D+ | Resting-state | Stochastic interictal |
+| [[Wong-Wang]] | 1D | fMRI/BOLD | NMDA-mediated, slow |
+| [[Wong-Wang Exc-Inh]] | 2D | E-I balance | Separate populations |
+| [[Larter-Breakspear]] | 3D | Complex dynamics | Ion channel conductances |
+| [[Zerlaut]] | 2D+adapt | Adaptation | Spike-frequency adaptation |
+| [[Stefanescu-Jirsa]] | 2D | Reduced seizures | Center manifold reduction |
+| [[K-Ion Exchange]] | 3D | Metabolism | Potassium homeostasis |
+| [[Infinite Theta]] | 2D | Exact mean-field | QIF neuron reduction |
+| [[Hopfield]] | N | Memory | Discrete attractors |
+| [[Oscillator]] | 2D | Universal | Generic phase plane |
+| [[Linear]] | 1D | Testing | Baseline dynamics |
 
 ## Role in Whole-Brain Modeling
 
@@ -105,6 +125,9 @@ Neural mass models exhibit diverse dynamics depending on parameters:
 
 - [[Wilson-Cowan]] – Canonical firing-rate model
 - [[Jansen-Rit]] – EEG/MEG-focused cortical column model
+- [[Epileptor]] – Comprehensive seizure model
+- [[Wong-Wang]] – fMRI/BOLD optimized model
+- [[Larter-Breakspear]] – Ion channel-based model
 - [[mean field theory]] – Mathematical foundation
 - [[dynamic causal modeling]] – Bayesian inference with NMMs
 - [[bifurcation analysis]] – Understanding regime transitions
