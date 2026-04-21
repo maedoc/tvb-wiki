@@ -1,10 +1,9 @@
 ---
 title: "Wilson-Cowan Model"
 created: 2026-04-20
-updated: 2026-04-20
+updated: 2026-04-21
 type: concept
 tags: [neural-mass-models, brain-oscillations, network-dynamics]
-sources: [raw/papers/wilson-cowan-1972.md, raw/papers/wilson-cowan-1973.md, raw/papers/destexhe-sejnowski-2009.md]
 ---
 
 # Wilson-Cowan Model
@@ -162,7 +161,12 @@ Parameters:
 - [[neural mass model]] – General framework
 - [[Jansen-Rit]] – EEG-focused extension
 - [[mean field theory]] – Mathematical foundation
-- [[Hugh Wilson]] – Co-developer
-- [[Jack Cowan]] – Co-developer
-- brain oscillations – Dynamical output
 - [[bifurcation analysis]] – Understanding transitions
+
+## References
+
+1. Wilson, H. R., & Cowan, J. D. (1972). Excitatory and inhibitory interactions in localized populations of model neurons. *Biophysical Journal*, 12(1), 1–24. https://doi.org/10.1016/S0006-3495(72)86068-5
+
+2. Wilson, H. R., & Cowan, J. D. (1973). A mathematical theory of the functional dynamics of cortical and thalamic nervous tissue. *Kybernetik*, 13(2), 55–80. https://doi.org/10.1007/BF00288786
+
+3. Destexhe, A., & Sejnowski, T. J. (2009). The Wilson-Cowan model, 36 years later. *Biological Cybernetics*, 101(1), 1–2. https://doi.org/10.1007/s00422-009-0328-3

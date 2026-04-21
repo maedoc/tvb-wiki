@@ -4,7 +4,6 @@ created: 2026-04-21
 updated: 2026-04-21
 type: concept
 tags: [neural-mass-models, fmri, bold, resting-state, mean-field, decision-making]
-sources: [raw/papers/wong-wang-2006.md, raw/papers/deco-2013.md]
 ---
 
 # Wong-Wang Model
@@ -43,6 +42,12 @@ H(x) = (a·x - b) / (1 - exp(-d·(a·x - b)))
 | w | 0.6 | Recurrent weight |
 | J_N | 0.2609 nA | Coupling strength |
 | I_o | 0.33 nA | Background input |
+
+## References
+
+1. Wong, K. F., & Wang, X. J. (2006). A recurrent network mechanism of time integration in perceptual decisions. *Journal of Neuroscience*, 26(4), 1314–1328. https://doi.org/10.1523/JNEUROSCI.3733-05.2006
+
+2. Deco, G., Ponce-Alvarez, A., Mantini, D., Romani, G. L., Hagmann, P., & Corbetta, M. (2013). Resting-state functional connectivity emerges from structurally and dynamically shaped slow linear fluctuations. *Journal of Neuroscience*, 32(27), 11239–11252. https://doi.org/10.1523/JNEUROSCI.1091-12.2013
 
 ## Related Concepts
 

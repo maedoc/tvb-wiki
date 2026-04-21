@@ -4,7 +4,6 @@ created: 2026-04-21
 updated: 2026-04-21
 type: concept
 tags: [neural-mass-models, fmri, bold, excitation-inhibition, resting-state]
-sources: [raw/papers/wong-wang-2006.md, raw/papers/deco-2014.md]
 ---
 
 # Wong-Wang Excitatory-Inhibitory Model
@@ -37,6 +36,12 @@ x_E = w_+·J_N·S_E - J_i·S_I + I_o + J_N·C·Σ(S_E_j)
 dS_I/dt = -S_I/τ_I + γ_I · H_I(x_I)
 x_I = w_+·J_N·S_E - J_i·S_I + I_o
 ```
+
+## References
+
+1. Wong, K. F., & Wang, X. J. (2006). A recurrent network mechanism of time integration in perceptual decisions. *Journal of Neuroscience*, 26(4), 1314–1328. https://doi.org/10.1523/JNEUROSCI.3733-05.2006
+
+2. Deco, G., Kringelbach, M. L., Jirsa, V. K., & Ritter, P. (2017). The dynamics of resting fluctuations in the brain: Metastability and its dynamical cortical core. *Scientific Reports*, 7, 3095. https://doi.org/10.1038/s41598-017-03074-5
 
 ## Related Concepts
 

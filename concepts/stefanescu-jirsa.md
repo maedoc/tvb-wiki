@@ -4,7 +4,6 @@ created: 2026-04-21
 updated: 2026-04-21
 type: concept
 tags: [neural-mass-models, reduction, epileptor, low-dimensional]
-sources: [raw/papers/stefanescu-2011.md, raw/papers/stefanescu-2012.md]
 ---
 
 # Stefanescu-Jirsa Model
@@ -33,6 +32,12 @@ This is the universal unfolding of the saddle-node bifurcation.
 | α | Distance to bifurcation |
 | ε | Time-scale ratio |
 | γ | Offset in slow variable |
+
+## References
+
+1. Stefanescu, R. A., & Jirsa, V. K. (2008). A low dimensional description of globally heterogeneous intracranial EEG. *NeuroImage*, 42(3), 1147–1158. https://doi.org/10.1016/j.neuroimage.2008.06.021
+
+2. Stefanescu, R. A., & Jirsa, V. K. (2011). Reduced representations of heterogeneous micro-scale connectivity in brain networks. *PLoS Computational Biology*, 7(5), e1002007. https://doi.org/10.1371/journal.pcbi.1002007
 
 ## Related Concepts
 

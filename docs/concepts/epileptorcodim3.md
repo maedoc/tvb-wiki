@@ -4,7 +4,6 @@ created: 2026-04-21
 updated: 2026-04-21
 type: concept
 tags: [neural-mass-models, epilepsy, codimension-3, bifurcation, seizure]
-sources: [raw/papers/saggio-2017.md]
 ---
 
 # Epileptor Codimension-3
@@ -39,6 +38,10 @@ dy/dt = μ₁ + μ₂·x + μ₃·y + x² + x·y
 2. **Subcritical Hopf**: Abrupt onset with bistability
 3. **Saddle-Node Loop**: Brief paroxysmal events
 4. **Shilnikov**: Spike-and-wave complexes
+
+## References
+
+1. Saggio, M. L., Spiegler, A., Bernard, C., & Jirsa, V. K. (2017). Fast, large-scale neuromodeling: A unified computational framework for single-neurons and large-scale networks. *NeuroImage*, 158, 788–801. https://doi.org/10.1016/j.neuroimage.2017.07.011
 
 ## Related Concepts
 

@@ -31,12 +31,30 @@ A collection of foundational concepts in computational neuroscience and whole-br
 
 - [Neural Mass Model](neural-mass-model.md) – Population-level dynamics
 - [Mean-field Theory](mean-field-theory.md) – Macroscopic limits of networks
-- [Jansen-Rit Model](jansen-rit.md) – Canonical EEG/MEG generative model
-- [Wilson-Cowan Model](wilson-cowan.md) – Coupled excitatory/inhibitory populations
 - [Dynamic Causal Modeling](dynamic-causal-modeling.md) – Inferring effective connectivity from data
 - [Free Energy Principle](free-energy-principle.md) – Variational brain theory
 - [Spiking Neural Networks](spiking-neural-networks.md) – Mechanistic neuron-level models
 - [Stochastic Differential Equations](stochastic-differential-equations.md) – Noise-driven dynamics
+
+### Neural Mass Models
+
+| Model | Dimensions | Primary Use |
+|-------|------------|-------------|
+| [Jansen-Rit](jansen-rit.md) | 3D | EEG/MEG generation |
+| [Wilson-Cowan](wilson-cowan.md) | 2D | General rhythms |
+| [Epileptor](epileptor.md) | 6D | Seizure dynamics |
+| [EpileptorCodim3](epileptorcodim3.md) | 2D | Bifurcation analysis |
+| [EpileptorRS](epileptor-rs.md) | 6D+ | Resting state |
+| [Wong-Wang](wong-wang.md) | 1D | fMRI/BOLD |
+| [Wong-Wang E-I](wong-wang-exc-inh.md) | 2D | E-I balance |
+| [Larter-Breakspear](larter-breakspear.md) | 3D | Ion channel dynamics |
+| [Zerlaut](zerlaut.md) | 2D+adapt | Adaptation effects |
+| [Stefanescu-Jirsa](stefanescu-jirsa.md) | 2D | Reduced seizures |
+| [K-Ion Exchange](k-ion-exchange.md) | 3D | Metabolic coupling |
+| [Infinite Theta](infinite-theta.md) | 2D | Exact mean-field |
+| [Hopfield](hopfield.md) | N | Associative memory |
+| [Oscillator](oscillator.md) | 2D | Universal dynamics |
+| [Linear](linear.md) | 1D | Testing/baseline |
 
 ## Dynamics & Mathematics
 
@@ -65,4 +83,4 @@ A collection of foundational concepts in computational neuroscience and whole-br
 
 ---
 
-*Total: 46 concepts*
+*Total: 59 concepts*

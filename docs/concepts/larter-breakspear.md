@@ -4,7 +4,6 @@ created: 2026-04-21
 updated: 2026-04-21
 type: concept
 tags: [neural-mass-models, epilepsy, ion-channels, morris-lecar, complex-dynamics]
-sources: [raw/papers/larter-1999.md, raw/papers/breakspear-2003.md, raw/papers/honey-2007.md]
 ---
 
 # Larter-Breakspear Model
@@ -41,6 +40,14 @@ Originally developed by Larter et al. (1999) for seizure simulation, refined by 
 | g_K | 2.0 | Potassium conductance |
 | g_Na | 6.7 | Sodium conductance |
 | d_v | 0.0-0.55 | E→E coupling modulation |
+
+## References
+
+1. Larter, R., Speelman, B., & Worth, R. M. (1999). A coupled ordinary differential equation lattice model for the simulation of epileptic seizures. *Chaos*, 9(3), 795–806. https://doi.org/10.1063/1.166453
+
+2. Breakspear, M., Terry, J. R., & Friston, K. J. (2003). Modulation of excitatory synaptic coupling facilitates synchronization and complex dynamics in a biophysical model of neuronal dynamics. *Neurocomputing*, 52–54, 151–158. https://doi.org/10.1016/S0925-2312(02)00788-7
+
+3. Honey, C. J., Kötter, R., Breakspear, M., & Sporns, O. (2007). Network structure of cerebral cortex shapes functional connectivity on multiple time scales. *Proceedings of the National Academy of Sciences*, 104(24), 10240–10245. https://doi.org/10.1073/pnas.0701519104
 
 ## Related Concepts
 

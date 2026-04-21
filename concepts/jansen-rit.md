@@ -1,10 +1,9 @@
 ---
 title: "Jansen-Rit Model"
 created: 2026-04-20
-updated: 2026-04-20
+updated: 2026-04-21
 type: concept
 tags: [neural-mass-models, eeg, meg, brain-oscillations]
-sources: [raw/papers/jansen-rit-1995.md, raw/papers/rit-2013.md, raw/papers/lopes-da-silva-1974.md]
 ---
 
 # Jansen-Rit Model
@@ -155,5 +154,11 @@ Adds separate populations for fast (GABA-A) and slow (GABA-B) inhibition:
 - [[meg]] – Magnetic field modeling
 - [[dynamic causal modeling]] – Parameter estimation
 - [[epilepsy modeling]] – Pathological applications
-- [[Benjamin Jansen]] – Co-developer
-- [[Vincent Rit]] – Co-developer
+
+## References
+
+1. Jansen, B. H., & Rit, V. G. (1995). Electroencephalogram and visual evoked potential generation in a mathematical model of coupled cortical columns. *Biological Cybernetics*, 73(4), 357–366. https://doi.org/10.1007/BF00199471
+
+2. Lopes da Silva, F. H., Hoeks, A., Smits, H., & Zetterberg, L. H. (1974). Model of brain rhythmic activity. The alpha-rhythm of the thalamus. *Kybernetik*, 15(1), 27–37. https://doi.org/10.1007/BF00270757
+
+3. Wendling, F., Bellanger, J. J., Bartolomei, F., & Chauvel, P. (2000). Relevance of nonlinear lumped-parameter models in the analysis of depth-EEG epileptic signals. *Biological Cybernetics*, 83(4), 367–378. https://doi.org/10.1007/s004220000160

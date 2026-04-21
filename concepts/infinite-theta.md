@@ -4,7 +4,6 @@ created: 2026-04-21
 updated: 2026-04-21
 type: concept
 tags: [neural-mass-models, theta-neuron, phase-reduction, infinite-population]
-sources: [raw/papers/montbrio-2015.md]
 ---
 
 # Infinite Theta Neuron Model (Montbrió-Pazó-Roxin)
@@ -32,6 +31,12 @@ Where r is firing rate and v is mean voltage.
 | Δ | Width of input distribution |
 | μ | Mean external input |
 | J | Recurrent coupling |
+
+## References
+
+1. Montbrió, E., Pazó, D., & Roxin, A. (2015). Macroscopic description for networks of spiking neurons. *Physical Review X*, 5(2), 021028. https://doi.org/10.1103/PhysRevX.5.021028
+
+2. Devalle, F., Roxin, A., & Montbrió, E. (2017). Firing rate equations require a spike synchrony mechanism to correctly describe fast oscillations in inhibitory networks. *PLoS Computational Biology*, 13(12), e1005881. https://doi.org/10.1371/journal.pcbi.1005881
 
 ## Related Concepts
 

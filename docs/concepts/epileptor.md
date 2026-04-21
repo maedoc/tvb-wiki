@@ -4,7 +4,6 @@ created: 2026-04-21
 updated: 2026-04-21
 type: concept
 tags: [neural-mass-models, epilepsy, seizure-dynamics, bifurcation, jirsa]
-sources: [raw/papers/jirsa-2014.md, raw/papers/proix-2014.md]
 ---
 
 # Epileptor Model
@@ -54,6 +53,12 @@ Developed by Jirsa et al. (2014), the Epileptor model provides a mathematical fr
 1. **Interictal**: x₀ < -2.0, stable fixed point
 2. **Pre-ictal**: -2.0 < x₀ < -1.5, intermittent bursts
 3. **Ictal**: x₀ > -1.5, sustained rhythmic activity
+
+## References
+
+1. Jirsa, V. K., Stacey, W. C., Quilichini, P. P., Ivanov, A. I., & Bernard, C. (2014). On the nature of seizure dynamics. *Brain*, 137(8), 2210–2230. https://doi.org/10.1093/brain/awu133
+
+2. Proix, T., Bartolomei, F., Chauvel, P., Bernard, C., & Jirsa, V. K. (2014). Permittivity coupling across brain regions determines seizure recruitment in partial epilepsy. *Journal of Neuroscience*, 34(45), 15009–15021. https://doi.org/10.1523/JNEUROSCI.1570-14.2014
 
 ## Related Concepts
 
