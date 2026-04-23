@@ -33,6 +33,10 @@ from ralph_config import (
     get_all_pages,
 )
 
+# Linter runs daily, crosslink runs weekly
+LINTER_INTERVAL = 86400
+CROSSLINK_INTERVAL = 604800
+
 log = get_logger("daemon")
 
 # ── State ──────────────────────────────────────────────────────────────
@@ -50,6 +54,8 @@ class DaemonState:
             'SoftwareMapper': None,
             'DeepResearch': None,
             'Repairer': None,
+            'Linter': None,
+            'Crosslink': None,
         }
         self.failures = {k: 0 for k in self.last_run}
         self.disabled = set()
@@ -106,6 +112,32 @@ signal.signal(signal.SIGTERM, handle_signal)
 
 
 # ── Agent runners ──────────────────────────────────────────────────────
+
+def run_linter():
+    log.info("Starting daily lint cycle")
+    try:
+        from linter import run_linter_cycle
+        report = run_linter_cycle()
+        state.record_success('Linter')
+        return True
+    except Exception as e:
+        log.error("Linter failed: %s", e)
+        state.record_failure('Linter')
+        return False
+
+
+def run_crosslink():
+    log.info("Starting weekly crosslink cycle")
+    try:
+        from crosslink import find_crosslinks
+        suggestions = find_crosslinks()
+        state.record_success('Crosslink')
+        return True
+    except Exception as e:
+        log.error("Crosslink failed: %s", e)
+        state.record_failure('Crosslink')
+        return False
+
 
 def run_matcher():
     log.info("Starting matcher cycle")
@@ -221,6 +253,8 @@ AGENTS = [
     ('Auditor',        AUDITOR_INTERVAL,         run_auditor),
     ('Repairer',       REPAIRER_INTERVAL,        run_repairer),
     ('Librarian',      LIBRARIAN_INTERVAL,       run_librarian),
+    ('Linter',         LINTER_INTERVAL,          run_linter),
+    ('Crosslink',      CROSSLINK_INTERVAL,       run_crosslink),
     ('SoftwareMapper', SOFTWARE_MAPPER_INTERVAL, run_software_mapper),
 ]
 
@@ -256,7 +290,7 @@ def print_banner():
              len(pages), entities, concepts, comparisons, other)
     log.info("Raw papers: %d", raw_count)
     log.info("Last ingest: %s", last_update)
-    log.info("Agents: Matcher(hourly) Ingestor(hourly) Improver(hourly) DeepResearch(6h) Auditor(daily) Repairer(daily) Librarian(daily) SoftwareMapper(weekly)")
+    log.info("Agents: Matcher(hourly) Ingestor(daily) Improver(hourly) DeepResearch(2x/week) Auditor(daily) Repairer(daily) Librarian(daily) Linter(daily) Crosslink(weekly) SoftwareMapper(weekly)")
     log.info("Models: writer=%s, reviewer=%s", WRITER_MODEL, REVIEWER_MODEL)
     log.info("Parallel writers: %d", PARALLEL_WRITERS)
     log.info("Log file: %s", RALPH_LOG)
