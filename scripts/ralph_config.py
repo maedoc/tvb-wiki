@@ -48,6 +48,11 @@ LIBRARIAN_INTERVAL = 86400     # daily
 SOFTWARE_MAPPER_INTERVAL = 604800  # weekly
 DEEP_RESEARCH_INTERVAL = 21600   # every 6 hours
 
+# ── Git push schedule ─────────────────────────────────────────────────────
+# Push to the remote at most once per hour (default). Adjust PUSH_INTERVAL if needed.
+PUSH_INTERVAL = 3600  # seconds
+LAST_PUSH_FILE = os.path.join(META_DIR, "last_push.txt")
+
 # ── Error handling ─────────────────────────────────────────────────────
 PI_TIMEOUT = 300               # 5 min per pi subprocess
 MAX_RETRIES = 3
@@ -102,7 +107,10 @@ def get_logger(name: str) -> AgentLogger:
 # ── Git helpers ────────────────────────────────────────────────────────
 
 def git_commit(message: str, cwd: str = None) -> bool:
-    """Stage all changes and commit. Returns True if something was committed."""
+    """Stage all changes and commit. Returns True if something was committed.
+    After a successful commit, optionally push to the remote, but only at most
+    once per PUSH_INTERVAL (default 1 hour) to avoid excessive network traffic.
+    """
     cwd = cwd or WIKI_ROOT
     # Check for changes
     result = subprocess.run(
@@ -117,7 +125,36 @@ def git_commit(message: str, cwd: str = None) -> bool:
         ["git", "commit", "-m", message],
         cwd=cwd, capture_output=True, text=True
     )
-    return result.returncode == 0
+    if result.returncode != 0:
+        return False
+
+    # --- optional push -----------------------------------------------------
+    _maybe_git_push(cwd)
+    return True
+
+def _maybe_git_push(cwd: str):
+    """Push to the remote if the last push was more than PUSH_INTERVAL ago.
+    The timestamp of the last successful push is stored in LAST_PUSH_FILE as an
+    ISO‑8601 datetime string.
+    """
+    try:
+        now = datetime.datetime.now()
+        # read last push time if present
+        last_push = None
+        if os.path.exists(LAST_PUSH_FILE):
+            with open(LAST_PUSH_FILE, "r", encoding="utf-8") as f:
+                txt = f.read().strip()
+                if txt:
+                    last_push = datetime.datetime.fromisoformat(txt)
+        if last_push is None or (now - last_push).total_seconds() >= PUSH_INTERVAL:
+            push_res = subprocess.run(["git", "push"], cwd=cwd, capture_output=True, text=True)
+            if push_res.returncode == 0:
+                with open(LAST_PUSH_FILE, "w", encoding="utf-8") as f:
+                    f.write(now.isoformat())
+            else:
+                print(f"⚠️ Git push failed: {push_res.stderr.strip()}")
+    except Exception as e:
+        print(f"⚠️ Exception during git push: {e}")
 
 
 def append_log(message: str):

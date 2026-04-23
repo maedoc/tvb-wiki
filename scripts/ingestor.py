@@ -26,6 +26,14 @@ from ralph_config import (
     SEARCH_QUERIES, KEYWORD_MAP, PARALLEL_INGESTORS
 )
 
+# ── Manual import support ───────────────────────────────────────────────────────
+# Place a markdown file (or multiple) under meta/manual_import/. Each line should describe
+# a paper in a simple ``key: value`` semi‑colon separated list. Example line:
+#   Title: My Paper; Authors: A. One, B. Two; DOI: 10.1000/xyz; URL: https://arxiv.org/abs/1234.5678
+# The ingestor will parse these lines, create raw paper markdowns and stubs.
+MANUAL_IMPORT_DIR = os.path.join(META_DIR, "manual_import")
+MANUAL_PROCESSED_DIR = os.path.join(MANUAL_IMPORT_DIR, "processed")
+
 log = get_logger("Ingestor")
 
 # ── arXiv ──────────────────────────────────────────────────────────────
@@ -400,6 +408,84 @@ def save_raw_paper(paper: dict) -> bool:
 
     return True
 
+# ── Helper: manual import processing ─────────────────────────────────────
+def _process_manual_import() -> int:
+    """Read markdown files from MANUAL_IMPORT_DIR, convert each described line
+    into a paper dict compatible with ``save_raw_paper`` and create stubs.
+    Returns the number of papers added from manual files.
+    """
+    if not os.path.isdir(MANUAL_IMPORT_DIR):
+        return 0
+    os.makedirs(MANUAL_PROCESSED_DIR, exist_ok=True)
+    added = 0
+    for fn in os.listdir(MANUAL_IMPORT_DIR):
+        if not fn.lower().endswith('.md'):
+            continue
+        path = os.path.join(MANUAL_IMPORT_DIR, fn)
+        try:
+            with open(path, 'r', encoding='utf-8') as f:
+                lines = f.readlines()
+        except Exception as e:
+            log.warn("Failed to read manual import %s: %s", fn, e)
+            continue
+        for line in lines:
+            line = line.strip()
+            if not line or line.startswith('#'):
+                continue
+            # Expected format: ``Key: Value; Key: Value; ...``
+            parts = [p.strip() for p in line.split(';') if p.strip()]
+            paper = {
+                'source': 'manual',
+                'source_id': '',
+                'title': '',
+                'authors': [],
+                'year': '',
+                'date': '',
+                'abstract': '',
+                'categories': [],
+                'url': '',
+                'doi': '',
+                'venue': '',
+                'citation_count': None,
+                'sources': [],
+            }
+            for part in parts:
+                if ':' not in part:
+                    continue
+                key, val = [p.strip() for p in part.split(':', 1)]
+                lkey = key.lower()
+                if lkey == 'title':
+                    paper['title'] = val
+                elif lkey == 'authors':
+                    paper['authors'] = [a.strip() for a in val.split(',')]
+                elif lkey == 'doi':
+                    paper['doi'] = val
+                    paper['url'] = f"https://doi.org/{val}"
+                elif lkey == 'url':
+                    paper['url'] = val
+                elif lkey == 'year':
+                    paper['year'] = val
+                elif lkey == 'date':
+                    paper['date'] = val
+                elif lkey == 'abstract':
+                    paper['abstract'] = val
+                elif lkey == 'venue':
+                    paper['venue'] = val
+                elif lkey == 'source':
+                    paper['source'] = val.lower()
+                elif lkey == 'source_id':
+                    paper['source_id'] = val
+            if paper['title']:
+                if save_raw_paper(paper):
+                    added += 1
+                    log.info("Manual import: saved %s", paper['title'][:60])
+        # move processed file
+        try:
+            processed_path = os.path.join(MANUAL_PROCESSED_DIR, fn)
+            os.replace(path, processed_path)
+        except Exception as e:
+            log.warn("Failed to move processed manual file %s: %s", fn, e)
+    return added
 
 # ── Entity extraction ─────────────────────────────────────────────────
 
@@ -545,6 +631,10 @@ def run_ingestor_cycle():
     log.info("Starting hourly cycle")
     os.makedirs(META_DIR, exist_ok=True)
 
+    # 1️⃣  Process any manually supplied markdown files first
+    manual_added = _process_manual_import()
+
+    # 2️⃣  Then fetch from external APIs as before
     since = load_last_update()
     log.info("Searching for papers since %s", since.strftime('%Y-%m-%d'))
 
@@ -620,8 +710,9 @@ def run_ingestor_cycle():
         append_log(f"Ingest: {added} new papers, {pages_created} stubs created")
         log.info("Committed: \"%s\"", msg)
 
-    log.info("Cycle complete. %d papers added, %d stubs created.", added, pages_created)
-    return added, pages_created
+    total_added = added + manual_added
+    log.info("Cycle complete. %d papers added (including %d manual), %d stubs created.", total_added, manual_added, pages_created)
+    return total_added, pages_created
 
 
 # ── CLI entry point ───────────────────────────────────────────────────
