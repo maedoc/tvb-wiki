@@ -1,10 +1,19 @@
 ---
-title: "Alain Destexhe"
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/destexhe-sejnowski-2009.md
+- raw/papers/arxiv-2509.02799.md
+- raw/papers/arxiv-2508.02633.md
+- raw/papers/stefanescu-jirsa-2008.md
+- raw/papers/breakspear-2017.md
+- raw/papers/semanticscholar-a9ff4dda4e4c.md
+tags:
+- people-researcher
+- neural-mass-models
+- whole-brain-modeling
+title: Alain Destexhe
 type: entity
-tags: [people-researcher, neural-mass-models, whole-brain-modeling]
-sources: [raw/papers/destexhe-sejnowski-2009.md]
+updated: '2026-04-23'
 ---
 
 # Alain Destexhe

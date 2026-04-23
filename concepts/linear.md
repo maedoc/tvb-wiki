@@ -1,9 +1,19 @@
 ---
-title: "Linear Model"
 created: 2026-04-21
-updated: 2026-04-21
+sources:
+- raw/papers/arxiv-2512.22093.md
+- raw/papers/wilson-cowan-1972.md
+- raw/papers/arxiv-2510.02545.md
+- raw/papers/arxiv-2306.15859.md
+- raw/papers/arxiv-2511.16252.md
+tags:
+- neural-mass-models
+- linear
+- testing
+- baseline
+title: Linear Model
 type: concept
-tags: [neural-mass-models, linear, testing, baseline]
+updated: '2026-04-23'
 ---
 
 # Linear Model

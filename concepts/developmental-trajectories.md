@@ -1,10 +1,21 @@
 ---
-title: developmental-trajectories
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/gogtay-2004.md
+- raw/papers/fair-2009.md
+- raw/papers/power-2010.md
+- raw/papers/fjell-walhovd-2010.md
+- raw/papers/tau-peterson-2010.md
+- raw/papers/semanticscholar-34ef3bcd7c8b.md
+- raw/papers/smith-2021.md
+tags:
+- neurodevelopment
+- aging-brain
+- developmental-trajectories
+- whole-brain-modeling
+title: developmental-trajectories
 type: concept
-tags: [neurodevelopment, aging-brain, developmental-trajectories, whole-brain-modeling]
-sources: [raw/papers/gogtay-2004.md, raw/papers/fair-2009.md, raw/papers/power-2010.md, raw/papers/fjell-walhovd-2010.md]
+updated: '2026-04-23'
 ---
 
 # Developmental Trajectories

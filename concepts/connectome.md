@@ -1,10 +1,19 @@
 ---
-title: Connectome
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/sporns-tononi-kotter-2005.md
+- raw/papers/van-essen-2013.md
+- raw/papers/power-2011.md
+- raw/papers/smith-2013-connectomics.md
+- raw/papers/sporns-2011.md
+- raw/papers/arxiv-2603.21032.md
+- raw/papers/arxiv-2604.02057.md
+tags:
+- connectomics
+- structural-connectivity
+title: Connectome
 type: concept
-tags: [connectomics, structural-connectivity]
-sources: [raw/papers/sporns-tononi-kotter-2005.md, raw/papers/van-essen-2013.md]
+updated: '2026-04-23'
 ---
 
 # Connectome

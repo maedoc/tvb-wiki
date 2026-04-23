@@ -1,9 +1,17 @@
 ---
-title: "Larter-Breakspear Model"
 created: 2026-04-21
-updated: 2026-04-21
+sources:
+- raw/papers/breakspear-2006.md
+- raw/papers/wendling-2002.md
+tags:
+- neural-mass-models
+- epilepsy
+- ion-channels
+- morris-lecar
+- complex-dynamics
+title: Larter-Breakspear Model
 type: concept
-tags: [neural-mass-models, epilepsy, ion-channels, morris-lecar, complex-dynamics]
+updated: '2026-04-23'
 ---
 
 # Larter-Breakspear Model

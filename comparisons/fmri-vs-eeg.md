@@ -1,10 +1,22 @@
 ---
-title: fMRI vs EEG for Whole-Brain Modeling
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/ogawa-1990.md
+- raw/papers/logothetis-2001.md
+- raw/papers/niedermeyer-silva-2004.md
+- raw/papers/nunez-srinivasan-2006.md
+- raw/papers/arxiv-2603.21067.md
+- raw/papers/arxiv-2603.24176.md
+- raw/papers/arxiv-2603.29903.md
+- raw/papers/arxiv-2504.17491.md
+- raw/papers/arxiv-2602.03240.md
+tags:
+- comparison
+- neuroimaging-fmri
+- neuroimaging-eeg
+title: fMRI vs EEG for Whole-Brain Modeling
 type: comparison
-tags: [comparison, neuroimaging-fmri, neuroimaging-eeg]
-sources: [raw/papers/ogawa-1990.md, raw/papers/logothetis-2001.md, raw/papers/niedermeyer-silva-2004.md, raw/papers/nunez-srinivasan-2006.md]
+updated: '2026-04-23'
 ---
 
 # fMRI vs EEG for Whole-Brain Modeling

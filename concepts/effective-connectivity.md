@@ -1,10 +1,19 @@
 ---
-title: Effective Connectivity
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/friston-1994.md
+- raw/papers/arxiv-2510.12910.md
+- raw/papers/arxiv-2307.09770.md
+- raw/papers/arxiv-2604.00390.md
+- raw/papers/arxiv-2406.05002.md
+- raw/papers/semanticscholar-9cd507a25962.md
+tags:
+- effective-connectivity
+- dynamic-causal-modeling
+- network-dynamics
+title: Effective Connectivity
 type: concept
-tags: [effective-connectivity, dynamic-causal-modeling, network-dynamics]
-sources: [raw/papers/friston-1994.md]
+updated: '2026-04-23'
 ---
 
 # Effective Connectivity

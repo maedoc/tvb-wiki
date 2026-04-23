@@ -1,10 +1,20 @@
 ---
-title: TVB
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/ritter-2013.md
+- raw/papers/schirner-2018.md
+- raw/papers/deco-2013.md
+- raw/papers/breakspear-2017.md
+- raw/papers/semanticscholar-9afbfd2d37be.md
+- raw/papers/arxiv-2505.16861.md
+tags:
+- software-tvb
+- whole-brain-modeling
+- neural-mass-models
+title: TVB
 type: entity
-tags: [software-tvb, whole-brain-modeling, neural-mass-models]
-sources: [raw/papers/sanz-leon-2013.md, raw/papers/ritter-2013.md, raw/papers/schirner-2018.md, raw/papers/deco-2013.md]
+updated: '2026-04-23'
 ---
 
 # TVB (The Virtual Brain)

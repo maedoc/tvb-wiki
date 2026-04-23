@@ -1,10 +1,20 @@
 ---
-title: fMRI
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/ogawa-1990.md
+- raw/papers/logothetis-2001.md
+- raw/papers/friston-1994.md
+- raw/papers/huettel-2009.md
+- raw/papers/arxiv-2603.24176.md
+- raw/papers/arxiv-2509.24715.md
+- raw/papers/arxiv-2506.22951.md
+tags:
+- neuroimaging-fmri
+- resting-state
+- task-based
+title: fMRI
 type: concept
-tags: [neuroimaging-fmri, resting-state, task-based]
-sources: [raw/papers/ogawa-1990.md, raw/papers/logothetis-2001.md, raw/papers/friston-1994.md, raw/papers/huettel-2009.md]
+updated: '2026-04-23'
 ---
 
 # fMRI

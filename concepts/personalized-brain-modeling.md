@@ -1,10 +1,20 @@
 ---
-title: Personalized Brain Modeling
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/ritter-2013.md
+- raw/papers/schirner-2018.md
+- raw/papers/arxiv-2603.07524.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/zavaglia-2006.md
+tags:
+- whole-brain-modeling
+- software-tvb
+- neuroimaging-dti
+- neuroimaging-fmri
+- personalized-brain-modeling
+title: Personalized Brain Modeling
 type: concept
-tags: [whole-brain-modeling, software-tvb, neuroimaging-dti, neuroimaging-fmri, personalized-brain-modeling]
-sources: [raw/papers/ritter-2013.md, raw/papers/schirner-2018.md]
+updated: '2026-04-23'
 ---
 
 # Personalized Brain Modeling

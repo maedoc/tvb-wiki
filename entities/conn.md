@@ -1,13 +1,23 @@
 ---
-title: CONN
 created: 2026-04-23
-updated: 2026-04-23
-type: entity
-tags: [software-brain-modeling, neuroimaging-fmri, functional-connectivity, resting-state, connectomics]
 sources:
-  - https://doi.org/10.1089/brain.2012.0073
-  - https://doi.org/10.1016/j.neuroimage.2007.04.042
-  - https://doi.org/10.1101/2020.08.05.234243
+- https://doi.org/10.1089/brain.2012.0073
+- https://doi.org/10.1016/j.neuroimage.2007.04.042
+- https://doi.org/10.1101/2020.08.05.234243
+- raw/papers/rubinov-sporns-2010.md
+- raw/papers/smith-2013-connectomics.md
+- raw/papers/woodman-2014.md
+- raw/papers/semanticscholar-6f3539cb8f1c.md
+- raw/papers/arxiv-2506.22951.md
+tags:
+- software-brain-modeling
+- neuroimaging-fmri
+- functional-connectivity
+- resting-state
+- connectomics
+title: CONN
+type: entity
+updated: '2026-04-23'
 ---
 
 # CONN

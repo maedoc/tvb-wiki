@@ -1,10 +1,18 @@
 ---
-title: "Walter J. Freeman"
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/freeman-1975.md
+- raw/papers/breakspear-2017.md
+- raw/papers/strogatz-1994.md
+- raw/papers/izhikevich-2007.md
+- raw/papers/power-2010.md
+tags:
+- people-researcher
+- neural-mass-models
+- eeg
+title: Walter J. Freeman
 type: entity
-tags: [people-researcher, neural-mass-models, eeg]
-sources: [raw/papers/freeman-1975.md]
+updated: '2026-04-23'
 ---
 
 # Walter J. Freeman (1927-2016)

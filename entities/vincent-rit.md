@@ -1,10 +1,19 @@
 ---
-title: "Vincent G. Rit"
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/jansen-rit-1995.md
+- raw/papers/rit-2013.md
+- raw/papers/wendling-2002.md
+- raw/papers/arxiv-2411.16449.md
+- raw/papers/potjans-diesmann-2014.md
+- raw/papers/breakspear-2017.md
+tags:
+- people-researcher
+- neural-mass-models
+- eeg
+title: Vincent G. Rit
 type: entity
-tags: [people-researcher, neural-mass-models, eeg]
-sources: [raw/papers/jansen-rit-1995.md, raw/papers/rit-2013.md]
+updated: '2026-04-23'
 ---
 
 # Vincent G. Rit

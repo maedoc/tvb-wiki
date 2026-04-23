@@ -1,11 +1,15 @@
 ---
-title: Krasimira Tsaneva-Atanasova
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/breakspear-2017.md
+- raw/papers/sanz-leon-2013.md
+tags:
+- people‑researcher
+title: Krasimira Tsaneva-Atanasova
 type: entity
-tags: [people‑researcher]
-sources: []
+updated: '2026-04-23'
 ---
+
 # Krasimira Tsaneva-Atanasova
 
 Researcher in connectome‑based whole‑brain modeling.

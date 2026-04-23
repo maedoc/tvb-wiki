@@ -1,10 +1,22 @@
 ---
-title: "Neural Mass Model"
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/freeman-1975.md
+- raw/papers/wilson-cowan-1972.md
+- raw/papers/jansen-rit-1995.md
+- raw/papers/dayan-abbott-2001.md
+- raw/papers/gerstner-2014.md
+- raw/papers/semanticscholar-e5e78e93bf31.md
+- raw/papers/arxiv-2509.02799.md
+- raw/papers/arxiv-2506.22951.md
+- raw/papers/arxiv-2512.03907.md
+tags:
+- neural-mass-models
+- whole-brain-modeling
+- brain-oscillations
+title: Neural Mass Model
 type: concept
-tags: [neural-mass-models, whole-brain-modeling, brain-oscillations]
-sources: [raw/papers/freeman-1975.md, raw/papers/wilson-cowan-1972.md, raw/papers/jansen-rit-1995.md, raw/papers/dayan-abbott-2001.md, raw/papers/gerstner-2014.md]
+updated: '2026-04-23'
 ---
 
 # Neural Mass Model

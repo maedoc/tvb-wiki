@@ -1,10 +1,20 @@
 ---
-title: DTI
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/basser-1994.md
+- raw/papers/mori-1999.md
+- raw/papers/jones-2010.md
+- raw/papers/ritter-2013.md
+- raw/papers/arxiv-2602.18715.md
+- raw/papers/arxiv-2512.00063.md
+- raw/papers/semanticscholar-27108cae3f6e.md
+tags:
+- neuroimaging-dti
+- diffusion-imaging
+- structural-connectivity
+title: DTI
 type: concept
-tags: [neuroimaging-dti, diffusion-imaging, structural-connectivity]
-sources: [raw/papers/basser-1994.md, raw/papers/mori-1999.md, raw/papers/jones-2010.md]
+updated: '2026-04-23'
 ---
 
 # DTI

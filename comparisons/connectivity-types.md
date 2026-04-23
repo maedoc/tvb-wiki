@@ -1,10 +1,26 @@
 ---
-title: Structural vs Functional vs Effective Connectivity
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/biswal-1995.md
+- raw/papers/basser-1994.md
+- raw/papers/friston-1994.md
+- raw/papers/sotiropoulos-zalesky-2019.md
+- raw/papers/friston-1993.md
+- raw/papers/honey-2009.md
+- raw/papers/sporns-tononi-kotter-2005.md
+- raw/papers/arxiv-2603.20680.md
+- raw/papers/smith-2009.md
+- raw/papers/arxiv-2603.21067.md
+- raw/papers/semanticscholar-ce89e593c89e.md
+tags:
+- comparison
+- structural-connectivity
+- functional-connectivity
+- effective-connectivity
+- connectomics
+title: Structural vs Functional vs Effective Connectivity
 type: comparison
-tags: [comparison, structural-connectivity, functional-connectivity, effective-connectivity, connectomics]
-sources: [raw/papers/biswal-1995.md, raw/papers/basser-1994.md, raw/papers/friston-1994.md, raw/papers/sotiropoulos-zalesky-2019.md, raw/papers/friston-1993.md, raw/papers/honey-2009.md, raw/papers/sporns-tononi-kotter-2005.md]
+updated: '2026-04-23'
 ---
 
 # Structural vs Functional vs Effective Connectivity

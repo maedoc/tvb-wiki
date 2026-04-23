@@ -1,10 +1,19 @@
 ---
-title: "Eugene M. Izhikevich"
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/izhikevich-2007.md
+- raw/papers/dayan-abbott-2001.md
+- raw/papers/gerstner-2014.md
+- raw/papers/breakspear-2017.md
+- raw/papers/sporns-2011.md
+tags:
+- people-researcher
+- neural-mass-models
+- bifurcation-analysis
+- spiking-neural-networks
+title: Eugene M. Izhikevich
 type: entity
-tags: [people-researcher, neural-mass-models, bifurcation-analysis, spiking-neural-networks]
-sources: [raw/papers/izhikevich-2007.md]
+updated: '2026-04-23'
 ---
 
 # Eugene M. Izhikevich

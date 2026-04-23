@@ -251,6 +251,44 @@ def validate_edit(filepath: str, new_content: str, original_content: str) -> tup
 
 # ── Improve a single page ─────────────────────────────────────────────
 
+def _strip_code_fences(text: str) -> str:
+    """Remove surrounding code fences from LLM output."""
+    if text.startswith('```'):
+        lines = text.split('\n')
+        if lines[0].startswith('```'):
+            lines = lines[1:]
+        if lines and lines[-1].strip() == '```':
+            lines = lines[:-1]
+        text = '\n'.join(lines)
+    return text
+
+
+def _ensure_frontmatter(new_content: str, filepath: str) -> str:
+    """Ensure content has YAML frontmatter with updated date set to today."""
+    today = datetime.date.today().isoformat()
+
+    if not new_content.strip().startswith('---'):
+        # Re-attach frontmatter from original file
+        try:
+            fm_block = frontmatter.dumps(frontmatter.load(filepath))
+            if fm_block.strip().startswith('---'):
+                end = fm_block.find('\n---', 3)
+                if end != -1:
+                    yaml_header = fm_block[:end + 4]  # include closing ---
+                    new_content = yaml_header + '\n' + new_content.lstrip()
+        except Exception:
+            pass
+
+    # Ensure updated date is set to today
+    new_content = re.sub(
+        r'updated:\s*\d{4}-\d{2}-\d{2}',
+        f'updated: {today}',
+        new_content
+    )
+
+    return new_content
+
+
 def improve_page(filepath: str) -> tuple[bool, str]:
     """
     Improve one page through writer → reviewer pipeline.
@@ -277,28 +315,8 @@ def improve_page(filepath: str) -> tuple[bool, str]:
     if not success:
         return False, f"Writer failed for {slug}: {output[:100]}"
 
-    # Extract the markdown content from pi output
-    # pi may wrap in code blocks or add commentary
-    new_content = output
-    # Strip code fences if present
-    if new_content.startswith('```'):
-        lines = new_content.split('\n')
-        # Remove first and last lines if they're code fences
-        if lines[0].startswith('```'):
-            lines = lines[1:]
-        if lines and lines[-1].strip() == '```':
-            lines = lines[:-1]
-        new_content = '\n'.join(lines)
-
-    # If LLM dropped the frontmatter, re-attach the original
-    if not new_content.strip().startswith('---'):
-        fm_block = frontmatter.dumps(frontmatter.load(filepath))
-        # frontmatter.dumps includes the content; strip to just the YAML fence
-        if fm_block.strip().startswith('---'):
-            end = fm_block.find('\n---', 3)
-            if end != -1:
-                yaml_header = fm_block[:end + 4]  # include closing ---
-                new_content = yaml_header + '\n' + new_content.lstrip()
+    new_content = _strip_code_fences(output)
+    new_content = _ensure_frontmatter(new_content, filepath)
 
     # Step 2: Reviewer checks the edit
     reviewer_prompt = build_reviewer_prompt(filepath, original, new_content)
@@ -331,15 +349,8 @@ YOUR PREVIOUS EDIT (which needs fixes):
 Fix the issues and output ONLY the corrected markdown file."""
         rev_success, rev_output = run_pi(revision_prompt, model=WRITER_MODEL)
         if rev_success:
-            new_content = rev_output
-            # Strip code fences again
-            if new_content.startswith('```'):
-                lines = new_content.split('\n')
-                if lines[0].startswith('```'):
-                    lines = lines[1:]
-                if lines and lines[-1].strip() == '```':
-                    lines = lines[:-1]
-                new_content = '\n'.join(lines)
+            new_content = _strip_code_fences(rev_output)
+            new_content = _ensure_frontmatter(new_content, filepath)
             log.info("Revised %s after reviewer feedback", slug)
 
     # Step 4: Validate

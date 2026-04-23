@@ -1,10 +1,18 @@
 ---
-title: "Hugh R. Wilson"
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/wilson-cowan-1972.md
+- raw/papers/wilson-cowan-1973.md
+- raw/papers/arxiv-2510.22022.md
+- raw/papers/freeman-1975.md
+- raw/papers/dayan-abbott-2001.md
+tags:
+- people-researcher
+- neural-mass-models
+- brain-oscillations
+title: Hugh R. Wilson
 type: entity
-tags: [people-researcher, neural-mass-models, brain-oscillations]
-sources: [raw/papers/wilson-cowan-1972.md, raw/papers/wilson-cowan-1973.md]
+updated: '2026-04-23'
 ---
 
 # Hugh R. Wilson

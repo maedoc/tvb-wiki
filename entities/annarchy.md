@@ -1,13 +1,18 @@
 ---
-title: ANNarchy
 created: 2026-04-23
-updated: 2026-04-23
-type: entity
-tags: [software-brain-modeling, spiking-neural-networks, rate-coded-neural-networks, whole-brain-modeling]
 sources:
-  - vitay2015annarchy
-  - dinkelbach2015benchmarking
-  - hamker2017annarchylargescale
+- vitay2015annarchy
+- dinkelbach2015benchmarking
+- hamker2017annarchylargescale
+- raw/papers/jordan-2018.md
+tags:
+- software-brain-modeling
+- spiking-neural-networks
+- rate-coded-neural-networks
+- whole-brain-modeling
+title: ANNarchy
+type: entity
+updated: '2026-04-23'
 ---
 
 # ANNarchy

@@ -1,10 +1,21 @@
 ---
-title: Tractography
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/mori-1999.md
+- raw/papers/jones-2010.md
+- raw/papers/tournier-2007.md
+- raw/papers/sotiropoulos-zalesky-2019.md
+- raw/papers/arxiv-2602.18715.md
+- raw/papers/arxiv-2510.20148.md
+- raw/papers/semanticscholar-929b90566fc8.md
+tags:
+- tractography
+- neuroimaging-dti
+- diffusion-imaging
+- structural-connectivity
+title: Tractography
 type: concept
-tags: [tractography, neuroimaging-dti, diffusion-imaging, structural-connectivity]
-sources: [raw/papers/mori-1999.md, raw/papers/jones-2010.md, raw/papers/tournier-2007.md, raw/papers/sotiropoulos-zalesky-2019.md]
+updated: '2026-04-23'
 ---
 
 # Tractography

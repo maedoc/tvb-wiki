@@ -1,9 +1,15 @@
 ---
-title: "Generic 2D Oscillator"
 created: 2026-04-21
-updated: 2026-04-21
+sources:
+- raw/papers/izhikevich-2007.md
+tags:
+- neural-mass-models
+- oscillator
+- phase-plane
+- universal
+title: Generic 2D Oscillator
 type: concept
-tags: [neural-mass-models, oscillator, phase-plane, universal]
+updated: '2026-04-23'
 ---
 
 # Generic 2D Oscillator

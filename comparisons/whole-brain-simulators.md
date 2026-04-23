@@ -1,10 +1,13 @@
 ---
-title: Whole-Brain Simulation Platforms
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/eppler-2009.md
+tags:
+- comparison
+title: Whole-Brain Simulation Platforms
 type: comparison
-tags: [comparison]
-sources: []
+updated: '2026-04-23'
 ---
 
 # Whole-Brain Simulation Platforms

@@ -1,9 +1,20 @@
 ---
-title: "Wong-Wang Excitatory-Inhibitory Model"
 created: 2026-04-21
-updated: 2026-04-21
+sources:
+- raw/papers/arxiv-2510.02545.md
+- raw/papers/semanticscholar-a9ff4dda4e4c.md
+- raw/papers/semanticscholar-807668ceea0a.md
+- raw/papers/arxiv-2512.05252.md
+- raw/papers/semanticscholar-cc2129666e15.md
+tags:
+- neural-mass-models
+- fmri
+- bold
+- excitation-inhibition
+- resting-state
+title: Wong-Wang Excitatory-Inhibitory Model
 type: concept
-tags: [neural-mass-models, fmri, bold, excitation-inhibition, resting-state]
+updated: '2026-04-23'
 ---
 
 # Wong-Wang Excitatory-Inhibitory Model

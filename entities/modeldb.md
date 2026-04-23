@@ -1,10 +1,19 @@
 ---
-title: ModelDB
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/migliore-2006.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-71ffb8153870.md
+- raw/papers/breakspear-2017.md
+- raw/papers/hines-carnevale-1997.md
+tags:
+- software-modeldb
+- database
+- tutorial
+- reproducibility
+title: ModelDB
 type: entity
-tags: [software-modeldb, database, tutorial, reproducibility]
-sources: [raw/papers/migliore-2006.md]
+updated: '2026-04-23'
 ---
 
 # ModelDB

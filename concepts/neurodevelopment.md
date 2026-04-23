@@ -1,10 +1,19 @@
 ---
-title: neurodevelopment
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/tau-peterson-2010.md
+- raw/papers/gogtay-2004.md
+- raw/papers/fair-2009.md
+- raw/papers/power-2010.md
+- raw/papers/stiles-jernigan-2010.md
+- raw/papers/semanticscholar-c4bc6ce91683.md
+tags:
+- neurodevelopment
+- developmental-trajectories
+- whole-brain-modeling
+title: neurodevelopment
 type: concept
-tags: [neurodevelopment, developmental-trajectories, whole-brain-modeling]
-sources: [raw/papers/tau-peterson-2010.md, raw/papers/gogtay-2004.md, raw/papers/fair-2009.md, raw/papers/power-2010.md, raw/papers/stiles-jernigan-2010.md]
+updated: '2026-04-23'
 ---
 
 # Neurodevelopment

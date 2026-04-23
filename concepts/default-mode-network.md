@@ -1,10 +1,20 @@
 ---
-title: default-mode-network
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/raichle-2001.md
+- raw/papers/buckner-andrews-hanna-schacter-2008.md
+- raw/papers/greicius-2003.md
+- raw/papers/andrews-hanna-2010.md
+- raw/papers/anticevic-2012.md
+- raw/papers/power-2011.md
+tags:
+- resting-state
+- functional-connectivity
+- network-dynamics
+- aging-brain
+title: default-mode-network
 type: concept
-tags: [resting-state, functional-connectivity, network-dynamics, aging-brain]
-sources: [raw/papers/raichle-2001.md, raw/papers/buckner-andrews-hanna-schacter-2008.md, raw/papers/greicius-2003.md, raw/papers/andrews-hanna-2010.md, raw/papers/anticevic-2012.md]
+updated: '2026-04-23'
 ---
 
 # Default Mode Network (DMN)

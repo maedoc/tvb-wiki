@@ -1,10 +1,20 @@
 ---
-title: brain-maintenance
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/cabeza-2018.md
+- raw/papers/fjell-walhovd-2010.md
+- raw/papers/grady-2012.md
+- raw/papers/buckner-2004.md
+- raw/papers/smith-2021.md
+- raw/papers/arxiv-2602.06994.md
+tags:
+- aging-brain
+- brain-maintenance
+- cognitive-reserve
+- paper-review
+title: brain-maintenance
 type: concept
-tags: [aging-brain, brain-maintenance, cognitive-reserve, paper-review]
-sources: [raw/papers/cabeza-2018.md, raw/papers/fjell-walhovd-2010.md]
+updated: '2026-04-23'
 ---
 
 # Brain Maintenance

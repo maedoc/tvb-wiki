@@ -1,10 +1,23 @@
 ---
-title: Spiking Neural Networks
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/gewaltig-diesmann-2007.md
+- raw/papers/potjans-diesmann-2014.md
+- raw/papers/jordan-2018.md
+- raw/papers/hines-carnevale-1997.md
+- raw/papers/markram-2015.md
+- raw/papers/arxiv-2510.02545.md
+- raw/papers/strogatz-1994.md
+- raw/papers/semanticscholar-71ffb8153870.md
+tags:
+- spiking-neural-networks
+- software-nest
+- software-neuron
+- brain-network
+- whole-brain-modeling
+title: Spiking Neural Networks
 type: concept
-tags: [spiking-neural-networks, software-nest, software-neuron, brain-network, whole-brain-modeling]
-sources: [raw/papers/gewaltig-diesmann-2007.md, raw/papers/potjans-diesmann-2014.md, raw/papers/jordan-2018.md, raw/papers/hines-carnevale-1997.md, raw/papers/markram-2015.md]
+updated: '2026-04-23'
 ---
 
 # Spiking Neural Networks

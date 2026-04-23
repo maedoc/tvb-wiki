@@ -1,10 +1,24 @@
 ---
-title: TVB-NEST multiscale
 created: 2026-04-23
-updated: 2026-04-23
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/gewaltig-diesmann-2007.md
+- raw/papers/arxiv-2505.16861.md
+- raw/papers/semanticscholar-eb704b6f5462.md
+- raw/papers/semanticscholar-9afbfd2d37be.md
+- raw/papers/arxiv-2509.12873.md
+tags:
+- software-tvb
+- software-nest
+- whole-brain-modeling
+- spiking-neural-networks
+- mean-field-theory
+- epilepsy-modeling
+- neuroimaging-eeg
+- neuroimaging-meg
+title: TVB-NEST multiscale
 type: entity
-tags: [software-tvb, software-nest, whole-brain-modeling, spiking-neural-networks, mean-field-theory, epilepsy-modeling, neuroimaging-eeg, neuroimaging-meg]
-sources: [raw/papers/sanz-leon-2013.md, raw/papers/gewaltig-diesmann-2007.md, raw/papers/arxiv-2505.16861.md, raw/papers/semanticscholar-eb704b6f5462.md]
+updated: '2026-04-23'
 ---
 
 # TVB-NEST multiscale

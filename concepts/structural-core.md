@@ -1,10 +1,19 @@
 ---
-title: Structural Core
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/hagmann-2008.md
+- raw/papers/sporns-2011.md
+- raw/papers/semanticscholar-01d42dafba72.md
+- raw/papers/semanticscholar-458b2cd32d3b.md
+- raw/papers/barabasi-albert-1999.md
+- raw/papers/arxiv-2603.20680.md
+tags:
+- connectomics
+- structural-connectivity
+- network-dynamics
+title: Structural Core
 type: concept
-tags: [connectomics, structural-connectivity, network-dynamics]
-sources: [raw/papers/hagmann-2008.md, raw/papers/sporns-2011.md]
+updated: '2026-04-23'
 ---
 
 # Structural Core

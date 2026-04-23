@@ -1,10 +1,21 @@
 ---
-title: EEG
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/niedermeyer-silva-2004.md
+- raw/papers/nunez-srinivasan-2006.md
+- raw/papers/makeig-1996.md
+- raw/papers/cohen-2014.md
+- raw/papers/arxiv-2511.09243.md
+- raw/papers/arxiv-2512.07842.md
+- raw/papers/semanticscholar-cc2129666e15.md
+- raw/papers/arxiv-2411.16449.md
+- raw/papers/arxiv-2603.29903.md
+tags:
+- neuroimaging-eeg
+- brain-oscillations
+title: EEG
 type: concept
-tags: [neuroimaging-eeg, brain-oscillations]
-sources: [raw/papers/niedermeyer-silva-2004.md, raw/papers/nunez-srinivasan-2006.md, raw/papers/makeig-1996.md, raw/papers/cohen-2014.md]
+updated: '2026-04-23'
 ---
 
 # EEG

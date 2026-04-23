@@ -7,7 +7,7 @@ import os, shutil
 from datetime import datetime
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SOURCE_DIRS = ['entities', 'concepts', 'comparisons', 'raw', 'hooks']
+SOURCE_DIRS = ['entities', 'concepts', 'comparisons', 'raw', 'hooks', 'topics']
 TARGET_DIR = os.path.join(REPO, 'docs')
 
 def sync():

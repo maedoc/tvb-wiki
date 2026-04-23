@@ -1,9 +1,16 @@
 ---
-title: "EpileptorCodim3"
 created: 2026-04-21
-updated: 2026-04-21
+sources:
+- raw/papers/arxiv-2508.04824.md
+tags:
+- neural-mass-models
+- epilepsy
+- codimension-3
+- bifurcation
+- seizure
+title: EpileptorCodim3
 type: concept
-tags: [neural-mass-models, epilepsy, codimension-3, bifurcation, seizure]
+updated: '2026-04-23'
 ---
 
 # Epileptor Codimension-3

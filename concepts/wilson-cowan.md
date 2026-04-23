@@ -1,9 +1,18 @@
 ---
-title: "Wilson-Cowan Model"
 created: 2026-04-20
-updated: 2026-04-21
+sources:
+- raw/papers/wilson-cowan-1972.md
+- raw/papers/arxiv-2510.08436.md
+- raw/papers/arxiv-2512.22093.md
+- raw/papers/wilson-cowan-1973.md
+- raw/papers/arxiv-2411.16449.md
+tags:
+- neural-mass-models
+- brain-oscillations
+- network-dynamics
+title: Wilson-Cowan Model
 type: concept
-tags: [neural-mass-models, brain-oscillations, network-dynamics]
+updated: '2026-04-23'
 ---
 
 # Wilson-Cowan Model

@@ -1,11 +1,15 @@
 ---
-title: brain network
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/sporns-2011.md
+- raw/papers/barabasi-albert-1999.md
+tags:
+- network-dynamics
+title: brain network
 type: concept
-tags: [network-dynamics]
-sources: []
+updated: '2026-04-23'
 ---
+
 # brain network
 
 Brain networks represent the brain as a graph of nodes (regions) and edges (structural or functional connections).

@@ -1,12 +1,22 @@
 ---
-title: Elephant
 created: 2026-04-23
-updated: 2026-04-23
-type: entity
-tags: [software-brain-modeling, neuroimaging-eeg, neuroimaging-meg, neural-mass-models, spiking-neural-networks]
 sources:
-  - doi:10.3389/fnins.2018.01001
-  - doi:10.3389/fninf.2010.00008
+- doi:10.3389/fnins.2018.01001
+- doi:10.3389/fninf.2010.00008
+- raw/papers/sanz-leon-2013.md
+- raw/papers/arxiv-2505.16861.md
+- raw/papers/semanticscholar-eb704b6f5462.md
+- raw/papers/arxiv-2509.02799.md
+- raw/papers/arxiv-2604.16463.md
+tags:
+- software-brain-modeling
+- neuroimaging-eeg
+- neuroimaging-meg
+- neural-mass-models
+- spiking-neural-networks
+title: Elephant
+type: entity
+updated: '2026-04-23'
 ---
 
 # Elephant

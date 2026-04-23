@@ -1,10 +1,19 @@
 ---
-title: "Fernando Lopes da Silva"
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/lopes-da-silva-1974.md
+- raw/papers/freeman-1975.md
+- raw/papers/jansen-rit-1995.md
+- raw/papers/semanticscholar-cc2129666e15.md
+- raw/papers/potjans-diesmann-2014.md
+tags:
+- people-researcher
+- neural-mass-models
+- eeg
+- brain-oscillations
+title: Fernando Lopes da Silva
 type: entity
-tags: [people-researcher, neural-mass-models, eeg, brain-oscillations]
-sources: [raw/papers/lopes-da-silva-1974.md]
+updated: '2026-04-23'
 ---
 
 # Fernando Lopes da Silva

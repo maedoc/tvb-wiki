@@ -1,10 +1,18 @@
 ---
-title: C-PAC
 created: 2026-04-23
-updated: 2026-04-23
+sources:
+- raw/papers/alfaro-almagro-2018.md
+- raw/papers/penny-2004.md
+- raw/papers/avants-2011.md
+tags:
+- software-brain-modeling
+- neuroimaging-fmri
+- resting-state
+- functional-connectivity
+- connectomics
+title: C-PAC
 type: entity
-tags: [software-brain-modeling, neuroimaging-fmri, resting-state, functional-connectivity, connectomics]
-sources: []
+updated: '2026-04-23'
 ---
 
 # C-PAC

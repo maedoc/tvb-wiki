@@ -1,9 +1,19 @@
 ---
-title: "Jansen-Rit Model"
 created: 2026-04-20
-updated: 2026-04-21
+sources:
+- raw/papers/wendling-2002.md
+- raw/papers/jansen-rit-1995.md
+- raw/papers/arxiv-2411.16449.md
+- raw/papers/breakspear-2006.md
+- raw/papers/touboul-2011.md
+tags:
+- neural-mass-models
+- eeg
+- meg
+- brain-oscillations
+title: Jansen-Rit Model
 type: concept
-tags: [neural-mass-models, eeg, meg, brain-oscillations]
+updated: '2026-04-23'
 ---
 
 # Jansen-Rit Model

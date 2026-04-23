@@ -1,10 +1,12 @@
 ---
-title: "Andrei Medvedev"
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/sporns-2011.md
+tags:
+- people-researcher
+title: Andrei Medvedev
 type: entity
-tags: [people-researcher]
-sources: []
+updated: '2026-04-23'
 ---
 
 # Andrei Medvedev

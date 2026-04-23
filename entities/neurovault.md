@@ -1,10 +1,7 @@
 ---
 created: 2026-04-23
 sources:
-- id: gorgolewski2015
-  type: misc
-  title: NeuroVault.org
-  DOI: 10.3389/fninf.2015.00008
+- DOI: 10.3389/fninf.2015.00008
   URL: https://doi.org/10.3389/fninf.2015.00008
   author:
   - family: Gorgolewski
@@ -32,19 +29,27 @@ sources:
   - family: Poline
     given: Jean-Baptiste
   container-title: Frontiers in Neuroinformatics
-  publisher: Frontiers
+  id: gorgolewski2015
   issued:
     year: 2015
-- id: neurovault2024
+  publisher: Frontiers
+  title: NeuroVault.org
   type: misc
-  Title: NeuroVault documentation and statistics
+- Title: NeuroVault documentation and statistics
   URL: https://neurovault.org/
+  id: neurovault2024
+  type: misc
+- raw/papers/semanticscholar-d576a0f9d2a0.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-a324c47ea982.md
+- raw/papers/semanticscholar-f45e6044c92f.md
+- raw/papers/semanticscholar-301489ffb9de.md
 tags:
 - software-brain-modeling
 - neuroimaging-fmri
 title: NeuroVault
 type: entity
-updated: 2026-04-23
+updated: '2026-04-23'
 ---
 
 ## Overview

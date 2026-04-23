@@ -1,9 +1,21 @@
 ---
-title: "Wong-Wang Model"
 created: 2026-04-21
-updated: 2026-04-21
+sources:
+- raw/papers/wendling-2002.md
+- raw/papers/semanticscholar-cc2129666e15.md
+- raw/papers/semanticscholar-15a4a438614f.md
+- raw/papers/semanticscholar-807668ceea0a.md
+- raw/papers/semanticscholar-71ffb8153870.md
+tags:
+- neural-mass-models
+- fmri
+- bold
+- resting-state
+- mean-field
+- decision-making
+title: Wong-Wang Model
 type: concept
-tags: [neural-mass-models, fmri, bold, resting-state, mean-field, decision-making]
+updated: '2026-04-23'
 ---
 
 # Wong-Wang Model

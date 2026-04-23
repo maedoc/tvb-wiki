@@ -1,10 +1,22 @@
 ---
-title: TVB vs NEST vs NEURON
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/gewaltig-diesmann-2007.md
+- raw/papers/hines-carnevale-1997.md
+- raw/papers/jordan-2018.md
+- raw/papers/arxiv-2509.12873.md
+- raw/papers/ritter-2013.md
+tags:
+- comparison
+- software-tvb
+- software-nest
+- software-neuron
+- whole-brain-modeling
+- spiking-neural-networks
+title: TVB vs NEST vs NEURON
 type: comparison
-tags: [comparison, software-tvb, software-nest, software-neuron, whole-brain-modeling, spiking-neural-networks]
-sources: [raw/papers/sanz-leon-2013.md, raw/papers/gewaltig-diesmann-2007.md, raw/papers/hines-carnevale-1997.md, raw/papers/jordan-2018.md]
+updated: '2026-04-23'
 ---
 
 # TVB vs NEST vs NEURON

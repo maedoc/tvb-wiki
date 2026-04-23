@@ -49,6 +49,7 @@ AUDITOR_INTERVAL = 86400       # daily
 LIBRARIAN_INTERVAL = 86400     # daily
 SOFTWARE_MAPPER_INTERVAL = 604800  # weekly
 DEEP_RESEARCH_INTERVAL = 21600   # every 6 hours
+MATCHER_INTERVAL    = 3600       # hourly (runs before Improver)
 REPAIRER_INTERVAL = 86400         # daily (runs after Auditor)
 
 # ── Git push schedule ─────────────────────────────────────────────────────

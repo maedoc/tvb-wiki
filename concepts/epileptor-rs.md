@@ -1,9 +1,15 @@
 ---
-title: "EpileptorRS"
 created: 2026-04-21
-updated: 2026-04-21
+sources:
+- raw/papers/arxiv-2508.04824.md
+tags:
+- neural-mass-models
+- epilepsy
+- resting-state
+- stochastic
+title: EpileptorRS
 type: concept
-tags: [neural-mass-models, epilepsy, resting-state, stochastic]
+updated: '2026-04-23'
 ---
 
 # Epileptor Resting State

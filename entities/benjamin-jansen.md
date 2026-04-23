@@ -1,10 +1,20 @@
 ---
-title: "Benjamin H. Jansen"
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/jansen-rit-1995.md
+- raw/papers/rit-2013.md
+- raw/papers/arxiv-2411.16449.md
+- raw/papers/izhikevich-2007.md
+- raw/papers/semanticscholar-cc2129666e15.md
+- raw/papers/arxiv-2510.02545.md
+- raw/papers/zavaglia-2006.md
+tags:
+- people-researcher
+- neural-mass-models
+- eeg
+title: Benjamin H. Jansen
 type: entity
-tags: [people-researcher, neural-mass-models, eeg]
-sources: [raw/papers/jansen-rit-1995.md, raw/papers/rit-2013.md]
+updated: '2026-04-23'
 ---
 
 # Benjamin H. Jansen

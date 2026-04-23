@@ -1,10 +1,19 @@
 ---
-title: "Jack D. Cowan"
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/wilson-cowan-1972.md
+- raw/papers/wilson-cowan-1973.md
+- raw/papers/ermentrout-cowan-1979.md
+- raw/papers/arxiv-2510.22022.md
+- raw/papers/destexhe-sejnowski-2009.md
+- raw/papers/arxiv-2510.02545.md
+tags:
+- people-researcher
+- neural-mass-models
+- brain-oscillations
+title: Jack D. Cowan
 type: entity
-tags: [people-researcher, neural-mass-models, brain-oscillations]
-sources: [raw/papers/wilson-cowan-1972.md, raw/papers/wilson-cowan-1973.md, raw/papers/ermentrout-cowan-1979.md]
+updated: '2026-04-23'
 ---
 
 # Jack D. Cowan (1933-2021)

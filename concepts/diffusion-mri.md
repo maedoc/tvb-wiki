@@ -1,10 +1,21 @@
 ---
-title: Diffusion MRI
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/basser-1994.md
+- raw/papers/jones-2010.md
+- raw/papers/sotiropoulos-zalesky-2019.md
+- raw/papers/semanticscholar-deecd9987645.md
+- raw/papers/arxiv-2602.09852.md
+- raw/papers/arxiv-2602.18715.md
+- raw/papers/arxiv-2603.29903.md
+- raw/papers/arxiv-2510.20148.md
+tags:
+- diffusion-imaging
+- structural-connectivity
+- neuroimaging-dti
+title: Diffusion MRI
 type: concept
-tags: [diffusion-imaging, structural-connectivity, neuroimaging-dti]
-sources: [raw/papers/basser-1994.md, raw/papers/jones-2010.md, raw/papers/sotiropoulos-zalesky-2019.md]
+updated: '2026-04-23'
 ---
 
 # Diffusion MRI

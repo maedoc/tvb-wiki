@@ -1,10 +1,22 @@
 ---
-title: "Epilepsy Modeling"
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/wendling-2002.md
+- raw/papers/breakspear-2006.md
+- raw/papers/touboul-2011.md
+- raw/papers/breakspear-2017.md
+- raw/papers/semanticscholar-7733d5476149.md
+- raw/papers/semanticscholar-26be4473893d.md
+- raw/papers/arxiv-2601.21478.md
+- raw/papers/semanticscholar-cc2129666e15.md
+tags:
+- epilepsy-modeling
+- neural-mass-models
+- bifurcation-analysis
+- brain-oscillations
+title: Epilepsy Modeling
 type: concept
-tags: [epilepsy-modeling, neural-mass-models, bifurcation-analysis, brain-oscillations]
-sources: [raw/papers/wendling-2002.md, raw/papers/breakspear-2006.md, raw/papers/touboul-2011.md, raw/papers/breakspear-2017.md]
+updated: '2026-04-23'
 ---
 
 # Epilepsy Modeling

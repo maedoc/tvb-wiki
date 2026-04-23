@@ -1,10 +1,21 @@
 ---
-title: "Bifurcation Analysis"
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/izhikevich-2007.md
+- raw/papers/touboul-2011.md
+- raw/papers/breakspear-2017.md
+- raw/papers/arxiv-2507.15519.md
+- raw/papers/arxiv-2411.16449.md
+- raw/papers/breakspear-2006.md
+- raw/papers/semanticscholar-e5e78e93bf31.md
+tags:
+- bifurcation-analysis
+- neural-mass-models
+- brain-oscillations
+- network-dynamics
+title: Bifurcation Analysis
 type: concept
-tags: [bifurcation-analysis, neural-mass-models, brain-oscillations, network-dynamics]
-sources: [raw/papers/izhikevich-2007.md, raw/papers/touboul-2011.md, raw/papers/breakspear-2017.md]
+updated: '2026-04-23'
 ---
 
 # Bifurcation Analysis

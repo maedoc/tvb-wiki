@@ -1,10 +1,20 @@
 ---
-title: GraphVar
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/woodman-2014.md
+- raw/papers/arxiv-2604.16463.md
+- raw/papers/rubinov-sporns-2010.md
+- raw/papers/sporns-2011.md
+- raw/papers/semanticscholar-0aeca1b592e6.md
+tags:
+- software-graphvar
+- functional-connectivity
+- network-dynamics
+- brain-network
+- neuroimaging-processing
+title: GraphVar
 type: entity
-tags: [software-graphvar, functional-connectivity, network-dynamics, brain-network, neuroimaging-processing]
-sources: [raw/papers/woodman-2014.md]
+updated: '2026-04-23'
 ---
 
 # GraphVar

@@ -1,10 +1,25 @@
 ---
-title: Functional Connectivity
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/biswal-1995.md
+- raw/papers/fox-raichle-2007.md
+- raw/papers/smith-2009.md
+- raw/papers/friston-1993.md
+- raw/papers/honey-2009.md
+- raw/papers/power-2011.md
+- raw/papers/smith-2013-connectomics.md
+- raw/papers/zuo-2010.md
+- raw/papers/arxiv-2512.00063.md
+- raw/papers/semanticscholar-44da8d4ab79e.md
+tags:
+- functional-connectivity
+- resting-state
+- neuroimaging-fmri
+- neuroimaging-eeg
+- neuroimaging-meg
+title: Functional Connectivity
 type: concept
-tags: [functional-connectivity, resting-state, neuroimaging-fmri, neuroimaging-eeg, neuroimaging-meg]
-sources: [raw/papers/biswal-1995.md, raw/papers/fox-raichle-2007.md, raw/papers/smith-2009.md, raw/papers/friston-1993.md, raw/papers/honey-2009.md, raw/papers/power-2011.md, raw/papers/smith-2013-connectomics.md]
+updated: '2026-04-23'
 ---
 
 # Functional Connectivity

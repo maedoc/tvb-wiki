@@ -1,9 +1,19 @@
 ---
-title: "Infinite Theta Neuron Model"
 created: 2026-04-21
-updated: 2026-04-21
+sources:
+- raw/papers/stefanescu-jirsa-2008.md
+- raw/papers/semanticscholar-71ffb8153870.md
+- raw/papers/arxiv-2603.27063.md
+- raw/papers/arxiv-2512.22093.md
+- raw/papers/arxiv-2602.09535.md
+tags:
+- neural-mass-models
+- theta-neuron
+- phase-reduction
+- infinite-population
+title: Infinite Theta Neuron Model
 type: concept
-tags: [neural-mass-models, theta-neuron, phase-reduction, infinite-population]
+updated: '2026-04-23'
 ---
 
 # Infinite Theta Neuron Model (Montbrió-Pazó-Roxin)

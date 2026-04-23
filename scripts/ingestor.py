@@ -36,15 +36,44 @@ MANUAL_PROCESSED_DIR = os.path.join(MANUAL_IMPORT_DIR, "processed")
 
 log = get_logger("Ingestor")
 
+
+# ── Shared HTTP helper ─────────────────────────────────────────────────
+
+def _urlopen_with_backoff(req, source_name: str, query_hint: str = '', max_attempts: int = 3):
+    """urllib.urlopen with exponential backoff on 429s.
+    Returns parsed JSON response data, or None on failure.
+    """
+    for attempt in range(max_attempts):
+        try:
+            with urllib.request.urlopen(req, timeout=30) as resp:
+                return resp.read()
+        except urllib.error.HTTPError as e:
+            if e.code == 429:
+                wait = 5 * (2 ** attempt)  # 5s, 10s, 20s
+                log.warn("%s 429 on '%s', backoff %ds (attempt %d/%d)",
+                         source_name, query_hint[:40], wait, attempt + 1, max_attempts)
+                time.sleep(wait)
+            else:
+                log.warn("%s error on '%s': %s", source_name, query_hint[:40], e)
+                return None
+        except Exception as e:
+            log.warn("%s error on '%s': %s", source_name, query_hint[:40], e)
+            return None
+    return None
+
+
 # ── arXiv ──────────────────────────────────────────────────────────────
 NS = {'a': 'http://www.w3.org/2005/Atom'}
 
-def fetch_arxiv(since_date, max_per_query=15):
-    """Fetch papers from arXiv submitted after since_date."""
+def fetch_arxiv(since_date, max_per_query=15, queries=None):
+    """Fetch papers from arXiv submitted after since_date.
+    If queries is provided (list of str), use those instead of SEARCH_QUERIES.
+    """
     papers = []
     seen_ids = set()
+    search_queries = queries or SEARCH_QUERIES
 
-    for query in SEARCH_QUERIES:
+    for query in search_queries:
         params = {
             'search_query': query,
             'max_results': str(max_per_query),
@@ -55,11 +84,25 @@ def fetch_arxiv(since_date, max_per_query=15):
             f'{k}={urllib.parse.quote(v)}' for k, v in params.items()
         )
         req = urllib.request.Request(url, headers={'User-Agent': 'TVBWiki-Ralph/2.0'})
-        try:
-            with urllib.request.urlopen(req, timeout=30) as resp:
-                data = resp.read()
-        except Exception as e:
-            log.warn("arXiv error on '%s': %s", query[:40], e)
+        success = False
+        for attempt in range(3):
+            try:
+                with urllib.request.urlopen(req, timeout=30) as resp:
+                    data = resp.read()
+                success = True
+                break
+            except urllib.error.HTTPError as e:
+                if e.code == 429:
+                    wait = 5 * (2 ** attempt)
+                    log.warn("arXiv 429 on '%s', backoff %ds (attempt %d/3)", query[:40], wait, attempt + 1)
+                    time.sleep(wait)
+                else:
+                    log.warn("arXiv error on '%s': %s", query[:40], e)
+                    break
+            except Exception as e:
+                log.warn("arXiv error on '%s': %s", query[:40], e)
+                break
+        if not success:
             continue
 
         root = ET.fromstring(data)
@@ -105,7 +148,7 @@ def fetch_arxiv(since_date, max_per_query=15):
                 'venue': '',
                 'citation_count': None,
             })
-        time.sleep(3)  # arXiv rate limit
+        time.sleep(5)  # arXiv rate limit (was 3s, increased to reduce 429s)
 
     return papers
 
@@ -207,14 +250,11 @@ def fetch_pubmed(since_date, max_results=20):
         })
         url = f'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?{params}'
         req = urllib.request.Request(url, headers={'User-Agent': 'TVBWiki-Ralph/2.0'})
-        try:
-            with urllib.request.urlopen(req, timeout=30) as resp:
-                data = json.loads(resp.read())
+        raw = _urlopen_with_backoff(req, 'PubMed', query)
+        if raw:
+            data = json.loads(raw)
             ids = data.get('esearchresult', {}).get('idlist', [])
             all_ids.extend(ids)
-        except Exception as e:
-            log.warn("PubMed search error on '%s': %s", query[:40], e)
-            continue
         time.sleep(1)  # rate limit
 
     # Deduplicate
@@ -233,9 +273,9 @@ def fetch_pubmed(since_date, max_results=20):
     req = urllib.request.Request(url, headers={'User-Agent': 'TVBWiki-Ralph/2.0'})
 
     papers = []
-    try:
-        with urllib.request.urlopen(req, timeout=30) as resp:
-            data = json.loads(resp.read())
+    raw = _urlopen_with_backoff(req, 'PubMed', 'esummary')
+    if raw:
+        data = json.loads(raw)
         for uid, info in data.get('result', {}).items():
             if uid == 'uids':
                 continue
@@ -254,8 +294,6 @@ def fetch_pubmed(since_date, max_results=20):
                 'venue': info.get('source', ''),
                 'citation_count': None,
             })
-    except Exception as e:
-        log.warn("PubMed fetch error: %s", e)
 
     return papers
 
@@ -281,12 +319,10 @@ def fetch_openalex(since_date, max_results=20):
         })
         url = f'https://api.openalex.org/works?{params}'
         req = urllib.request.Request(url, headers={'User-Agent': 'TVBWiki-Ralph/2.0 mailto:ralph@tvb-wiki.org'})
-        try:
-            with urllib.request.urlopen(req, timeout=30) as resp:
-                data = json.loads(resp.read())
-        except Exception as e:
-            log.warn("OpenAlex error on '%s': %s", query[:40], e)
+        raw = _urlopen_with_backoff(req, 'OpenAlex', query)
+        if not raw:
             continue
+        data = json.loads(raw)
 
         for item in data.get('results', []):
             # Reconstruct abstract from inverted index

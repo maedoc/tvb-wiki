@@ -1,10 +1,21 @@
 ---
-title: Resting-State fMRI
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/biswal-1995.md
+- raw/papers/fox-raichle-2007.md
+- raw/papers/smith-2009.md
+- raw/papers/zuo-2010.md
+- raw/papers/buckner-2013.md
+- raw/papers/deco-2013.md
+- raw/papers/semanticscholar-15a4a438614f.md
+- raw/papers/semanticscholar-7c3337c880fd.md
+tags:
+- resting-state
+- neuroimaging-fmri
+- functional-connectivity
+title: Resting-State fMRI
 type: concept
-tags: [resting-state, neuroimaging-fmri, functional-connectivity]
-sources: [raw/papers/biswal-1995.md, raw/papers/fox-raichle-2007.md, raw/papers/smith-2009.md, raw/papers/zuo-2010.md, raw/papers/buckner-2013.md]
+updated: '2026-04-23'
 ---
 
 # Resting-State fMRI

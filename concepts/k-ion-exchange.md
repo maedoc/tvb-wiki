@@ -1,9 +1,20 @@
 ---
-title: "K-Ion Exchange Model"
 created: 2026-04-21
-updated: 2026-04-21
+sources:
+- raw/papers/semanticscholar-7733d5476149.md
+- raw/papers/wendling-2002.md
+- raw/papers/arxiv-2512.22093.md
+- raw/papers/semanticscholar-ff8218c1e55e.md
+- raw/papers/markram-2015.md
+- raw/papers/semanticscholar-71ffb8153870.md
+tags:
+- neural-mass-models
+- metabolism
+- potassium
+- ion-dynamics
+title: K-Ion Exchange Model
 type: concept
-tags: [neural-mass-models, metabolism, potassium, ion-dynamics]
+updated: '2026-04-23'
 ---
 
 # K-Ion Exchange Model

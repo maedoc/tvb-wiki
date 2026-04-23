@@ -1,10 +1,17 @@
 ---
-title: AAL Atlas
 created: 2026-01-15
-updated: 2026-04-23
+sources:
+- raw/papers/semanticscholar-e923a3372ab2.md
+- raw/papers/arxiv-2603.20348.md
+tags:
+- structural-connectivity
+- neuroimaging-fmri
+- software-tvb
+- connectomics
+- brain-parcellations
+title: AAL Atlas
 type: entity
-tags: [structural-connectivity, neuroimaging-fmri, software-tvb, connectomics, brain-parcellations]
-sources: []
+updated: '2026-04-23'
 ---
 
 # AAL Atlas

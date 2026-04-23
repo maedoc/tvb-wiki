@@ -1,10 +1,19 @@
 ---
-title: NEST
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/gewaltig-diesmann-2007.md
+- raw/papers/potjans-diesmann-2014.md
+- raw/papers/jordan-2018.md
+- raw/papers/eppler-2009.md
+- raw/papers/helias-2012.md
+- raw/papers/sanz-leon-2013.md
+tags:
+- software-nest
+- spiking-neural-networks
+- brain-network
+title: NEST
 type: entity
-tags: [software-nest, spiking-neural-networks, brain-network]
-sources: [raw/papers/gewaltig-diesmann-2007.md, raw/papers/potjans-diesmann-2014.md, raw/papers/jordan-2018.md, raw/papers/eppler-2009.md, raw/papers/helias-2012.md]
+updated: '2026-04-23'
 ---
 
 # NEST (NEural Simulation Tool)

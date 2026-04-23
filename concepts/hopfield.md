@@ -1,9 +1,15 @@
 ---
-title: "Hopfield Network"
 created: 2026-04-21
-updated: 2026-04-21
+sources:
+- raw/papers/arxiv-2510.19146.md
+tags:
+- neural-mass-models
+- associative-memory
+- attractor-networks
+- discrete
+title: Hopfield Network
 type: concept
-tags: [neural-mass-models, associative-memory, attractor-networks, discrete]
+updated: '2026-04-23'
 ---
 
 # Hopfield Network

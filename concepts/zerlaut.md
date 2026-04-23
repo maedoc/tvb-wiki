@@ -1,9 +1,22 @@
 ---
-title: "Zerlaut Model"
 created: 2026-04-21
-updated: 2026-04-21
+sources:
+- raw/papers/arxiv-2509.02799.md
+- raw/papers/stefanescu-jirsa-2008.md
+- raw/papers/semanticscholar-e1fa0a868dbe.md
+- raw/papers/arxiv-2508.19134.md
+- raw/papers/semanticscholar-a9ff4dda4e4c.md
+- raw/papers/arxiv-2508.02633.md
+- raw/papers/semanticscholar-7593809733f3.md
+- raw/papers/arxiv-2604.17291.md
+tags:
+- neural-mass-models
+- adaptation
+- excitation-inhibition
+- mean-field
+title: Zerlaut Model
 type: concept
-tags: [neural-mass-models, adaptation, excitation-inhibition, mean-field]
+updated: '2026-04-23'
 ---
 
 # Zerlaut Model

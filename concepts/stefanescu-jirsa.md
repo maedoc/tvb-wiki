@@ -1,9 +1,19 @@
 ---
-title: "Stefanescu-Jirsa Model"
 created: 2026-04-21
-updated: 2026-04-21
+sources:
+- raw/papers/stefanescu-jirsa-2008.md
+- raw/papers/arxiv-2509.02799.md
+- raw/papers/semanticscholar-7c3337c880fd.md
+- raw/papers/arxiv-2604.11971.md
+- raw/papers/arxiv-2603.29903.md
+tags:
+- neural-mass-models
+- reduction
+- epileptor
+- low-dimensional
+title: Stefanescu-Jirsa Model
 type: concept
-tags: [neural-mass-models, reduction, epileptor, low-dimensional]
+updated: '2026-04-23'
 ---
 
 # Stefanescu-Jirsa Model

@@ -1,12 +1,23 @@
 ---
-title: FOOOF
 created: 2026-04-23
-updated: 2026-04-23
-type: entity
-tags: [software-brain-modeling, neuroimaging-eeg, neuroimaging-meg, brain-oscillations, resting-state, software-tvb]
 sources:
-  - https://doi.org/10.1038/s41593-020-00744-x
-  - https://fooof-tools.github.io/
+- https://doi.org/10.1038/s41593-020-00744-x
+- https://fooof-tools.github.io/
+- raw/papers/semanticscholar-eb704b6f5462.md
+- raw/papers/arxiv-2505.16861.md
+- raw/papers/arxiv-2604.14259.md
+- raw/papers/arxiv-2604.00163.md
+- raw/papers/arxiv-2406.05002.md
+tags:
+- software-brain-modeling
+- neuroimaging-eeg
+- neuroimaging-meg
+- brain-oscillations
+- resting-state
+- software-tvb
+title: FOOOF
+type: entity
+updated: '2026-04-23'
 ---
 
 # FOOOF

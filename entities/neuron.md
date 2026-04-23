@@ -1,10 +1,18 @@
 ---
-title: NEURON
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/hines-carnevale-1997.md
+- raw/papers/carnevale-hines-2006.md
+- raw/papers/hay-2011.md
+- raw/papers/markram-2015.md
+- raw/papers/gewaltig-diesmann-2007.md
+tags:
+- software-neuron
+- spiking-neural-networks
+- neural-mass-models
+title: NEURON
 type: entity
-tags: [software-neuron, spiking-neural-networks, neural-mass-models]
-sources: [raw/papers/hines-carnevale-1997.md, raw/papers/carnevale-hines-2006.md, raw/papers/hay-2011.md, raw/papers/markram-2015.md]
+updated: '2026-04-23'
 ---
 
 # NEURON

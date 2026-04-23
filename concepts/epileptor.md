@@ -1,9 +1,20 @@
 ---
-title: "Epileptor Model"
 created: 2026-04-21
-updated: 2026-04-21
+sources:
+- raw/papers/arxiv-2508.04824.md
+- raw/papers/arxiv-2603.25991.md
+- raw/papers/breakspear-2006.md
+- raw/papers/wendling-2002.md
+- raw/papers/semanticscholar-7733d5476149.md
+tags:
+- neural-mass-models
+- epilepsy
+- seizure-dynamics
+- bifurcation
+- jirsa
+title: Epileptor Model
 type: concept
-tags: [neural-mass-models, epilepsy, seizure-dynamics, bifurcation, jirsa]
+updated: '2026-04-23'
 ---
 
 # Epileptor Model

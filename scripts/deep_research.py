@@ -30,6 +30,7 @@ from ingestor import (
     save_raw_paper, paper_slug, is_already_ingested, extract_mentions,
     create_stubs_for_mentions, load_entity_counts, save_entity_counts,
     fetch_semantic_scholar, fetch_arxiv,
+    _urlopen_with_backoff,
 )
 import urllib.request
 import urllib.parse
@@ -201,12 +202,10 @@ def fetch_citations(paper_id: str, direction: str = 'citations', limit: int = 20
     })
     req = urllib.request.Request(f"{url}?{params}",
                                  headers={'User-Agent': 'TVBWiki-Ralph/2.0'})
-    try:
-        with urllib.request.urlopen(req, timeout=30) as resp:
-            data = json.loads(resp.read())
-    except Exception as e:
-        log.warn("Citation chain failed for %s: %s", paper_id, e)
+    raw = _urlopen_with_backoff(req, 'Semantic Scholar', f'citations/{paper_id}')
+    if not raw:
         return []
+    data = json.loads(raw)
 
     papers = []
     for item in data.get('data', []):
@@ -289,9 +288,9 @@ def execute_research_plan(plan: dict) -> int:
                 })
                 url = f'https://api.semanticscholar.org/graph/v1/paper/search?{params}'
                 req = urllib.request.Request(url, headers={'User-Agent': 'TVBWiki-Ralph/2.0'})
-                try:
-                    with urllib.request.urlopen(req, timeout=30) as resp:
-                        data = json.loads(resp.read())
+                raw = _urlopen_with_backoff(req, 'Semantic Scholar', query)
+                if raw:
+                    data = json.loads(raw)
                     for item in data.get('data', []):
                         ext_ids = item.get('externalIds', {})
                         authors = [a.get('name', '') for a in item.get('authors', [])
@@ -311,17 +310,24 @@ def execute_research_plan(plan: dict) -> int:
                             'venue': item.get('venue', '') or '',
                             'citation_count': item.get('citationCount'),
                         }
+                        # Relevance filter: skip papers with no TVB-related terms
+                        text = (paper['title'] + ' ' + paper['abstract']).lower()
+                        tvb_terms = ['brain', 'neural', 'connectiv', 'epilep', 'whole-brain',
+                                     'mass model', 'cortical', 'fmri', 'eeg', 'dti',
+                                     'connectome', 'neuroimag', 'simulation', 'modeling',
+                                     'spiking', 'bifurcation', 'seizure', 'tractograph']
+                        if not any(t in text for t in tvb_terms):
+                            continue
                         slug = paper_slug(paper)
                         if not is_already_ingested(slug):
                             if save_raw_paper(paper):
                                 papers_added += 1
                                 log.info("Found: %s", paper['title'][:60])
-                except Exception as e:
-                    log.warn("Search failed for '%s': %s", query[:40], e)
 
             elif source == 'arxiv':
-                # Use the ingestor's arxiv fetcher with the specific query
-                arxiv_papers = fetch_arxiv(since_date=since, max_per_query=10)
+                # Use the ingestor's arxiv fetcher with ONLY the specific query
+                # Wrap in arXiv-compatible format (arXiv uses same search syntax)
+                arxiv_papers = fetch_arxiv(since_date=since, max_per_query=10, queries=[query])
                 # Filter: only keep papers matching the query intent
                 query_terms = [t.lower().strip('"') for t in query.split() if len(t) > 3]
                 for paper in arxiv_papers:
