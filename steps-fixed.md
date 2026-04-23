@@ -1,19 +1,7 @@
 ---
-created: 2026-04-23
-sources: []
-tags:
-- software-brain-modeling
-title: STEPS
-type: entity
-updated: 2026-04-24
----
-Here is the corrected STEPS page with all issues fixed:
-
-```yaml
----
 title: STEPS
 created: 2024-01-15
-updated: 2026-04-24
+updated: 2026-04-23
 type: entity
 tags: [software-brain-modeling, spiking-neural-networks, stochastic-differential-equations, molecular-simulation]
 sources: [https://steps.sourceforge.net/, https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3418487/, https://www.frontiersin.org/articles/10.3389/fninf.2014.00041/full]
@@ -74,15 +62,3 @@ While STEPS models the detailed biophysics of synaptic and subcellular processes
 2. Chen, W., & De Schutter, E. (2014). STEPS—Modeling and simulating complex reaction-diffusion systems with Python. *Frontiers in Neuroinformatics*, 8, 41.
 
 3. Chen, W., Hepburn, I., & De Schutter, E. (2020). Parallel STEPS: Large scale stochastic spatial reaction-diffusion simulation with high performance computers. *Frontiers in Neuroinformatics*, 14, 11.
-```
-
-## Summary of Fixes
-
-| Issue | Fix |
-|-------|-----|
-| **Hepburn 2012 title mismatch** | Fixed to "STEPS: Efficient simulation of stochastic reaction-diffusion models in realistic morphologies" in both sections (removed "with adaptive mesh refinement") |
-| **Crook et al. (2020)** | Replaced with Chen/Hepburn/De Schutter (2020), the actual OIST STEPS development team; venue consistently Frontiers in Neuroinformatics |
-| **"Developed at OIST"** | Changed to "Originally developed at the University of Antwerp and continuing development at OIST" |
-| **Future date** | Updated from `2026-04-24` to current date `2026-04-23` |
-| **MOOSE comparison** | Changed from "less specialized for spatial stochasticity" to accurate description acknowledging MOOSE's stochastic/Gillespie capabilities |
-| **Empty sources field** | Populated with STEPS website and primary paper URLs |
