@@ -2,7 +2,7 @@
 
 > Content catalog. Every wiki page listed under its type with a one-line summary.
 > Read this first to find relevant pages for any query.
-> Last updated: 2026-04-23 | Total pages: 119
+> Last updated: 2026-04-23 | Total pages: 120
 
 
 ## Entities
@@ -14,6 +14,7 @@
 - [[Benjamin Jansen]] – Dutch biomedical engineer and neuroscientist. Co-developer of the Jansen-Rit model of cortical column dynamics for EEG/V...
 - [[Bharat Biswal]] – **Nationality:** Indian-American
 - [[Brian Avants]] – Lead developer of ANTs (Advanced Normalization Tools), known for SyN image registration.
+- [[Conn]] – *Placeholder — awaiting content from Ralph Improver.*
 - [[Crispin Gardiner]] – Crispin W. Gardiner is a New Zealand physicist and Professor at the University of Otago. He is renowned for his contribu...
 - [[David Van Essen]] – Professor of Neuroscience at Washington University School of Medicine, Principal Investigator of the Human Connectome Pr...
 - [[Duncan Watts]] – Principal Researcher at Microsoft Research, sociologist and network scientist, co-discoverer of small-world networks.
