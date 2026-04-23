@@ -1,10 +1,15 @@
 ---
-title: "Rüdiger Seydel"
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/seydel-2010.md
+- raw/papers/guckenheimer-holmes-1983.md
+- raw/papers/hirsch-smale-devaney-2004.md
+- raw/papers/touboul-2011.md
+tags:
+- people-researcher
+title: Rüdiger Seydel
 type: entity
-tags: [people-researcher]
-sources: [raw/papers/seydel-2010.md]
+updated: '2026-04-24'
 ---
 
 ## Overview

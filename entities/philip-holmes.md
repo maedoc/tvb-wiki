@@ -1,10 +1,16 @@
 ---
-title: "Philip Holmes"
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/guckenheimer-holmes-1983.md
+- raw/papers/hirsch-smale-devaney-2004.md
+- raw/papers/tuckwell-1988.md
+- raw/papers/izhikevich-2007.md
+- raw/papers/wiggins-2003.md
+tags:
+- people-researcher
+title: Philip Holmes
 type: entity
-tags: [people-researcher]
-sources: [raw/papers/guckenheimer-holmes-1983.md]
+updated: '2026-04-24'
 ---
 
 ## Overview

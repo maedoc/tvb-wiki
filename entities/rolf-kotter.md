@@ -1,10 +1,14 @@
 ---
-title: Rolf Kötter
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/sporns-tononi-kotter-2005.md
+- raw/papers/smith-2013-connectomics.md
+tags:
+- people-researcher
+- connectomics
+title: Rolf Kötter
 type: entity
-tags: [people-researcher, connectomics]
-sources: [raw/papers/sporns-tononi-kotter-2005.md]
+updated: '2026-04-24'
 ---
 
 # Rolf Kötter

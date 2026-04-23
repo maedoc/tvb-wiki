@@ -1,10 +1,14 @@
 ---
-title: "John Guckenheimer"
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/guckenheimer-holmes-1983.md
+- raw/papers/izhikevich-2007.md
+- raw/papers/ermentrout-terman-2010.md
+tags:
+- people-researcher
+title: John Guckenheimer
 type: entity
-tags: [people-researcher]
-sources: [raw/papers/guckenheimer-holmes-1983.md]
+updated: '2026-04-24'
 ---
 
 ## Overview

@@ -3,6 +3,11 @@ created: 2026-01-15
 sources:
 - raw/papers/semanticscholar-e923a3372ab2.md
 - raw/papers/arxiv-2603.20348.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/ritter-2013.md
+- raw/papers/schirner-2018.md
+- raw/papers/breakspear-2017.md
+- raw/papers/barch-2013.md
 tags:
 - structural-connectivity
 - neuroimaging-fmri
@@ -11,7 +16,7 @@ tags:
 - brain-parcellations
 title: AAL Atlas
 type: entity
-updated: '2026-04-23'
+updated: '2026-04-24'
 ---
 
 # AAL Atlas

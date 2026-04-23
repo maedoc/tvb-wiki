@@ -1,10 +1,18 @@
 ---
-title: Nick Tustison
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/tustison-2010.md
+- raw/papers/tustison-2014.md
+- raw/papers/avants-2011.md
+- raw/papers/avants-2008.md
+tags:
+- people-researcher
+- software-ants
+- neuroimaging-processing
+- brain-network
+title: Nick Tustison
 type: entity
-tags: [people-researcher, software-ants, neuroimaging-processing, brain-network]
-sources: [raw/papers/tustison-2010.md, raw/papers/tustison-2014.md]
+updated: '2026-04-24'
 ---
 
 # Nick Tustison

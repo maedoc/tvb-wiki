@@ -1,10 +1,16 @@
 ---
-title: Karla L. Miller
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/miller-2016.md
+- raw/papers/elliott-2018.md
+- raw/papers/alfaro-almagro-2018.md
+tags:
+- people-researcher
+- neuroimaging-fmri
+- database-uk-biobank
+title: Karla L. Miller
 type: entity
-tags: [people-researcher, neuroimaging-fmri, database-uk-biobank]
-sources: [raw/papers/miller-2016.md]
+updated: '2026-04-24'
 ---
 
 # Karla L. Miller

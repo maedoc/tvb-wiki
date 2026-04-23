@@ -6,6 +6,7 @@ sources:
 - raw/papers/hirsch-smale-devaney-2004.md
 - raw/papers/kuznetsov-2004.md
 - raw/papers/izhikevich-2007.md
+- raw/papers/touboul-2011.md
 tags:
 - neural-mass-models
 - network-dynamics
