@@ -75,3 +75,5 @@
 ## [2026-04-23 14:51] Improve: 1 pages improved (conn)
 
 ## [2026-04-23 15:09] DeepResearch: 93 papers added via focused research
+
+## [2026-04-23 15:09] Librarian: index rebuilt, 273 asymmetric links noted
