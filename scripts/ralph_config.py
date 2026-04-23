@@ -43,12 +43,12 @@ PARALLEL_REVIEWERS = 5
 PARALLEL_INGESTORS = 5
 
 # ── Agent schedule (seconds) ──────────────────────────────────────────
-INGESTOR_INTERVAL = 3600       # hourly
+INGESTOR_INTERVAL = 86400       # daily + startup (TVB is niche, ~5-10 papers/week)
 IMPROVER_INTERVAL = 3600       # hourly
 AUDITOR_INTERVAL = 86400       # daily
 LIBRARIAN_INTERVAL = 86400     # daily
 SOFTWARE_MAPPER_INTERVAL = 604800  # weekly
-DEEP_RESEARCH_INTERVAL = 21600   # every 6 hours
+DEEP_RESEARCH_INTERVAL = 259200   # 2x/week + on-demand (only when Matcher reports gaps)
 MATCHER_INTERVAL    = 3600       # hourly (runs before Improver)
 REPAIRER_INTERVAL = 86400         # daily (runs after Auditor)
 

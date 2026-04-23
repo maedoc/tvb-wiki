@@ -125,11 +125,16 @@ def extract_sentences(text: str, min_len: int = 30) -> list[str]:
 
 
 def _file_hash(path: str) -> str:
-    """MD5 hash of file contents for incremental updates."""
-    h = hashlib.md5()
+    """MD5 hash of file BODY (excluding frontmatter) for incremental updates."""
     with open(path, 'rb') as f:
-        for chunk in iter(lambda: f.read(8192), b''):
-            h.update(chunk)
+        text = f.read().decode('utf-8', errors='replace')
+    # Strip YAML frontmatter - only hash body content
+    if text.startswith('---'):
+        end = text.find('\n---', 3)
+        if end != -1:
+            text = text[end + 4:]
+    h = hashlib.md5()
+    h.update(text.encode('utf-8'))
     return h.hexdigest()
 
 
