@@ -8,6 +8,7 @@ A collection of people, software platforms, datasets, and research groups releva
 - [NEST](nest.md) – Spiking neural network simulator
 - [NEURON](neuron.md) – Detailed multicompartment neuron simulator
 - [ANTs](ants.md) – Advanced Normalization Tools for neuroimaging
+- [DataLad](datalad.md) – Distributed data management and version control for neuroimaging
 - [GraphVar](graphvar.md) – Graph-theoretical analysis toolbox
 - [ModelDB](modeldb.md) – Computational neuroscience model repository
 

@@ -1,5 +1,16 @@
 # Wiki Log
 
+## 2026-04-24
+
+- Created page: [[DataLad]] – Distributed data management system
+  - Complete entity page from placeholder (~750 words)
+  - Tags: software-brain-modeling, structural-connectivity, functional-connectivity, neuroimaging-dti, neuroimaging-fmri, reproducibility, database-hcp
+  - Established 12+ wikilinks to TVB, git-annex, BIDS, OpenNeuro, HCP, UK Biobank, neuroimaging tools
+  - Documented git-annex integration, provenance tracking, nested datasets
+  - Relationship to TVB: connectome dataset management, reproducible simulation studies, data sharing
+  - Key papers: Halchenko et al. (2023), Hanke et al. (2021)
+  - Added to [[index.md]] under Software Platforms section
+
 ## 2026-04-23
 
 - Improved page: [[ANNarchy]] – Artificial Neural Network architecture for hybrid networks
@@ -96,3 +107,5 @@
 ## [2026-04-24 01:07] Linter: 42 broken links, 111 orphans, 130 stale, 94 empty
 
 ## [2026-04-24 01:12] SoftwareMapper: 39 pages created
+
+## [2026-04-24 01:56] Matcher: 13 pages got 45 new sources
