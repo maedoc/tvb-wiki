@@ -25,3 +25,7 @@
   - Listed key papers including Bhalla (2011), Dudani & Bhalla (2018)
 
 ## [2026-04-23 15:55] Improve: 2 pages improved (moose, neurovault)
+
+## [2026-04-23 16:07] DeepResearch: 26 papers added via focused research
+
+## [2026-04-23 16:07] Audit: 514 issues (26 broken links, 90 orphans, 63 placeholders)
