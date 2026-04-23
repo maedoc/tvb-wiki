@@ -23,3 +23,5 @@
   - Documented multiscale capabilities and biochemical-electrical-network integration
   - Added comparison table vs TVB showing complementary roles
   - Listed key papers including Bhalla (2011), Dudani & Bhalla (2018)
+
+## [2026-04-23 15:55] Improve: 2 pages improved (moose, neurovault)
