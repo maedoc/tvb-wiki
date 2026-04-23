@@ -70,3 +70,7 @@
 ## [2026-04-23 17:16] Ingest: 45 new papers, 1 stubs created
 
 ## [2026-04-23 17:24] Improve: 2 pages improved (c-pac, mrtrix3-connectome)
+
+## [2026-04-23 17:36] DeepResearch: 25 papers added via focused research
+
+## [2026-04-23 17:36] Audit: 649 issues (35 broken links, 114 orphans, 96 placeholders)
