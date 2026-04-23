@@ -7,6 +7,7 @@
 
 ## Entities
 <!-- entities -->
+- [[Elephant]] – Python package for electrophysiology analysis, developed by NeuralEnsemble. Provides spike train statistics, LFP signal processing, and connectivity measures.
 - [[Alain Destexhe]] – French computational neuroscientist. Senior Researcher at CNRS and UNIC (Unité de Neurosciences Intégratives et Computat...
 - [[Albert Laszlo Barabasi]] – Distinguished Professor at Northeastern University, physicist, pioneer of network science and scale-free networks.
 - [[Andrei Medvedev]] – Researcher in neuroscience. Mentioned in the context of Domain 5 sources.
