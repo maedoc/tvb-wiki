@@ -55,3 +55,5 @@
 ## [2026-04-23 16:40] DeepResearch: 18 papers added via focused research
 
 ## [2026-04-23 16:40] Audit: 459 issues (40 broken links, 86 orphans, 59 placeholders)
+
+## [2026-04-23 16:40] Librarian: index rebuilt, 384 asymmetric links noted
