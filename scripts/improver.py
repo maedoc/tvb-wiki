@@ -93,6 +93,102 @@ def score_page(filepath: str) -> tuple[float, dict]:
     return info['score'], info
 
 
+def analyze_sections(content: str) -> list[dict]:
+    """Split page content into sections. Returns list of {heading, content, score}."""
+    sections = []
+    current_heading = "_preamble"
+    current_lines = []
+
+    for line in content.split('\n'):
+        if line.startswith('## ') and not line.startswith('### '):
+            # Save previous section
+            if current_lines:
+                text = '\n'.join(current_lines).strip()
+                sections.append({
+                    'heading': current_heading,
+                    'content': text,
+                    'words': len(text.split()),
+                    'has_placeholder': '*Placeholder' in text or '*placeholder' in text,
+                    'has_citations': bool(re.search(r'\[\[', text)),
+                })
+            current_heading = line.strip('# ').strip()
+            current_lines = []
+        else:
+            current_lines.append(line)
+
+    # Last section
+    if current_lines:
+        text = '\n'.join(current_lines).strip()
+        sections.append({
+            'heading': current_heading,
+            'content': text,
+            'words': len(text.split()),
+            'has_placeholder': '*Placeholder' in text or '*placeholder' in text,
+            'has_citations': bool(re.search(r'\[\[', text)),
+        })
+
+    # Score each section (lower = needs more work)
+    for s in sections:
+        score = 100
+        if s['has_placeholder']:
+            score -= 60
+        if s['words'] < 30:
+            score -= 40
+        elif s['words'] < 100:
+            score -= 20
+        if not s['has_citations']:
+            score -= 15
+        s['score'] = max(0, score)
+
+    return sections
+
+
+def pick_weakest_section(sections: list[dict], page_score: float) -> dict | None:
+    """Pick which section to improve. Returns None if page needs full rewrite."""
+    # If page is very bad (score < 40), rewrite entire page
+    if page_score < 40:
+        return None
+
+    # Otherwise, target the weakest section
+    if not sections:
+        return None
+
+    weakest = min(sections, key=lambda s: s['score'])
+    if weakest['score'] < 80:
+        return weakest
+
+    return None  # All sections look OK
+
+
+def apply_mechanical_fixes(content: str, filepath: str) -> str:
+    """Apply mechanical fixes without LLM: frontmatter, dates, orphan wikilinks."""
+    today = datetime.date.today().isoformat()
+
+    # Ensure frontmatter exists
+    if not content.strip().startswith('---'):
+        try:
+            fm_block = frontmatter.dumps(frontmatter.load(filepath))
+            if fm_block.strip().startswith('---'):
+                end = fm_block.find('\n---', 3)
+                if end != -1:
+                    yaml_header = fm_block[:end + 4]
+                    content = yaml_header + '\n' + content.lstrip()
+        except Exception:
+            pass
+
+    # Force updated date to today
+    content = re.sub(
+        r'updated:\s*\d{4}-\d{2}-\d{2}',
+        f'updated: {today}',
+        content
+    )
+
+    # Remove duplicate blank lines
+    content = re.sub(r'\n{3,}', '\n\n', content)
+
+    return content
+
+
 def build_priority_queue(n: int = None) -> list[dict]:
     """Build priority queue of pages needing improvement, worst first."""
     pages = get_all_pages()
@@ -292,6 +388,7 @@ def _ensure_frontmatter(new_content: str, filepath: str) -> str:
 def improve_page(filepath: str) -> tuple[bool, str]:
     """
     Improve one page through writer → reviewer pipeline.
+    Uses section-aware editing for pages with score >= 40.
     Returns (success, description).
     """
     slug = os.path.basename(filepath)[:-3]
@@ -308,17 +405,108 @@ def improve_page(filepath: str) -> tuple[bool, str]:
 
     log.info("Improving %s (%s)", slug, info_str)
 
-    # Step 1: Writer improves the page
-    writer_prompt = build_writer_prompt(filepath)
-    success, output = run_pi(writer_prompt, model=WRITER_MODEL)
+    # Decide: section edit or full rewrite?
+    page_score, page_info = score_page(filepath)
+    sections = analyze_sections(original)
+    target_section = pick_weakest_section(sections, page_score)
 
-    if not success:
-        return False, f"Writer failed for {slug}: {output[:100]}"
+    if target_section:
+        # SECTION-AWARE EDIT: improve only the weakest section
+        section_heading = target_section['heading']
+        log.info("Section-edit %s: targeting '%s' (score=%.0f, %d words)",
+                 slug, section_heading, target_section['score'], target_section['words'])
 
-    new_content = _strip_code_fences(output)
-    new_content = _ensure_frontmatter(new_content, filepath)
+        # Build sources block
+        sources = get_sources(metadata)
+        source_texts = []
+        for source in sources[:3]:
+            source_path = os.path.join(WIKI_ROOT, source) if not os.path.isabs(source) else source
+            if os.path.exists(source_path):
+                try:
+                    with open(source_path, 'r', encoding='utf-8') as f:
+                        src_content = f.read()[:2000]
+                    source_texts.append(f"--- SOURCE: {source} ---\n{src_content}")
+                except Exception:
+                    pass
+        sources_block = '\n\n'.join(source_texts) if source_texts else "(No source papers available)"
 
-    # Step 2: Reviewer checks the edit
+        # Load schema
+        schema = ""
+        if os.path.exists(SCHEMA_PATH):
+            with open(SCHEMA_PATH, 'r') as f:
+                schema = f.read()
+
+        writer_prompt = f"""You are improving ONE SECTION of a TVB Wiki page.
+
+## SCHEMA
+{schema}
+
+## PAGE: {slug}
+Full page content:
+{original}
+
+## SECTION TO IMPROVE: \"{section_heading}\"
+Current content ({target_section['words']} words):
+{target_section['content']}
+
+## AVAILABLE SOURCE PAPERS
+{sources_block}
+
+## INSTRUCTIONS
+1. Rewrite ONLY the \"{section_heading}\" section with real, sourced content
+2. Replace ALL placeholder text with factual content
+3. Add wikilinks [[like-this]] to related pages
+4. Cite sources where appropriate
+5. Aim for 100-300 words for this section
+6. Output ONLY the new section content (no headings, no frontmatter, no commentary)
+7. Do NOT include the ## heading line itself — just the section body"""
+
+        success, output = run_pi(writer_prompt, model=WRITER_MODEL)
+        if not success:
+            return False, f"Writer failed for {slug} section '{section_heading}': {output[:100]}"
+
+        new_section = _strip_code_fences(output)
+
+        # Replace the old section in the page
+        lines = original.split('\n')
+        new_lines = []
+        in_target = False
+        replaced = False
+        for line in lines:
+            if line.strip().startswith('## ') and not line.strip().startswith('### '):
+                heading_text = line.strip('# ').strip()
+                if heading_text == section_heading and not replaced:
+                    in_target = True
+                    new_lines.append(line)  # keep the heading
+                    new_lines.append(new_section)  # insert new content
+                    continue
+                elif in_target:
+                    in_target = False
+                    replaced = True
+            if not in_target:
+                new_lines.append(line)
+        if in_target:
+            replaced = True  # was last section
+
+        if not replaced:
+            return False, f"Could not locate section '{section_heading}' in {slug}"
+
+        new_content = '\n'.join(new_lines)
+        last_section_text = new_section  # save for revision
+    else:
+        # FULL REWRITE for low-score pages
+        writer_prompt = build_writer_prompt(filepath)
+        success, output = run_pi(writer_prompt, model=WRITER_MODEL)
+
+        if not success:
+            return False, f"Writer failed for {slug}: {output[:100]}"
+
+        new_content = _strip_code_fences(output)
+
+    last_section_text = None  # only set for section edits
+    new_content = apply_mechanical_fixes(new_content, filepath)
+
+    # Reviewer checks
     reviewer_prompt = build_reviewer_prompt(filepath, original, new_content)
     review_success, review_output = run_pi(
         reviewer_prompt, model=REVIEWER_MODEL, tools="read"
@@ -335,9 +523,20 @@ def improve_page(filepath: str) -> tuple[bool, str]:
     else:
         log.warn("Reviewer failed for %s, accepting writer output", slug)
 
-    # Step 3: Revise if needed
+    # Revise if needed
     if needs_revision:
-        revision_prompt = f"""You are the Ralph Writer. Your edit to {slug} was flagged for issues.
+        if target_section:
+            revision_prompt = f"""Fix the issues flagged for the \"{section_heading}\" section of {slug}.
+Return ONLY the corrected section body (no heading, no frontmatter).
+
+ISSUES: {review_output}
+
+YOUR PREVIOUS SECTION:
+{last_section_text}
+
+Corrected section:"""
+        else:
+            revision_prompt = f"""You are the Ralph Writer. Your edit to {slug} was flagged for issues.
 Fix these issues and return the complete updated page (including frontmatter).
 
 ISSUES FLAGGED BY REVIEWER:
@@ -347,23 +546,50 @@ YOUR PREVIOUS EDIT (which needs fixes):
 {new_content}
 
 Fix the issues and output ONLY the corrected markdown file."""
+
         rev_success, rev_output = run_pi(revision_prompt, model=WRITER_MODEL)
         if rev_success:
-            new_content = _strip_code_fences(rev_output)
-            new_content = _ensure_frontmatter(new_content, filepath)
+            revised = _strip_code_fences(rev_output)
+            if target_section:
+                # Re-splice the revised section into the page
+                last_section_text = revised
+                lines2 = original.split('\n')
+                new_lines2 = []
+                in_target2 = False
+                replaced2 = False
+                for line in lines2:
+                    if line.strip().startswith('## ') and not line.strip().startswith('### '):
+                        heading_text2 = line.strip('# ').strip()
+                        if heading_text2 == section_heading and not replaced2:
+                            in_target2 = True
+                            new_lines2.append(line)
+                            new_lines2.append(revised)
+                            continue
+                        elif in_target2:
+                            in_target2 = False
+                            replaced2 = True
+                    if not in_target2:
+                        new_lines2.append(line)
+                if in_target2:
+                    replaced2 = True
+                new_content = '\n'.join(new_lines2) if replaced2 else new_content
+            else:
+                new_content = revised
+            new_content = apply_mechanical_fixes(new_content, filepath)
             log.info("Revised %s after reviewer feedback", slug)
 
-    # Step 4: Validate
+    # Validate
     valid, issues = validate_edit(filepath, new_content, original)
     if not valid:
         log.warn("Validation failed for %s: %s", slug, '; '.join(issues))
         return False, f"Validation failed for {slug}: {'; '.join(issues)}"
 
-    # Step 5: Write the improved page
+    # Write the improved page
     with open(filepath, 'w', encoding='utf-8') as f:
         f.write(new_content)
 
-    return True, f"Improved {slug} ({word_count(new_content)} words)"
+    mode = "section" if target_section else "full"
+    return True, f"Improved {slug} ({word_count(new_content)} words, {mode} edit)"
 
 
 # ── Main improver cycle ───────────────────────────────────────────────
