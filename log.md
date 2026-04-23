@@ -2,6 +2,15 @@
 
 ## 2026-04-23
 
+- Improved page: [[ANNarchy]] – Artificial Neural Network architecture for hybrid networks
+  - Complete rewrite from placeholder to full entity page (~700 words)
+  - Added tags: software-brain-modeling, software-nest, neural-mass-models, spiking-neural-networks, whole-brain-modeling
+  - Established 10+ wikilinks to TVB, NEST, Brian, Neuron, Elephant, CUDA, structural-connectivity
+  - Documented hybrid rate/spiking simulation capabilities
+  - Comparison table of TVB vs ANNarchy showing complementary roles
+  - Covered C++/CUDA code generation, GPU acceleration, and neuroimaging prediction tools
+  - Key papers: Vitay et al. (2015), Dinkelbach et al. (2015), Hamker et al. (2017)
+
 - Created page: [[Elephant]] – NeuralEnsemble electrophysiology analysis toolkit
   - Full entity page with 600+ words
   - Added tags: software-brain-modeling, neuroimaging-eeg, neuroimaging-meg, neural-mass-models, spiking-neural-networks
@@ -57,3 +66,5 @@
 ## [2026-04-23 16:40] Audit: 459 issues (40 broken links, 86 orphans, 59 placeholders)
 
 ## [2026-04-23 16:40] Librarian: index rebuilt, 384 asymmetric links noted
+
+## [2026-04-23 17:16] Ingest: 45 new papers, 1 stubs created
