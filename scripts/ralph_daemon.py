@@ -79,10 +79,23 @@ state = DaemonState()
 
 # ── Signal handling ────────────────────────────────────────────────────
 
+_last_sigint_time = 0.0
+
+
 def handle_signal(signum, frame):
+    global _last_sigint_time
     sig_name = signal.Signals(signum).name
-    log.info("Received %s — finishing current cycle, then shutting down...", sig_name)
+
+    if signum == signal.SIGINT:
+        now = time.monotonic()
+        if now - _last_sigint_time < 1.0:
+            log.info("Received second %s within 1s — shutting down immediately!", sig_name)
+            sys.exit(1)
+        _last_sigint_time = now
+
+    log.info("Received %s — finishing current cycle, then shutting down... (Ctrl+C again within 1s to force)", sig_name)
     state.running = False
+
 
 signal.signal(signal.SIGINT, handle_signal)
 signal.signal(signal.SIGTERM, handle_signal)
