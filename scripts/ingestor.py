@@ -23,7 +23,7 @@ if __name__ == '__main__':
 from ralph_config import (
     get_logger, WIKI_ROOT, RAW_PAPERS_DIR, META_DIR, ENTITIES_DIR, CONCEPTS_DIR,
     LAST_UPDATE_FILE, ENTITY_COUNTS_FILE, append_log, git_commit,
-    SEARCH_QUERIES, KEYWORD_MAP, REVERSE_MAP, ensure_page_exists, PARALLEL_INGESTORS
+    SEARCH_QUERIES, KEYWORD_MAP, PARALLEL_INGESTORS
 )
 
 log = get_logger("Ingestor")

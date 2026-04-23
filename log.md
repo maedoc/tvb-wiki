@@ -57,3 +57,5 @@
 ## [2026-04-21] daily-lint | 133 broken, 6 orphans, 1 missing from index
 
 ## [2026-04-23 13:24] Audit: 190 issues (2 broken links, 31 orphans, 3 placeholders)
+
+## [2026-04-23 13:25] Librarian: index rebuilt, 261 asymmetric links noted
