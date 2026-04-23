@@ -32,8 +32,8 @@ ENTITY_COUNTS_FILE = os.path.join(META_DIR, "entity_counts.json")
 AUDIT_REPORT_FILE = os.path.join(META_DIR, "audit_report.json")
 
 # ── Models ─────────────────────────────────────────────────────────────
-WRITER_MODEL = "ollama/kimi-k2.6"
-REVIEWER_MODEL = "zai/glm-5.1"
+WRITER_MODEL = "ollama/kimi-k2.5:cloud"
+REVIEWER_MODEL = "ollama/glm-5.1:cloud"
 
 # ── Parallelism ────────────────────────────────────────────────────────
 PARALLEL_WRITERS = 3
@@ -136,7 +136,7 @@ def get_all_pages() -> dict[str, str]:
         if not os.path.isdir(directory):
             continue
         for fn in os.listdir(directory):
-            if fn.endswith('.md'):
+            if fn.endswith('.md') and fn != 'index.md':
                 slug = fn[:-3]
                 pages[slug] = os.path.join(directory, fn)
     return pages

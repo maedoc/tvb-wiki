@@ -199,11 +199,12 @@ def print_banner():
     """Print startup info."""
     pages = get_all_pages()
 
-    # Count by type
-    entities = len([s for s in pages if os.path.exists(os.path.join(ENTITIES_DIR, f"{s}.md"))])
-    concepts = len([s for s in pages if os.path.exists(os.path.join(CONCEPTS_DIR, f"{s}.md"))])
-    comparisons = len([s for s in pages if os.path.exists(os.path.join(COMPARISONS_DIR, f"{s}.md"))])
-    other = len(pages) - entities - concepts - comparisons
+    # Count by type (exclude 'index' slugs which are directory listings, not wiki pages)
+    content_pages = {s: p for s, p in pages.items() if s != 'index'}
+    entities = len([s for s in content_pages if os.path.exists(os.path.join(ENTITIES_DIR, f"{s}.md"))])
+    concepts = len([s for s in content_pages if os.path.exists(os.path.join(CONCEPTS_DIR, f"{s}.md"))])
+    comparisons = len([s for s in content_pages if os.path.exists(os.path.join(COMPARISONS_DIR, f"{s}.md"))])
+    other = len(content_pages) - entities - concepts - comparisons
 
     # Count raw papers
     raw_count = 0

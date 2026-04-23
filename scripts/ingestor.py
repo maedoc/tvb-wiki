@@ -123,11 +123,25 @@ def fetch_semantic_scholar(since_date, max_results=50):
         })
         url = f'https://api.semanticscholar.org/graph/v1/paper/search?{params}'
         req = urllib.request.Request(url, headers={'User-Agent': 'TVBWiki-Ralph/2.0'})
-        try:
-            with urllib.request.urlopen(req, timeout=30) as resp:
-                data = json.loads(resp.read())
-        except Exception as e:
-            log.warn("Semantic Scholar error on '%s': %s", query[:40], e)
+        success = False
+        for attempt in range(3):
+            try:
+                with urllib.request.urlopen(req, timeout=30) as resp:
+                    data = json.loads(resp.read())
+                success = True
+                break
+            except urllib.error.HTTPError as e:
+                if e.code == 429:
+                    wait = 5 * (2 ** attempt)  # 5s, 10s, 20s
+                    log.warn("Semantic Scholar 429 on '%s', backoff %ds (attempt %d/3)", query[:40], wait, attempt + 1)
+                    time.sleep(wait)
+                else:
+                    log.warn("Semantic Scholar error on '%s': %s", query[:40], e)
+                    break
+            except Exception as e:
+                log.warn("Semantic Scholar error on '%s': %s", query[:40], e)
+                break
+        if not success:
             continue
 
         for item in data.get('data', []):
