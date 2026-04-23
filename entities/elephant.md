@@ -8,6 +8,8 @@ sources:
 - raw/papers/semanticscholar-eb704b6f5462.md
 - raw/papers/arxiv-2509.02799.md
 - raw/papers/arxiv-2604.16463.md
+- raw/papers/jordan-2018.md
+- raw/papers/arxiv-2506.22951.md
 tags:
 - software-brain-modeling
 - neuroimaging-eeg

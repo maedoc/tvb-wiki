@@ -1,10 +1,18 @@
 ---
-title: "Dynamical Systems Theory"
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/strogatz-1994.md
+- raw/papers/guckenheimer-holmes-1983.md
+- raw/papers/hirsch-smale-devaney-2004.md
+- raw/papers/kuznetsov-2004.md
+- raw/papers/izhikevich-2007.md
+tags:
+- neural-mass-models
+- network-dynamics
+- brain-oscillations
+title: Dynamical Systems Theory
 type: concept
-tags: [neural-mass-models, network-dynamics, brain-oscillations]
-sources: [raw/papers/strogatz-1994.md, raw/papers/guckenheimer-holmes-1983.md, raw/papers/hirsch-smale-devaney-2004.md]
+updated: '2026-04-24'
 ---
 
 ## Definition

@@ -1,10 +1,16 @@
 ---
-title: BOLD Signal
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/ogawa-1990.md
+- raw/papers/logothetis-2001.md
+- raw/papers/arxiv-2512.24901.md
+- raw/papers/arxiv-2604.03619.md
+tags:
+- neuroimaging-fmri
+- neurovascular-coupling
+title: BOLD Signal
 type: concept
-tags: [neuroimaging-fmri, neurovascular-coupling]
-sources: [raw/papers/ogawa-1990.md, raw/papers/logothetis-2001.md]
+updated: '2026-04-24'
 ---
 
 # BOLD Signal

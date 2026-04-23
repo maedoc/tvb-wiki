@@ -6,6 +6,7 @@ sources:
 - raw/papers/semanticscholar-7c3337c880fd.md
 - raw/papers/arxiv-2604.11971.md
 - raw/papers/arxiv-2603.29903.md
+- raw/papers/arxiv-2507.15519.md
 tags:
 - neural-mass-models
 - reduction

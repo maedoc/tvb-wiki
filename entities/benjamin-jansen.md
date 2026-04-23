@@ -8,6 +8,7 @@ sources:
 - raw/papers/semanticscholar-cc2129666e15.md
 - raw/papers/arxiv-2510.02545.md
 - raw/papers/zavaglia-2006.md
+- raw/papers/arxiv-2510.22022.md
 tags:
 - people-researcher
 - neural-mass-models

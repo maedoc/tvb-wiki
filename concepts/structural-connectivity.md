@@ -1,10 +1,23 @@
 ---
-title: Structural Connectivity
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/basser-1994.md
+- raw/papers/mori-1999.md
+- raw/papers/jones-2010.md
+- raw/papers/sotiropoulos-zalesky-2019.md
+- raw/papers/arxiv-2603.21032.md
+- raw/papers/honey-2009.md
+- raw/papers/arxiv-2603.21067.md
+- raw/papers/ritter-2013.md
+- raw/papers/semanticscholar-27108cae3f6e.md
+tags:
+- structural-connectivity
+- neuroimaging-dti
+- diffusion-imaging
+- connectomics
+title: Structural Connectivity
 type: concept
-tags: [structural-connectivity, neuroimaging-dti, diffusion-imaging, connectomics]
-sources: [raw/papers/basser-1994.md, raw/papers/mori-1999.md, raw/papers/jones-2010.md, raw/papers/sotiropoulos-zalesky-2019.md]
+updated: '2026-04-23'
 ---
 
 # Structural Connectivity

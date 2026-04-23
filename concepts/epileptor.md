@@ -6,6 +6,7 @@ sources:
 - raw/papers/breakspear-2006.md
 - raw/papers/wendling-2002.md
 - raw/papers/semanticscholar-7733d5476149.md
+- raw/papers/semanticscholar-9e6c3252d305.md
 tags:
 - neural-mass-models
 - epilepsy

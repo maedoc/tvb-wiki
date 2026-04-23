@@ -6,6 +6,7 @@ sources:
 - raw/papers/arxiv-2512.22093.md
 - raw/papers/wilson-cowan-1973.md
 - raw/papers/arxiv-2411.16449.md
+- raw/papers/arxiv-2510.22022.md
 tags:
 - neural-mass-models
 - brain-oscillations

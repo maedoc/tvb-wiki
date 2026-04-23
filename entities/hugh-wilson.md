@@ -6,6 +6,8 @@ sources:
 - raw/papers/arxiv-2510.22022.md
 - raw/papers/freeman-1975.md
 - raw/papers/dayan-abbott-2001.md
+- raw/papers/arxiv-2603.13635.md
+- raw/papers/gerstner-2014.md
 tags:
 - people-researcher
 - neural-mass-models

@@ -1,10 +1,17 @@
 ---
-title: Graph Theory
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/rubinov-sporns-2010.md
+- raw/papers/newman-2010.md
+- raw/papers/bullmore-sporns-2009.md
+- raw/papers/sporns-2011.md
+- raw/papers/power-2010.md
+tags:
+- connectomics
+- network-dynamics
+title: Graph Theory
 type: concept
-tags: [connectomics, network-dynamics]
-sources: [raw/papers/rubinov-sporns-2010.md, raw/papers/newman-2010.md, raw/papers/bullmore-sporns-2009.md]
+updated: '2026-04-24'
 ---
 
 # Graph Theory

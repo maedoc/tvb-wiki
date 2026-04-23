@@ -1,19 +1,47 @@
 ---
-title: MRtrix3 Connectome
 created: 2026-04-23
-updated: 2026-04-23
-type: entity
-tags: [software-brain-modeling, structural-connectivity, connectomics, diffusion-imaging, tractography]
 sources:
-  - Tournier, J. D., Smith, R., Raffelt, D., Tabbara, R., Dhollander, T., Pietsch, M., Christiaens, D., Jeurissen, B., Yeh, C. H., & Connelly, A. (2019). MRtrix3: A fast, flexible and open software framework for medical image processing and visualisation. *NeuroImage*, 202, 116137. https://doi.org/10.1016/j.neuroimage.2019.116137
-  - Smith, R. E., Tournier, J. D., Calamante, F., & Connelly, A. (2012). Anatomically-constrained tractography: Improved diffusion MRI streamlines tractography through effective use of anatomical information. *NeuroImage*, 62(3), 1924-1938. https://doi.org/10.1016/j.neuroimage.2012.04.049
-  - Smith, R. E., Tournier, J. D., Calamante, F., & Connelly, A. (2015). SIFT2: Enabling dense quantitative assessment of brain white matter connectivity using streamlines tractography. *NeuroImage*, 119, 338-351. https://doi.org/10.1016/j.neuroimage.2015.06.092
-  - Tournier, J. D., Calamante, F., & Connelly, A. (2008). Robust determination of the fibre orientation distribution in diffusion MRI: Non-negativity constrained super-resolved spherical deconvolution. *NeuroImage*, 35(4), 1459-1472. https://doi.org/10.1016/j.neuroimage.2007.02.016
-  - Jeurissen, B., Tournier, J. D., Dhollander, T., Connelly, A., & Sijbers, J. (2014). Multi-tissue constrained spherical deconvolution for improved analysis of multi-shell diffusion MRI data. *NeuroImage*, 103, 411-426. https://doi.org/10.1016/j.neuroimage.2014.03.057
-  - Veraart, J., Novikov, D. S., Christiaens, D., Ades-aron, B., Sijbers, J., & Fieremans, E. (2016). Denoising of diffusion MRI using random matrix theory. *NeuroImage*, 142, 394-406. https://doi.org/10.1016/j.neuroimage.2016.08.016
-  - Sotiropoulos, S. N., & Zalesky, A. (2019). Building connectomes using diffusion MRI: why, how and but. *Brain Connectivity*, 9(1), 1-35. https://doi.org/10.1089/brain.2018.0566
-  - Yeh, C. H., Jones, D. K., Liang, X., Haber, M., & Leemans, A. (2019). Mapping mean axon diameter and axonal intracellular volume fraction by diffusion MRI with circular spectrum diffusion imaging. *NeuroImage*, 191, 283-296. https://doi.org/10.1016/j.neuroimage.2019.02.035
-  - Andersson, J. L., Skare, S., & Ashburner, J. (2003). How to correct susceptibility distortions in spin-echo echo-planar images: application to diffusion tensor imaging. *NeuroImage*, 20(2), 870-888. https://doi.org/10.1016/S1053-8119(03)00336-7
+- ? Tournier, J. D., Smith, R., Raffelt, D., Tabbara, R., Dhollander, T., Pietsch,
+    M., Christiaens, D., Jeurissen, B., Yeh, C. H., & Connelly, A. (2019). MRtrix3
+  : A fast, flexible and open software framework for medical image processing and
+    visualisation. *NeuroImage*, 202, 116137. https://doi.org/10.1016/j.neuroimage.2019.116137
+- Smith, R. E., Tournier, J. D., Calamante, F., & Connelly, A. (2012). Anatomically-constrained tractography: Improved
+    diffusion MRI streamlines tractography through effective use of anatomical information.
+    *NeuroImage*, 62(3), 1924-1938. https://doi.org/10.1016/j.neuroimage.2012.04.049
+- Smith, R. E., Tournier, J. D., Calamante, F., & Connelly, A. (2015). SIFT2: Enabling
+    dense quantitative assessment of brain white matter connectivity using streamlines
+    tractography. *NeuroImage*, 119, 338-351. https://doi.org/10.1016/j.neuroimage.2015.06.092
+- ? Tournier, J. D., Calamante, F., & Connelly, A. (2008). Robust determination of
+    the fibre orientation distribution in diffusion MRI
+  : Non-negativity constrained super-resolved spherical deconvolution. *NeuroImage*,
+    35(4), 1459-1472. https://doi.org/10.1016/j.neuroimage.2007.02.016
+- Jeurissen, B., Tournier, J. D., Dhollander, T., Connelly, A., & Sijbers, J. (2014).
+  Multi-tissue constrained spherical deconvolution for improved analysis of multi-shell
+  diffusion MRI data. *NeuroImage*, 103, 411-426. https://doi.org/10.1016/j.neuroimage.2014.03.057
+- Veraart, J., Novikov, D. S., Christiaens, D., Ades-aron, B., Sijbers, J., & Fieremans,
+  E. (2016). Denoising of diffusion MRI using random matrix theory. *NeuroImage*,
+  142, 394-406. https://doi.org/10.1016/j.neuroimage.2016.08.016
+- Sotiropoulos, S. N., & Zalesky, A. (2019). Building connectomes using diffusion MRI: why,
+    how and but. *Brain Connectivity*, 9(1), 1-35. https://doi.org/10.1089/brain.2018.0566
+- Yeh, C. H., Jones, D. K., Liang, X., Haber, M., & Leemans, A. (2019). Mapping mean
+  axon diameter and axonal intracellular volume fraction by diffusion MRI with circular
+  spectrum diffusion imaging. *NeuroImage*, 191, 283-296. https://doi.org/10.1016/j.neuroimage.2019.02.035
+- Andersson, J. L., Skare, S., & Ashburner, J. (2003). How to correct susceptibility distortions in spin-echo echo-planar images: application
+    to diffusion tensor imaging. *NeuroImage*, 20(2), 870-888. https://doi.org/10.1016/S1053-8119(03)00336-7
+- raw/papers/schirner-2018.md
+- raw/papers/arxiv-2602.18715.md
+- raw/papers/arxiv-2603.24176.md
+- raw/papers/alfaro-almagro-2018.md
+- raw/papers/semanticscholar-a324c47ea982.md
+tags:
+- software-brain-modeling
+- structural-connectivity
+- connectomics
+- diffusion-imaging
+- tractography
+title: MRtrix3 Connectome
+type: entity
+updated: '2026-04-23'
 ---
 
 # MRtrix3 Connectome

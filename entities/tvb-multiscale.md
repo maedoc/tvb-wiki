@@ -7,6 +7,7 @@ sources:
 - raw/papers/semanticscholar-eb704b6f5462.md
 - raw/papers/semanticscholar-9afbfd2d37be.md
 - raw/papers/arxiv-2509.12873.md
+- raw/papers/arxiv-2509.02799.md
 tags:
 - software-tvb
 - software-nest

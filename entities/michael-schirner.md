@@ -1,10 +1,16 @@
 ---
-title: Michael Schirner
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/schirner-2018.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/ritter-2013.md
+tags:
+- people-researcher
+- software-tvb
+- personalized-brain-modeling
+title: Michael Schirner
 type: entity
-tags: [people-researcher, software-tvb, personalized-brain-modeling]
-sources: [raw/papers/schirner-2018.md]
+updated: '2026-04-24'
 ---
 
 # Michael Schirner

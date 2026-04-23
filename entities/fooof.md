@@ -8,6 +8,11 @@ sources:
 - raw/papers/arxiv-2604.14259.md
 - raw/papers/arxiv-2604.00163.md
 - raw/papers/arxiv-2406.05002.md
+- raw/papers/arxiv-2508.05288.md
+- raw/papers/arxiv-2509.12873.md
+- raw/papers/arxiv-2602.09535.md
+- raw/papers/arxiv-2603.07524.md
+- raw/papers/sanz-leon-2013.md
 tags:
 - software-brain-modeling
 - neuroimaging-eeg

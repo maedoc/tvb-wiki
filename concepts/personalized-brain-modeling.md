@@ -6,6 +6,7 @@ sources:
 - raw/papers/arxiv-2603.07524.md
 - raw/papers/sanz-leon-2013.md
 - raw/papers/zavaglia-2006.md
+- raw/papers/arxiv-2506.21155.md
 tags:
 - whole-brain-modeling
 - software-tvb

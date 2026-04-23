@@ -1,10 +1,16 @@
 ---
-title: MEG
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/makeig-1996.md
+- raw/papers/cohen-2014.md
+- raw/papers/buzsaki-2012.md
+- raw/papers/sanz-leon-2013.md
+tags:
+- neuroimaging-meg
+- brain-oscillations
+title: MEG
 type: concept
-tags: [neuroimaging-meg, brain-oscillations]
-sources: [raw/papers/makeig-1996.md, raw/papers/cohen-2014.md, raw/papers/buzsaki-2012.md]
+updated: '2026-04-24'
 ---
 
 # MEG

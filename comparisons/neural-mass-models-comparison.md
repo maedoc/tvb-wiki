@@ -1,10 +1,24 @@
 ---
-title: "Neural Mass Models: Jansen-Rit vs Wilson-Cowan"
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/jansen-rit-1995.md
+- raw/papers/wilson-cowan-1972.md
+- raw/papers/wilson-cowan-1973.md
+- raw/papers/rit-2013.md
+- raw/papers/destexhe-sejnowski-2009.md
+- raw/papers/arxiv-2505.16861.md
+- raw/papers/semanticscholar-eb704b6f5462.md
+- raw/papers/arxiv-2504.17491.md
+- raw/papers/arxiv-2510.22022.md
+tags:
+- comparison
+- neural-mass-models
+- brain-oscillations
+- eeg
+- whole-brain-modeling
+title: 'Neural Mass Models: Jansen-Rit vs Wilson-Cowan'
 type: comparison
-tags: [comparison, neural-mass-models, brain-oscillations, eeg, whole-brain-modeling]
-sources: [raw/papers/jansen-rit-1995.md, raw/papers/wilson-cowan-1972.md, raw/papers/wilson-cowan-1973.md, raw/papers/rit-2013.md, raw/papers/destexhe-sejnowski-2009.md]
+updated: '2026-04-23'
 ---
 
 # Neural Mass Models: Jansen-Rit vs Wilson-Cowan

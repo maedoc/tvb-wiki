@@ -1,39 +1,46 @@
 ---
-title: MOOSE
 created: 2026-04-23
-updated: 2026-04-23
-type: entity
-tags: [software-brain-modeling, neural-mass-models, spiking-neural-networks, whole-brain-modeling]
 sources:
-  - title: "Multiscale modeling and synaptic plasticity: MOOSE and the synaptic signalling ladder"
-    authors: "Bhalla, U.S."
-    year: 2011
-    journal: "Journal of Physiology-Paris"
-    volume: "105(1-3)"
-    pages: "64-71"
-    doi: "10.1016/j.jphysparis.2011.08.001"
-  
-  - title: "PyMOOSE: Interoperable scripting in Python for MOOSE"
-    authors: "Ray, S. & Bhalla, U.S."
-    year: 2008
-    journal: "Frontiers in Neuroinformatics"
-    volume: "2"
-    pages: "6"
-    doi: "10.3389/neuro.11.006.2008"
-  
-  - title: "NSDF: Neuroscience Simulation Data Format"
-    authors: "Subramanian, N., et al."
-    year: 2017
-    journal: "Neuroinformatics"
-    volume: "15(1)"
-    pages: "21-31"
-    doi: "10.1007/s12021-016-9302-5"
-  
-  - title: "MOOSE: Complex modeling from neurons to signaling to networks to behavior"
-    authors: "Bhalla, U.S."
-    year: 2014
-    type: "technical-documentation"
-    institution: "National Centre for Biological Sciences"
+- authors: Bhalla, U.S.
+  doi: 10.1016/j.jphysparis.2011.08.001
+  journal: Journal of Physiology-Paris
+  pages: 64-71
+  title: 'Multiscale modeling and synaptic plasticity: MOOSE and the synaptic signalling
+    ladder'
+  volume: 105(1-3)
+  year: 2011
+- authors: Ray, S. & Bhalla, U.S.
+  doi: 10.3389/neuro.11.006.2008
+  journal: Frontiers in Neuroinformatics
+  pages: '6'
+  title: 'PyMOOSE: Interoperable scripting in Python for MOOSE'
+  volume: '2'
+  year: 2008
+- authors: Subramanian, N., et al.
+  doi: 10.1007/s12021-016-9302-5
+  journal: Neuroinformatics
+  pages: 21-31
+  title: 'NSDF: Neuroscience Simulation Data Format'
+  volume: 15(1)
+  year: 2017
+- authors: Bhalla, U.S.
+  institution: National Centre for Biological Sciences
+  title: 'MOOSE: Complex modeling from neurons to signaling to networks to behavior'
+  type: technical-documentation
+  year: 2014
+- raw/papers/semanticscholar-ff8218c1e55e.md
+- raw/papers/semanticscholar-92f4183665f3.md
+- raw/papers/arxiv-2603.20680.md
+- raw/papers/semanticscholar-71ffb8153870.md
+- raw/papers/arxiv-2510.02545.md
+tags:
+- software-brain-modeling
+- neural-mass-models
+- spiking-neural-networks
+- whole-brain-modeling
+title: MOOSE
+type: entity
+updated: '2026-04-23'
 ---
 
 # MOOSE

@@ -2,6 +2,10 @@
 created: 2026-04-21
 sources:
 - raw/papers/izhikevich-2007.md
+- raw/papers/semanticscholar-e5e78e93bf31.md
+- raw/papers/semanticscholar-71ffb8153870.md
+- raw/papers/arxiv-2512.22093.md
+- raw/papers/arxiv-2603.09402.md
 tags:
 - neural-mass-models
 - oscillator

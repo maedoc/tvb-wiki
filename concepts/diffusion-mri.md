@@ -9,6 +9,8 @@ sources:
 - raw/papers/arxiv-2602.18715.md
 - raw/papers/arxiv-2603.29903.md
 - raw/papers/arxiv-2510.20148.md
+- raw/papers/ritter-2013.md
+- raw/papers/semanticscholar-27108cae3f6e.md
 tags:
 - diffusion-imaging
 - structural-connectivity

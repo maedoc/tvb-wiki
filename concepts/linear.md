@@ -6,6 +6,7 @@ sources:
 - raw/papers/arxiv-2510.02545.md
 - raw/papers/arxiv-2306.15859.md
 - raw/papers/arxiv-2511.16252.md
+- raw/papers/semanticscholar-62534125f066.md
 tags:
 - neural-mass-models
 - linear

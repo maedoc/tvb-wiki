@@ -1,10 +1,23 @@
 ---
-title: Human Connectome Project
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/van-essen-2013.md
+- raw/papers/van-essen-2012.md
+- raw/papers/glasser-2013.md
+- raw/papers/smith-2013-hcp.md
+- raw/papers/ugurbil-2013.md
+- raw/papers/barch-2013.md
+- raw/papers/power-2011.md
+- raw/papers/miller-2016.md
+- raw/papers/sporns-tononi-kotter-2005.md
+tags:
+- database-hcp
+- connectomics
+- neuroimaging-fmri
+- neuroimaging-dti
+title: Human Connectome Project
 type: entity
-tags: [database-hcp, connectomics, neuroimaging-fmri, neuroimaging-dti]
-sources: [raw/papers/van-essen-2013.md, raw/papers/van-essen-2012.md, raw/papers/glasser-2013.md, raw/papers/smith-2013-hcp.md, raw/papers/ugurbil-2013.md, raw/papers/barch-2013.md]
+updated: '2026-04-24'
 ---
 
 # Human Connectome Project (HCP)

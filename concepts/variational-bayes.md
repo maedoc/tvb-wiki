@@ -1,10 +1,18 @@
 ---
-title: "Variational Bayes"
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/friston-2007.md
+- raw/papers/beal-2003.md
+- raw/papers/blei-kucukelbir-mcauliffe-2017.md
+- raw/papers/wainwright-jordan-2008.md
+- raw/papers/rezende-mohamed-2015.md
+- raw/papers/arxiv-2512.22655.md
+tags:
+- dynamic-causal-modeling
+- parameter-estimation
+title: Variational Bayes
 type: concept
-tags: [dynamic-causal-modeling, parameter-estimation]
-sources: [raw/papers/friston-2007.md, raw/papers/beal-2003.md, raw/papers/blei-kucukelbir-mcauliffe-2017.md, raw/papers/wainwright-jordan-2008.md]
+updated: '2026-04-24'
 ---
 
 ## Definition

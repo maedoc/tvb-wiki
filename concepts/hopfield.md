@@ -2,6 +2,10 @@
 created: 2026-04-21
 sources:
 - raw/papers/arxiv-2510.19146.md
+- raw/papers/arxiv-2512.05252.md
+- raw/papers/arxiv-2602.09535.md
+- raw/papers/arxiv-2604.13719.md
+- raw/papers/arxiv-2603.04149.md
 tags:
 - neural-mass-models
 - associative-memory
@@ -9,7 +13,7 @@ tags:
 - discrete
 title: Hopfield Network
 type: concept
-updated: '2026-04-23'
+updated: '2026-04-24'
 ---
 
 # Hopfield Network

@@ -7,6 +7,7 @@ sources:
 - raw/papers/arxiv-2411.16449.md
 - raw/papers/potjans-diesmann-2014.md
 - raw/papers/breakspear-2017.md
+- raw/papers/arxiv-2503.05564.md
 tags:
 - people-researcher
 - neural-mass-models

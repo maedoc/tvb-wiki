@@ -7,6 +7,7 @@ sources:
 - raw/papers/stefanescu-jirsa-2008.md
 - raw/papers/breakspear-2017.md
 - raw/papers/semanticscholar-a9ff4dda4e4c.md
+- raw/papers/semanticscholar-62534125f066.md
 tags:
 - people-researcher
 - neural-mass-models

@@ -1,10 +1,17 @@
 ---
-title: Gustavo Deco
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/deco-2013.md
+- raw/papers/deco-2008-stochastic.md
+- raw/papers/deco-2009-stochastic.md
+tags:
+- people-researcher
+- whole-brain-modeling
+- resting-state
+- neural-mass-models
+title: Gustavo Deco
 type: entity
-tags: [people-researcher, whole-brain-modeling, resting-state, neural-mass-models]
-sources: [raw/papers/deco-2013.md]
+updated: '2026-04-24'
 ---
 
 # Gustavo Deco

@@ -7,6 +7,9 @@ sources:
 - raw/papers/semanticscholar-ff8218c1e55e.md
 - raw/papers/markram-2015.md
 - raw/papers/semanticscholar-71ffb8153870.md
+- raw/papers/breakspear-2017.md
+- raw/papers/semanticscholar-cc2129666e15.md
+- raw/papers/semanticscholar-26be4473893d.md
 tags:
 - neural-mass-models
 - metabolism

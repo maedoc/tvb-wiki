@@ -2,6 +2,11 @@
 created: 2026-04-21
 sources:
 - raw/papers/arxiv-2508.04824.md
+- raw/papers/arxiv-2509.02799.md
+- raw/papers/touboul-2011.md
+- raw/papers/izhikevich-2007.md
+- raw/papers/breakspear-2006.md
+- raw/papers/semanticscholar-7733d5476149.md
 tags:
 - neural-mass-models
 - epilepsy

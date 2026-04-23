@@ -5,6 +5,10 @@ sources:
 - dinkelbach2015benchmarking
 - hamker2017annarchylargescale
 - raw/papers/jordan-2018.md
+- raw/papers/semanticscholar-eb704b6f5462.md
+- raw/papers/arxiv-2505.16861.md
+- raw/papers/helias-2012.md
+- raw/papers/arxiv-2509.02799.md
 tags:
 - software-brain-modeling
 - spiking-neural-networks

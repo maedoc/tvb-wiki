@@ -1,10 +1,18 @@
 ---
-title: "Bifurcation Theory"
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/strogatz-1994.md
+- raw/papers/guckenheimer-holmes-1983.md
+- raw/papers/kuznetsov-2004.md
+- raw/papers/seydel-2010.md
+- raw/papers/touboul-2011.md
+tags:
+- bifurcation-analysis
+- neural-mass-models
+- epilepsy-modeling
+title: Bifurcation Theory
 type: concept
-tags: [bifurcation-analysis, neural-mass-models, epilepsy-modeling]
-sources: [raw/papers/strogatz-1994.md, raw/papers/guckenheimer-holmes-1983.md, raw/papers/kuznetsov-2004.md, raw/papers/seydel-2010.md]
+updated: '2026-04-24'
 ---
 
 ## Definition

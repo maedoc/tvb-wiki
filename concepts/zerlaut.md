@@ -9,6 +9,7 @@ sources:
 - raw/papers/arxiv-2508.02633.md
 - raw/papers/semanticscholar-7593809733f3.md
 - raw/papers/arxiv-2604.17291.md
+- raw/papers/arxiv-2508.15961.md
 tags:
 - neural-mass-models
 - adaptation

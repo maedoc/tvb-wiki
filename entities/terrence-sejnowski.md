@@ -1,10 +1,18 @@
 ---
-title: "Terrence J. Sejnowski"
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/destexhe-sejnowski-2009.md
+- raw/papers/dayan-abbott-2001.md
+- raw/papers/deco-2013.md
+- raw/papers/breakspear-2017.md
+tags:
+- people-researcher
+- neural-mass-models
+- whole-brain-modeling
+- spiking-neural-networks
+title: Terrence J. Sejnowski
 type: entity
-tags: [people-researcher, neural-mass-models, whole-brain-modeling, spiking-neural-networks]
-sources: [raw/papers/destexhe-sejnowski-2009.md]
+updated: '2026-04-24'
 ---
 
 # Terrence J. Sejnowski

@@ -7,6 +7,7 @@ sources:
 - raw/papers/power-2010.md
 - raw/papers/stiles-jernigan-2010.md
 - raw/papers/semanticscholar-c4bc6ce91683.md
+- raw/papers/smith-2021.md
 tags:
 - neurodevelopment
 - developmental-trajectories

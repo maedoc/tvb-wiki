@@ -9,6 +9,9 @@ sources:
 - raw/papers/deco-2013.md
 - raw/papers/semanticscholar-15a4a438614f.md
 - raw/papers/semanticscholar-7c3337c880fd.md
+- raw/papers/greicius-2003.md
+- raw/papers/smith-2013-connectomics.md
+- raw/papers/power-2011.md
 tags:
 - resting-state
 - neuroimaging-fmri

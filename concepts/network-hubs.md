@@ -1,10 +1,16 @@
 ---
-title: Network Hubs
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/sporns-2011.md
+- raw/papers/bullmore-sporns-2009.md
+- raw/papers/hagmann-2008.md
+- raw/papers/power-2010.md
+tags:
+- network-dynamics
+- connectomics
+title: Network Hubs
 type: concept
-tags: [network-dynamics, connectomics]
-sources: [raw/papers/sporns-2011.md, raw/papers/bullmore-sporns-2009.md]
+updated: '2026-04-24'
 ---
 
 # Network Hubs

@@ -6,6 +6,7 @@ sources:
 - raw/papers/semanticscholar-71ffb8153870.md
 - raw/papers/breakspear-2017.md
 - raw/papers/hines-carnevale-1997.md
+- raw/papers/potjans-diesmann-2014.md
 tags:
 - software-modeldb
 - database

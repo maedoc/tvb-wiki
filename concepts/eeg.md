@@ -10,6 +10,10 @@ sources:
 - raw/papers/semanticscholar-cc2129666e15.md
 - raw/papers/arxiv-2411.16449.md
 - raw/papers/arxiv-2603.29903.md
+- raw/papers/arxiv-2604.01889.md
+- raw/papers/zuo-2010.md
+- raw/papers/potjans-diesmann-2014.md
+- raw/papers/arxiv-2509.21770.md
 tags:
 - neuroimaging-eeg
 - brain-oscillations

@@ -1,10 +1,15 @@
 ---
-title: Steven Smith
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/smith-2009.md
+- raw/papers/smith-2013-connectomics.md
+tags:
+- people-researcher
+- neuroimaging-fmri
+- software
+title: Steven Smith
 type: entity
-tags: [people-researcher, neuroimaging-fmri, software]
-sources: [raw/papers/smith-2009.md]
+updated: '2026-04-24'
 ---
 
 # Steven Smith

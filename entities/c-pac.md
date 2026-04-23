@@ -4,6 +4,10 @@ sources:
 - raw/papers/alfaro-almagro-2018.md
 - raw/papers/penny-2004.md
 - raw/papers/avants-2011.md
+- raw/papers/woodman-2014.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/smith-2013-connectomics.md
+- raw/papers/semanticscholar-97e6ff441097.md
 tags:
 - software-brain-modeling
 - neuroimaging-fmri

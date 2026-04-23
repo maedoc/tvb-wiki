@@ -1,10 +1,19 @@
 ---
-title: "Stochastic Differential Equations"
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/gardiner-2009.md
+- raw/papers/tuckwell-1988.md
+- raw/papers/deco-2008-stochastic.md
+- raw/papers/deco-2009-stochastic.md
+- raw/papers/arxiv-2603.24176.md
+- raw/papers/montbrio-pazo-roxin-2015.md
+tags:
+- neural-mass-models
+- whole-brain-modeling
+- network-dynamics
+title: Stochastic Differential Equations
 type: concept
-tags: [neural-mass-models, whole-brain-modeling, network-dynamics]
-sources: [raw/papers/gardiner-2009.md, raw/papers/tuckwell-1988.md, raw/papers/deco-2008-stochastic.md, raw/papers/deco-2009-stochastic.md]
+updated: '2026-04-24'
 ---
 
 ## Definition

@@ -1,12 +1,23 @@
 ---
-title: Yan Wang
 created: 2026-04-20
-updated: 2026-04-23
-type: entity
-tags: [people-researcher, software-tvb, neural-mass-models, whole-brain-modeling, parameter-estimation, epilepsy-modeling]
 sources:
-  - https://www.fz-juelich.de/profile/wang_y
-  - https://scholar.google.com/citations?user=yan-wang-tvb-research
+- https://www.fz-juelich.de/profile/wang_y
+- https://scholar.google.com/citations?user=yan-wang-tvb-research
+- raw/papers/semanticscholar-bb75bdb90ada.md
+- raw/papers/breakspear-2017.md
+- raw/papers/arxiv-2603.21067.md
+- raw/papers/arxiv-2509.02799.md
+- raw/papers/semanticscholar-9afbfd2d37be.md
+tags:
+- people-researcher
+- software-tvb
+- neural-mass-models
+- whole-brain-modeling
+- parameter-estimation
+- epilepsy-modeling
+title: Yan Wang
+type: entity
+updated: '2026-04-23'
 ---
 
 # Yan Wang

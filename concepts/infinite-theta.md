@@ -6,6 +6,8 @@ sources:
 - raw/papers/arxiv-2603.27063.md
 - raw/papers/arxiv-2512.22093.md
 - raw/papers/arxiv-2602.09535.md
+- raw/papers/semanticscholar-7593809733f3.md
+- raw/papers/montbrio-pazo-roxin-2015.md
 tags:
 - neural-mass-models
 - theta-neuron

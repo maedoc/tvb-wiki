@@ -6,6 +6,7 @@ sources:
 - raw/papers/gerstner-2014.md
 - raw/papers/breakspear-2017.md
 - raw/papers/sporns-2011.md
+- raw/papers/breakspear-2006.md
 tags:
 - people-researcher
 - neural-mass-models

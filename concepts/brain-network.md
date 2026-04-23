@@ -3,11 +3,14 @@ created: 2026-04-20
 sources:
 - raw/papers/sporns-2011.md
 - raw/papers/barabasi-albert-1999.md
+- raw/papers/smith-2013-connectomics.md
+- raw/papers/arxiv-2603.26971.md
+- raw/papers/arxiv-2603.22296.md
 tags:
 - network-dynamics
 title: brain network
 type: concept
-updated: '2026-04-23'
+updated: '2026-04-24'
 ---
 
 # brain network

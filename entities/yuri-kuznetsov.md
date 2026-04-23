@@ -1,10 +1,15 @@
 ---
-title: "Yuri Kuznetsov"
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/kuznetsov-2004.md
+- raw/papers/seydel-2010.md
+- raw/papers/guckenheimer-holmes-1983.md
+- raw/papers/touboul-2011.md
+tags:
+- people-researcher
+title: Yuri Kuznetsov
 type: entity
-tags: [people-researcher]
-sources: [raw/papers/kuznetsov-2004.md]
+updated: '2026-04-24'
 ---
 
 ## Overview

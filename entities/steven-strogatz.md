@@ -1,10 +1,17 @@
 ---
-title: "Steven Strogatz"
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/strogatz-1994.md
+- raw/papers/guckenheimer-holmes-1983.md
+- raw/papers/hirsch-smale-devaney-2004.md
+- raw/papers/newman-2010.md
+- raw/papers/izhikevich-2007.md
+- raw/papers/ermentrout-terman-2010.md
+tags:
+- people-researcher
+title: Steven Strogatz
 type: entity
-tags: [people-researcher]
-sources: [raw/papers/strogatz-1994.md]
+updated: '2026-04-24'
 ---
 
 ## Overview

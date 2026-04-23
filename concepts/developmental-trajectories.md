@@ -8,6 +8,8 @@ sources:
 - raw/papers/tau-peterson-2010.md
 - raw/papers/semanticscholar-34ef3bcd7c8b.md
 - raw/papers/smith-2021.md
+- raw/papers/arxiv-2601.13935.md
+- raw/papers/arxiv-2603.07524.md
 tags:
 - neurodevelopment
 - aging-brain

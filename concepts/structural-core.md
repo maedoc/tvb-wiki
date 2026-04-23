@@ -7,6 +7,8 @@ sources:
 - raw/papers/semanticscholar-458b2cd32d3b.md
 - raw/papers/barabasi-albert-1999.md
 - raw/papers/arxiv-2603.20680.md
+- raw/papers/buckner-andrews-hanna-schacter-2008.md
+- raw/papers/arxiv-2512.13420.md
 tags:
 - connectomics
 - structural-connectivity

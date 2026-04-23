@@ -9,6 +9,7 @@ sources:
 - raw/papers/semanticscholar-26be4473893d.md
 - raw/papers/arxiv-2601.21478.md
 - raw/papers/semanticscholar-cc2129666e15.md
+- raw/papers/arxiv-2603.25991.md
 tags:
 - epilepsy-modeling
 - neural-mass-models

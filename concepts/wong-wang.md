@@ -6,6 +6,9 @@ sources:
 - raw/papers/semanticscholar-15a4a438614f.md
 - raw/papers/semanticscholar-807668ceea0a.md
 - raw/papers/semanticscholar-71ffb8153870.md
+- raw/papers/arxiv-2506.22951.md
+- raw/papers/smith-2013-connectomics.md
+- raw/papers/potjans-diesmann-2014.md
 tags:
 - neural-mass-models
 - fmri

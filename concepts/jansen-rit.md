@@ -6,6 +6,7 @@ sources:
 - raw/papers/arxiv-2411.16449.md
 - raw/papers/breakspear-2006.md
 - raw/papers/touboul-2011.md
+- raw/papers/wilson-cowan-1972.md
 tags:
 - neural-mass-models
 - eeg

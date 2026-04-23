@@ -1,10 +1,19 @@
 ---
-title: "Fokker-Planck Equation"
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/risken-1989.md
+- raw/papers/gardiner-2009.md
+- raw/papers/tuckwell-1988.md
+- raw/papers/semanticscholar-0c97a15133c9.md
+- raw/papers/semanticscholar-9afbfd2d37be.md
+- raw/papers/arxiv-2508.19134.md
+tags:
+- neural-mass-models
+- mean-field-theory
+- parameter-estimation
+title: Fokker-Planck Equation
 type: concept
-tags: [neural-mass-models, mean-field-theory, parameter-estimation]
-sources: [raw/papers/risken-1989.md, raw/papers/gardiner-2009.md, raw/papers/tuckwell-1988.md]
+updated: '2026-04-24'
 ---
 
 ## Definition

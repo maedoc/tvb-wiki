@@ -10,6 +10,7 @@ sources:
 - raw/papers/arxiv-2509.02799.md
 - raw/papers/arxiv-2506.22951.md
 - raw/papers/arxiv-2512.03907.md
+- raw/papers/wendling-2002.md
 tags:
 - neural-mass-models
 - whole-brain-modeling

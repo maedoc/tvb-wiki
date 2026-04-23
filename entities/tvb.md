@@ -8,6 +8,7 @@ sources:
 - raw/papers/breakspear-2017.md
 - raw/papers/semanticscholar-9afbfd2d37be.md
 - raw/papers/arxiv-2505.16861.md
+- raw/papers/arxiv-2509.12873.md
 tags:
 - software-tvb
 - whole-brain-modeling

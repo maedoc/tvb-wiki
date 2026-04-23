@@ -1,10 +1,17 @@
 ---
-title: David C. Van Essen
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/van-essen-2013.md
+- raw/papers/van-essen-2012.md
+- raw/papers/smith-2013-hcp.md
+- raw/papers/barch-2013.md
+tags:
+- people-researcher
+- connectomics
+- neuroimaging-fmri
+title: David C. Van Essen
 type: entity
-tags: [people-researcher, connectomics, neuroimaging-fmri]
-sources: [raw/papers/van-essen-2013.md, raw/papers/van-essen-2012.md]
+updated: '2026-04-24'
 ---
 
 # David C. Van Essen

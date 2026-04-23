@@ -12,6 +12,8 @@ sources:
 - raw/papers/smith-2009.md
 - raw/papers/arxiv-2603.21067.md
 - raw/papers/semanticscholar-ce89e593c89e.md
+- raw/papers/arxiv-2601.17073.md
+- raw/papers/arxiv-2307.09770.md
 tags:
 - comparison
 - structural-connectivity

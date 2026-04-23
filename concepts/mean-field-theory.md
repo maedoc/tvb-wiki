@@ -1,10 +1,19 @@
 ---
-title: "Mean Field Theory"
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/amit-brunel-1997.md
+- raw/papers/brunel-2000.md
+- raw/papers/montbrio-pazo-roxin-2015.md
+- raw/papers/schwalger-deger-gerstner-2017.md
+- raw/papers/potjans-diesmann-2014.md
+- raw/papers/stefanescu-jirsa-2008.md
+tags:
+- neural-mass-models
+- spiking-neural-networks
+- whole-brain-modeling
+title: Mean Field Theory
 type: concept
-tags: [neural-mass-models, spiking-neural-networks, whole-brain-modeling]
-sources: [raw/papers/amit-brunel-1997.md, raw/papers/brunel-2000.md, raw/papers/montbrio-pazo-roxin-2015.md, raw/papers/schwalger-deger-gerstner-2017.md]
+updated: '2026-04-24'
 ---
 
 ## Definition

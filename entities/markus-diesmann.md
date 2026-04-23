@@ -1,10 +1,18 @@
 ---
-title: Markus Diesmann
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/gewaltig-diesmann-2007.md
+- raw/papers/potjans-diesmann-2014.md
+- raw/papers/eppler-2009.md
+- raw/papers/semanticscholar-71ffb8153870.md
+tags:
+- people-researcher
+- software-nest
+- spiking-neural-networks
+- brain-network
+title: Markus Diesmann
 type: entity
-tags: [people-researcher, software-nest, spiking-neural-networks, brain-network]
-sources: [raw/papers/gewaltig-diesmann-2007.md, raw/papers/potjans-diesmann-2014.md]
+updated: '2026-04-24'
 ---
 
 # Markus Diesmann
