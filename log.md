@@ -78,3 +78,5 @@
 ## [2026-04-23 17:36] Librarian: index rebuilt, 458 asymmetric links noted
 
 ## [2026-04-23 18:26] Improve: 1 pages improved (fooof)
+
+## [2026-04-23 21:38] Linter: 36 broken links, 112 orphans, 154 stale, 97 empty
