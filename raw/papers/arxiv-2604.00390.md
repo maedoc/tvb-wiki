@@ -1,0 +1,13 @@
+# Causal Inference for Unobservable Multivariate Outcomes, with Applications to Brain Effective Connectivity
+
+**Source**: arxiv
+**ID**: 2604.00390
+**URL**: https://arxiv.org/abs/2604.00390
+**Date**: 2026-04-01
+**Year**: 2026
+**Authors**: Haiyue Song, Ani Eloyan, Youjin Lee
+**Categories**: stat.ME
+
+## Abstract
+
+Evaluating the causal effect of an intervention on multivariate outcomes is challenging when the outcomes are interdependent and derived rather than directly observed. Effective connectivity, which summarizes the directional neural communication between brain regions, is one such derived relational outcome. Estimating how external interventions affect effective connectivity introduces two layers of causal inference problems: identifying directional relationships among brain regions from high-dimensional neuroimaging time series and estimating the causal effect of the intervention on these derived relationships. Each layer introduces distinct biases. The first arises from within-outcome dependencies unrelated to the intervention; to address this, we propose a sample-splitting method for estimating meaningful, and potentially causally informative, effective connectivity measures. The second arises from confounding between the intervention and the derived outcomes; to address this, we apply inverse probability weighting methods and incorporate multiple testing when causal effects on multiple components of the outcomes are of interest. We demonstrate, through theoretical results and simulations, that the proposed methods are asymptotically valid under certain conditions with effective type-I and familywise error control. Finally, we apply the proposed methods to examine the causal effect of amyloid on effective connectivity using the resting-state fMRI data from the Alzheimer's Disease Neuroimaging Initiative database.

@@ -1,0 +1,13 @@
+# Entrainment of the suprachiasmatic nucleus network by a light-dark cycle
+
+**Source**: arxiv
+**ID**: 2601.04926
+**URL**: https://arxiv.org/abs/2601.04926
+**Date**: 2026-01-08
+**Year**: 2026
+**Authors**: Jinshan Xu, Changgui Gu, Alain Pumir, Nicolas Garnier, Zonghua Liu
+**Categories**: nlin.AO, q-bio.QM
+
+## Abstract
+
+The synchronization of biological activity with the alternation of day and night (circadian rhythm) is performed in the brain by a group of neurons, constituting the suprachiasmatic nucleus (SCN). The SCN is divided into two subgroups of oscillating cells: the ventro-lateral (VL) neurons, which are exposed to light (photic signal) and the dorso-medial (DM) neurons which are coupled to the VL cells. When the coupling between these neurons is strong enough, the system synchronizes with the photic period. Upon increasing the cell coupling, the entrainment of the DM cells has been recently shown to occur via a very sharp (jumping) transition when the period of the photic input is larger than the intrinsic period of the cells. Here, we characterize this transition with a simple realistic model. We show that two bifurcations possibly lead to the disappearance of the endogenous mode. Using a mean field model, we show that the jumping transition results from a supercritical Hopf-like bifurcation. This finding implies that both the period and strength of the stimulating photic signal, and the relative fraction of cells in the VL and DM compartments are crucial in determining the synchronization of the system.

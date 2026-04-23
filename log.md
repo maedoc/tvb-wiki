@@ -71,3 +71,5 @@
 ## [2026-04-23 14:33] Ingest: 39 new papers, 0 stubs created
 
 ## [2026-04-23 14:46] Ingest: 1 new papers, 1 stubs created
+
+## [2026-04-23 14:51] Improve: 1 pages improved (conn)
