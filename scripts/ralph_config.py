@@ -46,6 +46,7 @@ IMPROVER_INTERVAL = 3600       # hourly
 AUDITOR_INTERVAL = 86400       # daily
 LIBRARIAN_INTERVAL = 86400     # daily
 SOFTWARE_MAPPER_INTERVAL = 604800  # weekly
+DEEP_RESEARCH_INTERVAL = 21600   # every 6 hours
 
 # ── Error handling ─────────────────────────────────────────────────────
 PI_TIMEOUT = 300               # 5 min per pi subprocess

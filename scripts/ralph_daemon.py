@@ -26,7 +26,7 @@ from ralph_config import (
     RAW_PAPERS_DIR, ENTITIES_DIR, CONCEPTS_DIR, COMPARISONS_DIR,
     WRITER_MODEL, REVIEWER_MODEL,
     INGESTOR_INTERVAL, IMPROVER_INTERVAL, AUDITOR_INTERVAL,
-    LIBRARIAN_INTERVAL, SOFTWARE_MAPPER_INTERVAL,
+    LIBRARIAN_INTERVAL, SOFTWARE_MAPPER_INTERVAL, DEEP_RESEARCH_INTERVAL,
     PARALLEL_WRITERS, PI_TIMEOUT,
     get_all_pages,
 )
@@ -45,6 +45,7 @@ class DaemonState:
             'Auditor': None,
             'Librarian': None,
             'SoftwareMapper': None,
+            'DeepResearch': None,
         }
         self.failures = {k: 0 for k in self.last_run}
         self.disabled = set()
@@ -154,11 +155,25 @@ def run_software_mapper():
         return False
 
 
+def run_deep_research():
+    log.info("Starting deep research cycle")
+    try:
+        from deep_research import run_deep_research_cycle
+        added = run_deep_research_cycle()
+        state.record_success('DeepResearch')
+        return True
+    except Exception as e:
+        log.error("DeepResearch failed: %s", e)
+        state.record_failure('DeepResearch')
+        return False
+
+
 # ── Agent schedule ─────────────────────────────────────────────────────
 
 AGENTS = [
     ('Ingestor',       INGESTOR_INTERVAL,       run_ingestor),
     ('Improver',       IMPROVER_INTERVAL,        run_improver),
+    ('DeepResearch',   DEEP_RESEARCH_INTERVAL,   run_deep_research),
     ('Auditor',        AUDITOR_INTERVAL,         run_auditor),
     ('Librarian',      LIBRARIAN_INTERVAL,       run_librarian),
     ('SoftwareMapper', SOFTWARE_MAPPER_INTERVAL, run_software_mapper),
@@ -195,7 +210,7 @@ def print_banner():
              len(pages), entities, concepts, comparisons, other)
     log.info("Raw papers: %d", raw_count)
     log.info("Last ingest: %s", last_update)
-    log.info("Agents: Ingestor(hourly) Improver(hourly) Auditor(daily) Librarian(daily) SoftwareMapper(weekly)")
+    log.info("Agents: Ingestor(hourly) Improver(hourly) DeepResearch(6h) Auditor(daily) Librarian(daily) SoftwareMapper(weekly)")
     log.info("Models: writer=%s, reviewer=%s", WRITER_MODEL, REVIEWER_MODEL)
     log.info("Parallel writers: %d", PARALLEL_WRITERS)
     log.info("Log file: %s", RALPH_LOG)
