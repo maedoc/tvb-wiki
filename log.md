@@ -68,3 +68,5 @@
 ## [2026-04-23 16:40] Librarian: index rebuilt, 384 asymmetric links noted
 
 ## [2026-04-23 17:16] Ingest: 45 new papers, 1 stubs created
+
+## [2026-04-23 17:24] Improve: 2 pages improved (c-pac, mrtrix3-connectome)
