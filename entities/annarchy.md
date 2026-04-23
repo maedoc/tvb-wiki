@@ -1,9 +1,6 @@
 ---
 created: 2026-04-23
 sources:
-- vitay2015annarchy
-- dinkelbach2015benchmarking
-- hamker2017annarchylargescale
 - raw/papers/jordan-2018.md
 - raw/papers/semanticscholar-eb704b6f5462.md
 - raw/papers/arxiv-2505.16861.md

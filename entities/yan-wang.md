@@ -1,8 +1,6 @@
 ---
 created: 2026-04-20
 sources:
-- https://www.fz-juelich.de/profile/wang_y
-- https://scholar.google.com/citations?user=yan-wang-tvb-research
 - raw/papers/semanticscholar-bb75bdb90ada.md
 - raw/papers/breakspear-2017.md
 - raw/papers/arxiv-2603.21067.md

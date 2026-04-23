@@ -1,9 +1,6 @@
 ---
 created: 2026-04-23
 sources:
-- https://doi.org/10.1089/brain.2012.0073
-- https://doi.org/10.1016/j.neuroimage.2007.04.042
-- https://doi.org/10.1101/2020.08.05.234243
 - raw/papers/rubinov-sporns-2010.md
 - raw/papers/smith-2013-connectomics.md
 - raw/papers/woodman-2014.md

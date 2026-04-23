@@ -1,8 +1,6 @@
 ---
 created: 2026-04-23
 sources:
-- https://doi.org/10.1038/s41593-020-00744-x
-- https://fooof-tools.github.io/
 - raw/papers/semanticscholar-eb704b6f5462.md
 - raw/papers/arxiv-2505.16861.md
 - raw/papers/arxiv-2604.14259.md
