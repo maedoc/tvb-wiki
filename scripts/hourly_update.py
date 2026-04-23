@@ -10,7 +10,7 @@ Hourly update for TVB Wiki.
 import os, sys, json, datetime, re, time, subprocess, argparse
 import urllib.request, urllib.parse, xml.etree.ElementTree as ET
 
-WIKI_ROOT = os.path.expanduser("~/tvb-wiki")
+WIKI_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 META_DIR = os.path.join(WIKI_ROOT, "meta")
 RAW_PAPERS_DIR = os.path.join(WIKI_ROOT, "raw", "papers")
 ENTITIES_DIR = os.path.join(WIKI_ROOT, "entities")

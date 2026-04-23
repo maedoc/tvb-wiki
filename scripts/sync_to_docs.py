@@ -4,6 +4,7 @@ Sync wiki content into docs/ for MkDocs build WITHOUT converting wikilinks.
 Wikilinks are resolved at build time by hooks/obsidian_support.py.
 """
 import os, shutil
+from datetime import datetime
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SOURCE_DIRS = ['entities', 'concepts', 'comparisons', 'raw', 'hooks']

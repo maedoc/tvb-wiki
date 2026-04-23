@@ -6,7 +6,7 @@ Logs issues to meta/lint.log and log.md.
 """
 import os, re, datetime, json, argparse
 
-WIKI_ROOT = os.path.expanduser("~/tvb-wiki")
+WIKI_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ENTITIES_DIR = os.path.join(WIKI_ROOT, "entities")
 CONCEPTS_DIR = os.path.join(WIKI_ROOT, "concepts")
 COMPARISONS_DIR = os.path.join(WIKI_ROOT, "comparisons")

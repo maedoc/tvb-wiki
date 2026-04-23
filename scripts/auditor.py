@@ -1,0 +1,275 @@
+#!/usr/bin/env python3
+"""
+Ralph Auditor Agent — daily structural integrity check.
+Python-only, no LLM needed.
+
+Checks: broken wikilinks, orphan pages, placeholders, missing refs,
+        stale pages, broken source refs, inconsistent frontmatter,
+        missing from index, cross-reference asymmetry.
+"""
+import os
+import sys
+import re
+import json
+import datetime
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from ralph_config import (
+    get_logger, WIKI_ROOT, ENTITIES_DIR, CONCEPTS_DIR, COMPARISONS_DIR,
+    RAW_PAPERS_DIR, INDEX_PATH, META_DIR, AUDIT_REPORT_FILE,
+    append_log, git_commit, get_all_pages, get_all_wikilinks,
+    word_count, has_placeholder, get_sources, load_frontmatter,
+)
+
+log = get_logger("Auditor")
+
+
+def find_broken_wikilinks(links, pages) -> list[dict]:
+    """Find links pointing to non-existent pages."""
+    broken = []
+    for target, source in links:
+        if target not in pages:
+            broken.append({'target': target, 'source': source})
+    return broken
+
+
+def find_orphan_pages(links, pages) -> list[str]:
+    """Find pages with no inbound links."""
+    linked = {target for target, _ in links}
+    return sorted(pages - linked)
+
+
+def find_placeholder_pages() -> list[dict]:
+    """Find pages still containing placeholder text."""
+    results = []
+    all_pages = get_all_pages()
+    for slug, filepath in all_pages.items():
+        try:
+            with open(filepath, 'r', encoding='utf-8') as f:
+                content = f.read()
+            if has_placeholder(content):
+                count = content.count('*Placeholder')
+                results.append({'slug': slug, 'placeholders': count, 'path': filepath})
+        except Exception:
+            pass
+    return results
+
+
+def find_pages_no_sources() -> list[dict]:
+    """Find pages with no sources/references."""
+    results = []
+    all_pages = get_all_pages()
+    for slug, filepath in all_pages.items():
+        metadata = load_frontmatter(filepath)
+        sources = get_sources(metadata)
+        if not sources:
+            results.append({'slug': slug, 'path': filepath})
+    return results
+
+
+def find_stale_pages(days: int = 60) -> list[dict]:
+    """Find pages not updated in N+ days."""
+    results = []
+    all_pages = get_all_pages()
+    cutoff = datetime.datetime.now() - datetime.timedelta(days=days)
+
+    for slug, filepath in all_pages.items():
+        metadata = load_frontmatter(filepath)
+        updated = metadata.get('updated', '')
+        try:
+            updated_dt = datetime.datetime.strptime(updated, '%Y-%m-%d')
+            if updated_dt < cutoff:
+                days_old = (datetime.datetime.now() - updated_dt).days
+                results.append({'slug': slug, 'days_old': days_old, 'path': filepath})
+        except (ValueError, TypeError):
+            results.append({'slug': slug, 'days_old': -1, 'path': filepath,
+                            'note': 'missing or invalid date'})
+
+    results.sort(key=lambda x: x['days_old'], reverse=True)
+    return results
+
+
+def find_broken_source_refs() -> list[dict]:
+    """Find pages whose sources: point to non-existent raw papers."""
+    results = []
+    all_pages = get_all_pages()
+
+    for slug, filepath in all_pages.items():
+        metadata = load_frontmatter(filepath)
+        sources = get_sources(metadata)
+
+        for source in sources:
+            source_path = os.path.join(WIKI_ROOT, source) if not os.path.isabs(source) else source
+            if not os.path.exists(source_path):
+                results.append({
+                    'slug': slug,
+                    'broken_source': source,
+                    'path': filepath
+                })
+
+    return results
+
+
+def find_missing_frontmatter() -> list[dict]:
+    """Find pages with missing or incomplete frontmatter."""
+    required = ['title', 'created', 'updated', 'type', 'tags']
+    results = []
+    all_pages = get_all_pages()
+
+    for slug, filepath in all_pages.items():
+        metadata = load_frontmatter(filepath)
+        missing = [f for f in required if f not in metadata or not metadata[f]]
+        if missing:
+            results.append({'slug': slug, 'missing_fields': missing, 'path': filepath})
+
+    return results
+
+
+def find_pages_missing_from_index() -> list[dict]:
+    """Find pages not listed in index.md."""
+    if not os.path.exists(INDEX_PATH):
+        return [{'note': 'index.md not found'}]
+
+    with open(INDEX_PATH, 'r', encoding='utf-8') as f:
+        index_content = f.read()
+
+    index_links = set()
+    for match in re.findall(r'\[\[([^\]]+)\]\]', index_content):
+        target = match.split('|')[0].strip().lower().replace(' ', '-').replace('\u2011', '-')
+        index_links.add(target)
+
+    results = []
+    all_pages = get_all_pages()
+    for slug in all_pages:
+        if slug not in index_links:
+            results.append({'slug': slug, 'path': all_pages[slug]})
+
+    return results
+
+
+def find_cross_reference_asymmetry() -> list[dict]:
+    """Find pages where A links to B but B doesn't mention A."""
+    # Build forward link map
+    forward = {}  # slug -> set of targets
+    all_pages = get_all_pages()
+
+    for slug, filepath in all_pages.items():
+        try:
+            with open(filepath, 'r', encoding='utf-8') as f:
+                content = f.read()
+            targets = set()
+            for match in re.findall(r'\[\[([^\]]+)\]\]', content):
+                target = match.split('|')[0].strip().lower().replace(' ', '-')
+                targets.add(target)
+            forward[slug] = targets
+        except Exception:
+            forward[slug] = set()
+
+    # Find asymmetric links
+    asymmetric = []
+    for slug, targets in forward.items():
+        for target in targets:
+            if target in forward and slug not in forward[target]:
+                # Don't flag raw papers (they're immutable)
+                if not target.startswith('arxiv-') and not target.startswith('pubmed-'):
+                    asymmetric.append({
+                        'from': slug,
+                        'to': target,
+                        'note': f'{slug} links to {target} but not vice versa'
+                    })
+
+    return asymmetric
+
+
+# ── Main audit cycle ──────────────────────────────────────────────────
+
+def run_auditor_cycle():
+    """Run one full audit cycle. Returns the report dict."""
+    log.info("Starting daily cycle")
+
+    # Gather data
+    links, pages = get_all_wikilinks()
+    log.info("Scanning %d pages with %d wikilinks", len(pages), len(links))
+
+    # Run all checks
+    report = {
+        'timestamp': datetime.datetime.now().isoformat(),
+        'total_pages': len(pages),
+        'total_wikilinks': len(links),
+        'broken_wikilinks': find_broken_wikilinks(links, pages),
+        'orphan_pages': find_orphan_pages(links, pages),
+        'placeholder_pages': find_placeholder_pages(),
+        'pages_no_sources': find_pages_no_sources(),
+        'stale_pages': find_stale_pages(),
+        'broken_source_refs': find_broken_source_refs(),
+        'missing_frontmatter': find_missing_frontmatter(),
+        'missing_from_index': find_pages_missing_from_index(),
+        'cross_ref_asymmetry': find_cross_reference_asymmetry(),
+    }
+
+    # Summary
+    total_issues = (
+        len(report['broken_wikilinks']) +
+        len(report['orphan_pages']) +
+        len(report['placeholder_pages']) +
+        len(report['pages_no_sources']) +
+        len(report['stale_pages']) +
+        len(report['broken_source_refs']) +
+        len(report['missing_frontmatter']) +
+        len(report['missing_from_index'])
+    )
+
+    log.info("Broken wikilinks: %d", len(report['broken_wikilinks']))
+    log.info("Orphan pages: %d", len(report['orphan_pages']))
+    log.info("Placeholder pages: %d", len(report['placeholder_pages']))
+    log.info("Pages with no sources: %d", len(report['pages_no_sources']))
+    log.info("Stale pages (>60 days): %d", len(report['stale_pages']))
+    log.info("Broken source refs: %d", len(report['broken_source_refs']))
+    log.info("Missing frontmatter: %d", len(report['missing_frontmatter']))
+    log.info("Missing from index: %d", len(report['missing_from_index']))
+    log.info("Cross-ref asymmetries: %d", len(report['cross_ref_asymmetry']))
+    log.info("TOTAL ISSUES: %d", total_issues)
+
+    # Save machine-readable report
+    os.makedirs(META_DIR, exist_ok=True)
+    with open(AUDIT_REPORT_FILE, 'w', encoding='utf-8') as f:
+        json.dump(report, f, indent=2, ensure_ascii=False)
+    log.info("Saved audit report to %s", AUDIT_REPORT_FILE)
+
+    # Human-readable lint log
+    lint_log_path = os.path.join(META_DIR, 'lint.log')
+    with open(lint_log_path, 'a', encoding='utf-8') as f:
+        f.write(f"\n## Audit {report['timestamp']}\n")
+        f.write(f"Total pages: {report['total_pages']}\n")
+        f.write(f"Broken wikilinks: {len(report['broken_wikilinks'])}\n")
+        f.write(f"Orphan pages: {len(report['orphan_pages'])}\n")
+        f.write(f"Placeholder pages: {len(report['placeholder_pages'])}\n")
+        f.write(f"Pages no sources: {len(report['pages_no_sources'])}\n")
+        f.write(f"Stale pages: {len(report['stale_pages'])}\n")
+        f.write(f"Broken source refs: {len(report['broken_source_refs'])}\n")
+        f.write(f"Missing frontmatter: {len(report['missing_frontmatter'])}\n")
+        f.write(f"Missing from index: {len(report['missing_from_index'])}\n")
+
+        for item in report['broken_wikilinks'][:20]:
+            f.write(f"  BROKEN: {item['source']} -> [[{item['target']}]]\n")
+        for slug in report['orphan_pages'][:20]:
+            f.write(f"  ORPHAN: [[{slug}]]\n")
+        for item in report['placeholder_pages']:
+            f.write(f"  PLACEHOLDER: {item['slug']} ({item['placeholders']} occurrences)\n")
+
+    # Log to log.md
+    append_log(f"Audit: {total_issues} issues ({len(report['broken_wikilinks'])} broken links, "
+               f"{len(report['orphan_pages'])} orphans, {len(report['placeholder_pages'])} placeholders)")
+
+    # Git commit the report
+    git_commit(f"Audit: {total_issues} issues — {len(report['broken_wikilinks'])} broken links, "
+               f"{len(report['orphan_pages'])} orphans (Auditor)")
+
+    log.info("Cycle complete.")
+    return report
+
+
+# ── CLI entry point ───────────────────────────────────────────────────
+
+if __name__ == '__main__':
+    run_auditor_cycle()
