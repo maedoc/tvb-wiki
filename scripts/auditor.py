@@ -16,7 +16,7 @@ import datetime
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from ralph_config import (
     get_logger, WIKI_ROOT, ENTITIES_DIR, CONCEPTS_DIR, COMPARISONS_DIR,
-    RAW_PAPERS_DIR, INDEX_PATH, META_DIR, AUDIT_REPORT_FILE,
+    RAW_PAPERS_DIR, CATALOG_PATH, META_DIR, AUDIT_REPORT_FILE,
     append_log, git_commit, get_all_pages, get_all_wikilinks,
     word_count, has_placeholder, get_sources, load_frontmatter,
 )
@@ -128,11 +128,11 @@ def find_missing_frontmatter() -> list[dict]:
 
 
 def find_pages_missing_from_index() -> list[dict]:
-    """Find pages not listed in index.md."""
-    if not os.path.exists(INDEX_PATH):
-        return [{'note': 'index.md not found'}]
+    """Find pages not listed in catalog.md."""
+    if not os.path.exists(CATALOG_PATH):
+        return [{'note': 'catalog.md not found'}]
 
-    with open(INDEX_PATH, 'r', encoding='utf-8') as f:
+    with open(CATALOG_PATH, 'r', encoding='utf-8') as f:
         index_content = f.read()
 
     index_links = set()

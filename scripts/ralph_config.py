@@ -22,7 +22,8 @@ RAW_PAPERS_DIR = os.path.join(WIKI_ROOT, "raw", "papers")
 ENTITIES_DIR = os.path.join(WIKI_ROOT, "entities")
 CONCEPTS_DIR = os.path.join(WIKI_ROOT, "concepts")
 COMPARISONS_DIR = os.path.join(WIKI_ROOT, "comparisons")
-INDEX_PATH = os.path.join(WIKI_ROOT, "index.md")
+INDEX_PATH = os.path.join(WIKI_ROOT, "index.md")          # landing page (read-only for agents)
+CATALOG_PATH = os.path.join(WIKI_ROOT, "catalog.md")        # machine-generated catalog
 LOG_MD = os.path.join(WIKI_ROOT, "log.md")
 SCHEMA_PATH = os.path.join(WIKI_ROOT, "SCHEMA.md")
 RALPH_LOG = os.path.join(SCRIPTS_DIR, "ralph.log")
@@ -34,6 +35,7 @@ AUDIT_REPORT_FILE = os.path.join(META_DIR, "audit_report.json")
 # ── Models ─────────────────────────────────────────────────────────────
 WRITER_MODEL = "ollama/kimi-k2.5:cloud"
 REVIEWER_MODEL = "ollama/glm-5.1:cloud"
+REPAIRER_MODEL = "ollama/gpt-oss-120b"
 
 # ── Parallelism ────────────────────────────────────────────────────────
 PARALLEL_WRITERS = 3
@@ -47,6 +49,7 @@ AUDITOR_INTERVAL = 86400       # daily
 LIBRARIAN_INTERVAL = 86400     # daily
 SOFTWARE_MAPPER_INTERVAL = 604800  # weekly
 DEEP_RESEARCH_INTERVAL = 21600   # every 6 hours
+REPAIRER_INTERVAL = 86400         # daily (runs after Auditor)
 
 # ── Git push schedule ─────────────────────────────────────────────────────
 # Push to the remote at most once per hour (default). Adjust PUSH_INTERVAL if needed.

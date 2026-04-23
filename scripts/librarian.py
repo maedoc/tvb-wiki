@@ -15,7 +15,7 @@ import datetime
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from ralph_config import (
     get_logger, WIKI_ROOT, ENTITIES_DIR, CONCEPTS_DIR, COMPARISONS_DIR,
-    INDEX_PATH, META_DIR, append_log, git_commit, get_all_pages,
+    CATALOG_PATH, META_DIR, append_log, git_commit, get_all_pages,
     get_all_wikilinks, load_frontmatter, get_sources,
 )
 
@@ -54,9 +54,9 @@ def extract_summary(filepath: str) -> str:
     return "*needs summary*"
 
 
-def regenerate_index():
-    """Regenerate index.md with current summaries."""
-    log.info("Regenerating index.md")
+def regenerate_catalog():
+    """Regenerate catalog.md with current summaries."""
+    log.info("Regenerating catalog.md")
 
     sections = {
         'Entities': ENTITIES_DIR,
@@ -65,10 +65,10 @@ def regenerate_index():
     }
 
     lines = [
-        "# Wiki Index",
+        "# Complete Wiki Catalog",
         "",
-        "> Content catalog. Every wiki page listed under its type with a one-line summary.",
-        "> Read this first to find relevant pages for any query.",
+        "> **For power users:** This is the complete alphabetical listing of all wiki pages.",
+        "",
     ]
 
     today = datetime.date.today().isoformat()
@@ -95,14 +95,14 @@ def regenerate_index():
                 lines.append(f"- [[{name}]] – {summary}")
 
     # Add header with count
-    lines.insert(4, f"> Last updated: {today} | Total pages: {total}")
-    lines.insert(5, "")
+    lines.insert(3, f"> Last updated: {today} | Total pages: {total}")
+    lines.insert(4, "")
 
     content = '\n'.join(lines)
-    with open(INDEX_PATH, 'w', encoding='utf-8') as f:
+    with open(CATALOG_PATH, 'w', encoding='utf-8') as f:
         f.write(content)
 
-    log.info("Index updated: %d pages", total)
+    log.info("Catalog updated: %d pages", total)
     return total
 
 
@@ -188,8 +188,8 @@ def run_librarian_cycle():
     """Run one librarian cycle."""
     log.info("Starting daily cycle")
 
-    # 1. Regenerate index
-    total_pages = regenerate_index()
+    # 1. Regenerate catalog
+    total_pages = regenerate_catalog()
 
     # 2. Compute authority scores
     log.info("Computing page authority scores...")
@@ -205,9 +205,9 @@ def run_librarian_cycle():
              len(pages), len(links), len(asymmetric))
 
     # 5. Git commit
-    msg = f"Librarian: rebuilt index ({total_pages} pages), authority scores updated (Librarian)"
+    msg = f"Librarian: rebuilt catalog ({total_pages} pages), authority scores updated (Librarian)"
     git_commit(msg)
-    append_log(f"Librarian: index rebuilt, {len(asymmetric)} asymmetric links noted")
+    append_log(f"Librarian: catalog rebuilt, {len(asymmetric)} asymmetric links noted")
 
     log.info("Cycle complete.")
     return {

@@ -30,7 +30,7 @@ def sync():
         print(f"  Copied {n} files from {d}/")
     
     # Copy root pages that are not already in docs/
-    for fn in ['index.md', 'schema.md', 'about.md', 'log.md', 'queries']:
+    for fn in ['index.md', 'catalog.md', 'schema.md', 'about.md', 'log.md', 'queries']:
         src = os.path.join(REPO, fn)
         if os.path.exists(src):
             dst = os.path.join(TARGET_DIR, fn)

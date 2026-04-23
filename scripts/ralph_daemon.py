@@ -27,6 +27,7 @@ from ralph_config import (
     WRITER_MODEL, REVIEWER_MODEL,
     INGESTOR_INTERVAL, IMPROVER_INTERVAL, AUDITOR_INTERVAL,
     LIBRARIAN_INTERVAL, SOFTWARE_MAPPER_INTERVAL, DEEP_RESEARCH_INTERVAL,
+    REPAIRER_INTERVAL,
     PARALLEL_WRITERS, PI_TIMEOUT,
     get_all_pages,
 )
@@ -46,6 +47,7 @@ class DaemonState:
             'Librarian': None,
             'SoftwareMapper': None,
             'DeepResearch': None,
+            'Repairer': None,
         }
         self.failures = {k: 0 for k in self.last_run}
         self.disabled = set()
@@ -181,6 +183,19 @@ def run_deep_research():
         return False
 
 
+def run_repairer():
+    log.info("Starting repair cycle")
+    try:
+        from repairer import run_repairer_cycle
+        stats = run_repairer_cycle()
+        state.record_success('Repairer')
+        return True
+    except Exception as e:
+        log.error("Repairer failed: %s", e)
+        state.record_failure('Repairer')
+        return False
+
+
 # ── Agent schedule ─────────────────────────────────────────────────────
 
 AGENTS = [
@@ -188,6 +203,7 @@ AGENTS = [
     ('Improver',       IMPROVER_INTERVAL,        run_improver),
     ('DeepResearch',   DEEP_RESEARCH_INTERVAL,   run_deep_research),
     ('Auditor',        AUDITOR_INTERVAL,         run_auditor),
+    ('Repairer',       REPAIRER_INTERVAL,        run_repairer),
     ('Librarian',      LIBRARIAN_INTERVAL,       run_librarian),
     ('SoftwareMapper', SOFTWARE_MAPPER_INTERVAL, run_software_mapper),
 ]
@@ -224,7 +240,7 @@ def print_banner():
              len(pages), entities, concepts, comparisons, other)
     log.info("Raw papers: %d", raw_count)
     log.info("Last ingest: %s", last_update)
-    log.info("Agents: Ingestor(hourly) Improver(hourly) DeepResearch(6h) Auditor(daily) Librarian(daily) SoftwareMapper(weekly)")
+    log.info("Agents: Ingestor(hourly) Improver(hourly) DeepResearch(6h) Auditor(daily) Repairer(daily) Librarian(daily) SoftwareMapper(weekly)")
     log.info("Models: writer=%s, reviewer=%s", WRITER_MODEL, REVIEWER_MODEL)
     log.info("Parallel writers: %d", PARALLEL_WRITERS)
     log.info("Log file: %s", RALPH_LOG)

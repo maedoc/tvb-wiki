@@ -10,7 +10,7 @@ WIKI_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ENTITIES_DIR = os.path.join(WIKI_ROOT, "entities")
 CONCEPTS_DIR = os.path.join(WIKI_ROOT, "concepts")
 COMPARISONS_DIR = os.path.join(WIKI_ROOT, "comparisons")
-INDEX_PATH = os.path.join(WIKI_ROOT, "index.md")
+INDEX_PATH = os.path.join(WIKI_ROOT, "catalog.md")
 META_DIR = os.path.join(WIKI_ROOT, "meta")
 LOG_MD = os.path.join(WIKI_ROOT, "log.md")
 
