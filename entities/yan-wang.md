@@ -5,10 +5,8 @@ updated: 2026-04-23
 type: entity
 tags: [people-researcher, software-tvb, neural-mass-models, whole-brain-modeling, parameter-estimation, epilepsy-modeling]
 sources:
-  - url: "https://www.fz-juelich.de/profile/wang_y"
-    description: "Forschungszentrum Jülich profile (verify affiliation)"
-  - url: "https://scholar.google.com/citations?user=yan-wang-tvb-research"
-    description: "Google Scholar profile (verify publications)"
+  - https://www.fz-juelich.de/profile/wang_y
+  - https://scholar.google.com/citations?user=yan-wang-tvb-research
 ---
 
 # Yan Wang

@@ -209,11 +209,18 @@ def has_placeholder(text: str) -> bool:
 
 
 def get_sources(metadata: dict) -> list[str]:
-    """Get sources list from frontmatter."""
+    """Get sources list from frontmatter. Normalizes dict entries to strings."""
     sources = metadata.get('sources', [])
     if isinstance(sources, str):
         sources = [s.strip() for s in sources.split(',') if s.strip()]
-    return sources
+    # Normalize dict sources (e.g. {url: ..., description: ...}) to plain strings
+    result = []
+    for s in sources:
+        if isinstance(s, dict):
+            result.append(s.get('url', s.get('path', str(s))))
+        elif isinstance(s, str):
+            result.append(s)
+    return result
 
 
 # ── pi subprocess runner ──────────────────────────────────────────────

@@ -99,6 +99,8 @@ def find_broken_source_refs() -> list[dict]:
         sources = get_sources(metadata)
 
         for source in sources:
+            if not isinstance(source, str):
+                continue
             source_path = os.path.join(WIKI_ROOT, source) if not os.path.isabs(source) else source
             if not os.path.exists(source_path):
                 results.append({

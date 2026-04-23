@@ -14,6 +14,7 @@ import datetime
 import time
 import subprocess
 import tempfile
+import frontmatter
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
@@ -288,6 +289,16 @@ def improve_page(filepath: str) -> tuple[bool, str]:
         if lines and lines[-1].strip() == '```':
             lines = lines[:-1]
         new_content = '\n'.join(lines)
+
+    # If LLM dropped the frontmatter, re-attach the original
+    if not new_content.strip().startswith('---'):
+        fm_block = frontmatter.dumps(frontmatter.load(filepath))
+        # frontmatter.dumps includes the content; strip to just the YAML fence
+        if fm_block.strip().startswith('---'):
+            end = fm_block.find('\n---', 3)
+            if end != -1:
+                yaml_header = fm_block[:end + 4]  # include closing ---
+                new_content = yaml_header + '\n' + new_content.lstrip()
 
     # Step 2: Reviewer checks the edit
     reviewer_prompt = build_reviewer_prompt(filepath, original, new_content)
