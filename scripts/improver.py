@@ -94,7 +94,9 @@ def score_page(filepath: str) -> tuple[float, dict]:
 
 
 def build_priority_queue(n: int = None) -> list[dict]:
-    """Build priority queue of pages needing improvement, worst first."""
+    """Build priority queue of pages needing improvement, worst first.
+    Prioritizes stubs with sources (they have material to work from).
+    """
     pages = get_all_pages()
     scored = []
 
@@ -102,6 +104,9 @@ def build_priority_queue(n: int = None) -> list[dict]:
         score, info = score_page(filepath)
         if score < 80:  # Only include pages that need work
             info['slug'] = slug
+            # Boost stubs that have sources — the Matcher found papers for them
+            if info['has_placeholder'] and info['sources'] > 0:
+                info['score'] = max(0, info['score'] - 15)  # push to front of queue
             scored.append(info)
 
     scored.sort(key=lambda x: x['score'])
