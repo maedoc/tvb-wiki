@@ -7,7 +7,7 @@
 
 ## Entities
 <!-- entities -->
-- [[Aal Atlas]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Aal Atlas]] – The **AAL (Automated Anatomical Labeling) Atlas** is a widely-used anatomical parcellation of the human brain into 116 r...
 - [[Afni]] – *Placeholder — awaiting content from Ralph Improver.*
 - [[Alain Destexhe]] – French computational neuroscientist. Senior Researcher at CNRS and UNIC (Unité de Neurosciences Intégratives et Computat...
 - [[Albert Laszlo Barabasi]] – Distinguished Professor at Northeastern University, physicist, pioneer of network science and scale-free networks.
@@ -39,7 +39,7 @@
 - [[Dynasim]] – *Placeholder — awaiting content from Ralph Improver.*
 - [[Ed Bullmore]] – Professor at University of Cambridge, leading researcher in network neuroscience and computational psychiatry.
 - [[Eeglab]] – *Placeholder — awaiting content from Ralph Improver.*
-- [[Elephant]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Elephant]] – **Elephant** (Electrophysiology Analysis Toolkit) is an open-source Python package for the analysis of electrophysiology...
 - [[Emanuel Tuckwell]] – Henry C. Tuckwell is a mathematician and theoretical neuroscientist known for his foundational work on stochastic proces...
 - [[Eugene Izhikevich]] – Russian-American computational neuroscientist and former CEO of the Brain Corporation. Leading researcher in nonlinear d...
 - [[Exploreasl]] – *Placeholder — awaiting content from Ralph Improver.*
@@ -98,7 +98,7 @@
 - [[Pymvpa]] – *Placeholder — awaiting content from Ralph Improver.*
 - [[Pynn]] – *Placeholder — awaiting content from Ralph Improver.*
 - [[Rolf Kotter]] – Neuroscientist, co-originator of the connectome concept, known for work on neuroanatomy and connectivity analysis.
-- [[Root]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Root]] – **ROOT** is an open-source object-oriented data analysis framework developed at CERN since 1994. Originally designed for...
 - [[Rudiger Seydel]] – Rüdiger Seydel is a German mathematician and Professor at the University of Cologne. He specializes in numerical analysi...
 - [[Scirun]] – *Placeholder — awaiting content from Ralph Improver.*
 - [[Seiji Ogawa]] – **Nationality:** Japanese
@@ -114,7 +114,7 @@
 - [[Tractor]] – *Placeholder — awaiting content from Ralph Improver.*
 - [[Tvb Adapters]] – *Placeholder — awaiting content from Ralph Improver.*
 - [[Tvb Library]] – *Placeholder — awaiting content from Ralph Improver.*
-- [[Tvb Multiscale]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Tvb Multiscale]] – TVB-NEST multiscale (also known as TVB-multiscale) is a co-simulation framework that integrates [[tvb|The Virtual Brain]...
 - [[Tvb]] – TVB is an open-source neuroinformatics platform for simulating large-scale primate brain network dynamics.
 - [[Uk Biobank]] – The world's largest multimodal brain imaging study, collecting data from 100,000+ participants.
 - [[Vincent Rit]] – Dutch biomedical engineer and computational neuroscientist. Co-developer of the Jansen-Rit neural mass model and long-ti...
