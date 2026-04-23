@@ -97,7 +97,7 @@ def fetch_arxiv(since_date, max_per_query=15):
                 'venue': '',
                 'citation_count': None,
             })
-        time.sleep(1)
+        time.sleep(3)  # arXiv rate limit
 
     return papers
 
@@ -155,7 +155,7 @@ def fetch_semantic_scholar(since_date, max_results=50):
                 'venue': item.get('venue', '') or '',
                 'citation_count': item.get('citationCount'),
             })
-        time.sleep(0.5)
+        time.sleep(1)  # rate limit
 
     return papers
 
@@ -193,7 +193,7 @@ def fetch_pubmed(since_date, max_results=20):
         except Exception as e:
             log.warn("PubMed search error on '%s': %s", query[:40], e)
             continue
-        time.sleep(0.5)
+        time.sleep(1)  # rate limit
 
     # Deduplicate
     all_ids = list(set(all_ids))
@@ -243,9 +243,9 @@ def fetch_pubmed(since_date, max_results=20):
 def fetch_openalex(since_date, max_results=20):
     """Fetch papers from OpenAlex."""
     queries = [
-        "The Virtual Brain",
-        "neural mass model whole brain",
-        "connectome simulation",
+        "\"The Virtual Brain\" connectome",
+        "\"neural mass model\" whole brain",
+        "\"Epileptor\" seizure model",
     ]
 
     papers = []
@@ -302,7 +302,7 @@ def fetch_openalex(since_date, max_results=20):
                 'venue': venue,
                 'citation_count': None,
             })
-        time.sleep(0.5)
+        time.sleep(1)  # rate limit
 
     return papers
 

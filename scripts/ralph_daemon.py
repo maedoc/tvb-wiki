@@ -23,7 +23,7 @@ import argparse
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from ralph_config import (
     get_logger, WIKI_ROOT, SCRIPTS_DIR, META_DIR, RALPH_LOG,
-    RAW_PAPERS_DIR, ENTITIES_DIR, CONCEPTS_DIR,
+    RAW_PAPERS_DIR, ENTITIES_DIR, CONCEPTS_DIR, COMPARISONS_DIR,
     WRITER_MODEL, REVIEWER_MODEL,
     INGESTOR_INTERVAL, IMPROVER_INTERVAL, AUDITOR_INTERVAL,
     LIBRARIAN_INTERVAL, SOFTWARE_MAPPER_INTERVAL,
@@ -204,7 +204,7 @@ def print_banner():
 
 # ── Main loop ──────────────────────────────────────────────────────────
 
-def main_loop(poll_interval: int = 60):
+def main_loop_with_agents(agents, poll_interval: int = 60):
     """
     Main event loop. Checks every poll_interval seconds which agents need to run.
     """
@@ -214,7 +214,7 @@ def main_loop(poll_interval: int = 60):
         state.cycle += 1
         any_ran = False
 
-        for agent_name, interval, runner in AGENTS:
+        for agent_name, interval, runner in agents:
             if not state.running:
                 break
 
@@ -232,7 +232,7 @@ def main_loop(poll_interval: int = 60):
                     log.warn("%s disabled after 3 consecutive failures", agent_name)
 
         # Check if all agents disabled
-        if len(state.disabled) >= len(AGENTS):
+        if len(state.disabled) >= len(agents):
             log.error("All agents disabled. Halting.")
             break
 
@@ -240,7 +240,7 @@ def main_loop(poll_interval: int = 60):
             # Nothing to do — sleep
             # Find the soonest agent that will be ready
             sleep_until = poll_interval
-            for agent_name, interval, _ in AGENTS:
+            for agent_name, interval, _ in agents:
                 if agent_name in state.disabled:
                     continue
                 last = state.last_run.get(agent_name)
@@ -259,6 +259,11 @@ def main_loop(poll_interval: int = 60):
                 time.sleep(min(5, end_time - time.time()))
 
     log.info("Ralph daemon stopped.")
+
+
+def main_loop(poll_interval: int = 60):
+    """Convenience wrapper using default AGENTS."""
+    main_loop_with_agents(AGENTS, poll_interval)
 
 
 # ── CLI ────────────────────────────────────────────────────────────────
@@ -300,27 +305,29 @@ Examples:
         return
 
     # Filter agents if --only specified
-    global AGENTS
+    active_agents = list(AGENTS)
     if args.only:
-        AGENTS = [(n, i, r) for n, i, r in AGENTS if n in args.only]
+        active_agents = [(n, i, r) for n, i, r in AGENTS if n in args.only]
         log.info("Running only: %s", ', '.join(args.only))
 
     if args.skip_ingestor:
-        AGENTS = [(n, i, r) for n, i, r in AGENTS if n != 'Ingestor']
+        active_agents = [(n, i, r) for n, i, r in active_agents if n != 'Ingestor']
     if args.skip_improver:
-        AGENTS = [(n, i, r) for n, i, r in AGENTS if n != 'Improver']
+        active_agents = [(n, i, r) for n, i, r in active_agents if n != 'Improver']
 
     if args.once:
         # Run each agent once
         log.info("ONE-SHOT MODE — running each agent once")
-        for agent_name, _, runner in AGENTS:
+        for agent_name, _, runner in active_agents:
             if not state.running:
                 break
             log.info("── Running %s ──", agent_name)
             runner()
         log.info("One-shot complete.")
     else:
-        main_loop(poll_interval=args.interval)
+        # Replace AGENTS for main loop
+        # (we need to pass it to main_loop)
+        main_loop_with_agents(active_agents, poll_interval=args.interval)
 
 
 if __name__ == '__main__':
