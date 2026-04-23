@@ -1,0 +1,255 @@
+# Complete Wiki Catalog
+
+> **For power users:** This is the complete alphabetical listing of all wiki pages.
+> 
+> **New visitors:** Start with the [Home page](index.md) for curated entry points.
+
+**Statistics:** 223 pages across entities, concepts, and comparisons | Last updated: 2026-04-23
+
+---
+
+## Entities
+<!-- entities -->
+- [[3D Slicer]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Aal Atlas]] – The **AAL (Automated Anatomical Labeling) Atlas** is a widely-used anatomical parcellation of the human brain into 116 r...
+- [[Afni]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Alain Destexhe]] – French computational neuroscientist. Senior Researcher at CNRS and UNIC (Unité de Neurosciences Intégratives et Computat...
+- [[Albert Laszlo Barabasi]] – Distinguished Professor at Northeastern University, physicist, pioneer of network science and scale-free networks.
+- [[Allen Brain Atlas]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Andrei Medvedev]] – Researcher in neuroscience. Mentioned in the context of Domain 5 sources.
+- [[Annarchy]] – **ANNarchy** is an open-source Python library for large-scale simulations of rate-coded and spiking neural networks. Dev...
+- [[Ants]] – ANTs is a medical image registration and segmentation toolkit widely used in neuroimaging preprocessing.
+- [[Antspy]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Arbor]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Auryn]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Bci2000]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Bctpy]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Benjamin Jansen]] – Dutch biomedical engineer and neuroscientist. Co-developer of the Jansen-Rit model of cortical column dynamics for EEG/V...
+- [[Bharat Biswal]] – **Nationality:** Indian-American
+- [[Bidscoin]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Bionet]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Bluepyopt]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Brain Connectivity Toolbox]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Brain Dynamics Toolbox]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Brainmap]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Brainnet Viewer]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Brainnetome Atlas]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Brainstorm]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Brainvoyager]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Brian Avants]] – Lead developer of ANTs (Advanced Normalization Tools), known for SyN image registration.
+- [[Brian]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Brian2]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[C Pac]] – **C-PAC** (Configurable Pipeline for the Analysis of Connectomes) is an open-source, Python-based neuroimaging pipeline ...
+- [[Cat12]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Civet]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Clinica]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Cococomac]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Conn]] – **CONN** (Conn toolbox) is an open-source, MATLAB-based software package for the analysis and visualization of [[functio...
+- [[Connectome Workbench]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Coreneuron]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Crispin Gardiner]] – Crispin W. Gardiner is a New Zealand physicist and Professor at the University of Otago. He is renowned for his contribu...
+- [[Cvodes]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[David Van Essen]] – Professor of Neuroscience at Washington University School of Medicine, Principal Investigator of the Human Connectome Pr...
+- [[Dcm]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Desikan Killiany Atlas]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Dipy]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Dsi Studio]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Duncan Watts]] – Principal Researcher at Microsoft Research, sociologist and network scientist, co-discoverer of small-world networks.
+- [[Dynasim]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Ed Bullmore]] – Professor at University of Cambridge, leading researcher in network neuroscience and computational psychiatry.
+- [[Eeglab]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Elephant]] – **Elephant** (Electrophysiology Analysis Toolkit) is an open-source Python package for the analysis of electrophysiology...
+- [[Emanuel Tuckwell]] – Henry C. Tuckwell is a mathematician and theoretical neuroscientist known for his foundational work on stochastic proces...
+- [[Eugene Izhikevich]] – Russian-American computational neuroscientist and former CEO of the Brain Corporation. Leading researcher in nonlinear d...
+- [[Exploreasl]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Fastsurfer]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Fernando Lopes Da Silva]] – Dutch/Brazilian neurophysiologist and computational neuroscientist. Pioneer in modeling thalamocortical oscillations and...
+- [[Fidel Alfaro Almagro]] – Researcher at University of Oxford, FMRIB Centre, key contributor to UK Biobank imaging processing pipelines.
+- [[Fieldtrip]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Fooof]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Freesurfer]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Fsl]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Fsleyes]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Genesis]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Genn]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Giulio Tononi]] – Professor of Psychiatry at University of Wisconsin-Madison, leading researcher in sleep and consciousness, co-originator...
+- [[Glasser Atlas]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Graphvar]] – GraphVar is a user-friendly MATLAB toolbox for comprehensive graph-theoretical analyses of functional brain connectivity...
+- [[Gustavo Deco]] – Computational neuroscientist known for work on large-scale brain models and resting-state dynamics.
+- [[Hannes Risken]] – Hannes Risken was a German physicist known for his definitive work on Fokker-Planck equations. His book "The Fokker-Plan...
+- [[Harvard Oxford Atlas]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Hcp Pipelines]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Henry Markram]] – Neuroscientist known for the Blue Brain Project and data-driven cortical reconstruction.
+- [[Hugh Wilson]] – Canadian computational neuroscientist and mathematician. Co-creator of the Wilson-Cowan model—the canonical firing-rate ...
+- [[Human Connectome Project]] – Major NIH-funded initiative to map human brain connectivity using cutting-edge neuroimaging.
+- [[Index]] – A collection of people, software platforms, datasets, and research groups relevant to whole-brain modeling.
+- [[Itk Snap]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Jack Cowan]] – British mathematical biologist and computational neuroscientist. Co-creator of the Wilson-Cowan model and founding figur...
+- [[John Guckenheimer]] – John Guckenheimer (born 1945) is an American mathematician and the Abram R. Bullis Professor of Mathematics at Cornell U...
+- [[Julich Atlas]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Krasimira Tsaneva Atanasova]] – Researcher in connectome‑based whole‑brain modeling.
+- [[Lead Dbs]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Lfp Lib]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Lfpy]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Mark Newman]] – Distinguished University Professor at University of Michigan, physicist and network scientist, author of standard networ...
+- [[Markus Diesmann]] – Computational neuroscientist and lead developer of the NEST simulator.
+- [[Michael Hines]] – Lead developer of the NEURON simulation environment for multi-compartment neuron modeling.
+- [[Michael Schirner]] – Researcher in personalized brain modeling and TVB pipeline development.
+- [[Mne Python]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Modeldb]] – ModelDB is a web-accessible repository for depositing and sharing published computational neuroscience models.
+- [[Moose]] – **MOOSE** (Multiscale Object-Oriented Simulation Environment) is an open-source software framework for simulating neuron...
+- [[Mricrogl]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Mrtrix]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Mrtrix3 Connectome]] – MRtrix3 Connectome is an automated end-to-end processing pipeline within the [[mrtrix]] software suite for generating wh...
+- [[Mrtrix3]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Mvgc]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Nancy Andrews Hanna]] – Cognitive neuroscientist specializing in the default mode network, aging, and internally-directed cognition.
+- [[Nest]] – NEST is a simulator for spiking neural network models, widely used in computational neuroscience.
+- [[Netneuroscience]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Netpyne]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Neurom]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Neurominer]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Neuroml]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Neuromorpho]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Neuron]] – NEURON is a simulation environment for modeling individual neurons and networks of neurons using multi-compartment cable...
+- [[Neurosynth]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Neurovault]] – NeuroVault is an open-access web repository for sharing unthresholded statistical maps from neuroimaging studies. Launch...
+- [[Neusight]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Nibabel]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Nick Tustison]] – Developer of N4ITK and DiReCT algorithms in ANTs, expert in MRI preprocessing.
+- [[Nikos Logothetis]] – **Nationality:** Greek
+- [[Nilearn]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Nipype]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Nitin Gogtay]] – Developmental neuroscientist known for longitudinal neuroimaging studies of brain development.
+- [[Nix]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Olaf Sporns]] – Distinguished Professor at Indiana University Bloomington, pioneer of the field of connectomics.
+- [[Openmeeg]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Openneuro]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Openvibe]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Panda]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Paraview]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Patricia Miller]] – Professor at University of Oxford, FMRIB Centre, lead imaging researcher for UK Biobank.
+- [[Philip Holmes]] – Philip Holmes (born 1945) is a British mathematician and the Eugene Higgins Professor of Mechanical and Aerospace Engine...
+- [[Physionet]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Pronto]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Pymvpa]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Pynn]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Rolf Kotter]] – Neuroscientist, co-originator of the connectome concept, known for work on neuroanatomy and connectivity analysis.
+- [[Root]] – **ROOT** is an open-source object-oriented data analysis framework developed at CERN since 1994. Originally designed for...
+- [[Rudiger Seydel]] – Rüdiger Seydel is a German mathematician and Professor at the University of Cologne. He specializes in numerical analysi...
+- [[Scirun]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Seiji Ogawa]] – **Nationality:** Japanese
+- [[Sift]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Simnibs]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Sloreta]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Spm]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Stephen Wiggins]] – Stephen Wiggins is a British mathematician and Professor at the University of Bristol. He is a leading authority on appl...
+- [[Steps]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Steven Smith]] – **Nationality:** British
+- [[Steven Strogatz]] – Steven H. Strogatz (born 1959) is an American mathematician and the Jacob Gould Schurman Professor of Applied Mathematic...
+- [[Suma]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Synthseg]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Ted Carnevale]] – Computational neuroscientist and NEURON co-developer, known for educational resources on neural simulation.
+- [[Terrence Sejnowski]] – American computational neuroscientist. Francis Crick Professor at Salk Institute, UC San Diego, and Howard Hughes Medica...
+- [[The Virtual Epileptic Brain]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Tractor]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Trentool]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Tvb Adapters]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Tvb Library]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Tvb Multiscale]] – TVB-NEST multiscale (also known as TVB-multiscale) is a co-simulation framework that integrates [[tvb|The Virtual Brain]...
+- [[Tvb]] – TVB is an open-source neuroinformatics platform for simulating large-scale primate brain network dynamics.
+- [[Uk Biobank]] – The world's largest multimodal brain imaging study, collecting data from 100,000+ participants.
+- [[Vincent Rit]] – Dutch biomedical engineer and computational neuroscientist. Co-developer of the Jansen-Rit neural mass model and long-ti...
+- [[Walter Freeman]] – American neuroscientist and pioneer in neural mass modeling of cortical dynamics. Known for developing the K-set hierarc...
+- [[Xcos]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Xnat]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Yan Wang]] – Yan Wang is a computational neuroscientist whose work reportedly involves [[connectome]]-based [[whole-brain-modeling|wh...
+- [[Yasa]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Yuri Kuznetsov]] – Yuri A. Kuznetsov is a Russian mathematician and Professor at Utrecht University, Netherlands. He is a leading expert on...
+
+## Concepts
+<!-- concepts -->
+- [[Aging]] – Brain aging involves structural and functional changes across the lifespan, from early adulthood through senescence. The...
+- [[Bifurcation Analysis]] – Bifurcation analysis is the mathematical study of qualitative changes in dynamical system behavior as parameters vary. I...
+- [[Bifurcation Theory]] – Bifurcation theory studies how the qualitative behavior of dynamical systems changes as parameters are varied. It identi...
+- [[Bold Signal]] – The Blood Oxygenation Level Dependent (BOLD) signal is the contrast mechanism underlying functional MRI, reflecting chan...
+- [[Brain Maintenance]] – Brain maintenance refers to the preservation of brain structure and function across the lifespan, representing successfu...
+- [[Brain Network]] – Brain networks represent the brain as a graph of nodes (regions) and edges (structural or functional connections).
+- [[Cognitive Reserve]] – Cognitive reserve refers to the brain's ability to improvise and find alternate ways of accomplishing cognitive tasks wh...
+- [[Connectome]] – The complete structural description of the network of neural elements and connections that form the brain.
+- [[Connectomics]] – The field of neuroscience concerned with mapping and analyzing the brain's connections at various scales.
+- [[Default Mode Network]] – The default mode network is a large-scale brain network that is active when the brain is at wakeful rest and deactivated...
+- [[Developmental Trajectories]] – Developmental trajectories describe the patterns of change in brain structure and function across the lifespan, from pre...
+- [[Diffusion Mri]] – Diffusion MRI (dMRI) encompasses MRI techniques that measure the diffusion of water molecules to probe tissue microstruc...
+- [[Dti]] – Diffusion Tensor Imaging (DTI) is an MRI technique that measures the diffusion of water molecules to characterize tissue...
+- [[Dynamic Causal Modeling]] – Dynamic Causal Modeling (DCM) is a Bayesian framework for inferring effective connectivity (directed causal influences) ...
+- [[Dynamical Systems Theory]] – Dynamical systems theory is the mathematical framework for describing how systems change over time. It provides tools fo...
+- [[Eeg]] – Electroencephalography (EEG) is a non-invasive method for recording electrical activity of the brain via electrodes plac...
+- [[Effective Connectivity]] – Effective connectivity refers to the causal or directed influence that one neural system exerts over another, capturing ...
+- [[Epilepsy Modeling]] – Computational modeling of epilepsy uses neural mass models and dynamical systems theory to understand seizure generation...
+- [[Epileptor Rs]] – An extension of the Epileptor model incorporating stochastic dynamics for resting-state and interictal activity simulati...
+- [[Epileptor]] – The Epileptor is a composite neural mass model specifically designed to capture the phenomenology of epileptic seizures....
+- [[Epileptorcodim3]] – A comprehensive unfolding of the Epileptor dynamics revealing the complete bifurcation structure. This model identifies ...
+- [[Fmri]] – Functional magnetic resonance imaging (fMRI) is a non-invasive neuroimaging technique that measures brain activity by de...
+- [[Fokker Planck Equation]] – The Fokker-Planck equation (also called forward Kolmogorov equation) describes the time evolution of the probability den...
+- [[Free Energy Principle]] – The Free Energy Principle (FEP) proposes that self-organizing biological systems minimize variational free energy, which...
+- [[Functional Connectivity]] – Functional connectivity refers to statistical dependencies between neurophysiological signals measured from different br...
+- [[Graph Theory]] – Mathematical framework for studying networks, applied to brain connectivity analysis.
+- [[Hopfield]] – A recurrent neural network serving as an associative memory system.
+- [[Ica]] – Independent Component Analysis is a computational technique for separating mixed signals into statistically independent ...
+- [[Index]] – A collection of foundational concepts in computational neuroscience and whole-brain modeling, organized by domain.
+- [[Infinite Theta]] – An exact mean-field reduction of an infinite population of quadratic integrate-and-fire (QIF) neurons.
+- [[Jansen Rit]] – The Jansen-Rit model is a neural mass model of a single cortical column capable of generating realistic EEG and MEG sign...
+- [[K Ion Exchange]] – A metabolic neural mass model incorporating extracellular potassium dynamics.
+- [[Larter Breakspear]] – The Larter-Breakspear model is a conductance-based neural mass model that extends the Morris-Lecar equations to include ...
+- [[Linear]] – A simple linear dynamical system used for testing, validation, and baseline comparisons.
+- [[Mean Field Theory]] – Mean field theory approximates the behavior of large networks by averaging over microscopic details, deriving macroscopi...
+- [[Meg]] – Magnetoencephalography (MEG) is a non-invasive neuroimaging technique that measures magnetic fields produced by neural a...
+- [[Modularity]] – Organization of networks into communities or modules with dense internal connections and sparse external connections.
+- [[Network Hubs]] – Highly connected nodes in brain networks that play crucial roles in information integration and communication.
+- [[Neural Mass Model]] – Neural mass models (NMMs) are mathematical descriptions of the collective behavior of large populations of neurons, usin...
+- [[Neural Mass Models]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Neurodevelopment]] – Neurodevelopment refers to the processes by which the nervous system grows and develops from embryonic stages through ad...
+- [[Nonlinear Dynamics]] – Nonlinear dynamics studies systems where output is not proportional to input, giving rise to complex behaviors including...
+- [[Oscillator]] – A universal two-dimensional oscillator model capable of exhibiting various dynamical regimes.
+- [[Parcellation]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Personalized Brain Modeling]] – Personalized brain modeling refers to the construction of subject-specific computational brain models from individual ne...
+- [[Resting State]] – Resting-state fMRI (rs-fMRI) measures spontaneous brain activity during task-free conditions to reveal intrinsic functio...
+- [[Rich Club]] – Tendency for high-degree nodes (hubs) in a network to be more densely interconnected than expected by chance.
+- [[Scale Free Networks]] – Networks with power-law degree distributions, characterized by the presence of hubs.
+- [[Small World Networks]] – Network topology characterized by high local clustering and short global path lengths.
+- [[Spiking Neural Networks]] – Spiking neural networks (SNNs) are computational models that simulate the dynamics of neurons generating discrete electr...
+- [[Stefanescu Jirsa]] – A systematic dimensional reduction of the Epileptor yielding a 2D model that preserves essential seizure dynamics.
+- [[Stochastic Differential Equations]] – Stochastic differential equations (SDEs) extend ordinary differential equations by including random noise terms, modelin...
+- [[Structural Connectivity]] – Structural connectivity refers to the anatomical connections between brain regions, typically represented as white matte...
+- [[Structural Core]] – A set of highly interconnected hub regions that form a central backbone for brain communication.
+- [[Tractography]] – Tractography is a computational method for reconstructing white matter fiber pathways from diffusion MRI data, enabling ...
+- [[Variational Bayes]] – Variational Bayes (VB) is a method for approximate Bayesian inference that transforms integration (computing posteriors)...
+- [[Whole Brain]] – whole-brain is a key concept in connectome‑based whole‑brain modeling.
+- [[Wilson Cowan]] – The Wilson-Cowan model is the canonical firing-rate model of coupled excitatory and inhibitory neural populations. Intro...
+- [[Wong Wang Exc Inh]] – An extended version of the reduced Wong-Wang model with separate excitatory (E) and inhibitory (I) populations.
+- [[Wong Wang]] – The reduced Wong-Wang model is a simplified neural mass model derived from spiking network simulations. It is particular...
+- [[Zerlaut]] – A mean-field model of interacting excitatory and inhibitory populations with spike-frequency adaptation.
+
+## Comparisons
+<!-- comparisons -->
+- [[Connectivity Types]] – Three distinct but related concepts for describing brain connectivity, each capturing different aspects of how brain reg...
+- [[Fmri Vs Eeg]] – Comparison of functional MRI and electroencephalography as neuroimaging modalities for whole-brain modeling validation a...
+- [[Index]] – Side-by-side analyses of tools, methods, and concepts.
+- [[Neural Mass Models Comparison]] – Comparison of the two most influential neural mass models: the Wilson-Cowan model (1972) as the canonical firing-rate mo...
+- [[Tvb Vs Nest Vs Neuron]] – Comparison of major neural simulation platforms for whole-brain modeling and spiking network simulations.
+- [[Whole Brain Simulators]] – Landscape of whole-brain simulation tools
+
+---
+
+## Quality Legend
+
+| Symbol | Meaning |
+|:------:|:--------|
+| ✓ | Complete, reviewed content |
+| ⚠️ | Partial content, may need expansion |
+| 📝 | Placeholder, awaiting content |
+
+---
+
+*This catalog is auto-generated. For curated entry points, see the [Home page](index.md).*
