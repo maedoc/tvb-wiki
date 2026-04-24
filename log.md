@@ -2,6 +2,26 @@
 
 ## 2026-04-24
 
+- Improved page: [[CARLsim]] – GPU-accelerated spiking neural network simulator
+  - Complete rewrite from placeholder to full entity page (~800 words)
+  - Tags: software-brain-modeling, spiking-neural-networks, software-nest, whole-brain-modeling
+  - Established 15+ wikilinks to TVB, NEST, NEURON, Brian, ANNarchy, Izhikevich neuron model, spiking neural networks, neuromorphic computing, whole brain, brain network, synaptic plasticity
+  - Documented GPU-accelerated SNN simulation with CUDA support
+  - Detailed relationship to TVB: complementary approaches (spiking vs neural mass, GPU vs CPU)
+  - Comparison table with NEST highlighting different scalability approaches
+  - Key papers: Nageswaran et al. (2009), Beyeler et al. (2015), Richert et al. (2021)
+  - Technical specifications: neuron models, plasticity rules, multi-GPU support
+
+
+
+- Improved page: [[NiftyReg]] – Medical image registration library
+  - Complete rewrite from placeholder to full entity page (~750 words)
+  - Tags: software-brain-modeling, neuroimaging-processing, structural-connectivity, diffusion-imaging, tractography
+  - Established 10+ wikilinks to TVB, ANTs, FSL, SPM, FreeSurfer, MRtrix3, NiftyNet, Desikan-Killiany Atlas, AAL Atlas
+  - Documented rigid/affine/FFD registration algorithms, GPU acceleration, and bending energy regularization
+  - Detailed TVB relationship for atlas registration, structural connectivity generation, and DTI preprocessing
+  - Key papers: Modat et al. (2010) symmetric block-matching, GPU-accelerated FFD
+
 - Improved page: [[HCP Pipelines]] – Neuroimaging preprocessing pipelines
   - Complete rewrite from placeholder to full entity page (~650 words)
   - Tags: software-brain-modeling, database-hcp, structural-connectivity, functional-connectivity, neuroimaging-fmri, neuroimaging-dti, connectomics, tractography
@@ -123,3 +143,5 @@
 ## [2026-04-24 03:18] Matcher: 8 pages got 28 new sources
 
 ## [2026-04-24 03:22] Improve: 3 pages improved (voxelmorph, hcp-pipelines, lfp-lib)
+
+## [2026-04-24 04:38] Matcher: 9 pages got 37 new sources
