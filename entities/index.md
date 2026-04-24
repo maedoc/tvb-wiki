@@ -7,6 +7,7 @@ A collection of people, software platforms, datasets, and research groups releva
 - [TVB](tvb.md) – The Virtual Brain simulator
 - [NEST](nest.md) – Spiking neural network simulator
 - [NEURON](neuron.md) – Detailed multicompartment neuron simulator
+- [3D Slicer](3d-slicer.md) – Open-source medical image computing and visualization platform
 - [ANTs](ants.md) – Advanced Normalization Tools for neuroimaging
 - [DataLad](datalad.md) – Distributed data management and version control for neuroimaging
 - [GraphVar](graphvar.md) – Graph-theoretical analysis toolbox

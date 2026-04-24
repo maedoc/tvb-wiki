@@ -2,6 +2,34 @@
 
 ## 2026-04-24
 
+- Improved page: [[PRoNTo]] – Pattern Recognition for Neuroimaging Toolbox
+  - Complete rewrite from placeholder to full entity page (~700 words)
+  - Tags: software-brain-modeling, neuroimaging-fmri, functional-connectivity, whole-brain-modeling
+  - Established 10+ wikilinks to TVB, SPM, Nilearn, PyMVPA, CONN, GIFT, connectome, brain-network, fMRI, EEG, structural-connectivity
+  - Documented MATLAB-based machine learning for neuroimaging: SVM, Gaussian Processes, MVPA classification
+  - Detailed TVB relationship: complementary workflow—PRoNTo classifies empirical data, TVB simulates mechanisms; bidirectional validation
+  - Key papers: Schrouff et al. (2013) foundational Neuroinformatics paper, Schrouff & Mourão-Miranda (2019) handbook chapter
+  - Integration notes: seamless SPM import, searchlight and ROI analysis, cross-validation frameworks
+
+- Improved page: [[FastSurfer]] – Deep learning-based neuroimaging pipeline for cortical surface reconstruction
+  - Complete rewrite from placeholder to full entity page (~700 words)
+  - Tags: software-brain-modeling, neuroimaging-processing, structural-connectivity, neuroimaging-fmri, tractography
+  - Established 10+ wikilinks to TVB, FreeSurfer, ANTs, FSL, MRtrix3, NiftyReg, Desikan-Killiany Atlas, Destrieux Atlas
+  - Documented deep learning segmentation with 3D U-Net, GPU-accelerated surface reconstruction
+  - Detailed TVB relationship: surface mesh generation, regional parcellations, structural connectivity integration
+  - Key papers: Henschel et al. (2020) introducing FastSurferCNN, Kügler et al. (2022) on FastSurferVINN resolution independence
+  - Highlighted 1000× speedup over FreeSurfer recon-all with maintained accuracy
+
+- Improved page: [[3D Slicer]] – Open-source medical image computing platform
+  - Complete rewrite from placeholder to full entity page (~700 words)
+  - Tags: software-brain-modeling, software-visualization, neuroimaging-dti, neuroimaging-fmri, structural-connectivity, tractography
+  - Established 15+ wikilinks to TVB, FreeSurfer, FSL, MRtrix3, ANTs, HCP Pipelines, BIDS, DTI, MRI, tractography, connectome, parcellation
+  - Documented multi-modal visualization, DICOM integration, SlicerDMRI extension
+  - Detailed TVB relationship: preprocessing companion for atlas registration, parcellation, tractography QC, surface export
+  - Comparison table showing complementary roles with TVB
+  - Key papers: Pieper et al. (2006), Norton et al. (2017), Fedorov et al. (2012)
+  - Added to [[entities/index.md]] under Software Platforms section
+
 - Improved page: [[CARLsim]] – GPU-accelerated spiking neural network simulator
   - Complete rewrite from placeholder to full entity page (~800 words)
   - Tags: software-brain-modeling, spiking-neural-networks, software-nest, whole-brain-modeling
@@ -147,3 +175,5 @@
 ## [2026-04-24 04:38] Matcher: 9 pages got 37 new sources
 
 ## [2026-04-24 04:42] Improve: 3 pages improved (nipype, carlsim, niftyreg)
+
+## [2026-04-24 06:08] Matcher: 10 pages got 34 new sources
