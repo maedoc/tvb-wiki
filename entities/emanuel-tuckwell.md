@@ -1,10 +1,15 @@
 ---
-title: "Emanuel Tuckwell"
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/tuckwell-1988.md
+- raw/papers/freeman-1975.md
+- raw/papers/ermentrout-terman-2010.md
+- raw/papers/dayan-abbott-2001.md
+tags:
+- people-researcher
+title: Emanuel Tuckwell
 type: entity
-tags: [people-researcher]
-sources: [raw/papers/tuckwell-1988.md]
+updated: '2026-04-24'
 ---
 
 ## Overview

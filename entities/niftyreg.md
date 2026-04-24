@@ -5,6 +5,11 @@ sources:
 - https://doi.org/10.1016/j.cmpb.2009.09.002
 - https://doi.org/10.1016/S0262-8856(00)00052-4
 - https://github.com/UCL/NiftyReg
+- raw/papers/sanz-leon-2013.md
+- raw/papers/avants-2008.md
+- raw/papers/semanticscholar-97e6ff441097.md
+- raw/papers/semanticscholar-fcd025fcc10c.md
+- raw/papers/semanticscholar-a324c47ea982.md
 tags:
 - software-brain-modeling
 - neuroimaging-processing
@@ -13,8 +18,9 @@ tags:
 - tractography
 title: NiftyReg
 type: entity
-updated: 2026-04-24
+updated: '2026-04-24'
 ---
+
 Here's the corrected `niftyreg.md` with all issues addressed:
 
 ---

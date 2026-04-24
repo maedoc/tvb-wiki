@@ -1,10 +1,16 @@
 ---
-title: Giulio Tononi
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/sporns-tononi-kotter-2005.md
+- raw/papers/sporns-2011.md
+- raw/papers/smith-2013-connectomics.md
+tags:
+- people-researcher
+- consciousness-models
+- connectomics
+title: Giulio Tononi
 type: entity
-tags: [people-researcher, consciousness-models, connectomics]
-sources: [raw/papers/sporns-tononi-kotter-2005.md]
+updated: '2026-04-24'
 ---
 
 # Giulio Tononi

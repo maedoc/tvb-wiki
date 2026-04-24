@@ -1,10 +1,18 @@
 ---
-title: NiPype
 created: 2024-01-15
-updated: 2026-04-24
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/arxiv-2505.16861.md
+- raw/papers/semanticscholar-0aeca1b592e6.md
+- raw/papers/semanticscholar-eb704b6f5462.md
+- raw/papers/ritter-2013.md
+tags:
+- software-brain-modeling
+- neuroimaging-fmri
+- whole-brain-modeling
+title: NiPype
 type: entity
-tags: [software-brain-modeling, neuroimaging-fmri, whole-brain-modeling]
-sources: []
+updated: '2026-04-24'
 ---
 
 # NiPype

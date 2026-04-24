@@ -1,10 +1,13 @@
 ---
-title: "Hannes Risken"
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/risken-1989.md
+- raw/papers/gardiner-2009.md
+tags:
+- people-researcher
+title: Hannes Risken
 type: entity
-tags: [people-researcher]
-sources: [raw/papers/risken-1989.md]
+updated: '2026-04-24'
 ---
 
 ## Overview

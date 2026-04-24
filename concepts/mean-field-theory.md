@@ -7,6 +7,7 @@ sources:
 - raw/papers/schwalger-deger-gerstner-2017.md
 - raw/papers/potjans-diesmann-2014.md
 - raw/papers/stefanescu-jirsa-2008.md
+- raw/papers/arxiv-2603.28931.md
 tags:
 - neural-mass-models
 - spiking-neural-networks

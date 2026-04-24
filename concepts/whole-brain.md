@@ -7,6 +7,7 @@ sources:
 - raw/papers/arxiv-2406.05002.md
 - raw/papers/hagmann-2008.md
 - raw/papers/arxiv-2510.27366.md
+- raw/papers/gerstner-2014.md
 tags:
 - whole-brain-modeling
 title: whole-brain

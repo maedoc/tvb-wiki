@@ -5,6 +5,9 @@ sources:
 - raw/papers/cohen-2014.md
 - raw/papers/buzsaki-2012.md
 - raw/papers/sanz-leon-2013.md
+- raw/papers/arxiv-2509.21770.md
+- raw/papers/arxiv-2604.00163.md
+- raw/papers/semanticscholar-87fcd15931ad.md
 tags:
 - neuroimaging-meg
 - brain-oscillations
