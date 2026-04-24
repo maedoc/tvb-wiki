@@ -2,6 +2,14 @@
 
 ## 2026-04-24
 
+- Improved page: [[HCP Pipelines]] – Neuroimaging preprocessing pipelines
+  - Complete rewrite from placeholder to full entity page (~650 words)
+  - Tags: software-brain-modeling, database-hcp, structural-connectivity, functional-connectivity, neuroimaging-fmri, neuroimaging-dti, connectomics, tractography
+  - Established 10+ wikilinks to TVB, Human Connectome Project, FSL, FreeSurfer, MRtrix3, ANTs, DataLad
+  - Documented structural, functional, and diffusion preprocessing stages
+  - Detailed TVB relationship for connectome-based simulation workflows
+  - Key papers: Glasser et al. (2013), Smith et al. (2013), Van Essen et al. (2013)
+
 - Created page: [[DataLad]] – Distributed data management system
   - Complete entity page from placeholder (~750 words)
   - Tags: software-brain-modeling, structural-connectivity, functional-connectivity, neuroimaging-dti, neuroimaging-fmri, reproducibility, database-hcp
@@ -111,3 +119,5 @@
 ## [2026-04-24 01:56] Matcher: 13 pages got 45 new sources
 
 ## [2026-04-24 01:59] Improve: 3 pages improved (neuronunit, datalad, sciunit)
+
+## [2026-04-24 03:18] Matcher: 8 pages got 28 new sources
