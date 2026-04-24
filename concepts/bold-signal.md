@@ -7,6 +7,7 @@ sources:
 - raw/papers/arxiv-2604.03619.md
 - raw/papers/semanticscholar-cc2129666e15.md
 - raw/papers/semanticscholar-f52da2a6cbf2.md
+- raw/papers/arxiv-2603.13598.md
 tags:
 - neuroimaging-fmri
 - neurovascular-coupling

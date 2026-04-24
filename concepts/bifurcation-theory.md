@@ -8,6 +8,7 @@ sources:
 - raw/papers/touboul-2011.md
 - raw/papers/arxiv-2411.16449.md
 - raw/papers/arxiv-2509.02799.md
+- raw/papers/hirsch-smale-devaney-2004.md
 tags:
 - bifurcation-analysis
 - neural-mass-models

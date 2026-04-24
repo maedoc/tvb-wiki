@@ -1,10 +1,16 @@
 ---
-title: Edward T. Bullmore
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/bullmore-sporns-2009.md
+- raw/papers/sporns-2011.md
+- raw/papers/rubinov-sporns-2010.md
+tags:
+- people-researcher
+- connectomics
+- network-dynamics
+title: Edward T. Bullmore
 type: entity
-tags: [people-researcher, connectomics, network-dynamics]
-sources: [raw/papers/bullmore-sporns-2009.md]
+updated: '2026-04-24'
 ---
 
 # Edward T. Bullmore

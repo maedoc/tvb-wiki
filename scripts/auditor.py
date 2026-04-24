@@ -19,6 +19,7 @@ from ralph_config import (
     RAW_PAPERS_DIR, CATALOG_PATH, META_DIR, AUDIT_REPORT_FILE,
     append_log, git_commit, get_all_pages, get_all_wikilinks,
     word_count, has_placeholder, get_sources, load_frontmatter,
+    read_page,
 )
 
 log = get_logger("Auditor")
@@ -183,6 +184,166 @@ def find_cross_reference_asymmetry() -> list[dict]:
     return asymmetric
 
 
+# ── Quality checks (new) ───────────────────────────────────────────
+
+def find_duplicate_references_sections() -> list[dict]:
+    """Find pages with more than one ## References / ## Sources / ## Bibliography heading."""
+    results = []
+    ref_pattern = re.compile(r'^##\s+(References?|Sources?|Bibliography)\s*$', re.MULTILINE | re.IGNORECASE)
+    all_pages = get_all_pages()
+
+    for slug, filepath in all_pages.items():
+        try:
+            metadata, content = read_page(filepath)
+            matches = ref_pattern.findall(content)
+            if len(matches) > 1:
+                results.append({
+                    'slug': slug,
+                    'count': len(matches),
+                    'headings': matches,
+                    'path': filepath,
+                })
+        except Exception:
+            pass
+    return results
+
+
+def find_opaque_references() -> list[dict]:
+    """Find pages whose body references contain raw slugs like arxiv-2509.02799."""
+    opaque_pattern = re.compile(
+        r'(?:^|\n)\s*[-*\d.)]+\s+(.*(?:arxiv-\d{4}\.\d{4,}|semanticscholar-[a-f0-9]+|pubmed-\d+|raw/papers/).*)',
+        re.IGNORECASE
+    )
+    results = []
+    all_pages = get_all_pages()
+
+    for slug, filepath in all_pages.items():
+        try:
+            metadata, content = read_page(filepath)
+            matches = opaque_pattern.findall(content)
+            if matches:
+                results.append({
+                    'slug': slug,
+                    'opaque_count': len(matches),
+                    'samples': matches[:5],
+                    'path': filepath,
+                })
+        except Exception:
+            pass
+    return results
+
+
+def find_thin_narrative_pages() -> list[dict]:
+    """Find pages where the first content section has very little prose."""
+    results = []
+    all_pages = get_all_pages()
+
+    for slug, filepath in all_pages.items():
+        try:
+            metadata, content = read_page(filepath)
+
+            # Find the first ## section and count its prose
+            lines = content.split('\n')
+            first_section_lines = []
+            found_first = False
+            for line in lines:
+                if line.startswith('## ') and not line.startswith('### '):
+                    if found_first:
+                        break  # hit next section
+                    found_first = True
+                    continue
+                if found_first:
+                    first_section_lines.append(line)
+
+            if not found_first:
+                continue
+
+            section_text = '\n'.join(first_section_lines).strip()
+            # Strip tables and code
+            section_text = re.sub(r'\|.*\|', '', section_text)
+            section_text = re.sub(r'```[\s\S]*?```', '', section_text)
+            section_text = re.sub(r'`[^`]+`', '', section_text)
+            prose_words = len(section_text.split())
+
+            page_type = metadata.get('type', '')
+            # Concept pages should have substantial intro prose
+            if page_type == 'concept' and prose_words < 50:
+                results.append({
+                    'slug': slug,
+                    'first_section_words': prose_words,
+                    'page_words': word_count(content),
+                    'path': filepath,
+                    'note': 'first section has <50 words of prose',
+                })
+        except Exception:
+            pass
+    return results
+
+
+def find_missing_inline_crosslinks() -> list[dict]:
+    """Find pages that mention existing page titles as plain text without [[wikilinks]]."""
+    # Build set of searchable terms from page slugs/titles
+    all_pages = get_all_pages()
+    # Simple slug-based matching: look for slug-as-words (hyphens→spaces)
+    # Only check a curated set of high-value terms to avoid noise
+    key_terms = {
+        'mean-field': 'mean-field-theory',
+        'mean field': 'mean-field-theory',
+        'integrate-and-fire': 'spiking-neural-networks',
+        'integrate and fire': 'spiking-neural-networks',
+        'neural mass': 'neural-mass-models',
+        'Wilson-Cowan': 'wilson-cowan',
+        'Jansen-Rit': 'jansen-rit',
+        'Epileptor': 'epileptor',
+        'Wong-Wang': 'wong-wang',
+        'Larter-Breakspear': 'larter-breakspear',
+        'Stefanescu-Jirsa': 'stefanescu-jirsa',
+        'Zerlaut': 'zerlaut',
+        'functional connectivity': 'functional-connectivity',
+        'structural connectivity': 'structural-connectivity',
+        'effective connectivity': 'effective-connectivity',
+        'bifurcation': 'bifurcation-analysis',
+        'resting-state': 'resting-state',
+        'resting state': 'resting-state',
+        'whole-brain': 'whole-brain-modeling',
+        'connectome': 'connectome',
+        'connectomics': 'connectomics',
+        'BOLD': 'bold-signal',
+        'dynamic causal modeling': 'dynamic-causal-modeling',
+        'forward model': 'forward-model',
+        'graph theory': 'network-dynamics',
+        'tractography': 'tractography',
+        'source localization': 'source-localization',
+        'parcellation': 'parcellation',
+    }
+
+    results = []
+    for slug, filepath in all_pages.items():
+        try:
+            metadata, content = read_page(filepath)
+            # Strip frontmatter, code blocks, existing wikilinks
+            check_text = re.sub(r'```[\s\S]*?```', '', content)
+            check_text = re.sub(r'\[\[[^\]]+\]\]', '', check_text)
+
+            missing = []
+            for term, target in key_terms.items():
+                if target == slug:
+                    continue  # don't link to self
+                if re.search(r'\b' + re.escape(term) + r'\b', check_text, re.IGNORECASE):
+                    missing.append((term, target))
+
+            if missing:
+                results.append({
+                    'slug': slug,
+                    'missing_links': missing[:10],
+                    'count': len(missing),
+                    'path': filepath,
+                })
+        except Exception:
+            pass
+    return results
+
+
 # ── Main audit cycle ──────────────────────────────────────────────────
 
 def run_auditor_cycle():
@@ -207,6 +368,10 @@ def run_auditor_cycle():
         'missing_frontmatter': find_missing_frontmatter(),
         'missing_from_index': find_pages_missing_from_index(),
         'cross_ref_asymmetry': find_cross_reference_asymmetry(),
+        'duplicate_references': find_duplicate_references_sections(),
+        'opaque_references': find_opaque_references(),
+        'thin_narrative': find_thin_narrative_pages(),
+        'missing_inline_crosslinks': find_missing_inline_crosslinks(),
     }
 
     # Summary
@@ -218,7 +383,11 @@ def run_auditor_cycle():
         len(report['stale_pages']) +
         len(report['broken_source_refs']) +
         len(report['missing_frontmatter']) +
-        len(report['missing_from_index'])
+        len(report['missing_from_index']) +
+        len(report['duplicate_references']) +
+        len(report['opaque_references']) +
+        len(report['thin_narrative']) +
+        len(report['missing_inline_crosslinks'])
     )
 
     log.info("Broken wikilinks: %d", len(report['broken_wikilinks']))
@@ -230,6 +399,10 @@ def run_auditor_cycle():
     log.info("Missing frontmatter: %d", len(report['missing_frontmatter']))
     log.info("Missing from index: %d", len(report['missing_from_index']))
     log.info("Cross-ref asymmetries: %d", len(report['cross_ref_asymmetry']))
+    log.info("Duplicate references sections: %d", len(report['duplicate_references']))
+    log.info("Opaque references: %d", len(report['opaque_references']))
+    log.info("Thin narrative pages: %d", len(report['thin_narrative']))
+    log.info("Missing inline crosslinks: %d", len(report['missing_inline_crosslinks']))
     log.info("TOTAL ISSUES: %d", total_issues)
 
     # Save machine-readable report
@@ -251,6 +424,10 @@ def run_auditor_cycle():
         f.write(f"Broken source refs: {len(report['broken_source_refs'])}\n")
         f.write(f"Missing frontmatter: {len(report['missing_frontmatter'])}\n")
         f.write(f"Missing from index: {len(report['missing_from_index'])}\n")
+        f.write(f"Duplicate references sections: {len(report['duplicate_references'])}\n")
+        f.write(f"Opaque references: {len(report['opaque_references'])}\n")
+        f.write(f"Thin narrative pages: {len(report['thin_narrative'])}\n")
+        f.write(f"Missing inline crosslinks: {len(report['missing_inline_crosslinks'])}\n")
 
         for item in report['broken_wikilinks'][:20]:
             f.write(f"  BROKEN: {item['source']} -> [[{item['target']}]]\n")
@@ -258,10 +435,20 @@ def run_auditor_cycle():
             f.write(f"  ORPHAN: [[{slug}]]\n")
         for item in report['placeholder_pages']:
             f.write(f"  PLACEHOLDER: {item['slug']} ({item['placeholders']} occurrences)\n")
+        for item in report['duplicate_references']:
+            f.write(f"  DUP_REFS: {item['slug']} ({item['count']} sections)\n")
+        for item in report['opaque_references'][:20]:
+            f.write(f"  OPAQUE_REF: {item['slug']} ({item['opaque_count']} opaque)\n")
+        for item in report['thin_narrative'][:20]:
+            f.write(f"  THIN: {item['slug']} ({item['first_section_words']} words intro prose)\n")
+        for item in report['missing_inline_crosslinks'][:20]:
+            f.write(f"  MISSING_LINKS: {item['slug']} ({item['count']} missed)\n")
 
     # Log to log.md
     append_log(f"Audit: {total_issues} issues ({len(report['broken_wikilinks'])} broken links, "
-               f"{len(report['orphan_pages'])} orphans, {len(report['placeholder_pages'])} placeholders)")
+               f"{len(report['orphan_pages'])} orphans, {len(report['placeholder_pages'])} placeholders, "
+               f"{len(report['duplicate_references'])} dup-refs, {len(report['opaque_references'])} opaque-refs, "
+               f"{len(report['thin_narrative'])} thin, {len(report['missing_inline_crosslinks'])} missing-links)")
 
     # Git commit the report
     git_commit(f"Audit: {total_issues} issues — {len(report['broken_wikilinks'])} broken links, "

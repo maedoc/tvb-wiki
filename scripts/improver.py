@@ -62,9 +62,13 @@ def score_page(filepath: str) -> tuple[float, dict]:
 
     # Too short
     if info['words'] < 200:
-        score -= 30
+        score -= 50
+    elif info['words'] < 300:
+        score -= 40
     elif info['words'] < 500:
-        score -= 10
+        score -= 20
+    elif info['words'] < 800:
+        score -= 5
 
     # No sources/refs
     if info['sources'] == 0:
@@ -74,9 +78,11 @@ def score_page(filepath: str) -> tuple[float, dict]:
 
     # No wikilinks
     if info['wikilinks'] == 0:
-        score -= 15
+        score -= 20
     elif info['wikilinks'] < 3:
-        score -= 5
+        score -= 10
+    elif info['wikilinks'] < 8:
+        score -= 3
 
     # Stale (not updated in 30+ days)
     try:
@@ -245,7 +251,25 @@ def build_writer_prompt(filepath: str) -> str:
         with open(SCHEMA_PATH, 'r') as f:
             schema = f.read()
 
-    prompt = f"""You are the Ralph Writer agent improving a TVB Wiki page. Follow the schema strictly.
+    # Build page inventory for accurate wikilinks
+    all_pages = get_all_pages()
+    page_list = sorted(all_pages.keys())
+    page_inventory = '\n'.join(f'  - {s}' for s in page_list)
+
+    page_type = metadata.get('type', 'concept')
+    is_concept = page_type == 'concept'
+    is_entity = page_type == 'entity'
+    is_comparison = page_type == 'comparison'
+
+    # Type-specific word targets
+    if is_concept:
+        word_target = "500–800"
+    elif is_entity:
+        word_target = "400–600"
+    else:
+        word_target = "500–700"
+
+    prompt = f"""You are the Ralph Writer agent improving a TVB Wiki page about whole-brain modeling and computational neuroscience. Follow the schema strictly.
 
 ## SCHEMA
 {schema}
@@ -259,16 +283,32 @@ Improve the wiki page: {slug}
 ## AVAILABLE SOURCE PAPERS
 {sources_block}
 
-## INSTRUCTIONS
+## EXISTING WIKI PAGES (use these for [[wikilinks]] — only link to pages in this list)
+{page_inventory}
+
+## WRITING STYLE
+- Write for a **graduate student in neuroscience** who is intelligent but not a specialist in this particular topic
+- **Dense but readable** prose — like Scholarpedia or a very good Wikipedia science article, NOT like a PowerPoint slide
+- Every section must have at least one full paragraph of prose. Avoid sections that are only a table or equations
+- Cross-link aggressively: the first mention of any concept that appears in the page inventory above should be a [[wikilink]]. Aim for 8–15 wikilinks per page
+- Avoid one-liner sections — if a section would be only 1–2 sentences, expand it or merge it
+
+## STRUCTURAL REQUIREMENTS
+1. **Opening paragraph** (2–3 sentences): What is this? Define it plainly before any technical detail
+2. **Motivation / Context** (1–2 paragraphs): WHY does this exist? What problem does it solve? How does it fit into the broader field?
+3. **Technical content**: Equations and tables are welcome but must be **surrounded by explanatory prose** — explain what each equation means in words
+4. **Relationships**: Compare to related models/concepts. What came before? What came after? What are the tradeoffs?
+{"5. **Biological grounding**: For model pages, explain what biological phenomena the model captures and how parameters map to neural mechanisms" if is_concept else "5. **Key features**: For entity pages, explain what makes this notable and how it's used in practice"}
+
+## FORMATTING RULES
 1. Replace ALL placeholder text (*Placeholder*) with real, sourced content
-2. Add wikilinks [[like-this]] to related pages (minimum 3)
-3. Add factual claims ONLY if you can cite a source
+2. Add wikilinks [[like-this]] to related pages from the inventory above (minimum 8)
+3. Add factual claims ONLY if you can cite a source or are confident from domain knowledge
 4. Keep the YAML frontmatter, but update the `updated:` date to today ({datetime.date.today().isoformat()})
 5. Add any new sources used to the `sources:` frontmatter list
-6. Aim for 400-800 words for a full page
+6. Aim for {word_target} words for a full page
 7. Use clear section headings (##)
-8. For concept pages: include a definition, role in modeling, related concepts
-9. For entity pages: include overview, key features, related software/people
+8. Do NOT add a ## References section — a separate agent handles reference formatting
 
 Write the COMPLETE updated page (including frontmatter). Output ONLY the markdown file content, no commentary."""
     return prompt
@@ -291,10 +331,12 @@ Review the proposed edit to: {os.path.basename(filepath)}
 Answer each of these:
 1. Are all new factual claims supported by cited sources? (PASS/FAIL)
 2. Are there any factual errors or dubious claims? (PASS/FAIL)
-3. Is the writing quality sufficient for a Scholarpedia-level wiki? (PASS/FAIL)
-4. Do all wikilinks [[like-this]] look plausible for a TVB/whole-brain wiki? (PASS/FAIL)
-5. Was placeholder text fully replaced? (PASS/FAIL)
-6. Is there anything important missing that should be added? (NOTE or OK)
+3. Is the writing quality sufficient for a Scholarpedia-level wiki? Dense prose, not bullet points or cheat-sheet style? (PASS/FAIL)
+4. Does the page open with a clear, plain-English explanation before any equations? (PASS/FAIL)
+5. Do all wikilinks [[like-this]] correspond to pages that plausibly exist in a TVB/whole-brain wiki? (PASS/FAIL)
+6. Was placeholder text fully replaced? (PASS/FAIL)
+7. Is there sufficient narrative context — motivation, history, comparisons — not just equations and tables? (PASS/FAIL)
+8. Anything important missing that should be added? (NOTE or OK)
 
 ## OUTPUT FORMAT
 Reply with ONLY:
@@ -441,7 +483,12 @@ def improve_page(filepath: str) -> tuple[bool, str]:
             with open(SCHEMA_PATH, 'r') as f:
                 schema = f.read()
 
-        writer_prompt = f"""You are improving ONE SECTION of a TVB Wiki page.
+        # Build page inventory for accurate wikilinks
+        all_pages = get_all_pages()
+        page_list = sorted(all_pages.keys())
+        page_inventory = '\n'.join(f'  - {s}' for s in page_list)
+
+        writer_prompt = f"""You are improving ONE SECTION of a TVB Wiki page about whole-brain modeling and computational neuroscience.
 
 ## SCHEMA
 {schema}
@@ -457,14 +504,24 @@ Current content ({target_section['words']} words):
 ## AVAILABLE SOURCE PAPERS
 {sources_block}
 
+## EXISTING WIKI PAGES (use these for [[wikilinks]])
+{page_inventory}
+
+## WRITING STYLE
+- Dense but readable prose — like Scholarpedia, not a cheat sheet
+- Every section needs explanatory prose, not just tables or equations
+- Cross-link aggressively: wrap any term that appears in the page inventory in [[wikilinks]]
+- Avoid one-liner sections — write full paragraphs
+
 ## INSTRUCTIONS
 1. Rewrite ONLY the \"{section_heading}\" section with real, sourced content
 2. Replace ALL placeholder text with factual content
-3. Add wikilinks [[like-this]] to related pages
+3. Add wikilinks [[like-this]] to related pages from the inventory above
 4. Cite sources where appropriate
-5. Aim for 100-300 words for this section
+5. Aim for 100-300 words for this section, with full paragraphs of prose
 6. Output ONLY the new section content (no headings, no frontmatter, no commentary)
-7. Do NOT include the ## heading line itself — just the section body"""
+7. Do NOT include the ## heading line itself — just the section body
+8. Do NOT add a ## References section"""
 
         success, output = run_pi(writer_prompt, model=WRITER_MODEL)
         if not success:

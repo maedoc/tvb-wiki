@@ -1,10 +1,16 @@
 ---
-title: Modularity
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/newman-2010.md
+- raw/papers/bullmore-sporns-2009.md
+- raw/papers/sporns-2011.md
+- raw/papers/semanticscholar-a9ff4dda4e4c.md
+tags:
+- network-dynamics
+- connectomics
+title: Modularity
 type: concept
-tags: [network-dynamics, connectomics]
-sources: [raw/papers/newman-2010.md, raw/papers/bullmore-sporns-2009.md, raw/papers/sporns-2011.md]
+updated: '2026-04-24'
 ---
 
 # Modularity

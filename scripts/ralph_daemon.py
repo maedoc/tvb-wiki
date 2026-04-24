@@ -29,13 +29,13 @@ from ralph_config import (
     LIBRARIAN_INTERVAL, SOFTWARE_MAPPER_INTERVAL, DEEP_RESEARCH_INTERVAL,
     MATCHER_INTERVAL,
     REPAIRER_INTERVAL,
+    REF_FORMATTER_INTERVAL, CROSSLINK_APPLIER_INTERVAL,
     PARALLEL_WRITERS, PI_TIMEOUT,
     get_all_pages,
 )
 
-# Linter runs daily, crosslink runs weekly
+# Linter runs daily
 LINTER_INTERVAL = 86400
-CROSSLINK_INTERVAL = 604800
 
 log = get_logger("daemon")
 
@@ -54,8 +54,9 @@ class DaemonState:
             'SoftwareMapper': None,
             'DeepResearch': None,
             'Repairer': None,
+            'RefFormatter': None,
+            'CrosslinkApplier': None,
             'Linter': None,
-            'Crosslink': None,
         }
         self.failures = {k: 0 for k in self.last_run}
         self.disabled = set()
@@ -126,16 +127,29 @@ def run_linter():
         return False
 
 
-def run_crosslink():
-    log.info("Starting weekly crosslink cycle")
+def run_ref_formatter():
+    log.info("Starting reference formatting cycle")
     try:
-        from crosslink import find_crosslinks
-        suggestions = find_crosslinks()
-        state.record_success('Crosslink')
+        from ref_formatter import run_ref_formatter_cycle
+        stats = run_ref_formatter_cycle()
+        state.record_success('RefFormatter')
         return True
     except Exception as e:
-        log.error("Crosslink failed: %s", e)
-        state.record_failure('Crosslink')
+        log.error("RefFormatter failed: %s", e)
+        state.record_failure('RefFormatter')
+        return False
+
+
+def run_crosslink_applier():
+    log.info("Starting crosslink applier cycle")
+    try:
+        from crosslink_applier import run_crosslink_applier_cycle
+        stats = run_crosslink_applier_cycle()
+        state.record_success('CrosslinkApplier')
+        return True
+    except Exception as e:
+        log.error("CrosslinkApplier failed: %s", e)
+        state.record_failure('CrosslinkApplier')
         return False
 
 
@@ -246,16 +260,17 @@ def run_repairer():
 # ── Agent schedule ─────────────────────────────────────────────────────
 
 AGENTS = [
-    ('Matcher',        MATCHER_INTERVAL,       run_matcher),
-    ('Ingestor',       INGESTOR_INTERVAL,       run_ingestor),
-    ('Improver',       IMPROVER_INTERVAL,        run_improver),
-    ('DeepResearch',   DEEP_RESEARCH_INTERVAL,   run_deep_research),
-    ('Auditor',        AUDITOR_INTERVAL,         run_auditor),
-    ('Repairer',       REPAIRER_INTERVAL,        run_repairer),
-    ('Librarian',      LIBRARIAN_INTERVAL,       run_librarian),
-    ('Linter',         LINTER_INTERVAL,          run_linter),
-    ('Crosslink',      CROSSLINK_INTERVAL,       run_crosslink),
-    ('SoftwareMapper', SOFTWARE_MAPPER_INTERVAL, run_software_mapper),
+    ('Matcher',        MATCHER_INTERVAL,             run_matcher),
+    ('Ingestor',       INGESTOR_INTERVAL,             run_ingestor),
+    ('Improver',       IMPROVER_INTERVAL,              run_improver),
+    ('DeepResearch',   DEEP_RESEARCH_INTERVAL,         run_deep_research),
+    ('Auditor',        AUDITOR_INTERVAL,               run_auditor),
+    ('RefFormatter',   REF_FORMATTER_INTERVAL,         run_ref_formatter),
+    ('CrosslinkApplier', CROSSLINK_APPLIER_INTERVAL,   run_crosslink_applier),
+    ('Repairer',       REPAIRER_INTERVAL,              run_repairer),
+    ('Librarian',      LIBRARIAN_INTERVAL,             run_librarian),
+    ('Linter',         LINTER_INTERVAL,                run_linter),
+    ('SoftwareMapper', SOFTWARE_MAPPER_INTERVAL,       run_software_mapper),
 ]
 
 
@@ -290,7 +305,7 @@ def print_banner():
              len(pages), entities, concepts, comparisons, other)
     log.info("Raw papers: %d", raw_count)
     log.info("Last ingest: %s", last_update)
-    log.info("Agents: Matcher(hourly) Ingestor(daily) Improver(hourly) DeepResearch(2x/week) Auditor(daily) Repairer(daily) Librarian(daily) Linter(daily) Crosslink(weekly) SoftwareMapper(weekly)")
+    log.info("Agents: Matcher(hourly) Ingestor(daily) Improver(hourly) DeepResearch(2x/week) Auditor(daily) RefFormatter(daily) CrosslinkApplier(daily) Repairer(daily) Librarian(daily) Linter(daily) SoftwareMapper(weekly)")
     log.info("Models: writer=%s, reviewer=%s", WRITER_MODEL, REVIEWER_MODEL)
     log.info("Parallel writers: %d", PARALLEL_WRITERS)
     log.info("Log file: %s", RALPH_LOG)

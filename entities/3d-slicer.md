@@ -6,6 +6,7 @@ sources:
 - fedorov-2012
 - slicer-official
 - dmri-doc
+- raw/papers/tustison-2010.md
 tags:
 - software-brain-modeling
 - software-visualization
@@ -15,8 +16,9 @@ tags:
 - tractography
 title: 3D Slicer
 type: entity
-updated: 2026-04-24
+updated: '2026-04-24'
 ---
+
 **Fixed issues:**
 
 1. **Populated `sources` array** — Added 5 source references:

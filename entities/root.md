@@ -2,12 +2,16 @@
 created: 2026-04-23
 sources:
 - raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-0aeca1b592e6.md
+- raw/papers/david-friston-2003.md
+- raw/papers/arxiv-2602.18715.md
+- raw/papers/arxiv-2603.21067.md
 tags:
 - software-brain-modeling
 - software-visualization
 title: Root
 type: entity
-updated: '2026-04-23'
+updated: '2026-04-24'
 ---
 
 # ROOT

@@ -1,10 +1,16 @@
 ---
-title: Michael Hines
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/hines-carnevale-1997.md
+- raw/papers/carnevale-hines-2006.md
+- raw/papers/migliore-2006.md
+tags:
+- people-researcher
+- software-neuron
+- spiking-neural-networks
+title: Michael Hines
 type: entity
-tags: [people-researcher, software-neuron, spiking-neural-networks]
-sources: [raw/papers/hines-carnevale-1997.md, raw/papers/carnevale-hines-2006.md]
+updated: '2026-04-24'
 ---
 
 # Michael Hines

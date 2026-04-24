@@ -8,6 +8,7 @@ sources:
 - raw/papers/arxiv-2603.04149.md
 - raw/papers/semanticscholar-71ffb8153870.md
 - raw/papers/semanticscholar-c3d9674bec1b.md
+- raw/papers/semanticscholar-62534125f066.md
 tags:
 - neural-mass-models
 - associative-memory

@@ -5,6 +5,7 @@ sources:
 - raw/papers/potjans-diesmann-2014.md
 - raw/papers/eppler-2009.md
 - raw/papers/semanticscholar-71ffb8153870.md
+- raw/papers/helias-2012.md
 tags:
 - people-researcher
 - software-nest

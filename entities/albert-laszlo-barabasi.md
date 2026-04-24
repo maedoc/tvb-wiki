@@ -1,10 +1,15 @@
 ---
-title: Albert-László Barabási
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/barabasi-albert-1999.md
+- raw/papers/watts-strogatz-1998.md
+- raw/papers/sporns-2011.md
+tags:
+- people-researcher
+- network-dynamics
+title: Albert-László Barabási
 type: entity
-tags: [people-researcher, network-dynamics]
-sources: [raw/papers/barabasi-albert-1999.md]
+updated: '2026-04-24'
 ---
 
 # Albert-László Barabási

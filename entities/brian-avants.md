@@ -1,10 +1,18 @@
 ---
-title: Brian Avants
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/avants-2008.md
+- raw/papers/avants-2011.md
+- raw/papers/klein-2009.md
+- raw/papers/tustison-2010.md
+tags:
+- people-researcher
+- software-ants
+- neuroimaging-processing
+- brain-network
+title: Brian Avants
 type: entity
-tags: [people-researcher, software-ants, neuroimaging-processing, brain-network]
-sources: [raw/papers/avants-2008.md, raw/papers/avants-2011.md]
+updated: '2026-04-24'
 ---
 
 # Brian Avants

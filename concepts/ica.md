@@ -1,10 +1,17 @@
 ---
-title: Independent Component Analysis
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/makeig-1996.md
+- raw/papers/arxiv-2510.12910.md
+- raw/papers/arxiv-2604.11971.md
+tags:
+- ica
+- neuroimaging-eeg
+- neuroimaging-meg
+- neuroimaging-fmri
+title: Independent Component Analysis
 type: concept
-tags: [ica, neuroimaging-eeg, neuroimaging-meg, neuroimaging-fmri]
-sources: [raw/papers/makeig-1996.md]
+updated: '2026-04-24'
 ---
 
 # Independent Component Analysis (ICA)

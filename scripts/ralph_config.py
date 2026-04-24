@@ -51,6 +51,8 @@ SOFTWARE_MAPPER_INTERVAL = 604800  # weekly
 DEEP_RESEARCH_INTERVAL = 259200   # 2x/week + on-demand (only when Matcher reports gaps)
 MATCHER_INTERVAL    = 3600       # hourly (runs before Improver)
 REPAIRER_INTERVAL = 86400         # daily (runs after Auditor)
+REF_FORMATTER_INTERVAL = 86400     # daily (runs after Matcher)
+CROSSLINK_APPLIER_INTERVAL = 86400  # daily (replaces weekly Crosslink)
 
 # ── Git push schedule ─────────────────────────────────────────────────────
 # Push to the remote at most once per hour (default). Adjust PUSH_INTERVAL if needed.

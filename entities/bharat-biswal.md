@@ -1,10 +1,18 @@
 ---
-title: Bharat Biswal
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/biswal-1995.md
+- raw/papers/semanticscholar-7c3337c880fd.md
+- raw/papers/semanticscholar-15a4a438614f.md
+- raw/papers/semanticscholar-d801ad366cdb.md
+- raw/papers/semanticscholar-80ce93f146dc.md
+tags:
+- people-researcher
+- neuroimaging-fmri
+- resting-state
+title: Bharat Biswal
 type: entity
-tags: [people-researcher, neuroimaging-fmri, resting-state]
-sources: [raw/papers/biswal-1995.md]
+updated: '2026-04-24'
 ---
 
 # Bharat Biswal

@@ -1,10 +1,20 @@
 ---
-title: NiftyNet
 created: 2026-04-24
-updated: 2026-04-24
+sources:
+- https://doi.org/10.1016/j.cmpb.2018.01.004
+- https://github.com/NifTK/NiftyNet
+- raw/papers/semanticscholar-8edd59e14fa3.md
+- raw/papers/arxiv-2603.19844.md
+- raw/papers/semanticscholar-a324c47ea982.md
+- raw/papers/semanticscholar-f45e6044c92f.md
+- raw/papers/semanticscholar-97e6ff441097.md
+tags:
+- software-brain-modeling
+- structural-connectivity
+- connectomics
+title: NiftyNet
 type: entity
-tags: [software-brain-modeling, structural-connectivity, connectomics]
-sources: [https://doi.org/10.1016/j.cmpb.2018.01.004, https://github.com/NifTK/NiftyNet]
+updated: '2026-04-24'
 ---
 
 # NiftyNet

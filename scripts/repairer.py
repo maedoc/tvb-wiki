@@ -5,7 +5,10 @@ Uses cheap model (gpt-oss-120b) for text-level fixes;
 pure Python for mechanical ones.
 
 Repairable categories:
-  Layer 0 (no LLM):  missing_from_index, broken_source_refs, missing_frontmatter
+  Layer 0 (no LLM):  missing_from_index, broken_source_refs, missing_frontmatter,
+                      duplicate_references (delegated to RefFormatter),
+                      opaque_references (delegated to RefFormatter),
+                      missing_inline_crosslinks (delegated to CrosslinkApplier)
   Layer 1 (LLM):     broken_wikilinks
   Layer 2 (stretch): orphan_pages (add backlinks from related pages)
 
@@ -595,13 +598,69 @@ def run_repairer_cycle() -> dict:
     stats['fixed_orphan_pages'] = fix_orphan_pages(report, all_pages)
     log.info("  orphan_pages fixed: %d", stats['fixed_orphan_pages'])
 
+    # ── Layer 3: Quality fixes via specialist agents ────────────────────
+    log.info("── Layer 3: Quality fixes (delegated to RefFormatter / CrosslinkApplier) ──")
+
+    stats['fixed_duplicate_refs'] = 0
+    stats['fixed_opaque_refs'] = 0
+    stats['fixed_missing_crosslinks'] = 0
+
+    # Delegate reference formatting to RefFormatter for flagged pages
+    dup_refs = report.get('duplicate_references', [])
+    opaque_refs = report.get('opaque_references', [])
+    if dup_refs or opaque_refs:
+        try:
+            from ref_formatter import format_page_references
+            slugs_to_fix = set()
+            for item in dup_refs:
+                slugs_to_fix.add(item['slug'])
+            for item in opaque_refs:
+                slugs_to_fix.add(item['slug'])
+            for fix_slug in slugs_to_fix:
+                if fix_slug in all_pages:
+                    changed, desc = format_page_references(all_pages[fix_slug])
+                    if changed:
+                        if any(d['slug'] == fix_slug for d in dup_refs):
+                            stats['fixed_duplicate_refs'] += 1
+                        if any(o['slug'] == fix_slug for o in opaque_refs):
+                            stats['fixed_opaque_refs'] += 1
+                        log.info("  Fixed refs: %s", desc)
+        except Exception as e:
+            log.warn("  RefFormatter delegation failed: %s", e)
+
+    # Delegate inline crosslinking to CrosslinkApplier for flagged pages
+    missing_links = report.get('missing_inline_crosslinks', [])
+    if missing_links:
+        try:
+            from crosslink_applier import build_term_map, apply_inline_crosslinks
+            term_map = build_term_map(all_pages)
+            all_slugs = set(all_pages.keys())
+            for item in missing_links[:20]:  # cap at 20 per cycle
+                fix_slug = item['slug']
+                if fix_slug in all_pages:
+                    changed, count = apply_inline_crosslinks(
+                        all_pages[fix_slug], term_map, all_slugs
+                    )
+                    if changed:
+                        stats['fixed_missing_crosslinks'] += count
+                        log.info("  Fixed crosslinks: %s (+%d)", fix_slug, count)
+        except Exception as e:
+            log.warn("  CrosslinkApplier delegation failed: %s", e)
+
+    log.info("  duplicate_refs fixed: %d", stats['fixed_duplicate_refs'])
+    log.info("  opaque_refs fixed: %d", stats['fixed_opaque_refs'])
+    log.info("  missing_crosslinks fixed: %d", stats['fixed_missing_crosslinks'])
+
     # ── Summary & commit ───────────────────────────────────────────────
     total_fixed = (
         stats.get('fixed_broken_source_refs', 0) +
         stats.get('fixed_missing_from_index', 0) +
         stats.get('fixed_missing_frontmatter', 0) +
         stats.get('fixed_broken_wikilinks', 0) +
-        stats.get('fixed_orphan_pages', 0)
+        stats.get('fixed_orphan_pages', 0) +
+        stats.get('fixed_duplicate_refs', 0) +
+        stats.get('fixed_opaque_refs', 0) +
+        stats.get('fixed_missing_crosslinks', 0)
     )
     stats['total_fixed'] = total_fixed
 
@@ -612,7 +671,10 @@ def run_repairer_cycle() -> dict:
             f"{stats.get('fixed_missing_from_index', 0)} index entries, "
             f"{stats.get('fixed_missing_frontmatter', 0)} frontmatter, "
             f"{stats.get('fixed_broken_wikilinks', 0)} wikilinks, "
-            f"{stats.get('fixed_orphan_pages', 0)} orphans "
+            f"{stats.get('fixed_orphan_pages', 0)} orphans, "
+            f"{stats.get('fixed_duplicate_refs', 0)} dup-refs, "
+            f"{stats.get('fixed_opaque_refs', 0)} opaque-refs, "
+            f"{stats.get('fixed_missing_crosslinks', 0)} crosslinks "
             f"(Repairer)"
         )
         append_log(
@@ -621,7 +683,10 @@ def run_repairer_cycle() -> dict:
             f"{stats.get('fixed_missing_from_index', 0)} index, "
             f"{stats.get('fixed_missing_frontmatter', 0)} frontmatter, "
             f"{stats.get('fixed_broken_wikilinks', 0)} wikilinks, "
-            f"{stats.get('fixed_orphan_pages', 0)} orphans)"
+            f"{stats.get('fixed_orphan_pages', 0)} orphans, "
+            f"{stats.get('fixed_duplicate_refs', 0)} dup-refs, "
+            f"{stats.get('fixed_opaque_refs', 0)} opaque-refs, "
+            f"{stats.get('fixed_missing_crosslinks', 0)} crosslinks)"
         )
         log.info("Committed %d fixes", total_fixed)
     else:
