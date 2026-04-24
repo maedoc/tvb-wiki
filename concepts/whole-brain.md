@@ -6,11 +6,12 @@ sources:
 - raw/papers/arxiv-2504.17491.md
 - raw/papers/arxiv-2406.05002.md
 - raw/papers/hagmann-2008.md
+- raw/papers/arxiv-2510.27366.md
 tags:
 - whole-brain-modeling
 title: whole-brain
 type: concept
-updated: '2026-04-23'
+updated: '2026-04-24'
 ---
 
 # whole-brain

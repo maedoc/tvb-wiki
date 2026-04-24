@@ -1,12 +1,14 @@
 ---
 created: 2026-04-23
-sources: []
+sources:
+- raw/papers/tustison-2010.md
 tags:
 - software-brain-modeling
 title: AFNI
 type: entity
-updated: 2026-04-24
+updated: '2026-04-24'
 ---
+
 The corrected AFNI page is complete. Here's a summary of the fixes:
 
 | Issue | Fix Applied |

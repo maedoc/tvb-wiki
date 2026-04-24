@@ -6,6 +6,7 @@ sources:
 - raw/papers/bullmore-sporns-2009.md
 - raw/papers/sporns-2011.md
 - raw/papers/power-2010.md
+- raw/papers/smith-2013-connectomics.md
 tags:
 - connectomics
 - network-dynamics

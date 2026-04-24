@@ -1,10 +1,17 @@
 ---
-title: "Free Energy Principle"
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/friston-2010-fep.md
+- raw/papers/friston-2007.md
+- raw/papers/deco-2013.md
+- raw/papers/breakspear-2017.md
+tags:
+- dynamic-causal-modeling
+- whole-brain-modeling
+- effective-connectivity
+title: Free Energy Principle
 type: concept
-tags: [dynamic-causal-modeling, whole-brain-modeling, effective-connectivity]
-sources: [raw/papers/friston-2010-fep.md, raw/papers/friston-2007.md]
+updated: '2026-04-24'
 ---
 
 ## Definition

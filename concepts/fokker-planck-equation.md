@@ -8,6 +8,7 @@ sources:
 - raw/papers/semanticscholar-9afbfd2d37be.md
 - raw/papers/arxiv-2508.19134.md
 - raw/papers/schirner-2018.md
+- raw/papers/kuznetsov-2004.md
 tags:
 - neural-mass-models
 - mean-field-theory

@@ -1,10 +1,18 @@
 ---
-title: SciUnit
 created: 2026-04-24
-updated: 2026-04-24
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/ritter-2013.md
+- raw/papers/arxiv-2603.07524.md
+- raw/papers/schirner-2018.md
+- raw/papers/semanticscholar-eb704b6f5462.md
+tags:
+- software-brain-modeling
+- reproducibility
+- validation
+title: SciUnit
 type: entity
-tags: [software-brain-modeling, reproducibility, validation]
-sources: []
+updated: '2026-04-24'
 ---
 
 # SciUnit

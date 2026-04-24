@@ -1,10 +1,16 @@
 ---
-title: Fidel Alfaro-Almagro
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/alfaro-almagro-2018.md
+- raw/papers/elliott-2018.md
+- raw/papers/miller-2016.md
+tags:
+- people-researcher
+- neuroimaging-fmri
+- database-uk-biobank
+title: Fidel Alfaro-Almagro
 type: entity
-tags: [people-researcher, neuroimaging-fmri, database-uk-biobank]
-sources: [raw/papers/alfaro-almagro-2018.md]
+updated: '2026-04-24'
 ---
 
 # Fidel Alfaro-Almagro
