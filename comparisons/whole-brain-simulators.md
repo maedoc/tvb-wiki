@@ -5,6 +5,7 @@ sources:
 - raw/papers/eppler-2009.md
 - raw/papers/semanticscholar-9afbfd2d37be.md
 - raw/papers/semanticscholar-f52da2a6cbf2.md
+- raw/papers/arxiv-2510.27366.md
 tags:
 - comparison
 title: Whole-Brain Simulation Platforms

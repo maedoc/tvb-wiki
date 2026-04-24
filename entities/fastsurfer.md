@@ -1,6 +1,10 @@
 ---
 created: 2026-04-23
-sources: []
+sources:
+- raw/papers/semanticscholar-8006c459587d.md
+- raw/papers/arxiv-2512.17472.md
+- raw/papers/semanticscholar-301489ffb9de.md
+- raw/papers/semanticscholar-2aec2fba7ab8.md
 tags:
 - software-brain-modeling
 - neuroimaging-processing
@@ -9,8 +13,9 @@ tags:
 - tractography
 title: FastSurfer
 type: entity
-updated: 2026-04-24
+updated: '2026-04-24'
 ---
+
 All issues fixed. Here's the corrected file:
 
 ```yaml

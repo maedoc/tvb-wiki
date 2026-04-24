@@ -1,12 +1,16 @@
 ---
 created: 2026-04-23
-sources: []
+sources:
+- raw/papers/arxiv-2604.01667.md
+- raw/papers/semanticscholar-e923a3372ab2.md
+- raw/papers/semanticscholar-24420855b2da.md
 tags:
 - software-brain-modeling
 title: STEPS
 type: entity
-updated: 2026-04-24
+updated: '2026-04-24'
 ---
+
 Here is the corrected STEPS page with all issues fixed:
 
 ```yaml

@@ -1,6 +1,8 @@
 ---
 created: 2026-04-24
-sources: []
+sources:
+- raw/papers/semanticscholar-fcd025fcc10c.md
+- raw/papers/semanticscholar-4b369b0d1a09.md
 tags:
 - software-brain-modeling
 - structural-connectivity
@@ -11,8 +13,9 @@ tags:
 - database-hcp
 title: DataLad
 type: entity
-updated: 2026-04-24
+updated: '2026-04-24'
 ---
+
 The DataLad wiki page has been successfully improved:
 
 **File created:** `entities/datalad.md`

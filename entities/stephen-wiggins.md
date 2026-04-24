@@ -1,10 +1,14 @@
 ---
-title: "Stephen Wiggins"
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/wiggins-2003.md
+- raw/papers/guckenheimer-holmes-1983.md
+- raw/papers/hirsch-smale-devaney-2004.md
+tags:
+- people-researcher
+title: Stephen Wiggins
 type: entity
-tags: [people-researcher]
-sources: [raw/papers/wiggins-2003.md]
+updated: '2026-04-24'
 ---
 
 ## Overview

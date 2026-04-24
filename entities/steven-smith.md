@@ -3,6 +3,7 @@ created: 2026-04-20
 sources:
 - raw/papers/smith-2009.md
 - raw/papers/smith-2013-connectomics.md
+- raw/papers/power-2011.md
 tags:
 - people-researcher
 - neuroimaging-fmri

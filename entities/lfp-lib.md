@@ -1,12 +1,15 @@
 ---
 created: 2026-04-23
-sources: []
+sources:
+- raw/papers/semanticscholar-929b90566fc8.md
+- raw/papers/destexhe-sejnowski-2009.md
 tags:
 - software-brain-modeling
 title: LFPy
 type: entity
-updated: 2026-04-24
+updated: '2026-04-24'
 ---
+
 Now I'll provide the corrected markdown file with proper sources and references:
 
 ```markdown
