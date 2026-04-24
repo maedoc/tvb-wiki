@@ -6,6 +6,8 @@ sources:
 - raw/papers/kuznetsov-2004.md
 - raw/papers/seydel-2010.md
 - raw/papers/touboul-2011.md
+- raw/papers/arxiv-2411.16449.md
+- raw/papers/arxiv-2509.02799.md
 tags:
 - bifurcation-analysis
 - neural-mass-models

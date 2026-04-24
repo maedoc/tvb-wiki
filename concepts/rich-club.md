@@ -1,10 +1,15 @@
 ---
-title: Rich-Club Organization
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/hagmann-2008.md
+- raw/papers/sporns-2011.md
+- raw/papers/deco-2013.md
+tags:
+- network-dynamics
+- connectomics
+title: Rich-Club Organization
 type: concept
-tags: [network-dynamics, connectomics]
-sources: [raw/papers/hagmann-2008.md, raw/papers/sporns-2011.md]
+updated: '2026-04-24'
 ---
 
 # Rich-Club Organization

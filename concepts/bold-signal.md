@@ -5,6 +5,8 @@ sources:
 - raw/papers/logothetis-2001.md
 - raw/papers/arxiv-2512.24901.md
 - raw/papers/arxiv-2604.03619.md
+- raw/papers/semanticscholar-cc2129666e15.md
+- raw/papers/semanticscholar-f52da2a6cbf2.md
 tags:
 - neuroimaging-fmri
 - neurovascular-coupling

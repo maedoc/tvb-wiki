@@ -9,6 +9,7 @@ sources:
 - raw/papers/arxiv-2508.19134.md
 - raw/papers/schirner-2018.md
 - raw/papers/kuznetsov-2004.md
+- raw/papers/eppler-2009.md
 tags:
 - neural-mass-models
 - mean-field-theory

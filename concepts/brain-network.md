@@ -6,6 +6,8 @@ sources:
 - raw/papers/smith-2013-connectomics.md
 - raw/papers/arxiv-2603.26971.md
 - raw/papers/arxiv-2603.22296.md
+- raw/papers/arxiv-2512.24901.md
+- raw/papers/semanticscholar-7c3337c880fd.md
 tags:
 - network-dynamics
 title: brain network

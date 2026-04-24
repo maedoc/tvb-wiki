@@ -1,10 +1,24 @@
 ---
-title: HCP Pipelines
 created: 2026-04-23
-updated: 2026-04-24
+sources:
+- raw/papers/glasser-2013.md
+- raw/papers/smith-2013-hcp.md
+- raw/papers/van-essen-2013.md
+- raw/papers/schirner-2018.md
+- raw/papers/barch-2013.md
+- raw/papers/van-essen-2012.md
+tags:
+- software-brain-modeling
+- database-hcp
+- structural-connectivity
+- functional-connectivity
+- neuroimaging-fmri
+- neuroimaging-dti
+- connectomics
+- tractography
+title: HCP Pipelines
 type: entity
-tags: [software-brain-modeling, database-hcp, structural-connectivity, functional-connectivity, neuroimaging-fmri, neuroimaging-dti, connectomics, tractography]
-sources: [raw/papers/glasser-2013.md, raw/papers/smith-2013-hcp.md, raw/papers/van-essen-2013.md]
+updated: '2026-04-24'
 ---
 
 # HCP Pipelines
