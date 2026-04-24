@@ -2,6 +2,98 @@
 
 ## 2026-04-24
 
+- Improved page: [[Stochastic Differential Equations]] – Concept page on noise-driven dynamics in neural systems
+  - Complete rewrite from sparse bullet-point outline to full concept page (~720 words)
+  - Tags: stochastic-differential-equations, neural-mass-models, whole-brain-modeling, dynamical-systems-theory, nonlinear-dynamics, network-dynamics, mean-field-theory, fokker-planck-equation, resting-state, brain-oscillations
+  - Established 18+ wikilinks: resting-state, whole-brain, functional-connectivity, tvb, neural-mass-models, fmri, eeg, meg, neural-mass-model, brain-oscillations, structural-connectivity, jansen-rit, wilson-cowan, fokker-planck-equation, bifurcation-analysis, parameter-estimation, dynamical-systems-theory, nonlinear-dynamics, spiking-neural-networks, mean-field-theory
+  - Expanded opening paragraph with plain definition of SDEs as probability-distribution evolution equations bridging biophysics and empirical recordings
+  - Added motivation/context section explaining tension between deterministic ODE elegance and biological variability in resting-state and whole-brain modeling
+  - Replaced list-only Langevin/Itô/Stratonovich notes with prose-integrated mathematical formulation and calculus interpretation
+  - Enhanced biological grounding: channel noise, synaptic quantal variability, finite-size effects, and neuromodulatory background input across scales
+  - Documented whole-brain applications: TVB stochastic simulations, Jansen-Rit and Wilson-Cowan nodes with noise, Deco et al. resting-state fMRI results
+  - Added numerical methods prose: Euler-Maruyama for additive noise, Milstein and stochastic Runge-Kutta for multiplicative noise
+  - Strengthened analysis methods section: Fokker-Planck density evolution, moment equations, linear noise approximation, Monte Carlo ensembles
+  - Enhanced relationships section linking SDEs to dynamical-systems-theory, nonlinear-dynamics, spiking-neural-networks, mean-field-theory, and fokker-planck-equation
+  - Removed ## References section per schema
+  - Sources retained: raw/papers/gardiner-2009.md, raw/papers/tuckwell-1988.md, raw/papers/deco-2008-stochastic.md, raw/papers/deco-2009-stochastic.md, raw/papers/arxiv-2603.24176.md, raw/papers/montbrio-pazo-roxin-2015.md
+
+- Improved page: [[Free Energy Principle]] – Variational brain theory and active inference
+  - Complete rewrite from sparse bullet-point outline to full concept page (~800 words)
+  - Tags: free-energy-principle, variational-bayes, dynamic-causal-modeling, mean-field-theory, effective-connectivity, whole-brain-modeling, neural-mass-models, resting-state, neuroimaging-fmri, neuroimaging-eeg
+  - Established 17 wikilinks: dynamic-causal-modeling, variational-bayes, effective-connectivity, fmri, eeg, resting-state, structural-connectivity, tvb, neural-mass-model, whole-brain, functional-connectivity, mean-field-theory, personalized-brain-modeling, epilepsy-modeling, whole-brain-modeling, bifurcation-analysis, stochastic-differential-equations
+  - Expanded opening paragraph with plain definition of FEP as unifying perception, action, and learning under approximate Bayesian inference
+  - Added motivation/context section explaining intractability of exact inference and FEP roots in Helmholtz/Ashby, with concrete instantiation in DCM for neuroimaging
+  - Replaced list-only core concepts with prose-integrated mathematical formulation of variational free energy, ELBO, and Laplace approximation
+  - Documented active inference as policy selection minimizing expected free energy with exploration-exploitation balance
+  - Enhanced whole-brain modeling connections: TVB neural-mass-model inversion, spectral DCM, mean-field approximations, and resting-state functional-connectivity
+  - Added biological grounding: computational psychiatry (precision weighting in schizophrenia), epilepsy-modeling (homeostatic failure), and consciousness theories
+  - Strengthened criticisms section: falsifiability concerns, computational complexity in delay-coupled systems, relationship to reinforcement learning/enactive cognition
+  - Removed placeholder ## References section per schema
+  - Sources retained: raw/papers/friston-2010-fep.md, raw/papers/friston-2007.md, raw/papers/deco-2013.md
+
+- Improved page: [[Variational Bayes]] – Approximate Bayesian inference via optimization
+  - Complete rewrite from sparse bullet-point outline to full concept page (~720 words)
+  - Tags: variational-bayes, dynamic-causal-modeling, parameter-estimation, free-energy-principle, mean-field-theory, neuroimaging-fmri, neuroimaging-eeg, effective-connectivity, neural-mass-models, whole-brain-modeling
+  - Established 14+ wikilinks: dynamic-causal-modeling, spm, neural-mass-models, fmri, eeg, meg, effective-connectivity, free-energy-principle, whole-brain, tvb, mean-field-theory, stochastic-differential-equations, fokker-planck-equation, parameter-estimation
+  - Expanded opening paragraph with plain definition contrasting VB to MCMC sampling
+  - Added motivation/context section explaining intractability of exact inference in high-dimensional neural models and VB's speed advantage
+  - Replaced list-only ELBO/mean-field/Laplace sections with prose-integrated mathematical explanations
+  - Documented modern extensions: normalizing flows for flexible posterior approximations (Rezende & Mohamed 2015)
+  - Enhanced applications section: DCM/SPM inversion for fMRI/EEG/MEG, parameter estimation in TVB neural-mass-models, group-level random effects
+  - Strengthened relationships section linking VB to free-energy-principle, mean-field-theory, stochastic-differential-equations, and fokker-planck-equation
+  - Removed placeholder ## References section per schema
+  - Sources retained: raw/papers/friston-2007.md, raw/papers/beal-2003.md, raw/papers/blei-kucukelbir-mcauliffe-2017.md, raw/papers/wainwright-jordan-2008.md, raw/papers/rezende-mohamed-2015.md
+
+- Improved page: [[Tractography]] – Concept page on diffusion-MRI-based white matter tract reconstruction
+  - Complete rewrite from sparse bullet-point outline to full concept page (~720 words)
+  - Tags: tractography, neuroimaging-dti, diffusion-imaging, structural-connectivity, connectomics, whole-brain-modeling, paper-methods, paper-review
+  - Established 15 wikilinks: tvb, nest, network-hubs, rich-club, functional-connectivity, epilepsy-modeling, diffusion-mri, structural-connectivity, connectome, dti, whole-brain, effective-connectivity, dynamic-causal-modeling, fmri, eeg
+  - Expanded opening paragraph with plain definition of tractography and its role in connectome construction
+  - Added motivation/context section tracing history from invasive tracers to Mori et al. (1999) and emphasizing structural connectivity matrix generation
+  - Replaced list-only methods section with prose covering deterministic tracking, probabilistic approaches, CSD (Tournier 2007), global optimization, and anatomically constrained tractography
+  - Documented role in whole-brain modeling: connection weights, transmission delays, network topology, and relationship to TVB/NEST platforms
+  - Enhanced challenges section with Jones (2010) validation critique and Sotiropoulos & Zalesky (2019) connectome construction caveats
+  - Added sensitivity analysis implications for model robustness
+  - Removed placeholder ## References section per schema
+  - Sources retained: raw/papers/mori-1999.md, raw/papers/jones-2010.md, raw/papers/tournier-2007.md, raw/papers/sotiropoulos-zalesky-2019.md
+
+- Improved page: [[Bifurcation Theory]] – Mathematical theory of qualitative transitions in dynamical systems
+  - Complete rewrite from sparse bullet-point outline to full concept page (~780 words)
+  - Tags: bifurcation-theory, dynamical-systems-theory, nonlinear-dynamics, neural-mass-models, epilepsy-modeling, network-dynamics, brain-oscillations, whole-brain-modeling, parameter-estimation
+  - Established 18+ wikilinks: whole-brain-modeling, neural-mass-models, structural-connectivity, wilson-cowan, jansen-rit, brain-oscillations, epilepsy-modeling, epileptor, network-dynamics, functional-connectivity, neural-mass-model, dynamical-systems-theory, nonlinear-dynamics, bifurcation-analysis, tvb, steven-strogatz, john-guckenheimer, philip-holmes, the-virtual-epileptic-brain, parameter-estimation
+  - Expanded opening paragraph with plain definition and scope
+  - Added motivation/context section explaining why bifurcation theory matters for mapping parameter spaces in brain modeling
+  - Replaced list-only local bifurcation section with prose explanation of saddle-node, transcritical, pitchfork, and Hopf bifurcations in neural terms
+  - Added global bifurcations and codimension-2 organizing centers with neuroscience relevance
+  - Documented numerical continuation (AUTO, MATCONT) and applications to epilepsy modeling and network dynamics
+  - Biological grounding section links bifurcation parameters to synaptic coupling, excitation-inhibition balance, and seizure transitions
+  - Removed placeholder ## References section per schema
+  - Sources retained: raw/papers/strogatz-1994.md, raw/papers/guckenheimer-holmes-1983.md, raw/papers/kuznetsov-2004.md, raw/papers/seydel-2010.md, raw/papers/touboul-2011.md, raw/papers/arxiv-2411.16449.md, raw/papers/arxiv-2509.02799.md, raw/papers/hirsch-smale-devaney-2004.md
+
+- Improved page: [[Fokker-Planck Equation]] – Concept page on population-level stochastic dynamics
+  - Complete rewrite from sparse bullet-point outline to full concept page (~700 words)
+  - Tags: fokker-planck-equation, stochastic-differential-equations, neural-mass-models, mean-field-theory, nonlinear-dynamics, dynamical-systems-theory, whole-brain-modeling
+  - Established 12 wikilinks: dynamical-systems-theory, bifurcation-analysis, epileptor, jansen-rit, spiking-neural-networks, mean-field-theory, whole-brain-modeling, epilepsy-modeling, nonlinear-dynamics, neural-mass-model, variational-bayes, dynamic-causal-modeling
+  - Opening paragraph defines the equation and its role in computational neuroscience
+  - Motivation/context section explains tension between Monte Carlo simulation and population-level analysis
+  - Mathematical formulation includes general drift-diffusion PDE with prose explanation of each term
+  - Solution methods covered: eigenfunction expansions, matrix continued fractions, spectral methods, finite-difference/finite-element schemes
+  - Applications detailed: population density approach, firing-rate derivation from threshold flux, first-passage-time problems
+  - Biological grounding: membrane potential statistics, synaptic noise, interspike interval distributions, epilepsy transitions
+  - Relationships: contrast with Langevin/SDE trajectory methods, link to mean-field and neural-mass models, dimensionality tradeoffs
+  - Sources retained: raw/papers/risken-1989.md, raw/papers/gardiner-2009.md, raw/papers/tuckwell-1988.md
+
+- Improved page: [[Epileptor]] – Composite neural mass model for seizure dynamics
+  - Complete rewrite from placeholder/equation list to full concept page (~750 words)
+  - Tags: neural-mass-models, epilepsy-modeling, bifurcation-analysis, nonlinear-dynamics, dynamical-systems-theory, whole-brain-modeling, software-tvb, personalized-brain-modeling, structural-connectivity, functional-connectivity, brain-oscillations, brain-stimulation
+  - Established 18 wikilinks to epilepsy-modeling, neural-mass-models, structural-connectivity, tvb, the-virtual-epileptic-brain, brain-network, jansen-rit, larter-breakspear, bifurcation-analysis, connectome, dynamical-systems-theory, spiking-neural-networks, oscillator, wilson-cowan, epileptorcodim3, epileptor-rs, functional-connectivity, whole-brain-modeling
+  - Documented mathematical formulation with fast-slow subsystem coupling, permittivity variable z, and epileptogenicity parameter x₀
+  - Detailed dynamical regimes: interictal, pre-ictal, and ictal states with bifurcation structure (SNIC onset, homoclinic offset)
+  - Incorporated clinical applications: Virtual Epileptic Patient, delay-constrained re-entry (Triebkorn et al. 2025), and passivity-based control (Acharya & Nozari 2026)
+  - Added biological grounding: mapping x₀ to tissue excitability, z to slow homeostatic processes (extracellular potassium, metabolic buildup)
+  - Compared to Jansen-Rit, Wilson-Cowan, and Larter-Breakspear models
+  - Added source: raw/papers/breakspear-2006.md for historical neural-field context
+
 - Improved page: [[BrainVoyager]] – Neuroimaging analysis and visualization platform
   - Complete rewrite from placeholder to full entity page (~800 words)
   - Tags: software-brain-modeling, software-visualization, neuroimaging-fmri, resting-state, task-based
@@ -202,3 +294,59 @@
 ## [2026-04-24 07:39] Matcher: 8 pages got 20 new sources
 
 ## [2026-04-24 07:45] Improve: 3 pages improved (niftynet, psyneulink, brainvoyager)
+
+- Improved page: [[dynamic-causal-modeling]] – Bayesian framework for inferring effective connectivity
+  - Restructured and condensed from ~1150 words to ~790 words (target 500–800)
+  - Tags validated: dynamic-causal-modeling, effective-connectivity, neural-mass-models, variational-bayes, free-energy-principle, mean-field-theory, stochastic-differential-equations, neuroimaging-fmri, neuroimaging-eeg, neuroimaging-meg, resting-state
+  - Established 20+ wikilinks: effective-connectivity, functional-connectivity, neural-mass-models, variational-bayes, spm, fmri, eeg, meg, dti, structural-connectivity, free-energy-principle, nonlinear-dynamics, bold-signal, mean-field-theory, stochastic-differential-equations, resting-state, jansen-rit, wilson-cowan, epilepsy-modeling, tvb
+  - Enhanced opening paragraph with plain definition and modality scope
+  - Expanded motivation/context: contrasted DCM with descriptive functional-connectivity and structural-connectivity, situated within free-energy-principle and key historical papers (Friston 2003, Stephan 2010, Daunizeau et al. 2011)
+  - Streamlined mathematical formulation: neural state equation with A/B/C matrices explained in prose, observation models for fMRI (Balloon/BOLD) and EEG/MEG (forward model)
+  - Condensed Bayesian inference section: variational-bayes, variational Laplace, free energy for model comparison, fixed-effects vs random-effects group analysis
+  - Merged DCM variants into concise prose: deterministic fMRI DCM, stochastic extensions, EEG/MEG with Jansen-Rit and Wilson-Cowan, spectral DCM for resting-state
+  - Added explicit biological grounding: synaptic efficacy, neuromodulation, vascular reactivity, clinical applications in epilepsy-modeling and neurodegeneration
+  - Strengthened relationships section: contrast with Granger causality, identifiability limits, complementary role beside TVB population-level modeling
+  - Removed redundant subsections and eliminated overlap between variant descriptions
+  - Retained sources: friston-2003-dcm.md, stephan-2010.md, daunizeau-david-stephan-2011.md
+
+- Improved page: [[Hopfield Network]] – Recurrent associative memory model
+  - Complete rewrite from sparse equation list to full concept page (~720 words)
+  - Tags validated: neural-mass-models, dynamical-systems-theory, nonlinear-dynamics, network-dynamics, mean-field-theory
+  - Established 11 wikilinks: dynamical-systems-theory, nonlinear-dynamics, mean-field-theory, network-dynamics, wilson-cowan, jansen-rit, neural-mass-model, spiking-neural-networks, free-energy-principle, functional-connectivity, brain-network
+  - Expanded opening paragraph with plain definition of content-addressable memory and attractor convergence
+  - Added motivation/context section tracing history from cybernetics to statistical mechanics and energy minimization
+  - Replaced isolated equations with prose-integrated mathematical formulation explaining symmetry constraint, Lyapunov energy function, and Hebbian learning capacity
+  - Documented modern extensions: dynamical mean-field theory, continuous neurons, non-monotonic transfer functions, non-equilibrium retrieval
+  - Added relationships section contrasting with Wilson-Cowan, Jansen-Rit, spiking networks, and linking to free-energy principle
+  - Enhanced biological grounding: synaptic plasticity, persistent prefrontal activity, asymmetric weight caveats, whole-brain attractor models of resting-state functional connectivity
+  - Removed ## References section per schema
+  - Sources retained: arxiv-2510.19146.md, arxiv-2512.05252.md, arxiv-2602.09535.md, arxiv-2604.13719.md, semanticscholar-71ffb8153870.md, semanticscholar-c3d9674bec1b.md, semanticscholar-62534125f066.md
+
+## [2026-04-24] Improve: 1 page improved (mean-field-theory)
+
+- Improved page: [[Mean Field Theory]] – Concept page on population-level approximations of large neuronal networks
+  - Complete rewrite from sparse bullet-point outline to full concept page (~780 words)
+  - Tags validated: mean-field-theory, neural-mass-models, spiking-neural-networks, whole-brain-modeling, dynamical-systems-theory, brain-oscillations, network-dynamics, stochastic-differential-equations, nonlinear-dynamics, bifurcation-analysis
+  - Established 18+ wikilinks: spiking-neural-networks, whole-brain-modeling, fmri, eeg, meg, brain-oscillations, network-dynamics, wilson-cowan, neural-mass-models, tvb, bifurcation-analysis, fokker-planck-equation, nest, epilepsy-modeling, structural-connectivity, diffusion-mri, connectome, jansen-rit, dynamic-causal-modeling, variational-bayes, stochastic-differential-equations, nonlinear-dynamics, dynamical-systems-theory
+  - Expanded opening paragraph with plain definition bridging microscopic spiking networks and population-level whole-brain models
+  - Added motivation/context section explaining the scale gap between billions of neurons and macroscopic neuroimaging signals, with roots in statistical physics
+  - Replaced list-only mathematical framework with prose-integrated sections on self-consistency equations, Wilson-Cowan firing-rate dynamics, and exact reductions
+  - Documented modern exact reductions: Montbrió-Pazó-Roxin 2015 Ott-Antonsen ansatz for QIF neurons, Schwalger-Deger-Gerstner 2017 population density methods, Stefanescu-Jirsa 2008 heterogeneous network dimension reduction
+  - Enhanced dynamical regimes section: asynchronous irregular (Amit & Brunel 1997, Brunel 2000), synchronous regular, and fast oscillatory states with biological grounding in cortical spontaneous activity and seizure transitions
+  - Strengthened whole-brain modeling applications: coupling mean field nodes across structural-connectivity matrices, Jansen-Rit for EEG/MEG, Wilson-Cowan, and dynamic-causal-modeling variational-bayes inversion
+  - Added limitations section: finite-size effects, correlation structure, strong coupling, spatial heterogeneity, and extensions via stochastic-differential-equations and moment closure
+  - Removed ## References section per schema
+  - Sources retained: raw/papers/amit-brunel-1997.md, raw/papers/brunel-2000.md, raw/papers/montbrio-pazo-roxin-2015.md, raw/papers/schwalger-deger-gerstner-2017.md, raw/papers/stefanescu-jirsa-2008.md
+
+- Improved page: [[Mean Field Theory]] – Further refinements
+  - Renamed "From Microscopic Dynamics to Macroscopic Rates" to "Self-Consistency and Population Averaging" for clarity
+  - Added mathematical fixed-point formulation: $r = F[\mathbf{J} \cdot r + I_{\text{ext}}]$ with explanatory prose
+  - Added comparison paragraph contrasting classical deterministic transfer functions vs [[fokker-planck-equation]] density propagation
+  - Extended Exact Reductions section: Lorentzian firing-rate function interpretation, center manifold theory connection for Stefanescu-Jirsa, and explicit contrast between classical and modern correlation treatments
+  - Added [[bifurcation-theory]] wikilink in correlation contrast discussion
+  - Expanded Limitations section with TVB-specific challenges: laminar/cell-type diversity within cortical columns, calibration against spiking simulations
+  - Added discussion of combined neural + variational mean field approximation hierarchy in [[dynamic-causal-modeling]] and [[variational-bayes]]
+  - Total: ~980 words, 25+ wikilinks
+
+
+## [2026-04-24 14:08] Audit: 823 issues (95 broken links, 128 orphans, 116 placeholders, 0 dup-refs, 2 opaque-refs, 52 thin, 115 missing-links)
