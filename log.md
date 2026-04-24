@@ -2,6 +2,25 @@
 
 ## 2026-04-24
 
+- Improved page: [[BrainVoyager]] – Neuroimaging analysis and visualization platform
+  - Complete rewrite from placeholder to full entity page (~800 words)
+  - Tags: software-brain-modeling, software-visualization, neuroimaging-fmri, resting-state, task-based
+  - Established 10+ wikilinks to TVB, ANTs, 3D-Slicer, FreeSurfer, FSL, SPM, structural-connectivity, functional-connectivity, dynamic-causal-modeling, parameter-estimation
+  - Documented cortex-based alignment (CBA), real-time fMRI (rt-fMRI), and multi-subject analysis capabilities
+  - Detailed TVB relationship: preprocessing companion for connectivity matrix generation, cortical surface export, and empirical validation
+  - Comparison table showing complementary roles: BrainVoyager for empirical analysis, TVB for mechanistic modeling
+  - Key papers: Goebel et al. (2006) on cortex-based alignment, Sorger et al. (2009) on rt-fMRI neurofeedback
+  - Integration pathway: BrainVoyager → structural connectivity, surface meshes, parcellations → TVB simulation
+
+- Improved page: [[PsyNeuLink]] – Graph-based cognitive neuroscience modeling framework
+  - Complete rewrite from placeholder to full entity page (~700 words)
+  - Tags: software-brain-modeling, whole-brain-modeling, neural-mass-models, functional-connectivity, neuroimaging-fmri
+  - Established 10+ wikilinks to TVB, hybrid-architecture, neuroimaging-fmri, neuroimaging-eeg, neuroimaging-meg, functional-connectivity, computational-psychiatry, neural-mass-model, NEST, Brian, ANNarchy, PyTorch, TensorFlow, NeuroML
+  - Documented graph-based architecture, dual-level representation (mechanism/composition), ML integration
+  - Detailed TVB relationship: complementary focus—TVB for whole-brain dynamics, PsyNeuLink for cognitive tasks; outlined integration pathway
+  - Key papers: Cohen & Asthana (2017) foundational paper, Cohen et al. (2020) JOSS software paper, Radulescu et al. (2021) on DL integration
+  - Added to [[entities/index.md]] under Software Platforms section
+
 - Improved page: [[PRoNTo]] – Pattern Recognition for Neuroimaging Toolbox
   - Complete rewrite from placeholder to full entity page (~700 words)
   - Tags: software-brain-modeling, neuroimaging-fmri, functional-connectivity, whole-brain-modeling
@@ -179,3 +198,5 @@
 ## [2026-04-24 06:08] Matcher: 10 pages got 34 new sources
 
 ## [2026-04-24 06:15] Improve: 3 pages improved (3d-slicer, pronto, fastsurfer)
+
+## [2026-04-24 07:39] Matcher: 8 pages got 20 new sources

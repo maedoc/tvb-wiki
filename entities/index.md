@@ -9,9 +9,11 @@ A collection of people, software platforms, datasets, and research groups releva
 - [NEURON](neuron.md) – Detailed multicompartment neuron simulator
 - [3D Slicer](3d-slicer.md) – Open-source medical image computing and visualization platform
 - [ANTs](ants.md) – Advanced Normalization Tools for neuroimaging
+- [BrainVoyager](brainvoyager.md) – Commercial neuroimaging analysis and visualization platform
 - [DataLad](datalad.md) – Distributed data management and version control for neuroimaging
 - [GraphVar](graphvar.md) – Graph-theoretical analysis toolbox
 - [ModelDB](modeldb.md) – Computational neuroscience model repository
+- [PsyNeuLink](psyneulink.md) – Graph-based cognitive neuroscience modeling framework
 
 ## Research Projects & Datasets
 
