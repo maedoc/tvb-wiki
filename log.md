@@ -474,3 +474,5 @@
 ## [2026-04-27 22:43] Improve: 3 pages improved (clinica, neuroscience-gateway, nengo)
 
 ## [2026-04-27 22:43] RefFormatter: formatted references on 3 pages
+
+## [2026-04-27 22:47] CrosslinkApplier: added 25 wikilinks (25 inline, 0 suggested)
