@@ -74,7 +74,7 @@ VoxelMorph complements [[TVB]] workflows in several ways:
 
 **Structural Connectivity Preprocessing**: For [[diffusion MRI]] [[tractography]], accurate co-registration of T1-weighted and diffusion-weighted images is essential. VoxelMorph provides fast alignment for downstream [[structural connectivity]] matrix generation.
 
-**Longitudinal Modeling**: TVB studies of disease progression (e.g., [[aging brain|aging]], [[Alzheimer's modeling|Alzheimer's]]) benefit from consistent anatomical correspondence across timepoints. The diffeomorphic variant ensures topology preservation during longitudinal registration.
+**Longitudinal Modeling**: TVB studies of disease progression (e.g., [[aging brain|aging]], [[alzheimers-modeling|Alzheimer's]]) benefit from consistent anatomical correspondence across timepoints. The diffeomorphic variant ensures topology preservation during longitudinal registration.
 
 **Population Templates**: Creating study-specific templates from large cohorts becomes feasible with VoxelMorph's speed, supporting cohort-wise [[connectomics]] analyses prior to TVB parameterization.
 

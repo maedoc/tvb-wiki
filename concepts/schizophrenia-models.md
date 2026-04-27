@@ -15,7 +15,7 @@ type: concept
 updated: '2026-04-27'
 ---
 
-Schizophrenia Models refer to computational and mathematical frameworks that simulate the neurobiological mechanisms underlying schizophrenia spectrum disorders. These models span multiple scales of neural organization—from single-neuron and [[neural-mass-models]] that capture local circuit dynamics to [[whole-brain-modeling]] approaches that integrate distributed brain networks. In computational psychiatry, schizophrenia models serve as in silico laboratories for testing hypotheses about disease mechanisms, optimizing treatment interventions, and advancing personalized medicine. The field draws heavily on [[dynamical-systems-theory]], [[neural-mass-model]] formulations such as the [[jansen-rit-model]] and [[wong-wang-model]], and connectivity-derived [[whole-brain]] architectures constructed from [[neuroimaging-dti]] data.
+Schizophrenia Models refer to computational and mathematical frameworks that simulate the neurobiological mechanisms underlying schizophrenia spectrum disorders. These models span multiple scales of neural organization—from single-neuron and [[neural-mass-models]] that capture local circuit dynamics to [[whole-brain-modeling]] approaches that integrate distributed brain networks. In computational psychiatry, schizophrenia models serve as in silico laboratories for testing hypotheses about disease mechanisms, optimizing treatment interventions, and advancing personalized medicine. The field draws heavily on [[dynamical-systems-theory]], [[neural-mass-model]] formulations such as the [[jansen-rit-model]] and [[wong-wang-model]], and connectivity-derived [[whole-brain]] architectures constructed from [[dti]] data.
 
 ## Motivation and Context
 

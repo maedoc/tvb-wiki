@@ -3,7 +3,7 @@ created: 2026-04-20
 sources:
 - raw/papers/strogatz-1994.md
 - raw/papers/wiggins-2003.md
-- raw/papers/ermentrout-terman-2010.md
+- raw/papers/Ermentrout & Terman-2010.md
 tags:
 - nonlinear-dynamics
 - dynamical-systems-theory

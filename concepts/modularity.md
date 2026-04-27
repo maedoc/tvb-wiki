@@ -52,7 +52,7 @@ Identifying modular structure requires algorithmic approaches to partition netwo
 
 | Algorithm | Approach | Advantages | Limitations |
 |-----------|----------|------------|-------------|
-| **[[community-detection#Louvain method]]** | Greedy optimization of Q | Fast, handles large networks | May miss small communities |
+| **[[community-detection|Louvain method]]** | Greedy optimization of Q | Fast, handles large networks | May miss small communities |
 | **Spectral clustering** | Graph Laplacian eigenvectors | Theoretically grounded | Sensitive to noise |
 | **Walktrap** | Random walk similarity | Intuitive | Computationally intensive |
 | **Infomap** | Information-theoretic (flow) | Handles directed flow | Requires specialized implementation |
