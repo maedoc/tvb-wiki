@@ -1,10 +1,19 @@
 ---
-title: Bifurcation Analysis
 created: 2026-04-20
-updated: 2026-04-27
+sources:
+- raw/papers/izhikevich-2007.md
+- raw/papers/touboul-2011.md
+- raw/papers/breakspear-2017.md
+tags:
+- bifurcation-analysis
+- dynamical-systems-theory
+- neural-mass-models
+- brain-oscillations
+- epilepsy-modeling
+- nonlinear-dynamics
+title: Bifurcation Analysis
 type: concept
-tags: [bifurcation-analysis, dynamical-systems-theory, neural-mass-models, brain-oscillations, epilepsy-modeling, nonlinear-dynamics]
-sources: [raw/papers/izhikevich-2007.md, raw/papers/touboul-2011.md, raw/papers/breakspear-2017.md]
+updated: '2026-04-27'
 ---
 
 Bifurcation analysis is the mathematical study of qualitative changes in the behavior of dynamical systems as parameters vary smoothly. In the context of computational neuroscience, bifurcation analysis provides a powerful theoretical framework for understanding transitions between different brain states—including the switch from resting activity to oscillatory rhythms, and the emergence of pathological states such as epileptic seizures. Rather than treating brain states as fixed or stochastic, bifurcation theory reveals that these states emerge from the underlying structure of the dynamical equations governing neural activity, and that transitions between states occur at specific parameter values called **bifurcation points**. This perspective has proven essential for interpreting neuroimaging data, designing brain stimulation protocols, and building predictive models of neurological disorders.
@@ -112,3 +121,9 @@ Despite its power, bifurcation analysis in neuroscience faces several challenges
 ## Related Concepts
 
 Bifurcation analysis is fundamentally grounded in **dynamical systems theory** and draws on **nonlinear dynamics** and **bifurcation theory** more broadly. It is applied to [[neural-mass-model]] formulations including [[Jansen-Rit]] and [[Wilson-Cowan]]. The method is essential for understanding **brain oscillations** and for **epilepsy modeling**. The textbook treatment by [[Eugene Izhikevich]] remains foundational for neuroscientists seeking to understand the geometric theory of neural excitability and bursting.
+
+## References
+
+1. Eugene M. Izhikevich. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
+2. Jonathan Touboul, Fabien Wendling, Bruno Bellanger, Patrick Chauvel, Olivier Faugeras. *Bifurcation analysis of Jansen's neural mass model*. Neural Computation. [DOI](https://doi.org/10.1162/NECO_a_00151)
+3. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)

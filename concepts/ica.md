@@ -1,10 +1,20 @@
 ---
-title: Independent Component Analysis (ICA)
 created: 2026-04-20
-updated: 2026-04-27
+sources:
+- raw/papers/makeig-1996.md
+- raw/papers/arxiv-2510.12910.md
+- raw/papers/arxiv-2604.11971.md
+tags:
+- neuroimaging-eeg
+- neuroimaging-meg
+- neuroimaging-fmri
+- neural-mass-models
+- connectomics
+- functional-connectivity
+- source-separation
+title: Independent Component Analysis (ICA)
 type: concept
-tags: [neuroimaging-eeg, neuroimaging-meg, neuroimaging-fmri, neural-mass-models, connectomics, functional-connectivity, source-separation]
-sources: [raw/papers/makeig-1996.md, raw/papers/arxiv-2510.12910.md, raw/papers/arxiv-2604.11971.md]
+updated: '2026-04-27'
 ---
 
 Independent Component Analysis (ICA) is a blind source separation technique that decomposes multivariate observations into statistically independent non-Gaussian components. In the context of neuroimaging, ICA has become a foundational computational tool for separating overlapping signals from mixed recordings, enabling researchers to isolate neural sources from artifacts and identify functionally coherent brain networks without requiring explicit models of the underlying sources.
@@ -44,3 +54,9 @@ Several practical considerations affect ICA performance in neuroimaging applicat
 ## Related Concepts
 
 ICA relates to several other signal decomposition and [[connectivity]] methods. [[Principal Component Analysis]] provides orthogonal dimensionality reduction but cannot separate sources that are only uncorrelated rather than independent. [[Effective connectivity]] methods like dynamic causal modeling characterize directed causal interactions rather than undirected decompositions. [[EEGLab]], a popular EEG analysis environment, provides graphical interfaces for ICA decomposition and visualization. The technique of [[source-separation]] more broadly encompasses both ICA and other methods like beamforming that isolate signals from specific spatial origins.
+
+## References
+
+1. (authors unknown). *Independent component analysis of electroencephalographic data*.
+2. Neda Abdollahpour, N. Sertac Artan, Ian Daly, Mohammadreza Yazdchi, Zahra Baharlouei. (2025). *Effective Connectivity-Based Unsupervised Channel Selection Method for EEG*. [Link](https://arxiv.org/abs/2510.12910)
+3. Sunia Tanweer, Narayan Puthanmadam Subramaniyam, Firas A. Khasawneh. (2026). *Classification of Epileptic iEEG using Topological Machine Learning*. [Link](https://arxiv.org/abs/2604.11971)

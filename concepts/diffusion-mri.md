@@ -1,10 +1,19 @@
 ---
-title: Diffusion MRI
 created: 2026-04-20
-updated: 2026-04-27
+sources:
+- raw/papers/basser-1994.md
+- raw/papers/jones-2010.md
+- raw/papers/sotiropoulos-zalesky-2019.md
+tags:
+- neuroimaging-dti
+- diffusion-imaging
+- tractography
+- structural-connectivity
+- connectomics
+- neuroimaging
+title: Diffusion MRI
 type: concept
-tags: [neuroimaging-dti, diffusion-imaging, tractography, structural-connectivity, connectomics, neuroimaging]
-sources: [raw/papers/basser-1994.md, raw/papers/jones-2010.md, raw/papers/sotiropoulos-zalesky-2019.md]
+updated: '2026-04-27'
 ---
 
 Diffusion MRI (dMRI) encompasses a class of magnetic resonance imaging techniques that measure the random thermal motion of water molecules to probe tissue microstructure non-invasively. Unlike conventional MRI that images tissue contrast based on spin density or relaxation properties, diffusion MRI applies specialized diffusion-sensitizing gradient sequences to encode the displacement of water molecules into the MR signal. This enables visualization and quantification of tissue architecture—especially the oriented fibers of white matter—within living brains, making it indispensable for studying brain connectivity in vivo.
@@ -53,3 +62,9 @@ Crossing fiber architectures challenge models assuming single fiber orientation 
 - [[connectomics]] – The study of complete neural wiring
 - [[neuroimaging]] – General category of brain imaging techniques
 - [[human-connectome-project]] – Major initiative providing high-quality dMRI data
+
+## References
+
+1. (authors unknown). *MR diffusion tensor spectroscopy and imaging*.
+2. (authors unknown). *Challenges and limitations of quantifying brain connectivity in vivo with diffusion MRI*.
+3. (authors unknown). *Building connectomes using diffusion MRI: Why, how and but*.

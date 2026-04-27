@@ -1,10 +1,19 @@
 ---
-title: Wilson-Cowan Model
 created: 2026-04-20
-updated: 2026-04-27
+sources:
+- raw/papers/wilson-cowan-1972.md
+- raw/papers/arxiv-2510.08436.md
+- raw/papers/arxiv-2512.22093.md
+tags:
+- neural-mass-models
+- nonlinear-dynamics
+- brain-oscillations
+- mean-field-theory
+- bifurcation-analysis
+- epilepsy-modeling
+title: Wilson-Cowan Model
 type: concept
-tags: [neural-mass-models, nonlinear-dynamics, brain-oscillations, mean-field-theory, bifurcation-analysis, epilepsy-modeling]
-sources: [raw/papers/wilson-cowan-1972.md, raw/papers/arxiv-2510.08436.md, raw/papers/arxiv-2512.22093.md]
+updated: '2026-04-27'
 ---
 
 The Wilson-Cowan model is the canonical firing-rate model of coupled excitatory and inhibitory neural populations. Introduced by Hugh Wilson and Jack Cowan in 1972, it provides the mathematical foundation for most subsequent neural mass modeling, including implementations in The Virtual Brain (TVB) and Dynamic Causal Modeling (DCM). The model describes the mean firing rates of excitatory and inhibitory populations through coupled nonlinear differential equations, capturing fundamental dynamical phenomena such as oscillations, bistability, and pattern formation that are observed in real brain tissue.
@@ -87,3 +96,9 @@ Despite these limitations, the Wilson-Cowan model remains the foundational frame
 - [[whole-brain-modeling]] – Connectome-scale implementations
 - [[tvb|The Virtual Brain]] – Software implementation
 - [[brain-oscillations]] – Neural dynamics phenomena
+
+## References
+
+1. Hugh R. Wilson, Jack D. Cowan. *Excitatory and inhibitory interactions in localized populations of model neurons*. Biophysical Journal. [DOI](https://doi.org/10.1016/S0006-3495(72)86068-5)
+2. Ronja Strömsdörfer, Klaus Obermayer. *Spike-frequency and h-current based adaptation are dynamically equivalent in a Wilson-Cowan field model*. [Link](https://arxiv.org/abs/2510.08436)
+3. Jeremy B. Goetz, Naruepon Weerawongphrom, Rashid V. Williams-García, John M. Beggs, Gerardo Ortiz. (2025). *A Minimal Network of Brain Dynamics: Hierarchy of Approximations to Quasi-critical Neural Network Dynamics*. [Link](https://arxiv.org/abs/2512.22093)

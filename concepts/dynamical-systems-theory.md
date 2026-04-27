@@ -1,10 +1,19 @@
 ---
-title: Dynamical Systems Theory
 created: 2026-04-20
-updated: 2026-04-27
+sources:
+- raw/papers/strogatz-1994.md
+- raw/papers/guckenheimer-holmes-1983.md
+- raw/papers/hirsch-smale-devaney-2004.md
+tags:
+- dynamical-systems-theory
+- bifurcation-theory
+- nonlinear-dynamics
+- neural-mass-models
+- network-dynamics
+- brain-oscillations
+title: Dynamical Systems Theory
 type: concept
-tags: [dynamical-systems-theory, bifurcation-theory, nonlinear-dynamics, neural-mass-models, network-dynamics, brain-oscillations]
-sources: [raw/papers/strogatz-1994.md, raw/papers/guckenheimer-holmes-1983.md, raw/papers/hirsch-smale-devaney-2004.md]
+updated: '2026-04-27'
 ---
 
 ## Definition
@@ -87,3 +96,9 @@ Another frontier is the integration of single-neuron biophysics with population-
 - [[mean-field theory]] — Dimensional reduction for network dynamical systems
 - [[stochastic differential equations]] — Dynamical systems with random perturbations
 - [[variational-bayes]] — Parameter estimation in dynamical system models
+
+## References
+
+1. (authors unknown). *Nonlinear Dynamics and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering*.
+2. (authors unknown). *Nonlinear Oscillations, Dynamical Systems, and Bifurcations of Vector Fields*.
+3. (authors unknown). *Differential Equations, Dynamical Systems, and an Introduction to Chaos*.

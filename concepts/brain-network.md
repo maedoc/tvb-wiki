@@ -1,10 +1,18 @@
 ---
-title: Brain Network
 created: 2026-04-20
-updated: 2026-04-27
+sources:
+- raw/papers/sporns-2011.md
+- raw/papers/barabasi-albert-1999.md
+- raw/papers/smith-2013-connectomics.md
+tags:
+- connectomics
+- network-dynamics
+- graph-theory
+- structural-connectivity
+- functional-connectivity
+title: Brain Network
 type: concept
-tags: [connectomics, network-dynamics, graph-theory, structural-connectivity, functional-connectivity]
-sources: [raw/papers/sporns-2011.md, raw/papers/barabasi-albert-1999.md, raw/papers/smith-2013-connectomics.md]
+updated: '2026-04-27'
 ---
 
 A brain network represents the brain as a mathematical graph in which neural elements—neurons, cortical columns, or macroscopic brain regions—are abstracted as nodes and the connections between them are abstracted as edges. This representation transforms the complex three-dimensional structure of the brain into a format amenable to the tools of graph theory, enabling quantitative characterization of network topology and dynamics. The nodes are typically derived from neuroimaging parcellation schemes such as the [[desikan-killiany-atlas]] or the [[julich-atlas]], while edges are derived from measurements of structural connectivity via diffusion MRI [[tractography]] or from functional connectivity computed from resting-state [[fmri]], [[eeg]], or [[meg]] data. The resulting graph can be weighted (where edge weights reflect connection strength) or binary (where edges simply indicate presence or absence), directed or undirected, depending on the modality and scientific question at hand.
@@ -24,3 +32,9 @@ The [[modularity]] of brain networks refers to their organization into distinct 
 ## Relationship to Whole-Brain Modeling
 
 In [[whole-brain]] modeling, the structural network serves as the anatomical substrate for simulating large-scale neural dynamics. Computational frameworks such as [[tvb]] integrate structural connectivity matrices derived from diffusion imaging with [[neural-mass-model]]s to generate realistic brain activity patterns. The coupling between nodes is determined by the structural edges, which can be scaled by parameters representing conduction delays and connection strengths. This approach allows researchers to investigate how structural alterations—such as those observed in [[alzheimers-modeling]] or [[schizophrenia-models]]—impact functional dynamics measured through [[resting-state]] activity. The network representation thus provides the essential bridge between anatomical connectivity and emergent functional connectivity, making it a foundational concept for computational neuroscience and connectomics research.
+
+## References
+
+1. (authors unknown). *Networks of the Brain*.
+2. (authors unknown). *Emergence of Scaling in Random Networks*.
+3. (authors unknown). *Functional Connectomics from Resting-State fMRI*.

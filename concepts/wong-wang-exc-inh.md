@@ -1,10 +1,17 @@
 ---
-title: Wong-Wang Excitatory-Inhibitory Model
 created: 2024-01-15
-updated: 2026-04-27
+sources:
+- raw/papers/arxiv-2510.02545.md
+- raw/papers/semanticscholar-a9ff4dda4e4c.md
+tags:
+- neural-mass-models
+- mean-field-theory
+- dynamical-systems-theory
+- excitation-inhibition-balance
+- network-dynamics
+title: Wong-Wang Excitatory-Inhibitory Model
 type: concept
-tags: [neural-mass-models, mean-field-theory, dynamical-systems-theory, excitation-inhibition-balance, network-dynamics]
-sources: [raw/papers/arxiv-2510.02545.md, raw/papers/semanticscholar-a9ff4dda4e4c.md]
+updated: '2026-04-27'
 ---
 
 # Wong-Wang Excitatory-Inhibitory Model
@@ -76,3 +83,8 @@ For researchers interested in [[bifurcation-analysis]] of brain dynamics, the mo
 - [[functional-connectivity]] — Empirical counterpart to model predictions
 - [[resting-state]] — Paradigm for studying spontaneous brain dynamics
 - [[dynamic-causal-modeling]] — Related framework for inferring effective connectivity
+
+## References
+
+1. Pascal Helson, Etienne Tanré, Romain Veltz. *Mean-field analysis of a neural network with stochastic STDP*. [Link](https://arxiv.org/abs/2510.02545)
+2. Soon Ho Kim, Hannah Choi. (2025). *Inhibitory cell type heterogeneity in a spatially structured mean-field model of V1*. bioRxiv. [DOI](https://doi.org/10.1101/2025.03.13.643046)

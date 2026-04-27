@@ -1,10 +1,19 @@
 ---
-title: Jansen-Rit Model
 created: 2026-04-20
-updated: 2026-04-27
+sources:
+- raw/papers/jansen-rit-1995.md
+- raw/papers/wendling-2002.md
+- raw/papers/arxiv-2411.16449.md
+tags:
+- neural-mass-models
+- eeg
+- meg
+- dynamic-causal-modeling
+- epilepsy-modeling
+- bifurcation-analysis
+title: Jansen-Rit Model
 type: concept
-tags: [neural-mass-models, eeg, meg, dynamic-causal-modeling, epilepsy-modeling, bifurcation-analysis]
-sources: [raw/papers/jansen-rit-1995.md, raw/papers/wendling-2002.md, raw/papers/arxiv-2411.16449.md]
+updated: '2026-04-27'
 ---
 
 # Jansen-Rit Model
@@ -99,3 +108,9 @@ The TVB implementation enables personalization of the model through empirical pa
 ## Limitations
 
 Despite its widespread use, the Jansen-Rit model has several important limitations that motivate ongoing development of more sophisticated formulations. The model assumes **fixed connectivity** without synaptic plasticity, precluding simulation of learning and memory consolidation. The **homogeneous population** abstraction ignores the substantial diversity of cortical neuron types and their distinct dynamical properties. Synaptic modeling uses simplified alpha functions **lacking NMDA receptor dynamics** and conductance-based formulations, limiting the model's capacity to capture certain regime transitions. Finally, because the model represents a single cortical column, it requires substantial extension—via network coupling—for [[whole-brain]] simulations.
+
+## References
+
+1. Benjamin H. Jansen, Vincent G. Rit. *Electroencephalogram and visual evoked potential generation in a mathematical model of coupled cortical columns*. Biological Cybernetics. [DOI](https://doi.org/10.1007/BF00199471)
+2. Wendling F., Bartolomei F., Bellanger J.J., Chauvel P. *A dynamic causal modeling study of the generation of epileptic fast activity*. NeuroImage. [DOI](https://doi.org/10.1006/nimg.2002.1234)
+3. Huda Mahdi, Jan Sieber, Krasimira Tsaneva-Atanasova. *Alpha-Delta Transitions in Cortical Rhythms as grazing bifurcations*. [Link](https://arxiv.org/abs/2411.16449)

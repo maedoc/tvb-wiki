@@ -1,10 +1,23 @@
 ---
-title: Whole-brain modeling
 created: 2026-04-20
-updated: 2026-04-27
+sources:
+- raw/papers/breakspear-2017.md
+- raw/papers/semanticscholar-ce89e593c89e.md
+- raw/papers/arxiv-2504.17491.md
+tags:
+- whole-brain-modeling
+- connectomics
+- neural-mass-models
+- network-dynamics
+- computational-neuroscience
+- structural-connectivity
+- functional-connectivity
+- brain-network
+- personalized-brain-modeling
+- dynamical-systems-theory
+title: Whole-brain modeling
 type: concept
-tags: [whole-brain-modeling, connectomics, neural-mass-models, network-dynamics, computational-neuroscience, structural-connectivity, functional-connectivity, brain-network, personalized-brain-modeling, dynamical-systems-theory]
-sources: [raw/papers/breakspear-2017.md, raw/papers/semanticscholar-ce89e593c89e.md, raw/papers/arxiv-2504.17491.md]
+updated: '2026-04-27'
 ---
 
 # Whole-brain modeling
@@ -59,3 +72,9 @@ Future directions include the integration of [[effective-connectivity]] framewor
 * [[epilepsy modeling]]
 * [[bifurcation analysis]]
 * [[personalized brain modeling]]
+
+## References
+
+1. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)
+2. V. Myrov, A. Suleimanova, Samanta Knapič, P. Partanen, M. Vesterinen, Wenya Liu, S. Palva, J. M. Palva. (2026). *Hierarchical whole-brain modeling of critical synchronization dynamics in the human brain.*. Proceedings of the National Academy of Sciences of the United States of America. [DOI](https://doi.org/10.1073/pnas.2505768123)
+3. Cristiana Dimulescu, Ronja Strömsdörfer, Agnes Flöel, Klaus Obermayer. (2025). *On the robustness of the emergent spatiotemporal dynamics in biophysically realistic and phenomenological whole-brain models at multiple network resolutions*. [Link](https://arxiv.org/abs/2504.17491)

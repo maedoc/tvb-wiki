@@ -1,10 +1,16 @@
 ---
-title: BOLD Signal
 created: 2026-04-20
-updated: 2026-04-27
+sources:
+- raw/papers/ogawa-1990.md
+- raw/papers/logothetis-2001.md
+tags:
+- neuroimaging-fmri
+- functional-connectivity
+- resting-state
+- neurovascular-coupling
+title: BOLD Signal
 type: concept
-tags: [neuroimaging-fmri, functional-connectivity, resting-state, neurovascular-coupling]
-sources: [raw/papers/ogawa-1990.md, raw/papers/logothetis-2001.md]
+updated: '2026-04-27'
 ---
 
 The Blood Oxygenation Level Dependent (BOLD) signal is the primary contrast mechanism underlying functional magnetic resonance imaging (fMRI), providing an indirect but widely used measure of neural activity in the living human brain. Discovered by [[seiji-ogawa]] in 1990, the BOLD effect exploits the paramagnetic properties of deoxygenated hemoglobin to generate image contrast that varies with local brain activity. This signal has become the cornerstone of non-invasive neuroimaging, enabling the mapping of functional brain networks during both taskperformance and [[resting-state]] conditions. The BOLD signal's importance for whole-brain modeling is substantial: it serves as the principal empirical target against which simulated neural dynamics are validated, making accurate forward modeling of the BOLD signal essential for any platform that aims to predict empirical neuroimaging data from underlying neural activity.
@@ -34,3 +40,8 @@ For [[whole-brain]] modeling, the BOLD signal serves as the critical output vari
 ## Relationship to Other Imaging Modalities
 
 The BOLD signal represents one of several functional neuroimaging modalities, each with distinct temporal and spatial characteristics. Compared to electrophysiological methods like [[eeg]] and [[meg]], BOLD offers excellent spatial resolution (on the order of 1-3 mm) but very limited temporal resolution due to the sluggish hemodynamic response. While [[eeg]] captures millisecond-scale neural activity directly, the BOLD response smooths and delays the underlying neural dynamics, typically limiting effective temporal resolution to 1-2 seconds at best. This temporal smearing complicates the identification of rapid event-related effects and can obscure the相位 relationships between brain regions that are accessible to electromagnetic imaging. For [[dynamic-causal-modeling]] analyses, this temporal misalignment necessitates careful modeling of the HRF to recover the effective neural connectivity from BOLD data, though sophisticated estimation approaches can partially mitigate these limitations.
+
+## References
+
+1. (authors unknown). *Brain magnetic resonance imaging with contrast dependent on blood oxygenation*.
+2. (authors unknown). *Neurophysiological investigation of the basis of the fMRI signal*.

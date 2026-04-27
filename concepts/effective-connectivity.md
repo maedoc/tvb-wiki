@@ -1,10 +1,22 @@
 ---
-title: Effective Connectivity
 created: 2024-01-15
-updated: 2026-04-27
+sources:
+- raw/papers/friston-1994.md
+- raw/papers/arxiv-2510.12910.md
+- raw/papers/arxiv-2307.09770.md
+tags:
+- effective-connectivity
+- connectivity-types
+- dynamic-causal-modeling
+- network-dynamics
+- neural-mass-models
+- neuroimaging-fmri
+- neuroimaging-eeg
+- neuroimaging-meg
+- variational-bayes
+title: Effective Connectivity
 type: concept
-tags: [effective-connectivity, connectivity-types, dynamic-causal-modeling, network-dynamics, neural-mass-models, neuroimaging-fmri, neuroimaging-eeg, neuroimaging-meg, variational-bayes]
-sources: [raw/papers/friston-1994.md, raw/papers/arxiv-2510.12910.md, raw/papers/arxiv-2307.09770.md]
+updated: '2026-04-27'
 ---
 
 ## Overview
@@ -65,3 +77,9 @@ Estimating effective connectivity from observed brain activity remains challengi
 - [[brain-oscillations]] — Rhythmic activity where EC methods are applied
 - [[connectivity-types]] — Overview of connectivity categories
 - [[variational-bayes]] — Inference framework underlying DCM
+
+## References
+
+1. (authors unknown). *Statistical parametric maps in functional imaging: A general linear approach*.
+2. Neda Abdollahpour, N. Sertac Artan, Ian Daly, Mohammadreza Yazdchi, Zahra Baharlouei. (2025). *Effective Connectivity-Based Unsupervised Channel Selection Method for EEG*. [Link](https://arxiv.org/abs/2510.12910)
+3. Peizhen Yang, Xinke Shen, Zongsheng Li, Zixiang Luo, Kexin Lou, Quanying Liu. *Perturbing a Neural Network to Infer Effective Connectivity: Evidence from Synthetic EEG Data*. [Link](https://arxiv.org/abs/2307.09770)

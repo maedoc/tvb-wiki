@@ -1,10 +1,21 @@
 ---
-title: Zerlaut Model
 created: 2026-04-20
-updated: 2026-04-27
+sources:
+- raw/papers/arxiv-2509.02799.md
+- raw/papers/stefanescu-jirsa-2008.md
+- raw/papers/semanticscholar-e1fa0a868dbe.md
+tags:
+- neural-mass-models
+- mean-field-theory
+- spiking-neural-networks
+- whole-brain-modeling
+- dynamical-systems-theory
+- bifurcation-analysis
+- adaptive-neurons
+- software-tvb
+title: Zerlaut Model
 type: concept
-tags: [neural-mass-models, mean-field-theory, spiking-neural-networks, whole-brain-modeling, dynamical-systems-theory, bifurcation-analysis, adaptive-neurons, software-tvb]
-sources: [raw/papers/arxiv-2509.02799.md, raw/papers/stefanescu-jirsa-2008.md, raw/papers/semanticscholar-e1fa0a868dbe.md]
+updated: '2026-04-27'
 ---
 
 The **Zerlaut model** is a mean-field representation of cortical microcircuit dynamics that describes the collective activity of interacting excitatory and inhibitory neural populations with spike-frequency adaptation. Developed by [[alain-destexhe|Yann Zerlaut and colleagues]] (2018), this model provides a mathematically tractable bridge between detailed [[spiking-neural-networks]] composed of leaky integrate-and-fire neurons with adaptation currents and the population-level descriptions used in whole-brain modeling frameworks such as [[the-virtual-brain]]. The model captures essential cortical dynamics including oscillatory behavior, adaptation effects, and excitation-inhibition balance while remaining computationally efficient enough for large-scale brain network simulations.
@@ -78,3 +89,9 @@ Another direction involves extending the model to include multiple adaptation ti
 - [[epilepsy-modeling]] — An application domain where Zerlaut has been applied
 - [[bifurcation-analysis]] — The mathematical framework for understanding regime changes in the model
 - [[adaptive-neurons]] — The broader class of neuron models with adaptation currents
+
+## References
+
+1. Martin Breyton, Viktor Sip, M. Woodman, Meysam Hashemi, S. Petkoski, V. Jirsa. (2025). *Data-driven mean-field within whole-brain models*. [Link](https://www.semanticscholar.org/paper/144ae1f1dabec42c14493d0083d36f168508f886)
+2. Roxana A. Stefanescu, Viktor K. Jirsa. *A low dimensional description of globally coupled heterogeneous neural networks of excitatory and inhibitory neurons*. PLoS Computational Biology. [DOI](https://doi.org/10.1371/journal.pcbi.1000219)
+3. R. Lorenzi, Fulvia Palesi, C. Casellato, C. G. Gandini Wheeler-Kingshott, Egidio D’Angelo. (2025). *Region-specific mean field models enhance simulations of local and global brain dynamics*. bioRxiv. [DOI](https://doi.org/10.1038/s41540-025-00543-9)

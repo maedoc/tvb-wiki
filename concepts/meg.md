@@ -1,10 +1,26 @@
 ---
-title: MEG
 created: 2026-04-20
-updated: 2026-04-27
+sources:
+- raw/papers/makeig-1996.md
+- raw/papers/cohen-2014.md
+- raw/papers/buzsaki-2012.md
+tags:
+- neuroimaging-meg
+- neuroimaging-eeg
+- neuroimaging-fmri
+- neuroimaging-dti
+- source-localization
+- brain-oscillations
+- connectivity-types
+- resting-state
+- neural-mass-models
+- whole-brain-modeling
+- software-fieldtrip
+- software-mne-python
+- software-eeglab
+title: MEG
 type: concept
-tags: [neuroimaging-meg, neuroimaging-eeg, neuroimaging-fmri, neuroimaging-dti, source-localization, brain-oscillations, connectivity-types, resting-state, neural-mass-models, whole-brain-modeling, software-fieldtrip, software-mne-python, software-eeglab]
-sources: [raw/papers/makeig-1996.md, raw/papers/cohen-2014.md, raw/papers/buzsaki-2012.md]
+updated: '2026-04-27'
 ---
 
 # MEG
@@ -40,3 +56,9 @@ Time-frequency decomposition reveals the spectral content of neural activity, wi
 MEG occupies a unique position in the neuroimaging ecosystem, complementing both electrophysiological and hemodynamic measures. Compared to fMRI, which tracks the blood-oxygen-level-dependent (BOLD) signal with second-scale temporal resolution, MEG provides real-time windows into neural dynamics. However, the BOLD signal's vascular basis captures slower metabolic processes that may reveal aspects of neural communication invisible to electrophysiology.
 
 The combination of MEG with EEG, [[structural-connectivity]] from DTI, and functional data from fMRI enables multimodal integration that strengthens whole-brain models. Software platforms like [[fieldtrip]] and [[mne-python]] provide pipelines for processing MEG data, while [[the-virtual-brain]] integrates MEG forward modeling into whole-brain simulation workflows. The field continues to develop hardware improvements (e.g., optically pumped magnetometers) that may increase MEG's accessibility and temporal resolution.
+
+## References
+
+1. (authors unknown). *Independent component analysis of electroencephalographic data*.
+2. (authors unknown). *Analyzing Neural Time Series Data: Theory and Practice*.
+3. (authors unknown). *Large-scale recording of neuronal ensembles*.

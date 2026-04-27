@@ -1,10 +1,17 @@
 ---
-title: Resting-State fMRI
 created: 2026-04-20
-updated: 2026-04-27
+sources:
+- raw/papers/biswal-1995.md
+- raw/papers/fox-raichle-2007.md
+- raw/papers/smith-2009.md
+tags:
+- neuroimaging-fmri
+- resting-state
+- functional-connectivity
+- paper-methods
+title: Resting-State fMRI
 type: concept
-tags: [neuroimaging-fmri, resting-state, functional-connectivity, paper-methods]
-sources: [raw/papers/biswal-1995.md, raw/papers/fox-raichle-2007.md, raw/papers/smith-2009.md]
+updated: '2026-04-27'
 ---
 
 Resting-state functional magnetic resonance imaging (rs-fMRI) is a neuroimaging technique that measures spontaneous low-frequency (<0.1 Hz) fluctuations in the blood-oxygen-level-dependent (BOLD) signal during task-free conditions. By correlating these intrinsic fluctuations across brain regions, researchers can map the brain's [[functional-connectivity]]—the statistical dependencies between regional time series that reveal the organization of coherent neural networks in the absence of explicit cognitive demands. This approach, pioneered by [[bharat-biswal]] in 1995, has become a cornerstone of modern neuroscience for understanding the brain's intrinsic functional architecture and serves as the primary empirical target for [[whole-brain]] computational models.
@@ -54,3 +61,9 @@ A persistent controversy in the field concerns global signal regression—a prep
 - [[whole-brain]] – Computational models simulating large-scale brain dynamics
 - [[connectomics]] – The study of the brain's connectome
 - [[spontaneous-activity]] – Ongoing neural dynamics in the absence of tasks
+
+## References
+
+1. (authors unknown). *Functional connectivity in the motor cortex of resting human brain using echo-planar MRI*.
+2. (authors unknown). *Spontaneous fluctuations in brain activity observed with functional magnetic resonance imaging*.
+3. (authors unknown). *Correspondence of the brain's functional architecture during activation and rest*.

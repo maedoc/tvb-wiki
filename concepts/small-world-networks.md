@@ -1,10 +1,18 @@
 ---
-title: Small-World Networks
 created: 2026-04-20
-updated: 2026-04-27
+sources:
+- raw/papers/watts-strogatz-1998.md
+- raw/papers/bullmore-sporns-2009.md
+- raw/papers/sporns-2011.md
+tags:
+- network-dynamics
+- connectomics
+- graph-theory
+- structural-connectivity
+- functional-connectivity
+title: Small-World Networks
 type: concept
-tags: [network-dynamics, connectomics, graph-theory, structural-connectivity, functional-connectivity]
-sources: [raw/papers/watts-strogatz-1998.md, raw/papers/bullmore-sporns-2009.md, raw/papers/sporns-2011.md]
+updated: '2026-04-27'
 ---
 
 # Small-World Networks
@@ -46,3 +54,9 @@ The small-world architecture of brain networks is theoretically well-suited to s
 ## Related Concepts
 
 The small-world framework intersects with several other key concepts in brain network science. [[graph-theory]] provides the mathematical foundation for all network analysis methods. [[modularity]] describes the tendency of brain networks to organize into functional communities, complementing the small-world perspective by emphasizing hierarchical structure. [[scale-free-networks]] represent an alternative network topology characterized by heterogeneous degree distributions and the presence of highly connected hub nodes; some brain networks show hybrid properties combining small-world and scale-free features. [[rich-club]] Organization refers to the tendency of high-degree hub nodes to densely interconnect with each other, providing another perspective on the relationship between topology and function. The [[connectome]] represents the complete set of structural connections in the brain, of which small-world topology is a key organizational principle. [[brain-network]] analysis applies graph-theoretic methods to understand the network-level organization of neural systems. [[structural-connectivity]] and [[functional-connectivity]] respectively capture the anatomical wiring and statistical dependencies that give rise to small-world brain networks.
+
+## References
+
+1. (authors unknown). *Collective Dynamics of 'Small-World' Networks*.
+2. (authors unknown). *Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems*.
+3. (authors unknown). *Networks of the Brain*.

@@ -1,10 +1,20 @@
 ---
-title: Modularity
 created: 2026-04-20
-updated: 2026-04-27
+sources:
+- raw/papers/newman-2010.md
+- raw/papers/bullmore-sporns-2009.md
+- raw/papers/sporns-2011.md
+tags:
+- network-dynamics
+- connectomics
+- structural-connectivity
+- functional-connectivity
+- community-detection
+- brain-network
+- small-world-networks
+title: Modularity
 type: concept
-tags: [network-dynamics, connectomics, structural-connectivity, functional-connectivity, community-detection, brain-network, small-world-networks]
-sources: [raw/papers/newman-2010.md, raw/papers/bullmore-sporns-2009.md, raw/papers/sporns-2011.md]
+updated: '2026-04-27'
 ---
 
 Modularity is a fundamental organizational principle in complex networks, including the brain's structural and functional connectivity. It refers to the degree to which a network can be partitioned into clearly delineated groups—called modules, communities, or sub-networks—wherein nodes within each group exhibit dense interconnections while maintaining relatively sparse connections to nodes in other groups. This organizational scheme balances the competing demands of **segregated local processing** and **integrated global coordination**, making it essential for understanding brain function in both health and disease.
@@ -95,3 +105,9 @@ Despite extensive research, several questions remain: What are the optimal modul
 - [[functional-connectivity]] – Statistical dependencies between brain regions
 - [[structural-connectivity]] – Anatomical white matter pathways
 - [[resting-state]] – Spontaneous brain activity patterns
+
+## References
+
+1. (authors unknown). *Networks: An Introduction*.
+2. (authors unknown). *Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems*.
+3. (authors unknown). *Networks of the Brain*.

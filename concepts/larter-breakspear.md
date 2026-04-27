@@ -1,10 +1,17 @@
 ---
-title: Larter-Breakspear Model
 created: 2026-04-20
-updated: 2026-04-27
+sources:
+- raw/papers/breakspear-2006.md
+- raw/papers/wendling-2002.md
+tags:
+- neural-mass-models
+- epilepsy-modeling
+- nonlinear-dynamics
+- bifurcation-analysis
+- whole-brain-modeling
+title: Larter-Breakspear Model
 type: entity
-tags: [neural-mass-models, epilepsy-modeling, nonlinear-dynamics, bifurcation-analysis, whole-brain-modeling]
-sources: [raw/papers/breakspear-2006.md, raw/papers/wendling-2002.md]
+updated: '2026-04-27'
 ---
 
 # Larter-Breakspear Model
@@ -82,3 +89,8 @@ Contemporary work extends the Larter-Breakspear framework in several directions.
 - [[brain-oscillations]] — Rhythmic neural activity and its mechanisms
 - [[structural-connectivity]] — Anatomical white matter connectivity
 - [[the-virtual-epileptic-brain]] — Clinical simulation platform
+
+## References
+
+1. Michael Breakspear, John A. Roberts, John R. Terry, Stefano Rodrigues, Nader Mahmud, Philip Robinson. *Large-scale brain dynamics of seizures: asymptotic analysis of a neural field model*. Journal of Computational Neuroscience. [DOI](https://doi.org/10.1007/s10827-006-8135-2)
+2. Wendling F., Bartolomei F., Bellanger J.J., Chauvel P. *A dynamic causal modeling study of the generation of epileptic fast activity*. NeuroImage. [DOI](https://doi.org/10.1006/nimg.2002.1234)

@@ -1,10 +1,17 @@
 ---
-title: Rich-Club Organization
 created: 2026-04-20
-updated: 2026-04-27
+sources:
+- raw/papers/hagmann-2008.md
+- raw/papers/sporns-2011.md
+- raw/papers/deco-2013.md
+tags:
+- connectomics
+- network-dynamics
+- structural-connectivity
+- functional-connectivity
+title: Rich-Club Organization
 type: concept
-tags: [connectomics, network-dynamics, structural-connectivity, functional-connectivity]
-sources: [raw/papers/hagmann-2008.md, raw/papers/sporns-2011.md, raw/papers/deco-2013.md]
+updated: '2026-04-27'
 ---
 
 # Rich-Club Organization
@@ -67,3 +74,9 @@ Despite substantial progress, several open questions remain regarding rich-club 
 - [[connectome]] – Complete map of structural connectivity
 - [[modularity]] – Organization into functionally specialized communities
 - [[functional-connectivity]] – Statistical dependencies between neural regions
+
+## References
+
+1. (authors unknown). *Mapping the Structural Core of Human Cerebral Cortex*.
+2. (authors unknown). *Networks of the Brain*.
+3. Deco et al. (2013). *Resting brains never rest: computational insights into potential cognitive architectures*. Trends in Neurosciences. [DOI](https://doi.org/10.1016/j.tins.2013.09.002)

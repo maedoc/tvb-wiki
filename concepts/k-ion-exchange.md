@@ -1,10 +1,18 @@
 ---
-title: K-Ion Exchange Model
 created: 2026-04-20
-updated: 2026-04-27
+sources:
+- raw/papers/semanticscholar-7733d5476149.md
+tags:
+- neural-mass-models
+- epilepsy-modeling
+- dynamical-systems-theory
+- metabolic-modeling
+- ion-dynamics
+- excitability
+- seizure-dynamics
+title: K-Ion Exchange Model
 type: concept
-tags: [neural-mass-models, epilepsy-modeling, dynamical-systems-theory, metabolic-modeling, ion-dynamics, excitability, seizure-dynamics]
-sources: [raw/papers/semanticscholar-7733d5476149.md]
+updated: '2026-04-27'
 ---
 
 # K-Ion Exchange Model
@@ -57,3 +65,7 @@ More recent extensions have incorporated calcium dynamics alongside potassium, r
 - [[dynamical-systems-theory]] - Mathematical framework for analyzing model dynamics
 - [[whole-brain-modeling]] - Integration of regional models into brain-scale simulations
 - [[metabolic-modeling]] - Models incorporating energy metabolism
+
+## References
+
+1. P.Yu. Kondrakhin, F.A. Kolpakov. (2026). *Modular Model of Neuronal Activity That Captures the Dynamics of Main Molecular Targets of Antiepileptic Drugs*. International Journal of Molecular Sciences. [DOI](https://doi.org/10.3390/ijms27010490)

@@ -1,10 +1,17 @@
 ---
-title: Structural Core
 created: 2026-04-20
-updated: 2026-04-27
+sources:
+- raw/papers/hagmann-2008.md
+- raw/papers/sporns-2011.md
+tags:
+- connectomics
+- structural-connectivity
+- network-dynamics
+- network-hubs
+- rich-club
+title: Structural Core
 type: concept
-tags: [connectomics, structural-connectivity, network-dynamics, network-hubs, rich-club]
-sources: [raw/papers/hagmann-2008.md, raw/papers/sporns-2011.md]
+updated: '2026-04-27'
 ---
 
 The structural core is a set of highly interconnected hub regions that form a central backbone for brain communication. Located predominantly in the posterior medial and parietal cortex, these regions exhibit the highest degree of anatomical connectivity in the brain and serve as major conduit points for information flow between disparate brain regions. The concept emerged from early connectomics work applying graph theoretical analysis to diffusion MRI data, revealing that brain network organization is not homogeneous but contains a densely interconnected core of regions that anchor global communication.
@@ -40,3 +47,8 @@ From a [[brain-maintenance]] perspective, the structural core may be particularl
 ## Methodological Considerations
 
 Identifying the structural core depends critically on the imaging modality and tractography algorithm used. Diffusion spectrum imaging provides superior angular resolution compared to diffusion tensor imaging, enabling detection of complex fiber crossings crucial for accurate structural connectivity estimation. However, the core has also been identified using other diffusion imaging protocols, suggesting robust findings across methodologies. Ongoing developments in [[diffusion-mri]] acquisition and tractography continue to refine estimates of the structural core's extent and connectivity profile.
+
+## References
+
+1. (authors unknown). *Mapping the Structural Core of Human Cerebral Cortex*.
+2. (authors unknown). *Networks of the Brain*.

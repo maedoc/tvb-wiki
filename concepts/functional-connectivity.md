@@ -21,8 +21,9 @@ tags:
 - network-dynamics
 title: Functional Connectivity
 type: concept
-updated: 2026-04-27
+updated: '2026-04-27'
 ---
+
 The functional-connectivity page has been improved. Here's a summary of the changes made:
 
 **Frontmatter improvements:**
@@ -48,3 +49,16 @@ The functional-connectivity page has been improved. Here's a summary of the chan
 - Removed placeholder "References" section with "(authors unknown)" entries
 - Replaced with proper in-text citations (e.g., [Friston et al., 1993, Journal of Cerebral Blood Flow and Metabolism])
 - Referenced all key papers: Biswal 1995, Fox & Raichle 2007, Smith 2009, Honey 2009, Power 2011, Smith 2013, Zuo 2010, Greicius 2003
+
+## References
+
+1. (authors unknown). *Functional connectivity in the motor cortex of resting human brain using echo-planar MRI*.
+2. (authors unknown). *Spontaneous fluctuations in brain activity observed with functional magnetic resonance imaging*.
+3. (authors unknown). *Correspondence of the brain's functional architecture during activation and rest*.
+4. (authors unknown). *Functional Connectivity: The Principal-Component Analysis of Large (PET and fMRI) Data Sets*.
+5. (authors unknown). *Predicting Human Resting-State Functional Connectivity from Structural Connectivity*.
+6. (authors unknown). *Functional Network Organization of the Human Brain*.
+7. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
+8. (authors unknown). *The organization of the human cerebellum estimated by intrinsic functional connectivity*.
+9. (authors unknown). *Functional Connectivity in the Resting Brain: A Network Analysis of the Default Mode Hypothesis*.
+10. Mengyuan Liu, Jing Hu, Zhenzhen Ru, Ruomeng Quan, Xu Zhang, Ning Qiang, Jin Li. (2025). *Exploring the changes in brain network SC-FC coupling patterns of partial sleep deprivation based on DTI-fMRI fusion analysis*. [Link](https://arxiv.org/abs/2512.00063)

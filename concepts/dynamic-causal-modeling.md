@@ -1,10 +1,21 @@
 ---
-title: Dynamic Causal Modeling
 created: 2026-04-20
-updated: 2026-04-27
+sources:
+- raw/papers/friston-2003-dcm.md
+- raw/papers/stephan-2010.md
+- raw/papers/daunizeau-david-stephan-2011.md
+tags:
+- dynamic-causal-modeling
+- effective-connectivity
+- neuroimaging-fmri
+- neuroimaging-eeg
+- neuroimaging-meg
+- neural-mass-models
+- variational-bayes
+- dynamical-systems-theory
+title: Dynamic Causal Modeling
 type: concept
-tags: [dynamic-causal-modeling, effective-connectivity, neuroimaging-fmri, neuroimaging-eeg, neuroimaging-meg, neural-mass-models, variational-bayes, dynamical-systems-theory]
-sources: [raw/papers/friston-2003-dcm.md, raw/papers/stephan-2010.md, raw/papers/daunizeau-david-stephan-2011.md]
+updated: '2026-04-27'
 ---
 
 ## Definition
@@ -81,3 +92,9 @@ Limitations include the substantial computational demands of model inversion (pa
 - [[resting-state]] — Context for spectral DCM applications
 - [[spm]] — Software package implementing DCM in the MATLAB environment
 - [[connectivity-types]] — Taxonomy encompassing functional, effective, and structural connectivity
+
+## References
+
+1. (authors unknown). *Dynamic Causal Modelling*.
+2. (authors unknown). *Ten Simple Rules for Dynamic Causal Modeling*.
+3. (authors unknown). *Dynamic Causal Modelling: A Critical Review of the Biophysical and Statistical Foundations*.

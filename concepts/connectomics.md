@@ -1,10 +1,19 @@
 ---
-title: Connectomics
 created: 2026-04-20
-updated: 2026-04-27
+sources:
+- raw/papers/sporns-tononi-kotter-2005.md
+- raw/papers/sporns-2011.md
+- raw/papers/bullmore-sporns-2009.md
+tags:
+- connectomics
+- connectomics
+- structural-connectivity
+- functional-connectivity
+- network-dynamics
+- graph-theory
+title: Connectomics
 type: concept
-tags: [connectomics, connectomics, structural-connectivity, functional-connectivity, network-dynamics, graph-theory]
-sources: [raw/papers/sporns-tononi-kotter-2005.md, raw/papers/sporns-2011.md, raw/papers/bullmore-sporns-2009.md]
+updated: '2026-04-27'
 ---
 
 # Connectomics
@@ -69,3 +78,9 @@ Despite progress, fundamental challenges remain. The scale gap—reconciling mac
 - [[parcellation]] – Partitioning the brain into regions for network construction
 - [[human-connectome-project]] – Major mapping initiative
 - [[aging]] – How brain networks change across the lifespan
+
+## References
+
+1. (authors unknown). *The Human Connectome: A Structural Description of the Human Brain*.
+2. (authors unknown). *Networks of the Brain*.
+3. (authors unknown). *Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems*.

@@ -1,10 +1,23 @@
 ---
-title: Spiking Neural Networks
 created: 2024-01-15
-updated: 2026-04-27
+sources:
+- raw/papers/gewaltig-diesmann-2007.md
+- raw/papers/potjans-diesmann-2014.md
+- raw/papers/jordan-2018.md
+tags:
+- spiking-neural-networks
+- neural-mass-models
+- whole-brain-modeling
+- software-nest
+- software-neuron
+- software-tvb
+- brain-network
+- network-dynamics
+- dynamical-systems-theory
+- mean-field-theory
+title: Spiking Neural Networks
 type: concept
-tags: [spiking-neural-networks, neural-mass-models, whole-brain-modeling, software-nest, software-neuron, software-tvb, brain-network, network-dynamics, dynamical-systems-theory, mean-field-theory]
-sources: [raw/papers/gewaltig-diesmann-2007.md, raw/papers/potjans-diesmann-2014.md, raw/papers/jordan-2018.md]
+updated: '2026-04-27'
 ---
 
 # Spiking Neural Networks
@@ -46,3 +59,9 @@ Spiking networks and [[neural-mass-model|neural mass models]] occupy complementa
 ## Related Concepts
 
 Spiking neural networks connect to numerous other concepts in computational neuroscience. At the network level, [[brain-network]] analysis provides tools for characterizing connectivity patterns and dynamics in large-scale simulations. The [[whole-brain]] modeling paradigm seeks to integrate regional dynamics with structural connectivity derived from diffusion tensor imaging. For researchers comparing simulation approaches, [[tvb-vs-nest-vs-neuron]] provides a detailed comparison of The Virtual Brain, NEST, and NEURON capabilities. Related software ecosystems include [[brian|Brian2]], which offers a flexible Python-based framework for spiking network modeling, and [[pymvpa|PyNN]] for interoperability between simulators.
+
+## References
+
+1. Gewaltig & Diesmann (2007). *NEST (NEural Simulation Tool)*. Scholarpedia. [DOI](https://doi.org/10.4249/scholarpedia.1430)
+2. Potjans & Diesmann (2014). *The cell-type specific cortical microcircuit: relating structure and activity*. Cerebral Cortex. [DOI](https://doi.org/10.1093/cercor/bhs358)
+3. Jordan et al. (2018). *Extremely scalable spiking neuronal network simulation code: from laptops to exascale computers*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2018.00002)

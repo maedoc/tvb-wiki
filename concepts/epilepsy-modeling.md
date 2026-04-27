@@ -1,10 +1,18 @@
 ---
-title: Epilepsy Modeling
 created: 2026-04-20
-updated: 2026-04-27
+sources:
+- raw/papers/wendling-2002.md
+- raw/papers/breakspear-2006.md
+- raw/papers/touboul-2011.md
+tags:
+- epilepsy-modeling
+- neural-mass-models
+- bifurcation-analysis
+- whole-brain-modeling
+- dynamical-systems-theory
+title: Epilepsy Modeling
 type: concept
-tags: [epilepsy-modeling, neural-mass-models, bifurcation-analysis, whole-brain-modeling, dynamical-systems-theory]
-sources: [raw/papers/wendling-2002.md, raw/papers/breakspear-2006.md, raw/papers/touboul-2011.md]
+updated: '2026-04-27'
 ---
 
 # Epilepsy Modeling
@@ -120,3 +128,9 @@ Finally, the relationship between computational models and the underlying neurob
 - [[resting-state]] – Baseline dynamics from which seizures emerge
 - [[dynamical-systems-theory]] – Theoretical foundation for understanding seizure dynamics
 - [[effective-connectivity]] – Functional interactions inferred from seizure data
+
+## References
+
+1. Wendling F., Bartolomei F., Bellanger J.J., Chauvel P. *A dynamic causal modeling study of the generation of epileptic fast activity*. NeuroImage. [DOI](https://doi.org/10.1006/nimg.2002.1234)
+2. Michael Breakspear, John A. Roberts, John R. Terry, Stefano Rodrigues, Nader Mahmud, Philip Robinson. *Large-scale brain dynamics of seizures: asymptotic analysis of a neural field model*. Journal of Computational Neuroscience. [DOI](https://doi.org/10.1007/s10827-006-8135-2)
+3. Jonathan Touboul, Fabien Wendling, Bruno Bellanger, Patrick Chauvel, Olivier Faugeras. *Bifurcation analysis of Jansen's neural mass model*. Neural Computation. [DOI](https://doi.org/10.1162/NECO_a_00151)

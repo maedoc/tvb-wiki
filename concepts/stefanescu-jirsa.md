@@ -1,10 +1,16 @@
 ---
-title: Stefanescu-Jirsa Model
 created: 2026-04-20
-updated: 2026-04-27
+sources:
+- raw/papers/stefanescu-jirsa-2008.md
+tags:
+- neural-mass-models
+- epilepsy-modeling
+- bifurcation-theory
+- dynamical-systems-theory
+- mean-field-theory
+title: Stefanescu-Jirsa Model
 type: concept
-tags: [neural-mass-models, epilepsy-modeling, bifurcation-theory, dynamical-systems-theory, mean-field-theory]
-sources: [raw/papers/stefanescu-jirsa-2008.md]
+updated: '2026-04-27'
 ---
 
 # Stefanescu-Jirsa Model
@@ -69,3 +75,7 @@ However, the reduction necessarily sacrifices some biological detail present in 
 - [[ dynamical-systems-theory]] — Theoretical framework underlying the dimensional reduction
 - [[mean-field-theory]] — Related approach for deriving population-level descriptions
 - [[tvb]] — The Virtual Brain simulation platform frequently used with these models
+
+## References
+
+1. Roxana A. Stefanescu, Viktor K. Jirsa. *A low dimensional description of globally coupled heterogeneous neural networks of excitatory and inhibitory neurons*. PLoS Computational Biology. [DOI](https://doi.org/10.1371/journal.pcbi.1000219)

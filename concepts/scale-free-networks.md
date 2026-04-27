@@ -1,10 +1,17 @@
 ---
-title: Scale-Free Networks
 created: 2026-04-20
-updated: 2026-04-27
+sources:
+- raw/papers/barabasi-albert-1999.md
+- raw/papers/bullmore-sporns-2009.md
+tags:
+- connectomics
+- network-dynamics
+- brain-network
+- structural-connectivity
+- functional-connectivity
+title: Scale-Free Networks
 type: concept
-tags: [connectomics, network-dynamics, brain-network, structural-connectivity, functional-connectivity]
-sources: [raw/papers/barabasi-albert-1999.md, raw/papers/bullmore-sporns-2009.md]
+updated: '2026-04-27'
 ---
 
 # Scale-Free Networks
@@ -67,3 +74,8 @@ Despite substantial progress, several fundamental questions remain unanswered. W
 - [[modularity]] – Community structure in brain networks
 - [[structural-connectivity]] – Anatomical white matter pathways
 - [[functional-connectivity]] – Statistical dependencies in neural activity
+
+## References
+
+1. (authors unknown). *Emergence of Scaling in Random Networks*.
+2. (authors unknown). *Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems*.

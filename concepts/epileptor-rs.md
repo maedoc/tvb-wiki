@@ -1,10 +1,17 @@
 ---
-title: Epileptor Resting State
 created: 2026-04-20
-updated: 2026-04-27
+sources:
+- raw/papers/arxiv-2508.04824.md
+- raw/papers/breakspear-2006.md
+tags:
+- epilepsy-modeling
+- neural-mass-models
+- stochastic-differential-equations
+- whole-brain-modeling
+- brain-oscillations
+title: Epileptor Resting State
 type: concept
-tags: [epilepsy-modeling, neural-mass-models, stochastic-differential-equations, whole-brain-modeling, brain-oscillations]
-sources: [raw/papers/arxiv-2508.04824.md, raw/papers/breakspear-2006.md]
+updated: '2026-04-27'
 ---
 
 # Epileptor Resting State
@@ -61,3 +68,8 @@ The extension of the EpileptorRS to include spatial propagation effects, transit
 - [[dynamic-causal-modeling]] - Related framework for connectivity inference
 - [[the-virtual-brain]] - Whole-brain simulator platform
 - [[bifurcation-analysis]] - Method for understanding state transitions
+
+## References
+
+1. Paul Triebkorn, Huifang E. Wang, Marmaduke Woodman, Maxime Guye, Fabrice Bartolomei, Viktor Jirsa. (2025). *Delay-constrained re-entry governs large-scale brain seizures and other network pathologies*. [Link](https://arxiv.org/abs/2508.04824)
+2. Michael Breakspear, John A. Roberts, John R. Terry, Stefano Rodrigues, Nader Mahmud, Philip Robinson. *Large-scale brain dynamics of seizures: asymptotic analysis of a neural field model*. Journal of Computational Neuroscience. [DOI](https://doi.org/10.1007/s10827-006-8135-2)

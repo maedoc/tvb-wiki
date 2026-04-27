@@ -1,10 +1,14 @@
 ---
-title: fMRI
 created: 2026-04-20
-updated: 2026-04-27
+sources:
+- raw/papers/ogawa-1990.md
+- raw/papers/logothetis-2001.md
+- raw/papers/friston-1994.md
+tags:
+- neuroimaging-fmri
+title: fMRI
 type: concept
-tags: [neuroimaging-fmri]
-sources: [raw/papers/ogawa-1990.md, raw/papers/logothetis-2001.md, raw/papers/friston-1994.md]
+updated: '2026-04-27'
 ---
 
 # fMRI
@@ -47,3 +51,9 @@ Several methodological challenges affect fMRI interpretation and its use in mode
 - [[fmri-vs-eeg|Fmri Vs Eeg]] – Comparison of fMRI and EEG methodologies
 - [[connectome]] – Structural connectivity infrastructure
 - [[whole-brain]] – Large-scale brain modeling approaches
+
+## References
+
+1. (authors unknown). *Brain magnetic resonance imaging with contrast dependent on blood oxygenation*.
+2. (authors unknown). *Neurophysiological investigation of the basis of the fMRI signal*.
+3. (authors unknown). *Statistical parametric maps in functional imaging: A general linear approach*.

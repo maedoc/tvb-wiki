@@ -1,0 +1,681 @@
+You are the Ralph Writer agent improving a TVB Wiki page about whole-brain modeling and computational neuroscience. Follow the schema strictly.
+
+## SCHEMA
+# Wiki Schema
+
+## Domain
+Connectome‑based whole‑brain modeling, neural mass models, neuroimaging modalities (fMRI, EEG, MEG, DTI), dynamic causal modeling, large‑scale brain networks, software (The Virtual Brain, NEST, Brian, etc.), and related research papers.
+
+## Conventions
+- File names: lowercase, hyphens, no spaces (e.g., `the‑virtual‑brain.md`)
+- Every wiki page starts with YAML frontmatter (see below)
+- Use `[[wikilinks]]` to link between pages (minimum 2 outbound links per page)
+- When updating a page, always bump the `updated` date
+- Every new page must be added to `index.md` under the correct section
+- Every action must be appended to `log.md`
+
+## Frontmatter
+  ```yaml
+  ---
+  title: Page Title
+  created: YYYY‑MM‑DD
+  updated: YYYY‑MM‑DD
+  type: entity | concept | comparison | query | summary
+  tags: [from taxonomy below]
+  sources: [raw/papers/arxiv‑1234.56789.md, raw/articles/blog‑post.md]
+  ---
+  ```
+
+## Tag Taxonomy
+**Models & Methods**
+- neural‑mass‑models
+- dynamic‑causal‑modeling
+- whole‑brain‑modeling
+- connectomics
+- structural‑connectivity
+- functional‑connectivity
+- effective‑connectivity
+- network‑dynamics
+- bifurcation‑analysis
+- parameter‑estimation
+- dynamical‑systems‑theory
+- bifurcation‑theory
+- nonlinear‑dynamics
+- variational‑bayes
+- free‑energy‑principle
+- mean‑field‑theory
+- stochastic‑differential‑equations
+- fokker‑planck‑equation
+
+**Neuroimaging Modalities**
+- neuroimaging‑fmri
+- neuroimaging‑eeg
+- neuroimaging‑meg
+- neuroimaging‑dti
+- neuroimaging‑pet
+- resting‑state
+- task‑based
+- diffusion‑imaging
+- tractography
+
+**Software & Tools**
+- software‑tvb
+- software‑nest
+- software‑neuron
+- software‑brian
+- software‑neuroml
+- software‑brain‑modeling
+- software‑ants
+- software‑graphvar
+- software‑modeldb
+- software‑visualization
+- database‑hcp
+- database‑uk‑biobank
+
+**Research Context**
+- paper‑review
+- paper‑methods
+- paper‑results
+- conference‑ohbm
+- conference‑sfn
+- conference‑cosyne
+- lab‑institute
+- people‑researcher
+- funding‑project
+- reproducibility
+
+**Domain Topics**
+- brain‑oscillations
+- epilepsy‑modeling
+- schizophrenia‑models
+- alzheimers‑modeling
+- consciousness‑models
+- brain‑stimulation
+- neurodevelopment
+- aging‑brain
+- personalized‑brain‑modeling
+- spiking‑neural‑networks
+
+**Meta**
+- comparison
+- timeline
+- controversy
+- open‑question
+- tutorial
+- dataset
+
+*Rule:* every tag on a page must appear in this taxonomy. If a new tag is needed, add it here first, then use it.
+
+## Page Thresholds
+- **Create a page** when an entity/concept appears in 2+ sources OR is central to one source (e.g., seminal paper, key software)
+- **Add to existing page** when a source mentions something already covered
+- **DON'T create a page** for passing mentions, minor details, or things outside the domain
+- **Split a page** when it exceeds ~200 lines — break into sub‑topics with cross‑links
+- **Archive a page** when its content is fully superseded — move to `_archive/`, remove from index
+
+## Entity Pages
+One page per notable entity (person, software, dataset, lab). Include:
+- Overview / what it is
+- Key facts and dates
+- Relationships to other entities (`[[wikilinks]]`)
+- Source references
+
+## Concept Pages
+One page per concept or topic. Include:
+- Definition / explanation
+- Current state of knowledge
+- Open questions or debates
+- Related concepts (`[[wikilinks]]`)
+
+## Comparison Pages
+Side‑by‑side analyses. Include:
+- What is being compared and why
+- Dimensions of comparison (table format preferred)
+- Verdict or synthesis
+- Sources
+
+## Update Policy
+When new information conflicts with existing content:
+1. Check the dates — newer sources generally supersede older ones
+2. If genuinely contradictory, note both positions with dates and sources
+3. Mark the contradiction in frontmatter: `contradictions: [page‑name]`
+4. Flag for user review in the lint report
+
+
+## YOUR TASK
+Improve the wiki page: wilson-cowan
+
+## CURRENT PAGE CONTENT
+# Wilson-Cowan Model
+
+The Wilson-Cowan model is the canonical firing-rate model of coupled excitatory and inhibitory neural populations. Introduced in 1972, it provides the mathematical foundation for most subsequent neural mass modeling, including implementations in TVB and DCM.
+
+## Overview
+
+Developed by [[hugh-wilson]] and [[jack-cowan]] at the University of Chicago, the model describes the mean firing rates of excitatory and inhibitory populations through coupled nonlinear differential equations. The 1973 extension added spatial structure, founding [[neural-field-theory|neural field]] theory.
+
+## Mathematical Formulation
+
+### Original Model (1972)
+
+The activity of excitatory (E) and inhibitory (I) populations:
+
+```
+τ_E dE/dt = -E + S_E(aE - bI + P)
+τ_I dI/dt = -I + S_I(cE - dI + Q)
+```
+
+Where:
+- E, I: Mean firing rates of excitatory and inhibitory populations
+- τ_E, τ_I: Time constants
+- a, b, c, d: Connection strengths (within/across populations)
+- P, Q: External inputs
+- S_E, S_I: Sigmoid response functions
+
+### Sigmoid Function
+
+```
+S(x) = 1 / (1 + exp(-r(x - θ)))
+```
+
+Where r is slope and θ is threshold. This captures:
+- Threshold behavior (no output below threshold)
+- Saturation (maximum firing rate at high input)
+- Smooth transition between states
+
+### Spatial Extension (1973)
+
+Neural field equations with spatial coupling:
+
+```
+∂E/∂t = -E + S_E(∫w_EE(r-r')E(r')dr' - ∫w_EI(r-r')I(r')dr' + P)
+∂I/∂t = -I + S_I(∫w_IE(r-r')E(r')dr' - ∫w_II(r-r')I(r')dr' + Q)
+```
+
+Where w are connectivity kernels (typically Gaussian or Mexican-hat).
+
+## Dynamical Properties
+
+### Fixed Points
+
+Setting dE/dt = dI/dt = 0 gives steady states. The nullclines can intersect in 1-3 points, allowing:
+- Single stable state (monostability)
+- Two stable states (bistability)
+- Three fixed points (excitability)
+
+### Oscillations
+
+Oscillatory activity emerges when:
+- Inhibitory time constant > excitatory time constant (τ_I > τ_E)
+- Recurrent excitation is strong enough
+- Feedback inhibition creates delayed negative feedback
+
+Oscillation frequency depends on:
+- τ_I (slower inhibition → lower frequency)
+- Connection strengths (stronger coupling → higher amplitude)
+
+### Phase Plane Analysis
+
+The E-I phase plane reveals:
+- **Nullclines**: Curves where dE/dt=0 or dI/dt=0
+- **Fixed points**: Intersections of nullclines
+- **Stability**: Determined by eigenvalues of Jacobian
+- **Limit cycles**: Closed trajectories (oscillations)
+- **Separatrices**: Boundaries between basins of attraction
+
+## Biological Interpretation
+
+| Model Component | Biological Correlate |
+|-----------------|----------------------|
+| E population | Pyramidal neurons, excitatory interneurons |
+| I population | Inhibitory interneurons (PV, SST) |
+| Sigmoid | Population activation function |
+| Time constants | Membrane and synaptic time scales |
+| Coupling weights | Synaptic strengths (AMPA, GABA) |
+| External inputs | Sensory drive, neuromodulation |
+
+## Applications
+
+### Pattern Formation
+
+The spatial model produces:
+- **Standing waves**: Stationary patterns of activity
+- **Traveling waves**: Activity propagating across tissue
+- **Turing patterns**: Spontaneous spatial organization
+- **Hallucinations**: Geometric patterns (with Ermentrout)
+
+### Brain States
+
+| State | Mechanism |
+|-------|-----------|
+| Resting | Low activity fixed point |
+| Oscillatory | Stable limit cycle |
+| Seizure | High-amplitude oscillation |
+| Bistable | Two stable fixed points |
+
+### Clinical Applications
+
+- **Epilepsy**: Seizure onset as bifurcation
+- **Hallucinations**: Pattern formation in visual cortex
+- **Migraine**: Cortical spreading depression as traveling wave
+- **Schizophrenia**: Altered E/I balance
+
+## Relationship to Other Models
+
+| Aspect | Wilson-Cowan | Jansen-Rit |
+|--------|--------------|------------|
+| Populations | 2 (E, I) | 3 (P, E, I) |
+| Variables | Firing rates | Post-synaptic potentials |
+| Output | Firing rates | EEG/MEG signals |
+| Time course | Instantaneous | Synaptic filtering |
+| Spatial | Yes (field theory) | No (single column) |
+
+The Jansen-Rit model can be seen as a specific instantiation of Wilson-Cowan dynamics with:
+- Three populations instead of two
+- Post-synaptic filtering (alpha functions)
+- Specific focus on EEG/MEG generation
+
+## TVB Implementation
+
+TVB includes Wilson-Cowan as an alternative to Jansen-Rit:
+
+```python
+from tvb.simulator.models import WilsonCowan
+model = WilsonCowan()
+```
+
+Parameters:
+- c_ee, c_ei, c_ie, c_ii: Connection strengths
+- tau_e, tau_i: Time constants
+- a_e, a_i: Sigmoid parameters
+
+## Limitations
+
+1. **Mean-field approximation**: Ignores correlations and fluctuations
+2. **Fixed connectivity**: No plasticity or learning
+3. **Simplified neurons**: No spike timing, adaptation
+4. **Homogeneity**: Assumes identical neurons within populations
+
+## Related Concepts
+
+- [[neural mass model]] – General framework
+- [[Jansen-Rit]] – EEG-focused extension
+- [[mean field theory]] – Mathematical foundation
+- [[bifurcation analysis]] – Understanding transitions
+- [[linear|Linear]]
+- [[zerlaut|Zerlaut]]
+- [[wong-wang-exc-inh|Wong Wang Exc Inh]]
+- [[epilepsy-modeling|Epilepsy Modeling]]
+## References
+
+1. Wilson, H. R., & Cowan, J. D. (1972). Excitatory and inhibitory interactions in localized populations of model neurons. *Biophysical Journal*, 12(1), 1–24. https://doi.org/10.1016/S0006-3495(72)86068-5
+
+2. Wilson, H. R., & Cowan, J. D. (1973). A mathematical theory of the functional dynamics of cortical and thalamic nervous tissue. *Kybernetik*, 13(2), 55–80. https://doi.org/10.1007/BF00288786
+
+3. Destexhe, A., & Sejnowski, T. J. (2009). The Wilson-Cowan model, 36 years later. *Biological Cybernetics*, 101(1), 1–2. https://doi.org/10.1007/s00422-009-0328-3
+
+## AVAILABLE SOURCE PAPERS
+--- SOURCE: raw/papers/wilson-cowan-1972.md ---
+---
+title: "Excitatory and inhibitory interactions in localized populations of model neurons"
+created: 2026-04-20
+updated: 2026-04-20
+type: source
+tags: [paper-methods, neural-mass-models, brain-oscillations, people-researcher]
+sources: []
+---
+
+# Excitatory and inhibitory interactions in localized populations of model neurons
+
+**Authors**: Hugh R. Wilson, Jack D. Cowan  
+**Published**: 1972  
+**Journal**: Biophysical Journal  
+**DOI**: 10.1016/S0006-3495(72)86068-5
+
+## Summary
+
+Foundational paper introducing the Wilson-Cowan model—a firing-rate description of coupled excitatory and inhibitory neural populations. This is the canonical model for population dynamics and the mathematical basis for most neural mass formulations.
+
+## Key Contributions
+
+- Two-population model: excitatory (E) and inhibitory (I) populations with sigmoid activation functions
+- Analytical treatment of steady states, limit cycles, and spatial patterns
+- Parameter conditions for oscillatory dynamics
+- Connection to earlier work by Beurle (1956) and others on population activity
+
+## Mathematical Form
+
+The equations take the form:
+- τ_E dE/dt = -E + S_E(aE - bI + P)
+- τ_I dI/dt = -I + S_I(cE - dI + Q)
+
+Where S_E, S_I are sigmoid response functions describing population activation.
+
+## Related Concepts
+
+- [[Wilson-Cowan]]
+- [[neural mass model]]
+- [[brain oscillations]]
+- [[Hugh Wilson]]
+- [[Jack Cowan]]
+
+
+--- SOURCE: raw/papers/arxiv-2510.08436.md ---
+# Spike-frequency and h-current based adaptation are dynamically equivalent in a Wilson-Cowan field model
+
+**arXiv ID**: 2510.08436
+**Published**: 2025-10-09
+**Updated**: 2025-10-15
+**Authors**: Ronja Strömsdörfer, Klaus Obermayer
+**Categories**: nlin.AO, q-bio.NC
+**URL**: https://arxiv.org/abs/2510.08436
+**PDF**: https://arxiv.org/pdf/2510.08436
+**Source**: arXiv
+
+## Abstract
+
+During slow-wave sleep, the brain produces traveling waves of slow oscillations (SOs; $\leq 2$ Hz), characterized by the propagation of alternating high- and low-activity states. The question of internal mechanisms that modulate traveling waves of SOs is still unanswered although it is established that it is an adaptation mechanism that mediates them. One mechanism investigated is spike-frequency adaptation, a hyperpolarizing feedback current that is activated during periods of high-activity. An alternative mechanism is based on hyperpolarization-activated currents, which are positive feedback currents that are activated in low-activity states. Both adaptation mechanisms were shown to feature SO-like dynamics in neuronal populations, and the inclusion of a spatial domain seems to enhance observable differences in their effects. To investigate this in detail, we examine a spatially extended two-population Wilson-Cowan model with local spatial coupling and the excitatory populations equipped with either one of the two adaptation mechanisms. We describe them with the same dynamical equation and include the inverse mode of action by changing the signs of adaptation strength and gain. We show that the dynamical systems are mathematically equivalent under a compensatory external input, which depends on the adaptation strength, leading to a shift in state space of the otherwise equivalent bifurcation structure. Strong enough adaptation is required to induce traveling waves. Additionally, adaptation modulates the properties of the spatio-temporal activity patterns, such as temporal and spatial freque
+
+--- SOURCE: raw/papers/arxiv-2512.22093.md ---
+# A Minimal Network of Brain Dynamics: Hierarchy of Approximations to Quasi-critical Neural Network Dynamics
+
+**Source**: arxiv
+**ID**: 2512.22093
+**URL**: https://arxiv.org/abs/2512.22093
+**Date**: 2025-12-26
+**Year**: 2025
+**Authors**: Jeremy B. Goetz, Naruepon Weerawongphrom, Rashid V. Williams-García, John M. Beggs, Gerardo Ortiz
+**Categories**: cond-mat.dis-nn, cond-mat.soft, cond-mat.stat-mech, nlin.AO, physics.med-ph
+
+## Abstract
+
+We present an interacting branching model of neural network dynamics, incorporating key biological features such as inhibition with several types of inhibitory interactions. We establish a hierarchy of analytical mean-field approximations to the model, which characterizes nonequilibrium phase transitions between disorder and ordered phases, and perform a stability analysis. Generically, inhibitory neurons increase the stability of the model dynamics. The model is consistent with the quasi-criticality hypothesis in that it displays regions of maximal dynamical susceptibility and maximal mutual information predicated on the strength of the external stimuli. Directed percolation emerges as the universality class of the critical transition of the model, consistent with some previous experimental data and models. In the unstable phase, chaotic dynamics emerge, which may be linked to the occurrence of epileptic seizures.
+
+
+## EXISTING WIKI PAGES (use these for [[wikilinks]] — only link to pages in this list)
+  - 3d-slicer
+  - aal-atlas
+  - afni
+  - aging
+  - alain-destexhe
+  - albert-laszlo-barabasi
+  - allen-brain-atlas
+  - andrei-medvedev
+  - annarchy
+  - ants
+  - antspy
+  - arbor
+  - auryn
+  - bci2000
+  - bctpy
+  - benjamin-jansen
+  - bharat-biswal
+  - bids-validator
+  - bidscoin
+  - bifurcation-analysis
+  - bifurcation-theory
+  - bionet
+  - bluepyopt
+  - bold-signal
+  - brain-connectivity-toolbox
+  - brain-dynamics-toolbox
+  - brain-maintenance
+  - brain-network
+  - brainlife
+  - brainmap
+  - brainnet-viewer
+  - brainnetome-atlas
+  - brainspace
+  - brainstorm
+  - brainsuite
+  - brainvisa
+  - brainvoyager
+  - brian
+  - brian-avants
+  - brian2
+  - c-pac
+  - carlsim
+  - cat12
+  - cbrain
+  - chronux
+  - civet
+  - clinica
+  - cococomac
+  - cognitive-reserve
+  - conn
+  - connectivity-types
+  - connectome
+  - connectome-mapper-3
+  - connectome-workbench
+  - connectomics
+  - coreneuron
+  - crispin-gardiner
+  - cvodes
+  - datalad
+  - david-van-essen
+  - dcm
+  - default-mode-network
+  - desikan-killiany-atlas
+  - developmental-trajectories
+  - diffusion-mri
+  - dipy
+  - dsi-studio
+  - dti
+  - duncan-watts
+  - dynamic-causal-modeling
+  - dynamical-systems-theory
+  - dynasim
+  - ebrains
+  - ed-bullmore
+  - eeg
+  - eeglab
+  - effective-connectivity
+  - elephant
+  - emanuel-tuckwell
+  - epilepsy-modeling
+  - epileptor
+  - epileptor-rs
+  - epileptorcodim3
+  - erplab
+  - eugene-izhikevich
+  - exploreasl
+  - fastsurfer
+  - fernando-lopes-da-silva
+  - fidel-alfaro-almagro
+  - fieldtrip
+  - fmri
+  - fmri-vs-eeg
+  - fmriprep
+  - fokker-planck-equation
+  - fooof
+  - free-energy-principle
+  - freesurfer
+  - fsl
+  - fsleyes
+  - functional-connectivity
+  - genesis
+  - genn
+  - geppetto
+  - gift
+  - giulio-tononi
+  - glasser-atlas
+  - graph-theory
+  - graphvar
+  - gustavo-deco
+  - hannes-risken
+  - harvard-oxford-atlas
+  - hcp-pipelines
+  - henry-markram
+  - hnn
+  - hopfield
+  - hugh-wilson
+  - human-connectome-project
+  - ica
+  - infinite-theta
+  - itk-snap
+  - jack-cowan
+  - jansen-rit
+  - jneuroml
+  - john-guckenheimer
+  - julich-atlas
+  - k-ion-exchange
+  - krasimira-tsaneva-atanasova
+  - larter-breakspear
+  - lead-dbs
+  - lfp-lib
+  - lfpy
+  - lfpykit
+  - linear
+  - mark-newman
+  - markus-diesmann
+  - mean-field-theory
+  - meg
+  - michael-hines
+  - michael-schirner
+  - mne-bids
+  - mne-python
+  - modeldb
+  - modularity
+  - moose
+  - mricrogl
+  - mricron
+  - mriqc
+  - mrtrix
+  - mrtrix3
+  - mrtrix3-connectome
+  - music
+  - mvgc
+  - nancy-andrews-hanna
+  - nengo
+  - neo
+  - nest
+  - netneuroscience
+  - netpyne
+  - network-hubs
+  - neural-mass-model
+  - neural-mass-models
+  - neural-mass-models-comparison
+  - neurodata-without-borders
+  - neurodevelopment
+  - neurom
+  - neurominer
+  - neuroml
+  - neuromorpho
+  - neuromorpho-toolkit
+  - neuron
+  - neuronunit
+  - neuroscience-gateway
+  - neurosynth
+  - neurovault
+  - neusight
+  - nibabel
+  - nibetaseries
+  - nick-tustison
+  - niftynet
+  - niftyreg
+  - nikos-logothetis
+  - nilearn
+  - nipype
+  - nitin-gogtay
+  - nix
+  - nonlinear-dynamics
+  - nwb
+  - olaf-sporns
+  - open-source-brain
+  - opencortex
+  - openmeeg
+  - openneuro
+  - openvibe
+  - oscillator
+  - panda
+  - paraview
+  - parcellation
+  - patricia-miller
+  - personalized-brain-modeling
+  - philip-holmes
+  - physionet
+  - pronto
+  - psyneulink
+  - pybids
+  - pymvpa
+  - pynn
+  - qsiprep
+  - resting-state
+  - rich-club
+  - rolf-kotter
+  - root
+  - rudiger-seydel
+  - scale-free-networks
+  - scirun
+  - sciunit
+  - seiji-ogawa
+  - sift
+  - simnibs
+  - sloreta
+  - small-world-networks
+  - spiking-neural-networks
+  - spm
+  - stefanescu-jirsa
+  - stephen-wiggins
+  - steps
+  - steven-smith
+  - steven-strogatz
+  - stochastic-differential-equations
+  - structural-connectivity
+  - structural-core
+  - suma
+  - synthseg
+  - ted-carnevale
+  - terrence-sejnowski
+  - the-virtual-epileptic-brain
+  - tractography
+  - tractor
+  - trentool
+  - tvb
+  - tvb-adapters
+  - tvb-library
+  - tvb-multiscale
+  - tvb-vs-nest-vs-neuron
+  - uk-biobank
+  - variational-bayes
+  - vincent-rit
+  - voxelmorph
+  - walter-freeman
+  - whole-brain
+  - whole-brain-modeling
+  - whole-brain-simulators
+  - wilson-cowan
+  - wong-wang
+  - wong-wang-exc-inh
+  - xcos
+  - xnat
+  - yan-wang
+  - yasa
+  - yuri-kuznetsov
+  - zerlaut
+
+## WRITING STYLE
+- Write for a **graduate student in neuroscience** who is intelligent but not a specialist in this particular topic
+- **Dense but readable** prose — like Scholarpedia or a very good Wikipedia science article, NOT like a PowerPoint slide
+- Every section must have at least one full paragraph of prose. Avoid sections that are only a table or equations
+- Cross-link aggressively: the first mention of any concept that appears in the page inventory above should be a [[wikilink]]. Aim for 8–15 wikilinks per page
+- Avoid one-liner sections — if a section would be only 1–2 sentences, expand it or merge it
+
+## STRUCTURAL REQUIREMENTS
+1. **Opening paragraph** (2–3 sentences): What is this? Define it plainly before any technical detail
+2. **Motivation / Context** (1–2 paragraphs): WHY does this exist? What problem does it solve? How does it fit into the broader field?
+3. **Technical content**: Equations and tables are welcome but must be **surrounded by explanatory prose** — explain what each equation means in words
+4. **Relationships**: Compare to related models/concepts. What came before? What came after? What are the tradeoffs?
+5. **Biological grounding**: For model pages, explain what biological phenomena the model captures and how parameters map to neural mechanisms
+
+## FORMATTING RULES
+1. Replace ALL placeholder text (*Placeholder*) with real, sourced content
+2. Add wikilinks [[like-this]] to related pages from the inventory above (minimum 8)
+3. Add factual claims ONLY if you can cite a source or are confident from domain knowledge
+4. Keep the YAML frontmatter, but update the `updated:` date to today (2026-04-27)
+5. Add any new sources used to the `sources:` frontmatter list
+6. Aim for 500–800 words for a full page
+7. Use clear section headings (##)
+8. Do NOT add a ## References section — a separate agent handles reference formatting
+
+Write the COMPLETE updated page (including frontmatter). Output ONLY the markdown file content, no commentary.

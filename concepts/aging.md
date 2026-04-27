@@ -1,10 +1,25 @@
 ---
-title: Brain Aging
 created: 2026-04-20
-updated: 2026-04-27
+sources:
+- raw/papers/buckner-2004.md
+- raw/papers/grady-2012.md
+- raw/papers/damoiseaux-2008.md
+tags:
+- aging-brain
+- neuroimaging-fmri
+- neuroimaging-dti
+- cognitive-reserve
+- brain-maintenance
+- functional-connectivity
+- structural-connectivity
+- whole-brain-modeling
+- resting-state
+- default-mode-network
+- developmental-trajectories
+- neural-mass-models
+title: Brain Aging
 type: concept
-tags: [aging-brain, neuroimaging-fmri, neuroimaging-dti, cognitive-reserve, brain-maintenance, functional-connectivity, structural-connectivity, whole-brain-modeling, resting-state, default-mode-network, developmental-trajectories, neural-mass-models]
-sources: [raw/papers/buckner-2004.md, raw/papers/grady-2012.md, raw/papers/damoiseaux-2008.md]
+updated: '2026-04-27'
 ---
 
 Brain aging encompasses the progressive structural, functional, and connectomic changes that occur in the human brain from early adulthood through senescence. Unlike neurodevelopment, which is characterized by growth and integration, aging involves a complex interplay of decline and adaptation—both normative losses in gray matter volume, white matter integrity, and [[functional-connectivity]], as well as compensatory reorganizations that allow many older adults to maintain cognitive function. Understanding these trajectories is essential for whole-brain modeling approaches that aim to simulate individual brains, as age-related parameter changes fundamentally alter network dynamics, synchronization properties, and the brain's computational capacity.
@@ -69,3 +84,9 @@ Applications to personalized modeling involve fitting individual parameters to e
 - [[neural-mass-models]] – Models for aging brain dynamics
 - [[whole-brain-modeling]] – Computational approaches
 - [[personalized-brain-modeling]] – Individual-specific models
+
+## References
+
+1. (authors unknown). *Memory and Executive Function in Aging and AD: Multiple Factors that Cause Decline and Reserve Factors that Compensate*.
+2. (authors unknown). *The Cognitive Neuroscience of Ageing and Functional Reserve*.
+3. (authors unknown). *Effects of Aging on Functional Connectivity of the Default Mode Network*.

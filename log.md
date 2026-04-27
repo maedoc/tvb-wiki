@@ -1,5 +1,41 @@
 # Wiki Log
 
+## 2026-04-27
+
+- Improved page: [[cognitive-reserve]] – Brain's adaptive capacity to maintain function despite pathology
+  - Complete rewrite (~1200 words) expanding from brief outline to comprehensive concept page
+  - Updated frontmatter: changed updated date from 2026-04-20 to 2026-04-27
+  - Tags: aging-brain, cognitive-reserve, brain-maintenance, paper-review, successful-aging, neuroimaging-fmri
+  - Established 10+ wikilinks: brain-maintenance, aging, functional-connectivity, resting-state, default-mode-network, structural-connectivity, connectomics, whole-brain-modeling, personalized-brain-modeling, network-dynamics
+  - Expanded opening paragraph to define cognitive reserve in context of individual heterogeneity in aging outcomes
+  - Added "Theoretical Motivation and Clinical Significance" section explaining why the concept emerged from the threshold model problem
+  - Expanded "Historical Development" with detailed prose on Stern's theory, Buckner's neuroimaging integration, and Cabeza's three-mechanism framework
+  - Added expanded section on "Types of Reserve: Brain Versus Cognitive" explaining passive vs active distinction with threshold model
+  - Expanded "Proxy Measures and Their Interpretation" section with detailed explanation of limitations and confounding factors
+  - Added "Neural Mechanisms and Neuroimaging Evidence" section with connectivity discussion, network efficiency, and compensatory recruitment
+  - Expanded "Role in Whole-Brain Modeling" section with specific parameter modulation mechanisms and clinical translation potential
+  - Added more related concepts reaching 10 wikilinks in final section
+  - Removed ## References section per schema, as sources documented in frontmatter
+  - Sources retained: raw/papers/buckner-2004.md, raw/papers/grady-2012.md, raw/papers/cabeza-2018.md
+
+- Improved page: [[neurodevelopment]] – Brain development across the lifespan
+  - Complete rewrite expanding from ~400 words to ~800 words
+  - Updated frontmatter: changed updated date from 2026-04-23 to 2026-04-27
+  - Tags: neurodevelopment, developmental-trajectories, whole-brain-modeling
+  - Established 10+ wikilinks: Nitin Gogtay, developmental-trajectories, aging, brain-network, functional-connectivity, structural-connectivity, personalized-brain-modeling, whole-brain-modeling, resting-state, default-mode-network, network-dynamics
+  - Expanded opening paragraph to define neurodevelopment in context of whole-brain modeling, explaining why developmental stage matters for model parameter calibration
+  - Added "Definition and Scope" section with more detailed explanation of the integration of developmental neuroscience, neuroimaging, and computational modeling
+  - Expanded "Structural Development" section with prose explaining neurogenesis in proliferative zones, neuronal migration mechanisms, differentiation processes, and detailed timeline of synaptogenesis and synaptic pruning
+  - Expanded "Functional Development" section detailing transition from local to distributed processing and cognitive maturation
+  - Enhanced "Cortical Maturation Pattern" section to integrate resting-state neuroimaging context and link to whole-brain modeling implications
+  - Added detail to "Network Development" section describing transitions from infancy through adulthood with specific network behaviors
+  - Expanded "Role in Whole-Brain Modeling" section with specific parameter types that must be age-calibrated: synaptic time constants, connection strengths, network topology
+  - Added "Modeling Developmental Disorders" subsection explaining how personalized-brain-modeling approaches can identify deviations in developmental trajectories
+  - Replaced broken link to "plasticity" with valid links to brain-network and network-dynamics
+  - Added more related concepts in final section to reach 10 wikilinks: whole-brain-modeling, resting-state, default-mode-network, network-dynamics
+  - Removed ## References section per schema, as sources are already documented in frontmatter
+  - Sources retained from frontmatter: raw/papers/tau-peterson-2010.md, raw/papers/gogtay-2004.md, raw/papers/fair-2009.md, raw/papers/power-2010.md, raw/papers/stiles-jernigan-2010.md, raw/papers/semanticscholar-c4bc6ce91683.md, raw/papers/smith-2021.md
+
 ## 2026-04-24
 
 - Improved page: [[Stochastic Differential Equations]] – Concept page on noise-driven dynamics in neural systems
@@ -366,3 +402,9 @@
 ## [2026-04-27] lint | 210 broken links, 97 orphans, 42 missing from index
 
 ## [2026-04-27] hourly | Added 0 new papers
+
+## [2026-04-27 10:55] functional-connectivity.md | Improved page (expanded content, added wikilinks, updated references)
+
+## [2026-04-27 11:03] Linter: 208 broken links, 97 orphans, 157 stale, 115 empty
+
+## [2026-04-27 11:13] BulkRewrite: 39 pages rewritten with ollama/minimax-m2.5:cloud, 0 failed

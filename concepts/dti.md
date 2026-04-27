@@ -1,10 +1,17 @@
 ---
-title: DTI
 created: 2026-04-20
-updated: 2026-04-27
+sources:
+- raw/papers/basser-1994.md
+- raw/papers/mori-1999.md
+- raw/papers/jones-2010.md
+tags:
+- neuroimaging-dti
+- diffusion-imaging
+- structural-connectivity
+- tractography
+title: DTI
 type: concept
-tags: [neuroimaging-dti, diffusion-imaging, structural-connectivity, tractography]
-sources: [raw/papers/basser-1994.md, raw/papers/mori-1999.md, raw/papers/jones-2010.md]
+updated: '2026-04-27'
 ---
 
 # DTI
@@ -51,3 +58,9 @@ DTI occupies a complementary role alongside other neuroimaging techniques in the
 - [[brain-network]] – Networks of brain regions connected by white matter pathways
 - [[connectomics]] – The study of complete neural wiring diagrams
 - [[fmri]] – Functional imaging often combined with DTI for multi-modal analysis
+
+## References
+
+1. (authors unknown). *MR diffusion tensor spectroscopy and imaging*.
+2. (authors unknown). *Three-dimensional tracking of axonal projections in the brain by magnetic resonance imaging*.
+3. (authors unknown). *Challenges and limitations of quantifying brain connectivity in vivo with diffusion MRI*.

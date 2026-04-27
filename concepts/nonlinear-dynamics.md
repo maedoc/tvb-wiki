@@ -1,10 +1,19 @@
 ---
-title: Nonlinear Dynamics
 created: 2026-04-20
-updated: 2026-04-27
+sources:
+- raw/papers/strogatz-1994.md
+- raw/papers/wiggins-2003.md
+- raw/papers/ermentrout-terman-2010.md
+tags:
+- nonlinear-dynamics
+- dynamical-systems-theory
+- bifurcation-theory
+- neural-mass-models
+- brain-oscillations
+- network-dynamics
+title: Nonlinear Dynamics
 type: concept
-tags: [nonlinear-dynamics, dynamical-systems-theory, bifurcation-theory, neural-mass-models, brain-oscillations, network-dynamics]
-sources: [raw/papers/strogatz-1994.md, raw/papers/wiggins-2003.md, raw/papers/ermentrout-terman-2010.md]
+updated: '2026-04-27'
 ---
 
 ## Definition
@@ -68,3 +77,9 @@ The study of [[brain oscillations]] is fundamentally a study of nonlinear oscill
 Several fundamental questions in computational neuroscience hinge on nonlinear dynamics. The nature of [[brain dynamics]] near criticality—whether the brain operates at a critical point with power-law avalanches, and whether this is a stable attractor of nonlinear dynamics—remains debated. How noise interacts with nonlinearities to enable the flexible switching between functional states observed in neuroimaging data is poorly understood. And the extension of nonlinear dynamic analysis to whole-brain models with realistic [[structural connectivity]] presents computational challenges: the high-dimensional phase space makes visualization difficult, and the presence of multiple timescales introduces additional nonlinear complexity.
 
 Nevertheless, nonlinear dynamics provides the essential conceptual and mathematical framework for understanding brain function as a dynamic system. Its tools—increasingly integrated into software packages for brain simulation and analysis—are indispensable for advancing from descriptive connectivity maps to mechanistic models of neural computation, cognition, and disease.
+
+## References
+
+1. (authors unknown). *Nonlinear Dynamics and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering*.
+2. (authors unknown). *Introduction to Applied Nonlinear Dynamical Systems and Chaos*.
+3. (authors unknown). *Mathematical Foundations of Neuroscience*.

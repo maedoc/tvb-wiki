@@ -1,0 +1,703 @@
+You are the Ralph Writer agent improving a TVB Wiki page about whole-brain modeling and computational neuroscience. Follow the schema strictly.
+
+## SCHEMA
+# Wiki Schema
+
+## Domain
+Connectome‑based whole‑brain modeling, neural mass models, neuroimaging modalities (fMRI, EEG, MEG, DTI), dynamic causal modeling, large‑scale brain networks, software (The Virtual Brain, NEST, Brian, etc.), and related research papers.
+
+## Conventions
+- File names: lowercase, hyphens, no spaces (e.g., `the‑virtual‑brain.md`)
+- Every wiki page starts with YAML frontmatter (see below)
+- Use `[[wikilinks]]` to link between pages (minimum 2 outbound links per page)
+- When updating a page, always bump the `updated` date
+- Every new page must be added to `index.md` under the correct section
+- Every action must be appended to `log.md`
+
+## Frontmatter
+  ```yaml
+  ---
+  title: Page Title
+  created: YYYY‑MM‑DD
+  updated: YYYY‑MM‑DD
+  type: entity | concept | comparison | query | summary
+  tags: [from taxonomy below]
+  sources: [raw/papers/arxiv‑1234.56789.md, raw/articles/blog‑post.md]
+  ---
+  ```
+
+## Tag Taxonomy
+**Models & Methods**
+- neural‑mass‑models
+- dynamic‑causal‑modeling
+- whole‑brain‑modeling
+- connectomics
+- structural‑connectivity
+- functional‑connectivity
+- effective‑connectivity
+- network‑dynamics
+- bifurcation‑analysis
+- parameter‑estimation
+- dynamical‑systems‑theory
+- bifurcation‑theory
+- nonlinear‑dynamics
+- variational‑bayes
+- free‑energy‑principle
+- mean‑field‑theory
+- stochastic‑differential‑equations
+- fokker‑planck‑equation
+
+**Neuroimaging Modalities**
+- neuroimaging‑fmri
+- neuroimaging‑eeg
+- neuroimaging‑meg
+- neuroimaging‑dti
+- neuroimaging‑pet
+- resting‑state
+- task‑based
+- diffusion‑imaging
+- tractography
+
+**Software & Tools**
+- software‑tvb
+- software‑nest
+- software‑neuron
+- software‑brian
+- software‑neuroml
+- software‑brain‑modeling
+- software‑ants
+- software‑graphvar
+- software‑modeldb
+- software‑visualization
+- database‑hcp
+- database‑uk‑biobank
+
+**Research Context**
+- paper‑review
+- paper‑methods
+- paper‑results
+- conference‑ohbm
+- conference‑sfn
+- conference‑cosyne
+- lab‑institute
+- people‑researcher
+- funding‑project
+- reproducibility
+
+**Domain Topics**
+- brain‑oscillations
+- epilepsy‑modeling
+- schizophrenia‑models
+- alzheimers‑modeling
+- consciousness‑models
+- brain‑stimulation
+- neurodevelopment
+- aging‑brain
+- personalized‑brain‑modeling
+- spiking‑neural‑networks
+
+**Meta**
+- comparison
+- timeline
+- controversy
+- open‑question
+- tutorial
+- dataset
+
+*Rule:* every tag on a page must appear in this taxonomy. If a new tag is needed, add it here first, then use it.
+
+## Page Thresholds
+- **Create a page** when an entity/concept appears in 2+ sources OR is central to one source (e.g., seminal paper, key software)
+- **Add to existing page** when a source mentions something already covered
+- **DON'T create a page** for passing mentions, minor details, or things outside the domain
+- **Split a page** when it exceeds ~200 lines — break into sub‑topics with cross‑links
+- **Archive a page** when its content is fully superseded — move to `_archive/`, remove from index
+
+## Entity Pages
+One page per notable entity (person, software, dataset, lab). Include:
+- Overview / what it is
+- Key facts and dates
+- Relationships to other entities (`[[wikilinks]]`)
+- Source references
+
+## Concept Pages
+One page per concept or topic. Include:
+- Definition / explanation
+- Current state of knowledge
+- Open questions or debates
+- Related concepts (`[[wikilinks]]`)
+
+## Comparison Pages
+Side‑by‑side analyses. Include:
+- What is being compared and why
+- Dimensions of comparison (table format preferred)
+- Verdict or synthesis
+- Sources
+
+## Update Policy
+When new information conflicts with existing content:
+1. Check the dates — newer sources generally supersede older ones
+2. If genuinely contradictory, note both positions with dates and sources
+3. Mark the contradiction in frontmatter: `contradictions: [page‑name]`
+4. Flag for user review in the lint report
+
+
+## YOUR TASK
+Improve the wiki page: neural-mass-model
+
+## CURRENT PAGE CONTENT
+# Neural Mass Model
+
+[[neural-mass-models]] (NMMs) are mathematical descriptions of the collective behavior of large populations of neurons, using mean-field approximations to reduce the high-dimensional dynamics of individual neurons to low-dimensional differential equations describing population activity.
+
+## Definition
+
+A neural mass model represents the average activity (firing rate, membrane potential, or synaptic current) of a homogeneous population of neurons as a function of time, typically through coupled differential equations. These models capture the mesoscopic scale—intermediate between single neurons and the whole brain.
+
+## Historical Development
+
+| Year | Milestone | Contribution |
+|------|-----------|--------------|
+| 1956 | Beurle | Early population activity equations |
+| 1963 | Griffith | Statistical mechanics of neural populations |
+| 1972 | Wilson-Cowan | Canonical firing-rate model (E-I populations) |
+| 1974 | Lopes da Silva | First EEG-specific model (thalamic alpha) |
+| 1975 | Freeman | K-set hierarchy for olfactory system |
+| 1995 | Jansen-Rit | Three-population cortical column model |
+| 2003 | David-Friston | Dynamic Causal Modeling (DCM) framework |
+
+## Mathematical Framework
+
+### Basic Structure
+
+Most NMMs follow a common structure:
+
+1. **Population activity**: Variables representing mean firing rate (E, I) or mean membrane potential
+2. **Synaptic dynamics**: Post-synaptic responses modeled as linear filters (alpha functions, exponentials)
+3. **Population coupling**: Connectivity between populations (recurrent, feedforward)
+4. **Nonlinear activation**: Sigmoid or threshold functions converting input to output
+
+### Example: Wilson-Cowan
+
+The canonical two-population model:
+
+```
+τ_E dE/dt = -E + S_E(aE - bI + P)
+τ_I dI/dt = -I + S_I(cE - dI + Q)
+```
+
+Where S_E, S_I are sigmoid response functions, P and Q are external inputs.
+
+## Types of Neural Mass Models
+
+### Classical Models
+
+| Model | Populations | Primary Use | Key Feature |
+|-------|-------------|-------------|-------------|
+| [[Wilson-Cowan]] | 2 (E, I) | General dynamics | Firing-rate formulation |
+| Lopes da Silva | 3 (E, E, I) | EEG/alpha rhythms | Thalamocortical loops |
+| [[Jansen-Rit]] | 3 (P, E, I) | EEG/MEG/VEP | Cortical column structure |
+| Wendling | 4 (P, E, I_slow, I_fast) | Epilepsy | Separate GABA-A/GABA-B |
+| Zetterberg | 3+ | Sleep rhythms | Multiple cortical layers |
+
+### TVB Model Library
+
+| Model | Dim | Best For | Key Characteristics |
+|-------|-----|----------|---------------------|
+| [[Epileptor]] | 6D | Seizure dynamics | Composite fast/slow system |
+| [[EpileptorCodim3]] | 2D | Bifurcation analysis | Universal unfolding |
+| [[EpileptorRS]] | 6D+ | Resting-state | Stochastic interictal |
+| [[Wong-Wang]] | 1D | fMRI/BOLD | NMDA-mediated, slow |
+| [[Wong-Wang Exc-Inh]] | 2D | E-I balance | Separate populations |
+| [[Larter-Breakspear]] | 3D | Complex dynamics | Ion channel conductances |
+| [[Zerlaut]] | 2D+adapt | Adaptation | Spike-frequency adaptation |
+| [[Stefanescu-Jirsa]] | 2D | Reduced seizures | Center manifold reduction |
+| [[K-Ion Exchange]] | 3D | Metabolism | Potassium homeostasis |
+| [[Infinite Theta]] | 2D | Exact mean-field | QIF neuron reduction |
+| [[Hopfield]] | N | Memory | Discrete attractors |
+| [[Oscillator]] | 2D | Universal | Generic phase plane |
+| [[Linear]] | 1D | Testing | Baseline dynamics |
+
+## Role in Whole-Brain Modeling
+
+Neural mass models enable whole-brain simulation by:
+
+1. **Dimension reduction**: Reducing millions of neurons to ~3-4 variables per brain region
+2. **Computational tractability**: Enabling large-scale network simulations (TVB, DCM)
+3. **Forward modeling**: Generating EEG/MEG/[[fmri]] signals for comparison with data
+4. **Parameter inference**: Estimating [[effective-connectivity]] from neuroimaging
+
+### TVB Implementation
+
+[[tvb|The Virtual Brain]] uses NMMs as node dynamics coupled via empirical [[structural-connectivity]]:
+- Default: Jansen-Rit (3 populations)
+- Alternative: Wilson-Cowan, Zetterberg, custom models
+- Coupling: Delayed interactions via [[tractography]]-derived connectivity
+
+## Dynamical Regimes
+
+Neural mass models exhibit diverse dynamics depending on parameters:
+
+- **Fixed point**: Low activity ([[resting-state]])
+- **Limit cycle**: Rhythmic oscillations (alpha, beta, gamma)
+- **Quasiperiodic**: Multi-frequency activity
+- **Chaotic**: Irregular dynamics (interictal states)
+- **Bistability**: Coexisting stable states (seizure onset)
+
+## Clinical Applications
+
+| Condition | Modeling Approach | Key Insight |
+|-----------|-------------------|-------------|
+| Epilepsy | Jansen-Rit/Wendling | Parameter changes → bifurcation to seizure |
+| Schizophrenia | DCM | Altered effective connectivity |
+| Sleep | Zetterberg | State transitions in thalamocortical loops |
+| Stroke | TVB | Disrupted connectivity → functional deficits |
+
+## Limitations
+
+- **Homogeneity assumption**: Real populations are heterogeneous
+- **Mean-field approximation**: Ignores correlations between neurons
+- **Fixed connectivity**: Plasticity not typically included
+- **Parameter identifiability**: Multiple parameter sets can produce similar dynamics
+
+## Related Concepts
+
+- [[Wilson-Cowan]] – Canonical firing-rate model
+- [[Jansen-Rit]] – EEG/MEG-focused cortical column model
+- [[Epileptor]] – Comprehensive seizure model
+- [[Wong-Wang]] – fMRI/[[bold-signal|BOLD]] optimized model
+- [[Larter-Breakspear]] – Ion channel-based model
+- [[mean field theory]] – Mathematical foundation
+- [[dynamic causal modeling]] – Bayesian inference with NMMs
+- [[bifurcation analysis]] – Understanding regime transitions
+- [[epilepsy modeling]] – Pathological applications
+- [[whole brain]] – Large-scale network implementations
+- [[tvb-vs-nest-vs-neuron|Tvb Vs Nest Vs Neuron]]
+## References
+
+1. [[walter-freeman|Walter J. Freeman]]. *Mass Action in the Nervous System*.
+2. [[hugh-wilson|Hugh R. Wilson]], Jack D. Cowan. *Excitatory and inhibitory interactions in localized populations of model neurons*. Biophysical Journal. [DOI](https://doi.org/10.1016/S0006-3495(72)86068-5)
+3. Benjamin H. Jansen, Vincent G. Rit. *Electroencephalogram and visual evoked potential generation in a mathematical model of coupled cortical columns*. Biological Cybernetics. [DOI](https://doi.org/10.1007/BF00199471)
+4. Peter Dayan, Larry F. Abbott. *Theoretical Neuroscience: Computational and Mathematical Modeling of Neural Systems*.
+5. Wulfram Gerstner, Werner M. Kistler, Richard Naud, Liam Paninski. *Neuronal Dynamics: From Single Neurons to Networks and Models of Cognition*.
+6. Raul de Palma Aristides, Pau Clusella, R. Sanchez-Todo, G. Ruffini, Jordi García-Ojalvo. (2026). *Emergence of multifrequency activity in a laminar neural mass model*. PLoS Computational Biology. [DOI](https://doi.org/10.1371/journal.pcbi.1014022)
+7. Martin Breyton, Viktor Sip, M. Woodman, Meysam Hashemi, S. Petkoski, V. Jirsa. (2025). *Data-driven mean-field within whole-brain models*. [Link](https://www.semanticscholar.org/paper/144ae1f1dabec42c14493d0083d36f168508f886)
+8. Ramiro Plüss, Hernán Villota, Patricio Orio. (2025). *Hemispheric-Specific Coupling Improves Modeling of Functional Connectivity Using Wilson-Cowan Dynamics*. [Link](https://arxiv.org/abs/2506.22951)
+9. Rosa Maria Delicado, Gemma Huguet, Pau Clusella. (2025). *Emergent Spatiotemporal Dynamics in Large-Scale Brain Networks with Next Generation Neural Mass Models*. [Link](https://arxiv.org/abs/2512.03907)
+10. Wendling F., Bartolomei F., Bellanger J.J., Chauvel P. *A dynamic causal modeling study of the generation of epileptic fast activity*. NeuroImage. [DOI](https://doi.org/10.1006/nimg.2002.1234)
+
+## AVAILABLE SOURCE PAPERS
+--- SOURCE: raw/papers/freeman-1975.md ---
+---
+title: "Mass Action in the Nervous System"
+created: 2026-04-20
+updated: 2026-04-20
+type: source
+tags: [paper-review, neural-mass-models, brain-oscillations, eeg, people-researcher]
+sources: []
+---
+
+# Mass Action in the Nervous System
+
+**Author**: Walter J. Freeman  
+**Published**: 1975 (Academic Press)  
+**ISBN**: 978-0-12-262350-2
+
+## Summary
+
+Pioneering work establishing neural mass modeling as a quantitative framework. Freeman developed the KII and KIII models describing collective neural activity through nonlinear dynamics, with direct application to EEG/olfactory system analysis.
+
+## Key Contributions
+
+- K-set hierarchy: K0 (single neuron), KI (population), KII (coupled populations), KIII (multisensory integration)
+- Nonlinear dynamics of excitatory-inhibitory interactions
+- Application to olfactory bulb and EEG generation
+- Foundation for later population-based brain models
+
+## Historical Significance
+
+Freeman's models predate and influenced Wilson-Cowan, Jansen-Rit, and modern neural mass implementations in TVB. The concept of mesoscopic population dynamics emerged from this work.
+
+## Related Concepts
+
+- [[neural mass model]]
+- [[eeg]]
+- [[Walter Freeman]]
+- [[Wilson-Cowan]]
+
+
+--- SOURCE: raw/papers/wilson-cowan-1972.md ---
+---
+title: "Excitatory and inhibitory interactions in localized populations of model neurons"
+created: 2026-04-20
+updated: 2026-04-20
+type: source
+tags: [paper-methods, neural-mass-models, brain-oscillations, people-researcher]
+sources: []
+---
+
+# Excitatory and inhibitory interactions in localized populations of model neurons
+
+**Authors**: Hugh R. Wilson, Jack D. Cowan  
+**Published**: 1972  
+**Journal**: Biophysical Journal  
+**DOI**: 10.1016/S0006-3495(72)86068-5
+
+## Summary
+
+Foundational paper introducing the Wilson-Cowan model—a firing-rate description of coupled excitatory and inhibitory neural populations. This is the canonical model for population dynamics and the mathematical basis for most neural mass formulations.
+
+## Key Contributions
+
+- Two-population model: excitatory (E) and inhibitory (I) populations with sigmoid activation functions
+- Analytical treatment of steady states, limit cycles, and spatial patterns
+- Parameter conditions for oscillatory dynamics
+- Connection to earlier work by Beurle (1956) and others on population activity
+
+## Mathematical Form
+
+The equations take the form:
+- τ_E dE/dt = -E + S_E(aE - bI + P)
+- τ_I dI/dt = -I + S_I(cE - dI + Q)
+
+Where S_E, S_I are sigmoid response functions describing population activation.
+
+## Related Concepts
+
+- [[Wilson-Cowan]]
+- [[neural mass model]]
+- [[brain oscillations]]
+- [[Hugh Wilson]]
+- [[Jack Cowan]]
+
+
+--- SOURCE: raw/papers/jansen-rit-1995.md ---
+---
+title: "Electroencephalogram and visual evoked potential generation in a mathematical model of coupled cortical columns"
+created: 2026-04-20
+updated: 2026-04-20
+type: source
+tags: [paper-methods, neural-mass-models, eeg, meg, people-researcher]
+sources: []
+---
+
+# Electroencephalogram and visual evoked potential generation in a mathematical model of coupled cortical columns
+
+**Authors**: Benjamin H. Jansen, Vincent G. Rit  
+**Published**: 1995  
+**Journal**: Biological Cybernetics  
+**DOI**: 10.1007/BF00199471
+
+## Summary
+
+Seminal paper introducing the Jansen-Rit model—a neural mass model of a single cortical column capable of generating realistic EEG/VEP signals. Now the default model in TVB for EEG/MEG simulations.
+
+## Key Contributions
+
+- Three-population model: pyramidal cells (excitatory), excitatory interneurons, inhibitory interneurons
+- Post-synaptic impulse response functions (alpha-shaped)
+- Connection to Lopes da Silva's thalamic model but adapted for cortical columns
+- Generation of alpha and beta rhythms through parameter variation
+
+## Model Structure
+
+- Population 1 (pyramidal): receives excitation from interneurons, projects to both
+- Population 2 (excitatory interneurons): receives from pyramidal, projects back
+- Population 3 (inhibitory interneurons): receives from pyramidal, projects back with GABAergic inhibition
+
+## Related Concepts
+
+- [[Jansen-Rit]]
+- [[neural mass model]]
+- [[eeg]]
+- [[Benjamin Jansen]]
+- [[Vincent Rit]]
+
+
+## EXISTING WIKI PAGES (use these for [[wikilinks]] — only link to pages in this list)
+  - 3d-slicer
+  - aal-atlas
+  - afni
+  - aging
+  - alain-destexhe
+  - albert-laszlo-barabasi
+  - allen-brain-atlas
+  - andrei-medvedev
+  - annarchy
+  - ants
+  - antspy
+  - arbor
+  - auryn
+  - bci2000
+  - bctpy
+  - benjamin-jansen
+  - bharat-biswal
+  - bids-validator
+  - bidscoin
+  - bifurcation-analysis
+  - bifurcation-theory
+  - bionet
+  - bluepyopt
+  - bold-signal
+  - brain-connectivity-toolbox
+  - brain-dynamics-toolbox
+  - brain-maintenance
+  - brain-network
+  - brainlife
+  - brainmap
+  - brainnet-viewer
+  - brainnetome-atlas
+  - brainspace
+  - brainstorm
+  - brainsuite
+  - brainvisa
+  - brainvoyager
+  - brian
+  - brian-avants
+  - brian2
+  - c-pac
+  - carlsim
+  - cat12
+  - cbrain
+  - chronux
+  - civet
+  - clinica
+  - cococomac
+  - cognitive-reserve
+  - conn
+  - connectivity-types
+  - connectome
+  - connectome-mapper-3
+  - connectome-workbench
+  - connectomics
+  - coreneuron
+  - crispin-gardiner
+  - cvodes
+  - datalad
+  - david-van-essen
+  - dcm
+  - default-mode-network
+  - desikan-killiany-atlas
+  - developmental-trajectories
+  - diffusion-mri
+  - dipy
+  - dsi-studio
+  - dti
+  - duncan-watts
+  - dynamic-causal-modeling
+  - dynamical-systems-theory
+  - dynasim
+  - ebrains
+  - ed-bullmore
+  - eeg
+  - eeglab
+  - effective-connectivity
+  - elephant
+  - emanuel-tuckwell
+  - epilepsy-modeling
+  - epileptor
+  - epileptor-rs
+  - epileptorcodim3
+  - erplab
+  - eugene-izhikevich
+  - exploreasl
+  - fastsurfer
+  - fernando-lopes-da-silva
+  - fidel-alfaro-almagro
+  - fieldtrip
+  - fmri
+  - fmri-vs-eeg
+  - fmriprep
+  - fokker-planck-equation
+  - fooof
+  - free-energy-principle
+  - freesurfer
+  - fsl
+  - fsleyes
+  - functional-connectivity
+  - genesis
+  - genn
+  - geppetto
+  - gift
+  - giulio-tononi
+  - glasser-atlas
+  - graph-theory
+  - graphvar
+  - gustavo-deco
+  - hannes-risken
+  - harvard-oxford-atlas
+  - hcp-pipelines
+  - henry-markram
+  - hnn
+  - hopfield
+  - hugh-wilson
+  - human-connectome-project
+  - ica
+  - infinite-theta
+  - itk-snap
+  - jack-cowan
+  - jansen-rit
+  - jneuroml
+  - john-guckenheimer
+  - julich-atlas
+  - k-ion-exchange
+  - krasimira-tsaneva-atanasova
+  - larter-breakspear
+  - lead-dbs
+  - lfp-lib
+  - lfpy
+  - lfpykit
+  - linear
+  - mark-newman
+  - markus-diesmann
+  - mean-field-theory
+  - meg
+  - michael-hines
+  - michael-schirner
+  - mne-bids
+  - mne-python
+  - modeldb
+  - modularity
+  - moose
+  - mricrogl
+  - mricron
+  - mriqc
+  - mrtrix
+  - mrtrix3
+  - mrtrix3-connectome
+  - music
+  - mvgc
+  - nancy-andrews-hanna
+  - nengo
+  - neo
+  - nest
+  - netneuroscience
+  - netpyne
+  - network-hubs
+  - neural-mass-model
+  - neural-mass-models
+  - neural-mass-models-comparison
+  - neurodata-without-borders
+  - neurodevelopment
+  - neurom
+  - neurominer
+  - neuroml
+  - neuromorpho
+  - neuromorpho-toolkit
+  - neuron
+  - neuronunit
+  - neuroscience-gateway
+  - neurosynth
+  - neurovault
+  - neusight
+  - nibabel
+  - nibetaseries
+  - nick-tustison
+  - niftynet
+  - niftyreg
+  - nikos-logothetis
+  - nilearn
+  - nipype
+  - nitin-gogtay
+  - nix
+  - nonlinear-dynamics
+  - nwb
+  - olaf-sporns
+  - open-source-brain
+  - opencortex
+  - openmeeg
+  - openneuro
+  - openvibe
+  - oscillator
+  - panda
+  - paraview
+  - parcellation
+  - patricia-miller
+  - personalized-brain-modeling
+  - philip-holmes
+  - physionet
+  - pronto
+  - psyneulink
+  - pybids
+  - pymvpa
+  - pynn
+  - qsiprep
+  - resting-state
+  - rich-club
+  - rolf-kotter
+  - root
+  - rudiger-seydel
+  - scale-free-networks
+  - scirun
+  - sciunit
+  - seiji-ogawa
+  - sift
+  - simnibs
+  - sloreta
+  - small-world-networks
+  - spiking-neural-networks
+  - spm
+  - stefanescu-jirsa
+  - stephen-wiggins
+  - steps
+  - steven-smith
+  - steven-strogatz
+  - stochastic-differential-equations
+  - structural-connectivity
+  - structural-core
+  - suma
+  - synthseg
+  - ted-carnevale
+  - terrence-sejnowski
+  - the-virtual-epileptic-brain
+  - tractography
+  - tractor
+  - trentool
+  - tvb
+  - tvb-adapters
+  - tvb-library
+  - tvb-multiscale
+  - tvb-vs-nest-vs-neuron
+  - uk-biobank
+  - variational-bayes
+  - vincent-rit
+  - voxelmorph
+  - walter-freeman
+  - whole-brain
+  - whole-brain-modeling
+  - whole-brain-simulators
+  - wilson-cowan
+  - wong-wang
+  - wong-wang-exc-inh
+  - xcos
+  - xnat
+  - yan-wang
+  - yasa
+  - yuri-kuznetsov
+  - zerlaut
+
+## WRITING STYLE
+- Write for a **graduate student in neuroscience** who is intelligent but not a specialist in this particular topic
+- **Dense but readable** prose — like Scholarpedia or a very good Wikipedia science article, NOT like a PowerPoint slide
+- Every section must have at least one full paragraph of prose. Avoid sections that are only a table or equations
+- Cross-link aggressively: the first mention of any concept that appears in the page inventory above should be a [[wikilink]]. Aim for 8–15 wikilinks per page
+- Avoid one-liner sections — if a section would be only 1–2 sentences, expand it or merge it
+
+## STRUCTURAL REQUIREMENTS
+1. **Opening paragraph** (2–3 sentences): What is this? Define it plainly before any technical detail
+2. **Motivation / Context** (1–2 paragraphs): WHY does this exist? What problem does it solve? How does it fit into the broader field?
+3. **Technical content**: Equations and tables are welcome but must be **surrounded by explanatory prose** — explain what each equation means in words
+4. **Relationships**: Compare to related models/concepts. What came before? What came after? What are the tradeoffs?
+5. **Biological grounding**: For model pages, explain what biological phenomena the model captures and how parameters map to neural mechanisms
+
+## FORMATTING RULES
+1. Replace ALL placeholder text (*Placeholder*) with real, sourced content
+2. Add wikilinks [[like-this]] to related pages from the inventory above (minimum 8)
+3. Add factual claims ONLY if you can cite a source or are confident from domain knowledge
+4. Keep the YAML frontmatter, but update the `updated:` date to today (2026-04-27)
+5. Add any new sources used to the `sources:` frontmatter list
+6. Aim for 500–800 words for a full page
+7. Use clear section headings (##)
+8. Do NOT add a ## References section — a separate agent handles reference formatting
+
+Write the COMPLETE updated page (including frontmatter). Output ONLY the markdown file content, no commentary.

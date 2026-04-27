@@ -1,10 +1,23 @@
 ---
-title: Neural Mass Model
 created: 2026-04-20
-updated: 2026-04-27
+sources:
+- raw/papers/freeman-1975.md
+- raw/papers/wilson-cowan-1972.md
+- raw/papers/jansen-rit-1995.md
+tags:
+- neural-mass-models
+- whole-brain-modeling
+- computational-neuroscience
+- dynamical-systems-theory
+- mean-field-theory
+- network-dynamics
+- brain-oscillations
+- epilepsy-modeling
+- parameter-estimation
+- bifurcation-analysis
+title: Neural Mass Model
 type: concept
-tags: [neural-mass-models, whole-brain-modeling, computational-neuroscience, dynamical-systems-theory, mean-field-theory, network-dynamics, brain-oscillations, epilepsy-modeling, parameter-estimation, bifurcation-analysis]
-sources: [raw/papers/freeman-1975.md, raw/papers/wilson-cowan-1972.md, raw/papers/jansen-rit-1995.md]
+updated: '2026-04-27'
 ---
 
 Neural mass models (NMMs) are mathematical descriptions of the collective dynamics of large populations of neurons, employing mean-field approximations to reduce the high-dimensional firing patterns of individual cells into low-dimensional differential equations that capture population-level activity. This reductionist approach sits at the mesoscopic scale of brain organization—intermediate between the microscopic dynamics of single neurons and the macroscopic scale of whole-brain networks—so that a single neural mass variable can represent the aggregate behavior of millions of neurons within a cortical column or brain region. The resulting models are computationally tractable while retaining sufficient biological realism to explain emergent phenomena such as brain oscillations, seizure dynamics, and resting-state connectivity patterns that are observable in [[neuroimaging-eeg]], [[neuroimaging-meg]], and [[neuroimaging-fmri]] recordings.
@@ -70,3 +83,9 @@ Despite their utility, neural mass models carry significant limitations that mot
 - [[jansen-rit]] – EEG/MEG-focused cortical column model
 - [[wong-wang]] – fMRI/BOLD-optimized model
 - [[tvb]] – Primary software platform implementing NMMs
+
+## References
+
+1. Walter J. Freeman. *Mass Action in the Nervous System*.
+2. Hugh R. Wilson, Jack D. Cowan. *Excitatory and inhibitory interactions in localized populations of model neurons*. Biophysical Journal. [DOI](https://doi.org/10.1016/S0006-3495(72)86068-5)
+3. Benjamin H. Jansen, Vincent G. Rit. *Electroencephalogram and visual evoked potential generation in a mathematical model of coupled cortical columns*. Biological Cybernetics. [DOI](https://doi.org/10.1007/BF00199471)

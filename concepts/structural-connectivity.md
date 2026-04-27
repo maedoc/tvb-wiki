@@ -1,10 +1,20 @@
 ---
-title: Structural Connectivity
 created: 2026-04-20
-updated: 2026-04-27
+sources:
+- raw/papers/basser-1994.md
+- raw/papers/mori-1999.md
+- raw/papers/jones-2010.md
+tags:
+- structural-connectivity
+- connectomics
+- neuroimaging-dti
+- diffusion-imaging
+- tractography
+- network-dynamics
+- whole-brain-modeling
+title: Structural Connectivity
 type: concept
-tags: [structural-connectivity, connectomics, neuroimaging-dti, diffusion-imaging, tractography, network-dynamics, whole-brain-modeling]
-sources: [raw/papers/basser-1994.md, raw/papers/mori-1999.md, raw/papers/jones-2010.md]
+updated: '2026-04-27'
 ---
 
 **Structural connectivity** (SC) refers to the anatomical connections between brain regions, typically represented as white matter fiber tracts that enable direct communication between neuronal populations. Unlike [[functional-connectivity]]—which captures statistical dependencies in activity patterns—structural connectivity reflects the physical "wiring diagram" of the brain, comprising axonal fiber bundles that provide the substrate for information transmission across distributed neural circuits. This distinction is fundamental: while functional connectivity can reveal coordinated activity between brain areas even in the absence of direct anatomical links, structural connectivity constrains the possible pathways through which neural signals can propagate.
@@ -77,3 +87,9 @@ Despite its centrality to connectomics, structural connectivity estimation faces
 - [[whole-brain]] – Whole-brain modeling framework
 - [[connectome-mapper-3]] – Connectivity pipeline software
 - [[brain-connectivity-toolbox]] – Network analysis software
+
+## References
+
+1. (authors unknown). *MR diffusion tensor spectroscopy and imaging*.
+2. (authors unknown). *Three-dimensional tracking of axonal projections in the brain by magnetic resonance imaging*.
+3. (authors unknown). *Challenges and limitations of quantifying brain connectivity in vivo with diffusion MRI*.

@@ -13,8 +13,9 @@ tags:
 - neuroimaging-fmri
 title: Cognitive Reserve
 type: concept
-updated: 2026-04-27
+updated: '2026-04-27'
 ---
+
 The cognitive-reserve wiki page has been successfully improved. Here's a summary of the changes:
 
 **Complete Rewrite:**
@@ -39,3 +40,9 @@ The cognitive-reserve wiki page has been successfully improved. Here's a summary
 
 **Log Updated:**
 - Entry added to log.md documenting all improvements made to the page
+
+## References
+
+1. (authors unknown). *Memory and Executive Function in Aging and AD: Multiple Factors that Cause Decline and Reserve Factors that Compensate*.
+2. (authors unknown). *The Cognitive Neuroscience of Ageing and Functional Reserve*.
+3. (authors unknown). *Maintenance, Reserve and Compensation: The Cognitive Neuroscience of Healthy Ageing*.

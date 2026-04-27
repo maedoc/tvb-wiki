@@ -1,10 +1,19 @@
 ---
-title: Brain Maintenance
 created: 2026-04-20
-updated: 2026-04-27
+sources:
+- raw/papers/cabeza-2018.md
+- raw/papers/fjell-walhovd-2010.md
+- raw/papers/grady-2012.md
+tags:
+- aging-brain
+- brain-maintenance
+- cognitive-reserve
+- successful-aging
+- neuroimaging-fmri
+- personalized-brain-modeling
+title: Brain Maintenance
 type: concept
-tags: [aging-brain, brain-maintenance, cognitive-reserve, successful-aging, neuroimaging-fmri, personalized-brain-modeling]
-sources: [raw/papers/cabeza-2018.md, raw/papers/fjell-walhovd-2010.md, raw/papers/grady-2012.md]
+updated: '2026-04-27'
 ---
 
 Brain maintenance refers to the preservation of brain structure and function across the lifespan, representing the successful resistance to age-related neurobiological changes. As one of three key mechanisms posited to explain differential cognitive aging trajectories—alongside [[cognitive-reserve]] and compensation—brain maintenance reflects the relative absence of age-related decline in neural integrity. Individuals who exhibit high brain maintenance demonstrate less cortical thinning, preserved white matter integrity, maintained [[functional-connectivity]] patterns, and stable cognitive performance despite advancing chronological age. This concept has become fundamental to understanding why some older adults maintain sharp cognitive function into late life while others experience significant decline.
@@ -46,3 +55,9 @@ The distinction between brain maintenance and [[cognitive-reserve]] is conceptua
 Within the framework of [[whole-brain modeling]], brain maintenance represents an individual difference variable that affects model parameters and predictions. Personalized brain models can incorporate maintenance-related factors as variables influencing the rate of parameter change over simulated time, enabling virtual aging simulations that capture individual variability in aging trajectories. This application connects to the broader field of [[personalized-brain-modeling]], where individual-specific parameter estimation allows models to reflect personal neurobiological characteristics. Understanding maintenance mechanisms also informs intervention targeting—identifying which factors to modulate in silico to predict optimal outcomes—and provides validation targets for models attempting to capture successful versus typical aging.
 
 The concept of brain maintenance continues to evolve as neuroimaging methodologies advance and longitudinal datasets mature. Future directions include refining maintenance metrics to distinguish between different subtypes of successful aging, investigating the neural mechanisms underlying maintenance-promoting factors, and translating these insights into clinical interventions that extend healthy brain aging.
+
+## References
+
+1. (authors unknown). *Maintenance, Reserve and Compensation: The Cognitive Neuroscience of Healthy Ageing*.
+2. (authors unknown). *Structural Brain Changes in Aging: Courses, Causes and Cognitive Consequences*.
+3. (authors unknown). *The Cognitive Neuroscience of Ageing and Functional Reserve*.

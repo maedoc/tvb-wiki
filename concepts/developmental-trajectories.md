@@ -1,10 +1,23 @@
 ---
-title: Developmental Trajectories
 created: 2026-04-20
-updated: 2026-04-27
+sources:
+- raw/papers/gogtay-2004.md
+- raw/papers/fair-2009.md
+- raw/papers/power-2010.md
+tags:
+- neurodevelopment
+- personalized-brain-modeling
+- plasticity
+- critical-periods
+- aging
+- whole-brain-modeling
+- neuroimaging-fmri
+- neuroimaging-dti
+- neural-mass-models
+- network-dynamics
+title: Developmental Trajectories
 type: concept
-tags: [neurodevelopment, personalized-brain-modeling, plasticity, critical-periods, aging, whole-brain-modeling, neuroimaging-fmri, neuroimaging-dti, neural-mass-models, network-dynamics]
-sources: [raw/papers/gogtay-2004.md, raw/papers/fair-2009.md, raw/papers/power-2010.md]
+updated: '2026-04-27'
 ---
 
 Developmental trajectories describe the patterns of change in brain structure and function across the lifespan, from prenatal development through aging. These trajectories are often non-[[linear]], with different brain regions following distinct developmental curves that reflect the complex interplay between genetic programs and experience-dependent plasticity. Understanding these trajectories is essential for building biologically realistic [[whole-brain-modeling|whole-brain models]] that can accurately represent age-specific neural dynamics, predict individual outcomes, and identify deviations that may indicate developmental disorders.
@@ -112,3 +125,9 @@ Comprehensive whole-brain models must account for the full lifespan trajectory f
 - [[resting-state]] – Intrinsic brain activity measured without task
 - [[default-mode-network]] – Network active during rest and self-referential processing
 - [[nonlinear-dynamics]] – Mathematical framework for complex time-dependent systems
+
+## References
+
+1. (authors unknown). *Dynamic Mapping of Human Cortical Development During Childhood Through Early Adulthood*.
+2. (authors unknown). *Functional Brain Networks Develop from a 'Local to Distributed' Organization*.
+3. (authors unknown). *The Development of Human Functional Brain Networks*.
