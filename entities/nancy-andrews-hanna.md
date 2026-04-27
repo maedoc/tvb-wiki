@@ -13,7 +13,7 @@ tags:
 - neuroimaging-fmri
 title: Nancy Andrews-Hanna
 type: entity
-updated: '2026-04-24'
+updated: '2026-04-27'
 ---
 
 # Nancy Andrews-Hanna (Jessica R. Andrews-Hanna)
@@ -58,7 +58,7 @@ Cognitive neuroscientist specializing in the default mode network, aging, and in
 ## Related Concepts
 - [[default-mode-network]] – Core research focus
 - [[aging]] – DMN changes in aging
-- [[resting-state]] – Functional connectivity
+- [[resting-state]] – [[functional-connectivity]]
 - self-referential-processing – Internal cognition
 
 ## Sources

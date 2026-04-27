@@ -24,7 +24,7 @@ French computational neuroscientist. Senior Researcher at CNRS and UNIC (Unité 
 ## Key Contributions
 
 - **Mean-field theory**: Advanced mathematical methods for reducing spiking networks to population rates
-- **Review of Wilson-Cowan model**: Authoritative Scholarpedia review with Terrence Sejnowski (2009)
+- **Review of Wilson-Cowan model**: Authoritative Scholarpedia review with [[terrence-sejnowski]] (2009)
 - **Cortical state modeling**: Transitions between asynchronous and synchronous population states
 - **Stochastic neural dynamics**: Noise and fluctuations in population activity
 
@@ -49,7 +49,7 @@ Destexhe's work bridges detailed biophysical models and simplified population de
 ## References
 
 1. Alain Destexhe, Terrence J. Sejnowski. *Wilson-Cowan model of the excitatory and inhibitory population dynamics*. Scholarpedia. [DOI](https://doi.org/10.4249/scholarpedia.1389)
-2. Martin Breyton, Viktor Sip, M. Woodman, Meysam Hashemi, S. Petkoski, V. Jirsa. (2025). *Data-driven mean-field within whole-brain models*. [Link](https://www.semanticscholar.org/paper/144ae1f1dabec42c14493d0083d36f168508f886)
+2. Martin Breyton, Viktor Sip, M. Woodman, Meysam Hashemi, S. Petkoski, V. Jirsa. (2025). *Data-driven mean-field within [[whole-brain]] models*. [Link](https://www.semanticscholar.org/paper/144ae1f1dabec42c14493d0083d36f168508f886)
 3. Luca di Carlo, Francesca Mignacco, Christopher W. Lynn, W. Bialek. (2025). *Neural subspaces, minimax entropy, and mean-field theory for networks of neurons*. [Link](https://www.semanticscholar.org/paper/642ec656cb51e0404de1ea18bad2db64ca14a8d6)
 4. Roxana A. Stefanescu, Viktor K. Jirsa. *A low dimensional description of globally coupled heterogeneous neural networks of excitatory and inhibitory neurons*. PLoS Computational Biology. [DOI](https://doi.org/10.1371/journal.pcbi.1000219)
 5. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)

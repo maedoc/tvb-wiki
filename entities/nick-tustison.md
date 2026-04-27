@@ -34,7 +34,7 @@ Developer of N4ITK and DiReCT algorithms in ANTs, expert in MRI preprocessing.
   - De facto standard preprocessing step
 
 - Tustison et al. (2014) — ANTs cortical thickness tustison-2014
-  - Large-scale comparison with FreeSurfer
+  - Large-scale comparison with [[freesurfer]]
   - Test-retest reliability evaluation
   - Competitive or superior ANTs performance
 

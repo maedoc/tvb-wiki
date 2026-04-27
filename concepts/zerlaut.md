@@ -17,7 +17,7 @@ tags:
 - mean-field
 title: Zerlaut Model
 type: concept
-updated: '2026-04-23'
+updated: '2026-04-27'
 ---
 
 # Zerlaut Model
@@ -26,7 +26,7 @@ A mean-field model of interacting excitatory and inhibitory populations with spi
 
 ## Overview
 
-Developed by Zerlaut and colleagues (2018), deriving mean-field equations from integrate-and-fire neurons with adaptation currents.
+Developed by Zerlaut and colleagues (2018), deriving mean-field equations from [[spiking-neural-networks|integrate-and-fire]] neurons with adaptation currents.
 
 ## Model Architecture
 
@@ -64,3 +64,4 @@ Developed by Zerlaut and colleagues (2018), deriving mean-field equations from i
 
 - [[neural-mass-model]] - General framework
 - [[mean-field-theory]] - Theoretical basis
+- [[infinite-theta|Infinite Theta]]

@@ -22,7 +22,7 @@ updated: '2026-04-27'
 
 # Neural Mass Model
 
-Neural mass models (NMMs) are mathematical descriptions of the collective behavior of large populations of neurons, using mean-field approximations to reduce the high-dimensional dynamics of individual neurons to low-dimensional differential equations describing population activity.
+[[neural-mass-models]] (NMMs) are mathematical descriptions of the collective behavior of large populations of neurons, using mean-field approximations to reduce the high-dimensional dynamics of individual neurons to low-dimensional differential equations describing population activity.
 
 ## Definition
 
@@ -98,21 +98,21 @@ Neural mass models enable whole-brain simulation by:
 
 1. **Dimension reduction**: Reducing millions of neurons to ~3-4 variables per brain region
 2. **Computational tractability**: Enabling large-scale network simulations (TVB, DCM)
-3. **Forward modeling**: Generating EEG/MEG/fMRI signals for comparison with data
-4. **Parameter inference**: Estimating effective connectivity from neuroimaging
+3. **Forward modeling**: Generating EEG/MEG/[[fmri]] signals for comparison with data
+4. **Parameter inference**: Estimating [[effective-connectivity]] from neuroimaging
 
 ### TVB Implementation
 
-The Virtual Brain uses NMMs as node dynamics coupled via empirical structural connectivity:
+[[tvb|The Virtual Brain]] uses NMMs as node dynamics coupled via empirical [[structural-connectivity]]:
 - Default: Jansen-Rit (3 populations)
 - Alternative: Wilson-Cowan, Zetterberg, custom models
-- Coupling: Delayed interactions via tractography-derived connectivity
+- Coupling: Delayed interactions via [[tractography]]-derived connectivity
 
 ## Dynamical Regimes
 
 Neural mass models exhibit diverse dynamics depending on parameters:
 
-- **Fixed point**: Low activity (resting state)
+- **Fixed point**: Low activity ([[resting-state]])
 - **Limit cycle**: Rhythmic oscillations (alpha, beta, gamma)
 - **Quasiperiodic**: Multi-frequency activity
 - **Chaotic**: Irregular dynamics (interictal states)
@@ -139,18 +139,18 @@ Neural mass models exhibit diverse dynamics depending on parameters:
 - [[Wilson-Cowan]] – Canonical firing-rate model
 - [[Jansen-Rit]] – EEG/MEG-focused cortical column model
 - [[Epileptor]] – Comprehensive seizure model
-- [[Wong-Wang]] – fMRI/BOLD optimized model
+- [[Wong-Wang]] – fMRI/[[bold-signal|BOLD]] optimized model
 - [[Larter-Breakspear]] – Ion channel-based model
 - [[mean field theory]] – Mathematical foundation
 - [[dynamic causal modeling]] – Bayesian inference with NMMs
 - [[bifurcation analysis]] – Understanding regime transitions
 - [[epilepsy modeling]] – Pathological applications
 - [[whole brain]] – Large-scale network implementations
-
+- [[tvb-vs-nest-vs-neuron|Tvb Vs Nest Vs Neuron]]
 ## References
 
-1. Walter J. Freeman. *Mass Action in the Nervous System*.
-2. Hugh R. Wilson, Jack D. Cowan. *Excitatory and inhibitory interactions in localized populations of model neurons*. Biophysical Journal. [DOI](https://doi.org/10.1016/S0006-3495(72)86068-5)
+1. [[walter-freeman|Walter J. Freeman]]. *Mass Action in the Nervous System*.
+2. [[hugh-wilson|Hugh R. Wilson]], Jack D. Cowan. *Excitatory and inhibitory interactions in localized populations of model neurons*. Biophysical Journal. [DOI](https://doi.org/10.1016/S0006-3495(72)86068-5)
 3. Benjamin H. Jansen, Vincent G. Rit. *Electroencephalogram and visual evoked potential generation in a mathematical model of coupled cortical columns*. Biological Cybernetics. [DOI](https://doi.org/10.1007/BF00199471)
 4. Peter Dayan, Larry F. Abbott. *Theoretical Neuroscience: Computational and Mathematical Modeling of Neural Systems*.
 5. Wulfram Gerstner, Werner M. Kistler, Richard Naud, Liam Paninski. *Neuronal Dynamics: From Single Neurons to Networks and Models of Cognition*.

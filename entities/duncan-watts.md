@@ -16,7 +16,7 @@ Principal Researcher at Microsoft Research, sociologist and network scientist, c
 
 ## Key Contributions
 
-- **Small-World Networks** (1998): Co-authored seminal paper with Steven Strogatz introducing the small-world model
+- **Small-World Networks** (1998): Co-authored seminal paper with [[steven-strogatz]] introducing the small-world model
 - **Six Degrees of Separation**: Provided mathematical foundation for understanding "six degrees"
 - **Network Science**: Pioneered application of network theory to social systems
 

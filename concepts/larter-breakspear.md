@@ -16,12 +16,12 @@ tags:
 - complex-dynamics
 title: Larter-Breakspear Model
 type: concept
-updated: '2026-04-23'
+updated: '2026-04-27'
 ---
 
 # Larter-Breakspear Model
 
-The Larter-Breakspear model is a conductance-based neural mass model that extends the Morris-Lecar equations to include three coupled populations.
+The Larter-Breakspear model is a conductance-based [[neural-mass-models|neural mass model]] that extends the Morris-Lecar equations to include three coupled populations.
 
 ## Overview
 
@@ -60,7 +60,7 @@ Originally developed by Larter et al. (1999) for seizure simulation, refined by 
 
 2. Breakspear, M., Terry, J. R., & Friston, K. J. (2003). Modulation of excitatory synaptic coupling facilitates synchronization and complex dynamics in a biophysical model of neuronal dynamics. *Neurocomputing*, 52–54, 151–158. https://doi.org/10.1016/S0925-2312(02)00788-7
 
-3. Honey, C. J., Kötter, R., Breakspear, M., & Sporns, O. (2007). Network structure of cerebral cortex shapes functional connectivity on multiple time scales. *Proceedings of the National Academy of Sciences*, 104(24), 10240–10245. https://doi.org/10.1073/pnas.0701519104
+3. Honey, C. J., Kötter, R., Breakspear, M., & Sporns, O. (2007). Network structure of cerebral cortex shapes [[functional-connectivity]] on multiple time scales. *Proceedings of the National Academy of Sciences*, 104(24), 10240–10245. https://doi.org/10.1073/pnas.0701519104
 
 ## Related Concepts
 

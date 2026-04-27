@@ -14,12 +14,12 @@ tags:
 - aging-brain
 title: default-mode-network
 type: concept
-updated: '2026-04-23'
+updated: '2026-04-27'
 ---
 
 # Default Mode Network (DMN)
 
-The default mode network is a large-scale brain network that is active when the brain is at wakeful rest and deactivated during externally-oriented tasks. It is involved in internally-directed cognition including self-referential processing, mind-wandering, and episodic memory.
+The default mode network is a large-scale [[brain-network]] that is active when the brain is at wakeful rest and deactivated during externally-oriented tasks. It is involved in internally-directed cognition including self-referential processing, mind-wandering, and episodic memory.
 
 ## Definition
 

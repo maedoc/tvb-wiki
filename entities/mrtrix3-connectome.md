@@ -14,7 +14,7 @@ tags:
 - tractography
 title: MRtrix3 Connectome
 type: entity
-updated: '2026-04-23'
+updated: '2026-04-27'
 ---
 
 # MRtrix3 Connectome
@@ -28,7 +28,7 @@ The pipeline was developed to provide reproducible, standardized connectome gene
 ## Key Features
 
 ### Automated Pipeline Stages
-The MRtrix3 Connectome script executes the following stages in sequence:
+The [[mrtrix3]] [[connectome]] script executes the following stages in sequence:
 
 1. **Preprocessing**: Denoising using the Marchenko-Pastur PCA (MP-PCA) method^1, Gibbs ringing removal, distortion correction using FSL TOPUP^2, bias field correction, and intensity normalization across subjects
 
@@ -38,7 +38,7 @@ The MRtrix3 Connectome script executes the following stages in sequence:
 
 4. **FOD Estimation**: Computation of fiber orientation distributions (FODs) using MSMT-CSD^4, enabling resolution of crossing fiber populations
 
-5. **Tractography**: Probabilistic whole-brain [[tractography]] with anatomical constraints (ACT)^3 to reduce false positives
+5. **Tractography**: Probabilistic [[whole-brain]] [[tractography]] with anatomical constraints (ACT)^3 to reduce false positives
 
 6. **SIFT2 Filtering**: Application of SIFT2 (Spherical-deconvolution Informed Filtering of Tractograms 2)^5 to correct for streamlines density biases using per-streamline weighting coefficients, superseding the original SIFT method that removed streamlines entirely
 
@@ -61,9 +61,9 @@ MRtrix3 Connectome serves as a critical preprocessing component in [[tvb]] workf
 
 2. **Transmission Delays**: Tractography-derived fiber lengths from MRtrix3 can be used to compute signal propagation delays between regions based on conduction velocity
 
-3. **Individual Variability**: Subject-specific connectomes enable personalized brain modeling in TVB, capturing individual differences in network topology for clinical or research applications
+3. **Individual Variability**: Subject-specific connectomes enable [[personalized-brain-modeling]] in TVB, capturing individual differences in network topology for clinical or research applications
 
-4. **Integration**: MRtrix3 Connectome outputs (connectome weights and node-wise streamline lengths) can be exported for import into TVB's connectivity format, though users should verify that the parcellation region labels match between the MRtrix3 output and TVB's expected region naming convention
+4. **Integration**: MRtrix3 Connectome outputs (connectome weights and node-wise streamline lengths) can be exported for import into TVB's connectivity format, though users should verify that the [[parcellation]] region labels match between the MRtrix3 output and TVB's expected region naming convention
 
 The quality of MRtrix3 Connectome outputs directly impacts TVB simulation results, making preprocessing choices (response function estimation, SIFT2 parameters, parcellation selection) important considerations for model validation.
 

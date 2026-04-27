@@ -37,7 +37,7 @@ Unlike [[functional-connectivity]] (statistical dependencies) or [[structural-co
 
 ## Role in Whole-Brain Modeling
 
-Effective connectivity is what whole-brain models aim to capture:
+Effective connectivity is what [[whole-brain]] models aim to capture:
 
 1. **Model output**: Models generate directed interactions between regions
 2. **Validation**: Compare model EC to empirical estimates from DCM
@@ -65,9 +65,9 @@ In [[dynamic-causal-modeling]], effective connectivity parameters (A, B, C matri
 
 ## References
 
-1. (authors unknown). *Statistical parametric maps in functional imaging: A general linear approach*.
+1. (authors unknown). *Statistical parametric maps in functional imaging: A general [[linear]] approach*.
 2. Neda Abdollahpour, N. Sertac Artan, Ian Daly, Mohammadreza Yazdchi, Zahra Baharlouei. (2025). *Effective Connectivity-Based Unsupervised Channel Selection Method for EEG*. [Link](https://arxiv.org/abs/2510.12910)
 3. Peizhen Yang, Xinke Shen, Zongsheng Li, Zixiang Luo, Kexin Lou, Quanying Liu. *Perturbing a Neural Network to Infer Effective Connectivity: Evidence from Synthetic EEG Data*. [Link](https://arxiv.org/abs/2307.09770)
 4. Haiyue Song, Ani Eloyan, Youjin Lee. (2026). *Causal Inference for Unobservable Multivariate Outcomes, with Applications to Brain Effective Connectivity*. [Link](https://arxiv.org/abs/2604.00390)
-5. Deepa Tilwani, Christian O'Reilly. *Deep Jansen-Rit Parameter Inference for Model-Driven Analysis of Brain Activity*. [Link](https://arxiv.org/abs/2406.05002)
+5. Deepa Tilwani, Christian O'Reilly. *Deep [[jansen-rit]] Parameter Inference for Model-Driven Analysis of Brain Activity*. [Link](https://arxiv.org/abs/2406.05002)
 6. Lu Ye, Yang Zhang, Dongfeng Yan. (2026). *Spectral dynamic causal modeling of effective connectivity across multiple brain networks in pilot trainees*. iScience. [DOI](https://doi.org/10.1016/j.isci.2026.115369)

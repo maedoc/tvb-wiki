@@ -21,8 +21,8 @@ Computational neuroscientist known for work on large-scale brain models and rest
 ## Research Focus
 
 - Computational modeling of resting-state brain activity
-- Large-scale whole-brain network dynamics
-- Neural mass models and cognitive architectures
+- Large-scale whole-brain [[network-dynamics]]
+- [[neural-mass-models]] and cognitive architectures
 
 ## Key Publication
 

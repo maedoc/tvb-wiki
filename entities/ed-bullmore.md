@@ -19,7 +19,7 @@ Professor at University of Cambridge, leading researcher in network neuroscience
 
 ## Key Contributions
 
-- **Complex Brain Networks Review** (2009): Co-authored with Sporns, the definitive review of graph theory in neuroscience
+- **Complex Brain Networks Review** (2009): Co-authored with Sporns, the definitive review of [[network-dynamics|graph theory]] in neuroscience
 - **Computational Psychiatry**: Pioneered application of network science to mental health
 - **Clinical Connectomics**: Applied connectivity analysis to psychiatric and neurological disorders
 

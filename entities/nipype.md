@@ -12,7 +12,7 @@ tags:
 - whole-brain-modeling
 title: NiPype
 type: entity
-updated: '2026-04-24'
+updated: '2026-04-27'
 ---
 
 # NiPype
@@ -30,7 +30,7 @@ NiPype provides standardized Python interfaces to major neuroimaging packages in
 
 **Workflow Engine**
 The workflow system in NiPype implements a directed acyclic graph (DAG) execution model, enabling:
-- Automatic dependency resolution between processing steps
+- Automatic dependency resolution between processing [[steps]]
 - Parallel execution on local multi-core machines or distributed computing clusters (via [[sge]], [[slurm]], [[pbs]], or [[htcondor]])
 - Lazy re-execution that only recomputes changed steps when pipelines are modified
 - Detailed provenance tracking recording the exact software versions and parameters used
@@ -43,11 +43,11 @@ The project is part of the broader scientific Python stack, interoperating with 
 
 ## Relationship to TVB
 
-[[tvb|The Virtual Brain]] and NiPype serve complementary roles in computational neuroscience workflows. While NiPype focuses on preprocessing and standardized analysis of empirical neuroimaging data (fMRI, DTI, structural MRI) through established pipelines, TVB specializes in building and simulating whole-brain models using that processed data.
+[[tvb|The Virtual Brain]] and NiPype serve complementary roles in computational neuroscience workflows. While NiPype focuses on preprocessing and standardized analysis of empirical neuroimaging data (fMRI, DTI, structural MRI) through established pipelines, TVB specializes in building and simulating [[whole-brain]] models using that processed data.
 
 Typical integration patterns include:
 - Using NiPype pipelines to preprocess [[dti]] data and generate [[structural-connectivity]] matrices that serve as inputs to TVB simulations
-- Processing [[fmri]]-resting-state data through NiPype before using the extracted [[functional-connectivity]] patterns to parameterize or validate TVB models
+- Processing [[fmri]]-[[resting-state]] data through NiPype before using the extracted [[functional-connectivity]] patterns to parameterize or validate TVB models
 - Leveraging NiPype's provenance tracking to document preprocessing steps that feed into [[dynamic-causal-modeling]] or [[whole-brain-modeling]] analyses performed in TVB
 
 Both projects emphasize reproducibility and open science, with NiPype providing the preprocessing infrastructure and TVB providing the simulation framework for mechanistic brain modeling.

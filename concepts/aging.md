@@ -16,12 +16,12 @@ tags:
 - brain-maintenance
 title: aging
 type: concept
-updated: '2026-04-23'
+updated: '2026-04-27'
 ---
 
 # Brain Aging
 
-Brain aging involves structural and functional changes across the lifespan, from early adulthood through senescence. These changes follow non-linear trajectories and vary substantially across individuals.
+Brain aging involves structural and functional changes across the lifespan, from early adulthood through senescence. These changes follow non-[[linear]] trajectories and vary substantially across individuals.
 
 ## Definition
 

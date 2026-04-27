@@ -17,12 +17,12 @@ tags:
 - whole-brain-modeling
 title: developmental-trajectories
 type: concept
-updated: '2026-04-23'
+updated: '2026-04-27'
 ---
 
 # Developmental Trajectories
 
-Developmental trajectories describe the patterns of change in brain structure and function across the lifespan, from prenatal development through aging. These trajectories are often non-linear, with different brain regions following distinct developmental curves.
+Developmental trajectories describe the patterns of change in brain structure and function across the lifespan, from prenatal development through aging. These trajectories are often non-[[linear]], with different brain regions following distinct developmental curves.
 
 ## Definition
 
@@ -86,7 +86,7 @@ Following Gogtay et al. (2004):
 - **Aging**: Connectivity decline
 
 ### Network Topology
-- **Modularity**: Increases then plateaus
+- **[[modularity]]**: Increases then plateaus
 - **Efficiency**: Improves then declines
 - **Hub organization**: Strengthens then weakens
 

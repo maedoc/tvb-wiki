@@ -36,7 +36,7 @@ DTI models water diffusion using a 3x3 tensor that describes diffusion rates in 
 
 ## Role in Whole-Brain Modeling
 
-DTI is the primary source of [[structural-connectivity]] data for whole-brain models:
+DTI is the primary source of [[structural-connectivity]] data for [[whole-brain]] models:
 
 1. **Connectivity matrices**: [[tractography]] algorithms trace white matter pathways to create region-to-region connectivity weights
 2. **Network topology**: The pattern of connections constrains model dynamics
@@ -59,13 +59,13 @@ DTI is the primary source of [[structural-connectivity]] data for whole-brain mo
 - [[tractography]] – Fiber tracking from DTI data
 - [[structural-connectivity]] – Anatomical connections
 - white-matter – Myelinated axon tracts
-
+- [[resting-state|Resting State]]
 ## References
 
 1. (authors unknown). *MR diffusion tensor spectroscopy and imaging*.
 2. (authors unknown). *Three-dimensional tracking of axonal projections in the brain by magnetic resonance imaging*.
 3. (authors unknown). *Challenges and limitations of quantifying brain connectivity in vivo with diffusion MRI*.
-4. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
+4. Ritter et al. (2013). *[[tvb|The Virtual Brain]] integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
 5. Yifei Sun, James M. Shine, Robert D. Sanders, Robin F. H. Cash, Sharon L. Naismith, Fernando Calamante, Jinglei Lv. (2026). *A Data-Driven Method to Map the Functional Organisation of Human Brain White Matter*. [Link](https://arxiv.org/abs/2602.18715)
-6. Mengyuan Liu, Jing Hu, Zhenzhen Ru, Ruomeng Quan, Xu Zhang, Ning Qiang, Jin Li. (2025). *Exploring the changes in brain network SC-FC coupling patterns of partial sleep deprivation based on DTI-fMRI fusion analysis*. [Link](https://arxiv.org/abs/2512.00063)
+6. Mengyuan Liu, Jing Hu, Zhenzhen Ru, Ruomeng Quan, Xu Zhang, Ning Qiang, Jin Li. (2025). *Exploring the changes in [[brain-network]] SC-FC coupling patterns of partial sleep deprivation based on DTI-[[fmri]] fusion analysis*. [Link](https://arxiv.org/abs/2512.00063)
 7. Daniele Licciardo, Chiara Matti, A. Benelli, V. Isella, I. Appollonio, E. Santarnecchi. (2026). *Gray matter atrophy and structural connectivity in Posterior Cortical Atrophy: a voxel-based meta-analysis.*. Neuroscience and Biobehavioral Reviews. [DOI](https://doi.org/10.1016/j.neubiorev.2026.106554)

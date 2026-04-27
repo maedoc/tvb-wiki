@@ -72,7 +72,7 @@ Brain networks show modular organization:
 
 ### Development and Disease
 - **Development**: Modular structure emerges during development
-- **Aging**: Changes in modularity with age
+- **[[aging]]**: Changes in modularity with age
 - **Disease**: Altered modularity in psychiatric/neurological conditions
 
 ## Related Concepts
@@ -87,4 +87,4 @@ Brain networks show modular organization:
 1. (authors unknown). *Networks: An Introduction*.
 2. (authors unknown). *Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems*.
 3. (authors unknown). *Networks of the Brain*.
-4. Soon Ho Kim, Hannah Choi. (2025). *Inhibitory cell type heterogeneity in a spatially structured mean-field model of V1*. bioRxiv. [DOI](https://doi.org/10.1101/2025.03.13.643046)
+4. Soon Ho Kim, Hannah Choi. (2025). *Inhibitory cell type heterogeneity in a spatially structured [[mean-field-theory|mean-field]] model of V1*. bioRxiv. [DOI](https://doi.org/10.1101/2025.03.13.643046)

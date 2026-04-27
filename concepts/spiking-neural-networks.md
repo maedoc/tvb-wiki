@@ -48,7 +48,7 @@ Used primarily in [[NEURON]] for detailed single-neuron studies
 
 - [[NEST]] — Large networks of point neurons (thousands to billions)
 - [[NEURON]] — Multi-compartment detailed neuron models
-- [[TVB]] — Can interface with SNNs via mean-field reductions
+- [[TVB]] — Can interface with SNNs via [[mean-field-theory|mean-field]] reductions
 
 ## Scalability
 
@@ -70,7 +70,7 @@ Jordan et al. (2018) demonstrated NEST scaling to:
 - [[neural mass model]] — Simplified population-level alternative
 - [[brain network]] — Network-level organization
 - [[whole brain]] — Scaling to brain-wide simulations
-
+- [[tvb-vs-nest-vs-neuron|Tvb Vs Nest Vs Neuron]]
 ## References
 
 1. Gewaltig & Diesmann (2007). *NEST (NEural Simulation Tool)*. Scholarpedia. [DOI](https://doi.org/10.4249/scholarpedia.1430)
@@ -79,5 +79,5 @@ Jordan et al. (2018) demonstrated NEST scaling to:
 4. Hines & Carnevale (1997). *The NEURON simulation environment*. Neural Computation. [DOI](https://doi.org/10.1162/neco.1997.9.6.1179)
 5. Markram et al. (2015). *Reconstruction and simulation of neocortical microcircuitry*. Cell. [DOI](https://doi.org/10.1016/j.cell.2015.09.029)
 6. Pascal Helson, Etienne Tanré, Romain Veltz. *Mean-field analysis of a neural network with stochastic STDP*. [Link](https://arxiv.org/abs/2510.02545)
-7. (authors unknown). *Nonlinear Dynamics and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering*.
+7. (authors unknown). *[[nonlinear-dynamics]] and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering*.
 8. Valerio Barabino, F. Callegari, Sérgio Martinoia, P. Massobrio. (2026). *Hierarchical afferent connectivity drives population-wide bursting dynamics in a computational model of human-derived excitatory neuronal networks*. Journal of Neuroscience. [DOI](https://doi.org/10.1523/jneurosci.0912-25.2026)

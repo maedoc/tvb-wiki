@@ -14,7 +14,7 @@ tags:
 - stochastic
 title: EpileptorRS
 type: concept
-updated: '2026-04-23'
+updated: '2026-04-27'
 ---
 
 # Epileptor Resting State
@@ -42,7 +42,7 @@ dz = deterministic_terms + σ_z·ξ(t)
 - Interictal spike generation
 - Sleep modeling
 - Long-term monitoring
-- Seizure prediction
+- [[seizure-prediction]]
 
 ## References
 

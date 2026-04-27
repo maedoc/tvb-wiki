@@ -14,7 +14,7 @@ tags:
 - low-dimensional
 title: Stefanescu-Jirsa Model
 type: concept
-updated: '2026-04-23'
+updated: '2026-04-27'
 ---
 
 # Stefanescu-Jirsa Model
@@ -34,7 +34,7 @@ dv/dt = α - v² + w
 dw/dt = -ε·(v - γ)
 ```
 
-This is the universal unfolding of the saddle-node bifurcation.
+This is the universal unfolding of the saddle-node [[bifurcation-analysis|bifurcation]].
 
 ## Parameters
 

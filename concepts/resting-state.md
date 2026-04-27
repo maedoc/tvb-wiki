@@ -27,7 +27,7 @@ Resting-state fMRI (rs-fMRI) measures spontaneous brain activity during task-fre
 
 ## Definition
 
-Discovered by [[bharat-biswal]] in 1995, resting-state functional connectivity refers to the observation that spontaneous low-frequency (<0.1 Hz) fluctuations in BOLD signal are correlated between functionally related brain regions even in the absence of explicit tasks.
+Discovered by [[bharat-biswal]] in 1995, resting-state functional connectivity refers to the observation that spontaneous low-frequency (<0.1 Hz) fluctuations in [[bold-signal]] are correlated between functionally related brain regions even in the absence of explicit tasks.
 
 ## Intrinsic Connectivity Networks (ICNs)
 
@@ -44,7 +44,7 @@ Major resting-state networks include:
 
 ## Role in Whole-Brain Modeling
 
-Resting-state connectivity is the primary empirical target for whole-brain models:
+Resting-state connectivity is the primary empirical target for [[whole-brain]] models:
 
 1. **Validation target**: Models generate synthetic BOLD time series and compute functional connectivity for comparison with empirical data
 2. **Network topology**: The pattern of correlations constrains model parameters
@@ -66,7 +66,7 @@ zuo-2010 demonstrated that ICNs are reliable across scanning sessions, supportin
 - intrinsic-connectivity-networks – Spontaneous networks
 - [[default-mode-network]] – Most studied ICN
 - spontaneous-activity – Ongoing neural dynamics
-
+- [[dti|Dti]]
 ## References
 
 1. (authors unknown). *Functional connectivity in the motor cortex of resting human brain using echo-planar MRI*.
@@ -78,5 +78,5 @@ zuo-2010 demonstrated that ICNs are reliable across scanning sessions, supportin
 7. D. Fasoli, L. Coletta, Daniel Gutierrez-Barragan, S. Gini, A. Gozzi, S. Panzeri. (2026). *Attractor dynamics of a whole-cortex network model predicts emergence and structure of fMRI co-activation patterns in the mouse brain.*. PLoS Computational Biology. [DOI](https://doi.org/10.1371/journal.pcbi.1013995)
 8. Kashyap Gudibanda, J. Fousek, S. Petkoski, V. Jirsa. (2026). *The role of connectivity for the degeneracy of the brain’s resting state dynamics*. Journal of Computational Neuroscience. [DOI](https://doi.org/10.1007/s10827-025-00919-0)
 9. (authors unknown). *Functional Connectivity in the Resting Brain: A Network Analysis of the Default Mode Hypothesis*.
-10. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
+10. (authors unknown). *Functional [[connectomics]] from Resting-State fMRI*.
 11. (authors unknown). *Functional Network Organization of the Human Brain*.

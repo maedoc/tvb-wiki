@@ -12,7 +12,7 @@ tags:
 - validation
 title: SciUnit
 type: entity
-updated: '2026-04-24'
+updated: '2026-04-27'
 ---
 
 # SciUnit
@@ -73,7 +73,7 @@ While direct integration between SciUnit and TVB remains an active development a
 ## Related Software
 
 - [[NeuronUnit]] — Extension of SciUnit for neurophysiology model validation
-- [[TVB]] — Whole-brain simulation platform; target for validation workflows
+- [[TVB]] — [[whole-brain]] simulation platform; target for validation workflows
 - [[NEURON]] — Multi-compartment neuron simulator with SciUnit testing support
 - [[NEST]] — Spiking network simulator integrated with validation frameworks
 - [[Brian]] — Python-based neural simulator compatible with test-driven validation

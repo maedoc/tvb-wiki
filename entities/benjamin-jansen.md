@@ -20,11 +20,11 @@ updated: '2026-04-27'
 
 # Benjamin H. Jansen
 
-Dutch biomedical engineer and neuroscientist. Co-developer of the Jansen-Rit model of cortical column dynamics for EEG/VEP generation. Applied nonlinear dynamics and system identification to neural signal analysis.
+Dutch biomedical engineer and neuroscientist. Co-developer of the Jansen-Rit model of cortical column dynamics for EEG/VEP generation. Applied [[nonlinear-dynamics]] and system identification to neural signal analysis.
 
 ## Key Contributions
 
-- **Jansen-Rit model**: Three-population neural mass model for cortical columns (1995, with Vincent Rit)
+- **Jansen-Rit model**: Three-population [[neural-mass-models|neural mass model]] for cortical columns (1995, with Vincent Rit)
 - **Visual evoked potential modeling**: Generation of realistic VEP waveforms from population dynamics
 - **Nonlinear system identification**: Methods for parameter estimation in biological systems
 - **Biomedical signal processing**: Application of advanced signal analysis to clinical EEG
@@ -55,9 +55,9 @@ Post-synaptic responses are modeled as alpha functions (convolutions with expone
 
 1. Benjamin H. Jansen, Vincent G. Rit. *Electroencephalogram and visual evoked potential generation in a mathematical model of coupled cortical columns*. Biological Cybernetics. [DOI](https://doi.org/10.1007/BF00199471)
 2. Vincent G. Rit, Benjamin H. Jansen. *A neural mass model for the generation of electroencephalograms*. Critical Reviews in Biomedical Engineering.
-3. Huda Mahdi, Jan Sieber, Krasimira Tsaneva-Atanasova. *Alpha-Delta Transitions in Cortical Rhythms as grazing bifurcations*. [Link](https://arxiv.org/abs/2411.16449)
-4. Eugene M. Izhikevich. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
+3. Huda Mahdi, Jan Sieber, [[krasimira-tsaneva-atanasova]]. *Alpha-Delta Transitions in Cortical Rhythms as grazing bifurcations*. [Link](https://arxiv.org/abs/2411.16449)
+4. [[eugene-izhikevich|Eugene M. Izhikevich]]. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
 5. Gianluca Gaglioti, L. Porta, M. Colombo, Simone Russo, Thierry Nieus, G. Deco, M. Corbetta, S. Sarasso, M. V. Sanchez-Vives, M. Massimini. (2026). *Slow wave generation and propagation in a model of brain lesions*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2026.121817)
-6. Pascal Helson, Etienne Tanré, Romain Veltz. *Mean-field analysis of a neural network with stochastic STDP*. [Link](https://arxiv.org/abs/2510.02545)
+6. Pascal Helson, Etienne Tanré, Romain Veltz. *[[mean-field-theory|Mean-field]] analysis of a neural network with stochastic STDP*. [Link](https://arxiv.org/abs/2510.02545)
 7. Lucia Zavaglia, Laura Astolfi, Federico Babiloni, Melani B.C. *Comparison of a mean-field model of electroencephalographic activity to individual brain networks*. IEEE Engineering in Medicine and Biology.
-8. Cyprien Tamekue, ShiNung Ching. *Control of neural field equations with step-function inputs*. [Link](https://arxiv.org/abs/2510.22022)
+8. Cyprien Tamekue, ShiNung Ching. *Control of [[neural-field-theory|neural field]] equations with step-function inputs*. [Link](https://arxiv.org/abs/2510.22022)

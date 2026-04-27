@@ -13,7 +13,7 @@ tags:
 - network-dynamics
 title: Wilson-Cowan Model
 type: concept
-updated: '2026-04-23'
+updated: '2026-04-27'
 ---
 
 # Wilson-Cowan Model
@@ -22,7 +22,7 @@ The Wilson-Cowan model is the canonical firing-rate model of coupled excitatory 
 
 ## Overview
 
-Developed by Hugh Wilson and Jack Cowan at the University of Chicago, the model describes the mean firing rates of excitatory and inhibitory populations through coupled nonlinear differential equations. The 1973 extension added spatial structure, founding neural field theory.
+Developed by [[hugh-wilson]] and [[jack-cowan]] at the University of Chicago, the model describes the mean firing rates of excitatory and inhibitory populations through coupled nonlinear differential equations. The 1973 extension added spatial structure, founding [[neural-field-theory|neural field]] theory.
 
 ## Mathematical Formulation
 
@@ -172,7 +172,10 @@ Parameters:
 - [[Jansen-Rit]] – EEG-focused extension
 - [[mean field theory]] – Mathematical foundation
 - [[bifurcation analysis]] – Understanding transitions
-
+- [[linear|Linear]]
+- [[zerlaut|Zerlaut]]
+- [[wong-wang-exc-inh|Wong Wang Exc Inh]]
+- [[epilepsy-modeling|Epilepsy Modeling]]
 ## References
 
 1. Wilson, H. R., & Cowan, J. D. (1972). Excitatory and inhibitory interactions in localized populations of model neurons. *Biophysical Journal*, 12(1), 1–24. https://doi.org/10.1016/S0006-3495(72)86068-5

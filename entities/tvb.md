@@ -20,16 +20,16 @@ updated: '2026-04-27'
 
 # TVB (The Virtual Brain)
 
-TVB is an open-source neuroinformatics platform for simulating large-scale primate brain network dynamics.
+TVB is an open-source neuroinformatics platform for simulating large-scale primate brain [[network-dynamics]].
 
 ## Overview
 
-The Virtual Brain (TVB) enables researchers to construct personalized whole-brain models by combining empirical structural connectivity (from diffusion MRI tractography) with neural mass models. The platform supports forward models for EEG, MEG, and fMRI, allowing simulated signals to be compared directly against empirical recordings.
+The Virtual Brain (TVB) enables researchers to construct personalized whole-brain models by combining empirical [[structural-connectivity]] (from [[diffusion-mri]] [[tractography]]) with [[neural-mass-models]]. The platform supports forward models for EEG, MEG, and [[fmri]], allowing simulated signals to be compared directly against empirical recordings.
 
 ## Key Features
 
-- **Whole-brain network simulation**: Simulates brain dynamics across the entire cortex
-- **Neural mass models**: Implements Jansen-Rit, Wilson-Cowan, and other population models
+- **Whole-[[brain-network]] simulation**: Simulates brain dynamics across the entire cortex
+- **Neural mass models**: Implements [[jansen-rit]], [[wilson-cowan]], and other population models
 - **Multimodal support**: Forward models for EEG, MEG, and fMRI signals
 - **Personalized modeling**: Subject-specific connectivity from individual neuroimaging data
 - **Structural connectivity**: Integration of DTI tractography data
@@ -48,7 +48,7 @@ TVB combines:
 - Sanz Leon et al. (2013) — Introduced TVB platform sanz-leon-2013
 - Ritter et al. (2013) — Multimodal neuroimaging integration ritter-2013
 - Schirner et al. (2018) — Automated personalized pipeline schirner-2018
-- Deco et al. (2013) — Resting-state computational insights deco-2013
+- Deco et al. (2013) — [[resting-state]] computational insights deco-2013
 
 ## Related Software
 
@@ -62,7 +62,9 @@ TVB combines:
 - [[neural mass model]] — Population-level neural dynamics
 - [[personalized brain modeling]] — Subject-specific model construction
 - [[functional connectivity]] — Simulated and empirical connectivity patterns
-
+- [[elephant|Elephant]]
+- [[mrtrix3-connectome|Mrtrix3 Connectome]]
+- [[epilepsy-modeling|Epilepsy Modeling]]
 ## Use Cases
 
 - Resting-state functional connectivity modeling

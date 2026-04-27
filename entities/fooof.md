@@ -20,7 +20,7 @@ tags:
 - software-tvb
 title: FOOOF
 type: entity
-updated: '2026-04-23'
+updated: '2026-04-27'
 ---
 
 # FOOOF
@@ -47,15 +47,15 @@ FOOOF implements a robust fitting algorithm with several key capabilities[1]:
 
 ## Relationship to TVB
 
-FOOOF and [[TVB]] serve complementary roles in whole-brain modeling workflows. TVB generates simulated neural activity and resulting electrophysiological signals (EEG/MEG), while FOOOF provides the analytical framework to characterize the spectral properties of those simulations.
+FOOOF and [[TVB]] serve complementary roles in [[whole-brain]] modeling workflows. TVB generates simulated neural activity and resulting electrophysiological signals (EEG/MEG), while FOOOF provides the analytical framework to characterize the spectral properties of those simulations.
 
 Key integration points include:
 
-- **Validation of Neural Mass Models**: FOOOF can parameterize power spectra from TVB simulations using neural mass models like [[jansen-rit]] or [[wilson-cowan]], allowing direct comparison between simulated and empirical spectral features. Researchers can tune model parameters (excitation/inhibition balance, synaptic time constants) to match observed 1/f exponents and oscillatory peak characteristics.
+- **Validation of [[neural-mass-models]]**: FOOOF can parameterize power spectra from TVB simulations using neural mass models like [[jansen-rit]] or [[wilson-cowan]], allowing direct comparison between simulated and empirical spectral features. Researchers can tune model parameters (excitation/inhibition balance, synaptic time constants) to match observed 1/f exponents and oscillatory peak characteristics.
 
-- **Aperiodic Activity Analysis**: The [[whole-brain-modeling]] approach in TVB naturally produces 1/f-distributed spectra. FOOOF's explicit modeling of aperiodic components enables researchers to study how structural connectivity and local dynamics together shape the broadband spectral envelope observed in [[resting-state]] recordings.
+- **Aperiodic Activity Analysis**: The [[whole-brain-modeling]] approach in TVB naturally produces 1/f-distributed spectra. FOOOF's explicit modeling of aperiodic components enables researchers to study how [[structural-connectivity]] and local dynamics together shape the broadband spectral envelope observed in [[resting-state]] recordings.
 
-- **Cross-Scale Validation**: When using [[tvb-multiscale]] for hybrid spiking-mean-field simulations, FOOOF can characterize spectra at different scales, validating that macroscopic oscillatory dynamics emerge appropriately from microscopic spiking activity.
+- **Cross-Scale Validation**: When using [[tvb-multiscale]] for hybrid spiking-[[mean-field-theory|mean-field]] simulations, FOOOF can characterize spectra at different scales, validating that macroscopic oscillatory dynamics emerge appropriately from microscopic spiking activity.
 
 ## Key Papers
 
@@ -70,7 +70,7 @@ The foundational publication for FOOOF is:
 - [[NEST]] — Spiking network simulator; oscillatory spectra from NEST simulations can be analyzed with FOOOF
 - [[MNE-Python]] — MEG/EEG analysis library with which FOOOF integrates directly
 - SciPy — Underlying scientific computing framework for signal processing
-- YASA — Sleep stage analysis package that incorporates FOOOF for spectral parameterization
+- [[yasa]] — Sleep stage analysis package that incorporates FOOOF for spectral parameterization
 
 ## References
 

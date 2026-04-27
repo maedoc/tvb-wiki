@@ -22,8 +22,8 @@ Distinguished Professor at Indiana University Bloomington, pioneer of the field 
 
 - **Coined the term "connectome"** (2005): Introduced the concept in the seminal paper with Tononi and Kötter
 - **Authored "Networks of the Brain"** (2011): Definitive textbook on brain network analysis
-- **Developed Brain Connectivity Toolbox**: With Mikail Rubinov, created essential software for network analysis
-- **Structural Core Discovery**: Contributed to identification of the brain's structural backbone
+- **Developed [[brain-connectivity-toolbox]]**: With Mikail Rubinov, created essential software for network analysis
+- **[[structural-core]] Discovery**: Contributed to identification of the brain's structural backbone
 
 ## Research Focus
 

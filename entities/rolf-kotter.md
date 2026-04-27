@@ -43,4 +43,4 @@ Kötter's research has focused on:
 ## References
 
 1. (authors unknown). *The Human Connectome: A Structural Description of the Human Brain*.
-2. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
+2. (authors unknown). *Functional Connectomics from [[resting-state|Resting-State fMRI]]*.

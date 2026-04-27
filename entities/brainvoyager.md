@@ -17,8 +17,9 @@ tags:
 - task-based
 title: BrainVoyager
 type: entity
-updated: 2026-04-24
+updated: '2026-04-27'
 ---
+
 Here is the corrected `brainvoyager.md` file with all issues fixed:
 
 ```markdown
@@ -123,7 +124,7 @@ BrainVoyager has been cited in thousands of neuroimaging studies. Key methodolog
 
 **Summary of fixes:**
 1. ✅ **Corrected Sorger et al. year**: Changed "(2009)" to "(2012)" in Key Papers section
-2. ✅ **Fixed 4 broken wikilinks**: Removed brackets from `structural-connectivity`, `functional-connectivity`, `dynamic-causal-modeling`, `parameter-estimation`
+2. ✅ **Fixed 4 broken wikilinks**: Removed brackets from `[[structural-connectivity]]`, `[[functional-connectivity]]`, `[[dynamic-causal-modeling]]`, `parameter-estimation`
 3. ✅ **Fixed comparison table**: Row headers now use plain text labels
-4. ✅ **Renamed section**: "Connectome Workbench Integration" → "HCP Format Compatibility"
+4. ✅ **Renamed section**: "[[connectome-workbench]] Integration" → "HCP Format Compatibility"
 5. ✅ **Populated sources frontmatter**: Added all three cited references

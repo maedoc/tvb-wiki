@@ -61,7 +61,7 @@ Brain networks show scale-free properties:
 - Vulnerable to targeted hub removal
 
 ### Dynamics
-- Hubs influence network dynamics
+- Hubs influence [[network-dynamics]]
 - Important for information spreading
 - Target for therapeutic interventions
 

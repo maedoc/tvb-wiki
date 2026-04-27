@@ -24,11 +24,11 @@ updated: '2026-04-27'
 
 # fMRI vs EEG for Whole-Brain Modeling
 
-Comparison of functional MRI and electroencephalography as neuroimaging modalities for whole-brain modeling validation and constraint.
+Comparison of functional MRI and electroencephalography as neuroimaging modalities for [[whole-brain]] modeling validation and constraint.
 
 ## What is Being Compared
 
-fMRI and EEG are complementary neuroimaging modalities that measure different aspects of brain activity. This comparison evaluates their relative strengths for constraining and validating whole-brain network models.
+fMRI and EEG are complementary neuroimaging modalities that measure different aspects of brain activity. This comparison evaluates their relative strengths for constraining and validating whole-[[brain-network]] models.
 
 ## Dimensions of Comparison
 
@@ -55,20 +55,20 @@ fMRI and EEG are complementary neuroimaging modalities that measure different as
 ### EEG
 - Measures summed postsynaptic potentials
 - Direct reflection of neural activity
-- Volume conduction blurs spatial source localization
+- Volume conduction blurs spatial [[source-localization]]
 - Excellent for capturing fast dynamics and oscillations
 
 ## Whole-Brain Modeling Applications
 
 ### fMRI Strengths
-- **Network topology**: Resting-state networks clearly spatially resolved
+- **Network topology**: [[resting-state]] networks clearly spatially resolved
 - **Structural-functional correspondence**: Direct comparison with DTI connectivity
 - **Clinical translation**: Widely available for patient studies
 - **BOLD simulation**: Well-established forward models (Balloon model)
 
 ### EEG Strengths
 - **Temporal dynamics**: Captures millisecond-scale oscillations
-- **Direct validation**: Neural mass models explicitly generate EEG-like signals
+- **Direct validation**: [[neural-mass-models]] explicitly generate EEG-like signals
 - **Frequency analysis**: Clear bands (alpha, beta, gamma) for model targets
 - **Source localization**: Can estimate cortical generators
 
@@ -91,7 +91,7 @@ Neither modality alone is sufficient. fMRI provides the spatial organization tha
 - [[bold-signal]] – fMRI contrast mechanism
 - neurovascular-coupling – Link between activity and BOLD
 - volume-conduction – EEG signal spread
-
+- [[personalized-brain-modeling|Personalized Brain Modeling]]
 ## References
 
 1. (authors unknown). *Brain magnetic resonance imaging with contrast dependent on blood oxygenation*.
@@ -104,5 +104,5 @@ Neither modality alone is sufficient. fMRI provides the spatial organization tha
 8. Cristiana Dimulescu, Ronja Strömsdörfer, Agnes Flöel, Klaus Obermayer. (2025). *On the robustness of the emergent spatiotemporal dynamics in biophysically realistic and phenomenological whole-brain models at multiple network resolutions*. [Link](https://arxiv.org/abs/2504.17491)
 9. Chetan Gohil, Oliver M. Cliff, James M. Shine, Ben D. Fulcher, Joseph T. Lizier. (2026). *Estimating measures of information processing during cognitive tasks using functional magnetic resonance imaging*. [Link](https://arxiv.org/abs/2602.03240)
 10. Mohaddese Qaremohammadlou, Mohammad Bagher Shamsollahi. (2025). *Investigating Brain Connectivity and Information Flow in Mental Workload Using EEG and fNIRS Integration*. [Link](https://arxiv.org/abs/2511.02457)
-11. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
+11. Ritter et al. (2013). *[[tvb|The Virtual Brain]] integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
 12. Yifei Sun, James M. Shine, Robert D. Sanders, Robin F. H. Cash, Sharon L. Naismith, Fernando Calamante, Jinglei Lv. (2026). *A Data-Driven Method to Map the Functional Organisation of Human Brain White Matter*. [Link](https://arxiv.org/abs/2602.18715)

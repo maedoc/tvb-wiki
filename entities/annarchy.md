@@ -13,7 +13,7 @@ tags:
 - whole-brain-modeling
 title: ANNarchy
 type: entity
-updated: '2026-04-23'
+updated: '2026-04-27'
 ---
 
 # ANNarchy
@@ -27,7 +27,7 @@ The framework is designed for computational neuroscientists who need to scale fr
 ## Key Features
 
 ### Hybrid Neural Network Support
-- **Rate-coded networks**: Mean-field approximations for population-level dynamics
+- **Rate-coded networks**: [[mean-field-theory|Mean-field]] approximations for population-level dynamics
 - **Spiking networks**: Integrate-and-fire, Hodgkin-Huxley, and custom neuron models
 - **Mixed simulations**: Rate and spiking populations can interact in the same model
 - **Gap junctions**: Support for electrical synapses between neurons
@@ -51,7 +51,7 @@ The framework is designed for computational neuroscientists who need to scale fr
 
 ## Relationship to TVB
 
-[[TVB]] and ANNarchy occupy complementary positions in the whole-brain modeling landscape:
+[[TVB]] and ANNarchy occupy complementary positions in the [[whole-brain]] modeling landscape:
 
 | Aspect | TVB | ANNarchy |
 |--------|-----|----------|

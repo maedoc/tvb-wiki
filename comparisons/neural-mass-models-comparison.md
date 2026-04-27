@@ -23,7 +23,7 @@ updated: '2026-04-27'
 
 # Neural Mass Models: Jansen-Rit vs Wilson-Cowan
 
-Comparison of the two most influential neural mass models: the Wilson-Cowan model (1972) as the canonical firing-rate model, and the Jansen-Rit model (1995) as the standard for EEG/MEG simulation.
+Comparison of the two most influential [[neural-mass-models]]: the [[wilson-cowan|Wilson-Cowan model]] (1972) as the canonical firing-rate model, and the [[jansen-rit|Jansen-Rit model]] (1995) as the standard for EEG/MEG simulation.
 
 ## What is Being Compared
 
@@ -189,9 +189,9 @@ model = JansenRit(
 **Strengths**:
 - Mathematical simplicity
 - Analytical tractability
-- Rich bifurcation structure
+- Rich [[bifurcation-analysis|bifurcation]] structure
 - Historical foundation
-- Spatial extension (neural fields)
+- Spatial extension ([[neural-field-theory|neural fields]])
 
 **Weaknesses**:
 - No explicit EEG output
@@ -252,8 +252,8 @@ The choice depends on the specific question: use Wilson-Cowan for theoretical in
 2. Hugh R. Wilson, Jack D. Cowan. *Excitatory and inhibitory interactions in localized populations of model neurons*. Biophysical Journal. [DOI](https://doi.org/10.1016/S0006-3495(72)86068-5)
 3. Hugh R. Wilson, Jack D. Cowan. *A mathematical theory of the functional dynamics of cortical and thalamic nervous tissue*. Kybernetik. [DOI](https://doi.org/10.1007/BF00288786)
 4. Vincent G. Rit, Benjamin H. Jansen. *A neural mass model for the generation of electroencephalograms*. Critical Reviews in Biomedical Engineering.
-5. Alain Destexhe, Terrence J. Sejnowski. *Wilson-Cowan model of the excitatory and inhibitory population dynamics*. Scholarpedia. [DOI](https://doi.org/10.4249/scholarpedia.1389)
-6. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *Arbor-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
+5. [[alain-destexhe]], [[terrence-sejnowski|Terrence J. Sejnowski]]. *Wilson-Cowan model of the excitatory and inhibitory population dynamics*. Scholarpedia. [DOI](https://doi.org/10.4249/scholarpedia.1389)
+6. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and [[whole-brain]] Propagation*. [Link](https://arxiv.org/abs/2505.16861)
 7. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](https://doi.org/10.3389/fncom.2025.1731161)
 8. Cristiana Dimulescu, Ronja Strömsdörfer, Agnes Flöel, Klaus Obermayer. (2025). *On the robustness of the emergent spatiotemporal dynamics in biophysically realistic and phenomenological whole-brain models at multiple network resolutions*. [Link](https://arxiv.org/abs/2504.17491)
 9. Cyprien Tamekue, ShiNung Ching. *Control of neural field equations with step-function inputs*. [Link](https://arxiv.org/abs/2510.22022)

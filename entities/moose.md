@@ -13,7 +13,7 @@ tags:
 - whole-brain-modeling
 title: MOOSE
 type: entity
-updated: '2026-04-23'
+updated: '2026-04-27'
 ---
 
 # MOOSE
@@ -21,7 +21,7 @@ updated: '2026-04-23'
 ## Overview
 **MOOSE** (Multiscale Object-Oriented Simulation Environment) is an open-source software framework for simulating neuronal and sub-neuronal processes across multiple scales[^1]. Developed primarily at the National Centre for Biological Sciences (NCBS) in Bangalore, India[^4], MOOSE is designed to bridge spatial and temporal scales from molecular reactions to large-scale neural networks, enabling integrative simulations of brain function.
 
-Unlike single-scale simulators, MOOSE implements **multiscale modeling** capabilities that allow seamless integration of biochemical signaling pathways, electrical excitability, and network dynamics within a unified framework[^1]. This approach addresses the fundamental challenge in computational neuroscience of connecting molecular-level phenomena—such as calcium dynamics, receptor trafficking, and enzymatic cascades—to emergent network-level behaviors.
+Unlike single-scale simulators, MOOSE implements **multiscale modeling** capabilities that allow seamless integration of biochemical signaling pathways, electrical excitability, and [[network-dynamics]] within a unified framework[^1]. This approach addresses the fundamental challenge in computational neuroscience of connecting molecular-level phenomena—such as calcium dynamics, receptor trafficking, and enzymatic cascades—to emergent network-level behaviors.
 
 ## Key Features
 
@@ -40,12 +40,12 @@ MOOSE employs a modular architecture where different computational engines can o
 ### Interface and Accessibility
 - **Python bindings** (PyMOOSE) as the primary user interface[^2]
 - **C++ core** for computational performance
-- **Declarative model definition** using NeuroML and model-exchange formats
+- **Declarative model definition** using [[neuroml]] and model-exchange formats
 - **NSDF (Neuroscience Simulation Data Format)** support for standardized data storage and provenance tracking[^3]
 
 ## Relationship to TVB
 
-Both MOOSE and [[TVB]] are open-source platforms for whole-brain modeling, but they occupy complementary positions in the modeling hierarchy[^1][^4]:
+Both MOOSE and [[TVB]] are open-source platforms for [[whole-brain]] modeling, but they occupy complementary positions in the modeling hierarchy[^1][^4]:
 
 | Aspect | MOOSE | TVB |
 |--------|-------|-----|

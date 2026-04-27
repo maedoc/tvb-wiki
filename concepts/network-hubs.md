@@ -36,7 +36,7 @@ Hubs are nodes with significantly higher connectivity than average. In brain net
 ## Brain Network Hubs
 
 ### Cortical Hubs
-- **Posterior cingulate/precuneus**: Default mode network hub
+- **Posterior cingulate/precuneus**: [[default-mode-network]] hub
 - **Medial prefrontal cortex**: Default mode network hub
 - **Lateral parietal cortex**: Attention network hub
 - **Insular cortex**: Salience network hub

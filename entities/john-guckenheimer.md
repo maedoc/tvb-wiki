@@ -39,5 +39,5 @@ John Guckenheimer (born 1945) is an American mathematician and the Abram R. Bull
 ## References
 
 1. (authors unknown). *Nonlinear Oscillations, Dynamical Systems, and Bifurcations of Vector Fields*.
-2. Eugene M. Izhikevich. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
+2. [[eugene-izhikevich|Eugene M. Izhikevich]]. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
 3. (authors unknown). *Mathematical Foundations of Neuroscience*.

@@ -30,32 +30,32 @@ Connectomics is the study of the [[connectome]] – the complete set of neural c
 The term was introduced by olaf sporns|Sporns, giulio tononi|Tononi, and rolf kotter|Kötter in their seminal paper establishing connectomics as a field.
 
 ### Major Initiatives
-- **2010s**: human-connectome-project|Human Connectome Project launched
-- **2016**: uk-biobank|UK Biobank Imaging begins
+- **2010s**: human-connectome-project|[[human-connectome-project]] launched
+- **2016**: uk-biobank|[[uk-biobank]] Imaging begins
 - **Ongoing**: Multiple species connectome projects
 
 ## Approaches
 
 ### Structural Connectomics
-- **Diffusion MRI**: White matter tractography
+- **[[diffusion-mri]]**: White matter [[tractography]]
 - **Tracing Studies**: Histological methods in animals
 - **Electron Microscopy**: Synaptic-level connectivity
 
 ### Functional Connectomics
-- **Resting-State fMRI**: Spontaneous activity correlations
-- **Task-Based fMRI**: Evoked connectivity patterns
+- **[[resting-state|Resting-State fMRI]]**: Spontaneous activity correlations
+- **Task-Based [[fmri]]**: Evoked connectivity patterns
 - **EEG/MEG**: Electrophysiological connectivity
 
 ## Analysis Methods
 
 ### Network Science
-- graph-theory|Graph theory: Mathematical framework
+- graph-theory|[[network-dynamics|Graph theory]]: Mathematical framework
 - small-world-networks|Small-world analysis
-- modularity|Modularity detection
-- rich-club|Rich-club organization
+- modularity|[[modularity]] detection
+- rich-club|[[rich-club|Rich-club organization]]
 
 ### Computational Tools
-- brain-connectivity-toolbox|Brain Connectivity Toolbox
+- brain-connectivity-toolbox|[[brain-connectivity-toolbox]]
 - Network visualization software
 - Connectome databases
 
@@ -64,7 +64,7 @@ The term was introduced by olaf sporns|Sporns, giulio tononi|Tononi, and rolf ko
 ### Basic Neuroscience
 - Understanding brain organization
 - Structure-function relationships
-- Development and aging
+- Development and [[aging]]
 
 ### Clinical
 - Neurological disorders

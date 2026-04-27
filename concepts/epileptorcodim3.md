@@ -15,12 +15,12 @@ tags:
 - seizure
 title: EpileptorCodim3
 type: concept
-updated: '2026-04-23'
+updated: '2026-04-27'
 ---
 
 # Epileptor Codimension-3
 
-A comprehensive unfolding of the Epileptor dynamics revealing the complete bifurcation structure. This model identifies the organizing center governing all seizure-related transitions.
+A comprehensive unfolding of the Epileptor dynamics revealing the complete [[bifurcation-analysis|bifurcation]] structure. This model identifies the organizing center governing all seizure-related transitions.
 
 ## Overview
 

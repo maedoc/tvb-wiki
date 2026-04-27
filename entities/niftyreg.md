@@ -18,7 +18,7 @@ tags:
 - tractography
 title: NiftyReg
 type: entity
-updated: '2026-04-24'
+updated: '2026-04-27'
 ---
 
 Here's the corrected `niftyreg.md` with all issues addressed:
@@ -86,7 +86,7 @@ The bending energy penalty ensures smooth, physically plausible deformations by 
 NiftyReg contributes to [[TVB]] workflows through neuroimaging preprocessing:
 
 - **Structural connectivity generation**: DTI images registered to anatomical space enable accurate tractography for TVB's connectivity matrices
-- **Atlas registration**: Subject T1-weighted images aligned to parcellation atlases (e.g., [[Desikan-Killiany Atlas]], [[AAL Atlas]]) define region boundaries for TVB simulations
+- **Atlas registration**: Subject T1-weighted images aligned to [[parcellation]] atlases (e.g., [[Desikan-Killiany Atlas]], [[AAL Atlas]]) define region boundaries for TVB simulations
 - **Multi-modal alignment**: Co-registration of diffusion and functional MRI supports multimodal TVB studies
 - **Longitudinal studies**: Consistent registration across time points enables dynamic connectivity modeling
 
@@ -94,7 +94,7 @@ TVB simulations frequently use connectivity matrices derived from data preproces
 
 ## Related Software
 
-- [[TVB]] — Uses registered neuroimaging for personalized brain modeling
+- [[TVB]] — Uses registered neuroimaging for [[personalized-brain-modeling]]
 - [[ANTs]] — Alternative registration toolkit with different algorithmic approaches
 - [[FSL]] — FMRIB Software Library with FLIRT and FNIRT registration tools
 - [[SPM]] — Statistical Parametric Mapping with unified segmentation/normalization
@@ -106,7 +106,7 @@ TVB simulations frequently use connectivity matrices derived from data preproces
 
 - [[structural connectivity]] — Registration enables accurate tractography-based connectivity
 - [[diffusion imaging]] — DTI/DSI/HARDI preprocessing requires robust registration
-- [[connectome]] — Whole-brain network construction depends on spatial normalization
+- [[connectome]] — Whole-[[brain-network]] construction depends on spatial normalization
 - [[tractography]] — Streamline algorithms require properly registered diffusion data
 
 ## Use Cases
@@ -114,7 +114,7 @@ TVB simulations frequently use connectivity matrices derived from data preproces
 - Template-based brain normalization for group studies
 - Longitudinal deformation analysis in neurodegeneration
 - Atlas-based segmentation propagation
-- DTI tensor reorientation after non-linear registration
+- DTI tensor reorientation after non-[[linear]] registration
 - Multi-center harmonization of neuroimaging datasets
 
 ## References

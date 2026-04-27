@@ -25,7 +25,7 @@ Seiji Ogawa is a Japanese researcher credited with discovering the BOLD (Blood O
 - Established the physiological basis for non-invasive functional brain imaging
 
 ## Significance
-Ogawa's discovery transformed neuroscience by enabling non-invasive mapping of human brain function. fMRI has become one of the most widely used methods in cognitive neuroscience and a key validation target for whole-brain models.
+Ogawa's discovery transformed neuroscience by enabling non-invasive mapping of human brain function. fMRI has become one of the most widely used methods in cognitive neuroscience and a key validation target for [[whole-brain]] models.
 
 ## Related Work
 - ogawa-1990 – BOLD contrast discovery

@@ -15,7 +15,7 @@ tags:
 - epilepsy-modeling
 title: Yan Wang
 type: entity
-updated: '2026-04-23'
+updated: '2026-04-27'
 ---
 
 # Yan Wang
@@ -24,7 +24,7 @@ Yan Wang is a computational neuroscientist whose work reportedly involves [[conn
 
 ## Affiliations
 
-Wang has reportedly been associated with the **Institute of Neuroscience and Medicine (INM-7) at Forschungszentrum Jülich**, Germany, working within the broader [[the-virtual-brain|TVB]] consortium. They have also reportedly collaborated with research groups including the **Montreal Neurological Institute (McGill University)** on large-scale brain network modeling projects.
+Wang has reportedly been associated with the **Institute of Neuroscience and Medicine (INM-7) at Forschungszentrum Jülich**, Germany, working within the broader [[the-virtual-brain|TVB]] consortium. They have also reportedly collaborated with research groups including the **Montreal Neurological Institute (McGill University)** on large-scale [[brain-network]] modeling projects.
 
 *Note: Specific dates, positions, and current affiliation status require verification from primary sources.*
 
@@ -36,7 +36,7 @@ Wang's research centers on three interconnected areas:
 
 Their work reportedly addresses the challenge of [[parameter-estimation|estimating parameters]] in [[neural-mass-model|neural mass models]]—simplified dynamical models that describe the average activity of neuronal populations. This includes applications of [[variational-bayes|variational Bayesian]] and other statistical techniques to infer parameters from empirical neuroimaging data, particularly [[neuroimaging-fmri|fMRI]] and [[neuroimaging-eeg|EEG]] recordings.
 
-*Note: Variational Bayesian methods for neural mass models have been developed by multiple research groups, including foundational work by Friston et al. in the Dynamic Causal Modeling framework.*
+*Note: Variational Bayesian methods for [[neural-mass-models]] have been developed by multiple research groups, including foundational work by Friston et al. in the Dynamic Causal Modeling framework.*
 
 ### Personalized Brain Modeling for Epilepsy
 
@@ -44,7 +44,7 @@ Wang has reportedly contributed to [[epilepsy-modeling|epilepsy modeling]] using
 
 ### Model Inversion and Dynamic Causal Modeling
 
-Their research reportedly intersects with [[dynamic-causal-modeling|Dynamic Causal Modeling]] (DCM) approaches, particularly in methods to invert generative models of brain dynamics. This includes work on [[mean-field-theory|mean-field]] approximations for network dynamics.
+Their research reportedly intersects with [[dynamic-causal-modeling|Dynamic Causal Modeling]] (DCM) approaches, particularly in methods to invert generative models of brain dynamics. This includes work on [[mean-field-theory|mean-field]] approximations for [[network-dynamics]].
 
 ## Reported Contributions to TVB
 
@@ -52,7 +52,7 @@ Their research reportedly intersects with [[dynamic-causal-modeling|Dynamic Caus
 
 - Parameter space exploration tools for neural mass models
 - Protocols for clinical data integration in personalized modeling workflows
-- Validation studies comparing TVB simulations against empirical functional connectivity patterns
+- Validation studies comparing TVB simulations against empirical [[functional-connectivity]] patterns
 - Documentation and methodological guidance for clinical researchers
 
 ## Related Researchers and Collaborations
@@ -64,7 +64,7 @@ Wang's work reportedly connects to the broader TVB development community, includ
 *This section requires population with specific publications. Key papers to locate:*
 
 - Publications on parameter estimation in neural mass models using TVB
-- Papers on patient-specific epilepsy modeling with whole-brain simulations
+- Papers on patient-specific epilepsy modeling with [[whole-brain]] simulations
 - Work on model inversion techniques for brain network dynamics
 - Collaborative papers with the TVB consortium
 

@@ -51,11 +51,11 @@ Diffusion MRI enables [[connectome]] mapping through:
 
 ## Role in Whole-Brain Modeling
 
-Diffusion-derived structural connectivity is a primary input to whole-brain models:
+Diffusion-derived structural connectivity is a primary input to [[whole-brain]] models:
 
 - **Connection weights**: Number of streamlines or fractional anisotropy
 - **Connection lengths**: Tractography-derived distances
-- **Network topology**: Small-world, rich-club properties
+- **Network topology**: Small-world, [[rich-club]] properties
 
 ## Challenges
 
@@ -80,6 +80,6 @@ Diffusion-derived structural connectivity is a primary input to whole-brain mode
 5. Peter N. Taylor, Gerard Hall, Jonathan Horsley, Yujiang Wang, Sjoerd B. Vos, Gavin P Winston, Andrew W McEvoy, Anna Miserocchi, Jane de Tisi, John S Duncan. (2026). *Open diffusion MRI and connectivity data for epilepsy and surgery: The IDEAS II release*. [Link](https://arxiv.org/abs/2602.09852)
 6. Yifei Sun, James M. Shine, Robert D. Sanders, Robin F. H. Cash, Sharon L. Naismith, Fernando Calamante, Jinglei Lv. (2026). *A Data-Driven Method to Map the Functional Organisation of Human Brain White Matter*. [Link](https://arxiv.org/abs/2602.18715)
 7. Breno C. Bispo, Stefania Sardellitti, Juliano B. Lima, Fernando A. N. Santos. (2026). *Multimodal Higher-Order Brain Networks: A Topological Signal Processing Perspective*. [Link](https://arxiv.org/abs/2603.29903)
-8. Tingting Dan, Xinwei Huang, Jiaqi Ding, Yinggang Zheng, Guorong Wu. *Understanding Mechanistic Role of Structural and Functional Connectivity in Tau Propagation Through Multi-Layer Modeling*. [Link](https://arxiv.org/abs/2510.20148)
-9. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
+8. Tingting Dan, Xinwei Huang, Jiaqi Ding, Yinggang Zheng, Guorong Wu. *Understanding Mechanistic Role of Structural and [[functional-connectivity]] in Tau Propagation Through Multi-Layer Modeling*. [Link](https://arxiv.org/abs/2510.20148)
+9. Ritter et al. (2013). *[[tvb|The Virtual Brain]] integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
 10. Daniele Licciardo, Chiara Matti, A. Benelli, V. Isella, I. Appollonio, E. Santarnecchi. (2026). *Gray matter atrophy and structural connectivity in Posterior Cortical Atrophy: a voxel-based meta-analysis.*. Neuroscience and Biobehavioral Reviews. [DOI](https://doi.org/10.1016/j.neubiorev.2026.106554)

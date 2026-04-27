@@ -22,7 +22,7 @@ Mathematical framework for studying networks, applied to brain connectivity anal
 
 ## Definition
 
-Graph theory provides a language and set of tools for describing and analyzing networks. In neuroscience, it enables quantitative characterization of brain connectivity patterns.
+[[network-dynamics|Graph theory]] provides a language and set of tools for describing and analyzing networks. In neuroscience, it enables quantitative characterization of brain connectivity patterns.
 
 ## Basic Concepts
 
@@ -51,14 +51,14 @@ Graph theory provides a language and set of tools for describing and analyzing n
 
 ### Specialized Measures
 - small-world-networks|Small-world: σ = (C/C_random)/(L/L_random)
-- rich-club|Rich-club: Connectivity between high-degree nodes
+- rich-club|[[rich-club]]: Connectivity between high-degree nodes
 - **Assortativity**: Degree correlation between connected nodes
 
 ## Brain Network Applications
 
 ### Structural Networks
-- White matter tractography graphs
-- Regional parcellation as nodes
+- White matter [[tractography]] graphs
+- Regional [[parcellation]] as nodes
 - Connection probability as weights
 
 ### Functional Networks
@@ -67,7 +67,7 @@ Graph theory provides a language and set of tools for describing and analyzing n
 - Dynamic network analysis
 
 ## Software Tools
-- brain-connectivity-toolbox|Brain Connectivity Toolbox
+- brain-connectivity-toolbox|[[brain-connectivity-toolbox]]
 - NetworkX (Python)
 - igraph (R/Python)
 
@@ -85,5 +85,5 @@ Graph theory provides a language and set of tools for describing and analyzing n
 3. (authors unknown). *Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems*.
 4. (authors unknown). *Networks of the Brain*.
 5. (authors unknown). *The Development of Human Functional Brain Networks*.
-6. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
+6. (authors unknown). *Functional Connectomics from [[resting-state|Resting-State fMRI]]*.
 7. Jiaxing Xu, Jingying Ma, Xin Lin, Yuxiao Liu, Kai He, Qika Lin, Yiping Ke, Yang Li, Dinggang Shen, Mengling Feng. (2026). *Toward a Multi-View Brain Network Foundation Model: Cross-View Consistency Learning Across Arbitrary Atlases*. [Link](https://arxiv.org/abs/2603.20348)

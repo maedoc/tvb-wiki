@@ -17,13 +17,13 @@ tags:
 - brain-parcellations
 title: AAL Atlas
 type: entity
-updated: '2026-04-24'
+updated: '2026-04-27'
 ---
 
 # AAL Atlas
 
 ## Overview
-The **AAL (Automated Anatomical Labeling) Atlas** is a widely-used anatomical parcellation of the human brain into 116 regions, first published in 2002. It was developed by Tzourio-Mazoyer and colleagues to provide a standardized anatomical nomenclature for neuroimaging studies. The atlas is defined in [[mni-space]] (Montreal Neurological Institute) coordinate space and labels cortical and subcortical structures using anatomical criteria from the MNI single-subject brain template.
+The **AAL (Automated Anatomical Labeling) Atlas** is a widely-used anatomical [[parcellation]] of the human brain into 116 regions, first published in 2002. It was developed by Tzourio-Mazoyer and colleagues to provide a standardized anatomical nomenclature for neuroimaging studies. The atlas is defined in [[mni-space]] (Montreal Neurological Institute) coordinate space and labels cortical and subcortical structures using anatomical criteria from the MNI single-subject brain template.
 
 ## Key Features
 The AAL atlas divides the brain into hemispheric regions including:

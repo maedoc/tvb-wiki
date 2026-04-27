@@ -1,14 +1,21 @@
 ---
-title: "Dynamic Causal Modeling"
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/friston-2003-dcm.md
+- raw/papers/stephan-2010.md
+- raw/papers/daunizeau-david-stephan-2011.md
+- raw/papers/friston-2014-spectral-dcm.md
+tags:
+- dynamic-causal-modeling
+- effective-connectivity
+- neuroimaging-fmri
+title: Dynamic Causal Modeling
 type: concept
-tags: [dynamic-causal-modeling, effective-connectivity, neuroimaging-fmri]
-sources: [raw/papers/friston-2003-dcm.md, raw/papers/stephan-2010.md, raw/papers/daunizeau-david-stephan-2011.md, raw/papers/friston-2014-spectral-dcm.md]
+updated: '2026-04-27'
 ---
 
 ## Definition
-Dynamic Causal Modeling (DCM) is a Bayesian framework for inferring effective connectivity (directed causal influences) between brain regions from neuroimaging data using biologically informed neural mass models.
+Dynamic Causal Modeling (DCM) is a Bayesian framework for inferring effective connectivity (directed causal influences) between brain regions from neuroimaging data using biologically informed [[neural-mass-models]].
 
 ## Core Components
 
@@ -20,8 +27,8 @@ Dynamic Causal Modeling (DCM) is a Bayesian framework for inferring effective co
 
 ### Observation Model
 - Links neural states to measured signals
-- fMRI: Balloon model of hemodynamics
-- EEG/MEG: Electromagnetic forward model
+- [[fmri]]: Balloon model of hemodynamics
+- EEG/MEG: Electromagnetic [[forward-model]]
 
 ### Bayesian Inference
 - [[variational bayes]] for posterior estimation
@@ -41,7 +48,7 @@ Dynamic Causal Modeling (DCM) is a Bayesian framework for inferring effective co
 - Frequency domain analysis
 
 ### Spectral DCM
-- friston-2014-spectral-dcm for resting-state
+- friston-2014-spectral-dcm for [[resting-state]]
 - Stationary assumptions
 - Cross-spectral density fitting
 

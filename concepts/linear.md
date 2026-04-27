@@ -14,7 +14,7 @@ tags:
 - baseline
 title: Linear Model
 type: concept
-updated: '2026-04-23'
+updated: '2026-04-27'
 ---
 
 # Linear Model
@@ -45,3 +45,4 @@ dx/dt = a·x + b·u
 ## Related Concepts
 
 - [[neural-mass-model]] - General framework
+- [[wilson-cowan|Wilson Cowan]]

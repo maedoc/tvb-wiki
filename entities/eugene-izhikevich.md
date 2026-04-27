@@ -19,11 +19,11 @@ updated: '2026-04-27'
 
 # Eugene M. Izhikevich
 
-Russian-American computational neuroscientist and former CEO of the Brain Corporation. Leading researcher in nonlinear dynamics of neurons and author of the influential textbook "Dynamical Systems in Neuroscience."
+Russian-American computational neuroscientist and former CEO of the Brain Corporation. Leading researcher in [[nonlinear-dynamics]] of neurons and author of the influential textbook "Dynamical Systems in Neuroscience."
 
 ## Key Contributions
 
-- **Izhikevich model**: Simple 2D spiking neuron model reproducing diverse firing patterns
+- **Izhikevich model**: Simple 2D spiking [[neuron]] model reproducing diverse firing patterns
 - **Dynamical systems in neuroscience**: Geometric/bifurcation analysis of neuronal excitability (2007 textbook)
 - **Neural population dynamics**: Analysis of bursting and oscillatory behavior
 - **Brain Corporation**: Founded company developing AI for robotics
@@ -37,7 +37,7 @@ Russian-American computational neuroscientist and former CEO of the Brain Corpor
 
 ## Impact on Neural Mass Modeling
 
-Izhikevich's textbook provides the bifurcation theory foundation for understanding transitions in neural mass models. The same bifurcations (saddle-node on invariant circle, Andronov-Hopf, Bogdanov-Takens) that govern single neuron excitability also govern population-level transitions in Jansen-Rit and Wilson-Cowan models. His geometric approach is essential for understanding seizure onset (SNIC bifurcation) and oscillatory regimes.
+Izhikevich's textbook provides the [[bifurcation-theory]] foundation for understanding transitions in [[neural-mass-models]]. The same bifurcations (saddle-node on invariant circle, Andronov-Hopf, Bogdanov-Takens) that govern single neuron excitability also govern population-level transitions in [[jansen-rit]] and [[wilson-cowan]] models. His geometric approach is essential for understanding seizure onset (SNIC bifurcation) and oscillatory regimes.
 
 ## Related Concepts
 
@@ -54,4 +54,4 @@ Izhikevich's textbook provides the bifurcation theory foundation for understandi
 3. Wulfram Gerstner, Werner M. Kistler, Richard Naud, Liam Paninski. *Neuronal Dynamics: From Single Neurons to Networks and Models of Cognition*.
 4. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)
 5. (authors unknown). *Networks of the Brain*.
-6. Michael Breakspear, John A. Roberts, John R. Terry, Stefano Rodrigues, Nader Mahmud, Philip Robinson. *Large-scale brain dynamics of seizures: asymptotic analysis of a neural field model*. Journal of Computational Neuroscience. [DOI](https://doi.org/10.1007/s10827-006-8135-2)
+6. Michael Breakspear, John A. Roberts, John R. Terry, Stefano Rodrigues, Nader Mahmud, Philip Robinson. *Large-scale brain dynamics of seizures: asymptotic analysis of a [[neural-field-theory|neural field]] model*. Journal of Computational Neuroscience. [DOI](https://doi.org/10.1007/s10827-006-8135-2)

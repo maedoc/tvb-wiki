@@ -49,7 +49,7 @@ NEURON provides tools for building and simulating biophysically detailed models 
 ## Related Software
 
 - [[NEST]] — Point neuron network simulator for large-scale networks
-- [[TVB]] — Neural mass model whole-brain simulator
+- [[TVB]] — [[neural-mass-models|Neural mass model]] [[whole-brain]] simulator
 - [[ModelDB]] — Model repository for sharing NEURON simulations
 
 ## Related Concepts

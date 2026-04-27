@@ -18,16 +18,16 @@ tags:
 - decision-making
 title: Wong-Wang Model
 type: concept
-updated: '2026-04-23'
+updated: '2026-04-27'
 ---
 
 # Wong-Wang Model
 
-The reduced Wong-Wang model is a simplified neural mass model derived from spiking network simulations. It is particularly effective for modeling fMRI BOLD signals and resting-state functional connectivity.
+The reduced Wong-Wang model is a simplified [[neural-mass-models|neural mass model]] derived from spiking network simulations. It is particularly effective for modeling [[fmri]] BOLD signals and resting-state [[functional-connectivity]].
 
 ## Overview
 
-The model was developed by Wong and Wang (2006) as a reduction of a recurrent cortical network. Deco et al. (2013) adapted it for whole-brain resting-state modeling.
+The model was developed by Wong and Wang (2006) as a reduction of a recurrent cortical network. Deco et al. (2013) adapted it for [[whole-brain]] resting-state modeling.
 
 ## Mathematical Formulation
 
@@ -62,7 +62,7 @@ H(x) = (a·x - b) / (1 - exp(-d·(a·x - b)))
 
 1. Wong, K. F., & Wang, X. J. (2006). A recurrent network mechanism of time integration in perceptual decisions. *Journal of Neuroscience*, 26(4), 1314–1328. https://doi.org/10.1523/JNEUROSCI.3733-05.2006
 
-2. Deco, G., Ponce-Alvarez, A., Mantini, D., Romani, G. L., Hagmann, P., & Corbetta, M. (2013). Resting-state functional connectivity emerges from structurally and dynamically shaped slow linear fluctuations. *Journal of Neuroscience*, 32(27), 11239–11252. https://doi.org/10.1523/JNEUROSCI.1091-12.2013
+2. Deco, G., Ponce-Alvarez, A., Mantini, D., Romani, G. L., Hagmann, P., & Corbetta, M. (2013). Resting-state functional connectivity emerges from structurally and dynamically shaped slow [[linear]] fluctuations. *Journal of Neuroscience*, 32(27), 11239–11252. https://doi.org/10.1523/JNEUROSCI.1091-12.2013
 
 ## Related Concepts
 

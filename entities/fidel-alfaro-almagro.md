@@ -38,7 +38,7 @@ Alfaro-Almagro's work focuses on:
 - [[uk-biobank]] – Large-scale population study
 - image-processing – MRI preprocessing
 - quality-control – Data quality assessment
-- neuroimaging-fmri – Functional MRI
+- neuroimaging-[[fmri]] – Functional MRI
 
 ## References
 

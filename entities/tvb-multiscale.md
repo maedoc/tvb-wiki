@@ -19,7 +19,7 @@ tags:
 - neuroimaging-meg
 title: TVB-NEST multiscale
 type: entity
-updated: '2026-04-23'
+updated: '2026-04-27'
 ---
 
 # TVB-NEST multiscale
@@ -47,7 +47,7 @@ The framework uses MPI intercommunicators for efficient parallel data exchange b
 
 ### Hybrid Network Architecture
 Users can configure heterogeneous brain models where:
-- Most regions use TVB's efficient neural mass models (e.g., [[jansen-rit|Jansen-Rit]], [[wilson-cowan|Wilson-Cowan]])
+- Most regions use TVB's efficient [[neural-mass-models]] (e.g., [[jansen-rit|Jansen-Rit]], [[wilson-cowan|Wilson-Cowan]])
 - Selected regions employ detailed spiking networks with realistic synaptic dynamics
 - Cross-scale connections maintain anatomical connectivity constraints
 
@@ -65,12 +65,12 @@ TVB-NEST extends [[tvb|TVB]]'s core capabilities by addressing a key limitation:
 - The role of specific ion channel distributions in network oscillations
 - Detailed synaptic mechanisms underlying seizure initiation
 
-By replacing selected TVB nodes with NEST microcircuits, researchers gain mechanistic insight into how microscopic properties propagate to the whole-brain level. The framework preserves TVB's strengths—DTI-based structural connectivity, forward models for EEG/MEG/fMRI, and subject-specific parameterization—while adding biological realism where needed.
+By replacing selected TVB nodes with NEST microcircuits, researchers gain mechanistic insight into how microscopic properties propagate to the whole-brain level. The framework preserves TVB's strengths—DTI-based structural connectivity, forward models for EEG/MEG/[[fmri]], and subject-specific parameterization—while adding biological realism where needed.
 
 ## Relationship to NEST
 
 The integration also benefits [[nest|NEST]] simulations by providing the missing macroscopic context:
-- Spiking networks receive realistic structured input from the whole-brain connectome
+- Spiking networks receive realistic structured input from the whole-brain [[connectome]]
 - Boundary conditions reflect actual anatomical projections rather than artificial inputs
 - Output can be validated against empirical neuroimaging via TVB's forward models
 
@@ -80,7 +80,7 @@ The integration also benefits [[nest|NEST]] simulations by providing the missing
 TVB-NEST has been particularly valuable for studying seizure dynamics, where initiation occurs at the microcircuit level but propagation involves network-scale mechanisms. The framework enables modeling of seizure onset in specific brain regions using detailed spiking models while simulating propagation across the whole brain.
 
 ### Pharmacological Simulations
-By implementing detailed receptor dynamics in NEST populations, researchers can simulate drug effects on specific brain regions and observe the resulting large-scale changes in functional connectivity.
+By implementing detailed receptor dynamics in NEST populations, researchers can simulate drug effects on specific brain regions and observe the resulting large-scale changes in [[functional-connectivity]].
 
 ### Validation of Mean-Field Reductions
 The framework serves as a testbed for validating neural mass models against ground-truth spiking simulations, helping refine TVB's population models.
@@ -97,16 +97,17 @@ The framework serves as a testbed for validating neural mass models against grou
 
 - [[mean-field-theory|Mean-field theory]] — Mathematical foundation linking microscopic to macroscopic descriptions
 - [[spiking-neural-networks|Spiking neural networks]] — Detailed neuron-level dynamics
-- [[whole-brain]] — Large-scale brain network modeling
+- [[whole-brain]] — Large-scale [[brain-network]] modeling
 - [[personalized-brain-modeling|Personalized brain modeling]] — Subject-specific model construction
 - [[epilepsy-modeling|Epilepsy modeling]] — Clinical applications of multiscale simulation
 - [[structural-connectivity|Structural connectivity]] — Anatomical constraint for cross-scale coupling
-
+- [[tvb-vs-nest-vs-neuron|Tvb Vs Nest Vs Neuron]]
+- [[annarchy|Annarchy]]
 ## Key Papers
 
 - Sanz Leon et al. (2013) — Foundational TVB platform description[^sanz-leon-2013]
 - Gewaltig & Diesmann (2007) — NEST simulation infrastructure[^gewaltig-diesmann-2007]
-- Arbor-TVB co-simulation (2024) — Demonstrates generalization of the TVB-multiscale approach to other spiking simulators[^arxiv-2505.16861]
+- [[arbor]]-TVB co-simulation (2024) — Demonstrates generalization of the TVB-multiscale approach to other spiking simulators[^arxiv-2505.16861]
 
 ## Technical Implementation
 
@@ -118,6 +119,6 @@ The framework requires:
 
 ## References
 
-[^sanz-leon-2013]: Sanz Leon P, Knock SA, Woodman MM, et al. The Virtual Brain: a simulator of primate brain network dynamics. *Front Neuroinform*. 2013;7:10.
+[^sanz-leon-2013]: Sanz Leon P, Knock SA, Woodman MM, et al. The Virtual Brain: a simulator of primate brain [[network-dynamics]]. *Front Neuroinform*. 2013;7:10.
 [^gewaltig-diesmann-2007]: Gewaltig MO, Diesmann M. NEST (NEural Simulation Tool). *Scholarpedia*. 2007;2(4):1430.
 [^arxiv-2505.16861]: Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation. arXiv:2505.16861. 2024.

@@ -29,7 +29,7 @@ Professor of Neuroscience at Washington University School of Medicine, Principal
 
 Van Essen's research emphasizes:
 - Large-scale brain mapping initiatives
-- Cortical surface analysis and parcellation
+- Cortical surface analysis and [[parcellation]]
 - Multimodal neuroimaging integration
 - Open data sharing and neuroinformatics
 
@@ -50,5 +50,5 @@ Van Essen's research emphasizes:
 
 1. (authors unknown). *The WU-Minn Human Connectome Project: An Overview*.
 2. (authors unknown). *The Human Connectome Project: A Data Acquisition Perspective*.
-3. (authors unknown). *Resting-State fMRI in the Human Connectome Project*.
-4. (authors unknown). *Function in the Human Connectome: Task-fMRI and Individual Differences in Behavior*.
+3. (authors unknown). *[[resting-state|Resting-State fMRI]] in the Human Connectome Project*.
+4. (authors unknown). *Function in the Human Connectome: Task-[[fmri]] and Individual Differences in Behavior*.

@@ -52,7 +52,7 @@ The BOLD response to a brief neural event:
 
 ## Role in Whole-Brain Modeling
 
-1. **Forward model**: Neural activity → BOLD conversion
+1. **[[forward-model]]**: Neural activity → BOLD conversion
 2. **Balloon model**: Biophysical model of hemodynamics
 3. **Validation**: Compare simulated and empirical BOLD
 
@@ -69,5 +69,5 @@ The BOLD response to a brief neural event:
 3. Debasis Maji, Arghya Banerjee, Debaditya Barman. *Spectral Graph Neural Networks for Cognitive Task Classification in fMRI Connectomes*. [Link](https://arxiv.org/abs/2512.24901)
 4. Peter Yongho Kim, Juhyeon Park, Jungwoo Park, Jubin Choi, Jungwoo Seo, Jiook Cha, Taesup Moon. (2026). *Can Natural Image Autoencoders Compactly Tokenize fMRI Volumes for Long-Range Dynamics Modeling?*. [Link](https://arxiv.org/abs/2604.03619)
 5. Gianluca Gaglioti, L. Porta, M. Colombo, Simone Russo, Thierry Nieus, G. Deco, M. Corbetta, S. Sarasso, M. V. Sanchez-Vives, M. Massimini. (2026). *Slow wave generation and propagation in a model of brain lesions*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2026.121817)
-6. Timo Hofsähs, Marius Pille, Lucas Kern, Anuja Negi, J. Meier, Petra Ritter. (2026). *The Virtual Brain links transcranial magnetic stimulation evoked potentials and inhibitory neurotransmitter changes in major depressive disorder*. bioRxiv. [DOI](https://doi.org/10.1101/2024.11.25.622620)
-7. Kun Jiang, Can Liao, Sujin Jiang, Haidong Lin, Jixin Hou, Tianming Liu, Gang Li, Taotao Wu, Yiqi Mao, Ellen Kuhl, Xianqiao Wang, Xianyan Chen. *Tau-induced atrophy drives functional connectivity disruption in Alzheimer's disease*. [Link](https://arxiv.org/abs/2603.13598)
+6. Timo Hofsähs, Marius Pille, Lucas Kern, Anuja Negi, J. Meier, Petra Ritter. (2026). *[[tvb|The Virtual Brain]] links transcranial magnetic stimulation evoked potentials and inhibitory neurotransmitter changes in major depressive disorder*. bioRxiv. [DOI](https://doi.org/10.1101/2024.11.25.622620)
+7. Kun Jiang, Can Liao, Sujin Jiang, Haidong Lin, Jixin Hou, Tianming Liu, Gang Li, Taotao Wu, Yiqi Mao, Ellen Kuhl, Xianqiao Wang, Xianyan Chen. *Tau-induced atrophy drives [[functional-connectivity]] disruption in Alzheimer's disease*. [Link](https://arxiv.org/abs/2603.13598)

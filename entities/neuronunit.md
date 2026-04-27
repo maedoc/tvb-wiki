@@ -10,7 +10,7 @@ tags:
 - software-brain-modeling
 title: NeuronUnit
 type: entity
-updated: '2026-04-24'
+updated: '2026-04-27'
 ---
 
 created: 2026-04-24
@@ -23,7 +23,7 @@ sources:
 tags:
   - software-brain-modeling
   - software-neuron
-  - spiking-neural-networks
+  - [[spiking-neural-networks]]
   - parameter-estimation
   - reproducibility
 title: NeuronUnit
@@ -85,15 +85,15 @@ Optimization tools may be combined with external parameter fitting libraries for
 
 NeuronUnit and [[TVB|The Virtual Brain]] operate at complementary scales of brain modeling:
 
-1. **Micro-to-meso scale validation**: NeuronUnit validates single-cell and small-circuit models that may inform TVB's neural mass model parameters. Accurate single-neuron properties constrain the effective parameters used in population-level [[neural-mass-model]] descriptions.
+1. **Micro-to-meso scale validation**: NeuronUnit validates single-cell and small-circuit models that may inform TVB's [[neural-mass-models|neural mass model]] parameters. Accurate single-neuron properties constrain the effective parameters used in population-level [[neural-mass-model]] descriptions.
 
-2. **Parameter grounding**: The electrophysiological parameters extracted and validated through NeuronUnit (e.g., firing rates, synaptic time constants) can inform the biophysical grounding of TVB's mean-field equations, bridging detailed biophysics with population dynamics.
+2. **Parameter grounding**: The electrophysiological parameters extracted and validated through NeuronUnit (e.g., firing rates, synaptic time constants) can inform the biophysical grounding of TVB's [[mean-field-theory|mean-field]] equations, bridging detailed biophysics with population dynamics.
 
 3. **Multi-scale workflows**: Researchers may use NeuronUnit to validate detailed neuron models that are subsequently incorporated into TVB simulations via the [[TVB-Multiscale]] co-simulation framework or used to derive population firing rate functions.
 
 4. **Validation methodology**: NeuronUnit's scientific unit testing philosophy—quantitative comparison of model predictions against empirical benchmarks—aligns with emerging approaches for validating whole-brain simulations against [[fMRI]] and [[EEG]]/[[MEG]] recordings.
 
-Unlike TVB's focus on large-scale brain network dynamics, NeuronUnit specifically targets the validation of cellular and subcellular models, ensuring that building blocks of multi-scale simulations are empirically grounded.
+Unlike TVB's focus on large-scale brain [[network-dynamics]], NeuronUnit specifically targets the validation of cellular and subcellular models, ensuring that building blocks of multi-scale simulations are empirically grounded.
 
 ## Key Papers
 
@@ -125,7 +125,7 @@ This paper describes the NeuroElectro database, which serves as NeuronUnit's pri
 - [[Elephant]] — Analysis toolkit for Neo data; complements NeuronUnit with quantitative metrics
 - [[PyNN]] — Simulator-independent Python API for neuronal network models
 - **NeuroElectro** — Database of neuron electrophysiology; NeuronUnit's primary data source for validation targets
-- **Allen SDK** — Tools for accessing Allen Brain Atlas and Allen Cell Types data
+- **Allen SDK** — Tools for accessing [[allen-brain-atlas]] and Allen Cell Types data
 
 ## Key Researchers
 

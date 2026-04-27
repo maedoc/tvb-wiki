@@ -34,12 +34,12 @@ Henry C. Tuckwell is a mathematician and theoretical neuroscientist known for hi
 
 ## Selected Works
 - Tuckwell (1988) — Introduction to Theoretical Neurobiology, Vol 2: Nonlinear and Stochastic Theories
-- Tuckwell (1988) — Introduction to Theoretical Neurobiology, Vol 1: Linear Cable Theory
+- Tuckwell (1988) — Introduction to Theoretical Neurobiology, Vol 1: [[linear]] Cable Theory
 - Tuckwell (2005) — Spike trains in a stochastic Hodgkin-Huxley model
 
 ## References
 
 1. (authors unknown). *Introduction to Theoretical Neurobiology: Volume 2, Nonlinear and Stochastic Theories*.
-2. Walter J. Freeman. *Mass Action in the Nervous System*.
+2. [[walter-freeman|Walter J. Freeman]]. *Mass Action in the Nervous System*.
 3. (authors unknown). *Mathematical Foundations of Neuroscience*.
 4. Peter Dayan, Larry F. Abbott. *Theoretical Neuroscience: Computational and Mathematical Modeling of Neural Systems*.

@@ -6,10 +6,10 @@ tags:
 - software-brain-modeling
 title: BioNet
 type: entity
-updated: '2026-04-24'
+updated: '2026-04-27'
 ---
 
-I'll fix the factual errors and add proper citations. Key corrections: Walter Freeman was at UC Berkeley (not Krasnow Institute), K0 is a non-interactive population (not a single neuron), KIII is coupled KII sets (not multisensory integration), and I'm adding verified sources.
+I'll fix the factual errors and add proper citations. Key corrections: Walter Freeman was at UC Berkeley (not Krasnow Institute), K0 is a non-interactive population (not a single [[neuron]]), KIII is coupled KII sets (not multisensory integration), and I'm adding verified sources.
 
 ```markdown
 ---

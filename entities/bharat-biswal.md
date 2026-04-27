@@ -31,7 +31,7 @@ Bharat Biswal is a biomedical engineer who discovered resting-state functional c
 - Developed methods for resting-state data analysis
 
 ## Significance
-Resting-state functional connectivity is the primary empirical target for whole-brain models. Biswal's discovery provided the phenomenon that models like TVB seek to explain through spontaneous activity dynamics constrained by structural connectivity.
+Resting-state functional connectivity is the primary empirical target for [[whole-brain]] models. Biswal's discovery provided the phenomenon that models like TVB seek to explain through spontaneous activity dynamics constrained by [[structural-connectivity]].
 
 ## Related Work
 - biswal-1995 – Resting-state motor cortex connectivity
@@ -48,4 +48,4 @@ Resting-state functional connectivity is the primary empirical target for whole-
 2. Kashyap Gudibanda, J. Fousek, S. Petkoski, V. Jirsa. (2026). *The role of connectivity for the degeneracy of the brain’s resting state dynamics*. Journal of Computational Neuroscience. [DOI](https://doi.org/10.1007/s10827-025-00919-0)
 3. D. Fasoli, L. Coletta, Daniel Gutierrez-Barragan, S. Gini, A. Gozzi, S. Panzeri. (2026). *Attractor dynamics of a whole-cortex network model predicts emergence and structure of fMRI co-activation patterns in the mouse brain.*. PLoS Computational Biology. [DOI](https://doi.org/10.1371/journal.pcbi.1013995)
 4. Benjamin S. Sipes, Fahimeh Arab, S. Nagarajan, Ashish Raj. (2026). *HONeD-in on Brain Activity: Deconvolving Passive Diffusion on the Structural Network from Functional Brain Signals*. bioRxiv. [DOI](https://doi.org/10.64898/2026.01.05.697753)
-5. Seohyeon Lee, Wonyoung Kim, Nayoung Kim, M. J. Kim. (2026). *Resting-state functional connectome-based prediction of valence bias.*. Neuropsychologia. [DOI](https://doi.org/10.1016/j.neuropsychologia.2026.109429)
+5. Seohyeon Lee, Wonyoung Kim, Nayoung Kim, M. J. Kim. (2026). *Resting-state functional [[connectome]]-based prediction of valence bias.*. Neuropsychologia. [DOI](https://doi.org/10.1016/j.neuropsychologia.2026.109429)

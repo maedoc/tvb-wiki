@@ -29,12 +29,12 @@ The connectome encompasses the comprehensive map of neural connections in the br
 ### Structural Connectome
 - **Anatomical connections**: White matter tracts between gray matter regions
 - **Synaptic connections**: Cellular-level connectivity (micro-connectome)
-- **Measurement**: dti|Diffusion MRI, tractography, histological tracing
+- **Measurement**: dti|[[diffusion-mri]], [[tractography]], histological tracing
 
 ### Functional Connectome
 - **Statistical dependencies**: Temporal correlations between brain regions
 - **Dynamic patterns**: Time-varying connectivity states
-- **Measurement**: fmri|fMRI, eeg|EEG, meg|MEG correlations
+- **Measurement**: fmri|[[fmri]], eeg|EEG, meg|MEG correlations
 
 ## Major Initiatives
 
@@ -51,13 +51,13 @@ The human-connectome-project|HCP aims to map human brain connectivity in 1200+ h
 ### Graph Theory
 - **Nodes**: Brain regions or neurons
 - **Edges**: Structural or functional connections
-- **Measures**: Degree, clustering, path length, modularity, centrality
+- **Measures**: Degree, clustering, path length, [[modularity]], centrality
 
 ### Network Properties
 - small-world-networks|Small-world: High clustering, short paths
 - scale-free-networks|Scale-free: Power-law degree distribution
 - modularity|Modular: Community structure
-- rich-club|Rich-club: Hub interconnectivity
+- rich-club|[[rich-club]]: Hub interconnectivity
 
 ## Relationship to Function
 
@@ -67,7 +67,7 @@ The connectome provides the anatomical scaffold upon which brain dynamics unfold
 Structure → Constrains → Dynamics → Generates → Function
 ```
 
-Understanding this relationship is a major goal of whole-brain-modeling|whole-brain modeling.
+Understanding this relationship is a major goal of [[whole-brain]]-modeling|whole-brain modeling.
 
 ## Related Concepts
 - [[connectomics]] – The field studying connectomes
@@ -81,7 +81,7 @@ Understanding this relationship is a major goal of whole-brain-modeling|whole-br
 1. (authors unknown). *The Human Connectome: A Structural Description of the Human Brain*.
 2. (authors unknown). *The WU-Minn Human Connectome Project: An Overview*.
 3. (authors unknown). *Functional Network Organization of the Human Brain*.
-4. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
+4. (authors unknown). *Functional Connectomics from [[resting-state|Resting-State fMRI]]*.
 5. (authors unknown). *Networks of the Brain*.
-6. Jose Rodriguez-Acosta, Sharmistha Guha, Jessica Bernard, Thamires Magalhaes, Kaitlin McOwen. *Integrative Predictor-Dependent Learning of Network Data and Spatially Correlated Nodal Attributes for Multimodal Brain Imaging in Aging*. [Link](https://arxiv.org/abs/2603.21032)
+6. Jose Rodriguez-Acosta, Sharmistha Guha, Jessica Bernard, Thamires Magalhaes, Kaitlin McOwen. *Integrative Predictor-Dependent Learning of Network Data and Spatially Correlated Nodal Attributes for Multimodal Brain Imaging in [[aging]]*. [Link](https://arxiv.org/abs/2603.21032)
 7. Giridhar Sunil, Habib Benali, Elkaïoum M. Moutuou. (2026). *Thermodynamic connectivity reveals functional specialization and multiplex organization of extrasynaptic signaling*. [Link](https://arxiv.org/abs/2604.02057)

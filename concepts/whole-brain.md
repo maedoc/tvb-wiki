@@ -12,12 +12,12 @@ tags:
 - whole-brain-modeling
 title: whole-brain
 type: concept
-updated: '2026-04-24'
+updated: '2026-04-27'
 ---
 
 # whole-brain
 
-whole-brain is a key concept in connectome‑based whole‑brain modeling.
+whole-brain is a key concept in [[connectome]]‑based whole‑brain modeling.
 
 ## Definition
 *Placeholder for formal definition.*

@@ -10,12 +10,12 @@ tags:
 - comparison
 title: Whole-Brain Simulation Platforms
 type: comparison
-updated: '2026-04-24'
+updated: '2026-04-27'
 ---
 
 # Whole-Brain Simulation Platforms
 
-Landscape of whole-brain simulation tools
+Landscape of [[whole-brain]] simulation tools
 
 ## What is Being Compared
 

@@ -16,7 +16,7 @@ tags:
 - neuroimaging-fmri
 title: VoxelMorph
 type: entity
-updated: '2026-04-24'
+updated: '2026-04-27'
 ---
 
 # VoxelMorph
@@ -54,7 +54,7 @@ VoxelMorph is open-source software available under the Apache 2.0 license. The o
 - Atlas-based and template-building utilities
 - Integration examples for common neuroimaging pipelines
 
-The framework can be integrated as a preprocessing step in FreeSurfer workflows and is compatible with fMRIPrep-style processing pipelines for large-scale neuroimaging studies.
+The framework can be integrated as a preprocessing step in FreeSurfer workflows and is compatible with [[fmriprep]]-style processing pipelines for large-scale neuroimaging studies.
 
 ## Architecture Details
 
@@ -70,9 +70,9 @@ For diffeomorphic registration, the network predicts a velocity field $v$ that i
 
 VoxelMorph complements [[TVB]] workflows in several ways:
 
-**Atlas Registration**: TVB simulations require anatomical parcellations aligned to subject space. VoxelMorph enables rapid registration of standard atlases (e.g., [[Desikan-Killiany Atlas|Desikan-Killiany]], [[AAL Atlas|AAL]]) to individual MRI volumes, generating region masks for connectome construction.
+**Atlas Registration**: TVB simulations require anatomical parcellations aligned to subject space. VoxelMorph enables rapid registration of standard atlases (e.g., [[Desikan-Killiany Atlas|Desikan-Killiany]], [[AAL Atlas|AAL]]) to individual MRI volumes, generating region masks for [[connectome]] construction.
 
-**Structural Connectivity Preprocessing**: For [[diffusion MRI]] tractography, accurate co-registration of T1-weighted and diffusion-weighted images is essential. VoxelMorph provides fast alignment for downstream [[structural connectivity]] matrix generation.
+**Structural Connectivity Preprocessing**: For [[diffusion MRI]] [[tractography]], accurate co-registration of T1-weighted and diffusion-weighted images is essential. VoxelMorph provides fast alignment for downstream [[structural connectivity]] matrix generation.
 
 **Longitudinal Modeling**: TVB studies of disease progression (e.g., [[aging brain|aging]], [[Alzheimer's modeling|Alzheimer's]]) benefit from consistent anatomical correspondence across timepoints. The diffeomorphic variant ensures topology preservation during longitudinal registration.
 
@@ -90,7 +90,7 @@ VoxelMorph complements [[TVB]] workflows in several ways:
 
 - [[ANTs]] — Traditional diffeomorphic registration (SyN algorithm); often used for comparison and validation
 - [[FSL]] — Comprehensive neuroimaging suite with FLIRT/FNIRT registration tools
-- [[FreeSurfer]] — Surface-based registration and cortical parcellation
+- [[FreeSurfer]] — Surface-based registration and cortical [[parcellation]]
 - [[NiftyReg]] — GPU-accelerated traditional registration methods
 - [[SynthSeg]] — Deep learning segmentation tool often paired with VoxelMorph in preprocessing pipelines
 - [[Nibabel]] — Python library for neuroimaging I/O used in VoxelMorph workflows

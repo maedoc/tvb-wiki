@@ -23,7 +23,7 @@ GraphVar is a user-friendly MATLAB toolbox for comprehensive graph-theoretical a
 
 ## Overview
 
-GraphVar provides a graphical user interface (GUI) for performing graph-theoretical analyses of functional brain connectivity data, making network analysis accessible to researchers without programming expertise. It supports both seed-based and parcellation-based connectivity matrices from fMRI and EEG/MEG data.
+GraphVar provides a graphical user interface (GUI) for performing graph-theoretical analyses of functional brain connectivity data, making network analysis accessible to researchers without programming expertise. It supports both seed-based and [[parcellation]]-based connectivity matrices from [[fmri]] and EEG/MEG data.
 
 ## Key Features
 
@@ -38,7 +38,7 @@ GraphVar provides a graphical user interface (GUI) for performing graph-theoreti
 
 - Clustering coefficient
 - Path length and efficiency
-- Modularity and community detection
+- [[modularity]] and community detection
 - Betweenness and degree centrality
 - Small-worldness indices
 
@@ -55,13 +55,13 @@ GraphVar provides a graphical user interface (GUI) for performing graph-theoreti
 
 - [[functional connectivity]] — Network analysis of correlated brain activity
 - [[brain network]] — Graph-theoretical brain organization
-- network dynamics — Connectivity patterns and changes
+- [[network-dynamics]] — Connectivity patterns and changes
 
 ## Use Cases
 
 - Clinical connectivity studies without programming
 - Group comparisons of network properties
-- Resting-state network analysis
+- [[resting-state]] network analysis
 - Cognitive neuroscience graph analysis
 
 ## References

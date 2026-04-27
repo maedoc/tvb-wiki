@@ -1,14 +1,20 @@
 ---
-title: "Nonlinear Dynamics"
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/strogatz-1994.md
+- raw/papers/wiggins-2003.md
+- raw/papers/ermentrout-terman-2010.md
+tags:
+- neural-mass-models
+- network-dynamics
+- brain-oscillations
+title: Nonlinear Dynamics
 type: concept
-tags: [neural-mass-models, network-dynamics, brain-oscillations]
-sources: [raw/papers/strogatz-1994.md, raw/papers/wiggins-2003.md, raw/papers/ermentrout-terman-2010.md]
+updated: '2026-04-27'
 ---
 
 ## Definition
-Nonlinear dynamics studies systems where output is not proportional to input, giving rise to complex behaviors including oscillations, multistability, chaos, and pattern formation that cannot occur in linear systems.
+Nonlinear dynamics studies systems where output is not proportional to input, giving rise to complex behaviors including oscillations, multistability, chaos, and pattern formation that cannot occur in [[linear]] systems.
 
 ## Characteristics of Nonlinear Systems
 
@@ -32,7 +38,7 @@ Nonlinear dynamics studies systems where output is not proportional to input, gi
 ## In Neuroscience
 
 ### Neural Models
-- Neuron threshold and saturation
+- [[neuron]] threshold and saturation
 - [[neural mass model]] nonlinearities
 - Coupled population dynamics
 - brain oscillations emergence

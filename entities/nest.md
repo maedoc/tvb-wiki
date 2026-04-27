@@ -51,7 +51,7 @@ Jordan et al. (2018) demonstrated NEST's near-perfect weak scaling:
 
 ## Related Software
 
-- [[TVB]] — Neural mass model simulator for whole-brain dynamics
+- [[TVB]] — [[neural-mass-models|Neural mass model]] simulator for whole-brain dynamics
 - [[NEURON]] — Multi-compartment detailed neuron simulations
 - [[ModelDB]] — Repository for sharing NEST and other simulator models
 
@@ -60,7 +60,8 @@ Jordan et al. (2018) demonstrated NEST's near-perfect weak scaling:
 - [[spiking neural networks]] — Detailed spiking neuron dynamics
 - [[brain network]] — Large-scale network simulations
 - [[whole brain]] — Whole-brain modeling approaches
-
+- [[tvb-vs-nest-vs-neuron|Tvb Vs Nest Vs Neuron]]
+- [[tvb-multiscale|Tvb Multiscale]]
 ## Key Researchers
 
 - [[Markus Diesmann]] — Core NEST developer and lead researcher
@@ -68,7 +69,7 @@ Jordan et al. (2018) demonstrated NEST's near-perfect weak scaling:
 ## Use Cases
 
 - Cortical microcircuit simulations
-- Large-scale spiking network dynamics
+- Large-scale spiking [[network-dynamics]]
 - Synaptic plasticity and learning studies
 - Exascale neuroscience computing benchmarks
 

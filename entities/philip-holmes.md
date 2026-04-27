@@ -17,7 +17,7 @@ updated: '2026-04-27'
 Philip Holmes (born 1945) is a British mathematician and the Eugene Higgins Professor of Mechanical and Aerospace Engineering at Princeton University. He is renowned for his work on dynamical systems, nonlinear dynamics, and their applications to engineering and biology.
 
 ## Key Contributions
-- **Nonlinear Dynamics**: Co-author of the seminal text on bifurcation theory with John Guckenheimer
+- **Nonlinear Dynamics**: Co-author of the seminal text on bifurcation theory with [[john-guckenheimer]]
 - **Applied Mathematics**: Applications of dynamical systems to mechanics, neuroscience, and biology
 - **Neural Dynamics**: Work on insect locomotion and central pattern generators
 - **Dimension Reduction**: Methods for reducing complex systems to lower-dimensional models
@@ -35,7 +35,7 @@ Philip Holmes (born 1945) is a British mathematician and the Eugene Higgins Prof
 
 ## Selected Works
 - Guckenheimer & Holmes (1983) — Nonlinear Oscillations, Dynamical Systems, and Bifurcations
-- Holmes & Rand (1978) — Bifurcations of the forced van der Pol oscillator
+- Holmes & Rand (1978) — Bifurcations of the forced van der Pol [[oscillator]]
 - Holmes & Williams (2006) — Neural models of insect locomotion
 
 ## References
@@ -43,5 +43,5 @@ Philip Holmes (born 1945) is a British mathematician and the Eugene Higgins Prof
 1. (authors unknown). *Nonlinear Oscillations, Dynamical Systems, and Bifurcations of Vector Fields*.
 2. (authors unknown). *Differential Equations, Dynamical Systems, and an Introduction to Chaos*.
 3. (authors unknown). *Introduction to Theoretical Neurobiology: Volume 2, Nonlinear and Stochastic Theories*.
-4. Eugene M. Izhikevich. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
+4. [[eugene-izhikevich|Eugene M. Izhikevich]]. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
 5. (authors unknown). *Introduction to Applied Nonlinear Dynamical Systems and Chaos*.

@@ -27,7 +27,7 @@ Nikos Logothetis is a Greek neuroscientist known for pioneering work combining n
 - Research on visual perception and object recognition
 
 ## Significance
-Logothetis's work provides the empirical foundation for coupling neural mass models to BOLD signals. The LFP-BOLD relationship he established is essential for how whole-brain models generate synthetic fMRI predictions.
+Logothetis's work provides the empirical foundation for coupling [[neural-mass-models]] to BOLD signals. The LFP-BOLD relationship he established is essential for how [[whole-brain]] models generate synthetic fMRI predictions.
 
 ## Related Work
 - logothetis-2001 – Neurophysiological basis of fMRI

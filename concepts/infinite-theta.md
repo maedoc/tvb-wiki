@@ -15,12 +15,12 @@ tags:
 - infinite-population
 title: Infinite Theta Neuron Model
 type: concept
-updated: '2026-04-23'
+updated: '2026-04-27'
 ---
 
 # Infinite Theta Neuron Model (Montbrió-Pazó-Roxin)
 
-An exact mean-field reduction of an infinite population of quadratic integrate-and-fire (QIF) neurons.
+An exact mean-field reduction of an infinite population of quadratic [[spiking-neural-networks|integrate-and-fire]] (QIF) neurons.
 
 ## Overview
 
@@ -54,3 +54,4 @@ Where r is firing rate and v is mean voltage.
 
 - [[neural-mass-model]] - General framework
 - [[mean-field-theory]] - Theoretical basis
+- [[zerlaut|Zerlaut]]

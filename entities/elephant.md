@@ -63,9 +63,9 @@ Stochastic models for surrogate data and simulations:
 
 [[TVB|The Virtual Brain]] generates predictions of large-scale brain dynamics through neural mass models, simulating [[EEG]]- and [[MEG]]-like signals. Elephant complements TVB workflows by providing the analytical framework to quantify and validate these simulated signals:
 
-1. **Simulation output analysis** — Characterizing spike trains from detailed mean-field or [[spiking-neural-networks]] simulations run within TVB or coupled simulators like [[NEST]]
+1. **Simulation output analysis** — Characterizing spike trains from detailed [[mean-field-theory|mean-field]] or [[spiking-neural-networks]] simulations run within TVB or coupled simulators like [[NEST]]
 2. **Signal validation** — Comparing simulated electrophysiology against empirical recordings using standardized metrics (power spectra, coherence, correlation)
-3. **Connectivity assessment** — Quantifying functional connectivity patterns in simulated network activity
+3. **Connectivity assessment** — Quantifying [[functional-connectivity]] patterns in simulated network activity
 4. **Parameter optimization** — Statistical characterization of model outputs to guide parameter fitting
 
 When TVB simulations incorporate spiking models (e.g., through the TVB-NEST co-simulation framework), Elephant provides essential post-processing tools to extract meaningful insights from the raw simulation outputs.
@@ -90,7 +90,7 @@ Elephant is part of the NeuralEnsemble ecosystem of interoperable neuroscience t
 
 - [[NEST]] — Point neuron simulator for large-scale spiking networks; Elephant analyzes NEST output spike trains
 - [[NEURON]] — Multi-compartment detailed neuron simulator; Elephant processes modeled membrane potentials
-- [[TVB]] — Whole-brain neural mass simulator; Elephant validates simulated EEG/MEG signals
+- [[TVB]] — [[whole-brain]] neural mass simulator; Elephant validates simulated EEG/MEG signals
 - **Neo** — Data structure foundation for electrophysiology; Elephant depends on Neo objects
 - **SpykeViewer** — Visualization tool for electrophysiological data using Elephant analysis
 
@@ -110,10 +110,10 @@ Elephant is part of the NeuralEnsemble ecosystem of interoperable neuroscience t
 
 ## References
 
-1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
-2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *Arbor-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
 3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](https://doi.org/10.3389/fncom.2025.1731161)
 4. Martin Breyton, Viktor Sip, M. Woodman, Meysam Hashemi, S. Petkoski, V. Jirsa. (2025). *Data-driven mean-field within whole-brain models*. [Link](https://www.semanticscholar.org/paper/144ae1f1dabec42c14493d0083d36f168508f886)
 5. Xiaobo Liu. (2026). *MLE-Toolbox: An Open-Source Toolbox for Comprehensive EEG and MEG Data Analysis*. [Link](https://www.semanticscholar.org/paper/e7aaa4f4bb01e70064493684b4500a950f83460f)
 6. Jordan et al. (2018). *Extremely scalable spiking neuronal network simulation code: from laptops to exascale computers*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2018.00002)
-7. Ramiro Plüss, Hernán Villota, Patricio Orio. (2025). *Hemispheric-Specific Coupling Improves Modeling of Functional Connectivity Using Wilson-Cowan Dynamics*. [Link](https://arxiv.org/abs/2506.22951)
+7. Ramiro Plüss, Hernán Villota, Patricio Orio. (2025). *Hemispheric-Specific Coupling Improves Modeling of Functional Connectivity Using [[wilson-cowan]] Dynamics*. [Link](https://arxiv.org/abs/2506.22951)

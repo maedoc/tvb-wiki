@@ -30,7 +30,7 @@ The **Epileptor** is a composite [[neural-mass-models|neural mass model]] that c
 
 Before the Epileptor, population-level seizure models were either too abstract to capture clinical waveforms or too detailed to scale to patient-specific [[brain-network]]s. Earlier frameworks such as the [[jansen-rit]] and [[larter-breakspear]] models reproduced rhythmic cortical activity but were not designed for the full sequence of seizure onset, recruitment, evolution, and termination. The Epileptor closes this gap by folding seizure biophysics into a small set of interpretable differential equations, an approach that builds on earlier neural field extensions by Breakspear et al. (2006) while adding explicit multi-timescale bifurcation architecture.
 
-This design reflects a broader shift in computational neurology toward clinically validated, personalized dynamical models. In the Virtual Epileptic Patient workflow, region-specific parameters are assigned to each node of a [[connectome]] reconstructed from diffusion MRI, turning the Epileptor into a patient-specific testbed for surgical planning and neuromodulation.
+This design reflects a broader shift in computational neurology toward clinically validated, personalized dynamical models. In the Virtual Epileptic Patient workflow, region-specific parameters are assigned to each node of a [[connectome]] reconstructed from [[diffusion-mri]], turning the Epileptor into a patient-specific testbed for surgical planning and neuromodulation.
 
 ## Mathematical Formulation
 
@@ -57,13 +57,13 @@ Population 2 sculpts seizure offset through slower inhibitory feedback, with τ 
 
 As x₀ is varied, the Epileptor traverses distinct regimes separated by bifurcations.
 
-When x₀ ≲ −2.0, the system rests at a stable fixed point—the **interictal** state—where perturbations decay rapidly. In the **pre-ictal** window (−2.0 < x₀ < −1.5), noise can transiently push the system across a saddle-node on invariant circle (SNIC) bifurcation, producing intermittent bursts proposed as seizure-prediction markers. For x₀ ≳ −1.5, the fixed point loses stability and the system enters a sustained limit cycle—the **ictal** state—with rhythmic discharges that persist until z accumulates enough to force the system back across a homoclinic bifurcation. This fast-slow hysteresis explains why seizures cannot stop instantaneously: the permittivity variable must degrade first, mirroring the clinical observation that seizures run their natural course.
+When x₀ ≲ −2.0, the system rests at a stable fixed point—the **interictal** state—where perturbations decay rapidly. In the **pre-ictal** window (−2.0 < x₀ < −1.5), noise can transiently push the system across a saddle-node on invariant circle (SNIC) [[bifurcation-analysis|bifurcation]], producing intermittent bursts proposed as seizure-prediction markers. For x₀ ≳ −1.5, the fixed point loses stability and the system enters a sustained limit cycle—the **ictal** state—with rhythmic discharges that persist until z accumulates enough to force the system back across a homoclinic bifurcation. This fast-slow hysteresis explains why seizures cannot stop instantaneously: the permittivity variable must degrade first, mirroring the clinical observation that seizures run their natural course.
 
 ## Clinical Translation and Control
 
-Parameters map onto measurable physiology: x₀ proxies local tissue excitability (pathological neuron density, gliosis, altered ionic homeostasis), while z reflects slow ionic or metabolic buildup. These interpretations connect the model to clinical biomarkers and justify its use in [[personalized-brain-modeling|patient-specific modeling]].
+Parameters map onto measurable physiology: x₀ proxies local tissue excitability (pathological [[neuron]] density, gliosis, altered ionic homeostasis), while z reflects slow ionic or metabolic buildup. These interpretations connect the model to clinical biomarkers and justify its use in [[personalized-brain-modeling|patient-specific modeling]].
 
-At the network scale, Triebkorn et al. (2025) embedded Epileptor neural fields in a millimetre-scale virtual brain and showed that realistic cortico-cortical delays alone suffice to generate self-sustaining re-entry loops. A narrow delay-coupling window predicted oscillation frequency and seizure duration across 184 recorded seizures, and phase-dependent termination rules derived from in silico stimulation were validated against intracranial recordings.
+At the network scale, Triebkorn et al. (2025) embedded Epileptor [[neural-field-theory|neural fields]] in a millimetre-scale virtual brain and showed that realistic cortico-cortical delays alone suffice to generate self-sustaining re-entry loops. A narrow delay-coupling window predicted oscillation frequency and seizure duration across 184 recorded seizures, and phase-dependent termination rules derived from in silico stimulation were validated against intracranial recordings.
 
 Acharya and Nozari (2026) provided the first rigorous passivity-based control analysis of the Epileptor. They proved that standard seizure dynamics are neither passive nor trivially passivatable, yet sufficiently strong passive feedback can stabilize the system, and output redesign can render it passive. These results supply a principled framework for sensor placement and feedback gain selection in closed-loop neurostimulation devices.
 
@@ -76,5 +76,5 @@ The [[epileptorcodim3|EpileptorCodim3]] variant introduces additional bifurcatio
 ## References
 
 1. Paul Triebkorn, Huifang E. Wang, Marmaduke Woodman, Maxime Guye, Fabrice Bartolomei, Viktor Jirsa. (2025). *Delay-constrained re-entry governs large-scale brain seizures and other network pathologies*. [Link](https://arxiv.org/abs/2508.04824)
-2. Gagan Acharya, Erfan Nozari. (2026). *Passivity-Based Control of Electrographic Seizures in a Neural Mass Model of Epilepsy*. [Link](https://arxiv.org/abs/2603.25991)
+2. Gagan Acharya, Erfan Nozari. (2026). *Passivity-Based Control of Electrographic Seizures in a [[neural-mass-model]] of Epilepsy*. [Link](https://arxiv.org/abs/2603.25991)
 3. Michael Breakspear, John A. Roberts, John R. Terry, Stefano Rodrigues, Nader Mahmud, Philip Robinson. *Large-scale brain dynamics of seizures: asymptotic analysis of a neural field model*. Journal of Computational Neuroscience. [DOI](https://doi.org/10.1007/s10827-006-8135-2)

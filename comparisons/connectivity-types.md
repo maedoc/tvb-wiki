@@ -51,7 +51,7 @@ These three connectivity types represent different levels of abstraction in unde
 
 ### Structural Connectivity
 - **What it is**: Physical axonal connections between regions
-- **How measured**: Diffusion MRI tractography, histological tracing
+- **How measured**: [[diffusion-mri]] [[tractography]], histological tracing
 - **Key property**: Relatively stable over short timescales
 - **Role in modeling**: Primary input constraint (who can talk to whom)
 
@@ -93,7 +93,7 @@ All three connectivity types are necessary for complete understanding:
 - **Function** describes what is observed
 - **Effectiveness** explains how it works
 
-Whole-brain models bridge these levels by showing how structural connectivity, through effective interactions, gives rise to functional patterns.
+[[whole-brain]] models bridge these levels by showing how structural connectivity, through effective interactions, gives rise to functional patterns.
 
 ## Related Concepts
 - [[structural-connectivity]] – Anatomical connections
@@ -129,14 +129,14 @@ See honey-2009 for empirical evidence of this relationship.
 
 1. (authors unknown). *Functional connectivity in the motor cortex of resting human brain using echo-planar MRI*.
 2. (authors unknown). *MR diffusion tensor spectroscopy and imaging*.
-3. (authors unknown). *Statistical parametric maps in functional imaging: A general linear approach*.
+3. (authors unknown). *Statistical parametric maps in functional imaging: A general [[linear]] approach*.
 4. (authors unknown). *Building connectomes using diffusion MRI: Why, how and but*.
 5. (authors unknown). *Functional Connectivity: The Principal-Component Analysis of Large (PET and fMRI) Data Sets*.
-6. (authors unknown). *Predicting Human Resting-State Functional Connectivity from Structural Connectivity*.
+6. (authors unknown). *Predicting Human [[resting-state]] Functional Connectivity from Structural Connectivity*.
 7. (authors unknown). *The Human Connectome: A Structural Description of the Human Brain*.
 8. Jianwei Chen, Zhengyang Miao, Wenjie Cai, Jiaxue Tang, Boxing Liu, Yunfan Zhang, Yuhang Yang, Hao Tang, Carola-Bibiane Schönlieb, Zaixu Cui, Du Lei, Shouliang Qi, Chao Li. (2026). *Hierarchical Multiscale Structure-Function Coupling for Brain Connectome Integration*. [Link](https://arxiv.org/abs/2603.20680)
 9. (authors unknown). *Correspondence of the brain's functional architecture during activation and rest*.
 10. Sakul Mahat, Sharmistha Guha, Jessica Bernard. (2026). *A Bayesian Framework for Quantifying Association Between Functional and Structural Data in Neuroimaging*. [Link](https://arxiv.org/abs/2603.21067)
 11. V. Myrov, A. Suleimanova, Samanta Knapič, P. Partanen, M. Vesterinen, Wenya Liu, S. Palva, J. M. Palva. (2026). *Hierarchical whole-brain modeling of critical synchronization dynamics in the human brain.*. Proceedings of the National Academy of Sciences of the United States of America. [DOI](https://doi.org/10.1073/pnas.2505768123)
-12. Yifei Zhang, Meimei Liu, Zhengwu Zhang. (2026). *Attention-Based Variational Framework for Joint and Individual Components Learning with Applications in Brain Network Analysis*. [Link](https://arxiv.org/abs/2601.17073)
+12. Yifei Zhang, Meimei Liu, Zhengwu Zhang. (2026). *Attention-Based Variational Framework for Joint and Individual Components Learning with Applications in [[brain-network]] Analysis*. [Link](https://arxiv.org/abs/2601.17073)
 13. Peizhen Yang, Xinke Shen, Zongsheng Li, Zixiang Luo, Kexin Lou, Quanying Liu. *Perturbing a Neural Network to Infer Effective Connectivity: Evidence from Synthetic EEG Data*. [Link](https://arxiv.org/abs/2307.09770)

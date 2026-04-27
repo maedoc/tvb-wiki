@@ -24,7 +24,7 @@ Canadian computational neuroscientist and mathematician. Co-creator of the Wilso
 ## Key Contributions
 
 - **Wilson-Cowan model (1972)**: Canonical firing-rate model of coupled excitatory and inhibitory populations
-- **Neural field theory (1973)**: Spatial extension to traveling waves and pattern formation
+- **[[neural-field-theory|Neural field]] theory (1973)**: Spatial extension to traveling waves and pattern formation
 - **Visual hallucination modeling**: With Cowan and Ermentrout, explained form constants through neural field instabilities
 - **Pattern formation in neural tissue**: Applications to cortical development and disease
 
@@ -45,7 +45,7 @@ Where S_E and S_I are sigmoid response functions converting net synaptic input t
 
 ## Legacy
 
-The Wilson-Cowan equations are the foundation of neural mass modeling. Virtually all subsequent population models (Jansen-Rit, DCM, TVB implementations) trace their lineage to this formulation. The 1973 spatial extension also founded neural field theory.
+The Wilson-Cowan equations are the foundation of neural mass modeling. Virtually all subsequent population models ([[jansen-rit]], DCM, TVB implementations) trace their lineage to this formulation. The 1973 spatial extension also founded neural field theory.
 
 ## Related Concepts
 
@@ -59,7 +59,7 @@ The Wilson-Cowan equations are the foundation of neural mass modeling. Virtually
 1. Hugh R. Wilson, Jack D. Cowan. *Excitatory and inhibitory interactions in localized populations of model neurons*. Biophysical Journal. [DOI](https://doi.org/10.1016/S0006-3495(72)86068-5)
 2. Hugh R. Wilson, Jack D. Cowan. *A mathematical theory of the functional dynamics of cortical and thalamic nervous tissue*. Kybernetik. [DOI](https://doi.org/10.1007/BF00288786)
 3. Cyprien Tamekue, ShiNung Ching. *Control of neural field equations with step-function inputs*. [Link](https://arxiv.org/abs/2510.22022)
-4. Walter J. Freeman. *Mass Action in the Nervous System*.
+4. [[walter-freeman|Walter J. Freeman]]. *Mass Action in the Nervous System*.
 5. Peter Dayan, Larry F. Abbott. *Theoretical Neuroscience: Computational and Mathematical Modeling of Neural Systems*.
 6. Manish Yadav. *Emergent E-I Structure in Performance-Evolved Reservoir Networks of Neuronal Population Dynamics*. [Link](https://arxiv.org/abs/2603.13635)
 7. Wulfram Gerstner, Werner M. Kistler, Richard Naud, Liam Paninski. *Neuronal Dynamics: From Single Neurons to Networks and Models of Cognition*.

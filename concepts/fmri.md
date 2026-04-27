@@ -30,7 +30,7 @@ fMRI relies on the Blood Oxygenation Level Dependent (BOLD) contrast mechanism d
 ### Task-Based fMRI
 - Measures brain activity during specific cognitive or motor tasks
 - Uses experimental designs (block or event-related)
-- Statistical analysis via General Linear Model (statistical-parametric-mapping)
+- Statistical analysis via General [[linear|Linear Model]] (statistical-parametric-mapping)
 
 ### Resting-State fMRI
 - Measures spontaneous activity during task-free conditions
@@ -39,13 +39,13 @@ fMRI relies on the Blood Oxygenation Level Dependent (BOLD) contrast mechanism d
 
 ## Role in Whole-Brain Modeling
 
-fMRI serves as the primary empirical target for validating whole-brain models:
+fMRI serves as the primary empirical target for validating [[whole-brain]] models:
 
 1. **Resting-state connectivity**: Models generate synthetic BOLD time series and compute functional connectivity matrices to compare with empirical data
 2. **Task responses**: Models simulate task-evoked activations for comparison with experimental results
 3. **Network organization**: Model-generated networks are validated against resting-state network topologies
 
-The neurovascular-coupling between neural activity and BOLD is critical for model-data comparison. [[nikos-logothetis]] showed that BOLD correlates most strongly with local field potentials (LFPs) rather than spiking activity, informing how neural mass model outputs should be converted to BOLD signals.
+The neurovascular-coupling between neural activity and BOLD is critical for model-data comparison. [[nikos-logothetis]] showed that BOLD correlates most strongly with local field potentials (LFPs) rather than spiking activity, informing how [[neural-mass-models|neural mass model]] outputs should be converted to BOLD signals.
 
 ## Key Challenges
 
@@ -61,7 +61,7 @@ The neurovascular-coupling between neural activity and BOLD is critical for mode
 - [[resting-state]] – Task-free functional connectivity
 - [[functional-connectivity]] – Statistical dependencies between regions
 - neurovascular-coupling – Link between neural activity and hemodynamics
-
+- [[fmri-vs-eeg|Fmri Vs Eeg]]
 ## References
 
 1. (authors unknown). *Brain magnetic resonance imaging with contrast dependent on blood oxygenation*.
@@ -69,5 +69,5 @@ The neurovascular-coupling between neural activity and BOLD is critical for mode
 3. (authors unknown). *Statistical parametric maps in functional imaging: A general linear approach*.
 4. (authors unknown). *Functional Magnetic Resonance Imaging*.
 5. Wanying Qu, Jianxiong Gao, Wei Wang, Yanwei Fu. *Modeling Spatiotemporal Neural Frames for High Resolution Brain Dynamic*. [Link](https://arxiv.org/abs/2603.24176)
-6. Jiangnan Zhang, Chengyuan Qian, Wenlian Lu, Gustavo Deco, Weiyang Ding, Jianfeng Feng. (2025). *Dark Signals in the Brain: Augment Brain Network Dynamics to the Complex-valued Field*. [Link](https://arxiv.org/abs/2509.24715)
-7. Ramiro Plüss, Hernán Villota, Patricio Orio. (2025). *Hemispheric-Specific Coupling Improves Modeling of Functional Connectivity Using Wilson-Cowan Dynamics*. [Link](https://arxiv.org/abs/2506.22951)
+6. Jiangnan Zhang, Chengyuan Qian, Wenlian Lu, [[gustavo-deco]], Weiyang Ding, Jianfeng Feng. (2025). *Dark Signals in the Brain: Augment Brain [[network-dynamics]] to the Complex-valued Field*. [Link](https://arxiv.org/abs/2509.24715)
+7. Ramiro Plüss, Hernán Villota, Patricio Orio. (2025). *Hemispheric-Specific Coupling Improves Modeling of Functional Connectivity Using [[wilson-cowan]] Dynamics*. [Link](https://arxiv.org/abs/2506.22951)

@@ -28,7 +28,7 @@ Professor of Psychiatry at University of Wisconsin-Madison, leading researcher i
 Tononi's research spans:
 - **Consciousness Studies**: IIT provides a mathematical framework for understanding consciousness
 - **Sleep Science**: Synaptic homeostasis hypothesis explains the function of sleep
-- **Connectomics**: Early work on brain connectivity and information integration
+- **[[connectomics]]**: Early work on brain connectivity and information integration
 
 ## Key Papers
 - sporns-tononi-kotter-2005 – The Human Connectome
@@ -47,4 +47,4 @@ Tononi's research spans:
 
 1. (authors unknown). *The Human Connectome: A Structural Description of the Human Brain*.
 2. (authors unknown). *Networks of the Brain*.
-3. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
+3. (authors unknown). *Functional Connectomics from [[resting-state|Resting-State fMRI]]*.

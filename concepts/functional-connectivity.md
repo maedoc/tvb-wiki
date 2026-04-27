@@ -34,7 +34,7 @@ Unlike [[structural-connectivity]] (anatomical connections), functional connecti
 ## Measures
 
 ### fMRI-Based
-- **Pearson correlation**: Linear correlation of BOLD time series
+- **Pearson correlation**: [[linear]] correlation of [[bold-signal|BOLD]] time series
 - **Partial correlation**: Controlling for other regions
 - **Mutual information**: Non-linear dependencies
 
@@ -47,14 +47,14 @@ Unlike [[structural-connectivity]] (anatomical connections), functional connecti
 ## Resting-State Networks
 
 Functional connectivity at rest reveals intrinsic-connectivity-networks including:
-- Default mode network
+- [[default-mode-network]]
 - Sensorimotor network
 - Visual network
 - Attention networks
 
 ## Role in Whole-Brain Modeling
 
-Functional connectivity is the primary validation target for whole-brain models:
+Functional connectivity is the primary validation target for [[whole-brain]] models:
 
 1. **Static FC**: Correlation matrix of regional time series
 2. **Dynamic FC**: Time-varying connectivity patterns
@@ -112,6 +112,6 @@ See honey-2009 for empirical evidence of the SC-FC relationship.
 6. (authors unknown). *Functional Network Organization of the Human Brain*.
 7. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
 8. (authors unknown). *The organization of the human cerebellum estimated by intrinsic functional connectivity*.
-9. Mengyuan Liu, Jing Hu, Zhenzhen Ru, Ruomeng Quan, Xu Zhang, Ning Qiang, Jin Li. (2025). *Exploring the changes in brain network SC-FC coupling patterns of partial sleep deprivation based on DTI-fMRI fusion analysis*. [Link](https://arxiv.org/abs/2512.00063)
+9. Mengyuan Liu, Jing Hu, Zhenzhen Ru, Ruomeng Quan, Xu Zhang, Ning Qiang, Jin Li. (2025). *Exploring the changes in [[brain-network]] SC-FC coupling patterns of partial sleep deprivation based on DTI-fMRI fusion analysis*. [Link](https://arxiv.org/abs/2512.00063)
 10. B. Sarton, Giulia Maria Mattia, Eve Cervoni, Julie Decourt, Patrice Péran, Béatrice Riu, Fanny Bounes, Edouard Naboulsi, P. Barttfeld, Jean-Marc Olivot, Stein Silva, Sylvain Cussat-Blanc. (2026). *Explainable Machine Learning for Coma Outcome Prediction Based on Structural and Functional Brain MRI.*. Critical Care Medicine. [DOI](https://doi.org/10.1097/CCM.0000000000007068)
 11. (authors unknown). *Functional Connectivity in the Resting Brain: A Network Analysis of the Default Mode Hypothesis*.

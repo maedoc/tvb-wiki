@@ -11,7 +11,7 @@ tags:
 - software-visualization
 title: Root
 type: entity
-updated: '2026-04-24'
+updated: '2026-04-27'
 ---
 
 # ROOT
@@ -50,7 +50,7 @@ ROOT excels at handling terabyte-scale datasets—critical for modern connectomi
 While [[TVB]] provides its own Python-based analysis pipeline, ROOT offers complementary capabilities for applications requiring:
 
 - **Large simulation database management**: Storing and querying thousands of TVB simulation runs with different parameter configurations
-- **Statistical validation**: Rigorous goodness-of-fit tests for comparing simulated [[bold-signal|BOLD signals]] against empirical [[resting-state|resting-state]] fMRI
+- **Statistical validation**: Rigorous goodness-of-fit tests for comparing simulated [[bold-signal|BOLD signals]] against empirical [[resting-state|resting-state]] [[fmri]]
 - **Parameter space exploration**: Efficient histogramming and density estimation across high-dimensional model parameter spaces
 - **Cross-platform collaboration**: ROOT files serve as a lingua franca for sharing results between HEP and neuroscience communities
 
@@ -63,7 +63,7 @@ ROOT has been used in specific neuroscience applications including analysis of [
 
 ## Related Software
 
-- [[TVB]] — Whole-brain simulation platform; ROOT can analyze TVB outputs
+- [[TVB]] — [[whole-brain]] simulation platform; ROOT can analyze TVB outputs
 - [[NEST]] — Neural simulation tool; ROOT used for spike train statistics
 - [[NEURON]] — Multi-compartment neuron simulator
 - [[Freesurfer]] — MRI preprocessing; outputs can be stored/analyzed in ROOT

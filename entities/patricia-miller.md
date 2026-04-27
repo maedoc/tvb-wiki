@@ -37,7 +37,7 @@ Miller's research emphasizes:
 ## Related Concepts
 - [[uk-biobank]] – Large-scale population study
 - population-neuroimaging – Imaging at scale
-- neuroimaging-fmri – Functional MRI
+- neuroimaging-[[fmri]] – Functional MRI
 - multimodal-imaging – Integrated imaging approaches
 
 ## Resources

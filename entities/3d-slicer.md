@@ -26,13 +26,13 @@ updated: '2026-04-27'
    - `norton-2017`: Norton et al. (2017) — SlicerDMRI extension
    - `fedorov-2012`: Fedorov et al. (2012) — Extensibility framework
    - `slicer-official`: Official project documentation
-   - `dmri-doc`: Diffusion MRI documentation
+   - `dmri-doc`: [[diffusion-mri]] documentation
 
 2. **Added inline citations** — Used `^[source-id]` notation throughout the content to cite factual claims about:
    - Software origins and development institutions
    - Platform architecture and capabilities
    - Extension descriptions (SlicerDMRI)
-   - Tractography functionality
+   - [[tractography]] functionality
 
 3. **Preserved all body content** — The ~650-word article remains intact with all sections, wikilinks, comparison table, and structure.
 

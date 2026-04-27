@@ -55,7 +55,7 @@ patric hagmann|Hagmann et al. (2008) identified the structural core using diffus
 - Supports global workspace function
 
 ### Resting-State Connectivity
-- Core regions show strong functional connectivity at rest
+- Core regions show strong [[functional-connectivity]] at rest
 - Part of the default mode network
 - Active during internally-directed cognition
 
@@ -83,7 +83,7 @@ Core regions function as connector hubs, linking different functional modules.
 - **Psychiatric Disorders**: Altered core connectivity
 
 ### Neuroimaging
-- Used as seed regions for resting-state analysis
+- Used as seed regions for [[resting-state]] analysis
 - Important for connectivity mapping
 - Target for brain stimulation studies
 
@@ -98,7 +98,7 @@ Core regions function as connector hubs, linking different functional modules.
 
 1. (authors unknown). *Mapping the Structural Core of Human Cerebral Cortex*.
 2. (authors unknown). *Networks of the Brain*.
-3. Xin Li, J. Olofsson, Jonas Persson. (2026). *Structural connectivity of the human olfactory network and its relation to aging and olfactory function*. Imaging Neuroscience. [DOI](https://doi.org/10.1162/imag.a.1181)
+3. Xin Li, J. Olofsson, Jonas Persson. (2026). *Structural connectivity of the human olfactory network and its relation to [[aging]] and olfactory function*. Imaging Neuroscience. [DOI](https://doi.org/10.1162/imag.a.1181)
 4. Fan Li, Shuwei Bai, Yuxiao Liu, Ziyi Chen, Shilun Zhao, Zhongxiang Ding, Fang Xie, Yin Xu, Ling Yue, Han Zhang, Ya Zhang, Kaicong Sun, Dinggang Shen. (2026). *Enhancing diagnosis of mild cognitive impairment through brain-heart-gut metabolic networks in whole-body PET imaging.*. Cell Reports Medicine. [DOI](https://doi.org/10.1016/j.xcrm.2026.102629)
 5. (authors unknown). *Emergence of Scaling in Random Networks*.
 6. Jianwei Chen, Zhengyang Miao, Wenjie Cai, Jiaxue Tang, Boxing Liu, Yunfan Zhang, Yuhang Yang, Hao Tang, Carola-Bibiane Schönlieb, Zaixu Cui, Du Lei, Shouliang Qi, Chao Li. (2026). *Hierarchical Multiscale Structure-Function Coupling for Brain Connectome Integration*. [Link](https://arxiv.org/abs/2603.20680)

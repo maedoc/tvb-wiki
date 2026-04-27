@@ -29,7 +29,7 @@ Before the 1980s, neural network research was fragmented between abstract cybern
 
 ## Mathematical Formulation
 
-Mathematically, the standard Hopfield network consists of $N$ binary neurons with states $S_i \in \{-1, +1\}$. The dynamics follow an asynchronous update rule in which a randomly selected neuron adopts the sign of its local field:
+Mathematically, the standard Hopfield network consists of $N$ binary neurons with states $S_i \in \{-1, +1\}$. The dynamics follow an asynchronous update rule in which a randomly selected [[neuron]] adopts the sign of its local field:
 
 $$
 S_i(t+1) = \text{sign}\left(\sum_{j=1}^N W_{ij} S_j(t) - \theta_i\right)
@@ -51,7 +51,7 @@ The Hopfield model stands at the intersection of several traditions in computati
 
 ## Biological Grounding
 
-Although the Hopfield network is highly abstract, its core mechanisms map onto established neurobiological concepts. The Hebbian learning rule approximates activity-dependent synaptic plasticity, while the attractor dynamics provide a model for persistent activity observed in prefrontal cortex during working-memory tasks. The symmetric weight constraint is the most problematic simplification, since biological synapses are typically asymmetric, but theoretical work has shown that approximate retrieval persists in asymmetric networks if weight correlations remain sufficiently structured. More recent whole-brain applications have used Hopfield-like attractor dynamics to model stable states of [[functional-connectivity|functional connectivity]] observed in resting-state fMRI, treating large-scale [[brain-network]] configurations as attractors of a coupled dynamical system.
+Although the Hopfield network is highly abstract, its core mechanisms map onto established neurobiological concepts. The Hebbian learning rule approximates activity-dependent synaptic plasticity, while the attractor dynamics provide a model for persistent activity observed in prefrontal cortex during working-memory tasks. The symmetric weight constraint is the most problematic simplification, since biological synapses are typically asymmetric, but theoretical work has shown that approximate retrieval persists in asymmetric networks if weight correlations remain sufficiently structured. More recent [[whole-brain]] applications have used Hopfield-like attractor dynamics to model stable states of [[functional-connectivity|functional connectivity]] observed in [[resting-state|resting-state fMRI]], treating large-scale [[brain-network]] configurations as attractors of a coupled dynamical system.
 
 ## References
 
@@ -60,5 +60,5 @@ Although the Hopfield network is highly abstract, its core mechanisms map onto e
 3. Irmantas Ratas, Kestutis Pyragas. (2026). *Parameter and hidden-state inference in mean-field models from partial observations of finite-size neural networks*. [Link](https://www.semanticscholar.org/paper/274d3afcf4f54ddb5bd2122157c2ab2a105b41ef)
 4. İhsan Ertuğrul Karakaş, Özden Özel, İlkay Ulusoy, Orhan Murat Koçak. (2026). *Modeling of Self-sustained Neuron Population without External Stimulus*. [Link](https://arxiv.org/abs/2604.13719)
 5. Valerio Barabino, F. Callegari, Sérgio Martinoia, P. Massobrio. (2026). *Hierarchical afferent connectivity drives population-wide bursting dynamics in a computational model of human-derived excitatory neuronal networks*. Journal of Neuroscience. [DOI](https://doi.org/10.1523/jneurosci.0912-25.2026)
-6. Tirthabir Biswas, Angel Stanoev, S. Romani, James E. Fitzgerald. (2026). *From the fly connectome to exact ring attractor dynamics*. bioRxiv. [DOI](https://doi.org/10.1101/2024.11.01.621596)
+6. Tirthabir Biswas, Angel Stanoev, S. Romani, James E. Fitzgerald. (2026). *From the fly [[connectome]] to exact ring attractor dynamics*. bioRxiv. [DOI](https://doi.org/10.1101/2024.11.01.621596)
 7. Futa Tomita, Jun-nosuke Teramae. (2025). *Dynamical mean-field theory for a highly heterogeneous neural population with graded persistent activity of the entorhinal cortex*. PLoS Comput. Biol.. [DOI](https://doi.org/10.1371/journal.pcbi.1013484)

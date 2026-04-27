@@ -14,7 +14,7 @@ tags:
 - connectomics
 title: NiftyNet
 type: entity
-updated: '2026-04-24'
+updated: '2026-04-27'
 ---
 
 # NiftyNet
@@ -66,12 +66,12 @@ The framework employs a patch-based sampling strategy essential for volumetric m
 
 NiftyNet outputs can be integrated into [[TVB]] workflows through automated neuroimaging analysis:
 
-- **Brain parcellation**: Automated anatomical segmentation to define region boundaries for structural connectivity matrices
+- **Brain [[parcellation]]**: Automated anatomical segmentation to define region boundaries for structural connectivity matrices
 - **Lesion segmentation**: Identification and mapping of pathological regions (tumors, stroke lesions) for patient-specific TVB models
 - **Tissue classification**: Gray matter, white matter, and CSF segmentation supporting accurate forward modeling
 - **Region label mapping**: Segmentation outputs can be registered to standard atlases like [[AAL Atlas]] or [[Desikan-Killiany Atlas]] using complementary registration tools such as [[NiftyReg]] or [[ANTs]]
 
-Segmentation outputs from NiftyNet (e.g., region masks, tissue labels) can be used as inputs to various stages of TVB's pipeline, including preprocessing steps for generating connectivity matrices and region boundaries required for personalized whole-brain modeling. The exact integration path varies by specific TVB pipeline configuration and may require format conversion or additional preprocessing with registration tools.
+Segmentation outputs from NiftyNet (e.g., region masks, tissue labels) can be used as inputs to various stages of TVB's pipeline, including preprocessing [[steps]] for generating connectivity matrices and region boundaries required for personalized [[whole-brain]] modeling. The exact integration path varies by specific TVB pipeline configuration and may require format conversion or additional preprocessing with registration tools.
 
 ## Key Papers
 
@@ -93,15 +93,15 @@ Segmentation outputs from NiftyNet (e.g., region masks, tissue labels) can be us
 ## Related Concepts
 
 - [[structural connectivity]] — Parcellation-based connectivity matrix generation
-- [[connectome]] — Whole-brain network construction from segmented regions
+- [[connectome]] — Whole-[[brain-network]] construction from segmented regions
 - [[personalized brain modeling]] — Subject-specific model construction from automated segmentations
 - [[neuroimaging-fmri]] — Segmentation supporting functional signal extraction
-- [[diffusion-imaging]] — White matter segmentation for DTI tractography masks
+- [[diffusion-imaging]] — White matter segmentation for DTI [[tractography]] masks
 
 ## Use Cases
 
 - Automated brain tumor segmentation from multi-modal MRI
-- White matter hyperintensity detection in aging and dementia studies
+- White matter hyperintensity detection in [[aging]] and dementia studies
 - Hippocampal volume estimation for Alzheimer's disease biomarkers
 - Cortical surface extraction for TVB connectivity modeling
 - Multi-site harmonization through domain adaptation techniques

@@ -20,7 +20,7 @@ Network topology characterized by high local clustering and short global path le
 
 Small-world networks exhibit two key properties:
 1. **High Clustering**: Nodes tend to form tightly interconnected local groups
-2. **Short Path Lengths**: Most nodes can be reached from every other node by a small number of steps
+2. **Short Path Lengths**: Most nodes can be reached from every other node by a small number of [[steps]]
 
 ## Mathematical Characterization
 
@@ -42,7 +42,7 @@ Average shortest path between all node pairs
 ### Evidence
 Brain networks consistently show small-world properties:
 - **Structural**: White matter networks
-- **Functional**: Resting-state correlation networks
+- **Functional**: [[resting-state]] correlation networks
 - **Across species**: From C. elegans to humans
 
 ### Functional Significance

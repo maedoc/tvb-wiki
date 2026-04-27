@@ -19,7 +19,7 @@ type: concept
 updated: '2026-04-27'
 ---
 
-Tractography is a family of computational techniques that reconstruct three-dimensional white matter fiber pathways from diffusion-weighted magnetic resonance imaging data. By tracing virtual streamlines through local estimates of water diffusion orientation, tractography provides the only non-invasive method for mapping the structural wiring of the human brain in vivo. These reconstructed pathways form the basis of [[connectome]] construction and constrain computational models of large-scale brain network dynamics.
+Tractography is a family of computational techniques that reconstruct three-dimensional white matter fiber pathways from diffusion-weighted magnetic resonance imaging data. By tracing virtual streamlines through local estimates of water diffusion orientation, tractography provides the only non-invasive method for mapping the structural wiring of the human brain in vivo. These reconstructed pathways form the basis of [[connectome]] construction and constrain computational models of large-scale brain [[network-dynamics]].
 
 ## Motivation and Context
 
@@ -39,7 +39,7 @@ In connectome-based modeling, tractography outputs are converted into structural
 
 Despite decades of refinement, tractography remains an ill-posed inverse problem. Jones (2010) provided a critical survey of validation challenges: the presence of a streamline between two regions does not guarantee a true anatomical connection, while the absence does not prove disconnection. Distance-related biases over-represent short-range connections, and gyral bias—streamlines preferentially terminating at gyral crowns rather than sulcal fundi—introduces systematic error in surface-based connectivity maps. False positives arise from noise-driven streamline propagation, and false negatives from premature termination in regions of low anisotropy or complex fiber geometry.
 
-Validation strategies include physical phantoms with known fiber geometry, post-mortem comparisons against histological tracers, and cross-modality agreement with polarized light imaging. These studies consistently show that tractography recovers major fasciculi—the corpus callosum, arcuate fasciculus, corticospinal tract, optic radiation, and cingulum bundle—with reasonable fidelity, but reliability for finer-grain connections remains an active area of investigation. For whole-brain modelers, these uncertainties motivate sensitivity analyses that bracket structural connectivity parameters to assess whether observed dynamics are robust to anatomical noise or artifacts of the specific tractography pipeline.
+Validation strategies include physical phantoms with known fiber geometry, post-mortem comparisons against histological tracers, and cross-modality agreement with polarized light imaging. These studies consistently show that tractography recovers major fasciculi—the corpus callosum, arcuate fasciculus, corticospinal tract, optic radiation, and cingulum bundle—with reasonable fidelity, but reliability for finer-grain connections remains an active area of investigation. For [[whole-brain]] modelers, these uncertainties motivate sensitivity analyses that bracket structural connectivity parameters to assess whether observed dynamics are robust to anatomical noise or artifacts of the specific tractography pipeline.
 
 ## Related Concepts
 

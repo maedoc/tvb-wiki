@@ -13,7 +13,7 @@ tags:
 - brain-oscillations
 title: Dynamical Systems Theory
 type: concept
-updated: '2026-04-24'
+updated: '2026-04-27'
 ---
 
 ## Definition
@@ -49,7 +49,7 @@ Dynamical systems theory is the mathematical framework for describing how system
 
 ### Brain Dynamics
 - brain oscillations as limit cycles
-- Resting-state as attractor landscape
+- [[resting-state]] as attractor landscape
 - Seizures as transitions between attractors
 - [[whole brain]] models as coupled dynamical systems
 
