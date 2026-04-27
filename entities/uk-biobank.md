@@ -115,7 +115,7 @@ UK Biobank is a large-scale biomedical database and research resource containing
 | **Focus** | Population health | Precision connectivity |
 
 ## Related Concepts
-- [[human-[[connectome]]-project]] – High-resolution connectivity study
+- [[uk-biobank|UK Biobank]] – High-resolution connectivity study
 - population-neuroimaging – Large-scale imaging
 - imaging-genetics – Genetic basis of brain structure
 - aging-brain – Brain aging processes

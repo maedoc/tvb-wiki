@@ -55,7 +55,7 @@ CONN implements:
 
 ## Usage in Whole-Brain Modeling
 
-CONN serves as a critical preprocessing and analysis tool in the [[connectome-based-modeling|[[connectome]]-based modeling]] pipeline:
+CONN serves as a critical preprocessing and analysis tool in the [[connectome]]-based modeling pipeline:
 
 1. **Connectome Construction**: CONN generates [[functional-connectivity|functional connectivity matrices]] that serve as empirical constraints for [[whole-brain-modeling|whole-brain models]]. These matrices quantify inter-regional correlations in BOLD signals, providing the functional counterpart to [[structural-connectivity|structural connectivity]] derived from [[dti|DTI]] tractography.
 
