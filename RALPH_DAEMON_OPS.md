@@ -44,14 +44,23 @@ This conversational framing trains the model to explain what it's doing rather t
 **Fix:** Add explicit guardrail to revision prompt:
 > "Output ONLY the final markdown content. Do NOT explain your changes, summarize what you did, or add any meta-commentary."
 
+### Meta-Commentary Fix: VERIFIED (21:35–22:33)
+
+All 3 previously-corrupted pages re-rewritten cleanly:
+- No "The corrected page..." openings
+- No numbered lists of changes
+- No "Here's a summary..."
+
+Word counts after clean rewrite: ebrains 1057w, scirun 1396w, brainsuite 1326w.
+
 ### Throughput Benchmarks
 
 | Agent | Items/Hour | Bottleneck |
 |-------|-----------|------------|
-| Improver | ~3 pages | Writer (minimax-m2.5:cloud) + reviewer (glm-5.1:cloud) + potential revision |
+| Improver | ~3 pages | Writer + reviewer + potential revision |
 | RefFormatter | ~60 pages | Fast (regex) |
 | CrosslinkApplier | ~60–160 pages | Fast (regex) |
-| Matcher | ~57–61 pages | LLM eval of ambiguous matches (~2–3 min each) |
+| Matcher | ~57–61 pages | LLM eval of ambiguous matches |
 | Ingestor | ~7 papers | API rate limits (Semantic Scholar 429) |
 | DeepResearch | ~76 papers/6h | Search + analysis + synthesis |
 
@@ -59,24 +68,24 @@ This conversational framing trains the model to explain what it's doing rather t
 
 | Model | Use | Reliability | Notes |
 |-------|-----|-------------|-------|
-| minimax-m2.5:cloud | Writer | Good (1–4 min/output) | Occasional empty output, meta-commentary on revisions |
+| minimax-m2.5:cloud | Writer | Good (1–4 min/output) | Occasional empty output |
 | glm-5.1:cloud | Reviewer | Fast (~15s) | Good at catching factual issues |
 | gpt-oss:120b-cloud | Repairer | Unknown | Not yet tested in production |
 
 ### Error Patterns
 
-1. **"Empty output"** — Model returns nothing. Usually resolves on retry. ~13 occurrences/session.
-2. **"Model not found"** — Nonexistent model in config. Now caught at startup.
-3. **"429 rate limited"** — Semantic Scholar. Backoff (5s, 10s, 30s) usually works.
-4. **"Batch evaluation failed"** — Matcher's batch JSON parse fails, falls back to slower per-page.
+1. **"Empty output"** — ~3/session. Usually resolves on retry.
+2. **"Model not found"** — Now caught at startup.
+3. **"429 rate limited"** — Semantic Scholar. Backoff works.
+4. **"Batch evaluation failed"** — Matcher falls back to per-page.
 
 ### Remaining TODOs
 
-- [ ] Fix revision prompt guardrail (prevents meta-commentary)
-- [ ] Revert 3 corrupted pages (ebrains, brainsuite, scirun)
-- [ ] Consider making Improver skip revision loop for speed (review-only, no revise)
-- [ ] Add `score_pages.py` output to Auditor cycle for better prioritization
-- [ ] Consider capping Matcher LLM eval time per cycle (e.g., max 30 min)
+- [x] Fix revision prompt guardrail
+- [x] Revert 3 corrupted pages
+- [ ] Consider making Improver skip revision loop for speed
+- [ ] Add score_pages.py output to Auditor cycle
+- [ ] Consider capping Matcher LLM eval time
 
 ---
 
@@ -84,7 +93,7 @@ This conversational framing trains the model to explain what it's doing rather t
 
 ### Pre-2026-04-27 Issues (Fixed)
 
-- Writer model was kimi-k2.5:cloud → switched to minimax-m2.5:cloud (faster, more reliable)
+- Writer model was kimi-k2.5:cloud → switched to minimax-m2.5:cloud
 - 254 broken wikilinks → fixed via redirection and stub creation
 - 114 placeholder pages → 87 remain (27 core software filled)
 - 52 thin narrative pages → 0 remain after bulk rewrite
