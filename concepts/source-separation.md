@@ -13,3 +13,7 @@ Source Separation — a concept in [[whole-brain|whole-brain modeling]] and [[co
 
 ## Related Concepts
 * [[ica]]
+
+## References
+
+1. (authors unknown). *Functional Connectivity: The Principal-Component Analysis of Large (PET and fMRI) Data Sets*.
