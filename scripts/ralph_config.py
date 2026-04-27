@@ -33,7 +33,7 @@ ENTITY_COUNTS_FILE = os.path.join(META_DIR, "entity_counts.json")
 AUDIT_REPORT_FILE = os.path.join(META_DIR, "audit_report.json")
 
 # ── Models ─────────────────────────────────────────────────────────────
-WRITER_MODEL = "ollama/kimi-k2.5:cloud"
+WRITER_MODEL = "ollama/minimax-m2.5:cloud"
 REVIEWER_MODEL = "ollama/glm-5.1:cloud"
 REPAIRER_MODEL = "ollama/gpt-oss-120b"
 
