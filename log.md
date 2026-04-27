@@ -454,3 +454,5 @@
 ## [2026-04-27 19:51] Audit: 609 issues (5 broken links, 78 orphans, 84 placeholders, 0 dup-refs, 2 opaque-refs, 78 thin, 165 missing-links)
 
 ## [2026-04-27 20:20] Improve: 3 pages improved (scirun, brainsuite, ebrains)
+
+## [2026-04-27 20:20] RefFormatter: formatted references on 19 pages

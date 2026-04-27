@@ -13,8 +13,9 @@ tags:
 - whole-brain-modeling
 title: EBRAINS
 type: entity
-updated: 2026-04-27
+updated: '2026-04-27'
 ---
+
 The corrected EBRAINS page is now complete. Here's a summary of the fixes applied:
 
 ## Fixes Applied:
@@ -23,8 +24,8 @@ The corrected EBRAINS page is now complete. Here's a summary of the fixes applie
 
 2. **Fixed dubious/unverified claims**:
    - Removed "co-development agreements" claim about EBRAINS-TV relationship
-   - Removed claim about UK Biobank being accessible through EBRAINS  
-   - Changed "EBRAINS provides BIDS-Validator" to properly attribute it as an "open-source community tool"
+   - Removed claim about [[uk-biobank]] being accessible through EBRAINS  
+   - Changed "EBRAINS provides [[bids-validator]]" to properly attribute it as an "open-source community tool"
 
 3. **Fixed Key Papers section**: Now includes 5 actual published papers with specific titles, authors, journals, years, and DOIs:
    - Amunts et al. 2019 (PLOS Biology) - HBP foundational paper

@@ -40,7 +40,7 @@ The framework of network dynamics provides several analytical tools for characte
 
 The dynamical systems employed in whole-brain network models take many forms. The simplest approach treats each brain region as a generic nonlinear oscillator (e.g., the Van der Pol oscillator or the Hopf bifurcation normal form) whose intrinsic dynamics are coupled through the connectivity matrix. More biophysically grounded models include **neural mass models** such as the [[jansen-rit-model|Jansen-Rit model]], which approximates cortical columns using populations of excitatory and inhibitory neurons interacting through synaptic dynamics, or the [[wong-wang-model|Wong-Wang model]], which captures excitation-inhibition balance in recurrent circuitry. The [[epileptor]] model extends these frameworks to study seizure dynamics in epilepsy.
 
-Mathematically, a typical whole-brain network model can be expressed as a system of coupled ordinary or stochastic differential equations:
+Mathematically, a typical whole-brain network model can be expressed as a system of coupled ordinary or [[stochastic-differential-equations]]:
 
 $$\dot{\mathbf{x}}_i = \mathbf{F}(\mathbf{x}_i) + \sum_{j=1}^{N} C_{ij} \mathbf{G}(\mathbf{x}_j, \mathbf{x}_i) + \mathbf{\eta}_i(t)$$
 
@@ -52,18 +52,18 @@ Network dynamics is deeply intertwined with several related concepts in the wiki
 
 The [[the-virtual-brain]] (TVB) simulator is arguably the most prominent software platform for whole-brain network dynamics modeling, allowing researchers to construct connectome-based models using various neural mass implementations and analyze their dynamics in relation to empirical neuroimaging data. Alternative approaches include [[dynamic-causal-modeling]] (DCM), which focuses on inferring effective connectivity from empirical data, and [[neural-field-theory]], which models spatial continuous patterns of neural activity rather than discrete regional nodes.
 
-Current debates in network dynamics concern the relative importance of structural constraints versus intrinsic stochasticity, the degree to which functional patterns can be explained by linear versus nonlinear dynamics, and how to reconcile the sometimes conflicting results from different neuroimaging modalities (e.g., fMRI versus MEG) that operate at different temporal and spatial scales.
+Current debates in network dynamics concern the relative importance of structural constraints versus intrinsic stochasticity, the degree to which functional patterns can be explained by [[linear]] versus [[nonlinear-dynamics]], and how to reconcile the sometimes conflicting results from different neuroimaging modalities (e.g., fMRI versus MEG) that operate at different temporal and spatial scales.
 
 ## Open Questions and Future Directions
 
 Several fundamental questions remain open in network dynamics. Can the diversity of brain-wide activity patterns be explained by a unified dynamical systems framework, or are multiple complementary views necessary? How do developmental changes in structural connectivity reshape the landscape of possible dynamics, and what are the implications for [[neurodevelopment]] and [[aging-brain]]? Can personalized network dynamics models—calibrated to individual connectomes—provide clinical utility for predicting disease progression or treatment response in conditions like [[alzheimers-modeling|Alzheimer's disease]] or [[epilepsy-modeling|epilepsy]]?
 
-Advances in multi-scale modeling, multimodal neuroimaging integration, and parameter estimation techniques continue to push the field toward more realistic and predictive models of brain network dynamics.
+Advances in multi-scale modeling, multimodal neuroimaging integration, and [[parameter-estimation]] techniques continue to push the field toward more realistic and predictive models of brain network dynamics.
 
 ## References
 
 1. Coşkun Çetin, Jose Roberto Castilho Piqueira, Burhaneddin İzgi̇, Ayşe Peker-Dobie, Semra Ahmetolan, Murat Özkaya. (2026). *Deterministic, stochastic, and mean-field PDE models in neuroscience*. Frontiers in Computational Neuroscience. [DOI](https://doi.org/10.3389/fncom.2026.1762692)
 2. Coskun Çetin, J.R.C. Piqueira, Burhaneddin Izgi, Ayse Peker-Dobie, S. Ahmetolan, Murat Özkaya. (2026). *Deterministic, stochastic, and mean-field PDE models in neuroscience*. Frontiers in Computational Neuroscience. [DOI](https://doi.org/10.3389/fncom.2026.1762692)
 3. Gianluca Gaglioti, Alessandra Cardinale, Cosimo Lupo, Thierry Nieus, Federico Marmoreo, Elena Focacci, Robin Gutzen, Michael Denker, Andrea Pigorini, Marcello Massimini, Simone Sarasso, Pier Stanislao Paolucci, Giulia De Bonis. *Emergent complexity and rhythms in evoked and spontaneous dynamics of human whole-brain models after tuning through analysis tools*. [Link](https://arxiv.org/abs/2509.12873)
-4. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *Arbor-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
+4. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
 5. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](https://doi.org/10.3389/fncom.2025.1731161)

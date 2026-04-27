@@ -38,7 +38,7 @@ Sporns' research integrates network science with neuroscience to understand how 
 ## Key Papers
 - sporns-tononi-kotter-2005 – The Human Connectome
 - sporns-2011 – Networks of the Brain (book)
-- rubinov-sporns-2010 – Brain Connectivity Toolbox
+- rubinov-sporns-2010 – [[brain-[[connectivity]]-toolbox]]
 - bullmore-sporns-2009 – Complex brain networks review
 - hagmann-2008 – Structural core
 
