@@ -4,6 +4,9 @@ sources:
 - https://ebrains.eu
 - https://handbook.ebrains.eu/about-ebrains/
 - https://www.humanbrainproject.eu/en/follow-hbp/news/discover-ebrains-a-look-inside-europes-new-platform-for-the-brain/
+- raw/papers/smith-2021.md
+- raw/papers/semanticscholar-e0e98b8d5a76.md
+- raw/papers/semanticscholar-9538aa9a62c5.md
 tags:
 - database-hcp
 - software-brain-modeling

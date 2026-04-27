@@ -9,6 +9,7 @@ sources:
 - raw/papers/breakspear-2017.md
 - raw/papers/barch-2013.md
 - raw/papers/arxiv-2603.24176.md
+- raw/papers/semanticscholar-913068805e7f.md
 tags:
 - structural-connectivity
 - neuroimaging-fmri

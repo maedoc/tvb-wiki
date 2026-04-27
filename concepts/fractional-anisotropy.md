@@ -2,6 +2,7 @@
 created: 2026-04-27
 sources:
 - raw/papers/smith-2013-connectomics.md
+- raw/papers/friston-1993.md
 tags:
 - fractional-anisotropy
 title: Fractional Anisotropy

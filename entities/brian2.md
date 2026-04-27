@@ -6,6 +6,7 @@ sources:
 - raw/papers/semanticscholar-9afbfd2d37be.md
 - raw/papers/arxiv-2604.16463.md
 - raw/papers/schirner-2018.md
+- raw/papers/arxiv-2507.22146.md
 tags:
 - software-brian2
 title: Brian2

@@ -6,6 +6,7 @@ sources:
 - raw/papers/glasser-2013.md
 - raw/papers/arxiv-2506.12719.md
 - raw/papers/arxiv-2601.13676.md
+- raw/papers/semanticscholar-109de470e443.md
 tags:
 - software-brain-modeling
 - structural-connectivity

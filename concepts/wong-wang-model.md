@@ -4,6 +4,7 @@ sources:
 - raw/papers/semanticscholar-ce89e593c89e.md
 - raw/papers/semanticscholar-85e2123db1a7.md
 - raw/papers/arxiv-2604.03619.md
+- raw/papers/arxiv-2601.03796.md
 tags:
 - wong-wang-model
 title: Wong Wang Model

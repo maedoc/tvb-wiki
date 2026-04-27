@@ -2,6 +2,8 @@
 created: 2026-04-20
 sources:
 - raw/papers/ogawa-1990.md
+- raw/papers/semanticscholar-e08252ec3941.md
+- raw/papers/arxiv-2602.03240.md
 tags:
 - people-researcher
 - neuroimaging-fmri

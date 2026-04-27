@@ -5,6 +5,7 @@ sources:
 - raw/papers/jordan-2018.md
 - raw/papers/arxiv-2603.07524.md
 - raw/papers/semanticscholar-ff8218c1e55e.md
+- raw/papers/semanticscholar-565d9037ee06.md
 tags:
 - compensation
 title: Compensation

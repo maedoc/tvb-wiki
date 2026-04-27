@@ -3,6 +3,7 @@ created: 2026-04-24
 sources:
 - raw/papers/shattuck-leahy-2002.md
 - raw/papers/bhushan-2012.md
+- raw/papers/van-essen-2013.md
 tags:
 - software-brain-modeling
 - neuroimaging-mri

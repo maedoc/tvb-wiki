@@ -6,6 +6,7 @@ sources:
 - raw/papers/semanticscholar-97e6ff441097.md
 - raw/papers/schirner-2018.md
 - raw/papers/woodman-2014.md
+- raw/papers/semanticscholar-5c84b271b035.md
 tags:
 - software-coreneuron
 title: CoreNEURON

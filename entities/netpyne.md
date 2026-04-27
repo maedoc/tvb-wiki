@@ -7,6 +7,7 @@ sources:
 - raw/papers/gewaltig-diesmann-2007.md
 - raw/papers/woodman-2014.md
 - raw/papers/arxiv-2604.16463.md
+- raw/papers/semanticscholar-5c84b271b035.md
 tags:
 - software-netpyne
 title: NetPyNE

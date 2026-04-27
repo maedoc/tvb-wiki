@@ -8,6 +8,7 @@ sources:
 - raw/papers/semanticscholar-eb704b6f5462.md
 - raw/papers/arxiv-2601.03796.md
 - raw/papers/arxiv-2603.20680.md
+- raw/papers/semanticscholar-565d9037ee06.md
 tags:
 - computational-neuroscience
 title: Computational Neuroscience

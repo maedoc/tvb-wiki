@@ -1,6 +1,7 @@
 ---
 created: 2026-04-27
-sources: []
+sources:
+- raw/papers/jordan-2018.md
 tags:
 - bids
 title: Bids

@@ -3,6 +3,8 @@ created: 2026-04-23
 sources:
 - raw/papers/arxiv-2602.09852.md
 - raw/papers/semanticscholar-adcab180dcd3.md
+- raw/papers/semanticscholar-c393c4c4a671.md
+- raw/papers/semanticscholar-fcd025fcc10c.md
 tags:
 - software-brain-modeling
 - diffusion-imaging

@@ -6,6 +6,8 @@ sources:
 - raw/papers/arxiv-2505.16861.md
 - raw/papers/helias-2012.md
 - raw/papers/arxiv-2509.02799.md
+- raw/papers/arxiv-2507.22146.md
+- raw/papers/semanticscholar-5c84b271b035.md
 tags:
 - software-brain-modeling
 - spiking-neural-networks

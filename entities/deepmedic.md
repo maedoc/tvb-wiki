@@ -6,6 +6,7 @@ sources:
 - raw/papers/arxiv-2603.07524.md
 - raw/papers/arxiv-2604.13574.md
 - raw/papers/arxiv-2603.13361.md
+- raw/papers/semanticscholar-bce71665922d.md
 tags:
 - deepmedic
 title: Deepmedic

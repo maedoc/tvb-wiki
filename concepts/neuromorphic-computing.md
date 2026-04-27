@@ -5,6 +5,7 @@ sources:
 - raw/papers/jordan-2018.md
 - raw/papers/strogatz-1994.md
 - raw/papers/arxiv-2603.09402.md
+- raw/papers/arxiv-2507.22146.md
 tags:
 - neuromorphic-computing
 title: Neuromorphic Computing

@@ -6,6 +6,7 @@ sources:
 - raw/papers/arxiv-2604.16463.md
 - raw/papers/migliore-2006.md
 - raw/papers/schirner-2018.md
+- raw/papers/semanticscholar-5c84b271b035.md
 tags:
 - software-neuroml
 title: NeuroML

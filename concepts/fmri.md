@@ -8,6 +8,7 @@ sources:
 - raw/papers/power-2011.md
 - raw/papers/arxiv-2509.24715.md
 - raw/papers/arxiv-2602.03240.md
+- raw/papers/semanticscholar-e08252ec3941.md
 tags:
 - neuroimaging-fmri
 title: fMRI

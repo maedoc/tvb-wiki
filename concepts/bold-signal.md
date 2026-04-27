@@ -6,6 +6,7 @@ sources:
 - raw/papers/arxiv-2604.03619.md
 - raw/papers/arxiv-2603.24176.md
 - raw/papers/arxiv-2511.02457.md
+- raw/papers/semanticscholar-e08252ec3941.md
 tags:
 - neuroimaging-fmri
 - functional-connectivity

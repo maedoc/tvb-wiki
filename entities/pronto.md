@@ -4,6 +4,8 @@ sources:
 - raw/papers/arxiv-2603.29176.md
 - raw/papers/semanticscholar-301489ffb9de.md
 - raw/papers/semanticscholar-24420855b2da.md
+- raw/papers/semanticscholar-fb4cf47c4f31.md
+- raw/papers/semanticscholar-109de470e443.md
 tags:
 - software-brain-modeling
 - neuroimaging-fmri

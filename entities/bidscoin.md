@@ -6,6 +6,7 @@ sources:
 - raw/papers/sanz-leon-2013.md
 - raw/papers/semanticscholar-f45e6044c92f.md
 - raw/papers/woodman-2014.md
+- raw/papers/semanticscholar-4d73a30d5c84.md
 tags:
 - software-bidscoin
 title: BidsCoin

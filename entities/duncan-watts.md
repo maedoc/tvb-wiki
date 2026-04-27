@@ -2,6 +2,7 @@
 created: 2026-04-20
 sources:
 - raw/papers/watts-strogatz-1998.md
+- raw/papers/barabasi-albert-1999.md
 tags:
 - people-researcher
 - network-dynamics

@@ -6,6 +6,7 @@ sources:
 - raw/papers/semanticscholar-97e6ff441097.md
 - raw/papers/semanticscholar-0aeca1b592e6.md
 - raw/papers/semanticscholar-9afbfd2d37be.md
+- raw/papers/semanticscholar-5c84b271b035.md
 tags:
 - software-pynn
 title: PyNN

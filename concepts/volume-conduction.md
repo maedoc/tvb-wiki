@@ -4,6 +4,7 @@ sources:
 - raw/papers/strogatz-1994.md
 - raw/papers/friston-1993.md
 - raw/papers/semanticscholar-ce89e593c89e.md
+- raw/papers/breakspear-2017.md
 tags:
 - volume-conduction
 title: Volume Conduction

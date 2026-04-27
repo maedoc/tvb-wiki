@@ -5,6 +5,8 @@ sources:
 - raw/papers/arxiv-2512.17472.md
 - raw/papers/semanticscholar-301489ffb9de.md
 - raw/papers/semanticscholar-2aec2fba7ab8.md
+- raw/papers/arxiv-2604.16243.md
+- raw/papers/arxiv-2504.19937.md
 tags:
 - software-brain-modeling
 - neuroimaging-processing
@@ -13,7 +15,7 @@ tags:
 - tractography
 title: FastSurfer
 type: entity
-updated: '2026-04-24'
+updated: '2026-04-27'
 ---
 
 All issues fixed. Here's the corrected file:

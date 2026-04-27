@@ -4,6 +4,8 @@ sources:
 - raw/papers/barabasi-albert-1999.md
 - raw/papers/friston-1993.md
 - raw/papers/arxiv-2603.07524.md
+- raw/papers/arxiv-2601.03796.md
+- raw/papers/arxiv-2602.03240.md
 tags:
 - damien-fair
 title: Damien Fair

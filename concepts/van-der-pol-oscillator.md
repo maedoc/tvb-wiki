@@ -4,6 +4,7 @@ sources:
 - raw/papers/strogatz-1994.md
 - raw/papers/semanticscholar-b299aa3db60e.md
 - raw/papers/arxiv-2601.03796.md
+- raw/papers/semanticscholar-dfee0050cd16.md
 tags:
 - van-der-pol-oscillator
 title: Van Der Pol Oscillator

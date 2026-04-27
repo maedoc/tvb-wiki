@@ -4,6 +4,7 @@ sources:
 - raw/papers/semanticscholar-e923a3372ab2.md
 - raw/papers/semanticscholar-24420855b2da.md
 - raw/papers/semanticscholar-9afbfd2d37be.md
+- raw/papers/semanticscholar-ff8218c1e55e.md
 tags:
 - software-brain-modeling
 title: Open Source Brain

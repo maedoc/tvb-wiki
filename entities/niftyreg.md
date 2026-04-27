@@ -6,6 +6,8 @@ sources:
 - raw/papers/semanticscholar-97e6ff441097.md
 - raw/papers/semanticscholar-fcd025fcc10c.md
 - raw/papers/semanticscholar-a324c47ea982.md
+- raw/papers/semanticscholar-109de470e443.md
+- raw/papers/semanticscholar-4d73a30d5c84.md
 tags:
 - software-brain-modeling
 - neuroimaging-processing

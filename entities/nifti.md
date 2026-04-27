@@ -2,6 +2,8 @@
 created: 2026-04-27
 sources:
 - raw/papers/friston-1993.md
+- raw/papers/smith-2013-connectomics.md
+- raw/papers/sporns-2011.md
 tags:
 - nifti
 title: Nifti

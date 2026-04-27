@@ -5,6 +5,7 @@ sources:
 - raw/papers/strogatz-1994.md
 - raw/papers/jordan-2018.md
 - raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-565d9037ee06.md
 tags:
 - neuroelectro
 title: Neuroelectro
