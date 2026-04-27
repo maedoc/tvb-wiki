@@ -1,0 +1,15 @@
+# Aberrant Cortical-Subcortical-Cerebellar Connectivity in Resting-State fMRI as an Imaging Marker of Schizophrenia and Psychosis: A Systematic Review of Data-Driven Whole-Brain Functional Connectivity Analyses
+
+**Source**: semantic-scholar
+**ID**: 4c098a7bad242d0cb33e471d8d392881eb8fbe25
+**DOI**: 10.1101/2025.06.19.25329865
+**URL**: https://www.semanticscholar.org/paper/4c098a7bad242d0cb33e471d8d392881eb8fbe25
+**Date**: 2025-06-20
+**Year**: 2025
+**Authors**: Kyle M. Jensen, Tricia Z. King, P. Andrés-Camazón, V. Calhoun, A. Iraji
+**Venue**: medRxiv
+**Citations**: 0
+
+## Abstract
+
+Schizophrenia is extremely heterogenous, and the underlying brain mechanisms are not fully understood. Many attempts have been made to substantiate and delineate the relationship between schizophrenia and the brain through unbiased exploratory investigations of resting-state functional magnetic resonance imaging (rs-fMRI). The results of numerous data-driven rs-fMRI studies have converged in support of the disconnection hypothesis framework, reporting aberrant connectivity in cortical-subcortical-cerebellar circuitry. However, this model is vague and underspecified, encompassing a vast array of findings across studies. It is necessary to further refine this model to identify consistent patterns and establish stable imaging markers of schizophrenia and psychosis. The organizational structure of the NeuroMark atlas is especially well-equipped for describing functional units derived through independent component analysis (ICA) and uniting findings across studies utilizing data-driven whole-brain functional connectivity (FC) to characterize schizophrenia and psychosis. Towards this goal, a systematic literature review was conducted on primary empirical articles published in English in peer-reviewed journals between January 2019 - February 2025 which utilized cortical-subcortical-cerebellar terminology to describe schizophrenia-control comparisons of whole-brain FC in human rs-fMRI. The electronic databases utilized included Google scholar, PubMed, and APA PsycInfo, and search terms included ("schizophrenia" OR "psychosis") AND "resting-state fMRI" AND ("cortical-subcortical-cerebellar" OR "cerebello-thalamo-cortical"). 10 studies were identified and NeuroMark nomenclature was utilized to describe findings within a common reference space. The most consistent patterns included cerebellar-thalamic hypoconnectivity, cerebellar-cortical (sensorimotor & insular-temporal) hyperconnectivity, subcortical (basal ganglia & thalamic) - cortical (sensorimotor, temporoparietal, insular-temporal, occipitotemporal, & occipital) hyperconnectivity, and cortical-cortical (insular-temporal & occipitotemporal) hypoconnectivity. Patterns implicating prefrontal cortex are largely inconsistent across studies and may not be effective targets for establishing stable imaging markers based on static FC in rs-fMRI. Instead, adapting new analytical strategies, or focusing on nodes in the cerebellum, thalamus, and primary motor and sensory cortex may prove to be a more effective approach.
