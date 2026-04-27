@@ -72,7 +72,7 @@ The default mode network (DMN) exemplifies these developmental changes. In child
 
 ### Network Topology
 
-[[power-2010|Power et al.]] (2010) provided a comprehensive review of how large-scale [[brain-network]] topology develops across childhood and adolescence. Several key metrics show characteristic developmental patterns:
+Power et al. (2010) (2010) provided a comprehensive review of how large-scale [[brain-network]] topology develops across childhood and adolescence. Several key metrics show characteristic developmental patterns:
 
 **Modularity** increases from childhood through adolescence, reflecting the differentiation of functionally specialized subnetworks within the broader brain network. This increase in modularity represents a refinement of functional segregation, where different network modules become more specialized for specific cognitive processes while maintaining integration through hub regions.
 

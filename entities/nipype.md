@@ -31,7 +31,7 @@ NiPype provides standardized Python interfaces to major neuroimaging packages in
 **Workflow Engine**
 The workflow system in NiPype implements a directed acyclic graph (DAG) execution model, enabling:
 - Automatic dependency resolution between processing [[steps]]
-- Parallel execution on local multi-core machines or distributed computing clusters (via [[sge]], [[slurm]], [[pbs]], or [[htcondor]])
+- Parallel execution on local multi-core machines or distributed computing clusters (via SGE, SLURM, PBS, or HTCondor)
 - Lazy re-execution that only recomputes changed steps when pipelines are modified
 - Detailed provenance tracking recording the exact software versions and parameters used
 
@@ -39,7 +39,7 @@ The workflow system in NiPype implements a directed acyclic graph (DAG) executio
 NiPype integrates with [[bids]] (Brain Imaging Data Structure) standards and provides utilities for handling neuroimaging file formats including [[nifti]], [[cifti]], and surface-based gifti files through its companion library [[nibabel]].
 
 **Integration Ecosystem**
-The project is part of the broader scientific Python stack, interoperating with [[numpy]], [[scipy]], [[matplotlib]], [[pandas]], and [[jupyter]] notebooks. NiPype originated as part of the Nipy neuroimaging Python ecosystem alongside [[nibabel]], maintaining close integration for neuroimaging file I/O operations.
+The project is part of the broader scientific Python stack, interoperating with NumPy, SciPy, Matplotlib, pandas, and Jupyter notebooks. NiPype originated as part of the Nipy neuroimaging Python ecosystem alongside [[nibabel]], maintaining close integration for neuroimaging file I/O operations.
 
 ## Relationship to TVB
 

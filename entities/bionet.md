@@ -42,7 +42,7 @@ The framework emphasizes "mass action" in neural systems—how populations of ne
 
 ## K-Set Hierarchy
 
-The K-set framework categorizes neural populations by complexity of interaction [[freeman1975]][[freeman2000]]:
+The K-set framework categorizes neural populations by complexity of interaction Freeman (1975)Freeman (2000):
 
 | Level | Description | Dynamics |
 |-------|-------------|----------|
@@ -75,11 +75,11 @@ BioNet and [[TVB]] share foundations in neural mass modeling:
 | **Neural models** | Freeman K-sets | Jansen-Rit, Wong-Wang, Wilson-Cowan |
 | **Dynamics** | Continuous differential equations | Graph-based connectivity |
 
-Freeman's K-set framework influenced subsequent neural mass formulations, including the [[Jansen-Rit]] model used in [[TVB]] and [[dynamic-causal-modeling]] [[schuster2021]].
+Freeman's K-set framework influenced subsequent neural mass formulations, including the [[Jansen-Rit]] model used in [[TVB]] and [[dynamic-causal-modeling]] Schuster et al. (2021).
 
 ## Historical Context
 
-[[Walter Freeman]] (1927–2016) pursued this work at the University of California, Berkeley, where he developed the K-set framework through decades of research on the olfactory system and cortical dynamics [[freeman2000]][[kozma2012]]. His mesoscopic approach emphasized that EEG and local field potentials reflect cooperative activity of neural populations rather than single-neuron spiking.
+[[Walter Freeman]] (1927–2016) pursued this work at the University of California, Berkeley, where he developed the K-set framework through decades of research on the olfactory system and cortical dynamics Freeman (2000)Kozma et al. (2012). His mesoscopic approach emphasized that EEG and local field potentials reflect cooperative activity of neural populations rather than single-neuron spiking.
 
 Freeman's insight that chaotic attractors in KIII sets enable rapid perceptual transitions influenced later whole-brain modeling approaches, demonstrating how structured neural population dynamics support cognitive function.
 
@@ -101,11 +101,11 @@ Freeman's insight that chaotic attractors in KIII sets enable rapid perceptual t
 
 ## References
 
-[[freeman1975]]: Freeman, W.J. (1975). "Mass Action in the Nervous System: Examination of the Neurophysiological Basis of Adaptive Behavior Through the EEG." Academic Press.
+Freeman (1975): Freeman, W.J. (1975). "Mass Action in the Nervous System: Examination of the Neurophysiological Basis of Adaptive Behavior Through the EEG." Academic Press.
 
-[[freeman2000]]: Freeman, W.J. (2000). "Neurodynamics: An Exploration in Mesoscopic Brain Dynamics." Springer.
+Freeman (2000): Freeman, W.J. (2000). "Neurodynamics: An Exploration in Mesoscopic Brain Dynamics." Springer.
 
-[[kozma2012]]: Kozma, R., & Freeman, W.J. (2012). "The KIV model of intentional dynamics and decision making." Neural Networks, 22(8), 737-747.
+Kozma et al. (2012): Kozma, R., & Freeman, W.J. (2012). "The KIV model of intentional dynamics and decision making." Neural Networks, 22(8), 737-747.
 
-[[schuster2021]]: Schuster, L., et al. (2021). "Neural mass models in neuroscience." *Brain Topography*, 34(6), 717-740.
+Schuster et al. (2021): Schuster, L., et al. (2021). "Neural mass models in neuroscience." *Brain Topography*, 34(6), 717-740.
 ```

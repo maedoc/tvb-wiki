@@ -20,17 +20,17 @@ type: concept
 updated: '2026-04-27'
 ---
 
-The **Default Mode Network (DMN)** is a large-scale [[brain-network]] identified through neuroimaging that demonstrates high metabolic activity during wakeful rest and systematic deactivation during externally-oriented goal-directed tasks. First characterized by [[raichle-2001]] using positron emission tomography (PET), the DMN represents the brain's baseline or "default" mode of operation—the spontaneous neural activity that dominates when an individual is not engaged in explicit task performance. This network has become fundamental to our understanding of intrinsic brain organization and its dysfunction in psychiatric and neurological conditions.
+The **Default Mode Network (DMN)** is a large-scale [[brain-network]] identified through neuroimaging that demonstrates high metabolic activity during wakeful rest and systematic deactivation during externally-oriented goal-directed tasks. First characterized by Raichle et al. (2001) using positron emission tomography (PET), the DMN represents the brain's baseline or "default" mode of operation—the spontaneous neural activity that dominates when an individual is not engaged in explicit task performance. This network has become fundamental to our understanding of intrinsic brain organization and its dysfunction in psychiatric and neurological conditions.
 
 ## Conceptual Origin and Significance
 
-The discovery of the DMN emerged from a pivotal observation in functional neuroimaging: certain brain regions consistently show higher metabolic activity at rest than during task performance. [[raichle-2001]] formalised this observation, proposing that these regions constitute a coherent network representing the brain's default state of organized, intrinsic activity. This conceptual shift transformed how neuroscientists think about brain function—moving from a view that treated rest as an absence of activity to recognizing it as an active, structured process with distinct dynamics.
+The discovery of the DMN emerged from a pivotal observation in functional neuroimaging: certain brain regions consistently show higher metabolic activity at rest than during task performance. Raichle et al. (2001) formalised this observation, proposing that these regions constitute a coherent network representing the brain's default state of organized, intrinsic activity. This conceptual shift transformed how neuroscientists think about brain function—moving from a view that treated rest as an absence of activity to recognizing it as an active, structured process with distinct dynamics.
 
 The significance of the DMN extends beyond its role as a baseline state. It provides a framework for understanding internally-directed cognition—the mental processes that occur independently of external sensory input. Prior to the identification of the DMN, neuroscience research had focused predominantly on mapping brain responses to external stimuli. The DMN research tradition established that the resting brain engages in substantial information processing, including autobiographical memory retrieval, future planning, social cognition, and self-referential thinking. This conceptual advance laid the groundwork for the modern field of [[resting-state]] neuroimaging and [[functional-connectivity]] analysis.
 
 ## Core Anatomical Architecture
 
-The DMN exhibits a characteristic anatomical distribution centered on the medial wall of the cerebral cortex. [[buckner-andrews-hanna-schacter-2008]] provided a comprehensive anatomical characterization establishing the canonical regions comprising this network.
+The DMN exhibits a characteristic anatomical distribution centered on the medial wall of the cerebral cortex. Buckner et al. (2008) provided a comprehensive anatomical characterization establishing the canonical regions comprising this network.
 
 ### Hub Regions
 
@@ -46,7 +46,7 @@ Diffusion tensor imaging studies reveal that DMN regions are connected by dense 
 
 ## Functional Organization and Subsystems
 
-Subsequent research revealed that the DMN is not a homogeneous entity but comprises functionally specialized subsystems. [[andrews-hanna-2010]] (building on [[buckner-andrews-hanna-schacter-2008]]) proposed a influential fractionation of the DMN into two distinct subsystems with differential connectivity patterns and cognitive functions.
+Subsequent research revealed that the DMN is not a homogeneous entity but comprises functionally specialized subsystems. Andrews-Hanna et al. (2010) (building on Buckner et al. (2008)) proposed a influential fractionation of the DMN into two distinct subsystems with differential connectivity patterns and cognitive functions.
 
 ### Dorsal Medial Prefrontal Subsystem
 
