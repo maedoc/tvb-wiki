@@ -456,3 +456,5 @@
 ## [2026-04-27 20:20] Improve: 3 pages improved (scirun, brainsuite, ebrains)
 
 ## [2026-04-27 20:20] RefFormatter: formatted references on 19 pages
+
+## [2026-04-27 20:24] CrosslinkApplier: added 60 wikilinks (60 inline, 0 suggested)
