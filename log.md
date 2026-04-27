@@ -492,3 +492,7 @@
 ## [2026-04-27 23:37] Linter: 0 broken links, 66 orphans, 77 stale, 116 empty
 
 ## [2026-04-27 23:56] SoftwareMapper: 20 pages created
+
+## [2026-04-27 23:58] Improve: 3 pages improved (nibetaseries, cat12, chronux)
+
+- Updated [[lfpy]] entity page with comprehensive content including overview, technical framework, key features, relationship to TVB, key papers, and related software.
