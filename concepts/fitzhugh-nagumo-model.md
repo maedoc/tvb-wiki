@@ -13,3 +13,7 @@ Fitzhugh Nagumo Model — a concept in [[whole-brain|whole-brain modeling]] and 
 
 ## Related Concepts
 * [[oscillator]]
+
+## References
+
+1. (authors unknown). *Nonlinear Dynamics and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering*.

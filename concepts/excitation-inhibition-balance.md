@@ -13,3 +13,7 @@ Excitation Inhibition Balance — a concept in [[whole-brain|whole-brain modelin
 
 ## Related Concepts
 * [[wong-wang-exc-inh]]
+
+## References
+
+1. Zhengdi Zhang, Yan Xu, Wenjun Xia. *Single-Node Wilson--Cowan Model Accounts for Speech-Evoked $γ$-Band Deficits in Schizophrenia*. [Link](https://arxiv.org/abs/2601.15032)

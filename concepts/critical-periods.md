@@ -13,3 +13,7 @@ Critical Periods — a concept in [[whole-brain|whole-brain modeling]] and [[com
 
 ## Related Concepts
 * [[developmental-trajectories]]
+
+## References
+
+1. (authors unknown). *Dynamic Mapping of Human Cortical Development During Childhood Through Early Adulthood*.

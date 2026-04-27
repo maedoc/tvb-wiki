@@ -15,3 +15,9 @@ Plasticity — a concept in [[whole-brain|whole-brain modeling]] and [[computati
 
 ## Related Concepts
 * [[developmental-trajectories]]
+
+## References
+
+1. (authors unknown). *Mapping the Structural Core of Human Cerebral Cortex*.
+2. (authors unknown). *Functional Connectivity: The Principal-Component Analysis of Large (PET and fMRI) Data Sets*.
+3. (authors unknown). *Emergence of Scaling in Random Networks*.

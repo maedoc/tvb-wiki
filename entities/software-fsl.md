@@ -14,3 +14,8 @@ Software Fsl — a concept in [[whole-brain|whole-brain modeling]] and [[computa
 
 ## Related Concepts
 * [[conn]]
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Timo Hofsähs, Marius Pille, Lucas Kern, Anuja Negi, J. Meier, Petra Ritter. (2026). *The Virtual Brain links transcranial magnetic stimulation evoked potentials and inhibitory neurotransmitter changes in major depressive disorder*. bioRxiv. [DOI](https://doi.org/10.1101/2024.11.25.622620)

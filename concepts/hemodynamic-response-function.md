@@ -13,3 +13,7 @@ Hemodynamic Response Function — a concept in [[whole-brain|whole-brain modelin
 
 ## Related Concepts
 * [[bold-signal]]
+
+## References
+
+1. (authors unknown). *Functional Connectivity: The Principal-Component Analysis of Large (PET and fMRI) Data Sets*.

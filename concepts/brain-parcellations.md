@@ -13,3 +13,7 @@ Brain Parcellations — a concept in [[whole-brain|whole-brain modeling]] and [[
 
 ## Related Concepts
 * [[aal-atlas]]
+
+## References
+
+1. (authors unknown). *Mapping the Structural Core of Human Cerebral Cortex*.

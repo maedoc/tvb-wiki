@@ -16,3 +16,9 @@ Successful [[aging]] — a concept in [[whole-brain|whole-brain modeling]] and [
 
 ## Related Concepts
 * [[cognitive-reserve]]
+
+## References
+
+1. (authors unknown). *The Cognitive Neuroscience of Ageing and Functional Reserve*.
+2. (authors unknown). *Memory and Executive Function in Aging and AD: Multiple Factors that Cause Decline and Reserve Factors that Compensate*.
+3. (authors unknown). *Maintenance, Reserve and Compensation: The Cognitive Neuroscience of Healthy Ageing*.

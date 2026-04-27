@@ -64,3 +64,11 @@ Despite substantial progress, forward modeling in neuroimaging faces several ope
 ## Related Concepts
 
 Forward models connect to several other key concepts in the wiki. They are the generative counterpart to [[source-localization|source localization]] algorithms, which attempt to solve the inverse problem. They provide the observation model for [[dynamic-causal-modeling|DCM]] and for related [[parameter-estimation|parameter estimation]] frameworks. The [[hemodynamic-response-function]] is itself a forward model component for fMRI. Forward models are used extensively in [[the-virtual-brain|The Virtual Brain]] and related [[whole-brain-simulators|whole-brain simulators]] to produce virtual neuroimaging data from large-scale network dynamics.
+
+## References
+
+1. (authors unknown). *Large-scale recording of neuronal ensembles*.
+2. Peter Yongho Kim, Juhyeon Park, Jungwoo Park, Jubin Choi, Jungwoo Seo, Jiook Cha, Taesup Moon. (2026). *Can Natural Image Autoencoders Compactly Tokenize fMRI Volumes for Long-Range Dynamics Modeling?*. [Link](https://arxiv.org/abs/2604.03619)
+3. Sangyoon Bae, Miruna Oprescu, David Keetae Park, Shinjae Yoo, Jiook Cha. *Recovering Whole-Brain Causal Connectivity under Indirect Observation with Applications to Human EEG and fMRI*. [Link](https://arxiv.org/abs/2602.09034)
+4. (authors unknown). *Variational Free Energy and the Laplace Approximation*.
+5. Rosa Maria Delicado, Gemma Huguet, Pau Clusella. (2025). *Emergent Spatiotemporal Dynamics in Large-Scale Brain Networks with Next Generation Neural Mass Models*. [Link](https://arxiv.org/abs/2512.03907)
