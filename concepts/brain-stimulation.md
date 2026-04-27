@@ -11,10 +11,10 @@ updated: 2026-04-27
 Brain Stimulation is a key concept in computational neuroscience and whole-brain modeling. This page provides an overview of Brain Stimulation and its role in the broader landscape of brain modeling and analysis.
 
 ## Definition
-*Placeholder for formal definition of Brain Stimulation.*
+**
 
 ## Role in Whole-Brain Modeling
-*Placeholder for how this concept is used in modeling.*
+**
 
 ## Related Concepts
 * [[wong-wang]]
@@ -26,4 +26,4 @@ Brain Stimulation is a key concept in computational neuroscience and whole-brain
 * [[larter-breakspear]]
 
 ## References
-*Links to relevant papers.*
+**

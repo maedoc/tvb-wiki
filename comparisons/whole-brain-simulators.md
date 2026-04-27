@@ -33,4 +33,4 @@ Landscape of [[whole-brain]] simulation tools
 
 ## References
 
-*Links to relevant papers.*
+**

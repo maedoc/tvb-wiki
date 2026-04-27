@@ -11,10 +11,10 @@ updated: 2026-04-27
 Parameter Estimation is a key concept in computational neuroscience and whole-brain modeling. This page provides an overview of Parameter Estimation and its role in the broader landscape of brain modeling and analysis.
 
 ## Definition
-*Placeholder for formal definition of Parameter Estimation.*
+**
 
 ## Role in Whole-Brain Modeling
-*Placeholder for how this concept is used in modeling.*
+**
 
 ## Related Concepts
 * [[parcellation]]
@@ -25,4 +25,4 @@ Parameter Estimation is a key concept in computational neuroscience and whole-br
 * [[oscillator]]
 
 ## References
-*Links to relevant papers.*
+**
