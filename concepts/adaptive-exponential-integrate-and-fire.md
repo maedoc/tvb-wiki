@@ -1,6 +1,7 @@
 ---
 created: 2026-04-27
-sources: []
+sources:
+- raw/papers/semanticscholar-71ffb8153870.md
 tags:
 - adaptive-exponential-integrate-and-fire
 title: Adaptive Exponential Integrate And Fire

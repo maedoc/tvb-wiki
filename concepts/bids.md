@@ -2,6 +2,7 @@
 created: 2026-04-27
 sources:
 - raw/papers/jordan-2018.md
+- raw/papers/sanz-leon-2013.md
 tags:
 - bids
 title: Bids

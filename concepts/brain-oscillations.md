@@ -4,6 +4,8 @@ sources:
 - raw/papers/deco-2013.md
 - raw/papers/breakspear-2017.md
 - raw/papers/izhikevich-2007.md
+- raw/papers/semanticscholar-e1fa0a868dbe.md
+- raw/papers/arxiv-2512.03907.md
 tags:
 - brain-oscillations
 title: Brain Oscillations
