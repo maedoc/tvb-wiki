@@ -10,7 +10,7 @@ tags:
 - database-uk-biobank
 title: Fidel Alfaro-Almagro
 type: entity
-updated: '2026-04-24'
+updated: '2026-04-27'
 ---
 
 # Fidel Alfaro-Almagro
@@ -39,3 +39,9 @@ Alfaro-Almagro's work focuses on:
 - image-processing – MRI preprocessing
 - quality-control – Data quality assessment
 - neuroimaging-fmri – Functional MRI
+
+## References
+
+1. (authors unknown). *Image Processing and Quality Control for the First 100,000 Brain Imaging Datasets from UK Biobank*.
+2. (authors unknown). *Genome-wide Association Studies of Brain Imaging Phenotypes from UK Biobank*.
+3. (authors unknown). *Multimodal Population Brain Imaging in the UK Biobank: Prospective Epidemiological Study*.

@@ -17,7 +17,7 @@ tags:
 - connectomics
 title: Structural Connectivity
 type: concept
-updated: '2026-04-23'
+updated: '2026-04-27'
 ---
 
 # Structural Connectivity
@@ -72,3 +72,15 @@ Structural connectivity is a primary input to whole-brain models:
 - [[tractography]] – Fiber tracking methods
 - [[dti]] – Primary measurement method
 - white-matter – Myelinated fiber tracts
+
+## References
+
+1. (authors unknown). *MR diffusion tensor spectroscopy and imaging*.
+2. (authors unknown). *Three-dimensional tracking of axonal projections in the brain by magnetic resonance imaging*.
+3. (authors unknown). *Challenges and limitations of quantifying brain connectivity in vivo with diffusion MRI*.
+4. (authors unknown). *Building connectomes using diffusion MRI: Why, how and but*.
+5. Jose Rodriguez-Acosta, Sharmistha Guha, Jessica Bernard, Thamires Magalhaes, Kaitlin McOwen. *Integrative Predictor-Dependent Learning of Network Data and Spatially Correlated Nodal Attributes for Multimodal Brain Imaging in Aging*. [Link](https://arxiv.org/abs/2603.21032)
+6. (authors unknown). *Predicting Human Resting-State Functional Connectivity from Structural Connectivity*.
+7. Sakul Mahat, Sharmistha Guha, Jessica Bernard. (2026). *A Bayesian Framework for Quantifying Association Between Functional and Structural Data in Neuroimaging*. [Link](https://arxiv.org/abs/2603.21067)
+8. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
+9. Daniele Licciardo, Chiara Matti, A. Benelli, V. Isella, I. Appollonio, E. Santarnecchi. (2026). *Gray matter atrophy and structural connectivity in Posterior Cortical Atrophy: a voxel-based meta-analysis.*. Neuroscience and Biobehavioral Reviews. [DOI](https://doi.org/10.1016/j.neubiorev.2026.106554)

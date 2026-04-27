@@ -10,7 +10,7 @@ tags:
 - database-uk-biobank
 title: Karla L. Miller
 type: entity
-updated: '2026-04-24'
+updated: '2026-04-27'
 ---
 
 # Karla L. Miller
@@ -42,3 +42,9 @@ Miller's research emphasizes:
 
 ## Resources
 - UK Biobank Imaging: www.ukbiobank.ac.uk
+
+## References
+
+1. (authors unknown). *Multimodal Population Brain Imaging in the UK Biobank: Prospective Epidemiological Study*.
+2. (authors unknown). *Genome-wide Association Studies of Brain Imaging Phenotypes from UK Biobank*.
+3. (authors unknown). *Image Processing and Quality Control for the First 100,000 Brain Imaging Datasets from UK Biobank*.

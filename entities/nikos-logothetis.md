@@ -1,10 +1,14 @@
 ---
-title: Nikos Logothetis
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/logothetis-2001.md
+tags:
+- people-researcher
+- neuroimaging-fmri
+- neurophysiology
+title: Nikos Logothetis
 type: entity
-tags: [people-researcher, neuroimaging-fmri, neurophysiology]
-sources: [raw/papers/logothetis-2001.md]
+updated: '2026-04-27'
 ---
 
 # Nikos Logothetis
@@ -33,3 +37,7 @@ Logothetis's work provides the empirical foundation for coupling neural mass mod
 - [[bold-signal]]
 - neurovascular-coupling
 - local-field-potential
+
+## References
+
+1. (authors unknown). *Neurophysiological investigation of the basis of the fMRI signal*.

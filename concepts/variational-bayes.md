@@ -1,25 +1,25 @@
 ---
-title: Variational Bayes
 created: 2026-04-20
-updated: 2026-04-24
-type: concept
-tags:
-  - variational-bayes
-  - dynamic-causal-modeling
-  - parameter-estimation
-  - free-energy-principle
-  - mean-field-theory
-  - neuroimaging-fmri
-  - neuroimaging-eeg
-  - effective-connectivity
-  - neural-mass-models
-  - whole-brain-modeling
 sources:
-  - raw/papers/friston-2007.md
-  - raw/papers/beal-2003.md
-  - raw/papers/blei-kucukelbir-mcauliffe-2017.md
-  - raw/papers/wainwright-jordan-2008.md
-  - raw/papers/rezende-mohamed-2015.md
+- raw/papers/friston-2007.md
+- raw/papers/beal-2003.md
+- raw/papers/blei-kucukelbir-mcauliffe-2017.md
+- raw/papers/wainwright-jordan-2008.md
+- raw/papers/rezende-mohamed-2015.md
+tags:
+- variational-bayes
+- dynamic-causal-modeling
+- parameter-estimation
+- free-energy-principle
+- mean-field-theory
+- neuroimaging-fmri
+- neuroimaging-eeg
+- effective-connectivity
+- neural-mass-models
+- whole-brain-modeling
+title: Variational Bayes
+type: concept
+updated: '2026-04-27'
 ---
 
 ## What is Variational Bayes?
@@ -53,3 +53,11 @@ In computational neuroscience, VB is most visible as the inference backbone of [
 ## Related Concepts
 
 VB sits at the intersection of several lines of work. Its optimization objective shares foundations with the [[free-energy-principle]], while its factorized approximations connect to [[mean-field-theory]] in statistical physics. For models with continuous state dynamics, VB complements methods based on [[stochastic-differential-equations]] and the [[fokker-planck-equation]], which describe population evolution rather than parameter inference. In practice, VB is often compared to sampling-based approaches and to simpler maximum-likelihood or maximum-a-posteriori point estimates; it occupies a middle ground, delivering richer uncertainty quantification than the latter at a fraction of the computational cost of the former.
+
+## References
+
+1. (authors unknown). *Variational Free Energy and the Laplace Approximation*.
+2. (authors unknown). *Variational Algorithms for Approximate Bayesian Inference*.
+3. (authors unknown). *Variational Inference: A Review for Statisticians*.
+4. (authors unknown). *Graphical Models, Exponential Families, and Variational Inference*.
+5. (authors unknown). *Variational Inference with Normalizing Flows*.

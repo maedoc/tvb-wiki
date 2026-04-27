@@ -11,7 +11,7 @@ tags:
 - people-researcher
 title: Steven Strogatz
 type: entity
-updated: '2026-04-24'
+updated: '2026-04-27'
 ---
 
 ## Overview
@@ -38,3 +38,12 @@ Steven H. Strogatz (born 1959) is an American mathematician and the Jacob Gould 
 - Strogatz (1994) — Nonlinear Dynamics and Chaos
 - Watts & Strogatz (1998) — Small-world networks
 - Strogatz (2003) — Sync: The Emerging Science of Spontaneous Order
+
+## References
+
+1. (authors unknown). *Nonlinear Dynamics and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering*.
+2. (authors unknown). *Nonlinear Oscillations, Dynamical Systems, and Bifurcations of Vector Fields*.
+3. (authors unknown). *Differential Equations, Dynamical Systems, and an Introduction to Chaos*.
+4. (authors unknown). *Networks: An Introduction*.
+5. Eugene M. Izhikevich. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
+6. (authors unknown). *Mathematical Foundations of Neuroscience*.

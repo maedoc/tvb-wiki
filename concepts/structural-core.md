@@ -15,7 +15,7 @@ tags:
 - network-dynamics
 title: Structural Core
 type: concept
-updated: '2026-04-23'
+updated: '2026-04-27'
 ---
 
 # Structural Core
@@ -93,3 +93,14 @@ Core regions function as connector hubs, linking different functional modules.
 - [[default-mode-network]] – Resting-state network
 - [[connectome]] – Complete connectivity
 - [[structural-connectivity]] – Anatomical connections
+
+## References
+
+1. (authors unknown). *Mapping the Structural Core of Human Cerebral Cortex*.
+2. (authors unknown). *Networks of the Brain*.
+3. Xin Li, J. Olofsson, Jonas Persson. (2026). *Structural connectivity of the human olfactory network and its relation to aging and olfactory function*. Imaging Neuroscience. [DOI](https://doi.org/10.1162/imag.a.1181)
+4. Fan Li, Shuwei Bai, Yuxiao Liu, Ziyi Chen, Shilun Zhao, Zhongxiang Ding, Fang Xie, Yin Xu, Ling Yue, Han Zhang, Ya Zhang, Kaicong Sun, Dinggang Shen. (2026). *Enhancing diagnosis of mild cognitive impairment through brain-heart-gut metabolic networks in whole-body PET imaging.*. Cell Reports Medicine. [DOI](https://doi.org/10.1016/j.xcrm.2026.102629)
+5. (authors unknown). *Emergence of Scaling in Random Networks*.
+6. Jianwei Chen, Zhengyang Miao, Wenjie Cai, Jiaxue Tang, Boxing Liu, Yunfan Zhang, Yuhang Yang, Hao Tang, Carola-Bibiane Schönlieb, Zaixu Cui, Du Lei, Shouliang Qi, Chao Li. (2026). *Hierarchical Multiscale Structure-Function Coupling for Brain Connectome Integration*. [Link](https://arxiv.org/abs/2603.20680)
+7. (authors unknown). *The Brain's Default Network: Anatomy, Function, and Relevance to Disease*.
+8. Andrea Santoro, Marco Nurisso, Giovanni Petri. (2025). *From Nodes to Edges: Edge-Based Laplacians for Brain Signal Processing*. [Link](https://arxiv.org/abs/2512.13420)

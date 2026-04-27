@@ -12,7 +12,7 @@ tags:
 - connectomics
 title: Network Hubs
 type: concept
-updated: '2026-04-24'
+updated: '2026-04-27'
 ---
 
 # Network Hubs
@@ -91,3 +91,12 @@ Hubs are nodes with significantly higher connectivity than average. In brain net
 - [[scale-free-networks]] – Hub distribution
 - betweenness-centrality – Path-based hubness
 - [[connectome]] – Complete connectivity
+
+## References
+
+1. (authors unknown). *Networks of the Brain*.
+2. (authors unknown). *Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems*.
+3. (authors unknown). *Mapping the Structural Core of Human Cerebral Cortex*.
+4. (authors unknown). *The Development of Human Functional Brain Networks*.
+5. (authors unknown). *Emergence of Scaling in Random Networks*.
+6. (authors unknown). *Correspondence of the brain's functional architecture during activation and rest*.

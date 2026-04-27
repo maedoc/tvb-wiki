@@ -11,7 +11,7 @@ tags:
 - neuroimaging-fmri
 title: David C. Van Essen
 type: entity
-updated: '2026-04-24'
+updated: '2026-04-27'
 ---
 
 # David C. Van Essen
@@ -45,3 +45,10 @@ Van Essen's research emphasizes:
 
 ## Resources
 - HCP data available at humanconnectome.org
+
+## References
+
+1. (authors unknown). *The WU-Minn Human Connectome Project: An Overview*.
+2. (authors unknown). *The Human Connectome Project: A Data Acquisition Perspective*.
+3. (authors unknown). *Resting-State fMRI in the Human Connectome Project*.
+4. (authors unknown). *Function in the Human Connectome: Task-fMRI and Individual Differences in Behavior*.

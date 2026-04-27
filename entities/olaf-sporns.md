@@ -1,10 +1,17 @@
 ---
-title: Olaf Sporns
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/sporns-tononi-kotter-2005.md
+- raw/papers/sporns-2011.md
+- raw/papers/rubinov-sporns-2010.md
+- raw/papers/bullmore-sporns-2009.md
+tags:
+- people-researcher
+- connectomics
+- network-dynamics
+title: Olaf Sporns
 type: entity
-tags: [people-researcher, connectomics, network-dynamics]
-sources: [raw/papers/sporns-tononi-kotter-2005.md, raw/papers/sporns-2011.md, raw/papers/rubinov-sporns-2010.md, raw/papers/bullmore-sporns-2009.md]
+updated: '2026-04-27'
 ---
 
 # Olaf Sporns
@@ -44,3 +51,10 @@ Sporns' research integrates network science with neuroscience to understand how 
 - [[giulio tononi]] – Consciousness and connectivity
 - [[rolf kotter]] – Connectome concept
 - [[ed bullmore]] – Network analysis
+
+## References
+
+1. (authors unknown). *The Human Connectome: A Structural Description of the Human Brain*.
+2. (authors unknown). *Networks of the Brain*.
+3. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
+4. (authors unknown). *Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems*.

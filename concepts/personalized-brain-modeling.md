@@ -15,7 +15,7 @@ tags:
 - personalized-brain-modeling
 title: Personalized Brain Modeling
 type: concept
-updated: '2026-04-23'
+updated: '2026-04-27'
 ---
 
 # Personalized Brain Modeling
@@ -65,3 +65,12 @@ Personalized (or patient-specific) brain modeling uses an individual's structura
 - [[structural connectivity]] — Connectivity from diffusion MRI
 - [[functional connectivity]] — Validation target
 - [[neural mass model]] — Regional dynamics model
+
+## References
+
+1. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
+2. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2018.05.040)
+3. Hongjie Jiang, Yifei Tang, Shuqiang Wang. *Neural Dynamics-Informed Pre-trained Framework for Personalized Brain Functional Network Construction*. [Link](https://arxiv.org/abs/2603.07524)
+4. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+5. Lucia Zavaglia, Laura Astolfi, Federico Babiloni, Melani B.C. *Comparison of a mean-field model of electroencephalographic activity to individual brain networks*. IEEE Engineering in Medicine and Biology.
+6. Nina Baldy, Marmaduke M Woodman, Viktor K Jirsa. (2025). *Amortizing personalization in virtual brain twins*. [Link](https://arxiv.org/abs/2506.21155)

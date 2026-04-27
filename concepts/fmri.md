@@ -14,7 +14,7 @@ tags:
 - task-based
 title: fMRI
 type: concept
-updated: '2026-04-23'
+updated: '2026-04-27'
 ---
 
 # fMRI
@@ -61,3 +61,13 @@ The neurovascular-coupling between neural activity and BOLD is critical for mode
 - [[resting-state]] – Task-free functional connectivity
 - [[functional-connectivity]] – Statistical dependencies between regions
 - neurovascular-coupling – Link between neural activity and hemodynamics
+
+## References
+
+1. (authors unknown). *Brain magnetic resonance imaging with contrast dependent on blood oxygenation*.
+2. (authors unknown). *Neurophysiological investigation of the basis of the fMRI signal*.
+3. (authors unknown). *Statistical parametric maps in functional imaging: A general linear approach*.
+4. (authors unknown). *Functional Magnetic Resonance Imaging*.
+5. Wanying Qu, Jianxiong Gao, Wei Wang, Yanwei Fu. *Modeling Spatiotemporal Neural Frames for High Resolution Brain Dynamic*. [Link](https://arxiv.org/abs/2603.24176)
+6. Jiangnan Zhang, Chengyuan Qian, Wenlian Lu, Gustavo Deco, Weiyang Ding, Jianfeng Feng. (2025). *Dark Signals in the Brain: Augment Brain Network Dynamics to the Complex-valued Field*. [Link](https://arxiv.org/abs/2509.24715)
+7. Ramiro Plüss, Hernán Villota, Patricio Orio. (2025). *Hemispheric-Specific Coupling Improves Modeling of Functional Connectivity Using Wilson-Cowan Dynamics*. [Link](https://arxiv.org/abs/2506.22951)

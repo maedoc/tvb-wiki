@@ -13,7 +13,7 @@ tags:
 - network-dynamics
 title: Effective Connectivity
 type: concept
-updated: '2026-04-23'
+updated: '2026-04-27'
 ---
 
 # Effective Connectivity
@@ -62,3 +62,12 @@ In [[dynamic-causal-modeling]], effective connectivity parameters (A, B, C matri
 - [[dynamic-causal-modeling]] – Primary estimation method
 - granger-causality – Temporal causality
 - [[connectivity-types]] – Comparison of connectivity types
+
+## References
+
+1. (authors unknown). *Statistical parametric maps in functional imaging: A general linear approach*.
+2. Neda Abdollahpour, N. Sertac Artan, Ian Daly, Mohammadreza Yazdchi, Zahra Baharlouei. (2025). *Effective Connectivity-Based Unsupervised Channel Selection Method for EEG*. [Link](https://arxiv.org/abs/2510.12910)
+3. Peizhen Yang, Xinke Shen, Zongsheng Li, Zixiang Luo, Kexin Lou, Quanying Liu. *Perturbing a Neural Network to Infer Effective Connectivity: Evidence from Synthetic EEG Data*. [Link](https://arxiv.org/abs/2307.09770)
+4. Haiyue Song, Ani Eloyan, Youjin Lee. (2026). *Causal Inference for Unobservable Multivariate Outcomes, with Applications to Brain Effective Connectivity*. [Link](https://arxiv.org/abs/2604.00390)
+5. Deepa Tilwani, Christian O'Reilly. *Deep Jansen-Rit Parameter Inference for Model-Driven Analysis of Brain Activity*. [Link](https://arxiv.org/abs/2406.05002)
+6. Lu Ye, Yang Zhang, Dongfeng Yan. (2026). *Spectral dynamic causal modeling of effective connectivity across multiple brain networks in pilot trainees*. iScience. [DOI](https://doi.org/10.1016/j.isci.2026.115369)

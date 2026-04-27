@@ -22,7 +22,7 @@ tags:
 - connectomics
 title: Structural vs Functional vs Effective Connectivity
 type: comparison
-updated: '2026-04-23'
+updated: '2026-04-27'
 ---
 
 # Structural vs Functional vs Effective Connectivity
@@ -124,3 +124,19 @@ The relationship between structural and functional connectivity is a central que
 - Whole-brain models aim to bridge this gap
 
 See honey-2009 for empirical evidence of this relationship.
+
+## References
+
+1. (authors unknown). *Functional connectivity in the motor cortex of resting human brain using echo-planar MRI*.
+2. (authors unknown). *MR diffusion tensor spectroscopy and imaging*.
+3. (authors unknown). *Statistical parametric maps in functional imaging: A general linear approach*.
+4. (authors unknown). *Building connectomes using diffusion MRI: Why, how and but*.
+5. (authors unknown). *Functional Connectivity: The Principal-Component Analysis of Large (PET and fMRI) Data Sets*.
+6. (authors unknown). *Predicting Human Resting-State Functional Connectivity from Structural Connectivity*.
+7. (authors unknown). *The Human Connectome: A Structural Description of the Human Brain*.
+8. Jianwei Chen, Zhengyang Miao, Wenjie Cai, Jiaxue Tang, Boxing Liu, Yunfan Zhang, Yuhang Yang, Hao Tang, Carola-Bibiane Schönlieb, Zaixu Cui, Du Lei, Shouliang Qi, Chao Li. (2026). *Hierarchical Multiscale Structure-Function Coupling for Brain Connectome Integration*. [Link](https://arxiv.org/abs/2603.20680)
+9. (authors unknown). *Correspondence of the brain's functional architecture during activation and rest*.
+10. Sakul Mahat, Sharmistha Guha, Jessica Bernard. (2026). *A Bayesian Framework for Quantifying Association Between Functional and Structural Data in Neuroimaging*. [Link](https://arxiv.org/abs/2603.21067)
+11. V. Myrov, A. Suleimanova, Samanta Knapič, P. Partanen, M. Vesterinen, Wenya Liu, S. Palva, J. M. Palva. (2026). *Hierarchical whole-brain modeling of critical synchronization dynamics in the human brain.*. Proceedings of the National Academy of Sciences of the United States of America. [DOI](https://doi.org/10.1073/pnas.2505768123)
+12. Yifei Zhang, Meimei Liu, Zhengwu Zhang. (2026). *Attention-Based Variational Framework for Joint and Individual Components Learning with Applications in Brain Network Analysis*. [Link](https://arxiv.org/abs/2601.17073)
+13. Peizhen Yang, Xinke Shen, Zongsheng Li, Zixiang Luo, Kexin Lou, Quanying Liu. *Perturbing a Neural Network to Infer Effective Connectivity: Evidence from Synthetic EEG Data*. [Link](https://arxiv.org/abs/2307.09770)

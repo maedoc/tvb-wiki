@@ -11,7 +11,7 @@ tags:
 - neuroimaging-fmri
 title: Independent Component Analysis
 type: concept
-updated: '2026-04-24'
+updated: '2026-04-27'
 ---
 
 # Independent Component Analysis (ICA)
@@ -55,3 +55,9 @@ ICA provides:
 - [[resting-state]] – Primary application domain
 - intrinsic-connectivity-networks – ICs often correspond to networks
 - source-separation – General category
+
+## References
+
+1. (authors unknown). *Independent component analysis of electroencephalographic data*.
+2. Neda Abdollahpour, N. Sertac Artan, Ian Daly, Mohammadreza Yazdchi, Zahra Baharlouei. (2025). *Effective Connectivity-Based Unsupervised Channel Selection Method for EEG*. [Link](https://arxiv.org/abs/2510.12910)
+3. Sunia Tanweer, Narayan Puthanmadam Subramaniyam, Firas A. Khasawneh. (2026). *Classification of Epileptic iEEG using Topological Machine Learning*. [Link](https://arxiv.org/abs/2604.11971)

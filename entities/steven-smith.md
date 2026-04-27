@@ -10,7 +10,7 @@ tags:
 - software
 title: Steven Smith
 type: entity
-updated: '2026-04-24'
+updated: '2026-04-27'
 ---
 
 # Steven Smith
@@ -40,3 +40,9 @@ Smith's work on resting-state networks and his software tools have been fundamen
 - [[functional-connectivity]]
 - [[fmri]]
 - independent-component-analysis
+
+## References
+
+1. (authors unknown). *Correspondence of the brain's functional architecture during activation and rest*.
+2. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
+3. (authors unknown). *Functional Network Organization of the Human Brain*.

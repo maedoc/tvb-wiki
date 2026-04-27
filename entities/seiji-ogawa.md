@@ -1,10 +1,13 @@
 ---
-title: Seiji Ogawa
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/ogawa-1990.md
+tags:
+- people-researcher
+- neuroimaging-fmri
+title: Seiji Ogawa
 type: entity
-tags: [people-researcher, neuroimaging-fmri]
-sources: [raw/papers/ogawa-1990.md]
+updated: '2026-04-27'
 ---
 
 # Seiji Ogawa
@@ -31,3 +34,7 @@ Ogawa's discovery transformed neuroscience by enabling non-invasive mapping of h
 - [[fmri]]
 - [[bold-signal]]
 - neuroimaging-fmri
+
+## References
+
+1. (authors unknown). *Brain magnetic resonance imaging with contrast dependent on blood oxygenation*.

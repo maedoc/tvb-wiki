@@ -1,10 +1,26 @@
 ---
-title: "Stochastic Differential Equations"
 created: 2026-04-20
-updated: 2026-04-24
+sources:
+- raw/papers/gardiner-2009.md
+- raw/papers/tuckwell-1988.md
+- raw/papers/deco-2008-stochastic.md
+- raw/papers/deco-2009-stochastic.md
+- raw/papers/arxiv-2603.24176.md
+- raw/papers/montbrio-pazo-roxin-2015.md
+tags:
+- stochastic-differential-equations
+- neural-mass-models
+- whole-brain-modeling
+- dynamical-systems-theory
+- nonlinear-dynamics
+- network-dynamics
+- mean-field-theory
+- fokker-planck-equation
+- resting-state
+- brain-oscillations
+title: Stochastic Differential Equations
 type: concept
-tags: [stochastic-differential-equations, neural-mass-models, whole-brain-modeling, dynamical-systems-theory, nonlinear-dynamics, network-dynamics, mean-field-theory, fokker-planck-equation, resting-state, brain-oscillations]
-sources: [raw/papers/gardiner-2009.md, raw/papers/tuckwell-1988.md, raw/papers/deco-2008-stochastic.md, raw/papers/deco-2009-stochastic.md, raw/papers/arxiv-2603.24176.md, raw/papers/montbrio-pazo-roxin-2015.md]
+updated: '2026-04-27'
 ---
 
 Stochastic differential equations (SDEs) extend ordinary differential equations by incorporating random noise terms, providing a mathematical framework for dynamical systems in which deterministic laws coexist with intrinsic or extrinsic uncertainty. In neuroscience, SDEs are essential because every scale of neural activity—from the stochastic opening of individual ion channels to irregular population firing patterns—exhibits variability that smooth deterministic trajectories cannot capture. Rather than predicting a single future state, SDEs describe how probability distributions evolve, making them the natural language for linking biophysical mechanisms to the statistical structure of empirical recordings.
@@ -22,3 +38,12 @@ When full trajectory simulation is computationally expensive, the [[fokker-planc
 The foundational work of [[emanuel-tuckwell|Tuckwell]] (1988) on stochastic cable theory and diffusion approximations for first-passage time problems established the mathematical bridge between single-neuron stochastic processes and population-level descriptions, while [[crispin-gardiner|Gardiner]]'s (2009) handbook provided the systematic Fokker-Planck and Langevin machinery that underpins modern [[whole-brain]] simulation frameworks. Together, these sources formalize a core insight: SDEs are not deterministic models with noise appended as an afterthought, but a foundational theoretical language in which randomness is a constitutive feature of neural computation.
 
 SDEs thus occupy a central position in the theoretical architecture of computational neuroscience. They generalize the deterministic skeletons of [[dynamical-systems-theory]] and [[nonlinear-dynamics]] by injecting biologically realistic variability, while their diffusion limits formalize the bridge between microscopic [[spiking-neural-networks]] and macroscopic [[mean-field-theory]]. The reduction from master equations describing discrete spike counts to continuous Langevin SDEs is itself a mean-field approximation, and understanding when this reduction fails—typically under strong coupling, spatial heterogeneity, or near critical transitions—remains an open frontier explored by next-generation stochastic models referenced in the [[fokker-planck-equation]] and [[neural-mass-models]] literature.
+
+## References
+
+1. (authors unknown). *Stochastic Methods: A Handbook for the Natural and Social Sciences*.
+2. (authors unknown). *Introduction to Theoretical Neurobiology: Volume 2, Nonlinear and Stochastic Theories*.
+3. (authors unknown). *Stochastic Dynamics and the Brain*.
+4. (authors unknown). *Stochastic Dynamics in the Brain and Probabilistic Models*.
+5. Wanying Qu, Jianxiong Gao, Wei Wang, Yanwei Fu. *Modeling Spatiotemporal Neural Frames for High Resolution Brain Dynamic*. [Link](https://arxiv.org/abs/2603.24176)
+6. (authors unknown). *Macroscopic Description for Networks of Spiking Neurons*.

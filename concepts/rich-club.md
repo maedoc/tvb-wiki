@@ -9,7 +9,7 @@ tags:
 - connectomics
 title: Rich-Club Organization
 type: concept
-updated: '2026-04-24'
+updated: '2026-04-27'
 ---
 
 # Rich-Club Organization
@@ -69,3 +69,9 @@ Rich-club contributes to small-world properties:
 - [[scale-free-networks]] – Power-law degree distribution
 - [[brain-network]] – Network organization
 - [[connectome]] – Complete connectivity
+
+## References
+
+1. (authors unknown). *Mapping the Structural Core of Human Cerebral Cortex*.
+2. (authors unknown). *Networks of the Brain*.
+3. Deco et al. (2013). *Resting brains never rest: computational insights into potential cognitive architectures*. Trends in Neurosciences. [DOI](https://doi.org/10.1016/j.tins.2013.09.002)

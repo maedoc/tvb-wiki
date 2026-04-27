@@ -1,10 +1,14 @@
 ---
-title: Scale-Free Networks
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/barabasi-albert-1999.md
+- raw/papers/bullmore-sporns-2009.md
+tags:
+- network-dynamics
+- connectomics
+title: Scale-Free Networks
 type: concept
-tags: [network-dynamics, connectomics]
-sources: [raw/papers/barabasi-albert-1999.md, raw/papers/bullmore-sporns-2009.md]
+updated: '2026-04-27'
 ---
 
 # Scale-Free Networks
@@ -67,3 +71,8 @@ Brain networks show scale-free properties:
 - preferential-attachment – Growth mechanism
 - [[graph-theory]] – Mathematical framework
 - [[brain-network]] – Network organization
+
+## References
+
+1. (authors unknown). *Emergence of Scaling in Random Networks*.
+2. (authors unknown). *Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems*.

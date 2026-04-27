@@ -19,7 +19,7 @@ tags:
 - neuroimaging-eeg
 title: fMRI vs EEG for Whole-Brain Modeling
 type: comparison
-updated: '2026-04-23'
+updated: '2026-04-27'
 ---
 
 # fMRI vs EEG for Whole-Brain Modeling
@@ -91,3 +91,18 @@ Neither modality alone is sufficient. fMRI provides the spatial organization tha
 - [[bold-signal]] – fMRI contrast mechanism
 - neurovascular-coupling – Link between activity and BOLD
 - volume-conduction – EEG signal spread
+
+## References
+
+1. (authors unknown). *Brain magnetic resonance imaging with contrast dependent on blood oxygenation*.
+2. (authors unknown). *Neurophysiological investigation of the basis of the fMRI signal*.
+3. (authors unknown). *Electroencephalography: Basic Principles, Clinical Applications, and Related Fields*.
+4. (authors unknown). *Electric Fields of the Brain: The Neurophysics of EEG*.
+5. Sakul Mahat, Sharmistha Guha, Jessica Bernard. (2026). *A Bayesian Framework for Quantifying Association Between Functional and Structural Data in Neuroimaging*. [Link](https://arxiv.org/abs/2603.21067)
+6. Wanying Qu, Jianxiong Gao, Wei Wang, Yanwei Fu. *Modeling Spatiotemporal Neural Frames for High Resolution Brain Dynamic*. [Link](https://arxiv.org/abs/2603.24176)
+7. Breno C. Bispo, Stefania Sardellitti, Juliano B. Lima, Fernando A. N. Santos. (2026). *Multimodal Higher-Order Brain Networks: A Topological Signal Processing Perspective*. [Link](https://arxiv.org/abs/2603.29903)
+8. Cristiana Dimulescu, Ronja Strömsdörfer, Agnes Flöel, Klaus Obermayer. (2025). *On the robustness of the emergent spatiotemporal dynamics in biophysically realistic and phenomenological whole-brain models at multiple network resolutions*. [Link](https://arxiv.org/abs/2504.17491)
+9. Chetan Gohil, Oliver M. Cliff, James M. Shine, Ben D. Fulcher, Joseph T. Lizier. (2026). *Estimating measures of information processing during cognitive tasks using functional magnetic resonance imaging*. [Link](https://arxiv.org/abs/2602.03240)
+10. Mohaddese Qaremohammadlou, Mohammad Bagher Shamsollahi. (2025). *Investigating Brain Connectivity and Information Flow in Mental Workload Using EEG and fNIRS Integration*. [Link](https://arxiv.org/abs/2511.02457)
+11. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
+12. Yifei Sun, James M. Shine, Robert D. Sanders, Robin F. H. Cash, Sharon L. Naismith, Fernando Calamante, Jinglei Lv. (2026). *A Data-Driven Method to Map the Functional Organisation of Human Brain White Matter*. [Link](https://arxiv.org/abs/2602.18715)

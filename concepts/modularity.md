@@ -10,7 +10,7 @@ tags:
 - connectomics
 title: Modularity
 type: concept
-updated: '2026-04-24'
+updated: '2026-04-27'
 ---
 
 # Modularity
@@ -81,3 +81,10 @@ Brain networks show modular organization:
 - [[brain-network]] – Network organization
 - [[connectomics]] – Brain network analysis
 - [[small-world-networks]] – Topology with modules
+
+## References
+
+1. (authors unknown). *Networks: An Introduction*.
+2. (authors unknown). *Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems*.
+3. (authors unknown). *Networks of the Brain*.
+4. Soon Ho Kim, Hannah Choi. (2025). *Inhibitory cell type heterogeneity in a spatially structured mean-field model of V1*. bioRxiv. [DOI](https://doi.org/10.1101/2025.03.13.643046)

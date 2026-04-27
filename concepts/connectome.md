@@ -13,7 +13,7 @@ tags:
 - structural-connectivity
 title: Connectome
 type: concept
-updated: '2026-04-23'
+updated: '2026-04-27'
 ---
 
 # Connectome
@@ -75,3 +75,13 @@ Understanding this relationship is a major goal of whole-brain-modeling|whole-br
 - [[functional-connectivity]] – Statistical dependencies
 - [[brain-network]] – Graph-theoretical organization
 - [[human-connectome-project]] – Major mapping initiative
+
+## References
+
+1. (authors unknown). *The Human Connectome: A Structural Description of the Human Brain*.
+2. (authors unknown). *The WU-Minn Human Connectome Project: An Overview*.
+3. (authors unknown). *Functional Network Organization of the Human Brain*.
+4. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
+5. (authors unknown). *Networks of the Brain*.
+6. Jose Rodriguez-Acosta, Sharmistha Guha, Jessica Bernard, Thamires Magalhaes, Kaitlin McOwen. *Integrative Predictor-Dependent Learning of Network Data and Spatially Correlated Nodal Attributes for Multimodal Brain Imaging in Aging*. [Link](https://arxiv.org/abs/2603.21032)
+7. Giridhar Sunil, Habib Benali, Elkaïoum M. Moutuou. (2026). *Thermodynamic connectivity reveals functional specialization and multiplex organization of extrasynaptic signaling*. [Link](https://arxiv.org/abs/2604.02057)

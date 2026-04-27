@@ -11,7 +11,7 @@ tags:
 - network-dynamics
 title: Mark E. J. Newman
 type: entity
-updated: '2026-04-24'
+updated: '2026-04-27'
 ---
 
 # Mark E. J. Newman
@@ -43,3 +43,11 @@ Newman's research emphasizes:
 
 ## Resources
 - Book: "Networks: An Introduction" (Oxford University Press)
+
+## References
+
+1. (authors unknown). *Networks: An Introduction*.
+2. (authors unknown). *Networks of the Brain*.
+3. (authors unknown). *Collective Dynamics of 'Small-World' Networks*.
+4. (authors unknown). *Emergence of Scaling in Random Networks*.
+5. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.

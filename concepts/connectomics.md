@@ -13,7 +13,7 @@ tags:
 - functional-connectivity
 title: Connectomics
 type: concept
-updated: '2026-04-23'
+updated: '2026-04-27'
 ---
 
 # Connectomics
@@ -77,3 +77,12 @@ The term was introduced by olaf sporns|Sporns, giulio tononi|Tononi, and rolf ko
 - [[functional-connectivity]] – Statistical dependencies
 - [[brain-network]] – Network organization
 - [[graph-theory]] – Mathematical framework
+
+## References
+
+1. (authors unknown). *The Human Connectome: A Structural Description of the Human Brain*.
+2. (authors unknown). *Networks of the Brain*.
+3. (authors unknown). *Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems*.
+4. Jose Rodriguez-Acosta, Sharmistha Guha, Jessica Bernard, Thamires Magalhaes, Kaitlin McOwen. *Integrative Predictor-Dependent Learning of Network Data and Spatially Correlated Nodal Attributes for Multimodal Brain Imaging in Aging*. [Link](https://arxiv.org/abs/2603.21032)
+5. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
+6. (authors unknown). *Functional Network Organization of the Human Brain*.

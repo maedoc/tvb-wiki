@@ -14,7 +14,7 @@ tags:
 - eeg
 title: Vincent G. Rit
 type: entity
-updated: '2026-04-23'
+updated: '2026-04-27'
 ---
 
 # Vincent G. Rit
@@ -45,3 +45,13 @@ The Jansen-Rit model developed by Rit and colleagues is the default neural mass 
 - [[eeg]]
 - [[Benjamin Jansen]]
 - [[TVB]]
+
+## References
+
+1. Benjamin H. Jansen, Vincent G. Rit. *Electroencephalogram and visual evoked potential generation in a mathematical model of coupled cortical columns*. Biological Cybernetics. [DOI](https://doi.org/10.1007/BF00199471)
+2. Vincent G. Rit, Benjamin H. Jansen. *A neural mass model for the generation of electroencephalograms*. Critical Reviews in Biomedical Engineering.
+3. Wendling F., Bartolomei F., Bellanger J.J., Chauvel P. *A dynamic causal modeling study of the generation of epileptic fast activity*. NeuroImage. [DOI](https://doi.org/10.1006/nimg.2002.1234)
+4. Huda Mahdi, Jan Sieber, Krasimira Tsaneva-Atanasova. *Alpha-Delta Transitions in Cortical Rhythms as grazing bifurcations*. [Link](https://arxiv.org/abs/2411.16449)
+5. Potjans & Diesmann (2014). *The cell-type specific cortical microcircuit: relating structure and activity*. Cerebral Cortex. [DOI](https://doi.org/10.1093/cercor/bhs358)
+6. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)
+7. Alexander Pei. *Phase Alignment Enhances Oscillatory Power in Neural Mass Models Optimized for Class Encoding*. [Link](https://arxiv.org/abs/2503.05564)

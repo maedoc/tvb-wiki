@@ -12,7 +12,7 @@ tags:
 - eeg
 title: Walter J. Freeman
 type: entity
-updated: '2026-04-23'
+updated: '2026-04-27'
 ---
 
 # Walter J. Freeman (1927-2016)
@@ -43,3 +43,11 @@ Freeman's work established the mathematical framework for population-level brain
 - [[eeg]]
 - [[Wilson-Cowan]]
 - [[Jansen-Rit]]
+
+## References
+
+1. Walter J. Freeman. *Mass Action in the Nervous System*.
+2. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)
+3. (authors unknown). *Nonlinear Dynamics and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering*.
+4. Eugene M. Izhikevich. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
+5. (authors unknown). *The Development of Human Functional Brain Networks*.

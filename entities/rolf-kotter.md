@@ -8,7 +8,7 @@ tags:
 - connectomics
 title: Rolf Kötter
 type: entity
-updated: '2026-04-24'
+updated: '2026-04-27'
 ---
 
 # Rolf Kötter
@@ -39,3 +39,8 @@ Kötter's research has focused on:
 ## Collaborators
 - [[olaf sporns]] – Connectomics
 - [[giulio tononi]] – Consciousness studies
+
+## References
+
+1. (authors unknown). *The Human Connectome: A Structural Description of the Human Brain*.
+2. (authors unknown). *Functional Connectomics from Resting-State fMRI*.

@@ -1,22 +1,22 @@
 ---
-title: Hopfield Network
 created: 2026-04-21
-updated: 2026-04-24
-type: concept
-tags:
-  - neural-mass-models
-  - dynamical-systems-theory
-  - nonlinear-dynamics
-  - network-dynamics
-  - mean-field-theory
 sources:
-  - raw/papers/arxiv-2510.19146.md
-  - raw/papers/arxiv-2512.05252.md
-  - raw/papers/arxiv-2602.09535.md
-  - raw/papers/arxiv-2604.13719.md
-  - raw/papers/semanticscholar-71ffb8153870.md
-  - raw/papers/semanticscholar-c3d9674bec1b.md
-  - raw/papers/semanticscholar-62534125f066.md
+- raw/papers/arxiv-2510.19146.md
+- raw/papers/arxiv-2512.05252.md
+- raw/papers/arxiv-2602.09535.md
+- raw/papers/arxiv-2604.13719.md
+- raw/papers/semanticscholar-71ffb8153870.md
+- raw/papers/semanticscholar-c3d9674bec1b.md
+- raw/papers/semanticscholar-62534125f066.md
+tags:
+- neural-mass-models
+- dynamical-systems-theory
+- nonlinear-dynamics
+- network-dynamics
+- mean-field-theory
+title: Hopfield Network
+type: concept
+updated: '2026-04-27'
 ---
 
 # Hopfield Network
@@ -52,3 +52,13 @@ The Hopfield model stands at the intersection of several traditions in computati
 ## Biological Grounding
 
 Although the Hopfield network is highly abstract, its core mechanisms map onto established neurobiological concepts. The Hebbian learning rule approximates activity-dependent synaptic plasticity, while the attractor dynamics provide a model for persistent activity observed in prefrontal cortex during working-memory tasks. The symmetric weight constraint is the most problematic simplification, since biological synapses are typically asymmetric, but theoretical work has shown that approximate retrieval persists in asymmetric networks if weight correlations remain sufficiently structured. More recent whole-brain applications have used Hopfield-like attractor dynamics to model stable states of [[functional-connectivity|functional connectivity]] observed in resting-state fMRI, treating large-scale [[brain-network]] configurations as attractors of a coupled dynamical system.
+
+## References
+
+1. Yoshiyuki Kabashima, Kazushi Mimura. (2025). *Dynamical mean field approach to associative memory model with non-monotonic transfer functions*. Journal of Statistical Mechanics: Theory and Experiment. [DOI](https://doi.org/10.1088/1742-5468/ae337e)
+2. Simone Betteti, William Retnaraj, Alexander Davydov, Jorge Cortés, Francesco Bullo. *Competition, stability, and functionality in excitatory-inhibitory neural circuits*. [Link](https://arxiv.org/abs/2512.05252)
+3. Irmantas Ratas, Kestutis Pyragas. (2026). *Parameter and hidden-state inference in mean-field models from partial observations of finite-size neural networks*. [Link](https://www.semanticscholar.org/paper/274d3afcf4f54ddb5bd2122157c2ab2a105b41ef)
+4. İhsan Ertuğrul Karakaş, Özden Özel, İlkay Ulusoy, Orhan Murat Koçak. (2026). *Modeling of Self-sustained Neuron Population without External Stimulus*. [Link](https://arxiv.org/abs/2604.13719)
+5. Valerio Barabino, F. Callegari, Sérgio Martinoia, P. Massobrio. (2026). *Hierarchical afferent connectivity drives population-wide bursting dynamics in a computational model of human-derived excitatory neuronal networks*. Journal of Neuroscience. [DOI](https://doi.org/10.1523/jneurosci.0912-25.2026)
+6. Tirthabir Biswas, Angel Stanoev, S. Romani, James E. Fitzgerald. (2026). *From the fly connectome to exact ring attractor dynamics*. bioRxiv. [DOI](https://doi.org/10.1101/2024.11.01.621596)
+7. Futa Tomita, Jun-nosuke Teramae. (2025). *Dynamical mean-field theory for a highly heterogeneous neural population with graded persistent activity of the entorhinal cortex*. PLoS Comput. Biol.. [DOI](https://doi.org/10.1371/journal.pcbi.1013484)

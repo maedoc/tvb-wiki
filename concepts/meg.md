@@ -13,7 +13,7 @@ tags:
 - brain-oscillations
 title: MEG
 type: concept
-updated: '2026-04-24'
+updated: '2026-04-27'
 ---
 
 # MEG
@@ -67,3 +67,13 @@ Like EEG, MEG signals can be generated from [[neural-mass-model]] outputs throug
 - source-localization – Reconstructing brain activity
 - brain-oscillations – Neural rhythms
 - [[fmri]] – Complementary hemodynamic measure
+
+## References
+
+1. (authors unknown). *Independent component analysis of electroencephalographic data*.
+2. (authors unknown). *Analyzing Neural Time Series Data: Theory and Practice*.
+3. (authors unknown). *Large-scale recording of neuronal ensembles*.
+4. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+5. Sadman Saumik Islam, Bruna Dalcin Baldasso, Davide Cattaneo, Xianta Jiang, Michelle Ploughman. (2025). *Machine Learning and AI Applied to fNIRS Data Reveals Novel Brain Activity Biomarkers in Stable Subclinical Multiple Sclerosis*. [Link](https://arxiv.org/abs/2509.21770)
+6. Ferdaus Anam Jibon, Fazlul Hasan Siddiqui, F. Deeba, Gahangir Hossain. *Epileptic Seizure Detection in Separate Frequency Bands Using Feature Analysis and Graph Convolutional Neural Network (GCN) from Electroencephalogram (EEG) Signals*. [Link](https://arxiv.org/abs/2604.00163)
+7. Derek A. Drumm, Guillermo Nuñez Ponasso, A. Linke, G. Noetscher, Burkhard Maess, T. Knösche, J. Haueisen, J. Lewine, Christopher Abbott, S. Makaroff, Zhi-De Deng. (2025). *Improved Source Localization of Auditory Evoked Fields using Reciprocal BEM-FMM*. bioRxiv. [DOI](https://doi.org/10.1101/2025.05.09.653081)

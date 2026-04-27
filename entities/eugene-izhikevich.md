@@ -14,7 +14,7 @@ tags:
 - spiking-neural-networks
 title: Eugene M. Izhikevich
 type: entity
-updated: '2026-04-23'
+updated: '2026-04-27'
 ---
 
 # Eugene M. Izhikevich
@@ -46,3 +46,12 @@ Izhikevich's textbook provides the bifurcation theory foundation for understandi
 - [[spiking neural networks]]
 - [[epilepsy modeling]]
 - brain oscillations
+
+## References
+
+1. Eugene M. Izhikevich. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
+2. Peter Dayan, Larry F. Abbott. *Theoretical Neuroscience: Computational and Mathematical Modeling of Neural Systems*.
+3. Wulfram Gerstner, Werner M. Kistler, Richard Naud, Liam Paninski. *Neuronal Dynamics: From Single Neurons to Networks and Models of Cognition*.
+4. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)
+5. (authors unknown). *Networks of the Brain*.
+6. Michael Breakspear, John A. Roberts, John R. Terry, Stefano Rodrigues, Nader Mahmud, Philip Robinson. *Large-scale brain dynamics of seizures: asymptotic analysis of a neural field model*. Journal of Computational Neuroscience. [DOI](https://doi.org/10.1007/s10827-006-8135-2)

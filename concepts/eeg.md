@@ -19,7 +19,7 @@ tags:
 - brain-oscillations
 title: EEG
 type: concept
-updated: '2026-04-23'
+updated: '2026-04-27'
 ---
 
 # EEG
@@ -79,3 +79,19 @@ EEG is a primary output measure for [[neural-mass-model]] validation:
 - volume-conduction – Physics of signal spread
 - source-localization – Estimating brain sources
 - brain-oscillations – Rhythmic neural activity
+
+## References
+
+1. (authors unknown). *Electroencephalography: Basic Principles, Clinical Applications, and Related Fields*.
+2. (authors unknown). *Electric Fields of the Brain: The Neurophysics of EEG*.
+3. (authors unknown). *Independent component analysis of electroencephalographic data*.
+4. (authors unknown). *Analyzing Neural Time Series Data: Theory and Practice*.
+5. Helena Bordini de Lucas, Leonardo Dalla Porta, Alain Destexhe, Maria V. Sanchez-Vives, Osvaldo A. Rosso, Cláudio R. Mirasso, Fernanda Selingardi Matias. (2025). *Characterizing sleep stages through the complexity-entropy plane in human intracranial data and in a whole-brain model*. [Link](https://arxiv.org/abs/2511.09243)
+6. Daniele Avitabile, Gabriel J. Lord, Khadija Meddouni. *State and Parameter Estimation for a Neural Model of Local Field Potentials*. [Link](https://arxiv.org/abs/2512.07842)
+7. Gianluca Gaglioti, L. Porta, M. Colombo, Simone Russo, Thierry Nieus, G. Deco, M. Corbetta, S. Sarasso, M. V. Sanchez-Vives, M. Massimini. (2026). *Slow wave generation and propagation in a model of brain lesions*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2026.121817)
+8. Huda Mahdi, Jan Sieber, Krasimira Tsaneva-Atanasova. *Alpha-Delta Transitions in Cortical Rhythms as grazing bifurcations*. [Link](https://arxiv.org/abs/2411.16449)
+9. Breno C. Bispo, Stefania Sardellitti, Juliano B. Lima, Fernando A. N. Santos. (2026). *Multimodal Higher-Order Brain Networks: A Topological Signal Processing Perspective*. [Link](https://arxiv.org/abs/2603.29903)
+10. Chenghao Yue, Zhiyuan Ma, Zhongye Xia, Xinche Zhang, Yisi Zhang, Xinke Shen, Sen Song. *LI-DSN: A Layer-wise Interactive Dual-Stream Network for EEG Decoding*. [Link](https://arxiv.org/abs/2604.01889)
+11. (authors unknown). *The organization of the human cerebellum estimated by intrinsic functional connectivity*.
+12. Potjans & Diesmann (2014). *The cell-type specific cortical microcircuit: relating structure and activity*. Cerebral Cortex. [DOI](https://doi.org/10.1093/cercor/bhs358)
+13. Sadman Saumik Islam, Bruna Dalcin Baldasso, Davide Cattaneo, Xianta Jiang, Michelle Ploughman. (2025). *Machine Learning and AI Applied to fNIRS Data Reveals Novel Brain Activity Biomarkers in Stable Subclinical Multiple Sclerosis*. [Link](https://arxiv.org/abs/2509.21770)

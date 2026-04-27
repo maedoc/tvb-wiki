@@ -1,10 +1,15 @@
 ---
-title: Small-World Networks
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/watts-strogatz-1998.md
+- raw/papers/bullmore-sporns-2009.md
+- raw/papers/sporns-2011.md
+tags:
+- network-dynamics
+- connectomics
+title: Small-World Networks
 type: concept
-tags: [network-dynamics, connectomics]
-sources: [raw/papers/watts-strogatz-1998.md, raw/papers/bullmore-sporns-2009.md, raw/papers/sporns-2011.md]
+updated: '2026-04-27'
 ---
 
 # Small-World Networks
@@ -65,3 +70,9 @@ Small-world topology is thought to support:
 - path-length – Global efficiency
 - [[connectomics]] – Brain network analysis
 - [[brain-network]] – Network organization
+
+## References
+
+1. (authors unknown). *Collective Dynamics of 'Small-World' Networks*.
+2. (authors unknown). *Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems*.
+3. (authors unknown). *Networks of the Brain*.

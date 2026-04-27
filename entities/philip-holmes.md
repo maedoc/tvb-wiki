@@ -10,7 +10,7 @@ tags:
 - people-researcher
 title: Philip Holmes
 type: entity
-updated: '2026-04-24'
+updated: '2026-04-27'
 ---
 
 ## Overview
@@ -37,3 +37,11 @@ Philip Holmes (born 1945) is a British mathematician and the Eugene Higgins Prof
 - Guckenheimer & Holmes (1983) — Nonlinear Oscillations, Dynamical Systems, and Bifurcations
 - Holmes & Rand (1978) — Bifurcations of the forced van der Pol oscillator
 - Holmes & Williams (2006) — Neural models of insect locomotion
+
+## References
+
+1. (authors unknown). *Nonlinear Oscillations, Dynamical Systems, and Bifurcations of Vector Fields*.
+2. (authors unknown). *Differential Equations, Dynamical Systems, and an Introduction to Chaos*.
+3. (authors unknown). *Introduction to Theoretical Neurobiology: Volume 2, Nonlinear and Stochastic Theories*.
+4. Eugene M. Izhikevich. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
+5. (authors unknown). *Introduction to Applied Nonlinear Dynamical Systems and Chaos*.

@@ -9,7 +9,7 @@ tags:
 - network-dynamics
 title: Albert-László Barabási
 type: entity
-updated: '2026-04-24'
+updated: '2026-04-27'
 ---
 
 # Albert-László Barabási
@@ -41,3 +41,9 @@ Barabási's research covers:
 
 ## Collaborators
 - Réka Albert – Scale-free networks
+
+## References
+
+1. (authors unknown). *Emergence of Scaling in Random Networks*.
+2. (authors unknown). *Collective Dynamics of 'Small-World' Networks*.
+3. (authors unknown). *Networks of the Brain*.

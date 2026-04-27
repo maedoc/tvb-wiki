@@ -1,10 +1,27 @@
 ---
-title: Bifurcation Theory
 created: 2026-04-20
-updated: 2026-04-24
+sources:
+- raw/papers/strogatz-1994.md
+- raw/papers/guckenheimer-holmes-1983.md
+- raw/papers/kuznetsov-2004.md
+- raw/papers/seydel-2010.md
+- raw/papers/touboul-2011.md
+- raw/papers/arxiv-2411.16449.md
+- raw/papers/arxiv-2509.02799.md
+- raw/papers/hirsch-smale-devaney-2004.md
+tags:
+- bifurcation-theory
+- dynamical-systems-theory
+- nonlinear-dynamics
+- neural-mass-models
+- epilepsy-modeling
+- network-dynamics
+- brain-oscillations
+- whole-brain-modeling
+- parameter-estimation
+title: Bifurcation Theory
 type: concept
-tags: [bifurcation-theory, dynamical-systems-theory, nonlinear-dynamics, neural-mass-models, epilepsy-modeling, network-dynamics, brain-oscillations, whole-brain-modeling, parameter-estimation]
-sources: [raw/papers/strogatz-1994.md, raw/papers/guckenheimer-holmes-1983.md, raw/papers/kuznetsov-2004.md, raw/papers/seydel-2010.md, raw/papers/touboul-2011.md, raw/papers/arxiv-2411.16449.md, raw/papers/arxiv-2509.02799.md, raw/papers/hirsch-smale-devaney-2004.md]
+updated: '2026-04-27'
 ---
 
 Bifurcation theory is the branch of mathematics that studies how the qualitative behavior of a dynamical system changes as its parameters are varied. Rather than tracing individual trajectories, it identifies critical parameter values—called bifurcation points—at which an infinitesimal change triggers an abrupt, qualitative shift in system behavior, such as the sudden birth of oscillations or the collapse of a stable equilibrium. In neuroscience, this framework is essential because neural circuits are inherently nonlinear, and their functional state can switch dramatically when synaptic strengths, external drives, or neuromodulatory tone cross threshold values.
@@ -30,3 +47,14 @@ The biological grounding of bifurcation parameters is what makes the theory clin
 ## Relation to Foundational Texts
 
 Bifurcation theory sits at the intersection of several core disciplines in computational neuroscience. It draws on the analytical foundations laid by Hirsch, Smale, and Devaney (2004) — whose treatment of linearization, Lyapunov stability, and phase-portrait geometry provides the prerequisite mathematical apparatus — and on the deeper normal-form and center-manifold machinery of Guckenheimer and Holmes (1983) for classifying local and global bifurcations. The accessible introduction of Strogatz (1994) remains the standard entry point for neuroscience graduate students, while the applied numerical toolkit of Kuznetsov (2004) and Seydel (2010) makes bifurcation analysis a practical engineering discipline for [[connectomics]] and model calibration. In whole-brain simulation platforms such as [[tvb]], knowledge of the bifurcation structure of a local node helps constrain the global coupling strengths that reproduce empirically observed dynamics, linking the mathematical theory directly to the construction of personalized brain models.
+
+## References
+
+1. (authors unknown). *Nonlinear Dynamics and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering*.
+2. (authors unknown). *Nonlinear Oscillations, Dynamical Systems, and Bifurcations of Vector Fields*.
+3. (authors unknown). *Elements of Applied Bifurcation Theory*.
+4. (authors unknown). *Practical Bifurcation and Stability Analysis*.
+5. Jonathan Touboul, Fabien Wendling, Bruno Bellanger, Patrick Chauvel, Olivier Faugeras. *Bifurcation analysis of Jansen's neural mass model*. Neural Computation. [DOI](https://doi.org/10.1162/NECO_a_00151)
+6. Huda Mahdi, Jan Sieber, Krasimira Tsaneva-Atanasova. *Alpha-Delta Transitions in Cortical Rhythms as grazing bifurcations*. [Link](https://arxiv.org/abs/2411.16449)
+7. Martin Breyton, Viktor Sip, M. Woodman, Meysam Hashemi, S. Petkoski, V. Jirsa. (2025). *Data-driven mean-field within whole-brain models*. [Link](https://www.semanticscholar.org/paper/144ae1f1dabec42c14493d0083d36f168508f886)
+8. (authors unknown). *Differential Equations, Dynamical Systems, and an Introduction to Chaos*.

@@ -13,7 +13,7 @@ tags:
 - network-dynamics
 title: Graph Theory
 type: concept
-updated: '2026-04-24'
+updated: '2026-04-27'
 ---
 
 # Graph Theory
@@ -77,3 +77,13 @@ Graph theory provides a language and set of tools for describing and analyzing n
 - [[network-hubs]] – Highly connected nodes
 - [[modularity]] – Community structure
 - network-dynamics – Dynamic processes
+
+## References
+
+1. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
+2. (authors unknown). *Networks: An Introduction*.
+3. (authors unknown). *Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems*.
+4. (authors unknown). *Networks of the Brain*.
+5. (authors unknown). *The Development of Human Functional Brain Networks*.
+6. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
+7. Jiaxing Xu, Jingying Ma, Xin Lin, Yuxiao Liu, Kai He, Qika Lin, Yiping Ke, Yang Li, Dinggang Shen, Mengling Feng. (2026). *Toward a Multi-View Brain Network Foundation Model: Cross-View Consistency Learning Across Arbitrary Atlases*. [Link](https://arxiv.org/abs/2603.20348)

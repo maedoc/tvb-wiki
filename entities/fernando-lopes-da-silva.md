@@ -13,7 +13,7 @@ tags:
 - brain-oscillations
 title: Fernando Lopes da Silva
 type: entity
-updated: '2026-04-23'
+updated: '2026-04-27'
 ---
 
 # Fernando Lopes da Silva
@@ -43,3 +43,11 @@ The Lopes da Silva model's architecture (three interconnected populations) direc
 - [[Jansen-Rit]]
 - brain oscillations
 - [[eeg]]
+
+## References
+
+1. Fernando Lopes da Silva, A. Hoeks, H.A. Smits, L.H. Zetterberg. *Model of brain rhythmic activity: the alpha rhythm of the thalamus*. Kybernetik. [DOI](https://doi.org/10.1007/BF00270757)
+2. Walter J. Freeman. *Mass Action in the Nervous System*.
+3. Benjamin H. Jansen, Vincent G. Rit. *Electroencephalogram and visual evoked potential generation in a mathematical model of coupled cortical columns*. Biological Cybernetics. [DOI](https://doi.org/10.1007/BF00199471)
+4. Gianluca Gaglioti, L. Porta, M. Colombo, Simone Russo, Thierry Nieus, G. Deco, M. Corbetta, S. Sarasso, M. V. Sanchez-Vives, M. Massimini. (2026). *Slow wave generation and propagation in a model of brain lesions*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2026.121817)
+5. Potjans & Diesmann (2014). *The cell-type specific cortical microcircuit: relating structure and activity*. Cerebral Cortex. [DOI](https://doi.org/10.1093/cercor/bhs358)

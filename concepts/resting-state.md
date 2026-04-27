@@ -18,7 +18,7 @@ tags:
 - functional-connectivity
 title: Resting-State fMRI
 type: concept
-updated: '2026-04-23'
+updated: '2026-04-27'
 ---
 
 # Resting-State fMRI
@@ -66,3 +66,17 @@ zuo-2010 demonstrated that ICNs are reliable across scanning sessions, supportin
 - intrinsic-connectivity-networks – Spontaneous networks
 - [[default-mode-network]] – Most studied ICN
 - spontaneous-activity – Ongoing neural dynamics
+
+## References
+
+1. (authors unknown). *Functional connectivity in the motor cortex of resting human brain using echo-planar MRI*.
+2. (authors unknown). *Spontaneous fluctuations in brain activity observed with functional magnetic resonance imaging*.
+3. (authors unknown). *Correspondence of the brain's functional architecture during activation and rest*.
+4. (authors unknown). *The organization of the human cerebellum estimated by intrinsic functional connectivity*.
+5. (authors unknown). *The organization of the human cerebellum estimated by intrinsic functional connectivity*.
+6. Deco et al. (2013). *Resting brains never rest: computational insights into potential cognitive architectures*. Trends in Neurosciences. [DOI](https://doi.org/10.1016/j.tins.2013.09.002)
+7. D. Fasoli, L. Coletta, Daniel Gutierrez-Barragan, S. Gini, A. Gozzi, S. Panzeri. (2026). *Attractor dynamics of a whole-cortex network model predicts emergence and structure of fMRI co-activation patterns in the mouse brain.*. PLoS Computational Biology. [DOI](https://doi.org/10.1371/journal.pcbi.1013995)
+8. Kashyap Gudibanda, J. Fousek, S. Petkoski, V. Jirsa. (2026). *The role of connectivity for the degeneracy of the brain’s resting state dynamics*. Journal of Computational Neuroscience. [DOI](https://doi.org/10.1007/s10827-025-00919-0)
+9. (authors unknown). *Functional Connectivity in the Resting Brain: A Network Analysis of the Default Mode Hypothesis*.
+10. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
+11. (authors unknown). *Functional Network Organization of the Human Brain*.
