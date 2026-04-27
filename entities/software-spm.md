@@ -6,6 +6,9 @@ sources:
 - raw/papers/arxiv-2604.03619.md
 - raw/papers/sanz-leon-2013.md
 - raw/papers/arxiv-2603.22296.md
+- raw/papers/arxiv-2601.03796.md
+- raw/papers/arxiv-2603.29903.md
+- raw/papers/arxiv-2512.22093.md
 tags:
 - software-spm
 title: Software Spm

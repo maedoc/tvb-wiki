@@ -1,6 +1,8 @@
 ---
 created: 2026-04-27
-sources: []
+sources:
+- raw/papers/smith-2013-connectomics.md
+- raw/papers/barabasi-albert-1999.md
 tags:
 - karen-friston
 title: Karen Friston

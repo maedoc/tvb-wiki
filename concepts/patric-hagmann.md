@@ -5,6 +5,8 @@ sources:
 - raw/papers/deco-2013.md
 - raw/papers/friston-1993.md
 - raw/papers/strogatz-1994.md
+- raw/papers/semanticscholar-7c3337c880fd.md
+- raw/papers/arxiv-2602.17820.md
 tags:
 - patric-hagmann
 title: Patric Hagmann

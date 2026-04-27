@@ -4,6 +4,7 @@ sources:
 - raw/papers/friston-1993.md
 - raw/papers/strogatz-1994.md
 - raw/papers/jordan-2018.md
+- raw/papers/sanz-leon-2013.md
 tags:
 - neuroelectro
 title: Neuroelectro

@@ -2,6 +2,7 @@
 created: 2026-04-23
 sources:
 - raw/papers/freeman-1975.md
+- raw/papers/destexhe-sejnowski-2009.md
 tags:
 - software-brain-modeling
 title: BioNet

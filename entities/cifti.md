@@ -6,6 +6,8 @@ sources:
 - raw/papers/sporns-tononi-kotter-2005.md
 - raw/papers/arxiv-2604.03619.md
 - raw/papers/arxiv-2603.28931.md
+- raw/papers/arxiv-2603.29903.md
+- raw/papers/semanticscholar-ff8218c1e55e.md
 tags:
 - cifti
 title: Cifti

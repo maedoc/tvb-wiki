@@ -4,6 +4,7 @@ sources:
 - raw/papers/strogatz-1994.md
 - raw/papers/izhikevich-2007.md
 - raw/papers/breakspear-2017.md
+- raw/papers/arxiv-2601.03796.md
 tags:
 - brain-dynamics
 title: Brain Dynamics

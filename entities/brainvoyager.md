@@ -1,6 +1,8 @@
 ---
 created: 2026-04-23
-sources: []
+sources:
+- raw/papers/semanticscholar-301489ffb9de.md
+- raw/papers/semanticscholar-24420855b2da.md
 tags:
 - software-brain-modeling
 - software-visualization

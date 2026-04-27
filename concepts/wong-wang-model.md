@@ -1,6 +1,9 @@
 ---
 created: 2026-04-27
-sources: []
+sources:
+- raw/papers/semanticscholar-ce89e593c89e.md
+- raw/papers/semanticscholar-85e2123db1a7.md
+- raw/papers/arxiv-2604.03619.md
 tags:
 - wong-wang-model
 title: Wong Wang Model

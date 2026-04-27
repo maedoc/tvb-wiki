@@ -5,6 +5,9 @@ sources:
 - https://ncbi.nlm.nih.gov/pmc/articles/PMC6673130/
 - https://www.nature.com/articles/sdata20186.pdf
 - https://ncbi.nlm.nih.gov/pmc/articles/PMC2655120/
+- raw/papers/sanz-leon-2013.md
+- raw/papers/breakspear-2017.md
+- raw/papers/ritter-2013.md
 tags:
 - software-neuromorpho
 - database-neuromorpho

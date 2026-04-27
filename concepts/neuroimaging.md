@@ -4,6 +4,8 @@ sources:
 - raw/papers/friston-1993.md
 - raw/papers/semanticscholar-b76b57eda5f0.md
 - raw/papers/grady-2012.md
+- raw/papers/arxiv-2603.07524.md
+- raw/papers/arxiv-2603.20680.md
 tags:
 - neuroimaging
 title: Neuroimaging

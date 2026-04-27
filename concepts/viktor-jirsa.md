@@ -1,6 +1,7 @@
 ---
 created: 2026-04-27
-sources: []
+sources:
+- raw/papers/semanticscholar-7c3337c880fd.md
 tags:
 - viktor-jirsa
 title: Viktor Jirsa

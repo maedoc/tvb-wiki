@@ -1,6 +1,9 @@
 ---
 created: 2026-04-23
-sources: []
+sources:
+- raw/papers/arxiv-2603.29176.md
+- raw/papers/semanticscholar-301489ffb9de.md
+- raw/papers/semanticscholar-24420855b2da.md
 tags:
 - software-brain-modeling
 - neuroimaging-fmri
@@ -8,7 +11,7 @@ tags:
 - whole-brain-modeling
 title: PRoNTo
 type: entity
-updated: 2026-04-24
+updated: '2026-04-27'
 ---
 
 The corrected `pronto.md` file has been written. Summary of fixes:

@@ -1,6 +1,9 @@
 ---
 created: 2026-04-27
-sources: []
+sources:
+- raw/papers/strogatz-1994.md
+- raw/papers/arxiv-2506.06234.md
+- raw/papers/semanticscholar-81735afca7f8.md
 tags:
 - nnu-net
 title: Nnu Net

@@ -4,6 +4,8 @@ sources:
 - raw/papers/barabasi-albert-1999.md
 - raw/papers/hagmann-2008.md
 - raw/papers/breakspear-2017.md
+- raw/papers/arxiv-2602.17820.md
+- raw/papers/arxiv-2603.04149.md
 tags:
 - random-networks
 title: Random Networks

@@ -2,6 +2,7 @@
 created: 2026-04-20
 sources:
 - raw/papers/gogtay-2004.md
+- raw/papers/tau-peterson-2010.md
 tags:
 - people-researcher
 - neurodevelopment

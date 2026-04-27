@@ -6,6 +6,7 @@ sources:
 - raw/papers/hines-carnevale-1997.md
 - raw/papers/gewaltig-diesmann-2007.md
 - raw/papers/woodman-2014.md
+- raw/papers/arxiv-2604.16463.md
 tags:
 - software-netpyne
 title: NetPyNE

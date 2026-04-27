@@ -1,6 +1,7 @@
 ---
 created: 2026-04-27
-sources: []
+sources:
+- raw/papers/david-friston-2003.md
 tags:
 - karl-j-fristol
 title: Karl J Fristol

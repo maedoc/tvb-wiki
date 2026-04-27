@@ -6,6 +6,7 @@ sources:
 - raw/papers/arxiv-2506.22951.md
 - raw/papers/ritter-2013.md
 - raw/papers/arxiv-2504.17491.md
+- raw/papers/semanticscholar-9afbfd2d37be.md
 tags:
 - alzheimers-modeling
 - whole-brain-modeling

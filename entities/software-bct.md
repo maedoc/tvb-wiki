@@ -2,6 +2,8 @@
 created: 2026-04-27
 sources:
 - raw/papers/rubinov-sporns-2010.md
+- raw/papers/bullmore-sporns-2009.md
+- raw/papers/smith-2013-connectomics.md
 tags:
 - software-bct
 title: Software Bct

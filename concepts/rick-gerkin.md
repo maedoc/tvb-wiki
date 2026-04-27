@@ -1,6 +1,8 @@
 ---
 created: 2026-04-27
-sources: []
+sources:
+- raw/papers/arxiv-2601.03796.md
+- raw/papers/jordan-2018.md
 tags:
 - rick-gerkin
 title: Rick Gerkin

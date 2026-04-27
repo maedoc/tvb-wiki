@@ -5,6 +5,7 @@ sources:
 - raw/papers/arxiv-2510.21720.md
 - raw/papers/semanticscholar-ff8218c1e55e.md
 - raw/papers/arxiv-2603.13361.md
+- raw/papers/semanticscholar-f5c842a11c16.md
 tags:
 - computational-psychiatry
 title: Computational Psychiatry

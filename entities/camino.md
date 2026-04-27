@@ -6,6 +6,8 @@ sources:
 - raw/papers/sporns-tononi-kotter-2005.md
 - raw/papers/semanticscholar-ce89e593c89e.md
 - raw/papers/arxiv-2603.28931.md
+- raw/papers/arxiv-2603.29903.md
+- raw/papers/arxiv-2603.29843.md
 tags:
 - camino
 title: Camino

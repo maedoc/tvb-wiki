@@ -1,6 +1,8 @@
 ---
 created: 2026-04-27
-sources: []
+sources:
+- raw/papers/arxiv-2603.07524.md
+- raw/papers/arxiv-2509.02799.md
 tags:
 - hybrid-architecture
 title: Hybrid Architecture

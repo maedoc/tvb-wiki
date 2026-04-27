@@ -6,6 +6,7 @@ sources:
 - raw/papers/arxiv-2306.15787.md
 - raw/papers/arxiv-2602.00143.md
 - raw/papers/jordan-2018.md
+- raw/papers/semanticscholar-ff8218c1e55e.md
 tags:
 - seizure-prediction
 title: Seizure Prediction

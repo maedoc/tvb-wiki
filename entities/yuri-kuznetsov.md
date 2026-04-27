@@ -5,6 +5,8 @@ sources:
 - raw/papers/seydel-2010.md
 - raw/papers/guckenheimer-holmes-1983.md
 - raw/papers/touboul-2011.md
+- raw/papers/izhikevich-2007.md
+- raw/papers/arxiv-2512.22093.md
 tags:
 - people-researcher
 title: Yuri Kuznetsov

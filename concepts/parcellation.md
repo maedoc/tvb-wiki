@@ -6,6 +6,7 @@ sources:
 - raw/papers/arxiv-2512.03907.md
 - raw/papers/arxiv-2603.29903.md
 - raw/papers/arxiv-2603.21067.md
+- raw/papers/arxiv-2601.03796.md
 tags:
 - connectomics
 - structural-connectivity

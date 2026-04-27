@@ -1,6 +1,9 @@
 ---
 created: 2026-04-24
-sources: []
+sources:
+- raw/papers/semanticscholar-e923a3372ab2.md
+- raw/papers/semanticscholar-24420855b2da.md
+- raw/papers/semanticscholar-9afbfd2d37be.md
 tags:
 - software-brain-modeling
 title: Open Source Brain

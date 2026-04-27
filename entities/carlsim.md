@@ -2,6 +2,7 @@
 created: 2026-04-24
 sources:
 - raw/papers/arxiv-2604.16474.md
+- raw/papers/arxiv-2407.13380.md
 tags:
 - software-brain-modeling
 - spiking-neural-networks
@@ -9,7 +10,7 @@ tags:
 - whole-brain-modeling
 title: CARLsim
 type: entity
-updated: '2026-04-24'
+updated: '2026-04-27'
 ---
 
 Here is the corrected CARLsim page with all issues fixed:

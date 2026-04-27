@@ -3,6 +3,7 @@ created: 2026-04-27
 sources:
 - raw/papers/barabasi-albert-1999.md
 - raw/papers/strogatz-1994.md
+- raw/papers/semanticscholar-7c3337c880fd.md
 tags:
 - preferential-attachment
 title: Preferential Attachment

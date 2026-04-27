@@ -2,6 +2,8 @@
 created: 2026-04-20
 sources:
 - raw/papers/gardiner-2009.md
+- raw/papers/arxiv-2603.09402.md
+- raw/papers/newman-2010.md
 tags:
 - people-researcher
 title: Crispin Gardiner

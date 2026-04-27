@@ -6,6 +6,9 @@ sources:
 - raw/papers/sporns-tononi-kotter-2005.md
 - raw/papers/jordan-2018.md
 - raw/papers/friston-1993.md
+- raw/papers/smith-2013-connectomics.md
+- raw/papers/sporns-2011.md
+- raw/papers/power-2011.md
 tags:
 - destrieux-atlas
 title: Destrieux Atlas

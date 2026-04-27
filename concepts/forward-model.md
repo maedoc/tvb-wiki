@@ -6,6 +6,7 @@ sources:
 - raw/papers/arxiv-2602.09034.md
 - raw/papers/friston-2007.md
 - raw/papers/arxiv-2512.03907.md
+- raw/papers/arxiv-2601.03796.md
 tags:
 - whole-brain-modeling
 - computational-neuroscience

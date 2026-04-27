@@ -6,6 +6,7 @@ sources:
 - raw/papers/semanticscholar-ce89e593c89e.md
 - raw/papers/arxiv-2603.24176.md
 - raw/papers/arxiv-2603.21067.md
+- raw/papers/arxiv-2601.03796.md
 tags:
 - neuroimaging-eeg
 - neuroimaging-meg

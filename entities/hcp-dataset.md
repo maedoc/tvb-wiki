@@ -2,6 +2,8 @@
 created: 2026-04-27
 sources:
 - raw/papers/van-essen-2013.md
+- raw/papers/barch-2013.md
+- raw/papers/smith-2013-hcp.md
 tags:
 - hcp-dataset
 title: Hcp Dataset

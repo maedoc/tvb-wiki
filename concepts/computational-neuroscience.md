@@ -6,6 +6,8 @@ sources:
 - raw/papers/strogatz-1994.md
 - raw/papers/friston-1993.md
 - raw/papers/semanticscholar-eb704b6f5462.md
+- raw/papers/arxiv-2601.03796.md
+- raw/papers/arxiv-2603.20680.md
 tags:
 - computational-neuroscience
 title: Computational Neuroscience

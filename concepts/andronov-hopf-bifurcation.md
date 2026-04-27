@@ -6,6 +6,7 @@ sources:
 - raw/papers/doedel-oldeman-2009.md
 - raw/papers/strogatz-1994.md
 - raw/papers/jordan-2018.md
+- raw/papers/semanticscholar-71ffb8153870.md
 tags:
 - andronov-hopf-bifurcation
 title: Andronov Hopf Bifurcation
