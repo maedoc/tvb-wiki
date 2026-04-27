@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Ralph Repairer Agent — fixes structural issues found by the Auditor.
-Uses cheap model (gpt-oss-120b) for text-level fixes;
+Uses cheap model (gpt-oss:20b) for text-level fixes;
 pure Python for mechanical ones.
 
 Repairable categories:

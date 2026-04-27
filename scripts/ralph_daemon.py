@@ -24,7 +24,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from ralph_config import (
     get_logger, WIKI_ROOT, SCRIPTS_DIR, META_DIR, RALPH_LOG,
     RAW_PAPERS_DIR, ENTITIES_DIR, CONCEPTS_DIR, COMPARISONS_DIR,
-    WRITER_MODEL, REVIEWER_MODEL,
+    WRITER_MODEL, REVIEWER_MODEL, REPAIRER_MODEL,
     INGESTOR_INTERVAL, IMPROVER_INTERVAL, AUDITOR_INTERVAL,
     LIBRARIAN_INTERVAL, SOFTWARE_MAPPER_INTERVAL, DEEP_RESEARCH_INTERVAL,
     MATCHER_INTERVAL,
@@ -274,6 +274,30 @@ AGENTS = [
 ]
 
 
+# ── Model validation ───────────────────────────────────────────────────
+
+def validate_models() -> list[str]:
+    """Check that all configured Ollama models exist. Returns list of bad models."""
+    import urllib.request, json as _json
+    bad = []
+    models = {WRITER_MODEL, REVIEWER_MODEL, REPAIRER_MODEL}
+    try:
+        req = urllib.request.Request("http://localhost:11434/api/tags")
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            data = _json.loads(resp.read())
+        available = {m['name'] for m in data.get('models', [])}
+        for m in models:
+            # Strip provider prefix for lookup
+            name = m.split('/', 1)[-1] if '/' in m else m
+            if name not in available:
+                bad.append(m)
+                log.error("Model not found on Ollama: %s (available: %s)",
+                         m, ', '.join(sorted(available)[:10]))
+    except Exception as e:
+        log.warn("Could not validate models against Ollama: %s", e)
+    return bad
+
+
 # ── Startup ────────────────────────────────────────────────────────────
 
 def print_banner():
@@ -306,7 +330,7 @@ def print_banner():
     log.info("Raw papers: %d", raw_count)
     log.info("Last ingest: %s", last_update)
     log.info("Agents: Matcher(hourly) Ingestor(daily) Improver(hourly) DeepResearch(2x/week) Auditor(daily) RefFormatter(daily) CrosslinkApplier(daily) Repairer(daily) Librarian(daily) Linter(daily) SoftwareMapper(weekly)")
-    log.info("Models: writer=%s, reviewer=%s", WRITER_MODEL, REVIEWER_MODEL)
+    log.info("Models: writer=%s, reviewer=%s, repairer=%s", WRITER_MODEL, REVIEWER_MODEL, REPAIRER_MODEL)
     log.info("Parallel writers: %d", PARALLEL_WRITERS)
     log.info("Log file: %s", RALPH_LOG)
     log.info("Ready. Ctrl+C to stop.")
@@ -405,6 +429,23 @@ Examples:
     args = parser.parse_args()
 
     print_banner()
+
+    # Validate models before starting
+    bad_models = validate_models()
+    if bad_models:
+        from ralph_config import WRITER_MODEL, REVIEWER_MODEL, REPAIRER_MODEL
+        # Map agent → model
+        model_map = {
+            'Improver': WRITER_MODEL,
+            'Matcher': WRITER_MODEL,
+            'DeepResearch': WRITER_MODEL,
+            'Repairer': REPAIRER_MODEL,
+        }
+        for agent_name, model in model_map.items():
+            if model in bad_models:
+                log.error("Disabling %s: model %s not available", agent_name, model)
+                state.disabled.add(agent_name)
+                state.failures[agent_name] = 99
 
     if args.dry_run:
         log.info("DRY RUN — no agents will execute")

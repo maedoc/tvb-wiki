@@ -299,11 +299,15 @@ def run_pi(prompt: str, model: str = None, tools: str = None,
             if result.returncode != 0:
                 stderr = result.stderr.strip()
                 # Classify the error
-                if "connection refused" in stderr.lower() or "ollama" in stderr.lower():
+                # Check model-not-found BEFORE generic ollama check
+                # (stderr says "for provider 'ollama'" even on 404s)
+                if "connection refused" in stderr.lower():
                     log.warn("Ollama connection issue: %s", stderr[:200])
                 elif "not found" in stderr.lower() and "model" in stderr.lower():
                     log.error("Model not found: %s", stderr[:200])
                     return False, stderr
+                elif "ollama" in stderr.lower():
+                    log.warn("Ollama connection issue: %s", stderr[:200])
                 elif "rate" in stderr.lower():
                     log.warn("Rate limited, sleeping 60s")
                     import time; time.sleep(60)
