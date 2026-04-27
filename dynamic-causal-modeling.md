@@ -1,7 +1,7 @@
 ---
 title: Dynamic Causal Modeling
 created: 2026-04-20
-updated: 2026-04-24
+updated: 2026-04-27
 type: concept
 tags: [dynamic-causal-modeling, effective-connectivity, neural-mass-models, variational-bayes, free-energy-principle, mean-field-theory, stochastic-differential-equations, nonlinear-dynamics, neuroimaging-fmri, neuroimaging-eeg, neuroimaging-meg, resting-state, paper-review, paper-methods, comparison, parameter-estimation, dynamical-systems-theory]
 sources: [raw/papers/friston-2003-dcm.md, raw/papers/stephan-2010.md, raw/papers/daunizeau-david-stephan-2011.md]
@@ -49,4 +49,4 @@ The parameters estimated by a DCM have direct physiological interpretations. Ent
 
 However, DCM carries significant assumptions. The bilinear form cannot capture strong nonlinearities such as bifurcations, limit cycles, or the abrupt transitions seen in [[epilepsy-modeling]] and seizure dynamics. The neural mass models used are low-dimensional reductions; they do not represent detailed spiking or laminar structure. Daunizeau and colleagues' 2011 review demonstrated that DCM and Granger causality can systematically disagree when hemodynamic response functions vary across regions — a finding that underscores DCM's dependence on correct forward modeling. The review concluded that DCM is best suited for confirmatory hypothesis testing with well-defined model spaces rather than exploratory discovery of unknown architectures.
 
-These limitations point toward the complementary role of [[tvb]] and other whole-brain simulation platforms. Where DCM models small networks (typically 2–8 regions) with rich biophysical detail, [[tvb]] simulates the entire brain with simplified local dynamics, leveraging [[structural-connectivity]] from [[diffusion-mri]] to generate large-scale network dynamics. DCM's parameter estimation machinery and its family of [[neural-mass-models]] have directly informed the local node models used in whole-brain simulations, and ongoing work bridges the two approaches by using DCM-derived effective connectivity to constrain [[tvb]] network parameters at the whole-brain scale.
+These limitations point toward the complementary role of [[tvb]] and other whole-brain simulation platforms. Where DCM models small networks (typically 2–8 regions) with rich biophysical detail, [[tvb]] simulates the entire brain with simplified local dynamics, leveraging [[structural-connectivity]] from [[diffusion-mri]] to generate large-scale network dynamics. DCM's parameter estimation machinery and its family of [[neural-mass-models]] have directly informed the local node models used in whole-brain simulations, and ongoing work bridges the two approaches by using DCM-derived effective connectivity to constrain [[tvb]] network parameters at the whole-brain scale. [[brainvoyager]] also provides DCM capabilities, allowing researchers to apply the framework within its visualization environment.

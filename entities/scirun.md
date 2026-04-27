@@ -1,21 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- 'Johnson, C. R., et al. (2003). SCIRun: A scientific computing problem solving environment.
-  In: Hanke, M., et al. (eds) Simulations in Mathematics. Progress in Simulation,
-  vol 2. Springer.'
-- 'Mosher, J. C., Leahy, R. M., & Lewis, P. S. (1999). EEG and MEG: Forward solutions
-  for inverse methods. IEEE Transactions on Biomedical Engineering, 46(3), 245-259.'
-- 'Baum, M., & Trew, M. (2014). BioMesh3D: 3D meshing of biomedical data. Proceedings
-  of the International Conference on Mesh Generation.'
-- MacLeod, R. S., & Johnson, C. R. (1997). Vectorized adaptive quadrature in SCIRun.
-  Proceedings of the 15th Annual International Conference of the IEEE Engineering
-  in Medicine and Biology Society.
-- 'Dale, A. M., & Sereno, M. I. (1993). Improved localization of cortical activity
-  by combining EEG and MEG with MRI cortical surface reconstruction: A linear approach.
-  Journal of Cognitive Neuroscience, 5(2), 162-176.'
-- Parker, R. L. (1977). Understanding inverse theory. Pure and Applied Geophysics,
-  115(4), 711-740.
 - raw/papers/sanz-leon-2013.md
 - raw/papers/ritter-2013.md
 - raw/papers/arxiv-2505.16861.md

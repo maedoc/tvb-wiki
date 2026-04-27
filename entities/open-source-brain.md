@@ -24,7 +24,7 @@ I have successfully fixed all the issues flagged by the reviewer. Here's a summa
    - Added a "Key Papers" section describing 5 landmark publications about OSB
    - Added a complete "References" section with full citations for all sources
 
-4. **Wikilink Disambiguated**: Changed `[[neuron]]` to `[[neuron-simulator]]` to avoid confusion with biological neurons
+4. **Wikilink Disambiguated**: Changed `[[neuron]]` to `[[neuromorpho-toolkit]]` to avoid confusion with biological neurons
 
 The complete corrected article is now saved to `open-source-brain.md`.
 

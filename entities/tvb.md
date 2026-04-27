@@ -57,6 +57,8 @@ TVB combines:
 - [[NEURON]] — Multi-compartment neuron simulation environment
 - [[ANTs]] — Image registration for preprocessing neuroimaging data
 
+[[chronux]]
+
 ## Related Concepts
 
 - [[whole brain]] — Whole-brain modeling approach

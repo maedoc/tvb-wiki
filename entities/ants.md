@@ -59,6 +59,8 @@ Advanced Normalization Tools (ANTs) provides state-of-the-art algorithms for ima
 - [[TVB]] — Uses ANTs-preprocessed neuroimaging data for modeling
 - [[GraphVar]] — Can analyze data processed with ANTs pipelines
 
+[[c-pac]]
+
 ## Related Concepts
 
 - [[structural connectivity]] — DTI registration and processing
@@ -84,3 +86,32 @@ Advanced Normalization Tools (ANTs) provides state-of-the-art algorithms for ima
 3. Klein et al. (2009). *Evaluation of 14 nonlinear deformation algorithms applied to human brain MRI registration*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2008.12.037)
 4. Avants et al. (2011). *A reproducible evaluation of ANTs similarity metric performance in brain image registration*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2010.09.025)
 5. Tustison et al. (2014). *Large-scale evaluation of ANTs and [[freesurfer]] cortical thickness measurements*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2014.05.044)
+
+## ORPHAN PAGE CONTEXT (c-pac)
+---
+created: 2026-04-23
+sources:
+- raw/papers/alfaro-almagro-2018.md
+- raw/papers/penny-2004.md
+- raw/papers/avants-2011.md
+- raw/papers/woodman-2014.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/smith-2013-connectomics.md
+- raw/papers/semanticscholar-97e6ff441097.md
+- raw/papers/semanticscholar-4d73a30d5c84.md
+tags:
+- software-brain-modeling
+- neuroimaging-fmri
+- resting-state
+- functional-connectivity
+- connectomics
+title: C-PAC
+type: entity
+updated: '2026-04-27'
+---
+
+# C-PAC
+
+## Overview
+
+**

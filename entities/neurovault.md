@@ -67,7 +67,7 @@ The platform's adoption reflects growing recognition that complete statistical m
 - [[nilearn|Nilearn]] — Python library for neuroimaging analysis with NeuroVault integration
 - [[pymvpa|PyMVPA]] — Multivariate pattern analysis library supporting direct NeuroVault import
 - [[nipype|Nipype]] — Pipeline framework that can automate NeuroVault uploads
-- [[brain-[[connectivity]]-toolbox]]
+- [[brainsuite]]
 
 ## Key Papers
 

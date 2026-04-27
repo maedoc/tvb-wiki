@@ -1,11 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- https://www.ebrains.eu/about
-- https://www.esfri.org/roadmap/2021
-- https://www.humanbrainproject.eu/en
-- https://www.nature.com/articles/s41597-019-0101-z
-- https://www.nature.com/articles/s41586-019-1358-2
 - raw/papers/sanz-leon-2013.md
 - raw/papers/semanticscholar-a324c47ea982.md
 - raw/papers/semanticscholar-f45e6044c92f.md

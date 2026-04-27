@@ -75,20 +75,21 @@ Neural mass models have become indispensable tools for studying brain disorders 
 
 ## Limitations and Future Directions
 
-Despite their utility, neural mass models carry significant limitations that motivate ongoing research. The homogeneity assumption—that neurons within a population share similar properties—is violated in real cortex, where cell types, dendritic morphologies, and intrinsic properties vary considerably. The mean-field approximation neglects correlations between neurons that may be important for certain phenomena. Most models employ static [[structural-connectivity]] rather than accounting for activity-dependent plasticity. Parameter identifiability remains challenging: multiple parameter sets can produce similar dynamics, making inverse estimation difficult without strong priors. Current research addresses these limitations through data-driven approaches that learn population heterogeneity from recordings, incorporating correlation structures via [[fokker-planck-equation]] descriptions, and developing more sophisticated parameter estimation frameworks using [[variational-bayes]] and machine learning approaches.
+Despite their utility, neural mass models carry significant limitations that motivate ongoing research. The homogeneity assumption—that neurons within a population share similar properties—is violated in real cortex, where cell types, dendritic morphologies, and intrinsic properties vary considerably. The mean-field approximation neglects correlations between neurons that may be important for certain phenomena. Most models employ static [[structural-connectivity]] rather than accounting for activity-dependent plasticity. Parameter identifiability remains challenging: multiple parameter sets can produce similar dynamics, making inverse estimation difficult without strong priors. Current research addresses these limitations through data‑driven approaches that learn population heterogeneity from recordings, incorporating correlation structures via [[fokker-planck-equation]] descriptions, and developing more sophisticated parameter estimation frameworks using [[variational-bayes]] and machine learning approaches.
 
 ## Related Concepts
 
-- [[mean-field-theory]] – Mathematical foundation for population-averaged descriptions
+- [[mean-field-theory]] – Mathematical foundation for population‑averaged descriptions
 - [[dynamic-causal-modeling]] – Bayesian inference framework using NMMs
-- [[whole-brain-modeling]] – Large-scale network simulations coupling NMMs across regions
+- [[whole-brain-modeling]] – Large‑scale network simulations coupling NMMs across regions
 - [[bifurcation-analysis]] – Mathematical tools for understanding regime transitions
 - [[epilepsy-modeling]] – Pathological applications to seizure dynamics
-- [[jansen-rit]] – EEG/MEG-focused cortical column model
-- [[wong-wang]] – [[fmri]]/BOLD-optimized model
+- [[jansen-rit]] – EEG/MEG‑focused cortical column model
+- [[wong-wang]] – [[fmri]]/BOLD‑optimized model
 - [[tvb]] – Primary software platform implementing NMMs
-- [[tvb-vs-[[nest]]-vs-neuron|TVB vs [[nest]] vs Neuron]]
+- [[tvb-vs-nest-vs-neuron|TVB vs Nest vs Neuron]]
 - [[tvb-vs-nest-vs-neuron|Tvb Vs Nest Vs Neuron]]
+
 ## References
 
 1. [[walter-freeman|Walter J. Freeman]]. *Mass Action in the Nervous System*.

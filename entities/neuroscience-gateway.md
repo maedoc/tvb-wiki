@@ -1,10 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- '[Carnevale et al., 2014](https://doi.org/10.1186/1471-2202-15-S1-P101)'
-- '[Sivagnanam et al., 2013](https://ceur-ws.org/Vol-993/)'
-- '[UC San Diego news, 2012](https://today.ucsd.edu/story/uc_san_diego_yale_awarded_collaborative_nsf_grant_for_neuroscience_gateway)'
-- '[NSG Portal](https://www.nsgportal.org/overview.html)'
 - raw/papers/sanz-leon-2013.md
 - raw/papers/arxiv-2505.16861.md
 - raw/papers/semanticscholar-eb704b6f5462.md

@@ -69,3 +69,5 @@ Applications to personalized modeling involve fitting individual parameters to e
 - [[neural-mass-models]] – Models for aging brain dynamics
 - [[whole-brain-modeling]] – Computational approaches
 - [[personalized-brain-modeling]] – Individual-specific models
+
+[[andrei-medvedev]]

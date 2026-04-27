@@ -36,7 +36,7 @@ BrainSuite is an open-source software suite for processing and analyzing structu
 
 ## Motivation and Context
 
-The emergence of high-resolution structural MRI as a cornerstone of modern neuroscience research created an urgent need for robust, automated tools capable of extracting meaningful anatomical information from raw scanner output. Manual segmentation of brain structures is prohibitively time-consuming when dealing with large neuroimaging datasets such as those collected by the [[human-[[connectome]]-project]] (HCP) or longitudinal studies of development and [[aging]]. BrainSuite was developed to address this bottleneck by providing a streamlined pipeline that takes raw T1-weighted MPRAGE or SPGR scans and produces skull-stripped brain volumes, tissue probability maps, and cortical surface representations suitable for downstream statistical analyses.
+The emergence of high-resolution structural MRI as a cornerstone of modern neuroscience research created an urgent need for robust, automated tools capable of extracting meaningful anatomical information from raw scanner output. Manual segmentation of brain structures is prohibitively time-consuming when dealing with large neuroimaging datasets such as those collected by [[mrtrix3-connectome]] (HCP) or longitudinal studies of development and [[aging]]. BrainSuite was developed to address this bottleneck by providing a streamlined pipeline that takes raw T1-weighted MPRAGE or SPGR scans and produces skull-stripped brain volumes, tissue probability maps, and cortical surface representations suitable for downstream statistical analyses.
 
 The software occupies a niche in the neuroimaging ecosystem alongside other established packages such as [[freesurfer]], [[FSL]], [[3d-slicer]], and [[brainvisa]]. Unlike [[freesurfer]], which emphasizes detailed cortical reconstruction and thickness measurements, BrainSuite offers a more lightweight and computationally efficient workflow that remains accessible to users without extensive computational resources. This efficiency makes it particularly suitable for preprocessing large cohorts or for applications where only bulk volumetric measures are required rather than vertex-wise cortical thickness maps.
 
@@ -48,7 +48,7 @@ The preprocessing workflow typically begins with the BSE algorithm, which initia
 
 ## Relationship to TVB and Whole-Brain Modeling
 
-While BrainSuite is primarily a structural MRI processing tool rather than a dynamic modeling platform, it plays an important supporting role in [[whole-brain|whole-brain modeling]] workflows. The structural anatomy extracted and processed by BrainSuite—including cortical parcellations and white-matter segmentations—provides the anatomical scaffold upon which [[whole-brain model|whole-brain models]] within [[the-virtual-brain]] (TVB) are built. TVB requires patient-specific or cohort-specific cortical surfaces and regional volumes to define the nodes of its large-scale network model, and these geometries are often derived from preprocessing pipelines that share algorithmic heritage with BrainSuite.
+While BrainSuite is primarily a structural MRI processing tool rather than a dynamic modeling platform, it plays an important supporting role in [[whole-brain|whole-brain modeling]] workflows. The structural anatomy extracted and processed by BrainSuite—including cortical parcellations and white-matter segmentations—provides the anatomical scaffold upon which [[izhikevich-neuron-model|whole-brain models]] within [[the-virtual-brain]] (TVB) are built. TVB requires patient-specific or cohort-specific cortical surfaces and regional volumes to define the nodes of its large-scale network model, and these geometries are often derived from preprocessing pipelines that share algorithmic heritage with BrainSuite.
 
 In practice, researchers using TVB for [[personalized-brain-modeling]] may employ BrainSuite (or similar tools like [[freesurfer]]) to generate individual cortical meshes from T1-weighted scans. These meshes are subsequently used to define cortical regions-of-interest based on standard atlases such as the [[desikan-killiany-atlas]] or [[schaefer-atlas]]. The tissue classification outputs can also inform the construction of [[structural-connectivity]] matrices derived from diffusion MRI, which serve as the anatomical basis for coupling between brain regions in whole-brain simulations.
 
@@ -83,7 +83,7 @@ BrainSuite interfaces with several other tools in the neuroimaging ecosystem. It
 ## References
 
 - Laboratory of Neuro Imaging (LONI) BrainSuite Website. https://brainsuite.org/
-- [[human-[[connectome]]-project]]. https://www.humanconnectome.org/
+- [[mrtrix3-connectome]]. https://www.humanconnectome.org/
 - Freesurfer Documentation. https://surfer.nmr.mgh.harvard.edu/
 - FSL Software Package. https://fsl.fmrib.ox.ac.uk/fsl/fslwiki
 - Nilearn Documentation. https://nilearn.github.io/

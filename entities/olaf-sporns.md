@@ -24,7 +24,7 @@ Distinguished Professor at Indiana University Bloomington, pioneer of the field 
 
 - **Coined the term "connectome"** (2005): Introduced the concept in the seminal paper with Tononi and Kötter
 - **Authored "Networks of the Brain"** (2011): Definitive textbook on brain network analysis
-- **Developed [[brain-[[connectivity]]-toolbox]]**: With Mikail Rubinov, created essential software for network analysis
+- **Developed [[brainsuite]]**: With Mikail Rubinov, created essential software for network analysis
 - **[[structural-core]] Discovery**: Contributed to identification of the brain's structural backbone
 
 ## Research Focus
@@ -38,7 +38,7 @@ Sporns' research integrates network science with neuroscience to understand how 
 ## Key Papers
 - sporns-tononi-kotter-2005 – The Human Connectome
 - sporns-2011 – Networks of the Brain (book)
-- rubinov-sporns-2010 – [[brain-[[connectivity]]-toolbox]]
+- rubinov-sporns-2010 – [[brainsuite]]
 - bullmore-sporns-2009 – Complex brain networks review
 - hagmann-2008 – Structural core
 

@@ -1,9 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- https://doi.org/10.1016/j.neuroimage.2021.118386
-- https://www.clinica.run/documentation/
-- https://bids-specification.readthedocs.io/
 - raw/papers/schirner-2018.md
 - raw/papers/glasser-2013.md
 - raw/papers/semanticscholar-4d73a30d5c84.md
