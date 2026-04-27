@@ -440,3 +440,5 @@
 ## [2026-04-27 16:31] Audit: 704 issues (0 broken links, 81 orphans, 87 placeholders, 0 dup-refs, 2 opaque-refs, 80 thin, 151 missing-links)
 
 ## [2026-04-27 18:56] Improve: 3 pages improved (neuromorpho-toolkit, open-source-brain, dsi-studio)
+
+## [2026-04-27 18:56] RefFormatter: formatted references on 60 pages

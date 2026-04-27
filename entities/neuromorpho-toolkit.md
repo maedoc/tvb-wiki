@@ -1,14 +1,22 @@
 ---
-title: NeuroMorpho.org Toolkit
 created: 2024-01-15
-updated: 2026-04-27
-type: entity
-tags: [software-neuromorpho, database-neuromorpho, computational-neuroscience, morphometry, neuronal-morphology, software-visualization, tool-morphology-analysis, dataset-neurons]
 sources:
-  - https://neuromorpho.org/about.jsp
-  - https://ncbi.nlm.nih.gov/pmc/articles/PMC6673130/
-  - https://www.nature.com/articles/sdata20186.pdf
-  - https://ncbi.nlm.nih.gov/pmc/articles/PMC2655120/
+- https://neuromorpho.org/about.jsp
+- https://ncbi.nlm.nih.gov/pmc/articles/PMC6673130/
+- https://www.nature.com/articles/sdata20186.pdf
+- https://ncbi.nlm.nih.gov/pmc/articles/PMC2655120/
+tags:
+- software-neuromorpho
+- database-neuromorpho
+- computational-neuroscience
+- morphometry
+- neuronal-morphology
+- software-visualization
+- tool-morphology-analysis
+- dataset-neurons
+title: NeuroMorpho.org Toolkit
+type: entity
+updated: '2026-04-27'
 ---
 
 # NeuroMorpho.org Toolkit
@@ -17,11 +25,11 @@ sources:
 
 The NeuroMorpho.org Toolkit refers to the suite of software tools, databases, and analysis resources associated with the NeuroMorpho.org project—a curated, open-access repository of digitally reconstructed neuronal morphologies. Originally developed and maintained by the Computational Neuroanatomy Group at George Mason University under the direction of Giorgio A. Ascoli, NeuroMorpho.org serves as the standard reference for morphological data in computational neuroscience. The database was first released publicly in 2006 and has since grown to contain over 260,000 reconstructions from nearly 1,000 laboratories worldwide, making it an indispensable resource for researchers building [[neural-mass-models]], [[spiking-neural-networks]], and [[whole-brain-modeling]] frameworks that incorporate realistic cellular architecture [Akram et al., 2018].
 
-The toolkit provides capabilities for accessing, analyzing, converting, and visualizing three-dimensional reconstructions of neurons across diverse brain regions, species, and experimental conditions. NeuroMorpho.org has also collaborated with Human Brain Project efforts through the Neuroscience Information Framework, though it remains an independent resource not formally integrated into HBP infrastructure [Halavi et al., 2008].
+The toolkit provides capabilities for accessing, analyzing, converting, and visualizing three-dimensional reconstructions of neurons across diverse brain regions, species, and experimental conditions. [[neuromorpho|NeuroMorpho.org]] has also collaborated with Human Brain Project efforts through the Neuroscience Information Framework, though it remains an independent resource not formally integrated into HBP infrastructure [Halavi et al., 2008].
 
 ## Key Features
 
-The NeuroMorpho.org ecosystem encompasses several interconnected capabilities that distinguish it from generic morphology databases. First, the central **repository** provides standardized access to reconstructions in multiple file formats, including SWC (the de facto standard for simplified morphometries), Neurolucida XML, and various proprietary formats. All entries undergo systematic quality control, with metadata annotations including species, brain area, cell type, experimental condition, and reconstruction methodology. Second, the toolkit includes **analysis functions** for computing traditional morphometric parameters such as total length, branch order, bifurcation angles, and fractal dimension—metrics essential for validating [[computational-neuroscience]] models against biological data. Third, the platform provides **visualization tools** that render three-dimensional reconstructions with color-coded dendrites, axon arbors, and somata, enabling rapid qualitative assessment of morphological diversity.
+The NeuroMorpho.org ecosystem encompasses several interconnected capabilities that distinguish it from generic morphology databases. First, the central **repository** provides standardized access to reconstructions in multiple file formats, including SWC (the de facto standard for simplified morphometries), Neurolucida XML, and various proprietary formats. All entries undergo systematic quality control, with metadata annotations including species, brain area, cell type, experimental condition, and reconstruction methodology. Second, the toolkit includes **analysis functions** for computing traditional morphometric parameters such as total length, branch order, [[bifurcation-analysis|bifurcation]] angles, and fractal dimension—metrics essential for validating [[computational-neuroscience]] models against biological data. Third, the platform provides **visualization tools** that render three-dimensional reconstructions with color-coded dendrites, axon arbors, and somata, enabling rapid qualitative assessment of morphological diversity.
 
 The toolkit also integrates with broader neuroimaging and [[connectomics]] workflows through its support for the [[neuroml]] standard, which provides a unified schema for exchanging neuronal morphology data across different simulation environments. Researchers using [[the-virtual-brain]] or other [[whole-brain-simulators]] can leverage NeuroMorpho.org morphometries to parameterize single-neuron models within larger network architectures, bridging the gap between microscale cellular biology and mesoscale [[brain-dynamics]] modeling.
 

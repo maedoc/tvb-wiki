@@ -16,4 +16,4 @@ Kuramoto — a concept in whole-brain modeling and [[computational-neuroscience]
 
 ## References
 
-1. (authors unknown). *Nonlinear Dynamics and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering*.
+1. (authors unknown). *[[nonlinear-dynamics]] and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering*.

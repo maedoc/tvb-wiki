@@ -16,4 +16,4 @@ Hcp Dataset — a concept in [[whole-brain|whole-brain modeling]] and [[computat
 
 ## References
 
-1. (authors unknown). *The WU-Minn Human Connectome Project: An Overview*.
+1. (authors unknown). *The WU-Minn [[human-[[connectome]]-project]]: An Overview*.

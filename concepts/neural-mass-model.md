@@ -87,7 +87,7 @@ Despite their utility, neural mass models carry significant limitations that mot
 - [[jansen-rit]] – EEG/MEG-focused cortical column model
 - [[wong-wang]] – [[fmri]]/BOLD-optimized model
 - [[tvb]] – Primary software platform implementing NMMs
-- [[tvb-vs-nest-vs-neuron|TVB vs NEST vs Neuron]]
+- [[tvb-vs-[[nest]]-vs-neuron|TVB vs NEST vs Neuron]]
 - [[tvb-vs-nest-vs-neuron|Tvb Vs Nest Vs Neuron]]
 ## References
 

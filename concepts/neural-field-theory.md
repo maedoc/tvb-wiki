@@ -58,8 +58,8 @@ Applications of NFT span [[whole-brain-modeling]], where regional neural fields 
 
 ## References
 
-1. Futa Tomita, Jun-nosuke Teramae. (2025). *Dynamical mean-field theory for a highly heterogeneous neural population with graded persistent activity of the entorhinal cortex*. PLoS Comput. Biol.. [DOI](https://doi.org/10.1371/journal.pcbi.1013484)
-2. Michael Breakspear, John A. Roberts, John R. Terry, Stefano Rodrigues, Nader Mahmud, Philip Robinson. *Large-scale brain dynamics of seizures: asymptotic analysis of a neural field model*. Journal of Computational Neuroscience. [DOI](https://doi.org/10.1007/s10827-006-8135-2)
+1. Futa Tomita, Jun-nosuke Teramae. (2025). *Dynamical [[mean-field-theory]] for a highly heterogeneous neural population with graded persistent activity of the entorhinal cortex*. PLoS Comput. Biol.. [DOI](https://doi.org/10.1371/journal.pcbi.1013484)
+2. Michael Breakspear, John A. Roberts, John R. Terry, Stefano Rodrigues, Nader Mahmud, Philip Robinson. *Large-scale [[brain-dynamics]] of seizures: asymptotic analysis of a neural field model*. Journal of [[computational-neuroscience]]. [DOI](https://doi.org/10.1007/s10827-006-8135-2)
 3. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)
-4. Martin Breyton, Viktor Sip, M. Woodman, Meysam Hashemi, S. Petkoski, V. Jirsa. (2025). *Data-driven mean-field within whole-brain models*. [Link](https://www.semanticscholar.org/paper/144ae1f1dabec42c14493d0083d36f168508f886)
-5. Eugene M. Izhikevich. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
+4. Martin Breyton, Viktor Sip, M. Woodman, Meysam Hashemi, S. Petkoski, V. Jirsa. (2025). *Data-driven mean-field within [[whole-brain]] models*. [Link](https://www.semanticscholar.org/paper/144ae1f1dabec42c14493d0083d36f168508f886)
+5. [[eugene-izhikevich|Eugene M. Izhikevich]]. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.

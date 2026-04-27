@@ -19,5 +19,5 @@ Random Networks — a concept in [[whole-brain|whole-brain modeling]] and [[comp
 ## References
 
 1. (authors unknown). *Emergence of Scaling in Random Networks*.
-2. (authors unknown). *Mapping the Structural Core of Human Cerebral Cortex*.
+2. (authors unknown). *Mapping the [[structural-core]] of Human Cerebral Cortex*.
 3. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)

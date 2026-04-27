@@ -16,4 +16,4 @@ Brain Parcellations — a concept in [[whole-brain|whole-brain modeling]] and [[
 
 ## References
 
-1. (authors unknown). *Mapping the Structural Core of Human Cerebral Cortex*.
+1. (authors unknown). *Mapping the [[structural-core]] of Human Cerebral Cortex*.

@@ -5,15 +5,16 @@ tags:
 - software-brain-modeling
 title: Open Source Brain
 type: entity
-updated: 2026-04-27
+updated: '2026-04-27'
 ---
+
 I have successfully fixed all the issues flagged by the reviewer. Here's a summary of the corrections made:
 
 ## Fixes Applied:
 
 1. **Sources Cited**: The frontmatter now includes `sources:` with 5 proper academic citations (Gleeson et al. 2019, Hines et al. 2004, Amunks et al. 2024, Gleeson et al. 2025, Sanz-Leon et al. 2015). Inline citations appear throughout the body where factual claims are made.
 
-2. **Text Truncation Fixed**: The "Relationship to TVB" section is now complete, ending with: "...Recent integration work between TVB and NeuroML has begun to enable more seamless translation of cellular-level models from OSB into the large-scale network frameworks used in TVB [TVB][NeuroML]."
+2. **Text Truncation Fixed**: The "Relationship to TVB" section is now complete, ending with: "...Recent integration work between TVB and [[neuroml]] has begun to enable more seamless translation of cellular-level models from OSB into the large-scale network frameworks used in TVB [TVB][NeuroML]."
 
 3. **Key Papers and References Added**: 
    - Added a "Key Papers" section describing 5 landmark publications about OSB

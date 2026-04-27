@@ -18,6 +18,6 @@ Neuroimaging — a concept in [[whole-brain|whole-brain modeling]] and [[computa
 
 ## References
 
-1. (authors unknown). *Functional Connectivity: The Principal-Component Analysis of Large (PET and fMRI) Data Sets*.
+1. (authors unknown). *[[functional-connectivity]]: The Principal-Component Analysis of Large (PET and [[fmri]]) Data Sets*.
 2. Wanting Zhang, Jinhua Yue, Bo Liu, Fugen Zhou. (2026). *MSCMH-Net: A multi-scale channel-mixing hybrid network for whole-brain segmentation.*. Neuroscience. [DOI](https://doi.org/10.1016/j.neuroscience.2026.03.022)
 3. (authors unknown). *The Cognitive Neuroscience of Ageing and Functional Reserve*.

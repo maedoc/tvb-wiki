@@ -16,4 +16,4 @@ Local Field Potentials — a concept in [[whole-brain|whole-brain modeling]] and
 
 ## References
 
-1. Daniele Avitabile, Gabriel J. Lord, Khadija Meddouni. *State and Parameter Estimation for a Neural Model of Local Field Potentials*. [Link](https://arxiv.org/abs/2512.07842)
+1. Daniele Avitabile, Gabriel J. Lord, Khadija Meddouni. *State and [[parameter-estimation]] for a Neural Model of Local Field Potentials*. [Link](https://arxiv.org/abs/2512.07842)
