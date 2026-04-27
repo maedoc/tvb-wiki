@@ -418,3 +418,5 @@
 ## [2026-04-27 12:35] Audit: 828 issues (247 broken links, 98 orphans, 114 placeholders, 0 dup-refs, 2 opaque-refs, 2 thin, 114 missing-links)
 
 ## [2026-04-27 14:37] Audit: 837 issues (254 broken links, 98 orphans, 114 placeholders, 0 dup-refs, 2 opaque-refs, 0 thin, 116 missing-links)
+
+## [2026-04-27 15:43] Audit: 783 issues (200 broken links, 98 orphans, 114 placeholders, 0 dup-refs, 2 opaque-refs, 0 thin, 116 missing-links)
