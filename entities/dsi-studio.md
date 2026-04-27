@@ -1,10 +1,6 @@
 ---
 created: 2026-04-23
 sources:
-- 10.1016/j.neuroimage.2010.07.062
-- 10.1002/nbm.2798
-- 10.1109/ISBI.2011.5870658
-- 10.1088/1741-2560/10/6/066002
 - raw/papers/arxiv-2602.09852.md
 - raw/papers/semanticscholar-adcab180dcd3.md
 tags:
