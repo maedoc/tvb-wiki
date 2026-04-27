@@ -480,3 +480,7 @@
 ## [2026-04-27 22:51] Ingest: 3 new papers, 0 stubs created
 
 ## [2026-04-27 23:15] Matcher: 15 pages got 36 new sources
+
+## [2026-04-27 23:26] DeepResearch: 25 papers added via focused research
+
+## [2026-04-27 23:26] Audit: 590 issues (7 broken links, 71 orphans, 78 placeholders, 0 dup-refs, 2 opaque-refs, 78 thin, 176 missing-links)
