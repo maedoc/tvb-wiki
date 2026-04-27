@@ -1,16 +1,34 @@
 ---
-title: SCIRun
 created: 2024-01-15
-updated: 2026-04-27
-type: entity
-tags: [software, source-localization, forward-model, eeg, meg, neuroimaging, computational-neuroscience, bioelectric-fields, cardiac-modeling]
 sources:
-  - "Johnson, C. R., et al. (2003). SCIRun: A scientific computing problem solving environment. In: Hanke, M., et al. (eds) Simulations in Mathematics. Progress in Simulation, vol 2. Springer."
-  - "Mosher, J. C., Leahy, R. M., & Lewis, P. S. (1999). EEG and MEG: Forward solutions for inverse methods. IEEE Transactions on Biomedical Engineering, 46(3), 245-259."
-  - "Baum, M., & Trew, M. (2014). BioMesh3D: 3D meshing of biomedical data. Proceedings of the International Conference on Mesh Generation."
-  - "MacLeod, R. S., & Johnson, C. R. (1997). Vectorized adaptive quadrature in SCIRun. Proceedings of the 15th Annual International Conference of the IEEE Engineering in Medicine and Biology Society."
-  - "Dale, A. M., & Sereno, M. I. (1993). Improved localization of cortical activity by combining EEG and MEG with MRI cortical surface reconstruction: A linear approach. Journal of Cognitive Neuroscience, 5(2), 162-176."
-  - "Parker, R. L. (1977). Understanding inverse theory. Pure and Applied Geophysics, 115(4), 711-740."
+- 'Johnson, C. R., et al. (2003). SCIRun: A scientific computing problem solving environment.
+  In: Hanke, M., et al. (eds) Simulations in Mathematics. Progress in Simulation,
+  vol 2. Springer.'
+- 'Mosher, J. C., Leahy, R. M., & Lewis, P. S. (1999). EEG and MEG: Forward solutions
+  for inverse methods. IEEE Transactions on Biomedical Engineering, 46(3), 245-259.'
+- 'Baum, M., & Trew, M. (2014). BioMesh3D: 3D meshing of biomedical data. Proceedings
+  of the International Conference on Mesh Generation.'
+- MacLeod, R. S., & Johnson, C. R. (1997). Vectorized adaptive quadrature in SCIRun.
+  Proceedings of the 15th Annual International Conference of the IEEE Engineering
+  in Medicine and Biology Society.
+- 'Dale, A. M., & Sereno, M. I. (1993). Improved localization of cortical activity
+  by combining EEG and MEG with MRI cortical surface reconstruction: A linear approach.
+  Journal of Cognitive Neuroscience, 5(2), 162-176.'
+- Parker, R. L. (1977). Understanding inverse theory. Pure and Applied Geophysics,
+  115(4), 711-740.
+tags:
+- software
+- source-localization
+- forward-model
+- eeg
+- meg
+- neuroimaging
+- computational-neuroscience
+- bioelectric-fields
+- cardiac-modeling
+title: SCIRun
+type: entity
+updated: '2026-04-27'
 ---
 
 # SCIRun
@@ -31,9 +49,9 @@ A particularly notable feature is SCIRun's integration with 3D Slicer, which pro
 
 ## Relationship to TVB
 
-While [[the-virtual-brain]] (TVB) and SCIRun both address computational neuroscience questions related to brain dynamics, they serve complementary roles rather than overlapping functionalities. TVB is primarily a whole-brain modeling simulator that uses neural mass models to generate dynamic patterns of activity across large-scale brain networks, often driven by empirical functional connectivity data. SCIRun, in contrast, focuses on the electromagnetic inverse problem—what can be inferred about current neural activity from EEG/MEG measurements.
+While [[the-virtual-brain]] (TVB) and SCIRun both address computational neuroscience questions related to [[brain-dynamics]], they serve complementary roles rather than overlapping functionalities. TVB is primarily a [[whole-brain|whole-brain modeling]] simulator that uses [[neural-mass-models]] to generate dynamic patterns of activity across large-scale brain networks, often driven by empirical [[functional-connectivity]] data. SCIRun, in contrast, focuses on the electromagnetic inverse problem—what can be inferred about current neural activity from EEG/MEG measurements.
 
-However, the two platforms can be productively combined in multi-scale modeling workflows. SCIRun's source localization capabilities can be used to estimate the cortical current distributions underlying observed EEG/MEG data, which can then serve as initial conditions or boundary constraints for TVB simulations. Conversely, TVB forward modeling can generate predicted electromagnetic signatures from simulated network activity, which can be compared against empirical recordings through SCIRun's visualization tools. This integration is particularly valuable for studying the relationship between resting-state network dynamics measured with EEG or MEG and the underlying large-scale brain connectivity structure that TVB models. The forward model capabilities in both systems share theoretical foundations in electromagnetic field theory, though they differ in implementation scale and computational approach.
+However, the two platforms can be productively combined in multi-scale modeling workflows. SCIRun's source localization capabilities can be used to estimate the cortical current distributions underlying observed EEG/MEG data, which can then serve as initial conditions or boundary constraints for TVB simulations. Conversely, TVB forward modeling can generate predicted electromagnetic signatures from simulated network activity, which can be compared against empirical recordings through SCIRun's visualization tools. This integration is particularly valuable for studying the relationship between [[resting-state]] [[network-dynamics]] measured with EEG or MEG and the underlying large-scale brain [[connectivity]] structure that TVB models. The forward model capabilities in both systems share theoretical foundations in electromagnetic field theory, though they differ in implementation scale and computational approach.
 
 ## Historical Context and Development
 
@@ -50,12 +68,12 @@ While SCIRun's active development has slowed in recent years as commercial and o
 - Johnson, C. R., et al. (2003). SCIRun: A scientific computing problem solving environment. *Simulations in Mathematics* (Progress in Simulation, Vol. 2). Springer.
 - Mosher, J. C., Leahy, R. M., & Lewis, P. S. (1999). EEG and MEG: Forward solutions for inverse methods. *IEEE Transactions on Biomedical Engineering*, 46(3), 245-259.
 - MacLeod, R. S., & Johnson, C. R. (1997). Vectorized adaptive quadrature in SCIRun. *Proceedings of the 15th Annual International Conference of the IEEE Engineering in Medicine and Biology Society*.
-- Dale, A. M., & Sereno, M. I. (1993). Improved localization of cortical activity by combining EEG and MEG with MRI cortical surface reconstruction: A linear approach. *Journal of Cognitive Neuroscience*, 5(2), 162-176.
+- Dale, A. M., & Sereno, M. I. (1993). Improved localization of cortical activity by combining EEG and MEG with MRI cortical surface reconstruction: A [[linear]] approach. *Journal of Cognitive Neuroscience*, 5(2), 162-176.
 - Baum, M., & Trew, M. (2014). BioMesh3D: 3D meshing of biomedical data. *International Conference on Mesh Generation*.
 
 ## Related Software
 
-SCIRun exists in an ecosystem of tools for electromagnetic source imaging. For forward and inverse EEG/MEG problems, alternatives include FieldTrip (a MATLAB toolbox popular in the EEG/MEG community), MNE-Python (a more recent Python-based platform), and commercial packages such as BESA or ASA. For anatomical segmentation and mesh generation, FreeSurfer, 3D Slicer, and MRtrix3 serve related purposes. The comparison between SCIRun and these alternatives often centers on the trade-off between SCIRun's visual programming approach and the script-based workflow of MATLAB or Python alternatives.
+SCIRun exists in an ecosystem of tools for electromagnetic source imaging. For forward and inverse EEG/MEG problems, alternatives include FieldTrip (a MATLAB toolbox popular in the EEG/MEG community), MNE-Python (a more recent Python-based platform), and commercial packages such as BESA or ASA. For anatomical segmentation and mesh generation, FreeSurfer, 3D Slicer, and [[mrtrix3]] serve related purposes. The comparison between SCIRun and these alternatives often centers on the trade-off between SCIRun's visual programming approach and the script-based workflow of MATLAB or Python alternatives.
 
 For cardiac modeling specifically, which represents SCIRun's broader application domain, related tools include the Cardiac Atlas Project, CMISS, and EBECS. The boundary element and finite element methods implemented in SCIRun for bioelectric field problems share theoretical foundations with these cardiac modeling environments, though application-specific implementations differ in their handling of tissue heterogeneity and boundary conditions.
 

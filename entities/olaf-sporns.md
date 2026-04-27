@@ -43,7 +43,7 @@ Sporns' research integrates network science with neuroscience to understand how 
 - hagmann-2008 – Structural core
 
 ## Related Concepts
-- [[connectome]] – Complete brain connectivity
+- [[connectome]] – Complete brain [[connectivity]]
 - [[connectomics]] – Field of connectivity research
 - [[brain-network]] – Graph-theoretical organization
 - [[rich-club]] – Hub organization

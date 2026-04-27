@@ -1,22 +1,31 @@
 ---
-title: EBRAINS
 created: 2024-01-15
-updated: 2026-04-27
-type: entity
-tags: [software-brian, software-modeling, software-tvb, database-hcp, database-uk-biobank, brain-atlas, compute-infrastructure, european-infrastructure, research-infrastructure]
 sources:
-  - https://www.ebrains.eu/about
-  - https://www.esfri.org/roadmap/2021
-  - https://www.humanbrainproject.eu/en
-  - https://www.nature.com/articles/s41597-019-0101-z
-  - https://www.nature.com/articles/s41586-019-1358-2
+- https://www.ebrains.eu/about
+- https://www.esfri.org/roadmap/2021
+- https://www.humanbrainproject.eu/en
+- https://www.nature.com/articles/s41597-019-0101-z
+- https://www.nature.com/articles/s41586-019-1358-2
+tags:
+- software-brian
+- software-modeling
+- software-tvb
+- database-hcp
+- database-uk-biobank
+- brain-atlas
+- compute-infrastructure
+- european-infrastructure
+- research-infrastructure
+title: EBRAINS
+type: entity
+updated: '2026-04-27'
 ---
 
 # EBRAINS
 
 ## Overview
 
-EBRAINS (European Brain Research Infrastructure) is a distributed research infrastructure established under the European Union's ESFRI (European Strategy Forum on Research Infrastructures) roadmap to advance understanding of the human brain in health and disease[^esfri]. Placed on the ESFRI roadmap in 2018 and formally operationalized as a legal entity in 2021, EBRAINS serves as a pan-European platform that integrates neuroimaging data, brain atlases, computational modeling tools, and high-performance computing resources into a unified ecosystem for brain research[^about]. The infrastructure emerged from the Human Brain Project's legacy, transforming its research outcomes into a sustainable, community-accessible platform that supports the entire research pipeline from data acquisition to simulation and validation[^hbp]. EBRAINS operates as a member-based organization with nodes distributed across multiple European countries, each contributing specialized expertise in imaging, modeling, or data curation.
+EBRAINS (European Brain Research Infrastructure) is a distributed research infrastructure established under the European Union's ESFRI (European Strategy Forum on Research Infrastructures) roadmap to advance understanding of the human brain in health and disease[^esfri]. Placed on the ESFRI roadmap in 2018 and formally operationalized as a legal entity in 2021, EBRAINS serves as a pan-European platform that integrates [[neuroimaging]] data, brain atlases, computational modeling tools, and high-performance computing resources into a unified ecosystem for brain research[^about]. The infrastructure emerged from the Human Brain Project's legacy, transforming its research outcomes into a sustainable, community-accessible platform that supports the entire research pipeline from data acquisition to simulation and validation[^hbp]. EBRAINS operates as a member-based organization with nodes distributed across multiple European countries, each contributing specialized expertise in imaging, modeling, or data curation.
 
 ## Motivation and Scientific Context
 
@@ -24,7 +33,7 @@ The creation of EBRAINS addresses a fundamental challenge in modern neuroscience
 
 ## Key Features
 
-**Data Services and Curation:** EBRAINS provides a Data Registry that indexes brain-related datasets with standardized metadata following frameworks like [[bids]] (Brain Imaging Data Structure), enabling researchers to discover and download datasets relevant to their questions. The platform hosts multiple atlases with annotation capabilities, supporting both parcellation-based and voxel-wise analyses. Quality control tools like [[mriqc]] are integrated to assess dataset quality before downstream analysis.
+**Data Services and Curation:** EBRAINS provides a Data Registry that indexes brain-related datasets with standardized metadata following frameworks like [[bids]] (Brain Imaging Data Structure), enabling researchers to discover and download datasets relevant to their questions. The platform hosts multiple atlases with annotation capabilities, supporting both [[parcellation]]-based and voxel-wise analyses. Quality control tools like [[mriqc]] are integrated to assess dataset quality before downstream analysis.
 
 **Compute Platform:** The Infrastructure offers a Compute Cloud providing Jupyter-based interactive computing environments with pre-installed neuroscience software packages. Users can launch workflows that process neuroimaging data using tools like [[freesurfer]], [[fsl]], and [[afni]], or run large-scale brain simulations on distributed clusters. The platform supports containerized workflows ensuring computational reproducibility.
 
@@ -38,7 +47,7 @@ EBRAINS maintains a particularly close relationship with [[the-virtual-brain]] (
 
 ## Technical Architecture
 
-The EBRAINS architecture comprises several interconnected layers: a data layer hosting curated datasets and atlases; a compute layer providing scalable processing and simulation capabilities; a tools layer offering integrated software packages for analysis, visualization, and modeling; and a services layer exposing programmatic APIs for automated workflows. The infrastructure follows open-science principles, with much of its software stack available as open-source and datasets released under permissive licenses. Interoperability with other major brain initiatives—including the US brain initiative ecosystem and international partners—is maintained through adoption of community standards like [[neuroml]] for model specification and NWB (Neurodata Without Borders) for data formats.
+The EBRAINS architecture comprises several interconnected layers: a data layer hosting curated datasets and atlases; a compute layer providing scalable processing and simulation capabilities; a tools layer offering integrated software packages for analysis, visualization, and modeling; and a services layer exposing programmatic APIs for automated workflows. The infrastructure follows open-science principles, with much of its software stack available as open-source and datasets released under permissive licenses. Interoperability with other major brain initiatives—including the US brain initiative ecosystem and international partners—is maintained through adoption of community standards like [[neuroml]] for model specification and NWB ([[neurodata-without-borders]]) for data formats.
 
 ## Related Software and Platforms
 
@@ -46,7 +55,7 @@ EBRAINS integrates with numerous software tools in the computational neuroscienc
 
 ## External Relationships
 
-As a European research infrastructure, EBRAINS collaborates with numerous institutional partners including national brain initiatives, university medical centers, and computational neuroscience laboratories across the continent. The infrastructure maintains relationships with major international brain projects and contributes to international standardization efforts in neuroimaging and computational neuroscience. These partnerships enable data sharing agreements and coordinated research campaigns addressing fundamental questions in brain science.
+As a European research infrastructure, EBRAINS collaborates with numerous institutional partners including national brain initiatives, university medical centers, and [[computational-neuroscience]] laboratories across the continent. The infrastructure maintains relationships with major international brain projects and contributes to international standardization efforts in neuroimaging and computational neuroscience. These partnerships enable data sharing agreements and coordinated research campaigns addressing fundamental questions in brain science.
 
 ## Related Concepts
 
@@ -56,7 +65,7 @@ The infrastructure connects to several foundational concepts in modern neuroscie
 
 *The following represents foundational publications related to EBRAINS and its integrated tools. A comprehensive bibliography is maintained on the EBRAINS website.*
 
-- Sanz-Leon, P., et al. (2015). "The virtual brain: a simulator of primate brain network dynamics." *NeuroImage*, 111, 385-407.[^tvbp]
+- Sanz-Leon, P., et al. (2015). "The virtual brain: a simulator of primate brain [[network-dynamics]]." *NeuroImage*, 111, 385-407.[^tvbp]
 
 ## References
 
@@ -68,4 +77,4 @@ The infrastructure connects to several foundational concepts in modern neuroscie
 
 [^hcp]: "Human Connectome Project." https://www.humanconnectomeproject.org/
 
-[^tvbp]: Sanz-Leon, P., et al. (2015). "The virtual brain: a simulator of primate brain network dynamics." *NeuroImage*, 111, 385-407.
+[^tvbp]: Sanz-Leon, P., et al. (2015). "The virtual brain: a simulator of primate [[brain-network]] dynamics." *NeuroImage*, 111, 385-407.
