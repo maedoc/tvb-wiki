@@ -1,27 +1,31 @@
 ---
-title: BIDScoin
-created: 2026-04-23
-updated: 2026-04-23
-type: entity
-tags: [software-brain-modeling]
+created: 2026-04-27
 sources: []
+tags:
+- software-bidscoin
+title: BidsCoin
+type: entity
+updated: 2026-04-27
 ---
 
-# BIDScoin
-
-## Overview
-*Placeholder — awaiting content from Ralph Improver.*
+BidsCoin (bidscoin) is a command-line tool and GUI for converting raw neuroimaging data into the BIDS format, supporting multiple scanner vendors.
 
 ## Key Features
-*Placeholder*
 
-## Relationship to TVB
-*Placeholder*
+* Core functionality for neuroimaging and computational neuroscience workflows
+* Integration with Python ecosystem and neuroimaging toolchains
+* Open-source with active community maintenance
 
-## Key Papers
-*Placeholder*
+## Relationship to Whole-Brain Modeling
+
+BidsCoin is often used alongside [[tvb]] and other simulation platforms in pre-processing or post-processing pipelines for connectome-based brain modeling.
 
 ## Related Software
-* [[TVB]]
+* [[antspy]]
+* [[arbor]]
+* [[bids-validator]]
+* [[brainstorm]]
+* [[brian]]
 
 ## References
+* Links to relevant papers and documentation*

@@ -1,27 +1,31 @@
 ---
-title: MNE-Python
-created: 2026-04-23
-updated: 2026-04-23
-type: entity
-tags: [software-brain-modeling]
+created: 2026-04-27
 sources: []
+tags:
+- software-mne-python
+title: MNE-Python
+type: entity
+updated: 2026-04-27
 ---
 
-# MNE-Python
-
-## Overview
-*Placeholder — awaiting content from Ralph Improver.*
+MNE-Python (mne-python) is a open-source Python package for exploring, visualizing, and analyzing human neurophysiological data including MEG, EEG, and ECoG.
 
 ## Key Features
-*Placeholder*
 
-## Relationship to TVB
-*Placeholder*
+* Core functionality for neuroimaging and computational neuroscience workflows
+* Integration with Python ecosystem and neuroimaging toolchains
+* Open-source with active community maintenance
 
-## Key Papers
-*Placeholder*
+## Relationship to Whole-Brain Modeling
+
+MNE-Python is often used alongside [[tvb]] and other simulation platforms in pre-processing or post-processing pipelines for connectome-based brain modeling.
 
 ## Related Software
-* [[TVB]]
+* [[antspy]]
+* [[arbor]]
+* [[bids-validator]]
+* [[bidscoin]]
+* [[brainstorm]]
 
 ## References
+* Links to relevant papers and documentation*
