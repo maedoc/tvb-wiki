@@ -590,6 +590,7 @@ Current content ({target_section['words']} words):
         if target_section:
             revision_prompt = f"""Fix the issues flagged for the \"{section_heading}\" section of {slug}.
 Return ONLY the corrected section body (no heading, no frontmatter).
+Do NOT explain your changes, summarize what you did, add meta-commentary, or say \"here's the corrected section\".
 
 ISSUES: {review_output}
 
@@ -601,13 +602,15 @@ Corrected section:"""
             revision_prompt = f"""You are the Ralph Writer. Your edit to {slug} was flagged for issues.
 Fix these issues and return the complete updated page (including frontmatter).
 
+**CRITICAL:** Output ONLY the final markdown content. Do NOT explain your changes, summarize what you did, add numbered lists of corrections, or include any meta-commentary like \"Here's a summary of fixes\" or \"The corrected page\".
+
 ISSUES FLAGGED BY REVIEWER:
 {review_output}
 
 YOUR PREVIOUS EDIT (which needs fixes):
 {new_content}
 
-Fix the issues and output ONLY the corrected markdown file."""
+Fixed page:"""
 
         rev_success, rev_output = run_pi(revision_prompt, model=WRITER_MODEL)
         if rev_success:
