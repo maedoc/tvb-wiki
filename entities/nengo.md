@@ -1,21 +1,28 @@
 ---
-title: Nengo
 created: 2024-01-15
-updated: 2026-04-27
-type: entity
-tags: [software-neuromorphic, spiking-neural-networks, computational-neuroscience, neural-network, python, neural-mass-models, whole-brain-modeling]
 sources: []
+tags:
+- software-neuromorphic
+- spiking-neural-networks
+- computational-neuroscience
+- neural-network
+- python
+- neural-mass-models
+- whole-brain-modeling
+title: Nengo
+type: entity
+updated: '2026-04-27'
 ---
 
 # Nengo
 
 ## Overview
 
-Nengo is a Python-based neural simulation platform developed by the Centre for Theoretical Neuroscience at the University of Waterloo, Canada. It distinguishes itself through its implementation of the Neural Engineering Framework (NEF), a mathematical framework for constructing biologically realistic, behaviorally functional spiking neural networks. Unlike traditional neural simulators that focus primarily on biophysical detail, Nengo emphasizes the construction of large-scale neural systems that can perform cognitive computations, making it particularly suitable for modeling brain-wide processes and developing neuromorphic control systems. The software enables researchers to define neural populations, specify synaptic connectivity, and run simulations of millions of neurons in real time when using appropriate computational backends.
+Nengo is a Python-based neural simulation platform developed by the Centre for Theoretical Neuroscience at the University of Waterloo, Canada. It distinguishes itself through its implementation of the Neural Engineering Framework (NEF), a mathematical framework for constructing biologically realistic, behaviorally functional [[spiking-neural-networks]]. Unlike traditional neural simulators that focus primarily on biophysical detail, Nengo emphasizes the construction of large-scale neural systems that can perform cognitive computations, making it particularly suitable for modeling brain-wide processes and developing neuromorphic control systems. The software enables researchers to define neural populations, specify synaptic [[connectivity]], and run simulations of millions of neurons in real time when using appropriate computational backends.
 
 ## Key Features
 
-The Neural Engineering Framework, which serves as Nengo's theoretical foundation, provides three core principles that guide network construction. First, **representation** describes how a group of neurons can encode information in their firing patterns, using population vectors and decoding theory. Second, **transformation** captures how connections between neural populations can perform mathematical operations on represented values, including linear transformations, nonlinearities, and dynamic convolutions. Third, **dynamics** extends the framework to model time-varying systems, incorporating neural dynamics such as those found in [[adaptive-exponential-integrate-and-fire]] neurons or other biological neuron models.
+The Neural Engineering Framework, which serves as Nengo's theoretical foundation, provides three core principles that guide network construction. First, **representation** describes how a group of neurons can encode information in their firing patterns, using population vectors and decoding theory. Second, **transformation** captures how connections between neural populations can perform mathematical operations on represented values, including [[linear]] transformations, nonlinearities, and dynamic convolutions. Third, **dynamics** extends the framework to model time-varying systems, incorporating neural dynamics such as those found in [[adaptive-exponential-integrate-and-fire]] neurons or other biological [[neuron]] models.
 
 Nengo supports multiple neuron models including Leaky Integrate-and-Fire (LIF), Adaptive Exponential Integrate-and-Fire (AdEx), and custom models defined through the [[izhikevich-neuron-model]] or similar formulations. The software offers several computational backends: the default Python backend for development and small-scale simulations, NengoOCL for OpenCL-accelerated simulations on GPUs, and NengoDB for distributed computing across clusters. This flexibility allows users to scale from single-population demonstrations to brain-scale simulations containing millions of neurons and billions of synapses.
 
@@ -25,7 +32,7 @@ The NEF approach has proven particularly successful in constructing **neuromorph
 
 While both Nengo and [[the-virtual-brain]] (TVB) are neural simulation platforms used in computational neuroscience, they occupy distinct niches and employ fundamentally different modeling paradigms. TVB is optimized for **whole-brain modeling** at the mesoscale, using [[neural-mass-models]] that represent the average activity of cortical columns or regions. These models—exemplified by the [[jansen-rit-model]] and its variants—operate on the level of brain regions defined by [[parcellation]] schemes, making TVB particularly suited for connecting large-scale [[functional-connectivity]] patterns observed in [[fmri]] and [[eeg]] data to underlying neural dynamics.
 
-In contrast, Nengo excels at constructing **spiking neural networks** with detailed dynamics, where individual neurons or small populations perform specific computations. The NEF framework explicitly enables the construction of cognitive architectures with learned transformations, whereas TVB typically uses pre-specified coupling functions between regions. For researchers interested in building mechanistic models of specific neural circuits, understanding the computational basis of cognition, or developing neuromorphic systems, Nengo provides the necessary Low-level primitives. For researchers interested in fitting whole-brain models to neuroimaging data, investigating region-level dynamics in epilepsy or other disorders, or exploring large-scale [[resting-state]] networks, TVB remains the more appropriate choice.
+In contrast, Nengo excels at constructing **spiking neural networks** with detailed dynamics, where individual neurons or small populations perform specific computations. The NEF framework explicitly enables the construction of cognitive architectures with learned transformations, whereas TVB typically uses pre-specified coupling functions between regions. For researchers interested in building mechanistic models of specific neural circuits, understanding the computational basis of cognition, or developing neuromorphic systems, Nengo provides the necessary Low-level primitives. For researchers interested in fitting [[whole-brain]] models to [[neuroimaging]] data, investigating region-level dynamics in epilepsy or other disorders, or exploring large-scale [[resting-state]] networks, TVB remains the more appropriate choice.
 
 ## Key Papers
 

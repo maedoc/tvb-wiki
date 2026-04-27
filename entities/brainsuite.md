@@ -83,7 +83,7 @@ BrainSuite interfaces with several other tools in the neuroimaging ecosystem. It
 ## References
 
 - Laboratory of Neuro Imaging (LONI) BrainSuite Website. https://brainsuite.org/
-- Human Connectome Project. https://www.humanconnectome.org/
+- [[human-[[connectome]]-project]]. https://www.humanconnectome.org/
 - Freesurfer Documentation. https://surfer.nmr.mgh.harvard.edu/
 - FSL Software Package. https://fsl.fmrib.ox.ac.uk/fsl/fslwiki
 - Nilearn Documentation. https://nilearn.github.io/

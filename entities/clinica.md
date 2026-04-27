@@ -1,13 +1,23 @@
 ---
-title: Clinica
 created: 2024-01-15
-updated: 2026-04-27
-type: entity
-tags: [software-neurominer, bids, neuroimaging, neuroimaging-pet, neuroimaging-fmri, neuroimaging-mri, neuroimaging-eeg, neuroimaging-meg, database-hcp, database-uk-biobank]
 sources:
-  - https://doi.org/10.1016/j.neuroimage.2021.118386
-  - https://www.clinica.run/documentation/
-  - https://bids-specification.readthedocs.io/
+- https://doi.org/10.1016/j.neuroimage.2021.118386
+- https://www.clinica.run/documentation/
+- https://bids-specification.readthedocs.io/
+tags:
+- software-neurominer
+- bids
+- neuroimaging
+- neuroimaging-pet
+- neuroimaging-fmri
+- neuroimaging-mri
+- neuroimaging-eeg
+- neuroimaging-meg
+- database-hcp
+- database-uk-biobank
+title: Clinica
+type: entity
+updated: '2026-04-27'
 ---
 
 Clinica is an open-source software platform designed for clinical neuroimaging data processing and analysis, with a particular focus on large-scale studies of neurological and psychiatric disorders. Developed primarily by the Aramis team at Inria (France), Clinica provides a unified framework that integrates state-of-the-art neuroimaging processing tools into standardized, reproducible pipelines that adhere to the [[bids]] (Brain Imaging Data Structure) specification. The platform emerged from the recognition that clinical neuroimaging research often suffers from methodological heterogeneity, making cross-study comparisons difficult and limiting the reproducibility of findings. By wrapping established software packages—including [[spm]] (Statistical Parametric Mapping), [[freesurfer]], [[cat12]] (Computational Anatomy Toolbox), and various tractography tools—into a cohesive command-line interface, Clinica enables researchers to process neuroimaging data consistently without manually orchestrating disparate processing steps.
@@ -28,7 +38,7 @@ Clinica occupies a niche in the neuroimaging software ecosystem that overlaps wi
 
 ## Key Papers
 
-- **Routier, A.**, et al. (2021). Clinica: an open-source software platform for clinical neuroimaging studies. *Neuroimage*, 236, 118386. https://doi.org/10.1016/j.neuroimage.2021.118386
+- **Routier, A.**, et al. (2021). Clinica: an open-source software platform for clinical [[neuroimaging]] studies. *Neuroimage*, 236, 118386. https://doi.org/10.1016/j.neuroimage.2021.118386
 - **Marcade, G.**, et al. (2022). Processing of PET data in the Clinica software platform. *Frontiers in Nuclear Medicine*, 2, 1054215.
 - **Samper-González, J.**, et al. (2018). Reproducible preprocessing pipelines for neuroimaging data. *Frontiers in Neuroinformatics*, 12, 12.
 
