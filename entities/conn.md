@@ -59,7 +59,7 @@ CONN serves as a critical preprocessing and analysis tool in the [[connectome]]-
 
 1. **Connectome Construction**: CONN generates [[functional-connectivity|functional connectivity matrices]] that serve as empirical constraints for [[whole-brain-modeling|whole-brain models]]. These matrices quantify inter-regional correlations in BOLD signals, providing the functional counterpart to [[structural-connectivity|structural connectivity]] derived from [[dti|DTI]] tractography.
 
-2. **Model Validation**: Simulated BOLD signals from neural mass models (e.g., [[neural-mass-models|Jansen-Rit]], [[wong-wang-model|Wong-Wang]]) can be compared against empirical CONN-derived connectivity patterns. This validation step is essential in [[tvb|The Virtual Brain (TVB)]] workflows where model parameters are optimized to reproduce observed functional connectivity.
+2. **Model Validation**: Simulated BOLD signals from neural mass models (e.g., [[neural-mass-models|Jansen-Rit]], [[wong-wang|Wong-Wang]]) can be compared against empirical CONN-derived connectivity patterns. This validation step is essential in [[tvb|The Virtual Brain (TVB)]] workflows where model parameters are optimized to reproduce observed functional connectivity.
 
 3. **Patient-Specific Models**: Individual subject connectivity maps from CONN can inform [[personalized-brain-modeling|personalized brain models]], particularly in clinical applications such as [[epilepsy-modeling|epilepsy]] and [[alzheimers-modeling|Alzheimer's disease]] where individual functional network alterations guide model parameterization.
 
