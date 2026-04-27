@@ -1,10 +1,23 @@
 ---
-title: Human Connectome Project
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/van-essen-2013.md
+- raw/papers/van-essen-2012.md
+- raw/papers/glasser-2013.md
+- raw/papers/smith-2013-hcp.md
+- raw/papers/ugurbil-2013.md
+- raw/papers/barch-2013.md
+- raw/papers/power-2011.md
+- raw/papers/miller-2016.md
+- raw/papers/sporns-tononi-kotter-2005.md
+tags:
+- database-hcp
+- connectomics
+- neuroimaging-fmri
+- neuroimaging-dti
+title: Human Connectome Project
 type: entity
-tags: [database-hcp, connectomics, neuroimaging-fmri, neuroimaging-dti]
-sources: [raw/papers/van-essen-2013.md, raw/papers/van-essen-2012.md, raw/papers/glasser-2013.md, raw/papers/smith-2013-hcp.md, raw/papers/ugurbil-2013.md, raw/papers/barch-2013.md]
+updated: '2026-04-27'
 ---
 
 # Human Connectome Project (HCP)
@@ -20,7 +33,7 @@ The Human Connectome Project (HCP) is a large-scale effort to map human brain co
 ### Launch (2010)
 Funded by 16 components of the NIH Blueprint for Neuroscience Research, with two main consortia:
 - **WU-Minn Consortium**: Washington University and University of Minnesota
-- **HCP Lifespan**: Developmental and aging studies
+- **HCP Lifespan**: Developmental and [[aging]] studies
 
 ### Phase I (2010-2015)
 - Developed optimized imaging protocols
@@ -36,8 +49,8 @@ Funded by 16 components of the NIH Blueprint for Neuroscience Research, with two
 
 ### Imaging Modalities
 - **Structural MRI**: T1w and T2w at 0.7mm resolution
-- **Functional MRI**: Resting-state and task-based
-- **Diffusion MRI**: High angular resolution dMRI
+- **Functional MRI**: [[resting-state]] and task-based
+- **[[diffusion-mri]]**: High angular resolution dMRI
 - **MEG**: Magnetoencephalography (subset)
 
 ### Scanner Specifications
@@ -61,7 +74,7 @@ Seven cognitive domains assessed:
 - Surface-based analysis framework
 - Cross-modal alignment
 - Quality assurance procedures
-- Open-source implementation (HCP Pipelines)
+- Open-source implementation ([[hcp-pipelines]])
 
 ### Available Data
 - Raw imaging data
@@ -100,7 +113,7 @@ Seven cognitive domains assessed:
 - [[connectomics]] – Field of connectivity research
 - [[structural-connectivity]] – Anatomical connections
 - [[functional-connectivity]] – Statistical dependencies
-- neuroimaging-fmri – Functional MRI
+- neuroimaging-[[fmri]] – Functional MRI
 - neuroimaging-dti – Diffusion MRI
 - multimodal-imaging – Integrated imaging
 
@@ -108,3 +121,15 @@ Seven cognitive domains assessed:
 - [[david van essen]] – Principal Investigator
 - kamil ugurbil – Imaging physics
 - [[steven smith]] – Analysis methods
+
+## References
+
+1. (authors unknown). *The WU-Minn Human Connectome Project: An Overview*.
+2. (authors unknown). *The Human Connectome Project: A Data Acquisition Perspective*.
+3. (authors unknown). *The Minimal Preprocessing Pipelines for the Human Connectome Project*.
+4. (authors unknown). *Resting-State fMRI in the Human Connectome Project*.
+5. (authors unknown). *Pushing Spatial and Temporal Resolution for Functional and Diffusion MRI in the Human Connectome Project*.
+6. (authors unknown). *Function in the Human Connectome: Task-fMRI and Individual Differences in Behavior*.
+7. (authors unknown). *Functional Network Organization of the Human Brain*.
+8. (authors unknown). *Multimodal Population Brain Imaging in the [[uk-biobank]]: Prospective Epidemiological Study*.
+9. (authors unknown). *The Human Connectome: A Structural Description of the Human Brain*.

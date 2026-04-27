@@ -1,20 +1,28 @@
 ---
-title: "Walter J. Freeman"
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/freeman-1975.md
+- raw/papers/breakspear-2017.md
+- raw/papers/strogatz-1994.md
+- raw/papers/izhikevich-2007.md
+- raw/papers/power-2010.md
+tags:
+- people-researcher
+- neural-mass-models
+- eeg
+title: Walter J. Freeman
 type: entity
-tags: [people-researcher, neural-mass-models, eeg]
-sources: [raw/papers/freeman-1975.md]
+updated: '2026-04-27'
 ---
 
 # Walter J. Freeman (1927-2016)
 
-American neuroscientist and pioneer in neural mass modeling of cortical dynamics. Known for developing the K-set hierarchy of population models and applying nonlinear dynamics to EEG analysis, particularly in the olfactory system.
+American neuroscientist and pioneer in neural mass modeling of cortical dynamics. Known for developing the K-set hierarchy of population models and applying [[nonlinear-dynamics]] to EEG analysis, particularly in the olfactory system.
 
 ## Key Contributions
 
-- **K-set models**: K0 (single neuron), KI (population), KII (coupled excitatory-inhibitory), KIII (multisensory integration)
-- **Nonlinear EEG analysis**: Application of chaos theory and bifurcation analysis to brain signals
+- **K-set models**: K0 (single [[neuron]]), KI (population), KII (coupled excitatory-inhibitory), KIII (multisensory integration)
+- **Nonlinear EEG analysis**: Application of chaos theory and [[bifurcation-analysis]] to brain signals
 - **Olfactory system modeling**: Mass action models of olfactory bulb and cortex
 - **Mesoscopic brain dynamics**: Conceptualization of population-level neural activity between single neurons and global brain
 
@@ -26,7 +34,7 @@ American neuroscientist and pioneer in neural mass modeling of cortical dynamics
 
 ## Legacy
 
-Freeman's work established the mathematical framework for population-level brain modeling that influenced Wilson-Cowan, Jansen-Rit, and modern implementations in TVB. His concept of "mesoscopic" dynamics—intermediate between single neurons and the whole brain—remains central to neural mass modeling theory.
+Freeman's work established the mathematical framework for population-level brain modeling that influenced Wilson-Cowan, Jansen-Rit, and modern implementations in TVB. His concept of "mesoscopic" dynamics—intermediate between single neurons and the [[whole-brain]]—remains central to neural mass modeling theory.
 
 ## Related Concepts
 
@@ -35,3 +43,11 @@ Freeman's work established the mathematical framework for population-level brain
 - [[eeg]]
 - [[Wilson-Cowan]]
 - [[Jansen-Rit]]
+
+## References
+
+1. Walter J. Freeman. *Mass Action in the Nervous System*.
+2. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)
+3. (authors unknown). *Nonlinear Dynamics and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering*.
+4. [[eugene-izhikevich|Eugene M. Izhikevich]]. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
+5. (authors unknown). *The Development of Human Functional Brain Networks*.

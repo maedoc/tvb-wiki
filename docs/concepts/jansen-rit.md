@@ -1,18 +1,29 @@
 ---
-title: "Jansen-Rit Model"
 created: 2026-04-20
-updated: 2026-04-21
+sources:
+- raw/papers/wendling-2002.md
+- raw/papers/jansen-rit-1995.md
+- raw/papers/arxiv-2411.16449.md
+- raw/papers/breakspear-2006.md
+- raw/papers/touboul-2011.md
+- raw/papers/wilson-cowan-1972.md
+tags:
+- neural-mass-models
+- eeg
+- meg
+- brain-oscillations
+title: Jansen-Rit Model
 type: concept
-tags: [neural-mass-models, eeg, meg, brain-oscillations]
+updated: '2026-04-27'
 ---
 
 # Jansen-Rit Model
 
-The Jansen-Rit model is a neural mass model of a single cortical column capable of generating realistic EEG and MEG signals. It is the default neural mass model in The Virtual Brain (TVB) and the foundation of Dynamic Causal Modeling (DCM) for EEG/MEG.
+The Jansen-Rit model is a [[neural-mass-models|neural mass model]] of a single cortical column capable of generating realistic EEG and MEG signals. It is the default neural mass model in [[tvb|The Virtual Brain]] (TVB) and the foundation of Dynamic Causal Modeling (DCM) for EEG/MEG.
 
 ## Overview
 
-Developed by Benjamin Jansen and Vincent Rit in 1995, the model extends earlier work by Lopes da Silva on thalamocortical alpha rhythms to specifically model cortical columns and their contribution to scalp EEG/MEG signals.
+Developed by [[benjamin-jansen]] and [[vincent-rit]] in 1995, the model extends earlier work by Lopes da Silva on thalamocortical alpha rhythms to specifically model cortical columns and their contribution to scalp EEG/MEG signals.
 
 ## Model Architecture
 
@@ -85,7 +96,7 @@ The Jansen-Rit model exhibits different behaviors depending on parameters:
 ### 1. Low Activity (Fixed Point)
 - Parameters: Low input (p ≈ 0-50 Hz)
 - Output: Near-zero activity
-- Interpretation: Resting state
+- Interpretation: [[resting-state]]
 
 ### 2. Alpha Rhythm (Limit Cycle)
 - Parameters: Moderate input (p ≈ 100-200 Hz)
@@ -116,8 +127,8 @@ Adds separate populations for fast (GABA-A) and slow (GABA-B) inhibition:
 
 ### TVB Implementation
 - Multiple coupled columns
-- Empirical structural connectivity
-- Delays from tractography
+- Empirical [[structural-connectivity]]
+- Delays from [[tractography]]
 
 ## Applications
 
@@ -144,7 +155,7 @@ Adds separate populations for fast (GABA-A) and slow (GABA-B) inhibition:
 1. **Fixed connectivity**: No plasticity
 2. **Homogeneous populations**: Ignores cell-type diversity
 3. **Simplified synapses**: No NMDA, conductance-based dynamics
-4. **Single column**: Requires extension for whole-brain
+4. **Single column**: Requires extension for [[whole-brain]]
 
 ## Related Concepts
 
@@ -154,7 +165,7 @@ Adds separate populations for fast (GABA-A) and slow (GABA-B) inhibition:
 - [[meg]] – Magnetic field modeling
 - [[dynamic causal modeling]] – Parameter estimation
 - [[epilepsy modeling]] – Pathological applications
-
+- [[fernando-lopes-da-silva|Fernando Lopes Da Silva]]
 ## References
 
 1. Jansen, B. H., & Rit, V. G. (1995). Electroencephalogram and visual evoked potential generation in a mathematical model of coupled cortical columns. *Biological Cybernetics*, 73(4), 357–366. https://doi.org/10.1007/BF00199471

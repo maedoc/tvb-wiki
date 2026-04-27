@@ -1,0 +1,15 @@
+# TRaP: An Open-source, Reproducible Framework for Raman Spectral Preprocessing across Heterogeneous Systems
+
+**Source**: semantic-scholar
+**ID**: 4b369b0d1a09f2a26e054fcef0ef9753e6c5cb89
+**DOI**: 10.64898/2026.03.26.714582
+**URL**: https://www.semanticscholar.org/paper/4b369b0d1a09f2a26e054fcef0ef9753e6c5cb89
+**Date**: 2026-03-27
+**Year**: 2026
+**Authors**: Yanfan Zhu, Marilyn Lionts, Ezekial Haugen, A. Walter, Trevor Voss, George Ryan Grow, Richard L. Liao, Meagan E. McKee, Andrea Locke, Girish Hiremath, Anita Mahadevan-Jansen, Yuankai Huo
+**Venue**: bioRxiv
+**Citations**: 0
+
+## Abstract
+
+Raman spectroscopy offers a uniquely rich window into molecular structure and composition, making it a powerful tool across fields ranging from materials science to biology. However, the reproducibility of Raman data analysis remains a fundamental bottleneck. In practice, transforming raw spectra into meaningful results is far from standardized: workflows are often complex, fragmented, and implemented through highly customized, case-specific code. This challenge is compounded by the lack of unified open-source pipelines and the diversity of acquisition systems, each introducing its own file formats, calibration schemes, and correction requirements. Consequently, researchers must frequently rely on manual, ad hoc reconciliation of processing steps. To address this gap, we introduce TRaP (Toolbox for Reproducible Raman Processing), an open-source, GUI-based Python toolkit designed to bring reproducibility, transparency, and portability to Raman spectral analysis. TRaP unifies the entire preprocessing-to-analysis pipeline within a single, coherent framework that operates consistently across heterogeneous instrument platforms (e.g., Cart, Portable, Renishaw, and MANTIS). Central to its design is the concept of fully shareable, declarative workflows: users can encode complete processing pipelines into a single configuration file (e.g., JSON), enabling others to reproduce results instantly without reimplementing code or reverse-engineering undocumented steps. Beyond convenience, TRaP integrates configuration management, X-axis calibration, spectral response correction, interactive processing, and batch execution into a workflow-driven architecture that enforces deterministic, repeatable operations. Every transformation is explicitly recorded, making the full processing history transparent, inspectable, and reproducible. This eliminates ambiguity in how results are generated and ensures that identical protocols can be applied consistently across datasets and experimental contexts. Through representative use cases, we show that TRaP enables seamless, reproducible preprocessing of Raman spectra acquired from diverse platforms within a unified environment. We hope TRaP can empower Raman data processing as a reproducible, shareable, and systematized scientific practice, aligning it with modern standards for computational research. TRaP is released as an open-source software at https://github.com/hrlblab/TRaP

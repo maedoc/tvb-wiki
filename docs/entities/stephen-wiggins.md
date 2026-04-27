@@ -1,10 +1,14 @@
 ---
-title: "Stephen Wiggins"
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/wiggins-2003.md
+- raw/papers/guckenheimer-holmes-1983.md
+- raw/papers/hirsch-smale-devaney-2004.md
+tags:
+- people-researcher
+title: Stephen Wiggins
 type: entity
-tags: [people-researcher]
-sources: [raw/papers/wiggins-2003.md]
+updated: '2026-04-27'
 ---
 
 ## Overview
@@ -31,3 +35,9 @@ Stephen Wiggins is a British mathematician and Professor at the University of Br
 - Wiggins (2003) — Introduction to Applied Nonlinear Dynamical Systems and Chaos
 - Wiggins (1990) — Introduction to Applied Nonlinear Dynamical Systems and Chaos (1st ed.)
 - Wiggins (1994) — Normally Hyperbolic Invariant Manifolds
+
+## References
+
+1. (authors unknown). *Introduction to Applied Nonlinear Dynamical Systems and Chaos*.
+2. (authors unknown). *Nonlinear Oscillations, Dynamical Systems, and Bifurcations of Vector Fields*.
+3. (authors unknown). *Differential Equations, Dynamical Systems, and an Introduction to Chaos*.

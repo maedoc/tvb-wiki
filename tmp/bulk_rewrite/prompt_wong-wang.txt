@@ -1,0 +1,560 @@
+You are the Ralph Writer agent improving a TVB Wiki page about whole-brain modeling and computational neuroscience. Follow the schema strictly.
+
+## SCHEMA
+# Wiki Schema
+
+## Domain
+Connectome‑based whole‑brain modeling, neural mass models, neuroimaging modalities (fMRI, EEG, MEG, DTI), dynamic causal modeling, large‑scale brain networks, software (The Virtual Brain, NEST, Brian, etc.), and related research papers.
+
+## Conventions
+- File names: lowercase, hyphens, no spaces (e.g., `the‑virtual‑brain.md`)
+- Every wiki page starts with YAML frontmatter (see below)
+- Use `[[wikilinks]]` to link between pages (minimum 2 outbound links per page)
+- When updating a page, always bump the `updated` date
+- Every new page must be added to `index.md` under the correct section
+- Every action must be appended to `log.md`
+
+## Frontmatter
+  ```yaml
+  ---
+  title: Page Title
+  created: YYYY‑MM‑DD
+  updated: YYYY‑MM‑DD
+  type: entity | concept | comparison | query | summary
+  tags: [from taxonomy below]
+  sources: [raw/papers/arxiv‑1234.56789.md, raw/articles/blog‑post.md]
+  ---
+  ```
+
+## Tag Taxonomy
+**Models & Methods**
+- neural‑mass‑models
+- dynamic‑causal‑modeling
+- whole‑brain‑modeling
+- connectomics
+- structural‑connectivity
+- functional‑connectivity
+- effective‑connectivity
+- network‑dynamics
+- bifurcation‑analysis
+- parameter‑estimation
+- dynamical‑systems‑theory
+- bifurcation‑theory
+- nonlinear‑dynamics
+- variational‑bayes
+- free‑energy‑principle
+- mean‑field‑theory
+- stochastic‑differential‑equations
+- fokker‑planck‑equation
+
+**Neuroimaging Modalities**
+- neuroimaging‑fmri
+- neuroimaging‑eeg
+- neuroimaging‑meg
+- neuroimaging‑dti
+- neuroimaging‑pet
+- resting‑state
+- task‑based
+- diffusion‑imaging
+- tractography
+
+**Software & Tools**
+- software‑tvb
+- software‑nest
+- software‑neuron
+- software‑brian
+- software‑neuroml
+- software‑brain‑modeling
+- software‑ants
+- software‑graphvar
+- software‑modeldb
+- software‑visualization
+- database‑hcp
+- database‑uk‑biobank
+
+**Research Context**
+- paper‑review
+- paper‑methods
+- paper‑results
+- conference‑ohbm
+- conference‑sfn
+- conference‑cosyne
+- lab‑institute
+- people‑researcher
+- funding‑project
+- reproducibility
+
+**Domain Topics**
+- brain‑oscillations
+- epilepsy‑modeling
+- schizophrenia‑models
+- alzheimers‑modeling
+- consciousness‑models
+- brain‑stimulation
+- neurodevelopment
+- aging‑brain
+- personalized‑brain‑modeling
+- spiking‑neural‑networks
+
+**Meta**
+- comparison
+- timeline
+- controversy
+- open‑question
+- tutorial
+- dataset
+
+*Rule:* every tag on a page must appear in this taxonomy. If a new tag is needed, add it here first, then use it.
+
+## Page Thresholds
+- **Create a page** when an entity/concept appears in 2+ sources OR is central to one source (e.g., seminal paper, key software)
+- **Add to existing page** when a source mentions something already covered
+- **DON'T create a page** for passing mentions, minor details, or things outside the domain
+- **Split a page** when it exceeds ~200 lines — break into sub‑topics with cross‑links
+- **Archive a page** when its content is fully superseded — move to `_archive/`, remove from index
+
+## Entity Pages
+One page per notable entity (person, software, dataset, lab). Include:
+- Overview / what it is
+- Key facts and dates
+- Relationships to other entities (`[[wikilinks]]`)
+- Source references
+
+## Concept Pages
+One page per concept or topic. Include:
+- Definition / explanation
+- Current state of knowledge
+- Open questions or debates
+- Related concepts (`[[wikilinks]]`)
+
+## Comparison Pages
+Side‑by‑side analyses. Include:
+- What is being compared and why
+- Dimensions of comparison (table format preferred)
+- Verdict or synthesis
+- Sources
+
+## Update Policy
+When new information conflicts with existing content:
+1. Check the dates — newer sources generally supersede older ones
+2. If genuinely contradictory, note both positions with dates and sources
+3. Mark the contradiction in frontmatter: `contradictions: [page‑name]`
+4. Flag for user review in the lint report
+
+
+## YOUR TASK
+Improve the wiki page: wong-wang
+
+## CURRENT PAGE CONTENT
+# Wong-Wang Model
+
+The reduced Wong-Wang model is a simplified [[neural-mass-models|neural mass model]] derived from spiking network simulations. It is particularly effective for modeling [[fmri]] BOLD signals and resting-state [[functional-connectivity]].
+
+## Overview
+
+The model was developed by Wong and Wang (2006) as a reduction of a recurrent cortical network. Deco et al. (2013) adapted it for [[whole-brain]] resting-state modeling.
+
+## Mathematical Formulation
+
+### Core Equation
+
+```
+dS/dt = -S/τ_s + (1 - S) · γ · H(x)
+```
+
+Where S is NMDA synaptic activity.
+
+### Input-Output Function
+
+```
+H(x) = (a·x - b) / (1 - exp(-d·(a·x - b)))
+```
+
+## Parameters
+
+| Parameter | Value | Description |
+|-----------|-------|-------------|
+| a | 0.270 nC⁻¹ | Input gain |
+| b | 0.108 kHz | Input shift |
+| d | 154 ms | Sigmoid steepness |
+| γ | 0.641 | Kinetic parameter |
+| τ_s | 100 ms | NMDA decay |
+| w | 0.6 | Recurrent weight |
+| J_N | 0.2609 nA | Coupling strength |
+| I_o | 0.33 nA | Background input |
+
+## References
+
+1. Wong, K. F., & Wang, X. J. (2006). A recurrent network mechanism of time integration in perceptual decisions. *Journal of Neuroscience*, 26(4), 1314–1328. https://doi.org/10.1523/JNEUROSCI.3733-05.2006
+
+2. Deco, G., Ponce-Alvarez, A., Mantini, D., Romani, G. L., Hagmann, P., & Corbetta, M. (2013). Resting-state functional connectivity emerges from structurally and dynamically shaped slow [[linear]] fluctuations. *Journal of Neuroscience*, 32(27), 11239–11252. https://doi.org/10.1523/JNEUROSCI.1091-12.2013
+
+## Related Concepts
+
+- [[wong-wang-exc-inh]] - Extended E-I version
+- [[neural-mass-model]] - Theoretical framework
+- [[resting-state]] - RS network modeling
+- [[bold-signal]] - BOLD physics
+
+## AVAILABLE SOURCE PAPERS
+--- SOURCE: raw/papers/wendling-2002.md ---
+---
+title: "A dynamic causal modeling study of the generation of epileptic fast activity"
+created: 2026-04-20
+updated: 2026-04-20
+type: source
+tags: [paper-methods, neural-mass-models, epilepsy-modeling, dynamic-causal-modeling, eeg]
+sources: []
+---
+
+# A dynamic causal modeling study of the generation of epileptic fast activity
+
+**Authors**: Wendling F., Bartolomei F., Bellanger J.J., Chauvel P.  
+**Published**: 2002  
+**Journal**: NeuroImage  
+**DOI**: 10.1006/nimg.2002.1234
+
+## Summary
+
+Application of extended neural mass modeling (4-population Jansen-Rit variant) to understand epileptic fast activity (14-60 Hz) during seizures. Demonstrates how parameter changes in neural mass models produce pathological dynamics.
+
+## Key Contributions
+
+- Extension of Jansen-Rit with separate populations for slow and fast inhibitory interneurons
+- Modeling of hippocampal/parahippocampal fast ripples
+- Parameter exploration showing routes to epileptic dynamics
+- Validation against intracranial EEG recordings
+
+## Model Extension
+
+The Wendling model adds a fourth population (slow inhibitory + fast inhibitory interneurons), capturing GABA-A (fast) and GABA-B (slow) dynamics separately—critical for seizure modeling.
+
+## Related Concepts
+
+- [[epilepsy modeling]]
+- [[neural mass model]]
+- [[Jansen-Rit]]
+- [[dynamic causal modeling]]
+
+
+--- SOURCE: raw/papers/semanticscholar-cc2129666e15.md ---
+# Slow wave generation and propagation in a model of brain lesions
+
+**Source**: semantic-scholar
+**ID**: cc2129666e15688caf0bbccf9451a23503f9edfc
+**DOI**: 10.1016/j.neuroimage.2026.121817
+**URL**: https://www.semanticscholar.org/paper/cc2129666e15688caf0bbccf9451a23503f9edfc
+**Date**: 2026-02-01
+**Year**: 2026
+**Authors**: Gianluca Gaglioti, L. Porta, M. Colombo, Simone Russo, Thierry Nieus, G. Deco, M. Corbetta, S. Sarasso, M. V. Sanchez-Vives, M. Massimini
+**Venue**: NeuroImage
+**Citations**: 0
+
+## Abstract
+
+Slow waves (SWs), the hallmark of non-rapid eye movement (NREM) sleep, reflect the periodic occurrence of transient silent periods in cortical neurons (Down states). During NREM, SWs and Down states physiologically disrupt large-scale network interactions. Since early EEG studies, SWs have also been observed in awake patients after brain injury. Emerging evidence indicates that these intrusions of sleep-like activity interfere with ongoing network activity and contribute to motor and cognitive deficits; yet, the mechanisms governing the generation and spread of post-lesional SWs remain unclear. Here, we extend a neural mass model of EEG to capture transitions between wake-like and sleep-like dynamics and embed it in connectome-based networks with virtual lesions. This model supports that local disfacilitation, topology-dependent propagation, and synchrony-dependent amplification throughout the connectome are sufficient to produce post-lesional SWs. These mechanisms reproduce the spatial gradients of post-lesional SWs previously reported in patient studies, and identify actionable targets for neuromodulation and rehabilitation.
+
+
+--- SOURCE: raw/papers/semanticscholar-15a4a438614f.md ---
+# Attractor dynamics of a whole-cortex network model predicts emergence and structure of fMRI co-activation patterns in the mouse brain.
+
+**Source**: semantic-scholar
+**ID**: 15a4a438614f6e8a01b4ef082caaf1a7cdd9396e
+**DOI**: 10.1371/journal.pcbi.1013995
+**URL**: https://www.semanticscholar.org/paper/15a4a438614f6e8a01b4ef082caaf1a7cdd9396e
+**Date**: 2026-02-20
+**Year**: 2026
+**Authors**: D. Fasoli, L. Coletta, Daniel Gutierrez-Barragan, S. Gini, A. Gozzi, S. Panzeri
+**Venue**: PLoS Computational Biology
+**Citations**: 0
+
+## Abstract
+
+Resting state fMRI signals in mammals exhibit rich dynamics on a fast, frame-by-frame timescale of seconds, including the robust emergence of recurring fMRI co-activation patterns (CAPs). To understand how such dynamics emerges from the underlying anatomical cortico-cortical connectivity, we developed a whole-cortex model of resting-state fMRI signals in the mouse. Our model implemented neural input-output nonlinearities and excitatory-inhibitory interactions within cortical regions, as well as directed anatomical connectivity between regions inferred from the Allen mouse brain atlas. We found that, even if the model parameters were fitted to explain static properties of fMRI signals on the timescale of minutes, the model generated rich frame-by-frame attractor dynamics, with multiple stationary and oscillatory attractors. Guided by these theoretical predictions, we found that empirical mouse fMRI time series exhibited analogous signatures of attractor dynamics, and that model attractors recapitulated the topographical organization of empirical fMRI CAPs. The model established key relationships between attractor dynamics, CAPs and features of the directed cortico-cortical intra- and inter-hemispheric anatomical connectivity. Specifically, we found that neglecting fiber directionality severely affected the number of model's attractors and their ability to explain CAPs. Furthermore, modifying inter-hemispheric anatomical connectivity stre
+
+## EXISTING WIKI PAGES (use these for [[wikilinks]] — only link to pages in this list)
+  - 3d-slicer
+  - aal-atlas
+  - afni
+  - aging
+  - alain-destexhe
+  - albert-laszlo-barabasi
+  - allen-brain-atlas
+  - andrei-medvedev
+  - annarchy
+  - ants
+  - antspy
+  - arbor
+  - auryn
+  - bci2000
+  - bctpy
+  - benjamin-jansen
+  - bharat-biswal
+  - bids-validator
+  - bidscoin
+  - bifurcation-analysis
+  - bifurcation-theory
+  - bionet
+  - bluepyopt
+  - bold-signal
+  - brain-connectivity-toolbox
+  - brain-dynamics-toolbox
+  - brain-maintenance
+  - brain-network
+  - brainlife
+  - brainmap
+  - brainnet-viewer
+  - brainnetome-atlas
+  - brainspace
+  - brainstorm
+  - brainsuite
+  - brainvisa
+  - brainvoyager
+  - brian
+  - brian-avants
+  - brian2
+  - c-pac
+  - carlsim
+  - cat12
+  - cbrain
+  - chronux
+  - civet
+  - clinica
+  - cococomac
+  - cognitive-reserve
+  - conn
+  - connectivity-types
+  - connectome
+  - connectome-mapper-3
+  - connectome-workbench
+  - connectomics
+  - coreneuron
+  - crispin-gardiner
+  - cvodes
+  - datalad
+  - david-van-essen
+  - dcm
+  - default-mode-network
+  - desikan-killiany-atlas
+  - developmental-trajectories
+  - diffusion-mri
+  - dipy
+  - dsi-studio
+  - dti
+  - duncan-watts
+  - dynamic-causal-modeling
+  - dynamical-systems-theory
+  - dynasim
+  - ebrains
+  - ed-bullmore
+  - eeg
+  - eeglab
+  - effective-connectivity
+  - elephant
+  - emanuel-tuckwell
+  - epilepsy-modeling
+  - epileptor
+  - epileptor-rs
+  - epileptorcodim3
+  - erplab
+  - eugene-izhikevich
+  - exploreasl
+  - fastsurfer
+  - fernando-lopes-da-silva
+  - fidel-alfaro-almagro
+  - fieldtrip
+  - fmri
+  - fmri-vs-eeg
+  - fmriprep
+  - fokker-planck-equation
+  - fooof
+  - free-energy-principle
+  - freesurfer
+  - fsl
+  - fsleyes
+  - functional-connectivity
+  - genesis
+  - genn
+  - geppetto
+  - gift
+  - giulio-tononi
+  - glasser-atlas
+  - graph-theory
+  - graphvar
+  - gustavo-deco
+  - hannes-risken
+  - harvard-oxford-atlas
+  - hcp-pipelines
+  - henry-markram
+  - hnn
+  - hopfield
+  - hugh-wilson
+  - human-connectome-project
+  - ica
+  - infinite-theta
+  - itk-snap
+  - jack-cowan
+  - jansen-rit
+  - jneuroml
+  - john-guckenheimer
+  - julich-atlas
+  - k-ion-exchange
+  - krasimira-tsaneva-atanasova
+  - larter-breakspear
+  - lead-dbs
+  - lfp-lib
+  - lfpy
+  - lfpykit
+  - linear
+  - mark-newman
+  - markus-diesmann
+  - mean-field-theory
+  - meg
+  - michael-hines
+  - michael-schirner
+  - mne-bids
+  - mne-python
+  - modeldb
+  - modularity
+  - moose
+  - mricrogl
+  - mricron
+  - mriqc
+  - mrtrix
+  - mrtrix3
+  - mrtrix3-connectome
+  - music
+  - mvgc
+  - nancy-andrews-hanna
+  - nengo
+  - neo
+  - nest
+  - netneuroscience
+  - netpyne
+  - network-hubs
+  - neural-mass-model
+  - neural-mass-models
+  - neural-mass-models-comparison
+  - neurodata-without-borders
+  - neurodevelopment
+  - neurom
+  - neurominer
+  - neuroml
+  - neuromorpho
+  - neuromorpho-toolkit
+  - neuron
+  - neuronunit
+  - neuroscience-gateway
+  - neurosynth
+  - neurovault
+  - neusight
+  - nibabel
+  - nibetaseries
+  - nick-tustison
+  - niftynet
+  - niftyreg
+  - nikos-logothetis
+  - nilearn
+  - nipype
+  - nitin-gogtay
+  - nix
+  - nonlinear-dynamics
+  - nwb
+  - olaf-sporns
+  - open-source-brain
+  - opencortex
+  - openmeeg
+  - openneuro
+  - openvibe
+  - oscillator
+  - panda
+  - paraview
+  - parcellation
+  - patricia-miller
+  - personalized-brain-modeling
+  - philip-holmes
+  - physionet
+  - pronto
+  - psyneulink
+  - pybids
+  - pymvpa
+  - pynn
+  - qsiprep
+  - resting-state
+  - rich-club
+  - rolf-kotter
+  - root
+  - rudiger-seydel
+  - scale-free-networks
+  - scirun
+  - sciunit
+  - seiji-ogawa
+  - sift
+  - simnibs
+  - sloreta
+  - small-world-networks
+  - spiking-neural-networks
+  - spm
+  - stefanescu-jirsa
+  - stephen-wiggins
+  - steps
+  - steven-smith
+  - steven-strogatz
+  - stochastic-differential-equations
+  - structural-connectivity
+  - structural-core
+  - suma
+  - synthseg
+  - ted-carnevale
+  - terrence-sejnowski
+  - the-virtual-epileptic-brain
+  - tractography
+  - tractor
+  - trentool
+  - tvb
+  - tvb-adapters
+  - tvb-library
+  - tvb-multiscale
+  - tvb-vs-nest-vs-neuron
+  - uk-biobank
+  - variational-bayes
+  - vincent-rit
+  - voxelmorph
+  - walter-freeman
+  - whole-brain
+  - whole-brain-simulators
+  - wilson-cowan
+  - wong-wang
+  - wong-wang-exc-inh
+  - xcos
+  - xnat
+  - yan-wang
+  - yasa
+  - yuri-kuznetsov
+  - zerlaut
+
+## WRITING STYLE
+- Write for a **graduate student in neuroscience** who is intelligent but not a specialist in this particular topic
+- **Dense but readable** prose — like Scholarpedia or a very good Wikipedia science article, NOT like a PowerPoint slide
+- Every section must have at least one full paragraph of prose. Avoid sections that are only a table or equations
+- Cross-link aggressively: the first mention of any concept that appears in the page inventory above should be a [[wikilink]]. Aim for 8–15 wikilinks per page
+- Avoid one-liner sections — if a section would be only 1–2 sentences, expand it or merge it
+
+## STRUCTURAL REQUIREMENTS
+1. **Opening paragraph** (2–3 sentences): What is this? Define it plainly before any technical detail
+2. **Motivation / Context** (1–2 paragraphs): WHY does this exist? What problem does it solve? How does it fit into the broader field?
+3. **Technical content**: Equations and tables are welcome but must be **surrounded by explanatory prose** — explain what each equation means in words
+4. **Relationships**: Compare to related models/concepts. What came before? What came after? What are the tradeoffs?
+5. **Biological grounding**: For model pages, explain what biological phenomena the model captures and how parameters map to neural mechanisms
+
+## FORMATTING RULES
+1. Replace ALL placeholder text (*Placeholder*) with real, sourced content
+2. Add wikilinks [[like-this]] to related pages from the inventory above (minimum 8)
+3. Add factual claims ONLY if you can cite a source or are confident from domain knowledge
+4. Keep the YAML frontmatter, but update the `updated:` date to today (2026-04-27)
+5. Add any new sources used to the `sources:` frontmatter list
+6. Aim for 500–800 words for a full page
+7. Use clear section headings (##)
+8. Do NOT add a ## References section — a separate agent handles reference formatting
+
+Write the COMPLETE updated page (including frontmatter). Output ONLY the markdown file content, no commentary.

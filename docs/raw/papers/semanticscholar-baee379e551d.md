@@ -1,0 +1,20 @@
+# Abstract 3858: Methylation profiling of cell free DNA using EMSeq whole genome sequencing and a targeted methylome panel for classification of pediatric ocular and brain tumors.
+
+**Source**: semantic-scholar
+**ID**: baee379e551dc85821f3ea3d8df61bd18c60a00f
+**DOI**: 10.1158/1538-7445.am2026-3858
+**URL**: https://www.semanticscholar.org/paper/baee379e551dc85821f3ea3d8df61bd18c60a00f
+**Date**: 2026-04-03
+**Year**: 2026
+**Authors**: L. Kagami, D. Buckley, Jesse L. Berry, Susan N. Chi, Xiaowu Gai, E. Kiehna, Katrina O’Hollaran, D. Ostrow, Tom Rosenberg, Y. C. Wongworawat, Liya Xu, J. Biegel
+**Venue**: Cancer Research
+**Citations**: 0
+
+## Abstract
+
+
+ Methylation profiling has become an increasingly valuable tool for brain tumor subclassification, especially when histologic evaluation is ambiguous and standard genetic assays are non-informative. While methylation profiling of tumor tissue is well-described, comparable analysis using cell free DNA is not yet established, especially in pediatric oncology. We evaluated the feasibility of enzymatic methylation conversion (EMSeq) and either direct whole genome sequencing (WGS) or hybridization with a 123 megabase methylome panel (Twist BioScience). Both methods were performed on 13 samples from 12 patients with central nervous system (CNS) tumors or retinoblastoma (RB), including 10 cerebrospinal fluid (CSF) and three aqueous humor (AH) samples using 5 ng of cfDNA input. All 13 samples classified accurately with an in-house neural network model. To assess sensitivity, six CSF samples from two patients were further diluted for 1 and 2 ng input into each assay. Classification results remained consistent across dilutions, and no appreciable differences were observed between EMSeq WGS and the Twist assay. We selected EMSeq WGS for further studies due to the ability to generate genome-wide copy number plots, unbiased CpG coverage, and faster turnaround time. Twenty-eight diagnostic and surveillance AH and CSF samples representing 13 embryonal tumors (medulloblastoma, atypical teratoid/rhabdoid tumors, embryonal tumor with multilayered rosettes, RB), five gliomas (low- and high-grade), four ependymomas, and six other CNS tumors were processed using EMSeq WGS. We compared copy number profiles generated from cfDNA EMSeq WGS to our clinically validated LBSeq4Kids platform, which combines low passage WGS (LP-WGS) to detect copy number alterations and a targeted sequencing panel to detect structural variants and fusions. In all cases, copy number profiles generated from EMSeq WGS were concordant with those from LBSeq4Kids LP-WGS. Diagnostic AH samples, and CSF samples obtained via lumbar puncture, external ventricular drain, or ventriculoperitoneal shunt demonstrated methylation profiles concordant with their expected tumor classes. In contrast, samples obtained intraoperatively or at recurrence showed reduced classification accuracy, with some clustering with non-cancer control references. In our experience, depending on CNS tumor type and anatomic location, CSF samples obtained via intraoperative collections have rendered less reliable cfDNA data. Herein we demonstrate that methylation profiling of cfDNA using EMSeq WGS is feasible and informative, expanding the diagnostic potential of liquid biopsy approaches to pediatric tumors. Integration of methylation analysis into our current LBSeq4Kids platform will enable comprehensive molecular profiling for diagnosis, subclassification, and disease monitoring.
+ 
+ 
+ Laura A. Kagami, David N. Buckley, Jesse L. Berry, Susan N. Chi, Xiaowu Gai, Erin Kiehna, Katrina O’Hollaran, Dejerianne Ostrow, Tom Rosenberg, Yan Chen Wongworawat, Liya Xu, Jaclyn Biegel. Methylation profiling of cell free DNA using EMSeq whole genome sequencing and a targeted methylome panel for classification of pediatric ocular and brain tumors [abstract]. In: Proceedings of the American Association for Cancer Research Annual Meeting 2026; Part 1 (Regular Abstracts); 2026 Apr 17-22; San Diego, CA. Philadelphia (PA): AACR; Cancer Res 2026;86(7 Suppl):Abstract nr 3858.
+

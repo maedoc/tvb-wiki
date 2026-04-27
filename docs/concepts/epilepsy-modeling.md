@@ -1,15 +1,28 @@
 ---
-title: "Epilepsy Modeling"
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/wendling-2002.md
+- raw/papers/breakspear-2006.md
+- raw/papers/touboul-2011.md
+- raw/papers/breakspear-2017.md
+- raw/papers/semanticscholar-7733d5476149.md
+- raw/papers/semanticscholar-26be4473893d.md
+- raw/papers/arxiv-2601.21478.md
+- raw/papers/semanticscholar-cc2129666e15.md
+- raw/papers/arxiv-2603.25991.md
+tags:
+- epilepsy-modeling
+- neural-mass-models
+- bifurcation-analysis
+- brain-oscillations
+title: Epilepsy Modeling
 type: concept
-tags: [epilepsy-modeling, neural-mass-models, bifurcation-analysis, brain-oscillations]
-sources: [raw/papers/wendling-2002.md, raw/papers/breakspear-2006.md, raw/papers/touboul-2011.md, raw/papers/breakspear-2017.md]
+updated: '2026-04-27'
 ---
 
 # Epilepsy Modeling
 
-Computational modeling of epilepsy uses neural mass models and dynamical systems theory to understand seizure generation, propagation, and termination. These models bridge clinical observations with underlying neurophysiology.
+Computational modeling of epilepsy uses [[neural-mass-models]] and [[dynamical-systems-theory]] to understand seizure generation, propagation, and termination. These models bridge clinical observations with underlying neurophysiology.
 
 ## Overview
 
@@ -106,7 +119,7 @@ Modeled as:
 ### Patient-Specific Modeling
 
 **Approach in TVB**:
-1. Individual structural connectivity (DTI tractography)
+1. Individual [[structural-connectivity]] (DTI [[tractography]])
 2. Personalized neural mass parameters
 3. Simulation of seizure dynamics
 4. Validation against clinical EEG/ECoG
@@ -143,7 +156,7 @@ Modeled as:
 ### Seizure Threshold
 
 The concept of a "seizure threshold" maps to bifurcation boundaries in parameter space:
-- Below threshold: Stable resting state
+- Below threshold: Stable [[resting-state]]
 - At threshold: Bifurcation to oscillatory state
 - Above threshold: Sustained seizure activity
 
@@ -177,3 +190,19 @@ Seizure dynamics depend on:
 - [[bifurcation analysis]] – Mathematical foundation
 - [[whole brain]] – Large-scale seizure propagation
 - [[eeg]] – Clinical validation signal
+- [[epileptor|Epileptor]]
+- [[wilson-cowan|Wilson Cowan]]
+- [[epileptor-rs|Epileptor Rs]]
+- [[tvb|Tvb]]
+- [[tvb-multiscale|Tvb Multiscale]]
+## References
+
+1. Wendling F., Bartolomei F., Bellanger J.J., Chauvel P. *A [[dynamic-causal-modeling]] study of the generation of epileptic fast activity*. NeuroImage. [DOI](https://doi.org/10.1006/nimg.2002.1234)
+2. Michael Breakspear, John A. Roberts, John R. Terry, Stefano Rodrigues, Nader Mahmud, Philip Robinson. *Large-scale brain dynamics of seizures: asymptotic analysis of a [[neural-field-theory|neural field]] model*. Journal of Computational Neuroscience. [DOI](https://doi.org/10.1007/s10827-006-8135-2)
+3. Jonathan Touboul, Fabien Wendling, Bruno Bellanger, Patrick Chauvel, Olivier Faugeras. *Bifurcation analysis of Jansen's neural mass model*. Neural Computation. [DOI](https://doi.org/10.1162/NECO_a_00151)
+4. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)
+5. P.Yu. Kondrakhin, F.A. Kolpakov. (2026). *Modular Model of Neuronal Activity That Captures the Dynamics of Main Molecular Targets of Antiepileptic Drugs*. International Journal of Molecular Sciences. [DOI](https://doi.org/10.3390/ijms27010490)
+6. G. Goelman, Zvi Israel, Sami Heymann, Dana Ekstein, T. Benoliel. (2026). *Exploratory analysis of epileptic and non-epileptiform hippocampal network organization across spatial and frequency domains*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2026.121698)
+7. Kang You, Gary Green, Jian Zhang. *Differential Dynamic Causal Nets: Model Construction, Identification and Group Comparisons*. [Link](https://arxiv.org/abs/2601.21478)
+8. Gianluca Gaglioti, L. Porta, M. Colombo, Simone Russo, Thierry Nieus, G. Deco, M. Corbetta, S. Sarasso, M. V. Sanchez-Vives, M. Massimini. (2026). *Slow wave generation and propagation in a model of brain lesions*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2026.121817)
+9. Gagan Acharya, Erfan Nozari. (2026). *Passivity-Based Control of Electrographic Seizures in a Neural Mass Model of Epilepsy*. [Link](https://arxiv.org/abs/2603.25991)

@@ -1,10 +1,16 @@
 ---
-title: Ted Carnevale
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/hines-carnevale-1997.md
+- raw/papers/carnevale-hines-2006.md
+tags:
+- people-researcher
+- software-neuron
+- spiking-neural-networks
+- tutorial
+title: Ted Carnevale
 type: entity
-tags: [people-researcher, software-neuron, spiking-neural-networks, tutorial]
-sources: [raw/papers/hines-carnevale-1997.md, raw/papers/carnevale-hines-2006.md]
+updated: '2026-04-27'
 ---
 
 # Ted Carnevale
@@ -35,3 +41,8 @@ Computational neuroscientist and NEURON co-developer, known for educational reso
 - [[NEURON]] — Co-developed simulator
 - [[Michael Hines]] — Long-time collaborator
 - [[spiking neural networks]] — Modeling domain
+
+## References
+
+1. Hines & Carnevale (1997). *The NEURON simulation environment*. Neural Computation. [DOI](https://doi.org/10.1162/neco.1997.9.6.1179)
+2. Carnevale & Hines (2006). *The NEURON Book*.

@@ -1,15 +1,24 @@
 ---
-title: "Fernando Lopes da Silva"
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/lopes-da-silva-1974.md
+- raw/papers/freeman-1975.md
+- raw/papers/jansen-rit-1995.md
+- raw/papers/semanticscholar-cc2129666e15.md
+- raw/papers/potjans-diesmann-2014.md
+tags:
+- people-researcher
+- neural-mass-models
+- eeg
+- brain-oscillations
+title: Fernando Lopes da Silva
 type: entity
-tags: [people-researcher, neural-mass-models, eeg, brain-oscillations]
-sources: [raw/papers/lopes-da-silva-1974.md]
+updated: '2026-04-27'
 ---
 
 # Fernando Lopes da Silva
 
-Dutch/Brazilian neurophysiologist and computational neuroscientist. Pioneer in modeling thalamocortical oscillations and the generation of EEG rhythms, particularly the alpha rhythm. His 1974 paper established the first neural mass model specifically designed for EEG simulation.
+Dutch/Brazilian neurophysiologist and computational neuroscientist. Pioneer in modeling thalamocortical oscillations and the generation of EEG rhythms, particularly the alpha rhythm. His 1974 paper established the first [[neural-mass-models|neural mass model]] specifically designed for EEG simulation.
 
 ## Key Contributions
 
@@ -34,3 +43,11 @@ The Lopes da Silva model's architecture (three interconnected populations) direc
 - [[Jansen-Rit]]
 - brain oscillations
 - [[eeg]]
+
+## References
+
+1. Fernando Lopes da Silva, A. Hoeks, H.A. Smits, L.H. Zetterberg. *Model of brain rhythmic activity: the alpha rhythm of the thalamus*. Kybernetik. [DOI](https://doi.org/10.1007/BF00270757)
+2. [[walter-freeman|Walter J. Freeman]]. *Mass Action in the Nervous System*.
+3. [[benjamin-jansen|Benjamin H. Jansen]], [[vincent-rit|Vincent G. Rit]]. *Electroencephalogram and visual evoked potential generation in a mathematical model of coupled cortical columns*. Biological Cybernetics. [DOI](https://doi.org/10.1007/BF00199471)
+4. Gianluca Gaglioti, L. Porta, M. Colombo, Simone Russo, Thierry Nieus, G. Deco, M. Corbetta, S. Sarasso, M. V. Sanchez-Vives, M. Massimini. (2026). *Slow wave generation and propagation in a model of brain lesions*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2026.121817)
+5. Potjans & Diesmann (2014). *The cell-type specific cortical microcircuit: relating structure and activity*. Cerebral Cortex. [DOI](https://doi.org/10.1093/cercor/bhs358)

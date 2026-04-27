@@ -362,3 +362,7 @@
 ## [2026-04-27 09:14] RefFormatter: formatted references on 91 pages
 
 ## [2026-04-27 09:22] CrosslinkApplier: added 237 wikilinks (206 inline, 31 suggested)
+
+## [2026-04-27] lint | 210 broken links, 97 orphans, 42 missing from index
+
+## [2026-04-27] hourly | Added 0 new papers

@@ -1,10 +1,17 @@
 ---
-title: Mark E. J. Newman
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/newman-2010.md
+- raw/papers/sporns-2011.md
+- raw/papers/watts-strogatz-1998.md
+- raw/papers/barabasi-albert-1999.md
+- raw/papers/rubinov-sporns-2010.md
+tags:
+- people-researcher
+- network-dynamics
+title: Mark E. J. Newman
 type: entity
-tags: [people-researcher, network-dynamics]
-sources: [raw/papers/newman-2010.md]
+updated: '2026-04-27'
 ---
 
 # Mark E. J. Newman
@@ -36,3 +43,11 @@ Newman's research emphasizes:
 
 ## Resources
 - Book: "Networks: An Introduction" (Oxford University Press)
+
+## References
+
+1. (authors unknown). *Networks: An Introduction*.
+2. (authors unknown). *Networks of the Brain*.
+3. (authors unknown). *Collective Dynamics of 'Small-World' Networks*.
+4. (authors unknown). *Emergence of Scaling in Random Networks*.
+5. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.

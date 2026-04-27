@@ -1,10 +1,16 @@
 ---
-title: Edward T. Bullmore
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/bullmore-sporns-2009.md
+- raw/papers/sporns-2011.md
+- raw/papers/rubinov-sporns-2010.md
+tags:
+- people-researcher
+- connectomics
+- network-dynamics
+title: Edward T. Bullmore
 type: entity
-tags: [people-researcher, connectomics, network-dynamics]
-sources: [raw/papers/bullmore-sporns-2009.md]
+updated: '2026-04-27'
 ---
 
 # Edward T. Bullmore
@@ -13,7 +19,7 @@ Professor at University of Cambridge, leading researcher in network neuroscience
 
 ## Key Contributions
 
-- **Complex Brain Networks Review** (2009): Co-authored with Sporns, the definitive review of graph theory in neuroscience
+- **Complex Brain Networks Review** (2009): Co-authored with Sporns, the definitive review of [[network-dynamics|graph theory]] in neuroscience
 - **Computational Psychiatry**: Pioneered application of network science to mental health
 - **Clinical Connectomics**: Applied connectivity analysis to psychiatric and neurological disorders
 
@@ -36,3 +42,9 @@ Bullmore's research spans:
 
 ## Collaborators
 - [[olaf sporns]] – Network neuroscience
+
+## References
+
+1. (authors unknown). *Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems*.
+2. (authors unknown). *Networks of the Brain*.
+3. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.

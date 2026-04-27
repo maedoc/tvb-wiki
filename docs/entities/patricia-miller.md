@@ -1,10 +1,16 @@
 ---
-title: Karla L. Miller
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/miller-2016.md
+- raw/papers/elliott-2018.md
+- raw/papers/alfaro-almagro-2018.md
+tags:
+- people-researcher
+- neuroimaging-fmri
+- database-uk-biobank
+title: Karla L. Miller
 type: entity
-tags: [people-researcher, neuroimaging-fmri, database-uk-biobank]
-sources: [raw/papers/miller-2016.md]
+updated: '2026-04-27'
 ---
 
 # Karla L. Miller
@@ -31,8 +37,14 @@ Miller's research emphasizes:
 ## Related Concepts
 - [[uk-biobank]] – Large-scale population study
 - population-neuroimaging – Imaging at scale
-- neuroimaging-fmri – Functional MRI
+- neuroimaging-[[fmri]] – Functional MRI
 - multimodal-imaging – Integrated imaging approaches
 
 ## Resources
 - UK Biobank Imaging: www.ukbiobank.ac.uk
+
+## References
+
+1. (authors unknown). *Multimodal Population Brain Imaging in the UK Biobank: Prospective Epidemiological Study*.
+2. (authors unknown). *Genome-wide Association Studies of Brain Imaging Phenotypes from UK Biobank*.
+3. (authors unknown). *Image Processing and Quality Control for the First 100,000 Brain Imaging Datasets from UK Biobank*.

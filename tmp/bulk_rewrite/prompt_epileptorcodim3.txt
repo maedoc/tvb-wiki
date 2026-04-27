@@ -1,0 +1,553 @@
+You are the Ralph Writer agent improving a TVB Wiki page about whole-brain modeling and computational neuroscience. Follow the schema strictly.
+
+## SCHEMA
+# Wiki Schema
+
+## Domain
+Connectome‑based whole‑brain modeling, neural mass models, neuroimaging modalities (fMRI, EEG, MEG, DTI), dynamic causal modeling, large‑scale brain networks, software (The Virtual Brain, NEST, Brian, etc.), and related research papers.
+
+## Conventions
+- File names: lowercase, hyphens, no spaces (e.g., `the‑virtual‑brain.md`)
+- Every wiki page starts with YAML frontmatter (see below)
+- Use `[[wikilinks]]` to link between pages (minimum 2 outbound links per page)
+- When updating a page, always bump the `updated` date
+- Every new page must be added to `index.md` under the correct section
+- Every action must be appended to `log.md`
+
+## Frontmatter
+  ```yaml
+  ---
+  title: Page Title
+  created: YYYY‑MM‑DD
+  updated: YYYY‑MM‑DD
+  type: entity | concept | comparison | query | summary
+  tags: [from taxonomy below]
+  sources: [raw/papers/arxiv‑1234.56789.md, raw/articles/blog‑post.md]
+  ---
+  ```
+
+## Tag Taxonomy
+**Models & Methods**
+- neural‑mass‑models
+- dynamic‑causal‑modeling
+- whole‑brain‑modeling
+- connectomics
+- structural‑connectivity
+- functional‑connectivity
+- effective‑connectivity
+- network‑dynamics
+- bifurcation‑analysis
+- parameter‑estimation
+- dynamical‑systems‑theory
+- bifurcation‑theory
+- nonlinear‑dynamics
+- variational‑bayes
+- free‑energy‑principle
+- mean‑field‑theory
+- stochastic‑differential‑equations
+- fokker‑planck‑equation
+
+**Neuroimaging Modalities**
+- neuroimaging‑fmri
+- neuroimaging‑eeg
+- neuroimaging‑meg
+- neuroimaging‑dti
+- neuroimaging‑pet
+- resting‑state
+- task‑based
+- diffusion‑imaging
+- tractography
+
+**Software & Tools**
+- software‑tvb
+- software‑nest
+- software‑neuron
+- software‑brian
+- software‑neuroml
+- software‑brain‑modeling
+- software‑ants
+- software‑graphvar
+- software‑modeldb
+- software‑visualization
+- database‑hcp
+- database‑uk‑biobank
+
+**Research Context**
+- paper‑review
+- paper‑methods
+- paper‑results
+- conference‑ohbm
+- conference‑sfn
+- conference‑cosyne
+- lab‑institute
+- people‑researcher
+- funding‑project
+- reproducibility
+
+**Domain Topics**
+- brain‑oscillations
+- epilepsy‑modeling
+- schizophrenia‑models
+- alzheimers‑modeling
+- consciousness‑models
+- brain‑stimulation
+- neurodevelopment
+- aging‑brain
+- personalized‑brain‑modeling
+- spiking‑neural‑networks
+
+**Meta**
+- comparison
+- timeline
+- controversy
+- open‑question
+- tutorial
+- dataset
+
+*Rule:* every tag on a page must appear in this taxonomy. If a new tag is needed, add it here first, then use it.
+
+## Page Thresholds
+- **Create a page** when an entity/concept appears in 2+ sources OR is central to one source (e.g., seminal paper, key software)
+- **Add to existing page** when a source mentions something already covered
+- **DON'T create a page** for passing mentions, minor details, or things outside the domain
+- **Split a page** when it exceeds ~200 lines — break into sub‑topics with cross‑links
+- **Archive a page** when its content is fully superseded — move to `_archive/`, remove from index
+
+## Entity Pages
+One page per notable entity (person, software, dataset, lab). Include:
+- Overview / what it is
+- Key facts and dates
+- Relationships to other entities (`[[wikilinks]]`)
+- Source references
+
+## Concept Pages
+One page per concept or topic. Include:
+- Definition / explanation
+- Current state of knowledge
+- Open questions or debates
+- Related concepts (`[[wikilinks]]`)
+
+## Comparison Pages
+Side‑by‑side analyses. Include:
+- What is being compared and why
+- Dimensions of comparison (table format preferred)
+- Verdict or synthesis
+- Sources
+
+## Update Policy
+When new information conflicts with existing content:
+1. Check the dates — newer sources generally supersede older ones
+2. If genuinely contradictory, note both positions with dates and sources
+3. Mark the contradiction in frontmatter: `contradictions: [page‑name]`
+4. Flag for user review in the lint report
+
+
+## YOUR TASK
+Improve the wiki page: epileptorcodim3
+
+## CURRENT PAGE CONTENT
+# Epileptor Codimension-3
+
+A comprehensive unfolding of the Epileptor dynamics revealing the complete [[bifurcation-analysis|bifurcation]] structure. This model identifies the organizing center governing all seizure-related transitions.
+
+## Overview
+
+Developed by Saggio et al. (2017), the EpileptorCodim3 performs a codimension-3 bifurcation analysis of the Epileptor.
+
+## Mathematical Foundation
+
+### Codimension-3 Unfolding
+
+The seizure dynamics emerge from a **Degenerate Bogdanov-Takens point** where:
+- Saddle-node bifurcation (seizure onset)
+- Hopf bifurcation (oscillation onset)  
+- Homoclinic bifurcation (seizure offset)
+
+all coalesce.
+
+### Normal Form
+
+```
+dx/dt = y
+dy/dt = μ₁ + μ₂·x + μ₃·y + x² + x·y
+```
+
+## Bifurcation Scenarios
+
+1. **Saddle-Node/Homoclinic**: Typical seizure pattern
+2. **Subcritical Hopf**: Abrupt onset with bistability
+3. **Saddle-Node Loop**: Brief paroxysmal events
+4. **Shilnikov**: Spike-and-wave complexes
+
+## References
+
+1. Saggio, M. L., Spiegler, A., Bernard, C., & Jirsa, V. K. (2017). Fast, large-scale neuromodeling: A unified computational framework for single-neurons and large-scale networks. *NeuroImage*, 158, 788–801. https://doi.org/10.1016/j.neuroimage.2017.07.011
+
+## Related Concepts
+
+- [[epileptor]] - Original 6D model
+- [[bifurcation-theory]] - Mathematical foundation
+- [[epilepsy-modeling]] - Clinical applications
+
+## AVAILABLE SOURCE PAPERS
+--- SOURCE: raw/papers/arxiv-2508.04824.md ---
+# Delay-constrained re-entry governs large-scale brain seizures and other network pathologies
+
+**Source**: arxiv
+**ID**: 2508.04824
+**URL**: https://arxiv.org/abs/2508.04824
+**Date**: 2025-08-06
+**Year**: 2025
+**Authors**: Paul Triebkorn, Huifang E. Wang, Marmaduke Woodman, Maxime Guye, Fabrice Bartolomei, Viktor Jirsa
+**Categories**: q-bio.NC
+
+## Abstract
+
+Re-entry of travelling excitation loops is a long-suspected driver of human seizures, yet how such loops arise in patient brain networks -- and how susceptible they are to targeted disruption -- remains unclear. We reconstruct a millimetre-scale virtual brain from diffusion MRI of a drug-resistant epilepsy patient, embed excitable Epileptor neural fields, and show that realistic cortico-cortical delays are sufficient to generate self-sustaining re-entry. Systematic parameter sweeps reveal a narrow delay-coupling window that predicts oscillation frequency and seizure duration across 184 recorded seizures. Precisely timed biphasic stimuli or sub-millimetre virtual lesions abort re-entry in silico, yielding phase-dependent termination rules validated in intracranial recordings. Our framework exposes delay-constrained re-entry as a generic dynamical mechanism for large-scale brain synchrony and provides a patient-specific testbed for precision neuromodulation and minimally invasive disconnection.
+
+
+--- SOURCE: raw/papers/arxiv-2509.02799.md ---
+# Data-driven mean-field within whole-brain models
+
+**Source**: semantic-scholar
+**ID**: 144ae1f1dabec42c14493d0083d36f168508f886
+**URL**: https://www.semanticscholar.org/paper/144ae1f1dabec42c14493d0083d36f168508f886
+**Date**: 2025-09-02
+**Year**: 2025
+**Authors**: Martin Breyton, Viktor Sip, M. Woodman, Meysam Hashemi, S. Petkoski, V. Jirsa
+**Citations**: 0
+
+## Abstract
+
+Mean-field models provide a link between microscopic neuronal activity and macroscopic brain dynamics. Their derivation depends on simplifying assumptions, such as all-to-all connectivity, limiting their biological realism. To overcome this, we introduce a data-driven framework in which a multi-layer perceptron (MLP) learns the macroscopic dynamics directly from simulations of a network of spiking neurons. The network connection probability serves here as a new parameter, inaccessible to purely analytical treatment, which is validated against ground truth analytical solutions. Through bifurcation analysis on the trained MLP, we demonstrate the existence of new cusp bifurcation that systematically reshapes the system's phase diagram in a degenerate manner with synaptic coupling. By integrating this data-driven mean-field model into a whole-brain computational framework, we show that it extends beyond the macroscopic emergent dynamics generated by the analytical model. For validation, we use simulation-based inference on synthetic functional magnetic resonance imaging (fMRI) data and demonstrate accurate parameter recovery for the novel mean-field model, while the current state-of-the-art models lead to biased estimates. This work presents a flexible and generic framework for building more realistic whole-brain models, bridging the gap between microscale mechanisms and macroscopic brain recordings.
+
+
+--- SOURCE: raw/papers/touboul-2011.md ---
+---
+title: "Bifurcation analysis of Jansen's neural mass model"
+created: 2026-04-20
+updated: 2026-04-20
+type: source
+tags: [paper-methods, neural-mass-models, bifurcation-analysis, epilepsy-modeling]
+sources: []
+---
+
+# Bifurcation analysis of Jansen's neural mass model
+
+**Authors**: Jonathan Touboul, Fabien Wendling, Bruno Bellanger, Patrick Chauvel, Olivier Faugeras  
+**Published**: 2011  
+**Journal**: Neural Computation  
+**DOI**: 10.1162/NECO_a_00151
+
+## Summary
+
+Comprehensive bifurcation analysis of the Jansen-Rit model, mapping parameter space to dynamical regimes including fixed points, limit cycles, quasiperiodic and chaotic dynamics. Essential for understanding parameter sensitivity and clinical applications.
+
+## Key Contributions
+
+- Complete bifurcation diagram for Jansen-Rit parameters
+- Identification of codimension-1 and codimension-2 bifurcations
+- Routes to chaos through quasiperiodic regimes
+- Parameter sensitivity analysis for clinical relevance
+
+## Dynamical Regimes
+
+1. **Low activity**: Stable fixed point (resting state)
+2. **Alpha rhythm**: Limit cycle oscillation (8-13 Hz)
+3. **Epileptic**: High-amplitude rhythmic activity
+4. **Chaotic**: Irregular dynamics (possible interictal state)
+
+## Related Concepts
+
+- [[bifurcation analysis]]
+- [[neural mass model]]
+- [[Jansen-Rit]]
+- [[epilepsy modeling]]
+
+
+## EXISTING WIKI PAGES (use these for [[wikilinks]] — only link to pages in this list)
+  - 3d-slicer
+  - aal-atlas
+  - afni
+  - aging
+  - alain-destexhe
+  - albert-laszlo-barabasi
+  - allen-brain-atlas
+  - andrei-medvedev
+  - annarchy
+  - ants
+  - antspy
+  - arbor
+  - auryn
+  - bci2000
+  - bctpy
+  - benjamin-jansen
+  - bharat-biswal
+  - bids-validator
+  - bidscoin
+  - bifurcation-analysis
+  - bifurcation-theory
+  - bionet
+  - bluepyopt
+  - bold-signal
+  - brain-connectivity-toolbox
+  - brain-dynamics-toolbox
+  - brain-maintenance
+  - brain-network
+  - brainlife
+  - brainmap
+  - brainnet-viewer
+  - brainnetome-atlas
+  - brainspace
+  - brainstorm
+  - brainsuite
+  - brainvisa
+  - brainvoyager
+  - brian
+  - brian-avants
+  - brian2
+  - c-pac
+  - carlsim
+  - cat12
+  - cbrain
+  - chronux
+  - civet
+  - clinica
+  - cococomac
+  - cognitive-reserve
+  - conn
+  - connectivity-types
+  - connectome
+  - connectome-mapper-3
+  - connectome-workbench
+  - connectomics
+  - coreneuron
+  - crispin-gardiner
+  - cvodes
+  - datalad
+  - david-van-essen
+  - dcm
+  - default-mode-network
+  - desikan-killiany-atlas
+  - developmental-trajectories
+  - diffusion-mri
+  - dipy
+  - dsi-studio
+  - dti
+  - duncan-watts
+  - dynamic-causal-modeling
+  - dynamical-systems-theory
+  - dynasim
+  - ebrains
+  - ed-bullmore
+  - eeg
+  - eeglab
+  - effective-connectivity
+  - elephant
+  - emanuel-tuckwell
+  - epilepsy-modeling
+  - epileptor
+  - epileptor-rs
+  - epileptorcodim3
+  - erplab
+  - eugene-izhikevich
+  - exploreasl
+  - fastsurfer
+  - fernando-lopes-da-silva
+  - fidel-alfaro-almagro
+  - fieldtrip
+  - fmri
+  - fmri-vs-eeg
+  - fmriprep
+  - fokker-planck-equation
+  - fooof
+  - free-energy-principle
+  - freesurfer
+  - fsl
+  - fsleyes
+  - functional-connectivity
+  - genesis
+  - genn
+  - geppetto
+  - gift
+  - giulio-tononi
+  - glasser-atlas
+  - graph-theory
+  - graphvar
+  - gustavo-deco
+  - hannes-risken
+  - harvard-oxford-atlas
+  - hcp-pipelines
+  - henry-markram
+  - hnn
+  - hopfield
+  - hugh-wilson
+  - human-connectome-project
+  - ica
+  - infinite-theta
+  - itk-snap
+  - jack-cowan
+  - jansen-rit
+  - jneuroml
+  - john-guckenheimer
+  - julich-atlas
+  - k-ion-exchange
+  - krasimira-tsaneva-atanasova
+  - larter-breakspear
+  - lead-dbs
+  - lfp-lib
+  - lfpy
+  - lfpykit
+  - linear
+  - mark-newman
+  - markus-diesmann
+  - mean-field-theory
+  - meg
+  - michael-hines
+  - michael-schirner
+  - mne-bids
+  - mne-python
+  - modeldb
+  - modularity
+  - moose
+  - mricrogl
+  - mricron
+  - mriqc
+  - mrtrix
+  - mrtrix3
+  - mrtrix3-connectome
+  - music
+  - mvgc
+  - nancy-andrews-hanna
+  - nengo
+  - neo
+  - nest
+  - netneuroscience
+  - netpyne
+  - network-hubs
+  - neural-mass-model
+  - neural-mass-models
+  - neural-mass-models-comparison
+  - neurodata-without-borders
+  - neurodevelopment
+  - neurom
+  - neurominer
+  - neuroml
+  - neuromorpho
+  - neuromorpho-toolkit
+  - neuron
+  - neuronunit
+  - neuroscience-gateway
+  - neurosynth
+  - neurovault
+  - neusight
+  - nibabel
+  - nibetaseries
+  - nick-tustison
+  - niftynet
+  - niftyreg
+  - nikos-logothetis
+  - nilearn
+  - nipype
+  - nitin-gogtay
+  - nix
+  - nonlinear-dynamics
+  - nwb
+  - olaf-sporns
+  - open-source-brain
+  - opencortex
+  - openmeeg
+  - openneuro
+  - openvibe
+  - oscillator
+  - panda
+  - paraview
+  - parcellation
+  - patricia-miller
+  - personalized-brain-modeling
+  - philip-holmes
+  - physionet
+  - pronto
+  - psyneulink
+  - pybids
+  - pymvpa
+  - pynn
+  - qsiprep
+  - resting-state
+  - rich-club
+  - rolf-kotter
+  - root
+  - rudiger-seydel
+  - scale-free-networks
+  - scirun
+  - sciunit
+  - seiji-ogawa
+  - sift
+  - simnibs
+  - sloreta
+  - small-world-networks
+  - spiking-neural-networks
+  - spm
+  - stefanescu-jirsa
+  - stephen-wiggins
+  - steps
+  - steven-smith
+  - steven-strogatz
+  - stochastic-differential-equations
+  - structural-connectivity
+  - structural-core
+  - suma
+  - synthseg
+  - ted-carnevale
+  - terrence-sejnowski
+  - the-virtual-epileptic-brain
+  - tractography
+  - tractor
+  - trentool
+  - tvb
+  - tvb-adapters
+  - tvb-library
+  - tvb-multiscale
+  - tvb-vs-nest-vs-neuron
+  - uk-biobank
+  - variational-bayes
+  - vincent-rit
+  - voxelmorph
+  - walter-freeman
+  - whole-brain
+  - whole-brain-simulators
+  - wilson-cowan
+  - wong-wang
+  - wong-wang-exc-inh
+  - xcos
+  - xnat
+  - yan-wang
+  - yasa
+  - yuri-kuznetsov
+  - zerlaut
+
+## WRITING STYLE
+- Write for a **graduate student in neuroscience** who is intelligent but not a specialist in this particular topic
+- **Dense but readable** prose — like Scholarpedia or a very good Wikipedia science article, NOT like a PowerPoint slide
+- Every section must have at least one full paragraph of prose. Avoid sections that are only a table or equations
+- Cross-link aggressively: the first mention of any concept that appears in the page inventory above should be a [[wikilink]]. Aim for 8–15 wikilinks per page
+- Avoid one-liner sections — if a section would be only 1–2 sentences, expand it or merge it
+
+## STRUCTURAL REQUIREMENTS
+1. **Opening paragraph** (2–3 sentences): What is this? Define it plainly before any technical detail
+2. **Motivation / Context** (1–2 paragraphs): WHY does this exist? What problem does it solve? How does it fit into the broader field?
+3. **Technical content**: Equations and tables are welcome but must be **surrounded by explanatory prose** — explain what each equation means in words
+4. **Relationships**: Compare to related models/concepts. What came before? What came after? What are the tradeoffs?
+5. **Biological grounding**: For model pages, explain what biological phenomena the model captures and how parameters map to neural mechanisms
+
+## FORMATTING RULES
+1. Replace ALL placeholder text (*Placeholder*) with real, sourced content
+2. Add wikilinks [[like-this]] to related pages from the inventory above (minimum 8)
+3. Add factual claims ONLY if you can cite a source or are confident from domain knowledge
+4. Keep the YAML frontmatter, but update the `updated:` date to today (2026-04-27)
+5. Add any new sources used to the `sources:` frontmatter list
+6. Aim for 500–800 words for a full page
+7. Use clear section headings (##)
+8. Do NOT add a ## References section — a separate agent handles reference formatting
+
+Write the COMPLETE updated page (including frontmatter). Output ONLY the markdown file content, no commentary.

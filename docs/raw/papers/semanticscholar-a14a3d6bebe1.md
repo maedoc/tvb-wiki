@@ -1,0 +1,15 @@
+# Interventions for SARS-CoV-2 prevention among Jailed adults: A network-based modeling analysis
+
+**Source**: semantic-scholar
+**ID**: a14a3d6bebe11ea135079afae07ef4d784f4fd1e
+**DOI**: 10.1016/j.idm.2025.02.001
+**URL**: https://www.semanticscholar.org/paper/a14a3d6bebe11ea135079afae07ef4d784f4fd1e
+**Date**: 2025-02-01
+**Year**: 2025
+**Authors**: Isaac Schneider, K. Wallrafen-Sam, Shanika S. Kennedy, Matthew J. Akiyama, Anne C Spaulding, Samuel M. Jenness
+**Venue**: Infectious Disease Modelling
+**Citations**: 0
+
+## Abstract
+
+Background Airborne pathogens present challenges in settings like jails or prisons with a high density of contacts. The state of Georgia has the highest percentage of its citizens under correctional supervision in the United States. Yet, it had slow COVID vaccine uptake among jail residents, requiring prevention also using non-pharmaceutical interventions. Using a network-based SARS-CoV-2 transmission model parameterized with data from the Fulton County Jail, this study investigates the impact of three SARS-CoV-2 prevention strategies: vaccination, contact tracing and quarantining, and jail release to reduce jail population density. Methods Social contact networks were simulated at two different overlapping network layers: cell and block. Cell-level contacts represented shared confined sleeping space, whereas block-level contacts represented shared socialization space. Contact tracing and quarantining were simulated at the cell-level or both cell- and block-levels, hereafter referred to as all-level. A reference scenario and nine intervention scenarios were simulated three hundred times to estimate the median and interquartile range (IQR) of the outcome measures. Each scenario simulated a 185-day period to measure the prolonged effects of the interventions amid a potential COVID outbreak in the jail. The cumulative incidence, number of infections averted (NIA), and percentage of infections averted (PIA) were calculated comparing interventions against a base scenario without them. For the seven scenarios involving contact tracing and quarantining, total quarantines over the simulation and the number of quarantines per day were calculated to determine the quarantine requirements. Sensitivity analyses compared the impact of jointly varying vaccination rates and contact tracing rates. Results Cell-level contact tracing alone was an ineffective intervention (3.2% PIA), but its impact increased in combination with other interventions (i.e., vaccination or increased jail release rate). The other intervention strategies each produced a PIA over 10%, with the jail release scenario producing a PIA of nearly 20% despite only resulting in a 13% reduction in the jail population. The all-level contact tracing only scenario was effective at both 50% and 100% of contacts traced, but feasibility would be limited without a reduction in the jail population. Conclusions Implementing a combination intervention approach could substantially reduce the morbidity from COVID-19 and future respiratory viruses in this jail setting while providing secondary protection to the community.

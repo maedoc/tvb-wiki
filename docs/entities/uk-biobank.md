@@ -1,10 +1,19 @@
 ---
-title: UK Biobank
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/miller-2016.md
+- raw/papers/alfaro-almagro-2018.md
+- raw/papers/elliott-2018.md
+- raw/papers/smith-2021.md
+- raw/papers/littlejohns-2020.md
+tags:
+- database-uk-biobank
+- connectomics
+- neuroimaging-fmri
+- aging-brain
+title: UK Biobank
 type: entity
-tags: [database-uk-biobank, connectomics, neuroimaging-fmri, aging-brain]
-sources: [raw/papers/miller-2016.md, raw/papers/alfaro-almagro-2018.md, raw/papers/elliott-2018.md, raw/papers/smith-2021.md, raw/papers/littlejohns-2020.md]
+updated: '2026-04-27'
 ---
 
 # UK Biobank
@@ -32,8 +41,8 @@ UK Biobank is a large-scale biomedical database and research resource containing
 
 ### Modalities
 - **Structural MRI**: T1, T2 FLAIR, susceptibility-weighted
-- **Functional MRI**: Resting-state fMRI
-- **Diffusion MRI**: dMRI for white matter
+- **Functional MRI**: [[resting-state|Resting-state fMRI]]
+- **[[diffusion-mri]]**: dMRI for white matter
 - **Body MRI**: Cardiac, abdominal
 
 ### Scanner Standardization
@@ -70,7 +79,7 @@ UK Biobank is a large-scale biomedical database and research resource containing
 - Population-level neuroscience
 
 ### Key Findings
-- Brain aging trajectories across lifespan
+- Brain [[aging]] trajectories across lifespan
 - Genetic associations with brain structure
 - Risk factors for brain health
 - Normative brain templates
@@ -106,14 +115,22 @@ UK Biobank is a large-scale biomedical database and research resource containing
 | **Focus** | Population health | Precision connectivity |
 
 ## Related Concepts
-- [[human-connectome-project]] – High-resolution connectivity study
+- [[human-[[connectome]]-project]] – High-resolution connectivity study
 - population-neuroimaging – Large-scale imaging
 - imaging-genetics – Genetic basis of brain structure
 - aging-brain – Brain aging processes
-- neuroimaging-fmri – Functional MRI
-- [[connectomics]] – Brain network analysis
+- neuroimaging-[[fmri]] – Functional MRI
+- [[connectomics]] – [[brain-network]] analysis
 - big-data-neuroscience – Large-scale data resources
 
 ## Key People
 - patricia miller|Karla Miller – Imaging lead
 - [[fidel alfaro-almagro]] – Processing pipelines
+
+## References
+
+1. (authors unknown). *Multimodal Population Brain Imaging in the UK Biobank: Prospective Epidemiological Study*.
+2. (authors unknown). *Image Processing and Quality Control for the First 100,000 Brain Imaging Datasets from UK Biobank*.
+3. (authors unknown). *Genome-wide Association Studies of Brain Imaging Phenotypes from UK Biobank*.
+4. (authors unknown). *UK Biobank Brain Imaging: Structural MRI in a Massive Population Resource*.
+5. (authors unknown). *The UK Biobank Imaging Study: 100,000 Participants and Beyond*.

@@ -1,10 +1,21 @@
 ---
-title: "Bifurcation Analysis"
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/izhikevich-2007.md
+- raw/papers/touboul-2011.md
+- raw/papers/breakspear-2017.md
+- raw/papers/arxiv-2507.15519.md
+- raw/papers/arxiv-2411.16449.md
+- raw/papers/breakspear-2006.md
+- raw/papers/semanticscholar-e5e78e93bf31.md
+tags:
+- bifurcation-analysis
+- neural-mass-models
+- brain-oscillations
+- network-dynamics
+title: Bifurcation Analysis
 type: concept
-tags: [bifurcation-analysis, neural-mass-models, brain-oscillations, network-dynamics]
-sources: [raw/papers/izhikevich-2007.md, raw/papers/touboul-2011.md, raw/papers/breakspear-2017.md]
+updated: '2026-04-27'
 ---
 
 # Bifurcation Analysis
@@ -147,7 +158,7 @@ Simplify dynamics near bifurcation:
 
 ### Parameter Exploration
 
-Bifurcation theory guides:
+[[bifurcation-theory]] guides:
 - **Parameter sweeps**: Which parameters to vary
 - **Expected transitions**: What dynamics to expect
 - **Critical values**: Where transitions occur
@@ -155,7 +166,7 @@ Bifurcation theory guides:
 ### Clinical Applications
 
 Understanding bifurcations enables:
-- **Seizure prediction**: Detecting approach to bifurcation
+- **[[seizure-prediction]]**: Detecting approach to bifurcation
 - **Control**: Designing stimulation to avoid bifurcations
 - **Therapy design**: Moving system away from pathological regimes
 
@@ -174,3 +185,13 @@ Understanding bifurcations enables:
 - [[Eugene Izhikevich]] – Textbook author on neural bifurcations
 - [[Wilson-Cowan]] – Model with rich bifurcation structure
 - [[Jansen-Rit]] – Model for EEG bifurcations
+
+## References
+
+1. Eugene M. Izhikevich. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
+2. Jonathan Touboul, Fabien Wendling, Bruno Bellanger, Patrick Chauvel, Olivier Faugeras. *Bifurcation analysis of Jansen's [[neural-mass-models|neural mass model]]*. Neural Computation. [DOI](https://doi.org/10.1162/NECO_a_00151)
+3. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)
+4. Kateryna Nechyporenko, Peter Ashwin, [[krasimira-tsaneva-atanasova]]. *Switching States: Heteroclinic Cycles as Organising Centres of Neuronal Dynamics*. [Link](https://arxiv.org/abs/2507.15519)
+5. Huda Mahdi, Jan Sieber, Krasimira Tsaneva-Atanasova. *Alpha-Delta Transitions in Cortical Rhythms as grazing bifurcations*. [Link](https://arxiv.org/abs/2411.16449)
+6. Michael Breakspear, John A. Roberts, John R. Terry, Stefano Rodrigues, Nader Mahmud, Philip Robinson. *Large-scale brain dynamics of seizures: asymptotic analysis of a [[neural-field-theory|neural field]] model*. Journal of Computational Neuroscience. [DOI](https://doi.org/10.1007/s10827-006-8135-2)
+7. Raul de Palma Aristides, Pau Clusella, R. Sanchez-Todo, G. Ruffini, Jordi García-Ojalvo. (2026). *Emergence of multifrequency activity in a laminar neural mass model*. PLoS Computational Biology. [DOI](https://doi.org/10.1371/journal.pcbi.1014022)

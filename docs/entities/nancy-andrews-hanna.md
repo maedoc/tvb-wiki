@@ -1,10 +1,19 @@
 ---
-title: "Nancy Andrews-Hanna"
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/damoiseaux-2008.md
+- raw/papers/buckner-andrews-hanna-schacter-2008.md
+- raw/papers/andrews-hanna-2010.md
+- raw/papers/grady-2012.md
+- raw/papers/fjell-walhovd-2010.md
+tags:
+- people-researcher
+- default-mode-network
+- aging-brain
+- neuroimaging-fmri
+title: Nancy Andrews-Hanna
 type: entity
-tags: [people-researcher, default-mode-network, aging-brain, neuroimaging-fmri]
-sources: [raw/papers/damoiseaux-2008.md, raw/papers/buckner-andrews-hanna-schacter-2008.md, raw/papers/andrews-hanna-2010.md]
+updated: '2026-04-27'
 ---
 
 # Nancy Andrews-Hanna (Jessica R. Andrews-Hanna)
@@ -49,7 +58,7 @@ Cognitive neuroscientist specializing in the default mode network, aging, and in
 ## Related Concepts
 - [[default-mode-network]] – Core research focus
 - [[aging]] – DMN changes in aging
-- [[resting-state]] – Functional connectivity
+- [[resting-state]] – [[functional-connectivity]]
 - self-referential-processing – Internal cognition
 
 ## Sources

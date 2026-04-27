@@ -1,10 +1,12 @@
 ---
-title: "Andrei Medvedev"
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/sporns-2011.md
+tags:
+- people-researcher
+title: Andrei Medvedev
 type: entity
-tags: [people-researcher]
-sources: []
+updated: '2026-04-27'
 ---
 
 # Andrei Medvedev
@@ -17,3 +19,7 @@ Researcher in neuroscience. Mentioned in the context of Domain 5 sources.
 
 ## Note
 This page was created as part of Domain 5 ingestion. More specific contributions to be added as sources are reviewed.
+
+## References
+
+1. (authors unknown). *Networks of the Brain*.

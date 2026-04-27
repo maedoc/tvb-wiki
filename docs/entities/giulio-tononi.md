@@ -1,10 +1,16 @@
 ---
-title: Giulio Tononi
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/sporns-tononi-kotter-2005.md
+- raw/papers/sporns-2011.md
+- raw/papers/smith-2013-connectomics.md
+tags:
+- people-researcher
+- consciousness-models
+- connectomics
+title: Giulio Tononi
 type: entity
-tags: [people-researcher, consciousness-models, connectomics]
-sources: [raw/papers/sporns-tononi-kotter-2005.md]
+updated: '2026-04-27'
 ---
 
 # Giulio Tononi
@@ -22,7 +28,7 @@ Professor of Psychiatry at University of Wisconsin-Madison, leading researcher i
 Tononi's research spans:
 - **Consciousness Studies**: IIT provides a mathematical framework for understanding consciousness
 - **Sleep Science**: Synaptic homeostasis hypothesis explains the function of sleep
-- **Connectomics**: Early work on brain connectivity and information integration
+- **[[connectomics]]**: Early work on brain connectivity and information integration
 
 ## Key Papers
 - sporns-tononi-kotter-2005 – The Human Connectome
@@ -36,3 +42,9 @@ Tononi's research spans:
 ## Collaborators
 - [[olaf sporns]] – Connectomics
 - [[rolf kotter]] – Neuroanatomy
+
+## References
+
+1. (authors unknown). *The Human Connectome: A Structural Description of the Human Brain*.
+2. (authors unknown). *Networks of the Brain*.
+3. (authors unknown). *Functional Connectomics from [[resting-state|Resting-State fMRI]]*.

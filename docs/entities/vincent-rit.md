@@ -1,22 +1,32 @@
 ---
-title: "Vincent G. Rit"
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/jansen-rit-1995.md
+- raw/papers/rit-2013.md
+- raw/papers/wendling-2002.md
+- raw/papers/arxiv-2411.16449.md
+- raw/papers/potjans-diesmann-2014.md
+- raw/papers/breakspear-2017.md
+- raw/papers/arxiv-2503.05564.md
+tags:
+- people-researcher
+- neural-mass-models
+- eeg
+title: Vincent G. Rit
 type: entity
-tags: [people-researcher, neural-mass-models, eeg]
-sources: [raw/papers/jansen-rit-1995.md, raw/papers/rit-2013.md]
+updated: '2026-04-27'
 ---
 
 # Vincent G. Rit
 
-Dutch biomedical engineer and computational neuroscientist. Co-developer of the Jansen-Rit neural mass model and long-time researcher in quantitative EEG analysis and brain modeling.
+Dutch biomedical engineer and computational neuroscientist. Co-developer of the Jansen-Rit [[neural-mass-models|neural mass model]] and long-time researcher in quantitative EEG analysis and brain modeling.
 
 ## Key Contributions
 
 - **Jansen-Rit model**: Co-developed the canonical three-population cortical column model (1995)
 - **Extended neural mass models**: Reviews and extensions including validation studies
 - **Clinical applications**: Modeling pathological EEG patterns in epilepsy and other conditions
-- **Whole-brain modeling**: Extensions from single columns to coupled column networks
+- **[[whole-brain]] modeling**: Extensions from single columns to coupled column networks
 
 ## Major Publications
 
@@ -35,3 +45,13 @@ The Jansen-Rit model developed by Rit and colleagues is the default neural mass 
 - [[eeg]]
 - [[Benjamin Jansen]]
 - [[TVB]]
+- [[fernando-lopes-da-silva|Fernando Lopes Da Silva]]
+## References
+
+1. Benjamin H. Jansen, Vincent G. Rit. *Electroencephalogram and visual evoked potential generation in a mathematical model of coupled cortical columns*. Biological Cybernetics. [DOI](https://doi.org/10.1007/BF00199471)
+2. Vincent G. Rit, Benjamin H. Jansen. *A neural mass model for the generation of electroencephalograms*. Critical Reviews in Biomedical Engineering.
+3. Wendling F., Bartolomei F., Bellanger J.J., Chauvel P. *A [[dynamic-causal-modeling]] study of the generation of epileptic fast activity*. NeuroImage. [DOI](https://doi.org/10.1006/nimg.2002.1234)
+4. Huda Mahdi, Jan Sieber, [[krasimira-tsaneva-atanasova]]. *Alpha-Delta Transitions in Cortical Rhythms as grazing bifurcations*. [Link](https://arxiv.org/abs/2411.16449)
+5. Potjans & Diesmann (2014). *The cell-type specific cortical microcircuit: relating structure and activity*. Cerebral Cortex. [DOI](https://doi.org/10.1093/cercor/bhs358)
+6. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)
+7. Alexander Pei. *Phase Alignment Enhances Oscillatory Power in Neural Mass Models Optimized for Class Encoding*. [Link](https://arxiv.org/abs/2503.05564)

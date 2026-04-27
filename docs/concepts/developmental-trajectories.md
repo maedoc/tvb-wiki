@@ -1,15 +1,28 @@
 ---
-title: developmental-trajectories
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/gogtay-2004.md
+- raw/papers/fair-2009.md
+- raw/papers/power-2010.md
+- raw/papers/fjell-walhovd-2010.md
+- raw/papers/tau-peterson-2010.md
+- raw/papers/semanticscholar-34ef3bcd7c8b.md
+- raw/papers/smith-2021.md
+- raw/papers/arxiv-2601.13935.md
+- raw/papers/arxiv-2603.07524.md
+tags:
+- neurodevelopment
+- aging-brain
+- developmental-trajectories
+- whole-brain-modeling
+title: developmental-trajectories
 type: concept
-tags: [neurodevelopment, aging-brain, developmental-trajectories, whole-brain-modeling]
-sources: [raw/papers/gogtay-2004.md, raw/papers/fair-2009.md, raw/papers/power-2010.md, raw/papers/fjell-walhovd-2010.md]
+updated: '2026-04-27'
 ---
 
 # Developmental Trajectories
 
-Developmental trajectories describe the patterns of change in brain structure and function across the lifespan, from prenatal development through aging. These trajectories are often non-linear, with different brain regions following distinct developmental curves.
+Developmental trajectories describe the patterns of change in brain structure and function across the lifespan, from prenatal development through aging. These trajectories are often non-[[linear]], with different brain regions following distinct developmental curves.
 
 ## Definition
 
@@ -73,7 +86,7 @@ Following Gogtay et al. (2004):
 - **Aging**: Connectivity decline
 
 ### Network Topology
-- **Modularity**: Increases then plateaus
+- **[[modularity]]**: Increases then plateaus
 - **Efficiency**: Improves then declines
 - **Hub organization**: Strengthens then weakens
 

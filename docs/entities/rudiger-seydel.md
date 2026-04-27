@@ -1,10 +1,15 @@
 ---
-title: "Rüdiger Seydel"
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/seydel-2010.md
+- raw/papers/guckenheimer-holmes-1983.md
+- raw/papers/hirsch-smale-devaney-2004.md
+- raw/papers/touboul-2011.md
+tags:
+- people-researcher
+title: Rüdiger Seydel
 type: entity
-tags: [people-researcher]
-sources: [raw/papers/seydel-2010.md]
+updated: '2026-04-27'
 ---
 
 ## Overview
@@ -31,3 +36,10 @@ Rüdiger Seydel is a German mathematician and Professor at the University of Col
 - Seydel (2010) — Practical Bifurcation and Stability Analysis
 - Seydel (1988) — From Equilibrium to Chaos: Practical Bifurcation and Stability Analysis
 - Seydel (1994) — Practical Bifurcation and Stability Analysis (1st ed.)
+
+## References
+
+1. (authors unknown). *Practical Bifurcation and Stability Analysis*.
+2. (authors unknown). *Nonlinear Oscillations, Dynamical Systems, and Bifurcations of Vector Fields*.
+3. (authors unknown). *Differential Equations, Dynamical Systems, and an Introduction to Chaos*.
+4. Jonathan Touboul, Fabien Wendling, Bruno Bellanger, Patrick Chauvel, Olivier Faugeras. *Bifurcation analysis of Jansen's [[neural-mass-models|neural mass model]]*. Neural Computation. [DOI](https://doi.org/10.1162/NECO_a_00151)

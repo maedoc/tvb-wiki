@@ -1,10 +1,26 @@
 ---
-title: Functional Connectivity
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/biswal-1995.md
+- raw/papers/fox-raichle-2007.md
+- raw/papers/smith-2009.md
+- raw/papers/friston-1993.md
+- raw/papers/honey-2009.md
+- raw/papers/power-2011.md
+- raw/papers/smith-2013-connectomics.md
+- raw/papers/zuo-2010.md
+- raw/papers/arxiv-2512.00063.md
+- raw/papers/semanticscholar-44da8d4ab79e.md
+- raw/papers/greicius-2003.md
+tags:
+- functional-connectivity
+- resting-state
+- neuroimaging-fmri
+- neuroimaging-eeg
+- neuroimaging-meg
+title: Functional Connectivity
 type: concept
-tags: [functional-connectivity, resting-state, neuroimaging-fmri, neuroimaging-eeg, neuroimaging-meg]
-sources: [raw/papers/biswal-1995.md, raw/papers/fox-raichle-2007.md, raw/papers/smith-2009.md, raw/papers/friston-1993.md, raw/papers/honey-2009.md, raw/papers/power-2011.md, raw/papers/smith-2013-connectomics.md]
+updated: '2026-04-27'
 ---
 
 # Functional Connectivity
@@ -18,7 +34,7 @@ Unlike [[structural-connectivity]] (anatomical connections), functional connecti
 ## Measures
 
 ### fMRI-Based
-- **Pearson correlation**: Linear correlation of BOLD time series
+- **Pearson correlation**: [[linear]] correlation of [[bold-signal|BOLD]] time series
 - **Partial correlation**: Controlling for other regions
 - **Mutual information**: Non-linear dependencies
 
@@ -31,14 +47,14 @@ Unlike [[structural-connectivity]] (anatomical connections), functional connecti
 ## Resting-State Networks
 
 Functional connectivity at rest reveals intrinsic-connectivity-networks including:
-- Default mode network
+- [[default-mode-network]]
 - Sensorimotor network
 - Visual network
 - Attention networks
 
 ## Role in Whole-Brain Modeling
 
-Functional connectivity is the primary validation target for whole-brain models:
+Functional connectivity is the primary validation target for [[whole-brain]] models:
 
 1. **Static FC**: Correlation matrix of regional time series
 2. **Dynamic FC**: Time-varying connectivity patterns
@@ -85,3 +101,17 @@ Functional connectivity can exist without direct structural connections due to:
 - Dynamic synchronization
 
 See honey-2009 for empirical evidence of the SC-FC relationship.
+
+## References
+
+1. (authors unknown). *Functional connectivity in the motor cortex of resting human brain using echo-planar MRI*.
+2. (authors unknown). *Spontaneous fluctuations in brain activity observed with functional magnetic resonance imaging*.
+3. (authors unknown). *Correspondence of the brain's functional architecture during activation and rest*.
+4. (authors unknown). *Functional Connectivity: The Principal-Component Analysis of Large (PET and fMRI) Data Sets*.
+5. (authors unknown). *Predicting Human Resting-State Functional Connectivity from Structural Connectivity*.
+6. (authors unknown). *Functional Network Organization of the Human Brain*.
+7. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
+8. (authors unknown). *The organization of the human cerebellum estimated by intrinsic functional connectivity*.
+9. Mengyuan Liu, Jing Hu, Zhenzhen Ru, Ruomeng Quan, Xu Zhang, Ning Qiang, Jin Li. (2025). *Exploring the changes in [[brain-network]] SC-FC coupling patterns of partial sleep deprivation based on DTI-fMRI fusion analysis*. [Link](https://arxiv.org/abs/2512.00063)
+10. B. Sarton, Giulia Maria Mattia, Eve Cervoni, Julie Decourt, Patrice Péran, Béatrice Riu, Fanny Bounes, Edouard Naboulsi, P. Barttfeld, Jean-Marc Olivot, Stein Silva, Sylvain Cussat-Blanc. (2026). *Explainable Machine Learning for Coma Outcome Prediction Based on Structural and Functional Brain MRI.*. Critical Care Medicine. [DOI](https://doi.org/10.1097/CCM.0000000000007068)
+11. (authors unknown). *Functional Connectivity in the Resting Brain: A Network Analysis of the Default Mode Hypothesis*.

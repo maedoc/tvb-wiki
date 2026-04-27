@@ -1,10 +1,18 @@
 ---
-title: NEURON
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/hines-carnevale-1997.md
+- raw/papers/carnevale-hines-2006.md
+- raw/papers/hay-2011.md
+- raw/papers/markram-2015.md
+- raw/papers/gewaltig-diesmann-2007.md
+tags:
+- software-neuron
+- spiking-neural-networks
+- neural-mass-models
+title: NEURON
 type: entity
-tags: [software-neuron, spiking-neural-networks, neural-mass-models]
-sources: [raw/papers/hines-carnevale-1997.md, raw/papers/carnevale-hines-2006.md, raw/papers/hay-2011.md, raw/papers/markram-2015.md]
+updated: '2026-04-27'
 ---
 
 # NEURON
@@ -41,7 +49,7 @@ NEURON provides tools for building and simulating biophysically detailed models 
 ## Related Software
 
 - [[NEST]] — Point neuron network simulator for large-scale networks
-- [[TVB]] — Neural mass model whole-brain simulator
+- [[TVB]] — [[neural-mass-models|Neural mass model]] [[whole-brain]] simulator
 - [[ModelDB]] — Model repository for sharing NEURON simulations
 
 ## Related Concepts
@@ -61,3 +69,11 @@ NEURON provides tools for building and simulating biophysically detailed models 
 - Dendritic integration and computation
 - Pathological neuron modeling
 - Educational neuroscience simulation
+
+## References
+
+1. Hines & Carnevale (1997). *The NEURON simulation environment*. Neural Computation. [DOI](https://doi.org/10.1162/neco.1997.9.6.1179)
+2. Carnevale & Hines (2006). *The NEURON Book*.
+3. Hay et al. (2011). *Models of neocortical layer 5b pyramidal cells capturing a wide range of dendritic and perisomatic active properties*. PLOS Computational Biology. [DOI](https://doi.org/10.1371/journal.pcbi.1002107)
+4. Markram et al. (2015). *Reconstruction and simulation of neocortical microcircuitry*. Cell. [DOI](https://doi.org/10.1016/j.cell.2015.09.029)
+5. Gewaltig & Diesmann (2007). *NEST (NEural Simulation Tool)*. Scholarpedia. [DOI](https://doi.org/10.4249/scholarpedia.1430)

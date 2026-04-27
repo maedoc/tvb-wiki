@@ -1,0 +1,648 @@
+You are the Ralph Writer agent improving a TVB Wiki page about whole-brain modeling and computational neuroscience. Follow the schema strictly.
+
+## SCHEMA
+# Wiki Schema
+
+## Domain
+Connectome‑based whole‑brain modeling, neural mass models, neuroimaging modalities (fMRI, EEG, MEG, DTI), dynamic causal modeling, large‑scale brain networks, software (The Virtual Brain, NEST, Brian, etc.), and related research papers.
+
+## Conventions
+- File names: lowercase, hyphens, no spaces (e.g., `the‑virtual‑brain.md`)
+- Every wiki page starts with YAML frontmatter (see below)
+- Use `[[wikilinks]]` to link between pages (minimum 2 outbound links per page)
+- When updating a page, always bump the `updated` date
+- Every new page must be added to `index.md` under the correct section
+- Every action must be appended to `log.md`
+
+## Frontmatter
+  ```yaml
+  ---
+  title: Page Title
+  created: YYYY‑MM‑DD
+  updated: YYYY‑MM‑DD
+  type: entity | concept | comparison | query | summary
+  tags: [from taxonomy below]
+  sources: [raw/papers/arxiv‑1234.56789.md, raw/articles/blog‑post.md]
+  ---
+  ```
+
+## Tag Taxonomy
+**Models & Methods**
+- neural‑mass‑models
+- dynamic‑causal‑modeling
+- whole‑brain‑modeling
+- connectomics
+- structural‑connectivity
+- functional‑connectivity
+- effective‑connectivity
+- network‑dynamics
+- bifurcation‑analysis
+- parameter‑estimation
+- dynamical‑systems‑theory
+- bifurcation‑theory
+- nonlinear‑dynamics
+- variational‑bayes
+- free‑energy‑principle
+- mean‑field‑theory
+- stochastic‑differential‑equations
+- fokker‑planck‑equation
+
+**Neuroimaging Modalities**
+- neuroimaging‑fmri
+- neuroimaging‑eeg
+- neuroimaging‑meg
+- neuroimaging‑dti
+- neuroimaging‑pet
+- resting‑state
+- task‑based
+- diffusion‑imaging
+- tractography
+
+**Software & Tools**
+- software‑tvb
+- software‑nest
+- software‑neuron
+- software‑brian
+- software‑neuroml
+- software‑brain‑modeling
+- software‑ants
+- software‑graphvar
+- software‑modeldb
+- software‑visualization
+- database‑hcp
+- database‑uk‑biobank
+
+**Research Context**
+- paper‑review
+- paper‑methods
+- paper‑results
+- conference‑ohbm
+- conference‑sfn
+- conference‑cosyne
+- lab‑institute
+- people‑researcher
+- funding‑project
+- reproducibility
+
+**Domain Topics**
+- brain‑oscillations
+- epilepsy‑modeling
+- schizophrenia‑models
+- alzheimers‑modeling
+- consciousness‑models
+- brain‑stimulation
+- neurodevelopment
+- aging‑brain
+- personalized‑brain‑modeling
+- spiking‑neural‑networks
+
+**Meta**
+- comparison
+- timeline
+- controversy
+- open‑question
+- tutorial
+- dataset
+
+*Rule:* every tag on a page must appear in this taxonomy. If a new tag is needed, add it here first, then use it.
+
+## Page Thresholds
+- **Create a page** when an entity/concept appears in 2+ sources OR is central to one source (e.g., seminal paper, key software)
+- **Add to existing page** when a source mentions something already covered
+- **DON'T create a page** for passing mentions, minor details, or things outside the domain
+- **Split a page** when it exceeds ~200 lines — break into sub‑topics with cross‑links
+- **Archive a page** when its content is fully superseded — move to `_archive/`, remove from index
+
+## Entity Pages
+One page per notable entity (person, software, dataset, lab). Include:
+- Overview / what it is
+- Key facts and dates
+- Relationships to other entities (`[[wikilinks]]`)
+- Source references
+
+## Concept Pages
+One page per concept or topic. Include:
+- Definition / explanation
+- Current state of knowledge
+- Open questions or debates
+- Related concepts (`[[wikilinks]]`)
+
+## Comparison Pages
+Side‑by‑side analyses. Include:
+- What is being compared and why
+- Dimensions of comparison (table format preferred)
+- Verdict or synthesis
+- Sources
+
+## Update Policy
+When new information conflicts with existing content:
+1. Check the dates — newer sources generally supersede older ones
+2. If genuinely contradictory, note both positions with dates and sources
+3. Mark the contradiction in frontmatter: `contradictions: [page‑name]`
+4. Flag for user review in the lint report
+
+
+## YOUR TASK
+Improve the wiki page: graph-theory
+
+## CURRENT PAGE CONTENT
+# Graph Theory
+
+Mathematical framework for studying networks, applied to brain connectivity analysis.
+
+## Definition
+
+[[network-dynamics|Graph theory]] provides a language and set of tools for describing and analyzing networks. In neuroscience, it enables quantitative characterization of brain connectivity patterns.
+
+## Basic Concepts
+
+### Graph Components
+- **Nodes (vertices)**: Brain regions, neurons, or other elements
+- **Edges (links)**: Connections between nodes (structural or functional)
+- **Weights**: Connection strengths
+- **Direction**: Anatomical directionality (when known)
+
+### Graph Types
+- **Binary vs Weighted**: Presence vs strength of connections
+- **Directed vs Undirected**: Asymmetric vs symmetric connections
+- **Signed**: Excitatory vs inhibitory connections
+
+## Network Measures
+
+### Local Measures
+- **Degree**: Number of connections to a node
+- **Clustering Coefficient**: Density of local connections
+- **Betweenness Centrality**: Role in connecting other nodes
+
+### Global Measures
+- **Characteristic Path Length**: Average shortest path
+- **Global Efficiency**: Inverse of path length
+- **Modularity**: Community structure strength
+
+### Specialized Measures
+- small-world-networks|Small-world: σ = (C/C_random)/(L/L_random)
+- rich-club|[[rich-club]]: Connectivity between high-degree nodes
+- **Assortativity**: Degree correlation between connected nodes
+
+## Brain Network Applications
+
+### Structural Networks
+- White matter [[tractography]] graphs
+- Regional [[parcellation]] as nodes
+- Connection probability as weights
+
+### Functional Networks
+- Correlation-based connectivity
+- Thresholding and binarization
+- Dynamic network analysis
+
+## Software Tools
+- brain-connectivity-toolbox|[[brain-connectivity-toolbox]]
+- NetworkX (Python)
+- igraph (R/Python)
+
+## Related Concepts
+- [[connectomics]] – Field of connectivity research
+- [[brain-network]] – Network organization
+- [[network-hubs]] – Highly connected nodes
+- [[modularity]] – Community structure
+- network-dynamics – Dynamic processes
+
+## References
+
+1. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
+2. (authors unknown). *Networks: An Introduction*.
+3. (authors unknown). *Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems*.
+4. (authors unknown). *Networks of the Brain*.
+5. (authors unknown). *The Development of Human Functional Brain Networks*.
+6. (authors unknown). *Functional Connectomics from [[resting-state|Resting-State fMRI]]*.
+7. Jiaxing Xu, Jingying Ma, Xin Lin, Yuxiao Liu, Kai He, Qika Lin, Yiping Ke, Yang Li, Dinggang Shen, Mengling Feng. (2026). *Toward a Multi-View Brain Network Foundation Model: Cross-View Consistency Learning Across Arbitrary Atlases*. [Link](https://arxiv.org/abs/2603.20348)
+
+## AVAILABLE SOURCE PAPERS
+--- SOURCE: raw/papers/rubinov-sporns-2010.md ---
+---
+title: "Complex Network Measures of Brain Connectivity: Uses and Interpretations"
+created: 2026-04-20
+updated: 2026-04-20
+type: paper
+authors: ["Mikail Rubinov", "Olaf Sporns"]
+year: 2010
+venue: "NeuroImage"
+doi: "10.1016/j.neuroimage.2009.10.003"
+tags: [connectomics, network-dynamics, software-brain-modeling, paper-methods]
+sources: []
+---
+
+# Complex Network Measures of Brain Connectivity: Uses and Interpretations
+
+**Authors:** Mikail Rubinov, Olaf Sporns  
+**Year:** 2010  
+**Venue:** NeuroImage
+
+## Key Contributions
+
+- Comprehensive review of graph theory measures for brain connectivity analysis
+- Introduction of the Brain Connectivity Toolbox (BCT)
+- Guidelines for interpreting network measures in neuroscience contexts
+- Discussion of weighted vs binary networks, directed vs undirected graphs
+
+## Abstract Summary
+
+This paper reviews and introduces complex network measures derived from graph theory for analyzing brain connectivity data. The authors discuss the interpretation of these measures in neuroscience contexts and introduce the Brain Connectivity Toolbox, a widely-used software package for network analysis.
+
+## Significance
+
+The Brain Connectivity Toolbox (BCT) has become one of the most widely used software packages for brain network analysis. This paper serves as both a methodological guide and a reference for interpreting network measures.
+
+## Related Concepts
+- [[brain-connectivity-toolbox]] – Software for network analysis
+- [[graph-theory]] – Mathematical framework for networks
+- [[connectomics]] – Field of connectivity research
+- [[small-world-networks]] – Network topology measure
+- [[modularity]] – Community detection in networks
+
+## Cited By
+- [[raw/papers/smith-2013-hcp.md]] – HCP resting-state
+- [[raw/papers/power-2011.md]] – Functional network organization
+
+
+--- SOURCE: raw/papers/newman-2010.md ---
+---
+title: "Networks: An Introduction"
+created: 2026-04-20
+updated: 2026-04-20
+type: paper
+authors: ["Mark E. J. Newman"]
+year: 2010
+venue: "Oxford University Press (Book)"
+doi: "10.1093/acprof:oso/9780199206650.001.0001"
+tags: [network-dynamics, connectomics, paper-review]
+sources: []
+---
+
+# Networks: An Introduction
+
+**Author:** Mark E. J. Newman  
+**Year:** 2010  
+**Publisher:** Oxford University Press
+
+## Key Contributions
+
+- Comprehensive textbook on network science
+- Mathematical foundations of graph theory and network analysis
+- Community detection and network structure
+- Dynamic processes on networks
+
+## Summary
+
+This book provides a thorough introduction to the field of network science. Newman covers the mathematical foundations of graph theory, measures of network structure, community detection, and dynamic processes on networks. The book is accessible yet rigorous, making it a standard reference.
+
+## Significance
+
+The standard textbook for network science. Essential reading for researchers applying network analysis to brain connectivity data.
+
+## Related Concepts
+- [[graph-theory]] – Mathematical framework for networks
+- [[community-detection]] – Finding network modules
+- [[network-dynamics]] – Processes on networks
+- [[connectomics]] – Field of connectivity research
+- [[modularity]] – Community structure
+
+## Cited By
+- [[raw/papers/rubinov-sporns-2010.md]] – Brain Connectivity Toolbox
+- [[raw/papers/sporns-2011.md]] – Networks of the Brain
+
+
+--- SOURCE: raw/papers/bullmore-sporns-2009.md ---
+---
+title: "Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems"
+created: 2026-04-20
+updated: 2026-04-20
+type: paper
+authors: ["Edward T. Bullmore", "Olaf Sporns"]
+year: 2009
+venue: "Nature Reviews Neuroscience"
+doi: "10.1038/nrn2575"
+tags: [connectomics, network-dynamics, structural-connectivity, functional-connectivity, paper-review]
+sources: []
+---
+
+# Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems
+
+**Authors:** Edward T. Bullmore, Olaf Sporns  
+**Year:** 2009  
+**Venue:** Nature Reviews Neuroscience
+
+## Key Contributions
+
+- Comprehensive review of graph theory applications in neuroscience
+- Integration of structural and functional connectivity analysis
+- Discussion of small-world, scale-free, and modular network properties
+- Clinical applications of network analysis
+
+## Abstract Summary
+
+This review article discusses the application of graph theoretical analysis to brain networks. The authors cover network measures, their interpretation in neuroscience contexts, and applications to understanding brain organization in health and disease.
+
+## Significance
+
+The definitive review of graph theory in neuroscience. Cited thousands of times, this paper established the vocabulary and methods for brain network analysis used throughout the field.
+
+## Related Concepts
+- [[graph-theory]] – Mathematical framework for networks
+- [[connectomics]] – Field of connectivity research
+- [[small-world-networks]] – Network topology
+- [[modularity]] – Community structure
+- [[brain-network]] – Graph-theoretical brain organization
+
+## Cited By
+- [[raw/papers/sporns-2011.md]] – Networks of the Brain
+- [[raw/papers/rubinov-sporns-2010.md]] – Brain Connectivity Toolbox
+
+
+## EXISTING WIKI PAGES (use these for [[wikilinks]] — only link to pages in this list)
+  - 3d-slicer
+  - aal-atlas
+  - afni
+  - aging
+  - alain-destexhe
+  - albert-laszlo-barabasi
+  - allen-brain-atlas
+  - andrei-medvedev
+  - annarchy
+  - ants
+  - antspy
+  - arbor
+  - auryn
+  - bci2000
+  - bctpy
+  - benjamin-jansen
+  - bharat-biswal
+  - bids-validator
+  - bidscoin
+  - bifurcation-analysis
+  - bifurcation-theory
+  - bionet
+  - bluepyopt
+  - bold-signal
+  - brain-connectivity-toolbox
+  - brain-dynamics-toolbox
+  - brain-maintenance
+  - brain-network
+  - brainlife
+  - brainmap
+  - brainnet-viewer
+  - brainnetome-atlas
+  - brainspace
+  - brainstorm
+  - brainsuite
+  - brainvisa
+  - brainvoyager
+  - brian
+  - brian-avants
+  - brian2
+  - c-pac
+  - carlsim
+  - cat12
+  - cbrain
+  - chronux
+  - civet
+  - clinica
+  - cococomac
+  - cognitive-reserve
+  - conn
+  - connectivity-types
+  - connectome
+  - connectome-mapper-3
+  - connectome-workbench
+  - connectomics
+  - coreneuron
+  - crispin-gardiner
+  - cvodes
+  - datalad
+  - david-van-essen
+  - dcm
+  - default-mode-network
+  - desikan-killiany-atlas
+  - developmental-trajectories
+  - diffusion-mri
+  - dipy
+  - dsi-studio
+  - dti
+  - duncan-watts
+  - dynamic-causal-modeling
+  - dynamical-systems-theory
+  - dynasim
+  - ebrains
+  - ed-bullmore
+  - eeg
+  - eeglab
+  - effective-connectivity
+  - elephant
+  - emanuel-tuckwell
+  - epilepsy-modeling
+  - epileptor
+  - epileptor-rs
+  - epileptorcodim3
+  - erplab
+  - eugene-izhikevich
+  - exploreasl
+  - fastsurfer
+  - fernando-lopes-da-silva
+  - fidel-alfaro-almagro
+  - fieldtrip
+  - fmri
+  - fmri-vs-eeg
+  - fmriprep
+  - fokker-planck-equation
+  - fooof
+  - free-energy-principle
+  - freesurfer
+  - fsl
+  - fsleyes
+  - functional-connectivity
+  - genesis
+  - genn
+  - geppetto
+  - gift
+  - giulio-tononi
+  - glasser-atlas
+  - graph-theory
+  - graphvar
+  - gustavo-deco
+  - hannes-risken
+  - harvard-oxford-atlas
+  - hcp-pipelines
+  - henry-markram
+  - hnn
+  - hopfield
+  - hugh-wilson
+  - human-connectome-project
+  - ica
+  - infinite-theta
+  - itk-snap
+  - jack-cowan
+  - jansen-rit
+  - jneuroml
+  - john-guckenheimer
+  - julich-atlas
+  - k-ion-exchange
+  - krasimira-tsaneva-atanasova
+  - larter-breakspear
+  - lead-dbs
+  - lfp-lib
+  - lfpy
+  - lfpykit
+  - linear
+  - mark-newman
+  - markus-diesmann
+  - mean-field-theory
+  - meg
+  - michael-hines
+  - michael-schirner
+  - mne-bids
+  - mne-python
+  - modeldb
+  - modularity
+  - moose
+  - mricrogl
+  - mricron
+  - mriqc
+  - mrtrix
+  - mrtrix3
+  - mrtrix3-connectome
+  - music
+  - mvgc
+  - nancy-andrews-hanna
+  - nengo
+  - neo
+  - nest
+  - netneuroscience
+  - netpyne
+  - network-hubs
+  - neural-mass-model
+  - neural-mass-models
+  - neural-mass-models-comparison
+  - neurodata-without-borders
+  - neurodevelopment
+  - neurom
+  - neurominer
+  - neuroml
+  - neuromorpho
+  - neuromorpho-toolkit
+  - neuron
+  - neuronunit
+  - neuroscience-gateway
+  - neurosynth
+  - neurovault
+  - neusight
+  - nibabel
+  - nibetaseries
+  - nick-tustison
+  - niftynet
+  - niftyreg
+  - nikos-logothetis
+  - nilearn
+  - nipype
+  - nitin-gogtay
+  - nix
+  - nonlinear-dynamics
+  - nwb
+  - olaf-sporns
+  - open-source-brain
+  - opencortex
+  - openmeeg
+  - openneuro
+  - openvibe
+  - oscillator
+  - panda
+  - paraview
+  - parcellation
+  - patricia-miller
+  - personalized-brain-modeling
+  - philip-holmes
+  - physionet
+  - pronto
+  - psyneulink
+  - pybids
+  - pymvpa
+  - pynn
+  - qsiprep
+  - resting-state
+  - rich-club
+  - rolf-kotter
+  - root
+  - rudiger-seydel
+  - scale-free-networks
+  - scirun
+  - sciunit
+  - seiji-ogawa
+  - sift
+  - simnibs
+  - sloreta
+  - small-world-networks
+  - spiking-neural-networks
+  - spm
+  - stefanescu-jirsa
+  - stephen-wiggins
+  - steps
+  - steven-smith
+  - steven-strogatz
+  - stochastic-differential-equations
+  - structural-connectivity
+  - structural-core
+  - suma
+  - synthseg
+  - ted-carnevale
+  - terrence-sejnowski
+  - the-virtual-epileptic-brain
+  - tractography
+  - tractor
+  - trentool
+  - tvb
+  - tvb-adapters
+  - tvb-library
+  - tvb-multiscale
+  - tvb-vs-nest-vs-neuron
+  - uk-biobank
+  - variational-bayes
+  - vincent-rit
+  - voxelmorph
+  - walter-freeman
+  - whole-brain
+  - whole-brain-simulators
+  - wilson-cowan
+  - wong-wang
+  - wong-wang-exc-inh
+  - xcos
+  - xnat
+  - yan-wang
+  - yasa
+  - yuri-kuznetsov
+  - zerlaut
+
+## WRITING STYLE
+- Write for a **graduate student in neuroscience** who is intelligent but not a specialist in this particular topic
+- **Dense but readable** prose — like Scholarpedia or a very good Wikipedia science article, NOT like a PowerPoint slide
+- Every section must have at least one full paragraph of prose. Avoid sections that are only a table or equations
+- Cross-link aggressively: the first mention of any concept that appears in the page inventory above should be a [[wikilink]]. Aim for 8–15 wikilinks per page
+- Avoid one-liner sections — if a section would be only 1–2 sentences, expand it or merge it
+
+## STRUCTURAL REQUIREMENTS
+1. **Opening paragraph** (2–3 sentences): What is this? Define it plainly before any technical detail
+2. **Motivation / Context** (1–2 paragraphs): WHY does this exist? What problem does it solve? How does it fit into the broader field?
+3. **Technical content**: Equations and tables are welcome but must be **surrounded by explanatory prose** — explain what each equation means in words
+4. **Relationships**: Compare to related models/concepts. What came before? What came after? What are the tradeoffs?
+5. **Biological grounding**: For model pages, explain what biological phenomena the model captures and how parameters map to neural mechanisms
+
+## FORMATTING RULES
+1. Replace ALL placeholder text (*Placeholder*) with real, sourced content
+2. Add wikilinks [[like-this]] to related pages from the inventory above (minimum 8)
+3. Add factual claims ONLY if you can cite a source or are confident from domain knowledge
+4. Keep the YAML frontmatter, but update the `updated:` date to today (2026-04-27)
+5. Add any new sources used to the `sources:` frontmatter list
+6. Aim for 500–800 words for a full page
+7. Use clear section headings (##)
+8. Do NOT add a ## References section — a separate agent handles reference formatting
+
+Write the COMPLETE updated page (including frontmatter). Output ONLY the markdown file content, no commentary.

@@ -1,15 +1,27 @@
 ---
-title: aging
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/buckner-2004.md
+- raw/papers/grady-2012.md
+- raw/papers/damoiseaux-2008.md
+- raw/papers/cabeza-2018.md
+- raw/papers/fjell-walhovd-2010.md
+- raw/papers/smith-2021.md
+- raw/papers/arxiv-2603.22296.md
+- raw/papers/semanticscholar-2f16f2f99d6b.md
+tags:
+- aging-brain
+- developmental-trajectories
+- cognitive-reserve
+- brain-maintenance
+title: aging
 type: concept
-tags: [aging-brain, developmental-trajectories, cognitive-reserve, brain-maintenance]
-sources: [raw/papers/buckner-2004.md, raw/papers/grady-2012.md, raw/papers/damoiseaux-2008.md, raw/papers/cabeza-2018.md, raw/papers/fjell-walhovd-2010.md]
+updated: '2026-04-27'
 ---
 
 # Brain Aging
 
-Brain aging involves structural and functional changes across the lifespan, from early adulthood through senescence. These changes follow non-linear trajectories and vary substantially across individuals.
+Brain aging involves structural and functional changes across the lifespan, from early adulthood through senescence. These changes follow non-[[linear]] trajectories and vary substantially across individuals.
 
 ## Definition
 

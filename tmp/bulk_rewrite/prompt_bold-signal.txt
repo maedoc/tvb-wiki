@@ -1,0 +1,586 @@
+You are the Ralph Writer agent improving a TVB Wiki page about whole-brain modeling and computational neuroscience. Follow the schema strictly.
+
+## SCHEMA
+# Wiki Schema
+
+## Domain
+Connectome‑based whole‑brain modeling, neural mass models, neuroimaging modalities (fMRI, EEG, MEG, DTI), dynamic causal modeling, large‑scale brain networks, software (The Virtual Brain, NEST, Brian, etc.), and related research papers.
+
+## Conventions
+- File names: lowercase, hyphens, no spaces (e.g., `the‑virtual‑brain.md`)
+- Every wiki page starts with YAML frontmatter (see below)
+- Use `[[wikilinks]]` to link between pages (minimum 2 outbound links per page)
+- When updating a page, always bump the `updated` date
+- Every new page must be added to `index.md` under the correct section
+- Every action must be appended to `log.md`
+
+## Frontmatter
+  ```yaml
+  ---
+  title: Page Title
+  created: YYYY‑MM‑DD
+  updated: YYYY‑MM‑DD
+  type: entity | concept | comparison | query | summary
+  tags: [from taxonomy below]
+  sources: [raw/papers/arxiv‑1234.56789.md, raw/articles/blog‑post.md]
+  ---
+  ```
+
+## Tag Taxonomy
+**Models & Methods**
+- neural‑mass‑models
+- dynamic‑causal‑modeling
+- whole‑brain‑modeling
+- connectomics
+- structural‑connectivity
+- functional‑connectivity
+- effective‑connectivity
+- network‑dynamics
+- bifurcation‑analysis
+- parameter‑estimation
+- dynamical‑systems‑theory
+- bifurcation‑theory
+- nonlinear‑dynamics
+- variational‑bayes
+- free‑energy‑principle
+- mean‑field‑theory
+- stochastic‑differential‑equations
+- fokker‑planck‑equation
+
+**Neuroimaging Modalities**
+- neuroimaging‑fmri
+- neuroimaging‑eeg
+- neuroimaging‑meg
+- neuroimaging‑dti
+- neuroimaging‑pet
+- resting‑state
+- task‑based
+- diffusion‑imaging
+- tractography
+
+**Software & Tools**
+- software‑tvb
+- software‑nest
+- software‑neuron
+- software‑brian
+- software‑neuroml
+- software‑brain‑modeling
+- software‑ants
+- software‑graphvar
+- software‑modeldb
+- software‑visualization
+- database‑hcp
+- database‑uk‑biobank
+
+**Research Context**
+- paper‑review
+- paper‑methods
+- paper‑results
+- conference‑ohbm
+- conference‑sfn
+- conference‑cosyne
+- lab‑institute
+- people‑researcher
+- funding‑project
+- reproducibility
+
+**Domain Topics**
+- brain‑oscillations
+- epilepsy‑modeling
+- schizophrenia‑models
+- alzheimers‑modeling
+- consciousness‑models
+- brain‑stimulation
+- neurodevelopment
+- aging‑brain
+- personalized‑brain‑modeling
+- spiking‑neural‑networks
+
+**Meta**
+- comparison
+- timeline
+- controversy
+- open‑question
+- tutorial
+- dataset
+
+*Rule:* every tag on a page must appear in this taxonomy. If a new tag is needed, add it here first, then use it.
+
+## Page Thresholds
+- **Create a page** when an entity/concept appears in 2+ sources OR is central to one source (e.g., seminal paper, key software)
+- **Add to existing page** when a source mentions something already covered
+- **DON'T create a page** for passing mentions, minor details, or things outside the domain
+- **Split a page** when it exceeds ~200 lines — break into sub‑topics with cross‑links
+- **Archive a page** when its content is fully superseded — move to `_archive/`, remove from index
+
+## Entity Pages
+One page per notable entity (person, software, dataset, lab). Include:
+- Overview / what it is
+- Key facts and dates
+- Relationships to other entities (`[[wikilinks]]`)
+- Source references
+
+## Concept Pages
+One page per concept or topic. Include:
+- Definition / explanation
+- Current state of knowledge
+- Open questions or debates
+- Related concepts (`[[wikilinks]]`)
+
+## Comparison Pages
+Side‑by‑side analyses. Include:
+- What is being compared and why
+- Dimensions of comparison (table format preferred)
+- Verdict or synthesis
+- Sources
+
+## Update Policy
+When new information conflicts with existing content:
+1. Check the dates — newer sources generally supersede older ones
+2. If genuinely contradictory, note both positions with dates and sources
+3. Mark the contradiction in frontmatter: `contradictions: [page‑name]`
+4. Flag for user review in the lint report
+
+
+## YOUR TASK
+Improve the wiki page: bold-signal
+
+## CURRENT PAGE CONTENT
+# BOLD Signal
+
+The Blood Oxygenation Level Dependent (BOLD) signal is the contrast mechanism underlying functional MRI, reflecting changes in blood oxygenation that accompany neural activity.
+
+## Definition
+
+Discovered by [[seiji-ogawa]] in 1990, the BOLD effect arises because deoxygenated hemoglobin is paramagnetic, creating local magnetic field inhomogeneities that affect MRI signal. Neural activity triggers a hemodynamic response that changes local blood oxygenation.
+
+## Neurovascular Coupling
+
+The chain from neural activity to BOLD:
+
+1. **Neural activity** → Increased metabolic demand
+2. **Vasodilation** → Increased cerebral blood flow (CBF)
+3. **Overcompensation** → CBF increase exceeds oxygen consumption
+4. **Oxygenation change** → Decreased deoxyhemoglobin
+5. **Signal increase** → Reduced T2* decay, brighter MRI signal
+
+## Neural Correlates
+
+[[nikos-logothetis]] demonstrated that BOLD correlates most strongly with:
+- **Local Field Potentials (LFPs)** – Input and local processing
+- Less with multi-unit spiking activity
+
+This informs how [[neural-mass-model]] outputs should be coupled to BOLD predictions.
+
+## Hemodynamic Response Function (HRF)
+
+The BOLD response to a brief neural event:
+- **Delay**: ~1-2 seconds
+- **Peak**: ~4-6 seconds
+- **Undershoot**: Small dip after peak
+- **Duration**: ~15-20 seconds total
+
+## Role in Whole-Brain Modeling
+
+1. **[[forward-model]]**: Neural activity → BOLD conversion
+2. **Balloon model**: Biophysical model of hemodynamics
+3. **Validation**: Compare simulated and empirical BOLD
+
+## Related Concepts
+- [[fmri]] – Imaging modality using BOLD
+- neurovascular-coupling – Link between activity and hemodynamics
+- hemodynamic-response-function – BOLD time course
+- [[neural-mass-model]] – Generate activity for BOLD conversion
+
+## References
+
+1. (authors unknown). *Brain magnetic resonance imaging with contrast dependent on blood oxygenation*.
+2. (authors unknown). *Neurophysiological investigation of the basis of the fMRI signal*.
+3. Debasis Maji, Arghya Banerjee, Debaditya Barman. *Spectral Graph Neural Networks for Cognitive Task Classification in fMRI Connectomes*. [Link](https://arxiv.org/abs/2512.24901)
+4. Peter Yongho Kim, Juhyeon Park, Jungwoo Park, Jubin Choi, Jungwoo Seo, Jiook Cha, Taesup Moon. (2026). *Can Natural Image Autoencoders Compactly Tokenize fMRI Volumes for Long-Range Dynamics Modeling?*. [Link](https://arxiv.org/abs/2604.03619)
+5. Gianluca Gaglioti, L. Porta, M. Colombo, Simone Russo, Thierry Nieus, G. Deco, M. Corbetta, S. Sarasso, M. V. Sanchez-Vives, M. Massimini. (2026). *Slow wave generation and propagation in a model of brain lesions*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2026.121817)
+6. Timo Hofsähs, Marius Pille, Lucas Kern, Anuja Negi, J. Meier, Petra Ritter. (2026). *[[tvb|The Virtual Brain]] links transcranial magnetic stimulation evoked potentials and inhibitory neurotransmitter changes in major depressive disorder*. bioRxiv. [DOI](https://doi.org/10.1101/2024.11.25.622620)
+7. Kun Jiang, Can Liao, Sujin Jiang, Haidong Lin, Jixin Hou, Tianming Liu, Gang Li, Taotao Wu, Yiqi Mao, Ellen Kuhl, Xianqiao Wang, Xianyan Chen. *Tau-induced atrophy drives [[functional-connectivity]] disruption in Alzheimer's disease*. [Link](https://arxiv.org/abs/2603.13598)
+
+## AVAILABLE SOURCE PAPERS
+--- SOURCE: raw/papers/ogawa-1990.md ---
+---
+title: "Brain magnetic resonance imaging with contrast dependent on blood oxygenation"
+created: 2026-04-20
+updated: 2026-04-20
+type: paper
+tags: [neuroimaging-fmri, paper-methods, resting-state]
+authors: [Seiji Ogawa, Tso-Ming Lee, Alan R Kay, David W Tank]
+year: 1990
+venue: "Proceedings of the National Academy of Sciences"
+---
+
+# Brain magnetic resonance imaging with contrast dependent on blood oxygenation
+
+**Authors:** Seiji Ogawa, Tso-Ming Lee, Alan R Kay, David W Tank  
+**Year:** 1990  
+**Venue:** PNAS 87(24):9868-9872
+
+## Summary
+Landmark paper demonstrating that MRI signal contrast can be generated by blood oxygenation level-dependent (BOLD) effects. Showed that changes in blood oxygenation alter local magnetic field properties, enabling non-invasive imaging of brain function.
+
+## Key Contributions
+- Discovered BOLD contrast mechanism for fMRI
+- Demonstrated that deoxyhemoglobin acts as an endogenous contrast agent
+- Established foundation for functional neuroimaging
+
+## Significance for Whole-Brain Modeling
+The BOLD signal is the primary output measure for validating whole-brain models against empirical data. Understanding the neurovascular coupling that produces BOLD is essential for model-data comparison.
+
+## Related Concepts
+- [[fmri]]
+- [[bold-signal]]
+- [[neurovascular-coupling]]
+- [[functional-connectivity]]
+
+## Related People
+- [[seiji-ogawa]]
+
+
+--- SOURCE: raw/papers/logothetis-2001.md ---
+---
+title: "Neurophysiological investigation of the basis of the fMRI signal"
+created: 2026-04-20
+updated: 2026-04-20
+type: paper
+tags: [neuroimaging-fmri, paper-methods, neurovascular-coupling]
+authors: [Nikos K Logothetis, Jon Pauls, Mark Augath, Torsten Trinath, Ernst Otermann]
+year: 2001
+venue: "Nature"
+---
+
+# Neurophysiological investigation of the basis of the fMRI signal
+
+**Authors:** Nikos K Logothetis, Jon Pauls, Mark Augath, Torsten Trinath, Ernst Otermann  
+**Year:** 2001  
+**Venue:** Nature 412(6843):150-157
+
+## Summary
+Simultaneous recording of intracortical neural activity and fMRI signals in monkeys to establish the neurophysiological basis of BOLD. Demonstrated that BOLD signal correlates most strongly with local field potentials (LFPs) rather than multi-unit spiking activity.
+
+## Key Contributions
+- BOLD signal reflects input and intracortical processing (LFPs) more than output spiking
+- Established critical link between neural activity and hemodynamic response
+- Informed forward models for neural mass model to BOLD coupling
+
+## Significance for Whole-Brain Modeling
+Provides empirical basis for coupling neural mass model outputs to simulated BOLD signals. The LFP-BOLD relationship underlies how TVB and similar platforms generate synthetic fMRI data.
+
+## Related Concepts
+- [[fmri]]
+- [[bold-signal]]
+- [[neural-mass-model]]
+- [[neurovascular-coupling]]
+
+## Related People
+- [[nikos-logothetis]]
+
+
+--- SOURCE: raw/papers/arxiv-2512.24901.md ---
+# Spectral Graph Neural Networks for Cognitive Task Classification in fMRI Connectomes
+
+**arXiv ID**: 2512.24901
+**Published**: 2025-12-31
+**Updated**: 2025-12-31
+**Authors**: Debasis Maji, Arghya Banerjee, Debaditya Barman
+**Categories**: cs.LG
+**URL**: https://arxiv.org/abs/2512.24901
+**PDF**: https://arxiv.org/pdf/2512.24901
+**Source**: arXiv
+
+## Abstract
+
+Cognitive task classification using machine learning plays a central role in decoding brain states from neuroimaging data. By integrating machine learning with brain network analysis, complex connectivity patterns can be extracted from functional magnetic resonance imaging connectomes. This process transforms raw blood-oxygen-level-dependent (BOLD) signals into interpretable representations of cognitive processes. Graph neural networks (GNNs) further advance this paradigm by modeling brain regions as nodes and functional connections as edges, capturing topological dependencies and multi-scale interactions that are often missed by conventional approaches. Our proposed SpectralBrainGNN model, a spectral convolution framework based on graph Fourier transforms (GFT) computed via normalized Laplacian eigendecomposition. Experiments on the Human Connectome Project-Task (HCPTask) dataset demonstrate the effectiveness of the proposed approach, achieving a classification accuracy of 96.25\%. The implementation is publicly available at https://github.com/gnnplayground/SpectralBrainGNN to support reproducibility and future research.
+
+
+## EXISTING WIKI PAGES (use these for [[wikilinks]] — only link to pages in this list)
+  - 3d-slicer
+  - aal-atlas
+  - afni
+  - aging
+  - alain-destexhe
+  - albert-laszlo-barabasi
+  - allen-brain-atlas
+  - andrei-medvedev
+  - annarchy
+  - ants
+  - antspy
+  - arbor
+  - auryn
+  - bci2000
+  - bctpy
+  - benjamin-jansen
+  - bharat-biswal
+  - bids-validator
+  - bidscoin
+  - bifurcation-analysis
+  - bifurcation-theory
+  - bionet
+  - bluepyopt
+  - bold-signal
+  - brain-connectivity-toolbox
+  - brain-dynamics-toolbox
+  - brain-maintenance
+  - brain-network
+  - brainlife
+  - brainmap
+  - brainnet-viewer
+  - brainnetome-atlas
+  - brainspace
+  - brainstorm
+  - brainsuite
+  - brainvisa
+  - brainvoyager
+  - brian
+  - brian-avants
+  - brian2
+  - c-pac
+  - carlsim
+  - cat12
+  - cbrain
+  - chronux
+  - civet
+  - clinica
+  - cococomac
+  - cognitive-reserve
+  - conn
+  - connectivity-types
+  - connectome
+  - connectome-mapper-3
+  - connectome-workbench
+  - connectomics
+  - coreneuron
+  - crispin-gardiner
+  - cvodes
+  - datalad
+  - david-van-essen
+  - dcm
+  - default-mode-network
+  - desikan-killiany-atlas
+  - developmental-trajectories
+  - diffusion-mri
+  - dipy
+  - dsi-studio
+  - dti
+  - duncan-watts
+  - dynamic-causal-modeling
+  - dynamical-systems-theory
+  - dynasim
+  - ebrains
+  - ed-bullmore
+  - eeg
+  - eeglab
+  - effective-connectivity
+  - elephant
+  - emanuel-tuckwell
+  - epilepsy-modeling
+  - epileptor
+  - epileptor-rs
+  - epileptorcodim3
+  - erplab
+  - eugene-izhikevich
+  - exploreasl
+  - fastsurfer
+  - fernando-lopes-da-silva
+  - fidel-alfaro-almagro
+  - fieldtrip
+  - fmri
+  - fmri-vs-eeg
+  - fmriprep
+  - fokker-planck-equation
+  - fooof
+  - free-energy-principle
+  - freesurfer
+  - fsl
+  - fsleyes
+  - functional-connectivity
+  - genesis
+  - genn
+  - geppetto
+  - gift
+  - giulio-tononi
+  - glasser-atlas
+  - graph-theory
+  - graphvar
+  - gustavo-deco
+  - hannes-risken
+  - harvard-oxford-atlas
+  - hcp-pipelines
+  - henry-markram
+  - hnn
+  - hopfield
+  - hugh-wilson
+  - human-connectome-project
+  - ica
+  - infinite-theta
+  - itk-snap
+  - jack-cowan
+  - jansen-rit
+  - jneuroml
+  - john-guckenheimer
+  - julich-atlas
+  - k-ion-exchange
+  - krasimira-tsaneva-atanasova
+  - larter-breakspear
+  - lead-dbs
+  - lfp-lib
+  - lfpy
+  - lfpykit
+  - linear
+  - mark-newman
+  - markus-diesmann
+  - mean-field-theory
+  - meg
+  - michael-hines
+  - michael-schirner
+  - mne-bids
+  - mne-python
+  - modeldb
+  - modularity
+  - moose
+  - mricrogl
+  - mricron
+  - mriqc
+  - mrtrix
+  - mrtrix3
+  - mrtrix3-connectome
+  - music
+  - mvgc
+  - nancy-andrews-hanna
+  - nengo
+  - neo
+  - nest
+  - netneuroscience
+  - netpyne
+  - network-hubs
+  - neural-mass-model
+  - neural-mass-models
+  - neural-mass-models-comparison
+  - neurodata-without-borders
+  - neurodevelopment
+  - neurom
+  - neurominer
+  - neuroml
+  - neuromorpho
+  - neuromorpho-toolkit
+  - neuron
+  - neuronunit
+  - neuroscience-gateway
+  - neurosynth
+  - neurovault
+  - neusight
+  - nibabel
+  - nibetaseries
+  - nick-tustison
+  - niftynet
+  - niftyreg
+  - nikos-logothetis
+  - nilearn
+  - nipype
+  - nitin-gogtay
+  - nix
+  - nonlinear-dynamics
+  - nwb
+  - olaf-sporns
+  - open-source-brain
+  - opencortex
+  - openmeeg
+  - openneuro
+  - openvibe
+  - oscillator
+  - panda
+  - paraview
+  - parcellation
+  - patricia-miller
+  - personalized-brain-modeling
+  - philip-holmes
+  - physionet
+  - pronto
+  - psyneulink
+  - pybids
+  - pymvpa
+  - pynn
+  - qsiprep
+  - resting-state
+  - rich-club
+  - rolf-kotter
+  - root
+  - rudiger-seydel
+  - scale-free-networks
+  - scirun
+  - sciunit
+  - seiji-ogawa
+  - sift
+  - simnibs
+  - sloreta
+  - small-world-networks
+  - spiking-neural-networks
+  - spm
+  - stefanescu-jirsa
+  - stephen-wiggins
+  - steps
+  - steven-smith
+  - steven-strogatz
+  - stochastic-differential-equations
+  - structural-connectivity
+  - structural-core
+  - suma
+  - synthseg
+  - ted-carnevale
+  - terrence-sejnowski
+  - the-virtual-epileptic-brain
+  - tractography
+  - tractor
+  - trentool
+  - tvb
+  - tvb-adapters
+  - tvb-library
+  - tvb-multiscale
+  - tvb-vs-nest-vs-neuron
+  - uk-biobank
+  - variational-bayes
+  - vincent-rit
+  - voxelmorph
+  - walter-freeman
+  - whole-brain
+  - whole-brain-simulators
+  - wilson-cowan
+  - wong-wang
+  - wong-wang-exc-inh
+  - xcos
+  - xnat
+  - yan-wang
+  - yasa
+  - yuri-kuznetsov
+  - zerlaut
+
+## WRITING STYLE
+- Write for a **graduate student in neuroscience** who is intelligent but not a specialist in this particular topic
+- **Dense but readable** prose — like Scholarpedia or a very good Wikipedia science article, NOT like a PowerPoint slide
+- Every section must have at least one full paragraph of prose. Avoid sections that are only a table or equations
+- Cross-link aggressively: the first mention of any concept that appears in the page inventory above should be a [[wikilink]]. Aim for 8–15 wikilinks per page
+- Avoid one-liner sections — if a section would be only 1–2 sentences, expand it or merge it
+
+## STRUCTURAL REQUIREMENTS
+1. **Opening paragraph** (2–3 sentences): What is this? Define it plainly before any technical detail
+2. **Motivation / Context** (1–2 paragraphs): WHY does this exist? What problem does it solve? How does it fit into the broader field?
+3. **Technical content**: Equations and tables are welcome but must be **surrounded by explanatory prose** — explain what each equation means in words
+4. **Relationships**: Compare to related models/concepts. What came before? What came after? What are the tradeoffs?
+5. **Biological grounding**: For model pages, explain what biological phenomena the model captures and how parameters map to neural mechanisms
+
+## FORMATTING RULES
+1. Replace ALL placeholder text (*Placeholder*) with real, sourced content
+2. Add wikilinks [[like-this]] to related pages from the inventory above (minimum 8)
+3. Add factual claims ONLY if you can cite a source or are confident from domain knowledge
+4. Keep the YAML frontmatter, but update the `updated:` date to today (2026-04-27)
+5. Add any new sources used to the `sources:` frontmatter list
+6. Aim for 500–800 words for a full page
+7. Use clear section headings (##)
+8. Do NOT add a ## References section — a separate agent handles reference formatting
+
+Write the COMPLETE updated page (including frontmatter). Output ONLY the markdown file content, no commentary.

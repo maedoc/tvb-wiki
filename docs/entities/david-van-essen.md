@@ -1,10 +1,17 @@
 ---
-title: David C. Van Essen
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/van-essen-2013.md
+- raw/papers/van-essen-2012.md
+- raw/papers/smith-2013-hcp.md
+- raw/papers/barch-2013.md
+tags:
+- people-researcher
+- connectomics
+- neuroimaging-fmri
+title: David C. Van Essen
 type: entity
-tags: [people-researcher, connectomics, neuroimaging-fmri]
-sources: [raw/papers/van-essen-2013.md, raw/papers/van-essen-2012.md]
+updated: '2026-04-27'
 ---
 
 # David C. Van Essen
@@ -22,7 +29,7 @@ Professor of Neuroscience at Washington University School of Medicine, Principal
 
 Van Essen's research emphasizes:
 - Large-scale brain mapping initiatives
-- Cortical surface analysis and parcellation
+- Cortical surface analysis and [[parcellation]]
 - Multimodal neuroimaging integration
 - Open data sharing and neuroinformatics
 
@@ -38,3 +45,10 @@ Van Essen's research emphasizes:
 
 ## Resources
 - HCP data available at humanconnectome.org
+
+## References
+
+1. (authors unknown). *The WU-Minn Human Connectome Project: An Overview*.
+2. (authors unknown). *The Human Connectome Project: A Data Acquisition Perspective*.
+3. (authors unknown). *[[resting-state|Resting-State fMRI]] in the Human Connectome Project*.
+4. (authors unknown). *Function in the Human Connectome: Task-[[fmri]] and Individual Differences in Behavior*.

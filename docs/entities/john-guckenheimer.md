@@ -1,10 +1,14 @@
 ---
-title: "John Guckenheimer"
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/guckenheimer-holmes-1983.md
+- raw/papers/izhikevich-2007.md
+- raw/papers/ermentrout-terman-2010.md
+tags:
+- people-researcher
+title: John Guckenheimer
 type: entity
-tags: [people-researcher]
-sources: [raw/papers/guckenheimer-holmes-1983.md]
+updated: '2026-04-27'
 ---
 
 ## Overview
@@ -31,3 +35,9 @@ John Guckenheimer (born 1945) is an American mathematician and the Abram R. Bull
 - Guckenheimer & Holmes (1983) — Nonlinear Oscillations, Dynamical Systems, and Bifurcations
 - Guckenheimer (1975) — Isochrons and phaseless sets
 - Guckenheimer (1986) — Multiple bifurcation problems
+
+## References
+
+1. (authors unknown). *Nonlinear Oscillations, Dynamical Systems, and Bifurcations of Vector Fields*.
+2. [[eugene-izhikevich|Eugene M. Izhikevich]]. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
+3. (authors unknown). *Mathematical Foundations of Neuroscience*.

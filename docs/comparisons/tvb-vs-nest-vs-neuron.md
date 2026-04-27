@@ -1,23 +1,37 @@
 ---
-title: TVB vs NEST vs NEURON
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/gewaltig-diesmann-2007.md
+- raw/papers/hines-carnevale-1997.md
+- raw/papers/jordan-2018.md
+- raw/papers/arxiv-2509.12873.md
+- raw/papers/ritter-2013.md
+- raw/papers/arxiv-2505.16861.md
+- raw/papers/semanticscholar-eb704b6f5462.md
+tags:
+- comparison
+- software-tvb
+- software-nest
+- software-neuron
+- whole-brain-modeling
+- spiking-neural-networks
+title: TVB vs NEST vs NEURON
 type: comparison
-tags: [comparison, software-tvb, software-nest, software-neuron, whole-brain-modeling, spiking-neural-networks]
-sources: [raw/papers/sanz-leon-2013.md, raw/papers/gewaltig-diesmann-2007.md, raw/papers/hines-carnevale-1997.md, raw/papers/jordan-2018.md]
+updated: '2026-04-27'
 ---
 
 # TVB vs NEST vs NEURON
 
-Comparison of major neural simulation platforms for whole-brain modeling and spiking network simulations.
+Comparison of major neural simulation platforms for [[whole-brain]] modeling and spiking network simulations.
 
 ## What is Being Compared
 
 Three major open-source platforms for computational neuroscience simulation:
 
-- **TVB** — Whole-brain network modeling using neural mass models
-- **NEST** — Large-scale spiking neural network simulation
-- **NEURON** — Detailed multi-compartment neuron modeling
+- **TVB** — Whole-[[brain-network]] modeling using [[neural-mass-models]]
+- **[[nest]]** — Large-scale [[spiking-neural-networks|spiking neural network]] simulation
+- **[[neuron]]** — Detailed multi-compartment neuron modeling
 
 Each platform occupies a distinct niche in the modeling hierarchy, from population-level (TVB) to single-neuron detail (NEURON) to large networks (NEST).
 
@@ -39,7 +53,7 @@ Each platform occupies a distinct niche in the modeling hierarchy, from populati
 
 ### Computational Approach
 
-**TVB** uses neural mass models (e.g., Jansen-Rit, Wilson-Cowan) where each brain region is represented as a population of excitatory and inhibitory neurons described by mean-field differential equations. This coarse-graining enables whole-brain simulation with realistic structural connectivity derived from diffusion MRI tractography.
+**TVB** uses neural mass models (e.g., Jansen-Rit, [[wilson-cowan]]) where each brain region is represented as a population of excitatory and inhibitory neurons described by mean-field differential equations. This coarse-graining enables whole-brain simulation with realistic [[structural-connectivity]] derived from [[diffusion-mri]] [[tractography]].
 
 **NEST** simulates individual point neurons connected via synapses with realistic spike-timing-dependent plasticity. It is optimized for networks of integrate-and-fire or Hodgkin-Huxley type neurons where dendritic morphology is collapsed to a single compartment. This enables simulation of cortical microcircuits with biologically realistic cell counts.
 
