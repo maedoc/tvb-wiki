@@ -410,3 +410,5 @@
 ## [2026-04-27 11:13] BulkRewrite: 39 pages rewritten with ollama/minimax-m2.5:cloud, 0 failed
 
 ## [2026-04-27 12:32] RefFormatter: formatted references on 48 pages
+
+## [2026-04-27 12:34] CrosslinkApplier: added 218 wikilinks (212 inline, 6 suggested)
