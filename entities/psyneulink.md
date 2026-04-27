@@ -95,7 +95,6 @@ PsyNeuLink and [[TVB]] occupy complementary positions in the brain modeling land
 1. **Fixed typo**: "Mechansitic" → "Mechanistic" in comparison table
 2. **Removed dubious citation**: Removed Radulescu et al. (2021) entry entirely
 3. **Fixed wikilink conventions**: 
-   - Removed wikilinks from non-existent pages: `[[hybrid-architecture]]`, `[[fmri]]`, `[[eeg]]`, `[[meg]]`, `[[functional-connectivity]]`, `[[computational-psychiatry]]`, `[[PyTorch]]`, `[[TensorFlow]]` → converted to plain text
    - Fixed `[[neural-mass-model]]` → `[[neural mass model]]` (spaces, not hyphens)
 4. **Populated sources**: Added `cohen-2014.md` to sources frontmatter (existing paper) and inline citations
 5. **Added inline citations**: Added `Cohen et al. (2014)` inline citations tying claims to the source

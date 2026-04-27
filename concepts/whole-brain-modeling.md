@@ -34,7 +34,7 @@ The field gained momentum in the early 2000s with the advent of large-scale [[co
 
 ### Network Architecture
 
-A whole-brain model consists of two primary components: a **coupling matrix** representing [[structural connectivity]] between brain regions, and **regional neural dynamics** describing the activity within each node. The coupling matrix is typically derived from [[diffusion tensor imaging|DTI]] or advanced tractography methods, yielding a weighted, directed or undirected graph where edge weights correspond to the strength or number of white matter fiber tracks connecting regions. Parcellation schemes—such as the [[desikan-killiany-atlas]], [[aal-atlas|Automated Anatomical Labeling]], or [[glasser-atlas|HCP Multi-Modal Parcellation]]—define the spatial extent of each node.
+A whole-brain model consists of two primary components: a **coupling matrix** representing [[structural connectivity]] between brain regions, and **regional neural dynamics** describing the activity within each node. The coupling matrix is typically derived from [[diffusion-mri|DTI]] or advanced tractography methods, yielding a weighted, directed or undirected graph where edge weights correspond to the strength or number of white matter fiber tracks connecting regions. Parcellation schemes—such as the [[desikan-killiany-atlas]], [[aal-atlas|Automated Anatomical Labeling]], or [[glasser-atlas|HCP Multi-Modal Parcellation]]—define the spatial extent of each node.
 
 ### Regional Neural Mass Models
 
