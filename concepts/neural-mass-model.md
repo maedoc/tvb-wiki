@@ -32,15 +32,15 @@ The practical utility of NMMs stems from their ability to generate forward model
 
 ### Mean-Field Approximation
 
-The mathematical heart of any neural mass model lies in the mean-field approximation, which replaces the distribution of individual neuron states (membrane potentials, firing rates) with a small number of population-averaged variables. This approach draws from [[mean-field-theory]], a well-established framework in statistical physics for analyzing systems with many interacting components. Formally, if a neural population contains $N$ neurons, the mean membrane potential $V$ represents the average across the population, while fluctuations around this mean are neglected or treated as stochastic noise. The validity of this approximation rests on the assumption of sufficient heterogeneity and random connectivity within the population—the so-called thermodynamic limit where $N \to \infty$.
+The mathematical heart of any [[neural-mass-models|neural mass model]] lies in the mean-field approximation, which replaces the distribution of individual neuron states (membrane potentials, firing rates) with a small number of population-averaged variables. This approach draws from [[mean-field-theory]], a well-established framework in statistical physics for analyzing systems with many interacting components. Formally, if a neural population contains $N$ neurons, the mean membrane potential $V$ represents the average across the population, while fluctuations around this mean are neglected or treated as stochastic noise. The validity of this approximation rests on the assumption of sufficient heterogeneity and random connectivity within the population—the so-called thermodynamic limit where $N \to \infty$.
 
 ### Canonical Structure
 
-Most neural mass models share a common architectural template consisting of four components. First, population activity variables—such as mean firing rate or mean membrane potential—represent the dynamical state of the population. Second, synaptic dynamics are modeled as linear filters, typically alpha functions or exponentials, that transform presynaptic firing into postsynaptic responses with characteristic time constants. Third, population coupling describes how the output of one population becomes the input to others, with connectivity matrices specifying connection strengths between excitatory and inhibitory populations. Fourth, nonlinear activation functions—usually sigmoidal or threshold-linear—convert mean inputs into mean outputs, capturing the saturating nonlinearity of real neurons. This structure can be compactly expressed as a set of coupled ordinary differential equations that can be analyzed using tools from [[bifurcation-theory]] and [[nonlinear-dynamics]].
+Most neural mass models share a common architectural template consisting of four components. First, population activity variables—such as mean firing rate or mean membrane potential—represent the dynamical state of the population. Second, synaptic dynamics are modeled as [[linear]] filters, typically alpha functions or exponentials, that transform presynaptic firing into postsynaptic responses with characteristic time constants. Third, population coupling describes how the output of one population becomes the input to others, with connectivity matrices specifying connection strengths between excitatory and inhibitory populations. Fourth, nonlinear activation functions—usually sigmoidal or threshold-linear—convert mean inputs into mean outputs, capturing the saturating nonlinearity of real neurons. This structure can be compactly expressed as a set of coupled ordinary differential equations that can be analyzed using tools from [[bifurcation-theory]] and [[nonlinear-dynamics]].
 
 ### Example: The Wilson-Cowan Model
 
-The Wilson-Cowan model, introduced in 1972, represents the prototypical neural mass formulation and remains the foundational reference for most subsequent models. The equations describe the time evolution of mean firing rates $E$ (excitatory population) and $I$ (inhibitory population):
+The [[wilson-cowan|Wilson-Cowan model]], introduced in 1972, represents the prototypical neural mass formulation and remains the foundational reference for most subsequent models. The equations describe the time evolution of mean firing rates $E$ (excitatory population) and $I$ (inhibitory population):
 
 $$
 \tau_E \frac{dE}{dt} = -E + S_E(aE - bI + P)
@@ -81,11 +81,11 @@ Despite their utility, neural mass models carry significant limitations that mot
 - [[bifurcation-analysis]] – Mathematical tools for understanding regime transitions
 - [[epilepsy-modeling]] – Pathological applications to seizure dynamics
 - [[jansen-rit]] – EEG/MEG-focused cortical column model
-- [[wong-wang]] – fMRI/BOLD-optimized model
+- [[wong-wang]] – [[fmri]]/BOLD-optimized model
 - [[tvb]] – Primary software platform implementing NMMs
-
+- [[tvb-vs-nest-vs-neuron|Tvb Vs Nest Vs Neuron]]
 ## References
 
-1. Walter J. Freeman. *Mass Action in the Nervous System*.
-2. Hugh R. Wilson, Jack D. Cowan. *Excitatory and inhibitory interactions in localized populations of model neurons*. Biophysical Journal. [DOI](https://doi.org/10.1016/S0006-3495(72)86068-5)
-3. Benjamin H. Jansen, Vincent G. Rit. *Electroencephalogram and visual evoked potential generation in a mathematical model of coupled cortical columns*. Biological Cybernetics. [DOI](https://doi.org/10.1007/BF00199471)
+1. [[walter-freeman|Walter J. Freeman]]. *Mass Action in the Nervous System*.
+2. [[hugh-wilson|Hugh R. Wilson]], [[jack-cowan|Jack D. Cowan]]. *Excitatory and inhibitory interactions in localized populations of model neurons*. Biophysical Journal. [DOI](https://doi.org/10.1016/S0006-3495(72)86068-5)
+3. [[benjamin-jansen|Benjamin H. Jansen]], [[vincent-rit|Vincent G. Rit]]. *Electroencephalogram and visual evoked potential generation in a mathematical model of coupled cortical columns*. Biological Cybernetics. [DOI](https://doi.org/10.1007/BF00199471)

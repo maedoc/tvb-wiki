@@ -1,15 +1,22 @@
 ---
-title: EEG
 created: 2026-04-20
-updated: 2026-04-27
+sources:
+- raw/papers/niedermeyer-silva-2004.md
+- raw/papers/nunez-srinivasan-2006.md
+- raw/papers/makeig-1996.md
+tags:
+- neuroimaging-eeg
+- neuroimaging-modalities
+- neuroimaging-eeg
+- neuroimaging
+title: EEG
 type: concept
-tags: [neuroimaging-eeg, neuroimaging-modalities, neuroimaging-eeg, neuroimaging]
-sources: [raw/papers/niedermeyer-silva-2004.md, raw/papers/nunez-srinivasan-2006.md, raw/papers/makeig-1996.md]
+updated: '2026-04-27'
 ---
 
 # EEG
 
-Electroencephalography (EEG) is a non-invasive neuroimaging method for recording the electrical activity of the brain via electrodes placed on the scalp. It provides millisecond-resolution measurements of summed postsynaptic potentials from large populations of neurons, making it one of the primary modalities for capturing fast neural dynamics in both clinical and research contexts. EEG is particularly valuable in whole-brain modeling because it provides direct electrophysiological validation targets that [[neural-mass-model]]s aim to reproduce.
+Electroencephalography (EEG) is a non-invasive neuroimaging method for recording the electrical activity of the brain via electrodes placed on the scalp. It provides millisecond-resolution measurements of summed postsynaptic potentials from large populations of neurons, making it one of the primary modalities for capturing fast neural dynamics in both clinical and research contexts. EEG is particularly valuable in [[whole-brain|whole-brain modeling]] because it provides direct electrophysiological validation targets that [[neural-mass-model]]s aim to reproduce.
 
 ## Definition and Physical Basis
 
@@ -41,7 +48,7 @@ These frequency bands provide important validation targets for [[neural-mass-mod
 
 EEG serves as a critical output modality for validating [[neural-mass-model]]s in whole-brain modeling. The relationship between neural population models and measured EEG involves solving the forward problem: converting model-generated local field potentials (LFPs) into predicted scalp potentials using volume conduction equations. This requires specifying a head model that accounts for the geometry and conductivity properties of the brain, skull, and scalp.
 
-The [[dynamic-causal-modeling]] framework, developed by [[karen-friston]] and colleagues, makes extensive use of EEG (and MEG) data for model inversion and parameter estimation. DCM treats the brain as a dynamical system and infers the effective connectivity between regions based on how measured data respond to experimental perturbations. Neural mass models provide the physiological basis for DCM's forward models, linking synaptic activity to measurable electrophysiological signals.
+The [[dynamic-causal-modeling]] framework, developed by [[karen-friston]] and colleagues, makes extensive use of EEG (and MEG) data for model inversion and parameter estimation. DCM treats the brain as a dynamical system and infers the effective connectivity between regions based on how measured data respond to experimental perturbations. [[neural-mass-models]] provide the physiological basis for DCM's forward models, linking synaptic activity to measurable electrophysiological signals.
 
 Several canonical neural mass models generate EEG-like outputs. The [[jansen-rit]] model (also known as the Jansen model) produces alpha-range oscillations through the interaction of excitatory and inhibitory neural populations. The [[wilson-cowan]] model captures the dynamics of population activity with separate excitatory and inhibitory components. The [[wong-wang]] model provides a more biophysically detailed description of excitatory-inhibitory interactions relevant to neuroimaging. These models form the building blocks for large-scale whole-brain simulations implemented in software like [[the-virtual-brain]] (TVB).
 
@@ -79,5 +86,5 @@ EEG is fundamentally linked to several key concepts in computational neuroscienc
 
 1. Ernst Niedermeyer, Fernando HL da Silva (eds). (2004). *Electroencephalography: Basic Principles, Clinical Applications, and Related Fields* (5th ed.). Lippincott Williams & Wilkins.
 2. Paul L. Nunez, Ramesh Srinivasan. (2006). *Electric Fields of the Brain: The Neurophysics of EEG* (2nd ed.). Oxford University Press.
-3. Scott Makeig, Anthony J. Bell, Tzyy-Ping Jung, Terrence J. Sejnowski. (1996). Independent component analysis of electroencephalographic data. *Advances in Neural Information Processing Systems*, 8, 145-151.
+3. Scott Makeig, Anthony J. Bell, Tzyy-Ping Jung, [[terrence-sejnowski|Terrence J. Sejnowski]]. (1996). Independent component analysis of electroencephalographic data. *Advances in Neural Information Processing Systems*, 8, 145-151.
 4. Michael X. Cohen. (2014). *Analyzing Neural Time Series Data: Theory and Practice*. MIT Press.

@@ -408,3 +408,5 @@
 ## [2026-04-27 11:03] Linter: 208 broken links, 97 orphans, 157 stale, 115 empty
 
 ## [2026-04-27 11:13] BulkRewrite: 39 pages rewritten with ollama/minimax-m2.5:cloud, 0 failed
+
+## [2026-04-27 12:32] RefFormatter: formatted references on 48 pages

@@ -34,10 +34,10 @@ The functional-connectivity page has been improved. Here's a summary of the chan
 **Content enhancements:**
 - Expanded opening paragraph with better motivation and context
 - Added more detailed explanation of the original 1993 definition by Friston
-- Substantially expanded Measurement Approaches section (fMRI-based and EEG/MEG-based) with explanatory prose
-- Expanded Resting-State Networks section with historical context about Biswal's 1995 discovery and the DMN
-- Added comprehensive section on Role in Whole-Brain Modeling discussing structure-function relationships, dynamic FC, and the SC-FC relationship
-- Added new section on Relationship to Structural and Effective Connectivity
+- Substantially expanded Measurement Approaches section ([[fmri]]-based and EEG/MEG-based) with explanatory prose
+- Expanded [[resting-state]] Networks section with historical context about Biswal's 1995 discovery and the DMN
+- Added comprehensive section on Role in [[whole-brain|Whole-Brain Modeling]] discussing structure-function relationships, dynamic FC, and the SC-FC relationship
+- Added new section on Relationship to Structural and [[effective-connectivity]]
 - Improved and expanded Historical Development section with chronological narrative
 
 **Wikilinks improvements:**
@@ -56,9 +56,9 @@ The functional-connectivity page has been improved. Here's a summary of the chan
 2. (authors unknown). *Spontaneous fluctuations in brain activity observed with functional magnetic resonance imaging*.
 3. (authors unknown). *Correspondence of the brain's functional architecture during activation and rest*.
 4. (authors unknown). *Functional Connectivity: The Principal-Component Analysis of Large (PET and fMRI) Data Sets*.
-5. (authors unknown). *Predicting Human Resting-State Functional Connectivity from Structural Connectivity*.
+5. (authors unknown). *Predicting Human Resting-State Functional Connectivity from [[structural-connectivity]]*.
 6. (authors unknown). *Functional Network Organization of the Human Brain*.
-7. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
+7. (authors unknown). *Functional [[connectomics]] from Resting-State fMRI*.
 8. (authors unknown). *The organization of the human cerebellum estimated by intrinsic functional connectivity*.
 9. (authors unknown). *Functional Connectivity in the Resting Brain: A Network Analysis of the Default Mode Hypothesis*.
-10. Mengyuan Liu, Jing Hu, Zhenzhen Ru, Ruomeng Quan, Xu Zhang, Ning Qiang, Jin Li. (2025). *Exploring the changes in brain network SC-FC coupling patterns of partial sleep deprivation based on DTI-fMRI fusion analysis*. [Link](https://arxiv.org/abs/2512.00063)
+10. Mengyuan Liu, Jing Hu, Zhenzhen Ru, Ruomeng Quan, Xu Zhang, Ning Qiang, Jin Li. (2025). *Exploring the changes in [[brain-network]] SC-FC coupling patterns of partial sleep deprivation based on DTI-fMRI fusion analysis*. [Link](https://arxiv.org/abs/2512.00063)

@@ -45,7 +45,7 @@ Model-based methods estimate effective connectivity by fitting parametric models
 
 Model-free methods attempt to infer directional interactions directly from data without specifying a generative model, making fewer assumptions but also providing less mechanistic interpretation.
 
-**Transfer Entropy** extends Granger causality to the information-theoretic domain, measuring the Directed information flow between two processes. It quantifies how much uncertainty about the future of one time series is reduced by knowing the past of another, offering potential advantages for detecting nonlinear interactions that linear methods like Granger causality may miss.
+**Transfer Entropy** extends Granger causality to the information-theoretic domain, measuring the Directed information flow between two processes. It quantifies how much uncertainty about the future of one time series is reduced by knowing the past of another, offering potential advantages for detecting nonlinear interactions that [[linear]] methods like Granger causality may miss.
 
 **Partial Directed Coherence (PDC)** and the **Directed Transfer Function (DTF)** operate in the frequency domain, characterizing causal interactions at specific oscillation frequencies. These methods are particularly relevant for studying [[brain-oscillations]] and have been extensively applied to EEG and MEG data. PDC measures the strength of direct causal influence in a particular frequency band, while DTF captures the overall causal flow including indirect pathways.
 
@@ -53,7 +53,7 @@ Model-free methods attempt to infer directional interactions directly from data 
 
 Effective connectivity is what [[whole-brain]] models aim to capture and predict. In the whole-brain modeling paradigm, regions are represented as neural mass models (such as the [[jansen-rit]] model), and the coupling between these regions is specified by an effective connectivity matrix derived from empirical data. The model then generates predictions about brain dynamics that can be compared against empirical observations.
 
-This creates a productive loop: empirical estimates of effective connectivity (from DCM or other methods) inform the coupling structure of whole-brain models; model simulations then generate predictions about how the network will respond to perturbations or different cognitive states; finally, these predictions are tested against new empirical data to validate or refine the model. This framework has proved particularly valuable for studying [[epilepsy-modeling]], where seizures can be understood as pathological network dynamics emerging from specific patterns of effective connectivity.
+This creates a productive loop: empirical estimates of effective connectivity (from DCM or other methods) inform the coupling structure of whole-brain models; model simulations then generate predictions about how the network will respond to perturbations or different cognitive states; finally, these predictions are tested against new empirical data to validate or refine the model. This framework has proved particularly valuable for studying [[epilepsy-modeling]], where seizures can be understood as pathological [[network-dynamics]] emerging from specific patterns of effective connectivity.
 
 ## Comparison with Other Connectivity Types
 

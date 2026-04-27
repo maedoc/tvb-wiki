@@ -58,7 +58,7 @@ The medial temporal lobe subsystem encompasses the hippocampus, parahippocampal 
 
 ## Anticorrelation with Task-Positive Networks
 
-A fundamental feature of DMN dynamics is its systematic anticorrelation with networks supporting externally-directed cognition. When individuals engage in goal-directed tasks requiring external attention, the DMN shows systematic deactivation while the "task-positive network" (including dorsolateral prefrontal cortex and intraparietal sulcus) activates. [[anticevic-2012]] demonstrated that this anticorrelation is not merely a methodological artifact but reflects genuine competitive interactions between network dynamics.
+A fundamental feature of DMN dynamics is its systematic anticorrelation with networks supporting externally-directed cognition. When individuals engage in goal-directed tasks requiring external attention, the DMN shows systematic deactivation while the "task-positive network" (including dorsolateral prefrontal cortex and intraparietal sulcus) activates. [[anticevic-2012]] demonstrated that this anticorrelation is not merely a methodological artifact but reflects genuine competitive interactions between [[network-dynamics]].
 
 This push-pull relationship suggests that the brain operates in a balanced state between internally-directed (DMN-mediated) and externally-directed (task-positive network-mediated) processing modes. The degree of DMN suppression during tasks predicts performance on demanding cognitive operations, and individual differences in this relationship correlate with behavioral measures of cognitive control. Disrupted DMN-task network balance has been implicated inmultiple psychiatric conditions, including [[schizophrenia-models]] wherein failure to appropriately suppress DMN activity during tasks may contribute to attentional deficits and self-referential processing disturbances.
 
@@ -84,19 +84,19 @@ In [[schizophrenia-models]], DMN abnormalities include reduced task-induced deac
 
 ### Neurological Conditions
 
-In epilepsy modeling, DMN disruptions correlate with cognitive interictal symptoms including memory impairment and executive dysfunction. The DMN's sensitivity to network disruptions makes it a valuable probe for understanding whole-brain dynamics in epileptic networks. Neurodegenerative conditions including Alzheimer's disease and frontotemporal dementia show characteristic DMN vulnerability patterns reflecting underlying proteinopathies and selective regional susceptibility.
+In epilepsy modeling, DMN disruptions correlate with cognitive interictal symptoms including memory impairment and executive dysfunction. The DMN's sensitivity to network disruptions makes it a valuable probe for understanding [[whole-brain]] dynamics in epileptic networks. Neurodegenerative conditions including Alzheimer's disease and frontotemporal dementia show characteristic DMN vulnerability patterns reflecting underlying proteinopathies and selective regional susceptibility.
 
 ## Role in Whole-Brain Modeling
 
 The DMN presents both opportunities and challenges for [[whole-brain modeling]] approaches. Capturing the network's characteristic dynamics—and particularly its anticorrelation with task-positive networks—requires models that can represent competing brain states and state-dependent modulation of [[functional-connectivity]]. The DMN serves as a critical validation target for models aiming to simulate resting-state dynamics, and understanding its interactions with other networks provides constraints for parameter estimation in large-scale models.
 
-Personalized brain modeling approaches increasingly incorporate DMN parameters to predict individual differences in cognition and clinical outcomes. The network's accessibility via [[resting-state]] [[neuroimaging-fmri]] makes it particularly amenable to building personalized models from readily acquired data, with applications ranging from surgical planning to treatment response prediction.
+[[personalized-brain-modeling]] approaches increasingly incorporate DMN parameters to predict individual differences in cognition and clinical outcomes. The network's accessibility via [[resting-state]] [[neuroimaging-fmri]] makes it particularly amenable to building personalized models from readily acquired data, with applications ranging from surgical planning to treatment response prediction.
 
 ## Related Concepts
 
 - [[resting-state]] – Intrinsic brain activity measured without task performance
 - [[functional-connectivity]] – Statistical dependencies between brain regions
-- [[bold-signal]] – Blood oxygen level-dependent signal underlying fMRI
+- [[bold-signal]] – Blood oxygen level-dependent signal underlying [[fmri]]
 - [[brain-network]] – Large-scale organized brain connectivity patterns
 - [[network-hubs]] – Regions with high connectivity serving integration roles
 - [[structural-connectivity]] – Anatomical white matter pathways

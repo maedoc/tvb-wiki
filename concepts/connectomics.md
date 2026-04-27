@@ -32,7 +32,7 @@ Major initiatives have shaped the field's growth. The **[[human-connectome-proje
 
 ### Structural Connectomics
 
-Structural connectomics aims to map the brain's anatomical wiring—physical connections between neural elements. At the macroscale (whole-brain), **[[diffusion-mri]]** combined with **[[tractography]]** enables non-invasive reconstruction of white matter pathways by tracking water diffusion along axonal bundles. This approach has generated the first comprehensive maps of human structural connectivity, though tractography algorithms remain a source of methodological debate regarding false positive and negative connections.
+Structural connectomics aims to map the brain's anatomical wiring—physical connections between neural elements. At the macroscale ([[whole-brain]]), **[[diffusion-mri]]** combined with **[[tractography]]** enables non-invasive reconstruction of white matter pathways by tracking water diffusion along axonal bundles. This approach has generated the first comprehensive maps of human structural connectivity, though tractography algorithms remain a source of methodological debate regarding false positive and negative connections.
 
 At finer scales, histological tracing studies in animal models and electron microscopy (EM) connectomics provide synaptic-level detail. The latter approach, pioneered in mouse retinal and cortical circuits, has produced complete wirings of small brain volumes but remains prohibitively labor-intensive for whole human brains.
 

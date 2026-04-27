@@ -17,7 +17,7 @@ type: concept
 updated: '2026-04-27'
 ---
 
-The connectome represents a comprehensive structural description of the network of neural elements and connections forming the brain. Introduced as a formal concept by olaf-sporns|Giulio Tononi and rolf-kotter|Rolf Kötter in their seminal 2005 paper, the connectome encompasses the complete mapping of neural pathways—both structural and functional—that underlie brain organization. This concept has fundamentally transformed how neuroscientists conceptualize the brain, shifting from a collection of isolated regions to a network-centric view emphasizing the integration of information across distributed neural systems.
+The connectome represents a comprehensive structural description of the network of neural elements and connections forming the brain. Introduced as a formal concept by olaf-sporns|[[giulio-tononi]] and rolf-kotter|[[rolf-kotter|Rolf Kötter]] in their seminal 2005 paper, the connectome encompasses the complete mapping of neural pathways—both structural and functional—that underlie brain organization. This concept has fundamentally transformed how neuroscientists conceptualize the brain, shifting from a collection of isolated regions to a network-centric view emphasizing the integration of information across distributed neural systems.
 
 ## Definition and Conceptual Foundations
 
@@ -53,7 +53,7 @@ Other species have served as important targets for complete connectome reconstru
 
 ## Relationship to Whole-Brain Modeling
 
-The connectome provides the anatomical scaffold upon which brain dynamics unfold in [[whole-brain|whole-brain modeling]] approaches. Structural connectivity matrices derived from diffusion imaging serve as the physical substrate for simulating neural activity propagation across the brain. The relationship can be conceptualized as a cascade: structure constrains dynamics, and dynamics generate function. Understanding this structure-function mapping represents one of the central challenges in computational neuroscience, requiring integration of anatomical data with dynamical systems theory and neural mass models.
+The connectome provides the anatomical scaffold upon which brain dynamics unfold in [[whole-brain|whole-brain modeling]] approaches. Structural connectivity matrices derived from diffusion imaging serve as the physical substrate for simulating neural activity propagation across the brain. The relationship can be conceptualized as a cascade: structure constrains dynamics, and dynamics generate function. Understanding this structure-function mapping represents one of the central challenges in computational neuroscience, requiring integration of anatomical data with [[dynamical-systems-theory]] and [[neural-mass-models]].
 
 ## Related Concepts
 

@@ -1,10 +1,18 @@
 ---
-title: Neural Mass Models
 created: 2025-01-15
-updated: 2026-04-27
-type: concept
-tags: [neural-mass-models, whole-brain-modeling, mean-field-theory, dynamical-systems-theory, network-dynamics, parameter-estimation, brain-oscillations, epilepsy-modeling]
 sources: []
+tags:
+- neural-mass-models
+- whole-brain-modeling
+- mean-field-theory
+- dynamical-systems-theory
+- network-dynamics
+- parameter-estimation
+- brain-oscillations
+- epilepsy-modeling
+title: Neural Mass Models
+type: concept
+updated: '2026-04-27'
 ---
 
 ## Definition
@@ -15,7 +23,7 @@ Neural mass models (NMMs) are mathematical models that represent the collective 
 
 In the context of [[whole-brain]] modeling, neural mass models serve as the fundamental dynamical unit that is embedded in a network defined by [[structural-connectivity]] matrices derived from diffusion imaging and tractography. Each brain region is represented by a neural mass model whose state evolves over time according to its intrinsic dynamics and the inputs it receives from other regions via the connectome. The resulting simulations produce synthetic [[functional-connectivity]] patterns that can be compared with empirically observed [[resting-state]] networks measured via [[fmri]], [[eeg]], or [[meg]].
 
-The appeal of neural mass models for whole-brain simulations lies in their computational efficiency. A single neural mass model typically requires only 3–8 state variables and can be integrated in real-time or faster on modest hardware. When coupled across 68–360 brain regions (depending on the [[parcellation]] used), whole-brain simulations using neural mass models can complete in minutes rather than the hours or days required by [[spiking-neural-networks]] that simulate individual neurons. This efficiency enables parameter sweeps, bifurcation analysis, and clinical applications such as personalized brain modeling for epilepsy Surgical planning.
+The appeal of neural mass models for whole-brain simulations lies in their computational efficiency. A single neural mass model typically requires only 3–8 state variables and can be integrated in real-time or faster on modest hardware. When coupled across 68–360 brain regions (depending on the [[parcellation]] used), whole-brain simulations using neural mass models can complete in minutes rather than the hours or days required by [[spiking-neural-networks]] that simulate individual neurons. This efficiency enables parameter sweeps, [[bifurcation-analysis]], and clinical applications such as [[personalized-brain-modeling]] for epilepsy Surgical planning.
 
 ## Mathematical Framework
 
@@ -53,7 +61,7 @@ The [[epileptor]] model was developed specifically for [[epilepsy-modeling]] and
 
 Neural mass models occupy an intermediate position between detailed biophysical models (such as those simulated in [[nest]] or [[brian2]]) and purely descriptive models (such as autoregressive models of fMRI time series). Unlike [[spiking-neural-networks]] that simulate individual neurons with anatomical realism, NMMs aggregate neurons into populations, sacrificing single-neuron specificity for speed and tractability. However, they retain sufficient biological interpretability to allow parameters (such as synaptic gains and time constants) to be mapped to physiological mechanisms.
 
-The relationship between neural mass models and [[dynamic-causal-modeling]] is particularly close: DCM uses the Jansen-Rit model as its forward model for generating synthetic EEG/MEG data, and parameter estimation in DCM amounts to inverting the neural mass model to fit observed neuroimaging data. Similarly, [[the-virtual-brain]] provides a platform for whole-brain simulations using multiple neural mass models (Jansen-Rit, Wong-Wang, Epileptor) embedded in patient-specific connectomes.
+The relationship between neural mass models and [[dynamic-causal-modeling]] is particularly close: DCM uses the Jansen-Rit model as its [[forward-model]] for generating synthetic EEG/MEG data, and parameter estimation in DCM amounts to inverting the neural mass model to fit observed neuroimaging data. Similarly, [[the-virtual-brain]] provides a platform for whole-brain simulations using multiple neural mass models (Jansen-Rit, Wong-Wang, Epileptor) embedded in patient-specific connectomes.
 
 ## Parameter Estimation and Calibration
 
@@ -61,4 +69,4 @@ A critical challenge in applying neural mass models is estimating the free param
 
 ## Open Questions and Limitations
 
-Despite their widespread use, neural mass models face several open questions. The validity of the mean-field approximation breaks down when population-level correlations become strong (as near critical points or during seizures), and it remains unclear how well NMMs capture the effects of cell-type-specific connectivity. Parameter identifiability is also a concern: many parameter combinations can produce similar functional dynamics, complicating biological interpretation. Ongoing research aims to address these limitations through more biophysically grounded neural mass formulations and hybrid models that combine population-level dynamics with selected single-neuron detail.
+Despite their widespread use, neural mass models face several open questions. The validity of the mean-field approximation breaks down when population-level correlations become strong (as near critical points or during seizures), and it remains unclear how well NMMs capture the effects of cell-type-specific connectivity. Parameter identifiability is also a concern: many parameter combinations can produce similar functional dynamics, complicating biological interpretation. Ongoing research aims to address these limitations through more biophysically grounded neural mass formulations and hybrid models that combine population-level dynamics with selected single-[[neuron]] detail.

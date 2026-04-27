@@ -1,10 +1,19 @@
 ---
-title: Parcellation
 created: 2025-01-15
-updated: 2026-04-27
-type: concept
-tags: [connectomics, structural-connectivity, functional-connectivity, neuroimaging-fmri, neuroimaging-dti, tractography, whole-brain-modeling, network-dynamics, database-hcp]
 sources: []
+tags:
+- connectomics
+- structural-connectivity
+- functional-connectivity
+- neuroimaging-fmri
+- neuroimaging-dti
+- tractography
+- whole-brain-modeling
+- network-dynamics
+- database-hcp
+title: Parcellation
+type: concept
+updated: '2026-04-27'
 ---
 
 Parcellation refers to the process of dividing the brain into spatially discrete, anatomically or functionally coherent regions (called parcels) that serve as the fundamental.nodes in [[whole-brain]] network models. In [[connectomics]] and [[computational neuroscience]], parcellation transforms the continuous, multivariate data obtained from neuroimaging—such as [[fMRI]], [[diffusion-mri]], or [[meg]]—into a finite graph whose nodes correspond to brain areas and whose edges represent [[structural-connectivity]] or [[functional-connectivity]] between those areas. The resulting parcellated network is the starting point for virtually all whole-brain modeling approaches, from [[neural-mass-model]] simulations to graph-theoretic analyses of brain network topology.
@@ -25,7 +34,7 @@ Parcellation methods can be broadly categorized by the criterion used to define 
 
 **Structural or connectivity-based parcellations** use [[diffusion-mri]] and [[tractography]] to define parcels based on patterns of white-matter connectivity. Regions within a structural parcel share similar patterns of anatomical afferents and efferents, potentially reflecting shared thalamic inputs or common cortical association pathways. The [[julich-atlas]] incorporates probabilistic cytoarchitectonic boundaries combined with connectivity information. Connectivity-based parcellations are intuitively appealing for [[whole-brain modeling]] since they directly map onto the structural skeleton that supports dynamics.
 
-**Multi-modal and adaptive parcellations** combine information from multiple neuroimaging modalities to define parcels that satisfy both anatomical and functional criteria. Advanced approaches use clustering algorithms (e.g., k-means, hierarchical clustering, spectral clustering) on feature vectors combining structural, functional, and connectivity data. Recent work on "population-based" or "individualized" parcellations seeks to account for inter-subject variability by generating parcellations specific to each individual's connectome, rather than projecting all subjects onto a common template.
+**Multi-modal and adaptive parcellations** combine information from multiple neuroimaging modalities to define parcels that satisfy both anatomical and functional criteria. Advanced approaches use clustering algorithms (e.g., k-means, hierarchical clustering, spectral clustering) on feature vectors combining structural, functional, and connectivity data. Recent work on "population-based" or "individualized" parcellations seeks to account for inter-subject variability by generating parcellations specific to each individual's [[connectome]], rather than projecting all subjects onto a common template.
 
 ## Properties and Trade-offs
 

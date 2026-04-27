@@ -21,9 +21,9 @@ updated: '2026-04-27'
 
 ## Motivation and Context
 
-The characterization of structural connectivity emerged as a central goal in neuroscience with the recognition that brain function arises from the interaction of anatomically linked regions. The advent of [[diffusion-mri]] in the 1990s, particularly [[dti|Diffusion Tensor Imaging]] introduced by Basser, Mattiello, and LeBihan (1994), enabled researchers to non-invasively map white matter pathways in the living human brain for the first time [@basser-1994]. Prior to this, anatomical connectivity could only be studied post-mortem through histological methods or in animal models via invasive tracer injections. The ability to reconstruct fiber tracts in vivo using tractography algorithms—pioneered by Mori and colleagues (1999)—revolutionized connectomics by providing the structural foundation upon which dynamic brain models could be built [@mori-1999].
+The characterization of structural connectivity emerged as a central goal in neuroscience with the recognition that brain function arises from the interaction of anatomically linked regions. The advent of [[diffusion-mri]] in the 1990s, particularly [[dti|Diffusion Tensor Imaging]] introduced by Basser, Mattiello, and LeBihan (1994), enabled researchers to non-invasively map white matter pathways in the living human brain for the first time [@basser-1994]. Prior to this, anatomical connectivity could only be studied post-mortem through histological methods or in animal models via invasive tracer injections. The ability to reconstruct fiber tracts in vivo using tractography algorithms—pioneered by Mori and colleagues (1999)—revolutionized [[connectomics]] by providing the structural foundation upon which dynamic brain models could be built [@mori-1999].
 
-In the context of whole-brain modeling, structural connectivity serves as the primary anatomical constraint that determines how neural activity propagates across the brain network. Without accurate SC data, computational models lack the essential substrate for reproducing realistic brain dynamics. The field has consequently wrestled with fundamental questions about the validity and limitations of SC measurements derived from diffusion MRI, questions thoroughly examined in Derek Jones's influential review [@jones-2010].
+In the context of whole-brain modeling, structural connectivity serves as the primary anatomical constraint that determines how neural activity propagates across the [[brain-network]]. Without accurate SC data, computational models lack the essential substrate for reproducing realistic brain dynamics. The field has consequently wrestled with fundamental questions about the validity and limitations of SC measurements derived from diffusion MRI, questions thoroughly examined in Derek Jones's influential review [@jones-2010].
 
 ## Measurement Methods
 
@@ -87,7 +87,7 @@ Despite its centrality to connectomics, structural connectivity estimation faces
 - [[whole-brain]] – Whole-brain modeling framework
 - [[connectome-mapper-3]] – Connectivity pipeline software
 - [[brain-connectivity-toolbox]] – Network analysis software
-
+- [[mrtrix3-connectome|Mrtrix3 Connectome]]
 ## References
 
 1. (authors unknown). *MR diffusion tensor spectroscopy and imaging*.

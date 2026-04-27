@@ -18,7 +18,7 @@ updated: '2026-04-27'
 
 # Infinite Theta Neuron Model (Montbrió-Pazó-Roxin)
 
-An exact mean-field reduction of an infinite population of quadratic integrate-and-fire (QIF) neurons, developed by Montbrió, Pazó, and Roxin in 2015. This model provides a mathematically rigorous bridge between microscopic spiking neuron dynamics and macroscopic population-level descriptions, making it a foundational result in computational neuroscience for understanding collective neuronal dynamics.
+An exact mean-field reduction of an infinite population of quadratic integrate-and-fire (QIF) neurons, developed by Montbrió, Pazó, and Roxin in 2015. This model provides a mathematically rigorous bridge between microscopic spiking [[neuron]] dynamics and macroscopic population-level descriptions, making it a foundational result in computational neuroscience for understanding collective neuronal dynamics.
 
 ## Overview
 
@@ -59,7 +59,7 @@ The infinite theta neuron model sits within a lineage of neural mass formulation
 
 The [[zerlaut]] model extends this framework to include separate excitatory and inhibitory populations with adaptation, making it directly applicable to [[epilepsy-modeling]] and other clinical applications. Similarly, the [[wong-wang]] model, developed around the same time, captures similar phenomenology but was derived through different mathematical techniques.
 
-For [[the-virtual-brain]] simulations, these mean-field formulations provide the dynamical core that replaces detailed spiking networks, enabling whole-brain simulations at scale while retaining biologically meaningful dynamics. The computational efficiency gained through mean-field reduction is essential when simulating dozens of brain regions across multiple subjects.
+For [[the-virtual-brain]] simulations, these mean-field formulations provide the dynamical core that replaces detailed spiking networks, enabling [[whole-brain]] simulations at scale while retaining biologically meaningful dynamics. The computational efficiency gained through mean-field reduction is essential when simulating dozens of brain regions across multiple subjects.
 
 ## Applications and Extensions
 

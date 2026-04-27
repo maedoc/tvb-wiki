@@ -25,7 +25,7 @@ I have successfully improved the neurodevelopment wiki page. Here's a summary of
 - Changed `updated:` from 2026-04-23 to 2026-04-27
 
 **Content Improvements:**
-1. **Expanded opening paragraph** - Added context about why neurodevelopment matters for whole-brain modeling, explaining that model parameters must be calibrated to developmental stage
+1. **Expanded opening paragraph** - Added context about why neurodevelopment matters for [[whole-brain|whole-brain modeling]], explaining that model parameters must be calibrated to developmental stage
 
 2. **Added "Definition and Scope" section** - More detailed explanation integrating developmental neuroscience, neuroimaging, and computational modeling
 
@@ -38,9 +38,9 @@ I have successfully improved the neurodevelopment wiki page. Here's a summary of
 
 4. **Expanded "Functional Development" section** - Added explanation of local-to-distributed processing transition and cognitive maturation
 
-5. **Enhanced "Cortical Maturation Pattern"** - Integrated resting-state neuroimaging context and linked to whole-brain modeling implications
+5. **Enhanced "Cortical Maturation Pattern"** - Integrated [[resting-state]] neuroimaging context and linked to whole-brain modeling implications
 
-6. **Added "Modeling Developmental Disorders" subsection** - New content explaining how personalized-brain-modeling can identify deviations in developmental trajectories
+6. **Added "Modeling Developmental Disorders" subsection** - New content explaining how [[personalized-brain-modeling]] can identify deviations in [[developmental-trajectories]]
 
 7. **Fixed broken link** - Replaced non-existent "plasticity" wikilink with valid ones: [[brain-network]] and [[network-dynamics]]
 
@@ -58,5 +58,5 @@ I have successfully improved the neurodevelopment wiki page. Here's a summary of
 3. (authors unknown). *Functional Brain Networks Develop from a 'Local to Distributed' Organization*.
 4. (authors unknown). *The Development of Human Functional Brain Networks*.
 5. (authors unknown). *The Basics of Brain Development*.
-6. Fatemeh Mahani, Aref Kalantari, M. Diedenhofen, Claudia Green, Dirk Wiedermann, G.R. Fink, Mathias Hoehn, M. Aswendt. (2026). *Dynamic structural connectivity changes in cortical and cortico-striatal strokes in mice.*. Neural Regeneration Research. [DOI](https://doi.org/10.4103/NRR.NRR-D-25-00491)
-7. (authors unknown). *UK Biobank Brain Imaging: Structural MRI in a Massive Population Resource*.
+6. Fatemeh Mahani, Aref Kalantari, M. Diedenhofen, Claudia Green, Dirk Wiedermann, G.R. Fink, Mathias Hoehn, M. Aswendt. (2026). *Dynamic [[structural-connectivity]] changes in cortical and cortico-striatal strokes in mice.*. Neural Regeneration Research. [DOI](https://doi.org/10.4103/NRR.NRR-D-25-00491)
+7. (authors unknown). *[[uk-biobank]] Brain Imaging: Structural MRI in a Massive Population Resource*.

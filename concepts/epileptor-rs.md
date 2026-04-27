@@ -26,7 +26,7 @@ The original Epileptor model, developed by Jirsa and colleagues, captures seizur
 
 ## Mathematical Formulation
 
-The EpileptorRS model extends the five-dimensional Epileptor system with additive and multiplicative noise terms. The core deterministic dynamics remain similar to the original formulation, with fast variables (x₁, x₂) representing local field potential and a slow recovery variable (z) capturing the permittivity feedback. The stochastic extension modifies the evolution of the slow variable according to:
+The EpileptorRS model extends the five-dimensional Epileptor system with additive and multiplicative noise terms. The core deterministic dynamics remain similar to the original formulation, with fast variables (x₁, x₂) representing [[local-field-potentials|local field potential]] and a slow recovery variable (z) capturing the permittivity feedback. The stochastic extension modifies the evolution of the slow variable according to:
 
 $$dz = \left[ \frac{1}{\tau_z} \left( -z + I_{\text{ext}} + \kappa \cdot \text{metabolic}(x_1, x_2) \right) \right] dt + \sigma_z \cdot \xi(t) \cdot z$$
 
@@ -40,21 +40,21 @@ The EpileptorRS has proven particularly valuable for applications requiring long
 
 Sleep modeling represents another important application domain. During non-rapid eye movement (NREM) sleep, the brain exhibits characteristic oscillations (sleep spindles, K-complexes) that arise from the interaction between thalamic and cortical circuits. The EpileptorRS can reproduce these patterns when parameterized appropriately, providing a framework for understanding how sleep-dependent changes in neuromodulation and connectivity affect seizure risk. The integration of metabolic considerations into the model further allows investigation of how energy budget constraints—reduced glucose metabolism in epileptogenic tissue, for example—influence the propensity for seizure generation.
 
-In the context of large-scale brain modeling, the EpileptorRS serves as the local dynamical system embedded within whole-brain connectivity matrices derived from diffusion tensor imaging (DTI). Recent work using patient-specific connectomes has demonstrated that realistic cortico-cortical transmission delays, combined with locally excitable Epileptor dynamics, are sufficient to generate self-sustaining re-entry patterns that match the spatiotemporal properties of recorded seizures. This framework provides a promising testbed for patient-specific neuromodulation strategies, including precisely timed electrical stimulation and virtual surgical lesions.
+In the context of large-scale brain modeling, the EpileptorRS serves as the local dynamical system embedded within [[whole-brain]] connectivity matrices derived from diffusion tensor imaging (DTI). Recent work using patient-specific connectomes has demonstrated that realistic cortico-cortical transmission delays, combined with locally excitable Epileptor dynamics, are sufficient to generate self-sustaining re-entry patterns that match the spatiotemporal properties of recorded seizures. This framework provides a promising testbed for patient-specific neuromodulation strategies, including precisely timed electrical stimulation and virtual surgical lesions.
 
 ## Relationship to Other Models
 
 The EpileptorRS occupies a specific niche in the landscape of computational epilepsy models. It retains the low-dimensional simplicity of the original Epileptor—making it compatible with parameter estimation and bifurcation analysis—while incorporating the stochastic elements necessary for resting-state applications. The addition of metabolic coupling distinguishes it from purely mathematical extensions such as the Epileptor codimension-2 (EpileptorCodim2) variant, which focuses on reproducing the full bifurcation structure near the seizure onset threshold.
 
-Compared to other neural mass models such as the [[jansen-rit]] model or the [[wilson-cowan]] equations, the EpileptorRS is specialized for pathological dynamics rather than normal cortical oscillations. It shares with these models the heritage of neural field theory, in which local cortical columns are represented by populations of excitatory and inhibitory neurons with synaptic dynamics approximated by low-order kinetics. However, the EpileptorRS explicitly models the collapse of inhibition that characterizes the transition to seizure, making it better suited for clinical applications.
+Compared to other neural mass models such as the [[jansen-rit]] model or the [[wilson-cowan]] equations, the EpileptorRS is specialized for pathological dynamics rather than normal cortical oscillations. It shares with these models the heritage of [[neural-field-theory|neural field]] theory, in which local cortical columns are represented by populations of excitatory and inhibitory neurons with synaptic dynamics approximated by low-order kinetics. However, the EpileptorRS explicitly models the collapse of inhibition that characterizes the transition to seizure, making it better suited for clinical applications.
 
-Integration with whole-brain simulators such as [[the-virtual-brain]] enables the construction of patient-specific models that combine individual structural connectivity (derived from DTI tractography) with the EpileptorRS local dynamics. This hybrid approach represents the current frontier in personalized brain modeling, offering the potential to predict seizure propagation patterns and to identify optimal targets for surgical resection or neurostimulation.
+Integration with whole-brain simulators such as [[the-virtual-brain]] enables the construction of patient-specific models that combine individual [[structural-connectivity]] (derived from DTI [[tractography]]) with the EpileptorRS local dynamics. This hybrid approach represents the current frontier in [[personalized-brain-modeling]], offering the potential to predict seizure propagation patterns and to identify optimal targets for surgical resection or neurostimulation.
 
 ## Open Questions and Future Directions
 
 Several important questions remain open in the development and application of the EpileptorRS. Parameter estimation for individual patients—identifying the noise amplitude, metabolic coupling strength, and other parameters that best match observed data—remains computationally challenging due to the model's nonlinearities and the stochastic nature of the data. Bayesian approaches, including particle filtering and variational inference, have shown promise but require further validation. Additionally, the relationship between the stochastic fluctuations in the model and the biophysical sources of variability in real neural tissue—including ion channel noise, synaptic vesicle release failure, and network-level fluctuations—is not yet fully characterized.
 
-The extension of the EpileptorRS to include spatial propagation effects, transitioning from a neural mass to a neural field formulation, represents an active area of development. Such extensions would enable more accurate modeling of seizure spread patterns and the interaction between the seizure focus and connected brain regions. Finally, the integration of multimodal imaging data—including simultaneous EEG-fMRI recordings—into the parameter estimation framework could provide additional constraints that improve the model's predictive validity.
+The extension of the EpileptorRS to include spatial propagation effects, transitioning from a neural mass to a neural field formulation, represents an active area of development. Such extensions would enable more accurate modeling of seizure spread patterns and the interaction between the seizure focus and connected brain regions. Finally, the integration of multimodal imaging data—including simultaneous EEG-[[fmri]] recordings—into the parameter estimation framework could provide additional constraints that improve the model's predictive validity.
 
 ## Related Concepts
 
@@ -64,7 +64,7 @@ The extension of the EpileptorRS to include spatial propagation effects, transit
 - [[seizure-prediction]] - Forecasting seizures from baseline activity
 - [[neural-mass-models]] - Simplified population-level neural dynamics
 - [[stochastic-differential-equations]] - Mathematical framework for noise terms
-- [[whole-brain-modeling]] - Large-scale brain network simulations
+- [[whole-brain-modeling]] - Large-scale [[brain-network]] simulations
 - [[dynamic-causal-modeling]] - Related framework for connectivity inference
 - [[the-virtual-brain]] - Whole-brain simulator platform
 - [[bifurcation-analysis]] - Method for understanding state transitions

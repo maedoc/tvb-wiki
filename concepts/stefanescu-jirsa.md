@@ -15,7 +15,7 @@ updated: '2026-04-27'
 
 # Stefanescu-Jirsa Model
 
-A systematic dimensional reduction of the Epileptor yielding a 2D model that preserves essential seizure dynamics while enabling analytically tractable bifurcation analysis.
+A systematic dimensional reduction of the Epileptor yielding a 2D model that preserves essential seizure dynamics while enabling analytically tractable [[bifurcation-analysis]].
 
 ## Overview
 
@@ -23,7 +23,7 @@ The Stefanescu-Jirsa model is a reduced neural mass model derived through center
 
 ## Motivation and Context
 
-Epileptic seizures represent pathological brain states characterized by synchronized, high-amplitude neural activity that emerges from the complex interplay between excitatory and inhibitory populations. The full Epileptor model, developed by Jirsa and colleagues, captures this behavior in six dimensions but presents analytical challenges due to its complexity. The Stefanescu-Jirsa model addresses this by applying methods from dynamical systems theory—specifically center manifold reduction—to derive a minimal description that retains the essential bifurcation structure. This approach mirrors earlier reductions in theoretical neuroscience, such as the derivation of the [[wong-wang]] model from detailed spiking neuron networks, wherein macroscopic population dynamics emerge from microscopic neuronal properties through systematic dimensional reduction.
+Epileptic seizures represent pathological brain states characterized by synchronized, high-amplitude neural activity that emerges from the complex interplay between excitatory and inhibitory populations. The full Epileptor model, developed by Jirsa and colleagues, captures this behavior in six dimensions but presents analytical challenges due to its complexity. The Stefanescu-Jirsa model addresses this by applying methods from dynamical systems theory—specifically center manifold reduction—to derive a minimal description that retains the essential bifurcation structure. This approach mirrors earlier reductions in theoretical neuroscience, such as the derivation of the [[wong-wang]] model from detailed spiking [[neuron]] networks, wherein macroscopic population dynamics emerge from microscopic neuronal properties through systematic dimensional reduction.
 
 The importance of this reduction extends beyond mere computational convenience. By capturing the universal unfolding of the saddle-node bifurcation, the model provides a mathematical framework for understanding how seizures emerge as nonequilibrium transitions in neural systems. The two-dimensional phase space allows direct visualization of seizure trajectories, enabling researchers to identify critical parameters governing seizure susceptibility and to explore the effects of pharmacological interventions or neurostimulation protocols.
 
@@ -57,7 +57,7 @@ The parameter *α* serves as the primary control parameter for seizure dynamics.
 
 The Stefanescu-Jirsa model occupies a specific niche in the hierarchy of neural mass models. Unlike the [[jansen-rit]] model, which was designed to reproduce EEG rhythms in healthy subjects, or the [[wilson-cowan]] model, which captures general population oscillations, the Stefanescu-Jirsa model is specifically tailored to pathological seizure dynamics. However, it shares with these models the fundamental approach of deriving population-level descriptions from underlying neuronal circuitry.
 
-The model can be integrated into whole-brain simulation frameworks such as [[the-virtual-epileptic-brain]], where it serves as the local dynamical system at each brain region. This contrasts with the [[epileptor-rs]] variant, which incorporates resting-state dynamics into the epileptic modeling framework. The two-dimensional nature of the Stefanescu-Jirsa model makes it particularly suitable for parameter estimation and bifurcation analysis, complementing more detailed models when computational efficiency is paramount.
+The model can be integrated into [[whole-brain]] simulation frameworks such as [[the-virtual-epileptic-brain]], where it serves as the local dynamical system at each brain region. This contrasts with the [[epileptor-rs]] variant, which incorporates [[resting-state]] dynamics into the epileptic modeling framework. The two-dimensional nature of the Stefanescu-Jirsa model makes it particularly suitable for parameter estimation and bifurcation analysis, complementing more detailed models when computational efficiency is paramount.
 
 ## Applications and Limitations
 

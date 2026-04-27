@@ -37,4 +37,4 @@ In [[whole-brain]] modeling, the structural network serves as the anatomical sub
 
 1. (authors unknown). *Networks of the Brain*.
 2. (authors unknown). *Emergence of Scaling in Random Networks*.
-3. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
+3. (authors unknown). *Functional [[connectomics]] from Resting-State fMRI*.

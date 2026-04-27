@@ -16,7 +16,7 @@ type: concept
 updated: '2026-04-27'
 ---
 
-Brain maintenance refers to the preservation of brain structure and function across the lifespan, representing the successful resistance to age-related neurobiological changes. As one of three key mechanisms posited to explain differential cognitive aging trajectories—alongside [[cognitive-reserve]] and compensation—brain maintenance reflects the relative absence of age-related decline in neural integrity. Individuals who exhibit high brain maintenance demonstrate less cortical thinning, preserved white matter integrity, maintained [[functional-connectivity]] patterns, and stable cognitive performance despite advancing chronological age. This concept has become fundamental to understanding why some older adults maintain sharp cognitive function into late life while others experience significant decline.
+Brain maintenance refers to the preservation of brain structure and function across the lifespan, representing the successful resistance to age-related neurobiological changes. As one of three key mechanisms posited to explain differential cognitive [[aging]] trajectories—alongside [[cognitive-reserve]] and compensation—brain maintenance reflects the relative absence of age-related decline in neural integrity. Individuals who exhibit high brain maintenance demonstrate less cortical thinning, preserved white matter integrity, maintained [[functional-connectivity]] patterns, and stable cognitive performance despite advancing chronological age. This concept has become fundamental to understanding why some older adults maintain sharp cognitive function into late life while others experience significant decline.
 
 ## Theoretical Framework and Origins
 
@@ -32,7 +32,7 @@ Structural brain maintenance can be quantified through multiple magnetic resonan
 
 ### Functional Markers
 
-Functional brain maintenance encompasses preserved network organization and activation patterns. Resting-state [[functional-connectivity]] analyses reveal that high-maintenance individuals maintain typical patterns of correlation between spatially distributed brain regions, particularly within networks supporting cognitive control and memory. From a dynamic systems perspective, this preservation of [[network-dynamics]] suggests that the brain's intrinsic organization remains stable despite chronological aging. Functional activation patterns during task performance also reflect maintenance, with successful agers showing youth-like patterns of neural engagement rather than the compensatory hyperactivation often observed in typical aging.
+Functional brain maintenance encompasses preserved network organization and activation patterns. [[resting-state]] [[functional-connectivity]] analyses reveal that high-maintenance individuals maintain typical patterns of correlation between spatially distributed brain regions, particularly within networks supporting cognitive control and memory. From a dynamic systems perspective, this preservation of [[network-dynamics]] suggests that the brain's intrinsic organization remains stable despite chronological aging. Functional activation patterns during task performance also reflect maintenance, with successful agers showing youth-like patterns of neural engagement rather than the compensatory hyperactivation often observed in typical aging.
 
 ## Factors Promoting Brain Maintenance
 

@@ -71,8 +71,8 @@ Each platform occupies a distinct niche in the modeling hierarchy, from populati
 
 **TVB** is designed specifically for neuroimaging integration:
 - Uses DTI-derived structural connectivity
-- Generates simulated EEG, MEG, and fMRI BOLD signals
-- Validates against resting-state functional connectivity
+- Generates simulated EEG, MEG, and [[fmri]] [[bold-signal|BOLD]] signals
+- Validates against [[resting-state]] [[functional-connectivity]]
 - Personalization from individual MRI data
 
 **NEST and NEURON** require post-processing for neuroimaging comparison:
@@ -107,7 +107,7 @@ Each platform occupies a distinct niche in the modeling hierarchy, from populati
 ### Complementary Use
 
 These platforms are increasingly used together:
-- **TVB + NEST**: Mean-field reduction of detailed spiking networks for whole-brain scaling (e.g., Stefanescu-Jirsa models in TVB)
+- **TVB + NEST**: [[mean-field-theory|Mean-field]] reduction of detailed spiking networks for whole-brain scaling (e.g., [[stefanescu-jirsa]] models in TVB)
 - **NEST + NEURON**: Point neurons informed by detailed compartmental studies
 - **NEURON → NEST → TVB**: Hierarchy of model abstraction for multiscale brain simulation
 

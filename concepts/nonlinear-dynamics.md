@@ -30,7 +30,7 @@ The emergence of [[whole-brain modeling]] as a major paradigm in computational n
 
 ### Nonlinear Differential Equations
 
-Neural dynamics are typically modeled systems of coupled ordinary differential equations (ODEs) or delay differential equations (DEDs). A generic form for a neural mass model with state variable $\mathbf{x} \in \mathbb{R}^n$ is:
+Neural dynamics are typically modeled systems of coupled ordinary differential equations (ODEs) or delay differential equations (DEDs). A generic form for a [[neural-mass-models|neural mass model]] with state variable $\mathbf{x} \in \mathbb{R}^n$ is:
 
 $$\frac{d\mathbf{x}}{dt} = \mathbf{F}(\mathbf{x}, \mathbf{p}, \mathbf{I}(t))$$
 
@@ -58,7 +58,7 @@ Real neural systems are subject to intrinsic and extrinsic noise, necessitating 
 
 $$dX_t = F(X_t, p) dt + \sigma dW_t$$
 
-where $W_t$ is a Wiener process and $\sigma$ quantifies noise amplitude. The corresponding Fokker-Planck equation describes the evolution of the probability density $p(x,t)$:
+where $W_t$ is a Wiener process and $\sigma$ quantifies noise amplitude. The corresponding [[fokker-planck-equation]] describes the evolution of the probability density $p(x,t)$:
 
 $$\frac{\partial p}{\partial t} = -\frac{\partial}{\partial x}[F(x)p] + \frac{\sigma^2}{2}\frac{\partial^2 p}{\partial x^2}$$
 
@@ -66,7 +66,7 @@ This formalism, treated in depth by [[Ermentrout-Terman]] and in the general the
 
 ## Relationship to Other Concepts
 
-Nonlinear dynamics provides the mathematical language for [[dynamical-systems-theory]] as applied to neural systems. While dynamical systems theory encompasses both linear and nonlinear formulations, the qualitative methods of nonlinear dynamics—phase plane analysis, bifurcation theory, and chaos theory—are specifically designed to handle the complex behaviors that arise from nonlinearities. The concept of [[bifurcation analysis]] is inseparable from nonlinear dynamics: as parameters vary (e.g., coupling strength in a brain network, dosage of a neuromodulatory agent), the system may undergo qualitative changes in its dynamics that are only describable through nonlinear analysis.
+Nonlinear dynamics provides the mathematical language for [[dynamical-systems-theory]] as applied to neural systems. While dynamical systems theory encompasses both linear and nonlinear formulations, the qualitative methods of nonlinear dynamics—phase plane analysis, bifurcation theory, and chaos theory—are specifically designed to handle the complex behaviors that arise from nonlinearities. The concept of [[bifurcation analysis]] is inseparable from nonlinear dynamics: as parameters vary (e.g., coupling strength in a [[brain-network]], dosage of a neuromodulatory agent), the system may undergo qualitative changes in its dynamics that are only describable through nonlinear analysis.
 
 [[Mean-field theory]] provides a bridge between the microscopic nonlinear dynamics of individual neurons and the macroscopic nonlinear dynamics of populations. By averaging over the distribution of states in a large population, mean-field approximations convert detailed spiking neuron models into lower-dimensional nonlinear ODEs that can be analyzed with the tools of nonlinear dynamics. This approach underlies the construction of neural mass models used in [[whole-brain]] simulators such as [[TVB]].
 

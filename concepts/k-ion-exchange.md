@@ -17,7 +17,7 @@ updated: '2026-04-27'
 
 # K-Ion Exchange Model
 
-A metabolic [[neural-mass-models|neural mass model]] that explicitly incorporates extracellular potassium dynamics as a core mechanism governing neuronal excitability and seizure dynamics. Unlike classical neural mass formulations that treat population activity through simplified firing-rate or oscillator dynamics, the K-Ion Exchange (KIonEx) model tracks the bidirectional coupling between neural activity and the extracellular ionic environment, particularly the accumulation and clearance of potassium ions ([K⁺]ₒ) released during repetitive neuronal firing.
+A metabolic [[neural-mass-models|neural mass model]] that explicitly incorporates extracellular potassium dynamics as a core mechanism governing neuronal excitability and seizure dynamics. Unlike classical neural mass formulations that treat population activity through simplified firing-rate or [[oscillator]] dynamics, the K-Ion Exchange (KIonEx) model tracks the bidirectional coupling between neural activity and the extracellular ionic environment, particularly the accumulation and clearance of potassium ions ([K⁺]ₒ) released during repetitive neuronal firing.
 
 ## Motivation and Biological Context
 
@@ -41,7 +41,7 @@ Where the terms represent:
 
 The model typically includes feedback from [K⁺]ₒ on neuronal dynamics: as extracellular potassium rises, neurons experience depolarization that modulates both their firing thresholds and the amplitude of synaptic currents. This creates a rich dynamical system amenable to [[bifurcation-analysis|bifurcation analysis]], where seizure-like states may emerge as stable attractors under certain parameter regimes.
 
-For computational implementation, the model often couples to established neural mass frameworks such as the [[epileptor]] model, which provides a phenomenological description of seizure dynamics. The potassium variable can serve as a slow recovery variable mediating transitions between ictal (seizure) and interictal (between-seizure) states, consistent with the two-population network dynamics described by Cressman et al. (2009).
+For computational implementation, the model often couples to established neural mass frameworks such as the [[epileptor]] model, which provides a phenomenological description of seizure dynamics. The potassium variable can serve as a slow recovery variable mediating transitions between ictal (seizure) and interictal (between-seizure) states, consistent with the two-population [[network-dynamics]] described by Cressman et al. (2009).
 
 ## Relationship to Other Neural Mass Models
 

@@ -61,11 +61,11 @@ This reduction is complementary to other approaches in the field, such as the bi
 
 ## Relation to Whole-Brain Modeling
 
-In the context of [[whole-brain-modeling]], the Epileptor Codimension-3 provides a canonical unit that can be embedded in large-scale brain networks to study how seizure-like activity propagates through structural connectivity. Recent work by Triebkorn et al. (2025) demonstrates how delay-constrained re-entry in Epileptor networks can generate self-sustaining seizure dynamics that match clinical observations in terms of frequency and duration. The Codimension-3 framework offers a systematic way to understand how parameters governing individual node dynamics interact with the delay structure of the network to produce the observed seizure patterns—linking the local bifurcation analysis to the emergent network-level phenomena.
+In the context of [[whole-brain-modeling]], the Epileptor Codimension-3 provides a canonical unit that can be embedded in large-scale brain networks to study how seizure-like activity propagates through [[structural-connectivity]]. Recent work by Triebkorn et al. (2025) demonstrates how delay-constrained re-entry in Epileptor networks can generate self-sustaining seizure dynamics that match clinical observations in terms of frequency and duration. The Codimension-3 framework offers a systematic way to understand how parameters governing individual node dynamics interact with the delay structure of the network to produce the observed seizure patterns—linking the local bifurcation analysis to the emergent network-level phenomena.
 
 ## Open Questions and Future Directions
 
-A central challenge remaining is the mapping between the abstract parameters of the codimension-3 unfolding (μ₁, μ₂, μ₃) and biologically measurable quantities that can be estimated from patient data. Current work on personalized brain modeling aims to bridge this gap by combining parameter estimation techniques from empirical neuroimaging data with the bifurcation analysis framework. Additionally, the extension of this analysis to consider the effects of noise—which is unavoidable in biological neural systems—and to incorporate the slow timescale variables that regulate seizure state transitions remains an active area of theoretical development.
+A central challenge remaining is the mapping between the abstract parameters of the codimension-3 unfolding (μ₁, μ₂, μ₃) and biologically measurable quantities that can be estimated from patient data. Current work on [[personalized-brain-modeling]] aims to bridge this gap by combining parameter estimation techniques from empirical neuroimaging data with the bifurcation analysis framework. Additionally, the extension of this analysis to consider the effects of noise—which is unavoidable in biological neural systems—and to incorporate the slow timescale variables that regulate seizure state transitions remains an active area of theoretical development.
 
 The Epileptor Codimension-3 thus stands as a prime example of how sophisticated mathematical analysis can simplify rather than obscure biological reality, providing a unifying framework that clarifies the relationship between diverse seizure phenomenologies and their underlying dynamical mechanisms.
 
@@ -79,7 +79,7 @@ The Epileptor Codimension-3 thus stands as a prime example of how sophisticated 
 - [[neural-mass-models]] - Class of models to which Epileptor belongs
 - [[jansen-rit]] - Related neural mass model with comparable bifurcation analysis
 - [[whole-brain-modeling]] - Network-level modeling context for clinical applications
-- [[the-virtual-brain]] - Software platform for whole-brain simulations using Epileptor
+- [[the-virtual-brain]] - Software platform for [[whole-brain]] simulations using Epileptor
 
 ## References
 

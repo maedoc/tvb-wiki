@@ -49,7 +49,7 @@ The HCP Pipelines provide essential preprocessing for [[connectome]]-based [[who
 
 - **[[structural-connectivity]]**: The cortical surface meshes (in fs_LR space) serve as the anatomical scaffolding for TVB simulations, with surface vertices mapping to network nodes.
 
-- **Tractography-derived Connectivity**: Preprocessed dMRI enables probabilistic tractography using tools like MRtrix3 or FSL's PROBTRACKX, generating structural connectivity matrices that constrain TVB [[network-dynamics]].
+- **Tractography-derived Connectivity**: Preprocessed dMRI enables probabilistic tractography using tools like [[mrtrix|MRtrix3]] or FSL's PROBTRACKX, generating structural connectivity matrices that constrain TVB [[network-dynamics]].
 
 - **Functional Validation**: The resting-state networks identified in HCP data provide empirical targets for validating TVB simulations against observed [[functional-connectivity]] patterns.
 

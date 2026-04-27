@@ -21,7 +21,7 @@ Independent Component Analysis (ICA) is a blind source separation technique that
 
 ## Mathematical Framework
 
-ICA addresses the fundamental problem of recovering unknown source signals from observed mixtures when the mixing process itself is unknown. Given a data matrix $\mathbf{X}$ of observations (e.g., EEG electrodes or fMRI voxels) at multiple time points, ICA assumes a linear mixing model:
+ICA addresses the fundamental problem of recovering unknown source signals from observed mixtures when the mixing process itself is unknown. Given a data matrix $\mathbf{X}$ of observations (e.g., EEG electrodes or [[fmri]] voxels) at multiple time points, ICA assumes a [[linear]] mixing model:
 
 $$\mathbf{X} = \mathbf{A}\mathbf{S}$$
 
@@ -31,7 +31,7 @@ The most common ICA algorithms optimize different objective functions. The **Inf
 
 ## Historical Development
 
-ICA was first applied to EEG data by Scott Makeig, Anthony Bell, Tzyy-Ping Jung, and Terrence Sejnowski in their seminal 1996 paper "Independent component analysis of electroencephalographic and magnetoencephalographic data" published in Advances in Neural Information Processing Systems. This work demonstrated that ICA could successfully separate brain-derived neural sources from artifacts such as eye movements and muscle activity, which had previously required extensive manual intervention. The technique rapidly became standard preprocessing and analysis tooling in electrophysiology laboratories worldwide.
+ICA was first applied to EEG data by Scott Makeig, Anthony Bell, Tzyy-Ping Jung, and [[terrence-sejnowski]] in their seminal 1996 paper "Independent component analysis of electroencephalographic and magnetoencephalographic data" published in Advances in Neural Information Processing Systems. This work demonstrated that ICA could successfully separate brain-derived neural sources from artifacts such as eye movements and muscle activity, which had previously required extensive manual intervention. The technique rapidly became standard preprocessing and analysis tooling in electrophysiology laboratories worldwide.
 
 ## Applications in Neuroimaging
 
@@ -41,7 +41,7 @@ In EEG and MEG analysis, ICA serves dual roles of artifact rejection and source 
 
 ### Functional Magnetic Resonance Imaging (fMRI)
 
-ICA was adapted for fMRI analysis by Beckmann and colleagues, leading to the widely used **spatial ICA** approach where entire fMRI volumes are decomposed into spatially independent maps and associated time courses. This enables identification of resting-state networks including the [[default-mode network]], sensorimotor systems, and attention networks without requiring a priori specification of seed regions. Temporal ICA complements spatial ICA by decomposing the data into temporally independent series, useful for identifying frequency-specific network dynamics.
+ICA was adapted for fMRI analysis by Beckmann and colleagues, leading to the widely used **spatial ICA** approach where entire fMRI volumes are decomposed into spatially independent maps and associated time courses. This enables identification of [[resting-state]] networks including the [[default-mode network]], sensorimotor systems, and attention networks without requiring a priori specification of seed regions. Temporal ICA complements spatial ICA by decomposing the data into temporally independent series, useful for identifying frequency-specific [[network-dynamics]].
 
 ## Role in Whole-Brain Modeling
 

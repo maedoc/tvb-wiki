@@ -36,7 +36,7 @@ The connectivity structure forms a recursive loop: pyramidal cells receive input
 
 ### Mathematical Formulation
 
-The model uses linear convolution with post-synaptic impulse response functions to transform population input currents into membrane potentials. The impulse response takes an alpha function form, representing the postsynaptic potential (PSP) following a presynaptic spike:
+The model uses [[linear]] convolution with post-synaptic impulse response functions to transform population input currents into membrane potentials. The impulse response takes an alpha function form, representing the postsynaptic potential (PSP) following a presynaptic spike:
 
 $$PSP(t) = \frac{A \cdot t}{\tau} \cdot \exp\left(-\frac{t}{\tau}\right) \quad \text{for} \ t \geq 0$$
 
@@ -85,11 +85,11 @@ The most influential extension of the original Jansen-Rit model was developed by
 
 ### Dynamic Causal Modeling Integration
 
-The Jansen-Rit model forms the computational basis for EEG and MEG applications of [[dynamic-causal-modeling|DCM]], a Bayesian framework for inferring effective connectivity from neuroimaging data. In this context, multiple Jansen-Rit columns are coupled together, and the forward problem (mapping neural activity to sensor-space signals) is solved using established EEG/MEG lead field formulations. DCM estimates the coupling parameters between populations using variational Bayesian methods, enabling researchers to make inferences about the neural mechanisms underlying observed brain responses.
+The Jansen-Rit model forms the computational basis for EEG and MEG applications of [[dynamic-causal-modeling|DCM]], a Bayesian framework for inferring [[effective-connectivity]] from neuroimaging data. In this context, multiple Jansen-Rit columns are coupled together, and the forward problem (mapping neural activity to sensor-space signals) is solved using established EEG/MEG lead field formulations. DCM estimates the coupling parameters between populations using variational Bayesian methods, enabling researchers to make inferences about the neural mechanisms underlying observed brain responses.
 
 ## Relationship to Other Neural Mass Models
 
-The Jansen-Rit model can be situated within a family of neural mass formulations that abstract cortical dynamics to population-level equations. The **Wilson-Cowan model** uses a simpler two-population (excitatory-inhibitory) framework that captures a wider range of frequency content but lacks the explicit columnar architecture of Jansen-Rit. The **Lopes da Silva model** specifically targets thalamocortical interactions with greater biophysical detail for thalamic relay neurons but less focus on cortical processing.
+The Jansen-Rit model can be situated within a family of neural mass formulations that abstract cortical dynamics to population-level equations. The **[[wilson-cowan|Wilson-Cowan model]]** uses a simpler two-population (excitatory-inhibitory) framework that captures a wider range of frequency content but lacks the explicit columnar architecture of Jansen-Rit. The **Lopes da Silva model** specifically targets thalamocortical interactions with greater biophysical detail for thalamic relay neurons but less focus on cortical processing.
 
 | Feature | Jansen-Rit | Wilson-Cowan | Lopes da Silva |
 |---------|------------|--------------|----------------|
@@ -107,10 +107,10 @@ The TVB implementation enables personalization of the model through empirical pa
 
 ## Limitations
 
-Despite its widespread use, the Jansen-Rit model has several important limitations that motivate ongoing development of more sophisticated formulations. The model assumes **fixed connectivity** without synaptic plasticity, precluding simulation of learning and memory consolidation. The **homogeneous population** abstraction ignores the substantial diversity of cortical neuron types and their distinct dynamical properties. Synaptic modeling uses simplified alpha functions **lacking NMDA receptor dynamics** and conductance-based formulations, limiting the model's capacity to capture certain regime transitions. Finally, because the model represents a single cortical column, it requires substantial extension—via network coupling—for [[whole-brain]] simulations.
+Despite its widespread use, the Jansen-Rit model has several important limitations that motivate ongoing development of more sophisticated formulations. The model assumes **fixed connectivity** without synaptic plasticity, precluding simulation of learning and memory consolidation. The **homogeneous population** abstraction ignores the substantial diversity of cortical [[neuron]] types and their distinct dynamical properties. Synaptic modeling uses simplified alpha functions **lacking NMDA receptor dynamics** and conductance-based formulations, limiting the model's capacity to capture certain regime transitions. Finally, because the model represents a single cortical column, it requires substantial extension—via network coupling—for [[whole-brain]] simulations.
 
 ## References
 
 1. Benjamin H. Jansen, Vincent G. Rit. *Electroencephalogram and visual evoked potential generation in a mathematical model of coupled cortical columns*. Biological Cybernetics. [DOI](https://doi.org/10.1007/BF00199471)
 2. Wendling F., Bartolomei F., Bellanger J.J., Chauvel P. *A dynamic causal modeling study of the generation of epileptic fast activity*. NeuroImage. [DOI](https://doi.org/10.1006/nimg.2002.1234)
-3. Huda Mahdi, Jan Sieber, Krasimira Tsaneva-Atanasova. *Alpha-Delta Transitions in Cortical Rhythms as grazing bifurcations*. [Link](https://arxiv.org/abs/2411.16449)
+3. Huda Mahdi, Jan Sieber, [[krasimira-tsaneva-atanasova]]. *Alpha-Delta Transitions in Cortical Rhythms as grazing bifurcations*. [Link](https://arxiv.org/abs/2411.16449)

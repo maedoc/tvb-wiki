@@ -20,7 +20,7 @@ type: concept
 updated: '2026-04-27'
 ---
 
-Developmental trajectories describe the patterns of change in brain structure and function across the lifespan, from prenatal development through aging. These trajectories are often non-[[linear]], with different brain regions following distinct developmental curves that reflect the complex interplay between genetic programs and experience-dependent plasticity. Understanding these trajectories is essential for building biologically realistic [[whole-brain-modeling|whole-brain models]] that can accurately represent age-specific neural dynamics, predict individual outcomes, and identify deviations that may indicate developmental disorders.
+Developmental trajectories describe the patterns of change in brain structure and function across the lifespan, from prenatal development through aging. These trajectories are often non-[[linear]], with different brain regions following distinct developmental curves that reflect the complex interplay between genetic programs and experience-dependent plasticity. Understanding these trajectories is essential for building biologically realistic [[whole-brain-modeling|[[whole-brain]] models]] that can accurately represent age-specific neural dynamics, predict individual outcomes, and identify deviations that may indicate developmental disorders.
 
 ## Definition and Theoretical Foundations
 
@@ -66,19 +66,19 @@ White matter development follows a distinct temporal pattern characterized by ea
 
 ### Functional Connectivity Development
 
-The work of [[damien-fair|Fair et al.]] (2009) demonstrated that functional brain networks undergo a fundamental organizational transformation from a "local to distributed" configuration across development. Using resting-state fMRI in 210 participants aged 7-31, the authors found that children show predominantly short-range, locally clustered connections, while adults show stronger long-range connections linking distant brain regions. This shift reflects the ongoing process of [[neurodevelopment|neural development]], where initial local circuits are refined and integrated into distributed networks capable of sophisticated information processing.
+The work of [[damien-fair|Fair et al.]] (2009) demonstrated that functional brain networks undergo a fundamental organizational transformation from a "local to distributed" configuration across development. Using resting-state [[fmri]] in 210 participants aged 7-31, the authors found that children show predominantly short-range, locally clustered connections, while adults show stronger long-range connections linking distant brain regions. This shift reflects the ongoing process of [[neurodevelopment|neural development]], where initial local circuits are refined and integrated into distributed networks capable of sophisticated information processing.
 
 The default mode network (DMN) exemplifies these developmental changes. In children, DMN activity is more localized, while in adolescents and adults, the DMN shows more distributed patterns and stronger correlations with other networks, particularly the frontoparietal attention network. These changes parallel improvements in cognitive control and the ability to flexibly switch between internal (self-referential) and external (task-oriented) processing modes.
 
 ### Network Topology
 
-[[power-2010|Power et al.]] (2010) provided a comprehensive review of how large-scale brain network topology develops across childhood and adolescence. Several key metrics show characteristic developmental patterns:
+[[power-2010|Power et al.]] (2010) provided a comprehensive review of how large-scale [[brain-network]] topology develops across childhood and adolescence. Several key metrics show characteristic developmental patterns:
 
 **Modularity** increases from childhood through adolescence, reflecting the differentiation of functionally specialized subnetworks within the broader brain network. This increase in modularity represents a refinement of functional segregation, where different network modules become more specialized for specific cognitive processes while maintaining integration through hub regions.
 
 **Small-world properties** evolve with development, with children showing more random network configurations and adults showing more organized small-world topology. This maturation reflects the balance between local efficiency (via dense short-range connections) and global integration (via long-range hub connections).
 
-**Hub organization** strengthens during development, with the rich-club coefficient increasing as hub regions become more densely interconnected. This maturation supports efficient global communication across the brain network and is thought to underlie the improved cognitive flexibility seen in adulthood. The development of hub structure is closely tied to white matter maturation, as long-range white matter tracts provide the anatomical substrate for hub connectivity.
+**Hub organization** strengthens during development, with the [[rich-club]] coefficient increasing as hub regions become more densely interconnected. This maturation supports efficient global communication across the brain network and is thought to underlie the improved cognitive flexibility seen in adulthood. The development of hub structure is closely tied to white matter maturation, as long-range white matter tracts provide the anatomical substrate for hub connectivity.
 
 ## Individual Differences and Moderators
 
@@ -100,7 +100,7 @@ Classic examples of critical periods include the visual system, where normal bin
 
 Understanding developmental trajectories is essential for building biologically realistic [[whole-brain-modeling|whole-brain models]]. Age-specific models require different parameter values that reflect the underlying neurobiology of the target developmental stage. A model of a 10-year-old child should differ from a model of a 30-year-old adult not merely in parameter values but in the fundamental dynamics that those parameters produce, reflecting the different balances of excitation and inhibition, pruning and myelination, and local versus distributed connectivity that characterize different developmental stages.
 
-Neural mass models and [[neural-mass-models|neural mass]] approaches can incorporate developmental trajectories through age-dependent parameter functions that capture the non-linear changes in synaptic parameters, delays, and coupling strength that characterize brain maturation. Extensions to [[dynamic-causal-modeling|dynamic causal modeling]] can similarly incorporate developmental changes in effective connectivity, allowing researchers to test hypotheses about how the causal structure of brain networks changes across development.
+Neural mass models and [[neural-mass-models|neural mass]] approaches can incorporate developmental trajectories through age-dependent parameter functions that capture the non-linear changes in synaptic parameters, delays, and coupling strength that characterize brain maturation. Extensions to [[dynamic-causal-modeling|dynamic causal modeling]] can similarly incorporate developmental changes in [[effective-connectivity]], allowing researchers to test hypotheses about how the causal structure of brain networks changes across development.
 
 ### Individual Prediction and Personalized Models
 

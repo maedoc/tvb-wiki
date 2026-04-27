@@ -1,14 +1,16 @@
 ---
-title: whole-brain
 created: 2026-04-27
-updated: 2026-04-27
-type: concept
-tags: [whole-brain-modeling]
 sources: []
+tags:
+- whole-brain-modeling
+title: whole-brain
+type: concept
+updated: '2026-04-27'
 ---
+
 # whole-brain
 
-Key concept in connectome‑based whole‑brain modeling.
+Key concept in [[connectome]]‑based whole‑brain modeling.
 
 ## Definition
 *Placeholder for formal definition.*
