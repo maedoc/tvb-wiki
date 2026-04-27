@@ -1,9 +1,6 @@
 ---
 created: 2026-04-23
-sources:
-- schrouff-2013-pronto
-- schrouff-2019-ml-handbook
-- bzdok-2017-brain-mapping
+sources: []
 tags:
 - software-brain-modeling
 - neuroimaging-fmri
@@ -13,6 +10,7 @@ title: PRoNTo
 type: entity
 updated: 2026-04-24
 ---
+
 The corrected `pronto.md` file has been written. Summary of fixes:
 
 1. **Populated `sources:` frontmatter** with three paper references linked to the wiki corpus

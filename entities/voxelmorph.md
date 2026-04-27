@@ -1,9 +1,6 @@
 ---
 created: 2026-04-24
 sources:
-- https://github.com/voxelmorph/voxelmorph
-- https://doi.org/10.1109/TMI.2019.2897538
-- https://doi.org/10.1007/978-3-030-32245-8_7
 - raw/papers/semanticscholar-97e6ff441097.md
 - raw/papers/semanticscholar-8edd59e14fa3.md
 - raw/papers/glasser-2013.md

@@ -1,11 +1,6 @@
 ---
 created: 2026-04-23
 sources:
-- pieper-2006
-- norton-2017
-- fedorov-2012
-- slicer-official
-- dmri-doc
 - raw/papers/tustison-2010.md
 tags:
 - software-brain-modeling
