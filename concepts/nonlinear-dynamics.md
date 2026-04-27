@@ -62,7 +62,7 @@ where $W_t$ is a Wiener process and $\sigma$ quantifies noise amplitude. The cor
 
 $$\frac{\partial p}{\partial t} = -\frac{\partial}{\partial x}[F(x)p] + \frac{\sigma^2}{2}\frac{\partial^2 p}{\partial x^2}$$
 
-This formalism, treated in depth by [[Ermentrout-Terman]] and in the general theory of [[stochastic-differential-equations]], is essential for understanding how noise interacts with nonlinearities to enable transitions between stable states—a mechanism thought to underlie spontaneous brain state fluctuations observed in resting-state [[fMRI]] and [[EEG]] recordings.
+This formalism, treated in depth by Ermentrout 0026 Terman and in the general theory of [[stochastic-differential-equations]], is essential for understanding how noise interacts with nonlinearities to enable transitions between stable states—a mechanism thought to underlie spontaneous brain state fluctuations observed in resting-state [[fMRI]] and [[EEG]] recordings.
 
 ## Relationship to Other Concepts
 
