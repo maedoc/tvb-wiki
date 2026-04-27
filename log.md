@@ -460,3 +460,5 @@
 ## [2026-04-27 20:24] CrosslinkApplier: added 60 wikilinks (60 inline, 0 suggested)
 
 ## [2026-04-27 20:28] Ingest: 2 new papers, 0 stubs created
+
+## [2026-04-27 20:54] Matcher: 57 pages got 156 new sources
