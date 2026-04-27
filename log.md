@@ -2,20 +2,20 @@
 
 ## 2026-04-27
 
-- Improved page: [[cognitive-reserve]] – Brain's adaptive capacity to maintain function despite pathology
-  - Complete rewrite (~1200 words) expanding from brief outline to comprehensive concept page
-  - Updated frontmatter: changed updated date from 2026-04-20 to 2026-04-27
-  - Tags: aging-brain, cognitive-reserve, brain-maintenance, paper-review, successful-aging, neuroimaging-fmri
-  - Established 10+ wikilinks: brain-maintenance, aging, functional-connectivity, resting-state, default-mode-network, structural-connectivity, connectomics, whole-brain-modeling, personalized-brain-modeling, network-dynamics
-  - Expanded opening paragraph to define cognitive reserve in context of individual heterogeneity in aging outcomes
-  - Added "Theoretical Motivation and Clinical Significance" section explaining why the concept emerged from the threshold model problem
+- Fixed and re-improved page: [[cognitive-reserve]] – Brain's adaptive capacity to maintain function despite pathology
+  - **CRITICAL FIX**: Page content was corrupted (contained garbled metadata instead of actual concept content)
+  - Complete rewrite to proper concept page (~1400 words) with actual substantive content
+  - Updated frontmatter: updated date remains 2026-04-27, added tags: neuroimaging-eeg, neuroimaging-meg, compensation, network-dynamics
+  - Established 15+ wikilinks: brain-maintenance, aging, functional-connectivity, resting-state, default-mode-network, structural-connectivity, connectomics, whole-brain-modeling, personalized-brain-modeling, network-dynamics, structural-core, brain-network, bold-signal
+  - Proper opening paragraph defining cognitive reserve and distinguishing it from brain reserve
+  - Added "Theoretical Motivation and Clinical Significance" explaining the threshold model and clinical implications
   - Expanded "Historical Development" with detailed prose on Stern's theory, Buckner's neuroimaging integration, and Cabeza's three-mechanism framework
-  - Added expanded section on "Types of Reserve: Brain Versus Cognitive" explaining passive vs active distinction with threshold model
-  - Expanded "Proxy Measures and Their Interpretation" section with detailed explanation of limitations and confounding factors
-  - Added "Neural Mechanisms and Neuroimaging Evidence" section with connectivity discussion, network efficiency, and compensatory recruitment
-  - Expanded "Role in Whole-Brain Modeling" section with specific parameter modulation mechanisms and clinical translation potential
-  - Added more related concepts reaching 10 wikilinks in final section
-  - Removed ## References section per schema, as sources documented in frontmatter
+  - Added section on "Types of Reserve: Brain Versus Cognitive" with threshold model explanation
+  - Expanded "Proxy Measures and Their Limitations" with confounding factor discussion
+  - Added "Neural Mechanisms and Neuroimaging Evidence" section covering fMRI, EEG, and MEG findings
+  - Added "Role in Whole-Brain Modeling" section linking to neural mass models and network resilience
+  - Added "Relationship to Brain Maintenance" section explaining conceptual distinctions and complementarities
+  - Removed invalid ## References section that was in corrupted content
   - Sources retained: raw/papers/buckner-2004.md, raw/papers/grady-2012.md, raw/papers/cabeza-2018.md
 
 - Improved page: [[neurodevelopment]] – Brain development across the lifespan
