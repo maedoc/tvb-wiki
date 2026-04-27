@@ -6,6 +6,7 @@ sources:
 - raw/papers/arxiv-2603.07524.md
 - raw/papers/schirner-2018.md
 - raw/papers/semanticscholar-eb704b6f5462.md
+- raw/papers/arxiv-2506.21155.md
 tags:
 - software-brain-modeling
 - reproducibility

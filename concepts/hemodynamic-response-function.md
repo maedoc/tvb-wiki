@@ -1,6 +1,7 @@
 ---
 created: 2026-04-27
-sources: []
+sources:
+- raw/papers/friston-1993.md
 tags:
 - hemodynamic-response-function
 title: Hemodynamic Response Function

@@ -2,6 +2,10 @@
 created: 2026-04-20
 sources:
 - raw/papers/wendling-2002.md
+- raw/papers/arxiv-2512.03907.md
+- raw/papers/semanticscholar-15a4a438614f.md
+- raw/papers/potjans-diesmann-2014.md
+- raw/papers/deco-2013.md
 tags:
 - neural-mass-models
 - whole-brain-modeling

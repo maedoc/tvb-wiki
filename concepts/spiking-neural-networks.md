@@ -4,6 +4,9 @@ sources:
 - raw/papers/gewaltig-diesmann-2007.md
 - raw/papers/potjans-diesmann-2014.md
 - raw/papers/jordan-2018.md
+- raw/papers/helias-2012.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/arxiv-2509.02799.md
 tags:
 - spiking-neural-networks
 - neural-mass-models

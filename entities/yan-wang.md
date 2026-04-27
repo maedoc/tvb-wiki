@@ -6,6 +6,7 @@ sources:
 - raw/papers/arxiv-2603.21067.md
 - raw/papers/arxiv-2509.02799.md
 - raw/papers/semanticscholar-9afbfd2d37be.md
+- raw/papers/david-friston-2003.md
 tags:
 - people-researcher
 - software-tvb

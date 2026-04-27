@@ -2,6 +2,10 @@
 created: 2026-04-27
 sources:
 - raw/papers/stefanescu-jirsa-2008.md
+- raw/papers/potjans-diesmann-2014.md
+- raw/papers/izhikevich-2007.md
+- raw/papers/wilson-cowan-1972.md
+- raw/papers/arxiv-2512.03907.md
 tags:
 - neural-mass-models
 - mean-field-theory

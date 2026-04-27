@@ -1,6 +1,11 @@
 ---
 created: 2026-04-27
-sources: []
+sources:
+- raw/papers/arxiv-2604.16463.md
+- raw/papers/semanticscholar-97e6ff441097.md
+- raw/papers/semanticscholar-0aeca1b592e6.md
+- raw/papers/semanticscholar-a324c47ea982.md
+- raw/papers/semanticscholar-f45e6044c92f.md
 tags:
 - software-mrtrix
 title: MRtrix

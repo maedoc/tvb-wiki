@@ -1,6 +1,7 @@
 ---
 created: 2026-04-27
-sources: []
+sources:
+- raw/papers/rubinov-sporns-2010.md
 tags:
 - software-bct
 title: Software Bct

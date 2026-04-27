@@ -1,6 +1,11 @@
 ---
 created: 2026-04-27
-sources: []
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/hines-carnevale-1997.md
+- raw/papers/semanticscholar-97e6ff441097.md
+- raw/papers/schirner-2018.md
+- raw/papers/woodman-2014.md
 tags:
 - software-coreneuron
 title: CoreNEURON

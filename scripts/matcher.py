@@ -53,12 +53,12 @@ PAPER_INDEX_FILE = os.path.join(EMBED_DIR, "paper_index.json")
 MATCH_RESULTS_FILE = os.path.join(EMBED_DIR, "match_results.json")
 HASH_FILE = os.path.join(EMBED_DIR, "content_hashes.json")
 
-TOP_CANDIDATES = 10  # papers to surface per page for LLM evaluation
+TOP_CANDIDATES = 3  # papers to surface per page for LLM evaluation
 MAX_CONFIRMED = 5    # max sources to attach per page
 SIM_THRESHOLD = 0.25  # minimum cosine similarity for sentence-level match (lowered to reclaim more refs)
 
 # Auto-confirm thresholds: skip LLM if the top match is this strong
-AUTO_CONFIRM_SIM = 0.65  # top similarity score
+AUTO_CONFIRM_SIM = 0.55  # top similarity score
 AUTO_CONFIRM_MATCHING = 4 # matching sentences
 
 # Batch evaluation: evaluate this many pages per LLM call

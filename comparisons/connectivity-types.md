@@ -14,6 +14,8 @@ sources:
 - raw/papers/semanticscholar-ce89e593c89e.md
 - raw/papers/arxiv-2601.17073.md
 - raw/papers/arxiv-2307.09770.md
+- raw/papers/arxiv-2603.29903.md
+- raw/papers/smith-2013-connectomics.md
 tags:
 - comparison
 - structural-connectivity

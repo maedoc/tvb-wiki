@@ -4,6 +4,11 @@ sources:
 - raw/papers/risken-1989.md
 - raw/papers/gardiner-2009.md
 - raw/papers/tuckwell-1988.md
+- raw/papers/stefanescu-jirsa-2008.md
+- raw/papers/doi-10.3389-fncom.2026.1762692.md
+- raw/papers/semanticscholar-7ce00494427f.md
+- raw/papers/wilson-cowan-1972.md
+- raw/papers/arxiv-2512.08257.md
 tags:
 - stochastic-differential-equations
 - neural-mass-models

@@ -8,6 +8,9 @@ sources:
 - raw/papers/potjans-diesmann-2014.md
 - raw/papers/breakspear-2017.md
 - raw/papers/arxiv-2503.05564.md
+- raw/papers/semanticscholar-cc2129666e15.md
+- raw/papers/semanticscholar-e1fa0a868dbe.md
+- raw/papers/semanticscholar-85e2123db1a7.md
 tags:
 - people-researcher
 - neural-mass-models

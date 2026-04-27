@@ -1,6 +1,11 @@
 ---
 created: 2023-11-15
-sources: []
+sources:
+- raw/papers/semanticscholar-b299aa3db60e.md
+- raw/papers/semanticscholar-807668ceea0a.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-ce89e593c89e.md
+- raw/papers/zavaglia-2006.md
 tags:
 - brain-stimulation
 - whole-brain-modeling

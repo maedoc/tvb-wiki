@@ -1,6 +1,11 @@
 ---
 created: 2026-04-27
-sources: []
+sources:
+- raw/papers/eppler-2009.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/hines-carnevale-1997.md
+- raw/papers/gewaltig-diesmann-2007.md
+- raw/papers/woodman-2014.md
 tags:
 - software-netpyne
 title: NetPyNE

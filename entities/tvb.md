@@ -9,6 +9,7 @@ sources:
 - raw/papers/semanticscholar-9afbfd2d37be.md
 - raw/papers/arxiv-2505.16861.md
 - raw/papers/arxiv-2509.12873.md
+- raw/papers/semanticscholar-ff8218c1e55e.md
 tags:
 - software-tvb
 - whole-brain-modeling

@@ -4,6 +4,10 @@ sources:
 - raw/papers/ogawa-1990.md
 - raw/papers/logothetis-2001.md
 - raw/papers/friston-1994.md
+- raw/papers/arxiv-2603.24176.md
+- raw/papers/power-2011.md
+- raw/papers/arxiv-2509.24715.md
+- raw/papers/arxiv-2602.03240.md
 tags:
 - neuroimaging-fmri
 title: fMRI

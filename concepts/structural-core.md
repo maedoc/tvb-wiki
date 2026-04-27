@@ -3,6 +3,10 @@ created: 2026-04-20
 sources:
 - raw/papers/hagmann-2008.md
 - raw/papers/sporns-2011.md
+- raw/papers/deco-2013.md
+- raw/papers/power-2011.md
+- raw/papers/greicius-2003.md
+- raw/papers/buckner-andrews-hanna-schacter-2008.md
 tags:
 - connectomics
 - structural-connectivity

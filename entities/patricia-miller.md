@@ -4,6 +4,8 @@ sources:
 - raw/papers/miller-2016.md
 - raw/papers/elliott-2018.md
 - raw/papers/alfaro-almagro-2018.md
+- raw/papers/smith-2021.md
+- raw/papers/littlejohns-2020.md
 tags:
 - people-researcher
 - neuroimaging-fmri

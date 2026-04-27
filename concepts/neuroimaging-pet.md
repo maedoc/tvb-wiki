@@ -1,6 +1,10 @@
 ---
 created: 2026-04-27
-sources: []
+sources:
+- raw/papers/friston-1993.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/schirner-2018.md
+- raw/papers/ritter-2013.md
 tags:
 - neuroimaging-pet
 title: Neuroimaging Pet

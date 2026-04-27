@@ -11,6 +11,8 @@ sources:
 - raw/papers/zuo-2010.md
 - raw/papers/greicius-2003.md
 - raw/papers/arxiv-2512.00063.md
+- raw/papers/semanticscholar-44da8d4ab79e.md
+- raw/papers/smith-2013-hcp.md
 tags:
 - functional-connectivity
 - resting-state

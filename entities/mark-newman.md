@@ -6,6 +6,8 @@ sources:
 - raw/papers/watts-strogatz-1998.md
 - raw/papers/barabasi-albert-1999.md
 - raw/papers/rubinov-sporns-2010.md
+- raw/papers/semanticscholar-7c3337c880fd.md
+- raw/papers/arxiv-2602.17820.md
 tags:
 - people-researcher
 - network-dynamics

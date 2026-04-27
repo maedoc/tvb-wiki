@@ -7,6 +7,7 @@ sources:
 - raw/papers/arxiv-2510.22022.md
 - raw/papers/destexhe-sejnowski-2009.md
 - raw/papers/arxiv-2510.02545.md
+- raw/papers/arxiv-2512.22093.md
 tags:
 - people-researcher
 - neural-mass-models

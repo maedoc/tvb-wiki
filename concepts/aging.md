@@ -4,6 +4,8 @@ sources:
 - raw/papers/buckner-2004.md
 - raw/papers/grady-2012.md
 - raw/papers/damoiseaux-2008.md
+- raw/papers/fjell-walhovd-2010.md
+- raw/papers/semanticscholar-b63e3d8a1467.md
 tags:
 - aging-brain
 - neuroimaging-fmri

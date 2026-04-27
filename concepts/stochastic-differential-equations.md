@@ -7,6 +7,11 @@ sources:
 - raw/papers/deco-2009-stochastic.md
 - raw/papers/arxiv-2603.24176.md
 - raw/papers/montbrio-pazo-roxin-2015.md
+- raw/papers/semanticscholar-7ce00494427f.md
+- raw/papers/arxiv-2603.07524.md
+- raw/papers/arxiv-2510.02545.md
+- raw/papers/doi-10.3389-fncom.2026.1762692.md
+- raw/papers/semanticscholar-7593809733f3.md
 tags:
 - stochastic-differential-equations
 - neural-mass-models

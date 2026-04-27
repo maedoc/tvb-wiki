@@ -6,6 +6,8 @@ sources:
 - raw/papers/eppler-2009.md
 - raw/papers/semanticscholar-71ffb8153870.md
 - raw/papers/helias-2012.md
+- raw/papers/arxiv-2603.04149.md
+- raw/papers/semanticscholar-ff8218c1e55e.md
 tags:
 - people-researcher
 - software-nest

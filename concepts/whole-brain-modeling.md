@@ -1,6 +1,11 @@
 ---
 created: 2024-01-15
-sources: []
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/arxiv-2509.12873.md
+- raw/papers/semanticscholar-e1fa0a868dbe.md
+- raw/papers/arxiv-2603.24176.md
+- raw/papers/arxiv-2512.03907.md
 tags:
 - whole-brain-modeling
 - neural-mass-models

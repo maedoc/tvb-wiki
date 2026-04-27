@@ -7,6 +7,8 @@ sources:
 - raw/papers/newman-2010.md
 - raw/papers/izhikevich-2007.md
 - raw/papers/ermentrout-terman-2010.md
+- raw/papers/wiggins-2003.md
+- raw/papers/arxiv-2603.04149.md
 tags:
 - people-researcher
 title: Steven Strogatz

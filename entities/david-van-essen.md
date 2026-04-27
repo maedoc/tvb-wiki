@@ -5,6 +5,7 @@ sources:
 - raw/papers/van-essen-2012.md
 - raw/papers/smith-2013-hcp.md
 - raw/papers/barch-2013.md
+- raw/papers/semanticscholar-929b90566fc8.md
 tags:
 - people-researcher
 - connectomics

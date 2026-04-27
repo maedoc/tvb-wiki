@@ -3,6 +3,9 @@ created: 2024-01-15
 sources:
 - raw/papers/arxiv-2510.02545.md
 - raw/papers/semanticscholar-a9ff4dda4e4c.md
+- raw/papers/potjans-diesmann-2014.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/arxiv-2506.22951.md
 tags:
 - neural-mass-models
 - mean-field-theory

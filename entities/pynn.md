@@ -1,6 +1,11 @@
 ---
 created: 2026-04-27
-sources: []
+sources:
+- raw/papers/eppler-2009.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-97e6ff441097.md
+- raw/papers/semanticscholar-0aeca1b592e6.md
+- raw/papers/semanticscholar-9afbfd2d37be.md
 tags:
 - software-pynn
 title: PyNN

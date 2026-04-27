@@ -5,6 +5,8 @@ sources:
 - raw/papers/sporns-2011.md
 - raw/papers/rubinov-sporns-2010.md
 - raw/papers/bullmore-sporns-2009.md
+- raw/papers/power-2011.md
+- raw/papers/smith-2013-connectomics.md
 tags:
 - people-researcher
 - connectomics

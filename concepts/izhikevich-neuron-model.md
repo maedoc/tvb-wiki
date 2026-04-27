@@ -1,6 +1,8 @@
 ---
 created: 2026-04-27
-sources: []
+sources:
+- raw/papers/potjans-diesmann-2014.md
+- raw/papers/breakspear-2017.md
 tags:
 - izhikevich-neuron-model
 title: Izhikevich Neuron Model

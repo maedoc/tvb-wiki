@@ -1,6 +1,11 @@
 ---
 created: 2026-04-27
-sources: []
+sources:
+- raw/papers/arxiv-2604.16463.md
+- raw/papers/semanticscholar-97e6ff441097.md
+- raw/papers/semanticscholar-0aeca1b592e6.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/schirner-2018.md
 tags:
 - software-nilearn
 title: Nilearn

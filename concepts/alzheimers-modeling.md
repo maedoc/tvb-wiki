@@ -1,6 +1,11 @@
 ---
 created: 2024-01-15
-sources: []
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/arxiv-2603.13598.md
+- raw/papers/arxiv-2506.22951.md
+- raw/papers/ritter-2013.md
+- raw/papers/arxiv-2504.17491.md
 tags:
 - alzheimers-modeling
 - whole-brain-modeling

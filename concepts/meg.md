@@ -4,6 +4,11 @@ sources:
 - raw/papers/makeig-1996.md
 - raw/papers/cohen-2014.md
 - raw/papers/buzsaki-2012.md
+- raw/papers/arxiv-2603.21032.md
+- raw/papers/semanticscholar-cdd1f61b0ec3.md
+- raw/papers/arxiv-2602.18715.md
+- raw/papers/arxiv-2506.22951.md
+- raw/papers/arxiv-2603.24176.md
 tags:
 - neuroimaging-meg
 - neuroimaging-eeg

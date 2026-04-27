@@ -4,6 +4,8 @@ sources:
 - raw/papers/cabeza-2018.md
 - raw/papers/fjell-walhovd-2010.md
 - raw/papers/grady-2012.md
+- raw/papers/buckner-2004.md
+- raw/papers/smith-2021.md
 tags:
 - aging-brain
 - brain-maintenance

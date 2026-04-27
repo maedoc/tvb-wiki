@@ -4,6 +4,9 @@ sources:
 - raw/papers/raichle-2001.md
 - raw/papers/buckner-andrews-hanna-schacter-2008.md
 - raw/papers/greicius-2003.md
+- raw/papers/smith-2013-connectomics.md
+- raw/papers/andrews-hanna-2010.md
+- raw/papers/friston-1993.md
 tags:
 - default-mode-network
 - resting-state

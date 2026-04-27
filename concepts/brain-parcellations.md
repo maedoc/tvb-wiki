@@ -1,6 +1,7 @@
 ---
 created: 2026-04-27
-sources: []
+sources:
+- raw/papers/hagmann-2008.md
 tags:
 - brain-parcellations
 title: Brain Parcellations

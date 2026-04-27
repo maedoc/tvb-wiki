@@ -4,6 +4,8 @@ sources:
 - raw/papers/breakspear-2017.md
 - raw/papers/semanticscholar-ce89e593c89e.md
 - raw/papers/arxiv-2504.17491.md
+- raw/papers/semanticscholar-7cad41ef7875.md
+- raw/papers/arxiv-2509.02799.md
 tags:
 - whole-brain-modeling
 - connectomics

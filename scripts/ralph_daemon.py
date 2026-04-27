@@ -260,13 +260,13 @@ def run_repairer():
 # ── Agent schedule ─────────────────────────────────────────────────────
 
 AGENTS = [
-    ('Matcher',        MATCHER_INTERVAL,             run_matcher),
-    ('Ingestor',       INGESTOR_INTERVAL,             run_ingestor),
     ('Improver',       IMPROVER_INTERVAL,              run_improver),
-    ('DeepResearch',   DEEP_RESEARCH_INTERVAL,         run_deep_research),
-    ('Auditor',        AUDITOR_INTERVAL,               run_auditor),
     ('RefFormatter',   REF_FORMATTER_INTERVAL,         run_ref_formatter),
     ('CrosslinkApplier', CROSSLINK_APPLIER_INTERVAL,   run_crosslink_applier),
+    ('Ingestor',       INGESTOR_INTERVAL,             run_ingestor),
+    ('Matcher',        MATCHER_INTERVAL,                run_matcher),
+    ('DeepResearch',   DEEP_RESEARCH_INTERVAL,         run_deep_research),
+    ('Auditor',        AUDITOR_INTERVAL,               run_auditor),
     ('Repairer',       REPAIRER_INTERVAL,              run_repairer),
     ('Librarian',      LIBRARIAN_INTERVAL,             run_librarian),
     ('Linter',         LINTER_INTERVAL,                run_linter),

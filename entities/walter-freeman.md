@@ -6,6 +6,8 @@ sources:
 - raw/papers/strogatz-1994.md
 - raw/papers/izhikevich-2007.md
 - raw/papers/power-2010.md
+- raw/papers/arxiv-2603.07524.md
+- raw/papers/power-2011.md
 tags:
 - people-researcher
 - neural-mass-models

@@ -1,6 +1,9 @@
 ---
 created: 2026-04-27
-sources: []
+sources:
+- raw/papers/strogatz-1994.md
+- raw/papers/izhikevich-2007.md
+- raw/papers/breakspear-2017.md
 tags:
 - brain-dynamics
 title: Brain Dynamics

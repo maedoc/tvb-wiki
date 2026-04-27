@@ -1,6 +1,11 @@
 ---
 created: 2024-01-15
-sources: []
+sources:
+- raw/papers/ritter-2013.md
+- raw/papers/semanticscholar-bb75bdb90ada.md
+- raw/papers/arxiv-2510.27366.md
+- raw/papers/arxiv-2509.12873.md
+- raw/papers/semanticscholar-a225a1c661a7.md
 tags:
 - parameter-estimation
 - whole-brain-modeling

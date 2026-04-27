@@ -4,6 +4,8 @@ sources:
 - raw/papers/wiggins-2003.md
 - raw/papers/guckenheimer-holmes-1983.md
 - raw/papers/hirsch-smale-devaney-2004.md
+- raw/papers/tuckwell-1988.md
+- raw/papers/izhikevich-2007.md
 tags:
 - people-researcher
 title: Stephen Wiggins

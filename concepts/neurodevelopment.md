@@ -8,6 +8,10 @@ sources:
 - raw/papers/stiles-jernigan-2010.md
 - raw/papers/semanticscholar-c4bc6ce91683.md
 - raw/papers/smith-2021.md
+- raw/papers/semanticscholar-34ef3bcd7c8b.md
+- raw/papers/semanticscholar-929b90566fc8.md
+- raw/papers/power-2011.md
+- raw/papers/semanticscholar-7cad41ef7875.md
 tags:
 - neurodevelopment
 - developmental-trajectories

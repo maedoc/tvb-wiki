@@ -6,6 +6,7 @@ sources:
 - raw/papers/rubinov-sporns-2010.md
 - raw/papers/sporns-2011.md
 - raw/papers/semanticscholar-0aeca1b592e6.md
+- raw/papers/smith-2013-connectomics.md
 tags:
 - software-graphvar
 - functional-connectivity

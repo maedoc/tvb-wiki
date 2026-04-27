@@ -8,6 +8,8 @@ sources:
 - raw/papers/semanticscholar-b63e3d8a1467.md
 - raw/papers/semanticscholar-44da8d4ab79e.md
 - raw/papers/semanticscholar-7cad41ef7875.md
+- raw/papers/arxiv-2601.03796.md
+- raw/papers/semanticscholar-cc2129666e15.md
 tags:
 - people‑researcher
 title: Krasimira Tsaneva-Atanasova

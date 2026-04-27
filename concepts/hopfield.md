@@ -8,6 +8,9 @@ sources:
 - raw/papers/semanticscholar-71ffb8153870.md
 - raw/papers/semanticscholar-c3d9674bec1b.md
 - raw/papers/semanticscholar-62534125f066.md
+- raw/papers/semanticscholar-ff8218c1e55e.md
+- raw/papers/arxiv-2512.22093.md
+- raw/papers/semanticscholar-cc2129666e15.md
 tags:
 - neural-mass-models
 - dynamical-systems-theory

@@ -1,6 +1,7 @@
 ---
 created: 2026-04-27
-sources: []
+sources:
+- raw/papers/nunez-srinivasan-2006.md
 tags:
 - paul-nunez
 title: Paul Nunez

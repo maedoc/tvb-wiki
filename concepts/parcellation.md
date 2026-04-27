@@ -1,6 +1,11 @@
 ---
 created: 2025-01-15
-sources: []
+sources:
+- raw/papers/arxiv-2603.07524.md
+- raw/papers/arxiv-2506.22951.md
+- raw/papers/arxiv-2512.03907.md
+- raw/papers/arxiv-2603.29903.md
+- raw/papers/arxiv-2603.21067.md
 tags:
 - connectomics
 - structural-connectivity

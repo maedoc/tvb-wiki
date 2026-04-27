@@ -3,6 +3,11 @@ created: 2026-04-20
 sources:
 - raw/papers/strogatz-1994.md
 - raw/papers/wiggins-2003.md
+- raw/papers/arxiv-2509.02799.md
+- raw/papers/izhikevich-2007.md
+- raw/papers/doi-10.3389-fncom.2026.1762692.md
+- raw/papers/semanticscholar-7ce00494427f.md
+- raw/papers/stefanescu-jirsa-2008.md
 tags:
 - nonlinear-dynamics
 - dynamical-systems-theory

@@ -3,6 +3,9 @@ created: 2024-01-15
 sources:
 - raw/papers/arxiv-2508.04824.md
 - raw/papers/touboul-2011.md
+- raw/papers/breakspear-2006.md
+- raw/papers/arxiv-2512.22093.md
+- raw/papers/izhikevich-2007.md
 tags:
 - epilepsy-modeling
 - bifurcation-analysis

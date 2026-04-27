@@ -5,6 +5,9 @@ sources:
 - raw/papers/freeman-1975.md
 - raw/papers/ermentrout-terman-2010.md
 - raw/papers/dayan-abbott-2001.md
+- raw/papers/izhikevich-2007.md
+- raw/papers/sporns-2011.md
+- raw/papers/breakspear-2017.md
 tags:
 - people-researcher
 title: Emanuel Tuckwell

@@ -4,6 +4,9 @@ sources:
 - raw/papers/biswal-1995.md
 - raw/papers/fox-raichle-2007.md
 - raw/papers/smith-2009.md
+- raw/papers/power-2011.md
+- raw/papers/raichle-2001.md
+- raw/papers/deco-2013.md
 tags:
 - neuroimaging-fmri
 - resting-state

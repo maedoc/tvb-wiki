@@ -6,6 +6,7 @@ sources:
 - raw/papers/woodman-2014.md
 - raw/papers/semanticscholar-6f3539cb8f1c.md
 - raw/papers/arxiv-2506.22951.md
+- raw/papers/sanz-leon-2013.md
 tags:
 - software-brain-modeling
 - neuroimaging-fmri

@@ -4,6 +4,11 @@ sources:
 - raw/papers/basser-1994.md
 - raw/papers/mori-1999.md
 - raw/papers/jones-2010.md
+- raw/papers/arxiv-2603.21067.md
+- raw/papers/arxiv-2506.06234.md
+- raw/papers/smith-2013-connectomics.md
+- raw/papers/honey-2009.md
+- raw/papers/arxiv-2603.07524.md
 tags:
 - structural-connectivity
 - connectomics

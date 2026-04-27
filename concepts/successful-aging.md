@@ -1,6 +1,10 @@
 ---
 created: 2026-04-27
-sources: []
+sources:
+- raw/papers/grady-2012.md
+- raw/papers/buckner-2004.md
+- raw/papers/cabeza-2018.md
+- raw/papers/fjell-wahlovd-2010.md
 tags:
 - successful-aging
 title: Successful Aging

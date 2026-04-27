@@ -1,6 +1,7 @@
 ---
 created: 2026-04-27
-sources: []
+sources:
+- raw/papers/deco-2013.md
 tags:
 - anticevic-2012
 title: Anticevic 2012

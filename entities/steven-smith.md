@@ -4,6 +4,9 @@ sources:
 - raw/papers/smith-2009.md
 - raw/papers/smith-2013-connectomics.md
 - raw/papers/power-2011.md
+- raw/papers/semanticscholar-44da8d4ab79e.md
+- raw/papers/semanticscholar-7c3337c880fd.md
+- raw/papers/arxiv-2512.00063.md
 tags:
 - people-researcher
 - neuroimaging-fmri

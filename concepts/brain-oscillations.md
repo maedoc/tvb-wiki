@@ -1,6 +1,9 @@
 ---
 created: 2026-04-27
-sources: []
+sources:
+- raw/papers/deco-2013.md
+- raw/papers/breakspear-2017.md
+- raw/papers/izhikevich-2007.md
 tags:
 - brain-oscillations
 title: Brain Oscillations

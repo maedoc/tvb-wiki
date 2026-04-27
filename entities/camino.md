@@ -1,6 +1,11 @@
 ---
 created: 2026-04-27
-sources: []
+sources:
+- raw/papers/arxiv-2603.22296.md
+- raw/papers/jordan-2018.md
+- raw/papers/sporns-tononi-kotter-2005.md
+- raw/papers/semanticscholar-ce89e593c89e.md
+- raw/papers/arxiv-2603.28931.md
 tags:
 - camino
 title: Camino

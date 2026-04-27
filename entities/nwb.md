@@ -1,6 +1,11 @@
 ---
 created: 2026-04-27
-sources: []
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-97e6ff441097.md
+- raw/papers/arxiv-2604.16463.md
+- raw/papers/semanticscholar-15c9336be64a.md
+- raw/papers/semanticscholar-a324c47ea982.md
 tags:
 - software-nwb
 title: Neurodata Without Borders (NWB)

@@ -4,6 +4,9 @@ sources:
 - raw/papers/barabasi-albert-1999.md
 - raw/papers/watts-strogatz-1998.md
 - raw/papers/sporns-2011.md
+- raw/papers/semanticscholar-7c3337c880fd.md
+- raw/papers/arxiv-2604.15716.md
+- raw/papers/semanticscholar-71ffb8153870.md
 tags:
 - people-researcher
 - network-dynamics

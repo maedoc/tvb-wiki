@@ -4,6 +4,8 @@ sources:
 - raw/papers/wilson-cowan-1972.md
 - raw/papers/arxiv-2510.08436.md
 - raw/papers/arxiv-2512.22093.md
+- raw/papers/arxiv-2510.22022.md
+- raw/papers/semanticscholar-71ffb8153870.md
 tags:
 - neural-mass-models
 - nonlinear-dynamics

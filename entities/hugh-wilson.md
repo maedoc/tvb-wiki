@@ -8,6 +8,7 @@ sources:
 - raw/papers/dayan-abbott-2001.md
 - raw/papers/arxiv-2603.13635.md
 - raw/papers/gerstner-2014.md
+- raw/papers/arxiv-2512.22093.md
 tags:
 - people-researcher
 - neural-mass-models

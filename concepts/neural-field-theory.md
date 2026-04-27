@@ -1,6 +1,11 @@
 ---
 created: 2024-01-15
-sources: []
+sources:
+- raw/papers/semanticscholar-62534125f066.md
+- raw/papers/breakspear-2006.md
+- raw/papers/breakspear-2017.md
+- raw/papers/arxiv-2509.02799.md
+- raw/papers/izhikevich-2007.md
 tags:
 - neural-mass-models
 - dynamical-systems-theory

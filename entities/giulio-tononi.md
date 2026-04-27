@@ -4,6 +4,9 @@ sources:
 - raw/papers/sporns-tononi-kotter-2005.md
 - raw/papers/sporns-2011.md
 - raw/papers/smith-2013-connectomics.md
+- raw/papers/smith-2013-hcp.md
+- raw/papers/power-2011.md
+- raw/papers/friston-1993.md
 tags:
 - people-researcher
 - consciousness-models

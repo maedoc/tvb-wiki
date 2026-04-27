@@ -1,6 +1,11 @@
 ---
 created: 2026-04-27
-sources: []
+sources:
+- raw/papers/semanticscholar-ff8218c1e55e.md
+- raw/papers/arxiv-2512.08257.md
+- raw/papers/arxiv-2603.07524.md
+- raw/papers/arxiv-2604.13574.md
+- raw/papers/arxiv-2603.13361.md
 tags:
 - deepmedic
 title: Deepmedic

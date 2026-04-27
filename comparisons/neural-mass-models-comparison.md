@@ -10,6 +10,8 @@ sources:
 - raw/papers/semanticscholar-eb704b6f5462.md
 - raw/papers/arxiv-2504.17491.md
 - raw/papers/arxiv-2510.22022.md
+- raw/papers/semanticscholar-cc2129666e15.md
+- raw/papers/arxiv-2512.22093.md
 tags:
 - comparison
 - neural-mass-models

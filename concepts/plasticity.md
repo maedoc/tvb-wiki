@@ -1,6 +1,9 @@
 ---
 created: 2026-04-27
-sources: []
+sources:
+- raw/papers/hagmann-2008.md
+- raw/papers/friston-1993.md
+- raw/papers/barabasi-albert-1999.md
 tags:
 - plasticity
 title: Plasticity

@@ -3,6 +3,9 @@ created: 2026-04-20
 sources:
 - raw/papers/ogawa-1990.md
 - raw/papers/logothetis-2001.md
+- raw/papers/arxiv-2604.03619.md
+- raw/papers/arxiv-2603.24176.md
+- raw/papers/arxiv-2511.02457.md
 tags:
 - neuroimaging-fmri
 - functional-connectivity

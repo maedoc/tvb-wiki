@@ -4,6 +4,11 @@ sources:
 - raw/papers/strogatz-1994.md
 - raw/papers/guckenheimer-holmes-1983.md
 - raw/papers/hirsch-smale-devaney-2004.md
+- raw/papers/semanticscholar-7c3337c880fd.md
+- raw/papers/arxiv-2512.03907.md
+- raw/papers/arxiv-2510.02545.md
+- raw/papers/izhikevich-2007.md
+- raw/papers/arxiv-2603.13635.md
 tags:
 - dynamical-systems-theory
 - bifurcation-theory

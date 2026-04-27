@@ -6,6 +6,9 @@ sources:
 - raw/papers/montbrio-pazo-roxin-2015.md
 - raw/papers/schwalger-deger-gerstner-2017.md
 - raw/papers/stefanescu-jirsa-2008.md
+- raw/papers/semanticscholar-a9ff4dda4e4c.md
+- raw/papers/semanticscholar-ff8218c1e55e.md
+- raw/papers/arxiv-2510.02545.md
 tags:
 - mean-field-theory
 - neural-mass-models

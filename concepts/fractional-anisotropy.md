@@ -1,6 +1,7 @@
 ---
 created: 2026-04-27
-sources: []
+sources:
+- raw/papers/smith-2013-connectomics.md
 tags:
 - fractional-anisotropy
 title: Fractional Anisotropy

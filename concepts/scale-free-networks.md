@@ -3,6 +3,10 @@ created: 2026-04-20
 sources:
 - raw/papers/barabasi-albert-1999.md
 - raw/papers/bullmore-sporns-2009.md
+- raw/papers/doi-10.3389-fncom.2026.1762692.md
+- raw/papers/arxiv-2603.04149.md
+- raw/papers/arxiv-2512.03907.md
+- raw/papers/arxiv-2509.24715.md
 tags:
 - connectomics
 - network-dynamics

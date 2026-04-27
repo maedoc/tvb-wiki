@@ -4,6 +4,11 @@ sources:
 - raw/papers/newman-2010.md
 - raw/papers/bullmore-sporns-2009.md
 - raw/papers/sporns-2011.md
+- raw/papers/power-2011.md
+- raw/papers/semanticscholar-34ef3bcd7c8b.md
+- raw/papers/rubinov-sporns-2010.md
+- raw/papers/arxiv-2603.29843.md
+- raw/papers/barabasi-albert-1999.md
 tags:
 - network-dynamics
 - connectomics

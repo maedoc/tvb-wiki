@@ -5,6 +5,9 @@ sources:
 - raw/papers/dayan-abbott-2001.md
 - raw/papers/deco-2013.md
 - raw/papers/breakspear-2017.md
+- raw/papers/arxiv-2601.03796.md
+- raw/papers/arxiv-2604.03619.md
+- raw/papers/semanticscholar-c3d9674bec1b.md
 tags:
 - people-researcher
 - neural-mass-models

@@ -2,6 +2,10 @@
 created: 2026-04-20
 sources:
 - raw/papers/semanticscholar-7733d5476149.md
+- raw/papers/arxiv-2509.02799.md
+- raw/papers/arxiv-2603.25991.md
+- raw/papers/arxiv-2512.03907.md
+- raw/papers/semanticscholar-cc2129666e15.md
 tags:
 - neural-mass-models
 - epilepsy-modeling

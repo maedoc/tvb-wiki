@@ -13,6 +13,7 @@ sources:
 - raw/papers/arxiv-2511.02457.md
 - raw/papers/ritter-2013.md
 - raw/papers/arxiv-2602.18715.md
+- raw/papers/arxiv-2601.03796.md
 tags:
 - comparison
 - neuroimaging-fmri

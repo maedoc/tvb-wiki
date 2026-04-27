@@ -9,6 +9,9 @@ sources:
 - raw/papers/arxiv-2510.02545.md
 - raw/papers/zavaglia-2006.md
 - raw/papers/arxiv-2510.22022.md
+- raw/papers/semanticscholar-71ffb8153870.md
+- raw/papers/wendling-2002.md
+- raw/papers/arxiv-2603.29903.md
 tags:
 - people-researcher
 - neural-mass-models

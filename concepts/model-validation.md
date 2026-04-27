@@ -1,6 +1,9 @@
 ---
 created: 2026-04-27
-sources: []
+sources:
+- raw/papers/potjans-diesmann-2014.md
+- raw/papers/niedermeyer-silva-2004.md
+- raw/papers/markram-2015.md
 tags:
 - model-validation
 title: Model Validation

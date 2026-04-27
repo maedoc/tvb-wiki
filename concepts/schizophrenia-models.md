@@ -1,6 +1,11 @@
 ---
 created: 2024-01-15
-sources: []
+sources:
+- raw/papers/arxiv-2506.22951.md
+- raw/papers/semanticscholar-f52da2a6cbf2.md
+- raw/papers/breakspear-2017.md
+- raw/papers/schirner-2018.md
+- raw/papers/sanz-leon-2013.md
 tags:
 - schizophrenia-models
 - computational-psychiatry

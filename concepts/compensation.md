@@ -1,6 +1,8 @@
 ---
 created: 2026-04-27
-sources: []
+sources:
+- raw/papers/arxiv-2603.29843.md
+- raw/papers/jordan-2018.md
 tags:
 - compensation
 title: Compensation

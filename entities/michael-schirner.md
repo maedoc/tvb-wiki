@@ -4,6 +4,8 @@ sources:
 - raw/papers/schirner-2018.md
 - raw/papers/sanz-leon-2013.md
 - raw/papers/ritter-2013.md
+- raw/papers/semanticscholar-adcab180dcd3.md
+- raw/papers/semanticscholar-ff8218c1e55e.md
 tags:
 - people-researcher
 - software-tvb

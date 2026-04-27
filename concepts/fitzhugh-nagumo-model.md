@@ -1,6 +1,7 @@
 ---
 created: 2026-04-27
-sources: []
+sources:
+- raw/papers/strogatz-1994.md
 tags:
 - fitzhugh-nagumo-model
 title: Fitzhugh Nagumo Model

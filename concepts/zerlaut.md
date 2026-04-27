@@ -4,6 +4,8 @@ sources:
 - raw/papers/arxiv-2509.02799.md
 - raw/papers/stefanescu-jirsa-2008.md
 - raw/papers/semanticscholar-e1fa0a868dbe.md
+- raw/papers/semanticscholar-a9ff4dda4e4c.md
+- raw/papers/semanticscholar-ff8218c1e55e.md
 tags:
 - neural-mass-models
 - mean-field-theory

@@ -1,6 +1,10 @@
 ---
 created: 2026-04-27
-sources: []
+sources:
+- raw/papers/barabasi-albert-1999.md
+- raw/papers/deco-2013.md
+- raw/papers/friston-1993.md
+- raw/papers/strogatz-1994.md
 tags:
 - patric-hagmann
 title: Patric Hagmann

@@ -4,6 +4,9 @@ sources:
 - raw/papers/friston-1994.md
 - raw/papers/arxiv-2510.12910.md
 - raw/papers/arxiv-2307.09770.md
+- raw/papers/arxiv-2604.00390.md
+- raw/papers/david-friston-2003.md
+- raw/papers/arxiv-2603.07524.md
 tags:
 - effective-connectivity
 - connectivity-types

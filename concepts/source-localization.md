@@ -1,10 +1,25 @@
 ---
-title: Source Localization
 created: 2025-01-15
-updated: 2026-04-27
+sources:
+- raw/papers/arxiv-2406.05002.md
+- raw/papers/semanticscholar-6bfe12247ffa.md
+- raw/papers/semanticscholar-ce89e593c89e.md
+- raw/papers/arxiv-2603.24176.md
+- raw/papers/arxiv-2603.21067.md
+tags:
+- neuroimaging-eeg
+- neuroimaging-meg
+- electrophysiology
+- computational-neuroscience
+- neuroimaging
+- neural-mass-models
+- dynamic-causal-modeling
+- whole-brain-modeling
+- forward-model
+- volume-conduction
+title: Source Localization
 type: concept
-tags: [neuroimaging-eeg, neuroimaging-meg, electrophysiology, computational-neuroscience, neuroimaging, neural-mass-models, dynamic-causal-modeling, whole-brain-modeling, forward-model, volume-conduction]
-sources: []
+updated: '2026-04-27'
 ---
 
 **Source localization** (also termed *source imaging* or the *electromagnetic inverse problem*) is a computational technique in [[electrophysiology]] that estimates the locations and sometimes the time courses of intracranial neural generators from scalp recordings of [[eeg]] or [[meg]] signals. In a whole-brain modeling context, source localization provides the empirical constraints that inform [[dynamic-causal-modeling|dynamic causal modeling]] or neural mass models, linking observed macroscopic brain dynamics to underlying mesoscopic network activity.

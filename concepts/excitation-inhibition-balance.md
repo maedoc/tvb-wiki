@@ -1,6 +1,7 @@
 ---
 created: 2026-04-27
-sources: []
+sources:
+- raw/papers/arxiv-2601.15032.md
 tags:
 - excitation-inhibition-balance
 title: Excitation Inhibition Balance

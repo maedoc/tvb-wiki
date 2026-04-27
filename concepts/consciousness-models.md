@@ -1,6 +1,8 @@
 ---
 created: 2026-04-27
-sources: []
+sources:
+- raw/papers/semanticscholar-ce89e593c89e.md
+- raw/papers/deco-2013.md
 tags:
 - consciousness-models
 title: Consciousness Models

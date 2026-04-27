@@ -6,6 +6,9 @@ sources:
 - raw/papers/blei-kucukelbir-mcauliffe-2017.md
 - raw/papers/wainwright-jordan-2008.md
 - raw/papers/rezende-mohamed-2015.md
+- raw/papers/arxiv-2512.22655.md
+- raw/papers/ritter-2013.md
+- raw/papers/david-friston-2003.md
 tags:
 - variational-bayes
 - dynamic-causal-modeling

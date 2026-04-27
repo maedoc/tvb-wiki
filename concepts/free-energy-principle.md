@@ -4,6 +4,10 @@ sources:
 - raw/papers/friston-2010-fep.md
 - raw/papers/friston-2007.md
 - raw/papers/deco-2013.md
+- raw/papers/arxiv-2604.17151.md
+- raw/papers/arxiv-2603.07524.md
+- raw/papers/arxiv-2603.21067.md
+- raw/papers/arxiv-2509.02799.md
 tags:
 - free-energy-principle
 - variational-bayes

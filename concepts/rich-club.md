@@ -4,6 +4,9 @@ sources:
 - raw/papers/hagmann-2008.md
 - raw/papers/sporns-2011.md
 - raw/papers/deco-2013.md
+- raw/papers/power-2011.md
+- raw/papers/arxiv-2603.29903.md
+- raw/papers/arxiv-2603.04149.md
 tags:
 - connectomics
 - network-dynamics

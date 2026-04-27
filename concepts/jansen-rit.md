@@ -4,6 +4,8 @@ sources:
 - raw/papers/jansen-rit-1995.md
 - raw/papers/wendling-2002.md
 - raw/papers/arxiv-2411.16449.md
+- raw/papers/touboul-2011.md
+- raw/papers/lopes-da-silva-1974.md
 tags:
 - neural-mass-models
 - eeg

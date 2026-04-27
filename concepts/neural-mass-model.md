@@ -4,6 +4,10 @@ sources:
 - raw/papers/freeman-1975.md
 - raw/papers/wilson-cowan-1972.md
 - raw/papers/jansen-rit-1995.md
+- raw/papers/wendling-2002.md
+- raw/papers/semanticscholar-e5e78e93bf31.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/breakspear-2017.md
 tags:
 - neural-mass-models
 - whole-brain-modeling

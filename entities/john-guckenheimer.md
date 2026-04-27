@@ -4,6 +4,9 @@ sources:
 - raw/papers/guckenheimer-holmes-1983.md
 - raw/papers/izhikevich-2007.md
 - raw/papers/ermentrout-terman-2010.md
+- raw/papers/arxiv-2603.04149.md
+- raw/papers/breakspear-2017.md
+- raw/papers/deco-2009-stochastic.md
 tags:
 - people-researcher
 title: John Guckenheimer

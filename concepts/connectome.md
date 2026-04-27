@@ -4,6 +4,8 @@ sources:
 - raw/papers/sporns-tononi-kotter-2005.md
 - raw/papers/van-essen-2013.md
 - raw/papers/power-2011.md
+- raw/papers/smith-2009.md
+- raw/papers/smith-2013-connectomics.md
 tags:
 - connectomics
 - structural-connectivity

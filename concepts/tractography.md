@@ -5,6 +5,10 @@ sources:
 - raw/papers/jones-2010.md
 - raw/papers/tournier-2007.md
 - raw/papers/sotiropoulos-zalesky-2019.md
+- raw/papers/semanticscholar-e1fa0a868dbe.md
+- raw/papers/smith-2013-connectomics.md
+- raw/papers/semanticscholar-2f16f2f99d6b.md
+- raw/papers/arxiv-2603.29903.md
 tags:
 - tractography
 - neuroimaging-dti

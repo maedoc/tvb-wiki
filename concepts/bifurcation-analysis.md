@@ -4,6 +4,10 @@ sources:
 - raw/papers/izhikevich-2007.md
 - raw/papers/touboul-2011.md
 - raw/papers/breakspear-2017.md
+- raw/papers/arxiv-2512.03907.md
+- raw/papers/wilson-cowan-1972.md
+- raw/papers/semanticscholar-e5e78e93bf31.md
+- raw/papers/breakspear-2006.md
 tags:
 - bifurcation-analysis
 - dynamical-systems-theory

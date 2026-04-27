@@ -2,6 +2,10 @@
 created: 2026-04-20
 sources:
 - raw/papers/logothetis-2001.md
+- raw/papers/arxiv-2602.03240.md
+- raw/papers/arxiv-2603.24176.md
+- raw/papers/arxiv-2511.02457.md
+- raw/papers/semanticscholar-15a4a438614f.md
 tags:
 - people-researcher
 - neuroimaging-fmri

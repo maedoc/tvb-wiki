@@ -1,6 +1,8 @@
 ---
 created: 2026-04-27
-sources: []
+sources:
+- raw/papers/semanticscholar-1a3ed92b9f5a.md
+- raw/papers/nunez-srinivasan-2006.md
 tags:
 - electrophysiology
 title: Electrophysiology

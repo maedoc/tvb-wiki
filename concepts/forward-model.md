@@ -1,10 +1,24 @@
 ---
-title: Forward Model
 created: 2024-01-15
-updated: 2026-04-27
+sources:
+- raw/papers/buzsaki-2012.md
+- raw/papers/arxiv-2604.03619.md
+- raw/papers/arxiv-2602.09034.md
+- raw/papers/friston-2007.md
+- raw/papers/arxiv-2512.03907.md
+tags:
+- whole-brain-modeling
+- computational-neuroscience
+- neuroimaging-eeg
+- neuroimaging-meg
+- neuroimaging-fmri
+- dynamic-causal-modeling
+- neural-mass-models
+- dynamical-systems-theory
+- parameter-estimation
+title: Forward Model
 type: concept
-tags: [whole-brain-modeling, computational-neuroscience, neuroimaging-eeg, neuroimaging-meg, neuroimaging-fmri, dynamic-causal-modeling, neural-mass-models, dynamical-systems-theory, parameter-estimation]
-sources: []
+updated: '2026-04-27'
 ---
 
 A **Forward Model** in computational neuroscience is a mathematical framework that predicts observable electrophysiological or hemodynamic signals from underlying neural dynamics. It constitutes the generative component of brain modeling: given a specification of neural states (such as firing rates of [[neural-mass-models|neural mass]] populations or spiking activity of [[spiking-neural-networks|detailed neuron models]]), the forward model produces synthetic measurements that would be captured by neuroimaging modalities such as [[eeg|EEG]], [[meg|MEG]], or [[fmri|fMRI]]. In this sense, forward models answer the question: "What would the brain look like from the outside if these particular neural dynamics were occurring?"

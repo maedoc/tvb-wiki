@@ -5,6 +5,7 @@ sources:
 - raw/papers/avants-2011.md
 - raw/papers/klein-2009.md
 - raw/papers/tustison-2010.md
+- raw/papers/semanticscholar-8edd59e14fa3.md
 tags:
 - people-researcher
 - software-ants

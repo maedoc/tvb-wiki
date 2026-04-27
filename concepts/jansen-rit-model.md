@@ -1,6 +1,9 @@
 ---
 created: 2026-04-27
-sources: []
+sources:
+- raw/papers/arxiv-2411.16449.md
+- raw/papers/jansen-rit-1995.md
+- raw/papers/arxiv-2503.05564.md
 tags:
 - jansen-rit-model
 title: Jansen Rit Model

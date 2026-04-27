@@ -6,6 +6,8 @@ sources:
 - raw/papers/semanticscholar-15a4a438614f.md
 - raw/papers/semanticscholar-d801ad366cdb.md
 - raw/papers/semanticscholar-80ce93f146dc.md
+- raw/papers/semanticscholar-807668ceea0a.md
+- raw/papers/semanticscholar-71ffb8153870.md
 tags:
 - people-researcher
 - neuroimaging-fmri

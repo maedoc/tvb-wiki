@@ -1,6 +1,9 @@
 ---
 created: 2026-04-27
-sources: []
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/ritter-2013.md
+- raw/papers/breakspear-2017.md
 tags:
 - the-virtual-brain
 title: The Virtual Brain

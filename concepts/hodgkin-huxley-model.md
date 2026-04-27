@@ -1,6 +1,7 @@
 ---
 created: 2026-04-27
-sources: []
+sources:
+- raw/papers/semanticscholar-ce89e593c89e.md
 tags:
 - hodgkin-huxley-model
 title: Hodgkin Huxley Model

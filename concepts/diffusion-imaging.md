@@ -1,6 +1,8 @@
 ---
 created: 2026-04-27
-sources: []
+sources:
+- raw/papers/semanticscholar-deecd9987645.md
+- raw/papers/mori-1999.md
 tags:
 - diffusion-imaging
 title: Diffusion Imaging

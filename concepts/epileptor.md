@@ -4,6 +4,8 @@ sources:
 - raw/papers/arxiv-2508.04824.md
 - raw/papers/arxiv-2603.25991.md
 - raw/papers/breakspear-2006.md
+- raw/papers/wendling-2002.md
+- raw/papers/semanticscholar-9e6c3252d305.md
 tags:
 - neural-mass-models
 - epilepsy-modeling

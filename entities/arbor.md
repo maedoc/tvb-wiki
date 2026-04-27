@@ -1,6 +1,11 @@
 ---
 created: 2026-04-27
-sources: []
+sources:
+- raw/papers/arxiv-2505.16861.md
+- raw/papers/semanticscholar-eb704b6f5462.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-97e6ff441097.md
+- raw/papers/gewaltig-diesmann-2007.md
 tags:
 - software-arbor
 title: Arbor

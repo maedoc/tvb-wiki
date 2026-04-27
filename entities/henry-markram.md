@@ -3,6 +3,9 @@ created: 2026-04-20
 sources:
 - raw/papers/markram-2015.md
 - raw/papers/potjans-diesmann-2014.md
+- raw/papers/semanticscholar-d759f2182295.md
+- raw/papers/semanticscholar-71ffb8153870.md
+- raw/papers/arxiv-2602.00561.md
 tags:
 - people-researcher
 - software-neuron

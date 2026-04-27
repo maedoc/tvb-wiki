@@ -4,6 +4,9 @@ sources:
 - raw/papers/ritter-2013.md
 - raw/papers/schirner-2018.md
 - raw/papers/arxiv-2603.07524.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/woodman-2014.md
+- raw/papers/arxiv-2506.21155.md
 tags:
 - personalized-brain-modeling
 - whole-brain-modeling

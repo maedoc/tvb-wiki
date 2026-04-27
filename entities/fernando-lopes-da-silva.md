@@ -6,6 +6,9 @@ sources:
 - raw/papers/jansen-rit-1995.md
 - raw/papers/semanticscholar-cc2129666e15.md
 - raw/papers/potjans-diesmann-2014.md
+- raw/papers/semanticscholar-d759f2182295.md
+- raw/papers/semanticscholar-71ffb8153870.md
+- raw/papers/semanticscholar-e1fa0a868dbe.md
 tags:
 - people-researcher
 - neural-mass-models

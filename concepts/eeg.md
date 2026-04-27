@@ -4,6 +4,11 @@ sources:
 - raw/papers/niedermeyer-silva-2004.md
 - raw/papers/nunez-srinivasan-2006.md
 - raw/papers/makeig-1996.md
+- raw/papers/david-friston-2003.md
+- raw/papers/arxiv-2604.01889.md
+- raw/papers/arxiv-2603.24176.md
+- raw/papers/arxiv-2510.12910.md
+- raw/papers/arxiv-2511.02457.md
 tags:
 - neuroimaging-eeg
 - neuroimaging-modalities

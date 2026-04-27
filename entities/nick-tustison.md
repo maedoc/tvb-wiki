@@ -5,6 +5,7 @@ sources:
 - raw/papers/tustison-2014.md
 - raw/papers/avants-2011.md
 - raw/papers/avants-2008.md
+- raw/papers/klein-2009.md
 tags:
 - people-researcher
 - software-ants

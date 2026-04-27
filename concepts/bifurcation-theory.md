@@ -9,6 +9,9 @@ sources:
 - raw/papers/arxiv-2411.16449.md
 - raw/papers/arxiv-2509.02799.md
 - raw/papers/hirsch-smale-devaney-2004.md
+- raw/papers/izhikevich-2007.md
+- raw/papers/semanticscholar-e1fa0a868dbe.md
+- raw/papers/arxiv-2512.03907.md
 tags:
 - bifurcation-theory
 - dynamical-systems-theory

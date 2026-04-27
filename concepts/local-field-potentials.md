@@ -1,6 +1,7 @@
 ---
 created: 2026-04-27
-sources: []
+sources:
+- raw/papers/arxiv-2512.07842.md
 tags:
 - local-field-potentials
 title: Local Field Potentials

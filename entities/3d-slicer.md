@@ -2,6 +2,10 @@
 created: 2026-04-23
 sources:
 - raw/papers/tustison-2010.md
+- raw/papers/alfaro-almagro-2018.md
+- raw/papers/semanticscholar-301489ffb9de.md
+- raw/papers/semanticscholar-8e88204cc35c.md
+- raw/papers/arxiv-2603.24176.md
 tags:
 - software-brain-modeling
 - software-visualization

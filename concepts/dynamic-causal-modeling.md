@@ -4,6 +4,11 @@ sources:
 - raw/papers/friston-2003-dcm.md
 - raw/papers/stephan-2010.md
 - raw/papers/daunizeau-david-stephan-2011.md
+- raw/papers/david-friston-2003.md
+- raw/papers/arxiv-2512.03907.md
+- raw/papers/arxiv-2504.17491.md
+- raw/papers/arxiv-2603.21067.md
+- raw/papers/arxiv-2603.29843.md
 tags:
 - dynamic-causal-modeling
 - effective-connectivity

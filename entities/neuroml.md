@@ -1,6 +1,11 @@
 ---
 created: 2026-04-27
-sources: []
+sources:
+- raw/papers/semanticscholar-97e6ff441097.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/arxiv-2604.16463.md
+- raw/papers/migliore-2006.md
+- raw/papers/schirner-2018.md
 tags:
 - software-neuroml
 title: NeuroML

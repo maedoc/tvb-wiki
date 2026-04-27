@@ -7,6 +7,8 @@ sources:
 - raw/papers/breakspear-2017.md
 - raw/papers/sporns-2011.md
 - raw/papers/breakspear-2006.md
+- raw/papers/semanticscholar-71ffb8153870.md
+- raw/papers/arxiv-2601.03796.md
 tags:
 - people-researcher
 - neural-mass-models

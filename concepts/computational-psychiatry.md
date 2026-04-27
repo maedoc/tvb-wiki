@@ -1,6 +1,10 @@
 ---
 created: 2026-04-27
-sources: []
+sources:
+- raw/papers/semanticscholar-f52da2a6cbf2.md
+- raw/papers/arxiv-2510.21720.md
+- raw/papers/semanticscholar-ff8218c1e55e.md
+- raw/papers/arxiv-2603.13361.md
 tags:
 - computational-psychiatry
 title: Computational Psychiatry

@@ -1,6 +1,7 @@
 ---
 created: 2026-04-27
-sources: []
+sources:
+- raw/papers/jansen-rit-1995.md
 tags:
 - jansen-r
 title: Jansen R

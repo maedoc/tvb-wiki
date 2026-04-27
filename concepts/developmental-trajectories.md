@@ -4,6 +4,8 @@ sources:
 - raw/papers/gogtay-2004.md
 - raw/papers/fair-2009.md
 - raw/papers/power-2010.md
+- raw/papers/tau-peterson-2010.md
+- raw/papers/semanticscholar-34ef3bcd7c8b.md
 tags:
 - neurodevelopment
 - personalized-brain-modeling

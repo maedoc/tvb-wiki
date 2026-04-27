@@ -2,6 +2,10 @@
 created: 2025-01-15
 sources:
 - raw/papers/wilson-cowan-1972.md
+- raw/papers/arxiv-2510.22022.md
+- raw/papers/arxiv-2510.08436.md
+- raw/papers/arxiv-2603.13635.md
+- raw/papers/arxiv-2512.22093.md
 tags:
 - neural-mass-models
 - dynamical-systems-theory

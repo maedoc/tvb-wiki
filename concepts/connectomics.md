@@ -4,6 +4,9 @@ sources:
 - raw/papers/sporns-tononi-kotter-2005.md
 - raw/papers/sporns-2011.md
 - raw/papers/bullmore-sporns-2009.md
+- raw/papers/rubinov-sporns-2010.md
+- raw/papers/arxiv-2603.24176.md
+- raw/papers/arxiv-2603.21032.md
 tags:
 - connectomics
 - connectomics
