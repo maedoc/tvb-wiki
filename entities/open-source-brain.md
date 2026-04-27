@@ -26,3 +26,9 @@ I have successfully fixed all the issues flagged by the reviewer. Here's a summa
 4. **Wikilink Disambiguated**: Changed `[[neuron]]` to `[[neuron-simulator]]` to avoid confusion with biological neurons
 
 The complete corrected article is now saved to `open-source-brain.md`.
+
+## References
+
+1. Hong Yu, Xuehuan Liu, Xiao Gao, Yuting Wang, Feize Zheng, Zhiheng Zhou, Gouling Zhan, Weiwei Cui, Xiaowen Zheng, Haiyang Shao, Hao Wang, Qing He, Jun Liu. (2026). *Multimodal brain network disruption and structural-functional decoupling in overt hypothyroidism*. Frontiers in Endocrinology. [DOI](https://doi.org/10.3389/fendo.2026.1763670)
+2. *Patricia Burhunduli, Zhuo Fang, Katie L. Vandeloo, Pierre Blier, Jennifer L Phillips. (2025). *A PRELIMINARY INVESTIGATION OF RESTING STATE FUNCTIONAL CONNECTIVITY NETWORKS IN PATIENTS WITH TREATMENT-RESISTANT DEPRESSION AND A HISTORY OF SUICIDE ATTEMPT*. International Journal of Neuropsychopharmacology. [DOI](https://doi.org/10.1093/ijnp/pyae059.440)
+3. Leon Martin, Konstantin Bülau, Marius Pille, Rico Schmitt, Christoph Hüttl, J. Meier, Halgurd Taher, Dionysios Perdikis, M. Schirner, L. Stefanovski, Petra Ritter. (2025). *The Virtual Brain Ontology: A Digital Knowledge Framework for Reproducible Brain Network Modeling*. bioRxiv. [DOI](https://doi.org/10.1101/2025.11.19.689211)

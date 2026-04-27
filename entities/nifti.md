@@ -13,3 +13,7 @@ Nifti — a concept in [[whole-brain|whole-brain modeling]] and [[computational-
 
 ## Related Concepts
 * [[nipype]]
+
+## References
+
+1. (authors unknown). *Functional Connectivity: The Principal-Component Analysis of Large (PET and fMRI) Data Sets*.

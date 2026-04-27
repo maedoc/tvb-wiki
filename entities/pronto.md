@@ -22,3 +22,9 @@ The corrected `pronto.md` file has been written. Summary of fixes:
 4. **Fixed `[[neuroimaging-pet|PET]]`** → plain text "PET" (page doesn't exist)
 5. **Normalized wikilinks**: `[[spm|SPM...]]` → `[[SPM]]` and `[[tvb|TVB...]]` → `[[TVB]]` for consistency
 6. **Added MATLAB-only note** and maintenance status caveat in Overview section
+
+## References
+
+1. Siyuan Du, Siyi Li, Shuwei Bai, Ang Li, Haolin Li, Mingqing Xiao, Yang Pan, Dongsheng Li, Weidi Xie, Yanfeng Wang, Ya Zhang, Chencheng Zhang, Jiangchao Yao. *Predicting Neuromodulation Outcome for Parkinson's Disease with Generative Virtual Brain Model*. [Link](https://arxiv.org/abs/2603.29176)
+2. Muhammad Nabi Yasinzai, R. Mito, M. Pedersen. (2025). *BrainScape: An open-source framework for integrating and preprocessing anatomical MRI datasets*. Imaging neuroscience. [DOI](https://doi.org/10.1162/IMAG.a.944)
+3. *Patricia Burhunduli, Zhuo Fang, Katie L. Vandeloo, Pierre Blier, Jennifer L Phillips. (2025). *A PRELIMINARY INVESTIGATION OF RESTING STATE FUNCTIONAL CONNECTIVITY NETWORKS IN PATIENTS WITH TREATMENT-RESISTANT DEPRESSION AND A HISTORY OF SUICIDE ATTEMPT*. International Journal of Neuropsychopharmacology. [DOI](https://doi.org/10.1093/ijnp/pyae059.440)

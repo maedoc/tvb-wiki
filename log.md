@@ -452,3 +452,5 @@
 ## [2026-04-27 19:51] DeepResearch: 76 papers added via focused research
 
 ## [2026-04-27 19:51] Audit: 609 issues (5 broken links, 78 orphans, 84 placeholders, 0 dup-refs, 2 opaque-refs, 78 thin, 165 missing-links)
+
+## [2026-04-27 20:20] Improve: 3 pages improved (scirun, brainsuite, ebrains)
