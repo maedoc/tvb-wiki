@@ -20,11 +20,11 @@ updated: '2026-04-27'
 
 # Yan Wang
 
-Yan Wang is a computational neuroscientist whose work reportedly involves [[connectome]]-based [[whole-brain-modeling|whole-brain modeling]], with particular focus on [[neural-mass-model|neural mass models]], [[parameter-estimation|parameter estimation]], and clinical applications of [[the-virtual-brain|The Virtual Brain]] (TVB) platform. Their research bridges theoretical neuroscience and clinical translation, exploring how personalized brain models might inform understanding of neurological disorders.
+Yan Wang is a computational neuroscientist whose work reportedly involves [[connectome]]-based [[whole-brain-modeling|whole-brain modeling]], with particular focus on [[neural-mass-model|neural mass models]], [[parameter-estimation|parameter estimation]], and clinical applications of [[tvb|The Virtual Brain]] (TVB) platform. Their research bridges theoretical neuroscience and clinical translation, exploring how personalized brain models might inform understanding of neurological disorders.
 
 ## Affiliations
 
-Wang has reportedly been associated with the **Institute of Neuroscience and Medicine (INM-7) at Forschungszentrum Jülich**, Germany, working within the broader [[the-virtual-brain|TVB]] consortium. They have also reportedly collaborated with research groups including the **Montreal Neurological Institute (McGill University)** on large-scale [[brain-network]] modeling projects.
+Wang has reportedly been associated with the **Institute of Neuroscience and Medicine (INM-7) at Forschungszentrum Jülich**, Germany, working within the broader [[tvb|TVB]] consortium. They have also reportedly collaborated with research groups including the **Montreal Neurological Institute (McGill University)** on large-scale [[brain-network]] modeling projects.
 
 *Note: Specific dates, positions, and current affiliation status require verification from primary sources.*
 
@@ -34,13 +34,13 @@ Wang's research centers on three interconnected areas:
 
 ### Neural Mass Modeling and Parameter Estimation
 
-Their work reportedly addresses the challenge of [[parameter-estimation|estimating parameters]] in [[neural-mass-model|neural mass models]]—simplified dynamical models that describe the average activity of neuronal populations. This includes applications of [[variational-bayes|variational Bayesian]] and other statistical techniques to infer parameters from empirical neuroimaging data, particularly [[neuroimaging-fmri|fMRI]] and [[neuroimaging-eeg|EEG]] recordings.
+Their work reportedly addresses the challenge of [[parameter-estimation|estimating parameters]] in [[neural-mass-model|neural mass models]]—simplified dynamical models that describe the average activity of neuronal populations. This includes applications of [[variational-bayes|variational Bayesian]] and other statistical techniques to infer parameters from empirical neuroimaging data, particularly [[fmri|fMRI]] and [[eeg|EEG]] recordings.
 
 *Note: Variational Bayesian methods for [[neural-mass-models]] have been developed by multiple research groups, including foundational work by Friston et al. in the Dynamic Causal Modeling framework.*
 
 ### Personalized Brain Modeling for Epilepsy
 
-Wang has reportedly contributed to [[epilepsy-modeling|epilepsy modeling]] using TVB, working on patient-specific models that aim to reproduce seizure dynamics. This reportedly involves integrating [[structural-connectivity|structural connectivity]] derived from [[neuroimaging-dti|diffusion MRI]] with regional parameter customization to match individual patient presentations.
+Wang has reportedly contributed to [[epilepsy-modeling|epilepsy modeling]] using TVB, working on patient-specific models that aim to reproduce seizure dynamics. This reportedly involves integrating [[structural-connectivity|structural connectivity]] derived from [[dti|diffusion MRI]] with regional parameter customization to match individual patient presentations.
 
 ### Model Inversion and Dynamic Causal Modeling
 
@@ -72,7 +72,7 @@ Wang's work reportedly connects to the broader TVB development community, includ
 
 ## See Also
 
-- [[the-virtual-brain]]
+- [[tvb]]
 - [[neural-mass-model]]
 - [[epilepsy-modeling]]
 - [[parameter-estimation]]

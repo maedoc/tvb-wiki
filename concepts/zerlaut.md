@@ -18,7 +18,7 @@ type: concept
 updated: '2026-04-27'
 ---
 
-The **Zerlaut model** is a mean-field representation of cortical microcircuit dynamics that describes the collective activity of interacting excitatory and inhibitory neural populations with spike-frequency adaptation. Developed by [[alain-destexhe|Yann Zerlaut and colleagues]] (2018), this model provides a mathematically tractable bridge between detailed [[spiking-neural-networks]] composed of leaky integrate-and-fire neurons with adaptation currents and the population-level descriptions used in whole-brain modeling frameworks such as [[the-virtual-brain]]. The model captures essential cortical dynamics including oscillatory behavior, adaptation effects, and excitation-inhibition balance while remaining computationally efficient enough for large-scale brain network simulations.
+The **Zerlaut model** is a mean-field representation of cortical microcircuit dynamics that describes the collective activity of interacting excitatory and inhibitory neural populations with spike-frequency adaptation. Developed by [[alain-destexhe|Yann Zerlaut and colleagues]] (2018), this model provides a mathematically tractable bridge between detailed [[spiking-neural-networks]] composed of leaky integrate-and-fire neurons with adaptation currents and the population-level descriptions used in whole-brain modeling frameworks such as [[tvb]]. The model captures essential cortical dynamics including oscillatory behavior, adaptation effects, and excitation-inhibition balance while remaining computationally efficient enough for large-scale brain network simulations.
 
 ## Motivation and Biological Context
 
@@ -68,7 +68,7 @@ Recent work has explored using data-driven approaches to calibrate mean-field mo
 
 ## Applications in Whole-Brain Modeling
 
-The Zerlaut model has been integrated into whole-brain simulation frameworks, particularly [[the-virtual-brain]], where it serves as a local node model representing the dynamics of cortical regions. The model's ability to capture adaptation phenomena makes it suitable for studying brain states involving prolonged activity, such as working memory tasks or [[resting-state]] dynamics.
+The Zerlaut model has been integrated into whole-brain simulation frameworks, particularly [[tvb]], where it serves as a local node model representing the dynamics of cortical regions. The model's ability to capture adaptation phenomena makes it suitable for studying brain states involving prolonged activity, such as working memory tasks or [[resting-state]] dynamics.
 
 In [[epilepsy-modeling]], the Zerlaut model has been used to explore seizure dynamics, as the adaptation mechanisms interact with excitation-inhibition balance to produce the pathological oscillations characteristic of epileptic activity. The model's moderate complexity—more detailed than simple oscillators but more tractable than full spiking networks—makes it a practical choice for patient-specific [[personalized-brain-modeling]] applications.
 
@@ -85,7 +85,7 @@ Another direction involves extending the model to include multiple adaptation ti
 - [[spiking-neural-networks]] — The microscopic level that Zerlaut approximates
 - [[wong-wang]] — A simpler excitatory-inhibitory model lacking adaptation
 - [[jansen-rit]] — A classic neural mass model using sigmoid transfer functions
-- [[the-virtual-brain]] — A whole-brain platform that incorporates mean-field models like Zerlaut
+- [[tvb]] — A whole-brain platform that incorporates mean-field models like Zerlaut
 - [[epilepsy-modeling]] — An application domain where Zerlaut has been applied
 - [[bifurcation-analysis]] — The mathematical framework for understanding regime changes in the model
 - [[adaptive-neurons]] — The broader class of neuron models with adaptation currents

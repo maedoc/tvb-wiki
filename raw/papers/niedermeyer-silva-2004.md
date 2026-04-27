@@ -30,5 +30,5 @@ Essential reference for understanding EEG signal generation, which is a primary 
 ## Related Concepts
 - [[eeg]]
 - [[neural-mass-model]]
-- [[brain-oscillations]]
+- [[oscillator]]
 - [[electrophysiology]]

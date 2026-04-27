@@ -74,7 +74,7 @@ While LFPy operates at the single-neuron and microcircuit scale rather than the 
 
 - [[neural mass model]] — Simplified population-level dynamics that LFPy simulations can inform
 - [[spiking neural networks]] — Computational framework LFPy extends with extracellular signal calculation
-- [[brain-oscillations]] — Mesoscale phenomena LFPy helps simulate from biophysical principles
+- [[oscillator]] — Mesoscale phenomena LFPy helps simulate from biophysical principles
 - [[forward model]] — Mathematical approach LFPy implements for signal generation from source currents
 
 ## Key Researchers

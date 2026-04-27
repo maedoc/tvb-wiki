@@ -51,7 +51,7 @@ The [[wilson-cowan]] model, published in 1972, was one of the earliest formal mo
 
 ### Wong-Wang Model
 
-The [[wong-wang]] model (also known as the [[wong-wang-exc-inh]] model) extends the two-population framework with a detailed treatment of synaptic dynamics, including NMDA-mediated excitation and GABA-mediated inhibition. It has been particularly influential in studies of [[brain-oscillations]] and schizophrenia models, where it reproduces the altered gamma oscillations observed in clinical populations.
+The [[wong-wang]] model (also known as the [[wong-wang-exc-inh]] model) extends the two-population framework with a detailed treatment of synaptic dynamics, including NMDA-mediated excitation and GABA-mediated inhibition. It has been particularly influential in studies of [[oscillator]] and schizophrenia models, where it reproduces the altered gamma oscillations observed in clinical populations.
 
 ### Epileptor Model
 
@@ -61,7 +61,7 @@ The [[epileptor]] model was developed specifically for [[epilepsy-modeling]] and
 
 Neural mass models occupy an intermediate position between detailed biophysical models (such as those simulated in [[nest]] or [[brian2]]) and purely descriptive models (such as autoregressive models of fMRI time series). Unlike [[spiking-neural-networks]] that simulate individual neurons with anatomical realism, NMMs aggregate neurons into populations, sacrificing single-neuron specificity for speed and tractability. However, they retain sufficient biological interpretability to allow parameters (such as synaptic gains and time constants) to be mapped to physiological mechanisms.
 
-The relationship between neural mass models and [[dynamic-causal-modeling]] is particularly close: DCM uses the Jansen-Rit model as its [[forward-model]] for generating synthetic EEG/MEG data, and parameter estimation in DCM amounts to inverting the neural mass model to fit observed neuroimaging data. Similarly, [[the-virtual-brain]] provides a platform for whole-brain simulations using multiple neural mass models (Jansen-Rit, Wong-Wang, Epileptor) embedded in patient-specific connectomes.
+The relationship between neural mass models and [[dynamic-causal-modeling]] is particularly close: DCM uses the Jansen-Rit model as its [[forward-model]] for generating synthetic EEG/MEG data, and parameter estimation in DCM amounts to inverting the neural mass model to fit observed neuroimaging data. Similarly, [[tvb]] provides a platform for whole-brain simulations using multiple neural mass models (Jansen-Rit, Wong-Wang, Epileptor) embedded in patient-specific connectomes.
 
 ## Parameter Estimation and Calibration
 

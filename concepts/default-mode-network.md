@@ -42,7 +42,7 @@ The angular gyrus, located at the intersection of the temporal, parietal, and oc
 
 ### Structural Basis
 
-Diffusion tensor imaging studies reveal that DMN regions are connected by dense anatomical pathways, particularly via the cingulum bundle linking PCC to mPFC and hippocampus. These [[structural-connectivity]] substrates provide the anatomical scaffolding enabling coherent [[functional-connectivity]] patterns observed in [[neuroimaging-fmri]] and [[neuroimaging-meg]] studies. The network exhibits "small-world" properties with dense local clustering and long-range inter-module connections typical of hub-dominated architectures.
+Diffusion tensor imaging studies reveal that DMN regions are connected by dense anatomical pathways, particularly via the cingulum bundle linking PCC to mPFC and hippocampus. These [[structural-connectivity]] substrates provide the anatomical scaffolding enabling coherent [[functional-connectivity]] patterns observed in [[fmri]] and [[meg]] studies. The network exhibits "small-world" properties with dense local clustering and long-range inter-module connections typical of hub-dominated architectures.
 
 ## Functional Organization and Subsystems
 
@@ -90,7 +90,7 @@ In epilepsy modeling, DMN disruptions correlate with cognitive interictal sympto
 
 The DMN presents both opportunities and challenges for [[whole-brain modeling]] approaches. Capturing the network's characteristic dynamics—and particularly its anticorrelation with task-positive networks—requires models that can represent competing brain states and state-dependent modulation of [[functional-connectivity]]. The DMN serves as a critical validation target for models aiming to simulate resting-state dynamics, and understanding its interactions with other networks provides constraints for parameter estimation in large-scale models.
 
-[[personalized-brain-modeling]] approaches increasingly incorporate DMN parameters to predict individual differences in cognition and clinical outcomes. The network's accessibility via [[resting-state]] [[neuroimaging-fmri]] makes it particularly amenable to building personalized models from readily acquired data, with applications ranging from surgical planning to treatment response prediction.
+[[personalized-brain-modeling]] approaches increasingly incorporate DMN parameters to predict individual differences in cognition and clinical outcomes. The network's accessibility via [[resting-state]] [[fmri]] makes it particularly amenable to building personalized models from readily acquired data, with applications ranging from surgical planning to treatment response prediction.
 
 ## Related Concepts
 
@@ -100,7 +100,7 @@ The DMN presents both opportunities and challenges for [[whole-brain modeling]] 
 - [[brain-network]] – Large-scale organized brain connectivity patterns
 - [[network-hubs]] – Regions with high connectivity serving integration roles
 - [[structural-connectivity]] – Anatomical white matter pathways
-- [[neuroimaging-fmri]] – Functional magnetic resonance imaging
+- [[fmri]] – Functional magnetic resonance imaging
 - [[aging]] – Effects of aging on brain networks
 - [[neurodevelopment]] – Developmental processes shaping brain organization
 - [[epilepsy-modeling]] – Computational models of epileptic networks

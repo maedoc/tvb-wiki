@@ -33,12 +33,12 @@ The AAL atlas divides the brain into hemispheric regions including:
 Each region is assigned a unique numerical label and anatomical name based on anatomical landmarks. The original AAL atlas has been followed by **AAL2** (Fan et al., 2016) and **AAL3** (Rolls et al., 2020), which refined cytoarchitectonic boundaries and expanded subcortical coverage, including improved delineation of the brainstem and cerebellar parcels.
 
 ## Role in Connectome-Based Modeling
-The AAL atlas is one of the most commonly used [[brain-parcellations]] for defining network nodes in [[whole-brain-modeling]] and [[structural-connectivity]] analyses. When constructing connectomes from [[diffusion-imaging]] or [[neuroimaging-fmri]] data, researchers use AAL regions as nodes, with edges representing fiber tract counts or functional correlations between regions.
+The AAL atlas is one of the most commonly used [[brain-parcellations]] for defining network nodes in [[whole-brain-modeling]] and [[structural-connectivity]] analyses. When constructing connectomes from [[diffusion-mri]] or [[fmri]] data, researchers use AAL regions as nodes, with edges representing fiber tract counts or functional correlations between regions.
 
-In [[the-virtual-brain]] (TVB), the AAL atlas serves as a default anatomical parcellation for importing structural connectivity matrices and projecting activity to anatomical locations.
+In [[tvb]] (TVB), the AAL atlas serves as a default anatomical parcellation for importing structural connectivity matrices and projecting activity to anatomical locations.
 
 ## Relationship to TVB
-The AAL atlas is integrated into [[the-virtual-brain]] (TVB) as one of the standard anatomical parcellations. TVB utilizes AAL labels for:
+The AAL atlas is integrated into [[tvb]] (TVB) as one of the standard anatomical parcellations. TVB utilizes AAL labels for:
 - Importing structural connectivity data from [[tractography|diffusion tractography]] pipelines
 - Mapping simulated neural activity to anatomical locations for visualization
 - Defining stimulation targets in [[brain-stimulation]] protocols
@@ -55,7 +55,7 @@ TVB users can import AAL-based connectivity matrices from sources like the [[hcp
 - [[brain-parcellations]]
 - [[structural-connectivity]]
 - [[mni-space]]
-- [[the-virtual-brain]]
+- [[tvb]]
 
 ## Other Brain Atlases
 - [[desikan-killiany-atlas]]

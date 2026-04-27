@@ -18,7 +18,7 @@ updated: '2026-04-27'
 
 ## Overview
 
-**ROOT** is an open-source object-oriented data analysis framework developed at CERN since 1994. Originally designed for high-energy physics (HEP) data processing, ROOT has been adopted in computational neuroscience for analyzing large-scale [[neuroimaging-fmri|fMRI]] datasets, Monte Carlo simulations, and statistical modeling of [[brain-network|brain network]] dynamics. It provides high-performance I/O, statistical analysis tools, histogramming, and visualization capabilities primarily through C++ and Python bindings (PyROOT).
+**ROOT** is an open-source object-oriented data analysis framework developed at CERN since 1994. Originally designed for high-energy physics (HEP) data processing, ROOT has been adopted in computational neuroscience for analyzing large-scale [[fmri|fMRI]] datasets, Monte Carlo simulations, and statistical modeling of [[brain-network|brain network]] dynamics. It provides high-performance I/O, statistical analysis tools, histogramming, and visualization capabilities primarily through C++ and Python bindings (PyROOT).
 
 ROOT excels at handling terabyte-scale datasets—critical for modern connectomics and [[whole-brain-modeling|whole-brain modeling]] workflows where simulations can generate massive time series data. The framework's columnar storage format (TTree/TChain) enables efficient out-of-core data processing, allowing researchers to analyze simulation outputs from platforms like [[TVB]], [[NEST]], or [[NEURON]] without loading entire datasets into memory.
 

@@ -41,7 +41,7 @@ All uploaded maps are automatically rendered using WebGL-based viewers, allowing
 
 ## Relationship to TVB
 
-[[the-virtual-brain|TVB]] can leverage NeuroVault in several methodological contexts:
+[[tvb|TVB]] can leverage NeuroVault in several methodological contexts:
 
 **Empirical Validation Data**
 

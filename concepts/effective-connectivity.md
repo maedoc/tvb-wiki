@@ -39,7 +39,7 @@ Model-based methods estimate effective connectivity by fitting parametric models
 
 **Structural Equation Modeling (SEM)** offers a simpler, more phenomenological approach, treating brain regions as nodes and effective connections as directed edges in a path model. SEM specifies a set of hypothesized causal relationships and tests how well the model explains the observed covariance structure in the data. While less physiologically grounded than DCM, SEM has been widely used in early connectivity studies and provides a useful bridge between purely statistical and mechanistically motivated approaches.
 
-**Granger Causality** provides a model-free alternative based on temporal precedence. If knowing the past of time series X helps predict the future of time series Y beyond of what is already known from Y's own past, then X is said to Granger-cause Y. This approach has been widely applied to [[neuroimaging-eeg]] and [[neuroimaging-meg]] data, though its validity as a measure of true causal influence remains debated because Granger causality can detect directed statistical dependencies that may not correspond to direct causal connections.
+**Granger Causality** provides a model-free alternative based on temporal precedence. If knowing the past of time series X helps predict the future of time series Y beyond of what is already known from Y's own past, then X is said to Granger-cause Y. This approach has been widely applied to [[eeg]] and [[meg]] data, though its validity as a measure of true causal influence remains debated because Granger causality can detect directed statistical dependencies that may not correspond to direct causal connections.
 
 ### Model-Free Approaches
 
@@ -47,7 +47,7 @@ Model-free methods attempt to infer directional interactions directly from data 
 
 **Transfer Entropy** extends Granger causality to the information-theoretic domain, measuring the Directed information flow between two processes. It quantifies how much uncertainty about the future of one time series is reduced by knowing the past of another, offering potential advantages for detecting nonlinear interactions that [[linear]] methods like Granger causality may miss.
 
-**Partial Directed Coherence (PDC)** and the **Directed Transfer Function (DTF)** operate in the frequency domain, characterizing causal interactions at specific oscillation frequencies. These methods are particularly relevant for studying [[brain-oscillations]] and have been extensively applied to EEG and MEG data. PDC measures the strength of direct causal influence in a particular frequency band, while DTF captures the overall causal flow including indirect pathways.
+**Partial Directed Coherence (PDC)** and the **Directed Transfer Function (DTF)** operate in the frequency domain, characterizing causal interactions at specific oscillation frequencies. These methods are particularly relevant for studying [[oscillator]] and have been extensively applied to EEG and MEG data. PDC measures the strength of direct causal influence in a particular frequency band, while DTF captures the overall causal flow including indirect pathways.
 
 ## Role in Whole-Brain Modeling
 
@@ -74,7 +74,7 @@ Estimating effective connectivity from observed brain activity remains challengi
 - [[dynamic-causal-modeling]] — Primary Bayesian framework for EC estimation
 - [[neural-mass-models]] — Generative models for whole-brain dynamics
 - [[whole-brain]] — Modeling paradigm using coupled neural masses
-- [[brain-oscillations]] — Rhythmic activity where EC methods are applied
+- [[oscillator]] — Rhythmic activity where EC methods are applied
 - [[connectivity-types]] — Overview of connectivity categories
 - [[variational-bayes]] — Inference framework underlying DCM
 

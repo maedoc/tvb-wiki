@@ -21,7 +21,7 @@ updated: '2026-04-27'
 
 ## Overview
 
-**CONN** (Conn toolbox) is an open-source, MATLAB-based software package for the analysis and visualization of [[functional-connectivity|functional connectivity]] in [[neuroimaging-fmri|[[resting-state]] and task-based fMRI]] data. Developed primarily by Alfonso Nieto-Castanon and Susan Whitfield-Gabrieli at the McGovern Institute for Brain Research at MIT, CONN provides a comprehensive suite of tools for preprocessing, denoising, first-level and second-level analysis, and visualization of brain connectivity data.
+**CONN** (Conn toolbox) is an open-source, MATLAB-based software package for the analysis and visualization of [[functional-connectivity|functional connectivity]] in [[fmri|[[resting-state]] and task-based fMRI]] data. Developed primarily by Alfonso Nieto-Castanon and Susan Whitfield-Gabrieli at the McGovern Institute for Brain Research at MIT, CONN provides a comprehensive suite of tools for preprocessing, denoising, first-level and second-level analysis, and visualization of brain connectivity data.
 
 The toolbox has become one of the most widely used platforms for resting-state [[fmri]] connectivity analysis in the neuroimaging community. CONN implements the **Component-based Noise Correction Method (CompCor)**, a data-driven denoising approach that has become a standard preprocessing step in functional connectivity studies.
 
@@ -57,17 +57,17 @@ CONN implements:
 
 CONN serves as a critical preprocessing and analysis tool in the [[connectome-based-modeling|[[connectome]]-based modeling]] pipeline:
 
-1. **Connectome Construction**: CONN generates [[functional-connectivity|functional connectivity matrices]] that serve as empirical constraints for [[whole-brain-modeling|whole-brain models]]. These matrices quantify inter-regional correlations in BOLD signals, providing the functional counterpart to [[structural-connectivity|structural connectivity]] derived from [[neuroimaging-dti|DTI]] tractography.
+1. **Connectome Construction**: CONN generates [[functional-connectivity|functional connectivity matrices]] that serve as empirical constraints for [[whole-brain-modeling|whole-brain models]]. These matrices quantify inter-regional correlations in BOLD signals, providing the functional counterpart to [[structural-connectivity|structural connectivity]] derived from [[dti|DTI]] tractography.
 
-2. **Model Validation**: Simulated BOLD signals from neural mass models (e.g., [[neural-mass-models|Jansen-Rit]], [[wong-wang-model|Wong-Wang]]) can be compared against empirical CONN-derived connectivity patterns. This validation step is essential in [[the-virtual-brain|The Virtual Brain (TVB)]] workflows where model parameters are optimized to reproduce observed functional connectivity.
+2. **Model Validation**: Simulated BOLD signals from neural mass models (e.g., [[neural-mass-models|Jansen-Rit]], [[wong-wang-model|Wong-Wang]]) can be compared against empirical CONN-derived connectivity patterns. This validation step is essential in [[tvb|The Virtual Brain (TVB)]] workflows where model parameters are optimized to reproduce observed functional connectivity.
 
 3. **Patient-Specific Models**: Individual subject connectivity maps from CONN can inform [[personalized-brain-modeling|personalized brain models]], particularly in clinical applications such as [[epilepsy-modeling|epilepsy]] and [[alzheimers-modeling|Alzheimer's disease]] where individual functional network alterations guide model parameterization.
 
-4. **Multi-modal Integration**: CONN outputs can be combined with [[neuroimaging-dti|structural connectivity data]] from tools like [[software-ants|ANTs]] or FSL to constrain structural-functional coupling in multi-modal modeling approaches.
+4. **Multi-modal Integration**: CONN outputs can be combined with [[dti|structural connectivity data]] from tools like [[software-ants|ANTs]] or FSL to constrain structural-functional coupling in multi-modal modeling approaches.
 
 ## Related Software
 
-- [[the-virtual-brain|TVB]] — [[whole-brain]] simulation platform that can use CONN-derived connectivity as input
+- [[tvb|TVB]] — [[whole-brain]] simulation platform that can use CONN-derived connectivity as input
 - [[software-ants|ANTs]] — Advanced normalization and processing tools often used prior to CONN analysis
 - [[software-fsl|FSL]] — Alternative fMRI analysis suite for preprocessing and first-level analysis
 - [[software-spm|SPM]] — MATLAB-based statistical parametric mapping software; CONN operates as an SPM toolbox

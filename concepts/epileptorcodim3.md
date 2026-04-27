@@ -79,7 +79,7 @@ The Epileptor Codimension-3 thus stands as a prime example of how sophisticated 
 - [[neural-mass-models]] - Class of models to which Epileptor belongs
 - [[jansen-rit]] - Related neural mass model with comparable bifurcation analysis
 - [[whole-brain-modeling]] - Network-level modeling context for clinical applications
-- [[the-virtual-brain]] - Software platform for [[whole-brain]] simulations using Epileptor
+- [[tvb]] - Software platform for [[whole-brain]] simulations using Epileptor
 
 ## References
 

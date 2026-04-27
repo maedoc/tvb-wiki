@@ -48,7 +48,7 @@ The EpileptorRS occupies a specific niche in the landscape of computational epil
 
 Compared to other neural mass models such as the [[jansen-rit]] model or the [[wilson-cowan]] equations, the EpileptorRS is specialized for pathological dynamics rather than normal cortical oscillations. It shares with these models the heritage of [[neural-field-theory|neural field]] theory, in which local cortical columns are represented by populations of excitatory and inhibitory neurons with synaptic dynamics approximated by low-order kinetics. However, the EpileptorRS explicitly models the collapse of inhibition that characterizes the transition to seizure, making it better suited for clinical applications.
 
-Integration with whole-brain simulators such as [[the-virtual-brain]] enables the construction of patient-specific models that combine individual [[structural-connectivity]] (derived from DTI [[tractography]]) with the EpileptorRS local dynamics. This hybrid approach represents the current frontier in [[personalized-brain-modeling]], offering the potential to predict seizure propagation patterns and to identify optimal targets for surgical resection or neurostimulation.
+Integration with whole-brain simulators such as [[tvb]] enables the construction of patient-specific models that combine individual [[structural-connectivity]] (derived from DTI [[tractography]]) with the EpileptorRS local dynamics. This hybrid approach represents the current frontier in [[personalized-brain-modeling]], offering the potential to predict seizure propagation patterns and to identify optimal targets for surgical resection or neurostimulation.
 
 ## Open Questions and Future Directions
 
@@ -66,7 +66,7 @@ The extension of the EpileptorRS to include spatial propagation effects, transit
 - [[stochastic-differential-equations]] - Mathematical framework for noise terms
 - [[whole-brain-modeling]] - Large-scale [[brain-network]] simulations
 - [[dynamic-causal-modeling]] - Related framework for connectivity inference
-- [[the-virtual-brain]] - Whole-brain simulator platform
+- [[tvb]] - Whole-brain simulator platform
 - [[bifurcation-analysis]] - Method for understanding state transitions
 
 ## References

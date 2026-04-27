@@ -92,7 +92,7 @@ Modularity interacts with other topological properties of brain networks. **[[sm
 
 ## Open Questions
 
-Despite extensive research, several questions remain: What are the optimal modular configurations for different cognitive states? How does modularity change dynamically during task performance or learning? Can modular structure be therapeutically modulated through **[[brain-stimulation]]** or **[[personalized-brain-modeling]]** approaches? Advances in **[[dynamic-causal-modeling]]**, **[[neural-mass-models]]**, and high-resolution **[[neuroimaging-dti]]** will help address these questions.
+Despite extensive research, several questions remain: What are the optimal modular configurations for different cognitive states? How does modularity change dynamically during task performance or learning? Can modular structure be therapeutically modulated through **[[brain-stimulation]]** or **[[personalized-brain-modeling]]** approaches? Advances in **[[dynamic-causal-modeling]]**, **[[neural-mass-models]]**, and high-resolution **[[dti]]** will help address these questions.
 
 ## Related Concepts
 - [[community-detection]] – Algorithms for finding network modules

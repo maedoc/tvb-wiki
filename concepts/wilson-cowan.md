@@ -95,7 +95,7 @@ Despite these limitations, the Wilson-Cowan model remains the foundational frame
 - [[epilepsy-modeling]] – Clinical applications
 - [[whole-brain-modeling]] – [[connectome]]-scale implementations
 - [[tvb|The Virtual Brain]] – Software implementation
-- [[brain-oscillations]] – Neural dynamics phenomena
+- [[oscillator]] – Neural dynamics phenomena
 
 ## References
 

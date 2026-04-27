@@ -36,8 +36,8 @@ Established the processing standards for the world's largest brain imaging datas
 - [[uk-biobank]] – Large-scale population study
 - [[image-processing]] – MRI preprocessing
 - [[quality-control]] – Data quality assessment
-- [[neuroimaging-fmri]] – Functional MRI
-- [[neuroimaging-dti]] – Diffusion MRI
+- [[fmri]] – Functional MRI
+- [[dti]] – Diffusion MRI
 
 ## Cited By
 - [[raw/papers/elliott-2018.md]] – UK Biobank GWAS

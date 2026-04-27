@@ -36,7 +36,7 @@ where $\mathbf{x}_i$ is the state vector for region $i$, $\mathbf{F}_i$ characte
 
 ## Taxonomic Diversity of Whole-brain Models
 
-Whole-brain models span a spectrum of complexity, reflecting different levels of biological realism and computational tractability. At one end lie **neural mass models** such as the [[jansen-rit]] model or its extensions (including the [[wong-wang]] and [[larter-breakspear]] variants), which represent cortical regions as populations of excitatory and inhibitory neurons coupled through mean-field approximations. These models can reproduce key features of [[brain-oscillations]] across frequency bands and have proven valuable for understanding the mechanistic basis of [[functional connectivity]] patterns observed in resting-state [[fmri]].
+Whole-brain models span a spectrum of complexity, reflecting different levels of biological realism and computational tractability. At one end lie **neural mass models** such as the [[jansen-rit]] model or its extensions (including the [[wong-wang]] and [[larter-breakspear]] variants), which represent cortical regions as populations of excitatory and inhibitory neurons coupled through mean-field approximations. These models can reproduce key features of [[oscillator]] across frequency bands and have proven valuable for understanding the mechanistic basis of [[functional connectivity]] patterns observed in resting-state [[fmri]].
 
 Phenomenological models such as the [[wilson-cowan]] equation offer a simpler alternative, representing regional dynamics through coupled nonlinear differential equations that capture the interaction between excitation and inhibition without detailed neuronal circuitry. These models are computationally efficient and facilitate analytical treatment of [[network-dynamics]], including [[bifurcation-analysis]] that reveals how the system transitions between qualitatively different dynamical regimes.
 
@@ -52,7 +52,7 @@ Multi-scale whole-brain modeling also encompasses phenomena such as the **struct
 
 Whole-brain modeling has emerged as a powerful tool for clinical translation, enabling personalized brain modeling that integrates patient-specific structural connectivity data. This approach is particularly developed in the context of [[epilepsy-modeling]], where the [[epileptor]] model and related formalisms can predict seizure propagation patterns and inform surgical planning. Similarly, whole-brain frameworks have been applied to [[schizophrenia-models]] and [[alzheimers-modeling]], investigating how structural alterations propagate through the network to produce observed functional disturbances.
 
-The [[the-virtual-brain]] (TVB) platform represents the most widely adopted software ecosystem for whole-brain simulation, providing an integrated environment for constructing, fitting, and analyzing personalized brain models. TVB supports multiple neural mass formulations, connects to diverse neuroimaging datasets, and includes tools for simulating [[brain-stimulation]] interventions—capabilities that have enabled investigations into optimal targeting for transcranial magnetic stimulation and deep brain stimulation.
+The [[tvb]] (TVB) platform represents the most widely adopted software ecosystem for whole-brain simulation, providing an integrated environment for constructing, fitting, and analyzing personalized brain models. TVB supports multiple neural mass formulations, connects to diverse neuroimaging datasets, and includes tools for simulating [[brain-stimulation]] interventions—capabilities that have enabled investigations into optimal targeting for transcranial magnetic stimulation and deep brain stimulation.
 
 ## Open Questions and Future Directions
 
@@ -68,7 +68,7 @@ Future directions include the integration of [[effective-connectivity]] framewor
 * [[connectome]]
 * [[brain-network]]
 * [[dynamic causal modeling]]
-* [[the-virtual-brain]]
+* [[tvb]]
 * [[epilepsy modeling]]
 * [[bifurcation analysis]]
 * [[personalized brain modeling]]

@@ -35,8 +35,8 @@ The UK Biobank Imaging Study is the largest brain imaging study ever conducted. 
 ## Related Concepts
 - [[uk-biobank]] – Large-scale population study
 - [[population-neuroimaging]] – Imaging at population scale
-- [[neuroimaging-fmri]] – Functional MRI
-- [[neuroimaging-dti]] – Diffusion MRI
+- [[fmri]] – Functional MRI
+- [[dti]] – Diffusion MRI
 - [[epidemiology]] – Population health study
 
 ## Cited By

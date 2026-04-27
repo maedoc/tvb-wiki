@@ -95,8 +95,8 @@ Segmentation outputs from NiftyNet (e.g., region masks, tissue labels) can be us
 - [[structural connectivity]] — Parcellation-based connectivity matrix generation
 - [[connectome]] — Whole-[[brain-network]] construction from segmented regions
 - [[personalized brain modeling]] — Subject-specific model construction from automated segmentations
-- [[neuroimaging-fmri]] — Segmentation supporting functional signal extraction
-- [[diffusion-imaging]] — White matter segmentation for DTI [[tractography]] masks
+- [[fmri]] — Segmentation supporting functional signal extraction
+- [[diffusion-mri]] — White matter segmentation for DTI [[tractography]] masks
 
 ## Use Cases
 

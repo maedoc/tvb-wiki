@@ -59,7 +59,7 @@ The infinite theta neuron model sits within a lineage of neural mass formulation
 
 The [[zerlaut]] model extends this framework to include separate excitatory and inhibitory populations with adaptation, making it directly applicable to [[epilepsy-modeling]] and other clinical applications. Similarly, the [[wong-wang]] model, developed around the same time, captures similar phenomenology but was derived through different mathematical techniques.
 
-For [[the-virtual-brain]] simulations, these mean-field formulations provide the dynamical core that replaces detailed spiking networks, enabling [[whole-brain]] simulations at scale while retaining biologically meaningful dynamics. The computational efficiency gained through mean-field reduction is essential when simulating dozens of brain regions across multiple subjects.
+For [[tvb]] simulations, these mean-field formulations provide the dynamical core that replaces detailed spiking networks, enabling [[whole-brain]] simulations at scale while retaining biologically meaningful dynamics. The computational efficiency gained through mean-field reduction is essential when simulating dozens of brain regions across multiple subjects.
 
 ## Applications and Extensions
 

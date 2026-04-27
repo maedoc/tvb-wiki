@@ -33,7 +33,7 @@ where $\mathbf{x}_i$ represents the state vector of region $i$, $\mathbf{F}$ des
 
 ### Bifurcation Analysis and Parameter Space
 
-Whole-brain models exhibit rich dynamical repertoire including [[bifurcation-analysis]] phenomena. As model parameters—such as coupling strength, excitatory/inhibitory balance, or external drive—are varied, the system may transition between steady states, oscillations, and chaotic regimes. This sensitivity enables researchers to explore the emergence of [[brain-oscillations]] across different frequency bands and the conditions under which pathological dynamics (e.g., seizures) arise. The [[dynamic causal modeling]] framework, while distinct in its inference-oriented goals, shares conceptual foundations with whole-brain approaches in treating the brain as a coupled dynamical system.
+Whole-brain models exhibit rich dynamical repertoire including [[bifurcation-analysis]] phenomena. As model parameters—such as coupling strength, excitatory/inhibitory balance, or external drive—are varied, the system may transition between steady states, oscillations, and chaotic regimes. This sensitivity enables researchers to explore the emergence of [[oscillator]] across different frequency bands and the conditions under which pathological dynamics (e.g., seizures) arise. The [[dynamic causal modeling]] framework, while distinct in its inference-oriented goals, shares conceptual foundations with whole-brain approaches in treating the brain as a coupled dynamical system.
 
 ## Software and Implementation
 

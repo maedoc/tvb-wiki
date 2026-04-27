@@ -36,7 +36,7 @@ The model comprises three distinct neural populations that interact through coup
 | **Fast Inhibitory (I)** | W | Parvalbumin interneurons | Fast (ms) |
 | **Slow Modulatory (Z)** | M | SOM interneurons, GABA-B | Slow (100ms) |
 
-The pyramidal population represents the primary excitatory output of the cortex, transmitting signals to other brain regions via long-range [[structural-connectivity]]. The fast inhibitory population provides rapid feedback control, analogous to feedforward inhibition in cortical microcircuits. The modulatory population introduces slower dynamics that can entrain network oscillations—a feature particularly relevant for modeling [[brain-oscillations]] in the alpha (8-12 Hz) and beta (13-30 Hz) bands.
+The pyramidal population represents the primary excitatory output of the cortex, transmitting signals to other brain regions via long-range [[structural-connectivity]]. The fast inhibitory population provides rapid feedback control, analogous to feedforward inhibition in cortical microcircuits. The modulatory population introduces slower dynamics that can entrain network oscillations—a feature particularly relevant for modeling [[oscillator]] in the alpha (8-12 Hz) and beta (13-30 Hz) bands.
 
 ## Mathematical Formulation
 
@@ -86,7 +86,7 @@ Contemporary work extends the Larter-Breakspear framework in several directions.
 - [[bifurcation-analysis]] — Mathematical analysis of dynamic transitions
 - [[whole-brain-modeling]] — Large-scale network simulations
 - [[functional-connectivity]] — Correlated neural activity patterns
-- [[brain-oscillations]] — Rhythmic neural activity and its mechanisms
+- [[oscillator]] — Rhythmic neural activity and its mechanisms
 - [[structural-connectivity]] — Anatomical white matter connectivity
 - [[the-virtual-epileptic-brain]] — Clinical simulation platform
 

@@ -16,13 +16,13 @@ updated: '2026-04-27'
 
 # Wong-Wang Excitatory-Inhibitory Model
 
-The Wong-Wang Excitatory-Inhibitory (E-I) Model is an extended version of the reduced [[wong-wang]] neural mass model that incorporates separate excitatory (E) and inhibitory (I) populations rather than treating them as a single consolidated unit. This two-population architecture provides a more biophysically grounded representation of cortical circuitry, capturing the fundamental excitation-inhibition balance that underlies spontaneous brain dynamics and task-evoked responses. The model has become a cornerstone in [[whole-brain modeling]] efforts, particularly those seeking to simulate resting-state fluctuations and metastable brain dynamics observed in [[functional-connectivity]] analyses of [[neuroimaging-fmri]] data.
+The Wong-Wang Excitatory-Inhibitory (E-I) Model is an extended version of the reduced [[wong-wang]] neural mass model that incorporates separate excitatory (E) and inhibitory (I) populations rather than treating them as a single consolidated unit. This two-population architecture provides a more biophysically grounded representation of cortical circuitry, capturing the fundamental excitation-inhibition balance that underlies spontaneous brain dynamics and task-evoked responses. The model has become a cornerstone in [[whole-brain modeling]] efforts, particularly those seeking to simulate resting-state fluctuations and metastable brain dynamics observed in [[functional-connectivity]] analyses of [[fmri]] data.
 
 ## Motivation: Why Separate Excitatory and Inhibitory Populations?
 
 The original reduced [[wong-wang]] model, developed by Wong and Wang in 2006, consolidated excitatory and inhibitory synaptic dynamics into a single population variable S, greatly simplifying the mathematical analysis but sacrificing important biological realism. cortical microcircuits in vivo exhibit a rich repertoire of dynamics that emerge from the explicit interaction between excitatory pyramidal cells and inhibitory interneurons. These interactions govern critical phenomena including balanced amplification, winner-take-all competition, oscillatory dynamics in the gamma band (30–100 Hz), and the stable switching between discrete brain states that characterizes resting-state networks.
 
-The E-I extension addresses this limitation by introducing distinct dynamical variables for excitatory and inhibitory populations, each with its own timescale and nonlinear response function. This architecture enables the model to capture phenomena that the single-population reduction cannot adequately represent, such as the suppression of runaway excitation, the generation of coherent oscillations through recurrent inhibition, and the metastable dynamics that arise from the interplay between fast inhibitory feedback and slower excitatory integration. The extended model has proven particularly valuable in [[personalized-brain-modeling]] pipelines, where individual [[structural-connectivity]] data from [[diffusion-imaging]] tractography can be integrated with region-specific E-I parameters to generate personalized whole-brain simulations.
+The E-I extension addresses this limitation by introducing distinct dynamical variables for excitatory and inhibitory populations, each with its own timescale and nonlinear response function. This architecture enables the model to capture phenomena that the single-population reduction cannot adequately represent, such as the suppression of runaway excitation, the generation of coherent oscillations through recurrent inhibition, and the metastable dynamics that arise from the interplay between fast inhibitory feedback and slower excitatory integration. The extended model has proven particularly valuable in [[personalized-brain-modeling]] pipelines, where individual [[structural-connectivity]] data from [[diffusion-mri]] tractography can be integrated with region-specific E-I parameters to generate personalized whole-brain simulations.
 
 ## Model Architecture
 
@@ -35,11 +35,11 @@ The model comprises two coupled neural populations that interact through recipro
 | **Excitatory** | S_E | 100 ms | Pyramidal cell synaptic gating (NMDA-mediated) |
 | **Inhibitory** | S_I | 10 ms | Interneuron synaptic gating (GABA-A mediated) |
 
-The substantial difference in timescales reflects the biophysical reality that inhibitory GABA-A receptors mediate fast synaptic currents (with decay constants of approximately 10–20 ms), while excitatory NMDA receptor-mediated currents have substantially slower dynamics (approximately 100–300 ms). This timescale separation is critical for generating the metastable dynamics observed in empirical [[resting-state]] [[neuroimaging-fmri]] data, where slow fluctuations in the blood-oxygen-level-dependent ([[bold-signal|BOLD]]) signal emerge from the integration of faster neural processes.
+The substantial difference in timescales reflects the biophysical reality that inhibitory GABA-A receptors mediate fast synaptic currents (with decay constants of approximately 10–20 ms), while excitatory NMDA receptor-mediated currents have substantially slower dynamics (approximately 100–300 ms). This timescale separation is critical for generating the metastable dynamics observed in empirical [[resting-state]] [[fmri]] data, where slow fluctuations in the blood-oxygen-level-dependent ([[bold-signal|BOLD]]) signal emerge from the integration of faster neural processes.
 
 ## Mathematical Formulation
 
-The model is formulated as a system of coupled [[stochastic-differential-equations]] describing the synaptic gating dynamics of each population. The equations capture both the intrinsic dynamics of each population and the effects of network coupling through [[structural-connectivity]] matrices derived from [[diffusion-imaging]] data.
+The model is formulated as a system of coupled [[stochastic-differential-equations]] describing the synaptic gating dynamics of each population. The equations capture both the intrinsic dynamics of each population and the effects of network coupling through [[structural-connectivity]] matrices derived from [[diffusion-mri]] data.
 
 **Excitatory population dynamics:**
 ```
@@ -63,7 +63,7 @@ The E-I architecture captures several key biological phenomena relevant to [[bra
 
 Recent work on [[mean-field-theory]] in spatially structured networks has further validated the importance of heterogeneous inhibitory cell types for maintaining stability while allowing diverse computational dynamics. This research demonstrates that while homogeneous E-I circuits with long-range inhibitory projections tend toward instability, networks incorporating cell-type-specific connectivity patterns (such as long-range somatostatin [[neuron]] projections) maintain stability—a finding consistent with the simplified two-population E-I model as an approximation of more complex circuit architectures.
 
-The model has been extensively used in conjunction with [[the-virtual-brain]] for simulating whole-brain dynamics, where it serves as the regional neural mass model underlying large-scale brain network simulations. When combined with personalized connectivity matrices from the [[human-connectome-project]] or [[uk-biobank]] datasets, the E-I model can generate synthetic BOLD signals that reproduce key features of empirical functional connectivity, enabling in silico experiments that would be impossible to conduct in vivo.
+The model has been extensively used in conjunction with [[tvb]] for simulating whole-brain dynamics, where it serves as the regional neural mass model underlying large-scale brain network simulations. When combined with personalized connectivity matrices from the [[human-connectome-project]] or [[uk-biobank]] datasets, the E-I model can generate synthetic BOLD signals that reproduce key features of empirical functional connectivity, enabling in silico experiments that would be impossible to conduct in vivo.
 
 ## Relationship to Other Models
 
@@ -78,7 +78,7 @@ For researchers interested in [[bifurcation-analysis]] of brain dynamics, the mo
 - [[mean-field-theory]] — Theoretical foundation for the model
 - [[excitation-inhibition-balance]] — Biological principle captured by the model
 - [[whole-brain-modeling]] — Application context for large-scale simulations
-- [[the-virtual-brain]] — Software platform commonly used with this model
+- [[tvb]] — Software platform commonly used with this model
 - [[structural-connectivity]] — Input anatomical data for network coupling
 - [[functional-connectivity]] — Empirical counterpart to model predictions
 - [[resting-state]] — Paradigm for studying spontaneous brain dynamics
