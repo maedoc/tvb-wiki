@@ -16,6 +16,9 @@ sources:
   Journal of Cognitive Neuroscience, 5(2), 162-176.'
 - Parker, R. L. (1977). Understanding inverse theory. Pure and Applied Geophysics,
   115(4), 711-740.
+- raw/papers/sanz-leon-2013.md
+- raw/papers/ritter-2013.md
+- raw/papers/arxiv-2505.16861.md
 tags:
 - software
 - source-localization

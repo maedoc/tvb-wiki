@@ -1,6 +1,9 @@
 ---
 created: 2026-04-24
-sources: []
+sources:
+- raw/papers/alfaro-almagro-2018.md
+- raw/papers/semanticscholar-d4665dd0df61.md
+- raw/papers/arxiv-2602.03240.md
 tags:
 - software-brain-modeling
 title: BrainSuite

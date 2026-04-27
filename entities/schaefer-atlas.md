@@ -1,6 +1,8 @@
 ---
 created: 2026-04-27
-sources: []
+sources:
+- raw/papers/semanticscholar-913068805e7f.md
+- raw/papers/semanticscholar-9538aa9a62c5.md
 tags:
 - schaefer-atlas
 title: Schaefer Atlas
