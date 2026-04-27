@@ -14,3 +14,8 @@ Alzheimers Disease — a concept in [[whole-brain|whole-brain modeling]] and [[c
 
 ## Related Concepts
 * [[cognitive-reserve]]
+
+## References
+
+1. Jiajia Xie, R. Tandon, Cassie S. Mitchell. (2025). *Network Diffusion-Constrained Variational Generative Models for Investigating the Molecular Dynamics of Brain Connectomes Under Neurodegeneration*. International Journal of Molecular Sciences. [DOI](https://doi.org/10.3390/ijms26031062)
+2. Kun Jiang, Can Liao, Sujin Jiang, Haidong Lin, Jixin Hou, Tianming Liu, Gang Li, Taotao Wu, Yiqi Mao, Ellen Kuhl, Xianqiao Wang, Xianyan Chen. *Tau-induced atrophy drives functional connectivity disruption in Alzheimer's disease*. [Link](https://arxiv.org/abs/2603.13598)

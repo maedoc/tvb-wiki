@@ -470,3 +470,5 @@
 ## [2026-04-27 21:47] CrosslinkApplier: added 29 wikilinks (29 inline, 0 suggested)
 
 ## [2026-04-27 21:51] Ingest: 2 new papers, 0 stubs created
+
+## [2026-04-27 22:43] Improve: 3 pages improved (clinica, neuroscience-gateway, nengo)
