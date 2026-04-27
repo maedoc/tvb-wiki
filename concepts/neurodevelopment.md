@@ -27,7 +27,7 @@ I have successfully improved the neurodevelopment wiki page. Here's a summary of
 **Content Improvements:**
 1. **Expanded opening paragraph** - Added context about why neurodevelopment matters for [[whole-brain|whole-brain modeling]], explaining that model parameters must be calibrated to developmental stage
 
-2. **Added "Definition and Scope" section** - More detailed explanation integrating developmental neuroscience, neuroimaging, and computational modeling
+2. **Added "Definition and Scope" section** - More detailed explanation integrating developmental neuroscience, [[neuroimaging]], and computational modeling
 
 3. **Expanded "Structural Development" section** - Added prose about:
    - Neurogenesis in proliferative zones (ventricular and subventricular zones)
@@ -42,7 +42,7 @@ I have successfully improved the neurodevelopment wiki page. Here's a summary of
 
 6. **Added "Modeling Developmental Disorders" subsection** - New content explaining how [[personalized-brain-modeling]] can identify deviations in [[developmental-trajectories]]
 
-7. **Fixed broken link** - Replaced non-existent "plasticity" wikilink with valid ones: [[brain-network]] and [[network-dynamics]]
+7. **Fixed broken link** - Replaced non-existent "[[plasticity]]" wikilink with valid ones: [[brain-network]] and [[network-dynamics]]
 
 8. **Added more related concepts** - Now has 10 wikilinks in the Related Concepts section
 

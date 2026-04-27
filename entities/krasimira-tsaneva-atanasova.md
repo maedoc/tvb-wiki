@@ -35,7 +35,7 @@ Researcher in [[connectome]]‑based whole‑brain modeling.
 ## References
 
 1. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)
-2. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Sanz Leon et al. (2013). *[[the-virtual-brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
 3. V. Myrov, A. Suleimanova, Samanta Knapič, P. Partanen, M. Vesterinen, Wenya Liu, S. Palva, J. M. Palva. (2026). *Hierarchical [[whole-brain]] modeling of critical synchronization dynamics in the human brain.*. Proceedings of the National Academy of Sciences of the United States of America. [DOI](https://doi.org/10.1073/pnas.2505768123)
 4. M. Gabriela, Navas Zuloaga, S.M. Purcell, Maxim Bazhenov. (2026). *Age-related sleep changes in the human brain: insights from a large-scale thalamocortical model*. bioRxiv. [DOI](https://doi.org/10.64898/2026.03.16.712170)
 5. J. King, M. Prigge, Vincent Koppelmans, John M. Hoffman, Kevin Duff. (2026). *Altered [[functional-connectivity]] is associated with Repeatable Battery for the Assessment of Neuropsychological Status across the dementia spectrum*. Journal of the International Neuropsychological Society. [DOI](https://doi.org/10.1017/s135561772610191x)

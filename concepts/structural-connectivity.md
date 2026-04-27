@@ -17,13 +17,13 @@ type: concept
 updated: '2026-04-27'
 ---
 
-**Structural connectivity** (SC) refers to the anatomical connections between brain regions, typically represented as white matter fiber tracts that enable direct communication between neuronal populations. Unlike [[functional-connectivity]]—which captures statistical dependencies in activity patterns—structural connectivity reflects the physical "wiring diagram" of the brain, comprising axonal fiber bundles that provide the substrate for information transmission across distributed neural circuits. This distinction is fundamental: while functional connectivity can reveal coordinated activity between brain areas even in the absence of direct anatomical links, structural connectivity constrains the possible pathways through which neural signals can propagate.
+**Structural [[connectivity]]** (SC) refers to the anatomical connections between brain regions, typically represented as white matter fiber tracts that enable direct communication between neuronal populations. Unlike [[functional-connectivity]]—which captures statistical dependencies in activity patterns—structural connectivity reflects the physical "wiring diagram" of the brain, comprising axonal fiber bundles that provide the substrate for information transmission across distributed neural circuits. This distinction is fundamental: while functional connectivity can reveal coordinated activity between brain areas even in the absence of direct anatomical links, structural connectivity constrains the possible pathways through which neural signals can propagate.
 
 ## Motivation and Context
 
 The characterization of structural connectivity emerged as a central goal in neuroscience with the recognition that brain function arises from the interaction of anatomically linked regions. The advent of [[diffusion-mri]] in the 1990s, particularly [[dti|Diffusion Tensor Imaging]] introduced by Basser, Mattiello, and LeBihan (1994), enabled researchers to non-invasively map white matter pathways in the living human brain for the first time [@basser-1994]. Prior to this, anatomical connectivity could only be studied post-mortem through histological methods or in animal models via invasive tracer injections. The ability to reconstruct fiber tracts in vivo using tractography algorithms—pioneered by Mori and colleagues (1999)—revolutionized [[connectomics]] by providing the structural foundation upon which dynamic brain models could be built [@mori-1999].
 
-In the context of whole-brain modeling, structural connectivity serves as the primary anatomical constraint that determines how neural activity propagates across the [[brain-network]]. Without accurate SC data, computational models lack the essential substrate for reproducing realistic brain dynamics. The field has consequently wrestled with fundamental questions about the validity and limitations of SC measurements derived from diffusion MRI, questions thoroughly examined in Derek Jones's influential review [@jones-2010].
+In the context of whole-brain modeling, structural connectivity serves as the primary anatomical constraint that determines how neural activity propagates across the [[brain-network]]. Without accurate SC data, computational models lack the essential substrate for reproducing realistic [[brain-dynamics]]. The field has consequently wrestled with fundamental questions about the validity and limitations of SC measurements derived from diffusion MRI, questions thoroughly examined in Derek Jones's influential review [@jones-2010].
 
 ## Measurement Methods
 
@@ -47,7 +47,7 @@ The process of constructing a structural connectivity matrix from diffusion MRI 
 
 **Tractography** generates candidate fiber pathways between parcellated regions. Tools like [[mrtrix3|MRTrix3]], [[dipy|DIPY]], and [[dsi-studio|DSI Studio]] implement various algorithms with different performance characteristics. Probabilistic tractography provides uncertainty estimates but at computational cost.
 
-**Weighting** assigns values to each connection reflecting its anatomical strength. Common metrics include streamline count (the number of reconstructed fibers), fractional anisotropy (FA) averaged along tracts, and quantitative anisotropy. Each weighting scheme captures different aspects of connectivity—streamline count reflects anatomical presence, while FA reports microstructural properties.
+**Weighting** assigns values to each connection reflecting its anatomical strength. Common metrics include streamline count (the number of reconstructed fibers), [[fractional-anisotropy]] (FA) averaged along tracts, and quantitative anisotropy. Each weighting scheme captures different aspects of connectivity—streamline count reflects anatomical presence, while FA reports microstructural properties.
 
 The final product is an N×N connectivity matrix where element (i,j) represents the structural connection from region i to region j. Due to the bidirectional nature of tractography reconstruction, such matrices are typically symmetric. However, this symmetry is a limitation—actual anatomical connections may be unidirectional, a fact onlycapturable through invasive tracer methods.
 
@@ -77,7 +77,7 @@ Despite its centrality to connectomics, structural connectivity estimation faces
 - [[connectome]] – Complete map of neural connections
 - [[tractography]] – Fiber tracking algorithms
 - [[dti]] – Diffusion tensor imaging
-- [[diffusion-mri]] – Broader class of diffusion imaging methods
+- [[diffusion-mri]] – Broader class of [[diffusion-imaging]] methods
 - [[white-matter]] – Myelinated fiber tracts
 - [[parcellation]] – Brain parcellation schemes
 - [[modularity]] – Community structure in networks

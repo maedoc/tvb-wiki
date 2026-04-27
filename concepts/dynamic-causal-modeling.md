@@ -22,7 +22,7 @@ updated: '2026-04-27'
 
 Dynamic Causal Modeling (DCM) is a Bayesian framework for inferring **effective connectivity**—the directed causal influences between brain regions—from neuroimaging data using biologically informed [[neural-mass-models]]. Unlike functional connectivity, which measures statistical dependencies between regions, DCM estimates how the activity in one brain region causally influences another, making it particularly valuable for understanding the mechanistic basis of brain dynamics and cognitive processes. The framework was introduced by Karl Friston and colleagues in a seminal 2003 NeuroImage paper that established the mathematical foundation for inverting dynamic system models of brain activity measured via [[fMRI]] or electrophysiological methods such as [[eeg]] and [[meg]].
 
-The core innovation of DCM lies in combining [[dynamical-systems-theory]] with Bayesian inference: neural mass models specify the expected dynamics of coupled neural populations, and variational Bayes provides a computationally tractable method for estimating model parameters and comparing model structures. This combination allows researchers to test specific hypotheses about how brain regions interact under different experimental conditions, making DCM a hypothesis-driven approach to connectivity analysis rather than a purely exploratory one.
+The core innovation of DCM lies in combining [[dynamical-systems-theory]] with Bayesian inference: neural mass models specify the expected dynamics of coupled neural populations, and variational Bayes provides a computationally tractable method for estimating model parameters and comparing model structures. This combination allows researchers to test specific hypotheses about how brain regions interact under different experimental conditions, making DCM a hypothesis-driven approach to [[connectivity]] analysis rather than a purely exploratory one.
 
 ## Motivation and Context
 
@@ -44,7 +44,7 @@ For electrophysiological data, DCM implementations typically employ either the [
 
 ### Observation Models
 
-The observation model links hidden neural states to the measured neuroimaging signals, accounting for the physical transmission between neural activity and theScanner. For [[fMRI]], DCM uses the balloon model, which couples neural activity to the [[bold-signal]] through four state variables: the vasodilatory signal, blood flow, blood volume, and deoxyhemoglobin content. This model captures the temporal delay and nonlinear relationship between neural activity and the BOLD response, typically adding 2–4 seconds of hemodynamic lag relative to the underlying neural dynamics.
+The observation model links hidden neural states to the measured [[neuroimaging]] signals, accounting for the physical transmission between neural activity and theScanner. For [[fMRI]], DCM uses the balloon model, which couples neural activity to the [[bold-signal]] through four state variables: the vasodilatory signal, blood flow, blood volume, and deoxyhemoglobin content. This model captures the temporal delay and nonlinear relationship between neural activity and the BOLD response, typically adding 2–4 seconds of hemodynamic lag relative to the underlying neural dynamics.
 
 For [[eeg]] and [[meg]], the observation model comprises a lead field matrix computed from a head model (typically boundary element methods or finite element methods) that maps current density distributions in the brain to sensor-space measurements. The electromagnetic [[forward-model]] is linear, making the observation mapping substantially faster than for fMRI; however, the inverse problem of inferring distributed sources from channel data is intrinsically ill-posed, and DCM typically constrains sources to a predefined set of regions of interest.
 
@@ -87,7 +87,7 @@ Limitations include the substantial computational demands of model inversion (pa
 - [[variational bayes]] — Inference method used for model inversion
 - [[free energy principle]] — Theoretical foundation tying DCM to Helmholtz machine and predictive processing
 - [[functional-connectivity]] — Contrast: statistical dependencies rather than causal influence
-- [[structural-connectivity]] — Contrast: physical white-matter pathways rather than effective coupling
+- [[structural-connectivity]] — Contrast: physical [[white-matter]] pathways rather than effective coupling
 - [[dynamical-systems-theory]] — Mathematical framework underlying neural mass dynamics
 - [[resting-state]] — Context for spectral DCM applications
 - [[spm]] — Software package implementing DCM in the MATLAB environment

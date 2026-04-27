@@ -16,7 +16,7 @@ type: concept
 updated: '2026-04-27'
 ---
 
-The Wilson-Cowan model is the canonical firing-rate model of coupled excitatory and inhibitory neural populations. Introduced by [[hugh-wilson]] and Jack Cowan in 1972, it provides the mathematical foundation for most subsequent neural mass modeling, including implementations in The Virtual Brain (TVB) and [[dynamic-causal-modeling]] (DCM). The model describes the mean firing rates of excitatory and inhibitory populations through coupled nonlinear differential equations, capturing fundamental dynamical phenomena such as oscillations, bistability, and pattern formation that are observed in real brain tissue.
+The Wilson-Cowan model is the canonical firing-rate model of coupled excitatory and inhibitory neural populations. Introduced by [[hugh-wilson]] and Jack Cowan in 1972, it provides the mathematical foundation for most subsequent neural mass modeling, including implementations in [[the-virtual-brain]] (TVB) and [[dynamic-causal-modeling]] (DCM). The model describes the mean firing rates of excitatory and inhibitory populations through coupled nonlinear differential equations, capturing fundamental dynamical phenomena such as oscillations, bistability, and pattern formation that are observed in real brain tissue.
 
 ## Historical Context and Motivation
 
@@ -41,7 +41,7 @@ The sigmoid response function S(x) = 1 / (1 + exp(-r(x - θ))) implements the th
 
 ### Spatial Extension (1973)
 
-[[neural-field-theory|Neural field]] equations introduce spatial dependence through convolution with connectivity kernels:
+[[neural-field-theory|Neural field]] equations introduce spatial dependence through convolution with [[connectivity]] kernels:
 
 ```
 ∂E/∂t = -E + S_E(∫w_EE(r-r')E(r')dr' - ∫w_EI(r-r')I(r')dr' + P)
@@ -56,7 +56,7 @@ The kernels w_ij(r-r') typically take the form of a Mexican-hat function: excita
 
 Setting the time derivatives to zero yields steady-state solutions. The nullclines—curves in the E-I phase plane where dE/dt = 0 or dI/dt = 0—can intersect in one to three points depending on parameters. This structure enables three qualitatively distinct dynamical regimes: monostability with a single stable fixed point (typical of [[resting-state]]), bistability with two stable fixed points separated by an unstable saddle (enabling switch-like transitions), and excitability with three fixed points where the system can respond transiently to inputs before returning to rest.
 
-Linear stability analysis around fixed points uses the Jacobian matrix, with eigenvalues determining whether perturbations decay exponentially (stable node), spiral inward (stable focus), grow exponentially (unstable node), or generate oscillations (pair of complex eigenvalues with positive real part). Near bifurcation points, the system exhibits critical slowing down—a universal signature that can in principle be detected from neuroimaging data to identify approaching state transitions.
+Linear stability analysis around fixed points uses the Jacobian matrix, with eigenvalues determining whether perturbations decay exponentially (stable node), spiral inward (stable focus), grow exponentially (unstable node), or generate oscillations (pair of complex eigenvalues with positive real part). Near bifurcation points, the system exhibits critical slowing down—a universal signature that can in principle be detected from [[neuroimaging]] data to identify approaching state transitions.
 
 ### Oscillatory Dynamics
 
@@ -82,9 +82,9 @@ Pattern formation in the visual cortex provides another compelling application. 
 
 ## Limitations
 
-The mean-field approximation underlying Wilson-Cowan ignores correlations between neurons within each population, becoming inaccurate when fluctuations are large or correlations develop during [[network-dynamics]]. Fixed connectivity precludes plasticity and learning—the model cannot capture experience-dependent changes in synaptic strength. The simplified [[neuron]] model lacks spike timing–dependent plasticity, adaptation currents (beyond later extensions), and realistic ion channel dynamics. Finally, homogeneity assumptions mean that spatial heterogeneity in real cortex—due to regional differences in cell density, receptor distribution, and connectivity—are not represented.
+The mean-field approximation underlying Wilson-Cowan ignores correlations between neurons within each population, becoming inaccurate when fluctuations are large or correlations develop during [[network-dynamics]]. Fixed connectivity precludes [[plasticity]] and learning—the model cannot capture experience-dependent changes in synaptic strength. The simplified [[neuron]] model lacks spike timing–dependent plasticity, adaptation currents (beyond later extensions), and realistic [[ion-channel]] dynamics. Finally, homogeneity assumptions mean that spatial heterogeneity in real cortex—due to regional differences in cell density, receptor distribution, and connectivity—are not represented.
 
-Despite these limitations, the Wilson-Cowan model remains the foundational framework for understanding population-level brain dynamics. Its conceptual clarity, mathematical tractability, and ability to capture essential dynamical phenomena ensure its continued relevance in both basic research and clinical applications.
+Despite these limitations, the Wilson-Cowan model remains the foundational framework for understanding population-level [[brain-dynamics]]. Its conceptual clarity, mathematical tractability, and ability to capture essential dynamical phenomena ensure its continued relevance in both basic research and clinical applications.
 
 ## Related Concepts
 
@@ -101,4 +101,4 @@ Despite these limitations, the Wilson-Cowan model remains the foundational frame
 
 1. Hugh R. Wilson, Jack D. Cowan. *Excitatory and inhibitory interactions in localized populations of model neurons*. Biophysical Journal. [DOI](https://doi.org/10.1016/S0006-3495(72)86068-5)
 2. Ronja Strömsdörfer, Klaus Obermayer. *Spike-frequency and h-current based adaptation are dynamically equivalent in a Wilson-Cowan field model*. [Link](https://arxiv.org/abs/2510.08436)
-3. Jeremy B. Goetz, Naruepon Weerawongphrom, Rashid V. Williams-García, John M. Beggs, Gerardo Ortiz. (2025). *A Minimal Network of Brain Dynamics: Hierarchy of Approximations to Quasi-critical Neural Network Dynamics*. [Link](https://arxiv.org/abs/2512.22093)
+3. Jeremy B. Goetz, Naruepon Weerawongphrom, Rashid V. Williams-García, John M. Beggs, Gerardo Ortiz. (2025). *A Minimal Network of Brain Dynamics: Hierarchy of Approximations to Quasi-critical [[neural-network]] Dynamics*. [Link](https://arxiv.org/abs/2512.22093)

@@ -23,12 +23,12 @@ updated: '2026-04-27'
 
 ## Overview
 
-VoxelMorph is a deep learning framework for unsupervised deformable medical image registration. Developed by researchers at MIT CSAIL[^1][^2], it uses convolutional neural networks (CNNs) to learn a mapping between moving and fixed images, achieving registration in seconds—orders of magnitude faster than traditional optimization-based methods[^1]. The framework has become influential in neuroimaging preprocessing workflows and connectomics research.
+VoxelMorph is a deep learning framework for unsupervised deformable medical image registration. Developed by researchers at MIT CSAIL[^1][^2], it uses convolutional neural networks (CNNs) to learn a mapping between moving and fixed images, achieving registration in seconds—orders of magnitude faster than traditional optimization-based methods[^1]. The framework has become influential in [[neuroimaging]] preprocessing workflows and connectomics research.
 
 ## Key Features
 
 ### Deep Learning Architecture
-VoxelMorph employs a U-Net convolutional neural network architecture[^2] to predict dense deformation fields. Given a pair of fixed and moving images, the network outputs a voxel-wise displacement field that warps the moving image to align with the fixed image. The architecture consists of an encoder-decoder pathway with skip connections, operating directly on 3D image volumes.
+VoxelMorph employs a U-Net convolutional [[neural-network]] architecture[^2] to predict dense deformation fields. Given a pair of fixed and moving images, the network outputs a voxel-wise displacement field that warps the moving image to align with the fixed image. The architecture consists of an encoder-decoder pathway with skip connections, operating directly on 3D image volumes.
 
 ### Unsupervised Training
 Unlike earlier deep learning approaches that required ground truth deformations, VoxelMorph trains in a fully unsupervised manner[^1][^2]. The loss function combines:

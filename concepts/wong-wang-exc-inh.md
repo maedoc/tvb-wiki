@@ -61,7 +61,7 @@ The total synaptic input x to each population comprises several components: recu
 
 The E-I architecture captures several key biological phenomena relevant to [[brain-dynamics-toolbox|computational neuroscience]] research. The excitation-inhibition balance maintained by the model is a fundamental organizing principle of cortical circuits, with misbalanced E-I ratio hypotheses proposed for conditions including [[schizophrenia-models]] and [[epilepsy-modeling]]. The fast inhibitory timescale (τ_I = 10 ms) enables the model to generate gamma oscillations when driven by sufficient excitatory input, a phenomenon directly linked to inhibitory interneuron firing patterns in vivo.
 
-Recent work on [[mean-field-theory]] in spatially structured networks has further validated the importance of heterogeneous inhibitory cell types for maintaining stability while allowing diverse computational dynamics. This research demonstrates that while homogeneous E-I circuits with long-range inhibitory projections tend toward instability, networks incorporating cell-type-specific connectivity patterns (such as long-range somatostatin [[neuron]] projections) maintain stability—a finding consistent with the simplified two-population E-I model as an approximation of more complex circuit architectures.
+Recent work on [[mean-field-theory]] in spatially structured networks has further validated the importance of heterogeneous inhibitory cell types for maintaining stability while allowing diverse computational dynamics. This research demonstrates that while homogeneous E-I circuits with long-range inhibitory projections tend toward instability, networks incorporating cell-type-specific [[connectivity]] patterns (such as long-range somatostatin [[neuron]] projections) maintain stability—a finding consistent with the simplified two-population E-I model as an approximation of more complex circuit architectures.
 
 The model has been extensively used in conjunction with [[tvb]] for simulating whole-brain dynamics, where it serves as the regional neural mass model underlying large-scale brain network simulations. When combined with personalized connectivity matrices from the [[human-connectome-project]] or [[uk-biobank]] datasets, the E-I model can generate synthetic BOLD signals that reproduce key features of empirical functional connectivity, enabling in silico experiments that would be impossible to conduct in vivo.
 
@@ -81,10 +81,10 @@ For researchers interested in [[bifurcation-analysis]] of brain dynamics, the mo
 - [[tvb]] — Software platform commonly used with this model
 - [[structural-connectivity]] — Input anatomical data for network coupling
 - [[functional-connectivity]] — Empirical counterpart to model predictions
-- [[resting-state]] — Paradigm for studying spontaneous brain dynamics
+- [[resting-state]] — Paradigm for studying spontaneous [[brain-dynamics]]
 - [[dynamic-causal-modeling]] — Related framework for inferring [[effective-connectivity]]
 
 ## References
 
-1. Pascal Helson, Etienne Tanré, Romain Veltz. *Mean-field analysis of a neural network with stochastic STDP*. [Link](https://arxiv.org/abs/2510.02545)
+1. Pascal Helson, Etienne Tanré, Romain Veltz. *Mean-field analysis of a [[neural-network]] with stochastic STDP*. [Link](https://arxiv.org/abs/2510.02545)
 2. Soon Ho Kim, Hannah Choi. (2025). *Inhibitory cell type heterogeneity in a spatially structured mean-field model of V1*. bioRxiv. [DOI](https://doi.org/10.1101/2025.03.13.643046)

@@ -1,15 +1,23 @@
 ---
-title: Brain Stimulation
 created: 2023-11-15
-updated: 2026-04-27
-type: concept
-tags: [brain-stimulation, whole-brain-modeling, neural-mass-models, computational-neuroscience, neuroimaging, epilepsy-modeling, brain-oscillations, personalized-brain-modeling]
 sources: []
+tags:
+- brain-stimulation
+- whole-brain-modeling
+- neural-mass-models
+- computational-neuroscience
+- neuroimaging
+- epilepsy-modeling
+- brain-oscillations
+- personalized-brain-modeling
+title: Brain Stimulation
+type: concept
+updated: '2026-04-27'
 ---
 
 ## Definition
 
-Brain stimulation encompasses a range of techniques that modulate neural activity through the application of electromagnetic fields, electrical currents, or magnetic pulses to specific brain regions. In the context of computational neuroscience and whole-brain modeling, brain stimulation serves as both a tool for probing brain dynamics and a therapeutic intervention for neurological and psychiatric disorders. The field divides broadly into non-invasive modalities—including transcranial magnetic stimulation (TMS), transcranial direct current stimulation (tDCS), and electroconvulsive therapy (ECT)—and invasive approaches such as deep brain stimulation (DBS) and responsive neurostimulation systems. These techniques differ in their spatial resolution, depth of penetration, and mechanism of action, but all share the fundamental goal of altering neural excitability to either study brain function or ameliorate pathological states.
+Brain stimulation encompasses a range of techniques that modulate neural activity through the application of electromagnetic fields, electrical currents, or magnetic pulses to specific brain regions. In the context of computational neuroscience and [[whole-brain|whole-brain modeling]], brain stimulation serves as both a tool for probing [[brain-dynamics]] and a therapeutic intervention for neurological and psychiatric disorders. The field divides broadly into non-invasive modalities—including transcranial magnetic stimulation (TMS), transcranial direct current stimulation (tDCS), and electroconvulsive therapy (ECT)—and invasive approaches such as deep brain stimulation (DBS) and responsive neurostimulation systems. These techniques differ in their spatial resolution, depth of penetration, and mechanism of action, but all share the fundamental goal of altering neural excitability to either study brain function or ameliorate pathological states.
 
 ## Mechanisms of Action
 
@@ -17,7 +25,7 @@ The biophysical mechanisms underlying brain stimulation depend on the specific m
 
 Transcranial direct current stimulation applies weak constant currents (typically 1–2 mA) through electrodes placed on the scalp, producing sustained shifts in neuronal membrane potentials. The resulting polarization follows **ΔV = (I × τ) / (C × A)**, where **I** is the current, **τ** is the stimulation duration, **C** is the electrode capacitance, and **A** is the electrode area. Anodal tDCS generally increases cortical excitability while cathodal tDCS decreases it, though these effects are highly dependent on current density, timing, and the specific brain region targeted.
 
-Invasive brain stimulation modalities such as DBS involve surgical implantation of electrodes into deep brain structures—most commonly the subthalamic nucleus or ventral intermediate nucleus of the thalamus for Parkinson's disease treatment. The mechanisms remain debated but appear to involve both inhibition of the local stimulated region and modulation of downstream network dynamics through antidromic activation of afferent pathways.
+Invasive brain stimulation modalities such as DBS involve surgical implantation of electrodes into deep brain structures—most commonly the subthalamic nucleus or ventral intermediate nucleus of the thalamus for Parkinson's disease treatment. The mechanisms remain debated but appear to involve both inhibition of the local stimulated region and modulation of downstream [[network-dynamics]] through antidromic activation of afferent pathways.
 
 ## Role in Whole-Brain Modeling
 
@@ -29,7 +37,7 @@ Third, brain stimulation paradigms provide insights into [[effective-connectivit
 
 ## Computational Approaches to Stimulation Modeling
 
-Simulating the effects of brain stimulation within whole-brain frameworks requires solving the forward problem of volume conduction—determining how current injected at a point spreads through the anisotropic, inhomogeneous medium of the head and brain. This problem is governed by the quasi-static approximation of Maxwell's equations, which reduces to solving **∇·(σ∇V) = -I_s**, where **σ** is the conductivity tensor, **V** is the electric potential, and **I_s** is the point current source representing the stimulating electrode. Solutions require detailed anatomical models that incorporate the conductivity profiles of skin, skull, cerebrospinal fluid, gray matter, and white matter—domains where software tools such as [[simnibs]] and [[openmeeg]] play essential roles.
+Simulating the effects of brain stimulation within whole-brain frameworks requires solving the forward problem of [[volume-conduction]]—determining how current injected at a point spreads through the anisotropic, inhomogeneous medium of the head and brain. This problem is governed by the quasi-static approximation of Maxwell's equations, which reduces to solving **∇·(σ∇V) = -I_s**, where **σ** is the conductivity tensor, **V** is the electric potential, and **I_s** is the point current source representing the stimulating electrode. Solutions require detailed anatomical models that incorporate the conductivity profiles of skin, skull, cerebrospinal fluid, gray matter, and [[white-matter]]—domains where software tools such as [[simnibs]] and [[openmeeg]] play essential roles.
 
 Once the induced electric field distribution is computed, the transition to neural dynamics requires coupling the field to the chosen neural mass or network model. For [[neural-mass-models]] like the [[jansen-rit-model]] or [[wong-wang-model]], the extracellular potential modulates the input current to each population, typically modeled as **I_stim = g_e · E(r, t)**, where **g_e** is an electrotonic coupling coefficient and **E(r, t)** is the electric field at position **r** and time **t**. More elaborate approaches incorporate the effects of [[excitation-inhibition-balance]] on stimulation efficacy, as the polarization required to fire a neuron depends on its current membrane potential.
 

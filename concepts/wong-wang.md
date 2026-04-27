@@ -21,9 +21,9 @@ The **Wong-Wang model** is a reduced [[neural-mass-models|neural mass model]] th
 
 ## Motivation and Context
 
-The development of the Wong-Wang model in 2006 addressed a fundamental challenge in computational neuroscience: how to build analytically tractable models that nonetheless capture the emergent dynamics of biologically realistic [[spiking-neural-networks]]. Previous approaches, such as the [[jansen-rit|Jansen-Rit]] model, used multiple populations (pyramidal cells, excitatory interneurons, inhibitory interneurons) to generate realistic EEG rhythms, but these models were computationally expensive and difficult to parameterize for whole-brain simulations.
+The development of the Wong-Wang model in 2006 addressed a fundamental challenge in [[computational-neuroscience]]: how to build analytically tractable models that nonetheless capture the emergent dynamics of biologically realistic [[spiking-neural-networks]]. Previous approaches, such as the [[jansen-rit|Jansen-Rit]] model, used multiple populations (pyramidal cells, excitatory interneurons, inhibitory interneurons) to generate realistic EEG rhythms, but these models were computationally expensive and difficult to parameterize for whole-brain simulations.
 
-Wong and Wang recognized that the essential dynamics of a recurrent excitatory-inhibitory network could be captured by a single equation describing the evolution of synaptic activity, provided the input-output function captured the network's nonlinear response properties. This reduction made it feasible to fit model parameters to empirical functional connectivity data and to run simulations across the entire [[connectome]]—a capability that proved crucial for the subsequent whole-brain modeling work by Deco, Corbetta, and colleagues.
+Wong and Wang recognized that the essential dynamics of a recurrent excitatory-inhibitory network could be captured by a single equation describing the evolution of synaptic activity, provided the input-output function captured the network's nonlinear response properties. This reduction made it feasible to fit model parameters to empirical functional [[connectivity]] data and to run simulations across the entire [[connectome]]—a capability that proved crucial for the subsequent whole-brain modeling work by Deco, Corbetta, and colleagues.
 
 ## Mathematical Formulation
 

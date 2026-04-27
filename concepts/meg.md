@@ -25,7 +25,7 @@ updated: '2026-04-27'
 
 # MEG
 
-Magnetoencephalography (MEG) is a non-invasive neuroimaging technique that measures the weak magnetic fields (on the order of tens to hundreds of femtotesla) produced by Postsynaptic currents flowing in the dendrites of pyramidal neurons in the cerebral cortex. The technique provides millisecondTemporal resolution and, due to the magnetic fields' relative invariance through biological tissue, offers superior spatial localization compared to electroencephalography, making it a cornerstone modality for studying rapid neural dynamics in both research and clinical contexts.
+Magnetoencephalography (MEG) is a non-invasive [[neuroimaging]] technique that measures the weak magnetic fields (on the order of tens to hundreds of femtotesla) produced by Postsynaptic currents flowing in the dendrites of pyramidal neurons in the cerebral cortex. The technique provides millisecondTemporal resolution and, due to the magnetic fields' relative invariance through biological tissue, offers superior spatial localization compared to electroencephalography, making it a cornerstone modality for studying rapid neural dynamics in both research and clinical contexts.
 
 ## Physical Principles and Measurement
 
@@ -53,7 +53,7 @@ Time-frequency decomposition reveals the spectral content of neural activity, wi
 
 ## Relationship to Other Modalities
 
-MEG occupies a unique position in the neuroimaging ecosystem, complementing both electrophysiological and hemodynamic measures. Compared to [[fmri]], which tracks the blood-oxygen-level-dependent (BOLD) signal with second-scale temporal resolution, MEG provides real-time windows into neural dynamics. However, the [[bold-signal]]'s vascular basis captures slower metabolic processes that may reveal aspects of neural communication invisible to electrophysiology.
+MEG occupies a unique position in the neuroimaging ecosystem, complementing both electrophysiological and hemodynamic measures. Compared to [[fmri]], which tracks the blood-oxygen-level-dependent (BOLD) signal with second-scale temporal resolution, MEG provides real-time windows into neural dynamics. However, the [[bold-signal]]'s vascular basis captures slower metabolic processes that may reveal aspects of neural communication invisible to [[electrophysiology]].
 
 The combination of MEG with EEG, [[structural-connectivity]] from DTI, and functional data from fMRI enables multimodal integration that strengthens whole-brain models. Software platforms like [[fieldtrip]] and [[mne-python]] provide pipelines for processing MEG data, while [[tvb]] integrates MEG forward modeling into whole-brain simulation workflows. The field continues to develop hardware improvements (e.g., optically pumped magnetometers) that may increase MEG's accessibility and temporal resolution.
 

@@ -18,7 +18,7 @@ updated: '2026-04-27'
 
 ## Definition
 
-Dynamical systems theory is the mathematical framework for describing how systems change over time. It provides a rigorous apparatus for analyzing the long-term behavior of systems governed by differential equations or discrete maps, characterizing stability properties of equilibria, classifying the types of attractors that organize system trajectories, and understanding how qualitative changes in behavior—bifurcations—arise as parameters vary. Originally developed in physics and engineering, the theory has become indispensable in computational neuroscience, where it furnishes the conceptual language for understanding how networks of neurons give rise to coherent brain states, how transitions between these states occur, and how the brain's intrinsic dynamics relate to its anatomical structure.
+Dynamical systems theory is the mathematical framework for describing how systems change over time. It provides a rigorous apparatus for analyzing the long-term behavior of systems governed by differential equations or discrete maps, characterizing stability properties of equilibria, classifying the types of attractors that organize system trajectories, and understanding how qualitative changes in behavior—bifurcations—arise as parameters vary. Originally developed in physics and engineering, the theory has become indispensable in [[computational-neuroscience]], where it furnishes the conceptual language for understanding how networks of neurons give rise to coherent brain states, how transitions between these states occur, and how the brain's intrinsic dynamics relate to its anatomical structure.
 
 ## Motivation and Context
 
@@ -50,7 +50,7 @@ The long-term behavior of a dynamical system is organized by its **attractors**�
 
 **Tori** correspond to quasiperiodic motion on the surface of a doughnut-shaped manifold, arising when the system has two incommensurate frequencies. Such behavior is observed in certain forced or coupled [[oscillator]] systems relevant to neural entrainment phenomena.
 
-**Strange attractors** exhibit sensitive dependence on initial conditions—chaos—and have fractal geometry. The Lorenz attractor, perhaps the most famous example, arises in a simplified model of atmospheric convection but has been invoked as a metaphor for the complex, unpredictable dynamics that can emerge in neural systems. While true chaos is rare in whole-brain models due to their high-dimensional damped nature, chaotic transients and chaotic drives can importantly modulate brain dynamics.
+**Strange attractors** exhibit sensitive dependence on initial conditions—chaos—and have fractal geometry. The Lorenz attractor, perhaps the most famous example, arises in a simplified model of atmospheric convection but has been invoked as a metaphor for the complex, unpredictable dynamics that can emerge in neural systems. While true chaos is rare in whole-brain models due to their high-dimensional damped nature, chaotic transients and chaotic drives can importantly modulate [[brain-dynamics]].
 
 ## Applications in Neuroscience
 
@@ -68,7 +68,7 @@ This coupled system displays a rich repertoire of behaviors, including metastabl
 
 ### Parameter Estimation and Variational Inference
 
- fitting whole-brain models to empirical data requires estimating parameters—coupling strengths, delays, local excitability—that appear in the dynamical system's defining equations. This inverse problem is inherently challenging because dynamical systems can exhibit sensitive dependence on parameters: small changes near bifurcation points can dramatically alter the system's behavior. Modern approaches to parameter estimation in computational neuroscience increasingly employ [[variational-bayes]] methods, which frame the problem as Bayesian inference on the parameters of a dynamical system and leverage gradient-based optimization to traverse the high-dimensional parameter landscape.
+ fitting whole-brain models to empirical data requires estimating parameters—coupling strengths, delays, local excitability—that appear in the dynamical system's defining equations. This inverse problem is inherently challenging because dynamical systems can exhibit sensitive dependence on parameters: small changes near bifurcation points can dramatically alter the system's behavior. Modern approaches to [[parameter-estimation]] in computational neuroscience increasingly employ [[variational-bayes]] methods, which frame the problem as Bayesian inference on the parameters of a dynamical system and leverage gradient-based optimization to traverse the high-dimensional parameter landscape.
 
 ## Relationship to Other Frameworks
 
@@ -78,7 +78,7 @@ Dynamical systems theory provides the mathematical substrate for several related
 
 ## Open Questions and Future Directions
 
-Despite the substantial progress in applying dynamical systems theory to neuroscience, several fundamental questions remain. The relationship between the structural connectome and the repertoire of functional states—what has been called the **connectome-dynamics problem**—is incompletely understood. While whole-brain models can reproduce certain features of empirical functional connectivity, the mathematical principles governing the emergence of functional networks from structural wiring remain an active area of research. Additionally, the role of delays in coupling—propagation delays arising from finite conduction and synaptic times—in shaping whole-brain dynamics is analytically challenging and requires extensions of classical dynamical systems theory to delay differential equations.
+Despite the substantial progress in applying dynamical systems theory to neuroscience, several fundamental questions remain. The relationship between the structural connectome and the repertoire of functional states—what has been called the **connectome-dynamics problem**—is incompletely understood. While whole-brain models can reproduce certain features of empirical functional [[connectivity]], the mathematical principles governing the emergence of functional networks from structural wiring remain an active area of research. Additionally, the role of delays in coupling—propagation delays arising from finite conduction and synaptic times—in shaping whole-brain dynamics is analytically challenging and requires extensions of classical dynamical systems theory to delay differential equations.
 
 Another frontier is the integration of single-[[neuron]] biophysics with population-level dynamical systems. While [[neural mass model|neural mass models]] successfully capture population oscillations and transitions, they abstract away the detailed spiking dynamics that are crucial for understanding coding and information transfer. Bridging this gap—connecting the **[[nonlinear-dynamics]]** of single neurons (as characterized by models like the [[izhikevich]] model) to the population-level attractor landscapes analyzed using dynamical systems theory—remains a central challenge for the field.
 

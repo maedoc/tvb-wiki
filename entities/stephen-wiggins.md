@@ -23,7 +23,7 @@ Stephen Wiggins is a British mathematician and Professor at the University of Br
 ## Relevance to TVB
 - wiggins-2003 provides geometric methods for analyzing [[neural mass model]] dynamics
 - Normal form theory for [[bifurcation analysis]]
-- Perturbation methods for weakly coupled brain oscillations
+- Perturbation methods for weakly coupled [[brain-oscillations]]
 
 ## Related Concepts
 - [[dynamical systems theory]]

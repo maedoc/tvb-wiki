@@ -23,7 +23,7 @@ updated: '2026-04-27'
 # AAL Atlas
 
 ## Overview
-The **AAL (Automated Anatomical Labeling) Atlas** is a widely-used anatomical [[parcellation]] of the human brain into 116 regions, first published in 2002. It was developed by Tzourio-Mazoyer and colleagues to provide a standardized anatomical nomenclature for neuroimaging studies. The atlas is defined in [[mni-space]] (Montreal Neurological Institute) coordinate space and labels cortical and subcortical structures using anatomical criteria from the MNI single-subject brain template.
+The **AAL (Automated Anatomical Labeling) Atlas** is a widely-used anatomical [[parcellation]] of the human brain into 116 regions, first published in 2002. It was developed by Tzourio-Mazoyer and colleagues to provide a standardized anatomical nomenclature for [[neuroimaging]] studies. The atlas is defined in [[mni-space]] (Montreal Neurological Institute) coordinate space and labels cortical and subcortical structures using anatomical criteria from the MNI single-subject brain template.
 
 ## Key Features
 The AAL atlas divides the brain into hemispheric regions including:
@@ -35,7 +35,7 @@ Each region is assigned a unique numerical label and anatomical name based on an
 ## Role in Connectome-Based Modeling
 The AAL atlas is one of the most commonly used [[brain-parcellations]] for defining network nodes in [[whole-brain-modeling]] and [[structural-connectivity]] analyses. When constructing connectomes from [[diffusion-mri]] or [[fmri]] data, researchers use AAL regions as nodes, with edges representing fiber tract counts or functional correlations between regions.
 
-In [[tvb]] (TVB), the AAL atlas serves as a default anatomical parcellation for importing structural connectivity matrices and projecting activity to anatomical locations.
+In [[tvb]] (TVB), the AAL atlas serves as a default anatomical parcellation for importing structural [[connectivity]] matrices and projecting activity to anatomical locations.
 
 ## Relationship to TVB
 The AAL atlas is integrated into [[tvb]] (TVB) as one of the standard anatomical parcellations. TVB utilizes AAL labels for:

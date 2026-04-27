@@ -32,7 +32,7 @@ The practical utility of NMMs stems from their ability to generate forward model
 
 ### Mean-Field Approximation
 
-The mathematical heart of any [[neural-mass-models|neural mass model]] lies in the mean-field approximation, which replaces the distribution of individual neuron states (membrane potentials, firing rates) with a small number of population-averaged variables. This approach draws from [[mean-field-theory]], a well-established framework in statistical physics for analyzing systems with many interacting components. Formally, if a neural population contains $N$ neurons, the mean membrane potential $V$ represents the average across the population, while fluctuations around this mean are neglected or treated as stochastic noise. The validity of this approximation rests on the assumption of sufficient heterogeneity and random connectivity within the population—the so-called thermodynamic limit where $N \to \infty$.
+The mathematical heart of any [[neural-mass-models|neural mass model]] lies in the mean-field approximation, which replaces the distribution of individual neuron states (membrane potentials, firing rates) with a small number of population-averaged variables. This approach draws from [[mean-field-theory]], a well-established framework in statistical physics for analyzing systems with many interacting components. Formally, if a neural population contains $N$ neurons, the mean membrane potential $V$ represents the average across the population, while fluctuations around this mean are neglected or treated as stochastic noise. The validity of this approximation rests on the assumption of sufficient heterogeneity and random [[connectivity]] within the population—the so-called thermodynamic limit where $N \to \infty$.
 
 ### Canonical Structure
 
@@ -83,6 +83,7 @@ Despite their utility, neural mass models carry significant limitations that mot
 - [[jansen-rit]] – EEG/MEG-focused cortical column model
 - [[wong-wang]] – [[fmri]]/BOLD-optimized model
 - [[tvb]] – Primary software platform implementing NMMs
+- [[tvb-vs-[[nest]]-vs-neuron|Tvb Vs Nest Vs Neuron]]
 - [[tvb-vs-nest-vs-neuron|Tvb Vs Nest Vs Neuron]]
 ## References
 

@@ -22,7 +22,7 @@ Cognitive neuroscientist specializing in the default mode network, aging, and in
 
 ## Key Contributions
 
-- First systematic study of DMN connectivity changes in aging (2007)
+- First systematic study of DMN [[connectivity]] changes in aging (2007)
 - Comprehensive anatomical and functional characterization of DMN (2008)
 - Demonstrated DMN fractionation into distinct subsystems (2010)
 - Established DMN role in self-referential processing and mind-wandering
@@ -52,7 +52,7 @@ Cognitive neuroscientist specializing in the default mode network, aging, and in
 
 ## Related Entities
 - randy buckner – Long-time collaborator
-- marcus raichle – DMN research
+- [[marcus-raichle]] – DMN research
 - daniel schacter – Memory research collaborator
 
 ## Related Concepts

@@ -27,7 +27,7 @@ Comparison of major neural simulation platforms for [[whole-brain]] modeling and
 
 ## What is Being Compared
 
-Three major open-source platforms for computational neuroscience simulation:
+Three major open-source platforms for [[computational-neuroscience]] simulation:
 
 - **TVB** — Whole-[[brain-network]] modeling using [[neural-mass-models]]
 - **[[nest]]** — Large-scale [[spiking-neural-networks|spiking neural network]] simulation
@@ -55,7 +55,7 @@ Each platform occupies a distinct niche in the modeling hierarchy, from populati
 
 **TVB** uses neural mass models (e.g., Jansen-Rit, [[wilson-cowan]]) where each brain region is represented as a population of excitatory and inhibitory neurons described by mean-field differential equations. This coarse-graining enables whole-brain simulation with realistic [[structural-connectivity]] derived from [[diffusion-mri]] [[tractography]].
 
-**NEST** simulates individual point neurons connected via synapses with realistic spike-timing-dependent plasticity. It is optimized for networks of integrate-and-fire or Hodgkin-Huxley type neurons where dendritic morphology is collapsed to a single compartment. This enables simulation of cortical microcircuits with biologically realistic cell counts.
+**NEST** simulates individual point neurons connected via synapses with realistic spike-timing-dependent [[plasticity]]. It is optimized for networks of integrate-and-fire or Hodgkin-Huxley type neurons where dendritic morphology is collapsed to a single compartment. This enables simulation of cortical microcircuits with biologically realistic cell counts.
 
 **NEURON** solves cable equations for spatially extended neurons with distributed ion channels and synapses. It is essential when dendritic morphology, axonal propagation, or subcellular processes critically influence network behavior.
 
@@ -69,8 +69,8 @@ Each platform occupies a distinct niche in the modeling hierarchy, from populati
 
 ### Integration with Neuroimaging
 
-**TVB** is designed specifically for neuroimaging integration:
-- Uses DTI-derived structural connectivity
+**TVB** is designed specifically for [[neuroimaging]] integration:
+- Uses DTI-derived structural [[connectivity]]
 - Generates simulated EEG, MEG, and [[fmri]] [[bold-signal|BOLD]] signals
 - Validates against [[resting-state]] [[functional-connectivity]]
 - Personalization from individual MRI data
@@ -85,7 +85,7 @@ Each platform occupies a distinct niche in the modeling hierarchy, from populati
 ### When to Use Each Platform
 
 **Choose TVB when:**
-- Modeling whole-brain dynamics at the scale of neuroimaging
+- Modeling whole-[[brain-dynamics]] at the scale of neuroimaging
 - Simulating clinical populations or individual patients
 - Generating predictions for EEG, MEG, or fMRI
 - Integrating DTI structural connectivity
@@ -94,13 +94,13 @@ Each platform occupies a distinct niche in the modeling hierarchy, from populati
 **Choose NEST when:**
 - Spiking dynamics and precise timing matter
 - Simulating cortical microcircuits with realistic cell counts
-- Studying synaptic plasticity or learning
+- Studying [[synaptic-plasticity]] or learning
 - Scaling to very large networks (10^6+ neurons)
 - Running on HPC clusters or supercomputers
 
 **Choose NEURON when:**
 - Dendritic integration or axonal propagation is critical
-- Ion channel distributions shape network behavior
+- [[ion-channel]] distributions shape network behavior
 - Validating against detailed electrophysiological recordings
 - Teaching compartmental modeling concepts
 

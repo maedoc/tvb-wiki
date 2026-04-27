@@ -1,15 +1,19 @@
 ---
-title: "Nitin Gogtay"
 created: 2026-04-20
-updated: 2026-04-20
+sources:
+- raw/papers/gogtay-2004.md
+tags:
+- people-researcher
+- neurodevelopment
+- neuroimaging-fmri
+title: Nitin Gogtay
 type: entity
-tags: [people-researcher, neurodevelopment, neuroimaging-fmri]
-sources: [raw/papers/gogtay-2004.md]
+updated: '2026-04-27'
 ---
 
 # Nitin Gogtay
 
-Developmental neuroscientist known for longitudinal neuroimaging studies of brain development.
+Developmental neuroscientist known for longitudinal [[neuroimaging]] studies of brain development.
 
 ## Key Contributions
 

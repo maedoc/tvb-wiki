@@ -22,7 +22,7 @@ The DataLad wiki page has been successfully improved:
 - Full entity page (~750 words) replacing all placeholders
 - Updated frontmatter with `updated: 2026-04-24`
 - 7 validated tags from the taxonomy
-- 16+ wikilinks to related pages (TVB, git-annex, BIDS, [[openneuro]], HCP, [[uk-biobank]], neuroimaging, etc.)
+- 16+ wikilinks to related pages (TVB, git-annex, [[bids]], [[openneuro]], HCP, [[uk-biobank]], [[neuroimaging]], etc.)
 - Sections: Overview, Key Features (4 subsections), Relationship to TVB (3 subsections), Related Software, Integration table, Key Papers, References
 - Cited papers: Halchenko et al. (2023), Hanke et al. (2021), DataLad Handbook
 

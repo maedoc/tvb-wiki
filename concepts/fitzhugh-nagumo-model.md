@@ -5,10 +5,10 @@ tags:
 - fitzhugh-nagumo-model
 title: Fitzhugh Nagumo Model
 type: concept
-updated: 2026-04-27
+updated: '2026-04-27'
 ---
 
-Fitzhugh Nagumo Model — a concept in whole-brain modeling and computational neuroscience.
+Fitzhugh Nagumo Model — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
 
 ## Related Concepts
 * [[oscillator]]

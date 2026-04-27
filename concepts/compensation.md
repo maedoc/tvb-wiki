@@ -5,10 +5,10 @@ tags:
 - compensation
 title: Compensation
 type: concept
-updated: 2026-04-27
+updated: '2026-04-27'
 ---
 
-Compensation — a concept in whole-brain modeling and computational neuroscience.
+Compensation — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
 
 ## Related Concepts
 * [[cognitive-reserve]]

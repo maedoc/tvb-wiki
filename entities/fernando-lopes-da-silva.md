@@ -41,7 +41,7 @@ The Lopes da Silva model's architecture (three interconnected populations) direc
 
 - [[neural mass model]]
 - [[Jansen-Rit]]
-- brain oscillations
+- [[brain-oscillations]]
 - [[eeg]]
 
 ## References

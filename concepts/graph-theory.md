@@ -19,7 +19,7 @@ updated: '2026-04-27'
 
 # Graph Theory
 
-Graph theory provides a mathematical framework for describing and analyzing networks—collections of nodes (vertices) connected by edges (links). In neuroscience, graph theory has become essential for characterizing brain connectivity, enabling researchers to move beyond qualitative descriptions toward quantitative, reproducible metrics of network organization. The framework treats brain regions or neurons as nodes and the connections between them as edges, allowing the application of a rich arsenal of mathematical tools developed across network science to problems in neuroimaging and connectomics.
+Graph theory provides a mathematical framework for describing and analyzing networks—collections of nodes (vertices) connected by edges (links). In neuroscience, graph theory has become essential for characterizing brain [[connectivity]], enabling researchers to move beyond qualitative descriptions toward quantitative, reproducible metrics of network organization. The framework treats brain regions or neurons as nodes and the connections between them as edges, allowing the application of a rich arsenal of mathematical tools developed across network science to problems in [[neuroimaging]] and connectomics.
 
 ## Motivation and Context
 

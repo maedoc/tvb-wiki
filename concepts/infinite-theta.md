@@ -18,7 +18,7 @@ updated: '2026-04-27'
 
 # Infinite Theta Neuron Model (Montbrió-Pazó-Roxin)
 
-An exact mean-field reduction of an infinite population of quadratic integrate-and-fire (QIF) neurons, developed by Montbrió, Pazó, and Roxin in 2015. This model provides a mathematically rigorous bridge between microscopic spiking [[neuron]] dynamics and macroscopic population-level descriptions, making it a foundational result in computational neuroscience for understanding collective neuronal dynamics.
+An exact mean-field reduction of an infinite population of quadratic integrate-and-fire (QIF) neurons, developed by Montbrió, Pazó, and Roxin in 2015. This model provides a mathematically rigorous bridge between microscopic spiking [[neuron]] dynamics and macroscopic population-level descriptions, making it a foundational result in [[computational-neuroscience]] for understanding collective neuronal dynamics.
 
 ## Overview
 
@@ -51,7 +51,7 @@ The three key parameters each map onto distinct neurobiological mechanisms:
 
 - **J (recurrent coupling)**: Captures the strength of recurrent excitatory or inhibitory interactions within the population. Positive J promotes collective excitation (potentially leading to runaway activity), while negative J enables competition and can generate oscillatory dynamics through feedback between firing rate and voltage.
 
-These parameters enable direct mapping to brain states observed in neuroimaging, where the model can predict changes in [[resting-state]] connectivity patterns associated with alterations in neuromodulation (affecting μ), network architecture (affecting J), or neural diversity (affecting Δ).
+These parameters enable direct mapping to brain states observed in [[neuroimaging]], where the model can predict changes in [[resting-state]] [[connectivity]] patterns associated with alterations in neuromodulation (affecting μ), network architecture (affecting J), or neural diversity (affecting Δ).
 
 ## Relationship to Other Models
 
@@ -63,7 +63,7 @@ For [[tvb]] simulations, these mean-field formulations provide the dynamical cor
 
 ## Applications and Extensions
 
-The model has proven particularly valuable for understanding brain oscillations at multiple frequency bands. Subsequent work—most notably by Devalle, Roxin, and Montbrió (2017)—demonstrated that the firing rate equations require a spike synchrony mechanism to correctly describe fast oscillations in inhibitory networks, extending the framework's applicability to gamma oscillations and other fast rhythms relevant to cognition.
+The model has proven particularly valuable for understanding [[brain-oscillations]] at multiple frequency bands. Subsequent work—most notably by Devalle, Roxin, and Montbrió (2017)—demonstrated that the firing rate equations require a spike synchrony mechanism to correctly describe fast oscillations in inhibitory networks, extending the framework's applicability to gamma oscillations and other fast rhythms relevant to cognition.
 
 The theoretical framework has also been extended to handle heterogeneous connectivity structures beyond global coupling, with applications to [[brain-network]] analysis and the study of [[structural-connectivity]] effects on functional dynamics. This extension connects to the broader program of using [[dynamic-causal-modeling]] to infer effective connectivity from neuroimaging data.
 

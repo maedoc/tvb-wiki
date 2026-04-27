@@ -51,7 +51,7 @@ From a [[dynamical-systems-theory|dynamical systems]] perspective, the inclusion
 
 ## Applications and Extensions
 
-The K-Ion Exchange framework has been applied to several research questions in computational neuroscience. In seizure modeling, it provides a mechanistic explanation for the observation that prolonged seizures often self-terminate: as potassium accumulates beyond a critical threshold, the entire neuronal population enters depolarization block, effectively silencing the seizure. The model also predicts that interventions enhancing glial buffering or vascular clearance could abbreviate seizure duration—a prediction with potential clinical relevance.
+The K-Ion Exchange framework has been applied to several research questions in [[computational-neuroscience]]. In seizure modeling, it provides a mechanistic explanation for the observation that prolonged seizures often self-terminate: as potassium accumulates beyond a critical threshold, the entire neuronal population enters depolarization block, effectively silencing the seizure. The model also predicts that interventions enhancing glial buffering or vascular clearance could abbreviate seizure duration—a prediction with potential clinical relevance.
 
 More recent extensions have incorporated calcium dynamics alongside potassium, recognizing that Ca²⁺ handling by astrocytes and neurons provides an additional layer of metabolic regulation. The modular approach described by Kondrakhin and Kolpakov (2026), which captures ion currents (Na⁺, K⁺, Ca²⁺), receptors (AMPA, NMDA, GABA_A, GABA_B), and neurotransmitters, represents a further refinement that could be integrated with the potassium-focused KIonEx formulation.
 

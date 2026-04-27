@@ -62,7 +62,7 @@ The model complements the [[stefanescu-jirsa]] approach, which also derives mean
 
 ## Parameter Estimation and Calibration
 
-One of the practical challenges with the Zerlaut model is parameter estimation. The model contains multiple parameters including membrane time constants, adaptation time constants and weights, and synaptic coupling strengths. Different regimes of the model can produce qualitatively different dynamics, from simple fixed-point behavior to oscillations and even chaotic dynamics through bifurcation mechanisms familiar from [[dynamical-systems-theory]].
+One of the practical challenges with the Zerlaut model is [[parameter-estimation]]. The model contains multiple parameters including membrane time constants, adaptation time constants and weights, and synaptic coupling strengths. Different regimes of the model can produce qualitatively different dynamics, from simple fixed-point behavior to oscillations and even chaotic dynamics through bifurcation mechanisms familiar from [[dynamical-systems-theory]].
 
 Recent work has explored using data-driven approaches to calibrate mean-field models like Zerlaut. The study by Breyton et al. (2025) demonstrates how machine learning frameworks can learn accurate mean-field descriptions directly from spiking network simulations, potentially providing a systematic way to tune Zerlaut-type models to specific neural substrates. Similarly, region-specific mean-field models (Lorenzi et al., 2025) suggest that different brain regions may require distinct parameterizations of mean-field models to capture their specific microcircuit properties.
 
@@ -74,7 +74,7 @@ In [[epilepsy-modeling]], the Zerlaut model has been used to explore seizure dyn
 
 ## Open Questions and Future Directions
 
-Several open questions remain regarding the Zerlaut model and its extensions. The original formulation assumes all-to-all connectivity within populations, an assumption that simplifies analysis but limits biological realism. Addressing this limitation requires incorporating network structure, potentially using approaches like those in data-driven mean-field models (Breyton et al., 2025).
+Several open questions remain regarding the Zerlaut model and its extensions. The original formulation assumes all-to-all [[connectivity]] within populations, an assumption that simplifies analysis but limits biological realism. Addressing this limitation requires incorporating network structure, potentially using approaches like those in data-driven mean-field models (Breyton et al., 2025).
 
 Another direction involves extending the model to include multiple adaptation timescales or more detailed neuron types. Current research explores whether the basic two-population architecture can capture the rich dynamics of cortical microcircuits, which contain many distinct cell types with diverse intrinsic properties. The relationship between mean-field models like Zerlaut and conducting-based models such as those simulated in [[nest]] remains an active area of investigation, as researchers seek to understand when population-level approximations adequately represent the underlying spiking dynamics.
 
@@ -94,4 +94,4 @@ Another direction involves extending the model to include multiple adaptation ti
 
 1. Martin Breyton, Viktor Sip, M. Woodman, Meysam Hashemi, S. Petkoski, V. Jirsa. (2025). *Data-driven mean-field within whole-brain models*. [Link](https://www.semanticscholar.org/paper/144ae1f1dabec42c14493d0083d36f168508f886)
 2. Roxana A. Stefanescu, Viktor K. Jirsa. *A low dimensional description of globally coupled heterogeneous neural networks of excitatory and inhibitory neurons*. PLoS Computational Biology. [DOI](https://doi.org/10.1371/journal.pcbi.1000219)
-3. R. Lorenzi, Fulvia Palesi, C. Casellato, C. G. Gandini Wheeler-Kingshott, Egidio D’Angelo. (2025). *Region-specific mean field models enhance simulations of local and global brain dynamics*. bioRxiv. [DOI](https://doi.org/10.1038/s41540-025-00543-9)
+3. R. Lorenzi, Fulvia Palesi, C. Casellato, C. G. Gandini Wheeler-Kingshott, Egidio D’Angelo. (2025). *Region-specific mean field models enhance simulations of local and global [[brain-dynamics]]*. bioRxiv. [DOI](https://doi.org/10.1038/s41540-025-00543-9)

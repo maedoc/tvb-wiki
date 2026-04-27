@@ -32,7 +32,7 @@ The [[mrtrix3]] [[connectome]] script executes the following stages in sequence:
 
 1. **Preprocessing**: Denoising using the Marchenko-Pastur PCA (MP-PCA) method^1, Gibbs ringing removal, distortion correction using FSL TOPUP^2, bias field correction, and intensity normalization across subjects
 
-2. **Tissue Segmentation**: Automated brain extraction and tissue segmentation (gray matter, white matter, CSF) for anatomically-constrained tractography^3
+2. **Tissue Segmentation**: Automated brain extraction and tissue segmentation (gray matter, [[white-matter]], CSF) for anatomically-constrained tractography^3
 
 3. **Response Function Estimation**: Multi-shell multi-tissue (MSMT) response function estimation for constrained spherical deconvolution^4
 
@@ -57,7 +57,7 @@ The [[mrtrix3]] [[connectome]] script executes the following stages in sequence:
 
 MRtrix3 Connectome serves as a critical preprocessing component in [[tvb]] workflows by providing the [[structural-connectivity]] matrices required for whole-brain modeling:
 
-1. **Input Generation**: The weighted connectivity matrices produced by MRtrix3 Connectome (typically using SIFT2-weighted streamline counts from million-scale tractograms) serve as the **weights** matrix in TVB simulations
+1. **Input Generation**: The weighted [[connectivity]] matrices produced by MRtrix3 Connectome (typically using SIFT2-weighted streamline counts from million-scale tractograms) serve as the **weights** matrix in TVB simulations
 
 2. **Transmission Delays**: Tractography-derived fiber lengths from MRtrix3 can be used to compute signal propagation delays between regions based on conduction velocity
 
@@ -65,7 +65,7 @@ MRtrix3 Connectome serves as a critical preprocessing component in [[tvb]] workf
 
 4. **Integration**: MRtrix3 Connectome outputs (connectome weights and node-wise streamline lengths) can be exported for import into TVB's connectivity format, though users should verify that the [[parcellation]] region labels match between the MRtrix3 output and TVB's expected region naming convention
 
-The quality of MRtrix3 Connectome outputs directly impacts TVB simulation results, making preprocessing choices (response function estimation, SIFT2 parameters, parcellation selection) important considerations for model validation.
+The quality of MRtrix3 Connectome outputs directly impacts TVB simulation results, making preprocessing choices (response function estimation, SIFT2 parameters, parcellation selection) important considerations for [[model-validation]].
 
 ## Key Papers
 
@@ -77,11 +77,11 @@ The quality of MRtrix3 Connectome outputs directly impacts TVB simulation result
 
 - **Sotiropoulos & Zalesky (2019)**: "Building connectomes using diffusion MRI: why, how and but" – *Brain Connectivity* – Guidelines for validation and interpretation of connectome data, including critical discussion of tractography biases and connectome construction best practices
 
-- **Yeh et al. (2019)**: "Quantifying brain microstructure with diffusion MRI: Theory and parameter estimation" – *NMR in Biomedicine* – Background on diffusion modeling methods
+- **Yeh et al. (2019)**: "Quantifying brain microstructure with diffusion MRI: Theory and [[parameter-estimation]]" – *NMR in Biomedicine* – Background on diffusion modeling methods
 
 ## Related Software
 
-- [[tvb]] – The Virtual Brain; primary destination software for connectome matrices
+- [[tvb]] – [[the-virtual-brain]]; primary destination software for connectome matrices
 - [[mrtrix]] – Parent software suite containing the connectome pipeline
 - [[fsl]] – Used internally for distortion correction (TOPUP, eddy)^2
 - [[freesurfer]] – Often used for cortical parcellation input

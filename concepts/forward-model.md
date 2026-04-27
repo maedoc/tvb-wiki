@@ -5,10 +5,10 @@ tags:
 - forward-model
 title: Forward Model
 type: concept
-updated: 2026-04-27
+updated: '2026-04-27'
 ---
 
-Forward Model — a concept in whole-brain modeling and computational neuroscience.
+Forward Model — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
 
 ## Related Concepts
 * [[bold-signal]]

@@ -5,20 +5,20 @@ tags:
 - software-coreneuron
 title: CoreNEURON
 type: entity
-updated: 2026-04-27
+updated: '2026-04-27'
 ---
 
-CoreNEURON (coreneuron) is a optimized compute engine for the NEURON simulator, designed for large-scale network simulations on modern HPC systems.
+CoreNEURON (coreneuron) is a optimized compute engine for the [[neuron]] simulator, designed for large-scale network simulations on modern HPC systems.
 
 ## Key Features
 
-* Core functionality for neuroimaging and computational neuroscience workflows
+* Core functionality for [[neuroimaging]] and [[computational-neuroscience]] workflows
 * Integration with Python ecosystem and neuroimaging toolchains
 * Open-source with active community maintenance
 
 ## Relationship to Whole-Brain Modeling
 
-CoreNEURON is often used alongside [[tvb]] and other simulation platforms in pre-processing or post-processing pipelines for connectome-based brain modeling.
+CoreNEURON is often used alongside [[tvb]] and other simulation platforms in pre-processing or post-processing pipelines for [[connectome]]-based brain modeling.
 
 ## Related Software
 * [[antspy]]

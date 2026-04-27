@@ -74,9 +74,9 @@ The study of [[brain oscillations]] is fundamentally a study of nonlinear oscill
 
 ## Open Questions and Challenges
 
-Several fundamental questions in computational neuroscience hinge on nonlinear dynamics. The nature of [[brain dynamics]] near criticality—whether the brain operates at a critical point with power-law avalanches, and whether this is a stable attractor of nonlinear dynamics—remains debated. How noise interacts with nonlinearities to enable the flexible switching between functional states observed in neuroimaging data is poorly understood. And the extension of nonlinear dynamic analysis to whole-brain models with realistic [[structural connectivity]] presents computational challenges: the high-dimensional phase space makes visualization difficult, and the presence of multiple timescales introduces additional nonlinear complexity.
+Several fundamental questions in [[computational-neuroscience]] hinge on nonlinear dynamics. The nature of [[brain dynamics]] near criticality—whether the brain operates at a critical point with power-law avalanches, and whether this is a stable attractor of nonlinear dynamics—remains debated. How noise interacts with nonlinearities to enable the flexible switching between functional states observed in [[neuroimaging]] data is poorly understood. And the extension of nonlinear dynamic analysis to whole-brain models with realistic [[structural connectivity]] presents computational challenges: the high-dimensional phase space makes visualization difficult, and the presence of multiple timescales introduces additional nonlinear complexity.
 
-Nevertheless, nonlinear dynamics provides the essential conceptual and mathematical framework for understanding brain function as a dynamic system. Its tools—increasingly integrated into software packages for brain simulation and analysis—are indispensable for advancing from descriptive connectivity maps to mechanistic models of neural computation, cognition, and disease.
+Nevertheless, nonlinear dynamics provides the essential conceptual and mathematical framework for understanding brain function as a dynamic system. Its tools—increasingly integrated into software packages for brain simulation and analysis—are indispensable for advancing from descriptive [[connectivity]] maps to mechanistic models of neural computation, cognition, and disease.
 
 ## References
 

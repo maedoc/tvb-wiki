@@ -5,10 +5,10 @@ tags:
 - excitation-inhibition-balance
 title: Excitation Inhibition Balance
 type: concept
-updated: 2026-04-27
+updated: '2026-04-27'
 ---
 
-Excitation Inhibition Balance — a concept in whole-brain modeling and computational neuroscience.
+Excitation Inhibition Balance — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
 
 ## Related Concepts
 * [[wong-wang-exc-inh]]

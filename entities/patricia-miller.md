@@ -21,12 +21,12 @@ Professor at University of Oxford, FMRIB Centre, lead imaging researcher for UK 
 
 - **UK Biobank Imaging**: Principal investigator for the UK Biobank brain imaging study
 - **Large-Scale Population Imaging**: Pioneered approaches for imaging 100,000+ participants
-- **Multimodal MRI**: Advanced methods for integrated structural, functional, and diffusion imaging
+- **Multimodal MRI**: Advanced methods for integrated structural, functional, and [[diffusion-imaging]]
 
 ## Research Focus
 
 Miller's research emphasizes:
-- Population-scale neuroimaging
+- Population-scale [[neuroimaging]]
 - Multimodal MRI development
 - Image processing pipelines for large datasets
 - Integration of imaging with genetics and health data

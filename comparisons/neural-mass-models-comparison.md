@@ -227,11 +227,11 @@ model = JansenRit(
 
 ## Synthesis
 
-Both models are essential in computational neuroscience:
+Both models are essential in [[computational-neuroscience]]:
 
 - **Wilson-Cowan** provides the theoretical foundation and is preferred for mathematical analysis and spatial pattern formation
 
-- **Jansen-Rit** is the practical choice for neuroimaging applications and clinical modeling, particularly in TVB and DCM
+- **Jansen-Rit** is the practical choice for [[neuroimaging]] applications and clinical modeling, particularly in TVB and DCM
 
 The choice depends on the specific question: use Wilson-Cowan for theoretical insight and Jansen-Rit for clinical applications and EEG/MEG modeling.
 

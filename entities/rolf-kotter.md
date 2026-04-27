@@ -13,7 +13,7 @@ updated: '2026-04-27'
 
 # Rolf Kötter
 
-Neuroscientist, co-originator of the connectome concept, known for work on neuroanatomy and connectivity analysis.
+Neuroscientist, co-originator of the connectome concept, known for work on neuroanatomy and [[connectivity]] analysis.
 
 ## Key Contributions
 

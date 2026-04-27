@@ -17,7 +17,7 @@ type: concept
 updated: '2026-04-27'
 ---
 
-Independent Component Analysis (ICA) is a blind source separation technique that decomposes multivariate observations into statistically independent non-Gaussian components. In the context of neuroimaging, ICA has become a foundational computational tool for separating overlapping signals from mixed recordings, enabling researchers to isolate neural sources from artifacts and identify functionally coherent brain networks without requiring explicit models of the underlying sources.
+Independent Component Analysis (ICA) is a blind source separation technique that decomposes multivariate observations into statistically independent non-Gaussian components. In the context of [[neuroimaging]], ICA has become a foundational computational tool for separating overlapping signals from mixed recordings, enabling researchers to isolate neural sources from artifacts and identify functionally coherent brain networks without requiring explicit models of the underlying sources.
 
 ## Mathematical Framework
 
@@ -31,7 +31,7 @@ The most common ICA algorithms optimize different objective functions. The **Inf
 
 ## Historical Development
 
-ICA was first applied to EEG data by Scott Makeig, Anthony Bell, Tzyy-Ping Jung, and [[terrence-sejnowski]] in their seminal 1996 paper "Independent component analysis of electroencephalographic and magnetoencephalographic data" published in Advances in Neural Information Processing Systems. This work demonstrated that ICA could successfully separate brain-derived neural sources from artifacts such as eye movements and muscle activity, which had previously required extensive manual intervention. The technique rapidly became standard preprocessing and analysis tooling in electrophysiology laboratories worldwide.
+ICA was first applied to EEG data by Scott Makeig, Anthony Bell, Tzyy-Ping Jung, and [[terrence-sejnowski]] in their seminal 1996 paper "Independent component analysis of electroencephalographic and magnetoencephalographic data" published in Advances in Neural Information Processing Systems. This work demonstrated that ICA could successfully separate brain-derived neural sources from artifacts such as eye movements and muscle activity, which had previously required extensive manual intervention. The technique rapidly became standard preprocessing and analysis tooling in [[electrophysiology]] laboratories worldwide.
 
 ## Applications in Neuroimaging
 
@@ -49,7 +49,7 @@ ICA plays several important roles in [[whole-brain modeling]] and [[connectomics
 
 ## Algorithmic Considerations
 
-Several practical considerations affect ICA performance in neuroimaging applications. The number of components to extract must be specified in advance, with higher numbers potentially overfitting noise and lower numbers merging distinct sources. Stability of decompositions can vary across runs due to local optima, particularly with the Infomax algorithm; repeated decompositions with different initialization can assess reliability. ICA assumes linear mixing and stationary sources, which may not hold in all cases—nonlinearities in the hemodynamic response or volume conduction in EEG can violate these assumptions. Recent developments incorporate temporal and spatial constraints to leverage known properties of neural signals.
+Several practical considerations affect ICA performance in neuroimaging applications. The number of components to extract must be specified in advance, with higher numbers potentially overfitting noise and lower numbers merging distinct sources. Stability of decompositions can vary across runs due to local optima, particularly with the Infomax algorithm; repeated decompositions with different initialization can assess reliability. ICA assumes linear mixing and stationary sources, which may not hold in all cases—nonlinearities in the hemodynamic response or [[volume-conduction]] in EEG can violate these assumptions. Recent developments incorporate temporal and spatial constraints to leverage known properties of neural signals.
 
 ## Related Concepts
 

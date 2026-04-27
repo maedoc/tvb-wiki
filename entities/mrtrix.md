@@ -5,14 +5,14 @@ tags:
 - software-mrtrix
 title: MRtrix
 type: entity
-updated: 2026-04-27
+updated: '2026-04-27'
 ---
 
-MRtrix (mrtrix) is a command-line software suite for diffusion MRI analysis, including tractography, spherical deconvolution, and connectome generation.
+MRtrix (mrtrix) is a command-line software suite for [[diffusion-mri]] analysis, including [[tractography]], spherical deconvolution, and [[connectome]] generation.
 
 ## Key Features
 
-* Core functionality for neuroimaging and computational neuroscience workflows
+* Core functionality for [[neuroimaging]] and [[computational-neuroscience]] workflows
 * Integration with Python ecosystem and neuroimaging toolchains
 * Open-source with active community maintenance
 

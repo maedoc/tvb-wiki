@@ -55,7 +55,7 @@ The [[wong-wang]] model (also known as the [[wong-wang-exc-inh]] model) extends 
 
 ### Epileptor Model
 
-The [[epileptor]] model was developed specifically for [[epilepsy-modeling]] and features a set of five coupled differential equations that can exhibit seizure-like discharges. It represents a neural mass model designed to capture the transition from normal brain dynamics to pathological epileptiform activity, making it a key tool for predicting seizure onset and evaluating surgical interventions.
+The [[epileptor]] model was developed specifically for [[epilepsy-modeling]] and features a set of five coupled differential equations that can exhibit seizure-like discharges. It represents a neural mass model designed to capture the transition from normal [[brain-dynamics]] to pathological epileptiform activity, making it a key tool for predicting seizure onset and evaluating surgical interventions.
 
 ## Relationship to Other Approaches
 
@@ -65,8 +65,8 @@ The relationship between neural mass models and [[dynamic-causal-modeling]] is p
 
 ## Parameter Estimation and Calibration
 
-A critical challenge in applying neural mass models is estimating the free parameters (synaptic gains, time constants, connection strengths) from empirical data. Traditional approaches include Bayesian inversion via DCM (which uses [[variational-bayes]] to approximate the posterior distribution over parameters) and optimization-based fitting to match simulated and observed [[functional-connectivity]] patterns. More recently, machine learning approaches have been applied to accelerate parameter estimation, enabling personalized brain models to be calibrated to individual subjects within practical time constraints.
+A critical challenge in applying neural mass models is estimating the free parameters (synaptic gains, time constants, connection strengths) from empirical data. Traditional approaches include Bayesian inversion via DCM (which uses [[variational-bayes]] to approximate the posterior distribution over parameters) and optimization-based fitting to match simulated and observed [[functional-connectivity]] patterns. More recently, machine learning approaches have been applied to accelerate [[parameter-estimation]], enabling personalized brain models to be calibrated to individual subjects within practical time constraints.
 
 ## Open Questions and Limitations
 
-Despite their widespread use, neural mass models face several open questions. The validity of the mean-field approximation breaks down when population-level correlations become strong (as near critical points or during seizures), and it remains unclear how well NMMs capture the effects of cell-type-specific connectivity. Parameter identifiability is also a concern: many parameter combinations can produce similar functional dynamics, complicating biological interpretation. Ongoing research aims to address these limitations through more biophysically grounded neural mass formulations and hybrid models that combine population-level dynamics with selected single-[[neuron]] detail.
+Despite their widespread use, neural mass models face several open questions. The validity of the mean-field approximation breaks down when population-level correlations become strong (as near critical points or during seizures), and it remains unclear how well NMMs capture the effects of cell-type-specific [[connectivity]]. Parameter identifiability is also a concern: many parameter combinations can produce similar functional dynamics, complicating biological interpretation. Ongoing research aims to address these limitations through more biophysically grounded neural mass formulations and hybrid models that combine population-level dynamics with selected single-[[neuron]] detail.

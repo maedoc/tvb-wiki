@@ -17,13 +17,13 @@ type: concept
 updated: '2026-04-27'
 ---
 
-Modularity is a fundamental organizational principle in complex networks, including the brain's structural and functional connectivity. It refers to the degree to which a network can be partitioned into clearly delineated groups—called modules, communities, or sub-networks—wherein nodes within each group exhibit dense interconnections while maintaining relatively sparse connections to nodes in other groups. This organizational scheme balances the competing demands of **segregated local processing** and **integrated global coordination**, making it essential for understanding brain function in both health and disease.
+Modularity is a fundamental organizational principle in complex networks, including the brain's structural and functional [[connectivity]]. It refers to the degree to which a network can be partitioned into clearly delineated groups—called modules, communities, or sub-networks—wherein nodes within each group exhibit dense interconnections while maintaining relatively sparse connections to nodes in other groups. This organizational scheme balances the competing demands of **segregated local processing** and **integrated global coordination**, making it essential for understanding brain function in both health and disease.
 
 ## Definition and Conceptual Foundation
 
 The concept of modularity originates from network science and has been extensively applied to analyze brain connectivity data. In the context of **[[connectomics]]**, modular organization reflects the brain's capacity to form specialized processing units—such as visual cortex, motor cortex, or attention networks—while maintaining the ability to integrate information across these modules to support coherent cognition and behavior. As described by Sporns (2011) in *Networks of the Brain*, modularity is one of several key topological features that characterize large-scale brain organization, alongside **[[small-world-networks]]**, **[[rich-club]]** architectures, and **[[network-hubs]]**.
 
-The modular organization of brain networks emerges from both genetic and developmental factors. Genes that influence axonal guidance and synaptic formation tend to produce local clusters of connected neurons, while activity-dependent plasticity refines these initial clusters throughout development. This results in a hierarchical structure where modules at multiple scales coexist—ranging from microcircuits within cortical columns to macroscopic systems like the **[[default-mode-network]]**.
+The modular organization of brain networks emerges from both genetic and developmental factors. Genes that influence axonal guidance and synaptic formation tend to produce local clusters of connected neurons, while activity-dependent [[plasticity]] refines these initial clusters throughout development. This results in a hierarchical structure where modules at multiple scales coexist—ranging from microcircuits within cortical columns to macroscopic systems like the **[[default-mode-network]]**.
 
 ## Mathematical Formulation
 
@@ -103,7 +103,7 @@ Despite extensive research, several questions remain: What are the optimal modul
 - [[network-hubs]] – Highly connected nodes bridging modules
 - [[rich-club]] – Dense interconnection among hubs
 - [[functional-connectivity]] – Statistical dependencies between brain regions
-- [[structural-connectivity]] – Anatomical white matter pathways
+- [[structural-connectivity]] – Anatomical [[white-matter]] pathways
 - [[resting-state]] – Spontaneous brain activity patterns
 
 ## References

@@ -5,20 +5,20 @@ tags:
 - software-pynn
 title: PyNN
 type: entity
-updated: 2026-04-27
+updated: '2026-04-27'
 ---
 
-PyNN (pynn) is a Python simulator-independent language for building neuronal network models, providing a common API for multiple backends including NEST, NEURON, and Brian.
+PyNN (pynn) is a Python simulator-independent language for building neuronal network models, providing a common API for multiple backends including [[nest]], [[neuron]], and [[brian]].
 
 ## Key Features
 
-* Core functionality for neuroimaging and computational neuroscience workflows
+* Core functionality for [[neuroimaging]] and [[computational-neuroscience]] workflows
 * Integration with Python ecosystem and neuroimaging toolchains
 * Open-source with active community maintenance
 
 ## Relationship to Whole-Brain Modeling
 
-PyNN is often used alongside [[tvb]] and other simulation platforms in pre-processing or post-processing pipelines for connectome-based brain modeling.
+PyNN is often used alongside [[tvb]] and other simulation platforms in pre-processing or post-processing pipelines for [[connectome]]-based brain modeling.
 
 ## Related Software
 * [[antspy]]

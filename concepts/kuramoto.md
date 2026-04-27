@@ -5,10 +5,10 @@ tags:
 - kuramoto
 title: Kuramoto
 type: concept
-updated: 2026-04-27
+updated: '2026-04-27'
 ---
 
-Kuramoto — a concept in whole-brain modeling and computational neuroscience.
+Kuramoto — a concept in whole-brain modeling and [[computational-neuroscience]].
 
 ## Related Concepts
 * [[whole-brain]]

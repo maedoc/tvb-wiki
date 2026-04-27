@@ -39,13 +39,13 @@ The framework is designed for computational neuroscientists who need to scale fr
 - **Scalability**: Simulations of millions of neurons and billions of synapses
 
 ### Neural Modeling Capabilities
-- **Neuron models**: Leaky integrate-and-fire, Izhikevich, FitzHugh-Nagumo, and user-defined ODEs
-- **Synaptic models**: Current-based and conductance-based synapses, STDP, homeostatic plasticity
+- **Neuron models**: Leaky integrate-and-fire, [[izhikevich]], FitzHugh-Nagumo, and user-defined ODEs
+- **Synaptic models**: Current-based and conductance-based synapses, STDP, homeostatic [[plasticity]]
 - **Structural plasticity**: Dynamic rewiring of connections
 - **Dopaminergic modulation**: Reward-modulated learning rules
 
 ### Data Integration
-- **Neuroimaging compatibility**: Built-in tools for generating [[fmri]] and [[eeg]] predictions
+- **[[neuroimaging]] compatibility**: Built-in tools for generating [[fmri]] and [[eeg]] predictions
 - Visualization of synaptic weights and neural activity
 - Integration with the NeuralEnsemble ecosystem
 
@@ -65,7 +65,7 @@ The framework is designed for computational neuroscientists who need to scale fr
 
 1. **Hybrid modeling**: TVB's mean-field models can be compared against ANNarchy's spiking implementations of equivalent dynamics
 2. **Validation**: ANNarchy's detailed spiking simulations can validate TVB's population-level approximations
-3. **Bridging scales**: Both frameworks can inform each other—TVB provides the large-scale connectivity context while ANNarchy provides detailed cellular mechanisms
+3. **Bridging scales**: Both frameworks can inform each other—TVB provides the large-scale [[connectivity]] context while ANNarchy provides detailed cellular mechanisms
 
 ANNarchy is particularly valuable when researchers need to verify that mean-field approximations accurately reflect the underlying spiking dynamics, or when GPU acceleration is required for rate-coded simulations.
 
@@ -81,7 +81,7 @@ ANNarchy is particularly valuable when researchers need to verify that mean-fiel
 - [[NEST]] – Event-driven simulation of large-scale spiking networks
 - [[brian]] – Flexible Python spiking network simulator with code generation
 - [[neuron]] – Detailed compartmental modeling of individual neurons
-- [[elephant]] – Analysis toolkit for electrophysiology data from simulations
+- [[elephant]] – Analysis toolkit for [[electrophysiology]] data from simulations
 
 ## References
 

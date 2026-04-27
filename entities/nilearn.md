@@ -5,20 +5,20 @@ tags:
 - software-nilearn
 title: Nilearn
 type: entity
-updated: 2026-04-27
+updated: '2026-04-27'
 ---
 
-Nilearn (nilearn) is a Python library for fast and easy statistical learning on neuroimaging data, built on scikit-learn and emphasizing connectivity and predictive modeling.
+Nilearn (nilearn) is a Python library for fast and easy statistical learning on [[neuroimaging]] data, built on scikit-learn and emphasizing [[connectivity]] and predictive modeling.
 
 ## Key Features
 
-* Core functionality for neuroimaging and computational neuroscience workflows
+* Core functionality for neuroimaging and [[computational-neuroscience]] workflows
 * Integration with Python ecosystem and neuroimaging toolchains
 * Open-source with active community maintenance
 
 ## Relationship to Whole-Brain Modeling
 
-Nilearn is often used alongside [[tvb]] and other simulation platforms in pre-processing or post-processing pipelines for connectome-based brain modeling.
+Nilearn is often used alongside [[tvb]] and other simulation platforms in pre-processing or post-processing pipelines for [[connectome]]-based brain modeling.
 
 ## Related Software
 * [[antspy]]

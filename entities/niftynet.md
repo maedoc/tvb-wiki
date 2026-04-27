@@ -25,9 +25,9 @@ NiftyNet is an open-source deep learning framework for medical image analysis an
 
 ## Overview
 
-NiftyNet provides a modular platform for implementing and evaluating deep learning approaches in neuroimaging, specifically designed to handle the unique challenges of medical imaging data. Developed at UCL's [Centre for Medical Image Computing (CMIC)](https://cmic.cs.ucl.ac.uk), NiftyNet supports tasks including semantic segmentation, image regression, and autoencoder-based representation learning. The framework abstracts common medical imaging deep learning workflows, enabling researchers to focus on network architectures and clinical applications rather than boilerplate implementation.
+NiftyNet provides a modular platform for implementing and evaluating deep learning approaches in [[neuroimaging]], specifically designed to handle the unique challenges of medical imaging data. Developed at UCL's [Centre for Medical Image Computing (CMIC)](https://cmic.cs.ucl.ac.uk), NiftyNet supports tasks including semantic segmentation, image regression, and autoencoder-based representation learning. The framework abstracts common medical imaging deep learning workflows, enabling researchers to focus on network architectures and clinical applications rather than boilerplate implementation.
 
-NiftyNet is developed by the same UCL/CMIC research group that maintains [[NiftyReg]] for registration, though they are separate code repositories and projects with distinct code bases. The platform emphasizes reproducibility through configuration-file-based experiments and provides implementations of state-of-the-art architectures validated on benchmark neuroimaging datasets.
+NiftyNet is developed by the same UCL/CMIC research group that maintains [[NiftyReg]] for registration, though they are separate code repositories and projects with distinct code bases. The platform emphasizes [[reproducibility]] through configuration-file-based experiments and provides implementations of state-of-the-art architectures validated on benchmark neuroimaging datasets.
 
 ## Key Features
 
@@ -54,7 +54,7 @@ NiftyNet is developed by the same UCL/CMIC research group that maintains [[Nifty
 
 NiftyNet implements a modular pipeline architecture:
 
-1. **Data ingestion**: Readers for NIfTI, Analyze, and HDF5 formats with handling of 3D/4D volumes
+1. **Data ingestion**: Readers for [[nifti]], Analyze, and HDF5 formats with handling of 3D/4D volumes
 2. **Preprocessing**: Intensity normalization, resampling, and patch-based sampling strategies
 3. **Network forward pass**: Flexible network definitions supporting common layer types
 4. **Loss computation**: Weighted cross-entropy, Dice loss, and robust loss functions for class imbalance
@@ -66,9 +66,9 @@ The framework employs a patch-based sampling strategy essential for volumetric m
 
 NiftyNet outputs can be integrated into [[TVB]] workflows through automated neuroimaging analysis:
 
-- **Brain [[parcellation]]**: Automated anatomical segmentation to define region boundaries for structural connectivity matrices
+- **Brain [[parcellation]]**: Automated anatomical segmentation to define region boundaries for structural [[connectivity]] matrices
 - **Lesion segmentation**: Identification and mapping of pathological regions (tumors, stroke lesions) for patient-specific TVB models
-- **Tissue classification**: Gray matter, white matter, and CSF segmentation supporting accurate forward modeling
+- **Tissue classification**: Gray matter, [[white-matter]], and CSF segmentation supporting accurate forward modeling
 - **Region label mapping**: Segmentation outputs can be registered to standard atlases like [[AAL Atlas]] or [[Desikan-Killiany Atlas]] using complementary registration tools such as [[NiftyReg]] or [[ANTs]]
 
 Segmentation outputs from NiftyNet (e.g., region masks, tissue labels) can be used as inputs to various stages of TVB's pipeline, including preprocessing [[steps]] for generating connectivity matrices and region boundaries required for personalized [[whole-brain]] modeling. The exact integration path varies by specific TVB pipeline configuration and may require format conversion or additional preprocessing with registration tools.

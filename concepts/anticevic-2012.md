@@ -5,10 +5,10 @@ tags:
 - anticevic-2012
 title: Anticevic 2012
 type: concept
-updated: 2026-04-27
+updated: '2026-04-27'
 ---
 
-Anticevic 2012 — a concept in whole-brain modeling and computational neuroscience.
+Anticevic 2012 — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
 
 ## Related Concepts
 * [[default-mode-network]]

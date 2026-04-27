@@ -20,7 +20,7 @@ type: concept
 updated: '2026-04-27'
 ---
 
-The **Default Mode Network (DMN)** is a large-scale [[brain-network]] identified through neuroimaging that demonstrates high metabolic activity during wakeful rest and systematic deactivation during externally-oriented goal-directed tasks. First characterized by Raichle et al. (2001) using positron emission tomography (PET), the DMN represents the brain's baseline or "default" mode of operation—the spontaneous neural activity that dominates when an individual is not engaged in explicit task performance. This network has become fundamental to our understanding of intrinsic brain organization and its dysfunction in psychiatric and neurological conditions.
+The **Default Mode Network (DMN)** is a large-scale [[brain-network]] identified through [[neuroimaging]] that demonstrates high metabolic activity during wakeful rest and systematic deactivation during externally-oriented goal-directed tasks. First characterized by Raichle et al. (2001) using positron emission tomography (PET), the DMN represents the brain's baseline or "default" mode of operation—the spontaneous neural activity that dominates when an individual is not engaged in explicit task performance. This network has become fundamental to our understanding of intrinsic brain organization and its dysfunction in psychiatric and neurological conditions.
 
 ## Conceptual Origin and Significance
 
@@ -46,7 +46,7 @@ Diffusion tensor imaging studies reveal that DMN regions are connected by dense 
 
 ## Functional Organization and Subsystems
 
-Subsequent research revealed that the DMN is not a homogeneous entity but comprises functionally specialized subsystems. Andrews-Hanna et al. (2010) (building on Buckner et al. (2008)) proposed a influential fractionation of the DMN into two distinct subsystems with differential connectivity patterns and cognitive functions.
+Subsequent research revealed that the DMN is not a homogeneous entity but comprises functionally specialized subsystems. Andrews-Hanna et al. (2010) (building on Buckner et al. (2008)) proposed a influential fractionation of the DMN into two distinct subsystems with differential [[connectivity]] patterns and cognitive functions.
 
 ### Dorsal Medial Prefrontal Subsystem
 
@@ -88,7 +88,7 @@ In epilepsy modeling, DMN disruptions correlate with cognitive interictal sympto
 
 ## Role in Whole-Brain Modeling
 
-The DMN presents both opportunities and challenges for [[whole-brain modeling]] approaches. Capturing the network's characteristic dynamics—and particularly its anticorrelation with task-positive networks—requires models that can represent competing brain states and state-dependent modulation of [[functional-connectivity]]. The DMN serves as a critical validation target for models aiming to simulate resting-state dynamics, and understanding its interactions with other networks provides constraints for parameter estimation in large-scale models.
+The DMN presents both opportunities and challenges for [[whole-brain modeling]] approaches. Capturing the network's characteristic dynamics—and particularly its anticorrelation with task-positive networks—requires models that can represent competing brain states and state-dependent modulation of [[functional-connectivity]]. The DMN serves as a critical validation target for models aiming to simulate resting-state dynamics, and understanding its interactions with other networks provides constraints for [[parameter-estimation]] in large-scale models.
 
 [[personalized-brain-modeling]] approaches increasingly incorporate DMN parameters to predict individual differences in cognition and clinical outcomes. The network's accessibility via [[resting-state]] [[fmri]] makes it particularly amenable to building personalized models from readily acquired data, with applications ranging from surgical planning to treatment response prediction.
 
@@ -99,7 +99,7 @@ The DMN presents both opportunities and challenges for [[whole-brain modeling]] 
 - [[bold-signal]] – Blood oxygen level-dependent signal underlying [[fmri]]
 - [[brain-network]] – Large-scale organized brain connectivity patterns
 - [[network-hubs]] – Regions with high connectivity serving integration roles
-- [[structural-connectivity]] – Anatomical white matter pathways
+- [[structural-connectivity]] – Anatomical [[white-matter]] pathways
 - [[fmri]] – Functional magnetic resonance imaging
 - [[aging]] – Effects of aging on brain networks
 - [[neurodevelopment]] – Developmental processes shaping brain organization

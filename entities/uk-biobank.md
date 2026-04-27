@@ -42,7 +42,7 @@ UK Biobank is a large-scale biomedical database and research resource containing
 ### Modalities
 - **Structural MRI**: T1, T2 FLAIR, susceptibility-weighted
 - **Functional MRI**: [[resting-state|Resting-state fMRI]]
-- **[[diffusion-mri]]**: dMRI for white matter
+- **[[diffusion-mri]]**: dMRI for [[white-matter]]
 - **Body MRI**: Cardiac, abdominal
 
 ### Scanner Standardization
@@ -115,10 +115,10 @@ UK Biobank is a large-scale biomedical database and research resource containing
 | **Focus** | Population health | Precision connectivity |
 
 ## Related Concepts
-- [[uk-biobank|UK Biobank]] – High-resolution connectivity study
-- population-neuroimaging – Large-scale imaging
+- [[uk-biobank|UK Biobank]] – High-resolution [[connectivity]] study
+- population-[[neuroimaging]] – Large-scale imaging
 - imaging-genetics – Genetic basis of brain structure
-- aging-brain – Brain aging processes
+- [[aging-brain]] – Brain aging processes
 - neuroimaging-[[fmri]] – Functional MRI
 - [[connectomics]] – [[brain-network]] analysis
 - big-data-neuroscience – Large-scale data resources

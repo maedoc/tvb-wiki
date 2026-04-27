@@ -24,8 +24,8 @@ tags:
   - software-brain-modeling
   - software-neuron
   - [[spiking-neural-networks]]
-  - parameter-estimation
-  - reproducibility
+  - [[parameter-estimation]]
+  - [[reproducibility]]
 title: NeuronUnit
 type: entity
 updated: 2026-04-24
@@ -35,9 +35,9 @@ updated: 2026-04-24
 
 ## Overview
 
-**NeuronUnit** is an open-source Python framework for data-driven validation and testing of neuron and ion channel models against experimental electrophysiology data. Built on top of the [[SciUnit]] scientific unit testing framework, NeuronUnit enables researchers to evaluate computational models by comparing predicted electrical properties against empirical measurements from public neurophysiology databases such as [[NeuroElectro]].
+**NeuronUnit** is an open-source Python framework for data-driven validation and testing of neuron and [[ion-channel]] models against experimental [[electrophysiology]] data. Built on top of the [[SciUnit]] scientific unit testing framework, NeuronUnit enables researchers to evaluate computational models by comparing predicted electrical properties against empirical measurements from public neurophysiology databases such as [[NeuroElectro]].
 
-NeuronUnit addresses a challenge in computational neuroscience: ensuring that biophysically detailed [[neuron]] models accurately reproduce electrophysiological behaviors observed in real neurons. By formalizing the validation process through standardized tests and quantitative score aggregation, NeuronUnit provides a reproducible approach to model comparison.
+NeuronUnit addresses a challenge in [[computational-neuroscience]]: ensuring that biophysically detailed [[neuron]] models accurately reproduce electrophysiological behaviors observed in real neurons. By formalizing the validation process through standardized tests and quantitative score aggregation, NeuronUnit provides a reproducible approach to model comparison.
 
 ## Key Features
 
@@ -57,7 +57,7 @@ The framework interfaces with electrophysiology databases to provide ground-trut
 - **NeuroElectro**: Automated extraction of published neuron electrophysiology parameters from peer-reviewed literature
 - **Model parameter distributions**: Statistical population data for constraining model features
 
-NeuronUnit queries NeuroElectro for mean and standard deviation values of electrophysiological properties, which serve as targets for model validation tests.
+NeuronUnit queries NeuroElectro for mean and standard deviation values of electrophysiological properties, which serve as targets for [[model-validation]] tests.
 
 ### Simulator Support
 NeuronUnit primarily supports the NEURON simulation environment, which is widely used for multi-compartmental neuron modeling. The framework provides interfaces for:
@@ -119,7 +119,7 @@ This paper describes the NeuroElectro database, which serves as NeuronUnit's pri
 
 - [[SciUnit]] — The scientific unit testing framework upon which NeuronUnit is built
 - [[NEURON]] — Multi-compartment neuron simulator; primary backend for detailed model validation
-- [[Brian]] — Spiking neural network simulator; can be integrated via SciUnit interfaces
+- [[Brian]] — Spiking [[neural-network]] simulator; can be integrated via SciUnit interfaces
 - [[NEST]] — Point neuron network simulator for large-scale network modeling
 - [[Neo]] — Data model for electrophysiology; used for spike and signal representation
 - [[Elephant]] — Analysis toolkit for Neo data; complements NeuronUnit with quantitative metrics

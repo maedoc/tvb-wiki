@@ -22,7 +22,7 @@ updated: '2026-04-27'
 
 # Human Connectome Project (HCP)
 
-Major NIH-funded initiative to map human brain connectivity using cutting-edge neuroimaging.
+Major NIH-funded initiative to map human brain [[connectivity]] using cutting-edge [[neuroimaging]].
 
 ## Overview
 

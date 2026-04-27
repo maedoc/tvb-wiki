@@ -28,10 +28,10 @@ updated: '2026-04-27'
 ## Key Features
 
 ### Configurable Pipeline Architecture
-C-PAC employs a YAML-based configuration system that allows researchers to define preprocessing [[steps]], parameter choices, and analysis options without modifying source code. This configurability supports multiple "pipeline strategies" for key preprocessing decisions—such as motion correction methods, nuisance regression approaches, and spatial smoothing kernels—enabling systematic comparison of preprocessing choices on downstream connectivity measures.
+C-PAC employs a YAML-based configuration system that allows researchers to define preprocessing [[steps]], parameter choices, and analysis options without modifying source code. This configurability supports multiple "pipeline strategies" for key preprocessing decisions—such as motion correction methods, nuisance regression approaches, and spatial smoothing kernels—enabling systematic comparison of preprocessing choices on downstream [[connectivity]] measures.
 
 ### Comprehensive Preprocessing
-The platform includes modules for standard [[fmri]] preprocessing including slice-timing correction, motion realignment, spatial normalization to standard templates (MNI152), spatial smoothing, and temporal filtering. C-PAC integrates ANTs for robust registration and implements multiple strategies for nuisance signal removal, including CompCor (Component-based Noise Correction), which identifies nuisance components from white matter and CSF signals rather than relying solely on global signal regression.
+The platform includes modules for standard [[fmri]] preprocessing including slice-timing correction, motion realignment, spatial normalization to standard templates (MNI152), spatial smoothing, and temporal filtering. C-PAC integrates ANTs for robust registration and implements multiple strategies for nuisance signal removal, including CompCor (Component-based Noise Correction), which identifies nuisance components from [[white-matter]] and CSF signals rather than relying solely on global signal regression.
 
 ### Quality Control and Visualization
 A distinguishing feature of C-PAC is its integrated quality control (QC) framework, which automatically generates QC images and metrics for each processing stage. These include motion parameter plots, registration overlays, tissue segmentation visualizations, and connectivity matrix quality flags. This emphasis on QC is essential for large-scale studies where manual inspection of all scans is impractical.
@@ -41,7 +41,7 @@ C-PAC supports seed-based functional connectivity analysis, ROI-to-ROI correlati
 
 ## Key Papers
 
-- **Cameron Craddock, R., et al. (2013)**. The Neuro Bureau Preprocessing Initiative: Open sharing of preprocessed neuroimaging data and derivatives. *Frontiers in Neuroinformatics*, 7, 27. ([doi:10.3389/fninf.2013.00027](https://doi.org/10.3389/fninf.2013.00027)) — Describes the Neuro Bureau Preprocessing Initiative and the development of C-PAC as an open-source pipeline platform.
+- **Cameron Craddock, R., et al. (2013)**. The Neuro Bureau Preprocessing Initiative: Open sharing of preprocessed [[neuroimaging]] data and derivatives. *Frontiers in Neuroinformatics*, 7, 27. ([doi:10.3389/fninf.2013.00027](https://doi.org/10.3389/fninf.2013.00027)) — Describes the Neuro Bureau Preprocessing Initiative and the development of C-PAC as an open-source pipeline platform.
 
 - **Ciric, R., et al. (2017)**. Benchmarking of participant-level confound regression strategies for the control of motion artifact in studies of functional connectivity. *NeuroImage*, 154, 174-187. ([doi:10.1016/j.neuroimage.2017.04.073](https://doi.org/10.1016/j.neuroimage.2017.04.073)) — Comprehensive evaluation of preprocessing strategies including those implemented in C-PAC.
 
@@ -53,7 +53,7 @@ C-PAC serves a complementary role to [[tvb|The Virtual Brain]] in [[connectome]]
 
 1. **Data Preparation**: C-PAC provides standardized preprocessing pipelines that generate quality-controlled functional connectivity matrices and preprocessed time series suitable for TVB empirical validation. The connectivity matrices output from C-PAC can directly inform TVB's functional connectivity constraints or serve as targets for model fitting.
 
-2. **Reproducibility Bridge**: For TVB studies requiring preprocessing of large datasets (e.g., HCP, [[uk-biobank]], or ABCD), C-PAC offers reproducible, well-documented pipelines that can be exactly replicated—addressing a common challenge in computational neuroscience where preprocessing variability affects model validation.
+2. **[[reproducibility]] Bridge**: For TVB studies requiring preprocessing of large datasets (e.g., HCP, [[uk-biobank]], or ABCD), C-PAC offers reproducible, well-documented pipelines that can be exactly replicated—addressing a common challenge in [[computational-neuroscience]] where preprocessing variability affects [[model-validation]].
 
 3. **Motion and Artifact Handling**: C-PAC's systematic approach to motion artifact correction and nuisance regression produces cleaner empirical data that may improve the signal-to-noise ratio when comparing TVB simulations to empirical functional connectivity patterns, particularly important for resting-state studies where motion artifacts correlate with distance-dependent connectivity biases.
 

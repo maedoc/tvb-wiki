@@ -5,20 +5,20 @@ tags:
 - software-mrtrix3
 title: MRtrix3
 type: entity
-updated: 2026-04-27
+updated: '2026-04-27'
 ---
 
-MRtrix3 (mrtrix3) is a next-generation version of MRtrix, providing a comprehensive set of tools for diffusion MRI analysis with improved algorithms.
+MRtrix3 (mrtrix3) is a next-generation version of [[mrtrix]], providing a comprehensive set of tools for [[diffusion-mri]] analysis with improved algorithms.
 
 ## Key Features
 
-* Core functionality for neuroimaging and computational neuroscience workflows
+* Core functionality for [[neuroimaging]] and [[computational-neuroscience]] workflows
 * Integration with Python ecosystem and neuroimaging toolchains
 * Open-source with active community maintenance
 
 ## Relationship to Whole-Brain Modeling
 
-MRtrix3 is often used alongside [[tvb]] and other simulation platforms in pre-processing or post-processing pipelines for connectome-based brain modeling.
+MRtrix3 is often used alongside [[tvb]] and other simulation platforms in pre-processing or post-processing pipelines for [[connectome]]-based brain modeling.
 
 ## Related Software
 * [[antspy]]

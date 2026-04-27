@@ -18,7 +18,7 @@ updated: '2026-04-27'
 
 # ANTs (Advanced Normalization Tools)
 
-ANTs is a medical image registration and segmentation toolkit widely used in neuroimaging preprocessing.
+ANTs is a medical image registration and segmentation toolkit widely used in [[neuroimaging]] preprocessing.
 
 ## Overview
 

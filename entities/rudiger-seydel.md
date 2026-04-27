@@ -30,7 +30,7 @@ Rüdiger Seydel is a German mathematician and Professor at the University of Col
 - [[bifurcation theory]]
 - [[dynamical systems theory]]
 - [[neural mass model]]
-- parameter-estimation
+- [[parameter-estimation]]
 
 ## Selected Works
 - Seydel (2010) — Practical Bifurcation and Stability Analysis

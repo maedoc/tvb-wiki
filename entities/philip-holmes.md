@@ -24,7 +24,7 @@ Philip Holmes (born 1945) is a British mathematician and the Eugene Higgins Prof
 
 ## Relevance to TVB
 - guckenheimer-holmes-1983 provides the mathematical framework for [[bifurcation analysis]]
-- Methods for analyzing coupled oscillators apply to brain oscillations
+- Methods for analyzing coupled oscillators apply to [[brain-oscillations]]
 - Dimension reduction techniques inform [[mean field theory]] approaches
 
 ## Related Concepts

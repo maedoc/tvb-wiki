@@ -5,10 +5,10 @@ tags:
 - electrophysiology
 title: Electrophysiology
 type: concept
-updated: 2026-04-27
+updated: '2026-04-27'
 ---
 
-Electrophysiology — a concept in whole-brain modeling and computational neuroscience.
+Electrophysiology — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
 
 ## Related Concepts
 * [[sciunit]]

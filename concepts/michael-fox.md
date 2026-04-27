@@ -5,10 +5,10 @@ tags:
 - michael-fox
 title: Michael Fox
 type: concept
-updated: 2026-04-27
+updated: '2026-04-27'
 ---
 
-Michael Fox — a concept in whole-brain modeling and computational neuroscience.
+Michael Fox — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
 
 ## Related Concepts
 * [[resting-state]]

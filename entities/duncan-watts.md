@@ -33,7 +33,7 @@ Watts' research spans:
 
 ## Related Concepts
 - [[small-world-networks]] – Network topology
-- network-dynamics – Processes on networks
+- [[network-dynamics]] – Processes on networks
 - [[graph-theory]] – Mathematical framework
 - six-degrees – Short path lengths
 

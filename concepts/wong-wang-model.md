@@ -5,10 +5,10 @@ tags:
 - wong-wang-model
 title: Wong Wang Model
 type: concept
-updated: 2026-04-27
+updated: '2026-04-27'
 ---
 
-Wong Wang Model — a concept in whole-brain modeling and computational neuroscience.
+[[wong-wang]] Model — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
 
 ## Related Concepts
 * [[oscillator]]

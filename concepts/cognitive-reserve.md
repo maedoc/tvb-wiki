@@ -17,14 +17,14 @@ tags:
 - resting-state
 title: Cognitive Reserve
 type: concept
-updated: 2026-04-27
+updated: '2026-04-27'
 ---
 
-Cognitive reserve refers to the capacity of the brain to sustain cognitive function despite accumulating age-related neuropathology or structural deterioration. Unlike [[brain-reserve]], which denotes passive anatomical features such as brain size or neuronal count that provide a buffer against damage, cognitive reserve encompasses active, adaptively deployed processes including the efficiency of neural networks, the ability to recruit alternative circuits, and the flexible reorganization of cognitive strategies. This distinction, articulated by Yaakov Stern and elaborated through subsequent neuroimaging research, frames cognitive reserve not as a fixed biological asset but as a dynamic, experience-dependent property that mediates the observed dissociation between brain integrity and cognitive performance across aging and neurodegenerative disease.
+Cognitive reserve refers to the capacity of the brain to sustain cognitive function despite accumulating age-related neuropathology or structural deterioration. Unlike [[brain-reserve]], which denotes passive anatomical features such as brain size or neuronal count that provide a buffer against damage, cognitive reserve encompasses active, adaptively deployed processes including the efficiency of neural networks, the ability to recruit alternative circuits, and the flexible reorganization of cognitive strategies. This distinction, articulated by Yaakov Stern and elaborated through subsequent [[neuroimaging]] research, frames cognitive reserve not as a fixed biological asset but as a dynamic, experience-dependent property that mediates the observed dissociation between brain integrity and cognitive performance across [[aging]] and neurodegenerative disease.
 
 ## Theoretical Motivation and Clinical Significance
 
-The cognitive reserve construct emerged from epidemiological observations that individuals with higher educational attainment, occupational complexity, and engagement in leisure activities demonstrate delayed onset of clinical symptoms in [[alzheimers-disease]] and other dementias, despite exhibiting equivalent levels of underlying neuropathology at post-mortem examination. This discrepancy motivated the threshold model of cognitive reserve, which posits that enriched life experiences increase the neural or cognitive threshold at which brain damage produces observable functional impairment. In [[whole-brain-modeling]] contexts, this concept is critical because it implies that identical structural lesions or atrophy patterns may produce markedly different clinical trajectories depending on a subject's reserve level, necessitating personalized parameters that go beyond raw anatomical connectivity to capture functional adaptive capacity.
+The cognitive reserve construct emerged from epidemiological observations that individuals with higher educational attainment, occupational complexity, and engagement in leisure activities demonstrate delayed onset of clinical symptoms in [[alzheimers-disease]] and other dementias, despite exhibiting equivalent levels of underlying neuropathology at post-mortem examination. This discrepancy motivated the threshold model of cognitive reserve, which posits that enriched life experiences increase the neural or cognitive threshold at which brain damage produces observable functional impairment. In [[whole-brain-modeling]] contexts, this concept is critical because it implies that identical structural lesions or atrophy patterns may produce markedly different clinical trajectories depending on a subject's reserve level, necessitating personalized parameters that go beyond raw anatomical [[connectivity]] to capture functional adaptive capacity.
 
 ## Historical Development and Empirical Framework
 
@@ -44,6 +44,6 @@ Within the [[tvb]] modeling framework and related [[whole-brain]] simulation par
 
 ## References
 
-1. Buckner, R. L. (2004). Memory and executive function in aging and AD: Multiple factors that cause decline and reserve factors that compensate. *Neuron*, 44(1), 195–208.
+1. Buckner, R. L. (2004). Memory and executive function in aging and AD: Multiple factors that cause decline and reserve factors that compensate. *[[neuron]]*, 44(1), 195–208.
 2. Grady, C. L. (2012). The cognitive neuroscience of ageing and functional reserve. *European Review of Aging and Physical Activity*, 9, 79–93.
 3. Cabeza, R. (2018). Maintenance, reserve and compensation: The cognitive neuroscience of healthy ageing. *Nature Reviews Neuroscience*, 19(11), 701–710.

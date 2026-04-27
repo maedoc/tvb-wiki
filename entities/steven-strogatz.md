@@ -25,7 +25,7 @@ Steven H. Strogatz (born 1959) is an American mathematician and the Jacob Gould 
 
 ## Relevance to TVB
 - strogatz-1994 provides the mathematical foundation for understanding [[bifurcation analysis]] in [[neural mass model]]s
-- Concepts of synchronization apply to brain oscillations and [[network-dynamics]]
+- Concepts of synchronization apply to [[brain-oscillations]] and [[network-dynamics]]
 - Methods for analyzing coupled systems directly inform [[whole brain]] modeling approaches
 
 ## Related Concepts

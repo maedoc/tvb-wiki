@@ -24,7 +24,7 @@ type: concept
 updated: '2026-04-27'
 ---
 
-The functional-connectivity page has been improved. Here's a summary of the changes made:
+The functional-[[connectivity]] page has been improved. Here's a summary of the changes made:
 
 **Frontmatter improvements:**
 - Fixed duplicate `functional-connectivity` tag

@@ -1,10 +1,18 @@
 ---
-title: Schizophrenia Models
 created: 2024-01-15
-updated: 2026-04-27
-type: concept
-tags: [schizophrenia-models, computational-psychiatry, whole-brain-modeling, excitation-inhibition-balance, network-dynamics, neural-mass-models, brain-oscillations, personalized-brain-modeling]
 sources: []
+tags:
+- schizophrenia-models
+- computational-psychiatry
+- whole-brain-modeling
+- excitation-inhibition-balance
+- network-dynamics
+- neural-mass-models
+- brain-oscillations
+- personalized-brain-modeling
+title: Schizophrenia Models
+type: concept
+updated: '2026-04-27'
 ---
 
 Schizophrenia Models refer to computational and mathematical frameworks that simulate the neurobiological mechanisms underlying schizophrenia spectrum disorders. These models span multiple scales of neural organization—from single-neuron and [[neural-mass-models]] that capture local circuit dynamics to [[whole-brain-modeling]] approaches that integrate distributed brain networks. In computational psychiatry, schizophrenia models serve as in silico laboratories for testing hypotheses about disease mechanisms, optimizing treatment interventions, and advancing personalized medicine. The field draws heavily on [[dynamical-systems-theory]], [[neural-mass-model]] formulations such as the [[jansen-rit-model]] and [[wong-wang-model]], and connectivity-derived [[whole-brain]] architectures constructed from [[neuroimaging-dti]] data.
@@ -13,7 +21,7 @@ Schizophrenia Models refer to computational and mathematical frameworks that sim
 
 Schizophrenia represents one of the most clinically significant and mechanistically enigmatic psychiatric conditions, affecting approximately 1% of the global population. Despite decades of research, the neurobiological underpinnings of the disorder remain incompletely understood, and treatment development has been hampered by the lack of mechanistically grounded targets. Computational models emerged in this context as a strategy to formalize competing hypotheses about schizophrenia pathophysiology—particularly the "dysconnection hypothesis," which posits that schizophrenia arises from disordered [[functional-connectivity]] between brain regions rather than focal pathology.
 
-The motivation for computational schizophrenia modeling stems from several practical and theoretical imperatives. First, the disorder is phenotypically heterogeneous, with variability in symptom presentation, treatment response, and disease trajectory that cannot be fully explained by current diagnostic categories. Second, the timescale of schizophrenia progression—spanning development, onset, and chronic phases—requires dynamic models capable of simulating temporal evolution. Third, ethical and practical constraints limit experimental manipulations in human patients, making computational simulations an essential complement to empirical research. By encoding specific mechanistic assumptions into mathematical formalisms, researchers can generate testable predictions about brain dynamics, compare model evidence across competing hypotheses, and identify biomarkers that bridge neurobiology and clinical presentation.
+The motivation for computational schizophrenia modeling stems from several practical and theoretical imperatives. First, the disorder is phenotypically heterogeneous, with variability in symptom presentation, treatment response, and disease trajectory that cannot be fully explained by current diagnostic categories. Second, the timescale of schizophrenia progression—spanning development, onset, and chronic phases—requires dynamic models capable of simulating temporal evolution. Third, ethical and practical constraints limit experimental manipulations in human patients, making computational simulations an essential complement to empirical research. By encoding specific mechanistic assumptions into mathematical formalisms, researchers can generate testable predictions about [[brain-dynamics]], compare model evidence across competing hypotheses, and identify biomarkers that bridge neurobiology and clinical presentation.
 
 ## Technical Approaches to Schizophrenia Modeling
 
@@ -37,7 +45,7 @@ At the systems level, [[brain-stimulation]] paradigms—including transcranial m
 
 ## Open Questions and Future Directions
 
-Despite substantial progress, schizophrenia modeling faces several open challenges. Model validation remains difficult given the lack of ground-truth biomarkers, and many parameterized models can generate similar dynamics through different mechanism combinations—a problem of equifinality. The field is moving toward evidence-driven model selection using Bayesian approaches, where model evidence is computed from empirical data to identify the most plausible mechanistic accounts. Additionally, integrating multi-scale data—from genetics to behavior—remains a frontier, requiring frameworks that bridge [[computational-neuroscience]] with [[computational-psychiatry]].
+Despite substantial progress, schizophrenia modeling faces several open challenges. [[model-validation]] remains difficult given the lack of ground-truth biomarkers, and many parameterized models can generate similar dynamics through different mechanism combinations—a problem of equifinality. The field is moving toward evidence-driven model selection using Bayesian approaches, where model evidence is computed from empirical data to identify the most plausible mechanistic accounts. Additionally, integrating multi-scale data—from genetics to behavior—remains a frontier, requiring frameworks that bridge [[computational-neuroscience]] with [[computational-psychiatry]].
 
 Future directions include refinement of patient-specific modeling for clinical prognostication, development of digital twin approaches that simulate individual patient trajectories, and integration with [[dynamic-causal-modeling]] frameworks for hypothesis testing at the network level. As [[whole-brain]] simulators become more biologically detailed and computationally efficient, their application to schizophrenia research is poised to accelerate translation from mechanistic insights to clinical outcomes.
 

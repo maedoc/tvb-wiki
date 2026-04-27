@@ -20,7 +20,7 @@ updated: '2026-04-27'
 **Institution:** University of Oxford, FMRIB Centre
 
 ## Overview
-Steven Smith is a British neuroimaging researcher and lead developer of FSL (FMRIB Software Library), one of the most widely used neuroimaging analysis packages. His research spans resting-state connectivity, brain networks, and neuroimaging methodology.
+Steven Smith is a British [[neuroimaging]] researcher and lead developer of FSL (FMRIB Software Library), one of the most widely used neuroimaging analysis packages. His research spans resting-state [[connectivity]], brain networks, and neuroimaging methodology.
 
 ## Key Contributions
 - Lead developer of FSL (FMRIB Software Library)

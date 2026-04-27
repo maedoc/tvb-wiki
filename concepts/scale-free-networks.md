@@ -26,7 +26,7 @@ $$P(k) = C \cdot k^{-\gamma}$$
 
 where *C* is a normalization constant and γ (gamma) is the degree exponent. Empirically, most real-world scale-free networks exhibit exponents in the range 2 < γ < 3, a regime first characterized by [[albert-laszlo-barabasi|Albert-László Barabási]] and Réka Albert in their seminal 1999 work on network growth mechanisms. When plotted on logarithmic axes, a power-law distribution appears as a straight line, providing a diagnostic signature that can be tested against alternative models such as exponential or log-normal distributions.
 
-The power-law degree distribution has profound structural consequences. Because the second moment of the degree distribution diverges when γ ≤ 3, scale-free networks in this regime lack a meaningful average degree and exhibit extreme heterogeneity in connectivity. This heterogeneity is central to their dynamical and robustness properties.
+The power-law degree distribution has profound structural consequences. Because the second moment of the degree distribution diverges when γ ≤ 3, scale-free networks in this regime lack a meaningful average degree and exhibit extreme heterogeneity in [[connectivity]]. This heterogeneity is central to their dynamical and robustness properties.
 
 ## The Preferential Attachment Mechanism
 
@@ -72,7 +72,7 @@ Despite substantial progress, several fundamental questions remain unanswered. W
 - [[connectomics]] – Field mapping neural connectivity
 - [[small-world-networks]] – Related topology with short path lengths
 - [[modularity]] – Community structure in brain networks
-- [[structural-connectivity]] – Anatomical white matter pathways
+- [[structural-connectivity]] – Anatomical [[white-matter]] pathways
 - [[functional-connectivity]] – Statistical dependencies in neural activity
 
 ## References

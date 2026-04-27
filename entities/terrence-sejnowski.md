@@ -21,9 +21,9 @@ American computational neuroscientist. Francis Crick Professor at Salk Institute
 
 ## Key Contributions
 
-- **Computational neuroscience**: Pioneering work linking neural dynamics to computation
+- **[[computational-neuroscience]]**: Pioneering work linking neural dynamics to computation
 - **Neural population dynamics**: Mean-field analysis and population coding
-- **Neural network learning**: Boltzmann machines, backpropagation, and learning algorithms
+- **[[neural-network]] learning**: Boltzmann machines, backpropagation, and learning algorithms
 - **[[ica|Independent component analysis]]**: Application to EEG and [[fmri]] signal separation
 
 ## Major Publications

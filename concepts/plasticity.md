@@ -5,10 +5,10 @@ tags:
 - plasticity
 title: Plasticity
 type: concept
-updated: 2026-04-27
+updated: '2026-04-27'
 ---
 
-Plasticity — a concept in whole-brain modeling and computational neuroscience.
+Plasticity — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
 
 ## Related Concepts
 * [[developmental-trajectories]]

@@ -5,10 +5,10 @@ tags:
 - brain-oscillations
 title: Brain Oscillations
 type: concept
-updated: 2026-04-27
+updated: '2026-04-27'
 ---
 
-Brain Oscillations is a key concept in computational neuroscience and whole-brain modeling. This page provides an overview of Brain Oscillations and its role in the broader landscape of brain modeling and analysis.
+Brain Oscillations is a key concept in [[computational-neuroscience]] and [[whole-brain|whole-brain modeling]]. This page provides an overview of Brain Oscillations and its role in the broader landscape of brain modeling and analysis.
 
 ## Definition
 **

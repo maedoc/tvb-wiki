@@ -21,11 +21,11 @@ updated: '2026-04-27'
 
 ## Overview
 
-Effective connectivity refers to the causal or directed influence that one neural system exerts over another, capturing the mechanism by which activity in one brain region affects activity in another. Unlike simpler measures of connectivity, effective connectivity explicitly models the directional flow of information, asking not just whether two regions are correlated, but which region is influencing which. This makes it essential for understanding the mechanistic basis of information processing in the brain, rather than merely describing statistical co-activation patterns.
+Effective [[connectivity]] refers to the causal or directed influence that one neural system exerts over another, capturing the mechanism by which activity in one brain region affects activity in another. Unlike simpler measures of connectivity, effective connectivity explicitly models the directional flow of information, asking not just whether two regions are correlated, but which region is influencing which. This makes it essential for understanding the mechanistic basis of information processing in the brain, rather than merely describing statistical co-activation patterns.
 
 ## Motivation and Context
 
-The study of brain connectivity has become central to modern neuroscience because the brain is fundamentally a network of interacting regions rather than a collection of isolated processors. In the early 1990s, the advent of functional neuroimaging techniques such as [[fmri]] and [[eeg]] enabled researchers to non-invasively measure brain activity, but the initial focus on localization—identifying which brain regions respond to particular tasks—revealed only part of the picture. Understanding how these regions communicate to produce cognition required moving beyond activation maps to models of interaction.
+The study of brain connectivity has become central to modern neuroscience because the brain is fundamentally a network of interacting regions rather than a collection of isolated processors. In the early 1990s, the advent of functional [[neuroimaging]] techniques such as [[fmri]] and [[eeg]] enabled researchers to non-invasively measure brain activity, but the initial focus on localization—identifying which brain regions respond to particular tasks—revealed only part of the picture. Understanding how these regions communicate to produce cognition required moving beyond activation maps to models of interaction.
 
 [[Functional-connectivity]] captures statistical dependencies between brain regions, revealing which areas co-activate during rest or task performance. [[Structural-connectivity]] describes the anatomical white matter pathways that physically connect brain regions, as measured through [[diffusion-mri]] and tractography. Neither, however, tells us about the causal direction of influence. Effective connectivity emerged as the framework for inferring directional relationships, addressing the fundamental question of how information flows through the brain's network architecture.
 
@@ -51,7 +51,7 @@ Model-free methods attempt to infer directional interactions directly from data 
 
 ## Role in Whole-Brain Modeling
 
-Effective connectivity is what [[whole-brain]] models aim to capture and predict. In the whole-brain modeling paradigm, regions are represented as neural mass models (such as the [[jansen-rit]] model), and the coupling between these regions is specified by an effective connectivity matrix derived from empirical data. The model then generates predictions about brain dynamics that can be compared against empirical observations.
+Effective connectivity is what [[whole-brain]] models aim to capture and predict. In the whole-brain modeling paradigm, regions are represented as neural mass models (such as the [[jansen-rit]] model), and the coupling between these regions is specified by an effective connectivity matrix derived from empirical data. The model then generates predictions about [[brain-dynamics]] that can be compared against empirical observations.
 
 This creates a productive loop: empirical estimates of effective connectivity (from DCM or other methods) inform the coupling structure of whole-brain models; model simulations then generate predictions about how the network will respond to perturbations or different cognitive states; finally, these predictions are tested against new empirical data to validate or refine the model. This framework has proved particularly valuable for studying [[epilepsy-modeling]], where seizures can be understood as pathological [[network-dynamics]] emerging from specific patterns of effective connectivity.
 
@@ -70,7 +70,7 @@ Estimating effective connectivity from observed brain activity remains challengi
 ## Related Concepts
 
 - [[functional-connectivity]] — Statistical dependencies between regions
-- [[structural-connectivity]] — Anatomical white matter connections
+- [[structural-connectivity]] — Anatomical [[white-matter]] connections
 - [[dynamic-causal-modeling]] — Primary Bayesian framework for EC estimation
 - [[neural-mass-models]] — Generative models for whole-brain dynamics
 - [[whole-brain]] — Modeling paradigm using coupled neural masses
@@ -82,4 +82,4 @@ Estimating effective connectivity from observed brain activity remains challengi
 
 1. (authors unknown). *Statistical parametric maps in functional imaging: A general linear approach*.
 2. Neda Abdollahpour, N. Sertac Artan, Ian Daly, Mohammadreza Yazdchi, Zahra Baharlouei. (2025). *Effective Connectivity-Based Unsupervised Channel Selection Method for EEG*. [Link](https://arxiv.org/abs/2510.12910)
-3. Peizhen Yang, Xinke Shen, Zongsheng Li, Zixiang Luo, Kexin Lou, Quanying Liu. *Perturbing a Neural Network to Infer Effective Connectivity: Evidence from Synthetic EEG Data*. [Link](https://arxiv.org/abs/2307.09770)
+3. Peizhen Yang, Xinke Shen, Zongsheng Li, Zixiang Luo, Kexin Lou, Quanying Liu. *Perturbing a [[neural-network]] to Infer Effective Connectivity: Evidence from Synthetic EEG Data*. [Link](https://arxiv.org/abs/2307.09770)

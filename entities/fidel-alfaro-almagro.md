@@ -20,7 +20,7 @@ Researcher at University of Oxford, FMRIB Centre, key contributor to UK Biobank 
 ## Key Contributions
 
 - **UK Biobank Processing Pipelines**: Led development of image processing for 100,000+ participants
-- **Quality Control**: Established automated QC procedures for large-scale neuroimaging
+- **Quality Control**: Established automated QC procedures for large-scale [[neuroimaging]]
 - **Open Source Tools**: Contributed to widely-used neuroimaging software
 
 ## Research Focus

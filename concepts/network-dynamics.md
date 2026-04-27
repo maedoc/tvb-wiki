@@ -1,17 +1,27 @@
 ---
-title: Network Dynamics
 created: 2024-01-15
-updated: 2026-04-27
-type: concept
-tags: [network-dynamics, whole-brain-modeling, dynamical-systems-theory, brain-oscillations, neural-mass-models, functional-connectivity, structural-connectivity, connectomics, nonlinear-dynamics, bifurcation-analysis]
 sources: []
+tags:
+- network-dynamics
+- whole-brain-modeling
+- dynamical-systems-theory
+- brain-oscillations
+- neural-mass-models
+- functional-connectivity
+- structural-connectivity
+- connectomics
+- nonlinear-dynamics
+- bifurcation-analysis
+title: Network Dynamics
+type: concept
+updated: '2026-04-27'
 ---
 
-Network Dynamics is the study of how patterns of neural activity emerge, evolve, and interact within the interconnected structure of the brain. In computational neuroscience and whole-brain modeling, network dynamics refers to the mathematical description of how large-scale brain networks—that is, collections of brain regions linked by anatomical white matter pathways—generate time-varying activity patterns that can be observed through neuroimaging modalities such as fMRI, EEG, and MEG. The field sits at the intersection of graph theory, dynamical systems theory, and connectomics, providing a framework for understanding how the relatively static structural connectivity of the brain gives rise to the rich, dynamic functional patterns observed in vivo.
+Network Dynamics is the study of how patterns of neural activity emerge, evolve, and interact within the interconnected structure of the brain. In [[computational-neuroscience]] and [[whole-brain|whole-brain modeling]], network dynamics refers to the mathematical description of how large-scale brain networks—that is, collections of brain regions linked by anatomical [[white-matter]] pathways—generate time-varying activity patterns that can be observed through [[neuroimaging]] modalities such as [[fmri]], EEG, and MEG. The field sits at the intersection of graph theory, [[dynamical-systems-theory]], and [[connectomics]], providing a framework for understanding how the relatively static [[structural-connectivity]] of the brain gives rise to the rich, dynamic functional patterns observed in vivo.
 
 ## Definition and Core Concepts
 
-Network dynamics in the brain can be understood on multiple scales. At the microscopic level, individual neurons exhibit spiking behavior governed by ion channel dynamics; at the mesoscopic level, neural populations can be approximated by neural mass models that capture the average activity of large groups of neurons; and at the macroscopic level, entire brain regions are treated as nodes in a network whose activity evolves over time according to coupling rules determined by the structural connectome. The dynamics of such systems are inherently nonlinear and often operate far from equilibrium, giving rise to phenomena such as oscillations, synchrony, criticality, and transitions between different dynamical states.
+Network dynamics in the brain can be understood on multiple scales. At the microscopic level, individual neurons exhibit spiking behavior governed by [[ion-channel]] dynamics; at the mesoscopic level, neural populations can be approximated by [[neural-mass-models]] that capture the average activity of large groups of neurons; and at the macroscopic level, entire brain regions are treated as nodes in a network whose activity evolves over time according to coupling rules determined by the structural connectome. The dynamics of such systems are inherently nonlinear and often operate far from equilibrium, giving rise to phenomena such as oscillations, synchrony, criticality, and transitions between different dynamical states.
 
 A defining characteristic of brain network dynamics is the relationship between structural connectivity (SC) and functional connectivity (FC). The SC matrix, typically derived from diffusion tensor imaging (DTI) or tractography, specifies the strength and topology of anatomical pathways between brain regions. The FC matrix, computed from statistical dependencies between time series of brain activity (e.g., blood-oxygen-level-dependent [BOLD] signals or electrophysiological recordings), reflects transient coordination between regions that may or may not be directly anatomically connected. The central hypothesis of network dynamics in whole-brain modeling is that FC patterns emerge from SC through dynamical processes governed by the coupling between neural populations.
 

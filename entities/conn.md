@@ -23,7 +23,7 @@ updated: '2026-04-27'
 
 **CONN** (Conn toolbox) is an open-source, MATLAB-based software package for the analysis and visualization of [[functional-connectivity|functional connectivity]] in [[fmri|[[resting-state]] and task-based fMRI]] data. Developed primarily by Alfonso Nieto-Castanon and Susan Whitfield-Gabrieli at the McGovern Institute for Brain Research at MIT, CONN provides a comprehensive suite of tools for preprocessing, denoising, first-level and second-level analysis, and visualization of brain connectivity data.
 
-The toolbox has become one of the most widely used platforms for resting-state [[fmri]] connectivity analysis in the neuroimaging community. CONN implements the **Component-based Noise Correction Method (CompCor)**, a data-driven denoising approach that has become a standard preprocessing step in functional connectivity studies.
+The toolbox has become one of the most widely used platforms for resting-state [[fmri]] [[connectivity]] analysis in the [[neuroimaging]] community. CONN implements the **Component-based Noise Correction Method (CompCor)**, a data-driven denoising approach that has become a standard preprocessing step in functional connectivity studies.
 
 ## Key Features
 
@@ -31,8 +31,8 @@ The toolbox has become one of the most widely used platforms for resting-state [
 
 CONN integrates preprocessing pipelines that include:
 - **Motion correction** and **slice-timing correction**
-- **Coregistration** and **normalization** to MNI space
-- **CompCor denoising**: A principal component analysis-based method to remove physiological and motion artifacts without requiring external physiological recordings
+- **Coregistration** and **normalization** to [[mni-space]]
+- **CompCor denoising**: A [[principal-component-analysis]]-based method to remove physiological and motion artifacts without requiring external physiological recordings
 - **Band-pass filtering** and **temporal smoothing** options
 - **Scrubbing** of high-motion volumes
 

@@ -5,10 +5,10 @@ tags:
 - source-separation
 title: Source Separation
 type: concept
-updated: 2026-04-27
+updated: '2026-04-27'
 ---
 
-Source Separation — a concept in whole-brain modeling and computational neuroscience.
+Source Separation — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
 
 ## Related Concepts
 * [[ica]]

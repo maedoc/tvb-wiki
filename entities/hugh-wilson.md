@@ -52,7 +52,7 @@ The Wilson-Cowan equations are the foundation of neural mass modeling. Virtually
 - [[Wilson-Cowan]]
 - [[neural mass model]]
 - [[Jack Cowan]]
-- brain oscillations
+- [[brain-oscillations]]
 
 ## References
 

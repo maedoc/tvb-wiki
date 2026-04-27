@@ -87,10 +87,10 @@ Contemporary work extends the Larter-Breakspear framework in several directions.
 - [[whole-brain-modeling]] — Large-scale network simulations
 - [[functional-connectivity]] — Correlated neural activity patterns
 - [[oscillator]] — Rhythmic neural activity and its mechanisms
-- [[structural-connectivity]] — Anatomical white matter connectivity
+- [[structural-connectivity]] — Anatomical [[white-matter]] [[connectivity]]
 - [[the-virtual-epileptic-brain]] — Clinical simulation platform
 
 ## References
 
-1. Michael Breakspear, John A. Roberts, John R. Terry, Stefano Rodrigues, Nader Mahmud, Philip Robinson. *Large-scale brain dynamics of seizures: asymptotic analysis of a [[neural-field-theory|neural field]] model*. Journal of Computational Neuroscience. [DOI](https://doi.org/10.1007/s10827-006-8135-2)
+1. Michael Breakspear, John A. Roberts, John R. Terry, Stefano Rodrigues, Nader Mahmud, Philip Robinson. *Large-scale [[brain-dynamics]] of seizures: asymptotic analysis of a [[neural-field-theory|neural field]] model*. Journal of [[computational-neuroscience]]. [DOI](https://doi.org/10.1007/s10827-006-8135-2)
 2. Wendling F., Bartolomei F., Bellanger J.J., Chauvel P. *A [[dynamic-causal-modeling]] study of the generation of epileptic fast activity*. NeuroImage. [DOI](https://doi.org/10.1006/nimg.2002.1234)

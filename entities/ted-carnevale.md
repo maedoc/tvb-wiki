@@ -21,7 +21,7 @@ Computational neuroscientist and NEURON co-developer, known for educational reso
 
 - NEURON simulation environment development
 - Multi-compartment cable theory modeling
-- Educational resources for computational neuroscience
+- Educational resources for [[computational-neuroscience]]
 - Neural modeling tutorials and documentation
 
 ## Key Publications

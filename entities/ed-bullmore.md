@@ -15,13 +15,13 @@ updated: '2026-04-27'
 
 # Edward T. Bullmore
 
-Professor at University of Cambridge, leading researcher in network neuroscience and computational psychiatry.
+Professor at University of Cambridge, leading researcher in network neuroscience and [[computational-psychiatry]].
 
 ## Key Contributions
 
 - **Complex Brain Networks Review** (2009): Co-authored with Sporns, the definitive review of [[network-dynamics|graph theory]] in neuroscience
 - **Computational Psychiatry**: Pioneered application of network science to mental health
-- **Clinical Connectomics**: Applied connectivity analysis to psychiatric and neurological disorders
+- **Clinical Connectomics**: Applied [[connectivity]] analysis to psychiatric and neurological disorders
 
 ## Research Focus
 

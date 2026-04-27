@@ -28,7 +28,7 @@ Neuroscientist known for the Blue Brain Project and data-driven cortical reconst
 
 - Markram et al. (2015) — Reconstruction and simulation of neocortical microcircuitry markram-2015
   - Digital reconstruction of ~31,000-neuron cortical column
-  - Integration of morphology, electrophysiology, and connectivity
+  - Integration of morphology, [[electrophysiology]], and [[connectivity]]
   - Layer-specific firing patterns and oscillations
   - Milestone in data-driven brain simulation
 

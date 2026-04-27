@@ -74,7 +74,7 @@ However, the reduction necessarily sacrifices some biological detail present in 
 - [[neural-mass-models]] — Class of models to which the Stefanescu-Jirsa model belongs
 - [[ dynamical-systems-theory]] — Theoretical framework underlying the dimensional reduction
 - [[mean-field-theory]] — Related approach for deriving population-level descriptions
-- [[tvb]] — The Virtual Brain simulation platform frequently used with these models
+- [[tvb]] — [[the-virtual-brain]] simulation platform frequently used with these models
 
 ## References
 

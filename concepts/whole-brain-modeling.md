@@ -1,17 +1,32 @@
 ---
-title: Whole-Brain Modeling
 created: 2024-01-15
-updated: 2026-04-27
-type: concept
-tags: [whole-brain-modeling, neural-mass-models, connectomics, structural-connectivity, functional-connectivity, network-dynamics, brain-network, personalized-brain-modeling, neuroimaging-fmri, neuroimaging-eeg, neuroimaging-meg, neuroimaging-dti, software-tvb, epilepsy-modeling, bifurcation-analysis]
 sources: []
+tags:
+- whole-brain-modeling
+- neural-mass-models
+- connectomics
+- structural-connectivity
+- functional-connectivity
+- network-dynamics
+- brain-network
+- personalized-brain-modeling
+- neuroimaging-fmri
+- neuroimaging-eeg
+- neuroimaging-meg
+- neuroimaging-dti
+- software-tvb
+- epilepsy-modeling
+- bifurcation-analysis
+title: Whole-Brain Modeling
+type: concept
+updated: '2026-04-27'
 ---
 
 Whole-brain modeling is a computational neuroscience approach that represents the brain as a network of coupled regions, each governed by detailed neuronal or neural mass dynamics, with regional interactions constrained by empirical [[structural connectivity]] estimates derived from [[diffusion tensor imaging]] or tractography. This methodology enables the simulation of large-scale brain dynamics and the generation of synthetic neuroimaging data—including [[fMRI]], [[EEG]], and [[MEG]] signals—that can be directly compared to empirical recordings. The approach bridges the gap between microscopic neuronal mechanisms and macroscopic brain-wide activity patterns observed in human neuroimaging studies.
 
 ## Motivation and Scientific Context
 
-The human brain contains approximately 86 billion neurons organized into hundreds of distinct cortical and subcortical regions. Traditional reductionist approaches that study individual neurons or small circuits cannot capture the emergent, brain-wide dynamics that give rise to cognition, behavior, and clinical symptoms. Whole-brain modeling emerged as a response to this scale gap, motivated by the insight that many neurological and psychiatric disorders—including [[epilepsy-modeling]], Alzheimer's disease, and schizophrenia—manifest as large-scale network dysfunctions rather than isolated abnormalities in specific nuclei.
+The human brain contains approximately 86 billion neurons organized into hundreds of distinct cortical and subcortical regions. Traditional reductionist approaches that study individual neurons or small circuits cannot capture the emergent, brain-wide dynamics that give rise to cognition, behavior, and clinical symptoms. [[whole-brain|Whole-brain modeling]] emerged as a response to this scale gap, motivated by the insight that many neurological and psychiatric disorders—including [[epilepsy-modeling]], Alzheimer's disease, and schizophrenia—manifest as large-scale network dysfunctions rather than isolated abnormalities in specific nuclei.
 
 The field gained momentum in the early 2000s with the advent of large-scale [[connectome]] projects such as the [[human-connectome-project]], which provided high-quality structural and functional connectivity maps. Simultaneously, advances in computational power and software frameworks such as [[tvb]] (The Virtual Brain) made it feasible to simulate dynamics across 80+ brain regions with biologically plausible neuron models. The approach now serves as a critical tool for understanding [[resting-state]] networks, the neural basis of brain oscillations, and the propagation of activity through [[brain-network]] architectures.
 
@@ -29,7 +44,7 @@ The mathematical formulation for a typical whole-brain system takes the form:
 
 $$\dot{\mathbf{x}}_i = \mathbf{F}(\mathbf{x}_i) + \sum_{j=1}^{N} G_{ij} \cdot \mathbf{H}(\mathbf{x}_j)$$
 
-where $\mathbf{x}_i$ represents the state vector of region $i$, $\mathbf{F}$ describes the local neural mass dynamics, $G_{ij}$ is the coupling strength from region $j$ to region $i$, and $\mathbf{H}$ is a coupling function (often linear or a nonlinear kernel) that transforms sender activity into receiver input. The coupling function may incorporate conduction delays reflecting anatomical distance.
+where $\mathbf{x}_i$ represents the state vector of region $i$, $\mathbf{F}$ describes the local neural mass dynamics, $G_{ij}$ is the coupling strength from region $j$ to region $i$, and $\mathbf{H}$ is a coupling function (often [[linear]] or a nonlinear kernel) that transforms sender activity into receiver input. The coupling function may incorporate conduction delays reflecting anatomical distance.
 
 ### Bifurcation Analysis and Parameter Space
 

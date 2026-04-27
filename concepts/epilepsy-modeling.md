@@ -56,7 +56,7 @@ The Wendling model's clinical validation against intracranial EEG demonstrated i
 
 ### Spatial Extensions: Neural Field Models
 
-Breakspear et al. (2006) extended the neural mass framework to spatially distributed systems, modeling cortical sheets as continuous media where neighboring columns couple through anatomical connectivity. This [[neural-field-theory|neural field]] approach captures the fundamental observation that seizures propagate: pathological activity at a seizure focus spreads to anatomically connected regions, producing the characteristic spatial evolution of ictal events visible in EEG source imaging.
+Breakspear et al. (2006) extended the neural mass framework to spatially distributed systems, modeling cortical sheets as continuous media where neighboring columns couple through anatomical [[connectivity]]. This [[neural-field-theory|neural field]] approach captures the fundamental observation that seizures propagate: pathological activity at a seizure focus spreads to anatomically connected regions, producing the characteristic spatial evolution of ictal events visible in EEG source imaging.
 
 The asymptotic analysis in this work reduced the infinite-dimensional neural field equations to low-dimensional ordinary differential equations describing the collective dynamics of the cortical sheet. This reduction revealed that seizure propagation itself can exhibit bifurcations—transitions from localized focal seizures to secondary generalization that depend on the coupling strength and the excitability profile of the network. The framework thus connects local mechanisms of seizure onset with the global [[network-dynamics]] that determine clinical outcome.
 
@@ -64,7 +64,7 @@ The asymptotic analysis in this work reduced the infinite-dimensional neural fie
 
 ### Focal Seizures
 
-Focal seizures emerge when localized parameter changes create regions of reduced seizure threshold within an otherwise healthy network. The modeling approach treats the brain as a heterogeneous system where excitability varies across regions due to anatomical differences, prior lesion history, or pathological plasticity. Seizure propagation in this framework depends critically on the structural connectivity: regions with strong anatomical connections to the focus receive stronger ictal input and are more likely to recruit into the seizure.
+Focal seizures emerge when localized parameter changes create regions of reduced seizure threshold within an otherwise healthy network. The modeling approach treats the brain as a heterogeneous system where excitability varies across regions due to anatomical differences, prior lesion history, or pathological [[plasticity]]. Seizure propagation in this framework depends critically on the structural connectivity: regions with strong anatomical connections to the focus receive stronger ictal input and are more likely to recruit into the seizure.
 
 This perspective has direct clinical applications for surgical planning. By simulating the effect of resecting candidate regions, models can predict post-operative seizure freedom and identify "hidden" epileptic networks that may contribute to surgical failure. The framework also explains why some patients exhibit consistent seizure foci while others show variable onset regions—variations in individual connectivity architecture produce different propagation patterns from the same underlying mechanism.
 
@@ -92,7 +92,7 @@ The sensitivity analysis conducted by Touboul et al. (2011) revealed that the Ja
 
 [[tvb]] and [[tvb-multiscale]] frameworks enable construction of patient-specific models by combining individualized structural connectivity—derived from [[dti]] [[tractography]]—with personalized neural mass parameters estimated from the patient's own EEG or MEG recordings. This personalization pipeline addresses the fundamental limitation of generic models: inter-patient variability in anatomy and dynamics means that findings from one patient may not generalize to others.
 
-The clinical workflow typically proceeds through several stages: acquiring diffusion imaging data, reconstructing the structural [[connectome]], fitting neural mass parameters to baseline recordings, validating the model against recorded seizures, and finally using the validated model to predict optimal intervention targets. While promising, this approach faces significant challenges in parameter identifiability—many different parameter combinations can produce similar dynamical patterns—and in validation, where access to invasive intracranial recordings needed for model calibration is limited to patients undergoing surgical evaluation.
+The clinical workflow typically proceeds through several stages: acquiring [[diffusion-imaging]] data, reconstructing the structural [[connectome]], fitting neural mass parameters to baseline recordings, validating the model against recorded seizures, and finally using the validated model to predict optimal intervention targets. While promising, this approach faces significant challenges in parameter identifiability—many different parameter combinations can produce similar dynamical patterns—and in validation, where access to invasive intracranial recordings needed for model calibration is limited to patients undergoing surgical evaluation.
 
 ## Clinical Translation
 
@@ -133,5 +133,5 @@ Finally, the relationship between computational models and the underlying neurob
 ## References
 
 1. Wendling F., Bartolomei F., Bellanger J.J., Chauvel P. *A [[dynamic-causal-modeling]] study of the generation of epileptic fast activity*. NeuroImage. [DOI](https://doi.org/10.1006/nimg.2002.1234)
-2. Michael Breakspear, John A. Roberts, John R. Terry, Stefano Rodrigues, Nader Mahmud, Philip Robinson. *Large-scale brain dynamics of seizures: asymptotic analysis of a neural field model*. Journal of Computational Neuroscience. [DOI](https://doi.org/10.1007/s10827-006-8135-2)
+2. Michael Breakspear, John A. Roberts, John R. Terry, Stefano Rodrigues, Nader Mahmud, Philip Robinson. *Large-scale [[brain-dynamics]] of seizures: asymptotic analysis of a neural field model*. Journal of [[computational-neuroscience]]. [DOI](https://doi.org/10.1007/s10827-006-8135-2)
 3. Jonathan Touboul, Fabien Wendling, Bruno Bellanger, Patrick Chauvel, Olivier Faugeras. *Bifurcation analysis of Jansen's neural mass model*. Neural Computation. [DOI](https://doi.org/10.1162/NECO_a_00151)

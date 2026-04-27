@@ -5,10 +5,10 @@ tags:
 - andronov-hopf-bifurcation
 title: Andronov Hopf Bifurcation
 type: concept
-updated: 2026-04-27
+updated: '2026-04-27'
 ---
 
-Andronov Hopf Bifurcation — a concept in whole-brain modeling and computational neuroscience.
+Andronov Hopf [[bifurcation-analysis|Bifurcation]] — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
 
 ## Related Concepts
 * [[oscillator]]

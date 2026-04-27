@@ -64,11 +64,11 @@ SciUnit offers significant potential for [[TVB|The Virtual Brain]] ecosystem thr
 
 2. **Cross-Simulator Verification**: SciUnit enables validation that TVB simulations produce consistent results when compared to equivalent implementations in [[NEST]] or [[ANNarchy]], supporting [[reproducibility]] across platforms.
 
-3. **Personalized Model Testing**: For [[personalized-brain-modeling]], SciUnit could formalize the validation of patient-specific parameter sets against individual neuroimaging data, quantifying model fit with standardized metrics.
+3. **Personalized Model Testing**: For [[personalized-brain-modeling]], SciUnit could formalize the validation of patient-specific parameter sets against individual [[neuroimaging]] data, quantifying model fit with standardized metrics.
 
 4. **Epilepsy Model Benchmarking**: TVB's [[epileptor]] models and seizure simulations can be validated against clinical recordings using SciUnit's quantitative comparison infrastructure.
 
-While direct integration between SciUnit and TVB remains an active development area, the frameworks share philosophical commitments to reproducible, testable computational neuroscience.
+While direct integration between SciUnit and TVB remains an active development area, the frameworks share philosophical commitments to reproducible, testable [[computational-neuroscience]].
 
 ## Related Software
 

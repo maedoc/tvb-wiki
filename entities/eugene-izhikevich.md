@@ -23,7 +23,7 @@ Russian-American computational neuroscientist and former CEO of the Brain Corpor
 
 ## Key Contributions
 
-- **Izhikevich model**: Simple 2D spiking [[neuron]] model reproducing diverse firing patterns
+- **[[izhikevich]] model**: Simple 2D spiking [[neuron]] model reproducing diverse firing patterns
 - **Dynamical systems in neuroscience**: Geometric/bifurcation analysis of neuronal excitability (2007 textbook)
 - **Neural population dynamics**: Analysis of bursting and oscillatory behavior
 - **Brain Corporation**: Founded company developing AI for robotics
@@ -45,7 +45,7 @@ Izhikevich's textbook provides the [[bifurcation-theory]] foundation for underst
 - [[neural mass model]]
 - [[spiking neural networks]]
 - [[epilepsy modeling]]
-- brain oscillations
+- [[brain-oscillations]]
 
 ## References
 
@@ -54,4 +54,4 @@ Izhikevich's textbook provides the [[bifurcation-theory]] foundation for underst
 3. Wulfram Gerstner, Werner M. Kistler, Richard Naud, Liam Paninski. *Neuronal Dynamics: From Single Neurons to Networks and Models of Cognition*.
 4. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)
 5. (authors unknown). *Networks of the Brain*.
-6. Michael Breakspear, John A. Roberts, John R. Terry, Stefano Rodrigues, Nader Mahmud, Philip Robinson. *Large-scale brain dynamics of seizures: asymptotic analysis of a [[neural-field-theory|neural field]] model*. Journal of Computational Neuroscience. [DOI](https://doi.org/10.1007/s10827-006-8135-2)
+6. Michael Breakspear, John A. Roberts, John R. Terry, Stefano Rodrigues, Nader Mahmud, Philip Robinson. *Large-scale [[brain-dynamics]] of seizures: asymptotic analysis of a [[neural-field-theory|neural field]] model*. Journal of [[computational-neuroscience]]. [DOI](https://doi.org/10.1007/s10827-006-8135-2)

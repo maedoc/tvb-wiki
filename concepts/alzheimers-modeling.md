@@ -1,19 +1,33 @@
 ---
-title: Alzheimer's Modeling
 created: 2024-01-15
-updated: 2026-04-27
-type: concept
-tags: [alzheimers-modeling, whole-brain-modeling, computational-neuroscience, connectomics, structural-connectivity, functional-connectivity, neuroimaging-fmri, neuroimaging-dti, brain-network, personalized-brain-modeling, brain-stimulation, aging-brain, bifurcation-analysis, network-dynamics]
 sources: []
+tags:
+- alzheimers-modeling
+- whole-brain-modeling
+- computational-neuroscience
+- connectomics
+- structural-connectivity
+- functional-connectivity
+- neuroimaging-fmri
+- neuroimaging-dti
+- brain-network
+- personalized-brain-modeling
+- brain-stimulation
+- aging-brain
+- bifurcation-analysis
+- network-dynamics
+title: Alzheimer's Modeling
+type: concept
+updated: '2026-04-27'
 ---
 
 ## Overview
 
-Alzheimer's modeling refers to the application of computational neuroscience techniques—particularly whole-brain modeling and neural mass models—to simulate, understand, and predict the progression of Alzheimer's disease (AD). Alzheimer's disease is a neurodegenerative disorder characterized by the accumulation of amyloid-beta plaques and tau neurofibrillary tangles, leading to synaptic loss, neuronal death, and progressive cognitive decline. Computational models of AD aim to bridge the gap between microscopic pathological mechanisms (such as protein aggregation) and macroscopic brain dynamics (such asPatterns of functional connectivity disruption), thereby providing a framework for understanding disease progression, identifying biomarkers, and testing therapeutic interventions in silico.
+Alzheimer's modeling refers to the application of [[computational-neuroscience]] techniques—particularly [[whole-brain|whole-brain modeling]] and neural mass models—to simulate, understand, and predict the progression of Alzheimer's disease (AD). Alzheimer's disease is a neurodegenerative disorder characterized by the accumulation of amyloid-beta plaques and tau neurofibrillary tangles, leading to synaptic loss, neuronal death, and progressive cognitive decline. Computational models of AD aim to bridge the gap between microscopic pathological mechanisms (such as protein aggregation) and macroscopic [[brain-dynamics]] (such asPatterns of functional [[connectivity]] disruption), thereby providing a framework for understanding disease progression, identifying biomarkers, and testing therapeutic interventions in silico.
 
 ## Motivation and Context
 
-The need for computational models of Alzheimer's disease arises from several challenges in AD research. First, the disease has a long preclinical phase—potentially decades—during which pathological changes accumulate before clinical symptoms appear. Second, the relationship between pathological hallmarks (amyloid and tau) and clinical manifestations (cognitive impairment) is complex and non-linear, making it difficult to predict individual patient trajectories using conventional statistical approaches alone. Third, clinical trials for AD therapeutics have historically suffered from high failure rates, in part because interventions are tested too late in the disease process or without sufficient understanding of individual patient pathophysiology.
+The need for computational models of Alzheimer's disease arises from several challenges in AD research. First, the disease has a long preclinical phase—potentially decades—during which pathological changes accumulate before clinical symptoms appear. Second, the relationship between pathological hallmarks (amyloid and tau) and clinical manifestations (cognitive impairment) is complex and non-[[linear]], making it difficult to predict individual patient trajectories using conventional statistical approaches alone. Third, clinical trials for AD therapeutics have historically suffered from high failure rates, in part because interventions are tested too late in the disease process or without sufficient understanding of individual patient pathophysiology.
 
 Whole-brain modeling offers a mechanistic approach to these problems by embedding individual patient data—derived from neuroimaging modalities such as [[neuroimaging-fmri|functional MRI]] and [[neuroimaging-dti|diffusion tensor imaging]]—into biologically constrained models of brain dynamics. These models can simulate how pathological changes (such as connectivity degradation or synaptic loss) propagate through large-scale brain networks, producing observable signatures in [[functional-connectivity]] and [[structural-connectivity]]. By fitting model parameters to individual patient data, researchers can personalize models to capture each patient's unique disease state and predict future progression.
 
@@ -37,7 +51,7 @@ Biological mechanisms motivating AD models include:
 
 - **Cholinergic deficiency**: Loss of cholinergic neurons in the basal forebrain reduces cortical excitation, motivating models with reduced excitatory gain.
 - **Amyloid-beta toxicity**: Soluble oligomers of amyloid-beta impair synaptic function, modeled as decreased synaptic efficacy or enhanced inhibitory feedback.
-- **Tau pathology**: Neurofibrillary tangles spread along connected pathways, motivating tractography-based models where tau "propagates" along structural connectivity edges.
+- **Tau pathology**: Neurofibrillary tangles spread along connected pathways, motivating [[tractography]]-based models where tau "propagates" along structural connectivity edges.
 - **Excitation-inhibition imbalance**: AD is associated with shifted E/I balance toward inhibition, altering neural mass model dynamics and reducing gamma oscillations.
 - **Network vulnerability**: Hub regions (such as the posterior cingulate cortex) exhibit early hypometabolism in AD, possibly due to their high metabolic demand and positional vulnerability in the network.
 
@@ -53,10 +67,10 @@ Methodologically, AD modeling intersects with [[aging-brain]] research, as aging
 
 Several open questions define the frontier of Alzheimer's modeling:
 
-1. **Multi-scale integration**: How can models bridge microscopic pathology (molecular, cellular) with macroscopic dynamics (fMRI networks) in a principled way?
+1. **Multi-scale integration**: How can models bridge microscopic pathology (molecular, cellular) with macroscopic dynamics ([[fmri]] networks) in a principled way?
 2. **Personalization**: What minimal data sets are required to reliably personalize AD models for individual patients?
-3. **Disease staging**: Can bifurcation analysis identify critical transitions that correspond to clinically meaningful disease stages?
+3. **Disease staging**: Can [[bifurcation-analysis]] identify critical transitions that correspond to clinically meaningful disease stages?
 4. **Therapeutic targeting**: Can models predict which patients will respond to specific interventions (e.g., anti-amyloid antibodies, brain stimulation)?
-5. **Reproducibility**: What standardization is needed for AD models to be reproducibly applied across labs and cohorts?
+5. **[[reproducibility]]**: What standardization is needed for AD models to be reproducibly applied across labs and cohorts?
 
-Progress on these questions will require close integration with large-scale neuroimaging initiatives, such as the [[hcp-dataset]] and [[uk-biobank]], as well as advances in parameter estimation and model validation techniques. As computational resources and neuroimaging technology continue to improve, Alzheimer's modeling is poised to become an increasingly important tool for precision medicine in neurology.
+Progress on these questions will require close integration with large-scale neuroimaging initiatives, such as the [[hcp-dataset]] and [[uk-biobank]], as well as advances in [[parameter-estimation]] and model validation techniques. As computational resources and neuroimaging technology continue to improve, Alzheimer's modeling is poised to become an increasingly important tool for precision medicine in neurology.

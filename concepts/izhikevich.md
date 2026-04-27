@@ -5,10 +5,10 @@ tags:
 - izhikevich
 title: Izhikevich
 type: concept
-updated: 2026-04-27
+updated: '2026-04-27'
 ---
 
-Izhikevich — a concept in whole-brain modeling and computational neuroscience.
+Izhikevich — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
 
 ## Related Concepts
 * [[dynamical-systems-theory]]

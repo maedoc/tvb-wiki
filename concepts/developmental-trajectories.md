@@ -24,7 +24,7 @@ Developmental trajectories describe the patterns of change in brain structure an
 
 ## Definition and Theoretical Foundations
 
-A developmental trajectory is the path of change in a brain measure over time, characterizing how structure, function, or connectivity evolve across age. Trajectories can be linear or non-linear, and vary across individuals and brain regions. The study of developmental trajectories emerged from longitudinal neuroimaging studies that revealed the brain is not a static organ but undergoes continuous reorganization throughout life. This understanding has profound implications for both basic neuroscience and clinical applications, as it provides a framework for understanding typical development and identifying atypical patterns that may benefit from early intervention.
+A developmental trajectory is the path of change in a brain measure over time, characterizing how structure, function, or [[connectivity]] evolve across age. Trajectories can be linear or non-linear, and vary across individuals and brain regions. The study of developmental trajectories emerged from longitudinal [[neuroimaging]] studies that revealed the brain is not a static organ but undergoes continuous reorganization throughout life. This understanding has profound implications for both basic neuroscience and clinical applications, as it provides a framework for understanding typical development and identifying atypical patterns that may benefit from early intervention.
 
 The conceptual foundation for developmental trajectories draws upon several theoretical frameworks. [[neurodevelopment]] encompasses the entire process of brain formation and refinement, from neural tube closure in embryogenesis through the complex synaptic pruning and myelination that continues into the third decade of life. [[plasticity]] refers to the brain's capacity to modify its structure and function in response to experience, and this capacity varies across the lifespan—being highest in early development (critical periods), remaining elevated during adolescence, and declining in adulthood and aging.
 
@@ -60,7 +60,7 @@ The landmark longitudinal study by [[nitin-gogtay|Gogtay et al.]] (2004) establi
 
 ### White Matter Development
 
-White matter development follows a distinct temporal pattern characterized by early rapid myelination, continued maturation through adolescence, and gradual decline in later adulthood. Diffusion tensor imaging (DTI) studies have shown that fractional anisotropy increases while mean diffusivity decreases during childhood and adolescence, reflecting theongoing process of myelination andaxonal packing. The development of white matter tracts follows a roughly posterior-to-anterior gradient, with sensory and motor pathways maturing before frontal pathways—a pattern consistent with the cortical thickness findings from Gogtay et al. This sequence has implications for the development of [[functional-connectivity|functional connectivity]], as white matter tract integrity constrains the strength and timing of inter-regional communication.
+[[white-matter]] development follows a distinct temporal pattern characterized by early rapid myelination, continued maturation through adolescence, and gradual decline in later adulthood. Diffusion tensor imaging (DTI) studies have shown that [[fractional-anisotropy]] increases while mean diffusivity decreases during childhood and adolescence, reflecting theongoing process of myelination andaxonal packing. The development of white matter tracts follows a roughly posterior-to-anterior gradient, with sensory and motor pathways maturing before frontal pathways—a pattern consistent with the cortical thickness findings from Gogtay et al. This sequence has implications for the development of [[functional-connectivity|functional connectivity]], as white matter tract integrity constrains the strength and timing of inter-regional communication.
 
 ## Network Trajectories
 
@@ -121,7 +121,7 @@ Comprehensive whole-brain models must account for the full lifespan trajectory f
 - [[structural-connectivity]] – Anatomical white matter connections
 - [[modularity]] – Network organization into specialized subnetworks
 - [[network-hubs]] – Highly connected regions that integrate networks
-- [[whole-brain-modeling]] – Large-scale computational models of brain dynamics
+- [[whole-brain-modeling]] – Large-scale computational models of [[brain-dynamics]]
 - [[resting-state]] – Intrinsic brain activity measured without task
 - [[default-mode-network]] – Network active during rest and self-referential processing
 - [[nonlinear-dynamics]] – Mathematical framework for complex time-dependent systems

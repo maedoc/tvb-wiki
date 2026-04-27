@@ -21,7 +21,7 @@ NEURON is a simulation environment for modeling individual neurons and networks 
 
 ## Overview
 
-NEURON provides tools for building and simulating biophysically detailed models of neurons and neural circuits. It uses multi-compartment cable theory and supports arbitrary ion channel kinetics through the NMODL language.
+NEURON provides tools for building and simulating biophysically detailed models of neurons and neural circuits. It uses multi-compartment cable theory and supports arbitrary [[ion-channel]] kinetics through the NMODL language.
 
 ## Key Features
 

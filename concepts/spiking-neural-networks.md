@@ -22,7 +22,7 @@ updated: '2026-04-27'
 
 # Spiking Neural Networks
 
-Spiking neural networks (SNNs) are computational models that simulate the dynamics of individual neurons generating discrete electrical pulses (spikes) in time. Unlike rate-based models that approximate neural activity as continuous firing rates, spiking neural networks explicitly model the generation, propagation, and timing of action potentials (spikes). This provides a more biologically realistic representation of neural communication and enables study of temporal coding, spike-timing-dependent plasticity, and neural oscillations that cannot be captured by simpler rate-based approaches. The explicit representation of spike events also makes SNNs naturally suited for integration with neuromorphic hardware, which processes information through sparse, asynchronous events analogous to biological neural firing.
+Spiking neural networks (SNNs) are computational models that simulate the dynamics of individual neurons generating discrete electrical pulses (spikes) in time. Unlike rate-based models that approximate neural activity as continuous firing rates, spiking neural networks explicitly model the generation, propagation, and timing of action potentials (spikes). This provides a more biologically realistic representation of neural communication and enables study of temporal coding, spike-timing-dependent [[plasticity]], and neural oscillations that cannot be captured by simpler rate-based approaches. The explicit representation of spike events also makes SNNs naturally suited for integration with neuromorphic hardware, which processes information through sparse, asynchronous events analogous to biological neural firing.
 
 ## Motivation and Context
 
@@ -38,7 +38,7 @@ Point neuron models treat the entire cell body (soma) as a single computational 
 
 **Integrate-and-fire models** represent the simplest class, accumulating membrane potential until reaching a threshold that triggers a spike, after which the membrane potential resets. Variations include leaky integrate-and-fire (LIF) models that incorporate exponential decay, and quadratic integrate-and-fire models that better capture dynamical systems properties near the spike initiation threshold. The adaptive exponential (AdEx) model extends this framework by including spike frequency adaptation through a slow recovery variable, enabling study of firing rate regulation and transient responses.
 
-**Hodgkin-Huxley models** provide the highest degree of biophysical detail among point neuron frameworks, explicitly modeling ion channel conductances for sodium, potassium, and leak currents. Named after the 1963 Nobel Prize-winning work of Alan Hodgkin and Andrew Huxley, these models capture action potential generation with remarkable accuracy and form the foundation for many modern neuron models. However, their computational cost is substantially higher than simpler integrate-and-fire variants.
+**Hodgkin-Huxley models** provide the highest degree of biophysical detail among point neuron frameworks, explicitly modeling [[ion-channel]] conductances for sodium, potassium, and leak currents. Named after the 1963 Nobel Prize-winning work of Alan Hodgkin and Andrew Huxley, these models capture action potential generation with remarkable accuracy and form the foundation for many modern neuron models. However, their computational cost is substantially higher than simpler integrate-and-fire variants.
 
 ### Multi-Compartment Models
 
@@ -54,7 +54,7 @@ Three primary software platforms dominate the spiking neural network ecosystem. 
 
 ## Connection to Mean-Field Theory
 
-Spiking networks and [[neural-mass-model|neural mass models]] occupy complementary positions in the hierarchy of brain modeling approaches. Mean-field theory provides a mathematical framework for deriving population-level equations from the underlying spiking network dynamics, capturing the mean activity and higher-order statistics (such as spike count correlations) of large neuronal populations. This reduction enables whole-brain simulations with biologically justified local dynamics while maintaining tractability for brain-scale integration. Recent work has extended mean-field analyses to networks with stochastic spike-timing-dependent plasticity (STDP), providing rigorous mathematical connections between microscopic synaptic plasticity rules and macroscopic network emergence.
+Spiking networks and [[neural-mass-model|neural mass models]] occupy complementary positions in the hierarchy of brain modeling approaches. Mean-field theory provides a mathematical framework for deriving population-level equations from the underlying spiking network dynamics, capturing the mean activity and higher-order statistics (such as spike count correlations) of large neuronal populations. This reduction enables whole-brain simulations with biologically justified local dynamics while maintaining tractability for brain-scale integration. Recent work has extended mean-field analyses to networks with stochastic spike-timing-dependent plasticity (STDP), providing rigorous mathematical connections between microscopic [[synaptic-plasticity]] rules and macroscopic network emergence.
 
 ## Related Concepts
 

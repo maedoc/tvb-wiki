@@ -65,7 +65,7 @@ In the context of [[whole-brain-modeling]], the Epileptor Codimension-3 provides
 
 ## Open Questions and Future Directions
 
-A central challenge remaining is the mapping between the abstract parameters of the codimension-3 unfolding (μ₁, μ₂, μ₃) and biologically measurable quantities that can be estimated from patient data. Current work on [[personalized-brain-modeling]] aims to bridge this gap by combining parameter estimation techniques from empirical neuroimaging data with the bifurcation analysis framework. Additionally, the extension of this analysis to consider the effects of noise—which is unavoidable in biological neural systems—and to incorporate the slow timescale variables that regulate seizure state transitions remains an active area of theoretical development.
+A central challenge remaining is the mapping between the abstract parameters of the codimension-3 unfolding (μ₁, μ₂, μ₃) and biologically measurable quantities that can be estimated from patient data. Current work on [[personalized-brain-modeling]] aims to bridge this gap by combining [[parameter-estimation]] techniques from empirical [[neuroimaging]] data with the bifurcation analysis framework. Additionally, the extension of this analysis to consider the effects of noise—which is unavoidable in biological neural systems—and to incorporate the slow timescale variables that regulate seizure state transitions remains an active area of theoretical development.
 
 The Epileptor Codimension-3 thus stands as a prime example of how sophisticated mathematical analysis can simplify rather than obscure biological reality, providing a unifying framework that clarifies the relationship between diverse seizure phenomenologies and their underlying dynamical mechanisms.
 
@@ -83,5 +83,5 @@ The Epileptor Codimension-3 thus stands as a prime example of how sophisticated 
 
 ## References
 
-1. Paul Triebkorn, Huifang E. Wang, Marmaduke Woodman, Maxime Guye, Fabrice Bartolomei, Viktor Jirsa. (2025). *Delay-constrained re-entry governs large-scale brain seizures and other network pathologies*. [Link](https://arxiv.org/abs/2508.04824)
+1. Paul Triebkorn, Huifang E. Wang, Marmaduke Woodman, Maxime Guye, Fabrice Bartolomei, [[viktor-jirsa]]. (2025). *Delay-constrained re-entry governs large-scale brain seizures and other network pathologies*. [Link](https://arxiv.org/abs/2508.04824)
 2. Jonathan Touboul, Fabien Wendling, Bruno Bellanger, Patrick Chauvel, Olivier Faugeras. *Bifurcation analysis of Jansen's neural mass model*. Neural Computation. [DOI](https://doi.org/10.1162/NECO_a_00151)

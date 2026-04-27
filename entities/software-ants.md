@@ -5,10 +5,10 @@ tags:
 - software-ants
 title: Software Ants
 type: entity
-updated: 2026-04-27
+updated: '2026-04-27'
 ---
 
-Software Ants — a concept in whole-brain modeling and computational neuroscience.
+Software [[ants]] — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
 
 ## Related Concepts
 * [[conn]]
