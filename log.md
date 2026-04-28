@@ -532,3 +532,5 @@
 ## [2026-04-28 13:38] Audit: 696 issues (16 broken links, 65 orphans, 68 placeholders, 0 dup-refs, 4 opaque-refs, 78 thin, 192 missing-links)
 
 ## [2026-04-28 13:47] RefFormatter: formatted references on 8 pages
+
+## [2026-04-28 13:52] Improve: 3 pages improved (suma, glasser-atlas, xnat)
