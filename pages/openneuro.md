@@ -1,12 +1,3 @@
----
-created: 2026-04-23
-sources: []
-tags:
-- software-brain-modeling
-title: OpenNeuro
-type: entity
-updated: 2026-04-28
----
 title: OpenNeuro
 created: 2024-01-15
 updated: 2026-04-28

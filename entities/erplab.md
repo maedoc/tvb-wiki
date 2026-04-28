@@ -1,20 +1,24 @@
 ---
-title: ERPLAB
 created: 2025-01-15
-updated: 2026-04-28
-type: entity
-tags: [neuroimaging-eeg, electrophysiology, software-visualization, neural-mass-models]
 sources:
-  - https://erpinfo.org/erplab
-  - https://doi.org/10.1111/j.1469-8986.2012.01471.x
-  - https://doi.org/10.1155/2011/861409
+- https://erpinfo.org/erplab
+- https://doi.org/10.1111/j.1469-8986.2012.01471.x
+- https://doi.org/10.1155/2011/861409
+tags:
+- neuroimaging-eeg
+- electrophysiology
+- software-visualization
+- neural-mass-models
+title: ERPLAB
+type: entity
+updated: '2026-04-28'
 ---
 
 ERPLAB is a popular open-source MATLAB toolbox for processing and analyzing event-related potential (ERP) data, designed as a plugin extension to [[eeglab]]. The toolbox provides comprehensive functionality for preprocessing, filtering, artifact rejection, and statistical analysis of ERP waveforms, making it an essential tool for researchers studying cognitive electrophysiology. ERPLAB was developed to address the growing need for specialized ERP analysis tools within the EEGLAB environment, allowing users to leverage EEGLAB's general EEG processing capabilities while adding ERP-specific workflows tailored to the unique requirements of cognitive neuroscience experiments.
 
 ## Motivation and Context
 
-Event-related potentials are time-locked neural responses to stimuli that provide millisecond-resolution insights into cognitive processes such as attention, perception, and decision-making. The analysis of ERP data requires specialized workflows that differ substantially from standard EEG analysis, including baseline correction, epoching with specific time windows, artifact rejection procedures optimized for ERP artifacts (such as blinks and saccades), and amplitude measurement across specified time windows. Prior to ERPLAB, researchers often relied on proprietary software or custom scripts, limiting reproducibility and sharing of analysis pipelines. ERPLAB emerged as a community-driven solution to standardize ERP processing workflows, enabling transparent and replicable analyses that could be shared across laboratories through EEGLAB's scriptable environment.
+Event-related potentials are time-locked neural responses to stimuli that provide millisecond-resolution insights into cognitive processes such as attention, perception, and decision-making. The analysis of ERP data requires specialized workflows that differ substantially from standard EEG analysis, including baseline correction, epoching with specific time windows, artifact rejection procedures optimized for ERP artifacts (such as blinks and saccades), and amplitude measurement across specified time windows. Prior to ERPLAB, researchers often relied on proprietary software or custom scripts, limiting [[reproducibility]] and sharing of analysis pipelines. ERPLAB emerged as a community-driven solution to standardize ERP processing workflows, enabling transparent and replicable analyses that could be shared across laboratories through EEGLAB's scriptable environment.
 
 The development of ERPLAB reflects the broader movement toward open science in [[neuroimaging]] and [[electrophysiology]] research. By integrating closely with [[eeglab]], ERPLAB benefits from EEGLAB's established infrastructure for data import, pipeline scripting, and batch processing, while adding domain-specific functionality for ERP analysis that would be cumbersome to implement from scratch. EEGLAB supports data import in numerous formats, and the EEGLAB-BIDS plugin enables working with data in BIDS format, though this requires installing the separate BIDS extension.
 

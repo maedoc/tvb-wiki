@@ -45,11 +45,11 @@ sources:
 - raw/papers/semanticscholar-a324c47ea982.md
 - raw/papers/semanticscholar-f45e6044c92f.md
 tags:
-- software-brian
+- software-[[brian]]
 - software-modeling
 - software-tvb
 - database-hcp
-- database-uk-biobank
+- database-[[uk-biobank]]
 - brain-atlas
 - compute-infrastructure
 - european-infrastructure

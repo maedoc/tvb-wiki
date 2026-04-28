@@ -5,13 +5,14 @@ tags:
 - software-brain-modeling
 title: Allen Brain Atlas
 type: entity
-updated: 2026-04-28
+updated: '2026-04-28'
 ---
+
 title: Allen Brain Atlas
 created: 2025-01-15
 updated: 2026-04-28
 type: entity
-tags: [brain-parcellations, connectomics, neuroimaging, database-hcp, brain-network, structural-connectivity, functional-connectivity, human-connectome-project]
+tags: [brain-parcellations, connectomics, neuroimaging, database-hcp, brain-network, structural-[[connectivity]], functional-connectivity, human-connectome-project]
 sources: [https://alleninstitute.org/, https://mouse.brain-map.org/, https://human.brain-map.org/, https://www.sciencemag.org/lookup/doi/10.1126/science.1149278]
 ---
 
@@ -54,7 +55,7 @@ Integration with other [[neuroimaging]] software is common in the field. Tools l
 
 While the Allen Brain Atlas has transformed neuroscience research, significant challenges remain. The atlas provides static snapshots of brain anatomy and molecular composition, but the brain is inherently dynamic. Future versions may incorporate temporal dimensions, showing how gene expression patterns and connectivity change across development, learning, and disease states. The integration of single-cell transcriptomics with traditional atlas data represents another frontier, potentially allowing researchers to understand brain organization at finer spatial scales.
 
-Another open question concerns the standardization of atlas-derived parcellations for computational modeling. Different research groups have developed different parcellation schemes derived from the same underlying data, leading to inconsistencies in the literature. Consensus efforts to standardize [[brain-parcellations]] for use in [[whole-brain modeling]] are ongoing, with the Allen Brain Atlas serving as a potential anchor point for these efforts.
+Another open question concerns the standardization of atlas-derived parcellations for computational modeling. Different research groups have developed different [[parcellation]] schemes derived from the same underlying data, leading to inconsistencies in the literature. Consensus efforts to standardize [[brain-parcellations]] for use in [[whole-brain modeling]] are ongoing, with the Allen Brain Atlas serving as a potential anchor point for these efforts.
 
 ## References
 
@@ -63,4 +64,4 @@ Another open question concerns the standardization of atlas-derived parcellation
 3. Hawrylycz, M.J., et al. (2012). "An anatomically comprehensive atlas of the adult human brain transcriptome." *Nature* 489: 391-399.
 4. Allen Mouse Brain Connectivity Atlas. "Technical White Paper." Allen Institute for Brain Science.
 5. Liu, X., et al. (2020). "A comprehensive ontogenetic atlas of the macaque brain." *PLOS Biology* 18(9): e3000976.
-6. The Virtual Brain. "Documentation." https://thevirtualbrain.org/ (accessed 2024).
+6. [[the-virtual-brain]]. "Documentation." https://thevirtualbrain.org/ (accessed 2024).

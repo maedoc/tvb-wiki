@@ -1,10 +1,18 @@
 ---
-title: Cartool
 created: 2025-01-01
-updated: 2026-04-28
+sources:
+- raw/papers/brunet-2011.md
+- raw/papers/michel-2019.md
+- raw/papers/bagdasarov-2024.md
+tags:
+- software-visualization
+- neuroimaging-eeg
+- source-localization
+- micro-states
+- brain-mapping
+title: Cartool
 type: entity
-tags: [software-visualization, neuroimaging-eeg, source-localization, micro-states, brain-mapping]
-sources: [raw/papers/brunet-2011.md, raw/papers/michel-2019.md, raw/papers/bagdasarov-2024.md]
+updated: '2026-04-28'
 ---
 
 # Cartool
@@ -41,7 +49,7 @@ The software architecture emphasizes efficiency and portability. Written primari
 
 ## Key Papers
 
-The seminal reference for Cartool is the 2011 paper by Brunet, Murray, and Michel titled "Spatiotemporal Analysis of Multichannel EEG: CARTOOL," which describes the software's architecture and capabilities for multichannel EEG analysis. A 2019 review article by Michel and Brunet, "EEG Source Imaging: A Practical Review of the Analysis Steps," provides guidance on best practices for source localization using tools like Cartool. The microstate analysis capabilities are detailed in several methodological papers, including a 2024 tutorial on infant EEG microstate analysis by Bagdasarov and colleagues.
+The seminal reference for Cartool is the 2011 paper by Brunet, Murray, and Michel titled "Spatiotemporal Analysis of Multichannel EEG: CARTOOL," which describes the software's architecture and capabilities for multichannel EEG analysis. A 2019 review article by Michel and Brunet, "EEG Source Imaging: A Practical Review of the Analysis [[steps]]," provides guidance on best practices for source localization using tools like Cartool. The microstate analysis capabilities are detailed in several methodological papers, including a 2024 tutorial on infant EEG microstate analysis by Bagdasarov and colleagues.
 
 ## Licensing and Availability
 

@@ -2,6 +2,15 @@
 
 ## 2026-04-28
 
+- Improved page: [[brainnet-viewer]] – Brain network visualization toolbox
+  - Complete rewrite from placeholder to comprehensive entity page (~600 words)
+  - Updated frontmatter: changed updated date to 2026-04-28, added sources: raw/papers/xia-2013-brainnet-viewer.md
+  - Tags: software-visualization, connectomics, neuroimaging-fmri, neuroimaging-meg, neuroimaging-eeg
+  - Established 10+ wikilinks: the-virtual-brain, neural-mass-models, epileptor, diffusion-mri, brain-connectivity-toolbox, nilearn, pycortex, freesurfer, brainvisa, brainstorm, 3d-slicer, itk-snap, spm, connectome-workbench
+  - Added detailed sections: Overview, Key Features (file formats, node/edge visualization, volume mapping, layout options, command-line interface), Relationship to TVB, Key Papers, Related Software
+  - Explained BrainNet Viewer's role in the connectomics visualization pipeline and its complementary relationship to TVB for whole-brain modeling result visualization
+  - Positioned BrainNet Viewer within the network visualization ecosystem alongside Brain Connectivity Toolbox, nilearn, and pycortex
+
 - Improved page: [[cartool]] – EEG analysis and source localization software
   - Complete rewrite from placeholder to comprehensive entity page (~700 words)
   - Updated frontmatter: changed updated date to 2026-04-28, added sources: raw/papers/brunet-2011.md, raw/papers/michel-2019.md
@@ -10,6 +19,15 @@
   - Added detailed sections: Overview, Key Features (source localization, microstates, frequency analysis, preprocessing), Relationship to TVB, Technical Implementation, Key Papers, Related Software
   - Explained Cartool's role in EEG/MEG source imaging and its complementary relationship to TVB whole-brain simulation
   - Positioned Cartool within the EEG analysis ecosystem alongside EEGLAB, FieldTrip, and Brainstorm
+
+- Improved page: [[lfpykit]] — Python toolkit for computing extracellular potentials from neural simulations
+  - Complete rewrite from placeholder to comprehensive entity page (~750 words)
+  - Updated frontmatter: changed updated date to 2026-04-28, added sources: LFPykit GitHub Repository, Linden et al. 2014, Hagen et al. 2018, Ness et al. 2015, Næss et al. 2017
+  - Tags: software-neuron, spiking-neural-networks, neural-mass-models, dynamic-causal-modeling, neuroimaging-eeg, neuroimaging-meg
+  - Established 10+ wikilinks: lfpy, neuron, brian2, nest, local-field-potentials, neuroimaging-eeg, neuroimaging-meg, electrophysiology, computational-neuroscience, the-virtual-brain, whole-brain-modeling, dynamic-causal-modeling, brain-oscillations
+  - Added detailed sections: Overview, Motivation and Context, Technical Content (Line-Source Approximation, Point-Source Method, Current-Source Density Estimation), Key Features (anisotropic conductivity, electrode modeling), Relationship to TVB and Whole-Brain Modeling, Related Software
+  - Explained LFPykit's role in forward modeling of extracellular potentials and its relationship to neural simulators
+  - Positioned LFPykit within the computational neuroscience ecosystem alongside NEURON, Brian2, NEST, and LFPy
 
 - Improved page: [[krasimira-tsaneva-atanasova]] – Researcher in connectome-based whole-brain modeling
   - Complete rewrite from placeholder to comprehensive entity page (~600 words)
@@ -627,3 +645,5 @@
 ## [2026-04-28 21:20] Linter: 8 broken links, 56 orphans, 65 stale, 98 empty
 
 ## [2026-04-28 21:56] Improve: 3 pages improved (julich-atlas, allen-brain-atlas, erplab)
+
+## [2026-04-28 23:16] RefFormatter: formatted references on 2 pages
