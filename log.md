@@ -583,3 +583,5 @@
   - Key references: Power et al. 2011 Neuron foundational paper
   - Updated frontmatter: changed updated date to 2026-04-28, added sources: raw/papers/power-2011.md, raw/papers/power-2012.md
 2026-04-28: Updated xcp-d.md page with comprehensive content covering XCP-D post-processing pipeline for fMRI data
+
+## [2026-04-28 20:01] Improve: 3 pages improved (bluepyopt, power-atlas, xcp-d)

@@ -13,3 +13,7 @@ Apoe — a concept in [[whole-brain|whole-brain modeling]] and [[computational-n
 
 ## Related Concepts
 * [[aging]]
+
+## References
+
+1. (authors unknown). *The Human Connectome: A Structural Description of the Human Brain*.
