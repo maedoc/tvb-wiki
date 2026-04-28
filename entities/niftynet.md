@@ -14,12 +14,12 @@ tags:
 - connectomics
 title: NiftyNet
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-28'
 ---
 
 # NiftyNet
 
-NiftyNet is an open-source deep learning framework for medical image analysis and computer-assisted intervention, built on TensorFlow.
+NiftyNet is an open-source deep learning framework for medical image analysis and computer-assisted intervention, built on [[tensorflow]].
 
 > **Status Note:** NiftyNet has been archived since ~2020 with no active development. While its modular design and educational value remain relevant for understanding medical imaging deep learning architecture, newer frameworks like [nnU-Net](https://github.com/MIC-DKFZ/nnUNet) have superseded it in benchmark performance through automatic hyperparameter optimization and cross-validation strategies.
 

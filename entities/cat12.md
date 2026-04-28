@@ -49,7 +49,7 @@ The relationship between CAT12 and TVB is primarily indirect but operationally i
 
 CAT12 occupies a specific niche in the neuroimaging processing landscape, complementing and competing with other established tools. [FreeSurfer](freesurfer.md), developed at Massachusetts General Hospital, is perhaps the closest competitor; while FreeSurfer provides more detailed cortical reconstruction with pial surface reconstruction and automatic parcellation into anatomical regions, CAT12 is generally faster and provides excellent VBM results with less user intervention. The choice between these tools often depends on whether surface-based metrics (favoring FreeSurfer) or voxel-based metrics (favoring CAT12) are prioritized.
 
-Compared to [FSL](fsl.md)'s FAST segmentation, CAT12 typically provides more accurate tissue segmentation for VBM studies due to its adaptive processing approach. The [BrainSuite](brainsuite.md) package offers another alternative, but CAT12's tight integration with SPM makes it the preferred choice for researchers already working within the SPM framework [@SPM]. In the context of whole-brain modeling, CAT12's role differs from connectivity-focused tools like [MRtrix3](mrtrix3.md) or [DSI Studio](dsi-studio.md), which focus primarily on fiber tracking and structural connectivity estimation.
+Compared to [FSL](fsl.md)'s FAST segmentation, CAT12 typically provides more accurate tissue segmentation for VBM studies due to its adaptive processing approach. The [BrainSuite](brainsuite.md) package offers another alternative, but CAT12's tight integration with SPM makes it the preferred choice for researchers already working within the SPM framework [@SPM]. In the context of whole-brain modeling, CAT12's role differs from [[connectivity]]-focused tools like [MRtrix3]([[mrtrix3]].md) or [DSI Studio]([[dsi-studio]].md), which focus primarily on fiber tracking and structural connectivity estimation.
 
 ## Key Papers
 
@@ -62,7 +62,7 @@ The development and validation of CAT12 has been described in several influentia
 - [[fsl]] - FMRIB Software Library
 - [[brainsuite]] - Brain analysis suite
 - [[nilearn]] - Python neuroimaging library
-- [[dipy]] - Diffusion imaging in Python
+- [[dipy]] - [[diffusion-imaging]] in Python
 - [[connectome-mapper-3]] - Connectome processing pipeline
 - [[the-virtual-brain]] - Whole-brain computational modeling
 
@@ -70,7 +70,7 @@ The development and validation of CAT12 has been described in several influentia
 
 Gaser, C., & Dahnke, R. (2023). CAT – A Computational Anatomy Toolbox for the Analysis of Structural MRI Data. *bioRxiv*. https://doi.org/10.1101/2023.04.04.535197
 
-Gaser, C., Franke, K., Klöppel, S., Koutsouleris, N., & Sauer, H. (2015). BrainAGE in Mild Cognitive Impairment and Alzheimer's Disease: A Comparison of Different Gray Matter Loss Pipelines. *Neurobiology of Aging*, 36, S4-S13. https://doi.org/10.1016/j.neurobioaging.2015.03.022
+Gaser, C., Franke, K., Klöppel, S., Koutsouleris, N., & Sauer, H. (2015). BrainAGE in Mild Cognitive Impairment and Alzheimer's Disease: A Comparison of Different Gray Matter Loss Pipelines. *Neurobiology of [[aging]]*, 36, S4-S13. https://doi.org/10.1016/j.neurobioaging.2015.03.022
 
 Gaser, C., & Schmidt, M. (2012). CAT – A Computational Anatomy Toolbox for the Analysis of Structural MRI Data. *Organization for Human Brain Mapping*. https://www.ncbi.nlm.nih.gov/pmc/articles/PMCPMC3849212/
 

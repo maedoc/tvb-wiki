@@ -14,19 +14,19 @@ type: entity
 updated: '2026-04-28'
 ---
 
-**LFPy** is an open-source Python package designed for the simulation of extracellular potentials in biologically detailed neural networks. It computes the local field potential (LFP) that arises from the electrical activity of neurons embedded in a volume conductor, providing a bridge between [[neural-mass-models|neural mass modeling]] at the whole-brain scale and detailed biophysical simulations at the cellular level. The software enables researchers to predict LFP signals from arbitrarily structured neural networks while accounting for the geometry and electrical properties of the surrounding tissue.
+**[[lfp-lib|LFPy]]** is an open-source Python package designed for the simulation of extracellular potentials in biologically detailed neural networks. It computes the [[local-field-potentials|local field potential]] (LFP) that arises from the electrical activity of neurons embedded in a volume conductor, providing a bridge between [[neural-mass-models|neural mass modeling]] at the [[whole-brain]] scale and detailed biophysical simulations at the cellular level. The software enables researchers to predict LFP signals from arbitrarily structured neural networks while accounting for the geometry and electrical properties of the surrounding tissue.
 
 ## Motivation and Context
 
 Extracellular recordings are a fundamental technique in [[neural-mass-models|electrophysiology]], providing insights into neural signaling that complement [[fmri|functional magnetic resonance imaging]] and [[meg|magnetoencephalography]]. While intracellular recordings reveal the membrane dynamics of individual neurons, extracellular field potentials reflect the summed activity of many neurons and offer a more scalable approach to monitoring neural circuits. However, interpreting extracellular recordings requires understanding how transmembrane currents generate these fields—a problem known as the forward modeling of the LFP.
 
-The forward problem in bioelectricity involves computing the extracellular potential given a known arrangement of sources (neuronal membranes) and the conductive medium surrounding them. This approach is essential for connecting activity in biologically detailed network models to the signals actually measured by electrodes in experimental and clinical settings. LFPy was developed to make forward modeling accessible to the computational neuroscience community, allowing researchers to simulate LFPs from detailed morphological neuron models without implementing the electromagnetic equations from scratch.
+The forward problem in bioelectricity involves computing the extracellular potential given a known arrangement of sources (neuronal membranes) and the conductive medium surrounding them. This approach is essential for connecting activity in biologically detailed network models to the signals actually measured by electrodes in experimental and clinical settings. LFPy was developed to make forward modeling accessible to the [[computational-neuroscience]] community, allowing researchers to simulate LFPs from detailed morphological neuron models without implementing the electromagnetic equations from scratch.
 
 ## Technical Framework
 
 LFPy implements a two-stage computational pipeline for calculating extracellular potentials. In the first stage, the software leverages the [[NEURON]] simulation environment to compute transmembrane currents for all neuronal compartments in a network model over time. These currents serve as the current sources in the forward calculation. In the second stage, LFPy computes the extracellular potential at arbitrary field points using the lead field matrix approach, which relates each transmembrane current source to the potential it produces at each measurement location.
 
-The extracellular potential φ(r, t) at position r and time t is given by the linear superposition of contributions from all current sources:
+The extracellular potential φ(r, t) at position r and time t is given by the [[linear]] superposition of contributions from all current sources:
 
 φ(r, t) = Σᵢ G(r, rᵢ) · Iᵢ(t)
 
@@ -51,7 +51,7 @@ The software implements the line-source approximation, which treats elongated ne
 
 LFPy supports multimodal signal prediction, allowing researchers to compute not only the LFP but also the extracellular potassium concentration and magnetic fields from the same neural activity data. This feature enables comparison with other measurement modalities and facilitates integration with [[whole-brain-modeling]] frameworks that combine electrophysiological and hemodynamic signals.
 
-The package provides tools for calculating extracellular potentials from arbitrarily structured networks, supporting both random connectivity and detailed reconstructions from databases such as [[ModelDB]]. Researchers can import morphologically detailed neuron models and specify the spatial arrangement of cells to create customized network simulations.
+The package provides tools for calculating extracellular potentials from arbitrarily structured networks, supporting both random [[connectivity]] and detailed reconstructions from databases such as [[ModelDB]]. Researchers can import morphologically detailed neuron models and specify the spatial arrangement of cells to create customized network simulations.
 
 LFPy includes support for subcellular resolution modeling, enabling the investigation of how activity in specific cellular compartments (such as soma, dendrites, or axon initial segments) contributes to the recorded LFP. This capability is particularly valuable for studying the spatial filtering properties of the extracellular medium and for interpreting the relative contributions of excitatory and inhibitory neurons to field potentials.
 
@@ -59,11 +59,11 @@ The software implements efficient numerical methods for computing the transfer m
 
 ## Relationship to The Virtual Brain
 
-LFPy and [[the-virtual-brain]] (TVB) serve complementary roles in the computational neuroscience ecosystem. TVB is a [[whole-brain-modeling]] platform that operates at the level of neural masses, simulating large-scale brain dynamics across multiple brain regions using simplified population models. While TVB excels at capturing regional dynamics and connectivity patterns, it does not presently include biophysically detailed forward modeling of extracellular signals.
+LFPy and [[the-virtual-brain]] (TVB) serve complementary roles in the computational neuroscience ecosystem. TVB is a [[whole-brain-modeling]] platform that operates at the level of neural masses, simulating large-scale [[brain-dynamics]] across multiple brain regions using simplified population models. While TVB excels at capturing regional dynamics and connectivity patterns, it does not presently include biophysically detailed forward modeling of extracellular signals.
 
 LFPy bridges this gap by providing the biophysical layer needed to interpret and validate mesoscopic field potential data. In a typical combined workflow, TVB provides the temporal patterns of activity for each brain region, while LFPy transforms these patterns into the predicted LFP that would be recorded by an electrode array. This integration enables researchers to perform [[personalized-brain-modeling]] by fitting whole-brain models to actual LFP recordings, which is particularly valuable in clinical applications such as [[epilepsy-modeling]] where detailed field potential data is available from intracranial electrodes.
 
-The combination of TVB and LFPy also facilitates validation of whole-brain models against invasive electrophysiological recordings. By computing predicted LFPs from TVB simulations and comparing them to observed data, researchers can assess the biophysical plausibility of large-scale network dynamics and refine their models accordingly.
+The combination of TVB and LFPy also facilitates validation of whole-brain models against invasive electrophysiological recordings. By computing predicted LFPs from TVB simulations and comparing them to observed data, researchers can assess the biophysical plausibility of large-scale [[network-dynamics]] and refine their models accordingly.
 
 ## Key Papers
 
@@ -75,9 +75,9 @@ These papers serve as the primary citations for researchers using LFPy in their 
 
 LFPy integrates with several related software packages in the computational neuroscience ecosystem:
 
-- **lfpykit**: A companion Python package that provides general classes for volume conductor modeling and extracellular potential calculation. LFPy builds on lfpykit to extend its functionality to specific use cases involving NEURON simulations.
+- **[[lfpykit]]**: A companion Python package that provides general classes for volume conductor modeling and extracellular potential calculation. LFPy builds on lfpykit to extend its functionality to specific use cases involving NEURON simulations.
 - **NEURON**: The simulation environment that LFPy uses for computing neural dynamics. NEURON provides the compartmental modeling framework needed to calculate transmembrane currents for neurons with arbitrary morphologies.
-- **Brian2**: Another neuron simulator that can in principle be integrated with forward modeling tools, though LFPy specifically targets the NEURON interface.
+- **[[brian2]]**: Another neuron simulator that can in principle be integrated with forward modeling tools, though LFPy specifically targets the NEURON interface.
 - **NEST**: A simulator focused on large-scale network dynamics that complements LFPy's detailed single-neuron capabilities.
 
 The modular design of LFPy allows researchers to combine these tools in various configurations depending on their modeling needs. For instance, LFPy can be used with custom NEURON models imported from [[ModelDB]], enabling forward modeling of LFPs from biologically realistic neural networks.

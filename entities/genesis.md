@@ -1,10 +1,22 @@
 ---
-title: GENESIS
 created: 2025-01-15
-updated: 2026-04-28
+sources:
+- 'Bower & Beeman (1998). The Book of GENESIS: Exploring Realistic Neural Models with
+  the GEneral NEural Simulation System'
+- 'Bower et al. (1998). GENESIS: A System for Simulating Neurons and Networks'
+- Hines & Carnevale (1997). The NEURON Simulation Environment
+- Nordlie et al. (2009). A systematic evaluation of the speed and accuracy of object-oriented
+  neural simulators
+- 'Gleason et al. (2024). NetPyNE: Toolset for Multiscale Brain Modeling'
+tags:
+- software-neurons
+- computational-neuroscience
+- spiking-neural-networks
+- simulation
+- neural-modeling
+title: GENESIS
 type: entity
-tags: [software-neurons, computational-neuroscience, spiking-neural-networks, simulation, neural-modeling]
-sources: ["Bower & Beeman (1998). The Book of GENESIS: Exploring Realistic Neural Models with the GEneral NEural Simulation System", "Bower et al. (1998). GENESIS: A System for Simulating Neurons and Networks", "Hines & Carnevale (1997). The NEURON Simulation Environment", "Nordlie et al. (2009). A systematic evaluation of the speed and accuracy of object-oriented neural simulators", "Gleason et al. (2024). NetPyNE: Toolset for Multiscale Brain Modeling"]
+updated: '2026-04-28'
 ---
 
 GENESIS (GEneral NEural Simulation System) is a widely-used, open-source neural simulation platform developed for constructing and simulating detailed, biologically realistic models of neural systems. It represents one of the earliest comprehensive frameworks for neural modeling and has had substantial influence on the development of [[computational-neuroscience]] as a discipline. GENESIS provides a modular architecture that allows researchers to construct models ranging from single neurons with arbitrary morphologies to large-scale network simulations containing thousands of interconnected cells.
@@ -21,7 +33,7 @@ The fundamental unit of simulation in GENESIS is the compartment, which represen
 
 GENESIS includes an extensive library of standard channel models, including sodium channels, potassium channels, calcium channels, and various receptor types (e.g., AMPA, NMDA, GABA_A, GABA_B). Users can also define custom channel models by specifying the appropriate differential equations that describe channel gating. The simulation engine solves the resulting system of coupled differential equations using numerical integration methods, typically Crank-Nicholson or backward Euler, with adaptive timestep algorithms to ensure numerical stability.
 
-The software implements several forms of synaptic plasticity, including short-term facilitation and depression based on depletion models, as well as long-term potentiation and depression using spike-timing-dependent plasticity rules. Network simulations can be constructed by specifying populations of neurons and the connectivity patterns between them, with support for both random connectivity and more structured patterns derived from experimental data or theoretical considerations.
+The software implements several forms of [[synaptic-plasticity]], including short-term facilitation and depression based on depletion models, as well as long-term potentiation and depression using spike-timing-dependent [[plasticity]] rules. Network simulations can be constructed by specifying populations of neurons and the [[connectivity]] patterns between them, with support for both random connectivity and more structured patterns derived from experimental data or theoretical considerations.
 
 ## Relationship to TVB and Whole-Brain Modeling
 
@@ -33,9 +45,9 @@ GENESIS also contributed to the development of the [[NeuroML]] standard for desc
 
 ## Comparison with NEURON
 
-GENESIS and [[NEURON]] emerged as the two dominant neural simulation platforms in the late 1980s and 1990s, and they share many conceptual foundations while differing in implementation details (Hines & Carnevale, 1997). Both systems use the compartment-based approach to modeling neuronal morphology and both provide libraries of standard ion channel models. However, there are notable differences in their design philosophies and user interfaces.
+GENESIS and [[NEURON]] emerged as the two dominant neural simulation platforms in the late 1980s and 1990s, and they share many conceptual foundations while differing in implementation details (Hines & Carnevale, 1997). Both systems use the compartment-based approach to modeling neuronal morphology and both provide libraries of standard [[ion-channel]] models. However, there are notable differences in their design philosophies and user interfaces.
 
-NEURON, developed primarily at Yale University under the leadership of Michael Hines, emphasizes ease of use for researchers familiar with procedural programming paradigms. Its GUI-based interface allows for rapid construction of simple models, and the software is particularly well-suited for educational applications. GENESIS, by contrast, adopts a more explicitly object-oriented approach that requires greater familiarity with programming concepts but offers more flexibility for constructing complex, customized model architectures (Nordlie et al., 2009).
+NEURON, developed primarily at Yale University under the leadership of [[michael-hines]], emphasizes ease of use for researchers familiar with procedural programming paradigms. Its GUI-based interface allows for rapid construction of simple models, and the software is particularly well-suited for educational applications. GENESIS, by contrast, adopts a more explicitly object-oriented approach that requires greater familiarity with programming concepts but offers more flexibility for constructing complex, customized model architectures (Nordlie et al., 2009).
 
 In terms of performance, both simulators are capable of modeling multi-compartment neurons with realistic channel dynamics, though NEURON has historically benefited from more aggressive optimization of its numerical solvers. For large-scale network simulations, both tools can handle hundreds to thousands of neurons, though neither is as highly optimized for massively parallel execution as some modern frameworks like [[NEST]]. The choice between GENESIS and NEURON often depends on user preferences, existing codebases, and the specific requirements of a given modeling project.
 

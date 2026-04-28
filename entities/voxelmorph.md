@@ -49,7 +49,7 @@ Traditional registration algorithms like [[ANTs]] SyN or [[FSL]] FNIRT require m
 ## Software Availability
 
 VoxelMorph is open-source software available under the Apache 2.0 license. The official implementation, including pre-trained models and training scripts, is maintained on GitHub at [voxelmorph/voxelmorph](https://github.com/voxelmorph/voxelmorph)[^1]. The repository includes:
-- TensorFlow and PyTorch implementations
+- [[tensorflow]] and PyTorch implementations
 - Pre-trained models for brain MRI registration
 - Atlas-based and template-building utilities
 - Integration examples for common neuroimaging pipelines

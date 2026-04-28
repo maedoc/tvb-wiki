@@ -1,17 +1,24 @@
 ---
-title: PyEEG
 created: 2024-01-15
-updated: 2026-04-28
+sources:
+- https://doi.org/10.1155/2011/406391
+- https://pmc.ncbi.nlm.nih.gov/articles/PMC3070217/
+- https://doi.org/10.1002/hbm.20346
+tags:
+- neuroimaging-eeg
+- software-visualization
+- computational-neuroscience
+- neural-mass-models
+title: PyEEG
 type: entity
-tags: [neuroimaging-eeg, software-visualization, computational-neuroscience, neural-mass-models]
-sources: ["https://doi.org/10.1155/2011/406391", "https://pmc.ncbi.nlm.nih.gov/articles/PMC3070217/", "https://doi.org/10.1002/hbm.20346"]
+updated: '2026-04-28'
 ---
 
 # PyEEG
 
 ## Overview
 
-PyEEG is an open-source Python library for analyzing electroencephalography (EEG) data, developed primarily by Forrest Sheng Bao and colleagues at Texas Tech University. The library provides efficient implementations of feature extraction algorithms commonly used in EEG-based research, particularly those derived from nonlinear dynamics and information theory. Originally released in 2010, PyEEG has become a foundational tool in the computational neuroscience and neuroimaging communities for quantifying neural dynamics from electrophysiological recordings. The package is designed to complement existing EEG analysis frameworks such as [[EEGLAB]] and [[fieldtrip]] by providing optimized Python implementations of advanced analytical methods that were previously available only in MATLAB toolboxes or required custom implementation.
+PyEEG is an open-source Python library for analyzing electroencephalography (EEG) data, developed primarily by Forrest Sheng Bao and colleagues at Texas Tech University. The library provides efficient implementations of feature extraction algorithms commonly used in EEG-based research, particularly those derived from [[nonlinear-dynamics]] and information theory. Originally released in 2010, PyEEG has become a foundational tool in the [[computational-neuroscience]] and [[neuroimaging]] communities for quantifying neural dynamics from electrophysiological recordings. The package is designed to complement existing EEG analysis frameworks such as [[EEGLAB]] and [[fieldtrip]] by providing optimized Python implementations of advanced analytical methods that were previously available only in MATLAB toolboxes or required custom implementation.
 
 The library focuses on extracting features that capture the nonlinear and complex dynamics of neural activity, which standard spectral methods often fail to adequately characterize. These nonlinear measures have proven particularly valuable for studying conditions such as epilepsy, where seizure dynamics exhibit highly nonlinear behavior, and for investigating cognitive processes involving neural oscillations and synchronization. PyEEG's modular design allows researchers to easily integrate its functions into larger analysis pipelines built with tools like [[nipype]] or [[mne-python]].
 
@@ -23,7 +30,7 @@ PyEEG provides a comprehensive suite of algorithms for EEG feature extraction, o
 
 **Spectral Analysis**: PyEEG implements spectral decomposition methods including fast Fourier transform (FFT)-based power spectral density estimation and wavelet transforms. The library also provides functions for computing spectral entropy, which quantifies the uniformity of the power distribution across frequencies. Band-specific power can be extracted for canonical frequency bands including delta (0.5–4 Hz), theta (4–8 Hz), alpha (8–13 Hz), beta (13–30 Hz), and gamma (30–100 Hz) oscillations.
 
-**Connectivity Measures**: The library includes implementations of phase locking value (PLV) and phase lag index (PLI), which quantify the degree of phase synchronization between EEG channels. These measures are essential for studying [[functional-connectivity]] patterns in resting-state networks and during task-based paradigms. PLV computes the consistency of phase differences between signals, while PLI is more robust to volume conduction artifacts.
+**[[connectivity]] Measures**: The library includes implementations of phase locking value (PLV) and phase lag index (PLI), which quantify the degree of phase synchronization between EEG channels. These measures are essential for studying [[functional-connectivity]] patterns in [[resting-state]] networks and during task-based paradigms. PLV computes the consistency of phase differences between signals, while PLI is more robust to [[volume-conduction]] artifacts.
 
 **Nonlinear Dynamics Parameters**: PyEEG provides implementations of Lyapunov exponents, correlation dimension, and recurrence quantification analysis. These measures characterize the chaotic or deterministic nature of neural dynamics and are particularly relevant for studying epileptic seizures, where the transition to ictal states involves changes in nonlinear coupling.
 
@@ -43,7 +50,7 @@ PyEEG intersects with [[the-virtual-brain]] (TVB) primarily through its utility 
 
 The entropy and connectivity measures implemented in PyEEG are particularly valuable for this purpose because they capture aspects of neural dynamics that simple spectral power cannot. For example, when modeling epilepsy with the [[epileptor]] model, matching sample entropy or correlation dimension between simulated and real EEG provides better约束 of the underlying dynamical systems parameters than power spectral fitting alone. TVB's architecture supports external data adapters, enabling integration with PyEEG-based analysis pipelines for such validation workflows.
 
-Furthermore, PyEEG's feature extraction capabilities complement TVB's forward modeling pipeline. TVB implements multiple[[forward-model]] approaches for generating observable EEG, MEG, and fMRI signals from neural population activity. Comparing features extracted from these simulated signals with empirical features using PyEEG functions provides a validation framework for whole-brain models.
+Furthermore, PyEEG's feature extraction capabilities complement TVB's forward modeling pipeline. TVB implements multiple[[forward-model]] approaches for generating observable EEG, MEG, and [[fmri]] signals from neural population activity. Comparing features extracted from these simulated signals with empirical features using PyEEG functions provides a validation framework for [[whole-brain]] models.
 
 ## Related Software
 

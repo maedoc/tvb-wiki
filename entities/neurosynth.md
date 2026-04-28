@@ -15,7 +15,7 @@ title: Neurosynth
 created: 2024-01-15
 updated: 2026-04-28
 type: software
-tags: [neuroimaging-fmri, resting-state, functional-connectivity, connectomics, software-neurosynth, python, meta-analysis, database]
+tags: [[[neuroimaging]]-[[fmri]], [[resting-state]], functional-[[connectivity]], [[connectomics]], software-neurosynth, python, meta-analysis, database]
 sources:
   - Yarkoni et al. (2011). Large-scale automated synthesis of human functional neuroimaging data. Nature Methods.
   - Poldrack et al. (2011). Handbook of Functional Connectivity MRI. Academic Press.
@@ -23,7 +23,7 @@ sources:
 
 ## Overview
 
-Neurosynth is an open-source platform for automated coordinate-based meta-analysis of the neuroimaging literature. It enables researchers to synthesize activation patterns across thousands of published fMRI studies by extracting peak activation coordinates from published papers and associating them with behavioral and cognitive terms [1]. The platform generates brain-wide activation maps that reveal consistent patterns of neural activity associated with specific cognitive processes, psychological conditions, or experimental paradigms. Originally developed by Tal Yarkoni and colleagues at the University of Colorado Boulder and the University of Texas at Austin, Neurosynth has become a foundational tool for connectome-based whole-brain modeling, providing empirical priors on functional brain organization that complement structural connectivity data derived from diffusion imaging [1].
+Neurosynth is an open-source platform for automated coordinate-based meta-analysis of the neuroimaging literature. It enables researchers to synthesize activation patterns across thousands of published fMRI studies by extracting peak activation coordinates from published papers and associating them with behavioral and cognitive terms [1]. The platform generates brain-wide activation maps that reveal consistent patterns of neural activity associated with specific cognitive processes, psychological conditions, or experimental paradigms. Originally developed by Tal Yarkoni and colleagues at the University of Colorado Boulder and the University of Texas at Austin, Neurosynth has become a foundational tool for [[connectome]]-based [[whole-brain|whole-brain modeling]], providing empirical priors on functional brain organization that complement [[structural-connectivity]] data derived from [[diffusion-imaging]] [1].
 
 ## Motivation and Context
 
@@ -57,7 +57,7 @@ Neurosynth data also feeds into the construction of [[brain-parcellations]] by p
 
 Neurosynth builds upon and complements several other tools in the neuroimaging ecosystem. [[brainmap]] provides the original coordinate-based meta-analysis framework and remains a critical source of manually curated activation data, particularly for specialized cognitive domains. [[nilearn]] offers Python utilities for manipulating and visualizing Neurosynth-derived maps alongside other neuroimaging data, while [[pymvpa]] provides machine learning tools for pattern analysis that extend the classification approaches pioneered on Neurosynth data.
 
-The platform intersects with resting-state research by providing normative activation maps that can be compared with intrinsic connectivity networks derived from fMRI data acquired in the absence of tasks. Researchers studying functional connectivity often use Neurosynth maps to define regions of interest for connectivity analysis, ensuring that their chosen regions correspond to functionally coherent units. The Human Connectome Project provides high-resolution connectivity data that can be integrated with Neurosynth activation priors for more sophisticated multi-modal analyses.
+The platform intersects with resting-state research by providing normative activation maps that can be compared with intrinsic connectivity networks derived from fMRI data acquired in the absence of tasks. Researchers studying functional connectivity often use Neurosynth maps to define regions of interest for connectivity analysis, ensuring that their chosen regions correspond to functionally coherent units. The [[human-connectome-project]] provides high-resolution connectivity data that can be integrated with Neurosynth activation priors for more sophisticated multi-modal analyses.
 
 ## Open Questions and Limitations
 

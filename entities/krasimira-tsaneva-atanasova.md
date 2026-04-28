@@ -34,11 +34,11 @@ Krasimira Tsaneva-Atanasova is a Professor of Mathematics for Healthcare at the 
 
 ## Research Focus
 
-Tsaneva-Atanasova's research centers on the application of dynamical systems theory, bifurcation analysis, and data-driven modeling to biological and medical problems. Her work spans several interconnected research areas:
+Tsaneva-Atanasova's research centers on the application of dynamical systems theory, [[bifurcation-analysis]], and data-driven modeling to biological and medical problems. Her work spans several interconnected research areas:
 
 **Hormonal Dynamics and Neuroendocrine Signaling**: A significant portion of her research focuses on mathematical modeling of the gonadotropin-releasing hormone (GnRH) system, which controls reproductive function. Her work has investigated how GnRH pulse frequency is decoded by signaling pathways, the mechanisms underlying pulsatile hormone secretion, and the mathematical frameworks needed to understand endocrine oscillations. She has developed models for the GnRH pulse generator and studied the role of kisspeptin neurons in reproductive hormone regulation.
 
-**Calcium Dynamics and Neuronal Excitability**: Her work in computational neuroscience includes modeling calcium signaling in neurons and endocrine cells, investigating how calcium oscillations encode information, and exploring the dynamics of ion channel behavior. She has examined calcium dynamics in pancreatic cells, hippocampal neurons, and developing inner hair cells, using mathematical approaches including bifurcation analysis and pseudo-plateau bursting models.
+**Calcium Dynamics and Neuronal Excitability**: Her work in computational neuroscience includes modeling calcium signaling in neurons and endocrine cells, investigating how calcium oscillations encode information, and exploring the dynamics of [[ion-channel]] behavior. She has examined calcium dynamics in pancreatic cells, hippocampal neurons, and developing inner hair cells, using mathematical approaches including bifurcation analysis and pseudo-plateau bursting models.
 
 **Epilepsy Modeling**: Tsaneva-Atanasova has contributed to mathematical models of seizure initiation and epilepsy. Her work on network-based models of seizure dynamics has explored how network structure may relate to seizure frequency in idiopathic generalized epilepsy, and she has investigated the dynamical mechanisms underlying transitions between seizure and non-seizure states.
 
@@ -52,7 +52,7 @@ Tsaneva-Atanasova's publications demonstrate the breadth of her computational an
 
 1. O. Benjamin, T.H.B. Fitzgerald, J.R. Terry, P. Ashwin, K. Tsaneva-Atanasova. (2012). *A phenomenological model of seizure initiation suggests network structure may explain seizure frequency in idiopathic generalised epilepsy*. Journal of Mathematical Neuroscience, 2:1. [DOI](https://doi.org/10.1186/2190-8567-2-1)
 
-2. J. Creaser, K. Tsaneva-Atanasova, P. Ashwin. (2018). *Sequential noise-induced escapes for oscillatory network dynamics*. SIAM Journal on Applied Dynamical Systems, 17(1):500-525. [DOI](https://doi.org/10.1137/17M1149381)
+2. J. Creaser, K. Tsaneva-Atanasova, P. Ashwin. (2018). *Sequential noise-induced escapes for oscillatory [[network-dynamics]]*. SIAM Journal on Applied Dynamical Systems, 17(1):500-525. [DOI](https://doi.org/10.1137/17M1149381)
 
 3. P. Słowiński, S. Al-Ramadhani, K. Tsaneva-Atanasova. (2020). *Neurologically Motivated Coupling Functions in Models of Motor Coordination*. SIAM Journal on Applied Dynamical Systems, 19(1):208-232. [DOI](https://doi.org/10.1137/19M1279381)
 
@@ -72,15 +72,15 @@ Tsaneva-Atanasova's publications demonstrate the breadth of her computational an
 
 ## Relationships and Collaborative Context
 
-Tsaneva-Atanasova's research intersects with several important areas of computational neuroscience and mathematical biology. Her work on dynamical systems applications to neuroscience connects with broader efforts to understand neuronal excitability and network dynamics. The epilepsy modeling aspect of her work relates to research by groups developing mathematical frameworks for seizure prediction and understanding epileptogenic networks.
+Tsaneva-Atanasova's research intersects with several important areas of computational neuroscience and mathematical biology. Her work on dynamical systems applications to neuroscience connects with broader efforts to understand neuronal excitability and network dynamics. The epilepsy modeling aspect of her work relates to research by groups developing mathematical frameworks for [[seizure-prediction]] and understanding epileptogenic networks.
 
 Her collaborations span both neuroscience and wider dynamical systems research. She has worked with researchers applying mathematical frameworks to motor coordination and interpersonal synchronization, connecting to work onmirror games and joint action modeling. Additionally, her work on hormonal dynamics and GnRH signaling involves collaboration with experimentalists studying reproductive endocrinology.
 
-The broader field of whole-brain modeling, associated with researchers like Gustavo Deco and Morten Kringelbach, represents a related but distinct research direction focused on large-scale brain network dynamics. While Tsaneva-Atanasova's expertise lies in mathematical modeling of specific neural and endocrine systems, her work on dynamical systems theory provides theoretical foundations relevant to understanding brain dynamics at multiple scales.
+The broader field of [[whole-brain|whole-brain modeling]], associated with researchers like [[gustavo-deco]] and Morten Kringelbach, represents a related but distinct research direction focused on large-scale [[brain-network]] dynamics. While Tsaneva-Atanasova's expertise lies in mathematical modeling of specific neural and endocrine systems, her work on dynamical systems theory provides theoretical foundations relevant to understanding [[brain-dynamics]] at multiple scales.
 
 ## Open Questions
 
-The application of mathematical modeling to healthcare raises several open questions that Tsaneva-Atanasova's work addresses. Parameter estimation and model validation remain challenging when translating mathematical models to clinical applications. How can personalized models be calibrated using limited patient data? How can models developed for one person be adapted to capture individual variation in disease progression or treatment response? These questions drive the research agenda of the EPSRC Hub for Quantitative Modelling in Healthcare.
+The application of mathematical modeling to healthcare raises several open questions that Tsaneva-Atanasova's work addresses. Parameter estimation and [[model-validation]] remain challenging when translating mathematical models to clinical applications. How can personalized models be calibrated using limited patient data? How can models developed for one person be adapted to capture individual variation in disease progression or treatment response? These questions drive the research agenda of the EPSRC Hub for Quantitative Modelling in Healthcare.
 
 In the neuroscientific domain, understanding how neuronal and endocrine systems maintain stability while remaining flexible—able to transition between different dynamical regimes—remains a key challenge. Her work using bifurcation theory provides frameworks for understanding these transitions, but linking mathematical analysis to experimental and clinical observations continues to require interdisciplinary collaboration.
 

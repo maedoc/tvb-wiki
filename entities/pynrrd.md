@@ -21,7 +21,7 @@ updated: '2026-04-28'
 
 Pynrrd is a pure-Python library for reading and writing NRRD (Nearly Raw Raster Data) files into and from [[numpy]] arrays. The NRRD format itself is a flexible container for storing n-dimensional raster data, originally developed as part of the Teem toolkit at the University of Utah. While NRRD is commonly used for diffusion-weighted MRI data, segmentation masks, and other volumetric imaging datasets, it is fundamentally a general-purpose scientific array format—not DTI-specific. The pynrrd library provides a thin Python interface to this format, handling the mechanics of reading and writing without performing any visualization or data processing.
 
-The library provides a simple, intuitive API that abstracts away the complexities of the NRRD file format specification while maintaining full compliance with the format version 5 (NRRD0005). The pynrrd project was initiated in 2010 and has since grown to become a fundamental utility in the neuroimaging ecosystem, with approximately 125 GitHub stars and active development continuing as of 2025.
+The library provides a simple, intuitive API that abstracts away the complexities of the NRRD file format specification while maintaining full compliance with the format version 5 (NRRD0005). The pynrrd project was initiated in 2010 and has since grown to become a fundamental utility in the [[neuroimaging]] ecosystem, with approximately 125 GitHub stars and active development continuing as of 2025.
 
 ## Relationship to Whole-Brain Modeling and TVB
 
@@ -63,7 +63,7 @@ For diffusion-specific processing, [[dipy]] provides a higher-level interface to
 
 Pynrrd interoperability extends across several major neuroimaging platforms:
 
-- **[[3d-slicer]]**: As the software that popularized NRRD for DWI applications, 3D Slicer can directly read and write NRRD files, enabling workflows that combine Slicer's tractography capabilities with TVB's whole-brain simulation through pynrrd-mediated data conversion.
+- **[[3d-slicer]]**: As the software that popularized NRRD for DWI applications, 3D Slicer can directly read and write NRRD files, enabling workflows that combine Slicer's tractography capabilities with TVB's [[whole-brain]] simulation through pynrrd-mediated data conversion.
 
 - **[[ants]]** (Advanced Normalization Tools): The ANTs suite uses NRRD as an internal representation for many operations, making pynrrd useful for preprocessing pipelines that combine ANTs with custom Python analysis code.
 
@@ -108,4 +108,4 @@ This minimal example demonstrates how pynrrd handles the complete round-trip con
 
 1. R. A. Benn, Ting Xu, R. Mars, Magdalena Boch, Léa Roumazeilles, K. Heuer, Roberto Toro, D. Margulies, J. Manzano-Patrón, Paula Montesinos, C. Galán-Arriola, G. López-Martín, J. Sanchez-González, E. P. Duff, Borja Ibáñez. (2025). *Precon_all: A species-agnostic automated pipeline for non-human cortical surface reconstruction*. bioRxiv. [DOI](https://doi.org/10.1101/2025.04.16.649072)
 2. A. Dehsarvi, Lukas Frontzkowski, Anna Dewenter, Michael Schöll, N. Franzmeier. (2025). *ADprep – A Fully‐Automated Software for Large‐scale Multimodal MRI and PET Imaging Workflows*. Alzheimer's & Dementia. [DOI](https://doi.org/10.1002/alz70856_101373)
-3. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+3. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)

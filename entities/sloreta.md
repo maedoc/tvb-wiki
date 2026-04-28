@@ -15,7 +15,7 @@ title: sLORETA
 created: 2024-01-15
 updated: 2026-04-28
 type: concept
-tags: [neuroimaging-eeg, neuroimaging-meg, source-localization, eeg, meg]
+tags: [neuroimaging-eeg, neuroimaging-meg, [[source-localization]], eeg, meg]
 sources: [10.1016/S1388-2457(01)00670-5, 10.1016/S1053-8119(02)95140-0, 10.1155/2011/416807]
 ---
 
@@ -31,7 +31,7 @@ Prior to sLORETA, existing methods such as minimum norm estimation (MNE) and wei
 
 The sLORETA algorithm proceeds in three stages. First, a [[forward-model]] is computed using a boundary element method (BEM) or finite element method (FEM) head model to relate activity at each point in a discrete source space (typically defined on a cortical grid) to the measured scalp potentials or magnetic fields. Second, a weighted minimum norm estimate is computed by applying Tikhonov regularization to solve the underdetermined inverse problem. Third, and crucially, each source estimate is standardized by dividing by its expected noise variance, which is proportional to the lead field norm.
 
-The mathematical formulation can be expressed as: the standardized current density estimate at location r is given by dividing the minimum norm estimate by the square root of the lead field variance. This standardization transforms the solution from arbitrary units into z-scores, indicating how many standard deviations each source location deviates from the expected noise level. The method assumes that the noise is spatially uncorrelated and normally distributed, conditions that can often be approximated through appropriate preprocessing of the [[neuroimaging-eeg|EEG]] or [[neuroimaging-meg|MEG]] data.
+The mathematical formulation can be expressed as: the standardized current density estimate at location r is given by dividing the minimum norm estimate by the square [[root]] of the lead field variance. This standardization transforms the solution from arbitrary units into z-scores, indicating how many standard deviations each source location deviates from the expected noise level. The method assumes that the noise is spatially uncorrelated and normally distributed, conditions that can often be approximated through appropriate preprocessing of the [[neuroimaging-eeg|EEG]] or [[neuroimaging-meg|MEG]] data.
 
 ## Relationship to Whole-Brain Modeling and TVB
 
@@ -53,7 +53,7 @@ Despite its advantages, sLORETA has notable limitations. The method assumes a fi
 
 ## Relationship to Other Source Localization Methods
 
-Compared to other inverse solutions, sLORETA occupies a middle ground between spatial resolution and anatomical accuracy. Beamformers (e.g., LCMV) offer excellent spatial resolution for point sources but struggle with distributed activity patterns. Discrete source approaches (equivalent dipoles) provide physiological interpretability but require accurate pre-specification of source number. [[dcm|Dynamic causal modeling]] takes a complementary model-based approach, fitting parameterized biophysical models to the data rather than computing unconstrained source distributions. sLORETA's primary advantage lies in its combination of minimal anatomical assumptions with depth-corrected source estimates, making it particularly suitable for exploratory analyses of whole-brain activation patterns where no strong a priori hypotheses about source locations exist.
+Compared to other inverse solutions, sLORETA occupies a middle ground between spatial resolution and anatomical accuracy. Beamformers (e.g., LCMV) offer excellent spatial resolution for point sources but struggle with distributed activity patterns. Discrete source approaches (equivalent dipoles) provide physiological interpretability but require accurate pre-specification of source number. [[dcm|Dynamic causal modeling]] takes a complementary model-based approach, fitting parameterized biophysical models to the data rather than computing unconstrained source distributions. sLORETA's primary advantage lies in its combination of minimal anatomical assumptions with depth-corrected source estimates, making it particularly suitable for exploratory analyses of [[whole-brain]] activation patterns where no strong a priori hypotheses about source locations exist.
 
 ## References
 

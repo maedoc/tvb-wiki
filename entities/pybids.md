@@ -49,7 +49,7 @@ PyBIDS exists within a broader ecosystem of BIDS-related tools. The [[bids-valid
 
 ## Key Papers
 
-- Yarkoni, T., Hoge, R., Gollub, R., et al. (2019). PyBIDS: A Python toolkit for BIDS-compliant neuroimaging metadata and analytics. *Scientific Data*, 6, 180261. https://doi.org/10.1038/sdata.2018.261
+- Yarkoni, T., Hoge, R., Gollub, R., et al. (2019). PyBIDS: A Python toolkit for [[bids]]-compliant [[neuroimaging]] metadata and analytics. *Scientific Data*, 6, 180261. https://doi.org/10.1038/sdata.2018.261
 - Gorgolewski, K., Auer, T., Calhoun, V., et al. (2016). Brain Imaging Data Structure: A format for organizing and describing outputs of neuroimaging experiments. *Scientific Data*, 3, 160044. https://doi.org/10.1038/sdata.2016.44
 
 ## References
@@ -58,4 +58,4 @@ PyBIDS exists within a broader ecosystem of BIDS-related tools. The [[bids-valid
 - PyBIDS GitHub Repository. (2024). https://github.com/bids-standard/pybids
 - Gorgolewski, K., Auer, T., Calhoun, V., et al. (2016). Brain Imaging Data Structure: A format for organizing and describing outputs of neuroimaging experiments. *Scientific Data*, 3, 160044.
 - Yarkoni, T., Hoge, R., Gollub, R., et al. (2019). PyBIDS: A Python toolkit for BIDS-compliant neuroimaging metadata and analytics. *Scientific Data*, 6, 180261.
-- The Virtual Brain. (2024). Whole Brain Modeling Platform. https://thevirtualbrain.org
+- [[tvb|The Virtual Brain]]. (2024). [[whole-brain-modeling]] Platform. https://thevirtualbrain.org
