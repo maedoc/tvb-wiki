@@ -542,3 +542,5 @@
 ## [2026-04-28 14:20] Matcher: 13 pages got 33 new sources
 
 ## [2026-04-28 14:29] Audit: 697 issues (23 broken links, 63 orphans, 65 placeholders, 0 dup-refs, 4 opaque-refs, 78 thin, 195 missing-links)
+
+## [2026-04-28 14:41] Repair: 84 issues fixed (40 source refs, 15 index, 2 frontmatter, 20 wikilinks, 4 orphans, 0 dup-refs, 0 opaque-refs, 3 crosslinks)
