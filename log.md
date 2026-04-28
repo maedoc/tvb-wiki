@@ -562,3 +562,5 @@
 ## [2026-04-28 14:55] Improve: 3 pages improved (dcm2niix, dpabi, gretna)
 
 ## [2026-04-28 16:00] Improve: 3 pages improved (pycortex, heudiconv, tractseg)
+
+## [2026-04-28 17:06] Improve: 3 pages improved (civet, yasa, bci2000)
