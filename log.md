@@ -20,6 +20,14 @@
   - Explained NRRD format's role in DTI/tractography and whole-brain modeling workflows
   - Included usage code example demonstrating 4D DWI volume handling
 
+- Improved page: [[yasa]] – Python toolbox for polysomnographic sleep recording analysis
+  - Complete rewrite from placeholder to comprehensive entity page (~750 words)
+  - Updated frontmatter: changed updated date to 2026-04-28, added tags: neuroimaging-eeg, brain-oscillations (in addition to existing software-brain-modeling)
+  - Added sources: (none available - used general knowledge from web search)
+  - Established 10+ wikilinks: eeg, brain-oscillations, mne-python, eeglab, epilepsy-modeling, whole-brain-modeling, neural-mass-model, tvb, neuroimaging, functional-connectivity, resting-state
+  - Added detailed sections: Overview, Key Features (automated sleep staging, event detection, spectral analysis), Relationship to Whole-Brain Modeling and TVB, Key Papers, Related Software, Technical Implementation
+  - Positioned YASA within the EEG/sleep analysis ecosystem while explaining connections to whole-brain modeling via brain oscillations and neural mass model frameworks
+
 ## 2026-04-27
 
 - Fixed and re-improved page: [[cognitive-reserve]] – Brain's adaptive capacity to maintain function despite pathology
@@ -552,3 +560,5 @@
 ## [2026-04-28 14:50] SoftwareMapper: 19 pages created
 
 ## [2026-04-28 14:55] Improve: 3 pages improved (dcm2niix, dpabi, gretna)
+
+## [2026-04-28 16:00] Improve: 3 pages improved (pycortex, heudiconv, tractseg)
