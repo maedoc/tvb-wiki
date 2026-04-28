@@ -36,11 +36,11 @@ tags:
 - software-neuroimaging
 - neuroimaging-mri
 - cortical-thickness
-- brain-parcellations
+- [[brain-parcellations]]
 - software-analysis
-- connectomics
-- structural-connectivity
-- mni-space
+- [[connectomics]]
+- [[structural-connectivity]]
+- [[mni-space]]
 - computational-neuroscience
 - preprocessing
 title: CIVET

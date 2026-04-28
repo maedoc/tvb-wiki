@@ -5,13 +5,14 @@ tags:
 - software-brain-modeling
 title: OpenNeuro
 type: entity
-updated: 2026-04-28
+updated: '2026-04-28'
 ---
+
 title: OpenNeuro
 created: 2024-01-15
 updated: 2026-04-28
 type: entity
-tags: [database, neuroimaging, neuroimaging-fmri, neuroimaging-eeg, neuroimaging-meg, dataset, reproducibility, resting-state, task-based]
+tags: [database, [[neuroimaging]], neuroimaging-fmri, neuroimaging-eeg, neuroimaging-meg, dataset, [[reproducibility]], resting-state, task-based]
 sources: [https://openneuro.org/, https://arxiv.org/abs/1908.03399, https://www.nature.com/articles/s41597-019-0077-7]
 ---
 
@@ -19,13 +20,13 @@ OpenNeuro is an open-access repository for neuroimaging datasets that has become
 
 ## Motivation and Context
 
-The neuroimaging field has long faced a reproducibility crisis, driven in part by the difficulty of sharing raw data and the lack of standardized data organization formats. Historically, researchers who wanted to share their neuroimaging datasets had to do so through ad-hoc solutions—personal websites, institutional repositories, or simply not sharing at all—which made discoverability and reuse extremely challenging. OpenNeuro addresses this problem by providing a curated platform where datasets are archived with persistent identifiers (DOIs), thoroughly validated for BIDS compliance using tools like the [[bids-validator]], and freely accessible to the research community [<cite>@bids</cite>]. The platform's emphasis on BIDS standardization ensures that data are organized consistently across studies, making it straightforward for analysts to apply automated preprocessing pipelines like [[fmriprep]] or connectome-quality assessment tools.
+The neuroimaging field has long faced a reproducibility crisis, driven in part by the difficulty of sharing raw data and the lack of standardized data organization formats. Historically, researchers who wanted to share their neuroimaging datasets had to do so through ad-hoc solutions—personal websites, institutional repositories, or simply not sharing at all—which made discoverability and reuse extremely challenging. OpenNeuro addresses this problem by providing a curated platform where datasets are archived with persistent identifiers (DOIs), thoroughly validated for BIDS compliance using tools like the [[bids-validator]], and freely accessible to the research community [<cite>@bids</cite>]. The platform's emphasis on BIDS standardization ensures that data are organized consistently across studies, making it straightforward for analysts to apply automated preprocessing pipelines like [[fmriprep]] or [[connectome]]-quality assessment tools.
 
 OpenNeuro's creation also reflects a broader cultural shift toward open science in neuroscience. Many large-scale research initiatives, including the [[human-connectome-project]] and the [[uk-biobank]], require data sharing as a condition of grant funding, and OpenNeuro provides the infrastructure to fulfill such mandates elegantly [<cite>@hcp</cite>]. The repository's integration with the [[brain-life]] platform and tools like [[datalad]] enables sophisticated data provenance tracking and reproducible analysis workflows, further cementing its role in the open science ecosystem.
 
 ## Key Features
 
-OpenNeuro distinguishes itself through several key features that make it particularly valuable for whole-brain modeling and computational neuroscience research. First, the platform enforces strict [[bids]] validation before dataset acceptance, ensuring that all archived data conform to a well-documented standard that specifies file naming conventions, directory structures, and metadata requirements [<cite>@bids</cite>]. This standardization dramatically reduces the overhead of adapting to new datasets and enables automated processing pipelines to operate without manual intervention. Second, OpenNeuro assigns Digital Object Identifiers (DOIs) to every archived dataset version, creating a permanent and citable record of the data that supports academic credit and ensures long-term accessibility.
+OpenNeuro distinguishes itself through several key features that make it particularly valuable for [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]] research. First, the platform enforces strict [[bids]] validation before dataset acceptance, ensuring that all archived data conform to a well-documented standard that specifies file naming conventions, directory structures, and metadata requirements [<cite>@bids</cite>]. This standardization dramatically reduces the overhead of adapting to new datasets and enables automated processing pipelines to operate without manual intervention. Second, OpenNeuro assigns Digital Object Identifiers (DOIs) to every archived dataset version, creating a permanent and citable record of the data that supports academic credit and ensures long-term accessibility.
 
 The repository supports multiple neuroimaging modalities commonly used in whole-brain modeling, including task-based and [[resting-state]] [[fmri]] recordings, [[eeg]] and [[meg]] data, and [[diffusion-imaging|DTI]] scans for [[structural-connectivity|structural connectivity]] estimation. Datasets on OpenNeuro span diverse populations and experimental paradigms, from studies of [[brain-oscillations]] and [[epilepsy-modeling]] to investigations of [[schizophrenia-models]] and [[alzheimers-disease|Alzheimer's disease]], providing a rich resource for researchers building [[personalized-brain-modeling|personalized brain models]]. The platform also supports derivative data, such as preprocessed timeseries and connectivity matrices, which can be directly imported into tools like [[the-virtual-brain]] or [[braph]] for network analysis.
 
