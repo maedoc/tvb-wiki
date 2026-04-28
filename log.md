@@ -667,3 +667,11 @@
 ## [2026-04-29 01:30] Repair: 61 issues fixed (31 source refs, 10 index, 1 frontmatter, 13 wikilinks, 6 orphans, 0 dup-refs, 0 opaque-refs, 0 crosslinks)
 
 ## [2026-04-29 01:31] Repair: 28 issues fixed (0 source refs, 0 index, 1 frontmatter, 20 wikilinks, 7 orphans, 0 dup-refs, 0 opaque-refs, 0 crosslinks)
+
+## [2026-04-29 01:31] Librarian: catalog rebuilt, 3741 asymmetric links noted
+
+## [2026-04-29 01:31] Linter: 5 broken links, 47 orphans, 57 stale, 88 empty
+
+## [2026-04-29 01:31] Librarian: catalog rebuilt, 3741 asymmetric links noted
+
+## [2026-04-29 01:31] Linter: 5 broken links, 47 orphans, 57 stale, 88 empty
