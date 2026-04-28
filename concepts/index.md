@@ -6,6 +6,7 @@ A collection of foundational concepts in computational neuroscience and whole-br
 
 - [fMRI](fmri.md) – Functional magnetic resonance imaging
 - [EEG](eeg.md) – Electroencephalography
+- [XCOS](xcos.md) – EEG electrode coordinate system for source imaging
 - [MEG](meg.md) – Magnetoencephalography
 - [DTI](dti.md) – Diffusion tensor imaging
 - [Diffusion MRI](diffusion-mri.md) – Structural connectivity from diffusion imaging

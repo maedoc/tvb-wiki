@@ -564,3 +564,7 @@
 ## [2026-04-28 16:00] Improve: 3 pages improved (pycortex, heudiconv, tractseg)
 
 ## [2026-04-28 17:06] Improve: 3 pages improved (civet, yasa, bci2000)
+
+## [2026-04-28 18:12] Improve: 3 pages improved (brainnetome-atlas, pyedflib, templateflow)
+
+## [2026-04-28 18:15] Create: New page XCOS (concepts/xcos.md) - EEG electrode coordinate framework for source localization and forward modeling
