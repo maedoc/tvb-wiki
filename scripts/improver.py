@@ -41,7 +41,7 @@ def score_page(filepath: str) -> tuple[float, dict]:
     try:
         metadata, content = read_page(filepath)
     except Exception as e:
-        return 0.0, {'error': str(e), 'path': filepath}
+        return 0.0, {'error': str(e), 'path': filepath, 'has_placeholder': False, 'sources': 0}
 
     info = {
         'path': filepath,
@@ -206,9 +206,11 @@ def build_priority_queue(n: int = None) -> list[dict]:
         score, info = score_page(filepath)
         if score < 80:  # Only include pages that need work
             info['slug'] = slug
+            has_ph = info.get('has_placeholder', False)
+            srcs = info.get('sources', 0)
             # Boost stubs that have sources — the Matcher found papers for them
-            if info['has_placeholder'] and info['sources'] > 0:
-                info['score'] = max(0, info['score'] - 15)  # push to front of queue
+            if has_ph and srcs > 0:
+                info['score'] = max(0, info.get('score', score) - 15)
             scored.append(info)
 
     scored.sort(key=lambda x: x['score'])
@@ -681,7 +683,7 @@ def run_improver_cycle(n_pages: int = None):
     for t in targets:
         log.info("  %s (score=%.0f, %d words, %d refs%s)",
                  t['slug'], t['score'], t['words'], t['sources'],
-                 ', PLACEHOLDER' if t['has_placeholder'] else '')
+                 ', PLACEHOLDER' if t.get('has_placeholder') else '')
 
     # Improve pages in parallel
     improved = 0
