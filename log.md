@@ -700,3 +700,5 @@
 ## [2026-04-29 01:47] Improve: 3 pages improved (mne-bids, lead-dbs, bctpy)
 
 ## [2026-04-29 01:52] SoftwareMapper: 4 pages created
+
+## [2026-04-29 01:54] Improve: 3 pages improved (auryn, cvodes, sift)

@@ -1,12 +1,14 @@
 ---
 created: 2026-04-23
-sources: []
+sources:
+- raw/papers/sanz-leon-2013.md
 tags:
 - software-brain-modeling
 title: Auryn
 type: entity
-updated: 2026-04-29
+updated: '2026-04-29'
 ---
+
 title: Auryn
 created: 2025-01-15
 updated: 2026-04-29

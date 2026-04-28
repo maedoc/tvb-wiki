@@ -2,11 +2,12 @@
 created: 2026-04-27
 sources:
 - raw/papers/arxiv-2512.07842.md
+- raw/papers/arxiv-2510.22022.md
 tags:
 - local-field-potentials
 title: Local Field Potentials
 type: concept
-updated: '2026-04-27'
+updated: '2026-04-29'
 ---
 
 Local Field Potentials — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].

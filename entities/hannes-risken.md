@@ -3,11 +3,13 @@ created: 2026-04-20
 sources:
 - raw/papers/risken-1989.md
 - raw/papers/gardiner-2009.md
+- raw/papers/newman-2010.md
+- raw/papers/arxiv-2508.19134.md
 tags:
 - people-researcher
 title: Hannes Risken
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-29'
 ---
 
 ## Overview

@@ -6,6 +6,7 @@ sources:
 - raw/papers/andrews-hanna-2010.md
 - raw/papers/grady-2012.md
 - raw/papers/fjell-walhovd-2010.md
+- raw/papers/arxiv-2602.18715.md
 tags:
 - people-researcher
 - default-mode-network
@@ -13,7 +14,7 @@ tags:
 - neuroimaging-fmri
 title: Nancy Andrews-Hanna
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-29'
 ---
 
 # Nancy Andrews-Hanna (Jessica R. Andrews-Hanna)

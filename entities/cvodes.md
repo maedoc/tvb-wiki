@@ -1,10 +1,20 @@
 ---
-title: CVODES
 created: 2024-01-15
-updated: 2026-04-29
+sources:
+- raw/papers/hindmarsh-2005.md
+- raw/papers/sundials-2005.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/arxiv-2509.12873.md
+- raw/papers/arxiv-2512.03907.md
+tags:
+- software-neuroscience
+- computational-neuroscience
+- dynamical-systems-theory
+- solver
+- numerical-methods
+title: CVODES
 type: entity
-tags: [software-neuroscience, computational-neuroscience, dynamical-systems-theory, solver, numerical-methods]
-sources: [raw/papers/hindmarsh-2005.md, raw/papers/sundials-2005.md]
+updated: '2026-04-29'
 ---
 
 # CVODES

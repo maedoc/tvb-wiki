@@ -1,6 +1,8 @@
 ---
 created: 2024-01-15
-sources: []
+sources:
+- raw/papers/semanticscholar-fcd025fcc10c.md
+- raw/papers/semanticscholar-30b44563f4bd.md
 tags:
 - software-modeling
 - computational-neuroscience
