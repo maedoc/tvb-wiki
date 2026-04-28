@@ -1,5 +1,25 @@
 # Wiki Log
 
+## 2026-04-28
+
+- Improved page: [[krasimira-tsaneva-atanasova]] – Researcher in connectome-based whole-brain modeling
+  - Complete rewrite from placeholder to comprehensive entity page (~600 words)
+  - Updated frontmatter: changed updated date to 2026-04-28, added sources: raw/papers/breakspear-2017.md, raw/papers/sanz-leon-2013.md
+  - Tags: people-researcher, whole-brain-modeling, neural-mass-models, computational-neuroscience, network-dynamics
+  - Established 10+ wikilinks: connectome, whole-brain-modeling, neural-mass-model, tvb, structural-connectivity, functional-connectivity, parameter-estimation, personalized-brain-modeling, brain-dynamics, network-dynamics, epilepsy-modeling, computational-psychiatry
+  - Added sections: Affiliations, Research Focus (whole-brain modeling, parameter estimation, neural mass models), Key Publications with context, Relationships and Collaborative Context, Open Questions
+  - Replaced all placeholders with substantive content about the researcher's work in computational neuroscience
+  - Linked to key foundational papers (Breakspear 2017, Sanz Leon et al. 2013) and explained their relevance to the field
+
+- Improved page: [[pynrrd]] – Python library for reading/writing NRRD file format
+  - Complete rewrite from placeholder to comprehensive entity page (~900 words)
+  - Updated frontmatter: changed updated date to 2026-04-28, added tags: neuroimaging-dti, diffusion-imaging
+  - Added sources: raw/papers/pynrrd-docs.md, raw/papers/nrrd-format.md
+  - Established 9+ wikilinks: nibabel, dipy, 3d-slicer, ants, mrtrix, nilearn, the-virtual-brain, whole-brain, connectome, structural-connectivity, diffusion-imaging
+  - Added detailed sections: Overview, Relationship to TVB, Key Features, Technical Implementation, Comparison with Related Formats, Integration with Neuroimaging Software
+  - Explained NRRD format's role in DTI/tractography and whole-brain modeling workflows
+  - Included usage code example demonstrating 4D DWI volume handling
+
 ## 2026-04-27
 
 - Fixed and re-improved page: [[cognitive-reserve]] – Brain's adaptive capacity to maintain function despite pathology
@@ -496,3 +516,5 @@
 ## [2026-04-27 23:58] Improve: 3 pages improved (nibetaseries, cat12, chronux)
 
 - Updated [[lfpy]] entity page with comprehensive content including overview, technical framework, key features, relationship to TVB, key papers, and related software.
+
+## [2026-04-28 01:03] Improve: 3 pages improved (the-virtual-epileptic-brain, physionet, lfpy)
