@@ -518,3 +518,5 @@
 - Updated [[lfpy]] entity page with comprehensive content including overview, technical framework, key features, relationship to TVB, key papers, and related software.
 
 ## [2026-04-28 01:03] Improve: 3 pages improved (the-virtual-epileptic-brain, physionet, lfpy)
+
+## [2026-04-28 02:09] Improve: 3 pages improved (pybids, pynrrd, krasimira-tsaneva-atanasova)
