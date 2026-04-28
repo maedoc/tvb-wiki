@@ -89,6 +89,73 @@ Word counts after clean rewrite: ebrains 1057w, scirun 1396w, brainsuite 1326w.
 
 ---
 
+## 2026-04-27 22:37 – 2026-04-28 06:33 — 8-Hour Overnight Run
+
+### Results Summary
+
+| Agent | Commits | Impact |
+|-------|---------|--------|
+| **Improver** | 7 | 21 pages rewritten (avg ~1000 words) |
+| **Matcher** | 2 | 48 pages got new sources |
+| **Repairer** | 1 | 29 issues fixed |
+| **CrosslinkApplier** | 1 | 25 pages linked |
+| **RefFormatter** | 1 | 3 pages fixed |
+| **Ingestor** | 1 | 3 papers fetched |
+| **DeepResearch** | 1 | 25 papers discovered |
+| **Auditor** | 1 | 590 issues audited |
+| **Librarian** | 1 | Catalog rebuilt |
+| **SoftwareMapper** | 1 | 20 new software pages created |
+
+**Total commits:** 18 (including the auto-commit)
+**Total pages improved:** 21 rewritten + 48 sourced + 25 linked + 29 repaired + 20 created = **143 pages touched**
+
+### Quality Verification
+
+**Meta-commentary fix held overnight.** Spot-checks of fmriprep, genesis, sloreta, clinica show:
+- Dense, cited, encyclopedic prose
+- No "Here's a summary..." contamination
+- Proper frontmatter with sources
+- Technical detail with biological grounding
+
+Example: `entities/fmriprep.md` — 998 words, proper inline citations, explains pipeline stages, relates to BIDS/MNI/TVB ecosystem.
+
+### Error Rates (8-hour window)
+
+| Error | Count | Rate | Notes |
+|-------|-------|------|-------|
+| Empty output | ~19 | ~3.3% | All resolved on retry |
+| Timeout | ~8 | ~1.4% | Mostly Matcher eval |
+| Batch eval failed | ~2 | n/a | Normal fallback |
+| Model not found | 0 | 0% | Startup validation working |
+| Death spiral | 0 | 0% | Error detection order fixed |
+| Repairer LLM fail | 0 | 0% | Model fix working |
+
+### New Issue: SoftwareMapper Scope Creep
+
+SoftwareMapper created 20 pages for generic Python libraries (pandas, matplotlib, scipy, scikit-learn, pytorch, seaborn, statsmodels, networkx, etc.). These have empty content (just a heading) and `tags: [software-brain-modeling]`. Not TVB-relevant.
+
+**Recommendation:** Constrain SoftwareMapper to neuroscience-specific tools or skip it until prompt is hardened.
+
+### Daemon Health
+
+- **Uptime:** ~8 hours continuous
+- **No restarts required**
+- **No manual intervention required**
+- **All scheduled agents completed at least one cycle**
+- **Improver ran 7 times (~hourly)**
+- **Matcher ran 2 times (~every 6h)**
+
+### Throughput Projection
+
+At current rate (~3 pages/hour for Improver):
+- **Per day:** ~72 pages rewritten
+- **Per week:** ~504 pages rewritten
+- **Remaining weak pages:** ~81 (score < 20) + ~146 medium (score 20–59)
+- **ETA to zero weak pages:** ~27 hours of Improver runtime
+- **ETA to zero medium pages:** ~73 additional hours
+
+---
+
 ## Historical Notes
 
 ### Pre-2026-04-27 Issues (Fixed)
