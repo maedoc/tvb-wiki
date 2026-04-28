@@ -75,8 +75,42 @@ def find_missing_software() -> list[tuple[str, str]]:
     return sorted(missing)
 
 
+# ── Generic software blacklist (prevents LLM from hallucinating pandas etc.) ──
+GENERIC_BLACKLIST = {
+    'pandas', 'matplotlib', 'scipy', 'seaborn', 'statsmodels',
+    'scikit-learn', 'sklearn', 'pytorch', 'torch', 'tensorflow', 'keras',
+    'numpy', 'numba', 'plotly', 'bokeh', 'holoviews', 'pyvista', 'vtk',
+    'joblib', 'h5py', 'netcdf4', 'xarray', 'dask', 'zarr',
+    'networkx', 'igraph', 'skimage', 'pillow', 'opencv',
+    'flask', 'django', 'fastapi', 'tornado',
+    'jupyter', 'ipython', 'spyder', 'vscode',
+}
+
+
+# ── Neuroscience relevance keywords for LLM gap filtering ──
+NEURO_KEYWORDS = {
+    'brain', 'neuro', 'neural', 'neuron', 'eeg', 'meg', 'fmri',
+    'mri', 'connectivity', 'connectome', 'simulation',
+    'spike', 'cortex', 'cortical', 'hippocamp', 'synap',
+    'tract', 'fiber', 'fiber', 'atlas', 'parcellat',
+    'electrophys', 'imaging', 'visualiz', 'model', 'dynamical',
+    'bifurcat', 'oscillat', 'signal', 'network', 'graph',
+    'tvb', 'whole-brain', 'multiscale', 'biophysic',
+}
+
+
+def _has_neuro_relevance(item: dict) -> bool:
+    """Quick check if LLM-identified tool might be neuro-related."""
+    combined = (item.get('description', '') + ' ' + item.get('name', '')).lower()
+    return any(kw in combined for kw in NEURO_KEYWORDS)
+
+
 def create_software_page(slug: str, title: str) -> bool:
-    """Create a stub page for a software tool."""
+    """Create a stub page for a software tool. Block generic libraries."""
+    if slug.lower() in GENERIC_BLACKLIST:
+        log.info("Skipping generic library: %s", slug)
+        return False
+
     filepath = os.path.join(ENTITIES_DIR, f"{slug}.md")
     if os.path.exists(filepath):
         return False
@@ -234,15 +268,19 @@ def run_software_mapper_cycle():
         if slug:
             all_gaps[slug] = item
 
-    # 5. Create pages for LLM-identified gaps
+    # 5. Create pages for LLM-identified gaps — with relevance guard
     pages = get_all_pages()
     llm_created = 0
     for slug, info in all_gaps.items():
-        if slug not in pages:
-            title = info.get('name', slug.replace('-', ' ').title())
-            if create_software_page(slug, title):
-                log.info("Created LLM-identified: %s — %s", slug, info.get('description', '')[:60])
-                llm_created += 1
+        if slug in pages:
+            continue
+        if not _has_neuro_relevance(info):
+            log.info("Skipping LLM-identified tool (no neuro relevance): %s — %s", slug, info.get('description', '')[:60])
+            continue
+        title = info.get('name', slug.replace('-', ' ').title())
+        if create_software_page(slug, title):
+            log.info("Created LLM-identified: %s — %s", slug, info.get('description', '')[:60])
+            llm_created += 1
 
     # 6. Review new pages
     new_slugs = [s for s, _ in missing_known] + list(all_gaps.keys())
