@@ -154,3 +154,44 @@ hooks/obsidian_support.py: Added dict handling before string processing.
 1. Let daemon run continuously — Improver fills ~3 pages/hour, Matcher fills sources
 2. Monitor GitHub Actions for next few commits
 3. Medium-term: Add orphan-linking agent for graph_dist=999 pages
+
+
+---
+
+## 2026-04-28 19:30-20:00 — Token Tracking + Model Evaluation
+
+### Token Tracking Added
+
+`scripts/ralph_config.py`: new `run_pi_with_metrics()` function
+- Uses `--mode json` to extract exact usage tokens
+- Tracks: input_tokens, output_tokens, latency_sec, throughput_tok_per_sec
+- Logs to `llm_metrics` logger
+
+### DeepSeek-v4-pro Model Test
+
+Test: 12 well-written pages stubbed + original content as source material
+
+| Slug      | Result | Latency | Out Tokens | Throughput | Quality |
+|-----------|--------|---------|------------|------------|---------|
+| brainsuite| PASS   | 175.7s  | 2221       | 12.6 tok/s | Excellent (1141w, cited) |
+| chronux   | FAIL   | 548.0s  | 193        | 0.4 tok/s  | Meta-commentary only |
+| civet     | FAIL   | 172.6s  | 276        | 1.6 tok/s  | Meta-commentary only |
+
+### Findings
+
+1. **Meta-commentary bug**: Same issue as early minimax - produces "The rewritten page is at..." instead of actual text
+2. **Extreme latency variance**: 172s to 548s for similar prompts
+3. **Enormous prompts**: ~15-23k input tokens due to source material
+
+### Comparison
+
+| Model           | Avg Latency | Throughput | Reliability |
+|-----------------|-------------|------------|-------------|
+| minimax-m2.5    | ~83s        | ~28 tok/s  | ~95% OK |
+| deepseek-v4-pro | ~300s       | ~5 tok/s   | ~33% OK |
+
+Deepseek is 3.6x slower and meta-broken on 2/3 tests.
+
+### Verdict
+
+**KEEP minimax-m2.5 as WRITER_MODEL.** Deepseek produces excellent prose when it works, but is too slow and unreliable for unattended daemon operation.
