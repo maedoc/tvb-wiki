@@ -126,3 +126,31 @@ hooks/obsidian_support.py: Added dict handling before string processing.
 ### Result
 - Workflow: SUCCESS (https://maedoc.github.io/tvb-wiki/)
 - Deployed at 2026-04-28T12:01:49Z
+
+
+---
+
+## 2026-04-28 14:00 — Short-Term Cleanups Completed
+
+### What Was Done
+
+1. **GitHub Actions fixed** — `hooks/obsidian_support.py` now handles dict-style sources
+2. **Bifurcation duplicate resolved** — `concepts/bifurcation-theory.md` redirected to `bifurcation-analysis.md` (2111 words is preferred page)
+3. **SoftwareMapper stubs deleted** — 13 generic Python stubs removed (pandas, matplotlib, scipy, seaborn, sklearn, pytorch, pyvista, h5py, joblib, networkx, plotly, braincode, surfstat)
+4. **Remaining 164 thin stubs preserved** — These are legitimate neuroscience tools (ANTS, EEGLAB, HNN, etc.) that the daemon's Improver should fill over time
+
+### What Was NOT Done
+
+- **Bulk delete remaining 164 stubs** ❌ — Decision: these are valid neuroscience tools, keep them for Improver
+
+### Daemon Status
+
+- **Running:** ✅ PID active, Matcher auto-confirming (249 pages)
+- **Source attachments:** apoe, cmtk, genesis, glasser-atlas, nibetaseries, pyeeg, suma, xnat, reproducibility
+- **Improver next cycle:** hourly, improving glasser-atlas, suma, xnat stubs
+
+### Next Steps
+
+1. Let daemon run continuously — Improver fills ~3 pages/hour, Matcher fills sources
+2. Monitor GitHub Actions for next few commits
+3. Medium-term: Add orphan-linking agent for graph_dist=999 pages
