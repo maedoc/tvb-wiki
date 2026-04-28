@@ -1,16 +1,24 @@
 ---
-title: jNeuroML
 created: 2025-01-15
-updated: 2026-04-28
-type: entity
-tags: [software-neuroml, neuroml, spiking-neural-networks, computational-neuroscience, java, model-validation, standards, neurodevelopment]
 sources:
-  - https://github.com/NeuroML/jNeuroML
-  - https://docs.neuroml.org/Userdocs/Software/jNeuroML.html
-  - https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1000815
-  - https://www.frontiersin.org/articles/10.3389/fninf.2014.00079/full
-  - https://pubmed.ncbi.nlm.nih.gov/20585541/
-  - https://pubmed.ncbi.nlm.nih.gov/17873371/
+- https://github.com/NeuroML/jNeuroML
+- https://docs.neuroml.org/Userdocs/Software/jNeuroML.html
+- https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1000815
+- https://www.frontiersin.org/articles/10.3389/fninf.2014.00079/full
+- https://pubmed.ncbi.nlm.nih.gov/20585541/
+- https://pubmed.ncbi.nlm.nih.gov/17873371/
+tags:
+- software-neuroml
+- neuroml
+- spiking-neural-networks
+- computational-neuroscience
+- java
+- model-validation
+- standards
+- neurodevelopment
+title: jNeuroML
+type: entity
+updated: '2026-04-28'
 ---
 
 # jNeuroML
@@ -31,21 +39,21 @@ The relationship between jNeuroML and the broader NeuroML ecosystem is complemen
 
 ## Key Features
 
-jNeuroML offers several distinguishing features that make it valuable for computational neuroscience research. The **LEMS (Lumped Element Model Specification) interpreter** built into jNeuroML provides support for running simulations defined using LEMS, a domain-specific language for describing dynamical systems that is closely integrated with NeuroML. This allows researchers to define and simulate abstract neural models that can be mapped onto specific simulator implementations.
+jNeuroML offers several distinguishing features that make it valuable for [[computational-neuroscience]] research. The **LEMS (Lumped Element Model Specification) interpreter** built into jNeuroML provides support for running simulations defined using LEMS, a domain-specific language for describing dynamical systems that is closely integrated with NeuroML. This allows researchers to define and simulate abstract neural models that can be mapped onto specific simulator implementations.
 
-The software includes **network generation capabilities**, supporting the creation of large-scale networks from parameterized specifications. This is particularly useful for researchers building whole-brain models or large-scale network simulations who need to generate connectivity patterns programmatically. jNeuroML can export network specifications to various formats suitable for simulation in [[nest]], [[neuron]], or other established simulators.
+The software includes **network generation capabilities**, supporting the creation of large-scale networks from parameterized specifications. This is particularly useful for researchers building [[whole-brain]] models or large-scale network simulations who need to generate [[connectivity]] patterns programmatically. jNeuroML can export network specifications to various formats suitable for simulation in [[nest]], [[neuron]], or other established simulators.
 
 Another important feature is **model unit conversion and scaling**, which allows users to transform models between different parameter regimes or export them with different units. This is valuable when adapting models developed for specific brain regions or species to new contexts. The tool also supports **graph generation**, producing visual representations of network architectures defined in NeuroML documents.
 
-jNeuroML can export NeuroML models to multiple simulator formats including NEURON, Brian2, Matlab, MOOSE, NetPyNE, and can even import other formats like SBML into LEMS.
+jNeuroML can export NeuroML models to multiple simulator formats including NEURON, [[brian2]], Matlab, [[moose]], [[netpyne]], and can even import other formats like SBML into LEMS.
 
 ## Relationship to TVB
 
-While jNeuroML and [[the-virtual-brain]] (TVB) serve different primary purposes, they share the broader goal of advancing standardized, reproducible computational neuroscience. TVB is primarily a whole-brain modeling platform that simulates large-scale brain dynamics at the level of brain regions, often using neural mass models or mean-field approaches. In contrast, jNeuroML focuses on detailed single-neuron and small-network models using [[spiking-neural-networks]].
+While jNeuroML and [[the-virtual-brain]] (TVB) serve different primary purposes, they share the broader goal of advancing standardized, reproducible computational neuroscience. TVB is primarily a whole-brain modeling platform that simulates large-scale [[brain-dynamics]] at the level of brain regions, often using [[neural-mass-models]] or [[mean-field-theory|mean-field]] approaches. In contrast, jNeuroML focuses on detailed single-neuron and small-network models using [[spiking-neural-networks]].
 
 There is potential for integration between these tools: TVB's regional models could be parameterized using insights from detailed [[neuroml]]-based simulations, and jNeuroML could serve as a bridge for incorporating detailed cellular models into larger-scale frameworks. The [[tvb-multiscale]] extension of TVB specifically explores such multi-scale modeling approaches, potentially connecting to detailed network models. Additionally, TVB's use of the [[connectome]] as an essential component shares conceptual ground with NeuroML's network description capabilities.
 
-Recent developments in the NeuroML community, including the creation of database resources like Open Source Brain, have facilitated the sharing of models that could potentially inform whole-brain modeling efforts. The standardized format provided by [[neuroml]] offers a path for exchanging model descriptions between detailed neural simulators and large-scale frameworks like TVB. Multi-scale integration remains an active area of development, with researchers exploring how to bridge the gap between detailed biophysical models and population-level brain simulations.
+Recent developments in the NeuroML community, including the creation of database resources like [[open-source-brain]], have facilitated the sharing of models that could potentially inform whole-brain modeling efforts. The standardized format provided by [[neuroml]] offers a path for exchanging model descriptions between detailed neural simulators and large-scale frameworks like TVB. Multi-scale integration remains an active area of development, with researchers exploring how to bridge the gap between detailed biophysical models and population-level brain simulations.
 
 ## Related Software
 

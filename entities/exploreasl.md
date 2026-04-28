@@ -5,13 +5,14 @@ tags:
 - software-brain-modeling
 title: ExploreASL
 type: entity
-updated: 2026-04-28
+updated: '2026-04-28'
 ---
+
 title: ExploreASL
 created: 2025-01-15
 updated: 2026-04-28
 type: entity
-tags: [software-ants, neuroimaging-mri, resting-state, cerebral-blood-flow, arterial-spin-labeling, perfusion-mri]
+tags: [[[software-ants]], [[neuroimaging]]-mri, [[resting-state]], cerebral-blood-flow, arterial-spin-labeling, perfusion-mri]
 sources: [Alsop et al. (2015), DOI:10.1002/mrm.25197, Mutsaerts et al. (2020), DOI:10.1016/j.neuroimage.2019.116149, Douaud et al. (2014), DOI:10.1016/j.neuroimage.2013.10.055,gk:ExploreASL-GitHub,gk:ANTs,gk:FSL,gk:TVB]
 ---
 
@@ -23,13 +24,13 @@ ExploreASL is an open-source software pipeline designed specifically for process
 
 ## Motivation and Context
 
-The need for ExploreASL arose from the growing importance of perfusion imaging in neuroscience and clinical neurology. While traditional BOLD (blood oxygen level dependent) fMRI measures the indirect correlate of neural activity through changes in blood oxygenation, ASL directly quantifies cerebral blood flow, providing a more direct metric of vascular supply to brain tissue. This makes ASL particularly valuable for studying cerebrovascular disease, neurodegenerative disorders, and brain development, where altered perfusion patterns are often early biomarkers of pathology. However, ASL data processing presents unique challenges: the perfusion signal is inherently much smaller than the BOLD signal (typically 1-2% of the baseline signal), requiring sophisticated denoising strategies, and the quantification of CBF from ASL data depends on multiple physical parameters including the labeling efficiency, transit time, and tissue relaxation times.
+The need for ExploreASL arose from the growing importance of perfusion imaging in neuroscience and clinical neurology. While traditional BOLD (blood oxygen level dependent) [[fmri]] measures the indirect correlate of neural activity through changes in blood oxygenation, ASL directly quantifies cerebral blood flow, providing a more direct metric of vascular supply to brain tissue. This makes ASL particularly valuable for studying cerebrovascular disease, neurodegenerative disorders, and brain development, where altered perfusion patterns are often early biomarkers of pathology. However, ASL data processing presents unique challenges: the perfusion signal is inherently much smaller than the [[bold-signal]] (typically 1-2% of the baseline signal), requiring sophisticated denoising strategies, and the quantification of CBF from ASL data depends on multiple physical parameters including the labeling efficiency, transit time, and tissue relaxation times.
 
-Before ExploreASL, researchers often relied on ad-hoc processing pipelines that lacked standardization and reproducibility. This fragmented approach made it difficult to compare results across studies and hindered the development of normative databases. ExploreASL addressed this gap by providing a well-validated, automated pipeline that implements current best practices in ASL processing, drawing on the recommendations of the ISMRM (International Society for Magnetic Resonance in Medicine) perfusion study group and other professional organizations (Alsop et al., 2015). The software has become particularly relevant for whole-brain modeling efforts, as CBF data provides essential parameters for biophysically realistic models of brain dynamics.
+Before ExploreASL, researchers often relied on ad-hoc processing pipelines that lacked standardization and [[reproducibility]]. This fragmented approach made it difficult to compare results across studies and hindered the development of normative databases. ExploreASL addressed this gap by providing a well-validated, automated pipeline that implements current best practices in ASL processing, drawing on the recommendations of the ISMRM (International Society for Magnetic Resonance in Medicine) perfusion study group and other professional organizations (Alsop et al., 2015). The software has become particularly relevant for [[whole-brain|whole-brain modeling]] efforts, as CBF data provides essential parameters for biophysically realistic models of [[brain-dynamics]].
 
 ## Technical Features
 
-ExploreASL implements a complete ASL processing workflow that addresses each stage of data preparation and analysis. The pipeline begins with raw ASL images in NIfTI format and performs motion correction using rigid body registration, followed by careful handling of motion-corrupted volumes. Subtraction of label and control images is performed to generate perfusion-weighted images, and these are then quantified using the generalized kinetic model (GKM) or simplified models depending on the acquisition protocol. The software accounts for macrovascular contamination through surrounding suppression techniques and provides options for multi-post-labeling delay (PLD) analysis when acquisition parameters permit.
+ExploreASL implements a complete ASL processing workflow that addresses each stage of data preparation and analysis. The pipeline begins with raw ASL images in [[nifti]] format and performs motion correction using rigid body registration, followed by careful handling of motion-corrupted volumes. Subtraction of label and control images is performed to generate perfusion-weighted images, and these are then quantified using the generalized kinetic model (GKM) or simplified models depending on the acquisition protocol. The software accounts for macrovascular contamination through surrounding suppression techniques and provides options for multi-post-labeling delay (PLD) analysis when acquisition parameters permit.
 
 Key strengths of ExploreASL lie in its integration with other neuroimaging tools and frameworks. The software utilizes [[ANTs]] (Advanced Normalization Tools) for spatial normalization and registration, allowing perfusion maps to be transformed to standard anatomical spaces such as MNI (Montreal Neurological Institute) space (Mutsaerts et al., 2020). ExploreASL also integrates with [[FSL]] (FMRIB Software Library) for certain preprocessing steps and can generate outputs compatible with widely used analysis packages including [[FSL]], [[SPM]], and [[AFNI]]. The pipeline produces both quantitative CBF maps in absolute units (typically mL/100g/min) and relative perfusion images, supporting both within-subject and between-group comparisons.
 
@@ -76,4 +77,4 @@ Future developments for ExploreASL include deeper integration with [[Python]]-ba
 - ExploreASL GitHub Repository. https://github.com/ExploreASL/ExploreASL
 - FMRIB Software Library (FSL). https://fsl.fmrib.ox.ac.uk/fsl/fslwiki
 - Mutsaerts, H.J., et al. (2020). ExploreASL: An image processing pipeline for multi-center ASL perfusion MRI studies. *NeuroImage*, 216, 116149.
-- The Virtual Brain (TVB). https://www.thevirtualbrain.org/
+- [[tvb|The Virtual Brain]] (TVB). https://www.thevirtualbrain.org/
