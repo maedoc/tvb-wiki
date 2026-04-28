@@ -11,6 +11,9 @@ sources:
   url: https://academic.oup.com/brain/article/138/8/2163/2437827
 - title: Granger causality in neuroscience
   url: https://link.springer.com/article/10.1007/s11571-009-9095-y
+- raw/papers/arxiv-2601.21478.md
+- raw/papers/arxiv-2603.04149.md
+- raw/papers/arxiv-2601.03796.md
 tags:
 - effective-connectivity
 - computational-neuroscience

@@ -6,6 +6,7 @@ sources:
 - https://arxiv.org/abs/1806.05580
 - https://www.sciencedirect.com/science/article/pii/S136184151930101X
 - https://www.humanconnectomeproject.org/
+- raw/papers/van-essen-2012.md
 tags:
 - software-tractography
 - software-mrtrix3

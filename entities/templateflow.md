@@ -5,6 +5,9 @@ sources:
 - 10.1016/j.neuroimage.2020.117305
 - 10.1101/2023.04.10.488823
 - 10.1016/j.neuroimage.2022.119165
+- raw/papers/schirner-2018.md
+- raw/papers/semanticscholar-97e6ff441097.md
+- raw/papers/sanz-leon-2013.md
 tags:
 - software-neuroimaging
 - neuroimaging

@@ -8,6 +8,7 @@ sources:
 - raw/papers/arxiv-2506.22951.md
 - raw/papers/sanz-leon-2013.md
 - raw/papers/semanticscholar-7b51fe740684.md
+- raw/papers/wang-etal-2015-gretna.md
 tags:
 - software-brain-modeling
 - neuroimaging-fmri
@@ -16,7 +17,7 @@ tags:
 - connectomics
 title: CONN
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-28'
 ---
 
 # CONN

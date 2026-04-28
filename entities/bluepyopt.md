@@ -3,6 +3,9 @@ created: 2025-01-15
 sources:
 - Van Geit et al., 2016, Neuron
 - BluePyOpt documentation
+- raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-5c84b271b035.md
+- raw/papers/arxiv-2509.02799.md
 tags:
 - software-neuron
 - parameter-estimation

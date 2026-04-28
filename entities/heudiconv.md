@@ -4,6 +4,7 @@ sources:
 - https://heudiconv.readthedocs.io/
 - https://github.com/nipy/heudiconv
 - https://bids-specification.readthedocs.io/
+- raw/papers/sanz-leon-2013.md
 tags:
 - software-bids
 - neuroimaging-fmri

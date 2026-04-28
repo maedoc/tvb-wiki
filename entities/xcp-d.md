@@ -6,6 +6,9 @@ sources:
 - power2012
 - power2014
 - chen2019
+- raw/papers/schirner-2018.md
+- raw/papers/semanticscholar-7b51fe740684.md
+- raw/papers/semanticscholar-109de470e443.md
 tags:
 - neuroimaging-fmri
 - resting-state

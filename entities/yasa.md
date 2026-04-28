@@ -5,6 +5,9 @@ sources:
 - Lacourse2018
 - Bertrand2018
 - Campruzi2020
+- raw/papers/semanticscholar-2a455dab8f2b.md
+- raw/papers/smith-2013-connectomics.md
+- raw/papers/arxiv-2604.16463.md
 tags:
 - software-brain-modeling
 - neuroimaging-eeg

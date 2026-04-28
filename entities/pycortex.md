@@ -4,6 +4,9 @@ sources:
 - https://github.com/jamesgao/pycortex
 - https://pmc.ncbi.nlm.nih.gov/articles/PMC4750127/
 - https://gallantlab.org/
+- raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-97e6ff441097.md
+- raw/papers/ritter-2013.md
 tags:
 - software-visualization
 - neuroimaging

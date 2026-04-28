@@ -1,6 +1,9 @@
 ---
 created: 2026-04-28
-sources: []
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-f45e6044c92f.md
+- raw/papers/basser-1994.md
 tags:
 - software-brain-modeling
 title: dcm2niix

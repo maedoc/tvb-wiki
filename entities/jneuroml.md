@@ -7,6 +7,9 @@ sources:
 - https://www.frontiersin.org/articles/10.3389/fninf.2014.00079/full
 - https://pubmed.ncbi.nlm.nih.gov/20585541/
 - https://pubmed.ncbi.nlm.nih.gov/17873371/
+- raw/papers/semanticscholar-30b44563f4bd.md
+- raw/papers/semanticscholar-5c84b271b035.md
+- raw/papers/semanticscholar-9afbfd2d37be.md
 tags:
 - software-neuroml
 - neuroml

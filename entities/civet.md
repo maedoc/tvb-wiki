@@ -14,6 +14,9 @@ sources:
 - Fischl, B., & Dale, A. M. (2000). Measuring the thickness of the human cerebral
   cortex from magnetic resonance images. Proceedings of the National Academy of Sciences,
   97(20), 11050-11055.
+- raw/papers/semanticscholar-d4665dd0df61.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/schirner-2018.md
 tags:
 - software-neuroimaging
 - neuroimaging-mri

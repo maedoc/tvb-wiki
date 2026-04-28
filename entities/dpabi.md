@@ -1,6 +1,9 @@
 ---
 created: 2026-04-28
-sources: []
+sources:
+- raw/papers/wang-etal-2015-gretna.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/ritter-2013.md
 tags:
 - software-brain-modeling
 title: DPABI
