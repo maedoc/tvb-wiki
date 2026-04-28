@@ -1,11 +1,6 @@
 ---
 created: 2024-01-15
-sources:
-- https://neuroconstruct.org/
-- https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1939710/
-- https://www.frontiersin.org/articles/10.3389/fncom.2011.00004/full
-- https://modeldb.yale.edu/
-- https://neuromorpho.org/
+sources: []
 tags:
 - software-modeling
 - computational-neuroscience

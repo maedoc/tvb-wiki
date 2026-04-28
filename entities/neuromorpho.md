@@ -1,15 +1,13 @@
 ---
-title: Neuromorpho.Org
 created: 2024-01-15
-updated: 2026-04-28
+sources: []
+tags:
+- connectomics
+- brain-network
+- computational-neuroscience
+title: Neuromorpho.Org
 type: entity
-tags: [connectomics, brain-network, computational-neuroscience]
-sources:
-  - ascoli2007neuromorpho
-  - ascoli2015neuromorpho
-  - nielsen2008noneuronsource
-  - state2020bmtk
-  - gleeson2019sonata
+updated: 2026-04-28
 ---
 
 # Neuromorpho.Org

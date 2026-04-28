@@ -1,13 +1,6 @@
 ---
 created: 2024-01-15
-sources:
-- Hagen et al., 2022, eLife
-- Lindén et al., 2014, Frontiers in Neuroinformatics
-- Holt & Koch, 1999, Journal of Neurophysiology
-- Pettersen et al., 2012, Journal of Neuroscience Methods
-- Hagen et al., 2018, Frontiers in Neuroinformatics
-- Ness et al., 2015, Neuroinformatics
-- Næss et al., 2017, Frontiers in Human Neuroscience
+sources: []
 tags:
 - software-neuron
 - spiking-neural-networks

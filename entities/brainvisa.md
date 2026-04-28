@@ -1,9 +1,6 @@
 ---
 created: 2024-01-15
-sources:
-- https://brainvisa.info/
-- https://www.researchgate.net/publication/313337663_BrainVISA_A_software_platform_for_anatomical_morphometry_of_development_and_pathology
-- https://www.sciencedirect.com/science/article/pii/S1053811917307277
+sources: []
 tags:
 - software-neuroimaging
 - neuroimaging

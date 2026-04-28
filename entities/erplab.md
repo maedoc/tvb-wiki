@@ -1,9 +1,6 @@
 ---
 created: 2025-01-15
-sources:
-- https://erpinfo.org/erplab
-- https://doi.org/10.1111/j.1469-8986.2012.01471.x
-- https://doi.org/10.1155/2011/861409
+sources: []
 tags:
 - neuroimaging-eeg
 - electrophysiology

@@ -1,10 +1,6 @@
 ---
 created: 2025-01-15
-sources:
-- xia2013brainnet
-- zhang2014brainnetome
-- rubinov2010complex
-- theis2016human
+sources: []
 tags:
 - software-visualization
 - connectomics

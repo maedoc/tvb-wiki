@@ -1,9 +1,6 @@
 ---
 created: 2025-01-01
-sources:
-- raw/papers/brunet-2011.md
-- raw/papers/michel-2019.md
-- raw/papers/bagdasarov-2024.md
+sources: []
 tags:
 - software-visualization
 - neuroimaging-eeg
