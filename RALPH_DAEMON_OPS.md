@@ -50,3 +50,52 @@ scripts/check_relevance.py implements the combined filter.
 Usage:
 python3 scripts/check_relevance.py --flag
 python3 scripts/check_relevance.py
+
+
+---
+
+## 2026-04-28 07:00 — Combined Filter: Graph Distance + Embeddings
+
+### Goal
+"Can we avoid false negatives on relevant pages that exist as content but are not yet linked from the TVB core pages?"
+
+### What failed
+Embedding-only hybrid score wrongly flagged neural-mass-model, bifurcation-theory, dynamical-systems-theory as low-relevance. But these are foundational TVB concepts.
+
+### Why it failed
+Neural-mass-model contains dense math (mean-field theory, differential equations) with TVB links. The embedding centroid was built from mostly descriptive/software pages, while its language is formal math — semantically different even though topically central.
+
+### Graph distance tells the truth
+
+- neural-mass-model: in-degree 52, graph dist 0 (in core!) → correctly accepted
+- bifurcation-theory: in-degree 10, graph dist 1 → correctly accepted
+- dynamical-systems-theory: in-degree 25, graph dist 1 → correctly accepted
+- pandas/matplotlib: 2 real words, graph dist ∞ → correctly stubbed
+
+### Combined decision logic
+
+```
+if real_word_count < 20:
+    verdict = "stub"
+elif graph_distance <= 3:
+    verdict = "accept"
+elif graph_distance == 999 and hybrid_score >= 0.03:
+    verdict = "accept"      # orphan but semantically relevant
+elif graph_distance == 999 and hybrid_score < 0.03:
+    verdict = "reject"      # unreachable + semantically distant
+else:
+    verdict = "review"
+```
+
+### Results
+
+- accept: 269  (core + linked neuroscience + plausible orphans)
+- stub: 247    (empty pages; most SoftwareMapper stubs)
+- reject: 10   (unlinked biographical stubs + distant tools)
+- review: 0    (no ambiguous cases)
+
+### Tool Added
+scripts/combined_relevance.py
+
+### Key Lesson
+Use graph distance as PRIMARY signal, embeddings as SECONDARY backup for orphan detection. Never use embeddings alone.
