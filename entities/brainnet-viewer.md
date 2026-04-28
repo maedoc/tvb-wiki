@@ -1,21 +1,33 @@
 ---
-title: BrainNet Viewer
 created: 2025-01-15
-updated: 2026-04-28
+sources:
+- xia2013brainnet
+- zhang2014brainnetome
+- rubinov2010complex
+- theis2016human
+tags:
+- software-visualization
+- connectomics
+- brain-atlases
+- neuroimaging-fmri
+- neuroimaging-dti
+- structural-connectivity
+- functional-connectivity
+- brain-parcellations
+title: BrainNet Viewer
 type: entity
-tags: [software-visualization, connectomics, brain-atlases, neuroimaging-fmri, neuroimaging-dti, structural-connectivity, functional-connectivity, brain-parcellations]
-sources: [xia2013brainnet, zhang2014brainnetome, rubinov2010complex, theis2016human]
+updated: '2026-04-28'
 ---
 
 ## Overview
 
-BrainNet Viewer is a MATLAB-based software package for visualizing three-dimensional brain networks and connectivity data derived from various neuroimaging modalities. Developed primarily for the visualization of structural connectivity from diffusion tensor imaging (DTI) and tractography, as well as functional connectivity from functional magnetic resonance imaging (fMRI), electroencephalography (EEG), and magnetoencephalography (MEG), the tool enables researchers to render brain network graphs overlaid on anatomical brain surfaces. The software was developed by the Brainnetome Lab at the University of Chinese Academy of Sciences and has become a widely used resource in the connectomics community for both exploratory data analysis and publication-quality figures [xia2013brainnet].
+BrainNet Viewer is a MATLAB-based software package for visualizing three-dimensional brain networks and [[connectivity]] data derived from various [[neuroimaging]] modalities. Developed primarily for the visualization of [[structural-connectivity]] from diffusion tensor imaging (DTI) and [[tractography]], as well as [[functional-connectivity]] from functional magnetic resonance imaging ([[fmri]]), electroencephalography (EEG), and magnetoencephalography (MEG), the tool enables researchers to render [[brain-network]] graphs overlaid on anatomical brain surfaces. The software was developed by the Brainnetome Lab at the University of Chinese Academy of Sciences and has become a widely used resource in the [[connectomics]] community for both exploratory data analysis and publication-quality figures [xia2013brainnet].
 
 ## Key Features
 
 BrainNet Viewer provides several core visualization capabilities that address the unique challenges of representing brain network data in three dimensions. The software accepts node definitions from parcellation atlases such as the [[aal-atlas]], [[desikan-killiany-atlas]], [[brainnetome-atlas]], and allows users to map network nodes onto cortical surfaces extracted from reconstructed brain meshes. Edge representations include both line-based and volume-based renderings of white matter tracts, with support for directional information encoded through color gradients or line thickness.
 
-The software supports multiple surface formats including FreeSurfer's curvature files and the NV (NeuroVue) surface format, enabling integration with preprocessing pipelines that rely on [[freesurfer]] or [[fsl]] for cortical reconstruction. BrainNet Viewer can be used to visualize network metrics such as betweenness centrality, clustering coefficient, and modularity computed by the Brain Connectivity Toolbox (BCT) [rubinov2010complex], allowing these measures to be displayed directly on the brain surface. Users can generate both static publication figures and interactive movies showing dynamic network changes over time, which is particularly useful for visualizing resting-state fluctuations or task-related connectivity patterns.
+The software supports multiple surface formats including FreeSurfer's curvature files and the NV (NeuroVue) surface format, enabling integration with preprocessing pipelines that rely on [[freesurfer]] or [[fsl]] for cortical reconstruction. BrainNet Viewer can be used to visualize network metrics such as betweenness centrality, clustering coefficient, and [[modularity]] computed by the Brain Connectivity Toolbox (BCT) [rubinov2010complex], allowing these measures to be displayed directly on the brain surface. Users can generate both static publication figures and interactive movies showing dynamic network changes over time, which is particularly useful for visualizing [[resting-state]] fluctuations or task-related connectivity patterns.
 
 A notable feature is the ability to visualize weighted and directed networks, supporting the display of effective connectivity estimates from [[dynamic-causal-modeling]] (DCM) or Granger causality analyses. The color mapping system supports arbitrary colormaps, enabling researchers to overlay statistical maps, significance values, or graph theoretical measures alongside structural connectivity.
 

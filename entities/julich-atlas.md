@@ -39,7 +39,7 @@ When used with TVB, the Jülich Atlas regions can be mapped to [[neural-mass-mod
 
 ## Key Features and Technical Details
 
-The Jülich Atlas provides several distinctive features that distinguish it from other brain parcellations. First, the probabilistic maps explicitly quantify uncertainty in cytoarchitectonic boundaries, acknowledging that individual brains do not conform perfectly to a population average[^4]. Second, the atlas is based on thorough histological analysis rather than purely functional or [[connectivity]]-based parcellation, providing an anatomical foundation that complements other approaches. Third, the maps are provided in standard stereotaxic spaces, enabling straightforward integration with virtually any neuroimaging processing pipeline.
+The Jülich Atlas provides several distinctive features that distinguish it from other [[brain-parcellations]]. First, the probabilistic maps explicitly quantify uncertainty in cytoarchitectonic boundaries, acknowledging that individual brains do not conform perfectly to a population average[^4]. Second, the atlas is based on thorough histological analysis rather than purely functional or [[connectivity]]-based parcellation, providing an anatomical foundation that complements other approaches. Third, the maps are provided in standard stereotaxic spaces, enabling straightforward integration with virtually any neuroimaging processing pipeline.
 
 The data is freely available through multiple channels: directly from the Jülich website, through the [[ebrains]] Knowledge Graph, and integrated into popular neuroimaging software packages including [[fsl]] (as part of the FSL Harvard-Oxford Atlas toolkit) and [[freesurfer]]. The atlas is distributed under open licenses that permit both academic and commercial use.
 
@@ -47,7 +47,7 @@ The data is freely available through multiple channels: directly from the Jülic
 
 The Jülich Atlas is often compared with other widely-used brain parcellations such as the [[harvard-oxford-atlas|Harvard-Oxford Atlas]] (which provides broader anatomical divisions), the [[aal-atlas|Automated Anatomical Labeling]] atlas, and the more recent [[brainnetome-atlas|Brainnetome Atlas]] (which combines cytoarchitecture with connectivity information)[^7]. Unlike these alternatives, the Jülich Atlas maintains a strong commitment to cytoarchitectonic precision, though this comes with the limitation that not all cortical areas have been fully mapped—particularly in prefrontal and association regions where cytoarchitectonic boundaries are less distinct[^1].
 
-The atlas also relates to the [[human-[[connectome]]-project|Human Connectome Project]] and its derivatives, which provide high-resolution connectivity-based parcellations. While HCP parcellations are derived from in-vivo multi-modal neuroimaging of living subjects, the Jülich Atlas provides a histological gold standard that can validate and complement these approaches[^8].
+The atlas also relates to the [[human-[[connectome]]-project|Human [[connectome]] Project]] and its derivatives, which provide high-resolution connectivity-based parcellations. While HCP parcellations are derived from in-vivo multi-modal neuroimaging of living subjects, the Jülich Atlas provides a histological gold standard that can validate and complement these approaches[^8].
 
 ## Related Software and Tools
 
