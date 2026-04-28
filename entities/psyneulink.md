@@ -2,6 +2,8 @@
 created: 2026-04-24
 sources:
 - raw/papers/semanticscholar-929b90566fc8.md
+- raw/papers/semanticscholar-8006c459587d.md
+- raw/papers/semanticscholar-4c098a7bad24.md
 tags:
 - software-brain-modeling
 - whole-brain-modeling
@@ -10,7 +12,7 @@ tags:
 - neuroimaging-fmri
 title: PsyNeuLink
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-28'
 ---
 
 Now I have all the information needed. Here's the corrected PsyNeuLink page with all issues fixed:

@@ -2,6 +2,7 @@
 created: 2026-04-27
 sources:
 - raw/papers/nunez-srinivasan-2006.md
+- raw/papers/sporns-2011.md
 tags:
 - petra-ritter
 title: Petra Ritter
