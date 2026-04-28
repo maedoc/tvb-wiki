@@ -528,3 +528,5 @@
 ## [2026-04-28 05:39] Matcher: 33 pages got 91 new sources
 
 ## [2026-04-28 05:44] Improve: 3 pages improved (fmriprep, genesis, pyeeg)
+
+## [2026-04-28 13:38] Audit: 696 issues (16 broken links, 65 orphans, 68 placeholders, 0 dup-refs, 4 opaque-refs, 78 thin, 192 missing-links)

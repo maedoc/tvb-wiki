@@ -21,6 +21,7 @@ from ralph_config import (
     word_count, has_placeholder, get_sources, load_frontmatter,
     read_page,
 )
+from combined_relevance import load_graph, load_embeddings, bfs_distances, CORE_LINKS, get_emb_scores, real_wc
 
 log = get_logger("Auditor")
 
@@ -344,6 +345,58 @@ def find_missing_inline_crosslinks() -> list[dict]:
     return results
 
 
+# ── Page relevance check ─────────────────────────────────────────────
+
+_relevance_cache = None
+
+def _get_relevance_data():
+    """Lazy-load graph + embedding data for relevance scoring."""
+    global _relevance_cache
+    if _relevance_cache is not None:
+        return _relevance_cache
+    log.info("Loading relevance data for page audit...")
+    outlinks, indegree, all_slugs = load_graph(WIKI_ROOT)
+    page_embs, slugs_emb, centroid, core_i, sim, mat_n = load_embeddings(WIKI_ROOT)
+    g_dist = bfs_distances(outlinks, all_slugs, CORE_LINKS)
+    idx = json.load(open(os.path.join(META_DIR, "embeddings", "wiki_index.json")))
+    slug_path = {e["slug"]: e["path"] for e in idx if e.get("path")}
+    _relevance_cache = (outlinks, indegree, all_slugs, page_embs, slugs_emb,
+                        centroid, core_i, sim, mat_n, g_dist, slug_path)
+    return _relevance_cache
+
+
+def find_low_relevance_pages():
+    """Flag pages that are empty stubs OR unreachable from core."""
+    data = _get_relevance_data()
+    outlinks, indegree, all_slugs, page_embs, slugs_emb, centroid, core_i, sim, mat_n, g_dist, slug_path = data
+    results = []
+
+    for slug in all_slugs:
+        path_tmp = slug_path.get(slug)
+        wc = real_wc(path_tmp) if path_tmp else 0
+        d = g_dist.get(slug, 999)
+        c, p, h = get_emb_scores(slug, page_embs, slugs_emb, mat_n, centroid, core_i, sim)
+
+        # Decision logic (same as combined_relevance.py)
+        if wc < 20 and d >= 5:
+            results.append({
+                'slug': slug, 'reason': 'stub',
+                'detail': f'{wc} words, graph_dist={d}',
+                'path': path_tmp,
+            })
+        elif d == 999 and (h is not None and h < 0.03):
+            # No graph link + low semantic similarity
+            results.append({
+                'slug': slug, 'reason': 'unlinked_and_distant',
+                'detail': f'hybrid={h:.3f}',
+                'path': path_tmp,
+            })
+    log.info("Low-relevance pages: %d stubs, %d unlinked+distant",
+             sum(1 for r in results if r['reason'] == 'stub'),
+             sum(1 for r in results if r['reason'] == 'unlinked_and_distant'))
+    return results
+
+
 # ── Main audit cycle ──────────────────────────────────────────────────
 
 def run_auditor_cycle():
@@ -372,6 +425,7 @@ def run_auditor_cycle():
         'opaque_references': find_opaque_references(),
         'thin_narrative': find_thin_narrative_pages(),
         'missing_inline_crosslinks': find_missing_inline_crosslinks(),
+        'low_relevance': find_low_relevance_pages(),
     }
 
     # Summary
@@ -387,7 +441,8 @@ def run_auditor_cycle():
         len(report['duplicate_references']) +
         len(report['opaque_references']) +
         len(report['thin_narrative']) +
-        len(report['missing_inline_crosslinks'])
+        len(report['missing_inline_crosslinks']) +
+        len(report['low_relevance'])
     )
 
     log.info("Broken wikilinks: %d", len(report['broken_wikilinks']))
@@ -403,6 +458,7 @@ def run_auditor_cycle():
     log.info("Opaque references: %d", len(report['opaque_references']))
     log.info("Thin narrative pages: %d", len(report['thin_narrative']))
     log.info("Missing inline crosslinks: %d", len(report['missing_inline_crosslinks']))
+    log.info("Low relevance pages: %d", len(report['low_relevance']))
     log.info("TOTAL ISSUES: %d", total_issues)
 
     # Save machine-readable report
