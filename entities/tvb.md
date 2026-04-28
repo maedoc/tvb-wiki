@@ -16,7 +16,7 @@ tags:
 - neural-mass-models
 title: TVB
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-28'
 ---
 
 # TVB (The Virtual Brain)
@@ -58,6 +58,8 @@ TVB combines:
 - [[ANTs]] — Image registration for preprocessing neuroimaging data
 
 [[chronux]]
+
+[[cvodes]]
 
 ## Related Concepts
 

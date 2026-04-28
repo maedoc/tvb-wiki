@@ -1,11 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- https://github.com/bids-standard/pybids
-- https://bids-specification.readthedocs.io
-- https://www.nature.com/articles/sdata2019161
-- https://www.frontiersin.org/articles/10.3389/fninf.2019.00007/full
-- https://www.sciencedirect.com/science/article/pii/S1053811918305492
 - raw/papers/ritter-2013.md
 - raw/papers/sanz-leon-2013.md
 - raw/papers/semanticscholar-adcab180dcd3.md

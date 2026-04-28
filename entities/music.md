@@ -1,8 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- '[Ekeberg & Djurfeldt, 2008](https://doi.org/10.1038/npre.2008.1830.1)'
-- '[Djurfeldt et al., 2010](https://doi.org/10.1007/s12021-010-9064-z)'
 - raw/papers/arxiv-2505.16861.md
 - raw/papers/semanticscholar-eb704b6f5462.md
 - raw/papers/arxiv-2510.02545.md

@@ -12,7 +12,7 @@ tags:
 - neural-mass-models
 title: NEURON
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-28'
 ---
 
 # NEURON
@@ -51,6 +51,7 @@ NEURON provides tools for building and simulating biophysically detailed models 
 - [[NEST]] — Point neuron network simulator for large-scale networks
 - [[TVB]] — [[neural-mass-models|Neural mass model]] [[whole-brain]] simulator
 - [[ModelDB]] — Model repository for sharing NEURON simulations
+- [[coreneuron]] — Optimized compute engine for large-scale NEURON simulations
 
 ## Related Concepts
 

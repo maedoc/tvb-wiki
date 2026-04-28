@@ -1,10 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- Mitra and Bokde (2022). "Chronux Analysis Software." http://www.chronux.org/
-- Bokde and Mitra (2011). "The Chronux toolbox for analysis of neural data." Society
-  for Neuroscience. Http://chronux.org/
-- Thomson (1982). "Spectrum estimation and harmonic analysis." Proceedings of the IEEE 70(9): 1055-1096.
 - raw/papers/sanz-leon-2013.md
 - raw/papers/rubinov-sporns-2010.md
 - raw/papers/arxiv-2604.16463.md

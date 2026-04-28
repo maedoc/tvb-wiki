@@ -1,8 +1,6 @@
 ---
 created: 2026-04-23
 sources:
-- raw/papers/linden-2013.md
-- raw/papers/hagen-2018.md
 - raw/papers/sanz-leon-2013.md
 - raw/papers/arxiv-2509.12873.md
 - raw/papers/hines-carnevale-1997.md

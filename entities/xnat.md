@@ -1,11 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- Marcus, D. S., Olsen, T. R., Ramaratnam, M., & Buckwalter, C. (2007). The extensible
-  neuroimaging archive toolkit. Neuroinformatics, 5(1), 11-34. https://doi.org/10.1385/NI:5:1:11
-- ? Marcus, D. S., Harwell, J., Olsen, T., Mhembre, M., Fleisher, T., Bert, A. Z.,
-    ... & Van Essen, D. C. (2011). The Human Connectome Project
-  : A public neuroimaging resource. Frontiers in Neuroscience, 5, 29. https://doi.org/10.3389/fnins.2011.00029
 - raw/papers/semanticscholar-f45e6044c92f.md
 - raw/papers/semanticscholar-97e6ff441097.md
 - raw/papers/barch-2013.md
@@ -47,7 +42,7 @@ XNAT has been widely adopted across neuroimaging consortia and individual labora
 
 ## Related Software
 
-XNAT operates within a broader ecosystem of neuroimaging software tools. It complements analysis packages like [[FSL]], [[FreeSurfer]], and [[ANTs]] that process the stored images, and integrates with data organization standards like [[BIDS]] that provide machine-readable metadata schemas. For visualization, XNAT's built-in image viewer can work alongside dedicated tools like [[3d-Slicer]], [[ITK-SNAP]], and [[FSLeyes]]. For data sharing and version control, XNAT installations often complement [[DataLad]] and [[GitLab]]-based workflows. Large XNAT installations may also interface with cloud computing platforms for scalable analysis, and the platform supports integration with workflow management systems built on [[Nipype]].
+XNAT operates within a broader ecosystem of neuroimaging software tools. It complements analysis packages like [[FSL]], [[FreeSurfer]], and [[ANTs]] that process the stored images, and integrates with data organization standards like [[BIDS]] that provide machine-readable metadata schemas. For visualization, XNAT's built-in image viewer can work alongside dedicated tools like [[3d-Slicer]], [[ITK-SNAP]], and [[FSLeyes]]. For data sharing and version control, XNAT installations often complement [[DataLad]] and GitLab-based workflows. Large XNAT installations may also interface with cloud computing platforms for scalable analysis, and the platform supports integration with workflow management systems built on [[Nipype]].
 
 ---
 
@@ -55,4 +50,4 @@ XNAT operates within a broader ecosystem of neuroimaging software tools. It comp
 
 - Marcus, D. S., Olsen, T. R., Ramaratnam, M., & Buckwalter, C. (2007). The extensible neuroimaging archive toolkit. *Neuroinformatics*, 5(1), 11-34. https://doi.org/10.1385/NI:5:1:11
 
-- Marcus, D. S., Harwell, J., Olsen, T., Mhembre, M., Fleisher, T., Bert, A. Z., ... & Van Essen, D. C. (2011). The [[human-[[connectome]]-project]]: A public neuroimaging resource. *Frontiers in Neuroscience*, 5, 29. https://doi.org/10.3389/fnins.2011.00029
+- Marcus, D. S., Harwell, J., Olsen, T., Mhembre, M., Fleisher, T., Bert, A. Z., ... & Van Essen, D. C. (2011). The [[human-connectome-project]]: A public neuroimaging resource. *Frontiers in Neuroscience*, 5, 29. https://doi.org/10.3389/fnins.2011.00029

@@ -1,12 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- Glasser, M. F., et al. (2016). A multi-modal parcellation of human cerebral cortex.
-  Nature, 536(7718), 171-178. doi:10.1038/nature18933
-- Van Essen, D. C., et al. (2012). The Human Connectome Project: A data acquisition
-    perspective. NeuroImage, 62(4), 2222-2231.
-- Glasser, M. F., et al. (2013). The minimal preprocessing pipelines for the Human
-  Connectome Project. NeuroImage, 80, 105-124.
 - raw/papers/van-essen-2012.md
 tags:
 - brain-parcellations
@@ -42,13 +36,13 @@ Each parcel in the Glasser Atlas is associated with a probabilistic boundary map
 
 ## Relationship to TVB and Whole-Brain Modeling
 
-In [[the-virtual-brain]] (TVB), the Glasser Atlas serves as a preferred choice for defining the structural nodes of [[whole-brain models]]. When used as a connectivity matrix basis, the Glasser parcellation provides a finer-grained discretization than earlier atlases such as the [[aal-atlas]] or [[desikan-killiany-atlas]], capturing subtle organizational features that influence model dynamics. The atlas is available in standard formats compatible with TVB, including CIFTI format supported by [[connectome-workbench]].
+In [[the-virtual-brain]] (TVB), the Glasser Atlas serves as a preferred choice for defining the structural nodes of [[schizophrenia-models]]. When used as a connectivity matrix basis, the Glasser parcellation provides a finer-grained discretization than earlier atlases such as the [[aal-atlas]] or [[desikan-killiany-atlas]], capturing subtle organizational features that influence model dynamics. The atlas is available in standard formats compatible with TVB, including CIFTI format supported by [[connectome-workbench]].
 
 The high spatial resolution of the Glasser Atlas (180 regions per hemisphere) presents both opportunities and challenges for [[whole-brain modeling]]: it enables more detailed representations of [[brain-network]] topology, but also increases computational demands and the complexity of [[parameter-estimation]]. Researchers using TVB often downsample the Glasser Atlas to a coarser resolution (e.g., 33 or 64 regions) for tractable simulations, though the original resolution remains the reference standard for high-fidelity models.
 
 ## Relationship to Other Atlases
 
-The Glasser Atlas can be compared with other widely used cortical parcellations. The [[desikan-killiany-atlas]] (34 regions per hemisphere) and [[destrieux-atlas]] are anatomical parcellations derived primarily from sulcal and gyral patterns, offering lower resolution but excellent reproducibility across scanners. The [[schaefer-atlas]] (100–1000 parcels) provides a purely functional parcellation based on resting-state [[clustering]] algorithms, useful for functional analyses but lacking anatomical anchoring. The [[brainnetome-atlas]] combines structural and functional data in a manner similar to Glasser but employs different boundary detection algorithms and results in a somewhat different parcel assignment.
+The Glasser Atlas can be compared with other widely used cortical parcellations. The [[desikan-killiany-atlas]] (34 regions per hemisphere) and [[destrieux-atlas]] are anatomical parcellations derived primarily from sulcal and gyral patterns, offering lower resolution but excellent reproducibility across scanners. The [[schaefer-atlas]] (100–1000 parcels) provides a purely functional parcellation based on resting-state clustering algorithms, useful for functional analyses but lacking anatomical anchoring. The [[brainnetome-atlas]] combines structural and functional data in a manner similar to Glasser but employs different boundary detection algorithms and results in a somewhat different parcel assignment.
 
 ## Key Features
 
@@ -63,11 +57,4 @@ The Glasser Atlas can be visualized and manipulated using several software packa
 - Glasser, M. F., et al. (2016). A multi-modal parcellation of human cerebral cortex. *Nature*, 536(7718), 171-178. — The primary paper describing the HCP_MMP1.0 atlas construction methodology and results.
 - Van Essen, D. C., et al. (2012). The Human Connectome Project: A data acquisition perspective. *NeuroImage*, 62(4), 2222-2231. — Overview of the HCP data acquisition framework.
 - Glasser, M. F., et al. (2013). The minimal preprocessing pipelines for the Human Connectome Project. *NeuroImage*, 80, 105-124. — Description of HCP preprocessing pipelines used for the parcellation data.
-- Glasser, M. F., et al. (2011). Mapping human cortical areas based on multiple features of MRI data. *NeuroImage*, 56(2), 585-595. — Precursor work on multi-feature cortical mapping.
-
-## References
-
-- Glasser, M. F., et al. (2016). A multi-modal parcellation of human cerebral cortex. Nature, 536(7718), 171-178.
-- Van Essen, D. C., et al. (2012). The Human Connectome Project: A data acquisition perspective. NeuroImage, 62(4), 2222-2231.
-- Glasser, M. F., et al. (2013). The minimal preprocessing pipelines for the Human Connectome Project. NeuroImage, 80, 105-124.
-- Glasser, M. F., et al. (2011). Mapping human cortical areas based on multiple features of MRI data. NeuroImage, 56(2), 585-595.
+- Glasser, M. F., et al. (2011). Mapping human cortical areas based

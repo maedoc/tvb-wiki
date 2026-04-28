@@ -13,6 +13,7 @@ tags:
 - dynamical-systems-theory
 - computational-neuroscience
 - whole-brain-modeling
+title: Krasimira Tsaneva Atanasova
 type: entity
 updated: '2026-04-28'
 ---
@@ -89,13 +90,13 @@ In the neuroscientific domain, understanding how neuronal and endocrine systems 
 * [[dynamical-systems-theory]]
 * [[bifurcation-theory]]
 * [[computational-neuroscience]]
-* [[mathematical-biology]]
+* [[electrophysiology]]
 * [[parameter-estimation]]
 * [[epilepsy-modeling]]
-* [[endocrine-system]]
-* [[hormone-dynamics]]
-* [[personalized-medicine]]
-* [[numerical-continuation]]
+* endocrine-system
+* [[nonlinear-dynamics]]
+* [[personalized-brain-modeling]]
+* [[parameter-estimation]]
 
 ## References
 

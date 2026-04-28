@@ -1,8 +1,6 @@
 ---
 created: 2026-04-27
 sources:
-- raw/papers/pynrrd-docs.md
-- raw/papers/nrrd-format.md
 - raw/papers/semanticscholar-97e6ff441097.md
 - raw/papers/semanticscholar-d6e43299345d.md
 - raw/papers/sanz-leon-2013.md
@@ -19,7 +17,7 @@ updated: '2026-04-28'
 
 ## Overview
 
-Pynrrd is a pure-Python library for reading and writing NRRD (Nearly Raw Raster Data) files into and from [[numpy]] arrays. The NRRD format itself is a flexible container for storing n-dimensional raster data, originally developed as part of the Teem toolkit at the University of Utah. While NRRD is commonly used for diffusion-weighted MRI data, segmentation masks, and other volumetric imaging datasets, it is fundamentally a general-purpose scientific array format—not DTI-specific. The pynrrd library provides a thin Python interface to this format, handling the mechanics of reading and writing without performing any visualization or data processing.
+Pynrrd is a pure-Python library for reading and writing NRRD (Nearly Raw Raster Data) files into and from numpy arrays. The NRRD format itself is a flexible container for storing n-dimensional raster data, originally developed as part of the Teem toolkit at the University of Utah. While NRRD is commonly used for diffusion-weighted MRI data, segmentation masks, and other volumetric imaging datasets, it is fundamentally a general-purpose scientific array format—not DTI-specific. The pynrrd library provides a thin Python interface to this format, handling the mechanics of reading and writing without performing any visualization or data processing.
 
 The library provides a simple, intuitive API that abstracts away the complexities of the NRRD file format specification while maintaining full compliance with the format version 5 (NRRD0005). The pynrrd project was initiated in 2010 and has since grown to become a fundamental utility in the [[neuroimaging]] ecosystem, with approximately 125 GitHub stars and active development continuing as of 2025.
 
@@ -29,13 +27,13 @@ It is important to distinguish between the NRRD format and the pynrrd library wh
 
 Tractography outputs—such as fiber orientation distributions, streamline counts, and probabilistic pathway maps—are frequently stored in NRRD format, given the format's native support for arbitrary-dimensional data and its ability to encode gradient directions and measurement frames essential for [[diffusion-mri]] interpretation. Researchers using [[the-virtual-brain]] to simulate brain dynamics based on [[structural-connectivity]] derived from diffusion data may encounter NRRD-format tractography results. The pynrrd library can read these files, but it is the NRRD *format* (and the data it contains) that relates to whole-brain modeling, not the library itself.
 
-Similarly, when working with [[brain-parcellations]] and region-based connectivity matrices, researchers may encounter NRRD-format label maps or segmentation volumes. Pynrrd enables conversion between NRRD volumes and [[numpy]] arrays, which can then be processed using libraries like [[nibabel]] or [[nilearn]] for further analysis—but this is a data conversion capability, not a modeling capability.
+Similarly, when working with [[brain-parcellations]] and region-based connectivity matrices, researchers may encounter NRRD-format label maps or segmentation volumes. Pynrrd enables conversion between NRRD volumes and numpy arrays, which can then be processed using libraries like [[nibabel]] or [[nilearn]] for further analysis—but this is a data conversion capability, not a modeling capability.
 
 ## Key Features
 
 The pynrrd library offers several distinctive capabilities that make it well-suited for neuroimaging workflows:
 
-**Reading and Writing NRRD Files**: The core functionality revolves around two primary functions—`nrrd.read()` and `nrrd.write()`—which handle bidirectional conversion between NRRD files and [[numpy]] arrays. The `read()` function returns a tuple containing the data array and a dictionary of header fields, while `write()` accepts a numpy array and optionally a custom header dictionary.
+**Reading and Writing NRRD Files**: The core functionality revolves around two primary functions—`nrrd.read()` and `nrrd.write()`—which handle bidirectional conversion between NRRD files and numpy arrays. The `read()` function returns a tuple containing the data array and a dictionary of header fields, while `write()` accepts a numpy array and optionally a custom header dictionary.
 
 **Header Parsing and Formatting**: Pynrrd provides comprehensive support for the full range of NRRD header fields, including dimensional information (`dimension`, `sizes`), spatial metadata (`space`, `space directions`, `space origin`, `space units`), axis properties (`kinds`, `labels`, `units`, `spacings`, `thicknesses`), and encoding specifications (`type`, `endian`, `encoding`). The library includes dedicated functions for parsing and formatting both standard fields and custom key-value pairs.
 
@@ -69,7 +67,7 @@ Pynrrd interoperability extends across several major neuroimaging platforms:
 
 - **[[dipy]]**: While dipy primarily uses NIfTI internally, its tractography outputs can be saved in NRRD format, enabling integration with tools expecting that format.
 
-- **[[nitk]]** (when available): ITK's NrrdImageIO class provides C++ NRRD support that mirrors pynrrd's functionality at a lower level, useful for performance-critical preprocessing stages.
+- **nitk** (when available): ITK's NrrdImageIO class provides C++ NRRD support that mirrors pynrrd's functionality at a lower level, useful for performance-critical preprocessing stages.
 
 ## Usage Example
 

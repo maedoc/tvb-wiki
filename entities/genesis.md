@@ -1,13 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- 'Bower & Beeman (1998). The Book of GENESIS: Exploring Realistic Neural Models with
-  the GEneral NEural Simulation System'
-- 'Bower et al. (1998). GENESIS: A System for Simulating Neurons and Networks'
-- Hines & Carnevale (1997). The NEURON Simulation Environment
-- Nordlie et al. (2009). A systematic evaluation of the speed and accuracy of object-oriented
-  neural simulators
-- 'Gleason et al. (2024). NetPyNE: Toolset for Multiscale Brain Modeling'
 - raw/papers/dayan-abbott-2001.md
 - raw/papers/arxiv-2505.16861.md
 - raw/papers/semanticscholar-eb704b6f5462.md

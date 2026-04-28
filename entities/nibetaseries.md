@@ -1,13 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- Rissman2010
-- Gazzaniga2002
-- Friston1994
-- Desikan2006
-- Schaefer2018
-- Esteban2019
-- Gorgolewski2016
 - raw/papers/smith-2013-connectomics.md
 - raw/papers/semanticscholar-cabf914d6370.md
 - raw/papers/friston-1993.md
@@ -43,7 +36,7 @@ The nibetaseries package offers several distinctive capabilities that make it va
 
 ## Technical Implementation
 
-The beta-series approach begins with a first-level GLM analysis where each trial of a particular experimental condition receives its own separate regressor, rather than modeling trials as a single condition epoch or parametric modulator. For a task with N trials of a specific condition, the GLM contains N trial-specific regressors alongside nuisance regressors (motion parameters, white matter signals, global signals). The resulting beta estimate for each trial represents the hemodynamic response amplitude during that specific cognitive event, uncontaminated by other trials of the same condition. These N beta maps are then reshaped into time series and correlated across the brain (for voxel-wise analysis) or across a parcellation scheme (for ROI analysis), producing an N×N or ROI×ROI connectivity matrix reflecting trial-by-trial co-variation.
+The beta-series approach begins with a first-level GLM analysis where each trial of a particular experimental condition receives its own separate regressor, rather than modeling trials as a single condition epoch or parametric modulator. For a task with N trials of a specific condition, the GLM contains N trial-specific regressors alongside nuisance regressors (motion parameters, [[white-matter]] signals, global signals). The resulting beta estimate for each trial represents the hemodynamic response amplitude during that specific cognitive event, uncontaminated by other trials of the same condition. These N beta maps are then reshaped into time series and correlated across the brain (for voxel-wise analysis) or across a [[parcellation]] scheme (for ROI analysis), producing an N×N or ROI×ROI connectivity matrix reflecting trial-by-trial co-variation.
 
 The mathematical formulation follows: given a design matrix X with trial-specific regressors, the ordinary least squares solution yields beta estimates β = (X^T X)^(-1) X^T Y for each voxel or ROI time series Y. Connectivity between regions i and j is then computed as the Pearson correlation r_ij = cov(β_i, β_j) / (σ_i σ_j), where β_i and β_j are the vectors of trial-wise beta estimates for regions i and j respectively (Friston, 1994).
 
@@ -57,7 +50,7 @@ The mathematical formulation follows: given a design matrix X with trial-specifi
 
 Nibetaseries is part of the broader Python neuroimaging ecosystem and relies on libraries including [[nibabel]] for reading NIfTI format fMRI data, [[nilearn]] for neuroimaging operations and connectivity routines, and [[pybids]] for parsing BIDS-compliant directory structures (Gorgolewski et al., 2016). It complements other connectivity analysis tools such as [[conn]] (a toolbox commonly used in SPM/MATLAB environments) and the [[brain-connectivity-toolbox]] (BCT), though those tools primarily address resting-state or continuous-task connectivity rather than trial-by-trial beta-series analysis. The package shares conceptual foundations with [[dynamic-causal-modeling]] (DCM), which also attempts to characterize effective connectivity from fMRI data, though DCM uses a generative model approach whereas beta-series provides descriptive correlation-based connectivity estimates.
 
-Alternative Python-based tools for task-based connectivity analysis include AFNI's 3dLME for linear mixed-effects modeling of trial-wise effects, FSL's FEAT for model specification, and MarsBAR for ROI-based analyses. For researchers interested in comparing beta-series approaches with other trial-level connectivity methods, the GPPI (Generalized Psychophysiological Interaction) toolbox and the CONN toolbox's task-based analysis options provide additional complementary approaches.
+Alternative Python-based tools for task-based connectivity analysis include [[afni]]'s 3dLME for linear mixed-effects modeling of trial-wise effects, FSL's FEAT for model specification, and MarsBAR for ROI-based analyses. For researchers interested in comparing beta-series approaches with other trial-level connectivity methods, the GPPI (Generalized Psychophysiological Interaction) toolbox and the CONN toolbox's task-based analysis options provide additional complementary approaches.
 
 ## References
 

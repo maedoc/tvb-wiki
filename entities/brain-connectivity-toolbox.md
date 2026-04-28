@@ -15,7 +15,7 @@ title: Brain [[connectivity]] Toolbox
 created: 2024-01-15
 updated: 2026-04-28
 type: entity
-tags: [[[software-bct]], connectomics, graph-theory, network-analysis, functional-connectivity, structural-connectivity, neuroimaging-mri, matlab-toolbox]
+tags: [[software-bct]], connectomics, graph-theory, network-analysis, functional-connectivity, structural-connectivity, neuroimaging-mri, matlab-toolbox
 sources: [rubinov-sporns-2010, bct-github, betzel-2019-multilayer]
 ---
 
@@ -27,7 +27,7 @@ The emergence of the Brain Connectivity Toolbox addressed a critical need in [[n
 
 ## Key Features and Capabilities
 
-BCT includes implementations of over 100 network analysis algorithms spanning several categories. **Global network metrics** include [[small-world]] measures (clustering coefficient, characteristic path length), network efficiency (global and local), [[modularity]], [[rich-club]] coefficient, and [[structural-core]] identification. **Node-level metrics** include degree, betweenness centrality, [[network-hubs]] identification, and eigenvector centrality. The toolbox also provides tools for **network comparison**, including null model generation (configurable and lattice-watts-strogatz models), network distance measures, and statistical testing via permutation frameworks.
+BCT includes implementations of over 100 network analysis algorithms spanning several categories. **Global network metrics** include [[small-world-networks]] measures (clustering coefficient, characteristic path length), network efficiency (global and local), [[modularity]], [[rich-club]] coefficient, and [[structural-core]] identification. **Node-level metrics** include degree, betweenness centrality, [[network-hubs]] identification, and eigenvector centrality. The toolbox also provides tools for **network comparison**, including null model generation (configurable and lattice-watts-strogatz models), network distance measures, and statistical testing via permutation frameworks.
 
 A distinctive feature of BCT is its support for **weighted and directed networks**, allowing analysis beyond simple binary graphs. The toolbox implements algorithms for thresholding strategies (absolute, proportional, and density-capped), as relationship strength between brain regions can vary continuously. BCT also includes specialized functions for **community detection**, implementing algorithms from multiple research groups including Louvain, Infomap, and spectral partitioning methods. For time-varying connectivity analysis, BCT provides tools for analyzing dynamic connectivity patterns extracted from sliding-window analyses of [[fmri]] or MEG data.
 
@@ -37,7 +37,7 @@ The Brain Connectivity Toolbox plays an important role in the [[whole-brain-mode
 
 ## Related Software and Ecosystem
 
-While BCT was originally developed for MATLAB, several adaptations and alternatives have emerged in the Python ecosystem. **bctpy** provides Python bindings to the core BCT algorithms, enabling integration with scientific computing stacks using [[numpy]] and [[scipy]]. The [[brainnet-viewer]] software complements BCT by providing visualization capabilities for three-dimensional brain networks. For Python-native analysis, the [[brainspace]] library offers network analysis functionality, while [[nilearn]] provides connectivity-related tools within the Python neuroimaging preprocessing ecosystem. The [[graphvar]] toolbox extends BCT-style network analysis specifically for graph-theoretic approaches to neuroimaging, with additional features for brain-behavior correlation analysis and null model validation for dynamic connectivity metrics.
+While BCT was originally developed for MATLAB, several adaptations and alternatives have emerged in the Python ecosystem. **bctpy** provides Python bindings to the core BCT algorithms, enabling integration with scientific computing stacks using numpy and scipy. The [[brainnet-viewer]] software complements BCT by providing visualization capabilities for three-dimensional brain networks. For Python-native analysis, the [[brainspace]] library offers network analysis functionality, while [[nilearn]] provides connectivity-related tools within the Python neuroimaging preprocessing ecosystem. The [[graphvar]] toolbox extends BCT-style network analysis specifically for graph-theoretic approaches to neuroimaging, with additional features for brain-behavior correlation analysis and null model validation for dynamic connectivity metrics.
 
 ## Key Papers and Development History
 

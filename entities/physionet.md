@@ -1,8 +1,6 @@
 ---
 created: 2023-01-15
 sources:
-- Goldberger et al. 2000
-- Moody & Mark 2001
 - raw/papers/semanticscholar-769ed169ed7c.md
 - raw/papers/semanticscholar-5a69b770faf9.md
 - raw/papers/arxiv-2604.16463.md

@@ -1,9 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- https://doi.org/10.1155/2011/406391
-- https://pmc.ncbi.nlm.nih.gov/articles/PMC3070217/
-- https://doi.org/10.1002/hbm.20346
 - raw/papers/semanticscholar-5a69b770faf9.md
 - raw/papers/semanticscholar-769ed169ed7c.md
 - raw/papers/sanz-leon-2013.md
@@ -57,7 +54,7 @@ Furthermore, PyEEG's feature extraction capabilities complement TVB's forward mo
 
 ## Related Software
 
-PyEEG is part of a broader ecosystem of EEG analysis tools, each with distinct strengths. [[EEGLAB]] is a comprehensive MATLAB-based toolbox offering preprocessing, independent component analysis (ICA), and clustering, with extensive plugin support. [[fieldtrip]] provides a MATLAB framework emphasizing forward modeling and source analysis with strong ties to [[dynamic-causal-modeling]]. [[mne-python]] offers a modern Python alternative with sophisticated source estimation, connectivity analysis, and integration with the PyData ecosystem. For nonlinear dynamics analysis specifically, [[ nonlinearity]] toolboxes and custom implementations using [[scipy]] or [[torch]] provide alternative approaches to Lyapunov exponent estimation and recurrence quantification.
+PyEEG is part of a broader ecosystem of EEG analysis tools, each with distinct strengths. [[EEGLAB]] is a comprehensive MATLAB-based toolbox offering preprocessing, independent component analysis (ICA), and clustering, with extensive plugin support. [[fieldtrip]] provides a MATLAB framework emphasizing forward modeling and source analysis with strong ties to [[dynamic-causal-modeling]]. [[mne-python]] offers a modern Python alternative with sophisticated source estimation, connectivity analysis, and integration with the PyData ecosystem. For nonlinear dynamics analysis specifically, nonlinearity toolboxes and custom implementations using scipy or torch provide alternative approaches to Lyapunov exponent estimation and recurrence quantification.
 
 ## Key Papers
 

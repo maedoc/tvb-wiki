@@ -67,7 +67,7 @@ The historical development of neural mass models produced several canonical arch
 
 ## Dynamical Regimes and Bifurcation Analysis
 
-A powerful feature of neural mass models is their ability to exhibit multiple qualitative dynamical regimes depending on parameter values—[[bifurcation-analysis]] reveals how transitions between these regimes occur. At low excitation, the system settles to a stable fixed point corresponding to the [[resting-state]] of minimal neural activity. Increasing excitation can drive the system through a Hopf bifurcation into a limit cycle, producing rhythmic oscillations in the alpha (8-12 Hz), beta (12-30 Hz), or gamma (30-100 Hz) bands depending on the balance of excitation and inhibition. More complex parameter regions produce quasiperiodic oscillations, chaotic dynamics, or bistability where the system can coexist in either a resting or an oscillatory state. This bifurcation structure provides a principled framework for understanding pathological transitions: in [[epilepsy-modeling]], seizure onset often corresponds to a bifurcation from normal resting dynamics into oscillatory or chaotic states as pathological parameter changes accumulate.
+A powerful feature of neural mass models is their ability to exhibit multiple qualitative dynamical regimes depending on parameter values—[[bifurcation-analysis]] reveals how transitions between these regimes occur. At low excitation, the system settles to a stable fixed point corresponding to the [[resting-state]] of minimal neural activity. Increasing excitation can drive the system through a Hopf bifurcation into a limit cycle, producing rhythmic oscillations in the alpha (8-12 Hz), beta (12-30 Hz), or gamma (30-100 Hz) bands depending on the balance of excitation and inhibition. More complex parameter regions produce quasiperiodic oscillations, chaotic dynamics, and bistability where the system can coexist in either a resting or an oscillatory state. This bifurcation structure provides a principled framework for understanding pathological transitions: in [[epilepsy-modeling]], seizure onset often corresponds to a bifurcation from normal resting dynamics into oscillatory or chaotic states as pathological parameter changes accumulate.
 
 ## Clinical and Research Applications
 
@@ -87,7 +87,7 @@ Despite their utility, neural mass models carry significant limitations that mot
 - [[jansen-rit]] – EEG/MEG‑focused cortical column model
 - [[wong-wang]] – [[fmri]]/BOLD‑optimized model
 - [[tvb]] – Primary software platform implementing NMMs
-- [[tvb-vs-[[nest]]-vs-neuron|TVB vs Nest vs Neuron]]
+- [[tvb-vs-nest-vs-neuron|TVB vs Nest vs Neuron]]
 - [[tvb-vs-nest-vs-neuron|Tvb Vs Nest Vs Neuron]]
 
 ## References

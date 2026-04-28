@@ -15,7 +15,7 @@ title: Neurosynth
 created: 2024-01-15
 updated: 2026-04-28
 type: software
-tags: [[[neuroimaging]]-[[fmri]], [[resting-state]], functional-[[connectivity]], [[connectomics]], software-neurosynth, python, meta-analysis, database]
+tags: [[neuroimaging]]-[[fmri]], [[resting-state]], functional-[[connectivity]], [[connectomics]], software-neurosynth, python, meta-analysis, database]
 sources:
   - Yarkoni et al. (2011). Large-scale automated synthesis of human functional neuroimaging data. Nature Methods.
   - Poldrack et al. (2011). Handbook of Functional Connectivity MRI. Academic Press.
