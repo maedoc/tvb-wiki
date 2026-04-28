@@ -4,6 +4,8 @@ sources:
 - raw/papers/alfaro-almagro-2018.md
 - raw/papers/elliott-2018.md
 - raw/papers/miller-2016.md
+- raw/papers/smith-2021.md
+- raw/papers/littlejohns-2020.md
 tags:
 - people-researcher
 - neuroimaging-fmri
@@ -20,7 +22,7 @@ Researcher at University of Oxford, FMRIB Centre, key contributor to UK Biobank 
 ## Key Contributions
 
 - **UK Biobank Processing Pipelines**: Led development of image processing for 100,000+ participants
-- **Quality Control**: Established automated QC procedures for large-scale neuroimaging
+- **Quality Control**: Established automated QC procedures for large-scale [[neuroimaging]]
 - **Open Source Tools**: Contributed to widely-used neuroimaging software
 
 ## Research Focus

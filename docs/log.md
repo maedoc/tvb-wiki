@@ -1,5 +1,61 @@
 # Wiki Log
 
+## 2026-04-28
+
+- Improved page: [[krasimira-tsaneva-atanasova]] – Researcher in connectome-based whole-brain modeling
+  - Complete rewrite from placeholder to comprehensive entity page (~600 words)
+  - Updated frontmatter: changed updated date to 2026-04-28, added sources: raw/papers/breakspear-2017.md, raw/papers/sanz-leon-2013.md
+  - Tags: people-researcher, whole-brain-modeling, neural-mass-models, computational-neuroscience, network-dynamics
+  - Established 10+ wikilinks: connectome, whole-brain-modeling, neural-mass-model, tvb, structural-connectivity, functional-connectivity, parameter-estimation, personalized-brain-modeling, brain-dynamics, network-dynamics, epilepsy-modeling, computational-psychiatry
+  - Added sections: Affiliations, Research Focus (whole-brain modeling, parameter estimation, neural mass models), Key Publications with context, Relationships and Collaborative Context, Open Questions
+  - Replaced all placeholders with substantive content about the researcher's work in computational neuroscience
+  - Linked to key foundational papers (Breakspear 2017, Sanz Leon et al. 2013) and explained their relevance to the field
+
+- Improved page: [[pynrrd]] – Python library for reading/writing NRRD file format
+  - Complete rewrite from placeholder to comprehensive entity page (~900 words)
+  - Updated frontmatter: changed updated date to 2026-04-28, added tags: neuroimaging-dti, diffusion-imaging
+  - Added sources: raw/papers/pynrrd-docs.md, raw/papers/nrrd-format.md
+  - Established 9+ wikilinks: nibabel, dipy, 3d-slicer, ants, mrtrix, nilearn, the-virtual-brain, whole-brain, connectome, structural-connectivity, diffusion-imaging
+  - Added detailed sections: Overview, Relationship to TVB, Key Features, Technical Implementation, Comparison with Related Formats, Integration with Neuroimaging Software
+  - Explained NRRD format's role in DTI/tractography and whole-brain modeling workflows
+  - Included usage code example demonstrating 4D DWI volume handling
+
+## 2026-04-27
+
+- Fixed and re-improved page: [[cognitive-reserve]] – Brain's adaptive capacity to maintain function despite pathology
+  - **CRITICAL FIX**: Page content was corrupted (contained garbled metadata instead of actual concept content)
+  - Complete rewrite to proper concept page (~1400 words) with actual substantive content
+  - Updated frontmatter: updated date remains 2026-04-27, added tags: neuroimaging-eeg, neuroimaging-meg, compensation, network-dynamics
+  - Established 15+ wikilinks: brain-maintenance, aging, functional-connectivity, resting-state, default-mode-network, structural-connectivity, connectomics, whole-brain-modeling, personalized-brain-modeling, network-dynamics, structural-core, brain-network, bold-signal
+  - Proper opening paragraph defining cognitive reserve and distinguishing it from brain reserve
+  - Added "Theoretical Motivation and Clinical Significance" explaining the threshold model and clinical implications
+  - Expanded "Historical Development" with detailed prose on Stern's theory, Buckner's neuroimaging integration, and Cabeza's three-mechanism framework
+  - Added section on "Types of Reserve: Brain Versus Cognitive" with threshold model explanation
+  - Expanded "Proxy Measures and Their Limitations" with confounding factor discussion
+  - Added "Neural Mechanisms and Neuroimaging Evidence" section covering fMRI, EEG, and MEG findings
+  - Added "Role in Whole-Brain Modeling" section linking to neural mass models and network resilience
+  - Added "Relationship to Brain Maintenance" section explaining conceptual distinctions and complementarities
+  - Removed invalid ## References section that was in corrupted content
+  - Sources retained: raw/papers/buckner-2004.md, raw/papers/grady-2012.md, raw/papers/cabeza-2018.md
+
+- Improved page: [[neurodevelopment]] – Brain development across the lifespan
+  - Complete rewrite expanding from ~400 words to ~800 words
+  - Updated frontmatter: changed updated date from 2026-04-23 to 2026-04-27
+  - Tags: neurodevelopment, developmental-trajectories, whole-brain-modeling
+  - Established 10+ wikilinks: Nitin Gogtay, developmental-trajectories, aging, brain-network, functional-connectivity, structural-connectivity, personalized-brain-modeling, whole-brain-modeling, resting-state, default-mode-network, network-dynamics
+  - Expanded opening paragraph to define neurodevelopment in context of whole-brain modeling, explaining why developmental stage matters for model parameter calibration
+  - Added "Definition and Scope" section with more detailed explanation of the integration of developmental neuroscience, neuroimaging, and computational modeling
+  - Expanded "Structural Development" section with prose explaining neurogenesis in proliferative zones, neuronal migration mechanisms, differentiation processes, and detailed timeline of synaptogenesis and synaptic pruning
+  - Expanded "Functional Development" section detailing transition from local to distributed processing and cognitive maturation
+  - Enhanced "Cortical Maturation Pattern" section to integrate resting-state neuroimaging context and link to whole-brain modeling implications
+  - Added detail to "Network Development" section describing transitions from infancy through adulthood with specific network behaviors
+  - Expanded "Role in Whole-Brain Modeling" section with specific parameter types that must be age-calibrated: synaptic time constants, connection strengths, network topology
+  - Added "Modeling Developmental Disorders" subsection explaining how personalized-brain-modeling approaches can identify deviations in developmental trajectories
+  - Replaced broken link to "plasticity" with valid links to brain-network and network-dynamics
+  - Added more related concepts in final section to reach 10 wikilinks: whole-brain-modeling, resting-state, default-mode-network, network-dynamics
+  - Removed ## References section per schema, as sources are already documented in frontmatter
+  - Sources retained from frontmatter: raw/papers/tau-peterson-2010.md, raw/papers/gogtay-2004.md, raw/papers/fair-2009.md, raw/papers/power-2010.md, raw/papers/stiles-jernigan-2010.md, raw/papers/semanticscholar-c4bc6ce91683.md, raw/papers/smith-2021.md
+
 ## 2026-04-24
 
 - Improved page: [[Stochastic Differential Equations]] – Concept page on noise-driven dynamics in neural systems
@@ -366,3 +422,117 @@
 ## [2026-04-27] lint | 210 broken links, 97 orphans, 42 missing from index
 
 ## [2026-04-27] hourly | Added 0 new papers
+
+## [2026-04-27 10:55] functional-connectivity.md | Improved page (expanded content, added wikilinks, updated references)
+
+## [2026-04-27 11:03] Linter: 208 broken links, 97 orphans, 157 stale, 115 empty
+
+## [2026-04-27 11:13] BulkRewrite: 39 pages rewritten with ollama/minimax-m2.5:cloud, 0 failed
+
+## [2026-04-27 12:32] RefFormatter: formatted references on 48 pages
+
+## [2026-04-27 12:34] CrosslinkApplier: added 218 wikilinks (212 inline, 6 suggested)
+
+## [2026-04-27 12:35] Audit: 828 issues (247 broken links, 98 orphans, 114 placeholders, 0 dup-refs, 2 opaque-refs, 2 thin, 114 missing-links)
+
+## [2026-04-27 12:35] Audit: 828 issues (247 broken links, 98 orphans, 114 placeholders, 0 dup-refs, 2 opaque-refs, 2 thin, 114 missing-links)
+
+## [2026-04-27 14:37] Audit: 837 issues (254 broken links, 98 orphans, 114 placeholders, 0 dup-refs, 2 opaque-refs, 0 thin, 116 missing-links)
+
+## [2026-04-27 15:43] Audit: 783 issues (200 broken links, 98 orphans, 114 placeholders, 0 dup-refs, 2 opaque-refs, 0 thin, 116 missing-links)
+
+## [2026-04-27 15:49] Audit: 1025 issues (7 broken links, 87 orphans, 114 placeholders, 0 dup-refs, 2 opaque-refs, 86 thin, 206 missing-links)
+
+## [2026-04-27 16:11] Audit: 1020 issues (14 broken links, 81 orphans, 87 placeholders, 0 dup-refs, 2 opaque-refs, 80 thin, 233 missing-links)
+
+## [2026-04-27 16:15] CrosslinkApplier: added 720 wikilinks (719 inline, 1 suggested)
+
+## [2026-04-27 16:20] Audit: 812 issues (8 broken links, 80 orphans, 87 placeholders, 0 dup-refs, 2 opaque-refs, 80 thin, 151 missing-links)
+
+## [2026-04-27 16:22] Audit: 809 issues (5 broken links, 80 orphans, 87 placeholders, 0 dup-refs, 2 opaque-refs, 80 thin, 151 missing-links)
+
+## [2026-04-27 16:25] Audit: 808 issues (4 broken links, 80 orphans, 87 placeholders, 0 dup-refs, 2 opaque-refs, 80 thin, 151 missing-links)
+
+## [2026-04-27 16:26] Audit: 805 issues (0 broken links, 81 orphans, 87 placeholders, 0 dup-refs, 2 opaque-refs, 80 thin, 151 missing-links)
+
+## [2026-04-27 16:30] Librarian: catalog rebuilt, 2330 asymmetric links noted
+
+## [2026-04-27 16:31] Audit: 704 issues (0 broken links, 81 orphans, 87 placeholders, 0 dup-refs, 2 opaque-refs, 80 thin, 151 missing-links)
+
+## [2026-04-27 18:56] Improve: 3 pages improved (neuromorpho-toolkit, open-source-brain, dsi-studio)
+
+## [2026-04-27 18:56] RefFormatter: formatted references on 60 pages
+
+## [2026-04-27 19:00] CrosslinkApplier: added 162 wikilinks (162 inline, 0 suggested)
+
+## [2026-04-27 19:05] Ingest: 7 new papers, 0 stubs created
+
+## [2026-04-27 19:43] Matcher: 61 pages got 164 new sources
+
+## [2026-04-27 19:51] DeepResearch: 76 papers added via focused research
+
+## [2026-04-27 19:51] Audit: 609 issues (5 broken links, 78 orphans, 84 placeholders, 0 dup-refs, 2 opaque-refs, 78 thin, 165 missing-links)
+
+## [2026-04-27 20:20] Improve: 3 pages improved (scirun, brainsuite, ebrains)
+
+## [2026-04-27 20:20] RefFormatter: formatted references on 19 pages
+
+## [2026-04-27 20:24] CrosslinkApplier: added 60 wikilinks (60 inline, 0 suggested)
+
+## [2026-04-27 20:28] Ingest: 2 new papers, 0 stubs created
+
+## [2026-04-27 20:54] Matcher: 57 pages got 156 new sources
+
+## [2026-04-27 21:43] Improve: 3 pages improved (ebrains, scirun, brainsuite)
+
+## [2026-04-27 21:43] RefFormatter: formatted references on 4 pages
+
+## [2026-04-27 21:47] CrosslinkApplier: added 29 wikilinks (29 inline, 0 suggested)
+
+## [2026-04-27 21:51] Ingest: 2 new papers, 0 stubs created
+
+## [2026-04-27 22:43] Improve: 3 pages improved (clinica, neuroscience-gateway, nengo)
+
+## [2026-04-27 22:43] RefFormatter: formatted references on 3 pages
+
+## [2026-04-27 22:47] CrosslinkApplier: added 25 wikilinks (25 inline, 0 suggested)
+
+## [2026-04-27 22:51] Ingest: 3 new papers, 0 stubs created
+
+## [2026-04-27 23:15] Matcher: 15 pages got 36 new sources
+
+## [2026-04-27 23:26] DeepResearch: 25 papers added via focused research
+
+## [2026-04-27 23:26] Audit: 590 issues (7 broken links, 71 orphans, 78 placeholders, 0 dup-refs, 2 opaque-refs, 78 thin, 176 missing-links)
+
+## [2026-04-27 23:37] Repair: 29 issues fixed (18 source refs, 0 index, 0 frontmatter, 7 wikilinks, 4 orphans, 0 dup-refs, 0 opaque-refs, 0 crosslinks)
+
+## [2026-04-27 23:37] Librarian: catalog rebuilt, 2697 asymmetric links noted
+
+## [2026-04-27 23:37] Linter: 0 broken links, 66 orphans, 77 stale, 116 empty
+
+## [2026-04-27 23:56] SoftwareMapper: 20 pages created
+
+## [2026-04-27 23:58] Improve: 3 pages improved (nibetaseries, cat12, chronux)
+
+- Updated [[lfpy]] entity page with comprehensive content including overview, technical framework, key features, relationship to TVB, key papers, and related software.
+
+## [2026-04-28 01:03] Improve: 3 pages improved (the-virtual-epileptic-brain, physionet, lfpy)
+
+## [2026-04-28 02:09] Improve: 3 pages improved (pybids, pynrrd, krasimira-tsaneva-atanasova)
+
+## [2026-04-28 03:13] Improve: 3 pages improved (sloreta, music, neurosynth)
+
+## [2026-04-28 04:16] Improve: 3 pages improved (brain-connectivity-toolbox, itk-snap, plotly)
+
+## [2026-04-28 05:39] Matcher: 33 pages got 91 new sources
+
+## [2026-04-28 05:44] Improve: 3 pages improved (fmriprep, genesis, pyeeg)
+
+## [2026-04-28 13:38] Audit: 696 issues (16 broken links, 65 orphans, 68 placeholders, 0 dup-refs, 4 opaque-refs, 78 thin, 192 missing-links)
+
+## [2026-04-28 13:47] RefFormatter: formatted references on 8 pages
+
+## [2026-04-28 13:52] Improve: 3 pages improved (suma, glasser-atlas, xnat)
+
+## [2026-04-28 13:56] CrosslinkApplier: added 126 wikilinks (126 inline, 0 suggested)

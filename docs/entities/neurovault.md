@@ -17,9 +17,9 @@ updated: '2026-04-27'
 
 ## Overview
 
-NeuroVault is an open-access web repository for sharing unthresholded statistical maps from neuroimaging studies. Launched in 2015 by Gorgolewski et al. [@gorgolewski2015], it addresses a critical gap in neuroimaging research: the lack of accessibility to full statistical maps that are typically reduced to coordinate tables (peak activations) in publications. The platform primarily serves functional magnetic resonance imaging ([[fmri]]), voxel-based morphometry (VBM), and positron emission tomography (PET), with growing support for multi-modal integration.
+NeuroVault is an open-access web repository for sharing unthresholded statistical maps from [[neuroimaging]] studies. Launched in 2015 by Gorgolewski et al. [@gorgolewski2015], it addresses a critical gap in neuroimaging research: the lack of accessibility to full statistical maps that are typically reduced to coordinate tables (peak activations) in publications. The platform primarily serves functional magnetic resonance imaging ([[fmri]]), voxel-based morphometry (VBM), and positron emission tomography (PET), with growing support for multi-modal integration.
 
-The repository enables researchers to upload, visualize, and share [[whole-brain]] statistical maps in standard neuroimaging formats (particularly NIfTI and CIFTI). By preserving the complete voxel-wise statistical information rather than just suprathreshold clusters, NeuroVault facilitates meta-analyses, reproducibility verification, and data reuse that would otherwise be impossible with traditional publication summaries.
+The repository enables researchers to upload, visualize, and share [[whole-brain]] statistical maps in standard neuroimaging formats (particularly [[nifti]] and [[cifti]]). By preserving the complete voxel-wise statistical information rather than just suprathreshold clusters, NeuroVault facilitates meta-analyses, [[reproducibility]] verification, and data reuse that would otherwise be impossible with traditional publication summaries.
 
 ## Key Features
 
@@ -41,7 +41,7 @@ All uploaded maps are automatically rendered using WebGL-based viewers, allowing
 
 ## Relationship to TVB
 
-[[the-virtual-brain|TVB]] can leverage NeuroVault in several methodological contexts:
+[[tvb|TVB]] can leverage NeuroVault in several methodological contexts:
 
 **Empirical Validation Data**
 
@@ -67,7 +67,7 @@ The platform's adoption reflects growing recognition that complete statistical m
 - [[nilearn|Nilearn]] — Python library for neuroimaging analysis with NeuroVault integration
 - [[pymvpa|PyMVPA]] — Multivariate pattern analysis library supporting direct NeuroVault import
 - [[nipype|Nipype]] — Pipeline framework that can automate NeuroVault uploads
-- [[brain-connectivity-toolbox]]
+- [[brainsuite]]
 
 ## Key Papers
 
@@ -81,9 +81,9 @@ The platform's adoption reflects growing recognition that complete statistical m
 
 ## References
 
-1. Wen-ju Pan, L. Daley, Harrison Watters, Lisa Meyer-Baese, K. Gopinath, Dieter Jaeger, Shella Keilholz. (2026). *An integrated platform for simultaneous wide-field voltage/calcium imaging and fMRI (EPI & ZTE) reveals neuronal infraslow dynamics underlying functional connectivity*. bioRxiv. [DOI](https://doi.org/10.64898/2026.01.26.701889)
+1. Wen-ju Pan, L. Daley, Harrison Watters, Lisa Meyer-Baese, K. Gopinath, Dieter Jaeger, Shella Keilholz. (2026). *An integrated platform for simultaneous wide-field voltage/calcium imaging and fMRI (EPI & ZTE) reveals neuronal infraslow dynamics underlying functional [[connectivity]]*. bioRxiv. [DOI](https://doi.org/10.64898/2026.01.26.701889)
 2. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
 3. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2025). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research*. bioRxiv. [DOI](https://doi.org/10.1101/2025.10.06.680781)
-4. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2026). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research.*. Brain Stimulation. [DOI](https://doi.org/10.1016/j.brs.2025.103016)
+4. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2026). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research.*. [[brain-stimulation]]. [DOI](https://doi.org/10.1016/j.brs.2025.103016)
 5. Muhammad Nabi Yasinzai, R. Mito, M. Pedersen. (2025). *BrainScape: An open-source framework for integrating and preprocessing anatomical MRI datasets*. Imaging neuroscience. [DOI](https://doi.org/10.1162/IMAG.a.944)
-6. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
+6. Ritter et al. (2013). *[[the-virtual-brain]] integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)

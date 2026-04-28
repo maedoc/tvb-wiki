@@ -35,7 +35,7 @@ Documents the achievement of the 100,000 participant milestone and the scientifi
 ## Related Concepts
 - [[uk-biobank]] – Large-scale population study
 - [[population-neuroimaging]] – Imaging at population scale
-- [[neuroimaging-fmri]] – Functional MRI
+- [[fmri]] – Functional MRI
 - [[big-data-neuroscience]] – Large-scale data resources
 - [[open-science]] – Data sharing
 

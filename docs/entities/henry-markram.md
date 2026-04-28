@@ -3,6 +3,9 @@ created: 2026-04-20
 sources:
 - raw/papers/markram-2015.md
 - raw/papers/potjans-diesmann-2014.md
+- raw/papers/semanticscholar-d759f2182295.md
+- raw/papers/semanticscholar-71ffb8153870.md
+- raw/papers/arxiv-2602.00561.md
 tags:
 - people-researcher
 - software-neuron
@@ -28,7 +31,7 @@ Neuroscientist known for the Blue Brain Project and data-driven cortical reconst
 
 - Markram et al. (2015) — Reconstruction and simulation of neocortical microcircuitry markram-2015
   - Digital reconstruction of ~31,000-neuron cortical column
-  - Integration of morphology, electrophysiology, and connectivity
+  - Integration of morphology, [[electrophysiology]], and [[connectivity]]
   - Layer-specific firing patterns and oscillations
   - Milestone in data-driven brain simulation
 

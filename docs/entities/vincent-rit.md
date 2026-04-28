@@ -8,6 +8,9 @@ sources:
 - raw/papers/potjans-diesmann-2014.md
 - raw/papers/breakspear-2017.md
 - raw/papers/arxiv-2503.05564.md
+- raw/papers/semanticscholar-cc2129666e15.md
+- raw/papers/semanticscholar-e1fa0a868dbe.md
+- raw/papers/semanticscholar-85e2123db1a7.md
 tags:
 - people-researcher
 - neural-mass-models
@@ -32,11 +35,11 @@ Dutch biomedical engineer and computational neuroscientist. Co-developer of the 
 
 - Jansen & Rit (1995) "Electroencephalogram and visual evoked potential generation in a mathematical model of coupled cortical columns"
 - Rit & Jansen (2013) "A neural mass model for the generation of electroencephalograms" – comprehensive review
-- Rit et al. (various) Model validation and parameter sensitivity studies
+- Rit et al. (various) [[model-validation]] and parameter sensitivity studies
 
 ## Role in TVB
 
-The Jansen-Rit model developed by Rit and colleagues is the default neural mass model in The Virtual Brain (TVB) for EEG and MEG simulations. Its three-population architecture and alpha-function post-synaptic responses provide a balance between biological plausibility and computational tractability for whole-brain modeling.
+The Jansen-Rit model developed by Rit and colleagues is the default neural mass model in [[the-virtual-brain]] (TVB) for EEG and MEG simulations. Its three-population architecture and alpha-function post-synaptic responses provide a balance between biological plausibility and computational tractability for whole-brain modeling.
 
 ## Related Concepts
 

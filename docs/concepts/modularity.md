@@ -1,19 +1,34 @@
 ---
-title: Modularity
 created: 2026-04-20
-updated: 2026-04-27
+sources:
+- raw/papers/newman-2010.md
+- raw/papers/bullmore-sporns-2009.md
+- raw/papers/sporns-2011.md
+- raw/papers/power-2011.md
+- raw/papers/semanticscholar-34ef3bcd7c8b.md
+- raw/papers/rubinov-sporns-2010.md
+- raw/papers/arxiv-2603.29843.md
+- raw/papers/barabasi-albert-1999.md
+tags:
+- network-dynamics
+- connectomics
+- structural-connectivity
+- functional-connectivity
+- community-detection
+- brain-network
+- small-world-networks
+title: Modularity
 type: concept
-tags: [network-dynamics, connectomics, structural-connectivity, functional-connectivity, community-detection, brain-network, small-world-networks]
-sources: [raw/papers/newman-2010.md, raw/papers/bullmore-sporns-2009.md, raw/papers/sporns-2011.md]
+updated: '2026-04-27'
 ---
 
-Modularity is a fundamental organizational principle in complex networks, including the brain's structural and functional connectivity. It refers to the degree to which a network can be partitioned into clearly delineated groups—called modules, communities, or sub-networks—wherein nodes within each group exhibit dense interconnections while maintaining relatively sparse connections to nodes in other groups. This organizational scheme balances the competing demands of **segregated local processing** and **integrated global coordination**, making it essential for understanding brain function in both health and disease.
+Modularity is a fundamental organizational principle in complex networks, including the brain's structural and functional [[connectivity]]. It refers to the degree to which a network can be partitioned into clearly delineated groups—called modules, communities, or sub-networks—wherein nodes within each group exhibit dense interconnections while maintaining relatively sparse connections to nodes in other groups. This organizational scheme balances the competing demands of **segregated local processing** and **integrated global coordination**, making it essential for understanding brain function in both health and disease.
 
 ## Definition and Conceptual Foundation
 
 The concept of modularity originates from network science and has been extensively applied to analyze brain connectivity data. In the context of **[[connectomics]]**, modular organization reflects the brain's capacity to form specialized processing units—such as visual cortex, motor cortex, or attention networks—while maintaining the ability to integrate information across these modules to support coherent cognition and behavior. As described by Sporns (2011) in *Networks of the Brain*, modularity is one of several key topological features that characterize large-scale brain organization, alongside **[[small-world-networks]]**, **[[rich-club]]** architectures, and **[[network-hubs]]**.
 
-The modular organization of brain networks emerges from both genetic and developmental factors. Genes that influence axonal guidance and synaptic formation tend to produce local clusters of connected neurons, while activity-dependent plasticity refines these initial clusters throughout development. This results in a hierarchical structure where modules at multiple scales coexist—ranging from microcircuits within cortical columns to macroscopic systems like the **[[default-mode-network]]**.
+The modular organization of brain networks emerges from both genetic and developmental factors. Genes that influence axonal guidance and synaptic formation tend to produce local clusters of connected neurons, while activity-dependent [[plasticity]] refines these initial clusters throughout development. This results in a hierarchical structure where modules at multiple scales coexist—ranging from microcircuits within cortical columns to macroscopic systems like the **[[default-mode-network]]**.
 
 ## Mathematical Formulation
 
@@ -42,7 +57,7 @@ Identifying modular structure requires algorithmic approaches to partition netwo
 
 | Algorithm | Approach | Advantages | Limitations |
 |-----------|----------|------------|-------------|
-| **[[community-detection#Louvain method]]** | Greedy optimization of Q | Fast, handles large networks | May miss small communities |
+| **[[community-detection|Louvain method]]** | Greedy optimization of Q | Fast, handles large networks | May miss small communities |
 | **Spectral clustering** | Graph Laplacian eigenvectors | Theoretically grounded | Sensitive to noise |
 | **Walktrap** | Random walk similarity | Intuitive | Computationally intensive |
 | **Infomap** | Information-theoretic (flow) | Handles directed flow | Requires specialized implementation |
@@ -82,7 +97,7 @@ Modularity interacts with other topological properties of brain networks. **[[sm
 
 ## Open Questions
 
-Despite extensive research, several questions remain: What are the optimal modular configurations for different cognitive states? How does modularity change dynamically during task performance or learning? Can modular structure be therapeutically modulated through **[[brain-stimulation]]** or **[[personalized-brain-modeling]]** approaches? Advances in **[[dynamic-causal-modeling]]**, **[[neural-mass-models]]**, and high-resolution **[[neuroimaging-dti]]** will help address these questions.
+Despite extensive research, several questions remain: What are the optimal modular configurations for different cognitive states? How does modularity change dynamically during task performance or learning? Can modular structure be therapeutically modulated through **[[brain-stimulation]]** or **[[personalized-brain-modeling]]** approaches? Advances in **[[dynamic-causal-modeling]]**, **[[neural-mass-models]]**, and high-resolution **[[dti]]** will help address these questions.
 
 ## Related Concepts
 - [[community-detection]] – Algorithms for finding network modules
@@ -93,5 +108,11 @@ Despite extensive research, several questions remain: What are the optimal modul
 - [[network-hubs]] – Highly connected nodes bridging modules
 - [[rich-club]] – Dense interconnection among hubs
 - [[functional-connectivity]] – Statistical dependencies between brain regions
-- [[structural-connectivity]] – Anatomical white matter pathways
+- [[structural-connectivity]] – Anatomical [[white-matter]] pathways
 - [[resting-state]] – Spontaneous brain activity patterns
+
+## References
+
+1. (authors unknown). *Networks: An Introduction*.
+2. (authors unknown). *Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems*.
+3. (authors unknown). *Networks of the Brain*.

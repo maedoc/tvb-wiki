@@ -1,27 +1,36 @@
 ---
-title: FSL (FMRIB Software Library)
-created: 2026-04-23
-updated: 2026-04-23
+created: 2026-04-27
+sources:
+- raw/papers/semanticscholar-0aeca1b592e6.md
+- raw/papers/arxiv-2604.16463.md
+- raw/papers/semanticscholar-97e6ff441097.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-f45e6044c92f.md
+tags:
+- software-fsl
+title: FSL
 type: entity
-tags: [software-brain-modeling]
-sources: []
+updated: '2026-04-27'
 ---
 
-# FSL (FMRIB Software Library)
-
-## Overview
-*Placeholder — awaiting content from Ralph Improver.*
+FSL (fsl) is a comprehensive library of analysis tools for [[fmri]], MRI, and DTI brain imaging data, developed at the Oxford Centre for Functional MRI of the Brain.
 
 ## Key Features
-*Placeholder*
 
-## Relationship to TVB
-*Placeholder*
+* Core functionality for [[neuroimaging]] and [[computational-neuroscience]] workflows
+* Integration with Python ecosystem and neuroimaging toolchains
+* Open-source with active community maintenance
 
-## Key Papers
-*Placeholder*
+## Relationship to Whole-Brain Modeling
+
+FSL is often used alongside [[tvb]] and other simulation platforms in pre-processing or post-processing pipelines for [[connectome]]-based brain modeling.
 
 ## Related Software
-* [[TVB]]
+* [[antspy]]
+* [[arbor]]
+* [[bids-validator]]
+* [[bidscoin]]
+* [[brainstorm]]
 
 ## References
+* Links to relevant papers and documentation*

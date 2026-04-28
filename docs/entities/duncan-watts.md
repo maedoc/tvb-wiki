@@ -2,6 +2,7 @@
 created: 2026-04-20
 sources:
 - raw/papers/watts-strogatz-1998.md
+- raw/papers/barabasi-albert-1999.md
 tags:
 - people-researcher
 - network-dynamics
@@ -33,7 +34,7 @@ Watts' research spans:
 
 ## Related Concepts
 - [[small-world-networks]] – Network topology
-- network-dynamics – Processes on networks
+- [[network-dynamics]] – Processes on networks
 - [[graph-theory]] – Mathematical framework
 - six-degrees – Short path lengths
 

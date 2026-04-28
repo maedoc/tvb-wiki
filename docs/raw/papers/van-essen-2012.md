@@ -34,8 +34,8 @@ Provides the technical foundation for HCP data acquisition. The protocols descri
 
 ## Related Concepts
 - [[human-connectome-project]] – Major brain mapping initiative
-- [[neuroimaging-fmri]] – Functional MRI techniques
-- [[neuroimaging-dti]] – Diffusion tensor imaging
+- [[fmri]] – Functional MRI techniques
+- [[dti]] – Diffusion tensor imaging
 - [[structural-connectivity]] – Anatomical connections
 - [[functional-connectivity]] – Statistical dependencies
 

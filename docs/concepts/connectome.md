@@ -1,25 +1,37 @@
 ---
-title: Connectome
 created: 2026-04-20
-updated: 2026-04-27
+sources:
+- raw/papers/sporns-tononi-kotter-2005.md
+- raw/papers/van-essen-2013.md
+- raw/papers/power-2011.md
+- raw/papers/smith-2009.md
+- raw/papers/smith-2013-connectomics.md
+tags:
+- connectomics
+- structural-connectivity
+- functional-connectivity
+- neuroimaging-dti
+- neuroimaging-fmri
+- neuroimaging-eeg
+- neuroimaging-meg
+title: Connectome
 type: concept
-tags: [connectomics, structural-connectivity, functional-connectivity, neuroimaging-dti, neuroimaging-fmri, neuroimaging-eeg, neuroimaging-meg]
-sources: [raw/papers/sporns-tononi-kotter-2005.md, raw/papers/van-essen-2013.md, raw/papers/power-2011.md]
+updated: '2026-04-27'
 ---
 
-The connectome represents a comprehensive structural description of the network of neural elements and connections forming the brain. Introduced as a formal concept by olaf-sporns|Giulio Tononi and rolf-kotter|Rolf Kötter in their seminal 2005 paper, the connectome encompasses the complete mapping of neural pathways—both structural and functional—that underlie brain organization. This concept has fundamentally transformed how neuroscientists conceptualize the brain, shifting from a collection of isolated regions to a network-centric view emphasizing the integration of information across distributed neural systems.
+The connectome represents a comprehensive structural description of the network of neural elements and connections forming the brain. Introduced as a formal concept by olaf-sporns|[[giulio-tononi]] and rolf-kotter|[[rolf-kotter|Rolf Kötter]] in their seminal 2005 paper, the connectome encompasses the complete mapping of neural pathways—both structural and functional—that underlie brain organization. This concept has fundamentally transformed how neuroscientists conceptualize the brain, shifting from a collection of isolated regions to a network-centric view emphasizing the integration of information across distributed neural systems.
 
 ## Definition and Conceptual Foundations
 
-The term "connectome" was coined to describe "a comprehensive structural description of the network of elements and connections forming the human brain." This definition, while appearing straightforward, encompasses multiple levels of neural organization. At the cellular scale, the connectome includes synaptic connections between individual neurons—the so-called micro-connectome. At the systems level, it describes white matter tracts linking gray matter regions across the cortex and subcortex. The challenge of mapping the connectome at each scale differs dramatically: while the C. elegans nervous system (302 neurons) has been completely reconstructed through laborious histological tracing, the human brain's approximately 86 billion neurons present an exponentially more complex task.
+The term "connectome" was coined to describe "a comprehensive structural description of the network of elements and connections forming the human brain." This definition, while appearing straightforward, encompasses multiple levels of neural organization. At the cellular scale, the connectome includes synaptic connections between individual neurons—the so-called micro-connectome. At the systems level, it describes [[white-matter]] tracts linking gray matter regions across the cortex and subcortex. The challenge of mapping the connectome at each scale differs dramatically: while the C. elegans nervous system (302 neurons) has been completely reconstructed through laborious histological tracing, the human brain's approximately 86 billion neurons present an exponentially more complex task.
 
-The conceptual importance of the connectome derives from the fundamental insight that brain function emerges from the interaction of neural elements. As articulated in the foundational paper, understanding connectivity is essential for understanding function—a principle that has guided the field of connectomics since its inception.
+The conceptual importance of the connectome derives from the fundamental insight that brain function emerges from the interaction of neural elements. As articulated in the foundational paper, understanding [[connectivity]] is essential for understanding function—a principle that has guided the field of connectomics since its inception.
 
 ## Structural Connectome
 
 The structural connectome refers to the anatomical wiring of the brain, encompassing all physical connections between neural elements. These connections include white matter tracts that traverse between cortical and subcortical regions, representing long-range communication channels via myelinated axonal pathways. At the finest resolution, synaptic connections between individual neurons constitute the micro-connectome, though mapping these remains technically challenging in the human brain.
 
-Measurement of structural connectivity relies primarily on [[diffusion-mri|diffusion-weighted MRI]] and [[tractography]] algorithms that reconstruct white matter pathways from water diffusion patterns. The human-connectome-project|Human Connectome Project has established standardized protocols for acquiring high-resolution diffusion imaging at 3T and 7T field strengths, enabling unprecedented characterization of structural brain networks in vivo. van-essen-2013|Van Essen et al. (2013) detail these acquisition protocols and preprocessing pipelines that have become reference standards in the field.
+Measurement of structural connectivity relies primarily on [[diffusion-mri|diffusion-weighted MRI]] and [[tractography]] algorithms that reconstruct white matter pathways from water diffusion patterns. The human-connectome-project|Human Connectome Project has established standardized protocols for acquiring high-resolution [[diffusion-imaging]] at 3T and 7T field strengths, enabling unprecedented characterization of structural brain networks in vivo. van-essen-2013|Van Essen et al. (2013) detail these acquisition protocols and preprocessing pipelines that have become reference standards in the field.
 
 ## Functional Connectome
 
@@ -43,7 +55,7 @@ Other species have served as important targets for complete connectome reconstru
 
 ## Relationship to Whole-Brain Modeling
 
-The connectome provides the anatomical scaffold upon which brain dynamics unfold in [[whole-brain|whole-brain modeling]] approaches. Structural connectivity matrices derived from diffusion imaging serve as the physical substrate for simulating neural activity propagation across the brain. The relationship can be conceptualized as a cascade: structure constrains dynamics, and dynamics generate function. Understanding this structure-function mapping represents one of the central challenges in computational neuroscience, requiring integration of anatomical data with dynamical systems theory and neural mass models.
+The connectome provides the anatomical scaffold upon which brain dynamics unfold in [[whole-brain|whole-brain modeling]] approaches. Structural connectivity matrices derived from diffusion imaging serve as the physical substrate for simulating neural activity propagation across the brain. The relationship can be conceptualized as a cascade: structure constrains dynamics, and dynamics generate function. Understanding this structure-function mapping represents one of the central challenges in computational neuroscience, requiring integration of anatomical data with [[dynamical-systems-theory]] and [[neural-mass-models]].
 
 ## Related Concepts
 
@@ -55,3 +67,9 @@ The connectome provides the anatomical scaffold upon which brain dynamics unfold
 - [[parcellation]] – Segmentation of the brain into regions for network analysis
 - [[human-connectome-project]] – Major initiative mapping human brain connectivity
 - [[structural-core]] – Densely interconnected central hub regions of the brain
+
+## References
+
+1. (authors unknown). *The Human Connectome: A Structural Description of the Human Brain*.
+2. (authors unknown). *The WU-Minn Human Connectome Project: An Overview*.
+3. (authors unknown). *Functional Network Organization of the Human Brain*.

@@ -5,6 +5,7 @@ sources:
 - raw/papers/tustison-2014.md
 - raw/papers/avants-2011.md
 - raw/papers/avants-2008.md
+- raw/papers/klein-2009.md
 tags:
 - people-researcher
 - software-ants
@@ -24,7 +25,7 @@ Developer of N4ITK and DiReCT algorithms in ANTs, expert in MRI preprocessing.
 - MRI bias field correction (N4ITK)
 - Cortical thickness measurement (DiReCT)
 - ANTs toolkit development
-- Neuroimaging preprocessing pipelines
+- [[neuroimaging]] preprocessing pipelines
 
 ## Key Publications
 

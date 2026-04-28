@@ -6,6 +6,8 @@ sources:
 - raw/papers/watts-strogatz-1998.md
 - raw/papers/barabasi-albert-1999.md
 - raw/papers/rubinov-sporns-2010.md
+- raw/papers/semanticscholar-7c3337c880fd.md
+- raw/papers/arxiv-2602.17820.md
 tags:
 - people-researcher
 - network-dynamics
@@ -21,7 +23,7 @@ Distinguished University Professor at University of Michigan, physicist and netw
 ## Key Contributions
 
 - **"Networks: An Introduction"** (2010): Authored the standard textbook for network science
-- **Community Detection**: Developed influential algorithms for finding network communities
+- **[[community-detection]]**: Developed influential algorithms for finding network communities
 - **Network Theory**: Advanced mathematical foundations of network analysis
 
 ## Research Focus
@@ -39,7 +41,7 @@ Newman's research emphasizes:
 - [[graph-theory]] – Mathematical framework
 - community-detection – Finding network modules
 - [[modularity]] – Community structure measure
-- network-dynamics – Processes on networks
+- [[network-dynamics]] – Processes on networks
 
 ## Resources
 - Book: "Networks: An Introduction" (Oxford University Press)
@@ -49,5 +51,5 @@ Newman's research emphasizes:
 1. (authors unknown). *Networks: An Introduction*.
 2. (authors unknown). *Networks of the Brain*.
 3. (authors unknown). *Collective Dynamics of 'Small-World' Networks*.
-4. (authors unknown). *Emergence of Scaling in Random Networks*.
-5. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
+4. (authors unknown). *Emergence of Scaling in [[random-networks]]*.
+5. (authors unknown). *Complex Network Measures of Brain [[connectivity]]: Uses and Interpretations*.

@@ -4,6 +4,8 @@ sources:
 - raw/papers/arxiv-2508.04824.md
 - raw/papers/arxiv-2603.25991.md
 - raw/papers/breakspear-2006.md
+- raw/papers/wendling-2002.md
+- raw/papers/semanticscholar-9e6c3252d305.md
 tags:
 - neural-mass-models
 - epilepsy-modeling
@@ -57,7 +59,7 @@ Population 2 sculpts seizure offset through slower inhibitory feedback, with τ 
 
 As x₀ is varied, the Epileptor traverses distinct regimes separated by bifurcations.
 
-When x₀ ≲ −2.0, the system rests at a stable fixed point—the **interictal** state—where perturbations decay rapidly. In the **pre-ictal** window (−2.0 < x₀ < −1.5), noise can transiently push the system across a saddle-node on invariant circle (SNIC) [[bifurcation-analysis|bifurcation]], producing intermittent bursts proposed as seizure-prediction markers. For x₀ ≳ −1.5, the fixed point loses stability and the system enters a sustained limit cycle—the **ictal** state—with rhythmic discharges that persist until z accumulates enough to force the system back across a homoclinic bifurcation. This fast-slow hysteresis explains why seizures cannot stop instantaneously: the permittivity variable must degrade first, mirroring the clinical observation that seizures run their natural course.
+When x₀ ≲ −2.0, the system rests at a stable fixed point—the **interictal** state—where perturbations decay rapidly. In the **pre-ictal** window (−2.0 < x₀ < −1.5), noise can transiently push the system across a saddle-node on invariant circle (SNIC) [[bifurcation-analysis|bifurcation]], producing intermittent bursts proposed as [[seizure-prediction]] markers. For x₀ ≳ −1.5, the fixed point loses stability and the system enters a sustained limit cycle—the **ictal** state—with rhythmic discharges that persist until z accumulates enough to force the system back across a homoclinic bifurcation. This fast-slow hysteresis explains why seizures cannot stop instantaneously: the permittivity variable must degrade first, mirroring the clinical observation that seizures run their natural course.
 
 ## Clinical Translation and Control
 
@@ -75,6 +77,6 @@ The [[epileptorcodim3|EpileptorCodim3]] variant introduces additional bifurcatio
 
 ## References
 
-1. Paul Triebkorn, Huifang E. Wang, Marmaduke Woodman, Maxime Guye, Fabrice Bartolomei, Viktor Jirsa. (2025). *Delay-constrained re-entry governs large-scale brain seizures and other network pathologies*. [Link](https://arxiv.org/abs/2508.04824)
+1. Paul Triebkorn, Huifang E. Wang, Marmaduke Woodman, Maxime Guye, Fabrice Bartolomei, [[viktor-jirsa]]. (2025). *Delay-constrained re-entry governs large-scale brain seizures and other network pathologies*. [Link](https://arxiv.org/abs/2508.04824)
 2. Gagan Acharya, Erfan Nozari. (2026). *Passivity-Based Control of Electrographic Seizures in a [[neural-mass-model]] of Epilepsy*. [Link](https://arxiv.org/abs/2603.25991)
-3. Michael Breakspear, John A. Roberts, John R. Terry, Stefano Rodrigues, Nader Mahmud, Philip Robinson. *Large-scale brain dynamics of seizures: asymptotic analysis of a neural field model*. Journal of Computational Neuroscience. [DOI](https://doi.org/10.1007/s10827-006-8135-2)
+3. Michael Breakspear, John A. Roberts, John R. Terry, Stefano Rodrigues, Nader Mahmud, Philip Robinson. *Large-scale [[brain-dynamics]] of seizures: asymptotic analysis of a neural field model*. Journal of [[computational-neuroscience]]. [DOI](https://doi.org/10.1007/s10827-006-8135-2)

@@ -36,7 +36,7 @@ One of the earliest papers to formally define and study functional connectivity 
 - [[functional-connectivity]] – Statistical dependencies between regions
 - [[principal-component-analysis]] – Dimensionality reduction
 - [[neuroimaging-pet]] – Positron emission tomography
-- [[neuroimaging-fmri]] – Functional MRI
+- [[fmri]] – Functional MRI
 - [[resting-state]] – Task-free connectivity
 
 ## Cited By

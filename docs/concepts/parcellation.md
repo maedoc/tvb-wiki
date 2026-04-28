@@ -1,17 +1,32 @@
 ---
-title: Parcellation
 created: 2025-01-15
-updated: 2026-04-27
+sources:
+- raw/papers/arxiv-2603.07524.md
+- raw/papers/arxiv-2506.22951.md
+- raw/papers/arxiv-2512.03907.md
+- raw/papers/arxiv-2603.29903.md
+- raw/papers/arxiv-2603.21067.md
+- raw/papers/arxiv-2601.03796.md
+tags:
+- connectomics
+- structural-connectivity
+- functional-connectivity
+- neuroimaging-fmri
+- neuroimaging-dti
+- tractography
+- whole-brain-modeling
+- network-dynamics
+- database-hcp
+title: Parcellation
 type: concept
-tags: [connectomics, structural-connectivity, functional-connectivity, neuroimaging-fmri, neuroimaging-dti, tractography, whole-brain-modeling, network-dynamics, database-hcp]
-sources: []
+updated: '2026-04-27'
 ---
 
 Parcellation refers to the process of dividing the brain into spatially discrete, anatomically or functionally coherent regions (called parcels) that serve as the fundamental.nodes in [[whole-brain]] network models. In [[connectomics]] and [[computational neuroscience]], parcellation transforms the continuous, multivariate data obtained from neuroimaging—such as [[fMRI]], [[diffusion-mri]], or [[meg]]—into a finite graph whose nodes correspond to brain areas and whose edges represent [[structural-connectivity]] or [[functional-connectivity]] between those areas. The resulting parcellated network is the starting point for virtually all whole-brain modeling approaches, from [[neural-mass-model]] simulations to graph-theoretic analyses of brain network topology.
 
 ## Motivation: The Spatial Sampling Problem
 
-The rationale for parcellation stems from a fundamental trade-off in neuroimaging: the raw data acquired from fMRI or diffusion imaging comprises hundreds of thousands of voxels (three-dimensional pixels), each representing a small volume of neural tissue. While higher spatial resolution theoretically preserves more detail, it creates a combinatorial explosion of nodes and edges that renders both statistical analysis and computational modeling intractable. A typical fMRI scan might yield 100,000+ voxels in the cortex; modeling pairwise interactions among allvoxels would involve billions of potential connections.
+The rationale for parcellation stems from a fundamental trade-off in [[neuroimaging]]: the raw data acquired from fMRI or [[diffusion-imaging]] comprises hundreds of thousands of voxels (three-dimensional pixels), each representing a small volume of neural tissue. While higher spatial resolution theoretically preserves more detail, it creates a combinatorial explosion of nodes and edges that renders both statistical analysis and computational modeling intractable. A typical fMRI scan might yield 100,000+ voxels in the cortex; modeling pairwise interactions among allvoxels would involve billions of potential connections.
 
 Parcellation addresses this problem by aggregating spatially contiguous voxels into larger regions that share some criterion of homogeneity—be it anatomical cytoarchitecture, similarity of [[functional-connectivity]] profiles, or consistency in [[tractography]]-derived white-matter connectivity. The parcellation thus acts as a dimensional reduction step, collapsing the high-dimensional voxel space onto a graph with dozens to hundreds of nodes (depending on the resolution chosen), which can then be analyzed using tools from graph theory or simulated using [[neural-mass-model]] or [[spiking-neural-networks]] frameworks.
 
@@ -25,7 +40,7 @@ Parcellation methods can be broadly categorized by the criterion used to define 
 
 **Structural or connectivity-based parcellations** use [[diffusion-mri]] and [[tractography]] to define parcels based on patterns of white-matter connectivity. Regions within a structural parcel share similar patterns of anatomical afferents and efferents, potentially reflecting shared thalamic inputs or common cortical association pathways. The [[julich-atlas]] incorporates probabilistic cytoarchitectonic boundaries combined with connectivity information. Connectivity-based parcellations are intuitively appealing for [[whole-brain modeling]] since they directly map onto the structural skeleton that supports dynamics.
 
-**Multi-modal and adaptive parcellations** combine information from multiple neuroimaging modalities to define parcels that satisfy both anatomical and functional criteria. Advanced approaches use clustering algorithms (e.g., k-means, hierarchical clustering, spectral clustering) on feature vectors combining structural, functional, and connectivity data. Recent work on "population-based" or "individualized" parcellations seeks to account for inter-subject variability by generating parcellations specific to each individual's connectome, rather than projecting all subjects onto a common template.
+**Multi-modal and adaptive parcellations** combine information from multiple neuroimaging modalities to define parcels that satisfy both anatomical and functional criteria. Advanced approaches use clustering algorithms (e.g., k-means, hierarchical clustering, spectral clustering) on feature vectors combining structural, functional, and [[connectivity]] data. Recent work on "population-based" or "individualized" parcellations seeks to account for inter-subject variability by generating parcellations specific to each individual's [[connectome]], rather than projecting all subjects onto a common template.
 
 ## Properties and Trade-offs
 
@@ -44,3 +59,11 @@ In [[whole-brain modeling]], the parcellation defines the spatial resolution at 
 ## Open Questions
 
 The field has not converged on a single "correct" parcellation, and debates continue about whether functionally defined parcels are preferable to anatomically defined ones, whether parcels should be homologous across individuals or individualized, and whether static parcellations adequately capture the brain's dynamic reconfiguration during different cognitive states. Ongoing work using [[variational-bayes]] and [[bifurcation-analysis]] approaches explores how parcellation choice influences model dynamics and predicts empirical data, suggesting that the "best" parcellation may ultimately be task-dependent rather than universal.
+
+## References
+
+1. Hongjie Jiang, Yifei Tang, Shuqiang Wang. *Neural Dynamics-Informed Pre-trained Framework for [[personalized-brain-modeling|Personalized Brain]] Functional Network Construction*. [Link](https://arxiv.org/abs/2603.07524)
+2. Ramiro Plüss, Hernán Villota, Patricio Orio. (2025). *Hemispheric-Specific Coupling Improves Modeling of Functional Connectivity Using [[wilson-cowan]] Dynamics*. [Link](https://arxiv.org/abs/2506.22951)
+3. Rosa Maria Delicado, Gemma Huguet, Pau Clusella. (2025). *Emergent Spatiotemporal Dynamics in Large-Scale Brain Networks with Next Generation [[neural-mass-models]]*. [Link](https://arxiv.org/abs/2512.03907)
+4. Breno C. Bispo, Stefania Sardellitti, Juliano B. Lima, Fernando A. N. Santos. (2026). *Multimodal Higher-Order Brain Networks: A Topological Signal Processing Perspective*. [Link](https://arxiv.org/abs/2603.29903)
+5. Sakul Mahat, Sharmistha Guha, Jessica Bernard. (2026). *A Bayesian Framework for Quantifying Association Between Functional and Structural Data in Neuroimaging*. [Link](https://arxiv.org/abs/2603.21067)

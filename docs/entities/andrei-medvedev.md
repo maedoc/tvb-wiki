@@ -2,6 +2,9 @@
 created: 2026-04-20
 sources:
 - raw/papers/sporns-2011.md
+- raw/papers/semanticscholar-a4f4c699c90f.md
+- raw/papers/arxiv-2603.24343.md
+- raw/papers/semanticscholar-929b90566fc8.md
 tags:
 - people-researcher
 title: Andrei Medvedev

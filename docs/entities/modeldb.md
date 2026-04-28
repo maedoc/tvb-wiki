@@ -7,6 +7,8 @@ sources:
 - raw/papers/breakspear-2017.md
 - raw/papers/hines-carnevale-1997.md
 - raw/papers/potjans-diesmann-2014.md
+- raw/papers/semanticscholar-ff8218c1e55e.md
+- raw/papers/arxiv-2506.22951.md
 tags:
 - software-modeldb
 - database
@@ -19,7 +21,7 @@ updated: '2026-04-27'
 
 # ModelDB
 
-ModelDB is a web-accessible repository for depositing and sharing published computational neuroscience models.
+ModelDB is a web-accessible repository for depositing and sharing published [[computational-neuroscience]] models.
 
 ## Overview
 
@@ -32,7 +34,7 @@ ModelDB provides curated, runnable model archives linked to the publications in 
 - **Multi-simulator support**: NEURON, NEST, and other simulators
 - **PubMed integration**: Bibliographic resource linking
 - **Non-programmer friendly**: Accessible submission interface
-- **Reproducibility infrastructure**: Essential for computational neuroscience
+- **[[reproducibility]] infrastructure**: Essential for computational neuroscience
 
 ## Supported Simulators
 
@@ -60,8 +62,8 @@ ModelDB provides curated, runnable model archives linked to the publications in 
 ## References
 
 1. Migliore et al. (2006). *ModelDB: making models publicly accessible to support computational neuroscience*. Neuroinformatics. [DOI](https://doi.org/10.1007/s12021-006-0002-7)
-2. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
-3. Valerio Barabino, F. Callegari, Sérgio Martinoia, P. Massobrio. (2026). *Hierarchical afferent connectivity drives population-wide bursting dynamics in a computational model of human-derived excitatory neuronal networks*. Journal of Neuroscience. [DOI](https://doi.org/10.1523/jneurosci.0912-25.2026)
+2. Sanz Leon et al. (2013). *[[the-virtual-brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+3. Valerio Barabino, F. Callegari, Sérgio Martinoia, P. Massobrio. (2026). *Hierarchical afferent [[connectivity]] drives population-wide bursting dynamics in a computational model of human-derived excitatory neuronal networks*. Journal of Neuroscience. [DOI](https://doi.org/10.1523/jneurosci.0912-25.2026)
 4. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)
 5. Hines & Carnevale (1997). *The NEURON simulation environment*. Neural Computation. [DOI](https://doi.org/10.1162/neco.1997.9.6.1179)
 6. Potjans & Diesmann (2014). *The cell-type specific cortical microcircuit: relating structure and activity*. Cerebral Cortex. [DOI](https://doi.org/10.1093/cercor/bhs358)

@@ -8,6 +8,9 @@ sources:
 - raw/papers/semanticscholar-71ffb8153870.md
 - raw/papers/semanticscholar-c3d9674bec1b.md
 - raw/papers/semanticscholar-62534125f066.md
+- raw/papers/semanticscholar-ff8218c1e55e.md
+- raw/papers/arxiv-2512.22093.md
+- raw/papers/semanticscholar-cc2129666e15.md
 tags:
 - neural-mass-models
 - dynamical-systems-theory
@@ -21,7 +24,7 @@ updated: '2026-04-27'
 
 # Hopfield Network
 
-The Hopfield network is a fully connected recurrent neural network that stores patterns as local minima of an energy landscape, enabling content-addressable associative memory. Introduced by physicist John Hopfield in 1982, the model showed that a system of simple binary units with symmetric synaptic weights could exhibit emergent collective computation, retrieving complete memories from partial or noisy cues through convergence to stable attractor states. It remains a foundational model in computational neuroscience and theoretical physics, providing a tractable example of how network architecture shapes [[dynamical-systems-theory|dynamical behavior]].
+The Hopfield network is a fully connected recurrent [[neural-network]] that stores patterns as local minima of an energy landscape, enabling content-addressable associative memory. Introduced by physicist John Hopfield in 1982, the model showed that a system of simple binary units with symmetric synaptic weights could exhibit emergent collective computation, retrieving complete memories from partial or noisy cues through convergence to stable attractor states. It remains a foundational model in [[computational-neuroscience]] and theoretical physics, providing a tractable example of how network architecture shapes [[dynamical-systems-theory|dynamical behavior]].
 
 ## Motivation and Context
 
@@ -59,6 +62,6 @@ Although the Hopfield network is highly abstract, its core mechanisms map onto e
 2. Simone Betteti, William Retnaraj, Alexander Davydov, Jorge Cortés, Francesco Bullo. *Competition, stability, and functionality in excitatory-inhibitory neural circuits*. [Link](https://arxiv.org/abs/2512.05252)
 3. Irmantas Ratas, Kestutis Pyragas. (2026). *Parameter and hidden-state inference in mean-field models from partial observations of finite-size neural networks*. [Link](https://www.semanticscholar.org/paper/274d3afcf4f54ddb5bd2122157c2ab2a105b41ef)
 4. İhsan Ertuğrul Karakaş, Özden Özel, İlkay Ulusoy, Orhan Murat Koçak. (2026). *Modeling of Self-sustained Neuron Population without External Stimulus*. [Link](https://arxiv.org/abs/2604.13719)
-5. Valerio Barabino, F. Callegari, Sérgio Martinoia, P. Massobrio. (2026). *Hierarchical afferent connectivity drives population-wide bursting dynamics in a computational model of human-derived excitatory neuronal networks*. Journal of Neuroscience. [DOI](https://doi.org/10.1523/jneurosci.0912-25.2026)
+5. Valerio Barabino, F. Callegari, Sérgio Martinoia, P. Massobrio. (2026). *Hierarchical afferent [[connectivity]] drives population-wide bursting dynamics in a computational model of human-derived excitatory neuronal networks*. Journal of Neuroscience. [DOI](https://doi.org/10.1523/jneurosci.0912-25.2026)
 6. Tirthabir Biswas, Angel Stanoev, S. Romani, James E. Fitzgerald. (2026). *From the fly [[connectome]] to exact ring attractor dynamics*. bioRxiv. [DOI](https://doi.org/10.1101/2024.11.01.621596)
 7. Futa Tomita, Jun-nosuke Teramae. (2025). *Dynamical mean-field theory for a highly heterogeneous neural population with graded persistent activity of the entorhinal cortex*. PLoS Comput. Biol.. [DOI](https://doi.org/10.1371/journal.pcbi.1013484)

@@ -4,17 +4,15 @@ sources:
 - raw/papers/wendling-2002.md
 - raw/papers/breakspear-2006.md
 - raw/papers/touboul-2011.md
-- raw/papers/breakspear-2017.md
-- raw/papers/semanticscholar-7733d5476149.md
-- raw/papers/semanticscholar-26be4473893d.md
-- raw/papers/arxiv-2601.21478.md
-- raw/papers/semanticscholar-cc2129666e15.md
-- raw/papers/arxiv-2603.25991.md
+- raw/papers/arxiv-2411.16449.md
+- raw/papers/semanticscholar-9e6c3252d305.md
+- raw/papers/semanticscholar-71ffb8153870.md
 tags:
 - epilepsy-modeling
 - neural-mass-models
 - bifurcation-analysis
-- brain-oscillations
+- whole-brain-modeling
+- dynamical-systems-theory
 title: Epilepsy Modeling
 type: concept
 updated: '2026-04-27'
@@ -22,187 +20,121 @@ updated: '2026-04-27'
 
 # Epilepsy Modeling
 
-Computational modeling of epilepsy uses [[neural-mass-models]] and [[dynamical-systems-theory]] to understand seizure generation, propagation, and termination. These models bridge clinical observations with underlying neurophysiology.
+Computational epilepsy modeling applies [[neural-mass-models]] and [[dynamical-systems-theory]] to understand the mechanisms underlying seizure generation, propagation, and termination. This approach bridges clinical observations—particularly from [[eeg]] recordings—with the underlying neurophysiology of pathological neural dynamics. By representing large populations of neurons as coupled oscillators or neural fields, computational models can reproduce the characteristic rhythmic activity observed during epileptic seizures and provide quantitative predictions about seizure threshold, optimal stimulation targets, and surgical outcomes.
 
-## Overview
-
-Epilepsy modeling aims to:
-- Understand mechanisms of seizure onset and offset
-- Predict seizure occurrence and spread
-- Design stimulation protocols for seizure control
-- Personalize treatment through patient-specific models
+The field emerged from the recognition that seizures are not random events but rather deterministic manifestations of pathological neural dynamics. Like meteorological patterns emerging from atmospheric dynamics, seizure activity arises when the brain's excitatory-inhibitory balance shifts across critical thresholds. This perspective transformed epilepsy from a purely clinical syndrome into a problem amenable to the mathematical tools of [[nonlinear-dynamics]], enabling researchers to pose precise questions about bifurcation structures, parameter sensitivity, and network organization that would be intractable through experimental methods alone.
 
 ## Seizure Dynamics as Bifurcations
 
-### Core Insight
+### Core Dynamical Perspective
 
-Seizures are viewed as transitions between dynamical regimes through bifurcations—qualitative changes in system behavior as parameters vary.
+Seizures are mathematically understood as transitions between distinct dynamical regimes—qualitative changes in system behavior that occur when key parameters cross critical values. This bifurcation framework, extensively analyzed in the [[bifurcation-analysis]] literature, provides a unified language for describing seizure onset across different clinical phenotypes. Touboul et al. (2011) demonstrated that the Jansen-Rit neural mass model exhibits multiple codimension-1 and codimension-2 bifurcations thatmap directly onto observed seizure types, establishing a rigorous connection between dynamical systems theory and clinical epilepsy.
 
-### Key Bifurcations in Seizure Models
+The therapeutic implication of this framework is profound: if seizures arise at bifurcation boundaries, then seizure control can be reframed as parameter perturbation—gently nudging the system away from its critical threshold rather than completely suppressing neural activity. This principle underlies contemporary approaches to closed-loop neurostimulation, where detection of pre-seizure dynamics triggers precisely timed inhibitory stimuli.
 
-| Bifurcation | Seizure Type | Characteristics |
-|-------------|--------------|-----------------|
-| Saddle-Node on Invariant Circle (SNIC) | Tonic onset | Gradual frequency increase |
-| Andronov-Hopf | Spike-wave | Sudden onset with fixed frequency |
-| Saddle-Homoclinic | Tonic-clonic | High-frequency onset |
-| Torus | Absence | 3 Hz spike-wave |
+### Bifurcation Taxonomy in Seizure Models
+
+| Bifurcation Type | Seizure Manifestation | Dynamical Signature |
+|------------------|----------------------|---------------------|
+| Saddle-Node on Invariant Circle (SNIC) | Tonic onset | Progressive frequency increase from baseline |
+| Andronov-Hopf | Spike-wave discharge | Sudden onset with fixed oscillation amplitude |
+| Saddle-Homoclinic | Tonic-clonic transition | Transient high-frequency burst |
+| Torus (Neimark-Sacker) | Absence seizures | 3 Hz spike-wave via quasiperiodic dynamics |
+
+The torus bifurcation deserves particular attention for absence seizures, where the model's solution becomes quasiperiodic—neither simply oscillatory nor stationary—before locking onto the characteristic 3 Hz spike-wave rhythm observed clinically. This explains why absence seizures often exhibit subtle precursory dynamics that complicate real-time detection.
 
 ## Neural Mass Models for Epilepsy
 
-### Jansen-Rit Extensions
+### The Jansen-Rit Foundation
 
-The standard Jansen-Rit model produces seizure-like activity when:
-- Excitation/inhibition ratio increases
-- Inhibitory time constants change
-- External input increases
+The Jansen-Rit model, originally developed to explain scalp potentials generated by cortical columns, provides the foundational architecture for most computational epilepsy models. This three-population model couples pyramidal cells with excitatory and inhibitory interneurons through nonlinear connections, producing alpha-frequency oscillations under normal parameter regimes. Touboul et al. (2011) systematically explored the model's bifurcation structure, identifying parameter regions corresponding to resting state, physiological alpha rhythms, and pathological high-amplitude epileptiform activity.
 
-Parameter changes create bifurcations to high-amplitude oscillatory states.
+The model's sensitivity to the excitatory-inhibitory gain ratio makes it particularly suitable for epilepsy applications: small increases in excitation or decreases in inhibition can push the system through a Hopf bifurcation into sustained oscillatory states that closely resemble ictal EEG patterns. Critically, the same model can generate either focal or generalized seizures depending on whether parameter changes are localized or global, providing a unified framework for understanding clinical heterogeneity.
 
-### Wendling Model (4-population)
+### The Wendling Four-Population Extension
 
-Critical extension for epilepsy modeling:
-- Population 1: Pyramidal cells
-- Population 2: Excitatory interneurons
-- Population 3: Slow inhibitory interneurons (GABA-B)
-- Population 4: Fast inhibitory interneurons (GABA-A)
+Wendling et al. (2002) extended the Jansen-Rit model by distinguishing between fast and slow inhibitory interneurons, reflecting the distinction between GABA-A and GABA-B receptor-mediated inhibition at the synaptic level. This fourth population—slow inhibitory interneurons with longer time constants—enables the model to capture phenomena that the three-population model cannot produce, including interictal spikes (where fast inhibition briefly dominates) transitioning into ictal periods (where slow inhibition is overwhelmed).
 
-**Key feature**: Separate fast and slow inhibition captures:
-- Interictal spikes (fast inhibition dominant)
-- Fast activity during seizures (fast inhibition blocked)
-- Slow spike-wave (slow inhibition dominant)
+The Wendling model's clinical validation against intracranial EEG demonstrated its ability to reproduce fast ripples (14-60 Hz) observed in hippocampal formations during seizure onset—a frequency range that standard models cannot generate. This extension represents a significant advance in linking computational models to the physiological substrates of epileptogenesis, though it comes at the cost of increased parameter complexity that challenges identifiability in clinical settings.
 
-### Breakspear Spatial Model
+### Spatial Extensions: Neural Field Models
 
-Extension to large-scale networks:
-- Spatially distributed Jansen-Rit columns
-- Coupled via anatomical connectivity
-- Captures seizure propagation across cortex
+Breakspear et al. (2006) extended the neural mass framework to spatially distributed systems, modeling cortical sheets as continuous media where neighboring columns couple through anatomical [[connectivity]]. This [[neural-field-theory|neural field]] approach captures the fundamental observation that seizures propagate: pathological activity at a seizure focus spreads to anatomically connected regions, producing the characteristic spatial evolution of ictal events visible in EEG source imaging.
 
-## Seizure Types Modeled
+The asymptotic analysis in this work reduced the infinite-dimensional neural field equations to low-dimensional ordinary differential equations describing the collective dynamics of the cortical sheet. This reduction revealed that seizure propagation itself can exhibit bifurcations—transitions from localized focal seizures to secondary generalization that depend on the coupling strength and the excitability profile of the network. The framework thus connects local mechanisms of seizure onset with the global [[network-dynamics]] that determine clinical outcome.
+
+## Seizure Classification by Modeling Mechanism
 
 ### Focal Seizures
 
-**Mechanism**: Local parameter changes trigger activity that spreads via network connections.
+Focal seizures emerge when localized parameter changes create regions of reduced seizure threshold within an otherwise healthy network. The modeling approach treats the brain as a heterogeneous system where excitability varies across regions due to anatomical differences, prior lesion history, or pathological [[plasticity]]. Seizure propagation in this framework depends critically on the structural connectivity: regions with strong anatomical connections to the focus receive stronger ictal input and are more likely to recruit into the seizure.
 
-Model features:
-- Heterogeneous excitability across regions
-- Seizure focus with lowered threshold
-- Propagation determined by connectivity
+This perspective has direct clinical applications for surgical planning. By simulating the effect of resecting candidate regions, models can predict post-operative seizure freedom and identify "hidden" epileptic networks that may contribute to surgical failure. The framework also explains why some patients exhibit consistent seizure foci while others show variable onset regions—variations in individual connectivity architecture produce different propagation patterns from the same underlying mechanism.
 
 ### Generalized Seizures
 
-**Mechanism**: Global parameter changes affect entire network simultaneously.
+Generalized seizures arise from global parameter changes that affect the entire network simultaneously, such as diffuse changes in excitation-inhibition balance or global modulation of cortical excitability. The absence seizure—a hallmark of childhood absence epilepsy—provides a particularly clear modeling target: the characteristic 3 Hz spike-wave pattern emerges naturally from torus bifurcation in neural mass models, where the system's trajectory winds around a torus before settling into periodic locking.
 
-Types:
-- **Absence (petit mal)**: 3 Hz spike-wave via torus bifurcation
-- **Tonic-clonic**: SNIC bifurcation with rapid onset
-
-### Status Epilepticus
-
-**Mechanism**: Sustained high excitability preventing normal return to baseline.
-
-Modeled as:
-- Stable high-amplitude limit cycle
-- Bistability with seizure state as attractor
+The distinction between focal and generalized seizures in computational models reflects the broader classification in clinical epilepsy, though the boundary can be blurred. Some seizures begin focally but recruit widespread networks, producing secondary generalization that combines elements of both mechanisms. Understanding these hybrid cases requires models that can represent both local parameter heterogeneity and global state changes—a requirement that motivates the multiscale approaches discussed below.
 
 ## Parameter Sensitivity and Personalization
 
-### Critical Parameters
+### Critical Parameters for Seizure Dynamics
 
-| Parameter | Effect | Variability |
-|-----------|--------|-------------|
-| Excitatory gain | Threshold for seizures | Patient-specific |
-| Inhibitory gain | Seizure termination | May be reduced in epilepsy |
-| Time constants | Oscillation frequency | Pathological changes |
-| Connectivity | Propagation patterns | Individual anatomy |
+| Parameter | Physiological Interpretation | Model Effect |
+|-----------|------------------------------|--------------|
+| Excitatory synaptic gain | AMPA receptor efficacy, spine density | Lowers seizure threshold |
+| Inhibitory synaptic gain | GABA receptor efficacy, interneuron density | Raises seizure threshold |
+| Inhibitory time constants | Receptor kinetics (GABA-A vs GABA-B) | Determines oscillation frequency |
+| External input magnitude | Sensory drive, neuromodulatory tone | Can trigger or suppress seizures |
+| Connectivity weight | Synaptic density, efficacy | Controls propagation speed |
 
-### Patient-Specific Modeling
+The sensitivity analysis conducted by Touboul et al. (2011) revealed that the Jansen-Rit model's behavior is highly nonlinear: some parameter regions exhibit extreme sensitivity where small changes produce large dynamical shifts, while other regions are relatively robust. This nonuniform sensitivity has implications for therapy: interventions that target parameters in highly sensitive regions may achieve disproportionate therapeutic benefit, while parameters in robust regions may be poor intervention targets.
 
-**Approach in TVB**:
-1. Individual [[structural-connectivity]] (DTI [[tractography]])
-2. Personalized neural mass parameters
-3. Simulation of seizure dynamics
-4. Validation against clinical EEG/ECoG
+### Patient-Specific Modeling in TVB
 
-## Clinical Applications
+[[tvb]] and [[tvb-multiscale]] frameworks enable construction of patient-specific models by combining individualized structural connectivity—derived from [[dti]] [[tractography]]—with personalized neural mass parameters estimated from the patient's own EEG or MEG recordings. This personalization pipeline addresses the fundamental limitation of generic models: inter-patient variability in anatomy and dynamics means that findings from one patient may not generalize to others.
 
-### Seizure Prediction
+The clinical workflow typically proceeds through several stages: acquiring [[diffusion-imaging]] data, reconstructing the structural [[connectome]], fitting neural mass parameters to baseline recordings, validating the model against recorded seizures, and finally using the validated model to predict optimal intervention targets. While promising, this approach faces significant challenges in parameter identifiability—many different parameter combinations can produce similar dynamical patterns—and in validation, where access to invasive intracranial recordings needed for model calibration is limited to patients undergoing surgical evaluation.
 
-**Challenge**: Identifying pre-ictal state from inter-ictal recordings.
+## Clinical Translation
 
-**Model-based approaches**:
-- Tracking slow parameter changes
-- Detecting approach to bifurcation
-- Machine learning on model features
+### Seizure Prediction and Control
 
-### Surgical Planning
+The dynamical systems perspective suggests that seizures may be predictable if the brain's state approaches a bifurcation boundary before clinical onset. Model-based prediction approaches track slow parameter variations—potentially reflecting accumulating excitability or declining inhibition—and detect signatures of approaching criticality in the evolving dynamics. While pure machine learning approaches have dominated the [[seizure-prediction]] literature, models that incorporate dynamical constraints show promise for improving specificity by distinguishing true pre-ictal states from similar-looking interictal variability.
 
-**Application**: Identifying optimal resection zones.
+Closed-loop stimulation represents the most direct clinical application of seizure modeling. By monitoring model state in real-time and delivering stimulation when dynamics approach the seizure attractor, these systems can interrupt seizures with minimal latency and energy delivery. The theoretical framework of controlling chaotic dynamical systems provides guidance for stimulation timing: the goal is to push the system away from its current attractor toward a stable low-activity state, rather than simply suppressing all neural activity.
 
-**Model contribution**:
-- Simulating effect of removing regions
-- Predicting post-surgical seizure freedom
-- Identifying hidden epileptic networks
+### Surgical Optimization
 
-### Stimulation Protocols
+For patients with medication-resistant epilepsy, surgical resection of the seizure onset zone offers the possibility of seizure freedom, but identifying the optimal resection volume remains challenging. Computational models support surgical planning by simulating the effects of candidate resections on seizure propagation, predicting whether removing a particular region will prevent secondary generalization or merely shift the seizure focus to another area. This application leverages the [[whole-brain|whole-brain modeling]] capability to capture network effects that would be invisible to purely local analysis.
 
-**Closed-loop control**:
-- Detect seizure onset from model state
-- Deliver targeted stimulation
-- Push system away from seizure attractor
+The concept of an "epileptic network"—a distributed set of regions that cooperate to generate seizures—is increasingly influential in surgical planning. Rather than pursuing complete resection of all potentially epileptogenic tissue, surgeons may target hub regions that are critical for network recruitment, achieving therapeutic benefit with smaller resections. Computational models enable quantitative comparison of different surgical strategies, potentially reducing the trial-and-error that has historically characterized epilepsy surgery.
 
-## Theoretical Insights
+## Limitations and Open Questions
 
-### Seizure Threshold
+Despite substantial progress, computational epilepsy modeling faces several fundamental limitations. The simplifying assumption that large neuronal populations can be represented by [[mean-field-theory|mean-field]] equations neglects the substantial heterogeneity within any population—whether across cell types, cortical layers, or spatial scales. While this approximation captures population-level dynamics relevant to EEG, it may miss crucial features such as the role of specific interneuron populations or the effects of microscale structure on mesoscale dynamics.
 
-The concept of a "seizure threshold" maps to bifurcation boundaries in parameter space:
-- Below threshold: Stable [[resting-state]]
-- At threshold: Bifurcation to oscillatory state
-- Above threshold: Sustained seizure activity
+Parameter identifiability remains a persistent challenge: the dynamical patterns generated by neural mass models can often be reproduced by many different parameter combinations, making it difficult to determine which physiological parameters are actually altered in a given patient. This non-identifiability limits the clinical utility of parameter estimates and motivates approaches that constrain models using multiple independent data types or that focus on structural features (like connectivity) that can be measured more directly.
 
-### Multistability
-
-Some models exhibit:
-- **Resting state**: Low activity fixed point
-- **Inter-ictal**: Small oscillations or noise
-- **Ictal**: High-amplitude limit cycle
-
-Explains why identical stimuli may or may not trigger seizures.
-
-### Network Effects
-
-Seizure dynamics depend on:
-- Local excitability (node properties)
-- Network connectivity (edge properties)
-- Time delays (propagation speed)
-
-## Limitations
-
-1. **Simplified neurons**: No ion channel detail
-2. **Fixed connectivity**: No plasticity during seizure
-3. **Parameter identifiability**: Many parameter combinations give similar dynamics
-4. **Validation**: Difficult to measure all parameters in vivo
+Finally, the relationship between computational models and the underlying neurobiology remains imperfect. While models can reproduce the phenomenological features of seizure EEG, the extent to which model parameters map onto specific cellular or molecular abnormalities—and therefore can guide mechanism-informed therapy—varies considerably across applications. Bridging this gap between dynamical systems theory and molecular neurobiology represents a central challenge for the field.
 
 ## Related Concepts
 
-- [[neural mass model]] – Model framework
-- [[Jansen-Rit]] – Base model for extensions
-- [[bifurcation analysis]] – Mathematical foundation
-- [[whole brain]] – Large-scale seizure propagation
-- [[eeg]] – Clinical validation signal
-- [[epileptor|Epileptor]]
+- [[neural-mass-models]] – The mathematical framework underlying most epilepsy models
+- [[bifurcation-analysis]] – Mathematical tools for understanding seizure transitions
+- [[jansen-rit]] – Foundational neural mass model for epilepsy applications
+- [[tvb]] – Software platform for patient-specific epilepsy modeling
+- [[whole-brain-modeling]] – Large-scale network context for seizure propagation
+- [[structural-connectivity]] – Anatomical networks determining seizure spread
+- [[epileptor]] – Dedicated epilepsy model for seizure dynamics
+- [[resting-state]] – Baseline dynamics from which seizures emerge
+- [[dynamical-systems-theory]] – Theoretical foundation for understanding seizure dynamics
+- [[effective-connectivity]] – Functional interactions inferred from seizure data
 - [[wilson-cowan|Wilson Cowan]]
 - [[epileptor-rs|Epileptor Rs]]
-- [[tvb|Tvb]]
-- [[tvb-multiscale|Tvb Multiscale]]
 ## References
 
 1. Wendling F., Bartolomei F., Bellanger J.J., Chauvel P. *A [[dynamic-causal-modeling]] study of the generation of epileptic fast activity*. NeuroImage. [DOI](https://doi.org/10.1006/nimg.2002.1234)
-2. Michael Breakspear, John A. Roberts, John R. Terry, Stefano Rodrigues, Nader Mahmud, Philip Robinson. *Large-scale brain dynamics of seizures: asymptotic analysis of a [[neural-field-theory|neural field]] model*. Journal of Computational Neuroscience. [DOI](https://doi.org/10.1007/s10827-006-8135-2)
+2. Michael Breakspear, John A. Roberts, John R. Terry, Stefano Rodrigues, Nader Mahmud, Philip Robinson. *Large-scale [[brain-dynamics]] of seizures: asymptotic analysis of a neural field model*. Journal of [[computational-neuroscience]]. [DOI](https://doi.org/10.1007/s10827-006-8135-2)
 3. Jonathan Touboul, Fabien Wendling, Bruno Bellanger, Patrick Chauvel, Olivier Faugeras. *Bifurcation analysis of Jansen's neural mass model*. Neural Computation. [DOI](https://doi.org/10.1162/NECO_a_00151)
-4. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)
-5. P.Yu. Kondrakhin, F.A. Kolpakov. (2026). *Modular Model of Neuronal Activity That Captures the Dynamics of Main Molecular Targets of Antiepileptic Drugs*. International Journal of Molecular Sciences. [DOI](https://doi.org/10.3390/ijms27010490)
-6. G. Goelman, Zvi Israel, Sami Heymann, Dana Ekstein, T. Benoliel. (2026). *Exploratory analysis of epileptic and non-epileptiform hippocampal network organization across spatial and frequency domains*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2026.121698)
-7. Kang You, Gary Green, Jian Zhang. *Differential Dynamic Causal Nets: Model Construction, Identification and Group Comparisons*. [Link](https://arxiv.org/abs/2601.21478)
-8. Gianluca Gaglioti, L. Porta, M. Colombo, Simone Russo, Thierry Nieus, G. Deco, M. Corbetta, S. Sarasso, M. V. Sanchez-Vives, M. Massimini. (2026). *Slow wave generation and propagation in a model of brain lesions*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2026.121817)
-9. Gagan Acharya, Erfan Nozari. (2026). *Passivity-Based Control of Electrographic Seizures in a Neural Mass Model of Epilepsy*. [Link](https://arxiv.org/abs/2603.25991)

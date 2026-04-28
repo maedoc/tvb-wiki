@@ -2,6 +2,8 @@
 created: 2026-04-20
 sources:
 - raw/papers/ogawa-1990.md
+- raw/papers/semanticscholar-e08252ec3941.md
+- raw/papers/arxiv-2602.03240.md
 tags:
 - people-researcher
 - neuroimaging-fmri
@@ -17,7 +19,7 @@ updated: '2026-04-27'
 **Institution:** Bell Laboratories (retired)
 
 ## Overview
-Seiji Ogawa is a Japanese researcher credited with discovering the BOLD (Blood Oxygenation Level Dependent) contrast mechanism that underlies functional MRI (fMRI). His 1990 paper demonstrated that changes in blood oxygenation could be detected with MRI, launching the field of functional neuroimaging.
+Seiji Ogawa is a Japanese researcher credited with discovering the BOLD (Blood Oxygenation Level Dependent) contrast mechanism that underlies functional MRI (fMRI). His 1990 paper demonstrated that changes in blood oxygenation could be detected with MRI, launching the field of functional [[neuroimaging]].
 
 ## Key Contributions
 - **1990**: Discovered BOLD contrast mechanism in PNAS paper

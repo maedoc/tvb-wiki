@@ -5,6 +5,7 @@ sources:
 - raw/papers/avants-2011.md
 - raw/papers/klein-2009.md
 - raw/papers/tustison-2010.md
+- raw/papers/semanticscholar-8edd59e14fa3.md
 tags:
 - people-researcher
 - software-ants
@@ -24,7 +25,7 @@ Lead developer of ANTs (Advanced Normalization Tools), known for SyN image regis
 - Medical image registration algorithms
 - Diffeomorphic image normalization (SyN)
 - Brain MRI preprocessing pipelines
-- Open-source neuroimaging software
+- Open-source [[neuroimaging]] software
 
 ## Key Publications
 
@@ -37,7 +38,7 @@ Lead developer of ANTs (Advanced Normalization Tools), known for SyN image regis
 - Avants et al. (2011) — ANTs similarity metrics avants-2011
   - Systematic evaluation of registration metrics
   - Cross-correlation outperforms mutual information
-  - Reproducibility standard for method comparisons
+  - [[reproducibility]] standard for method comparisons
 
 ## Related Entities
 

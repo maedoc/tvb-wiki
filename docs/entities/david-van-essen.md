@@ -5,6 +5,7 @@ sources:
 - raw/papers/van-essen-2012.md
 - raw/papers/smith-2013-hcp.md
 - raw/papers/barch-2013.md
+- raw/papers/semanticscholar-929b90566fc8.md
 tags:
 - people-researcher
 - connectomics
@@ -22,7 +23,7 @@ Professor of Neuroscience at Washington University School of Medicine, Principal
 
 - **Human Connectome Project**: Principal investigator of the WU-Minn HCP consortium
 - **Cortical Cartography**: Pioneered surface-based analysis of the cerebral cortex
-- **Brain Visualization**: Developed tools for mapping and visualizing brain connectivity
+- **Brain Visualization**: Developed tools for mapping and visualizing brain [[connectivity]]
 - **Multimodal Integration**: Advanced methods for integrating structural and functional imaging
 
 ## Research Focus
@@ -30,7 +31,7 @@ Professor of Neuroscience at Washington University School of Medicine, Principal
 Van Essen's research emphasizes:
 - Large-scale brain mapping initiatives
 - Cortical surface analysis and [[parcellation]]
-- Multimodal neuroimaging integration
+- Multimodal [[neuroimaging]] integration
 - Open data sharing and neuroinformatics
 
 ## Key Papers

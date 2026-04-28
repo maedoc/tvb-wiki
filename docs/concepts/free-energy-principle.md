@@ -4,6 +4,10 @@ sources:
 - raw/papers/friston-2010-fep.md
 - raw/papers/friston-2007.md
 - raw/papers/deco-2013.md
+- raw/papers/arxiv-2604.17151.md
+- raw/papers/arxiv-2603.07524.md
+- raw/papers/arxiv-2603.21067.md
+- raw/papers/arxiv-2509.02799.md
 tags:
 - free-energy-principle
 - variational-bayes
@@ -36,7 +40,7 @@ where $y$ denotes sensory observations, $s$ denotes hidden states or parameters,
 
 ## Active Inference
 
-Perception alone is only half the story. The FEP extends to action through **active inference**: agents select policies that minimize expected free energy, combining the anticipated accuracy of future observations with the complexity of belief updating. This creates a natural exploration–exploitation balance, because novelty drives learning while familiar outcomes maintain low free energy. In whole-brain terms, the architecture shaped by [[structural-connectivity]] does not merely passively process stimuli; it actively samples the environment in ways that confirm prior expectations. Deco et al. (2013) used this perspective to argue that noise-driven fluctuations in networks constrained by empirical connectivity reflect a structured exploration of the brain's functional repertoire, consistent with the view that the brain is never truly at rest.
+Perception alone is only half the story. The FEP extends to action through **active inference**: agents select policies that minimize expected free energy, combining the anticipated accuracy of future observations with the complexity of belief updating. This creates a natural exploration–exploitation balance, because novelty drives learning while familiar outcomes maintain low free energy. In whole-brain terms, the architecture shaped by [[structural-connectivity]] does not merely passively process stimuli; it actively samples the environment in ways that confirm prior expectations. Deco et al. (2013) used this perspective to argue that noise-driven fluctuations in networks constrained by empirical [[connectivity]] reflect a structured exploration of the brain's functional repertoire, consistent with the view that the brain is never truly at rest.
 
 ## Connection to Whole-Brain Modeling
 
@@ -44,7 +48,7 @@ The FEP provides the theoretical scaffolding for many tools in computational neu
 
 ## Applications and Biological Grounding
 
-Beyond methodological unification, the FEP has motivated specific hypotheses about function and dysfunction. In computational psychiatry, aberrant precision weighting of prediction errors has been linked to hallucinations and delusions in schizophrenia, reframing symptoms as disturbances in hierarchical inference. In [[epilepsy-modeling]], minimizing free energy can be interpreted as the brain’s attempt to maintain a stable dynamical regime; transitions to seizure states may reflect a failure of this homeostatic control. The principle has also been invoked in theories of consciousness, where the level of integrated model evidence has been proposed as a marker of conscious level, tying together ideas from predictive coding and information theory.
+Beyond methodological unification, the FEP has motivated specific hypotheses about function and dysfunction. In [[computational-psychiatry]], aberrant precision weighting of prediction errors has been linked to hallucinations and delusions in schizophrenia, reframing symptoms as disturbances in hierarchical inference. In [[epilepsy-modeling]], minimizing free energy can be interpreted as the brain’s attempt to maintain a stable dynamical regime; transitions to seizure states may reflect a failure of this homeostatic control. The principle has also been invoked in theories of consciousness, where the level of integrated model evidence has been proposed as a marker of conscious level, tying together ideas from predictive coding and information theory.
 
 ## Criticisms and Open Questions
 

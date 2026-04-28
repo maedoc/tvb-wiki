@@ -1,10 +1,23 @@
 ---
-title: Nonlinear Dynamics
 created: 2026-04-20
-updated: 2026-04-27
+sources:
+- raw/papers/strogatz-1994.md
+- raw/papers/wiggins-2003.md
+- raw/papers/arxiv-2509.02799.md
+- raw/papers/izhikevich-2007.md
+- raw/papers/doi-10.3389-fncom.2026.1762692.md
+- raw/papers/semanticscholar-7ce00494427f.md
+- raw/papers/stefanescu-jirsa-2008.md
+tags:
+- nonlinear-dynamics
+- dynamical-systems-theory
+- bifurcation-theory
+- neural-mass-models
+- brain-oscillations
+- network-dynamics
+title: Nonlinear Dynamics
 type: concept
-tags: [nonlinear-dynamics, dynamical-systems-theory, bifurcation-theory, neural-mass-models, brain-oscillations, network-dynamics]
-sources: [raw/papers/strogatz-1994.md, raw/papers/wiggins-2003.md, raw/papers/ermentrout-terman-2010.md]
+updated: '2026-04-27'
 ---
 
 ## Definition
@@ -21,7 +34,7 @@ The emergence of [[whole-brain modeling]] as a major paradigm in computational n
 
 ### Nonlinear Differential Equations
 
-Neural dynamics are typically modeled systems of coupled ordinary differential equations (ODEs) or delay differential equations (DEDs). A generic form for a neural mass model with state variable $\mathbf{x} \in \mathbb{R}^n$ is:
+Neural dynamics are typically modeled systems of coupled ordinary differential equations (ODEs) or delay differential equations (DEDs). A generic form for a [[neural-mass-models|neural mass model]] with state variable $\mathbf{x} \in \mathbb{R}^n$ is:
 
 $$\frac{d\mathbf{x}}{dt} = \mathbf{F}(\mathbf{x}, \mathbf{p}, \mathbf{I}(t))$$
 
@@ -49,15 +62,15 @@ Real neural systems are subject to intrinsic and extrinsic noise, necessitating 
 
 $$dX_t = F(X_t, p) dt + \sigma dW_t$$
 
-where $W_t$ is a Wiener process and $\sigma$ quantifies noise amplitude. The corresponding Fokker-Planck equation describes the evolution of the probability density $p(x,t)$:
+where $W_t$ is a Wiener process and $\sigma$ quantifies noise amplitude. The corresponding [[fokker-planck-equation]] describes the evolution of the probability density $p(x,t)$:
 
 $$\frac{\partial p}{\partial t} = -\frac{\partial}{\partial x}[F(x)p] + \frac{\sigma^2}{2}\frac{\partial^2 p}{\partial x^2}$$
 
-This formalism, treated in depth by [[Ermentrout-Terman]] and in the general theory of [[stochastic-differential-equations]], is essential for understanding how noise interacts with nonlinearities to enable transitions between stable states—a mechanism thought to underlie spontaneous brain state fluctuations observed in resting-state [[fMRI]] and [[EEG]] recordings.
+This formalism, treated in depth by Ermentrout 0026 Terman and in the general theory of [[stochastic-differential-equations]], is essential for understanding how noise interacts with nonlinearities to enable transitions between stable states—a mechanism thought to underlie spontaneous brain state fluctuations observed in resting-state [[fMRI]] and [[EEG]] recordings.
 
 ## Relationship to Other Concepts
 
-Nonlinear dynamics provides the mathematical language for [[dynamical-systems-theory]] as applied to neural systems. While dynamical systems theory encompasses both linear and nonlinear formulations, the qualitative methods of nonlinear dynamics—phase plane analysis, bifurcation theory, and chaos theory—are specifically designed to handle the complex behaviors that arise from nonlinearities. The concept of [[bifurcation analysis]] is inseparable from nonlinear dynamics: as parameters vary (e.g., coupling strength in a brain network, dosage of a neuromodulatory agent), the system may undergo qualitative changes in its dynamics that are only describable through nonlinear analysis.
+Nonlinear dynamics provides the mathematical language for [[dynamical-systems-theory]] as applied to neural systems. While dynamical systems theory encompasses both linear and nonlinear formulations, the qualitative methods of nonlinear dynamics—phase plane analysis, bifurcation theory, and chaos theory—are specifically designed to handle the complex behaviors that arise from nonlinearities. The concept of [[bifurcation analysis]] is inseparable from nonlinear dynamics: as parameters vary (e.g., coupling strength in a [[brain-network]], dosage of a neuromodulatory agent), the system may undergo qualitative changes in its dynamics that are only describable through nonlinear analysis.
 
 [[Mean-field theory]] provides a bridge between the microscopic nonlinear dynamics of individual neurons and the macroscopic nonlinear dynamics of populations. By averaging over the distribution of states in a large population, mean-field approximations convert detailed spiking neuron models into lower-dimensional nonlinear ODEs that can be analyzed with the tools of nonlinear dynamics. This approach underlies the construction of neural mass models used in [[whole-brain]] simulators such as [[TVB]].
 
@@ -65,6 +78,12 @@ The study of [[brain oscillations]] is fundamentally a study of nonlinear oscill
 
 ## Open Questions and Challenges
 
-Several fundamental questions in computational neuroscience hinge on nonlinear dynamics. The nature of [[brain dynamics]] near criticality—whether the brain operates at a critical point with power-law avalanches, and whether this is a stable attractor of nonlinear dynamics—remains debated. How noise interacts with nonlinearities to enable the flexible switching between functional states observed in neuroimaging data is poorly understood. And the extension of nonlinear dynamic analysis to whole-brain models with realistic [[structural connectivity]] presents computational challenges: the high-dimensional phase space makes visualization difficult, and the presence of multiple timescales introduces additional nonlinear complexity.
+Several fundamental questions in [[computational-neuroscience]] hinge on nonlinear dynamics. The nature of [[brain dynamics]] near criticality—whether the brain operates at a critical point with power-law avalanches, and whether this is a stable attractor of nonlinear dynamics—remains debated. How noise interacts with nonlinearities to enable the flexible switching between functional states observed in [[neuroimaging]] data is poorly understood. And the extension of nonlinear dynamic analysis to whole-brain models with realistic [[structural connectivity]] presents computational challenges: the high-dimensional phase space makes visualization difficult, and the presence of multiple timescales introduces additional nonlinear complexity.
 
-Nevertheless, nonlinear dynamics provides the essential conceptual and mathematical framework for understanding brain function as a dynamic system. Its tools—increasingly integrated into software packages for brain simulation and analysis—are indispensable for advancing from descriptive connectivity maps to mechanistic models of neural computation, cognition, and disease.
+Nevertheless, nonlinear dynamics provides the essential conceptual and mathematical framework for understanding brain function as a dynamic system. Its tools—increasingly integrated into software packages for brain simulation and analysis—are indispensable for advancing from descriptive [[connectivity]] maps to mechanistic models of neural computation, cognition, and disease.
+
+## References
+
+1. (authors unknown). *Nonlinear Dynamics and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering*.
+2. (authors unknown). *Introduction to Applied Nonlinear Dynamical Systems and Chaos*.
+3. (authors unknown). *Mathematical Foundations of Neuroscience*.

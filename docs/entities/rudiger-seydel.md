@@ -5,6 +5,8 @@ sources:
 - raw/papers/guckenheimer-holmes-1983.md
 - raw/papers/hirsch-smale-devaney-2004.md
 - raw/papers/touboul-2011.md
+- raw/papers/izhikevich-2007.md
+- raw/papers/wiggins-2003.md
 tags:
 - people-researcher
 title: Rüdiger Seydel
@@ -30,7 +32,7 @@ Rüdiger Seydel is a German mathematician and Professor at the University of Col
 - [[bifurcation theory]]
 - [[dynamical systems theory]]
 - [[neural mass model]]
-- parameter-estimation
+- [[parameter-estimation]]
 
 ## Selected Works
 - Seydel (2010) — Practical Bifurcation and Stability Analysis

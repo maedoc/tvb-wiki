@@ -9,6 +9,9 @@ sources:
 - raw/papers/arxiv-2510.02545.md
 - raw/papers/zavaglia-2006.md
 - raw/papers/arxiv-2510.22022.md
+- raw/papers/semanticscholar-71ffb8153870.md
+- raw/papers/wendling-2002.md
+- raw/papers/arxiv-2603.29903.md
 tags:
 - people-researcher
 - neural-mass-models
@@ -26,7 +29,7 @@ Dutch biomedical engineer and neuroscientist. Co-developer of the Jansen-Rit mod
 
 - **Jansen-Rit model**: Three-population [[neural-mass-models|neural mass model]] for cortical columns (1995, with Vincent Rit)
 - **Visual evoked potential modeling**: Generation of realistic VEP waveforms from population dynamics
-- **Nonlinear system identification**: Methods for parameter estimation in biological systems
+- **Nonlinear system identification**: Methods for [[parameter-estimation]] in biological systems
 - **Biomedical signal processing**: Application of advanced signal analysis to clinical EEG
 
 ## Major Publications
@@ -58,6 +61,6 @@ Post-synaptic responses are modeled as alpha functions (convolutions with expone
 3. Huda Mahdi, Jan Sieber, [[krasimira-tsaneva-atanasova]]. *Alpha-Delta Transitions in Cortical Rhythms as grazing bifurcations*. [Link](https://arxiv.org/abs/2411.16449)
 4. [[eugene-izhikevich|Eugene M. Izhikevich]]. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
 5. Gianluca Gaglioti, L. Porta, M. Colombo, Simone Russo, Thierry Nieus, G. Deco, M. Corbetta, S. Sarasso, M. V. Sanchez-Vives, M. Massimini. (2026). *Slow wave generation and propagation in a model of brain lesions*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2026.121817)
-6. Pascal Helson, Etienne Tanré, Romain Veltz. *[[mean-field-theory|Mean-field]] analysis of a neural network with stochastic STDP*. [Link](https://arxiv.org/abs/2510.02545)
+6. Pascal Helson, Etienne Tanré, Romain Veltz. *[[mean-field-theory|Mean-field]] analysis of a [[neural-network]] with stochastic STDP*. [Link](https://arxiv.org/abs/2510.02545)
 7. Lucia Zavaglia, Laura Astolfi, Federico Babiloni, Melani B.C. *Comparison of a mean-field model of electroencephalographic activity to individual brain networks*. IEEE Engineering in Medicine and Biology.
 8. Cyprien Tamekue, ShiNung Ching. *Control of [[neural-field-theory|neural field]] equations with step-function inputs*. [Link](https://arxiv.org/abs/2510.22022)

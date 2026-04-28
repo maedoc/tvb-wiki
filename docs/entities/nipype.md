@@ -19,7 +19,7 @@ updated: '2026-04-27'
 
 ## Overview
 
-**NiPype** (Neuroimaging in Python: Pipelines and Interfaces) is an open-source Python project that provides a uniform interface to existing neuroimaging software and facilitates interaction between them using an intuitive, flexible workflow engine. Developed by the neuroimaging community, with key contributors including the authors of the seminal 2011 framework paper (Gorgolewski et al., 2011), NiPype addresses the fragmentation in neuroimaging analysis by offering a common framework to integrate heterogeneous tools.
+**NiPype** ([[neuroimaging]] in Python: Pipelines and Interfaces) is an open-source Python project that provides a uniform interface to existing neuroimaging software and facilitates interaction between them using an intuitive, flexible workflow engine. Developed by the neuroimaging community, with key contributors including the authors of the seminal 2011 framework paper (Gorgolewski et al., 2011), NiPype addresses the fragmentation in neuroimaging analysis by offering a common framework to integrate heterogeneous tools.
 
 NiPype enables researchers to construct complex neuroimaging workflows that leverage the strengths of multiple software packages simultaneously. Rather than being locked into a single processing pipeline (e.g., FSL-only or SPM-only), users can combine the best tools from different packages—using FSL for preprocessing, ANTs for registration, and FreeSurfer for surface reconstruction—within a single Python script with consistent syntax.
 
@@ -31,7 +31,7 @@ NiPype provides standardized Python interfaces to major neuroimaging packages in
 **Workflow Engine**
 The workflow system in NiPype implements a directed acyclic graph (DAG) execution model, enabling:
 - Automatic dependency resolution between processing [[steps]]
-- Parallel execution on local multi-core machines or distributed computing clusters (via [[sge]], [[slurm]], [[pbs]], or [[htcondor]])
+- Parallel execution on local multi-core machines or distributed computing clusters (via SGE, SLURM, PBS, or HTCondor)
 - Lazy re-execution that only recomputes changed steps when pipelines are modified
 - Detailed provenance tracking recording the exact software versions and parameters used
 
@@ -39,18 +39,18 @@ The workflow system in NiPype implements a directed acyclic graph (DAG) executio
 NiPype integrates with [[bids]] (Brain Imaging Data Structure) standards and provides utilities for handling neuroimaging file formats including [[nifti]], [[cifti]], and surface-based gifti files through its companion library [[nibabel]].
 
 **Integration Ecosystem**
-The project is part of the broader scientific Python stack, interoperating with [[numpy]], [[scipy]], [[matplotlib]], [[pandas]], and [[jupyter]] notebooks. NiPype originated as part of the Nipy neuroimaging Python ecosystem alongside [[nibabel]], maintaining close integration for neuroimaging file I/O operations.
+The project is part of the broader scientific Python stack, interoperating with NumPy, SciPy, Matplotlib, pandas, and Jupyter notebooks. NiPype originated as part of the Nipy neuroimaging Python ecosystem alongside [[nibabel]], maintaining close integration for neuroimaging file I/O operations.
 
 ## Relationship to TVB
 
-[[tvb|The Virtual Brain]] and NiPype serve complementary roles in computational neuroscience workflows. While NiPype focuses on preprocessing and standardized analysis of empirical neuroimaging data (fMRI, DTI, structural MRI) through established pipelines, TVB specializes in building and simulating [[whole-brain]] models using that processed data.
+[[tvb|The Virtual Brain]] and NiPype serve complementary roles in [[computational-neuroscience]] workflows. While NiPype focuses on preprocessing and standardized analysis of empirical neuroimaging data (fMRI, DTI, structural MRI) through established pipelines, TVB specializes in building and simulating [[whole-brain]] models using that processed data.
 
 Typical integration patterns include:
 - Using NiPype pipelines to preprocess [[dti]] data and generate [[structural-connectivity]] matrices that serve as inputs to TVB simulations
 - Processing [[fmri]]-[[resting-state]] data through NiPype before using the extracted [[functional-connectivity]] patterns to parameterize or validate TVB models
 - Leveraging NiPype's provenance tracking to document preprocessing steps that feed into [[dynamic-causal-modeling]] or [[whole-brain-modeling]] analyses performed in TVB
 
-Both projects emphasize reproducibility and open science, with NiPype providing the preprocessing infrastructure and TVB providing the simulation framework for mechanistic brain modeling.
+Both projects emphasize [[reproducibility]] and open science, with NiPype providing the preprocessing infrastructure and TVB providing the simulation framework for mechanistic brain modeling.
 
 ## Key Papers
 

@@ -1,10 +1,21 @@
 ---
-title: Scale-Free Networks
 created: 2026-04-20
-updated: 2026-04-27
+sources:
+- raw/papers/barabasi-albert-1999.md
+- raw/papers/bullmore-sporns-2009.md
+- raw/papers/doi-10.3389-fncom.2026.1762692.md
+- raw/papers/arxiv-2603.04149.md
+- raw/papers/arxiv-2512.03907.md
+- raw/papers/arxiv-2509.24715.md
+tags:
+- connectomics
+- network-dynamics
+- brain-network
+- structural-connectivity
+- functional-connectivity
+title: Scale-Free Networks
 type: concept
-tags: [connectomics, network-dynamics, brain-network, structural-connectivity, functional-connectivity]
-sources: [raw/papers/barabasi-albert-1999.md, raw/papers/bullmore-sporns-2009.md]
+updated: '2026-04-27'
 ---
 
 # Scale-Free Networks
@@ -19,7 +30,7 @@ $$P(k) = C \cdot k^{-\gamma}$$
 
 where *C* is a normalization constant and γ (gamma) is the degree exponent. Empirically, most real-world scale-free networks exhibit exponents in the range 2 < γ < 3, a regime first characterized by [[albert-laszlo-barabasi|Albert-László Barabási]] and Réka Albert in their seminal 1999 work on network growth mechanisms. When plotted on logarithmic axes, a power-law distribution appears as a straight line, providing a diagnostic signature that can be tested against alternative models such as exponential or log-normal distributions.
 
-The power-law degree distribution has profound structural consequences. Because the second moment of the degree distribution diverges when γ ≤ 3, scale-free networks in this regime lack a meaningful average degree and exhibit extreme heterogeneity in connectivity. This heterogeneity is central to their dynamical and robustness properties.
+The power-law degree distribution has profound structural consequences. Because the second moment of the degree distribution diverges when γ ≤ 3, scale-free networks in this regime lack a meaningful average degree and exhibit extreme heterogeneity in [[connectivity]]. This heterogeneity is central to their dynamical and robustness properties.
 
 ## The Preferential Attachment Mechanism
 
@@ -27,13 +38,13 @@ The power-law degree distribution has profound structural consequences. Because 
 
 $$Π(k_i) = \frac{k_i}{\sum_j k_j}$$
 
-This mechanism generates networks with γ ≈ 3, consistent with many empirical observations. The preferential attachment model has been extended in numerous ways, including aging effects (where older nodes accumulate connections more slowly), fitness-based attachment (where intrinsic node properties influence attractiveness), and nonlinear attachment kernels. In the context of brain networks, variations on preferential attachment may help explain the developmental emergence of hub regions observed in [[structural-connectivity]] studies using diffusion tensor imaging.
+This mechanism generates networks with γ ≈ 3, consistent with many empirical observations. The preferential attachment model has been extended in numerous ways, including [[aging]] effects (where older nodes accumulate connections more slowly), fitness-based attachment (where intrinsic node properties influence attractiveness), and nonlinear attachment kernels. In the context of brain networks, variations on preferential attachment may help explain the developmental emergence of hub regions observed in [[structural-connectivity]] studies using diffusion tensor imaging.
 
 ## Scale-Free Properties in Brain Networks
 
 Empirical evidence accumulated over the past two decades indicates that both [[structural-connectivity]] and [[functional-connectivity]] networks in the brain exhibit scale-free or approximately scale-free properties. The 2009 review by [[ed-bullmore|Edward T. Bullmore]] and [[olaf-sporns|Olaf Sporns]] established that brain networks display heterogeneous degree distributions with heavy tails, the hallmark signature of scale-free architecture. Using graph-theoretical analysis, researchers have identified **hub regions**—predominantly in the posterior cingulate, inferior parietal cortex, and medial prefrontal cortex—that act as highly connected integration points for information flow across distributed brain systems.
 
-Brain networks differ from purely topological scale-free networks in several important respects. First, the brain's [[network-dynamics]] operates on multiple temporal scales, from millisecond spike timing in [[neural-mass-model]]s to slow hemodynamic fluctuations measured in functional MRI. Second, the physical constraints of white matter tractography impose spatial embedding that limits purely topological growth processes. Third, the degree distribution in empirical brain networks is often better described as **truncated power-law** or **heavy-tailed log-normal**, reflecting biological constraints on maximum connectivity imposed by energy requirements, spatial wiring costs, and developmental factors.
+Brain networks differ from purely topological scale-free networks in several important respects. First, the brain's [[network-dynamics]] operates on multiple temporal scales, from millisecond spike timing in [[neural-mass-model]]s to slow hemodynamic fluctuations measured in functional MRI. Second, the physical constraints of white matter [[tractography]] impose spatial embedding that limits purely topological growth processes. Third, the degree distribution in empirical brain networks is often better described as **truncated power-law** or **heavy-tailed log-normal**, reflecting biological constraints on maximum connectivity imposed by energy requirements, spatial wiring costs, and developmental factors.
 
 ## Hub Taxonomy and Rich-Club Organization
 
@@ -65,5 +76,10 @@ Despite substantial progress, several fundamental questions remain unanswered. W
 - [[connectomics]] – Field mapping neural connectivity
 - [[small-world-networks]] – Related topology with short path lengths
 - [[modularity]] – Community structure in brain networks
-- [[structural-connectivity]] – Anatomical white matter pathways
+- [[structural-connectivity]] – Anatomical [[white-matter]] pathways
 - [[functional-connectivity]] – Statistical dependencies in neural activity
+
+## References
+
+1. (authors unknown). *Emergence of Scaling in Random Networks*.
+2. (authors unknown). *Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems*.

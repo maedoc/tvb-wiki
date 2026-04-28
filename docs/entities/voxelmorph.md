@@ -1,14 +1,14 @@
 ---
 created: 2026-04-24
 sources:
-- https://github.com/voxelmorph/voxelmorph
-- https://doi.org/10.1109/TMI.2019.2897538
-- https://doi.org/10.1007/978-3-030-32245-8_7
 - raw/papers/semanticscholar-97e6ff441097.md
 - raw/papers/semanticscholar-8edd59e14fa3.md
 - raw/papers/glasser-2013.md
 - raw/papers/arxiv-2506.12719.md
 - raw/papers/arxiv-2601.13676.md
+- raw/papers/semanticscholar-109de470e443.md
+- raw/papers/semanticscholar-d4665dd0df61.md
+- raw/papers/semanticscholar-ac35f7fc051b.md
 tags:
 - software-brain-modeling
 - structural-connectivity
@@ -16,19 +16,19 @@ tags:
 - neuroimaging-fmri
 title: VoxelMorph
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-28'
 ---
 
 # VoxelMorph
 
 ## Overview
 
-VoxelMorph is a deep learning framework for unsupervised deformable medical image registration. Developed by researchers at MIT CSAIL[^1][^2], it uses convolutional neural networks (CNNs) to learn a mapping between moving and fixed images, achieving registration in seconds—orders of magnitude faster than traditional optimization-based methods[^1]. The framework has become influential in neuroimaging preprocessing workflows and connectomics research.
+VoxelMorph is a deep learning framework for unsupervised deformable medical image registration. Developed by researchers at MIT CSAIL[^1][^2], it uses convolutional neural networks (CNNs) to learn a mapping between moving and fixed images, achieving registration in seconds—orders of magnitude faster than traditional optimization-based methods[^1]. The framework has become influential in [[neuroimaging]] preprocessing workflows and connectomics research.
 
 ## Key Features
 
 ### Deep Learning Architecture
-VoxelMorph employs a U-Net convolutional neural network architecture[^2] to predict dense deformation fields. Given a pair of fixed and moving images, the network outputs a voxel-wise displacement field that warps the moving image to align with the fixed image. The architecture consists of an encoder-decoder pathway with skip connections, operating directly on 3D image volumes.
+VoxelMorph employs a U-Net convolutional [[neural-network]] architecture[^2] to predict dense deformation fields. Given a pair of fixed and moving images, the network outputs a voxel-wise displacement field that warps the moving image to align with the fixed image. The architecture consists of an encoder-decoder pathway with skip connections, operating directly on 3D image volumes.
 
 ### Unsupervised Training
 Unlike earlier deep learning approaches that required ground truth deformations, VoxelMorph trains in a fully unsupervised manner[^1][^2]. The loss function combines:
@@ -49,7 +49,7 @@ Traditional registration algorithms like [[ANTs]] SyN or [[FSL]] FNIRT require m
 ## Software Availability
 
 VoxelMorph is open-source software available under the Apache 2.0 license. The official implementation, including pre-trained models and training scripts, is maintained on GitHub at [voxelmorph/voxelmorph](https://github.com/voxelmorph/voxelmorph)[^1]. The repository includes:
-- TensorFlow and PyTorch implementations
+- [[tensorflow]] and PyTorch implementations
 - Pre-trained models for brain MRI registration
 - Atlas-based and template-building utilities
 - Integration examples for common neuroimaging pipelines
@@ -74,7 +74,7 @@ VoxelMorph complements [[TVB]] workflows in several ways:
 
 **Structural Connectivity Preprocessing**: For [[diffusion MRI]] [[tractography]], accurate co-registration of T1-weighted and diffusion-weighted images is essential. VoxelMorph provides fast alignment for downstream [[structural connectivity]] matrix generation.
 
-**Longitudinal Modeling**: TVB studies of disease progression (e.g., [[aging brain|aging]], [[Alzheimer's modeling|Alzheimer's]]) benefit from consistent anatomical correspondence across timepoints. The diffeomorphic variant ensures topology preservation during longitudinal registration.
+**Longitudinal Modeling**: TVB studies of disease progression (e.g., [[aging brain|aging]], [[alzheimers-modeling|Alzheimer's]]) benefit from consistent anatomical correspondence across timepoints. The diffeomorphic variant ensures topology preservation during longitudinal registration.
 
 **Population Templates**: Creating study-specific templates from large cohorts becomes feasible with VoxelMorph's speed, supporting cohort-wise [[connectomics]] analyses prior to TVB parameterization.
 

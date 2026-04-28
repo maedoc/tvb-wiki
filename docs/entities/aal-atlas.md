@@ -9,6 +9,7 @@ sources:
 - raw/papers/breakspear-2017.md
 - raw/papers/barch-2013.md
 - raw/papers/arxiv-2603.24176.md
+- raw/papers/semanticscholar-913068805e7f.md
 tags:
 - structural-connectivity
 - neuroimaging-fmri
@@ -23,7 +24,7 @@ updated: '2026-04-27'
 # AAL Atlas
 
 ## Overview
-The **AAL (Automated Anatomical Labeling) Atlas** is a widely-used anatomical [[parcellation]] of the human brain into 116 regions, first published in 2002. It was developed by Tzourio-Mazoyer and colleagues to provide a standardized anatomical nomenclature for neuroimaging studies. The atlas is defined in [[mni-space]] (Montreal Neurological Institute) coordinate space and labels cortical and subcortical structures using anatomical criteria from the MNI single-subject brain template.
+The **AAL (Automated Anatomical Labeling) Atlas** is a widely-used anatomical [[parcellation]] of the human brain into 116 regions, first published in 2002. It was developed by Tzourio-Mazoyer and colleagues to provide a standardized anatomical nomenclature for [[neuroimaging]] studies. The atlas is defined in [[mni-space]] (Montreal Neurological Institute) coordinate space and labels cortical and subcortical structures using anatomical criteria from the MNI single-subject brain template.
 
 ## Key Features
 The AAL atlas divides the brain into hemispheric regions including:
@@ -33,12 +34,12 @@ The AAL atlas divides the brain into hemispheric regions including:
 Each region is assigned a unique numerical label and anatomical name based on anatomical landmarks. The original AAL atlas has been followed by **AAL2** (Fan et al., 2016) and **AAL3** (Rolls et al., 2020), which refined cytoarchitectonic boundaries and expanded subcortical coverage, including improved delineation of the brainstem and cerebellar parcels.
 
 ## Role in Connectome-Based Modeling
-The AAL atlas is one of the most commonly used [[brain-parcellations]] for defining network nodes in [[whole-brain-modeling]] and [[structural-connectivity]] analyses. When constructing connectomes from [[diffusion-imaging]] or [[neuroimaging-fmri]] data, researchers use AAL regions as nodes, with edges representing fiber tract counts or functional correlations between regions.
+The AAL atlas is one of the most commonly used [[brain-parcellations]] for defining network nodes in [[whole-brain-modeling]] and [[structural-connectivity]] analyses. When constructing connectomes from [[diffusion-mri]] or [[fmri]] data, researchers use AAL regions as nodes, with edges representing fiber tract counts or functional correlations between regions.
 
-In [[the-virtual-brain]] (TVB), the AAL atlas serves as a default anatomical parcellation for importing structural connectivity matrices and projecting activity to anatomical locations.
+In [[tvb]] (TVB), the AAL atlas serves as a default anatomical parcellation for importing structural [[connectivity]] matrices and projecting activity to anatomical locations.
 
 ## Relationship to TVB
-The AAL atlas is integrated into [[the-virtual-brain]] (TVB) as one of the standard anatomical parcellations. TVB utilizes AAL labels for:
+The AAL atlas is integrated into [[tvb]] (TVB) as one of the standard anatomical parcellations. TVB utilizes AAL labels for:
 - Importing structural connectivity data from [[tractography|diffusion tractography]] pipelines
 - Mapping simulated neural activity to anatomical locations for visualization
 - Defining stimulation targets in [[brain-stimulation]] protocols
@@ -55,7 +56,7 @@ TVB users can import AAL-based connectivity matrices from sources like the [[hcp
 - [[brain-parcellations]]
 - [[structural-connectivity]]
 - [[mni-space]]
-- [[the-virtual-brain]]
+- [[tvb]]
 
 ## Other Brain Atlases
 - [[desikan-killiany-atlas]]

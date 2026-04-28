@@ -9,6 +9,7 @@ sources:
 - raw/papers/semanticscholar-9afbfd2d37be.md
 - raw/papers/arxiv-2505.16861.md
 - raw/papers/arxiv-2509.12873.md
+- raw/papers/semanticscholar-ff8218c1e55e.md
 tags:
 - software-tvb
 - whole-brain-modeling
@@ -28,10 +29,10 @@ The Virtual Brain (TVB) enables researchers to construct personalized whole-brai
 
 ## Key Features
 
-- **Whole-[[brain-network]] simulation**: Simulates brain dynamics across the entire cortex
+- **Whole-[[brain-network]] simulation**: Simulates [[brain-dynamics]] across the entire cortex
 - **Neural mass models**: Implements [[jansen-rit]], [[wilson-cowan]], and other population models
 - **Multimodal support**: Forward models for EEG, MEG, and fMRI signals
-- **Personalized modeling**: Subject-specific connectivity from individual neuroimaging data
+- **Personalized modeling**: Subject-specific [[connectivity]] from individual [[neuroimaging]] data
 - **Structural connectivity**: Integration of DTI tractography data
 - **Open-source**: Freely available for research and clinical applications
 
@@ -52,9 +53,11 @@ TVB combines:
 
 ## Related Software
 
-- [[NEST]] — Spiking neural network simulator for detailed neuron models
+- [[NEST]] — [[spiking-neural-networks|Spiking neural network]] simulator for detailed neuron models
 - [[NEURON]] — Multi-compartment neuron simulation environment
 - [[ANTs]] — Image registration for preprocessing neuroimaging data
+
+[[chronux]]
 
 ## Related Concepts
 
@@ -63,22 +66,22 @@ TVB combines:
 - [[personalized brain modeling]] — Subject-specific model construction
 - [[functional connectivity]] — Simulated and empirical connectivity patterns
 - [[elephant|Elephant]]
-- [[mrtrix3-connectome|Mrtrix3 Connectome]]
+- [[mrtrix3-connectome|[[mrtrix|Mrtrix3]] Connectome]]
 - [[epilepsy-modeling|Epilepsy Modeling]]
 ## Use Cases
 
 - Resting-state functional connectivity modeling
 - Clinical brain simulation for personalized medicine
 - Epilepsy seizure propagation modeling
-- Brain stimulation and neuromodulation studies
+- [[brain-stimulation]] and neuromodulation studies
 
 ## References
 
-1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+1. Sanz Leon et al. (2013). *[[the-virtual-brain]]: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
 2. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
 3. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2018.05.040)
 4. Deco et al. (2013). *Resting brains never rest: computational insights into potential cognitive architectures*. Trends in Neurosciences. [DOI](https://doi.org/10.1016/j.tins.2013.09.002)
 5. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)
-6. Leon Martin, Konstantin Bülau, Marius Pille, Rico Schmitt, Christoph Hüttl, J. Meier, Halgurd Taher, Dionysios Perdikis, M. Schirner, L. Stefanovski, Petra Ritter. (2025). *The Virtual Brain Ontology: A Digital Knowledge Framework for Reproducible Brain Network Modeling*. bioRxiv. [DOI](https://doi.org/10.1101/2025.11.19.689211)
-7. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *Arbor-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
+6. Leon Martin, Konstantin Bülau, Marius Pille, Rico Schmitt, Christoph Hüttl, J. Meier, Halgurd Taher, Dionysios Perdikis, M. Schirner, L. Stefanovski, [[petra-ritter]]. (2025). *The Virtual Brain Ontology: A Digital Knowledge Framework for Reproducible Brain Network Modeling*. bioRxiv. [DOI](https://doi.org/10.1101/2025.11.19.689211)
+7. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
 8. Gianluca Gaglioti, Alessandra Cardinale, Cosimo Lupo, Thierry Nieus, Federico Marmoreo, Elena Focacci, Robin Gutzen, Michael Denker, Andrea Pigorini, Marcello Massimini, Simone Sarasso, Pier Stanislao Paolucci, Giulia De Bonis. *Emergent complexity and rhythms in evoked and spontaneous dynamics of human whole-brain models after tuning through analysis tools*. [Link](https://arxiv.org/abs/2509.12873)

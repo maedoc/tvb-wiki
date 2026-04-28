@@ -6,6 +6,8 @@ sources:
 - raw/papers/strogatz-1994.md
 - raw/papers/izhikevich-2007.md
 - raw/papers/power-2010.md
+- raw/papers/arxiv-2603.07524.md
+- raw/papers/power-2011.md
 tags:
 - people-researcher
 - neural-mass-models
@@ -24,7 +26,7 @@ American neuroscientist and pioneer in neural mass modeling of cortical dynamics
 - **K-set models**: K0 (single [[neuron]]), KI (population), KII (coupled excitatory-inhibitory), KIII (multisensory integration)
 - **Nonlinear EEG analysis**: Application of chaos theory and [[bifurcation-analysis]] to brain signals
 - **Olfactory system modeling**: Mass action models of olfactory bulb and cortex
-- **Mesoscopic brain dynamics**: Conceptualization of population-level neural activity between single neurons and global brain
+- **Mesoscopic [[brain-dynamics]]**: Conceptualization of population-level neural activity between single neurons and global brain
 
 ## Major Publications
 
@@ -39,7 +41,7 @@ Freeman's work established the mathematical framework for population-level brain
 ## Related Concepts
 
 - [[neural mass model]]
-- brain oscillations
+- [[brain-oscillations]]
 - [[eeg]]
 - [[Wilson-Cowan]]
 - [[Jansen-Rit]]

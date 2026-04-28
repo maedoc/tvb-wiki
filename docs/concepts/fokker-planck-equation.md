@@ -1,10 +1,23 @@
 ---
-title: Fokker-Planck Equation
 created: 2026-04-20
-updated: 2026-04-27
+sources:
+- raw/papers/risken-1989.md
+- raw/papers/gardiner-2009.md
+- raw/papers/tuckwell-1988.md
+- raw/papers/stefanescu-jirsa-2008.md
+- raw/papers/doi-10.3389-fncom.2026.1762692.md
+- raw/papers/semanticscholar-7ce00494427f.md
+- raw/papers/wilson-cowan-1972.md
+- raw/papers/arxiv-2512.08257.md
+tags:
+- stochastic-differential-equations
+- neural-mass-models
+- nonlinear-dynamics
+- mean-field-theory
+- dynamical-systems-theory
+title: Fokker-Planck Equation
 type: concept
-tags: [stochastic-differential-equations, neural-mass-models, nonlinear-dynamics, mean-field-theory, dynamical-systems-theory]
-sources: [raw/papers/risken-1989.md, raw/papers/gardiner-2009.md, raw/papers/tuckwell-1988.md]
+updated: '2026-04-27'
 ---
 
 ## Definition
@@ -33,7 +46,7 @@ where the diffusion matrix D = (1/2)σσ^T encodes correlations between noise co
 
 ### Analytical Techniques
 
-Several analytical approaches exist for solving the Fokker-Planck equation, each suited to different classes of problems. Eigenfunction expansion methods express the solution as a weighted sum of eigenfunctions of the Fokker-Planck operator, which is particularly powerful for linear drift and constant diffusion (Ornstein-Uhlenbeck processes), where the solution converges to a Gaussian. For certain nonlinear systems exhibiting potential structure, the solution can be expressed in terms of the potential function via a quasi-stationary approximation. Path integral approaches reformulate the FPE in terms of functional integrals, enabling perturbative expansions around known solutions. The matrix continued fraction method, developed extensively by Risken, provides highly efficient numerical resolution for one-dimensional processes with linear drift and polynomial diffusion coefficients, achieving exponential convergence in many cases [risken-1989].
+Several analytical approaches exist for solving the Fokker-Planck equation, each suited to different classes of problems. Eigenfunction expansion methods express the solution as a weighted sum of eigenfunctions of the Fokker-Planck operator, which is particularly powerful for [[linear]] drift and constant diffusion (Ornstein-Uhlenbeck processes), where the solution converges to a Gaussian. For certain nonlinear systems exhibiting potential structure, the solution can be expressed in terms of the potential function via a quasi-stationary approximation. Path integral approaches reformulate the FPE in terms of functional integrals, enabling perturbative expansions around known solutions. The matrix continued fraction method, developed extensively by Risken, provides highly efficient numerical resolution for one-dimensional processes with linear drift and polynomial diffusion coefficients, achieving exponential convergence in many cases [risken-1989].
 
 ### Numerical Methods
 
@@ -43,11 +56,11 @@ When analytical solutions are unavailable, various numerical discretization sche
 
 ### Population Density Approaches
 
-The Fokker-Planck equation provides a foundational framework for analyzing neural population dynamics under stochastic drive. In large ensembles of neurons, individual cells exhibit variability in their membrane potentials due to synaptic noise, channel fluctuations, and heterogeneous inputs. Rather than simulating thousands of individual neurons, the population density approach tracks the distribution of membrane potentials across the population using an FPE, enabling efficient computation of population-averaged quantities like mean firing rates and correlation structure. This approach has proven particularly valuable for analyzing [[neural mass model]]s used in whole-brain modeling, where it provides a mathematically rigorous bridge between single-neuron dynamics and population-level descriptions [tuckwell-1988].
+The Fokker-Planck equation provides a foundational framework for analyzing neural population dynamics under stochastic drive. In large ensembles of neurons, individual cells exhibit variability in their membrane potentials due to synaptic noise, channel fluctuations, and heterogeneous inputs. Rather than simulating thousands of individual neurons, the population density approach tracks the distribution of membrane potentials across the population using an FPE, enabling efficient computation of population-averaged quantities like mean firing rates and correlation structure. This approach has proven particularly valuable for analyzing [[neural mass model]]s used in [[whole-brain|whole-brain modeling]], where it provides a mathematically rigorous bridge between single-[[neuron]] dynamics and population-level descriptions [tuckwell-1988].
 
 ### First Passage Time Problems
 
-A particularly important neuroscientific application concerns the time required for a stochastic process to reach a threshold—a computation central to models of spike generation. The first passage time distribution, escape rates, and mean first passage times can be derived from solutions to boundary value problems for the FPE. For leaky integrate-and-fire neurons with Ornstein-Uhlenbeck dynamics, exact expressions for interspike interval distributions have been obtained using FPE methods, providing benchmarks for approximate theories and a theoretical foundation for understanding neural coding in noisy neurons.
+A particularly important neuroscientific application concerns the time required for a stochastic process to reach a threshold—a computation central to models of spike generation. The first passage time distribution, escape rates, and mean first passage times can be derived from solutions to boundary value problems for the FPE. For leaky [[spiking-neural-networks|integrate-and-fire]] neurons with Ornstein-Uhlenbeck dynamics, exact expressions for interspike interval distributions have been obtained using FPE methods, providing benchmarks for approximate theories and a theoretical foundation for understanding neural coding in noisy neurons.
 
 ### Neural Mass Models and Stochastic Analysis
 
@@ -55,10 +68,16 @@ The [[mean field theory]] of neural networks naturally leads to [[neural mass mo
 
 ## Relationship to Stochastic Differential Equations
 
-The Fokker-Planck equation and stochastic differential equations provide complementary descriptions of the same underlying stochastic dynamics. An SDE specifies how individual sample paths evolve—a microscopic, trajectory-level description that is intuitively accessible but computationally expensive to analyze. The corresponding FPE specifies how the entire probability distribution evolves—a macroscopic, ensemble-level description that enables direct computation of moments, stationary distributions, and escape probabilities without generating many sample paths. The relationship is formalized by the Feynman-Kac formula and various representation theorems: solutions to the FPE can be constructed as expectations over ensembles of SDE trajectories, while SDE sample paths can be generated via Monte Carlo simulation of the corresponding FPE. Computational neuroscience applications often exploit both viewpoints, using SDE simulation for model validation and FPE analysis for insight into long-term behavior and parameter dependencies.
+The Fokker-Planck equation and stochastic differential equations provide complementary descriptions of the same underlying stochastic dynamics. An SDE specifies how individual sample paths evolve—a microscopic, trajectory-level description that is intuitively accessible but computationally expensive to analyze. The corresponding FPE specifies how the entire probability distribution evolves—a macroscopic, ensemble-level description that enables direct computation of moments, stationary distributions, and escape probabilities without generating many sample paths. The relationship is formalized by the Feynman-Kac formula and various representation theorems: solutions to the FPE can be constructed as expectations over ensembles of SDE trajectories, while SDE sample paths can be generated via Monte Carlo simulation of the corresponding FPE. [[computational-neuroscience]] applications often exploit both viewpoints, using SDE simulation for [[model-validation]] and FPE analysis for insight into long-term behavior and parameter dependencies.
 
 ## Related Concepts
 
 The Fokker-Planck equation sits at the intersection of several foundational frameworks in theoretical neuroscience. It provides the probabilistic foundation for [[stochastic differential equations]] used to model neural dynamics with noisy inputs. The population density approach connects directly to [[mean-field-theory]], which provides averaged descriptions of neural ensembles. In the context of [[whole-brain modeling]], the FPE enables analysis of how stochastic fluctuations in local populations propagate through large-scale brain networks governed by [[structural connectivity]]. The equation also connects to [[bifurcation-analysis]] in [[nonlinear-dynamics]], as noise can fundamentally alter bifurcation behavior and transition dynamics in neural systems. Tools like [[nest]] and [[brian2]] implement stochastic neural simulations whose mean-field population dynamics can be analyzed through FPE methods, providing a bridge between detailed spiking networks and [[neural mass model]] approximations.
 
 ---
+
+## References
+
+1. (authors unknown). *The Fokker-Planck Equation: Methods of Solution and Applications*.
+2. (authors unknown). *Stochastic Methods: A Handbook for the Natural and Social Sciences*.
+3. (authors unknown). *Introduction to Theoretical Neurobiology: Volume 2, Nonlinear and Stochastic Theories*.

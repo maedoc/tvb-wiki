@@ -1,10 +1,25 @@
 ---
-title: Whole-brain modeling
 created: 2026-04-20
-updated: 2026-04-27
+sources:
+- raw/papers/breakspear-2017.md
+- raw/papers/semanticscholar-ce89e593c89e.md
+- raw/papers/arxiv-2504.17491.md
+- raw/papers/semanticscholar-7cad41ef7875.md
+- raw/papers/arxiv-2509.02799.md
+tags:
+- whole-brain-modeling
+- connectomics
+- neural-mass-models
+- network-dynamics
+- computational-neuroscience
+- structural-connectivity
+- functional-connectivity
+- brain-network
+- personalized-brain-modeling
+- dynamical-systems-theory
+title: Whole-brain modeling
 type: concept
-tags: [whole-brain-modeling, connectomics, neural-mass-models, network-dynamics, computational-neuroscience, structural-connectivity, functional-connectivity, brain-network, personalized-brain-modeling, dynamical-systems-theory]
-sources: [raw/papers/breakspear-2017.md, raw/papers/semanticscholar-ce89e593c89e.md, raw/papers/arxiv-2504.17491.md]
+updated: '2026-04-27'
 ---
 
 # Whole-brain modeling
@@ -15,7 +30,7 @@ Whole-brain modeling is a computational neuroscience approach that represents th
 
 The foundational premise of whole-brain modeling is that the brain's large-scale organization can be understood through the interaction of distributed neuronal populations, each governed by local dynamics that couple to peer populations via white-matter pathways. This approach emerged from the convergence of several lines of research: the development of [[neural mass model]] formulations that reduce the dynamics of cortical columns to couple differential equations; advances in diffusion tensor imaging that enabled reconstruction of [[structural connectivity]] matrices; and the application of [[dynamical-systems-theory]] to characterize network-level phenomena such as oscillations, synchronization, and bifurcations.
 
-At its core, a whole-brain model consists of $N$ brain regions (typically $N \approx 68-500$ depending on the [[parcellation]] scheme) where each region's state evolves according to a local dynamical system. These regional dynamics are then coupled through a connectivity matrix $C_{ij}$ encoding the strength or presence of anatomical pathways between regions $i$ and $j$. The mathematical formulation can be expressed as a system of coupled differential equations:
+At its core, a [[whole-brain-modeling|whole-brain model]] consists of $N$ brain regions (typically $N \approx 68-500$ depending on the [[parcellation]] scheme) where each region's state evolves according to a local dynamical system. These regional dynamics are then coupled through a [[connectivity]] matrix $C_{ij}$ encoding the strength or presence of anatomical pathways between regions $i$ and $j$. The mathematical formulation can be expressed as a system of coupled differential equations:
 
 $$\frac{d\mathbf{x}_i}{dt} = \mathbf{F}_i(\mathbf{x}_i) + \sum_{j=1}^{N} C_{ij} \mathbf{G}(\mathbf{x}_j, \mathbf{x}_i)$$
 
@@ -23,23 +38,23 @@ where $\mathbf{x}_i$ is the state vector for region $i$, $\mathbf{F}_i$ characte
 
 ## Taxonomic Diversity of Whole-brain Models
 
-Whole-brain models span a spectrum of complexity, reflecting different levels of biological realism and computational tractability. At one end lie **neural mass models** such as the [[jansen-rit]] model or its extensions (including the [[wong-wang]] and [[larter-breakspear]] variants), which represent cortical regions as populations of excitatory and inhibitory neurons coupled through mean-field approximations. These models can reproduce key features of [[brain-oscillations]] across frequency bands and have proven valuable for understanding the mechanistic basis of [[functional connectivity]] patterns observed in resting-state [[fmri]].
+Whole-brain models span a spectrum of complexity, reflecting different levels of biological realism and computational tractability. At one end lie **neural mass models** such as the [[jansen-rit]] model or its extensions (including the [[wong-wang]] and [[larter-breakspear]] variants), which represent cortical regions as populations of excitatory and inhibitory neurons coupled through mean-field approximations. These models can reproduce key features of [[oscillator]] across frequency bands and have proven valuable for understanding the mechanistic basis of [[functional connectivity]] patterns observed in resting-state [[fmri]].
 
-Phenomenological models such as the [[wilson-cowan]] equation offer a simpler alternative, representing regional dynamics through coupled nonlinear differential equations that capture the interaction between excitation and inhibition without detailed neuronal circuitry. These models are computationally efficient and facilitate analytical treatment of network dynamics, including [[bifurcation-analysis]] that reveals how the system transitions between qualitatively different dynamical regimes.
+Phenomenological models such as the [[wilson-cowan]] equation offer a simpler alternative, representing regional dynamics through coupled nonlinear differential equations that capture the interaction between excitation and inhibition without detailed neuronal circuitry. These models are computationally efficient and facilitate analytical treatment of [[network-dynamics]], including [[bifurcation-analysis]] that reveals how the system transitions between qualitatively different dynamical regimes.
 
 More biophysically detailed approaches incorporate spiking neuron models (as in the [[epileptor]] model for [[epilepsy-modeling]]) or conductance-based formulations that simulate the flow of ions through specific channel types. The choice of model granularity involves trade-offs between biological fidelity, analytical tractability, and computational cost—concerns that become particularly salient when fitting models to empirical data or exploring parameter spaces for [[parameter-estimation]].
 
 ## Hierarchical and Multi-scale Extensions
 
-Recent advances have moved beyond monolithic regional representations to incorporate hierarchical structure within brain regions. The hierarchical [[kuramoto]] model exemplifies this approach, embedding multiple coupled oscillators within each node to capture both local synchronization dynamics and long-distance interareal interactions. This framework has proven particularly valuable for investigating **critical brain dynamics**—the hypothesis that the brain operates near a critical point between order and disorder, thereby optimizing information processing through long-range temporal correlations.
+Recent advances have moved beyond monolithic regional representations to incorporate hierarchical structure within brain regions. The hierarchical [[kuramoto]] model exemplifies this approach, embedding multiple coupled oscillators within each node to capture both local synchronization dynamics and long-distance interareal interactions. This framework has proven particularly valuable for investigating **critical [[brain-dynamics]]**—the hypothesis that the brain operates near a critical point between order and disorder, thereby optimizing information processing through long-range temporal correlations.
 
-Multi-scale whole-brain modeling also encompasses phenomena such as the **structure-function coupling**, where the relationship between anatomical connectivity and functional connectivity varies across frequency bands and cognitive states. Research using the hierarchical approach has revealed that this coupling peaks at criticality for long-range temporal correlations and cross-correlations, while decaying for phase synchronization measures—patterns that align with empirical observations from resting-state [[meg]] recordings.
+Multi-scale whole-brain modeling also encompasses phenomena such as the **structure-function coupling**, where the relationship between anatomical connectivity and functional connectivity varies across frequency bands and cognitive states. Research using the hierarchical approach has revealed that this coupling peaks at criticality for long-range temporal correlations and cross-correlations, while decaying for phase synchronization measures—patterns that align with empirical observations from [[resting-state]] [[meg]] recordings.
 
 ## Clinical and Translational Applications
 
 Whole-brain modeling has emerged as a powerful tool for clinical translation, enabling personalized brain modeling that integrates patient-specific structural connectivity data. This approach is particularly developed in the context of [[epilepsy-modeling]], where the [[epileptor]] model and related formalisms can predict seizure propagation patterns and inform surgical planning. Similarly, whole-brain frameworks have been applied to [[schizophrenia-models]] and [[alzheimers-modeling]], investigating how structural alterations propagate through the network to produce observed functional disturbances.
 
-The [[the-virtual-brain]] (TVB) platform represents the most widely adopted software ecosystem for whole-brain simulation, providing an integrated environment for constructing, fitting, and analyzing personalized brain models. TVB supports multiple neural mass formulations, connects to diverse neuroimaging datasets, and includes tools for simulating [[brain-stimulation]] interventions—capabilities that have enabled investigations into optimal targeting for transcranial magnetic stimulation and deep brain stimulation.
+The [[tvb]] (TVB) platform represents the most widely adopted software ecosystem for whole-brain simulation, providing an integrated environment for constructing, fitting, and analyzing personalized brain models. TVB supports multiple neural mass formulations, connects to diverse [[neuroimaging]] datasets, and includes tools for simulating [[brain-stimulation]] interventions—capabilities that have enabled investigations into optimal targeting for transcranial magnetic stimulation and deep brain stimulation.
 
 ## Open Questions and Future Directions
 
@@ -55,7 +70,13 @@ Future directions include the integration of [[effective-connectivity]] framewor
 * [[connectome]]
 * [[brain-network]]
 * [[dynamic causal modeling]]
-* [[the-virtual-brain]]
+* [[tvb]]
 * [[epilepsy modeling]]
 * [[bifurcation analysis]]
 * [[personalized brain modeling]]
+
+## References
+
+1. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)
+2. V. Myrov, A. Suleimanova, Samanta Knapič, P. Partanen, M. Vesterinen, Wenya Liu, S. Palva, J. M. Palva. (2026). *Hierarchical whole-brain modeling of critical synchronization dynamics in the human brain.*. Proceedings of the National Academy of Sciences of the United States of America. [DOI](https://doi.org/10.1073/pnas.2505768123)
+3. Cristiana Dimulescu, Ronja Strömsdörfer, Agnes Flöel, Klaus Obermayer. (2025). *On the robustness of the emergent spatiotemporal dynamics in biophysically realistic and phenomenological whole-brain models at multiple network resolutions*. [Link](https://arxiv.org/abs/2504.17491)

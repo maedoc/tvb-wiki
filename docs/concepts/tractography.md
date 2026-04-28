@@ -5,6 +5,10 @@ sources:
 - raw/papers/jones-2010.md
 - raw/papers/tournier-2007.md
 - raw/papers/sotiropoulos-zalesky-2019.md
+- raw/papers/semanticscholar-e1fa0a868dbe.md
+- raw/papers/smith-2013-connectomics.md
+- raw/papers/semanticscholar-2f16f2f99d6b.md
+- raw/papers/arxiv-2603.29903.md
 tags:
 - tractography
 - neuroimaging-dti
@@ -19,7 +23,7 @@ type: concept
 updated: '2026-04-27'
 ---
 
-Tractography is a family of computational techniques that reconstruct three-dimensional white matter fiber pathways from diffusion-weighted magnetic resonance imaging data. By tracing virtual streamlines through local estimates of water diffusion orientation, tractography provides the only non-invasive method for mapping the structural wiring of the human brain in vivo. These reconstructed pathways form the basis of [[connectome]] construction and constrain computational models of large-scale brain [[network-dynamics]].
+Tractography is a family of computational techniques that reconstruct three-dimensional [[white-matter]] fiber pathways from diffusion-weighted magnetic resonance imaging data. By tracing virtual streamlines through local estimates of water diffusion orientation, tractography provides the only non-invasive method for mapping the structural wiring of the human brain in vivo. These reconstructed pathways form the basis of [[connectome]] construction and constrain computational models of large-scale brain [[network-dynamics]].
 
 ## Motivation and Context
 
@@ -27,7 +31,7 @@ Before the advent of [[diffusion-mri]], knowledge of long-range anatomical conne
 
 ## Methods and Evolution
 
-Early deterministic algorithms, such as Fiber Assignment by Continuous Tracking (FACT), propagate streamlines by following the principal diffusion direction of the single tensor model. While computationally efficient, these methods are sensitive to noise and fail where multiple fiber populations cross within a single voxel—a limitation Jones (2010) identified as a serious obstacle to reliable connectivity mapping. Probabilistic approaches address this by generating distributions of possible pathways through bootstrap resampling or Bayesian modeling, yielding more robust estimates at higher computational cost.
+Early deterministic algorithms, such as Fiber Assignment by Continuous Tracking (FACT), propagate streamlines by following the principal diffusion direction of the single tensor model. While computationally efficient, these methods are sensitive to noise and fail where multiple fiber populations cross within a single voxel—a limitation Jones (2010) identified as a serious obstacle to reliable [[connectivity]] mapping. Probabilistic approaches address this by generating distributions of possible pathways through bootstrap resampling or Bayesian modeling, yielding more robust estimates at higher computational cost.
 
 A more principled solution came with constrained spherical deconvolution (CSD), introduced by Tournier et al. (2007), which estimates the full fiber orientation distribution (FOD) by deconvolving the measured diffusion signal with a response function from coherent white matter, resolving multiple intra-voxel fiber populations and improving tracking accuracy in regions such as the centrum semiovale and brainstem. Modern pipelines extend beyond local streamline propagation to include global energy-minimization strategies that optimize whole-brain tractograms simultaneously against the diffusion data, as well as anatomically constrained tractography that uses tissue segmentation maps to prevent streamlines from penetrating gray matter boundaries. These advances are implemented in widely used software libraries—[[mrtrix3]], [[dipy]], and [[fsl]]—which support end-to-end connectome reconstruction from raw diffusion data through parcellation and matrix generation.
 

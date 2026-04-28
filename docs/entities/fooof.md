@@ -43,7 +43,7 @@ FOOOF implements a robust fitting algorithm with several key capabilities[1]:
 
 **Multi-Spectrum Support**: FOOOF efficiently handles collections of spectra from multiple channels, trials, or subjects, with built-in parallelization and batch processing capabilities.
 
-**Integration Ecosystem**: The package provides direct integration with MNE-Python and custom export to MATLAB[2], fitting naturally into standard neuroimaging pipelines.
+**Integration Ecosystem**: The package provides direct integration with MNE-Python and custom export to MATLAB[2], fitting naturally into standard [[neuroimaging]] pipelines.
 
 ## Relationship to TVB
 
@@ -66,7 +66,7 @@ The foundational publication for FOOOF is:
 ## Related Software
 
 - [[TVB]] — Whole-brain simulation platform where FOOOF can analyze simulated EEG/MEG outputs
-- [[Elephant]] — NeuralEnsemble toolkit for electrophysiology analysis; can be combined with FOOOF for comprehensive LFP processing
+- [[Elephant]] — NeuralEnsemble toolkit for [[electrophysiology]] analysis; can be combined with FOOOF for comprehensive LFP processing
 - [[NEST]] — Spiking network simulator; oscillatory spectra from NEST simulations can be analyzed with FOOOF
 - [[MNE-Python]] — MEG/EEG analysis library with which FOOOF integrates directly
 - SciPy — Underlying scientific computing framework for signal processing

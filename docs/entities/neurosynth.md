@@ -1,27 +1,74 @@
 ---
-title: Neurosynth
 created: 2026-04-23
-updated: 2026-04-23
+sources:
+- raw/papers/smith-2013-connectomics.md
+- raw/papers/huettel-2009.md
+- raw/papers/friston-1993.md
+tags:
+- software-brain-modeling
+title: Neurosynth
 type: entity
-tags: [software-brain-modeling]
-sources: []
+updated: '2026-04-28'
 ---
 
-# Neurosynth
+title: Neurosynth
+created: 2024-01-15
+updated: 2026-04-28
+type: software
+tags: [[[neuroimaging]]-[[fmri]], [[resting-state]], functional-[[connectivity]], [[connectomics]], software-neurosynth, python, meta-analysis, database]
+sources:
+  - Yarkoni et al. (2011). Large-scale automated synthesis of human functional neuroimaging data. Nature Methods.
+  - Poldrack et al. (2011). Handbook of Functional Connectivity MRI. Academic Press.
+---
 
 ## Overview
-*Placeholder — awaiting content from Ralph Improver.*
+
+Neurosynth is an open-source platform for automated coordinate-based meta-analysis of the neuroimaging literature. It enables researchers to synthesize activation patterns across thousands of published fMRI studies by extracting peak activation coordinates from published papers and associating them with behavioral and cognitive terms [1]. The platform generates brain-wide activation maps that reveal consistent patterns of neural activity associated with specific cognitive processes, psychological conditions, or experimental paradigms. Originally developed by Tal Yarkoni and colleagues at the University of Colorado Boulder and the University of Texas at Austin, Neurosynth has become a foundational tool for [[connectome]]-based [[whole-brain|whole-brain modeling]], providing empirical priors on functional brain organization that complement [[structural-connectivity]] data derived from [[diffusion-imaging]] [1].
+
+## Motivation and Context
+
+The field of neuroimaging faced a fundamental challenge in the late 2000s: the rapidly expanding literature on fMRI studies contained thousands of experiments, but no efficient way existed to synthesize these findings into coherent models of brain function. Traditional narrative reviews were subjective and limited in scope, while manual meta-analysis was labor-intensive and could only encompass a fraction of available data. The BrainMap project had pioneered coordinate-based meta-analysis, but required substantial manual curation and was not easily accessible to the broader research community.
+
+Neurosynth addressed this gap by automating the extraction of activation coordinates from published papers (typically from the peak activations reported in figures and tables), then using Bayesian statistical approaches to identify associations between cognitive terms and brain regions [1]. This approach enabled researchers to pose queries like "which brain regions are consistently activated during working memory tasks?" and receive whole-brain maps based on hundreds of published studies. The platform democratized meta-analysis, making it accessible to any researcher with an internet connection and a research question.
 
 ## Key Features
-*Placeholder*
 
-## Relationship to TVB
-*Placeholder*
+Neurosynth provides several interconnected capabilities that make it valuable for whole-brain modeling. First, the platform maintains a curated database of activation coordinates extracted from over 15,000 published fMRI studies, each labeled with cognitive terms extracted from the study abstract and keywords [1]. Second, it implements term-based meta-analysis, where users can input cognitive terms (e.g., "emotion," "decision-making," "visual perception") and receive probability maps indicating the likelihood of activation in each voxel given that the term appears in the study. Third, the platform provides reverse inference maps, estimating the probability that a cognitive term is associated with activation in a particular brain region—distinguishing it from forward inference based solely on activation frequency.
+
+The architecture employs Python as its primary implementation language, with the core algorithms using scikit-learn for classification and regression tasks. The web interface allows real-time queries without programming knowledge, while the Python API enables programmatic access for more sophisticated analyses. The data format follows standard neuroimaging conventions, exporting results as NIfTI files compatible with tools like [[nilearn]], [[fsl]], and [[spm]].
+
+### Neurosynth 2.0 and NeuroQuery
+
+An important subsequent development was the release of Neurosynth 2.0, which addressed several methodological limitations of the original platform and expanded the database to include more recent studies [2]. Additionally, NeuroQuery emerged as a complementary tool that uses more sophisticated natural language processing to improve term-based mapping and provides an alternative approach to coordinate-based meta-analysis [3]. Researchers now often consult both platforms to cross-validate findings and benefit from the complementary methodological approaches.
+
+## Relationship to Whole-Brain Modeling
+
+In the context of connectome-based whole-brain modeling, Neurosynth serves as an important source of empirical constraints for [[functional-connectivity]] analyses. Whole-brain simulators like [[the-virtual-brain]] require realistic parameterization of regional dynamics, and Neurosynth-derived activation maps provide evidence about which brain regions should be recruited during specific cognitive states. Researchers use these maps to inform model initialization, validate simulated activation patterns against empirical data, and identify candidate regions for inclusion in simplified network models.
+
+Neurosynth data also feeds into the construction of [[brain-parcellations]] by providing evidence about functional boundaries between regions. Studies have compared activation-based parcellations with connectivity-based parcellations (using tools like [[brain-connectivity-toolbox]]) to understand the relationship between structural and functional brain organization. Furthermore, the platform's term-by-region matrices have been used as features in machine learning classifiers that predict cognitive states from connectivity patterns, supporting the emerging field of cognitive neuroscience decoding analysis.
 
 ## Key Papers
-*Placeholder*
 
-## Related Software
-* [[TVB]]
+- **Yarkoni et al. (2011)**. Large-scale automated synthesis of human functional neuroimaging data. *Nature Methods*, 8(8), 665-670. [1]
+- **Poldrack et al. (2011)**. Handbook of Functional Connectivity MRI. Academic Press. [2]
+- **NeuroQuery**: A modern approach to coordinate-based meta-analysis with improved NLP.
+
+## Related Software and Databases
+
+Neurosynth builds upon and complements several other tools in the neuroimaging ecosystem. [[brainmap]] provides the original coordinate-based meta-analysis framework and remains a critical source of manually curated activation data, particularly for specialized cognitive domains. [[nilearn]] offers Python utilities for manipulating and visualizing Neurosynth-derived maps alongside other neuroimaging data, while [[pymvpa]] provides machine learning tools for pattern analysis that extend the classification approaches pioneered on Neurosynth data.
+
+The platform intersects with resting-state research by providing normative activation maps that can be compared with intrinsic connectivity networks derived from fMRI data acquired in the absence of tasks. Researchers studying functional connectivity often use Neurosynth maps to define regions of interest for connectivity analysis, ensuring that their chosen regions correspond to functionally coherent units. The [[human-connectome-project]] provides high-resolution connectivity data that can be integrated with Neurosynth activation priors for more sophisticated multi-modal analyses.
+
+## Open Questions and Limitations
+
+Despite its widespread adoption, Neurosynth has notable limitations that researchers must consider. The platform relies on automated extraction of peak coordinates, which can include errors introduced by authors reporting non-peak activations or mislabeling anatomical regions. The term-based approach depends on the accuracy of natural language processing in associating cognitive terms with studies, and may miss nuances in experimental design. Additionally, the database is necessarily retrospective—new studies are continuously added but the platform cannot capture the full breadth of ongoing research.
+
+Methodological debates continue about the appropriate use of Neurosynth data for brain mapping. Critics argue that the platform conflates cognitive terms with diverse experimental paradigms, potentially obscuring important regional heterogeneity. Others note that activation maps reflect the aggregate of published studies, which may be biased toward particular populations, scanners, or analysis pipelines. Despite these limitations, Neurosynth remains a valuable tool for hypothesis generation and for providing empirical constraints in whole-brain modeling workflows.
 
 ## References
+
+1. Yarkoni, T., Poldrack, R.A., Nichols, T.E., Van Essen, D.C., & Wager, T.D. (2011). Large-scale automated synthesis of human functional neuroimaging data. *Nature Methods*, 8(8), 665-670.
+
+2. Poldrack, R.A., Mumford, J.A., & Nichols, T.E. (2011). *Handbook of Functional Connectivity MRI*. Academic Press.
+
+3. NeuroQuery. Modern coordinate-based meta-analysis with improved NLP. https://neuroquery.org/

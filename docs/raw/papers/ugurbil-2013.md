@@ -33,8 +33,8 @@ This paper describes the technical innovations in the HCP that enable high spati
 Demonstrated that high-resolution multimodal imaging is feasible in large-scale studies. The multiband techniques described here have been widely adopted beyond the HCP.
 
 ## Related Concepts
-- [[neuroimaging-fmri]] – Functional MRI techniques
-- [[neuroimaging-dti]] – Diffusion tensor imaging
+- [[fmri]] – Functional MRI techniques
+- [[dti]] – Diffusion tensor imaging
 - [[multiband-acceleration]] – Fast MRI acquisition
 - [[human-connectome-project]] – Major brain mapping initiative
 - [[ultra-high-field-mri]] – 7T imaging

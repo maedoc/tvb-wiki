@@ -1,12 +1,11 @@
 ---
 created: 2026-04-23
 sources:
-- pieper-2006
-- norton-2017
-- fedorov-2012
-- slicer-official
-- dmri-doc
 - raw/papers/tustison-2010.md
+- raw/papers/alfaro-almagro-2018.md
+- raw/papers/semanticscholar-301489ffb9de.md
+- raw/papers/semanticscholar-8e88204cc35c.md
+- raw/papers/arxiv-2603.24176.md
 tags:
 - software-brain-modeling
 - software-visualization

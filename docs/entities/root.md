@@ -6,19 +6,22 @@ sources:
 - raw/papers/david-friston-2003.md
 - raw/papers/arxiv-2602.18715.md
 - raw/papers/arxiv-2603.21067.md
+- raw/papers/semanticscholar-518dfb759a44.md
+- raw/papers/arxiv-2508.10045.md
+- raw/papers/semanticscholar-d6e43299345d.md
 tags:
 - software-brain-modeling
 - software-visualization
 title: Root
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-28'
 ---
 
 # ROOT
 
 ## Overview
 
-**ROOT** is an open-source object-oriented data analysis framework developed at CERN since 1994. Originally designed for high-energy physics (HEP) data processing, ROOT has been adopted in computational neuroscience for analyzing large-scale [[neuroimaging-fmri|fMRI]] datasets, Monte Carlo simulations, and statistical modeling of [[brain-network|brain network]] dynamics. It provides high-performance I/O, statistical analysis tools, histogramming, and visualization capabilities primarily through C++ and Python bindings (PyROOT).
+**ROOT** is an open-source object-oriented data analysis framework developed at CERN since 1994. Originally designed for high-energy physics (HEP) data processing, ROOT has been adopted in [[computational-neuroscience]] for analyzing large-scale [[fmri|fMRI]] datasets, Monte Carlo simulations, and statistical modeling of [[brain-network|brain network]] dynamics. It provides high-performance I/O, statistical analysis tools, histogramming, and visualization capabilities primarily through C++ and Python bindings (PyROOT).
 
 ROOT excels at handling terabyte-scale datasets—critical for modern connectomics and [[whole-brain-modeling|whole-brain modeling]] workflows where simulations can generate massive time series data. The framework's columnar storage format (TTree/TChain) enables efficient out-of-core data processing, allowing researchers to analyze simulation outputs from platforms like [[TVB]], [[NEST]], or [[NEURON]] without loading entire datasets into memory.
 
@@ -59,7 +62,7 @@ ROOT has been used in specific neuroscience applications including analysis of [
 ## Key Papers
 
 - Brun, R., & Rademakers, F. (1997). ROOT: An object-oriented data analysis framework. *Nuclear Instruments and Methods in Physics Research A*, 389(1-2), 81-86. *The seminal paper introducing ROOT's architecture and design philosophy.*
-- Bicer, T., et al. (2015). High-performance analytics of large-scale neuroimaging data using ROOT. *Proceedings of Science*, CHEP2015, 030. *Demonstrates ROOT's application to brain imaging big data.*
+- Bicer, T., et al. (2015). High-performance analytics of large-scale [[neuroimaging]] data using ROOT. *Proceedings of Science*, CHEP2015, 030. *Demonstrates ROOT's application to brain imaging big data.*
 
 ## Related Software
 

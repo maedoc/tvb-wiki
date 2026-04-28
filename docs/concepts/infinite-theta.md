@@ -1,15 +1,28 @@
 ---
-title: Infinite Theta Neuron Model (Montbrió-Pazó-Roxin)
 created: 2026-04-27
-updated: 2026-04-27
+sources:
+- raw/papers/stefanescu-jirsa-2008.md
+- raw/papers/potjans-diesmann-2014.md
+- raw/papers/izhikevich-2007.md
+- raw/papers/wilson-cowan-1972.md
+- raw/papers/arxiv-2512.03907.md
+tags:
+- neural-mass-models
+- mean-field-theory
+- spiking-neural-networks
+- dynamical-systems-theory
+- bifurcation-theory
+- nonlinear-dynamics
+- stochastic-differential-equations
+- whole-brain-modeling
+title: Infinite Theta Neuron Model (Montbrió-Pazó-Roxin)
 type: concept
-tags: [neural-mass-models, mean-field-theory, spiking-neural-networks, dynamical-systems-theory, bifurcation-theory, nonlinear-dynamics, stochastic-differential-equations, whole-brain-modeling]
-sources: [raw/papers/stefanescu-jirsa-2008.md]
+updated: '2026-04-27'
 ---
 
 # Infinite Theta Neuron Model (Montbrió-Pazó-Roxin)
 
-An exact mean-field reduction of an infinite population of quadratic integrate-and-fire (QIF) neurons, developed by Montbrió, Pazó, and Roxin in 2015. This model provides a mathematically rigorous bridge between microscopic spiking neuron dynamics and macroscopic population-level descriptions, making it a foundational result in computational neuroscience for understanding collective neuronal dynamics.
+An exact mean-field reduction of an infinite population of quadratic integrate-and-fire (QIF) neurons, developed by Montbrió, Pazó, and Roxin in 2015. This model provides a mathematically rigorous bridge between microscopic spiking [[neuron]] dynamics and macroscopic population-level descriptions, making it a foundational result in [[computational-neuroscience]] for understanding collective neuronal dynamics.
 
 ## Overview
 
@@ -42,7 +55,7 @@ The three key parameters each map onto distinct neurobiological mechanisms:
 
 - **J (recurrent coupling)**: Captures the strength of recurrent excitatory or inhibitory interactions within the population. Positive J promotes collective excitation (potentially leading to runaway activity), while negative J enables competition and can generate oscillatory dynamics through feedback between firing rate and voltage.
 
-These parameters enable direct mapping to brain states observed in neuroimaging, where the model can predict changes in [[resting-state]] connectivity patterns associated with alterations in neuromodulation (affecting μ), network architecture (affecting J), or neural diversity (affecting Δ).
+These parameters enable direct mapping to brain states observed in [[neuroimaging]], where the model can predict changes in [[resting-state]] [[connectivity]] patterns associated with alterations in neuromodulation (affecting μ), network architecture (affecting J), or neural diversity (affecting Δ).
 
 ## Relationship to Other Models
 
@@ -50,14 +63,18 @@ The infinite theta neuron model sits within a lineage of neural mass formulation
 
 The [[zerlaut]] model extends this framework to include separate excitatory and inhibitory populations with adaptation, making it directly applicable to [[epilepsy-modeling]] and other clinical applications. Similarly, the [[wong-wang]] model, developed around the same time, captures similar phenomenology but was derived through different mathematical techniques.
 
-For [[the-virtual-brain]] simulations, these mean-field formulations provide the dynamical core that replaces detailed spiking networks, enabling whole-brain simulations at scale while retaining biologically meaningful dynamics. The computational efficiency gained through mean-field reduction is essential when simulating dozens of brain regions across multiple subjects.
+For [[tvb]] simulations, these mean-field formulations provide the dynamical core that replaces detailed spiking networks, enabling [[whole-brain]] simulations at scale while retaining biologically meaningful dynamics. The computational efficiency gained through mean-field reduction is essential when simulating dozens of brain regions across multiple subjects.
 
 ## Applications and Extensions
 
-The model has proven particularly valuable for understanding brain oscillations at multiple frequency bands. Subsequent work—most notably by Devalle, Roxin, and Montbrió (2017)—demonstrated that the firing rate equations require a spike synchrony mechanism to correctly describe fast oscillations in inhibitory networks, extending the framework's applicability to gamma oscillations and other fast rhythms relevant to cognition.
+The model has proven particularly valuable for understanding [[brain-oscillations]] at multiple frequency bands. Subsequent work—most notably by Devalle, Roxin, and Montbrió (2017)—demonstrated that the firing rate equations require a spike synchrony mechanism to correctly describe fast oscillations in inhibitory networks, extending the framework's applicability to gamma oscillations and other fast rhythms relevant to cognition.
 
 The theoretical framework has also been extended to handle heterogeneous connectivity structures beyond global coupling, with applications to [[brain-network]] analysis and the study of [[structural-connectivity]] effects on functional dynamics. This extension connects to the broader program of using [[dynamic-causal-modeling]] to infer effective connectivity from neuroimaging data.
 
 ## Open Questions
 
 Despite its mathematical rigor, several questions remain active areas of research. How well does the infinite population limit approximate finite networks of biologically realistic size? Can the framework be extended to capture firing rate adaptation, dendritic integration, or other cellular mechanisms? How do delays in synaptic transmission modify the predicted dynamics? These questions motivate ongoing work at the intersection of [[dynamical-systems-theory]] and systems neuroscience.
+
+## References
+
+1. Roxana A. Stefanescu, Viktor K. Jirsa. *A low dimensional description of globally coupled heterogeneous neural networks of excitatory and inhibitory neurons*. PLoS Computational Biology. [DOI](https://doi.org/10.1371/journal.pcbi.1000219)

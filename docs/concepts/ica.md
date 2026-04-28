@@ -1,17 +1,30 @@
 ---
-title: Independent Component Analysis (ICA)
 created: 2026-04-20
-updated: 2026-04-27
+sources:
+- raw/papers/makeig-1996.md
+- raw/papers/arxiv-2510.12910.md
+- raw/papers/arxiv-2604.11971.md
+- raw/papers/arxiv-2604.17151.md
+- raw/papers/arxiv-2601.03796.md
+- raw/papers/arxiv-2602.18715.md
+tags:
+- neuroimaging-eeg
+- neuroimaging-meg
+- neuroimaging-fmri
+- neural-mass-models
+- connectomics
+- functional-connectivity
+- source-separation
+title: Independent Component Analysis (ICA)
 type: concept
-tags: [neuroimaging-eeg, neuroimaging-meg, neuroimaging-fmri, neural-mass-models, connectomics, functional-connectivity, source-separation]
-sources: [raw/papers/makeig-1996.md, raw/papers/arxiv-2510.12910.md, raw/papers/arxiv-2604.11971.md]
+updated: '2026-04-27'
 ---
 
-Independent Component Analysis (ICA) is a blind source separation technique that decomposes multivariate observations into statistically independent non-Gaussian components. In the context of neuroimaging, ICA has become a foundational computational tool for separating overlapping signals from mixed recordings, enabling researchers to isolate neural sources from artifacts and identify functionally coherent brain networks without requiring explicit models of the underlying sources.
+Independent Component Analysis (ICA) is a blind source separation technique that decomposes multivariate observations into statistically independent non-Gaussian components. In the context of [[neuroimaging]], ICA has become a foundational computational tool for separating overlapping signals from mixed recordings, enabling researchers to isolate neural sources from artifacts and identify functionally coherent brain networks without requiring explicit models of the underlying sources.
 
 ## Mathematical Framework
 
-ICA addresses the fundamental problem of recovering unknown source signals from observed mixtures when the mixing process itself is unknown. Given a data matrix $\mathbf{X}$ of observations (e.g., EEG electrodes or fMRI voxels) at multiple time points, ICA assumes a linear mixing model:
+ICA addresses the fundamental problem of recovering unknown source signals from observed mixtures when the mixing process itself is unknown. Given a data matrix $\mathbf{X}$ of observations (e.g., EEG electrodes or [[fmri]] voxels) at multiple time points, ICA assumes a [[linear]] mixing model:
 
 $$\mathbf{X} = \mathbf{A}\mathbf{S}$$
 
@@ -21,7 +34,7 @@ The most common ICA algorithms optimize different objective functions. The **Inf
 
 ## Historical Development
 
-ICA was first applied to EEG data by Scott Makeig, Anthony Bell, Tzyy-Ping Jung, and Terrence Sejnowski in their seminal 1996 paper "Independent component analysis of electroencephalographic and magnetoencephalographic data" published in Advances in Neural Information Processing Systems. This work demonstrated that ICA could successfully separate brain-derived neural sources from artifacts such as eye movements and muscle activity, which had previously required extensive manual intervention. The technique rapidly became standard preprocessing and analysis tooling in electrophysiology laboratories worldwide.
+ICA was first applied to EEG data by Scott Makeig, Anthony Bell, Tzyy-Ping Jung, and [[terrence-sejnowski]] in their seminal 1996 paper "Independent component analysis of electroencephalographic and magnetoencephalographic data" published in Advances in Neural Information Processing Systems. This work demonstrated that ICA could successfully separate brain-derived neural sources from artifacts such as eye movements and muscle activity, which had previously required extensive manual intervention. The technique rapidly became standard preprocessing and analysis tooling in [[electrophysiology]] laboratories worldwide.
 
 ## Applications in Neuroimaging
 
@@ -31,7 +44,7 @@ In EEG and MEG analysis, ICA serves dual roles of artifact rejection and source 
 
 ### Functional Magnetic Resonance Imaging (fMRI)
 
-ICA was adapted for fMRI analysis by Beckmann and colleagues, leading to the widely used **spatial ICA** approach where entire fMRI volumes are decomposed into spatially independent maps and associated time courses. This enables identification of resting-state networks including the [[default-mode network]], sensorimotor systems, and attention networks without requiring a priori specification of seed regions. Temporal ICA complements spatial ICA by decomposing the data into temporally independent series, useful for identifying frequency-specific network dynamics.
+ICA was adapted for fMRI analysis by Beckmann and colleagues, leading to the widely used **spatial ICA** approach where entire fMRI volumes are decomposed into spatially independent maps and associated time courses. This enables identification of [[resting-state]] networks including the [[default-mode network]], sensorimotor systems, and attention networks without requiring a priori specification of seed regions. Temporal ICA complements spatial ICA by decomposing the data into temporally independent series, useful for identifying frequency-specific [[network-dynamics]].
 
 ## Role in Whole-Brain Modeling
 
@@ -39,8 +52,14 @@ ICA plays several important roles in [[whole-brain modeling]] and [[connectomics
 
 ## Algorithmic Considerations
 
-Several practical considerations affect ICA performance in neuroimaging applications. The number of components to extract must be specified in advance, with higher numbers potentially overfitting noise and lower numbers merging distinct sources. Stability of decompositions can vary across runs due to local optima, particularly with the Infomax algorithm; repeated decompositions with different initialization can assess reliability. ICA assumes linear mixing and stationary sources, which may not hold in all cases—nonlinearities in the hemodynamic response or volume conduction in EEG can violate these assumptions. Recent developments incorporate temporal and spatial constraints to leverage known properties of neural signals.
+Several practical considerations affect ICA performance in neuroimaging applications. The number of components to extract must be specified in advance, with higher numbers potentially overfitting noise and lower numbers merging distinct sources. Stability of decompositions can vary across runs due to local optima, particularly with the Infomax algorithm; repeated decompositions with different initialization can assess reliability. ICA assumes linear mixing and stationary sources, which may not hold in all cases—nonlinearities in the hemodynamic response or [[volume-conduction]] in EEG can violate these assumptions. Recent developments incorporate temporal and spatial constraints to leverage known properties of neural signals.
 
 ## Related Concepts
 
 ICA relates to several other signal decomposition and [[connectivity]] methods. [[Principal Component Analysis]] provides orthogonal dimensionality reduction but cannot separate sources that are only uncorrelated rather than independent. [[Effective connectivity]] methods like dynamic causal modeling characterize directed causal interactions rather than undirected decompositions. [[EEGLab]], a popular EEG analysis environment, provides graphical interfaces for ICA decomposition and visualization. The technique of [[source-separation]] more broadly encompasses both ICA and other methods like beamforming that isolate signals from specific spatial origins.
+
+## References
+
+1. (authors unknown). *Independent component analysis of electroencephalographic data*.
+2. Neda Abdollahpour, N. Sertac Artan, Ian Daly, Mohammadreza Yazdchi, Zahra Baharlouei. (2025). *Effective Connectivity-Based Unsupervised Channel Selection Method for EEG*. [Link](https://arxiv.org/abs/2510.12910)
+3. Sunia Tanweer, Narayan Puthanmadam Subramaniyam, Firas A. Khasawneh. (2026). *Classification of Epileptic iEEG using Topological Machine Learning*. [Link](https://arxiv.org/abs/2604.11971)

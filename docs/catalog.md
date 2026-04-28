@@ -1,279 +1,368 @@
-# Wiki Index
+# Complete Wiki Catalog
 
-> Content catalog. Every wiki page listed under its type with a one‑line summary.
-> Read this first to find relevant pages for any query.
-> Last updated: 2026-04-27 | Total pages: 262
+> **For power users:** This is the complete alphabetical listing of all wiki pages.
+> Last updated: 2026-04-27 | Total pages: 353
+
+
 
 ## Entities
-<!-- Software, people, datasets, labs -->
-- [[3d slicer]] – - raw/papers/tustison-2010.md
-- [[aal atlas]] – - raw/papers/semanticscholar-e923a3372ab2.md
-- [[afni]] – - raw/papers/tustison-2010.md
-- [[alain destexhe]] – - raw/papers/destexhe-sejnowski-2009.md
-- [[albert laszlo barabasi]] – - raw/papers/barabasi-albert-1999.md
-- [[allen brain atlas]] – title: Allen Brain Atlas
-- [[andrei medvedev]] – - raw/papers/sporns-2011.md
-- [[annarchy]] – - raw/papers/jordan-2018.md
-- [[ants]] – - raw/papers/avants-2008.md
-- [[antspy]] – tags: [software-brain-modeling]
-- [[arbor]] – tags: [software-brain-modeling]
-- [[auryn]] – tags: [software-brain-modeling]
-- [[bci2000]] – tags: [software-brain-modeling]
-- [[bctpy]] – tags: [software-brain-modeling]
-- [[benjamin jansen]] – - raw/papers/jansen-rit-1995.md
-- [[bharat biswal]] – - raw/papers/biswal-1995.md
-- [[bids validator]] – title: BIDS Validator
-- [[bidscoin]] – tags: [software-brain-modeling]
-- [[bionet]] – - raw/papers/freeman-1975.md
-- [[bluepyopt]] – tags: [software-brain-modeling]
-- [[brain connectivity toolbox]] – title: Brain Connectivity Toolbox
-- [[brain dynamics toolbox]] – title: Brain Dynamics Toolbox
-- [[brainlife]] – tags: [software-brain-modeling]
-- [[brainmap]] – tags: [software-brain-modeling]
-- [[brainnet viewer]] – title: BrainNet Viewer
-- [[brainnetome atlas]] – title: Brainnetome Atlas
-- [[brainspace]] – tags: [software-brain-modeling]
-- [[brainstorm]] – tags: [software-brain-modeling]
-- [[brainsuite]] – tags: [software-brain-modeling]
-- [[brainvisa]] – tags: [software-brain-modeling]
-- [[brainvoyager]] – - 'Goebel, R., Esposito, F., & Formisano, E. (2006). Analysis of functional image
-- [[brian avants]] – - raw/papers/avants-2008.md
-- [[brian]] – tags: [software-brain-modeling]
-- [[brian2]] – tags: [software-brain-modeling]
-- [[c pac]] – - raw/papers/alfaro-almagro-2018.md
-- [[carlsim]] – - raw/papers/arxiv-2604.16474.md
-- [[cat12]] – tags: [software-brain-modeling]
-- [[cbrain]] – tags: [software-brain-modeling]
-- [[chronux]] – tags: [software-brain-modeling]
-- [[civet]] – tags: [software-brain-modeling]
-- [[clinica]] – tags: [software-brain-modeling]
-- [[cococomac]] – tags: [software-brain-modeling]
-- [[conn]] – - raw/papers/rubinov-sporns-2010.md
-- [[connectome mapper 3]] – title: Connectome Mapper 3
-- [[connectome workbench]] – title: Connectome Workbench
-- [[coreneuron]] – tags: [software-brain-modeling]
-- [[crispin gardiner]] – - raw/papers/gardiner-2009.md
-- [[cvodes]] – tags: [software-brain-modeling]
-- [[datalad]] – - raw/papers/semanticscholar-fcd025fcc10c.md
-- [[david van essen]] – - raw/papers/van-essen-2013.md
-- [[dcm]] – tags: [software-brain-modeling]
-- [[desikan killiany atlas]] – title: Desikan-Killiany Atlas
-- [[dipy]] – tags: [software-brain-modeling]
-- [[dsi studio]] – tags: [software-brain-modeling]
-- [[duncan watts]] – - raw/papers/watts-strogatz-1998.md
-- [[dynasim]] – tags: [software-brain-modeling]
-- [[ebrains]] – tags: [software-brain-modeling]
-- [[ed bullmore]] – - raw/papers/bullmore-sporns-2009.md
-- [[eeglab]] – tags: [software-brain-modeling]
-- [[elephant]] – - raw/papers/sanz-leon-2013.md
-- [[emanuel tuckwell]] – - raw/papers/tuckwell-1988.md
-- [[erplab]] – tags: [software-brain-modeling]
-- [[eugene izhikevich]] – - raw/papers/izhikevich-2007.md
-- [[exploreasl]] – tags: [software-brain-modeling]
-- [[fastsurfer]] – - raw/papers/semanticscholar-8006c459587d.md
-- [[fernando lopes da silva]] – - raw/papers/lopes-da-silva-1974.md
-- [[fidel alfaro almagro]] – - raw/papers/alfaro-almagro-2018.md
-- [[fieldtrip]] – tags: [software-brain-modeling]
-- [[fmriprep]] – tags: [software-brain-modeling]
-- [[fooof]] – - raw/papers/semanticscholar-eb704b6f5462.md
-- [[freesurfer]] – tags: [software-brain-modeling]
-- [[fsl]] – title: FSL (FMRIB Software Library)
-- [[fsleyes]] – tags: [software-brain-modeling]
-- [[genesis]] – tags: [software-brain-modeling]
-- [[genn]] – tags: [software-brain-modeling]
-- [[geppetto]] – tags: [software-brain-modeling]
-- [[gift]] – tags: [software-brain-modeling]
-- [[giulio tononi]] – - raw/papers/sporns-tononi-kotter-2005.md
-- [[glasser atlas]] – tags: [software-brain-modeling]
-- [[graphvar]] – - raw/papers/woodman-2014.md
-- [[gustavo deco]] – - raw/papers/deco-2013.md
-- [[hannes risken]] – - raw/papers/risken-1989.md
-- [[harvard oxford atlas]] – title: Harvard-Oxford Atlas
-- [[hcp pipelines]] – - raw/papers/glasser-2013.md
-- [[henry markram]] – - raw/papers/markram-2015.md
-- [[hnn]] – tags: [software-brain-modeling]
-- [[hugh wilson]] – - raw/papers/wilson-cowan-1972.md
-- [[human connectome project]] – - raw/papers/van-essen-2013.md
-- [[index]] – A collection of people, software platforms, datasets, and research groups relevant to whole-brain mo...
-- [[itk snap]] – tags: [software-brain-modeling]
-- [[jack cowan]] – - raw/papers/wilson-cowan-1972.md
-- [[jneuroml]] – tags: [software-brain-modeling]
-- [[john guckenheimer]] – - raw/papers/guckenheimer-holmes-1983.md
-- [[julich atlas]] – tags: [software-brain-modeling]
-- [[krasimira tsaneva atanasova]] – - raw/papers/breakspear-2017.md
-- [[lead dbs]] – tags: [software-brain-modeling]
-- [[lfp lib]] – - raw/papers/semanticscholar-929b90566fc8.md
-- [[lfpy]] – tags: [software-brain-modeling]
-- [[lfpykit]] – tags: [software-brain-modeling]
-- [[mark newman]] – - raw/papers/newman-2010.md
-- [[markus diesmann]] – - raw/papers/gewaltig-diesmann-2007.md
-- [[michael hines]] – - raw/papers/hines-carnevale-1997.md
-- [[michael schirner]] – - raw/papers/schirner-2018.md
-- [[mne bids]] – tags: [software-brain-modeling]
-- [[mne python]] – tags: [software-brain-modeling]
-- [[modeldb]] – - raw/papers/migliore-2006.md
-- [[moose]] – - raw/papers/semanticscholar-ff8218c1e55e.md
-- [[mricrogl]] – tags: [software-brain-modeling]
-- [[mricron]] – tags: [software-brain-modeling]
-- [[mriqc]] – tags: [software-brain-modeling]
-- [[mrtrix]] – tags: [software-brain-modeling]
-- [[mrtrix3 connectome]] – - raw/papers/schirner-2018.md
-- [[mrtrix3]] – tags: [software-brain-modeling]
-- [[music]] – tags: [software-brain-modeling]
-- [[mvgc]] – tags: [software-brain-modeling]
-- [[nancy andrews hanna]] – - raw/papers/damoiseaux-2008.md
-- [[nengo]] – tags: [software-brain-modeling]
-- [[neo]] – tags: [software-brain-modeling]
-- [[nest]] – - raw/papers/gewaltig-diesmann-2007.md
-- [[netneuroscience]] – title: netneuroscience toolkit
-- [[netpyne]] – tags: [software-brain-modeling]
-- [[neurodata without borders]] – title: Neurodata Without Borders
-- [[neurom]] – tags: [software-brain-modeling]
-- [[neurominer]] – tags: [software-brain-modeling]
-- [[neuroml]] – tags: [software-brain-modeling]
-- [[neuromorpho toolkit]] – title: NeuroMorpho.org Toolkit
-- [[neuromorpho]] – title: NeuroMorpho.Org
-- [[neuron]] – - raw/papers/hines-carnevale-1997.md
-- [[neuronunit]] – - raw/papers/arxiv-2505.16861.md
-- [[neuroscience gateway]] – title: Neuroscience Gateway
-- [[neurosynth]] – tags: [software-brain-modeling]
-- [[neurovault]] – - raw/papers/semanticscholar-d576a0f9d2a0.md
-- [[neusight]] – tags: [software-brain-modeling]
-- [[nibabel]] – tags: [software-brain-modeling]
-- [[nibetaseries]] – tags: [software-brain-modeling]
-- [[nick tustison]] – - raw/papers/tustison-2010.md
-- [[niftynet]] – - https://doi.org/10.1016/j.cmpb.2018.01.004
-- [[niftyreg]] – - https://doi.org/10.1117/1.JMI.1.2.024003
-- [[nikos logothetis]] – - raw/papers/logothetis-2001.md
-- [[nilearn]] – tags: [software-brain-modeling]
-- [[nipype]] – - raw/papers/sanz-leon-2013.md
-- [[nitin gogtay]] – title: "Nitin Gogtay"
-- [[nix]] – tags: [software-brain-modeling]
-- [[nwb]] – title: Neurodata Without Borders
-- [[olaf sporns]] – - raw/papers/sporns-tononi-kotter-2005.md
-- [[open source brain]] – title: Open Source Brain
-- [[opencortex]] – tags: [software-brain-modeling]
-- [[openmeeg]] – tags: [software-brain-modeling]
-- [[openneuro]] – tags: [software-brain-modeling]
-- [[openvibe]] – tags: [software-brain-modeling]
-- [[panda]] – tags: [software-brain-modeling]
-- [[paraview]] – tags: [software-brain-modeling]
-- [[patricia miller]] – - raw/papers/miller-2016.md
-- [[philip holmes]] – - raw/papers/guckenheimer-holmes-1983.md
-- [[physionet]] – tags: [software-brain-modeling]
-- [[pronto]] – - schrouff-2013-pronto
-- [[psyneulink]] – - software-brain-modeling
-- [[pybids]] – tags: [software-brain-modeling]
-- [[pymvpa]] – tags: [software-brain-modeling]
-- [[pynn]] – tags: [software-brain-modeling]
-- [[qsiprep]] – tags: [software-brain-modeling]
-- [[rolf kotter]] – - raw/papers/sporns-tononi-kotter-2005.md
-- [[root]] – - raw/papers/sanz-leon-2013.md
-- [[rudiger seydel]] – - raw/papers/seydel-2010.md
-- [[scirun]] – tags: [software-brain-modeling]
-- [[sciunit]] – - raw/papers/sanz-leon-2013.md
-- [[seiji ogawa]] – - raw/papers/ogawa-1990.md
-- [[sift]] – tags: [software-brain-modeling]
-- [[simnibs]] – tags: [software-brain-modeling]
-- [[sloreta]] – tags: [software-brain-modeling]
-- [[spm]] – title: SPM (Statistical Parametric Mapping)
-- [[stephen wiggins]] – - raw/papers/wiggins-2003.md
-- [[steps]] – - raw/papers/arxiv-2604.01667.md
-- [[steven smith]] – - raw/papers/smith-2009.md
-- [[steven strogatz]] – - raw/papers/strogatz-1994.md
-- [[suma]] – tags: [software-brain-modeling]
-- [[synthseg]] – tags: [software-brain-modeling]
-- [[ted carnevale]] – - raw/papers/hines-carnevale-1997.md
-- [[terrence sejnowski]] – - raw/papers/destexhe-sejnowski-2009.md
-- [[the virtual epileptic brain]] – title: The Virtual Epileptic Brain
-- [[tractor]] – tags: [software-brain-modeling]
-- [[trentool]] – tags: [software-brain-modeling]
-- [[tvb adapters]] – tags: [software-brain-modeling]
-- [[tvb library]] – tags: [software-brain-modeling]
-- [[tvb multiscale]] – - raw/papers/sanz-leon-2013.md
-- [[tvb]] – - raw/papers/sanz-leon-2013.md
-- [[uk biobank]] – - raw/papers/miller-2016.md
-- [[vincent rit]] – - raw/papers/jansen-rit-1995.md
-- [[voxelmorph]] – - https://github.com/voxelmorph/voxelmorph
-- [[walter freeman]] – - raw/papers/freeman-1975.md
-- [[xcos]] – tags: [software-brain-modeling]
-- [[xnat]] – tags: [software-brain-modeling]
-- [[yan wang]] – - raw/papers/semanticscholar-bb75bdb90ada.md
-- [[yasa]] – tags: [software-brain-modeling]
-- [[yuri kuznetsov]] – - raw/papers/kuznetsov-2004.md
+<!-- entities -->
+- [[3D Slicer]] – 1. **Populated `sources` array** — Added 5 source references:
+- [[Aal Atlas]] – The **AAL (Automated Anatomical Labeling) Atlas** is a widely-used anatomical [[parcellation]] of the human brain into 1...
+- [[Afni]] – The corrected AFNI page is complete. Here's a summary of the fixes:
+- [[Alain Destexhe]] – French computational neuroscientist. Senior Researcher at CNRS and UNIC (Unité de Neurosciences Intégratives et Computat...
+- [[Albert Laszlo Barabasi]] – Distinguished Professor at Northeastern University, physicist, pioneer of network science and scale-free networks.
+- [[Allen Brain Atlas]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Andrei Medvedev]] – Researcher in neuroscience. Mentioned in the context of Domain 5 sources.
+- [[Annarchy]] – **ANNarchy** is an open-source Python library for large-scale simulations of rate-coded and spiking neural networks. Dev...
+- [[Ants]] – ANTs is a medical image registration and segmentation toolkit widely used in [[neuroimaging]] preprocessing.
+- [[Antspy]] – ANTsPy (antspy) is a Python wrapper for Advanced Normalization Tools ([[ants]]), providing state-of-the-art image regist...
+- [[Arbor]] – Arbor (arbor) is a high-performance library for [[neural-network]] simulation, emphasizing efficient multi-compartment [...
+- [[Auryn]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Bci2000]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Bctpy]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Benjamin Jansen]] – Dutch biomedical engineer and neuroscientist. Co-developer of the Jansen-Rit model of cortical column dynamics for EEG/V...
+- [[Bharat Biswal]] – **Nationality:** Indian-American
+- [[Bids Validator]] – [[bids]] Validator (bids-validator) is a tool for validating that [[neuroimaging]] datasets conform to the Brain Imaging...
+- [[Bidscoin]] – BidsCoin (bidscoin) is a command-line tool and GUI for converting raw [[neuroimaging]] data into the [[bids]] format, su...
+- [[Bionet]] – I'll fix the factual errors and add proper citations. Key corrections: Walter Freeman was at UC Berkeley (not Krasnow In...
+- [[Bluepyopt]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Brain Connectivity Toolbox]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Brain Dynamics Toolbox]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Brainlife]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Brainmap]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Brainnet Viewer]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Brainnetome Atlas]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Brainspace]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Brainstorm]] – Brainstorm (brainstorm) is a free, open-source MATLAB application for the analysis of MEG, EEG, and electrophysiological...
+- [[Brainsuite]] – tags: [software-modeling, [[neuroimaging]], neuroimaging-mri, software-visualization]
+- [[Brainvisa]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Brainvoyager]] – Here is the corrected `brainvoyager.md` file with all issues fixed:
+- [[Brian Avants]] – Lead developer of ANTs (Advanced Normalization Tools), known for SyN image registration.
+- [[Brian]] – Brian (brian) is a Python simulator for [[spiking-neural-networks]], known for its intuitive syntax and code generation ...
+- [[Brian2]] – Brian2 (brian2) is a successor to [[brian]], a Python [[spiking-neural-networks|spiking neural network]] simulator that ...
+- [[C Pac]] – **C-PAC** (Configurable Pipeline for the Analysis of Connectomes) is an open-source, Python-based neuroimaging pipeline ...
+- [[Camino]] – Camino — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Carlsim]] – Here is the corrected CARLsim page with all issues fixed:
+- [[Cat12]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Cbrain]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Chronux]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Cifti]] – Cifti — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Civet]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Clinica]] – Clinica is an open-source software platform designed for clinical neuroimaging data processing and analysis, with a part...
+- [[Cococomac]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Conn]] – **CONN** (Conn toolbox) is an open-source, MATLAB-based software package for the analysis and visualization of [[functio...
+- [[Connectome Mapper 3]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Connectome Workbench]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Coreneuron]] – CoreNEURON (coreneuron) is a optimized compute engine for the [[neuron]] simulator, designed for large-scale network sim...
+- [[Crispin Gardiner]] – Crispin W. Gardiner is a New Zealand physicist and Professor at the University of Otago. He is renowned for his contribu...
+- [[Cvodes]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Datalad]] – The DataLad wiki page has been successfully improved:
+- [[David Van Essen]] – Professor of Neuroscience at Washington University School of Medicine, Principal Investigator of the Human Connectome Pr...
+- [[Dcm]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Deepmedic]] – Deepmedic — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Desikan Killiany Atlas]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Destrieux Atlas]] – Destrieux Atlas — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Dipy]] – DIPY (dipy) is a Python library for [[diffusion-mri]] analysis, including reconstruction, fiber tracking, and statistica...
+- [[Dsi Studio]] – The corrected file has been written to `entities/dsi-studio.md` with all flagged issues fixed:
+- [[Duncan Watts]] – Principal Researcher at Microsoft Research, sociologist and network scientist, co-discoverer of small-world networks.
+- [[Dynasim]] – DynaSim (dynasim) is a MATLAB toolbox for building and simulating dynamical systems models in neuroscience, supporting b...
+- [[Ebrains]] – EBRAINS (European Brain Research Infrastructure) is a distributed research infrastructure established under the European...
+- [[Ed Bullmore]] – Professor at University of Cambridge, leading researcher in network neuroscience and [[computational-psychiatry]].
+- [[Eeglab]] – EEGLAB (eeglab) is a open-source MATLAB environment for processing and analyzing electroencephalographic (EEG) and magne...
+- [[Elephant]] – **Elephant** ([[electrophysiology]] Analysis Toolkit) is an open-source Python package for the analysis of electrophysio...
+- [[Emanuel Tuckwell]] – Henry C. Tuckwell is a mathematician and theoretical neuroscientist known for his foundational work on stochastic proces...
+- [[Erplab]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Eugene Izhikevich]] – Russian-American computational neuroscientist and former CEO of the Brain Corporation. Leading researcher in [[nonlinear...
+- [[Exploreasl]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Fastsurfer]] – All issues fixed. Here's the corrected file:
+- [[Fernando Lopes Da Silva]] – Dutch/Brazilian neurophysiologist and computational neuroscientist. Pioneer in modeling thalamocortical oscillations and...
+- [[Fidel Alfaro Almagro]] – Researcher at University of Oxford, FMRIB Centre, key contributor to UK Biobank imaging processing pipelines.
+- [[Fieldtrip]] – FieldTrip (fieldtrip) is a open-source MATLAB toolbox for advanced analysis of MEG, EEG, and invasive electrophysiologic...
+- [[Fmriprep]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Fooof]] – **FOOOF** (Fitting Oscillations & One Over F) is an open-source Python toolbox for parameterizing neural power spectra. ...
+- [[Freesurfer]] – FreeSurfer (freesurfer) is a comprehensive [[neuroimaging]] software suite for structural MRI analysis, cortical surface...
+- [[Fsl]] – FSL (fsl) is a comprehensive library of analysis tools for [[fmri]], MRI, and DTI brain imaging data, developed at the O...
+- [[Fsleyes]] – FSLeyes (fsleyes) is a interactive viewer for 3D and 4D [[neuroimaging]] data, part of the FSL suite, supporting overlay...
+- [[Genesis]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Genn]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Geppetto]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Gift]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Giulio Tononi]] – Professor of Psychiatry at University of Wisconsin-Madison, leading researcher in sleep and consciousness, co-originator...
+- [[Glasser Atlas]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Graphvar]] – GraphVar is a user-friendly MATLAB toolbox for comprehensive graph-theoretical analyses of functional brain [[connectivi...
+- [[Gustavo Deco]] – Computational neuroscientist known for work on large-scale brain models and resting-state dynamics.
+- [[Hannes Risken]] – Hannes Risken was a German physicist known for his definitive work on Fokker-Planck equations. His book "The Fokker-Plan...
+- [[Harvard Oxford Atlas]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Hcp Dataset]] – Hcp Dataset — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Hcp Pipelines]] – The **HCP Pipelines** are open-source [[neuroimaging]] preprocessing pipelines developed by the Human Connectome Project...
+- [[Henry Markram]] – Neuroscientist known for the Blue Brain Project and data-driven cortical reconstruction.
+- [[Hnn]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Hugh Wilson]] – Canadian computational neuroscientist and mathematician. Co-creator of the Wilson-Cowan model—the canonical firing-rate ...
+- [[Human Connectome Project]] – Major NIH-funded initiative to map human brain [[connectivity]] using cutting-edge [[neuroimaging]].
+- [[Index]] – A collection of people, software platforms, datasets, and research groups relevant to whole-brain modeling.
+- [[Itk Snap]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Jack Cowan]] – British mathematical biologist and computational neuroscientist. Co-creator of the Wilson-Cowan model and founding figur...
+- [[Jneuroml]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[John Guckenheimer]] – John Guckenheimer (born 1945) is an American mathematician and the Abram R. Bullis Professor of Mathematics at Cornell U...
+- [[Julich Atlas]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Krasimira Tsaneva Atanasova]] – Researcher in [[connectome]]‑based whole‑brain modeling.
+- [[Lead Dbs]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Lfp Lib]] – Now I'll provide the corrected markdown file with proper sources and references:
+- [[Lfpy]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Lfpykit]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Mark Newman]] – Distinguished University Professor at University of Michigan, physicist and network scientist, author of standard networ...
+- [[Markus Diesmann]] – Computational neuroscientist and lead developer of the NEST simulator.
+- [[Michael Hines]] – Lead developer of the NEURON simulation environment for multi-compartment neuron modeling.
+- [[Michael Schirner]] – Researcher in personalized brain modeling and TVB pipeline development.
+- [[Mne Bids]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Mne Python]] – MNE-Python (mne-python) is a open-source Python package for exploring, visualizing, and analyzing human neurophysiologic...
+- [[Mni Space]] – Mni Space — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Modeldb]] – ModelDB is a web-accessible repository for depositing and sharing published [[computational-neuroscience]] models.
+- [[Moose]] – **MOOSE** (Multiscale Object-Oriented Simulation Environment) is an open-source software framework for simulating neuron...
+- [[Mricrogl]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Mricron]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Mriqc]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Mrtrix]] – MRtrix (mrtrix) is a command-line software suite for [[diffusion-mri]] analysis, including [[tractography]], spherical d...
+- [[Mrtrix3 Connectome]] – MRtrix3 Connectome is an automated end-to-end processing pipeline within the [[mrtrix]] software suite for generating wh...
+- [[Mrtrix3]] – MRtrix3 (mrtrix3) is a next-generation version of [[mrtrix]], providing a comprehensive set of tools for [[diffusion-mri...
+- [[Music]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Mvgc]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Nancy Andrews Hanna]] – Cognitive neuroscientist specializing in the default mode network, aging, and internally-directed cognition.
+- [[Nengo]] – Nengo is a Python-based neural simulation platform developed by the Centre for Theoretical Neuroscience at the Universit...
+- [[Neo]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Nest]] – NEST is a simulator for spiking [[neural-network]] models, widely used in [[computational-neuroscience]].
+- [[Netneuroscience]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Netpyne]] – NetPyNE (netpyne) is a Python package for developing, simulating, and analyzing data-driven multi-scale network models u...
+- [[Neurodata Without Borders]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Neurom]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Neurominer]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Neuroml]] – NeuroML (neuroml) is a standardized model description language for [[computational-neuroscience]], enabling exchangeable...
+- [[Neuromorpho Toolkit]] – The NeuroMorpho.org Toolkit refers to the suite of software tools, databases, and analysis resources associated with the...
+- [[Neuromorpho]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Neuron]] – NEURON is a simulation environment for modeling individual neurons and networks of neurons using multi-compartment cable...
+- [[Neuronunit]] – - "https://joss.theoj.org/papers/10.21105/joss.03995"  # Birgiolas 2021/2022 JOSS paper
+- [[Neuroscience Gateway]] – The Neuroscience Gateway (NSG) is a web-based computing portal that provides [[computational-neuroscience]] researchers ...
+- [[Neurosynth]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Neurovault]] – NeuroVault is an open-access web repository for sharing unthresholded statistical maps from [[neuroimaging]] studies. La...
+- [[Neusight]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Nibabel]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Nibetaseries]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Nick Tustison]] – Developer of N4ITK and DiReCT algorithms in ANTs, expert in MRI preprocessing.
+- [[Nifti]] – Nifti — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Niftynet]] – NiftyNet is an open-source deep learning framework for medical image analysis and computer-assisted intervention, built ...
+- [[Niftyreg]] – Here's the corrected `niftyreg.md` with all issues addressed:
+- [[Nikos Logothetis]] – **Nationality:** Greek
+- [[Nilearn]] – Nilearn (nilearn) is a Python library for fast and easy statistical learning on [[neuroimaging]] data, built on scikit-l...
+- [[Nipype]] – **NiPype** ([[neuroimaging]] in Python: Pipelines and Interfaces) is an open-source Python project that provides a unifo...
+- [[Nitin Gogtay]] – Developmental neuroscientist known for longitudinal [[neuroimaging]] studies of brain development.
+- [[Nix]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Nnu Net]] – Nnu Net — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Nwb]] – [[neurodata-without-borders]] (NWB) (nwb) is a standardized data format for neurophysiology data, designed to promote da...
+- [[Olaf Sporns]] – Distinguished Professor at Indiana University Bloomington, pioneer of the field of connectomics.
+- [[Open Source Brain]] – I have successfully fixed all the issues flagged by the reviewer. Here's a summary of the corrections made:
+- [[Opencortex]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Openmeeg]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Openneuro]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Openvibe]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Panda]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Paraview]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Patricia Miller]] – Professor at University of Oxford, FMRIB Centre, lead imaging researcher for UK Biobank.
+- [[Philip Holmes]] – Philip Holmes (born 1945) is a British mathematician and the Eugene Higgins Professor of Mechanical and Aerospace Engine...
+- [[Physionet]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Pronto]] – The corrected `pronto.md` file has been written. Summary of fixes:
+- [[Psyneulink]] – Now I have all the information needed. Here's the corrected PsyNeuLink page with all issues fixed:
+- [[Pybids]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Pymvpa]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Pynn]] – PyNN (pynn) is a Python simulator-independent language for building neuronal network models, providing a common API for ...
+- [[Qsiprep]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Rolf Kotter]] – Neuroscientist, co-originator of the connectome concept, known for work on neuroanatomy and [[connectivity]] analysis.
+- [[Root]] – **ROOT** is an open-source object-oriented data analysis framework developed at CERN since 1994. Originally designed for...
+- [[Rudiger Seydel]] – Rüdiger Seydel is a German mathematician and Professor at the University of Cologne. He specializes in numerical analysi...
+- [[Schaefer Atlas]] – Schaefer Atlas — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Scirun]] – SCIRun (Scientific Computing and Imaging Institute Run) is a problem-solving environment (PSE) developed primarily at th...
+- [[Sciunit]] – SciUnit is an open-source Python framework for creating, sharing, and executing unit tests for scientific models. Develo...
+- [[Seiji Ogawa]] – **Nationality:** Japanese
+- [[Sift]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Simnibs]] – SimNIBS (simnibs) is a free software package for electromagnetic [[brain-stimulation]] modeling, including electric fiel...
+- [[Sloreta]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Software Ants]] – Software [[ants]] — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Software Bct]] – Software Bct — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Software Fsl]] – Software Fsl — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Software Spm]] – Software Spm — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Spm]] – SPM (spm) is a Statistical Parametric Mapping — MATLAB-based software suite for the analysis of brain imaging data seque...
+- [[Stephen Wiggins]] – Stephen Wiggins is a British mathematician and Professor at the University of Bristol. He is a leading authority on appl...
+- [[Steps]] – Here is the corrected STEPS page with all issues fixed:
+- [[Steven Smith]] – **Nationality:** British
+- [[Steven Strogatz]] – Steven H. Strogatz (born 1959) is an American mathematician and the Jacob Gould Schurman Professor of Applied Mathematic...
+- [[Suma]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Synthseg]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Ted Carnevale]] – Computational neuroscientist and NEURON co-developer, known for educational resources on neural simulation.
+- [[Terrence Sejnowski]] – American computational neuroscientist. Francis Crick Professor at Salk Institute, UC San Diego, and Howard Hughes Medica...
+- [[The Virtual Epileptic Brain]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Tractor]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Trentool]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Tvb Adapters]] – TVB Adapters (tvb-adapters) is a component of [[the-virtual-brain]] framework providing interfaces and adapters for conn...
+- [[Tvb Library]] – TVB Library (tvb-library) is a core Python library of [[the-virtual-brain]], providing the simulation engine, model impl...
+- [[Tvb Multiscale]] – TVB-NEST multiscale (also known as TVB-multiscale) is a co-simulation framework that integrates [[tvb|The Virtual Brain]...
+- [[Tvb]] – TVB is an open-source neuroinformatics platform for simulating large-scale primate brain [[network-dynamics]].
+- [[Uk Biobank]] – The world's largest multimodal brain imaging study, collecting data from 100,000+ participants.
+- [[Vincent Rit]] – Dutch biomedical engineer and computational neuroscientist. Co-developer of the Jansen-Rit [[neural-mass-models|neural m...
+- [[Voxelmorph]] – VoxelMorph is a deep learning framework for unsupervised deformable medical image registration. Developed by researchers...
+- [[Walter Freeman]] – American neuroscientist and pioneer in neural mass modeling of cortical dynamics. Known for developing the K-set hierarc...
+- [[Xcos]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Xnat]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Yan Wang]] – Yan Wang is a computational neuroscientist whose work reportedly involves [[connectome]]-based [[whole-brain-modeling|wh...
+- [[Yasa]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Yuri Kuznetsov]] – Yuri A. Kuznetsov is a Russian mathematician and Professor at Utrecht University, Netherlands. He is a leading expert on...
 
 ## Concepts
-<!-- Methods, modalities, topics -->
-- [[aging]] – - raw/papers/buckner-2004.md
-- [[bifurcation analysis]] – - raw/papers/izhikevich-2007.md
-- [[bifurcation theory]] – - raw/papers/strogatz-1994.md
-- [[bold signal]] – tags: [neuroimaging-fmri, functional-connectivity, resting-state, neurovascular-coupling]
-- [[brain maintenance]] – - raw/papers/cabeza-2018.md
-- [[brain network]] – tags: [connectomics, network-dynamics, graph-theory, structural-connectivity, functional-connectivit...
-- [[cognitive reserve]] – title: cognitive-reserve
-- [[connectome]] – tags: [connectomics, structural-connectivity, functional-connectivity, neuroimaging-dti, neuroimagin...
-- [[connectomics]] – tags: [connectomics, connectomics, structural-connectivity, functional-connectivity, network-dynamic...
-- [[default mode network]] – - raw/papers/raichle-2001.md
-- [[developmental trajectories]] – - raw/papers/gogtay-2004.md
-- [[diffusion mri]] – tags: [neuroimaging-dti, diffusion-imaging, tractography, structural-connectivity, connectomics, neu...
-- [[dti]] – tags: [neuroimaging-dti, diffusion-imaging, structural-connectivity, tractography]
-- [[dynamic causal modeling]] – title: Dynamic Causal Modeling
-- [[dynamical systems theory]] – title: Dynamical Systems Theory
-- [[eeg]] – tags: [neuroimaging-eeg, neuroimaging-modalities, neuroimaging-eeg, neuroimaging]
-- [[effective connectivity]] – title: Effective Connectivity
-- [[epilepsy modeling]] – - raw/papers/wendling-2002.md
-- [[epileptor rs]] – title: Epileptor Resting State
-- [[epileptor]] – - raw/papers/arxiv-2508.04824.md
-- [[epileptorcodim3]] – title: Epileptor Codimension-3
-- [[fmri]] – tags: [neuroimaging-fmri]
-- [[fokker planck equation]] – title: Fokker-Planck Equation
-- [[free energy principle]] – - raw/papers/friston-2010-fep.md
-- [[functional connectivity]] – - raw/papers/biswal-1995.md
-- [[graph theory]] – tags: [network-dynamics, connectomics, structural-connectivity, functional-connectivity, neuroimagin...
-- [[hopfield]] – - raw/papers/arxiv-2510.19146.md
-- [[ica]] – title: Independent Component Analysis (ICA)
-- [[index]] – A collection of foundational concepts in computational neuroscience and whole-brain modeling, organi...
-- [[infinite theta]] – title: Infinite Theta Neuron Model (Montbrió-Pazó-Roxin)
-- [[jansen rit]] – - raw/papers/wendling-2002.md
-- [[k ion exchange]] – title: K-Ion Exchange Model
-- [[larter breakspear]] – title: Larter-Breakspear Model
-- [[linear]] – tags: [neural-mass-models, dynamical-systems-theory, bifurcation-analysis, whole-brain-modeling]
-- [[mean field theory]] – - raw/papers/amit-brunel-1997.md
-- [[meg]] – tags: [neuroimaging-meg, neuroimaging-eeg, neuroimaging-fmri, neuroimaging-dti, source-localization,...
-- [[modularity]] – tags: [network-dynamics, connectomics, structural-connectivity, functional-connectivity, community-d...
-- [[network hubs]] – tags: [connectomics, network-dynamics, brain-oscillations]
-- [[neural mass model]] – - raw/papers/freeman-1975.md
-- [[neural mass models]] – title: Neural Mass Models
-- [[neurodevelopment]] – - raw/papers/tau-peterson-2010.md
-- [[nonlinear dynamics]] – title: Nonlinear Dynamics
-- [[oscillator]] – tags: [dynamical-systems-theory, nonlinear-dynamics, neural-mass-models, brain-oscillations, bifurca...
-- [[parcellation]] – tags: [connectomics, structural-connectivity, functional-connectivity, neuroimaging-fmri, neuroimagi...
-- [[personalized brain modeling]] – title: Personalized Brain Modeling
-- [[resting state]] – title: Resting-State fMRI
-- [[rich club]] – title: Rich-Club Organization
-- [[scale free networks]] – title: Scale-Free Networks
-- [[small world networks]] – title: Small-World Networks
-- [[spiking neural networks]] – title: Spiking Neural Networks
-- [[stefanescu jirsa]] – title: Stefanescu-Jirsa Model
-- [[stochastic differential equations]] – - raw/papers/gardiner-2009.md
-- [[structural connectivity]] – title: Structural Connectivity
-- [[structural core]] – - raw/papers/hagmann-2008.md
-- [[tractography]] – - raw/papers/mori-1999.md
-- [[variational bayes]] – - raw/papers/friston-2007.md
-- [[whole brain modeling]] – tags: [whole-brain-modeling]
-- [[whole brain]] – title: Whole-brain modeling
-- [[wilson cowan]] – - raw/papers/wilson-cowan-1972.md
-- [[wong wang exc inh]] – title: Wong-Wang Excitatory-Inhibitory Model
-- [[wong wang]] – title: Wong-Wang Model
-- [[zerlaut]] – tags: [neural-mass-models, mean-field-theory, spiking-neural-networks, whole-brain-modeling, dynamic...
+<!-- concepts -->
+- [[Adaptive Exponential Integrate And Fire]] – Adaptive Exponential [[spiking-neural-networks|Integrate And Fire]] — a concept in [[whole-brain|whole-brain modeling]] ...
+- [[Adaptive Neurons]] – Adaptive Neurons — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Aging Brain]] – [[aging]] Brain — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Aging]] – Brain aging encompasses the progressive structural, functional, and connectomic changes that occur in the human brain fr...
+- [[Alzheimers Disease]] – Alzheimers Disease — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Alzheimers Modeling]] – Alzheimer's modeling refers to the application of [[computational-neuroscience]] techniques—particularly [[whole-brain|w...
+- [[Andronov Hopf Bifurcation]] – Andronov Hopf [[bifurcation-analysis|Bifurcation]] — a concept in [[whole-brain|whole-brain modeling]] and [[computation...
+- [[Anticevic 2012]] – Anticevic 2012 — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Apoe]] – Apoe — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Bids]] – Bids — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Bifurcation Analysis]] – Bifurcation analysis is the mathematical study of qualitative changes in the behavior of dynamical systems as parameters...
+- [[Bifurcation Theory]] – Bifurcation theory is the branch of mathematics that studies how the qualitative behavior of a dynamical system changes ...
+- [[Bold Signal]] – The Blood Oxygenation Level Dependent (BOLD) signal is the primary contrast mechanism underlying functional magnetic res...
+- [[Brain Dynamics]] – Brain Dynamics — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Brain Maintenance]] – Brain maintenance refers to the preservation of brain structure and function across the lifespan, representing the succe...
+- [[Brain Network]] – A brain network represents the brain as a mathematical graph in which neural elements—neurons, cortical columns, or macr...
+- [[Brain Oscillations]] – Brain Oscillations is a key concept in [[computational-neuroscience]] and [[whole-brain|whole-brain modeling]]. This pag...
+- [[Brain Parcellations]] – Brain Parcellations — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Brain Reserve]] – Brain Reserve — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Brain Stimulation]] – Brain stimulation encompasses a range of techniques that modulate neural activity through the application of electromagn...
+- [[Cmtk]] – Cmtk — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Cognitive Reserve]] – Cognitive reserve refers to the capacity of the brain to sustain cognitive function despite accumulating age-related neu...
+- [[Community Detection]] – Community Detection — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Compensation]] – Compensation — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Computational Neuroscience]] – Computational Neuroscience — a concept in [[whole-brain|whole-brain modeling]] and computational neuroscience.
+- [[Computational Psychiatry]] – Computational Psychiatry — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Connectivity]] – Connectivity — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Connectome]] – The connectome represents a comprehensive structural description of the network of neural elements and connections formi...
+- [[Connectomics]] – Connectomics is the scientific discipline devoted to mapping, characterizing, and analyzing the complete set of neural c...
+- [[Consciousness Models]] – Consciousness Models — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Critical Periods]] – Critical Periods — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Damien Fair]] – Damien Fair — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Default Mode Network]] – The **Default Mode Network (DMN)** is a large-scale [[brain-network]] identified through [[neuroimaging]] that demonstra...
+- [[Developmental Trajectories]] – Developmental trajectories describe the patterns of change in brain structure and function across the lifespan, from pre...
+- [[Diffusion Imaging]] – Diffusion Imaging — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Diffusion Mri]] – Diffusion MRI (dMRI) encompasses a class of magnetic resonance imaging techniques that measure the random thermal motion...
+- [[Dti]] – Diffusion Tensor Imaging (DTI) is a specialized magnetic resonance imaging (MRI) technique that measures the Brownian mo...
+- [[Dynamic Causal Modeling]] – **Dynamic Causal Modeling (DCM)** is a Bayesian framework for inferring [[effective-connectivity]] — the directed, causa...
+- [[Dynamical Systems Theory]] – Dynamical systems theory is the mathematical framework for describing how systems change over time. It provides a rigoro...
+- [[Eeg]] – Electroencephalography (EEG) is a non-invasive [[neuroimaging]] method for recording the electrical activity of the brai...
+- [[Effective Connectivity]] – Effective [[connectivity]] refers to the causal or directed influence that one neural system exerts over another, captur...
+- [[Electrophysiology]] – Electrophysiology — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Epilepsy Modeling]] – Computational epilepsy modeling applies [[neural-mass-models]] and [[dynamical-systems-theory]] to understand the mechan...
+- [[Epileptor Rs]] – The Epileptor Resting State (EpileptorRS) is an extension of the canonical [[epileptor]] neural mass model that incorpor...
+- [[Epileptor]] – The **Epileptor** is a composite [[neural-mass-models|neural mass model]] that captures epileptic seizure phenomenology ...
+- [[Epileptorcodim3]] – The Epileptor Codimension-3 is a reduced mathematical model that captures the complete bifurcation structure underlying ...
+- [[Excitation Inhibition Balance]] – Excitation Inhibition Balance — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Fitzhugh Nagumo Model]] – Fitzhugh Nagumo Model — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Fmri]] – **Functional magnetic resonance imaging (fMRI)** is a non-invasive [[neuroimaging]] technique that measures brain activi...
+- [[Fokker Planck Equation]] – The Fokker-Planck equation (FPE), also known as the forward Kolmogorov equation, is a partial differential equation that...
+- [[Forward Model]] – A **Forward Model** in computational neuroscience is a mathematical framework that predicts observable electrophysiologi...
+- [[Fractional Anisotropy]] – Fractional Anisotropy — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Free Energy Principle]] – The **Free Energy Principle (FEP)** is a formal framework proposing that self-organizing biological systems—and by exten...
+- [[Functional Connectivity]] – The functional-[[connectivity]] page has been improved. Here's a summary of the changes made:
+- [[Graph Theory]] – Graph theory provides a mathematical framework for describing and analyzing networks—collections of nodes (vertices) con...
+- [[Hemodynamic Response Function]] – Hemodynamic Response Function — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Hodgkin Huxley Model]] – Hodgkin Huxley Model — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Hopfield]] – The Hopfield network is a fully connected recurrent [[neural-network]] that stores patterns as local minima of an energy...
+- [[Hybrid Architecture]] – Hybrid Architecture — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Ica]] – Independent Component Analysis (ICA) is a blind source separation technique that decomposes multivariate observations in...
+- [[Index]] – A collection of foundational concepts in computational neuroscience and whole-brain modeling, organized by domain.
+- [[Infinite Theta]] – An exact mean-field reduction of an infinite population of quadratic integrate-and-fire (QIF) neurons, developed by Mont...
+- [[Ion Channel]] – Ion Channel — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Izhikevich Neuron Model]] – [[izhikevich]] [[neuron]] Model — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Izhikevich]] – Izhikevich — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Jansen R]] – Jansen R — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Jansen Rit Model]] – [[jansen-rit]] Model — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Jansen Rit]] – The **Jansen-Rit model** is a [[neural-mass-models|neural mass model]] of a single cortical column capable of generating...
+- [[K Ion Exchange]] – A metabolic [[neural-mass-models|neural mass model]] that explicitly incorporates extracellular potassium dynamics as a ...
+- [[Karen Friston]] – Karen Friston — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Karl J Fristol]] – Karl J Fristol — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Kuramoto]] – Kuramoto — a concept in whole-brain modeling and [[computational-neuroscience]].
+- [[Larter Breakspear]] – The Larter-Breakspear model is a conductance-based neural mass model that extends the Morris-Lecar equations to include ...
+- [[Linear]] – A Linear Model in the context of whole-brain modeling and computational neuroscience refers to a dynamical system descri...
+- [[Local Field Potentials]] – Local Field Potentials — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Marcus Raichle]] – Marcus Raichle — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Mean Field Theory]] – Mean field theory is a mathematical framework that approximates the collective behavior of large neuronal networks by re...
+- [[Meg]] – Magnetoencephalography (MEG) is a non-invasive [[neuroimaging]] technique that measures the weak magnetic fields (on the...
+- [[Metabolic Modeling]] – Metabolic Modeling — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Michael Fox]] – Michael Fox — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Model Validation]] – Model Validation — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Modularity]] – Modularity is a fundamental organizational principle in complex networks, including the brain's structural and functiona...
+- [[Network Dynamics]] – Network Dynamics is the study of how patterns of neural activity emerge, evolve, and interact within the interconnected ...
+- [[Network Hubs]] – Network hubs are highly connected nodes within brain networks that serve as critical integration points for information ...
+- [[Neural Field Theory]] – Neural Field Theory (NFT) is a mathematical framework for modeling the spatiotemporal dynamics of large-scale neuronal p...
+- [[Neural Mass Model]] – Neural mass models (NMMs) are mathematical descriptions of the collective dynamics of large populations of neurons, empl...
+- [[Neural Mass Models]] – Neural mass models (NMMs) are mathematical models that represent the collective dynamics of large populations of neurons...
+- [[Neural Network]] – Neural Network — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Neurodevelopment]] – I have successfully improved the neurodevelopment wiki page. Here's a summary of the changes:
+- [[Neuroelectro]] – Neuroelectro — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Neuroimaging Pet]] – [[neuroimaging]] Pet — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Neuroimaging]] – Neuroimaging — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Neuromorphic Computing]] – Neuromorphic Computing — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Nonlinear Dynamics]] – Nonlinear dynamics is the branch of mathematics and physics that studies systems whose behavior cannot be expressed as a...
+- [[Oscillator]] – An oscillator in the context of [[computational-neuroscience]] refers to a dynamical system capable of producing sustain...
+- [[Parameter Estimation]] – Parameter Estimation is a fundamental methodological concept in [[computational-neuroscience]] that refers to the proces...
+- [[Parcellation]] – Parcellation refers to the process of dividing the brain into spatially discrete, anatomically or functionally coherent ...
+- [[Patric Hagmann]] – Patric Hagmann — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Paul Nunez]] – Paul Nunez — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Personalized Brain Modeling]] – Personalized brain modeling (also termed patient-specific brain modeling or virtual brain建模) refers to the construction ...
+- [[Petra Ritter]] – Petra Ritter — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Plasticity]] – Plasticity — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Preferential Attachment]] – Preferential Attachment — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Principal Component Analysis]] – Principal Component Analysis — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Ramesh Srinivasan]] – Ramesh Srinivasan — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Random Networks]] – Random Networks — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Reproducibility]] – Reproducibility — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Resting State]] – Resting-state functional magnetic resonance imaging (rs-fMRI) is a neuroimaging technique that measures spontaneous low-...
+- [[Rich Club]] – The rich-club phenomenon is a fundamental principle of network science describing the tendency for high-degree nodes—com...
+- [[Rick Gerkin]] – Rick Gerkin — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Scale Free Networks]] – **Scale-free networks** are a class of complex networks characterized by a power-law degree distribution, meaning the pr...
+- [[Schizophrenia Models]] – Schizophrenia Models refer to computational and mathematical frameworks that simulate the neurobiological mechanisms und...
+- [[Seizure Prediction]] – Seizure Prediction — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Small World Networks]] – Small-world networks represent a fundamental network topology characterized by the coexistence of high local clustering ...
+- [[Source Localization]] – **Source localization** (also termed *source imaging* or the *electromagnetic inverse problem*) is a computational techn...
+- [[Source Separation]] – Source Separation — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Spiking Neural Networks]] – Spiking neural networks (SNNs) are computational models that simulate the dynamics of individual neurons generating disc...
+- [[Spontaneous Activity]] – Spontaneous Activity — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Stefanescu Jirsa]] – A systematic dimensional reduction of the Epileptor yielding a 2D model that preserves essential seizure dynamics while ...
+- [[Stochastic Differential Equations]] – Stochastic differential equations (SDEs) extend ordinary differential equations by incorporating random noise terms, pro...
+- [[Structural Connectivity]] – **Structural [[connectivity]]** (SC) refers to the anatomical connections between brain regions, typically represented a...
+- [[Structural Core]] – The structural core is a set of highly interconnected hub regions that form a central backbone for brain communication. ...
+- [[Successful Aging]] – Successful [[aging]] — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Synaptic Plasticity]] – Synaptic [[plasticity]] — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[The Virtual Brain]] – [[tvb|The Virtual Brain]] — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]]. It com...
+- [[Tractography]] – Tractography is a family of computational techniques that reconstruct three-dimensional [[white-matter]] fiber pathways ...
+- [[Van Der Pol Oscillator]] – Van Der Pol Oscillator — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Variational Bayes]] – Variational Bayes (VB) is a framework for approximate Bayesian inference that reformulates the problem of computing an i...
+- [[Viktor Jirsa]] – Viktor Jirsa — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Volume Conduction]] – Volume Conduction — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[White Matter]] – White Matter — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Whole Brain Modeling]] – Whole-brain modeling is a computational neuroscience approach that represents the brain as a network of coupled regions,...
+- [[Whole Brain]] – Whole-brain modeling is a computational neuroscience approach that represents the entire brain as a network of coupled d...
+- [[Wilson Cowan Model]] – [[wilson-cowan]] Model — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Wilson Cowan]] – The Wilson-Cowan model is the canonical firing-rate model of coupled excitatory and inhibitory neural populations. Intro...
+- [[Wong Wang Exc Inh]] – The Wong-Wang Excitatory-Inhibitory (E-I) Model is an extended version of the reduced [[wong-wang]] neural mass model th...
+- [[Wong Wang Model]] – [[wong-wang]] Model — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+- [[Wong Wang]] – The **Wong-Wang model** is a reduced [[neural-mass-models|neural mass model]] that describes the dynamics of recurrent c...
+- [[Zerlaut]] – The **Zerlaut model** is a mean-field representation of cortical microcircuit dynamics that describes the collective act...
 
 ## Comparisons
-<!-- Side-by-side analyses -->
-- [[connectivity types]] – - raw/papers/biswal-1995.md
-- [[fmri vs eeg]] – - raw/papers/ogawa-1990.md
-- [[neural mass models comparison]] – - raw/papers/jansen-rit-1995.md
-- [[tvb vs nest vs neuron]] – - raw/papers/sanz-leon-2013.md
-- [[whole brain simulators]] – - raw/papers/sanz-leon-2013.md
-
-## Queries
-<!-- Saved search patterns -->
+<!-- comparisons -->
+- [[Connectivity Types]] – Three distinct but related concepts for describing brain [[connectivity]], each capturing different aspects of how brain...
+- [[Fmri Vs Eeg]] – Comparison of functional MRI and electroencephalography as [[neuroimaging]] modalities for [[whole-brain]] modeling vali...
+- [[Index]] – Side-by-side analyses of tools, methods, and concepts.
+- [[Neural Mass Models Comparison]] – Comparison of the two most influential [[neural-mass-models]]: the [[wilson-cowan|Wilson-Cowan model]] (1972) as the can...
+- [[Tvb Vs Nest Vs Neuron]] – Comparison of major neural simulation platforms for [[whole-brain]] modeling and spiking network simulations.
+- [[Whole Brain Simulators]] – Landscape of [[whole-brain]] simulation tools

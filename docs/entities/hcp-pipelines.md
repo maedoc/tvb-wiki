@@ -25,9 +25,9 @@ updated: '2026-04-27'
 
 ## Overview
 
-The **HCP Pipelines** are open-source neuroimaging preprocessing pipelines developed by the [[Human [[connectome]] Project]] to standardize the processing of multimodal brain imaging data. These pipelines implement a surface-based analysis framework that emphasizes cross-modal alignment while applying minimal yet effective preprocessing to preserve data quality [[Glasser et al., 2013]](raw/papers/glasser-2013.md).
+The **HCP Pipelines** are open-source [[neuroimaging]] preprocessing pipelines developed by the Human Connectome Project to standardize the processing of multimodal brain imaging data. These pipelines implement a surface-based analysis framework that emphasizes cross-modal alignment while applying minimal yet effective preprocessing to preserve data quality Glasser et al. (2013)(raw/papers/glasser-2013.md).
 
-The pipelines process three primary imaging modalities acquired on the HCP's customized 3T Siemens Prisma scanners: structural MRI (T1w and T2w at 0.7mm resolution), functional MRI ([[resting-state]] and task-based with multiband acceleration), and [[diffusion-mri]] (high angular resolution with b-values up to 3000 s/mm²). The software is implemented as a set of shell scripts and Python utilities distributed under an open-source license, enabling reproducible processing across research sites [[Van Essen et al., 2013]](raw/papers/van-essen-2013.md).
+The pipelines process three primary imaging modalities acquired on the HCP's customized 3T Siemens Prisma scanners: structural MRI (T1w and T2w at 0.7mm resolution), functional MRI ([[resting-state]] and task-based with multiband acceleration), and [[diffusion-mri]] (high angular resolution with b-values up to 3000 s/mm²). The software is implemented as a set of shell scripts and Python utilities distributed under an open-source license, enabling reproducible processing across research sites Van Essen et al. (2013)(raw/papers/van-essen-2013.md).
 
 ## Key Features
 
@@ -35,7 +35,7 @@ The pipelines process three primary imaging modalities acquired on the HCP's cus
 The structural pipeline performs: bias field correction, brain extraction, tissue segmentation, and cortical surface reconstruction using FreeSurfer algorithms adapted for the HCP acquisition protocol. The pipeline generates cortical surface meshes in both native and standard space (fs_LR 32k), enabling vertex-wise analysis across subjects.
 
 ### Functional Preprocessing
-The [[fmri]] pipeline implements: gradient nonlinearity distortion correction, motion correction using FLIRT, EPI distortion correction using TOPUP, registration to structural images, and minimal temporal filtering. Critically, the pipeline maps volumetric fMRI data to the cortical surface, enabling surface-based connectivity analysis [[Smith et al., 2013]](raw/papers/smith-2013-hcp.md).
+The [[fmri]] pipeline implements: gradient nonlinearity distortion correction, motion correction using FLIRT, EPI distortion correction using TOPUP, registration to structural images, and minimal temporal filtering. Critically, the pipeline maps volumetric fMRI data to the cortical surface, enabling surface-based [[connectivity]] analysis Smith et al. (2013)(raw/papers/smith-2013-hcp.md).
 
 ### Diffusion Preprocessing
 The dMRI pipeline applies: susceptibility-induced distortion correction, eddy current correction including motion correction, bias field correction, and registration to structural images. The output includes preprocessed dMRI volumes ready for [[tractography]] and diffusion model fitting.
@@ -49,7 +49,7 @@ The HCP Pipelines provide essential preprocessing for [[connectome]]-based [[who
 
 - **[[structural-connectivity]]**: The cortical surface meshes (in fs_LR space) serve as the anatomical scaffolding for TVB simulations, with surface vertices mapping to network nodes.
 
-- **Tractography-derived Connectivity**: Preprocessed dMRI enables probabilistic tractography using tools like MRtrix3 or FSL's PROBTRACKX, generating structural connectivity matrices that constrain TVB [[network-dynamics]].
+- **Tractography-derived Connectivity**: Preprocessed dMRI enables probabilistic tractography using tools like [[mrtrix|MRtrix3]] or FSL's PROBTRACKX, generating structural connectivity matrices that constrain TVB [[network-dynamics]].
 
 - **Functional Validation**: The resting-state networks identified in HCP data provide empirical targets for validating TVB simulations against observed [[functional-connectivity]] patterns.
 
@@ -74,7 +74,7 @@ The **HCP Connectome Workbench** software, distributed alongside the pipelines, 
 - [[Connectome Workbench]] — Visualization and data format conversion
 - [[MRtrix3]] — Alternative/complementary tractography tool
 - [[ANTs]] — Advanced normalization tools compatible with HCP outputs
-- [[DataLad]] — Data management for HCP dataset versioning
+- [[DataLad]] — Data management for [[hcp-dataset]] versioning
 
 ## References
 

@@ -36,8 +36,8 @@ Pioneered the integration of large-scale genetics and neuroimaging. Demonstrated
 - [[imaging-genetics]] – Genetic basis of brain structure
 - [[uk-biobank]] – Large-scale population study
 - [[gwas]] – Genome-wide association study
-- [[neuroimaging-fmri]] – Functional MRI
-- [[neuroimaging-dti]] – Diffusion MRI
+- [[fmri]] – Functional MRI
+- [[dti]] – Diffusion MRI
 
 ## Cited By
 - [[raw/papers/smith-2021.md]] – Brain Aging Modes

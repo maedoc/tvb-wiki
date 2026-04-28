@@ -4,6 +4,9 @@ sources:
 - raw/papers/barabasi-albert-1999.md
 - raw/papers/watts-strogatz-1998.md
 - raw/papers/sporns-2011.md
+- raw/papers/semanticscholar-7c3337c880fd.md
+- raw/papers/arxiv-2604.15716.md
+- raw/papers/semanticscholar-71ffb8153870.md
 tags:
 - people-researcher
 - network-dynamics
@@ -19,7 +22,7 @@ Distinguished Professor at Northeastern University, physicist, pioneer of networ
 ## Key Contributions
 
 - **Scale-Free Networks** (1999): Co-authored seminal paper introducing scale-free network model
-- **Preferential Attachment**: Discovered mechanism explaining power-law degree distributions
+- **[[preferential-attachment]]**: Discovered mechanism explaining power-law degree distributions
 - **Network Science Textbooks**: Authored influential books on network theory
 
 ## Research Focus
@@ -31,7 +34,7 @@ Barabási's research covers:
 - Applications to biological and social systems
 
 ## Key Papers
-- barabasi-albert-1999 – Emergence of scaling in random networks
+- barabasi-albert-1999 – Emergence of scaling in [[random-networks]]
 
 ## Related Concepts
 - [[scale-free-networks]] – Power-law degree distribution

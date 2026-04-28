@@ -5,6 +5,8 @@ sources:
 - raw/papers/sporns-2011.md
 - raw/papers/rubinov-sporns-2010.md
 - raw/papers/bullmore-sporns-2009.md
+- raw/papers/power-2011.md
+- raw/papers/smith-2013-connectomics.md
 tags:
 - people-researcher
 - connectomics
@@ -22,7 +24,7 @@ Distinguished Professor at Indiana University Bloomington, pioneer of the field 
 
 - **Coined the term "connectome"** (2005): Introduced the concept in the seminal paper with Tononi and Kötter
 - **Authored "Networks of the Brain"** (2011): Definitive textbook on brain network analysis
-- **Developed [[brain-connectivity-toolbox]]**: With Mikail Rubinov, created essential software for network analysis
+- **Developed [[brainsuite]]**: With Mikail Rubinov, created essential software for network analysis
 - **[[structural-core]] Discovery**: Contributed to identification of the brain's structural backbone
 
 ## Research Focus
@@ -31,17 +33,17 @@ Sporns' research integrates network science with neuroscience to understand how 
 - Connectome mapping and analysis
 - Network topology (small-world, modularity, rich-club organization)
 - Structure-function relationships
-- Brain dynamics and information processing
+- [[brain-dynamics]] and information processing
 
 ## Key Papers
 - sporns-tononi-kotter-2005 – The Human Connectome
 - sporns-2011 – Networks of the Brain (book)
-- rubinov-sporns-2010 – Brain Connectivity Toolbox
+- rubinov-sporns-2010 – [[brainsuite]]
 - bullmore-sporns-2009 – Complex brain networks review
 - hagmann-2008 – Structural core
 
 ## Related Concepts
-- [[connectome]] – Complete brain connectivity
+- [[connectome]] – Complete brain [[connectivity]]
 - [[connectomics]] – Field of connectivity research
 - [[brain-network]] – Graph-theoretical organization
 - [[rich-club]] – Hub organization

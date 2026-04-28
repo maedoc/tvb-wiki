@@ -1,120 +1,50 @@
 ---
+created: 2024-01-15
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/arxiv-2505.16861.md
+- raw/papers/semanticscholar-eb704b6f5462.md
+tags:
+- software-neuromorphic
+- spiking-neural-networks
+- computational-neuroscience
+- neural-network
+- python
+- neural-mass-models
+- whole-brain-modeling
 title: Nengo
-created: 2026-04-24
-updated: 2026-04-27
 type: entity
-tags: [software-brain-modeling]
-sources: 
-  - https://nengo.ai/
-  - https://ncbi.nlm.nih.gov/pmc/articles/PMC3880998/
-  - https://compneuro.uwaterloo.ca/files/publications/eliasmith.2012.pdf
+updated: '2026-04-27'
 ---
 
 # Nengo
 
 ## Overview
 
-Nengo is a Python-based neural modeling and simulation platform developed by the [Centre for Theoretical Neuroscience](https://compneuro.uwaterloo.ca/) at the University of Waterloo, Canada. It is designed to build, test, and deploy large-scale neural network models based on the Neural Engineering Framework (NEF). Nengo enables researchers to create brain models that can perform cognitive tasks including perception, memory, reasoning, and motor control.
-
-Nengo gained prominence for implementing Spaun (Semantic Pointer Architecture Unified Network), at the time the world's largest functional brain model with 2.5 million spiking neurons [[1]](https://compneuro.uwaterloo.ca/files/publications/eliasmith.2012.pdf).
+Nengo is a Python-based neural simulation platform developed by the Centre for Theoretical Neuroscience at the University of Waterloo, Canada. It distinguishes itself through its implementation of the Neural Engineering Framework (NEF), a mathematical framework for constructing biologically realistic, behaviorally functional [[spiking-neural-networks]]. Unlike traditional neural simulators that focus primarily on biophysical detail, Nengo emphasizes the construction of large-scale neural systems that can perform cognitive computations, making it particularly suitable for modeling brain-wide processes and developing neuromorphic control systems. The software enables researchers to define neural populations, specify synaptic [[connectivity]], and run simulations of millions of neurons in real time when using appropriate computational backends.
 
 ## Key Features
 
-### Neural Engineering Framework (NEF)
+The Neural Engineering Framework, which serves as Nengo's theoretical foundation, provides three core principles that guide network construction. First, **representation** describes how a group of neurons can encode information in their firing patterns, using population vectors and decoding theory. Second, **transformation** captures how connections between neural populations can perform mathematical operations on represented values, including [[linear]] transformations, nonlinearities, and dynamic convolutions. Third, **dynamics** extends the framework to model time-varying systems, incorporating neural dynamics such as those found in [[adaptive-exponential-integrate-and-fire]] neurons or other biological [[neuron]] models.
 
-Nengo implements the Neural Engineering Framework, which provides three principles for building neural models [[2]](https://ncbi.nlm.nih.gov/pmc/articles/PMC3880998/):
+Nengo supports multiple neuron models including Leaky Integrate-and-Fire (LIF), Adaptive Exponential Integrate-and-Fire (AdEx), and custom models defined through the [[izhikevich-neuron-model]] or similar formulations. The software offers several computational backends: the default Python backend for development and small-scale simulations, NengoOCL for OpenCL-accelerated simulations on GPUs, and NengoDB for distributed computing across clusters. This flexibility allows users to scale from single-population demonstrations to brain-scale simulations containing millions of neurons and billions of synapses.
 
-- **Representation**: Populations of neurons collectively represent time-varying vectors through non-linear encoding and linear decoding
-- **Transformation**: Connections between neural populations compute functions through the NEF's factorization method
-- **Dynamics**: Recurrent connections implement dynamical systems where neural activity represents state variables
+The NEF approach has proven particularly successful in constructing **neuromorphic** systems that emulate biological computation. Notable applications include the Spaun (Semantic Pointer Architecture Unified Network) model, which demonstrated visual perception, memory, and decision-making in a simulated brain with 2.5 million neurons. Nengo also provides interfaces for neuromorphic hardware, including Intel's Loihi chip andIBM's TrueNorth, enabling users to run neural models directly on specialized hardware.
 
-### Multiple Backend Support
+## Relationship to TVB
 
-Nengo supports simulation on various hardware platforms:
+While both Nengo and [[the-virtual-brain]] (TVB) are neural simulation platforms used in computational neuroscience, they occupy distinct niches and employ fundamentally different modeling paradigms. TVB is optimized for **whole-brain modeling** at the mesoscale, using [[neural-mass-models]] that represent the average activity of cortical columns or regions. These models—exemplified by the [[jansen-rit-model]] and its variants—operate on the level of brain regions defined by [[parcellation]] schemes, making TVB particularly suited for connecting large-scale [[functional-connectivity]] patterns observed in [[fmri]] and [[eeg]] data to underlying neural dynamics.
 
-| Backend | Description | Use Case |
-|---------|-------------|----------|
-| Reference Simulator | CPU-based, Python default | General development |
-| OpenCL | GPU acceleration | Large-scale models |
-| NengoLoihi | Intel Loihi neuromorphic chip | Low-power neuromorphic computing |
-| NengoFPGA | FPGA acceleration | Real-time applications |
-| NengoSpiNNaker | SpiNNaker neuromorphic board | Massively parallel neuromorphic |
-
-### Extensible Architecture
-
-Nengo provides a clean Python API that separates model construction from simulation, allowing the same model to run on different backends with minimal changes. The platform supports:
-
-- Custom neuron types
-- Custom learning rules
-- Integration with deep learning frameworks (TensorFlow, Keras via NengoDL)
-- Interactive visualization with NengoGUI
-
-## Notable Implementations
-
-### Spaun
-
-Spaun (Semantic Pointer Architecture Unified Network) was built using Nengo and demonstrated eight cognitive tasks including [[3]](https://www.nature.com/news/simulated-brain-scores-top-test-marks-1.11914):
-
-- Image recognition
-- Serial working memory
-- Counting
-- Question answering
-- Fluid reasoning (Raven's Progressive Matrices)
-- Reinforcement learning
-
-Spaun contains 2.5 million spiking neurons organized into brain regions including the prefrontal cortex, basal ganglia, thalamus, and motor cortex. It receives visual input and produces motor output through a simulated physical arm.
-
-### NengoLoihi
-
-Nengo includes support for Intel's Loihi neuromorphic chip, which provides [[4]](https://arxiv.org/abs/2007.10227):
-
-- On-chip learning capabilities
-- Low-power operation (significantly less than CPU/GPU)
-- Event-driven processing for efficient sensory processing
-
-## Relationship to Other Projects
-
-### Comparison with NEST and Brian
-
-While NEST and Brian simulators focus on biological detail and flexibility, Nengo emphasizes large-scale functional models built according to NEF principles. Nengo's factored weight matrices enable efficient simulation of models considerably larger than Spaun on commodity hardware.
-
-### NengoDL Integration
-
-NengoDL extends Nengo's API to integrate with Keras and TensorFlow, enabling:
-
-- Training deep neural networks and converting them to spiking networks
-- Using TensorFlow's distributed computing for efficient simulation
-- Deep learning approaches combined with neuromorphic hardware
+In contrast, Nengo excels at constructing **spiking neural networks** with detailed dynamics, where individual neurons or small populations perform specific computations. The NEF framework explicitly enables the construction of cognitive architectures with learned transformations, whereas TVB typically uses pre-specified coupling functions between regions. For researchers interested in building mechanistic models of specific neural circuits, understanding the computational basis of cognition, or developing neuromorphic systems, Nengo provides the necessary Low-level primitives. For researchers interested in fitting [[whole-brain]] models to [[neuroimaging]] data, investigating region-level dynamics in epilepsy or other disorders, or exploring large-scale [[resting-state]] networks, TVB remains the more appropriate choice.
 
 ## Key Papers
 
-- Bekolay, T. et al. (2014). "Nengo: a python tool for building large-scale functional brain models." *Frontiers in Neuroinformatics* [[2]](https://ncbi.nlm.nih.gov/pmc/articles/PMC3880998/)
-- Eliasmith, C. et al. (2012). "A large-scale model of the functioning brain." *Science* [[1]](https://compneuro.uwaterloo.ca/files/publications/eliasmith.2012.pdf)
-- DeWolf, T., Jaworski, P. & Eliasmith, C. (2020). "Nengo and Low-Power AI Hardware for Robust, Embedded Neurorobotics." *Frontiers in Neurorobotics* [[4]](https://arxiv.org/abs/2007.10227)
-
-## Hardware Backend Details
-
-### Intel Loihi vs IBM TrueNorth
-
-Nengo's primary neuromorphic backend is **Intel's Loihi** chip, not IBM TrueNorth. While Nengo can work with models trained for TrueNorth via NengoDL's deep learning integration [[4]](https://arxiv.org/abs/2007.10227), TrueNorth is not a natively supported backend. The NengoLoihi package provides dedicated support for compiling Nengo models to run on Loihi hardware.
-
-### Real-Time Processing
-
-Nengo's real-time performance depends on the backend and model size. While neuromorphic hardware like Loihi and TrueNorth can achieve low-latency processing for specific tasks, Nengo simulations on standard CPUs GPUs are generally **not real-time** - one second of neural simulation typically requires more than one second of compute time for large models.
+The foundational reference for Nengo is the software documentation paper by Stewart et al. (2009) "Nengo: A Python tool for building large-scale functional neural models." The theoretical underpinnings of the Neural Engineering Framework are developed in Eliasmith and Anderson's (2003) "Neural Engineering: Computation, Representation, and Dynamics in Neurobiological Systems" and subsequent publications demonstrating applications to cognitive modeling.
 
 ## Related Software
 
-* [[TVB]] - The Virtual Brain
-* [[NEST]] - Neural Simulation Tool
-* [[Brian]] - Neural simulator
-* [[Spaun]] - Large-scale brain model
+Nengo maintains compatibility with other major neural simulation platforms through its Nengo simulator interface. The [[brian]] simulator and [[nest]] can be used alongside or integrated with Nengo models, while Nengo's NEF framework can be implemented using lower-level simulators when custom biophysical detail is required. For whole-brain applications, researchers often combine Nengo's spiking network capabilities with region-level models to achieve multi-scale simulations.
 
 ## References
 
-[1] Eliasmith, C. et al. (2012). "A large-scale model of the functioning brain." Science, 338(6113), 1202-1205.
-
-[2] Bekolay, T. et al. (2014). "Nengo: a python tool for building large-scale functional brain models." Frontiers in Neuroinformatics, 7:48.
-
-[3] Yong, E. (2012). "Simulated brain scores top test marks." Nature.
-
-[4] DeWolf, T., Jaworski, P. & Eliasmith, C. (2020). "Nengo and Low-Power AI Hardware for Robust, Embedded Neurorobotics." arXiv:2007.10227.
+*Note: References are managed separately.*

@@ -1,15 +1,26 @@
 ---
-title: DTI
 created: 2026-04-20
-updated: 2026-04-27
+sources:
+- raw/papers/basser-1994.md
+- raw/papers/mori-1999.md
+- raw/papers/jones-2010.md
+- raw/papers/semanticscholar-e1fa0a868dbe.md
+- raw/papers/arxiv-2602.18715.md
+- raw/papers/honey-2009.md
+- raw/papers/arxiv-2603.29903.md
+tags:
+- neuroimaging-dti
+- diffusion-imaging
+- structural-connectivity
+- tractography
+title: DTI
 type: concept
-tags: [neuroimaging-dti, diffusion-imaging, structural-connectivity, tractography]
-sources: [raw/papers/basser-1994.md, raw/papers/mori-1999.md, raw/papers/jones-2010.md]
+updated: '2026-04-27'
 ---
 
 # DTI
 
-Diffusion Tensor Imaging (DTI) is a specialized magnetic resonance imaging (MRI) technique that measures the Brownian motion of water molecules to characterize the microstructural properties of biological tissues, with particular utility for visualizing and quantifying the orientation and integrity of white matter fiber tracts in the living human brain. Unlike conventional MRI sequences that primarily contrast tissue composition or relaxation properties, DTI probes the biophysical constraints imposed by cellular membranes and myelin sheaths on water diffusion, providing indirect but valuable information about the underlying anatomical architecture of neural tissue. Since its introduction by Basser, Mattiello, and LeBihan in 1994, DTI has become the foundational neuroimaging method for constructing [[structural-connectivity]] matrices used in [[whole-brain]] computational models, enabling researchers to bridge the gap between anatomical structure and functional dynamics in ways that were previously possible only through invasive post-mortem techniques.
+Diffusion Tensor Imaging (DTI) is a specialized magnetic resonance imaging (MRI) technique that measures the Brownian motion of water molecules to characterize the microstructural properties of biological tissues, with particular utility for visualizing and quantifying the orientation and integrity of white matter fiber tracts in the living human brain. Unlike conventional MRI sequences that primarily contrast tissue composition or relaxation properties, DTI probes the biophysical constraints imposed by cellular membranes and myelin sheaths on water diffusion, providing indirect but valuable information about the underlying anatomical architecture of neural tissue. Since its introduction by Basser, Mattiello, and LeBihan in 1994, DTI has become the foundational [[neuroimaging]] method for constructing [[structural-connectivity]] matrices used in [[whole-brain]] computational models, enabling researchers to bridge the gap between anatomical structure and functional dynamics in ways that were previously possible only through invasive post-mortem techniques.
 
 ## Physical Basis and Mathematical Framework
 
@@ -19,7 +30,7 @@ The diffusion of water molecules in biological tissue follows a pattern that is 
 
 The diffusion tensor yields several clinically significant scalar invariants that characterize different aspects of tissue microstructure:
 
-**Fractional Anisotropy (FA)** quantifies the degree to which diffusion is directionally constrained, ranging from 0 (perfectly isotropic, as in cerebrospinal fluid) to 1 (fully anisotropic, as in highly coherent white matter tracts). FA is computed as the normalized standard deviation of the three eigenvalues and serves as the most widely used summary metric for white matter integrity. However, FA is not specific to any particular microstructural property—it can be elevated by increased fiber coherence, greater axonal density, or enhanced myelination, making interpretation context-dependent.
+**[[fractional-anisotropy]] (FA)** quantifies the degree to which diffusion is directionally constrained, ranging from 0 (perfectly isotropic, as in cerebrospinal fluid) to 1 (fully anisotropic, as in highly coherent white matter tracts). FA is computed as the normalized standard deviation of the three eigenvalues and serves as the most widely used summary metric for white matter integrity. However, FA is not specific to any particular microstructural property—it can be elevated by increased fiber coherence, greater axonal density, or enhanced myelination, making interpretation context-dependent.
 
 **Mean Diffusivity (MD)** represents the average rate of water diffusion regardless of direction, providing a measure of the overall magnitude of diffusion. MD is inversely related to tissue density and increases in conditions associated with cellular loss or edema.
 
@@ -33,7 +44,7 @@ DTI serves as the primary source of [[structural-connectivity]] data for [[whole
 
 ## Limitations and Methodological Challenges
 
-Despite its widespread adoption, DTI suffers from several fundamental limitations that researchers must consider when interpreting results and constructing models. The single-tensor model assumes that each voxel contains fibers oriented in a single dominant direction, yet many brain regions contain crossing fibers where multiple white matter pathways intersect within a single voxel. In such cases, the diffusion tensor provides an inadequate average that can misrepresent the true fiber architecture and lead to erroneous tractography results. Additionally, tractography remains an indirect inference about connectivity—streamline continuity does not guarantee actual synaptic communication between regions, and the relationship between streamline count and connection strength remains poorly validated. The spatial resolution of typical DTI acquisitions (2-3 mm isotropic) limits the anatomical precision of connectivity estimates, particularly for thin or heavily interleaved fiber pathways.
+Despite its widespread adoption, DTI suffers from several fundamental limitations that researchers must consider when interpreting results and constructing models. The single-tensor model assumes that each voxel contains fibers oriented in a single dominant direction, yet many brain regions contain crossing fibers where multiple white matter pathways intersect within a single voxel. In such cases, the diffusion tensor provides an inadequate average that can misrepresent the true fiber architecture and lead to erroneous tractography results. Additionally, tractography remains an indirect inference about [[connectivity]]—streamline continuity does not guarantee actual synaptic communication between regions, and the relationship between streamline count and connection strength remains poorly validated. The spatial resolution of typical DTI acquisitions (2-3 mm isotropic) limits the anatomical precision of connectivity estimates, particularly for thin or heavily interleaved fiber pathways.
 
 Recent methodological advances have partially addressed these limitations. **Constrained Spherical Deconvolution (CSD)**, introduced by Tournier and colleagues, resolves multiple fiber orientations within a single voxel by estimating the fiber orientation distribution function, significantly improving tractography accuracy in regions of crossing fibers. **High Angular Resolution Diffusion Imaging (HARDI)** acquires diffusion-weighted images along many more gradient directions (typically >50) than conventional DTI, providing improved angular resolution for resolving complex fiber configurations. **Multi-shell diffusion imaging** acquires data at multiple b-values (diffusion weightings), enabling separate estimation of compartments representing внутриcellular and extracellular water, providing more specific markers of axonal and myelin integrity. These advances are implemented in software packages including [[mrtrix3]], [[dipy]], and [[dsi-studio]], which provide modern tractography capabilities for constructing high-quality structural connectivity matrices.
 
@@ -51,3 +62,9 @@ DTI occupies a complementary role alongside other neuroimaging techniques in the
 - [[brain-network]] – Networks of brain regions connected by white matter pathways
 - [[connectomics]] – The study of complete neural wiring diagrams
 - [[fmri]] – Functional imaging often combined with DTI for multi-modal analysis
+
+## References
+
+1. (authors unknown). *MR diffusion tensor spectroscopy and imaging*.
+2. (authors unknown). *Three-dimensional tracking of axonal projections in the brain by magnetic resonance imaging*.
+3. (authors unknown). *Challenges and limitations of quantifying brain connectivity in vivo with diffusion MRI*.

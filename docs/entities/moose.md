@@ -21,7 +21,7 @@ updated: '2026-04-27'
 ## Overview
 **MOOSE** (Multiscale Object-Oriented Simulation Environment) is an open-source software framework for simulating neuronal and sub-neuronal processes across multiple scales[^1]. Developed primarily at the National Centre for Biological Sciences (NCBS) in Bangalore, India[^4], MOOSE is designed to bridge spatial and temporal scales from molecular reactions to large-scale neural networks, enabling integrative simulations of brain function.
 
-Unlike single-scale simulators, MOOSE implements **multiscale modeling** capabilities that allow seamless integration of biochemical signaling pathways, electrical excitability, and [[network-dynamics]] within a unified framework[^1]. This approach addresses the fundamental challenge in computational neuroscience of connecting molecular-level phenomena—such as calcium dynamics, receptor trafficking, and enzymatic cascades—to emergent network-level behaviors.
+Unlike single-scale simulators, MOOSE implements **multiscale modeling** capabilities that allow seamless integration of biochemical signaling pathways, electrical excitability, and [[network-dynamics]] within a unified framework[^1]. This approach addresses the fundamental challenge in [[computational-neuroscience]] of connecting molecular-level phenomena—such as calcium dynamics, receptor trafficking, and enzymatic cascades—to emergent network-level behaviors.
 
 ## Key Features
 
@@ -65,13 +65,13 @@ TVB and MOOSE can theoretically be linked in multiscale workflows: MOOSE could s
 - [[GENESIS]] – The precursor simulator that provided foundational architecture for MOOSE's compartmental modeling capabilities[^1]
 
 ## Key Papers
-- Bhalla, U.S. (2011). Multiscale modeling and synaptic plasticity: MOOSE and the synaptic signalling ladder. *Journal of Physiology-Paris*, 105(1-3), 64-71. https://doi.org/10.1016/j.jphysparis.2011.08.001
+- Bhalla, U.S. (2011). Multiscale modeling and [[synaptic-plasticity]]: MOOSE and the synaptic signalling ladder. *Journal of Physiology-Paris*, 105(1-3), 64-71. https://doi.org/10.1016/j.jphysparis.2011.08.001
 - Dudani, N. & Bhalla, U.S. (2018). Multi-day rhythms in multi-dimensional data. *Biophysical Journal*, 114(3), 782-784.
 - Ray, S. & Bhalla, U.S. (2008). PyMOOSE: Interoperable scripting in Python for MOOSE. *Frontiers in Neuroinformatics*, 2, 6. https://doi.org/10.3389/neuro.11.006.2008
 - Subramanian, N. et al. (2017). NSDF: Neuroscience Simulation Data Format. *Neuroinformatics*, 15(1), 21-31. https://doi.org/10.1007/s12021-016-9302-5
 
 ## References
-[^1]: Bhalla, U.S. (2011). Multiscale modeling and synaptic plasticity: MOOSE and the synaptic signalling ladder. *Journal of Physiology-Paris*, 105(1-3), 64-71.
+[^1]: Bhalla, U.S. (2011). Multiscale modeling and synaptic [[plasticity]]: MOOSE and the synaptic signalling ladder. *Journal of Physiology-Paris*, 105(1-3), 64-71.
 [^2]: Ray, S. & Bhalla, U.S. (2008). PyMOOSE: Interoperable scripting in Python for MOOSE. *Frontiers in Neuroinformatics*, 2, 6.
 [^3]: Subramanian, N. et al. (2017). NSDF: Neuroscience Simulation Data Format. *Neuroinformatics*, 15(1), 21-31.
 [^4]: Bhalla, U.S. (2014). MOOSE: Complex modeling from neurons to signaling to networks to behavior. *NCBS Technical Documentation*. https://github.com/BhallaLab/moose

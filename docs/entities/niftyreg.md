@@ -1,15 +1,14 @@
 ---
 created: 2026-04-24
 sources:
-- https://doi.org/10.1117/1.JMI.1.2.024003
-- https://doi.org/10.1016/j.cmpb.2009.09.002
-- https://doi.org/10.1016/S0262-8856(00)00052-4
-- https://github.com/UCL/NiftyReg
 - raw/papers/sanz-leon-2013.md
 - raw/papers/avants-2008.md
 - raw/papers/semanticscholar-97e6ff441097.md
 - raw/papers/semanticscholar-fcd025fcc10c.md
 - raw/papers/semanticscholar-a324c47ea982.md
+- raw/papers/semanticscholar-109de470e443.md
+- raw/papers/semanticscholar-4d73a30d5c84.md
+- raw/papers/semanticscholar-a0cce22e2ffc.md
 tags:
 - software-brain-modeling
 - neuroimaging-processing
@@ -42,11 +41,11 @@ sources:
 
 # NiftyReg
 
-NiftyReg is an open-source medical image registration library developed for aligning neuroimaging data to anatomical templates and between subject image spaces.
+NiftyReg is an open-source medical image registration library developed for aligning [[neuroimaging]] data to anatomical templates and between subject image spaces.
 
 ## Overview
 
-NiftyReg provides robust algorithms for rigid, affine, and non-rigid image registration, designed specifically for brain imaging applications. Developed at UCL's [Centre for Medical Image Computing (CMIC)](https://cmic.cs.ucl.ac.uk), it handles NIfTI and Analyze formats natively and supports both CPU and CUDA GPU implementations for computational efficiency. The software is distributed as part of the [Nifty suite of tools from UCL](https://github.com/UCL/NiftyReg) and serves as a foundational preprocessing tool in neuroimaging pipelines.
+NiftyReg provides robust algorithms for rigid, affine, and non-rigid image registration, designed specifically for brain imaging applications. Developed at UCL's [Centre for Medical Image Computing (CMIC)](https://cmic.cs.ucl.ac.uk), it handles [[nifti]] and Analyze formats natively and supports both CPU and CUDA GPU implementations for computational efficiency. The software is distributed as part of the [Nifty suite of tools from UCL](https://github.com/UCL/NiftyReg) and serves as a foundational preprocessing tool in neuroimaging pipelines.
 
 The primary command-line interfaces are:
 - **`reg_aladin`**: Rigid and affine registration using a block-matching approach
@@ -85,7 +84,7 @@ The bending energy penalty ensures smooth, physically plausible deformations by 
 
 NiftyReg contributes to [[TVB]] workflows through neuroimaging preprocessing:
 
-- **Structural connectivity generation**: DTI images registered to anatomical space enable accurate tractography for TVB's connectivity matrices
+- **Structural [[connectivity]] generation**: DTI images registered to anatomical space enable accurate tractography for TVB's connectivity matrices
 - **Atlas registration**: Subject T1-weighted images aligned to [[parcellation]] atlases (e.g., [[Desikan-Killiany Atlas]], [[AAL Atlas]]) define region boundaries for TVB simulations
 - **Multi-modal alignment**: Co-registration of diffusion and functional MRI supports multimodal TVB studies
 - **Longitudinal studies**: Consistent registration across time points enables dynamic connectivity modeling

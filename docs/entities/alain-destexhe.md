@@ -8,6 +8,8 @@ sources:
 - raw/papers/breakspear-2017.md
 - raw/papers/semanticscholar-a9ff4dda4e4c.md
 - raw/papers/semanticscholar-62534125f066.md
+- raw/papers/semanticscholar-ff8218c1e55e.md
+- raw/papers/arxiv-2512.22093.md
 tags:
 - people-researcher
 - neural-mass-models

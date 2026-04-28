@@ -13,6 +13,7 @@ sources:
 - raw/papers/arxiv-2511.02457.md
 - raw/papers/ritter-2013.md
 - raw/papers/arxiv-2602.18715.md
+- raw/papers/arxiv-2601.03796.md
 tags:
 - comparison
 - neuroimaging-fmri
@@ -24,7 +25,7 @@ updated: '2026-04-27'
 
 # fMRI vs EEG for Whole-Brain Modeling
 
-Comparison of functional MRI and electroencephalography as neuroimaging modalities for [[whole-brain]] modeling validation and constraint.
+Comparison of functional MRI and electroencephalography as [[neuroimaging]] modalities for [[whole-brain]] modeling validation and constraint.
 
 ## What is Being Compared
 
@@ -49,20 +50,20 @@ fMRI and EEG are complementary neuroimaging modalities that measure different as
 ### fMRI
 - Measures blood oxygenation changes via [[bold-signal]]
 - neurovascular-coupling introduces ~6 second hemodynamic delay
-- Correlates with local field potentials (LFPs) per [[nikos-logothetis]]
+- Correlates with [[local-field-potentials]] (LFPs) per [[nikos-logothetis]]
 - Excellent for spatial localization of networks
 
 ### EEG
 - Measures summed postsynaptic potentials
 - Direct reflection of neural activity
-- Volume conduction blurs spatial [[source-localization]]
+- [[volume-conduction]] blurs spatial [[source-localization]]
 - Excellent for capturing fast dynamics and oscillations
 
 ## Whole-Brain Modeling Applications
 
 ### fMRI Strengths
 - **Network topology**: [[resting-state]] networks clearly spatially resolved
-- **Structural-functional correspondence**: Direct comparison with DTI connectivity
+- **Structural-functional correspondence**: Direct comparison with DTI [[connectivity]]
 - **Clinical translation**: Widely available for patient studies
 - **BOLD simulation**: Well-established forward models (Balloon model)
 
@@ -105,4 +106,4 @@ Neither modality alone is sufficient. fMRI provides the spatial organization tha
 9. Chetan Gohil, Oliver M. Cliff, James M. Shine, Ben D. Fulcher, Joseph T. Lizier. (2026). *Estimating measures of information processing during cognitive tasks using functional magnetic resonance imaging*. [Link](https://arxiv.org/abs/2602.03240)
 10. Mohaddese Qaremohammadlou, Mohammad Bagher Shamsollahi. (2025). *Investigating Brain Connectivity and Information Flow in Mental Workload Using EEG and fNIRS Integration*. [Link](https://arxiv.org/abs/2511.02457)
 11. Ritter et al. (2013). *[[tvb|The Virtual Brain]] integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
-12. Yifei Sun, James M. Shine, Robert D. Sanders, Robin F. H. Cash, Sharon L. Naismith, Fernando Calamante, Jinglei Lv. (2026). *A Data-Driven Method to Map the Functional Organisation of Human Brain White Matter*. [Link](https://arxiv.org/abs/2602.18715)
+12. Yifei Sun, James M. Shine, Robert D. Sanders, Robin F. H. Cash, Sharon L. Naismith, Fernando Calamante, Jinglei Lv. (2026). *A Data-Driven Method to Map the Functional Organisation of Human Brain [[white-matter]]*. [Link](https://arxiv.org/abs/2602.18715)

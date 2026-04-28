@@ -120,7 +120,13 @@ def on_page_markdown(markdown, page, config, files, **kwargs):
         ref_entries = []
         seen = set()
         for i, s in enumerate(sources, 1):
-            key = os.path.splitext(os.path.basename(s))[0] if '/' in s or s.endswith('.md') else s
+            if isinstance(s, dict):
+                # Dict-style source: extract paper slug from url or title
+                s_val = s.get('url', '') or s.get('title', '') or s.get('source', '')
+                key = os.path.splitext(os.path.basename(s_val))[0] if '/' in s_val or str(s_val).endswith('.md') else s_val
+            else:
+                s = str(s)  # ensure string
+                key = os.path.splitext(os.path.basename(s))[0] if '/' in s or s.endswith('.md') else s
             if key in seen:
                 continue
             seen.add(key)

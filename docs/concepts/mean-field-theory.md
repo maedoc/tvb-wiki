@@ -6,6 +6,9 @@ sources:
 - raw/papers/montbrio-pazo-roxin-2015.md
 - raw/papers/schwalger-deger-gerstner-2017.md
 - raw/papers/stefanescu-jirsa-2008.md
+- raw/papers/semanticscholar-a9ff4dda4e4c.md
+- raw/papers/semanticscholar-ff8218c1e55e.md
+- raw/papers/arxiv-2510.02545.md
 tags:
 - mean-field-theory
 - neural-mass-models
@@ -28,7 +31,7 @@ Mean field theory is a mathematical framework that approximates the collective b
 
 ## Motivation and Context
 
-Computational neuroscience faces a fundamental scale gap: the brain contains billions of neurons, yet whole-brain imaging techniques such as [[fmri]], [[eeg]], and [[meg]] only resolve population-averaged signals. Simulating every spike in a full brain is computationally intractable, while purely phenomenological models risk losing biological grounding. Mean field theory resolves this tension by systematically deriving population equations from single-neuron dynamics. The approach originated in statistical physics, where it was used to describe magnetization in materials by averaging atomic spins. In neuroscience, it was adapted to capture how recurrent cortical circuits generate spontaneous activity, [[brain-oscillations]], and structured [[network-dynamics]] without requiring neuron-by-neuron simulation.
+Computational neuroscience faces a fundamental scale gap: the brain contains billions of neurons, yet whole-brain imaging techniques such as [[fmri]], [[eeg]], and [[meg]] only resolve population-averaged signals. Simulating every spike in a full brain is computationally intractable, while purely phenomenological models risk losing biological grounding. Mean field theory resolves this tension by systematically deriving population equations from single-neuron dynamics. The approach originated in statistical physics, where it was used to describe magnetization in materials by averaging atomic spins. In neuroscience, it was adapted to capture how recurrent cortical circuits generate spontaneous activity, [[oscillator]], and structured [[network-dynamics]] without requiring neuron-by-neuron simulation.
 
 ## Self-Consistency and Population Averaging
 
@@ -44,7 +47,7 @@ The key contrast between classical and modern approaches lies in their treatment
 
 ## Dynamical Regimes and Biological Grounding
 
-Mean field theory predicts qualitatively distinct network states that map onto observed cortical activity patterns. In the asynchronous irregular regime, excitatory and inhibitory currents nearly cancel, producing low-rate irregular spiking consistent with cortical recordings during spontaneous activity—an insight formalized by Amit and Brunel in 1997 and systematically classified by Brunel in 2000. When inhibition is weakened or excitation grows too strong, the network can transition to synchronous regular firing or fast oscillatory states driven by inhibitory rebound. These transitions correspond to genuine bifurcations in the mean field equations, meaning that changes in synaptic coupling strength or external drive can switch the cortex between qualitatively different dynamic modes relevant for arousal, attention, and pathological activity such as [[epilepsy-modeling]].
+Mean field theory predicts qualitatively distinct network states that map onto observed cortical activity patterns. In the asynchronous irregular regime, excitatory and inhibitory currents nearly cancel, producing low-rate irregular spiking consistent with cortical recordings during [[spontaneous-activity]]—an insight formalized by Amit and Brunel in 1997 and systematically classified by Brunel in 2000. When inhibition is weakened or excitation grows too strong, the network can transition to synchronous regular firing or fast oscillatory states driven by inhibitory rebound. These transitions correspond to genuine bifurcations in the mean field equations, meaning that changes in synaptic coupling strength or external drive can switch the cortex between qualitatively different dynamic modes relevant for arousal, attention, and pathological activity such as [[epilepsy-modeling]].
 
 ## Applications in Whole-Brain Modeling
 
@@ -52,7 +55,7 @@ In [[whole-brain-modeling]], mean field reductions are essential for coupling lo
 
 ## Limitations and Open Challenges
 
-Despite its power, mean field theory has well-known limitations. Finite-size effects introduce deviations from the infinite-population limit, producing pairwise correlations and avalanche dynamics that pure rate models miss. Strong synaptic coupling, spatial heterogeneity, and structured connectivity can violate the independence assumptions required for simple averaging. For [[whole-brain-modeling]] specifically, the approximation that each region's dynamics are captured by a single homogeneous population ignores the laminar and cell-type diversity within cortical columns. Extensions using [[stochastic-differential-equations]], moment closure, or second-order correlation models attempt to address these gaps. The [[tvb]] platform and similar tools mitigate these issues by calibrating mean field parameters against detailed spiking simulations, but a complete theory that spans microscopic synchrony to macroscopic [[brain-oscillations]] remains an active frontier in [[nonlinear-dynamics]] and [[dynamical-systems-theory]]. Another open challenge is the role of the mean field approximation in the statistical sense—used in [[dynamic-causal-modeling]] and [[variational-bayes]]—where neural and variational mean field assumptions are combined, creating a hierarchy of approximations whose cumulative error is not yet fully characterized.
+Despite its power, mean field theory has well-known limitations. Finite-size effects introduce deviations from the infinite-population limit, producing pairwise correlations and avalanche dynamics that pure rate models miss. Strong synaptic coupling, spatial heterogeneity, and structured connectivity can violate the independence assumptions required for simple averaging. For [[whole-brain-modeling]] specifically, the approximation that each region's dynamics are captured by a single homogeneous population ignores the laminar and cell-type diversity within cortical columns. Extensions using [[stochastic-differential-equations]], moment closure, or second-order correlation models attempt to address these gaps. The [[tvb]] platform and similar tools mitigate these issues by calibrating mean field parameters against detailed spiking simulations, but a complete theory that spans microscopic synchrony to macroscopic [[oscillator]] remains an active frontier in [[nonlinear-dynamics]] and [[dynamical-systems-theory]]. Another open challenge is the role of the mean field approximation in the statistical sense—used in [[dynamic-causal-modeling]] and [[variational-bayes]]—where neural and variational mean field assumptions are combined, creating a hierarchy of approximations whose cumulative error is not yet fully characterized.
 
 ## References
 

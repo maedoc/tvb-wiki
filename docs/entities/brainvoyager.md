@@ -1,14 +1,9 @@
 ---
 created: 2026-04-23
 sources:
-- 'Goebel, R., Esposito, F., & Formisano, E. (2006). Analysis of functional image
-  analysis contest (FIAC) data with brainvoyager QX: From single-subject to cortically
-  aligned group general linear model analysis and self-organizing group independent
-  component analysis. Human Brain Mapping, 27(5), 392-401.'
-- Sorger, B., Reithler, J., Dahmen, B., & Goebel, R. (2012). A real-time fMRI self-regulation
-  approach to the treatment of chronic, treatment-resistant tinnitus. Neuroscience
-  & Biobehavioral Reviews, 37(4), 697-703.
-- Brain Innovation. BrainVoyager Documentation and User Guides. https://www.brainvoyager.com/
+- raw/papers/semanticscholar-301489ffb9de.md
+- raw/papers/semanticscholar-24420855b2da.md
+- raw/papers/semanticscholar-35c59867495b.md
 tags:
 - software-brain-modeling
 - software-visualization

@@ -7,6 +7,7 @@ sources:
 - raw/papers/arxiv-2510.22022.md
 - raw/papers/destexhe-sejnowski-2009.md
 - raw/papers/arxiv-2510.02545.md
+- raw/papers/arxiv-2512.22093.md
 tags:
 - people-researcher
 - neural-mass-models
@@ -47,7 +48,7 @@ The Wilson-Cowan model is the most cited and widely used neural population model
 - [[Wilson-Cowan]]
 - [[neural mass model]]
 - [[Hugh Wilson]]
-- brain oscillations
+- [[brain-oscillations]]
 
 ## References
 
@@ -56,4 +57,4 @@ The Wilson-Cowan model is the most cited and widely used neural population model
 3. G. Bard Ermentrout, Jack D. Cowan. *Visual hallucinations and neural dynamics*. Biological Cybernetics. [DOI](https://doi.org/10.1007/BF00336963)
 4. Cyprien Tamekue, ShiNung Ching. *Control of neural field equations with step-function inputs*. [Link](https://arxiv.org/abs/2510.22022)
 5. [[alain-destexhe]], [[terrence-sejnowski|Terrence J. Sejnowski]]. *Wilson-Cowan model of the excitatory and inhibitory population dynamics*. Scholarpedia. [DOI](https://doi.org/10.4249/scholarpedia.1389)
-6. Pascal Helson, Etienne Tanré, Romain Veltz. *Mean-field analysis of a neural network with stochastic STDP*. [Link](https://arxiv.org/abs/2510.02545)
+6. Pascal Helson, Etienne Tanré, Romain Veltz. *Mean-field analysis of a [[neural-network]] with stochastic STDP*. [Link](https://arxiv.org/abs/2510.02545)

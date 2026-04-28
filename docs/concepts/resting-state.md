@@ -1,17 +1,27 @@
 ---
-title: Resting-State fMRI
 created: 2026-04-20
-updated: 2026-04-27
+sources:
+- raw/papers/biswal-1995.md
+- raw/papers/fox-raichle-2007.md
+- raw/papers/smith-2009.md
+- raw/papers/power-2011.md
+- raw/papers/raichle-2001.md
+- raw/papers/deco-2013.md
+tags:
+- neuroimaging-fmri
+- resting-state
+- functional-connectivity
+- paper-methods
+title: Resting-State fMRI
 type: concept
-tags: [neuroimaging-fmri, resting-state, functional-connectivity, paper-methods]
-sources: [raw/papers/biswal-1995.md, raw/papers/fox-raichle-2007.md, raw/papers/smith-2009.md]
+updated: '2026-04-27'
 ---
 
 Resting-state functional magnetic resonance imaging (rs-fMRI) is a neuroimaging technique that measures spontaneous low-frequency (<0.1 Hz) fluctuations in the blood-oxygen-level-dependent (BOLD) signal during task-free conditions. By correlating these intrinsic fluctuations across brain regions, researchers can map the brain's [[functional-connectivity]]—the statistical dependencies between regional time series that reveal the organization of coherent neural networks in the absence of explicit cognitive demands. This approach, pioneered by [[bharat-biswal]] in 1995, has become a cornerstone of modern neuroscience for understanding the brain's intrinsic functional architecture and serves as the primary empirical target for [[whole-brain]] computational models.
 
 ## Discovery and Foundational Research
 
-The seminal work of [[bharat-biswal]] and colleagues demonstrated that spontaneous low-frequency fluctuations in the BOLD signal exhibit bilateral correlations in the motor cortex of healthy subjects during rest, even in the absence of any motor task. This discovery, reported in their 1995 paper "Functional connectivity in the motor cortex of resting human brain using echo-planar MRI," established the phenomenon of resting-state functional connectivity and launched an entire field of research. The key insight was that temporally correlated spontaneous activity could reveal the underlying functional organization of the brain—what would later be formalized as the brain's intrinsic connectivity network architecture.
+The seminal work of [[bharat-biswal]] and colleagues demonstrated that spontaneous low-frequency fluctuations in the BOLD signal exhibit bilateral correlations in the motor cortex of healthy subjects during rest, even in the absence of any motor task. This discovery, reported in their 1995 paper "Functional [[connectivity]] in the motor cortex of resting human brain using echo-planar MRI," established the phenomenon of resting-state functional connectivity and launched an entire field of research. The key insight was that temporally correlated spontaneous activity could reveal the underlying functional organization of the brain—what would later be formalized as the brain's intrinsic connectivity network architecture.
 
 Subsequent research expanded this initial observation dramatically. The 2007 review by [[michael-fox]] and [[marcus-raichle]] in Nature Reviews Neuroscience provided a comprehensive synthesis of the field, characterizing the default mode network and other major resting-state networks, discussing the physiological basis of spontaneous fluctuations, and outlining clinical applications. Their work articulated the fundamental paradox that the resting brain exhibits rich, structured spontaneous activity despite the absence of explicit task demands—a finding that challenged the then-dominant view that baseline brain activity was merely noise. Complementing this, [[steven-smith]] and colleagues (2009) demonstrated striking correspondence between task-evoked activation patterns and resting-state connectivity, providing evidence that intrinsic networks reflect the brain's functional organization for task execution, thereby validating resting-state as a window into cognitive architecture.
 
@@ -32,9 +42,9 @@ The [[default-mode-network]] (DMN), perhaps the most extensively studied ICN, ex
 
 ## Role in Whole-Brain Modeling
 
-Resting-state connectivity serves as the primary empirical target for [[whole-brain]] computational models, which aim to explain the emergence of structured spontaneous activity from the interaction of brain regions via [[structural-connectivity]] estimated from diffusion tensor imaging (DTI). The modeling pipeline typically involves: (1) constructing a large-scale network where nodes represent brain regions (parcellated using atlases such as the Desikan-Killiany or Julich-Brain atlas) and edges represent white-matter tracts derived from tractography; (2) assigning neural mass models (such as the Jansen-Rit or Wilson-Cowan model) to each node; (3) parameterizing the models to match empirical functional connectivity patterns; and (4) validating models by comparing simulated BOLD time series to empirical resting-state data.
+Resting-state connectivity serves as the primary empirical target for [[whole-brain]] computational models, which aim to explain the emergence of structured spontaneous activity from the interaction of brain regions via [[structural-connectivity]] estimated from diffusion tensor imaging (DTI). The modeling pipeline typically involves: (1) constructing a large-scale network where nodes represent brain regions (parcellated using atlases such as the Desikan-Killiany or Julich-Brain atlas) and edges represent white-matter tracts derived from [[tractography]]; (2) assigning [[neural-mass-models]] (such as the [[jansen-rit]] or [[wilson-cowan|Wilson-Cowan model]]) to each node; (3) parameterizing the models to match empirical functional connectivity patterns; and (4) validating models by comparing simulated BOLD time series to empirical resting-state data.
 
-This approach, reviewed extensively by [[gustavo-deco]] and colleagues, has demonstrated that whole-brain models can reproduce key features of empirical resting-state dynamics, including the modular organization of ICNs, the frequency characteristics of spontaneous fluctuations, and the presence of metastable dynamics. The models also provide mechanistic insights: the interplay between excitation and inhibition at the local neural mass level, combined with the topology of the structural connectome, gives rise to the observed functional networks. Recent work has highlighted the importance of [[structural-connectivity]] not merely as a scaffold but as a determinant of functional degeneracy—the ability of different network configurations to produce similar functional outputs.
+This approach, reviewed extensively by [[gustavo-deco]] and colleagues, has demonstrated that whole-brain models can reproduce key features of empirical resting-state dynamics, including the modular organization of ICNs, the frequency characteristics of spontaneous fluctuations, and the presence of metastable dynamics. The models also provide mechanistic insights: the interplay between excitation and inhibition at the local neural mass level, combined with the topology of the structural [[connectome]], gives rise to the observed functional networks. Recent work has highlighted the importance of [[structural-connectivity]] not merely as a scaffold but as a determinant of functional degeneracy—the ability of different network configurations to produce similar functional outputs.
 
 ## Reliability, Reproducibility, and Methodological Considerations
 
@@ -48,9 +58,15 @@ A persistent controversy in the field concerns global signal regression—a prep
 - [[functional-connectivity]] – Statistical dependencies between regional time series
 - [[bold-signal]] – The blood-oxygen-level-dependent signal measured in fMRI
 - [[default-mode-network]] – The most extensively studied intrinsic connectivity network
-- [[structural-connectivity]] – White-matter connectivity derived from diffusion imaging
+- [[structural-connectivity]] – [[white-matter]] connectivity derived from [[diffusion-imaging]]
 - [[brain-network]] – Graph-theoretic representation of brain connectivity
 - [[dti]] – Diffusion tensor imaging used to estimate structural connectivity
-- [[whole-brain]] – Computational models simulating large-scale brain dynamics
+- [[whole-brain]] – Computational models simulating large-scale [[brain-dynamics]]
 - [[connectomics]] – The study of the brain's connectome
 - [[spontaneous-activity]] – Ongoing neural dynamics in the absence of tasks
+
+## References
+
+1. (authors unknown). *Functional connectivity in the motor cortex of resting human brain using echo-planar MRI*.
+2. (authors unknown). *Spontaneous fluctuations in brain activity observed with functional magnetic resonance imaging*.
+3. (authors unknown). *Correspondence of the brain's functional architecture during activation and rest*.

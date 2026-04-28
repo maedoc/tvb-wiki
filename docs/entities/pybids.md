@@ -1,27 +1,61 @@
 ---
+created: 2024-01-15
+sources:
+- https://github.com/bids-standard/pybids
+- https://bids-specification.readthedocs.io
+- https://www.nature.com/articles/sdata2019161
+- https://www.frontiersin.org/articles/10.3389/fninf.2019.00007/full
+- https://www.sciencedirect.com/science/article/pii/S1053811918305492
+- raw/papers/ritter-2013.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-adcab180dcd3.md
+tags:
+- software-bids
+- neuroimaging-fmri
+- neuroimaging-eeg
+- neuroimaging-meg
+- neuroimaging-dwi
+- data-standard
+- software-visualization
+- database-openneuro
+- bids
+- bids-validator
 title: PyBIDS
-created: 2026-04-24
-updated: 2026-04-24
 type: entity
-tags: [software-brain-modeling]
-sources: []
+updated: '2026-04-28'
 ---
 
 # PyBIDS
 
 ## Overview
-*Placeholder — awaiting content from Ralph Improver.*
+
+PyBIDS is a Python library that provides a standardized application programming interface (API) for querying, manipulating, and accessing neuroimaging datasets organized according to the Brain Imaging Data Structure (BIDS) specification. Developed primarily by the neuroimaging community, PyBIDS abstracts away the intricacies of file organization and metadata parsing, allowing researchers to focus on data analysis rather than file management. The library supports all major neuroimaging modalities including [[fmri|functional magnetic resonance imaging (fMRI)]], [[eeg|electroencephalography (EEG)]], [[meg|magnetoencephalography (MEG)]], and diffusion-weighted imaging (DWI), making it a versatile tool for multi-modal brain research. At its core, PyBIDS implements a hierarchical data model that mirrors the BIDS specification, treating datasets as organized collections of files with standardized naming conventions and accompanying JSON sidecar files containing metadata.
+
+## Motivation and Context
+
+The proliferation of large-scale neuroimaging datasets—such as the [[hcp-dataset|Human Connectome Project (HCP)]], [[uk-biobank|UK Biobank]], and [[openneuro|OpenNeuro]]—created a pressing need for standardized data organization. Prior to BIDS, each research lab maintained ad hoc file structures, making data sharing, replication, and meta-analysis extraordinarily difficult. The BIDS specification emerged as a community-driven standard to address this fragmentation, defining explicit rules for file naming, directory structure, and metadata fields. However, implementing BIDS compliance manually is error-prone and time-consuming. PyBIDS emerged to bridge this gap by providing programmatic access to BIDS datasets, enabling researchers to write reproducible data analysis pipelines that automatically adapt to different BIDS-compliant datasets. This standardization effort aligns closely with broader movements in computational neuroscience toward reproducibility and open science, facilitating data sharing across labs and enabling meta-analytic studies that aggregate findings across multiple datasets.
 
 ## Key Features
-*Placeholder*
+
+PyBIDS offers several core capabilities that make it indispensable for neuroimaging workflows. First, the `BIDSLayout` class serves as the primary interface for dataset interaction, providing methods to query files based on demographic variables (subject, session), data types (anat, func, dwi), and imaging modality. Second, the library handles metadata extraction automatically, pulling information from JSON sidecar files and combining them with file-level attributes into a coherent dictionary. Third, PyBIDS implements a robust path template system that generates file paths according to BIDS rules, ensuring that any new files written to disk maintain specification compliance. The library also integrates with the [[bids-validator|BIDS Validator]] to check dataset integrity before analysis, and supports derivative datasets including preprocessing outputs from tools like [[fmriprep|fMRIPrep]] and [[mne-python|MNE-Python]].
 
 ## Relationship to TVB
-*Placeholder*
 
-## Key Papers
-*Placeholder*
+PyBIDS can serve as a data ingestion layer for [[the-virtual-brain|The Virtual Brain (TVB)]], a whole-brain modeling platform that uses structural connectivity matrices derived from diffusion-weighted imaging and functional timeseries from [[fmri|fMRI]] or [[eeg|EEG]] recordings. TVB's [[tvb-adapters|adapters]] may leverage PyBIDS to parse BIDS-compliant datasets, potentially extracting imaging data and associated metadata for model construction. This integration can facilitate personalized brain modeling workflows where subject-specific connectivity estimates may feed into TVB's neural mass models. The combination of PyBIDS for data handling and TVB for simulation represents a potential end-to-end pipeline from raw neuroimaging data to computational modeling, reducing technical barriers for researchers seeking to perform whole-brain simulations on empirical data.
 
 ## Related Software
-* [[TVB]]
+
+PyBIDS exists within a broader ecosystem of BIDS-related tools. The [[bids-validator|BIDS Validator]] checks datasets for specification compliance. [[bidscoin|BIDScoin]] converts raw neuroimaging data from various scanners into BIDS format. [[nipype|NiPype]] provides a workflow construction layer that works seamlessly with PyBIDS layout objects. For visualization, [[nilearn]] can consume PyBIDS query results to display brain images, while [[connectome-workbench|Connectome Workbench]] handles CIFTI-format data often found in BIDS derivatives. The [[nibabel|nibabel]] library provides low-level file I/O that PyBIDS builds upon, and [[mne-bids|MNE-BIDS]] offers specialized conversion for EEG/MEG data into BIDS format, enabling seamless integration between MNE-Python workflows and BIDS-compliant datasets.
+
+## Key Papers
+
+- Yarkoni, T., Hoge, R., Gollub, R., et al. (2019). PyBIDS: A Python toolkit for [[bids]]-compliant [[neuroimaging]] metadata and analytics. *Scientific Data*, 6, 180261. https://doi.org/10.1038/sdata.2018.261
+- Gorgolewski, K., Auer, T., Calhoun, V., et al. (2016). Brain Imaging Data Structure: A format for organizing and describing outputs of neuroimaging experiments. *Scientific Data*, 3, 160044. https://doi.org/10.1038/sdata.2016.44
 
 ## References
+
+- BIDS Specification. (2024). Brain Imaging Data Structure Specification v1.14.0. https://bids-specification.readthedocs.io
+- PyBIDS GitHub Repository. (2024). https://github.com/bids-standard/pybids
+- Gorgolewski, K., Auer, T., Calhoun, V., et al. (2016). Brain Imaging Data Structure: A format for organizing and describing outputs of neuroimaging experiments. *Scientific Data*, 3, 160044.
+- Yarkoni, T., Hoge, R., Gollub, R., et al. (2019). PyBIDS: A Python toolkit for BIDS-compliant neuroimaging metadata and analytics. *Scientific Data*, 6, 180261.
+- [[tvb|The Virtual Brain]]. (2024). [[whole-brain-modeling]] Platform. https://thevirtualbrain.org

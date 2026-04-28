@@ -5,6 +5,9 @@ sources:
 - raw/papers/dayan-abbott-2001.md
 - raw/papers/deco-2013.md
 - raw/papers/breakspear-2017.md
+- raw/papers/arxiv-2601.03796.md
+- raw/papers/arxiv-2604.03619.md
+- raw/papers/semanticscholar-c3d9674bec1b.md
 tags:
 - people-researcher
 - neural-mass-models
@@ -21,9 +24,9 @@ American computational neuroscientist. Francis Crick Professor at Salk Institute
 
 ## Key Contributions
 
-- **Computational neuroscience**: Pioneering work linking neural dynamics to computation
+- **[[computational-neuroscience]]**: Pioneering work linking neural dynamics to computation
 - **Neural population dynamics**: Mean-field analysis and population coding
-- **Neural network learning**: Boltzmann machines, backpropagation, and learning algorithms
+- **[[neural-network]] learning**: Boltzmann machines, backpropagation, and learning algorithms
 - **[[ica|Independent component analysis]]**: Application to EEG and [[fmri]] signal separation
 
 ## Major Publications
