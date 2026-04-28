@@ -5,7 +5,7 @@ tags:
 - software-brain-modeling
 title: Allen Brain Atlas
 type: entity
-updated: '2026-04-28'
+updated: '2026-04-29'
 ---
 
 title: Allen Brain Atlas
@@ -14,7 +14,6 @@ updated: 2026-04-28
 type: entity
 tags: [brain-parcellations, connectomics, neuroimaging, database-hcp, brain-network, structural-[[connectivity]], functional-connectivity, human-connectome-project]
 sources: [https://alleninstitute.org/, https://mouse.brain-map.org/, https://human.brain-map.org/, https://www.sciencemag.org/lookup/doi/10.1126/science.1149278]
----
 
 The Allen Brain Atlas is a suite of comprehensive, publicly accessible online brain mapping resources developed by the Allen Institute for Brain Science. Launched in 2006 with the Allen Mouse Brain Atlas, the project has expanded to include atlases of the human brain, macaque brain, and developing mouse brain, among others. These resources provide gene expression data, anatomical structures, and connectivity information across multiple species, serving as a foundational tool for the field of [[connectomics]] and [[whole-brain modeling]]. The atlas represents one of the largest standardized neuroscience data initiatives in the world, providing researchers with unprecedented access to detailed anatomical and molecular annotations of brain tissue.
 
@@ -22,7 +21,7 @@ The Allen Brain Atlas is a suite of comprehensive, publicly accessible online br
 
 The creation of the Allen Brain Atlas addressed a critical bottleneck in neuroscience research: the lack of standardized, genome-wide anatomical references for the brain. Before the atlas, researchers seeking to understand the spatial distribution of gene expression or anatomical connectivity had to compile data from dozens of disparate sources, often using incompatible methodologies. The Allen Institute undertook a systematic approach, employing high-throughput histology and [[neuroimaging]] techniques to generate data that could be uniformly analyzed and compared across laboratories. This effort was motivated by the broader goal of the Allen Institute for Brain Science, which was founded in 2003 with the aim of accelerating progress in understanding brain function through large-scale, collaborative science.
 
-The atlas plays a crucial role in the modern era of [[personalized-brain-modeling]] and [[computational-neuroscience]] by providing detailed structural and molecular ground truth for [[brain-parcellations]] used in [[whole-brain modeling]] frameworks. When constructing [[connectome]]-based models in tools like [[tvb]] (The Virtual Brain), researchers frequently rely on parcellations derived from or validated against the Allen Brain Atlas anatomical frameworks. The atlas also supports the [[human-connectome-project]] by providing complementary molecular and histological data that complements the [[neuroimaging-dti|diffusion imaging]] and [[functional-connectivity]] data collected in that initiative.
+The atlas plays a crucial role in the modern era of [[personalized-brain-modeling]] and [[computational-neuroscience]] by providing detailed structural and molecular ground truth for [[brain-parcellations]] used in [[whole-brain modeling]] frameworks. When constructing [[connectome]]-based models in tools like [[tvb]] (The Virtual Brain), researchers frequently rely on parcellations derived from or validated against the Allen Brain Atlas anatomical frameworks. The atlas also supports the [[human-connectome-project]] by providing complementary molecular and histological data that complements the diffusion imaging and [[functional-connectivity]] data collected in that initiative.
 
 ## Key Features and Data Types
 
@@ -36,7 +35,7 @@ The non-human primate (macaque) brain atlas provides a bridge between mouse and 
 
 The Allen Brain Atlas contributes to [[whole-brain-modeling]] in several important ways. First, the anatomical parcellations provided by the atlas—originally developed for the mouse brain and subsequently adapted for human and primate data—have been used to define regions in [[neural-mass-models]]. The standardized nomenclature and correspondence across brains allows modelers to create reproducible [[brain-network|brain network]] representations that can be compared across studies. Second, the gene expression data from the atlas can inform the parameterization of [[neural-mass-models]] by providing estimates of receptor densities and ion channel distributions across brain regions, enabling more biologically realistic models of [[brain-dynamics]].
 
-In the context of The Virtual Brain, the atlas supports the construction of personalized brain models by providing reference anatomy for [[structural-connectivity]] reconstruction. When combined with [[neuroimaging-dti]] data from individual subjects, the atlas provides a framework for labeling and interpreting connectivity patterns. Researchers have used the Allen Brain Atlas to validate connectivity matrices derived from [[dti]] and [[tractography]], ensuring that the simplified structural connections used in [[tvb]] accurately reflect known anatomical pathways. Additionally, the standardized anatomical frameworks provided by the atlas facilitate the integration of multimodal data—combining structural connectivity from diffusion imaging, functional connectivity from resting-state fMRI, and molecular data from the atlas—enabling more comprehensive and biologically grounded simulations of brain dynamics.
+In the context of The Virtual Brain, the atlas supports the construction of personalized brain models by providing reference anatomy for [[structural-connectivity]] reconstruction. When combined with [[neuromorpho-toolkit]] data from individual subjects, the atlas provides a framework for labeling and interpreting connectivity patterns. Researchers have used the Allen Brain Atlas to validate connectivity matrices derived from [[dti]] and [[tractography]], ensuring that the simplified structural connections used in [[tvb]] accurately reflect known anatomical pathways. Additionally, the standardized anatomical frameworks provided by the atlas facilitate the integration of multimodal data—combining structural connectivity from diffusion imaging, functional connectivity from resting-state fMRI, and molecular data from the atlas—enabling more comprehensive and biologically grounded simulations of brain dynamics.
 
 ## Related Software and Tools
 

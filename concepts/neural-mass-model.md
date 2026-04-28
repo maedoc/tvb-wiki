@@ -21,7 +21,7 @@ tags:
 - bifurcation-analysis
 title: Neural Mass Model
 type: concept
-updated: '2026-04-28'
+updated: '2026-04-29'
 ---
 
 Neural mass models (NMMs) are mathematical descriptions of the collective dynamics of large populations of neurons, employing mean-field approximations to reduce the high-dimensional firing patterns of individual cells into low-dimensional differential equations that capture population-level activity. This reductionist approach sits at the mesoscopic scale of brain organization—intermediate between the microscopic dynamics of single neurons and the macroscopic scale of whole-brain networks—so that a single neural mass variable can represent the aggregate behavior of millions of neurons within a cortical column or brain region. The resulting models are computationally tractable while retaining sufficient biological realism to explain emergent phenomena such as brain oscillations, seizure dynamics, and resting-state connectivity patterns that are observable in [[eeg]], [[meg]], and [[fmri]] recordings.
@@ -71,11 +71,11 @@ A powerful feature of neural mass models is their ability to exhibit multiple qu
 
 ## Clinical and Research Applications
 
-Neural mass models have become indispensable tools for studying brain disorders and developing personalized treatment strategies. In epilepsy, models like the [[epileptor]] enable prediction of seizure timing and optimization of neurostimulation protocols. The [[personalized-brain-modeling]] paradigm uses individual patient data—including structural connectivity from [[diffusion-mri]] and baseline brain dynamics from resting-state fMRI—to create personalized models that can predict individual responses to treatment. In schizophrenia research, [[dynamic-causal-modeling]] analyses have revealed altered [[effective-connectivity]] in cortical circuits, while models of [[oscillator]] have provided mechanistic explanations forgamma-band deficits observed in patients.
+Neural mass models have become indispensable tools for studying brain disorders and developing personalized treatment strategies. In epilepsy, models like the [[epileptor]] enable prediction of seizure timing and optimization of neurostimulation protocols. The [[personalized-brain-modeling]] paradigm uses individual patient data—including structural connectivity from [[diffusion-mri]] and baseline brain dynamics from resting-state fMRI—to create personalized models that can predict individual responses to treatment. In schizophrenia research, [[dynamic-causal-modeling]] analyses have revealed altered [[effective-connectivity]] in cortical circuits, while models of [[oscillator]] have provided mechanistic explanations for gamma-band deficits observed in patients.
 
 ## Limitations and Future Directions
 
-Despite their utility, neural mass models carry significant limitations that motivate ongoing research. The homogeneity assumption—that neurons within a population share similar properties—is violated in real cortex, where cell types, dendritic morphologies, and intrinsic properties vary considerably. The mean-field approximation neglects correlations between neurons that may be important for certain phenomena. Most models employ static [[structural-connectivity]] rather than accounting for activity-dependent plasticity. Parameter identifiability remains challenging: multiple parameter sets can produce similar dynamics, making inverse estimation difficult without strong priors. Current research addresses these limitations through data‑driven approaches that learn population heterogeneity from recordings, incorporating correlation structures via [[fokker-planck-equation]] descriptions, and developing more sophisticated parameter estimation frameworks using [[variational-bayes]] and machine learning approaches.
+Despite their utility, neural mass models carry significant limitations that motivate ongoing research. The homogeneity assumption—that neurons within a population share similar properties—is violated in real cortex, where cell types, dendritic morphologies, and intrinsic properties vary considerably. The mean-field approximation neglects correlations between neurons that may be important for certain phenomena. Most models employ static [[structural-connectivity]] rather than accounting for activity-dependent plasticity. Parameter identifiability remains challenging: multiple parameter sets can produce similar dynamics, making inverse estimation difficult without strong priors. Current research addresses these limitations through data‑driven approaches that learn population heterogeneity from recordings, incorporating correlation structures via [[fokker-planck-equation]] descriptions, pioneered by [[hannes-risken]], and developing more sophisticated parameter estimation frameworks using [[variational-bayes]] and machine learning approaches.
 
 ## Related Concepts
 
@@ -87,11 +87,30 @@ Despite their utility, neural mass models carry significant limitations that mot
 - [[jansen-rit]] – EEG/MEG‑focused cortical column model
 - [[wong-wang]] – [[fmri]]/BOLD‑optimized model
 - [[tvb]] – Primary software platform implementing NMMs
-- [[tvb-vs-[[nest]]-vs-neuron|TVB vs [[nest]] vs Neuron]]
-- [[tvb-vs-nest-vs-neuron|Tvb Vs Nest Vs Neuron]]
+- [[tvb-vs-nest-vs-neuron]]
+- [[tvb-vs-nest-vs-neuron|TVB vs Nest vs Neuron]]
 
 ## References
 
 1. [[walter-freeman|Walter J. Freeman]]. *Mass Action in the Nervous System*.
 2. [[hugh-wilson|Hugh R. Wilson]], [[jack-cowan|Jack D. Cowan]]. *Excitatory and inhibitory interactions in localized populations of model neurons*. Biophysical Journal. [DOI](https://doi.org/10.1016/S0006-3495(72)86068-5)
 3. [[benjamin-jansen|Benjamin H. Jansen]], [[vincent-rit|Vincent G. Rit]]. *Electroencephalogram and visual evoked potential generation in a mathematical model of coupled cortical columns*. Biological Cybernetics. [DOI](https://doi.org/10.1007/BF00199471)
+
+## ORPHAN PAGE CONTEXT (hannes-risken)
+---
+created: 2026-04-20
+sources:
+- raw/papers/risken-1989.md
+- raw/papers/gardiner-2009.md
+tags:
+- people-researcher
+title: Hannes Risken
+type: entity
+updated: '2026-04-27'
+---
+
+## Overview
+Hannes Risken was a German physicist known for his definitive work on Fokker-Planck equations. His book "The Fokker-Planck Equation" remains the standard reference for analytical and numerical solution methods.
+
+## Key Contributions
+- **Fokker-Planck Theory**: Author of the definitive monograph on Fokker-Planck equations.

@@ -16,7 +16,7 @@ tags:
 - neuroimaging
 title: EEG
 type: concept
-updated: '2026-04-27'
+updated: '2026-04-29'
 ---
 
 # EEG
@@ -69,7 +69,7 @@ EEG analysis encompasses a wide range of techniques for extracting information f
 
 ## Software Tools
 
-Several software packages are widely used for EEG analysis. **[[eeglab]]** is an interactive MATLAB toolbox for EEG processing, including preprocessing, ICA decomposition, time-frequency analysis, and statistical testing. **[[mne-python]]** provides a Python-based environment for EEG and MEG analysis with particular strengths in source localization and visualization. **[[fieldtrip]]** is a MATLAB toolbox from the Donders Institute that emphasizes beamforming and source analysis. Other tools include **[[brainstorm]]**, **[[openvibe]]**, and **[[bci2000]]**.
+Several software packages are widely used for EEG analysis. **[[eeglab]]** is an interactive MATLAB toolbox for EEG processing, including preprocessing, ICA decomposition, time-frequency analysis, and statistical testing. **[[mne-python]]** provides a Python-based environment for EEG and MEG analysis with particular strengths in source localization and visualization. **[[fieldtrip]]** is a MATLAB toolbox from the Donders Institute that emphasizes beamforming and source analysis. Other tools include **[[brainstorm]]**, **[[cartool]]**, **[[openvibe]]**, and **[[bci2000]]**.
 
 ## Comparison with Other Neuroimaging Modalities
 
@@ -93,3 +93,24 @@ EEG is fundamentally linked to several key concepts in computational neuroscienc
 2. Paul L. Nunez, Ramesh Srinivasan. (2006). *Electric Fields of the Brain: The Neurophysics of EEG* (2nd ed.). Oxford University Press.
 3. Scott Makeig, Anthony J. Bell, Tzyy-Ping Jung, [[terrence-sejnowski|Terrence J. Sejnowski]]. (1996). Independent component analysis of electroencephalographic data. *Advances in Neural Information Processing Systems*, 8, 145-151.
 4. Michael X. Cohen. (2014). *Analyzing Neural Time Series Data: Theory and Practice*. MIT Press.
+
+## ORPHAN PAGE CONTEXT (cartool)
+---
+created: 2025-01-01
+sources: []
+tags:
+- software-visualization
+- neuroimaging-eeg
+- source-localization
+- micro-states
+- brain-mapping
+title: Cartool
+type: entity
+updated: '2026-04-29'
+---
+
+# Cartool
+
+## Overview
+
+Cartool is a specialized software package for the visualization, preprocessing, and analysis of [[eeg]] data, with particular emphasis on electrical source imaging (ESI) and microstate analysis. Originally developed at the Functional Brain Mapping Lab at the University of Geneva an

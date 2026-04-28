@@ -1,7 +1,7 @@
 ---
 title: XNAT
 created: 2024-01-15
-updated: 2026-04-28
+updated: 2026-04-29
 type: entity
 tags: [software-neuroimaging, database-neuroimaging, neuroimaging, reproducibility, software-visualization, bids]
 sources:

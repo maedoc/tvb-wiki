@@ -1,7 +1,7 @@
 ---
 title: LFPykit
 created: 2024-01-15
-updated: 2026-04-28
+updated: 2026-04-29
 type: entity
 tags: [software-neuron, spiking-neural-networks, neural-mass-models, dynamic-causal-modeling, neuroimaging-eeg, neuroimaging-meg]
 sources:
@@ -88,7 +88,7 @@ While [[the-virtual-brain]] and similar whole-brain modeling platforms like thos
 ## Related Software
 
 - [[lfpy]] — Python package providing the [[neuron]] simulator interface for detailed LFP modeling (uses LFPykit internally for the forward computations)
-- [[lfpkit]] (this toolbox) — The core forward-model library; provides analytical methods for computing extracellular potentials from transmembrane currents
+- lfpkit (this toolbox) — The core forward-model library; provides analytical methods for computing extracellular potentials from transmembrane currents
 - [[neuron]] — Simulator for multi-compartment neuron models
 - [[brian2]] — Python-based spiking neural network simulator
 - [[nest]] — Neural simulation tool for large-scale spiking networks

@@ -13,12 +13,13 @@ tags:
 - brain-network
 title: NEST
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-29'
 ---
 
 # NEST (NEural Simulation Tool)
 
 NEST is a simulator for spiking [[neural-network]] models, widely used in [[computational-neuroscience]].
+[[fooof]]
 
 ## Overview
 
@@ -81,3 +82,26 @@ Jordan et al. (2018) demonstrated NEST's near-perfect weak scaling:
 4. Eppler et al. (2009). *PyNEST: A convenient interface to the NEST simulator*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/neuro.11.012.2008)
 5. Helias et al. (2012). *Supercomputers ready for use as discovery machines for neuroscience*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2012.00026)
 6. Sanz Leon et al. (2013). *[[the-virtual-brain]]: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+
+## ORPHAN PAGE CONTEXT (fooof)
+---
+created: 2026-04-23
+sources:
+- raw/papers/semanticscholar-eb704b6f5462.md
+- raw/papers/arxiv-2505.16861.md
+- raw/papers/arxiv-2604.14259.md
+- raw/papers/arxiv-2604.00163.md
+- raw/papers/arxiv-2406.05002.md
+- raw/papers/arxiv-2508.05288.md
+- raw/papers/arxiv-2509.12873.md
+- raw/papers/arxiv-2602.09535.md
+- raw/papers/arxiv-2603.07524.md
+- raw/papers/sanz-leon-2013.md
+tags:
+- software-brain-modeling
+- neuroimaging-eeg
+- neuroimaging-meg
+- brain-oscillations
+- resting-state
+- software-tvb
+title

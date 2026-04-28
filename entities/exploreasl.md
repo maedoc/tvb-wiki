@@ -8,12 +8,12 @@ tags:
 - software-brain-modeling
 title: ExploreASL
 type: entity
-updated: '2026-04-28'
+updated: '2026-04-29'
 ---
 
 title: ExploreASL
 created: 2025-01-15
-updated: 2026-04-28
+updated: 2026-04-29
 type: entity
 tags: [[software-ants]], [[neuroimaging]]-mri, [[resting-state]], cerebral-blood-flow, arterial-spin-labeling, perfusion-mri
 sources: [Alsop et al. (2015), DOI:10.1002/mrm.25197, Mutsaerts et al. (2020), DOI:10.1016/j.neuroimage.2019.116149, Douaud et al. (2014), DOI:10.1016/j.neuroimage.2013.10.055,gk:ExploreASL-GitHub,gk:ANTs,gk:FSL,gk:TVB]
@@ -53,7 +53,7 @@ The software also includes capabilities for dynamic ASL analysis, supporting the
 
 ## Related Software
 
-ExploreASL should be considered alongside other neuroimaging preprocessing pipelines including [[FSL]] (which includes FABBER for Bayesian ASL analysis), [[SPM]] (which has ASL‑specific tools for the Academicware toolbox), and [[AFNI]]. For registration and normalization, ExploreASL depends on [[ANTs]], while visualization of results can be performed using tools such as [[FSLeyes]] or [[FreeView]]. Users interested in complementary perfusion analysis approaches may also explore [[ASLtbx]], a MATLAB‑based toolbox, or the BASIL tool within [[FSL]]. For researchers working with the [[BIDS]] data organization standard, ExploreASL supports BIDS‑compliant data formats, facilitating integration with reproducible workflows.
+ExploreASL should be considered alongside other neuroimaging preprocessing pipelines including [[FSL]] (which includes FABBER for Bayesian ASL analysis), [[SPM]] (which has ASL‑specific tools for the Academicware toolbox), and [[AFNI]]. For registration and normalization, ExploreASL depends on [[ANTs]], while visualization of results can be performed using tools such as [[FSLeyes]] or [[FreeView]]. Users interested in complementary perfusion analysis approaches may also explore ASLtbx, a MATLAB‑based toolbox, or the BASIL tool within [[FSL]]. For researchers working with the [[BIDS]] data organization standard, ExploreASL supports BIDS‑compliant data formats, facilitating integration with reproducible workflows.
 
 ## Open Questions and Limitations
 

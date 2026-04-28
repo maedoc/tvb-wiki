@@ -10,7 +10,7 @@ tags:
 - software-fieldtrip
 title: FieldTrip
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-29'
 ---
 
 FieldTrip (fieldtrip) is a open-source MATLAB toolbox for advanced analysis of MEG, EEG, and invasive electrophysiological data, specializing in source reconstruction and [[connectivity]].
@@ -31,6 +31,7 @@ FieldTrip is often used alongside [[tvb]] and other simulation platforms in pre-
 * [[bids-validator]]
 * [[bidscoin]]
 * [[brainstorm]]
+* [[erplab]]
 
 ## References
 * Links to relevant papers and documentation*

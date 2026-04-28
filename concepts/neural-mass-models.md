@@ -17,7 +17,7 @@ tags:
 - epilepsy-modeling
 title: Neural Mass Models
 type: concept
-updated: '2026-04-27'
+updated: '2026-04-29'
 ---
 
 ## Definition
@@ -48,7 +48,7 @@ More sophisticated neural mass models incorporate multiple state variables to ca
 
 ### Jansen-Rit Model
 
-The [[jansen-rit]] model, developed in 1995, is the most widely used neural mass model in [[dynamic-causal-modeling]] (DCM) and [[tvb]] simulations. It consists of three coupled populations (pyramidal cells, excitatory interneurons, and inhibitory interneurons) that generate realistic EEG rhythms in the alpha (8–12 Hz) and beta (13–30 Hz) bands. The model's popularity stems from its relative simplicity and its ability to produce biologically plausible oscillations without extensive parameter tuning.
+The [[jansen-rit]] model, developed in 1995, is the most widely used neural mass model in [[dynamic-causal-modeling]] (DCM) and [[tvb]] simulations. It consists of three coupled populations (pyramidal cells, excitatory interneurons, and inhibitory interneurons) that generate realistic EEG rhythms in the alpha (8–12 Hz) and beta (13–30 Hz) bands. The model's popularity stems from its relative simplicity and its ability to produce biologically plausible oscillations without extensive parameter tuning. [[fooof]]
 
 ### Wilson-Cowan Model
 

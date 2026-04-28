@@ -1,6 +1,6 @@
 title: OpenNeuro
 created: 2024-01-15
-updated: 2026-04-28
+updated: 2026-04-29
 type: entity
 tags: [database, neuroimaging, neuroimaging-fmri, neuroimaging-eeg, neuroimaging-meg, dataset, reproducibility, resting-state, task-based]
 sources: [https://openneuro.org/, https://arxiv.org/abs/1908.03399, https://www.nature.com/articles/s41597-019-0077-7]
@@ -12,7 +12,7 @@ OpenNeuro is an open-access repository for neuroimaging datasets that has become
 
 The neuroimaging field has long faced a reproducibility crisis, driven in part by the difficulty of sharing raw data and the lack of standardized data organization formats. Historically, researchers who wanted to share their neuroimaging datasets had to do so through ad-hoc solutions—personal websites, institutional repositories, or simply not sharing at all—which made discoverability and reuse extremely challenging. OpenNeuro addresses this problem by providing a curated platform where datasets are archived with persistent identifiers (DOIs), thoroughly validated for BIDS compliance using tools like the [[bids-validator]], and freely accessible to the research community [<cite>@bids</cite>]. The platform's emphasis on BIDS standardization ensures that data are organized consistently across studies, making it straightforward for analysts to apply automated preprocessing pipelines like [[fmriprep]] or connectome-quality assessment tools.
 
-OpenNeuro's creation also reflects a broader cultural shift toward open science in neuroscience. Many large-scale research initiatives, including the [[human-connectome-project]] and the [[uk-biobank]], require data sharing as a condition of grant funding, and OpenNeuro provides the infrastructure to fulfill such mandates elegantly [<cite>@hcp</cite>]. The repository's integration with the [[brain-life]] platform and tools like [[datalad]] enables sophisticated data provenance tracking and reproducible analysis workflows, further cementing its role in the open science ecosystem.
+OpenNeuro's creation also reflects a broader cultural shift toward open science in neuroscience. Many large-scale research initiatives, including the [[human-connectome-project]] and the [[uk-biobank]], require data sharing as a condition of grant funding, and OpenNeuro provides the infrastructure to fulfill such mandates elegantly [<cite>@hcp</cite>]. The repository's integration with the [[brainsuite]] platform and tools like [[datalad]] enables sophisticated data provenance tracking and reproducible analysis workflows, further cementing its role in the open science ecosystem.
 
 ## Key Features
 

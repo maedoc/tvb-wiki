@@ -10,7 +10,7 @@ tags:
 - reproducibility
 title: heudiconv
 type: entity
-updated: '2026-04-28'
+updated: '2026-04-29'
 ---
 
 ## Overview
@@ -45,7 +45,7 @@ The heuristic system deserves emphasis. A typical heuristic file contains a dict
 
 ## Relationship to TVB
 
-Within the context of whole-brain modeling and computational neuroscience, heudiconv plays an indirect but important role. [[The Virtual Brain]] (TVB) and related whole-brain simulators require high-quality, preprocessed neuroimaging data as inputs—including structural connectivity matrices derived from [[diffusion imaging]] (tractography), regional parcellations from [[MRI]] anatomical scans, and functional time series from resting-state [[fMRI]] data. Researchers acquiring such data often use heudiconv to organize their raw scanner exports into BIDS format before passing them to preprocessing pipelines like [[FMRIprep]] or [[MRtrix3 Connectome]]. The resulting processed data can then be imported into TVB via its [[TVB adapters]] for personalized brain modeling [4][5].
+Within the context of whole-brain modeling and computational neuroscience, heudiconv plays an indirect but important role. [[The Virtual Brain]] (TVB) and related whole-brain simulators require high-quality, preprocessed neuroimaging data as inputs—including structural connectivity matrices derived from [[diffusion imaging]] (tractography), regional parcellations from [[mriqc]] anatomical scans, and functional time series from resting-state [[fMRI]] data. Researchers acquiring such data often use heudiconv to organize their raw scanner exports into BIDS format before passing them to preprocessing pipelines like [[FMRIprep]] or [[MRtrix3 Connectome]]. The resulting processed data can then be imported into TVB via its [[TVB adapters]] for personalized brain modeling [4][5].
 
 Specifically, heudiconv-converted BIDS datasets can feed into TVB workflows through the following pipeline: (1) raw DICOM data from MRI scanners is converted to BIDS using heudiconv; (2) BIDS data is preprocessed with tools like FMRIprep (for functional data) or MRtrix3 (for diffusion data); (3) structural connectomes are generated using [[tractography]] on diffusion data; (4) parcellated time series are extracted from anatomical and functional scans; and (5) these processed outputs are imported into TVB using native adapters or the HPC interface for simulation and analysis. Thus, while heudiconv is not itself a modeling tool, it serves as a critical data management component in the TVB workflow, ensuring that input data are properly organized, annotated, and reproducible [4][5].
 
@@ -54,8 +54,8 @@ Specifically, heudiconv-converted BIDS datasets can feed into TVB workflows thro
 | Citation | Description |
 |----------|-------------|
 | Halchenko, Y. O., et al. (2018). heudiconv: Flexible DICOM to BIDS conversion. *Journal of Open Source Software*, 3(29), 940. https://doi.org/10.21105/joss.00940 | The primary publication describing heudiconv's architecture, heuristic system, and implementation details. |
-| Gorgolewski, K. J., et al. (2016). The Brain Imaging Data Structure, a format for organizing and describing outputs of neuroimaging experiments. *Scientific Data*, 3, 160044. https://doi.org/10.1038/sdata.2016.44 | The foundational paper describing the BIDS specification that heudiconv implements. |
-| Gorgolewski, K. J., et al. (2011). Nipype: a flexible, lightweight and extensible neuroimaging data processing framework in Python. *Frontiers in Neuroinformatics*, 5, 13. https://doi.org/10.3389/fninf.2011.00013 | Describes nipype, the workflow engine underlying heudiconv's pipeline architecture. |
+| Gorgolewski, K. J., et al. (2016). The Brain Imaging Data Structure, a format for organizing and describing outputs of neuroimaging experiments. *Scientific Data*, 3, 160044. https://doi.org/10.1038/sdata.2016.44 |
+| Gorgolewski, K. J., et al. (2011). Nipype: a flexible, lightweight and extensible neuroimaging data processing framework in Python. *Frontiers in Neuroinformatics*, 5, 13. https://doi.org/10.3389/fninf.2011.00013 |
 
 ## Related Software
 

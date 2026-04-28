@@ -8,7 +8,7 @@ tags:
 - neural-mass-models
 title: ERPLAB
 type: entity
-updated: '2026-04-28'
+updated: '2026-04-29'
 ---
 
 ERPLAB is a popular open-source MATLAB toolbox for processing and analyzing event-related potential (ERP) data, designed as a plugin extension to [[eeglab]]. The toolbox provides comprehensive functionality for preprocessing, filtering, artifact rejection, and statistical analysis of ERP waveforms, making it an essential tool for researchers studying cognitive electrophysiology. ERPLAB was developed to address the growing need for specialized ERP analysis tools within the EEGLAB environment, allowing users to leverage EEGLAB's general EEG processing capabilities while adding ERP-specific workflows tailored to the unique requirements of cognitive neuroscience experiments.
@@ -33,7 +33,7 @@ While [[the-virtual-brain]] (TVB) focuses on [[whole-brain-modeling]] and large-
 
 ## Related Software
 
-ERPLAB operates within the [[eeglab]] ecosystem, which itself is built on [[MATLAB]] and integrates with tools like [[fieldtrip]] for advanced source analysis and statistical implementations. For researchers interested in [[neural-mass-models]] or [[dynamic-causal-modeling]], ERPLAB provides the empirical data analysis foundation that can complement model fitting procedures. The toolbox is related to other [[neuroimaging-eeg]] software including [[brainstorm]] and [[openvibe]], though ERPLAB's focus specifically on ERP analysis distinguishes it from these more general EEG/MEG analysis platforms.
+ERPLAB operates within the [[eeglab]] ecosystem, which itself is built on MATLAB and integrates with tools like [[fieldtrip]] for advanced source analysis and statistical implementations. For researchers interested in [[neural-mass-models]] or [[dynamic-causal-modeling]], ERPLAB provides the empirical data analysis foundation that can complement model fitting procedures. The toolbox is related to other [[neuromorpho-toolkit]] software including [[brainstorm]] and [[openvibe]], though ERPLAB's focus specifically on ERP analysis distinguishes it from these more general EEG/MEG analysis platforms.
 
 ## Key Papers
 

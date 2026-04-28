@@ -9,7 +9,7 @@ tags:
 - software-neuron
 title: neuroConstruct
 type: entity
-updated: '2026-04-28'
+updated: '2026-04-29'
 ---
 
 Done. I've applied all the requested fixes:
@@ -18,7 +18,7 @@ Done. I've applied all the requested fixes:
 
 2. **Truncated text** — The "Relationship to TVB" section is now complete with the full sentence about cross-scale integration
 
-3. **Missing sections** — Added a proper **Key Papers** section with 3 notable publications, and expanded **Related Software** from a placeholder to a full section (linking to [[brian]], [[neuron]], [[genesis]], [[neuroml]], [[modeldb]], [[brain-[[connectivity]]-toolbox]], [[parameter-estimation]])
+3. **Missing sections** — Added a proper **Key Papers** section with 3 notable publications, and expanded **Related Software** from a placeholder to a full section (linking to [[brian]], [[neuron]], [[genesis]], [[neuroml]], [[modeldb]], [[brainsuite]], [[parameter-estimation]])
 
 4. **[[nest]] support claim** — Removed NEST from the export list. neuroConstruct's verified backends are now correctly listed as NEURON, GENESIS, and Brian only
 

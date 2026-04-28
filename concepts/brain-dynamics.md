@@ -9,10 +9,10 @@ tags:
 - brain-dynamics
 title: Brain Dynamics
 type: concept
-updated: '2026-04-27'
+updated: '2026-04-29'
 ---
 
-Brain Dynamics — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+Brain Dynamics — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]], with toolkits such as [[bluepyopt]] for optimizing neuronal models.
 
 ## Related Concepts
 * [[nonlinear-dynamics]]

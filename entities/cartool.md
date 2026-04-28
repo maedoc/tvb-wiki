@@ -9,7 +9,7 @@ tags:
 - brain-mapping
 title: Cartool
 type: entity
-updated: '2026-04-28'
+updated: '2026-04-29'
 ---
 
 # Cartool
@@ -38,7 +38,7 @@ The software offers integrated preprocessing capabilities for EEG data, includin
 
 ## Relationship to TVB
 
-While Cartool and [[the-virtual-brain]] (TVB) serve different primary purposes in the neuroimaging ecosystem, they share conceptual ground in their focus on brain dynamics and [[whole-brain-modeling]]. Cartool focuses on extracting information from observed EEG data through [[source-localization]] and microstate segmentation, while TVB builds generative models that simulate brain activity at the network level. In practice, these tools can be complementary: Cartool-derived source estimates or microstate parameters can inform the parameterization of [[neural-mass-models]] or [[whole-brain-modeling]] models in TVB. Furthermore, both software packages deal with the forward problem—computing how sources in the brain produce observed potentials—and share concerns about the [[inverse-problem]] in neuroimaging. TVB's simulation environments can benefit from empirical constraints derived from Cartool's EEG analyses, particularly when modeling [[brain-oscillations]] or pathological states like [[epilepsy-modeling]].
+While Cartool and [[the-virtual-brain]] (TVB) serve different primary purposes in the neuroimaging ecosystem, they share conceptual ground in their focus on brain dynamics and [[whole-brain-modeling]]. Cartool focuses on extracting information from observed EEG data through [[source-localization]] and microstate segmentation, while TVB builds generative models that simulate brain activity at the network level. In practice, these tools can be complementary: Cartool-derived source estimates or microstate parameters can inform the parameterization of [[neural-mass-models]] or [[whole-brain-modeling]] models in TVB. Furthermore, both software packages deal with the forward problem—computing how sources in the brain produce observed potentials—and share concerns about the inverse-problem in neuroimaging. TVB's simulation environments can benefit from empirical constraints derived from Cartool's EEG analyses, particularly when modeling [[brain-oscillations]] or pathological states like [[epilepsy-modeling]].
 
 ## Technical Implementation
 
