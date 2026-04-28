@@ -448,3 +448,110 @@ REVERSE_MAP = {}
 for category, items in KEYWORD_MAP.items():
     for (keyword, slug, tag) in items:
         REVERSE_MAP[keyword] = (slug, tag, category)
+
+# ── pi subprocess runner with token metrics ──────────────────────────────
+
+# Simple JSON accumulator for pi --mode json
+class PIJsonAccumulator:
+    """Parse pi --mode json output into text + usage metrics."""
+    def __init__(self):
+        self.usage = {"input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0}
+        self.full_text = ""
+        self.model = ""
+        self.provider = ""
+    
+    def feed(self, line: str):
+        try:
+            data = json.loads(line)
+        except:
+            return
+        t = data.get("type", "")
+        if t == "message_end":
+            msg = data.get("message", {})
+            if msg.get("role") == "assistant":
+                # Extract text
+                for c in msg.get("content", []):
+                    if c.get("type") == "text":
+                        self.full_text += c.get("text", "")
+                    elif c.get("type") == "thinking":
+                        # Optional: include thinking text inline for debugging
+                        pass
+                # Extract usage
+                u = msg.get("usage", {})
+                self.usage["input"] = u.get("input", self.usage["input"])
+                self.usage["output"] = u.get("output", self.usage["output"])
+                self.usage["cacheRead"] = u.get("cacheRead", self.usage["cacheRead"])
+                self.usage["cacheWrite"] = u.get("cacheWrite", self.usage["cacheWrite"])
+                # Extract model
+                self.model = msg.get("model", self.model)
+                self.provider = msg.get("provider", self.provider)
+
+
+def run_pi_with_metrics(prompt: str, model: str = None, tools: str = None,
+                        timeout: int = None, cwd: str = None, no_session: bool = True) -> tuple[bool, str, dict]:
+    """
+    Run pi as a subprocess. Returns (success, text, metrics_dict).
+    Handles timeouts and captures stderr.
+    Uses --mode json to extract exact token counts.
+    """
+    model = model or WRITER_MODEL
+    timeout = timeout or PI_TIMEOUT
+    cwd = cwd or WIKI_ROOT
+    
+    cmd = ["pi", "--model", model, "--mode", "json", "-p", prompt]
+    if no_session:
+        cmd.append("--no-session")
+    if tools:
+        cmd.extend(["--tools", tools])
+
+    log = get_logger("pi")
+    logger_dash = get_logger("llm_metrics")
+
+    start = datetime.datetime.now()
+    proc = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True, timeout=timeout)
+    elapsed = (datetime.datetime.now() - start).total_seconds()
+
+    acc = PIJsonAccumulator()
+    for line in proc.stdout.splitlines():
+        acc.feed(line)
+
+    # Fallback: if json parse failed, try raw text
+    text = acc.full_text if acc.full_text else proc.stdout
+
+    metrics = {
+        "model": model,
+        "provider": acc.provider,
+        "resolved_model": acc.model,
+        "input_tokens": acc.usage.get("input", 0),
+        "output_tokens": acc.usage.get("output", 0),
+        "cache_read": acc.usage.get("cacheRead", 0),
+        "cache_write": acc.usage.get("cacheWrite", 0),
+        "latency_sec": elapsed,
+        "throughput_tok_per_sec": acc.usage.get("output", 0) / elapsed if elapsed > 0 else 0,
+        "retry_count": 0,
+        "error": None,
+    }
+
+    if proc.returncode != 0:
+        stderr = proc.stderr.strip()
+        metrics["error"] = stderr[:200]
+        # Classify error (same logic as run_pi)
+        if "not found" in stderr.lower() and "model" in stderr.lower():
+            log.error("Model not found: %s", stderr[:200])
+            return False, stderr, metrics
+        log.warn("pi exited %d: %s", proc.returncode, stderr[:200])
+        return False, stderr, metrics
+
+    if not text:
+        metrics["error"] = "empty output"
+        log.warn("pi returned empty output")
+        return False, "Empty output", metrics
+
+    log.info("pi: %s in=%d out=%d t=%.1fs th=%.1f/s",
+             model, metrics["input_tokens"], metrics["output_tokens"],
+             elapsed, metrics["throughput_tok_per_sec"])
+
+    # Log to dedicated metrics file
+    logger_dash.info("metrics %s", json.dumps(metrics))
+
+    return True, text, metrics
