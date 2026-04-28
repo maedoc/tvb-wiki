@@ -4,6 +4,7 @@ sources:
 - raw/papers/semanticscholar-2a455dab8f2b.md
 - raw/papers/smith-2013-connectomics.md
 - raw/papers/arxiv-2604.16463.md
+- raw/papers/semanticscholar-5f7f3cdfe9e8.md
 tags:
 - software-brain-modeling
 - neuroimaging-eeg

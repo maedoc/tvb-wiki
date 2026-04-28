@@ -1,6 +1,9 @@
 ---
 created: 2026-04-23
-sources: []
+sources:
+- raw/papers/newman-2010.md
+- raw/papers/sporns-2011.md
+- raw/papers/bullmore-sporns-2009.md
 tags:
 - software-brain-modeling
 title: Jülich Atlas

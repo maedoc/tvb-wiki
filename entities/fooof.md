@@ -11,6 +11,7 @@ sources:
 - raw/papers/arxiv-2602.09535.md
 - raw/papers/arxiv-2603.07524.md
 - raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-2004e006655b.md
 tags:
 - software-brain-modeling
 - neuroimaging-eeg
@@ -20,7 +21,7 @@ tags:
 - software-tvb
 title: FOOOF
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-29'
 ---
 
 # FOOOF

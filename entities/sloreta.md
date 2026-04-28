@@ -4,11 +4,13 @@ sources:
 - raw/papers/ritter-2013.md
 - raw/papers/arxiv-2604.03619.md
 - raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-60ca593f7e0c.md
+- raw/papers/semanticscholar-b9acfa0a7c80.md
 tags:
 - software-brain-modeling
 title: sLORETA
 type: entity
-updated: '2026-04-28'
+updated: '2026-04-29'
 ---
 
 title: sLORETA

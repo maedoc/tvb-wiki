@@ -7,11 +7,12 @@ sources:
 - raw/papers/semanticscholar-a324c47ea982.md
 - raw/papers/semanticscholar-f45e6044c92f.md
 - raw/papers/semanticscholar-4d73a30d5c84.md
+- raw/papers/semanticscholar-380768cf42a8.md
 tags:
 - software-mrtrix
 title: MRtrix
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-29'
 ---
 
 MRtrix (mrtrix) is a command-line software suite for [[diffusion-mri]] analysis, including [[tractography]], spherical deconvolution, and [[connectome]] generation.

@@ -9,6 +9,7 @@ sources:
 - raw/papers/semanticscholar-109de470e443.md
 - raw/papers/semanticscholar-4d73a30d5c84.md
 - raw/papers/semanticscholar-a0cce22e2ffc.md
+- raw/papers/semanticscholar-380768cf42a8.md
 tags:
 - software-brain-modeling
 - neuroimaging-processing
@@ -17,7 +18,7 @@ tags:
 - tractography
 title: NiftyReg
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-29'
 ---
 
 Here's the corrected `niftyreg.md` with all issues addressed:

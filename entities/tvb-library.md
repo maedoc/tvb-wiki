@@ -6,11 +6,12 @@ sources:
 - raw/papers/arxiv-2509.12873.md
 - raw/papers/ritter-2013.md
 - raw/papers/schirner-2018.md
+- raw/papers/semanticscholar-eb4197c24bf2.md
 tags:
 - software-tvb-library
 title: TVB Library
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-29'
 ---
 
 TVB Library (tvb-library) is a core Python library of [[the-virtual-brain]], providing the simulation engine, model implementations, and analysis tools for [[whole-brain|whole-brain modeling]].

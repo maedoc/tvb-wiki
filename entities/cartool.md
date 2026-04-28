@@ -1,6 +1,9 @@
 ---
 created: 2025-01-01
-sources: []
+sources:
+- raw/papers/arxiv-2604.16463.md
+- raw/papers/semanticscholar-9e42d6a25d21.md
+- raw/papers/arxiv-2505.16861.md
 tags:
 - software-visualization
 - neuroimaging-eeg

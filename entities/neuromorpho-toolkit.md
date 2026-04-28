@@ -4,6 +4,7 @@ sources:
 - raw/papers/sanz-leon-2013.md
 - raw/papers/breakspear-2017.md
 - raw/papers/ritter-2013.md
+- raw/papers/semanticscholar-eb4197c24bf2.md
 tags:
 - software-neuromorpho
 - database-neuromorpho
@@ -15,7 +16,7 @@ tags:
 - dataset-neurons
 title: NeuroMorpho.org Toolkit
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-29'
 ---
 
 # NeuroMorpho.org Toolkit

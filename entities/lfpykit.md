@@ -1,17 +1,26 @@
 ---
-title: LFPykit
 created: 2024-01-15
-updated: 2026-04-29
-type: entity
-tags: [software-neuron, spiking-neural-networks, neural-mass-models, dynamic-causal-modeling, neuroimaging-eeg, neuroimaging-meg]
 sources:
-  - Hagen et al., 2022, eLife
-  - Lindén et al., 2014, Frontiers in Neuroinformatics
-  - Holt & Koch, 1999, Journal of Neurophysiology
-  - Pettersen et al., 2012, Journal of Neuroscience Methods
-  - Hagen et al., 2018, Frontiers in Neuroinformatics
-  - Ness et al., 2015, Neuroinformatics
-  - Næss et al., 2017, Frontiers in Human Neuroscience
+- Hagen et al., 2022, eLife
+- Lindén et al., 2014, Frontiers in Neuroinformatics
+- Holt & Koch, 1999, Journal of Neurophysiology
+- Pettersen et al., 2012, Journal of Neuroscience Methods
+- Hagen et al., 2018, Frontiers in Neuroinformatics
+- Ness et al., 2015, Neuroinformatics
+- Næss et al., 2017, Frontiers in Human Neuroscience
+- raw/papers/arxiv-2512.03907.md
+- raw/papers/arxiv-2602.17820.md
+- raw/papers/arxiv-2602.03240.md
+tags:
+- software-neuron
+- spiking-neural-networks
+- neural-mass-models
+- dynamic-causal-modeling
+- neuroimaging-eeg
+- neuroimaging-meg
+title: LFPykit
+type: entity
+updated: '2026-04-29'
 ---
 
 ## Overview

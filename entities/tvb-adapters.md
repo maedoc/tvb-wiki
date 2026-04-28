@@ -6,11 +6,12 @@ sources:
 - raw/papers/semanticscholar-97e6ff441097.md
 - raw/papers/schirner-2018.md
 - raw/papers/semanticscholar-9afbfd2d37be.md
+- raw/papers/semanticscholar-eb4197c24bf2.md
 tags:
 - software-tvb-adapters
 title: TVB Adapters
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-29'
 ---
 
 TVB Adapters (tvb-adapters) is a component of [[the-virtual-brain]] framework providing interfaces and adapters for connecting TVB to external tools and data formats.

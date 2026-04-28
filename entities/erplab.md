@@ -1,6 +1,9 @@
 ---
 created: 2025-01-15
-sources: []
+sources:
+- raw/papers/arxiv-2604.16463.md
+- raw/papers/semanticscholar-9e42d6a25d21.md
+- raw/papers/semanticscholar-d45f5742871a.md
 tags:
 - neuroimaging-eeg
 - electrophysiology

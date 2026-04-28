@@ -6,6 +6,7 @@ sources:
 - raw/papers/semanticscholar-cc2129666e15.md
 - raw/papers/arxiv-2306.15787.md
 - raw/papers/wendling-2002.md
+- raw/papers/semanticscholar-2004e006655b.md
 tags:
 - epilepsy-modeling
 - neural-mass-models
@@ -14,7 +15,7 @@ tags:
 - brain-oscillations
 title: Epileptor Resting State
 type: concept
-updated: '2026-04-27'
+updated: '2026-04-29'
 ---
 
 # Epileptor Resting State

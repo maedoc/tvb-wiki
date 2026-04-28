@@ -6,11 +6,12 @@ sources:
 - raw/papers/semanticscholar-f45e6044c92f.md
 - raw/papers/semanticscholar-a324c47ea982.md
 - raw/papers/semanticscholar-0aeca1b592e6.md
+- raw/papers/semanticscholar-380768cf42a8.md
 tags:
 - software-freesurfer
 title: FreeSurfer
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-29'
 ---
 
 FreeSurfer (freesurfer) is a comprehensive [[neuroimaging]] software suite for structural MRI analysis, cortical surface reconstruction, [[parcellation]], and morphometric analysis.

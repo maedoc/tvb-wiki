@@ -4,6 +4,8 @@ sources:
 - raw/papers/sanz-leon-2013.md
 - raw/papers/semanticscholar-97e6ff441097.md
 - raw/papers/ritter-2013.md
+- raw/papers/semanticscholar-380768cf42a8.md
+- raw/papers/semanticscholar-eb4197c24bf2.md
 tags:
 - software-visualization
 - neuroimaging
@@ -11,7 +13,7 @@ tags:
 - brain-parcellations
 title: PyCortex
 type: entity
-updated: '2026-04-28'
+updated: '2026-04-29'
 ---
 
 ## Overview

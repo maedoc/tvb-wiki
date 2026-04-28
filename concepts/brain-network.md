@@ -8,6 +8,7 @@ sources:
 - raw/papers/rubinov-sporns-2010.md
 - raw/papers/power-2011.md
 - raw/papers/semanticscholar-7c3337c880fd.md
+- raw/papers/semanticscholar-b9acfa0a7c80.md
 tags:
 - connectomics
 - network-dynamics

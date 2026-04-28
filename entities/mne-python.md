@@ -8,11 +8,12 @@ sources:
 - raw/papers/eppler-2009.md
 - raw/papers/semanticscholar-5a69b770faf9.md
 - raw/papers/semanticscholar-769ed169ed7c.md
+- raw/papers/semanticscholar-9e42d6a25d21.md
 tags:
 - software-mne-python
 title: MNE-Python
 type: entity
-updated: '2026-04-28'
+updated: '2026-04-29'
 ---
 
 MNE-Python (mne-python) is a open-source Python package for exploring, visualizing, and analyzing human neurophysiological data including MEG, EEG, and ECoG.

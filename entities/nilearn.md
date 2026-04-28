@@ -6,11 +6,12 @@ sources:
 - raw/papers/semanticscholar-0aeca1b592e6.md
 - raw/papers/sanz-leon-2013.md
 - raw/papers/schirner-2018.md
+- raw/papers/semanticscholar-380768cf42a8.md
 tags:
 - software-nilearn
 title: Nilearn
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-29'
 ---
 
 Nilearn (nilearn) is a Python library for fast and easy statistical learning on [[neuroimaging]] data, built on scikit-learn and emphasizing [[connectivity]] and predictive modeling.

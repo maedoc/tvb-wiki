@@ -6,13 +6,14 @@ sources:
 - raw/papers/semanticscholar-0aeca1b592e6.md
 - raw/papers/semanticscholar-eb704b6f5462.md
 - raw/papers/ritter-2013.md
+- raw/papers/semanticscholar-380768cf42a8.md
 tags:
 - software-brain-modeling
 - neuroimaging-fmri
 - whole-brain-modeling
 title: NiPype
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-29'
 ---
 
 # NiPype

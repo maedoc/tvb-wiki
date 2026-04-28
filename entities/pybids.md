@@ -4,6 +4,7 @@ sources:
 - raw/papers/ritter-2013.md
 - raw/papers/sanz-leon-2013.md
 - raw/papers/semanticscholar-adcab180dcd3.md
+- raw/papers/semanticscholar-380768cf42a8.md
 tags:
 - software-bids
 - neuroimaging-fmri
@@ -17,7 +18,7 @@ tags:
 - bids-validator
 title: PyBIDS
 type: entity
-updated: '2026-04-28'
+updated: '2026-04-29'
 ---
 
 # PyBIDS

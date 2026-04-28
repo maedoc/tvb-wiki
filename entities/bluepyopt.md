@@ -4,6 +4,8 @@ sources:
 - raw/papers/sanz-leon-2013.md
 - raw/papers/semanticscholar-5c84b271b035.md
 - raw/papers/arxiv-2509.02799.md
+- raw/papers/semanticscholar-b9acfa0a7c80.md
+- raw/papers/semanticscholar-60ca593f7e0c.md
 tags:
 - software-neuron
 - parameter-estimation
@@ -11,7 +13,7 @@ tags:
 - spiking-neural-networks
 title: BluePyOpt
 type: entity
-updated: '2026-04-28'
+updated: '2026-04-29'
 ---
 
 BluePyOpt (Blue Python Optimization) is an open-source Python-based software framework designed specifically for the optimization of [[neuron]] model parameters. It provides a flexible and scalable platform for fitting conductance-based neural models to experimental data, addressing one of the fundamental challenges in computational neuroscience: the accurate calibration of detailed biophysical neuron models to match empirical observations. The software was developed to streamline the often labor-intensive process of parameter estimation in single-neuron biophysical models and [[spiking-neural-networks]], where manual parameter tuning becomes impractical given the high dimensionality of the parameter space[^1].

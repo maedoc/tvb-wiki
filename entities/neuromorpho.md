@@ -1,13 +1,16 @@
 ---
 created: 2024-01-15
-sources: []
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/arxiv-2603.07524.md
+- raw/papers/semanticscholar-92f4183665f3.md
 tags:
 - connectomics
 - brain-network
 - computational-neuroscience
 title: Neuromorpho.Org
 type: entity
-updated: 2026-04-28
+updated: '2026-04-29'
 ---
 
 # Neuromorpho.Org

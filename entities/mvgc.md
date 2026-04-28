@@ -14,6 +14,7 @@ sources:
 - raw/papers/arxiv-2601.21478.md
 - raw/papers/arxiv-2603.04149.md
 - raw/papers/arxiv-2601.03796.md
+- raw/papers/semanticscholar-028f7c6ac41d.md
 tags:
 - effective-connectivity
 - computational-neuroscience
@@ -29,7 +30,7 @@ tags:
 - information-theory
 title: MVGC (Multi-Variate Granger Causality)
 type: concept
-updated: '2026-04-28'
+updated: '2026-04-29'
 ---
 
 # MVGC (Multi-Variate Granger Causality)

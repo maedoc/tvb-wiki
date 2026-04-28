@@ -1,6 +1,9 @@
 ---
 created: 2024-01-15
-sources: []
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-a324c47ea982.md
+- raw/papers/semanticscholar-f45e6044c92f.md
 tags:
 - software-neuroimaging
 - neuroimaging

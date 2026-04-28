@@ -7,6 +7,7 @@ sources:
 - raw/papers/arxiv-2603.04149.md
 - raw/papers/arxiv-2512.03907.md
 - raw/papers/arxiv-2509.24715.md
+- raw/papers/semanticscholar-028f7c6ac41d.md
 tags:
 - connectomics
 - network-dynamics
@@ -15,7 +16,7 @@ tags:
 - functional-connectivity
 title: Scale-Free Networks
 type: concept
-updated: '2026-04-27'
+updated: '2026-04-29'
 ---
 
 # Scale-Free Networks

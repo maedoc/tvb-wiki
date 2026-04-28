@@ -696,3 +696,5 @@
 - Added real Key Papers: Rubinov & Sporns 2010, Bullmore & Sporns 2009, Sporns 2005
 - Added inline citations throughout text
 - Replaced placeholder content with comprehensive (~450 words) content
+
+## [2026-04-29 01:47] Improve: 3 pages improved (mne-bids, lead-dbs, bctpy)

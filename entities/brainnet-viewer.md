@@ -1,6 +1,9 @@
 ---
 created: 2025-01-15
-sources: []
+sources:
+- raw/papers/rubinov-sporns-2010.md
+- raw/papers/bullmore-sporns-2009.md
+- raw/papers/smith-2013-connectomics.md
 tags:
 - software-visualization
 - connectomics
@@ -12,7 +15,7 @@ tags:
 - brain-parcellations
 title: BrainNet Viewer
 type: entity
-updated: '2026-04-28'
+updated: '2026-04-29'
 ---
 
 ## Overview

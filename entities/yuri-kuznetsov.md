@@ -7,11 +7,12 @@ sources:
 - raw/papers/touboul-2011.md
 - raw/papers/izhikevich-2007.md
 - raw/papers/arxiv-2512.22093.md
+- raw/papers/semanticscholar-2004e006655b.md
 tags:
 - people-researcher
 title: Yuri Kuznetsov
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-29'
 ---
 
 ## Overview

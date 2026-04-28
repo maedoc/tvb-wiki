@@ -12,6 +12,7 @@ sources:
 - raw/papers/arxiv-2510.02545.md
 - raw/papers/doi-10.3389-fncom.2026.1762692.md
 - raw/papers/semanticscholar-7593809733f3.md
+- raw/papers/semanticscholar-2004e006655b.md
 tags:
 - stochastic-differential-equations
 - neural-mass-models
@@ -25,7 +26,7 @@ tags:
 - brain-oscillations
 title: Stochastic Differential Equations
 type: concept
-updated: '2026-04-27'
+updated: '2026-04-29'
 ---
 
 Stochastic differential equations (SDEs) extend ordinary differential equations by incorporating random noise terms, providing a mathematical framework for dynamical systems in which deterministic laws coexist with intrinsic or extrinsic uncertainty. In neuroscience, SDEs are essential because every scale of neural activity—from the stochastic opening of individual ion channels to irregular population firing patterns—exhibits variability that smooth deterministic trajectories cannot capture. Rather than predicting a single future state, SDEs describe how probability distributions evolve, making them the natural language for linking biophysical mechanisms to the statistical structure of empirical recordings.

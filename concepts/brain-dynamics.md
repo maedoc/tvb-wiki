@@ -5,6 +5,7 @@ sources:
 - raw/papers/izhikevich-2007.md
 - raw/papers/breakspear-2017.md
 - raw/papers/arxiv-2601.03796.md
+- raw/papers/semanticscholar-2004e006655b.md
 tags:
 - brain-dynamics
 title: Brain Dynamics

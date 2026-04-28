@@ -7,11 +7,12 @@ sources:
 - raw/papers/sanz-leon-2013.md
 - raw/papers/semanticscholar-f45e6044c92f.md
 - raw/papers/semanticscholar-4d73a30d5c84.md
+- raw/papers/semanticscholar-380768cf42a8.md
 tags:
 - software-mrtrix3
 title: MRtrix3
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-29'
 ---
 
 MRtrix3 (mrtrix3) is a next-generation version of [[mrtrix]], providing a comprehensive set of tools for [[diffusion-mri]] analysis with improved algorithms.

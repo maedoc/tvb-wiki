@@ -7,11 +7,12 @@ sources:
 - raw/papers/arxiv-2603.04149.md
 - raw/papers/breakspear-2017.md
 - raw/papers/deco-2009-stochastic.md
+- raw/papers/semanticscholar-2004e006655b.md
 tags:
 - people-researcher
 title: John Guckenheimer
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-29'
 ---
 
 ## Overview

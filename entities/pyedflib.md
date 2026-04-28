@@ -3,11 +3,12 @@ created: 2026-04-27
 sources:
 - raw/papers/sanz-leon-2013.md
 - raw/papers/semanticscholar-769ed169ed7c.md
+- raw/papers/semanticscholar-9e42d6a25d21.md
 tags:
 - software-brain-modeling
 title: pyedflib
 type: entity
-updated: '2026-04-28'
+updated: '2026-04-29'
 ---
 
 title: pyedflib

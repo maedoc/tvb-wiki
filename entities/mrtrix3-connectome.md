@@ -8,6 +8,7 @@ sources:
 - raw/papers/semanticscholar-a324c47ea982.md
 - raw/papers/semanticscholar-d801ad366cdb.md
 - raw/papers/semanticscholar-4d73a30d5c84.md
+- raw/papers/semanticscholar-380768cf42a8.md
 tags:
 - software-brain-modeling
 - structural-connectivity
@@ -16,7 +17,7 @@ tags:
 - tractography
 title: MRtrix3 Connectome
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-29'
 ---
 
 # MRtrix3 Connectome

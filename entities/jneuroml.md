@@ -4,6 +4,7 @@ sources:
 - raw/papers/semanticscholar-30b44563f4bd.md
 - raw/papers/semanticscholar-5c84b271b035.md
 - raw/papers/semanticscholar-9afbfd2d37be.md
+- raw/papers/semanticscholar-eb4197c24bf2.md
 tags:
 - software-neuroml
 - neuroml
@@ -15,7 +16,7 @@ tags:
 - neurodevelopment
 title: jNeuroML
 type: entity
-updated: '2026-04-28'
+updated: '2026-04-29'
 ---
 
 # jNeuroML

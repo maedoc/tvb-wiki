@@ -4,11 +4,12 @@ sources:
 - raw/papers/breakspear-2006.md
 - raw/papers/sanz-leon-2013.md
 - raw/papers/arxiv-2601.21478.md
+- raw/papers/semanticscholar-eb4197c24bf2.md
 tags:
 - software-brain-modeling
 title: The Virtual Epileptic Brain
 type: entity
-updated: '2026-04-28'
+updated: '2026-04-29'
 ---
 
 title: The Virtual Epileptic Brain

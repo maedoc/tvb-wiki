@@ -10,13 +10,14 @@ sources:
 - raw/papers/semanticscholar-62534125f066.md
 - raw/papers/semanticscholar-ff8218c1e55e.md
 - raw/papers/arxiv-2512.22093.md
+- raw/papers/semanticscholar-2004e006655b.md
 tags:
 - people-researcher
 - neural-mass-models
 - whole-brain-modeling
 title: Alain Destexhe
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-29'
 ---
 
 # Alain Destexhe

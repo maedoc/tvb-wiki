@@ -8,13 +8,14 @@ sources:
 - raw/papers/power-2010.md
 - raw/papers/arxiv-2603.07524.md
 - raw/papers/power-2011.md
+- raw/papers/semanticscholar-2004e006655b.md
 tags:
 - people-researcher
 - neural-mass-models
 - eeg
 title: Walter J. Freeman
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-29'
 ---
 
 # Walter J. Freeman (1927-2016)

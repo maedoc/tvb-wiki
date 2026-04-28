@@ -9,6 +9,7 @@ sources:
 - raw/papers/arxiv-2512.22655.md
 - raw/papers/ritter-2013.md
 - raw/papers/david-friston-2003.md
+- raw/papers/semanticscholar-60ca593f7e0c.md
 tags:
 - variational-bayes
 - dynamic-causal-modeling
@@ -22,7 +23,7 @@ tags:
 - whole-brain-modeling
 title: Variational Bayes
 type: concept
-updated: '2026-04-27'
+updated: '2026-04-29'
 ---
 
 ## What is Variational Bayes?
