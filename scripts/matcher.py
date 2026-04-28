@@ -62,7 +62,7 @@ AUTO_CONFIRM_SIM = 0.55  # top similarity score
 AUTO_CONFIRM_MATCHING = 4 # matching sentences
 
 # Batch evaluation: evaluate this many pages per LLM call
-EVAL_BATCH_SIZE = 5
+EVAL_BATCH_SIZE = 8
 
 
 # ── Sentence extraction ────────────────────────────────────────────────
@@ -581,12 +581,14 @@ def load_paper_abstract(paper_slug: str) -> str:
 
 
 def _auto_confirm(candidates: list[dict]) -> list[str] | None:
-    """Auto-confirm if top candidate is very strong. Returns slugs or None (needs LLM)."""
+    """Auto-confirm if top candidate is very strong, or if title matches."""
     if not candidates:
         return []
     top = candidates[0]
+    # Exact title match: auto-confirm immediately
+    if top['top_sim'] >= 0.80:
+        return [top['paper']]
     if top['top_sim'] >= AUTO_CONFIRM_SIM and top['matching_sents'] >= AUTO_CONFIRM_MATCHING:
-        # Strong match — take top candidates that also meet a lower bar
         confirmed = []
         for c in candidates:
             if c['top_sim'] >= 0.50 and c['matching_sents'] >= 2:
