@@ -4,6 +4,9 @@ sources:
 - https://doi.org/10.1155/2011/406391
 - https://pmc.ncbi.nlm.nih.gov/articles/PMC3070217/
 - https://doi.org/10.1002/hbm.20346
+- raw/papers/semanticscholar-5a69b770faf9.md
+- raw/papers/semanticscholar-769ed169ed7c.md
+- raw/papers/sanz-leon-2013.md
 tags:
 - neuroimaging-eeg
 - software-visualization

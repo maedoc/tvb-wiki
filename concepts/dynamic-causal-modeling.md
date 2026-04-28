@@ -7,6 +7,7 @@ sources:
 - raw/papers/david-friston-2003.md
 - raw/papers/stefanescu-jirsa-2008.md
 - raw/papers/arxiv-2505.16861.md
+- raw/papers/semanticscholar-eb704b6f5462.md
 tags:
 - dynamic-causal-modeling
 - effective-connectivity

@@ -11,6 +11,7 @@ sources:
 - raw/papers/smith-2013-connectomics.md
 - raw/papers/semanticscholar-cabf914d6370.md
 - raw/papers/friston-1993.md
+- raw/papers/semanticscholar-cb501cd33451.md
 tags:
 - software-neuroimaging
 - functional-connectivity

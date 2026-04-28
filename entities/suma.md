@@ -13,6 +13,9 @@ sources:
   url: https://afni.nimh.nih.gov/pub/dist/doc/htmldoc/
   volume: 31
   year: 2006
+- raw/papers/sanz-leon-2013.md
+- raw/papers/arxiv-2604.16463.md
+- raw/papers/semanticscholar-97e6ff441097.md
 tags:
 - software-visualization
 - neuroimaging-fmri

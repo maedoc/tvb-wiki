@@ -7,6 +7,7 @@ sources:
     perspective. NeuroImage, 62(4), 2222-2231.
 - Glasser, M. F., et al. (2013). The minimal preprocessing pipelines for the Human
   Connectome Project. NeuroImage, 80, 105-124.
+- raw/papers/van-essen-2012.md
 tags:
 - brain-parcellations
 - neuroimaging-fmri

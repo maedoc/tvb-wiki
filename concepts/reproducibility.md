@@ -3,6 +3,8 @@ created: 2026-04-27
 sources:
 - raw/papers/jordan-2018.md
 - raw/papers/arxiv-2603.22296.md
+- raw/papers/arxiv-2601.03796.md
+- raw/papers/arxiv-2603.29903.md
 tags:
 - reproducibility
 title: Reproducibility

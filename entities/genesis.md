@@ -8,6 +8,9 @@ sources:
 - Nordlie et al. (2009). A systematic evaluation of the speed and accuracy of object-oriented
   neural simulators
 - 'Gleason et al. (2024). NetPyNE: Toolset for Multiscale Brain Modeling'
+- raw/papers/dayan-abbott-2001.md
+- raw/papers/arxiv-2505.16861.md
+- raw/papers/semanticscholar-eb704b6f5462.md
 tags:
 - software-neurons
 - computational-neuroscience

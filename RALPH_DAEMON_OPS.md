@@ -108,3 +108,21 @@ Live documentation of hard-won lessons from running `scripts/ralph_daemon.py` in
 ---
 
 *This file is append-only. Each daemon session should add a dated section with what was learned.*
+
+
+---
+
+## 2026-04-28 14:00 — GitHub Actions Fix
+
+### Problem
+mkdocs build failed with AttributeError: dict has no endswith in hooks/obsidian_support.py line 123.
+
+### Root Cause
+Some pages have dict-style sources (title/url fields) while others have string sources. The hook assumed all sources were strings.
+
+### Fix
+hooks/obsidian_support.py: Added dict handling before string processing.
+
+### Result
+- Workflow: SUCCESS (https://maedoc.github.io/tvb-wiki/)
+- Deployed at 2026-04-28T12:01:49Z
