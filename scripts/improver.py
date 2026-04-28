@@ -27,6 +27,7 @@ from ralph_config import (
     run_pi, WRITER_MODEL, REVIEWER_MODEL,
     PARALLEL_WRITERS, PARALLEL_REVIEWERS,
 )
+from combined_relevance import load_graph, load_embeddings, bfs_distances, CORE_LINKS as RELEVANCE_CORE, get_emb_scores
 
 log = get_logger("Improver")
 
@@ -195,22 +196,54 @@ def apply_mechanical_fixes(content: str, filepath: str) -> str:
     return content
 
 
+# ── Cached relevance data (lazy load) ─────────────────────────────────
+_relevance_data = None
+
+def _get_relevance_data():
+    global _relevance_data
+    if _relevance_data is not None:
+        return _relevance_data
+    try:
+        outlinks, indegree, all_slugs = load_graph(WIKI_ROOT)
+        page_embs, slugs_emb, centroid, core_i, sim, mat_n = load_embeddings(WIKI_ROOT)
+        g_dist = bfs_distances(outlinks, all_slugs, RELEVANCE_CORE)
+        _relevance_data = (page_embs, slugs_emb, mat_n, centroid, core_i, sim, g_dist)
+    except Exception as e:
+        log.warn("Could not load relevance data: %s", e)
+        _relevance_data = (None, None, None, None, None, None, {})
+    return _relevance_data
+
+
 def build_priority_queue(n: int = None) -> list[dict]:
     """Build priority queue of pages needing improvement, worst first.
-    Prioritizes stubs with sources (they have material to work from).
+    Prioritizes stubs with sources AND graph-connected stubs.
     """
     pages = get_all_pages()
     scored = []
+    
+    # Load relevance data once
+    rel_data = _get_relevance_data()
+    _, _, _, _, _, _, g_dist = rel_data
 
     for slug, filepath in pages.items():
         score, info = score_page(filepath)
-        if score < 80 and 'error' not in info:  # Only include pages that need work, skip errors
+        if score < 80 and 'error' not in info:
             info['slug'] = slug
+            info['score'] = info.get('score', score)
             has_ph = info.get('has_placeholder', False)
             srcs = info.get('sources', 0)
-            # Boost stubs that have sources — the Matcher found papers for them
+            
+            # #2: Boost stubs that have sources (from Matcher)
             if has_ph and srcs > 0:
-                info['score'] = max(0, info.get('score', score) - 15)
+                info['score'] = max(0, info['score'] - 15)
+            
+            # #2: Boost graph-connected pages (likely TVB-relevant)
+            dist = g_dist.get(slug, 999)
+            if dist <= 3:
+                info['score'] = max(0, info['score'] - 10)
+            elif dist == 999:
+                info['score'] += 5  # Slight penalty for orphans
+            
             scored.append(info)
 
     scored.sort(key=lambda x: x['score'])
@@ -318,6 +351,18 @@ Write the COMPLETE updated page (including frontmatter). Output ONLY the markdow
 
 def build_reviewer_prompt(filepath: str, original_content: str, edited_content: str) -> str:
     """Build the prompt for the reviewer to check an edit."""
+    # #5 Count inline citations [[ref-name]] and footnote-style [^n]
+    inline_cites = len(re.findall(r'\[\[[^\]]+\]\]', edited_content))
+    footnote_cites = len(re.findall(r'\[?\^[^\]]+\]?', edited_content))
+    word_count_val = len(edited_content.split())
+    
+    # Flag low citation density
+    cite_note = ""
+    if word_count_val > 300:
+        density = (inline_cites + footnote_cites) / (word_count_val / 500)
+        if density < 3:
+            cite_note = f"\nNOTE: Citation density is low ({density:.1f} per 500 words). A dense wiki article should have ≥3 inline citations per 500 words."
+
     prompt = f"""You are the Ralph Reviewer agent checking a wiki edit for quality.
 
 ## TASK
@@ -338,7 +383,9 @@ Answer each of these:
 5. Do all wikilinks [[like-this]] correspond to pages that plausibly exist in a TVB/whole-brain wiki? (PASS/FAIL)
 6. Was placeholder text fully replaced? (PASS/FAIL)
 7. Is there sufficient narrative context — motivation, history, comparisons — not just equations and tables? (PASS/FAIL)
-8. Anything important missing that should be added? (NOTE or OK)
+8. Are there enough inline citations (≥3 per 500 words for dense articles)? (PASS/FAIL)
+9. Anything important missing that should be added? (NOTE or OK)
+{cite_note}
 
 ## OUTPUT FORMAT
 Reply with ONLY:
@@ -577,20 +624,35 @@ Current content ({target_section['words']} words):
     )
 
     needs_revision = False
+    is_major = False
     if review_success:
         verdict = review_output.strip().lower()
         if 'needs_revision' in verdict or 'fail' in verdict:
-            needs_revision = True
-            log.info("Reviewer flagged issues for %s: %s", slug, review_output[:100])
+            # #1: Classify issue severity
+            issues_lower = review_output.lower()
+            is_major = any(kw in issues_lower for kw in [
+                'factual error', 'thin narrative', 'poor structure',
+                'incorrect', 'hallucination', 'not dense', 'not scholarly',
+                'missing context', 'insufficient context', 'low quality',
+                'dubious claim',
+            ])
+            if is_major:
+                needs_revision = True
+                log.info("Reviewer flagged MAJOR issues for %s: %s", slug, review_output[:100])
+            else:
+                needs_revision = True
+                log.info("Reviewer flagged minor issues for %s — trying quick revision", slug)
         else:
             log.info("Reviewer approved %s", slug)
     else:
         log.warn("Reviewer failed for %s, accepting writer output", slug)
 
-    # Revise if needed
+    # #1: Conditional revise — major issues get full revision, minor get quick fix
     if needs_revision:
-        if target_section:
-            revision_prompt = f"""Fix the issues flagged for the \"{section_heading}\" section of {slug}.
+        if is_major:
+            # Full revision (current behavior)
+            if target_section:
+                revision_prompt = f"""Fix the issues flagged for the \"{section_heading}\" section of {slug}.
 Return ONLY the corrected section body (no heading, no frontmatter).
 Do NOT explain your changes, summarize what you did, add meta-commentary, or say \"here's the corrected section\".
 
@@ -600,8 +662,8 @@ YOUR PREVIOUS SECTION:
 {last_section_text}
 
 Corrected section:"""
-        else:
-            revision_prompt = f"""You are the Ralph Writer. Your edit to {slug} was flagged for issues.
+            else:
+                revision_prompt = f"""You are the Ralph Writer. Your edit to {slug} was flagged for issues.
 Fix these issues and return the complete updated page (including frontmatter).
 
 **CRITICAL:** Output ONLY the final markdown content. Do NOT explain your changes, summarize what you did, add numbered lists of corrections, or include any meta-commentary like \"Here's a summary of fixes\" or \"The corrected page\".
@@ -613,11 +675,24 @@ YOUR PREVIOUS EDIT (which needs fixes):
 {new_content}
 
 Fixed page:"""
+            rev_success, rev_output = run_pi(revision_prompt, model=WRITER_MODEL)
+        else:
+            # Quick revision for minor issues: shorter prompt, faster timeout
+            quick_prompt = f"""Quick polish of {slug}. Address ONLY these minor issues. 
+Keep all existing text; do NOT rewrite from scratch.
+Do NOT add meta-commentary.
 
-        rev_success, rev_output = run_pi(revision_prompt, model=WRITER_MODEL)
+ISSUES: {review_output}
+
+CURRENT CONTENT:
+{new_content}
+
+Updated content:"""
+            rev_success, rev_output = run_pi(quick_prompt, model=WRITER_MODEL, timeout=120)
+
         if rev_success:
             revised = _strip_code_fences(rev_output)
-            if target_section:
+            if target_section and is_major:
                 # Re-splice the revised section into the page
                 last_section_text = revised
                 lines2 = original.split('\n')

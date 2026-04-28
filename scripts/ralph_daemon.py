@@ -26,7 +26,8 @@ from ralph_config import (
     RAW_PAPERS_DIR, ENTITIES_DIR, CONCEPTS_DIR, COMPARISONS_DIR,
     WRITER_MODEL, REVIEWER_MODEL, REPAIRER_MODEL,
     INGESTOR_INTERVAL, IMPROVER_INTERVAL, AUDITOR_INTERVAL,
-    LIBRARIAN_INTERVAL, SOFTWARE_MAPPER_INTERVAL, DEEP_RESEARCH_INTERVAL,
+    LIBRARIAN_INTERVAL, SOFTWARE_MAPPER_INTERVAL, ORPHAN_LINKER_INTERVAL,
+    DEEP_RESEARCH_INTERVAL,
     MATCHER_INTERVAL,
     REPAIRER_INTERVAL,
     REF_FORMATTER_INTERVAL, CROSSLINK_APPLIER_INTERVAL,
@@ -159,6 +160,11 @@ def run_matcher():
         from matcher import run_matcher_cycle
         stats = run_matcher_cycle()
         state.record_success('Matcher')
+        # If sources attached to pages, trigger Improver for freshly-sourced stubs
+        pages_with_new_sources = stats.get('pages_with_new_sources', 0) if isinstance(stats, dict) else 0
+        if pages_with_new_sources > 0:
+            log.info("Matcher attached sources to %d pages — triggering Improver", pages_with_new_sources)
+            state.last_run['Improver'] = datetime.datetime.min  # force immediate run
         return True
     except Exception as e:
         log.error("Matcher failed: %s", e)
@@ -218,6 +224,19 @@ def run_librarian():
         return False
 
 
+def run_orphan_linker():
+    log.info("Starting bi-weekly cycle")
+    try:
+        from orphan_linker import run_orphan_linker_cycle
+        added = run_orphan_linker_cycle()
+        state.record_success('OrphanLinker')
+        return True
+    except Exception as e:
+        log.error("OrphanLinker failed: %s", e)
+        state.record_failure('OrphanLinker')
+        return False
+
+
 def run_software_mapper():
     log.info("Starting weekly cycle")
     try:
@@ -271,6 +290,7 @@ AGENTS = [
     ('Librarian',      LIBRARIAN_INTERVAL,             run_librarian),
     ('Linter',         LINTER_INTERVAL,                run_linter),
     ('SoftwareMapper', SOFTWARE_MAPPER_INTERVAL,       run_software_mapper),
+    ('OrphanLinker',   ORPHAN_LINKER_INTERVAL,         run_orphan_linker),
 ]
 
 

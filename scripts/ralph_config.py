@@ -48,6 +48,7 @@ IMPROVER_INTERVAL = 3600       # hourly
 AUDITOR_INTERVAL = 86400       # daily
 LIBRARIAN_INTERVAL = 86400     # daily
 SOFTWARE_MAPPER_INTERVAL = 604800  # weekly
+ORPHAN_LINKER_INTERVAL = 604800   # weekly (bi-weekly in practice via offset)
 DEEP_RESEARCH_INTERVAL = 259200   # 2x/week + on-demand (only when Matcher reports gaps)
 MATCHER_INTERVAL    = 21600    # 6 hours (was 1h; Matcher needs 1-2h to complete)
 REPAIRER_INTERVAL = 86400         # daily (runs after Auditor)
