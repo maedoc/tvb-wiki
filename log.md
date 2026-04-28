@@ -2,6 +2,15 @@
 
 ## 2026-04-28
 
+- Improved page: [[cartool]] – EEG analysis and source localization software
+  - Complete rewrite from placeholder to comprehensive entity page (~700 words)
+  - Updated frontmatter: changed updated date to 2026-04-28, added sources: raw/papers/brunet-2011.md, raw/papers/michel-2019.md
+  - Tags: software-visualization, neuroimaging-eeg, source-localization, micro-states, brain-mapping
+  - Established 10+ wikilinks: the-virtual-brain, neural-mass-models, whole-brain-modeling, brain-oscillations, eeg, fieldtrip, brainstorm, meg, mne-python, resting-state, epilepsy-modeling
+  - Added detailed sections: Overview, Key Features (source localization, microstates, frequency analysis, preprocessing), Relationship to TVB, Technical Implementation, Key Papers, Related Software
+  - Explained Cartool's role in EEG/MEG source imaging and its complementary relationship to TVB whole-brain simulation
+  - Positioned Cartool within the EEG analysis ecosystem alongside EEGLAB, FieldTrip, and Brainstorm
+
 - Improved page: [[krasimira-tsaneva-atanasova]] – Researcher in connectome-based whole-brain modeling
   - Complete rewrite from placeholder to comprehensive entity page (~600 words)
   - Updated frontmatter: changed updated date to 2026-04-28, added sources: raw/papers/breakspear-2017.md, raw/papers/sanz-leon-2013.md
@@ -616,3 +625,5 @@
 ## [2026-04-28 21:20] Librarian: catalog rebuilt, 3582 asymmetric links noted
 
 ## [2026-04-28 21:20] Linter: 8 broken links, 56 orphans, 65 stale, 98 empty
+
+## [2026-04-28 21:56] Improve: 3 pages improved (julich-atlas, allen-brain-atlas, erplab)

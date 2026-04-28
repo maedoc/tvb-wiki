@@ -7,6 +7,7 @@ A collection of people, software platforms, datasets, and research groups releva
 - [TVB](tvb.md) – The Virtual Brain simulator
 - [NEST](nest.md) – Spiking neural network simulator
 - [NEURON](neuron.md) – Detailed multicompartment neuron simulator
+- [Cartool](cartool.md) – EEG analysis and source localization software
 - [3D Slicer](3d-slicer.md) – Open-source medical image computing and visualization platform
 - [ANTs](ants.md) – Advanced Normalization Tools for neuroimaging
 - [BrainVoyager](brainvoyager.md) – Commercial neuroimaging analysis and visualization platform
