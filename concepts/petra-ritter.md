@@ -13,3 +13,7 @@ Petra Ritter — a concept in [[whole-brain|whole-brain modeling]] and [[computa
 
 ## Related Concepts
 * [[yan-wang]]
+
+## References
+
+1. (authors unknown). *Electric Fields of the Brain: The Neurophysics of EEG*.

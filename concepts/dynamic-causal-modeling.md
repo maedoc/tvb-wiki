@@ -73,3 +73,12 @@ The parameters estimated by a DCM have direct physiological interpretations. Ent
 However, DCM carries significant assumptions. The bilinear form cannot capture strong nonlinearities such as bifurcations, limit cycles, or the abrupt transitions seen in [[epilepsy-modeling]] and seizure dynamics. The neural mass models used are low‑dimensional reductions; they do not represent detailed spiking or laminar structure. Daunizeau and colleagues' 2011 review demonstrated that DCM and Granger causality can systematically disagree when hemodynamic response functions vary across regions — a finding that underscores DCM's dependence on correct forward modeling. The review concluded that DCM is best suited for confirmatory hypothesis testing with well‑defined model spaces rather than exploratory discovery of unknown architectures.
 
 These limitations point toward the complementary role of [[tvb]] and other whole‑brain simulation platforms. Where DCM models small networks (typically 2–8 regions) with rich biophysical detail, [[tvb]] simulates the entire brain with simplified local dynamics, leveraging [[structural-connectivity]] from [[diffusion-mri]] to generate large‑scale network dynamics. DCM's parameter estimation machinery and its family of [[neural-mass-models]] have directly informed the local node models used in whole‑brain simulations, and ongoing work bridges the two approaches by using DCM‑derived effective connectivity to constrain [[tvb]] network parameters at the whole‑brain scale. [[brainvoyager]] also provides DCM capabilities, allowing researchers to apply the framework within its visualization environment.
+
+## References
+
+1. (authors unknown). *Dynamic Causal Modelling*.
+2. (authors unknown). *Ten Simple Rules for Dynamic Causal Modeling*.
+3. (authors unknown). *Dynamic Causal Modelling: A Critical Review of the Biophysical and Statistical Foundations*.
+4. O. David, K.J. Friston. *Dynamic causal modelling*. NeuroImage. [DOI](https://doi.org/10.1016/S1053-8119(03)00202-7)
+5. Roxana A. Stefanescu, Viktor K. Jirsa. *A low dimensional description of globally coupled heterogeneous neural networks of excitatory and inhibitory neurons*. PLoS Computational Biology. [DOI](https://doi.org/10.1371/journal.pcbi.1000219)
+6. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *Arbor-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
