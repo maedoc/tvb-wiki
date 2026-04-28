@@ -568,3 +568,18 @@
 ## [2026-04-28 18:12] Improve: 3 pages improved (brainnetome-atlas, pyedflib, templateflow)
 
 ## [2026-04-28 18:15] Create: New page XCOS (concepts/xcos.md) - EEG electrode coordinate framework for source localization and forward modeling
+
+## [2026-04-28 18:30] Improve: page power-atlas – Complete rewrite from placeholder to full entity page (~850 words)
+  - Restructured from placeholder content to comprehensive entity page about brain parcellation scheme
+  - Tags: brain-parcellations, functional-connectivity, neuroimaging-fmri, resting-state, network-dynamics
+  - Established 10+ wikilinks: brain-parcellations, functional-connectivity, neuroimaging-fmri, resting-state, network-dynamics, connectome, the-virtual-brain, mni-space, yeo-atlas, desikan-killiany-atlas, aal-atlas, bharat-biswal, steven-smith, human-connectome-project
+  - Expanded opening paragraph: defined Power Atlas as 264-ROI parcellation from Power et al. 2011
+  - Added motivation/context section explaining the need for standardized parcellation before 2011
+  - Detailed technical specification: 264 spherical ROIs (5mm radius), MNI coordinates, 14 functional networks
+  - Covered construction methodology using meta-analytic ALE approach with resting-state validation
+  - Added relationship to whole-brain modeling and TVB: connectivity matrices, network node definition
+  - Comparison section: contrasted with Yeo 2011 (coarser), Schaefer 2018 (modern), anatomical atlases
+  - Applications in neuroimaging research: development, clinical disorders, HCP studies
+  - Key references: Power et al. 2011 Neuron foundational paper
+  - Updated frontmatter: changed updated date to 2026-04-28, added sources: raw/papers/power-2011.md, raw/papers/power-2012.md
+2026-04-28: Updated xcp-d.md page with comprehensive content covering XCP-D post-processing pipeline for fMRI data
