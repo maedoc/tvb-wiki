@@ -1,5 +1,16 @@
 # Wiki Log
 
+## 2026-04-29
+
+- Created/Improved page: [[bctpy]] – Brain Connectivity Toolbox for Python
+  - Complete rewrite from placeholder to comprehensive entity page (~540 words)
+  - Updated frontmatter: changed updated date to 2026-04-29
+  - Tags: software-bct, software-graph-tool, connectomics, network-dynamics, graph-theory
+  - Established 10+ wikilinks: the-virtual-brain, whole-brain-modeling, graph-theory, network-dynamics, small-world-networks, modularity, community-detection, rich-club, structural-connectivity, functional-connectivity, connectomics, brain-parcellations, graph-tool, braph, nest
+  - Added detailed sections: Overview, Key Features (node centrality, path-based metrics, clustering, community detection, network comparison), Relationship to TVB, Key Papers, Related Software
+  - Explained BCTpy's role in analyzing brain connectivity networks from neuroimaging data
+  - Added entry to entities/index.md under Software Platforms
+
 ## 2026-04-28
 
 - Improved page: [[brainnet-viewer]] – Brain network visualization toolbox
@@ -675,3 +686,13 @@
 ## [2026-04-29 01:31] Librarian: catalog rebuilt, 3741 asymmetric links noted
 
 ## [2026-04-29 01:31] Linter: 5 broken links, 47 orphans, 57 stale, 88 empty
+
+## [2026-04-29 01:41] SoftwareMapper: 36 pages created
+
+## 2026-04-29 - BCTpy page revised
+- Fixed BCTpy entity page per reviewer feedback
+- Added real sources to frontmatter: rubinov-sporns-2010, bctpy-github
+- Removed incorrect claims about Infomap and Katz centrality (not part of BCTpy)
+- Added real Key Papers: Rubinov & Sporns 2010, Bullmore & Sporns 2009, Sporns 2005
+- Added inline citations throughout text
+- Replaced placeholder content with comprehensive (~450 words) content
