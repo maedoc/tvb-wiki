@@ -28,6 +28,15 @@
   - Added detailed sections: Overview, Key Features (automated sleep staging, event detection, spectral analysis), Relationship to Whole-Brain Modeling and TVB, Key Papers, Related Software, Technical Implementation
   - Positioned YASA within the EEG/sleep analysis ecosystem while explaining connections to whole-brain modeling via brain oscillations and neural mass model frameworks
 
+- Improved page: [[jneuroml]] – Java implementation of NeuroML specification
+  - Complete rewrite from placeholder to comprehensive entity page (~750 words)
+  - Updated frontmatter: changed updated date to 2026-04-28, added tags: software-neuroml, neuroml, spiking-neural-networks, neural-mass-models, open-source-brain, model-validation
+  - Added sources: (none available - used domain knowledge from web search)
+  - Established 12+ wikilinks: neuroml, open-source-brain, computational-neuroscience, spiking-neural-networks, neural-mass-models, neuron, brian, nest, bifurcation-analysis, dynamical-systems-theory, epilepsy-modeling, the-virtual-brain, whole-brain-modeling, mean-field-theory
+  - Added detailed sections: Overview and Purpose, Key Features (validation, export to NEURON/Brian/NEST, parameter variation), Relationship to TVB, Relationship to Other NeuroML Tools, Key Capabilities for Model Developers, Conclusion
+  - Explained jNeuroML's role in model interoperability and reproducibility in computational neuroscience
+  - Positioned jNeuroML within multi-scale modeling context bridging detailed neurons to whole-brain models
+
 ## 2026-04-27
 
 - Fixed and re-improved page: [[cognitive-reserve]] – Brain's adaptive capacity to maintain function despite pathology
@@ -587,3 +596,5 @@
 ## [2026-04-28 20:01] Improve: 3 pages improved (bluepyopt, power-atlas, xcp-d)
 
 ## [2026-04-28 20:01] RefFormatter: formatted references on 3 pages
+
+## [2026-04-28 20:06] CrosslinkApplier: added 120 wikilinks (120 inline, 0 suggested)

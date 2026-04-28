@@ -269,7 +269,7 @@ def get_sources(metadata: dict) -> list[str]:
 # ── pi subprocess runner ──────────────────────────────────────────────
 
 def run_pi(prompt: str, model: str = None, tools: str = None,
-           timeout: int = None, cwd: str = None, no_session: bool = True) -> tuple[bool, str]:
+           timeout: int = None, cwd: str = None, no_session: bool = False) -> tuple[bool, str]:
     """
     Run pi as a subprocess. Returns (success, output_or_error).
     Handles timeouts and captures stderr.
@@ -488,7 +488,7 @@ class PIJsonAccumulator:
 
 
 def run_pi_with_metrics(prompt: str, model: str = None, tools: str = None,
-                        timeout: int = None, cwd: str = None, no_session: bool = True) -> tuple[bool, str, dict]:
+                        timeout: int = None, cwd: str = None, no_session: bool = False) -> tuple[bool, str, dict]:
     """
     Run pi as a subprocess. Returns (success, text, metrics_dict).
     Handles timeouts and captures stderr.
