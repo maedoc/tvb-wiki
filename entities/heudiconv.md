@@ -1,9 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- https://heudiconv.readthedocs.io/
-- https://github.com/nipy/heudiconv
-- https://bids-specification.readthedocs.io/
 - raw/papers/sanz-leon-2013.md
 tags:
 - software-bids
@@ -50,7 +47,7 @@ The heuristic system deserves emphasis. A typical heuristic file contains a dict
 
 Within the context of whole-brain modeling and computational neuroscience, heudiconv plays an indirect but important role. [[The Virtual Brain]] (TVB) and related whole-brain simulators require high-quality, preprocessed neuroimaging data as inputs—including structural connectivity matrices derived from [[diffusion imaging]] (tractography), regional parcellations from [[MRI]] anatomical scans, and functional time series from resting-state [[fMRI]] data. Researchers acquiring such data often use heudiconv to organize their raw scanner exports into BIDS format before passing them to preprocessing pipelines like [[FMRIprep]] or [[MRtrix3 Connectome]]. The resulting processed data can then be imported into TVB via its [[TVB adapters]] for personalized brain modeling [4][5].
 
-Specifically, heudiconv-converted BIDS datasets can feed into TVB workflows through the following pipeline: (1) raw DICOM data from MRI scanners is converted to BIDS using heudiconv; (2) BIDS data is preprocessed with tools like FMRIprep (for functional data) or MRtrix3 (for diffusion data); (3) structural connectomes are generated using [[tractography]] on diffusion data; (4) parcellated time series are extracted from anatomical and functional scans; and (5) these processed outputs are imported into TVB using native adapters or the [[HPC]] interface for simulation and analysis. Thus, while heudiconv is not itself a modeling tool, it serves as a critical data management component in the TVB workflow, ensuring that input data are properly organized, annotated, and reproducible [4][5].
+Specifically, heudiconv-converted BIDS datasets can feed into TVB workflows through the following pipeline: (1) raw DICOM data from MRI scanners is converted to BIDS using heudiconv; (2) BIDS data is preprocessed with tools like FMRIprep (for functional data) or MRtrix3 (for diffusion data); (3) structural connectomes are generated using [[tractography]] on diffusion data; (4) parcellated time series are extracted from anatomical and functional scans; and (5) these processed outputs are imported into TVB using native adapters or the HPC interface for simulation and analysis. Thus, while heudiconv is not itself a modeling tool, it serves as a critical data management component in the TVB workflow, ensuring that input data are properly organized, annotated, and reproducible [4][5].
 
 ## Key Papers
 

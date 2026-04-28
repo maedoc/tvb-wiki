@@ -222,7 +222,32 @@
 - [[Yan Wang]] – Yan Wang is a computational neuroscientist whose work reportedly involves [[connectome]]-based [[whole-brain-modeling|wh...
 - [[Yasa]] – *Placeholder — awaiting content from Ralph Improver.*
 - [[Yuri Kuznetsov]] – Yuri A. Kuznetsov is a Russian mathematician and Professor at Utrecht University, Netherlands. He is a leading expert on...
-
+- [[braph|Braph]]
+- [[cartool|Cartool]]
+- [[connectome-mapper-3|Connectome Mapper 3]]
+- [[dcm2niix|Dcm2Niix]]
+- [[dpabi|Dpabi]]
+- [[exploreasl|Exploreasl]]
+- [[freeview|Freeview]]
+- [[gretna|Gretna]]
+- [[gustavo-deco|Gustavo Deco]]
+- [[heudiconv|Heudiconv]]
+- [[loris|Loris]]
+- [[mne-connectivity|Mne Connectivity]]
+- [[music|Music]]
+- [[neuroconstruct|Neuroconstruct]]
+- [[niworkflows|Niworkflows]]
+- [[power-atlas|Power Atlas]]
+- [[pycortex|Pycortex]]
+- [[surfice|Surfice]]
+- [[surfstat|Surfstat]]
+- [[templateflow|Templateflow]]
+- [[tortoise|Tortoise]]
+- [[tractseg|Tractseg]]
+- [[voxelmorph|Voxelmorph]]
+- [[xcp-d|Xcp D]]
+- [[yasa|Yasa]]
+- [[yeo-atlas|Yeo Atlas]]
 ## Concepts
 <!-- concepts -->
 - [[Adaptive Exponential Integrate And Fire]] – Adaptive Exponential [[spiking-neural-networks|Integrate And Fire]] — a concept in [[whole-brain|whole-brain modeling]] ...
@@ -364,7 +389,8 @@
 - [[Wong Wang Model]] – [[wong-wang]] Model — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
 - [[Wong Wang]] – The **Wong-Wang model** is a reduced [[neural-mass-models|neural mass model]] that describes the dynamics of recurrent c...
 - [[Zerlaut]] – The **Zerlaut model** is a mean-field representation of cortical microcircuit dynamics that describes the collective act...
-
+- [[andronov-hopf-bifurcation|Andronov Hopf Bifurcation]]
+- [[anticevic-2012|Anticevic 2012]]
 ## Comparisons
 <!-- comparisons -->
 - [[Connectivity Types]] – Three distinct but related concepts for describing brain [[connectivity]], each capturing different aspects of how brain...

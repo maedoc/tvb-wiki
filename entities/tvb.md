@@ -56,6 +56,9 @@ TVB combines:
 - [[NEST]] — [[spiking-neural-networks|Spiking neural network]] simulator for detailed neuron models
 - [[NEURON]] — Multi-compartment neuron simulation environment
 - [[ANTs]] — Image registration for preprocessing neuroimaging data
+- [[auryn]]
+
+- [[cococomac]]
 
 [[chronux]]
 

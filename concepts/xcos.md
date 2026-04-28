@@ -1,8 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- mne-tools.github.io
-- github.com/mne-tools/mne-python
 - raw/papers/sanz-leon-2013.md
 - raw/papers/ritter-2013.md
 - raw/papers/zavaglia-2006.md

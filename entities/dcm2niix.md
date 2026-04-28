@@ -15,7 +15,7 @@ title: dcm2niix
 created: 2025-01-15
 updated: 2026-04-28
 type: entity
-tags: [[[neuroimaging]], neuroimaging-[[fmri]], [[neuroimaging-pet]], [[diffusion-imaging]], software-visualization]
+tags: [[neuroimaging]], neuroimaging-[[fmri]], [[neuroimaging-pet]], [[diffusion-imaging]], software-visualization]
 sources: [Rorden and Brett, 2018; Gorgolewski et al., 2017; Holdgraf et al., 2019]
 ---
 
@@ -39,7 +39,7 @@ Although dcm2niix is not specific to [[TVB]], it plays an important role in the 
 
 ## Related Software
 
-dcm2niix integrates with several related tools in the neuroimaging ecosystem. The [[dcm2bids]] tool wraps dcm2niix and organizes output into the BIDS directory structure. For quality control of converted data, researchers use [[MRIQC]] which accepts dcm2niix output directly. The [[Heudiconv]] tool provides an alternative conversion workflow that also relies on dcm2niix for the actual format conversion. Visualization and quality assessment of the converted NIfTI files can be performed using tools like [[FSLeyes]], [[MRIcron]], or [[3d-slicer]]. For researchers working with diffusion imaging data, dcm2niix output serves as input to [[MRtrix3]] for tractography and connectivity analysis, which can subsequently inform whole-brain models in [[TVB]] or similar frameworks.
+dcm2niix integrates with several related tools in the neuroimaging ecosystem. The [[dcm]] tool wraps dcm2niix and organizes output into the BIDS directory structure. For quality control of converted data, researchers use [[MRIQC]] which accepts dcm2niix output directly. The [[Heudiconv]] tool provides an alternative conversion workflow that also relies on dcm2niix for the actual format conversion. Visualization and quality assessment of the converted NIfTI files can be performed using tools like [[FSLeyes]], [[MRIcron]], or [[3d-slicer]]. For researchers working with diffusion imaging data, dcm2niix output serves as input to [[MRtrix3]] for tractography and connectivity analysis, which can subsequently inform whole-brain models in [[TVB]] or similar frameworks.
 
 ## Key Papers
 

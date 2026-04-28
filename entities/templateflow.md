@@ -1,10 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- 10.1101/2020.10.19.202981
-- 10.1016/j.neuroimage.2020.117305
-- 10.1101/2023.04.10.488823
-- 10.1016/j.neuroimage.2022.119165
 - raw/papers/schirner-2018.md
 - raw/papers/semanticscholar-97e6ff441097.md
 - raw/papers/sanz-leon-2013.md
@@ -28,7 +24,7 @@ TemplateFlow is a Python-based library and repository that provides standardized
 
 ## Motivation and Context
 
-The field of neuroimaging has long relied on standardized templates—geometric references that allow data from different individuals, scanner types, and studies to be compared in a common space. The most widely used such template is the MNI (Montreal Neurological Institute) space, which originated from the work of [[alan-evans]] and colleagues at the Montreal Neurological Institute's McConnell Brain Imaging Centre [@mni-original]. However, the neuroimaging community has historically struggled with a fragmented landscape of templates: different research groups used different versions of MNI templates, different resolutions (1mm, 2mm, 5mm), and different naming conventions. This fragmentation introduced [[reproducibility]] challenges, as findings from one laboratory could not be directly compared to findings from another using different template versions.
+The field of neuroimaging has long relied on standardized templates—geometric references that allow data from different individuals, scanner types, and studies to be compared in a common space. The most widely used such template is the MNI (Montreal Neurological Institute) space, which originated from the work of alan-evans and colleagues at the Montreal Neurological Institute's McConnell Brain Imaging Centre [@mni-original]. However, the neuroimaging community has historically struggled with a fragmented landscape of templates: different research groups used different versions of MNI templates, different resolutions (1mm, 2mm, 5mm), and different naming conventions. This fragmentation introduced [[reproducibility]] challenges, as findings from one laboratory could not be directly compared to findings from another using different template versions.
 
 TemplateFlow addresses this problem by providing a curated, versioned repository of templates with a consistent API. The library maintains templates from multiple sources including the MNI templates (MNI152, MNI152NLin6Asym, MNI152NLin2009cAsym), the [[cifti]]-compatible grayordinates templates, and various [[parcellation]] schemes including those from the [[human-connectome-project]] [@tFw-2020]. By providing programmatic access to these resources, TemplateFlow enables researchers to write analysis pipelines that explicitly specify template identity, version, resolution, and space, making reproducibility a default rather than an afterthought. This is particularly important for [[whole-brain modeling]] and [[connectomics]] research, where the choice of parcellation scheme fundamentally determines the graph structure of brain networks.
 
@@ -52,7 +48,7 @@ While TemplateFlow is not itself a whole-brain simulator, it provides essential 
 
 ## Related Software
 
-TemplateFlow exists within a broader ecosystem of neuroimaging software tools. It complements [[nilearn]] for statistical learning approaches to neuroimaging data, [[freesurfer]] for cortical reconstruction and parcellation, [[fsl]] for general-purpose neuroimaging analysis, and [[spm]] (Statistical Parametric Mapping) for classical model-based fMRI analysis. The library also relates to atlases and parcellation resources such as the [[brainnetome-atlas]], the [[aalatlas]], the [[brainsuite]] suite of tools, and the [[brainvisa]] platform. For researchers interested in visualization, TemplateFlow templates can be rendered using tools like [[brainnet-viewer]] or [[connectome-workbench]]. The library also interfaces with preprocessing pipelines like [[fmriprep]] and quality control tools like [[mriqc]], which produce outputs in standardized template spaces maintained within the TemplateFlow repository.
+TemplateFlow exists within a broader ecosystem of neuroimaging software tools. It complements [[nilearn]] for statistical learning approaches to neuroimaging data, [[freesurfer]] for cortical reconstruction and parcellation, [[fsl]] for general-purpose neuroimaging analysis, and [[spm]] (Statistical Parametric Mapping) for classical model-based fMRI analysis. The library also relates to atlases and parcellation resources such as the [[brainnetome-atlas]], the [[glasser-atlas]], the [[brainsuite]] suite of tools, and the [[brainvisa]] platform. For researchers interested in visualization, TemplateFlow templates can be rendered using tools like [[brainnet-viewer]] or [[connectome-workbench]]. The library also interfaces with preprocessing pipelines like [[fmriprep]] and quality control tools like [[mriqc]], which produce outputs in standardized template spaces maintained within the TemplateFlow repository.
 
 ---
 

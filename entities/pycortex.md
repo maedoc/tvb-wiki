@@ -1,9 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- https://github.com/jamesgao/pycortex
-- https://pmc.ncbi.nlm.nih.gov/articles/PMC4750127/
-- https://gallantlab.org/
 - raw/papers/sanz-leon-2013.md
 - raw/papers/semanticscholar-97e6ff441097.md
 - raw/papers/ritter-2013.md
@@ -37,21 +34,21 @@ Fourth, PyCortex offers export capabilities that generate interactive HTML visua
 
 PyCortex occupies an important niche in the [[the-virtual-brain]] (TVB) ecosystem, particularly during the post-processing and visualization stages of whole-brain modeling workflows. TVB simulates large-scale brain dynamics using [[neural-mass-models]] or [[spiking-neural-networks]] driven by [[structural-connectivity]] matrices derived from diffusion tensor imaging (DTI) data. The output of these simulations—typically time series of regional activation or connectivity estimates—can be visualized using PyCortex to display the evolving activity patterns on a realistic cortical surface.
 
-The relationship between TVB and PyCortex is primarily unidirectional: TVB generates model outputs in volumetric or regional form, and PyCortex provides the visualization layer that renders these outputs in an anatomically meaningful way. Researchers using TVB often employ PyCortex to examine spatial patterns of seizure-like activity in [[epilepsy-modeling]] studies, to visualize changes in [[functional-connectivity]] patterns across different brain states, or to display the results of [[personalized-brain-modeling]] workflows that generate patient-specific brain simulations. While PyCortex does not directly interface with TVB's simulation engine, the two tools are frequently used in succession within pipelines for connectome-based research.
+The relationship between TVB and PyCortex is primarily unidirectional: TVB generates model outputs in volumetric or regional form, and PyCortex provides the visualization layer that renders these outputs in an anatomically meaningful way. Researchers using TVB often employ PyCortex to examine spatial patterns of seizure-like activity in [[epilepsy-modeling]] studies, to visualize changes in [[functional-connectivity]] patterns across different brain states, and to display the results of [[personalized-brain-modeling]] workflows that generate patient-specific brain simulations. While PyCortex does not directly interface with TVB's simulation engine, the two tools are frequently used in succession within pipelines for connectome-based research.
 
 ## Key Papers
 
-PyCortex was introduced through the publication "Introducing pycortex: a Python package for interactive visualization of fMRI data on inflated cortical surfaces" by James Gao, Stephan Niekamp, An-Tzu Lin, and Jack Gallant, published in Frontiers in Neuroinformatics in 2015. The paper demonstrated the software's capabilities for surface-based neuroimaging visualization and highlighted the utility of the tool for displaying group-level activation maps, individual subject data, and dynamic time-series on cortical surfaces. The publication established PyCortex as an accessible visualization option for researchers working with surface-based neuroimaging data.
+PyCortex was introduced through the publication "Introducing pycortex: a Python package for interactive visualization of fMRI data on inflated cortical surfaces" by James Gao, Stephan Niekamp, An‑Tzu Lin, and Jack Gallant, published in Frontiers in Neuroinformatics in 2015. The paper demonstrated the software's capabilities for surface‑based neuroimaging visualization and highlighted the utility of the tool for displaying group‑level activation maps, individual subject data, and dynamic time‑series on cortical surfaces. The publication established PyCortex as an accessible visualization option for researchers working with surface‑based neuroimaging data.
 
-The software has been cited in numerous studies employing [[resting-state]] fMRI analysis, [[default-mode-network]] characterization, and connectome-wide investigations of functional connectivity. Researchers have used PyCortex to visualize results from [[dynamic-causal-modeling]] analyses, to display outputs from [[connectivity]] decomposition methods, and to generate figures for studies investigating [[brain-oscillations]] and large-scale network dynamics.
+The software has been cited in numerous studies employing [[resting-state]] fMRI analysis, [[default‑mode‑network]] characterization, and connectome‑wide investigations of functional connectivity. Researchers have used PyCortex to visualize results from [[dynamic‑causal‑modeling]] analyses, to display outputs from [[connectivity]] decomposition methods, and to generate figures for studies investigating [[brain‑oscillations]] and large‑scale network dynamics.
 
 ## Related Software
 
-PyCortex operates within a broader ecosystem of neuroimaging visualization tools, and understanding its position relative to alternatives helps clarify its appropriate use cases. The [[connectome-workbench]] offers similarly surface-based visualization capabilities but with a more comprehensive suite of tools for exploring neuroimaging datasets, particularly those from the [[hcp-dataset]]. [[brainnet-viewer]] provides another alternative for surface-based visualization with a focus on network visualization, though it uses a different underlying visualization framework.
+PyCortex operates within a broader ecosystem of neuroimaging visualization tools, and understanding its position relative to alternatives helps clarify its appropriate use cases. The [[connectome-workbench]] offers similarly surface‑based visualization capabilities but with a more comprehensive suite of tools for exploring neuroimaging datasets, particularly those from the [[hcp-dataset]]. [[brainnet‑viewer]] provides another alternative for surface‑based visualization with a focus on network visualization, though it uses a different underlying visualization framework.
 
-For volumetric visualization, [[freesurfer]]'s built-in tools and [[fsl]] remain widely used, while [[nilearn]] provides Python-native interfaces to both volume and surface-based visualization within a machine-learning-focused framework. The [[brain-dynamics-toolbox]] and [[bctpy]] (Brain Connectivity Toolbox) complement PyCortex by providing analysis capabilities that precede visualization, enabling researchers to compute [[network-dynamics]] metrics, perform [[community-detection]], and analyze [[modularity]] before rendering results on cortical surfaces. For projects requiring integration with [[tvb]] simulations, researchers may use PyCortex alongside [[nilearn]] or [[matplotlib]] for complete analysis and visualization pipelines.
+For volumetric visualization, [[freesurfer]]'s built‑in tools and [[fsl]] remain widely used, while [[nilearn]] provides Python‑native interfaces to both volume and surface‑based visualization within a machine‑learning‑focused framework. The [[brain‑dynamics‑toolbox]] and [[bctpy]] (Brain Connectivity Toolbox) complement PyCortex by providing analysis capabilities that precede visualization, enabling researchers to compute [[network‑dynamics]] metrics, perform [[community‑detection]], and analyze [[modularity]] before rendering results on cortical surfaces. For projects requiring integration with [[tvb]] simulations, researchers may use PyCortex alongside [[nilearn]] or matplotlib for complete analysis and visualization pipelines.
 
-Unlike specialized whole-brain simulators such as TVB or tools designed for [[neural-mass-models]] implementation like [[brian2]] or [[nest]], PyCortex focuses exclusively on visualization and does not provide analysis, simulation, or modeling capabilities. This specialization allows the software to maintain a focused API and lightweight dependencies while providing robust visualization functions.
+Unlike specialized whole‑brain simulators such as TVB or tools designed for [[neural‑mass‑models]] implementation like [[brian2]] or [[nest]], PyCortex focuses exclusively on visualization and does not provide analysis, simulation, or modeling capabilities. This specialization allows the software to maintain a focused API and lightweight dependencies while providing robust visualization functions.
 
 ## References
 
@@ -59,4 +56,4 @@ Unlike specialized whole-brain simulators such as TVB or tools designed for [[ne
 
 2. Gallant Lab, University of California, Berkeley. PyCortex GitHub Repository. https://github.com/jamesgao/pycortex
 
-3. Fischl, B. (2012). FreeSurfer. NeuroImage, 62(2), 774-781.
+3. Fischl, B. (2012). FreeSurfer. NeuroImage, 62(2), 774‑781.

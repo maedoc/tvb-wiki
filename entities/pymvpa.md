@@ -1,11 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- Hanke, J., Halchenko, Y. O., Sederberg, P. B., Olivetti, E., Fründ, I., Rieger, J. W., ... & Haxby, J. V. (2009). PyMVPA: a
-    Python toolbox for multivariate pattern analysis of fMRI data. Neuroinformatics,
-    7(1), 37-53.
-- Kriegeskorte, N., Goebel, R., & Bandettini, P. (2006). Information-based functional
-  brain mapping. Proceedings of the National Academy of Sciences, 103(10), 3863-3868.
 - raw/papers/semanticscholar-0aeca1b592e6.md
 - raw/papers/arxiv-2602.03240.md
 - raw/papers/arxiv-2604.03619.md

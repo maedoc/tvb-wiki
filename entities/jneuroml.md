@@ -1,12 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- https://github.com/NeuroML/jNeuroML
-- https://docs.neuroml.org/Userdocs/Software/jNeuroML.html
-- https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1000815
-- https://www.frontiersin.org/articles/10.3389/fninf.2014.00079/full
-- https://pubmed.ncbi.nlm.nih.gov/20585541/
-- https://pubmed.ncbi.nlm.nih.gov/17873371/
 - raw/papers/semanticscholar-30b44563f4bd.md
 - raw/papers/semanticscholar-5c84b271b035.md
 - raw/papers/semanticscholar-9afbfd2d37be.md
@@ -30,7 +24,7 @@ updated: '2026-04-28'
 
 jNeuroML is a Java-based software package that provides both an implementation of the [[neuroml]] specification and a suite of command-line tools for working with NeuroML model descriptions. Developed primarily by [Padraig Gleeson](https://github.com/pgleeson) and the NeuroML community, jNeuroML serves as the reference implementation of the NeuroML specification and provides essential functionality for parsing, validating, simulating, and converting neural models expressed in the NeuroML format. As a cross-platform Java application, it runs on Windows, macOS, and Linux systems, making it accessible to researchers across different computational environments. The software is open-source and available through GitHub, with releases distributed via Maven Central for integration into Java-based projects.
 
-jNeuroML was the first full implementation of the NeuroML specification and has served as the reference implementation for subsequent tools in the NeuroML ecosystem, including [[pyneurotml]] (a Python library providing similar functionality).
+jNeuroML was the first full implementation of the NeuroML specification and has served as the reference implementation for subsequent tools in the NeuroML ecosystem, including pyneurotml (a Python library providing similar functionality).
 
 ## Relationship to NeuroML and the NeuroML Ecosystem
 
@@ -38,7 +32,7 @@ jNeuroML was the first full implementation of the NeuroML specification and has 
 
 jNeuroML implements the full NeuroML specification and provides several core functions essential to the ecosystem. First, it acts as a **validator**, parsing NeuroML documents and checking them against the schema to ensure compliance with the specification. Second, it serves as a **simulator interface**, capable of running simulations of NeuroML-described networks using its internal simulation engine or by exporting to formats compatible with other simulators. Third, it provides **conversion capabilities**, transforming NeuroML models into formats suitable for other simulation environments, including NEURON (.mod files), [[brian]] (Python scripts), and standalone simulation scripts.
 
-The relationship between jNeuroML and the broader NeuroML ecosystem is complementary to other tools like [[pyneurotml]] (a Python library providing similar functionality) and [[neuroconstruct]] (a graphical environment for building and managing NeuroML models). While neuroconstruct offers a GUI for model construction, jNeuroML focuses on command-line operations and programmatic usage, making it particularly suitable for batch processing, automated testing pipelines, and integration with workflow tools. The Java implementation was historically the first full implementation of the NeuroML specification and has served as a reference for subsequent tools. Development of jNeuroML began in 2012, shortly after the NeuroML v1.x specification was finalized, and it has been maintained in parallel with the evolution of NeuroML v2.x.
+The relationship between jNeuroML and the broader NeuroML ecosystem is complementary to other tools like pyneurotml (a Python library providing similar functionality) and [[neuroconstruct]] (a graphical environment for building and managing NeuroML models). While neuroconstruct offers a GUI for model construction, jNeuroML focuses on command-line operations and programmatic usage, making it particularly suitable for batch processing, automated testing pipelines, and integration with workflow tools. The Java implementation was historically the first full implementation of the NeuroML specification and has served as a reference for subsequent tools. Development of jNeuroML began in 2012, shortly after the NeuroML v1.x specification was finalized, and it has been maintained in parallel with the evolution of NeuroML v2.x.
 
 ## Key Features
 
@@ -61,7 +55,7 @@ Recent developments in the NeuroML community, including the creation of database
 ## Related Software
 
 - [[neuroml]] — The XML-based specification for describing neural models
-- [[pyneurotml]] — Python library providing NeuroML functionality
+- pyneurotml — Python library providing NeuroML functionality
 - [[neuroconstruct]] — Graphical environment for building NeuroML models
 - [[brian]] — Simulator with NeuroML export capabilities
 - [[neuron]] — Simulator supporting NeuroML import/export

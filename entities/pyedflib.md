@@ -3,7 +3,7 @@ created: 2026-04-27
 sources:
 - raw/papers/sanz-leon-2013.md
 - raw/papers/semanticscholar-769ed169ed7c.md
-- raw/papers/semanticscholar-cb501cd33451.md
+- raw/papers/semantic​scholar-cb501cd33451.md
 tags:
 - software-brain-modeling
 title: pyedflib
@@ -64,8 +64,8 @@ While pyedflib is relatively specialized compared to comprehensive analysis pack
 
 ## Key Papers
 
-- Kemp, B., Olivan, J. S., & Rietveld, W. J. (2003). EDF+ Annotation: Adding temporal markers to European Data Format recordings. *Clinical Neurophysiology*. [[EDF+ specification document introducing annotations and discontinuous recording support]]
-- Bein, B. (2018). pyedflib. *Journal of Open Source Software*. [[Original publication describing the pyedflib library and its architecture]]
+- Kemp, B., Olivan, J. S., & Rietveld, W. J. (2003). EDF+ Annotation: Adding temporal markers to European Data Format recordings. *Clinical Neurophysiology*. [[ica]]
+- Bein, B. (2018). pyedflib. *Journal of Open Source Software*. [[hybrid-architecture]]
 
 ## References
 

@@ -1,10 +1,6 @@
 ---
 created: 2026-04-23
 sources:
-- Vallat2021
-- Lacourse2018
-- Bertrand2018
-- Campruzi2020
 - raw/papers/semanticscholar-2a455dab8f2b.md
 - raw/papers/smith-2013-connectomics.md
 - raw/papers/arxiv-2604.16463.md

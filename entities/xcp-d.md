@@ -1,11 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- ciric2017
-- siegel2017
-- power2012
-- power2014
-- chen2019
 - raw/papers/schirner-2018.md
 - raw/papers/semanticscholar-7b51fe740684.md
 - raw/papers/semanticscholar-109de470e443.md

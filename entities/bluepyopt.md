@@ -1,8 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- Van Geit et al., 2016, Neuron
-- BluePyOpt documentation
 - raw/papers/sanz-leon-2013.md
 - raw/papers/semanticscholar-5c84b271b035.md
 - raw/papers/arxiv-2509.02799.md
@@ -26,7 +24,7 @@ The software operates within the broader context of [[parameter-estimation]] met
 
 ## Technical Features
 
-BluePyOpt employs a modular architecture that separates the definition of the model, the objective function, and the optimization algorithm. Users specify their neuron model using the [[neuron-simulator]]'s description language or directly in Python, define the objective function as a weighted combination of physiological features (e.g., firing rate, spike width, adaptation ratio), and select an optimization algorithm from those provided. The software supports parallel evaluation of parameter sets, significantly reducing computation time on multi-core processors or distributed computing environments.
+BluePyOpt employs a modular architecture that separates the definition of the model, the objective function, and the optimization algorithm. Users specify their neuron model using the neuron-simulator's description language or directly in Python, define the objective function as a weighted combination of physiological features (e.g., firing rate, spike width, adaptation ratio), and select an optimization algorithm from those provided. The software supports parallel evaluation of parameter sets, significantly reducing computation time on multi-core processors or distributed computing environments.
 
 The optimization algorithms available include the Covariance Matrix Adaptation Evolution Strategy (CMA-ES), a population-based method that has proven particularly effective for neuron model fitting; differential evolution; and particle swarm optimization. Each algorithm can be configured with parameter bounds, initial conditions, and termination criteria[^1].
 
@@ -34,7 +32,7 @@ The optimization algorithms available include the Covariance Matrix Adaptation E
 
 While BluePyOpt focuses on single-neuron and small-network optimization, it relates to [[the-virtual-brain]] (TVB) through the complementary nature of their applications. TVB operates at the [[whole-brain]] level, simulating large-scale [[network-dynamics]] using neural-mass models. The optimization outcomes from BluePyOpt can in principle inform the [[mean-field-theory|mean-field]] parameters used in TVB's population-level models, creating a multi-scale modeling pipeline from cellular to systems-level dynamics.
 
-The software integrates with the broader [[computational-neuroscience]] ecosystem through its compatibility with [[neuron-simulator]] and support for standards such as [[neuroml]] for model description. This integration positions BluePyOpt as a key component in the toolchain connecting experimental data to detailed computational models used in studies of [[brain-dynamics]], [[epilepsy-modeling]], and [[personalized-brain-modeling]].
+The software integrates with the broader [[computational-neuroscience]] ecosystem through its compatibility with neuron-simulator and support for standards such as [[neuroml]] for model description. This integration positions BluePyOpt as a key component in the toolchain connecting experimental data to detailed computational models used in studies of [[brain-dynamics]], [[epilepsy-modeling]], and [[personalized-brain-modeling]].
 
 ## Key Papers
 

@@ -1,11 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- https://doi.org/10.1016/j.neuroimage.2018.07.070
-- https://arxiv.org/abs/1805.07103
-- https://arxiv.org/abs/1806.05580
-- https://www.sciencedirect.com/science/article/pii/S136184151930101X
-- https://www.humanconnectomeproject.org/
 - raw/papers/van-essen-2012.md
 tags:
 - software-tractography
