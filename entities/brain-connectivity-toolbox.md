@@ -11,11 +11,11 @@ type: entity
 updated: '2026-04-28'
 ---
 
-title: Brain Connectivity Toolbox
+title: Brain [[connectivity]] Toolbox
 created: 2024-01-15
 updated: 2026-04-28
 type: entity
-tags: [software-bct, connectomics, graph-theory, network-analysis, functional-connectivity, structural-connectivity, neuroimaging-mri, matlab-toolbox]
+tags: [[[software-bct]], connectomics, graph-theory, network-analysis, functional-connectivity, structural-connectivity, neuroimaging-mri, matlab-toolbox]
 sources: [rubinov-sporns-2010, bct-github, betzel-2019-multilayer]
 ---
 
@@ -29,7 +29,7 @@ The emergence of the Brain Connectivity Toolbox addressed a critical need in [[n
 
 BCT includes implementations of over 100 network analysis algorithms spanning several categories. **Global network metrics** include [[small-world]] measures (clustering coefficient, characteristic path length), network efficiency (global and local), [[modularity]], [[rich-club]] coefficient, and [[structural-core]] identification. **Node-level metrics** include degree, betweenness centrality, [[network-hubs]] identification, and eigenvector centrality. The toolbox also provides tools for **network comparison**, including null model generation (configurable and lattice-watts-strogatz models), network distance measures, and statistical testing via permutation frameworks.
 
-A distinctive feature of BCT is its support for **weighted and directed networks**, allowing analysis beyond simple binary graphs. The toolbox implements algorithms for thresholding strategies (absolute, proportional, and density-capped), as relationship strength between brain regions can vary continuously. BCT also includes specialized functions for **community detection**, implementing algorithms from multiple research groups including Louvain, Infomap, and spectral partitioning methods. For time-varying connectivity analysis, BCT provides tools for analyzing dynamic connectivity patterns extracted from sliding-window analyses of fMRI or MEG data.
+A distinctive feature of BCT is its support for **weighted and directed networks**, allowing analysis beyond simple binary graphs. The toolbox implements algorithms for thresholding strategies (absolute, proportional, and density-capped), as relationship strength between brain regions can vary continuously. BCT also includes specialized functions for **community detection**, implementing algorithms from multiple research groups including Louvain, Infomap, and spectral partitioning methods. For time-varying connectivity analysis, BCT provides tools for analyzing dynamic connectivity patterns extracted from sliding-window analyses of [[fmri]] or MEG data.
 
 ## Relationship to TVB and Whole-Brain Modeling
 
@@ -41,7 +41,7 @@ While BCT was originally developed for MATLAB, several adaptations and alternati
 
 ## Key Papers and Development History
 
-The Brain Connectivity Toolbox was first released in 2009 alongside a seminal review paper by Rubinov and Sporns that established standardized terminology for complex network analysis in neuroscience. The foundational reference for BCT remains the comprehensive NeuroImage paper by Mikail Rubinov and Olaf Sporns, which describes the toolkit's capabilities, algorithms, and theoretical foundations in detail. The toolbox has undergone continuous development, with major updates adding new algorithms for network comparison, null model generation, and modular decomposition. The 2019 update (BCT 2019) added enhanced support for multilayer network analysis and improved computational efficiency for large-scale networks. Researchers using BCT should cite the original Rubinov and Sporns (2010) NeuroImage paper as the primary reference.
+The Brain Connectivity Toolbox was first released in 2009 alongside a seminal review paper by Rubinov and Sporns that established standardized terminology for complex network analysis in neuroscience. The foundational reference for BCT remains the comprehensive NeuroImage paper by Mikail Rubinov and [[olaf-sporns]], which describes the toolkit's capabilities, algorithms, and theoretical foundations in detail. The toolbox has undergone continuous development, with major updates adding new algorithms for network comparison, null model generation, and modular decomposition. The 2019 update (BCT 2019) added enhanced support for multilayer network analysis and improved computational efficiency for large-scale networks. Researchers using BCT should cite the original Rubinov and Sporns (2010) NeuroImage paper as the primary reference.
 
 ## See Also
 
@@ -58,4 +58,4 @@ The Brain Connectivity Toolbox was first released in 2009 alongside a seminal re
 
 1. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
 2. Woodman et al. (2014). *GraphVar: A user-friendly toolbox for comprehensive graph analyses of functional brain connectivity*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2014.07.015)
-3. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+3. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)

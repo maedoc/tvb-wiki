@@ -13,7 +13,7 @@ tags:
 - structural-connectivity
 title: ANTs
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-28'
 ---
 
 # ANTs (Advanced Normalization Tools)
@@ -96,14 +96,14 @@ sources:
 - raw/papers/avants-2011.md
 - raw/papers/woodman-2014.md
 - raw/papers/sanz-leon-2013.md
-- raw/papers/smith-2013-connectomics.md
+- raw/papers/smith-2013-[[connectomics]].md
 - raw/papers/semanticscholar-97e6ff441097.md
 - raw/papers/semanticscholar-4d73a30d5c84.md
 tags:
 - software-brain-modeling
-- neuroimaging-fmri
-- resting-state
-- functional-connectivity
+- neuroimaging-[[fmri]]
+- [[resting-state]]
+- [[functional-connectivity]]
 - connectomics
 title: C-PAC
 type: entity

@@ -16,4 +16,4 @@ Cmtk — a concept in [[whole-brain|whole-brain modeling]] and [[computational-n
 
 ## References
 
-1. Tiantian Chu, Juan Peng, Feng Gao, Fei Xiong, Ye Tu. (2025). *Network control theory uncovers aberrant connectome controllability in trigeminal neuralgia*. The Journal of Headache and Pain. [DOI](https://doi.org/10.1186/s10194-025-02122-z)
+1. Tiantian Chu, Juan Peng, Feng Gao, Fei Xiong, Ye Tu. (2025). *Network control theory uncovers aberrant [[connectome]] controllability in trigeminal neuralgia*. The Journal of Headache and Pain. [DOI](https://doi.org/10.1186/s10194-025-02122-z)

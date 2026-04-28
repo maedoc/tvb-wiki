@@ -48,7 +48,7 @@ Beyond basic spectral estimation, Chronux provides functions for computing coher
 
 ## Key Capabilities
 
-Chronux organizes its functionality into several core modules. The preprocessing functions include routines for removing line noise (50/60 Hz), filtering, and artifact rejection. The spectral analysis functions (`mtspectrum`, `mtspecgram`, `mtcoherence`) provide both power spectral density estimates and time-frequency representations. The connectivity module (`mtconnectivity`) enables computation of frequency-domain connectivity measures between electrode or sensor pairs, which is essential for analyzing [[functional-connectivity]] patterns in resting-state networks.
+Chronux organizes its functionality into several core modules. The preprocessing functions include routines for removing line noise (50/60 Hz), filtering, and artifact rejection. The spectral analysis functions (`mtspectrum`, `mtspecgram`, `mtcoherence`) provide both power spectral density estimates and time-frequency representations. The [[connectivity]] module (`mtconnectivity`) enables computation of frequency-domain connectivity measures between electrode or sensor pairs, which is essential for analyzing [[functional-connectivity]] patterns in [[resting-state]] networks.
 
 A notable feature is the `pop_loadeeg` integration and general compatibility with [[eeglab]] data structures, facilitating workflow integration for researchers using EEG preprocessing pipelines. The toolbox handles both raw voltage recordings and derived measures, supporting analysis of single-unit activity, LFPs, and aggregated broadband signals.
 
@@ -64,7 +64,7 @@ The following publications form the foundation of Chronux methodology and applic
 - Bokde, R. and Mitra, P.P. (2011). "The Chronux toolbox for analysis of neural data." Society for Neuroscience annual meeting presentation describing the toolbox capabilities.
 - Thomson, D.J. (1982). "Spectrum estimation and harmonic analysis."Proceedings of the IEEE 70(9): 1055-1096. The foundational paper on multitaper spectral estimation.
 - Bruns, A. (2004). "Fourier-, Hilbert- and wavelet-based signal analysis: are they really different approaches?" Journal of Neuroscience Methods 137(2): 321-332. Contextual review of spectral methods in neuroscience.
-- Pesaran, B. (2010). "Neural recordings and analysis." Current Opinion in Neurobiology 20(5): 613-618. Review of electrophysiology analysis methods including multitaper approaches.
+- Pesaran, B. (2010). "Neural recordings and analysis." Current Opinion in Neurobiology 20(5): 613-618. Review of [[electrophysiology]] analysis methods including multitaper approaches.
 
 ## Related Software
 

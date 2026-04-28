@@ -204,7 +204,7 @@ def build_priority_queue(n: int = None) -> list[dict]:
 
     for slug, filepath in pages.items():
         score, info = score_page(filepath)
-        if score < 80:  # Only include pages that need work
+        if score < 80 and 'error' not in info:  # Only include pages that need work, skip errors
             info['slug'] = slug
             has_ph = info.get('has_placeholder', False)
             srcs = info.get('sources', 0)
