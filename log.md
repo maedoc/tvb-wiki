@@ -653,3 +653,5 @@
 ## [2026-04-28 23:37] Improve: 3 pages improved (openneuro, brainnet-viewer, lfpykit)
 
 ## [2026-04-28 23:40] CrosslinkApplier: added 40 wikilinks (40 inline, 0 suggested)
+
+## [2026-04-28 23:43] CrosslinkApplier: added 9 wikilinks (9 inline, 0 suggested)
