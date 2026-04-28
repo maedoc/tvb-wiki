@@ -550,3 +550,5 @@
 ## [2026-04-28 14:41] Linter: 0 broken links, 59 orphans, 65 stale, 100 empty
 
 ## [2026-04-28 14:50] SoftwareMapper: 19 pages created
+
+## [2026-04-28 14:55] Improve: 3 pages improved (dcm2niix, dpabi, gretna)
