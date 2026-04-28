@@ -1,18 +1,32 @@
 ---
-title: MVGC (Multi-Variate Granger Causality)
 created: 2024-01-15
-updated: 2026-04-28
-type: concept
-tags: [effective-connectivity, computational-neuroscience, network-dynamics, time-series-analysis, signal-processing, neuroimaging-eeg, neuroimaging-meg, neuroimaging-fmri, statistical-inference, granger-causality, multivariate-analysis, information-theory]
 sources:
-  - url: https://journals.physiological.org/10.1152/jn.00293.2014
-    title: "MVGC Matlab Toolbox: A multivariate Granger causality library for analyzing causal interactions in neural systems"
-  - url: https://www.jstor.org/stable/24542413
-    title: "Investigating Causal Relations by Econometric Models and Cross Spectral Methods"
-  - url: https://academic.oup.com/brain/article/138/8/2163/2437827
-    title: "Temporal dynamics of brain connectivity in electrocorticography: frequency-specific cue and responses"
-  - url: https://link.springer.com/article/10.1007/s11571-009-9095-y
-    title: "Granger causality in neuroscience"
+- title: 'MVGC Matlab Toolbox: A multivariate Granger causality library for analyzing
+    causal interactions in neural systems'
+  url: https://journals.physiological.org/10.1152/jn.00293.2014
+- title: Investigating Causal Relations by Econometric Models and Cross Spectral Methods
+  url: https://www.jstor.org/stable/24542413
+- title: 'Temporal dynamics of brain connectivity in electrocorticography: frequency-specific
+    cue and responses'
+  url: https://academic.oup.com/brain/article/138/8/2163/2437827
+- title: Granger causality in neuroscience
+  url: https://link.springer.com/article/10.1007/s11571-009-9095-y
+tags:
+- effective-connectivity
+- computational-neuroscience
+- network-dynamics
+- time-series-analysis
+- signal-processing
+- neuroimaging-eeg
+- neuroimaging-meg
+- neuroimaging-fmri
+- statistical-inference
+- granger-causality
+- multivariate-analysis
+- information-theory
+title: MVGC (Multi-Variate Granger Causality)
+type: concept
+updated: '2026-04-28'
 ---
 
 # MVGC (Multi-Variate Granger Causality)
@@ -25,7 +39,7 @@ MVGC (Multi-Variate Granger Causality) is a computational framework for inferrin
 
 The fundamental challenge in analyzing brain activity lies not merely in identifying which brain regions co-activate, but in determining the direction and nature of causal influences between them. [[Functional-connectivity]] measures such as correlation or coherence can reveal statistical dependencies between [[neuroimaging-eeg]], [[neuroimaging-meg]], or [[neuroimaging-fmri]] signals, but they cannot distinguish whether region A drives region B or vice versa. This ambiguity motivated the development of [[effective-connectivity]] methods that attempt to infer causal rather than merely correlational relationships.
 
-Granger causality (GC), rooted in the seminal work of Nobel laureate Clive Granger {% cite url=https://www.jstor.org/stable/24542413 %}, provides an operational definition of causality based on predictive capability: if including the history of time series X significantly improves prediction of time series Y beyond what is possible using Y's own history alone, X is said to "Granger-cause" Y. The multi-variate extension addresses a critical limitation of pairwise GC—namely, that apparent causal relationships between two variables may be mediated by third-party variables. By modeling all time series jointly within a vector autoregressive (VAR) framework, MVGC can properly attribute causal influences while controlling for common drivers and network-wide dynamics. This is especially important in whole-brain analysis where [[structural-connectivity]] provides anatomical constraints on possible causal pathways.
+Granger causality (GC), rooted in the seminal work of Nobel laureate Clive Granger {% cite url=https://www.jstor.org/stable/24542413 %}, provides an operational definition of causality based on predictive capability: if including the history of time series X significantly improves prediction of time series Y beyond what is possible using Y's own history alone, X is said to "Granger-cause" Y. The multi-variate extension addresses a critical limitation of pairwise GC—namely, that apparent causal relationships between two variables may be mediated by third-party variables. By modeling all time series jointly within a vector autoregressive (VAR) framework, MVGC can properly attribute causal influences while controlling for common drivers and network-wide dynamics. This is especially important in [[whole-brain]] analysis where [[structural-connectivity]] provides anatomical constraints on possible causal pathways.
 
 ## Technical Framework
 
@@ -49,7 +63,7 @@ where $\sigma_{ii}$ is the variance of the prediction error for channel $i$ (i.e
 
 ### Statistical Inference
 
-MVGC includes rigorous statistical tests for assessing the significance of causal connections. These include asymptotic tests based on the F-distribution or chi-squared distribution for VAR coefficient significance, as well as bootstrap and permutation tests for small sample sizes common in neuroimaging {% cite url=https://journals.physiological.org/10.1152/jn.00293.2014 %}. The framework also provides confidence intervals for causality estimates, essential for interpreting the strength of effective connectivity in [[whole-brain-modeling]] contexts. Multiple comparison correction procedures (such as false discovery rate control) are recommended when performing mass univariate tests across channel pairs, as the number of possible connections grows quadratically with the number of recorded regions.
+MVGC includes rigorous statistical tests for assessing the significance of causal connections. These include asymptotic tests based on the F-distribution or chi-squared distribution for VAR coefficient significance, as well as bootstrap and permutation tests for small sample sizes common in neuroimaging {% cite url=https://journals.physiological.org/10.1152/jn.00293.2014 %}. The framework also provides confidence intervals for causality estimates, essential for interpreting the strength of effective [[connectivity]] in [[whole-brain-modeling]] contexts. Multiple comparison correction procedures (such as false discovery rate control) are recommended when performing mass univariate tests across channel pairs, as the number of possible connections grows quadratically with the number of recorded regions.
 
 ## Key Papers
 
@@ -73,7 +87,7 @@ MVGC includes rigorous statistical tests for assessing the significance of causa
 
 Within the [[the-virtual-brain]] ecosystem, MVGC serves as an important tool for validating simulated [[functional-connectivity]] against empirical data. When building personalized brain models using [[personalized-brain-modeling]] approaches, researchers can use MVGC to characterize the effective connectivity pattern in empirical neuroimaging data, then compare these patterns to causal interactions emerging from simulations. This validation step is essential for establishing that [[whole-brain-modeling]] frameworks accurately capture not just statistical correlations but the directional information flow that underlies cognition.
 
-MVGC complements rather than replaces TVB's model-based effective connectivity approaches such as [[dynamic-causal-modeling]]. While DCM relies on biophysically plausible forward models and Bayesian model comparison to infer neural mechanisms, MVGC provides a fully data-driven alternative that makes minimal assumptions about the underlying architecture. In practice, researchers may use MVGC as an exploratory tool to generate hypotheses about causal brain networks, then test specific hypotheses using DCM {% cite url=https://link.springer.com/article/10.1007/s11571-009-9095-y %}. MVGC can also inform the parameter estimation pipeline in TVB by providing target statistics that models should reproduce.
+MVGC complements rather than replaces TVB's model-based effective connectivity approaches such as [[dynamic-causal-modeling]]. While DCM relies on biophysically plausible forward models and Bayesian model comparison to infer neural mechanisms, MVGC provides a fully data-driven alternative that makes minimal assumptions about the underlying architecture. In practice, researchers may use MVGC as an exploratory tool to generate hypotheses about causal brain networks, then test specific hypotheses using DCM {% cite url=https://link.springer.com/article/10.1007/s11571-009-9095-y %}. MVGC can also inform the [[parameter-estimation]] pipeline in TVB by providing target statistics that models should reproduce.
 
 ### MVGC in the TVB Analysis Pipeline
 
@@ -84,8 +98,8 @@ In TVB workflows, MVGC analysis typically proceeds as follows: empirically recor
 - **MVGC Toolbox** for MATLAB: The original reference implementation developed by Anil Seth and colleagues {% cite url=https://journals.physiological.org/10.1152/jn.00293.2014 %}
 - **[[the-virtual-brain]]**: Includes connectivity analysis features that can be compared against MVGC estimates
 - **[[mne-connectivity]]**: Implements MVGC in Python for use with M/EEG data
-- **FieldTrip**: Includes MVGC functionality for neuroimaging analysis
-- **Bruche and GRetna**: Provide MVGC for graph-theoretic network analysis
+- **[[fieldtrip]]**: Includes MVGC functionality for neuroimaging analysis
+- **Bruche and [[gretna]]**: Provide MVGC for graph-theoretic network analysis
 
 ## References
 

@@ -37,7 +37,7 @@ The mathematical formulation can be expressed as: the standardized current densi
 
 In the context of [[whole-brain-modeling]], sLORETA serves as a critical bridge between non-invasive electrophysiological recordings and biophysically realistic source reconstruction. When used in conjunction with [[structural-connectivity]] data derived from [[diffusion-imaging|DTI]] tractography, sLORETA can generate individualized maps of directed functional connectivity that serve as inputs to [[the-virtual-brain|TVB]] simulations. The Virtual Brain platform can accept source-localized time series as empirical constraints for personalized brain network models, enabling researchers to investigate how individual variation in structural wiring shapes spontaneous or task-evoked [[brain-dynamics]].
 
-Furthermore, sLORETA-derived connectivity matrices are frequently employed in studies of [[epilepsy-modeling]] to identify seizure onset zones and in [[brain-stimulation]] protocols to target interventions with greater anatomical precision. The method's ability to provide real-time or near-real-time source estimates also makes it compatible with neurofeedback applications where subjects learn to modulate activity in specific brain regions.
+Furthermore, sLORETA-derived [[connectivity]] matrices are frequently employed in studies of [[epilepsy-modeling]] to identify seizure onset zones and in [[brain-stimulation]] protocols to target interventions with greater anatomical precision. The method's ability to provide real-time or near-real-time source estimates also makes it compatible with neurofeedback applications where subjects learn to modulate activity in specific brain regions.
 
 ## Key Papers
 

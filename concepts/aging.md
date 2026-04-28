@@ -62,7 +62,7 @@ However, compensation is not without limits: when pathology exceeds the capacity
 
 ### The Reserve, Maintenance, and Compensation Framework
 
-The conceptual framework distinguishing brain maintenance, cognitive reserve, and compensation provides the dominant theoretical structure for understanding aging outcomes. Brain maintenance refers to the preservation of brain structure and function, with individuals exhibiting less age-related change demonstrating superior maintenance. This preservation is influenced by genetic factors (including [[APOE]] status), education, cardiovascular health, and lifestyle factors such as physical exercise and cognitive engagement.
+The conceptual framework distinguishing [[brain-maintenance]], [[cognitive-reserve]], and compensation provides the dominant theoretical structure for understanding aging outcomes. Brain maintenance refers to the preservation of brain structure and function, with individuals exhibiting less age-related change demonstrating superior maintenance. This preservation is influenced by genetic factors (including [[APOE]] status), education, cardiovascular health, and lifestyle factors such as physical exercise and cognitive engagement.
 
 Cognitive reserve represents the capacity to withstand pathology through pre-existing neural resources. Two forms are distinguished: passive reserve (structural [[brain-reserve]], including brain size and [[neuron]] count) and active reserve (the efficiency and capacity of cognitive networks). Compensation involves the recruitment of additional brain regions or alternative neural circuits to maintain function—a dynamic process that requires both structural integrity and flexibility in network reconfiguration.
 

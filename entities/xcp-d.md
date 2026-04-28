@@ -1,31 +1,41 @@
 ---
-title: XCP-D
 created: 2025-01-15
-updated: 2026-04-28
+sources:
+- ciric2017
+- siegel2017
+- power2012
+- power2014
+- chen2019
+tags:
+- neuroimaging-fmri
+- resting-state
+- preprocessing
+- software-cpac
+- functional-connectivity
+title: XCP-D
 type: entity
-tags: [neuroimaging-fmri, resting-state, preprocessing, software-cpac, functional-connectivity]
-sources: [ciric2017, siegel2017, power2012, power2014, chen2019]
+updated: '2026-04-28'
 ---
 
-XCP-D is a post-processing pipeline for resting-state functional magnetic resonance imaging (fMRI) data, designed to remove confounding noise artifacts while preserving meaningful neural signals. Developed as part of the Configurable Pipeline for the Analysis of Connectomes (C-PAC) ecosystem, XCP-D takes preprocessed fMRI timeseries and applies a standardized sequence of confound regression, filtering, and quality control procedures to produce clean data suitable for subsequent [[functional-connectivity]] analyses. The pipeline emerged from the growing recognition that reliable estimation of brain connectivity patterns depends critically on aggressive yet principled removal of motion artifacts, physiological noise, and other non-neural signals that can systematically distort correlations between brain regions.
+XCP-D is a post-processing pipeline for [[resting-state]] functional magnetic resonance imaging ([[fmri]]) data, designed to remove confounding noise artifacts while preserving meaningful neural signals. Developed as part of the Configurable Pipeline for the Analysis of Connectomes (C-PAC) ecosystem, XCP-D takes preprocessed fMRI timeseries and applies a standardized sequence of confound regression, filtering, and quality control procedures to produce clean data suitable for subsequent [[functional-connectivity]] analyses. The pipeline emerged from the growing recognition that reliable estimation of brain [[connectivity]] patterns depends critically on aggressive yet principled removal of motion artifacts, physiological noise, and other non-neural signals that can systematically distort correlations between brain regions.
 
 ## Motivation and Context
 
-The fundamental challenge in resting-state fMRI analysis lies in separating true [[brain-dynamics]] from the myriad sources of noise that contaminate the blood-oxygen-level-dependent (BOLD) signal. Head motion during scanning introduces spurious correlations that can falsely inflate estimates of [[functional-connectivity]], particularly in clinical populations where motion is often elevated (Power et al., 2012). Physiological artifacts arising from cardiac cycles and respiration further corrupt the signal, and scanner-related drift and instabilities add temporal biases. Early approaches to address these issues relied on ad hoc, lab-specific preprocessing sequences that limited reproducibility and made cross-study comparisons difficult. XCP-D was developed to provide a standardized, well-documented solution that balances aggressive noise removal with preservation of the neural signal, thereby enabling more reliable and reproducible connectivity analyses across diverse datasets.
+The fundamental challenge in resting-state fMRI analysis lies in separating true [[brain-dynamics]] from the myriad sources of noise that contaminate the blood-oxygen-level-dependent ([[bold-signal|BOLD]]) signal. Head motion during scanning introduces spurious correlations that can falsely inflate estimates of [[functional-connectivity]], particularly in clinical populations where motion is often elevated (Power et al., 2012). Physiological artifacts arising from cardiac cycles and respiration further corrupt the signal, and scanner-related drift and instabilities add temporal biases. Early approaches to address these issues relied on ad hoc, lab-specific preprocessing sequences that limited [[reproducibility]] and made cross-study comparisons difficult. XCP-D was developed to provide a standardized, well-documented solution that balances aggressive noise removal with preservation of the neural signal, thereby enabling more reliable and reproducible connectivity analyses across diverse datasets.
 
-The pipeline operates on the principle that a comprehensive confound regression model should account for both known and estimated noise sources. Unlike simpler approaches that regress only motion parameters, XCP-D incorporates multiple nuisance regressors including the global whole-brain signal, white matter and cerebrospinal fluid signals, motion derivatives, and high-pass frequency filtering. This multi-component approach follows from empirical demonstrations that combined regression strategies outperform single-regressor methods in reducing motion-related artifacts while maintaining sensitivity to genuine functional networks (Ciric et al., 2017).
+The pipeline operates on the principle that a comprehensive confound regression model should account for both known and estimated noise sources. Unlike simpler approaches that regress only motion parameters, XCP-D incorporates multiple nuisance regressors including the global [[whole-brain]] signal, [[white-matter]] and cerebrospinal fluid signals, motion derivatives, and high-pass frequency filtering. This multi-component approach follows from empirical demonstrations that combined regression strategies outperform single-regressor methods in reducing motion-related artifacts while maintaining sensitivity to genuine functional networks (Ciric et al., 2017).
 
 ## Technical Approach
 
-XCP-D employs a modular architecture that allows users to customize the confound regression strategy while maintaining a consistent output structure. The core processing steps include selection of nuisance regressors from a comprehensive menu, application of temporal filtering to isolate relevant frequency bands, and generation of quality control metrics to assess data quality post-processing.
+XCP-D employs a modular architecture that allows users to customize the confound regression strategy while maintaining a consistent output structure. The core processing [[steps]] include selection of nuisance regressors from a comprehensive menu, application of temporal filtering to isolate relevant frequency bands, and generation of quality control metrics to assess data quality post-processing.
 
 The nuisance regression model in XCP-D follows the general form:
 
 $$y(t) = \beta_0 + \sum_{i=1}^{n} \beta_i x_i(t) + \epsilon(t)$$
 
-where $y(t)$ represents the raw BOLD timeseries at time point $t$, the $\beta_i$ coefficients are estimated via ordinary least squares regression, $x_i(t)$ represents the $i$-th confound regressor (motion parameters, global signal, tissue signals, etc.), and $r(t) = y(t) - \hat{y}(t)$ captures the residual timeseries retained for connectivity analysis. The pipeline offers several regression models of increasing complexity, ranging from basic linear regression to more sophisticated approaches that include polynomial regressors for drift removal and temporal derivatives for motion correction.
+where $y(t)$ represents the raw BOLD timeseries at time point $t$, the $\beta_i$ coefficients are estimated via ordinary least squares regression, $x_i(t)$ represents the $i$-th confound regressor (motion parameters, global signal, tissue signals, etc.), and $r(t) = y(t) - \hat{y}(t)$ captures the residual timeseries retained for connectivity analysis. The pipeline offers several regression models of increasing complexity, ranging from basic [[linear]] regression to more sophisticated approaches that include polynomial regressors for drift removal and temporal derivatives for motion correction.
 
-Temporal filtering represents another critical component of the XCP-D workflow. The pipeline typically applies high-pass filtering (e.g., a cutoff frequency of 0.01 Hz) to remove low-frequency drift while preserving the resting-state signal of interest, which predominantly resides in the 0.01–0.1 Hz band (Siegel et al., 2017). Optional low-pass filtering can further restrict the analysis to specific frequency ranges relevant to particular network dynamics, with common choices including a 0.08 Hz or 0.1 Hz low-pass cutoff to focus on slow oscillations typical of resting-state networks.
+Temporal filtering represents another critical component of the XCP-D workflow. The pipeline typically applies high-pass filtering (e.g., a cutoff frequency of 0.01 Hz) to remove low-frequency drift while preserving the resting-state signal of interest, which predominantly resides in the 0.01–0.1 Hz band (Siegel et al., 2017). Optional low-pass filtering can further restrict the analysis to specific frequency ranges relevant to particular [[network-dynamics]], with common choices including a 0.08 Hz or 0.1 Hz low-pass cutoff to focus on slow oscillations typical of resting-state networks.
 
 ## Comparison to Alternative Post-Processing Strategies
 

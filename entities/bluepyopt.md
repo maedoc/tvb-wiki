@@ -1,15 +1,19 @@
 ---
-title: BluePyOpt
 created: 2025-01-15
-updated: 2026-04-28
-type: entity
-tags: [software-neuron, parameter-estimation, computational-neuroscience, spiking-neural-networks]
 sources:
-  - Van Geit et al., 2016, Neuron
-  - BluePyOpt documentation
+- Van Geit et al., 2016, Neuron
+- BluePyOpt documentation
+tags:
+- software-neuron
+- parameter-estimation
+- computational-neuroscience
+- spiking-neural-networks
+title: BluePyOpt
+type: entity
+updated: '2026-04-28'
 ---
 
-BluePyOpt (Blue Python Optimization) is an open-source Python-based software framework designed specifically for the optimization of neuron model parameters. It provides a flexible and scalable platform for fitting conductance-based neural models to experimental data, addressing one of the fundamental challenges in computational neuroscience: the accurate calibration of detailed biophysical neuron models to match empirical observations. The software was developed to streamline the often labor-intensive process of parameter estimation in single-neuron biophysical models and [[spiking-neural-networks]], where manual parameter tuning becomes impractical given the high dimensionality of the parameter space[^1].
+BluePyOpt (Blue Python Optimization) is an open-source Python-based software framework designed specifically for the optimization of [[neuron]] model parameters. It provides a flexible and scalable platform for fitting conductance-based neural models to experimental data, addressing one of the fundamental challenges in computational neuroscience: the accurate calibration of detailed biophysical neuron models to match empirical observations. The software was developed to streamline the often labor-intensive process of parameter estimation in single-neuron biophysical models and [[spiking-neural-networks]], where manual parameter tuning becomes impractical given the high dimensionality of the parameter space[^1].
 
 ## Motivation and Context
 
@@ -25,7 +29,7 @@ The optimization algorithms available include the Covariance Matrix Adaptation E
 
 ## Relationship to TVB and Broader Ecosystem
 
-While BluePyOpt focuses on single-neuron and small-network optimization, it relates to [[the-virtual-brain]] (TVB) through the complementary nature of their applications. TVB operates at the whole-brain level, simulating large-scale network dynamics using neural-mass models. The optimization outcomes from BluePyOpt can in principle inform the mean-field parameters used in TVB's population-level models, creating a multi-scale modeling pipeline from cellular to systems-level dynamics.
+While BluePyOpt focuses on single-neuron and small-network optimization, it relates to [[the-virtual-brain]] (TVB) through the complementary nature of their applications. TVB operates at the [[whole-brain]] level, simulating large-scale [[network-dynamics]] using neural-mass models. The optimization outcomes from BluePyOpt can in principle inform the [[mean-field-theory|mean-field]] parameters used in TVB's population-level models, creating a multi-scale modeling pipeline from cellular to systems-level dynamics.
 
 The software integrates with the broader [[computational-neuroscience]] ecosystem through its compatibility with [[neuron-simulator]] and support for standards such as [[neuroml]] for model description. This integration positions BluePyOpt as a key component in the toolchain connecting experimental data to detailed computational models used in studies of [[brain-dynamics]], [[epilepsy-modeling]], and [[personalized-brain-modeling]].
 

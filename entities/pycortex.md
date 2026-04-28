@@ -1,20 +1,24 @@
 ---
-title: PyCortex
 created: 2024-01-15
-updated: 2026-04-28
-type: entity
-tags: [software-visualization, neuroimaging, neuroimaging-fmri, brain-parcellations]
 sources:
-  - https://github.com/jamesgao/pycortex
-  - https://pmc.ncbi.nlm.nih.gov/articles/PMC4750127/
-  - https://gallantlab.org/
+- https://github.com/jamesgao/pycortex
+- https://pmc.ncbi.nlm.nih.gov/articles/PMC4750127/
+- https://gallantlab.org/
+tags:
+- software-visualization
+- neuroimaging
+- neuroimaging-fmri
+- brain-parcellations
+title: PyCortex
+type: entity
+updated: '2026-04-28'
 ---
 
 ## Overview
 
-PyCortex is an open-source Python library designed for the visualization and analysis of neuroimaging data on cortical surfaces. Developed by James Gao at the Gallant Lab at the University of California, Berkeley, PyCortex provides a streamlined interface for rendering volumetric brain imaging data—particularly functional magnetic resonance imaging (fMRI) signals—onto three-dimensional cortical meshes derived from structural MRI scans. The software operates as a middle layer between raw neuroimaging data formats (such as NIfTI) and interactive web-based or standalone visualization outputs, making it especially valuable for researchers working with surface-based representations of brain activity.
+PyCortex is an open-source Python library designed for the visualization and analysis of [[neuroimaging]] data on cortical surfaces. Developed by James Gao at the Gallant Lab at the University of California, Berkeley, PyCortex provides a streamlined interface for rendering volumetric brain imaging data—particularly functional magnetic resonance imaging ([[fmri]]) signals—onto three-dimensional cortical meshes derived from structural MRI scans. The software operates as a middle layer between raw neuroimaging data formats (such as [[nifti]]) and interactive web-based or standalone visualization outputs, making it especially valuable for researchers working with surface-based representations of brain activity.
 
-The core functionality of PyCortex revolves around its ability to warp volumetric fMRI data onto a standardized cortical surface, enabling researchers to visualize activation patterns in a way that respects the underlying anatomy of the cerebral cortex. Unlike volume-based visualizations that display data in voxel grids, surface-based representations preserve the topological relationships between brain regions and reveal patterns of activation that follow the folded structure of the cortical sheet. This capability has made PyCortex a popular tool in the connectomics and whole-brain modeling communities, where surface representations are frequently used to display functional connectivity patterns, dynamic activity states, and model outputs.
+The core functionality of PyCortex revolves around its ability to warp volumetric fMRI data onto a standardized cortical surface, enabling researchers to visualize activation patterns in a way that respects the underlying anatomy of the cerebral cortex. Unlike volume-based visualizations that display data in voxel grids, surface-based representations preserve the topological relationships between brain regions and reveal patterns of activation that follow the folded structure of the cortical sheet. This capability has made PyCortex a popular tool in the [[connectomics]] and [[whole-brain|whole-brain modeling]] communities, where surface representations are frequently used to display functional connectivity patterns, dynamic activity states, and model outputs.
 
 ## Key Features
 

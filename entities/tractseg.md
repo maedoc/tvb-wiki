@@ -1,28 +1,34 @@
 ---
-title: TractSeg
 created: 2024-01-15
-updated: 2026-04-28
-type: entity
-tags: [software-tractography, software-mrtrix3, diffusion-imaging, structural-connectivity, white-matter, tractography]
 sources:
-  - https://doi.org/10.1016/j.neuroimage.2018.07.070
-  - https://arxiv.org/abs/1805.07103
-  - https://arxiv.org/abs/1806.05580
-  - https://www.sciencedirect.com/science/article/pii/S136184151930101X
-  - https://www.humanconnectomeproject.org/
+- https://doi.org/10.1016/j.neuroimage.2018.07.070
+- https://arxiv.org/abs/1805.07103
+- https://arxiv.org/abs/1806.05580
+- https://www.sciencedirect.com/science/article/pii/S136184151930101X
+- https://www.humanconnectomeproject.org/
+tags:
+- software-tractography
+- software-mrtrix3
+- diffusion-imaging
+- structural-connectivity
+- white-matter
+- tractography
+title: TractSeg
+type: entity
+updated: '2026-04-28'
 ---
 
-TractSeg is an open-source software tool for the automated segmentation of white matter tracts from diffusion magnetic resonance imaging (dMRI) data. Developed by **Jakob Wasserthal**, **Peter Neher**, and colleagues at the German Cancer Research Center (DKFZ), it employs machine learning techniques, specifically convolutional neural networks, to identify and extract major white matter fiber bundles in the brain. The tool produces binary segmentation masks for each identified tract, which can then be used to generate region-of-interest (ROI) masks for tractography analysis or to construct structural connectivity matrices for whole-brain modeling applications.
+TractSeg is an open-source software tool for the automated segmentation of [[white-matter]] tracts from diffusion magnetic resonance imaging (dMRI) data. Developed by **Jakob Wasserthal**, **Peter Neher**, and colleagues at the German Cancer Research Center (DKFZ), it employs machine learning techniques, specifically convolutional neural networks, to identify and extract major white matter fiber bundles in the brain. The tool produces binary segmentation masks for each identified tract, which can then be used to generate region-of-interest (ROI) masks for [[tractography]] analysis or to construct [[structural-connectivity]] matrices for [[whole-brain|whole-brain modeling]] applications.
 
 ## Overview
 
-TractSeg was developed to address a major bottleneck in connectome analysis: the time-consuming and operator-dependent process of manually defining white matter tracts. Traditionally, researchers had to manually delineate tract ROIs based on anatomical landmarks, a process that could take hours per subject and introduced significant inter-rater variability. TractSeg automates this process by implementing a fully convolutional neural network trained on the Human Connectome Project (HCP) dataset[^1], enabling reproducible and objective tract segmentation across large cohorts.
+TractSeg was developed to address a major bottleneck in [[connectome]] analysis: the time-consuming and operator-dependent process of manually defining white matter tracts. Traditionally, researchers had to manually delineate tract ROIs based on anatomical landmarks, a process that could take hours per subject and introduced significant inter-rater variability. TractSeg automates this process by implementing a fully convolutional [[neural-network]] trained on the [[human-connectome-project]] (HCP) dataset[^1], enabling reproducible and objective tract segmentation across large cohorts.
 
-The software operates on processed fiber orientation distribution functions (FODs) obtained from constrained spherical deconvolution (CSD) of diffusion MRI data. It segments 72 major white matter tracts, including association tracts (such as the arcuate fasciculus, uncinate fasciculus, and inferior fronto-occipital fasciculus), projection tracts (such as the corticospinal tract and thalamic radiations), and commissural tracts (such as the corpus callosum divisions)[^2]. Each tract is represented as a three-dimensional binary mask that can be used directly for further analysis or as input to other neuroimaging tools.
+The software operates on processed fiber orientation distribution functions (FODs) obtained from constrained spherical deconvolution (CSD) of [[diffusion-mri]] data. It segments 72 major white matter tracts, including association tracts (such as the arcuate fasciculus, uncinate fasciculus, and inferior fronto-occipital fasciculus), projection tracts (such as the corticospinal tract and thalamic radiations), and commissural tracts (such as the corpus callosum divisions)[^2]. Each tract is represented as a three-dimensional binary mask that can be used directly for further analysis or as input to other [[neuroimaging]] tools.
 
 ## Key Features
 
-TractSeg offers several features that make it particularly valuable for computational neuroscience and connectomics research. First, the tool provides fully automated tract segmentation without requiring manual placement of waypoint or exclusion masks, significantly reducing preprocessing time. Second, the machine learning approach ensures consistency across subjects and datasets, eliminating the inter-rater variability inherent in manual segmentation. Third, TractSeg outputs both the tract masks and the extracted tractograms, allowing researchers to examine the resulting fiber populations directly.
+TractSeg offers several features that make it particularly valuable for [[computational-neuroscience]] and connectomics research. First, the tool provides fully automated tract segmentation without requiring manual placement of waypoint or exclusion masks, significantly reducing preprocessing time. Second, the machine learning approach ensures consistency across subjects and datasets, eliminating the inter-rater variability inherent in manual segmentation. Third, TractSeg outputs both the tract masks and the extracted tractograms, allowing researchers to examine the resulting fiber populations directly.
 
 The software integrates tightly with the MRtrix3 ecosystem, leveraging its robust preprocessing pipelines for diffusion data and advanced tractography algorithms. TractSeg can operate on either single-shell or multi-shell diffusion data and is compatible with standard preprocessing pipelines including eddy current correction and motion correction. The output format follows NIfTI conventions, ensuring compatibility with a wide range of neuroimaging software including [[FSL]], [[AFNI]], [[3D-Slicer]], and [[ITK-SNAP]].
 

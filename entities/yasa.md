@@ -1,10 +1,17 @@
 ---
-title: YASA
 created: 2026-04-23
-updated: 2026-04-28
+sources:
+- Vallat2021
+- Lacourse2018
+- Bertrand2018
+- Campruzi2020
+tags:
+- software-brain-modeling
+- neuroimaging-eeg
+- brain-oscillations
+title: YASA
 type: entity
-tags: [software-brain-modeling, neuroimaging-eeg, brain-oscillations]
-sources: [Vallat2021, Lacourse2018, Bertrand2018, Campruzi2020]
+updated: '2026-04-28'
 ---
 
 # YASA
@@ -25,7 +32,7 @@ Additional utilities include artifact rejection algorithms for identifying and r
 
 ## Relationship to Whole-Brain Modeling and TVB
 
-While YASA is primarily positioned in the sleep research domain rather than directly within the whole-brain modeling ecosystem, it maintains relevant connections to computational neuroscience workflows. The detection and analysis of sleep spindles and slow-waves aligns with broader research into [[brain-oscillations]] and neural mass model representations of cortical dynamics. Sleep oscillations emerge from the coordinated activity of large neuronal populations, and characterizing their properties using YASA can inform the parameterization of neural mass models that simulate similar oscillatory behavior during wakefulness or disease states such as [[epilepsy-modeling]].
+While YASA is primarily positioned in the sleep research domain rather than directly within the [[whole-brain|whole-brain modeling]] ecosystem, it maintains relevant connections to [[computational-neuroscience]] workflows. The detection and analysis of sleep spindles and slow-waves aligns with broader research into [[brain-oscillations]] and neural mass model representations of cortical dynamics. Sleep oscillations emerge from the coordinated activity of large neuronal populations, and characterizing their properties using YASA can inform the parameterization of [[neural-mass-models]] that simulate similar oscillatory behavior during wakefulness or disease states such as [[epilepsy-modeling]].
 
 From a neuroimaging perspective, YASA processes [[EEG]] data that can be compared against [[fMRI]] measurements or used to validate forward models linking neural activity to electromagnetic fields. The spectral analysis features enable characterization of frequency-specific neural activity that relates to the [[neural-mass-model]] framework used in [[whole-brain-modeling]] platforms like [[TVB]]. Sleep deprivation and sleep quality have been shown to alter functional brain connectivity patterns [[Campruzi2020]], and tools like YASA that enable detailed sleep phenotyping can contribute to personalized brain modeling by providing subject-specific physiological state information.
 
@@ -49,7 +56,7 @@ YASA is implemented in Python and depends on scientific computing libraries incl
 
 - Bertrand, C., Chatain, C., Riedner, B., Ganzetti, M., & Masson, S. (2018). Automatic detection of slow waves during daytime sleep: Performance and comparison of different algorithms. *Sleep Medicine*, 52, 119-127. [[Bertrand2018]]
 
-- Campruzi, L., Comte, J.-C., Maugeais, P., Balista, J., Coghill, D., & Sztajzel, F. (2020). Sleep and functional connectivity: A review. *Neuroscience & Biobehavioral Reviews*, 118, 735-748. [[Campruzi2020]]
+- Campruzi, L., Comte, J.-C., Maugeais, P., Balista, J., Coghill, D., & Sztajzel, F. (2020). Sleep and functional [[connectivity]]: A review. *Neuroscience & Biobehavioral Reviews*, 118, 735-748. [[Campruzi2020]]
 
 - Lacourse, K., Delfosse, E., Martel, J., Louis, L., Cervantes, S., Veilleux, L., ... & Carrier, J. (2018). An automatic spindle detection algorithm with benchmarking on a large set of sleep recordings. *Journal of Neuroscience Methods*, 306, 94-103. [[Lacourse2018]]
 

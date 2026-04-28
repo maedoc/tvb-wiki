@@ -1,23 +1,40 @@
 ---
-title: CIVET
 created: 2024-01-15
-updated: 2026-04-28
-type: entity
-tags: [software-neuroimaging, neuroimaging-mri, cortical-thickness, brain-parcellations, software-analysis, connectomics, structural-connectivity, mni-space, computational-neuroscience, preprocessing]
 sources:
-  - "Kim, J. S., et al. (2005). Automated inferential indexing of cortical thickness in elderly adults. NeuroImage, 26(2), 571-582."
-  - "Lyttelton, O., et al. (2007). Position and orientation sensitive cortical thickness measurement. NeuroImage, 35(2), 603-616."
-  - "Ad-Dab'bagh, Y., et al. (2006). The CIVET automated pipeline for cortical analysis of MRI data. NeuroImage, 31(2), S62."
-  - "Evans, A. C., et al. (2012). 3D statistical neuroanatomical models from 305 MRI volumes. In IEEE Nuclear Science Symposium and Medical Imaging Conference (pp. 1743-1746)."
-  - "Dale, A. M., Fischl, B., & Sereno, M. I. (1999). Cortical surface-based analysis: I. Segmentation and surface reconstruction. NeuroImage, 9(2), 179-194."
-  - "Fischl, B., & Dale, A. M. (2000). Measuring the thickness of the human cerebral cortex from magnetic resonance images. Proceedings of the National Academy of Sciences, 97(20), 11050-11055."
+- Kim, J. S., et al. (2005). Automated inferential indexing of cortical thickness
+  in elderly adults. NeuroImage, 26(2), 571-582.
+- Lyttelton, O., et al. (2007). Position and orientation sensitive cortical thickness
+  measurement. NeuroImage, 35(2), 603-616.
+- Ad-Dab'bagh, Y., et al. (2006). The CIVET automated pipeline for cortical analysis
+  of MRI data. NeuroImage, 31(2), S62.
+- Evans, A. C., et al. (2012). 3D statistical neuroanatomical models from 305 MRI
+  volumes. In IEEE Nuclear Science Symposium and Medical Imaging Conference (pp. 1743-1746).
+- 'Dale, A. M., Fischl, B., & Sereno, M. I. (1999). Cortical surface-based analysis:
+  I. Segmentation and surface reconstruction. NeuroImage, 9(2), 179-194.'
+- Fischl, B., & Dale, A. M. (2000). Measuring the thickness of the human cerebral
+  cortex from magnetic resonance images. Proceedings of the National Academy of Sciences,
+  97(20), 11050-11055.
+tags:
+- software-neuroimaging
+- neuroimaging-mri
+- cortical-thickness
+- brain-parcellations
+- software-analysis
+- connectomics
+- structural-connectivity
+- mni-space
+- computational-neuroscience
+- preprocessing
+title: CIVET
+type: entity
+updated: '2026-04-28'
 ---
 
 # CIVET
 
 ## Overview
 
-CIVET (sometimes expanded as "Canadian Institute for Advanced Research Volumetric Imaging," though this expansion is not universally attested in the literature) is a fully automated processing pipeline for magnetic resonance imaging (MRI) data, developed primarily at the Montreal Neurological Institute (MNI) for the quantitative analysis of cortical anatomy. The software extracts cortical thickness measurements and brain tissue volumes from T1-weighted MRI scans through a sophisticated deformable surface model approach. Since its initial release in the early 2000s, CIVET has become one of the standard tools for cortical thickness analysis in both developmental neuroscience and clinical research contexts, with particular prominence in studies of normal aging, Alzheimer's disease, and schizophrenia (Kim et al., 2005; Lyttelton et al., 2007).
+CIVET (sometimes expanded as "Canadian Institute for Advanced Research Volumetric Imaging," though this expansion is not universally attested in the literature) is a fully automated processing pipeline for magnetic resonance imaging (MRI) data, developed primarily at the Montreal Neurological Institute (MNI) for the quantitative analysis of cortical anatomy. The software extracts cortical thickness measurements and brain tissue volumes from T1-weighted MRI scans through a sophisticated deformable surface model approach. Since its initial release in the early 2000s, CIVET has become one of the standard tools for cortical thickness analysis in both developmental neuroscience and clinical research contexts, with particular prominence in studies of normal [[aging]], Alzheimer's disease, and schizophrenia (Kim et al., 2005; Lyttelton et al., 2007).
 
 ## Technical Foundation
 
@@ -25,7 +42,7 @@ CIVET (sometimes expanded as "Canadian Institute for Advanced Research Volumetri
 
 CIVET employs a multi-stage processing pipeline that transforms raw T1-weighted MRI scans into quantitative measures of cortical architecture. The pipeline begins with non-uniform intensity normalization to correct for artifacts introduced by the MRI scanner's magnetic field inhomogeneities. Following intensity correction, an automated brain extraction algorithm identifies and removes non-brain tissue from the image, isolating the intracranial contents for subsequent analysis.
 
-The core of CIVET's methodology relies on the **CLASP** (Constrained Laplacian Anatomic Segmentation using Progressive Surfaces) algorithm, which generates accurate representations of the inner (white matter) and outer (pial) cortical surfaces (Ad-Dab'bagh et al., 2006). This approach uses a deformable surface model that evolves from an initial spherical mesh, driven by external forces derived from the MRI signal intensity and constrained by anatomical priors. The distance between corresponding vertices on the white and pial surfaces—measured normal to the cortical sheet—provides the cortical thickness estimate at each point across the cortex.
+The core of CIVET's methodology relies on the **CLASP** (Constrained Laplacian Anatomic Segmentation using Progressive Surfaces) algorithm, which generates accurate representations of the inner ([[white-matter]]) and outer (pial) cortical surfaces (Ad-Dab'bagh et al., 2006). This approach uses a deformable surface model that evolves from an initial spherical mesh, driven by external forces derived from the MRI signal intensity and constrained by anatomical priors. The distance between corresponding vertices on the white and pial surfaces—measured normal to the cortical sheet—provides the cortical thickness estimate at each point across the cortex.
 
 ### Anatomical Registration
 
@@ -33,9 +50,9 @@ CIVET incorporates advanced registration techniques to enable group-level compar
 
 ## Key Features
 
-CIVET offers several distinctive capabilities that have contributed to its widespread adoption in the neuroimaging community. The pipeline provides automated segmentation of brain tissues into white matter, gray matter, and cerebrospinal fluid compartments, reducing the need for manual intervention that introduces variability across studies. Cortical thickness measurements can be extracted at the level of individual vertices, regional parcels (using atlases such as the AAL or Desikan-Killiany atlas), or globally averaged across the entire cortex.
+CIVET offers several distinctive capabilities that have contributed to its widespread adoption in the [[neuroimaging]] community. The pipeline provides automated segmentation of brain tissues into white matter, gray matter, and cerebrospinal fluid compartments, reducing the need for manual intervention that introduces variability across studies. Cortical thickness measurements can be extracted at the level of individual vertices, regional parcels (using atlases such as the AAL or [[desikan-killiany-atlas]]), or globally averaged across the entire cortex.
 
-The software includes integrated quality control metrics that flag datasets with potential processing errors, enabling researchers to exclude problematic cases before statistical analysis. Additionally, CIVET produces outputs that can be used in subsequent connectivity analyses—the surface-based representations are compatible with tools for white matter tractography and functional connectivity mapping.
+The software includes integrated quality control metrics that flag datasets with potential processing errors, enabling researchers to exclude problematic cases before statistical analysis. Additionally, CIVET produces outputs that can be used in subsequent [[connectivity]] analyses—the surface-based representations are compatible with tools for white matter [[tractography]] and functional connectivity mapping.
 
 ## Relationship to Whole-Brain Modeling
 
@@ -84,7 +101,7 @@ MacDonald, D., et al. (2000). Automated 3D extraction of inner and outer surface
 - [[cortical-thickness]] — The primary measurement extracted by CIVET, representing the distance between white matter and pial surfaces
 - [[mni-space]] — The stereotaxic coordinate system used by CIVET for spatial normalization
 - [[brain-parcellations]] — Regional divisions of the cortex that can be applied to CIVET-derived thickness maps
-- [[preprocessing]] — The image processing steps that prepare MRI data for analysis
+- [[preprocessing]] — The image processing [[steps]] that prepare MRI data for analysis
 - [[surface-based-analysis]] — The methodological approach CIVET uses, operating on cortical meshes rather than volumetric data
 - [[alzheimer-disease]] — One of the primary clinical applications of CIVET cortical thickness analysis
 - [[neural-mass-models]] — The type of models that may incorporate CIVET-derived anatomical parameters

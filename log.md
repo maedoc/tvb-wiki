@@ -585,3 +585,5 @@
 2026-04-28: Updated xcp-d.md page with comprehensive content covering XCP-D post-processing pipeline for fMRI data
 
 ## [2026-04-28 20:01] Improve: 3 pages improved (bluepyopt, power-atlas, xcp-d)
+
+## [2026-04-28 20:01] RefFormatter: formatted references on 3 pages

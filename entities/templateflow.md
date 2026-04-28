@@ -1,31 +1,41 @@
 ---
-title: TemplateFlow
 created: 2024-01-15
-updated: 2026-04-28
+sources:
+- 10.1101/2020.10.19.202981
+- 10.1016/j.neuroimage.2020.117305
+- 10.1101/2023.04.10.488823
+- 10.1016/j.neuroimage.2022.119165
+tags:
+- software-neuroimaging
+- neuroimaging
+- parcellation
+- brain-atlases
+- software-nilearn
+- database-neuroimaging
+title: TemplateFlow
 type: software
-tags: [software-neuroimaging, neuroimaging, parcellation, brain-atlases, software-nilearn, database-neuroimaging]
-sources: [10.1101/2020.10.19.202981, 10.1016/j.neuroimage.2020.117305, 10.1101/2023.04.10.488823, 10.1016/j.neuroimage.2022.119165]
+updated: '2026-04-28'
 ---
 
 # TemplateFlow
 
 ## Overview
 
-TemplateFlow is a Python-based library and repository that provides standardized neuroimaging templates, brain parcellations (atlases), and associated metadata for neuroscientific research. It serves as a centralized, versioned resource for accessing and working with neuroimaging templates in a consistent manner, particularly within the Python neuroimaging ecosystem. The library facilitates reproducible neuroimaging workflows by ensuring that researchers can precisely specify which template version and resolution they are using, eliminating the ambiguity that historically plagued template-based analyses. TemplateFlow is designed to integrate seamlessly with popular neuroimaging Python packages such as [[nilearn]] and [[pybids]], making it an essential component of modern connectome-based analysis pipelines.
+TemplateFlow is a Python-based library and repository that provides standardized [[neuroimaging]] templates, [[brain-parcellations]] (atlases), and associated metadata for neuroscientific research. It serves as a centralized, versioned resource for accessing and working with neuroimaging templates in a consistent manner, particularly within the Python neuroimaging ecosystem. The library facilitates reproducible neuroimaging workflows by ensuring that researchers can precisely specify which template version and resolution they are using, eliminating the ambiguity that historically plagued template-based analyses. TemplateFlow is designed to integrate seamlessly with popular neuroimaging Python packages such as [[nilearn]] and [[pybids]], making it an essential component of modern connectome-based analysis pipelines.
 
 ## Motivation and Context
 
-The field of neuroimaging has long relied on standardized templates—geometric references that allow data from different individuals, scanner types, and studies to be compared in a common space. The most widely used such template is the MNI (Montreal Neurological Institute) space, which originated from the work of [[alan-evans]] and colleagues at the Montreal Neurological Institute's McConnell Brain Imaging Centre [@mni-original]. However, the neuroimaging community has historically struggled with a fragmented landscape of templates: different research groups used different versions of MNI templates, different resolutions (1mm, 2mm, 5mm), and different naming conventions. This fragmentation introduced reproducibility challenges, as findings from one laboratory could not be directly compared to findings from another using different template versions.
+The field of neuroimaging has long relied on standardized templates—geometric references that allow data from different individuals, scanner types, and studies to be compared in a common space. The most widely used such template is the MNI (Montreal Neurological Institute) space, which originated from the work of [[alan-evans]] and colleagues at the Montreal Neurological Institute's McConnell Brain Imaging Centre [@mni-original]. However, the neuroimaging community has historically struggled with a fragmented landscape of templates: different research groups used different versions of MNI templates, different resolutions (1mm, 2mm, 5mm), and different naming conventions. This fragmentation introduced [[reproducibility]] challenges, as findings from one laboratory could not be directly compared to findings from another using different template versions.
 
-TemplateFlow addresses this problem by providing a curated, versioned repository of templates with a consistent API. The library maintains templates from multiple sources including the MNI templates (MNI152, MNI152NLin6Asym, MNI152NLin2009cAsym), the CIFTI-compatible grayordinates templates, and various parcellation schemes including those from the Human Connectome Project [@tFw-2020]. By providing programmatic access to these resources, TemplateFlow enables researchers to write analysis pipelines that explicitly specify template identity, version, resolution, and space, making reproducibility a default rather than an afterthought. This is particularly important for [[whole-brain modeling]] and [[connectomics]] research, where the choice of parcellation scheme fundamentally determines the graph structure of brain networks.
+TemplateFlow addresses this problem by providing a curated, versioned repository of templates with a consistent API. The library maintains templates from multiple sources including the MNI templates (MNI152, MNI152NLin6Asym, MNI152NLin2009cAsym), the [[cifti]]-compatible grayordinates templates, and various [[parcellation]] schemes including those from the [[human-connectome-project]] [@tFw-2020]. By providing programmatic access to these resources, TemplateFlow enables researchers to write analysis pipelines that explicitly specify template identity, version, resolution, and space, making reproducibility a default rather than an afterthought. This is particularly important for [[whole-brain modeling]] and [[connectomics]] research, where the choice of parcellation scheme fundamentally determines the graph structure of brain networks.
 
 ## Key Features
 
-TemplateFlow is organized around the concept of a "template" – a volumetric image (typically in NIfTI format) along with associated files such as brain masks, region-of-interest definitions, and metadata. The library provides a Pythonic interface for querying templates by name, resolution, space, and other attributes, returning file paths that can be directly used with other neuroimaging libraries. Templates in TemplateFlow are-versioned, meaning that updates to template files are tracked and previous versions remain accessible; this ensures that analyses remain reproducible even as the underlying resources evolve.
+TemplateFlow is organized around the concept of a "template" – a volumetric image (typically in [[nifti]] format) along with associated files such as brain masks, region-of-interest definitions, and metadata. The library provides a Pythonic interface for querying templates by name, resolution, space, and other attributes, returning file paths that can be directly used with other neuroimaging libraries. Templates in TemplateFlow are-versioned, meaning that updates to template files are tracked and previous versions remain accessible; this ensures that analyses remain reproducible even as the underlying resources evolve.
 
 One of TemplateFlow's most important contributions is its handling of template spaces and resolutions. The library distinguishes between template spaces (such as MNI152, MNI152NLin6Asym, or the original native acquisition space) and resolution specifications (typically 1mm, 2mm, or other isotropic voxel sizes). Researchers can request exactly the template configuration they need without manually downloading files from multiple sources or managing directory structures. The library also provides template metadata including publication references, version histories, and licensing information, enabling proper attribution and compliance with open-science requirements.
 
-TemplateFlow integrates closely with [[nilearn]] and [[pybids]], two foundational libraries in the Python neuroimaging ecosystem. Through this integration, researchers can load template images directly into memory for use in mass-univariate analyses, searchlight analyses, or whole-brain modeling work. The library supports both volume-based (voxel-wise) and surface-based analyses, accommodating the full range of modern neuroimaging methodologies.
+TemplateFlow integrates closely with [[nilearn]] and [[pybids]], two foundational libraries in the Python neuroimaging ecosystem. Through this integration, researchers can load template images directly into memory for use in mass-univariate analyses, searchlight analyses, or [[whole-brain|whole-brain modeling]] work. The library supports both volume-based (voxel-wise) and surface-based analyses, accommodating the full range of modern neuroimaging methodologies.
 
 ## Relationship to TVB
 
@@ -34,8 +44,8 @@ While TemplateFlow is not itself a whole-brain simulator, it provides essential 
 ## Key Papers
 
 - **TemplateFlow: A Python repository of neuroimaging templates** [@tFw-2020] - The original paper describing the library's architecture, API, and design principles.
-- **Ten Mile Square: A Multi-Modal Neuroimaging Template for the MNI Space** [@mni-original] - The foundational publication describing the MNI152 template creation and its development at the Montreal Neurological Institute.
-- **Harmonization of multi-site diffusion MRI data sets using attribute matching** [@attr-match] - Related work on standardizing neuroimaging data that complements TemplateFlow's approach to template versioning.
+- **Ten Mile Square: A Multi-Modal Neuroimaging Template for the [[mni-space]]** [@mni-original] - The foundational publication describing the MNI152 template creation and its development at the Montreal Neurological Institute.
+- **Harmonization of multi-site [[diffusion-mri]] data sets using attribute matching** [@attr-match] - Related work on standardizing neuroimaging data that complements TemplateFlow's approach to template versioning.
 
 ## Related Software
 

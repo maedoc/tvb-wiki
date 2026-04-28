@@ -1,17 +1,23 @@
 ---
-title: XCOS
 created: 2024-01-15
-updated: 2026-04-28
+sources:
+- mne-tools.github.io
+- github.com/mne-tools/mne-python
+tags:
+- neuroimaging-eeg
+- source-localization
+- brain-dynamics
+- computational-neuroscience
+title: XCOS
 type: concept
-tags: [neuroimaging-eeg, source-localization, brain-dynamics, computational-neuroscience]
-sources: [mne-tools.github.io, github.com/mne-tools/mne-python]
+updated: '2026-04-28'
 ---
 
 # XCOS
 
 ## Overview
 
-XCOS (Extended COrdinate System) refers to a standardized framework for representing and transforming electroencephalography (EEG) electrode positions in three-dimensional space. While not a formally standardized international system, XCOS conceptually encompasses the methodologies and coordinate transformations required to accurately map scalp electrode locations to standard anatomical spaces for source localization and forward modeling in whole-brain modeling frameworks like [[the-virtual-brain]]. The framework addresses a fundamental challenge in electrophysiology: converting the two-dimensional representation of electrode arrays on the scalp into three-dimensional coordinates that can be registered to structural Magnetic Resonance Imaging (MRI) data and used in biophysical forward models.
+XCOS (Extended COrdinate System) refers to a standardized framework for representing and transforming electroencephalography (EEG) electrode positions in three-dimensional space. While not a formally standardized international system, XCOS conceptually encompasses the methodologies and coordinate transformations required to accurately map scalp electrode locations to standard anatomical spaces for source localization and forward modeling in [[whole-brain|whole-brain modeling]] frameworks like [[the-virtual-brain]]. The framework addresses a fundamental challenge in [[electrophysiology]]: converting the two-dimensional representation of electrode arrays on the scalp into three-dimensional coordinates that can be registered to structural Magnetic Resonance Imaging (MRI) data and used in biophysical forward models.
 
 ## The 10-20 System and Its Extensions
 
@@ -23,7 +29,7 @@ The extended 10-10 system addresses this limitation by introducing intermediate 
 
 Accurate EEG source localization requires transforming electrode positions through multiple coordinate frames. The native or "head" coordinate system is established during digitization, with the origin typically defined at the midpoint between the preauricular points or at the intersection of the nasion and mid-inion line. These native coordinates must then be registered to the scanner's native MRI space, and subsequently transformed to a standard template space such as [[mni-space]] (Montreal Neurological Institute space) to enable group-level analyses and comparison with other neuroimaging modalities including [[fmri]] and [[meg]].
 
-This coregistration process typically involves identifying fiducial landmarks in both the native digitization and MRI datasets, followed by rigid-body transformation and optionally non-rigid deformation for improved accuracy. The transformation matrix (often stored in "-trans.fif" format in MNE-Python) encodes the relationship between the head coordinate frame and the MRI scanner space.
+This coregistration process typically involves identifying fiducial landmarks in both the native digitization and MRI datasets, followed by rigid-body transformation and optionally non-rigid deformation for improved accuracy. The transformation matrix (often stored in "-trans.fif" format in [[mne-python]]) encodes the relationship between the head coordinate frame and the MRI scanner space.
 
 ## Forward Modeling and Leadfield Computation
 
@@ -38,26 +44,26 @@ In [[the-virtual-brain]], electrode coordinate handling plays several important 
 ## Key Features
 
 - **Standardized spatial representation**: Provides consistent framework for EEG electrode positions across laboratories and acquisition systems.
-- **MNI-space registration**: Enables integration with template brains and multimodal neuroimaging data analysis.
+- **MNI-space registration**: Enables integration with template brains and multimodal [[neuroimaging]] data analysis.
 - **High-density array support**: Accommodates modern EEG systems with 128+ channels.
 - **Forward modeling integration**: Supplies necessary inputs for accurate EEG source localization algorithms.
 - **Multi-subject harmonization**: Standardizes coordinates across participants for group-level analyses.
-- **Software interoperability**: Compatible with major EEG analysis packages including [[eeglab]], FieldTrip, and MNE-Python.
+- **Software interoperability**: Compatible with major EEG analysis packages including [[eeglab]], [[fieldtrip]], and MNE-Python.
 
 ## Relationship to Related Concepts
 
-This framework connects to numerous concepts in computational neuroscience and neuroimaging:
+This framework connects to numerous concepts in [[computational-neuroscience]] and neuroimaging:
 
 - [[eeg]]: The primary electrophysiological modality for which coordinate standardization is required.
 - [[source-localization]]: The process of estimating intracranial sources from scalp EEG, depending on accurate forward models and electrode positions.
 - [[forward-model]]: The biophysical prediction of scalp potentials from brain sources; electrode coordinates are essential inputs.
-- [[structural-connectivity]]: Anatomical connectivity matrices derived from diffusion imaging that constrain whole-brain models and must be coregistered with EEG data.
-- [[effective-connectivity]]: Dynamic causal modeling approaches that require accurate forward solutions for interpreting EEG data.
-- [[whole-brain-modeling]]: Large-scale brain network simulations that generate predicted EEG signals for comparison with empirical recordings.
+- [[structural-connectivity]]: Anatomical [[connectivity]] matrices derived from diffusion imaging that constrain whole-brain models and must be coregistered with EEG data.
+- [[effective-connectivity]]: [[dynamic-causal-modeling]] approaches that require accurate forward solutions for interpreting EEG data.
+- [[whole-brain-modeling]]: Large-scale [[brain-network]] simulations that generate predicted EEG signals for comparison with empirical recordings.
 
 ## Open Questions and Challenges
 
-Despite advances in electrode positioning technology and registration algorithms, significant challenges remain in the field. Registration accuracy depends on the quality of anatomical landmark identification, which can vary across operators and participants. Head movement during long-term EEG monitoring—common in epilepsy monitoring units—introduces spatial errors that are difficult to correct without additional reference channels. The assumption of isotropic conductivity in standard volume conductor models may be inadequate for capturing anisotropic effects in white matter regions, potentially limiting source localization accuracy for deep brain structures.
+Despite advances in electrode positioning technology and registration algorithms, significant challenges remain in the field. Registration accuracy depends on the quality of anatomical landmark identification, which can vary across operators and participants. Head movement during long-term EEG monitoring—common in epilepsy monitoring units—introduces spatial errors that are difficult to correct without additional reference channels. The assumption of isotropic conductivity in standard volume conductor models may be inadequate for capturing anisotropic effects in [[white-matter]] regions, potentially limiting source localization accuracy for deep brain structures.
 
 Future directions include developing automated, machine learning-driven registration algorithms, incorporating patient-specific conductivity estimates from diffusion imaging and PET data into personalized forward models, and establishing community standards for electrode coordinate file formats to improve software interoperability.
 
