@@ -1,14 +1,28 @@
 ---
-title: CAT12
 created: 2024-01-15
-updated: 2026-04-27
-type: entity
-tags: [software, neuroimage-analysis, voxel-based-morphometry, SPM, brain-segmentation, gray-matter, white-matter, structural-mri]
 sources:
-  - "[Gaser & Dahnke, 2023](https://doi.org/10.1101/2023.04.04.535197) - CAT12 methods paper"
-  - "[SPM Software](https://www.fil.ion.ucl.ac.uk/spm/) - Statistical Parametric Mapping"
-  - "[Gaser et al., 2012](https://www.ncbi.nlm.nih.gov/pmc/articles/PMCPMC3849212/) - Original CAT12 publication"
-  - "[Kurth et al., 2015](https://doi.org/10.1016/j.neuroimage.2015.03.022) - CAT12 validation review"
+- '[Gaser & Dahnke, 2023](https://doi.org/10.1101/2023.04.04.535197) - CAT12 methods
+  paper'
+- '[SPM Software](https://www.fil.ion.ucl.ac.uk/spm/) - Statistical Parametric Mapping'
+- '[Gaser et al., 2012](https://www.ncbi.nlm.nih.gov/pmc/articles/PMCPMC3849212/)
+  - Original CAT12 publication'
+- '[Kurth et al., 2015](https://doi.org/10.1016/j.neuroimage.2015.03.022) - CAT12
+  validation review'
+- raw/papers/semanticscholar-a0cce22e2ffc.md
+- raw/papers/power-2011.md
+- raw/papers/arxiv-2601.03796.md
+tags:
+- software
+- neuroimage-analysis
+- voxel-based-morphometry
+- SPM
+- brain-segmentation
+- gray-matter
+- white-matter
+- structural-mri
+title: CAT12
+type: entity
+updated: '2026-04-28'
 ---
 
 # CAT12

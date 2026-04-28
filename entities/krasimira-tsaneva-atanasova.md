@@ -3,6 +3,8 @@ created: 2026-04-20
 sources:
 - raw/papers/breakspear-2017.md
 - raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-d759f2182295.md
+- raw/papers/semanticscholar-ff8218c1e55e.md
 tags:
 - people-researcher
 - epilepsy-modeling
@@ -12,8 +14,9 @@ tags:
 - computational-neuroscience
 - whole-brain-modeling
 type: entity
-updated: 2026-04-28
+updated: '2026-04-28'
 ---
+
 title: Krasimira Tsaneva-Atanasova
 created: 2026-04-20
 updated: 2026-04-28

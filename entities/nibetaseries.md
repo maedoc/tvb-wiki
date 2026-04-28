@@ -1,10 +1,27 @@
 ---
-title: Nibetaseries
 created: 2025-01-15
-updated: 2026-04-27
+sources:
+- Rissman2010
+- Gazzaniga2002
+- Friston1994
+- Desikan2006
+- Schaefer2018
+- Esteban2019
+- Gorgolewski2016
+- raw/papers/smith-2013-connectomics.md
+- raw/papers/semanticscholar-cabf914d6370.md
+- raw/papers/friston-1993.md
+tags:
+- software-neuroimaging
+- functional-connectivity
+- neuroimaging-fmri
+- python-tools
+- analysis-pipelines
+- beta-series
+- connectivity
+title: Nibetaseries
 type: software
-tags: [software-neuroimaging, functional-connectivity, neuroimaging-fmri, python-tools, analysis-pipelines, beta-series, connectivity]
-sources: [Rissman2010, Gazzaniga2002, Friston1994, Desikan2006, Schaefer2018, Esteban2019, Gorgolewski2016]
+updated: '2026-04-28'
 ---
 
 # Nibetaseries

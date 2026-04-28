@@ -1,12 +1,16 @@
 ---
 created: 2026-04-23
-sources: []
+sources:
+- raw/papers/rubinov-sporns-2010.md
+- raw/papers/woodman-2014.md
+- raw/papers/sanz-leon-2013.md
 tags:
 - software-brain-modeling
 title: Brain Connectivity Toolbox
 type: entity
-updated: 2026-04-28
+updated: '2026-04-28'
 ---
+
 title: Brain Connectivity Toolbox
 created: 2024-01-15
 updated: 2026-04-28

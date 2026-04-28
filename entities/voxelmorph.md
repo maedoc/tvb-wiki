@@ -8,6 +8,7 @@ sources:
 - raw/papers/arxiv-2601.13676.md
 - raw/papers/semanticscholar-109de470e443.md
 - raw/papers/semanticscholar-d4665dd0df61.md
+- raw/papers/semanticscholar-ac35f7fc051b.md
 tags:
 - software-brain-modeling
 - structural-connectivity
@@ -15,7 +16,7 @@ tags:
 - neuroimaging-fmri
 title: VoxelMorph
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-28'
 ---
 
 # VoxelMorph

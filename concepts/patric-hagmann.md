@@ -7,11 +7,12 @@ sources:
 - raw/papers/strogatz-1994.md
 - raw/papers/semanticscholar-7c3337c880fd.md
 - raw/papers/arxiv-2602.17820.md
+- raw/papers/semanticscholar-45c97f965534.md
 tags:
 - patric-hagmann
 title: Patric Hagmann
 type: concept
-updated: '2026-04-27'
+updated: '2026-04-28'
 ---
 
 Patric Hagmann — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].

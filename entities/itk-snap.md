@@ -1,12 +1,16 @@
 ---
 created: 2026-04-23
-sources: []
+sources:
+- raw/papers/semanticscholar-97e6ff441097.md
+- raw/papers/semanticscholar-518ee560ec89.md
+- raw/papers/semanticscholar-fb4cf47c4f31.md
 tags:
 - software-brain-modeling
 title: ITK-SNAP
 type: entity
-updated: 2026-04-28
+updated: '2026-04-28'
 ---
+
 title: ITK-SNAP
 created: 2024-01-15
 updated: 2026-04-28

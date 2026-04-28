@@ -1,12 +1,16 @@
 ---
 created: 2026-04-23
-sources: []
+sources:
+- raw/papers/smith-2013-connectomics.md
+- raw/papers/huettel-2009.md
+- raw/papers/friston-1993.md
 tags:
 - software-brain-modeling
 title: Neurosynth
 type: entity
-updated: 2026-04-28
+updated: '2026-04-28'
 ---
+
 title: Neurosynth
 created: 2024-01-15
 updated: 2026-04-28

@@ -1,11 +1,12 @@
 ---
 created: 2026-04-27
-sources: []
+sources:
+- raw/papers/nunez-srinivasan-2006.md
 tags:
 - petra-ritter
 title: Petra Ritter
 type: concept
-updated: '2026-04-27'
+updated: '2026-04-28'
 ---
 
 Petra Ritter — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].

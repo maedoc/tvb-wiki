@@ -1,12 +1,16 @@
 ---
 created: 2026-04-27
-sources: []
+sources:
+- raw/papers/semanticscholar-9538aa9a62c5.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-9afbfd2d37be.md
 tags:
 - software-brain-modeling
 title: Plotly
 type: entity
-updated: 2026-04-28
+updated: '2026-04-28'
 ---
+
 title: Plotly
 created: 2024-01-15
 updated: 2026-04-28

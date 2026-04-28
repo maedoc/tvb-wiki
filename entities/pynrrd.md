@@ -1,10 +1,18 @@
 ---
-title: Pynrrd
 created: 2026-04-27
-updated: 2026-04-28
+sources:
+- raw/papers/pynrrd-docs.md
+- raw/papers/nrrd-format.md
+- raw/papers/semanticscholar-97e6ff441097.md
+- raw/papers/semanticscholar-d6e43299345d.md
+- raw/papers/sanz-leon-2013.md
+tags:
+- software-brain-modeling
+- software-neuroimaging
+- data-format
+title: Pynrrd
 type: entity
-tags: [software-brain-modeling, software-neuroimaging, data-format]
-sources: [raw/papers/pynrrd-docs.md, raw/papers/nrrd-format.md]
+updated: '2026-04-28'
 ---
 
 # Pynrrd

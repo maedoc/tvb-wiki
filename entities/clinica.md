@@ -4,6 +4,7 @@ sources:
 - raw/papers/schirner-2018.md
 - raw/papers/glasser-2013.md
 - raw/papers/semanticscholar-4d73a30d5c84.md
+- raw/papers/semanticscholar-d6e43299345d.md
 tags:
 - software-neurominer
 - bids
@@ -17,7 +18,7 @@ tags:
 - database-uk-biobank
 title: Clinica
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-28'
 ---
 
 Clinica is an open-source software platform designed for clinical neuroimaging data processing and analysis, with a particular focus on large-scale studies of neurological and psychiatric disorders. Developed primarily by the Aramis team at Inria (France), Clinica provides a unified framework that integrates state-of-the-art neuroimaging processing tools into standardized, reproducible pipelines that adhere to the [[bids]] (Brain Imaging Data Structure) specification. The platform emerged from the recognition that clinical neuroimaging research often suffers from methodological heterogeneity, making cross-study comparisons difficult and limiting the reproducibility of findings. By wrapping established software packages—including [[spm]] (Statistical Parametric Mapping), [[freesurfer]], [[cat12]] (Computational Anatomy Toolbox), and various tractography tools—into a cohesive command-line interface, Clinica enables researchers to process neuroimaging data consistently without manually orchestrating disparate processing steps.

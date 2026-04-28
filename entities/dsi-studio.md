@@ -5,6 +5,7 @@ sources:
 - raw/papers/semanticscholar-adcab180dcd3.md
 - raw/papers/semanticscholar-c393c4c4a671.md
 - raw/papers/semanticscholar-fcd025fcc10c.md
+- raw/papers/arxiv-2602.18072.md
 tags:
 - software-brain-modeling
 - diffusion-imaging
@@ -14,7 +15,7 @@ tags:
 - neuroimaging-dti
 title: DSI Studio
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-28'
 ---
 
 The corrected file has been written to `entities/dsi-studio.md` with all flagged issues fixed:

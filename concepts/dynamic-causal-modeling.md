@@ -1,10 +1,33 @@
 ---
-title: Dynamic Causal Modeling
 created: 2026-04-20
-updated: 2026-04-27
+sources:
+- raw/papers/friston-2003-dcm.md
+- raw/papers/stephan-2010.md
+- raw/papers/daunizeau-david-stephan-2011.md
+- raw/papers/david-friston-2003.md
+- raw/papers/stefanescu-jirsa-2008.md
+- raw/papers/arxiv-2505.16861.md
+tags:
+- dynamic-causal-modeling
+- effective-connectivity
+- neural-mass-models
+- variational-bayes
+- free-energy-principle
+- mean-field-theory
+- stochastic-differential-equations
+- nonlinear-dynamics
+- neuroimaging-fmri
+- neuroimaging-eeg
+- neuroimaging-meg
+- resting-state
+- paper-review
+- paper-methods
+- comparison
+- parameter-estimation
+- dynamical-systems-theory
+title: Dynamic Causal Modeling
 type: concept
-tags: [dynamic-causal-modeling, effective-connectivity, neural-mass-models, variational-bayes, free-energy-principle, mean-field-theory, stochastic-differential-equations, nonlinear-dynamics, neuroimaging-fmri, neuroimaging-eeg, neuroimaging-meg, resting-state, paper-review, paper-methods, comparison, parameter-estimation, dynamical-systems-theory]
-sources: [raw/papers/friston-2003-dcm.md, raw/papers/stephan-2010.md, raw/papers/daunizeau-david-stephan-2011.md]
+updated: '2026-04-28'
 ---
 
 **Dynamic Causal Modeling (DCM)** is a Bayesian framework for inferring [[effective-connectivity]] — the directed, causal influence one neural population exerts over another — from non-invasive neuroimaging data. Unlike [[functional-connectivity]], which measures undirected statistical dependencies, DCM estimates _mechanistic_ interactions by fitting biologically grounded [[neural-mass-models]] to observed brain signals and using [[variational-bayes]] to invert the generative model. Introduced by Karl Friston in 2003 and implemented in the [[spm]] software toolbox, DCM has become a cornerstone of hypothesis‑driven connectivity analysis across [[fmri]], [[eeg]], and [[meg]] modalities.

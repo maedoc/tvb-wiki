@@ -1,12 +1,16 @@
 ---
 created: 2026-04-23
-sources: []
+sources:
+- raw/papers/ritter-2013.md
+- raw/papers/arxiv-2604.03619.md
+- raw/papers/sanz-leon-2013.md
 tags:
 - software-brain-modeling
 title: sLORETA
 type: entity
-updated: 2026-04-28
+updated: '2026-04-28'
 ---
+
 title: sLORETA
 created: 2024-01-15
 updated: 2026-04-28

@@ -6,12 +6,15 @@ sources:
 - raw/papers/david-friston-2003.md
 - raw/papers/arxiv-2602.18715.md
 - raw/papers/arxiv-2603.21067.md
+- raw/papers/semanticscholar-518dfb759a44.md
+- raw/papers/arxiv-2508.10045.md
+- raw/papers/semanticscholar-d6e43299345d.md
 tags:
 - software-brain-modeling
 - software-visualization
 title: Root
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-28'
 ---
 
 # ROOT
