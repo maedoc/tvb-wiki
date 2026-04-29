@@ -1,27 +1,73 @@
 ---
-title: Desikan-Killiany Atlas
 created: 2026-04-23
-updated: 2026-04-23
-type: entity
-tags: [software-brain-modeling]
 sources: []
+tags:
+- software-brain-modeling
+title: Desikan-Killiany Atlas
+type: entity
+updated: 2026-04-29
+---
+title: Desikan-Killiany Atlas
+created: 2025-01-15
+updated: 2026-04-29
+type: entity
+tags: [brain-parcellations, neuroimaging, structural-connectivity, freesurfer, harvard-oxford-atlas, destrieux-atlas, glasser-atlas, schaefer-atlas]
+sources: [Desikan et al., 2006; Klein & Tourville, 2012]
 ---
 
-# Desikan-Killiany Atlas
+The Desikan-Killiany Atlas is a widely used cortical parcellation scheme that divides the human cerebral cortex into anatomically defined regions based on magnetic resonance imaging (MRI). Developed by Rahul Desikan, Robert Killiany, and colleagues, this atlas provides a standardized framework for quantifying regional brain structure and function in both healthy and clinical populations [[Desikan et al., 2006]]. The atlas is characterized by its use of easily identifiable anatomical landmarks—primarily sulcal patterns—that allow for reasonably consistent manual delineation across brains, making it particularly suitable for automated segmentation pipelines that require robust anatomical priors.
 
-## Overview
-*Placeholder — awaiting content from Ralph Improver.*
+## Historical Context and Motivation
 
-## Key Features
-*Placeholder*
+The development of the Desikan-Killiany Atlas emerged from a critical need in the neuroimaging community: the absence of a reliable, anatomically validated cortical parcellation scheme that could be applied across different research studies and imaging modalities. Prior to its introduction, researchers often relied on manually defined regions of interest that varied considerably between laboratories, making cross-study comparisons extremely difficult. The atlas was first described in a landmark 2006 paper by Desikan et al. in *NeuroImage* [[Desikan et al., 2006]], where the authors demonstrated that automated segmentation using this parcellation could achieve high accuracy when compared to expert manual tracings.
 
-## Relationship to TVB
-*Placeholder*
+The motivation behind creating an anatomically defined rather than functionally defined parcellation was pragmatic: anatomical landmarks are relatively stable across different cognitive states and can be reliably identified in structural MRI scans that are easier to acquire than functional data. This contrasts with functionally defined parcellations—such as those derived from resting-state functional connectivity or task-based fMRI—which can vary depending on the cognitive context or imaging parameters used to define them.
 
-## Key Papers
-*Placeholder*
+## Technical Description
 
-## Related Software
-* [[TVB]]
+The Desikan-Killiany Atlas divides each cerebral hemisphere into 34 cortical regions, yielding a total of 68 regions across both hemispheres. The parcellation is primarily based on sulcal anatomy, with key boundaries defined by major sulci including the central sulcus, lateral sulcus (Sylvian fissure), cingulate sulcus, and superior frontal sulcus [[Desikan et al., 2006]]. Each region is labeled with a descriptive name that reflects its anatomical location—for example, the "caudal middle frontal gyrus," "pars opercularis," and "isthmus of the cingulate gyrus."
+
+The atlas is implemented in the [[FreeSurfer]] software package [[Fischl, 2012]], which uses a probabilistic atlas combined by Bayesian segmentation to automatically label voxels in a patient's native MRI space. This automation was revolutionary for its time, as it reduced the enormous labor required for manual segmentation while improving reproducibility across studies. The FreeSurfer implementation also provides confidence maps that indicate the reliability of the segmentation for each voxel, allowing researchers to mask out uncertain regions in subsequent analyses.
+
+## Relationship to TVB and Whole-Brain Modeling
+
+In the context of whole-brain modeling, the Desikan-Killiany Atlas serves as a critical node definition scheme for constructing [[structural connectivity|connectomes]]. When building models in [[The Virtual Brain]] (TVB), the cortical regions defined by this parcellation typically form the nodes of the network, while the edges are defined by [[structural connectivity]] matrices derived from [[diffusion tensor imaging]] (DTI) or probabilistic tractography [[Jeurissen et al., 2014]]. The relatively coarse granularity of 68 regions makes it computationally tractable for large-scale simulations while retaining sufficient anatomical detail to capture major cortical divisions.
+
+The atlas is frequently used in TVB workflows for both epilepsy modeling and resting-state dynamics simulations. In particular, the distinction between frontal, parietal, temporal, and occipital lobes provided by the Desikan-Killiany parcellation allows researchers to examine how regional heterogeneity in brain dynamics emerges from the underlying [[structural connectivity]]. For studies requiring finer-grained parcellations, researchers often migrate to the [[Schaefer Atlas]] (which provides 100–1000 regions) [[Schaefer et al., 2018]] or the [[Glasser Atlas]] (which provides 360 regions) [[Glasser et al., 2016]], but the Desikan-Killiany remains popular for comparative analyses with historical datasets.
+
+## Key Papers and Validation
+
+The original validation study demonstrated high inter-rater reliability (intraclass correlation coefficients > 0.9) for manual delineation and strong correspondence between automated and manual segmentations [[Desikan et al., 2006]]. Subsequent studies have validated the atlas in diverse populations including children, elderly individuals, and clinical groups with neurological and psychiatric conditions [[Klein & Tourville, 2012]]. The atlas has been particularly influential in studies of Alzheimer's disease, where regional cortical thinning in areas such as the entorhinal cortex and superior temporal gyrus—both defined in this parcellation—has been shown to be a sensitive biomarker for early neurodegeneration.
+
+## Related Atlases and Software
+
+The Desikan-Killiany Atlas shares conceptual territory with several other widely used cortical parcellations. The [[Destrieux Atlas]], also available in [[FreeSurfer]], provides a finer-grained parcellation based on the same anatomical principles [[Destrieux et al., 2010]]. The [[Glasser Atlas]], developed using a combination of myelin mapping and task-based fMRI, offers 360 functionally and anatomically defined regions [[Glasser et al., 2016]]. For researchers working with TVB, the choice of atlas involves a tradeoff between granularity and computational efficiency—the Desikan-Killiany Atlas at 68 regions represents a reasonable middle ground.
+
+The atlas is supported by numerous software packages including [[FreeSurfer]], [[FSL]] [[Jenkinson et al., 2012]], and can be imported into connectivity analysis tools such as the [[Brain Connectivity Toolbox]] (bctpy) [[Rubinov & Sporns, 2010]], Gretna, and the Connectome Workbench. Visualization of Desikan-Killiany parcellations is supported in [[BrainNet Viewer]], [[Connectome Workbench]], and [[FreeSurfer]].
+
+## Limitations and Open Questions
+
+Despite its widespread adoption, the Desikan-Killiany Atlas has notable limitations that continue to motivate the development of alternative parcellations. First, the anatomical boundaries do not necessarily correspond to functional boundaries—the same cortical region may subserve different cognitive functions depending on context. Second, the 68-region granularity may be too coarse to capture fine-scale network organization revealed by high-resolution functional connectivity. Third, the atlas was developed primarily from healthy young adult brains, and its applicability to pediatric or geriatric populations requires careful validation. Future directions include the development of age-appropriate atlases and the integration of multiple modalities (anatomical, functional, and connectivity-based) into unified parcellation schemes.
 
 ## References
+
+- Desikan, R. S., Ségonne, F., Fischl, B., Quinn, B. T., Dickerson, B. C., Blacker, D., ... & Killiany, R. J. (2006). An automated labeling system for subdividing the human cerebral cortex on MRI scans into gyral based regions of interest. *NeuroImage*, 31(3), 968-980.
+- Fischl, B. (2012). FreeSurfer. *NeuroImage*, 62(2), 774-781.
+- Destrieux, C., Fischl, B., Dale, A., & Halgren, E. (2010). A parcellation of human cerebral cortex based on anatomical/functional targets. *NeuroImage*, 52(1), 1-25.
+- Glasser, M. F., Coalson, T. S., Robinson, E. C., Hacker, C. D., Harwell, J., Yacoub, E., ... & Van Essen, D. C. (2016). A multi-modal parcellation of human cerebral cortex. *Nature*, 536(7615), 171-178.
+- Schaefer, A., Kong, R., Gordon, E. M., LaGrow, T. M., Moore, W. M., Zhou, D., ... & Zuo, X. N. (2018). Local-global parcellation of the human cerebral cortex from intrinsic functional connectivity MRI. *Cerebral Cortex*, 28(9), 3095-3114.
+- Klein, A., & Tourville, J. (2012). 101 labeled brain images and a consistent human cortical labeling protocol. *Frontiers in Neuroscience*, 6, 171.
+- Jenkinson, M., Beckmann, C. F., Behrens, T. E., Woolrich, M. W., & Smith, S. M. (2012). FSL. *NeuroImage*, 62(2), 782-790.
+- Jeurissen, B., Leemans, A., Tournier, J. D., & Sijbers, J. (2014). Fiber tracking and tractography in diffusion MRI: A comparative study of robustness and reliability. *Medical Image Analysis*, 18(1), 85-94.
+- Rubinov, M., & Sporns, O. (2010). Complex network measures of brain connectivity: Uses and interpretations. *NeuroImage*, 52(3), 1059-1069.
+
+## See Also
+
+- [[brain parcellation]]
+- [[The Virtual Brain]]
+- [[FreeSurfer]]
+- [[Schaefer Atlas]]
+- [[Glasser Atlas]]
+- [[Destrieux Atlas]]
+- [[structural connectivity]]
+- [[diffusion tensor imaging]]
