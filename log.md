@@ -816,3 +816,5 @@
 ## [2026-04-29 19:01] Improve: 3 pages improved (bids-derivatives, gift, afq)
 
 ## [2026-04-29 19:01] RefFormatter: formatted references on 6 pages
+
+## [2026-04-29 19:40] CrosslinkApplier: added 58 wikilinks (58 inline, 0 suggested)
