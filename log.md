@@ -1,5 +1,21 @@
 # Wiki Log
 
+## 2026-04-30
+
+- Created/Improved page: [[geppetto]] – Computational simulation engine for whole-brain modeling
+  - Complete rewrite from placeholder to comprehensive entity page (~750 words)
+  - Updated frontmatter: changed updated date to 2026-04-30
+  - Tags: software-brain-modeling, software-tvb, whole-brain-modeling
+  - Sources: raw/papers/geppetto-2018.md
+  - Established 10+ wikilinks: the-virtual-brain, whole-brain-modeling, neural-mass-model, brain-dynamics, jansen-rit, wilson-cowan, epileptor, structural-connectivity, diffusion-mri, tractography, open-source-brain, netpyne, neurone, nest, epilepsy-modeling, brain-stimulation, resting-state, functional-connectivity, eeg, meg, fmri, hemodynamic-response-function, dynamic-causal-modeling, computational-neuroscience, connectivity, brain-network, brain-oscillations, seizure-prediction, neuroimaging
+  - Added detailed sections: Overview, Key Features (Computational Backend Architecture, Integration Capabilities), Relationship to TVB, Key Features for Whole-Brain Modeling (Numerical Integration, Forward Modeling), Use Cases, Related Software, References
+  - Clarified dual identity of Geppetto: (1) general neuroscience visualization platform (2018 paper, supports OSB, NetPyNE-UI) and (2) TVB computational backend for whole-brain simulation
+  - Explained modular architecture, Model Abstraction layer, and client-server design
+  - Covered integration with NEURON, NetPyNE, NeuroML, ANTs, FSL
+  - Detailed numerical integration of neural mass models (Jansen-Rit, Wilson-Cowan, Epileptor)
+  - Explained forward models for EEG, MEG, and fMRI signals
+  - Positioned Geppetto within TVB ecosystem for epilepsy modeling, resting-state research, and clinical applications
+
 ## 2026-04-29
 
 - Created/Improved page: [[brainspace]] – Macroscale gradient analysis toolbox
@@ -847,6 +863,23 @@
 
 ## [2026-04-29 21:14] Improve: 3 pages improved (neo, freeview, cbrain)
 
+## [2026-04-30] Ralph Writer: xtract page improved
+- Created/Improved page: [[xtract]] – Cross-species tractography software tool
+  - Complete rewrite from placeholder to comprehensive entity page (~750 words)
+  - Updated frontmatter: changed updated date to 2026-04-30
+  - Tags: software-tractography, diffusion-imaging, tractography, fsl, white-matter, software-fsl, structural-connectivity, connectomics, neuroimaging-dti
+  - Established 12+ wikilinks: the-virtual-brain, fsl, bedpostx, human-connectome-project, uk-biobank, mni-space, probtrackx, tractography, diffusion-mri, structural-connectivity, white-matter, brain-atlases, connectome-workbench, brain-connectivity-toolbox, graphvar
+  - Added detailed sections: Overview, Key Features, Relationship to TVB, Key Papers, Technical Implementation, Related Software
+  - Covered XTRACT's 42-tract protocol library, cross-species capabilities, connectivity blueprints, and integration with FSL ecosystem
+  - Explained tractography workflow: bedpostx preprocessing, FNIRT registration, probtrackx2 tracking, atlas generation
+  - Added source citations from Warrington et al. (2020) NeuroImage and (2022) Science Advances
+  - Updated catalog.md to include XTRACT in entities section
+  - Positioned XTRACT as key tool for TVB structural connectivity matrix construction
+
 ## [2026-04-29 22:33] Improve: 3 pages improved (dcm, netneuroscience, brainspace)
 
 ## [2026-04-29 23:41] Improve: 3 pages improved (spikeglx, brainspace, pynest)
+
+## [2026-04-30 00:43] Improve: 3 pages improved (elastix, snakemake, phy)
+
+## [2026-04-30] Improve: geppetto page expanded with architecture, features, and applications
