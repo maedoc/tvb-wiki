@@ -756,3 +756,5 @@
 - Added 8+ wikilinks to related wiki pages
 - Added sources: sanz-leon-2013, eppler-2009, semanticscholar-9afbfd2d37be, semanticscholar-f52da2a6cbf2, arxiv-2510.27366
 - Updated frontmatter: updated date to 2026-04-29
+
+## [2026-04-29 05:28] Improve: 3 pages improved (nitrc, homer3, whole-brain-simulators)
