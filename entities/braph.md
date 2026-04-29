@@ -1,18 +1,18 @@
 ---
-title: BRAPH
 created: 2026-04-28
-updated: 2026-04-29
-type: entity
+sources:
+- raw/papers/mijalkov-2017-braph.md
+- raw/papers/braph-2 genesis.md
+- raw/papers/rubinov-sporns-2010.md
 tags:
 - software-brain-modeling
 - connectomics
 - brain-networks
 - matlab-toolbox
 - neuroimaging
-sources:
-- raw/papers/mijalkov-2017-braph.md
-- raw/papers/braph-2 genesis.md
-- raw/papers/rubinov-sporns-2010.md
+title: BRAPH
+type: entity
+updated: '2026-04-29'
 ---
 
 # BRAPH
@@ -83,3 +83,9 @@ The primary references for BRAPH are:
 - [[bctpy]] — Python bindings for the Brain Connectivity Toolbox
 - [[nilearn]] — Python library for neuroimaging data analysis
 - [[the-virtual-brain]] — Whole-brain simulation platform
+
+## References
+
+1. (authors unknown). *BRAPH: A Pipeline for Brain Connectivity Analysis*.
+2. (authors unknown). *BRAPH 2.0 Genesis: An Open-Source Toolbox for Brain Connectivity Analysis*.
+3. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
