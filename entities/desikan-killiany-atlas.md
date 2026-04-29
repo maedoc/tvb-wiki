@@ -4,6 +4,7 @@ sources:
 - raw/papers/semanticscholar-6295d2445697.md
 - raw/papers/rubinov-sporns-2010.md
 - raw/papers/power-2011.md
+- raw/papers/semanticscholar-66f887e82e89.md
 tags:
 - software-brain-modeling
 title: Desikan-Killiany Atlas

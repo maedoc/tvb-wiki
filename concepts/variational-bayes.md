@@ -10,6 +10,7 @@ sources:
 - raw/papers/ritter-2013.md
 - raw/papers/david-friston-2003.md
 - raw/papers/semanticscholar-60ca593f7e0c.md
+- raw/papers/semanticscholar-b9acfa0a7c80.md
 tags:
 - variational-bayes
 - dynamic-causal-modeling

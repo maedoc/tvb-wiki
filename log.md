@@ -806,3 +806,7 @@
 ## [2026-04-29 08:04] Audit: 915 issues (59 broken links, 66 orphans, 60 placeholders, 0 dup-refs, 11 opaque-refs, 78 thin, 255 missing-links)
 
 ## [2026-04-29 08:27] Repair: 176 issues fixed (97 source refs, 49 index, 1 frontmatter, 29 wikilinks, 0 orphans, 0 dup-refs, 0 opaque-refs, 0 crosslinks)
+
+## [2026-04-29 08:27] Librarian: catalog rebuilt, 4570 asymmetric links noted
+
+## [2026-04-29 08:27] Linter: 37 broken links, 65 orphans, 61 stale, 94 empty

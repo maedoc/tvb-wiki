@@ -9,6 +9,7 @@ sources:
 - raw/papers/ritter-2013.md
 - raw/papers/arxiv-2505.16861.md
 - raw/papers/semanticscholar-eb704b6f5462.md
+- raw/papers/semanticscholar-899d3552b2ad.md
 tags:
 - comparison
 - software-tvb
@@ -18,7 +19,7 @@ tags:
 - spiking-neural-networks
 title: TVB vs NEST vs NEURON
 type: comparison
-updated: '2026-04-27'
+updated: '2026-04-29'
 ---
 
 # TVB vs NEST vs NEURON
