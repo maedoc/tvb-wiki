@@ -14,6 +14,7 @@ A collection of people, software platforms, datasets, and research groups releva
 - [DataLad](datalad.md) – Distributed data management and version control for neuroimaging
 - [GraphVar](graphvar.md) – Graph-theoretical analysis toolbox
 - [BCTpy](bctpy.md) – Brain Connectivity Toolbox for Python
+- [BRAPH](braph.md) – Graph theory software for brain connectivity analysis
 - [ModelDB](modeldb.md) – Computational neuroscience model repository
 - [PsyNeuLink](psyneulink.md) – Graph-based cognitive neuroscience modeling framework
 - [jNeuroML](jneuroml.md) – Java implementation of NeuroML for neuronal model validation and export

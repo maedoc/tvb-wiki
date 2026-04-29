@@ -30,6 +30,16 @@
   - Explained BCTpy's role in analyzing brain connectivity networks from neuroimaging data
   - Added entry to entities/index.md under Software Platforms
 
+- Created/Improved page: [[braph]] – Graph theory software for brain connectivity analysis
+  - Complete rewrite from placeholder to comprehensive entity page (~550 words)
+  - Updated frontmatter: changed updated date to 2026-04-29
+  - Tags: software-brain-modeling, connectomics, graph-theory, neuroimaging-fmri, neuroimaging-mri, neuroimaging-eeg, neuroimaging-pet, network-dynamics
+  - Established 12+ wikilinks: the-virtual-brain, connectome, brain-connectivity-toolbox, conn, brainnet-viewer, graphvar, graph-tool, small-world-networks, modularity, network-hubs, alzheimers-disease, alzheimers-modeling, bctpy, nilearn, neural-mass-models, whole-brain-modeling, functional-connectivity, structural-connectivity
+  - Added detailed sections: Overview, Motivation and Context, Key Features (multimodal support, correlation measures, thresholding, global/nodal metrics, permutation tests), BRAPH 2.0 and Genesis, Relationship to TVB, Key Papers, Related Software
+  - Explained BRAPH's role as MATLAB-based brain connectivity analysis tool complementary to TVB for whole-brain modeling
+  - Positioned BRAPH within connectomics ecosystem alongside BCTpy, GraphVar, and Brain Connectivity Toolbox
+  - Added entry to entities/index.md under Software Platforms
+
 ## 2026-04-28
 
 - Improved page: [[brainnet-viewer]] – Brain network visualization toolbox
@@ -780,3 +790,5 @@
 ## [2026-04-29 07:18] RefFormatter: formatted references on 3 pages
 
 ## [2026-04-29 07:24] CrosslinkApplier: added 227 wikilinks (227 inline, 0 suggested)
+
+## [2026-04-29 07:28] Ingest: 2 new papers, 0 stubs created
