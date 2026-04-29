@@ -814,3 +814,5 @@
 ## [2026-04-29 15:27] Matcher: 6 pages got 18 new sources
 
 ## [2026-04-29 19:01] Improve: 3 pages improved (bids-derivatives, gift, afq)
+
+## [2026-04-29 19:01] RefFormatter: formatted references on 6 pages

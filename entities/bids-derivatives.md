@@ -1,25 +1,35 @@
 ---
-title: BIDS Derivatives
 created: 2025-01-15
-updated: 2026-04-29
-type: concept
-tags: [neuroimaging, neuroimaging-fmri, neuroimaging-eeg, neuroimaging-dti, resting-state, software-bids, software-fmriprep, reproducible-neuroimaging, dataset, preprocessing]
 sources:
-  - reference: "Gorgolewski et al., 2016"
-    link: "https://doi.org/10.1038/sdata.2016.44"
-  - reference: "Esteban et al., 2019"
-    link: "https://doi.org/10.1038/s41592-019-0582-7"
-  - reference: "Holdgraf et al., 2019"
-    link: "https://doi.org/10.1101/663824"
-  - reference: "Taylor et al., 2023"
-    link: "https://doi.org/10.1101/2023.10.30.464685"
+- link: https://doi.org/10.1038/sdata.2016.44
+  reference: Gorgolewski et al., 2016
+- link: https://doi.org/10.1038/s41592-019-0582-7
+  reference: Esteban et al., 2019
+- link: https://doi.org/10.1101/663824
+  reference: Holdgraf et al., 2019
+- link: https://doi.org/10.1101/2023.10.30.464685
+  reference: Taylor et al., 2023
+tags:
+- neuroimaging
+- neuroimaging-fmri
+- neuroimaging-eeg
+- neuroimaging-dti
+- resting-state
+- software-bids
+- software-fmriprep
+- reproducible-neuroimaging
+- dataset
+- preprocessing
+title: BIDS Derivatives
+type: concept
+updated: '2026-04-29'
 ---
 
 ## Overview
 
 BIDS Derivatives refers to the outputs of processing pipelines applied to data organized according to the [[bids|Brain Imaging Data Structure (BIDS)]] specification. While BIDS defines a standardized format for organizing raw neuroimaging data—including [[fmri|fMRI]], [[eeg|EEG]], [[meg|MEG]], and [[diffusion-mri|DTI]] scans—BIDS Derivatives extends this standard to encompass the results of any computational analysis performed on that raw data [[1]]. These derived data products include preprocessed images, anatomical segmentations, statistical parametric maps, connectivity matrices, and quality control metrics, all organized in a structured hierarchy that maintains full traceability back to the original raw data.
 
-The BIDS Derivatives specification was developed to address a critical problem in neuroimaging: the proliferation of incompatible, ad-hoc file naming conventions and directory structures across labs and processing pipelines. By establishing a community-agreed standard for derived data, BIDS Derivatives enables reproducibility, facilitates data sharing, and allows third-party tools to consume derivative outputs without requiring custom parsers for each processing pipeline.
+The BIDS Derivatives specification was developed to address a critical problem in [[neuroimaging]]: the proliferation of incompatible, ad-hoc file naming conventions and directory structures across labs and processing pipelines. By establishing a community-agreed standard for derived data, BIDS Derivatives enables [[reproducibility]], facilitates data sharing, and allows third-party tools to consume derivative outputs without requiring custom parsers for each processing pipeline.
 
 ## Motivation and Context
 
@@ -31,11 +41,11 @@ The adoption of BIDS Derivatives has been accelerated by the availability of val
 
 ## Key Features
 
-The BIDS Derivatives specification defines several categories of derived data, each with its own organizational principles. **Preprocessed data** includes outputs like motion-corrected timeseries, skull-stripped anatomical images, and spatially normalized images—typically the end-products of standardized preprocessing workflows. **Derived anatomical data** includes tissue probability maps, cortical parcellations (such as those from [[freesurfer]] or [[brainsuite]]), and subcortical segmentations. **Statistical results** encompass contrast maps, beta maps, and statistical parametric maps from model fitting, as well as region-of-interest summaries and connectivity matrices.
+The BIDS Derivatives specification defines several categories of derived data, each with its own organizational principles. **Preprocessed data** includes outputs like motion-corrected timeseries, skull-stripped anatomical images, and spatially normalized images—typically the end-products of standardized preprocessing workflows. **Derived anatomical data** includes tissue probability maps, cortical parcellations (such as those from [[freesurfer]] or [[brainsuite]]), and subcortical segmentations. **Statistical results** encompass contrast maps, beta maps, and statistical parametric maps from model fitting, as well as region-of-interest summaries and [[connectivity]] matrices.
 
 A key feature of BIDS Derivatives is the concept of **pipeline provenance** through the use of `source` and `pipeline` fields in filenames. Derivatives can explicitly reference which other derivatives or raw data they were derived from, creating a directed acyclic graph of data transformations. This is supplemented by JSON sidecar files that encode processing parameters—filter settings, normalization transforms, model specifications—as key-value pairs that travel with the data [[3]].
 
-The specification also defines **output space** descriptors (`space-*` entities) that specify the coordinate system or template in which data are expressed—common values include `MNI152NLin2009cAsym` for the adult MRI template in MNI space and `freesurfer` for data resampled to the FreeSurfer average surface. This enables unambiguous interpretation of spatial data even when the original acquisition used atypical native-space coordinates.
+The specification also defines **output space** descriptors (`space-*` entities) that specify the coordinate system or template in which data are expressed—common values include `MNI152NLin2009cAsym` for the adult MRI template in [[mni-space]] and `freesurfer` for data resampled to the FreeSurfer average surface. This enables unambiguous interpretation of spatial data even when the original acquisition used atypical native-space coordinates.
 
 ## Software Ecosystem
 

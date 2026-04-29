@@ -16,7 +16,7 @@ type: entity
 updated: '2026-04-29'
 ---
 
-Graph-tool is a Python library for the efficient analysis and manipulation of network structures (graphs). It provides a comprehensive set of algorithms for [[graph-theory|graph-theoretic]] analysis, including community detection, network statistics, flow optimization, and spectral methods. Written in C++ with Python bindings using Boost, graph-tool offers performance comparable to compiled languages while maintaining the accessibility of a Python interface peixoto2014. The library was developed and is maintained by Tiago de Paula Peixoto and has been a widely used tool in computational neuroscience, particularly for analyzing [[brain-connectivity-toolbox|brain connectivity networks]] derived from neuroimaging data.
+Graph-tool is a Python library for the efficient analysis and manipulation of network structures (graphs). It provides a comprehensive set of algorithms for [[graph-theory|graph-theoretic]] analysis, including community detection, network statistics, flow optimization, and spectral methods. Written in C++ with Python bindings using Boost, graph-tool offers performance comparable to compiled languages while maintaining the accessibility of a Python interface peixoto2014. The library was developed and is maintained by Tiago de Paula Peixoto and has been a widely used tool in [[computational-neuroscience]], particularly for analyzing [[brain-connectivity-toolbox|brain connectivity networks]] derived from [[neuroimaging]] data.
 
 ## Overview
 

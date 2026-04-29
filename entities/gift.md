@@ -1,21 +1,32 @@
 ---
-title: GIFT (Group ICA of fMRI Toolbox)
 created: 2026-04-29
-updated: 2026-04-29
+sources:
+- calhoun-2001
+- calhoun-2009
+- allen-2011
+- erhardt-2012
+- correa-2007
+tags:
+- neuroimaging-fmri
+- software-visualization
+- resting-state
+- ica
+- functional-connectivity
+- source-separation
+title: GIFT (Group ICA of fMRI Toolbox)
 type: entity
-tags: [neuroimaging-fmri, software-visualization, resting-state, ica, functional-connectivity, source-separation]
-sources: [calhoun-2001, calhoun-2009, allen-2011, erhardt-2012, correa-2007]
+updated: '2026-04-29'
 ---
 
 # GIFT (Group ICA of fMRI Toolbox)
 
 ## Overview
 
-**GIFT** (Group ICA of fMRI Toolbox) is a widely-used MATLAB toolbox for performing independent component analysis (ICA) on groups of fMRI datasets. Developed and maintained by the Medical Image Analysis Lab at UC San Diego, GIFT provides a comprehensive framework for decomposing resting-state and task-based fMRI data into spatially independent components, enabling researchers to identify functionally coherent brain networks without requiring a priori specification of region boundaries. The toolbox implements multiple ICA algorithms—including Infomax, FastICA, and constrained ICA—and supports both single-subject and group-level analyses, making it an essential tool for studying [[functional-connectivity]] patterns across populations.
+**GIFT** (Group ICA of [[fmri]] Toolbox) is a widely-used MATLAB toolbox for performing independent component analysis (ICA) on groups of fMRI datasets. Developed and maintained by the Medical Image Analysis Lab at UC San Diego, GIFT provides a comprehensive framework for decomposing [[resting-state]] and task-based fMRI data into spatially independent components, enabling researchers to identify functionally coherent brain networks without requiring a priori specification of region boundaries. The toolbox implements multiple ICA algorithms—including Infomax, FastICA, and constrained ICA—and supports both single-subject and group-level analyses, making it an essential tool for studying [[functional-connectivity]] patterns across populations.
 
 ## Motivation and Context
 
-The emergence of resting-state [[functional-connectivity]] as a dominant paradigm in neuroimaging created a pressing need for data-driven methods to decompose fMRI time series into meaningful constituents. Traditional model-based approaches required researchers to specify seed regions or define networks a priori, introducing bias and limiting discovery. ICA, borrowed from signal processing, offered a model-free alternative: given a set of fMRI volumes, the algorithm seeks to express each voxel's time course as a linear combination of spatially independent source patterns—effectively discovering networks from the data itself.
+The emergence of resting-state [[functional-connectivity]] as a dominant paradigm in [[neuroimaging]] created a pressing need for data-driven methods to decompose fMRI time series into meaningful constituents. Traditional model-based approaches required researchers to specify seed regions or define networks a priori, introducing bias and limiting discovery. ICA, borrowed from signal processing, offered a model-free alternative: given a set of fMRI volumes, the algorithm seeks to express each voxel's time course as a [[linear]] combination of spatially independent source patterns—effectively discovering networks from the data itself.
 
 GIFT addresses several practical challenges that made group analysis difficult with earlier tools. First, different subjects may have different numbers of meaningful independent components; GIFT uses information-theoretic criteria (like AIC or BIC) to estimate optimal component numbers per subject. Second, across-group analyses require alignment of components from different subjects; GIFT offers back-reconstruction methods to estimate individual subject time courses from group-level components. Third, the toolbox provides rigorous statistical inference by implementing permutation tests and bootstrap resampling to assess component reliability. These capabilities transformed ICA from a single-subject exploratory tool into a group-level inference framework.
 
@@ -33,9 +44,9 @@ From a methodological standpoint, GIFT implements one approach to [[source-separ
 
 ## Key Capabilities and Use Cases
 
-The primary use cases for GIFT include identification of **resting-state networks** (RSNs)—patterns like the default mode network, salience network, and sensorimotor networks that emerge consistently across individuals. Researchers use GIFT to compare network topology across clinical populations, identify biomarkers in disorders like schizophrenia and Alzheimer's disease, and assess developmental changes in functional organization. The toolbox also supports **task-related analysis**, decomposing task fMRI data to identify task-evoked networks versus intrinsic connectivity patterns.
+The primary use cases for GIFT include identification of **resting-state networks** (RSNs)—patterns like the [[default-mode-network]], salience network, and sensorimotor networks that emerge consistently across individuals. Researchers use GIFT to compare network topology across clinical populations, identify biomarkers in disorders like schizophrenia and Alzheimer's disease, and assess developmental changes in functional organization. The toolbox also supports **task-related analysis**, decomposing task fMRI data to identify task-evoked networks versus intrinsic [[connectivity]] patterns.
 
-A notable application is the ENIGMA consortium's protocols, which draw on ICA-based approaches for standardized analysis of functional connectivity patterns across sites. GIFT's ability to handle multi-site data with appropriate batch effects correction has made it valuable for consortium science where harmonization across scanners is essential.
+A notable application is the [[enigma]] consortium's protocols, which draw on ICA-based approaches for standardized analysis of functional connectivity patterns across sites. GIFT's ability to handle multi-site data with appropriate batch effects correction has made it valuable for consortium science where harmonization across scanners is essential.
 
 ## Related Software
 

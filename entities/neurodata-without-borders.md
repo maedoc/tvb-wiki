@@ -56,10 +56,10 @@ NWB integrates with a broad ecosystem of neuroscience analysis tools beyond [The
 - **[NIX](nix)**: Related data format that shares conceptual lineage with NWB [5]
 - **[SpikeInterface](spikeinterface)**: Framework for electrophysiology analysis that includes NWB export capabilities [12]
 - **[Neo](neo)**: Python library for neurophysiology data that provides adapters to NWB format
-- **[DataLad](datalad)**: Version control for data that works well with NWB-formatted datasets
-- **[NIDM-Results](nidm-results)**: Standard for statistical results that complements NWB for complete data packages
+- **[DataLad]([[datalad]])**: Version control for data that works well with NWB-formatted datasets
+- **[NIDM-Results]([[nidm-results]])**: Standard for statistical results that complements NWB for complete data packages
 
-The standard is maintained by the [INCF](https://www.incf.org/) [1] and has become a cornerstone of major neuroscience data infrastructure projects including the [Brain Initiative](https://braininitiative.org/) Cellular Census and various [UK Biobank](uk-biobank) extension projects.
+The standard is maintained by the [INCF](https://www.incf.org/) [1] and has become a cornerstone of major neuroscience data infrastructure projects including the [Brain Initiative](https://braininitiative.org/) Cellular Census and various [UK Biobank]([[uk-biobank]]) extension projects.
 
 ## Key Papers
 

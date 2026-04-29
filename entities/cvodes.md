@@ -86,7 +86,7 @@ The primary developers of CVODES include Alan Hindmarsh, Peter Brown, and Radu S
 - [Brian]([[brian]].md) — Python-based neural simulator with flexible equation specification
 - [NEURON]([[neuron]].md) — Multi-compartment neuron simulator with sophisticated stiff solvers
 - [SUNDIALS](software-sundials.md) — Parent suite containing CVODE, KINSOL, and IDA
-- [Dynamical Systems Theory](dynamical-systems-theory.md) — Mathematical framework that CVODES implements numerically
+- [Dynamical Systems Theory]([[dynamical-systems-theory]].md) — Mathematical framework that CVODES implements numerically
 - [Stochastic Differential Equations](stochastic-differential-equations.md) — CVODES handles stochastic variants through its solver framework
 - [Parameter Estimation](parameter-estimation.md) — CVODES sensitivity analysis enables gradient-based fitting of brain models
 

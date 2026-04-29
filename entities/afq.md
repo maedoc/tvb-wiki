@@ -1,25 +1,35 @@
 ---
-title: AFQ
 created: 2024-01-15
-updated: 2026-04-29
+sources:
+- raw/papers/afq-2012.md
+- raw/papers/afq-notebooks.md
+tags:
+- neuroimaging-dti
+- diffusion-imaging
+- tractography
+- software-brain-modeling
+- fractional-anisotropy
+- structural-connectivity
+- white-matter
+- neural-mass-models
+title: AFQ
 type: entity
-tags: [neuroimaging-dti, diffusion-imaging, tractography, software-brain-modeling, fractional-anisotropy, structural-connectivity, white-matter, neural-mass-models]
-sources: [raw/papers/afq-2012.md, raw/papers/afq-notebooks.md]
+updated: '2026-04-29'
 ---
 
 ## Overview
 
-AFQ (Automated Fiber Quantification) is an open-source software pipeline for automated segmentation, visualization, and quantitative analysis of white matter fiber tracts from diffusion MRI (dMRI) data. Developed primarily by Jason Yeatman, Brian Wandell, and colleagues at Stanford University [1], AFQ provides a standardized, reproducible method for extracting diffusion metrics—such as fractional anisotropy (FA), mean diffusivity (MD), and radial diffusivity (RD)—along major white matter pathways [2]. The software automates what was previously a labor-intensive manual tractography process, enabling researchers to characterize white matter integrity across the whole brain in a computationally efficient manner.
+AFQ (Automated Fiber Quantification) is an open-source software pipeline for automated segmentation, visualization, and quantitative analysis of [[white-matter]] fiber tracts from [[diffusion-mri]] (dMRI) data. Developed primarily by Jason Yeatman, [[brian]] Wandell, and colleagues at Stanford University [1], AFQ provides a standardized, reproducible method for extracting diffusion metrics—such as fractional anisotropy (FA), mean diffusivity (MD), and radial diffusivity (RD)—along major white matter pathways [2]. The software automates what was previously a labor-intensive manual tractography process, enabling researchers to characterize white matter integrity across the [[whole-brain]] in a computationally efficient manner.
 
 ## Motivation and Context
 
-White matter microstructure underlies the structural connectivity that supports brain network dynamics and whole-brain modeling. Diffusion tensor imaging (DTI) and advanced diffusion models (such as diffusion spectrum imaging and Q-ball imaging) provide metrics sensitive to the microstructural organization of white matter, but extracting meaningful values from specific fiber tracts has traditionally required significant manual expertise [3]. Researchers seeking to relate white matter abnormalities to neurological disorders, developmental changes, or genetic factors needed a method that could:
+White matter microstructure underlies the structural [[connectivity]] that supports brain [[network-dynamics]] and whole-brain modeling. Diffusion tensor imaging (DTI) and advanced diffusion models (such as diffusion spectrum imaging and Q-ball imaging) provide metrics sensitive to the microstructural organization of white matter, but extracting meaningful values from specific fiber tracts has traditionally required significant manual expertise [3]. Researchers seeking to relate white matter abnormalities to neurological disorders, developmental changes, or genetic factors needed a method that could:
 
 1. **Automate tract segmentation**: Instead of manually defining regions of interest for tractography, AFQ automates the identification of major fiber tracts using anatomically informed waypoint regions.
-2. **Ensure reproducibility**: Manual tract definitions introduce subjectivity and limit comparability across studies. AFQ standardizes this process.
+2. **Ensure [[reproducibility]]**: Manual tract definitions introduce subjectivity and limit comparability across studies. AFQ standardizes this process.
 3. **Enable tract-specific analysis**: Rather than analyzing whole-brain white matter templates, AFQ provides metrics for individual tracts (e.g., corpus callosum, arcuate fasciculus, cingulum), enabling hypothesis-driven investigations.
 
-AFQ thus bridges the gap between whole-brain connectomics and targeted white matter analysis, making it particularly valuable for computational neuroscience studies that require detailed structural connectivity information to inform [[whole-brain-modeling]] approaches.
+AFQ thus bridges the gap between whole-brain [[connectomics]] and targeted white matter analysis, making it particularly valuable for [[computational-neuroscience]] studies that require detailed structural connectivity information to inform [[whole-brain-modeling]] approaches.
 
 ## Technical Framework
 
@@ -90,6 +100,6 @@ Researchers studying [[epilepsy-modeling]], [[alzheimers-modeling]], or [[schizo
 
 [6] Yeatman, J. D., Richie-Halcraft, E., Brodsky, M., & Wandell, B. A. (2014). AFQ-Notebooks: A cloud-based computational tool for diffusion MRI analysis. *ISMRM 2014*.
 
-[7] Jirsa, V. K., Proix, T., Perdikis, D., Woodman, M. M., Wang, H., Gonzalez, C., ... & Guye, M. (2017). The Virtual Brain: a tool to study biophysically detailed brain dynamics. *Frontiers in Computational Neuroscience*, 12, 92.
+[7] Jirsa, V. K., Proix, T., Perdikis, D., Woodman, M. M., Wang, H., Gonzalez, C., ... & Guye, M. (2017). [[the-virtual-brain]]: a tool to study biophysically detailed brain dynamics. *Frontiers in Computational Neuroscience*, 12, 92.
 
 [8] Cao, M., Huang, H., & He, Y. (2017). Developmental changes in brain structural connectivity. *Neuroscience Bulletin*, 33(3), 299-311.
