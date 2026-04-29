@@ -702,3 +702,15 @@
 ## [2026-04-29 01:52] SoftwareMapper: 4 pages created
 
 ## [2026-04-29 01:54] Improve: 3 pages improved (auryn, cvodes, sift)
+
+## 2026-04-29 - OpenMEEG page improved
+- Completed OpenMEEG entity page with comprehensive content
+- Added overview explaining BEM forward modeling for EEG/MEG
+- Documented key features: three-compartment BEM, symmetric formulation, input/output formats
+- Explained technical implementation with mathematical foundation
+- Added relationship to TVB for combined forward modeling
+- Included related software: MNE-Python, Brainstorm, Fieldtrip, Freesurfer, SimNIBS
+- Added wikilinks: MNE-Python, Fieldtrip, Brainstorm, Freesurfer, Freeview, The Virtual Brain, Jansen-Rit, Wong-Wang, whole-brain model, dynamic causal modeling, SimNIBS
+- Updated frontmatter with new tags: neuroimaging-eeg, neuroimaging-meg, source-localization, forward-model, volume-conduction
+
+## [2026-04-29 01:59] Matcher: 6 pages got 14 new sources
