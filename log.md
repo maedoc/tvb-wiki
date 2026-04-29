@@ -2,6 +2,16 @@
 
 ## 2026-04-29
 
+- Created/Improved page: [[brainspace]] – Macroscale gradient analysis toolbox
+  - Complete rewrite from placeholder to comprehensive entity page (~590 words)
+  - Updated frontmatter: changed updated date to 2026-04-29
+  - Tags: software-brain-modeling, software-visualization, connectomics, gradient-analysis
+  - Established 12+ wikilinks: connectome, connectomics, functional-connectivity, structural-connectivity, brain-parcellations, parcellation, hcp-dataset, human-connectome-project, neuroimaging, fmri, diffusion-mri, brain-network, default-mode-network, the-virtual-brain, jansen-rit-model, wong-wang-model, brain-connectivity-toolbox, nilearn, schaefer-atlas, connectome-workbench, pycortex, freesurfer, dipy, brainlife
+  - Added detailed sections: Overview, Motivation and Context, Key Features (Gradient Identification, Gradient Alignment, Null Models, Visualization, Multi-Scale Flexibility), Relationship to TVB, Key Papers, Related Software
+  - Explained manifold learning techniques (diffusion mapping, Laplacian eigenmaps, PCA) for extracting cortical gradients
+  - Covered affinity kernels, Procrustes alignment, spin permutations, and Moran spectral randomization
+  - Positioned BrainSpace as complementary to TVB for characterizing empirical connectome organization
+
 - Created/Improved page: [[nibabies]] – Infant brain MRI preprocessing pipeline
   - Complete rewrite from placeholder to comprehensive entity page (~590 words)
   - Updated frontmatter: changed updated date to 2026-04-29
@@ -834,3 +844,5 @@
 ## [2026-04-29 20:53] Linter: 8 broken links, 59 orphans, 59 stale, 91 empty
 
 ## [2026-04-29 21:07] SoftwareMapper: 25 pages created
+
+## [2026-04-29 21:14] Improve: 3 pages improved (neo, freeview, cbrain)
