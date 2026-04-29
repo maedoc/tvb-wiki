@@ -8,6 +8,9 @@ sources:
   on Biomedical Engineering, 52(12), 2128-2131. https://doi.org/10.1109/TBME.2005.857713
 - Darbas, M., & Lohrengel, S. (2019). Review on singularity handling for the meg/eeg
   forward problem. Comptes Rendus Mécanique, 347(1), 21-35. https://doi.org/10.1016/j.crme.2018.10.004
+- raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-87fcd15931ad.md
+- raw/papers/ritter-2013.md
 tags:
 - software-brain-modeling
 - neuroimaging-eeg

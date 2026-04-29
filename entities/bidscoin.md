@@ -7,11 +7,12 @@ sources:
 - raw/papers/semanticscholar-f45e6044c92f.md
 - raw/papers/woodman-2014.md
 - raw/papers/semanticscholar-4d73a30d5c84.md
+- raw/papers/mijalkov-2017-braph.md
 tags:
 - software-bidscoin
 title: BidsCoin
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-29'
 ---
 
 BidsCoin (bidscoin) is a command-line tool and GUI for converting raw [[neuroimaging]] data into the [[bids]] format, supporting multiple scanner vendors.

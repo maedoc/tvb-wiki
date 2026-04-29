@@ -8,6 +8,7 @@ sources:
 - raw/papers/semanticscholar-f45e6044c92f.md
 - raw/papers/semanticscholar-4d73a30d5c84.md
 - raw/papers/semanticscholar-380768cf42a8.md
+- raw/papers/mijalkov-2017-braph.md
 tags:
 - software-mrtrix
 title: MRtrix

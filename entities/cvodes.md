@@ -6,6 +6,7 @@ sources:
 - raw/papers/sanz-leon-2013.md
 - raw/papers/arxiv-2509.12873.md
 - raw/papers/arxiv-2512.03907.md
+- raw/papers/arxiv-2507.22146.md
 tags:
 - software-neuroscience
 - computational-neuroscience

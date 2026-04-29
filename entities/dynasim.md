@@ -6,11 +6,12 @@ sources:
 - raw/papers/semanticscholar-97e6ff441097.md
 - raw/papers/semanticscholar-a324c47ea982.md
 - raw/papers/woodman-2014.md
+- raw/papers/mijalkov-2017-braph.md
 tags:
 - software-dynasim
 title: DynaSim
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-29'
 ---
 
 DynaSim (dynasim) is a MATLAB toolbox for building and simulating dynamical systems models in neuroscience, supporting both ODE and DDE solvers.

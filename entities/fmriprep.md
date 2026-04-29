@@ -9,6 +9,9 @@ sources:
 - 'Gorgolewski KJ, Esteban O, Markiewicz CJ, et al. (2018) BIDSapp: containerized
   execution of BIDS workflows on HPC clusters and personal computers. Frontiers in
   Neuroinformatics 12: 25.'
+- raw/papers/semanticscholar-109de470e443.md
+- raw/papers/semanticscholar-4d73a30d5c84.md
+- raw/papers/semanticscholar-d6e43299345d.md
 tags:
 - software-modeling
 - neuroimaging-fmri

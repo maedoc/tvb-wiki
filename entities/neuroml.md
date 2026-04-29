@@ -7,11 +7,12 @@ sources:
 - raw/papers/migliore-2006.md
 - raw/papers/schirner-2018.md
 - raw/papers/semanticscholar-5c84b271b035.md
+- raw/papers/mijalkov-2017-braph.md
 tags:
 - software-neuroml
 title: NeuroML
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-29'
 ---
 
 NeuroML (neuroml) is a standardized model description language for [[computational-neuroscience]], enabling exchangeable, simulator-independent neural models.

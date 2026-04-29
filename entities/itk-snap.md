@@ -4,11 +4,12 @@ sources:
 - raw/papers/semanticscholar-97e6ff441097.md
 - raw/papers/semanticscholar-518ee560ec89.md
 - raw/papers/semanticscholar-fb4cf47c4f31.md
+- raw/papers/mijalkov-2017-braph.md
 tags:
 - software-brain-modeling
 title: ITK-SNAP
 type: entity
-updated: '2026-04-28'
+updated: '2026-04-29'
 ---
 
 title: ITK-SNAP

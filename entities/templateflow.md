@@ -4,6 +4,7 @@ sources:
 - raw/papers/schirner-2018.md
 - raw/papers/semanticscholar-97e6ff441097.md
 - raw/papers/sanz-leon-2013.md
+- raw/papers/mijalkov-2017-braph.md
 tags:
 - software-neuroimaging
 - neuroimaging
@@ -13,7 +14,7 @@ tags:
 - database-neuroimaging
 title: TemplateFlow
 type: software
-updated: '2026-04-28'
+updated: '2026-04-29'
 ---
 
 # TemplateFlow

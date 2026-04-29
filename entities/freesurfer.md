@@ -7,6 +7,7 @@ sources:
 - raw/papers/semanticscholar-a324c47ea982.md
 - raw/papers/semanticscholar-0aeca1b592e6.md
 - raw/papers/semanticscholar-380768cf42a8.md
+- raw/papers/mijalkov-2017-braph.md
 tags:
 - software-freesurfer
 title: FreeSurfer

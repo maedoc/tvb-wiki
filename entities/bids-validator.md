@@ -7,11 +7,12 @@ sources:
 - raw/papers/semanticscholar-0aeca1b592e6.md
 - raw/papers/woodman-2014.md
 - raw/papers/semanticscholar-4d73a30d5c84.md
+- raw/papers/mijalkov-2017-braph.md
 tags:
 - software-bids-validator
 title: BIDS Validator
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-29'
 ---
 
 [[bids]] Validator (bids-validator) is a tool for validating that [[neuroimaging]] datasets conform to the Brain Imaging Data Structure (BIDS) standard.

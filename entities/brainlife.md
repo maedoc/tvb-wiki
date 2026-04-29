@@ -1,6 +1,9 @@
 ---
 created: 2026-04-24
-sources: []
+sources:
+- raw/papers/semanticscholar-a324c47ea982.md
+- raw/papers/semanticscholar-f45e6044c92f.md
+- raw/papers/semanticscholar-d576a0f9d2a0.md
 tags:
 - software-brain-modeling
 title: BrainLife.io

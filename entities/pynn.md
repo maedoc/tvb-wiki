@@ -7,11 +7,12 @@ sources:
 - raw/papers/semanticscholar-0aeca1b592e6.md
 - raw/papers/semanticscholar-9afbfd2d37be.md
 - raw/papers/semanticscholar-5c84b271b035.md
+- raw/papers/mijalkov-2017-braph.md
 tags:
 - software-pynn
 title: PyNN
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-29'
 ---
 
 PyNN (pynn) is a Python simulator-independent language for building neuronal network models, providing a common API for multiple backends including [[nest]], [[neuron]], and [[brian]].

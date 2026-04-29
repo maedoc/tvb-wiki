@@ -7,6 +7,9 @@ sources:
 - https://surfer.nmr.mgh.harvard.edu/
 - https://fsl.fmrib.ox.ac.uk/fsl/fslview
 - https://github.com/brainstorm-app/brainstorm
+- raw/papers/semanticscholar-380768cf42a8.md
+- raw/papers/ritter-2013.md
+- raw/papers/semanticscholar-565d9037ee06.md
 tags:
 - software-pipeline
 - connectomics

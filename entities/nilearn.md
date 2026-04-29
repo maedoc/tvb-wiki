@@ -7,6 +7,7 @@ sources:
 - raw/papers/sanz-leon-2013.md
 - raw/papers/schirner-2018.md
 - raw/papers/semanticscholar-380768cf42a8.md
+- raw/papers/mijalkov-2017-braph.md
 tags:
 - software-nilearn
 title: Nilearn

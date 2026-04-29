@@ -1,6 +1,9 @@
 ---
 created: 2026-04-27
-sources: []
+sources:
+- raw/papers/semanticscholar-d4665dd0df61.md
+- raw/papers/semanticscholar-8edd59e14fa3.md
+- raw/papers/arxiv-2503.21414.md
 tags:
 - software-brain-modeling
 title: TensorFlow

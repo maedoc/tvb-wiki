@@ -19,6 +19,9 @@ sources:
   Networks, 14(8), 1005-1016.
 - Korzeniewska, A., et al. (2003). Determination of information flow direction among
   brain structures. Journal of Neuroscience Methods, 124(2), 113-127.
+- raw/papers/semanticscholar-028f7c6ac41d.md
+- raw/papers/arxiv-2406.05002.md
+- raw/papers/arxiv-2601.03796.md
 tags:
 - software-eeg
 - computational-neuroscience

@@ -3,6 +3,7 @@ created: 2026-04-27
 sources:
 - raw/papers/arxiv-2512.07842.md
 - raw/papers/arxiv-2510.22022.md
+- raw/papers/arxiv-2603.07524.md
 tags:
 - local-field-potentials
 title: Local Field Potentials

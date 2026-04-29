@@ -8,11 +8,12 @@ sources:
 - raw/papers/woodman-2014.md
 - raw/papers/arxiv-2604.16463.md
 - raw/papers/semanticscholar-5c84b271b035.md
+- raw/papers/mijalkov-2017-braph.md
 tags:
 - software-netpyne
 title: NetPyNE
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-29'
 ---
 
 NetPyNE (netpyne) is a Python package for developing, simulating, and analyzing data-driven multi-scale network models using [[neuron]].

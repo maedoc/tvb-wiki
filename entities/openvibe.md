@@ -1,6 +1,9 @@
 ---
 created: 2026-04-23
-sources: []
+sources:
+- raw/papers/semanticscholar-eb4197c24bf2.md
+- raw/papers/arxiv-2505.16861.md
+- raw/papers/arxiv-2509.12873.md
 tags:
 - software-brain-modeling
 title: OpenViBE

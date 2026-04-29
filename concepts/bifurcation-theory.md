@@ -6,6 +6,9 @@ sources:
 - Jirsa2014
 - WongWang2006
 - Brett2005
+- raw/papers/izhikevich-2007.md
+- raw/papers/arxiv-2510.02545.md
+- raw/papers/breakspear-2006.md
 tags:
 - bifurcation-theory
 - dynamical-systems-theory

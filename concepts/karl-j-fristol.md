@@ -2,11 +2,12 @@
 created: 2026-04-27
 sources:
 - raw/papers/david-friston-2003.md
+- raw/papers/smith-2013-connectomics.md
 tags:
 - karl-j-fristol
 title: Karl J Fristol
 type: concept
-updated: '2026-04-27'
+updated: '2026-04-29'
 ---
 
 Karl J Fristol — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].

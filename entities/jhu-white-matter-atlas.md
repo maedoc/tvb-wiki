@@ -7,6 +7,9 @@ sources:
 - 10.1016/j.neuroimage.2007.12.028
 - 10.1016/j.neuroimage.2004.09.027
 - 10.1002/jmri.20272
+- raw/papers/semanticscholar-9538aa9a62c5.md
+- raw/papers/rubinov-sporns-2010.md
+- raw/papers/semanticscholar-a65db6732ad1.md
 tags:
 - brain-parcellations
 - diffusion-imaging

@@ -6,6 +6,9 @@ sources:
 - peixoto2014sbm
 - 荒荒2023
 - rubinov2010
+- raw/papers/rubinov-sporns-2010.md
+- raw/papers/wang-etal-2015-gretna.md
+- raw/papers/mijalkov-2017-braph.md
 tags:
 - software-graph-tool
 - network-analysis

@@ -5,6 +5,9 @@ sources:
 - https://www.nature.com/articles/s41597-023-00462-w
 - https://neuroimage.org/
 - https://www.frontiersin.org/articles/10.3389/fnins.2013.00047/full
+- raw/papers/semanticscholar-5a69b770faf9.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-769ed169ed7c.md
 tags:
 - software-mne-connectivity
 - functional-connectivity

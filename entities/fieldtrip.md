@@ -7,6 +7,7 @@ sources:
 - raw/papers/woodman-2014.md
 - raw/papers/semanticscholar-97e6ff441097.md
 - raw/papers/semanticscholar-380768cf42a8.md
+- raw/papers/mijalkov-2017-braph.md
 tags:
 - software-fieldtrip
 title: FieldTrip

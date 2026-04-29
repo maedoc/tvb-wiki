@@ -4,6 +4,9 @@ sources:
 - 'Horn et al., 2019, Lead-DBS: A toolbox for deep brain stimulation, NeuroImage'
 - Nowacki et al., 2020, Lead-DBS 2.0, Brain Stimulation
 - Reich et al., 2021, Lead-DBS for movement disorders, Nature Reviews Neurology
+- raw/papers/sanz-leon-2013.md
+- raw/papers/arxiv-2505.16861.md
+- raw/papers/schirner-2018.md
 tags:
 - software-brain-modeling
 - brain-stimulation

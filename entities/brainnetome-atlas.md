@@ -4,6 +4,9 @@ sources:
 - 'Fan, L., Li, H., Zhuo, J., et al. (2016). The Human Brainnetome Atlas: A new brain
   atlas based on connectional architecture. Cerebral Cortex, 26(8), 3508-3526.'
 - Brainnetome Atlas. Brainnetome Center. https://atlas.brainnetome.org/
+- raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-9538aa9a62c5.md
+- raw/papers/power-2011.md
 tags:
 - brain-parcellations
 - connectomics

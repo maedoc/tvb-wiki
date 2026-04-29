@@ -7,11 +7,12 @@ sources:
 - raw/papers/schirner-2018.md
 - raw/papers/semanticscholar-97e6ff441097.md
 - raw/papers/arxiv-2507.22146.md
+- raw/papers/mijalkov-2017-braph.md
 tags:
 - software-brian
 title: Brian
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-29'
 ---
 
 Brian (brian) is a Python simulator for [[spiking-neural-networks]], known for its intuitive syntax and code generation approach for efficient simulation.

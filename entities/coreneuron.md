@@ -7,11 +7,12 @@ sources:
 - raw/papers/schirner-2018.md
 - raw/papers/woodman-2014.md
 - raw/papers/semanticscholar-5c84b271b035.md
+- raw/papers/mijalkov-2017-braph.md
 tags:
 - software-coreneuron
 title: CoreNEURON
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-29'
 ---
 
 CoreNEURON (coreneuron) is a optimized compute engine for the [[neuron]] simulator, designed for large-scale network simulations on modern HPC systems.

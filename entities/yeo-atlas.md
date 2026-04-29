@@ -1,6 +1,7 @@
 ---
 created: 2026-04-28
-sources: []
+sources:
+- raw/papers/van-essen-2012.md
 tags:
 - software-brain-modeling
 title: Yeo Atlas

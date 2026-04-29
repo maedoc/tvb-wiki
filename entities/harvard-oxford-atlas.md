@@ -6,6 +6,9 @@ sources:
 - https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1359520/
 - https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1457003/
 - https://www.sciencedirect.com/science/article/pii/S0920998920305837
+- raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-913068805e7f.md
+- raw/papers/ritter-2013.md
 tags:
 - neuroimaging
 - neuroimaging-fmri

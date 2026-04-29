@@ -4,6 +4,9 @@ sources:
 - https://cran.r-project.org/web/packages/ciftiTools/index.html
 - https://github.com/mandymejia/ciftiTools
 - https://doi.org/10.1016/j.neuroimage.2022.118877
+- raw/papers/semanticscholar-97e6ff441097.md
+- raw/papers/woodman-2014.md
+- raw/papers/mijalkov-2017-braph.md
 tags:
 - software-r
 - neuroimaging

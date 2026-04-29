@@ -7,11 +7,12 @@ sources:
 - raw/papers/arxiv-2604.16463.md
 - raw/papers/schirner-2018.md
 - raw/papers/arxiv-2507.22146.md
+- raw/papers/mijalkov-2017-braph.md
 tags:
 - software-brian2
 title: Brian2
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-29'
 ---
 
 Brian2 (brian2) is a successor to [[brian]], a Python [[spiking-neural-networks|spiking neural network]] simulator that compiles model equations to efficient C++ or standalone code.

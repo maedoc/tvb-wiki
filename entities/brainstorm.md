@@ -6,6 +6,7 @@ sources:
 - raw/papers/semanticscholar-97e6ff441097.md
 - raw/papers/woodman-2014.md
 - raw/papers/semanticscholar-a324c47ea982.md
+- raw/papers/mijalkov-2017-braph.md
 tags:
 - software-brainstorm
 title: Brainstorm

@@ -796,3 +796,5 @@
 ## [2026-04-29 07:35] Improve: 3 pages improved (nitrc, mne-connectivity, braph)
 
 ## [2026-04-29 07:35] RefFormatter: formatted references on 1 pages
+
+## [2026-04-29 07:41] CrosslinkApplier: added 102 wikilinks (101 inline, 1 suggested)

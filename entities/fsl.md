@@ -6,11 +6,12 @@ sources:
 - raw/papers/semanticscholar-97e6ff441097.md
 - raw/papers/sanz-leon-2013.md
 - raw/papers/semanticscholar-f45e6044c92f.md
+- raw/papers/mijalkov-2017-braph.md
 tags:
 - software-fsl
 title: FSL
 type: entity
-updated: '2026-04-28'
+updated: '2026-04-29'
 ---
 
 FSL (fsl) is a comprehensive library of analysis tools for [[fmri]], MRI, and DTI brain imaging data, developed at the Oxford Centre for Functional MRI of the Brain.

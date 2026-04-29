@@ -1,6 +1,7 @@
 ---
 created: 2026-04-23
-sources: []
+sources:
+- raw/papers/sporns-2011.md
 tags:
 - software-brain-modeling
 title: CoCoMac
