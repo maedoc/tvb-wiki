@@ -758,3 +758,5 @@
 - Updated frontmatter: updated date to 2026-04-29
 
 ## [2026-04-29 05:28] Improve: 3 pages improved (nitrc, homer3, whole-brain-simulators)
+
+## [2026-04-29 05:29] Improve: 3 pages improved (homer3, nibabies, cititools)
