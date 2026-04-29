@@ -66,6 +66,7 @@ Connectome‑based whole‑brain modeling, neural mass models, neuroimaging moda
 - software‑graphvar
 - software‑modeldb
 - software‑visualization
+- software‑dti‑tk
 - database‑hcp
 - database‑uk‑biobank
 

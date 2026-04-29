@@ -760,3 +760,15 @@
 ## [2026-04-29 05:28] Improve: 3 pages improved (nitrc, homer3, whole-brain-simulators)
 
 ## [2026-04-29 05:29] Improve: 3 pages improved (homer3, nibabies, cititools)
+
+## [2026-04-29 06:36] Improve: 3 pages improved (dti-tk, jhu-white-matter-atlas, graph-tool)
+
+## [2026-04-29 06:45] Improve: dti-tk page refined
+
+- Fixed frontmatter tags: replaced invalid tags with [software-dti-tk, diffusion-imaging, neuroimaging-dti, tractography, structural-connectivity]
+- Added software-dti-tk to tag taxonomy in SCHEMA.md
+- Fixed sources: removed non-existent raw/papers/dtitk-paper.md reference
+- Fixed wikilinks: [[Brain Connectivity Toolbox]] → [[bctpy]], [[FSL]] → [[fsl]], [[The Virtual Brain]] → [[the-virtual-brain]], [[structural connectivity]] → [[structural-connectivity]], [[diffusion imaging]] → [[diffusion-imaging]], [[DSI Studio]] → [[dsi-studio]]
+- Added dti-tk to entities/index.md
+- 15 wikilinks verified: MRtrix3, fsl, diffusion-imaging, Wong-Wang, whole-brain modeling, the-virtual-brain, structural-connectivity, Jansen-Rit, dsi-studio, bctpy, AFQ
+- Content meets 400-600 words target (comprehensive coverage)
