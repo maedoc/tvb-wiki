@@ -9,6 +9,9 @@ sources:
   reference: Holdgraf et al., 2019
 - link: https://doi.org/10.1101/2023.10.30.464685
   reference: Taylor et al., 2023
+- raw/papers/arxiv-2512.17472.md
+- raw/papers/semanticscholar-109de470e443.md
+- raw/papers/semanticscholar-4d73a30d5c84.md
 tags:
 - neuroimaging
 - neuroimaging-fmri

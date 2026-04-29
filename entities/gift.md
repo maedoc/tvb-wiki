@@ -6,6 +6,9 @@ sources:
 - allen-2011
 - erhardt-2012
 - correa-2007
+- raw/papers/semanticscholar-cabf914d6370.md
+- raw/papers/smith-2013-connectomics.md
+- raw/papers/penny-2004.md
 tags:
 - neuroimaging-fmri
 - software-visualization

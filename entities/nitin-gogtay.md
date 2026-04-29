@@ -4,13 +4,14 @@ sources:
 - raw/papers/gogtay-2004.md
 - raw/papers/tau-peterson-2010.md
 - raw/papers/power-2010.md
+- raw/papers/arxiv-2602.06994.md
 tags:
 - people-researcher
 - neurodevelopment
 - neuroimaging-fmri
 title: Nitin Gogtay
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-29'
 ---
 
 # Nitin Gogtay
