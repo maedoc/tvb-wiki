@@ -1,31 +1,54 @@
 ---
-created: 2025-01-15
-sources:
-- https://cibsr.stanford.edu/
-- https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3176805/
-- https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2842060/
-- https://pubmed.ncbi.nlm.nih.gov/20577591/
-tags:
-- neuroimaging-fmri
-- software-neuroimaging
-- software-matlab
-- rest-ing-state
-- functional-connectivity
-- structural-connectivity
-- brain-parcellations
-- software-visualization
 title: CITItools
-type: entity
+created: 2026-04-29
 updated: 2026-04-29
+type: entity
+tags: [software-r, neuroimaging, cifti, human-connectome-project, grayordinates, fmri, brain-atlases]
+sources:
+  - https://cran.r-project.org/web/packages/ciftiTools/index.html
+  - https://github.com/mandymejia/ciftiTools
+  - https://doi.org/10.1016/j.neuroimage.2022.118877
 ---
-Done. I've updated the CITItools article with all fixes:
 
-1. **Added citations** — Added 4 sources to `sources:` array and inline citations ([1], [2], [3], [4], [5]) throughout the text for factual claims about Stanford origin, features, and historical timing.
+CITItools (ciftiTools) is an R package for reading, writing, visualizing, and manipulating CIFTI (Connectivity Informatics Technology Initiative) format files in neuroimaging workflows. The package provides a unified environment for working with grayordinate-based brain imaging data, combining cortical surface vertices with subcortical voxel data in a single file format pioneered by the [[human-connectome-project]]. Originally developed by Amanda Mejia, Damon Pham, and John Muschelli, ciftiTools is available on CRAN and has become a standard tool for R-based neuroimaging analysis pipelines [1][2].
 
-2. **Completed truncated text** — The final paragraph now ends properly with: *"supporting the broader model validation framework that computational neuroscientists employ."*
+## Technical Background
 
-3. **Added missing sections** — Added `## Key Papers` section with 3 key references, and `## References` section with full bibliographic entries.
+CIFTI files store brain imaging data in "grayordinates" — a hybrid representation that combines the cortical surface (approximately 32,000 vertices per hemisphere) with volumetric subcortical structures including the cerebellum and basal ganglia. This format was introduced by the [[human-connectome-project]] to address limitations of purely volumetric or purely surface-based neuroimaging data representations. The [[cifti]] format supports three primary intents: "dtseries" for time-series data (such as fMRI), "dscalar" for continuously-valued scalar data, and "dlabel" for categorical parcellations and labels [3].
 
-4. **Fixed naming** — Changed incorrect "Center for Interdisciplinary Brain Science" to the verified "Center for Interdisciplinary Brain Sciences Research (CIBSR)" at Stanford [1].
+The ciftiTools package introduces the "xifti" object class, which encapsulates both the data matrix and associated metadata including surface geometry, medial wall masks, and subcortical structure labels. This design enables convenient access to neuroimaging data while maintaining compatibility with the underlying CIFTI specification.
 
-5. **Full References section** — Added 5 proper bibliographic entries including citations to REST toolkit (similar MATLAB toolbox), resting-state fMRI discovery science, and DPARSF for methodological context.
+## Key Features
+
+The package provides comprehensive functionality across several domains. For data I/O, ciftiTools supports reading and writing CIFTI files with `read_cifti` and `write_cifti` functions, alongside conversion between GIFTI surface files and NIFTI volumetric formats. Visualization capabilities include `view_xifti_surface` for interactive 3D cortical rendering using the rgl package, and `view_xifti_volume` for subcortical volume visualization on MNI templates.
+
+Processing operations include geodesic surface smoothing and resampling to different mesh resolutions (e.g., 10k, 32k vertices per hemisphere), implemented via the [[connectome-workbench]] command-line tools. The package also includes mathematical operations implemented as S3 methods, allowing direct arithmetic and transformation of xifti objects within R.
+
+For parcellation workflows, ciftiTools provides built-in support for the Schaefer parcellation (100–1000 parcels) and Yeo functional networks (7 and 17 networks), facilitating region-of-interest analyses common in [[connectome]] studies.
+
+## Relationship to TVB and Other Tools
+
+ciftiTools serves a complementary role in the [[tvb]] ecosystem by enabling preprocessing and analysis of HCP-style datasets that may be used as empirical priors or validation targets for whole-brain simulations. Researchers can use ciftiTools to extract connectivity matrices from empirical CIFTI data, which can then serve as structural connectome inputs for TVB simulations. Conversely, simulated BOLD signals from TVB can be visualized and compared with empirical data using ciftiTools.
+
+The package integrates with the broader neuroimaging ecosystem: it depends on [[connectome-workbench]] for computationally intensive operations, uses [[gift]] format for surface geometry, and complements Python tools such as [[nilearn]] and [[pycortex]]. Unlike the cifti R package which supports all CIFTI intents but offers limited functionality, ciftiTools provides a user-friendly interface specifically optimized for dscalar, dtseries, and dlabel intents common in fMRI analysis.
+
+## Key Packages Summary
+
+| Package | Language | Read CIFTI | Write CIFTI | Visualize | External Dependency |
+|---------|----------|------------|-------------|-----------|---------------------|
+| ciftiTools | R | ✓ | ✓ | ✓ | Connectome Workbench |
+| nilearn | Python | ✗ | ✗ | ✓ | NiBabel |
+| cifti-matlab | MATLAB | ✓ | ✓ | ✗ | None |
+| hcp-utils | Python | ✓ | ✗ | ✓ | nilearn, NiBabel |
+
+## Key Papers
+
+1. Pham, D. D., Muschelli, J., & Mejia, A. F. (2022). ciftiTools: A package for reading, writing, visualizing, and manipulating CIFTI files in R. NeuroImage, 250, 118877.
+
+## References
+
+[1] ciftiTools CRAN Package. https://cran.r-project.org/web/packages/ciftiTools/index.html
+
+[2] ciftiTools GitHub Repository. https://github.com/mandymejia/ciftiTools
+
+[3] Glasser, M. F., Sotiropoulos, S. N., Wilson, J. A., Coalson, T. S., Fischl, B., Andersson, J. L., ... & Polimeni, J. R. (2013). The minimal preprocessing pipelines for the Human Connectome Project. NeuroImage, 80, 105-124.

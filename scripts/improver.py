@@ -677,10 +677,14 @@ YOUR PREVIOUS EDIT (which needs fixes):
 Fixed page:"""
             rev_success, rev_output = run_pi(revision_prompt, model=WRITER_MODEL)
         else:
-            # Quick revision for minor issues: shorter prompt, faster timeout
-            quick_prompt = f"""Quick polish of {slug}. Address ONLY these minor issues. 
-Keep all existing text; do NOT rewrite from scratch.
-Do NOT add meta-commentary.
+            # Quick revision for minor issues: same model, lighter prompt
+            quick_prompt = f"""You are editing the markdown page for {slug}. 
+The reviewer flagged only MINOR style issues (citations, wikilinks, formatting). 
+Fix them IN-PLACE and return the COMPLETE UPDATED PAGE — every section intact.
+
+**CRITICAL:** Output ONLY the final markdown page. Do NOT list what you changed. 
+Do NOT write "Done" or "Fixed issues" or summaries. 
+Do NOT add meta-commentary. Just return the page content.
 
 ISSUES: {review_output}
 
@@ -689,6 +693,15 @@ CURRENT CONTENT:
 
 Updated content:"""
             rev_success, rev_output = run_pi(quick_prompt, model=WRITER_MODEL, timeout=120)
+            if rev_success:
+                revised = _strip_code_fences(rev_output)
+                # Safety guard: reject pure meta-commentary
+                first_line = revised.strip().split('\n')[0].strip().lower() if revised.strip() else ""
+                if first_line.startswith(('done.', 'fixed', 'here is', 'okay.', 'ok.', 'summary', 'changes made', 'the corrected', 'polished', 'i fixed')):
+                    log.warn("Quick revision for %s produced meta-commentary — keeping original", slug)
+                    rev_success = False  # Skip outer revision block; keep original
+            else:
+                rev_success = False  # Ensure outer block is skipped
 
         if rev_success:
             revised = _strip_code_fences(rev_output)

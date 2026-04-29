@@ -772,3 +772,5 @@
 - Added dti-tk to entities/index.md
 - 15 wikilinks verified: MRtrix3, fsl, diffusion-imaging, Wong-Wang, whole-brain modeling, the-virtual-brain, structural-connectivity, Jansen-Rit, dsi-studio, bctpy, AFQ
 - Content meets 400-600 words target (comprehensive coverage)
+
+## [2026-04-29 06:42] Improve: 2 pages improved (graph-tool, dti-tk)
