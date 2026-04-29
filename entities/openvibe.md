@@ -12,7 +12,7 @@ title: OpenViBE
 created: 2025-01-15
 updated: 2026-04-29
 type: entity
-tags: [[[neuroimaging]]-eeg, neuroimaging-meg, electrophysiology, software-visualization]
+tags: [[[neuroimaging]]-eeg, [[neuroimaging]]-meg, electrophysiology, software-visualization]
 sources:
   - https://openvibe.inria.fr/
   - https://hal.science/hal-00477153

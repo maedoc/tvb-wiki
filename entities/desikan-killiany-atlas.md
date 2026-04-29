@@ -59,7 +59,7 @@ Despite its widespread adoption, the Desikan-Killiany Atlas has notable limitati
 - Schaefer, A., Kong, R., Gordon, E. M., LaGrow, T. M., Moore, W. M., Zhou, D., ... & Zuo, X. N. (2018). Local-global parcellation of the human cerebral cortex from intrinsic functional connectivity MRI. *Cerebral Cortex*, 28(9), 3095-3114.
 - Klein, A., & Tourville, J. (2012). 101 labeled brain images and a consistent human cortical labeling protocol. *Frontiers in Neuroscience*, 6, 171.
 - Jenkinson, M., Beckmann, C. F., Behrens, T. E., Woolrich, M. W., & Smith, S. M. (2012). FSL. *NeuroImage*, 62(2), 782-790.
-- Jeurissen, B., Leemans, A., Tournier, J. D., & Sijbers, J. (2014). Fiber tracking and tractography in [[diffusion-mri]]: A comparative study of robustness and reliability. *Medical Image Analysis*, 18(1), 85-94.
+- Jeurissen, B., Leemans, A., Tournier, J. D., & Sijbers, J. (2014). Fiber tracking and [[tractography]] in [[diffusion-mri]]: A comparative study of robustness and reliability. *Medical Image Analysis*, 18(1), 85-94.
 - Rubinov, M., & Sporns, O. (2010). Complex network measures of brain connectivity: Uses and interpretations. *NeuroImage*, 52(3), 1059-1069.
 
 ## See Also

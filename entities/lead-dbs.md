@@ -1,26 +1,33 @@
 ---
-title: Lead-DBS
 created: 2025-01-15
-updated: 2026-04-29
-type: entity
-tags: [software-brain-modeling, brain-stimulation, neuroimaging-dti, tractography, whole-brain-modeling, parcellation, neurosurgery]
 sources:
-  - "Horn et al., 2019, Lead-DBS: A toolbox for deep brain stimulation, NeuroImage"
-  - "Nowacki et al., 2020, Lead-DBS 2.0, Brain Stimulation"
-  - "Reich et al., 2021, Lead-DBS for movement disorders, Nature Reviews Neurology"
+- 'Horn et al., 2019, Lead-DBS: A toolbox for deep brain stimulation, NeuroImage'
+- Nowacki et al., 2020, Lead-DBS 2.0, Brain Stimulation
+- Reich et al., 2021, Lead-DBS for movement disorders, Nature Reviews Neurology
+tags:
+- software-brain-modeling
+- brain-stimulation
+- neuroimaging-dti
+- tractography
+- whole-brain-modeling
+- parcellation
+- neurosurgery
+title: Lead-DBS
+type: entity
+updated: '2026-04-29'
 ---
 
-Lead-DBS is an open-source software toolbox for planning and analyzing deep brain stimulation (DBS) procedures. It provides a comprehensive environment for preoperative tractography-based target selection and postoperative electrode localization analysis, enabling researchers and clinicians to optimize DBS therapy for movement disorders such as Parkinson's disease, essential tremor, and dystonia, as well as emerging applications in psychiatric disorders including major depression and obsessive-compulsive disorder (Horn et al., 2019).
+Lead-DBS is an open-source software toolbox for planning and analyzing deep [[brain-stimulation]] (DBS) procedures. It provides a comprehensive environment for preoperative [[tractography]]-based target selection and postoperative electrode localization analysis, enabling researchers and clinicians to optimize DBS therapy for movement disorders such as Parkinson's disease, essential tremor, and dystonia, as well as emerging applications in psychiatric disorders including major depression and obsessive-compulsive disorder (Horn et al., 2019).
 
 ## Overview
 
-Deep brain stimulation is an established neurosurgical treatment where electrodes are implanted into specific brain regions to modulate pathological neural activity. The precision of electrode placement critically determines clinical outcomes, yet the human brain exhibits substantial inter-individual anatomical variability that complicates targeting. Lead-DBS addresses this challenge by integrating multimodal neuroimaging data—including structural MRI, diffusion tensor imaging (DTI), and computed tomography—with extensive atlas frameworks to facilitate precise surgical planning and post-operative verification.
+Deep brain stimulation is an established neurosurgical treatment where electrodes are implanted into specific brain regions to modulate pathological neural activity. The precision of electrode placement critically determines clinical outcomes, yet the human brain exhibits substantial inter-individual anatomical variability that complicates targeting. Lead-DBS addresses this challenge by integrating multimodal [[neuroimaging]] data—including structural MRI, diffusion tensor imaging (DTI), and computed tomography—with extensive atlas frameworks to facilitate precise surgical planning and post-operative verification.
 
 The software operates primarily within the MATLAB environment (with additional Python utilities for特定 data processing tasks) (Nowacki et al., 2020), offering semi-automatic and automatic approaches for reconstructing electrode trajectories, segmenting brain structures, and computing spatial relationships between implanted electrodes and target regions. These capabilities make Lead-DBS an essential tool for both clinical practice and research investigations into the mechanisms of DBS therapy.
 
 ## Key Features
 
-Lead-DBS provides several core functionalities that support the DBS workflow from preprocessing to analysis. The **preprocessing pipeline** incorporates advanced image registration techniques using elastix and ANTs, enabling accurate alignment of preoperative neuroimaging scans with postoperative CT images to localize electrode contacts. The software supports multiple brain atlases including the Desikan-Killiany atlas, Destrieux atlas, Harvard-Oxford atlas, AAL atlas, and the Brainnetome atlas, allowing users to define targets according to their preferred parcellation scheme.
+Lead-DBS provides several core functionalities that support the DBS workflow from preprocessing to analysis. The **preprocessing pipeline** incorporates advanced image registration techniques using [[elastix]] and ANTs, enabling accurate alignment of preoperative neuroimaging scans with postoperative CT images to localize electrode contacts. The software supports multiple brain atlases including the [[desikan-killiany-atlas]], [[destrieux-atlas]], [[harvard-oxford-atlas]], [[aal-atlas]], and the [[brainnetome-atlas]], allowing users to define targets according to their preferred [[parcellation]] scheme.
 
 A distinctive capability of Lead-DBS is its **tractography integration**, which leverages DTI and tractography data to visualize and analyze white matter pathways surrounding the electrode contacts. This functionality enables surgeons to assess whether intended structural pathways are being targeted and to predict stimulation effects based on the distribution of electric fields through anatomically defined fiber tracts. The **distance computation** tools calculate Euclidean and Mahalanobis distances between electrode contacts and anatomical landmarks, while the **volume of activation estimation** module simulates the electric field spreading from each contact given specified stimulation parameters.
 

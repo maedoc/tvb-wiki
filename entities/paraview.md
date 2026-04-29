@@ -1,35 +1,39 @@
 ---
-title: ParaView
 created: 2026-04-28
-updated: 2026-04-28
-type: entity
-tags: [software-visualization, whole-brain-modeling, neuroimaging, connectomics]
 sources:
-  - id: ayachit2015
-    type: book
-    title: The ParaView Guide
-    author: Ayachit, U.
-    year: 2015
-    publisher: Kitware, Inc.
-    url: https://www.paraview.org/
-  - id: hanwell2019
-    type: article
-    title: New capabilities in ParaView 5.7
-    author: Hanwell, M. D., et al.
-    year: 2019
-    journal: Electronic Imaging
-    volume: 2019
-    pages: 1-8
-    doi: 10.2352/ISSN.2470-1173.2019.5.COIMG-329
-  - id: tvb-scientific-reports
-    type: article
-    title: "The Virtual brain: a simulator of primate brain macrodynamics"
-    author: Sanz-Leon, P., et al.
-    year: 2013
-    journal: Scientific Reports
-    volume: 3
-    pages: 2200
-    doi: 10.1038/srep02200
+- author: Ayachit, U.
+  id: ayachit2015
+  publisher: Kitware, Inc.
+  title: The ParaView Guide
+  type: book
+  url: https://www.paraview.org/
+  year: 2015
+- author: Hanwell, M. D., et al.
+  doi: 10.2352/ISSN.2470-1173.2019.5.COIMG-329
+  id: hanwell2019
+  journal: Electronic Imaging
+  pages: 1-8
+  title: New capabilities in ParaView 5.7
+  type: article
+  volume: 2019
+  year: 2019
+- author: Sanz-Leon, P., et al.
+  doi: 10.1038/srep02200
+  id: tvb-scientific-reports
+  journal: Scientific Reports
+  pages: 2200
+  title: 'The Virtual brain: a simulator of primate brain macrodynamics'
+  type: article
+  volume: 3
+  year: 2013
+tags:
+- software-visualization
+- whole-brain-modeling
+- neuroimaging
+- connectomics
+title: ParaView
+type: entity
+updated: '2026-04-29'
 ---
 
 # ParaView
@@ -46,7 +50,7 @@ Unlike domain-specific viewers such as [[freesurfer]] or [[fsleyes]], ParaView o
 
 ## Key Features
 
-ParaView's architecture supports both interactive exploration through its Qt-based interface and programmatic access via Python bindings (pvpython), enabling reproducible visualization workflows. The software excels at rendering volumetric data, surface meshes, vector fields, and particle traces—all critical for neuroscience applications. For [[brain-parcellations]], researchers can visualize cortical surfaces with overlaid functional metrics, while [[tractography]] data can be displayed as streamlines with color coding by orientation, length, or connectivity strength.
+ParaView's architecture supports both interactive exploration through its Qt-based interface and programmatic access via Python bindings (pvpython), enabling reproducible visualization workflows. The software excels at rendering volumetric data, surface meshes, vector fields, and particle traces—all critical for neuroscience applications. For [[brain-parcellations]], researchers can visualize cortical surfaces with overlaid functional metrics, while [[tractography]] data can be displayed as streamlines with color coding by orientation, length, or [[connectivity]] strength.
 
 The pipeline-based processing model allows users to chain filters and transformations, creating complex visualization workflows that can be saved and reused. This is particularly valuable for [[reproducibility]] in computational neuroscience, where visualization parameters must be documented alongside analysis code. ParaView's support for time-series data makes it ideal for animating [[brain-oscillations]] from [[the-virtual-brain]] simulations or showing dynamic changes in [[functional-connectivity]] over the course of a simulation or experimental session.
 
@@ -75,7 +79,7 @@ Other notable alternatives include [[fsleyes]], which provides lightweight viewi
 
 ## Open Questions and Limitations
 
-Despite its capabilities, ParaView's general-purpose nature means neuroscience researchers must invest time in creating appropriate visualization pipelines, unlike domain-specific tools with neuroimaging conventions built-in. The community continues to debate whether general visualization platforms like ParaView or neuroscience-specific tools provide better long-term value for [[computational-neuroscience]] workflows. Additionally, integration with BIDS-structured datasets requires custom converters, though initiatives like [[bids]] standardization may eventually improve interoperability.
+Despite its capabilities, ParaView's general-purpose nature means neuroscience researchers must invest time in creating appropriate visualization pipelines, unlike domain-specific tools with [[neuroimaging]] conventions built-in. The community continues to debate whether general visualization platforms like ParaView or neuroscience-specific tools provide better long-term value for [[computational-neuroscience]] workflows. Additionally, integration with BIDS-structured datasets requires custom converters, though initiatives like [[bids]] standardization may eventually improve interoperability.
 
 ## Key Papers
 

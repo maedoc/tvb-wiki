@@ -1,17 +1,26 @@
 ---
-title: NITRC
 created: 2024-01-15
-updated: 2026-04-29
+sources:
+- https://www.nitrc.org/
+- https://www.ninds.nih.gov/
+- https://pubmed.ncbi.nlm.nih.gov/19636066/
+- https://pubmed.ncbi.nlm.nih.gov/25495502/
+tags:
+- software-neuroimaging
+- database
+- neuroimaging
+- reproducibility
+- platform
+title: NITRC
 type: entity
-tags: [software-neuroimaging, database, neuroimaging, reproducibility, platform]
-sources: [https://www.nitrc.org/, https://www.ninds.nih.gov/, https://pubmed.ncbi.nlm.nih.gov/19636066/, https://pubmed.ncbi.nlm.nih.gov/25495502/]
+updated: '2026-04-29'
 ---
 
-NITRC (Neuroimaging Tools and Resources Collaboratory) is a web-based computational platform and repository that serves as a central hub for the neuroimaging research community. Developed and maintained by the National Institute of Neurological Disorders and Stroke (NINDS) through the NIH Blueprint for Enhancing the Development of Biomedical Imaging Research, NITRC provides investigators with unified access to software tools, reference datasets, computational resources, and collaborative features necessary for modern neuroimaging analysis workflows (NINDS, 2024).
+NITRC ([[neuroimaging]] Tools and Resources Collaboratory) is a web-based computational platform and repository that serves as a central hub for the neuroimaging research community. Developed and maintained by the National Institute of Neurological Disorders and Stroke (NINDS) through the NIH Blueprint for Enhancing the Development of Biomedical Imaging Research, NITRC provides investigators with unified access to software tools, reference datasets, computational resources, and collaborative features necessary for modern neuroimaging analysis workflows (NINDS, 2024).
 
 ## Overview and Mission
 
-NITRC addresses a fundamental challenge in neuroimaging research: the fragmentation of software tools, datasets, and best practices across dozens of independent repositories and websites. Before NITRC's establishment in 2007, researchers spent considerable time locating, configuring, and validating individual analysis packages—a process that hindered reproducibility and increased the learning curve for new investigators entering the field (Book et al., 2008). The platform was designed to aggregate these resources into a searchable, curated repository with integrated documentation and community support features, effectively lowering barriers to entry and promoting open science practices in the neuroimaging community.
+NITRC addresses a fundamental challenge in neuroimaging research: the fragmentation of software tools, datasets, and best practices across dozens of independent repositories and websites. Before NITRC's establishment in 2007, researchers spent considerable time locating, configuring, and validating individual analysis packages—a process that hindered [[reproducibility]] and increased the learning curve for new investigators entering the field (Book et al., 2008). The platform was designed to aggregate these resources into a searchable, curated repository with integrated documentation and community support features, effectively lowering barriers to entry and promoting open science practices in the neuroimaging community.
 
 The platform operates under the principle that reproducibility in neuroimaging requires not only transparent methods reporting but also accessible implementations of analysis pipelines. By hosting both software packages and reference datasets in a single environment, NITRC enables researchers to reproduce analyses from published studies, compare different methodological approaches, and build upon existing work without duplicating infrastructure development efforts.
 
@@ -19,7 +28,7 @@ The platform operates under the principle that reproducibility in neuroimaging r
 
 NITRC provides several integrated resources that serve different stages of the neuroimaging research workflow. The **software registry** maintains a comprehensive catalog of neuroimaging analysis packages, ranging from widely-used general-purpose tools like [[FSL]], [[FreeSurfer]], [[AFNI]], and [[SPM]] to specialized packages for specific modalities such as [[MRtrix3]] for diffusion imaging tractography, [[EEGLab]] for electroencephalography analysis, and various tools for functional MRI preprocessing. Each software listing includes version information, installation instructions, documentation links, and citation information, creating a centralized reference for the analysis toolkit landscape.
 
-The **data repository** component provides access to reference neuroimaging datasets used for method development, validation, and training purposes. Notable datasets hosted on NITRC include the NIH MRI Study of Normal Brain Development (also known as the pediatric dataset), which has been instrumental in characterizing typical developmental trajectories in pediatric populations (Evans, 2006), and various single-subject reference datasets that enable method comparison across processing pipelines. These datasets are particularly valuable for researchers developing new analysis methods, as they provide gold-standard benchmarks against which novel approaches can be validated.
+The **data repository** component provides access to reference neuroimaging datasets used for method development, validation, and training purposes. Notable datasets hosted on NITRC include the NIH MRI Study of Normal Brain Development (also known as the pediatric dataset), which has been instrumental in characterizing typical [[developmental-trajectories]] in pediatric populations (Evans, 2006), and various single-subject reference datasets that enable method comparison across processing pipelines. These datasets are particularly valuable for researchers developing new analysis methods, as they provide gold-standard benchmarks against which novel approaches can be validated.
 
 NITRC additionally hosts **computational resources** through NITRC-CE (Computational Environment), a cloud-based infrastructure that allows researchers to run analyses without local high-performance computing resources. This service has proven particularly valuable for investigators at institutions with limited computational infrastructure, enabling them to execute common neuroimaging workflows through a web browser interface.
 

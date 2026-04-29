@@ -35,13 +35,13 @@ Auryn implements several features that distinguish it from other spiking neural 
 
 The simulator includes built-in support for various forms of [[synaptic-plasticity]], including spike-timing dependent plasticity (STDP) with both additive and multiplicative rules, homeostatic plasticity mechanisms, and short-term plasticity[^2]. Auryn also implements several neuron types that are widely used in network modeling, including leaky integrate-and-fire neurons, adaptive exponential integrate-and-fire neurons (following the [[adaptive-exponential-integrate-and-fire]] formulation by Romain Brette and Wulfram Gerstner[^3]), and conductance-based neurons with detailed synaptic models.
 
-Connectivity in Auryn is specified through connectivity matrices that can be generated algorithmically or loaded from external files, supporting arbitrary network architectures including random networks, small-world networks, and networks with structured connectivity patterns. The simulator provides tools for monitoring network activity, including population-averaged firing rates, spike trains, and correlation measures.
+Connectivity in Auryn is specified through connectivity matrices that can be generated algorithmically or loaded from external files, supporting arbitrary network architectures including [[random-networks]], [[small-world-networks]], and networks with structured connectivity patterns. The simulator provides tools for monitoring network activity, including population-averaged firing rates, spike trains, and correlation measures.
 
 ## Relationship to TVB
 
 Auryn and [[the-virtual-brain]] serve complementary roles in the computational neuroscience landscape. TVB operates at the macroscopic level, using neural mass models (such as the [[jansen-rit-model]] or [[wong-wang-exc-inh]]) to simulate whole-brain dynamics constrained by empirical structural connectivity data from diffusion tensor imaging. Auryn, by contrast, operates at the mesoscopic to microscopic level, simulating individual neurons and their interactions within local cortical circuits[^4].
 
-In principle, the two simulators can be integrated: Auryn could provide detailed local circuit dynamics that are then upscaled to inform neural mass parameters in TVB. Conversely, TVB's whole-brain framework could be used to generate realistic input patterns that drive Auryn simulations of specific cortical regions. This kind of multi-scale modeling represents an important frontier in brain simulation research, though practical integration between these specific tools remains limited. Both tools share a commitment to open-source development and have active research communities applying them to questions in brain dynamics, epilepsy modeling, and personalized brain modeling[^4].
+In principle, the two simulators can be integrated: Auryn could provide detailed local circuit dynamics that are then upscaled to inform neural mass parameters in TVB. Conversely, TVB's whole-brain framework could be used to generate realistic input patterns that drive Auryn simulations of specific cortical regions. This kind of multi-scale modeling represents an important frontier in brain simulation research, though practical integration between these specific tools remains limited. Both tools share a commitment to open-source development and have active research communities applying them to questions in [[brain-dynamics]], [[epilepsy-modeling]], and [[personalized-brain-modeling]][^4].
 
 ## Related Software
 
@@ -49,7 +49,7 @@ Auryn belongs to a family of simulators for spiking neural networks. [[nest]] is
 
 ## Key Papers
 
-The primary reference for Auryn is the software publication by R. V. C. J. Brodersen and colleagues at the University of Zurich, describing the software architecture and benchmarking results demonstrating its scalability to millions of neurons and billions of synapses[^1]. Applications of Auryn have appeared in studies of spike-timing dependent plasticity in recurrent networks, the emergence of cortical oscillations, and the effects of excitation-inhibition balance on network dynamics[^2]. Related work on adaptive exponential integrate-and-fire neurons (which Auryn implements) builds on the foundational work of Brette and Gerstner on simplified neuron models for network simulation[^3].
+The primary reference for Auryn is the software publication by R. V. C. J. Brodersen and colleagues at the University of Zurich, describing the software architecture and benchmarking results demonstrating its scalability to millions of neurons and billions of synapses[^1]. Applications of Auryn have appeared in studies of spike-timing dependent plasticity in recurrent networks, the emergence of cortical oscillations, and the effects of excitation-inhibition balance on [[network-dynamics]][^2]. Related work on adaptive exponential integrate-and-fire neurons (which Auryn implements) builds on the foundational work of Brette and Gerstner on simplified neuron models for network simulation[^3].
 
 ## References
 
@@ -59,4 +59,4 @@ The primary reference for Auryn is the software publication by R. V. C. J. Brode
 
 [^3]: Brette, R., & Gerstner, W. (2005). Adaptive exponential integrate-and-fire model as an effective description of neuronal activity. *Journal of Neurophysiology*, 94(5), 3637-3642. https://journals.physiolonline.org/Full%20Text/2005/Jun%2005/Abstract/Sandberg/Berman.asp
 
-[^4]: Sanz-Leon, P., et al. (2015). The Virtual Brain: a simulator of primate brain network dynamics. *Neuroinformatics*, 13(4), 427-441. https://www.nature.com/articles/nn.1356
+[^4]: Sanz-Leon, P., et al. (2015). [[tvb|The Virtual Brain]]: a simulator of primate [[brain-network]] dynamics. *Neuroinformatics*, 13(4), 427-441. https://www.nature.com/articles/nn.1356

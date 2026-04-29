@@ -1,25 +1,46 @@
 ---
-title: SIFT
 created: 2024-01-15
-updated: 2026-04-29
-type: software
-tags: [software-eeg, computational-neuroscience, effective-connectivity, functional-connectivity, neural-mass-models, neuroimaging-eeg, neuroimaging-meg, source-localization, network-dynamics, brain-stimulation, epilepsy-modeling]
 sources:
-  - Mullen, T. (2010). The Source Information Flow Toolbox (SIFT): User Manual. Swartz Center for Computational Neuroscience.
-  - "Mullen, T., et al. (2011). Source Information Flow Toolbox (SIFT): An electrophysiological source connectivity toolbox for EEGLAB. Frontiers in Neuroscience, Conference Abstract: BC11."
-  - Dhamala, M., et al. (2008). Analyzing information flow in brain networks. NeuroImage, 43(3), 497-503.
-  - Granger, C.W.J. (1969). Investigating causal relations by econometric models and cross-spectral methods. Econometrica, 37(3), 424-438.
-  - Vicente, R., et al. (2011). Transfer entropy—a model-free measure of effective connectivity for the neurosciences. Journal of Neuroscience Methods, 195(1), 26-36.
-  - Brovelli, A., et al. (2004). Beta oscillations in a large cortical network during a simple reaction time task. Proceedings of the National Academy of Sciences, 101(21), 8174-8179.
-  - Kaminski, M., et al. (2001). Evaluating causal relations in neural systems. Neural Networks, 14(8), 1005-1016.
-  - Korzeniewska, A., et al. (2003). Determination of information flow direction among brain structures. Journal of Neuroscience Methods, 124(2), 113-127.
+- Mullen, T. (2010). The Source Information Flow Toolbox (SIFT): User Manual. Swartz
+    Center for Computational Neuroscience.
+- 'Mullen, T., et al. (2011). Source Information Flow Toolbox (SIFT): An electrophysiological
+  source connectivity toolbox for EEGLAB. Frontiers in Neuroscience, Conference Abstract:
+  BC11.'
+- Dhamala, M., et al. (2008). Analyzing information flow in brain networks. NeuroImage,
+  43(3), 497-503.
+- Granger, C.W.J. (1969). Investigating causal relations by econometric models and
+  cross-spectral methods. Econometrica, 37(3), 424-438.
+- Vicente, R., et al. (2011). Transfer entropy—a model-free measure of effective connectivity
+  for the neurosciences. Journal of Neuroscience Methods, 195(1), 26-36.
+- Brovelli, A., et al. (2004). Beta oscillations in a large cortical network during
+  a simple reaction time task. Proceedings of the National Academy of Sciences, 101(21),
+  8174-8179.
+- Kaminski, M., et al. (2001). Evaluating causal relations in neural systems. Neural
+  Networks, 14(8), 1005-1016.
+- Korzeniewska, A., et al. (2003). Determination of information flow direction among
+  brain structures. Journal of Neuroscience Methods, 124(2), 113-127.
+tags:
+- software-eeg
+- computational-neuroscience
+- effective-connectivity
+- functional-connectivity
+- neural-mass-models
+- neuroimaging-eeg
+- neuroimaging-meg
+- source-localization
+- network-dynamics
+- brain-stimulation
+- epilepsy-modeling
+title: SIFT
+type: software
+updated: '2026-04-29'
 ---
 
 # SIFT (Source Information Flow Toolbox)
 
 ## Overview
 
-SIFT (Source Information Flow Toolbox) is a MATLAB-based software package for estimating and analyzing directed (causal) brain connectivity from electrophysiological data, particularly electroencephalography (EEG) and magnetoencephalography (MEG). Developed primarily by the Swartz Center for Computational Neuroscience at UC San Diego, SIFT implements a comprehensive framework of information-theoretic measures to characterize causal interactions between brain regions in both time and frequency domains (Mullen, 2010; Mullen et al., 2011). The toolbox enables researchers to move beyond simple correlation-based [[functional-connectivity]] analyses toward understanding the directed information flow that underlies [[brain-network]] dynamics.
+SIFT (Source Information Flow Toolbox) is a MATLAB-based software package for estimating and analyzing directed (causal) brain [[connectivity]] from electrophysiological data, particularly electroencephalography (EEG) and magnetoencephalography (MEG). Developed primarily by the Swartz Center for Computational Neuroscience at UC San Diego, SIFT implements a comprehensive framework of information-theoretic measures to characterize causal interactions between brain regions in both time and frequency domains (Mullen, 2010; Mullen et al., 2011). The toolbox enables researchers to move beyond simple correlation-based [[functional-connectivity]] analyses toward understanding the directed information flow that underlies [[brain-network]] dynamics.
 
 ## Motivation and Context
 
@@ -31,7 +52,7 @@ SIFT addresses this limitation by implementing *Granger causality* (GC) and *tra
 
 SIFT implements several distinctive capabilities that make it well-suited for analyzing [[eeg]] and [[meg]] data:
 
-**Information-Theoretic Connectivity Measures**: The toolbox computes pairwise Granger causality, conditional (multipartite) Granger causality, and transfer entropy. Unlike purely linear methods, transfer entropy can capture nonlinear causal dependencies that are common in [[neural-mass-models]] and [[brain-oscillations]] dynamics (Vicente et al., 2011). The transfer entropy framework was specifically developed for neuroscientific applications by Vicente and colleagues, who demonstrated its ability to detect effective connectivity without requiring explicit models of neural dynamics.
+**Information-Theoretic Connectivity Measures**: The toolbox computes pairwise Granger causality, conditional (multipartite) Granger causality, and transfer entropy. Unlike purely [[linear]] methods, transfer entropy can capture nonlinear causal dependencies that are common in [[neural-mass-models]] and [[brain-oscillations]] dynamics (Vicente et al., 2011). The transfer entropy framework was specifically developed for neuroscientific applications by Vicente and colleagues, who demonstrated its ability to detect effective connectivity without requiring explicit models of neural dynamics.
 
 **Model Order Selection**: Effective estimation of causality requires appropriate embedding parameters (model order for vector autoregressive models or embedding dimension for transfer entropy). SIFT provides automated routines for selecting optimal model orders using criteria such as the Akaike Information Criterion (AIC) and Bayesian Information Criterion (BIC), balancing bias-variance tradeoffs in the estimates (Mullen, 2010). These methods build on earlier work by Kaminski and colleagues on AR-based connectivity estimation (Kaminski et al., 2001).
 
@@ -45,9 +66,9 @@ SIFT and [[the-virtual-brain]] (TVB) serve complementary roles in the [[whole-br
 
 1. **Validation Framework**: TVB simulations can serve as ground truth for validating SIFT's causal inference capabilities, allowing researchers to benchmark recovery of known connectivity structures under various noise conditions.
 
-2. **Personalized Modeling**: SIFT connectivity estimates from patient EEG data can inform the parameterization of TVB models in [[personalized-brain-modeling]] applications, particularly in [[epilepsy-modeling]] where seizure dynamics depend on specific network hubs.
+2. **Personalized Modeling**: SIFT connectivity estimates from patient EEG data can inform the parameterization of TVB models in [[personalized-brain-modeling]] applications, particularly in [[epilepsy-modeling]] where seizure dynamics depend on specific [[network-hubs]].
 
-3. **Complementary Modalities**: TVB supports multimodal integration of empirical data from multiple sources including fMRI, and combining SIFT analysis of [[resting-state]] EEG with TVB's whole-brain simulations enables cross-modal validation of connectivity findings.
+3. **Complementary Modalities**: TVB supports multimodal integration of empirical data from multiple sources including [[fmri]], and combining SIFT analysis of [[resting-state]] EEG with TVB's [[whole-brain]] simulations enables cross-modal validation of connectivity findings.
 
 ## Technical Implementation
 
@@ -87,7 +108,7 @@ SIFT operates on source-reconstructed time series obtained from EEG/MEG preproce
 
 ## Limitations and Considerations
 
-While SIFT provides powerful tools for causal connectivity analysis, several caveats apply. First, the validity of Granger causality depends heavily on the assumption that the underlying processes are stationary or quasi-stationary, which may be violated during transient events such as seizures or [[brain-stimulation]]-evoked responses. Second, volume conduction artifacts—where signals from a single source are detected by multiple sensors—can contaminate source-level connectivity estimates if not adequately addressed through proper referencing or blind source separation. Third, information-theoretic measures require careful attention to estimator bias, particularly with finite data lengths, which SIFT addresses through mean-subtracted entropy estimators but cannot eliminate entirely.
+While SIFT provides powerful tools for causal connectivity analysis, several caveats apply. First, the validity of Granger causality depends heavily on the assumption that the underlying processes are stationary or quasi-stationary, which may be violated during transient events such as seizures or [[brain-stimulation]]-evoked responses. Second, [[volume-conduction]] artifacts—where signals from a single source are detected by multiple sensors—can contaminate source-level connectivity estimates if not adequately addressed through proper referencing or blind [[source-separation]]. Third, information-theoretic measures require careful attention to estimator bias, particularly with finite data lengths, which SIFT addresses through mean-subtracted entropy estimators but cannot eliminate entirely.
 
 ## Open Questions
 

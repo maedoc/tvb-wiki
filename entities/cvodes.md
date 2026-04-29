@@ -41,11 +41,11 @@ CVODES extends its predecessor CVODE by adding the capability to compute sensiti
 
 ## Relationship to TVB
 
-CVODES plays a critical role in [The Virtual Brain](the-virtual-brain.md) (TVB) ecosystem as the underlying numerical engine for simulating large-scale whole-brain network models. The TVB framework uses CVODES to integrate systems of neural mass equations—such as the [Jansen-Rit model](jansen-rit-model.md) and its variants—across brain regions connected through empirical [structural connectivity](structural-connectivity.md) matrices derived from diffusion tensor imaging.
+CVODES plays a critical role in [The Virtual Brain](the-virtual-brain.md) (TVB) ecosystem as the underlying numerical engine for simulating large-scale whole-brain network models. The TVB framework uses CVODES to integrate systems of neural mass equations—such as the [[[jansen-rit]] model]([[jansen-rit-model]].md) and its variants—across brain regions connected through empirical [structural connectivity]([[structural-connectivity]].md) matrices derived from diffusion tensor imaging.
 
-The integration of CVODES into TVB addresses several computational challenges specific to whole-brain modeling. First, the brain network model comprises dozens to hundreds of coupled neural mass oscillators, creating a stiff system where fast excitatory synaptic currents couple to slower inhibitory dynamics and membrane potential integration. Second, parameter estimation in TVB requires computing derivatives of observable outputs (simulated fMRI signals, EEG power spectra) with respect to model parameters—capabilities provided by CVODES through its sensitivity analysis modules. Third, TVB's stochastic simulations, which incorporate noise to model spontaneous brain activity, require solvers that can handle both deterministic dynamics and stochastic differential equations efficiently.
+The integration of CVODES into TVB addresses several computational challenges specific to whole-brain modeling. First, the brain network model comprises dozens to hundreds of coupled neural mass oscillators, creating a stiff system where fast excitatory synaptic currents couple to slower inhibitory dynamics and membrane potential integration. Second, parameter estimation in TVB requires computing derivatives of observable outputs (simulated [[fmri]] signals, EEG power spectra) with respect to model parameters—capabilities provided by CVODES through its sensitivity analysis modules. Third, TVB's stochastic simulations, which incorporate noise to model spontaneous brain activity, require solvers that can handle both deterministic dynamics and [[stochastic-differential-equations]] efficiently.
 
-The TVB-CODES interface allows researchers to define custom neural mass models, specify regional coupling through connectivity matrices, and leverage CVODES to integrate the resulting large-scale system with adaptive timestep selection. This combination enables simulations at the whole-brain scale that would be computationally intractable with standard MATLAB ODE solvers or basic Python integrators like `scipy.integrate.odeint`. Additionally, the adjoint sensitivity capabilities in CVODES enable TVB to perform gradient-based optimization of model parameters against empirical neuroimaging data, which is essential for personalized brain modeling [[sundials-2005]].
+The TVB-CODES interface allows researchers to define custom neural mass models, specify regional coupling through connectivity matrices, and leverage CVODES to integrate the resulting large-scale system with adaptive timestep selection. This combination enables simulations at the whole-brain scale that would be computationally intractable with standard MATLAB ODE solvers or basic Python integrators like `scipy.integrate.odeint`. Additionally, the adjoint sensitivity capabilities in CVODES enable TVB to perform gradient-based optimization of model parameters against empirical neuroimaging data, which is essential for [[personalized-brain-modeling]] [[sundials-2005]].
 
 ## Technical Details
 
@@ -83,9 +83,9 @@ The primary developers of CVODES include Alan Hindmarsh, Peter Brown, and Radu S
 ## Related Software
 
 - [The Virtual Brain](the-virtual-brain.md) — Whole-brain simulator that uses CVODES for neural mass model integration
-- [NEST](nest.md) — Spiking neural network simulator with its own differential equation solvers
-- [Brian](brian.md) — Python-based neural simulator with flexible equation specification
-- [NEURON](neuron.md) — Multi-compartment neuron simulator with sophisticated stiff solvers
+- [NEST]([[nest]].md) — [[spiking-neural-networks|Spiking neural network]] simulator with its own differential equation solvers
+- [Brian]([[brian]].md) — Python-based neural simulator with flexible equation specification
+- [NEURON]([[neuron]].md) — Multi-compartment neuron simulator with sophisticated stiff solvers
 - [SUNDIALS](software-sundials.md) — Parent suite containing CVODE, KINSOL, and IDA
 - [Dynamical Systems Theory](dynamical-systems-theory.md) — Mathematical framework that CVODES implements numerically
 - [Stochastic Differential Equations](stochastic-differential-equations.md) — CVODES handles stochastic variants through its solver framework

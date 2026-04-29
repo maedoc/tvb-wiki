@@ -19,7 +19,7 @@ updated: '2026-04-29'
 
 ## Overview
 
-BRAPH (Brain Analysis of GRaphs) is an open-source MATLAB toolbox designed for the analysis of brain connectivity data. Originally developed by researchers in the connectomics field, BRAPH provides a comprehensive pipeline for constructing, analyzing, and visualizing brain networks derived from neuroimaging data. The software supports multiple neuroimaging modalities and implements a wide range of graph-theoretic measures for characterizing brain network topology.
+BRAPH (Brain Analysis of GRaphs) is an open-source MATLAB toolbox designed for the analysis of brain [[connectivity]] data. Originally developed by researchers in the connectomics field, BRAPH provides a comprehensive pipeline for constructing, analyzing, and visualizing brain networks derived from [[neuroimaging]] data. The software supports multiple neuroimaging modalities and implements a wide range of graph-theoretic measures for characterizing [[brain-network]] topology.
 
 As a specialized tool in the brain connectivity analysis ecosystem, BRAPH enables researchers to perform end-to-end analysis of [[connectome]] data, from raw neuroimaging preprocessing through network construction and topological characterization. Its MATLAB foundation makes it accessible to researchers familiar with the dominant platform in neuroimaging research (Mijalkov et al., 2017).
 
@@ -35,9 +35,9 @@ BRAPH has proven particularly valuable for researchers studying neurological con
 
 The release of BRAPH 2.0 represented a major evolution of the original toolbox. This update introduced a redesigned architecture with enhanced capabilities for brain network analysis while maintaining backward compatibility with workflows developed in the original software (Mijalkov et al., 2021).
 
-Key enhancements in BRAPH 2.0 include improved community detection algorithms, better support for weighted network analysis, enhanced visualization capabilities, and a more flexible framework for extending the software's functionality. The 2.0 release also introduced better integration with standard neuroimaging file formats and preprocessing pipelines (Mijalkov et al., 2021).
+Key enhancements in BRAPH 2.0 include improved [[community-detection]] algorithms, better support for weighted network analysis, enhanced visualization capabilities, and a more flexible framework for extending the software's functionality. The 2.0 release also introduced better integration with standard neuroimaging file formats and preprocessing pipelines (Mijalkov et al., 2021).
 
-The Genesis version maintains BRAPH's commitment to open-source development, with the software continuing to be freely available to the research community. This approach aligns with broader trends in [[connectomics]] toward reproducible, transparent research practices.
+The [[genesis]] version maintains BRAPH's commitment to open-source development, with the software continuing to be freely available to the research community. This approach aligns with broader trends in [[connectomics]] toward reproducible, transparent research practices.
 
 ## Key Features
 
@@ -47,7 +47,7 @@ BRAPH provides comprehensive support for brain connectivity analysis across seve
 
 **Graph-Theoretic Metrics:** The toolbox implements a wide range of network analysis measures including [[small-world-networks]] properties (clustering coefficient, characteristic path length), [[modularity]] and community detection, [[network-hubs]] identification, centrality measures (betweenness, degree, eigenvector), and network efficiency metrics (Rubinov & Sporns, 2010).
 
-**Brain Parcellation Support:** BRAPH works seamlessly with various [[brain-parcellations]] schemes, from standard anatomical atlases to data-driven parcellations. This flexibility allows researchers to analyze brain networks at different scales of resolution.
+**Brain [[parcellation]] Support:** BRAPH works seamlessly with various [[brain-parcellations]] schemes, from standard anatomical atlases to data-driven parcellations. This flexibility allows researchers to analyze brain networks at different scales of resolution.
 
 **Visualization Tools:** The toolbox includes dedicated visualization capabilities for brain networks, enabling researchers to visualize network topology in both 2D and 3D representations overlaid on brain anatomy.
 
@@ -59,7 +59,7 @@ Researchers often use BRAPH in conjunction with TVB for the following workflows:
 
 * **Empirical Analysis:** BRAPH analyzes empirical [[structural-connectivity]] or [[functional-connectivity]] data to characterize the topological properties of individual brain networks.
 * **Model Parameterization:** The graph-theoretic metrics computed by BRAPH inform parameter selection for TVB simulations, such as connection strengths and conduction delays.
-* **Model Validation:** TVB simulations produce synthetic functional connectivity data that can be compared against empirical networks analyzed with BRAPH, using metrics like small-world properties, [[modularity]], and hub statistics.
+* **[[model-validation]]:** TVB simulations produce synthetic functional connectivity data that can be compared against empirical networks analyzed with BRAPH, using metrics like small-world properties, [[modularity]], and hub statistics.
 
 This complementary relationship makes the combination of BRAPH and TVB particularly powerful for studying structure-function relationships in the brain. Researchers can use BRAPH to characterize empirical brain networks and then use TVB to build computational models that reproduce observed topological features.
 
@@ -82,7 +82,7 @@ The primary references for BRAPH are:
 - [[graph-tool]] — Open-source software for network analysis
 - [[bctpy]] — Python bindings for the Brain Connectivity Toolbox
 - [[nilearn]] — Python library for neuroimaging data analysis
-- [[the-virtual-brain]] — Whole-brain simulation platform
+- [[the-virtual-brain]] — [[whole-brain]] simulation platform
 
 ## References
 

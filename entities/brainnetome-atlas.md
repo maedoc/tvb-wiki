@@ -1,21 +1,29 @@
 ---
-title: Brainnetome Atlas
 created: 2025-01-15
-updated: 2026-04-28
-type: entity
-tags: [brain-parcellations, connectomics, neuroimaging-dti, neuroimaging-fmri, structural-connectivity, functional-connectivity, database-hcp]
 sources:
-  - "Fan, L., Li, H., Zhuo, J., et al. (2016). The Human Brainnetome Atlas: A new brain atlas based on connectional architecture. Cerebral Cortex, 26(8), 3508-3526."
-  - "Brainnetome Atlas. Brainnetome Center. https://atlas.brainnetome.org/"
+- 'Fan, L., Li, H., Zhuo, J., et al. (2016). The Human Brainnetome Atlas: A new brain
+  atlas based on connectional architecture. Cerebral Cortex, 26(8), 3508-3526.'
+- Brainnetome Atlas. Brainnetome Center. https://atlas.brainnetome.org/
+tags:
+- brain-parcellations
+- connectomics
+- neuroimaging-dti
+- neuroimaging-fmri
+- structural-connectivity
+- functional-connectivity
+- database-hcp
+title: Brainnetome Atlas
+type: entity
+updated: '2026-04-29'
 ---
 
 ## Overview
 
-The Brainnetome Atlas is a comprehensive human brain parcellation that divides the cortex into anatomically and functionally distinct regions based on both structural connectivity derived from diffusion tensor imaging (DTI) and functional connectivity from resting-state functional magnetic resonance imaging (rs-fMRI). Developed by the Brainnetome Center at the Institute of Automation, Chinese Academy of Sciences, this atlas represents a significant advance in connectome-based parcellation methods, providing researchers with a data-driven framework for studying large-scale brain networks. Unlike traditional anatomical atlases that rely solely on cytoarchitecture or observer-defined boundaries, the Brainnetome Atlas uses connectivity profiles to define regional boundaries, making it particularly suited for studies of brain connectivity and network neuroscience.
+The Brainnetome Atlas is a comprehensive human brain [[parcellation]] that divides the cortex into anatomically and functionally distinct regions based on both structural [[connectivity]] derived from diffusion tensor imaging (DTI) and functional connectivity from [[resting-state]] functional magnetic resonance imaging (rs-[[fmri]]). Developed by the Brainnetome Center at the Institute of Automation, Chinese Academy of Sciences, this atlas represents a significant advance in connectome-based parcellation methods, providing researchers with a data-driven framework for studying large-scale brain networks. Unlike traditional anatomical atlases that rely solely on cytoarchitecture or observer-defined boundaries, the Brainnetome Atlas uses connectivity profiles to define regional boundaries, making it particularly suited for studies of brain connectivity and network neuroscience.
 
 ## Motivation and Context
 
-The development of the Brainnetome Atlas emerged from the need to create more biologically meaningful parcellations for whole-brain modeling and connectomics research. Traditional atlases like the [[aal-atlas]] (Automated Anatomical Labeling) and [[desikan-killiany-atlas]] define regions based on gross anatomy or cytoarchitecture, but these definitions do not necessarily reflect the underlying connectional patterns of the brain. The Brainnetome Atlas addresses this limitation by using a data-driven approach that groups brain areas based on their connectivity profiles, providing parcellations that better capture the functional and structural organization of the brain.
+The development of the Brainnetome Atlas emerged from the need to create more biologically meaningful parcellations for [[whole-brain|whole-brain modeling]] and [[connectomics]] research. Traditional atlases like the [[aal-atlas]] (Automated Anatomical Labeling) and [[desikan-killiany-atlas]] define regions based on gross anatomy or cytoarchitecture, but these definitions do not necessarily reflect the underlying connectional patterns of the brain. The Brainnetome Atlas addresses this limitation by using a data-driven approach that groups brain areas based on their connectivity profiles, providing parcellations that better capture the functional and structural organization of the brain.
 
 This approach aligns with the broader movement in computational neuroscience toward [[connectome]]-based analyses and [[whole-brain modeling]]. By providing regions that are functionally coherent, the atlas enables more accurate construction of brain networks for [[structural connectivity]] and [[functional connectivity]] analyses, as well as for simulation work in platforms like [[the-virtual-brain]].
 
@@ -27,7 +35,7 @@ The atlas is associated with the Brainnetome Viewer software, which allows visua
 
 ## Relationship to TVB and Whole-Brain Modeling
 
-The Brainnetome Atlas has become an important parcellation choice for [[whole-brain modeling]] simulations, particularly in The Virtual Brain (TVB) ecosystem. The atlas provides a balance between anatomical detail and computational efficiency, making it suitable for large-scale simulations of brain dynamics. Researchers using TVB can import the Brainnetome parcellation to define the nodes of their brain network models, enabling simulation studies of brain oscillations, [[epilepsy-modeling]], and other phenomena requiring realistic structural substrates.
+The Brainnetome Atlas has become an important parcellation choice for [[whole-brain modeling]] simulations, particularly in [[tvb|The Virtual Brain]] (TVB) ecosystem. The atlas provides a balance between anatomical detail and computational efficiency, making it suitable for large-scale simulations of [[brain-dynamics]]. Researchers using TVB can import the Brainnetome parcellation to define the nodes of their [[brain-network]] models, enabling simulation studies of [[brain-oscillations]], [[epilepsy-modeling]], and other phenomena requiring realistic structural substrates.
 
 The granularity of the Brainnetome Atlas (246 regions total) allows researchers to examine network-level dynamics while maintaining reasonably fast simulations. Compared to finer-grained parcellations like the [[glasser-atlas]] (360 regions) or the [[schaefer-atlas]] (up to 1000 regions), the Brainnetome offers a middle ground that captures meaningful network structure without the computational overhead of very high-resolution parcellations.
 

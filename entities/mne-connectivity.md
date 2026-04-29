@@ -1,10 +1,22 @@
 ---
-title: MNE-Connectivity
 created: 2024-01-15
-updated: 2026-04-29
+sources:
+- https://mne.tools/mne-connectivity/
+- https://www.nature.com/articles/s41597-023-00462-w
+- https://neuroimage.org/
+- https://www.frontiersin.org/articles/10.3389/fnins.2013.00047/full
+tags:
+- software-mne-connectivity
+- functional-connectivity
+- effective-connectivity
+- neuroimaging-eeg
+- neuroimaging-meg
+- source-localization
+- connectivity
+- software-visualization
+title: MNE-Connectivity
 type: entity
-tags: [software-mne-connectivity, functional-connectivity, effective-connectivity, neuroimaging-eeg, neuroimaging-meg, source-localization, connectivity, software-visualization]
-sources: [https://mne.tools/mne-connectivity/, https://www.nature.com/articles/s41597-023-00462-w, https://neuroimage.org/, https://www.frontiersin.org/articles/10.3389/fnins.2013.00047/full]
+updated: '2026-04-29'
 ---
 
 MNE-Connectivity is a specialized Python package designed for the computation and visualization of functional and effective connectivity from neurophysiological data, particularly [[eeg]] and [[meg]] signals. Developed as an integral component of the broader [[mne-python]] ecosystem, MNE-Connectivity provides researchers with a comprehensive suite of connectivity estimation methods ranging from simple linear measures like Pearson correlation to advanced frequency-domain techniques including coherence, phase-locking value, and Granger causality <cite>https://mne.tools/mne-connectivity/</cite>. The package emerged from the recognition that connectivity analysis—identifying statistical dependencies between brain regions—is fundamental to understanding large-scale brain networks and their dynamics in both healthy individuals and clinical populations <cite>https://www.nature.com/articles/s41597-023-00462-w</cite>.
@@ -15,11 +27,11 @@ The package addresses a critical need in [[neuroimaging]] research: the ability 
 
 ## History and Development
 
-MNE-Connectivity was developed by the MNE-Python team at the Martinos Center for Biomedical Imaging (Massachusetts General Hospital), with key contributions from researchers in the fields of neuroimaging and computational neuroscience. The package was first released in 2022 as part of the MNE ecosystem, extending the capabilities of [[mne-python]]—which primarily focuses on preprocessing, source estimation, and epoch-based analysis—into the domain of connectivity estimation. The development was motivated by the growing demand for open-source, Python-based connectivity tools that could handle the complexities of electrophysiological data while maintaining compatibility with the broader scientific Python ecosystem. Since its initial release, MNE-Connectivity has been actively maintained with regular updates, new connectivity estimators, and improvements to visualization capabilities. The package is distributed under the BSD-3-Clause license and welcomes contributions from the community.
+MNE-[[connectivity]] was developed by the MNE-Python team at the Martinos Center for Biomedical Imaging (Massachusetts General Hospital), with key contributions from researchers in the fields of neuroimaging and [[computational-neuroscience]]. The package was first released in 2022 as part of the MNE ecosystem, extending the capabilities of [[mne-python]]—which primarily focuses on preprocessing, source estimation, and epoch-based analysis—into the domain of connectivity estimation. The development was motivated by the growing demand for open-source, Python-based connectivity tools that could handle the complexities of electrophysiological data while maintaining compatibility with the broader scientific Python ecosystem. Since its initial release, MNE-Connectivity has been actively maintained with regular updates, new connectivity estimators, and improvements to visualization capabilities. The package is distributed under the BSD-3-Clause license and welcomes contributions from the community.
 
 ## Key Features
 
-MNE-Connectivity distinguishes itself through its extensive repertoire of connectivity estimators, which can be categorized into several families. **Frequency-domain measures** constitute a major pillar, including magnitude-squared coherence, phase-locking value (PLV), phase-locking angular variance, and the weighted phase lag index (WPLI). The latter two are particularly valuable because they are less sensitive to volume conduction artifacts that plague sensor-level recordings <cite>https://www.frontiersin.org/articles/10.3389/fnins.2013.00047/full</cite>. **Time-domain measures** include Pearson correlation, partial correlation, and cross-correlation functions, while **Granger causality** and its multivariate extension provide estimates of directed (effective) connectivity by leveraging the temporal predictive power of one signal over another. The package also implements envelope correlation methods—computing the correlation of amplitude envelopes of broadband or band-limited signals—which has proven particularly useful for examining resting-state networks identified in [[functional-connectivity]] studies.
+MNE-Connectivity distinguishes itself through its extensive repertoire of connectivity estimators, which can be categorized into several families. **Frequency-domain measures** constitute a major pillar, including magnitude-squared coherence, phase-locking value (PLV), phase-locking angular variance, and the weighted phase lag index (WPLI). The latter two are particularly valuable because they are less sensitive to [[volume-conduction]] artifacts that plague sensor-level recordings <cite>https://www.frontiersin.org/articles/10.3389/fnins.2013.00047/full</cite>. **Time-domain measures** include Pearson correlation, partial correlation, and cross-correlation functions, while **Granger causality** and its multivariate extension provide estimates of directed (effective) connectivity by leveraging the temporal predictive power of one signal over another. The package also implements envelope correlation methods—computing the correlation of amplitude envelopes of broadband or band-limited signals—which has proven particularly useful for examining [[resting-state]] networks identified in [[functional-connectivity]] studies.
 
 Beyond the core connectivity estimators, MNE-Connectivity offers sophisticated statistical inference capabilities. Researchers can construct connectivity matrices across frequency bands and time windows, visualize results through circular connectivity plots and 2D/3D brain visualizations, and perform cohort-level statistics to identify group differences. The integration with [[nilearn]] enables visualization on cortical surfaces, while compatibility with standard Python data structures ensures interoperability with machine learning pipelines. For [[whole-brain-modeling]] applications, the connectivity estimates derived from MNE-Connectivity can serve as empirical targets for model fitting, allowing frameworks like [[the-virtual-brain]] to optimize parameters such that simulated connectivity patterns match empirical observations <cite>https://mne.tools/mne-connectivity/</cite>.
 
