@@ -4,7 +4,10 @@ created: 2025-01-15
 updated: 2026-04-29
 type: entity
 tags: [software-brain-modeling, brain-stimulation, neuroimaging-dti, tractography, whole-brain-modeling, parcellation, neurosurgery]
-sources: [Horn et al., 2019, "Lead-DBS: A toolbox for deep brain stimulation," NeuroImage, Nowacki et al., 2020, "Lead-DBS 2.0," Brain Stimulation, Reich et al., 2021, "Lead-DBS for movement disorders," Nature Reviews Neurology]
+sources:
+  - "Horn et al., 2019, Lead-DBS: A toolbox for deep brain stimulation, NeuroImage"
+  - "Nowacki et al., 2020, Lead-DBS 2.0, Brain Stimulation"
+  - "Reich et al., 2021, Lead-DBS for movement disorders, Nature Reviews Neurology"
 ---
 
 Lead-DBS is an open-source software toolbox for planning and analyzing deep brain stimulation (DBS) procedures. It provides a comprehensive environment for preoperative tractography-based target selection and postoperative electrode localization analysis, enabling researchers and clinicians to optimize DBS therapy for movement disorders such as Parkinson's disease, essential tremor, and dystonia, as well as emerging applications in psychiatric disorders including major depression and obsessive-compulsive disorder (Horn et al., 2019).

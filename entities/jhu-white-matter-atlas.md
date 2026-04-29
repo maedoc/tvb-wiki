@@ -1,7 +1,7 @@
 ---
 title: JHU White Matter Atlas
 created: 2024-01-15
- updated: 2026-04-29
+updated: 2026-04-29
 type: entity
 tags: [brain-parcellations, diffusion-imaging, dti, tractography, neuroimaging-dti, software-fsl, structural-connectivity, database-hcp]
 sources: [10.1002/nbm.788, 10.1016/j.neuroimage.2005.01.028, 10.1148/radiol.2301021439, 10.1016/j.neuroimage.2007.12.028, 10.1016/j.neuroimage.2004.09.027, 10.1002/jmri.20272]

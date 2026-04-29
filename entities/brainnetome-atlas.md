@@ -5,8 +5,8 @@ updated: 2026-04-28
 type: entity
 tags: [brain-parcellations, connectomics, neuroimaging-dti, neuroimaging-fmri, structural-connectivity, functional-connectivity, database-hcp]
 sources:
-  - Fan, L., Li, H., Zhuo, J., et al. (2016). The Human Brainnetome Atlas: A new brain atlas based on connectional architecture. Cerebral Cortex, 26(8), 3508-3526.
-  - "Brainnetome Atlas." Brainnetome Center. https://atlas.brainnetome.org/
+  - "Fan, L., Li, H., Zhuo, J., et al. (2016). The Human Brainnetome Atlas: A new brain atlas based on connectional architecture. Cerebral Cortex, 26(8), 3508-3526."
+  - "Brainnetome Atlas. Brainnetome Center. https://atlas.brainnetome.org/"
 ---
 
 ## Overview

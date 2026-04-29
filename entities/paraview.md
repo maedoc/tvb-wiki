@@ -23,7 +23,7 @@ sources:
     doi: 10.2352/ISSN.2470-1173.2019.5.COIMG-329
   - id: tvb-scientific-reports
     type: article
-    title: The Virtual brain: a simulator of primate brain macrodynamics
+    title: "The Virtual brain: a simulator of primate brain macrodynamics"
     author: Sanz-Leon, P., et al.
     year: 2013
     journal: Scientific Reports

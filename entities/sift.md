@@ -6,7 +6,7 @@ type: software
 tags: [software-eeg, computational-neuroscience, effective-connectivity, functional-connectivity, neural-mass-models, neuroimaging-eeg, neuroimaging-meg, source-localization, network-dynamics, brain-stimulation, epilepsy-modeling]
 sources:
   - Mullen, T. (2010). The Source Information Flow Toolbox (SIFT): User Manual. Swartz Center for Computational Neuroscience.
-  - Mullen, T., et al. (2011). Source Information Flow Toolbox (SIFT): An electrophysiological source connectivity toolbox for EEGLAB. Frontiers in Neuroscience, Conference Abstract: BC11.
+  - "Mullen, T., et al. (2011). Source Information Flow Toolbox (SIFT): An electrophysiological source connectivity toolbox for EEGLAB. Frontiers in Neuroscience, Conference Abstract: BC11."
   - Dhamala, M., et al. (2008). Analyzing information flow in brain networks. NeuroImage, 43(3), 497-503.
   - Granger, C.W.J. (1969). Investigating causal relations by econometric models and cross-spectral methods. Econometrica, 37(3), 424-438.
   - Vicente, R., et al. (2011). Transfer entropy—a model-free measure of effective connectivity for the neurosciences. Journal of Neuroscience Methods, 195(1), 26-36.

@@ -778,3 +778,5 @@
 ## [2026-04-29 07:18] Improve: 3 pages improved (graph-tool, spikeinterface, apptainer)
 
 ## [2026-04-29 07:18] RefFormatter: formatted references on 3 pages
+
+## [2026-04-29 07:24] CrosslinkApplier: added 227 wikilinks (227 inline, 0 suggested)

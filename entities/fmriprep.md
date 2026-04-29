@@ -5,9 +5,9 @@ updated: 2026-04-28
 type: entity
 tags: [software-modeling, neuroimaging-fmri, bids, reproducibility, resting-state, functional-connectivity]
 sources:
-  - Esteban O, Markiewicz CJ, Rhoades RW, et al. (2019) fMRIPrep: a robust preprocessing pipeline for functional MRI. Nature Methods 16(1): 111–116. https://doi.org/10.1038/s41592-018-0235-4
-  - Esteban O, Birman D, Schaer M, Koyejo O, Poldrack RA, Gorgolewski KJ (2017) MRIQC: Advancing the automatic quality assessment of structural and functional MRI. Sensors 17(1): 116.
-  - Gorgolewski KJ, Esteban O, Markiewicz CJ, et al. (2018) BIDSapp: containerized execution of BIDS workflows on HPC clusters and personal computers. Frontiers in Neuroinformatics 12: 25.
+  - "Esteban O, Markiewicz CJ, Rhoades RW, et al. (2019) fMRIPrep: a robust preprocessing pipeline for functional MRI. Nature Methods 16(1): 111–116. https://doi.org/10.1038/s41592-018-0235-4"
+  - "Esteban O, Birman D, Schaer M, Koyejo O, Poldrack RA, Gorgolewski KJ (2017) MRIQC: Advancing the automatic quality assessment of structural and functional MRI. Sensors 17(1): 116."
+  - "Gorgolewski KJ, Esteban O, Markiewicz CJ, et al. (2018) BIDSapp: containerized execution of BIDS workflows on HPC clusters and personal computers. Frontiers in Neuroinformatics 12: 25."
 ---
 
 fMRIPrep is a robust and widely adopted preprocessing pipeline designed to automate the complex sequence of steps required to prepare functional magnetic resonance imaging (fMRI) data for downstream statistical analysis. Developed by the [NiPreps](NiPreps) community to address the reproducibility crisis in neuroimaging, fMRIPrep provides a standardized, containerized workflow that transforms raw MR images into analysis-ready datasets while rigorously documenting every processing decision. The pipeline integrates established neuroimaging tools—including [[fsl]], [[FreeSurfer]], [[ANTs]], and [[nilearn]]—within a unified framework built on [[nipype]], ensuring computational consistency across different computing environments and reducing the burden on individual researchers to manually configure preprocessing parameters.
