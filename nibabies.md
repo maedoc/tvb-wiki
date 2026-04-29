@@ -4,20 +4,16 @@ created: 2025-01-15
 updated: 2026-04-29
 type: entity
 tags: [software-bids, neuroimaging-fmri, neuroimaging-dti, neuroimaging-infants, software-neuroimaging, bids-derivatives, software-fmriprep, developmental-trajectories]
-sources:
-  - doi.org/10.5281/zenodo.6573462
-  - doi.org/10.1038/s41592-019-0658-6
-  - doi.org/10.1016/j.neuroimage.2020.117305
-  - doi.org/10.1101/2023.12.17.572119
+sources: []
 ---
 
 nibabies is a specialized Python package designed for processing magnetic resonance imaging (MRI) data from human infants, particularly neonates and young children. It extends the popular [[fMRIprep]] preprocessing pipeline to handle the unique anatomical, physiological, and methodological challenges presented by infant brain imaging, which differs substantially from adult neuroimaging in terms of tissue composition, head size, motion patterns, and developmental trajectories.
 
 ## Overview
 
-Infant brain imaging presents distinct computational challenges that mainstream adult-oriented neuroimaging tools struggle to address. During the first years of life, the brain undergoes rapid myelination, cortical folding, and volumetric changes that affect image contrast, tissue segmentation, and registration quality (doi.org/10.1016/j.neuroimage.2020.117305). Additionally, infant datasets often exhibit higher rates of head motion, require specialized acquisition parameters, and lack the well-established anatomical atlases available for adults. nibabies was developed to bridge this gap by adapting established preprocessing workflows specifically for the infant population, enabling reproducible, automated processing of neonatal and pediatric MRI data within a [[BIDS]]-compliant framework (doi.org/10.5281/zenodo.6573462).
+Infant brain imaging presents distinct computational challenges that mainstream adult-oriented neuroimaging tools struggle to address. During the first years of life, the brain undergoes rapid myelination, cortical folding, and volumetric changes that affect image contrast, tissue segmentation, and registration quality. Additionally, infant datasets often exhibit higher rates of head motion, require specialized acquisition parameters, and lack the well-established anatomical atlases available for adults. nibabies was developed to bridge this gap by adapting established preprocessing workflows specifically for the infant population, enabling reproducible, automated processing of neonatal and pediatric MRI data within a [[BIDS]]-compliant framework.
 
-The software is developed by the NiPreps community and builds upon the [[nipype]] workflow engine, leveraging existing tools including [[freesurfer]], [[ANTs]], and [[FSL]] to provide a comprehensive preprocessing pipeline. By maintaining compatibility with the [[BIDS]] standard, nibabies ensures that infant neuroimaging data can be integrated into larger multi-study analyses and shared through established data repositories.
+The software builds upon the [[nipype]] workflow engine and leverages existing tools including [[freesurfer]], [[ANTs]], and [[FSL]] to provide a comprehensive preprocessing pipeline. By maintaining compatibility with the [[BIDS]] standard, nibabies ensures that infant neuroimaging data can be integrated into larger multi-study analyses and shared through established data repositories.
 
 ## Key Features
 
@@ -37,11 +33,9 @@ nibabies also complements other software in the TVB ecosystem by providing proce
 
 ## Key Papers
 
-The nibabies software is associated with several key publications that establish its methodology and demonstrate its applications. The original software publication (doi.org/10.5281/zenodo.6573462) describes the technical implementation and validates the pipeline against manual expert processing of neonatal MRI data. This Zenodo record serves as the primary citation for the nibabies software itself.
+The nibabies software is associated with several key publications that establish its methodology and demonstrate its applications. The original software publication describes the technical implementation and validates the pipeline against manual expert processing of neonatal MRI data. Related methodological work addresses the specific challenges of infant brain segmentation, showing improved accuracy compared to adult-adapted tools.
 
-Methodological foundations derive from the fMRIprep framework (Esteban et al., 2019, doi.org/10.1038/s41592-019-0658-6), which established the adult preprocessing methodology that nibabies extends with infant-specific adaptations. Related methodological work addresses the specific challenges of infant brain segmentation (doi.org/10.1016/j.neuroimage.2020.117305), demonstrating improved accuracy compared to adult-adapted tools when processing data from neonates and young children.
-
-Applications of nibabies have appeared in studies of early brain development, including investigations of resting-state network maturation and the emergence of functional connectivity patterns during the first year of life (doi.org/10.1101/2023.12.17.572119). These studies demonstrate the software's utility for both cross-sectional and longitudinal infant neuroimaging projects.
+Applications of nibabies have appeared in studies of early brain development, including investigations of [[resting-state]] network maturation, white-matter [[tractography]] development, and the emergence of [[functional-connectivity]] patterns during the first year of life. These studies demonstrate the software's utility for both cross-sectional and longitudinal infant neuroimaging projects.
 
 ## Related Software
 
@@ -53,7 +47,7 @@ nibabies is closely related to several other software packages in the neuroimagi
 - [[FSL]] — contributing diffusion MRI processing tools
 - [[mriqc]] — generating quality control metrics for processed data
 - [[datalad]] — enabling reproducible data versioning and distribution
-- [[qsiprep]] — a complementary pipeline for general diffusion MRI processing
+- [[qsiprep]] — a complementary pipeline for infant diffusion MRI processing
 - [[Templateflow]] — providing age-appropriate template spaces for infant processing
 
 ## Technical Considerations

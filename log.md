@@ -2,6 +2,15 @@
 
 ## 2026-04-29
 
+- Created/Improved page: [[nibabies]] – Infant brain MRI preprocessing pipeline
+  - Complete rewrite from placeholder to comprehensive entity page (~590 words)
+  - Updated frontmatter: changed updated date to 2026-04-29
+  - Tags: software-bids, neuroimaging-fmri, neuroimaging-dti, neuroimaging-infants, software-neuroimaging, bids-derivatives, software-fmriprep, developmental-trajectories
+  - Established 12+ wikilinks: fMRIprep, BIDS, nipype, freesurfer, ANTs, FSL, BIDS-derivatives, nilearn, nistats, structural-connectivity, connectome, personalized-brain-modeling, developmental-trajectories, brain-network, the-virtual-brain, Brainstorm, mne-python, Templateflow, mriqc, datalad, qsiprep
+  - Added detailed sections: Overview, Key Features (anatomically-informed processing, motion correction, age-adaptive segmentation, quality control), Relationship to TVB (provides data for whole-brain models), Key Papers, Related Software, Technical Considerations
+  - Explained nibabies' role in infant neuroimaging and its relationship to the broader whole-brain modeling ecosystem
+  - Positioned nibabies within the TVB ecosystem as a data preprocessing tool contributing high-quality derivatives
+
 - Created/Improved page: [[bifurcation-theory]] – Mathematical theory of qualitative changes in dynamical systems
   - Complete rewrite from placeholder to comprehensive concept page (~910 words)
   - Updated frontmatter: changed updated date to 2026-04-29
@@ -736,3 +745,14 @@
 ## [2026-04-29 03:15] Improve: 3 pages improved (desikan-killiany-atlas, qsiprep, nibabel)
 
 ## [2026-04-29 04:13] Improve: 3 pages improved (tensorflow, brain-dynamics-toolbox, brainlife)
+
+## [2026-04-29 04:18] Improve: 3 pages improved (yeo-atlas, connectome-workbench, bifurcation-theory)
+
+## [2026-04-29 05:15] Improve: whole-brain-simulators page completed
+
+- Replaced placeholder content with comprehensive comparison of whole-brain simulation platforms
+- Covered TVB, NEST, NEURON, Brian2, and Arbor with detailed dimensions table
+- Added synthesis section with use case recommendations
+- Added 8+ wikilinks to related wiki pages
+- Added sources: sanz-leon-2013, eppler-2009, semanticscholar-9afbfd2d37be, semanticscholar-f52da2a6cbf2, arxiv-2510.27366
+- Updated frontmatter: updated date to 2026-04-29

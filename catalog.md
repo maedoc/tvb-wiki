@@ -158,6 +158,7 @@
 - [[Neurovault]] – NeuroVault is an open-access web repository for sharing unthresholded statistical maps from [[neuroimaging]] studies. La...
 - [[Neusight]] – *Placeholder — awaiting content from Ralph Improver.*
 - [[Nibabel]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Nibabies]] – nibabies is a specialized Python package designed for processing magnetic resonance imaging (MRI) data from human infants.
 - [[Nibetaseries]] – Nibetaseries is an open-source Python software package that implements beta-series analysis for functional magnetic reso...
 - [[Nick Tustison]] – Developer of N4ITK and DiReCT algorithms in ANTs, expert in MRI preprocessing.
 - [[Nifti]] – Nifti — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
