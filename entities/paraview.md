@@ -8,24 +8,6 @@ sources:
   type: book
   url: https://www.paraview.org/
   year: 2015
-- author: Hanwell, M. D., et al.
-  doi: 10.2352/ISSN.2470-1173.2019.5.COIMG-329
-  id: hanwell2019
-  journal: Electronic Imaging
-  pages: 1-8
-  title: New capabilities in ParaView 5.7
-  type: article
-  volume: 2019
-  year: 2019
-- author: Sanz-Leon, P., et al.
-  doi: 10.1038/srep02200
-  id: tvb-scientific-reports
-  journal: Scientific Reports
-  pages: 2200
-  title: 'The Virtual brain: a simulator of primate brain macrodynamics'
-  type: article
-  volume: 3
-  year: 2013
 - raw/papers/sanz-leon-2013.md
 - raw/papers/arxiv-2509.12873.md
 - raw/papers/arxiv-2505.16861.md

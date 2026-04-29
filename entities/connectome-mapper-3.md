@@ -1,12 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- https://doi.org/10.21105/joss.04426
-- https://doi.org/10.48550/arXiv.2205.14096
-- https://mrtrix.org/
-- https://surfer.nmr.mgh.harvard.edu/
-- https://fsl.fmrib.ox.ac.uk/fsl/fslview
-- https://github.com/brainstorm-app/brainstorm
 - raw/papers/semanticscholar-380768cf42a8.md
 - raw/papers/ritter-2013.md
 - raw/papers/semanticscholar-565d9037ee06.md

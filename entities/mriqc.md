@@ -1,10 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- esteban2019mriqc
-- Esteban2017mriqc
-- bilgic2012snr
-- nichols2017notes
 - raw/papers/schirner-2018.md
 - raw/papers/semanticscholar-109de470e443.md
 - raw/papers/semanticscholar-a0cce22e2ffc.md

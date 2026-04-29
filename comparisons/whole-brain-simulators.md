@@ -19,6 +19,7 @@ tags:
 - software-neuron
 - neural-mass-models
 - spiking-neural-networks
+title: Whole Brain Simulators
 type: comparison
 updated: '2026-04-29'
 ---

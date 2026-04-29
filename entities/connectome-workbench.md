@@ -1,9 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- https://www.humanconnectome.org/
-- https://doi.org/10.1016/j.neuroimage.2016.02.004
-- https://www.humanconnectome.org/study/hcp-lifespan-development
 - raw/papers/sanz-leon-2013.md
 - raw/papers/van-essen-2012.md
 - raw/papers/semanticscholar-eb4197c24bf2.md

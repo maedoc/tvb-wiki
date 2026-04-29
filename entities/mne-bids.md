@@ -1,9 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- https://www.nature.com/articles/s41597-019-0104-7
-- https://bids-specification.readthedocs.io/
-- https://mne.tools/mne-bids/
 - raw/papers/semanticscholar-5a69b770faf9.md
 - raw/papers/semanticscholar-adcab180dcd3.md
 - raw/papers/semanticscholar-769ed169ed7c.md

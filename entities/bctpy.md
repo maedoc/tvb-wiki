@@ -1,9 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- https://github.com/aestrivex/bctpy
-- https://doi.org/10.1016/j.neuroimage.2010.07.033
-- https://doi.org/10.1038/nrn2576
 - raw/papers/sanz-leon-2013.md
 - raw/papers/rubinov-sporns-2010.md
 - raw/papers/ritter-2013.md

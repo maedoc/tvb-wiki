@@ -1,11 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- Cieslak et al. 2021
-- Gorgolewski et al. 2017
-- Smith et al. 2004
-- Tournier et al. 2007
-- Andersson & Sotiropoulos 2016
 - raw/papers/semanticscholar-109de470e443.md
 tags:
 - software-neuroimaging

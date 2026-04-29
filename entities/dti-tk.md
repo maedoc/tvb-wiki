@@ -1,7 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- raw/papers/dtitk-paper.md
 - raw/papers/semanticscholar-27108cae3f6e.md
 - raw/papers/arxiv-2602.18715.md
 - raw/papers/semanticscholar-c893f42e33a6.md

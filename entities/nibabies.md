@@ -1,10 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- doi.org/10.5281/zenodo.6573462
-- doi.org/10.1038/s41592-019-0658-6
-- doi.org/10.1016/j.neuroimage.2020.117305
-- doi.org/10.1101/2023.12.17.572119
 - raw/papers/semanticscholar-fcd025fcc10c.md
 - raw/papers/semanticscholar-34ef3bcd7c8b.md
 - raw/papers/arxiv-2512.17472.md

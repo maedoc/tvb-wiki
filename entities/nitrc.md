@@ -1,10 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- https://www.nitrc.org/
-- https://www.ninds.nih.gov/
-- https://pubmed.ncbi.nlm.nih.gov/19636066/
-- https://pubmed.ncbi.nlm.nih.gov/25495502/
 - raw/papers/semanticscholar-a324c47ea982.md
 - raw/papers/semanticscholar-f45e6044c92f.md
 - raw/papers/semanticscholar-d576a0f9d2a0.md

@@ -242,7 +242,53 @@
 - [[Yasa]] – YASA (Yet Another Spindle Algorithm) is an open-source Python toolbox designed for automated analysis of polysomnographi...
 - [[Yeo Atlas]] – *Placeholder — awaiting content from Ralph Improver.*
 - [[Yuri Kuznetsov]] – Yuri A. Kuznetsov is a Russian mathematician and Professor at Utrecht University, Netherlands. He is a leading expert on...
-
+- [[afq-notebooks|Afq Notebooks]]
+- [[allen-sdk|Allen Sdk]]
+- [[apptainer|Apptainer]]
+- [[bdftools|Bdftools]]
+- [[bids-derivatives|Bids Derivatives]]
+- [[bindsnet|Bindsnet]]
+- [[brainiak|Brainiak]]
+- [[brainstat|Brainstat]]
+- [[caiman|Caiman]]
+- [[camino-probtract|Camino Probtract]]
+- [[cititools|Cititools]]
+- [[connectome-mapper-3|Connectome Mapper 3]]
+- [[deeplabcut|Deeplabcut]]
+- [[dti-tk|Dti Tk]]
+- [[elastix|Elastix]]
+- [[enigma|Enigma]]
+- [[exploreasl|Exploreasl]]
+- [[graph-tool|Graph Tool]]
+- [[gretna|Gretna]]
+- [[hermes|Hermes]]
+- [[homer3|Homer3]]
+- [[jhu-white-matter-atlas|Jhu White Matter Atlas]]
+- [[kilosort|Kilosort]]
+- [[mayavi|Mayavi]]
+- [[mindboggle|Mindboggle]]
+- [[monai|Monai]]
+- [[music|Music]]
+- [[neuroquery|Neuroquery]]
+- [[nidm-results|Nidm Results]]
+- [[nika|Nika]]
+- [[nilearn-datasets|Nilearn Datasets]]
+- [[nitrc|Nitrc]]
+- [[open-ephys|Open Ephys]]
+- [[phy|Phy]]
+- [[popeye|Popeye]]
+- [[pynest|Pynest]]
+- [[pyxdf|Pyxdf]]
+- [[ramais|Ramais]]
+- [[snakemake|Snakemake]]
+- [[spikeglx|Spikeglx]]
+- [[spikeinterface|Spikeinterface]]
+- [[spinnaker|Spinnaker]]
+- [[suite2p|Suite2P]]
+- [[surfice|Surfice]]
+- [[tensorflow|Tensorflow]]
+- [[voxelmorph|Voxelmorph]]
+- [[yasa|Yasa]]
 ## Concepts
 <!-- concepts -->
 - [[Adaptive Exponential Integrate And Fire]] – Adaptive Exponential [[spiking-neural-networks|Integrate And Fire]] — a concept in [[whole-brain|whole-brain modeling]] ...
@@ -385,7 +431,8 @@
 - [[Wong Wang]] – The **Wong-Wang model** is a reduced [[neural-mass-models|neural mass model]] that describes the dynamics of recurrent c...
 - [[Xcos]] – XCOS (Extended COrdinate System) refers to a standardized framework for representing and transforming electroencephalogr...
 - [[Zerlaut]] – The **Zerlaut model** is a mean-field representation of cortical microcircuit dynamics that describes the collective act...
-
+- [[andronov-hopf-bifurcation|Andronov Hopf Bifurcation]]
+- [[anticevic-2012|Anticevic 2012]]
 ## Comparisons
 <!-- comparisons -->
 - [[Connectivity Types]] – Three distinct but related concepts for describing brain [[connectivity]], each capturing different aspects of how brain...

@@ -1,8 +1,6 @@
 ---
 created: 2025-01-15
-sources:
-- heitmann-2017
-- breakspear-2017
+sources: []
 tags:
 - software-brain
 - software-tvb
@@ -14,6 +12,7 @@ title: Brain Dynamics Toolbox
 type: entity
 updated: 2026-04-29
 ---
+
 All issues addressed:
 
 | Issue | Fix |
