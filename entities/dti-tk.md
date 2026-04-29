@@ -1,23 +1,29 @@
 ---
-title: DTI-TK
 created: 2025-01-15
-updated: 2026-04-29
+sources:
+- raw/papers/dtitk-paper.md
+tags:
+- software-neuroimaging
+- diffusion-imaging
+- neuroimaging-dti
+- tractography
+- software-tools
+title: DTI-TK
 type: entity
-tags: [software-neuroimaging, diffusion-imaging, neuroimaging-dti, tractography, software-tools]
-sources: [raw/papers/dtitk-paper.md]
+updated: '2026-04-29'
 ---
 
 # DTI-TK
 
 ## Overview
 
-DTI-TK (Diffusion Tensor Imaging Toolkit) is a specialized software package for processing and analyzing diffusion tensor imaging (DTI) data, which is a magnetic resonance imaging technique that measures the directional anisotropy of water diffusion in biological tissues. Unlike more recent diffusion imaging methods such as diffusion spectrum imaging (DSI) or Q-ball imaging that reconstruct orientation distribution functions (ODFs), DTI-TK operates on the simpler diffusion tensor model, representing water diffusion as a Gaussian process characterized by a 3×3 symmetric positive definite tensor at each voxel. This tensor-based approach, while mathematically less sophisticated than modern multi-fiber models, remains computationally efficient and continues to serve important roles in clinical research and studies focusing on gross white matter architecture.
+DTI-TK (Diffusion Tensor Imaging Toolkit) is a specialized software package for processing and analyzing diffusion tensor imaging (DTI) data, which is a magnetic resonance imaging technique that measures the directional anisotropy of water diffusion in biological tissues. Unlike more recent diffusion imaging methods such as diffusion spectrum imaging (DSI) or Q-ball imaging that reconstruct orientation distribution functions (ODFs), DTI-TK operates on the simpler diffusion tensor model, representing water diffusion as a Gaussian process characterized by a 3×3 symmetric positive definite tensor at each voxel. This tensor-based approach, while mathematically less sophisticated than modern multi-fiber models, remains computationally efficient and continues to serve important roles in clinical research and studies focusing on gross [[white-matter]] architecture.
 
 ## Technical Background
 
-The diffusion tensor provides a concise mathematical description of water diffusion that can be estimated from diffusion-weighted MRI scans acquired along multiple gradient directions. At each voxel, the diffusion tensor **D** is a symmetric 3×3 matrix that can be diagonalized to yield three eigenvalues (λ₁, λ₂, λ₃) and corresponding eigenvectors. The eigenvalues characterize the magnitude of diffusion along principal axes, while eigenvectors define the orientation of principal diffusion directions. From these quantities, scalar measures such as fractional anisotropy (FA), mean diffusivity (MD), and radial diffusivity (RD) can be computed, providing quantitative indices of white matter integrity and microstructural organization.
+The diffusion tensor provides a concise mathematical description of water diffusion that can be estimated from diffusion-weighted MRI scans acquired along multiple gradient directions. At each voxel, the diffusion tensor **D** is a symmetric 3×3 matrix that can be diagonalized to yield three eigenvalues (λ₁, λ₂, λ₃) and corresponding eigenvectors. The eigenvalues characterize the magnitude of diffusion along principal axes, while eigenvectors define the orientation of principal diffusion directions. From these quantities, scalar measures such as [[fractional-anisotropy]] (FA), mean diffusivity (MD), and radial diffusivity (RD) can be computed, providing quantitative indices of white matter integrity and microstructural organization.
 
-DTI-TK implements a tensor-based tractography approach that traces fiber pathways by following the principal eigenvector of the diffusion tensor at each step. The software employs deterministic streamline tracking, where path integration proceeds by taking small steps in the direction of the dominant diffusion orientation, with angular constraints applied to prevent sharp turns that would be physiologically implausible. This methodology differs from probabilistic tractography implementations found in other packages such as [[FSL]] or [[MRtrix3]], which typically incorporate uncertainty estimates derived from bootstrap or Bayesian sampling procedures.
+DTI-TK implements a tensor-based [[tractography]] approach that traces fiber pathways by following the principal eigenvector of the diffusion tensor at each step. The software employs deterministic streamline tracking, where path integration proceeds by taking small [[steps]] in the direction of the dominant diffusion orientation, with angular constraints applied to prevent sharp turns that would be physiologically implausible. This methodology differs from probabilistic tractography implementations found in other packages such as [[FSL]] or [[MRtrix3]], which typically incorporate uncertainty estimates derived from bootstrap or Bayesian sampling procedures.
 
 ## Key Features
 
@@ -27,13 +33,13 @@ The software implements sophisticated tensor estimation routines that incorporat
 
 The toolkit includes tools for tract-based spatial statistics (TBSS), a methodology originally developed by Smith et al. [@Smith2006] and implemented in the [[FSL]] package. TBSS projects FA values onto a white matter skeleton to address registration challenges inherent in voxel-based analysis of diffusion tensor data, thereby reducing false positives attributable to misaligned white matter structures. While DTI-TK supports TBSS-style processing, this methodology is fundamentally associated with FSL rather than being a distinctive feature of DTI-TK.
 
-Additionally, DTI-TK provides utilities for computing connectivity matrices from tractography results, enabling network-based analyses of brain connectivity. These connectivity matrices can be exported in formats compatible with the [[Brain Connectivity Toolbox]] (BCT) and other network analysis packages, facilitating integration with whole-brain modeling frameworks that utilize structural connectivity matrices derived from [[diffusion imaging]] data.
+Additionally, DTI-TK provides utilities for computing [[connectivity]] matrices from tractography results, enabling network-based analyses of brain connectivity. These connectivity matrices can be exported in formats compatible with the [[Brain Connectivity Toolbox]] (BCT) and other network analysis packages, facilitating integration with [[whole-brain|whole-brain modeling]] frameworks that utilize structural connectivity matrices derived from [[diffusion imaging]] data.
 
 ## Relationship to TVB and Whole-Brain Modeling
 
 In the context of [[whole-brain modeling]] and [[The Virtual Brain]] (TVB), DTI-TK serves as a potential source for constructing [[structural connectivity]] matrices that define the anatomical white matter pathways connecting different brain regions. Whole-brain simulations require matrices encoding the strength and timing of signal transmission between regions of interest, and DTI-derived tractography provides one approach to estimating these connectivity weights. The connectivity matrices generated by DTI-TK can be processed and imported into TVB using appropriate adapters, allowing researchers to combine anatomical connectivity estimates with neural mass models such as [[Jansen-Rit]] or [[Wong-Wang]] models to simulate collective brain dynamics.
 
-However, users should be aware of the limitations inherent in tensor-based tractography for constructing whole-brain connectivity matrices. The diffusion tensor model cannot resolve crossing fibers, meaning that regions where multiple white matter pathways intersect may be inadequately represented in resulting connectivity estimates. More advanced reconstruction methods implemented in [[MRtrix3]] or [[DSI Studio]] may provide more accurate representations of complex fiber architecture for brain network construction.
+However, users should be aware of the limitations inherent in tensor-based tractography for constructing whole-brain connectivity matrices. The diffusion tensor model cannot resolve crossing fibers, meaning that regions where multiple white matter pathways intersect may be inadequately represented in resulting connectivity estimates. More advanced reconstruction methods implemented in [[MRtrix3]] or [[DSI Studio]] may provide more accurate representations of complex fiber architecture for [[brain-network]] construction.
 
 ## Related Software and Methods
 

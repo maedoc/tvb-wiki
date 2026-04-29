@@ -5,13 +5,14 @@ tags:
 - software-brain-modeling
 title: BrainLife.io
 type: entity
-updated: 2026-04-29
+updated: '2026-04-29'
 ---
+
 title: BrainLife.io
 created: 2025-01-15
 updated: 2026-04-29
 type: entity
-tags: [software-brain-modeling, neuroimaging, reproducibility, dataset]
+tags: [software-brain-modeling, [[neuroimaging]], [[reproducibility]], dataset]
 sources:
   - https://www.brainlife.io/about
   - https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0120411
@@ -23,7 +24,7 @@ sources:
 
 ## Overview
 
-BrainLife.io is a free, cloud-based neuroimaging data processing and analysis platform that enables researchers to process, analyze, and share neuroimaging data through a web interface. Founded in 2015 by Franco Pestilli and colleagues at Indiana University, the platform provides a unified environment for running complex neuroimaging pipelines without requiring local computational resources or extensive software installation [1]. BrainLife.io supports multiple neuroimaging modalities including structural MRI, functional MRI (fMRI), diffusion tensor imaging (DTI), electroencephalography (EEG), and magnetoencephalography (MEG), making it a versatile tool for whole-brain modeling and connectomics research [2]. The platform operates on a cloud computing infrastructure, allowing users to submit processing jobs that execute on remote servers, thereby democratizing access to computationally intensive neuroimaging workflows that would otherwise require high-performance computing clusters.
+BrainLife.io is a free, cloud-based neuroimaging data processing and analysis platform that enables researchers to process, analyze, and share neuroimaging data through a web interface. Founded in 2015 by Franco Pestilli and colleagues at Indiana University, the platform provides a unified environment for running complex neuroimaging pipelines without requiring local computational resources or extensive software installation [1]. BrainLife.io supports multiple neuroimaging modalities including structural MRI, functional MRI (fMRI), diffusion tensor imaging (DTI), electroencephalography (EEG), and magnetoencephalography (MEG), making it a versatile tool for [[whole-brain|whole-brain modeling]] and [[connectomics]] research [2]. The platform operates on a cloud computing infrastructure, allowing users to submit processing jobs that execute on remote servers, thereby democratizing access to computationally intensive neuroimaging workflows that would otherwise require high-performance computing clusters.
 
 ## Key Features
 
@@ -37,7 +38,7 @@ The BrainLife Appstore provides modular processing tools ("apps") that implement
 
 ### Data Management and Sharing
 
-Beyond processing capabilities, BrainLife.io provides integrated data management features including secure storage, version control, and collaboration tools. Datasets can be shared with specific collaborators or made public, facilitating open science initiatives in neuroimaging [5]. The platform maintains data provenance metadata, tracking which processing steps were applied and with what parameters—a critical feature for reproducible research. BrainLife.io also integrates with [[DataLad]] for distributed data versioning, enabling users to track changes to large neuroimaging datasets over time [6].
+Beyond processing capabilities, BrainLife.io provides integrated data management features including secure storage, version control, and collaboration tools. Datasets can be shared with specific collaborators or made public, facilitating open science initiatives in neuroimaging [5]. The platform maintains data provenance metadata, tracking which processing [[steps]] were applied and with what parameters—a critical feature for reproducible research. BrainLife.io also integrates with [[DataLad]] for distributed data versioning, enabling users to track changes to large neuroimaging datasets over time [6].
 
 ## Relationship to TVB
 
@@ -49,7 +50,7 @@ BrainLife.io and [[The Virtual Brain]] (TVB) serve complementary roles in the wh
 
 The platform provides specialized pipelines for each major neuroimaging modality. For diffusion imaging, BrainLife.io offers tools for tractography (including both deterministic and probabilistic approaches), fiber orientation distribution estimation, and structural connectivity matrix generation. These outputs can be used directly as [[structural-connectivity]] inputs for [[whole-brain-modeling]] frameworks. For functional MRI, the platform supports standard preprocessing pipelines (motion correction, normalization, smoothing), [[resting-state]] analysis (including [[ICA]]-based decomposition), and connectivity metrics calculation.
 
-EEG and MEG processing includes filtering, artifact rejection, and source localization capabilities using methods compatible with [[MNE-Python]]. The platform supports sensor-space analysis for event-related potentials and frequency-domain features, enabling researchers to incorporate electrophysiological data into multimodal brain studies [8]. Integration with beamforming algorithms and minimum norm estimation methods allows for robust source reconstruction from MEG and EEG recordings.
+EEG and MEG processing includes filtering, artifact rejection, and [[source-localization]] capabilities using methods compatible with [[MNE-Python]]. The platform supports sensor-space analysis for event-related potentials and frequency-domain features, enabling researchers to incorporate electrophysiological data into multimodal brain studies [8]. Integration with beamforming algorithms and minimum norm estimation methods allows for robust source reconstruction from MEG and EEG recordings.
 
 ### Integration with Existing Software Ecosystem
 
@@ -77,7 +78,7 @@ BrainLife.io operates within a landscape of neuroimaging processing platforms. S
 
 [6] DataLad Integration Documentation. https://www.datalad.org/
 
-[7] The Virtual Brain Documentation - Data Import. https://docs.thevirtualbrain.org/
+[7] [[tvb|The Virtual Brain]] Documentation - Data Import. https://docs.thevirtualbrain.org/
 
 [8] MNE-Python Documentation. https://mne.tools/stable/
 
@@ -85,6 +86,6 @@ BrainLife.io operates within a landscape of neuroimaging processing platforms. S
 
 [10] Pestilli, F. (2014). A new neuroimaging platform for cloud-based analysis and sharing. Organization for Human Brain Mapping Annual Meeting.
 
-[11] Human Connectome Project. https://www.humanconnectome.org/
+[11] Human [[connectome]] Project. https://www.humanconnectome.org/
 
 [12] ENIGMA Consortium. https://www.enigma.ini.edu/

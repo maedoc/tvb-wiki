@@ -43,9 +43,9 @@ created: 2025-01-15
 sources: []
 tags:
 - neuroimaging-eeg
-- electrophysiology
+- [[electrophysiology]]
 - software-visualization
-- neural-mass-models
+- [[neural-mass-models]]
 title: ERPLAB
 type: entity
 updated: '2026-04-29'

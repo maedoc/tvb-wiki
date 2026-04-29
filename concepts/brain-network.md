@@ -55,9 +55,9 @@ sources:
 - raw/papers/arxiv-2602.00561.md
 tags:
 - people-researcher
-- software-neuron
-- spiking-neural-networks
-- whole-brain-modeling
+- software-[[neuron]]
+- [[spiking-neural-networks]]
+- [[whole-brain-modeling]]
 title: Henry Markram
 type: entity
 updated: '2026-04-27'

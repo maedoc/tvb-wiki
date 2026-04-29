@@ -5,19 +5,20 @@ tags:
 - software-brain-modeling
 title: NiBabel
 type: entity
-updated: 2026-04-29
+updated: '2026-04-29'
 ---
+
 title: NiBabel
 created: 2025-01-15
 updated: 2026-04-29
 type: entity
-tags: [software-neuroimaging, neuroimaging, software-python, neuroimaging-nifti, software-visualization]
+tags: [software-[[neuroimaging]], neuroimaging, software-python, neuroimaging-nifti, software-visualization]
 sources: [{"title": "NiBabel: access to a variety of neuroimaging file formats", "authors": "Brett M, Hanke M, et al.", "year": 2014, "journal": "Frontiers in Neuroinformatics", "doi": "10.3389/fninf.2014.00003"}]
 ---
 
 ## Overview
 
-NiBabel is an open-source Python library that provides read and write access to a wide range of neuroimaging data formats, serving as the foundational I/O layer for the Python neuroimaging ecosystem (Brett et al., 2014). Originally developed to handle the NIfTI (Neuroimaging Informatics Technology Initiative) format, NiBabel has expanded to support numerous file formats including Analyze, MINC, ECAT, DICOM (limited), and various GIFTI/CIFTI variants used in [[human-connectome-project]] [[connectome-workbench]] workflows. The library abstracts away the complexities of different file formats behind a unified interface, allowing researchers to work with neuroimaging data programmatically without worrying about the underlying storage details.
+NiBabel is an open-source Python library that provides read and write access to a wide range of neuroimaging data formats, serving as the foundational I/O layer for the Python neuroimaging ecosystem (Brett et al., 2014). Originally developed to handle the NIfTI (Neuroimaging Informatics Technology Initiative) format, NiBabel has expanded to support numerous file formats including Analyze, MINC, ECAT, DICOM (limited), and various GIFTI/[[cifti]] variants used in [[human-[[connectome]]-project]] [[connectome-workbench]] workflows. The library abstracts away the complexities of different file formats behind a unified interface, allowing researchers to work with neuroimaging data programmatically without worrying about the underlying storage details.
 
 ## Motivation and Context
 
@@ -29,7 +30,7 @@ The library plays a crucial role in the broader [[computational-neuroscience]] s
 
 NiBabel provides several core capabilities that make it indispensable for neuroimaging research. First, the library offers a unified object model where different file formats are accessed through common interfaces while still exposing format-specific header information when needed. The `Nifti1Image` class remains the most commonly used, representing 3D or 4D volumetric data with support for spatial coordinate systems, affine transformations that map voxel indices to world coordinates, and metadata stored in flexible header fields.
 
-Second, NiBabel handles memory-mapped file access efficiently, allowing researchers to work with large datasets (common in [[resting-state]] fMRI and [[diffusion-mri]] studies) without loading entire images into RAM. This is particularly valuable when processing high-resolution human connectome data, where individual subject files can exceed several gigabytes.
+Second, NiBabel handles memory-mapped file access efficiently, allowing researchers to work with large datasets (common in [[resting-state]] [[fmri]] and [[diffusion-mri]] studies) without loading entire images into RAM. This is particularly valuable when processing high-resolution human connectome data, where individual subject files can exceed several gigabytes.
 
 Third, the library supports both image data and associated metadata through dedicated header objects. Researchers can inspect and modify affine transformations (critical for [[source-localization]] accuracy), voxel size specifications, and acquisition parameters. The library also provides comprehensive support for GIFTI surface-data formats and CIFTI grayordinate files used in [[human-connectome-project]] [[connectome-workbench]] visualizations.
 

@@ -5,31 +5,32 @@ tags:
 - software-brain-modeling
 title: Neurodata Without Borders
 type: entity
-updated: 2026-04-29
+updated: '2026-04-29'
 ---
+
 title: Neurodata Without Borders
 created: 2024-01-15
 updated: 2026-04-29
 type: entity
-tags: [software-brain-modeling, database-hcp, open-source-brain, bids, reproducibility, neuroimaging]
+tags: [software-brain-modeling, database-hcp, [[open-source-brain]], [[bids]], [[reproducibility]], neuroimaging]
 sources: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 ---
 
 ## Overview
 
-**Neurodata Without Borders (NWB)** is a data standard and file format specification designed to standardize the storage and sharing of neurophysiology data across laboratories, institutions, and analysis tools. Developed through a community-driven process led by the [INCF](https://www.incf.org/) [1] and supported by major neuroscience initiatives including the [Human Connectome Project](human-connectome-project) [2], NWB provides a unified framework for representing electrophysiology data, imaging data, and behavioral measurements in a way that enables interoperability between different software ecosystems. The format addresses a fundamental challenge in modern neuroscience: the explosion of data from large-scale recordings made possible by technologies like multi-electrode arrays, [[neuropixel]] probes, and high-density [[EEG]] systems, which has outpaced the field's ability to share and integrate data across studies [3].
+**Neurodata Without Borders (NWB)** is a data standard and file format specification designed to standardize the storage and sharing of neurophysiology data across laboratories, institutions, and analysis tools. Developed through a community-driven process led by the [INCF](https://www.incf.org/) [1] and supported by major neuroscience initiatives including the [Human [[connectome]] Project]([[human-connectome-project]]) [2], NWB provides a unified framework for representing [[electrophysiology]] data, imaging data, and behavioral measurements in a way that enables interoperability between different software ecosystems. The format addresses a fundamental challenge in modern neuroscience: the explosion of data from large-scale recordings made possible by technologies like multi-electrode arrays, [[neuropixel]] probes, and high-density [[EEG]] systems, which has outpaced the field's ability to share and integrate data across studies [3].
 
 ## Motivation and Context
 
 The neuroscience community has historically suffered from fragmented data formats, with each laboratory developing custom solutions for storing their electrophysiology recordings. This fragmentation creates significant barriers to data reuse, makes it difficult to compare results across studies, and impedes the development of standardized analysis pipelines. Before NWB, researchers spent substantial time converting between formats or writing custom parsers, and collaborative projects often required extensive data harmonization efforts. The NWB initiative emerged from the recognition that sustainable progress in large-scale neuroscience requires agreed-upon standards that balance expressiveness with practical implementation [3].
 
-The development of NWB shares philosophical principles with the [BIDS](bids) (Brain Imaging Data Structure) community [4] and broader data-sharing initiatives like the [Human Connectome Project](human-connectome-project) [2] and various [INCF](https://www.incf.org/) programs. While BIDS primarily addresses neuroimaging (MRI/fMRI) data, NWB targets neurophysiology, though both standards share common principles for organized, FAIR-compliant data sharing. Unlike earlier efforts that focused on specific modalities, NWB was designed from the ground up to accommodate diverse neurophysiology data types including single-unit recordings, local field potentials, electrocorticography, and behavioral time series [3]. The standard builds upon and integrates with existing formats like [NIX](nix) [5] and follows principles established by the [BIDS](bids) specification for neuroimaging data [4].
+The development of NWB shares philosophical principles with the [BIDS](bids) (Brain Imaging Data Structure) community [4] and broader data-sharing initiatives like the [Human Connectome Project](human-connectome-project) [2] and various [INCF](https://www.incf.org/) programs. While BIDS primarily addresses [[neuroimaging]] (MRI/[[fmri]]) data, NWB targets neurophysiology, though both standards share common principles for organized, FAIR-compliant data sharing. Unlike earlier efforts that focused on specific modalities, NWB was designed from the ground up to accommodate diverse neurophysiology data types including single-unit recordings, [[local-field-potentials]], electrocorticography, and behavioral time series [3]. The standard builds upon and integrates with existing formats like [NIX](nix) [5] and follows principles established by the [BIDS](bids) specification for neuroimaging data [4].
 
 ## Technical Specifications
 
 NWB organizes data into a hierarchical structure based on the **HDF5** (Hierarchical Data Format version 5) container format, which provides efficient random access to large datasets and supports complex nested data structures [6]. The schema defines standardized containers called **NWBFile** objects that contain metadata about the recording session, subject information, device specifications, and the actual data arrays. Data are stored in named **TimeSeries** objects that include timestamps, sampling rates, and unit information, along with optional metadata about experimental conditions [7].
 
-The NWB schema has evolved through several versions, with NWB 2.x representing a major refactoring that adopted a more flexible and extensible architecture [8]. Version 2.0 introduced the concept of **Acquisition**, **Analysis**, and **Stimulus** data groups, along with standardized representations for electrode layouts, optical physiology data, and behavioral paradigms [7]. The schema supports both **single-module** and **distributed** data storage patterns, enabling researchers to store complete datasets in a single file or reference external files for particularly large recordings. Crucially, NWB provides mechanisms for storing **metadata about preprocessing pipelines**, enabling reproducible analysis by documenting the exact steps applied to raw data [9].
+The NWB schema has evolved through several versions, with NWB 2.x representing a major refactoring that adopted a more flexible and extensible architecture [8]. Version 2.0 introduced the concept of **Acquisition**, **Analysis**, and **Stimulus** data groups, along with standardized representations for electrode layouts, optical physiology data, and behavioral paradigms [7]. The schema supports both **single-module** and **distributed** data storage patterns, enabling researchers to store complete datasets in a single file or reference external files for particularly large recordings. Crucially, NWB provides mechanisms for storing **metadata about preprocessing pipelines**, enabling reproducible analysis by documenting the exact [[steps]] applied to raw data [9].
 
 ## Key Features
 

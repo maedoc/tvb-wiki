@@ -16,18 +16,19 @@ tags:
 - bids
 title: Connectome Mapper 3
 type: entity
-updated: 2026-04-29
+updated: '2026-04-29'
 ---
+
 title: Connectome Mapper 3
 created: 2024-01-15
 updated: 2026-04-29
 type: entity
-tags: [software-connectome-mapper, neuroimaging-dti, tractography, structural-connectivity, connectomics, software-visualization, database-hcp, biped]
+tags: [software-connectome-mapper, neuroimaging-dti, tractography, structural-connectivity, [[connectomics]], software-visualization, database-hcp, biped]
 sources:
-  - "Daducci et al. (2014). Connectome Mapper: An Open-Source Processing Pipeline to Map Optic Radiations from Diffusion MRI Data. Proc. IEEE ISBI 2014."
+  - "Daducci et al. (2014). Connectome Mapper: An Open-Source Processing Pipeline to Map Optic Radiations from [[diffusion-mri]] Data. Proc. IEEE ISBI 2014."
   - "Daducci et al. (2015). The Connectome Mapper: A pipeline to fully process human connectomes. Organization for Human Brain Mapping (OHBM)."
   - "Tourbier et al. (2021). Connectome Mapper 3: An open-source processing pipeline for multi-shell diffusion MRI including Q-space reconstruction and tractography. NeuroImage."
-  - "Gupta et al. (2023). Multi-scale personalized brain models from processing with Connectome Mapper 3. The Virtual Brain paper."
+  - "Gupta et al. (2023). Multi-scale personalized brain models from processing with Connectome Mapper 3. [[tvb|The Virtual Brain]] paper."
 ---
 
 Connectome Mapper 3 is an open-source neuroimaging software pipeline designed to process multimodal magnetic resonance imaging (MRI) data—particularly diffusion tensor imaging (DTI) and diffusion spectrum imaging (DSI)—for the purpose of reconstructing structural [[connectivity|connectome]] matrices from human brain white matter tractography. Developed primarily at the École Polytechnique Fédérale de Lausanne (EPFL) under the Connectome Lab, the pipeline provides a standardized, fully automated end-to-end workflow that transforms raw diffusion-weighted MRI scans into ready-to-use connectivity matrices and associated cortical/subcortical parcellations. The software integrates several established neuroimaging tools—including [[freesurfer|FreeSurfer]], [[fsl|FSL]], [[mrtrix3|MRtrix3]], and [[dipy|Dipy]]—into a cohesive framework that handles preprocessing, distortion correction, fiber tracking, parcellation, and network construction with minimal user intervention (Daducci et al., 2014; Tourbier et al., 2021).
@@ -42,15 +43,15 @@ The pipeline was designed with two primary use cases in mind. First, it supports
 
 Connectome Mapper 3 implements a modular processing pipeline organized into sequential stages. The preprocessing phase handles motion correction, eddy-current distortion correction, and bias field estimation using routines adapted from [[fsl|FSL]] and [[ants|ANTs]]. For diffusion data, the software supports multiple reconstruction models including DTI, Q-ball imaging, and constrained spherical deconvolution (CSD), with the latter providing superior fiber orientation distribution function (fODF) estimates in regions of complex fiber crossing.
 
-The tractography stage employs the probabilistic streamline tractography algorithms provided by [[mrtrix3|MRtrix3]], specifically the iFOD2 (integral Fibonacci 2) methodology for generating robust fiber tracks across the entire white matter volume (Tourbier et al., 2021). Users can configure parameters governing seed mask selection, inclusion criteria based on fractional anisotropy (FA) thresholds, minimum tract length, and maximum curvature constraints, enabling fine-grained reconstruction of complex white matter architecture. The pipeline generates both deterministic and probabilistic connectivity matrices, with edge weights representing either streamline counts or more sophisticated metrics such as the number of detected streamlines normalized by the geometric mean of the originating and target region volumes.
+The tractography stage employs the probabilistic streamline tractography algorithms provided by [[mrtrix3|MRtrix3]], specifically the iFOD2 (integral Fibonacci 2) methodology for generating robust fiber tracks across the entire [[white-matter]] volume (Tourbier et al., 2021). Users can configure parameters governing seed mask selection, inclusion criteria based on [[fractional-anisotropy]] (FA) thresholds, minimum tract length, and maximum curvature constraints, enabling fine-grained reconstruction of complex white matter architecture. The pipeline generates both deterministic and probabilistic connectivity matrices, with edge weights representing either streamline counts or more sophisticated metrics such as the number of detected streamlines normalized by the geometric mean of the originating and target region volumes.
 
 Parcellation of the cortex and subcortical structures represents another critical component. Connectome Mapper 3 supports multiple atlases including the [[desikan-killiany-atlas|Desikan-Killiany atlas]], [[destrieux-atlas|Destrieux atlas]], [[schaefer-atlas|Schaefer parcellation]], and the [[glasser-atlas|Glasser HCP multi-modal parcellation]]. For subcortical structures, automatic segmentation is performed using [[freesurfer|FreeSurfer]] or [[fsl|FSL]] FIRST, and the resulting segmentations can be refined using the [[julich-atlas|Jülich histological atlas]]. The software also provides native support for the [[brainnetome-atlas|BrainNetome atlas]], enabling fine-grained subcortical parcellation.
 
-A distinctive feature of Connectome Mapper 3 is its tight integration with the [[brain-connectivity-toolbox|Brain Connectivity Toolbox]] (BCT) for graph-theoretic analysis of the resulting networks. Built-in functions compute common network metrics including modularity, clustering coefficient, path length, [[rich-club|rich-club]] coefficient, and hub classification, facilitating immediate transition from raw connectivity matrices to network-theoretic summaries suitable for statistical analysis.
+A distinctive feature of Connectome Mapper 3 is its tight integration with the [[brain-connectivity-toolbox|Brain Connectivity Toolbox]] (BCT) for graph-theoretic analysis of the resulting networks. Built-in functions compute common network metrics including [[modularity]], clustering coefficient, path length, [[rich-club|rich-club]] coefficient, and hub classification, facilitating immediate transition from raw connectivity matrices to network-theoretic summaries suitable for statistical analysis.
 
 ## Relationship to The Virtual Brain
 
-Connectome Mapper 3 is directly relevant to [[the-virtual-brain|The Virtual Brain]] (TVB), a prominent whole-brain modeling platform. TVB requires individualized structural connectivity matrices as fundamental input for its large-scale network simulations—without a detailed white-matter connectome, the simulator cannot propagate activity between brain regions (Gupta et al., 2023). The pipeline output format is specifically designed to be compatible with TVB's data structures, and several TVB tutorials and demonstration datasets utilize connectivity matrices processed through Connectome Mapper. Specifically, TVB's `tvb_data` adapter modules can directly import CMP3-generated connectivity ZIP archives, parsing the regional parcellation and streamline weight matrices into TVB's internal `Connectivity` data structure. The default "default_subject" included with TVB distributions was derived from HCP data processed with a CMP-like workflow, establishing the integration as a canonical pathway for whole-brain simulation. The combination enables researchers to construct personalized brain models wherein individual structural connectomes—rather than generic templates—drive the simulation of resting-state dynamics, seizure propagation, or evoked responses. This integration represents a practical pathway for translating diffusion MRI acquisitions into clinically meaningful simulations, particularly in the context of [[epilepsy-modeling|epilepsy modeling]] where patient-specific structural networks can inform surgical planning or biomarker discovery.
+Connectome Mapper 3 is directly relevant to [[the-virtual-brain|The Virtual Brain]] (TVB), a prominent [[whole-brain|whole-brain modeling]] platform. TVB requires individualized structural connectivity matrices as fundamental input for its large-scale network simulations—without a detailed white-matter connectome, the simulator cannot propagate activity between brain regions (Gupta et al., 2023). The pipeline output format is specifically designed to be compatible with TVB's data structures, and several TVB tutorials and demonstration datasets utilize connectivity matrices processed through Connectome Mapper. Specifically, TVB's `tvb_data` adapter modules can directly import CMP3-generated connectivity ZIP archives, parsing the regional [[parcellation]] and streamline weight matrices into TVB's internal `Connectivity` data structure. The default "default_subject" included with TVB distributions was derived from HCP data processed with a CMP-like workflow, establishing the integration as a canonical pathway for whole-brain simulation. The combination enables researchers to construct personalized brain models wherein individual structural connectomes—rather than generic templates—drive the simulation of [[resting-state]] dynamics, seizure propagation, or evoked responses. This integration represents a practical pathway for translating diffusion MRI acquisitions into clinically meaningful simulations, particularly in the context of [[epilepsy-modeling|epilepsy modeling]] where patient-specific structural networks can inform surgical planning or biomarker discovery.
 
 ## Related Software and Ecosystem
 
@@ -70,7 +71,7 @@ Connectome Mapper 3 operates within a broader ecosystem of connectomics tools. I
 
 ## See Also
 
-- [[connectome]] — The broader concept of mapping the complete structural and functional connectivity of the brain
+- [[connectome]] — The broader concept of mapping the complete structural and [[functional-connectivity]] of the brain
 - [[structural-connectivity]] — The anatomical substrate that Connectome Mapper 3 reconstructs
 - [[tractography]] — The diffusion MRI technique underlying fiber reconstruction
 - [[brain-connectivity-toolbox]] — The graph-theoretic analysis library integrated with the mapper

@@ -1,10 +1,21 @@
 ---
-title: Graph-tool
 created: 2025-01-15
-updated: 2026-04-29
+sources:
+- peixoto2014
+- peixoto2017
+- peixoto2014sbm
+- 荒荒2023
+- rubinov2010
+tags:
+- software-graph-tool
+- network-analysis
+- graph-theory
+- python-library
+- community-detection
+- connectomics
+title: Graph-tool
 type: entity
-tags: [software-graph-tool, network-analysis, graph-theory, python-library, community-detection, connectomics]
-sources: [peixoto2014, peixoto2017, peixoto2014sbm,荒荒2023, rubinov2010]
+updated: '2026-04-29'
 ---
 
 Graph-tool is a Python library for the efficient analysis and manipulation of network structures (graphs). It provides a comprehensive set of algorithms for [[graph-theory|graph-theoretic]] analysis, including community detection, network statistics, flow optimization, and spectral methods. Written in C++ with Python bindings using Boost, graph-tool offers performance comparable to compiled languages while maintaining the accessibility of a Python interface [[peixoto2014]]. The library was developed and is maintained by Tiago de Paula Peixoto and has become a widely used tool in computational neuroscience, particularly for analyzing [[brain-connectivity-toolbox|brain connectivity networks]] derived from neuroimaging data.
@@ -44,5 +55,5 @@ Graph-tool occupies a specific niche in the network analysis ecosystem alongside
 1. Peixoto, T. P. (2014). The graph-tool python library. figshare. Dataset.
 2. Peixoto, T. P. (2017). Uncovering the structure of sparse graphs via stochastic block models. *Journal of Physics: Conference Series*, 760(1), 012001.
 3. Peixoto, T. P. (2014). Hierarchical block structures and high-resolution model selection in large networks. *Physical Review X*, 4(1), 011047.
-4. Rubinov, M., & Sporns, O. (2010). Complex network measures of brain connectivity: uses and interpretations. *Current Opinion in Neurobiology*, 20(3), 663–671.
-5. 荒荒 (2023). Comparative analysis of brain network analysis tools in neuroscience research. *Computational Neuroscience Review*, 1(2), 45-58.
+4. Rubinov, M., & Sporns, O. (2010). Complex network measures of brain [[connectivity]]: uses and interpretations. *Current Opinion in Neurobiology*, 20(3), 663–671.
+5. 荒荒 (2023). Comparative analysis of [[brain-network]] analysis tools in neuroscience research. *[[computational-neuroscience]] Review*, 1(2), 45-58.

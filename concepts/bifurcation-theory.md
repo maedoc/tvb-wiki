@@ -1,15 +1,30 @@
 ---
-title: Bifurcation Theory
 created: 2025-01-15
-updated: 2026-04-29
+sources:
+- Hoppensteadt1996
+- Riedel2015
+- Jirsa2014
+- WongWang2006
+- Brett2005
+tags:
+- bifurcation-theory
+- dynamical-systems-theory
+- nonlinear-dynamics
+- bifurcation-analysis
+- neural-mass-models
+- brain-oscillations
+- epilepsy-modeling
+- parameter-estimation
+- stochastic-differential-equations
+- fokker-planck-equation
+title: Bifurcation Theory
 type: concept
-tags: [bifurcation-theory, dynamical-systems-theory, nonlinear-dynamics, bifurcation-analysis, neural-mass-models, brain-oscillations, epilepsy-modeling, parameter-estimation, stochastic-differential-equations, fokker-planck-equation]
-sources: ["Hoppensteadt1996", "Riedel2015", "Jirsa2014", "WongWang2006", "Brett2005"]
+updated: '2026-04-29'
 ---
 
 ## Overview
 
-Bifurcation theory is the mathematical study of qualitative changes in the asymptotic behavior of dynamical systems as parameters vary continuously [@Hoppensteadt1996]. In the context of computational neuroscience, bifurcation theory provides the foundational framework for understanding how neural systems transition between distinct dynamical regimes—such as from resting state to oscillatory activity, or from healthy dynamics to epileptic seizures. A **bifurcation** occurs when a small smooth change in a system parameter (the **bifurcation parameter**) causes a sudden topological change in the system's phase portrait: stable equilibria may give way to limit cycles, stable oscillations may become chaotic, or new invariant sets may emerge from existing ones. This mathematical framework is essential for interpreting the rich repertoire of brain dynamics observed across [[neuroimaging]] modalities and for constructing [[neural-mass-models]] that capture physiologically relevant state transitions.
+Bifurcation theory is the mathematical study of qualitative changes in the asymptotic behavior of dynamical systems as parameters vary continuously [@Hoppensteadt1996]. In the context of [[computational-neuroscience]], bifurcation theory provides the foundational framework for understanding how neural systems transition between distinct dynamical regimes—such as from [[resting-state]] to oscillatory activity, or from healthy dynamics to epileptic seizures. A **bifurcation** occurs when a small smooth change in a system parameter (the **bifurcation parameter**) causes a sudden topological change in the system's phase portrait: stable equilibria may give way to limit cycles, stable oscillations may become chaotic, or new invariant sets may emerge from existing ones. This mathematical framework is essential for interpreting the rich repertoire of [[brain-dynamics]] observed across [[neuroimaging]] modalities and for constructing [[neural-mass-models]] that capture physiologically relevant state transitions.
 
 ## Theoretical Foundation
 

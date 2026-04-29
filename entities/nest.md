@@ -31,7 +31,7 @@ NEST is specifically designed for large networks of point neurons with biologica
 - **Biologically realistic synapses**: Detailed synaptic dynamics and plasticity rules
 - **Massive scalability**: From laptops to petascale supercomputers (10^11+ synapses)
 - **Parallel computing**: MPI and OpenMP support for distributed simulation
-- **PyNEST interface**: Python API for rapid prototyping and scientific workflow integration
+- **[[pynest]] interface**: Python API for rapid prototyping and scientific workflow integration
 - **Canonical microcircuits**: Reference implementations like the Potjans-Diesmann cortical model
 
 ## Scalability
@@ -99,9 +99,9 @@ sources:
 - raw/papers/sanz-leon-2013.md
 tags:
 - software-brain-modeling
-- neuroimaging-eeg
+- [[neuroimaging]]-eeg
 - neuroimaging-meg
-- brain-oscillations
-- resting-state
+- [[brain-oscillations]]
+- [[resting-state]]
 - software-tvb
 title

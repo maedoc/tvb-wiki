@@ -5,13 +5,14 @@ tags:
 - software-brain-modeling
 title: OpenViBE
 type: entity
-updated: 2026-04-29
+updated: '2026-04-29'
 ---
+
 title: OpenViBE
 created: 2025-01-15
 updated: 2026-04-29
 type: entity
-tags: [neuroimaging-eeg, neuroimaging-meg, electrophysiology, software-visualization]
+tags: [[[neuroimaging]]-eeg, neuroimaging-meg, electrophysiology, software-visualization]
 sources:
   - https://openvibe.inria.fr/
   - https://hal.science/hal-00477153
@@ -32,13 +33,13 @@ The software emerged from the French BCI research community in the mid-2000s, wi
 
 OpenViBE offers several distinctive capabilities that make it particularly valuable for real-time brain signal research. The platform's visual programming environment, called the **OpenViBE Designer**, allows users to construct signal processing pipelines by connecting pre-built boxes representing individual algorithms through a drag-and-drop interface. This visual approach significantly reduces the barrier to entry for researchers who may be proficient in neuroscience but less experienced with software development, while simultaneously accelerating the prototyping of new experimental paradigms.
 
-The software includes an extensive library of signal processing modules spanning preprocessing (filtering, artifact rejection, spatial filtering), feature extraction (spectral analysis, spatial decomposition methods like PCA and ICA), and classification algorithms (linear classifiers, support vector machines, neural networks). Particularly notable is OpenViBE's implementation of motor imagery classification pipelines, which have been extensively validated in BCI competitions and benchmark datasets [2]. The platform also provides dedicated modules for evoked potential detection, including the P300 event-related potential commonly used in attention and oddball paradigm research.
+The software includes an extensive library of signal processing modules spanning preprocessing (filtering, artifact rejection, spatial filtering), feature extraction (spectral analysis, spatial decomposition methods like PCA and ICA), and classification algorithms ([[linear]] classifiers, support vector machines, neural networks). Particularly notable is OpenViBE's implementation of motor imagery classification pipelines, which have been extensively validated in BCI competitions and benchmark datasets [2]. The platform also provides dedicated modules for evoked potential detection, including the P300 event-related potential commonly used in attention and oddball paradigm research.
 
 OpenViBE supports real-time operation through a dedicated acquisition server that can stream data from various EEG and MEG systems via standardized protocols, including GDF/EDF for file storage and LSL (Lab Streaming Layer) for real-time streaming [3]. This real-time capability is essential for closed-loop experiments where neural signals must be processed and decoded with minimal latency to enable responsive neurofeedback or BCI control. The software achieves latencies on the order of tens of milliseconds for typical processing pipelines, making it suitable for most BCI and neurofeedback applications [4].
 
 ## Relationship to TVB
 
-While OpenViBE and [[TVB]] (The Virtual Brain) serve distinct roles in the computational neuroscience ecosystem, they can be complementary tools within a research pipeline. OpenViBE focuses on real-time signal acquisition and processing—the "input" side of brain modeling—whereas The Virtual Brain provides large-scale brain network simulations for studying dynamics at the whole-brain level. In practice, empirical data processed through OpenViBE can inform [[whole-brain-modeling]] efforts by providing estimates of functional connectivity or by validating simulated signals against real EEG/MEG recordings.
+While OpenViBE and [[TVB]] (The Virtual Brain) serve distinct roles in the [[computational-neuroscience]] ecosystem, they can be complementary tools within a research pipeline. OpenViBE focuses on real-time signal acquisition and processing—the "input" side of brain modeling—whereas The Virtual Brain provides large-scale [[brain-network]] simulations for studying dynamics at the [[whole-brain]] level. In practice, empirical data processed through OpenViBE can inform [[whole-brain-modeling]] efforts by providing estimates of [[functional-connectivity]] or by validating simulated signals against real EEG/MEG recordings.
 
 The two platforms also differ in their modeling approaches: OpenViBE primarily operates at the level of signal features and classification, often using relatively simple linear models for real-time decodeability, while [[TVB]] implements sophisticated [[neural-mass-models]] and [[whole-brain-modeling]] frameworks that simulate the underlying dynamical systems generating the observed neural activity. Researchers studying epilepsy modeling or brain stimulation might use OpenViBE for real-time monitoring during experiments while employing TVB for retrospective simulation and prediction.
 

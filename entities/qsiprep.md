@@ -1,27 +1,42 @@
 ---
-title: QSIPrep
 created: 2025-01-15
-updated: 2026-04-29
+sources:
+- Cieslak et al. 2021
+- Gorgolewski et al. 2017
+- Smith et al. 2004
+- Tournier et al. 2007
+- Andersson & Sotiropoulos 2016
+tags:
+- software-neuroimaging
+- diffusion-imaging
+- software-preprocessing
+- bids
+- neuroimaging-pipeline
+- tractography
+- diffusion-mri
+- structural-connectivity
+- white-matter
+- preprocessing
+title: QSIPrep
 type: entity
-tags: [software-neuroimaging, diffusion-imaging, software-preprocessing, bids, neuroimaging-pipeline, tractography, diffusion-mri, structural-connectivity, white-matter, preprocessing]
-sources: [Cieslak et al. 2021, Gorgolewski et al. 2017, Smith et al. 2004, Tournier et al. 2007, Andersson & Sotiropoulos 2016]
+updated: '2026-04-29'
 ---
 
 ## Overview
 
-QSIPrep is an open-source, BIDS-compliant preprocessing pipeline designed specifically for diffusion MRI (dMRI) data, the neuroimaging modality that enables reconstruction of white matter tracts and quantification of microstructural tissue properties. Developed by the Poldrack Lab at Stanford University and released in 2020 @Cieslak2021QSIPrep, QSIPrep automates the complex sequence of preprocessing steps required before quantitative analysis of diffusion data, including motion correction, eddy current distortion correction, bias field estimation, and registration to anatomical and standard spaces. The name "QSIPrep" derives from "q-space imaging preprocessing," reflecting its origin in the mathematical framework of diffusion encoding that underlies dMRI acquisition. By providing a robust, containerized solution that produces publication-ready data with minimal manual intervention, QSIPrep has become a foundational tool in the connectomics and whole-brain modeling ecosystem, analogous to how [[fmriprep]] transformed the preprocessing of functional MRI data @Gorgolewski2017fMRIPrep.
+QSIPrep is an open-source, [[bids]]-compliant preprocessing pipeline designed specifically for [[diffusion-mri]] (dMRI) data, the [[neuroimaging]] modality that enables reconstruction of [[white-matter]] tracts and quantification of microstructural tissue properties. Developed by the Poldrack Lab at Stanford University and released in 2020 @Cieslak2021QSIPrep, QSIPrep automates the complex sequence of preprocessing [[steps]] required before quantitative analysis of diffusion data, including motion correction, eddy current distortion correction, bias field estimation, and registration to anatomical and standard spaces. The name "QSIPrep" derives from "q-space imaging preprocessing," reflecting its origin in the mathematical framework of diffusion encoding that underlies dMRI acquisition. By providing a robust, containerized solution that produces publication-ready data with minimal manual intervention, QSIPrep has become a foundational tool in the [[connectomics]] and [[whole-brain|whole-brain modeling]] ecosystem, analogous to how [[fmriprep]] transformed the preprocessing of functional MRI data @Gorgolewski2017fMRIPrep.
 
 ## Motivation and Context
 
 Diffusion MRI preprocessing presents unique technical challenges that differ substantially from those encountered in other neuroimaging modalities. The acquisition sequence involves repeated application of diffusion-sensitizing gradients along multiple directions, making the data inherently sensitive to subject motion, eddy current distortions induced by the rapidly switching gradient fields, and B0 field inhomogeneities that cause geometric distortions especially in frontal and temporal brain regions @Andersson2016Nonlinear. Historically, researchers spent considerable time manually implementing custom preprocessing workflows using tools like [[dipy]], [[mrtrix3]], [[fsl]], and [[afni]], leading to substantial variability across labs and reduced reproducibility. Studies examining neuroimaging preprocessing pipelines have consistently demonstrated that manual, lab-specific approaches introduce systematic artifacts and batch effects that can obscure genuine biological signals, particularly when comparing connectomes across populations or tracking changes over time.
 
-QSIPrep emerged from the recognition that the diffusion MRI field needed a standardized preprocessing solution comparable to what [[fmriprep]] provided for functional MRI. The project adopted the same design philosophy: full automation with sensible defaults, comprehensive logging and provenance tracking, strict BIDS compliance to enable data sharing, and containerization via [[apptainer]] (formerly Singularity) to ensure computational reproducibility across different computing environments @Cieslak2021QSIPrep. By automating the most error-prone steps in diffusion preprocessing, QSIPrep enables researchers to focus on scientific questions rather than pipeline engineering, and facilitates direct comparison of results across studies that use the same preprocessing framework.
+QSIPrep emerged from the recognition that the diffusion MRI field needed a standardized preprocessing solution comparable to what [[fmriprep]] provided for functional MRI. The project adopted the same design philosophy: full automation with sensible defaults, comprehensive logging and provenance tracking, strict BIDS compliance to enable data sharing, and containerization via [[apptainer]] (formerly Singularity) to ensure computational [[reproducibility]] across different computing environments @Cieslak2021QSIPrep. By automating the most error-prone steps in diffusion preprocessing, QSIPrep enables researchers to focus on scientific questions rather than pipeline engineering, and facilitates direct comparison of results across studies that use the same preprocessing framework.
 
 ## Technical Description
 
-QSIPrep implements a comprehensive preprocessing workflow organized into several interconnected stages. The pipeline begins with DICOM to NIfTI conversion using [[dcm2niix]], followed by automated quality assessment to identify corrupt volumes or excessive motion. Denoising is performed using Marchenko-Pastur PCA or locally low-rank reconstruction methods implemented in [[dipy]], which exploit the redundancy in multi-shell diffusion data to suppress thermal noise. After denoising, the pipeline applies eddy current and motion correction using FSL's eddy tool @Smith2004Advances, which also models and corrects for susceptibility-derived distortions when reverse-encoded images are available. This "TOPUP" procedure integrates distortion correction with motion estimation to prevent cross-contamination of artifacts @Andersson2016Nonlinear.
+QSIPrep implements a comprehensive preprocessing workflow organized into several interconnected stages. The pipeline begins with DICOM to [[nifti]] conversion using [[dcm2niix]], followed by automated quality assessment to identify corrupt volumes or excessive motion. Denoising is performed using Marchenko-Pastur PCA or locally low-rank reconstruction methods implemented in [[dipy]], which exploit the redundancy in multi-shell diffusion data to suppress thermal noise. After denoising, the pipeline applies eddy current and motion correction using FSL's eddy tool @Smith2004Advances, which also models and corrects for susceptibility-derived distortions when reverse-encoded images are available. This "TOPUP" procedure integrates distortion correction with motion estimation to prevent cross-contamination of artifacts @Andersson2016Nonlinear.
 
-The anatomical processing stream within QSIPrep employs [[freesurfer]] for whole-brain segmentation and cortical parcellation, enabling precise registration of diffusion data to anatomical images. The pipeline generates several outputs essential for subsequent analysis: preprocessing derivatives in native diffusion space, warping fields for transformation to standard spaces (MNI152), and orientation vectors (including b-vectors) properly rotated to account for motion and eddy current corrections. For tractography workflows, QSIPrep can produce preprocessed data in formats compatible with [[mrtrix3]] or other tractography packages, including properly oriented gradient tables and brain masks.
+The anatomical processing stream within QSIPrep employs [[freesurfer]] for whole-brain segmentation and cortical parcellation, enabling precise registration of diffusion data to anatomical images. The pipeline generates several outputs essential for subsequent analysis: preprocessing derivatives in native diffusion space, warping fields for transformation to standard spaces (MNI152), and orientation vectors (including b-vectors) properly rotated to account for motion and eddy current corrections. For [[tractography]] workflows, QSIPrep can produce preprocessed data in formats compatible with [[mrtrix3]] or other tractography packages, including properly oriented gradient tables and brain masks.
 
 A distinguishing feature of QSIPrep is its handling of multi-shell data, which allows characterization of tissue microstructure at multiple diffusion weightings (b-values). The pipeline supports advanced models including constrained spherical deconvolution (CSD) @Tournier2007Robust, q-ball imaging, and diffusion tensor imaging (DTI), outputting fiber orientation distributions (FODs) that serve as input for probabilistic tractography. The workflow is implemented in Python using [[nipype]] for workflow orchestration, ensuring modularity and extensibility while maintaining compatibility with the broader Nipype ecosystem of neuroimaging tools.
 

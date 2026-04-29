@@ -32,7 +32,7 @@ A defining characteristic of [[brain‑network]] dynamics is the relationship be
 
 ## Role in Whole‑Brain Modeling
 
-Whole‑brain modeling leverages network dynamics to simulate how the comprehensive structural wiring of the brain generates its rich spontaneous and task‑evoked activity. The approach typically involves coupling neural mass models or reduced dynamical systems at each brain region (node) through a connectivity matrix derived from empirical DTI data. The resulting network of coupled oscillators or dissipative systems can produce dynamics that reproduce key features of empirical brain activity, including [[resting‑state]] networks, brain oscillations across different frequency bands, and signatures of cognitive states.
+Whole‑brain modeling leverages network dynamics to simulate how the comprehensive structural wiring of the brain generates its rich spontaneous and task‑evoked activity. The approach typically involves coupling [[neural-mass-models]] or reduced dynamical systems at each brain region (node) through a connectivity matrix derived from empirical DTI data. The resulting network of coupled oscillators or dissipative systems can produce dynamics that reproduce key features of empirical brain activity, including [[resting‑state]] networks, [[brain-oscillations]] across different frequency bands, and signatures of cognitive states.
 
 The framework of network dynamics provides several analytical tools for characterizing brain states. **Functional connectivity** analysis examines statistical dependencies between regional time series, revealing patterns of coordinated activity that constitute the "functional networks" of the brain. **[[effective‑connectivity]]** goes further, inferring causal interactions between regions—often through models like dynamic causal modeling (DCM) or Granger causality—that specify the direction and strength of information flow. **Graph‑theoretic measures** derived from network science—including [[modularity]], small‑worldness, [[rich‑club]] coefficients, and hub topology—characterize the organizational properties of both SC and FC networks and their changes across development, [[aging]], and disease.
 
@@ -40,11 +40,11 @@ The framework of network dynamics provides several analytical tools for characte
 
 The dynamical systems employed in whole‑brain network models take many forms. The simplest approach treats each brain region as a generic nonlinear oscillator (e.g., the Van der Pol oscillator or the Hopf bifurcation normal form) whose intrinsic dynamics are coupled through the connectivity matrix. More biophysically grounded models include **neural mass models** such as the [[jansen‑rit‑model|Jansen‑Rit model]], which approximates cortical columns using populations of excitatory and inhibitory neurons interacting through synaptic dynamics, or the [[wong‑wang‑model|Wong‑Wang model]], which captures excitation‑inhibition balance in recurrent circuitry. The [[epileptor]] model extends these frameworks to study seizure dynamics in epilepsy.
 
-Mathematically, a typical whole‑brain network model can be expressed as a system of coupled ordinary or [[stochastic‑differential‑equations]]:
+Mathematically, a typical whole‑[[brain-network]] model can be expressed as a system of coupled ordinary or [[stochastic‑differential‑equations]]:
 
 $$\dot{\mathbf{x}}_i = \mathbf{F}(\mathbf{x}_i) + \sum_{j=1}^{N} C_{ij} \mathbf{G}(\mathbf{x}_j, \mathbf{x}_i) + \mathbf{\eta}_i(t)$$
 
-where $\mathbf{x}_i$ is the state vector of region $i$, $\mathbf{F}$ describes the local dynamics, $C_{ij}$ are elements of the structural connectivity matrix, $\mathbf{G}$ specifies the coupling function, and $\mathbf{\eta}_i(t)$ represents noise. The coupling is often delay‑inclusive, accounting for the finite conduction速度 of anatomical pathways.
+where $\mathbf{x}_i$ is the state vector of region $i$, $\mathbf{F}$ describes the local dynamics, $C_{ij}$ are elements of the [[structural-connectivity]] matrix, $\mathbf{G}$ specifies the coupling function, and $\mathbf{\eta}_i(t)$ represents noise. The coupling is often delay‑inclusive, accounting for the finite conduction速度 of anatomical pathways.
 
 ## Relationships to Other Concepts
 

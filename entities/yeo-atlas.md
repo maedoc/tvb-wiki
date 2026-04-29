@@ -5,20 +5,21 @@ tags:
 - software-brain-modeling
 title: Yeo Atlas
 type: entity
-updated: 2026-04-29
+updated: '2026-04-29'
 ---
+
 title: Yeo Atlas
 created: 2025-01-15
 updated: 2026-04-29
 type: entity
-tags: [brain-parcellations, neuroimaging-fmri, functional-connectivity, resting-state, software-fsl, software-freesurfer, connectomics]
+tags: [[[brain-parcellations]], [[neuroimaging]]-fmri, functional-[[connectivity]], resting-state, [[software-fsl]], software-freesurfer, connectomics]
 sources: [yeeo-2011, tvb-documentation, hcp-publications]
 
 # Yeo Atlas
 
 ## Overview
 
-The Yeo Atlas is a widely-used whole-cortex parcellation derived from resting-state functional connectivity MRI (fMRI) data, providing a data-driven segmentation of the human cerebral cortex into functionally coherent networks. Developed by Thomas Yeo and colleagues, the atlas partitions the cortex into either 7 or 17 discrete networks based on statistical clustering of functional connectivity patterns observed in large cohorts of healthy adults [[yeeo-2011]]. Unlike anatomical atlases that partition the brain based on cytoarchitecture or gross morphology, the Yeo Atlas reflects the intrinsic functional organization of the living human brain, making it particularly valuable for studies of brain function, connectivity, and network dynamics in both normal and clinical populations.
+The Yeo Atlas is a widely-used whole-cortex [[parcellation]] derived from resting-state functional connectivity MRI (fMRI) data, providing a data-driven segmentation of the human cerebral cortex into functionally coherent networks. Developed by Thomas Yeo and colleagues, the atlas partitions the cortex into either 7 or 17 discrete networks based on statistical clustering of functional connectivity patterns observed in large cohorts of healthy adults [[yeeo-2011]]. Unlike anatomical atlases that partition the brain based on cytoarchitecture or gross morphology, the Yeo Atlas reflects the intrinsic functional organization of the living human brain, making it particularly valuable for studies of brain function, connectivity, and [[network-dynamics]] in both normal and clinical populations.
 
 ## Motivation and Context
 
@@ -28,7 +29,7 @@ The Yeo Atlas emerged from the recognition that resting-state [[functional-conne
 
 ## Technical Content
 
-The Yeo Atlas is derived from analysis of high-resolution resting-state fMRI data from approximately 1000 unrelated adult subjects, as described in the original Yeo et al. (2011) study published in the *Journal of Neurophysiology*. The dataset was collected across multiple imaging sites using standardized protocols, and the resulting parcellation represents common organizational features across healthy adults. The parcellation is generated using clustering approaches that identify groups of voxels (or vertices, on the cortical surface) with similar BOLD signal time courses. The clustering is performed on the cortical surface (rather than in volume space) to respect the sheet-like geometry of the cortex and to improve alignment across individuals.
+The Yeo Atlas is derived from analysis of high-resolution resting-state fMRI data from approximately 1000 unrelated adult subjects, as described in the original Yeo et al. (2011) study published in the *Journal of Neurophysiology*. The dataset was collected across multiple imaging sites using standardized protocols, and the resulting parcellation represents common organizational features across healthy adults. The parcellation is generated using clustering approaches that identify groups of voxels (or vertices, on the cortical surface) with similar [[bold-signal]] time courses. The clustering is performed on the cortical surface (rather than in volume space) to respect the sheet-like geometry of the cortex and to improve alignment across individuals.
 
 The atlas provides two resolutions of parcellation. The 7-network version divides the cortex into seven large-scale functional networks, each comprising multiple cortical regions that show strong internal connectivity and relative distinct patterns of connectivity with other networks. The 17-network version provides a finer-grained segmentation that subdivides several of the seven major networks into finer sub-networks, offering greater anatomical specificity when the research question requires it. Both versions are available in multiple template spaces, including FreeSurfer fsaverage and MNI152, and can be mapped to individual subject native space using nonlinear registration.
 
@@ -40,7 +41,7 @@ The Yeo Atlas is frequently used as a parcellation scheme in [[whole-brain model
 
 ## Key Features
 
-Several features make the Yeo Atlas particularly valuable for computational neuroscience and whole-brain modeling. First, its parcellations are data-driven rather than anatomically defined, ensuring that each region represents a coherent functional unit. Second, the networks are reproducible across independent datasets, demonstrating their robustness and biological validity. Third, the atlas is publicly available with extensive documentation and is supported by major neuroimaging software packages, facilitating its adoption. Fourth, the availability of both 7- and 17-network versions provides flexibility to trade off between anatomical specificity and network-level analysis.
+Several features make the Yeo Atlas particularly valuable for [[computational-neuroscience]] and [[whole-brain|whole-brain modeling]]. First, its parcellations are data-driven rather than anatomically defined, ensuring that each region represents a coherent functional unit. Second, the networks are reproducible across independent datasets, demonstrating their robustness and biological validity. Third, the atlas is publicly available with extensive documentation and is supported by major neuroimaging software packages, facilitating its adoption. Fourth, the availability of both 7- and 17-network versions provides flexibility to trade off between anatomical specificity and network-level analysis.
 
 ## Related Atlases and Software
 
@@ -51,7 +52,7 @@ The Yeo Atlas is supported by major neuroimaging platforms including [[fsl]] (wh
 ## Key Papers
 
 - **Yeo et al. (2011)** — "The organization of the human cerebral cortex estimated by intrinsic functional connectivity," *Journal of Neurophysiology*. The primary paper describing the 7-network parcellation derived from 1000 subjects.
-- **Krienen, Yeo, & Buckner (2014)** — "Reconstructing the extent of the human connectome," *Proceedings of the National Academy of Sciences*. Describes the 17-network parcellation and provides additional validation.
+- **Krienen, Yeo, & Buckner (2014)** — "Reconstructing the extent of the human [[connectome]]," *Proceedings of the National Academy of Sciences*. Describes the 17-network parcellation and provides additional validation.
 - **Van Essen et al. (2013)** — "The Human Connectome Project: A data acquisition perspective," *NeuroImage*. Describes the HCP dataset and preprocessing pipeline.
 
 ## References

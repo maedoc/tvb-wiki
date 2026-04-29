@@ -5,13 +5,14 @@ tags:
 - software-brain-modeling
 title: CoCoMac
 type: entity
-updated: 2026-04-29
+updated: '2026-04-29'
 ---
+
 title: CoCoMac
 created: 2024-01-15
 updated: 2026-04-29
 type: entity
-tags: [connectomics, structural-connectivity, database, brain-parcellations, tractography, diffusion-imaging, software-tool, neuroimaging]
+tags: [connectomics, structural-[[connectivity]], database, brain-parcellations, tractography, diffusion-imaging, software-tool, neuroimaging]
 sources: [10.1007/s11571-007-9013-1, 10.1007/s11571-007-9023-z, 10.1093/cercor/bhj160]
 ---
 
@@ -25,7 +26,7 @@ However, early tracer studies were highly variable in their anatomical assumptio
 
 ## Technical Framework
 
-The CoCoMac system organizes connectivity data around three core elements: source studies, anatomical parcellations, and tract definitions. Each entry in the database specifies a tract identified in a particular study, the specific regions from the source parcellation that are connected, and mappings to one or more target parcellation schemes. This many-to-many mapping structure enables users to query connectivity between brain regions regardless of the parcellation used in the original study.
+The CoCoMac system organizes connectivity data around three core elements: source studies, anatomical parcellations, and tract definitions. Each entry in the database specifies a tract identified in a particular study, the specific regions from the source [[parcellation]] that are connected, and mappings to one or more target parcellation schemes. This many-to-many mapping structure enables users to query connectivity between brain regions regardless of the parcellation used in the original study.
 
 The database supports both categorical connectivity (whether two regions are connected) and weighted connectivity (semi-quantitative estimates of connection strength based on the original study's methodology, such as fiber count ratios or qualitative density ratings). This hierarchical representation proved valuable for [[whole-brain modeling]] applications, where different studies emphasized different aspects of connectivity and users needed to integrate multiple sources. The CoCoMac framework also introduced conventions for handling ambiguous or disputed tract definitions, documenting cases where different studies provided contradictory evidence about the existence or strength of particular connections.
 
@@ -33,7 +34,7 @@ The database supports both categorical connectivity (whether two regions are con
 
 CoCoMac has been directly integrated with [[the-virtual-brain]] (TVB) as a source of [[structural-connectivity]] matrices for whole-brain simulations. TVB's original connectivity datasets for several canonical brain parcellations were derived from CoCoMac data, providing the anatomical scaffold upon which neural mass models such as the [[jansen-rit-model]] are simulated. The [[wong-wang-model]] and other neural mass frameworks used in TVB require empirical connectivity estimates to constrain the coupling strength between brain regions, making databases like CoCoMac essential for personalized brain modeling.
 
-The integration with TVB exemplifies the role of curated connectivity databases in computational neuroscience: rather than requiring every research group to perform their own tractography and parcellation, investigators could leverage CoCoMac's aggregated anatomical knowledge. This approach has both advantages (standardization, expert curation) and limitations (dependency on historical studies, potential biases in the literature toward certain brain regions or tract types). CoCoMac-derived connectivity matrices have been used in numerous simulation studies exploring the relationship between anatomical structure and functional dynamics in large-scale brain networks.
+The integration with TVB exemplifies the role of curated connectivity databases in [[computational-neuroscience]]: rather than requiring every research group to perform their own tractography and parcellation, investigators could leverage CoCoMac's aggregated anatomical knowledge. This approach has both advantages (standardization, expert curation) and limitations (dependency on historical studies, potential biases in the literature toward certain brain regions or tract types). CoCoMac-derived connectivity matrices have been used in numerous simulation studies exploring the relationship between anatomical structure and functional dynamics in large-scale brain networks.
 
 ## Key Features
 
@@ -55,4 +56,4 @@ The foundational CoCoMac publication described the database architecture and dem
 
 3. Honey, C. J., Kötter, R., Breakspear, M., Geiger, S., Hilgetag, C. C., Matushansky, L., ... & Sporns, O. (2007). Network analysis of anatomical data. *Cerebral Cortex*, 17(1), 149-162. doi:10.1093/cercor/bhj160
 
-4. The Virtual Brain. (2023). Structural Connectomics. In: Jirsa, V., McIntosh, A. (eds) *Handbook of Brain Connectivity*. Springer.
+4. [[tvb|The Virtual Brain]]. (2023). Structural Connectomics. In: Jirsa, V., McIntosh, A. (eds) *Handbook of Brain Connectivity*. Springer.

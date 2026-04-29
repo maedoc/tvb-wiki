@@ -17,7 +17,7 @@ tags:
 - connectomics
 title: CONN
 type: entity
-updated: '2026-04-28'
+updated: '2026-04-29'
 ---
 
 # CONN
@@ -81,4 +81,4 @@ CONN serves as a critical preprocessing and analysis tool in the [[connectome]]-
 - Whitfield-Gabrieli, S., & Nieto-Castanon, A. (2012). Conn: A functional connectivity toolbox for correlated and anticorrelated brain networks. *Brain Connectivity*, 2(3), 125-141. https://doi.org/10.1089/brain.2012.0073
 - Behzadi, Y., Restom, K., Liau, J., & Liu, T. T. (2007). A component based noise correction method (CompCor) for [[bold-signal|BOLD]] and perfusion based fMRI. *NeuroImage*, 37(1), 90-101. https://doi.org/10.1016/j.neuroimage.2007.04.042
 - Nieto-Castanon, A. (2020). Handbook of functional connectivity Magnetic Resonance Imaging methods in CONN. *Hilbert Press*. https://doi.org/10.1101/2020.08.05.234243
-- www.nitrc.org/projects/conn — Official CONN project repository
+- www.[[nitrc]].org/projects/conn — Official CONN project repository

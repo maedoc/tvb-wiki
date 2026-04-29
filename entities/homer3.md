@@ -1,10 +1,13 @@
 ---
-title: HOMER3
 created: 2025-01-15
-updated: 2026-04-29
-type: entity
-tags: [software-visualization, computational-neuroscience, neuroimaging]
 sources: []
+tags:
+- software-visualization
+- computational-neuroscience
+- neuroimaging
+title: HOMER3
+type: entity
+updated: '2026-04-29'
 ---
 
 # HOMER3
@@ -21,7 +24,7 @@ HOMER3 emerged to address these analysis challenges by providing a comprehensive
 
 ## Technical Content
 
-HOMER3 implements a complete processing pipeline for calcium imaging data. The preprocessing stage handles motion correction using frame-to-frame alignment algorithms, spatial filtering to reduce noise, and temporal filtering to isolate the calcium signal from slow drift artifacts. These preprocessing steps are essential because even subtle motion artifacts can introduce spurious correlations in the inferred neural activity.
+HOMER3 implements a complete processing pipeline for calcium imaging data. The preprocessing stage handles motion correction using frame-to-frame alignment algorithms, spatial filtering to reduce noise, and temporal filtering to isolate the calcium signal from slow drift artifacts. These preprocessing [[steps]] are essential because even subtle motion artifacts can introduce spurious correlations in the inferred neural activity.
 
 Cell detection in HOMER3 employs a combination of automated segmentation algorithms and manual refinement tools. The software can identify putative cells based on spatial smoothness and temporal correlation properties, producing regions of interest (ROIs) that correspond to individual neuronal cell bodies. Users can then manually adjust these ROIs to correct errors in the automated segmentation—a critical capability because automated algorithms inevitably make mistakes with out-of-focus cells, dendrites, or artefactual signals.
 

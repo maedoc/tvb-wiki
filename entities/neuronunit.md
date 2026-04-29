@@ -10,7 +10,7 @@ tags:
 - software-brain-modeling
 title: NeuronUnit
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-29'
 ---
 
 created: 2026-04-24
@@ -125,7 +125,7 @@ This paper describes the NeuroElectro database, which serves as NeuronUnit's pri
 - [[Elephant]] — Analysis toolkit for Neo data; complements NeuronUnit with quantitative metrics
 - [[PyNN]] — Simulator-independent Python API for neuronal network models
 - **NeuroElectro** — Database of neuron electrophysiology; NeuronUnit's primary data source for validation targets
-- **Allen SDK** — Tools for accessing [[allen-brain-atlas]] and Allen Cell Types data
+- **[[allen-sdk]]** — Tools for accessing [[allen-brain-atlas]] and Allen Cell Types data
 
 ## Key Researchers
 

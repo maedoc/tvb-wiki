@@ -8,7 +8,7 @@ tags:
 - software-brain-modeling
 title: Neurosynth
 type: entity
-updated: '2026-04-28'
+updated: '2026-04-29'
 ---
 
 title: Neurosynth
@@ -39,7 +39,7 @@ The architecture employs Python as its primary implementation language, with the
 
 ### Neurosynth 2.0 and NeuroQuery
 
-An important subsequent development was the release of Neurosynth 2.0, which addressed several methodological limitations of the original platform and expanded the database to include more recent studies [2]. Additionally, NeuroQuery emerged as a complementary tool that uses more sophisticated natural language processing to improve term-based mapping and provides an alternative approach to coordinate-based meta-analysis [3]. Researchers now often consult both platforms to cross-validate findings and benefit from the complementary methodological approaches.
+An important subsequent development was the release of Neurosynth 2.0, which addressed several methodological limitations of the original platform and expanded the database to include more recent studies [2]. Additionally, [[neuroquery]] emerged as a complementary tool that uses more sophisticated natural language processing to improve term-based mapping and provides an alternative approach to coordinate-based meta-analysis [3]. Researchers now often consult both platforms to cross-validate findings and benefit from the complementary methodological approaches.
 
 ## Relationship to Whole-Brain Modeling
 

@@ -1,17 +1,25 @@
 ---
-title: MRIQC
 created: 2024-01-15
-updated: 2026-04-29
+sources:
+- esteban2019mriqc
+- Esteban2017mriqc
+- bilgic2012snr
+- nichols2017notes
+tags:
+- software-visualization
+- neuroimaging
+- preprocessing
+- bids
+title: MRIQC
 type: entity
-tags: [software-visualization, neuroimaging, preprocessing, bids]
-sources: [esteban2019mriqc, Esteban2017mriqc, bilgic2012snr, nichols2017notes]
+updated: '2026-04-29'
 ---
 
 # MRIQC
 
 ## Overview
 
-MRIQC (MRI Quality Control) is an open-source software tool designed to provide automated quality control for magnetic resonance imaging (MRI) data. Developed primarily by the Stanford Neuroimaging Laboratory and the Poldrack Lab, MRIQC computes a comprehensive set of Image Quality Metrics (IQMs) from raw MRI scans and generates interactive HTML reports that facilitate visual inspection and quality assessment (Esteban et al., 2019). The tool is designed to integrate seamlessly with the [[bids]] (Brain Imaging Data Structure) specification, making it a standard component in many contemporary neuroimaging preprocessing pipelines. MRIQC serves as a first-line defense against data quality issues that could propagate through downstream analyses, including whole-brain modeling efforts that rely on high-quality structural and functional neuroimaging data.
+MRIQC (MRI Quality Control) is an open-source software tool designed to provide automated quality control for magnetic resonance imaging (MRI) data. Developed primarily by the Stanford Neuroimaging Laboratory and the Poldrack Lab, MRIQC computes a comprehensive set of Image Quality Metrics (IQMs) from raw MRI scans and generates interactive HTML reports that facilitate visual inspection and quality assessment (Esteban et al., 2019). The tool is designed to integrate seamlessly with the [[bids]] (Brain Imaging Data Structure) specification, making it a standard component in many contemporary neuroimaging preprocessing pipelines. MRIQC serves as a first-line defense against data quality issues that could propagate through downstream analyses, including [[whole-brain|whole-brain modeling]] efforts that rely on high-quality structural and functional neuroimaging data.
 
 ## Motivation and Context
 
@@ -25,7 +33,7 @@ MRIQC is built on top of the [[nipype]] workflow engine, which provides a standa
 
 The Image Quality Metrics computed by MRIQC fall into several categories. For structural images (T1w, T2w), metrics include measures of contrast-to-noise ratio (CNR), signal-to-noise ratio (SNR), entropy focus criterion (EFC), and artifact detection measures like the percentage of outliers in the background (Esteban et al., 2019). For functional MRI data, MRIQC computes framewise displacement (FD) from the motion parameters, standard deviation of the derivative of the timeseries (DVAR), and temporal SNR. For diffusion MRI, these metrics include eddy-current-induced artifact detection and motion-related signal dropouts. These metrics are computed both at the global level (whole brain) and regional level (segmented regions), and the tool produces comprehensive HTML reports with visualizations including brain masks, ROI overlays, and quality metric distributions.
 
-The output of MRIQC includes: (1) per-subject, per-session IQM tables in JSON format; (2) individual HTML reports featuring interactive visualizations; and (3) group-level summary tables that facilitate cohort-wide quality assessment. The group-level outputs are particularly valuable when preparing large datasets for [[whole-brain-modeling]] studies, as they enable systematic identification of subjects with degraded data quality that should be excluded from connectome reconstruction.
+The output of MRIQC includes: (1) per-subject, per-session IQM tables in JSON format; (2) individual HTML reports featuring interactive visualizations; and (3) group-level summary tables that facilitate cohort-wide quality assessment. The group-level outputs are particularly valuable when preparing large datasets for [[whole-brain-modeling]] studies, as they enable systematic identification of subjects with degraded data quality that should be excluded from [[connectome]] reconstruction.
 
 ## Relationship to TVB
 
@@ -37,7 +45,7 @@ The typical preprocessing pipeline for TVB involves [[fmriprep]] for functional 
 
 MRIQC is part of a broader ecosystem of [[bids-derivatives]] tools for neuroimaging preprocessing and quality assurance. [[fmriprep]] is closely related and often used in conjunction with MRIQC—while fmriprep provides full preprocessing of functional and anatomical MRI data with built-in quality metrics, MRIQC offers more detailed, modality-specific image quality metrics computed on raw or minimally processed data. The [[xcp-d]] tool provides additional quality control for processed fMRIPrep outputs, focusing on derivatives quality. For diffusion data specifically, tools like [[mrtrix3]] and [[dipy]] incorporate their own quality assessment capabilities, though these are more integrated into the processing workflow than MRIQC's dedicated quality inspection paradigm.
 
-Other relevant tools in the quality control ecosystem include [[afq]] (AFQ-Lite), which provides tractography-based quality assessment, and the general visualization tools in the [[brainlife]] platform, which incorporate quality metrics into their processing pipelines. For whole-brain modeling researchers, these tools complement MRIQC by providing quality assessment at different stages of the preprocessing pipeline.
+Other relevant tools in the quality control ecosystem include [[afq]] (AFQ-Lite), which provides [[tractography]]-based quality assessment, and the general visualization tools in the [[brainlife]] platform, which incorporate quality metrics into their processing pipelines. For whole-brain modeling researchers, these tools complement MRIQC by providing quality assessment at different stages of the preprocessing pipeline.
 
 ## References
 
@@ -45,6 +53,6 @@ Other relevant tools in the quality control ecosystem include [[afq]] (AFQ-Lite)
 
 - Esteban, C., Kiar, G., Heiser, W., Sarlls, J., Buurer, A., & Gorgolewski, K. (2019). MRIQC: Automated quality control and visual report generation for structural and functional MRI. *Neuroinformatics*.
 
-- Nichols, T. E., Das, S., Elander, A., Poldrack, R., & Gorgolewski, K. (2017). Notes on the notes: Reproducibility and open science in neuroimaging. *Open Science Framework*.
+- Nichols, T. E., Das, S., Elander, A., Poldrack, R., & Gorgolewski, K. (2017). Notes on the notes: [[reproducibility]] and open science in neuroimaging. *Open Science Framework*.
 
 - Bilgic, B., Pfefferbaum, A., Rohlfing, T., Sullivan, E. V., & Adalsteinsson, E. (2012). MRI estimates of brain iron and myelin. *Magnetic Resonance in Medicine*.

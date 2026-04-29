@@ -5,8 +5,9 @@ tags:
 - software-brain-modeling
 title: TensorFlow
 type: entity
-updated: 2026-04-29
+updated: '2026-04-29'
 ---
+
 title: TensorFlow
 created: 2025-01-15
 updated: 2026-04-29
@@ -15,11 +16,11 @@ tags: [software-modeling, deep-learning, machine-learning, neural-networks, pyth
 sources: [https://www.tensorflow.org/about, https://github.com/tensorflow/tensorflow, https://arxiv.org/abs/1605.08695, https://www.lfai.foundation/projects/tensorflow/]
 ---
 
-TensorFlow is an open-source deep learning framework developed by Google's Google Brain team, initially released in 2015 and now maintained as part of the Linux Foundation's AI chapter (Abadi et al., 2016). It provides a comprehensive ecosystem for building and deploying machine learning models, with particular relevance to computational neuroscience and whole-brain modeling applications where neural network architectures are used to analyze neuroimaging data, predict brain states, and simulate neural dynamics (Ruiz et al., 2023).
+TensorFlow is an open-source deep learning framework developed by Google's Google Brain team, initially released in 2015 and now maintained as part of the Linux Foundation's AI chapter (Abadi et al., 2016). It provides a comprehensive ecosystem for building and deploying machine learning models, with particular relevance to [[computational-neuroscience]] and [[whole-brain|whole-brain modeling]] applications where [[neural-network]] architectures are used to analyze [[neuroimaging]] data, predict brain states, and simulate neural dynamics (Ruiz et al., 2023).
 
 ## Overview
 
-TensorFlow offers a flexible computational graph abstraction that enables researchers to define complex neural network architectures using dataflow programming. The framework supports both high-level APIs like Keras (now integrated directly into TensorFlow) for rapid prototyping of standard architectures, and lower-level APIs for custom model implementation. TensorFlow's core strength lies in its ability to efficiently compute gradients through automatic differentiation—a capability that proves essential when training neural networks as surrogate models for brain dynamics or when fitting computational models to empirical neuroimaging data. The framework runs on CPUs, GPUs, and specialized tensor processing units (TPUs), enabling scaling from laptop experiments to cloud-based analyses of large neuroimaging datasets such as those from the [[human-connectome-project]] or [[uk-biobank]].
+TensorFlow offers a flexible computational graph abstraction that enables researchers to define complex neural network architectures using dataflow programming. The framework supports both high-level APIs like Keras (now integrated directly into TensorFlow) for rapid prototyping of standard architectures, and lower-level APIs for custom model implementation. TensorFlow's core strength lies in its ability to efficiently compute gradients through automatic differentiation—a capability that proves essential when training neural networks as surrogate models for [[brain-dynamics]] or when fitting computational models to empirical neuroimaging data. The framework runs on CPUs, GPUs, and specialized tensor processing units (TPUs), enabling scaling from laptop experiments to cloud-based analyses of large neuroimaging datasets such as those from the [[human-[[connectome]]-project]] or [[uk-biobank]].
 
 ## Key Features for Computational Neuroscience
 
@@ -39,7 +40,7 @@ TensorFlow shares the deep learning ecosystem with several alternatives and comp
 
 ## Key Applications
 
-Notable computational neuroscience applications built in TensorFlow include deep learning models for [[source-localization]] from EEG/MEG data, automated analysis of white matter microstructure from diffusion images, and connectome-based prediction of individual cognitive traits or clinical outcomes. The framework's SavedModel format and TensorFlow Serving enable deployment of trained models as reproducible analysis tools, supporting the broader goals of [[reproducibility]] in neuroimaging research. Brain-age prediction models have become particularly prominent, with frameworks like those described by Liang et al. (2019) demonstrating robust age prediction from structural MRI. Additionally,TensorFlow-based deep learning approaches have been applied to epilepsy seizure prediction from intracranial EEG recordings (Tsiouris et al., 2018) and to automated diagnosis of Alzheimer's disease from hippocampal segmentation (Qin et al., 2019).
+Notable computational neuroscience applications built in TensorFlow include deep learning models for [[source-localization]] from EEG/MEG data, automated analysis of [[white-matter]] microstructure from diffusion images, and connectome-based prediction of individual cognitive traits or clinical outcomes. The framework's SavedModel format and TensorFlow Serving enable deployment of trained models as reproducible analysis tools, supporting the broader goals of [[reproducibility]] in neuroimaging research. Brain-age prediction models have become particularly prominent, with frameworks like those described by Liang et al. (2019) demonstrating robust age prediction from structural MRI. Additionally,TensorFlow-based deep learning approaches have been applied to epilepsy [[seizure-prediction]] from intracranial EEG recordings (Tsiouris et al., 2018) and to automated diagnosis of Alzheimer's disease from hippocampal segmentation (Qin et al., 2019).
 
 ## References
 
@@ -55,6 +56,6 @@ Ruiz, S., Fadili, J., & Lorenz, R. (2023). Deep learning for whole-brain modelin
 
 Schirrmeister, R. T., Zhou, L., Ball, T., & Brunner, C. (2017). Deep learning with convolutional neural networks for EEG decoding and visualization. Human Brain Mapping, 38(12), 5391-5420.
 
-Senn, W., Jordan, J., Bick, C., & Vlachos, I. (2022). NEST ML: A modeling language for spiking neural networks. Frontiers in Neuroinformatics, 16, 892376.
+Senn, W., Jordan, J., Bick, C., & Vlachos, I. (2022). [[nest]] ML: A modeling language for spiking neural networks. Frontiers in Neuroinformatics, 16, 892376.
 
 Tsiouris, K. M., Pezoulas, V. C., Zervakis, M., Klados, M. A., Koutsouris, D. D., &Fotiadis, D. I. (2018). A deep learning approach for EEG seizure detection using wavelet decomposition. IEEE Journal of Biomedical and Health Informatics, 22(5), 1480-1494.

@@ -1,17 +1,30 @@
 ---
-title: Harvard-Oxford Atlas
 created: 2025-01-15
-updated: 2026-04-29
+sources:
+- https://fsl.fmrib.ox.ac.uk/fsl/docs/other/datasets.html
+- https://nilearn.github.io/stable/modules/generated/nilearn.datasets.fetch_atlas_harvard_oxford.html
+- https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1359520/
+- https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1457003/
+- https://www.sciencedirect.com/science/article/pii/S0920998920305837
+tags:
+- neuroimaging
+- neuroimaging-fmri
+- parcellation
+- software-fsl
+- brain-parcellations
+- functional-connectivity
+- structural-connectivity
+- connectomics
+title: Harvard-Oxford Atlas
 type: entity
-tags: [neuroimaging, neuroimaging-fmri, parcellation, software-fsl, brain-parcellations, functional-connectivity, structural-connectivity, connectomics]
-sources: [https://fsl.fmrib.ox.ac.uk/fsl/docs/other/datasets.html, https://nilearn.github.io/stable/modules/generated/nilearn.datasets.fetch_atlas_harvard_oxford.html, https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1359520/, https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1457003/, https://www.sciencedirect.com/science/article/pii/S0920998920305837]
+updated: '2026-04-29'
 ---
 
 # Harvard-Oxford Atlas
 
 ## Overview
 
-The Harvard-Oxford Atlas is a widely-used probabilistic brain parcellation that provides detailed anatomical segmentation of the human cerebral cortex and subcortical structures. Developed at the Center for Morphometric Analysis (CMA) at Harvard Medical School and distributed through the FMRIB Software Library (FSL) at the University of Oxford, this atlas has become a standard tool in neuroimaging research for defining regions of interest (ROIs) in [[fmri]] analysis, particularly in studies of [[resting-state]] functional connectivity and task-based activation studies[^1].
+The Harvard-Oxford Atlas is a widely-used probabilistic brain [[parcellation]] that provides detailed anatomical segmentation of the human cerebral cortex and subcortical structures. Developed at the Center for Morphometric Analysis (CMA) at Harvard Medical School and distributed through the FMRIB Software Library (FSL) at the University of Oxford, this atlas has become a standard tool in [[neuroimaging]] research for defining regions of interest (ROIs) in [[fmri]] analysis, particularly in studies of [[resting-state]] functional [[connectivity]] and task-based activation studies[^1].
 
 The Harvard-Oxford Atlas offers both **probabilistic** and **deterministic** (or categorical) parcellation schemes. The probabilistic version provides, for each voxel, the probability that it belongs to a particular anatomical region, calculated from manual segmentations of multiple individual brains that were then averaged and warped to a standard template. The deterministic version assigns each voxel a single label corresponding to the region with the highest probability. The atlas is distributed as part of the [[fsl]] (FMRIB Software Library) package and is natively defined in [[mni-space]] (Montreal Neurological Institute152 standard space), making it directly compatible with virtually all preprocessing pipelines for neuroimaging data[^1].
 
@@ -27,9 +40,9 @@ The atlas is available at multiple **spatial resolutions**, including 1mm and 2m
 
 ## Relationship to The Virtual Brain
 
-The Harvard-Oxford Atlas is highly relevant to [[whole-brain modeling]] and [[the-virtual-brain]] (TVB) workflows in several ways. In TVB, empirical structural connectivity matrices are often derived from diffusion imaging and tractography data, and these matrices are used to define the anatomical skeleton of whole-brain network models. When extracting connectivity data from empirical DWI scans, researchers frequently use the Harvard-Oxford Atlas to define the ROIs from which tractography streams are initiated or terminated, essentially using the atlas regions as nodes in the structural connectivity network[^3].
+The Harvard-Oxford Atlas is highly relevant to [[whole-brain modeling]] and [[the-virtual-brain]] (TVB) workflows in several ways. In TVB, empirical [[structural-connectivity]] matrices are often derived from [[diffusion-imaging]] and [[tractography]] data, and these matrices are used to define the anatomical skeleton of whole-[[brain-network]] models. When extracting connectivity data from empirical DWI scans, researchers frequently use the Harvard-Oxford Atlas to define the ROIs from which tractography streams are initiated or terminated, essentially using the atlas regions as nodes in the structural connectivity network[^3].
 
-Beyond structural connectivity, the Harvard-Oxford Atlas can serve as a **source space** for simulating neuroimaging signals in TVB. After running network simulations (typically using neural mass models or reduced models such as the Wong-Wang model), the simulated neural activity can be projected onto the atlas regions to generate synthetic BOLD (Blood-Oxygen-Level-Dependent) signals using the hemodynamic response function model. These synthetic signals can then be compared directly to empirical fMRI data for model validation or parameter optimization[^3].
+Beyond structural connectivity, the Harvard-Oxford Atlas can serve as a **source space** for simulating neuroimaging signals in TVB. After running network simulations (typically using [[neural-mass-models]] or reduced models such as the Wong-Wang model), the simulated neural activity can be projected onto the atlas regions to generate synthetic BOLD (Blood-Oxygen-Level-Dependent) signals using the [[hemodynamic-response-function]] model. These synthetic signals can then be compared directly to empirical fMRI data for [[model-validation]] or parameter optimization[^3].
 
 The atlas also facilitates **comparative model validation** by providing a common parcellation scheme. When comparing whole-brain models parameterized in different ways, or when benchmarking TVB against other whole-brain simulators, using the same atlas ensures that the comparison is fair and that differences are not attributable to discrepancies in region definitions. The TVB ecosystem includes support for the Harvard-Oxford Atlas through its integration with the nilearn library and direct FSL dataset loading capabilities[^3].
 

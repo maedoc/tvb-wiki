@@ -20,18 +20,18 @@ tags:
 - neural-mass-models
 - spiking-neural-networks
 type: comparison
-updated: 2026-04-29
+updated: '2026-04-29'
 ---
 
 # Whole-Brain Simulation Platforms
 
-Landscape of computational tools for simulating whole-brain dynamics at scale, serving computational neuroscience researchers studying large-scale brain networks, clinical applications, and cognitive function.
+Landscape of computational tools for simulating whole-[[brain-dynamics]] at scale, serving computational neuroscience researchers studying large-scale brain networks, clinical applications, and cognitive function.
 
 ## What is Being Compared
 
-Whole-brain simulation platforms differ fundamentally in their level of biological abstraction, computational scale, and primary use cases. This comparison examines leading open-source platforms that enable large-scale brain network simulations, each occupying a distinct niche in the hierarchy of brain modeling from population-level abstraction suitable for neuroimaging interpretation to detailed biophysical simulation.
+[[whole-brain]] simulation platforms differ fundamentally in their level of biological abstraction, computational scale, and primary use cases. This comparison examines leading open-source platforms that enable large-scale [[brain-network]] simulations, each occupying a distinct niche in the hierarchy of brain modeling from population-level abstraction suitable for [[neuroimaging]] interpretation to detailed biophysical simulation.
 
-The five principal platforms considered here are as follows. The Virtual Brain (TVB) is a neuroinformatics platform designed specifically for whole-brain network simulation using neural mass models, integrating structural connectivity derived from diffusion imaging with forward models for electroencephalography (EEG), magnetoencephalography (MEG), and functional magnetic resonance imaging (fMRI) [Sanz Leon et al., 2013]. NEST is a spiking neural network simulator optimized for large-scale brain circuits with biologically realistic plasticity and synaptic dynamics, having demonstrated capability to scale to exascale supercomputing environments [Jordan et al., 2018]. NEURON provides a detailed compartmental modeling environment for multi-scale neuron and small network simulations, using the hoc programming language alongside Python bindings [Hines and Carnevale, 1997]. Brian2 offers a Python-based spiking neural network simulator emphasizing flexibility and code readability for rapid prototyping and educational applications. Finally, Arbor represents a high-performance computing framework for multi-compartment neural simulation with graphics processing unit (GPU) acceleration, designed for modern supercomputer architectures.
+The five principal platforms considered here are as follows. [[the-virtual-brain]] (TVB) is a neuroinformatics platform designed specifically for whole-brain network simulation using neural mass models, integrating [[structural-connectivity]] derived from [[diffusion-imaging]] with forward models for electroencephalography (EEG), magnetoencephalography (MEG), and functional magnetic resonance imaging (fMRI) [Sanz Leon et al., 2013]. NEST is a [[spiking-neural-networks|spiking neural network]] simulator optimized for large-scale brain circuits with biologically realistic [[plasticity]] and synaptic dynamics, having demonstrated capability to scale to exascale supercomputing environments [Jordan et al., 2018]. NEURON provides a detailed compartmental modeling environment for multi-scale neuron and small network simulations, using the hoc programming language alongside Python bindings [Hines and Carnevale, 1997]. Brian2 offers a Python-based spiking [[neural-network]] simulator emphasizing flexibility and code readability for rapid prototyping and educational applications. Finally, Arbor represents a high-performance computing framework for multi-compartment neural simulation with graphics processing unit (GPU) acceleration, designed for modern supercomputer architectures.
 
 ## Dimensions of Comparison
 
