@@ -59,12 +59,15 @@ TVB combines:
 - [[auryn]]
 - [[geppetto]]
 - [[gift]]
+- [[bdftools]]
 
 - [[cococomac]]
 
 [[chronux]]
 
 [[cvodes]]
+
+- [[genn]]
 
 ## Related Concepts
 

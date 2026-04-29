@@ -31,7 +31,7 @@ Lead-DBS provides several core functionalities that support the DBS workflow fro
 
 A distinctive capability of Lead-DBS is its **tractography integration**, which leverages DTI and tractography data to visualize and analyze [[white-matter]] pathways surrounding the electrode contacts. This functionality enables surgeons to assess whether intended structural pathways are being targeted and to predict stimulation effects based on the distribution of electric fields through anatomically defined fiber tracts. The **distance computation** tools calculate Euclidean and Mahalanobis distances between electrode contacts and anatomical landmarks, while the **volume of activation estimation** module simulates the electric field spreading from each contact given specified stimulation parameters.
 
-The software also supports **group studies** through its export capabilities, allowing researchers to aggregate electrode positions across patients for population-level analyses of targeting precision and clinical outcomes. This feature has been particularly valuable for large-scale investigations such as those utilizing the [[human-[[connectome]]-project]] datasets and multicenter clinical trials.
+The software also supports **group studies** through its export capabilities, allowing researchers to aggregate electrode positions across patients for population-level analyses of targeting precision and clinical outcomes. This feature has been particularly valuable for large-scale investigations such as those utilizing the [[mrtrix3-connectome]] datasets and multicenter clinical trials.
 
 ## Relationship to TVB
 

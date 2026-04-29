@@ -1,11 +1,6 @@
 ---
 created: 2026-04-29
 sources:
-- calhoun-2001
-- calhoun-2009
-- allen-2011
-- erhardt-2012
-- correa-2007
 - raw/papers/semanticscholar-cabf914d6370.md
 - raw/papers/smith-2013-connectomics.md
 - raw/papers/penny-2004.md
@@ -41,36 +36,36 @@ The preprocessing pipeline integrated into GIFT includes standard fMRI preproces
 
 ## Relationship to Other Tools and Methods
 
-GIFT occupies a central position in the [[neuroimaging-fmri]] analysis ecosystem and intersects with multiple other software tools in the wiki. It is frequently used in conjunction with [[spm]] and [[fsl]] for initial preprocessing, with connectivity estimates from GIFT components often being analyzed using the [[brain-connectivity-toolbox]] or [[gretna]]. The toolbox is complementary to **dual regression** approaches implemented in [[fsl]] MELODIC, with different methodological trade-offs between the two approaches.
+GIFT occupies a central position in the neuromorpho-toolkit analysis ecosystem and intersects with multiple other software tools in the wiki. It is frequently used in conjunction with [[spm]] and [[fsl]] for initial preprocessing, with connectivity estimates from GIFT components often being analyzed using the [[brain-connectivity-toolbox]] or [[gretna]]. The toolbox is complementary to **dual regression** approaches implemented in [[fsl]] MELODIC, with different methodological trade‑offs between the two approaches.
 
-From a methodological standpoint, GIFT implements one approach to [[source-separation]] in neuroimaging—others include principal component analysis (PCA), factor analysis, and non-negative matrix factorization, each with different assumptions about the statistical structure of neural signals. The derived components from GIFT are often compared against networks defined by [[brain-parcellations]] like the [[schaefer-atlas]] or [[yeo-atlas]] to assess correspondence between data-driven and anatomy-based parcellations. In the context of whole-brain modeling, components identified by GIFT can serve as empirically-derived target networks for [[parameter-estimation]] in models like those implemented in [[the-virtual-brain]].
+From a methodological standpoint, GIFT implements one approach to [[source-separation]] in neuroimaging—others include principal component analysis (PCA), factor analysis, and non-negative matrix factorization, each with different assumptions about the statistical structure of neural signals. The derived components from GIFT are often compared against networks defined by [[brain-parcellations]] like the [[schaefer-atlas]] or [[yeo-atlas]] to assess correspondence between data-driven and anatomy-based parcellations. In the context of whole‑brain modeling, components identified by GIFT can serve as empirically‑derived target networks for [[parameter-estimation]] in models like those implemented in [[the-virtual-brain]].
 
 ## Key Capabilities and Use Cases
 
-The primary use cases for GIFT include identification of **resting-state networks** (RSNs)—patterns like the [[default-mode-network]], salience network, and sensorimotor networks that emerge consistently across individuals. Researchers use GIFT to compare network topology across clinical populations, identify biomarkers in disorders like schizophrenia and Alzheimer's disease, and assess developmental changes in functional organization. The toolbox also supports **task-related analysis**, decomposing task fMRI data to identify task-evoked networks versus intrinsic [[connectivity]] patterns.
+The primary use cases for GIFT include identification of **resting‑state networks** (RSNs)—patterns like the [[default‑mode‑network]], salience network, and sensorimotor networks that emerge consistently across individuals. Researchers use GIFT to compare network topology across clinical populations, identify biomarkers in disorders like schizophrenia and Alzheimer's disease, and assess developmental changes in functional organization. The toolbox also supports **task‑related analysis**, decomposing task fMRI data to identify task‑evoked networks versus intrinsic [[connectivity]] patterns.
 
-A notable application is the [[enigma]] consortium's protocols, which draw on ICA-based approaches for standardized analysis of functional connectivity patterns across sites. GIFT's ability to handle multi-site data with appropriate batch effects correction has made it valuable for consortium science where harmonization across scanners is essential.
+A notable application is the [[enigma]] consortium's protocols, which draw on ICA‑based approaches for standardized analysis of functional connectivity patterns across sites. GIFT's ability to handle multi‑site data with appropriate batch effects correction has made it valuable for consortium science where harmonization across scanners is essential.
 
 ## Related Software
 
 GIFT is part of a broader ecosystem of ICA and connectivity analysis tools:
 
-- [[melodic]] (FSL) — another widely-used ICA toolbox for fMRI
+- melodic (FSL) — another widely‑used ICA toolbox for fMRI
 - [[eeglab]] — EEG/MEG ICA toolbox with conceptually similar functionality
-- [[fastica]] — standalone ICA algorithm implementations
-- [[nilearn]] — Python-based neuroimaging machine learning including ICA
+- [[ica]] — standalone ICA algorithm implementations
+- [[nilearn]] — Python‑based neuroimaging machine learning including ICA
 - [[brainspace]] — connectivity visualization and manifold learning
 - [[brainiak]] — advanced fMRI pattern analysis including ICA variants
 
 ## Open Questions and Limitations
 
-Several methodological debates surround ICA application in fMRI. The optimal number of components remains contested—too few components merge distinct networks, while too many split genuine networks into artificial sub-components. Stability assessment via ICASSO helps but does not fully resolve this ambiguity. Additionally, the assumption of spatial independence may not reflect the true structure of brain networks, which exhibit hierarchical organization and distributed processing. Recent work on **temporal ICA** and **semi-blind ICA** attempts to incorporate additional constraints reflecting neuroscientific knowledge, representing an active area of development.
+Several methodological debates surround ICA application in fMRI. The optimal number of components remains contested—too few components merge distinct networks, while too many split genuine networks into artificial sub‑components. Stability assessment via ICASSO helps but does not fully resolve this ambiguity. Additionally, the assumption of spatial independence may not reflect the true structure of brain networks, which exhibit hierarchical organization and distributed processing. Recent work on **temporal ICA** and **semi‑blind ICA** attempts to incorporate additional constraints reflecting neuroscientific knowledge, representing an active area of development.
 
 ## Key Papers
 
 - Calhoun, V. D., Adali, T., Pearlson, G. D., & Pekar, J. J. (2001). A method for making group inferences from functional MRI data using independent component analysis. *Magnetic Resonance Imaging*, 44(9), 1234–1243. [^calhoun-2001]
 - Calhoun, V. D., Liu, J., & Adali, T. (2009). A review of group ICA for fMRI data and ICA for joint inference of imaging, genetic, and ERP data. *Neuroimage*, 45(1), S163–S172. [^calhoun-2009]
-- Allen, E. A., Erhardt, E. B., Damaraju, E., Gruner, W., Segall, J. M., Silva, R. F., ... & Calhoun, V. D. (2011). A baseline for the multivariate comparison of resting-state networks. *Frontiers in Neuroscience*, 5, 17. [^allen-2011]
+- Allen, E. A., Erhardt, E. B., Damaraju, E., Gruner, W., Segall, J. M., Silva, R. F., ... & Calhoun, V. D. (2011). A baseline for the multivariate comparison of resting‑state networks. *Frontiers in Neuroscience*, 5, 17. [^allen-2011]
 - Erhardt, E. B., Allen, E. A., Wei, Y., Eichele, T., & Calhoun, V. D. (2012). SimTB, a simulation toolbox for fMRI data under a model of spatial stationarity. *Psychophysiology*, 49(6), 853–865. [^erhardt-2012]
 - Correa, N., Adali, T., Li, Y. O., & Calhoun, V. D. (2007). Canonical correlation analysis for data fusion and group inferences: Examining applications of imaging genetics. *IEEE Signal Processing Magazine*, 24(3), 86–94. [^correa-2007]
 
@@ -80,7 +75,7 @@ Several methodological debates surround ICA application in fMRI. The optimal num
 
 [^calhoun-2009]: Calhoun, V. D., Liu, J., & Adali, T. (2009). A review of group ICA for fMRI data and ICA for joint inference of imaging, genetic, and ERP data. *Neuroimage*, 45(1), S163–S172.
 
-[^allen-2011]: Allen, E. A., Erhardt, E. B., Damaraju, E., Gruner, W., Segall, J. M., Silva, R. F., ... & Calhoun, V. D. (2011). A baseline for the multivariate comparison of resting-state networks. *Frontiers in Neuroscience*, 5, 17.
+[^allen-2011]: Allen, E. A., Erhardt, E. B., Damaraju, E., Gruner, W., Segall, J. M., Silva, R. F., ... & Calhoun, V. D. (2011). A baseline for the multivariate comparison of resting‑state networks. *Frontiers in Neuroscience*, 5, 17.
 
 [^erhardt-2012]: Erhardt, E. B., Allen, E. A., Wei, Y., Eichele, T., & Calhoun, V. D. (2012). SimTB, a simulation toolbox for fMRI data under a model of spatial stationarity. *Psychophysiology*, 49(6), 853–865.
 

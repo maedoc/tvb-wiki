@@ -59,7 +59,7 @@ Here, $\tau_E$ and $\tau_I$ are time constants governing the dynamics of each po
 
 ### Classical Architectures
 
-The historical development of neural mass models produced several canonical architectures, each optimized for different applications. The Lopes da Silva model from 1974 introduced the first model specifically designed to generate EEG alpha rhythms (8-12 Hz), incorporating thalamocortical loops with distinct thalamic and cortical populations. The [[jansen-rit|Jansen-Rit]] model from 1995 extended this framework to cortical columns, with three distinct populations—pyramidal cells, excitatory interneurons, and inhibitory interneurons—capable of producing visually evoked potentials and realistic EEG spectra. The Wendling model added a fourth population to distinguish between fast GABA-A and slow GABA-B inhibitory currents, making it particularly suitable for [[epilepsy-modeling]] where seizure dynamics depend on different inhibitory mechanisms.
+The historical development of neural mass models produced several canonical architectures, each optimized for different applications. The Lopes da Silva model from 1974 introduced the first model specifically designed to generate EEG alpha rhythms (8-12 Hz), incorporating thalamocortical loops with distinct thalamic and cortical populations. The [[jansen-rit|Jansen-Rit]] model from 1995 extended this framework to cortical columns, with three distinct populations—pyramidal cells, excitatory interneurons, and inhibitory interneurons—capable of producing visually evoked potentials and realistic EEG spectra. The Wendling model added a fourth population to distinguish between fast GABA-A and slow GABA-B inhibitory currents, making it particularly suitable for [[epilepsy-modeling]] where seizure dynamics depend on different inhibitory mechanisms.
 
 ### TVB Model Library
 
@@ -67,15 +67,15 @@ The historical development of neural mass models produced several canonical arch
 
 ## Dynamical Regimes and Bifurcation Analysis
 
-A powerful feature of neural mass models is their ability to exhibit multiple qualitative dynamical regimes depending on parameter values—[[bifurcation-analysis]] reveals how transitions between these regimes occur. At low excitation, the system settles to a stable fixed point corresponding to the [[resting-state]] of minimal neural activity. Increasing excitation can drive the system through a Hopf bifurcation into a limit cycle, producing rhythmic oscillations in the alpha (8-12 Hz), beta (12-30 Hz), or gamma (30-100 Hz) bands depending on the balance of excitation and inhibition. More complex parameter regions produce quasiperiodic oscillations, chaotic dynamics, and bistability where the system can coexist in either a resting or an oscillatory state. This bifurcation structure provides a principled framework for understanding pathological transitions: in [[epilepsy-modeling]], seizure onset often corresponds to a bifurcation from normal resting dynamics into oscillatory or chaotic states as pathological parameter changes accumulate.
+A powerful feature of neural mass models is their ability to exhibit multiple qualitative dynamical regimes depending on parameter values—[[bifurcation-analysis]] reveals how transitions between these regimes occur. At low excitation, the system settles to a stable fixed point corresponding to the [[resting-state]] of minimal neural activity. Increasing excitation can drive the system through a Hopf bifurcation into a limit cycle, producing rhythmic oscillations in the alpha (8‑12 Hz), beta (12‑30 Hz), or gamma (30‑100 Hz) bands depending on the balance of excitation and inhibition. More complex parameter regions produce quasiperiodic oscillations, chaotic dynamics, and bistability where the system can coexist in either a resting or an oscillatory state. This bifurcation structure provides a principled framework for understanding pathological transitions: in [[epilepsy-modeling]], seizure onset often corresponds to a bifurcation from normal resting dynamics into oscillatory or chaotic states as pathological parameter changes accumulate.
 
 ## Clinical and Research Applications
 
-Neural mass models have become indispensable tools for studying brain disorders and developing personalized treatment strategies. In epilepsy, models like the [[epileptor]] enable prediction of seizure timing and optimization of neurostimulation protocols. The [[personalized-brain-modeling]] paradigm uses individual patient data—including structural connectivity from [[diffusion-mri]] and baseline brain dynamics from resting-state fMRI—to create personalized models that can predict individual responses to treatment. In schizophrenia research, [[dynamic-causal-modeling]] analyses have revealed altered [[effective-connectivity]] in cortical circuits, while models of [[oscillator]] have provided mechanistic explanations for gamma-band deficits observed in patients.
+Neural mass models have become indispensable tools for studying brain disorders and developing personalized treatment strategies. In epilepsy, models like the [[epileptor]] enable prediction of seizure timing and optimization of neurostimulation protocols. The [[personalized-brain-modeling]] paradigm uses individual patient data—including structural connectivity from [[diffusion-mri]] and baseline brain dynamics from resting‑state fMRI—to create personalized models that can predict individual responses to treatment. In schizophrenia research, [[dynamic-causal-modeling]] analyses have revealed altered [[effective-connectivity]] in cortical circuits, while models of [[oscillator]] have provided mechanistic explanations for gamma‑band deficits observed in patients.
 
 ## Limitations and Future Directions
 
-Despite their utility, neural mass models carry significant limitations that motivate ongoing research. The homogeneity assumption—that neurons within a population share similar properties—is violated in real cortex, where cell types, dendritic morphologies, and intrinsic properties vary considerably. The mean-field approximation neglects correlations between neurons that may be important for certain phenomena. Most models employ static [[structural-connectivity]] rather than accounting for activity-dependent plasticity. Parameter identifiability remains challenging: multiple parameter sets can produce similar dynamics, making inverse estimation difficult without strong priors. Current research addresses these limitations through data‑driven approaches that learn population heterogeneity from recordings, incorporating correlation structures via [[fokker-planck-equation]] descriptions, pioneered by [[hannes-risken]], and developing more sophisticated parameter estimation frameworks using [[variational-bayes]] and machine learning approaches.
+Despite their utility, neural mass models carry significant limitations that motivate ongoing research. The homogeneity assumption—that neurons within a population share similar properties—is violated in real cortex, where cell types, dendritic morphologies, and intrinsic properties vary considerably. The mean‑field approximation neglects correlations between neurons that may be important for certain phenomena. Most models employ static [[structural-connectivity]] rather than accounting for activity‑dependent plasticity. Parameter identifiability remains challenging: multiple parameter sets can produce similar dynamics, making inverse estimation difficult without strong priors. Current research addresses these limitations through data‑driven approaches that learn population heterogeneity from recordings, incorporating correlation structures via [[fokker-planck-equation]] descriptions, pioneered by [[hannes-risken]], and developing more sophisticated parameter estimation frameworks using [[variational-bayes]] and machine learning approaches.
 
 ## Related Concepts
 
@@ -87,9 +87,10 @@ Despite their utility, neural mass models carry significant limitations that mot
 - [[jansen-rit]] – EEG/MEG‑focused cortical column model
 - [[wong-wang]] – [[fmri]]/BOLD‑optimized model
 - [[tvb]] – Primary software platform implementing NMMs
-- [[tvb-vs-[[nest]]-vs-neuron]]
-- [[tvb-vs-[[nest]]-vs-neuron|TVB vs [[nest]] vs Neuron]]
+- [[tvb-vs-nest-vs-neuron]]
+- [[tvb-vs-nest-vs-neuron|TVB vs Nest vs Neuron]]
 - [[tvb-vs-nest-vs-neuron|Tvb Vs Nest Vs Neuron]]
+
 ## References
 
 1. [[walter-freeman|Walter J. Freeman]]. *Mass Action in the Nervous System*.
@@ -110,7 +111,7 @@ updated: '2026-04-27'
 ---
 
 ## Overview
-Hannes Risken was a German physicist known for his definitive work on Fokker-Planck equations. His book "The Fokker-Planck Equation" remains the standard reference for analytical and numerical solution methods.
+Hannes Risken was a German physicist known for his definitive work on Fokker‑Planck equations. His book "The Fokker‑Planck Equation" remains the standard reference for analytical and numerical solution methods.
 
 ## Key Contributions
-- **Fokker-Planck Theory**: Author of the definitive monograph on Fokker-Planck equations.
+- **Fokker‑Planck Theory**: Author of the definitive monograph on Fokker‑Planck equations.

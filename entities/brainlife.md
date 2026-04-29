@@ -65,7 +65,7 @@ The platform's development and validation have been described in several influen
 
 ## Related Software
 
-BrainLife.io operates within a landscape of neuroimaging processing platforms. Similar web-based solutions include [[CBRAIN]] (a Canadian platform for neuroimaging analysis) and [[NeuroHub]]. For local processing, researchers often use [[FSL]], [[FreeSurfer]], or [[SPM]] directly. The platform complements rather than replaces these tools—the strength of BrainLife.io lies in its workflow orchestration and cloud execution rather than novel algorithmic implementations. For connectomics specifically, the platform integrates with the [[Brain Connectivity Toolbox]] ([[bctpy]]) for network analysis and [[brainspace]] for visualization, enabling users to proceed from raw data to network-theoretic metrics within a unified environment.
+BrainLife.io operates within a landscape of neuroimaging processing platforms. Similar web-based solutions include [[CBRAIN]] (a Canadian platform for neuroimaging analysis) and [[neuromorpho-toolkit]]. For local processing, researchers often use [[FSL]], [[FreeSurfer]], or [[SPM]] directly. The platform complements rather than replaces these tools—the strength of BrainLife.io lies in its workflow orchestration and cloud execution rather than novel algorithmic implementations. For connectomics specifically, the platform integrates with the [[Brain Connectivity Toolbox]] ([[bctpy]]) for network analysis and [[brainspace]] for visualization, enabling users to proceed from raw data to network-theoretic metrics within a unified environment.
 
 ## References
 

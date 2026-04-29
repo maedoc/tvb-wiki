@@ -13,14 +13,14 @@ title: Yeo Atlas
 created: 2025-01-15
 updated: 2026-04-29
 type: entity
-tags: [[[brain-parcellations]], [[neuroimaging]]-fmri, functional-[[connectivity]], resting-state, [[software-fsl]], software-freesurfer, connectomics]
+tags: [[stochastic-differential-equations]], [[neuroimaging]]-fmri, functional-[[connectivity]], resting-state, [[software-fsl]], software-freesurfer, connectomics
 sources: [yeeo-2011, tvb-documentation, hcp-publications]
 
 # Yeo Atlas
 
 ## Overview
 
-The Yeo Atlas is a widely-used whole-cortex [[parcellation]] derived from resting-state functional connectivity MRI (fMRI) data, providing a data-driven segmentation of the human cerebral cortex into functionally coherent networks. Developed by Thomas Yeo and colleagues, the atlas partitions the cortex into either 7 or 17 discrete networks based on statistical clustering of functional connectivity patterns observed in large cohorts of healthy adults [[yeeo-2011]]. Unlike anatomical atlases that partition the brain based on cytoarchitecture or gross morphology, the Yeo Atlas reflects the intrinsic functional organization of the living human brain, making it particularly valuable for studies of brain function, connectivity, and [[network-dynamics]] in both normal and clinical populations.
+The Yeo Atlas is a widely-used whole-cortex [[parcellation]] derived from resting-state functional connectivity MRI (fMRI) data, providing a data-driven segmentation of the human cerebral cortex into functionally coherent networks. Developed by Thomas Yeo and colleagues, the atlas partitions the cortex into either 7 or 17 discrete networks based on statistical clustering of functional connectivity patterns observed in large cohorts of healthy adults yeeo-2011. Unlike anatomical atlases that partition the brain based on cytoarchitecture or gross morphology, the Yeo Atlas reflects the intrinsic functional organization of the living human brain, making it particularly valuable for studies of brain function, connectivity, and [[network-dynamics]] in both normal and clinical populations.
 
 ## Motivation and Context
 
@@ -38,7 +38,7 @@ The seven networks defined in the Yeo Atlas are: (1) the visual network, encompa
 
 ## Relationship to TVB
 
-The Yeo Atlas is frequently used as a parcellation scheme in [[whole-brain modeling]] simulations implemented in [[the-virtual-brain]] (TVB). In the TVB framework, the cortex is represented as a network of neural mass models (such as the [[jansen-rit-model]] or [[wong-wang-model]]), where each node corresponds to a brain region defined by a parcellation and the edges represent structural connections between regions. The Yeo Atlas provides a biologically motivated choice of nodes that reflects the intrinsic functional organization of the brain, rather than arbitrary anatomical divisions. When used with TVB, the Yeo parcellation can be combined with [[structural-connectivity]] matrices derived from [[diffusion-imaging]] and tractography to create whole-brain models that capture the interplay between structure and function [[tvb-documentation]].
+The Yeo Atlas is frequently used as a parcellation scheme in [[whole-brain modeling]] simulations implemented in [[the-virtual-brain]] (TVB). In the TVB framework, the cortex is represented as a network of neural mass models (such as the [[jansen-rit-model]] or [[wong-wang-model]]), where each node corresponds to a brain region defined by a parcellation and the edges represent structural connections between regions. The Yeo Atlas provides a biologically motivated choice of nodes that reflects the intrinsic functional organization of the brain, rather than arbitrary anatomical divisions. When used with TVB, the Yeo parcellation can be combined with [[structural-connectivity]] matrices derived from [[diffusion-imaging]] and tractography to create whole-brain models that capture the interplay between structure and function [[parameter-estimation]].
 
 ## Key Features
 

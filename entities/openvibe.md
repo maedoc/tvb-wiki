@@ -15,7 +15,7 @@ title: OpenViBE
 created: 2025-01-15
 updated: 2026-04-29
 type: entity
-tags: [[[neuroimaging]]-eeg, [[neuroimaging]]-meg, electrophysiology, software-visualization]
+tags: [[neuroimaging]]-eeg, [[neuroimaging]]-meg, electrophysiology, software-visualization
 sources:
   - https://openvibe.inria.fr/
   - https://hal.science/hal-00477153
@@ -50,7 +50,7 @@ The two platforms also differ in their modeling approaches: OpenViBE primarily o
 
 The OpenViBE platform consists of several interconnected software components that work together to enable real-time neurophysiological signal processing. The **Acquisition Server** handles communication with hardware recording systems, performing initial digitization and streaming data to the processing pipeline. The **Designer** provides the graphical environment for building processing chains, while the **Runtime** executes the constructed pipelines with minimal latency to ensure timely signal processing and feedback delivery.
 
-Under the hood, OpenViBE uses a box-and-stream architecture where data flows between processing modules (boxes) as continuous streams. Each box implements a specific algorithm and communicates with adjacent boxes through typed data buffers, allowing flexible reconfiguration of processing chains. The platform supports integration with [[electroencephalography]] systems from multiple manufacturers through vendor-specific drivers, and can export processed signals in standard formats for offline analysis in tools like [[eeglab]] or [[fieldtrip]].
+Under the hood, OpenViBE uses a box-and-stream architecture where data flows between processing modules (boxes) as continuous streams. Each box implements a specific algorithm and communicates with adjacent boxes through typed data buffers, allowing flexible reconfiguration of processing chains. The platform supports integration with [[tractography]] systems from multiple manufacturers through vendor-specific drivers, and can export processed signals in standard formats for offline analysis in tools like [[eeglab]] or [[fieldtrip]].
 
 ## Key Papers
 
