@@ -2,6 +2,16 @@
 
 ## 2026-04-29
 
+- Created/Improved page: [[bifurcation-theory]] – Mathematical theory of qualitative changes in dynamical systems
+  - Complete rewrite from placeholder to comprehensive concept page (~910 words)
+  - Updated frontmatter: changed updated date to 2026-04-29
+  - Tags: bifurcation-theory, dynamical-systems-theory, nonlinear-dynamics, bifurcation-analysis, neural-mass-models, brain-oscillations, epilepsy-modeling, parameter-estimation, stochastic-differential-equations, fokker-planck-equation
+  - Established 15+ wikilinks: neural-mass-models, whole-brain-modeling, dynamical-systems-theory, nonlinear-dynamics, brain-oscillations, epileptor, wong-wang-model, jansen-rit-model, spiking-neural-networks, mean-field-theory, fokker-planck-equation, dynamic-causal-modeling, parameter-estimation, personalized-brain-modeling, seizure-prediction, brain-stimulation, variational-bayes
+  - Added detailed sections: Overview, Theoretical Foundation, Key Bifurcation Types (Saddle-Node, Andronov-Hopf, Pitchfork, Bogdanov-Takens), Relationship to Dynamical Systems Theory, Applications in Computational Neuroscience, Open Questions and Challenges
+  - Explained saddle-node and Hopf bifurcations with normal forms and their relevance to brain oscillations and seizure dynamics
+  - Connected to neural mass models (Wong-Wang, Jansen-Rit, Epileptor) and their bifurcation structures
+  - Positioned within the theoretical framework for understanding state transitions in whole-brain models
+
 - Created/Improved page: [[bctpy]] – Brain Connectivity Toolbox for Python
   - Complete rewrite from placeholder to comprehensive entity page (~540 words)
   - Updated frontmatter: changed updated date to 2026-04-29
@@ -724,3 +734,5 @@
 ## [2026-04-29 03:09] Improve: 3 pages improved (neurodata-without-borders, harvard-oxford-atlas, connectome-mapper-3)
 
 ## [2026-04-29 03:15] Improve: 3 pages improved (desikan-killiany-atlas, qsiprep, nibabel)
+
+## [2026-04-29 04:13] Improve: 3 pages improved (tensorflow, brain-dynamics-toolbox, brainlife)
