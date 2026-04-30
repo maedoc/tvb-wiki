@@ -1,11 +1,18 @@
 ---
-title: "A low dimensional description of globally coupled heterogeneous neural networks of excitatory and inhibitory neurons"
+title: A low dimensional description of globally coupled heterogeneous neural networks of excitatory and inhibitory neurons
 created: 2026-04-20
 updated: 2026-04-20
 type: source
-tags: [paper-methods, neural-mass-models, mean-field-theory, whole-brain-modeling]
-sources: []
+tags: [paper-methods ,neural-mass-models ,mean-field-theory ,whole-brain-modeling]
+doi: "https://doi.org/10.1371/journal.pcbi.1000219"
+bibtex: |
+  @book{unknowna,
+    title={A low dimensional description of globally coupled heterogeneous neural networks of excitatory and inhibitory neurons},
+    doi={https://doi.org/10.1371/journal.pcbi.1000219},
+  }
 ---
+
+
 
 # A low dimensional description of globally coupled heterogeneous neural networks of excitatory and inhibitory neurons
 

@@ -32,6 +32,3 @@ Neurodata Without Borders (NWB) is often used alongside [[tvb]] and other simula
 * [[bids-validator]]
 * [[bidscoin]]
 * [[brainstorm]]
-
-## References
-* Links to relevant papers and documentation*

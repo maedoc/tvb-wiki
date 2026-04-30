@@ -56,11 +56,3 @@ In [[whole-brain-modeling]], mean field reductions are essential for coupling lo
 ## Limitations and Open Challenges
 
 Despite its power, mean field theory has well-known limitations. Finite-size effects introduce deviations from the infinite-population limit, producing pairwise correlations and avalanche dynamics that pure rate models miss. Strong synaptic coupling, spatial heterogeneity, and structured connectivity can violate the independence assumptions required for simple averaging. For [[whole-brain-modeling]] specifically, the approximation that each region's dynamics are captured by a single homogeneous population ignores the laminar and cell-type diversity within cortical columns. Extensions using [[stochastic-differential-equations]], moment closure, or second-order correlation models attempt to address these gaps. The [[tvb]] platform and similar tools mitigate these issues by calibrating mean field parameters against detailed spiking simulations, but a complete theory that spans microscopic synchrony to macroscopic [[oscillator]] remains an active frontier in [[nonlinear-dynamics]] and [[dynamical-systems-theory]]. Another open challenge is the role of the mean field approximation in the statistical sense—used in [[dynamic-causal-modeling]] and [[variational-bayes]]—where neural and variational mean field assumptions are combined, creating a hierarchy of approximations whose cumulative error is not yet fully characterized.
-
-## References
-
-1. (authors unknown). *Model of Global Spontaneous Activity and Local Structured Activity During Delay Periods in the Cerebral Cortex*.
-2. (authors unknown). *Dynamics of Sparsely Connected Networks of Excitatory and Inhibitory Spiking Neurons*.
-3. (authors unknown). *Macroscopic Description for Networks of Spiking Neurons*.
-4. (authors unknown). *Towards a Statistical Theory of Learning and Generalization in Neural Networks*.
-5. Roxana A. Stefanescu, Viktor K. Jirsa. *A low dimensional description of globally coupled heterogeneous neural networks of excitatory and inhibitory neurons*. PLoS Computational Biology. [DOI](https://doi.org/10.1371/journal.pcbi.1000219)

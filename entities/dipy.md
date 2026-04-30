@@ -33,6 +33,3 @@ DIPY is often used alongside [[tvb]] and other simulation platforms in pre-proce
 * [[bids-validator]]
 * [[bidscoin]]
 * [[brainstorm]]
-
-## References
-* Links to relevant papers and documentation*

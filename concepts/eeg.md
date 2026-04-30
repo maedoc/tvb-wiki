@@ -86,31 +86,3 @@ Each modality provides complementary information about brain function. EEG and M
 ## Related Concepts
 
 EEG is fundamentally linked to several key concepts in computational neuroscience and neuroimaging. [[Brain-oscillations]] are rhythmic neural activities that manifest prominently in EEG recordings and are thought to play important roles in communication between brain regions. The study of [[effective-connectivity]] uses EEG and MEG data to infer directional connections between brain regions. [[Resting-state]] networks identified in fMRI have EEG correlates that reveal the electrophysiological basis of intrinsic brain activity.
-
-## References
-
-1. Ernst Niedermeyer, Fernando HL da Silva (eds). (2004). *Electroencephalography: Basic Principles, Clinical Applications, and Related Fields* (5th ed.). Lippincott Williams & Wilkins.
-2. Paul L. Nunez, Ramesh Srinivasan. (2006). *Electric Fields of the Brain: The Neurophysics of EEG* (2nd ed.). Oxford University Press.
-3. Scott Makeig, Anthony J. Bell, Tzyy-Ping Jung, [[terrence-sejnowski|Terrence J. Sejnowski]]. (1996). Independent component analysis of electroencephalographic data. *Advances in Neural Information Processing Systems*, 8, 145-151.
-4. Michael X. Cohen. (2014). *Analyzing Neural Time Series Data: Theory and Practice*. MIT Press.
-
-## ORPHAN PAGE CONTEXT (cartool)
----
-created: 2025-01-01
-sources: []
-tags:
-- software-visualization
-- neuroimaging-eeg
-- source-localization
-- micro-states
-- brain-mapping
-title: Cartool
-type: entity
-updated: '2026-04-29'
----
-
-# Cartool
-
-## Overview
-
-Cartool is a specialized software package for the visualization, preprocessing, and analysis of [[eeg]] data, with particular emphasis on electrical source imaging (ESI) and microstate analysis. Originally developed at the Functional Brain Mapping Lab at the University of Geneva an

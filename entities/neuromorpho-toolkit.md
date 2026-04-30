@@ -44,25 +44,3 @@ The NeuroMorpho.org project has produced several cornerstone publications that d
 ## Related Software
 
 The NeuroMorpho.org Toolkit intersects with several software ecosystems in computational neuroscience. The [[neuron]] simulator and its Python interface [[brian2]] both accept SWC-format morphologies derived from the database. [[neuroml]] serves as the semantic bridge enabling standardized exchange. Visualization tools such as [[brainnet-viewer]] and [[freesurfer]] can render NeuroMorpho reconstructions alongside volumetric imaging data. For morphological analysis, the [[brain-dynamics-toolbox]] and various morphometry packages provide complementary quantification capabilities beyond the built-in NeuroMorpho functions.
-
-## References
-
-- Akram, M. A., Nanda, S., Maraver, P., Armañanzas, R., & Ascoli, G. A. (2018). An open repository for single-cell reconstructions of the brain forest. *Scientific Data*, 5, 180006. https://doi.org/10.1038/sdata.2018.6
-
-- Ascoli, G. A. (2006). Mobilizing the base of neuroscience data: the case of neuronal morphologies. *Nature Reviews Neuroscience*, 7, 318-324.
-
-- Ascoli, G. A., Donohue, D. E., & Halavi, M. (2007). NeuroMorpho.Org: A central resource for neuronal morphologies. *Journal of Neuroscience*, 27(35), 9247-9251. https://doi.org/10.1523/JNEUROSCI.2055-07.2007
-
-- Halavi, M., Polavaram, S., Donohue, D. E., Hamilton, G., Hoyt, J., Smith, K. P., & Ascoli, G. A. (2008). NeuroMorpho.Org implementation of digital neuroscience: dense coverage and integration with the NIF. *Neuroinformatics*, 6(3), 241-252. https://doi.org/10.1007/s12021-008-9030-1
-
-- Scorcioni, R., Polavaram, S., & Ascoli, G. A. (2008). L-Measure: a web-accessible tool for the analysis, comparison and search of digital reconstructions of neuronal morphologies. *Nature Protocols*, 3(5), 866-876.
-
-[[brian]]
-[[neuroml]]
-[[neuron]]
-[[the-virtual-brain]]
-[[brainnet-viewer]]
-[[freesurfer]]
-[[whole-brain-modeling]]
-[[computational-neuroscience]]
-[[spiking-neural-networks]]

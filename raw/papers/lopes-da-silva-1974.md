@@ -3,9 +3,16 @@ title: "Model of brain rhythmic activity: the alpha rhythm of the thalamus"
 created: 2026-04-20
 updated: 2026-04-20
 type: source
-tags: [paper-methods, neural-mass-models, brain-oscillations, eeg, people-researcher]
-sources: []
+tags: [paper-methods ,neural-mass-models ,brain-oscillations ,eeg ,people-researcher]
+doi: "https://doi.org/10.1007/s10827-013-0493-1"
+bibtex: |
+  @book{unknownmodel,
+    title={Model of brain rhythmic activity: the alpha rhythm of the thalamus},
+    doi={https://doi.org/10.1007/s10827-013-0493-1},
+  }
 ---
+
+
 
 # Model of brain rhythmic activity: the alpha rhythm of the thalamus
 

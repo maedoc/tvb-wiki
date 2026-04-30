@@ -51,11 +51,3 @@ PyCortex operates within a broader ecosystem of neuroimaging visualization tools
 For volumetric visualization, [[freesurfer]]'s built‑in tools and [[fsl]] remain widely used, while [[nilearn]] provides Python‑native interfaces to both volume and surface‑based visualization within a machine‑learning‑focused framework. The [[brain‑dynamics‑toolbox]] and [[bctpy]] (Brain Connectivity Toolbox) complement PyCortex by providing analysis capabilities that precede visualization, enabling researchers to compute [[network‑dynamics]] metrics, perform [[community‑detection]], and analyze [[modularity]] before rendering results on cortical surfaces. For projects requiring integration with [[tvb]] simulations, researchers may use PyCortex alongside [[nilearn]] or matplotlib for complete analysis and visualization pipelines.
 
 Unlike specialized whole‑brain simulators such as TVB or tools designed for [[neural‑mass‑models]] implementation like [[brian2]] or [[nest]], PyCortex focuses exclusively on visualization and does not provide analysis, simulation, or modeling capabilities. This specialization allows the software to maintain a focused API and lightweight dependencies while providing robust visualization functions.
-
-## References
-
-1. Gao, J. S., Niekamp, S. R., Lin, A. T., & Gallant, J. L. (2015). Introducing pycortex: a Python package for interactive visualization of fMRI data on inflated cortical surfaces. Frontiers in Neuroinformatics, 9, 14. https://doi.org/10.3389/fninf.2015.00014
-
-2. Gallant Lab, University of California, Berkeley. PyCortex GitHub Repository. https://github.com/jamesgao/pycortex
-
-3. Fischl, B. (2012). FreeSurfer. NeuroImage, 62(2), 774‑781.

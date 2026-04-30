@@ -107,9 +107,3 @@ The DMN presents both opportunities and challenges for [[whole-brain modeling]] 
 - [[aging]] – Effects of aging on brain networks
 - [[neurodevelopment]] – Developmental processes shaping brain organization
 - [[epilepsy-modeling]] – Computational models of epileptic networks
-
-## References
-
-1. (authors unknown). *A Default Mode of Brain Function*.
-2. (authors unknown). *The Brain's Default Network: Anatomy, Function, and Relevance to Disease*.
-3. (authors unknown). *Functional Connectivity in the Resting Brain: A Network Analysis of the Default Mode Hypothesis*.

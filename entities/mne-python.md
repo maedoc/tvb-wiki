@@ -35,6 +35,3 @@ MNE-Python is often used alongside [[tvb]] and other simulation platforms in pre
 * [[bids-validator]]
 * [[bidscoin]]
 * [[brainstorm]]
-
-## References
-* Links to relevant papers and documentation*

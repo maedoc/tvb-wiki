@@ -3,9 +3,25 @@ title: "Large-scale brain dynamics of seizures: asymptotic analysis of a neural 
 created: 2026-04-20
 updated: 2026-04-20
 type: source
-tags: [paper-methods, neural-mass-models, epilepsy-modeling, whole-brain-modeling, bifurcation-analysis]
-sources: []
+tags: [paper-methods ,neural-mass-models ,epilepsy-modeling ,whole-brain-modeling ,bifurcation-analysis]
+authors:
+  - HongHui Zhang
+  - YanHong Zheng
+  - JianZhong Su
+  - PengCheng Xiao
+year: 2017
+venue: Science China Technological Sciences
+doi: 10.1007/s11431-016-9045-4
+bibtex: |
+  @book{zhang2017largescale,
+    title={Large-scale brain dynamics of seizures: asymptotic analysis of a neural field model},
+    author={"HongHui Zhang and YanHong Zheng and JianZhong Su and PengCheng Xiao"},
+    year={2017},
+    publisher={Science China Technological Sciences},
+    doi={10.1007/s11431-016-9045-4},
+  }
 ---
+
 
 # Large-scale brain dynamics of seizures: asymptotic analysis of a neural field model
 

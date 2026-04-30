@@ -57,13 +57,3 @@ These papers establish the imaging protocols, preprocessing pipelines, and data 
 ## Relationship to Connectome Mapper and Related Tools
 
 ConnectomeDB provides the raw and preprocessed imaging data, which can be further processed using specialized software like the [Connectome Mapper 3]([[connectome-mapper-3]]) to generate personalized structural connectivity matrices in formats suitable for whole-brain modeling. This workflow involves parcellating the brain into regions using atlases such as the [Desikan-Killiany Atlas]([[desikan-killiany-atlas]]) or [Schaefer Atlas]([[schaefer-atlas]]), then running tractography algorithms to estimate connection weights between parcel pairs. The resulting connectivity matrices can be directly imported into TVB as the anatomical scaffold for dynamical simulations, making ConnectomeDB an indirect but essential resource for TVB-based research on personalized brain dynamics.
-
-## References
-
-[1] Van Essen, D. C., Smith, S. M., Barch, D. M., Behrens, T. E. J., Yacoub, E., Ugurbil, K., & Wu-Minn HCP Consortium. (2013). The Human Connectome Project: a data acquisition perspective. *Neuroinformatics*, 11(4), 389-397.
-
-[2] Glasser, M. F., Smith, S. M., Marcus, D. S., Andersson, J. L. R., Auerbach, E. J., Behjati, T. E. J., ... & Van Essen, D. C. (2016). The Human Connectome Project's neuroimaging approach. *Nature Neuroscience*, 19(9), 1175-1187.
-
-[3] Human Connectome Project. (2020). Data Use Agreement, Version 2.0. Washington University in St. Louis. Retrieved from https://www.humanconnectome.org/study/human-connectome-project/
-
-[4] Glasser, M. F., Coalson, T. S., Robinson, E. C., et al. (2016). Minimal preprocessing pipelines for the Human Connectome Project. *NeuroImage*, 80, 105-124.

@@ -1,11 +1,18 @@
 ---
-title: "The NEURON Book"
+title: The NEURON Book
 created: 2026-04-20
 updated: 2026-04-20
 type: source
-tags: [tutorial, software-neuron, spiking-neural-networks, tutorial]
-sources: []
+tags: [tutorial ,software-neuron ,spiking-neural-networks ,tutorial]
+doi: "https://doi.org/10.1017/cbo9780511541612"
+bibtex: |
+  @book{unknownthe,
+    title={The NEURON Book},
+    doi={https://doi.org/10.1017/cbo9780511541612},
+  }
 ---
+
+
 
 # The NEURON Book
 

@@ -43,9 +43,3 @@ In practice, cognitive reserve is rarely measured directly but inferred from pro
 ## Relationship to Whole-Brain Modeling and Brain Maintenance
 
 Within the [[tvb]] modeling framework and related [[whole-brain]] simulation paradigms, cognitive reserve can be parameterized in several ways. One approach treats reserve as a global scaling factor on connection weights or conduction velocities, effectively simulating a more robust network that tolerates greater disruption before transitioning to pathological dynamical regimes such as seizure-like activity or metastability collapse. Another approach models reserve through local node parameters that vary across the cortex according to structural reserve maps derived from neuroimaging. Cabeza's concept of [[brain-maintenance]]—the preservation of youthful neural structure and function into old age—complements cognitive reserve by explaining why some individuals show neither compensation nor decline: their networks simply age more successfully. The interplay of maintenance, reserve, and compensation determines individual cognitive trajectories and warrants integrated representation in computational aging models that seek to forecast the transition from [[successful-aging]] to mild cognitive impairment.
-
-## References
-
-1. Buckner, R. L. (2004). Memory and executive function in aging and AD: Multiple factors that cause decline and reserve factors that compensate. *[[neuron]]*, 44(1), 195–208.
-2. Grady, C. L. (2012). The cognitive neuroscience of ageing and functional reserve. *European Review of Aging and Physical Activity*, 9, 79–93.
-3. Cabeza, R. (2018). Maintenance, reserve and compensation: The cognitive neuroscience of healthy ageing. *Nature Reviews Neuroscience*, 19(11), 701–710.

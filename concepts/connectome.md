@@ -67,9 +67,3 @@ The connectome provides the anatomical scaffold upon which brain dynamics unfold
 - [[parcellation]] – Segmentation of the brain into regions for network analysis
 - [[human-connectome-project]] – Major initiative mapping human brain connectivity
 - [[structural-core]] – Densely interconnected central hub regions of the brain
-
-## References
-
-1. (authors unknown). *The Human Connectome: A Structural Description of the Human Brain*.
-2. (authors unknown). *The WU-Minn Human Connectome Project: An Overview*.
-3. (authors unknown). *Functional Network Organization of the Human Brain*.

@@ -54,9 +54,3 @@ HOMER3 occupies a specific niche in the calcium imaging analysis ecosystem. Alte
 ## Key Papers
 
 The original HOMER paper (Akerberg et al., 2018) describes the software's architecture and demonstrates its application to various experimental paradigms. The software continues to be updated, with recent versions improving integration with standard data formats and adding support for new calcium indicators including GCaMP6 and GCaMP7 variants.
-
-## References
-
-1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
-2. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI): A flexible and integrative toolkit for efficient probabilistic inference on virtual brain models*. bioRxiv. [DOI](https://doi.org/10.1101/2025.01.21.633922)
-3. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI), a flexible and integrative toolkit for efficient probabilistic inference on whole-brain models*. eLife. [DOI](https://doi.org/10.7554/eLife.106194)

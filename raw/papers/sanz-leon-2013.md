@@ -3,9 +3,16 @@ title: "The Virtual Brain: a simulator of primate brain network dynamics"
 created: 2026-04-20
 updated: 2026-04-20
 type: source
-tags: [paper-methods, software-tvb, whole-brain-modeling, neural-mass-models]
-sources: []
+tags: [paper-methods ,software-tvb ,whole-brain-modeling ,neural-mass-models]
+doi: "https://doi.org/10.3389/fninf.2013.00010"
+bibtex: |
+  @book{unknownthe,
+    title={The Virtual Brain: a simulator of primate brain network dynamics},
+    doi={https://doi.org/10.3389/fninf.2013.00010},
+  }
 ---
+
+
 
 # The Virtual Brain: a simulator of primate brain network dynamics
 

@@ -1,11 +1,27 @@
 ---
-title: "A dynamic causal modeling study of the generation of epileptic fast activity"
+title: A dynamic causal modeling study of the generation of epileptic fast activity
 created: 2026-04-20
 updated: 2026-04-20
 type: source
-tags: [paper-methods, neural-mass-models, epilepsy-modeling, dynamic-causal-modeling, eeg]
-sources: []
+tags: [paper-methods ,neural-mass-models ,epilepsy-modeling ,dynamic-causal-modeling ,eeg]
+authors:
+  - Teresa Murta
+  - Alberto Leal
+  - Marta I. Garrido
+  - Patrícia Figueiredo
+year: 2012
+venue: NeuroImage
+doi: 10.1016/j.neuroimage.2012.05.053
+bibtex: |
+  @article{murta2012a,
+    title={A dynamic causal modeling study of the generation of epileptic fast activity},
+    author={"Teresa Murta and Alberto Leal and Marta I. Garrido and Patrícia Figueiredo"},
+    year={2012},
+    journal={NeuroImage},
+    doi={10.1016/j.neuroimage.2012.05.053},
+  }
 ---
+
 
 # A dynamic causal modeling study of the generation of epileptic fast activity
 

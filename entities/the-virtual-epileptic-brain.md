@@ -49,13 +49,3 @@ The foundational work establishing the TVEB framework includes Jirsa et al. (201
 ## Related Software
 
 TVEB operates within a broader ecosystem of computational neuroscience tools. As part of [[the-virtual-brain]], TVEB inherits the core simulation infrastructure, while specialized analysis routines build upon tools like the [[brain-connectivity-toolbox]] for network analysis and [[graphvar]] for dynamical systems analysis. For forward modeling of electrophysiological signals, TVEB can be combined with volume conduction models from packages like [[openmeeg]], while neuroimaging preprocessing leverages tools such as [[freesurfer]] and [[fsl]].
-
-## References
-
-[1] Jirsa, V.K., Stacey, W.C., Quinn, P.V., & Bernard, C. (2014). On the concept of the epileptor. *Journal of [[computational-neuroscience]]*, 37(1), 1-18. https://doi.org/10.1007/s10827-014-0528-2
-
-[2] Proix, T., Bartoli, E., DicleMENTE, F., Jirsa, V.K., Bernard, C., & Benquet, P. (2014). Spatiotemporal structure of seizure propagation in models of epilepsy. *Brain Topography*, 27(2), 205-220. https://doi.org/10.1007/s10548-014-0380-8
-
-[3] Jirsa, V.K., Proix, T., Perí, D., Zamponi, N., Guye, M., Zub, E., et al. (2017). The Virtual Epileptic Patient: A personalized approach to presurgical planning in epilepsy using causal modeling. *Epilepsy & Behavior*, 68, 37-46. https://doi.org/10.1016/j.yebeh.2016.04.032
-
-[4] Bortel, K.J., Jirsa, V.K., & Bernard, C. (2017). Seizure propagation in a [[personalized-brain-modeling|personalized brain]] network model using patient-derived [[connectivity]]. In: Jirsa, V.K. (ed) *Connectivity and Epilepsy*. Cambridge University Press. https://doi.org/10.1017/9781108143916.012

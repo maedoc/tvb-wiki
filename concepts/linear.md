@@ -47,7 +47,3 @@ The primary limitation of linear models is their inability to capture threshold 
 - [[bifurcation-analysis]] — Techniques for understanding qualitative changes in system behavior, often applied to nonlinear systems after linearization
 - [[whole-brain]] — The larger paradigm of simulating brain-wide dynamics using coupled regional models
 - [[brain-network]] — The.graph-theoretic representation of brain regions and their connections
-
-## References
-
-1. [[hugh-wilson|Hugh R. Wilson]], [[jack-cowan|Jack D. Cowan]]. *Excitatory and inhibitory interactions in localized populations of model neurons*. Biophysical Journal. [DOI](https://doi.org/10.1016/S0006-3495(72)86068-5)

@@ -127,9 +127,3 @@ Comprehensive whole-brain models must account for the full lifespan trajectory f
 - [[resting-state]] – Intrinsic brain activity measured without task
 - [[default-mode-network]] – Network active during rest and self-referential processing
 - [[nonlinear-dynamics]] – Mathematical framework for complex time-dependent systems
-
-## References
-
-1. (authors unknown). *Dynamic Mapping of Human Cortical Development During Childhood Through Early Adulthood*.
-2. (authors unknown). *Functional Brain Networks Develop from a 'Local to Distributed' Organization*.
-3. (authors unknown). *The Development of Human Functional Brain Networks*.

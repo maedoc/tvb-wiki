@@ -53,11 +53,3 @@ While TemplateFlow is not itself a whole-brain simulator, it provides essential 
 TemplateFlow exists within a broader ecosystem of neuroimaging software tools. It complements [[nilearn]] for statistical learning approaches to neuroimaging data, [[freesurfer]] for cortical reconstruction and parcellation, [[fsl]] for general-purpose neuroimaging analysis, and [[spm]] (Statistical Parametric Mapping) for classical model-based fMRI analysis. The library also relates to atlases and parcellation resources such as the [[brainnetome-atlas]], the [[glasser-atlas]], the [[brainsuite]] suite of tools, and the [[brainvisa]] platform. For researchers interested in visualization, TemplateFlow templates can be rendered using tools like [[brainnet-viewer]] or [[connectome-workbench]]. The library also interfaces with preprocessing pipelines like [[fmriprep]] and quality control tools like [[mriqc]], which produce outputs in standardized template spaces maintained within the TemplateFlow repository.
 
 ---
-
-## References
-
-[@mni-original]: Evans, A. C., Janke, A. L., Collins, D. L., & Baillet, S. (2012). Brain templates and atlases. NeuroImage, 62(2), 911–922. https://doi.org/10.1016/j.neuroimage.2012.01.024
-
-[@tFw-2020]: Ciric, R., Xu, T., Wang, R., Nielson, D. M., Li, X., Yu, M., ... & Keshavan, A. (2020). TemplateFlow: A Python repository of neuroimaging templates. Scientific Data. https://doi.org/10.1101/2020.10.19.202981
-
-[@attr-match]: Fortin, J. P., Cullen, N., Sheline, Y. I., Thomas, W. D., Erus, G., Rentz, D. M., ... & Dickerson, B. C. (2018). Harmonization of multi-site diffusion MRI data sets using attribute matching. NeuroImage, 172, 214-225. https://doi.org/10.1016/j.neuroimage.2018.03.084

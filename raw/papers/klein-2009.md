@@ -1,11 +1,18 @@
 ---
-title: "Evaluation of 14 nonlinear deformation algorithms applied to human brain MRI registration"
+title: Evaluation of 14 nonlinear deformation algorithms applied to human brain MRI registration
 created: 2026-04-20
 updated: 2026-04-20
 type: source
-tags: [paper-methods, software-ants, neuroimaging-processing, brain-network, comparison]
-sources: []
+tags: [paper-methods ,software-ants ,neuroimaging-processing ,brain-network ,comparison]
+doi: "https://doi.org/10.1016/j.neuroimage.2008.12.037"
+bibtex: |
+  @book{unknownevaluation,
+    title={Evaluation of 14 nonlinear deformation algorithms applied to human brain MRI registration},
+    doi={https://doi.org/10.1016/j.neuroimage.2008.12.037},
+  }
 ---
+
+
 
 # Evaluation of 14 nonlinear deformation algorithms applied to human brain MRI registration
 

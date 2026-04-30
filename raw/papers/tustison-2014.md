@@ -1,11 +1,18 @@
 ---
-title: "Large-scale evaluation of ANTs and FreeSurfer cortical thickness measurements"
+title: Large-scale evaluation of ANTs and FreeSurfer cortical thickness measurements
 created: 2026-04-20
 updated: 2026-04-20
 type: source
-tags: [paper-methods, software-ants, neuroimaging-processing, brain-network, comparison]
-sources: []
+tags: [paper-methods ,software-ants ,neuroimaging-processing ,brain-network ,comparison]
+doi: "https://doi.org/10.1016/j.neuroimage.2014.05.044"
+bibtex: |
+  @book{unknownlargescale,
+    title={Large-scale evaluation of ANTs and FreeSurfer cortical thickness measurements},
+    doi={https://doi.org/10.1016/j.neuroimage.2014.05.044},
+  }
 ---
+
+
 
 # Large-scale evaluation of ANTs and FreeSurfer cortical thickness measurements
 

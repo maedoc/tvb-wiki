@@ -46,17 +46,3 @@ The JHU White Matter Atlas is part of a broader ecosystem of anatomical atlases 
 ## Key Papers
 
 The JHU White Matter Atlas was originally described in Mori et al. (2005) "White matter anatomy: tract-specific anisotropy measurement by probabilistic diffusion tensor tractography" [[cat12]]. Wakana et al. (2004) established the ICBM-DTI-81 white matter atlas with comprehensive anatomical labeling of 50 regions [[homer3]]. Hua et al. (2008) extended the atlas with improved segmentation and validation across multiple datasets 4. Oishi et al. (2009) contributed detailed tract-specific analysis methods and statistical approaches for white matter characterization in normal adult brains.
-
-## References
-
-[[cat12]] Mori S, van Zijl PCM. Fiber tracking: principles and strategies - a technical summary. NMR Biomed. 2002;5(7):371-380. doi:10.1002/nbm.788
-
-[[cat12]] Mori S, Oishi K, van Zijl PCM. White matter anatomy: tract-specific anisotropy measurement by probabilistic diffusion tensor tractography. Neuroimage. 2005;26(1):195-205. doi:10.1016/j.neuroimage.2005.01.028
-
-[[homer3]] Wakana S, Jiang H, Nagae-Poetscher LM, et al. Fiber tract-based atlas of human white matter anatomy. Radiology. 2004;230(1):77-87. doi:10.1148/radiol.2301021439
-
-[[4]] Hua K, Zhang J, Wakana S, et al. Tract probability maps in newborns: comparison of diffusion tensor imaging and anatomical segmentation. Neuroimage. 2008;40(2):862-873. doi:10.1016/j.neuroimage.2007.12.028
-
-[[5]] Mori S, Wakana S, van Zijl PCM, Nagae-Poetscher LM. MRI Atlas of Human White Matter. Elsevier; 2005. doi:10.1016/j.neuroimage.2004.09.027
-
-[[6]] Zhang J, van Zijl PCM, Mori S. Three-dimensional tensor magnetic resonance resonance imaging. Neuroimage. 2002;15(1):144-150. doi:10.1002/jmri.10272

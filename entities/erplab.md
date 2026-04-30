@@ -42,8 +42,3 @@ ERPLAB operates within the [[eeglab]] ecosystem, which itself is built on MATLAB
 
 - Lopez-Calderon, J., & Luck, S. J. (2014). ERPLAB: An open-source toolbox for the analysis of event-related potentials. *Frontiers in Psychology*, 5, 213. https://doi.org/10.3389/fpsyg.2014.00213
 - Luck, S. J., & Lopez-Calderon, J. (2012). ERPLAB: A toolbox for ERP data analysis. *ERP Tools*. https://erpinfo.org/erplab
-
-## References
-
-- Lopez-Calderon, J., & Luck, S. J. (2014). ERPLAB: An open-source toolbox for the analysis of event-related potentials. *Frontiers in Psychology*, 5, 213.
-- Luck, S. J. (2014). *An Introduction to the Event-Related Potential Technique* (2nd ed.). MIT Press.

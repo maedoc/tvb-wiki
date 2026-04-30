@@ -1,11 +1,18 @@
 ---
-title: "Reconstruction and simulation of neocortical microcircuitry"
+title: Reconstruction and simulation of neocortical microcircuitry
 created: 2026-04-20
 updated: 2026-04-20
 type: source
-tags: [paper-methods, software-neuron, spiking-neural-networks, brain-network, whole-brain-modeling]
-sources: []
+tags: [paper-methods ,software-neuron ,spiking-neural-networks ,brain-network ,whole-brain-modeling]
+doi: "https://doi.org/10.1016/j.cell.2015.09.029"
+bibtex: |
+  @book{unknownreconstructio,
+    title={Reconstruction and simulation of neocortical microcircuitry},
+    doi={https://doi.org/10.1016/j.cell.2015.09.029},
+  }
 ---
+
+
 
 # Reconstruction and simulation of neocortical microcircuitry
 

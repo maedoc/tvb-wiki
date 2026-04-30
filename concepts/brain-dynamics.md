@@ -17,9 +17,3 @@ Brain Dynamics — a concept in [[whole-brain|whole-brain modeling]] and [[compu
 
 ## Related Concepts
 * [[nonlinear-dynamics]]
-
-## References
-
-1. (authors unknown). *Nonlinear Dynamics and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering*.
-2. [[eugene-izhikevich|Eugene M. Izhikevich]]. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
-3. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)

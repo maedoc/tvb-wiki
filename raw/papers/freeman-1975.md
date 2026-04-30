@@ -1,11 +1,16 @@
 ---
-title: "Mass Action in the Nervous System"
+title: Mass Action in the Nervous System
 created: 2026-04-20
 updated: 2026-04-20
 type: source
-tags: [paper-review, neural-mass-models, brain-oscillations, eeg, people-researcher]
-sources: []
+tags: [paper-review ,neural-mass-models ,brain-oscillations ,eeg ,people-researcher]
+bibtex: |
+  @book{unknownmass,
+    title={Mass Action in the Nervous System},
+  }
 ---
+
+
 
 # Mass Action in the Nervous System
 

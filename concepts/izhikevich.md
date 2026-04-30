@@ -17,9 +17,3 @@ Izhikevich — a concept in [[whole-brain|whole-brain modeling]] and [[computati
 
 ## Related Concepts
 * [[dynamical-systems-theory]]
-
-## References
-
-1. (authors unknown). *[[nonlinear-dynamics]] and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering*.
-2. V. Myrov, A. Suleimanova, Samanta Knapič, P. Partanen, M. Vesterinen, Wenya Liu, S. Palva, J. M. Palva. (2026). *Hierarchical whole-brain modeling of critical synchronization dynamics in the human brain.*. Proceedings of the National Academy of Sciences of the United States of America. [DOI](https://doi.org/10.1073/pnas.2505768123)
-3. (authors unknown). *AUTO-07P: Continuation and [[bifurcation-analysis|Bifurcation]] Software for Ordinary Differential Equations*.

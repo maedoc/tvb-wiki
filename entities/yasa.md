@@ -51,13 +51,3 @@ YASA operates within the broader EEG and sleep analysis software ecosystem. As a
 ## Technical Implementation
 
 YASA is implemented in Python and depends on scientific computing libraries including NumPy, SciPy, Pandas, and MNE‑Python for certain operations. The software is distributed via PyPI and conda‑forge, facilitating straightforward installation via standard Python package managers. The codebase emphasizes performance optimization for handling full‑night polysomnography recordings, which may contain millions of data points across multiple EEG channels. Detection algorithms implement validated approaches from the sleep research literature, with the spindle detection method based on the algorithm described by Lacourse et al. (2018) Lacourse2018. The sleep staging module employs a trained classifier approach, with the specific algorithm details available in the eLife publication Vallat2021.
-
-## References
-
-- Bertrand, C., Chatain, C., Riedner, B., Ganzetti, M., & Masson, S. (2018). Automatic detection of slow waves during daytime sleep: Performance and comparison of different algorithms. *Sleep Medicine*, 52, 119‑127. Bertrand2018
-
-- Campruzi, L., Comte, J.-C., Maugeais, P., Balista, J., Coghill, D., & Sztajzel, F. (2020). Sleep and functional [[connectivity]]: A review. *Neuroscience & Biobehavioral Reviews*, 118, 735‑748. Campruzi2020
-
-- Lacourse, K., Delfosse, E., Martel, J., Louis, L., Cervantes, S., Veilleux, L., … & Carrier, J. (2018). An automatic spindle detection algorithm with benchmarking on a large set of sleep recordings. *Journal of Neuroscience Methods*, 306, 94‑103. Lacourse2018
-
-- Vallat, R., & Walker, M. P. (2021). An open‑source, automated sleep staging algorithm: YASA. *eLife*, 10, e70076. Vallat2021

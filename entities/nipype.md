@@ -66,9 +66,3 @@ Both projects emphasize [[reproducibility]] and open science, with NiPype provid
 - [[fsl]] - FMRIB Software Library (interfaced via NiPype)
 - [[spm]] - Statistical Parametric Mapping (interfaced via NiPype)
 - [[ants]] - Advanced Normalization Tools (interfaced via NiPype)
-
-## References
-
-1. Gorgolewski K, Burns CD, Madison C, Clark D, Halchenko YO, Waskom ML, Ghosh SS. (2011). Nipype: a flexible, lightweight and extensible neuroimaging data processing framework in Python. *Frontiers in Neuroinformatics*, 5:13. doi:10.3389/fninf.2011.00013
-
-2. Gorgolewski KJ, Alfaro-Almagro F, Auer T, Bellec P, Capotă M, Chakravarty MM, et al. (2017). BIDS-Apps: Improving ease of use, accessibility, and reproducibility of neuroimaging data analysis methods. *PLOS Computational Biology*, 13(3):e1005209. doi:10.1371/journal.pcbi.1005209

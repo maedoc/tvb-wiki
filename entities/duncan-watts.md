@@ -40,7 +40,3 @@ Watts' research spans:
 
 ## Collaborators
 - Steven Strogatz – Small-world networks
-
-## References
-
-1. (authors unknown). *Collective Dynamics of 'Small-World' Networks*.

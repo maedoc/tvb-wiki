@@ -51,8 +51,3 @@ From a [[brain-maintenance]] perspective, the structural core may be particularl
 ## Methodological Considerations
 
 Identifying the structural core depends critically on the imaging modality and tractography algorithm used. Diffusion spectrum imaging provides superior angular resolution compared to diffusion tensor imaging, enabling detection of complex fiber crossings crucial for accurate structural connectivity estimation. However, the core has also been identified using other [[diffusion-imaging]] protocols, suggesting robust findings across methodologies. Ongoing developments in [[diffusion-mri]] acquisition and tractography continue to refine estimates of the structural core's extent and connectivity profile.
-
-## References
-
-1. (authors unknown). *Mapping the Structural Core of Human Cerebral Cortex*.
-2. (authors unknown). *Networks of the Brain*.

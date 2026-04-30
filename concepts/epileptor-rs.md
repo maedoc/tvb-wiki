@@ -72,8 +72,3 @@ The extension of the EpileptorRS to include spatial propagation effects, transit
 - [[dynamic-causal-modeling]] - Related framework for connectivity inference
 - [[tvb]] - Whole-brain simulator platform
 - [[bifurcation-analysis]] - Method for understanding state transitions
-
-## References
-
-1. Paul Triebkorn, Huifang E. Wang, Marmaduke Woodman, Maxime Guye, Fabrice Bartolomei, [[viktor-jirsa]]. (2025). *Delay-constrained re-entry governs large-scale brain seizures and other network pathologies*. [Link](https://arxiv.org/abs/2508.04824)
-2. Michael Breakspear, John A. Roberts, John R. Terry, Stefano Rodrigues, Nader Mahmud, Philip Robinson. *Large-scale [[brain-dynamics]] of seizures: asymptotic analysis of a neural field model*. Journal of [[computational-neuroscience]]. [DOI](https://doi.org/10.1007/s10827-006-8135-2)

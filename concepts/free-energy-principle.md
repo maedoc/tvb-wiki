@@ -53,9 +53,3 @@ Beyond methodological unification, the FEP has motivated specific hypotheses abo
 ## Criticisms and Open Questions
 
 Despite its elegance, the FEP faces substantial criticism. Skeptics question whether it is falsifiable: because the principle is so general, virtually any adaptive behavior can be redescribed as free energy minimization. Others note the computational complexity of exact variational schemes, especially for nonlinear, delay-coupled [[whole-brain]] systems where [[bifurcation-analysis]] reveals sensitive parameter dependence. Alternative frameworks such as reinforcement learning and enactive cognition offer different vocabularies for perception and action, and it remains unclear whether the FEP supersedes these or merely redescribes them. Resolving these debates will require tighter links between normative mathematics and quantitative, model-based predictions at the level of individual neural circuits.
-
-## References
-
-1. (authors unknown). *The Free-Energy Principle: A Unified Brain Theory?*.
-2. (authors unknown). *Variational Free Energy and the Laplace Approximation*.
-3. Deco et al. (2013). *Resting brains never rest: computational insights into potential cognitive architectures*. Trends in Neurosciences. [DOI](https://doi.org/10.1016/j.tins.2013.09.002)

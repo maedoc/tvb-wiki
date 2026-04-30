@@ -76,11 +76,3 @@ Despite its utility, Neo faces challenges that remain active areas of developmen
 ## Related Tools and Concepts
 
 Neo intersects with several related concepts in the wiki. For data-formats, Neo provides adapters to/from formats like NIX and NWB. For spike-sorting, Neo integrates with SpikeInterface to provide the data foundation for spike extraction algorithms. The library also relates to broader topics in electrophysiology and data-formats in neuroscience more generally. Users interested in the Python scientific computing stack may also wish to explore how Neo's data model compares to those in Python data analysis frameworks more broadly.
-
-## References
-
-- Garcia, S., Guarino, D., Jaillet, F., Jennings, T. R., Pröpper, R., Rizzuto, L. R., ... & Diesmann, M. (2014). Neo: an object model for handling electrophysiology data in Python. Frontiers in Neuroinformatics, 8, 10.
-- Bezaire, M. A., Raikov, I., Viacoes, G., Burkitt, A., & Jaganathan, K. (2022). SpikeInterface, a unified framework for spike sorting. eLife, 11, e61833.
-- NIX Format Specification. https://nix.readthedocs.io/
-- NWB Specification. https://nwb-schema.readthedocs.io/
-- The Elephant Team. Elephant: Electrophysiology Library for Python. https://elephant.readthedocs.io/

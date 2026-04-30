@@ -44,9 +44,3 @@ Miller's research emphasizes:
 
 ## Resources
 - UK Biobank Imaging: www.ukbiobank.ac.uk
-
-## References
-
-1. (authors unknown). *Multimodal Population Brain Imaging in the UK Biobank: Prospective Epidemiological Study*.
-2. (authors unknown). *Genome-wide Association Studies of Brain Imaging Phenotypes from UK Biobank*.
-3. (authors unknown). *Image Processing and Quality Control for the First 100,000 Brain Imaging Datasets from UK Biobank*.

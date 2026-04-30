@@ -15,8 +15,3 @@ Synaptic [[plasticity]] — a concept in [[whole-brain|whole-brain modeling]] an
 
 ## Related Concepts
 * [[carlsim]]
-
-## References
-
-1. (authors unknown). *[[nonlinear-dynamics]] and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering*.
-2. (authors unknown). *Mapping the [[structural-core]] of Human Cerebral Cortex*.

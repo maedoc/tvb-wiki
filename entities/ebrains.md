@@ -64,15 +64,3 @@ The infrastructure connects to several foundational concepts in modern neuroscie
 *The following represents foundational publications related to EBRAINS and its integrated tools. A comprehensive bibliography is maintained on the EBRAINS website.*
 
 - Sanz-Leon, P., et al. (2015). "The virtual brain: a simulator of primate brain [[network-dynamics]]." *NeuroImage*, 111, 385-407.[^tvbp]
-
-## References
-
-[^esfri]: European Strategy Forum on Research Infrastructures. "ESFRI Roadmap 2021." https://www.esfri.org/roadmap/2021
-
-[^about]: EBRAINS. "About EBRAINS." https://www.ebrains.eu/about
-
-[^hbp]: "The Human Brain Project: Strategic details, background, news and resources." https://www.humanbrainproject.eu/en
-
-[^hcp]: "Human Connectome Project." https://www.humanconnectomeproject.org/
-
-[^tvbp]: Sanz-Leon, P., et al. (2015). "The virtual brain: a simulator of primate [[brain-network]] dynamics." *NeuroImage*, 111, 385-407.

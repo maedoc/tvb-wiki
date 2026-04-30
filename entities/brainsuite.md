@@ -80,12 +80,3 @@ BrainSuite interfaces with several other tools in the neuroimaging ecosystem. It
 4. Joshi AA, Shattuck DW, Leahy RM. "Surface-based volumetric registration." *Machine Vision and Applications*. 2012;23(5):849-864. This work extends SVReg for accurate volumetric registration of cortical structures.
 
 5. Lee J, Joshi AA, Torgerson C, Shattuck DW, Damiano M, Lin K, McLaren D, Leahy RM. "A Bayesian approach for determining optimal parameters for a skull-stripping algorithm." *Annual International Conference of the IEEE Engineering in Medicine and Biology Society*. 2009;5153-5156. This work improves the BSE skull-stripping algorithm through Bayesian optimization.
-
-## References
-
-- Laboratory of Neuro Imaging (LONI) BrainSuite Website. https://brainsuite.org/
-- [[mrtrix3-connectome]]. https://www.humanconnectome.org/
-- Freesurfer Documentation. https://surfer.nmr.mgh.harvard.edu/
-- FSL Software Package. https://fsl.fmrib.ox.ac.uk/fsl/fslwiki
-- Nilearn Documentation. https://nilearn.github.io/
-- Nipype Documentation. https://nipype.readthedocs.io/

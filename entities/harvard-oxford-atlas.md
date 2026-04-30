@@ -67,15 +67,4 @@ A comparative parcellation framework (HOA2.0‑ComPaRe) extending the Harvard‑
 * [[mne‑python]] — EEG/MEG analysis that can incorporate anatomical information  
 * [[nilearn]] — Python toolbox for neuroimaging that includes atlas loading utilities  
 * [[brainnetome‑atlas]] — A further subdivided anatomical parcellation  
-* [[connectome‑workbench]] — Visualization tool compatible with volume‑based atlases  
-
-## References
-
-[^1]: https://fsl.fmrib.ox.ac.uk/fsl/docs/other/datasets.html  
-[^2]: https://nilearn.github.io/stable/modules/generated/nilearn.datasets.fetch_atlas_harvard_oxford.html  
-[^3]: https://docs.thevirtualbrain.org/manuals/UserGuide/UserGuide-UI_Connectivity.html  
-[^4]: https://www.sciencedirect.com/science/article/pii/S0920998920305837  
-[^5]: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1359520/  
-[^6]: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1457003/  
-[^7]: https://pubmed.ncbi.nlm.nih.gov/16644248/  
-[^8]: https://pubmed.ncbi.nlm.nih.gov/17338948/
+* [[connectome‑workbench]] — Visualization tool compatible with volume‑based atlases

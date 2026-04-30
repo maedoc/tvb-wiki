@@ -1,13 +1,27 @@
 ---
-title: "Functional connectivity in the motor cortex of resting human brain using echo-planar MRI"
+title: Functional connectivity in the motor cortex of resting human brain using echo-planar MRI
 created: 2026-04-20
 updated: 2026-04-20
 type: paper
-tags: [neuroimaging-fmri, resting-state, functional-connectivity, paper-methods]
-authors: [Bharat B Biswal, Frank Z Yetkin, Victor M Haughton, James S Hyde]
+tags: [neuroimaging-fmri ,resting-state ,functional-connectivity ,paper-methods]
+authors:
+  - Bharat B Biswal
+  - Frank Z Yetkin
+  - Victor M Haughton
+  - James S Hyde
 year: 1995
-venue: "Magnetic Resonance in Medicine"
+venue: Magnetic Resonance in Medicine
+doi: "https://doi.org/10.1002/mrm.1910340409"
+bibtex: |
+  @book{biswal1995functional,
+    title={Functional connectivity in the motor cortex of resting human brain using echo-planar MRI},
+    author={"Bharat B Biswal and Frank Z Yetkin and Victor M Haughton and James S Hyde"},
+    year={1995},
+    publisher={Magnetic Resonance in Medicine},
+    doi={https://doi.org/10.1002/mrm.1910340409},
+  }
 ---
+
 
 # Functional connectivity in the motor cortex of resting human brain using echo-planar MRI
 

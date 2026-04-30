@@ -1,11 +1,18 @@
 ---
-title: "Dynamic models of large-scale brain activity"
+title: Dynamic models of large-scale brain activity
 created: 2026-04-20
 updated: 2026-04-20
 type: source
-tags: [paper-review, whole-brain-modeling, neural-mass-models, brain-oscillations, network-dynamics]
-sources: []
+tags: [paper-review ,whole-brain-modeling ,neural-mass-models ,brain-oscillations ,network-dynamics]
+doi: "https://doi.org/10.1038/nn.4497"
+bibtex: |
+  @book{unknowndynamic,
+    title={Dynamic models of large-scale brain activity},
+    doi={https://doi.org/10.1038/nn.4497},
+  }
 ---
+
+
 
 # Dynamic models of large-scale brain activity
 

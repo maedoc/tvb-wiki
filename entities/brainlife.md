@@ -66,29 +66,3 @@ The platform's development and validation have been described in several influen
 ## Related Software
 
 BrainLife.io operates within a landscape of neuroimaging processing platforms. Similar web-based solutions include [[CBRAIN]] (a Canadian platform for neuroimaging analysis) and [[neuromorpho-toolkit]]. For local processing, researchers often use [[FSL]], [[FreeSurfer]], or [[SPM]] directly. The platform complements rather than replaces these tools—the strength of BrainLife.io lies in its workflow orchestration and cloud execution rather than novel algorithmic implementations. For connectomics specifically, the platform integrates with the [[Brain Connectivity Toolbox]] ([[bctpy]]) for network analysis and [[brainspace]] for visualization, enabling users to proceed from raw data to network-theoretic metrics within a unified environment.
-
-## References
-
-[1] BrainLife.io About Page. https://www.brainlife.io/about
-
-[2] BrainLife.io Documentation - Supported Modalities. https://www.brainlife.io/docs
-
-[3] Pestilli, F. et al. (2014). The Open Diffusion Application and Data Repository: Enabling reproducible scientific discovery. Frontiers in Neuroscience.
-
-[4] BrainLife.io Appstore. https://www.brainlife.io/appstore
-
-[5] BrainLife.io Data Sharing Features. https://www.brainlife.io/docs/datamanagement
-
-[6] DataLad Integration Documentation. https://www.datalad.org/
-
-[7] [[tvb|The Virtual Brain]] Documentation - Data Import. https://docs.thevirtualbrain.org/
-
-[8] MNE-Python Documentation. https://mne.tools/stable/
-
-[9] BrainLife.io Tool Integrations. https://www.brainlife.io/docs/apps
-
-[10] Pestilli, F. (2014). A new neuroimaging platform for cloud-based analysis and sharing. Organization for Human Brain Mapping Annual Meeting.
-
-[11] Human [[connectome]] Project. https://www.humanconnectome.org/
-
-[12] ENIGMA Consortium. https://www.enigma.ini.edu/

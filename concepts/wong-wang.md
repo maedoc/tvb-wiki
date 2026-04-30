@@ -89,22 +89,3 @@ Following the seminal work of Deco and colleagues (2013), the Wong-Wang model be
 ## Biological Interpretation
 
 The S variable in the Wong-Wang model can be interpreted as the average synaptic activity of excitatory pyramidal neurons in a cortical region. The model's parameters map onto biophysical quantities: τ_s reflects NMDA receptor kinetics, the input-output function captures the nonlinear summation of synaptic currents onto dendritic compartments, and the coupling strength J_N represents the efficacy of recurrent excitatory connections. These mappings make the model not merely a phenomenological fit but a theoretically grounded description of cortical dynamics at the mesoscopic scale.
-
-## References
-
-1. Wong, K. F., & Wang, X. J. (2006). A recurrent network mechanism of time integration in perceptual decisions. *Journal of Neuroscience*, 26(4), 1314–1328. https://doi.org/10.1523/JNEUROSCI.3733-05.2006
-
-2. Deco, G., Ponce-Alvarez, A., Mantini, D., Romani, G. L., Hagmann, P., & Corbetta, M. (2013). Resting-state functional connectivity emerges from structurally and dynamically shaped slow linear fluctuations. *Journal of Neuroscience*, 32(27), 11239–11252. https://doi.org/10.1523/JNEUROSCI.1091-12.2013
-
-## Related Concepts
-
-- [[wong-wang-exc-inh]] — Extended excitatory-inhibitory version
-- [[neural-mass-model]] — Theoretical framework for population models
-- [[neural-mass-models-comparison]] — Comparison with other neural mass approaches
-- [[resting-state]] — Network modeling at rest
-- [[bold-signal]] — BOLD signal generation and modeling
-- [[whole-brain]] — Whole-brain computational modeling
-- [[functional-connectivity]] — Empirical functional connectivity
-- [[structural-connectivity]] — Anatomical connectivity basis
-- [[jansen-rit]] — Precursor neural mass model
-- [[gustavo-deco]] — Key researcher in whole-brain adaptation

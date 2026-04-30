@@ -65,8 +65,3 @@ MUSIC occupies a unique niche as an orchestration layer rather than a standalone
 ## Open Questions
 
 The primary challenge facing MUSIC lies in ensuring temporal accuracy when simulators with different intrinsic timesteps must coordinate. While the framework provides mechanisms for interpolation and event buffering, mismatches in simulation resolution can introduce artifacts that are only beginning to be systematically characterized. Additionally, the user base remains relatively small compared to standalone simulators, limiting the availability of community resources, tutorials, and third-party integrations. Future development may benefit from tighter integration with [[neuroml]] standardization efforts, which seek to define common model description formats that could further reduce friction in multi-simulator workflows.
-
-## References
-
-1. Ekeberg, Ö., & Djurfeldt, M. (2008). MUSIC - Multisimulation Coordinator: Request For Comments. Nature Precedings. https://doi.org/10.1038/npre.2008.1830.1
-2. Djurfeldt, M., Hjorth, J., Eppler, J. M., Dudani, N., Helias, M., Potjans, T. C., Bhalla, U. S., Diesmann, M., Hellgren Kotaleski, J., & Ekeberg, Ö. (2010). Run-Time Interoperability Between Neuronal Network Simulators Based on the MUSIC Framework. Neuroinformatics, 8(1), 43-60. https://doi.org/10.1007/s12021-010-9064-z

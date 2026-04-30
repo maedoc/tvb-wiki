@@ -68,9 +68,3 @@ This framework connects to numerous concepts in [[computational-neuroscience]] a
 Despite advances in electrode positioning technology and registration algorithms, significant challenges remain in the field. Registration accuracy depends on the quality of anatomical landmark identification, which can vary across operators and participants. Head movement during long-term EEG monitoring—common in epilepsy monitoring units—introduces spatial errors that are difficult to correct without additional reference channels. The assumption of isotropic conductivity in standard volume conductor models may be inadequate for capturing anisotropic effects in [[white-matter]] regions, potentially limiting source localization accuracy for deep brain structures.
 
 Future directions include developing automated, machine learning-driven registration algorithms, incorporating patient-specific conductivity estimates from diffusion imaging and PET data into personalized forward models, and establishing community standards for electrode coordinate file formats to improve software interoperability.
-
-## References
-
-- MNE-Python Documentation: Forward Modeling and EEG-MRI Coregistration (https://mne.tools)
-- Mosher, J.C., Leahy, R.M., & Lewis, P.S. (1999). EEG and MEG: Forward solutions for inverse methods. IEEE Transactions on Biomedical Engineering.
-- Hämäläinen, M.S., & Sarvas, J. (1989). Realistic conductivity geometry model of the human head for interpretation of neuromagnetic data. IEEE Transactions on Biomedical Engineering.

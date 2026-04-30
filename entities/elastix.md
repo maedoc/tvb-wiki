@@ -46,9 +46,3 @@ Users building connectome-based models should also consult the methods literatur
 ## Related Software
 
 Elastix occupies a similar functional niche as [[ants]] and [[fsl]] for image registration tasks, with each tool having distinct strengths. [[fsl]] provides the FLIRT tool for linear registration and FNIRT for non-linear registration within a comprehensive neuroimaging analysis suite. [[ants]] offers symmetric diffeomorphic normalization and extensive tools for template construction. Elastix is distinguished by its modular parameter framework and strong performance on multi-modal registration problems. For visualization of registered results, users often employ [[fsleyes]] (part of [[fsl]]), [[itk-snap]], or [[freeview]] (from [[freesurfer]]), and the resulting connectivity matrices can be analyzed using the [[brain-connectivity-toolbox]].
-
-## References
-
-- Klein, S., Staring, M., Murphy, K., Viergever, M. A., & Pluim, J. P. (2010). Elastix: A Toolbox for Intensity-Based Medical Image Registration. *IEEE Transactions on Medical Imaging*, 29(1), 196-205. https://doi.org/10.1109/TMI.2009.2035616
-- Shamonin, D. P., Bron, E. E., Lelieveldt, B. P., Smits, M., Grimbergen, C. A., Henkes, C. M., van der Helm, D., van der Zwaag, W., Krestin, G. P., & Jansen, C. H. (2014). Fast Parallel Image Registration on CPU and GPU. *Frontiers in Neurology*, 4, 97. https://doi.org/10.3389/fneur.2013.00097
-- Tustison, N. J., Avants, B. B., Cook, P. A., Zheng, Y., Egan, A., Yushkevich, P. A., & Gee, J. C. (2010). Symmetric Diffeomorphic Image Registration with Cross-Correlation: Evaluating Automated Labeling of Elderly and Neurodegenerative Brain. *Medical Image Analysis*, 14(1), 26-41. https://doi.org/10.1016/j.media.2009.10.003

@@ -1,11 +1,18 @@
 ---
-title: "NEST (NEural Simulation Tool)"
+title: NEST (NEural Simulation Tool)
 created: 2026-04-20
 updated: 2026-04-20
 type: source
-tags: [paper-methods, software-nest, spiking-neural-networks, brain-network]
-sources: []
+tags: [paper-methods ,software-nest ,spiking-neural-networks ,brain-network]
+doi: "https://doi.org/10.4249/scholarpedia.1430"
+bibtex: |
+  @book{unknownnest,
+    title={NEST (NEural Simulation Tool)},
+    doi={https://doi.org/10.4249/scholarpedia.1430},
+  }
 ---
+
+
 
 # NEST (NEural Simulation Tool)
 

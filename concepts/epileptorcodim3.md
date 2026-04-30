@@ -83,8 +83,3 @@ The Epileptor Codimension-3 thus stands as a prime example of how sophisticated 
 - [[jansen-rit]] - Related neural mass model with comparable bifurcation analysis
 - [[whole-brain-modeling]] - Network-level modeling context for clinical applications
 - [[tvb]] - Software platform for [[whole-brain]] simulations using Epileptor
-
-## References
-
-1. Paul Triebkorn, Huifang E. Wang, Marmaduke Woodman, Maxime Guye, Fabrice Bartolomei, [[viktor-jirsa]]. (2025). *Delay-constrained re-entry governs large-scale brain seizures and other network pathologies*. [Link](https://arxiv.org/abs/2508.04824)
-2. Jonathan Touboul, Fabien Wendling, Bruno Bellanger, Patrick Chauvel, Olivier Faugeras. *Bifurcation analysis of Jansen's neural mass model*. Neural Computation. [DOI](https://doi.org/10.1162/NECO_a_00151)

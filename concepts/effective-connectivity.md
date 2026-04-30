@@ -80,9 +80,3 @@ Estimating effective connectivity from observed brain activity remains challengi
 - [[oscillator]] — Rhythmic activity where EC methods are applied
 - [[connectivity-types]] — Overview of connectivity categories
 - [[variational-bayes]] — Inference framework underlying DCM
-
-## References
-
-1. (authors unknown). *Statistical parametric maps in functional imaging: A general linear approach*.
-2. Neda Abdollahpour, N. Sertac Artan, Ian Daly, Mohammadreza Yazdchi, Zahra Baharlouei. (2025). *Effective Connectivity-Based Unsupervised Channel Selection Method for EEG*. [Link](https://arxiv.org/abs/2510.12910)
-3. Peizhen Yang, Xinke Shen, Zongsheng Li, Zixiang Luo, Kexin Lou, Quanying Liu. *Perturbing a [[neural-network]] to Infer Effective Connectivity: Evidence from Synthetic EEG Data*. [Link](https://arxiv.org/abs/2307.09770)

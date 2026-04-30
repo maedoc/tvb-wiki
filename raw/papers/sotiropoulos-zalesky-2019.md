@@ -3,11 +3,23 @@ title: "Building connectomes using diffusion MRI: Why, how and but"
 created: 2026-04-20
 updated: 2026-04-20
 type: paper
-tags: [neuroimaging-dti, diffusion-imaging, paper-review, connectomics, tractography]
-authors: [Stamatos N Sotiropoulos, Andrew Zalesky]
+tags: [neuroimaging-dti ,diffusion-imaging ,paper-review ,connectomics ,tractography]
+authors:
+  - Stamatos N Sotiropoulos
+  - Andrew Zalesky
 year: 2019
-venue: "NMR in Biomedicine"
+venue: NMR in Biomedicine
+doi: "https://doi.org/10.1002/nbm.3752"
+bibtex: |
+  @book{sotiropoulos2019buil,
+    title={Building connectomes using diffusion MRI: Why, how and but},
+    author={"Stamatos N Sotiropoulos and Andrew Zalesky"},
+    year={2019},
+    publisher={NMR in Biomedicine},
+    doi={https://doi.org/10.1002/nbm.3752},
+  }
 ---
+
 
 # Building connectomes using diffusion MRI: Why, how and but
 

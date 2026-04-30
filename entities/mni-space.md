@@ -15,7 +15,3 @@ Mni Space — a concept in [[whole-brain|whole-brain modeling]] and [[computatio
 
 ## Related Concepts
 * [[aal-atlas]]
-
-## References
-
-1. (authors unknown). *[[functional-connectivity]]: The Principal-Component Analysis of Large (PET and [[fmri]]) Data Sets*.

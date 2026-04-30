@@ -16,9 +16,3 @@ Spontaneous Activity — a concept in [[whole-brain|whole-brain modeling]] and [
 
 ## Related Concepts
 * [[resting-state]]
-
-## References
-
-1. Deco et al. (2013). *Resting brains never rest: computational insights into potential cognitive architectures*. Trends in Neurosciences. [DOI](https://doi.org/10.1016/j.tins.2013.09.002)
-2. (authors unknown). *Model of Global Spontaneous Activity and Local Structured Activity During Delay Periods in the Cerebral Cortex*.
-3. (authors unknown). *[[nonlinear-dynamics]] and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering*.

@@ -3,9 +3,16 @@ title: "ModelDB: making models publicly accessible to support computational neur
 created: 2026-04-20
 updated: 2026-04-20
 type: source
-tags: [paper-methods, software-modeldb, database, tutorial]
-sources: []
+tags: [paper-methods ,software-modeldb ,database ,tutorial]
+doi: "https://doi.org/10.1385/ni:1:1:135"
+bibtex: |
+  @book{unknownmodeldb,
+    title={ModelDB: making models publicly accessible to support computational neuroscience},
+    doi={https://doi.org/10.1385/ni:1:1:135},
+  }
 ---
+
+
 
 # ModelDB: making models publicly accessible to support computational neuroscience
 

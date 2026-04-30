@@ -22,7 +22,3 @@ Researcher in neuroscience. Mentioned in the context of Domain 5 sources.
 
 ## Note
 This page was created as part of Domain 5 ingestion. More specific contributions to be added as sources are reviewed.
-
-## References
-
-1. (authors unknown). *Networks of the Brain*.

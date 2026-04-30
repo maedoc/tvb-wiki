@@ -65,14 +65,3 @@ The following publications form the foundation of Chronux methodology and applic
 ## Related Software
 
 The electrophysiology analysis ecosystem includes several alternatives and complementary tools. [[eeglab]] provides a comprehensive graphical environment for EEG preprocessing and analysis with extensive plugin support. [[fieldtrip]] offers a MATLAB toolbox with similar spectral analysis capabilities plus distributed source localization methods. [[brian]] and [[brian2]] are neuronal simulator environments that implement biophysically detailed spiking neural networks, providing the forward modeling capability complementary to Chronux's data analysis role. For users preferring Python-based workflows, the [[mne-python]] library implements equivalent multitaper spectral estimation and connectivity analysis in a free alternative to MATLAB. The [[brain-connectivity-toolbox]] (BCT) provides graph-theoretic analysis of structural and functional networks that extends Chronux's connectivity measures to network-level metrics.
-
-## References
-
-1. Mitra, P.P. and Bokde, R. (2022). Chronux Analysis Software. http://www.chronux.org/
-2. Bokde, R. and Mitra, P.P. (2011). The Chronux toolbox for analysis of neural data. Society for Neuroscience meeting.
-3. Thomson, D.J. (1982). Spectrum estimation and harmonic analysis. Proceedings of the IEEE 70(9): 1055-1096.
-4. Bruns, A. (2004). Fourier-, Hilbert- and wavelet-based signal analysis: are they really different approaches? Journal of Neuroscience Methods 137(2): 321-332.
-5. Pesaran, B. (2010). Neural recordings and analysis. Current Opinion in Neurobiology 20(5): 613-618.
-6. Slepian, D. (1978). Prolate spheroidal wave functions, Fourier analysis, and uncertainty principle. Bell Labs Technical Journal 57(5): 137-143.
-7. Percival, D.B. and Walden, A.T. (1993). Spectral Analysis for Physical Applications: Multitaper and Conventional Univariate Techniques. Cambridge University Press.
-8. Jarvis, M.R. and Mitra, P.P. (2001). Sampling properties of the spectrum and coherency in sequences of action potentials. Neural Computation 13(4): 717-749.

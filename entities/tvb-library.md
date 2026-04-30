@@ -32,6 +32,3 @@ TVB Library is often used alongside [[tvb]] and other simulation platforms in pr
 * [[bids-validator]]
 * [[bidscoin]]
 * [[brainstorm]]
-
-## References
-* Links to relevant papers and documentation*

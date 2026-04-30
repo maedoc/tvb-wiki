@@ -15,7 +15,3 @@ Jansen R — a concept in [[whole-brain|whole-brain modeling]] and [[computation
 
 ## Related Concepts
 * [[k-ion-exchange]]
-
-## References
-
-1. [[benjamin-jansen|Benjamin H. Jansen]], [[vincent-rit|Vincent G. Rit]]. *Electroencephalogram and visual evoked potential generation in a mathematical model of coupled cortical columns*. Biological Cybernetics. [DOI](https://doi.org/10.1007/BF00199471)

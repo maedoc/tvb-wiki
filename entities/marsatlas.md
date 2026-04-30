@@ -64,35 +64,3 @@ Related atlases include the [AAL Atlas][aal-atlas], [Brainnetome Atlas][brainnet
 5. Bullmore, E. T., & Sporns, O. (2009). Complex brain networks: graph theoretical analysis of structural and functional systems. *Nature Reviews Neuroscience*, 10(3), 186-198. [Network neuroscience background]
 
 6. Fornito, A., Zalesky, A., & Bullmore, E. (2016). *Fundamentals of Brain Network Analysis*. Academic Press. [Network analysis methods]
-
-## References
-
-[1] Auzias, G., et al. (2013). Model-driven harmonic phase analysis for shape representation in neuroimaging. *NeuroImage*, 68, 60-68.
-
-[2] Jirsa, V. K., et al. (2017). The Virtual Brain: a simulator of primate brain network dynamics. *NeuroImage*, 141, 511-528.
-
-[3] Toga, A. W., & Thompson, P. M. (2001). The role of image registration in brain mapping. *Journal of Neural Engineering*, 8(4), 97-116.
-
-[4] Fischl, B. (2012). FreeSurfer. *NeuroImage*, 62(2), 774-781.
-
-[5] Desikan, R. S., et al. (2006). An automated labeling system for subdividing the human cerebral cortex on MRI scans into gyral based regions of interest. *NeuroImage*, 31(3), 968-980.
-
-[6] Glasser, M. F., et al. (2016). A multi-modal parcellation of human cerebral cortex. *Nature*, 536(7615), 171-178.
-
-[7] Woodman, M. M., et al. (2020). Enabling clinical hypothesis testing using The Virtual Brain. *Epilepsia*, 61(9), 1945-1954.
-
-[8] Ritter, P., Schirner, M., McIntosh, A. R., & Jirsa, V. K. (2013). The Virtual Brain: modelling the brain dynamics during neurosurgery. *International Journal of Computer Assisted Radiology and Surgery*, 8(4), 593-604.
-
-[9] The Virtual Brain. (2024). Brain Parcellations. *TVB Documentation*. https://www.thevirtualbrain.org
-
-[10] Schaefer, A., et al. (2018). Local-global parcellation of the human cerebral cortex from intrinsic functional connectivity. *Cerebral Cortex*, 28(9), 3095-3114.
-
-[11] Lanciego, J. L., & Wouterlood, F. G. (2011). A half century of experimental neuroanatomy: directional diagrams and computational models. *Neuroscience & Biobehavioral Reviews*, 35(3), 876-893.
-
-[12] Rubinov, M., & Sporns, O. (2010). Complex network measures of brain connectivity: uses and interpretations. *NeuroImage*, 52(3), 1059-1069.
-
-[13] Tzourio-Mazoyer, N., et al. (2002). Automated anatomical labeling of activations in SPM using a macroscopic anatomical parcellation of the MNI MRI single-subject brain. *NeuroImage*, 15(1), 273-289.
-
-[14] Fan, L., et al. (2016). The Human Brainnetome Atlas: A new brain atlas based on connectional architecture. *Cerebral Cortex*, 26(8), 3508-3526.
-
-[15] Blumensath, M., et al. (2013). Spatially adaptive clustering based on a Bayesian change-point model for fMRI brain activation detection. *NeuroImage*, 83, 400-411.

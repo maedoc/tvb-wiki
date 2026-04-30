@@ -60,15 +60,3 @@ Specifically, heudiconv-converted BIDS datasets can feed into TVB workflows thro
 ## Related Software
 
 heudiconv exists within a rich ecosystem of BIDS-related tools. [[bids]] itself defines the specification; [[bids-validator]] checks compliance; [[pybids]] provides Python programmatic access; [[dcm2niix]] performs the underlying format conversion; [[MRtrix3 Connectome]] builds structural connectomes from diffusion data; [[FMRIprep]] preprocesses functional data; and [[mriqc]] generates quality control reports. Within the TVB ecosystem, heudiconv can be paired with [[connectome-mapper-3]] for generating parcellations and connectivity matrices that feed into [[whole-brain modeling]] pipelines [1][2][4].
-
-## References
-
-1. Halchenko, Y. O., et al. (2018). heudiconv: Flexible DICOM to BIDS conversion. *Journal of Open Source Software*, 3(29), 940. https://doi.org/10.21105/joss.00940
-
-2. heudiconv documentation. https://heudiconv.readthedocs.io/
-
-3. Gorgolewski, K. J., et al. (2016). The Brain Imaging Data Structure, a format for organizing and describing outputs of neuroimaging experiments. *Scientific Data*, 3, 160044. https://doi.org/10.1038/sdata.2016.44
-
-4. Jirsa, V. K., et al. (2016). [[tvb|The Virtual Brain]]: A simulator of primate brain [[network-dynamics]]. *Frontiers in Neuroinformatics*, 9, 15. https://doi.org/10.3389/fninf.2015.00015
-
-5. TVB Documentation. https://www.thevirtualbrain.org/

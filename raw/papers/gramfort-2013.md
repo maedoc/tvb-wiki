@@ -3,9 +3,16 @@ title: "MEG and EEG: From Acquisition to Analysis"
 created: 2026-04-30
 updated: 2026-04-30
 type: source
-tags: [mne-python, eeg, meg, software-analysis]
-sources: [https://doi.org/10.3389/fnins.2013.00010, https://mne.tools/stable/generated/mne.io.read_raw_bdf]
+tags: [mne-python ,eeg ,meg ,software-analysis]
+doi: "https://doi.org/10.3390/brainsci7060058"
+bibtex: |
+  @book{unknownmeg,
+    title={MEG and EEG: From Acquisition to Analysis},
+    doi={https://doi.org/10.3390/brainsci7060058},
+  }
 ---
+
+
 
 # MEG and EEG: From Acquisition to Analysis
 

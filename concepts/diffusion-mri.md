@@ -67,9 +67,3 @@ Crossing fiber architectures challenge models assuming single fiber orientation 
 - [[connectomics]] – The study of complete neural wiring
 - [[neuroimaging]] – General category of brain imaging techniques
 - [[human-connectome-project]] – Major initiative providing high-quality dMRI data
-
-## References
-
-1. (authors unknown). *MR diffusion tensor spectroscopy and imaging*.
-2. (authors unknown). *Challenges and limitations of quantifying brain connectivity in vivo with diffusion MRI*.
-3. (authors unknown). *Building connectomes using diffusion MRI: Why, how and but*.

@@ -69,9 +69,3 @@ TVB and MOOSE can theoretically be linked in multiscale workflows: MOOSE could s
 - Dudani, N. & Bhalla, U.S. (2018). Multi-day rhythms in multi-dimensional data. *Biophysical Journal*, 114(3), 782-784.
 - Ray, S. & Bhalla, U.S. (2008). PyMOOSE: Interoperable scripting in Python for MOOSE. *Frontiers in Neuroinformatics*, 2, 6. https://doi.org/10.3389/neuro.11.006.2008
 - Subramanian, N. et al. (2017). NSDF: Neuroscience Simulation Data Format. *Neuroinformatics*, 15(1), 21-31. https://doi.org/10.1007/s12021-016-9302-5
-
-## References
-[^1]: Bhalla, U.S. (2011). Multiscale modeling and synaptic [[plasticity]]: MOOSE and the synaptic signalling ladder. *Journal of Physiology-Paris*, 105(1-3), 64-71.
-[^2]: Ray, S. & Bhalla, U.S. (2008). PyMOOSE: Interoperable scripting in Python for MOOSE. *Frontiers in Neuroinformatics*, 2, 6.
-[^3]: Subramanian, N. et al. (2017). NSDF: Neuroscience Simulation Data Format. *Neuroinformatics*, 15(1), 21-31.
-[^4]: Bhalla, U.S. (2014). MOOSE: Complex modeling from neurons to signaling to networks to behavior. *NCBS Technical Documentation*. https://github.com/BhallaLab/moose

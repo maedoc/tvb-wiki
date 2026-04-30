@@ -48,13 +48,3 @@ CoCoMac predates several later connectome resources, including the [[human-conne
 ## Key Papers
 
 The foundational CoCoMac publication described the database architecture and demonstrated its application to cortical network analysis (Kötter & Stephan, 2007). Subsequent work mapped the database to novel parcellation schemes and explored the relationship between [[structural-connectivity]] and [[functional-connectivity]] measured with [[fmri]] (Kötter et al., 2007; Honey et al., 2007). These studies established the empirical foundation for computational models demonstrating that structural connectivity patterns constrain functional dynamics in large‑scale brain networks.
-
-## References
-
-1. Kötter, R., & Stephan, K. E. (2007). Network participation in the analysis of neuroimaging data. *Brain and Cognition*, 65(1‑2), 169‑190. doi:10.1007/s11571-007-9013-1
-
-2. Kötter, R., Wree, A., & Stephan, K. E. (2007). The macaque macroscopical connectivity. *Brain and Cognition*, 65(2), 163‑165. doi:10.1007/s11571-007-9023-z
-
-3. Honey, C. J., Kötter, R., Breakspear, M., Geiger, S., Hilgetag, C. C., Matushansky, L., … & Sporns, O. (2007). Network analysis of anatomical data. *Cerebral Cortex*, 17(1), 149‑162. doi:10.1093/cercor/bhj160
-
-4. [[tvb|The Virtual Brain]]. (2023). Structural Connectomics. In: Jirsa, V., McIntosh, A. (eds) *Handbook of Brain Connectivity*. Springer.

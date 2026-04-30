@@ -41,8 +41,3 @@ Neuroscientist known for the Blue Brain Project and data-driven cortical reconst
 - [[spiking neural networks]] — Modeling approach
 - [[whole brain]] — Scaling ambition
 - [[brain network]] — Network organization focus
-
-## References
-
-1. Markram et al. (2015). *Reconstruction and simulation of neocortical microcircuitry*. Cell. [DOI](https://doi.org/10.1016/j.cell.2015.09.029)
-2. Potjans & Diesmann (2014). *The cell-type specific cortical microcircuit: relating structure and activity*. Cerebral Cortex. [DOI](https://doi.org/10.1093/cercor/bhs358)

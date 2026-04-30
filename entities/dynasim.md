@@ -32,6 +32,3 @@ DynaSim is often used alongside [[tvb]] and other simulation platforms in pre-pr
 * [[bids-validator]]
 * [[bidscoin]]
 * [[brainstorm]]
-
-## References
-* Links to relevant papers and documentation*

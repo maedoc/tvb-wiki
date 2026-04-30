@@ -58,15 +58,3 @@ QSIPrep is part of a broader ecosystem of neuroimaging preprocessing pipelines t
 - Gorgolewski, K., et al. (2017). fMRIPrep: A robust preprocessing pipeline for functional MRI. *Nature Methods*, 14(7), 733–736.
 
 ---
-
-## References
-
-Andersson, J. L. R., & Sotiropoulos, S. N. (2016). An integrated approach to correction for off-resonance field inhomogeneities and subject movement in diffusion MR imaging. *NeuroImage*, 125, 1063–1078.
-
-Cieslak, M., et al. (2021). QSIPrep: An integrative pipeline for preprocessing quantitative diffusion MRI. Free Neuroimaging.
-
-Gorgolewski, K., et al. (2017). fMRIPrep: A robust preprocessing pipeline for functional MRI. *Nature Methods*, 14(7), 733–736.
-
-Smith, S. M., et al. (2004). Advances in functional and structural MR image analysis and implementation as FSL. *NeuroImage*, 23, 208–219.
-
-Tournier, J. D., Calamante, F., & Connelly, A. (2007). Robust determination of the fibre orientation distribution in diffusion MRI: Non-negativity constrained super-resolved spherical deconvolution. *NeuroImage*, 35(4), 1459–1472.

@@ -47,11 +47,3 @@ The library is frequently used in conjunction with [[brain‑connectivity‑tool
 ## Related Software
 
 Graph‑tool occupies a specific niche in the network analysis ecosystem alongside several related tools. [[bctpy|The Brain Connectivity Toolbox]] (bctpy) provides a larger collection of neuroscience‑specific network metrics but runs slower than graph‑tool for large networks rubinov2010. [[braph|Braph]] offers a MATLAB‑compatible Python approach for brain network analysis with a focus on [[connectomics|connectomics]] workflows. [[gretna|GRETNA]] provides a graphical interface for network analysis focused on neuroimaging data. For general‑purpose network analysis beyond neuroscience, [[network‑dynamics]] offers a broader but slower pure‑Python implementation. For [[community‑detection|community detection]] specifically, the [[graphvar|GraphVar]] package integrates graph‑theoretic analysis with statistical testing for neuroimaging applications.
-
-## References
-
-1. Peixoto, T. P. (2014). The graph‑tool python library. figshare. Dataset.
-2. Peixoto, T. P. (2017). Uncovering the structure of sparse graphs via stochastic block models. *Journal of Physics: Conference Series*, 760(1), 012001.
-3. Peixoto, T. P. (2014). Hierarchical block structures and high‑resolution model selection in large networks. *Physical Review X*, 4(1), 011047.
-4. Rubinov, M., & Sporns, O. (2010). Complex network measures of brain [[connectivity]]: uses and interpretations. *Current Opinion in Neurobiology*, 20(3), 663–671.
-5. 荒荒 (2023). Comparative analysis of [[brain‑network]] analysis tools in neuroscience research. *[[computational‑neuroscience]] Review*, 1(2), 45‑58.

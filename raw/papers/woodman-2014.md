@@ -3,9 +3,16 @@ title: "GraphVar: A user-friendly toolbox for comprehensive graph analyses of fu
 created: 2026-04-20
 updated: 2026-04-20
 type: source
-tags: [paper-methods, software-graphvar, functional-connectivity, network-dynamics, brain-network]
-sources: []
+tags: [paper-methods ,software-graphvar ,functional-connectivity ,network-dynamics ,brain-network]
+doi: "https://doi.org/10.1016/j.jneumeth.2015.02.021"
+bibtex: |
+  @book{unknowngraphvar,
+    title={GraphVar: A user-friendly toolbox for comprehensive graph analyses of functional brain connectivity},
+    doi={https://doi.org/10.1016/j.jneumeth.2015.02.021},
+  }
 ---
+
+
 
 # GraphVar: A user-friendly toolbox for comprehensive graph analyses of functional brain connectivity
 

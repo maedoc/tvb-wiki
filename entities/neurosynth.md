@@ -64,11 +64,3 @@ The platform intersects with resting-state research by providing normative activ
 Despite its widespread adoption, Neurosynth has notable limitations that researchers must consider. The platform relies on automated extraction of peak coordinates, which can include errors introduced by authors reporting non-peak activations or mislabeling anatomical regions. The term-based approach depends on the accuracy of natural language processing in associating cognitive terms with studies, and may miss nuances in experimental design. Additionally, the database is necessarily retrospective—new studies are continuously added but the platform cannot capture the full breadth of ongoing research.
 
 Methodological debates continue about the appropriate use of Neurosynth data for brain mapping. Critics argue that the platform conflates cognitive terms with diverse experimental paradigms, potentially obscuring important regional heterogeneity. Others note that activation maps reflect the aggregate of published studies, which may be biased toward particular populations, scanners, or analysis pipelines. Despite these limitations, Neurosynth remains a valuable tool for hypothesis generation and for providing empirical constraints in whole-brain modeling workflows.
-
-## References
-
-1. Yarkoni, T., Poldrack, R.A., Nichols, T.E., Van Essen, D.C., & Wager, T.D. (2011). Large-scale automated synthesis of human functional neuroimaging data. *Nature Methods*, 8(8), 665-670.
-
-2. Poldrack, R.A., Mumford, J.A., & Nichols, T.E. (2011). *Handbook of Functional Connectivity MRI*. Academic Press.
-
-3. NeuroQuery. Modern coordinate-based meta-analysis with improved NLP. https://neuroquery.org/

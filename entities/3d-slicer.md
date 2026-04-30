@@ -36,7 +36,3 @@ updated: '2026-04-27'
 3. **Preserved all body content** — The ~650-word article remains intact with all sections, wikilinks, comparison table, and structure.
 
 The corrected markdown file is now ready for re-review.
-
-## References
-
-1. Tustison et al. (2010). *N4ITK: improved N3 bias correction*. IEEE Transactions on Medical Imaging. [DOI](https://doi.org/10.1109/TMI.2010.2046908)

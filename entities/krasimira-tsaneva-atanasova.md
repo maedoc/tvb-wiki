@@ -99,9 +99,3 @@ In the neuroscientific domain, understanding how neuronal and endocrine systems 
 * [[nonlinear-dynamics]]
 * [[personalized-brain-modeling]]
 * [[parameter-estimation]]
-
-## References
-
-1. University of Exeter Living Systems Institute Profile. [Link](https://lsi.exeter.ac.uk/member/prof-krasimira-tsaneva-atanasova/)
-2. Institute for Advanced Study, Technical University of Munich. [Link](https://www.ias.tum.de/en/ias/tsaneva-atanasova-krasimira/)
-3. ORCID: 0000-0002-6294-7051

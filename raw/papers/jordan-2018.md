@@ -3,9 +3,16 @@ title: "Extremely scalable spiking neuronal network simulation code: from laptop
 created: 2026-04-20
 updated: 2026-04-20
 type: source
-tags: [paper-methods, software-nest, spiking-neural-networks, brain-network, whole-brain-modeling]
-sources: []
+tags: [paper-methods ,software-nest ,spiking-neural-networks ,brain-network ,whole-brain-modeling]
+doi: "https://doi.org/10.3389/fninf.2018.00002"
+bibtex: |
+  @book{unknownextremely,
+    title={Extremely scalable spiking neuronal network simulation code: from laptops to exascale computers},
+    doi={https://doi.org/10.3389/fninf.2018.00002},
+  }
 ---
+
+
 
 # Extremely scalable spiking neuronal network simulation code: from laptops to exascale computers
 

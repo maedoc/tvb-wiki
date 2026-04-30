@@ -67,11 +67,3 @@ The Jülich Atlas can be used with standard neuroimaging toolkits including [[fs
 4. Amunts K, Zilles K. (2015). “Architectonic Mapping of the Human Brain.” In: Toga AW (ed). *Brain Mapping: An Encyclopedic Reference*. Academic Press.
 
 5. Evans AC, Collins DL, Mills SR, et al. (1992). “3D Statistical Neuroanatomic Models of 305 Normal Brains.” *Proceedings of the IEEE Nuclear Science Symposium and Medical Imaging Conference*.
-
-## References
-
-Amunts K, Zilles K. (2015). “Architectonic Mapping of the Human Cortex.” In: Toga AW (ed). *Brain Mapping: An Encyclopedic Reference*. Academic Press.
-
-Amunts K, Lepage C, Borge L, et al. (2010). “BigBrain: An Ultrahigh‑Resolution 3D Human Brain Model.” *Science* 340(6139): 1472‑1475.
-
-Zilles K, Amunts K. (2010). “Centennial Review of the Node‑Correlation in Cerebral Cortex. Mapping of Cytoarchitecture.” *Frontiers in Neuroanatomy* 4: 16.

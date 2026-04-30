@@ -66,10 +66,3 @@ The Allen SDK complements other data resources like the Human Connectome Project
 2. Allen Institute for Brain Science. "Mouse Connectivity Atlas: Informatics Data Processing." Technical whitepaper describing the projection mapping studies and data processing pipeline.
 
 3. Allen Institute for Brain Science. "Allen Mouse Common Coordinate Framework Version 3 (2017)." Overview of the design and implementation of the reference atlas space.
-
-## References
-
-- Allen SDK GitHub Repository: https://github.com/AllenInstitute/AllenSDK
-- Allen SDK Documentation: https://allensdk.readthedocs.io/en/latest/
-- Allen Brain Map Connectivity API: https://brain-map.org/support/documentation/api-allen-brain-connectivity-atlas
-- BMTK PointNet Documentation: https://alleninstitute.github.io/bmtk/pointnet.html

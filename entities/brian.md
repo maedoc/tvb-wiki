@@ -33,6 +33,3 @@ Brian is often used alongside [[tvb]] and other simulation platforms in pre-proc
 * [[bids-validator]]
 * [[bidscoin]]
 * [[brainstorm]]
-
-## References
-* Links to relevant papers and documentation*

@@ -58,16 +58,3 @@ conda install -c brainiak brainiak
 # Docker
 docker pull brainiak/brainiak
 ```
-
-## References
-
-- **brainiak_org**: BrainIAK Official Website. https://brainiak.org/
-- **brainiak_docs**: BrainIAK Documentation. https://brainiak.org/docs/
-- **brainiak_tutorials**: BrainIAK Tutorials. https://brainiak.org/tutorials/
-- **kumar2022brainiak**: Kumar, M., Anderson, M.J., Antony, J.W., et al. (2022). BrainIAK: The Brain Imaging Analysis Kit. *Aperture Neuro*, 1(4). https://doi.org/10.52294/31bb5b68-2184-411b-8c00-a1dacb61e1da
-- **kumar2020tutorials**: Kumar, M., Ellis, C.T., Lu, Q., et al. (2020). BrainIAK tutorials: User-friendly learning materials for advanced fMRI analysis. *PLoS Computational Biology*, 16(1), e1007549.
-- **kriegeskorte2008representational**: Kriegeskorte, N., Mur, M., & Bandettini, P. (2008). Representational similarity analysis—connecting the branches of systems neuroscience. *Frontiers in Systems Neuroscience*, 2, 4.
-- **norman2002multivariate**: Norman, K.A., Polyn, S.M., Detre, G.J., & Haxby, J.V. (2002). Beyond mind-reading: Multi-voxel pattern analysis of fMRI data. *Trends in Cognitive Sciences*, 6(12), 518-525.
-- **van2013wu**: Van Essen, D.C., Smith, S.M., Barch, D.M., et al. (2013). The WU-Minn Human Connectome Project: An overview. *NeuroImage*, 80, 62-79.
-- **sanzleon2013tvb**: Sanz-Leon, P., Reckziehungengel, S., v., et al. (2013). The Virtual Brain: A simulator of primate brain network dynamics. *Neuroinformatics*, 11(3), 299.
-- **richard2020deep**: Richard, H., Kording, K., & Gilmore, R. (2020). Deep neural networks: Getting the neuroscientist's stamp of approval. *arXiv preprint arXiv:2006.07223.*

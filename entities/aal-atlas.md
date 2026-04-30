@@ -62,8 +62,3 @@ TVB users can import AAL-based connectivity matrices from sources like the [[hcp
 - [[desikan-killiany-atlas]]
 - [[schaefer-atlas]]
 - [[brainnetome-atlas]]
-
-## References
-1. Tzourio-Mazoyer N, et al. (2002). Automated anatomical labeling of activations in SPM using a macroscopic anatomical parcellation of the MNI MRI single-subject brain. *NeuroImage*, 15(1), 273-289.
-2. Fan L, et al. (2016). Automated anatomical labeling atlas 2. *NeuroImage*, 124, 1-15.
-3. Rolls ET, et al. (2020). Automated anatomical labelling atlas 3. *NeuroImage*, 206, 116132.

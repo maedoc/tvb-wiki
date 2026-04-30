@@ -73,37 +73,3 @@ Incorporating age-related changes into whole-brain models requires systematic mo
 Computational models incorporating these parameters have been used to predict cognitive decline trajectories, simulate dementia progression particularly in Alzheimer's disease, and identify modifiable lifestyle factors that promote [[successful-aging]]. The [[dynamic-causal-modeling]] framework has proved particularly valuable for characterizing age-related changes in [[effective-connectivity]], demonstrating both reduced feedforward connectivity and altered feedback modulation.
 
 Applications to personalized modeling involve fitting individual parameters to empirical neuroimaging data—including regional volumes, white matter integrity measures, and [[resting-state]] connectivity patterns—to generate predictions about future cognitive trajectories or responses to interventions. This approach requires careful attention to the non-stationarity of [[brain-dynamics]] with age, as the same model structure may require different parameter constraints across the lifespan.
-
-## References
-
-1. (authors unknown). *Memory and Executive Function in Aging and AD: Multiple Factors that Cause Decline and Reserve Factors that Compensate*.
-2. (authors unknown). *The Cognitive Neuroscience of Ageing and Functional Reserve*.
-3. (authors unknown). *Effects of Aging on Functional Connectivity of the Default Mode Network*.
-
-[[andrei-medvedev]]
-
-## ORPHAN PAGE CONTEXT (andrei-medvedev)
----
-created: 2026-04-20
-sources:
-- raw/papers/sporns-2011.md
-- raw/papers/semanticscholar-a4f4c699c90f.md
-- raw/papers/arxiv-2603.24343.md
-- raw/papers/semanticscholar-929b90566fc8.md
-tags:
-- people-researcher
-title: Andrei Medvedev
-type: entity
-updated: '2026-04-27'
----
-
-# Andrei Medvedev
-
-Researcher in neuroscience. Mentioned in the context of Domain 5 sources.
-
-## Related Concepts
-- [[neurodevelopment]]
-- [[aging]]
-
-## Note
-This page was created as part of Domain 5 ingestion. More specific co

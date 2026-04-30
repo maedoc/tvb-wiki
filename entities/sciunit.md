@@ -88,11 +88,3 @@ While direct integration between SciUnit and TVB remains an active development a
 - **Omar et al. (2014)** — Early foundations for structured model validation in computational neuroscience
 
 - **Sarma et al. (2016)** — Application of SciUnit principles to ion channel model validation
-
-## References
-
-1. Gerkin, R. C., & Omar, C. (2019). SciUnit: A framework for validation of scientific models. *Journal of Open Source Software*, 4(40), 1847.
-
-2. Omar, C., Aldrich, R. W., & McManus, O. B. (2014). SciUnit: A framework for testing scientific models. *Frontiers in Neuroinformatics*, Conference Abstract.
-
-3. Sarma, G. P., et al. (2016). Unit testing, model validation, and biological simulation. *F1000Research*, 5, 1946.

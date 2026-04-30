@@ -40,7 +40,3 @@ The seminal publication describing SpikeInterface (Buccino et al., 2020)[^1] dem
 ## Related Software
 
 SpikeInterface integrates with several key tools in the electrophysiology ecosystem. The [[NEO]] library provides the underlying core data structures and I/O capabilities, offering a shared object model for neurophysiology data. For visualization, researchers commonly pair SpikeInterface with [[phy]], an interactive spike sorting viewer that provides manual curation capabilities. Analysis of local field potentials often involves [[LFPy]] for forward modeling and volume conduction, while integration with [[NEST]] and [[NEURON]] enables comparison between real neural recordings and simulated spike trains. The framework also connects to the broader Python scientific stack including [NumPy](https://numpy.org/), [SciPy](https://scipy.org/), and Neo-compatible pipeline tools.
-
-## References
-
-[^1]: Buccino, A. P., Garcia, S., & Einevoll, G. T. (2020). SpikeInterface: a unified framework for electrophysiology data I/O and preprocessing. *Frontiers in Neuroinformatics*, 14, 37.

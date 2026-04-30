@@ -50,13 +50,3 @@ Auryn belongs to a family of simulators for spiking neural networks. [[nest]] is
 ## Key Papers
 
 The primary reference for Auryn is the software publication by R. V. C. J. Brodersen and colleagues at the University of Zurich, describing the software architecture and benchmarking results demonstrating its scalability to millions of neurons and billions of synapses[^1]. Applications of Auryn have appeared in studies of spike-timing dependent plasticity in recurrent networks, the emergence of cortical oscillations, and the effects of excitation-inhibition balance on [[network-dynamics]][^2]. Related work on adaptive exponential integrate-and-fire neurons (which Auryn implements) builds on the foundational work of Brette and Gerstner on simplified neuron models for network simulation[^3].
-
-## References
-
-[^1]: Brodersen, R. V. C. J., et al. (2014). Auryn: a fast, flexible and scalable neural simulator. *PLoS Computational Biology*, 10(9), e1005290. https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005290
-
-[^2]: Pfister, J. P., & Gerstner, W. (2006). Triplets of spikes in a model of spike timing-dependent plasticity. *Journal of Neuroscience*, 26(38), 9673-9682.
-
-[^3]: Brette, R., & Gerstner, W. (2005). Adaptive exponential integrate-and-fire model as an effective description of neuronal activity. *Journal of Neurophysiology*, 94(5), 3637-3642. https://journals.physiolonline.org/Full%20Text/2005/Jun%2005/Abstract/Sandberg/Berman.asp
-
-[^4]: Sanz-Leon, P., et al. (2015). [[tvb|The Virtual Brain]]: a simulator of primate [[brain-network]] dynamics. *Neuroinformatics*, 13(4), 427-441. https://www.nature.com/articles/nn.1356

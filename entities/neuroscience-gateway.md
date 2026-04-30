@@ -65,9 +65,3 @@ The following publications document the development and use of the Neuroscience 
 - Sivagnanam S, Majumdar A, Yoshimoto K, Astakhov V, Bandrowski A, Martone M, Carnevale N (2013). Introducing the Neuroscience Gateway. Proceedings of the 5th International Workshop on Science Gateways. CEUR Workshop Proceedings 993.
 
 - Sivagnanam S, Yoshimoto K, Astakhov V, Majumdar A (2018). The Neuroscience Gateway: Enabling Large Scale Modeling and Data Processing in Neuroscience. PEARC '18.
-
-## References
-1. Carnevale T, Majumdar A, Sivagnanam S, Yoshimoto K, Astakhov V, Bandrowski A, Martone M. The neuroscience gateway portal: high performance computing made easy. BMC Neurosci. 2014;15(Suppl 1):P101. https://doi.org/10.1186/1471-2202-15-S1-P101
-2. Sivagnanam S, Majumdar A, Yoshimoto K, Astakhov V, Bandrowski A, Martone M, Carnevale N. Introducing the Neuroscience Gateway. Proc. 5th Intl Workshop on Science Gateways. 2013. https://ceur-ws.org/Vol-993/
-3. UC San Diego. UC San Diego, Yale Awarded Collaborative NSF Grant for Neuroscience Gateway. 2012. https://today.ucsd.edu/story/uc_san_diego_yale_awarded_collaborative_nsf_grant_for_neuroscience_gateway
-4. Neuroscience Gateway Portal. https://www.nsgportal.org/overview.html

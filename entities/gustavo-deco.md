@@ -40,9 +40,3 @@ Computational neuroscientist known for work on large-scale brain models and rest
 - [[resting state]] — Research domain
 - [[whole brain]] — Modeling scale
 - [[neural mass model]] — Methodology
-
-## References
-
-1. Deco et al. (2013). *Resting brains never rest: computational insights into potential cognitive architectures*. Trends in Neurosciences. [DOI](https://doi.org/10.1016/j.tins.2013.09.002)
-2. (authors unknown). *Stochastic Dynamics and the Brain*.
-3. (authors unknown). *Stochastic Dynamics in the Brain and Probabilistic Models*.

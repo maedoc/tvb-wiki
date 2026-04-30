@@ -34,22 +34,3 @@ Brainstorm is often used alongside [[tvb]] and other simulation platforms in pre
 * [[brian]]
 * [[cartool]]
 * [[erplab]]
-
-## References
-* Links to relevant papers and documentation*
-
-## ORPHAN PAGE CONTEXT (erplab)
----
-created: 2025-01-15
-sources: []
-tags:
-- neuroimaging-eeg
-- [[electrophysiology]]
-- software-visualization
-- [[neural-mass-models]]
-title: ERPLAB
-type: entity
-updated: '2026-04-29'
----
-
-ERPLAB is a popular open-source MATLAB toolbox for processing and analyzing event-related potential (ERP) data, designed as a plugin extension to [[eeglab]]. The toolbox provides comprehensive functionality for preprocessing, filtering, artifact rejection, and statistical analysis of ERP waveforms, making it an essent

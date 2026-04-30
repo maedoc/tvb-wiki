@@ -51,9 +51,3 @@ The primary citation for fMRIPrep is Esteban et al. (2019), published in *Nature
 ## Related Software
 
 fMRIPrep represents one component within a broader ecosystem of automated neuroimaging pipelines. Related tools include [[qsiprep]] for diffusion MRI preprocessing, [[mriqc]] for image quality assessment, [[c-pac]] for configurable automated preprocessing, and [[brainlife]] as a platform for integrated neuroimaging workflows. The pipeline's development has influenced standardization efforts across the neuroimaging community and established templates for other modality-specific preprocessing solutions.
-
-## References
-
-- Esteban O, Markiewicz CJ, Rhoades RW, et al. (2019) fMRIPrep: a robust preprocessing pipeline for functional MRI. *Nature Methods* 16(1): 111–116. https://doi.org/10.1038/s41592-018-0235-4
-- Esteban O, Birman D, Schaer M, Koyejo O, Poldrack RA, Gorgolewski KJ (2017) MRIQC: Advancing the automatic quality assessment of structural and functional MRI. *Sensors* 17(1): 116.
-- Gorgolewski KJ, Esteban O, Markiewicz CJ, et al. (2018) BIDSapp: containerized execution of BIDS workflows on HPC clusters and personal computers. *Frontiers in Neuroinformatics* 12: 25.

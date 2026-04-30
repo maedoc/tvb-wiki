@@ -52,13 +52,3 @@ EEGNet implementations are available in multiple popular EEG analysis frameworks
 Within the [[TVB]] ecosystem, EEGNet can be integrated as a downstream analysis tool for classifying simulated electrophysiological outputs. Researchers using [[The Virtual Brain]] to generate forward-modeled EEG data can apply EEGNet to the synthetic signals for tasks such as biomarker identification or cross-validation against empirical recordings. The combination of TVB's biophysically principled simulations and EEGNet's data-driven classification represents a powerful workflow for bridging computational modeling and empirical neuroscience.
 
 The relationship between EEGNet and other software tools in this domain is worth noting: EEGNet sits alongside traditional signal processing approaches (such as those implemented in [[EEGLAB]] and [[Fieldtrip]]) and physics-based forward modeling tools (such as those used for [[source localization]] in [[The Virtual Brain]]). While EEGNet learns its features directly from data without explicit biophysical modeling, the learned features often correspond to physiologically meaningful oscillations—alpha rhythm suppression, mu rhythm modulation, P300 components—suggesting that the network has learned to decompose EEG signals in ways that partially align with established neuroscientific knowledge.
-
-## References
-
-Lawhern, V. J., Solon, A. J., Waytowich, N. R., Gordon, S. M., Hung, C. P., & Lance, B. J. (2018). EEGNet: A compact CNN for EEG-based brain-computer interfaces. *Journal of Neural Engineering*, 15(5), 056013.
-
-Schirrmeister, R. T., Huber, J. B., Ball, T., Brunner, F., Getz, R. E., Hollunder, F., & Wolf, M. (2017). Deep learning with convolutional neural networks for EEG decoding and visualization. *Human Brain Mapping*, 38(11), 5391-5420.
-
-Mawed, M., Lang, E. W., & Botros, Y. Y. (2021). Deep learning for EEG-based brain-computer interfaces. *Neural Networks*, 140, 1-16.
-
-Zanetti, R., Mayr, F., & Griessenberger, C. (2021). Transfer learning with EEGNet for sleep stage classification. *Computational Intelligence and Neuroscience*, 2021, 6638447.

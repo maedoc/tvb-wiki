@@ -98,21 +98,3 @@ While SIFT provides powerful tools for causal connectivity analysis, several cav
 ## Open Questions
 
 The field of causal connectivity analysis using information-theoretic methods remains actively debated. Questions persist regarding the optimal embedding parameters for transfer entropy estimation in neural data, the relationship between SIFT estimates and [[dynamic-causal-modeling]] (DCM) results, and how to best integrate directed connectivity findings with [[structural-connectivity]] from Diffusion Tensor Imaging (DTI). Future developments may see increased integration between SIFT-style causality analysis and large-scale [[whole-brain-modeling]] frameworks like TVB to create iterative cycles of empirical data analysis and mechanistic model validation.
-
-## References
-
-Brovelli, A., et al. (2004). Beta oscillations in a large cortical network during a simple reaction time task. *Proceedings of the National Academy of Sciences*, 101(21), 8174-8179.
-
-Dhamala, M., et al. (2008). Analyzing information flow in brain networks. *NeuroImage*, 43(3), 497-503.
-
-Granger, C.W.J. (1969). Investigating causal relations by econometric models and cross-spectral methods. *Econometrica*, 37(3), 424-438.
-
-Kaminski, M., et al. (2001). Evaluating causal relations in neural systems. *Neural Networks*, 14(8), 1005-1016.
-
-Korzeniewska, A., et al. (2003). Determination of information flow direction among brain structures. *Journal of Neuroscience Methods*, 124(2), 113-127.
-
-Mullen, T. (2010). The Source Information Flow Toolbox (SIFT): User Manual. Swartz Center for Computational Neuroscience.
-
-Mullen, T., et al. (2011). Source Information Flow Toolbox (SIFT): An electrophysiological source connectivity toolbox for EEGLAB. *Frontiers in Neuroscience*, Conference Abstract: BC11.
-
-Vicente, R., et al. (2011). Transfer entropy—a model-free measure of effective connectivity for the neurosciences. *Journal of Neuroscience Methods*, 195(1), 26-36.

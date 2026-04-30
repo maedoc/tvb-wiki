@@ -3,9 +3,16 @@ title: "The cell-type specific cortical microcircuit: relating structure and act
 created: 2026-04-20
 updated: 2026-04-20
 type: source
-tags: [paper-methods, software-nest, spiking-neural-networks, brain-network, whole-brain-modeling]
-sources: []
+tags: [paper-methods ,software-nest ,spiking-neural-networks ,brain-network ,whole-brain-modeling]
+doi: "https://doi.org/10.1093/cercor/bhs358"
+bibtex: |
+  @book{unknownthe,
+    title={The cell-type specific cortical microcircuit: relating structure and activity},
+    doi={https://doi.org/10.1093/cercor/bhs358},
+  }
 ---
+
+
 
 # The cell-type specific cortical microcircuit: relating structure and activity
 

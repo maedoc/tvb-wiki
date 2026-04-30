@@ -62,9 +62,3 @@ DTI occupies a complementary role alongside other neuroimaging techniques in the
 - [[brain-network]] – Networks of brain regions connected by white matter pathways
 - [[connectomics]] – The study of complete neural wiring diagrams
 - [[fmri]] – Functional imaging often combined with DTI for multi-modal analysis
-
-## References
-
-1. (authors unknown). *MR diffusion tensor spectroscopy and imaging*.
-2. (authors unknown). *Three-dimensional tracking of axonal projections in the brain by magnetic resonance imaging*.
-3. (authors unknown). *Challenges and limitations of quantifying brain connectivity in vivo with diffusion MRI*.

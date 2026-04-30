@@ -1,11 +1,18 @@
 ---
-title: "The NEURON simulation environment"
+title: The NEURON simulation environment
 created: 2026-04-20
 updated: 2026-04-20
 type: source
-tags: [paper-methods, software-neuron, spiking-neural-networks, neural-mass-models]
-sources: []
+tags: [paper-methods ,software-neuron ,spiking-neural-networks ,neural-mass-models]
+doi: "https://doi.org/10.1162/neco.1997.9.6.1179"
+bibtex: |
+  @book{unknownthe,
+    title={The NEURON simulation environment},
+    doi={https://doi.org/10.1162/neco.1997.9.6.1179},
+  }
 ---
+
+
 
 # The NEURON simulation environment
 

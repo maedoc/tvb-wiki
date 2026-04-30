@@ -15,7 +15,3 @@ Hcp Dataset — a concept in [[whole-brain|whole-brain modeling]] and [[computat
 
 ## Related Concepts
 * [[aal-atlas]]
-
-## References
-
-1. (authors unknown). *The WU-Minn [[mrtrix3-connectome]]-project*: An Overview.

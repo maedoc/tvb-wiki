@@ -15,7 +15,3 @@ Fractional Anisotropy — a concept in [[whole-brain|whole-brain modeling]] and 
 
 ## Related Concepts
 * [[aging]]
-
-## References
-
-1. (authors unknown). *Functional [[connectomics]] from [[resting-state|Resting-State fMRI]]*.

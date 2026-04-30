@@ -56,11 +56,3 @@ PhysioNet is part of a broader ecosystem of open neuroscience databases that ser
 4. Delorme, A., Makeig, S. (2004). EEGLAB: an open source toolbox for analysis of single-trial EEG dynamics including independent component analysis. *Journal of Neuroscience Methods* 134(1): 9-21.
 
 5. Gramfort, A., Luessi, M., Larson, E., Enghoff, M., Strohmeier, D., Brodbeck, C., Goj, R., Jas, M., Brooks, T., Wilson, L., Hämäläinen, M. (2013). MNE-Python software for processing MEG and EEG data. *Neuroimage* 86: 446-460.
-
-## References
-
-- Goldberger, A.L., et al. (2000). PhysioBank, PhysioToolkit, and PhysioNet: Components of a New Research Resource for Complex Physiologic Signals. *Circulation*, 101(23), e215-e220.
-- Moody, G.B., Mark, R.G. (2001). The PhysioNet/Computing in Cardiology Challenge 2000: Goals and Results. *Computers in Cardiology*, 27, 207-210.
-- Moody, G.B. (1989). WFDB User's Guide. MIT Laboratory for Computer Science.
-- Delorme, A., Makeig, S. (2004). EEGLAB: an open source toolbox for analysis of single-trial EEG dynamics. *Journal of Neuroscience Methods*, 134(1), 9-21.
-- Gramfort, A., et al. (2013). MNE-Python software for processing MEG and EEG data. *Neuroimage*, 86, 446-460.

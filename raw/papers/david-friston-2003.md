@@ -1,11 +1,18 @@
 ---
-title: "Dynamic causal modelling"
+title: Dynamic causal modelling
 created: 2026-04-20
 updated: 2026-04-20
 type: source
-tags: [paper-methods, dynamic-causal-modeling, effective-connectivity, whole-brain-modeling, neuroimaging-fmri]
-sources: []
+tags: [paper-methods ,dynamic-causal-modeling ,effective-connectivity ,whole-brain-modeling ,neuroimaging-fmri]
+doi: "https://doi.org/10.1016/s1053-8119(03)00202-7"
+bibtex: |
+  @book{unknowndynamic,
+    title={Dynamic causal modelling},
+    doi={https://doi.org/10.1016/s1053-8119(03)00202-7},
+  }
 ---
+
+
 
 # Dynamic causal modelling
 

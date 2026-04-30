@@ -104,8 +104,3 @@ The integration of [[effective-connectivity]] methods—such as [[dynamic-causal
 - [[TVB]] — Primary software platform for personalized brain simulation
 - [[resting-state]] — The empirical functional patterns commonly used for model validation
 - [[fmri-vs-eeg|Fmri Vs Eeg]]
-## References
-
-1. Ritter et al. (2013). *[[the-virtual-brain]] integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
-2. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2018.05.040)
-3. Hongjie Jiang, Yifei Tang, Shuqiang Wang. *Neural Dynamics-Informed Pre-trained Framework for Personalized Brain Functional Network Construction*. [Link](https://arxiv.org/abs/2603.07524)

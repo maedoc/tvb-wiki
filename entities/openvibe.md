@@ -65,19 +65,3 @@ Under the hood, OpenViBE uses a box-and-stream architecture where data flows bet
 OpenViBE occupies a niche in the neurophysiology software landscape that partially overlaps with several other widely-used tools. [[eeglab]] provides comprehensive offline signal processing capabilities for EEG data but lacks native real-time operation; similarly, [[fieldtrip]] excels at offline analysis but requires additional infrastructure for real-time applications. For real-time BCI applications, OpenViBE competes with [[bci2000]], another established platform that has been widely used in BCI research communities. The platform also relates to [[mne-python]] and [[spikeinterface]], which offer sophisticated analysis pipelines for neurophysiological data, though these are primarily oriented toward offline analysis in Python rather than real-time processing.
 
 For researchers working with [[electrophysiology]] data who require both real-time capabilities and integration with large-scale brain modeling, OpenViBE may be used in conjunction with simulation environments like [[nest]] or [[the-virtual-brain]], where the former handles signal acquisition and processing while the latter provides computational models of brain dynamics. The complementary nature of these tools reflects the broader trend toward integrated experimental-computational neuroscience workflows that bridge empirical measurement and theoretical modeling.
-
-## References
-
-[1] OpenViBE Official Website. https://openvibe.inria.fr/
-
-[2] BCI Competition IV Results. https://www.bbci.de/competition/iv/results/
-
-[3] OpenViBE Supported File Formats. https://openvibe.inria.fr/supported-file-formats/
-
-[4] OpenViBE Documentation - Latency Configuration. http://openvibe.inria.fr/drivers-openbci/
-
-[5] Renard, Y. et al. (2010). OpenViBE: An Open-Source Software Platform to Design, Test and Use Brain-Computer Interfaces in Real and Virtual Environments. *Presence: Teleoperators and Virtual Environments*, 19(1), 35-53. https://hal.science/hal-00477153
-
-[6] Renard, Y. et al. (2010). OpenViBE Tutorial: A Novel Open-Source Software to Design, Test and Use Brain-Computer Interfaces. *BCI Meeting 2010*. https://inria.hal.science/inria-00551379
-
-[7] Brodu, N., Lotte, F., & Lécuyer, A. (2012). Exploring Two Novel Features for EEG-based Brain-Computer Interfaces. *Neurocomputing*, 79, 87-94.

@@ -1,11 +1,18 @@
 ---
-title: "A mathematical theory of the functional dynamics of cortical and thalamic nervous tissue"
+title: A mathematical theory of the functional dynamics of cortical and thalamic nervous tissue
 created: 2026-04-20
 updated: 2026-04-20
 type: source
-tags: [paper-methods, neural-mass-models, brain-oscillations, people-researcher]
-sources: []
+tags: [paper-methods ,neural-mass-models ,brain-oscillations ,people-researcher]
+doi: "https://doi.org/10.1007/bf00288786"
+bibtex: |
+  @book{unknowna,
+    title={A mathematical theory of the functional dynamics of cortical and thalamic nervous tissue},
+    doi={https://doi.org/10.1007/bf00288786},
+  }
 ---
+
+
 
 # A mathematical theory of the functional dynamics of cortical and thalamic nervous tissue
 

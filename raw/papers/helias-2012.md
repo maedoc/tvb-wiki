@@ -1,11 +1,18 @@
 ---
-title: "Supercomputers ready for use as discovery machines for neuroscience"
+title: Supercomputers ready for use as discovery machines for neuroscience
 created: 2026-04-20
 updated: 2026-04-20
 type: source
-tags: [paper-methods, software-nest, spiking-neural-networks, brain-network]
-sources: []
+tags: [paper-methods ,software-nest ,spiking-neural-networks ,brain-network]
+doi: "https://doi.org/10.3389/fninf.2012.00026"
+bibtex: |
+  @book{unknownsupercomputer,
+    title={Supercomputers ready for use as discovery machines for neuroscience},
+    doi={https://doi.org/10.3389/fninf.2012.00026},
+  }
 ---
+
+
 
 # Supercomputers ready for use as discovery machines for neuroscience
 

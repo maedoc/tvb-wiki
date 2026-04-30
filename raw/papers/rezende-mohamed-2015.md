@@ -1,13 +1,25 @@
 ---
-title: "Variational Inference with Normalizing Flows"
+title: Variational Inference with Normalizing Flows
 created: 2026-04-20
 updated: 2026-04-20
 type: source
-tags: [dynamic-causal-modeling, parameter-estimation]
-authors: ["Danilo Jimenez Rezende", "Shakir Mohamed"]
+tags: [dynamic-causal-modeling ,parameter-estimation]
+authors:
+  - Danilo Jimenez Rezende
+  - Shakir Mohamed
 year: 2015
-venue: "ICML"
+venue: ICML
+doi: "https://doi.org/10.48550/arxiv.1505.05770"
+bibtex: |
+  @book{rezende2015variation,
+    title={Variational Inference with Normalizing Flows},
+    author={"Danilo Jimenez Rezende and Shakir Mohamed"},
+    year={2015},
+    publisher={ICML},
+    doi={https://doi.org/10.48550/arxiv.1505.05770},
+  }
 ---
+
 
 ## Summary
 Introduces normalizing flows for flexible variational inference. Enables rich posterior approximations through invertible transformations, improving inference in complex probabilistic models.

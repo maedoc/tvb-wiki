@@ -88,9 +88,3 @@ Despite its widespread adoption, CBRAIN faces ongoing challenges. The tool wrapp
 
 - Sherif T, Rioux P, Rousseau M-E, Kassis N, Beck N, Adalat R, Das S, Glatard T and Evans AC (2014) CBRAIN: a web-based, distributed computing platform for collaborative neuroimaging research. Front. Neuroinform. 8:54. https://doi.org/10.3389/fninf.2014.00054 — The primary CBRAIN publication describing the platform architecture, deployment, and usage.
 - Glatard T, et al. (2014) Integration of a neuroimaging processing pipeline into a pan-Canadian computing grid. J. Phys. Conf. Ser. 341:012032 — Describes pipeline integration into CBRAIN.
-
-## References
-
-[@sources[0]]
-[@sources[1]]
-[@sources[2]]

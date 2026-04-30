@@ -56,17 +56,3 @@ Despite its advantages, sLORETA has notable limitations. The method assumes a fi
 ## Relationship to Other Source Localization Methods
 
 Compared to other inverse solutions, sLORETA occupies a middle ground between spatial resolution and anatomical accuracy. Beamformers (e.g., LCMV) offer excellent spatial resolution for point sources but struggle with distributed activity patterns. Discrete source approaches (equivalent dipoles) provide physiological interpretability but require accurate pre-specification of source number. [[dcm|Dynamic causal modeling]] takes a complementary model-based approach, fitting parameterized biophysical models to the data rather than computing unconstrained source distributions. sLORETA's primary advantage lies in its combination of minimal anatomical assumptions with depth-corrected source estimates, making it particularly suitable for exploratory analyses of [[whole-brain]] activation patterns where no strong a priori hypotheses about source locations exist.
-
-## References
-
-1. Pascual-Marqui, R. D. (2002). Standardized low-resolution brain electromagnetic tomography (sLORETA): a new method for localizing EEG/MEG sources. *Journal of Clinical Neurophysiology*, 19(1), 37-44. https://doi.org/10.1016/S1388-2457(01)00670-5
-
-2. Pascual-Marqui, R. D. (2002). Review of methods for solving the EEG inverse problem. *International Journal of Bioelectromagnetism*, 1(1), 75-86.
-
-3. Sekihara, K., Sahani, M., & Nagarajan, S. S. (2005). Adaptive spatial filtering for EEG/MEG: stable subsurface imaging under adverse conditions. *NeuroImage*, 26(2), 394-407. https://doi.org/10.1016/S1053-8119(02)95140-0
-
-4. Marquardt, L., Custo, A., & Vuilleumier, P. (2021). sLORETA and its validation against fMRI in emotion regulation research. *Computational Intelligence and Neuroscience*, 2021, 416807. https://doi.org/10.1155/2011/416807
-
----
-
-The development of sLORETA represents a significant methodological advance in [[neuroimaging]] that has enabled researchers to leverage the high temporal resolution of [[eeg]] and [[meg]] for spatial localization of brain activity. Its integration with [[the-virtual-brain]] and other whole-brain modeling platforms continues to expand the utility of electrophysiological data for understanding [[brain-network]] dynamics in both health and disease.

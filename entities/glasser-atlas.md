@@ -58,7 +58,3 @@ The Glasser Atlas can be visualized and manipulated using several software packa
 - Van Essen, D. C., et al. (2012). The Human Connectome Project: A data acquisition perspective. *NeuroImage*, 62(4), 2222-2231. — Overview of the HCP data acquisition framework.
 - Glasser, M. F., et al. (2013). The minimal preprocessing pipelines for the Human Connectome Project. *NeuroImage*, 80, 105-124. — Description of HCP preprocessing pipelines used for the parcellation data.
 - Glasser, M. F., et al. (2011). Mapping human cortical areas based
-
-## References
-
-1. (authors unknown). *The Human Connectome Project: A Data Acquisition Perspective*.

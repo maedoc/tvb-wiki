@@ -3,9 +3,16 @@ title: "N4ITK: improved N3 bias correction"
 created: 2026-04-20
 updated: 2026-04-20
 type: source
-tags: [paper-methods, software-ants, neuroimaging-processing, neuroimaging-mri]
-sources: []
+tags: [paper-methods ,software-ants ,neuroimaging-processing ,neuroimaging-mri]
+doi: "https://doi.org/10.1109/tmi.2010.2046908"
+bibtex: |
+  @book{unknownn4itk,
+    title={N4ITK: improved N3 bias correction},
+    doi={https://doi.org/10.1109/tmi.2010.2046908},
+  }
 ---
+
+
 
 # N4ITK: improved N3 bias correction
 

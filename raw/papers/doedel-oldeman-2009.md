@@ -3,11 +3,22 @@ title: "AUTO-07P: Continuation and Bifurcation Software for Ordinary Differentia
 created: 2026-04-20
 updated: 2026-04-20
 type: source
-tags: [bifurcation-analysis, parameter-estimation, software-brain-modeling]
-authors: ["Eusebius J. Doedel", "Björn E. Oldeman"]
+tags: [bifurcation-analysis ,parameter-estimation ,software-brain-modeling]
+authors:
+  - Eusebius J. Doedel
+  - Björn E. Oldeman
 year: 2009
 venue: "Technical Report, Concordia University"
+bibtex: |
+  @book{doedel2009auto07p,
+    title={AUTO-07P: Continuation and Bifurcation Software for Ordinary Differential Equations},
+    author={"Eusebius J. Doedel and Björn E. Oldeman"},
+    year={2009},
+    publisher={Technical Report, Concordia University},
+  }
 ---
+
+
 
 ## Summary
 Documentation for AUTO-07P, the standard software for continuation and bifurcation analysis of ODEs. Used extensively in computational neuroscience for exploring neural model parameter spaces and detecting bifurcations.

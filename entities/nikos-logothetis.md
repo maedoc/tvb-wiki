@@ -41,7 +41,3 @@ Logothetis's work provides the empirical foundation for coupling [[neural-mass-m
 - [[bold-signal]]
 - neurovascular-coupling
 - local-field-potential
-
-## References
-
-1. (authors unknown). *Neurophysiological investigation of the basis of the fMRI signal*.

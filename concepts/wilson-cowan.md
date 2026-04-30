@@ -98,9 +98,3 @@ Despite these limitations, the Wilson-Cowan model remains the foundational frame
 - [[whole-brain-modeling]] – [[connectome]]-scale implementations
 - [[tvb|The Virtual Brain]] – Software implementation
 - [[oscillator]] – Neural dynamics phenomena
-
-## References
-
-1. Hugh R. Wilson, Jack D. Cowan. *Excitatory and inhibitory interactions in localized populations of model neurons*. Biophysical Journal. [DOI](https://doi.org/10.1016/S0006-3495(72)86068-5)
-2. Ronja Strömsdörfer, Klaus Obermayer. *Spike-frequency and h-current based adaptation are dynamically equivalent in a Wilson-Cowan field model*. [Link](https://arxiv.org/abs/2510.08436)
-3. Jeremy B. Goetz, Naruepon Weerawongphrom, Rashid V. Williams-García, John M. Beggs, Gerardo Ortiz. (2025). *A Minimal Network of Brain Dynamics: Hierarchy of Approximations to Quasi-critical [[neural-network]] Dynamics*. [Link](https://arxiv.org/abs/2512.22093)

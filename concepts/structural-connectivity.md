@@ -93,8 +93,3 @@ Despite its centrality to connectomics, structural connectivity estimation faces
 - [[connectome-mapper-3]] – Connectivity pipeline software
 - [[brain-connectivity-toolbox]] – Network analysis software
 - [[mrtrix3-connectome|Mrtrix3 Connectome]]
-## References
-
-1. (authors unknown). *MR diffusion tensor spectroscopy and imaging*.
-2. (authors unknown). *Three-dimensional tracking of axonal projections in the brain by magnetic resonance imaging*.
-3. (authors unknown). *Challenges and limitations of quantifying brain connectivity in vivo with diffusion MRI*.

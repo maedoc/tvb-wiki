@@ -34,6 +34,3 @@ FieldTrip is often used alongside [[tvb]] and other simulation platforms in pre-
 * [[bidscoin]]
 * [[brainstorm]]
 * [[erplab]]
-
-## References
-* Links to relevant papers and documentation*

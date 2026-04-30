@@ -61,13 +61,3 @@ DPABI shares methodological foundations with several other neuroimaging toolboxe
 | Surface visualization | ✓ | ✗ | ✓ | ✓ |
 
 The choice between these tools often depends on user expertise, specific analysis requirements, and integration with other pipelines. DPABI remains particularly popular in the East Asian neuroscience community and among researchers prioritizing rapid GUI‑based analysis workflows.
-
-## References
-
-Yan, C. G., Wang, X. D., Zuo, X. N., & Zang, Y. F. (2014). DPABI: Data Processing & Analysis for (Resting‑State) Brain Imaging. *Neuroinformatics*, 14(3), 339‑351. https://doi.org/10.1007/s12021‑016‑9299‑4
-
-Yan, C. G., & Zang, Y. F. (2010). DPARSF: A MATLAB toolbox for "pipeline" data analysis of resting‑state fMRI. *Frontiers in Systems Neuroscience*, 4, 21. https://doi.org/10.3389/fnsys.2010.00021
-
-Zuo, X. N., Xu, T., Jiang, L., Yang, Z., Cao, X. Y., He, Y., … & Milham, M. P. (2014). Toward reliable characterization of functional homogeneity in the human cerebral cortex. *Neuropsychologia*, 62, 200‑214. https://doi.org/10.1016/j.neuroimage.2014.06.030
-
-Zuo, X. N., & Xing, X. X. (2014). Effects of non‑ignorable missingness on genetic heritability estimation. *NeuroImage*, 96, 217‑228.

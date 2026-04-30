@@ -17,8 +17,3 @@ Preferential Attachment — a concept in [[whole-brain|whole-brain modeling]] an
 
 ## Related Concepts
 * [[scale-free-networks]]
-
-## References
-
-1. (authors unknown). *Emergence of Scaling in [[random-networks]]*.
-2. (authors unknown). *[[nonlinear-dynamics]] and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering*.

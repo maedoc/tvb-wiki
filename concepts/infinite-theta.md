@@ -74,7 +74,3 @@ The theoretical framework has also been extended to handle heterogeneous connect
 ## Open Questions
 
 Despite its mathematical rigor, several questions remain active areas of research. How well does the infinite population limit approximate finite networks of biologically realistic size? Can the framework be extended to capture firing rate adaptation, dendritic integration, or other cellular mechanisms? How do delays in synaptic transmission modify the predicted dynamics? These questions motivate ongoing work at the intersection of [[dynamical-systems-theory]] and systems neuroscience.
-
-## References
-
-1. Roxana A. Stefanescu, Viktor K. Jirsa. *A low dimensional description of globally coupled heterogeneous neural networks of excitatory and inhibitory neurons*. PLoS Computational Biology. [DOI](https://doi.org/10.1371/journal.pcbi.1000219)

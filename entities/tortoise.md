@@ -77,10 +77,3 @@ The transition to TORTOISEV4 represents a major architectural change, with the s
 ## Related Software
 
 TORTOISE complements and intersects with several other tools in the diffusion MRI ecosystem. The [[fsl]] package provides the [[fsl-randomise]] tool for tract-based statistics and includes the well-established EDDY module for motion and eddy-current correction. For tensor fitting and tractography, researchers often use [[mrtrix3]] or [[dipy]] in conjunction with TORTOISE-processed data. The [[dti-tk]] software provides alternative tensor-based registration tools, though it operates on different principles than the DR-TAMAS approach. The [[qsiprep]] offers an integrated preprocessing framework that incorporates elements of TORTOISE. For visualization of results, [[freesurfer]] and its associated tools can integrate with TORTOISE outputs for overlay and analysis purposes.
-
-## References
-
-- Pierpaoli, C., Walker, L., Irfanoglu, M.O., Barnett, A. (2010). TORTOISE: A comprehensive diffusion MRI preprocessing framework. *ISMRM*.
-- Irfanoglu, M.O., Walker, L., Sarlls, J., Marami, B., Pierpaoli, C. (2015). DR-BUDDI: Diffeomorphic Registration for Blip-Up Blip-Down Diffusion Imaging. *NeuroImage*, 122, 67-80.
-- Irfanoglu, M.O., Modi, P., Nayak, A., Koch, K.E., Pierpaoli, C. (2016). DR-TAMAS: Diffeomorphic Registration for Tensor Accurate alignMent of Anatomical Structures. *NeuroImage*, 125, 524-537.
-- Irfanoglu, M.O., Khan, A.R., Hendrickson, S., Pierpaoli, C. (2025). TORTOISEV4: A comprehensive diffusion MRI processing framework with advanced artifact correction. *Imaging Neuroscience*.

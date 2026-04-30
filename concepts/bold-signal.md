@@ -44,8 +44,3 @@ For [[whole-brain]] modeling, the BOLD signal serves as the critical output vari
 ## Relationship to Other Imaging Modalities
 
 The BOLD signal represents one of several functional neuroimaging modalities, each with distinct temporal and spatial characteristics. Compared to electrophysiological methods like [[eeg]] and [[meg]], BOLD offers excellent spatial resolution (on the order of 1-3 mm) but very limited temporal resolution due to the sluggish hemodynamic response. While [[eeg]] captures millisecond-scale neural activity directly, the BOLD response smooths and delays the underlying neural dynamics, typically limiting effective temporal resolution to 1-2 seconds at best. This temporal smearing complicates the identification of rapid event-related effects and can obscure the相位 relationships between brain regions that are accessible to electromagnetic imaging. For [[dynamic-causal-modeling]] analyses, this temporal misalignment necessitates careful modeling of the HRF to recover the effective neural connectivity from BOLD data, though sophisticated estimation approaches can partially mitigate these limitations.
-
-## References
-
-1. (authors unknown). *Brain magnetic resonance imaging with contrast dependent on blood oxygenation*.
-2. (authors unknown). *Neurophysiological investigation of the basis of the fMRI signal*.

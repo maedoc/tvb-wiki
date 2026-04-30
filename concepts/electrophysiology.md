@@ -16,8 +16,3 @@ Electrophysiology — a concept in [[whole-brain|whole-brain modeling]] and [[co
 
 ## Related Concepts
 * [[sciunit]]
-
-## References
-
-1. Teppei Matsubara, Abbass Sohrabpur, Seppo Ahlfors, M. Jas, John G. W. Samuelsson, Padmavathi Sundaram, Steven M. Stufflebeam. (2026). *Quantifying Cerebellar Signal Detectability in MEG and EEG in Epilepsy Using Anatomically Informed Source Modeling*. bioRxiv. [DOI](https://doi.org/10.64898/2026.01.14.699512)
-2. (authors unknown). *Electric Fields of the Brain: The Neurophysics of EEG*.

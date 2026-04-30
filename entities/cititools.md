@@ -51,11 +51,3 @@ The package integrates with the broader neuroimaging ecosystem: it depends on [[
 ## Key Papers
 
 1. Pham, D. D., Muschelli, J., & Mejia, A. F. (2022). ciftiTools: A package for reading, writing, visualizing, and manipulating CIFTI files in R. NeuroImage, 250, 118877.
-
-## References
-
-[1] ciftiTools CRAN Package. https://cran.r-project.org/web/packages/ciftiTools/index.html
-
-[2] ciftiTools GitHub Repository. https://github.com/mandymejia/ciftiTools
-
-[3] Glasser, M. F., Sotiropoulos, S. N., Wilson, J. A., Coalson, T. S., Fischl, B., Andersson, J. L., ... & Polimeni, J. R. (2013). The minimal preprocessing pipelines for the Human Connectome Project. NeuroImage, 80, 105-124.

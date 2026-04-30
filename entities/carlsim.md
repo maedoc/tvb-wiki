@@ -133,12 +133,3 @@ Originally developed by the Cognitive Ante-Robot Learning (CARL) Laboratory at U
 | **Use case** | Fast GPU prototyping, neuromorphic | Large distributed networks |
 
 CARLsim excels when GPU acceleration and spike-level detail are required; NEST is preferred for massive distributed simulations and when ecosystem maturity is prioritized.
-
-## References
-
-Nageswaran, J. M., Dutt, N., Krichmar, J. L., Nicolau, A., & Veidenbaum, A. (2009). A configurable simulation environment for the efficient simulation of large-scale spiking neural networks on graphics processors. *Neural Networks*, 22(5-6), 791-800. doi:10.1016/j.neunet.2009.06.019
-
-Beyeler, M., Carlson, K. D., Chou, T. S., Dutt, N. D., & Krichmar, J. L. (2015). CARLsim 3: A user-friendly and highly optimized library for the creation of neurobiologically detailed spiking neural networks. In *Proceedings of the International Joint Conference on Neural Networks (IJCNN)*. doi:10.1109/IJCNN.2015.7280520
-
-Richert, M., Nageswaran, J. M., Dutt, N., & Krichmar, J. L. (2021). CARLsim 5: A biochemically detailed neuron model for the efficient simulation of large-scale spiking neural networks on GPUs. *Neuroinformatics*, 19(3), 463-485. doi:10.1007/s12021-021-09541-0
-```

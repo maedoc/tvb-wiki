@@ -62,9 +62,3 @@ FreeView plays a supporting role in workflows involving [[the-virtual-brain]] (T
 - [[itk-snap]]
 - [[connectome-workbench]]
 - [[mrtrix3]]
-
-## References
-
-- Dale, A.M., Fischl, B., & Sereno, M.I. (1999). Cortical surface-based analysis. I. Segmentation and surface reconstruction. NeuroImage, 9(2), 179-194.
-- Desikan, R.S., Ségonne, F., Quinn, B., et al. (2006). An automated labeling system for subdividing the human cerebral cortex on MRI scans into gyral based regions of interest. NeuroImage, 31(3), 968-980.
-- Fischl, B. (2012). FreeSurfer. NeuroImage, 62(2), 774-781.

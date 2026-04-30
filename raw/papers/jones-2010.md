@@ -1,13 +1,24 @@
 ---
-title: "Challenges and limitations of quantifying brain connectivity in vivo with diffusion MRI"
+title: Challenges and limitations of quantifying brain connectivity in vivo with diffusion MRI
 created: 2026-04-20
 updated: 2026-04-20
 type: paper
-tags: [neuroimaging-dti, diffusion-imaging, paper-review, tractography]
-authors: [Derek K Jones]
+tags: [neuroimaging-dti ,diffusion-imaging ,paper-review ,tractography]
+authors:
+  - Derek K Jones
 year: 2010
-venue: "NeuroImage"
+venue: NeuroImage
+doi: "https://doi.org/10.2217/iim.10.21"
+bibtex: |
+  @article{jones2010challenges,
+    title={Challenges and limitations of quantifying brain connectivity in vivo with diffusion MRI},
+    author={"Derek K Jones"},
+    year={2010},
+    journal={NeuroImage},
+    doi={https://doi.org/10.2217/iim.10.21},
+  }
 ---
+
 
 # Challenges and limitations of quantifying brain connectivity in vivo with diffusion MRI
 

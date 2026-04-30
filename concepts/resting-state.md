@@ -64,9 +64,3 @@ A persistent controversy in the field concerns global signal regression—a prep
 - [[whole-brain]] – Computational models simulating large-scale [[brain-dynamics]]
 - [[connectomics]] – The study of the brain's connectome
 - [[spontaneous-activity]] – Ongoing neural dynamics in the absence of tasks
-
-## References
-
-1. (authors unknown). *Functional connectivity in the motor cortex of resting human brain using echo-planar MRI*.
-2. (authors unknown). *Spontaneous fluctuations in brain activity observed with functional magnetic resonance imaging*.
-3. (authors unknown). *Correspondence of the brain's functional architecture during activation and rest*.

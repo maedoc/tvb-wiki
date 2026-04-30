@@ -89,9 +89,3 @@ The primary developers of CVODES include Alan Hindmarsh, Peter Brown, and Radu S
 - [Dynamical Systems Theory]([[dynamical-systems-theory]].md) — Mathematical framework that CVODES implements numerically
 - [Stochastic Differential Equations](stochastic-differential-equations.md) — CVODES handles stochastic variants through its solver framework
 - [Parameter Estimation](parameter-estimation.md) — CVODES sensitivity analysis enables gradient-based fitting of brain models
-
-## References
-
-1. Hindmarsh, A. C., Brown, P. N., Grant, K. E., Lee, S. L., Serban, R., Shumaker, D. E., & Woodward, C. S. (2005). SUNDIALS: Suite of nonlinear and differential/algebraic equation solvers. *ACM Transactions on Mathematical Software*, 31(3), 363-396.
-
-2. Serban, R., & Hindmarsh, A. C. (2005). CVODES, the sensitivity-enabled ODE solver. *Center for Applied Scientific Computing, Lawrence Livermore National Laboratory*.

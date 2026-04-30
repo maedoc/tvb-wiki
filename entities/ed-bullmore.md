@@ -44,9 +44,3 @@ Bullmore's research spans:
 
 ## Collaborators
 - [[olaf sporns]] – Network neuroscience
-
-## References
-
-1. (authors unknown). *Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems*.
-2. (authors unknown). *Networks of the Brain*.
-3. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.

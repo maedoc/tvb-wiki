@@ -16,8 +16,3 @@ Karen Friston — a concept in [[whole-brain|whole-brain modeling]] and [[comput
 
 ## Related Concepts
 * [[eeg]]
-
-## References
-
-1. (authors unknown). *Functional [[connectomics]] from [[resting-state|Resting-State fMRI]]*.
-2. (authors unknown). *Emergence of Scaling in [[random-networks]]*.

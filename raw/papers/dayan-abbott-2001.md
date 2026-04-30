@@ -3,9 +3,14 @@ title: "Theoretical Neuroscience: Computational and Mathematical Modeling of Neu
 created: 2026-04-20
 updated: 2026-04-20
 type: source
-tags: [paper-review, neural-mass-models, whole-brain-modeling, people-researcher]
-sources: []
+tags: [paper-review ,neural-mass-models ,whole-brain-modeling ,people-researcher]
+bibtex: |
+  @book{unknowntheoretical,
+    title={Theoretical Neuroscience: Computational and Mathematical Modeling of Neural Systems},
+  }
 ---
+
+
 
 # Theoretical Neuroscience: Computational and Mathematical Modeling of Neural Systems
 

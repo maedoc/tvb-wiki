@@ -81,9 +81,3 @@ Despite progress, fundamental challenges remain. The scale gap—reconciling mac
 - [[parcellation]] – Partitioning the brain into regions for network construction
 - [[human-connectome-project]] – Major mapping initiative
 - [[aging]] – How brain networks change across the lifespan
-
-## References
-
-1. (authors unknown). *The Human Connectome: A Structural Description of the Human Brain*.
-2. (authors unknown). *Networks of the Brain*.
-3. (authors unknown). *Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems*.

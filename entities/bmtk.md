@@ -104,17 +104,3 @@ The following publications form the foundational literature for BMTK and its eco
 - **Carnevale and Hines (2006)** established NEURON as the standard simulation engine for biologically detailed neural modeling[5], which BMTK leverages as its primary backend.
 
 - **Kumbhar et al. (2019)** presented CoreNEURON, the optimized simulation backend that enables BMTK to scale to millions of neurons with GPU acceleration[6].
-
-## References
-
-[1] Gratiy, S.L., Dai, K., et al. (2018). BMTK: Brain Modeling Toolkit. *Cosyne Abstracts*.
-
-[2] Dychenko, O., Arnold, P., Pyle, R.W., Tschanz, E.B., Wei, W., Gou, D.P., Gratiy, S.L. (2017). SONATA: A Data Format and Runtime Environment for Large-Scale Neural Simulation. *Neuroscience 2017, Washington DC*.
-
-[3] Knox, J.E., Harris, K.D., Graddis, N., Jones, L.G., Miller, J.A., Mitani, A., Acharya, J., Yang, A.C., Au-Yeung, A., Sunkin, A.Z., Dalley, R.A., Dong, H., Roland, Z., Hawrylycz, M.B. (2018). Generation of the Products of the Allen Mouse Brain Connectivity Atlas. *Nature Neuroscience*.
-
-[4] Sanz-Leon, P., Knock, S.A., Spiegler, A., Jirsa, V.K. (2015). The Virtual Brain: a Python library to simulate biomimetic whole-brain models. *38th Annual Conference of the Cognitive Science Society*.
-
-[5] Carnevale, N.T., Hines, M.L. (2006). NEURON: A Tool for Neuroscientists. *The Neuroscientist*.
-
-[6] Kumbhar, P., B., Schenker, M.A., K., K., Williamson, A., Cornell, H. (2019). CoreNEURON: Optimized Memory Management and Efficient Load Balancing for Large-Scale Neuronal Simulations. *Frontiers in Neuroinformatics*.

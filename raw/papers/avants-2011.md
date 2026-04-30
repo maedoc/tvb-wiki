@@ -1,11 +1,18 @@
 ---
-title: "A reproducible evaluation of ANTs similarity metric performance in brain image registration"
+title: A reproducible evaluation of ANTs similarity metric performance in brain image registration
 created: 2026-04-20
 updated: 2026-04-20
 type: source
-tags: [paper-methods, software-ants, neuroimaging-processing, brain-network, comparison]
-sources: []
+tags: [paper-methods ,software-ants ,neuroimaging-processing ,brain-network ,comparison]
+doi: "https://doi.org/10.1016/j.neuroimage.2010.09.025"
+bibtex: |
+  @book{unknowna,
+    title={A reproducible evaluation of ANTs similarity metric performance in brain image registration},
+    doi={https://doi.org/10.1016/j.neuroimage.2010.09.025},
+  }
 ---
+
+
 
 # A reproducible evaluation of ANTs similarity metric performance in brain image registration
 

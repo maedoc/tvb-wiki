@@ -45,13 +45,3 @@ The typical preprocessing pipeline for TVB involves [[fmriprep]] for functional 
 MRIQC is part of a broader ecosystem of [[bids-derivatives]] tools for neuroimaging preprocessing and quality assurance. [[fmriprep]] is closely related and often used in conjunction with MRIQC—while fmriprep provides full preprocessing of functional and anatomical MRI data with built-in quality metrics, MRIQC offers more detailed, modality-specific image quality metrics computed on raw or minimally processed data. The [[xcp-d]] tool provides additional quality control for processed fMRIPrep outputs, focusing on derivatives quality. For diffusion data specifically, tools like [[mrtrix3]] and [[dipy]] incorporate their own quality assessment capabilities, though these are more integrated into the processing workflow than MRIQC's dedicated quality inspection paradigm.
 
 Other relevant tools in the quality control ecosystem include [[afq]] (AFQ-Lite), which provides [[tractography]]-based quality assessment, and the general visualization tools in the [[brainlife]] platform, which incorporate quality metrics into their processing pipelines. For whole-brain modeling researchers, these tools complement MRIQC by providing quality assessment at different stages of the preprocessing pipeline.
-
-## References
-
-- Esteban, C., Birman, D., Schafer, C., Kiar, G., Gray, J., Poldrack, R., & Gorgolewski, K. (2017). MRIQC: Advancing the automatic prediction of image quality in MRI. *Organization for Human Brain Mapping*.
-
-- Esteban, C., Kiar, G., Heiser, W., Sarlls, J., Buurer, A., & Gorgolewski, K. (2019). MRIQC: Automated quality control and visual report generation for structural and functional MRI. *Neuroinformatics*.
-
-- Nichols, T. E., Das, S., Elander, A., Poldrack, R., & Gorgolewski, K. (2017). Notes on the notes: [[reproducibility]] and open science in neuroimaging. *Open Science Framework*.
-
-- Bilgic, B., Pfefferbaum, A., Rohlfing, T., Sullivan, E. V., & Adalsteinsson, E. (2012). MRI estimates of brain iron and myelin. *Magnetic Resonance in Medicine*.

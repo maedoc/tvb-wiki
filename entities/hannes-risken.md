@@ -36,8 +36,3 @@ Hannes Risken was a German physicist known for his definitive work on Fokker-Pla
 - Risken (1989) — The Fokker-Planck Equation: Methods of Solution and Applications
 - Risken (1984) — The Fokker-Planck Equation (1st ed.)
 - Risken & Vollmer (1987) — Eigenvalues of the Fokker-Planck operator
-
-## References
-
-1. (authors unknown). *The Fokker-Planck Equation: Methods of Solution and Applications*.
-2. (authors unknown). *Stochastic Methods: A Handbook for the Natural and Social Sciences*.

@@ -3,9 +3,16 @@ title: "Methods in Neuronal Modeling: From Synapses to Networks"
 created: 2026-04-20
 updated: 2026-04-20
 type: source
-tags: [paper-methods, neural-mass-models, spiking-neural-networks]
-sources: []
+tags: [paper-methods ,neural-mass-models ,spiking-neural-networks]
+doi: "https://doi.org/10.1016/0301-0511(90)90081-7"
+bibtex: |
+  @book{unknownmethods,
+    title={Methods in Neuronal Modeling: From Synapses to Networks},
+    doi={https://doi.org/10.1016/0301-0511(90)90081-7},
+  }
 ---
+
+
 
 # Methods in Neuronal Modeling: From Synapses to Networks
 

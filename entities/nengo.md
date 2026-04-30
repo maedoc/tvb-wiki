@@ -45,7 +45,3 @@ The foundational reference for Nengo is the software documentation paper by Stew
 ## Related Software
 
 Nengo maintains compatibility with other major neural simulation platforms through its Nengo simulator interface. The [[brian]] simulator and [[nest]] can be used alongside or integrated with Nengo models, while Nengo's NEF framework can be implemented using lower-level simulators when custom biophysical detail is required. For whole-brain applications, researchers often combine Nengo's spiking network capabilities with region-level models to achieve multi-scale simulations.
-
-## References
-
-*Note: References are managed separately.*

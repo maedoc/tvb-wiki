@@ -3,9 +3,16 @@ title: "GRETNA: a graph theoretical network analysis toolbox for MATLAB"
 created: 2026-04-28
 updated: 2026-04-28
 type: source
-tags: [software, graph-theory, connectomics, brain-network, matlab-toolbox, functional-connectivity, structural-connectivity]
-sources: []
+tags: [software ,graph-theory ,connectomics ,brain-network ,matlab-toolbox ,functional-connectivity ,structural-connectivity]
+doi: "https://doi.org/10.3389/fnhum.2015.00386"
+bibtex: |
+  @book{unknowngretna,
+    title={GRETNA: a graph theoretical network analysis toolbox for MATLAB},
+    doi={https://doi.org/10.3389/fnhum.2015.00386},
+  }
 ---
+
+
 
 # GRETNA: a graph theoretical network analysis toolbox for MATLAB
 

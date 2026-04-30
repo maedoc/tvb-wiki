@@ -25,7 +25,3 @@ The corrected AFNI page is complete. Here's a summary of the fixes:
 | **Missing AFNI link** | Added official website to References section and `sources` frontmatter |
 
 The updated file is at `/home/duke/src/tvb-wiki/afni.md`.
-
-## References
-
-1. Tustison et al. (2010). *N4ITK: improved N3 bias correction*. IEEE Transactions on Medical Imaging. [DOI](https://doi.org/10.1109/TMI.2010.2046908)

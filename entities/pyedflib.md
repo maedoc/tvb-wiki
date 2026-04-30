@@ -67,9 +67,3 @@ While pyedflib is relatively specialized compared to comprehensive analysis pack
 
 - Kemp, B., Olivan, J. S., & Rietveld, W. J. (2003). EDF+ Annotation: Adding temporal markers to European Data Format recordings. *Clinical Neurophysiology*. [[ica]]
 - Bein, B. (2018). pyedflib. *Journal of Open Source Software*. [[hybrid-architecture]]
-
-## References
-
-- EDF+ Format Specification: https://www.edfplus.info/
-- pyedflib Repository: https://github.com/holgern/pyedflib
-- Bein, B. (2018). pyedflib. Journal of Open Source Software. https://doi.org/10.21105/joss.00899

@@ -75,9 +75,3 @@ The Fokker-Planck equation and stochastic differential equations provide complem
 The Fokker-Planck equation sits at the intersection of several foundational frameworks in theoretical neuroscience. It provides the probabilistic foundation for [[stochastic differential equations]] used to model neural dynamics with noisy inputs. The population density approach connects directly to [[mean-field-theory]], which provides averaged descriptions of neural ensembles. In the context of [[whole-brain modeling]], the FPE enables analysis of how stochastic fluctuations in local populations propagate through large-scale brain networks governed by [[structural connectivity]]. The equation also connects to [[bifurcation-analysis]] in [[nonlinear-dynamics]], as noise can fundamentally alter bifurcation behavior and transition dynamics in neural systems. Tools like [[nest]] and [[brian2]] implement stochastic neural simulations whose mean-field population dynamics can be analyzed through FPE methods, providing a bridge between detailed spiking networks and [[neural mass model]] approximations.
 
 ---
-
-## References
-
-1. (authors unknown). *The Fokker-Planck Equation: Methods of Solution and Applications*.
-2. (authors unknown). *Stochastic Methods: A Handbook for the Natural and Social Sciences*.
-3. (authors unknown). *Introduction to Theoretical Neurobiology: Volume 2, Nonlinear and Stochastic Theories*.

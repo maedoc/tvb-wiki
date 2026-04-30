@@ -50,11 +50,3 @@ The development and validation of Lead-DBS has been documented in several influe
 Lead-DBS interfaces with several other tools in the computational neuroimaging ecosystem. For visualization, it works with BrainNet Viewer and MRICroGL for displaying electrode positions on brain surfaces. The Connectome Workbench provides additional visualization capabilities for group-level analyses. For tractography processing, Lead-DBS integrates with MRtrix3 and DSI Studio, while the FreeSurfer suite handles cortical reconstruction. Surgical planning may also involve 3D Slicer or SimNIBS for neuronavigation, and the software accepts inputs preprocessed with fMRIPrep or QSIPrep for standardized pipeline compliance.
 
 TVB can leverage Lead-DBS output for personalized stimulation modeling, and additional Python utilities support integration with the broader Python neuroimaging ecosystem including Nipype for pipeline automation.
-
-## References
-
-Horn, A., Reich M., Vorwerk J., Li N., Wenzel G.R., Fang Q., et al. (2019). Lead-DBS: A toolbox for deep brain stimulation electrode reconstructions and quantitative analysis. *NeuroImage*, 184, 293-303.
-
-Nowacki, A., Taha S., Horn A., Fiene J., Bajwa M.H., Camalier C.R., et al. (2020). Lead-DBS 2.0: Towards a comprehensive software framework for deep brain stimulation data analysis and visualization. *Brain Stimulation*, 13(2), 437-446.
-
-Reich M., Horn A., Kübler T., and Fox M.D. (2021). Lead-DBS: Applications for movement and psychiatric disorders. *Nature Reviews Neurology*, 17, 641-655.

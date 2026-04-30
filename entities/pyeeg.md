@@ -63,11 +63,3 @@ PyEEG is part of a broader ecosystem of EEG analysis tools, each with distinct s
 The foundational paper describing PyEEG (Bao et al., 2011) established the library's architecture and demonstrated its applicability to epilepsy research. Subsequent work has applied PyEEG-derived features to studies of anesthesia mechanisms, sleep stage classification, and working memory. The library has been cited in numerous studies validating [[neural-mass-model]] predictions against empirical EEG data, particularly in the context of whole-brain [[epilepsy-modeling]] initiatives.
 
 A key methodological reference for the connectivity measures is the Phase Lag Index paper by Stam and colleagues (2007), which introduced PLI as a measure of phase synchronization that is less affected by volume conduction and common source artifacts compared to traditional phase coherence measures.
-
-## References
-
-1. Bao FS, Liu X, Zhang C. PyEEG: An Open Source Python Module for EEG/MEG Feature Extraction. Computational Intelligence and Neuroscience. 2011;2011:406391. doi:10.1155/2011.406391
-
-2. Stam CJ, Nolte G, Daffertshofer A. Phase lag index: Assessment of functional connectivity from multichannel EEG and MEG with diminished bias from common sources. Human Brain Mapping. 2007;28(11):1178-1193. doi:10.1002/hbm.20346
-
-3. Vinck M, Oostenveld R, van Wingerden M, Battaglia F, Pennartz CM. An improved index of phase-synchronization for electrophysiological data in the presence of volume-conduction, noise and sample-size bias. Neuroimage. 2011;55(4):1548-1565. doi:10.1016/j.neuroimage.2011.01.055

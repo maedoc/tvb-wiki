@@ -47,9 +47,3 @@ The analysis of brain networks relies on specialized software packages. The [[br
 ## Related Concepts
 
 Graph theory forms the mathematical foundation for [[connectomics]], the comprehensive study of brain connectivity. The framework connects directly to [[brain-network]] analysis and [[network-hubs]] identification. The small-world property is characterized by the σ metric comparing clustering and path length to random networks. Similar concepts include [[modularity]] for community detection and [[rich-club]] for analyzing connectivity among highly connected nodes. Graph theoretical analysis also relates to [[network-dynamics]], which examines how network structure constrains and enables dynamic processes in neural systems.
-
-## References
-
-1. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
-2. (authors unknown). *Networks: An Introduction*.
-3. (authors unknown). *Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems*.

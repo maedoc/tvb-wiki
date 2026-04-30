@@ -34,6 +34,3 @@ MRtrix is often used alongside [[tvb]] and other simulation platforms in pre-pro
 * [[bids-validator]]
 * [[bidscoin]]
 * [[brainstorm]]
-
-## References
-* Links to relevant papers and documentation*

@@ -45,9 +45,3 @@ Tononi's research spans:
 ## Collaborators
 - [[olaf sporns]] – Connectomics
 - [[rolf kotter]] – Neuroanatomy
-
-## References
-
-1. (authors unknown). *The Human Connectome: A Structural Description of the Human Brain*.
-2. (authors unknown). *Networks of the Brain*.
-3. (authors unknown). *Functional Connectomics from [[resting-state|Resting-State fMRI]]*.

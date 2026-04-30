@@ -3,9 +3,16 @@ title: "Dynamical Systems in Neuroscience: The Geometry of Excitability and Burs
 created: 2026-04-20
 updated: 2026-04-20
 type: source
-tags: [paper-review, neural-mass-models, brain-oscillations, bifurcation-analysis, people-researcher]
-sources: []
+tags: [paper-review ,neural-mass-models ,brain-oscillations ,bifurcation-analysis ,people-researcher]
+doi: "https://doi.org/10.1016/j.clinph.2009.08.016"
+bibtex: |
+  @book{unknowndynamical,
+    title={Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting},
+    doi={https://doi.org/10.1016/j.clinph.2009.08.016},
+  }
 ---
+
+
 
 # Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting
 

@@ -116,9 +116,3 @@ The framework requires:
 2. Activity translators that respect biological constraints (refractory periods, rate limits)
 3. Efficient data serialization for MPI communication
 4. Configuration management for hybrid network topology
-
-## References
-
-[^sanz-leon-2013]: Sanz Leon P, Knock SA, Woodman MM, et al. [[the-virtual-brain]]: a simulator of primate brain [[network-dynamics]]. *Front Neuroinform*. 2013;7:10.
-[^gewaltig-diesmann-2007]: Gewaltig MO, Diesmann M. NEST (NEural Simulation Tool). *Scholarpedia*. 2007;2(4):1430.
-[^arxiv-2505.16861]: Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation. arXiv:2505.16861. 2024.

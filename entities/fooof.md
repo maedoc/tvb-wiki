@@ -73,9 +73,3 @@ The foundational publication for FOOOF is:
 - [[MNE-Python]] — MEG/EEG analysis library with which FOOOF integrates directly
 - SciPy — Underlying scientific computing framework for signal processing
 - [[yasa]] — Sleep stage analysis package that incorporates FOOOF for spectral parameterization
-
-## References
-
-1. Donoghue, T., Haller, M., Peterson, E. J., Varma, P., Sebastian, P., Gao, R., (...) & Voytek, B. (2020). Parameterizing neural power spectra into periodic and aperiodic components. *Nature Neuroscience*, 23(12), 1655-1665. https://doi.org/10.1038/s41593-020-00744-x
-
-2. Voytek Lab. (n.d.). FOOOF: Fitting Oscillations & One Over F. Documentation and source code available at https://fooof-tools.github.io/

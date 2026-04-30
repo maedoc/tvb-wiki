@@ -72,14 +72,3 @@ Future developments for ExploreASL include deeper integration with [[mne-python]
 3. Douaud, G., Jbabdi, S., Behrens, T.E., Menke, R.A., Gass, A., Monsch, A.U., ... & Smith, S. (2014). Can CSF biomarkers predict progression to dementia in Alzheimer's disease? *Brain*, 135(10), 2994‑3004. DOI:10.1093/brain/awr222
 
 4. Petersen, E.T., Mutsaerts, H.J., Stehning, C., Kruit, W.C., van Osch, M.J., & Golay, X. (2010). Comparison of continuous arterial spin labeling and quantitative MR perfusion imaging. *Proceedings of the International Society for Magnetic Resonance in Medicine*, 18.
-
-## References
-
-- Advanced Normalization Tools (ANTs). https://github.com/ANTsX/ANTs
-- Alsop, D.C., et al. (2015). Recommended implementation of arterial spin‑labeled perfusion MRI for clinical applications: A consensus of the ISMRM perfusion study group. *Magnetic Resonance in Medicine*, 73(1), 102‑116.
-- BASIL (Bayesian Inference for Arterial Spin Labeling). FSL tool.
-- Douaud, G., et al. (2014). Can CSF biomarkers predict progression to dementia in Alzheimer's disease? *Brain*, 135(10), 2994‑3004.
-- ExploreASL GitHub Repository. https://github.com/ExploreASL/ExploreASL
-- FMRIB Software Library (FSL). https://fsl.fmrib.ox.ac.uk/fsl/fslwiki
-- Mutsaerts, H.J., et al. (2020). ExploreASL: An image processing pipeline for multi‑center ASL perfusion MRI studies. *NeuroImage*, 216, 116149.
-- [[tvb|The Virtual Brain]] (TVB). https://www.thevirtualbrain.org

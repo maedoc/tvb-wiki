@@ -72,11 +72,3 @@ Despite these limitations, SpikeGLX has established itself as an essential tool 
 - Steinmetz, N. A., et al. (2021). Neuropixels 2.0: A miniaturized high-density probe for stable, long-term brain recordings. *Science*, 372(6539), eabf4588. Describes the second-generation NeuroPixels technology and companion data acquisition requirements addressed by SpikeGLX.
 
 - Rübel, J., et al. (2022). NIX Format: A unified repository format for electrophysiology data. *Frontiers in Neuroinformatics*, 16, 870776. Documents the NIX format and its relationship to SpikeGLX data conversion.
-
-## References
-
-- Bill Karsh, Janelia Research Campus. SpikeGLX Source Code. https://github.com/billkarsh/SpikeGLX
-
-- Neuropixels: A scalable, open-access system for large-scale electrophysiology. https://neuropixels.org
-
-- International Neuroinformatics Coordinating Facility (INCF) standards for neurophysiology data. https://www.incf.org/standards

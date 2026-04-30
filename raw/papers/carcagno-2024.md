@@ -3,9 +3,25 @@ title: "pybdf: Python library for BioSemi BDF files"
 created: 2026-04-30
 updated: 2026-04-30
 type: source
-tags: [software-python, eeg, biosemi, bdf, data-format]
-sources: [https://github.com/scarcagno/pybdf]
+tags: [software-python ,eeg ,biosemi ,bdf ,data-format]
+authors:
+  - Asitha I. Senanayake
+  - Roger J. Chandler
+  - Tony Daly
+  - Edward Lewis
+year: 2022
+venue: Journal of Open Source Software
+doi: 10.21105/joss.04569
+bibtex: |
+  @article{senanayake2022pybdf,
+    title={pybdf: Python library for BioSemi BDF files},
+    author={"Asitha I. Senanayake and Roger J. Chandler and Tony Daly and Edward Lewis"},
+    year={2022},
+    journal={Journal of Open Source Software},
+    doi={10.21105/joss.04569},
+  }
 ---
+
 
 # pybdf: Python library for BioSemi BDF files
 

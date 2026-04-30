@@ -3,11 +3,23 @@ title: "Electroencephalography: Basic Principles, Clinical Applications, and Rel
 created: 2026-04-20
 updated: 2026-04-20
 type: paper
-tags: [neuroimaging-eeg, paper-review, textbook]
-authors: [Ernst Niedermeyer, Fernando HL da Silva]
+tags: [neuroimaging-eeg ,paper-review ,textbook]
+authors:
+  - Ernst Niedermeyer
+  - Fernando HL da Silva
 year: 2004
-venue: "Lippincott Williams & Wilkins (Textbook)"
+venue: Lippincott Williams & Wilkins (Textbook)
+doi: "https://doi.org/10.1093/med/9780190228484.001.0001"
+bibtex: |
+  @book{niedermeyer2004elect,
+    title={Electroencephalography: Basic Principles, Clinical Applications, and Related Fields},
+    author={"Ernst Niedermeyer and Fernando HL da Silva"},
+    year={2004},
+    publisher={Lippincott Williams & Wilkins (Textbook)},
+    doi={https://doi.org/10.1093/med/9780190228484.001.0001},
+  }
 ---
+
 
 # Electroencephalography: Basic Principles, Clinical Applications, and Related Fields (5th Edition)
 

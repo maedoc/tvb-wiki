@@ -54,18 +54,3 @@ The atlas is supported by numerous software packages including [[FreeSurfer]], [
 ## Limitations and Open Questions
 
 Despite its widespread adoption, the Desikan-Killiany Atlas has notable limitations that continue to motivate the development of alternative parcellations. First, the anatomical boundaries do not necessarily correspond to functional boundaries—the same cortical region may subserve different cognitive functions depending on context. Second, the 68-region granularity may be too coarse to capture fine-scale network organization revealed by high-resolution [[functional-connectivity]]. Third, the atlas was developed primarily from healthy young adult brains, and its applicability to pediatric or geriatric populations requires careful validation. Future directions include the development of age-appropriate atlases and the integration of multiple modalities (anatomical, functional, and connectivity-based) into unified parcellation schemes.
-
-## References
-
-- Desikan, R. S., Ségonne, F., Fischl, B., Quinn, B. T., Dickerson, B. C., Blacker, D., ... & Killiany, R. J. (2006). An automated labeling system for subdividing the human cerebral cortex on MRI scans into gyral based regions of interest. *NeuroImage*, 31(3), 968-980.
-- Fischl, B. (2012). FreeSurfer. *NeuroImage*, 62(2), 774-781.
-- Destrieux, C., Fischl, B., Dale, A., & Halgren, E. (2010). A parcellation of human cerebral cortex based on anatomical/functional targets. *NeuroImage*, 52(1), 1-25.
-- Glasser, M. F., Coalson, T. S., Robinson, E. C., Hacker, C. D., Harwell, J., Yacoub, E., ... & Van Essen, D. C. (2016). A multi-modal parcellation of human cerebral cortex. *Nature*, 536(7615), 171-178.
-- Schaefer, A., Kong, R., Gordon, E. M., LaGrow, T. M., Moore, W. M., Zhou, D., ... & Zuo, X. N. (2018). Local-global parcellation of the human cerebral cortex from intrinsic functional connectivity MRI. *Cerebral Cortex*, 28(9), 3095-3114.
-- [[Schaefer Atlas]]
-- [[Glasser Atlas]]
-- [[Destrieux Atlas]]
-- [[structural connectivity]]
-- [[diffusion tensor imaging]]
-- Rubinov & Sporns, 2010
-- Jenkinson, M., Beckmann, C. F., Behrens, T. E., Woolrich, M. W., & Smith, S. M. (2012). FSL. *NeuroImage*, 62(2), 782-790.

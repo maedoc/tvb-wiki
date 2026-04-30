@@ -58,19 +58,3 @@ In practice, Mayavi is employed across several common workflows in computational
 ## Technical Notes
 
 Mayavi requires a working [[python]] installation and depends on VTK, which can be challenging to install on some systems due to its C++ dependencies. The library is most commonly used with Enthought's Python distribution or via conda-forge installations that include pre-built VTK wheels. Recent versions have improved compatibility with Python 3.x, though some users report challenges with newer Python versions. For researchers seeking alternatives with simpler installation, the [[matplotlib]] `mplot3d` module provides basic 3D visualization capabilities, though with more limited features than Mayavi's full volume rendering suite.
-
-## References
-
-[1] Schroeder, W., Martin, K., & Lorensen, B. (2006). *The Visualization Toolkit: An Object-Oriented Approach to 3D Graphics* (4th ed.). Kitware.
-
-[2] Enthought, Inc. (2023). Mayavi Documentation. Retrieved from https://docs.enthought.com/mayavi/mayavi/
-
-[3] The Virtual Brain Project. (2024). TVB Visualization Backends. Retrieved from https://www.thevirtualbrain.org/
-
-[4] Ramachandran, P., & Varoquaux, G. (2012). The Mayavi Application and Interactive 3D Scientific Visualization. *Python Scientific Conference Proceedings*.
-
-[5] Xia, M., Wang, J., & He, Y. (2013). BrainNet Viewer: A Network Visualization Tool for Human Brain Connectomics. *PLOS ONE*, 8(7), e68910.
-
-[6] Ramachandran, P., & Varoquaux, G. (2011). Mayavi: 3D Visualization of Scientific Data. *Computing in Science & Engineering*, 13(2), 40–47.
-
-[7] Hanika, J., & Borst, A. (2015). Interactive Visualization of Neural Simulation Data using Mayavi. In *Scientific Visualization: Interactions, Features, and Applications* (pp. 117–130). Springer International Publishing.

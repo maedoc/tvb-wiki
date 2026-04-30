@@ -3,9 +3,16 @@ title: "Bifurcation analysis of Jansen's neural mass model"
 created: 2026-04-20
 updated: 2026-04-20
 type: source
-tags: [paper-methods, neural-mass-models, bifurcation-analysis, epilepsy-modeling]
-sources: []
+tags: [paper-methods ,neural-mass-models ,bifurcation-analysis ,epilepsy-modeling]
+doi: "https://doi.org/10.1162/neco.2006.18.12.3052"
+bibtex: |
+  @book{unknownbifurcation,
+    title={Bifurcation analysis of Jansen's neural mass model},
+    doi={https://doi.org/10.1162/neco.2006.18.12.3052},
+  }
 ---
+
+
 
 # Bifurcation analysis of Jansen's neural mass model
 

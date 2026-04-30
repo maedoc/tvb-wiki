@@ -77,9 +77,3 @@ Despite substantial progress, several open questions remain regarding rich-club 
 - [[connectome]] – Complete map of structural connectivity
 - [[modularity]] – Organization into functionally specialized communities
 - [[functional-connectivity]] – Statistical dependencies between neural regions
-
-## References
-
-1. (authors unknown). *Mapping the Structural Core of Human Cerebral Cortex*.
-2. (authors unknown). *Networks of the Brain*.
-3. Deco et al. (2013). *Resting brains never rest: computational insights into potential cognitive architectures*. Trends in Neurosciences. [DOI](https://doi.org/10.1016/j.tins.2013.09.002)

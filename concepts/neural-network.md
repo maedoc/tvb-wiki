@@ -18,10 +18,3 @@ Neural Network — a concept in [[whole-brain|whole-brain modeling]] and [[compu
 
 ## Related Concepts
 * [[sciunit]]
-
-## References
-
-1. (authors unknown). *[[nonlinear-dynamics]] and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering*.
-2. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)
-3. (authors unknown). *Mapping the [[structural-core]] of Human Cerebral Cortex*.
-4. (authors unknown). *AUTO-07P: Continuation and [[bifurcation-analysis|Bifurcation]] Software for Ordinary Differential Equations*.

@@ -1,11 +1,18 @@
 ---
-title: "The Virtual Brain integrates computational modeling and multimodal neuroimaging"
+title: The Virtual Brain integrates computational modeling and multimodal neuroimaging
 created: 2026-04-20
 updated: 2026-04-20
 type: source
-tags: [paper-methods, software-tvb, whole-brain-modeling, neuroimaging-fmri, neuroimaging-eeg, neuroimaging-dti]
-sources: []
+tags: [paper-methods ,software-tvb ,whole-brain-modeling ,neuroimaging-fmri ,neuroimaging-eeg ,neuroimaging-dti]
+doi: "https://doi.org/10.1089/brain.2012.0120"
+bibtex: |
+  @book{unknownthe,
+    title={The Virtual Brain integrates computational modeling and multimodal neuroimaging},
+    doi={https://doi.org/10.1089/brain.2012.0120},
+  }
 ---
+
+
 
 # The Virtual Brain integrates computational modeling and multimodal neuroimaging
 

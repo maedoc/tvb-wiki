@@ -36,7 +36,3 @@ Ogawa's discovery transformed neuroscience by enabling non-invasive mapping of h
 - [[fmri]]
 - [[bold-signal]]
 - neuroimaging-fmri
-
-## References
-
-1. (authors unknown). *Brain magnetic resonance imaging with contrast dependent on blood oxygenation*.

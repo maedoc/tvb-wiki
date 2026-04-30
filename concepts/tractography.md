@@ -48,10 +48,3 @@ Validation strategies include physical phantoms with known fiber geometry, post-
 ## Related Concepts
 
 Tractography is the primary computational engine that transforms raw diffusion imaging data into the structural connectivity matrices used in connectomics, distinguishing itself from [[dti]]—the broader tensor framework from which it emerged. Tractography-derived connectivity is often compared against [[effective-connectivity]] estimates from [[dynamic-causal-modeling]] or [[functional-connectivity]] from fMRI and EEG, with mismatches providing clues about unmeasured polysynaptic pathways or state-dependent modulation of connection strengths.
-
-## References
-
-1. (authors unknown). *Three-dimensional tracking of axonal projections in the brain by magnetic resonance imaging*.
-2. (authors unknown). *Challenges and limitations of quantifying brain connectivity in vivo with diffusion MRI*.
-3. (authors unknown). *Robust determination of the fibre orientation distribution in diffusion MRI: Non-negativity constrained super-resolved spherical deconvolution*.
-4. (authors unknown). *Building connectomes using diffusion MRI: Why, how and but*.

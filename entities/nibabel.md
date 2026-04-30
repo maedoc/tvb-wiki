@@ -51,15 +51,3 @@ NiBabel was first described in an influential software note published in Frontie
 ## Related Software
 
 NiBabel serves as a dependency for numerous downstream packages in the Python neuroimaging ecosystem. [[nilearn]] uses NiBabel as its primary I/O layer for loading [[nifti]] images and creating mask objects. [[nipype]] relies on NiBabel for handling data between processing nodes in workflow engines. [[mne-python]] leverages NiBabel for certain file format conversions in [[eeg]] and [[meg]] analysis pipelines. For surface-based visualization, NiBabel interfaces with [[freesurfer]] through [[freeview]] and the [[connectome-workbench]] suite, while [[fsl]] provides command-line tools that complement NiBabel's Python functionality. Additional related tools include [[ants]] for advanced image registration, [[dipy]] for diffusion MRI processing, and pitk for general-purpose neuroimaging toolkit operations.
-
-## References
-
-1. Brett M, Hanke M,渠 et al. (2014). NiBabel: access to a variety of neuroimaging file formats. *Frontiers in Neuroinformatics*. 8:3. https://doi.org/10.3389/fninf.2014.00003
-
-2. Smith SM, Jenkinson M, Beckmann CF, Miller K, Woolrich MW (2014). Meaningful design and efficient use of neuroimaging file formats. *Frontiers in Neuroinformatics*. 8:7. https://doi.org/10.3389/fninf.2014.00007
-
-3. Gorgolewski K, Burns CD, Madison C, Clark MG, Toro R, Beyer E, Whitfield-Gabrieli S, Ghosh SS, Poldrack RA (2016). Nipype: a flexible, lightweight and extensible neuroimaging data processing framework in Python. *Frontiers in Neuroinformatics*. 10:7. https://doi.org/10.3389/fninf.2016.00007
-
-4. Abraham A, Pedregosa F, Eickenberg M, Gervais P, Mueller A, Kossaifi J, Gramfort A, Thirion B, Varoquaux G (2014). Machine learning for neuroimaging with scikit-learn. *Frontiers in Neuroinformatics*. 8:14. https://doi.org/10.3389/fninf.2014.00014
-
-5. ISO/IEC 23001-8:2016. Compression state and format of NIfTI-1 data files for reliable storage and transmission. International Organization for Standardization.

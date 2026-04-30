@@ -56,9 +56,3 @@ Several methodological challenges affect fMRI interpretation and its use in [[mo
 - [[fmri-vs-eeg|Fmri Vs Eeg]] – Comparison of fMRI and EEG methodologies
 - [[connectome]] – [[structural-connectivity]] infrastructure
 - [[whole-brain]] – Large-scale brain modeling approaches
-
-## References
-
-1. (authors unknown). *Brain magnetic resonance imaging with contrast dependent on blood oxygenation*.
-2. (authors unknown). *Neurophysiological investigation of the basis of the fMRI signal*.
-3. (authors unknown). *Statistical parametric maps in functional imaging: A general [[linear]] approach*.

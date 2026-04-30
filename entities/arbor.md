@@ -31,6 +31,3 @@ Arbor is often used alongside [[tvb]] and other simulation platforms in pre-proc
 * [[bidscoin]]
 * [[brainstorm]]
 * [[brian]]
-
-## References
-* Links to relevant papers and documentation*

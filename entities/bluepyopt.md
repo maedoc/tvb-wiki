@@ -39,7 +39,3 @@ The software integrates with the broader [[computational-neuroscience]] ecosyste
 ## Key Papers
 
 - Van Geit, W., Gevaert, M., Chindemi, G., Rössert, C., Courcol, J. D., Muller, E. B., Schürmann, F., Segev, I., & Markram, H. (2016). BluePyOpt: Leveraging open source software and cloud infrastructure to optimise model parameters in neuroscience. *Neuron*, 92(3), 616-627.
-
-## References
-
-[^1]: Van Geit, W., Gevaert, M., Chindemi, G., Rössert, C., Courcol, J. D., Muller, E. B., Schürmann, F., Segev, I., & Markram, H. (2016). BluePyOpt: Leveraging open source software and cloud infrastructure to optimise model parameters in neuroscience. *Neuron*, 92(3), 616-627.

@@ -49,9 +49,3 @@ Hub regions demonstrate distinctive biological properties beyond their topologic
 ## Related Concepts
 
 Network hubs are fundamentally intertwined with several other concepts in brain network science. The [[rich-club]] describes the dense interconnectivity among hub nodes themselves, forming a structural backbone. The [[structural-core]] identified by Hagmann and colleagues represents the anatomical substrate of hub concentration in posterior medial cortex. Hub distribution in brain networks displays [[scale-free-networks]] properties, with degree distributions following power laws that predict the existence of highly connected nodes. Hub identification relies on the [[graph-theory]] formalisms extensively reviewed by Bullmore and Sporns. The [[default-mode-network]] contains particularly prominent hubs in the posterior cingulate and medial prefrontal cortex. Hub regions serve as critical nodes in [[functional-connectivity]] patterns and [[structural-connectivity]] architectures alike. The study of brain network hubs represents a core focus of [[connectomics]] as a field, drawing on principles of [[network-dynamics]] and [[brain-network]] organization more broadly.
-
-## References
-
-1. (authors unknown). *Networks of the Brain*.
-2. (authors unknown). *Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems*.
-3. (authors unknown). *Mapping the Structural Core of Human Cerebral Cortex*.

@@ -35,7 +35,3 @@ Crispin W. Gardiner is a New Zealand physicist and Professor at the University o
 - Gardiner (2009) — Stochastic Methods: A Handbook for the Natural and Social Sciences
 - Gardiner (1985) — Handbook of Stochastic Methods (2nd ed.)
 - Gardiner & Zoller (2000) — Quantum Noise
-
-## References
-
-1. (authors unknown). *Stochastic Methods: A Handbook for the Natural and Social Sciences*.

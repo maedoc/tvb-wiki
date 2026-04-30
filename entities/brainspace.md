@@ -57,9 +57,3 @@ The primary reference for the BrainSpace software toolbox is the paper by Vos de
 ## Related Software
 
 BrainSpace interacts with several other tools in the [[neuroimaging]] ecosystem. For [[diffusion-mri]] processing, it works alongside [[dipy]] and [[mrtrix3]] for tractography and connectivity reconstruction. For surface visualization, it integrates with [[freesurfer]] outputs and [[connectome-workbench]]. For statistical analysis, it complements [[nilearn]] and the [[brain-connectivity-toolbox]] ([[bctpy]]). For cortical parcel generation, it can be used with [[schaefer-atlas]] and other established parcellation schemes, though gradient analysis specifically aims to characterize continuous organization rather than discrete parcels.
-
-## References
-
-[1] Vos de Wael, R., Larivière, S., Zollei, L., et al. (2020). BrainSpace: Toolbox for exploratory analysis of brain gradients. *NeuroImage*, 223, 117302.
-
-[2] Margulies, D. S., Ghosh, S. S., Goulas, A., et al. (2016). Situating the default-mode network along a principal gradient of macroscale cortical organization. *Proceedings of the National Academy of Sciences*, 113(44), 12574-12579.

@@ -1,11 +1,18 @@
 ---
-title: "Symmetric diffeomorphic image registration with cross-correlation"
+title: Symmetric diffeomorphic image registration with cross-correlation
 created: 2026-04-20
 updated: 2026-04-20
 type: source
-tags: [paper-methods, software-ants, neuroimaging-processing, brain-network, structural-connectivity]
-sources: []
+tags: [paper-methods ,software-ants ,neuroimaging-processing ,brain-network ,structural-connectivity]
+doi: "https://doi.org/10.1016/j.media.2007.06.004"
+bibtex: |
+  @book{unknownsymmetric,
+    title={Symmetric diffeomorphic image registration with cross-correlation},
+    doi={https://doi.org/10.1016/j.media.2007.06.004},
+  }
 ---
+
+
 
 # Symmetric diffeomorphic image registration with cross-correlation
 

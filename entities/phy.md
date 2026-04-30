@@ -47,23 +47,3 @@ The following publications are foundational to understanding Phy and its context
 3. Rey HG, Pedreira C, Quian Quiroga R (2015). "Past, present and future of spike sorting techniques." *Brain Research Bulletin* 119: 106–117. — Review of spike sorting methodology and context for manual curation tools like Phy.
 
 4. Harris KD, Quiroga RQ, Freeman J, Lee D (2016). "Improving data quality in neuronal ensemble recordings." *Nature Neuroscience* 19(9): 1165–1174. — Addresses the importance of accurate spike sorting for neural decoding.
-
-## References
-
-[1] Phy GitHub Repository. https://github.com/cortex-lab/phy
-
-[2] Phy Documentation: Use Cases. https://phy.readthedocs.io/en/stable/
-
-[3] Quiroga RQ, Nadasdy Z, Ben-Shaul Y (2004). "Unsupervised spike detection and sorting with wavelets and superparamagnetic clustering." *Neural Computation* 16(8): 1661–1687.
-
-[4] Rossant C (2018). "Phy: a flexible open-source tool for spike sorting." *Frontiers in Neuroinformatics*.
-
-[5] NWB Format Documentation. Neurodata Without Borders. https://www.nwb.org/
-
-[6] "Python-based analysis pipeline for extracellular recordings." Gilboa M (2020).
-
-[7] Baillet S, Mosher JC, Leahy RM (2001). "Electromagnetic brain mapping." *IEEE Signal Processing Magazine* 18(6): 14–30.
-
-[8] SpikeInterface GitHub. https://github.com/SpikeInterface
-
-[9] "SpikeForest: reproducible benchmarking of spike sorting methods." https://spikeforest.flatironinstitute.org/

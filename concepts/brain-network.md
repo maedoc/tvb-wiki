@@ -37,34 +37,3 @@ The [[modularity]] of brain networks refers to their organization into distinct 
 ## Relationship to Whole-Brain Modeling
 
 In [[whole-brain]] modeling, the structural network serves as the anatomical substrate for simulating large-scale neural dynamics. Computational frameworks such as [[tvb]] integrate structural connectivity matrices derived from diffusion imaging with [[neural-mass-model]]s to generate realistic brain activity patterns. Prominent figures in whole-brain modeling include [[henry-markram]], whose Blue Brain Project pioneered detailed cortical reconstructions. The coupling between nodes is determined by the structural edges, which can be scaled by parameters representing conduction delays and connection strengths. This approach allows researchers to investigate how structural alterations—such as those observed in [[alzheimers-modeling]] or [[schizophrenia-models]]—impact functional dynamics measured through [[resting-state]] activity. The network representation thus provides the essential bridge between anatomical connectivity and emergent functional connectivity, making it a foundational concept for computational neuroscience and connectomics research.
-
-## References
-
-1. (authors unknown). *Networks of the Brain*.
-2. (authors unknown). *Emergence of Scaling in [[random-networks]]*.
-3. (authors unknown). *Functional [[connectomics]] from Resting-State fMRI*.
-
-## ORPHAN PAGE CONTEXT (henry-markram)
----
-created: 2026-04-20
-sources:
-- raw/papers/markram-2015.md
-- raw/papers/potjans-diesmann-2014.md
-- raw/papers/semanticscholar-d759f2182295.md
-- raw/papers/semanticscholar-71ffb8153870.md
-- raw/papers/arxiv-2602.00561.md
-tags:
-- people-researcher
-- software-[[neuron]]
-- [[spiking-neural-networks]]
-- [[whole-brain-modeling]]
-title: Henry Markram
-type: entity
-updated: '2026-04-27'
----
-
-# Henry Markram
-
-Neuroscientist known for the Blue Brain Project and data-driven cortical reconstruction.
-
-## Research Focu

@@ -101,9 +101,3 @@ Another frontier is the integration of single-[[neuron]] biophysics with populat
 - [[mean-field theory]] — Dimensional reduction for network dynamical systems
 - [[stochastic differential equations]] — Dynamical systems with random perturbations
 - [[variational-bayes]] — Parameter estimation in dynamical system models
-
-## References
-
-1. (authors unknown). *Nonlinear Dynamics and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering*.
-2. (authors unknown). *Nonlinear Oscillations, Dynamical Systems, and Bifurcations of Vector Fields*.
-3. (authors unknown). *Differential Equations, Dynamical Systems, and an Introduction to Chaos*.

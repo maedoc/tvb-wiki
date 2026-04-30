@@ -1,11 +1,22 @@
 ---
-title: "BioSemi BDF Format Specification"
+title: BioSemi BDF Format Specification
 created: 2026-04-30
 updated: 2026-04-30
 type: source
-tags: [data-format, eeg, biosemi]
-sources: [https://www.biosemi.com/headnet.htm, https://www.biosemi.com/Format.htm]
+tags: [data-format ,eeg ,biosemi]
+authors:
+  - S. Perreault
+year: 2011
+doi: 10.17487/rfc6350
+bibtex: |
+  @book{perreault2011biosemi,
+    title={BioSemi BDF Format Specification},
+    author={"S. Perreault"},
+    year={2011},
+    doi={10.17487/rfc6350},
+  }
 ---
+
 
 # BioSemi BDF Format Specification
 

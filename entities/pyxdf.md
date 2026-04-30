@@ -64,13 +64,3 @@ PyXDF exists within a broader ecosystem of data format tools and analysis framew
 ## Open Questions and Limitations
 
 While PyXDF provides robust reading capabilities, some aspects of the XDF ecosystem remain challenging. Clock synchronization between devices with fundamentally different sampling rates or clock stabilities can be imperfect, and the quality of synchronization depends on the accuracy of the synchronization samples embedded during recording[^1]. Additionally, while XDF supports arbitrary channel types, interoperability with standard formats like BIDS requires additional conversion steps that can introduce friction in large-scale reproducible workflows.
-
-## References
-
-[^1]: XDF Format Specification. https://github.com/sccn/xdf/wiki/Specifications
-
-[^2]: PyXDF Python Package. https://github.com/xdf-modules/pyxdf
-
-[^3]: xdf-EEGLAB Plugin. https://github.com/xdf-modules/xdf-EEGLAB
-
-[^4]: Kothe, C. & Brunner, C. (2012). XDF (Extensible Data Format). Google Code Archive. https://code.google.com/archive/p/xdf/

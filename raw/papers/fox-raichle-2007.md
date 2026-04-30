@@ -1,13 +1,25 @@
 ---
-title: "Spontaneous fluctuations in brain activity observed with functional magnetic resonance imaging"
+title: Spontaneous fluctuations in brain activity observed with functional magnetic resonance imaging
 created: 2026-04-20
 updated: 2026-04-20
 type: paper
-tags: [neuroimaging-fmri, resting-state, paper-review]
-authors: [Michael D Fox, Marcus E Raichle]
+tags: [neuroimaging-fmri ,resting-state ,paper-review]
+authors:
+  - Michael D Fox
+  - Marcus E Raichle
 year: 2007
-venue: "Nature Reviews Neuroscience"
+venue: Nature Reviews Neuroscience
+doi: "https://doi.org/10.1038/nrn2201"
+bibtex: |
+  @article{fox2007spontaneous,
+    title={Spontaneous fluctuations in brain activity observed with functional magnetic resonance imaging},
+    author={"Michael D Fox and Marcus E Raichle"},
+    year={2007},
+    journal={Nature Reviews Neuroscience},
+    doi={https://doi.org/10.1038/nrn2201},
+  }
 ---
+
 
 # Spontaneous fluctuations in brain activity observed with functional magnetic resonance imaging
 

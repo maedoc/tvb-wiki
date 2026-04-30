@@ -55,9 +55,3 @@ The typical PyMVPA workflow involves loading neuroimaging data, partitioning sam
 The original PyMVPA publication (Hanke et al., 2009) introduced the toolbox and demonstrated its capabilities through applications to fMRI data from multiple studies. This work established many of the design principles that remain central to the toolbox, including the emphasis on cross-validation rigor and the integration of searchlight analysis. The searchlight methodology itself was introduced by Kriegeskorte, Goebel, and Bandettini (2006), who proposed information-based functional brain mapping as a technique for creating voxel-wise maps of discriminability.
 
 Subsequent methodological papers have demonstrated PyMVPA's application to various cognitive neuroscience questions, including the decoding of visual object categories, motor imagery classification for brain-computer interfaces, and the investigation of memory encoding and retrieval patterns.
-
-## References
-
-- Hanke, J., Halchenko, Y. O., Sederberg, P. B., Olivetti, E., Fründ, I., Rieger, J. W., ... & Haxby, J. V. (2009). PyMVPA: a Python toolbox for multivariate pattern analysis of fMRI data. Neuroinformatics, 7(1), 37-53.
-
-- Kriegeskorte, N., Goebel, R., & Bandettini, P. (2006). Information-based functional brain mapping. Proceedings of the National Academy of Sciences, 103(10), 3863-3868.

@@ -47,15 +47,3 @@ Implementing Apptainer in a computational neuroscience workflow requires underst
 ## Related Software and Alternatives
 
 Apptainer exists within a broader ecosystem of container technologies and reproducibility tools relevant to computational neuroscience. Docker remains the most widely used container platform and can be run on Apptainer-compatible systems via Docker-in-Docker or by converting Docker images to Apptainer format. The Python-based [[nipype]] workflow framework complements Apptainer by providing standardized interfaces for neuroimaging tools, and the two can be combined to create highly reproducible analysis pipelines. Other container platforms worth noting include Charliecloud (developed by Los Alamos National Laboratory) and Sarus, both designed for HPC environments with similar security constraints. For pure software deployment without containers, package managers like conda and pip remain popular, though they lack the comprehensive environment encapsulation that containers provide. The [[reproducibility]] challenge in neuroscience has also led to development of specialized solutions like [[datalad]] for data version control and workflow managers like [[snakemake]] that can orchestrate containerized executions. Within the domain of neural simulation, Apptainer complements specialized tools like [[pynest]], [[netpyne]], and the [[modeldb]] database for sharing model specifications.
-
-## References
-
-[^1]: Kurtzer, G. M., Sochat, V., & Bauer, M. W. (2017). Singularity: Scientific containers for mobility of compute. *PLOS ONE*, 12(5), e0177459.
-
-[^2]: Apptainer Documentation. (2024). *Apptainer User Documentation*. Retrieved from https://apptainer.org/docs/
-
-[^3]: Linux Foundation. (2021). *Apptainer Joins the Linux Foundation*. Retrieved from https://www.linuxfoundation.org/
-
-[^4]: Baker, M. (2015). 1,500 scientists lift the lid on reproducibility. *Nature*, 533, 452–454.
-
-[^5]: Kurtzer, G. M. (2016). Singularity: Scientific containers for mobility of compute. *Lawrence Berkeley National Laboratory*. Technical Report.

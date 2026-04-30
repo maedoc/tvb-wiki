@@ -1,11 +1,18 @@
 ---
-title: "Excitatory and inhibitory interactions in localized populations of model neurons"
+title: Excitatory and inhibitory interactions in localized populations of model neurons
 created: 2026-04-20
 updated: 2026-04-20
 type: source
-tags: [paper-methods, neural-mass-models, brain-oscillations, people-researcher]
-sources: []
+tags: [paper-methods ,neural-mass-models ,brain-oscillations ,people-researcher]
+doi: "https://doi.org/10.1016/s0006-3495(72)86068-5"
+bibtex: |
+  @book{unknownexcitatory,
+    title={Excitatory and inhibitory interactions in localized populations of model neurons},
+    doi={https://doi.org/10.1016/s0006-3495(72)86068-5},
+  }
 ---
+
+
 
 # Excitatory and inhibitory interactions in localized populations of model neurons
 

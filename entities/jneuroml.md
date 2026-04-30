@@ -77,15 +77,3 @@ Recent developments in the NeuroML community, including the creation of database
 4. **Gleeson et al. (2007)** — "neuroConstruct: A Tool for Modeling Networks of Neurons in 3D Space" — Describes neuroConstruct, a complementary tool for building NeuroML models. Published in Neuron.
 
 5. **Goddard et al. (2001)** — "Towards NeuroML: Model Description Methods for Collaborative Modelling in Neuroscience" — The original proposal that led to the development of NeuroML. Published in Philosophical Transactions of the Royal Society B. PMID: 11545699.
-
-## References
-
-1. Gleeson P, Crook S, Cannon RC, Hines ML, Billings GO, Farinella M, Morse TM, Davison AP, Ray S, Bhalla US, Barnes SR, Dimitrova YD, Silver RA. (2010). NeuroML: A Language for Describing Data Driven Models of Neurons and Networks with a High Degree of Biological Detail. PLoS Comput Biol 6(6): e1000815. https://doi.org/10.1371/journal.pcbi.1000815
-
-2. Crook S, Gleeson P, Howell F, Svitak J, Silver RA. (2007). MorphML: level 1 of the NeuroML standards for neuronal morphology data and model specification. Neuroinformatics. 5(2):96-104. https://doi.org/10.1007/s12021-007-0003-6
-
-3. Cannon RC, Gleeson P, Crook S, Ganapathy G, Marin B, Piasini E, Silver RA. (2014). LEMS: a language for expressing complex biological models in concise and hierarchical form and its use in underpinning NeuroML 2. Front Neuroinform. 8:79. https://doi.org/10.3389/fninf.2014.00079
-
-4. Gleeson P, Steuber V, Silver RA. (2007). neuroConstruct: A Tool for Modeling Networks of Neurons in 3D Space. Neuron. 54(2):219-235. https://doi.org/10.1016/j.neuron.2007.03.025
-
-5. Goddard NH, Hucka M, Howell F, Cornelis H, Shankar K, Beeman D. (2001). Towards NeuroML: model description methods for collaborative modelling in neuroscience. Philos Trans R Soc Lond B Biol Sci. 356(1412):1209-1228. https://doi.org/10.1098/rstb.2001.0910

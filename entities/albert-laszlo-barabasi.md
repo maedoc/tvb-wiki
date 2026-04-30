@@ -44,9 +44,3 @@ Barabási's research covers:
 
 ## Collaborators
 - Réka Albert – Scale-free networks
-
-## References
-
-1. (authors unknown). *Emergence of Scaling in Random Networks*.
-2. (authors unknown). *Collective Dynamics of 'Small-World' Networks*.
-3. (authors unknown). *Networks of the Brain*.

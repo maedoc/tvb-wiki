@@ -79,7 +79,3 @@ However, the reduction necessarily sacrifices some biological detail present in 
 - [[ dynamical-systems-theory]] — Theoretical framework underlying the dimensional reduction
 - [[mean-field-theory]] — Related approach for deriving population-level descriptions
 - [[tvb]] — [[the-virtual-brain]] simulation platform frequently used with these models
-
-## References
-
-1. Roxana A. Stefanescu, Viktor K. Jirsa. *A low dimensional description of globally coupled heterogeneous neural networks of excitatory and inhibitory neurons*. PLoS Computational Biology. [DOI](https://doi.org/10.1371/journal.pcbi.1000219)

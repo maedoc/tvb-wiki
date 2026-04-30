@@ -62,9 +62,3 @@ Time-frequency decomposition reveals the spectral content of neural activity, wi
 MEG occupies a unique position in the neuroimaging ecosystem, complementing both electrophysiological and hemodynamic measures. Compared to [[fmri]], which tracks the blood-oxygen-level-dependent (BOLD) signal with second-scale temporal resolution, MEG provides real-time windows into neural dynamics. However, the [[bold-signal]]'s vascular basis captures slower metabolic processes that may reveal aspects of neural communication invisible to [[electrophysiology]].
 
 The combination of MEG with EEG, [[structural-connectivity]] from DTI, and functional data from fMRI enables multimodal integration that strengthens whole-brain models. Software platforms like [[fieldtrip]] and [[mne-python]] provide pipelines for processing MEG data, while [[tvb]] integrates MEG forward modeling into whole-brain simulation workflows. The field continues to develop hardware improvements (e.g., optically pumped magnetometers) that may increase MEG's accessibility and temporal resolution.
-
-## References
-
-1. (authors unknown). *Independent component analysis of electroencephalographic data*.
-2. (authors unknown). *Analyzing Neural Time Series Data: Theory and Practice*.
-3. (authors unknown). *Large-scale recording of neuronal ensembles*.

@@ -52,15 +52,3 @@ For researchers utilizing the [[neuromorpho-toolkit]] (BCT) or [[braph]] for net
 2. Niso, G., Gorgolewski, K. J., Bock, E., Brooks, T. L., Vaid, S., Nadeau, C., ... & Poldrack, R. A. (2016). BIDS specification: The Brain Imaging Data Structure for neurophysiology. *Frontiers in Neuroscience*, 10, 325.
 
 3. Gramfort, A., Luessi, M., Larson, E., Engemann, D. A., Strohmeier, D., Brodbeck, C., ... & Hämäläinen, M. (2013). MEG and EEG data analysis with MNE-Python. *Frontiers in Neuroscience*, 7, 267.
-
-## References
-
-Appelhoff, S., Sanderson, M., Brooks, T., Vitzelman, J., Haun, A., Oostenveld, R., ... & Hamilton, L. (2019). MNE-BIDS: A framework for the integration of electrophysiology data in the Brain Imaging Data Structure. *Scientific Data*, 6, 190104. https://doi.org/10.1038/s41597-019-0104-7
-
-Gorgolewski, K. J., Avesani, C., Gorgolewski, K., & Poldrack, R. (2015). BIDS - Brain Imaging Data Structure: A standard for organizing [[neuroimaging]] data. https://bids-specification.readthedocs.io/
-
-Gramfort, A., Luessi, M., Larson, E., Engemann, D. A., Strohmeier, D., Brodbeck, C., ... & Hämäläinen, M. (2013). MEG and EEG data analysis with MNE-Python. *Frontiers in Neuroscience*, 7, 267.
-
-Niso, G., Gorgolewski, K. J., Bock, E., Brooks, T. L., Vaid, S., Nadeau, C., ... & Poldrack, R. A. (2016). BIDS specification: The Brain Imaging Data Structure for neurophysiology. *Frontiers in Neuroscience*, 10, 325.
-
-Esteller, R., Vachtsevanos, G., Echauz, J., & Litt, B. (2001). A comparison of methods for [[seizure-prediction]]. In *Proceedings of the 14th IEEE Symposium on Computer-Based Medical Systems* (pp. 513-517). IEEE.

@@ -63,7 +63,3 @@ The software integrates with the broader neuroimaging ecosystem through standard
 ITK-SNAP is part of a broader ecosystem of neuroimaging visualization and segmentation tools. [[3d-slicer]] is a more general medical imaging platform that includes segmentation capabilities and is often used for surgical planning; it builds on the same ITK foundation. [[freesurfer]] provides automated cortical and subcortical segmentation via recon-all pipeline, offering a more automated alternative when processing large cohorts with standard parcellations. [[fsl]] (FMRIB Software Library) includes FIRST for subcortical segmentation and BET for brain extraction, providing command-line alternatives to ITK-SNAP's interactive interface.
 
 For deep learning-based segmentation, the field has shifted toward frameworks like [[niftynet]] or [[nnu-net]], which can outperform classical active contour methods for many tasks. However, ITK-SNAP remains valuable for generating training data (manual segmentations) for such deep learning systems, for cases where automated methods fail, and for researchers preferring interactive control over their segmentation process.
-
-## References
-
-- Yushkevich, P. A., Piven, J., Hazlett, H. C., Smith, R. G., Ho, S., Gee, J. C., & Gerig, G. (2006). User-guided 3D active contour segmentation of anatomical structures: Significantly improved efficiency and reliability. NeuroImage, 31(3), 1116-1128.

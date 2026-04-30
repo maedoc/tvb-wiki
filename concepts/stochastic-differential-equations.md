@@ -45,12 +45,3 @@ When full trajectory simulation is computationally expensive, the [[fokker-planc
 The foundational work of [[emanuel-tuckwell|Tuckwell]] (1988) on stochastic cable theory and diffusion approximations for first-passage time problems established the mathematical bridge between single-neuron stochastic processes and population-level descriptions, while [[crispin-gardiner|Gardiner]]'s (2009) handbook provided the systematic Fokker-Planck and Langevin machinery that underpins modern [[whole-brain]] simulation frameworks. Together, these sources formalize a core insight: SDEs are not deterministic models with noise appended as an afterthought, but a foundational theoretical language in which randomness is a constitutive feature of neural computation.
 
 SDEs thus occupy a central position in the theoretical architecture of computational neuroscience. They generalize the deterministic skeletons of [[dynamical-systems-theory]] and [[nonlinear-dynamics]] by injecting biologically realistic variability, while their diffusion limits formalize the bridge between microscopic [[spiking-neural-networks]] and macroscopic [[mean-field-theory]]. The reduction from master equations describing discrete spike counts to continuous Langevin SDEs is itself a mean-field approximation, and understanding when this reduction fails—typically under strong coupling, spatial heterogeneity, or near critical transitions—remains an open frontier explored by next-generation stochastic models referenced in the [[fokker-planck-equation]] and [[neural-mass-models]] literature.
-
-## References
-
-1. (authors unknown). *Stochastic Methods: A Handbook for the Natural and Social Sciences*.
-2. (authors unknown). *Introduction to Theoretical Neurobiology: Volume 2, Nonlinear and Stochastic Theories*.
-3. (authors unknown). *Stochastic Dynamics and the Brain*.
-4. (authors unknown). *Stochastic Dynamics in the Brain and Probabilistic Models*.
-5. Wanying Qu, Jianxiong Gao, Wei Wang, Yanwei Fu. *Modeling Spatiotemporal Neural Frames for High Resolution Brain Dynamic*. [Link](https://arxiv.org/abs/2603.24176)
-6. (authors unknown). *Macroscopic Description for Networks of Spiking Neurons*.

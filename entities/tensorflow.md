@@ -44,21 +44,3 @@ TensorFlow shares the deep learning ecosystem with several alternatives and comp
 ## Key Applications
 
 Notable computational neuroscience applications built in TensorFlow include deep learning models for [[source-localization]] from EEG/MEG data, automated analysis of [[white-matter]] microstructure from diffusion images, and connectome-based prediction of individual cognitive traits or clinical outcomes. The framework's SavedModel format and TensorFlow Serving enable deployment of trained models as reproducible analysis tools, supporting the broader goals of [[reproducibility]] in neuroimaging research. Brain-age prediction models have become particularly prominent, with frameworks like those described by Liang et al. (2019) demonstrating robust age prediction from structural MRI. Additionally,TensorFlow-based deep learning approaches have been applied to epilepsy [[seizure-prediction]] from intracranial EEG recordings (Tsiouris et al., 2018) and to automated diagnosis of Alzheimer's disease from hippocampal segmentation (Qin et al., 2019).
-
-## References
-
-Abadi, M., Barham, P., Chen, J., Chen, Z., Davis, A., Dean, J., ... &Zheng, X. (2016). TensorFlow: A system for large-scale machine learning. In Proceedings of the 12th USENIX Symposium on Operating Systems Design and Implementation (OSDI 16) (pp. 265-283).
-
-Cole, J. H., Poudel, R. P., Kivimäki, M., &Marques, J. D. (2017). Brainage predicts mortality: A systematic review and meta-analysis. Neuroimage: Clinical, 13, 506-514.
-
-Liang, K., Wang, X., Li, Z., Wang, T., & Shen, L. (2019). A deep learning framework for brain age estimation from MRI. In International Conference on Medical Image Computing and Computer-Assisted Intervention (pp. 101-109). Springer.
-
-Qin, C., Yao, W., Shi, Y., & Zhuang, Z. (2019). Automated segmentation and classification of hippocampal magnetic resonance images based on deep learning. Medical Physics, 46(9), 4022-4032.
-
-Ruiz, S., Fadili, J., & Lorenz, R. (2023). Deep learning for whole-brain modeling: From neural activity to behavior. Neuroimage, 275, 120132.
-
-Schirrmeister, R. T., Zhou, L., Ball, T., & Brunner, C. (2017). Deep learning with convolutional neural networks for EEG decoding and visualization. Human Brain Mapping, 38(12), 5391-5420.
-
-Senn, W., Jordan, J., Bick, C., & Vlachos, I. (2022). [[nest]] ML: A modeling language for spiking neural networks. Frontiers in Neuroinformatics, 16, 892376.
-
-Tsiouris, K. M., Pezoulas, V. C., Zervakis, M., Klados, M. A., Koutsouris, D. D., &Fotiadis, D. I. (2018). A deep learning approach for EEG seizure detection using wavelet decomposition. IEEE Journal of Biomedical and Health Informatics, 22(5), 1480-1494.

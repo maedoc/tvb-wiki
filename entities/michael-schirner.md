@@ -38,9 +38,3 @@ Researcher in personalized brain modeling and TVB pipeline development.
 - [[TVB]] — Platform for personalized brain modeling
 - [[personalized brain modeling]] — Research domain
 - [[whole brain]] — Whole-brain simulation approach
-
-## References
-
-1. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2018.05.040)
-2. Sanz Leon et al. (2013). *[[the-virtual-brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
-3. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)

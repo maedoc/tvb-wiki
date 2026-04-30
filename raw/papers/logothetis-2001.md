@@ -1,13 +1,28 @@
 ---
-title: "Neurophysiological investigation of the basis of the fMRI signal"
+title: Neurophysiological investigation of the basis of the fMRI signal
 created: 2026-04-20
 updated: 2026-04-20
 type: paper
-tags: [neuroimaging-fmri, paper-methods, neurovascular-coupling]
-authors: [Nikos K Logothetis, Jon Pauls, Mark Augath, Torsten Trinath, Ernst Otermann]
+tags: [neuroimaging-fmri ,paper-methods ,neurovascular-coupling]
+authors:
+  - Nikos K Logothetis
+  - Jon Pauls
+  - Mark Augath
+  - Torsten Trinath
+  - Ernst Otermann
 year: 2001
-venue: "Nature"
+venue: Nature
+doi: "https://doi.org/10.1038/35084005"
+bibtex: |
+  @book{logothetis2001neurop,
+    title={Neurophysiological investigation of the basis of the fMRI signal},
+    author={"Nikos K Logothetis and Jon Pauls and Mark Augath and Torsten Trinath and Ernst Otermann"},
+    year={2001},
+    publisher={Nature},
+    doi={https://doi.org/10.1038/35084005},
+  }
 ---
+
 
 # Neurophysiological investigation of the basis of the fMRI signal
 

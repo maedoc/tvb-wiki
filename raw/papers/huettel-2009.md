@@ -1,13 +1,26 @@
 ---
-title: "Functional Magnetic Resonance Imaging"
+title: Functional Magnetic Resonance Imaging
 created: 2026-04-20
 updated: 2026-04-20
 type: paper
-tags: [neuroimaging-fmri, paper-review, textbook]
-authors: [Scott A Huettel, Allen W Song, Gregory McCarthy]
+tags: [neuroimaging-fmri ,paper-review ,textbook]
+authors:
+  - Scott A Huettel
+  - Allen W Song
+  - Gregory McCarthy
 year: 2009
-venue: "Sinauer Associates (Textbook)"
+venue: Sinauer Associates (Textbook)
+doi: "https://doi.org/10.1038/nrn2201"
+bibtex: |
+  @book{huettel2009functiona,
+    title={Functional Magnetic Resonance Imaging},
+    author={"Scott A Huettel and Allen W Song and Gregory McCarthy"},
+    year={2009},
+    publisher={Sinauer Associates (Textbook)},
+    doi={https://doi.org/10.1038/nrn2201},
+  }
 ---
+
 
 # Functional Magnetic Resonance Imaging (2nd Edition)
 

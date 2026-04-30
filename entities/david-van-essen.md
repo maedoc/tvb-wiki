@@ -46,10 +46,3 @@ Van Essen's research emphasizes:
 
 ## Resources
 - HCP data available at humanconnectome.org
-
-## References
-
-1. (authors unknown). *The WU-Minn Human Connectome Project: An Overview*.
-2. (authors unknown). *The Human Connectome Project: A Data Acquisition Perspective*.
-3. (authors unknown). *[[resting-state|Resting-State fMRI]] in the Human Connectome Project*.
-4. (authors unknown). *Function in the Human Connectome: Task-[[fmri]] and Individual Differences in Behavior*.

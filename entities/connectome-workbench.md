@@ -60,11 +60,3 @@ Connectome Workbench operates within a broader ecosystem of neuroimaging visuali
 1. Human Connectome Project. (2015). Human Connectome Project. https://www.humanconnectome.org/
 2. Van Essen, D. C., Smith, S. M., Barch, D. M., Behrens, T. E., Yacoub, E., & Ugurbil, K. (2013). The Human Connectome Project: A data acquisition perspective. NeuroImage, 62, 2222-2231.
 3. Glasser, M. F., Coalson, T. S., Robinson, E. C., Hacker, C. D., Harwell, J., Yacoub, E., ... & Van Essen, D. C. (2016). A multi-modal parcellation of human cerebral cortex. Nature, 536(7615), 171-178.
-
-## References
-
-[1] Connectome Workbench. (2024). Human Connectome Project. https://www.humanconnectome.org/study/hcp-lifespan-development
-
-[2] Glasser, M. F., Sotiropoulos, S. N., Wilson, J. A., Coalson, T. S., Fischl, B., Andersson, J. L., ... & Polimeni, J. R. (2013). The minimal preprocessing pipelines for the Human Connectome Project. NeuroImage, 80, 105-124.
-
-[3] Glasser, M. F., Coalson, T. S., Robinson, E. C., Hacker, C. D., Harwell, J., Yacoub, E., ... & Van Essen, D. C. (2016). A multi-modal parcellation of human cerebral cortex. Nature, 536(7615), 171-178.

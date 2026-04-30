@@ -58,12 +58,3 @@ Integration with other [[neuroimaging]] software is common in the field. Tools l
 While the Allen Brain Atlas has transformed neuroscience research, significant challenges remain. The atlas provides static snapshots of brain anatomy and molecular composition, but the brain is inherently dynamic. Future versions may incorporate temporal dimensions, showing how gene expression patterns and connectivity change across development, learning, and disease states. The integration of single-cell transcriptomics with traditional atlas data represents another frontier, potentially allowing researchers to understand brain organization at finer spatial scales.
 
 Another open question concerns the standardization of atlas-derived parcellations for computational modeling. Different research groups have developed different [[parcellation]] schemes derived from the same underlying data, leading to inconsistencies in the literature. Consensus efforts to standardize [[brain-parcellations]] for use in [[whole-brain modeling]] are ongoing, with the Allen Brain Atlas serving as a potential anchor point for these efforts.
-
-## References
-
-1. Allen Institute for Brain Science. "About the Allen Brain Atlas." https://alleninstitute.org/ (accessed 2024).
-2. Lein, E.S., et al. (2007). "Genome-wide atlas of gene expression in the adult mouse brain." *Nature* 445: 168-176.
-3. Hawrylycz, M.J., et al. (2012). "An anatomically comprehensive atlas of the adult human brain transcriptome." *Nature* 489: 391-399.
-4. Allen Mouse Brain Connectivity Atlas. "Technical White Paper." Allen Institute for Brain Science.
-5. Liu, X., et al. (2020). "A comprehensive ontogenetic atlas of the macaque brain." *PLOS Biology* 18(9): e3000976.
-6. [[the-virtual-brain]]. "Documentation." https://thevirtualbrain.org/ (accessed 2024).

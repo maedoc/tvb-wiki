@@ -33,6 +33,3 @@ SPM is often used alongside [[tvb]] and other simulation platforms in pre-proces
 * [[bids-validator]]
 * [[bidscoin]]
 * [[brainstorm]]
-
-## References
-* Links to relevant papers and documentation*

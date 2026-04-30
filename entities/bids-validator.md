@@ -33,6 +33,3 @@ BIDS Validator is often used alongside [[tvb]] and other simulation platforms in
 * [[bidscoin]]
 * [[brainstorm]]
 * [[brian]]
-
-## References
-* Links to relevant papers and documentation*

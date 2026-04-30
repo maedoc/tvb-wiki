@@ -15,7 +15,3 @@ Anticevic 2012 — a concept in [[whole-brain|whole-brain modeling]] and [[compu
 
 ## Related Concepts
 * [[default-mode-network]]
-
-## References
-
-1. Deco et al. (2013). *Resting brains never rest: computational insights into potential cognitive architectures*. Trends in Neurosciences. [DOI](https://doi.org/10.1016/j.tins.2013.09.002)

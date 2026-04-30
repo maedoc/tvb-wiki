@@ -1,13 +1,28 @@
 ---
-title: "Spurious but systematic correlations in functional connectivity MRI networks arise from subject motion"
+title: Spurious but systematic correlations in functional connectivity MRI networks arise from subject motion
 created: 2026-04-20
 updated: 2026-04-20
 type: paper
-tags: [neuroimaging-fmri, resting-state, functional-connectivity, paper-methods]
-authors: [Jonathan D Power, Kelly A Barnes, Abraham Z Snyder, Bradley L Schlaggar, Marcus E Raichle]
+tags: [neuroimaging-fmri ,resting-state ,functional-connectivity ,paper-methods]
+authors:
+  - Jonathan D Power
+  - Kelly A Barnes
+  - Abraham Z Snyder
+  - Bradley L Schlaggar
+  - Marcus E Raichle
 year: 2012
-venue: "NeuroImage"
+venue: NeuroImage
+doi: "https://doi.org/10.1016/j.neuroimage.2011.10.018"
+bibtex: |
+  @article{power2012spurious,
+    title={Spurious but systematic correlations in functional connectivity MRI networks arise from subject motion},
+    author={"Jonathan D Power and Kelly A Barnes and Abraham Z Snyder and Bradley L Schlaggar and Marcus E Raichle"},
+    year={2012},
+    journal={NeuroImage},
+    doi={https://doi.org/10.1016/j.neuroimage.2011.10.018},
+  }
 ---
+
 
 # Spurious but systematic correlations in functional connectivity MRI networks arise from subject motion
 

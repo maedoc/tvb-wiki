@@ -1,11 +1,18 @@
 ---
-title: "Reference Choice Affects EEG Connectivity Dynamics"
+title: Reference Choice Affects EEG Connectivity Dynamics
 created: 2026-04-30
 updated: 2026-04-30
 type: source
-tags: [eeg, methodology, reference-electrode, preprocessing]
-sources: [https://doi.org/10.1016/j.clinph.2011.06.001]
+tags: [eeg ,methodology ,reference-electrode ,preprocessing]
+doi: "https://doi.org/10.1002/hbm.20346"
+bibtex: |
+  @book{unknownreference,
+    title={Reference Choice Affects EEG Connectivity Dynamics},
+    doi={https://doi.org/10.1002/hbm.20346},
+  }
 ---
+
+
 
 # Reference Choice Affects EEG Connectivity Dynamics
 

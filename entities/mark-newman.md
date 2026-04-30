@@ -45,11 +45,3 @@ Newman's research emphasizes:
 
 ## Resources
 - Book: "Networks: An Introduction" (Oxford University Press)
-
-## References
-
-1. (authors unknown). *Networks: An Introduction*.
-2. (authors unknown). *Networks of the Brain*.
-3. (authors unknown). *Collective Dynamics of 'Small-World' Networks*.
-4. (authors unknown). *Emergence of Scaling in [[random-networks]]*.
-5. (authors unknown). *Complex Network Measures of Brain [[connectivity]]: Uses and Interpretations*.

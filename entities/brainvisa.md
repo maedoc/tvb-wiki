@@ -50,20 +50,3 @@ The integration between BrainVISA and TVB typically proceeds as follows: structu
 BrainVISA exists within a rich ecosystem of neuroimaging tools, and its design philosophy emphasizes interoperability rather than isolation. The platform maintains formal interfaces with [[SPM]] (Statistical Parametric Mapping) for voxel-based analyses and with [[freesurfer]] for complementary cortical measurements. In the Python ecosystem, BrainVISA functionalities are accessible through [[nilearn]] and [[nipype]], which provide scriptable access to processing workflows and facilitate integration with machine learning pipelines.
 
 Alternative packages for morphological analysis include [[brainsuite]], which provides a streamlined pipeline for cortical reconstruction, and [[ica]], a more recent framework that offers end-to-end processing for clinical neuroimaging studies. For [[connectome]] construction specifically, the [[connectome-mapper-3]] toolkit provides complementary functionality focusing on tractography-based connectivity estimation.
-
-## References
-
-1. Coincon, R., et al. (2012). "BrainVISA: A software platform for anatomical morphometry of development and pathology." NeuroImage.
-2. Geffroy, D., et al. (2017). "Cortical measurement using Morphologist." NeuroImage.
-3. Auzias, G., et al. (2015). "Mean templates for orientation-invariant population analysis." NeuroImage.
-4. Mangin, J.F., et al. (2004). "A framework to study the cortical folding patterns." NeuroImage.
-
-## Key Capabilities Summary
-
-| Feature Domain | Description |
-|----------------|-------------|
-| Cortical reconstruction | Mesh generation from T1 MRI with topological correction |
-| Sulcal identification | Automated labeling of cortical landmarks using geometric analysis and pattern matching |
-| Morphometry | Cortical thickness, area, curvature quantification |
-| VBM | Voxel-based morphometry with enhanced visualization |
-| Interoperability | Interfaces with Freesurfer, SPM, nilearn, nipype |

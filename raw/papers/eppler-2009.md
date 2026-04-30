@@ -3,9 +3,16 @@ title: "PyNEST: A convenient interface to the NEST simulator"
 created: 2026-04-20
 updated: 2026-04-20
 type: source
-tags: [paper-methods, software-nest, spiking-neural-networks, tutorial]
-sources: []
+tags: [paper-methods ,software-nest ,spiking-neural-networks ,tutorial]
+doi: "https://doi.org/10.3389/neuro.11.012.2008"
+bibtex: |
+  @book{unknownpynest,
+    title={PyNEST: A convenient interface to the NEST simulator},
+    doi={https://doi.org/10.3389/neuro.11.012.2008},
+  }
 ---
+
+
 
 # PyNEST: A convenient interface to the NEST simulator
 

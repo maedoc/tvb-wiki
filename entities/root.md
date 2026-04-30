@@ -72,9 +72,3 @@ ROOT has been used in specific neuroscience applications including analysis of [
 - [[Freesurfer]] — MRI preprocessing; outputs can be stored/analyzed in ROOT
 - [[Nipype]] — Python pipeline framework; can integrate ROOT workflows via PyROOT
 - [[Ants]] — Image registration; statistical analyses can use ROOT histogramming
-
-## References
-
-- ROOT official documentation: https://root.cern
-- ROOT GitHub repository: https://github.com/root-project/root
-- PyROOT documentation: https://root.cern/manual/python/

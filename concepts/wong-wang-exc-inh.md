@@ -86,8 +86,3 @@ For researchers interested in [[bifurcation-analysis]] of brain dynamics, the mo
 - [[functional-connectivity]] — Empirical counterpart to model predictions
 - [[resting-state]] — Paradigm for studying spontaneous [[brain-dynamics]]
 - [[dynamic-causal-modeling]] — Related framework for inferring [[effective-connectivity]]
-
-## References
-
-1. Pascal Helson, Etienne Tanré, Romain Veltz. *Mean-field analysis of a [[neural-network]] with stochastic STDP*. [Link](https://arxiv.org/abs/2510.02545)
-2. Soon Ho Kim, Hannah Choi. (2025). *Inhibitory cell type heterogeneity in a spatially structured mean-field model of V1*. bioRxiv. [DOI](https://doi.org/10.1101/2025.03.13.643046)

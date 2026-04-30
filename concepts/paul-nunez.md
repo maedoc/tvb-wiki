@@ -14,7 +14,3 @@ Paul Nunez — a concept in [[whole-brain|whole-brain modeling]] and [[computati
 
 ## Related Concepts
 * [[eeg]]
-
-## References
-
-1. (authors unknown). *Electric Fields of the Brain: The Neurophysics of EEG*.

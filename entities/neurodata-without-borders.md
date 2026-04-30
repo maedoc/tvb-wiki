@@ -74,29 +74,3 @@ The standard is maintained by the [INCF](https://www.incf.org/) [1] and has beco
 5. **Human Connectome Project: A pipeline for processing and sharing highly quantitative neuroimaging and behavioral data at scale** — Describes the HCP data sharing infrastructure that influenced NWB development and continues to serve as a model for large-scale neuroscience data initiatives.
 
 6. **SpikeInterface: A unified framework for spike sorting** — Describes the electrophysiology analysis framework that integrates with NWB for standardized data export.
-
-## References
-
-[1] INCF. "Neurodata Without Borders (NWB)." INCF Standards. https://www.incf.org/ (accessed 2024).
-
-[2] Human Connectome Project. "HCP Data Retention and Sharing Policy." Washington University - University of Minnesota. https://www.humanconnectome.org/ (accessed 2024).
-
-[3] Neurodata Without Borders. "NWB: Neurodata Without Borders." Neurodata Without Borders Documentation. https://www.neurodatawithoutborders.org/ (accessed 2024).
-
-[4] Gorgolewski, K., et al. "Brain Imaging Data Structure (BIDS): A practical approach for neuroimaging data management." *Neuroimage* 129 (2016): 426-438.
-
-[5] NIX Project. "NIX - A generic format for reproducible data management." https://github.com/nixio/nix (accessed 2024).
-
-[6] The HDF Group. "Hierarchical Data Format, Version 5." http://www.hdfgroup.org/HDF5/ (accessed 2024).
-
-[7] NWB Schema Documentation. https://schema.readthedocs.io/ (accessed 2024).
-
-[8] Neurodata Without Borders. "NWB 2.0 Release Notes." https://github.com/NeurodataWithoutBorders/nwb-schema/releases (accessed 2024).
-
-[9] NWB Best Practices. "Data Provenance in NWB." https://pynwb.readthedocs.io/ (accessed 2024).
-
-[10] PyNWB Documentation. https://pynwb.readthedocs.io/ (accessed 2024).
-
-[11] MATLAB SDK. "MatNWB: MATLAB NWB API." https://github.com/NeurodataWithoutBorders/matnwb (accessed 2024).
-
-[12] SpikeInterface. "SpikeInterface: A unified framework for spike sorting." https://github.com/SpikeInterface/spikeinterface (accessed 2024).

@@ -28,6 +28,3 @@ Brain Oscillations is a key concept in [[computational-neuroscience]] and [[whol
 * [[eeg]]
 * [[meg]]
 * [[nonlinear-dynamics]]
-
-## References
-**

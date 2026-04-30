@@ -78,7 +78,3 @@ PyNEST has been applied to studies of [[brain-oscillations]], [[epilepsy-modelin
 - [[auryn]] — Fast spiking neural network simulator
 - [[netpyne]] — Python tool for building and analyzing neuronal networks
 - [[neuroml]] — Standardized language for neuronal model specification
-
-## References
-
-{% bibliography --file refs %}

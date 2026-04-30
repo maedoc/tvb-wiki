@@ -110,9 +110,3 @@ Despite extensive research, several questions remain: What are the optimal modul
 - [[functional-connectivity]] – Statistical dependencies between brain regions
 - [[structural-connectivity]] – Anatomical [[white-matter]] pathways
 - [[resting-state]] – Spontaneous brain activity patterns
-
-## References
-
-1. (authors unknown). *Networks: An Introduction*.
-2. (authors unknown). *Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems*.
-3. (authors unknown). *Networks of the Brain*.

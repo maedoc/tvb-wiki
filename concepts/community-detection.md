@@ -15,8 +15,3 @@ Community Detection — a concept in [[whole-brain|whole-brain modeling]] and [[
 
 ## Related Concepts
 * [[modularity]]
-
-## References
-
-1. (authors unknown). *Functional [[connectomics]] from [[resting-state|Resting-State fMRI]]*.
-2. (authors unknown). *[[nonlinear-dynamics]] and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering*.
