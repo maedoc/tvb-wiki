@@ -13,7 +13,7 @@ tags:
 - neural-mass-models
 title: Gustavo Deco
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 # Gustavo Deco
@@ -40,3 +40,11 @@ Computational neuroscientist known for work on large-scale brain models and rest
 - [[resting state]] — Research domain
 - [[whole brain]] — Modeling scale
 - [[neural mass model]] — Methodology
+
+## References
+
+1. Deco et al. (2013). *Resting brains never rest: computational insights into potential cognitive architectures*. Trends in Neurosciences. [DOI](https://doi.org/10.1016/j.tins.2013.09.002)
+2. (authors unknown). *Stochastic Dynamics and the Brain*.
+3. (authors unknown). *Stochastic Dynamics in the Brain and Probabilistic Models*.
+4. Kashyap Gudibanda, J. Fousek, S. Petkoski, V. Jirsa. (2026). *The role of connectivity for the degeneracy of the brain’s resting state dynamics*. Journal of Computational Neuroscience. [DOI](https://doi.org/10.1007/s10827-025-00919-0)
+5. Pascal Helson, Etienne Tanré, Romain Veltz. *Mean-field analysis of a neural network with stochastic STDP*. [Link](https://arxiv.org/abs/2510.02545)

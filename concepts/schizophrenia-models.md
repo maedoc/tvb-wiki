@@ -17,7 +17,7 @@ tags:
 - personalized-brain-modeling
 title: Schizophrenia Models
 type: concept
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 Schizophrenia Models refer to computational and mathematical frameworks that simulate the neurobiological mechanisms underlying schizophrenia spectrum disorders. These models span multiple scales of neural organization—from single-neuron and [[neural-mass-models]] that capture local circuit dynamics to [[whole-brain-modeling]] approaches that integrate distributed brain networks. In computational psychiatry, schizophrenia models serve as in silico laboratories for testing hypotheses about disease mechanisms, optimizing treatment interventions, and advancing personalized medicine. The field draws heavily on [[dynamical-systems-theory]], [[neural-mass-model]] formulations such as the [[jansen-rit-model]] and [[wong-wang-model]], and connectivity-derived [[whole-brain]] architectures constructed from [[dti]] data.
@@ -57,3 +57,11 @@ Future directions include refinement of patient-specific modeling for clinical p
 ## Related Concepts
 
 Schizophrenia models intersect with numerous related frameworks in computational neuroscience. Key connections include [[default-mode-network]] abnormalities frequently observed in patients, the role of altered [[brain-oscillations]] in cognitive dysfunction, and the relationship to [[epilepsy-modeling]] frameworks that share similar neural mass architectures. The field also connects to [[alzheimers-modeling]] through shared approaches to neurodegenerative disease modeling, and to [[consciousness-models]] through investigation of altered states of consciousness in psychosis. Methodologically, schizophrenia models depend on tools from the [[brain-connectivity-toolbox]], [[the-virtual-brain]] ecosystem, and [[neural-mass-models-comparison]] frameworks for systematic model benchmarking.
+
+## References
+
+1. Ramiro Plüss, Hernán Villota, Patricio Orio. (2025). *Hemispheric-Specific Coupling Improves Modeling of Functional Connectivity Using Wilson-Cowan Dynamics*. [Link](https://arxiv.org/abs/2506.22951)
+2. Timo Hofsähs, Marius Pille, Lucas Kern, Anuja Negi, J. Meier, Petra Ritter. (2026). *The Virtual Brain links transcranial magnetic stimulation evoked potentials and inhibitory neurotransmitter changes in major depressive disorder*. bioRxiv. [DOI](https://doi.org/10.1101/2024.11.25.622620)
+3. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)
+4. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2018.05.040)
+5. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)

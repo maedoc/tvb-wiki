@@ -17,7 +17,7 @@ tags:
 - dynamical-systems-theory
 title: Fokker-Planck Equation
 type: concept
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 ## Definition
@@ -75,3 +75,14 @@ The Fokker-Planck equation and stochastic differential equations provide complem
 The Fokker-Planck equation sits at the intersection of several foundational frameworks in theoretical neuroscience. It provides the probabilistic foundation for [[stochastic differential equations]] used to model neural dynamics with noisy inputs. The population density approach connects directly to [[mean-field-theory]], which provides averaged descriptions of neural ensembles. In the context of [[whole-brain modeling]], the FPE enables analysis of how stochastic fluctuations in local populations propagate through large-scale brain networks governed by [[structural connectivity]]. The equation also connects to [[bifurcation-analysis]] in [[nonlinear-dynamics]], as noise can fundamentally alter bifurcation behavior and transition dynamics in neural systems. Tools like [[nest]] and [[brian2]] implement stochastic neural simulations whose mean-field population dynamics can be analyzed through FPE methods, providing a bridge between detailed spiking networks and [[neural mass model]] approximations.
 
 ---
+
+## References
+
+1. (authors unknown). *The Fokker-Planck Equation: Methods of Solution and Applications*.
+2. (authors unknown). *Stochastic Methods: A Handbook for the Natural and Social Sciences*.
+3. (authors unknown). *Introduction to Theoretical Neurobiology: Volume 2, Nonlinear and Stochastic Theories*.
+4. Roxana A. Stefanescu, Viktor K. Jirsa. *A low dimensional description of globally coupled heterogeneous neural networks of excitatory and inhibitory neurons*. PLoS Computational Biology. [DOI](https://doi.org/10.1371/journal.pcbi.1000219)
+5. Coşkun Çetin, Jose Roberto Castilho Piqueira, Burhaneddin İzgi̇, Ayşe Peker-Dobie, Semra Ahmetolan, Murat Özkaya. (2026). *Deterministic, stochastic, and mean-field PDE models in neuroscience*. Frontiers in Computational Neuroscience. [DOI](https://doi.org/10.3389/fncom.2026.1762692)
+6. Coskun Çetin, J.R.C. Piqueira, Burhaneddin Izgi, Ayse Peker-Dobie, S. Ahmetolan, Murat Özkaya. (2026). *Deterministic, stochastic, and mean-field PDE models in neuroscience*. Frontiers in Computational Neuroscience. [DOI](https://doi.org/10.3389/fncom.2026.1762692)
+7. Hugh R. Wilson, Jack D. Cowan. *Excitatory and inhibitory interactions in localized populations of model neurons*. Biophysical Journal. [DOI](https://doi.org/10.1016/S0006-3495(72)86068-5)
+8. Preksha Girish, Rachana Mysore, Mahanthesha U, Shrey Kumar, Misbah Fatimah Annigeri, Tanish Jain. (2025). *Geometric-Stochastic Multimodal Deep Learning for Predictive Modeling of SUDEP and Stroke Vulnerability*. [Link](https://arxiv.org/abs/2512.08257)

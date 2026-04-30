@@ -20,7 +20,7 @@ tags:
 - mean-field-theory
 title: Spiking Neural Networks
 type: concept
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 # Spiking Neural Networks
@@ -62,3 +62,12 @@ Spiking networks and [[neural-mass-model|neural mass models]] occupy complementa
 ## Related Concepts
 
 Spiking neural networks connect to numerous other concepts in computational neuroscience. At the network level, [[brain-network]] analysis provides tools for characterizing connectivity patterns and dynamics in large-scale simulations. The [[whole-brain]] modeling paradigm seeks to integrate regional dynamics with structural connectivity derived from diffusion tensor imaging. For researchers comparing simulation approaches, [[tvb-vs-nest-vs-neuron]] provides a detailed comparison of The Virtual Brain, NEST, and NEURON capabilities. Related software ecosystems include [[brian|Brian2]], which offers a flexible Python-based framework for spiking network modeling, and [[pymvpa|PyNN]] for interoperability between simulators.
+
+## References
+
+1. Gewaltig & Diesmann (2007). *NEST (NEural Simulation Tool)*. Scholarpedia. [DOI](https://doi.org/10.4249/scholarpedia.1430)
+2. Potjans & Diesmann (2014). *The cell-type specific cortical microcircuit: relating structure and activity*. Cerebral Cortex. [DOI](https://doi.org/10.1093/cercor/bhs358)
+3. Jordan et al. (2018). *Extremely scalable spiking neuronal network simulation code: from laptops to exascale computers*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2018.00002)
+4. Helias et al. (2012). *Supercomputers ready for use as discovery machines for neuroscience*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2012.00026)
+5. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+6. Martin Breyton, Viktor Sip, M. Woodman, Meysam Hashemi, S. Petkoski, V. Jirsa. (2025). *Data-driven mean-field within whole-brain models*. [Link](https://www.semanticscholar.org/paper/144ae1f1dabec42c14493d0083d36f168508f886)

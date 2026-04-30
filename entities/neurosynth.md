@@ -8,7 +8,7 @@ tags:
 - software-brain-modeling
 title: Neurosynth
 type: entity
-updated: '2026-04-29'
+updated: '2026-04-30'
 ---
 
 title: Neurosynth
@@ -64,3 +64,9 @@ The platform intersects with resting-state research by providing normative activ
 Despite its widespread adoption, Neurosynth has notable limitations that researchers must consider. The platform relies on automated extraction of peak coordinates, which can include errors introduced by authors reporting non-peak activations or mislabeling anatomical regions. The term-based approach depends on the accuracy of natural language processing in associating cognitive terms with studies, and may miss nuances in experimental design. Additionally, the database is necessarily retrospective—new studies are continuously added but the platform cannot capture the full breadth of ongoing research.
 
 Methodological debates continue about the appropriate use of Neurosynth data for brain mapping. Critics argue that the platform conflates cognitive terms with diverse experimental paradigms, potentially obscuring important regional heterogeneity. Others note that activation maps reflect the aggregate of published studies, which may be biased toward particular populations, scanners, or analysis pipelines. Despite these limitations, Neurosynth remains a valuable tool for hypothesis generation and for providing empirical constraints in whole-brain modeling workflows.
+
+## References
+
+1. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
+2. (authors unknown). *Functional Magnetic Resonance Imaging*.
+3. (authors unknown). *Functional Connectivity: The Principal-Component Analysis of Large (PET and fMRI) Data Sets*.

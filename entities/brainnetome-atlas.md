@@ -14,7 +14,7 @@ tags:
 - database-hcp
 title: Brainnetome Atlas
 type: entity
-updated: '2026-04-29'
+updated: '2026-04-30'
 ---
 
 ## Overview
@@ -76,3 +76,9 @@ The Glasser Atlas represents another major connectivity-based parcellation based
 - Fan, L., Li, H., Zhuo, J., et al. (2016). The Human Brainnetome Atlas: A new brain atlas based on connectional architecture. *Cerebral Cortex*, 26(8), 3508-3526. — The primary publication introducing the Brainnetome Atlas.
 - Li, X., et al. (2019). Brainnetome Atlas: Construction and application for whole-brain modeling. *Neuroscience Bulletin*, 35(3), 534-548.
 - Zhang, J., et al. (2018). Functional organization of the Brainnetome Atlas. *Human Brain Mapping*, 39(8), 3152-3174.
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Konrad Kohnen, Peter Eipert, Laura Budde, Oliver Schmitt. (2025). *neuroVIISAS-based construction of a stereotactic rhesus monkey brain atlas for connectome research.*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2025.110656)
+3. (authors unknown). *Functional Network Organization of the Human Brain*.

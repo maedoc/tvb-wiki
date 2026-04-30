@@ -11,7 +11,7 @@ tags:
 - network-dynamics
 title: Power Atlas
 type: entity
-updated: '2026-04-28'
+updated: '2026-04-30'
 ---
 
 The Power Atlas, formally known as the Power 2011 atlas, is a widely-used brain [[parcellation]] scheme that divides the human cerebral cortex into 264 discrete regions of interest (ROIs) based on [[functional-connectivity]] patterns derived from [[resting-state|resting-state fMRI]]. Developed by Jonathan Power and colleagues at Washington University in St. Louis, this atlas represents a landmark contribution to [[connectomics]] research, providing a data-driven organizational framework that has shaped our understanding of the brain's intrinsic functional architecture. Unlike anatomical parcellations that rely solely on cytoarchitecture or macroanatomical landmarks, the Power Atlas emerges from empirical patterns of coherent [[bold-signal]] fluctuations, offering a parcellation scheme that reflects the brain's underlying functional organization rather than its purely structural divisions.
@@ -53,3 +53,8 @@ While the Power Atlas has been widely adopted and proven tremendously useful for
 ## Key References
 
 The foundational paper describing the Power Atlas was published in [[neuron]] in 2011 by Jonathan Power, Alexander Cohen, Steven Nelson, and colleagues under the leadership of Steven Petersen at Washington University. This paper, titled "Functional network organization of the human brain," has become one of the most-cited works in contemporary neuroimaging, with thousands of citations reflecting its broad impact on the field. A subsequent publication in 2012 by Power and colleagues further elaborated the methodology and demonstrated its utility for identifying hubs and canonical network organizations in the human brain.
+
+## References
+
+1. (authors unknown). *Functional Network Organization of the Human Brain*.
+2. (authors unknown). *Spurious but systematic correlations in functional connectivity MRI networks arise from subject motion*.

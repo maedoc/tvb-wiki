@@ -13,7 +13,7 @@ tags:
 - connectomics
 title: Graph-tool
 type: entity
-updated: '2026-04-29'
+updated: '2026-04-30'
 ---
 
 Graph-tool is a Python library for the efficient analysis and manipulation of network structures (graphs). It provides a comprehensive set of algorithms for [[graph-theory|graph-theoretic]] analysis, including community detection, network statistics, flow optimization, and spectral methods. Written in C++ with Python bindings using Boost, graph-tool offers performance comparable to compiled languages while maintaining the accessibility of a Python interface peixoto2014. The library was developed and is maintained by Tiago de Paula Peixoto and has been a widely used tool in [[computational-neuroscience]], particularly for analyzing [[brain-connectivity-toolbox|brain connectivity networks]] derived from [[neuroimaging]] data.
@@ -47,3 +47,9 @@ The library is frequently used in conjunction with [[brain‑connectivity‑tool
 ## Related Software
 
 Graph‑tool occupies a specific niche in the network analysis ecosystem alongside several related tools. [[bctpy|The Brain Connectivity Toolbox]] (bctpy) provides a larger collection of neuroscience‑specific network metrics but runs slower than graph‑tool for large networks rubinov2010. [[braph|Braph]] offers a MATLAB‑compatible Python approach for brain network analysis with a focus on [[connectomics|connectomics]] workflows. [[gretna|GRETNA]] provides a graphical interface for network analysis focused on neuroimaging data. For general‑purpose network analysis beyond neuroscience, [[network‑dynamics]] offers a broader but slower pure‑Python implementation. For [[community‑detection|community detection]] specifically, the [[graphvar|GraphVar]] package integrates graph‑theoretic analysis with statistical testing for neuroimaging applications.
+
+## References
+
+1. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
+2. Wang, J., Wang, X., Xia, M., Liao, X., Evans, A., & He, Y. (2015). *GRETNA: a graph theoretical network analysis toolbox for MATLAB*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2015.04.016)
+3. (authors unknown). *BRAPH: A Pipeline for Brain Connectivity Analysis*.

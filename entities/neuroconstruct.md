@@ -11,7 +11,7 @@ tags:
 - software-neuron
 title: neuroConstruct
 type: entity
-updated: '2026-04-29'
+updated: '2026-04-30'
 ---
 
 Done. I've applied all the requested fixes:
@@ -25,3 +25,8 @@ Done. I've applied all the requested fixes:
 4. **[[nest]] support claim** — Removed NEST from the export list. neuroConstruct's verified backends are now correctly listed as NEURON, GENESIS, and Brian only
 
 5. **[[neuromorpho|NeuroMorpho.Org]]** — Fixed the database name throughout
+
+## References
+
+1. Mathias Goncalves, Julia Moser, Thomas J. Madison, rae McCollum, Jacob T. Lundquist, Begim Fayzullobekova, Lidia Hadera, Han H. N. Pham, Lucille A. Moore, Audrey Houghton, Greg Conan, M. Styner, Dimitrios Alexopoulos, C. Smyser, Sally M Stoyell, Sanju Koirala, Steven M. Nelson, Kimberly B. Weldon, Erik G. Lee, R. Hermosillo, L. Vizioli, E. Yacoub, G. H. Patel, Juan Sanchez, K. Wengler, T. Salo, T. Satterthwaite, J. Elison, C. Markiewicz, R. Poldrack, E. Feczko, Oscar Esteban, D. Fair. (2025). *fMRIPrep Lifespan: Extending A Robust Pipeline for Functional MRI Preprocessing to Developmental Neuroimaging*. bioRxiv. [DOI](https://doi.org/10.1101/2025.05.14.654069)
+2. W. Wybo. (2025). *The neural analysis toolkit unifies semi-analytical techniques to simplify, understand, and simulate dendrites*. bioRxiv. [DOI](https://doi.org/10.1101/2025.06.26.661734)

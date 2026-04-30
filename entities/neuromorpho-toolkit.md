@@ -16,7 +16,7 @@ tags:
 - dataset-neurons
 title: NeuroMorpho.org Toolkit
 type: entity
-updated: '2026-04-29'
+updated: '2026-04-30'
 ---
 
 # NeuroMorpho.org Toolkit
@@ -44,3 +44,10 @@ The NeuroMorpho.org project has produced several cornerstone publications that d
 ## Related Software
 
 The NeuroMorpho.org Toolkit intersects with several software ecosystems in computational neuroscience. The [[neuron]] simulator and its Python interface [[brian2]] both accept SWC-format morphologies derived from the database. [[neuroml]] serves as the semantic bridge enabling standardized exchange. Visualization tools such as [[brainnet-viewer]] and [[freesurfer]] can render NeuroMorpho reconstructions alongside volumetric imaging data. For morphological analysis, the [[brain-dynamics-toolbox]] and various morphometry packages provide complementary quantification capabilities beyond the built-in NeuroMorpho functions.
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)
+3. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
+4. Amirreza Movahedin, Lennart P. L. Landsmeer, Christos Strydis. (2025). *HUMA: Heterogeneous, Ultra Low-Latency Model Accelerator for The Virtual Brain on a Versal Adaptive SoC*. Symposium on Field Programmable Gate Arrays. [DOI](https://doi.org/10.1145/3706628.3708875)

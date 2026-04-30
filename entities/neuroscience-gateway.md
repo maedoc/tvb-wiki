@@ -12,7 +12,7 @@ tags:
 - database-hcp
 title: Neuroscience Gateway
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 ## Overview
@@ -65,3 +65,9 @@ The following publications document the development and use of the Neuroscience 
 - Sivagnanam S, Majumdar A, Yoshimoto K, Astakhov V, Bandrowski A, Martone M, Carnevale N (2013). Introducing the Neuroscience Gateway. Proceedings of the 5th International Workshop on Science Gateways. CEUR Workshop Proceedings 993.
 
 - Sivagnanam S, Yoshimoto K, Astakhov V, Majumdar A (2018). The Neuroscience Gateway: Enabling Large Scale Modeling and Data Processing in Neuroscience. PEARC '18.
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *Arbor-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
+3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](https://doi.org/10.3389/fncom.2025.1731161)

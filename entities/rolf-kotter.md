@@ -11,7 +11,7 @@ tags:
 - connectomics
 title: Rolf Kötter
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 # Rolf Kötter
@@ -42,3 +42,11 @@ Kötter's research has focused on:
 ## Collaborators
 - [[olaf sporns]] – Connectomics
 - [[giulio tononi]] – Consciousness studies
+
+## References
+
+1. (authors unknown). *The Human Connectome: A Structural Description of the Human Brain*.
+2. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
+3. (authors unknown). *Resting-State fMRI in the Human Connectome Project*.
+4. (authors unknown). *Functional Network Organization of the Human Brain*.
+5. B. Sarton, Giulia Maria Mattia, Eve Cervoni, Julie Decourt, Patrice Péran, Béatrice Riu, Fanny Bounes, Edouard Naboulsi, P. Barttfeld, Jean-Marc Olivot, Stein Silva, Sylvain Cussat-Blanc. (2026). *Explainable Machine Learning for Coma Outcome Prediction Based on Structural and Functional Brain MRI.*. Critical Care Medicine. [DOI](https://doi.org/10.1097/CCM.0000000000007068)

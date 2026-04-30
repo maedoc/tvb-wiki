@@ -8,7 +8,7 @@ tags:
 - software-brain-modeling
 title: Jülich Atlas
 type: entity
-updated: '2026-04-29'
+updated: '2026-04-30'
 ---
 
 title: Jülich Atlas
@@ -67,3 +67,9 @@ The Jülich Atlas can be used with standard neuroimaging toolkits including [[fs
 4. Amunts K, Zilles K. (2015). “Architectonic Mapping of the Human Brain.” In: Toga AW (ed). *Brain Mapping: An Encyclopedic Reference*. Academic Press.
 
 5. Evans AC, Collins DL, Mills SR, et al. (1992). “3D Statistical Neuroanatomic Models of 305 Normal Brains.” *Proceedings of the IEEE Nuclear Science Symposium and Medical Imaging Conference*.
+
+## References
+
+1. (authors unknown). *Networks: An Introduction*.
+2. (authors unknown). *Networks of the Brain*.
+3. (authors unknown). *Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems*.

@@ -19,7 +19,7 @@ tags:
 - bifurcation-analysis
 title: Network Dynamics
 type: concept
-updated: '2026-04-29'
+updated: '2026-04-30'
 ---
 
 Network Dynamics is the study of how patterns of neural activity emerge, evolve, and interact within the interconnected structure of the brain. In [[computational-neuroscience]] and [[whole-brain|whole-brain modeling]], network dynamics refers to the mathematical description of how large-scale brain networks—that is, collections of brain regions linked by anatomical [[white-matter]] pathways—generate time‑varying activity patterns that can be observed through [[neuroimaging]] modalities such as [[fmri]], EEG, and MEG. The field sits at the intersection of graph theory, [[dynamical-systems-theory]], and [[connectomics]], providing a framework for understanding how the relatively static [[structural‑connectivity]] of the brain gives rise to the rich, dynamic functional patterns observed in vivo.
@@ -59,3 +59,11 @@ Current debates in network dynamics concern the relative importance of structura
 Several fundamental questions remain open in network dynamics. Can the diversity of brain‑wide activity patterns be explained by a unified dynamical systems framework, or are multiple complementary views necessary? How do developmental changes in structural connectivity reshape the landscape of possible dynamics, and what are the implications for [[neurodevelopment]] and [[aging‑brain]]? Can personalized network dynamics models—calibrated to individual connectomes—provide clinical utility for predicting disease progression or treatment response in conditions like [[alzheimers‑modeling|Alzheimer's disease]] or [[epilepsy‑modeling|epilepsy]]?
 
 Advances in multi‑scale modeling, multimodal neuroimaging integration, and [[parameter‑estimation]] [[bluepyopt]] techniques continue to push the field toward more realistic and predictive models of brain network dynamics.
+
+## References
+
+1. Coşkun Çetin, Jose Roberto Castilho Piqueira, Burhaneddin İzgi̇, Ayşe Peker-Dobie, Semra Ahmetolan, Murat Özkaya. (2026). *Deterministic, stochastic, and mean-field PDE models in neuroscience*. Frontiers in Computational Neuroscience. [DOI](https://doi.org/10.3389/fncom.2026.1762692)
+2. Coskun Çetin, J.R.C. Piqueira, Burhaneddin Izgi, Ayse Peker-Dobie, S. Ahmetolan, Murat Özkaya. (2026). *Deterministic, stochastic, and mean-field PDE models in neuroscience*. Frontiers in Computational Neuroscience. [DOI](https://doi.org/10.3389/fncom.2026.1762692)
+3. Gianluca Gaglioti, Alessandra Cardinale, Cosimo Lupo, Thierry Nieus, Federico Marmoreo, Elena Focacci, Robin Gutzen, Michael Denker, Andrea Pigorini, Marcello Massimini, Simone Sarasso, Pier Stanislao Paolucci, Giulia De Bonis. *Emergent complexity and rhythms in evoked and spontaneous dynamics of human whole-brain models after tuning through analysis tools*. [Link](https://arxiv.org/abs/2509.12873)
+4. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *Arbor-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
+5. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](https://doi.org/10.3389/fncom.2025.1731161)

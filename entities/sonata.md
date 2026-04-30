@@ -61,3 +61,10 @@ As of 2026, SONATA remains primarily oriented toward point-neuron architectures.
 - Arkhipov A, Gouwens NW, Billeh YN, Gratiy S, Iyer R, Wei Z, et al. (2018). Visual physiology of the layer 4 cortical circuit in silico. PLoS Computational Biology, 14(11), e1006535.
 
 - Markram H, Muller E, Ramaswamy S, Reimann MW, et al. (2015). Reconstruction and Simulation of Neocortical Microcircuitry. Cell, 163(2), 456-492.
+
+## References
+
+1. (authors unknown). *Geppetto - a reusable modular open platform for exploring neuroscience data and models*.
+2. Yunman Xia, S. Peng, J. Dukart, C. Xie, Shitong Xiang, S. Petkoski, Zilin Li, Joerg F. Hipp, S. Muthukumaraswamy, A. Forsyth, Tianye Jia, N. Vaidya, T. Lett, Liyi Qian, Xiao Chang, Yuxiang Dai, T. Banaschewski, G. Barker, A. Bokde, R. Brühl, S. Desrivières, Herta Flor, P. Gowland, A. Grigis, Andreas Heinz, H. Lemaître, F. Nees, D. Orfanos, Luise Poustka, M. Smolka, Sarah Hohmann, H. Walter, R. Whelan, Paul Wirsching, Zuo Zhang, Lauren Robinson, J. Winterer, Yuning Zhang, H. Kebir, Ulrike Schmidt, Julia Sinclair, Yuchen Liu, Jiexiang Wang, Fei Dai, Longbin Zeng, Yubo Hou, Huarui Wang, Leijun Ye, Chunhe Li, Qibao Zheng, Andre F Marquand, Changsong Zhou, V. Jirsa, Jianfeng Feng, Wenlian Lu, Gunter Schumann. (2026). *Digital Twin Brain simulation and manipulation of a functional brain network underlying mental illness*. bioRxiv. [DOI](https://doi.org/10.64898/2026.03.06.710030)
+3. Maxime Carriere, Fynn R. Dobler, H. Plesser, Agata Feledyn, Rosario Tomasello, Thomas Wennekers, F. Pulvermüller. (2026). *A brain-constrained neural model of cognition and language with NEST: transitioning from the Felix framework*. Cognitive Neurodynamics. [DOI](https://doi.org/10.1007/s11571-026-10415-5)
+4. (authors unknown). *GLEAN: Group Level Exploratory Analysis of Networks*.

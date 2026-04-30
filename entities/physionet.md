@@ -56,3 +56,11 @@ PhysioNet is part of a broader ecosystem of open neuroscience databases that ser
 4. Delorme, A., Makeig, S. (2004). EEGLAB: an open source toolbox for analysis of single-trial EEG dynamics including independent component analysis. *Journal of Neuroscience Methods* 134(1): 9-21.
 
 5. Gramfort, A., Luessi, M., Larson, E., Enghoff, M., Strohmeier, D., Brodbeck, C., Goj, R., Jas, M., Brooks, T., Wilson, L., Hämäläinen, M. (2013). MNE-Python software for processing MEG and EEG data. *Neuroimage* 86: 446-460.
+
+## References
+
+1. Rohith Alikkal, Venkat Harshith Akula, B. Shankar, Midhun Krishna, Sandeep Bodda, S. Krishna, Shyam Diwakar. (2025). *Implementing and Deploying a Student Friendly GUI-based Platfrom for EEG signal processing*. International Conference on Robotics and Mechatronics. [DOI](https://doi.org/10.1109/ICRM66809.2025.11349102)
+2. P. S. Shabestari, Delphine Ribes, Lara Défayes, Danpeng Cai, Emily Groves, Harry H. Behjat, D. Van de Ville, Tobias Kleinjung, A. Naas, N. Henchoz, A. Sonderegger, Patrick Neff. (2025). *Advances on Real Time M/EEG Neural Feature Extraction*. 2025 IEEE 38th International Symposium on Computer-Based Medical Systems (CBMS). [DOI](https://doi.org/10.1109/CBMS65348.2025.00074)
+3. Xiaobo Liu. (2026). *MLE-Toolbox: An Open-Source Toolbox for Comprehensive EEG and MEG Data Analysis*. [Link](https://www.semanticscholar.org/paper/e7aaa4f4bb01e70064493684b4500a950f83460f)
+4. D. Y. Lodema, Herman J van Dellen, W. de Haan, Margot van Hest, A. Hillebrand, E. van Dellen. (2026). *EEG-Pype: An accessible MNE-Python pipeline with graphical user interface for preprocessing and analysis of resting-state electroencephalography data.*. PLoS Computational Biology. [DOI](https://doi.org/10.1371/journal.pcbi.1014043)
+5. Gramfort et al. (2013). *MEG and EEG: From Acquisition to Analysis*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fnins.2013.00010)

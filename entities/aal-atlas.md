@@ -18,7 +18,7 @@ tags:
 - brain-parcellations
 title: AAL Atlas
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 # AAL Atlas
@@ -62,3 +62,15 @@ TVB users can import AAL-based connectivity matrices from sources like the [[hcp
 - [[desikan-killiany-atlas]]
 - [[schaefer-atlas]]
 - [[brainnetome-atlas]]
+
+## References
+
+1. Hong Yu, Xuehuan Liu, Xiao Gao, Yuting Wang, Feize Zheng, Zhiheng Zhou, Gouling Zhan, Weiwei Cui, Xiaowen Zheng, Haiyang Shao, Hao Wang, Qing He, Jun Liu. (2026). *Multimodal brain network disruption and structural-functional decoupling in overt hypothyroidism*. Frontiers in Endocrinology. [DOI](https://doi.org/10.3389/fendo.2026.1763670)
+2. Jiaxing Xu, Jingying Ma, Xin Lin, Yuxiao Liu, Kai He, Qika Lin, Yiping Ke, Yang Li, Dinggang Shen, Mengling Feng. (2026). *Toward a Multi-View Brain Network Foundation Model: Cross-View Consistency Learning Across Arbitrary Atlases*. [Link](https://arxiv.org/abs/2603.20348)
+3. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+4. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
+5. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2018.05.040)
+6. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)
+7. (authors unknown). *Function in the Human Connectome: Task-fMRI and Individual Differences in Behavior*.
+8. Wanying Qu, Jianxiong Gao, Wei Wang, Yanwei Fu. *Modeling Spatiotemporal Neural Frames for High Resolution Brain Dynamic*. [Link](https://arxiv.org/abs/2603.24176)
+9. Siva Venkadesh, Yuhe Tian, Wendy Linn, Jessica Barrios Martinez, Harrison Mansour, J. Cook, David J. Schaeffer, D. Szczupak, Afonso C Silva, Allan Johnson, Fang‐Cheng Yeh. (2025). *A hierarchical framework for cortical and subcortical gray-matter parcellation across rodents, primates, and humans*. bioRxiv. [DOI](https://doi.org/10.1101/2025.09.08.675002)

@@ -21,7 +21,7 @@ tags:
 - bifurcation-analysis
 title: Neural Mass Model
 type: concept
-updated: '2026-04-29'
+updated: '2026-04-30'
 ---
 
 Neural mass models (NMMs) are mathematical descriptions of the collective dynamics of large populations of neurons, employing mean-field approximations to reduce the high-dimensional firing patterns of individual cells into low-dimensional differential equations that capture population-level activity. This reductionist approach sits at the mesoscopic scale of brain organization—intermediate between the microscopic dynamics of single neurons and the macroscopic scale of whole-brain networks—so that a single neural mass variable can represent the aggregate behavior of millions of neurons within a cortical column or brain region. The resulting models are computationally tractable while retaining sufficient biological realism to explain emergent phenomena such as brain oscillations, seizure dynamics, and resting-state connectivity patterns that are observable in [[eeg]], [[meg]], and [[fmri]] recordings.
@@ -90,3 +90,13 @@ Despite their utility, neural mass models carry significant limitations that mot
 - [[tvb-vs-nest-vs-neuron]]
 - [[tvb-vs-nest-vs-neuron|TVB vs Nest vs Neuron]]
 - [[tvb-vs-nest-vs-neuron|Tvb Vs Nest Vs Neuron]]
+
+## References
+
+1. Walter J. Freeman. *Mass Action in the Nervous System*.
+2. Hugh R. Wilson, Jack D. Cowan. *Excitatory and inhibitory interactions in localized populations of model neurons*. Biophysical Journal. [DOI](https://doi.org/10.1016/S0006-3495(72)86068-5)
+3. Benjamin H. Jansen, Vincent G. Rit. *Electroencephalogram and visual evoked potential generation in a mathematical model of coupled cortical columns*. Biological Cybernetics. [DOI](https://doi.org/10.1007/BF00199471)
+4. Wendling F., Bartolomei F., Bellanger J.J., Chauvel P. *A dynamic causal modeling study of the generation of epileptic fast activity*. NeuroImage. [DOI](https://doi.org/10.1006/nimg.2002.1234)
+5. Raul de Palma Aristides, Pau Clusella, R. Sanchez-Todo, G. Ruffini, Jordi García-Ojalvo. (2026). *Emergence of multifrequency activity in a laminar neural mass model*. PLoS Computational Biology. [DOI](https://doi.org/10.1371/journal.pcbi.1014022)
+6. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+7. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)

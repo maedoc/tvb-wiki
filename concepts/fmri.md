@@ -13,7 +13,7 @@ tags:
 - neuroimaging-fmri
 title: fMRI
 type: concept
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 # fMRI
@@ -56,3 +56,14 @@ Several methodological challenges affect fMRI interpretation and its use in [[mo
 - [[fmri-vs-eeg|Fmri Vs Eeg]] – Comparison of fMRI and EEG methodologies
 - [[connectome]] – [[structural-connectivity]] infrastructure
 - [[whole-brain]] – Large-scale brain modeling approaches
+
+## References
+
+1. (authors unknown). *Brain magnetic resonance imaging with contrast dependent on blood oxygenation*.
+2. (authors unknown). *Neurophysiological investigation of the basis of the fMRI signal*.
+3. (authors unknown). *Statistical parametric maps in functional imaging: A general linear approach*.
+4. Wanying Qu, Jianxiong Gao, Wei Wang, Yanwei Fu. *Modeling Spatiotemporal Neural Frames for High Resolution Brain Dynamic*. [Link](https://arxiv.org/abs/2603.24176)
+5. (authors unknown). *Functional Network Organization of the Human Brain*.
+6. Jiangnan Zhang, Chengyuan Qian, Wenlian Lu, Gustavo Deco, Weiyang Ding, Jianfeng Feng. (2025). *Dark Signals in the Brain: Augment Brain Network Dynamics to the Complex-valued Field*. [Link](https://arxiv.org/abs/2509.24715)
+7. Chetan Gohil, Oliver M. Cliff, James M. Shine, Ben D. Fulcher, Joseph T. Lizier. (2026). *Estimating measures of information processing during cognitive tasks using functional magnetic resonance imaging*. [Link](https://arxiv.org/abs/2602.03240)
+8. Mennahtullah Mabrouk, Reem Reda, Hana Hisham, Abdelrahman Hazem, Bola Hosny, Hossam Elsawaf, Saif Elaswad, Sameh Sherif. (2025). *A Hybrid Learning Approach for Detection of Autism Spectrum Disorder Using fMRI Data*. 2025 13th International Japan-Africa Conference on Electronics, Communications, and Computations (JAC-ECC). [DOI](https://doi.org/10.1109/JAC-ECC67970.2025.11417627)

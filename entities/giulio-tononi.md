@@ -13,7 +13,7 @@ tags:
 - connectomics
 title: Giulio Tononi
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 # Giulio Tononi
@@ -45,3 +45,12 @@ Tononi's research spans:
 ## Collaborators
 - [[olaf sporns]] – Connectomics
 - [[rolf kotter]] – Neuroanatomy
+
+## References
+
+1. (authors unknown). *The Human Connectome: A Structural Description of the Human Brain*.
+2. (authors unknown). *Networks of the Brain*.
+3. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
+4. (authors unknown). *Resting-State fMRI in the Human Connectome Project*.
+5. (authors unknown). *Functional Network Organization of the Human Brain*.
+6. (authors unknown). *Functional Connectivity: The Principal-Component Analysis of Large (PET and fMRI) Data Sets*.

@@ -9,7 +9,7 @@ tags:
 - software-neuron
 title: LFPy
 type: entity
-updated: '2026-04-28'
+updated: '2026-04-30'
 ---
 
 **[[lfp-lib|LFPy]]** is an open-source Python package designed for the simulation of extracellular potentials in biologically detailed neural networks. It computes the [[local-field-potentials|local field potential]] (LFP) that arises from the electrical activity of neurons embedded in a volume conductor, providing a bridge between [[neural-mass-models|neural mass modeling]] at the [[whole-brain]] scale and detailed biophysical simulations at the cellular level. The software enables researchers to predict LFP signals from arbitrarily structured neural networks while accounting for the geometry and electrical properties of the surrounding tissue.
@@ -85,3 +85,9 @@ The modular design of LFPy allows researchers to combine these tools in various 
 LFPy is developed as an open-source project with contributions from the computational neuroscience community. The software is maintained by researchers at the University of Oslo and the KTH Royal Institute of Technology, with support from the International Neuroinformatics Coordinating Facility (INCF). The project has received funding from the European Union's Seventh Framework Programme and the Human Brain Project, reflecting its role in advancing standards for neural simulation and data sharing.
 
 The software is distributed under the GNU General Public License, and its development follows open-source practices including public version control, issue tracking, and contribution guidelines. Users and developers can engage with the community through the project's GitHub repository and associated discussion forums.
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Gianluca Gaglioti, Alessandra Cardinale, Cosimo Lupo, Thierry Nieus, Federico Marmoreo, Elena Focacci, Robin Gutzen, Michael Denker, Andrea Pigorini, Marcello Massimini, Simone Sarasso, Pier Stanislao Paolucci, Giulia De Bonis. *Emergent complexity and rhythms in evoked and spontaneous dynamics of human whole-brain models after tuning through analysis tools*. [Link](https://arxiv.org/abs/2509.12873)
+3. Hines & Carnevale (1997). *The NEURON simulation environment*. Neural Computation. [DOI](https://doi.org/10.1162/neco.1997.9.6.1179)

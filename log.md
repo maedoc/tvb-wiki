@@ -973,3 +973,5 @@
 ## [2026-04-30 10:25] Audit: 901 issues (28 broken links, 70 orphans, 47 placeholders, 0 dup-refs, 0 bad-meta, 2 opaque-refs, 78 thin, 276 missing-links)
 
 ## [2026-04-30 17:26] Audit: 985 issues (30 broken links, 70 orphans, 47 placeholders, 0 dup-refs, 1 bad-meta, 74 citation-verify, 2 opaque-refs, 78 thin, 279 missing-links)
+
+## [2026-04-30 17:30] Improve: 3 pages improved (nidm-results, surfice, spinnaker)

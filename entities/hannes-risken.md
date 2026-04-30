@@ -9,7 +9,7 @@ tags:
 - people-researcher
 title: Hannes Risken
 type: entity
-updated: '2026-04-29'
+updated: '2026-04-30'
 ---
 
 ## Overview
@@ -36,3 +36,10 @@ Hannes Risken was a German physicist known for his definitive work on Fokker-Pla
 - Risken (1989) — The Fokker-Planck Equation: Methods of Solution and Applications
 - Risken (1984) — The Fokker-Planck Equation (1st ed.)
 - Risken & Vollmer (1987) — Eigenvalues of the Fokker-Planck operator
+
+## References
+
+1. (authors unknown). *The Fokker-Planck Equation: Methods of Solution and Applications*.
+2. (authors unknown). *Stochastic Methods: A Handbook for the Natural and Social Sciences*.
+3. (authors unknown). *Networks: An Introduction*.
+4. Romain Veltz. (2025). *Analysis of a mean-field limit of interacting two-dimensional nonlinear integrate-and-fire neurons*. [Link](https://www.semanticscholar.org/paper/c2b31ea32345e88726e581ea675d6450a44df2a1)

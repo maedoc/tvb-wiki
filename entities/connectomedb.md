@@ -57,3 +57,7 @@ These papers establish the imaging protocols, preprocessing pipelines, and data 
 ## Relationship to Connectome Mapper and Related Tools
 
 ConnectomeDB provides the raw and preprocessed imaging data, which can be further processed using specialized software like the [Connectome Mapper 3]([[connectome-mapper-3]]) to generate personalized structural connectivity matrices in formats suitable for whole-brain modeling. This workflow involves parcellating the brain into regions using atlases such as the [Desikan-Killiany Atlas]([[desikan-killiany-atlas]]) or [Schaefer Atlas]([[schaefer-atlas]]), then running tractography algorithms to estimate connection weights between parcel pairs. The resulting connectivity matrices can be directly imported into TVB as the anatomical scaffold for dynamical simulations, making ConnectomeDB an indirect but essential resource for TVB-based research on personalized brain dynamics.
+
+## References
+
+1. (authors unknown). *The Human Connectome Project: A Data Acquisition Perspective*.

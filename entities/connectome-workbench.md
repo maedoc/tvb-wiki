@@ -60,3 +60,10 @@ Connectome Workbench operates within a broader ecosystem of neuroimaging visuali
 1. Human Connectome Project. (2015). Human Connectome Project. https://www.humanconnectome.org/
 2. Van Essen, D. C., Smith, S. M., Barch, D. M., Behrens, T. E., Yacoub, E., & Ugurbil, K. (2013). The Human Connectome Project: A data acquisition perspective. NeuroImage, 62, 2222-2231.
 3. Glasser, M. F., Coalson, T. S., Robinson, E. C., Hacker, C. D., Harwell, J., Yacoub, E., ... & Van Essen, D. C. (2016). A multi-modal parcellation of human cerebral cortex. Nature, 536(7615), 171-178.
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. (authors unknown). *The Human Connectome Project: A Data Acquisition Perspective*.
+3. Amirreza Movahedin, Lennart P. L. Landsmeer, Christos Strydis. (2025). *HUMA: Heterogeneous, Ultra Low-Latency Model Accelerator for The Virtual Brain on a Versal Adaptive SoC*. Symposium on Field Programmable Gate Arrays. [DOI](https://doi.org/10.1145/3706628.3708875)
+4. (authors unknown). *GLEAN: Group Level Exploratory Analysis of Networks*.

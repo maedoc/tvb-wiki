@@ -19,7 +19,7 @@ tags:
 - whole-brain-modeling
 title: Structural Connectivity
 type: concept
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 **Structural [[connectivity]]** (SC) refers to the anatomical connections between brain regions, typically represented as white matter fiber tracts that enable direct communication between neuronal populations. Unlike [[functional-connectivity]]—which captures statistical dependencies in activity patterns—structural connectivity reflects the physical "wiring diagram" of the brain, comprising axonal fiber bundles that provide the substrate for information transmission across distributed neural circuits. This distinction is fundamental: while functional connectivity can reveal coordinated activity between brain areas even in the absence of direct anatomical links, structural connectivity constrains the possible pathways through which neural signals can propagate.
@@ -93,3 +93,14 @@ Despite its centrality to connectomics, structural connectivity estimation faces
 - [[connectome-mapper-3]] – Connectivity pipeline software
 - [[brain-connectivity-toolbox]] – Network analysis software
 - [[mrtrix3-connectome|Mrtrix3 Connectome]]
+
+## References
+
+1. (authors unknown). *MR diffusion tensor spectroscopy and imaging*.
+2. (authors unknown). *Three-dimensional tracking of axonal projections in the brain by magnetic resonance imaging*.
+3. (authors unknown). *Challenges and limitations of quantifying brain connectivity in vivo with diffusion MRI*.
+4. Sakul Mahat, Sharmistha Guha, Jessica Bernard. (2026). *A Bayesian Framework for Quantifying Association Between Functional and Structural Data in Neuroimaging*. [Link](https://arxiv.org/abs/2603.21067)
+5. Caitlin Lienkaemper, G. Ocker. (2025). *Diverse mean-field dynamics of clustered, inhibition-stabilized Hawkes networks via combinatorial threshold-linear networks*. [Link](https://www.semanticscholar.org/paper/fbd6e0d74d7094beee2f373371f61ee03edaa40d)
+6. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
+7. (authors unknown). *Predicting Human Resting-State Functional Connectivity from Structural Connectivity*.
+8. Hongjie Jiang, Yifei Tang, Shuqiang Wang. *Neural Dynamics-Informed Pre-trained Framework for Personalized Brain Functional Network Construction*. [Link](https://arxiv.org/abs/2603.07524)

@@ -19,7 +19,7 @@ tags:
 - database-hcp
 title: Parcellation
 type: concept
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 Parcellation refers to the process of dividing the brain into spatially discrete, anatomically or functionally coherent regions (called parcels) that serve as the fundamental.nodes in [[whole-brain]] network models. In [[connectomics]] and [[computational neuroscience]], parcellation transforms the continuous, multivariate data obtained from neuroimaging—such as [[fMRI]], [[diffusion-mri]], or [[meg]]—into a finite graph whose nodes correspond to brain areas and whose edges represent [[structural-connectivity]] or [[functional-connectivity]] between those areas. The resulting parcellated network is the starting point for virtually all whole-brain modeling approaches, from [[neural-mass-model]] simulations to graph-theoretic analyses of brain network topology.
@@ -59,3 +59,12 @@ In [[whole-brain modeling]], the parcellation defines the spatial resolution at 
 ## Open Questions
 
 The field has not converged on a single "correct" parcellation, and debates continue about whether functionally defined parcels are preferable to anatomically defined ones, whether parcels should be homologous across individuals or individualized, and whether static parcellations adequately capture the brain's dynamic reconfiguration during different cognitive states. Ongoing work using [[variational-bayes]] and [[bifurcation-analysis]] approaches explores how parcellation choice influences model dynamics and predicts empirical data, suggesting that the "best" parcellation may ultimately be task-dependent rather than universal.
+
+## References
+
+1. Hongjie Jiang, Yifei Tang, Shuqiang Wang. *Neural Dynamics-Informed Pre-trained Framework for Personalized Brain Functional Network Construction*. [Link](https://arxiv.org/abs/2603.07524)
+2. Ramiro Plüss, Hernán Villota, Patricio Orio. (2025). *Hemispheric-Specific Coupling Improves Modeling of Functional Connectivity Using Wilson-Cowan Dynamics*. [Link](https://arxiv.org/abs/2506.22951)
+3. Rosa Maria Delicado, Gemma Huguet, Pau Clusella. (2025). *Emergent Spatiotemporal Dynamics in Large-Scale Brain Networks with Next Generation Neural Mass Models*. [Link](https://arxiv.org/abs/2512.03907)
+4. Breno C. Bispo, Stefania Sardellitti, Juliano B. Lima, Fernando A. N. Santos. (2026). *Multimodal Higher-Order Brain Networks: A Topological Signal Processing Perspective*. [Link](https://arxiv.org/abs/2603.29903)
+5. Sakul Mahat, Sharmistha Guha, Jessica Bernard. (2026). *A Bayesian Framework for Quantifying Association Between Functional and Structural Data in Neuroimaging*. [Link](https://arxiv.org/abs/2603.21067)
+6. Christopher Gabaldon, Adria Mulero, Rong Wang, Daniel A. Martin, Sabrina Camargo, Qian-Yuan Tang, Ignacio Cifre, Changsong Zhou, Dante R. Chialvo. (2026). *Data-driven inference of brain dynamical states from the r-spectrum of correlation matrices*. [Link](https://arxiv.org/abs/2601.03796)

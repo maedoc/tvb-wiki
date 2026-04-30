@@ -12,7 +12,7 @@ tags:
 - platform
 title: NITRC
 type: entity
-updated: '2026-04-29'
+updated: '2026-04-30'
 ---
 
 NITRC ([[neuroimaging]] Tools and Resources Collaboratory) is a web-based computational platform and repository that serves as a central hub for the neuroimaging research community. Developed and maintained by the National Institute of Neurological Disorders and Stroke (NINDS) through the NIH Blueprint for Enhancing the Development of Biomedical Imaging Research, NITRC provides investigators with unified access to software tools, reference datasets, computational resources, and collaborative features necessary for modern neuroimaging analysis workflows (NINDS, 2024).
@@ -48,3 +48,9 @@ Several specialized neuroimaging resources have emerged from or alongside NITRC,
 - Book, D. L., Lorensen, B. J., & Oakes, T. R. (2008). NITRC: Neuroimaging Tools and Resources Collaboratory. *Frontiers in Neuroinformatics*.
 - Evans, A. C. (2006). The NIH MRI study of normal brain development. *NeuroImage*, 30(1), 184-202.
 - Gorgolewski, K., & Poldrack, R. A. (2016). A practical guide to improving neuroimaging reproducibility. *NeuroImage*, 124, 315-327.
+
+## References
+
+1. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2025). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research*. bioRxiv. [DOI](https://doi.org/10.1101/2025.10.06.680781)
+2. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2026). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research.*. Brain Stimulation. [DOI](https://doi.org/10.1016/j.brs.2025.103016)
+3. Wen-ju Pan, L. Daley, Harrison Watters, Lisa Meyer-Baese, K. Gopinath, Dieter Jaeger, Shella Keilholz. (2026). *An integrated platform for simultaneous wide-field voltage/calcium imaging and fMRI (EPI & ZTE) reveals neuronal infraslow dynamics underlying functional connectivity*. bioRxiv. [DOI](https://doi.org/10.64898/2026.01.26.701889)

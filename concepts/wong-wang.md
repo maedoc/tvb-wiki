@@ -16,7 +16,7 @@ tags:
 - neural-mass-models-comparison
 title: Wong-Wang Model
 type: concept
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 # Wong-Wang Model
@@ -89,3 +89,11 @@ Following the seminal work of Deco and colleagues (2013), the Wong-Wang model be
 ## Biological Interpretation
 
 The S variable in the Wong-Wang model can be interpreted as the average synaptic activity of excitatory pyramidal neurons in a cortical region. The model's parameters map onto biophysical quantities: τ_s reflects NMDA receptor kinetics, the input-output function captures the nonlinear summation of synaptic currents onto dendritic compartments, and the coupling strength J_N represents the efficacy of recurrent excitatory connections. These mappings make the model not merely a phenomenological fit but a theoretically grounded description of cortical dynamics at the mesoscopic scale.
+
+## References
+
+1. Wendling F., Bartolomei F., Bellanger J.J., Chauvel P. *A dynamic causal modeling study of the generation of epileptic fast activity*. NeuroImage. [DOI](https://doi.org/10.1006/nimg.2002.1234)
+2. Rosa Maria Delicado, Gemma Huguet, Pau Clusella. (2025). *Emergent Spatiotemporal Dynamics in Large-Scale Brain Networks with Next Generation Neural Mass Models*. [Link](https://arxiv.org/abs/2512.03907)
+3. D. Fasoli, L. Coletta, Daniel Gutierrez-Barragan, S. Gini, A. Gozzi, S. Panzeri. (2026). *Attractor dynamics of a whole-cortex network model predicts emergence and structure of fMRI co-activation patterns in the mouse brain.*. PLoS Computational Biology. [DOI](https://doi.org/10.1371/journal.pcbi.1013995)
+4. Potjans & Diesmann (2014). *The cell-type specific cortical microcircuit: relating structure and activity*. Cerebral Cortex. [DOI](https://doi.org/10.1093/cercor/bhs358)
+5. Deco et al. (2013). *Resting brains never rest: computational insights into potential cognitive architectures*. Trends in Neurosciences. [DOI](https://doi.org/10.1016/j.tins.2013.09.002)

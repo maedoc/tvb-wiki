@@ -14,7 +14,7 @@ tags:
 - bids
 title: XNAT
 type: entity
-updated: '2026-04-29'
+updated: '2026-04-30'
 ---
 
 # XNAT
@@ -46,3 +46,10 @@ XNAT has been widely adopted across neuroimaging consortia and individual labora
 XNAT operates within a broader ecosystem of neuroimaging software tools. It complements analysis packages like [[FSL]], [[FreeSurfer]], and [[ANTs]] that process the stored images, and integrates with data organization standards like [[BIDS]] that provide machine-readable metadata schemas. For visualization, XNAT's built-in image viewer can work alongside dedicated tools like [[3d-Slicer]], [[ITK-SNAP]], and [[FSLeyes]]. For data sharing and version control, XNAT installations often complement [[DataLad]] and GitLab-based workflows. Large XNAT installations may also interface with cloud computing platforms for scalable analysis, and the platform supports integration with workflow management systems built on [[Nipype]].
 
 ---
+
+## References
+
+1. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2026). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research.*. Brain Stimulation. [DOI](https://doi.org/10.1016/j.brs.2025.103016)
+2. R. A. Benn, Ting Xu, R. Mars, Magdalena Boch, Léa Roumazeilles, K. Heuer, Roberto Toro, D. Margulies, J. Manzano-Patrón, Paula Montesinos, C. Galán-Arriola, G. López-Martín, J. Sanchez-González, E. P. Duff, Borja Ibáñez. (2025). *Precon_all: A species-agnostic automated pipeline for non-human cortical surface reconstruction*. bioRxiv. [DOI](https://doi.org/10.1101/2025.04.16.649072)
+3. (authors unknown). *Function in the Human Connectome: Task-fMRI and Individual Differences in Behavior*.
+4. Wen-ju Pan, L. Daley, Harrison Watters, Lisa Meyer-Baese, K. Gopinath, Dieter Jaeger, Shella Keilholz. (2026). *An integrated platform for simultaneous wide-field voltage/calcium imaging and fMRI (EPI & ZTE) reveals neuronal infraslow dynamics underlying functional connectivity*. bioRxiv. [DOI](https://doi.org/10.64898/2026.01.26.701889)

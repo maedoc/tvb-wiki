@@ -16,7 +16,7 @@ tags:
 - neuroimaging-meg
 title: Connectome
 type: concept
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 The connectome represents a comprehensive structural description of the network of neural elements and connections forming the brain. Introduced as a formal concept by olaf-sporns|[[giulio-tononi]] and rolf-kotter|[[rolf-kotter|Rolf Kötter]] in their seminal 2005 paper, the connectome encompasses the complete mapping of neural pathways—both structural and functional—that underlie brain organization. This concept has fundamentally transformed how neuroscientists conceptualize the brain, shifting from a collection of isolated regions to a network-centric view emphasizing the integration of information across distributed neural systems.
@@ -67,3 +67,11 @@ The connectome provides the anatomical scaffold upon which brain dynamics unfold
 - [[parcellation]] – Segmentation of the brain into regions for network analysis
 - [[human-connectome-project]] – Major initiative mapping human brain connectivity
 - [[structural-core]] – Densely interconnected central hub regions of the brain
+
+## References
+
+1. (authors unknown). *The Human Connectome: A Structural Description of the Human Brain*.
+2. (authors unknown). *The WU-Minn Human Connectome Project: An Overview*.
+3. (authors unknown). *Functional Network Organization of the Human Brain*.
+4. (authors unknown). *Correspondence of the brain's functional architecture during activation and rest*.
+5. (authors unknown). *Functional Connectomics from Resting-State fMRI*.

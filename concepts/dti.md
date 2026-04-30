@@ -15,7 +15,7 @@ tags:
 - tractography
 title: DTI
 type: concept
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 # DTI
@@ -62,3 +62,13 @@ DTI occupies a complementary role alongside other neuroimaging techniques in the
 - [[brain-network]] – Networks of brain regions connected by white matter pathways
 - [[connectomics]] – The study of complete neural wiring diagrams
 - [[fmri]] – Functional imaging often combined with DTI for multi-modal analysis
+
+## References
+
+1. (authors unknown). *MR diffusion tensor spectroscopy and imaging*.
+2. (authors unknown). *Three-dimensional tracking of axonal projections in the brain by magnetic resonance imaging*.
+3. (authors unknown). *Challenges and limitations of quantifying brain connectivity in vivo with diffusion MRI*.
+4. R. Lorenzi, Fulvia Palesi, C. Casellato, C. G. Gandini Wheeler-Kingshott, Egidio D’Angelo. (2025). *Region-specific mean field models enhance simulations of local and global brain dynamics*. bioRxiv. [DOI](https://doi.org/10.1038/s41540-025-00543-9)
+5. Yifei Sun, James M. Shine, Robert D. Sanders, Robin F. H. Cash, Sharon L. Naismith, Fernando Calamante, Jinglei Lv. (2026). *A Data-Driven Method to Map the Functional Organisation of Human Brain White Matter*. [Link](https://arxiv.org/abs/2602.18715)
+6. (authors unknown). *Predicting Human Resting-State Functional Connectivity from Structural Connectivity*.
+7. Breno C. Bispo, Stefania Sardellitti, Juliano B. Lima, Fernando A. N. Santos. (2026). *Multimodal Higher-Order Brain Networks: A Topological Signal Processing Perspective*. [Link](https://arxiv.org/abs/2603.29903)

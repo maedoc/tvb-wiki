@@ -6,7 +6,7 @@ tags:
 - software-brain-modeling
 title: CoCoMac
 type: entity
-updated: '2026-04-29'
+updated: '2026-04-30'
 ---
 
 title: CoCoMac
@@ -48,3 +48,7 @@ CoCoMac predates several later connectome resources, including the [[human-conne
 ## Key Papers
 
 The foundational CoCoMac publication described the database architecture and demonstrated its application to cortical network analysis (Kötter & Stephan, 2007). Subsequent work mapped the database to novel parcellation schemes and explored the relationship between [[structural-connectivity]] and [[functional-connectivity]] measured with [[fmri]] (Kötter et al., 2007; Honey et al., 2007). These studies established the empirical foundation for computational models demonstrating that structural connectivity patterns constrain functional dynamics in large‑scale brain networks.
+
+## References
+
+1. (authors unknown). *Networks of the Brain*.

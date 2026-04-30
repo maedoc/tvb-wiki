@@ -8,7 +8,7 @@ tags:
 - software-brain-modeling
 title: TensorFlow
 type: entity
-updated: '2026-04-29'
+updated: '2026-04-30'
 ---
 
 title: TensorFlow
@@ -44,3 +44,9 @@ TensorFlow shares the deep learning ecosystem with several alternatives and comp
 ## Key Applications
 
 Notable computational neuroscience applications built in TensorFlow include deep learning models for [[source-localization]] from EEG/MEG data, automated analysis of [[white-matter]] microstructure from diffusion images, and connectome-based prediction of individual cognitive traits or clinical outcomes. The framework's SavedModel format and TensorFlow Serving enable deployment of trained models as reproducible analysis tools, supporting the broader goals of [[reproducibility]] in neuroimaging research. Brain-age prediction models have become particularly prominent, with frameworks like those described by Liang et al. (2019) demonstrating robust age prediction from structural MRI. Additionally,TensorFlow-based deep learning approaches have been applied to epilepsy [[seizure-prediction]] from intracranial EEG recordings (Tsiouris et al., 2018) and to automated diagnosis of Alzheimer's disease from hippocampal segmentation (Qin et al., 2019).
+
+## References
+
+1. G. Deepali, H. Anitha, B. P. Swathi, M. V. Suhas. (2025). *Autoencoder-Driven Fiducial Landmark Identification in 3D Brain MRI for Neuroimaging Alignment*. IEEE Access. [DOI](https://doi.org/10.1109/ACCESS.2025.3582273)
+2. Mahsa Karimzadeh, Hadi Seyedarabi, Ata Jodeiri, Reza Afrouzian. (2025). *Enhanced Brain Stroke Lesion Segmentation in MRI Using a 2.5D Transformer Backbone U-Net Model*. Brain Science. [DOI](https://doi.org/10.3390/brainsci15080778)
+3. Prerna Singh, Kuldeep Singh Yadav, Lalan Kumar, T. Gandhi. (2025). *Brain age group classification based on resting state functional connectivity metrics*. Biomedical Signal Processing and Control. [DOI](https://doi.org/10.1016/j.bspc.2026.109617)

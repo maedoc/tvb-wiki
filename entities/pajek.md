@@ -66,3 +66,9 @@ Pajek has influenced the development of several related tools in the network sci
 - Batagelj, V., & Mrvar, A. (2004). Analysis and visualization of large networks. In M. Jünger & G. Mutzel (Eds.), *Graph Drawing Software* (pp. 77-103). Springer.
 - Rubinov, M., & Sporns, O. (2010). Complex network measures of brain connectivity: Uses and interpretations. *Current Opinion in Neurobiology*, 20(3), 262-267.
 - Bullmore, E. T., & Bassett, D. S. (2011). Brain graphs: Graphical models of the human brain connectome. *Annual Review of Clinical Psychology*, 7, 113-140.
+
+## References
+
+1. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
+2. (authors unknown). *Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems*.
+3. M. A. van den Boom, Nicholas M. Gregg, G. Valencia, B. Lundstrom, K. J. Miller, D. van Blooijs, G. Huiskamp, F. Leijten, G. Worrell, Dora Hermes. (2025). *ER-detect: a pipeline for robust detection of early evoked responses in BIDS-iEEG electrical stimulation data.*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2025.110389)

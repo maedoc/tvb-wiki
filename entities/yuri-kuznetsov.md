@@ -12,7 +12,7 @@ tags:
 - people-researcher
 title: Yuri Kuznetsov
 type: entity
-updated: '2026-04-29'
+updated: '2026-04-30'
 ---
 
 ## Overview
@@ -39,3 +39,13 @@ Yuri A. Kuznetsov is a Russian mathematician and Professor at Utrecht University
 - Kuznetsov (2004) — Elements of Applied Bifurcation Theory
 - Kuznetsov (1998) — Content and normal form coefficients
 - Dhooge et al. (2003) — MATCONT: A MATLAB package for bifurcation analysis
+
+## References
+
+1. (authors unknown). *Elements of Applied Bifurcation Theory*.
+2. (authors unknown). *Practical Bifurcation and Stability Analysis*.
+3. (authors unknown). *Nonlinear Oscillations, Dynamical Systems, and Bifurcations of Vector Fields*.
+4. Jonathan Touboul, Fabien Wendling, Bruno Bellanger, Patrick Chauvel, Olivier Faugeras. *Bifurcation analysis of Jansen's neural mass model*. Neural Computation. [DOI](https://doi.org/10.1162/NECO_a_00151)
+5. Eugene M. Izhikevich. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
+6. Jeremy B. Goetz, Naruepon Weerawongphrom, Rashid V. Williams-García, John M. Beggs, Gerardo Ortiz. (2025). *A Minimal Network of Brain Dynamics: Hierarchy of Approximations to Quasi-critical Neural Network Dynamics*. [Link](https://arxiv.org/abs/2512.22093)
+7. Marianna Angiolelli, D. Depannemaecker, H. Agouram, J. Régis, R. Carron, M. Woodman, L. Chiodo, P. Triebkorn, Abolfazl Ziaeemehr, Meysam Hashemi, Alexandre Eusebio, Viktor Jirsa, P. Sorrentino. (2025). *The Virtual Parkinsonian patient*. npj Systems Biology and Applications. [DOI](https://doi.org/10.1038/s41540-025-00516-y)

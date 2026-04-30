@@ -14,7 +14,7 @@ tags:
 - neurosurgery
 title: Lead-DBS
 type: entity
-updated: '2026-04-29'
+updated: '2026-04-30'
 ---
 
 Lead-DBS is an open-source software toolbox for planning and analyzing deep [[brain-stimulation]] (DBS) procedures. It provides a comprehensive environment for preoperative [[tractography]]-based target selection and postoperative electrode localization analysis, enabling researchers and clinicians to optimize DBS therapy for movement disorders such as Parkinson's disease, essential tremor, and dystonia, as well as emerging applications in psychiatric disorders including major depression and obsessive-compulsive disorder (Horn et al., 2019).
@@ -50,3 +50,9 @@ The development and validation of Lead-DBS has been documented in several influe
 Lead-DBS interfaces with several other tools in the computational neuroimaging ecosystem. For visualization, it works with BrainNet Viewer and MRICroGL for displaying electrode positions on brain surfaces. The Connectome Workbench provides additional visualization capabilities for group-level analyses. For tractography processing, Lead-DBS integrates with MRtrix3 and DSI Studio, while the FreeSurfer suite handles cortical reconstruction. Surgical planning may also involve 3D Slicer or SimNIBS for neuronavigation, and the software accepts inputs preprocessed with fMRIPrep or QSIPrep for standardized pipeline compliance.
 
 TVB can leverage Lead-DBS output for personalized stimulation modeling, and additional Python utilities support integration with the broader Python neuroimaging ecosystem including Nipype for pipeline automation.
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *Arbor-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
+3. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2018.05.040)

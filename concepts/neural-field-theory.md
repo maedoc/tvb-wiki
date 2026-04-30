@@ -18,7 +18,7 @@ tags:
 - stochastic-differential-equations
 title: Neural Field Theory
 type: concept
-updated: '2026-04-29'
+updated: '2026-04-30'
 ---
 
 Neural Field Theory (NFT) is a mathematical framework for modeling the spatiotemporal dynamics of large-scale neuronal populations in cortical tissue. Unlike point-[[neuron]] models that treat individual neurons as discrete units, NFT represents populations of neurons as continuous fields, where the state variables (such as mean firing rates or membrane potentials) evolve as functions of both time and spatial position on the cortical sheet. This approach bridges the gap between detailed [[spiking-neural-networks]] that capture individual neuron dynamics and [[neural-mass-models]] that aggregate entire brain regions into single units, enabling researchers to study wave-like propagation, traveling pulses, and pattern formation in cortical tissue.
@@ -56,3 +56,12 @@ The presence of multiple time scales and nonlinear activation functions creates 
 Modern extensions of Neural Field Theory incorporate [[stochastic-differential-equations]] to model the intrinsic fluctuations in neural activity, leading to equations of the [[fokker-planck-equation]] type for the probability distribution of field configurations. This probabilistic formulation is particularly important for connecting theoretical predictions to experimental measurements of [[functional-connectivity]], which reflect correlations arising from both deterministic dynamics and noise.
 
 Applications of NFT span [[whole-brain-modeling]], where regional neural fields are coupled via [[structural-connectivity]] matrices derived from diffusion imaging, to detailed models ofspecific cortical areas that aim to reproduce the spatially resolved patterns observed in [[fmri]] and [[meg]]. The framework also underlies models of [[brain-stimulation]], where external inputs propagate through the cortical sheet according to the field dynamics.
+
+## References
+
+1. Futa Tomita, Jun-nosuke Teramae. (2025). *Dynamical mean-field theory for a highly heterogeneous neural population with graded persistent activity of the entorhinal cortex*. PLoS Comput. Biol.. [DOI](https://doi.org/10.1371/journal.pcbi.1013484)
+2. Michael Breakspear, John A. Roberts, John R. Terry, Stefano Rodrigues, Nader Mahmud, Philip Robinson. *Large-scale brain dynamics of seizures: asymptotic analysis of a neural field model*. Journal of Computational Neuroscience. [DOI](https://doi.org/10.1007/s10827-006-8135-2)
+3. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)
+4. Martin Breyton, Viktor Sip, M. Woodman, Meysam Hashemi, S. Petkoski, V. Jirsa. (2025). *Data-driven mean-field within whole-brain models*. [Link](https://www.semanticscholar.org/paper/144ae1f1dabec42c14493d0083d36f168508f886)
+5. Eugene M. Izhikevich. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
+6. Marianna Angiolelli, D. Depannemaecker, H. Agouram, J. Régis, R. Carron, M. Woodman, L. Chiodo, P. Triebkorn, Abolfazl Ziaeemehr, Meysam Hashemi, Alexandre Eusebio, Viktor Jirsa, P. Sorrentino. (2025). *The Virtual Parkinsonian patient*. npj Systems Biology and Applications. [DOI](https://doi.org/10.1038/s41540-025-00516-y)

@@ -8,7 +8,7 @@ tags:
 - network-dynamics
 title: Duncan J. Watts
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 # Duncan J. Watts
@@ -40,3 +40,8 @@ Watts' research spans:
 
 ## Collaborators
 - Steven Strogatz – Small-world networks
+
+## References
+
+1. (authors unknown). *Collective Dynamics of 'Small-World' Networks*.
+2. (authors unknown). *Emergence of Scaling in Random Networks*.

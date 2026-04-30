@@ -68,3 +68,9 @@ The [[epileptor]] model, developed to study seizure dynamics, exemplifies the ap
 ## Open Questions and Challenges
 
 Despite its utility, applying bifurcation theory to brain modeling presents significant challenges. Real neural systems operate far from thermodynamic equilibrium and exhibit heterogeneity, delays, and stochasticity—all of which complicate the simple bifurcation scenarios described above. The relationship between bifurcations in low‑dimensional [[neural-mass-models]] and the emergent dynamics of large‑scale brain networks measured via [[fMRI]] or [[EEG]] remains an active area of research. Furthermore, parameter estimation in high‑dimensional whole‑brain models often yields degenerate solutions—multiple parameter sets producing similar dynamics but different bifurcation structures—raising identifiability concerns. Advances in [[variational‑bayes]] methods and [[parameter‑estimation]] techniques for dynamical systems offer promise for addressing these challenges, but a complete theoretical framework for bifurcation analysis in stochastic, heterogeneous brain networks remains an [[open-source-brain]] in the field.
+
+## References
+
+1. Eugene M. Izhikevich. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
+2. Pascal Helson, Etienne Tanré, Romain Veltz. *Mean-field analysis of a neural network with stochastic STDP*. [Link](https://arxiv.org/abs/2510.02545)
+3. Michael Breakspear, John A. Roberts, John R. Terry, Stefano Rodrigues, Nader Mahmud, Philip Robinson. *Large-scale brain dynamics of seizures: asymptotic analysis of a neural field model*. Journal of Computational Neuroscience. [DOI](https://doi.org/10.1007/s10827-006-8135-2)

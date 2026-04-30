@@ -13,7 +13,7 @@ tags:
 - whole-brain-modeling
 title: Linear Model
 type: concept
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 A Linear Model in the context of whole-brain modeling and computational neuroscience refers to a dynamical system described by linear differential equations, where the rate of change of the state variable depends linearly on the current state and any external inputs. Unlike nonlinear [[neural-mass-models]] such as the [[wilson-cowan]] model or the [[jansen-rit]] model, which employ sigmoid activation functions to capture the threshold-like firing behavior of neurons, linear models assume a proportional relationship between input and output. This simplicity makes linear models invaluable as benchmark systems against which more complex formulations can be compared, and as pedagogical tools for teaching fundamental concepts in dynamical systems theory before introducing the complications of nonlinearity.
@@ -47,3 +47,11 @@ The primary limitation of linear models is their inability to capture threshold 
 - [[bifurcation-analysis]] — Techniques for understanding qualitative changes in system behavior, often applied to nonlinear systems after linearization
 - [[whole-brain]] — The larger paradigm of simulating brain-wide dynamics using coupled regional models
 - [[brain-network]] — The.graph-theoretic representation of brain regions and their connections
+
+## References
+
+1. Hugh R. Wilson, Jack D. Cowan. *Excitatory and inhibitory interactions in localized populations of model neurons*. Biophysical Journal. [DOI](https://doi.org/10.1016/S0006-3495(72)86068-5)
+2. Cyprien Tamekue, ShiNung Ching. *Control of neural field equations with step-function inputs*. [Link](https://arxiv.org/abs/2510.22022)
+3. Ronja Strömsdörfer, Klaus Obermayer. *Spike-frequency and h-current based adaptation are dynamically equivalent in a Wilson-Cowan field model*. [Link](https://arxiv.org/abs/2510.08436)
+4. Manish Yadav. *Emergent E-I Structure in Performance-Evolved Reservoir Networks of Neuronal Population Dynamics*. [Link](https://arxiv.org/abs/2603.13635)
+5. Jeremy B. Goetz, Naruepon Weerawongphrom, Rashid V. Williams-García, John M. Beggs, Gerardo Ortiz. (2025). *A Minimal Network of Brain Dynamics: Hierarchy of Approximations to Quasi-critical Neural Network Dynamics*. [Link](https://arxiv.org/abs/2512.22093)

@@ -16,7 +16,7 @@ tags:
 - seizure-dynamics
 title: K-Ion Exchange Model
 type: concept
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 # K-Ion Exchange Model
@@ -69,3 +69,11 @@ More recent extensions have incorporated calcium dynamics alongside potassium, r
 - [[dynamical-systems-theory]] - Mathematical framework for analyzing model dynamics
 - [[whole-brain-modeling]] - Integration of regional models into brain-scale simulations
 - [[metabolic-modeling]] - Models incorporating energy metabolism
+
+## References
+
+1. P.Yu. Kondrakhin, F.A. Kolpakov. (2026). *Modular Model of Neuronal Activity That Captures the Dynamics of Main Molecular Targets of Antiepileptic Drugs*. International Journal of Molecular Sciences. [DOI](https://doi.org/10.3390/ijms27010490)
+2. Martin Breyton, Viktor Sip, M. Woodman, Meysam Hashemi, S. Petkoski, V. Jirsa. (2025). *Data-driven mean-field within whole-brain models*. [Link](https://www.semanticscholar.org/paper/144ae1f1dabec42c14493d0083d36f168508f886)
+3. Gagan Acharya, Erfan Nozari. (2026). *Passivity-Based Control of Electrographic Seizures in a Neural Mass Model of Epilepsy*. [Link](https://arxiv.org/abs/2603.25991)
+4. Rosa Maria Delicado, Gemma Huguet, Pau Clusella. (2025). *Emergent Spatiotemporal Dynamics in Large-Scale Brain Networks with Next Generation Neural Mass Models*. [Link](https://arxiv.org/abs/2512.03907)
+5. Gianluca Gaglioti, L. Porta, M. Colombo, Simone Russo, Thierry Nieus, G. Deco, M. Corbetta, S. Sarasso, M. V. Sanchez-Vives, M. Massimini. (2026). *Slow wave generation and propagation in a model of brain lesions*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2026.121817)

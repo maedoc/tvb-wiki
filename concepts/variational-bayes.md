@@ -24,7 +24,7 @@ tags:
 - whole-brain-modeling
 title: Variational Bayes
 type: concept
-updated: '2026-04-29'
+updated: '2026-04-30'
 ---
 
 ## What is Variational Bayes?
@@ -58,3 +58,16 @@ In computational neuroscience, VB is most visible as the inference backbone of [
 ## Related Concepts
 
 VB sits at the intersection of several lines of work. Its optimization objective shares foundations with the [[free-energy-principle]], while its factorized approximations connect to [[mean-field-theory]] in statistical physics. For models with continuous state dynamics, VB complements methods based on [[stochastic-differential-equations]] and the [[fokker-planck-equation]], which describe population evolution rather than parameter inference. In practice, VB is often compared to sampling-based approaches and to simpler maximum-likelihood or maximum-a-posteriori point estimates; it occupies a middle ground, delivering richer uncertainty quantification than the latter at a fraction of the computational cost of the former.
+
+## References
+
+1. (authors unknown). *Variational Free Energy and the Laplace Approximation*.
+2. (authors unknown). *Variational Algorithms for Approximate Bayesian Inference*.
+3. (authors unknown). *Variational Inference: A Review for Statisticians*.
+4. (authors unknown). *Graphical Models, Exponential Families, and Variational Inference*.
+5. (authors unknown). *Variational Inference with Normalizing Flows*.
+6. Jiaming Liu, Meng Li. *Bend to Mend: Toward Trustworthy Variational Bayes with Valid Uncertainty Quantification*. [Link](https://arxiv.org/abs/2512.22655)
+7. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
+8. O. David, K.J. Friston. *Dynamic causal modelling*. NeuroImage. [DOI](https://doi.org/10.1016/S1053-8119(03)00202-7)
+9. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI): A flexible and integrative toolkit for efficient probabilistic inference on virtual brain models*. bioRxiv. [DOI](https://doi.org/10.1101/2025.01.21.633922)
+10. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI), a flexible and integrative toolkit for efficient probabilistic inference on whole-brain models*. eLife. [DOI](https://doi.org/10.7554/eLife.106194)
