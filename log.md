@@ -1001,3 +1001,5 @@
 - 2026-04-30: Updated [[panda]] wiki page with substantive content about PANDA (Pipeline for Analyzing braiN Diffusion imAges), a MATLAB toolbox for diffusion MRI processing. Included key features (fully-automatic processing, parallel computation, GUI), relationship to TVB and whole-brain modeling, and cross-references to related tools (dipy, mrtrix3, fsl, connectome-workbench, braph).
 
 ## [2026-04-30 20:06] Improve: 3 pages improved (surfice, spinnaker, panda)
+
+## [2026-04-30 21:10] Improve: 3 pages improved (caiman, xppaut, genn)
