@@ -1,10 +1,22 @@
 ---
-title: Elastix
 created: 2024-01-15
-updated: 2026-04-30
+sources:
+- 10.1109/ISBI.2012.6238608
+- 10.3389/fneur.2013.00097
+- raw/papers/avants-2011.md
+- raw/papers/semanticscholar-0aeca1b592e6.md
+- raw/papers/avants-2008.md
+tags:
+- software-ants
+- neuroimaging
+- neuroimaging-fmri
+- neuroimaging-mri
+- diffusion-imaging
+- tractography
+- software-visualization
+title: Elastix
 type: entity
-tags: [software-ants, neuroimaging, neuroimaging-fmri, neuroimaging-mri, diffusion-imaging, tractography, software-visualization]
-sources: [10.1109/ISBI.2012.6238608, 10.3389/fneur.2013.00097]
+updated: '2026-04-30'
 ---
 
 ## Overview

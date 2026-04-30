@@ -1,10 +1,28 @@
 ---
-title: Bifurcation Theory
 created: 2025-01-15
-updated: 2026-04-29
+sources:
+- Hoppensteadt1996
+- Riedel2015
+- Jirsa2014
+- WongWang2006
+- Brett2005
+- raw/papers/izhikevich-2007.md
+- raw/papers/arxiv-2510.02545.md
+- raw/papers/breakspear-2006.md
+tags:
+- bifurcation-theory
+- dynamical-systems-theory
+- nonlinear-dynamics
+- bifurcation-analysis
+- neural-mass-models
+- brain-oscillations
+- epilepsy-modeling
+- parameter-estimation
+- stochastic-differential-equations
+- fokker-planck-equation
+title: Bifurcation Theory
 type: concept
-tags: [bifurcation-theory, dynamical-systems-theory, nonlinear-dynamics, bifurcation-analysis, neural-mass-models, brain-oscillations, epilepsy-modeling, parameter-estimation, stochastic-differential-equations, fokker-planck-equation]
-sources: ["Hoppensteadt1996", "Riedel2015", "Jirsa2014", "WongWang2006", "Brett2005"]
+updated: '2026-04-30'
 ---
 
 ## Overview

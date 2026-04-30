@@ -1,10 +1,24 @@
 ---
-title: SONATA
 created: 2024-01-15
-updated: 2026-04-30
+sources:
+- Dai et al. 2020
+- https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1007696
+- https://github.com/AllenInstitute/sonata
+- https://github.com/BlueBrain/libsonata
+- raw/papers/geppetto-2018.md
+- raw/papers/semanticscholar-ff8218c1e55e.md
+- raw/papers/semanticscholar-899d3552b2ad.md
+tags:
+- software-brian
+- software-nest
+- software-neuron
+- spiking-neural-networks
+- whole-brain-modeling
+- connectomics
+- bluepyopt
+title: SONATA
 type: entity
-tags: [software-brian, software-nest, software-neuron, spiking-neural-networks, whole-brain-modeling, connectomics, bluepyopt]
-sources: [Dai et al. 2020, https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1007696, https://github.com/AllenInstitute/sonata, https://github.com/BlueBrain/libsonata]
+updated: '2026-04-30'
 ---
 
 ## Overview

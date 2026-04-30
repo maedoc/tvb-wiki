@@ -1,10 +1,19 @@
 ---
-title: BrainSpace
 created: 2026-04-29
-updated: 2026-04-29
+sources:
+- Vos de Wael et al. (2020) NeuroImage
+- Margulies et al. (2016) PNAS
+- raw/papers/woodman-2014.md
+- raw/papers/mijalkov-2017-braph.md
+- raw/papers/arxiv-2603.29903.md
+tags:
+- software-brain-modeling
+- software-visualization
+- connectomics
+- gradient-analysis
+title: BrainSpace
 type: entity
-tags: [software-brain-modeling, software-visualization, connectomics, gradient-analysis]
-sources: [Vos de Wael et al. (2020) NeuroImage, Margulies et al. (2016) PNAS]
+updated: '2026-04-30'
 ---
 
 ## Overview

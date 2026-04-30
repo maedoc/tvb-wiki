@@ -1,10 +1,21 @@
 ---
-title: FreeView
 created: 2026-04-28
-updated: 2026-04-29
+sources:
+- Fischl2012
+- Dale1999
+- Desikan2006
+- raw/papers/arxiv-2512.17472.md
+- raw/papers/semanticscholar-380768cf42a8.md
+- raw/papers/semanticscholar-8edd59e14fa3.md
+tags:
+- software-brain-modeling
+- software-visualization
+- software-freesurfer
+- neuroimaging
+- neuroimaging-mri
+title: FreeView
 type: entity
-tags: [software-brain-modeling, software-visualization, software-freesurfer, neuroimaging, neuroimaging-mri]
-sources: [Fischl2012, Dale1999, Desikan2006]
+updated: '2026-04-30'
 ---
 
 # FreeView

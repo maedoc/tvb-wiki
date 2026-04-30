@@ -4,6 +4,7 @@ sources:
 - raw/papers/semanticscholar-380768cf42a8.md
 - raw/papers/semanticscholar-60ca593f7e0c.md
 - raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-34ef3bcd7c8b.md
 tags:
 - neuroimaging-dti
 - diffusion-imaging
@@ -15,7 +16,7 @@ tags:
 - neural-mass-models
 title: AFQ
 type: entity
-updated: '2026-04-29'
+updated: '2026-04-30'
 ---
 
 ## Overview

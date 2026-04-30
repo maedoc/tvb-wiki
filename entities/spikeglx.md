@@ -1,16 +1,25 @@
 ---
-title: SpikeGLX
 created: 2024-01-15
-updated: 2026-04-29
-type: entity
-tags: [software, neuroimaging-eeg, electrophysiology, neural-recording, data-acquisition, neuropixels]
 sources:
-  - https://arxiv.org/abs/1905.03790
-  - https://www.nature.com/articles/s41592-019-0570-0
-  - https://www.frontiersin.org/articles/10.3389/fnins.2017.00159/full
-  - https://github.com/billkarsh/SpikeGLX
-  - https://www.nature.com/articles/s41592-019-0571-z
-  - https://www.jneurosci.org/content/39/44/8577
+- https://arxiv.org/abs/1905.03790
+- https://www.nature.com/articles/s41592-019-0570-0
+- https://www.frontiersin.org/articles/10.3389/fnins.2017.00159/full
+- https://github.com/billkarsh/SpikeGLX
+- https://www.nature.com/articles/s41592-019-0571-z
+- https://www.jneurosci.org/content/39/44/8577
+- raw/papers/arxiv-2603.24176.md
+- raw/papers/arxiv-2601.03796.md
+- raw/papers/arxiv-2604.03619.md
+tags:
+- software
+- neuroimaging-eeg
+- electrophysiology
+- neural-recording
+- data-acquisition
+- neuropixels
+title: SpikeGLX
+type: entity
+updated: '2026-04-30'
 ---
 
 SpikeGLX is an open-source data acquisition (DAQ) system designed for extracellular electrophysiology recordings, with particular emphasis on high-density neural probes such as NeuroPixels. Developed primarily by Bill Karsh at Janelia Research Campus (HHMI), SpikeGLX provides a unified software platform for streaming, storing, and synchronizing neural data from multiple electrode arrays simultaneously. The software has become a de facto standard in the electrophysiology community since its initial release, enabling researchers to capture large-scale neural recordings with sub-millisecond temporal precision and electrode-level spatial resolution.

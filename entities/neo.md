@@ -1,10 +1,26 @@
 ---
-title: Neo
 created: 2024-01-15
-updated: 2026-04-29
+sources:
+- garcia-2014
+- nix-spec
+- elephant-paper
+- nwb-spec
+- spikeinterface-paper
+- raw/papers/semanticscholar-9afbfd2d37be.md
+- raw/papers/semanticscholar-60ca593f7e0c.md
+- raw/papers/arxiv-2505.16861.md
+tags:
+- software
+- electrophysiology
+- data-formats
+- spike-sorting
+- python
+- elephant
+- spikeinterface
+- neo
+title: Neo
 type: concept
-tags: [software, electrophysiology, data-formats, spike-sorting, python, elephant, spikeinterface, neo]
-sources: [garcia-2014, nix-spec, elephant-paper, nwb-spec, spikeinterface-paper]
+updated: '2026-04-30'
 ---
 
 # Neo

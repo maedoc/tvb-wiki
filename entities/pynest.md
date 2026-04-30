@@ -1,23 +1,45 @@
 ---
-title: PyNEST
 created: 2024-01-15
-updated: 2026-04-29
-type: entity
-tags: [software-nest, spiking-neural-networks, computational-neuroscience, neural-mass-models, whole-brain-modeling, software-simulation]
 sources:
-  - "Diesmann, M., & Gewaltig, M.-O. (2002). NEST: An environment for neural system explorations. Frontiers in Computational Neuroscience."
-  - "Eppler, J. M., Helias, M., Mulloney, E., Diesmann, M., & Gramahn, A. (2008). PyNEST: A convenient interface to the NEST simulator. Frontiers in Neuroinformatics."
-  - "Gewaltig, M.-O., & Diesmann, M. (2007). NEST (Neural Simulation Tool). Scholarpedia."
-  - "Sinha, M., Dauwels, J., Marcus, G. N., Wang, Y., Cash, S., Halgren, E., & Sherrington, C. (2012). A model of visual attention mechanisms for the Virtual Brain. IEEE Transactions on Computational Intelligence."
-  - "Schmidt, M., Bakker, R., Hilgetag, C. C., Diesmann, M., & van Albada, S. J. (2018). Multi-scale account of the network dynamics of receptor-type-specific synaptic connections. NeuroImage."
-  - "Stimberg, M., Brette, R., & Goodman, D. F. (2019). Brian 2: an intuitive Python approach to neural dynamics simulation. Frontiers in Neuroinformatics."
-  - "Carnevale, N. T., & Hines, M. L. (2006). The NEURON Book. Cambridge University Press."
-  - "Plesser, H. E., eppler, J. M., Morrison, A., Diesmann, M., & Gewaltig, M.-O. (2007). Efficient parallelization of simulations of realistic neural networks. Journal of Computational Science."
-  - "Soltesz, I. (2005). Diversity in the Neuronal Machine. Oxford University Press."
-  - "Morrison, A., Aertsen, A., & Diesmann, M. (2007). Spike-timing dependent plasticity in balanced random networks. Neural Computation."
-  - "Ranganathan, G. N., Ko, H., Cossell, L., Lankarany, M., & Lee, W.-K. (2018). Recent advances in large-scale neural modeling. Current Opinion in Neurobiology."
-  - "Van Albada, S. J., Rowley, A. G., Senk, J., Hopkins, M., Schmidt, M., Stokes, A. B., ... & Diesmann, M. (2021). Performance comparison of the NEST simulator and the Brian simulator across parallel scales. Frontiers in Neuroinformatics."
-  - "Gleeson, P., Crook, S., Cannon, R. C., Hines, M. L., Billings, G. O., Farinella, M., ... & Silver, R. A. (2010). NeuroML: a language for describing biophysically detailed neuronal models. Neuroinformatics."
+- 'Diesmann, M., & Gewaltig, M.-O. (2002). NEST: An environment for neural system
+  explorations. Frontiers in Computational Neuroscience.'
+- 'Eppler, J. M., Helias, M., Mulloney, E., Diesmann, M., & Gramahn, A. (2008). PyNEST:
+  A convenient interface to the NEST simulator. Frontiers in Neuroinformatics.'
+- Gewaltig, M.-O., & Diesmann, M. (2007). NEST (Neural Simulation Tool). Scholarpedia.
+- Sinha, M., Dauwels, J., Marcus, G. N., Wang, Y., Cash, S., Halgren, E., & Sherrington,
+  C. (2012). A model of visual attention mechanisms for the Virtual Brain. IEEE Transactions
+  on Computational Intelligence.
+- Schmidt, M., Bakker, R., Hilgetag, C. C., Diesmann, M., & van Albada, S. J. (2018).
+  Multi-scale account of the network dynamics of receptor-type-specific synaptic connections.
+  NeuroImage.
+- 'Stimberg, M., Brette, R., & Goodman, D. F. (2019). Brian 2: an intuitive Python
+  approach to neural dynamics simulation. Frontiers in Neuroinformatics.'
+- Carnevale, N. T., & Hines, M. L. (2006). The NEURON Book. Cambridge University Press.
+- Plesser, H. E., eppler, J. M., Morrison, A., Diesmann, M., & Gewaltig, M.-O. (2007).
+  Efficient parallelization of simulations of realistic neural networks. Journal of
+  Computational Science.
+- Soltesz, I. (2005). Diversity in the Neuronal Machine. Oxford University Press.
+- Morrison, A., Aertsen, A., & Diesmann, M. (2007). Spike-timing dependent plasticity
+  in balanced random networks. Neural Computation.
+- Ranganathan, G. N., Ko, H., Cossell, L., Lankarany, M., & Lee, W.-K. (2018). Recent
+  advances in large-scale neural modeling. Current Opinion in Neurobiology.
+- Van Albada, S. J., Rowley, A. G., Senk, J., Hopkins, M., Schmidt, M., Stokes, A.
+  B., ... & Diesmann, M. (2021). Performance comparison of the NEST simulator and
+  the Brian simulator across parallel scales. Frontiers in Neuroinformatics.
+- 'Gleeson, P., Crook, S., Cannon, R. C., Hines, M. L., Billings, G. O., Farinella,
+  M., ... & Silver, R. A. (2010). NeuroML: a language for describing biophysically
+  detailed neuronal models. Neuroinformatics.'
+- raw/papers/eppler-2009.md
+tags:
+- software-nest
+- spiking-neural-networks
+- computational-neuroscience
+- neural-mass-models
+- whole-brain-modeling
+- software-simulation
+title: PyNEST
+type: entity
+updated: '2026-04-30'
 ---
 
 PyNEST is the official Python interface to the NEST (Neural Simulation Tool) simulator, one of the most widely used software platforms for computational neuroscience and large-scale brain modeling. Developed by the NEST Initiative, PyNEST provides Python developers with direct access to NEST's kernel for simulating spiking neural networks, enabling the construction, execution, and analysis of biologically detailed neuronal network models. The tool serves as a critical bridge between high-level Python scripting and the high-performance C++ simulation kernel, making it accessible to researchers who prefer Python's ecosystem while maintaining the computational efficiency required for large-scale simulations [@Diesmann2002; @Eppler2008].

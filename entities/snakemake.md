@@ -1,10 +1,21 @@
 ---
-title: Snakemake
 created: 2025-01-15
-updated: 2026-04-30
+sources:
+- Köster & Rahmann 2012
+- Mölder et al. 2021
+- Snakemake Documentation
+- raw/papers/semanticscholar-15c9336be64a.md
+- raw/papers/schirner-2018.md
+- raw/papers/semanticscholar-f45e6044c92f.md
+tags:
+- software-visualization
+- workflow-management
+- reproducibility
+- python
+- pipelinetools
+title: Snakemake
 type: entity
-tags: [software-visualization, workflow-management, reproducibility, python, pipelinetools]
-sources: [Köster & Rahmann 2012, Mölder et al. 2021, Snakemake Documentation]
+updated: '2026-04-30'
 ---
 
 # Snakemake
