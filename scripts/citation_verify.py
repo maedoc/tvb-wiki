@@ -11,6 +11,7 @@ Design choices:
   - 150ms sleep between requests (polite pool)
   - Falls back from CrossRef (DOI) → OpenAlex (title search) → None
   - Returns normalized dicts for easy comparison
+  - Persistent JSON cache for OpenAlex lookups (~week TTL)
 """
 import urllib.request
 import urllib.parse
@@ -18,161 +19,314 @@ import urllib.error
 import re
 import time
 import json
+import os
 from typing import Any
 
 _USER_AGENT = "tvb-wiki-citation-verify (mailto:agent@local)"
 _POLITE_SLEEP = 0.15  # seconds between API calls
+
+# ── Persistent cache ───────────────────────────────────────────────────
+
+_CACHE_DIR = os.path.expanduser("~/.cache/tvb-wiki")
+_CACHE_FILE = os.path.join(_CACHE_DIR, "citation_cache.json")
+_CACHE_TTL_DAYS = 7
+
+
+def _load_cache() -> dict:
+    """Load cached OpenAlex/CrossRef responses."""
+    if not os.path.exists(_CACHE_FILE):
+        return {}
+    try:
+        with open(_CACHE_FILE, "r", encoding="utf-8") as f:
+            cache = json.load(f)
+        # Purge stale entries
+        now = time.time()
+        stale = [
+            k
+            for k, v in cache.items()
+            if not isinstance(v, dict) or now - v.get("_ts", 0) > _CACHE_TTL_DAYS * 86400
+        ]
+        for k in stale:
+            del cache[k]
+        return cache
+    except (json.JSONDecodeError, OSError):
+        return {}
+
+
+def _save_cache(cache: dict) -> None:
+    """Write cache to disk."""
+    try:
+        os.makedirs(_CACHE_DIR, exist_ok=True)
+        with open(_CACHE_FILE, "w", encoding="utf-8") as f:
+            json.dump(cache, f, indent=2, ensure_ascii=False)
+    except OSError:
+        pass
+
+
+def _cache_key(query_type: str, query: str) -> str:
+    """Build a deterministic cache key."""
+    return f"{query_type}:{query.lower().strip()}"
+
+
+def _cached_call(query_type: str, query: str, fn: Any) -> dict | None:
+    """Return cached result or call fn, cache, and return."""
+    cache = _load_cache()
+    key = _cache_key(query_type, query)
+    if key in cache:
+        return cache[key]
+    result = fn()
+    if result is not None:
+        result["_ts"] = time.time()
+        cache[key] = result
+        _save_cache(cache)
+    return result
 
 
 # ── API lookup helpers ─────────────────────────────────────────────────
 
 def _http_json(url: str, headers: dict | None = None, timeout: int = 20) -> dict | None:
     """GET JSON and return parsed dict, or None on failure."""
-    h = {"User-Agent": _USER_AGENT}
-    if headers:
-        h.update(headers)
+    if headers is None:
+        headers = {}
+    headers.setdefault("User-Agent", _USER_AGENT)
+    headers.setdefault("Accept", "application/json")
     try:
-        req = urllib.request.Request(url, headers=h)
+        req = urllib.request.Request(url, headers=headers)
         with urllib.request.urlopen(req, timeout=timeout) as resp:
-            return json.loads(resp.read().decode("utf-8", "replace"))
-    except Exception:
+            data = resp.read()
+            return json.loads(data)
+    except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError, json.JSONDecodeError):
         return None
 
-
-def _normalize_text(s: str | None) -> str:
-    if not s:
-        return ""
-    s = s.lower()
-    s = re.sub(r"[^\w\s]+", " ", s)
-    s = re.sub(r"\s+", " ", s).strip()
-    return s
-
-
-def _title_similarity(a: str | None, b: str | None) -> float:
-    """Simple token overlap similarity."""
-    a = _normalize_text(a)
-    b = _normalize_text(b)
-    if not a or not b:
-        return 0.0
-    a_tokens = set(a.split())
-    b_tokens = set(b.split())
-    return len(a_tokens & b_tokens) / max(len(a_tokens), 1)
-
-
-# ── CrossRef DOI lookup ────────────────────────────────────────────────
 
 def verify_doi(doi: str) -> dict | None:
-    """Look up a paper by DOI via CrossRef. Returns normalized metadata or None."""
-    if not doi or not isinstance(doi, str):
-        return None
-    doi = doi.strip().replace("https://doi.org/", "").replace("http://doi.org/", "").replace("dx.doi.org/", "")
-    if not doi:
-        return None
-
-    url = f"https://api.crossref.org/works/{urllib.parse.quote(doi)}"
-    data = _http_json(url, headers={"User-Agent": _USER_AGENT})
-    if not data or "message" not in data:
+    """
+    Lookup a DOI via CrossRef and return normalized metadata.
+    Returns None if not found or malformed.
+    Cache backed.
+    """
+    doi = doi.strip()
+    if not doi.startswith("10."):
         return None
 
-    m = data["message"]
-    authors = []
-    for a in m.get("author", []):
-        parts = []
-        if a.get("given"):
-            parts.append(a["given"].strip())
-        if a.get("family"):
-            parts.append(a["family"].strip())
-        if parts:
-            authors.append(" ".join(parts))
+    def _lookup():
+        cfr = _http_json(
+            f"https://api.crossref.org/works/{urllib.parse.quote(doi)}",
+            timeout=10,
+        )
+        if not cfr:
+            return None
+        msg = cfr.get("message", {})
+        return {
+            "title": " ".join(msg.get("title", []) or msg.get("container-title", []) or [""]),
+            "authors": [
+                f"{a.get('given', '')} {a.get('family', '')}".strip()
+                for a in msg.get("author", [])
+                if a.get("family")
+            ][:10],
+            "year": str(msg.get("published-print", {}).get("date-parts", [[""]])[0][0]
+            or msg.get("published-online", {}).get("date-parts", [[""]])[0][0]
+            or ""
+            ),
+            "venue": ", ".join(
+                msg.get("container-title", []) or msg.get("short-container-title", []) or []
+            ),
+            "doi": doi,
+        }
 
-    year = str(
-        m.get("published-print", {}).get("date-parts", [[""]])[0][0]
-        or m.get("published-online", {}).get("date-parts", [[""]])[0][0]
-        or m.get("created", {}).get("date-parts", [[""]])[0][0]
-        or ""
-    )
-
-    venue = ""
-    container = m.get("container-title")
-    if isinstance(container, list) and container:
-        venue = container[0]
-    elif isinstance(container, str):
-        venue = container
-
-    return {
-        "title": m.get("title", [""])[0] if isinstance(m.get("title"), list) else m.get("title", ""),
-        "authors": authors,
-        "year": year,
-        "venue": venue,
-        "doi": doi,
-    }
+    result = _cached_call("doi", doi, _lookup)
+    return dict(result) if result else None
 
 
-# ── OpenAlex title search ──────────────────────────────────────────────
-
-def verify_title(title: str) -> dict | None:
-    """Search OpenAlex by title. Returns best match or None."""
-    if not title or not isinstance(title, str):
+def verify_title(title: str, extra_wait: float = _POLITE_SLEEP) -> dict | None:
+    """
+    Search OpenAlex by title and return normalized metadata for the top result.
+    Cache backed.
+    """
+    title = title.strip()
+    if not title or len(title) < 10:
         return None
-
     q = urllib.parse.quote(title)
-    url = f"https://api.openalex.org/works?search={q}&per-page=5"
-    data = _http_json(url)
-    if not data or not data.get("results"):
+
+    def _lookup():
+        time.sleep(extra_wait)  # politeness
+        ol = _http_json(
+            f"https://api.openalex.org/works?search={q}&per-page=1",
+            timeout=25,
+        )
+        if not ol or not ol.get("results"):
+            return None
+        r = ol["results"][0]
+        return {
+            "title": r.get("title", ""),
+            "authors": [
+                f"{a.get('raw_author_name', a.get('author', {}).get('display_name', ''))}".strip()
+                for a in r.get("authorships", [])
+            ][:10],
+            "year": str(r.get("publication_year", "")),
+            "venue": r.get("primary_location", {}).get("source", {}).get("display_name", "")
+            if r.get("primary_location")
+            else "",
+            "doi": (r.get("doi") or "").replace("https://doi.org/", ""),
+        }
+
+    result = _cached_call("title", title, _lookup)
+    return dict(result) if result else None
+
+
+def verify_citation(citation: dict, stub_index: dict) -> dict:
+    """
+    Cross-check a single parsed citation against local stubs + external DB.
+
+    Returns {"status": "VERIFIED" | "NOT_FOUND", "metadata": ..., "source": ...}
+    """
+    result = {"status": "NOT_FOUND", "metadata": None, "source": None, "raw_stub_path": None}
+
+    # 1) DOI path
+    if citation.get("type") == "doi":
+        doi = citation.get("doi", "").strip()
+        stub = stub_index.get(doi, stub_index.get(f"doi:{doi}"))
+        if stub:
+            # stub present
+            result["raw_stub_path"] = stub
+            stub_doi = _extract_doi_from_stub(stub)
+            if stub_doi:
+                ext = verify_doi(stub_doi)
+            else:
+                ext = verify_title(_extract_title_from_stub(stub))
+            if ext:
+                if _title_similarity(_extract_title_from_stub(stub), ext.get("title", "")) > 0.5:
+                    result["status"] = "VERIFIED"
+                    result["metadata"] = ext
+                    result["source"] = "crossref_doi"
+                else:
+                    result["metadata"] = ext
+                    result["source"] = "crossref_doi"
+            else:
+                result["source"] = "stub_no_ext"
+        else:
+            ext = verify_doi(doi)
+            result["status"] = "NOT_FOUND"
+            result["metadata"] = ext
+            result["source"] = "crossref_doi" if ext else None
+        return result
+
+    # 2) Author-year path
+    if citation.get("type") == "author_year":
+        author = citation.get("author", "").strip()
+        year = citation.get("year", "").strip()
+        key = f"{author.split()[-1].lower()}-{year}"
+        stub = stub_index.get(key)
+        if stub:
+            result["raw_stub_path"] = stub
+            stub_doi = _extract_doi_from_stub(stub)
+            if stub_doi:
+                ext = verify_doi(stub_doi)
+            else:
+                ext = verify_title(_extract_title_from_stub(stub))
+            if ext and _title_similarity(_extract_title_from_stub(stub), ext.get("title", "")) > 0.5:
+                result["status"] = "VERIFIED"
+                result["metadata"] = ext
+            elif ext:
+                result["metadata"] = ext
+        else:
+            # No stub — could search by author+year but that's noisy
+            result["source"] = "no_stub"
+        return result
+
+    return result
+
+
+def _extract_title_from_stub(path: str) -> str:
+    """Extract title from raw stub frontmatter."""
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            text = f.read(2048)
+    except OSError:
+        return ""
+    m = re.search(r"^title:\s*['\"]?(.*?)$", text, re.MULTILINE)
+    return m.group(1).strip().strip("'\"") if m else ""
+
+
+def _extract_doi_from_stub(path: str) -> str | None:
+    """Extract DOI from raw stub frontmatter."""
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            text = f.read(2048)
+    except OSError:
         return None
-
-    best = None
-    best_score = 0.0
-    for r in data["results"]:
-        score = _title_similarity(title, r.get("title", ""))
-        if score > best_score:
-            best_score = score
-            best = r
-
-    if not best or best_score < 0.3:
-        return None
-
-    # Extract authors
-    authors = []
-    for a in best.get("authorships", []):
-        author = a.get("author", {})
-        name = author.get("display_name", "")
-        if name:
-            authors.append(name)
-
-    # Extract venue safely
-    loc = best.get("primary_location") or {}
-    venue = (loc.get("source") or {}).get("display_name", "")
-    if not venue and best.get("locations"):
-        venue = " ".join(
-            (l.get("source") or {}).get("display_name", "")
-            for l in best["locations"] if (l.get("source") or {}).get("display_name")
-        )[:100]
-
-    doi = str(best.get("doi", "")).replace("https://doi.org/", "")
-
-    return {
-        "title": best.get("title", ""),
-        "authors": authors,
-        "year": str(best.get("publication_year", "")),
-        "venue": venue,
-        "doi": doi,
-    }
+    m = re.search(r"^doi:\s*(\S+)", text, re.MULTILINE)
+    if m:
+        d = m.group(1).strip().strip("'\"")
+        return d if d.startswith("10.") else None
+    return None
 
 
-# ── Citation extraction ───────────────────────────────────────────────
+def _title_similarity(a: str, b: str) -> float:
+    """Simple token-overlap similarity [0, 1]."""
+    sa = set(re.sub(r"[^a-zA-Z0-9]", " ", a.lower()).split())
+    sb = set(re.sub(r"[^a-zA-Z0-9]", " ", b.lower()).split())
+    if not sa or not sb:
+        return 0.0
+    return len(sa & sb) / len(sa | sb)
+
+
+def build_stub_index(raw_papers_dir: str) -> dict:
+    """
+    Build a lookup dict for raw stubs indexed by DOI or author_year key.
+    """
+    index = {}
+    for fname in os.listdir(raw_papers_dir):
+        if not fname.endswith(".md"):
+            continue
+        fpath = os.path.join(raw_papers_dir, fname)
+        title = _extract_title_from_stub(fpath)
+        doi = _extract_doi_from_stub(fpath)
+
+        # Index by DOI
+        if doi:
+            index[doi] = fpath
+            index[f"doi:{doi}"] = fpath
+
+        # Index by author_year
+        author_year = None
+        slug = os.path.splitext(fname)[0]
+        parts = slug.rsplit("-", 1)
+        if len(parts) == 2 and parts[1].isdigit():
+            author_year = slug
+
+        if author_year:
+            index[author_year] = fpath
+        if title:
+            # Also index by lowercased title keywords for fuzzy matching
+            key = re.sub(r"[^a-z0-9]", "", title.lower())[:40]
+            if key:
+                index[key] = fpath
+
+    return index
+
 
 def parse_inline_citations(text: str) -> list[dict]:
     """
     Extract inline citation mentions from markdown text.
+    Handles wikilink-citations like [[gustavo-deco|Deco]] (2008).
     Returns list of dicts: [{"text": "Gardiner (2009)", "type": "author_year"}, ...]
     """
     results = []
     if not text:
         return results
 
-    # Pattern 1: Author (Year) — e.g., "Deco (2008)", "Tuckwell (1988)"
-    for m in re.finditer(r"\b([A-Z][a-zA-Z\-\']+(?:\s+[A-Z][a-zA-Z\-\']+)*?)\s*\((\d{4})[a-z]?\)", text):
+    # Preprocess: strip wikilink notation [[link|Display]] → Display
+    # so that "[[gustavo-deco|Deco]] (2008)" becomes "Deco (2008)"
+    clean_text = re.sub(r"\[\[[^\]]+\|([^\]]+)\]\]", r"\1", text)
+    # Also strip plain wikilinks [[Display]] → Display
+    clean_text = re.sub(r"\[\[([^\]]+)\]\]", r"\1", clean_text)
+
+    # Pattern 1: Author (Year) — e.g., "Deco (2008)", "Tuckwell (1988)", "Breakspear et al. (2003)"
+    for m in re.finditer(
+        r"\b([A-Z][a-zA-Z\-'']+(?:\s+[A-Z][a-zA-Z\-'']+)*?(?:\s+et\s+al\.?)?)\s*\((\d{4})[a-z]?\)",
+        clean_text,
+    ):
         results.append({
             "text": m.group(0),
             "type": "author_year",
@@ -181,7 +335,7 @@ def parse_inline_citations(text: str) -> list[dict]:
         })
 
     # Pattern 2: bare [^N] reference numbers (already linked via YAML sources)
-    for m in re.finditer(r"\[\^(\d+)\]", text):
+    for m in re.finditer(r"\[\^(\d+)\]", clean_text):
         results.append({
             "text": m.group(0),
             "type": "superscript",
@@ -189,7 +343,7 @@ def parse_inline_citations(text: str) -> list[dict]:
         })
 
     # Pattern 3: bare [N] reference numbers
-    for m in re.finditer(r"(?<!\[)\[(\d+)\](?!\()", text):
+    for m in re.finditer(r"(?<!\[)\[(\d+)\](?!\()", clean_text):
         results.append({
             "text": m.group(0),
             "type": "bracket_num",
@@ -197,240 +351,126 @@ def parse_inline_citations(text: str) -> list[dict]:
         })
 
     # Pattern 4: DOI inline
-    for m in re.finditer(r"(?:https?://doi\.org/|DOI:?\s*)?(10\.\d{4,9}/[^\s\]]+)", text, re.IGNORECASE):
+    for m in re.finditer(
+        r"(?:https?://doi\.org/|DOI:?\s*)?(10\.\d{4,9}/[^\s\]]+)",
+        clean_text,
+        re.IGNORECASE,
+    ):
         results.append({
             "text": m.group(0),
             "type": "doi",
             "doi": m.group(1),
         })
 
-    # Deduplicate by text span
-    seen = set()
-    deduped = []
-    for r in results:
-        key = r["text"]
-        if key not in seen:
-            seen.add(key)
-            deduped.append(r)
-    return deduped
+    return results
 
 
-# ── Stub matching ─────────────────────────────────────────────────────
+# ── Batch operations ───────────────────────────────────────────────────
 
-def find_stub_for_citation(citation: dict, stub_index: dict[str, str]) -> str | None:
+
+def verify_all_stubs_fast(raw_papers_dir: str) -> list[dict]:
     """
-    Try to find a raw/papers/*.md slug that matches a citation mention.
-    stub_index: {slug: filepath}
-    Returns filepath or None.
+    FAST daily path: verify only stubs with DOIs (CrossRef ~1s each).
+    Skips stubs without DOIs — those are checked by the weekly full pass.
     """
-    if citation["type"] == "doi":
-        doi = citation["doi"]
-        # Check stubs with DOI field
-        for slug, path in stub_index.items():
-            if doi.replace("https://doi.org/","").replace("http://doi.org/","") in slug:
-                return path
-            # Also check inside file (lightweight: don't parse YAML, just grep)
-            try:
-                with open(path, 'r', encoding='utf-8') as f:
-                    stub_text = f.read()
-                if doi in stub_text:
-                    return path
-            except Exception:
-                pass
-        return None
-
-    if citation["type"] == "author_year":
-        author = citation.get("author", "").split()[-1].lower()  # last name
-        year = citation.get("year", "")
-        # Look for slug containing author + year
-        for slug, path in stub_index.items():
-            if author in slug and year in slug:
-                return path
-            # Try just author
-            if author in slug:
-                return path
-    return None
-
-
-# ── Main verification function ───────────────────────────────────────
-
-def verify_citation(citation: dict, stub_index: dict[str, str] | None = None) -> dict:
-    """
-    Main verification entry point.
-
-    Returns a verdict dict:
-      {
-        "status": "VERIFIED" | "NOT_FOUND" | "METADATA_MISMATCH" | "TIMEOUT",
-        "source": "crossref_doi" | "openalex_title" | "stub_cache" | "none",
-        "metadata": {...} | None,
-        "raw_stub_path": str | None,
-      }
-    """
-    result = {
-        "status": "NOT_FOUND",
-        "source": "none",
-        "metadata": None,
-        "raw_stub_path": None,
-    }
-
-    # Step 1: check if stub exists
-    if stub_index:
-        stub_path = find_stub_for_citation(citation, stub_index)
-        if stub_path:
-            result["raw_stub_path"] = stub_path
-            # Read stub metadata
-            try:
-                with open(stub_path, 'r', encoding='utf-8') as f:
-                    text = f.read()
-                # Quick regex for authors/year/venue in frontmatter
-                authors = re.findall(r'^authors:\s*$\n(?:^\s+[-*]\s*(.+)\n)+', text, re.M)
-                if not authors:
-                    authors = re.findall(r'^authors:\s*\[(.*?)\]', text, re.M)
-                    if authors:
-                        authors = [a.strip().strip('"\'') for a in authors[0].split(',')]
-                year_match = re.search(r'^year:\s*(\d{4})', text, re.M)
-                venue_match = re.search(r'^venue:\s*(.+)$', text, re.M)
-                title_match = re.search(r'^title:\s*(.+)$', text, re.M)
-                doi_match = re.search(r'^doi:\s*(.+)$', text, re.M)
-
-                stub_authors = authors if authors else []
-                stub_year = year_match.group(1) if year_match else ""
-                stub_venue = venue_match.group(1).strip().strip('"\'') if venue_match else ""
-
-                if stub_authors and stub_year and stub_venue and not any('unknown' in str(a).lower() for a in stub_authors):
-                    result["status"] = "VERIFIED"
-                    result["source"] = "stub_cache"
-                    result["metadata"] = {
-                        "title": title_match.group(1).strip().strip('"\'') if title_match else "",
-                        "authors": stub_authors,
-                        "year": stub_year,
-                        "venue": stub_venue,
-                        "doi": doi_match.group(1).strip().strip('"\'') if doi_match else "",
-                    }
-                    return result
-            except Exception:
-                pass
-
-    # Step 2: if stub missing or stub has bad metadata, query databases
-    if citation["type"] == "doi":
-        time.sleep(_POLITE_SLEEP)
-        meta = verify_doi(citation.get("doi", ""))
-        if meta:
-            result["status"] = "VERIFIED"
-            result["source"] = "crossref_doi"
-            result["metadata"] = meta
-            return result
-
-    elif citation["type"] == "author_year":
-        # Construct a synthetic title for searching
-        # We don't have the actual title from inline citation, just author + year
-        # Search OpenAlex with "author year" as a broad query
-        author = citation.get("author", "")
-        year = citation.get("year", "")
-        if author and year:
-            search_title = f"{author} {year}"
-            time.sleep(_POLITE_SLEEP)
-            meta = verify_title(search_title)
-            if meta:
-                # Check author overlap to avoid false matches
-                stub_last = author.split()[-1].lower()
-                found_last_names = [
-                    a.split()[-1].lower() for a in meta.get("authors", [])
-                    if a.split()
-                ]
-                if stub_last in found_last_names:
-                    result["status"] = "VERIFIED"
-                    result["source"] = "openalex_title"
-                    result["metadata"] = meta
-                    return result
-                # If title is very similar but authors diverge, it's a mismatch
-                sim = _title_similarity(search_title, meta.get("title", ""))
-                if sim > 0.5:
-                    result["status"] = "METADATA_MISMATCH"
-                    result["source"] = "openalex_title"
-                    result["metadata"] = meta
-                    return result
-
-    # Fallback: nothing found
-    return result
-
-
-# ── Batch verification for Auditor ────────────────────────────────────
-
-def build_stub_index(raw_papers_dir: str = "raw/papers") -> dict[str, str]:
-    """Build {slug: filepath} index for all raw stubs."""
-    import os
-    import glob
-    index = {}
-    for path in glob.glob(os.path.join(raw_papers_dir, "*.md")):
-        slug = os.path.splitext(os.path.basename(path))[0]
-        index[slug] = path
-    return index
-
-
-def verify_all_stubs(raw_papers_dir: str = "raw/papers") -> list[dict]:
-    """
-    Batch-verify every raw stub. Returns list of verdict dicts.
-    Useful for Auditor daily check.
-    """
-    import os
-    import glob
     results = []
-    for path in sorted(glob.glob(os.path.join(raw_papers_dir, "*.md"))):
-        try:
-            with open(path, 'r', encoding='utf-8') as f:
-                text = f.read()
-        except Exception:
+    for fname in os.listdir(raw_papers_dir):
+        if not fname.endswith(".md"):
+            continue
+        fpath = os.path.join(raw_papers_dir, fname)
+        doi = _extract_doi_from_stub(fpath)
+        fm = _read_stub_frontmatter(fpath)
+        if not fm or not doi:
             continue
 
-        # Extract DOI from frontmatter
-        doi_match = re.search(r'^doi:\s*(.+)$', text, re.M)
-        doi = doi_match.group(1).strip().strip('"\'') if doi_match else ""
-
-        title_match = re.search(r'^title:\s*(.+)$', text, re.M)
-        title = title_match.group(1).strip().strip('"\'') if title_match else ""
-
-        authors = re.findall(r'^\s+[-*]\s*(.+)$', text, re.M)
-        if not authors:
-            authors = re.findall(r'^authors:\s*\[(.*?)\]', text, re.M)
-            if authors:
-                authors = [a.strip().strip('"\'') for a in authors[0].split(',')]
-        year_match = re.search(r'^year:\s*(\d{4})', text, re.M)
-        venue_match = re.search(r'^venue:\s*(.+)$', text, re.M)
-
-        if doi:
-            v = verify_doi(doi)
-        elif title:
-            v = verify_title(title)
+        ext = verify_doi(doi)
+        if ext and _title_similarity(fm.get("title", ""), ext.get("title", "")) > 0.5:
+            results.append({"file": fpath, "status": "VERIFIED", "issues": []})
+        elif ext:
+            results.append({
+                "file": fpath,
+                "status": "METADATA_MISMATCH",
+                "issues": ["DOI resolves to different title"],
+            })
         else:
-            v = None
-
-        if v:
-            # Compare stub metadata with external metadata
-            issues = []
-            if v.get("year") != (year_match.group(1) if year_match else ""):
-                issues.append(f"year mismatch: stub={year_match.group(1) if year_match else ''}, ext={v['year']}")
-            # Author overlap check
-            ext_last = [a.split()[-1].lower() for a in v.get("authors", []) if a.split()]
-            stub_last = [a.split()[-1].lower() for a in authors if a.split()]
-            overlap = set(ext_last) & set(stub_last)
-            if not overlap and ext_last and stub_last:
-                issues.append(f"authors mismatch: stub={stub_last}, ext={ext_last}")
-            if issues:
-                status = "METADATA_MISMATCH"
-            else:
-                status = "VERIFIED"
-        else:
-            status = "NOT_FOUND"
-            issues = []
-
-        results.append({
-            "file": os.path.basename(path),
-            "title": title,
-            "status": status,
-            "source": "crossref_doi" if doi else ("openalex_title" if title else "none"),
-            "issues": issues,
-        })
-
-        time.sleep(_POLITE_SLEEP)
+            results.append({"file": fpath, "status": "NOT_FOUND", "issues": ["DOI not found in CrossRef"]})
     return results
+
+
+def verify_all_stubs_full(raw_papers_dir: str, max_stubs: int = 0) -> list[dict]:
+    """
+    SLOW weekly path: verify ALL stubs via OpenAlex title search.
+    Use max_stubs to cap for dry runs.
+    Recommended: run weekly, not daily.
+    """
+    results = []
+    stub_index = build_stub_index(raw_papers_dir)
+    for i, (slug, fpath) in enumerate(sorted(stub_index.items())):
+        if not isinstance(fpath, str) or not fpath.endswith(".md"):
+            continue
+        fm = _read_stub_frontmatter(fpath)
+        title = fm.get("title", "")
+        if not title:
+            continue
+
+        ext = verify_title(title)
+        if ext and _title_similarity(title, ext.get("title", "")) > 0.5:
+            results.append({"file": fpath, "status": "VERIFIED", "issues": []})
+        elif ext:
+            results.append({
+                "file": fpath,
+                "status": "METADATA_MISMATCH",
+                "issues": ["Title resolves to different paper"],
+            })
+        else:
+            results.append({
+                "file": fpath,
+                "status": "NOT_FOUND",
+                "issues": ["Title not found in OpenAlex"],
+            })
+
+        if max_stubs and i + 1 >= max_stubs:
+            break
+
+    return results
+
+
+def verify_all_stubs(raw_papers_dir: str) -> list[dict]:
+    """Backward-compatible: alias for fast (daily) path."""
+    return verify_all_stubs_fast(raw_papers_dir)
+
+
+def _read_stub_frontmatter(path: str) -> dict:
+    """Minimal frontmatter parser (safe even on broken YAML)."""
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            text = f.read(4096)
+    except OSError:
+        return {}
+    if not text.startswith("---"):
+        return {}
+    parts = text.split("---", 2)
+    if len(parts) < 3:
+        return {}
+    try:
+        import yaml
+
+        return yaml.safe_load(parts[1]) or {}
+    except Exception:
+        return {}
+
+
+# ── CLI (lightweight tests) ──────────────────────────────────────────
+
+if __name__ == "__main__":
+    import sys
+
+    if len(sys.argv) > 1 and sys.argv[1].startswith("10."):
+        print(json.dumps(verify_doi(sys.argv[1]), indent=2))
+    else:
+        # Quick sanity checks
+        text = "[[gustavo-deco|Deco]] (2008) established that. [[author|Smith]] (2021) confirmed it."
+        cites = parse_inline_citations(text)
+        print(f"Parsed {len(cites)} citations from sample text:")
+        for c in cites:
+            print(f"  {c}")
