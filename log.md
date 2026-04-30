@@ -2,6 +2,16 @@
 
 ## 2026-04-30
 
+- Created/Improved page: [[mindboggle]] – Open-source brain morphometry platform
+  - Complete rewrite from placeholder to comprehensive entity page (~800 words)
+  - Updated frontmatter: changed updated date to 2026-04-30
+  - Tags: software-visualization, software-brain-modeling, neuroimaging-mri, brain-parcellations, parcellation, shape-analysis, open-source-brain
+  - Established 12+ wikilinks: FreeSurfer, ANTs, The Virtual Brain, whole-brain-modeling, connectome-workbench, nilearn, brain-connectivity-toolbox, neuroimaging, brainnetome-atlas, schaefer-atlas, glasser-atlas, destrieux-atlas, diffusion-imaging, tractography, structural-connectivity, pycortex
+  - Added detailed sections: Overview, Motivation and Context, Key Features (shape measures, feature extraction, hybrid segmentation), Relationship to TVB (provides anatomical parcellations for whole-brain models), Key Papers (Klein et al. 2017), Related Software
+  - Explained Mindboggle's hybrid segmentation approach combining FreeSurfer and ANTs outputs
+  - Documented shape measures: surface area, curvature, travel depth, geodesic depth, Laplace-Beltrami spectra, Zernike moments, thickinthehead thickness
+  - Covered Docker distribution model for reproducibility
+
 - Created/Improved page: [[geppetto]] – Computational simulation engine for whole-brain modeling
   - Complete rewrite from placeholder to comprehensive entity page (~750 words)
   - Updated frontmatter: changed updated date to 2026-04-30
@@ -898,3 +908,5 @@
 ## [2026-04-30 02:14] Matcher: 15 pages got 41 new sources
 
 ## [2026-04-30 02:17] Improve: 3 pages improved (smriprep, pysurfer, allen-sdk)
+
+## [2026-04-30 03:25] Improve: 3 pages improved (marsatlas, pymc, pyxdf)
