@@ -5,6 +5,15 @@
 - Created/Improved page: [[geppetto]] – Computational simulation engine for whole-brain modeling
   - Complete rewrite from placeholder to comprehensive entity page (~750 words)
   - Updated frontmatter: changed updated date to 2026-04-30
+
+- Created/Improved page: [[pyxdf]] – Python library for reading XDF neuroimaging data files
+  - Complete rewrite from placeholder to comprehensive entity page (~690 words)
+  - Updated frontmatter: changed updated date to 2026-04-30
+  - Tags: software-neuroimaging, neuroimaging-eeg, neuroimaging-meg, neuroimaging-fmri
+  - Established 10+ wikilinks: the-virtual-brain, eeglab, meg, fmri, mne-python, fieldtrip, brainstorm, pyedflib, spm, neural-mass-models, dynamic-causal-modeling, computational-neuroscience
+  - Added detailed sections: Overview, Key Features (multi-stream loading, clock synchronization, stream selection/filtering), Relationship to TVB (provides empirical data for whole-brain model validation), Key Technical Details, Related Software, Open Questions and Limitations
+  - Explained XDF format for multimodal neuroimaging data, clock synchronization between heterogeneous streams
+  - Positioned PyXDF as a bridge between raw multimodal recordings and analysis frameworks like MNE-Python, EEGLAB, Fieldtrip
   - Tags: software-brain-modeling, software-tvb, whole-brain-modeling
   - Sources: raw/papers/geppetto-2018.md
   - Established 10+ wikilinks: the-virtual-brain, whole-brain-modeling, neural-mass-model, brain-dynamics, jansen-rit, wilson-cowan, epileptor, structural-connectivity, diffusion-mri, tractography, open-source-brain, netpyne, neurone, nest, epilepsy-modeling, brain-stimulation, resting-state, functional-connectivity, eeg, meg, fmri, hemodynamic-response-function, dynamic-causal-modeling, computational-neuroscience, connectivity, brain-network, brain-oscillations, seizure-prediction, neuroimaging
@@ -887,3 +896,5 @@
 ## [2026-04-30 01:53] Improve: 3 pages improved (xtract, sonata, geppetto)
 
 ## [2026-04-30 02:14] Matcher: 15 pages got 41 new sources
+
+## [2026-04-30 02:17] Improve: 3 pages improved (smriprep, pysurfer, allen-sdk)

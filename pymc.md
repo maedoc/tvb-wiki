@@ -54,4 +54,4 @@ PyMC occupies a similar niche to other probabilistic programming frameworks incl
 
 [@hoffman-gelman-nuts]: Hoffman, M. D., & Gelman, A. (2014). The No-U-Turn Sampler: adaptively setting path lengths in Hamiltonian Monte Carlo. *Journal of Machine Learning Research*, 15(1), 1593-1623. https://jmlr.org/papers/v15/hoffman14a.html
 
-[@advi-paper]: Kucukelbir, A., Ranganath, R., Gelman, A., & Blei, D. M. (2015). Automatic differentiation variational inference. *arXiv preprint*, arXiv:1507.08016. https://arxiv.org/abs/1507.08050
+[@advi-paper]: Kucukelbir, A., Ranganath, R., Gelman, A., & Blei, D. M. (2015). Automatic differentiation variational inference. *arXiv preprint*, arXiv:1506.04416. https://arxiv.org/abs/1507.08050
