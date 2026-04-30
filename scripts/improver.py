@@ -28,6 +28,7 @@ from ralph_config import (
     PARALLEL_WRITERS, PARALLEL_REVIEWERS,
 )
 from combined_relevance import load_graph, load_embeddings, bfs_distances, CORE_LINKS as RELEVANCE_CORE, get_emb_scores
+import citation_verify
 
 log = get_logger("Improver")
 
@@ -747,6 +748,51 @@ Updated content:"""
     return True, f"Improved {slug} ({word_count(new_content)} words, {mode} edit)"
 
 
+# ── Citation Guard ────────────────────────────────────────────────────
+
+CITATION_GUARD_BLOCKING = False  # Set True after 48h log-only burn-in
+
+
+def _citation_guard(page_path: str, stub_index: dict[str, str]) -> tuple[bool, list[str]]:
+    """
+    Verify all inline citations in a page are backed by real stubs or databases.
+    Returns (pass, issues).
+
+    Non-blocking if CITATION_GUARD_BLOCKING is False (logs only).
+    """
+    import re
+    metadata, content = read_page(page_path)
+    slug = os.path.splitext(os.path.basename(page_path))[0]
+
+    citations = citation_verify.parse_inline_citations(content)
+    if not citations:
+        return True, []
+
+    issues = []
+    verified_count = 0
+    not_found_count = 0
+
+    for cite in citations:
+        result = citation_verify.verify_citation(cite, stub_index)
+        if result["status"] == "VERIFIED":
+            verified_count += 1
+            if result["source"] == "stub_cache":
+                log.info("[Guard] %s → VERIFIED via stub %s", cite['text'], result["raw_stub_path"])
+            else:
+                log.info("[Guard] %s → VERIFIED via %s", cite['text'], result["source"])
+        elif result["status"] == "METADATA_MISMATCH":
+            log.warn("[Guard] %s → METADATA_MISMATCH (stub=%s ext=%s)", cite['text'], result["raw_stub_path"], result["metadata"])
+        elif result["status"] == "NOT_FOUND":
+            log.warn("[Guard] %s → NOT_FOUND in any database", cite['text'])
+            not_found_count += 1
+            issues.append(f"citation '{cite['text']}' not found")
+
+    if not_found_count > 0:
+        log.warn("[Guard] %s: %d/%d citations NOT_FOUND", slug, not_found_count, len(citations))
+        return False, issues
+    return True, []
+
+
 # ── Main improver cycle ───────────────────────────────────────────────
 
 def run_improver_cycle(n_pages: int = None):
@@ -778,6 +824,9 @@ def run_improver_cycle(n_pages: int = None):
     failed = 0
     results = []
 
+    # Build stub index once for citation guard
+    stub_index = citation_verify.build_stub_index(RAW_PAPERS_DIR)
+
     with ThreadPoolExecutor(max_workers=n_pages) as pool:
         futures = {
             pool.submit(improve_page, t['path']): t
@@ -787,7 +836,7 @@ def run_improver_cycle(n_pages: int = None):
             target = futures[future]
             try:
                 success, desc = future.result()
-                results.append((target['slug'], success, desc))
+                results.append((target['slug'], success, desc, target['path']))
                 if success:
                     improved += 1
                 else:
@@ -796,16 +845,45 @@ def run_improver_cycle(n_pages: int = None):
                 log.error("Exception improving %s: %s", target['slug'], e)
                 failed += 1
 
-    # Git commit improved pages
-    if improved > 0:
-        slugs = [r[0] for r in results if r[1]]
-        msg = f"Improve: {', '.join(slugs)} (Writer:{WRITER_MODEL} Reviewer:{REVIEWER_MODEL}) (Improver)"
+    # ── Citation Guard — post-write, pre-commit ──
+    guarded_results = []
+    for slug, success, desc, filepath in results:
+        if not success:
+            guarded_results.append((slug, False, desc))
+            continue
+        try:
+            guard_pass, guard_issues = _citation_guard(filepath, stub_index)
+            if guard_pass:
+                guarded_results.append((slug, True, desc))
+            else:
+                log.warn("Guard rejected %s: %s", slug, '; '.join(guard_issues))
+                # Revert the written file
+                try:
+                    subprocess.run(['git', 'checkout', '--', filepath], check=True, cwd=WIKI_ROOT)
+                    log.info("Reverted %s to last committed version", filepath)
+                except Exception:
+                    log.error("Failed to revert %s", filepath)
+                if CITATION_GUARD_BLOCKING:
+                    improved -= 1
+                    failed += 1
+                    guarded_results.append((slug, False, f"Citation guard rejected: {'; '.join(guard_issues)}"))
+                else:
+                    # Log-only mode: still count as improved but log the issue
+                    guarded_results.append((slug, True, desc + f" [GUARD_WARN: {' | '.join(guard_issues)}]"))
+        except Exception as e:
+            log.error("Citation guard exception on %s: %s", slug, e)
+            guarded_results.append((slug, True, desc))  # allow through on guard error
+
+    # Git commit improved pages that passed the guard
+    improved_slugs = [r[0] for r in guarded_results if r[1]]
+    if improved_slugs:
+        msg = f"Improve: {', '.join(improved_slugs)} (Writer:{WRITER_MODEL} Reviewer:{REVIEWER_MODEL}) (Improver)"
         git_commit(msg)
-        append_log(f"Improve: {improved} pages improved ({', '.join(slugs)})")
+        append_log(f"Improve: {len(improved_slugs)} pages improved ({', '.join(improved_slugs)})")
         log.info("Committed: \"%s\"", msg)
 
-    log.info("Cycle complete. %d improved, %d failed.", improved, failed)
-    return improved, failed
+    log.info("Cycle complete. %d improved, %d failed.", len(improved_slugs), failed)
+    return len(improved_slugs), failed
 
 
 # ── CLI entry point ───────────────────────────────────────────────────
