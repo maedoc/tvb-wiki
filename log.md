@@ -995,3 +995,7 @@
 ## [2026-04-30 18:24] Linter: 9 broken links, 58 orphans, 49 stale, 58 empty
 
 ## [2026-04-30 18:42] SoftwareMapper: 32 pages created
+
+## [2026-04-30 18:51] Improve: 3 pages improved (surfstat, surfice, spinnaker)
+
+- 2026-04-30: Updated [[panda]] wiki page with substantive content about PANDA (Pipeline for Analyzing braiN Diffusion imAges), a MATLAB toolbox for diffusion MRI processing. Included key features (fully-automatic processing, parallel computation, GUI), relationship to TVB and whole-brain modeling, and cross-references to related tools (dipy, mrtrix3, fsl, connectome-workbench, braph).
