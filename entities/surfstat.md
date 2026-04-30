@@ -1,10 +1,29 @@
 ---
-title: SurfStat
 created: 2024-01-15
-updated: 2026-04-30
+sources:
+- Worsley et al.
+- 2009a
+- Worsley et al.
+- 2009b
+- Charil et al.
+- 2007
+- Goldstein et al.
+- 2017
+- raw/papers/arxiv-2602.03240.md
+- raw/papers/newman-2010.md
+- raw/papers/glean-github.md
+tags:
+- software-visualization
+- neuroimaging
+- freesurfer
+- surface-based-analysis
+- statistical-analysis
+- matlab
+- brain-parcellations
+- cortical-thickness
+title: SurfStat
 type: entity
-tags: [software-visualization, neuroimaging, freesurfer, surface-based-analysis, statistical-analysis, matlab, brain-parcellations, cortical-thickness]
-sources: [Worsley et al., 2009a, Worsley et al., 2009b, Charil et al., 2007, Goldstein et al., 2017]
+updated: '2026-04-30'
 ---
 
 # SurfStat

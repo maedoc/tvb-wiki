@@ -1,15 +1,24 @@
 ---
-title: XPPAUT
 created: 2025-01-15
-updated: 2026-04-30
-type: entity
-tags: [software-brian, bifurcation-analysis, dynamical-systems-theory, computational-neuroscience, nonlinear-dynamics, network-dynamics]
 sources:
-  - https://sites.pitt.edu/~phase/bard/bardware/xpp/xpp.html
-  - https://sites.pitt.edu/~phase/bard/bardware/xpp/help/xppnumerics.html
-  - https://sites.pitt.edu/~phase/bard/bardware/xpp/help/xppauto.html
-  - https://github.com/Ermentrout/xppaut
-  - https://warwick.ac.uk/fac/cross_fac/complexity/study/msc_and_phd/co903/co903online/tutorial1.pdf
+- https://sites.pitt.edu/~phase/bard/bardware/xpp/xpp.html
+- https://sites.pitt.edu/~phase/bard/bardware/xpp/help/xppnumerics.html
+- https://sites.pitt.edu/~phase/bard/bardware/xpp/help/xppauto.html
+- https://github.com/Ermentrout/xppaut
+- https://warwick.ac.uk/fac/cross_fac/complexity/study/msc_and_phd/co903/co903online/tutorial1.pdf
+- raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-3256c8880985.md
+- raw/papers/izhikevich-2007.md
+tags:
+- software-brian
+- bifurcation-analysis
+- dynamical-systems-theory
+- computational-neuroscience
+- nonlinear-dynamics
+- network-dynamics
+title: XPPAUT
+type: entity
+updated: '2026-04-30'
 ---
 
 # XPPAUT

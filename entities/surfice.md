@@ -1,10 +1,20 @@
 ---
-title: SurfIce
 created: 2025-01-15
-updated: 2026-04-30
+sources:
+- rorden2012surfice
+- himburg2018cifti
+- glasser2016multi
+- raw/papers/semanticscholar-97e6ff441097.md
+- raw/papers/glean-github.md
+- raw/papers/semanticscholar-6295d2445697.md
+tags:
+- software-visualization
+- neuroimaging
+- connectomics
+- software-brain-modeling
+title: SurfIce
 type: entity
-tags: [software-visualization, neuroimaging, connectomics, software-brain-modeling]
-sources: [rorden2012surfice, himburg2018cifti, glasser2016multi]
+updated: '2026-04-30'
 ---
 
 # SurfIce

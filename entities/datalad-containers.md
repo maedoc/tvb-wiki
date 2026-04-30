@@ -1,16 +1,25 @@
 ---
-title: Datalad Containers
 created: 2025-01-15
-updated: 2026-04-30
-type: entity
-tags: [software-modeling, reproducibility, containerization, datalad, software-neuroimaging, software-bids]
 sources:
-  - Wagner2021
-  - Halchenko2021
-  - Hanke2008
-  - Gorgolewski2017
-  - Esteban2019
-  - Ricci2020
+- Wagner2021
+- Halchenko2021
+- Hanke2008
+- Gorgolewski2017
+- Esteban2019
+- Ricci2020
+- raw/papers/semanticscholar-380768cf42a8.md
+- raw/papers/semanticscholar-4d73a30d5c84.md
+- raw/papers/semanticscholar-d6e43299345d.md
+tags:
+- software-modeling
+- reproducibility
+- containerization
+- datalad
+- software-neuroimaging
+- software-bids
+title: Datalad Containers
+type: entity
+updated: '2026-04-30'
 ---
 
 Datalad Containers is an extension to the [[datalad]] data management framework that enables packaging, sharing, and running analysis software within containerized environments. The extension bridges the gap between reproducible data versioning and reproducible computational environments by allowing researchers to associate specific software containers with datasets and execute them seamlessly. This capability is particularly valuable in computational neuroscience and neuroimaging, where complex pipelines involving multiple software tools (such as [[freesurfer]], [[fsl]], [[afni]], and [[mrtrix3]]) must be executed with exact versions to ensure reproducibility across experiments.

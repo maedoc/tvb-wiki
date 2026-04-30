@@ -4,6 +4,7 @@ sources:
 - raw/papers/david-friston-2003.md
 - raw/papers/smith-2013-connectomics.md
 - raw/papers/friston-1993.md
+- raw/papers/power-2011.md
 tags:
 - karl-j-fristol
 title: Karl J Fristol

@@ -4,6 +4,7 @@ sources:
 - raw/papers/mijalkov-2017-braph.md
 - raw/papers/semanticscholar-60ca593f7e0c.md
 - raw/papers/semanticscholar-b9acfa0a7c80.md
+- raw/papers/huntenburg-2018.md
 tags:
 - software-neuroimaging
 - neuroimaging-fmri

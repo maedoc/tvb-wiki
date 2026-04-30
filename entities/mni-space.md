@@ -4,6 +4,7 @@ sources:
 - raw/papers/friston-1993.md
 - raw/papers/smith-2013-connectomics.md
 - raw/papers/sporns-2011.md
+- raw/papers/arxiv-2601.03796.md
 tags:
 - mni-space
 title: Mni Space

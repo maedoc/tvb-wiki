@@ -1,15 +1,33 @@
 ---
-title: SpiNNaker
 created: 2025-01-15
-updated: 2026-04-30
-type: entity
-tags: [neuromorphic-computing, spiking-neural-networks, software-neuromorphic, computational-neuroscience, brain-modeling, software-simulation]
 sources:
-  - Furber, S. B., Galluppi, F., Temple, S., & Plana, L. A. (2014). The SpiNNaker Project: A Massively Parallel Coprocessor for Simulating Large Spiking Neural Networks. Proceedings of the IEEE, 102(5), 699-715.
-  - Sharp, T., Plana, L. A., Gallipoli, F., & Furber, S. (2014). The SpiNNaker Toolchain. arXiv preprint arXiv:1409.4351.
-  - Khan, M. M., Lester, D. R., Hall, L. A., Plana, L. A., Choudhary, R. A., Rast, A., ... & Furber, S. B. (2008). SpiNNaker: Mapping Neural Networks onto a Massively-Parallel Chip. In 2008 IEEE International Joint Conference on Neural Networks (IJCNN) (pp. 2849-2856). IEEE.
-  - Galluppi, F., Davies, S., Rast, A., Sharp, T., Plana, L. A., & Furber, S. (2012). A Framework for Flexible Execution of Algorithms on a Neuromorphic Computing Platform. In International Conference on Neural Information Processing (pp. 425-432). Springer.
-  - Rowley, A. G. D., Rast, A., Sharp, T., Davies, S., & Furber, S. B. (2015). Neural Modeling Pipeline: A Standard, Integrated, Extensible Python Toolchain for SpiNNaker. Neural Networks, 62, 69-80.
+- Furber, S. B., Galluppi, F., Temple, S., & Plana, L. A. (2014). The SpiNNaker Project: A
+    Massively Parallel Coprocessor for Simulating Large Spiking Neural Networks. Proceedings
+    of the IEEE, 102(5), 699-715.
+- Sharp, T., Plana, L. A., Gallipoli, F., & Furber, S. (2014). The SpiNNaker Toolchain.
+  arXiv preprint arXiv:1409.4351.
+- Khan, M. M., Lester, D. R., Hall, L. A., Plana, L. A., Choudhary, R. A., Rast, A., ... & Furber, S. B. (2008). SpiNNaker: Mapping
+    Neural Networks onto a Massively-Parallel Chip. In 2008 IEEE International Joint
+    Conference on Neural Networks (IJCNN) (pp. 2849-2856). IEEE.
+- Galluppi, F., Davies, S., Rast, A., Sharp, T., Plana, L. A., & Furber, S. (2012).
+  A Framework for Flexible Execution of Algorithms on a Neuromorphic Computing Platform.
+  In International Conference on Neural Information Processing (pp. 425-432). Springer.
+- Rowley, A. G. D., Rast, A., Sharp, T., Davies, S., & Furber, S. B. (2015). Neural Modeling Pipeline: A
+    Standard, Integrated, Extensible Python Toolchain for SpiNNaker. Neural Networks,
+    62, 69-80.
+- raw/papers/sanz-leon-2013.md
+- raw/papers/arxiv-2507.22146.md
+- raw/papers/semanticscholar-ad05f8fb9b0d.md
+tags:
+- neuromorphic-computing
+- spiking-neural-networks
+- software-neuromorphic
+- computational-neuroscience
+- brain-modeling
+- software-simulation
+title: SpiNNaker
+type: entity
+updated: '2026-04-30'
 ---
 
 # SpiNNaker
