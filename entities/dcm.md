@@ -1,14 +1,12 @@
 ---
-created: 2026-04-23
-sources:
--_friston_bh_2003
--_friston_et_al_2003
-- kahan_et_al_2021
-tags:
-- software-brain-modeling
 title: DCM
-type: entity
+created: 2026-04-23
 updated: 2026-04-29
+type: entity
+tags: [software-brain-modeling]
+sources:
+  - raw/papers/friston-2003-dcm.md
+  - raw/papers/david-friston-2003.md
 ---
 
 # Dynamic Causal Modeling (DCM)
@@ -29,41 +27,36 @@ DCM combines a model of neural dynamics with a model of the observation process 
 
 $$\dot{z} = (A + \sum_{n} u_n B^{(n)})z + Cu$$
 
-where $z$ represents the neural state vector, $A$ is the intrinsic connectivity matrix, $B^{(n)}$ represents modulatory effects driven by the $n$-th input $u_n$, and $C$ captures direct driving inputs [@_friston_bh_2003]. For electromagnetic data such as [[eeg]] or [[meg]], [[neural-mass-models]] such as the [[jansen-rit-model]] can be used to provide more biophysically realistic descriptions of regional dynamics.
+where $A$ is the matrix of intrinsic (endogenous) connections, $B^{(n)}$ are the modulatory inputs associated with experimental condition $n$, $C$ is the direct input matrix, and $z$ is the hidden neural state. The observed signal $y$ is then generated through a forward model that links neural activity to the measured imaging modality, accounting for hemodynamic convolution in fMRI or electromagnetic lead fields in M/EEG.
 
-The observation model translates latent neural states into measured signals. For [[fmri]], this involves a hemodynamic model describing the transformation from neural activity to the blood-oxygen-level-dependent (BOLD) signal through the Balloon Model, which accounts for neurovascular coupling through changes in cerebral blood flow, volume, and oxygenation [@_friston_et_al_2003]. The model describes how neural activity triggers a vascular response that delays and smooths the measured signal, typically with a delay of approximately 2-4 seconds. For electromagnetic data, a forward model based on volume conduction theory relates current distributions (dipoles) in the brain to sensor recordings, requiring specification of a head conductivity model (e.g., boundary element method) to compute lead fields.
+### Bilinear vs. Nonlinear Extensions
 
-Model inversion uses [[variational-bayes]] methods to approximate the posterior distribution over model parameters. This yields both point estimates of connectivity parameters and their uncertainty, enabling Bayesian model comparison to assess which of several competing network architectures best explains the data. The variational free energy bound provides a principled criterion for model selection that automatically penalizes model complexity.
+The original DCM formulation was bilinear, meaning that connectivity parameters are linear in both the states and the inputs. Subsequent extensions introduced nonlinear terms to model neuromodulatory effects, learning, and other forms of activity-dependent plasticity. For instance, in nonlinear DCM, effective connectivity can change as a function of synaptic activity, enabling the modeling of phenomena such as homeostatic plasticity and gain modulation. These extensions have expanded the range of neural phenomena that DCM can address, from simple sensory-motor paradigms to complex cognitive tasks involving reinforcement learning and decision-making. The choice between bilinear and nonlinear formulations depends on the specific research question, the complexity of the experimental design, and the availability of sufficient data to constrain the additional parameters.
 
-## Key Features
+### Spectral DCM
 
-DCM enables several distinct types of analysis that are difficult or impossible with other connectivity methods. **Task-dependent changes in connectivity** can be quantified by comparing DCMs with and without modulatory inputs, testing whether a particular cognitive manipulation enhances or suppresses coupling between regions. **Bayesian model comparison** allows formal selection among competing network hypotheses, such as whether a particular pathway is excitatory or inhibitory. **Parameter estimation** provides quantitative measures of effective connectivity that can be compared across groups, enabling studies of how connectivity differs in patient populations or across development.
+Spectral DCM extends the framework to resting-state fMRI and other data where no explicit experimental input is available. Instead of modeling task-evoked responses, spectral DCM models the endogenous fluctuations as the output of a stable dynamical system driven by random noise. This approach leverages the frequency-domain formulation of the generative model, allowing researchers to estimate effective connectivity from the cross-spectral density of fMRI time series. Spectral DCM has proven particularly valuable for studying the [[default-mode-network]] and other resting-state networks, providing insights into the mechanisms that maintain stable patterns of functional connectivity in the absence of external stimulation. The method connects to broader developments in [[stochastic-differential-equations]] and [[whole-brain-modeling]], where the goal is to understand how deterministic structure and stochastic driving interact to produce observable brain dynamics.
 
-The framework has evolved substantially since its introduction. Stochastic DCM incorporates random fluctuations in neural activity, providing a more realistic model of ongoing brain dynamics. **Nonlinear DCM** allows for state-dependent changes in connectivity that cannot be captured by the bilinear approximation. **Spectral DCM** operates in the frequency domain, enabling analysis of connectivity between oscillatory processes.
+## Parameter Estimation and Model Comparison
 
-## Relationship to The Virtual Brain
+DCM employs [[variational-bayes|variational Bayesian]] inference to estimate the posterior distribution over model parameters. This approach is computationally efficient and provides a principled framework for model comparison using Bayesian model evidence. The evidence quantifies the trade-off between model fit and complexity, penalizing models that are too flexible and prone to overfitting. Researchers can compare different hypotheses about network architecture by computing the model evidence for each competing model and selecting the one with the highest evidence.
 
-While DCM and [[the-virtual-brain]] (TVB) share the goal of modeling brain dynamics, they serve complementary roles in the whole-brain modeling workflow. DCM is primarily a data analysis method—it takes neuroimaging data as input and infers the connectivity parameters that best explain the observed activity. TVB, by contrast, is a simulation platform that uses previously estimated or assumed connectivity to predict brain dynamics under different conditions. In practice, DCM-derived connectivity parameters can be used to configure TVB models, enabling personalized brain models that are grounded in empirical data. This integration is particularly valuable for clinical applications such as epilepsy modeling or personalized brain modeling, where patient-specific connectivity estimates from DCM can inform TVB simulations of disease dynamics or stimulation effects.
+The estimation procedure involves iteratively updating the variational posterior to minimize the difference between the approximate posterior and the true posterior, as measured by the Kullback-Leibler divergence. This results in point estimates of the parameters along with their uncertainty, enabling hypothesis testing about specific connections and their modulation by experimental conditions. The use of Bayesian model evidence for model comparison is one of DCM's key strengths, allowing researchers to go beyond mere parameter estimation to evaluate the relative support for different mechanistic hypotheses.
 
-The two approaches also differ in their philosophical orientation: DCM is hypothesis-driven, requiring the researcher to specify a particular network architecture a priori, while TVB is more exploratory, allowing researchers to simulate dynamicsemerging from given connectivity patterns and compare them to empirical data. This complementarity makes them natural partners in a research pipeline: use DCM to estimate connectivity from empirical data, then use TVB to simulate and predict the effects of interventions or to explore how changes in connectivity might alter brain dynamics.
+## Relationship to Whole-Brain Modeling
 
-## Key Papers
+DCM is complementary to, but distinct from, the network-level modeling approaches implemented in [[the-virtual-brain]] and similar platforms. While DCM focuses on inferring effective connectivity from empirical data within a Bayesian framework, whole-brain models aim to simulate the large-scale dynamics of the brain using biologically motivated parameterizations. However, the two approaches converge in their shared goal of understanding how brain structure gives rise to function. DCM-derived effective connectivity matrices can inform the construction of whole-brain models, providing data-driven constraints on the parameters that govern inter-regional interactions. Conversely, insights from whole-brain simulations can generate hypotheses that can be tested using DCM, creating a productive dialogue between data-driven inference and mechanistic simulation.
 
-- Friston, K. J., Harrison, L., & Penny, W. (2003). Dynamic causal modelling. *NeuroImage*, 19(4), 1273-1302. [@_friston_bh_2003]
-- Friston, K. J., Mechelli, A., Turner, R., & Price, C. J. (2000). Nonlinear responses in fMRI: The balloon model, volterra kernels, and other hemodynamics. *NeuroImage*, 12(4), 466-477. [@_friston_et_al_2003]
-- Kahan, J., Foltynie, T., Utz, S., & Friston, K. J. (2021). Dynamic causal modelling of Parkinson's disease tremor: A review. *NeuroImage*: Clinical, 31, 102713. [@_kahan_et_al_2021]
+The parameter estimates obtained from DCM can be used to initialize or constrain the parameters of whole-brain models, reducing the search space and improving the biological plausibility of the simulations. For example, the intrinsic connectivity matrix $A$ estimated by DCM can serve as the basis for the anatomical connectivity matrix in a whole-brain model, while the modulatory parameters $B$ can inform the inclusion of neuromodulatory effects. This integration of DCM and whole-brain modeling is particularly promising for clinical applications, where patient-specific DCM estimates can be used to build personalized models of brain dynamics for diagnostic and therapeutic purposes.
 
-## Related Software
+## Clinical Applications
 
-DCM is implemented in the [[spm]] software package, which provides routines for model specification, estimation, and comparison. Related packages include Fieldtrip and EEGLAB for electromagnetic data analysis. For whole-brain simulations leveraging DCM-derived connectivity, see [[the-virtual-brain]].
+DCM has been applied to a wide range of clinical questions, from understanding the neural mechanisms of psychiatric disorders to predicting patient outcomes after brain lesions. In [[epilepsy-modeling]], DCM has been used to identify the epileptogenic zone by modeling the abnormal effective connectivity patterns that characterize seizure onset. In [[schizophrenia-models]], DCM studies have revealed altered effective connectivity in the prefrontal cortex and other regions associated with cognitive control. DCM has also been applied to [[Parkinsons-modeling]] to understand the network-level effects of dopaminergic depletion, and to [[Alzheimers-modeling]] to characterize the progressive disconnection of large-scale brain networks.
 
-## Related Concepts
+## Future Directions
 
-- [[effective-connectivity]] — the causal, directed relationships DCM aims to infer
-- [[functional-connectivity]] — correlational connectivity that DCM distinguishes from
-- [[structural-connectivity]] — the anatomical pathways that constrain effective connectivity
-- [[variational-bayes]] — the inferential framework used for DCM parameter estimation
-- [[neural-mass-models]] — biophysical models of regional dynamics used in DCM
-- [[whole-brain-modeling]] — the larger framework within which DCM operates
-- [[brain-dynamics]] — the study of time-varying brain activity patterns
-- [[network-dynamics]] — the study of how network structure shapes dynamical behavior
+Several directions are likely to shape the future development of DCM. The integration of DCM with machine learning methods, such as deep neural networks, could enhance the scalability and flexibility of the inference procedure, enabling the analysis of larger networks and more complex experimental designs. The extension of DCM to multimodal data, combining fMRI, EEG, and MEG, could provide a more comprehensive picture of brain connectivity across different spatial and temporal scales. The development of personalized DCM approaches, tailored to individual patients, could improve the clinical utility of the method, enabling more precise diagnostic and therapeutic interventions.
+
+## Further Reading
+
+For a comprehensive introduction to DCM, see the foundational papers by [[Karl Friston]] and colleagues, as well as recent reviews that summarize the current state of the field. The [[SPM]] software package provides a freely available implementation of DCM for fMRI, EEG, and MEG data, along with extensive documentation and tutorials. The [[the-virtual-brain]] platform does not include a native DCM implementation, but DCM-derived connectivity estimates can be used to parameterize whole-brain simulations, enabling a synergistic integration of data-driven inference and mechanistic modeling.

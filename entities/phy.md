@@ -7,10 +7,11 @@ tags: [software-visualization, electrophysiology, spike-sorting, open-source, so
 sources:
   - https://github.com/cortex-lab/phy
   - https://phy.readthedocs.io/en/stable/
-  - Rossant C, K. D. Harris, et al. (2019). " Spike sorting for large, dense electrode arrays." Nature Neuroscience 22(3): 350.
-  - "Neurodata Without Borders (NWB) format documentation." NWB.
-  - "SpikeInterface: a unified framework for extracellular recordings." Gilboa M, R. R.stringer, et al. (2020). eLife.
+  - 'Rossant C, K. D. Harris, et al. (2019). " Spike sorting for large, dense electrode arrays." Nature Neuroscience 22(3): 350.'
+  - '"Neurodata Without Borders (NWB) format documentation." NWB.'
+  - '"SpikeInterface: a unified framework for extracellular recordings." Gilboa M, R. R.stringer, et al. (2020). eLife.'
 ---
+
 
 Phy is an [[open-source]] graphical user interface (GUI) application designed for manual and semi-automated spike sorting of extracellular electrophysiology data, particularly from high-density silicon probes and tetrode recordings. Developed primarily by **Cyrille Rossant** and **Kenneth Harris** at Cold Spring Harbor Laboratory, along with contributions from the broader community, Phy provides a flexible platform for visualizing, annotating, and refining sorted neural spike data — the fundamental unit of information in [[spiking-neural-networks]] and [[neural-mass-models]][1]. While Phy is not a whole-brain simulator itself, it plays a crucial role in the pipeline of converting raw [[electrophysiology]] data into spike trains that can be analyzed using connectivity inference methods and fed into computational models of brain dynamics[2].
 

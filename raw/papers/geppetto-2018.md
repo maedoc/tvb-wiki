@@ -3,7 +3,7 @@ title: Geppetto - a reusable modular open platform for exploring neuroscience da
 authors: [Cantarelli M, Marin B, Quintana A, Earnshaw M, Court R, Gleeson P, Dura-Bernal S, Silver RA, Idili G]
 year: 2018
 type: article
-journal: Philosophical Transactions of the Royal Society B: Biological Sciences
+journal: "Philosophical Transactions of the Royal Society B: Biological Sciences"
 volume: 373
 issue: 1758
 doi: 10.1098/rstb.2017.0380

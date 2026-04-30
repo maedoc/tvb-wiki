@@ -13,12 +13,12 @@ sources:
   - doi: 10.1038/nrn2576
     year: 2009
     authors: Bullmore, E., Sporns, O.
-    title: Complex brain networks: From topological architecture to brain dynamics
+    title: "Complex brain networks: From topological architecture to brain dynamics"
     journal: Nature Reviews Neuroscience
   - doi: 10.1016/j.neuroimage.2010.02.045
     year: 2010
     authors: Rubinov, M., Sporns, O.
-    title: Complex network measures of brain connectivity: Uses and interpretations
+    title: "Complex network measures of brain connectivity: Uses and interpretations"
     journal: NeuroImage
   - doi: 10.1093/brain/awx275
     year: 2017
