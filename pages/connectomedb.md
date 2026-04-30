@@ -48,7 +48,7 @@ ConnectomeDB provides the raw and preprocessed imaging data, which can be furthe
 
 [1] Van Essen, D. C., Smith, S. M., Barch, D. M., Behrens, T. E. J., Yacoub, E., Ugurbil, K., & Wu-Minn HCP Consortium. (2013). The Human Connectome Project: a data acquisition perspective. *Neuroinformatics*, 11(4), 389-397.
 
-[2] Glasser, M. F., Smith, S. M., Marcus, D. S., Andersson, J. L. R., Auerbach, E. J., Behjati, T. E. J., ... & Van Essen, D. C. (2016). The Human Connectome Project's neuroimaging approach. *Nature Neuroscience*, 19(9), 1175-1187.
+[2] Glasser, M. F., Smith, S. M., Marcus, D. S., Andersson, J. L. R., Auerbach, E. J., Behjm, T. E. J., ... & Van Essen, D. C. (2016). The Human Connectome Project's neuroimaging approach. *Nature Neuroscience*, 19(9), 1175-1187.
 
 [3] Human Connectome Project. (2020). Data Use Agreement, Version 2.0. Washington University in St. Louis. Retrieved from https://www.humanconnectome.org/study/human-connectome-project/
 

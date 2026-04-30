@@ -2,7 +2,15 @@
 
 ## 2026-04-30
 
-- Created/Improved page: [[glean]] – MATLAB pipeline for group-level M/EEG network analysis
+- Created/Improved page: [[bdftools]] – Ecosystem of software libraries for BioSemi Data Format (BDF) EEG file handling
+  - Complete rewrite from placeholder to comprehensive entity page (~870 words)
+  - Updated frontmatter: changed updated date to 2026-04-30
+  - Tags: software-neuroimaging, neuroimaging-eeg, electrophysiology, software-eeg
+  - Established 16 wikilinks: mne-python, eeg, source-localization, functional-connectivity, dynamic-causal-modeling, the-virtual-brain, whole-brain-modeling, fmri, resting-state, epilepsy-modeling, epileptor, eeglab, fieldtrip, brainstorm, cartool, openmeeg
+  - Added detailed sections: Overview (BDFtools ecosystem definition), Motivation and Context (history of BioSemi BDF format, 24-bit advantages), Key Features (pybdf, pyedflib libraries), Relationship to TVB (multimodal integration, epilepsy modeling), Related Software (eeglab, fieldtrip, brainstorm, cartool, openmeeg), Open Questions and Limitations
+  - Explained the BDF format's role in high-density EEG recording and how BDF data can feed into TVB whole-brain modeling pipelines
+  - Covered technical limitations: 24-bit encoding challenges, reference electrode considerations, status channel parsing
+
   - Complete rewrite from placeholder to comprehensive entity page (~620 words)
   - Updated frontmatter: changed updated date to 2026-04-30
   - Tags: software-brain-modeling, neuroimaging-eeg, neuroimaging-meg, functional-connectivity, brain-oscillations, network-dynamics
@@ -930,3 +938,5 @@
 ## [2026-04-30 03:25] Improve: 3 pages improved (marsatlas, pymc, pyxdf)
 
 ## [2026-04-30 04:31] Improve: 3 pages improved (eegnet, hermes, mindboggle)
+
+## [2026-04-30 05:37] Improve: 3 pages improved (afq-notebooks, bmtk, lean)
