@@ -4,6 +4,7 @@ sources:
 - raw/papers/smith-2013-connectomics.md
 - raw/papers/huettel-2009.md
 - raw/papers/friston-1993.md
+- raw/papers/power-2011.md
 tags:
 - software-brain-modeling
 title: Neurosynth

@@ -4,6 +4,8 @@ sources:
 - raw/papers/freeman-1975.md
 - raw/papers/destexhe-sejnowski-2009.md
 - raw/papers/arxiv-2603.24343.md
+- raw/papers/semanticscholar-3256c8880985.md
+- raw/papers/wilson-cowan-1972.md
 tags:
 - software-brain-modeling
 title: BioNet

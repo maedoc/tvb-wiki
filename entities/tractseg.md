@@ -2,6 +2,8 @@
 created: 2024-01-15
 sources:
 - raw/papers/van-essen-2012.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/mijalkov-2017-braph.md
 tags:
 - software-tractography
 - software-mrtrix3

@@ -4,6 +4,8 @@ sources:
 - raw/papers/strogatz-1994.md
 - raw/papers/hagmann-2008.md
 - raw/papers/izhikevich-2007.md
+- raw/papers/power-2011.md
+- raw/papers/semanticscholar-ff8218c1e55e.md
 tags:
 - synaptic-plasticity
 title: Synaptic Plasticity

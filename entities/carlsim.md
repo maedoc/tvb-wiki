@@ -3,6 +3,7 @@ created: 2026-04-24
 sources:
 - raw/papers/arxiv-2604.16474.md
 - raw/papers/arxiv-2407.13380.md
+- raw/papers/arxiv-2505.16861.md
 tags:
 - software-brain-modeling
 - spiking-neural-networks

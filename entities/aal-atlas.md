@@ -10,6 +10,8 @@ sources:
 - raw/papers/barch-2013.md
 - raw/papers/arxiv-2603.24176.md
 - raw/papers/semanticscholar-913068805e7f.md
+- raw/papers/arxiv-2604.03619.md
+- raw/papers/glean-github.md
 tags:
 - structural-connectivity
 - neuroimaging-fmri

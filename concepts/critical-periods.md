@@ -4,6 +4,8 @@ sources:
 - raw/papers/gogtay-2004.md
 - raw/papers/power-2010.md
 - raw/papers/semanticscholar-34ef3bcd7c8b.md
+- raw/papers/tau-peterson-2010.md
+- raw/papers/semanticscholar-6295d2445697.md
 tags:
 - critical-periods
 title: Critical Periods

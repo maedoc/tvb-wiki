@@ -8,6 +8,7 @@ sources:
 - raw/papers/rubinov-sporns-2010.md
 - raw/papers/semanticscholar-7c3337c880fd.md
 - raw/papers/arxiv-2602.17820.md
+- raw/papers/smith-2013-connectomics.md
 tags:
 - people-researcher
 - network-dynamics

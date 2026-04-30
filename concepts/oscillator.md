@@ -6,6 +6,8 @@ sources:
 - raw/papers/arxiv-2512.03907.md
 - raw/papers/breakspear-2006.md
 - raw/papers/arxiv-2504.17491.md
+- raw/papers/semanticscholar-2004e006655b.md
+- raw/papers/arxiv-2601.03796.md
 tags:
 - dynamical-systems-theory
 - nonlinear-dynamics

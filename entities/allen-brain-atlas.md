@@ -4,6 +4,7 @@ sources:
 - raw/papers/semanticscholar-9538aa9a62c5.md
 - raw/papers/van-essen-2013.md
 - raw/papers/semanticscholar-88be174971d9.md
+- raw/papers/semanticscholar-913068805e7f.md
 tags:
 - software-brain-modeling
 title: Allen Brain Atlas

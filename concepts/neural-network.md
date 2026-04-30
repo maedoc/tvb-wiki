@@ -7,6 +7,8 @@ sources:
 - raw/papers/doedel-oldeman-2009.md
 - raw/papers/arxiv-2604.03619.md
 - raw/papers/semanticscholar-7cad41ef7875.md
+- raw/papers/semanticscholar-ce89e593c89e.md
+- raw/papers/glean-github.md
 tags:
 - neural-network
 title: Neural Network

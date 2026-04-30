@@ -8,6 +8,9 @@ sources:
 - '"Neurodata Without Borders (NWB) format documentation." NWB.'
 - '"SpikeInterface: a unified framework for extracellular recordings." Gilboa M, R.
   R.stringer, et al. (2020). eLife.'
+- raw/papers/sanz-leon-2013.md
+- raw/papers/arxiv-2504.09213.md
+- raw/papers/semanticscholar-9e42d6a25d21.md
 tags:
 - software-visualization
 - electrophysiology

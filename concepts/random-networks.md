@@ -6,6 +6,7 @@ sources:
 - raw/papers/breakspear-2017.md
 - raw/papers/arxiv-2602.17820.md
 - raw/papers/arxiv-2603.04149.md
+- raw/papers/semanticscholar-2004e006655b.md
 tags:
 - random-networks
 title: Random Networks

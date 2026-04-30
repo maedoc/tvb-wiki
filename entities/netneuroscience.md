@@ -26,6 +26,9 @@ sources:
   journal: Journal of Neuroscience
   title: Network hubs in the human brain
   year: 2013
+- raw/papers/semanticscholar-b9acfa0a7c80.md
+- raw/papers/semanticscholar-60ca593f7e0c.md
+- raw/papers/arxiv-2506.22951.md
 tags:
 - connectomics
 - structural-connectivity

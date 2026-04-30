@@ -5,6 +5,7 @@ sources:
 - raw/papers/amit-brunel-1997.md
 - raw/papers/strogatz-1994.md
 - raw/papers/arxiv-2604.03619.md
+- raw/papers/glean-github.md
 tags:
 - spontaneous-activity
 title: Spontaneous Activity

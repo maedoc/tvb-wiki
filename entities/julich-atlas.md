@@ -4,6 +4,7 @@ sources:
 - raw/papers/newman-2010.md
 - raw/papers/sporns-2011.md
 - raw/papers/bullmore-sporns-2009.md
+- raw/papers/rubinov-sporns-2010.md
 tags:
 - software-brain-modeling
 title: Jülich Atlas

@@ -6,6 +6,7 @@ sources:
 - raw/papers/deco-2009-stochastic.md
 - raw/papers/semanticscholar-7c3337c880fd.md
 - raw/papers/arxiv-2510.02545.md
+- raw/papers/semanticscholar-2004e006655b.md
 tags:
 - people-researcher
 - whole-brain-modeling

@@ -9,6 +9,7 @@ sources:
 - raw/papers/power-2011.md
 - raw/papers/semanticscholar-7c3337c880fd.md
 - raw/papers/semanticscholar-b9acfa0a7c80.md
+- raw/papers/semanticscholar-60ca593f7e0c.md
 tags:
 - connectomics
 - network-dynamics

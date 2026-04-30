@@ -1,6 +1,9 @@
 ---
 created: 2026-04-29
-sources: []
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-88be174971d9.md
+- raw/papers/ritter-2013.md
 tags:
 - software-brain-modeling
 title: Suite2p

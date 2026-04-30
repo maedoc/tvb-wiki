@@ -8,6 +8,7 @@ sources:
 - raw/papers/wilson-cowan-1972.md
 - raw/papers/semanticscholar-e5e78e93bf31.md
 - raw/papers/breakspear-2006.md
+- raw/papers/semanticscholar-2004e006655b.md
 tags:
 - bifurcation-analysis
 - dynamical-systems-theory

@@ -4,6 +4,7 @@ sources:
 - raw/papers/deco-2013.md
 - raw/papers/jordan-2018.md
 - raw/papers/arxiv-2604.03619.md
+- raw/papers/arxiv-2601.03796.md
 tags:
 - anticevic-2012
 title: Anticevic 2012

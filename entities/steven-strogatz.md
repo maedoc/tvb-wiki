@@ -9,6 +9,7 @@ sources:
 - raw/papers/ermentrout-terman-2010.md
 - raw/papers/wiggins-2003.md
 - raw/papers/arxiv-2603.04149.md
+- raw/papers/semanticscholar-2004e006655b.md
 tags:
 - people-researcher
 title: Steven Strogatz

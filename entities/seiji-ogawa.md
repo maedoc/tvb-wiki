@@ -4,6 +4,7 @@ sources:
 - raw/papers/ogawa-1990.md
 - raw/papers/semanticscholar-e08252ec3941.md
 - raw/papers/arxiv-2602.03240.md
+- raw/papers/arxiv-2603.29903.md
 tags:
 - people-researcher
 - neuroimaging-fmri

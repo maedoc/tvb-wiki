@@ -5,6 +5,9 @@ sources:
 - 10.1016/j.neuroimage.2011.11.010
 - 10.1016/j.neuroimage.2012.04.028
 - 10.1038/mp.2013.196
+- raw/papers/semanticscholar-57c27f9f72e9.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/elliott-2018.md
 tags:
 - database
 - connectomics

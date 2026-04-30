@@ -5,6 +5,8 @@ sources:
 - raw/papers/gardiner-2009.md
 - raw/papers/newman-2010.md
 - raw/papers/arxiv-2508.19134.md
+- raw/papers/semanticscholar-7593809733f3.md
+- raw/papers/arxiv-2508.15961.md
 tags:
 - people-researcher
 title: Hannes Risken

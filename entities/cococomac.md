@@ -2,6 +2,9 @@
 created: 2026-04-23
 sources:
 - raw/papers/sporns-2011.md
+- raw/papers/arxiv-2506.22951.md
+- raw/papers/semanticscholar-028f7c6ac41d.md
+- raw/papers/semanticscholar-bb75bdb90ada.md
 tags:
 - software-brain-modeling
 title: CoCoMac

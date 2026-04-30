@@ -3,6 +3,8 @@ created: 2026-04-23
 sources:
 - raw/papers/semanticscholar-929b90566fc8.md
 - raw/papers/destexhe-sejnowski-2009.md
+- raw/papers/semanticscholar-ff8218c1e55e.md
+- raw/papers/semanticscholar-f52da2a6cbf2.md
 tags:
 - software-brain-modeling
 title: LFPy

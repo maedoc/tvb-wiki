@@ -6,6 +6,9 @@ sources:
 - nidm-jsonld
 - spm-nidm
 - fsl-nidm
+- raw/papers/sanz-leon-2013.md
+- raw/papers/ritter-2013.md
+- raw/papers/schirner-2018.md
 tags:
 - neuroimaging
 - neuroimaging-fmri

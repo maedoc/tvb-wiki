@@ -8,6 +8,8 @@ sources:
 - raw/papers/arxiv-2512.03907.md
 - raw/papers/arxiv-2509.24715.md
 - raw/papers/semanticscholar-028f7c6ac41d.md
+- raw/papers/semanticscholar-7ce00494427f.md
+- raw/papers/semanticscholar-2004e006655b.md
 tags:
 - connectomics
 - network-dynamics

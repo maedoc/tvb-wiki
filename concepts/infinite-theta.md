@@ -6,6 +6,8 @@ sources:
 - raw/papers/izhikevich-2007.md
 - raw/papers/wilson-cowan-1972.md
 - raw/papers/arxiv-2512.03907.md
+- raw/papers/arxiv-2512.22093.md
+- raw/papers/semanticscholar-ff8218c1e55e.md
 tags:
 - neural-mass-models
 - mean-field-theory

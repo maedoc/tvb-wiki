@@ -4,6 +4,9 @@ sources:
 - https://brainiak.org/
 - https://github.com/brainiak/brainiak
 - https://doi.org/10.52294/31bb5b68-2184-411b-8c00-a1dacb61e1da
+- raw/papers/mijalkov-2017-braph.md
+- raw/papers/semanticscholar-60ca593f7e0c.md
+- raw/papers/semanticscholar-b9acfa0a7c80.md
 tags:
 - software-neuroimaging
 - neuroimaging-fmri
