@@ -4,13 +4,22 @@ created: 2026-04-20
 updated: 2026-04-20
 type: source
 tags: [paper-methods ,neural-mass-models ,brain-oscillations ,people-researcher]
+authors:
+  - H. R. Wilson
+  - J. D. Cowan
+year: 1973
+venue: Kybernetik
 doi: "https://doi.org/10.1007/bf00288786"
 bibtex: |
-  @book{unknowna,
+  @book{wilson1973a,
     title={A mathematical theory of the functional dynamics of cortical and thalamic nervous tissue},
+    author={"H. R. Wilson and J. D. Cowan"},
+    year={1973},
+    publisher={Kybernetik},
     doi={https://doi.org/10.1007/bf00288786},
   }
 ---
+
 
 
 

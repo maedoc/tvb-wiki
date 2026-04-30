@@ -4,13 +4,22 @@ created: 2026-04-20
 updated: 2026-04-20
 type: source
 tags: [paper-methods ,software-nest ,spiking-neural-networks ,brain-network ,whole-brain-modeling]
+authors:
+  - Tobias C. Potjans
+  - Markus Diesmann
+year: 2012
+venue: Cerebral Cortex
 doi: "https://doi.org/10.1093/cercor/bhs358"
 bibtex: |
-  @book{unknownthe,
+  @book{potjans2012the,
     title={The cell-type specific cortical microcircuit: relating structure and activity},
+    author={"Tobias C. Potjans and Markus Diesmann"},
+    year={2012},
+    publisher={Cerebral Cortex},
     doi={https://doi.org/10.1093/cercor/bhs358},
   }
 ---
+
 
 
 

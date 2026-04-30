@@ -152,7 +152,8 @@ def find_pages_missing_from_index() -> list[dict]:
 
 
 def find_raw_papers_with_bad_metadata() -> list[dict]:
-    """Find raw/papers/*.md files with missing or unknown authors, missing year, or missing venue."""
+    """Find raw/papers/*.md files with missing or unknown authors, missing year, or missing venue.
+    Skips web-resource stubs that have `sources:` containing URLs rather than paper metadata."""
     results = []
     if not os.path.isdir(RAW_PAPERS_DIR):
         return results
@@ -163,6 +164,11 @@ def find_raw_papers_with_bad_metadata() -> list[dict]:
         fm = load_frontmatter(filepath)
         if not fm:
             continue
+        # Skip web-resource stubs (URLs in sources field)
+        raw_sources = fm.get('sources', [])
+        if isinstance(raw_sources, list) and raw_sources:
+            if any(str(s).startswith('http') for s in raw_sources):
+                continue
         authors = fm.get('authors', [])
         if isinstance(authors, str):
             authors = [a.strip() for a in authors.split(',') if a.strip()]

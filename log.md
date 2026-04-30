@@ -958,3 +958,5 @@
 ## [2026-04-30 08:32] Improve: 3 pages improved (enigma, suite2p, brainiak)
 
 ## [2026-04-30 10:07] Audit: 942 issues (28 broken links, 70 orphans, 47 placeholders, 0 dup-refs, 41 bad-meta, 2 opaque-refs, 78 thin, 276 missing-links)
+
+## [2026-04-30 10:25] Audit: 901 issues (28 broken links, 70 orphans, 47 placeholders, 0 dup-refs, 0 bad-meta, 2 opaque-refs, 78 thin, 276 missing-links)

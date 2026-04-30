@@ -4,13 +4,22 @@ created: 2026-04-20
 updated: 2026-04-20
 type: source
 tags: [paper-methods ,neural-mass-models ,mean-field-theory ,whole-brain-modeling]
+authors:
+  - Roxana A. Stefanescu
+  - Viktor Jirsa
+year: 2008
+venue: PLoS Computational Biology
 doi: "https://doi.org/10.1371/journal.pcbi.1000219"
 bibtex: |
-  @book{unknowna,
+  @book{stefanescu2008a,
     title={A low dimensional description of globally coupled heterogeneous neural networks of excitatory and inhibitory neurons},
+    author={"Roxana A. Stefanescu and Viktor Jirsa"},
+    year={2008},
+    publisher={PLoS Computational Biology},
     doi={https://doi.org/10.1371/journal.pcbi.1000219},
   }
 ---
+
 
 
 

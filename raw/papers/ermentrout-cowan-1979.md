@@ -4,13 +4,21 @@ created: 2026-04-20
 updated: 2026-04-20
 type: source
 tags: [paper-methods ,neural-mass-models ,brain-oscillations ,people-researcher]
+authors:
+  - Li Zhaoping
+year: 2001
+venue: Neural Computation
 doi: "https://doi.org/10.1162/08997660152469332"
 bibtex: |
-  @book{unknownvisual,
+  @book{zhaoping2001visual,
     title={Visual hallucinations and neural dynamics},
+    author={"Li Zhaoping"},
+    year={2001},
+    publisher={Neural Computation},
     doi={https://doi.org/10.1162/08997660152469332},
   }
 ---
+
 
 
 

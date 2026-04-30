@@ -4,13 +4,22 @@ created: 2026-04-20
 updated: 2026-04-20
 type: source
 tags: [tutorial ,software-neuron ,spiking-neural-networks ,tutorial]
+authors:
+  - Nicholas T. Carnevale
+  - Michael L. Hines
+year: 2006
+venue: Cambridge University Press eBooks
 doi: "https://doi.org/10.1017/cbo9780511541612"
 bibtex: |
-  @book{unknownthe,
+  @book{carnevale2006the,
     title={The NEURON Book},
+    author={"Nicholas T. Carnevale and Michael L. Hines"},
+    year={2006},
+    publisher={Cambridge University Press eBooks},
     doi={https://doi.org/10.1017/cbo9780511541612},
   }
 ---
+
 
 
 

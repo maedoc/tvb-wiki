@@ -4,13 +4,26 @@ created: 2026-04-20
 updated: 2026-04-20
 type: source
 tags: [paper-methods ,software-modeldb ,database ,tutorial]
+authors:
+  - Michele Migliore
+  - Thomas M. Morse
+  - Andrew P. Davison
+  - Luis Marenco
+  - Gordon M. Shepherd
+  - Michael L. Hines
+year: 2003
+venue: Neuroinformatics
 doi: "https://doi.org/10.1385/ni:1:1:135"
 bibtex: |
-  @book{unknownmodeldb,
+  @article{migliore2003modeldb,
     title={ModelDB: making models publicly accessible to support computational neuroscience},
+    author={"Michele Migliore and Thomas M. Morse and Andrew P. Davison and Luis Marenco and Gordon M. Shepherd and Michael L. Hines"},
+    year={2003},
+    journal={Neuroinformatics},
     doi={https://doi.org/10.1385/ni:1:1:135},
   }
 ---
+
 
 
 

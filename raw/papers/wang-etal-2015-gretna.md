@@ -4,13 +4,26 @@ created: 2026-04-28
 updated: 2026-04-28
 type: source
 tags: [software ,graph-theory ,connectomics ,brain-network ,matlab-toolbox ,functional-connectivity ,structural-connectivity]
+authors:
+  - Jinhui Wang
+  - Xindi Wang
+  - Mingrui Xia
+  - Xuhong Liao
+  - Alan C. Evans
+  - Yong He
+year: 2015
+venue: Frontiers in Human Neuroscience
 doi: "https://doi.org/10.3389/fnhum.2015.00386"
 bibtex: |
-  @book{unknowngretna,
+  @article{wang2015gretna,
     title={GRETNA: a graph theoretical network analysis toolbox for MATLAB},
+    author={"Jinhui Wang and Xindi Wang and Mingrui Xia and Xuhong Liao and Alan C. Evans and Yong He"},
+    year={2015},
+    journal={Frontiers in Human Neuroscience},
     doi={https://doi.org/10.3389/fnhum.2015.00386},
   }
 ---
+
 
 
 

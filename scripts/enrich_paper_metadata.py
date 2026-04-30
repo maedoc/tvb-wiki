@@ -43,9 +43,8 @@ def _http_json(url: str, headers: dict | None = None) -> dict | None:
 
 
 def openalex_search(title: str) -> dict | None:
-    """Search OpenAlex works by title. Returns first hit or None."""
+    """Search OpenAlex works by title. Returns normalized hit or None."""
     q = urllib.parse.quote(title)
-    # search semantic is better for title matching
     url = f"https://api.openalex.org/works?search={q}&per-page=5&mailto={_CONTACT_EMAIL}"
     if _OPENALEX_KEY:
         url += f"&api_key={_OPENALEX_KEY}"
@@ -62,11 +61,35 @@ def openalex_search(title: str) -> dict | None:
         if score > best_score:
             best_score = score
             best = r
-    return best if best_score > 0.3 else None
+    if not best or best_score < 0.3:
+        return None
+    # Normalize OpenAlex result to same format as CrossRef
+    authors = []
+    for a in best.get('authorships', []):
+        author = a.get('author', {})
+        name = author.get('display_name', '')
+        if name:
+            authors.append(name)
+    venue_obj = best.get('primary_location', {}) or {}
+    venue = (venue_obj.get('source') or {}).get('display_name', '')
+    if not venue:
+        locs = best.get('locations', []) or []
+        venue = ', '.join([(s.get('source') or {}).get('display_name', '') for s in locs if (s.get('source') or {}).get('display_name')])[:100]
+    return {
+        'title': best.get('title', ''),
+        'authors': authors,
+        'year': str(best.get('publication_year', '')),
+        'venue': venue,
+        'doi': best.get('doi', ''),
+    }
 
 
 def crossref_by_doi(doi: str) -> dict | None:
     """Fetch CrossRef metadata for a DOI. Returns simplified dict."""
+    # Strip https://doi.org/ or dx.doi.org/ prefix if present
+    doi = doi.strip().replace('https://doi.org/', '').replace('http://doi.org/', '').replace('dx.doi.org/', '')
+    if not doi:
+        return None
     url = f"https://api.crossref.org/works/{urllib.parse.quote(doi)}"
     data = _http_json(url, headers={"User-Agent": f"tvb-wiki-enricher (mailto:{_CONTACT_EMAIL})"})
     if not data or 'message' not in data:
@@ -87,7 +110,7 @@ def crossref_by_doi(doi: str) -> dict | None:
         'year': str(m.get('published-print', {}).get('date-parts', [['']])[0][0] or
                      m.get('published-online', {}).get('date-parts', [['']])[0][0] or
                      m.get('created', {}).get('date-parts', [['']])[0][0] or ''),
-        'venue': m.get('container-title', [''])[0] if isinstance(m.get('container-title'), list) else m.get('container-title', ''),
+        'venue': (m.get('container-title', ['']) or [''])[0] if isinstance(m.get('container-title'), list) else m.get('container-title', ''),
         'doi': m.get('DOI', ''),
     }
 

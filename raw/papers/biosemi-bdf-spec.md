@@ -7,6 +7,7 @@ tags: [data-format ,eeg ,biosemi]
 authors:
   - S. Perreault
 year: 2011
+venue: IETF
 doi: 10.17487/rfc6350
 bibtex: |
   @book{perreault2011biosemi,
@@ -16,6 +17,8 @@ bibtex: |
     doi={10.17487/rfc6350},
   }
 ---
+
+
 
 
 # BioSemi BDF Format Specification

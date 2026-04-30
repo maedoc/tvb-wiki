@@ -4,13 +4,21 @@ created: 2026-04-20
 updated: 2026-04-20
 type: source
 tags: [paper-methods ,neural-mass-models ,spiking-neural-networks]
+authors:
+  - Edmund T. Rolls
+year: 1990
+venue: Biological Psychology
 doi: "https://doi.org/10.1016/0301-0511(90)90081-7"
 bibtex: |
-  @book{unknownmethods,
+  @book{rolls1990methods,
     title={Methods in Neuronal Modeling: From Synapses to Networks},
+    author={"Edmund T. Rolls"},
+    year={1990},
+    publisher={Biological Psychology},
     doi={https://doi.org/10.1016/0301-0511(90)90081-7},
   }
 ---
+
 
 
 

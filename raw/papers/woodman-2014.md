@@ -4,13 +4,25 @@ created: 2026-04-20
 updated: 2026-04-20
 type: source
 tags: [paper-methods ,software-graphvar ,functional-connectivity ,network-dynamics ,brain-network]
+authors:
+  - Johann Kruschwitz
+  - David List
+  - Lea Waller
+  - Mikail Rubinov
+  - Henrik Walter
+year: 2015
+venue: Journal of Neuroscience Methods
 doi: "https://doi.org/10.1016/j.jneumeth.2015.02.021"
 bibtex: |
-  @book{unknowngraphvar,
+  @article{kruschwitz2015graphv,
     title={GraphVar: A user-friendly toolbox for comprehensive graph analyses of functional brain connectivity},
+    author={"Johann Kruschwitz and David List and Lea Waller and Mikail Rubinov and Henrik Walter"},
+    year={2015},
+    journal={Journal of Neuroscience Methods},
     doi={https://doi.org/10.1016/j.jneumeth.2015.02.021},
   }
 ---
+
 
 
 

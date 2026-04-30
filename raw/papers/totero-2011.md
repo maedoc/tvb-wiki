@@ -4,13 +4,23 @@ created: 2026-04-30
 updated: 2026-04-30
 type: source
 tags: [eeg ,methodology ,reference-electrode ,preprocessing]
+authors:
+  - Cornelis J. Stam
+  - Guido Nolte
+  - Andreas Daffertshofer
+year: 2007
+venue: Human Brain Mapping
 doi: "https://doi.org/10.1002/hbm.20346"
 bibtex: |
-  @book{unknownreference,
+  @book{stam2007reference,
     title={Reference Choice Affects EEG Connectivity Dynamics},
+    author={"Cornelis J. Stam and Guido Nolte and Andreas Daffertshofer"},
+    year={2007},
+    publisher={Human Brain Mapping},
     doi={https://doi.org/10.1002/hbm.20346},
   }
 ---
+
 
 
 

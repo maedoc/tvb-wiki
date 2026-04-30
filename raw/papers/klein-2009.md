@@ -4,13 +4,39 @@ created: 2026-04-20
 updated: 2026-04-20
 type: source
 tags: [paper-methods ,software-ants ,neuroimaging-processing ,brain-network ,comparison]
+authors:
+  - Arno Klein
+  - Jesper Andersson
+  - Babak A. Ardekani
+  - John Ashburner
+  - Brian Avants
+  - Ming-Chang Chiang
+  - Gary E. Christensen
+  - D. Louis Collins
+  - James C. Gee
+  - Pierre Hellier
+  - Joo Hyun Song
+  - Mark Jenkinson
+  - Claude Lepage
+  - Daniel Rueckert
+  - Paul M. Thompson
+  - Tom Vercauteren
+  - Roger P. Woods
+  - J. John Mann
+  - Ramin V. Parsey
+year: 2009
+venue: NeuroImage
 doi: "https://doi.org/10.1016/j.neuroimage.2008.12.037"
 bibtex: |
-  @book{unknownevaluation,
+  @article{klein2009evaluation,
     title={Evaluation of 14 nonlinear deformation algorithms applied to human brain MRI registration},
+    author={"Arno Klein and Jesper Andersson and Babak A. Ardekani and John Ashburner and Brian Avants and Ming-Chang Chiang and Gary E. Christensen and D. Louis Collins and James C. Gee and Pierre Hellier and Joo Hyun Song and Mark Jenkinson and Claude Lepage and Daniel Rueckert and Paul M. Thompson and Tom Vercauteren and Roger P. Woods and J. John Mann and Ramin V. Parsey"},
+    year={2009},
+    journal={NeuroImage},
     doi={https://doi.org/10.1016/j.neuroimage.2008.12.037},
   }
 ---
+
 
 
 

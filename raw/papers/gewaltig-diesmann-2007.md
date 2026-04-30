@@ -4,13 +4,22 @@ created: 2026-04-20
 updated: 2026-04-20
 type: source
 tags: [paper-methods ,software-nest ,spiking-neural-networks ,brain-network]
+authors:
+  - Marc-Oliver Gewaltig
+  - Markus Diesmann
+year: 2007
+venue: Scholarpedia
 doi: "https://doi.org/10.4249/scholarpedia.1430"
 bibtex: |
-  @book{unknownnest,
+  @book{gewaltig2007nest,
     title={NEST (NEural Simulation Tool)},
+    author={"Marc-Oliver Gewaltig and Markus Diesmann"},
+    year={2007},
+    publisher={Scholarpedia},
     doi={https://doi.org/10.4249/scholarpedia.1430},
   }
 ---
+
 
 
 

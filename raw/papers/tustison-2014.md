@@ -4,13 +4,31 @@ created: 2026-04-20
 updated: 2026-04-20
 type: source
 tags: [paper-methods ,software-ants ,neuroimaging-processing ,brain-network ,comparison]
+authors:
+  - Nicholas J. Tustison
+  - Philip A. Cook
+  - Arno Klein
+  - Gang Song
+  - Sandhitsu R. Das
+  - Jeffrey Duda
+  - Benjamin Kandel
+  - Niels van Strien
+  - James R. Stone
+  - James C. Gee
+  - Brian Avants
+year: 2014
+venue: NeuroImage
 doi: "https://doi.org/10.1016/j.neuroimage.2014.05.044"
 bibtex: |
-  @book{unknownlargescale,
+  @article{tustison2014largesca,
     title={Large-scale evaluation of ANTs and FreeSurfer cortical thickness measurements},
+    author={"Nicholas J. Tustison and Philip A. Cook and Arno Klein and Gang Song and Sandhitsu R. Das and Jeffrey Duda and Benjamin Kandel and Niels van Strien and James R. Stone and James C. Gee and Brian Avants"},
+    year={2014},
+    journal={NeuroImage},
     doi={https://doi.org/10.1016/j.neuroimage.2014.05.044},
   }
 ---
+
 
 
 

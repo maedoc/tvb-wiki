@@ -4,13 +4,24 @@ created: 2026-04-20
 updated: 2026-04-20
 type: source
 tags: [paper-methods ,software-ants ,neuroimaging-processing ,brain-network ,structural-connectivity]
+authors:
+  - Brian Avants
+  - Charles L. Epstein
+  - M GROSSMAN
+  - James C. Gee
+year: 2007
+venue: Medical Image Analysis
 doi: "https://doi.org/10.1016/j.media.2007.06.004"
 bibtex: |
-  @book{unknownsymmetric,
+  @book{avants2007symmetric,
     title={Symmetric diffeomorphic image registration with cross-correlation},
+    author={"Brian Avants and Charles L. Epstein and M GROSSMAN and James C. Gee"},
+    year={2007},
+    publisher={Medical Image Analysis},
     doi={https://doi.org/10.1016/j.media.2007.06.004},
   }
 ---
+
 
 
 

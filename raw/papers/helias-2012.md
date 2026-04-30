@@ -4,13 +4,29 @@ created: 2026-04-20
 updated: 2026-04-20
 type: source
 tags: [paper-methods ,software-nest ,spiking-neural-networks ,brain-network]
+authors:
+  - Moritz Helias
+  - Susanne Kunkel
+  - Gen Masumoto
+  - Jun Igarashi
+  - Jochen Martin Eppler
+  - Shin Ishii
+  - Tomoki Fukai
+  - Abigail Morrison
+  - Markus Diesmann
+year: 2012
+venue: Frontiers in Neuroinformatics
 doi: "https://doi.org/10.3389/fninf.2012.00026"
 bibtex: |
-  @book{unknownsupercomputer,
+  @article{helias2012supercompu,
     title={Supercomputers ready for use as discovery machines for neuroscience},
+    author={"Moritz Helias and Susanne Kunkel and Gen Masumoto and Jun Igarashi and Jochen Martin Eppler and Shin Ishii and Tomoki Fukai and Abigail Morrison and Markus Diesmann"},
+    year={2012},
+    journal={Frontiers in Neuroinformatics},
     doi={https://doi.org/10.3389/fninf.2012.00026},
   }
 ---
+
 
 
 

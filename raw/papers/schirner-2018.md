@@ -4,13 +4,25 @@ created: 2026-04-20
 updated: 2026-04-20
 type: source
 tags: [paper-methods ,software-tvb ,whole-brain-modeling ,personalized-brain-modeling ,neuroimaging-dti]
+authors:
+  - Michael Schirner
+  - Simon Rothmeier
+  - Viktor Jirsa
+  - Anthony R. McIntosh
+  - Petra Ritter
+year: 2015
+venue: NeuroImage
 doi: "https://doi.org/10.1016/j.neuroimage.2015.03.055"
 bibtex: |
-  @book{unknownan,
+  @article{schirner2015an,
     title={An automated pipeline for constructing personalized virtual brains},
+    author={"Michael Schirner and Simon Rothmeier and Viktor Jirsa and Anthony R. McIntosh and Petra Ritter"},
+    year={2015},
+    journal={NeuroImage},
     doi={https://doi.org/10.1016/j.neuroimage.2015.03.055},
   }
 ---
+
 
 
 

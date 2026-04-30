@@ -4,13 +4,27 @@ created: 2026-04-20
 updated: 2026-04-20
 type: source
 tags: [paper-methods ,software-ants ,neuroimaging-processing ,neuroimaging-mri]
+authors:
+  - Nicholas J. Tustison
+  - Brian Avants
+  - Philip A. Cook
+  - Yuanjie Zheng
+  - Alexander Egan
+  - Paul A. Yushkevich
+  - James C. Gee
+year: 2010
+venue: IEEE Transactions on Medical Imaging
 doi: "https://doi.org/10.1109/tmi.2010.2046908"
 bibtex: |
-  @book{unknownn4itk,
+  @book{tustison2010n4itk,
     title={N4ITK: improved N3 bias correction},
+    author={"Nicholas J. Tustison and Brian Avants and Philip A. Cook and Yuanjie Zheng and Alexander Egan and Paul A. Yushkevich and James C. Gee"},
+    year={2010},
+    publisher={IEEE Transactions on Medical Imaging},
     doi={https://doi.org/10.1109/tmi.2010.2046908},
   }
 ---
+
 
 
 

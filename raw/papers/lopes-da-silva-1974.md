@@ -4,13 +4,23 @@ created: 2026-04-20
 updated: 2026-04-20
 type: source
 tags: [paper-methods ,neural-mass-models ,brain-oscillations ,eeg ,people-researcher]
+authors:
+  - Filippo Cona
+  - M. Lacanna
+  - Mauro Ursino
+year: 2014
+venue: Journal of Computational Neuroscience
 doi: "https://doi.org/10.1007/s10827-013-0493-1"
 bibtex: |
-  @book{unknownmodel,
+  @article{cona2014model,
     title={Model of brain rhythmic activity: the alpha rhythm of the thalamus},
+    author={"Filippo Cona and M. Lacanna and Mauro Ursino"},
+    year={2014},
+    journal={Journal of Computational Neuroscience},
     doi={https://doi.org/10.1007/s10827-013-0493-1},
   }
 ---
+
 
 
 

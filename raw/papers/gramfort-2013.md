@@ -4,13 +4,22 @@ created: 2026-04-30
 updated: 2026-04-30
 type: source
 tags: [mne-python ,eeg ,meg ,software-analysis]
+authors:
+  - Aina Puce
+  - Matti Hämäläinen
+year: 2017
+venue: Brain Sciences
 doi: "https://doi.org/10.3390/brainsci7060058"
 bibtex: |
-  @book{unknownmeg,
+  @book{puce2017meg,
     title={MEG and EEG: From Acquisition to Analysis},
+    author={"Aina Puce and Matti Hämäläinen"},
+    year={2017},
+    publisher={Brain Sciences},
     doi={https://doi.org/10.3390/brainsci7060058},
   }
 ---
+
 
 
 

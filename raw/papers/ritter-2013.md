@@ -4,13 +4,24 @@ created: 2026-04-20
 updated: 2026-04-20
 type: source
 tags: [paper-methods ,software-tvb ,whole-brain-modeling ,neuroimaging-fmri ,neuroimaging-eeg ,neuroimaging-dti]
+authors:
+  - Petra Ritter
+  - Michael Schirner
+  - Anthony R. McIntosh
+  - Viktor Jirsa
+year: 2013
+venue: Brain Connectivity
 doi: "https://doi.org/10.1089/brain.2012.0120"
 bibtex: |
-  @book{unknownthe,
+  @book{ritter2013the,
     title={The Virtual Brain integrates computational modeling and multimodal neuroimaging},
+    author={"Petra Ritter and Michael Schirner and Anthony R. McIntosh and Viktor Jirsa"},
+    year={2013},
+    publisher={Brain Connectivity},
     doi={https://doi.org/10.1089/brain.2012.0120},
   }
 ---
+
 
 
 

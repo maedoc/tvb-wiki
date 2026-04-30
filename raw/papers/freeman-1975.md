@@ -4,11 +4,19 @@ created: 2026-04-20
 updated: 2026-04-20
 type: source
 tags: [paper-review ,neural-mass-models ,brain-oscillations ,eeg ,people-researcher]
+authors:
+  - Walter J. Freeman
+year: 1975
+venue: Academic Press
 bibtex: |
-  @book{unknownmass,
+  @book{freeman1975mass,
     title={Mass Action in the Nervous System},
+    author={"Walter J. Freeman"},
+    year={1975},
   }
 ---
+
+
 
 
 

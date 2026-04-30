@@ -4,11 +4,21 @@ created: 2026-04-20
 updated: 2026-04-20
 type: source
 tags: [paper-review ,neural-mass-models ,whole-brain-modeling ,people-researcher]
+authors:
+  - Peter Dayan
+  - L. F. Abbott
+year: 2001
+venue: MPG.PuRe (Max Planck Society)
 bibtex: |
-  @book{unknowntheoretical,
+  @book{dayan2001theoretical,
     title={Theoretical Neuroscience: Computational and Mathematical Modeling of Neural Systems},
+    author={"Peter Dayan and L. F. Abbott"},
+    year={2001},
+    publisher={MPG.PuRe (Max Planck Society)},
   }
 ---
+
+
 
 
 

@@ -4,13 +4,26 @@ created: 2026-04-20
 updated: 2026-04-20
 type: source
 tags: [paper-methods ,software-ants ,neuroimaging-processing ,brain-network ,comparison]
+authors:
+  - Brian Avants
+  - Nicholas J. Tustison
+  - Gang Song
+  - Philip A. Cook
+  - Arno Klein
+  - James C. Gee
+year: 2010
+venue: NeuroImage
 doi: "https://doi.org/10.1016/j.neuroimage.2010.09.025"
 bibtex: |
-  @book{unknowna,
+  @article{avants2010a,
     title={A reproducible evaluation of ANTs similarity metric performance in brain image registration},
+    author={"Brian Avants and Nicholas J. Tustison and Gang Song and Philip A. Cook and Arno Klein and James C. Gee"},
+    year={2010},
+    journal={NeuroImage},
     doi={https://doi.org/10.1016/j.neuroimage.2010.09.025},
   }
 ---
+
 
 
 

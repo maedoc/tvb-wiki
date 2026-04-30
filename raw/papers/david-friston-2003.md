@@ -4,13 +4,23 @@ created: 2026-04-20
 updated: 2026-04-20
 type: source
 tags: [paper-methods ,dynamic-causal-modeling ,effective-connectivity ,whole-brain-modeling ,neuroimaging-fmri]
+authors:
+  - Karl Friston
+  - L. Harrison
+  - W.D. Penny
+year: 2003
+venue: NeuroImage
 doi: "https://doi.org/10.1016/s1053-8119(03)00202-7"
 bibtex: |
-  @book{unknowndynamic,
+  @article{friston2003dynamic,
     title={Dynamic causal modelling},
+    author={"Karl Friston and L. Harrison and W.D. Penny"},
+    year={2003},
+    journal={NeuroImage},
     doi={https://doi.org/10.1016/s1053-8119(03)00202-7},
   }
 ---
+
 
 
 

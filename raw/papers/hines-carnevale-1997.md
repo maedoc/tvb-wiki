@@ -4,13 +4,22 @@ created: 2026-04-20
 updated: 2026-04-20
 type: source
 tags: [paper-methods ,software-neuron ,spiking-neural-networks ,neural-mass-models]
+authors:
+  - Michael L. Hines
+  - Nicholas T. Carnevale
+year: 1997
+venue: Neural Computation
 doi: "https://doi.org/10.1162/neco.1997.9.6.1179"
 bibtex: |
-  @book{unknownthe,
+  @book{hines1997the,
     title={The NEURON simulation environment},
+    author={"Michael L. Hines and Nicholas T. Carnevale"},
+    year={1997},
+    publisher={Neural Computation},
     doi={https://doi.org/10.1162/neco.1997.9.6.1179},
   }
 ---
+
 
 
 
