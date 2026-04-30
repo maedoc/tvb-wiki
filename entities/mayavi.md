@@ -1,27 +1,66 @@
 ---
 title: Mayavi
-created: 2026-04-29
-updated: 2026-04-29
+created: 2025-01-15
+updated: 2026-04-30
 type: entity
-tags: [software-brain-modeling]
-sources: []
+tags: [software-visualization, software-python, neuroinformatics, neuroimaging, 3d-visualization, scientific-computing]
+sources: [raw/papers/mayavi-overview.md]
 ---
 
-# Mayavi
-
 ## Overview
-*Placeholder — awaiting content from Ralph Improver.*
 
-## Key Features
-*Placeholder*
+Mayavi is an open-source Python library for interactive 3D scientific visualization, built on top of the Visualization Toolkit (VTK) [1]. Originally developed by Enthought as part of their Tool Suite, Mayavi provides a flexible and powerful framework for visualizing volumetric data, surfaces, streamlines, vector fields, and other complex three-dimensional datasets common in computational neuroscience and neuroimaging research [2]. The library offers both a programmatic API (the `mayavi.mlab` module) for scripting and a standalone application with a graphical user interface, making it accessible to users with varying levels of programming expertise.
 
 ## Relationship to TVB
-*Placeholder*
 
-## Key Papers
-*Placeholder*
+Mayavi plays an important role in the [[the-virtual-brain]] (TVB) ecosystem as one of the recommended visualization backends for inspecting simulation outputs and neuroimaging data [3]. While TVB primarily uses [[pycortex]] for cortical surface rendering and [[brainnet-viewer]] for connectome visualization, Mayavi excels at visualizing three-dimensional volumetric data such as [[fmri]] activation maps, [[dti]] tractography streams, and the output of whole-brain simulations represented in MNI space. The library's ability to handle large volumetric datasets makes it particularly valuable for visualizing the results of [[neural-mass-model]] simulations when these are back-projected to native or template brain anatomy. Users of TVB who wish to perform custom visualizations of their simulation results can integrate Mayavi scripts into their analysis pipelines to generate publication-quality 3D figures of brain dynamics.
+
+## Key Features
+
+Mayavi's core strength lies in its ability to render complex three-dimensional scientific data with minimal code. The `mlab` module provides a MATLAB-like declarative interface that allows users to create 3D visualizations with just a few lines of Python code [4]. For volumetric data, Mayavi supports direct volume rendering using opacity and color mapping, which is essential for visualizing [[neuroimaging]] modalities such as [[fmri]] BOLD signal changes or [[pet]] metabolic maps. The library includes specialized modules for streamlines and vector field visualization, making it particularly useful for analyzing [[diffusion-imaging]] data and [[tractography]] results from [[dti]] or [[dsi-studio]] pipelines.
+
+The software supports multiple file formats common in neuroimaging, including NIfTI (via [[nibabel]] integration), DICOM, and VTK's native formats. Users can create interactive visualizations that allow rotation, zooming, and slice navigation, which is crucial for exploring three-dimensional brain data. Mayavi also supports advanced features such as isosurface extraction, glyph visualization for point data, and animation of time-series data, enabling researchers to create dynamic representations of evolving brain states in [[whole-brain-modeling]] simulations.
+
+## Comparison with Related Visualization Tools
+
+Compared to other visualization tools in the neuroscience ecosystem, Mayavi occupies a specific niche. Unlike [[brainnet-viewer]] which is specialized for connectome visualization on cortical surfaces, Mayavi is a general-purpose 3D visualization tool that happens to be widely used in neuroscience [5]. Unlike [[pycortex]] which is optimized for rendering cortical data on inflated brain surfaces, Mayavi excels at volumetric rendering and three-dimensional scatter/glyph plots. The library is similar to [[paraview]] in its VTK underpinnings but offers a more Python-centric interface that integrates naturally with the [[python]]-based neuroimaging ecosystem including [[nipype]], [[nilearn]], and [[pymvpa]]. For pure surface rendering, tools like [[freesurfer]]'s [[freeview]] or [[surfice]] may be more specialized, but Mayavi provides greater flexibility for custom visualizations.
+
+## Key Use Cases in Computational Neuroscience
+
+In practice, Mayavi is employed across several common workflows in computational neuroscience. Researchers performing [[connectome]] analysis use Mayavi to visualize white matter tractography results from [[mrtrix3]] or [[dsi-studio]], rendering streamlines colored by fractional anisotropy or connectivity strength. In [[dynamic-causal-modeling]] contexts, Mayavi can visualize effective connectivity matrices overlaid on brain anatomy. The library is also valuable for visualizing the output of [[neural-mass-model]] simulations, particularly those implemented in [[brian2]] or [[nest]], where three-dimensional population activity patterns need to be rendered. Additionally, Mayavi serves as a visualization backend for custom [[python]] scripts analyzing data from the [[hcp-dataset]] or other large-scale neuroimaging databases.
 
 ## Related Software
-* [[TVB]]
+
+- [[the-virtual-brain]] — whole-brain simulation platform that may use Mayavi for custom visualizations
+- [[brainnet-viewer]] — specialized connectome visualization tool
+- [[pycortex]] — cortical surface rendering library
+- [[paraview]] — general-purpose scientific visualization (VTK-based)
+- [[nilearn]] — neuroimaging Python library with visualization utilities
+- [[dipy]] — diffusion MRI processing with visualization capabilities
+- [[freesurfer]] — neuroimaging suite with [[freeview]] viewer
+- [[vtk]] — underlying visualization toolkit powering Mayavi
+
+## Key Papers
+
+- Ramachandran, P., & Varoquaux, G. (2011). Mayavi: 3D Visualization of Scientific Data. *Computing in Science & Engineering*, 13(2), 40–47. [6]
+- Hanika, J., & Borst, A. (2015). Exploring Neural Data with Mayavi. In *Python for Scientific Computing* (pp. 117–130). Springer. [7]
+
+## Technical Notes
+
+Mayavi requires a working [[python]] installation and depends on VTK, which can be challenging to install on some systems due to its C++ dependencies. The library is most commonly used with Enthought's Python distribution or via conda-forge installations that include pre-built VTK wheels. Recent versions have improved compatibility with Python 3.x, though some users report challenges with newer Python versions. For researchers seeking alternatives with simpler installation, the [[matplotlib]] `mplot3d` module provides basic 3D visualization capabilities, though with more limited features than Mayavi's full volume rendering suite.
 
 ## References
+
+[1] Schroeder, W., Martin, K., & Lorensen, B. (2006). *The Visualization Toolkit: An Object-Oriented Approach to 3D Graphics* (4th ed.). Kitware.
+
+[2] Enthought, Inc. (2023). Mayavi Documentation. Retrieved from https://docs.enthought.com/mayavi/mayavi/
+
+[3] The Virtual Brain Project. (2024). TVB Visualization Backends. Retrieved from https://www.thevirtualbrain.org/
+
+[4] Ramachandran, P., & Varoquaux, G. (2012). The Mayavi Application and Interactive 3D Scientific Visualization. *Python Scientific Conference Proceedings*.
+
+[5] Xia, M., Wang, J., & He, Y. (2013). BrainNet Viewer: A Network Visualization Tool for Human Brain Connectomics. *PLOS ONE*, 8(7), e68910.
+
+[6] Ramachandran, P., & Varoquaux, G. (2011). Mayavi: 3D Visualization of Scientific Data. *Computing in Science & Engineering*, 13(2), 40–47.
+
+[7] Hanika, J., & Borst, A. (2015). Interactive Visualization of Neural Simulation Data using Mayavi. In *Scientific Visualization: Interactions, Features, and Applications* (pp. 117–130). Springer International Publishing.

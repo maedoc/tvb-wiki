@@ -940,3 +940,13 @@
 ## [2026-04-30 04:31] Improve: 3 pages improved (eegnet, hermes, mindboggle)
 
 ## [2026-04-30 05:37] Improve: 3 pages improved (afq-notebooks, bmtk, lean)
+
+## [2026-04-30 06:48] Improve: 3 pages improved (connectomedb, pajek, bdftools)
+
+## [2026-04-30] Improve: tortoise page - Complete rewrite from placeholder to comprehensive entity page (~950 words)
+  - Updated frontmatter: changed updated date to 2026-04-30
+  - Tags: software-dti-tk, diffusion-mri, neuroimaging, diffusion-imaging, structural-connectivity, tractography, dti, preprocessing
+  - Established 12+ wikilinks: whole-brain-modeling, the-virtual-brain, structural-connectivity, diffusion-mri, tractography, human-connectome-project, personalized-brain-modeling, fsl, mrtrix3, dipy, qsiprep, dti-tk, freesurfer
+  - Added detailed sections: Overview (TORTOISE definition and institutional context), Key Features (DIFFPREP, DR-BUDDI, DIFFCALC, DR-TAMAS modules), Relationship to TVB (role in structural connectivity for whole-brain models), Key Papers (Pierpaoli 2010, Irfanoglu 2015, 2016, 2025), Technical Considerations, Related Software
+  - Explained TORTOISE's role in diffusion MRI preprocessing pipeline: motion correction, eddy-current correction, susceptibility correction, tensor estimation
+  - Documented v4 open-source release on GitHub and improvements in test-retest reproducibility
