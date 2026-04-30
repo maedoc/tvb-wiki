@@ -977,3 +977,5 @@
 ## [2026-04-30 17:30] Improve: 3 pages improved (nidm-results, surfice, spinnaker)
 
 ## [2026-04-30 17:30] RefFormatter: formatted references on 382 pages
+
+## [2026-04-30 17:38] CrosslinkApplier: added 1287 wikilinks (1287 inline, 0 suggested)
