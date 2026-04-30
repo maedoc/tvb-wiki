@@ -151,6 +151,38 @@ def find_pages_missing_from_index() -> list[dict]:
     return results
 
 
+def find_raw_papers_with_bad_metadata() -> list[dict]:
+    """Find raw/papers/*.md files with missing or unknown authors, missing year, or missing venue."""
+    results = []
+    if not os.path.isdir(RAW_PAPERS_DIR):
+        return results
+    for filename in sorted(os.listdir(RAW_PAPERS_DIR)):
+        if not filename.endswith('.md'):
+            continue
+        filepath = os.path.join(RAW_PAPERS_DIR, filename)
+        fm = load_frontmatter(filepath)
+        if not fm:
+            continue
+        authors = fm.get('authors', [])
+        if isinstance(authors, str):
+            authors = [a.strip() for a in authors.split(',') if a.strip()]
+        bad = []
+        if not authors or any('unknown' in str(a).lower() for a in authors):
+            bad.append('missing/unknown authors')
+        if not str(fm.get('year', '')).strip():
+            bad.append('missing year')
+        if not str(fm.get('venue', '')).strip():
+            bad.append('missing venue')
+        if bad:
+            results.append({
+                'file': filename,
+                'title': fm.get('title', ''),
+                'issues': bad,
+                'path': filepath,
+            })
+    return results
+
+
 def find_cross_reference_asymmetry() -> list[dict]:
     """Find pages where A links to B but B doesn't mention A."""
     # Build forward link map
@@ -422,6 +454,7 @@ def run_auditor_cycle():
         'missing_from_index': find_pages_missing_from_index(),
         'cross_ref_asymmetry': find_cross_reference_asymmetry(),
         'duplicate_references': find_duplicate_references_sections(),
+        'raw_papers_bad_metadata': find_raw_papers_with_bad_metadata(),
         'opaque_references': find_opaque_references(),
         'thin_narrative': find_thin_narrative_pages(),
         'missing_inline_crosslinks': find_missing_inline_crosslinks(),
@@ -439,6 +472,7 @@ def run_auditor_cycle():
         len(report['missing_frontmatter']) +
         len(report['missing_from_index']) +
         len(report['duplicate_references']) +
+        len(report['raw_papers_bad_metadata']) +
         len(report['opaque_references']) +
         len(report['thin_narrative']) +
         len(report['missing_inline_crosslinks']) +
@@ -455,6 +489,7 @@ def run_auditor_cycle():
     log.info("Missing from index: %d", len(report['missing_from_index']))
     log.info("Cross-ref asymmetries: %d", len(report['cross_ref_asymmetry']))
     log.info("Duplicate references sections: %d", len(report['duplicate_references']))
+    log.info("Raw papers bad metadata: %d", len(report['raw_papers_bad_metadata']))
     log.info("Opaque references: %d", len(report['opaque_references']))
     log.info("Thin narrative pages: %d", len(report['thin_narrative']))
     log.info("Missing inline crosslinks: %d", len(report['missing_inline_crosslinks']))
@@ -481,6 +516,7 @@ def run_auditor_cycle():
         f.write(f"Missing frontmatter: {len(report['missing_frontmatter'])}\n")
         f.write(f"Missing from index: {len(report['missing_from_index'])}\n")
         f.write(f"Duplicate references sections: {len(report['duplicate_references'])}\n")
+        f.write(f"Raw papers bad metadata: {len(report['raw_papers_bad_metadata'])}\n")
         f.write(f"Opaque references: {len(report['opaque_references'])}\n")
         f.write(f"Thin narrative pages: {len(report['thin_narrative'])}\n")
         f.write(f"Missing inline crosslinks: {len(report['missing_inline_crosslinks'])}\n")
@@ -493,6 +529,8 @@ def run_auditor_cycle():
             f.write(f"  PLACEHOLDER: {item['slug']} ({item['placeholders']} occurrences)\n")
         for item in report['duplicate_references']:
             f.write(f"  DUP_REFS: {item['slug']} ({item['count']} sections)\n")
+        for item in report['raw_papers_bad_metadata'][:20]:
+            f.write(f"  BAD_META: {item['file']} ({', '.join(item['issues'])})\n")
         for item in report['opaque_references'][:20]:
             f.write(f"  OPAQUE_REF: {item['slug']} ({item['opaque_count']} opaque)\n")
         for item in report['thin_narrative'][:20]:
@@ -503,7 +541,8 @@ def run_auditor_cycle():
     # Log to log.md
     append_log(f"Audit: {total_issues} issues ({len(report['broken_wikilinks'])} broken links, "
                f"{len(report['orphan_pages'])} orphans, {len(report['placeholder_pages'])} placeholders, "
-               f"{len(report['duplicate_references'])} dup-refs, {len(report['opaque_references'])} opaque-refs, "
+               f"{len(report['duplicate_references'])} dup-refs, {len(report['raw_papers_bad_metadata'])} bad-meta, "
+               f"{len(report['opaque_references'])} opaque-refs, "
                f"{len(report['thin_narrative'])} thin, {len(report['missing_inline_crosslinks'])} missing-links)")
 
     # Git commit the report
