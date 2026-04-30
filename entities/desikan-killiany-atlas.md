@@ -61,4 +61,4 @@ Despite its widespread adoption, the Desikan-Killiany Atlas has notable limitati
 2. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
 3. (authors unknown). *Functional Network Organization of the Human Brain*.
 4. Federica Franza, M. Cirillo, M. Silvestro, F. Trojsi, Antonio Russo, Fabrizio Esposito, M. A. Pirozzi. (2025). *Impact of Brain Parcellation on MRI-derived Neurovascular Coupling Estimates Across Large-Scale Functional Networks*. 2025 IEEE International Conference on Metrology for eXtended Reality, Artificial Intelligence and Neural Engineering (MetroXRAINE). [DOI](https://doi.org/10.1109/MetroXRAINE66377.2025.11340209)
-5. (authors unknown). *GLEAN: Group Level Exploratory Analysis of Networks*.
+5. (authors unknown). *[[lean|GLEAN]]: Group Level Exploratory Analysis of Networks*.

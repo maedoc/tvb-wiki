@@ -44,4 +44,4 @@ Watts' research spans:
 ## References
 
 1. (authors unknown). *Collective Dynamics of 'Small-World' Networks*.
-2. (authors unknown). *Emergence of Scaling in Random Networks*.
+2. (authors unknown). *Emergence of Scaling in [[random-networks]]*.

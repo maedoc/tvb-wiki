@@ -1,19 +1,23 @@
 ---
-title: Geppetto
 created: 2026-04-24
-updated: 2026-04-30
+sources:
+- raw/papers/geppetto-2018.md
+tags:
+- software-brain-modeling
+- software-tvb
+- whole-brain-modeling
+title: Geppetto
 type: entity
-tags: [software-brain-modeling, software-tvb, whole-brain-modeling]
-sources: [raw/papers/geppetto-2018.md]
+updated: '2026-04-30'
 ---
 
 # Geppetto
 
 ## Overview
 
-Geppetto is an open-source web-based platform for neuroscience data visualization, model exploration, and computational middleware (Cantarelli et al., 2018). The name derives from Geppetto, the carpenter who fashioned Pinocchio in Carlo Collodi's classic tale—an apt metaphor for a platform that "constructs" simulated brains from empirical connectivity data and neural dynamics equations. In the context of [[whole-brain-modeling]], Geppetto provides the visualization layer and user interface through which researchers interact with brain network models, while the actual numerical integration may be performed by backend engines such as TVB's simulation library.
+Geppetto is an open-source web-based platform for neuroscience data visualization, model exploration, and computational middleware (Cantarelli et al., 2018). The name derives from Geppetto, the carpenter who fashioned Pinocchio in Carlo Collodi's classic tale—an apt metaphor for a platform that "constructs" simulated brains from empirical [[connectivity]] data and neural dynamics equations. In the context of [[whole-brain-modeling]], Geppetto provides the visualization layer and user interface through which researchers interact with [[brain-network]] models, while the actual numerical integration may be performed by backend engines such as TVB's simulation library.
 
-The term "Geppetto" in neuroscience refers to two distinct but related software projects. The first, documented in Cantarelli et al. (2018), is a general-purpose web-based platform for neuroscience data visualization and model exploration that underpins applications including [[Open Source Brain]], Virtual Fly Brain, and NetPyNE-UI. The second, which functions within [[The Virtual Brain]], provides the web-based frontend and middleware layer through which users construct, configure, and visualize whole-brain simulations. This dual identity reflects the modular nature of modern neuroinformatics tools, where common infrastructure serves multiple specialized applications.
+The term "Geppetto" in neuroscience refers to two distinct but related software projects. The first, documented in Cantarelli et al. (2018), is a general-purpose web-based platform for neuroscience data visualization and model exploration that underpins applications including [[Open Source Brain]], Virtual Fly Brain, and NetPyNE-UI. The second, which functions within [[The Virtual Brain]], provides the web-based frontend and middleware layer through which users construct, configure, and visualize [[whole-brain]] simulations. This dual identity reflects the modular nature of modern neuroinformatics tools, where common infrastructure serves multiple specialized applications.
 
 ## Key Features
 
@@ -27,7 +31,7 @@ The software implements a Model Abstraction layer that handles heterogeneous dat
 
 Geppetto integrates with several major [[computational-neuroscience]] platforms and standards. The platform provides native support for [[NEURON]], [[NetPyNE]], and [[NeuroML]], allowing researchers to import models from these ecosystems and run them within the Geppetto computational framework (Cantarelli et al., 2018). This interoperability is essential for [[whole-brain-modeling]] workflows that may combine detailed single-neuron models with population-level approximations at different scales.
 
-For neuroimaging integration, Geppetto can consume [[structural-connectivity]] matrices in standard formats and use them to constrain [[network-dynamics]] simulations, enabling personalized brain models based on individual diffusion imaging data. The platform connects with preprocessing pipelines for neuroimaging data, though specific pipeline integrations (such as particular analysis tools) depend on the deployment context.
+For [[neuroimaging]] integration, Geppetto can consume [[structural-connectivity]] matrices in standard formats and use them to constrain [[network-dynamics]] simulations, enabling [[personalized-brain-modeling|personalized brain]] models based on individual [[diffusion-imaging]] data. The platform connects with preprocessing pipelines for neuroimaging data, though specific pipeline integrations (such as particular analysis tools) depend on the deployment context.
 
 ## Relationship to TVB
 
@@ -41,7 +45,7 @@ The TVB platform exposes Geppetto's functionality through Python APIs and graphi
 
 The TVB simulation library (which works with Geppetto as the frontend) implements multiple numerical integration schemes for solving the differential equations that govern neural population dynamics. For [[neural-mass-models]] that operate at the mesoscopic scale—including the [[jansen-rit]] model (a three-population cortical column model that generates realistic [[eeg]] and [[meg]] signals), the [[wilson-cowan]] model (a classic firing-rate model for [[brain-oscillations]]), and the [[epileptor]] model (designed specifically for seizure dynamics)—the platform provides solvers based on exponential Euler integration and other methods appropriate for stiff ordinary differential equations.
 
-The platform handles the coupling of regional brain models through [[structural-connectivity]] matrices, implementing the delay differential equations that arise from finite conduction velocities along white matter pathways. This delay-coupled system forms the foundation of [[whole-brain-modeling]], where the dynamics of each brain region depends on synaptic input from other regions with delays determined by the structural connectome.
+The platform handles the coupling of regional brain models through [[structural-connectivity]] matrices, implementing the delay differential equations that arise from finite conduction velocities along [[white-matter]] pathways. This delay-coupled system forms the foundation of [[whole-brain-modeling]], where the dynamics of each brain region depends on synaptic input from other regions with delays determined by the structural [[connectome]].
 
 ### Forward Modeling
 
@@ -61,4 +65,4 @@ The combination of Geppetto and TVB enables several important research applicati
 
 2. Sanz Leon P, Woodman MM, Jirsa V, Bernard C, Le Van Quyen M, Geffroy F, Wang J, Spinelli L, Michel CM, Decety J (2013). The Virtual Brain: a whole-brain simulator of neural dynamics for brain imaging. NeuroImage, 76, 422-437. [DOI](https://doi.org/10.1016/j.neuroimage.2013.02.035)
 
-3. Jirsa VK, Proix T, Perdikis D, Woodman MM, Wang J, Bernard C, Benquet CE, Martinerie J, Le Van Quyen M (2017). The Virtual Brain: mathematical modelling of brain dynamics. In: Handbook of Neurology (pp. 541-585). Elsevier. [DOI](https://doi.org/10.1016/B978-0-444-63600-3.00028-8)
+3. Jirsa VK, Proix T, Perdikis D, Woodman MM, Wang J, Bernard C, Benquet CE, Martinerie J, Le Van Quyen M (2017). The Virtual Brain: mathematical modelling of [[brain-dynamics]]. In: Handbook of Neurology (pp. 541-585). Elsevier. [DOI](https://doi.org/10.1016/B978-0-444-63600-3.00028-8)

@@ -22,23 +22,23 @@ updated: '2026-04-30'
 
 ## Overview
 
-Snakemake is a Python-based workflow management system that enables the creation of reproducible, scalable, and parallelizable data analysis pipelines. Modeled after the Unix `make` utility but extending its capabilities with the full expressiveness of Python, Snakemake allows researchers to define complex multi-step computational workflows through a declarative syntax. The core philosophy centers on defining relationships between input and output files through rules, where Snakemake automatically determines the execution order and parallelizes operations where dependencies allow. Originally developed for bioinformatics applications, particularly genomic sequencing pipelines, Snakemake has found adoption in computational neuroscience and neuroimaging research where reproducible preprocessing and analysis pipelines are essential [Köster & Rahmann 2012].
+Snakemake is a Python-based workflow management system that enables the creation of reproducible, scalable, and parallelizable data analysis pipelines. Modeled after the Unix `make` utility but extending its capabilities with the full expressiveness of Python, Snakemake allows researchers to define complex multi-step computational workflows through a declarative syntax. The core philosophy centers on defining relationships between input and output files through rules, where Snakemake automatically determines the execution order and parallelizes operations where dependencies allow. Originally developed for bioinformatics applications, particularly genomic sequencing pipelines, Snakemake has found adoption in [[computational-neuroscience]] and [[neuroimaging]] research where reproducible preprocessing and analysis pipelines are essential [Köster & Rahmann 2012].
 
 ## Motivation and Context
 
 The practice of computational neuroscience increasingly relies on complex, multi-stage analysis pipelines that transform raw neuroimaging data through preprocessing, model fitting, simulation, and result extraction. Manually executing these steps is error-prone, difficult to reproduce, and creates ambiguity about exactly how results were obtained. While specialized neuroimaging tools like [[fmriprep]] provide validated preprocessing workflows, researchers often need to chain together diverse tools—segmentation with [[freesurfer]], connectivity analysis with [[brain-connectivity-toolbox]], and whole-brain simulation with [[the-virtual-brain]]—into custom analysis sequences.
 
-Snakemake addresses this challenge by providing a domain-specific language embedded within Python that specifies rules describing how to transform inputs to outputs. Unlike imperative scripts that execute commands in a fixed order, Snakemake constructs a directed acyclic graph (DAG) of dependencies and automatically determines which steps can run in parallel. This declarative approach means that changing one input file triggers automatic re-execution of only the downstream steps that depend on it, avoiding redundant computation while ensuring consistency. The system also provides seamless scaling from a single workstation to high-performance computing clusters, cloud computing environments, and containerized execution through [[apptainer]] or Docker integration [Mölder et al. 2021].
+Snakemake addresses this challenge by providing a domain-specific language embedded within Python that specifies rules describing how to transform inputs to outputs. Unlike imperative scripts that execute commands in a fixed order, Snakemake constructs a directed acyclic graph (DAG) of dependencies and automatically determines which [[steps]] can run in parallel. This declarative approach means that changing one input file triggers automatic re-execution of only the downstream steps that depend on it, avoiding redundant computation while ensuring consistency. The system also provides seamless scaling from a single workstation to high-performance computing clusters, cloud computing environments, and containerized execution through [[apptainer]] or Docker integration [Mölder et al. 2021].
 
 ## Key Features
 
-**Declarative Workflow Definition**: Snakemake workflows are defined through rules, each specifying input files, output files, and a shell command, Python function, or external script that produces the outputs from the inputs. This separation of logic from orchestration promotes modularity and reuse.
+**Declarative Workflow Definition**: Snakemake workflows are defined through rules, each specifying input files, output files, and a shell command, Python function, or external script that produces the outputs from the inputs. This separation of logic from orchestration promotes [[modularity]] and reuse.
 
 **Automatic Parallelization**: The workflow engine analyzes dependencies and automatically executes independent tasks in parallel, whether on multi-core workstations or distributed computing environments. Users can control parallelism through resource specifications and thread counts [Mölder et al. 2021].
 
 **Cluster and Cloud Execution**: Snakemake supports execution on HPC schedulers including SLURM, PBS, and SGE, as well as cloud platforms. Workflow definitions include job submission parameters, enabling seamless transition from development to production [Mölder et al. 2021].
 
-**Container Integration**: Through integration with Docker and Singularity/Apptainer, Snakemake can execute workflow steps within isolated software environments, enhancing reproducibility by bundling exact tool versions with workflow definitions.
+**Container Integration**: Through integration with Docker and Singularity/Apptainer, Snakemake can execute workflow steps within isolated software environments, enhancing [[reproducibility]] by bundling exact tool versions with workflow definitions.
 
 **Incremental Execution**: The timestamps of input and output files determine whether re-execution is necessary. Modifying an intermediate file and re-running the workflow automatically recomputes dependent steps while preserving unrelated results.
 
@@ -64,7 +64,7 @@ For neuroimaging projects requiring reproducibility, pairing Snakemake with [[da
 
 - [[nipype]] — Python pipeline interfaces for neuroimaging
 - [[fmriprep]] — BIDS-compliant fMRI preprocessing
-- [[the-virtual-brain]] — Whole-brain simulation platform
+- [[the-virtual-brain]] — [[whole-brain]] simulation platform
 - [[bids]] — Neuroimaging data standard
 - [[datalad]] — Version control for data
 
@@ -78,4 +78,4 @@ For neuroimaging projects requiring reproducibility, pairing Snakemake with [[da
 
 1. Jure Demšar, Aleksij Kraljič, Andraž Matkovič, Samuel Brege, Lining Pan, Zailyn Tamayo, Clara Fonteneau, Markus Helmer, J. Ji, A. Anticevic, Cole Korponay, Melissa Salavrakos, M. Glasser, Lisa D. Nickerson, Youngsun T. Cho, G. Repovš. (2025). *QuNex Recipes: Executable, Human-Readable Workflows for Reproducible Neuroimaging Research*. bioRxiv. [DOI](https://doi.org/10.1101/2025.11.08.687330)
 2. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2018.05.040)
-3. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2026). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research.*. Brain Stimulation. [DOI](https://doi.org/10.1016/j.brs.2025.103016)
+3. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2026). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research.*. [[brain-stimulation]]. [DOI](https://doi.org/10.1016/j.brs.2025.103016)

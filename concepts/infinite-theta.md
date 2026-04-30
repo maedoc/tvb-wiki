@@ -79,6 +79,6 @@ Despite its mathematical rigor, several questions remain active areas of researc
 
 1. Roxana A. Stefanescu, Viktor K. Jirsa. *A low dimensional description of globally coupled heterogeneous neural networks of excitatory and inhibitory neurons*. PLoS Computational Biology. [DOI](https://doi.org/10.1371/journal.pcbi.1000219)
 2. Potjans & Diesmann (2014). *The cell-type specific cortical microcircuit: relating structure and activity*. Cerebral Cortex. [DOI](https://doi.org/10.1093/cercor/bhs358)
-3. Eugene M. Izhikevich. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
-4. Hugh R. Wilson, Jack D. Cowan. *Excitatory and inhibitory interactions in localized populations of model neurons*. Biophysical Journal. [DOI](https://doi.org/10.1016/S0006-3495(72)86068-5)
-5. Rosa Maria Delicado, Gemma Huguet, Pau Clusella. (2025). *Emergent Spatiotemporal Dynamics in Large-Scale Brain Networks with Next Generation Neural Mass Models*. [Link](https://arxiv.org/abs/2512.03907)
+3. [[eugene-izhikevich|Eugene M. Izhikevich]]. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
+4. [[hugh-wilson|Hugh R. Wilson]], [[jack-cowan|Jack D. Cowan]]. *Excitatory and inhibitory interactions in localized populations of model neurons*. Biophysical Journal. [DOI](https://doi.org/10.1016/S0006-3495(72)86068-5)
+5. Rosa Maria Delicado, Gemma Huguet, Pau Clusella. (2025). *Emergent Spatiotemporal Dynamics in Large-Scale Brain Networks with Next Generation [[neural-mass-models]]*. [Link](https://arxiv.org/abs/2512.03907)

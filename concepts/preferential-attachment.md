@@ -20,8 +20,8 @@ Preferential Attachment — a concept in [[whole-brain|whole-brain modeling]] an
 
 ## References
 
-1. (authors unknown). *Emergence of Scaling in Random Networks*.
-2. (authors unknown). *Nonlinear Dynamics and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering*.
-3. Kashyap Gudibanda, J. Fousek, S. Petkoski, V. Jirsa. (2026). *The role of connectivity for the degeneracy of the brain’s resting state dynamics*. Journal of Computational Neuroscience. [DOI](https://doi.org/10.1007/s10827-025-00919-0)
-4. Caitlin Lienkaemper, G. Ocker. (2025). *Diverse mean-field dynamics of clustered, inhibition-stabilized Hawkes networks via combinatorial threshold-linear networks*. [Link](https://www.semanticscholar.org/paper/fbd6e0d74d7094beee2f373371f61ee03edaa40d)
+1. (authors unknown). *Emergence of Scaling in [[random-networks]]*.
+2. (authors unknown). *[[nonlinear-dynamics]] and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering*.
+3. Kashyap Gudibanda, J. Fousek, S. Petkoski, V. Jirsa. (2026). *The role of [[connectivity]] for the degeneracy of the brain’s [[resting-state]] dynamics*. Journal of Computational Neuroscience. [DOI](https://doi.org/10.1007/s10827-025-00919-0)
+4. Caitlin Lienkaemper, G. Ocker. (2025). *Diverse [[mean-field-theory|mean-field]] dynamics of clustered, inhibition-stabilized Hawkes networks via combinatorial threshold-[[linear]] networks*. [Link](https://www.semanticscholar.org/paper/fbd6e0d74d7094beee2f373371f61ee03edaa40d)
 5. Marco Zenari, Luca Taffarello, Luca Mazzucato, Amos Maritan, Samir Suweis. (2026). *Topological Origin of the Diversity of Timescales in Recurrent Neural Circuits*. [Link](https://arxiv.org/abs/2603.04149)

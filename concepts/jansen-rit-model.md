@@ -20,6 +20,6 @@ updated: '2026-04-30'
 ## References
 
 1. Huda Mahdi, Jan Sieber, Krasimira Tsaneva-Atanasova. *Alpha-Delta Transitions in Cortical Rhythms as grazing bifurcations*. [Link](https://arxiv.org/abs/2411.16449)
-2. Benjamin H. Jansen, Vincent G. Rit. *Electroencephalogram and visual evoked potential generation in a mathematical model of coupled cortical columns*. Biological Cybernetics. [DOI](https://doi.org/10.1007/BF00199471)
-3. Alexander Pei. *Phase Alignment Enhances Oscillatory Power in Neural Mass Models Optimized for Class Encoding*. [Link](https://arxiv.org/abs/2503.05564)
+2. [[benjamin-jansen|Benjamin H. Jansen]], [[vincent-rit|Vincent G. Rit]]. *Electroencephalogram and visual evoked potential generation in a mathematical model of coupled cortical columns*. Biological Cybernetics. [DOI](https://doi.org/10.1007/BF00199471)
+3. Alexander Pei. *Phase Alignment Enhances Oscillatory Power in [[neural-mass-models]] Optimized for Class Encoding*. [Link](https://arxiv.org/abs/2503.05564)
 4. Gianluca Gaglioti, L. Porta, M. Colombo, Simone Russo, Thierry Nieus, G. Deco, M. Corbetta, S. Sarasso, M. V. Sanchez-Vives, M. Massimini. (2026). *Slow wave generation and propagation in a model of brain lesions*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2026.121817)

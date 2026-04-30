@@ -60,8 +60,8 @@ In terms of the broader modeling ecosystem, brain stimulation models connect to 
 
 ## References
 
-1. Sophie Benitez Stulz, Samy Castro, B. Gutkin, Mathieu Gilson, Demian Battaglia. (2026). *Phase-dependent stimulation response is shaped by the brain’s dynamic functional connectivity*. Network Neuroscience. [DOI](https://doi.org/10.1162/netn.a.548)
+1. Sophie Benitez Stulz, Samy Castro, B. Gutkin, Mathieu Gilson, Demian Battaglia. (2026). *Phase-dependent stimulation response is shaped by the brain’s dynamic functional [[connectivity]]*. [[netneuroscience|Network Neuroscience]]. [DOI](https://doi.org/10.1162/netn.a.548)
 2. Debby C W Klooster, Guo-Rong Wu, Sara De Witte, Koen Kaalberg, B. Kalkhoven, Rob M C Mestrom, C. Baeken. (2026). *Simultaneous tDCS-fMRI reveals limited and inconsistent changes in functional connectivity: Insights from a temporal dynamics study*. Imaging Neuroscience. [DOI](https://doi.org/10.1162/IMAG.a.1109)
-3. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+3. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate [[brain-network]] dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
 4. V. Myrov, A. Suleimanova, Samanta Knapič, P. Partanen, M. Vesterinen, Wenya Liu, S. Palva, J. M. Palva. (2026). *Hierarchical whole-brain modeling of critical synchronization dynamics in the human brain.*. Proceedings of the National Academy of Sciences of the United States of America. [DOI](https://doi.org/10.1073/pnas.2505768123)
-5. Lucia Zavaglia, Laura Astolfi, Federico Babiloni, Melani B.C. *Comparison of a mean-field model of electroencephalographic activity to individual brain networks*. IEEE Engineering in Medicine and Biology.
+5. Lucia Zavaglia, Laura Astolfi, Federico Babiloni, Melani B.C. *Comparison of a [[mean-field-theory|mean-field]] model of electroencephalographic activity to individual brain networks*. IEEE Engineering in Medicine and Biology.

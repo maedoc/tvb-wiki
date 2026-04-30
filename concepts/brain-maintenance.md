@@ -64,4 +64,4 @@ The concept of brain maintenance continues to evolve as neuroimaging methodologi
 2. (authors unknown). *Structural Brain Changes in Aging: Courses, Causes and Cognitive Consequences*.
 3. (authors unknown). *The Cognitive Neuroscience of Ageing and Functional Reserve*.
 4. (authors unknown). *Memory and Executive Function in Aging and AD: Multiple Factors that Cause Decline and Reserve Factors that Compensate*.
-5. (authors unknown). *UK Biobank Brain Imaging: Structural MRI in a Massive Population Resource*.
+5. (authors unknown). *[[uk-biobank]] Brain Imaging: Structural MRI in a Massive Population Resource*.

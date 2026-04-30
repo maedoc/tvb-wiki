@@ -27,7 +27,7 @@ updated: '2026-04-30'
 
 ## Overview
 
-Bifurcation theory is the mathematical study of qualitative changes in the asymptotic behavior of dynamical systems as parameters vary continuously [@Hoppensteadt1996]. In the context of computational neuroscience, bifurcation theory provides the foundational framework for understanding how neural systems transition between distinct dynamical regimes—such as from resting state to oscillatory activity, or from healthy dynamics to epileptic seizures. A **bifurcation** occurs when a small smooth change in a system parameter (the **bifurcation parameter**) causes a sudden topological change in the system's phase portrait: stable equilibria may give way to limit cycles, stable oscillations may become chaotic, or new invariant sets may emerge from existing ones. This mathematical framework is essential for interpreting the rich repertoire of brain dynamics observed across [[neuroimaging]] modalities and for constructing [[neural-mass-models]] that capture physiologically relevant state transitions.
+Bifurcation theory is the mathematical study of qualitative changes in the asymptotic behavior of dynamical systems as parameters vary continuously [@Hoppensteadt1996]. In the context of [[computational-neuroscience]], bifurcation theory provides the foundational framework for understanding how neural systems transition between distinct dynamical regimes—such as from [[resting-state]] to oscillatory activity, or from healthy dynamics to epileptic seizures. A **bifurcation** occurs when a small smooth change in a system parameter (the **bifurcation parameter**) causes a sudden topological change in the system's phase portrait: stable equilibria may give way to limit cycles, stable oscillations may become chaotic, or new invariant sets may emerge from existing ones. This mathematical framework is essential for interpreting the rich repertoire of [[brain-dynamics]] observed across [[neuroimaging]] modalities and for constructing [[neural-mass-models]] that capture physiologically relevant state transitions.
 
 ## Theoretical Foundation
 
@@ -71,6 +71,6 @@ Despite its utility, applying bifurcation theory to brain modeling presents sign
 
 ## References
 
-1. Eugene M. Izhikevich. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
-2. Pascal Helson, Etienne Tanré, Romain Veltz. *Mean-field analysis of a neural network with stochastic STDP*. [Link](https://arxiv.org/abs/2510.02545)
-3. Michael Breakspear, John A. Roberts, John R. Terry, Stefano Rodrigues, Nader Mahmud, Philip Robinson. *Large-scale brain dynamics of seizures: asymptotic analysis of a neural field model*. Journal of Computational Neuroscience. [DOI](https://doi.org/10.1007/s10827-006-8135-2)
+1. [[eugene-izhikevich|Eugene M. Izhikevich]]. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
+2. Pascal Helson, Etienne Tanré, Romain Veltz. *Mean-field analysis of a [[neural-network]] with stochastic STDP*. [Link](https://arxiv.org/abs/2510.02545)
+3. Michael Breakspear, John A. Roberts, John R. Terry, Stefano Rodrigues, Nader Mahmud, Philip Robinson. *Large-scale brain dynamics of seizures: asymptotic analysis of a [[neural-field-theory|neural field]] model*. Journal of Computational Neuroscience. [DOI](https://doi.org/10.1007/s10827-006-8135-2)

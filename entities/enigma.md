@@ -1,29 +1,46 @@
 ---
-title: ENIGMA
 created: 2025-01-15
-updated: 2026-04-30
+sources:
+- 10.1038/nrneurol.2014.9
+- 10.1016/j.neuroimage.2011.11.010
+- 10.1016/j.neuroimage.2012.04.028
+- 10.1038/mp.2013.196
+tags:
+- database
+- connectomics
+- neuroimaging
+- neuroimaging-dti
+- neuroimaging-mri
+- structural-connectivity
+- brain-parcellations
+- brain-network
+- schizophrenia-models
+- epilepsy-modeling
+- resting-state
+- reproducibility
+- people-paul-thompson
+title: ENIGMA
 type: entity
-tags: [database, connectomics, neuroimaging, neuroimaging-dti, neuroimaging-mri, structural-connectivity, brain-parcellations, brain-network, schizophrenia-models, epilepsy-modeling, resting-state, reproducibility, people-paul-thompson]
-sources: [10.1038/nrneurol.2014.9, 10.1016/j.neuroimage.2011.11.010, 10.1016/j.neuroimage.2012.04.028, 10.1038/mp.2013.196]
+updated: '2026-04-30'
 ---
 
 ## Overview
 
-ENIGMA (Enhancing Neuro Imaging Genetics through Meta Analysis) is an international consortium of researchers established in 2009 that combines neuroimaging data from hundreds of labs worldwide to identify robust brain biomarkers for psychiatric and neurological disorders. The consortium pioneered large-scale collaborative neuroimaging research, developing standardized image processing protocols that enable meta-analysis across diverse populations and scanning sites. ENIGMA's approach addresses a fundamental challenge in neuroimaging: the limited statistical power of individual studies to detect small but consistent effects in brain structure and function.
+ENIGMA (Enhancing Neuro Imaging Genetics through Meta Analysis) is an international consortium of researchers established in 2009 that combines [[neuroimaging]] data from hundreds of labs worldwide to identify robust brain biomarkers for psychiatric and neurological disorders. The consortium pioneered large-scale collaborative neuroimaging research, developing standardized image processing protocols that enable meta-analysis across diverse populations and scanning sites. ENIGMA's approach addresses a fundamental challenge in neuroimaging: the limited statistical power of individual studies to detect small but consistent effects in brain structure and function.
 
 ## Key Features
 
-ENIGMA has developed widely-adopted protocols for processing magnetic resonance imaging (MRI) data, including diffusion tensor imaging (DTI) and structural MRI, ensuring consistency across sites. The ENIGMA-DTI protocol, detailed in the consortium's foundational methods paper (Thompson et al., 2014), became a de facto standard for white matter analysis in neuroimaging research. These standardized processing pipelines enable unprecedented cross-site harmonization and have been adopted by hundreds of laboratories globally.
+ENIGMA has developed widely-adopted protocols for processing magnetic resonance imaging (MRI) data, including diffusion tensor imaging (DTI) and structural MRI, ensuring consistency across sites. The ENIGMA-DTI protocol, detailed in the consortium's foundational methods paper (Thompson et al., 2014), became a de facto standard for [[white-matter]] analysis in neuroimaging research. These standardized processing pipelines enable unprecedented cross-site harmonization and have been adopted by hundreds of laboratories globally.
 
 The consortium established specialized working groups focusing on specific disorders, including schizophrenia, Alzheimer's disease, major depression, bipolar disorder, epilepsy, and autism. Each working group conducts analyses combining individual-level data from participating sites when data-sharing agreements permit, using mega-analysis approaches, while also employing traditional meta-analytic techniques on summary statistics when full data sharing is not possible. This flexible methodology yields greater statistical power than individual site studies alone.
 
-ENIGMA integrates neuroimaging with genome-wide association studies (GWAS), identifying genetic variants linked to brain structure and function. The consortium's GWAS work revealed that many common genetic variants affecting brain measures are shared across psychiatric conditions, informing the emerging framework of computational psychiatry.
+ENIGMA integrates neuroimaging with genome-wide association studies (GWAS), identifying genetic variants linked to brain structure and function. The consortium's GWAS work revealed that many common genetic variants affecting brain measures are shared across psychiatric conditions, informing the emerging framework of [[computational-psychiatry]].
 
-ENIGMA researchers developed machine learning classifiers that combine multimodal neuroimaging features to predict disease status and clinical outcomes. These models trained on ENIGMA datasets demonstrated transferability across populations, addressing long-standing concerns about neuroimaging biomarker reproducibility.
+ENIGMA researchers developed machine learning classifiers that combine multimodal neuroimaging features to predict disease status and clinical outcomes. These models trained on ENIGMA datasets demonstrated transferability across populations, addressing long-standing concerns about neuroimaging biomarker [[reproducibility]].
 
 ## Relationship to TVB
 
-ENIGMA provides high-quality, harmonized neuroimaging datasets that serve as essential inputs for whole-brain modeling efforts in The Virtual Brain (TVB). ENIGMA's structural connectivity matrices, derived from diffusion imaging across large cohorts, are frequently used to construct personalized brain network models. The consortium's normative data on brain structure variations across age groups also informs TVB's aging brain modeling efforts, enabling simulation of age-related changes in brain dynamics.
+ENIGMA provides high-quality, harmonized neuroimaging datasets that serve as essential inputs for [[whole-brain|whole-brain modeling]] efforts in [[the-virtual-brain]] (TVB). ENIGMA's [[structural-connectivity]] matrices, derived from [[diffusion-imaging]] across large cohorts, are frequently used to construct [[personalized-brain-modeling|personalized brain]] network models. The consortium's normative data on brain structure variations across age groups also informs TVB's aging brain modeling efforts, enabling simulation of age-related changes in [[brain-dynamics]].
 
 ## Historical Context
 

@@ -30,7 +30,7 @@ The motivation for BrainSpace emerged from the need to unify the fragmented soft
 
 ### Gradient Identification
 
-BrainSpace implements multiple algorithms for gradient extraction, including diffusion map embedding, [[principal-component-analysis]], and Laplacian eigenmapping [1]. The toolbox uses *affinity kernels* to construct similarity matrices from [[functional-connectivity]] data, where the kernel bandwidth is adaptively determined based on the local density of data points. This approach ensures that gradients capture both local and global structure in the connectivity manifold.
+BrainSpace implements multiple algorithms for gradient extraction, including diffusion map embedding, [[principal-component-analysis]], and Laplacian eigenmapping [1]. The toolbox uses *affinity kernels* to construct similarity matrices from [[functional-connectivity]] data, where the kernel bandwidth is adaptively determined based on the local density of data points. This approach ensures that gradients capture both local and global structure in the [[connectivity]] manifold.
 
 ### Gradient Alignment
 
@@ -52,7 +52,7 @@ BrainSpace complements [[the-virtual-brain]] ([[tvb]]) in the analysis pipeline 
 
 The foundational reference for cortical gradient analysis is the study by Margulies et al. (2016) in *Proceedings of the National Academy of Sciences*, which first demonstrated that continuous gradients could reveal the organizational structure of the cerebral cortex [1]. This work established gradient analysis as a valid approach for characterizing [[brain-network]] organization and demonstrated the method's sensitivity to individual differences in cortical functional architecture.
 
-The primary reference for the BrainSpace software toolbox is the paper by Vos de Wael et al. (2020) in *NeuroImage*, which introduced the toolbox and demonstrated its application to resting-state [[fmri]] data from the [[human-connectome-project]] [1]. The software paper provides comprehensive documentation of the algorithms, null models, and alignment procedures implemented in BrainSpace, along with validation benchmarks demonstrating the toolbox's utility for gradient analysis across different datasets.
+The primary reference for the BrainSpace software toolbox is the paper by Vos de Wael et al. (2020) in *NeuroImage*, which introduced the toolbox and demonstrated its application to [[resting-state]] [[fmri]] data from the [[human-connectome-project]] [1]. The software paper provides comprehensive documentation of the algorithms, null models, and alignment procedures implemented in BrainSpace, along with validation benchmarks demonstrating the toolbox's utility for gradient analysis across different datasets.
 
 ## Related Software
 
@@ -60,6 +60,6 @@ BrainSpace interacts with several other tools in the [[neuroimaging]] ecosystem.
 
 ## References
 
-1. Woodman et al. (2014). *GraphVar: A user-friendly toolbox for comprehensive graph analyses of functional brain connectivity*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2014.07.015)
-2. (authors unknown). *BRAPH: A Pipeline for Brain Connectivity Analysis*.
+1. Woodman et al. (2014). *[[graphvar]]: A user-friendly toolbox for comprehensive graph analyses of functional brain connectivity*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2014.07.015)
+2. (authors unknown). *[[braph]]: A Pipeline for Brain Connectivity Analysis*.
 3. Breno C. Bispo, Stefania Sardellitti, Juliano B. Lima, Fernando A. N. Santos. (2026). *Multimodal Higher-Order Brain Networks: A Topological Signal Processing Perspective*. [Link](https://arxiv.org/abs/2603.29903)

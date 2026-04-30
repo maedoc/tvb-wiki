@@ -119,5 +119,5 @@ Despite extensive research, several questions remain: What are the optimal modul
 4. (authors unknown). *Functional Network Organization of the Human Brain*.
 5. Tingting Liu, Mingyang Li, Y. You, Hongxi Zhang, Ying Lv, Chai Ji, Yuting Li, Dan Wu, Shenghong Ju. (2026). *Maturation and reorganization of structural connectivity in infants within half a year*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2026.121728)
 6. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
-7. Moo K. Chung, Luigi Maccotta, Aaron Struck. (2026). *Counterfactual Analysis of Brain Network Dynamics*. [Link](https://arxiv.org/abs/2603.29843)
-8. (authors unknown). *Emergence of Scaling in Random Networks*.
+7. Moo K. Chung, Luigi Maccotta, Aaron Struck. (2026). *Counterfactual Analysis of Brain [[network-dynamics]]*. [Link](https://arxiv.org/abs/2603.29843)
+8. (authors unknown). *Emergence of Scaling in [[random-networks]]*.

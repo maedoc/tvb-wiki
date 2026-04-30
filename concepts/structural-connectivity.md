@@ -99,8 +99,8 @@ Despite its centrality to connectomics, structural connectivity estimation faces
 1. (authors unknown). *MR diffusion tensor spectroscopy and imaging*.
 2. (authors unknown). *Three-dimensional tracking of axonal projections in the brain by magnetic resonance imaging*.
 3. (authors unknown). *Challenges and limitations of quantifying brain connectivity in vivo with diffusion MRI*.
-4. Sakul Mahat, Sharmistha Guha, Jessica Bernard. (2026). *A Bayesian Framework for Quantifying Association Between Functional and Structural Data in Neuroimaging*. [Link](https://arxiv.org/abs/2603.21067)
-5. Caitlin Lienkaemper, G. Ocker. (2025). *Diverse mean-field dynamics of clustered, inhibition-stabilized Hawkes networks via combinatorial threshold-linear networks*. [Link](https://www.semanticscholar.org/paper/fbd6e0d74d7094beee2f373371f61ee03edaa40d)
-6. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
+4. Sakul Mahat, Sharmistha Guha, Jessica Bernard. (2026). *A Bayesian Framework for Quantifying Association Between Functional and Structural Data in [[neuroimaging]]*. [Link](https://arxiv.org/abs/2603.21067)
+5. Caitlin Lienkaemper, G. Ocker. (2025). *Diverse [[mean-field-theory|mean-field]] dynamics of clustered, inhibition-stabilized Hawkes networks via combinatorial threshold-[[linear]] networks*. [Link](https://www.semanticscholar.org/paper/fbd6e0d74d7094beee2f373371f61ee03edaa40d)
+6. (authors unknown). *Functional Connectomics from [[resting-state|Resting-State fMRI]]*.
 7. (authors unknown). *Predicting Human Resting-State Functional Connectivity from Structural Connectivity*.
 8. Hongjie Jiang, Yifei Tang, Shuqiang Wang. *Neural Dynamics-Informed Pre-trained Framework for Personalized Brain Functional Network Construction*. [Link](https://arxiv.org/abs/2603.07524)

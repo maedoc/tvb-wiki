@@ -62,9 +62,9 @@ I have successfully improved the neurodevelopment wiki page. Here's a summary of
 3. (authors unknown). *Functional Brain Networks Develop from a 'Local to Distributed' Organization*.
 4. (authors unknown). *The Development of Human Functional Brain Networks*.
 5. (authors unknown). *The Basics of Brain Development*.
-6. Fatemeh Mahani, Aref Kalantari, M. Diedenhofen, Claudia Green, Dirk Wiedermann, G.R. Fink, Mathias Hoehn, M. Aswendt. (2026). *Dynamic structural connectivity changes in cortical and cortico-striatal strokes in mice.*. Neural Regeneration Research. [DOI](https://doi.org/10.4103/NRR.NRR-D-25-00491)
-7. (authors unknown). *UK Biobank Brain Imaging: Structural MRI in a Massive Population Resource*.
-8. Tingting Liu, Mingyang Li, Y. You, Hongxi Zhang, Ying Lv, Chai Ji, Yuting Li, Dan Wu, Shenghong Ju. (2026). *Maturation and reorganization of structural connectivity in infants within half a year*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2026.121728)
+6. Fatemeh Mahani, Aref Kalantari, M. Diedenhofen, Claudia Green, Dirk Wiedermann, G.R. Fink, Mathias Hoehn, M. Aswendt. (2026). *Dynamic [[structural-connectivity]] changes in cortical and cortico-striatal strokes in mice.*. Neural Regeneration Research. [DOI](https://doi.org/10.4103/NRR.NRR-D-25-00491)
+7. (authors unknown). *[[uk-biobank]] Brain Imaging: Structural MRI in a Massive Population Resource*.
+8. Tingting Liu, Mingyang Li, Y. You, Hongxi Zhang, Ying Lv, Chai Ji, Yuting Li, Dan Wu, Shenghong Ju. (2026). *Maturation and reorganization of structural [[connectivity]] in infants within half a year*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2026.121728)
 9. I. Falconer, M. Varkanitsa, Swathi Kiran. (2026). *Abstract A124: Simulating Disruption of Large-Scale Functional Networks in Post-Stroke Aphasia Using Personalized Lesion-Based Neural Mass Modeling*. Stroke. [DOI](https://doi.org/10.1161/str.57.suppl_1.a124)
 10. (authors unknown). *Functional Network Organization of the Human Brain*.
 11. G. Deco, Y. Sanz Perl, J. Vohryzek, Andrea I. Luppi, M. Kringelbach. (2026). *Neurotransmission-modulated whole-brain computation captures full task repertoire.*. Cell Reports. [DOI](https://doi.org/10.1016/j.celrep.2025.116816)

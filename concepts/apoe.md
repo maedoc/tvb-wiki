@@ -18,6 +18,6 @@ Apoe — a concept in [[whole-brain|whole-brain modeling]] and [[computational-n
 
 ## References
 
-1. (authors unknown). *The Human Connectome: A Structural Description of the Human Brain*.
+1. (authors unknown). *The Human [[connectome]]: A Structural Description of the Human Brain*.
 2. (authors unknown). *Functional Network Organization of the Human Brain*.
 3. (authors unknown). *Networks of the Brain*.

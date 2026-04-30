@@ -27,9 +27,9 @@ PySurfer addresses this gap by exposing FreeSurfer's surface visualization capab
 
 ## Key Features
 
-PySurfer provides several core visualization capabilities that map directly to common neuroimaging analysis workflows. The primary feature is the ability to plot data on inflated or flattened cortical surfaces, with control over lighting, colormaps, and annotation labels. Researchers can overlay statistical maps (e.g., from group-based fMRI analyses), display ROI labels from parcellation schemes like the [[desikan-killiany-atlas]] or [[glasser-atlas]], and save outputs in vector or raster formats suitable for publication.
+PySurfer provides several core visualization capabilities that map directly to common neuroimaging analysis workflows. The primary feature is the ability to plot data on inflated or flattened cortical surfaces, with control over lighting, colormaps, and annotation labels. Researchers can overlay statistical maps (e.g., from group-based [[fmri]] analyses), display ROI labels from [[parcellation]] schemes like the [[desikan-killiany-atlas]] or [[glasser-atlas]], and save outputs in vector or raster formats suitable for publication.
 
-The library supports multiple views simultaneously, enabling side-by-side comparisons of hemispheres or different analysis outcomes. Curvature information from FreeSurfer can be displayed as a background to provide anatomical reference, and users can configure color schemes, transparency, and label visibility [[sources]]. PySurfer also handles connectivity visualizations, displaying functional or structural connectivity matrices on the cortical surface through edge visualization capabilities.
+The library supports multiple views simultaneously, enabling side-by-side comparisons of hemispheres or different analysis outcomes. Curvature information from FreeSurfer can be displayed as a background to provide anatomical reference, and users can configure color schemes, transparency, and label visibility [[sources]]. PySurfer also handles [[connectivity]] visualizations, displaying functional or structural connectivity matrices on the cortical surface through edge visualization capabilities.
 
 ## Relationship to TVB
 
@@ -49,6 +49,6 @@ While PySurfer is a software tool rather than a research publication, it is used
 
 ## References
 
-1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
 2. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
 3. R. A. Benn, Ting Xu, R. Mars, Magdalena Boch, Léa Roumazeilles, K. Heuer, Roberto Toro, D. Margulies, J. Manzano-Patrón, Paula Montesinos, C. Galán-Arriola, G. López-Martín, J. Sanchez-González, E. P. Duff, Borja Ibáñez. (2025). *Precon_all: A species-agnostic automated pipeline for non-human cortical surface reconstruction*. bioRxiv. [DOI](https://doi.org/10.1101/2025.04.16.649072)

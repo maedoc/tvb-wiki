@@ -46,7 +46,7 @@ Kötter's research has focused on:
 ## References
 
 1. (authors unknown). *The Human Connectome: A Structural Description of the Human Brain*.
-2. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
-3. (authors unknown). *Resting-State fMRI in the Human Connectome Project*.
+2. (authors unknown). *Functional Connectomics from [[resting-state|Resting-State fMRI]]*.
+3. (authors unknown). *Resting-State [[fmri]] in the [[human-connectome-project]]*.
 4. (authors unknown). *Functional Network Organization of the Human Brain*.
 5. B. Sarton, Giulia Maria Mattia, Eve Cervoni, Julie Decourt, Patrice Péran, Béatrice Riu, Fanny Bounes, Edouard Naboulsi, P. Barttfeld, Jean-Marc Olivot, Stein Silva, Sylvain Cussat-Blanc. (2026). *Explainable Machine Learning for Coma Outcome Prediction Based on Structural and Functional Brain MRI.*. Critical Care Medicine. [DOI](https://doi.org/10.1097/CCM.0000000000007068)

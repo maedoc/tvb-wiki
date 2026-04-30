@@ -18,6 +18,6 @@ Hcp Dataset — a concept in [[whole-brain|whole-brain modeling]] and [[computat
 
 ## References
 
-1. (authors unknown). *The WU-Minn Human Connectome Project: An Overview*.
-2. (authors unknown). *Function in the Human Connectome: Task-fMRI and Individual Differences in Behavior*.
-3. (authors unknown). *Resting-State fMRI in the Human Connectome Project*.
+1. (authors unknown). *The WU-Minn [[human-[[connectome]]-project]]: An Overview*.
+2. (authors unknown). *Function in the Human Connectome: Task-[[fmri]] and Individual Differences in Behavior*.
+3. (authors unknown). *[[resting-state|Resting-State fMRI]] in the Human Connectome Project*.

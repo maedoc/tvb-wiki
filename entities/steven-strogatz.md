@@ -47,7 +47,7 @@ Steven H. Strogatz (born 1959) is an American mathematician and the Jacob Gould 
 2. (authors unknown). *Nonlinear Oscillations, Dynamical Systems, and Bifurcations of Vector Fields*.
 3. (authors unknown). *Differential Equations, Dynamical Systems, and an Introduction to Chaos*.
 4. (authors unknown). *Networks: An Introduction*.
-5. Eugene M. Izhikevich. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
+5. [[eugene-izhikevich|Eugene M. Izhikevich]]. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
 6. (authors unknown). *Mathematical Foundations of Neuroscience*.
 7. (authors unknown). *Introduction to Applied Nonlinear Dynamical Systems and Chaos*.
 8. Marco Zenari, Luca Taffarello, Luca Mazzucato, Amos Maritan, Samir Suweis. (2026). *Topological Origin of the Diversity of Timescales in Recurrent Neural Circuits*. [Link](https://arxiv.org/abs/2603.04149)

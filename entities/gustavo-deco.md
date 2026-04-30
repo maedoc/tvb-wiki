@@ -46,5 +46,5 @@ Computational neuroscientist known for work on large-scale brain models and rest
 1. Deco et al. (2013). *Resting brains never rest: computational insights into potential cognitive architectures*. Trends in Neurosciences. [DOI](https://doi.org/10.1016/j.tins.2013.09.002)
 2. (authors unknown). *Stochastic Dynamics and the Brain*.
 3. (authors unknown). *Stochastic Dynamics in the Brain and Probabilistic Models*.
-4. Kashyap Gudibanda, J. Fousek, S. Petkoski, V. Jirsa. (2026). *The role of connectivity for the degeneracy of the brain’s resting state dynamics*. Journal of Computational Neuroscience. [DOI](https://doi.org/10.1007/s10827-025-00919-0)
-5. Pascal Helson, Etienne Tanré, Romain Veltz. *Mean-field analysis of a neural network with stochastic STDP*. [Link](https://arxiv.org/abs/2510.02545)
+4. Kashyap Gudibanda, J. Fousek, S. Petkoski, V. Jirsa. (2026). *The role of [[connectivity]] for the degeneracy of the brain’s resting state dynamics*. Journal of [[computational-neuroscience]]. [DOI](https://doi.org/10.1007/s10827-025-00919-0)
+5. Pascal Helson, Etienne Tanré, Romain Veltz. *[[mean-field-theory|Mean-field]] analysis of a [[neural-network]] with stochastic STDP*. [Link](https://arxiv.org/abs/2510.02545)

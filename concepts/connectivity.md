@@ -20,8 +20,8 @@ Connectivity — a concept in [[whole-brain|whole-brain modeling]] and [[computa
 
 ## References
 
-1. Caitlin Lienkaemper, G. Ocker. (2025). *Diverse mean-field dynamics of clustered, inhibition-stabilized Hawkes networks via combinatorial threshold-linear networks*. [Link](https://www.semanticscholar.org/paper/fbd6e0d74d7094beee2f373371f61ee03edaa40d)
-2. (authors unknown). *Functional Connectivity: The Principal-Component Analysis of Large (PET and fMRI) Data Sets*.
-3. (authors unknown). *The Human Connectome: A Structural Description of the Human Brain*.
-4. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
+1. Caitlin Lienkaemper, G. Ocker. (2025). *Diverse [[mean-field-theory|mean-field]] dynamics of clustered, inhibition-stabilized Hawkes networks via combinatorial threshold-[[linear]] networks*. [Link](https://www.semanticscholar.org/paper/fbd6e0d74d7094beee2f373371f61ee03edaa40d)
+2. (authors unknown). *[[functional-connectivity]]: The Principal-Component Analysis of Large (PET and [[fmri]]) Data Sets*.
+3. (authors unknown). *The Human [[connectome]]: A Structural Description of the Human Brain*.
+4. (authors unknown). *Functional [[connectomics]] from [[resting-state|Resting-State fMRI]]*.
 5. (authors unknown). *Networks of the Brain*.

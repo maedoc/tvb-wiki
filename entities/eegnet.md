@@ -15,7 +15,7 @@ title: EEGNet
 created: 2025-01-15
 updated: 2026-04-30
 type: entity
-tags: [software, neural-network, neuroimaging-eeg, brain-computer-interface, deep-learning]
+tags: [software, [[neural-network]], [[neuroimaging]]-eeg, brain-computer-interface, deep-learning]
 sources: [raw/papers/lawhern-2018-eegnet.md]
 ---
 
@@ -29,7 +29,7 @@ The central insight behind EEGNet is that EEG signals benefit from hierarchical 
 
 The EEGNet architecture is distinguished by several design choices that set it apart from earlier deep learning approaches to EEG classification. First, the network uses **temporal convolutions** (kernel size = 1 × 64) to apply filters across the time dimension at each individual electrode, preserving the spatial independence of channels while learning frequency-specific temporal features (Lawhern et al., 2018). Second, **depthwise separable convolutions** are employed to separately model spatial relationships between electrodes and to combine temporal features across channels, reducing the parameter count significantly compared to standard 2D convolutions.
 
-A defining characteristic of EEGNet is its use of **spatial dropout** rather than standard dropout regularization. Because EEG channels can exhibit high inter-channel correlation, traditional dropout may be less effective. Spatial dropout randomly **drops** entire feature maps (corresponding to spatial filters) during training, encouraging the network to learn robust spatial filters that are not dependent on specific temporal patterns (Lawhern et al., 2018). Additionally, EEGNet incorporates **BatchNorm** and **ELU** (exponential linear unit) activation functions to stabilize training and promote sparse feature representations.
+A defining characteristic of EEGNet is its use of **spatial dropout** rather than standard dropout regularization. Because EEG channels can exhibit high inter-channel correlation, traditional dropout may be less effective. Spatial dropout randomly **drops** entire feature maps (corresponding to spatial filters) during training, encouraging the network to learn robust spatial filters that are not dependent on specific temporal patterns (Lawhern et al., 2018). Additionally, EEGNet incorporates **BatchNorm** and **ELU** (exponential [[linear]] unit) activation functions to stabilize training and promote sparse feature representations.
 
 The original EEGNet paper demonstrated the model's versatility across three distinct BCI paradigms: motor imagery classification (BCI Competition IV-2a), P300 event-related potential detection (P300 speller paradigm), and steady-state visual evoked potential (SSVEP) classification (Lawhern et al., 2018). In each case, EEGNet achieved competitive accuracy compared to specialized algorithms that had been hand-crafted for that specific paradigm, suggesting that the architecture learns generalizable features applicable across diverse EEG signal types.
 
@@ -56,5 +56,5 @@ The relationship between EEGNet and other software tools in this domain is worth
 ## References
 
 1. Xiangyu Xue, Liankun Ren, Hongyu Zhou, Anqi Dai, Di Wang, Huaqiang Zhang. (2026). *DiffLSTM-MTE: A Hybrid LSTM-Diffusion Framework for Virtual iEEG Reconstruction From MEG*. IEEE Access. [DOI](https://doi.org/10.1109/ACCESS.2026.3665952)
-2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *Arbor-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
+2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and [[whole-brain]] Propagation*. [Link](https://arxiv.org/abs/2505.16861)
 3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](https://doi.org/10.3389/fncom.2025.1731161)

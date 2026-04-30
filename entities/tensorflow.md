@@ -49,4 +49,4 @@ Notable computational neuroscience applications built in TensorFlow include deep
 
 1. G. Deepali, H. Anitha, B. P. Swathi, M. V. Suhas. (2025). *Autoencoder-Driven Fiducial Landmark Identification in 3D Brain MRI for Neuroimaging Alignment*. IEEE Access. [DOI](https://doi.org/10.1109/ACCESS.2025.3582273)
 2. Mahsa Karimzadeh, Hadi Seyedarabi, Ata Jodeiri, Reza Afrouzian. (2025). *Enhanced Brain Stroke Lesion Segmentation in MRI Using a 2.5D Transformer Backbone U-Net Model*. Brain Science. [DOI](https://doi.org/10.3390/brainsci15080778)
-3. Prerna Singh, Kuldeep Singh Yadav, Lalan Kumar, T. Gandhi. (2025). *Brain age group classification based on resting state functional connectivity metrics*. Biomedical Signal Processing and Control. [DOI](https://doi.org/10.1016/j.bspc.2026.109617)
+3. Prerna Singh, Kuldeep Singh Yadav, Lalan Kumar, T. Gandhi. (2025). *Brain age group classification based on resting state functional [[connectivity]] metrics*. Biomedical Signal Processing and Control. [DOI](https://doi.org/10.1016/j.bspc.2026.109617)

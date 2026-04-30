@@ -50,6 +50,6 @@ Graph‑tool occupies a specific niche in the network analysis ecosystem alongsi
 
 ## References
 
-1. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
+1. (authors unknown). *Complex Network Measures of Brain [[connectivity]]: Uses and Interpretations*.
 2. Wang, J., Wang, X., Xia, M., Liao, X., Evans, A., & He, Y. (2015). *GRETNA: a graph theoretical network analysis toolbox for MATLAB*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2015.04.016)
 3. (authors unknown). *BRAPH: A Pipeline for Brain Connectivity Analysis*.

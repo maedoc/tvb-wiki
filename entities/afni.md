@@ -30,6 +30,6 @@ The updated file is at `/home/duke/src/tvb-wiki/afni.md`.
 
 1. Tustison et al. (2010). *N4ITK: improved N3 bias correction*. IEEE Transactions on Medical Imaging. [DOI](https://doi.org/10.1109/TMI.2010.2046908)
 2. Xiaofeng Wang, Walter Zhao, Yifan Wang, Deborah H Kwon, T. Su, N. Obuchowski, Mark A Griswold, Z. Wang, Dan Ma. (2026). *Enhancing Study Design and Analysis of MR Imaging Markers Through Measurement Error Modeling.*. Journal of Magnetic Resonance Imaging. [DOI](https://doi.org/10.1002/jmri.70229)
-3. (authors unknown). *Image Processing and Quality Control for the First 100,000 Brain Imaging Datasets from UK Biobank*.
+3. (authors unknown). *Image Processing and Quality Control for the First 100,000 Brain Imaging Datasets from [[uk-biobank]]*.
 4. Wanying Qu, Jianxiong Gao, Wei Wang, Yanwei Fu. *Modeling Spatiotemporal Neural Frames for High Resolution Brain Dynamic*. [Link](https://arxiv.org/abs/2603.24176)
-5. (authors unknown). *Pushing Spatial and Temporal Resolution for Functional and Diffusion MRI in the Human Connectome Project*.
+5. (authors unknown). *Pushing Spatial and Temporal Resolution for Functional and [[diffusion-mri]] in the [[human-[[connectome]]-project]]*.

@@ -99,7 +99,7 @@ Seven cognitive domains assessed:
 ## Resources
 
 ### Data Access
-- **ConnectomeDB**: Database for downloading data
+- **[[connectomedb]]**: Database for downloading data
 - **HCP Website**: humanconnectome.org
 - **Open Access**: Free to researchers
 
@@ -131,5 +131,5 @@ Seven cognitive domains assessed:
 5. (authors unknown). *Pushing Spatial and Temporal Resolution for Functional and Diffusion MRI in the Human Connectome Project*.
 6. (authors unknown). *Function in the Human Connectome: Task-fMRI and Individual Differences in Behavior*.
 7. (authors unknown). *Functional Network Organization of the Human Brain*.
-8. (authors unknown). *Multimodal Population Brain Imaging in the UK Biobank: Prospective Epidemiological Study*.
+8. (authors unknown). *Multimodal Population Brain Imaging in the [[uk-biobank]]: Prospective Epidemiological Study*.
 9. (authors unknown). *The Human Connectome: A Structural Description of the Human Brain*.

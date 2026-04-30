@@ -1,21 +1,28 @@
 ---
-title: GLEAN
 created: 2026-04-29
-updated: 2026-04-30
+sources:
+- raw/papers/glean-github.md
+tags:
+- software-brain-modeling
+- neuroimaging-eeg
+- neuroimaging-meg
+- functional-connectivity
+- brain-oscillations
+- network-dynamics
+title: GLEAN
 type: entity
-tags: [software-brain-modeling, neuroimaging-eeg, neuroimaging-meg, functional-connectivity, brain-oscillations, network-dynamics]
-sources: [raw/papers/glean-github.md]
+updated: '2026-04-30'
 ---
 
 # GLEAN
 
 ## Overview
 
-GLEAN (Group Level Exploratory Analysis of Networks) is a MATLAB-based computational pipeline designed to identify patterns of covariation in magnetoencephalography (MEG) and electroencephalography (EEG) data at the group level. Developed by Adam Baker, Giles Colclough, Mark Woolrich, and colleagues at the Oxford Hub for Auditory Brainstem Imaging (OHBA) in 2015 (Baker et al., 2015), GLEAN provides a data-driven framework for extracting reproducible network-level features from M/EEG recordings without requiring explicit a priori models of brain dynamics. The pipeline operates on the principle that transient brain states can be characterized by their spectral properties—specifically, band-limited power fluctuations in distinct frequency bands that correspond to different underlying neural mechanisms. By applying either Hidden Markov Modeling (HMM) (Baker et al., 2015; Vidaurre et al., 2016) or Independent Component Analysis (ICA) decomposition to these band-limited power time courses, GLEAN enables researchers to discover covarying networks across groups of subjects, facilitating comparative analysis between clinical populations and healthy controls.
+GLEAN (Group Level Exploratory Analysis of Networks) is a MATLAB-based computational pipeline designed to identify patterns of covariation in magnetoencephalography (MEG) and electroencephalography (EEG) data at the group level. Developed by Adam Baker, Giles Colclough, Mark Woolrich, and colleagues at the Oxford Hub for Auditory Brainstem Imaging (OHBA) in 2015 (Baker et al., 2015), GLEAN provides a data-driven framework for extracting reproducible network-level features from M/EEG recordings without requiring explicit a priori models of [[brain-dynamics]]. The pipeline operates on the principle that transient brain states can be characterized by their spectral properties—specifically, band-limited power fluctuations in distinct frequency bands that correspond to different underlying neural mechanisms. By applying either Hidden Markov Modeling (HMM) (Baker et al., 2015; Vidaurre et al., 2016) or Independent Component Analysis (ICA) decomposition to these band-limited power time courses, GLEAN enables researchers to discover covarying networks across groups of subjects, facilitating comparative analysis between clinical populations and healthy controls.
 
 ## Motivation and Context
 
-The analysis of M/EEG data presents unique challenges compared to hemodynamic neuroimaging modalities like fMRI. The millisecond-level temporal resolution of electrophysiological recordings captures neural dynamics that are invisible to blood-oxygen-level-dependent (BOLD) imaging, including transient oscillations in theta (4–8 Hz), alpha (8–12 Hz), beta (12–30 Hz), and gamma (30–100 Hz) bands. However, extracting meaningful group-level structure from high-dimensional M/EEG data requires sophisticated dimensionality reduction and pattern detection techniques. Traditional approaches often focus on sensor-level or source-reconstructed time series from individual subjects, making group-level comparisons problematic due to intersubject variability in anatomy and recording quality. GLEAN addresses this gap by operating on band-limited power representations derived from source-reconstructed data, which are more robust to individual differences and more directly comparable across subjects (Hinczón et al., 2020). The pipeline specifically targets the analysis of resting-state electrophysiology, complementing the rich literature on resting-state functional connectivity networks derived from fMRI and enabling investigation of the temporal dynamics underlying large-scale brain network organization.
+The analysis of M/EEG data presents unique challenges compared to hemodynamic [[neuroimaging]] modalities like [[fmri]]. The millisecond-level temporal resolution of electrophysiological recordings captures neural dynamics that are invisible to blood-oxygen-level-dependent ([[bold-signal|BOLD]]) imaging, including transient oscillations in theta (4–8 Hz), alpha (8–12 Hz), beta (12–30 Hz), and gamma (30–100 Hz) bands. However, extracting meaningful group-level structure from high-dimensional M/EEG data requires sophisticated dimensionality reduction and pattern detection techniques. Traditional approaches often focus on sensor-level or source-reconstructed time series from individual subjects, making group-level comparisons problematic due to intersubject variability in anatomy and recording quality. GLEAN addresses this gap by operating on band-limited power representations derived from source-reconstructed data, which are more robust to individual differences and more directly comparable across subjects (Hinczón et al., 2020). The pipeline specifically targets the analysis of [[resting-state]] [[electrophysiology]], complementing the rich literature on resting-state [[functional-connectivity]] networks derived from fMRI and enabling investigation of the temporal dynamics underlying large-scale [[brain-network]] organization.
 
 ## Key Features
 
@@ -23,7 +30,7 @@ GLEAN implements two complementary analytical approaches for network extraction.
 
 ## Relationship to TVB
 
-While GLEAN operates primarily on M/EEG data and The Virtual Brain (TVB) is typically used for whole-brain modeling with fMRI, EEG, and MEG simulation capabilities, the two frameworks are conceptually complementary. GLEAN's data-driven network decompositions can inform TVB model specification—for example, by identifying frequency bands and brain regions that show the strongest group-level covariation, which can then be targeted in TVB parameter optimization. Conversely, TVB's generative modeling framework could be used to simulate the network dynamics observed in GLEAN analyses, providing mechanistic interpretations of empirically derived state sequences. Both tools share an emphasis on network-level analysis of brain function, and future integration might involve using GLEAN-derived network parameters as constraints in TVB personalized brain models, particularly for clinical applications in epilepsy and schizophrenia where electrophysiological biomarkers are increasingly important.
+While GLEAN operates primarily on M/EEG data and The Virtual Brain (TVB) is typically used for [[whole-brain|whole-brain modeling]] with fMRI, EEG, and MEG simulation capabilities, the two frameworks are conceptually complementary. GLEAN's data-driven network decompositions can inform TVB model specification—for example, by identifying frequency bands and brain regions that show the strongest group-level covariation, which can then be targeted in TVB parameter optimization. Conversely, TVB's generative modeling framework could be used to simulate the network dynamics observed in GLEAN analyses, providing mechanistic interpretations of empirically derived state sequences. Both tools share an emphasis on network-level analysis of brain function, and future integration might involve using GLEAN-derived network parameters as constraints in TVB [[personalized-brain-modeling|personalized brain]] models, particularly for clinical applications in epilepsy and schizophrenia where electrophysiological biomarkers are increasingly important.
 
 ## Key Papers
 

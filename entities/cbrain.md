@@ -30,7 +30,7 @@ CBRAIN is a web-based computational platform designed for large-scale neuroimagi
 
 ## Motivation and Context
 
-The neuroimaging community faces a fundamental infrastructure challenge: modern analysis pipelines require substantial computational resources (hundreds to thousands of CPU hours per subject) that are impractical to run on individual workstations. Simultaneously, many neuroscientists lack the technical expertise to interact directly with HPC systems via command-line interfaces. Traditional solutions like sending data to a central facility for processing created bottlenecks, while manual cluster management consumed significant research time and introduced variability that compromised reproducibility.
+The [[neuroimaging]] community faces a fundamental infrastructure challenge: modern analysis pipelines require substantial computational resources (hundreds to thousands of CPU hours per subject) that are impractical to run on individual workstations. Simultaneously, many neuroscientists lack the technical expertise to interact directly with HPC systems via command-line interfaces. Traditional solutions like sending data to a central facility for processing created bottlenecks, while manual cluster management consumed significant research time and introduced variability that compromised [[reproducibility]].
 
 CBRAIN emerged to address these challenges by providing a layer of abstraction over heterogeneous computing infrastructure. The platform implements a federated model where multiple institutions can contribute compute resources (clusters, cloud instances) while retaining local control, and users can access these resources through a unified portal. This architecture proved particularly valuable for large consortia projects, where thousands of subjects required standardized processing across multiple sites. The platform has served over 200 users across 53 cities in 17 countries as of 2013, with processing totaling millions of CPU hours from Compute Canada HPC resources alone [@sources[0]].
 
@@ -51,7 +51,7 @@ CBRAIN bundles and maintains wrappers for dozens of leading neuroimaging tools, 
 - **Structural processing**: [[freesurfer]], [[fsl]]'s BET/FAST, [[ants]]
 - **Diffusion imaging**: [[mrtrix3]], [[dipy]], [[fsl]]'s FDT, [[camino]]
 - **Functional processing**: [[fsl]]'s FEAT, [[spm]], [[afni]]
-- **Connectivity analysis**: [[connectome-workbench]], [[bctpy]]
+- **[[connectivity]] analysis**: [[connectome-workbench]], [[bctpy]]
 
 Each tool wrapper ensures consistent input/output handling and proper integration with CBRAIN's data management system.
 
@@ -92,5 +92,5 @@ Despite its widespread adoption, CBRAIN faces ongoing challenges. The tool wrapp
 ## References
 
 1. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2025). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research*. bioRxiv. [DOI](https://doi.org/10.1101/2025.10.06.680781)
-2. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2026). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research.*. Brain Stimulation. [DOI](https://doi.org/10.1016/j.brs.2025.103016)
+2. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2026). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research.*. [[brain-stimulation]]. [DOI](https://doi.org/10.1016/j.brs.2025.103016)
 3. Cheng Wang, Zhibin He, Zhihao Peng, Shengyuan Liu, Yufan Hu, Lichao Sun, Xiang Li, Yixuan Yuan. (2026). *NeuroClaw Technical Report*. [Link](https://arxiv.org/abs/2604.24696)

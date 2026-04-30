@@ -21,7 +21,7 @@ updated: '2026-04-30'
 
 ## Overview
 
-**Elastix** is an open-source software toolkit for rigid and non-rigid medical image registration, developed at the Image Sciences Institute of University Medical Center Utrecht. It provides a collection of modular registration algorithms that align images from different subjects, time points, or modalities into a common reference space. In the context of whole-brain modeling and computational neuroscience, elastix serves as a critical preprocessing tool for generating accurate anatomical alignments needed to construct [[structural-connectivity]] matrices from diffusion imaging data and to normalize functional imaging data for group-level analyses.
+**Elastix** is an open-source software toolkit for rigid and non-rigid medical image registration, developed at the Image Sciences Institute of University Medical Center Utrecht. It provides a collection of modular registration algorithms that align images from different subjects, time points, or modalities into a common reference space. In the context of [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]], elastix serves as a critical preprocessing tool for generating accurate anatomical alignments needed to construct [[structural-connectivity]] matrices from [[diffusion-imaging]] data and to normalize functional imaging data for group-level analyses.
 
 ## Key Features
 
@@ -35,13 +35,13 @@ A distinguishing characteristic of elastix is its command-line interface with pa
 
 In the [[the-virtual-brain]] ecosystem, elastix plays an indirect but important role in the preprocessing chain that produces the structural connectivity matrices used to configure whole-brain models. While TVB itself does not directly call elastix, many research workflows that generate [[connectome]] data from [[diffusion-mri]] and tractography pipelines use elastix for registration before applying tools like [[mrtrix3]] or [[dsi-studio]]. The accurate inter-subject alignment produced by elastix ensures that parcellation labels derived from anatomical atlases—such as the [[desikan-killiany-atlas]], [[schaefer-atlas]], or [[glasser-atlas]]—correctly map onto individual diffusion images, which is essential for producing reliable [[structural-connectivity]] networks.
 
-Additionally, elastix is frequently used in conjunction with [[ants]] (Advanced Normalization Tools) for population-level template creation and longitudinal registration in studies of brain development, aging, and disease progression. These templates can serve as population-averaged reference spaces for whole-brain modeling efforts that aim to characterize differences in network dynamics between clinical groups.
+Additionally, elastix is frequently used in conjunction with [[ants]] (Advanced Normalization Tools) for population-level template creation and longitudinal registration in studies of brain development, [[aging]], and disease progression. These templates can serve as population-averaged reference spaces for whole-brain modeling efforts that aim to characterize differences in [[network-dynamics]] between clinical groups.
 
 ## Key Papers
 
 The seminal publication describing elastix is the 2010 paper by Klein et al. in *Medical Image Analysis* titled "Elastix: A Toolbox for Intensity-Based Medical Image Registration" [Klein et al., 2010]. This paper establishes the software's architecture, describes the optimization methods, and provides extensive validation on various registration tasks. A subsequent 2014 paper by Shamonin et al. in *Frontiers in Neurology* demonstrated parallelization capabilities for large-scale registration tasks, showing significant speedups when using multiple CPU cores [Shamonin et al., 2014].
 
-Users building connectome-based models should also consult the methods literature on registration accuracy in diffusion imaging—for example, work by Tustison and colleagues on diffeomorphic registration for neuroimaging applications, which discusses how registration quality impacts tractography outcomes [Tustison et al., 2010].
+Users building connectome-based models should also consult the methods literature on registration accuracy in diffusion imaging—for example, work by Tustison and colleagues on diffeomorphic registration for [[neuroimaging]] applications, which discusses how registration quality impacts [[tractography]] outcomes [Tustison et al., 2010].
 
 ## Related Software
 

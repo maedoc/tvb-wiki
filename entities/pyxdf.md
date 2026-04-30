@@ -18,7 +18,7 @@ type: entity
 updated: '2026-04-30'
 ---
 
-PyXDF is a Python library for reading multi-stream time series data stored in the XDF (eXtensible Data Format) file format[^1]. It provides a robust and efficient interface for parsing XDF files, which have become a standard interchange format for combining multimodal neuroimaging and electrophysiology data, particularly in brain-computer interface (BCI) research, neurofeedback experiments, and combined EEG/MEG-fMRI studies[^2]. The library is maintained by the xdf-modules organization and serves as the primary Python solution for working with XDF data, complementing the MATLAB-based implementation in the EEGLAB XDF plugin[^3].
+PyXDF is a Python library for reading multi-stream time series data stored in the XDF (eXtensible Data Format) file format[^1]. It provides a robust and efficient interface for parsing XDF files, which have become a standard interchange format for combining multimodal [[neuroimaging]] and [[electrophysiology]] data, particularly in brain-computer interface (BCI) research, neurofeedback experiments, and combined EEG/MEG-fMRI studies[^2]. The library is maintained by the xdf-modules organization and serves as the primary Python solution for working with XDF data, complementing the MATLAB-based implementation in the EEGLAB XDF plugin[^3].
 
 ## Overview
 
@@ -30,7 +30,7 @@ PyXDF provides functions to parse XDF files, extract individual data streams, ha
 
 PyXDF offers several features that make it well-suited for complex neuroimaging data handling. The library supports **multi-stream loading**, meaning a single XDF file can contain dozens of independent data streams — for instance, raw EEG data, derived bandpower estimates, eye tracking data, and stimulus presentation logs — all of which PyXDF can load simultaneously while preserving their temporal relationships.
 
-The **clock synchronization** mechanism in XDF and PyXDF deserves particular attention. In multimodal recordings, different devices often use different internal clocks, leading to drift and offset between streams. XDF embeds synchronization samples (clock values from each device) directly in the file, and PyXDF provides utilities to compute linear transformation parameters that align streams to a common clock domain. This is especially valuable when combining [[meg]] or EEG with [[fmri]] data, where the hemodynamic response introduces a fundamental temporal mismatch that must be accounted for during analysis.
+The **clock synchronization** mechanism in XDF and PyXDF deserves particular attention. In multimodal recordings, different devices often use different internal clocks, leading to drift and offset between streams. XDF embeds synchronization samples (clock values from each device) directly in the file, and PyXDF provides utilities to compute [[linear]] transformation parameters that align streams to a common clock domain. This is especially valuable when combining [[meg]] or EEG with [[fmri]] data, where the hemodynamic response introduces a fundamental temporal mismatch that must be accounted for during analysis.
 
 PyXDF also supports **stream selection and filtering**, allowing users to load only specific streams from a file rather than reading the entire dataset into memory. This is practical for large-scale datasets where loading all streams simultaneously would be memory-prohibitive. Additionally, the library handles both **continuous and discontinuous recordings**, including files with data gaps or pauses between recording segments.
 
@@ -63,7 +63,7 @@ PyXDF exists within a broader ecosystem of data format tools and analysis framew
 
 ## Open Questions and Limitations
 
-While PyXDF provides robust reading capabilities, some aspects of the XDF ecosystem remain challenging. Clock synchronization between devices with fundamentally different sampling rates or clock stabilities can be imperfect, and the quality of synchronization depends on the accuracy of the synchronization samples embedded during recording[^1]. Additionally, while XDF supports arbitrary channel types, interoperability with standard formats like BIDS requires additional conversion steps that can introduce friction in large-scale reproducible workflows.
+While PyXDF provides robust reading capabilities, some aspects of the XDF ecosystem remain challenging. Clock synchronization between devices with fundamentally different sampling rates or clock stabilities can be imperfect, and the quality of synchronization depends on the accuracy of the synchronization samples embedded during recording[^1]. Additionally, while XDF supports arbitrary channel types, interoperability with standard formats like [[bids]] requires additional conversion [[steps]] that can introduce friction in large-scale reproducible workflows.
 
 ## References
 

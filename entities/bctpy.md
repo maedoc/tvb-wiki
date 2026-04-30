@@ -35,7 +35,7 @@ In practice, many TVB users employ BCTpy in their preprocessing pipeline: comput
 
 ## Key Papers
 
-The seminal BCT paper by Rubinov and Sporns (2010), published in NeuroImage, established the original MATLAB toolbox and remains the foundational reference for network neuroscience methodology. This paper comprehensively describes the network analysis metrics implemented in both the original BCT and its Python derivative, and it has become one of the most cited works in connectomics (over 10,000 citations). Users of BCTpy should cite this work when applying the toolbox's metrics to their analyses.
+The seminal BCT paper by Rubinov and Sporns (2010), published in NeuroImage, established the original MATLAB toolbox and remains the foundational reference for [[netneuroscience|network neuroscience]] methodology. This paper comprehensively describes the network analysis metrics implemented in both the original BCT and its Python derivative, and it has become one of the most cited works in connectomics (over 10,000 citations). Users of BCTpy should cite this work when applying the toolbox's metrics to their analyses.
 
 For background on the broader field of [[brain-network]] analysis, the review by Bullmore and Sporns (2009) provides essential context on graph theoretical approaches to brain connectivity. This article established the theoretical foundations for analyzing complex brain networks and introduced many of the key concepts (small-worldness, modularity, hub architecture) that BCTpy enables researchers to quantify empirically.
 
@@ -47,6 +47,6 @@ BCTpy occupies a niche in the Python ecosystem for brain network analysis, compl
 
 ## References
 
-1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
 2. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
-3. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
+3. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal [[neuroimaging]]*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)

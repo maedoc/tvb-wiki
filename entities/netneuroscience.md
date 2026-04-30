@@ -1,35 +1,45 @@
 ---
-title: Network Neuroscience
 created: 2024-01-15
-updated: 2026-04-29
-type: concept
-tags: [connectomics, structural-connectivity, functional-connectivity, effective-connectivity, network-dynamics, whole-brain-modeling, graph-theory, computational-neuroscience, neural-mass-models, brain-network]
 sources:
-  - doi: 10.1038/nn.4502
-    year: 2017
-    authors: Bassett, D.S., Sporns, O.
-    title: Network neuroscience
-    journal: Nature Neuroscience
-  - doi: 10.1038/nrn2576
-    year: 2009
-    authors: Bullmore, E., Sporns, O.
-    title: "Complex brain networks: From topological architecture to brain dynamics"
-    journal: Nature Reviews Neuroscience
-  - doi: 10.1016/j.neuroimage.2010.02.045
-    year: 2010
-    authors: Rubinov, M., Sporns, O.
-    title: "Complex network measures of brain connectivity: Uses and interpretations"
-    journal: NeuroImage
-  - doi: 10.1093/brain/awx275
-    year: 2017
-    authors: Fornito, A., Zalesky, A., Bullmore, E.
-    title: Fundamentals of Brain Network Analysis
-    journal: Oxford University Press
-  - doi: 10.1523/JNEUROSCI.3689-12.2013
-    year: 2013
-    authors: van den Heuvel, M.P., Sporns, O.
-    title: Network hubs in the human brain
-    journal: Journal of Neuroscience
+- authors: Bassett, D.S., Sporns, O.
+  doi: 10.1038/nn.4502
+  journal: Nature Neuroscience
+  title: Network neuroscience
+  year: 2017
+- authors: Bullmore, E., Sporns, O.
+  doi: 10.1038/nrn2576
+  journal: Nature Reviews Neuroscience
+  title: 'Complex brain networks: From topological architecture to brain dynamics'
+  year: 2009
+- authors: Rubinov, M., Sporns, O.
+  doi: 10.1016/j.neuroimage.2010.02.045
+  journal: NeuroImage
+  title: 'Complex network measures of brain connectivity: Uses and interpretations'
+  year: 2010
+- authors: Fornito, A., Zalesky, A., Bullmore, E.
+  doi: 10.1093/brain/awx275
+  journal: Oxford University Press
+  title: Fundamentals of Brain Network Analysis
+  year: 2017
+- authors: van den Heuvel, M.P., Sporns, O.
+  doi: 10.1523/JNEUROSCI.3689-12.2013
+  journal: Journal of Neuroscience
+  title: Network hubs in the human brain
+  year: 2013
+tags:
+- connectomics
+- structural-connectivity
+- functional-connectivity
+- effective-connectivity
+- network-dynamics
+- whole-brain-modeling
+- graph-theory
+- computational-neuroscience
+- neural-mass-models
+- brain-network
+title: Network Neuroscience
+type: concept
+updated: '2026-04-30'
 ---
 
 Network neuroscience is an interdisciplinary field that applies graph theory and network science to understand brain structure and function as interconnected systems. Rather than studying individual neurons or brain regions in isolation, network neuroscience treats the brain as a complex network of nodes (neurons, populations, or brain regions) linked by edges (synapses, white matter tracts, or statistical dependencies), enabling analysis of emergent properties such as [[small-world-networks]], [[rich-club]] organization, modularity, and [[network-hubs]] [@doi:10.1038/nrn2576].
@@ -64,7 +74,7 @@ The relationship is bidirectional: network analysis characterizes empirical brai
 
 Several software packages implement network neuroscience methods:
 
-- [[brain-connectivity-toolbox]] (BCT): MATLAB toolbox for complex network analysis
+- [[brain-[[connectivity]]-toolbox]] (BCT): MATLAB toolbox for complex network analysis
 - [[bctpy]]: Python implementation of BCT functions
 - [[brainspace]]: Python library for mapping connectivity patterns
 - [[braph]]: Graph-theoretic analysis of brain connectivity in MATLAB/Python
@@ -77,10 +87,10 @@ For network reconstruction from neuroimaging data, researchers use packages like
 Foundational references in network neuroscience include:
 
 - Bassett & Sporns (2017). "Network neuroscience." *Nature Neuroscience* [@doi:10.1038/nn.4502]
-- Bullmore & Sporns (2009). "Complex brain networks: From topological architecture to brain dynamics." *Nature Reviews Neuroscience* [@doi:10.1038/nrn2576]
+- Bullmore & Sporns (2009). "Complex brain networks: From topological architecture to [[brain-dynamics]]." *Nature Reviews Neuroscience* [@doi:10.1038/nrn2576]
 - Rubinov & Sporns (2010). "Complex network measures of brain connectivity: Uses and interpretations." *NeuroImage* [@doi:10.1016/j.neuroimage.2010.02.045]
 - van den Heuvel & Sporns (2013). "Network hubs in the human brain." *Journal of Neuroscience* [@doi:10.1523/JNEUROSCI.3689-12.2013]
-- Fornito, Zalesky & Bullmore (2016). *Fundamentals of Brain Network Analysis* [@doi:10.1093/brain/awx275]
+- Fornito, Zalesky & Bullmore (2016). *Fundamentals of [[brain-network]] Analysis* [@doi:10.1093/brain/awx275]
 
 ## Open Questions
 

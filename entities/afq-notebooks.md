@@ -25,13 +25,13 @@ updated: '2026-04-30'
 
 ## Overview
 
-AFQ Notebooks is an open-source collection of interactive Jupyter notebooks designed to teach and demonstrate white matter tract analysis using the Automated Fiber Quantification (AFQ) framework. The notebooks provide step-by-step tutorials for processing diffusion MRI data, segmenting major white matter tracts, computing diffusion metrics (such as fractional anisotropy and mean diffusivity), and visualizing results. Originally developed by the Developmental Cognition and Neuroimaging (DCAN) Labs, AFQ Notebooks serves as both an educational resource for newcomers to diffusion imaging and a practical reference for researchers performing tract-based analyses.
+AFQ Notebooks is an open-source collection of interactive Jupyter notebooks designed to teach and demonstrate white matter tract analysis using the Automated Fiber Quantification (AFQ) framework. The notebooks provide step-by-step tutorials for processing [[diffusion-mri]] data, segmenting major white matter tracts, computing diffusion metrics (such as [[fractional-anisotropy]] and mean diffusivity), and visualizing results. Originally developed by the Developmental Cognition and [[neuroimaging]] (DCAN) Labs, AFQ Notebooks serves as both an educational resource for newcomers to diffusion imaging and a practical reference for researchers performing tract-based analyses.
 
 ## Motivation and Context
 
-Diffusion tensor imaging (DTI) and advanced diffusion imaging techniques (such as diffusion spectrum imaging and Q-ball imaging) provide unique insights into the microstructural organization of white matter by measuring the preferential diffusion of water molecules along axonal fibers (Basser et al., 1994). However, extracting biologically meaningful metrics from these data requires sophisticated processing pipelines that involve eddy current correction, tensor fitting, tractography, tract segmentation, and statistical analysis. These steps historically required specialized expertise and custom scripting, creating a barrier for many researchers.
+Diffusion tensor imaging (DTI) and advanced diffusion imaging techniques (such as diffusion spectrum imaging and Q-ball imaging) provide unique insights into the microstructural organization of white matter by measuring the preferential diffusion of water molecules along axonal fibers (Basser et al., 1994). However, extracting biologically meaningful metrics from these data requires sophisticated processing pipelines that involve eddy current correction, tensor fitting, tractography, tract segmentation, and statistical analysis. These [[steps]] historically required specialized expertise and custom scripting, creating a barrier for many researchers.
 
-The AFQ framework was developed to automate and standardize white matter tract analysis, making it accessible to the broader neuroimaging community (Yeatman et al., 2012). AFQ Notebooks complements this software by providing executable documentation that walks users through each stage of the pipeline. The notebooks use [[dipy]] for core diffusion processing (Garyfallidis et al., 2014), [[freesurfer]] for anatomical parcellation, and integrate with visualization tools to produce publication-ready figures. This educational approach addresses a common pain point in computational neuroscience: the gap between published methods papers and practical implementation.
+The AFQ framework was developed to automate and standardize white matter tract analysis, making it accessible to the broader neuroimaging community (Yeatman et al., 2012). AFQ Notebooks complements this software by providing executable documentation that walks users through each stage of the pipeline. The notebooks use [[dipy]] for core diffusion processing (Garyfallidis et al., 2014), [[freesurfer]] for anatomical [[parcellation]], and integrate with visualization tools to produce publication-ready figures. This educational approach addresses a common pain point in [[computational-neuroscience]]: the gap between published methods papers and practical implementation.
 
 ## Technical Content
 
@@ -39,7 +39,7 @@ The AFQ Notebooks collection covers the complete white matter analysis workflow.
 
 Subsequent notebooks demonstrate the AFQ pipeline itself. Users learn how to compute [[tractography]] from diffusion data (Mori et al., 1999; Catani et al., 2002), segment identified fiber streams into anatomically defined white matter tracts using predefined ROIs (regions of interest), and extract diffusion metrics along the length of each tract (a procedure known as tract profiling or tractometry). The notebooks show how to handle common edge cases, such as malformed tracts or artifacts from head motion, and how to interpret the resulting profile plots that visualize metric variation along the anterior-posterior axis of each tract.
 
-The visualization notebooks demonstrate how to generate 3D renderings of white matter tracts overlaid with diffusion metrics using [[freesurfer]]'s freeview utility and the pyAFQ visualization API. These visualizations are particularly valuable for communicating results in presentations and publications, as they provide intuitive spatial context for quantitative findings.
+The visualization notebooks demonstrate how to generate 3D renderings of white matter tracts overlaid with diffusion metrics using [[freesurfer]]'s [[freeview]] utility and the pyAFQ visualization API. These visualizations are particularly valuable for communicating results in presentations and publications, as they provide intuitive spatial context for quantitative findings.
 
 ## Relationship to TVB
 
@@ -47,7 +47,7 @@ In the context of [[the-virtual-brain]] (TVB), AFQ Notebooks represents a comple
 
 ## Key Features
 
-The notebooks are designed for reproducibility and practical usability. Each notebook includes tutorial data fetched from public repositories (such as OpenNeuro and Zenodo), allowing users to run the complete pipeline locally. The modular structure enables users to skip ahead to specific processing stages if they already have partially processed data. The tutorials are maintained in sync with the main [[afq]] (also known as pyAFQ) software package, ensuring that code examples remain valid as the library evolves.
+The notebooks are designed for [[reproducibility]] and practical usability. Each notebook includes tutorial data fetched from public repositories (such as [[openneuro]] and Zenodo), allowing users to run the complete pipeline locally. The modular structure enables users to skip ahead to specific processing stages if they already have partially processed data. The tutorials are maintained in sync with the main [[afq]] (also known as pyAFQ) software package, ensuring that code examples remain valid as the library evolves.
 
 ## Key Papers
 
@@ -66,7 +66,7 @@ The notebooks are designed for reproducibility and practical usability. Each not
 - [[tractography]] — The broader method of reconstructing white matter pathways
 - [[dti]] — Diffusion tensor imaging, the foundational technique
 - [[white-matter]] — The neural tissue type analyzed by AFQ
-- [[the-virtual-brain]] — Whole-brain modeling platform that can use AFQ-derived connectivity data
+- [[the-virtual-brain]] — [[whole-brain|Whole-brain modeling]] platform that can use AFQ-derived connectivity data
 
 ## References
 

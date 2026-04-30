@@ -113,6 +113,6 @@ The DMN presents both opportunities and challenges for [[whole-brain modeling]] 
 1. (authors unknown). *A Default Mode of Brain Function*.
 2. (authors unknown). *The Brain's Default Network: Anatomy, Function, and Relevance to Disease*.
 3. (authors unknown). *Functional Connectivity in the Resting Brain: A Network Analysis of the Default Mode Hypothesis*.
-4. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
+4. (authors unknown). *Functional [[connectomics]] from Resting-State fMRI*.
 5. (authors unknown). *Functional-Anatomic Fractionation of the Brain's Default Network*.
 6. (authors unknown). *Functional Connectivity: The Principal-Component Analysis of Large (PET and fMRI) Data Sets*.

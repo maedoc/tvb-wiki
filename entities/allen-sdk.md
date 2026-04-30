@@ -24,7 +24,7 @@ The Allen SDK (Software Development Kit) is a Python-based toolkit developed by 
 
 ## Motivation and Context
 
-The Allen Institute for Brain Science has produced some of the most comprehensive brain atlases available, including the Allen Mouse Brain Connectivity Atlas, the Allen Human Brain Atlas, and the Cell Type Database [@brain-map-connectivity-api]. However, these datasets are massive—containing terabytes of imaging, transcriptomics, and electrophysiology data—and would be impractical to use manually. The Allen SDK solves this problem by providing a unified API that abstracts away the complexities of data storage, download, and preprocessing. For researchers building [[whole-brain-model]]s, access to accurate structural connectivity data is paramount, and the Allen SDK provides validated tractography-derived connectivity matrices derived from viral tracing experiments that can serve as anatomical scaffolds for simulations. The toolkit also supports the broader goal of [[personalized-brain-modeling]] by enabling researchers to incorporate species-specific anatomical constraints into their models.
+The Allen Institute for Brain Science has produced some of the most comprehensive brain atlases available, including the Allen Mouse Brain [[connectivity]] Atlas, the Allen Human Brain Atlas, and the Cell Type Database [@brain-map-connectivity-api]. However, these datasets are massive—containing terabytes of imaging, transcriptomics, and [[electrophysiology]] data—and would be impractical to use manually. The Allen SDK solves this problem by providing a unified API that abstracts away the complexities of data storage, download, and preprocessing. For researchers building [[whole-brain-model]]s, access to accurate structural connectivity data is paramount, and the Allen SDK provides validated [[tractography]]-derived connectivity matrices derived from viral tracing experiments that can serve as anatomical scaffolds for simulations. The toolkit also supports the broader goal of [[personalized-brain-modeling]] by enabling researchers to incorporate species-specific anatomical constraints into their models.
 
 ## Key Features
 
@@ -38,7 +38,7 @@ The Allen SDK offers several distinct modules for different data types [@allen-s
 
 - **Reference Space API**: Provides utilities for working with CCF annotation volumes and structure ontologies, enabling spatial queries and region-of-interest definitions.
 
-The SDK stores data in cloud-friendly formats including NRRD (Nearly Raw Raster Data) for volumetric data and NWB (Neurodata Without Borders) for electrophysiology experiments [@allen-sdk-docs].
+The SDK stores data in cloud-friendly formats including NRRD (Nearly Raw Raster Data) for volumetric data and NWB ([[neurodata-without-borders]]) for electrophysiology experiments [@allen-sdk-docs].
 
 ## Relationship to Whole-Brain Modeling
 
@@ -46,15 +46,15 @@ In the context of [[whole-brain-modeling]], the Allen SDK serves primarily as a 
 
 The connectivity data from the Allen Mouse Brain Connectivity Atlas is derived from anterograde viral tracing experiments using Cre-driver mouse lines [@brain-map-connectivity-api]. Each experiment maps the axonal projections from a specific injection site to target structures, providing directional connectivity information that distinguishes between source and target brain regions.
 
-While the Allen SDK itself provides data access rather than simulator coupling, the Allen Institute's related Brain Modeling Toolkit (BMTK) provides simulation frameworks that can incorporate Allen atlas data. BMTK's PointNet module supports running large-scale point neuron network models using NEST simulator and can utilize data from the Allen SDK as input for simulations [@bmtk-pointnet].
+While the Allen SDK itself provides data access rather than simulator coupling, the Allen Institute's related Brain Modeling Toolkit ([[bmtk]]) provides simulation frameworks that can incorporate Allen atlas data. BMTK's PointNet module supports running large-scale point [[neuron]] network models using [[nest]] simulator and can utilize data from the Allen SDK as input for simulations [@bmtk-pointnet].
 
 ## Related Software and Resources
 
 The Allen SDK is part of a broader ecosystem of brain atlas tools and data resources:
 
-- **[[freesurfer]]**: For cortical parcellation and segmentation of human neuroimaging data
+- **[[freesurfer]]**: For cortical [[parcellation]] and segmentation of human [[neuroimaging]] data
 - **[[brain-connectivity-toolbox]]**: For network analysis of connectivity data
-- **[[dipy]]**: For advanced diffusion MRI tractography processing
+- **[[dipy]]**: For advanced [[diffusion-mri]] tractography processing
 - **[[connectome-workbench]]**: For visualization of brain parcellations and connectivity data
 
 The Allen SDK complements other data resources like the Human Connectome Project (HCP) and can be used alongside [[nilearn]] for human neuroimaging data workflows. The data formats used by Allen Institute (NWB, NRRD) align with Neurodata Without Borders standards for neurophysiology data.

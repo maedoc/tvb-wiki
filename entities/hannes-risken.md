@@ -42,4 +42,4 @@ Hannes Risken was a German physicist known for his definitive work on Fokker-Pla
 1. (authors unknown). *The Fokker-Planck Equation: Methods of Solution and Applications*.
 2. (authors unknown). *Stochastic Methods: A Handbook for the Natural and Social Sciences*.
 3. (authors unknown). *Networks: An Introduction*.
-4. Romain Veltz. (2025). *Analysis of a mean-field limit of interacting two-dimensional nonlinear integrate-and-fire neurons*. [Link](https://www.semanticscholar.org/paper/c2b31ea32345e88726e581ea675d6450a44df2a1)
+4. Romain Veltz. (2025). *Analysis of a mean-field limit of interacting two-dimensional nonlinear [[spiking-neural-networks|integrate-and-fire]] neurons*. [Link](https://www.semanticscholar.org/paper/c2b31ea32345e88726e581ea675d6450a44df2a1)

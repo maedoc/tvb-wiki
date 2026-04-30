@@ -18,6 +18,6 @@ Software Bct — a concept in [[whole-brain|whole-brain modeling]] and [[computa
 
 ## References
 
-1. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
+1. (authors unknown). *Complex Network Measures of Brain [[connectivity]]: Uses and Interpretations*.
 2. (authors unknown). *Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems*.
-3. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
+3. (authors unknown). *Functional [[connectomics]] from [[resting-state|Resting-State fMRI]]*.

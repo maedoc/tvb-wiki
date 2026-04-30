@@ -18,4 +18,4 @@ Karl J Fristol — a concept in [[whole-brain|whole-brain modeling]] and [[compu
 ## References
 
 1. O. David, K.J. Friston. *Dynamic causal modelling*. NeuroImage. [DOI](https://doi.org/10.1016/S1053-8119(03)00202-7)
-2. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
+2. (authors unknown). *Functional [[connectomics]] from [[resting-state|Resting-State fMRI]]*.

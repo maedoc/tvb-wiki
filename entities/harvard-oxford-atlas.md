@@ -42,7 +42,7 @@ The Harvard-Oxford Atlas is highly relevant to [[whole‑brain modeling]] and [[
 
 Beyond structural connectivity, the Harvard‑Oxford Atlas can serve as a **source space** for simulating neuroimaging signals in TVB. After running network simulations (typically using [[neural‑mass‑models]] or reduced models such as the Wong‑Wang model), the simulated neural activity can be projected onto the atlas regions to generate synthetic BOLD (Blood‑Oxygen‑Level‑Dependent) signals using the [[hemodynamic‑response‑function]] model. These synthetic signals can then be compared directly to empirical fMRI data for [[model‑validation]] or parameter optimization[^3].
 
-The atlas also facilitates **comparative model validation** by providing a common parcellation scheme. When comparing [[whole‑brain]] models parameterized in different ways, or when benchmarking TVB against other whole‑brain simulators, using the same atlas ensures that the comparison is fair and that differences are not attributable to discrepancies in region definitions. The TVB ecosystem includes support for the Harvard‑Oxford Atlas through its integration with the nilearn library and direct FSL dataset loading capabilities[^3].
+The atlas also facilitates **comparative [[model-validation]]** by providing a common parcellation scheme. When comparing [[whole‑brain]] models parameterized in different ways, or when benchmarking TVB against other whole‑brain simulators, using the same atlas ensures that the comparison is fair and that differences are not attributable to discrepancies in region definitions. The TVB ecosystem includes support for the Harvard‑Oxford Atlas through its integration with the nilearn library and direct FSL dataset loading capabilities[^3].
 
 ## Relationship to Other Atlases
 
@@ -71,6 +71,6 @@ A comparative parcellation framework (HOA2.0‑ComPaRe) extending the Harvard‑
 
 ## References
 
-1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+1. Sanz Leon et al. (2013). *[[the-virtual-brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
 2. Siva Venkadesh, Yuhe Tian, Wendy Linn, Jessica Barrios Martinez, Harrison Mansour, J. Cook, David J. Schaeffer, D. Szczupak, Afonso C Silva, Allan Johnson, Fang‐Cheng Yeh. (2025). *A hierarchical framework for cortical and subcortical gray-matter parcellation across rodents, primates, and humans*. bioRxiv. [DOI](https://doi.org/10.1101/2025.09.08.675002)
-3. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
+3. Ritter et al. (2013). *[[tvb|The Virtual Brain]] integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)

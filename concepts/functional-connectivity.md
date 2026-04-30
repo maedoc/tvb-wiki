@@ -58,11 +58,11 @@ The functional-[[connectivity]] page has been improved. Here's a summary of the 
 2. (authors unknown). *Spontaneous fluctuations in brain activity observed with functional magnetic resonance imaging*.
 3. (authors unknown). *Correspondence of the brain's functional architecture during activation and rest*.
 4. (authors unknown). *Functional Connectivity: The Principal-Component Analysis of Large (PET and fMRI) Data Sets*.
-5. (authors unknown). *Predicting Human Resting-State Functional Connectivity from Structural Connectivity*.
+5. (authors unknown). *Predicting Human Resting-State Functional Connectivity from [[structural-connectivity]]*.
 6. (authors unknown). *Functional Network Organization of the Human Brain*.
-7. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
+7. (authors unknown). *Functional [[connectomics]] from Resting-State fMRI*.
 8. (authors unknown). *The organization of the human cerebellum estimated by intrinsic functional connectivity*.
 9. (authors unknown). *Functional Connectivity in the Resting Brain: A Network Analysis of the Default Mode Hypothesis*.
-10. Mengyuan Liu, Jing Hu, Zhenzhen Ru, Ruomeng Quan, Xu Zhang, Ning Qiang, Jin Li. (2025). *Exploring the changes in brain network SC-FC coupling patterns of partial sleep deprivation based on DTI-fMRI fusion analysis*. [Link](https://arxiv.org/abs/2512.00063)
+10. Mengyuan Liu, Jing Hu, Zhenzhen Ru, Ruomeng Quan, Xu Zhang, Ning Qiang, Jin Li. (2025). *Exploring the changes in [[brain-network]] SC-FC coupling patterns of partial sleep deprivation based on DTI-fMRI fusion analysis*. [Link](https://arxiv.org/abs/2512.00063)
 11. B. Sarton, Giulia Maria Mattia, Eve Cervoni, Julie Decourt, Patrice Péran, Béatrice Riu, Fanny Bounes, Edouard Naboulsi, P. Barttfeld, Jean-Marc Olivot, Stein Silva, Sylvain Cussat-Blanc. (2026). *Explainable Machine Learning for Coma Outcome Prediction Based on Structural and Functional Brain MRI.*. Critical Care Medicine. [DOI](https://doi.org/10.1097/CCM.0000000000007068)
-12. (authors unknown). *Resting-State fMRI in the Human Connectome Project*.
+12. (authors unknown). *Resting-State fMRI in the [[human-[[connectome]]-project]]*.

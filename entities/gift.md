@@ -51,7 +51,7 @@ A notable application is the [[enigma]] consortium's protocols, which draw on IC
 
 GIFT is part of a broader ecosystem of ICA and connectivity analysis tools:
 
-- melodic (FSL) — another widely‑used ICA toolbox for fMRI
+- [[melodic]] (FSL) — another widely‑used ICA toolbox for fMRI
 - [[eeglab]] — EEG/MEG ICA toolbox with conceptually similar functionality
 - [[ica]] — standalone ICA algorithm implementations
 - [[nilearn]] — Python‑based neuroimaging machine learning including ICA
@@ -73,6 +73,6 @@ Several methodological debates surround ICA application in fMRI. The optimal num
 ## References
 
 1. M. M. Esfahani, Vladislav Esaulov, Hemanth Venkateswara, V. Calhoun. (2025). *NEUROMARK DFNC PATTERNS: A FULLY AUTOMATED PIPELINE TO ESTIMATE SUBJECT-SPECIFIC STATES FROM RS-FMRI DATA VIA CONSTRAINED ICA OF DFNC IN +100K SUBJECTS*. bioRxiv. [DOI](https://doi.org/10.1101/2025.01.29.635539)
-2. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
+2. (authors unknown). *Functional [[connectomics]] from Resting-State fMRI*.
 3. (authors unknown). *Comparing Dynamic Causal Models*.
-4. (authors unknown). *GLEAN: Group Level Exploratory Analysis of Networks*.
+4. (authors unknown). *[[lean|GLEAN]]: Group Level Exploratory Analysis of Networks*.
