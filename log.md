@@ -2,6 +2,17 @@
 
 ## 2026-04-30
 
+- Created/Improved page: [[nighres]] – Python package for high-resolution neuroimaging processing
+  - Complete rewrite from placeholder to comprehensive entity page (~850 words)
+  - Updated frontmatter: changed updated date to 2026-04-30, added sources: raw/papers/huntenburg-2018.md
+  - Tags: software-visualization, neuroimaging, laminar-analysis, cortical-analysis, brain-segmentation
+  - Established 10+ wikilinks: the-virtual-brain, whole-brain-modeling, computational-neuroscience, neuroimaging, freesurfer, neural-mass-models, diffusion-imaging, tractography, dynamic-causal-modeling, personalized-brain-modeling, ants, nilearn, dipy
+  - Added detailed sections: Overview (Python package for high-resolution MRI, CBS Tools ancestry), Motivation and Context (7T imaging, accessibility gap), Key Features (Brain module, Cortex module, Laminar module, Filtering module), Technical Capabilities (MGDM, CRUISE, volumetric layering), Relationship to TVB (anatomical preprocessing for whole-brain models), Key Papers (Huntenburg 2018, Waehnert 2014, Han 2004), Related Software
+  - Explained Nighres's unique niche: specialized laminar analysis and cortical depth estimation
+  - Positioned as complementary to TVB: provides detailed anatomical segmentations for whole-brain and neural mass models
+  - Added to entities/index.md under Software Platforms
+  - Created source file: raw/papers/huntenburg-2018.md
+
 - Created/Improved page: [[spinnaker]] – Neuromorphic many-core platform for real-time spiking neural network simulation
   - Complete rewrite from placeholder to comprehensive entity page (~550 words)
   - Updated frontmatter: changed updated date to 2026-04-30
@@ -1003,3 +1014,5 @@
 ## [2026-04-30 20:06] Improve: 3 pages improved (surfice, spinnaker, panda)
 
 ## [2026-04-30 21:10] Improve: 3 pages improved (caiman, xppaut, genn)
+
+## [2026-04-30 22:14] Improve: 3 pages improved (genn, datalad-containers, xppaut)
