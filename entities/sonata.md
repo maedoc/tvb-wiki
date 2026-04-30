@@ -5,10 +5,6 @@ sources:
 - https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1007696
 - https://github.com/AllenInstitute/sonata
 - https://github.com/BlueBrain/libsonata
-- raw/papers/geppetto-2018.md
-- raw/papers/semanticscholar-ff8218c1e55e.md
-- raw/papers/semanticscholar-899d3552b2ad.md
-- raw/papers/glean-github.md
 tags:
 - software-brian
 - software-nest
@@ -64,7 +60,12 @@ As of 2026, SONATA remains primarily oriented toward point-neuron architectures.
 
 ## References
 
-1. (authors unknown). *[[geppetto]] - a reusable modular open platform for exploring neuroscience data and models*.
-2. Yunman Xia, S. Peng, J. Dukart, C. Xie, Shitong Xiang, S. Petkoski, Zilin Li, Joerg F. Hipp, S. Muthukumaraswamy, A. Forsyth, Tianye Jia, N. Vaidya, T. Lett, Liyi Qian, Xiao Chang, Yuxiang Dai, T. Banaschewski, G. Barker, A. Bokde, R. Brühl, S. Desrivières, Herta Flor, P. Gowland, A. Grigis, Andreas Heinz, H. Lemaître, F. Nees, D. Orfanos, Luise Poustka, M. Smolka, Sarah Hohmann, H. Walter, R. Whelan, Paul Wirsching, Zuo Zhang, Lauren Robinson, J. Winterer, Yuning Zhang, H. Kebir, Ulrike Schmidt, Julia Sinclair, Yuchen Liu, Jiexiang Wang, Fei Dai, Longbin Zeng, Yubo Hou, Huarui Wang, Leijun Ye, Chunhe Li, Qibao Zheng, Andre F Marquand, Changsong Zhou, V. Jirsa, Jianfeng Feng, Wenlian Lu, Gunter Schumann. (2026). *Digital Twin Brain simulation and manipulation of a functional [[brain-network]] underlying mental illness*. bioRxiv. [DOI](https://doi.org/10.64898/2026.03.06.710030)
-3. Maxime Carriere, Fynn R. Dobler, H. Plesser, Agata Feledyn, Rosario Tomasello, Thomas Wennekers, F. Pulvermüller. (2026). *A brain-constrained neural model of cognition and language with NEST: transitioning from the Felix framework*. Cognitive Neurodynamics. [DOI](https://doi.org/10.1007/s11571-026-10415-5)
-4. (authors unknown). *[[lean|GLEAN]]: Group Level Exploratory Analysis of Networks*.
+- Dai K, Hernando J, Billeh YN, Gratiy SL, Planas J, Davison AP, Dura-Bernal S, Gleeson P, Devresse A, Dichter BK, Gevaert M, King JGH, Van Geit WAH, Povolotsky AV, Muller E, Courcol J-D, Arkhipov A. (2020). The SONATA data format for efficient description of large-scale network models. PLoS Comput Biol 16(2): e1007696. https://doi.org/10.1371/journal.pcbi.1007696
+
+- Allen Institute for Brain Science. SONATA Data Format Repository. https://github.com/AllenInstitute/sonata
+
+- Blue Brain Project. libSONATA Library. https://github.com/BlueBrain/libsonata
+
+- Dura-Bernal S, Suter BA, Gleeson P, Cantarelli M, Quintana A, Rodriguez F, et al. (2019). NetPyNE, a tool for data-driven multiscale modeling of brain circuits. eLife, 8, e44494.
+
+- Davison AP, Brüderle D, Eppler J, Kremkow J, Muller E, Pecevski D, et al. (2009). [[pynn]]: A Common Interface for Neuronal Network Simulators. Front Neuroinform 2: 11.

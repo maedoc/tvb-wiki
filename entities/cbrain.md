@@ -1,11 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- Sherif T, Rioux P, Rousseau M-E, Kassis N, Beck N, Adalat R, Das S, Glatard T and Evans AC (2014) CBRAIN: a
-    web-based, distributed computing platform for collaborative neuroimaging research.
-    Front. Neuroinform. 8:54. https://doi.org/10.3389/fninf.2014.00054
-- CBRAIN GitHub Wiki. https://github.com/aces/cbrain/wiki
-- CBRAIN About Page. https://cbrain.ca/about.html
 - raw/papers/semanticscholar-a324c47ea982.md
 - raw/papers/semanticscholar-f45e6044c92f.md
 - raw/papers/arxiv-2604.24696.md

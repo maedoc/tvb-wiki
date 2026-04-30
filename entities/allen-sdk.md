@@ -1,11 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- https://github.com/AllenInstitute/AllenSDK
-- https://allensdk.readthedocs.io/en/latest/
-- https://github.com/AllenInstitute/AllenSDK/blob/master/CHANGELOG.md
-- https://brain-map.org/support/documentation/api-allen-brain-connectivity-atlas
-- https://alleninstitute.github.io/bmtk/pointnet.html
 - raw/papers/semanticscholar-9538aa9a62c5.md
 - raw/papers/mijalkov-2017-braph.md
 - raw/papers/semanticscholar-88be174971d9.md
@@ -24,7 +19,7 @@ The Allen SDK (Software Development Kit) is a Python-based toolkit developed by 
 
 ## Motivation and Context
 
-The Allen Institute for Brain Science has produced some of the most comprehensive brain atlases available, including the Allen Mouse Brain [[connectivity]] Atlas, the Allen Human Brain Atlas, and the Cell Type Database [@brain-map-connectivity-api]. However, these datasets are massive—containing terabytes of imaging, transcriptomics, and [[electrophysiology]] data—and would be impractical to use manually. The Allen SDK solves this problem by providing a unified API that abstracts away the complexities of data storage, download, and preprocessing. For researchers building [[whole-brain-model]]s, access to accurate structural connectivity data is paramount, and the Allen SDK provides validated [[tractography]]-derived connectivity matrices derived from viral tracing experiments that can serve as anatomical scaffolds for simulations. The toolkit also supports the broader goal of [[personalized-brain-modeling]] by enabling researchers to incorporate species-specific anatomical constraints into their models.
+The Allen Institute for Brain Science has produced some of the most comprehensive brain atlases available, including the Allen Mouse Brain [[connectivity]] Atlas, the Allen Human Brain Atlas, and the Cell Type Database [@brain-map-connectivity-api]. However, these datasets are massive—containing terabytes of imaging, transcriptomics, and [[electrophysiology]] data—and would be impractical to use manually. The Allen SDK solves this problem by providing a unified API that abstracts away the complexities of data storage, download, and preprocessing. For researchers building [[izhikevich-neuron-model]]s, access to accurate structural connectivity data is paramount, and the Allen SDK provides validated [[tractography]]-derived connectivity matrices derived from viral tracing experiments that can serve as anatomical scaffolds for simulations. The toolkit also supports the broader goal of [[personalized-brain-modeling]] by enabling researchers to incorporate species-specific anatomical constraints into their models.
 
 ## Key Features
 

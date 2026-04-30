@@ -1,11 +1,6 @@
 ---
 created: 2023-01-15
 sources:
-- Esteban2019
-- Gorgolewski2017
-- Klein2017
-- Nichols2017
-- Taylor2018
 - raw/papers/semanticscholar-a0cce22e2ffc.md
 - raw/papers/semanticscholar-109de470e443.md
 - raw/papers/semanticscholar-4d73a30d5c84.md

@@ -1,8 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- 10.1016/j.neuroimage.2015.02.064
-- 10.1016/j.neuroimage.2015.05.021
 - raw/papers/semanticscholar-109de470e443.md
 tags:
 - software-neuroimaging
@@ -34,7 +32,7 @@ The classifier employs a threshold-based decision rule that was validated using 
 
 ## Key Features
 
-The primary advantage of ICA-AROMA is its data-driven nature: it identifies motion artifacts directly from the structure of each dataset rather than relying on generic assumptions or population-level thresholds. This makes it particularly effective for datasets with atypical motion profiles or when the standard motion parameters inadequately capture artifact structure. The method is computationally lightweight and can be run as a standalone tool or integrated into comprehensive preprocessing pipelines such as [[fmriprep]], which historically included ICA-AROMA as an optional denoising step (now available via the separate [[fmripost-aroma]] package).
+The primary advantage of ICA-AROMA is its data-driven nature: it identifies motion artifacts directly from the structure of each dataset rather than relying on generic assumptions or population-level thresholds. This makes it particularly effective for datasets with atypical motion profiles or when the standard motion parameters inadequately capture artifact structure. The method is computationally lightweight and can be run as a standalone tool or integrated into comprehensive preprocessing pipelines such as [[fmriprep]], which historically included ICA-AROMA as an optional denoising step (now available via the separate [[fmriprep]] package).
 
 The approach has been validated against alternative denoising strategies including CompCor, temporal filtering with motion regression, and aggressive scrubbing, demonstrating comparable or superior performance in preserving [[functional-connectivity]] metrics while reducing motion-related spurious correlations [@10.1016/j.neuroimage.2015.05.021]. Notably, ICA-AROMA preserves temporal degrees of freedom better than volume-censoring approaches like scrubbing, which can remove substantial portions of the fMRI time series in highly motion-contaminated data.
 
@@ -48,7 +46,7 @@ While ICA-AROMA is primarily a preprocessing tool for [[fmri]] data, it is relev
 
 ICA-AROMA is available as a standalone Python package and is integrated into major fMRI preprocessing frameworks:
 
-- [[fmripost-aroma]] — post-fMRIPrep ICA-AROMA BIDS App (replaces the built-in workflow in fMRIPrep 23.0 and earlier)
+- [[fmriprep]] — post-fMRIPrep ICA-AROMA BIDS App (replaces the built-in workflow in fMRIPrep 23.0 and earlier)
 - [[fsl]] — ICA decomposition via MELODIC
 - [[nilearn]] — includes utilities for ICA-AROMA classification
 - [[bids-derivatives]] — ICA-AROMA outputs conform to BIDS specification for processed data

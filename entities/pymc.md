@@ -1,9 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- https://docs.pymc.io/en/v3/
-- https://arxiv.org/abs/1507.08050
-- https://arxiv.org/abs/1304.0849
 - raw/papers/semanticscholar-60ca593f7e0c.md
 - raw/papers/semanticscholar-b9acfa0a7c80.md
 - raw/papers/sanz-leon-2013.md

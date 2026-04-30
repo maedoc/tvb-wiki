@@ -1,10 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- https://github.com/sccn/xdf/wiki/Specifications
-- https://github.com/xdf-modules/pyxdf
-- https://code.google.com/archive/p/xdf/
-- https://github.com/xdf-modules/xdf-EEGLAB
 - raw/papers/carcagno-2024.md
 - raw/papers/bein-2018.md
 - raw/papers/gramfort-2013.md

@@ -1,9 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- https://brainiak.org/
-- https://github.com/brainiak/brainiak
-- https://doi.org/10.52294/31bb5b68-2184-411b-8c00-a1dacb61e1da
 - raw/papers/mijalkov-2017-braph.md
 - raw/papers/semanticscholar-60ca593f7e0c.md
 - raw/papers/semanticscholar-b9acfa0a7c80.md
@@ -31,7 +28,7 @@ The toolbox emerged from the recognition that traditional univariate analysis me
 
 ## Motivation and Context
 
-The development of BrainIAK responded to several converging trends in cognitive neuroscience during the 2010s @cite{kumar2022brainiak}. First, the field saw growing appreciation for multivariate approaches that treat fMRI data as high-dimensional patterns rather than collections of independent voxels @cite{norman2002multivariate}. Second, the rise of deep learning and representation learning in machine learning created new opportunities for extracting meaningful features from neuroimaging data. Third, the availability of large-scale datasets such as the [[human-[[connectome]]-project]] made it feasible to apply computationally intensive analysis methods @cite{van2013wu}.
+The development of BrainIAK responded to several converging trends in cognitive neuroscience during the 2010s @cite{kumar2022brainiak}. First, the field saw growing appreciation for multivariate approaches that treat fMRI data as high-dimensional patterns rather than collections of independent voxels @cite{norman2002multivariate}. Second, the rise of deep learning and representation learning in machine learning created new opportunities for extracting meaningful features from neuroimaging data. Third, the availability of large-scale datasets such as the [[mrtrix3-connectome]] made it feasible to apply computationally intensive analysis methods @cite{van2013wu}.
 
 Unlike earlier toolboxes that focused primarily on preprocessing or univariate statistics, BrainIAK positioned itself as an analysis platform optimized for the specific challenges of fMRI data: its temporal smoothing properties, its indirect measurement of neural activity through the [[hemodynamic-response-function]], and its characteristic noise structure @cite{brainiak_tutorials}. The software was developed with an emphasis on [[reproducibility]], providing standardized implementations of established methods that could be directly compared across studies.
 

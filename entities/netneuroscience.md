@@ -1,31 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- authors: Bassett, D.S., Sporns, O.
-  doi: 10.1038/nn.4502
-  journal: Nature Neuroscience
-  title: Network neuroscience
-  year: 2017
-- authors: Bullmore, E., Sporns, O.
-  doi: 10.1038/nrn2576
-  journal: Nature Reviews Neuroscience
-  title: 'Complex brain networks: From topological architecture to brain dynamics'
-  year: 2009
-- authors: Rubinov, M., Sporns, O.
-  doi: 10.1016/j.neuroimage.2010.02.045
-  journal: NeuroImage
-  title: 'Complex network measures of brain connectivity: Uses and interpretations'
-  year: 2010
-- authors: Fornito, A., Zalesky, A., Bullmore, E.
-  doi: 10.1093/brain/awx275
-  journal: Oxford University Press
-  title: Fundamentals of Brain Network Analysis
-  year: 2017
-- authors: van den Heuvel, M.P., Sporns, O.
-  doi: 10.1523/JNEUROSCI.3689-12.2013
-  journal: Journal of Neuroscience
-  title: Network hubs in the human brain
-  year: 2013
 - raw/papers/semanticscholar-b9acfa0a7c80.md
 - raw/papers/semanticscholar-60ca593f7e0c.md
 - raw/papers/arxiv-2506.22951.md
@@ -77,7 +52,7 @@ The relationship is bidirectional: network analysis characterizes empirical brai
 
 Several software packages implement network neuroscience methods:
 
-- [[brain-[[connectivity]]-toolbox]] (BCT): MATLAB toolbox for complex network analysis
+- [[brainsuite]] (BCT): MATLAB toolbox for complex network analysis
 - [[bctpy]]: Python implementation of BCT functions
 - [[brainspace]]: Python library for mapping connectivity patterns
 - [[braph]]: Graph-theoretic analysis of brain connectivity in MATLAB/Python

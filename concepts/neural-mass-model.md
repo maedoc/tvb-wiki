@@ -59,7 +59,7 @@ Here, $\tau_E$ and $\tau_I$ are time constants governing the dynamics of each po
 
 ### Classical Architectures
 
-The historical development of neural mass models produced several canonical architectures, each optimized for different applications. The Lopes da Silva model from 1974 introduced the first model specifically designed to generate EEG alpha rhythms (8-12 Hz), incorporating thalamocortical loops with distinct thalamic and cortical populations. The [[jansen-rit|Jansen-Rit]] model from 1995 extended this framework to cortical columns, with three distinct populations—pyramidal cells, excitatory interneurons, and inhibitory interneurons—capable of producing visually evoked potentials and realistic EEG spectra. The Wendling model added a fourth population to distinguish between fast GABA-A and slow GABA-B inhibitory currents, making it particularly suitable for [[epilepsy-modeling]] where seizure dynamics depend on different inhibitory mechanisms.
+The historical development of neural mass models produced several canonical architectures, each optimized for different applications. The Lopes da Silva model from 1974 introduced the first model specifically designed to generate EEG alpha rhythms (8-12 Hz), incorporating thalamocortical loops with distinct thalamic and cortical populations. The [[jansen-rit|Jansen-Rit]] model from 1995 extended this framework to cortical columns, with three distinct populations—pyramidal cells, excitatory interneurons, and inhibitory interneurons—capable of producing visually evoked potentials and realistic EEG spectra. The Wendling model adds a fourth population to distinguish between fast GABA-A and slow GABA-B inhibitory currents, making it particularly suitable for [[epilepsy-modeling]] where seizure dynamics depend on different inhibitory mechanisms.
 
 ### TVB Model Library
 
@@ -87,7 +87,7 @@ Despite their utility, neural mass models carry significant limitations that mot
 - [[jansen-rit]] – EEG/MEG‑focused cortical column model
 - [[wong-wang]] – [[fmri]]/BOLD‑optimized model
 - [[tvb]] – Primary software platform implementing NMMs
-- [[tvb-vs-[[nest]]-vs-neuron]]
+- [[tvb-vs-nest-vs-neuron]]
 - [[tvb-vs-nest-vs-neuron|TVB vs Nest vs Neuron]]
 - [[tvb-vs-nest-vs-neuron|Tvb Vs Nest Vs Neuron]]
 

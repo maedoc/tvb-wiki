@@ -19,6 +19,7 @@ Neuroimaging — a concept in [[whole-brain|whole-brain modeling]] and [[computa
 ## Related Concepts
 * [[diffusion-mri]]
 * [[civet]]
+* [[cititools]]
 
 ## References
 
@@ -28,3 +29,25 @@ Neuroimaging — a concept in [[whole-brain|whole-brain modeling]] and [[computa
 4. Hongjie Jiang, Yifei Tang, Shuqiang Wang. *Neural Dynamics-Informed Pre-trained Framework for [[personalized-brain-modeling|Personalized Brain]] Functional Network Construction*. [Link](https://arxiv.org/abs/2603.07524)
 5. Jianwei Chen, Zhengyang Miao, Wenjie Cai, Jiaxue Tang, Boxing Liu, Yunfan Zhang, Yuhang Yang, Hao Tang, Carola-Bibiane Schönlieb, Zaixu Cui, Du Lei, Shouliang Qi, Chao Li. (2026). *Hierarchical Multiscale Structure-Function Coupling for Brain [[connectome]] Integration*. [Link](https://arxiv.org/abs/2603.20680)
 6. (authors unknown). *[[lean|GLEAN]]: Group Level Exploratory Analysis of Networks*.
+
+## ORPHAN PAGE CONTEXT (cititools)
+---
+created: 2026-04-29
+sources:
+- raw/papers/semanticscholar-97e6ff441097.md
+- raw/papers/woodman-2014.md
+- raw/papers/mijalkov-2017-braph.md
+tags:
+- software-r
+- neuroimaging
+- cifti
+- human-connectome-project
+- grayordinates
+- fmri
+- brain-atlases
+title: CITItools
+type: entity
+updated: '2026-04-30'
+---
+
+CITItools (ciftiTools) is an R package for reading, writing, visualizing, and manipulating CIFTI ([[connectivity]] Informatics Technology Initiative) format files in [[neuroimaging]] workflows

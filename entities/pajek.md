@@ -1,16 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- Batagelj, V., & Mrvar, A. (1998). Pajek — A program for large network analysis.
-  Connections, 21(2), 47-57.
-- de Nooy, W., Mrvar, A., & Batagelj, V. (2011). Exploratory Social Network Analysis
-  with Pajek (2nd ed.). Cambridge University Press.
-- Batagelj, V., & Mrvar, A. (2004). Analysis and visualization of large networks.
-  In M. Jünger & G. Mutzel (Eds.), Graph Drawing Software (pp. 77-103). Springer.
-- Rubinov, M., & Sporns, O. (2010). Complex network measures of brain connectivity: Uses
-    and interpretations. Current Opinion in Neurobiology, 20(3), 262-267.
-- Bullmore, E. T., & Bassett, D. S. (2011). Brain graphs: Graphical models of the
-    human brain connectome. Annual Review of Clinical Psychology, 7, 113-140.
 - raw/papers/rubinov-sporns-2010.md
 - raw/papers/bullmore-sporns-2009.md
 - raw/papers/semanticscholar-d45f5742871a.md
@@ -33,7 +23,7 @@ updated: '2026-04-30'
 
 ## Overview
 
-**Pajek** (Slovene for "spider") is a widely-used network analysis software package designed for the analysis and visualization of large-scale networks and complex graphs. Originally developed by Vladimir Batagelj and Andrej Mrvar at the University of Ljubljana [@Batagelj1998], Pajek provides a comprehensive suite of tools for extracting, analyzing, and visualizing various types of network structures, making it an essential tool in the field of [[connectomics]] where brain connectivity data is represented as graph-based representations of [[structural-connectivity]] and [[functional-connectivity]] [@Bullmore2011]. The software handles networks with millions of vertices and edges efficiently, which is particularly important when working with whole-brain connectivity matrices derived from [[neuroimaging-dti|diffusion imaging]] or [[resting-state]] [[fMRI]] data. Pajek operates as free academic software and has become a standard tool in the network neuroscience community, with applications ranging from [[community-detection]] to [[network-hubs|hub identification]] in brain networks.
+**Pajek** (Slovene for "spider") is a widely-used network analysis software package designed for the analysis and visualization of large-scale networks and complex graphs. Originally developed by Vladimir Batagelj and Andrej Mrvar at the University of Ljubljana [@Batagelj1998], Pajek provides a comprehensive suite of tools for extracting, analyzing, and visualizing various types of network structures, making it an essential tool in the field of [[connectomics]] where brain connectivity data is represented as graph-based representations of [[structural-connectivity]] and [[functional-connectivity]] [@Bullmore2011]. The software handles networks with millions of vertices and edges efficiently, which is particularly important when working with whole-brain connectivity matrices derived from [[neuromorpho-toolkit|diffusion imaging]] or [[resting-state]] [[fMRI]] data. Pajek operates as free academic software and has become a standard tool in the network neuroscience community, with applications ranging from [[community-detection]] to [[network-hubs|hub identification]] in brain networks.
 
 Pajek operates primarily through a graphical user interface (GUI), though batch processing capabilities exist via scripts for automated workflows. The software supports multiple native file formats: the `.net` format (also known as Pajek NET) for edge lists with vertex attributes, and the `.paj` format for complete project files including networks, partitions, vectors, and permutations. These formats have become de facto standards in network science research and facilitate data exchange between Pajek and other analysis tools.
 

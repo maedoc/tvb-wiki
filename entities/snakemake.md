@@ -1,9 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- Köster & Rahmann 2012
-- Mölder et al. 2021
-- Snakemake Documentation
 - raw/papers/semanticscholar-15c9336be64a.md
 - raw/papers/schirner-2018.md
 - raw/papers/semanticscholar-f45e6044c92f.md
@@ -46,7 +43,7 @@ Snakemake addresses this challenge by providing a domain-specific language embed
 
 Within the context of [[whole-brain-modeling]], Snakemake serves as an orchestration layer for complex modeling pipelines that combine neuroimaging preprocessing with neural simulation. Projects employing [[the-virtual-brain]] often require processing [[structural-connectivity]] matrices from [[diffusion-imaging]] data, fitting [[neural-mass-models]] to empirical [[eeg]] or [[fmri]] recordings, and running parameter sweeps to explore [[bifurcation-analysis]] across large regions of parameter space.
 
-A typical Snakemake workflow for whole-brain modeling might include: (1) downloading [[hcp-dataset]] parcellated connectivity data; (2) processing [[dwi]] data to extract tractography-derived structural matrices; (3) configuring [[epileptor]] or [[wong-wang-model]] parameters; (4) running simulations on a cluster; and (5) extracting [[brain-oscillations]] power spectra from simulated signals. Snakemake's ability to manage these heterogeneous steps—combining Python, shell commands, and compiled tools—makes it well-suited to such pipelines.
+A typical Snakemake workflow for whole-brain modeling might include: (1) downloading [[hcp-dataset]] parcellated connectivity data; (2) processing [[dwi-toolbox]] data to extract tractography-derived structural matrices; (3) configuring [[epileptor]] or [[wong-wang-model]] parameters; (4) running simulations on a cluster; and (5) extracting [[brain-oscillations]] power spectra from simulated signals. Snakemake's ability to manage these heterogeneous steps—combining Python, shell commands, and compiled tools—makes it well-suited to such pipelines.
 
 The tool complements [[nipype]], which provides uniform interfaces to neuroimaging software. While Nipype standardizes how individual tools are invoked, Snakemake orchestrates the broader workflow structure. Researchers may use Nipype within Snakemake rules to call tools like [[freesurfer]], [[fsl]], or [[ants]] with consistent Python interfaces.
 

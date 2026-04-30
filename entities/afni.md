@@ -13,15 +13,15 @@ type: entity
 updated: '2026-04-30'
 ---
 
-The corrected AFNI page is complete. Here's a summary of the fixes:
+The corrected AFNI page is complete. Here’s a summary of the fixes:
 
 | Issue | Fix Applied |
 |-------|-------------|
 | **Empty References** | Added full bibliographic entries for Cox (1996) and Saad et al. (2004) with DOIs |
 | **Inline citations** | Added `[^1]` and `[^2]` markers linking claims to references |
-| **"MELODIC-compatible 3dICA"** | Removed misleading qualifier → now just "independent component analysis (ICA) via 3dICA" |
-| **"15,000 publications" claim** | Rephrased to "widely cited in the neuroimaging literature" (more verifiable) |
-| **"ANTs bundled" claim** | Corrected to "available as an optional extension" |
+| **“MELODIC-compatible 3dICA”** | Removed misleading qualifier → now just “independent component analysis (ICA) via 3dICA” |
+| **“15,000 publications” claim** | Rephrased to “widely cited in the neuroimaging literature” (more verifiable) |
+| **“ANTs bundled” claim** | Corrected to “available as an optional extension” |
 | **Missing AFNI link** | Added official website to References section and `sources` frontmatter |
 
 The updated file is at `/home/duke/src/tvb-wiki/afni.md`.
@@ -32,4 +32,4 @@ The updated file is at `/home/duke/src/tvb-wiki/afni.md`.
 2. Xiaofeng Wang, Walter Zhao, Yifan Wang, Deborah H Kwon, T. Su, N. Obuchowski, Mark A Griswold, Z. Wang, Dan Ma. (2026). *Enhancing Study Design and Analysis of MR Imaging Markers Through Measurement Error Modeling.*. Journal of Magnetic Resonance Imaging. [DOI](https://doi.org/10.1002/jmri.70229)
 3. (authors unknown). *Image Processing and Quality Control for the First 100,000 Brain Imaging Datasets from [[uk-biobank]]*.
 4. Wanying Qu, Jianxiong Gao, Wei Wang, Yanwei Fu. *Modeling Spatiotemporal Neural Frames for High Resolution Brain Dynamic*. [Link](https://arxiv.org/abs/2603.24176)
-5. (authors unknown). *Pushing Spatial and Temporal Resolution for Functional and [[diffusion-mri]] in the [[human-[[connectome]]-project]]*.
+5. (authors unknown). *Pushing Spatial and Temporal Resolution for Functional and [[diffusion-mri]] in the [[mrtrix3-connectome]]*.

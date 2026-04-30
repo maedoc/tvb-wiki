@@ -16,9 +16,8 @@ title: MarsAtlas
 created: 2024-01-15
 updated: 2026-04-30
 type: entity
-tags: [[[brain-parcellations]], [[neuroimaging]], neuroimaging-dti, [[structural-connectivity]], [[software-bct]], [[connectomics]], [[parcellation]], software-visualization]
+tags: [[stochastic-differential-equations]], [[neuroimaging]], neuroimaging-dti, [[structural-connectivity]], [[software-bct]], [[connectomics]], [[parcellation]], software-visualization
 sources: [https://www.sciencedirect.com/science/article/pii/S105381191730727X, https://www.sciencedirect.com/science/article/pii/S1053811916305513, https://academic.oup.com/neuroscientist/article/22/4/359/2663642]
----
 
 ## Overview
 
@@ -40,7 +39,7 @@ The typical workflow for using MarsAtlas in [whole-brain modeling][whole-brain-m
 
 Within the [The Virtual Brain][the-virtual-brain] (TVB) ecosystem, MarsAtlas serves as one of several supported parcellation schemes for constructing personalized brain models [2][7]. TVB's [brain parcellations][brain-parcellations] framework allows users to select MarsAtlas when generating the regional-level connectivity matrix, which then drives the coupling between neural mass models at each node [9]. The use of MarsAtlas in TVB enables researchers to simulate [resting-state][resting-state] dynamics, task-related responses, and pathological states such as [epileptic seizures][epilepsy-modeling] at the whole-brain scale.
 
-Other atlases commonly used with TVB include the [AAL][aal-atlas] (Automated Anatomical Labeling), the [Desikan-Killiany Atlas][desikan-killiany-atlas], and the [Schaefer Atlas][schaefer-atlas] (which provides functional parcellations based on [resting-state fMRI][neuroimaging-fmri] gradients) [9][10]. The choice of atlas involves trade-offs between anatomical detail, functional specificity, and model complexity, and users often compare results across multiple parcellation schemes to assess robustness of findings.
+Other atlases commonly used with TVB include the [AAL][aal-atlas], the [Desikan-Killiany Atlas][desikan-killiany-atlas], and the [Schaefer Atlas][schaefer-atlas] (which provides functional parcellations based on [resting-state fMRI][neuroimaging-fmri] gradients) [9][10]. The choice of atlas involves trade-offs between anatomical detail, functional specificity, and model complexity, and users often compare results across multiple parcellation schemes to assess robustness of findings.
 
 ## Key Features
 

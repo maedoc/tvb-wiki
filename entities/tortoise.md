@@ -1,24 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- authors: Pierpaoli, C., Walker, L., Irfanoglu, M.O., Barnett, A.
-  title: 'TORTOISE: A comprehensive diffusion MRI preprocessing framework'
-  venue: ISMRM
-  year: 2010
-- authors: Irfanoglu, M.O., Walker, L., Sarlls, J., Marami, B., Pierpaoli, C.
-  title: 'DR-BUDDI: Diffeomorphic Registration for Blip-Up Blip-Down Diffusion Imaging'
-  venue: NeuroImage
-  year: 2015
-- authors: Irfanoglu, M.O., Modi, P., Nayak, A., Koch, K.E., Pierpaoli, C.
-  title: 'DR-TAMAS: Diffeomorphic Registration for Tensor Accurate alignMent of Anatomical
-    Structures'
-  venue: NeuroImage
-  year: 2016
-- authors: Irfanoglu, M.O., Khan, A.R., Hendrickson, S., Pierpaoli, C.
-  title: 'TORTOISEV4: A comprehensive diffusion MRI processing framework with advanced
-    artifact correction'
-  venue: Imaging Neuroscience
-  year: 2025
 - raw/papers/semanticscholar-a0cce22e2ffc.md
 - raw/papers/semanticscholar-380768cf42a8.md
 - raw/papers/semanticscholar-4d73a30d5c84.md

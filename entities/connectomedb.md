@@ -1,9 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- Van Essen et al. 2013 Neuroinformatics
-- Glasser et al. 2016 Nature Neuroscience
-- HCP Data Use Agreement v2.0
 - raw/papers/van-essen-2012.md
 tags:
 - database

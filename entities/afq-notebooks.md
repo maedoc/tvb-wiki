@@ -1,12 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- yeatman2012
-- garyp2015
-- berman2008
-- tournier2007
-- friman2006
-- jones2008
 - raw/papers/semanticscholar-380768cf42a8.md
 - raw/papers/sanz-leon-2013.md
 - raw/papers/semanticscholar-deecd9987645.md

@@ -1,8 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- 10.1109/ISBI.2012.6238608
-- 10.3389/fneur.2013.00097
 - raw/papers/avants-2011.md
 - raw/papers/semanticscholar-0aeca1b592e6.md
 - raw/papers/avants-2008.md

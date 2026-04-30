@@ -1,8 +1,6 @@
 ---
 created: 2026-04-29
 sources:
-- Vos de Wael et al. (2020) NeuroImage
-- Margulies et al. (2016) PNAS
 - raw/papers/woodman-2014.md
 - raw/papers/mijalkov-2017-braph.md
 - raw/papers/arxiv-2603.29903.md

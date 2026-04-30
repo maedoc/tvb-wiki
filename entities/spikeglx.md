@@ -1,12 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- https://arxiv.org/abs/1905.03790
-- https://www.nature.com/articles/s41592-019-0570-0
-- https://www.frontiersin.org/articles/10.3389/fnins.2017.00159/full
-- https://github.com/billkarsh/SpikeGLX
-- https://www.nature.com/articles/s41592-019-0571-z
-- https://www.jneurosci.org/content/39/44/8577
 - raw/papers/arxiv-2603.24176.md
 - raw/papers/arxiv-2601.03796.md
 - raw/papers/arxiv-2604.03619.md

@@ -1,11 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- Hoppensteadt1996
-- Riedel2015
-- Jirsa2014
-- WongWang2006
-- Brett2005
 - raw/papers/izhikevich-2007.md
 - raw/papers/arxiv-2510.02545.md
 - raw/papers/breakspear-2006.md
