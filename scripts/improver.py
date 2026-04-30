@@ -29,6 +29,7 @@ from ralph_config import (
 )
 from combined_relevance import load_graph, load_embeddings, bfs_distances, CORE_LINKS as RELEVANCE_CORE, get_emb_scores
 import citation_verify
+import create_paper_stub
 
 log = get_logger("Improver")
 
@@ -756,6 +757,7 @@ CITATION_GUARD_BLOCKING = False  # Set True after 48h log-only burn-in
 def _citation_guard(page_path: str, stub_index: dict[str, str]) -> tuple[bool, list[str]]:
     """
     Verify all inline citations in a page are backed by real stubs or databases.
+    Auto-creates missing stubs when OpenAlex/CrossRef finds a match.
     Returns (pass, issues).
 
     Non-blocking if CITATION_GUARD_BLOCKING is False (logs only).
@@ -771,6 +773,7 @@ def _citation_guard(page_path: str, stub_index: dict[str, str]) -> tuple[bool, l
     issues = []
     verified_count = 0
     not_found_count = 0
+    new_stubs = []
 
     for cite in citations:
         result = citation_verify.verify_citation(cite, stub_index)
@@ -780,12 +783,41 @@ def _citation_guard(page_path: str, stub_index: dict[str, str]) -> tuple[bool, l
                 log.info("[Guard] %s → VERIFIED via stub %s", cite['text'], result["raw_stub_path"])
             else:
                 log.info("[Guard] %s → VERIFIED via %s", cite['text'], result["source"])
+                # Auto-create stub if it doesn't exist
+                if not result.get("raw_stub_path") and result.get("metadata"):
+                    stub_path = create_paper_stub.create_stub_from_citation(cite, RAW_PAPERS_DIR)
+                    if stub_path:
+                        new_stubs.append(stub_path)
+                        log.info("[Guard] Auto-created stub: %s", stub_path)
+                        # Also add to stub_index for this cycle
+                        stub_slug = os.path.splitext(os.path.basename(stub_path))[0]
+                        stub_index[stub_slug] = stub_path
+                    else:
+                        log.warn("[Guard] VERIFIED but stub creation failed for %s", cite['text'])
         elif result["status"] == "METADATA_MISMATCH":
             log.warn("[Guard] %s → METADATA_MISMATCH (stub=%s ext=%s)", cite['text'], result["raw_stub_path"], result["metadata"])
         elif result["status"] == "NOT_FOUND":
             log.warn("[Guard] %s → NOT_FOUND in any database", cite['text'])
             not_found_count += 1
             issues.append(f"citation '{cite['text']}' not found")
+
+    # If we created new stubs, add them to page YAML sources
+    if new_stubs:
+        try:
+            sources = get_sources(metadata)
+            for stub_path in new_stubs:
+                rel_path = os.path.relpath(stub_path, WIKI_ROOT)
+                if rel_path not in sources:
+                    sources.append(rel_path)
+            # Rebuild YAML frontmatter with new sources
+            metadata['sources'] = sources
+            metadata['updated'] = datetime.datetime.now().strftime('%Y-%m-%d')
+            new_page = frontmatter.dumps(frontmatter.Post(content, **metadata))
+            with open(page_path, 'w', encoding='utf-8') as f:
+                f.write(new_page)
+            log.info("[Guard] Updated %s sources: %s", slug, new_stubs)
+        except Exception as e:
+            log.error("[Guard] Failed to update %s sources: %s", slug, e)
 
     if not_found_count > 0:
         log.warn("[Guard] %s: %d/%d citations NOT_FOUND", slug, not_found_count, len(citations))
