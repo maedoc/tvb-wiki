@@ -2,6 +2,24 @@
 
 ## 2026-04-30
 
+- Created/Improved page: [[glean]] – MATLAB pipeline for group-level M/EEG network analysis
+  - Complete rewrite from placeholder to comprehensive entity page (~620 words)
+  - Updated frontmatter: changed updated date to 2026-04-30
+  - Tags: software-brain-modeling, neuroimaging-eeg, neuroimaging-meg, functional-connectivity, brain-oscillations, network-dynamics
+  - Established 10+ wikilinks: the-virtual-brain, fieldtrip, eeglab, mne-python, neural-mass-models, dynamic-causal-modeling, brain-oscillations, resting-state, functional-connectivity, meg, eeg, network-dynamics
+  - Added detailed sections: Overview, Motivation and Context (resting-state M/EEG analysis challenges), Key Features (HMM and ICA decomposition of band-limited power), Relationship to TVB (potential for integration with whole-brain models), Key Papers, Related Software, Open Questions and Limitations
+  - Documented GLEAN's use of Hidden Markov Models and ICA for extracting network-level features from M/EEG band-limited power
+  - Positioned GLEAN as complementary to TVB: data-driven network features can inform TVB parameter specification
+
+- Created/Improved page: [[bmtk]] – Brain Modeling Toolkit for large-scale neural network construction
+  - Complete rewrite from placeholder to comprehensive entity page (~720 words)
+  - Updated frontmatter: changed updated date to 2026-04-30
+  - Tags: software-bmtk, spiking-neural-networks, whole-brain-modeling, neural-mass-models, computational-neuroscience, software-neuron, connectomics
+  - Established 10+ wikilinks: the-virtual-brain, whole-brain-modeling, neural-mass-models, spiking-neural-networks, neuron, nest, brian, connectomics, sonata, functional-connectivity, structural-connectivity, network-dynamics, dynamic-causal-modeling, brain-connectivity-toolbox, netpyne
+  - Added detailed sections: Overview, Motivation and Context, Key Features (SONATA format, NEURON/coreneuron backends, cortical microcircuits, parameter estimation), Relationship to TVB (hybrid coupling for multi-scale modeling), Related Software
+  - Explained BMTK's role in bridging detailed connectivity data with neural simulation
+  - Documented integration with TVB for detailed local circuit dynamics within macroscopic brain network models
+
 - Created/Improved page: [[mindboggle]] – Open-source brain morphometry platform
   - Complete rewrite from placeholder to comprehensive entity page (~800 words)
   - Updated frontmatter: changed updated date to 2026-04-30
@@ -910,3 +928,5 @@
 ## [2026-04-30 02:17] Improve: 3 pages improved (smriprep, pysurfer, allen-sdk)
 
 ## [2026-04-30 03:25] Improve: 3 pages improved (marsatlas, pymc, pyxdf)
+
+## [2026-04-30 04:31] Improve: 3 pages improved (eegnet, hermes, mindboggle)

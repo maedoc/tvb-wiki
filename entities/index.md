@@ -22,6 +22,7 @@ A collection of people, software platforms, datasets, and research groups releva
 - [jNeuroML](jneuroml.md) – Java implementation of NeuroML for neuronal model validation and export
 - [OpenMEEG](openmeeg.md) – Boundary Element Method forward solver for EEG/MEG
 - [DTI-TK](dti-tk.md) – Diffusion Tensor Imaging Toolkit for tensor-based tractography
+- [BMTK](bmtk.md) – Brain Modeling Toolkit for large-scale neural network construction
 
 ## Research Projects & Datasets
 
