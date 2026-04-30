@@ -22,6 +22,7 @@ from ralph_config import (
     read_page,
 )
 from combined_relevance import load_graph, load_embeddings, bfs_distances, CORE_LINKS, get_emb_scores, real_wc
+import citation_verify
 
 log = get_logger("Auditor")
 
@@ -461,6 +462,7 @@ def run_auditor_cycle():
         'cross_ref_asymmetry': find_cross_reference_asymmetry(),
         'duplicate_references': find_duplicate_references_sections(),
         'raw_papers_bad_metadata': find_raw_papers_with_bad_metadata(),
+        'raw_papers_verification': citation_verify.verify_all_stubs(RAW_PAPERS_DIR),
         'opaque_references': find_opaque_references(),
         'thin_narrative': find_thin_narrative_pages(),
         'missing_inline_crosslinks': find_missing_inline_crosslinks(),
@@ -479,6 +481,7 @@ def run_auditor_cycle():
         len(report['missing_from_index']) +
         len(report['duplicate_references']) +
         len(report['raw_papers_bad_metadata']) +
+        len(report['raw_papers_verification']) +
         len(report['opaque_references']) +
         len(report['thin_narrative']) +
         len(report['missing_inline_crosslinks']) +
@@ -496,6 +499,7 @@ def run_auditor_cycle():
     log.info("Cross-ref asymmetries: %d", len(report['cross_ref_asymmetry']))
     log.info("Duplicate references sections: %d", len(report['duplicate_references']))
     log.info("Raw papers bad metadata: %d", len(report['raw_papers_bad_metadata']))
+    log.info("Raw papers verified: %d", len(report['raw_papers_verification']))
     log.info("Opaque references: %d", len(report['opaque_references']))
     log.info("Thin narrative pages: %d", len(report['thin_narrative']))
     log.info("Missing inline crosslinks: %d", len(report['missing_inline_crosslinks']))
@@ -537,6 +541,8 @@ def run_auditor_cycle():
             f.write(f"  DUP_REFS: {item['slug']} ({item['count']} sections)\n")
         for item in report['raw_papers_bad_metadata'][:20]:
             f.write(f"  BAD_META: {item['file']} ({', '.join(item['issues'])})\n")
+        for item in report['raw_papers_verification'][:20]:
+            f.write(f"  CITATION_VERIFY: {item['file']} {item['status']} ({', '.join(item['issues'])})\n")
         for item in report['opaque_references'][:20]:
             f.write(f"  OPAQUE_REF: {item['slug']} ({item['opaque_count']} opaque)\n")
         for item in report['thin_narrative'][:20]:
@@ -548,6 +554,7 @@ def run_auditor_cycle():
     append_log(f"Audit: {total_issues} issues ({len(report['broken_wikilinks'])} broken links, "
                f"{len(report['orphan_pages'])} orphans, {len(report['placeholder_pages'])} placeholders, "
                f"{len(report['duplicate_references'])} dup-refs, {len(report['raw_papers_bad_metadata'])} bad-meta, "
+               f"{len(report['raw_papers_verification'])} citation-verify, "
                f"{len(report['opaque_references'])} opaque-refs, "
                f"{len(report['thin_narrative'])} thin, {len(report['missing_inline_crosslinks'])} missing-links)")
 
