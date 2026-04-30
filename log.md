@@ -2,6 +2,17 @@
 
 ## 2026-04-30
 
+- Created/Improved page: [[spinnaker]] – Neuromorphic many-core platform for real-time spiking neural network simulation
+  - Complete rewrite from placeholder to comprehensive entity page (~550 words)
+  - Updated frontmatter: changed updated date to 2026-04-30
+  - Tags: neuromorphic-computing, spiking-neural-networks, software-brain-modeling
+  - Established 10+ wikilinks: nest, brian, neuron, the-virtual-brain, adaptive-exponential-integrate-and-fire, izhikevich-neuron-model, functional-connectivity, structural-connectivity, resting-state, personalized-brain-modeling, epilepsy-modeling, brain-stimulation, computational-neuroscience, bmtk
+  - Added detailed sections: Overview (architecture and neuromorphic approach), Key Features (event-driven communication, PyNN interface, real-time simulation constraints), Relationship to TVB (hybrid architecture potential for multi-scale modeling), Key Papers (Furber et al. 2014, Sharp et al. 2014), Related Software
+  - Explained SpiNNaker's unique position: event-driven spike packets, ARM cores, millions of neurons, real-time constraint tradeoff vs. detailed neuron models
+  - Positioned as complementary to TVB: bottom-up spiking network vs. top-down neural mass approaches
+
+## 2026-04-30
+
 - Created/Improved page: [[bdftools]] – Ecosystem of software libraries for BioSemi Data Format (BDF) EEG file handling
   - Complete rewrite from placeholder to comprehensive entity page (~870 words)
   - Updated frontmatter: changed updated date to 2026-04-30
