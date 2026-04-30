@@ -10,6 +10,7 @@ sources:
 - raw/papers/arxiv-2603.24176.md
 - raw/papers/arxiv-2601.03796.md
 - raw/papers/arxiv-2604.03619.md
+- raw/papers/biosemi-bdf-spec.md
 tags:
 - software
 - neuroimaging-eeg

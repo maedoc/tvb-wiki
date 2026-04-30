@@ -9,6 +9,7 @@ sources:
 - raw/papers/arxiv-2602.18715.md
 - raw/papers/arxiv-2506.22951.md
 - raw/papers/arxiv-2603.24176.md
+- raw/papers/glean-github.md
 tags:
 - neuroimaging-meg
 - neuroimaging-eeg
@@ -25,7 +26,7 @@ tags:
 - software-eeglab
 title: MEG
 type: concept
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 # MEG

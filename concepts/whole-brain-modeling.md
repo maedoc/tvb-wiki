@@ -7,6 +7,7 @@ sources:
 - raw/papers/arxiv-2603.24176.md
 - raw/papers/arxiv-2512.03907.md
 - raw/papers/arxiv-2601.03796.md
+- raw/papers/glean-github.md
 tags:
 - whole-brain-modeling
 - neural-mass-models
@@ -25,7 +26,7 @@ tags:
 - bifurcation-analysis
 title: Whole-Brain Modeling
 type: concept
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 Whole-brain modeling is a computational neuroscience approach that represents the brain as a network of coupled regions, each governed by detailed neuronal or neural mass dynamics, with regional interactions constrained by empirical [[structural connectivity]] estimates derived from [[diffusion-mri]] or tractography. This methodology enables the simulation of large-scale brain dynamics and the generation of synthetic neuroimaging data—including [[fMRI]], [[EEG]], and [[MEG]] signals—that can be directly compared to empirical recordings. The approach bridges the gap between microscopic neuronal mechanisms and macroscopic brain-wide activity patterns observed in human neuroimaging studies.

@@ -1,10 +1,26 @@
 ---
-title: AFQ Notebooks
 created: 2025-01-15
-updated: 2026-04-30
+sources:
+- yeatman2012
+- garyp2015
+- berman2008
+- tournier2007
+- friman2006
+- jones2008
+- raw/papers/semanticscholar-380768cf42a8.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-deecd9987645.md
+tags:
+- software-visualization
+- diffusion-imaging
+- tractography
+- white-matter
+- neuroimaging-dti
+- tutorial
+- software-dti-tk
+title: AFQ Notebooks
 type: entity
-tags: [software-visualization, diffusion-imaging, tractography, white-matter, neuroimaging-dti, tutorial, software-dti-tk]
-sources: [yeatman2012, garyp2015, berman2008, tournier2007, friman2006, jones2008]
+updated: '2026-04-30'
 ---
 
 ## Overview

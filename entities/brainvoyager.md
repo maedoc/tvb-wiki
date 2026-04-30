@@ -4,6 +4,8 @@ sources:
 - raw/papers/semanticscholar-301489ffb9de.md
 - raw/papers/semanticscholar-24420855b2da.md
 - raw/papers/semanticscholar-35c59867495b.md
+- raw/papers/braph-2 genesis.md
+- raw/papers/glean-github.md
 tags:
 - software-brain-modeling
 - software-visualization
@@ -12,7 +14,7 @@ tags:
 - task-based
 title: BrainVoyager
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 Here is the corrected `brainvoyager.md` file with all issues fixed:

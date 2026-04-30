@@ -4,6 +4,7 @@ sources:
 - raw/papers/sanz-leon-2013.md
 - raw/papers/van-essen-2012.md
 - raw/papers/semanticscholar-eb4197c24bf2.md
+- raw/papers/glean-github.md
 tags:
 - software-visualization
 - neuroimaging
@@ -15,7 +16,7 @@ tags:
 - database-hcp
 title: Connectome Workbench
 type: entity
-updated: '2026-04-29'
+updated: '2026-04-30'
 ---
 
 ## Overview

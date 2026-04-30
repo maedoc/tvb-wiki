@@ -4,6 +4,7 @@ sources:
 - raw/papers/sanz-leon-2013.md
 - raw/papers/ritter-2013.md
 - raw/papers/zavaglia-2006.md
+- raw/papers/glean-github.md
 tags:
 - neuroimaging-eeg
 - source-localization
@@ -11,7 +12,7 @@ tags:
 - computational-neuroscience
 title: XCOS
 type: concept
-updated: '2026-04-28'
+updated: '2026-04-30'
 ---
 
 # XCOS

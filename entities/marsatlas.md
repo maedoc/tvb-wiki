@@ -1,12 +1,16 @@
 ---
 created: 2026-04-29
-sources: []
+sources:
+- raw/papers/bullmore-sporns-2009.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-028f7c6ac41d.md
 tags:
 - software-brain-modeling
 title: MarsAtlas
 type: entity
-updated: 2026-04-30
+updated: '2026-04-30'
 ---
+
 title: MarsAtlas
 created: 2024-01-15
 updated: 2026-04-30

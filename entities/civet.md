@@ -1,26 +1,26 @@
----  
-created: 2024-01-15  
-sources:  
-- raw/papers/semanticscholar-d4665dd0df61.md  
-- raw/papers/sanz-leon-2013.md  
-- raw/papers/schirner-2018.md  
-- raw/papers/semanticscholar-f9e9602ac844.md  
-tags:  
-- software-neuroimaging  
-- neuroimaging-mri  
-- cortical-thickness  
-- brain-parcellations  
-- software-analysis  
-- connectomics  
-- structural-connectivity  
-- mni-space  
-- computational-neuroscience  
-- preprocessing  
-title: CIVET  
-type: entity  
-updated: '2026-04-29'  
-
----  
+---
+created: 2024-01-15
+sources:
+- raw/papers/semanticscholar-d4665dd0df61.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/schirner-2018.md
+- raw/papers/semanticscholar-f9e9602ac844.md
+- raw/papers/glean-github.md
+tags:
+- software-neuroimaging
+- neuroimaging-mri
+- cortical-thickness
+- brain-parcellations
+- software-analysis
+- connectomics
+- structural-connectivity
+- mni-space
+- computational-neuroscience
+- preprocessing
+title: CIVET
+type: entity
+updated: '2026-04-30'
+---
 
 # CIVET  
 

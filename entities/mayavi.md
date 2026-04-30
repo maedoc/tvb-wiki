@@ -1,10 +1,20 @@
 ---
-title: Mayavi
 created: 2025-01-15
-updated: 2026-04-30
+sources:
+- raw/papers/mayavi-overview.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-9538aa9a62c5.md
+- raw/papers/newman-2010.md
+tags:
+- software-visualization
+- software-python
+- neuroinformatics
+- neuroimaging
+- 3d-visualization
+- scientific-computing
+title: Mayavi
 type: entity
-tags: [software-visualization, software-python, neuroinformatics, neuroimaging, 3d-visualization, scientific-computing]
-sources: [raw/papers/mayavi-overview.md]
+updated: '2026-04-30'
 ---
 
 ## Overview

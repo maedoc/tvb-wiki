@@ -5,11 +5,12 @@ sources:
 - raw/papers/rubinov-sporns-2010.md
 - raw/papers/power-2011.md
 - raw/papers/semanticscholar-66f887e82e89.md
+- raw/papers/glean-github.md
 tags:
 - software-brain-modeling
 title: Desikan-Killiany Atlas
 type: entity
-updated: '2026-04-29'
+updated: '2026-04-30'
 ---
 
 title: Desikan-Killiany Atlas

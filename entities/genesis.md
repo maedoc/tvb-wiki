@@ -4,6 +4,7 @@ sources:
 - raw/papers/dayan-abbott-2001.md
 - raw/papers/arxiv-2505.16861.md
 - raw/papers/semanticscholar-eb704b6f5462.md
+- raw/papers/glean-github.md
 tags:
 - software-neurons
 - computational-neuroscience
@@ -12,7 +13,7 @@ tags:
 - neural-modeling
 title: GENESIS
 type: entity
-updated: '2026-04-28'
+updated: '2026-04-30'
 ---
 
 GENESIS (GEneral NEural Simulation System) is a widely-used, open-source neural simulation platform developed for constructing and simulating detailed, biologically realistic models of neural systems. It represents one of the earliest comprehensive frameworks for neural modeling and has had substantial influence on the development of [[computational-neuroscience]] as a discipline. GENESIS provides a modular architecture that allows researchers to construct models ranging from single neurons with arbitrary morphologies to large-scale network simulations containing thousands of interconnected cells.

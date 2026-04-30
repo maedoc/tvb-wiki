@@ -4,11 +4,12 @@ sources:
 - raw/papers/sanz-leon-2013.md
 - raw/papers/semanticscholar-769ed169ed7c.md
 - raw/papers/semanticscholar-9e42d6a25d21.md
+- raw/papers/bein-2018.md
 tags:
 - software-brain-modeling
 title: pyedflib
 type: entity
-updated: '2026-04-29'
+updated: '2026-04-30'
 ---
 
 title: pyedflib

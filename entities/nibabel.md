@@ -4,11 +4,12 @@ sources:
 - raw/papers/semanticscholar-380768cf42a8.md
 - raw/papers/sanz-leon-2013.md
 - raw/papers/ritter-2013.md
+- raw/papers/gramfort-2013.md
 tags:
 - software-brain-modeling
 title: NiBabel
 type: entity
-updated: '2026-04-29'
+updated: '2026-04-30'
 ---
 
 title: NiBabel

@@ -7,11 +7,12 @@ sources:
 - raw/papers/semanticscholar-0aeca1b592e6.md
 - raw/papers/woodman-2014.md
 - raw/papers/mijalkov-2017-braph.md
+- raw/papers/glean-github.md
 tags:
 - software-spm
 title: SPM
 type: entity
-updated: '2026-04-29'
+updated: '2026-04-30'
 ---
 
 SPM (spm) is a Statistical Parametric Mapping — MATLAB-based software suite for the analysis of brain imaging data sequences, especially [[fmri]], PET, and VBM.

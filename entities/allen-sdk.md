@@ -1,15 +1,23 @@
 ---
-title: Allen SDK
 created: 2025-01-15
-updated: 2026-04-30
-type: entity
-tags: [software-brain-modeling, database-hcp, neuroimaging, connectomics, software-visualization]
 sources:
-  - https://github.com/AllenInstitute/AllenSDK
-  - https://allensdk.readthedocs.io/en/latest/
-  - https://github.com/AllenInstitute/AllenSDK/blob/master/CHANGELOG.md
-  - https://brain-map.org/support/documentation/api-allen-brain-connectivity-atlas
-  - https://alleninstitute.github.io/bmtk/pointnet.html
+- https://github.com/AllenInstitute/AllenSDK
+- https://allensdk.readthedocs.io/en/latest/
+- https://github.com/AllenInstitute/AllenSDK/blob/master/CHANGELOG.md
+- https://brain-map.org/support/documentation/api-allen-brain-connectivity-atlas
+- https://alleninstitute.github.io/bmtk/pointnet.html
+- raw/papers/semanticscholar-9538aa9a62c5.md
+- raw/papers/mijalkov-2017-braph.md
+- raw/papers/semanticscholar-88be174971d9.md
+tags:
+- software-brain-modeling
+- database-hcp
+- neuroimaging
+- connectomics
+- software-visualization
+title: Allen SDK
+type: entity
+updated: '2026-04-30'
 ---
 
 The Allen SDK (Software Development Kit) is a Python-based toolkit developed by the Allen Institute for Brain Science that provides programmatic access to the extensive datasets produced by the [[allen-brain-atlas]] project. Initially released in 2015, the SDK enables researchers to query, download, and work with brain atlas data including gene expression maps, cell type classifications, connectivity datasets, and reference atlases without requiring manual data curation or web-based downloads [@allen-sdk-github]. The toolkit has become an essential infrastructure component for researchers working in [[connectomics]], [[structural-connectivity]] analysis, and [[computational-neuroscience]] who require high-quality anatomical and physiological reference data for their whole-brain modeling efforts.

@@ -10,6 +10,7 @@ sources:
 - raw/papers/semanticscholar-71ffb8153870.md
 - raw/papers/arxiv-2601.03796.md
 - raw/papers/semanticscholar-2004e006655b.md
+- raw/papers/glean-github.md
 tags:
 - people-researcher
 - neural-mass-models
@@ -17,7 +18,7 @@ tags:
 - spiking-neural-networks
 title: Eugene M. Izhikevich
 type: entity
-updated: '2026-04-29'
+updated: '2026-04-30'
 ---
 
 # Eugene M. Izhikevich

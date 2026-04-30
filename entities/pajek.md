@@ -1,15 +1,32 @@
 ---
-title: Pajek
 created: 2024-01-15
-updated: 2026-04-30
-type: entity
-tags: [software-visualization, graph-theory, community-detection, network-dynamics, connectomics, structural-connectivity, functional-connectivity, small-world-networks, modularity]
 sources:
-  - Batagelj, V., & Mrvar, A. (1998). Pajek — A program for large network analysis. Connections, 21(2), 47-57.
-  - de Nooy, W., Mrvar, A., & Batagelj, V. (2011). Exploratory Social Network Analysis with Pajek (2nd ed.). Cambridge University Press.
-  - Batagelj, V., & Mrvar, A. (2004). Analysis and visualization of large networks. In M. Jünger & G. Mutzel (Eds.), Graph Drawing Software (pp. 77-103). Springer.
-  - Rubinov, M., & Sporns, O. (2010). Complex network measures of brain connectivity: Uses and interpretations. Current Opinion in Neurobiology, 20(3), 262-267.
-  - Bullmore, E. T., & Bassett, D. S. (2011). Brain graphs: Graphical models of the human brain connectome. Annual Review of Clinical Psychology, 7, 113-140.
+- Batagelj, V., & Mrvar, A. (1998). Pajek — A program for large network analysis.
+  Connections, 21(2), 47-57.
+- de Nooy, W., Mrvar, A., & Batagelj, V. (2011). Exploratory Social Network Analysis
+  with Pajek (2nd ed.). Cambridge University Press.
+- Batagelj, V., & Mrvar, A. (2004). Analysis and visualization of large networks.
+  In M. Jünger & G. Mutzel (Eds.), Graph Drawing Software (pp. 77-103). Springer.
+- Rubinov, M., & Sporns, O. (2010). Complex network measures of brain connectivity: Uses
+    and interpretations. Current Opinion in Neurobiology, 20(3), 262-267.
+- Bullmore, E. T., & Bassett, D. S. (2011). Brain graphs: Graphical models of the
+    human brain connectome. Annual Review of Clinical Psychology, 7, 113-140.
+- raw/papers/rubinov-sporns-2010.md
+- raw/papers/bullmore-sporns-2009.md
+- raw/papers/semanticscholar-d45f5742871a.md
+tags:
+- software-visualization
+- graph-theory
+- community-detection
+- network-dynamics
+- connectomics
+- structural-connectivity
+- functional-connectivity
+- small-world-networks
+- modularity
+title: Pajek
+type: entity
+updated: '2026-04-30'
 ---
 
 # Pajek

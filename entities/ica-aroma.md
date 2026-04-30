@@ -1,10 +1,17 @@
 ---
-title: ICA-AROMA
 created: 2025-01-15
-updated: 2026-04-30
+sources:
+- 10.1016/j.neuroimage.2015.02.064
+- 10.1016/j.neuroimage.2015.05.021
+- raw/papers/semanticscholar-109de470e443.md
+tags:
+- software-neuroimaging
+- neuroimaging-fmri
+- resting-state
+- functional-connectivity
+title: ICA-AROMA
 type: entity
-tags: [software-neuroimaging, neuroimaging-fmri, resting-state, functional-connectivity]
-sources: [10.1016/j.neuroimage.2015.02.064, 10.1016/j.neuroimage.2015.05.021]
+updated: '2026-04-30'
 ---
 
 # ICA-AROMA

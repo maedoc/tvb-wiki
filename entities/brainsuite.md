@@ -4,11 +4,12 @@ sources:
 - raw/papers/alfaro-almagro-2018.md
 - raw/papers/semanticscholar-d4665dd0df61.md
 - raw/papers/arxiv-2602.03240.md
+- raw/papers/glean-github.md
 tags:
 - software-brain-modeling
 title: BrainSuite
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 title: BrainSuite

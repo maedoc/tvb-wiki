@@ -4,6 +4,7 @@ sources:
 - raw/papers/semanticscholar-cabf914d6370.md
 - raw/papers/smith-2013-connectomics.md
 - raw/papers/penny-2004.md
+- raw/papers/glean-github.md
 tags:
 - neuroimaging-fmri
 - software-visualization
@@ -13,7 +14,7 @@ tags:
 - source-separation
 title: GIFT (Group ICA of fMRI Toolbox)
 type: entity
-updated: '2026-04-29'
+updated: '2026-04-30'
 ---
 
 # GIFT (Group ICA of fMRI Toolbox)

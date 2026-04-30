@@ -8,6 +8,7 @@ sources:
 - raw/papers/geppetto-2018.md
 - raw/papers/semanticscholar-ff8218c1e55e.md
 - raw/papers/semanticscholar-899d3552b2ad.md
+- raw/papers/glean-github.md
 tags:
 - software-brian
 - software-nest

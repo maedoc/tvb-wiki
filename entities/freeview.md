@@ -7,6 +7,7 @@ sources:
 - raw/papers/arxiv-2512.17472.md
 - raw/papers/semanticscholar-380768cf42a8.md
 - raw/papers/semanticscholar-8edd59e14fa3.md
+- raw/papers/glean-github.md
 tags:
 - software-brain-modeling
 - software-visualization

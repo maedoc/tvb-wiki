@@ -4,6 +4,7 @@ sources:
 - raw/papers/semanticscholar-5a69b770faf9.md
 - raw/papers/semanticscholar-adcab180dcd3.md
 - raw/papers/semanticscholar-769ed169ed7c.md
+- raw/papers/gramfort-2013.md
 tags:
 - software-bids
 - neuroimaging-eeg
@@ -15,7 +16,7 @@ tags:
 - pybids
 title: MNE-BIDS
 type: entity
-updated: '2026-04-29'
+updated: '2026-04-30'
 ---
 
 MNE-BIDS is an open-source Python package designed to automate the conversion of [[electrophysiology]] recordings—particularly magnetoencephalography (MEG), electroencephalography (EEG), and intracranial EEG (iEEG)—into the Brain Imaging Data Structure (BIDS) format. Developed as part of the [[MNE-Python]] ecosystem, MNE-BIDS provides a standardized pipeline for organizing, annotating, and sharing neuroscience datasets, thereby enhancing [[reproducibility]] and data sharing in the field of [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].

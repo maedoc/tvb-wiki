@@ -6,11 +6,12 @@ sources:
 - raw/papers/grady-2012.md
 - raw/papers/arxiv-2603.07524.md
 - raw/papers/arxiv-2603.20680.md
+- raw/papers/glean-github.md
 tags:
 - neuroimaging
 title: Neuroimaging
 type: concept
-updated: '2026-04-28'
+updated: '2026-04-30'
 ---
 
 Neuroimaging — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].

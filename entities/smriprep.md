@@ -1,10 +1,24 @@
 ---
-title: sMRIPrep
 created: 2023-01-15
-updated: 2026-04-30
+sources:
+- Esteban2019
+- Gorgolewski2017
+- Klein2017
+- Nichols2017
+- Taylor2018
+- raw/papers/semanticscholar-a0cce22e2ffc.md
+- raw/papers/semanticscholar-109de470e443.md
+- raw/papers/semanticscholar-4d73a30d5c84.md
+tags:
+- software
+- neuroimaging-mri
+- preprocessing
+- bids
+- reproducibility
+- structural-mri
+title: sMRIPrep
 type: entity
-tags: [software, neuroimaging-mri, preprocessing, bids, reproducibility, structural-mri]
-sources: [Esteban2019, Gorgolewski2017, Klein2017, Nichols2017, Taylor2018]
+updated: '2026-04-30'
 ---
 
 sMRIPrep is an automated preprocessing pipeline for structural magnetic resonance imaging (sMRI) data, designed to produce analysis-ready T1-weighted (T1w) images with minimal manual intervention. Developed as a companion to the widely used [[fmriprep]] workflow, sMRIPrep handles the complex sequence of steps required to transform raw MRI acquisitions into clean, standardized outputs suitable for subsequent neuroimaging analyses including [[connectome]] mapping, [[brain-parcellations]] extraction, and [[structural-connectivity]] computation. The pipeline implements a robust, reproducible workflow that integrates industry-standard tools including [[freesurfer]], [[ants]], and [[fsl]] under a unified [[nipype]] framework, ensuring consistency across preprocessing steps while maintaining full [[bids]] compliance in its outputs.

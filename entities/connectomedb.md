@@ -1,10 +1,24 @@
 ---
-title: ConnectomeDB
 created: 2024-01-15
-updated: 2026-04-30
+sources:
+- Van Essen et al. 2013 Neuroinformatics
+- Glasser et al. 2016 Nature Neuroscience
+- HCP Data Use Agreement v2.0
+- raw/papers/van-essen-2012.md
+tags:
+- database
+- human-connectome-project
+- neuroimaging
+- diffusion-imaging
+- software
+- connectomics
+- structural-connectivity
+- functional-connectivity
+- bids
+- dataset
+title: ConnectomeDB
 type: entity
-tags: [database, human-connectome-project, neuroimaging, diffusion-imaging, software, connectomics, structural-connectivity, functional-connectivity, bids, dataset]
-sources: [Van Essen et al. 2013 Neuroinformatics, Glasser et al. 2016 Nature Neuroscience, HCP Data Use Agreement v2.0]
+updated: '2026-04-30'
 ---
 
 # ConnectomeDB

@@ -4,6 +4,7 @@ sources:
 - raw/papers/semanticscholar-a0cce22e2ffc.md
 - raw/papers/power-2011.md
 - raw/papers/arxiv-2601.03796.md
+- raw/papers/glean-github.md
 tags:
 - software
 - neuroimage-analysis
@@ -15,7 +16,7 @@ tags:
 - structural-mri
 title: CAT12
 type: entity
-updated: '2026-04-28'
+updated: '2026-04-30'
 ---
 
 # CAT12

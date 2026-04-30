@@ -1,10 +1,21 @@
 ---
-title: HERMES
 created: 2025-01-15
-updated: 2026-04-30
+sources:
+- raw/papers/arxiv-2602.03240.md
+- raw/papers/david-friston-2003.md
+- raw/papers/sanz-leon-2013.md
+tags:
+- software-neuroimaging
+- neuroimaging-fmri
+- hemodynamic-response-function
+- software-matlab
+- source-localization
+- resting-state
+- software-spm
+- computational-neuroscience
+title: HERMES
 type: entity
-tags: [software-neuroimaging, neuroimaging-fmri, hemodynamic-response-function, software-matlab, source-localization, resting-state, software-spm, computational-neuroscience]
-sources: []
+updated: '2026-04-30'
 ---
 
 # HERMES

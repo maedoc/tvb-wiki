@@ -1,12 +1,16 @@
 ---
 created: 2026-04-29
-sources: []
+sources:
+- raw/papers/semanticscholar-554ba2bab0d7.md
+- raw/papers/arxiv-2505.16861.md
+- raw/papers/semanticscholar-eb704b6f5462.md
 tags:
 - software-brain-modeling
 title: EEGNet
 type: entity
-updated: 2026-04-30
+updated: '2026-04-30'
 ---
+
 title: EEGNet
 created: 2025-01-15
 updated: 2026-04-30

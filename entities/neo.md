@@ -9,6 +9,7 @@ sources:
 - raw/papers/semanticscholar-9afbfd2d37be.md
 - raw/papers/semanticscholar-60ca593f7e0c.md
 - raw/papers/arxiv-2505.16861.md
+- raw/papers/bein-2018.md
 tags:
 - software
 - electrophysiology

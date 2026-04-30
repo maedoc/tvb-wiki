@@ -4,6 +4,7 @@ sources:
 - raw/papers/semanticscholar-5a69b770faf9.md
 - raw/papers/sanz-leon-2013.md
 - raw/papers/semanticscholar-769ed169ed7c.md
+- raw/papers/gramfort-2013.md
 tags:
 - software-mne-connectivity
 - functional-connectivity
@@ -15,7 +16,7 @@ tags:
 - software-visualization
 title: MNE-Connectivity
 type: entity
-updated: '2026-04-29'
+updated: '2026-04-30'
 ---
 
 MNE-Connectivity is a specialized Python package designed for the computation and visualization of functional and effective connectivity from neurophysiological data, particularly [[eeg]] and [[meg]] signals. Developed as an integral component of the broader [[mne-python]] ecosystem, MNE-Connectivity provides researchers with a comprehensive suite of connectivity estimation methods ranging from simple linear measures like Pearson correlation to advanced frequency-domain techniques including coherence, phase-locking value, and Granger causality <cite>https://mne.tools/mne-connectivity/</cite>. The package emerged from the recognition that connectivity analysis—identifying statistical dependencies between brain regions—is fundamental to understanding large-scale brain networks and their dynamics in both healthy individuals and clinical populations <cite>https://www.nature.com/articles/s41597-023-00462-w</cite>.

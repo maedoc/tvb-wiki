@@ -7,13 +7,14 @@ sources:
 - raw/papers/schirner-2018.md
 - raw/papers/semanticscholar-eb704b6f5462.md
 - raw/papers/arxiv-2506.21155.md
+- raw/papers/glean-github.md
 tags:
 - software-brain-modeling
 - reproducibility
 - validation
 title: SciUnit
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 # SciUnit

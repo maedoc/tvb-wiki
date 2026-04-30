@@ -4,6 +4,7 @@ sources:
 - raw/papers/arxiv-2512.03907.md
 - raw/papers/arxiv-2602.17820.md
 - raw/papers/arxiv-2602.03240.md
+- raw/papers/glean-github.md
 tags:
 - software-neuron
 - spiking-neural-networks
@@ -13,7 +14,7 @@ tags:
 - neuroimaging-meg
 title: LFPykit
 type: entity
-updated: '2026-04-29'
+updated: '2026-04-30'
 ---
 
 ## Overview

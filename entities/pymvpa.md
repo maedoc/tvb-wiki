@@ -5,6 +5,7 @@ sources:
 - raw/papers/arxiv-2602.03240.md
 - raw/papers/arxiv-2604.03619.md
 - raw/papers/semanticscholar-380768cf42a8.md
+- raw/papers/gramfort-2013.md
 tags:
 - software-neuroimaging
 - machine-learning
@@ -16,7 +17,7 @@ tags:
 - python
 title: PyMVPA
 type: software
-updated: '2026-04-29'
+updated: '2026-04-30'
 ---
 
 # PyMVPA

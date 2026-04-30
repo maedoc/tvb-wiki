@@ -6,6 +6,7 @@ sources:
 - raw/papers/semanticscholar-24420855b2da.md
 - raw/papers/semanticscholar-fb4cf47c4f31.md
 - raw/papers/semanticscholar-109de470e443.md
+- raw/papers/glean-github.md
 tags:
 - software-brain-modeling
 - neuroimaging-fmri
@@ -13,7 +14,7 @@ tags:
 - whole-brain-modeling
 title: PRoNTo
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 The corrected `pronto.md` file has been written. Summary of fixes:
