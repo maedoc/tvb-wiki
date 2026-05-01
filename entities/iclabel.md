@@ -2,13 +2,16 @@
 created: 2026-04-29
 sources:
 - arxiv-1903.06496
+- raw/papers/semanticscholar-9e42d6a25d21.md
+- raw/papers/semanticscholar-4d73a30d5c84.md
+- raw/papers/makeig-1996.md
 tags:
 - software-brain-modeling
 - source-separation
 - eeg
 title: ICLabel
 type: entity
-updated: 2026-05-01
+updated: '2026-05-02'
 ---
 
 **ICLabel** is an EEGLAB plugin that uses a deep neural network to automatically classify independent components (ICs) derived from EEG recordings [[cite: arxiv-1903.06496]]. It categorizes ICs into six main types: brain (cortical), muscle (EMG), eye (EOG), heart (ECG), line noise (powerline interference), and channel noise (sensor artifacts) [[cite: arxiv-1903.06496]]. This automated classification addresses a major bottleneck in EEG preprocessing: the traditionally manual and time-consuming process of identifying and removing artifacts from ICA-decomposed data.

@@ -1211,3 +1211,5 @@
 ## [2026-05-01 21:40] Improve: 3 pages improved (hnn, bayes-factors, iclabel)
 
 ## [2026-05-01 22:57] Improve: 3 pages improved (neurom, hnn, braincogs)
+
+## [2026-05-02 00:06] Improve: 3 pages improved (neurom, braincogs, hnn)

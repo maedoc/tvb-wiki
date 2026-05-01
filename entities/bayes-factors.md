@@ -1,10 +1,23 @@
 ---
-title: Bayes Factors
 created: 2025-01-15
-updated: 2026-05-01
+sources:
+- jeffreys1961
+- kass1995
+- friston2003
+- friston2007
+- stephens2009
+- raw/papers/semanticscholar-60ca593f7e0c.md
+- raw/papers/arxiv-2604.17151.md
+- raw/papers/arxiv-2512.03907.md
+tags:
+- variational-bayes
+- parameter-estimation
+- model-validation
+- dynamical-systems-theory
+- computational-neuroscience
+title: Bayes Factors
 type: concept
-tags: [variational-bayes, parameter-estimation, model-validation, dynamical-systems-theory, computational-neuroscience]
-sources: [jeffreys1961, kass1995, friston2003, friston2007, stephens2009]
+updated: '2026-05-02'
 ---
 
 ## Overview

@@ -1,14 +1,21 @@
 ---
-title: Neurodesk
 created: 2021-01-01
-updated: 2026-05-01
-type: entity
-tags: [software-neurodesk, reproducible-neuroimaging, containerization, neuroimaging-pipeline, cloud-computing, reproducible-research]
 sources:
-  - "[Renton et al., 2023](https://pmc.ncbi.nlm.nih.gov/articles/PMC10055538/)"
-  - "[Neurodesk Official Website](https://neurodesk.org/)"
-  - "[Neurodesk GitHub Repository](https://github.com/NeuroDesk)"
-  - "[Brainhack Global 2021 Project](https://www.brainhack.org/global2021/project/project_74/)"
+- '[Renton et al., 2023](https://pmc.ncbi.nlm.nih.gov/articles/PMC10055538/)'
+- '[Neurodesk Official Website](https://neurodesk.org/)'
+- '[Neurodesk GitHub Repository](https://github.com/NeuroDesk)'
+- '[Brainhack Global 2021 Project](https://www.brainhack.org/global2021/project/project_74/)'
+- raw/papers/Renton2024.md
+tags:
+- software-neurodesk
+- reproducible-neuroimaging
+- containerization
+- neuroimaging-pipeline
+- cloud-computing
+- reproducible-research
+title: Neurodesk
+type: entity
+updated: '2026-05-02'
 ---
 
 ## Overview

@@ -5,6 +5,9 @@ sources:
 - https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1007696
 - https://github.com/AllenInstitute/sonata
 - https://github.com/BlueBrain/libsonata
+- raw/papers/geppetto-2018.md
+- raw/papers/semanticscholar-3256c8880985.md
+- raw/papers/glean-github.md
 tags:
 - software-brian
 - software-nest
@@ -15,7 +18,7 @@ tags:
 - bluepyopt
 title: SONATA
 type: entity
-updated: '2026-05-01'
+updated: '2026-05-02'
 ---
 
 ## Overview

@@ -1,12 +1,14 @@
 ---
 created: 2026-04-30
-sources: []
+sources:
+- raw/papers/van-essen-2012.md
 tags:
 - software-brain-modeling
 title: ciftify
 type: entity
-updated: 2026-05-01
+updated: '2026-05-02'
 ---
+
 title: ciftify
 created: 2024-01-15
 updated: 2026-05-01
