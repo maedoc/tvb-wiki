@@ -1177,3 +1177,7 @@
 ## [2026-05-01 18:37] CrosslinkApplier: added 236 wikilinks (236 inline, 0 suggested)
 
 ## [2026-05-01 18:45] Ingest: 3 new papers, 0 stubs created
+
+## [2026-05-01 18:57] Matcher: 9 pages got 25 new sources
+
+## [2026-05-01 18:59] Audit: 1036 issues (45 broken links, 73 orphans, 54 placeholders, 0 dup-refs, 2 bad-meta, 78 citation-verify, 5 opaque-refs, 79 thin, 330 missing-links)
