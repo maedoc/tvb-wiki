@@ -2,6 +2,16 @@
 
 ## 2026-05-01
 
+- Created/Improved page: [[neurodesk]] – Containerized neuroimaging analysis environment
+  - Complete rewrite from placeholder to comprehensive entity page (~580 words)
+  - Updated frontmatter: changed updated date to 2026-05-01
+  - Tags: software-brain-modeling, software-visualization, neuroimaging-fmri, neuroimaging-eeg, neuroimaging-dti, reproducibility, bids
+  - Established 10+ wikilinks: the-virtual-brain, tvb, fmriprep, fsl, freesurfer, nilearn, mrtrix3, dipy, bids, whole-brain-modeling, connectomics, diffusion-imaging, structural-connectivity, computational-neuroscience
+  - Added detailed sections: Overview (containerized neuroimaging environment, formerly NeuroDocker), Key Features (Neurodesktop, Neurocontainers, Neurocommand, transparent-singularity), Relationship to TVB (data analysis infrastructure for whole-brain modeling), Key Papers (Imaging Neuroscience evaluation, iAwards 2025), Related Software, Technical Architecture
+  - Explained Neurodesk's role: provides 100+ neuroimaging tools through Docker/Singularity containers for reproducible analysis
+  - Positioned as complementary to TVB: preprocessing pipelines for empirical data before whole-brain simulation
+  - Added to entities/index.md under Software Platforms
+
 - Created/Improved page: [[pydicom]] – Pure Python library for reading and writing DICOM medical imaging files
   - Complete rewrite from placeholder to comprehensive entity page (~750 words)
   - Updated frontmatter: changed updated date to 2026-05-01
@@ -1079,3 +1089,5 @@
   - Included reproducibility findings: eliminated inter-computer differences shown in benchmark study
 
 ## [2026-05-01 07:10] Improve: 3 pages improved (boutiques, neurodesk, pydicom)
+
+## [2026-05-01 08:13] Improve: 3 pages improved (pydicom, boutiques, neurodesk)
