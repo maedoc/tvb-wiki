@@ -1,5 +1,17 @@
 # Wiki Log
 
+## 2026-05-02
+
+- Improved page: [[braincogs]] – NIH BRAIN Initiative research consortium on working memory circuits
+  - Complete rewrite from placeholder to comprehensive entity page (~550 words)
+  - Updated frontmatter: created 2026-04-30, updated date to 2026-05-02
+  - Tags: funding-project, lab-institute (replaced software-brain-modeling)
+  - Added sources: https://braincogs.org, https://github.com/BrainCOGS
+  - Established 10+ wikilinks: the-virtual-brain, nest, brain-connectivity-toolbox, nwb, bids, datalad, whole-brain-modeling, neural-mass-models, parameter-estimation, effective-connectivity, structural-connectivity
+  - Added detailed sections: Overview, Scientific Motivation, Research Components (Perturbations & Behavior, Cortical Dynamics, Subcortical Dynamics, Analysis & Modeling), Relationship to TVB, Related Software
+  - Explained BrainCoGS: multi-institutional NIH BRAIN Initiative project combining optogenetics, calcium imaging, and computational modeling to understand decision-making circuits
+  - Positioned as relevant to TVB: complementary approaches, shared techniques for parameter estimation and effective connectivity analysis
+
 ## 2026-05-01
 
 - Updated page: [[braincogs]] – NIH BRAIN Initiative research project on working memory and decision-making
@@ -1213,3 +1225,9 @@
 ## [2026-05-01 22:57] Improve: 3 pages improved (neurom, hnn, braincogs)
 
 ## [2026-05-02 00:06] Improve: 3 pages improved (neurom, braincogs, hnn)
+
+## [2026-05-02 01:05] Matcher: 5 pages got 11 new sources
+
+## 2026-05-02
+
+- Updated **braincogs** page: Added wikilinks for excitation-inhibition-balance, brain-dynamics, petra-ritter; added Key Researchers section; expanded tags to include computational-neuroscience, neural-mass-models, effective-connectivity, structural-connectivity; updated sources
