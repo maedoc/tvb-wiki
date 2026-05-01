@@ -1042,11 +1042,12 @@
 
 ## 2026-05-01 Ralph Writer
 
-- Improved page: [[nighres]] – High-resolution neuroimaging processing library
-  - Complete rewrite with ~850 words covering: Definition, motivation (7T/ultra-high-field MRI needs), technical content (cortical layer segmentation, myelin mapping, profile analysis), key features, relationship to TVB, related software, key papers
-  - Updated frontmatter: changed updated date to 2026-05-01, updated tags (software-neuroimaging, neuroimaging-mri, software-laminar-analysis, cortex-segmentation)
-  - Established 10+ wikilinks: whole-brain-modeling, connectomics, neuroimaging, brain-oscillations, brain-stimulation, personalized-brain-modeling, the-virtual-brain, epilepsy-modeling, diffusion-imaging, freesurfer, fsl, afni, nilearn, brainstat
-  - Updated catalog.md entry with proper description
-  - Positioned as complement to TVB: provides anatomical priors for whole-brain models
+- Improved page: [[nighres]] – Complete rewrite of the Nighres (NIH High-Resolution) wiki page with ~740 words of substantive content
+  - Added comprehensive sections: Overview (high-resolution laminar imaging definition), Motivation and Context (7T MRI gap), Key Features (layer segmentation, myelin mapping, columnar analysis), Relationship to TVB (anatomical constraints for whole-brain models), Related Software, Technical Considerations, Open Questions and Future Directions
+  - Updated frontmatter: changed updated to 2026-05-01, added tags: neuroimaging, diffusion-imaging, tractography, software-visualization
+  - Added 12+ wikilinks: the-virtual-brain, whole-brain-modeling, freesurfer, fsl, nipype, ants, brainnet-viewer, connectome-workbench, mrtrix3, diffusion-imaging, tractography, neural-mass-models, jansen-rit-model, wong-wang-model, structural-connectivity
+  - Positioned as complement to TVB: laminar profiles and myelin maps provide region-specific parameters for neural mass models
+  - Expanded technical content with equations and depth-dependent sampling explanations
+  - Added open questions about layer count optimization and histology validation
 
-## [2026-05-01 03:12] Improve: 3 pages improved (gephi, boutiques, nighres)
+## [2026-05-01 04:16] Improve: 3 pages improved (pydicom, nighres, boutiques)
