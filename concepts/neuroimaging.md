@@ -14,7 +14,7 @@ type: concept
 updated: '2026-05-01'
 ---
 
-Neuroimaging — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+Neuroimaging — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]], and frameworks such as [[boutiques]].
 
 ## Related Concepts
 * [[diffusion-mri]]

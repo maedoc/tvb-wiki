@@ -25,7 +25,7 @@ The demand for sophisticated neuroimaging analysis has grown exponentially with 
 
 ## Key Features
 
-NITRC-CE offered several distinguishing capabilities that made it attractive to the neuroimaging community. First, the platform provided a web-based graphical user interface that allowed users to select from a library of pre-installed neuroimaging tools—including [[fsl]], [[freesurfer]], [[afni]], [[mrtrix3]], and [[dipy]]—and configure pipelines through point-and-click interactions rather than command-line syntax. Second, the system supported one-click deployment of complete analysis workflows, reducing the time required to go from raw [[dicom]] or [[nifti]] data to processed results. Third, NITRC-CE incorporated resource management features that allowed users to specify computational requirements such as memory allocation and processing time, with the system dynamically provisioning cloud resources accordingly. The platform also maintained detailed logs of all computational steps, facilitating [[reproducibility]] and allowing researchers to audit their processing pipelines.
+NITRC-CE offered several distinguishing capabilities that made it attractive to the neuroimaging community. First, the platform provided a web-based graphical user interface that allowed users to select from a library of pre-installed neuroimaging tools—including [[fsl]], [[freesurfer]], [[afni]], [[mrtrix3]], and [[dipy]]—and configure pipelines through point-and-click interactions rather than command-line syntax. Second, the system supported one-click deployment of complete analysis workflows, reducing the time required to go from raw [[pydicom]] or [[nifti]] data to processed results. Third, NITRC-CE incorporated resource management features that allowed users to specify computational requirements such as memory allocation and processing time, with the system dynamically provisioning cloud resources accordingly. The platform also maintained detailed logs of all computational steps, facilitating [[reproducibility]] and allowing researchers to audit their processing pipelines.
 
 ## Relationship to The Virtual Brain
 
@@ -33,7 +33,7 @@ While NITRC-CE was designed as a general-purpose neuroimaging processing platfor
 
 ## Comparison to Related Platforms
 
-NITRC-CE existed within an ecosystem of cloud-based neuroimaging solutions, each with distinct design philosophies. Unlike [[brainlife]]—which emphasized data archival, shared pipelines, and community collaboration—NITRC-CE focused more narrowly on computational execution with a simpler interface. Compared to [[neurodesk]] (formerly NeuroDocker), which provided containerized environments for local execution, NITRC-CE offered a fully managed cloud solution at the cost of less flexibility for custom configurations. The platform also differed from institutional solutions like the Neuroscience Gateway ([[neuroscience-gateway]]), which targeted high-throughput batch processing rather than interactive exploration. As cloud computing matured and container technologies like [[apptainer]] became more widely adopted, many researchers shifted toward self-managed solutions, and NITRC-CE was eventually deprecated in favor of more modern paradigms.
+NITRC-CE existed within an ecosystem of cloud-based neuroimaging solutions, each with distinct design philosophies. Unlike [[brainlife]]—which emphasized data archival, shared pipelines, and community collaboration—NITRC-CE focused more narrowly on computational execution with a simpler interface. Compared to [[neurodesk]] (formerly NeuroDocker), which provided containerized environments for local execution, NITRC-CE offered a fully managed cloud solution at the cost of less flexibility for custom configurations. The platform also differed from institutional solutions like the Neuroscience Gateway ([[neuroscience-gateway]]), which targeted high-throughput batch processing rather than interactive exploration. As cloud computing matured and container technologies like [[apptainer]] were more widely adopted, many researchers shifted toward self-managed solutions, and NITRC-CE was eventually deprecated in favor of more modern paradigms.
 
 ## Related Software
 
@@ -44,6 +44,6 @@ NITRC-CE existed within an ecosystem of cloud-based neuroimaging solutions, each
 - [[afni]]
 - [[brainlife]]
 - [[neurodesk]]
-- [[human-[[connectome]]-project]]
+- [[mrtrix3-connectome]]
 
 ## References

@@ -1,14 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- clewley-2005
-- clewley-2012
-- auto-07p
-- jansen-rit-1993
-- wong-wang-2006
-- sazin-2018
-- ranganath-2022
-- le-q-2015
 - raw/papers/sanz-leon-2013.md
 - raw/papers/breakspear-2017.md
 - raw/papers/arxiv-2509.02799.md

@@ -1,10 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- https://mne.tools/mne-bids-pipeline
-- https://bids-specification.readthedocs.io
-- https://www.humanconnectome.org/study/hcp-young-adult
-- https://openneuro.org
 - raw/papers/gramfort-2013.md
 tags:
 - software

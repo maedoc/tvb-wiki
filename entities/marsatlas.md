@@ -14,7 +14,7 @@ updated: '2026-05-01'
 
 title: MarsAtlas
 created: 2024-01-15
-updated: 2026-04-30
+updated: 2026-05-01
 type: entity
 tags: [[stochastic-differential-equations]], [[neuroimaging]], neuroimaging-dti, [[structural-connectivity]], [[software-bct]], [[connectomics]], [[parcellation]], software-visualization
 sources: [https://www.sciencedirect.com/science/article/pii/S105381191730727X, https://www.sciencedirect.com/science/article/pii/S1053811916305513, https://academic.oup.com/neuroscientist/article/22/4/359/2663642]
@@ -33,13 +33,13 @@ The atlas occupies a middle ground in the spectrum of brain parcellations. Coars
 
 MarsAtlas provides a volumetric representation of cortical and subcortical regions in standard [MNI space][mni-space], with corresponding surface meshes suitable for visualization in tools like [FreeSurfer][freesurfer], [Connectome Workbench][connectome-workbench], or [3D Slicer][3d-slicer]. Each region in the atlas is assigned a unique integer label, enabling straightforward construction of region-by-region [structural connectivity][structural-connectivity] matrices from [diffusion MRI][diffusion-mri] [[tractography]] data [1]. The parcellation scheme follows a hierarchical organization: regions are first grouped by lobe (frontal, parietal, temporal, occipital, cingulate), then further subdivided into finer functional territories.
 
-The typical workflow for using MarsAtlas in [whole-brain modeling][whole-brain-modeling] involves the following [[steps]]: (1) registering individual diffusion-weighted MRI scans to [[mni-space]] using tools like [FSL][fsl] or [ANTs][ants], (2) performing deterministic or probabilistic [tractography][tractography] to reconstruct [[white-matter]] tracts, (3) applying MarsAtlas region labels to extract [[connectivity]] weights between region pairs, (4) normalizing connection densities to account for region size and fiber count, and (5) inputting the resulting connectivity matrix into a [neural mass model][neural-mass-model] such as the [[[jansen-rit]] model][jansen-rit-model] or [Epileptor][epileptor] for simulation [7][8]. This pipeline is supported by tools in the [MRtrix3][mrtrix3] and [FSL][fsl] ecosystems, as well as the [Brain Connectivity Toolbox][brain-connectivity-toolbox] for network analysis.
+The typical workflow for using MarsAtlas in [whole-brain modeling][whole-brain-modeling] involves the following [[steps]]: (1) registering individual diffusion-weighted MRI scans to [[mni-space]] using tools like [FSL][fsl] or [ANTs][ants], (2) performing deterministic or probabilistic [tractography][tractography] to reconstruct [[white-matter]] tracts, (3) applying MarsAtlas region labels to extract [[connectivity]] weights between region pairs, (4) normalizing connection densities to account for region size and fiber count, and (5) inputting the resulting connectivity matrix into a [neural mass model][neural-mass-model] such as the [[jansen-rit]] model][jansen-rit-model] or [Epileptor][epileptor] for simulation [7][8]. This pipeline is supported by tools in the [MRtrix3][mrtrix3] and [FSL][fsl] ecosystems, as well as the [Brain Connectivity Toolbox][brain-connectivity-toolbox] for network analysis.
 
 ## Relationship to The Virtual Brain
 
 Within the [The Virtual Brain][the-virtual-brain] (TVB) ecosystem, MarsAtlas serves as one of several supported parcellation schemes for constructing [[personalized-brain-modeling|personalized brain]] models [2][7]. TVB's [brain parcellations][brain-parcellations] framework allows users to select MarsAtlas when generating the regional-level connectivity matrix, which then drives the coupling between [[neural-mass-models]] at each node [9]. The use of MarsAtlas in TVB enables researchers to simulate [resting-state][resting-state] dynamics, task-related responses, and pathological states such as [epileptic seizures][epilepsy-modeling] at the whole-brain scale.
 
-Other atlases commonly used with TVB include the [AAL][aal-atlas], the [Desikan-Killiany Atlas][desikan-killiany-atlas], and the [Schaefer Atlas][schaefer-atlas] (which provides functional parcellations based on [[[resting-state]] fMRI][neuroimaging-fmri] gradients) [9][10]. The choice of atlas involves trade-offs between anatomical detail, functional specificity, and model complexity, and users often compare results across multiple parcellation schemes to assess robustness of findings.
+Other atlases commonly used with TVB include the [AAL][aal-atlas], the [Desikan-Killiany Atlas][desikan-killiany-atlas], and the [Schaefer Atlas][schaefer-atlas] (which provides functional parcellations based on [[resting-state]] fMRI][neuroimaging-fmri] gradients) [9][10]. The choice of atlas involves trade-offs between anatomical detail, functional specificity, and model complexity, and users often compare results across multiple parcellation schemes to assess robustness of findings.
 
 ## Key Features
 

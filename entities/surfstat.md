@@ -1,13 +1,7 @@
 ---
 created: 2024-01-15
 sources:
-- Worsley et al.
-- 2009a
-- Worsley et al.
-- 2009b
-- Charil et al.
 - 2007
-- Goldstein et al.
 - 2017
 - raw/papers/arxiv-2602.03240.md
 - raw/papers/newman-2010.md

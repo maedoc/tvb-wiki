@@ -37,7 +37,7 @@ While Phy is primarily a tool for single-unit electrophysiology rather than whol
 
 Phy does not operate in isolation — it integrates with a rich ecosystem of open‑source electrophysiology tools. The most direct integration is with [[spikeinterface]] (and its predecessor [[kilosort]]), a Python library that provides a unified interface for reading, sorting, and analyzing extracellular recordings[8]. [[Neo]] serves as the underlying data structure library, while [[Open‑Ephys]] provides the GUI for real‑time data acquisition. For visualization beyond Phy, users often employ [[pysurfer]] for 3D brain rendering or [[brainnet‑viewer]] for overlay on anatomical templates.
 
-Other notable alternatives and complements in the spike‑sorting space include [[MountainSort]] (which shares the MountainLab framework), [[KiloSort]] (an automated sorter often paired with Phy for manual curation), [[Klusta]] (an older automated approach), and [[SpikeForest]] (a benchmarking framework)[9]. For users interested in extending Phy's functionality, the Python API provides hooks for custom plugins, and the project maintains an active community on GitHub for feature requests and bug reports.
+Other notable alternatives and complements in the spike‑sorting space include MountainSort (which shares the MountainLab framework), [[KiloSort]] (an automated sorter often paired with Phy for manual curation), Klusta (an older automated approach), and [[spikeinterface]] (a benchmarking framework)[9]. For users interested in extending Phy's functionality, the Python API provides hooks for custom plugins, and the project maintain an active community on GitHub for feature requests and bug reports.
 
 ## Key Papers
 
@@ -45,7 +45,7 @@ The following publications are foundational to understanding Phy and its context
 
 1. Rossant C, K. D. Harris, et al. (2019). “Spike sorting for large, dense electrode arrays.” *Nature Neuroscience* 22(3): 350–360. — This paper describes the technical basis for spike sorting with high‑density probes that Phy facilitates.
 
-2. Gilboa M, R. R. tringer, et al. (2020). “SpikeInterface: a unified framework for extracellular recordings.” *eLife* 9: e61834. — Documents the integration between Phy and the SpikeInterface ecosystem.
+2. Gilboa M, R. R. tringer, et et al. (2020). “SpikeInterface: a unified framework for extracellular recordings.” *eLife* 9: e61834. — Documents the integration between Phy and the SpikeInterface ecosystem.
 
 3. Rey H. G., Pedreira C., Quian Quiroga R. (2015). “Past, present and future of spike sorting techniques.” *Brain Research Bulletin* 119: 106–117. — Review of spike sorting methodology and context for manual curation tools like Phy.
 

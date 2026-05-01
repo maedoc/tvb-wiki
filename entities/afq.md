@@ -16,7 +16,7 @@ tags:
 - neural-mass-models
 title: AFQ
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-01'
 ---
 
 ## Overview
@@ -57,7 +57,7 @@ The computational pipeline is implemented in Python and integrates with the [[ni
 
 ## Relationship to TVB
 
-AFQ plays an important role in the [[whole-brain-modeling]] pipeline by providing high‑quality structural connectivity matrices that can serve as anatomical constraints for [[neural-mass-models]] and [[dynamic-causal-modeling]] analyses. The [[Virtual Brain]] (TVB) platform can incorporate white‑matter connectivity data derived from AFQ‑processed dMRI scans to simulate large‑scale brain dynamics. Specifically:
+AFQ plays an important role in the [[whole-brain-modeling]] pipeline by providing high‑quality structural connectivity matrices that can serve as anatomical constraints for [[neural-mass-models]] and [[dynamic-causal-modeling]] analyses. The [[open-source-brain]] (TVB) platform can incorporate white‑matter connectivity data derived from AFQ‑processed dMRI scans to simulate large‑scale brain dynamics. Specifically:
 
 - AFQ‑derived tractograms provide the [[structural-connectivity]] weights that determine coupling strength between brain regions in TVB simulations [7]
 - The tract‑specific diffusion metrics (FA, MD) can inform patient‑specific parameter optimization in [[personalized-brain-modeling]] workflows

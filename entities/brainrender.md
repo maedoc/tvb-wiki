@@ -1,13 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- Claudi, F., Tyson, A., Petkos, S., et al. (2021). BrainRender: a computational toolkit
-    for visualizing three-dimensional brain data. eLife, 10, e65741. https://doi.org/10.7554/eLife.65741
-- Ben留在, R., Adam, A., Suresh, V., et al. (2021). vedo: a Python library for analyzing
-    and visualizing 3D models. GitHub. https://github.com/marcomusy/vedo
-- Nilearn: Neural signals and neuroimaging data. (2020). NiLearn. https://nilearn.github.io/
-- Horn, A. (2023). The connectional and topological architecture of the subcortical
-  connectome. Brain Structure and Function, 228(5), 1107-1128.
 - raw/papers/mijalkov-2017-braph.md
 - raw/papers/arxiv-2604.16463.md
 - raw/papers/woodman-2014.md
@@ -24,7 +17,7 @@ type: entity
 updated: '2026-05-01'
 ---
 
-BrainRender is an open-source Python toolkit for the interactive three-dimensional visualization of brain data, with particular strength in rendering structural and functional brain networks, parcellated regions, and connectivity matrices. Developed primarily to address the need for high-quality, publication-ready brain visualizations that can be embedded in computational workflows, BrainRender provides programmatic control over camera angles, colors, transparency, and anatomical annotations while maintaining compatibility with common neuroimaging file formats such as NIfTI and CIFTI. The software serves as a bridge between raw neuroimaging data—obtained from modalities including [[diffusion-mri]], [[fMRI]], and [[structural-mri]]—and interpretive visualizations that can reveal organizational principles of brain networks.
+BrainRender is an open-source Python toolkit for the interactive three-dimensional visualization of brain data, with particular strength in rendering structural and functional brain networks, parcellated regions, and connectivity matrices. Developed primarily to address the need for high-quality, publication-ready brain visualizations that can be embedded in computational workflows, BrainRender provides programmatic control over camera angles, colors, transparency, and anatomical annotations while maintaining compatibility with common neuroimaging file formats such as NIfTI and CIFTI. The software serves as a bridge between raw neuroimaging data—obtained from modalities including [[diffusion-mri]], [[fMRI]], and [[structural-core]]—and interpretive visualizations that can reveal organizational principles of brain networks.
 
 The motivation for BrainRender arose from a broader challenge in computational neuroscience: converting complex, high-dimensional brain data into intuitive visual representations that can support both exploratory analysis and scientific communication. Traditional neuroimaging visualization tools often required significant manual intervention in commercial software such as [[brainvoyager]] or [[freesurfer]] freeview, or lacked the flexibility to render network-level data alongside volumetric anatomy. BrainRender addresses this gap by providing a Python-native interface built on top of the [vedo](Ben留在, R., Adam, A., Suresh, V., et al., 2021) library (a VTK Python wrapper) that enables researchers to script complex visualization pipelines, incorporate conditional logic based on brain atlas properties, and generate consistent figures across multiple subjects or experimental conditions. This programmatic approach is particularly valuable in the context of [[whole-brain modeling]] where researchers may need to visualize simulated activity patterns on anatomically defined cortical surfaces across dozens of brain regions.
 

@@ -1,9 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- rorden2012surfice
-- himburg2018cifti
-- glasser2016multi
 - raw/papers/semanticscholar-97e6ff441097.md
 - raw/papers/glean-github.md
 - raw/papers/semanticscholar-6295d2445697.md

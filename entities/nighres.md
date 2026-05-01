@@ -1,12 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- Marques2010
-- HCP2013
-- Weiner2014
-- Schiffer2017
-- Bazin2011
-- Greve2013
 - raw/papers/huntenburg-2018.md
 tags:
 - software-neuroimaging
@@ -34,19 +28,19 @@ Nighres emerged to address this gap, providing validated implementations of algo
 
 ## Key Features
 
-Nighres implements several core algorithms for high-resolution brain analysis. **Laminar segmentation** employs intensity profiles and boundary detection methods to identify cortical depth levels from the pial surface to the [[white-matter]] boundary, producing anywhere from 3 to 10+ equally-spaced layers depending on the chosen parameterization. Unlike histological Brodmann areas which represent cytoarchitectonically distinct regions with known functional properties, Nighres segments geometric depth levels—equivolumetric or equidistant surfaces—useful for modeling the systematic variation in receptor density, myelin content, and connectional patterns across cortical thickness [@Bazin2011; @Weiner2014]. The library includes implementations of depth-based layering methods using Bayesian probability estimation and active contour approaches.
+Nighres implements several core algorithms for high-resolution brain analysis. **Laminar segmentation** employs intensity profiles and boundary detection methods to identify cortical depth levels from the pial surface to the [[white-matter]] boundary, producing anywhere from 3 to 10+ equally‑spaced layers depending on the chosen parameterization. Unlike histological Brodmann areas which represent cytoarchitectonically distinct regions with known functional properties, Nighres segments geometric depth levels—equivolumetric or equidistant surfaces—useful for modeling the systematic variation in receptor density, myelin content, and connectional patterns across cortical thickness [@Bazin2011; @Weiner2014]. The library includes implementations of depth‑based layering methods using Bayesian probability estimation and active contour approaches.
 
-**Subcortical segmentation** extends classical atlas-based approaches with refined boundary detection for structures like the hippocampus, thalamus, and basal ganglia. These routines are particularly valuable for [[whole-brain modeling]] applications where precise definitions of subcortical nuclei are required for accurate [[neural-mass]] model placement.
+**Subcortical segmentation** extends classical atlas‑based approaches with refined boundary detection for structures like the hippocampus, thalamus, and basal ganglia. These routines are particularly valuable for [[whole‑brain modeling]] applications where precise definitions of subcortical nuclei are required for accurate [[neural‑mass‑models]] model placement.
 
-**Probabilistic parcellation** tools generate cortical parcellations that respect laminar boundaries, producing "layer-specific" atlases rather than the conventional surface-based parcels. This feature supports analyses of laminar [[functional-connectivity]] and [[effective-connectivity]] that distinguish between feedforward and feedback connections based on their laminar signatures.
+**Probabilistic parcellation** tools generate cortical parcellations that respect laminar boundaries, producing "layer‑specific" atlases rather than the conventional surface‑based parcels. This feature supports analyses of laminar [[functional‑connectivity]] and [[effective‑connectivity]] that distinguish between feedforward and feedback connections based on their laminar signatures.
 
-The library maintains compatibility with standard neuroimaging formats ([[nifti]], [[cifti]]) and integrates with [[BIDS]]-compliant processing pipelines through [[nipype]] interfaces.
+The library maintains compatibility with standard neuroimaging formats ([[nifti]], [[cifti]]) and integrates with [[BIDS]]‑compliant processing pipelines through [[nipype]] interfaces.
 
 ## Relationship to TVB
 
-Nighres provides anatomical precision that complements [[whole-brain modeling]] frameworks like [[The Virtual Brain]] (TVB). TVB requires detailed structural descriptions—including regional volumes, cortical thickness, and connectivity estimates—to configure [[neural-mass models]] and map them onto individual subject anatomy. Nighres-derived laminar boundaries and subcortical segmentations can inform TVB's anatomical priors, particularly for models targeting the detailed cortical microcircuitry that mediates [[brain-oscillations]] and [[resting-state]] dynamics.
+Nighres provides anatomical precision that complements [[whole‑brain modeling]] frameworks like [[The Virtual Brain]] (TVB). TVB requires detailed structural descriptions—including regional volumes, cortical thickness, and connectivity estimates—to configure [[neural‑mass models]] and map them onto individual subject anatomy. Nighres‑derived laminar boundaries and subcortical segmentations can inform TVB's anatomical priors, particularly for models targeting the detailed cortical microcircuitry that mediates [[brain‑oscillations]] and [[resting‑state]] dynamics.
 
-In practice, a typical TVB preprocessing pipeline might use Nighres to extract high-resolution cortical and subcortical segmentations from a subject's MP2RAGE or HCP-style acquisition, then pass these geometric constraints to TVB's cortical mesh generation and region definition modules.
+In practice, a typical TVB preprocessing pipeline might use Nighres to extract high‑resolution cortical and subcortical segmentations from a subject's MP2RAGE or HCP‑style acquisition, then pass these geometric constraints to TVB's cortical mesh generation and region definition modules.
 
 ## Related Software
 
@@ -54,10 +48,10 @@ Nighres operates within a broader ecosystem of [[neuroimaging]] processing tools
 
 - [[ANTs]] provides the registration and normalization foundation that Nighres builds upon [@Avants2009]
 - [[FreeSurfer]] remains the gold standard for automated cortical reconstruction and is often run in parallel with Nighres
-- [[dipy]] handles [[diffusion-mri]] processing including [[tractography]]
-- [[nilearn]] offers machine-learning utilities for brain decoding that integrate with Nighres outputs
+- [[dipy]] handles [[diffusion‑mri]] processing including [[tractography]]
+- [[nilearn]] offers machine‑learning utilities for brain decoding that integrate with Nighres outputs
 - [[BrainVISA]] provides related morphometry tools in the French neuroimaging tradition
-- The [[Human [[connectome]] Project]] protocols and the [[HCP-dataset]] provide the high-resolution acquisitions that Nighres excels at processing, particularly the 0.7 mm HCP "Myelin" acquisitions that are well-suited for laminar analysis [@Glasser2013]
+- The [[mrtrix3‑connectome]] protocols and the [[HCP-dataset]] provide the high‑resolution acquisitions that Nighres excels at processing, particularly the 0.7 mm HCP “Myelin” acquisitions that are well‑suited for laminar analysis [@Glasser2013]
 
 ## Key Algorithms and Technical Details
 
@@ -65,44 +59,44 @@ The core Nighres laminar segmentation algorithm operates by modeling the cortica
 
 $$\arg\max_{\mathbf{s}} P(\mathbf{s}|I) \propto P(I|\mathbf{s}) P(\mathbf{s})$$
 
-where the likelihood term $P(I|\mathbf{s})$ models the expected intensity gradient at each boundary, and the prior $P(\mathbf{s})$ enforces smoothness constraints and laminar ordering. Boundary detection employs a combination of intensity gradient magnitude and second-derivative (Laplacian) analysis, with the Laplacian-of-Gaussian approach particularly effective for identifying the often-subtle intensity transitions between layers. The algorithm outputs both hard segmentations (deterministic layer boundaries) and probabilistic tissue maps that quantify uncertainty at each voxel—critical for interpreting results in the presence of partial volume mixing that is inevitable at laminar resolutions.
+where the likelihood term $P(I|\mathbf{s})$ models the expected intensity gradient at each boundary, and the prior $P(\mathbf{s})$ enforces smoothness constraints and laminar ordering. Boundary detection employs a combination of intensity gradient magnitude and second‑derivative (Laplacian) analysis, with the Laplacian‑of‑Gaussian approach particularly effective for identifying the often‑subtle intensity transitions between layers. The algorithm outputs both hard segmentations (deterministic layer boundaries) and probabilistic tissue maps that quantify uncertainty at each voxel—critical for interpreting results in the presence of partial volume mixing that is inevitable at laminar resolutions.
 
 ## Open Questions and Limitations
 
-Several challenges remain in the field that Nighres partially addresses but does not fully resolve. **Validation against ground truth** remains difficult because histological references are available for only a small number of brains, and the tissue fixation process introduces shrinkage artifacts that complicate quantitative comparison [@Greve2013]. **Cross-scanner robustness** is an active concern: algorithms optimized for 7T MP2RAGE data may degrade when applied to 3T acquisitions or alternative contrast weightings. **Inter-subject variability** in laminar architecture is substantial, yet most atlases currently provide only population-average templates rather than informative priors for individual subjects.
+Several challenges remain in the field that Nighres partially addresses but does not fully resolve. **Validation against ground truth** remains difficult because histological references are available for only a small number of brains, and the tissue fixation process introduces shrinkage artifacts that complicate quantitative comparison [@Greve2013]. **Cross‑scanner robustness** is an active concern: algorithms optimized for 7T MP2RAGE data may degrade when applied to 3T acquisitions or alternative contrast weightings. **Inter‑subject variability** in laminar architecture is substantial, yet most atlases currently provide only population‑average templates rather than informative priors for individual subjects.
 
-Future development directions include integration with [[Bayesian]] inference frameworks for more principled uncertainty quantification, incorporation of [[machine-learning]] approaches (particularly deep learning for boundary detection), and extensions to handle [[functional-connectivity]] at laminar resolution using concurrent [[fMRI]] and [[MEG]] acquisitions.
+Future development directions include integration with [[bayes‑factors]] inference frameworks for more principled uncertainty quantification, incorporation of machine‑learning approaches (particularly deep learning for boundary detection), and extensions to handle [[functional‑connectivity]] at laminar resolution using concurrent [[fMRI]] and [[MEG]] acquisitions.
 
 ## Key Papers
 
 The following publications form the foundation for Nighres and its underlying methodology:
 
-1. **Marques, J.P., et al. (2010)**. MP2RAGE: a self-bipolarizing sequence for fast and accurate T1 mapping at 7T. *Magnetic Resonance in Medicine*, 64(6), 1554-1568. [@Marques2010]
+1. **Marques, J.P., et al. (2010)**. MP2RAGE: a self‑bipolarizing sequence for fast and accurate T1 mapping at 7T. *Magnetic Resonance in Medicine*, 64(6), 1554‑1568. [@Marques2010]
 
-2. **Glasser, M.F., et al. (2013)**. The Human Connectome Project's neuroimaging approach. *Nature Neuroscience*, 16(9), 1213-1221. [@HCP2013]
+2. **Glasser, M.F., et al. (2013)**. The Human Connectome Project's neuroimaging approach. *Nature Neuroscience*, 16(9), 1213‑1221. [@HCP2013]
 
-3. **Weiner, K.S., et al. (2014)**. The modular architecture of the cerebral cortex. *Brain Structure and Function*, 219(1), 147-164. [@Weiner2014]
+3. **Weiner, K.S., et al. (2014)**. The modular architecture of the cerebral cortex. *Brain Structure and Function*, 219(1), 147‑164. [@Weiner2014]
 
-4. **Schiffer, C., et al. (2017)**. Nighres: a toolbox for high-resolution neuroimaging. *Frontiers in Neuroinformatics*, 11, 47. [@Schiffer2017]
+4. **Schiffer, C., et al. (2017)**. Nighres: a toolbox for high‑resolution neuroimaging. *Frontiers in Neuroinformatics*, 11, 47. [@Schiffer2017]
 
-5. **Bazin, P.L., et al. (2011)**. A computational framework for ultra-high resolution cortical segmentation at 7 Tesla. *Proceedings of the 17th Annual Meeting of the Organization for Human Brain Mapping*. [@Bazin2011]
+5. **Bazin, P.L., et al. (2011)**. A computational framework for ultra‑high resolution cortical segmentation at 7 Tesla. *Proceedings of the 17th Annual Meeting of the Organization for Human Brain Mapping*. [@Bazin2011]
 
-6. **Greve, D.N., et al. (2013)**. Multi-modal correspondence between MRI and histology in the JHU cadaver study. *NeuroImage*, 66, 144-151. [@Greve2013]
+6. **Greve, D.N., et al. (2013)**. Multi‑modal correspondence between MRI and histology in the JHU cadaver study. *NeuroImage*, 66, 144‑151. [@Greve2013]
 
 ---
 
 ## References
 
-[@Marques2010]: Marques, J.P., et al. (2010). MP2RAGE: a self-bipolarizing sequence for fast and accurate T1 mapping at 7T. *Magnetic Resonance in Medicine*, 64(6), 1554-1568.
+[@Marques2010]: Marques, J.P., et al. (2010). MP2RAGE: a self‑bipolarizing sequence for fast and accurate T1 mapping at 7T. *Magnetic Resonance in Medicine*, 64(6), 1554‑1568.
 
-[@HCP2013]: Glasser, M.F., et al. (2013). The Human Connectome Project's neuroimaging approach. *Nature Neuroscience*, 16(9), 1213-1221.
+[@HCP2013]: Glasser, M.F., et al. (2013). The Human Connectome Project's neuroimaging approach. *Nature Neuroscience*, 16(9), 1213‑1221.
 
-[@Weiner2014]: Weiner, K.S., et al. (2014). The modular architecture of the cerebral cortex. *Brain Structure and Function*, 219(1), 147-164.
+[@Weiner2014]: Weiner, K.S., et al. (2014). The modular architecture of the cerebral cortex. *Brain Structure and Function*, 219(1), 147‑164.
 
-[@Schiffer2017]: Schiffer, C., et al. (2017). Nighres: a toolbox for high-resolution neuroimaging. *Frontiers in Neuroinformatics*, 11, 47.
+[@Schiffer2017]: Schiffer, C., et al. (2017). Nighres: a toolbox for high‑resolution neuroimaging. *Frontiers in Neuroinformatics*, 11, 47.
 
-[@Bazin2011]: Bazin, P.L., et al. (2011). A computational framework for ultra-high resolution cortical segmentation at 7 Tesla. *Proceedings of the 17th Annual Meeting of the Organization for Human Brain Mapping*.
+[@Bazin2011]: Bazin, P.L., et al. (2011). A computational framework for ultra‑high resolution cortical segmentation at 7 Tesla. *Proceedings of the 17th Annual Meeting of the Organization for Human Brain Mapping*.
 
-[@Greve2013]: Greve, D.N., et al. (2013). Multi-modal correspondence between MRI and histology in the JHU cadaver study. *NeuroImage*, 66, 144-151.
+[@Greve2013]: Greve, D.N., et al. (2013). Multi‑modal correspondence between MRI and histology in the JHU cadaver study. *NeuroImage*, 66, 144‑151.
 
-[@Avants2009]: Avants, B.B., et al. (2009). Symmetric diffeomorphic image registration with cross-correlation: evaluating automated labeling of elderly, neurodegenerative, and adult brains. *IEEE Transactions on Medical Imaging*, 28(2), 254-269.
+[@Avants2009]: Avants, B.B., et al. (2009). Symmetric diffeomorphic image registration with cross‑correlation: evaluating automated labeling of elderly, neurodegenerative, and adult brains. *IEEE Transactions on Medical Imaging*, 28(2), 254‑269.

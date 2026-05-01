@@ -1,10 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- https://pysurfer.github.io/
-- https://github.com/nipy/PySurfer
-- https://www.nitrc.org/projects/pysurfer/
-- https://doi.org/10.5281/zenodo.592515
 - raw/papers/sanz-leon-2013.md
 - raw/papers/ritter-2013.md
 - raw/papers/semanticscholar-97e6ff441097.md

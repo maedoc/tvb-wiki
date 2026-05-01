@@ -1,9 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- https://boutiques.github.io/
-- https://github.com/boutiques/boutiques
-- https://incf.org/
 - raw/papers/semanticscholar-9afbfd2d37be.md
 - raw/papers/semanticscholar-15c9336be64a.md
 - raw/papers/semanticscholar-97e6ff441097.md
@@ -37,7 +34,7 @@ A distinctive feature of Boutiques is its support for **container invocation** t
 
 ## Relationship to TVB and Other Tools
 
-Boutiques maintains close relationships with several major [[neuroimaging]] and computational neuroscience platforms. The [[human-[[connectome]]-project]] (HCP) pipelines were among the first large-scale datasets to adopt Boutiques descriptors for their preprocessing workflows, enabling standardized execution of the HCP's sophisticated image processing pipelines. Similarly, tools from the NiPy ecosystem (which includes [[nipype]] and related processing tools), as well as the [[nilearn]] library for statistical learning on neuroimaging data, have been described using the Boutiques schema.
+Boutiques maintains close relationships with several major [[neuroimaging]] and computational neuroscience platforms. The [[mrtrix3-connectome]] (HCP) pipelines were among the first large-scale datasets to adopt Boutiques descriptors for their preprocessing workflows, enabling standardized execution of the HCP's sophisticated image processing pipelines. Similarly, tools from the NiPy ecosystem (which includes [[nipype]] and related processing tools), as well as the [[nilearn]] library for statistical learning on neuroimaging data, have been described using the Boutiques schema.
 
 For [[the-virtual-brain]] (TVB), Boutiques provides a standardization pathway that could enable TVB simulations to be incorporated into larger neuroimaging pipelines with standardized input-output handling. The relationship is bidirectional: TVB's sophisticated [[whole-brain|whole-brain modeling]] capabilities could be described as Boutiques tools, while Boutiques-enabled workflow systems could invoke TVB simulations as part of automated parameter sweeps or validation studies. More broadly, Boutiques complements other standardization efforts in the field, including NeuroML for neural model specification and BIDS for neuroimaging data organization, forming a comprehensive stack for reproducible computational neuroscience.
 

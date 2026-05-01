@@ -5,9 +5,6 @@ sources:
 - https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1007696
 - https://github.com/AllenInstitute/sonata
 - https://github.com/BlueBrain/libsonata
-- raw/papers/geppetto-2018.md
-- raw/papers/semanticscholar-3256c8880985.md
-- raw/papers/glean-github.md
 tags:
 - software-brian
 - software-nest
@@ -18,7 +15,7 @@ tags:
 - bluepyopt
 title: SONATA
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-01'
 ---
 
 ## Overview
@@ -63,12 +60,12 @@ As of 2026, SONATA remains primarily oriented toward point-neuron architectures.
 
 ## References
 
-- Dai K, Hernando J, Billeh YN, Gratiy SL, Planas J, Davison AP, Dura-Bernal S, Gleeson P, Devresse A, Dichter BK, Gevaert M, King JGH, Van Geit WAH, Povolotsky AV, Muller E, Courcol J-D, Arkhipov A. (2020). The SONATA data format for efficient description of large-scale network models. PLoS Comput Biol 16(2): e1007696. https://doi.org/10.1371/journal.pcbi.1007696
+- Dai K, Hernando J, Billeh YN, Gratiy SL, Planas J, Davison AP, Dura‑Bernal S, Gleeson P, Devresse A, Dichter BK, Gevaert M, King JGH, Van Geit WAH, Povolotsky AV, Muller E, Courcol J‑D, Arkhipov A. (2020). The SONATA data format for efficient description of large‑scale network models. PLoS Comput Biol 16(2): e1007696. https://doi.org/10.1371/journal.pcbi.1007696
 
 - Allen Institute for Brain Science. SONATA Data Format Repository. https://github.com/AllenInstitute/sonata
 
 - Blue Brain Project. libSONATA Library. https://github.com/BlueBrain/libsonata
 
-- Dura-Bernal S, Suter BA, Gleeson P, Cantarelli M, Quintana A, Rodriguez F, et al. (2019). NetPyNE, a tool for data-driven multiscale modeling of brain circuits. eLife, 8, e44494.
+- Dura‑Bernal S, Suter BA, Gleeson P, Cantarelli M, Quintana A, Rodriguez F, et al. (2019). NetPyNE, a tool for data‑driven multiscale modeling of brain circuits. eLife, 8, e44494.
 
 - Davison AP, Brüderle D, Eppler J, Kremkow J, Muller E, Pecevski D, et al. (2009). [[pynn]]: A Common Interface for Neuronal Network Simulators. Front Neuroinform 2: 11.

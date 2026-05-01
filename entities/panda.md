@@ -9,7 +9,7 @@ tags:
 - software-dipy
 title: PANDA
 type: entity
-updated: 2026-04-30
+updated: 2026-05-01
 ---
 **PANDA** (Pipeline for Analyzing braiN Diffusion imAges) is a MATLAB-based toolbox developed at the [Beijing Normal University](http://bnu.edu.cn/) for automated processing of diffusion magnetic resonance imaging (dMRI) data. The software provides a comprehensive, end-to-end solution for converting raw diffusion-weighted images into fiber orientation distributions and structural brain networks, making it particularly valuable for researchers studying human brain connectivity and white matter architecture.
 
@@ -59,7 +59,7 @@ PANDA is part of a broader ecosystem of neuroimaging tools that collectively sup
 
 - [[fsl]] — FMRIB Software Library, providing foundational preprocessing tools including BET and Eddy Correct
 - [[mricron]] — MRIcron, a visualization tool for browsing neuroimaging datasets
-- [[trackvis]] — TrackVis, for visualizing streamlines from fiber tracking
+- trackvis — TrackVis, for visualizing streamlines from fiber tracking
 - [[nipype]] — Nipype, a Python framework for neuroimaging workflow management that can interface with PANDA
 - [[the-virtual-brain]] — The Virtual Brain, platform for whole-brain dynamic modeling
 - [[nest]] — NEST, neural simulation tool sometimes combined with TVB for large-scale network simulations

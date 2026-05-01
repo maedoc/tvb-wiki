@@ -1,12 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- Wagner2021
-- Halchenko2021
-- Hanke2008
-- Gorgolewski2017
-- Esteban2019
-- Ricci2020
 - raw/papers/semanticscholar-380768cf42a8.md
 - raw/papers/semanticscholar-4d73a30d5c84.md
 - raw/papers/semanticscholar-d6e43299345d.md
@@ -41,7 +35,7 @@ The extension also complements platforms like [[brainlife]] and [[cbrain]], whic
 
 ## Key Features
 
-The primary feature of DataLad Containers is declarative container specification. Rather than requiring users to manually configure container mounts and paths for each execution, the extension encodes these details once in the dataset configuration. The system supports multiple containers per dataset, enabling different analyses to use different environments—for instance, one container for [[diffusion-mri]] processing and another for graph-theoretic network analysis using the [[brain-[[connectivity]]-toolkit]].
+The primary feature of DataLad Containers is declarative container specification. Rather than requiring users to manually configure container mounts and paths for each execution, the extension encodes these details once in the dataset configuration. The system supports multiple containers per dataset, enabling different analyses to use different environments—for instance, one container for [[diffusion-mri]] processing and another for graph-theoretic network analysis using the [[brainsuite]].
 
 Another notable feature is the integration with container registries. Images can be pulled from Docker Hub, Singularity Hub, GitHub Container Registry, or private registries, and DataLad tracks the specific image digest rather than relying on mutable tags. This ensures that re-running an analysis months later retrieves exactly the same image, preventing "silent drift" where updated container images introduce unexpected changes to results. The extension also supports building containers from local `Dockerfile` or Singularity `def` files, allowing teams to customize images while maintaining the [[reproducibility]] benefits. [@Gorgolewski2017]
 
