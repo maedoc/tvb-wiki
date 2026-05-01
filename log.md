@@ -1048,3 +1048,5 @@
   - Established 10+ wikilinks: whole-brain-modeling, connectomics, neuroimaging, brain-oscillations, brain-stimulation, personalized-brain-modeling, the-virtual-brain, epilepsy-modeling, diffusion-imaging, freesurfer, fsl, afni, nilearn, brainstat
   - Updated catalog.md entry with proper description
   - Positioned as complement to TVB: provides anatomical priors for whole-brain models
+
+## [2026-05-01 03:12] Improve: 3 pages improved (gephi, boutiques, nighres)
