@@ -2,6 +2,15 @@
 
 ## 2026-05-01
 
+- Created/Improved page: [[bidskit]] – DICOM to BIDS neuroimaging converter
+  - Complete rewrite from placeholder to comprehensive entity page (~520 words)
+  - Updated frontmatter: changed updated date to 2026-05-01
+  - Tags: software-brain-modeling, software-bids
+  - Established 10+ wikilinks: bids, dcm2niix, heudiconv, dcm2bids, bidscoin, pybids, fmriprep, nilearn, the-virtual-brain, whole-brain-modeling, neuroimaging, fmri, diffusion-imaging, structural-connectivity, resting-state, personalized-brain-modeling, openneuro, tractography, mrtrix3, fsl, connectome
+  - Added detailed sections: Overview (PyPI tool, DICOM to BIDS converter), Motivation and Context (standardization in neuroimaging, converter ecosystem), Key Features (two-pass conversion, session management, metadata handling, Docker support), Technical Workflow (Protocol_Translator.json, IntendedFor, fieldmap linking), Relationship to TVB (data organization for whole-brain modeling)
+  - Explained BIDSkit's role: Python CLI tool converting raw DICOM data to BIDS format, two-pass workflow for reproducibility
+  - Positioned as complementary to TVB: provides standardized data organization for empirical neuroimaging input to simulations
+
 - Created/Improved page: [[mne-bids-pipeline]] – Automated MEG/EEG processing pipeline
   - Complete rewrite from placeholder to comprehensive entity page (~670 words)
   - Updated frontmatter: changed updated date to 2026-05-01
@@ -1126,3 +1135,5 @@
   - Updated frontmatter: changed updated to 2026-05-01, added tags: software-brain-modeling, software-visualization
   - Added 10+ wikilinks: bids, dcm2niix, the-virtual-brain, tvb, fmriprep, mrtrix3, fsl, bids-validator, heudiconv, bidscoin, mriqc, pybids, fsleyes, mircron, 3d-slicer, nipype, neuroimag, computational-neuroscience, reproducibility, whole-brain, mrtrix3-connectome
   - Included technical specifics: two-pass workflow, PyPI/Docker distribution, pydicom dependency, calendar-based versioning, MIT license
+
+## [2026-05-01 12:15] Improve: 3 pages improved (mne-bids-pipeline, nitrc-ce, bidskit)
