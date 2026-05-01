@@ -1037,3 +1037,14 @@
 ## [2026-04-30 23:53] Improve: 3 pages improved (itk, sdcflows, nighres)
 
 ## [2026-05-01 00:59] Improve: 3 pages improved (pydstool, itk, nighres)
+
+## [2026-05-01 02:05] Improve: 3 pages improved (gephi, boutiques, nighres)
+
+## 2026-05-01 Ralph Writer
+
+- Improved page: [[nighres]] – High-resolution neuroimaging processing library
+  - Complete rewrite with ~850 words covering: Definition, motivation (7T/ultra-high-field MRI needs), technical content (cortical layer segmentation, myelin mapping, profile analysis), key features, relationship to TVB, related software, key papers
+  - Updated frontmatter: changed updated date to 2026-05-01, updated tags (software-neuroimaging, neuroimaging-mri, software-laminar-analysis, cortex-segmentation)
+  - Established 10+ wikilinks: whole-brain-modeling, connectomics, neuroimaging, brain-oscillations, brain-stimulation, personalized-brain-modeling, the-virtual-brain, epilepsy-modeling, diffusion-imaging, freesurfer, fsl, afni, nilearn, brainstat
+  - Updated catalog.md entry with proper description
+  - Positioned as complement to TVB: provides anatomical priors for whole-brain models

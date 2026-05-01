@@ -206,7 +206,7 @@
 - [[Nifti]] – Nifti — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
 - [[Niftynet]] – NiftyNet is an open-source deep learning framework for medical image analysis and computer-assisted intervention, built ...
 - [[Niftyreg]] – Here's the corrected `niftyreg.md` with all issues addressed:
-- [[Nighres]] – Nighres is a Python package for processing high-resolution neuroimaging data, providing tools for brain segmentation, cor...
+- [[Nighres]] – Nighres (Non-linear Image Registration and Hydrostatic Embedding for Region Segmentation) is a Python library for high-resolution neuroimaging processing, specializing in cortical layer segmentation and myelin mapping from 7T MRI data.
 - [[Nika]] – *Placeholder — awaiting content from Ralph Improver.*
 - [[Nikos Logothetis]] – **Nationality:** Greek
 - [[Nilearn Datasets]] – *Placeholder — awaiting content from Ralph Improver.*
