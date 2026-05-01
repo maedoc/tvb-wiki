@@ -506,6 +506,19 @@
 
 ## [2026-04-24 01:07] Linter: 42 broken links, 111 orphans, 130 stale, 94 empty
 
+## 2026-05-01
+
+- Improved page: [[nighres]] – Python package for high-resolution neuroimaging processing
+  - Complete rewrite from placeholder to comprehensive entity page (~600 words)
+  - Updated frontmatter: changed updated date to 2026-05-01
+  - Tags: neuroimaging, software-brain-modeling, nilearn, nipype
+  - Established 10+ wikilinks: the-virtual-brain, whole-brain-modeling, neural-mass-models, nilearn, nipype, ants, freesurfer, fsl, alzheimers-disease, schizophrenia-models, structural-connectivity, diffusion-imaging, personalized-brain-modeling
+  - Added detailed sections: Overview (Python package for high-resolution MRI, CBS Tools ancestry), Motivation and Context (7T imaging, accessibility gap), Key Features (Brain module, Cortex module, Laminar module, Filtering module, Registration module), Technical Capabilities (MGDM, CRUISE, volumetric layering)
+  - Explained Nighres's unique niche: specialized laminar analysis and cortical depth estimation at ultra-high-field MRI
+  - Positioned as complementary to TVB: provides detailed anatomical segmentations for whole-brain models
+  - Relationship to TVB: cortical and subcortical segmentations can be used to construct personalized brain network models
+  - Added references to key paper: Huntenburg et al. 2018 GigaScience
+
 ## [2026-04-24 01:12] SoftwareMapper: 39 pages created
 
 ## [2026-04-24 01:56] Matcher: 13 pages got 45 new sources
@@ -1022,3 +1035,5 @@
 ## [2026-04-30 23:49] Matcher: 13 pages got 37 new sources
 
 ## [2026-04-30 23:53] Improve: 3 pages improved (itk, sdcflows, nighres)
+
+## [2026-05-01 00:59] Improve: 3 pages improved (pydstool, itk, nighres)
