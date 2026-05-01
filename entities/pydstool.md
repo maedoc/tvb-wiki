@@ -1,10 +1,27 @@
 ---
-title: PyDSTool
 created: 2025-01-15
-updated: 2026-05-01
+sources:
+- clewley-2005
+- clewley-2012
+- auto-07p
+- jansen-rit-1993
+- wong-wang-2006
+- sazin-2018
+- ranganath-2022
+- le-q-2015
+- raw/papers/sanz-leon-2013.md
+- raw/papers/breakspear-2017.md
+- raw/papers/arxiv-2509.02799.md
+tags:
+- software-brain-modeling
+- dynamical-systems-theory
+- bifurcation-analysis
+- neural-mass-models
+- network-dynamics
+- nonlinear-dynamics
+title: PyDSTool
 type: entity
-tags: [software-brain-modeling, dynamical-systems-theory, bifurcation-analysis, neural-mass-models, network-dynamics, nonlinear-dynamics]
-sources: [clewley-2005, clewley-2012, auto-07p, jansen-rit-1993, wong-wang-2006, sazin-2018, ranganath-2022, le-q-2015]
+updated: '2026-05-01'
 ---
 
 PyDSTool is an open-source Python toolbox for the simulation and analysis of dynamical systems, with particular emphasis on applications in computational neuroscience. Developed primarily by Robert Clewley (Clewley, 2005; Clewley, 2012), PyDSTool provides an interactive environment for simulating ODEs (ordinary differential equations), delay differential equations (DDEs), and hybrid systems, combined with powerful bifurcation analysis capabilities through its interface with the AUTO continuation software (Doedel et al., 2007). The tool has established itself as a specialized but well-regarded resource within computational neuroscience for building and analyzing neural mass models, conductance-based neuron models, and whole-brain network dynamics (Sanz-Leon et al., 2018; Ranganath et al., 2022).

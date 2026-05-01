@@ -1051,3 +1051,5 @@
   - Added open questions about layer count optimization and histology validation
 
 ## [2026-05-01 04:16] Improve: 3 pages improved (pydicom, nighres, boutiques)
+
+## [2026-05-01 05:22] Improve: 3 pages improved (pydicom, boutiques, nighres)

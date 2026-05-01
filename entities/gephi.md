@@ -1,10 +1,23 @@
 ---
-title: Gephi
 created: 2025-01-15
-updated: 2026-05-01
+sources:
+- Bastian et al.
+- 2009
+- Griffa et al.
+- 2019
+- Jacomy et al.
+- 2014
+- raw/papers/rubinov-sporns-2010.md
+tags:
+- software-visualization
+- software-graphvar
+- connectomics
+- graph-theory
+- network-dynamics
+- community-detection
+title: Gephi
 type: entity
-tags: [software-visualization, software-graphvar, connectomics, graph-theory, network-dynamics, community-detection]
-sources: [Bastian et al., 2009, Griffa et al., 2019, Jacomy et al., 2014]
+updated: '2026-05-01'
 ---
 
 ## Overview

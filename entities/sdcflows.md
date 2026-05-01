@@ -1,12 +1,16 @@
 ---
 created: 2026-04-30
-sources: []
+sources:
+- raw/papers/schirner-2018.md
+- raw/papers/semanticscholar-b9acfa0a7c80.md
+- raw/papers/semanticscholar-60ca593f7e0c.md
 tags:
 - software-brain-modeling
 title: SDCflows
 type: entity
-updated: 2026-04-30
+updated: '2026-05-01'
 ---
+
 title: SDCflows
 created: 2025-01-15
 updated: 2026-04-30
