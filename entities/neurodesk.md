@@ -41,3 +41,7 @@ This integration pathway reflects a broader trend in which specialized tools are
 ## Related Software
 
 Neurodesk intersects with several other software ecosystems in the neuroimaging landscape. Containerized alternatives include [[apptainer]] (formerly Singularity) for HPC environments and [[datalad-containers]] for data-aware pipeline execution. Pure preprocessing pipelines like [[fmriprep]] and [[qsiprep]] provide automated versions of specific analysis steps that Neurodesk users may invoke through the platform. For cloud-native pipeline orchestration, [[brainlife]] offers a complementary hosted solution, while [[cbrain]] provides HPC-focused batch processing with a web interface. The underlying pipeline framework draws heavily on [[nipype]] and leverages [[bids]] for data standardization across all tools.
+
+## References
+
+1. (authors unknown). *Neurodesk: an accessible, flexible and portable data analysis environment for reproducible neuroimaging*.

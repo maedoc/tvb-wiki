@@ -1169,3 +1169,5 @@
 - Updated tractor.md: Replaced placeholder content with comprehensive coverage of TractoR software including overview, technical architecture, tractography implementation, relationship to TVB, key features, publications, and related software. Added 10+ wikilinks.
 
 ## [2026-05-01 15:54] Improve: 3 pages improved (hnn, tractor, trc-toolkit)
+
+## [2026-05-01 17:10] Improve: 3 pages improved (trentool, tractor, hnn)
