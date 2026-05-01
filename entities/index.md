@@ -25,6 +25,7 @@ A collection of people, software platforms, datasets, and research groups releva
 - [BMTK](bmtk.md) – Brain Modeling Toolkit for large-scale neural network construction
 - [SpiNNaker](spinnaker.md) – Neuromorphic many-core platform for real-time spiking neural network simulation
 - [Nighres](nighres.md) – High-resolution neuroimaging processing for laminar analysis
+- [Neurodesk](neurodesk.md) – Containerized neuroimaging analysis environment with 100+ tools
 - [PyDICOM](pydicom.md) – Pure Python library for reading and writing DICOM medical imaging files
 
 ## Research Projects & Datasets
