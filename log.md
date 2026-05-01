@@ -2,6 +2,15 @@
 
 ## 2026-05-01
 
+- Created/Improved page: [[mne-bids-pipeline]] – Automated MEG/EEG processing pipeline
+  - Complete rewrite from placeholder to comprehensive entity page (~670 words)
+  - Updated frontmatter: changed updated date to 2026-05-01
+  - Tags: software, neuroimaging-eeg, neuroimaging-meg, eeg, meg, preprocessing, bids
+  - Established 10+ wikilinks: mne-python, bids, eeg, meg, freesurfer, the-virtual-brain, fieldtrip, eeglab, whole-brain-modeling, neural-mass-models, structural-connectivity, brain-oscillations
+  - Added detailed sections: Overview (BIDS-compliant MEG/EEG processing pipeline), Motivation and Context (standardization challenges in electrophysiology), Key Features (modular architecture, caching, preprocessing capabilities, sensor/source analysis, scalability), Relationship to TVB (complementary data preprocessing for whole-brain modeling), Related Software
+  - Explained MNE-BIDS-Pipeline's role: automated pipeline for EEG/MEG data from raw recordings through source estimation
+  - Positioned as complementary to TVB: provides preprocessing infrastructure for empirical functional data validation
+
 - Created/Improved page: [[neurodesk]] – Containerized neuroimaging analysis environment
   - Complete rewrite from placeholder to comprehensive entity page (~580 words)
   - Updated frontmatter: changed updated date to 2026-05-01
@@ -1097,3 +1106,23 @@
 ## [2026-05-01 10:38] Improve: 3 pages improved (boutiques, bidskit, neurodesk)
 
 ## [2026-05-01 11:57] Improve: 3 pages improved (bidskit, mne-bids-pipeline, neurodesk)
+
+## [2026-05-01 12:03] Matcher: 7 pages got 15 new sources
+
+## [2026-05-01 12:05] Improve: nitrc-ce page rewritten
+
+- Improved page: [[nitrc-ce]] – Complete rewrite from placeholder to comprehensive entity page (~750 words)
+  - Added comprehensive sections: Overview (cloud-based neuroimaging computational environment), Motivation/Context (addresses computational infrastructure challenges), Key Features (Classic/HCP/Lite variants, deployment options: AWS Marketplace, AMI, Vagrant, Spot Instances, AWS Batch), Relationship to TVB (preprocessing pipeline for whole-brain modeling), Related Infrastructure
+  - Updated frontmatter: changed updated to 2026-05-01, added tags: computational-infrastructure, cloud-computing, neuroimaging, reproducibility
+  - Added 10+ wikilinks: nitrc, whole-brain-modeling, computational-neuroscience, diffusion-mri, freesurfer, fsl, afni, spm, mrtrix3, dipy, conn, connectome-workbench, the-virtual-brain, nest, brian, neuron, nipype, epilepsy-modeling, brain-stimulation, personalized-brain-modeling, neurodesk, cbrain, openneuro, neurovault, diffusion-imaging, fmeg, eeg, structural-connectivity, neural-mass-models
+  - Positioned as complement to TVB: provides neuroimaging preprocessing infrastructure for extracting connectivity matrices used in whole-brain simulations
+  - Added technical details: Ubuntu 22.04 base, Ansible config management, v0.57-20 release, instance types, deployment flexibility
+
+
+## [2026-05-01 12:07] Improve: bidskit page rewritten
+
+- Improved page: [[bidskit]] – Complete rewrite from placeholder to comprehensive entity page (~650 words)
+  - Added comprehensive sections: Overview (Python DICOM to BIDS converter by Mike Tyszka, 2016), Motivation/Context (neuroimaging standardization challenges, BIDS ecosystem), Key Features (two-pass workflow, Protocol_Translator.json, multi-subject/session support), Relationship to TVB (data preprocessing for connectivity matrices), Related Software
+  - Updated frontmatter: changed updated to 2026-05-01, added tags: software-brain-modeling, software-visualization
+  - Added 10+ wikilinks: bids, dcm2niix, the-virtual-brain, tvb, fmriprep, mrtrix3, fsl, bids-validator, heudiconv, bidscoin, mriqc, pybids, fsleyes, mircron, 3d-slicer, nipype, neuroimag, computational-neuroscience, reproducibility, whole-brain, mrtrix3-connectome
+  - Included technical specifics: two-pass workflow, PyPI/Docker distribution, pydicom dependency, calendar-based versioning, MIT license
