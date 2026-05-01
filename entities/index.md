@@ -6,6 +6,7 @@ A collection of people, software platforms, datasets, and research groups releva
 
 - [TVB](tvb.md) – The Virtual Brain simulator
 - [Geppetto](geppetto.md) – Computational simulation engine for whole-brain modeling
+- [HNN](hnn.md) – Human Neocortical Neurosolver for EEG/MEG interpretation
 - [NEST](nest.md) – Spiking neural network simulator
 - [NEURON](neuron.md) – Detailed multicompartment neuron simulator
 - [Cartool](cartool.md) – EEG analysis and source localization software

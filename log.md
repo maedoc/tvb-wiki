@@ -2,6 +2,16 @@
 
 ## 2026-05-01
 
+- Created/Improved page: [[hnn]] – Human Neocortical Neurosolver for EEG/MEG interpretation
+  - Complete rewrite from placeholder to comprehensive entity page (~550 words)
+  - Updated frontmatter: created 2025-01-15, updated date to 2026-05-01
+  - Tags: software-brain-modeling, neuroimaging-eeg, neuroimaging-meg, neural-mass-models, spiking-neural-networks, brain-oscillations, brain-stimulation, computational-neuroscience
+  - Established 10+ wikilinks: whole-brain-modeling, the-virtual-brain, neural-mass-models, neuron, brain-dynamics, brain-stimulation, eeg, meg, functional-connectivity, structural-connectivity, brain-oscillations, brian, nest, dynamic-causal-modeling
+  - Added detailed sections: Overview (open-source neural modeling tool for EEG/MEG interpretation), Key Features (biocortical column model, multi-scale simulation, current dipoles, ERP/rhythm templates, optimization), Relationship to TVB (complementary abstraction levels, different scales), Key Papers (Jones 2007, Neymotin 2020, Jas 2023), Related Software (NEURON, TVB, Brian, NEST)
+  - Explained HNN's role: bridges non-invasive EEG/MEG to cellular mechanism hypotheses using detailed compartment models
+  - Positioned as complementary to TVB: HNN provides microcircuit detail while TVB operates at network level
+  - Added to entities/index.md under Software Platforms
+
 - Created/Improved page: [[bidskit]] – DICOM to BIDS neuroimaging converter
   - Complete rewrite from placeholder to comprehensive entity page (~520 words)
   - Updated frontmatter: changed updated date to 2026-05-01
@@ -1137,3 +1147,5 @@
   - Included technical specifics: two-pass workflow, PyPI/Docker distribution, pydicom dependency, calendar-based versioning, MIT license
 
 ## [2026-05-01 12:15] Improve: 3 pages improved (mne-bids-pipeline, nitrc-ce, bidskit)
+
+## [2026-05-01 13:27] Improve: 3 pages improved (bold-model, nitrc-ce, bidskit)
