@@ -1077,3 +1077,5 @@
   - Positioned as complement to TVB: provides data preprocessing pipeline for whole-brain modeling workflows
   - Added technical architecture details: Docker/Singularity containers, CVMFS deployment, CI pipeline
   - Included reproducibility findings: eliminated inter-computer differences shown in benchmark study
+
+## [2026-05-01 07:10] Improve: 3 pages improved (boutiques, neurodesk, pydicom)
