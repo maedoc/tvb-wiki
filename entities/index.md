@@ -23,6 +23,7 @@ A collection of people, software platforms, datasets, and research groups releva
 - [OpenMEEG](openmeeg.md) – Boundary Element Method forward solver for EEG/MEG
 - [DTI-TK](dti-tk.md) – Diffusion Tensor Imaging Toolkit for tensor-based tractography
 - [BMTK](bmtk.md) – Brain Modeling Toolkit for large-scale neural network construction
+- [BIDSkit](bidskit.md) – Command-line toolkit for BIDS data manipulation and conversion
 - [SpiNNaker](spinnaker.md) – Neuromorphic many-core platform for real-time spiking neural network simulation
 - [Nighres](nighres.md) – High-resolution neuroimaging processing for laminar analysis
 - [Neurodesk](neurodesk.md) – Containerized neuroimaging analysis environment with 100+ tools
