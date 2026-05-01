@@ -27,20 +27,20 @@ tags:
 - software-simulation
 title: SpiNNaker
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-01'
 ---
 
 # SpiNNaker
 
 ## Overview
 
-SpiNNaker (Spiking Neural Network Architecture) is a massively parallel neuromorphic computing platform designed to simulate large-scale spiking neural networks in real-time. Developed by the Advanced Processor Technologies Research Group at the University of Manchester, SpiNNaker represents a fundamentally different approach to neural simulation compared to traditional software simulators. Rather than using conventional compute architectures, SpiNNaker employs a custom distributed computing architecture based on multicore ARM processors specifically optimized for neural network computation. The platform aims to bridge the gap between biological realism and computational tractability by leveraging dedicated hardware to achieve real-time simulation of brain-scale networks containing hundreds of millions of neurons and tens of billions of synapses.
+SpiNNaker (Spiking [[neural-network]] Architecture) is a massively parallel [[neuromorphic-computing]] platform designed to simulate large-scale spiking neural networks in real-time. Developed by the Advanced Processor Technologies Research Group at the University of Manchester, SpiNNaker represents a fundamentally different approach to neural simulation compared to traditional software simulators. Rather than using conventional compute architectures, SpiNNaker employs a custom distributed computing architecture based on multicore ARM processors specifically optimized for neural network computation. The platform aims to bridge the gap between biological realism and computational tractability by leveraging dedicated hardware to achieve real-time simulation of brain-scale networks containing hundreds of millions of neurons and tens of billions of synapses.
 
 ## Motivation and Scientific Context
 
-The development of SpiNNaker emerged from a fundamental challenge in computational neuroscience: traditional computing architectures struggle to achieve the real-time performance required for studying brain-scale neural dynamics. Conventional software simulators like [[NEST]] and [[Brian]] can accurately model spiking neural networks, but they typically require significant computation time that scales poorly with network size, so simulations might require hours or days of computation on standard clusters (Khan et al., 2008).
+The development of SpiNNaker emerged from a fundamental challenge in [[computational-neuroscience]]: traditional computing architectures struggle to achieve the real-time performance required for studying brain-scale neural dynamics. Conventional software simulators like [[NEST]] and [[Brian]] can accurately model spiking neural networks, but they typically require significant computation time that scales poorly with network size, so simulations might require hours or days of computation on standard clusters (Khan et al., 2008).
 
-SpiNNaker addresses this limitation through neuromorphic computing principles inspired by biological neural processing. The platform was designed to honor the event-driven, asynchronous nature of spiking neurons—whether than synchronizing computations across a global clock, each neuron in SpiNNaker updates independently when it receives new input. This architectural choice more closely mirrors the physical reality of neural computation in the brain, where no global synchronizer exists, and may ultimately prove more energy-efficient and scalable than conventional approaches.
+SpiNNaker addresses this limitation through neuromorphic computing principles inspired by biological neural processing. The platform was designed to honor the event-driven, asynchronous nature of spiking neurons—whether than synchronizing computations across a global clock, each [[neuron]] in SpiNNaker updates independently when it receives new input. This architectural choice more closely mirrors the physical reality of neural computation in the brain, where no global synchronizer exists, and may ultimately prove more energy-efficient and scalable than conventional approaches.
 
 The project also reflects a broader movement in computational neuroscience toward hardware accelerators for neural simulation, which includes efforts like [[BrainScaleS]] (a mixed-signal analog neuromorphic system), Intel's Loihi chip, and IBM's TrueNorth. SpiNNaker occupies a unique position in this ecosystem by prioritizing software-like flexibility (via the [[PyNN]] interface) while still achieving meaningful acceleration through custom hardware.
 
@@ -86,7 +86,7 @@ The two platforms occasionally serve complementary roles in multi-scale modeling
 
 ## Related Software and Hardware
 
-SpiNNaker occupies a niche in the neuromorphic computing landscape adjacent to several related platforms. [[BrainScaleS]], developed at Heidelberg University, employs analog circuits for even faster-than-real-time simulation but with less flexibility than SpiNNaker. Intel's Loihi chip implements learned spike-timing-dependent plasticity rules in hardware, targeting applications in embedded intelligence rather than biological simulation. The Nengo neural simulator provides another software framework capable of targeting SpiNNaker as a backend, offering alternative programming abstractions.
+SpiNNaker occupies a niche in the neuromorphic computing landscape adjacent to several related platforms. [[BrainScaleS]], developed at Heidelberg University, employs analog circuits for even faster-than-real-time simulation but with less flexibility than SpiNNaker. Intel's Loihi chip implements learned spike-timing-dependent [[plasticity]] rules in hardware, targeting applications in embedded intelligence rather than biological simulation. The [[nengo]] neural simulator provides another software framework capable of targeting SpiNNaker as a backend, offering alternative programming abstractions.
 
 In the software simulation space, [[NEST]] and [[Brian2]] remain the most widely used platforms for spiking network simulation on conventional hardware. These tools offer superior flexibility and larger community support but cannot match SpiNNaker's real-time performance without significant computational resources. The choice between these approaches depends on research priorities: biological realism and real-time constraints favor SpiNNaker, while maximum flexibility and ease of use favor software simulators. [[TVB]] complements SpiNNaker by providing mesoscopic whole-brain modeling capabilities at the neural mass level, making the two platforms complementary in multi-scale modeling workflows.
 

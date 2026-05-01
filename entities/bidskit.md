@@ -1,17 +1,22 @@
 ---
-title: BIDSkit
 created: 2026-04-30
-updated: 2026-05-01
+sources:
+- https://github.com/jmtyszka/bidskit
+- https://bidsspecification.readthedocs.io
+- https://pypi.org/project/bidskit/
+tags:
+- software-brain-modeling
+- software-bids
+title: BIDSkit
 type: entity
-tags: [software-brain-modeling, software-bids]
-sources: [https://github.com/jmtyszka/bidskit, https://bidsspecification.readthedocs.io, https://pypi.org/project/bidskit/]
+updated: '2026-05-01'
 ---
 
 # BIDSkit
 
 ## Overview
 
-BIDSkit is a Python-based command-line tool designed to convert raw neuroimaging DICOM data into the [[BIDS]] (Brain Imaging Data Structure) format. Originally developed by Mike Tyszka at Caltech and first released in August 2016 (Tyszka, 2016), bidskit provides a streamlined two-pass conversion workflow that takes advantage of the [[dcm2niix]] DICOM-to-NIfTI converter while automating the creation of BIDS-compliant directory structures and JSON sidecar metadata. The tool is distributed via PyPI and Docker, making it accessible across different computing environments without requiring complex dependency management.
+BIDSkit is a Python-based command-line tool designed to convert raw neuroimaging DICOM data into the [[BIDS]] (Brain Imaging Data Structure) format. Originally developed by Mike Tyszka at Caltech and first released in August 2016 (Tyszka, 2016), bidskit provides a streamlined two-pass conversion workflow that takes advantage of the [[dcm2niix]] DICOM-to-[[nifti]] converter while automating the creation of BIDS-compliant directory structures and JSON sidecar metadata. The tool is distributed via PyPI and Docker, making it accessible across different computing environments without requiring complex dependency management.
 
 ## Motivation and Context
 
@@ -25,7 +30,7 @@ The proliferation of [[neuroimaging]] datasets in [[computational-neuroscience]]
 
 **Metadata Handling:** During conversion, bidskit extracts available metadata from DICOM headers and populates JSON sidecar files accompanying each NIfTI image. These sidecars contain essential acquisition parameters including repetition time (TR), echo time (TE), flip angle, and voxel dimensions. However, the tool deliberately leaves certain BIDS-required files (dataset_description.json, participants.tsv, task event files) as templates that users must complete, encouraging explicit documentation of experimental metadata.
 
-**Docker and Environment Support:** Beyond pip installation, bidskit is available as a Docker container (jmtyszka/bidskit), facilitating deployment on compute clusters and ensuring reproducibility across platforms. The Docker variant includes all dependencies pre-installed and provides a consistent runtime environment.
+**Docker and Environment Support:** Beyond pip installation, bidskit is available as a Docker container (jmtyszka/bidskit), facilitating deployment on compute clusters and ensuring [[reproducibility]] across platforms. The Docker variant includes all dependencies pre-installed and provides a consistent runtime environment.
 
 ## Technical Workflow
 

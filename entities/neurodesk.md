@@ -44,4 +44,4 @@ Neurodesk intersects with several other software ecosystems in the neuroimaging 
 
 ## References
 
-1. (authors unknown). *Neurodesk: an accessible, flexible and portable data analysis environment for reproducible neuroimaging*.
+1. (authors unknown). *Neurodesk: an accessible, flexible and portable data analysis environment for reproducible [[neuroimaging]]*.

@@ -15,7 +15,7 @@ title: SDCflows
 created: 2025-01-15
 updated: 2026-04-30
 type: entity
-tags: [software, neuroimaging-dti, diffusion-imaging, structural-connectivity, preprocessing, software-dti-tk, software-fsl]
+tags: [software, [[neuroimaging]]-dti, diffusion-imaging, structural-[[connectivity]], preprocessing, software-[[dti-tk]], software-fsl]
 sources:
   - id: esteban2019sdclow
     type: manual
@@ -29,7 +29,7 @@ sources:
         affiliation: University of Iowa
   - id: esteban2021nipreps
     type: manual
-    title: NiPreps framework for robust fMRI preprocessing
+    title: NiPreps framework for robust [[fmri]] preprocessing
     journal: NeuroImage
     volume: 245
     date: 2021
@@ -157,5 +157,5 @@ SDCflows was developed by the NiPreps team [[@esteban2021nipreps]], primarily at
 ## References
 
 1. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2018.05.040)
-2. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI), a flexible and integrative toolkit for efficient probabilistic inference on whole-brain models*. eLife. [DOI](https://doi.org/10.7554/eLife.106194)
+2. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI), a flexible and integrative toolkit for efficient probabilistic inference on [[whole-brain]] models*. eLife. [DOI](https://doi.org/10.7554/eLife.106194)
 3. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI): A flexible and integrative toolkit for efficient probabilistic inference on virtual brain models*. bioRxiv. [DOI](https://doi.org/10.1101/2025.01.21.633922)

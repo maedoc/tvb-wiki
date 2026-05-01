@@ -12,7 +12,7 @@ tags:
 - software-visualization
 title: Allen SDK
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-01'
 ---
 
 The Allen SDK (Software Development Kit) is a Python-based toolkit developed by the Allen Institute for Brain Science that provides programmatic access to the extensive datasets produced by the [[allen-brain-atlas]] project. Initially released in 2015, the SDK enables researchers to query, download, and work with brain atlas data including gene expression maps, cell type classifications, connectivity datasets, and reference atlases without requiring manual data curation or web-based downloads [@allen-sdk-github]. The toolkit has become an essential infrastructure component for researchers working in [[connectomics]], [[structural-connectivity]] analysis, and [[computational-neuroscience]] who require high-quality anatomical and physiological reference data for their whole-brain modeling efforts.
@@ -50,9 +50,9 @@ The Allen SDK is part of a broader ecosystem of brain atlas tools and data resou
 - **[[freesurfer]]**: For cortical [[parcellation]] and segmentation of human [[neuroimaging]] data
 - **[[brain-connectivity-toolbox]]**: For network analysis of connectivity data
 - **[[dipy]]**: For advanced [[diffusion-mri]] tractography processing
-- **[[connectome-workbench]]**: For visualization of brain parcellations and connectivity data
+- **[[connectome-workbench]]**: For visualization of [[brain-parcellations]] and connectivity data
 
-The Allen SDK complements other data resources like the Human Connectome Project (HCP) and can be used alongside [[nilearn]] for human neuroimaging data workflows. The data formats used by Allen Institute (NWB, NRRD) align with Neurodata Without Borders standards for neurophysiology data.
+The Allen SDK complements other data resources like the [[human-connectome-project]] (HCP) and can be used alongside [[nilearn]] for human neuroimaging data workflows. The data formats used by Allen Institute (NWB, NRRD) align with Neurodata Without Borders standards for neurophysiology data.
 
 ## Key Papers
 
@@ -65,5 +65,5 @@ The Allen SDK complements other data resources like the Human Connectome Project
 ## References
 
 1. Konrad Kohnen, Peter Eipert, Laura Budde, Oliver Schmitt. (2025). *neuroVIISAS-based construction of a stereotactic rhesus monkey brain atlas for connectome research.*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2025.110656)
-2. (authors unknown). *BRAPH: A Pipeline for Brain Connectivity Analysis*.
-3. R. Montgomery. (2025). *Applications of Random Matrix Theory in Neuroscience and Neural Network Analysis: Unraveling High-Dimensional Connectivity*. Wired Neuroscience. [DOI](https://doi.org/10.62162/wnsc10606312712241)
+2. (authors unknown). *[[braph]]: A Pipeline for Brain Connectivity Analysis*.
+3. R. Montgomery. (2025). *Applications of Random Matrix Theory in Neuroscience and [[neural-network]] Analysis: Unraveling High-Dimensional Connectivity*. Wired Neuroscience. [DOI](https://doi.org/10.62162/wnsc10606312712241)

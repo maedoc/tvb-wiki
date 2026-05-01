@@ -1,13 +1,24 @@
 ---
-title: TRENTOOL
 created: 2025-01-15
-updated: 2026-05-01
+sources:
+- schreiber_2000
+- wibral_2011
+- vicente_2011
+- lindevi_2015
+tags:
+- software
+- effective-connectivity
+- network-dynamics
+- neuroimaging-eeg
+- neuroimaging-meg
+- tool
+- information-theory
+title: TRENTOOL
 type: entity
-tags: [software, effective-connectivity, network-dynamics, neuroimaging-eeg, neuroimaging-meg, tool, information-theory]
-sources: [schreiber_2000, wibral_2011, vicente_2011, lindevi_2015]
+updated: '2026-05-01'
 ---
 
-TRENTOOL (TRENds TOOLbox) is a MATLAB-based open-source toolbox for estimating information-theoretic measures from neural time series data. Developed primarily for analyzing directed (effective) connectivity in neurophysiological recordings such as electroencephalography (EEG), magnetoencephalography (MEG), and local field potentials (LFP), TRENTOOL implements algorithms for computing transfer entropy, mutual information, and related metrics that capture directional information flow between brain regions[^wibral_2011]. The toolbox emerged from the nonlinear dynamics research community and serves researchers studying [[effective-connectivity]] using model-free information-theoretic approaches rather than [[dynamic-causal-modeling]] (DCM) or regression-based methods.
+TRENTOOL (TRENds TOOLbox) is a MATLAB-based open-source toolbox for estimating information-theoretic measures from neural time series data. Developed primarily for analyzing directed (effective) [[connectivity]] in neurophysiological recordings such as electroencephalography (EEG), magnetoencephalography (MEG), and [[local-field-potentials]] (LFP), TRENTOOL implements algorithms for computing transfer entropy, mutual information, and related metrics that capture directional information flow between brain regions[^wibral_2011]. The toolbox emerged from the [[nonlinear-dynamics]] research community and serves researchers studying [[effective-connectivity]] using model-free information-theoretic approaches rather than [[dynamic-causal-modeling]] (DCM) or regression-based methods.
 
 ## Overview and Purpose
 

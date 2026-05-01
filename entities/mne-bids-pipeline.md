@@ -1,19 +1,29 @@
 ---
-title: MNE-BIDS-Pipeline
 created: 2025-01-15
-updated: 2026-05-01
+sources:
+- https://mne.tools/mne-bids-pipeline
+- https://bids-specification.readthedocs.io
+- https://www.humanconnectome.org/study/hcp-young-adult
+- https://openneuro.org
+tags:
+- software
+- neuroimaging-eeg
+- neuroimaging-meg
+- bids
+- preprocessing-pipeline
+- data-processing
+title: MNE-BIDS-Pipeline
 type: entity
-tags: [software, neuroimaging-eeg, neuroimaging-meg, bids, preprocessing-pipeline, data-processing]
-sources: [https://mne.tools/mne-bids-pipeline, https://bids-specification.readthedocs.io, https://www.humanconnectome.org/study/hcp-young-adult, https://openneuro.org]
+updated: '2026-05-01'
 ---
 
 ## Overview
 
-MNE-BIDS-Pipeline is an open-source, automated processing pipeline for electrophysiology data (EEG and MEG) organized according to the Brain Imaging Data Structure (BIDS) specification. Developed as part of the MNE ecosystem, it provides a standardized, reproducible workflow for preprocessing, artifact rejection, source localization, and connectivity analysis of MEG and EEG recordings. The pipeline is designed to transform raw, BIDS-formatted electrophysiology data into analysis-ready datasets with minimal manual intervention, making it particularly valuable for large-scale neuroimaging studies and multi-site collaborations.
+[[mne-bids]]-Pipeline is an open-source, automated processing pipeline for [[electrophysiology]] data (EEG and MEG) organized according to the Brain Imaging Data Structure ([[bids]]) specification. Developed as part of the MNE ecosystem, it provides a standardized, reproducible workflow for preprocessing, artifact rejection, [[source-localization]], and [[connectivity]] analysis of MEG and EEG recordings. The pipeline is designed to transform raw, BIDS-formatted electrophysiology data into analysis-ready datasets with minimal manual intervention, making it particularly valuable for large-scale [[neuroimaging]] studies and multi-site collaborations.
 
 ## Motivation and Context
 
-The analysis of MEG and EEG data has historically suffered from methodological heterogeneity across labs, with each research group developing custom preprocessing scripts that are difficult to share, reproduce, or compare across studies. This "pipeline fragmentation" problem becomes especially acute in connectomics and whole-brain modeling applications, where different preprocessing choices can substantially affect estimated functional connectivity patterns and subsequent model fits. MNE-BIDS-Pipeline addresses this challenge by implementing a well-documented, configurable, yet default-protected workflow that follows best practices established by the MNE-Python community and the BIDS standard.
+The analysis of MEG and EEG data has historically suffered from methodological heterogeneity across labs, with each research group developing custom preprocessing scripts that are difficult to share, reproduce, or compare across studies. This "pipeline fragmentation" problem becomes especially acute in [[connectomics]] and [[whole-brain|whole-brain modeling]] applications, where different preprocessing choices can substantially affect estimated [[functional-connectivity]] patterns and subsequent model fits. MNE-BIDS-Pipeline addresses this challenge by implementing a well-documented, configurable, yet default-protected workflow that follows best practices established by the [[mne-python]] community and the BIDS standard.
 
 The pipeline emerged from the recognition that the BIDS format, while excellent for organizing raw neuroimaging data, does not specify how to process that data. By coupling BIDS-compliant data organization with a standardized processing stream, MNE-BIDS-Pipeline enables researchers to deposit processed data in BIDS-derivatives format, facilitating data sharing and secondary analyses. This is particularly relevant for projects like the Human Connectome Project (HCP) and the OASIS (Open Access Series of Imaging Studies) initiative, which have released large cohorts of MEG and EEG data that benefit from consistent processing.
 

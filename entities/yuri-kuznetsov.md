@@ -12,11 +12,11 @@ tags:
 - people-researcher
 title: Yuri Kuznetsov
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-01'
 ---
 
 ## Overview
-Yuri A. Kuznetsov is a Russian mathematician and Professor at Utrecht University, Netherlands. He is a leading expert on numerical continuation and bifurcation analysis, and the developer of MATCONT software.
+Yuri A. Kuznetsov is a Russian mathematician and Professor at Utrecht University, Netherlands. He is a leading expert on numerical continuation and bifurcation analysis, and the developer of [[matcont]] software.
 
 ## Key Contributions
 - **Applied Bifurcation Theory**: Author of the standard reference "Elements of Applied Bifurcation Theory"

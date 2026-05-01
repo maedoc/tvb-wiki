@@ -47,14 +47,14 @@ ENIGMA emerged from the recognition that neuroimaging studies typically comprise
 
 ## Key Achievements
 
-The consortium produced landmark findings including the identification of reduced fractional anisotropy (FA) in schizophrenia patients across 20 sites globally, establishing that white matter alterations represent a reproducible neurobiological signature. ENIGMA's analyses of nearly 50,000 individuals identified robust age-related changes in brain structure, while their GWAS work identified specific genetic loci influencing white matter integrity. The consortium also pioneered the "ENIGMA Toolbox" providing standardized processing pipelines now deployed across hundreds of labs.
+The consortium produced landmark findings including the identification of reduced [[fractional-anisotropy]] (FA) in schizophrenia patients across 20 sites globally, establishing that white matter alterations represent a reproducible neurobiological signature. ENIGMA's analyses of nearly 50,000 individuals identified robust age-related changes in brain structure, while their GWAS work identified specific genetic loci influencing white matter integrity. The consortium also pioneered the "ENIGMA Toolbox" providing standardized processing pipelines now deployed across hundreds of labs.
 
 ## Related Concepts
 
-ENIGMA's work connects to several key domains within the wiki: the consortium's standardized processing pipelines represent best practices in neuroimaging quality control; its disease working groups advance personalized brain modeling through identification of biomarkers; and its emphasis on open data sharing supports reproducibility best practices. The consortium's approach to combining data across sites parallels efforts in the Human Connectome Project and UK Biobank to create large-scale neuroimaging resources.
+ENIGMA's work connects to several key domains within the wiki: the consortium's standardized processing pipelines represent best practices in neuroimaging quality control; its disease working groups advance personalized brain modeling through identification of biomarkers; and its emphasis on open data sharing supports reproducibility best practices. The consortium's approach to combining data across sites parallels efforts in the [[human-[[connectome]]-project]] and [[uk-biobank]] to create large-scale neuroimaging resources.
 
 ## References
 
 1. Xinyu Wang, Sicheng Chen, Yanrong Chen, Xinian Zuo, Jingping Zhao, Yufeng Zang, Chao-Gan Yan. (2025). *The academic impact of open data: Bibliometric evidence from the DIRECT consortium and the REST-meta-MDD database*. China Scientific Data. [DOI](https://doi.org/10.11922/11-6035.csd.2025.0033.zh)
-2. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
 3. (authors unknown). *Genome-wide Association Studies of Brain Imaging Phenotypes from UK Biobank*.

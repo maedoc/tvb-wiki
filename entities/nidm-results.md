@@ -16,7 +16,7 @@ tags:
 - neuroimaging-meg
 title: NIDM-Results
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-01'
 ---
 
 ## Overview
@@ -57,11 +57,11 @@ The NIDM specifications were developed through an open collaborative process inv
 
 While NIDM-Results was primarily developed for traditional mass-univariate analysis workflows common in [[fmri]] research, it has relevance for [[whole-brain|whole-brain modeling]] efforts including [[the-virtual-brain]] (TVB). In TVB and similar large-scale modeling frameworks, researchers often compare model-generated dynamics to empirical [[functional-connectivity]] patterns derived from fMRI or other neuroimaging data. NIDM-Results can provide a standardized way to represent these comparison statistics—showing where model predictions match or diverge from empirical observations, what parameter variations produce the best fit, and what regions show significant differences between modeled and observed activity.
 
-Furthermore, as the field moves toward [[personalized-brain-modeling]] where individual structural connectivity from diffusion imaging data informs model parameters, the provenance tracking capabilities of NIDM-Results become valuable for documenting exactly how each personalized model was constructed. This supports the broader goals of the personalized brain modeling literature, where reproducibility and methodological transparency are essential.
+Furthermore, as the field moves toward [[personalized-brain-modeling]] where individual [[structural-connectivity]] from [[diffusion-imaging]] data informs model parameters, the provenance tracking capabilities of NIDM-Results become valuable for documenting exactly how each personalized model was constructed. This supports the broader goals of the personalized brain modeling literature, where reproducibility and methodological transparency are essential.
 
 ## Related Software and Standards
 
-NIDM-Results should be understood in the context of the broader neuroimaging data ecosystem. It complements **BIDS** (Brain Imaging Data Structure), which standardizes the organization of raw neuroimaging data, by providing a specification for analysis outputs. Tools like PyBIDS and Nilearn provide Python interfaces for working with both BIDS-organized data and NIDM-Results documents. The nibabel library provides low-level file I/O for neuroimaging formats and can be used alongside NIDM-Results parsers.
+NIDM-Results should be understood in the context of the broader neuroimaging data ecosystem. It complements **[[bids]]** (Brain Imaging Data Structure), which standardizes the organization of raw neuroimaging data, by providing a specification for analysis outputs. Tools like [[pybids]] and [[nilearn]] provide Python interfaces for working with both BIDS-organized data and NIDM-Results documents. The [[nibabel]] library provides low-level file I/O for neuroimaging formats and can be used alongside NIDM-Results parsers.
 
 The NIDM family includes related specifications beyond NIDM-Results: **NIDM-Experiment** for representing raw neuroimaging time-series data, **NIDM-Probabilities** for representing probabilistic atlases and parcellations, and **NIDM-fMRI** for task-based fMRI experiment designs. Together, these specifications aim to provide end-to-end interoperability from raw data acquisition through statistical analysis and results publication.
 
@@ -69,7 +69,7 @@ The NIDM family includes related specifications beyond NIDM-Results: **NIDM-Expe
 
 Despite its utility, NIDM-Results adoption has been incremental rather than universal. Some analysis packages still lack native NIDM export capabilities, and many published results in the literature are not available in NIDM-Results format, limiting its usefulness for meta-analysis. Additionally, the JSON-LD serialization, while powerful, can be verbose compared to simple image formats, creating challenges for storage and bandwidth in large-scale studies.
 
-An ongoing question is how to extend NIDM-Results to cover newer analysis paradigms beyond mass-univariate modeling—including multivariate pattern analysis (MVPA), representational similarity analysis (RSA), and the statistical outputs from dynamic causal modeling (DCM) analyses. As these analysis approaches become more common, the NIDM working group continues to develop extensions that can accommodate their specific result structures. The relationship between NIDM-Results and emerging standards like **ODR** (Open Data Repository) also remains an area of active development.
+An ongoing question is how to extend NIDM-Results to cover newer analysis paradigms beyond mass-univariate modeling—including multivariate pattern analysis (MVPA), representational similarity analysis (RSA), and the statistical outputs from [[dynamic-causal-modeling]] (DCM) analyses. As these analysis approaches become more common, the NIDM working group continues to develop extensions that can accommodate their specific result structures. The relationship between NIDM-Results and emerging standards like **ODR** (Open Data Repository) also remains an area of active development.
 
 ## References
 

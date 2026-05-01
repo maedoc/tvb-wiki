@@ -54,7 +54,7 @@ Several software packages implement network neuroscience methods:
 
 - [[brainsuite]] (BCT): MATLAB toolbox for complex network analysis
 - [[bctpy]]: Python implementation of BCT functions
-- [[brainspace]]: Python library for mapping connectivity patterns
+- [[brainspace]]: Python library for mapping [[connectivity]] patterns
 - [[braph]]: Graph-theoretic analysis of brain connectivity in MATLAB/Python
 - [[graph-tool]]: Efficient Python library for statistical analysis of networks
 
@@ -76,6 +76,6 @@ Network neuroscience continues to grapple with fundamental questions. The relati
 
 ## References
 
-1. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI), a flexible and integrative toolkit for efficient probabilistic inference on whole-brain models*. eLife. [DOI](https://doi.org/10.7554/eLife.106194)
+1. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI), a flexible and integrative toolkit for efficient probabilistic inference on [[whole-brain]] models*. eLife. [DOI](https://doi.org/10.7554/eLife.106194)
 2. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI): A flexible and integrative toolkit for efficient probabilistic inference on virtual brain models*. bioRxiv. [DOI](https://doi.org/10.1101/2025.01.21.633922)
-3. Ramiro Plüss, Hernán Villota, Patricio Orio. (2025). *Hemispheric-Specific Coupling Improves Modeling of Functional Connectivity Using Wilson-Cowan Dynamics*. [Link](https://arxiv.org/abs/2506.22951)
+3. Ramiro Plüss, Hernán Villota, Patricio Orio. (2025). *Hemispheric-Specific Coupling Improves Modeling of Functional Connectivity Using [[wilson-cowan]] Dynamics*. [Link](https://arxiv.org/abs/2506.22951)

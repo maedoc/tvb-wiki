@@ -36,6 +36,6 @@ The software has been employed in studies examining [[brain-stimulation]] target
 
 ## References
 
-1. (authors unknown). *BRAPH: A Pipeline for Brain Connectivity Analysis*.
+1. (authors unknown). *[[braph]]: A Pipeline for Brain [[connectivity]] Analysis*.
 2. Xiaobo Liu. (2026). *MLE-Toolbox: An Open-Source Toolbox for Comprehensive EEG and MEG Data Analysis*. [Link](https://www.semanticscholar.org/paper/e7aaa4f4bb01e70064493684b4500a950f83460f)
-3. Woodman et al. (2014). *GraphVar: A user-friendly toolbox for comprehensive graph analyses of functional brain connectivity*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2014.07.015)
+3. Woodman et al. (2014). *[[graphvar]]: A user-friendly toolbox for comprehensive graph analyses of functional brain connectivity*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2014.07.015)

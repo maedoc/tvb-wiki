@@ -14,7 +14,7 @@ tags:
 - neuropixels
 title: SpikeGLX
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-01'
 ---
 
 SpikeGLX is an open-source data acquisition (DAQ) system designed for extracellular [[electrophysiology]] recordings, with particular emphasis on high-density neural probes such as NeuroPixels. Developed primarily by Bill Karsh at Janelia Research Campus (HHMI), SpikeGLX provides a unified software platform for streaming, storing, and synchronizing neural data from multiple electrode arrays simultaneously. The software has become a de facto standard in the electrophysiology community since its initial release, enabling researchers to capture large-scale neural recordings with sub-millisecond temporal precision and electrode-level spatial resolution.
@@ -41,13 +41,13 @@ Recording sessions are organized into a hierarchical structure: a single recordi
 
 ## Relationship to TVB and Whole-Brain Modeling
 
-While SpikeGLX is primarily a data acquisition tool rather than a simulation platform, it plays an indirect but important role in the whole-brain modeling ecosystem. The software enables experimental datasets that characterize neural dynamics at the level of individual neurons and local circuits, providing ground truth data for validating neural-mass-models and whole-brain-model implementations. Researchers using The Virtual Brain can incorporate empirical measurements from NeuroPixels recordings to constrain model parameters through techniques such as [[parameter-estimation]] and variational-bayes.
+While SpikeGLX is primarily a data acquisition tool rather than a simulation platform, it plays an indirect but important role in the [[whole-brain|whole-brain modeling]] ecosystem. The software enables experimental datasets that characterize neural dynamics at the level of individual neurons and local circuits, providing ground truth data for validating [[neural-mass-models]] and whole-brain-model implementations. Researchers using [[the-virtual-brain]] can incorporate empirical measurements from NeuroPixels recordings to constrain model parameters through techniques such as [[parameter-estimation]] and [[variational-bayes]].
 
-SpikeGLX recordings are particularly valuable for studying brain-oscillations and local-field-potentials, which serve as macroscale correlates of the neural mass activity simulated in whole-brain models. The high temporal resolution of extracellular recordings enables characterization of phase-amplitude coupling, cross-frequency interactions, and other phenomena that inform the design of neural mass formulations. Additionally, SpikeGLX's support for simultaneous multi-probe recordings provides empirical constraints for structural-connectivity estimates used in connectome-based modeling approaches.
+SpikeGLX recordings are particularly valuable for studying [[brain-oscillations]] and local-field-potentials, which serve as macroscale correlates of the neural mass activity simulated in whole-brain models. The high temporal resolution of extracellular recordings enables characterization of phase-amplitude coupling, cross-frequency interactions, and other phenomena that inform the design of neural mass formulations. Additionally, SpikeGLX's support for simultaneous multi-probe recordings provides empirical constraints for [[structural-connectivity]] estimates used in [[connectome]]-based modeling approaches.
 
 ## Related Software and Ecosystem
 
-SpikeGLX integrates with a broader ecosystem of electrophysiology analysis tools. The SpikeInterface package, which provides a unified interface for spike sorting and waveform analysis, accepts SpikeGLX native files directly. Phy offers a graphical user interface for manual spike sorting curation, while KiloSort provides automated clustering algorithms. For LFP analysis, LFPy simulates extracellular potentials using volume conduction models that can be validated against empirical recordings acquired with SpikeGLX.
+SpikeGLX integrates with a broader ecosystem of electrophysiology analysis tools. The SpikeInterface package, which provides a unified interface for spike sorting and waveform analysis, accepts SpikeGLX native files directly. Phy offers a graphical user interface for manual spike sorting curation, while [[kilosort]] provides automated clustering algorithms. For LFP analysis, [[lfp-lib|LFPy]] simulates extracellular potentials using [[volume-conduction]] models that can be validated against empirical recordings acquired with SpikeGLX.
 
 The software complements other neuroimaging modalities in multi-modal experiments. Combined with fMRI or MEG recordings, SpikeGLX enables investigation of the relationship between microscale neural activity and macroscale brain dynamics—directly relevant to dynamic-causal-modeling and effective-connectivity analyses. The synchronization capabilities support integration with NWB archives for publication and data sharing through resources such as DataLad and OpenNEURO.
 

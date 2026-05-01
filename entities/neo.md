@@ -1,7 +1,7 @@
 ---
 sources:
 - raw/papers/semanticscholar-9afbfd2d37be.md
-updated: '2026-04-30'
+updated: '2026-05-01'
 ---
 
 ---  
@@ -56,7 +56,7 @@ The relationship between Neo and NWB deserves particular attention. While Neo pr
 
 ## Relationship to TVB  
 
-Neo has an indirect but meaningful relationship with The Virtual Brain (TVB). TVB focuses on whole‑brain modeling and simulation, often requiring empirical data about neural activity as inputs to drive or validate its computational models. While Neo itself is not a TVB component, the two projects share a common ethos: enabling reproducible, interoperable neuroscience research through standardized data handling. Neo's data model — particularly its representation of spike trains and continuous signals — could serve as a source of empirical data that feeds into TVB simulations. Researchers using TVB who work with electrophysiology data from systems like Blackrock or Plexon could leverage Neo for data preprocessing before converting their datasets into formats compatible with TVB's simulation framework.  
+Neo has an indirect but meaningful relationship with [[the-virtual-brain]] (TVB). TVB focuses on whole‑brain modeling and simulation, often requiring empirical data about neural activity as inputs to drive or validate its computational models. While Neo itself is not a TVB component, the two projects share a common ethos: enabling reproducible, interoperable neuroscience research through standardized data handling. Neo's data model — particularly its representation of spike trains and continuous signals — could serve as a source of empirical data that feeds into TVB simulations. Researchers using TVB who work with electrophysiology data from systems like Blackrock or Plexon could leverage Neo for data preprocessing before converting their datasets into formats compatible with TVB's simulation framework.  
 
 ## Key Papers  
 
@@ -79,7 +79,7 @@ Neo intersects with several related concepts in the wiki. For data‑formats, Ne
 
 ## References  
 
-1. Leon Martin, Konstantin Bülau, Marius Pille, Rico Schmitt, Christoph Hüttl, J. Meier, Halgurd Taher, Dionysios Perdikis, M. Schirner, L. Stefanovski, Petra Ritter. (2025). *The Virtual Brain Ontology: A Digital Knowledge Framework for Reproducible Brain Network Modeling*. bioRxiv. [DOI](https://doi.org/10.1101/2025.11.19.689211)  
+1. Leon Martin, Konstantin Bülau, Marius Pille, Rico Schmitt, Christoph Hüttl, J. Meier, Halgurd Taher, Dionysios Perdikis, M. Schirner, L. Stefanovski, Petra Ritter. (2025). *[[tvb|The Virtual Brain]] Ontology: A Digital Knowledge Framework for Reproducible [[brain-network]] Modeling*. bioRxiv. [DOI](https://doi.org/10.1101/2025.11.19.689211)  
 2. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI): A flexible and integrative toolkit for efficient probabilistic inference on virtual brain models*. bioRxiv. [DOI](https://doi.org/10.1101/2025.01.21.633922)  
-3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz‑Pier, Thanos Manos. *Arbor‑TVB: A Novel Multi‑Scale Co‑Simulation Framework with a Case Study on Neural‑Level Seizure Generation and Whole‑Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)  
-4. B. Bein (2018). *pyedflib: Python library for reading and writing EDF/BDF files*. *Journal of Open Source Software*. [DOI](https://doi.org/10.21105/joss.00899)
+3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz‑Pier, Thanos Manos. *[[arbor]]‑TVB: A Novel Multi‑Scale Co‑Simulation Framework with a Case Study on Neural‑Level Seizure Generation and Whole‑Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)  
+4. B. Bein (2018). *[[pyedflib]]: Python library for reading and writing EDF/BDF files*. *Journal of Open Source Software*. [DOI](https://doi.org/10.21105/joss.00899)

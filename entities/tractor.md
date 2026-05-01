@@ -1,19 +1,24 @@
 ---
-title: TractoR
 created: 2025-01-15
-updated: 2026-05-01
-type: entity
-tags: [software-dti, software-tractography, structural-connectivity, diffusion-imaging, software-visualization]
 sources: []
+tags:
+- software-dti
+- software-tractography
+- structural-connectivity
+- diffusion-imaging
+- software-visualization
+title: TractoR
+type: entity
+updated: '2026-05-01'
 ---
 
-TractoR (Tractography with R) is an open-source software package that provides tools for performing fiber tractography and structural connectivity analysis on diffusion magnetic resonance imaging (dMRI) data. Originally developed at the Wellcome Trust Centre for Neuroimaging at University College London, TractoR implements probabilistic tractography algorithms and provides a consistent interface for processing dMRI datasets from raw images to streamline white matter tract reconstruction. The software is written primarly in R with computationally intensive components implemented in C++, and it has become a widely-used tool in the connectomics community for extracting white matter pathways and generating structural connectivity matrices.
+TractoR ([[tractography]] with R) is an open-source software package that provides tools for performing fiber tractography and [[structural-connectivity]] analysis on diffusion magnetic resonance imaging (dMRI) data. Originally developed at the Wellcome Trust Centre for [[neuroimaging]] at University College London, TractoR implements probabilistic tractography algorithms and provides a consistent interface for processing dMRI datasets from raw images to streamline [[white-matter]] tract reconstruction. The software is written primarly in R with computationally intensive components implemented in C++, and it has become a widely-used tool in the [[connectomics]] community for extracting white matter pathways and generating structural [[connectivity]] matrices.
 
 ## Motivation and Context
 
-The development of TractoR emerged from the need for a reproducible, scriptable framework for diffusion MRI analysis. Prior to tools like TractoR, tractography analysis often required manual intervention using graphical software packages, making it difficult to standardize processing pipelines across studies or to perform batch analyses on large datasets. Diffusion tensor imaging and more advanced diffusion models such as q-ball imaging and constrained spherical deconvolution enable reconstruction of fiber orientations in each voxel, but converting these orientation estimates into anatomically meaningful white matter tracts required sophisticated algorithms and careful parameter tuning.
+The development of TractoR emerged from the need for a reproducible, scriptable framework for [[diffusion-mri]] analysis. Prior to tools like TractoR, tractography analysis often required manual intervention using graphical software packages, making it difficult to standardize processing pipelines across studies or to perform batch analyses on large datasets. Diffusion tensor imaging and more advanced diffusion models such as q-ball imaging and constrained spherical deconvolution enable reconstruction of fiber orientations in each voxel, but converting these orientation estimates into anatomically meaningful white matter tracts required sophisticated algorithms and careful parameter tuning.
 
-TractoR addresses this gap by providing a comprehensive suite of tractography functions that can be invoked from R scripts or the command line. The software implements both deterministic and probabilistic tractography, allowing users to reconstruct major white matter pathways such as the arcuate fasciculus, uncinate fasciculus, and corpus callosum. By integrating with R's statistical framework, TractoR enables seamless combination of tractography with connectivity analysis, network construction, and statistical modeling — a workflow essential for whole-brain modeling approaches like those implemented in [[the-virtual-brain]].
+TractoR addresses this gap by providing a comprehensive suite of tractography functions that can be invoked from R scripts or the command line. The software implements both deterministic and probabilistic tractography, allowing users to reconstruct major white matter pathways such as the arcuate fasciculus, uncinate fasciculus, and corpus callosum. By integrating with R's statistical framework, TractoR enables seamless combination of tractography with connectivity analysis, network construction, and statistical modeling — a workflow essential for [[whole-brain|whole-brain modeling]] approaches like those implemented in [[the-virtual-brain]].
 
 ## Key Features
 
@@ -27,7 +32,7 @@ TractoR also includes tools for tract segmentation and grouping, allowing automa
 
 TractoR plays an important role in the [[whole-brain-modeling]] ecosystem by providing structural connectivity data that serves as the anatomical scaffold for [[the-virtual-brain]] simulations. TVB requires a structural connectivity matrix — typically derived from tractography data — to define the white matter pathways connecting different brain regions, which determines how activity propagates through the network during simulations. The quality and accuracy of this structuralConnectivity matrix directly influences the fidelity of TVB's simulated dynamics.
 
-Researchers using TVB frequently employ TractoR to generatetractography-derived connectivity matrices from their own dMRI data or from public datasets. The resulting connectivity matrices, often weighted by fractional anisotropy or streamline counts, are imported into TVB as region-level or vertex-level structural connectivity. This integration enables personalized brain modeling where an individual's unique anatomical connectivity guides the simulation. TractoR's ability to produce standardized connectivity matrices also facilitates comparative modeling studies across different populations.
+Researchers using TVB frequently employ TractoR to generatetractography-derived connectivity matrices from their own dMRI data or from public datasets. The resulting connectivity matrices, often weighted by [[fractional-anisotropy]] or streamline counts, are imported into TVB as region-level or vertex-level structural connectivity. This integration enables [[personalized-brain-modeling]] where an individual's unique anatomical connectivity guides the simulation. TractoR's ability to produce standardized connectivity matrices also facilitates comparative modeling studies across different populations.
 
 ## Key Papers
 

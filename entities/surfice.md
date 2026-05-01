@@ -14,7 +14,7 @@ tags:
 - software-brain-modeling
 title: SurfIce
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-01'
 ---
 
 # SurfIce
@@ -25,7 +25,7 @@ SurfIce is a lightweight, cross-platform visualization tool for cortical and sub
 
 ## Key Features
 
-SurfIce distinguishes itself through several capabilities tailored to whole-brain modeling and connectomics research:
+SurfIce distinguishes itself through several capabilities tailored to [[whole-brain|whole-brain modeling]] and [[connectomics]] research:
 
 **Surface Rendering**: The software supports loading of triangular mesh files in standard formats (FreeSurfer surfaces, `.inflated`, `.sphere`, and `.pial` surfaces) and applies vertex-wise color maps for visualizing [[functional-connectivity]] patterns, cortical thickness, or statistical parametric maps. The rendering engine supports both opaque and translucent surface modes, enabling researchers to inspect depth-encoded structures while maintaining visibility of surface anatomy.
 
@@ -56,14 +56,14 @@ SurfIce is not designed for volume rendering, mesh editing, or advanced segmenta
 The following publications inform best practices for using SurfIce in whole-brain modeling contexts:
 
 - Rorden, C., & Brett, M. (2012). Stereotaxic display of brain lesions. *Behavioural Neurology*, 22(1-2), 191-192. — Describes the origin and core functionality of SurfIce as a lesion mapping tool.
-- Glasser, M. F., et al. (2016). A multi-modal parcellation of human cerebral cortex. *Nature*, 536(7615), 171-178. — The HCP Multi-Modal Parcellation atlas, viewable in SurfIce.
+- Glasser, M. F., et al. (2016). A multi-modal [[parcellation]] of human cerebral cortex. *Nature*, 536(7615), 171-178. — The HCP Multi-Modal Parcellation atlas, viewable in SurfIce.
 - Himberg, H., et al. (2018). The_CIFTI_format: A binary file format for storing brain‐behavior data. *Human Brain Mapping*, 39(7), 2758-2768. — Technical specification for CIFTI support.
 
 ## Related Software
 
 - [[freesurfer]] — primary source for surface meshes
-- [[connectome-workbench]] — HCP's full-featured connectivity visualization and analysis platform
-- [[suma]] — AFNI's surface viewer
+- [[connectome-workbench]] — HCP's full-featured [[connectivity]] visualization and analysis platform
+- [[suma]] — [[afni]]'s surface viewer
 - [[brainnet-viewer]] — general-purpose brain visualization
 - [[3d-slicer]] — comprehensive medical image computing platform
 - [[tvb]] — whole-brain simulator using similar anatomical data

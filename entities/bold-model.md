@@ -1,21 +1,29 @@
 ---
-title: BOLD Model
 created: 2025-01-15
-updated: 2026-05-01
-type: concept
-tags: [neuroimaging-fmri, hemodynamic-response-function, neural-mass-models, whole-brain-modeling, computational-neuroscience, dynamic-causal-modeling, functional-connectivity, effective-connectivity]
 sources: []
+tags:
+- neuroimaging-fmri
+- hemodynamic-response-function
+- neural-mass-models
+- whole-brain-modeling
+- computational-neuroscience
+- dynamic-causal-modeling
+- functional-connectivity
+- effective-connectivity
+title: BOLD Model
+type: concept
+updated: '2026-05-01'
 ---
 
 # BOLD Model
 
 ## Overview
 
-The Blood Oxygen Level Dependent (BOLD) model is a computational framework that describes the relationship between neural activity and the fMRI signal. The BOLD contrast was discovered by Seiji Ogawa and colleagues (Ogawa et al., 1990), and relies on the magnetic properties of hemoglobin: deoxyhemoglobin is paramagnetic (distorts the local magnetic field), while oxyhemoglobin is diamagnetic. When neural activity increases, regional cerebral blood flow (CBF) increases disproportionately relative to the oxygen extraction rate, leading to a net decrease in deoxyhemoglobin concentration and thus an increased MRI signal (Buxton et al., 1998). The BOLD model provides the biophysical and mathematical foundations for interpreting this indirect measure of neural activity, making it essential for both experimental fMRI analysis and computational whole-brain modeling.
+The Blood Oxygen Level Dependent ([[bold-signal|BOLD]]) model is a computational framework that describes the relationship between neural activity and the fMRI signal. The BOLD contrast was discovered by [[seiji-ogawa]] and colleagues (Ogawa et al., 1990), and relies on the magnetic properties of hemoglobin: deoxyhemoglobin is paramagnetic (distorts the local magnetic field), while oxyhemoglobin is diamagnetic. When neural activity increases, regional cerebral blood flow (CBF) increases disproportionately relative to the oxygen extraction rate, leading to a net decrease in deoxyhemoglobin concentration and thus an increased MRI signal (Buxton et al., 1998). The BOLD model provides the biophysical and mathematical foundations for interpreting this indirect measure of neural activity, making it essential for both experimental fMRI analysis and computational [[whole-brain|whole-brain modeling]].
 
 ## Biophysical Basis
 
-The BOLD signal emerges from the **neurovascular coupling**—the cascade from neural firing to changes in cerebral hemodynamics. When neurons fire, they consume ATP and release vasodilators (such as nitric oxide, adenosine, and prostaglandins), causing arterioles and capillaries to dilate. This increases cerebral blood flow (CBF) by approximately 20–40% above baseline (Buxton et al., 1998). Simultaneously, the cerebral metabolic rate of oxygen (CMRO₂) increases by only 5–15%, creating a **mismatch** wherein the oxygen supply vastly exceeds the metabolic demand. The result is a reduced concentration of deoxyhemoglobin, which produces the positive BOLD signal that peaks approximately 4–6 seconds after neural onset (Obata et al., 2004)—the well-known **hemodynamic response function (HRF)**.
+The BOLD signal emerges from the **neurovascular coupling**—the cascade from neural firing to changes in cerebral hemodynamics. When neurons fire, they consume ATP and release vasodilators (such as nitric oxide, adenosine, and prostaglandins), causing arterioles and capillaries to dilate. This increases cerebral blood flow (CBF) by approximately 20–40% above baseline (Buxton et al., 1998). Simultaneously, the cerebral metabolic rate of oxygen (CMRO₂) increases by only 5–15%, creating a **mismatch** wherein the oxygen supply vastly exceeds the metabolic demand. The result is a reduced concentration of deoxyhemoglobin, which produces the positive BOLD signal that peaks approximately 4–6 seconds after neural onset (Obata et al., 2004)—the well-known **[[hemodynamic-response-function]] (HRF)**.
 
 The original and most influential biophysical model of the BOLD signal is the **Balloon Model**, introduced by Richard Buxton and colleagues in 1998. This model treats the venous compartment as a balloon with elastic walls, subject to inflow of blood from the arterial compartment and outflow to the venous compartment. The Balloon Model comprises several state variables: the venous volume *v*, the deoxyhemoglobin content *q*, and the flow *f* (normalized to baseline). The evolution of these variables is governed by a set of nonlinear differential equations that capture the dynamic expansion and emptying of the venous balloon.
 
@@ -39,19 +47,19 @@ where *A* is a proportionality constant, *M* is the maximum BOLD change, *α* is
 
 ## Relationship to Neural Activity
 
-One of the central challenges in interpreting BOLD data is that the signal reflects a *mixture* of neural, vascular, and metabolic processes. **Neural mass models** and large-scale network models (such as those implemented in [[the-virtual-brain]]) must therefore incorporate a **forward model** that transforms simulated neural activity into predicted BOLD signals for comparison with empirical fMRI data. This transformation typically involves:
+One of the central challenges in interpreting BOLD data is that the signal reflects a *mixture* of neural, vascular, and metabolic processes. **Neural mass models** and large-scale network models (such as those implemented in [[the-virtual-brain]]) must therefore incorporate a **[[forward-model]]** that transforms simulated neural activity into predicted BOLD signals for comparison with empirical fMRI data. This transformation typically involves:
 
-1. Converting neural population activity (firing rates or synaptic activity) into a hemodynamic input using a linear convolution with the HRF
+1. Converting neural population activity (firing rates or synaptic activity) into a hemodynamic input using a [[linear]] convolution with the HRF
 2. Feeding this input into the Balloon Model (or a simplified version) to generate *v(t)* and *q(t)*
 3. Computing the BOLD output from the state variables
 
-In [[dynamic-causal-modeling]] (DCM), the BOLD forward model is embedded within a Bayesian framework that simultaneously estimates effective connectivity between brain regions and the hemodynamic parameters themselves (Friston et al., 2003). DCMs can distinguish between direct (feedforward) and modulatory (feedback) connections, making them powerful tools for inferring causal relationships from BOLD data.
+In [[dynamic-causal-modeling]] (DCM), the BOLD forward model is embedded within a Bayesian framework that simultaneously estimates effective [[connectivity]] between brain regions and the hemodynamic parameters themselves (Friston et al., 2003). DCMs can distinguish between direct (feedforward) and modulatory (feedback) connections, making them powerful tools for inferring causal relationships from BOLD data.
 
 ## Relationship to TVB
 
-The Virtual Brain (TVB) implements the BOLD forward model as a critical component of its whole-brain simulation pipeline, enabling comparison between simulated neural dynamics and empirical fMRI data. TVB leverages a modified version of the Balloon Model originally developed within the Dynamic Causal Modeling (DCM) framework (Friston et al., 2000), adapted for large-scale brain network simulations. TVB exposes several configurable hemodynamic parameters including the Grubb's exponent (α), transit times (τ_A, τ_V), resting oxygen extraction fraction (E_0), and the Balloon Model signal scaling constant (M). These parameters can be set to canonical values from the literature or individualized based on subject-specific physiology, supporting personalized brain modeling workflows.
+[[tvb|The Virtual Brain]] (TVB) implements the BOLD forward model as a critical component of its whole-brain simulation pipeline, enabling comparison between simulated neural dynamics and empirical fMRI data. TVB leverages a modified version of the Balloon Model originally developed within the Dynamic Causal Modeling (DCM) framework (Friston et al., 2000), adapted for large-scale [[brain-network]] simulations. TVB exposes several configurable hemodynamic parameters including the Grubb's exponent (α), transit times (τ_A, τ_V), resting oxygen extraction fraction (E_0), and the Balloon Model signal scaling constant (M). These parameters can be set to canonical values from the literature or individualized based on subject-specific physiology, supporting personalized brain modeling workflows.
 
-In the TVB pipeline, neural activity from the chosen neural mass model (e.g., Jansen-Rit, Reduced Wong-Wang) is first passed through a hemodynamic forward function that converts population activity into a BOLD time series. The simulated BOLD is then compared to empirical fMRI data using metrics such as functional connectivity correlation, spectral coherence, or multivariate pattern analysis. This allows researchers to constrain whole-brain models by fitting them to empirical BOLD data and to perform parameter sensitivity analyses on hemodynamic variables (Schirner et al., 2018).
+In the TVB pipeline, neural activity from the chosen neural mass model (e.g., Jansen-Rit, Reduced Wong-Wang) is first passed through a hemodynamic forward function that converts population activity into a BOLD time series. The simulated BOLD is then compared to empirical fMRI data using metrics such as [[functional-connectivity]] correlation, spectral coherence, or multivariate pattern analysis. This allows researchers to constrain whole-brain models by fitting them to empirical BOLD data and to perform parameter sensitivity analyses on hemodynamic variables (Schirner et al., 2018).
 
 ## Key Extensions and Refinements
 

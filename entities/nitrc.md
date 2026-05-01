@@ -12,7 +12,7 @@ tags:
 - platform
 title: NITRC
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-01'
 ---
 
 NITRC ([[neuroimaging]] Tools and Resources Collaboratory) is a web-based computational platform and repository that serves as a central hub for the neuroimaging research community. Developed and maintained by the National Institute of Neurological Disorders and Stroke (NINDS) through the NIH Blueprint for Enhancing the Development of Biomedical Imaging Research, NITRC provides investigators with unified access to software tools, reference datasets, computational resources, and collaborative features necessary for modern neuroimaging analysis workflows (NINDS, 2024).
@@ -29,7 +29,7 @@ NITRC provides several integrated resources that serve different stages of the n
 
 The **data repository** component provides access to reference neuroimaging datasets used for method development, validation, and training purposes. Notable datasets hosted on NITRC include the NIH MRI Study of Normal Brain Development (also known as the pediatric dataset), which has been instrumental in characterizing typical [[developmental-trajectories]] in pediatric populations (Evans, 2006), and various single-subject reference datasets that enable method comparison across processing pipelines. These datasets are particularly valuable for researchers developing new analysis methods, as they provide gold-standard benchmarks against which novel approaches can be validated.
 
-NITRC additionally hosts **computational resources** through NITRC-CE (Computational Environment), a cloud-based infrastructure that allows researchers to run analyses without local high-performance computing resources. This service has proven particularly valuable for investigators at institutions with limited computational infrastructure, enabling them to execute common neuroimaging workflows through a web browser interface.
+NITRC additionally hosts **computational resources** through [[nitrc-ce]] (Computational Environment), a cloud-based infrastructure that allows researchers to run analyses without local high-performance computing resources. This service has proven particularly valuable for investigators at institutions with limited computational infrastructure, enabling them to execute common neuroimaging workflows through a web browser interface.
 
 ## Relationship to TVB and Whole-Brain Modeling
 

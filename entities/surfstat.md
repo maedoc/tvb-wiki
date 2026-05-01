@@ -23,20 +23,20 @@ tags:
 - cortical-thickness
 title: SurfStat
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-01'
 ---
 
 # SurfStat
 
 ## Overview
 
-SurfStat is a MATLAB toolbox designed for surface-based statistical analysis of neuroimaging data, particularly cortical surface measurements derived from tools like [[freesurfer]] and [[brainvisa]]. Developed primarily by the Montreal Neurological Institute and associated research groups (Worsley et al., 2009a), SurfStat provides a comprehensive set of statistical routines specifically optimized for analyzing data that resides on the cortical surface manifold rather than in volumetric image space. The toolbox enables researchers to perform vertex-wise statistical tests, cluster-based corrections for multiple comparisons, and region-of-interest analyses across the cortical sheet, making it an essential tool for studies of cortical thickness, surface area, and curvature measurements (Worsley et al., 2009b).
+SurfStat is a MATLAB toolbox designed for surface-based statistical analysis of [[neuroimaging]] data, particularly cortical surface measurements derived from tools like [[freesurfer]] and [[brainvisa]]. Developed primarily by the Montreal Neurological Institute and associated research groups (Worsley et al., 2009a), SurfStat provides a comprehensive set of statistical routines specifically optimized for analyzing data that resides on the cortical surface manifold rather than in volumetric image space. The toolbox enables researchers to perform vertex-wise statistical tests, cluster-based corrections for multiple comparisons, and region-of-interest analyses across the cortical sheet, making it an essential tool for studies of cortical thickness, surface area, and curvature measurements (Worsley et al., 2009b).
 
 ## Key Features
 
 The primary advantage of SurfStat lies in its ability to handle the unique statistical challenges posed by surface-based neuroimaging data. Unlike volumetric data that can be analyzed with standard statistical packages, surface data requires specialized approaches because adjacent vertices on the cortical mesh are not independent observations—they are connected through a complex topological structure. SurfStat addresses this through implementations of random field theory (RFT) corrections specifically adapted for cortical surfaces, providing rigorous control over family-wise error rates in mass univariate analyses (Charil et al., 2007).
 
-The toolbox includes implementations of general linear models (GLM) at the vertex level, supporting both simple t-tests and complex factorial designs with covariates. Users can model continuous variables, categorical predictors, and interactions exactly as they would in volumetric analysis packages like [[spm]] or [[fsl]], but with the appropriate spatial autocorrelation corrections for surface data. SurfStat also provides tools for resampling statistics, including permutation tests, which serve as non-parametric alternatives for inference when the distributional assumptions of random field theory may not hold (Goldstein et al., 2017).
+The toolbox includes implementations of general [[linear]] models (GLM) at the vertex level, supporting both simple t-tests and complex factorial designs with covariates. Users can model continuous variables, categorical predictors, and interactions exactly as they would in volumetric analysis packages like [[spm]] or [[fsl]], but with the appropriate spatial autocorrelation corrections for surface data. SurfStat also provides tools for resampling statistics, including permutation tests, which serve as non-parametric alternatives for inference when the distributional assumptions of random field theory may not hold (Goldstein et al., 2017).
 
 Beyond vertex-wise analysis, SurfStat facilitates region-of-interest (ROI) based statistics through integration with cortical parcellation schemes such as the [[desikan-killiany-atlas]], [[destrieux-atlas]], and [[glasser-atlas]]. Users can extract summary statistics from predefined cortical regions and perform between-group comparisons, making it straightforward to conduct studies examining regional cortical differences in [[alzheimers-disease]], [[schizophrenia-models]], or [[aging-brain]].
 
@@ -48,7 +48,7 @@ The toolbox is particularly valuable for [[epilepsy-modeling]] studies that requ
 
 ## Key Papers
 
-SurfStat was introduced by Keith J. Worsley and colleagues at the Montreal Neurological Institute, building on their earlier work on random field theory for neuroimaging. The foundational paper describing the statistical framework for surface-based analysis (Worsley et al., 2009a) established the theoretical basis for the toolbox. A companion technical report (Worsley et al., 2009b) provides detailed implementation guidance. Subsequent methodological papers have extended SurfStat's capabilities for dual regression analysis of functional connectivity patterns and for mixed-effects models in multicenter studies (Charil et al., 2007; Goldstein et al., 2017).
+SurfStat was introduced by Keith J. Worsley and colleagues at the Montreal Neurological Institute, building on their earlier work on random field theory for neuroimaging. The foundational paper describing the statistical framework for surface-based analysis (Worsley et al., 2009a) established the theoretical basis for the toolbox. A companion technical report (Worsley et al., 2009b) provides detailed implementation guidance. Subsequent methodological papers have extended SurfStat's capabilities for dual regression analysis of [[functional-connectivity]] patterns and for mixed-effects models in multicenter studies (Charil et al., 2007; Goldstein et al., 2017).
 
 ## Related Software
 

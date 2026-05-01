@@ -43,7 +43,7 @@ Additional features include tools for temporal classification enabling the decod
 
 ## Relationship to TVB
 
-While The Virtual Brain (TVB) focuses on [[whole-brain|whole-brain modeling]] using neural-mass models to simulate large-scale brain dynamics, BrainIAK serves a complementary role in the neuroimaging ecosystem. TVB is primarily concerned with generating forward models that predict fMRI signals from underlying neural activity, whereas BrainIAK focuses on inverting such models to decode cognitive states from observed fMRI data @cite{sanzleon2013tvb}. Both toolboxes share a commitment to open-source development and support reproducible neuroimaging research, though they operate at different stages of the analysis pipeline: TVB for generative modeling and BrainIAK for exploratory and decoding analyses.
+While [[the-virtual-brain]] (TVB) focuses on [[whole-brain|whole-brain modeling]] using neural-mass models to simulate large-scale [[brain-dynamics]], BrainIAK serves a complementary role in the neuroimaging ecosystem. TVB is primarily concerned with generating forward models that predict fMRI signals from underlying neural activity, whereas BrainIAK focuses on inverting such models to decode cognitive states from observed fMRI data @cite{sanzleon2013tvb}. Both toolboxes share a commitment to open-source development and support reproducible neuroimaging research, though they operate at different stages of the analysis pipeline: TVB for generative modeling and BrainIAK for exploratory and decoding analyses.
 
 ## Key Papers
 
@@ -51,7 +51,7 @@ The original BrainIAK publication by Kumar et al. @cite{kumar2022brainiak} intro
 
 ## Related Software
 
-BrainIAK occupies a niche in the neuroimaging landscape that overlaps partially with several established tools. The nilearn library provides related machine learning utilities for fMRI analysis and serves as a complementary resource. For MVPA specifically, the PyMVPA package predates BrainIAK and offers similar functionality, though BrainIAK's integration with deep learning frameworks distinguishes it. The EEGLAB and FieldTrip toolboxes address analogous analysis needs for electrophysiological data, while the Brain Connectivity Toolbox focuses on graph-theoretic analyses of structural and functional connectivity.
+BrainIAK occupies a niche in the neuroimaging landscape that overlaps partially with several established tools. The nilearn library provides related machine learning utilities for fMRI analysis and serves as a complementary resource. For MVPA specifically, the [[pymvpa]] package predates BrainIAK and offers similar functionality, though BrainIAK's integration with deep learning frameworks distinguishes it. The [[eeglab]] and [[fieldtrip]] toolboxes address analogous analysis needs for electrophysiological data, while the [[brain-[[connectivity]]-toolbox]] focuses on graph-theoretic analyses of structural and [[functional-connectivity]].
 
 ## Installation
 
@@ -70,7 +70,7 @@ docker pull brainiak/brainiak
 
 ## References
 
-1. (authors unknown). *BRAPH: A Pipeline for Brain Connectivity Analysis*.
+1. (authors unknown). *[[braph]]: A Pipeline for Brain Connectivity Analysis*.
 2. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI): A flexible and integrative toolkit for efficient probabilistic inference on virtual brain models*. bioRxiv. [DOI](https://doi.org/10.1101/2025.01.21.633922)
 3. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI), a flexible and integrative toolkit for efficient probabilistic inference on whole-brain models*. eLife. [DOI](https://doi.org/10.7554/eLife.106194)
-4. (authors unknown). *Nighres: processing tools for high-resolution neuroimaging*.
+4. (authors unknown). *[[nighres]]: processing tools for high-resolution neuroimaging*.

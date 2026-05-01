@@ -1171,3 +1171,5 @@
 ## [2026-05-01 15:54] Improve: 3 pages improved (hnn, tractor, trc-toolkit)
 
 ## [2026-05-01 17:10] Improve: 3 pages improved (trentool, tractor, hnn)
+
+## [2026-05-01 17:30] RefFormatter: formatted references on 9 pages

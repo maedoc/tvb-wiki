@@ -11,7 +11,7 @@ tags:
 - neuroimaging
 title: Neuroimaging
 type: concept
-updated: '2026-04-30'
+updated: '2026-05-01'
 ---
 
 Neuroimaging — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
@@ -36,12 +36,12 @@ created: 2026-04-29
 sources:
 - raw/papers/semanticscholar-97e6ff441097.md
 - raw/papers/woodman-2014.md
-- raw/papers/mijalkov-2017-braph.md
+- raw/papers/mijalkov-2017-[[braph]].md
 tags:
 - software-r
 - neuroimaging
-- cifti
-- human-connectome-project
+- [[cifti]]
+- [[human-connectome-project]]
 - grayordinates
 - fmri
 - brain-atlases

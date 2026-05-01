@@ -41,9 +41,9 @@ The extension also complements platforms like [[brainlife]] and [[cbrain]], whic
 
 ## Key Features
 
-The primary feature of DataLad Containers is declarative container specification. Rather than requiring users to manually configure container mounts and paths for each execution, the extension encodes these details once in the dataset configuration. The system supports multiple containers per dataset, enabling different analyses to use different environments—for instance, one container for diffusion MRI processing and another for graph-theoretic network analysis using the [[brain-connectivity-toolkit]].
+The primary feature of DataLad Containers is declarative container specification. Rather than requiring users to manually configure container mounts and paths for each execution, the extension encodes these details once in the dataset configuration. The system supports multiple containers per dataset, enabling different analyses to use different environments—for instance, one container for [[diffusion-mri]] processing and another for graph-theoretic network analysis using the [[brain-[[connectivity]]-toolkit]].
 
-Another notable feature is the integration with container registries. Images can be pulled from Docker Hub, Singularity Hub, GitHub Container Registry, or private registries, and DataLad tracks the specific image digest rather than relying on mutable tags. This ensures that re-running an analysis months later retrieves exactly the same image, preventing "silent drift" where updated container images introduce unexpected changes to results. The extension also supports building containers from local `Dockerfile` or Singularity `def` files, allowing teams to customize images while maintaining the reproducibility benefits. [@Gorgolewski2017]
+Another notable feature is the integration with container registries. Images can be pulled from Docker Hub, Singularity Hub, GitHub Container Registry, or private registries, and DataLad tracks the specific image digest rather than relying on mutable tags. This ensures that re-running an analysis months later retrieves exactly the same image, preventing "silent drift" where updated container images introduce unexpected changes to results. The extension also supports building containers from local `Dockerfile` or Singularity `def` files, allowing teams to customize images while maintaining the [[reproducibility]] benefits. [@Gorgolewski2017]
 
 ## Software Ecosystem Integration
 
@@ -58,7 +58,7 @@ DataLad Containers assumes familiarity with the DataLad workflow, which has a le
 - **Wagner et al., 2021** — "DataLad: distributed data product management with git and git-annex." This is the primary reference for the DataLad Containers extension within the broader DataLad framework.
 - **Halchenko et al., 2021** — "Open Data Products: a framework for creating portable, distributed data products." Describes the philosophy behind treating data and computational environments as versioned units.
 - **Gorgolewski et al., 2017** — "Docker: an open source container for science." Background on containerization in scientific workflows.
-- **Esteban et al., 2019** — "fMRIprep: a robust preprocessing pipeline for functional MRI." Example of containerized neuroimaging pipelines that inspired similar approaches in the community.
+- **Esteban et al., 2019** — "fMRIprep: a robust preprocessing pipeline for functional MRI." Example of containerized [[neuroimaging]] pipelines that inspired similar approaches in the community.
 - **Ricci et al., 2020** — "NeuroDesk: flexible and accessible data analysis for reproducible neuroimaging." Describes the ready-to-use container approach as an alternative to user-managed containers.
 
 ## References
@@ -66,6 +66,6 @@ DataLad Containers assumes familiarity with the DataLad workflow, which has a le
 - Esteban O, Markiewicz CJ, Brown RW, Jobert J, Camerlengo F, Jul-Aguilar J, DuPre E, Landman BA, Caparas D, Poldrack R, Gorgolewski KJ. fMRIPrep: a robust preprocessing pipeline for functional MRI. Nat Methods. 2019;16(1):111-116.
 - Gorgolewski KJ, Storkey AJ, Bastien M, Picard P. Docker: an open source container for science. arXiv:1709.07021. 2017.
 - Halchenko Y, Hanke M, Donders R, et al. Open Data Products: a framework for creating portable, distributed data products. Front Neurosci. 2021;15:659050.
-- Hanke M, Halchenko Y, Sederberg PB, et al. PyMVPA: a Python toolbox for multivariate pattern analysis of fMRI data. Neuroinformatics. 2008;6(1):11-34.
+- Hanke M, Halchenko Y, Sederberg PB, et al. [[pymvpa]]: a Python toolbox for multivariate pattern analysis of [[fmri]] data. Neuroinformatics. 2008;6(1):11-34.
 - Ricci C, Sedler K, Chen A, et al. NeuroDesk: flexible and accessible data analysis for reproducible neuroimaging. Front Neuroinform. 2020;14:594287.
 - Wagner A, Halchenko Y, et al. DataLad: distributed data product management with git and git-annex. J Open Source Softw. 2021;6(61):3112.

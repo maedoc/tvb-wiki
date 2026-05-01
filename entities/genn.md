@@ -8,14 +8,14 @@ tags:
 - software-brain-modeling
 title: GeNN
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-01'
 ---
 
 title: GeNN
 created: 2025-01-15
 updated: 2026-04-30
 type: entity
-tags: [software-neuromorphic-computing, spiking-neural-networks, gpu-computing, neural-network, computational-neuroscience, whole-brain-simulators]
+tags: [software-[[neuromorphic-computing]], [[spiking-neural-networks]], gpu-computing, [[neural-network]], [[computational-neuroscience]], [[whole-brain]]-simulators]
 sources:
   - "Nowke, C., Richter, M., & Morrison, A. (2019). GeNN: a code generation framework for accelerated brain simulation. Neuroinformatics."
   - "Knight, J.C., Nowke, C., & Tully, P.J. (2021). Scaling spiking neural network simulations on multi-GPU clusters with GeNN. Frontiers in Neuroscience."
@@ -28,7 +28,7 @@ sources:
 
 ## Overview
 
-GeNN (GPU-enhanced Neural Networks) is an open-source software library for high-performance simulation of spiking neural networks (SNNs) on graphics processing units (GPUs). Developed primarily at the University of Sussex, GeNN provides a code-generation approach that automatically produces optimized CUDA or OpenCL kernels from declarative network specifications, enabling simulations of large-scale neural circuits that would be prohibitively slow on traditional CPU-based simulators. The software supports a wide range of neuron models—including leaky integrate-and-fire, adaptive exponential integrate-and-fire (AdEx), and Izhikevich neuron models—as well as diverse synapse types with various plasticity rules such as spike-timing-dependent plasticity (STDP) and short-term plasticity [@Nowke2019].
+GeNN (GPU-enhanced Neural Networks) is an open-source software library for high-performance simulation of spiking neural networks (SNNs) on graphics processing units (GPUs). Developed primarily at the University of Sussex, GeNN provides a code-generation approach that automatically produces optimized CUDA or OpenCL kernels from declarative network specifications, enabling simulations of large-scale neural circuits that would be prohibitively slow on traditional CPU-based simulators. The software supports a wide range of neuron models—including leaky integrate-and-fire, adaptive exponential integrate-and-fire (AdEx), and [[izhikevich]] neuron models—as well as diverse synapse types with various [[plasticity]] rules such as spike-timing-dependent plasticity (STDP) and short-term plasticity [@Nowke2019].
 
 ## Motivation and Context
 
@@ -61,7 +61,7 @@ The Hodgkin-Huxley model, originally describing ionic currents in the squid gian
 
 ## Relationship to The Virtual Brain
 
-While GeNN is primarily designed as a general-purpose spiking neural network simulator, it shares conceptual territory with [[The Virtual Brain]] (TVB) in the sense that both tools enable large-scale brain network simulations. However, there is a key distinction: TVB operates at the level of neural mass models—where each brain region is represented by simplified averaged activity—whereas GeNN simulates at the level of individual spiking neurons. This makes GeNN particularly suitable for researchers investigating fine-scale dynamical properties that emerge from single-neuron and synapse-level interactions, such as spike timing, precise oscillatory patterns, and detailed plasticity mechanisms.
+While GeNN is primarily designed as a general-purpose spiking neural network simulator, it shares conceptual territory with [[The Virtual Brain]] (TVB) in the sense that both tools enable large-scale [[brain-network]] simulations. However, there is a key distinction: TVB operates at the level of [[neural-mass-models]]—where each brain region is represented by simplified averaged activity—whereas GeNN simulates at the level of individual spiking neurons. This makes GeNN particularly suitable for researchers investigating fine-scale dynamical properties that emerge from single-neuron and synapse-level interactions, such as spike timing, precise oscillatory patterns, and detailed plasticity mechanisms.
 
 For researchers seeking to bridge between these scales, GeNN could theoretically provide detailed local circuit models whose aggregate behavior informs neural mass parameters used in TVB. Similarly, GeNN simulations could be embedded within TVB's multi-scale framework to provide biologically detailed representations of specific regions while using mass models for the remainder of the brain. This integration represents an active area of methodological development in multi-scale brain modeling.
 
@@ -71,7 +71,7 @@ For researchers seeking to bridge between these scales, GeNN could theoretically
 - **Python interface (pyGeNN)**: High-level scripting for network construction and simulation control
 - **Flexible neuron models**: Support for standard point neuron models and compatibility with custom models defined in C++
 - **Spike-timing-dependent plasticity**: Multiple STDP variants including pair-based, triplet, and voltage-dependent rules
-- **Connectivity specifications**: Support for arbitrary connectivity patterns through sparse matrices and procedural generation
+- **[[connectivity]] specifications**: Support for arbitrary connectivity patterns through sparse matrices and procedural generation
 - **Recording framework**: Built-in tools for recording spikes, voltage traces, and synaptic variables with file formats compatible with analysis tools
 - **Multi-GPU support**: Domain decomposition for scaling to very large networks
 

@@ -14,7 +14,7 @@ tags:
 - connectomics
 title: BMTK
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-01'
 ---
 
 # BMTK (Brain Modeling Toolkit)
@@ -45,7 +45,7 @@ BMTK and [[TVB]] serve complementary roles in the multi-scale modeling ecosystem
 
 This hierarchical approach addresses a fundamental challenge in [[whole-brain-modeling]]: balancing biological realism with computational tractability. A purely BMTK-based whole-brain simulation would require simulating hundreds of millions of neurons, exceeding even the most powerful supercomputers. Conversely, a purely TVB-based model using simplified [[neural-mass-model]] approximations cannot capture certain cell-type-specific dynamics. The hybrid approach circumvents this by using detailed BMTK simulations to inform parameter constraints for TVB's reduced models, or by embedding BMTK circuit models within specific brain regions while using faster TVB approximations elsewhere.
 
-The coupling typically proceeds as follows: TVB's regional dynamics drive BMTK's input patterns (via external drives or current injections), while BMTK's simulated local field potentials or population firing rates feed back to TVB's regional activity. This bidirectional coupling requires careful handling of temporal scale differences, as BMTK simulations operate at millisecond resolution while TVB often uses millisecond-to-second timesteps.
+The coupling typically proceeds as follows: TVB's regional dynamics drive BMTK's input patterns (via external drives or current injections), while BMTK's simulated [[local-field-potentials]] or population firing rates feed back to TVB's regional activity. This bidirectional coupling requires careful handling of temporal scale differences, as BMTK simulations operate at millisecond resolution while TVB often uses millisecond-to-second timesteps.
 
 ## Related Software
 
@@ -72,5 +72,5 @@ The following publications form the foundational literature for BMTK and its eco
 ## References
 
 1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
-2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *Arbor-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
+2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
 3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](https://doi.org/10.3389/fncom.2025.1731161)

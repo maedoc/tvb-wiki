@@ -18,7 +18,7 @@ tags:
 - nonlinear-dynamics
 title: Bifurcation Analysis
 type: concept
-updated: '2026-04-30'
+updated: '2026-05-01'
 ---
 
 Bifurcation analysis is the mathematical study of qualitative changes in the behavior of dynamical systems as parameters vary smoothly. In the context of [[computational-neuroscience]], bifurcation analysis provides a powerful theoretical framework for understanding transitions between different brain states—including the switch from resting activity to oscillatory rhythms, and the emergence of pathological states such as epileptic seizures. Rather than treating brain states as fixed or stochastic, [[bifurcation-theory]] reveals that these states emerge from the underlying structure of the dynamical equations governing neural activity, and that transitions between states occur at specific parameter values called **bifurcation points**. This perspective has proven essential for interpreting [[neuroimaging]] data, designing [[brain-stimulation]] protocols, and building predictive models of neurological disorders.
@@ -107,7 +107,7 @@ For two-dimensional systems such as [[Wilson-Cowan]], phase plane analysis provi
 
 ### Numerical Continuation
 
-Software packages including AUTO, XPPAUT, and MATCONT enable numerical continuation—the tracing of solution branches (fixed points, limit cycles) as parameters vary. These tools can automatically detect and classify bifurcation points, compute stability along branches, and map out complete bifurcation diagrams. This is essential for high-dimensional systems where analytical approaches fail.
+Software packages including AUTO, [[xppaut]], and [[matcont]] enable numerical continuation—the tracing of solution branches (fixed points, limit cycles) as parameters vary. These tools can automatically detect and classify bifurcation points, compute stability along branches, and map out complete bifurcation diagrams. This is essential for high-dimensional systems where analytical approaches fail.
 
 ### Center Manifold and Normal Form Theory
 

@@ -13,7 +13,7 @@ tags:
 - neuroimaging-mri
 title: FreeView
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-01'
 ---
 
 # FreeView
@@ -22,7 +22,7 @@ FreeView is the native 3D visualization and inspection tool provided with the Fr
 
 ## Relationship to FreeSurfer
 
-FreeView is tightly integrated with the [[freesurfer]] processing pipeline. While it can be launched to view previously processed data, users must invoke it manually after running the `recon-all` pipeline—FreeView is not automatically launched when reconstruction completes. The tool reads the same file formats that FreeSurfer produces—primarily MGZ (compressed MGH format) and NIfTI for volumetric data, as well as FreeSurfer's own annotation and label files. When a subject has been processed through the standard `recon-all` pipeline, FreeView provides immediate access to the full suite of outputs including the cortical ribbon mesh (`lh.white` and `rh.white` surfaces), pial surfaces, inflated hemispheres, sphere maps for [[brain-parcellations]], and automated anatomical segmentations from the Desikan-Killiany atlas cite:Desikan2006 and other parcellation schemes.
+FreeView is tightly integrated with the [[freesurfer]] processing pipeline. While it can be launched to view previously processed data, users must invoke it manually after running the `recon-all` pipeline—FreeView is not automatically launched when reconstruction completes. The tool reads the same file formats that FreeSurfer produces—primarily MGZ (compressed MGH format) and NIfTI for volumetric data, as well as FreeSurfer's own annotation and label files. When a subject has been processed through the standard `recon-all` pipeline, FreeView provides immediate access to the full suite of outputs including the cortical ribbon mesh (`lh.white` and `rh.white` surfaces), pial surfaces, inflated hemispheres, sphere maps for [[brain-parcellations]], and automated anatomical segmentations from the Desikan-Killiany atlas cite:Desikan2006 and other [[parcellation]] schemes.
 
 The relationship between FreeView and [[freesurfer]] is analogous to the relationship between other neurovisualization packages and their parent software ecosystems. Unlike standalone viewers such as [[3d-slicer]] or [[itk-snap]] which can handle multiple input formats and processing pipelines, FreeView is optimized specifically for FreeSurfer outputs and provides specialized functionality for common FreeSurfer workflows such as editing segmentations, adjusting control points for gray-matter boundaries, and visualizing white matter constraints for tractography.
 

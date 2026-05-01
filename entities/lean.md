@@ -11,7 +11,7 @@ tags:
 - network-dynamics
 title: GLEAN
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-01'
 ---
 
 # GLEAN
@@ -30,7 +30,7 @@ GLEAN implements two complementary analytical approaches for network extraction.
 
 ## Relationship to TVB
 
-While GLEAN operates primarily on M/EEG data and The Virtual Brain (TVB) is typically used for [[whole-brain|whole-brain modeling]] with fMRI, EEG, and MEG simulation capabilities, the two frameworks are conceptually complementary. GLEAN's data-driven network decompositions can inform TVB model specification—for example, by identifying frequency bands and brain regions that show the strongest group-level covariation, which can then be targeted in TVB parameter optimization. Conversely, TVB's generative modeling framework could be used to simulate the network dynamics observed in GLEAN analyses, providing mechanistic interpretations of empirically derived state sequences. Both tools share an emphasis on network-level analysis of brain function, and future integration might involve using GLEAN-derived network parameters as constraints in TVB [[personalized-brain-modeling|personalized brain]] models, particularly for clinical applications in epilepsy and schizophrenia where electrophysiological biomarkers are increasingly important.
+While GLEAN operates primarily on M/EEG data and [[the-virtual-brain]] (TVB) is typically used for [[whole-brain|whole-brain modeling]] with fMRI, EEG, and MEG simulation capabilities, the two frameworks are conceptually complementary. GLEAN's data-driven network decompositions can inform TVB model specification—for example, by identifying frequency bands and brain regions that show the strongest group-level covariation, which can then be targeted in TVB parameter optimization. Conversely, TVB's generative modeling framework could be used to simulate the [[network-dynamics]] observed in GLEAN analyses, providing mechanistic interpretations of empirically derived state sequences. Both tools share an emphasis on network-level analysis of brain function, and future integration might involve using GLEAN-derived network parameters as constraints in TVB [[personalized-brain-modeling|personalized brain]] models, particularly for clinical applications in epilepsy and schizophrenia where electrophysiological biomarkers are increasingly important.
 
 ## Key Papers
 
@@ -54,4 +54,4 @@ Vidaurre, D., Smith, S. M., & Woolrich, M. W. (2017). A multivariate hidden Mark
 
 ## Open Questions and Limitations
 
-Several challenges remain in the application of GLEAN and similar group-level M/EEG analysis approaches. The choice between HMM and ICA decompositions is not guaranteed to produce anatomically meaningful components, and validation against known structural or functional networks is often required. The relationship between band-limited power fluctuations captured by GLEAN and the underlying synaptic activity remains an active area of investigation, particularly regarding the interpretation of high-frequency gamma oscillations. Additionally, the integration of M/EEG-derived network features with whole-brain models like TVB remains computationally non-trivial, requiring advances in parameter estimation and model validation frameworks.
+Several challenges remain in the application of GLEAN and similar group-level M/EEG analysis approaches. The choice between HMM and ICA decompositions is not guaranteed to produce anatomically meaningful components, and validation against known structural or functional networks is often required. The relationship between band-limited power fluctuations captured by GLEAN and the underlying synaptic activity remains an active area of investigation, particularly regarding the interpretation of high-frequency gamma oscillations. Additionally, the integration of M/EEG-derived network features with whole-brain models like TVB remains computationally non-trivial, requiring advances in [[parameter-estimation]] and [[model-validation]] frameworks.
