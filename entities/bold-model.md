@@ -1,6 +1,9 @@
 ---
 created: 2025-01-15
-sources: []
+sources:
+- raw/papers/arxiv-2506.22951.md
+- raw/papers/arxiv-2509.02799.md
+- raw/papers/semanticscholar-ce89e593c89e.md
 tags:
 - neuroimaging-fmri
 - hemodynamic-response-function

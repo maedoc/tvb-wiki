@@ -5,6 +5,7 @@ sources:
 - https://bids-specification.readthedocs.io
 - https://www.humanconnectome.org/study/hcp-young-adult
 - https://openneuro.org
+- raw/papers/gramfort-2013.md
 tags:
 - software
 - neuroimaging-eeg

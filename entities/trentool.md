@@ -5,6 +5,9 @@ sources:
 - wibral_2011
 - vicente_2011
 - lindevi_2015
+- raw/papers/sanz-leon-2013.md
+- raw/papers/ritter-2013.md
+- raw/papers/arxiv-2505.16861.md
 tags:
 - software
 - effective-connectivity

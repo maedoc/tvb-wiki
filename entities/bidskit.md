@@ -4,6 +4,9 @@ sources:
 - https://github.com/jmtyszka/bidskit
 - https://bidsspecification.readthedocs.io
 - https://pypi.org/project/bidskit/
+- raw/papers/semanticscholar-d6e43299345d.md
+- raw/papers/mijalkov-2017-braph.md
+- raw/papers/semanticscholar-a324c47ea982.md
 tags:
 - software-brain-modeling
 - software-bids

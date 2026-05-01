@@ -1,6 +1,9 @@
 ---
 created: 2025-01-15
-sources: []
+sources:
+- raw/papers/arxiv-2604.16463.md
+- raw/papers/woodman-2014.md
+- raw/papers/sanz-leon-2013.md
 tags:
 - software
 - software-tvb

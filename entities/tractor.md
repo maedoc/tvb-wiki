@@ -1,6 +1,9 @@
 ---
 created: 2025-01-15
-sources: []
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/woodman-2014.md
+- raw/papers/semanticscholar-380768cf42a8.md
 tags:
 - software-dti
 - software-tractography
