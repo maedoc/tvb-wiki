@@ -28,6 +28,14 @@
 
 - Created/Improved page: [[bidskit]] – DICOM to BIDS neuroimaging converter
   - Complete rewrite from placeholder to comprehensive entity page (~520 words)
+
+- Updated page: [[iclabel]] – EEG Independent Component Classifier
+  - Reviewed and enhanced existing content
+  - Added tags: source-separation, eeg
+  - Added second source: arxiv-1903.06496.md
+  - Expanded Relationship to TVB section with connectome and volume conduction context
+  - Added additional wikilinks: volume-conduction, connectome
+  - Verified frontmatter: updated date 2026-05-01
   - Updated frontmatter: changed updated date to 2026-05-01
   - Tags: software-brain-modeling, software-bids
   - Established 10+ wikilinks: bids, dcm2niix, heudiconv, dcm2bids, bidscoin, pybids, fmriprep, nilearn, the-virtual-brain, whole-brain-modeling, neuroimaging, fmri, diffusion-imaging, structural-connectivity, resting-state, personalized-brain-modeling, openneuro, tractography, mrtrix3, fsl, connectome
@@ -1187,3 +1195,5 @@
 ## [2026-05-01 20:21] Librarian: catalog rebuilt, 6630 asymmetric links noted
 
 ## [2026-05-01 20:21] Linter: 9 broken links, 66 orphans, 59 stale, 66 empty
+
+## [2026-05-01 20:27] Improve: 3 pages improved (bayes-factors, ciftify, hnn)
