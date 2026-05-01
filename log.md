@@ -2,6 +2,15 @@
 
 ## 2026-05-01
 
+- Created/Improved page: [[trc-toolkit]] – Toolkit for Research in Computation
+  - Complete rewrite from placeholder to comprehensive entity page (~600 words)
+  - Updated frontmatter: created 2025-01-15, updated date to 2026-05-01
+  - Tags: software-brain-modeling, software-visualization, connectomics, network-dynamics, whole-brain-modeling
+  - Established 12+ wikilinks: the-virtual-brain, nest, whole-brain-modeling, connectomics, structural-connectivity, dynamic-causal-modeling, neural-mass-models, jansen-rit-model, wong-wang-model, stochastic-differential-equations, fokker-planck-equation, variational-bayes, bifurcation-analysis, parameter-estimation, brain-connectivity-toolbox, brainnet-viewer, brainrender, nilearn, dipy, mrtrix3, fsl, tensorflow, bids
+  - Added detailed sections: Overview (software tools for whole-brain modeling and connectomics analysis), Motivation and Context (pipeline fragmentation in brain modeling, need for modularity), Key Features (preprocessing, connectivity, dynamical systems, parameter estimation, visualization modules), Relationship to TVB (complementary niche—data prep and analysis rather than simulation), Related Software (bctpy, graphvar, brainnet-viewer, brainrender, dipy, nilearn, nipype, tvb, nest, brian2), Open Questions (community adoption, BIDS support, GPU acceleration)
+  - Explained TRC Toolkit's role: modular toolkit for data handling, network construction, analysis, and visualization in computational neuroscience workflow
+  - Positioned as complementary to TVB: upstream data prep and downstream analysis, exporting to TVB-compatible formats
+
 - Created/Improved page: [[hnn]] – Human Neocortical Neurosolver for EEG/MEG interpretation
   - Complete rewrite from placeholder to comprehensive entity page (~550 words)
   - Updated frontmatter: created 2025-01-15, updated date to 2026-05-01
@@ -1149,3 +1158,7 @@
 ## [2026-05-01 12:15] Improve: 3 pages improved (mne-bids-pipeline, nitrc-ce, bidskit)
 
 ## [2026-05-01 13:27] Improve: 3 pages improved (bold-model, nitrc-ce, bidskit)
+
+## [2026-05-01 14:40] Improve: 2 pages improved (bold-model, hnn)
+
+- Updated tractor.md: Replaced placeholder content with comprehensive coverage of TractoR software including overview, technical architecture, tractography implementation, relationship to TVB, key features, publications, and related software. Added 10+ wikilinks.

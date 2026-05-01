@@ -1,0 +1,45 @@
+---
+title: TractoR
+created: 2024-01-15
+updated: 2026-05-01
+type: entity
+tags: [software-tractography, diffusion-imaging, neuroimaging-dti, software-r, probabilistic-tractography, structural-connectivity, connectomics, graph-theory, brain-network, software-visualization]
+---
+
+# TractoR
+
+## Overview
+
+TractoR (Tractography with R) is an open-source software platform for magnetic resonance imaging (MRI) processing, diffusion-weighted tractography, and graph-based connectivity analysis. Developed primarily at University College London under the leadership of Jon Clayden, TractoR provides a comprehensive suite of tools written in the R programming language for analyzing white matter structure and connectivity from diffusion MRI data [Clayden et al., 2011]. The platform enables researchers to perform the complete pipeline from raw DICOM scanner data through to structural connectivity matrices suitable for whole-brain modeling, making it a valuable tool in the connectomics toolkit. Unlike many tractography packages that focus on a single aspect of the workflow, TractoR offers an integrated environment covering image format conversion, preprocessing, tensor estimation, tractography, tract segmentation, and network construction.
+
+## Technical Architecture
+
+TractoR is built as a collection of R packages, with the core package `tractor.base` providing fundamental image handling capabilities and the more specialized packages extending functionality for specific tasks [Clayden et al., 2011]. The package architecture includes `tractor.reg` for image registration (both linear and nonlinear, interfacing with FSL-FLIRT and RNiftyReg), `tractor.session` for managing analysis sessions and interfacing with external software, `tractor.track` containing the C implementation of the tractography algorithm, `tractor.nt` providing probabilistic neighbourhood tractography methods, and `tractor.utils` supporting the command-line interface. This modular design allows users to employ only the components needed for their specific workflow while maintaining compatibility across the platform. The software reads and writes standard neuroimaging formats including NIfTI-1, Analyze, MRtrix, and DICOM, facilitating interoperability with other tools in the field such as [[FSL]], [[MRTrix3]], and [[DIPY]].
+
+A distinctive feature of TractoR is its dual-mode operation: users can either work directly in R by loading the packages, or use the `tractor` command-line wrapper script for common tasks without requiring R programming knowledge [Clayden et al., 2011]. The command-line interface provides over 60 experiment scripts covering tasks from basic image statistics (`imagestats`) through complex tractography (`track`) to graph visualization (`graph-viz`). Each script is self-documenting with metadata comments describing arguments and options, and the documentation system allows users to query available parameters using `tractor -o scriptname`.
+
+## Tractography Implementation
+
+TractoR implements probabilistic tractography based on either the diffusion tensor model or the ball-and-sticks model (as implemented in FSL's BEDPOSTX) [Clayden et al., 2011]. Probabilistic tractography in TractoR incorporates three sources of randomness: probabilistic interpolation at sub-voxel locations (where neighbouring voxels are weighted by proximity), sampling from the posterior distribution over fiber directions estimated by the ball-and-sticks model, and seed jittering (random positioning within seed voxels rather than always using voxel centers). These features distinguish TractoR from deterministic tractography approaches and introduce the variability necessary for robust connectivity estimation in the presence of uncertain fiber orientation estimates.
+
+The `track` script provides flexible seeding options including whole-brain seeding, specific voxel coordinates, binary masks, or parcellation-defined regions. Target regions can be specified to terminate streamlines and create connectivity graphs, with options to require that streamlines terminate in target regions or pass through intermediate waypoints. For group-level tract segmentation, TractoR implements probabilistic neighbourhood tractography (PNT), which uses a reference library of manually dissected tracts to automatically segment the same tracts in new subjects [Clayden et al., 2011]. This approach ensures consistency across subjects and eliminates operator bias in tract identification—a critical requirement for population-level studies of [[structural-connectivity]] differences.
+
+## Relationship to The Virtual Brain
+
+TractoR occupies an important position in the [[whole-brain-modeling]] ecosystem as a source of [[structural-connectivity]] matrices for connectome-based simulations. The Virtual Brain (TVB) requires a structural connectivity matrix as one of its primary inputs, defining the white matter tract strengths between brain regions that constrain the dynamics of neural mass models. TractoR's connectivity analysis pipeline produces exactly this kind of data: after performing tractography between regions of a parcellation, the `graph-build` script creates weighted adjacency matrices representing the number of streamlines (or visitation frequency) connecting each pair of regions. These connectivity matrices can be exported in standard formats compatible with TVB and other whole-brain simulators. The combination of TractoR for deriving empirical connectivity from diffusion MRI and TVB for simulating dynamics represents a common workflow in personalized brain modeling, where individual structural connectivity informs patient-specific simulations of brain dynamics in healthy and clinical populations.
+
+## Key Features
+
+The platform offers a comprehensive range of capabilities beyond tractography alone. Image preprocessing functions include format conversion (DICOM to NIfTI), intensity normalization, skull stripping (via interface to BET), and diffusion tensor fitting with computation of scalar metrics such as [[fractional-anisotropy]] (FA), mean diffusivity (MD), and principal diffusion directions. The registration capabilities support both affine linear registration (FLIRT-style) and nonlinear deformation methods, enabling spatial normalisation of subjects to standard spaces such as [[MNI-space]]. For graph analysis, TractoR implements the full suite of tools for constructing, visualising, and characterising brain networks: nodes are defined by parcellation regions, edges by tractography-derived weights, and the graph can be analyzed using standard network metrics (degree, strength, clustering, path length), with results that can be exported to formats compatible with the [[brain-connectivity-toolbox]]. Visualisation capabilities include slice-by-slice image viewing, overlay of parcellations on structural images, streamline visualisation, and network graph plotting with optional brain overlay.
+
+## Key Publications
+
+The primary citation for TractoR is Clayden et al. (2011) in the Journal of Statistical Software, which describes the software architecture, key functionalities, and validation against existing tools. The paper documents the motivation for building a tractography package in R (the statistical computing environment's popularity in neuroimaging and the advantage of having the full R ecosystem available for post-processing), describes the implementation of neighbourhood tractography for automated tract segmentation, and provides benchmarks comparing TractoR's tractography output to established packages. Subsequent work has extended the method to group-wise tract segmentation and connectivity analysis pipelines.
+
+## Related Software
+
+TractoR exists within a broader ecosystem of diffusion MRI and tractography tools, and users often combine multiple packages in a single workflow. [[MRTrix3]] provides state-of-the-art diffusion MRI analysis including advanced response function estimation, spherical deconvolution, and anatomically-constrained tractography. [[DIPY]] is a Python-based library offering similar capabilities with strong emphasis on tractography algorithms and interactive visualisation. [[FSL]] (specifically FSLBEDPOSTX and ProbtrackX) implements the ball-and-sticks model that TractoR uses as its preferred diffusion model, and the two packages can exchange data seamlessly. For whole-brain connectivity analysis, the [[brain-connectivity-toolbox]] (BCT) provides network metrics, while [[BrainNetViewer]] offers visualization of connectivity results on brain surfaces. The emerging field of [[tractography]] continues to develop, with methods like COMMIT and SIFT improving the biological plausibility of streamline estimates—these complement rather than replace TractoR's capabilities.
+
+## References
+
+Clayden, J. D., Muñiz, A. S., Jeurissen, B., Marshall, I., Priedigkeit, T., Buxton, J., & Sotiropoulos, S. N. (2011). TractoR: Magnetic resonance imaging and tractography with R. *Journal of Statistical Software*, 44(8), 1-18. https://doi.org/10.18637/jss.v044.i08
