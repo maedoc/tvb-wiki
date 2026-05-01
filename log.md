@@ -1173,3 +1173,5 @@
 ## [2026-05-01 17:10] Improve: 3 pages improved (trentool, tractor, hnn)
 
 ## [2026-05-01 17:30] RefFormatter: formatted references on 9 pages
+
+## [2026-05-01 18:37] CrosslinkApplier: added 236 wikilinks (236 inline, 0 suggested)
