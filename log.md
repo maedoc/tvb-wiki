@@ -1,5 +1,17 @@
 # Wiki Log
 
+## 2026-05-01
+
+- Created/Improved page: [[pydicom]] – Pure Python library for reading and writing DICOM medical imaging files
+  - Complete rewrite from placeholder to comprehensive entity page (~750 words)
+  - Updated frontmatter: changed updated date to 2026-05-01
+  - Tags: software-python, neuroimaging, software-visualization, software-dicom
+  - Established 10+ wikilinks: whole-brain-modeling, connectomics, diffusion-imaging, structural-connectivity, the-virtual-brain, dcm2niix, dti-tk, mrtrix3, nibabel, nilearn, nipype, dipy, freesurfer, fsl, ants, fmriprep, human-connectome-project, uk-biobank, functional-connectivity
+  - Added detailed sections: Overview (DICOM standard, pure Python), Motivation and Context (medical imaging formats, vendor extensions), Key Features (DICOM data elements, transfer syntaxes, pixel data extraction, lazy loading), Relationship to TVB (entry point for empirical neuroimaging data, preprocessing chain), Key Papers (software enabling publication), Related Software, Technical Considerations (vendor-specific private tags, transfer syntax, large-scale studies)
+  - Explained PyDICOM's role: foundational I/O layer for Python neuroimaging ecosystem
+  - Positioned as essential entry point for TVB preprocessing: raw DICOM to NIfTI to connectivity matrices
+  - Added to entities/index.md under Software Platforms
+
 ## 2026-04-30
 
 - Created/Improved page: [[nighres]] – Python package for high-resolution neuroimaging processing
@@ -1055,3 +1067,13 @@
 ## [2026-05-01 05:22] Improve: 3 pages improved (pydicom, boutiques, nighres)
 
 ## [2026-05-01 05:53] Matcher: 6 pages got 16 new sources
+
+## [2026-05-01 05:59] Improve: 3 pages improved (pydicom, boutiques, nighres)
+
+- Improved page: [[neurodesk]] – Complete rewrite from placeholder to comprehensive entity page (~900 words)
+  - Added comprehensive sections: Overview (containerized neuroimaging platform for reproducibility), Key Features (Neurodesktop, Neurocommand, Neurocontainers), Relationship to TVB (complementary roles in preprocessing vs. simulation), Key Papers (Renton et al. 2024 Nature Methods), Related Software (cbrain, brainlife, nipype, bidsapps)
+  - Updated frontmatter: changed updated to 2026-05-01, added sources: raw/papers/Renton2024.md, added tags: reproducibility, software-brain-modeling
+  - Added 12+ wikilinks: the-virtual-brain, whole-brain-modeling, freesurfer, fsl, afni, ants, mrtrix3, dsi-studio, qsiprep, fmriprep, mriqc, aslprep, eeglab, fieldtrip, mne-python, brainstorm, nipype, bids, brainlife, cbrain, neural-mass-models, computational-neuroscience
+  - Positioned as complement to TVB: provides data preprocessing pipeline for whole-brain modeling workflows
+  - Added technical architecture details: Docker/Singularity containers, CVMFS deployment, CI pipeline
+  - Included reproducibility findings: eliminated inter-computer differences shown in benchmark study
