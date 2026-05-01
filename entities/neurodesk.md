@@ -1,10 +1,17 @@
 ---
-title: Neurodesk
 created: 2024-03-15
-updated: 2026-05-01
+sources:
+- raw/papers/Renton2024.md
+tags:
+- software-neurodesk
+- reproducible-neuroimaging
+- containerization
+- neuroimaging-pipeline
+- cloud-computing
+- reproducible-research
+title: Neurodesk
 type: entity
-tags: [software-neurodesk, reproducible-neuroimaging, containerization, neuroimaging-pipeline, cloud-computing, reproducible-research]
-sources: []
+updated: '2026-05-01'
 ---
 
 ## Overview

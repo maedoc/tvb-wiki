@@ -1,10 +1,22 @@
 ---
-title: Boutiques
 created: 2025-01-15
-updated: 2026-05-01
+sources:
+- https://boutiques.github.io/
+- https://github.com/boutiques/boutiques
+- https://incf.org/
+- raw/papers/semanticscholar-9afbfd2d37be.md
+- raw/papers/semanticscholar-15c9336be64a.md
+- raw/papers/semanticscholar-97e6ff441097.md
+tags:
+- software-modeling
+- software-visualization
+- reproducibility
+- computational-neuroscience
+- bids
+- neuroml
+title: Boutiques
 type: entity
-tags: [software-modeling, software-visualization, reproducibility, computational-neuroscience, bids, neuroml]
-sources: [https://boutiques.github.io/, https://github.com/boutiques/boutiques, https://incf.org/]
+updated: '2026-05-01'
 ---
 
 ## Overview

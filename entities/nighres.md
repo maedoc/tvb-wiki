@@ -1,10 +1,25 @@
 ---
-title: Nighres
 created: 2025-01-15
-updated: 2026-05-01
+sources:
+- Marques2010
+- HCP2013
+- Weiner2014
+- Schiffer2017
+- Bazin2011
+- Greve2013
+- raw/papers/huntenburg-2018.md
+tags:
+- software-neuroimaging
+- neuroimaging-mri
+- laminar-imaging
+- cortical-analysis
+- software-python
+- parcellation
+- software-dipy
+- software-ants
+title: Nighres
 type: software
-tags: [software-neuroimaging, neuroimaging-mri, laminar-imaging, cortical-analysis, software-python, parcellation, software-dipy, software-ants]
-sources: [Marques2010, HCP2013, Weiner2014, Schiffer2017, Bazin2011, Greve2013]
+updated: '2026-05-01'
 ---
 
 ## Overview

@@ -5,11 +5,12 @@ sources:
 - raw/papers/smith-2013-connectomics.md
 - raw/papers/sporns-2011.md
 - raw/papers/arxiv-2601.03796.md
+- raw/papers/semanticscholar-028f7c6ac41d.md
 tags:
 - mni-space
 title: Mni Space
 type: concept
-updated: '2026-04-30'
+updated: '2026-05-01'
 ---
 
 Mni Space — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].

@@ -1095,3 +1095,5 @@
 ## [2026-05-01 09:27] Improve: 3 pages improved (boutiques, brainrender, neurodesk)
 
 ## [2026-05-01 10:38] Improve: 3 pages improved (boutiques, bidskit, neurodesk)
+
+## [2026-05-01 11:57] Improve: 3 pages improved (bidskit, mne-bids-pipeline, neurodesk)

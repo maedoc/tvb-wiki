@@ -1,10 +1,24 @@
 ---
-title: PyDICOM
 created: 2025-01-15
-updated: 2026-05-01
+sources:
+- pydicom-docs
+- pydicom-github
+- dcmtk-official
+- nibabel-paper
+- dcm2niix-paper
+- raw/papers/bein-2018.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/ritter-2013.md
+tags:
+- software-neuroimaging
+- neuroimaging
+- software-visualization
+- dti
+- diffusion-imaging
+- neuroimaging-dti
+title: PyDICOM
 type: entity
-tags: [software-neuroimaging, neuroimaging, software-visualization, dti, diffusion-imaging, neuroimaging-dti]
-sources: [pydicom-docs, pydicom-github, dcmtk-official, nibabel-paper, dcm2niix-paper]
+updated: '2026-05-01'
 ---
 
 ## Overview
