@@ -2,6 +2,11 @@
 
 ## 2026-05-01
 
+- Updated page: [[hnn]] – Removed References section per schema (separate agent handles formatting)
+  - Cleaned up frontmatter: emptied sources list (no source papers provided)
+  - Retained all content sections and wikilinks
+  - Kept updated date as 2026-05-01
+
 - Created/Improved page: [[trc-toolkit]] – Toolkit for Research in Computation
   - Complete rewrite from placeholder to comprehensive entity page (~600 words)
   - Updated frontmatter: created 2025-01-15, updated date to 2026-05-01
@@ -1162,3 +1167,5 @@
 ## [2026-05-01 14:40] Improve: 2 pages improved (bold-model, hnn)
 
 - Updated tractor.md: Replaced placeholder content with comprehensive coverage of TractoR software including overview, technical architecture, tractography implementation, relationship to TVB, key features, publications, and related software. Added 10+ wikilinks.
+
+## [2026-05-01 15:54] Improve: 3 pages improved (hnn, tractor, trc-toolkit)
