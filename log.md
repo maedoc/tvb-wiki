@@ -2,6 +2,16 @@
 
 ## 2026-05-01
 
+- Updated page: [[braincogs]] – NIH BRAIN Initiative research project on working memory and decision-making
+  - Complete rewrite from placeholder to comprehensive entity page (~750 words)
+  - Updated frontmatter: created 2026-04-30, updated date to 2026-05-01
+  - Tags: funding-project, lab-institute
+  - Added sources: https://braincogs.org, https://pniweb.cpaneldev.princeton.edu/research/programs-and-projects
+  - Established 15+ wikilinks: princeton-neuroscience-institute, schizophrenia-models, basal-ganglia, hippocampus, cerebellum, the-virtual-brain, whole-brain-modeling, dynamic-causal-modeling, effective-connectivity, neural-mass-models, network-dynamics, parameter-estimation, personalized-brain-modeling, brain-dynamics, brain-oscillations, excitation-inhibition-balance, bids, datalad, nwb, computational-neuroscience
+  - Added detailed sections: Overview and Scientific Motivation (working memory, cognitive basis), Research Components (Perturbations & Behavior, Cortical/Subcortical Dynamics, Neuronal Interactions, Analysis & Modeling), Key Investigators and Institutions, Relationship to Whole-Brain Modeling and TVB, Related Software and Tools
+  - Explained BrainCoGS as: multi-institutional NIH BRAIN Initiative project combining optogenetics, calcium imaging, connectomics, and computational modeling to understand decision-making circuits
+  - Positioned as relevant to TVB: shared focus on multi-region neural mass models, parameter estimation, effective connectivity, and whole-brain dynamics
+
 - Updated page: [[hnn]] – Removed References section per schema (separate agent handles formatting)
   - Cleaned up frontmatter: emptied sources list (no source papers provided)
   - Retained all content sections and wikilinks
@@ -1197,3 +1207,5 @@
 ## [2026-05-01 20:21] Linter: 9 broken links, 66 orphans, 59 stale, 66 empty
 
 ## [2026-05-01 20:27] Improve: 3 pages improved (bayes-factors, ciftify, hnn)
+
+## [2026-05-01 21:40] Improve: 3 pages improved (hnn, bayes-factors, iclabel)
