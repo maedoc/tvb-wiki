@@ -30,3 +30,5 @@
 ## [2026-05-02 17:31] RefFormatter: formatted references on 8 pages
 
 ## [2026-05-02 18:07] Improve: 3 pages improved (bcilab, neurom, suit)
+
+## [2026-05-02 18:47] CrosslinkApplier: added 172 wikilinks (172 inline, 0 suggested)
