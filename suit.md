@@ -3,7 +3,7 @@ title: SUIT - Spatially Unbiased Infratentorial Template
 created: 2025-01-15
 updated: 2026-05-02
 type: entity
-tags: [software-neuroimaging, neuroimaging-fmri, neuroimaging-mri, parcellation, brain-atlas, cerebellar-atlas, software-visualization, software-spm]
+tags: [neuroimaging-fmri, neuroimaging-dti, software-visualization, brain-parcellations]
 sources:
   - Diedrichsen, J. (2006). A spatially unbiased atlas template of the human cerebellum. Neuroimage, 33(1), 127-138.
   - Diedrichsen, J., Balsters, J. H., Flavell, J., Cussans, E., & Ramnani, N. (2009). A probabilistic atlas of the human cerebellum. Neuroimage, 46(1), 39-46.
@@ -45,7 +45,7 @@ The SUIT toolbox provides several integrated capabilities essential for cerebell
 
 ## Relationship to TVB
 
-SUIT is relevant to [[whole-brain modeling]] efforts such as [[the-virtual-brain]] (TVB) because cerebellar connectivity and function are increasingly incorporated into large-scale brain network models (King et al., 2019). The cerebellum contains approximately 70% of the brain's neurons despite representing only 10% of brain volume (Buckner et al., 2011), and its computational properties are essential for understanding predictive processing and motor learning in whole-brain frameworks (King et al., 2019). TVB's connectome-based modeling approach can benefit from SUIT's precise cerebellar parcellation when defining cerebellar nodes and their white-matter pathways derived from [[diffusion-imaging]] data (Diedrichsen & Balsters et al., 2009). Moreover, SUIT's normalization procedures improve the alignment of cerebellar structural connectivity data derived from [[tractography]], which feeds directly into whole-brain connectome construction (Diedrichsen et al., 2011).
+SUIT is relevant to [[whole-brain-modeling]] efforts such as [[the-virtual-brain]] (TVB) because cerebellar connectivity and function are increasingly incorporated into large-scale brain network models (King et al., 2019). The cerebellum contains approximately 70% of the brain's neurons despite representing only 10% of brain volume (Buckner et al., 2011), and its computational properties are essential for understanding predictive processing and motor learning in whole-brain frameworks (King et al., 2019). TVB's connectome-based modeling approach can benefit from SUIT's precise cerebellar parcellation when defining cerebellar nodes and their white-matter pathways derived from [[diffusion-imaging]] data (Diedrichsen & Balsters et al., 2009). Moreover, SUIT's normalization procedures improve the alignment of cerebellar structural connectivity data derived from [[tractography]], which feeds directly into whole-brain connectome construction (Diedrichsen et al., 2011).
 
 ## Relationship to Other Tools
 
@@ -83,9 +83,6 @@ The official SUIT toolbox and documentation can be accessed at the [Diedrichsen 
 
 ## See Also
 
-- [[cerebellum]] — The brain structure that SUIT is designed to analyze
-- [[brain-atlas]] — General category of anatomical and functional brain templates
-- [[parcellation]] — The process of dividing brain regions into discrete units
-- [[normalization]] — Image registration to standard stereotactic space
+- [[brain-parcellations]] — The process of dividing brain regions into discrete units
 - [[resting-state]] — Functional connectivity approach that can be applied to cerebellar data
 - [[diffusion-imaging]] — Technique for mapping white-matter connectivity to the cerebellum
