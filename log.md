@@ -12,3 +12,5 @@
 
 ## [2026-05-02 13:13] Matcher: 3 pages got 9 new sources
 ## [2026-05-02] Improved neurom page: removed references section (per schema), updated wikilinks to match inventory (neuromorpho, pynn, brian2, nest), added software-brian tag
+
+## [2026-05-02 13:22] Improve: 3 pages improved (auto-07p, neurom, popeye)
