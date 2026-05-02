@@ -33,6 +33,73 @@ import create_paper_stub
 
 log = get_logger("Improver")
 
+# ── Citation guard cooldown state ──────────────────────────────────────
+
+GUARD_COOLDOWN_FILE = os.path.join(WIKI_ROOT, "meta", "guard_cooldown.json")
+GUARD_COOLDOWN_HOURS = 24
+GUARD_REJECTION_THRESHOLD = 3
+
+
+def _load_cooldown() -> dict:
+    """Load per-page rejection timestamps."""
+    if not os.path.exists(GUARD_COOLDOWN_FILE):
+        return {}
+    try:
+        with open(GUARD_COOLDOWN_FILE, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except (json.JSONDecodeError, OSError):
+        return {}
+
+
+def _save_cooldown(state: dict) -> None:
+    """Save cooldown state."""
+    try:
+        os.makedirs(os.path.dirname(GUARD_COOLDOWN_FILE), exist_ok=True)
+        with open(GUARD_COOLDOWN_FILE, 'w', encoding='utf-8') as f:
+            json.dump(state, f, indent=2)
+    except OSError:
+        pass
+
+
+def _record_rejection(slug: str) -> None:
+    """Bump rejection count and set cooldown if threshold reached."""
+    state = _load_cooldown()
+    now = datetime.datetime.now().isoformat()
+    entry = state.get(slug, {"count": 0, "last": None, "until": None})
+    entry["count"] += 1
+    entry["last"] = now
+    if entry["count"] >= GUARD_REJECTION_THRESHOLD:
+        entry["until"] = (datetime.datetime.now() + datetime.timedelta(hours=GUARD_COOLDOWN_HOURS)).isoformat()
+        log.info("[Cooldown] %s enters 24h cooldown after %d rejections", slug, entry["count"])
+    state[slug] = entry
+    _save_cooldown(state)
+
+
+def _is_in_cooldown(slug: str) -> bool:
+    """Check if a page is currently in cooldown."""
+    state = _load_cooldown()
+    entry = state.get(slug)
+    if not entry or not entry.get("until"):
+        return False
+    until = datetime.datetime.fromisoformat(entry["until"])
+    if datetime.datetime.now() < until:
+        log.info("[Cooldown] Skipping %s (cooldown until %s)", slug, entry["until"])
+        return True
+    return False
+
+
+def _clear_expired_cooldowns() -> None:
+    """Remove expired cooldown entries."""
+    state = _load_cooldown()
+    now = datetime.datetime.now()
+    expired = [slug for slug, entry in state.items()
+               if entry.get("until") and now >= datetime.datetime.fromisoformat(entry["until"])]
+    if expired:
+        for slug in expired:
+            del state[slug]
+        _save_cooldown(state)
+        log.info("[Cooldown] Cleared %d expired entries", len(expired))
+
 
 # ── Page scoring ───────────────────────────────────────────────────────
 
@@ -765,6 +832,8 @@ def _citation_guard(page_path: str, stub_index: dict[str, str]) -> tuple[bool, l
     import re
     metadata, content = read_page(page_path)
     slug = os.path.splitext(os.path.basename(page_path))[0]
+    sources = get_sources(metadata)
+    n_sources = len(sources) if sources else 0
 
     citations = citation_verify.parse_inline_citations(content)
     if not citations:
@@ -776,6 +845,33 @@ def _citation_guard(page_path: str, stub_index: dict[str, str]) -> tuple[bool, l
     new_stubs = []
 
     for cite in citations:
+        # Skip bracket / superscript refs if within bounds of YAML sources
+        if cite.get("type") in ("superscript", "bracket_num"):
+            num = cite.get("num", 0)
+            if num <= n_sources:
+                verified_count += 1
+                continue
+            # If out of bounds, still flag it
+            issues.append(f"citation '{cite['text']}' out of bounds (page has {n_sources} sources)")
+            not_found_count += 1
+            continue
+
+        # Also skip bare DOIs that are already in the page's sources list
+        if cite.get("type") == "doi":
+            raw_doi = cite.get("doi", "")
+            # Check if this DOI appears in any source stub
+            source_match = False
+            for src in (sources or []):
+                if isinstance(src, str) and raw_doi in src:
+                    source_match = True
+                    break
+                if isinstance(src, dict) and raw_doi in str(src.get("doi", "")):
+                    source_match = True
+                    break
+            if source_match:
+                verified_count += 1
+                continue
+
         result = citation_verify.verify_citation(cite, stub_index)
         if result["status"] == "VERIFIED":
             verified_count += 1
@@ -821,6 +917,7 @@ def _citation_guard(page_path: str, stub_index: dict[str, str]) -> tuple[bool, l
 
     if not_found_count > 0:
         log.warn("[Guard] %s: %d/%d citations NOT_FOUND", slug, not_found_count, len(citations))
+        _record_rejection(slug)
         return False, issues
     return True, []
 
@@ -835,13 +932,21 @@ def run_improver_cycle(n_pages: int = None):
     n_pages = n_pages or PARALLEL_WRITERS
     log.info("Starting hourly cycle")
 
+    # Clear expired cooldowns
+    _clear_expired_cooldowns()
+
     # Build priority queue
     queue = build_priority_queue()
     log.info("Scoring %d pages, %d need improvement (score < 80)",
              len(get_all_pages()), len(queue))
 
+    # Filter out pages in cooldown
+    queue = [t for t in queue if not _is_in_cooldown(t['slug'])]
+    if len(queue) < len(get_all_pages()):
+        log.info("  %d pages after cooldown filter", len(queue))
+
     if not queue:
-        log.info("Cycle complete. All pages look good!")
+        log.info("Cycle complete. All pages look good (or in cooldown)!")
         return 0, 0
 
     # Pick worst N pages

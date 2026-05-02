@@ -350,19 +350,32 @@ def parse_inline_citations(text: str) -> list[dict]:
             "num": int(m.group(1)),
         })
 
-    # Pattern 4: DOI inline
+    # Pattern 4: DOI inline (case-insensitive for prefix, strips trailing punctuation)
     for m in re.finditer(
-        r"(?:https?://doi\.org/|DOI:?\s*)?(10\.\d{4,9}/[^\s\]]+)",
+        r"(?:https?://doi\.org/|doi:?\s*|DOI:?\s*)?(10\.\d{4,9}/[^\s\])}.,;]+)",
         clean_text,
         re.IGNORECASE,
     ):
-        results.append({
-            "text": m.group(0),
-            "type": "doi",
-            "doi": m.group(1),
-        })
+        doi = _clean_doi(m.group(1))
+        if doi:
+            results.append({
+                "text": m.group(0),
+                "type": "doi",
+                "doi": doi,
+            })
 
     return results
+
+
+def _clean_doi(doi: str) -> str | None:
+    """Strip trailing punctuation and validate a DOI string."""
+    if not doi:
+        return None
+    # Strip common trailing punctuation added by writers
+    doi = doi.rstrip(".,;:!?)}/")
+    if not doi.startswith("10."):
+        return None
+    return doi
 
 
 # ── Batch operations ───────────────────────────────────────────────────
