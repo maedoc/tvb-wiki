@@ -1,12 +1,16 @@
 ---
 created: 2026-04-30
-sources: []
+sources:
+- raw/papers/Renton2024.md
+- raw/papers/mijalkov-2017-braph.md
+- raw/papers/bein-2018.md
 tags:
 - software-brain-modeling
 title: DCMTK
 type: entity
-updated: 2026-05-02
+updated: '2026-05-02'
 ---
+
 title: DCMTK
 created: 2025-01-15
 updated: 2026-05-02

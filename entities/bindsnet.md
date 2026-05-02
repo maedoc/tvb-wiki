@@ -1,10 +1,22 @@
 ---
-title: BindsNET
 created: 2025-01-15
-updated: 2026-05-02
+sources:
+- https://github.com/BindsNET/bindsnet
+- https://openreview.net/forum?id=HJgG8l0FS
+- raw/papers/sanz-leon-2013.md
+- raw/papers/breakspear-2017.md
+- raw/papers/arxiv-2507.22146.md
+tags:
+- software
+- spiking-neural-networks
+- computational-neuroscience
+- neural-network
+- machine-learning
+- python
+- plasticity
+title: BindsNET
 type: entity
-tags: [software, spiking-neural-networks, computational-neuroscience, neural-network, machine-learning, python, plasticity]
-sources: [https://github.com/BindsNET/bindsnet, https://openreview.net/forum?id=HJgG8l0FS]
+updated: '2026-05-02'
 ---
 
 # BindsNET

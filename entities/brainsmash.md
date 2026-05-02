@@ -1,10 +1,25 @@
 ---
-title: BrainSMASH
 created: 2024-01-15
-updated: 2026-05-02
+sources:
+- burt-2020
+- bullmore-2009
+- zwellinger-2022
+- hacker-2022
+- raw/papers/woodman-2014.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/arxiv-2509.12873.md
+tags:
+- software-modeling
+- brain-connectivity-toolbox
+- python
+- statistical-analysis
+- functional-connectivity
+- structural-connectivity
+- null-models
+- connectomics
+title: BrainSMASH
 type: entity
-tags: [software-modeling, brain-connectivity-toolbox, python, statistical-analysis, functional-connectivity, structural-connectivity, null-models, connectomics]
-sources: [burt-2020, bullmore-2009, zwellinger-2022, hacker-2022]
+updated: '2026-05-02'
 ---
 
 ## Overview
