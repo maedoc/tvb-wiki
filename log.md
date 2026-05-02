@@ -1241,3 +1241,5 @@
 - Updated **braincogs** page: Added wikilinks for excitation-inhibition-balance, brain-dynamics, petra-ritter; added Key Researchers section; expanded tags to include computational-neuroscience, neural-mass-models, effective-connectivity, structural-connectivity; updated sources
 
 ## [2026-05-02 01:18] Improve: 3 pages improved (neurom, hnn, braincogs)
+
+## [2026-05-02 02:46] Improve: 3 pages improved (neurom, hnn, braincogs)
