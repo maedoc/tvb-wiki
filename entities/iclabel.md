@@ -1,97 +1,96 @@
----
-created: 2026-04-29
-sources:
-- arxiv-1903.06496
-- raw/papers/semanticscholar-9e42d6a25d21.md
-- raw/papers/semanticscholar-4d73a30d5c84.md
-- raw/papers/makeig-1996.md
-tags:
-- software-brain-modeling
-- source-separation
-- eeg
-title: ICLabel
-type: entity
-updated: '2026-05-02'
----
+---  
+created: 2026-04-29  
+sources:  
+- raw/papers/semanticscholar-9e42d6a25d21.md  
+- raw/papers/semanticscholar-4d73a30d5c84.md  
+- raw/papers/makeig-1996.md  
+tags:  
+- software-brain-modeling  
+- source-separation  
+- eeg  
+title: ICLabel  
+type: entity  
+updated: '2026-05-02'  
+---  
 
-**ICLabel** is an [[eeglab]] plugin that uses a deep [[neural-network]] to automatically classify independent components (ICs) derived from EEG recordings [[cite: arxiv-1903.06496]]. It categorizes ICs into six main types: brain (cortical), muscle (EMG), eye (EOG), heart (ECG), line noise (powerline interference), and channel noise (sensor artifacts) [[cite: arxiv-1903.06496]]. This automated classification addresses a major bottleneck in EEG preprocessing: the traditionally manual and time-consuming process of identifying and removing artifacts from ICA-decomposed data.
+**ICLabel** is an [[eeglab]] plugin that uses a deep [[neural-network]] to automatically classify independent components (ICs) derived from EEG recordings arxiv-1903.06496. It categorizes ICs into six main types: brain (cortical), muscle (EMG), eye (EOG), heart (ECG), line noise (powerline interference), and channel noise (sensor artifacts) arxiv-1903.06496. This automated classification addresses a major bottleneck in EEG preprocessing: the traditionally manual and time‑consistent process of identifying and removing artifacts from ICA‑decomposed data.  
 
-## Background
+## Background  
 
-### Independent Component Analysis in EEG
+### Independent Component Analysis in EEG  
 
-Independent Component Analysis (ICA) is a blind [[source-separation]] technique widely used in EEG preprocessing to decompose multichannel EEG recordings into statistically independent sources [[cite: arxiv-1903.06496]]. While ICA effectively separates genuine neural activity from various artifacts, it produces a set of components whose biological origin must be determined through expert review—a process that is subjective, labor-intensive, and scales poorly with large datasets.
+Independent Component Analysis (ICA) is a blind [[source-separation]] technique widely used in EEG preprocessing to decompose multichannel EEG recordings into statistically independent sources arxiv-1903.06496. While ICA effectively separates genuine neural activity from various artifacts, it produces a set of components whose biological origin must be determined through expert review—a process that is subjective, labor‑intensive, and scales poorly with large datasets.  
 
-### The Need for Automated Classification
+### The Need for Automated Classification  
 
-Manual IC classification requires expertise and can take hours for a single recording session. As EEGdatasets grow larger ([[resting-state]] recordings, task-based experiments, sleep studies), the manual approach becomes impractical. ICLabel addresses this by providing a data-driven, reproducible alternative that assigns probability scores to each IC category [[cite: arxiv-1903.06496]].
+Manual IC classification requires expertise and can take hours for a single recording session. As EEGdatasets grow larger ([[resting-state]] recordings, task‑based experiments, sleep studies), the manual approach becomes impractical. ICLabel addresses this by providing a data‑driven, reproducible alternative that assigns probability scores to each IC category arxiv-1903.06496.  
 
-## Technical Description
+## Technical Description  
 
-### Deep Neural Network Architecture
+### Deep Neural Network Architecture  
 
-ICLabel employs a convolutional neural network (CNN) trained on thousands of manually labeled ICs from the EEGLAB community [[cite: arxiv-1903.06496]]. The network learns spatial and spectral features that distinguish neural sources from various artifact categories. Each IC receives a probability vector indicating likelihood of belonging to each category, allowing researchers to set thresholds for inclusion or exclusion based on their specific requirements.
+ICLabel employs a convolutional neural network (CNN) trained on thousands of manually labeled ICs from the EEGLAB community arxiv-1903.06496. The network learns spatial and spectral features that distinguish neural sources from various artifact categories. Each IC receives a probability vector indicating likelihood of belonging to each category, allowing researchers to set thresholds for inclusion or exclusion based on their specific requirements.  
 
-### Component Categories
+### Component Categories  
 
-| Category | Description |
-|----------|-------------|
-| Brain (cortical) | Genuine neural activity from cortical sources |
-| Muscle (EMG) | Electromyographic activity from head and neck muscles |
-| Eye (EOG) | Electrooculographic activity from eye movements and blinks |
-| Heart (ECG) | Electrocardiographic activity from cardiac sources |
-| Line noise | Powerline interference (50/60 Hz) and harmonics |
-| Channel noise | Sensor artifacts, electrode pops, bad channels |
+| Category | Description |  
+|----------|-------------|  
+| Brain (cortical) | Genuine neural activity from cortical sources |  
+| Muscle (EMG) | Electromyographic activity from head and neck muscles |  
+| Eye (EOG) | Electrooculographic activity from eye movements and blinks |  
+| Heart (ECG) | Electrocardiographic activity from cardiac sources |  
+| Line noise | Powerline interference (50/60 Hz) and harmonics |  
+| Channel noise | Sensor artifacts, electrode pops, bad channels |  
 
-### Integration with EEGLAB
+### Integration with EEGLAB  
 
-As an EEGLAB plugin, ICLabel integrates seamlessly into existing EEG preprocessing pipelines. After running ICA decomposition, users can invoke ICLabel to obtain probability scores for all components. The plugin provides visualization tools for inspecting ICs and their classifications, facilitating rapid review and cleaning [[cite: arxiv-1903.06496]].
+As an EEGLAB plugin, ICLabel integrates seamlessly into existing EEG preprocessing pipelines. After running ICA decomposition, users can invoke ICLabel to obtain probability scores for all components. The plugin provides visualization tools for inspecting ICs and their classifications, facilitating rapid review and cleaning arxiv-1903.06496.  
 
-## Applications
+## Applications  
 
-### Preprocessing Pipeline
+### Preprocessing Pipeline  
 
-ICLabel is typically applied after ICA decomposition in standard EEG preprocessing workflows:
+ICLabel is typically applied after ICA decomposition in standard EEG preprocessing workflows:  
 
-1. Preprocess raw EEG (filtering, epoching, artifact rejection)
-2. Run ICA decomposition
-3. Apply ICLabel to classify all components
-4. Remove components exceeding threshold for artifact categories
-5. Reconstruct cleaned EEG data
+1. Preprocess raw EEG (filtering, epoching, artifact rejection)  
+2. Run ICA decomposition  
+3. Apply ICLabel to classify all components  
+4. Remove components exceeding threshold for artifact categories  
+5. Reconstruct cleaned EEG data  
 
-### Research Applications
+### Research Applications  
 
-The plugin has enabled large-scale analyses that would be prohibitively time-consuming with manual classification, including population-level studies of resting-state networks, developmental research tracking changes in artifact patterns across age groups, and clinical applications requiring rapid artifact rejection [[cite: arxiv-1903.06496]].
+The plugin has enabled large‑scale analyses that would be prohibitively time‑consistent with manual classification, including population‑level studies of resting‑state networks, developmental research tracking changes in artifact patterns across age groups, and clinical applications requiring rapid artifact rejection arxiv-1903.06496.  
 
-## Relationship to TVB
+## Relationship to TVB  
 
-ICLabel operates at the preprocessing stage, upstream of [[the-virtual-brain]] (TVB) pipeline. Its role is limited to identifying and removing artifact components from EEG data before it is used as input for brain modeling.
+ICLabel operates at the preprocessing stage, upstream of [[the-virtual-brain]] (TVB) pipeline. Its role is limited to identifying and removing artifact components from EEG data before it is used as input for brain modeling.  
 
-### Data Preparation for Connectivity Analysis
+### Data Preparation for Connectivity Analysis  
 
-Clean EEG data processed through ICLabel can be used as basis for constructing [[functional-connectivity]] matrices. However, this involves additional pipeline [[steps]] (source reconstruction, [[connectivity]] estimation) that are external to ICLabel's core functionality. The classification of ICs merely ensures that the cleaned data better reflects genuine neural activity rather than artifacts that could distort connectivity estimates.
+Clean EEG data processed through ICLabel can be used as basis for constructing [[functional-connectivity]] matrices. However, this involves additional pipeline [[steps]] (source reconstruction, [[connectivity]] estimation) that are external to ICLabel's core functionality. The classification of ICs merely ensures that the cleaned data better reflects genuine neural activity rather than artifacts that could distort connectivity estimates.  
 
-### Volume Conduction and Forward Modeling
+### Volume Conduction and Forward Modeling  
 
-When EEG data is used in TVB simulations, [[volume-conduction]] models are required to [[forward-model]] the electrical potentials generated by neural sources [[wikilink: volume-conduction]]. ICLabel itself does not participate in forward modeling; it simply provides cleaner input data.
+When EEG data is used in TVB simulations, [[volume-conduction]] models are required to [[forward-model]] the electrical potentials generated by neural sources [[volume-conduction]]. ICLabel itself does not participate in forward modeling; it simply provides cleaner input data.  
 
-### Connectome-Based Analyses
+### Connectome‑Based Analyses  
 
-Researchers may use ICLabel-cleaned EEG data in connectome-based investigations, though such analyses are distinct from TVB's whole-brain simulation framework [[wikilink: connectome]]. The preprocessing step is peripheral to TVB core functionality rather than integral to it.
+Researchers may use ICLabel‑cleaned EEG data in connectome‑based investigations, though such analyses are distinct from TVB's whole‑brain simulation framework [[mrtrix3-connectome]]. The preprocessing step is peripheral to TVB core functionality rather than integral to it.  
 
-### Electrophysiology Integration
+### Electrophysiology Integration  
 
-ICLabel contributes to electrophysiology preprocessing workflows that may feed into TVB's neural mass models [[wikilink: electrophysiology]]. The relationship is one of data preparation rather than direct model integration.
+ICLabel contributes to electrophysiology preprocessing workflows that may feed into TVB's neural mass models [[electrophysiology]]. The relationship is one of data preparation rather than direct model integration.  
 
-## See Also
+## See Also  
 
-- [[wikilink: EEGLAB]]
-- [[wikilink: independent-component-analysis]]
-- [[wikilink: eeg-preprocessing]]
-- [[wikilink: volume-conduction]]
-- [[wikilink: connectome]]
-- [[wikilink: electrophysiology]]
+- [[eeglab]]  
+- [[principal-component-analysis]]  
+- [[eeg]]  
+- [[volume-conduction]]  
+- [[mrtrix3-connectome]]  
+- [[electrophysiology]]  
 
-## References
+## References  
 
-- **ICLabel: An automated electroencephalographic independent component classifier with datasets and benchmarks** [[cite: arxiv-1903.06496]]
+- **ICLabel: An automated electroencephalographic independent component classifier with datasets and benchmarks** arxiv-1903.06496

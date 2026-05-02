@@ -5,9 +5,6 @@ sources:
 - https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1007696
 - https://github.com/AllenInstitute/sonata
 - https://github.com/BlueBrain/libsonata
-- raw/papers/geppetto-2018.md
-- raw/papers/semanticscholar-3256c8880985.md
-- raw/papers/glean-github.md
 tags:
 - software-brian
 - software-nest
@@ -23,13 +20,13 @@ updated: '2026-05-02'
 
 ## Overview
 
-SONATA (Scalable Open Network Architecture TemplAte) is a data format and software ecosystem for defining, configuring, and running large-scale neuronal network simulations. Originally developed jointly by the [Blue Brain Project](https://bluebrain.epfl.ch/) at EPFL and the Allen Institute for Brain Science, SONATA provides a standardized way to specify point-neuron networks—including cell positions, morphologies, [[connectivity]] matrices, and simulation parameters—in a machine-readable HDF5-based format [[Dai et al. 2020]](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1007696). The format was designed to address the growing need for interoperability between different [spiking neural network]([[spiking-neural-networks]]) simulators and to enable reproducible, scalable brain modeling at the tissue and [[whole-brain]] scale.
+SONATA (Scalable Open Network Architecture TemplAte) is a data format and software ecosystem for defining, configuring, and running large-scale neuronal network simulations. Originally developed jointly by the [Blue Brain Project](https://bluebrain.epfl.ch/) at EPFL and the Allen Institute for Brain Science, SONATA provides a standardized way to specify point-neuron networks—including cell positions, morphologies, [[connectivity]] matrices, and simulation parameters—in a machine-readable HDF5-based format Dai et al. 2020. The format was designed to address the growing need for interoperability between different [spiking neural network]([[spiking-neural-networks]]) simulators and to enable reproducible, scalable brain modeling at the tissue and [[whole-brain]] scale.
 
 ## Motivation and Context
 
 Before SONATA, neuronal network models were typically encoded in simulator-specific formats or custom Python scripts, making it difficult to share models across platforms or compare results from different simulators. The proliferation of incompatible file formats created significant barriers to [[reproducibility]] and collaboration in [[computational-neuroscience]]. SONATA emerged as part of the broader effort to standardize brain modeling infrastructure—paralleling developments like [NeuroML]([[neuroml]]) for model specification and [PyNEST]([[pynest]]) for simulator interoperability—by providing a declarative, simulator-agnostic description of network structure and simulation configuration.
 
-The format gained traction as the Blue Brain Project scaled up its cortical microcircuit models from thousands to millions of neurons, requiring a format that could efficiently handle large connectivity matrices, handle morphologies, and support parameterized variations. SONATA's design emphasizes scalability and separation of concerns: network structure, cell models, and simulation configuration are stored in distinct HDF5 groups that can be validated and processed independently [[Dai et al. 2020]](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1007696).
+The format gained traction as the Blue Brain Project scaled up its cortical microcircuit models from thousands to millions of neurons, requiring a format that could efficiently handle large connectivity matrices, handle morphologies, and support parameterized variations. SONATA's design emphasizes scalability and separation of concerns: network structure, cell models, and simulation configuration are stored in distinct HDF5 groups that can be validated and processed independently Dai et al. 2020.
 
 ## Technical Specification
 
@@ -43,7 +40,7 @@ While SONATA was developed primarily for cortical microcircuit and fine-scale ne
 
 ## Key Features
 
-SONATA offers several distinguishing capabilities that have driven its adoption in the computational neuroscience community. The format employs an HDF5-based binary format that enables efficient storage of millions of connections while maintaining high I/O performance for large-scale simulations [[Dai et al. 2020]](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1007696). Its simulator-agnostic specification of network structure allows compatibility with [Brian2]([[brian2]]), [NEST]([[nest]]), and [NEURON]([[neuron]]) through various adapter libraries such as the Brain Modeling Toolkit (BMTK), PyNN, and NetPyNE. The format enforces a clear separation of node (cell), edge (connection), and simulation configuration concerns, enabling modular reuse of network definitions across different simulation contexts. SONATA supports both morphological reconstructions and multi-compartment neuron specifications alongside simpler point-neuron models. Additionally, the `sonata-validate` command-line utility provides built-in validation of network files for compliance with the specification. The format integrates seamlessly with Blue Config and the broader Blue Brain Project simulation ecosystem, facilitating interoperability between different modeling tools developed by the Allen Institute and Blue Brain Project communities.
+SONATA offers several distinguishing capabilities that have driven its adoption in the computational neuroscience community. The format employs an HDF5-based binary format that enables efficient storage of millions of connections while maintaining high I/O performance for large-scale simulations Dai et al. 2020. Its simulator-agnostic specification of network structure allows compatibility with [Brian2]([[brian2]]), [NEST]([[nest]]), and [NEURON]([[neuron]]) through various adapter libraries such as the Brain Modeling Toolkit (BMTK), PyNN, and NetPyNE. The format enforces a clear separation of node (cell), edge (connection), and simulation configuration concerns, enabling modular reuse of network definitions across different simulation contexts. SONATA supports both morphological reconstructions and multi-compartment neuron specifications alongside simpler point-neuron models. Additionally, the `sonata-validate` command-line utility provides built-in validation of network files for compliance with the specification. The format integrates seamlessly with Blue Config and the broader Blue Brain Project simulation ecosystem, facilitating interoperability between different modeling tools developed by the Allen Institute and Blue Brain Project communities.
 
 ## Relationship to Other Software
 
@@ -63,12 +60,12 @@ As of 2026, SONATA remains primarily oriented toward point-neuron architectures.
 
 ## References
 
-- Dai K, Hernando J, Billeh YN, Gratiy SL, Planas J, Davison AP, Dura‑Bernal S, Gleeson P, Devresse A, Dichter BK, Gevaert M, King JGH, Van Geit WAH, Povolotsky AV, Muller E, Courcol J‑D, Arkhipov A. (2020). The SONATA data format for efficient description of large‑scale network models. PLoS Comput Biol 16(2): e1007696. https://doi.org/10.1371/journal.pcbi.1007696
+- Dai K, Hernando J, Billeh YN, Gratiy SL, Planas J, Davison AP, Dura-Bernal S, Gleeson P, Devresse A, Dichter BK, Gevaert M, King JGH, Van Geit WAH, Povolotsky AV, Muller E, Courcol J-D, Arkhipov A. (2020). The SONATA data format for efficient description of large-scale network models. PLoS Comput Biol 16(2): e1007696. https://doi.org/10.1371/journal.pcbi.1007696
 
 - Allen Institute for Brain Science. SONATA Data Format Repository. https://github.com/AllenInstitute/sonata
 
 - Blue Brain Project. libSONATA Library. https://github.com/BlueBrain/libsonata
 
-- Dura‑Bernal S, Suter BA, Gleeson P, Cantarelli M, Quintana A, Rodriguez F, et al. (2019). NetPyNE, a tool for data‑driven multiscale modeling of brain circuits. eLife, 8, e44494.
+- Dura-Bernal S, Suter BA, Gleeson P, Cantarelli M, Quintana A, Rodriguez F, et al. (2019). NetPyNE, a tool for data-driven multiscale modeling of brain circuits. eLife, 8, e44494.
 
 - Davison AP, Brüderle D, Eppler J, Kremkow J, Muller E, Pecevski D, et al. (2009). [[pynn]]: A Common Interface for Neuronal Network Simulators. Front Neuroinform 2: 11.

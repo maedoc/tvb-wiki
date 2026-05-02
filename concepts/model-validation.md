@@ -9,10 +9,10 @@ tags:
 - model-validation
 title: Model Validation
 type: concept
-updated: '2026-04-30'
+updated: '2026-05-02'
 ---
 
-Model Validation — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+Model Validation — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]]. Visualization tools such as [[gephi]] can aid in assessing network characteristics during validation.
 
 ## Related Concepts
 * [[sciunit]]

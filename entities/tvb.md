@@ -16,7 +16,7 @@ tags:
 - neural-mass-models
 title: TVB
 type: entity
-updated: '2026-05-01'
+updated: '2026-05-02'
 ---
 
 # TVB (The Virtual Brain)
@@ -59,6 +59,7 @@ TVB combines:
 - [[auryn]]
 - [[geppetto]]
 - [[gift]]
+- [[amico]]
 - [[brainglobe]]
 - [[braincogs]]
 - [[bindsnet]]

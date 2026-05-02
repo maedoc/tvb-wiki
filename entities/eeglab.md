@@ -11,7 +11,7 @@ tags:
 - software-eeglab
 title: EEGLAB
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-02'
 ---
 
 EEGLAB (eeglab) is a open-source MATLAB environment for processing and analyzing electroencephalographic (EEG) and magnetoencephalographic (MEG) data.
@@ -32,6 +32,7 @@ EEGLAB is often used alongside [[tvb]] and other simulation platforms in pre-pro
 * [[bids-validator]]
 * [[bidscoin]]
 * [[brainstorm]]
+* [[eegnet]]
 
 ## References
 
@@ -41,3 +42,29 @@ EEGLAB is often used alongside [[tvb]] and other simulation platforms in pre-pro
 4. R. A. Benn, Ting Xu, R. Mars, Magdalena Boch, Léa Roumazeilles, K. Heuer, Roberto Toro, D. Margulies, J. Manzano-Patrón, Paula Montesinos, C. Galán-Arriola, G. López-Martín, J. Sanchez-González, E. P. Duff, Borja Ibáñez. (2025). *Precon_all: A species-agnostic automated pipeline for non-human cortical surface reconstruction*. bioRxiv. [DOI](https://doi.org/10.1101/2025.04.16.649072)
 5. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2026). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research.*. [[brain-stimulation]]. [DOI](https://doi.org/10.1016/j.brs.2025.103016)
 6. Zhishun Wang, Feng Liu, Rachel Marsh, Gaurav H. Patel, J. Grinband. (2026). *MEPrep: A robust pipeline for multi-echo [[fmri]] denoising and preprocessing*. Imaging Neuroscience. [DOI](https://doi.org/10.1162/IMAG.a.1198)
+
+## ORPHAN PAGE CONTEXT (eegnet)
+---
+created: 2026-04-29
+sources:
+- raw/papers/semanticscholar-554ba2bab0d7.md
+- raw/papers/arxiv-2505.16861.md
+- raw/papers/semanticscholar-eb704b6f5462.md
+tags:
+- software-brain-modeling
+title: EEGNet
+type: entity
+updated: '2026-04-30'
+---
+
+title: EEGNet
+created: 2025-01-15
+updated: 2026-04-30
+type: entity
+tags: [software, [[neural-network]], [[neuroimaging]]-eeg, brain-computer-interface, deep-learning]
+sources: [raw/papers/lawhern-2018-eegnet.md]
+---
+
+## Overview
+
+EEGNet is a compact convolut

@@ -1,8 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- https://github.com/BindsNET/bindsnet
-- https://openreview.net/forum?id=HJgG8l0FS
 - raw/papers/sanz-leon-2013.md
 - raw/papers/breakspear-2017.md
 - raw/papers/arxiv-2507.22146.md

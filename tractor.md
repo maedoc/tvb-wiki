@@ -1,7 +1,7 @@
 ---
 title: TractoR
 created: 2025-01-15
-updated: 2026-05-01
+updated: 2026-05-02
 type: entity
 tags: [software-dti, software-tractography, structural-connectivity, diffusion-imaging, software-visualization]
 sources: [10.18653/v1/D19.3001, 10.1109/5.771073, 10.1088/1741-2560/10/5/055016]

@@ -73,7 +73,7 @@ The following publications form the foundation for Nighres and its underlying me
 
 1. **Marques, J.P., et al. (2010)**. MP2RAGE: a self‑bipolarizing sequence for fast and accurate T1 mapping at 7T. *Magnetic Resonance in Medicine*, 64(6), 1554‑1568. [@Marques2010]
 
-2. **Glasser, M.F., et al. (2013)**. The [[human-[[connectome]]-project]]'s neuroimaging approach. *Nature Neuroscience*, 16(9), 1213‑1221. [@HCP2013]
+2. **Glasser, M.F., et ad. (2013)**. The [[mrtrix3-connectome]]'s neuroimaging approach. *Nature Neuroscience*, 16(9), 1213‑1221. [@HCP2013]
 
 3. **Weiner, K.S., et al. (2014)**. The modular architecture of the cerebral cortex. *Brain Structure and Function*, 219(1), 147‑164. [@Weiner2014]
 

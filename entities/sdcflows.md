@@ -8,7 +8,7 @@ tags:
 - software-brain-modeling
 title: SDCflows
 type: entity
-updated: '2026-05-01'
+updated: '2026-05-02'
 ---
 
 title: SDCflows
@@ -120,13 +120,13 @@ sources:
       - name: Constable Robert T
 ---
 
-SDCflows (Susceptibility Distortion Correction flows) is a Python-based software package designed to correct geometric distortions in diffusion-weighted MRI (DWI) data caused by magnetic susceptibility differences between tissues, particularly at air-tissue interfaces in the orbitofrontal and temporal regions. These distortions manifest as geometric warping that can severely compromise the accuracy of [[tractography]]-derived [[structural connectivity]] estimates if left uncorrected. SDCflows provides a modular, automated pipeline for estimating and applying susceptibility-related distortion fields, drawing on established methods from [[fsl]] (notably TOPUP [[@smith2004topup]] and EDDY [[@Anderssen2014eddy]]) while wrapping them in a standardized Nipype-based workflow that integrates seamlessly with larger preprocessing chains like [[qsiprep]] [[@qsiprep]].
+SDCflows (Susceptibility Distortion Correction flows) is a Python-based software package designed to correct geometric distortions in diffusion-weighted MRI (DWI) data caused by magnetic susceptibility differences between tissues, particularly at air-tissue interfaces in the orbitofrontal and temporal regions. These distortions manifest as geometric warping that can severely compromise the accuracy of [[tractography]]-derived [[structural connectivity]] estimates if left uncorrected. SDCflows provides a modular, automated pipeline for estimating and applying susceptibility-related distortion fields, drawing on established methods from [[fsl]] (notably TOPUP and EDDY while wrapping them in a standardized Nipype-based workflow that integrates seamlessly with larger preprocessing chains like [[qsiprep]] [[smriprep]].
 
 ## Motivation and Problem Context
 
 Diffusion MRI relies on measuring the displacement of water molecules along anisotropic diffusion directions to infer the orientation of [[white-matter]] fiber bundles. The signal acquisition is inherently sensitive to magnetic field inhomogeneities, which arise both from the scanner's main field (B0 inhomogeneities) and from local variations in magnetic susceptibility caused by differences in tissue composition. Susceptibility differences are particularly pronounced near air-filled sinuses and bone, producing geometric distortions that scale with echo time and field strength—a problem that intensifies with higher field strengths like 3T and 7T. Without correction, these distortions can shift voxel positions by several millimeters, misaligning [[diffusion-imaging]] data with anatomical references and introducing systematic errors into [[connectome]] reconstructions.
 
-Prior to SDCflows, researchers had to manually orchestrate multiple tools—FSL's TOPUP for estimating the field map from pairs of opposite-phase encoding images, Eddy for correcting eddy-current-induced motion artifacts, and custom scripts for applying the corrections in the correct order [[@smith2004topup]][[@Anderssen2014eddy]]. This workflow was error-prone, poorly documented, and difficult to reproduce across labs. SDCflows automated this process by implementing a unified framework that handles field map estimation, metric optimization, and warping field application within a single, reproducible Python package [[@esteban2019sdclow]].
+Prior to SDCflows, researchers had to manually orchestrate multiple tools—FSL's TOPUP for estimating the field map from pairs of opposite-phase encoding images, Eddy for correcting eddy-current-induced motion artifacts, and custom scripts for applying the corrections in the correct order. This workflow was error-prone, poorly documented, and difficult to reproduce across labs. SDCflows automated this process by implementing a unified framework that handles field map estimation, metric optimization, and warping field application within a single, reproducible Python package.
 
 ## Technical Approach
 
@@ -136,16 +136,16 @@ The pipeline proceeds in three stages: first, an *unwarping* stage estimates the
 
 ## Relationship to TVB and Whole-Brain Modeling
 
-For [[whole-brain modeling]] efforts using [[the-virtual-brain]], accurate [[structural-connectivity]] matrices derived from [[tractography]] form the anatomical scaffold upon which neural mass models are embedded. SDCflows plays an indirect but critical role in this pipeline: by improving the spatial fidelity of [[diffusion-imaging]] data, it directly enhances the quality of [[connectome]] reconstructions that feed into personalized brain models. When combined with tools like [[mrtrix3-connectome]] workflows, SDCflows-preprocessed data yield more accurate fiber orientation distributions, which translate into more reliable [[structural-connectivity]] estimates for whole-brain simulations. This improvement is particularly relevant for clinical applications like [[epilepsy-modeling]] or [[alzheimers-modeling]], where small errors in connectivity can compound across simulation timecourses [[@qsiprep]].
+For [[whole-brain modeling]] efforts using [[the-virtual-brain]], accurate [[structural-connectivity]] matrices derived from [[tractography]] form the anatomical scaffold upon which neural mass models are embedded. SDCflows plays an indirect but critical role in this pipeline: by improving the spatial fidelity of [[diffusion-imaging]] data, it directly enhances the quality of [[connectome]] reconstructions that feed into personalized brain models. When combined with tools like [[mrtrix3-connectome]] workflows, SDCflows-preprocessed data yield more accurate fiber orientation distributions, which translate into more reliable [[structural-connectivity]] estimates for whole-brain simulations. This improvement is particularly relevant for clinical applications like [[epilepsy-modeling]] or [[alzheimers-modeling]], where small errors in connectivity can compound across simulation timecourses [[smriprep]].
 
 ## Key Software Relationships
 
-SDCflows was developed by the NiPreps team [[@esteban2021nipreps]], primarily at the University of Southern California (USC), Stanford University, and collaborating institutions. It depends critically on [[fsl]] (specifically TOPUP [[@smith2004topup]] and EDDY [[@Anderssen2014eddy]]), uses [[nipype]] for workflow orchestration, and outputs data compatible with [[mrtrix3]] and [[ants]] for subsequent processing. It fills a similar niche for diffusion data that [[fmriprep]] occupies for functional MRI—providing automated, reproducible preprocessing with minimal user intervention [[@esteban2019sdclow]].
+SDCflows was developed by the NiPreps team, primarily at the University of Southern California (USC), Stanford University, and collaborating institutions. It depends critically on [[fsl]] (specifically TOPUP and EDDY, uses [[nipype]] for workflow orchestration, and outputs data compatible with [[mrtrix3]] and [[ants]] for subsequent processing. It fills a similar niche for diffusion data that [[fmriprep]] occupies for functional MRI—providing automated, reproducible preprocessing with minimal user intervention.
 
 ## Related Software
 
-- [[qsiprep]] — Quantitative Structure Preprocessing, the primary consumer of SDCflows [[@qsiprep]]
-- [[fsl]] — Provides TOPUP [[@smith2004topup]] and EDDY [[@Anderssen2014eddy]] algorithms used internally
+- [[qsiprep]] — Quantitative Structure Preprocessing, the primary consumer of SDCflows
+- [[fsl]] — Provides TOPUP and EDDY algorithms used internally
 - [[mrtrix3]] — Downstream tractography tool requiring distortion-corrected input
 - [[ants]] — Used for registration-based warping operations
 - [[dipy]] — Alternative diffusion analysis library with related capabilities

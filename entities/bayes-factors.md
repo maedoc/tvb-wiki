@@ -1,11 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- jeffreys1961
-- kass1995
-- friston2003
-- friston2007
-- stephens2009
 - raw/papers/semanticscholar-60ca593f7e0c.md
 - raw/papers/arxiv-2604.17151.md
 - raw/papers/arxiv-2512.03907.md

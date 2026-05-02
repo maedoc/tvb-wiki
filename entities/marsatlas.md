@@ -3,7 +3,7 @@ created: 2026-04-29
 sources:
 - raw/papers/bullmore-sporns-2009.md
 - raw/papers/sanz-leon-2013.md
-- raw/papers/semanticscholar-028f7c6ac41d.md
+- raw/papers/semanticscholar-028f6ac41d.md
 - raw/papers/sporns-2011.md
 tags:
 - software-brain-modeling
@@ -57,11 +57,11 @@ Related atlases include the [AAL Atlas][aal-atlas], [Brainnetome Atlas][brainnet
 
 2. Schaefer, A., Kong, R., Gordon, E. M., Laumann, T. O., Zuo, X. N., Holmes, A. J., ... & Yeo, B. T. (2018). Local-global parcellation of the human cerebral cortex from intrinsic [[functional-connectivity]]. *Cerebral Cortex*, 28(9), 3095-3114. [Functional parcellation comparison]
 
-3. Desikan, R. S., Ségonne, F., Fischl, B., Quinn, B. T., Dickerson, B. C., Blacker, D., ... & Killiany, R. J. (2006). An automated labeling system for subdividing the human cerebral cortex on MRI scans into gyral based regions of interest. *NeuroImage*, 31(3), 968-980. [[[desikan-killiany-atlas]] reference]
+3. Desikan, R. S., Ségonne, F., Fischl, B., Quinn, B. T., Dickerson, B. C., Blacker, D., ... & Killiany, R. J. (2006). An automated labeling system for subdividing the human cerebral cortex on MRI scans into gyral based regions of interest. *NeuroImage*, 31(3), 968-980. [[jhu-white-matter-atlas|reference]]
 
 4. Jirsa, V. K., Proix, T., Perdikis, D., Woodman, M. M., Jacobsen, H., Le Cerf, E., ... & Vuust, P. (2017). [[the-virtual-brain]]: a simulator of primate brain [[network-dynamics]]. *NeuroImage*, 141, 511-528. [TVB foundational paper]
 
-5. Bullmore, E. T., & Sporns, O. (2009). Complex brain networks: graph theoretical analysis of structural and functional systems. *Nature Reviews Neuroscience*, 10(3), 186-198. [[[netneuroscience|Network neuroscience]] background]
+5. Bullmore, E. T., & Sporns, O. (2009). Complex brain networks: graph theoretical analysis of structural and functional systems. *Nature Reviews Neuroscience*, 10(3), 186-198. [[netneuroscience|Network neuroscience]] background
 
 6. Fornito, A., Zalesky, A., & Bullmore, E. (2016). *Fundamentals of [[brain-network]] Analysis*. Academic Press. [Network analysis methods]
 

@@ -10,8 +10,7 @@ tags:
 - software-brain-modeling
 title: Desikan-Killiany Atlas
 type: entity
-updated: '2026-05-01'
----
+updated: '2026-05-02'
 
 title: Desikan-Killiany Atlas
 created: 2025-01-15
@@ -19,23 +18,20 @@ updated: 2026-04-29
 type: entity
 tags: [[stochastic-differential-equations]], [[neuroimaging]], structural-[[connectivity]], freesurfer, [[harvard-oxford-atlas]], destrieux-atlas, glasser-atlas, schaefer-atlas
 sources: [Desikan et al., 2006; Klein & Tourville, 2012]
----
 
-The Desikan-Killiany Atlas is a widely used cortical [[parcellation]] scheme that divides the human cerebral cortex into anatomically defined regions based on magnetic resonance imaging (MRI). Developed by Rahul Desikan, Robert Killiany, and colleagues, this atlas provides a standardized framework for quantifying regional brain structure and function in both healthy and clinical populations [[Desikan et al., 2006]]. The atlas is characterized by its use of easily identifiable anatomical landmarks—primarily sulcal patterns—that allow for reasonably consistent manual delineation across brains, making it particularly suitable for automated segmentation pipelines that require robust anatomical priors.
+The Desikan-Killiany Atlas is a widely used cortical [[parcellation]] scheme that divides the human cerebral cortex into anatomically defined regions based on magnetic resonance imaging (MRI). Developed by Rahul Desikan, Robert Killiany, and colleagues, this atlas provides a standardized framework for quantifying regional brain structure and function in both healthy and clinical populations [[desikan-killiany-atlas]]. The atlas is characterized by its use of easily identifiable anatomical landmarks—primarily sulcal patterns—that allow for reasonably consistent manual delineation across brains, making it particularly suitable for automated segmentation pipelines that require robust anatomical priors.
 
 ## Historical Context and Motivation
 
-The development of the Desikan-Killiany Atlas emerged from a critical need in the neuroimaging community: the absence of a reliable, anatomically validated cortical parcellation scheme that could be applied across different research studies and imaging modalities. Prior to its introduction, researchers often relied on manually defined regions of interest that varied considerably between laboratories, making cross-study comparisons extremely difficult. The atlas was first described in a landmark 2006 paper by Desikan et al. in *NeuroImage* [[Desikan et al., 2006]], where the authors demonstrated that automated segmentation using this parcellation could achieve high accuracy when compared to expert manual tracings.
+The development of the Desikan-Killiany Atlas emerged from a critical need in the neuroimaging community: the absence of a reliable, anatomically validated cortical parcellation scheme that could be applied across different research studies and imaging modalities. Prior to its introduction, researchers often relied on manually defined regions of interest that varied considerably between laboratories, making cross-study comparisons extremely difficult. The atlas was first described in a landmark 2006 paper by Desikan et al. in *NeuroImage* [[desikan-killiany-atlas]], where the authors demonstrated that automated segmentation using this parcellation could achieve high accuracy when compared to expert manual tracings.
 
-The Desikan-Killiany Atlas divides each cerebral hemisphere into 34 cortical regions, yielding a total of 68 regions across both hemispheres. The parcellation is primarily based on sulcal anatomy, with key boundaries defined by major sulci including the central sulcus, lateral sulcus (Sylvian fissure), cingulate sulcus, and superior frontal sulcus [[Desikan et al., 2006]]. Each region is labeled with a descriptive name that reflects its anatomical location—for example, the "caudal middle frontal gyrus", "pars opercularis", and "isthmus of the cingulate gyrus."
+The Desikan-Killiany Atlas divides each cerebral hemisphere into 34 cortical regions, yielding a total of 68 regions across both hemispheres. The parcellation is primarily based on sulcal anatomy, with key boundaries defined by major sulci including the central sulcus, lateral sulcus (Sylvian fissure), cingulate sulcus, and superior frontal sulcus [[desikan-killiany-atlas]]. Each region is labeled with a descriptive name that reflects its anatomical location—for example, the "caudal middle frontal gyrus", "pars opercularis", and "isthmus of the cingulate gyrus."
 
 ## Technical Description
 
-The Desikan-Killiany Atlas divides each cerebral hemisphere into 34 cortical regions, yielding a total of 68 regions across both hemispheres. The parcellation is primarily based on sulcal anatomy, with key boundaries defined by major sulci including the central sulcus, lateral sulcus (Sylvian fissure), cingulate sulcus, and superior frontal sulcus [[Desikan et al., 2006]]. Each region is labeled with a descriptive name that reflects its anatomical location—for example, the "caudal middle frontal gyrus", "pars opercularis", and "isthmus of the cingulate gyrus."
+The Desikan-Killiany Atlas divides each cerebral hemisphere into 34 cortical regions, yielding a total of 68 regions across both hemispheres. The parcellation is primarily based on sulcal anatomy, with key boundaries defined by major sulci including the central sulcus, lateral sulcus (Sylvian fissure), cingulate sulcus, and superior frontal sulcus [[desikan-killiany-atlas]]. Each region is labeled with a descriptive name that reflects its anatomical location—for example, the "caudal middle frontal gyrus", "pars opercularis", and "isthmus of the cingulate gyrus."
 
 The atlas is implemented in the [[FreeSurfer]] software package [[anticevic-2012]], which uses a probabilistic atlas combined by Bayesian segmentation to automatically label voxels in a patient's native MRI space. This automation was revolutionary for its time, as it reduced the enormous labor required for manual segmentation while improving [[reproducibility]] across studies. The FreeSurfer implementation also provides confidence maps that indicate the reliability of the segmentation for each voxel, allowing researchers to mask out uncertain regions in subsequent analyses.
-
-## Relationship to TVB and Whole-Brain Modeling
 
 In the context of whole-brain modeling, the Desikan-Killiany Atlas serves as a critical node definition scheme for constructing [[structural connectivity|connectomes]]. When building models in [[The Virtual Brain]] (TVB), the cortical regions defined by this parcellation typically form the nodes of the network, while the edges are defined by [[structural connectivity]] matrices derived from matrices derived from [[neuroimaging]] (DTI) or probabilistic tractography Jeurissen et al., 2014. The relatively coarse granularity of 68 regions makes it computationally tractable for large-scale simulations while retaining sufficient anatomical detail to capture major cortical divisions.
 
@@ -43,7 +39,7 @@ The atlas is frequently used in TVB workflows for both epilepsy modeling and res
 
 ## Key Papers and Validation
 
-The original validation study demonstrated high inter-rater reliability (intraclass correlation coefficients > 0.9) for manual delineation and strong correspondence between automated and manual segmentations [[desikan-killiany-atlas]]. Subsequent studies have validated the atlas in diverse populations including children, elderly individuals, and clinical groups with neurological and psychiatric conditions [[Klein & Tourville, 2012]]. The atlas has been particularly influential in studies of Alzheimer's disease, where regional cortical thinning in areas such as the entorhinal cortex and superior temporal gyrus—both defined in this parcellation—has been shown to be a sensitive biomarker for early neurodegeneration.
+The original validation study demonstrated high inter-rater reliability (intraclass correlation coefficients > 0.9) for manual delineation and strong correspondence between automated and manual segmentations [[desikan-killiany-atlas]]. Subsequent studies have validated the atlas in diverse populations including children, elderly individuals, and clinical groups with neurological and psychiatric conditions [[anticevic-2012]]. The atlas has been particularly influential in studies of Alzheimer's disease, where regional cortical thinning in areas such as the entorhinal cortex and superior temporal gyrus—both defined in this parcellation—has been shown to be a sensitive biomarker for early neurodegeneration.
 
 ## Related Atlases and Software
 

@@ -1,10 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- burt-2020
-- bullmore-2009
-- zwellinger-2022
-- hacker-2022
 - raw/papers/woodman-2014.md
 - raw/papers/sanz-leon-2013.md
 - raw/papers/arxiv-2509.12873.md

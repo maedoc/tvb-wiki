@@ -12,7 +12,7 @@ tags:
 - software-neuroml
 title: NeuroML
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-02'
 ---
 
 NeuroML (neuroml) is a standardized model description language for [[computational-neuroscience]], enabling exchangeable, simulator-independent neural models.
@@ -33,6 +33,7 @@ NeuroML is often used alongside [[tvb]] and other simulation platforms in pre-pr
 * [[bids-validator]]
 * [[bidscoin]]
 * [[brainstorm]]
+* [[jneuroml]]
 
 ## References
 
@@ -43,3 +44,31 @@ NeuroML is often used alongside [[tvb]] and other simulation platforms in pre-pr
 5. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2018.05.040)
 6. C. Linssen, Pooja N. Babu, Jochen M. Eppler, Luca Koll, Bernhard Rumpe, Abigail Morrison. (2025). *NESTML: a generic modeling language and code generation tool for the simulation of [[spiking-neural-networks]] with advanced [[plasticity]] rules*. Frontiers Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2025.1544143)
 7. (authors unknown). *[[braph]]: A Pipeline for Brain [[connectivity]] Analysis*.
+
+## ORPHAN PAGE CONTEXT (jneuroml)
+---
+created: 2025-01-15
+sources:
+- raw/papers/semanticscholar-30b44563f4bd.md
+- raw/papers/semanticscholar-5c84b271b035.md
+- raw/papers/semanticscholar-9afbfd2d37be.md
+- raw/papers/semanticscholar-eb4197c24bf2.md
+tags:
+- software-neuroml
+- neuroml
+- spiking-neural-networks
+- computational-neuroscience
+- java
+- model-validation
+- standards
+- neurodevelopment
+title: jNeuroML
+type: entity
+updated: '2026-04-30'
+---
+
+# jNeuroML
+
+## Overview
+
+jNeuroML is a Java-based software package that provides bot
