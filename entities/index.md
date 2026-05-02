@@ -4,32 +4,35 @@ A collection of people, software platforms, datasets, and research groups releva
 
 ## Software Platforms
 
-- [TVB](tvb.md) – The Virtual Brain simulator
-- [Geppetto](geppetto.md) – Computational simulation engine for whole-brain modeling
-- [HNN](hnn.md) – Human Neocortical Neurosolver for EEG/MEG interpretation
-- [NEST](nest.md) – Spiking neural network simulator
-- [NEURON](neuron.md) – Detailed multicompartment neuron simulator
-- [Cartool](cartool.md) – EEG analysis and source localization software
-- [3D Slicer](3d-slicer.md) – Open-source medical image computing and visualization platform
-- [ANTs](ants.md) – Advanced Normalization Tools for neuroimaging
-- [BrainVoyager](brainvoyager.md) – Commercial neuroimaging analysis and visualization platform
-- [DataLad](datalad.md) – Distributed data management and version control for neuroimaging
-- [GraphVar](graphvar.md) – Graph-theoretical analysis toolbox
-- [BCTpy](bctpy.md) – Brain Connectivity Toolbox for Python
-- [BrainSpace](brainspace.md) – Macroscale gradient analysis toolbox
-- [BRAPH](braph.md) – Graph theory software for brain connectivity analysis
-- [ModelDB](modeldb.md) – Computational neuroscience model repository
-- [PsyNeuLink](psyneulink.md) – Graph-based cognitive neuroscience modeling framework
-- [jNeuroML](jneuroml.md) – Java implementation of NeuroML for neuronal model validation and export
-- [OpenMEEG](openmeeg.md) – Boundary Element Method forward solver for EEG/MEG
-- [DTI-TK](dti-tk.md) – Diffusion Tensor Imaging Toolkit for tensor-based tractography
-- [BMTK](bmtk.md) – Brain Modeling Toolkit for large-scale neural network construction
-- [BIDSkit](bidskit.md) – Command-line toolkit for BIDS data manipulation and conversion
-- [BindsNET](bindsnet.md) – Spiking neural network simulator with PyTorch integration and STDP learning rules
-- [SpiNNaker](spinnaker.md) – Neuromorphic many-core platform for real-time spiking neural network simulation
-- [Nighres](nighres.md) – High-resolution neuroimaging processing for laminar analysis
-- [Neurodesk](neurodesk.md) – Containerized neuroimaging analysis environment with 100+ tools
-- [PyDICOM](pydicom.md) – Pure Python library for reading and writing DICOM medical imaging files
+- [TVB](tvb.md) - The Virtual Brain simulator
+- [Geppetto](geppetto.md) - Computational simulation engine for whole-brain modeling
+- [HNN](hnn.md) - Human Neocortical Neurosolver for EEG/MEG interpretation
+- [NEST](nest.md) - Spiking neural network simulator
+- [NEURON](neuron.md) - Detailed multicompartment neuron simulator
+- [Cartool](cartool.md) - EEG analysis and source localization software
+- [3D Slicer](3d-slicer.md) - Open-source medical image computing and visualization platform
+- [ANTs](ants.md) - Advanced Normalization Tools for neuroimaging
+- [BrainVoyager](brainvoyager.md) - Commercial neuroimaging analysis and visualization platform
+- [DataLad](datalad.md) - Distributed data management and version control for neuroimaging
+- [GraphVar](graphvar.md) - Graph-theoretical analysis toolbox
+- [BCTpy](bctpy.md) - Brain Connectivity Toolbox for Python
+- [BrainSMASH](brainsmash.md) - Spatial autocorrelation null models for brain map statistics
+- [BrainSpace](brainspace.md) - Macroscale gradient analysis toolbox
+- [BRAPH](braph.md) - Graph theory software for brain connectivity analysis
+- [ModelDB](modeldb.md) - Computational neuroscience model repository
+- [PsyNeuLink](psyneulink.md) - Graph-based cognitive neuroscience modeling framework
+- [jNeuroML](jneuroml.md) - Java implementation of NeuroML for neuronal model validation and export
+- [OpenMEEG](openmeeg.md) - Boundary Element Method forward solver for EEG/MEG
+- [DTI-TK](dti-tk.md) - Diffusion Tensor Imaging Toolkit for tensor-based tractography
+- [BMTK](bmtk.md) - Brain Modeling Toolkit for large-scale neural network construction
+- [BIDSkit](bidskit.md) - Command-line toolkit for BIDS data manipulation and conversion
+- [BindsNET](bindsnet.md) - Spiking neural network simulator with PyTorch integration and STDP learning rules
+- [SpiNNaker](spinnaker.md) - Neuromorphic many-core platform for real-time spiking neural network simulation
+- [Nighres](nighres.md) - High-resolution neuroimaging processing for laminar analysis
+- [NeuroM](neurom.md) - Python library for neuronal morphology analysis and visualization
+- [Neurodesk](neurodesk.md) — Containerized neuroimaging analysis environment with 100+ tools
+- [PopEye](popeye.md) — Python toolbox for estimating population receptive fields from fMRI data
+- [PyDICOM](pydicom.md) — Pure Python library for reading and writing DICOM medical imaging files
 
 ## Research Projects & Datasets
 

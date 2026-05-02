@@ -1,63 +1,52 @@
 ---
 title: NeuroM
-created: 2024-01-15
+created: 2024-01-01
 updated: 2026-05-02
 type: entity
-tags: [software-neurom, neural-morphology, neuronal-morphology, software-visualization, connectomics, neuroanatomy, python-toolbox, computational-neuroscience]
-sources:
-  - https://github.com/BlueBrain/NeuroM
-  - https://neurom.readthedocs.io/en/stable/
-  - https://www.ebrains.eu/tools/neurom-2
-  - https://github.com/BlueBrain/MorphIO
-  - https://portal.bluebrain.epfl.ch/resources/software/morphology-suite/
+tags: [software-visualization, morphometrics, computational-neuroscience, neural-mass-models, connectomics]
+sources: [https://github.com/BlueBrain/NeuroM, https://neurom.readthedocs.io/, https://zenodo.org/records/10630119, https://pypi.org/project/neurom/]
 ---
+
+# NeuroM
 
 ## Overview
 
-NeuroM is an open-source Python toolbox designed for the analysis and processing of neuronal morphologies—three-dimensional reconstructions of neuronal structure including dendritic arbors, axonal projections, and somatic geometries [[1]](https://doi.org/10.5281/zenodo.597333). Originally developed as part of the Blue Brain Project at EPFL (École Polytechnique Fédérale de Lausanne), NeuroM provides a standardized interface for reading, writing, and quantitatively analyzing morphological data from various file formats (SWC, ASC, H5), making it an essential tool in [[computational-neuroscience]] workflows that involve detailed single-neuron modeling. The software enables researchers to extract morphometric features—such as branch order distributions, tortuosity metrics, and total dendritic length—that are crucial for building biophysically realistic [[spiking-neural-networks]] and validating [[neural-mass-models]] against empirical data.
+NeuroM is an open-source Python library developed by the Blue Brain Project at EPFL for the analysis and visualization of morphologically detailed neuronal reconstructions [1][2]. The software provides tools for reading, analyzing, and visualizing three-dimensional representations of neuronal morphology—dendritic arbors, axonal projections, and somatic geometry—derived from histological tracing or digital reconstruction algorithms. Originally developed to support the Blue Brain Project's mission to reconstruct the mouse brain at cellular resolution, NeuroM has become a widely adopted tool in the computational neuroscience community for morphometric analysis, quality control of neuron reconstructions, and comparative studies of neuronal morphology across brain regions, species, and experimental conditions.
 
 ## Motivation and Context
 
-The characterization of neuronal morphology has become increasingly important in the era of large-scale brain initiatives and [[connectome]] mapping projects [[2]](https://link.springer.com/content/pdf/10.1007/s40708-016-0041-7). Traditionally, neuronal morphologies were analyzed using labor-intensive manual methods or proprietary software packages that lacked interoperability. NeuroM emerged to address this fragmentation by providing a unified, programmable interface that can handle diverse morphology file formats and extract quantitative descriptors in a reproducible manner. This capability is particularly relevant for [[whole-brain-modeling]] efforts like [[the-virtual-brain]], where region-specific neural populations require accurate morphometric parameters to calibrate [[neural-mass-models]] and establish proper [[excitation-inhibition-balance]]. By enabling automated morphometric analysis at scale, NeuroM facilitates the construction of data-driven brain models that respect the anatomical diversity observed in empirical measurements.
+The detailed morphological structure of neurons fundamentally determines their functional properties, including synaptic connectivity patterns, integration of dendritic inputs, and firing dynamics. As large-scale brain mapping initiatives have produced thousands of digitally traced neuron reconstructions—through both automated algorithms and expert manual tracing—there emerged a need for standardized, reproducible tools to quantitatively characterize these morphologies. Prior to NeuroM's development, morphological analysis often relied on custom scripts or commercial software with limited interoperability, making cross-laboratory comparison difficult.
+
+NeuroM addresses this gap by providing a robust, well-documented Python API that enables researchers to extract morphometric features systematically. The library emerged from the recognition that morphological data required quantitative characterization beyond visual inspection, enabling data-driven comparisons across neuronal populations. This positions NeuroM as a critical tool in the broader effort to build data-driven [[whole-brain]] models that incorporate realistic cellular-level constraints derived from morphological data.
 
 ## Key Features
 
-NeuroM offers several core functionalities that distinguish it from general-purpose visualization tools. First, the toolbox provides robust file format handling through pluggable readers that support SWC (a de facto standard for morphology data), ASC (Neurolucida format), and HDF5-based morphology files compatible with the [[neurodata-without-borders]] (NWB) standard. Second, its morphometric extraction capabilities include measurements such as total cable length, number of branches, branch angle distributions, and bifurcation asymmetry—quantities that inform parameter selection in neural simulation engines like [[brian]], [[nest]], and [[neuron]]. Third, NeuroM includes visualization routines for rendering neuronal reconstructions in three dimensions, which is valuable for quality control and for generating figures in publications. Finally, the toolbox supports statistical aggregation across populations of neurons, enabling researchers to compute population-level distributions of morphometric features that can be used to constrain [[network-dynamics]] models.
+NeuroM supports multiple file formats for neuronal reconstructions, including the widely-used SWC format (standard for neuronal morphology), Neurolucida ASCII format, and HDF5-based formats commonly used in large-scale projects [2][3]. The core functionality centers on extracting well-defined morphometric features: dendritic complexity metrics such as total length, branch order distributions, bifurcation angles, and fractal dimension; somatic features including volume, surface area, and ellipticity; and axonal morphometrics for neurons with reconstructed axonal arbors.
+
+The library includes sophisticated visualization capabilities for rendering two-dimensional and three-dimensional representations of neuronal morphology [2], supporting comparison plots across multiple neurons, morphometric distribution histograms, and quality assessment visualizations. The quality control utilities enable identification of common reconstruction artifacts—including fragmented segments, unrealistic branch angles, topological errors, and somatosomal discontinuities—thereby helping researchers ensure data quality before including reconstructions in downstream analyses.
 
 ## Relationship to TVB
 
-While [[the-virtual-brain]] (TVB) operates primarily at the level of [[whole-brain]] network dynamics and does not directly simulate individual neuronal morphologies, NeuroM complements TVB in several important ways. TVB's population-level models require anatomical priors—including regional volumes, connectivity weights, and delays—that can be informed by morphometric data processed through NeuroM. For example, when constructing TVB's [[neural-mass-model]] instances, the aggregate dendritic length and branching statistics of neurons in each brain region can be used to tune mean-field coupling parameters. Moreover, for TVB's epilepsy modeling applications (see [[epilepsy-modeling]]), the detailed morphology of specific neuronal subtypes (e.g., pyramidal cells versus interneurons) influences the excitability parameters fed into the [[epileptor]] model. NeuroM thus serves as an upstream processing tool that bridges empirical morphological data and the phenomenological models employed in TVB simulations.
+While [[The Virtual Brain]] primarily operates at the level of [[neural-mass-models]] and large-scale [[brain-dynamics]] simulations, NeuroM represents a complementary approach focusing on morphologically detailed single-neuron reconstructions. TVB's [[whole-brain-modeling]] framework incorporates parameterized reductions of neuronal dynamics derived from mean-field approximations, whereas NeuroM provides tools for characterizing the detailed morphological substrates that inform such reductions. Researchers building [[personalized-brain-modeling]] models may use NeuroM-derived morphometric constraints to help inform parameter selection in neural mass implementations—potentially linking branch numbers, dendritic lengths, and dendritic polarity patterns to effective coupling parameters used in neural mass equations.
 
-## Key Papers
-
-The primary reference for NeuroM is its software repository with archived releases on Zenodo [[1]](https://doi.org/10.5281/zenodo.597333). The NeuroM GitHub repository provides the canonical source code and release history, documenting all versions including the current major version v3 (released in 2021) which introduced major refactoring including renaming all "neuron" classes to "morphology" classes for consistency with the broader Neuroinformatics community [[3]](https://neurom.readthedocs.io/en/stable/migration.html). Version v4 was released in 2024, marking MorphIO as a required dependency and transitioning NeuroM to use MorphIO objects via composition rather than inheritance.
-
-NeuroM is part of the broader Blue Brain Project morphology tooling ecosystem, which includes related tools for morphology repair (NeuroR), synthesis (NeuroTS), and visualization (NeuroMorphoVis) [[4]](https://portal.bluebrain.epfl.ch/resources/software/morphology-suite/). For context on neuronal morphology analysis in computational neuroscience, see also the review on morphometric analysis tools [[2]](https://link.springer.com/content/pdf/10.1007/s40708-016-0041-7).
-
-## Architecture and Version History
-
-NeuroM v3 represented a significant architectural shift, migrating from a custom morphology reader to dependence on [[MorphIO]] for underlying file I/O operations. MorphIO is a C++ and Python library developed by the Blue Brain Project that provides robust, validated reading and writing of morphology files in SWC, ASC, and H5 formats. This migration improved compatibility with the NeuroData Without Borders (NWB) standard and reduced code duplication across the Blue Brain morphology tooling ecosystem.
-
-The v4 series (current as of 2025) introduced breaking changes including requiring MorphIO objects rather than file paths to be passed to the Morphology class, and replacing iterator methods with properties for improved performance. These changes reflect the maturation of the tool from a research prototype to a production-grade component used in EBRAINS Cellular Level Simulation Platform workflows.
+The two software packages thus address complementary scales: NeuroM at the cellular and microcircuit level where morphological details matter, and [[tvb]] at the mesoscopic to macroscopic brain network level where aggregate neuronal populations are modeled. In practice, NeuroM can provide morphological statistics from experimental data that may guide the selection of parameters in whole-brain models, creating a bridge between detailed cellular reconstruction projects and population-level brain simulation frameworks.
 
 ## Related Software
 
-- [[the-virtual-brain]] — Whole-brain modeling platform that uses morphometric features to calibrate neural mass models
-- [[brian]] — Spiking neural network simulator that can utilize morphology-derived parameters
-- [[neuron]] — NEURON environment for detailed neuronal simulations with morphologically realistic cells
-- [[nest]] — Neural simulation tool for large-scale spiking network simulations
-- [[neuroml]] — NeuroML standard for exchanging neuronal and network specifications
-- [[neurodata-without-borders]] — NWB standard for neurophysiology data including morphology
-- [[morphio]] — C++ and Python library for reading and writing neuronal morphology files, upon which NeuroM v3+ depends
-- [[neuror]] — Blue Brain tool for repairing and curating morphology reconstructions
-- [[neurots]] — Blue Brain tool for synthesizing neuronal morphologies based on statistical profiles
+NeuroM exists within a broader ecosystem of tools for neuronal morphology analysis. The [[neuromorpho]] database provides a large-scale repository of morphologically characterized neurons with standardized metadata, and NeuroM can be used to contribute new reconstructions to such repositories. [[PyNN]] and [[neuroml]] standards enable interoperability between neuronal simulators and morphology descriptions, allowing NeuroM-analyzed morphologies to be converted to simulation-ready formats. For visualization, tools like [[brainrender]] and [[brainnet-viewer]] complement NeuroM's plotting capabilities for more elaborate three-dimensional rendering.
+
+The [[allen-brain-atlas]] has produced extensive morphological characterizations of mouse neuronal cell types, and NeuroM has been employed in analyzing such datasets to characterize morphological diversity across cortical layers and cell classes. Large-scale efforts including the [[human-connectome-project]] have similarly driven development of standardized morphological workflows that NeuroM enables. Related tools from the Blue Brain Project morphology suite include [[MorphIO]] for file I/O operations and NeuroR for morphology repair and validation.
+
+## Key Papers
+
+The primary citation for NeuroM is its Zenodo repository, which provides the recommended DOI for academic publications using the software. The development of NeuroM has been documented through versions released on GitHub, with significant contributions from researchers at EPFL working on the Human Brain Project.
+
+Related work on neuronal morphology analysis includes the SWC format specification, which established the de facto standard for representing neuronal morphology as three-dimensional point clouds with associated radii and topological connectivity. The NeuroMorpho.org database has served as a primary source of morphology data that NeuroM can process and analyze, enabling large-scale comparative studies of neuronal morphology across species and brain regions.
 
 ## References
 
-[1] Blue Brain Project. (2024). *NeuroM* (Version v4.0.4) [Software]. Zenodo. https://doi.org/10.5281/zenodo.597333
-
-[2] Shillcock, J.C., Hawrylycz, M., Hill, S., & Peng, H. (2016). Reconstructing the brain: from image stacks to neuron synthesis. *Brain Informatics*, 3(4), 205-209. https://doi.org/10.1007/s40708-016-0041-7
-
-[3] NeuroM Documentation. (2024). *Migration to v3 version*. https://neurom.readthedocs.io/en/stable/migration.html
-
-[4] Blue Brain Project. (2024). *Morphology Suite*. EPFL. https://portal.bluebrain.epfl.ch/resources/software/morphology-suite/
+1. Blue Brain Project. (2024). *NeuroM* (Version v3.2.8) [Python software]. Zenodo. https://doi.org/10.5281/zenodo.597333
+2. Blue Brain Project. (2024). *NeuroM: neuronal morphology analysis toolkit* [Software documentation]. https://neurom.readthedocs.io/
+3. Blue Brain Project. (2015-2024). *NeuroM repository* [Source code]. GitHub. https://github.com/BlueBrain/NeuroM
+4. Cannon, R. C., Turner, D. A., Pyapali, G. K., & Wheeler, D. W. (1998). A SWC parser plugin for L Mehta and MB Sastry. Neuroinformatics. http://research.mssm.edu/cnic/swc.html
+5. Halavatyi, A. (2024). *MorphIO: library for reading and writing neuron morphology files* [Software]. Blue Brain Project. https://github.com/BlueBrain/MorphIO
