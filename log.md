@@ -65,3 +65,8 @@
 ## [2026-05-02 23:31] Improve: 3 pages improved (nix, cytoscape, nilearn-datasets)
 
 ## [2026-05-03 00:33] Improve: 3 pages improved (nix, cytoscape, simpleitk)
+
+## [2026-05-03 01:28] Matcher: 8 pages got 22 new sources
+
+## [2026-05-03]
+- Improved meg-eeg-toolbox page: created comprehensive entity page covering the landscape of MEG/EEG analysis software in computational neuroscience. Added overview of major toolboxes (MNE-Python, EEGLAB, FieldTrip, BrainStorm), motivation explaining need for standardized analysis pipelines, detailed technical sections on preprocessing, forward modeling, source localization, and connectivity analysis. Included relationship to TVB (simulated electrophysiological signals, forward modeling integration, parameter estimation). Added 15+ wikilinks to related pages (mne-python, eeglab, fieldtrip, brainstorm, neural-mass-model, jansen-rit, wilson-cowan, whole-brain-model, whole-brain, volume-conduction, functional-connectivity, effective-connectivity, dynamic-causal-modeling, epilepsy-modeling, structural-connectivity, diffusion-imaging, bids, uk-biobank, human-connectome-project, source-localization, forward-model, brain-oscillations, neural-mass-models, network-dynamics, resting-state, computational-neuroscience, connectome, brain-network). Updated frontmatter tags to taxonomy-compliant entries (software-mne-python, software-fieldtrip, software-eeglab, software-brainstorm, neuroimaging-eeg, neuroimaging-meg, source-localization, forward-model, volume-conduction).
