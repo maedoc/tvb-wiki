@@ -43,3 +43,5 @@
 ## [2026-05-02 19:25] Matcher: 7 pages got 19 new sources
 
 ## [2026-05-02 19:41] Improve: 1 pages improved (suit)
+
+## [2026-05-02 20:50] Repair: 85 issues fixed (26 source refs, 19 index, 1 frontmatter, 25 wikilinks, 9 orphans, 0 dup-refs, 0 opaque-refs, 5 crosslinks)
