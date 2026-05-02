@@ -2,6 +2,14 @@
 
 ## 2026-05-02
 
+- Improved page: [[bindsnet]] – Complete rewrite from placeholder to comprehensive entity page
+  - Updated frontmatter: created 2025-01-15, updated date to 2026-05-02
+  - Tags: software-brian, spiking-neural-networks, neuromorphic-computing, neural-network, machine-learning, computational-neuroscience
+  - Established 14+ wikilinks: spiking-neural-networks, brian2, nest, annarchy, tvb, neural-mass-models, computational-neuroscience, fmri, eeg, structural-connectivity, diffusion-imaging, carlsim, auryn, neuromorphic-computing
+  - Added detailed sections: Overview (SNN simulator with STDP and PyTorch integration), Key Features (LIF/AdEx neurons, STDP variants, BCM rule, connectivity patterns), Relationship to TVB and Whole-Brain Modeling (complementary purposes, multi-scale integration), Comparison to Other SNN Simulators (Brian2, NEST, ANNarchy), Related Software
+  - Explained BindsNET's unique position: PyTorch-native architecture enabling gradient-based optimization for neuromorphic computing applications
+  - Positioned relative to TVB: TVB uses neural mass models at mesoscopic level while BindsNET provides microscopic detail for learning rules and plasticity mechanisms
+
 - Improved page: [[braincogs]] – Enhanced with additional wikilinks and specific paper references
   - Added wikilinks: effective-connectivity, dynamic-causal-modeling, whole-brain-modeling, brain-connectivity-toolbox, bids, datalad, nwb, brain-dynamics-toolbox, functional-connectivity, neural-mass-models
   - Expanded Key Papers section with specific publications (Brunton 2013, Erlich 2011, Pillow 2008, Park 2014, Goldman-Rakic 1995, Seung 2013)
@@ -1251,3 +1259,5 @@
 ## [2026-05-02 05:59] Improve: 3 pages improved (neurom, dcmtk, bindsnet)
 
 ## [2026-05-02 07:03] Improve: 3 pages improved (neurom, bindsnet, dcmtk)
+
+## [2026-05-02 07:07] Matcher: 6 pages got 17 new sources
