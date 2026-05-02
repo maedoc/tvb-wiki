@@ -352,7 +352,7 @@ def parse_inline_citations(text: str) -> list[dict]:
 
     # Pattern 4: DOI inline (case-insensitive for prefix, strips trailing punctuation)
     for m in re.finditer(
-        r"(?:https?://doi\.org/|doi:?\s*|DOI:?\s*)?(10\.\d{4,9}/[^\s\])}.,;]+)",
+        r"(?:https?://doi\.org/|doi:?\s*|DOI:?\s*)?(10\.\d{4,9}/[^\s\]]+)",
         clean_text,
         re.IGNORECASE,
     ):
