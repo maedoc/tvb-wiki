@@ -25,7 +25,7 @@ updated: '2026-05-02'
 
 ## Motivation and Context
 
-The analysis of neural time series presents unique challenges that generic signal processing libraries do not adequately address. Neuroscience data often exhibits non-stationarity, contains artifacts from recording hardware, and requires specialized statistical frameworks that account for the autocorrelation structure typical of neural data. Prior to nitime's development, researchers working with neuroimaging data needed to combine multiple tools—such as [[matlab]]-based toolboxes or custom scripts—to perform basic time-frequency decompositions, coherence analyses, and correlation-based connectivity estimates.
+The analysis of neural time series presents unique challenges that generic signal processing libraries do not adequately address. Neuroscience data often exhibits non-stationarity, contains artifacts from recording hardware, and requires specialized statistical frameworks that account for the autocorrelation structure typical of neural data. Prior to nitime's development, researchers working with [[neuroimaging]] data needed to combine multiple tools—such as [[matlab]]-based toolboxes or custom scripts—to perform basic time-frequency decompositions, coherence analyses, and correlation-based [[connectivity]] estimates.
 
 Nitime was developed to provide a unified, neuroscientist-friendly interface to these analytical techniques. The library emerged from the Neuroinformatics community in the late 2000s as a response to the increasing availability of large-scale neural datasets and the growing adoption of Python in scientific computing. By integrating seamlessly with the scientific Python ecosystem—including [[numpy]] and [[scipy]]—nitime enables reproducible, well-documented analysis pipelines that can be combined with preprocessing tools like [[nipype]] and visualization libraries like [[nilearn]].
 
@@ -33,7 +33,7 @@ Nitime was developed to provide a unified, neuroscientist-friendly interface to 
 
 Nitime implements a broad repertoire of time-series analysis methods tailored to neuroscience. The library's core strengths include **spectral analysis**, which encompasses Fourier-based methods, Welch's periodogram, and wavelet decompositions for characterizing [[brain-oscillations]] across frequency bands (delta, theta, alpha, beta, gamma). Researchers can compute coherence and partial coherence to assess [[functional-connectivity]] between brain regions.
 
-The library also provides implementations for **Granger causality**, enabling directed (effective) connectivity analysis that infers causal interactions from observational time-series data. For investigating dynamical systems, nitime offers multivariate autoregressive (MAR) model fitting, which is essential for characterizing the linear dynamical systems underlying neural activity, as well as baseline-corrected and z-scored connectivity statistics that account for the hemodynamic response function in [[fmri]] data.
+The library also provides implementations for **Granger causality**, enabling directed (effective) connectivity analysis that infers causal interactions from observational time-series data. For investigating dynamical systems, nitime offers multivariate autoregressive (MAR) model fitting, which is essential for characterizing the [[linear]] dynamical systems underlying neural activity, as well as baseline-corrected and z-scored connectivity statistics that account for the [[hemodynamic-response-function]] in [[fmri]] data.
 
 Beyond connectivity, nitime includes utilities for event-related analysis, including the computation of time-locked averages and baseline subtraction for stimulus-evoked responses. The library's implementation of the **Hilbert transform** enables analytic signal representation, which is essential for phase-amplitude coupling analysis—a technique increasingly used to study [[brain-oscillations]] across spatial scales.
 
@@ -61,6 +61,6 @@ For [[effective-connectivity]] analysis, nitime's Granger causality routines hav
 
 Chung, A., G. K. Rohle, J. D. D. K.遮挡, A. W. Song, and M. A. Taylor. "Nitime: a Python toolkit for time-series analysis in neuroscience." *Frontiers in Neuroinformatics* (2010).
 
-Fransson, P., and G. Marrelec. "The precuneus/posterior cingulate cortex participates in the default mode network." *NeuroImage* 39, no. 4 (2008): 1918-1928.
+Fransson, P., and G. Marrelec. "The precuneus/posterior cingulate cortex participates in the [[default-mode-network]]." *NeuroImage* 39, no. 4 (2008): 1918-1928.
 
 Biswal, B., F. Zerrin Yetkin, V. M. Haughton, and J. S. Hyde. "Functional connectivity in the motor cortex of resting human brain using echo-planar MRI." *Magnetic Resonance in Medicine* 34, no. 4 (1995): 537-541.

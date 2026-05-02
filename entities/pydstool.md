@@ -13,7 +13,7 @@ tags:
 - nonlinear-dynamics
 title: PyDSTool
 type: entity
-updated: '2026-05-01'
+updated: '2026-05-02'
 ---
 
 PyDSTool is an open-source Python toolbox for the simulation and analysis of dynamical systems, with particular emphasis on applications in [[computational-neuroscience]]. Developed primarily by Robert Clewley (Clewley, 2005; Clewley, 2012), PyDSTool provides an interactive environment for simulating ODEs (ordinary differential equations), delay differential equations (DDEs), and hybrid systems, combined with powerful bifurcation analysis capabilities through its interface with the AUTO continuation software (Doedel et al., 2007). The tool has established itself as a specialized but well-regarded resource within computational neuroscience for building and analyzing [[neural-mass-models]], conductance-based neuron models, and whole-[[brain-network]] dynamics (Sanz-Leon et al., 2018; Ranganath et al., 2022).
@@ -44,9 +44,9 @@ The relationship between the two tools is thus one of **complementarity rather t
 
 - Clewley, R. (2005). "Hybrid systems and tools for dynamical systems modeling." PhD thesis, University of Nottingham.
 - Clewley, R. (2012). "PyDSTool: A Python-based dynamical systems analysis and simulation environment for research." SourceForge.
-- Le-Qui, L., et al. (2015). "Epileptor modeling: From neural mass models to seizure prediction." *Frontiers in Neuroscience*.
-- Ranganath, M., et al. (2022). "Whole-brain modeling with neural mass networks: A review." *Network Neuroscience*.
-- Sanz-Leon, P., et al. (2018). "The Virtual Brain: A modelling platform for brain dynamics." *NeuroImage*.
+- Le-Qui, L., et al. (2015). "[[epileptor]] modeling: From neural mass models to seizure prediction." *Frontiers in Neuroscience*.
+- Ranganath, M., et al. (2022). "[[whole-brain|Whole-brain modeling]] with neural mass networks: A review." *[[netneuroscience|Network Neuroscience]]*.
+- Sanz-Leon, P., et al. (2018). "[[tvb|The Virtual Brain]]: A modelling platform for [[brain-dynamics]]." *NeuroImage*.
 
 ## Related Software
 

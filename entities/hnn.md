@@ -25,7 +25,7 @@ updated: '2026-05-02'
 
 ## Overview
 
-HNN (Human Neocortical Neurosolver) is a biophysically principled modeling software platform designed to simulate neocortical neural circuits and link their activity to macroscopic electrophysiological signals such as electroencephalography (EEG) and magnetoencephalography (MEG). Developed primarily at the State University of New York (SUNY) Buffalo by the research groups of Steven Jones and colleagues, HNN provides a unique bridge between cellular-level neural dynamics and whole-cortex measurements, making it particularly valuable for interpreting evoked and spontaneous brain oscillations observed in human neuroimaging experiments. The software implements detailed laminar neocortical circuits using [[neural-mass-models]] that incorporate both excitatory (pyramidal) and inhibitory neuron populations organized by cortical layer, allowing researchers to generate predictions about current flow and field potentials that can be directly compared to empirical EEG/MEG data.
+HNN (Human Neocortical Neurosolver) is a biophysically principled modeling software platform designed to simulate neocortical neural circuits and link their activity to macroscopic electrophysiological signals such as electroencephalography (EEG) and magnetoencephalography (MEG). Developed primarily at the State University of New York (SUNY) Buffalo by the research groups of Steven Jones and colleagues, HNN provides a unique bridge between cellular-level neural dynamics and whole-cortex measurements, making it particularly valuable for interpreting evoked and spontaneous brain oscillations observed in human [[neuroimaging]] experiments. The software implements detailed laminar neocortical circuits using [[neural-mass-models]] that incorporate both excitatory (pyramidal) and inhibitory [[neuron]] populations organized by cortical layer, allowing researchers to generate predictions about current flow and field potentials that can be directly compared to empirical EEG/MEG data.
 
 ## Key Features
 
@@ -51,6 +51,6 @@ HNN connects to several foundational concepts in computational neuroscience. The
 
 ## References
 
-1. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *Arbor-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
+1. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and [[whole-brain]] Propagation*. [Link](https://arxiv.org/abs/2505.16861)
 2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](https://doi.org/10.3389/fncom.2025.1731161)
-3. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+3. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)

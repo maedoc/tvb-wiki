@@ -11,7 +11,7 @@ tags:
 - bids
 title: MRIQC
 type: entity
-updated: '2026-05-01'
+updated: '2026-05-02'
 ---
 
 # MRIQC
@@ -56,17 +56,17 @@ Other relevant tools in the quality control ecosystem include [[afq]] (AFQ-Lite)
 ---
 created: 2024-01-15
 sources:
-- raw/papers/mijalkov-2017-braph.md
+- raw/papers/mijalkov-2017-[[braph]].md
 - raw/papers/arxiv-2604.16463.md
 - raw/papers/woodman-2014.md
 tags:
 - software-visualization
 - neuroimaging
-- software-neuroml
-- brain-parcellations
-- connectomics
+- software-[[neuroml]]
+- [[brain-parcellations]]
+- [[connectomics]]
 - software-nilearn
-- brain-network
+- [[brain-network]]
 title: BrainRender
 type: entity
 updated: '2026-05-01'

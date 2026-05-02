@@ -13,7 +13,7 @@ title: ciftify
 created: 2024-01-15
 updated: 2026-05-01
 type: entity
-tags: [software-neuroimaging, neuroimaging-fmri, cifti, connectome-workbench, human-connectome-project, hcp-pipelines, visualization, python, grayordinates]
+tags: [software-[[neuroimaging]], neuroimaging-[[fmri]], [[cifti]], [[connectome]]-workbench, human-connectome-project, hcp-pipelines, visualization, python, grayordinates]
 sources: [https://github.com/edickie/ciftify, https://humanconnectome.org/, https://www.nature.com/articles/nmeth.4409, https://www.nature.com/articles/ncomms5309, https://pubmed.ncbi.nlm.nih.gov/31686035/]
 ---
 
@@ -27,7 +27,7 @@ ciftify is a Python-based software package designed for processing and visualizi
 
 ciftify implements several core capabilities that distinguish it from other neuroimaging processing packages. First, the package provides Python wrappers around numerous [[connectome-workbench]] commands, exposing functionality for CIFTI file manipulation, surface visualization, and data resampling through a programmatic Python interface rather than requiring users to invoke workbench commands directly (Dickie et al., 2019). Second, ciftify includes implementation of the "grayordinates" framework, which represents brain activity on a mesh of cortical vertices (the ''gray matterordinates'') rather than in the traditional volumetric voxel grid, enabling more precise characterization of cortical dynamics while retaining subcortical volumetric coverage. Third, the package provides template workflows for common analysis pipelines including resting-state [[functional-connectivity]] analyses, task-based activation studies, and dual-regression approaches for characterizing [[resting-state]] networks.
 
-The software also includes the cifti template library, which provides standard CIFTI files for template spaces including the fsLR (FreeSurfer reconstructed surfaces) mesh family, enabling researchers to project their data to common spaces for group analyses. ciftify's design philosophy emphasizes modularity—individual components like the surface projection routines, CIFTI I/O operations, and visualization templates can be used independently or combined into complete processing streams. The package integrates with nilearn for visualization using familiar plotting syntax while adding CIFTI-specific functionality, and provides integration with [[bids]] derivatives through the ciftify-static workflow for generating surface-based visualizations from preprocessed BIDS datasets.
+The software also includes the cifti template library, which provides standard CIFTI files for template spaces including the fsLR (FreeSurfer reconstructed surfaces) mesh family, enabling researchers to project their data to common spaces for group analyses. ciftify's design philosophy emphasizes [[modularity]]—individual components like the surface projection routines, CIFTI I/O operations, and visualization templates can be used independently or combined into complete processing streams. The package integrates with nilearn for visualization using familiar plotting syntax while adding CIFTI-specific functionality, and provides integration with [[bids]] derivatives through the ciftify-static workflow for generating surface-based visualizations from preprocessed BIDS datasets.
 
 ## Relationship to TVB
 
@@ -35,13 +35,13 @@ While ciftify is not directly integrated into [[the-virtual-brain]] pipelines, i
 
 ## Technical Implementation
 
-ciftify operates on the principle of representing neuroimaging data in the CIFTI format, which can store values either at every vertex/voxel (dense representation) or at parcellated region centroids (dlabel representation), depending on analysis requirements. This flexibility allows researchers to choose the appropriate representation for their specific analysis goals—dense representations preserve full spatial resolution for voxel-wise statistical mapping, while parcellated representations enable region-based connectivity analyses that reduce computational burden and improve interpretability (Glasser et al., 2016).
+ciftify operates on the principle of representing neuroimaging data in the CIFTI format, which can store values either at every vertex/voxel (dense representation) or at parcellated region centroids (dlabel representation), depending on analysis requirements. This flexibility allows researchers to choose the appropriate representation for their specific analysis goals—dense representations preserve full spatial resolution for voxel-wise statistical mapping, while parcellated representations enable region-based [[connectivity]] analyses that reduce computational burden and improve interpretability (Glasser et al., 2016).
 
-The core data structure in ciftify is the CIFTI file, which consists of two axes: a "brain model" axis representing either cortical surface vertices or subcortical volumetric voxels, and a "series" axis representing temporal samples or other measurement dimensions. ciftify leverages the nibabel library for low-level CIFTI file I/O, providing a Pythonic interface to the underlying NIFTI extension representation (Dickie et al., 2019).
+The core data structure in ciftify is the CIFTI file, which consists of two axes: a "brain model" axis representing either cortical surface vertices or subcortical volumetric voxels, and a "series" axis representing temporal samples or other measurement dimensions. ciftify leverages the [[nibabel]] library for low-level CIFTI file I/O, providing a Pythonic interface to the underlying [[nifti]] extension representation (Dickie et al., 2019).
 
 The package implements several specialized processing streams. The ciftify-recon-all function provides a wrapper around [[freesurfer]] recon-all outputs, generating the surface gift files required for CIFTI projection. The ciftify_subject_fmri workflow implements a complete preprocessing pipeline for task and resting-state fMRI data, including motion correction, distortion correction using [[fsl]] topup, and projection to cortical surfaces via ribbon estimation. For visualization, ciftify provides the ciftiplot function which generates publication-quality figures of cortical and subcortical data using [[connectome-workbench]] rendering engines, with support for interactive visualization through Jupyter notebook integration via ipywidgets.
 
-The package also includes utilities for working with HCP-style "mega" concatenations, enabling researchers to combine data from multiple subjects or sessions into unified CIFTI files for population-level analyses. These capabilities make ciftify particularly valuable for researchers working with large-scale datasets like the UK Biobank imaging extension or the Adolescent Brain Cognitive Development study, which employ HCP-style acquisition protocols.
+The package also includes utilities for working with HCP-style "mega" concatenations, enabling researchers to combine data from multiple subjects or sessions into unified CIFTI files for population-level analyses. These capabilities make ciftify particularly valuable for researchers working with large-scale datasets like the [[uk-biobank]] imaging extension or the Adolescent Brain Cognitive Development study, which employ HCP-style acquisition protocols.
 
 ## Key Papers
 
@@ -51,7 +51,7 @@ The ciftify package, while primarily a software tool, has been referenced in num
 
 2. **Glasser, M.F., et al. (2013)** — "The Human Connectome Project: A data acquisition perspective." *NeuroImage*. This foundational HCP paper establishes the acquisition protocols and data formats that ciftify was designed to work with.
 
-3. **Glasser, M.F., et al. (2016)** — "Multi-modal parcellation of human cerebral cortex." *Nature*. This paper describes the multimodal parcellation (MPM) atlas that is frequently used as a parcellated CIFTI template in ciftify workflows.
+3. **Glasser, M.F., et al. (2016)** — "Multi-modal [[parcellation]] of human cerebral cortex." *Nature*. This paper describes the multimodal parcellation (MPM) atlas that is frequently used as a parcellated CIFTI template in ciftify workflows.
 
 4. **Barch, D.M., et al. (2013)** — "Function in the human connectome: Resting-state fMRI and its methodological variability." *NeuroImage*. This paper addresses methodological considerations in resting-state fMRI that are relevant to ciftify-based preprocessing pipelines.
 

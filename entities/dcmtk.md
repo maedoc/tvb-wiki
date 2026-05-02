@@ -15,7 +15,7 @@ title: DCMTK
 created: 2025-01-15
 updated: 2026-05-02
 type: entity
-tags: [software-visualization, neuroimaging-dti, neuroimaging-fmri]
+tags: [software-visualization, [[neuroimaging]]-dti, neuroimaging-fmri]
 sources: ["https://dcmtk.org/", "https://www.nema.org/standards/dicom", "https://github.com/rordenlab/dcm2niix", "https://github.com/DCMTK/dcmtk"]
 ---
 
@@ -23,7 +23,7 @@ sources: ["https://dcmtk.org/", "https://www.nema.org/standards/dicom", "https:/
 
 ## Overview
 
-DCMTK (DICOM Toolkit) is an open-source software suite for reading, writing, and manipulating medical imaging data in the DICOM (Digital Imaging and Communications in Medicine) format. Developed and maintained by OFFIS (the Institute for Information Technology at the University of Oldenburg, Germany) since the 1990s, DCMTK provides a comprehensive set of C++ libraries and command-line utilities that implement the DICOM standard across its various versions [[1]]. The toolkit serves as foundational infrastructure for many neuroimaging processing pipelines, enabling the conversion of scanner-derived DICOM files into analysis-ready formats such as NIfTI, and providing low-level access to the rich metadata embedded in medical images—including acquisition parameters, patient information, and protocol descriptions that are essential for rigorous computational neuroscience research.
+DCMTK (DICOM Toolkit) is an open-source software suite for reading, writing, and manipulating medical imaging data in the DICOM (Digital Imaging and Communications in Medicine) format. Developed and maintained by OFFIS (the Institute for Information Technology at the University of Oldenburg, Germany) since the 1990s, DCMTK provides a comprehensive set of C++ libraries and command-line utilities that implement the DICOM standard across its various versions [[1]]. The toolkit serves as foundational infrastructure for many neuroimaging processing pipelines, enabling the conversion of scanner-derived DICOM files into analysis-ready formats such as [[nifti]], and providing low-level access to the rich metadata embedded in medical images—including acquisition parameters, patient information, and protocol descriptions that are essential for rigorous [[computational-neuroscience]] research.
 
 ## Key Features
 
@@ -51,6 +51,6 @@ DCMTK is closely related to several other tools in the neuroimaging software eco
 
 ## References
 
-1. (authors unknown). *Neurodesk: an accessible, flexible and portable data analysis environment for reproducible neuroimaging*.
-2. (authors unknown). *BRAPH: A Pipeline for Brain Connectivity Analysis*.
-3. B. Bein (2018). *pyedflib: Python library for reading and writing EDF/BDF files*. Journal of Open Source Software. [DOI](https://doi.org/10.21105/joss.00899)
+1. (authors unknown). *[[neurodesk]]: an accessible, flexible and portable data analysis environment for reproducible neuroimaging*.
+2. (authors unknown). *[[braph]]: A Pipeline for Brain [[connectivity]] Analysis*.
+3. B. Bein (2018). *[[pyedflib]]: Python library for reading and writing EDF/BDF files*. Journal of Open Source Software. [DOI](https://doi.org/10.21105/joss.00899)

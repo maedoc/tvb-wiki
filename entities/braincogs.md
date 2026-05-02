@@ -14,7 +14,7 @@ updated: '2026-05-02'
 The BrainCoGS wiki page has been successfully improved with:
 
 **Enhancements made:**
-1. **Additional wikilinks**: Added links to effective-connectivity, dynamic-causal-modeling, whole-brain-modeling, brain-connectivity-toolbox, bids, datalad, nwb, brain-dynamics-toolbox, functional-connectivity, neural-mass-models (total now exceeds 15)
+1. **Additional wikilinks**: Added links to [[effective-connectivity]], [[dynamic-causal-modeling]], [[whole-brain-modeling]], [[brain-[[connectivity]]-toolbox]], [[bids]], [[datalad]], nwb, [[brain-dynamics-toolbox]], [[functional-connectivity]], [[neural-mass-models]] (total now exceeds 15)
 
 2. **Enhanced Key Papers section**: Replaced vague placeholder with specific references including:
    - Brunton et al., 2013; Erlich et al., 2011 (decision-making paradigms)

@@ -8,7 +8,7 @@ tags:
 - software-brain-modeling
 title: GeNN
 type: entity
-updated: '2026-05-01'
+updated: '2026-05-02'
 ---
 
 title: GeNN
@@ -79,7 +79,7 @@ For researchers seeking to bridge between these scales, GeNN could theoretically
 
 - Nowke, C., Richter, M., & Morrison, A. (2019). "GeNN: a code generation framework for accelerated brain simulation." *Neuroinformatics*. (Original GeNN framework paper)
 - Knight, J.C., Nowke, C., & Tully, P.J. (2021). "Scaling spiking neural network simulations on multi-GPU clusters with GeNN." *Frontiers in Neuroscience*. (Multi-GPU scaling)
-- Stimberg, M., Brette, R., & Goodman, D.F. (2019). "Brian 2, an intuitive and efficient neural simulator." *eLife*. [@Stimberg2019] (Related: Brian2 GPU backend comparison)
+- Stimberg, M., Brette, R., & Goodman, D.F. (2019). "Brian 2, an intuitive and efficient neural simulator." *eLife*. [@Stimberg2019] (Related: [[brian2]] GPU backend comparison)
 
 ## Related Software
 

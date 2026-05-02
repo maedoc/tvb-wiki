@@ -16,7 +16,7 @@ tags:
 - computational-neuroscience
 title: BrainIAK
 type: entity
-updated: '2026-05-01'
+updated: '2026-05-02'
 ---
 
 # BrainIAK
@@ -70,7 +70,7 @@ docker pull brainiak/brainiak
 
 ## References
 
-1. (authors unknown). *[[braph]]: A Pipeline for Brain Connectivity Analysis*.
+1. (authors unknown). *[[braph]]: A Pipeline for Brain [[connectivity]] Analysis*.
 2. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI): A flexible and integrative toolkit for efficient probabilistic inference on virtual brain models*. bioRxiv. [DOI](https://doi.org/10.1101/2025.01.21.633922)
 3. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI), a flexible and integrative toolkit for efficient probabilistic inference on whole-brain models*. eLife. [DOI](https://doi.org/10.7554/eLife.106194)
 4. (authors unknown). *[[nighres]]: processing tools for high-resolution neuroimaging*.

@@ -44,7 +44,7 @@ This integration pathway reflect a broader trend in which specialized tools are 
 
 ## Key Papers
 
-- **Renton, A.I.**, Dao, T.T., Johnstone, T., Civier, O., Sullivan, R.P., White, D.J., Lyons, P., Slade, B.M., Abbott, D.F., Amos, T.J., Bollmann, S., Botting, A., Campbell, M.E.J., Chang, J., Close, T.G., Eckstein, K., Egan, G.F., Evas, S., Flandin, G., Garner, K.G., Garrido, M.I., Ghosh, S.S., Grignard, M., Hannan, A.J., Huber, R., Kaczmarzyk, J.R., Kasper, L., Kuhlmann, L., Lou, K., Mantilla‑Ramos, Y.J., Mattingley, J.B., Morris, J., Narayanan, A., Pestilli, F., Puce, A., Ribeiro, F.L., Rogasch, N.C., Rorden, C., Schira, M., Shaw, T.B., Sowman, P.F., Spitz, G., Stewart, A., Ye, X., Zhu, J.D., Hughes, M.E., Narayanan, A., & **Bollmann, S.** (2023). Neurodesk: An accessible, flexible, and portable data analysis environment for reproducible neuroimaging. *medRxiv*. [^Renton2023]
+- **Renton, A.I.**, Dao, T.T., Johnstone, T., Civier, O., Sullivan, R.P., White, D.J., Lyons, P., Slade, B.M., Abbott, D.F., Amos, T.J., Bollmann, S., Botting, A., Campbell, M.E.J., Chang, J., Close, T.G., Eckstein, K., Egan, G.F., Evas, S., Flandin, G., Garner, K.G., Garrido, M.I., Ghosh, S.S., Grignard, M., Hannan, A.J., Huber, R., Kaczmarzyk, J.R., Kasper, L., Kuhlmann, L., Lou, K., Mantilla‑Ramos, Y.J., Mattingley, J.B., Morris, J., Narayanan, A., Pestilli, F., Puce, A., Ribeiro, F.L., Rogasch, N.C., Rorden, C., Schira, M., Shaw, T.B., Sowman, P.F., Spitz, G., Stewart, A., Ye, X., Zhu, J.D., Hughes, M.E., Narayanan, A., & **Bollmann, S.** (2023). Neurodesk: An accessible, flexible, and portable data analysis environment for reproducible [[neuroimaging]]. *medRxiv*. [^Renton2023]
 
 ## Related Software
 

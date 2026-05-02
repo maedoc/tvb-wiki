@@ -1,23 +1,28 @@
 ---
-title: NeuroM
 created: 2024-01-15
-updated: 2026-05-02
-type: entity
-tags: [software, neuromorphic-computing, software-brian2, software-neuron, python]
 sources: []
+tags:
+- software
+- neuromorphic-computing
+- software-brian2
+- software-neuron
+- python
+title: NeuroM
+type: entity
+updated: '2026-05-02'
 ---
 
 # NeuroM
 
 ## Overview
 
-NeuroM is a Python-based software toolbox designed for the analysis, processing, and visualization of neuronal morphologies reconstructed from three-dimensional morphological data. Originally developed at the [Blue Brain Project](https://github.com/BlueBrain/NeuroM) at EPFL, NeuroM provides a standardized computational framework for extracting morphometric features from digitally reconstructed neurons — a critical capability for computational neuroscience research that requires accurate anatomical models of individual neurons as building blocks for larger-scale network simulations [@neuroM_github; @bluebrain_project].
+NeuroM is a Python-based software toolbox designed for the analysis, processing, and visualization of neuronal morphologies reconstructed from three-dimensional morphological data. Originally developed at the [Blue Brain Project](https://github.com/BlueBrain/NeuroM) at EPFL, NeuroM provides a standardized computational framework for extracting morphometric features from digitally reconstructed neurons — a critical capability for [[computational-neuroscience]] research that requires accurate anatomical models of individual neurons as building blocks for larger-scale network simulations [@neuroM_github; @bluebrain_project].
 
 ## Motivation and Context
 
-The study of neuronal morphology has long been recognized as fundamental to understanding brain function. Neuronal dendritic trees exhibit remarkable diversity across cell types, brain regions, and species, and this structural variation directly influences the electrophysiological behavior of neurons. Early computational models such as the [Hodgkin-Huxley model](hodgkin-huxley-model) and simplified point neuron approximations treated morphology as irrelevant, but modern large-scale simulations increasingly require morphologically detailed neuron models to accurately capture the integration of synaptic inputs across dendritic arbors.
+The study of neuronal morphology has long been recognized as fundamental to understanding brain function. Neuronal dendritic trees exhibit remarkable diversity across cell types, brain regions, and species, and this structural variation directly influences the electrophysiological behavior of neurons. Early computational models such as the [Hodgkin-Huxley model]([[hodgkin-huxley-model]]) and simplified point [[neuron]] approximations treated morphology as irrelevant, but modern large-scale simulations increasingly require morphologically detailed neuron models to accurately capture the integration of synaptic inputs across dendritic arbors.
 
-Several factors motivated the development of NeuroM. First, the proliferation of large publicly available morphology repositories — most notably [NeuroMorpho.Org](neuromorpho) — created a need for standardized, reproducible morphometric analysis pipelines [@neuromorpho_org]. Second, the rise of data-driven whole-brain modeling approaches, including those implemented in [The Virtual Brain](the-virtual-brain), highlighted the importance of incorporating realistic single-neuron properties into network-level simulations. Third, while primarily designed for morphometric analysis rather than neuromorphic hardware training, NeuroM's detailed morphological data can inform research into brain-inspired computing architectures [@neuromorphic_overview].
+Several factors motivated the development of NeuroM. First, the proliferation of large publicly available morphology repositories — most notably [[[neuromorpho]].Org](neuromorpho) — created a need for standardized, reproducible morphometric analysis pipelines [@neuromorpho_org]. Second, the rise of data-driven [[whole-brain|whole-brain modeling]] approaches, including those implemented in [The Virtual Brain]([[the-virtual-brain]]), highlighted the importance of incorporating realistic single-neuron properties into network-level simulations. Third, while primarily designed for morphometric analysis rather than neuromorphic hardware training, NeuroM's detailed morphological data can inform research into brain-inspired computing architectures [@neuromorphic_overview].
 
 ## Key Features
 
@@ -27,7 +32,7 @@ A particularly notable feature is NeuroM's ability to perform statistical compar
 
 ## Relationship to Whole-Brain Modeling
 
-While NeuroM is primarily positioned as a tool for single-neuron analysis rather than whole-brain simulation, it plays an important supporting role in the broader field of connectome-based modeling. [Whole-brain models](whole-brain-modeling) built in frameworks like [The Virtual Brain](the-virtual-brain) typically rely on neural mass models or mean-field approximations that do not require full morphological detail. However, several research groups have explored embedding morphologically detailed neuron models into mesoscale brain network simulations, and this is an area of active methodological development.
+While NeuroM is primarily positioned as a tool for single-neuron analysis rather than whole-brain simulation, it plays an important supporting role in the broader field of [[connectome]]-based modeling. [Whole-brain models]([[whole-brain-modeling]]) built in frameworks like [The Virtual Brain](the-virtual-brain) typically rely on [[neural-mass-models]] or mean-field approximations that do not require full morphological detail. However, several research groups have explored embedding morphologically detailed neuron models into mesoscale [[brain-network]] simulations, and this is an area of active methodological development.
 
 NeuroM's morphometric analysis capabilities complement other software tools in the computational neuroscience ecosystem. It can be used in conjunction with [Brian](brian) or [Brian2](brian2) for generating detailed single-neuron models that are subsequently integrated into network simulations. Similarly, the morphometric features extracted by NeuroM can inform parameter estimation for neural mass models that seek to capture the aggregate dynamics of neuronal populations without simulating every synapse individually.
 

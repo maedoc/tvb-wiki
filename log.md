@@ -28,3 +28,5 @@
 ## [2026-05-02 16:48] Improve: 3 pages improved (neurom, popeye, bcilab)
 
 ## [2026-05-02 17:31] RefFormatter: formatted references on 8 pages
+
+## [2026-05-02 18:07] Improve: 3 pages improved (bcilab, neurom, suit)
