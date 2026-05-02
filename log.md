@@ -1,6 +1,7 @@
 # Log
 
 ## 2026-05-02
+- Improved nix page: created comprehensive entity page replacing placeholder content. Added overview of Nix data format and nixpy library for neurophysiological data storage, motivation/context explaining need for unified format to address fragmentation in EEG/MEG/spike train data storage, detailed technical sections on hierarchical organization, rich metadata system, multi-modal integration, and tagging/provenance. Included relationship to TVB (data exchange for whole-brain modeling workflows), related software ecosystem (neo, odML, nixview), and 9 wikilinks to related pages (electrophysiology, eeg, meg, neo, data-format, reproducibility, whole-brain-modeling, neural-mass-model, brain-dynamics). Updated frontmatter tags to taxonomy-compliant entries.
 - Improved suit page: created comprehensive SUIT (Spatially Unbiased Infratentorial Template) entity page replacing placeholder content. Added detailed overview of cerebellar MRI toolbox, technical content on DARTEL normalization and probabilistic atlases, relationship to whole-brain modeling and TVB, key papers (Diedrichsen 2006, 2009, 2011, 2015), 12 wikilinks to related software/pages (spm, the-virtual-brain, whole-brain-modeling, diffusion-imaging, tractography, freesurfer, nilearn, brain-atlas, parcellation, normalization, resting-state, fsl), updated frontmatter tags to taxonomy-compliant entries (software-neuroimaging, neuroimaging-fmri, neuroimaging-mri, parcellation, brain-atlas, cerebellar-atlas, software-visualization, software-spm)
 - Updated popeye page with substantive content on population receptive field (pRF) estimation toolbox for fMRI, correcting earlier placeholder and ensuring alignment with entities/index.md description
 - Created brainsmash page with full content on spatial autocorrelation null model software for brain map statistical testing
@@ -45,3 +46,7 @@
 ## [2026-05-02 19:41] Improve: 1 pages improved (suit)
 
 ## [2026-05-02 20:50] Repair: 85 issues fixed (26 source refs, 19 index, 1 frontmatter, 25 wikilinks, 9 orphans, 0 dup-refs, 0 opaque-refs, 5 crosslinks)
+
+## [2026-05-02 20:50] Librarian: catalog rebuilt, 6988 asymmetric links noted
+
+## [2026-05-02 20:50] Linter: 12 broken links, 52 orphans, 45 stale, 49 empty
