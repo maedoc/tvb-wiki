@@ -1,10 +1,18 @@
 ---
-title: Nilearn Datasets
 created: 2024-01-15
-updated: 2026-05-02
+sources:
+- raw/papers/smith-2013-hcp.md
+- raw/papers/semanticscholar-380768cf42a8.md
+- raw/papers/semanticscholar-2f16f2f99d6b.md
+tags:
+- dataset
+- software-visualization
+- neuroimaging
+- neuroimaging-fmri
+- resting-state
+title: Nilearn Datasets
 type: entity
-tags: [dataset, software-visualization, neuroimaging, neuroimaging-fmri, resting-state]
-sources: []
+updated: '2026-05-03'
 ---
 
 ## Overview

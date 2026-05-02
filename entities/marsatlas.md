@@ -5,11 +5,12 @@ sources:
 - raw/papers/sanz-leon-2013.md
 - raw/papers/semanticscholar-028f6ac41d.md
 - raw/papers/sporns-2011.md
+- raw/papers/semanticscholar-028f7c6ac41d.md
 tags:
 - software-brain-modeling
 title: MarsAtlas
 type: entity
-updated: '2026-05-02'
+updated: '2026-05-03'
 ---
 
 title: MarsAtlas

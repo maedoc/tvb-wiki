@@ -1,10 +1,17 @@
 ---
-title: DWItoolbox
 created: 2026-04-29
-updated: 2026-05-02
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/ritter-2013.md
+- raw/papers/schirner-2018.md
+tags:
+- software-brain-modeling
+- diffusion-imaging
+- diffusion-mri
+- tractography
+title: DWItoolbox
 type: entity
-tags: [software-brain-modeling, diffusion-imaging, diffusion-mri, tractography]
-sources: []
+updated: '2026-05-03'
 ---
 
 # DWItoolbox

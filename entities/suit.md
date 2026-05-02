@@ -1,10 +1,23 @@
 ---
-title: SUIT
 created: 2024-01-15
-updated: 2026-05-02
+sources:
+- diedrichsen2006spatial
+- diedrichsen2009probabilistic
+- ewert2018neuroanatomical
+- raw/papers/semanticscholar-913068805e7f.md
+- raw/papers/power-2011.md
+- raw/papers/semanticscholar-1a3ed92b9f5a.md
+tags:
+- software-neuroimaging
+- neuroimaging-fmri
+- cerebellum
+- brainstem
+- spatial-normalization
+- toolkit
+- software-spm
+title: SUIT
 type: software
-tags: [software-neuroimaging, neuroimaging-fmri, cerebellum, brainstem, spatial-normalization, toolkit, software-spm]
-sources: [diedrichsen2006spatial, diedrichsen2009probabilistic, ewert2018neuroanatomical]
+updated: '2026-05-03'
 ---
 
 # SUIT (Spatial Unbiased Infratentorial Template)

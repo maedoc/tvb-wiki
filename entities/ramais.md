@@ -1,10 +1,18 @@
 ---
-title: RAMAIS (RAMIS)
 created: 2026-04-29
-updated: 2026-05-02
+sources:
+- raw/papers/arxiv-medical-imaging.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/ritter-2013.md
+- raw/papers/semanticscholar-b76b57eda5f0.md
+tags:
+- software-neuroimaging
+- software-visualization
+- parcellation
+- brain-atlas
+title: RAMAIS (RAMIS)
 type: entity
-tags: [software-neuroimaging, software-visualization, parcellation, brain-atlas]
-sources: [raw/papers/arxiv-medical-imaging.md]
+updated: '2026-05-03'
 ---
 
 # RAMAIS (RAMIS)

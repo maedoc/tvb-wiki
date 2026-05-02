@@ -1,10 +1,18 @@
 ---
-title: SimpleITK
 created: 2025-01-15
-updated: 2026-05-03
+sources:
+- lowekamp2013simpleitk
+- itk2000insight
+- raw/papers/huntenburg-2018.md
+- raw/papers/semanticscholar-380768cf42a8.md
+- raw/papers/sanz-leon-2013.md
+tags:
+- software-visualization
+- neuroimaging
+- image-processing
+title: SimpleITK
 type: entity
-tags: [software-visualization, neuroimaging, image-processing]
-sources: [lowekamp2013simpleitk, itk2000insight]
+updated: '2026-05-03'
 ---
 
 # SimpleITK
