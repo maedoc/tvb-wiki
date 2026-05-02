@@ -1,6 +1,7 @@
 # Log
 
 ## [2026-05-02]
+- Improved cytoscape page: created comprehensive entity page replacing placeholder content. Added overview of network visualization platform, motivation explaining bioinformatics origins and neuroscience applicability, detailed technical sections on visualization, layouts, analysis tools, app ecosystem. Included relationship to TVB for connectivity matrix visualization and network analysis, related software (Gephi, BCT, BrainNet Viewer), 11+ wikilinks to related pages (graph-theory, brain-network, the-virtual-brain, diffusion-imaging, mrtrix3, dipy, desikan-killiany-atlas, schaefer-atlas, modularity, rich-club, brain-connectivity-toolbox, whole-brain-modeling), updated frontmatter tags to taxonomy-compliant entries (software-visualization, connectomics, graph-theory, network-dynamics, structural-connectivity, functional-connectivity)
 - Fixed nix page frontmatter tags from non-taxonomy-compliant (computational-neuroscience, neuroimaging) to taxonomy-compliant [dataset], added wikilink to ebrains page
 
 ## 2026-05-02
@@ -58,3 +59,5 @@
 ## [2026-05-02 20:50] Linter: 12 broken links, 52 orphans, 45 stale, 49 empty
 
 ## [2026-05-02 21:04] Improve: 2 pages improved (nilearn-datasets, nix)
+
+## [2026-05-02 22:24] Improve: 2 pages improved (nilearn-datasets, nix)

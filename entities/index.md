@@ -19,6 +19,7 @@ A collection of people, software platforms, datasets, and research groups releva
 - [BrainSMASH](brainsmash.md) - Spatial autocorrelation null models for brain map statistics
 - [BrainSpace](brainspace.md) - Macroscale gradient analysis toolbox
 - [BRAPH](braph.md) - Graph theory software for brain connectivity analysis
+- [Cytoscape](cytoscape.md) - Network visualization and analysis platform for brain connectivity graphs
 - [ModelDB](modeldb.md) - Computational neuroscience model repository
 - [PsyNeuLink](psyneulink.md) - Graph-based cognitive neuroscience modeling framework
 - [jNeuroML](jneuroml.md) - Java implementation of NeuroML for neuronal model validation and export
