@@ -1,5 +1,11 @@
 # Log
 
+## [2026-05-02]
+- Fixed nix page frontmatter tags from non-taxonomy-compliant (computational-neuroscience, neuroimaging) to taxonomy-compliant [dataset], added wikilink to ebrains page
+
+## 2026-05-02
+- Updated nix page: created comprehensive entity page with content on the Nix (Neuroscience Information eXchange) data format and library. Added overview explaining Nix as standardized HDF5-based format for annotated neuroscientific datasets, developed by INCF Electrophysiology Task Force. Included detailed motivation explaining data interoperability challenges addressed by Nix, technical specification of core entities (DataArrays, Dimensions, Tags, Sources, Metadata), key features on minimalism/extensibility approach, relationship to TVB as potential data interchange format, related standards (NWB, Neo, NSDF), and canonical citation (Stoewer et al. 2014). Included 10+ wikilinks to related pages (Neo, NWB, The Virtual Brain, electrophysiology, fMRI, MEG, diffusion-imaging, hdf5, tvb-adapters, data-format, whole-brain-modeling). Updated frontmatter tags to taxonomy-compliant entries (computational-neuroscience, neuroimaging).
+
 ## 2026-05-02
 - Improved nix page: created comprehensive entity page replacing placeholder content. Added overview of Nix data format and nixpy library for neurophysiological data storage, motivation/context explaining need for unified format to address fragmentation in EEG/MEG/spike train data storage, detailed technical sections on hierarchical organization, rich metadata system, multi-modal integration, and tagging/provenance. Included relationship to TVB (data exchange for whole-brain modeling workflows), related software ecosystem (neo, odML, nixview), and 9 wikilinks to related pages (electrophysiology, eeg, meg, neo, data-format, reproducibility, whole-brain-modeling, neural-mass-model, brain-dynamics). Updated frontmatter tags to taxonomy-compliant entries.
 - Improved suit page: created comprehensive SUIT (Spatially Unbiased Infratentorial Template) entity page replacing placeholder content. Added detailed overview of cerebellar MRI toolbox, technical content on DARTEL normalization and probabilistic atlases, relationship to whole-brain modeling and TVB, key papers (Diedrichsen 2006, 2009, 2011, 2015), 12 wikilinks to related software/pages (spm, the-virtual-brain, whole-brain-modeling, diffusion-imaging, tractography, freesurfer, nilearn, brain-atlas, parcellation, normalization, resting-state, fsl), updated frontmatter tags to taxonomy-compliant entries (software-neuroimaging, neuroimaging-fmri, neuroimaging-mri, parcellation, brain-atlas, cerebellar-atlas, software-visualization, software-spm)
@@ -50,3 +56,5 @@
 ## [2026-05-02 20:50] Librarian: catalog rebuilt, 6988 asymmetric links noted
 
 ## [2026-05-02 20:50] Linter: 12 broken links, 52 orphans, 45 stale, 49 empty
+
+## [2026-05-02 21:04] Improve: 2 pages improved (nilearn-datasets, nix)
