@@ -3,6 +3,7 @@ created: 2026-04-20
 sources:
 - raw/papers/hines-carnevale-1997.md
 - raw/papers/carnevale-hines-2006.md
+- raw/papers/gewaltig-diesmann-2007.md
 tags:
 - people-researcher
 - software-neuron
@@ -10,7 +11,7 @@ tags:
 - tutorial
 title: Ted Carnevale
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-02'
 ---
 
 # Ted Carnevale

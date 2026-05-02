@@ -1,10 +1,24 @@
 ---
-title: HNN
 created: 2024-01-15
-updated: 2026-05-02
+sources:
+- raw/papers/arxiv-2505.16861.md
+- raw/papers/semanticscholar-eb704b6f5462.md
+- raw/papers/sanz-leon-2013.md
+tags:
+- software-neuroscience
+- neural-mass-models
+- whole-brain-modeling
+- brain-oscillations
+- local-field-potentials
+- excitatory-inhibitory-networks
+- computational-neuroscience
+- laminar-cortex
+- forward-model
+- eeg
+- meg
+title: HNN
 type: entity
-tags: [software-neuroscience, neural-mass-models, whole-brain-modeling, brain-oscillations, local-field-potentials, excitatory-inhibitory-networks, computational-neuroscience, laminar-cortex, forward-model, eeg, meg]
-sources: []
+updated: '2026-05-02'
 ---
 
 # HNN (Human Neocortical Neurosolver)

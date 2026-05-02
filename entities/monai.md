@@ -1,10 +1,21 @@
 ---
-title: MONAI
 created: 2024-01-15
-updated: 2026-05-02
+sources:
+- Cardoso et al.
+- 2022
+- Isensee et al.
+- 2021
+- raw/papers/semanticscholar-8edd59e14fa3.md
+- raw/papers/semanticscholar-ac35f7fc051b.md
+- raw/papers/semanticscholar-d4665dd0df61.md
+tags:
+- software-neuroml
+- neuroimaging
+- deep-learning
+- medical-imaging
+title: MONAI
 type: entity
-tags: [software-neuroml, neuroimaging, deep-learning, medical-imaging]
-sources: [Cardoso et al., 2022, Isensee et al., 2021]
+updated: '2026-05-02'
 ---
 
 ## Overview

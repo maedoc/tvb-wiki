@@ -1,10 +1,20 @@
 ---
-title: Nitime
 created: 2025-01-15
-updated: 2026-05-02
+sources:
+- 10.1109/5.771065
+- 10.3389/fnins.2010.00022
+- 10.3389/fninf.2015.00002
+- raw/papers/mijalkov-2017-braph.md
+- raw/papers/gramfort-2013.md
+- raw/papers/huntenburg-2018.md
+tags:
+- software-visualization
+- computational-neuroscience
+- time-series-analysis
+- brain-dynamics
+title: Nitime
 type: entity
-tags: [software-visualization, computational-neuroscience, time-series-analysis, brain-dynamics]
-sources: [10.1109/5.771065, 10.3389/fnins.2010.00022, 10.3389/fninf.2015.00002]
+updated: '2026-05-02'
 ---
 
 # Nitime

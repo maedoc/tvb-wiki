@@ -1,12 +1,16 @@
 ---
 created: 2026-04-30
-sources: []
+sources:
+- raw/papers/semanticscholar-cb501cd33451.md
+- raw/papers/arxiv-2509.24715.md
+- raw/papers/braph-2 genesis.md
 tags:
 - software-brain-modeling
 title: BrainCoGS
 type: entity
-updated: 2026-05-02
+updated: '2026-05-02'
 ---
+
 The BrainCoGS wiki page has been successfully improved with:
 
 **Enhancements made:**
