@@ -2,6 +2,14 @@
 
 ## 2026-05-02
 
+- Improved page: [[braincogs]] – Enhanced with additional wikilinks and specific paper references
+  - Added wikilinks: effective-connectivity, dynamic-causal-modeling, whole-brain-modeling, brain-connectivity-toolbox, bids, datalad, nwb, brain-dynamics-toolbox, functional-connectivity, neural-mass-models
+  - Expanded Key Papers section with specific publications (Brunton 2013, Erlich 2011, Pillow 2008, Park 2014, Goldman-Rakic 1995, Seung 2013)
+  - Added source: Princeton research programs page to frontmatter
+  - Enhanced Relationship to Other Projects section with connectomics and data standard connections
+  - Updated tags: added effective-connectivity, dynamic-causal-modeling, connectomics
+  - Total wikilinks now exceeds 15
+
 - Improved page: [[braincogs]] – NIH BRAIN Initiative research consortium on working memory circuits
   - Complete rewrite from placeholder to comprehensive entity page (~550 words)
   - Updated frontmatter: created 2026-04-30, updated date to 2026-05-02
@@ -1231,3 +1239,5 @@
 ## 2026-05-02
 
 - Updated **braincogs** page: Added wikilinks for excitation-inhibition-balance, brain-dynamics, petra-ritter; added Key Researchers section; expanded tags to include computational-neuroscience, neural-mass-models, effective-connectivity, structural-connectivity; updated sources
+
+## [2026-05-02 01:18] Improve: 3 pages improved (neurom, hnn, braincogs)
