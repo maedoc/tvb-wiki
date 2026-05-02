@@ -23,3 +23,5 @@
 ## [2026-05-02 15:38] Improve: 3 pages improved (neurom, bcilab, popeye)
 ## [2026-05-02 16:30] Improve: popeye page comprehensively rewritten with detailed pRF methodology content, 11 wikilinks added, updated frontmatter tags
 ## [2026-05-02] Improved bcilab page: replaced placeholders with substantive content on MATLAB BCI toolbox (SCCN/UCSD), 572 words, 14 unique wikilinks to related software (eeglab, bci2000, fieldtrip, mne-python, tvb, brain-connectivity-toolbox, brainspace, brainiak) and concepts (epilepsy-modeling, brain-stimulation, brain-oscillations, connectomics, computational-neuroscience, whole-brain-modeling), updated frontmatter tags per taxonomy
+
+## [2026-05-02 16:48] Improve: 3 pages improved (neurom, popeye, bcilab)

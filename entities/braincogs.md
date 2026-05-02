@@ -29,3 +29,9 @@ The BrainCoGS wiki page has been successfully improved with:
 5. **Enhanced Relationship to Other Projects**: Added connections to the brain-connectivity-toolbox, BIDS, DataLAD, NWB standards, and brain-dynamics-toolbox
 
 The page now has comprehensive content (~1100 words) with substantive prose in every section, meeting all schema requirements including frontmatter formatting, wikilinks, and no placeholder text.
+
+## References
+
+1. Micha Burkhardt, Carsten Gießing. (2025). *The Comet Toolbox: Improving robustness in network neuroscience through multiverse analysis*. bioRxiv. [DOI](https://doi.org/10.1101/2024.01.21.576546)
+2. Jiangnan Zhang, Chengyuan Qian, Wenlian Lu, Gustavo Deco, Weiyang Ding, Jianfeng Feng. (2025). *Dark Signals in the Brain: Augment Brain Network Dynamics to the Complex-valued Field*. [Link](https://arxiv.org/abs/2509.24715)
+3. (authors unknown). *BRAPH 2.0 Genesis: An Open-Source Toolbox for Brain Connectivity Analysis*.
