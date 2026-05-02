@@ -1,6 +1,9 @@
 ---
 created: 2026-04-29
-sources: []
+sources:
+- raw/papers/semanticscholar-cb501cd33451.md
+- raw/papers/arxiv-2603.24176.md
+- raw/papers/arxiv-2604.14259.md
 tags:
 - software-brain-modeling
 title: popeye

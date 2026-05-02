@@ -9,6 +9,7 @@ sources:
 - raw/papers/semanticscholar-60ca593f7e0c.md
 - raw/papers/arxiv-2604.17151.md
 - raw/papers/arxiv-2512.03907.md
+- raw/papers/arxiv-2603.21067.md
 tags:
 - variational-bayes
 - parameter-estimation

@@ -4,6 +4,8 @@ sources:
 - raw/papers/semanticscholar-cb501cd33451.md
 - raw/papers/arxiv-2509.24715.md
 - raw/papers/braph-2 genesis.md
+- raw/papers/glean-github.md
+- raw/papers/semanticscholar-6295d2445697.md
 tags:
 - software-brain-modeling
 title: BrainCoGS

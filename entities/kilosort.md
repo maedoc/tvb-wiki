@@ -1,13 +1,26 @@
 ---
-title: Kilosort
 created: 2025-01-15
-updated: 2026-05-02
-type: entity
-tags: [software-electrophysiology, spike-sorting, electrophysiology, neural-data-analysis, open-source]
 sources:
-  - "Pachitariu, M., Steinmetz, N., Kadir, S., Carandini, M., & Harris, K. D. (2016). Kilosort: realtime spike-sorting for extracellular electrophysiology with hundreds of channels. Nature Methods, 13(7), 587-592."
-  - "Pachitariu, M., Stringer, C., & Harris, K. D. (2018). Robustness of spike sorting with the Kilosort2 algorithm. Journal of Neuroscience Methods, 303, 1-7."
-  - "Rossant, C., Kadir, S. N., Goodman, D. F. M., Hunt, J., Garrett, R. D., Young, M., ... & Harris, K. D. (2016). Spike sorting with large-scale tetrode recordings. Nature Methods, 13(7), 579-586."
+- 'Pachitariu, M., Steinmetz, N., Kadir, S., Carandini, M., & Harris, K. D. (2016).
+  Kilosort: realtime spike-sorting for extracellular electrophysiology with hundreds
+  of channels. Nature Methods, 13(7), 587-592.'
+- Pachitariu, M., Stringer, C., & Harris, K. D. (2018). Robustness of spike sorting
+  with the Kilosort2 algorithm. Journal of Neuroscience Methods, 303, 1-7.
+- Rossant, C., Kadir, S. N., Goodman, D. F. M., Hunt, J., Garrett, R. D., Young, M.,
+  ... & Harris, K. D. (2016). Spike sorting with large-scale tetrode recordings. Nature
+  Methods, 13(7), 579-586.
+- raw/papers/arxiv-2509.02799.md
+- raw/papers/arxiv-2604.03619.md
+- raw/papers/semanticscholar-b9acfa0a7c80.md
+tags:
+- software-electrophysiology
+- spike-sorting
+- electrophysiology
+- neural-data-analysis
+- open-source
+title: Kilosort
+type: entity
+updated: '2026-05-02'
 ---
 
 Kilosort is a widely-used open-source spike sorting algorithm designed to automatically detect and cluster neural spikes from high-density extracellular electrophysiology recordings. Originally developed by Marius Pachitariu at the Janelia Research Campus of Howard Hughes Medical Institute, Kilosort has become one of the standard tools in the electrophysiology community for processing data from [[spikeglx]] and [[open-ephys]] recording systems, as well as data converted through [[neo]] and [[spikeinterface]] frameworks (Pachitariu et al., 2016).

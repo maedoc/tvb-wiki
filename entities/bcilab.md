@@ -1,10 +1,23 @@
 ---
-title: BCILAB
 created: 2025-01-15
-updated: 2026-05-02
+sources:
+- https://sccn.ucsd.edu/bcilab/
+- https://github.com/sccn/bcilab
+- raw/papers/arxiv-2604.16463.md
+- raw/papers/arxiv-2509.00670.md
+- raw/papers/arxiv-2510.12910.md
+tags:
+- software-bcilab
+- neuroimaging-eeg
+- neuroimaging-meg
+- brain-computer-interface
+- neurotechnology
+- signal-processing
+- machine-learning
+- open-source
+title: BCILAB
 type: entity
-tags: [software-bcilab, neuroimaging-eeg, neuroimaging-meg, brain-computer-interface, neurotechnology, signal-processing, machine-learning, open-source]
-sources: [https://sccn.ucsd.edu/bcilab/, https://github.com/sccn/bcilab]
+updated: '2026-05-02'
 ---
 
 # BCILAB

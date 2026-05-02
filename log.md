@@ -37,3 +37,5 @@
 
 ## [2026-05-02 19:00] Audit: 907 issues (34 broken links, 62 orphans, 41 placeholders, 0 dup-refs, 2 bad-meta, 78 citation-verify, 7 opaque-refs, 79 thin, 340 missing-links)
 ## [2026-05-02 19:15] Improve: bcilab page comprehensively rewritten with detailed BCI toolbox content, replaced placeholder content with substantive overview, motivation/context, technical capabilities (signal processing, feature extraction, ML classifiers, real-time processing), relationship to TVB and whole-brain modeling, related software ecosystem (eeglab, fieldtrip, brainstorm, bci2000, openvibe), key features section, 13 wikilinks to existing pages, updated frontmatter tags per taxonomy
+
+## [2026-05-02 19:21] Improve: 3 pages improved (kilosort, bcilab, suit)
