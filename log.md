@@ -1,6 +1,7 @@
 # Log
 
 ## 2026-05-02
+- Improved suit page: created comprehensive SUIT (Spatially Unbiased Infratentorial Template) entity page replacing placeholder content. Added detailed overview of cerebellar MRI toolbox, technical content on DARTEL normalization and probabilistic atlases, relationship to whole-brain modeling and TVB, key papers (Diedrichsen 2006, 2009, 2011, 2015), 12 wikilinks to related software/pages (spm, the-virtual-brain, whole-brain-modeling, diffusion-imaging, tractography, freesurfer, nilearn, brain-atlas, parcellation, normalization, resting-state, fsl), updated frontmatter tags to taxonomy-compliant entries (software-neuroimaging, neuroimaging-fmri, neuroimaging-mri, parcellation, brain-atlas, cerebellar-atlas, software-visualization, software-spm)
 - Updated popeye page with substantive content on population receptive field (pRF) estimation toolbox for fMRI, correcting earlier placeholder and ensuring alignment with entities/index.md description
 - Created brainsmash page with full content on spatial autocorrelation null model software for brain map statistical testing
 - Updated neurom page with substantive content on morphology analysis software
@@ -25,3 +26,5 @@
 ## [2026-05-02] Improved bcilab page: replaced placeholders with substantive content on MATLAB BCI toolbox (SCCN/UCSD), 572 words, 14 unique wikilinks to related software (eeglab, bci2000, fieldtrip, mne-python, tvb, brain-connectivity-toolbox, brainspace, brainiak) and concepts (epilepsy-modeling, brain-stimulation, brain-oscillations, connectomics, computational-neuroscience, whole-brain-modeling), updated frontmatter tags per taxonomy
 
 ## [2026-05-02 16:48] Improve: 3 pages improved (neurom, popeye, bcilab)
+
+## [2026-05-02 17:31] RefFormatter: formatted references on 8 pages
