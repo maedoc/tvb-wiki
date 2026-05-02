@@ -9,3 +9,6 @@
 ## [2026-05-02 11:51] Improve: 3 pages improved (neurom, brainsmash, popeye)
 
 ## [2026-05-02 13:02] Improve: 3 pages improved (popeye, brainsmash, neurom)
+
+## [2026-05-02 13:13] Matcher: 3 pages got 9 new sources
+## [2026-05-02] Improved neurom page: removed references section (per schema), updated wikilinks to match inventory (neuromorpho, pynn, brian2, nest), added software-brian tag
