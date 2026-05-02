@@ -3,7 +3,7 @@ title: NeuroM
 created: 2024-01-15
 updated: 2026-05-02
 type: entity
-tags: [software-neurom, spiking-neural-networks, neural-morphology, neuronal-morphology, software-visualization, connectomics, neuroanatomy, python-toolbox]
+tags: [software-neurom, neural-morphology, neuronal-morphology, software-visualization, connectomics, neuroanatomy, python-toolbox, computational-neuroscience]
 sources:
   - https://github.com/BlueBrain/NeuroM
   - https://neurom.readthedocs.io/en/stable/
