@@ -64,6 +64,7 @@ A persistent controversy in the field concerns global signal regression—a prep
 - [[whole‑brain]] – Computational models simulating large‑scale [[brain‑dynamics]]
 - [[connectomics]] – The study of the brain's connectome
 - [[spontaneous‑activity]] – Ongoing neural dynamics in the absence of tasks
+- [[mark-newman]]
 [[brainsmash]]
 
 ## References
@@ -116,4 +117,28 @@ type: entity
 updated: '2026-05-02'  
 ---  
 
-**ICLabel** is an [[eeglab]] plugin that uses a deep [[neural-network]] to automatically classify independent components (ICs) derived from EEG recordings arxiv-1903.06496. It categorizes ICs into six main ty
+**ICLabel** is an [[eeglab]] plugin that uses a deep [[neural-network]] to automatically classify independent components (ICs) derived from EEG recordings arxiv-1903.06496. It categorizes ICs into six main
+
+## ORPHAN PAGE CONTEXT (mark-newman)
+---
+created: 2026-04-20
+sources:
+- raw/papers/newman-2010.md
+- raw/papers/sporns-2011.md
+- raw/papers/watts-strogatz-1998.md
+- raw/papers/barabasi-albert-1999.md
+- raw/papers/rubinov-sporns-2010.md
+- raw/papers/semanticscholar-7c3337c880fd.md
+- raw/papers/arxiv-2602.17820.md
+- raw/papers/smith-2013-connectomics.md
+tags:
+- people-researcher
+- network-dynamics
+title: Mark E. J. Newman
+type: entity
+updated: '2026-04-30'
+---
+
+# Mark E. J. Newman
+
+Distinguished University Professor at University of M

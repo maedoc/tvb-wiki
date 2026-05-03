@@ -17,13 +17,12 @@ updated: 2026-05-03
 type: entity
 tags: [software-visualization, [[neuroimaging]], resting-state, functional-[[connectivity]], structural-connectivity]
 sources: [10.1016/j.neuroimage.2021.118337, 10.1016/j.neuroimage.2016.05.024, 10.1002/hbm.23798]
----
 
 # BrainStat
 
 ## Overview
 
-**BrainStat** is a Python toolbox designed for statistical analysis of brain imaging data, with a particular emphasis on connectivity-based analyses in [[whole-brain|whole-brain modeling]] contexts. The toolbox provides a unified interface for performing mass-univariate and multivariate statistical tests on neuroimaging datasets, including cortical thickness, functional connectivity matrices, and graph-theoretic metrics derived from structural and functional connectomes. BrainStat integrates tightly with established Python neuroimaging libraries such as [[nilearn]] and supports data formats common in the [[human-[[connectome]]-project]] and similar large-scale neuroimaging initiatives.
+**BrainStat** is a Python toolbox designed for statistical analysis of brain imaging data, with a particular emphasis on connectivity-based analyses in [[whole-brain|whole-brain modeling]] contexts. The toolbox provides a unified interface for performing mass-univariate and multivariate statistical tests on neuroimaging datasets, including cortical thickness, functional connectivity matrices, and graph-theoretic metrics derived from structural and functional connectomes. BrainStat integrates tightly with established Python neuroimaging libraries such as [[nilearn]] and supports data formats common in the [[mrtrix3-connectome]] and similar large-scale neuroimaging initiatives.
 
 The software addresses a critical gap in the neuroimaging analysis ecosystem: while tools like [[spm]], [[fsl]], and [[fieldtrip]] excel at preprocessing and first-level analysis, and libraries like the **Brain Connectivity Toolbox** (BCT, also known as [bctpy](https://github.com/aestivabrainconn/bctpy)) provide sophisticated network metrics, there existed no dedicated Python toolbox bridging the gap between raw connectivity estimates and group-level statistical inference. BrainStat fills this role by offering robust statistical primitives specifically optimized for high-dimensional brain data, as documented in the primary BrainStat publication (Larivière et al., 2021)[^1].
 

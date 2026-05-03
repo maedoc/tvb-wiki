@@ -1,7 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- raw/papers/arxiv-1806.01474.md
 - raw/papers/arxiv-2601.13676.md
 - raw/papers/semanticscholar-a0cce22e2ffc.md
 - raw/papers/semanticscholar-ac35f7fc051b.md
@@ -32,7 +31,7 @@ The pose estimation pipeline proceeds in three stages. First, a user manually an
 
 **Multi-animal tracking** represents one of DeepLabCut's most powerful capabilities, enabling simultaneous tracking of individual animals in social contexts without requiring artificial markers or dyes. The DLC-Multianimal extension employs a top-down approach where animal identity is first detected, followed by pose estimation within each detection window, maintaining consistent identity across frames.
 
-**3D reconstruction** becomes possible through triangulation when multiple calibrated cameras capture the same behavioral episode. DeepLabCut integrates seamlessly with OpenCV and custom calibration routines, allowing researchers to lift 2D pose estimates into 3D anatomical coordinates—a critical capability for validating [[whole-brain model|[[whole-brain]] modeling]] predictions about movement kinematics.
+**3D reconstruction** becomes possible through triangulation when multiple calibrated cameras capture the same behavioral episode. DeepLabCut integrates seamlessly with OpenCV and custom calibration routines, allowing researchers to lift 2D pose estimates into 3D anatomical coordinates—a critical capability for validating [[bold-model|[[whole-brain]] modeling]] predictions about movement kinematics.
 
 **Active learning** capabilities allow the system to iteratively improve by identifying frames where the network is uncertain, presenting these to human annotators for correction. This dramatically reduces the labeling burden compared to traditional approaches, as the network focuses learning on genuinely ambiguous cases.
 
@@ -44,7 +43,7 @@ DeepLabCut also complements [[neuroimaging]] pipelines that combine [[fMRI]], [[
 
 ## Comparison to Related Tools
 
-Compared to commercial solutions like Vicon or OptiTrack, DeepLabCut offers dramatically lower hardware costs (requiring only standard video cameras) and eliminates the need for marker application, reducing experimental preparation time. However, it requires more computational resources for inference and demands greater expertise in deep learning workflows. Compared to other open-source alternatives like [[openpose]] or [[tensorflow]]-based pose estimation frameworks, DeepLabCut provides a more polished user interface with integrated labeling tools and pretrained model zoo, lowering barriers for new users.
+Compared to commercial solutions like Vicon or OptiTrack, DeepLabCut offers dramatically lower hardware costs (requiring only standard video cameras) and eliminates the need for marker application, reducing experimental preparation time. However, it requires more computational resources for inference and demands greater expertise in deep learning workflows. Compared to other open-source alternatives like openpose or [[tensorflow]]-based pose estimation frameworks, DeepLabCut provides a more polished user interface with integrated labeling tools and pretrained model zoo, lowering barriers for new users.
 
 ## Key Papers
 
@@ -53,7 +52,7 @@ Mathis, A., Mamidanna, P., Cury, K.M., Abe, T., Murthy, V.N., Mathis, M.W., & Be
 ## Related Software
 
 - [[tensorflow]] — Deep learning framework underlying DeepLabCut's neural network architecture
-- [[openpose]] — Open-source library for 2D human pose estimation
+- openpose — Open-source library for 2D human pose estimation
 - [[spikeinterface]] — Can integrate with behavioral tracking for multimodal neurophysiology studies
 - [[bids]] — Data format standard applicable to behavioral video datasets
 - [[3d-slicer]] — Visualization platform sometimes used for 3D pose reconstruction

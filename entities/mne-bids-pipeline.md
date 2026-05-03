@@ -68,6 +68,6 @@ The combination of MNE-BIDS-Pipeline and TVB represents a powerful workflow for 
 
 - Jas, M., et al. (2017). MNE-BIDS: A tool to flexibly share MEG, EEG, and intracranial EEG data. Scientific Data, 4, 170054.
 
-- Van Essen, D. C., et al. (2013). The [[human-[[connectome]]-project]]: A data acquisition perspective. NeuroImage, 62, 2222-2231.
+- Van Essen, D. C., et al. (2013). The [[mrtrix3-connectome]]: A data acquisition perspective. NeuroImage, 62, 2222-2231.
 
 - [[tvb|The Virtual Brain]]. (2024). TVB Documentation. https://www.thevirtualbrain.org

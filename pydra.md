@@ -17,7 +17,7 @@ At its core, Pydra implements a functional computation model where data processi
 
 ## Relationship to TVB
 
-While Pydra is not directly developed by The Virtual Brain team, it occupies an important niche in the broader ecosystem of tools that support whole-brain modeling workflows. Neuroimaging simulations in [[the-virtual-brain]] often require preprocessed anatomical and functional data derived from [[dwi]] or resting-state [[fmri]] recordings. Pydra can serve as the preprocessing pipeline engine that transforms raw neuroimaging data into the structural [[connectivity]] matrices and regional time series that feed into TVB simulations.
+While Pydra is not directly developed by The Virtual Brain team, it occupies an important niche in the broader ecosystem of tools that support whole-brain modeling workflows. Neuroimaging simulations in [[the-virtual-brain]] often require preprocessed anatomical and functional data derived from [[dwi-toolbox]] or resting-state [[fmri]] recordings. Pydra can serve as the preprocessing pipeline engine that transforms raw neuroimaging data into the structural [[connectivity]] matrices and regional time series that feed into TVB simulations.
 
 The relationship is primarily one of compatibility rather than integration: researchers using Pydra to preprocess diffusion tensor imaging data can generate the structural [[connectome]] representations needed for whole-brain models, while those preprocessing functional MRI data can produce the empirical timeseries used for model validation or parameter estimation. This makes Pydra a valuable tool in the TVB workflow, particularly for researchers building personalized brain models using empirical subject data.
 

@@ -1,11 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- Shannon et al. 2003, Genome Research
-- Sporns et al. 2004, PNAS
-- Sporns et al. 2005, Cerebral Cortex
-- Rubinov & Sporns 2010, NeuroImage
-- Bassett & Bullmore 2006, The Neuroscientist
 - raw/papers/rubinov-sporns-2010.md
 - raw/papers/sanz-leon-2013.md
 - raw/papers/bullmore-sporns-2009.md
@@ -25,7 +20,7 @@ updated: '2026-05-03'
 
 ## Overview
 
-Cytoscape is an open-source software platform for visualizing, analyzing, and modeling complex networks and interactions between molecular components. Originally developed for bioinformatics applications—particularly the visualization and analysis of protein-protein interaction (PPI) networks derived from high-throughput genomics data—Cytoscape has evolved into a general-purpose network visualization and analysis tool widely adopted across diverse scientific domains, including [[computational-neuroscience]] and [[connectomics]] (Shannon et al. 2003). The software provides an interactive graphical interface for constructing, annotating, and exploring network graphs, along with extensive scripting capabilities through its Python-based [[py4cytoscape]] library and dedicated apps for domain-specific analyses.
+Cytoscape is an open-source software platform for visualizing, analyzing, and modeling complex networks and interactions between molecular components. Originally developed for bioinformatics applications—particularly the visualization and analysis of protein-protein interaction (PPI) networks derived from high-throughput genomics data—Cytoscape has evolved into a general-purpose network visualization and analysis tool widely adopted across diverse scientific domains, including [[computational-neuroscience]] and [[connectomics]] (Shannon et al. 2003). The software provides an interactive graphical interface for constructing, annotating, and exploring network graphs, along with extensive scripting capabilities through its Python-based [[cytoscape]] library and dedicated apps for domain-specific analyses.
 
 ## Key Features
 

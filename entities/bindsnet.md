@@ -14,7 +14,7 @@ tags:
 - plasticity
 title: BindsNET
 type: entity
-updated: '2026-05-02'
+updated: '2026-05-03'
 ---
 
 # BindsNET
@@ -65,7 +65,7 @@ BindsNET's primary competitor in the SNN-for-ML space is [[snnTorch]], another P
 - [[Brian2]]
 - [[NEST]]
 - [[NEURON]]
-- [[snntorch]]
+- snntorch
 - [[pyNN]]
 - [[netpyne]]
 - [[Auryn]]

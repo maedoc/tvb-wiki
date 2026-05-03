@@ -24,7 +24,7 @@ Nighres is an open-source Python library designed for high-resolution neuroimagi
 
 Traditional neuroimaging analysis pipelines often operate on voxel sizes of 1–2 mm, which provides adequate sensitivity for [[whole-brain]] analyses but sacrifices anatomical detail at the laminar and sublaminar levels. Cortical layer analysis requires voxel sizes on the order of 0.5–0.7 mm, achieved with specialized protocols like MP2RAGE or multi-shell [[diffusion-imaging]] [@Marques2010]. However, processing these high-resolution datasets introduces substantial computational challenges and requires specialized algorithms that account for partial volume effects, variable Rician noise profiles, and the complex geometry of cortical laminae.
 
-Nighres emerged to address this gap, providing validated implementations of algorithms specifically designed for laminar analysis that had previously been available only as disparate MATLAB scripts or commercial solutions. By wrapping these methods in a Python library with a unified API, Nighres enables reproducible, large-scale studies of cortical architecture in both research and clinical contexts. The library fits within a broader ecosystem of [[neuroimaging]] tools—particularly [[ANTs]] for registration, [[FreeSurfer]] for surface-based analysis, and [[dipy]] for diffusion processing—while offering functionality that these general-purpose packages do not provide.
+Nighres emerged to address this gap, providing validated implementations of algorithms specifically designed for laminar analysis that had previously been available only as disparate MATLAB scripts or commercial solutions. By wrapping these methods in a Python library with a unified API, Nighres enables reproducible, large-scale studies of cortical architecture in both research and clinical contexts. The library fits within a broader ecosystem of [[neuroimaging]] tools—particularly [[ANTs]] for registration, [[FreeSurfer]] for surface-based analysis, and [[dipy]] for diffusion processing—while offering functionality that these general‑purpose packages do not provide.
 
 ## Key Features
 
@@ -89,7 +89,7 @@ The following publications form the foundation for Nighres and its underlying me
 
 [@Marques2010]: Marques, J.P., et al. (2010). MP2RAGE: a self‑bipolarizing sequence for fast and accurate T1 mapping at 7T. *Magnetic Resonance in Medicine*, 64(6), 1554‑1568.
 
-[@HCP2013]: Glasser, M.F., et al. (2013). The [[human-[[connectome]]-project]]'s neuroimaging approach. *Nature Neuroscience*, 16(9), 1213‑1221.
+[@HCP2013]: Glasser, M.F., et al. (2013). The [[mrtrix3-connectome]]'s neuroimaging approach. *Nature Neuroscience*, 16(9), 1213‑1221.
 
 [@Weiner2014]: Weiner, K.S., et al. (2014). The modular architecture of the cerebral cortex. *Brain Structure and Function*, 219(1), 147‑164.
 

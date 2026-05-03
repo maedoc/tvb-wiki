@@ -1,8 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- https://sccn.ucsd.edu/bcilab/
-- https://github.com/sccn/bcilab
 - raw/papers/arxiv-2604.16463.md
 - raw/papers/arxiv-2509.00670.md
 - raw/papers/arxiv-2510.12910.md

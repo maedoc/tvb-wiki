@@ -15,7 +15,7 @@ title: MELODIC
 created: 2025-01-15
 updated: 2026-05-03
 type: entity
-tags: [[[software-fsl]], ica, [[neuroimaging]]-[[fmri]], resting-state, functional-[[connectivity]], [[source-separation]], software-visualization]
+tags: [[software-fsl]], ica, [[neuroimaging]]-[[fmri]], resting-state, functional-[[connectivity]], [[source-separation]], software-visualization
 sources: [beckmann2004probabilistic, smith2004advances, salimi2014automatic, smith2009correlations]
 ---
 
@@ -43,7 +43,7 @@ While [[tvb|[[the-virtual-brain]] (TVB)]] focuses on computational modeling of w
 
 ## Related Software and Methods
 
-MELODIC integrates tightly within the FSL ecosystem, interfacing with other FSL tools for complete fMRI analysis pipelines, including tools for preprocessing, registration, and statistical inference. [[fsl-randomise]] performs permutation-based non-parametric inference for group-level statistical analysis of ICA-derived spatial maps. The [[dual-regression]] technique, also available in FSL, enables identification of individual subject-specific spatial maps and time courses corresponding to a given set of group ICA templates—thereby connecting individual variation to group-level network architectures identified by MELODIC. Alternative ICA implementations in the neuroimaging community include [[eeglab]] (primarily for EEG but extended to fMRI), [[mne-python]], and commercial solutions in [[spm]], each offering different algorithmic approaches and preprocessing pipelines.
+MELODIC integrates tightly within the FSL ecosystem, interfacing with other FSL tools for complete fMRI analysis pipelines, including tools for preprocessing, registration, and statistical inference. [[fsl-randomise]] performs permutation-based non-parametric inference for group-level statistical analysis of ICA-derived spatial maps. The dual-regression technique, also available in FSL, enables identification of individual subject-specific spatial maps and time courses corresponding to a given set of group ICA templates—thereby connecting individual variation to group-level network architectures identified by MELODIC. Alternative ICA implementations in the neuroimaging community include [[eeglab]] (primarily for EEG but extended to fMRI), [[mne-python]], and commercial solutions in [[spm]], each offering different algorithmic approaches and preprocessing pipelines.
 
 ## Key Papers
 

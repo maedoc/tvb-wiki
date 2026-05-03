@@ -12,10 +12,10 @@ tags:
 - software-freesurfer
 title: FreeSurfer
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-03'
 ---
 
-FreeSurfer (freesurfer) is a comprehensive [[neuroimaging]] software suite for structural MRI analysis, cortical surface reconstruction, [[parcellation]], and morphometric analysis.
+FreeSurfer (freesurfer) is a comprehensive [[neuroimaging]] software suite for structural MRI analysis, cortical surface reconstruction, [[parcellation]], and morphometric analysis. It is commonly combined with [[mindboggle]] for detailed morphometric pipelines.
 
 ## Key Features
 
@@ -43,3 +43,25 @@ FreeSurfer is often used alongside [[tvb]] and other simulation platforms in pre
 5. Mohammadtaha Parsayan, S. Andalib, T. L. Andersen, Habib Ganjgahi, P. Høilund-Carlsen, Abass Alavi, Mojtaba Zarei. (2025). *Odense-Oxford PET Image Analysis (OPETIA): An FSL-based toolbox for multimodal neuroimaging*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2025.121278)
 6. Emmanuelle Renauld, Arnaud Boré, Charles Poirier, Alex Valcourt-Caron, Philippe Karan, Antoine Théberge, Guillaume Théaud, Manon Edde, P. Poulin, Gabriel Girard, Jean-Christophe Houde, A. Gagnon, Etienne St-Onge, Graham Little, Jon Haitz Legarreta, Stanislas Thoumyre, G. Grenier, Zineb El Yamani, Mario Ocampo Pineda, Matteo Battochio, Vincent Beaudoin, Alexandre Joanisse, Laurent Petit, F. Rheault, Maxime Descoteaux. (2026). *[[tractography]] analysis with the scilpy toolbox*. Aperture Neuro. [DOI](https://doi.org/10.52294/001c.154022)
 7. (authors unknown). *[[braph]]: A Pipeline for Brain [[connectivity]] Analysis*.
+
+## ORPHAN PAGE CONTEXT (mindboggle)
+---
+created: 2025-01-15
+sources:
+- raw/papers/klein-2017-mindboggling-morphometry.md
+tags:
+- software-visualization
+- software-brain-modeling
+- neuroimaging-mri
+- brain-parcellations
+- parcellation
+- shape-analysis
+- open-source-brain
+title: Mindboggle
+type: entity
+updated: '2026-04-30'
+---
+
+## Overview
+
+Mindboggle is an open-source brain morphometry platform that takes preprocessed T1-weighted MRI data and outputs volumetric, surface-based, and tabular data containing anatomical labels, cortica

@@ -338,7 +338,22 @@
 - [[Yasa]] – YASA (Yet Another Spindle Algorithm) is an open-source Python toolbox designed for automated analysis of polysomnographi...
 - [[Yeo Atlas]] – tags: [[stochastic-differential-equations]], [[neuroimaging]]-fmri, functional-[[connectivity]], resting-state, [[softwa...
 - [[Yuri Kuznetsov]] – Yuri A. Kuznetsov is a Russian mathematician and Professor at Utrecht University, Netherlands. He is a leading expert on...
-
+- [[auto-07p|Auto 07P]]
+- [[bids-validator|Bids Validator]]
+- [[brainstat|Brainstat]]
+- [[connectome-mapper-3|Connectome Mapper 3]]
+- [[coreneuron|Coreneuron]]
+- [[exploreasl|Exploreasl]]
+- [[gephi|Gephi]]
+- [[gretna|Gretna]]
+- [[matcont|Matcont]]
+- [[music|Music]]
+- [[surfice|Surfice]]
+- [[tensorflow|Tensorflow]]
+- [[tractor|Tractor]]
+- [[voxelmorph|Voxelmorph]]
+- [[yasa|Yasa]]
+- [[yuri-kuznetsov|Yuri Kuznetsov]]
 ## Concepts
 <!-- concepts -->
 - [[Adaptive Exponential Integrate And Fire]] – Adaptive Exponential [[spiking-neural-networks|Integrate And Fire]] — a concept in [[whole-brain|whole-brain modeling]] ...
@@ -481,7 +496,8 @@
 - [[Wong Wang]] – The **Wong-Wang model** is a reduced [[neural-mass-models|neural mass model]] that describes the dynamics of recurrent c...
 - [[Xcos]] – XCOS (Extended COrdinate System) refers to a standardized framework for representing and transforming electroencephalogr...
 - [[Zerlaut]] – The **Zerlaut model** is a mean-field representation of cortical microcircuit dynamics that describes the collective act...
-
+- [[andronov-hopf-bifurcation|Andronov Hopf Bifurcation]]
+- [[anticevic-2012|Anticevic 2012]]
 ## Comparisons
 <!-- comparisons -->
 - [[Connectivity Types]] – Three distinct but related concepts for describing brain [[connectivity]], each capturing different aspects of how brain...

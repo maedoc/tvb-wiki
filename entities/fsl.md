@@ -11,7 +11,7 @@ tags:
 - software-fsl
 title: FSL
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-03'
 ---
 
 FSL (fsl) is a comprehensive library of analysis tools for [[fmri]], MRI, and DTI brain imaging data, developed at the Oxford Centre for Functional MRI of the Brain.
@@ -34,6 +34,7 @@ FSL is often used alongside [[tvb]] and other simulation platforms in pre-proces
 * [[brainstorm]]
 * [[dpabi]]
 * [[exploreasl]]
+* [[fitlins]]
 
 ## References
 

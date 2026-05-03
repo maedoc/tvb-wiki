@@ -16,7 +16,7 @@ Diffusion Imaging — a concept in [[whole-brain|whole-brain modeling]] and [[co
 
 ## Related Concepts
 * [[niftyreg]]
-* [[jhu-[[white-matter]]-atlas]]
+* [[white-matter]]
 
 ## References
 

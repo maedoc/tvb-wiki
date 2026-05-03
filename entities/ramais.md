@@ -1,7 +1,6 @@
 ---
 created: 2026-04-29
 sources:
-- raw/papers/arxiv-medical-imaging.md
 - raw/papers/sanz-leon-2013.md
 - raw/papers/ritter-2013.md
 - raw/papers/semanticscholar-b76b57eda5f0.md

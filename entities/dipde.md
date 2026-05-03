@@ -1,9 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- https://github.com/AllenInstitute/dipde
-- https://alleninstitute.github.io/dipde/
-- https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1003248
 - raw/papers/semanticscholar-ad05f8fb9b0d.md
 - raw/papers/arxiv-2512.22093.md
 - raw/papers/semanticscholar-71ffb8153870.md
@@ -25,8 +22,6 @@ updated: '2026-05-03'
 ## Overview
 
 DiPDE was developed to enable ultra-fast simulations of neural populations at the mesoscale level, where large populations of neurons are treated as homogeneous groups with random fine-scale [[connectivity]] [<citation>2</citation>]. Unlike spike-based simulators that track individual neurons, DiPDE leverages the population density approach pioneered by Knight, Sirovich, and colleagues [<citation>3</citation>], which can dramatically reduce computational overhead while still capturing network-level dynamics.
-
-The simulator's architecture combines Python for user interfaces and network specification with optimized numerical solvers for the computational core. This design allows neuroscientists to rapidly prototype network architectures while achieving simulation speeds suitable for exploring parameter spaces and conducting parameter sweeps [<citation>4</citation>].
 
 ## Relationship to The Virtual Brain
 

@@ -1,8 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- lowekamp2013simpleitk
-- itk2000insight
 - raw/papers/huntenburg-2018.md
 - raw/papers/semanticscholar-380768cf42a8.md
 - raw/papers/sanz-leon-2013.md
@@ -19,11 +17,11 @@ updated: '2026-05-03'
 
 ## Overview
 
-SimpleITK is a simplified interface to the Insight Toolkit (ITK), one of the most widely used open-source libraries for medical image analysis and segmentation. Developed as a abstraction layer over the powerful but complex ITK, SimpleITK provides an intuitive API that makes common image processing tasks accessible to researchers without requiring deep expertise in C++ template programming [[#ref1]]. The library supports a broad range of image formats common in neuroimaging research, including NIfTI, DICOM, Analyze, and numerous other medical imaging formats, making it an essential tool in the preprocessing pipelines for [[fMRI]], [[dti|DTI]], and structural MRI analysis.
+SimpleITK is a simplified interface to the Insight Toolkit (ITK), one of the most widely used open-source libraries for medical image analysis and segmentation. Developed as a abstraction layer over the powerful but complex ITK, SimpleITK provides an intuitive API that makes common image processing tasks accessible to researchers without requiring deep expertise in C++ template programming #ref1. The library supports a broad range of image formats common in neuroimaging research, including NIfTI, DICOM, Analyze, and numerous other medical imaging formats, making it an essential tool in the preprocessing pipelines for [[fMRI]], [[dti|DTI]], and structural MRI analysis.
 
 ## Key Features
 
-SimpleITK distinguishes itself through several design decisions that make it particularly attractive for neuroscience workflows. First, the API is intentionally simplified—whereas ITK requires understanding template metaprogramming concepts, SimpleITK presents a clean object-oriented interface where images are treated as first-class objects with intuitive methods for filtering, transforming, and manipulating volumetric data. The library supports automatic resampling and interpolation, which is critical when working with images from different acquisition sequences or when aligning brains to standard spaces like [[mni-space|MNI]] [[#ref2]].
+SimpleITK distinguishes itself through several design decisions that make it particularly attractive for neuroscience workflows. First, the API is intentionally simplified—whereas ITK requires understanding template metaprogramming concepts, SimpleITK presents a clean object-oriented interface where images are treated as first-class objects with intuitive methods for filtering, transforming, and manipulating volumetric data. The library supports automatic resampling and interpolation, which is critical when working with images from different acquisition sequences or when aligning brains to standard spaces like [[mni-space|MNI]] #ref2.
 
 The toolkit includes a comprehensive set of image filters organized into logical categories: intensity filters (smoothing, sharpening, normalization), mathematical morphology (erosion, dilation, opening, closing), segmentation algorithms (watershed, connected component analysis, region growing), and registration methods (rigid, affine, and deformable transformations). Particularly relevant for [[whole-brain|whole-brain modeling]] is SimpleITK's support for label map operations, which enables manipulation of [[brain-parcellations|parcellation]] images used to define regions of interest in [[connectome]]-based analyses.
 
@@ -31,7 +29,7 @@ Another significant advantage is multi-language support. SimpleITK provides offi
 
 ## Relationship to TVB
 
-While SimpleITK is not a core component of [[tvb|The Virtual Brain]] itself, it plays an important supporting role in TVB workflows by enabling preprocessing of structural neuroimaging data used to construct personalized brain models. TVB requires anatomical information—including cortical surfaces, white matter segmentations, and parcellated regions—as inputs for whole-brain simulations. SimpleITK can be used to process T1-weighted MRI scans, extract brain masks, perform skull stripping (often in conjunction with [[ants]] or [[freesurfer]]), and generate label maps corresponding to [[atlas|atlases]] such as [[desikan-killiany-atlas|Desikan-Killiany]] or [[yeo-atlas|Yeo]] parcellations.
+While SimpleITK is not a core component of [[tvb|The Virtual Brain]] itself, it plays an important supporting role in TVB workflows by enabling preprocessing of structural neuroimaging data used to construct personalized brain models. TVB requires anatomical information—including cortical surfaces, white matter segmentations, and parcellated regions—as inputs for whole-brain simulations. SimpleITK can be used to process T1-weighted MRI scans, extract brain masks, perform skull stripping (often in conjunction with [[ants]] or [[freesurfer]]), and generate label maps corresponding to [[jhu-white-matter-atlas|atlases]] such as [[desikan-killiany-atlas|Desikan-Killiany]] or [[yeo-atlas|Yeo]] parcellations.
 
 The library's registration capabilities are particularly valuable for aligning individual anatomical scans to standard template spaces, a common preprocessing step in TVB workflows that require [[structural-connectivity|structural connectivity]] matrices derived from [[diffusion-imaging|diffusion imaging]] data. SimpleITK's integration with [[nibabel]] and other Python neuroimaging libraries ensures compatibility with the broader ecosystem of tools used in conjunction with TVB.
 

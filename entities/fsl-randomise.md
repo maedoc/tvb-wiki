@@ -1,9 +1,6 @@
 ---
 created: 2026-04-29
 sources:
-- Smith et al. (2004)
-- Smith & Nichols (2009)
-- Winkler et al. (2014)
 - raw/papers/semanticscholar-d6e43299345d.md
 - raw/papers/semanticscholar-0aeca1b592e6.md
 - raw/papers/semanticscholar-88be174971d9.md

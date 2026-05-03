@@ -1,9 +1,6 @@
 ---
 created: 2026-04-29
 sources:
-- raw/papers/daducci-2015-amico.md
-- raw/papers/zhang2015-noddi.md
-- raw/papers/hcp-2013-methods.md
 - raw/papers/semanticscholar-d8b81edc13b4.md
 - raw/papers/semanticscholar-c393c4c4a671.md
 - raw/papers/semanticscholar-deecd9987645.md
@@ -83,4 +80,4 @@ The original AMICO method was published in *NeuroImage* in 2015 by Daducci et al
 
 3. Matthew F. Glasser, Stamatios N. Sotiropoulos, J. Anthony R. Wilson, Tim Coalson, Bruce Fischl, Jesper L. Andersson, Junqian Xu, Saad Jbabdi, Emma C. Robinson, Hilary E. P. D. Van, and David C. Van Essen (2013). *The minimal preprocessing pipelines for the Human Connectome Project*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2013.04.127)
 
-4. Jean-Christophe Houde, Jonathan R. M. Gerard, Alessa D. C. Van, and Derek K. P. (2021). *The fiber orientation distribution from diffusion MRI: Comparison between NODDI and AMICO*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2021.118234)
+4. Jean‑Christophe Houde, Jonathan R. M. Gerard, Alessa D. C. Van, and Derek K. P. (2021). *The fiber orientation distribution from diffusion MRI: Comparison between NODDI and AMICO*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2021.118234)

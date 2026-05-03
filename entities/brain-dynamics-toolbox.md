@@ -1,8 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- heitmann-2017
-- breakspear-2017
 - raw/papers/glean-github.md
 - raw/papers/mijalkov-2017-braph.md
 - raw/papers/semanticscholar-88be174971d9.md

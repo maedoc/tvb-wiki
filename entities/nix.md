@@ -51,7 +51,7 @@ The format is also supported by several analysis packages and tools within the [
 
 Nix intersects with several important areas of neuroinformatics infrastructure. The [[nwb]] (Neurodata Without Borders) format represents a related standardization effort, though NWB focuses more on cell-level recordings and has broader adoption in the United States, while Nix has stronger penetration in European laboratories. The choice between Nix and NWB often depends on institutional preferences and specific data types.
 
-The format also relates to [[data-format]] standards more broadly, including [[nifti]] for neuroimaging and specialized formats like [[blackrock]] for chronic electrode recordings. Researchers maintaining reproducible analysis pipelines benefit from understanding the tradeoffs between these formats and selecting appropriate tools for their specific experimental modalities.
+The format also relates to data-format standards more broadly, including [[nifti]] for neuroimaging and specialized formats like blackrock for chronic electrode recordings. Researchers maintaining reproducible analysis pipelines benefit from understanding the tradeoffs between these formats and selecting appropriate tools for their specific experimental modalities.
 
 ## Key Papers
 

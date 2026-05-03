@@ -1,11 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- Fox et al. (2005)
-- Laird et al. (2005)
-- Laird et al. (2009)
-- Eickhoff et al. (2009)
-- Eickhoff et al. (2012)
 - raw/papers/sanz-leon-2013.md
 - raw/papers/ritter-2013.md
 - raw/papers/arxiv-2603.21032.md
@@ -57,7 +52,7 @@ The relationship between BrainMap and TVB exemplifies the broader connection bet
 
 ## Related Software and Resources
 
-BrainMap is closely associated with several other tools in the neuroimaging ecosystem. **[[neurosynth]]** is a similar coordinate-based meta-analysis database that was developed more recently and covers a broader literature, though BrainMap offers superior behavioral coding through its ontology. **[[ALE]]** software, originally developed alongside BrainMap, is now distributed separately and provides the algorithm most commonly used with BrainMap data (Eickhoff et al., 2012). For visualization, BrainMap results can be displayed using tools like **[[connectome-workbench]]**, **[[fsleyes]]**, or **[[brainnet-viewer]]**, which are also used throughout the TVB ecosystem for displaying connectivity matrices and simulation results.
+BrainMap is closely associated with several other tools in the neuroimaging ecosystem. **[[neurosynth]]** is a similar coordinate-based meta-analysis database that was developed more recently and covers a broader literature, though BrainMap offers superior behavioral coding through its ontology. **[[ted-carnevale]]** software, originally developed alongside BrainMap, is now distributed separately and provides the algorithm most commonly used with BrainMap data (Eickhoff et al., 2012). For visualization, BrainMap results can be displayed using tools like **[[connectome-workbench]]**, **[[fsleyes]]**, or **[[brainnet-viewer]]**, which are also used throughout the TVB ecosystem for displaying connectivity matrices and simulation results.
 
 Other tools that complement BrainMap include **[[fsl]]** and **[[software-spm]]** for preprocessing raw neuroimaging data, **[[nilearn]]** for Python-based meta-analysis workflows, and **[[brainiak]]** for advanced connectivity analysis. The **[[human-connectome-project]]** ([[hcp-dataset]]) provides high-quality connectivity data that can complement BrainMap findings, particularly for understanding individual differences in brain organization.
 

@@ -1,9 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- diedrichsen2006spatial
-- diedrichsen2009probabilistic
-- ewert2018neuroanatomical
 - raw/papers/semanticscholar-913068805e7f.md
 - raw/papers/power-2011.md
 - raw/papers/semanticscholar-1a3ed92b9f5a.md

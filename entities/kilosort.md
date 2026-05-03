@@ -1,14 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- 'Pachitariu, M., Steinmetz, N., Kadir, S., Carandini, M., & Harris, K. D. (2016).
-  Kilosort: realtime spike-sorting for extracellular electrophysiology with hundreds
-  of channels. Nature Methods, 13(7), 587-592.'
-- Pachitariu, M., Stringer, C., & Harris, K. D. (2018). Robustness of spike sorting
-  with the Kilosort2 algorithm. Journal of Neuroscience Methods, 303, 1-7.
-- Rossant, C., Kadir, S. N., Goodman, D. F. M., Hunt, J., Garrett, R. D., Young, M.,
-  ... & Harris, K. D. (2016). Spike sorting with large-scale tetrode recordings. Nature
-  Methods, 13(7), 579-586.
 - raw/papers/arxiv-2509.02799.md
 - raw/papers/arxiv-2604.03619.md
 - raw/papers/semanticscholar-b9acfa0a7c80.md
@@ -36,7 +28,7 @@ The algorithm operates by first detecting candidate spike events based on amplit
 
 The Kilosort algorithm combines several computational strategies. It uses a whitening transformation to decorrelate noise across channels, improving the signal-to-noise ratio for spike detection. The template matching itself employs a computationally efficient iterative procedure: after an initial pass identifies putative spike events, a subset of the highest-quality events are used to initialize templates via singular value decomposition. Subsequent iterations refine these templates while simultaneously subtracting their contributions from the raw data to isolate additional units.
 
-A distinctive feature of Kilosort compared to earlier spike sorters like those in [[klusta]] is its integrated drift correction. Rather than requiring users to run separate preprocessing steps, Kilosort models the position of each template as a smooth function of time, allowing the algorithm to track neurons that gradually move away from their original electrode positions. This is particularly important for data from [[neuronexus]] or [[silicon-probes]], where tissue motion can be substantial.
+A distinctive feature of Kilosort compared to earlier spike sorters like those in like those in klusta is its integrated drift correction. Rather than requiring users to run separate preprocessing steps, Kilosort models the position of each template as a smooth function of time, allowing the algorithm to track neurons that gradually move away from their original electrode positions. This is particularly important for data from [[neuromorpho-toolkit]] or silicon-probes, where tissue motion can be substantial.
 
 The algorithm outputs a set of "clusters" corresponding to putative single units, along with quality metrics including isolation distance, noise overlap, and false positive rates. These metrics allow researchers to assess the reliability of each sorted unit and make informed decisions about which units to include in downstream analysis.
 
@@ -52,7 +44,7 @@ The original Kilosort paper, "Kilosort: realtime spike-sorting for extracellular
 
 ## Related Software
 
-Kilosort is often used alongside [[spikeinterface]], a Python library that provides a unified interface for loading, preprocessing, and analyzing spike-sorted data. For visualization and manual curation, [[phy]] offers a graphical interface compatible with Kilosort outputs (Rossant et al., 2016). Alternative spike sorting tools include [[klusta]], [[MountainSort]], and [[JRClust]], each with different strengths for specific recording configurations. The broader electrophysiology ecosystem includes [[eeglab]] for [[eeg]] analysis, [[mne-python]] for [[meg]] and [[eeg]] processing, and [[elephant]] for spike train analysis within the [[neo]] data standard.
+Kilosort is often used alongside [[spikeinterface]], a Python library that provides a unified interface for loading, preprocessing, and analyzing spike-sorted data. For visualization and manual curation, [[phy]] offers a graphical interface compatible with Kilosort outputs (Rossant et al., 2016). Alternative spike sorting tools include klusta, [[MountainSort]], and [[JRClust]], each with different strengths for specific recording configurations. The broader electrophysiology ecosystem includes [[eeglab]] for [[eeg]] analysis, [[mne-python]] for [[meg]] and [[eeg]] processing, and [[elephant]] for spike train analysis within the [[neo]] data standard.
 
 ## References
 

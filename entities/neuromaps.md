@@ -3,7 +3,6 @@ created: 2026-04-30
 referenced_by:
 - markello2022
 sources:
-- markello2022
 - raw/papers/winkler-2014-palm.md
 - raw/papers/semanticscholar-028f7c6ac41d.md
 - raw/papers/arxiv-2603.21067.md
@@ -28,7 +27,7 @@ The toolbox was first released in 2021(@neuromaps-github) and subsequently publi
 
 ## Motivation and Context
 
-The proliferation of large-scale neuroimaging datasets—such as the [[human-connectome-project]] (HCP), [[uk-biobank]], and various task-based fMRI repositories—has generated an abundance of brain maps spanning multiple modalities and spatial scales. Researchers increasingly seek to relate these diverse measurements to one another: for example, correlating [[resting-state]] [[functional-connectivity]] with [[structural-connectivity]] derived from [[diffusion-imaging]], or comparing receptor density maps from [[neuroimaging-pet]] with [[neuroimaging-fmri|functional MRI]] activity patterns. However, such cross-modal comparisons are technically challenging because brain maps are typically represented in different coordinate systems (e.g., MNI152 volumetric space vs. FreeSurfer's fsaverage or fsLR surface spaces), at different spatial resolutions, and with different parcellation schemes.
+The proliferation of large-scale neuroimaging datasets—such as the [[human-connectome-project]] (HCP), [[uk-biobank]], and various task-based fMRI repositories—has generated an abundance of brain maps spanning multiple modalities and spatial scales. Researchers increasingly seek to relate these diverse measurements to one another: for example, correlating [[resting-state]] [[functional-connectivity]] with [[structural-connectivity]] derived from [[diffusion-imaging]], or comparing receptor density maps from [[neuroimaging-pet]] with [[neuromorpho-toolkit]] activity patterns. However, such cross-modal comparisons are technically challenging because brain maps are typically represented in different coordinate systems (e.g., MNI152 volumetric space vs. FreeSurfer's fsaverage or fsLR surface spaces), at different spatial resolutions, and with different parcellation schemes.
 
 Prior to neuromaps, researchers had to individually implement transformation pipelines, locate and download appropriate atlases, and code custom statistical models to assess map correspondences—a process that was error-prone, poorly standardized, and difficult to reproduce. neuromaps addresses this fragmentation by providing a cohesive software ecosystem that handles atlas fetching, space transformation, [[parcellation]], and statistical inference through a coherent API. This unification is particularly valuable for [[whole-brain|whole-brain modeling]] efforts, where empirical neuroimaging data must be integrated to constrain [[whole-brain-modeling|whole-brain models]] such as those implemented in [[tvb|The Virtual Brain]].
 
@@ -40,7 +39,7 @@ neuromaps includes a growing library of pre-processed brain maps ("annotations")
 
 ### Coordinate Space Transformations
 
-A core capability of neuromaps is robust transformation between major neuroimaging coordinate spaces. The toolbox supports bidirectional conversions between volumetric (MNI152) and surface-based (fsaverage, fsLR, [[civet]]) representations (@neuromaps-docs) through established registration fusion and multimodal surface matching algorithms. Volume-to-surface transformations leverage the "registration fusion" approach originally proposed by [[buckner2011]] and implemented by @wu2018, which combines anatomical and functional information to project volumetric signals onto the cortical surface. Surface-to-surface transformations employ the multimodal surface matching (MSM) algorithm developed by Robinson and colleagues (@robinson2014, @robinson2018), enabling accurate cross-subject alignment based on multiple features including myelin patterns and functional [[connectivity]]. These transformation capabilities are essential for comparing maps that natively exist in different representations—a common scenario when integrating multimodal neuroimaging data.
+A core capability of neuromaps is robust transformation between major neuroimaging coordinate spaces. The toolbox supports bidirectional conversions between volumetric (MNI152) and surface-based (fsaverage, fsLR, [[civet]]) representations through established registration fusion and multimodal surface matching algorithms. Volume-to-surface transformations leverage the "registration fusion" approach originally proposed by buckner2011 and implemented by @wu2018, which combines anatomical and functional information to project volumetric signals onto the cortical surface. Surface-to-surface transformations employ the multimodal surface matching (MSM) algorithm developed by Robinson and colleagues (@robinson2014, @robinson2018), enabling accurate cross-subject alignment based on multiple features including myelin patterns and functional [[connectivity]]. These transformation capabilities are essential for comparing maps that natively exist in different representations—a common scenario when integrating multimodal neuroimaging data.
 
 ### Spatial Null Models
 
@@ -58,7 +57,7 @@ In practice, the two tools can be integrated in several ways. First, neuromaps c
 
 ## Key Papers
 
-The primary neuromaps methodology paper, published in *Nature Methods* (@markello2022), establishes the toolbox's core functionality and demonstrates its application to several canonical problems in network neuroscience. The paper details the transformation algorithms, spatial null models, and dataset access patterns that form the backbone of the software. Related methodological contributions include the original formulations of spatial null models (@alexander-bloch2018; @burt2018, @burt2020), registration fusion approaches for volume-to-surface projection (@buckner2011; @wu2018), and multimodal surface matching algorithms (@robinson2014, @robinson2018). Users of neuromaps should cite both the toolbox paper and the original sources of any annotation data employed in their analyses.
+The primary neuromaps methodology paper, published in *Nature Methods* (@markello2022), establishes the toolbox's core functionality and demonstrates its application to several canonical problems in network neuroscience. The paper details the transformation algorithms, spatial null models, and dataset access patterns that form the backbone of the software. Related methodological contributions include the original formulations of spatial null models (@alexander-bloch2018; @burt2018, @burt2020), registration fusion approaches for volume-to-surface projection (buckner2011; @wu2018), and multimodal surface matching algorithms (@robinson2014, @robinson2018). Users of neuromaps should cite both the toolbox paper and the original sources of any annotation data employed in their analyses.
 
 ## Related Software
 
