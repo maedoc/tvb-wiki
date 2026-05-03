@@ -246,3 +246,5 @@
 - Added key paper references (Johnson 2007, Fortin 2017, Pomponio 2019)
 
 ## [2026-05-03 22:54] Improve: 2 pages improved (michael-fox, neuroharmonize)
+
+## [2026-05-03 23:17] DeepResearch: 41 papers added via focused research
