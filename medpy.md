@@ -1,68 +1,55 @@
 ---
-created: 2025-01-15
-sources:
-- lowekamp2013simpleitk
-- itk2000insight
-- raw/papers/tustison-2014.md
-- raw/papers/huntenburg-2018.md
-- raw/papers/sanz-leon-2013.md
-tags: [software-neuroimaging, neuroimaging-mri, software-visualization, image-processing, medical-imaging]
 title: MedPy
-type: entity
+created: 2025-01-15
 updated: 2026-05-03
+type: entity
+tags: [software-neuroimaging, software-visualization, neuroimaging, python-library]
+sources: 
+  - https://github.com/loli/medpy/
+  - https://pypi.org/project/MedPy/
+  - https://loli.github.io/medpy/
 ---
 
 # MedPy
 
 ## Overview
 
-MedPy (Medical Python) is an open-source Python library and collection of command-line tools specifically designed for medical image processing. Developed initially in 2012 and now maintained on GitHub with over 600 stars, MedPy provides a comprehensive suite of functions for loading, filtering, segmenting, and analyzing high-dimensional medical images—particularly magnetic resonance imaging (MRI) data [[#ref1]]. The library targets researchers and developers working with neuroimaging datasets who need efficient, scriptable image processing capabilities beyond what general-purpose image processing frameworks offer [[#ref2]].
-
-MedPy operates as a thin wrapper around the Insight Toolkit (ITK) and SimpleITK, extending their functionality with higher-level abstractions and specialized tools for medical imaging workflows. This design philosophy allows MedPy to leverage the robust, well-tested algorithms from ITK while providing a more Pythonic interface that simplifies common tasks [[#ref3]]. The library has become particularly popular in computational neuroscience contexts where preprocessing of structural neuroimaging data is required for downstream analyses such as whole-brain modeling.
+MedPy is an open-source Python library dedicated to medical image processing, providing a comprehensive set of tools for the analysis and manipulation of volumetric medical imaging data. Built on top of [[simpleitk|SimpleITK]] and leveraging [[numpy]] for numerical operations, MedPy offers an accessible interface for common medical image processing tasks including image loading, filtering, segmentation, registration, and morphological operations. Originally developed by Oskar Maier starting in 2012, the library aims to bridge the gap between low-level image processing operations and high-level scientific analysis, making it particularly valuable for researchers in neuroimaging, radiology, and computational anatomy who need to process volumetric data from modalities such as MRI and CT [@medpy-github].
 
 ## Key Features
 
-MedPy's architecture is organized into several core modules that address distinct aspects of medical image processing. The **image I/O module** (medpy.io) provides unified access to dozens of medical image formats, including NIfTI, Analyze, DICOM, MHA, and MHD, automatically handling metadata such as voxel spacing, orientation, and affine transformations [[#ref4]]. This seamless format handling makes MedPy particularly valuable for preprocessing pipeline development, as researchers can read data from one scanner format and convert to another without writing custom parsing code.
+MedPy's functionality spans several core domains of medical image processing. **Image I/O** is handled through integration with [[nibabel]] and SimpleITK, supporting common formats including NIfTI, DICOM, Analyze, and MetaImage formats that are standard in neuroimaging research [@medpy-docs]. The **filtering** module provides implementations of common image enhancement techniques such as Gaussian smoothing, anisotropic diffusion, and histogram equalization, which are essential preprocessing steps for improving image quality before quantitative analysis.
 
-The **filtering module** (medpy.filter) implements numerous image enhancement and preprocessing operations: Gaussian smoothing, anisotropic diffusion, median filtering, morphological operations, and intensity normalization. These filters are designed to work on both 2D slices and full 3D volumes while properly accounting for voxel spacing in physical units, ensuring that results are biologically meaningful rather than merely pixel-wise transformations.
+The **segmentation** capabilities in MedPy are particularly noteworthy, offering both classical methods and modern approaches. Implementation of region growing, watershed segmentation, and graph-cut algorithms enable precise delineation of anatomical structures in volumetric data. The graph-cut implementation is particularly feature-complete, providing n-dimensional max-flow/min-cut functionality for complex segmentation tasks [@medpy-pypi]. For researchers working with brain imaging, these tools are invaluable for extracting regions of interest from [[t1-weighted]] or [[t2-weighted]] MRI scans. Additionally, MedPy provides **morphological operations** including dilation, erosion, opening, and closing, which are fundamental for post-processing segmentation results and cleaning up anatomical boundaries.
 
-The **feature extraction module** (medpy.features) deserves special attention for computational neuroscience applications—it provides voxel-wise intensity features, center-distance features, local mean Gaussian filters, Gaussian gradient magnitude (edge detection), local histograms, and distance-to-mask features [[#ref5]]. Critically, these features are designed to output matrices compatible with scikit-learn, enabling straightforward integration with machine learning pipelines for classification or regression tasks on image-derived data. This capability is particularly relevant for predictive modeling applications in neuroimaging where image features serve as input variables for clinical or cognitive outcome prediction.
-
-MedPy includes a powerful **graph-cut segmentation** module (medpy.graphcut) implementing the Boykov-Kolmogorov max-flow/min-cut algorithm, which enables energy-minimization-based region segmentation. This approach is particularly useful for defining regions of interest (ROIs) in brain imaging, where user-defined foreground/background seeds can guide the segmentation algorithm [[#ref6]]. Unlike simpler threshold-based approaches, graph-cut segmentation considers both pixel intensity and spatial continuity, producing more anatomically plausible segmentations that respect tissue boundaries.
-
-The library also ships with numerous **command-line tools** (prefixed with medpy_) that allow common operations to be executed from the terminal without writing Python scripts—useful for batch processing and integration with neuroimaging pipelines. These tools include medpy_io_load, medpy_filter_smooth, medpy_graphcut_segment, and many others that mirror the Python API functionality.
+The **registration** utilities in MedPy support both rigid and affine transformations, enabling alignment of medical images to standard spaces such as [[mni-space|MNI152]]. This is particularly relevant for whole-brain modeling applications where [[structural-connectivity|structural connectivity]] matrices must be derived from spatially normalized brain images. MedPy's integration with [[nilearn]] workflows facilitates preprocessing pipelines that prepare individual brain scans for group-level analyses in [[connectomics]] research.
 
 ## Relationship to TVB
 
-MedPy relates to [[the-virtual-brain]] primarily through its role in preprocessing structural [[neuroimaging]] data that feeds into whole-brain modeling pipelines. The [[structural-connectivity]] matrices used in [[whole-brain-modeling]] often derive from diffusion tensor imaging (DTI) or advanced tractography approaches, and MedPy's image processing capabilities can be applied to enhance these data before connectivity estimation. Specifically, MedPy's filtering operations can improve the quality of diffusion images by reducing noise while preserving important anatomical features, leading to more accurate fiber tracking and connectivity estimates.
+While [[the-virtual-brain]] (TVB) primarily focuses on whole-brain dynamics simulation and does not directly depend on MedPy, the two tools share complementary roles in the computational neuroscience ecosystem. MedPy serves as a valuable preprocessing tool for TVB pipelines, particularly during the **personalized-brain-modeling** phase where individual anatomical data must be processed before simulation. Researchers preparing patient-specific models for [[epilepsy-modeling]] or [[alzheimers-modeling]] applications often use MedPy to segment lesional tissue, extract individual head models, and prepare custom anatomical parcellations that inform TVB's neural mass model parameters.
 
-While The Virtual Brain ([[the-virtual-brain]]) has its own internal data handling and simulation frameworks (see [[tvb-library]]), MedPy serves as a complementary preprocessing tool for researchers preparing individual subject data. The feature extraction capabilities in MedPy also align with the parameter-estimation workflows common in personalized brain modeling, where image-derived features may inform model calibration. For instance, cortical thickness measurements extracted from T1-weighted images using MedPy's processing pipeline can inform anatomical parameters in TVB simulations.
+The workflow typically involves: (1) importing raw DICOM or NIfTI neuroimaging data, (2) applying necessary preprocessing steps such as bias field correction and skull stripping, (3) segmenting anatomical regions of interest, and (4) exporting processed images in formats compatible with TVB's anatomical connectivity pipelines. This preprocessing-to-simulation pipeline exemplifies the modular architecture of modern computational neuroscience tools, where specialized software packages exchange data through standardized formats like [[bids]].
 
-## Technical Implementation
+## Key Capabilities for Brain Imaging
 
-MedPy requires Python 3 and depends on NumPy, SciPy, and SimpleITK for core functionality. The library is available via pip and conda-forge, facilitating integration into existing Python data science environments. Installation with full graph-cut support requires the Boost library, though a subset of functionality works without it. The documentation includes tutorials covering basic image loading/saving, metadata access, and more advanced workflows like multi-spectral image processing—essential for working with multiple MRI contrasts (T1, T2, FLAIR) simultaneously in clinical research contexts.
+In the context of connectome-based whole-brain modeling, MedPy provides several capabilities that support the construction of [[personalized-brain-models|personalized brain models]]. **Parcellation processing** tools enable researchers to work with common brain atlases such as [[desikan-killiany-atlas|Desikan-Killiany]] and [[AAL|Automated Anatomical Labeling]] parcellations, allowing modification of region boundaries to accommodate individual anatomical variations. The library's **voxel-wise statistics** module supports calculation of grey matter volumes, cortical thicknesses, and other morphometric measures that inform parameter estimation in [[neural-mass-models]].
 
-The library's design philosophy emphasizes ease of use while maintaining access to powerful ITK algorithms. This has made it particularly popular among researchers who need medical imaging capabilities without extensive programming expertise, while still allowing advanced users to access lower-level ITK functionality when needed. The seamless integration with the scientific Python ecosystem (NumPy, SciPy, scikit-learn) makes MedPy a natural choice for researchers already working in that environment.
-
-## Key Papers
-
-MedPy's development and capabilities are closely tied to foundational work in medical image processing toolkits. The SimpleITK library, which serves as MedPy's primary backend, was described by Lowekamp et al. as a simplified wrapper around ITK that maintains the power of the underlying toolkit while providing an accessible interface [[#ref1]]. This design approach directly influenced MedPy's architecture.
-
-The Insight Toolkit (ITK) itself, which provides the core algorithms used by MedPy, was described in foundational engineering publications that established its role as a cornerstone of medical imaging software [[#ref2]]. The modular, template-based design of ITK has influenced countless medical imaging applications. Research on ANTs (Advanced Normalization Tools), which builds upon ITK principles, has demonstrated the importance of proper image registration and preprocessing in neuroimaging pipelines [[#ref3]], a finding relevant to MedPy's preprocessing capabilities.
-
-The application of graph-cut segmentation to medical imaging was pioneered through work on energy-minimization approaches in computer vision and medical image analysis [[#ref6]]. These methods have proven particularly valuable for brain segmentation tasks where precise anatomical boundaries must be maintained.
+For diffusion imaging workflows, MedPy complements specialized libraries like [[dipy]] by providing general preprocessing capabilities such as image resampling, mask generation, and basic filtering. While MedPy does not itself provide diffusion tensor estimation or tractography algorithms—these being the domain of dedicated dMRI libraries like DIPY—it offers essential preprocessing steps that prepare diffusion data for subsequent connectivity analysis. These capabilities are essential for deriving [[structural-connectivity|structural connectivity]] matrices that serve as the anatomical scaffold in whole-brain network models. The library's consistent Python API lowers the barrier to entry for neuroscientists who might otherwise rely on a fragmented collection of command-line tools.
 
 ## Related Software
 
-MedPy occupies a niche in the Python medical imaging ecosystem alongside several related tools. [[nibabel]] provides lower-level I/O for neuroimaging formats and is commonly used in conjunction with MedPy for format conversion. [[nilearn]] offers higher-level statistical and machine learning tools for neuroimaging, often consuming MedPy-processed data. [[simpleitk]] (underlying MedPy) provides the actual ITK-based image manipulation primitives, while MedPy adds convenience functions and domain-specific features.
+MedPy occupies a specific niche in the broader landscape of medical imaging software, and understanding its relationship to related tools helps clarify its appropriate use cases. Unlike [[freesurfer]] or [[fsl]] which provide complete end-to-end neuroimaging analysis pipelines, MedPy focuses on providing modular, composable functions that integrate well with the Python scientific computing ecosystem including [[nipype]], [[nilearn]], and [[nibabel]]. For researchers starting new projects, MedPy offers greater flexibility and easier customization compared to monolithic packages, though it requires more explicit pipeline construction.
 
-For segmentation specifically, [[ants]] (Advanced Normalization Tools) offers more sophisticated registration-based approaches, and [[freesurfer]] provides automated cortical reconstruction—these represent alternatives to MedPy's graph-cut approach. The library integrates well with pipeline frameworks like [[nipype]] for orchestrating complex multi-step processing workflows. Additional related tools include [[dipy]] for diffusion MRI processing and [[itk-snap]] for interactive visualization of segmentation results.
+Compared to [[3d-slicer]], a comprehensive medical imaging platform with extensive graphical interfaces, MedPy is designed for script-based workflows preferred in reproducible research. The library's lightweight nature makes it particularly suitable for integration in automated preprocessing pipelines, cloud-based analysis environments, and high-throughput research settings where computational efficiency and reproducibility are paramount.
+
+## Key Papers
+
+*This section is a stub. Key publications demonstrating MedPy's use in neuroimaging or computational neuroscience contexts are needed.*
 
 ## References
 
-1. Lowekamp, B. C., Gee, D. R., Diehl, A., & Ibanez, L. (2013). SimpleITK: A Simplified Wrapper. *The Insight Journal*.
-2. Yoo, T. S., Ackerman, M., Lorensen, W., et al. (2000). Engineering and Algorithm Design for the ITK. *Journal of Digital Imaging*, 13(4), 237-249.
-3. Tustison, N. J., Cook, P. A., Klein, A., et al. (2014). Large-scale evaluation of ANTs and FreeSurfer cortical thickness measurements. *NeuroImage*. [DOI](https://doi.org/10.1016/j.neuroimage.2014.05.044)
-4. Huntenburg, J. M., Steele, C. J., & Bazin, P. L. (2018). FMRIprep: A Robust Preprocessing Pipeline for Functional MRI. *bioRxiv*.
-5. Sanz Leon, P., Woodman, G. F., Jirsa, V., et al. (2013). The Virtual Brain: a simulator of primate brain network dynamics. *Frontiers in Neuroinformatics*. [DOI](https://doi.org/10.3389/fninf.2013.00010)
-6. Boykov, Y. Y., & Kolmogorov, V. (2004). An experimental comparison of min-cut/max-flow algorithms for energy minimization in vision. *IEEE Transactions on Pattern Analysis and Machine Intelligence*, 26(9), 1124-1137.
+[@medpy-github]: MedPy GitHub repository. https://github.com/loli/medpy/
+
+[@medpy-pypi]: MedPy v0.5.2. Python Package Index. https://pypi.org/project/MedPy/
+
+[@medpy-docs]: MedPy documentation. https://loli.github.io/medpy/

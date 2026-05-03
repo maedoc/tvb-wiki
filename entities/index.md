@@ -51,6 +51,7 @@ A collection of people, software platforms, datasets, and research groups releva
 - [DDE-Biftool](dde-biftool.md) — MATLAB toolbox for bifurcation analysis of delay differential equations, used for neural mass models
 - [LabStreamingLayer](labstreaminglayer.md) — Real-time data acquisition and synchronization framework for multimodal neuroimaging
 - [LEMS](lems.md) — Low-level Entity Meta-Schema for neural model specification and simulator interoperability
+- [LORIS](loris.md) — Web-based data management and processing platform for large-scale neuroimaging datasets
 
 ## Research Projects & Datasets
 
