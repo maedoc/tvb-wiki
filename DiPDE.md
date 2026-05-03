@@ -38,7 +38,7 @@ DiPDE also supports the definition of external populations that provide backgrou
 
 DiPDE differs from other major neural simulators in several important respects. Compared to [[NEST]] (Neural Simulation Tool), which simulates individual point neurons at the network scale, DiPDE operates at the population level—modeling groups of neurons statistically rather than explicitly [<citation>11</citation>]. NEST supports more detailed neuron models and synaptic dynamics, while DiPDE optimizes for a narrower class of models but achieves superior performance for appropriate use cases.
 
-Compared to [[NEURON]], which excels at detailed multi-compartment simulations with realistic morphologies, DiPDE sacrifices single-neuron biophyscial detail for population-level tractability. NEURON remains the tool of choice when detailed morphology or compartment-specific dynamics are required [<citation>12</citation>].
+Compared to [[NEURON]], which excels at detailed multi-compartment simulations with realistic morphologies, DiPDE sacrifices single-neuron biophysical detail for population-level tractability. NEURON remains the tool of choice when detailed morphology or compartment-specific dynamics are required [<citation>12</citation>].
 
 Compared to [[Brian]] and [[Brian2]], which prioritize code clarity and ease of modification over raw performance, DiPDE takes the opposite approach—optimizing for computational efficiency with a more specialized domain of application [<citation>13</citation>].
 
