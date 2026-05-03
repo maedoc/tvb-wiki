@@ -17,7 +17,7 @@ updated: '2026-05-03'
 
 ## Relationship to Other LORETA Methods
 
-The LORETA family of methods emerged from the need to solve the ill-posed inverse problem in EEG/MEG source localization. Given the measured scalp potentials or fields, infinitely many possible source configurations could generate those measurements, making unique solution impossible without additional assumptions. LORETA, introduced in 1994, imposes a smoothness constraint that favors spatially distributed solutions with minimal second-order spatial derivatives—a assumption reflecting the spatial continuity of cortical activity [[Pascual-Marqui 1994]]. This approach was later refined in sLORETA, which adds a standardization step enabling statistical inference about source strength. eLORETA represents the culmination of this development: it maintains the same smoothness prior as LORETA but adds an optimal weighting scheme that achieves exact localization while retaining the ability to resolve distributed activity patterns. The relationship among these methods mirrors the evolution in the [[dynamic-causal-modeling]] literature, where successive refinements attempt to balance biological plausibility with mathematical tractability.
+The LORETA family of methods emerged from the need to solve the ill-posed inverse problem in EEG/MEG [[source-localization]]. Given the measured scalp potentials or fields, infinitely many possible source configurations could generate those measurements, making unique solution impossible without additional assumptions. LORETA, introduced in 1994, imposes a smoothness constraint that favors spatially distributed solutions with minimal second-order spatial derivatives—a assumption reflecting the spatial continuity of cortical activity [[Pascual-Marqui 1994]]. This approach was later refined in sLORETA, which adds a standardization step enabling statistical inference about source strength. eLORETA represents the culmination of this development: it maintains the same smoothness prior as LORETA but adds an optimal weighting scheme that achieves exact localization while retaining the ability to resolve distributed activity patterns. The relationship among these methods mirrors the evolution in the [[dynamic-causal-modeling]] literature, where successive refinements attempt to balance biological plausibility with mathematical tractability.
 
 ## Technical Formulation
 
@@ -43,7 +43,7 @@ While eLORETA is primarily a data analysis method rather than a biophysical simu
 
 3. **Pascual-Marqui, R. D., et al. (2011).** eLORETA: A new method for electromagnetic source localization. *The Journal of Neural Engineering*, 8(2), 025006. — The definitive eLORETA paper proving exact localization under ideal conditions.
 
-4. **Halder, E. M., et al. (2007).** EEG [[resting-state]] functional [[connectivity]] in early-onset Alzheimer's disease. *Neuropsychiatric Disease and Treatment*, 3(6), 773–787. — Demonstrates eLORETA applications in clinical neuroimaging.
+4. **Halder, E. M., et al. (2007).** EEG [[resting-state]] functional [[connectivity]] in early-onset Alzheimer's disease. *Neuropsychiatric Disease and Treatment*, 3(6), 773–787. — Demonstrates eLORETA applications in clinical [[neuroimaging]].
 
 5. **Hata, M., et al. (2016).** Ictal and interictal epileptiform discharges in LORETA: Validation with intracranial EEG. *Clinical Neurophysiology*, 127(1), 200–209. — Validates eLORETA source localization against ground truth intracranial recordings.
 

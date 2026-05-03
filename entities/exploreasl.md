@@ -17,7 +17,7 @@ updated: '2026-05-03'
 
 ## Overview
 
-ExploreASL is an open-source software pipeline designed specifically for processing arterial spin labeling (ASL) magnetic resonance imaging (MRI) data. Developed primarily by the Computational Neuroimaging Lab at the University Medical Center Utrecht, ExploreASL provides a comprehensive suite of tools for preprocessing, analyzing, and visualizing perfusion-weighted MRI data. Perfusion, the process of blood delivery to tissue, is measured non-invasively by ASL through the magnetic labeling of arterial blood water as it flows into the brain, making ExploreASL particularly valuable for studying cerebral blood flow (CBF) in both clinical and research settings. The software implements state-of-the-art quantification models and handles the unique challenges of ASL data, including low signal-to-noise ratio and complex labeling schemes.
+ExploreASL is an open-source software pipeline designed specifically for processing arterial spin labeling (ASL) magnetic resonance imaging (MRI) data. Developed primarily by the Computational [[neuroimaging]] Lab at the University Medical Center Utrecht, ExploreASL provides a comprehensive suite of tools for preprocessing, analyzing, and visualizing perfusion-weighted MRI data. Perfusion, the process of blood delivery to tissue, is measured non-invasively by ASL through the magnetic labeling of arterial blood water as it flows into the brain, making ExploreASL particularly valuable for studying cerebral blood flow (CBF) in both clinical and research settings. The software implements state-of-the-art quantification models and handles the unique challenges of ASL data, including low signal-to-noise ratio and complex labeling schemes.
 
 ## Motivation and Context
 
@@ -67,8 +67,8 @@ Future developments for ExploreASL include deeper integration with [[mne-python]
 
 ## References
 
-1. (authors unknown). *Image Processing and Quality Control for the First 100,000 Brain Imaging Datasets from UK Biobank*.
+1. (authors unknown). *Image Processing and Quality Control for the First 100,000 Brain Imaging Datasets from [[uk-biobank]]*.
 2. L. Fisch, N. Winter, J. Goltermann, Carlotta B. C. Barkhau, D. Emden, J. Ernsting, M. Konowski, R. Leenings, T. Borgers, K. Flinkenflügel, D. Grotegerd, Anna Kraus, E. Leehr, S. Meinert, F. Stein, L. Teutenberg, F. Thomas-Odenthal, P. Usemann, M. Hermesdorf, H. Jamalabadi, Andreas Jansen, I. Nenadić, Benjamin Straube, T. Kircher, Klaus Berger, Benjamin Risse, U. Dannlowski, T. Hahn. (2026). *deepmriprep: voxel-based morphometry preprocessing via deep neural networks*. Nature Computational Science. [DOI](https://doi.org/10.1038/s43588-026-00953-7)
-3. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
-4. Emmanuelle Renauld, Arnaud Boré, Charles Poirier, Alex Valcourt-Caron, Philippe Karan, Antoine Théberge, Guillaume Théaud, Manon Edde, P. Poulin, Gabriel Girard, Jean-Christophe Houde, A. Gagnon, Etienne St-Onge, Graham Little, Jon Haitz Legarreta, Stanislas Thoumyre, G. Grenier, Zineb El Yamani, Mario Ocampo Pineda, Matteo Battochio, Vincent Beaudoin, Alexandre Joanisse, Laurent Petit, F. Rheault, Maxime Descoteaux. (2026). *Tractography analysis with the scilpy toolbox*. Aperture Neuro. [DOI](https://doi.org/10.52294/001c.154022)
-5. (authors unknown). *GLEAN: Group Level Exploratory Analysis of Networks*.
+3. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+4. Emmanuelle Renauld, Arnaud Boré, Charles Poirier, Alex Valcourt-Caron, Philippe Karan, Antoine Théberge, Guillaume Théaud, Manon Edde, P. Poulin, Gabriel Girard, Jean-Christophe Houde, A. Gagnon, Etienne St-Onge, Graham Little, Jon Haitz Legarreta, Stanislas Thoumyre, G. Grenier, Zineb El Yamani, Mario Ocampo Pineda, Matteo Battochio, Vincent Beaudoin, Alexandre Joanisse, Laurent Petit, F. Rheault, Maxime Descoteaux. (2026). *[[tractography]] analysis with the scilpy toolbox*. Aperture Neuro. [DOI](https://doi.org/10.52294/001c.154022)
+5. (authors unknown). *[[lean|GLEAN]]: Group Level Exploratory Analysis of Networks*.

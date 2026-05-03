@@ -21,7 +21,7 @@ The tool addresses several specific problems: it correctly handles slice timing 
 
 ## Key Features
 
-dcm2niix implements several sophisticated features that make it indispensable for [[neuroimaging]] workflows. The tool performs automatic detection of slice ordering by examining DICOM geometry rather than relying solely on header fields, which provides robustness against corrupted or incomplete metadata. It supports conversion of three-dimensional MRI volumes as well as four-dimensional time series data from fMRI and diffusion imaging acquisitions, handling both single-band and multi-band (simultaneous multi-slice) acquisitions correctly.
+dcm2niix implements several sophisticated features that make it indispensable for [[neuroimaging]] workflows. The tool performs automatic detection of slice ordering by examining DICOM geometry rather than relying solely on header fields, which provides robustness against corrupted or incomplete metadata. It supports conversion of three-dimensional MRI volumes as well as four-dimensional time series data from [[fmri]] and [[diffusion-imaging]] acquisitions, handling both single-band and multi-band (simultaneous multi-slice) acquisitions correctly.
 
 One of dcm2niix's distinguishing features is its ability to handle phase encode polarity ambiguity in [[diffusion-mri]], a problem that affected early diffusion imaging pipelines and required manual correction. The tool also manages the conversion of PET (Positron Emission Tomography) data, including handling of frame-based dynamic acquisitions and attenuation correction coefficients when available. Output options include gzip-compressed [[nifti]] files (extension .nii.gz), uncompressed .nii files, and a BIDS-compliant mode that automatically generates appropriate filenames and sidecar JSON metadata.
 
@@ -41,6 +41,6 @@ dcm2niix integrates with several related tools in the neuroimaging ecosystem. Th
 
 ## References
 
-1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
-2. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2026). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research.*. Brain Stimulation. [DOI](https://doi.org/10.1016/j.brs.2025.103016)
+1. Sanz Leon et al. (2013). *[[the-virtual-brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2026). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research.*. [[brain-stimulation]]. [DOI](https://doi.org/10.1016/j.brs.2025.103016)
 3. (authors unknown). *MR diffusion tensor spectroscopy and imaging*.

@@ -13,7 +13,7 @@ updated: '2026-05-03'
 
 ## Overview
 
-Auryn is an open-source, event-driven spiking neural network simulator written in C++, designed for efficient large-scale simulations of brain networks. Developed primarily by the Neural Networks Lab at the University of Zurich[^1], Auryn enables researchers to simulate networks of tens of thousands to millions of neurons with biologically realistic spike-timing dynamics. The software emphasizes computational efficiency through event-driven architecture and supports various neuronal models including integrate-and-fire neurons, adaptive exponential integrate-and-fire (AdEx) neurons, and conductance-based models. Auryn occupies a specific niche in the computational neuroscience ecosystem as a tool optimized for simulation of recurrent spiking networks that exhibit rich temporal dynamics, oscillations, and spike-timing dependent [[plasticity]] (STDP)[^2].
+Auryn is an open-source, event-driven [[spiking-neural-networks|spiking neural network]] simulator written in C++, designed for efficient large-scale simulations of brain networks. Developed primarily by the Neural Networks Lab at the University of Zurich[^1], Auryn enables researchers to simulate networks of tens of thousands to millions of neurons with biologically realistic spike-timing dynamics. The software emphasizes computational efficiency through event-driven architecture and supports various neuronal models including integrate-and-fire neurons, adaptive exponential integrate-and-fire (AdEx) neurons, and conductance-based models. Auryn occupies a specific niche in the [[computational-neuroscience]] ecosystem as a tool optimized for simulation of recurrent spiking networks that exhibit rich temporal dynamics, oscillations, and spike-timing dependent [[plasticity]] (STDP)[^2].
 
 ## Motivation and Context
 
@@ -23,7 +23,7 @@ The simulator emerged from research on neural coding and dynamics in recurrent c
 
 ## Key Features
 
-Auryn implements several features that distinguish it from other spiking neural network simulators. Its event-driven architecture means that neurons are only updated when they receive spikes, dramatically reducing computational overhead compared to time-driven simulators that update all neurons at every time step. This efficiency enables simulation of networks with millions of neurons and billions of synapses on standard computing clusters[^1].
+Auryn implements several features that distinguish it from other spiking [[neural-network]] simulators. Its event-driven architecture means that neurons are only updated when they receive spikes, dramatically reducing computational overhead compared to time-driven simulators that update all neurons at every time step. This efficiency enables simulation of networks with millions of neurons and billions of synapses on standard computing clusters[^1].
 
 The simulator includes built-in support for various forms of [[synaptic-plasticity]], including spike-timing dependent plasticity (STDP) with both additive and multiplicative rules, homeostatic plasticity mechanisms, and short-term plasticity[^2]. Auryn also implements several neuron types that are widely used in network modeling, including leaky integrate-and-fire neurons, adaptive exponential integrate-and-fire neurons (following the [[adaptive-exponential-integrate-and-fire]] formulation by Romain Brette and Wulfram Gerstner[^3]), and conductance-based neurons with detailed synaptic models.
 
@@ -45,4 +45,4 @@ The primary reference for Auryn is the software publication by R. V. C. J. Brode
 
 ## References
 
-1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate [[brain-network]] dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)

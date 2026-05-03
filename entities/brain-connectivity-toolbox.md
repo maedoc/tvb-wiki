@@ -21,7 +21,7 @@ The emergence of the Brain Connectivity Toolbox addressed a critical need in [[n
 
 BCT includes implementations of over 100 network analysis algorithms spanning several categories. **Global network metrics** include [[small-world-networks]] measures (clustering coefficient, characteristic path length), network efficiency (global and local), [[modularity]], [[rich-club]] coefficient, and [[structural-core]] identification. **Node-level metrics** include degree, betweenness centrality, [[network-hubs]] identification, and eigenvector centrality. The toolbox also provides tools for **network comparison**, including null model generation (configurable and lattice-watts-strogatz models), network distance measures, and statistical testing via permutation frameworks.
 
-A distinctive feature of BCT is its support for **weighted and directed networks**, allowing analysis beyond simple binary graphs. The toolbox implements algorithms for thresholding strategies (absolute, proportional, and density-capped), as relationship strength between brain regions can vary continuously. BCT also includes specialized functions for **community detection**, implementing algorithms from multiple research groups including Louvain, Infomap, and spectral partitioning methods. For time-varying connectivity analysis, BCT provides tools for analyzing dynamic connectivity patterns extracted from sliding-window analyses of [[fmri]] or MEG data.
+A distinctive feature of BCT is its support for **weighted and directed networks**, allowing analysis beyond simple binary graphs. The toolbox implements algorithms for thresholding strategies (absolute, proportional, and density-capped), as relationship strength between brain regions can vary continuously. BCT also includes specialized functions for **community detection**, implementing algorithms from multiple research groups including Louvain, Infomap, and spectral partitioning methods. For time-varying [[connectivity]] analysis, BCT provides tools for analyzing dynamic connectivity patterns extracted from sliding-window analyses of [[fmri]] or MEG data.
 
 ## Relationship to TVB and Whole-Brain Modeling
 
@@ -50,4 +50,4 @@ The Brain Connectivity Toolbox was first released in 2009 alongside a seminal re
 
 1. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
 2. Woodman et al. (2014). *GraphVar: A user-friendly toolbox for comprehensive graph analyses of functional brain connectivity*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2014.07.015)
-3. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+3. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)

@@ -1,23 +1,30 @@
 ---
-title: Fiji
 created: 2025-01-15
-updated: 2026-05-03
+sources:
+- schindelin2012fiji
+- imagej2
+- bioformats
+- weka
+tags:
+- software-visualization
+- neuroimaging
+- software-neuroimaging
+title: Fiji
 type: entity
-tags: [software-visualization, neuroimaging, software-neuroimaging]
-sources: [schindelin2012fiji, imagej2, bioformats, weka]
+updated: '2026-05-03'
 ---
 
 # Fiji
 
 ## Overview
 
-Fiji (Fiji Is Just ImageJ) is an open-source image processing platform that extends ImageJ2 with a curated collection of plugins and libraries for scientific image analysis. Originally developed by Johannes Schindelin and colleagues at the Max Planck Institute of Molecular Cell Biology and Genetics (MPI-CBG), Fiji has become a cornerstone tool in neuroscience laboratories worldwide for preprocessing, visualizing, and analyzing neuroimaging data including MRI, fMRI, and diffusion tensor imaging datasets [[schindelin2012fiji]]. The platform is written in Java and runs on all major operating systems, providing a consistent graphical user interface for tasks ranging from basic image viewing to complex automated segmentation workflows.
+Fiji (Fiji Is Just ImageJ) is an open-source image processing platform that extends ImageJ2 with a curated collection of plugins and libraries for scientific image analysis. Originally developed by Johannes Schindelin and colleagues at the Max Planck Institute of Molecular Cell Biology and Genetics (MPI-CBG), Fiji has become a cornerstone tool in neuroscience laboratories worldwide for preprocessing, visualizing, and analyzing [[neuroimaging]] data including MRI, [[fmri]], and diffusion tensor imaging datasets [[schindelin2012fiji]]. The platform is written in Java and runs on all major operating systems, providing a consistent graphical user interface for tasks ranging from basic image viewing to complex automated segmentation workflows.
 
 ## Key Features
 
-Fiji's architecture centers on a plugin-based extension system that allows researchers to install and manage specialized functionality through a built-in updater. The distribution includes over 300 pre-bundled plugins covering virtually every common image processing operation—filters, segmentations, registration, feature detection, and morphological operations [[schindelin2012fiji]]. Of particular relevance to whole-brain modeling is the **ImageJ-OPS** library, which provides standardized operations for image processing pipelines, and the **AnalyzeSkeleton** plugin for analyzing morphological skeletons of neurons or vascular networks.
+Fiji's architecture centers on a plugin-based extension system that allows researchers to install and manage specialized functionality through a built-in updater. The distribution includes over 300 pre-bundled plugins covering virtually every common image processing operation—filters, segmentations, registration, feature detection, and morphological operations [[schindelin2012fiji]]. Of particular relevance to [[whole-brain|whole-brain modeling]] is the **ImageJ-OPS** library, which provides standardized operations for image processing pipelines, and the **AnalyzeSkeleton** plugin for analyzing morphological skeletons of neurons or vascular networks.
 
-For neuroimaging specifically, Fiji integrates with several key file formats through plugins like **Bio-Formats**, which supports reading over 150 file formats including DICOM (the standard clinical imaging format), NIfTI (common in neuroscience research), and various scanner-specific formats [[bioformats]]. The platform can handle 3D and 4D image stacks, making it suitable for analyzing fMRI time series data and diffusion MRI tractography results. Researchers can also leverage Fiji's scripting capabilities (via ImageJ Macro, Python via pyimagej, or BeanShell) to automate repetitive preprocessing steps in their whole-brain modeling pipelines.
+For neuroimaging specifically, Fiji integrates with several key file formats through plugins like **Bio-Formats**, which supports reading over 150 file formats including DICOM (the standard clinical imaging format), [[nifti]] (common in neuroscience research), and various scanner-specific formats [[bioformats]]. The platform can handle 3D and 4D image stacks, making it suitable for analyzing fMRI time series data and [[diffusion-mri]] [[tractography]] results. Researchers can also leverage Fiji's scripting capabilities (via ImageJ Macro, Python via pyimagej, or BeanShell) to automate repetitive preprocessing [[steps]] in their whole-brain modeling pipelines.
 
 The **Trainable Weka Segmentation** plugin deserves special mention for neuroscience applications—it provides a machine learning-based approach to segmenting brain structures, white matter lesions, or other anatomical features without requiring extensive programming expertise [[weka]]. Combined with **Interactive Annotations** and **MorphoLibJ** (for mathematical morphology operations), Fiji enables rapid prototyping of segmentation workflows that may later be ported to more automated pipeline frameworks like [[snakemake]] or [[nipype]].
 
@@ -49,7 +56,7 @@ Fiji contributes to whole-brain modeling workflows in several concrete ways that
 - [[itk-snap]] — specialized 3D neuroimaging viewer and editor
 - [[3d-slicer]] — comprehensive medical image computing platform
 - [[fsl]] — comprehensive neuroimaging analysis suite
-- [[freesurfer]] — cortical reconstruction and parcellation
+- [[freesurfer]] — cortical reconstruction and [[parcellation]]
 - [[nipype]] — Python pipeline framework for neuroimaging
 - [[spm]] — statistical parametric mapping toolbox
 

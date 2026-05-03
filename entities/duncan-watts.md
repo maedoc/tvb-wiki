@@ -60,7 +60,7 @@ In the context of [[whole-brain-modeling]] and computational neuroscience, Watts
 - [[functional-connectivity]] – Statistical dependencies between brain regions
 - [[random-networks]] – Networks with random edge placement
 - [[scale-free-networks]] – Networks with power-law degree distributions
-- [[clustering-coefficient]] – Measure of local connectivity density
+- [[clustering-coefficient]] – Measure of local [[connectivity]] density
 - [[path-length]] – Average shortest path between nodes in a network
 - [[network-hubs]] – Highly connected nodes that play central roles
 

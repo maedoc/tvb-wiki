@@ -48,13 +48,13 @@ The module also relates to specialized datasets elsewhere in the ecosystem, incl
 
 The nilearn datasets module, while valuable for learning and method development, has important limitations that users should recognize. The bundled datasets are relatively small compared to the massive datasets now available through large consortia, and they may not adequately represent the heterogeneity of clinical populations or diverse demographic groups. Researchers conducting clinical or translational studies should not rely exclusively on nilearn datasets for developing biomarkers or diagnostic classifiers, as these models may not generalize beyond the specific characteristics of the sample datasets.
 
-Additionally, the module does not provide tools for advanced dataset management or version control—there is no built-in mechanism to track which version of a dataset was used in a particular analysis, which can complicate reproducible research practices. Users who require full provenance tracking should consider supplementary tools like DataLad for dataset versioning or more formal data management frameworks. Future development of the nilearn datasets module may address these limitations by incorporating more sophisticated metadata handling and expanding the range of available sample datasets to better serve the growing diversity of neuroimaging research applications.
+Additionally, the module does not provide tools for advanced dataset management or version control—there is no built-in mechanism to track which version of a dataset was used in a particular analysis, which can complicate reproducible research practices. Users who require full provenance tracking should consider supplementary tools like [[datalad]] for dataset versioning or more formal data management frameworks. Future development of the nilearn datasets module may address these limitations by incorporating more sophisticated metadata handling and expanding the range of available sample datasets to better serve the growing diversity of neuroimaging research applications.
 
 ## Key Papers
 
 - Haxby, J. V., Gobbini, M. I., Furey, M. L., Ishai, A., Schouten, J. L., & Pietrini, P. (2001). Distributed and overlapping representations of faces and objects in ventral temporal cortex. Science, 293(5539), 2425-2430.
 - ADHD-200 Consortium. (2012). The ADHD-200 dataset: A showcase for resting-state fMRI. Neuroimage, 62, 1303-1314.
-- Glasser, M. F., Sotiropoulos, S. N., Wilson, J. A., Coalson, T. S., Fischl, B., Andersson, J. L., ... & Van Essen, D. C. (2013). The minimal preprocessing pipelines for the Human Connectome Project. Neuroimage, 80, 105-124.
+- Glasser, M. F., Sotiropoulos, S. N., Wilson, J. A., Coalson, T. S., Fischl, B., Andersson, J. L., ... & Van Essen, D. C. (2013). The minimal preprocessing pipelines for the [[human-[[connectome]]-project]]. Neuroimage, 80, 105-124.
 - Abraham, A., Pedregosa, F., Eickenberg, M., Gervais, P., Mueller, A., Kossaifi, J., ... & Thirion, B. (2014). Machine learning for neuroimaging with scikit-learn. Neuroimage, 86, 183-197.
 
 ## Related Software

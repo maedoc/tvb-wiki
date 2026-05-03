@@ -1,42 +1,52 @@
 ---
-
-title: NiWorkflows
 created: 2024-01-15
-updated: 2026-05-03
-type: entity
-tags: [software-neuroimaging, neuroimaging-pipeline, preprocessing, bids, fmri, python, workflows, nipype, software-freesurfer, software-fsl, software-ants]
 sources:
-  - id: NiWorkflows2021
-    title: NiWorkflows v1.11.0 documentation
-    url: https://niworkflows.readthedocs.io/
-    accessdate: "2026-05-03"
-  - id: fmriprep2021
-    title: "fMRIPrep: a robust preprocessing pipeline for functional MRI"
-    journal: Nature Methods
-    volume: 15
-    pages: 733–737
-    year: 2018
-    doi: "10.1038/s41592-018-0072-9"
-  - id: nipype2017
-    title: "Nipype: a flexible, robust and extensible neuroimaging computational framework"
-    journal: Neuroinformatics
-    volume: 15
-    pages: 305–320
-    year: 2017
-    doi: "10.1007/s12021-017-9342-0"
-  - id: bids2016
-    title: "BIDS apps: improving ease of use, accessibility, and reproducibility in neuroimaging data analysis"
-    journal: Frontiers in Neuroinformatics
-    volume: 10
-    year: 2016
-    doi: "10.3389/fninf.2016.00027"
-  - id: TVB2016
-    title: "The Virtual Brain: a platform for simulating whole-brain dynamics"
-    journal: Frontiers in Neuroinformatics
-    volume: 8
-    year: 2014
-    doi: "10.3389/fninf.2014.00002"
-
+- accessdate: '2026-05-03'
+  id: NiWorkflows2021
+  title: NiWorkflows v1.11.0 documentation
+  url: https://niworkflows.readthedocs.io/
+- doi: 10.1038/s41592-018-0072-9
+  id: fmriprep2021
+  journal: Nature Methods
+  pages: 733–737
+  title: 'fMRIPrep: a robust preprocessing pipeline for functional MRI'
+  volume: 15
+  year: 2018
+- doi: 10.1007/s12021-017-9342-0
+  id: nipype2017
+  journal: Neuroinformatics
+  pages: 305–320
+  title: 'Nipype: a flexible, robust and extensible neuroimaging computational framework'
+  volume: 15
+  year: 2017
+- doi: 10.3389/fninf.2016.00027
+  id: bids2016
+  journal: Frontiers in Neuroinformatics
+  title: 'BIDS apps: improving ease of use, accessibility, and reproducibility in
+    neuroimaging data analysis'
+  volume: 10
+  year: 2016
+- doi: 10.3389/fninf.2014.00002
+  id: TVB2016
+  journal: Frontiers in Neuroinformatics
+  title: 'The Virtual Brain: a platform for simulating whole-brain dynamics'
+  volume: 8
+  year: 2014
+tags:
+- software-neuroimaging
+- neuroimaging-pipeline
+- preprocessing
+- bids
+- fmri
+- python
+- workflows
+- nipype
+- software-freesurfer
+- software-fsl
+- software-ants
+title: NiWorkflows
+type: entity
+updated: '2026-05-03'
 ---
 
 # NiWorkflows
@@ -57,7 +67,7 @@ A distinguishing feature of NiWorkflows is its integration with [[nipype]], the 
 
 ## Relationship to TVB
 
-While NiWorkflows is primarily designed for preprocessing static neuroimaging data into analysis-ready forms, its outputs serve as critical inputs for dynamical brain modeling frameworks like [[the-virtual-brain]] (TVB). Whole-brain modeling pipelines require structural connectivity matrices derived from diffusion tensor imaging (DTI) data and functional connectivity estimates from resting-state fMRI—precisely the data types that NiWorkflows helps standardize and prepare. The TVB ecosystem has adopted BIDS as a preferred input format, and NiWorkflows-compatible preprocessing of raw imaging data enables clean integration with TVB's connectome-based whole-brain modeling workflows. Specifically, NiWorkflows outputs diffusion-derived connectivity matrices (in formats such as FSL .conn or DSI Studio .dsi) and cleaned bold files with confounds that can be directly imported via TVB's BIDS data adapters. Additionally, the parameter estimation and model fitting routines used in TVB can leverage preprocessed neuroimaging derivatives produced by NiWorkflows-powered pipelines, bridging the gap between raw acquisition and computational modeling.
+While NiWorkflows is primarily designed for preprocessing static [[neuroimaging]] data into analysis-ready forms, its outputs serve as critical inputs for dynamical brain modeling frameworks like [[the-virtual-brain]] (TVB). [[whole-brain|Whole-brain modeling]] pipelines require [[structural-connectivity]] matrices derived from diffusion tensor imaging (DTI) data and [[functional-connectivity]] estimates from [[resting-state|resting-state fMRI]]—precisely the data types that NiWorkflows helps standardize and prepare. The TVB ecosystem has adopted BIDS as a preferred input format, and NiWorkflows-compatible preprocessing of raw imaging data enables clean integration with TVB's [[connectome]]-based whole-brain modeling workflows. Specifically, NiWorkflows outputs diffusion-derived [[connectivity]] matrices (in formats such as FSL .[[conn]] or [[dsi-studio]] .dsi) and cleaned bold files with confounds that can be directly imported via TVB's BIDS data adapters. Additionally, the [[parameter-estimation]] and model fitting routines used in TVB can leverage preprocessed neuroimaging derivatives produced by NiWorkflows-powered pipelines, bridging the gap between raw acquisition and computational modeling.
 
 ## Related Software
 

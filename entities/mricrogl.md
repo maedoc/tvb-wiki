@@ -35,7 +35,7 @@ Similarly, when model fitting produces [[functional-connectivity|functional conn
 
 ## Technical Considerations
 
-MRIcroGL was developed by Chris Rorden using the Lazarus development environment (Free Pascal) and is distributed as open-source software under the BSD license. <ref>Rorden C. MRIcroGL documentation. https://www.nitrc.org/projects/mricrogl/</ref> The program runs natively on Windows, macOS, and Linux operating systems, with versions available as both standalone executables and through package managers. The software requires OpenGL 2.0 compatible graphics hardware, which is satisfied by virtually any modern computer. Installation is straightforward—the program requires no dependencies beyond the standard runtime libraries for each operating system—making it accessible even on computing environments where installing full software suites would require administrative privileges or complex configuration.
+MRIcroGL was developed by Chris Rorden using the Lazarus development environment (Free Pascal) and is distributed as open-source software under the BSD license. <ref>Rorden C. MRIcroGL documentation. https://www.[[nitrc]].org/projects/mricrogl/</ref> The program runs natively on Windows, macOS, and Linux operating systems, with versions available as both standalone executables and through package managers. The software requires OpenGL 2.0 compatible graphics hardware, which is satisfied by virtually any modern computer. Installation is straightforward—the program requires no dependencies beyond the standard runtime libraries for each operating system—making it accessible even on computing environments where installing full software suites would require administrative privileges or complex configuration.
 
 The first release of MRIcroGL as an OpenGL-based viewer came after the original MRIcron program, providing hardware-accelerated rendering that became increasingly important as neuroimaging datasets grew in size. The project continues to be maintained and updated, with periodic releases addressing compatibility with new operating system versions and neuroimaging format specifications.
 
@@ -52,6 +52,6 @@ MRIcroGL should not be confused with its predecessor [[mricron|MRIcron]], which 
 
 ## References
 
-1. (authors unknown). *GLEAN: Group Level Exploratory Analysis of Networks*.
+1. (authors unknown). *[[lean|GLEAN]]: Group Level Exploratory Analysis of Networks*.
 2. L. Fisch, N. Winter, J. Goltermann, Carlotta B. C. Barkhau, D. Emden, J. Ernsting, M. Konowski, R. Leenings, T. Borgers, K. Flinkenflügel, D. Grotegerd, Anna Kraus, E. Leehr, S. Meinert, F. Stein, L. Teutenberg, F. Thomas-Odenthal, P. Usemann, M. Hermesdorf, H. Jamalabadi, Andreas Jansen, I. Nenadić, Benjamin Straube, T. Kircher, Klaus Berger, Benjamin Risse, U. Dannlowski, T. Hahn. (2026). *deepmriprep: voxel-based morphometry preprocessing via deep neural networks*. Nature Computational Science. [DOI](https://doi.org/10.1038/s43588-026-00953-7)
-3. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+3. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)

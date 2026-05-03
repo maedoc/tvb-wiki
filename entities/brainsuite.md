@@ -16,7 +16,7 @@ BrainSuite is an open-source software suite for processing and analyzing structu
 
 ## Motivation and Context
 
-The emergence of high-resolution structural MRI as a cornerstone of modern neuroscience research created an urgent need for robust, automated tools capable of extracting meaningful anatomical information from raw scanner output. Manual segmentation of brain structures is prohibitively time-consuming when dealing with large neuroimaging datasets such as those collected by [[mrtrix3-connectome]] (HCP) or longitudinal studies of development and [[aging]]. BrainSuite was developed to address this bottleneck by providing a streamlined pipeline that takes raw T1-weighted MPRAGE or SPGR scans and produces skull-stripped brain volumes, tissue probability maps, and cortical surface representations suitable for downstream statistical analyses.
+The emergence of high-resolution structural MRI as a cornerstone of modern neuroscience research created an urgent need for robust, automated tools capable of extracting meaningful anatomical information from raw scanner output. Manual segmentation of brain structures is prohibitively time-consuming when dealing with large [[neuroimaging]] datasets such as those collected by [[mrtrix3-connectome]] (HCP) or longitudinal studies of development and [[aging]]. BrainSuite was developed to address this bottleneck by providing a streamlined pipeline that takes raw T1-weighted MPRAGE or SPGR scans and produces skull-stripped brain volumes, tissue probability maps, and cortical surface representations suitable for downstream statistical analyses.
 
 The software occupies a niche in the neuroimaging ecosystem alongside other established packages such as [[freesurfer]], [[FSL]], [[3d-slicer]], and [[brainvisa]]. Unlike [[freesurfer]], which emphasizes detailed cortical reconstruction and thickness measurements, BrainSuite offers a more lightweight and computationally efficient workflow that remains accessible to users without extensive computational resources. This efficiency makes it particularly suitable for preprocessing large cohorts or for applications where only bulk volumetric measures are required rather than vertex-wise cortical thickness maps.
 
@@ -62,7 +62,7 @@ BrainSuite interfaces with several other tools in the neuroimaging ecosystem. It
 
 ## References
 
-1. (authors unknown). *Image Processing and Quality Control for the First 100,000 Brain Imaging Datasets from UK Biobank*.
+1. (authors unknown). *Image Processing and Quality Control for the First 100,000 Brain Imaging Datasets from [[uk-biobank]]*.
 2. G. Deepali, H. Anitha, B. P. Swathi, M. V. Suhas. (2025). *Autoencoder-Driven Fiducial Landmark Identification in 3D Brain MRI for Neuroimaging Alignment*. IEEE Access. [DOI](https://doi.org/10.1109/ACCESS.2025.3582273)
 3. Chetan Gohil, Oliver M. Cliff, James M. Shine, Ben D. Fulcher, Joseph T. Lizier. (2026). *Estimating measures of information processing during cognitive tasks using functional magnetic resonance imaging*. [Link](https://arxiv.org/abs/2602.03240)
-4. (authors unknown). *GLEAN: Group Level Exploratory Analysis of Networks*.
+4. (authors unknown). *[[lean|GLEAN]]: Group Level Exploratory Analysis of Networks*.

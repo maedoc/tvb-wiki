@@ -23,7 +23,7 @@ However, early tracer studies were highly variable in their anatomical assumptio
 
 ## Technical Framework
 
-The CoCoMac system organizes connectivity data around three core elements: source studies, anatomical parcellations, and tract definitions. Each entry in the database specifies a tract identified in a particular study, the specific regions from the source [[parcellation]] that are connected, and mappings to one or more target parcellation schemes. This many-to-many mapping structure enables users to query connectivity between brain regions regardless of the parcellation used in the original study.
+The CoCoMac system organizes [[connectivity]] data around three core elements: source studies, anatomical parcellations, and tract definitions. Each entry in the database specifies a tract identified in a particular study, the specific regions from the source [[parcellation]] that are connected, and mappings to one or more target parcellation schemes. This many-to-many mapping structure enables users to query connectivity between brain regions regardless of the parcellation used in the original study.
 
 The database supports both categorical connectivity (whether two regions are connected) and weighted connectivity (semi-quantitative estimates of connection strength based on the original study's methodology, such as fiber count ratios or qualitative density ratings). This hierarchical representation proved valuable for [[whole-brain modeling]] applications, where different studies emphasize different aspects of connectivity and users need to integrate multiple sources. The CoCoMac framework also introduced conventions for handling ambiguous or disputed tract definitions, documenting cases where different studies provided contradictory evidence about the existence or strength of particular connections.
 
@@ -48,7 +48,7 @@ The foundational CoCoMac publication described the database architecture and dem
 ## References
 
 1. (authors unknown). *Networks of the Brain*.
-2. Ramiro Plüss, Hernán Villota, Patricio Orio. (2025). *Hemispheric-Specific Coupling Improves Modeling of Functional Connectivity Using Wilson-Cowan Dynamics*. [Link](https://arxiv.org/abs/2506.22951)
+2. Ramiro Plüss, Hernán Villota, Patricio Orio. (2025). *Hemispheric-Specific Coupling Improves Modeling of Functional Connectivity Using [[wilson-cowan]] Dynamics*. [Link](https://arxiv.org/abs/2506.22951)
 3. Shengjie Qi, Xinda Song, Le Jia, Hongyu Cui, Yuchen Suo, Teng Long, Zhendong Wu, Xiaolin Ning. (2025). *The impact of channel density, inverse solutions, connectivity metrics and calibration errors on OPM-MEG connectivity analysis: A simulation study*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2025.121056)
-4. A. Craig, Sida Chen, Qianyuan Tang, Changsong Zhou. (2026). *Personalized whole-brain Ising models with heterogeneous nodes capture differences among brain regions*. bioRxiv. [DOI](https://doi.org/10.1101/2025.06.09.658769)
+4. A. Craig, Sida Chen, Qianyuan Tang, Changsong Zhou. (2026). *Personalized [[whole-brain]] Ising models with heterogeneous nodes capture differences among brain regions*. bioRxiv. [DOI](https://doi.org/10.1101/2025.06.09.658769)
 5. Jui-To Wang, Ching-Po Lin, Huei-Min Liu, Carlo Pierpaoli, C. Lo. (2025). *Beyond tractography in brain connectivity mapping with dMRI morphometry and functional networks*. Brain Structure and Function. [DOI](https://doi.org/10.1007/s00429-025-03016-1)

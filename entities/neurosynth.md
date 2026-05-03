@@ -19,7 +19,7 @@ Neurosynth is an open-source platform for automated coordinate-based meta-analys
 
 ## Motivation and Context
 
-The field of neuroimaging faced a fundamental challenge in the late 2000s: the rapidly expanding literature on fMRI studies contained thousands of experiments, but no efficient way existed to synthesize these findings into coherent models of brain function. Traditional narrative reviews were subjective and limited in scope, while manual meta-analysis was labor-intensive and could only encompass a fraction of available data. The BrainMap project had pioneered coordinate-based meta-analysis, but required substantial manual curation and was not easily accessible to the broader research community.
+The field of [[neuroimaging]] faced a fundamental challenge in the late 2000s: the rapidly expanding literature on [[fmri]] studies contained thousands of experiments, but no efficient way existed to synthesize these findings into coherent models of brain function. Traditional narrative reviews were subjective and limited in scope, while manual meta-analysis was labor-intensive and could only encompass a fraction of available data. The BrainMap project had pioneered coordinate-based meta-analysis, but required substantial manual curation and was not easily accessible to the broader research community.
 
 Neurosynth addressed this gap by automating the extraction of activation coordinates from published papers (typically from the peak activations reported in figures and tables), then using Bayesian statistical approaches to identify associations between cognitive terms and brain regions [1]. This approach enabled researchers to pose queries like "which brain regions are consistently activated during working memory tasks?" and receive whole-brain maps based on hundreds of published studies. The platform democratized meta-analysis, making it accessible to any researcher with an internet connection and a research question.
 
@@ -37,7 +37,7 @@ An important subsequent development was the release of Neurosynth 2.0, which add
 
 In the context of connectome-based whole-brain modeling, Neurosynth serves as an important source of empirical constraints for [[functional-connectivity]] analyses. Whole-brain simulators like [[the-virtual-brain]] require realistic parameterization of regional dynamics, and Neurosynth-derived activation maps provide evidence about which brain regions should be recruited during specific cognitive states. Researchers use these maps to inform model initialization, validate simulated activation patterns against empirical data, and identify candidate regions for inclusion in simplified network models.
 
-Neurosynth data also feeds into the construction of [[brain-parcellations]] by providing evidence about functional boundaries between regions. Studies have compared activation-based parcellations with connectivity-based parcellations (using tools like [[brain-connectivity-toolbox]]) to understand the relationship between structural and functional brain organization. Furthermore, the platform's term-by-region matrices have been used as features in machine learning classifiers that predict cognitive states from connectivity patterns, supporting the emerging field of cognitive neuroscience decoding analysis.
+Neurosynth data also feeds into the construction of [[brain-parcellations]] by providing evidence about functional boundaries between regions. Studies have compared activation-based parcellations with [[connectivity]]-based parcellations (using tools like [[brain-connectivity-toolbox]]) to understand the relationship between structural and functional brain organization. Furthermore, the platform's term-by-region matrices have been used as features in machine learning classifiers that predict cognitive states from connectivity patterns, supporting the emerging field of cognitive neuroscience decoding analysis.
 
 ## Key Papers
 
@@ -49,7 +49,7 @@ Neurosynth data also feeds into the construction of [[brain-parcellations]] by p
 
 Neurosynth builds upon and complements several other tools in the neuroimaging ecosystem. [[brainmap]] provides the original coordinate-based meta-analysis framework and remains a critical source of manually curated activation data, particularly for specialized cognitive domains. [[nilearn]] offers Python utilities for manipulating and visualizing Neurosynth-derived maps alongside other neuroimaging data, while [[pymvpa]] provides machine learning tools for pattern analysis that extend the classification approaches pioneered on Neurosynth data.
 
-The platform intersects with resting-state research by providing normative activation maps that can be compared with intrinsic connectivity networks derived from fMRI data acquired in the absence of tasks. Researchers studying functional connectivity often use Neurosynth maps to define regions of interest for connectivity analysis, ensuring that their chosen regions correspond to functionally coherent units. The [[human-connectome-project]] provides high-resolution connectivity data that can be integrated with Neurosynth activation priors for more sophisticated multi-modal analyses.
+The platform intersects with [[resting-state]] research by providing normative activation maps that can be compared with intrinsic connectivity networks derived from fMRI data acquired in the absence of tasks. Researchers studying functional connectivity often use Neurosynth maps to define regions of interest for connectivity analysis, ensuring that their chosen regions correspond to functionally coherent units. The [[human-connectome-project]] provides high-resolution connectivity data that can be integrated with Neurosynth activation priors for more sophisticated multi-modal analyses.
 
 ## Open Questions and Limitations
 
@@ -59,7 +59,7 @@ Methodological debates continue about the appropriate use of Neurosynth data for
 
 ## References
 
-1. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
+1. (authors unknown). *Functional [[connectomics]] from Resting-State fMRI*.
 2. (authors unknown). *Functional Magnetic Resonance Imaging*.
 3. (authors unknown). *Functional Connectivity: The Principal-Component Analysis of Large (PET and fMRI) Data Sets*.
 4. (authors unknown). *Functional Network Organization of the Human Brain*.

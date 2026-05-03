@@ -1,47 +1,45 @@
 ---
-
 created: 2026-04-29
 sources:
-- id: gleeson2019
-  type: article
-  title: "BrainGlobe: a computational neuroanatomy ecosystem"
-  authors:
+- authors:
   - Gleeson, P.
   - Cantarelli, M.
   - Marin, B.
   - et al.
+  id: gleeson2019
   journal: Frontiers in Neuroinformatics
-  year: 2019
-  url: https://www.frontiersin.org/articles/10.3389/fninf.2019.00024
-- id: tedeschi2020
+  title: 'BrainGlobe: a computational neuroanatomy ecosystem'
   type: article
-  title: The Allen Integrating framework for neuroanatomy data
-  authors:
+  url: https://www.frontiersin.org/articles/10.3389/fninf.2019.00024
+  year: 2019
+- authors:
   - Tedeschi, A.
   - Zouridakis, G.
+  id: tedeschi2020
   journal: Neuroinformatics
-  year: 2020
-- id: tora2021
+  title: The Allen Integrating framework for neuroanatomy data
   type: article
-  title: Atlas-based analysis of neuronal morphology
-  authors:
+  year: 2020
+- authors:
   - Tora, R.
   - Bolam, J.
+  id: tora2021
   journal: Frontiers in Computational Neuroscience
+  title: Atlas-based analysis of neuronal morphology
+  type: article
   year: 2021
 tags:
 - software-brain-modeling
 title: BrainGlobe
 type: entity
-updated: 2026-05-03
-
+updated: '2026-05-03'
 ---
 
-BrainGlobe is an open-source computational neuroanatomy suite that provides tools for atlas creation, image registration, cell detection, and three-dimensional visualization of brain structure. Developed as a collaborative effort among neuroscience laboratories, BrainGlobe addresses the need for standardized, reproducible workflows in neuroanatomical analysis. The suite integrates various software components that work together within a unified Python framework, enabling researchers to go from raw imaging data to quantitative anatomical insights without requiring extensive custom coding. BrainGlobe's architecture emphasizes modularity, allowing individual components such as the registration pipeline or visualization engine to be used independently while maintaining compatibility with the broader ecosystem.
+BrainGlobe is an open-source computational neuroanatomy suite that provides tools for atlas creation, image registration, cell detection, and three-dimensional visualization of brain structure. Developed as a collaborative effort among neuroscience laboratories, BrainGlobe addresses the need for standardized, reproducible workflows in neuroanatomical analysis. The suite integrates various software components that work together within a unified Python framework, enabling researchers to go from raw imaging data to quantitative anatomical insights without requiring extensive custom coding. BrainGlobe's architecture emphasizes [[modularity]], allowing individual components such as the registration pipeline or visualization engine to be used independently while maintaining compatibility with the broader ecosystem.
 
 ## Overview
 
-BrainGlobe emerged from the recognition that computational neuroscience increasingly requires sophisticated neuroanatomical tools that bridge the gap between raw imaging data and quantitative modeling. The suite was first described in a 2019 publication in Frontiers in Neuroinformatics, which established its core architecture and demonstrated its application across multiple species and imaging modalities. Unlike single-purpose tools, BrainGlobe provides an integrated environment where atlas management, image registration, cell segmentation, and visualization operate within a common framework. This integration is particularly valuable for researchers working with diverse datasets spanning different brain regions, resolutions, or species, as the standardized data formats and API interfaces reduce the technical barriers to comparative analysis.
+BrainGlobe emerged from the recognition that [[computational-neuroscience]] increasingly requires sophisticated neuroanatomical tools that bridge the gap between raw imaging data and quantitative modeling. The suite was first described in a 2019 publication in Frontiers in Neuroinformatics, which established its core architecture and demonstrated its application across multiple species and imaging modalities. Unlike single-purpose tools, BrainGlobe provides an integrated environment where atlas management, image registration, cell segmentation, and visualization operate within a common framework. This integration is particularly valuable for researchers working with diverse datasets spanning different brain regions, resolutions, or species, as the standardized data formats and API interfaces reduce the technical barriers to comparative analysis.
 
 The ecosystem centers on the [[brainsuite]], which provides programmatic access to a growing collection of anatomical atlases in a unified format. These atlases range from simplified parcellation schemes suitable for coarse-grained [[whole-brain-modeling]] to high-resolution cellular-resolution datasets for detailed morphological analysis. Each atlas in the collection adheres to a common specification that defines anatomical regions, spatial coordinates, and metadata, ensuring consistency across analyses. The API design allows researchers to seamlessly switch between atlases within their scripts, facilitating comparative studies and enabling the exploration of [[personalized-brain-modeling]] approaches that require adaptation to individual anatomy.
 

@@ -1,15 +1,20 @@
 ---
-title: Ted Carnevale
 created: 2026-04-20
-updated: 2026-05-03
+sources:
+- raw/papers/hines-carnevale-1997.md
+- raw/papers/carnevale-hines-2006.md
+tags:
+- people-researcher
+- software-neuron
+- spiking-neural-networks
+title: Ted Carnevale
 type: entity
-tags: [people-researcher, software-neuron, spiking-neural-networks]
-sources: [raw/papers/hines-carnevale-1997.md, raw/papers/carnevale-hines-2006.md]
+updated: '2026-05-03'
 ---
 
 # Ted Carnevale
 
-Ted Carnevale is a computational neuroscientist whose work has significantly influenced how researchers simulate and understand neural systems. As co-developer of the NEURON simulation environment alongside Michael Hines, Carnevale has created tools that bridge the gap between experimental neuroscience and computational modeling, enabling researchers to construct biophysically detailed neuron models that incorporate realistic dendritic morphologies, ion channel kinetics, and synaptic dynamics. His educational contributions, particularly through the widely-cited NEURON Book, have trained generations of neuroscientists in the art and science of computational modeling, lowering barriers to entry for researchers who would otherwise lack the technical background to build sophisticated neural simulations [[raw/papers/carnevale-hines-2006]].
+Ted Carnevale is a computational neuroscientist whose work has significantly influenced how researchers simulate and understand neural systems. As co-developer of the NEURON simulation environment alongside Michael Hines, Carnevale has created tools that bridge the gap between experimental neuroscience and computational modeling, enabling researchers to construct biophysically detailed neuron models that incorporate realistic dendritic morphologies, [[ion-channel]] kinetics, and synaptic dynamics. His educational contributions, particularly through the widely-cited NEURON Book, have trained generations of neuroscientists in the art and science of computational modeling, lowering barriers to entry for researchers who would otherwise lack the technical background to build sophisticated neural simulations [[raw/papers/carnevale-hines-2006]].
 
 ## Research Focus and Contributions
 
@@ -19,9 +24,9 @@ The NMODL modeling language, developed primarily by Michael Hines with contribut
 
 ## Educational Impact and Legacy
 
-Beyond software development, Carnevale's educational impact on the field has been significant. The [[NEURON Book]], published in 2006 with Michael Hines, serves as the definitive tutorial and reference for the simulator, guiding readers from building simple single-compartment models to constructing large heterogeneous networks with realistic synaptic dynamics. The book's pedagogical approach, with worked examples drawn from published models and best-practice guidance for validation and sharing, has established standards for computational neuroscience education that many universities continue to follow. This emphasis on reproducible, shareable models anticipated by decades the current emphasis on open science and model validation in computational biology [[raw/papers/carnevale-hines-2006]].
+Beyond software development, Carnevale's educational impact on the field has been significant. The [[NEURON Book]], published in 2006 with Michael Hines, serves as the definitive tutorial and reference for the simulator, guiding readers from building simple single-compartment models to constructing large heterogeneous networks with realistic synaptic dynamics. The book's pedagogical approach, with worked examples drawn from published models and best-practice guidance for validation and sharing, has established standards for computational neuroscience education that many universities continue to follow. This emphasis on reproducible, shareable models anticipated by decades the current emphasis on open science and [[model-validation]] in computational biology [[raw/papers/carnevale-hines-2006]].
 
-Carnevale's work exemplifies the tradition of tool-building in computational neuroscience, where the development of simulation infrastructure enables broad scientific advances that would otherwise be impossible. The NEURON ecosystem, including the ModelDB database for sharing published models, has contributed to the reproducibility revolution in computational neuroscience by providing standardized infrastructure for model specification, simulation, and sharing. This stands in contrast to the often-cited reproducibility problems in purely theoretical or abstract modeling work, where a lack of standardized tools can lead to ambiguities in model specification.
+Carnevale's work exemplifies the tradition of tool-building in computational neuroscience, where the development of simulation infrastructure enables broad scientific advances that would otherwise be impossible. The NEURON ecosystem, including the [[modeldb]] database for sharing published models, has contributed to the [[reproducibility]] revolution in computational neuroscience by providing standardized infrastructure for model specification, simulation, and sharing. This stands in contrast to the often-cited reproducibility problems in purely theoretical or abstract modeling work, where a lack of standardized tools can lead to ambiguities in model specification.
 
 ## Key Publications
 

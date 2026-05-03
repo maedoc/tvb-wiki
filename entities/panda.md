@@ -1,27 +1,34 @@
 ---
 created: 2026-04-23
 sources:
-- 'Liu, Y., D. Zhu, J. Jiang, J. Zhang, Z. Li, Q. Luo, Y. Li, Y. Wang, Y. Chen, and X. Chen. 2013. "PANDA: A Pipeline Tool for Brain Diffusion Image Processing." Frontiers in Human Neuroscience 7: 816.'
-- 'Cui, Z., F. Su, J. Li, W. Yang, Q. Luo, Y. Liu, and X. Chen. 2018. "PANDA-Global: A Fast and Scalable Pipeline for Fiber Orientation Distribution Estimation." Journal of Neuroscience Methods 303: 1–8.'
-- 'Jiang, J., Y. Liu, X. Wang, C. Li, Q. Luo, Y. Li, and X. Chen. 2013. "Constructing Human Brain Structural Networks: A New Approach Based on DTI." Brain Connectivity 3 (2): 193–206.'
+- 'Liu, Y., D. Zhu, J. Jiang, J. Zhang, Z. Li, Q. Luo, Y. Li, Y. Wang, Y. Chen, and
+  X. Chen. 2013. "PANDA: A Pipeline Tool for Brain Diffusion Image Processing." Frontiers
+  in Human Neuroscience 7: 816.'
+- 'Cui, Z., F. Su, J. Li, W. Yang, Q. Luo, Y. Liu, and X. Chen. 2018. "PANDA-Global:
+  A Fast and Scalable Pipeline for Fiber Orientation Distribution Estimation." Journal
+  of Neuroscience Methods 303: 1–8.'
+- 'Jiang, J., Y. Liu, X. Wang, C. Li, Q. Luo, Y. Li, and X. Chen. 2013. "Constructing
+  Human Brain Structural Networks: A New Approach Based on DTI." Brain Connectivity
+  3 (2): 193–206.'
 tags:
-- 'software-brain-modeling'
-- 'software-dipy'
+- software-brain-modeling
+- software-dipy
 title: PANDA
 type: entity
-updated: 2026-05-01
+updated: '2026-05-03'
 ---
-**PANDA** (Pipeline for Analyzing braiN Diffusion imAges) is a MATLAB-based toolbox developed at the [Beijing Normal University](http://bnu.edu.cn/) for automated processing of diffusion magnetic resonance imaging (dMRI) data. The software provides a comprehensive, end-to-end solution for converting raw diffusion-weighted images into fiber orientation distributions and structural brain networks, making it particularly valuable for researchers studying human brain connectivity and white matter architecture.
+
+**PANDA** (Pipeline for Analyzing braiN Diffusion imAges) is a MATLAB-based toolbox developed at the [Beijing Normal University](http://bnu.edu.cn/) for automated processing of diffusion magnetic resonance imaging (dMRI) data. The software provides a comprehensive, end-to-end solution for converting raw diffusion-weighted images into fiber orientation distributions and structural brain networks, making it particularly valuable for researchers studying human brain [[connectivity]] and [[white-matter]] architecture.
 
 ## Overview
 
-Diffusion MRI is a non-invasive imaging technique that measures the random displacement of water molecules in biological tissues. In white matter, water molecules preferentially diffuse along axonal fibers, allowing researchers to infer fiber orientation indirectly. However, extracting meaningful structural information from raw dMRI data requires a complex pipeline of preprocessing steps, including motion correction, eddy current correction, and fiber tracking. PANDA automates this entire workflow, enabling researchers without extensive imaging expertise to produce publication-quality connectivity data <cite>Liu et al. 2013</cite>.
+[[diffusion-mri]] is a non-invasive imaging technique that measures the random displacement of water molecules in biological tissues. In white matter, water molecules preferentially diffuse along axonal fibers, allowing researchers to infer fiber orientation indirectly. However, extracting meaningful structural information from raw dMRI data requires a complex pipeline of preprocessing [[steps]], including motion correction, eddy current correction, and fiber tracking. PANDA automates this entire workflow, enabling researchers without extensive imaging expertise to produce publication-quality connectivity data <cite>Liu et al. 2013</cite>.
 
-The toolbox was designed with accessibility in mind. By providing a unified graphical user interface (GUI) and command-line options, PANDA lowers the barrier to entry for neuroimaging laboratories seeking to incorporate dMRI analysis into their research workflows. The software integrates established algorithms from the neuroimaging community—including tools from [[fsl]] and [[mricron]]—while adding novel processing routines developed specifically for large-scale connectivity analysis <cite>Cui et al. 2018</cite>.
+The toolbox was designed with accessibility in mind. By providing a unified graphical user interface (GUI) and command-line options, PANDA lowers the barrier to entry for [[neuroimaging]] laboratories seeking to incorporate dMRI analysis into their research workflows. The software integrates established algorithms from the neuroimaging community—including tools from [[fsl]] and [[mricron]]—while adding novel processing routines developed specifically for large-scale connectivity analysis <cite>Cui et al. 2018</cite>.
 
 ## Technical Architecture
 
-PANDA implements a three-stage pipeline that transforms raw dMRI images into structural connectivity matrices. Each stage addresses specific computational challenges inherent to diffusion imaging analysis.
+PANDA implements a three-stage pipeline that transforms raw dMRI images into [[structural-connectivity]] matrices. Each stage addresses specific computational challenges inherent to [[diffusion-imaging]] analysis.
 
 ### Stage 1: Preprocessing
 
@@ -31,13 +38,13 @@ Crucially, PANDA computes quality assurance metrics at this stage, flagging data
 
 ### Stage 2: Diffusion Metrics Computation
 
-Following preprocessing, PANDA computes diffusion tensor imaging (DTI) metrics and fiber orientation distributions (FODs). The software fits diffusion tensors to each voxel using least-squares estimation, extracting fractional anisotropy (FA), mean diffusivity (MD), and principal eigenvector maps. These scalar metrics provide quantitative measures of white matter microstructure—FA reflects the degree of directional coherence in fiber populations, while MD captures overall diffusion magnitude <cite>Jiang et al. 2013</cite>.
+Following preprocessing, PANDA computes diffusion tensor imaging (DTI) metrics and fiber orientation distributions (FODs). The software fits diffusion tensors to each voxel using least-squares estimation, extracting [[fractional-anisotropy]] (FA), mean diffusivity (MD), and principal eigenvector maps. These scalar metrics provide quantitative measures of white matter microstructure—FA reflects the degree of directional coherence in fiber populations, while MD captures overall diffusion magnitude <cite>Jiang et al. 2013</cite>.
 
-For more sophisticated analysis, PANDA supports constraint spherical deconvolution (CSD), which resolves complex fiber configurations where multiple fiber populations intersect within a single voxel. This capability is essential for accurate tractography in regions of fiber crossing, which constitute a significant portion of the human white matter volume.
+For more sophisticated analysis, PANDA supports constraint spherical deconvolution (CSD), which resolves complex fiber configurations where multiple fiber populations intersect within a single voxel. This capability is essential for accurate [[tractography]] in regions of fiber crossing, which constitute a significant portion of the human white matter volume.
 
 ### Stage 3: Network Construction
 
-The final stage constructs structural brain networks from fiber tracking results. PANDA implements deterministic tractography using the fiber orientation distributions, generating streamlines that trace white matter pathways between cortical and subcortical regions. These streamlines are parcellated according to a user-specified brain atlas (such as the Desikan-Killiany or AAL parcellation schemes), and connection weights are computed based on the number of reconstructed fibers connecting each region pair <cite>Jiang et al. 2013</cite>.
+The final stage constructs structural brain networks from fiber tracking results. PANDA implements deterministic tractography using the fiber orientation distributions, generating streamlines that trace white matter pathways between cortical and subcortical regions. These streamlines are parcellated according to a user-specified brain atlas (such as the Desikan-Killiany or AAL [[parcellation]] schemes), and connection weights are computed based on the number of reconstructed fibers connecting each region pair <cite>Jiang et al. 2013</cite>.
 
 The output is a weighted connectivity matrix where rows and columns correspond to brain regions and matrix entries reflect the strength of structural connectivity. These matrices serve as the foundational structural constraint for computational models of brain dynamics, including those implemented in [[The Virtual Brain]].
 

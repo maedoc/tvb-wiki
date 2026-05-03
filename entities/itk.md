@@ -1,55 +1,58 @@
 ---
-title: ITK
 created: 2025-01-15
-updated: 2026-05-01
-type: entity
-tags: [software-visualization, neuroimaging-dti, neuroimaging-fmri]
 sources:
-  - id: 1
-    title: The ITK Software Guide
-    authors: Yoo, T.S., et al.
-    year: 2002
-    publisher: Kitware
-  - id: 2
-    title: "Insight into Images: A Practical Guide to Segmentation and Registration"
-    authors: Ibáñez, L., et al.
-    year: 2004
-    publisher: Wiley
-  - id: 3
-    title: The Visible Human Project
-    authors: National Library of Medicine
-    year: 1993
-    url: https://www.nlm.nih.gov/pubs/factsheet/visiblehuman.html
-  - id: 4
-    title: Active Contours Without Edges
-    authors: Chan, T., Vese, L.
-    year: 2001
-    journal: IEEE Transactions on Image Processing
-    volume: 10
-    pages: 266-277
-  - id: 5
-    title: Advanced Normalization Tools (ANTs)
-    authors: Avants, B., et al.
-    year: 2009
-    journal: Insight Journal
-  - id: 6
-    title: Whole-brain modeling with TVB
-    authors: Ritter, P., et al.
-    year: 2013
-    journal: NeuroImage
-    volume: 80
-    pages: 437-451
+- authors: Yoo, T.S., et al.
+  id: 1
+  publisher: Kitware
+  title: The ITK Software Guide
+  year: 2002
+- authors: Ibáñez, L., et al.
+  id: 2
+  publisher: Wiley
+  title: 'Insight into Images: A Practical Guide to Segmentation and Registration'
+  year: 2004
+- authors: National Library of Medicine
+  id: 3
+  title: The Visible Human Project
+  url: https://www.nlm.nih.gov/pubs/factsheet/visiblehuman.html
+  year: 1993
+- authors: Chan, T., Vese, L.
+  id: 4
+  journal: IEEE Transactions on Image Processing
+  pages: 266-277
+  title: Active Contours Without Edges
+  volume: 10
+  year: 2001
+- authors: Avants, B., et al.
+  id: 5
+  journal: Insight Journal
+  title: Advanced Normalization Tools (ANTs)
+  year: 2009
+- authors: Ritter, P., et al.
+  id: 6
+  journal: NeuroImage
+  pages: 437-451
+  title: Whole-brain modeling with TVB
+  volume: 80
+  year: 2013
+tags:
+- software-visualization
+- neuroimaging-dti
+- neuroimaging-fmri
+title: ITK
+type: entity
+updated: '2026-05-03'
 ---
 
 # ITK
 
 ## Overview
 
-The **Insight Toolkit (ITK)** is an open-source, cross-platform software library for medical image analysis, providing algorithms for image segmentation, registration, and filtering. Originally developed by the National Library of Medicine as part of the Visible Human Project[^3], ITK has become the foundational image processing engine for numerous neuroimaging pipelines and visualization tools. The toolkit is written in C++ with bindings available for Python (via SimpleITK), Tcl, and Java, making it accessible to researchers across different programming backgrounds. ITK's design philosophy emphasizes modularity, allowing researchers to construct custom image processing pipelines by composing reusable components[^1].
+The **Insight Toolkit (ITK)** is an open-source, cross-platform software library for medical image analysis, providing algorithms for image segmentation, registration, and filtering. Originally developed by the National Library of Medicine as part of the Visible Human Project[^3], ITK has become the foundational image processing engine for numerous neuroimaging pipelines and visualization tools. The toolkit is written in C++ with bindings available for Python (via SimpleITK), Tcl, and Java, making it accessible to researchers across different programming backgrounds. ITK's design philosophy emphasizes [[modularity]], allowing researchers to construct custom image processing pipelines by composing reusable components[^1].
 
 ## Key Features
 
-ITK offers a comprehensive suite of image processing algorithms that are essential for preprocessing neuroimaging data. **Image registration** is one of ITK's most developed capabilities, implementing rigid, affine, and deformable transformation models that align anatomical images to standard spaces (e.g., MNI space) or co-register multi-modal data (e.g., registering T1-weighted MRI to diffusion imaging). The toolkit implements various optimization schemes including gradient descent, conjugate gradient, and stochastic gradient descent for finding optimal transformation parameters.
+ITK offers a comprehensive suite of image processing algorithms that are essential for preprocessing neuroimaging data. **Image registration** is one of ITK's most developed capabilities, implementing rigid, affine, and deformable transformation models that align anatomical images to standard spaces (e.g., MNI space) or co-register multi-modal data (e.g., registering T1-weighted MRI to [[diffusion-imaging]]). The toolkit implements various optimization schemes including gradient descent, conjugate gradient, and stochastic gradient descent for finding optimal transformation parameters.
 
 **Image segmentation** in ITK encompasses both classical methods (thresholding, region growing, watershed) and advanced techniques (level-set methods, fuzzy connectedness, Markov random field models). The toolkit's implementation of the Chan-Vese active contours and geodesic active contours provides tools for delineating anatomical structures in MRI data[^4]. For diffusion imaging applications, ITK's tractography capabilities enable fiber tracking through diffusion tensor fields, though specialized tools like [[mrtrix3]] and [[dipy]] have become more common for modern tractography workflows.
 
@@ -73,7 +76,7 @@ Python wrappers are available through [[simpleitk]], which provides a simplified
 - **Ibáñez et al. (2004)** — Insight into Images: A Practical Guide to Segmentation and Registration[^2]
 - **Chan & Vese (2001)** — Active Contours Without Edges[^4]
 - **Avants et al. (2009)** — Advanced Normalization Tools (ANTs)[^5]
-- **Ritter et al. (2013)** — Whole-brain modeling with TVB[^6]
+- **Ritter et al. (2013)** — [[whole-brain|Whole-brain modeling]] with TVB[^6]
 
 ## Related Concepts
 

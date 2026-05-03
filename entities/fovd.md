@@ -1,10 +1,25 @@
 ---
-title: Field of View
 created: 2024-01-15
-updated: 2026-05-03
+sources:
+- biswal2010
+- bullmore2009
+- hurtz2022
+- hcp2013
+- saenger2022
+- spiegelhalter2012
+- jeurissen2019
+tags:
+- neuroimaging-fmri
+- neuroimaging-meg
+- neuroimaging-eeg
+- field-of-view
+- whole-brain-modeling
+- structural-connectivity
+- neuroimaging
+- acquisition-parameters
+title: Field of View
 type: concept
-tags: [neuroimaging-fmri, neuroimaging-meg, neuroimaging-eeg, field-of-view, whole-brain-modeling, structural-connectivity, neuroimaging, acquisition-parameters]
-sources: [biswal2010, bullmore2009, hurtz2022, hcp2013, saenger2022, spiegelhalter2012, jeurissen2019]
+updated: '2026-05-03'
 ---
 
 # Field of View
@@ -17,7 +32,7 @@ sources: [biswal2010, bullmore2009, hurtz2022, hcp2013, saenger2022, spiegelhalt
 
 Early neuroimaging acquisitions, particularly in [[resting-state]] [[fmri]] studies, frequently used limited FoV protocols to achieve higher temporal resolution or to reduce file sizes. Researchers would image only the cortex while omitting cerebellum, brainstem, and deep [[white-matter]] structures. This practice created significant challenges for [[whole-brain modeling]] approaches like [[the-virtual-brain]] (TVB), which rely on comprehensive [[connectome]] data derived from [[diffusion-imaging]] and tractography to build biologically realistic network models (Sanz-Leon et al., 2015; Jeurissen et al., 2019).
 
-The importance of complete brain coverage became more apparent as neuroscience recognized the critical role of subcortical structures in supporting large-scale brain dynamics. Cerebellar contributions to cognitive networks, brainstem modulatory systems (noradrenergic, serotonergic, dopaminergic pathways), and subcortical nodes of the [[default-mode-network]] all require full-brain acquisition (Hurwitz et al., 2022). When these regions are omitted from acquired data, researchers must either exclude them from models or attempt to impute missing connectivity, both of which introduce inaccuracies that can affect scientific conclusions.
+The importance of complete brain coverage became more apparent as neuroscience recognized the critical role of subcortical structures in supporting large-scale [[brain-dynamics]]. Cerebellar contributions to cognitive networks, brainstem modulatory systems (noradrenergic, serotonergic, dopaminergic pathways), and subcortical nodes of the [[default-mode-network]] all require full-brain acquisition (Hurwitz et al., 2022). When these regions are omitted from acquired data, researchers must either exclude them from models or attempt to impute missing [[connectivity]], both of which introduce inaccuracies that can affect scientific conclusions.
 
 ## Technical Considerations
 
@@ -52,7 +67,7 @@ The field of view parameter touches multiple aspects of neuroimaging and computa
 - Hurwitz, A., et al. (2022). Subcortical contributions to large-scale brain dynamics. *NeuroImage*, 251, 118976.
 - Jeurissen, B., et al. (2019). Diffusion MRI fiber tracking: A overview and recent developments. *NeuroImage*, 186, 341-349.
 - Saenger, R., et al. (2022). Impact of incomplete brain coverage on connectome reconstruction. *Human Brain Mapping*, 43(8), 2647-2661.
-- The Human Connectome Project. (2013). Toward connectomic disease. *Neuron*, 79(4), 668-681.
+- The [[human-connectome-project]]. (2013). Toward connectomic disease. *[[neuron]]*, 79(4), 668-681.
 
 ## References
 
@@ -74,4 +89,4 @@ Spiegelhalter, D. (2012). Visualizing the uncertainty in functional connectivity
 
 The Human Connectome Project. (2013). Toward connectomic disease. *Neuron*, 79(4), 668–681.
 
-TVB Documentation. (2024). Structural Connectivity Data Requirements. *The Virtual Brain Wiki*.
+TVB Documentation. (2024). Structural Connectivity Data Requirements. *[[tvb|The Virtual Brain]] Wiki*.

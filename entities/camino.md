@@ -12,23 +12,24 @@ tags:
 - camino
 title: Camino
 type: concept
-updated: '2026-04-30'
+updated: '2026-05-03'
 ---
+
 title: Camino
 created: 2026-04-20
 updated: 2026-05-03
 type: concept
-tags: [software-tools, diffusion-imaging, tractography, software-tractography]
+tags: [software-tools, diffusion-imaging, [[tractography]], software-tractography]
 sources: [raw/papers/cook-etal-2006-camino.md, raw/papers/parker-alexander-2003-camino.md, raw/papers/sporns-tononi-kotter-2005.md]
 ---
 
 ## Overview
 
-Camino is an open-source toolkit for diffusion magnetic resonance imaging (dMRI) tractography, providing a collection of algorithms for reconstructing white matter fiber pathways from diffusion tensor imaging (DTI) and advanced diffusion models. Developed primarily at the University College London (UCL) by the Microstructure Imaging Group led by Daniel Alexander, Camino serves as a flexible platform for both deterministic and probabilistic tractography, enabling researchers to map structural connectivity across the human brain [Cook et al. 2006](raw/papers/cook-etal-2006-camino.md). The software is written in Java, ensuring cross-platform compatibility, and integrates with the broader [[fsl|FMRIB Software Library (FSL)]] ecosystem for preprocessing and statistical analysis of diffusion data [Parker and Alexander 2003](raw/papers/parker-alexander-2003-camino.md).
+Camino is an open-source toolkit for diffusion magnetic resonance imaging (dMRI) tractography, providing a collection of algorithms for reconstructing [[white-matter]] fiber pathways from diffusion tensor imaging (DTI) and advanced diffusion models. Developed primarily at the University College London (UCL) by the Microstructure Imaging Group led by Daniel Alexander, Camino serves as a flexible platform for both deterministic and probabilistic tractography, enabling researchers to map structural [[connectivity]] across the human brain [Cook et al. 2006](raw/papers/cook-etal-2006-camino.md). The software is written in Java, ensuring cross-platform compatibility, and integrates with the broader [[fsl|FMRIB Software Library (FSL)]] ecosystem for preprocessing and statistical analysis of diffusion data [Parker and Alexander 2003](raw/papers/parker-alexander-2003-camino.md).
 
 ## Motivation and Context
 
-The fundamental challenge in mapping the human connectome lies in reconstructing the three-dimensional architecture of white matter pathways that interconnect cortical and subcortical regions [Sporns et al. 2005](raw/papers/sporns-tononi-kotter-2005.md). While [[diffusion-mri|Diffusion MRI]] provides noninvasive measurements of water molecule diffusion along white matter fibers, translating these signals into anatomically accurate fiber trajectories requires sophisticated computational algorithms. Prior to the development of Camino and similar tractography packages, researchers relied on simpler streamline tracking methods that lacked robust measures of connection confidence or the ability to handle complex fiber configurations such as crossings, branchings, and kissings.
+The fundamental challenge in mapping the human [[connectome]] lies in reconstructing the three-dimensional architecture of white matter pathways that interconnect cortical and subcortical regions [Sporns et al. 2005](raw/papers/sporns-tononi-kotter-2005.md). While [[diffusion-mri|Diffusion MRI]] provides noninvasive measurements of water molecule diffusion along white matter fibers, translating these signals into anatomically accurate fiber trajectories requires sophisticated computational algorithms. Prior to the development of Camino and similar tractography packages, researchers relied on simpler streamline tracking methods that lacked robust measures of connection confidence or the ability to handle complex fiber configurations such as crossings, branchings, and kissings.
 
 Camino emerged to address these limitations by implementing multiple tractography frameworks within a unified software environment. The toolkit enables researchers to generate streamline trajectories through diffusion tensor fields and more advanced models like Q-ball imaging, providing both deterministic pathways with single trajectory estimates and probabilistic connectivity maps that quantify the confidence of reconstructed connections. This versatility has made Camino a foundational tool in [[connectomics]] research, enabling studies of [[structural-connectivity]] that complement [[functional-connectivity]] analyses derived from [[fmri|fMRI]] and [[eeg|EEG/MEG]] recordings.
 

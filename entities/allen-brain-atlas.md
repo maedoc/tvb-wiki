@@ -13,7 +13,7 @@ type: entity
 updated: '2026-05-03'
 ---
 
-The Allen Brain Atlas is a suite of comprehensive, publicly accessible online brain mapping resources developed by the Allen Institute for Brain Science. Launched in 2006 with the Allen Mouse Brain Atlas, the project has expanded to include atlases of the human brain, macaque brain, and developing mouse brain, among others. These resources provide gene expression data, anatomical structures, and connectivity information across multiple species, serving as a foundational tool for the field of [[connectomics]] and [[whole-brain modeling]]. The atlas represents one of the largest standardized neuroscience data initiatives in the world, providing researchers with unprecedented access to detailed anatomical and molecular annotations of brain tissue.
+The Allen Brain Atlas is a suite of comprehensive, publicly accessible online brain mapping resources developed by the Allen Institute for Brain Science. Launched in 2006 with the Allen Mouse Brain Atlas, the project has expanded to include atlases of the human brain, macaque brain, and developing mouse brain, among others. These resources provide gene expression data, anatomical structures, and [[connectivity]] information across multiple species, serving as a foundational tool for the field of [[connectomics]] and [[whole-brain modeling]]. The atlas represents one of the largest standardized neuroscience data initiatives in the world, providing researchers with unprecedented access to detailed anatomical and molecular annotations of brain tissue.
 
 ## Motivation and Scientific Context
 
@@ -58,6 +58,6 @@ Another open question concerns the standardization of atlas-derived parcellation
 
 1. Konrad Kohnen, Peter Eipert, Laura Budde, Oliver Schmitt. (2025). *neuroVIISAS-based construction of a stereotactic rhesus monkey brain atlas for connectome research.*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2025.110656)
 2. (authors unknown). *The WU-Minn Human Connectome Project: An Overview*.
-3. R. Montgomery. (2025). *Applications of Random Matrix Theory in Neuroscience and Neural Network Analysis: Unraveling High-Dimensional Connectivity*. Wired Neuroscience. [DOI](https://doi.org/10.62162/wnsc10606312712241)
+3. R. Montgomery. (2025). *Applications of Random Matrix Theory in Neuroscience and [[neural-network]] Analysis: Unraveling High-Dimensional Connectivity*. Wired Neuroscience. [DOI](https://doi.org/10.62162/wnsc10606312712241)
 4. Siva Venkadesh, Yuhe Tian, Wendy Linn, Jessica Barrios Martinez, Harrison Mansour, J. Cook, David J. Schaeffer, D. Szczupak, Afonso C Silva, Allan Johnson, Fang‐Cheng Yeh. (2025). *A hierarchical framework for cortical and subcortical gray-matter parcellation across rodents, primates, and humans*. bioRxiv. [DOI](https://doi.org/10.1101/2025.09.08.675002)
-5. (authors unknown). *BrainGlobe Atlas API: a common interface for neuroanatomical atlases*.
+5. (authors unknown). *[[brainglobe]] Atlas API: a common interface for neuroanatomical atlases*.

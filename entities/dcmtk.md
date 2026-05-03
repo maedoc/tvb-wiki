@@ -21,7 +21,7 @@ DCMTK (DICOM Toolkit) is an open-source software suite for reading, writing, and
 
 The DCMTK suite comprises several integrated components that address distinct aspects of DICOM handling. The **dcmdata** library provides the core functionality for parsing and encoding DICOM files, supporting all standard data elements, sequences, and transfer syntaxes. The **dcmnet** library implements DICOM network protocols, enabling query-retrieve operations (C-FIND, C-MOVE, C-GET) that allow automated retrieval of imaging data from Picture Archiving and Communication Systems (PACS) [[cat12]]. The **dcmimage** library handles image rendering for various bitmap formats, while the **dcmprint** library manages film formatting for hard-copy output. The **ofstd** library provides foundational utilities including a comprehensive dictionary of DICOM data elements.
 
-Among the most practically relevant command-line tools are **dcmconv**, which converts between different DICOM transfer syntaxes and character encodings, and **dcmodify**, which allows targeted editing of DICOM header fields—useful for de-identification workflows in compliance with privacy regulations such as HIPAA. The **dcmdump** utility prints the contents of DICOM files in a readable textual format, which is invaluable for troubleshooting header inconsistencies. Critically, DCMTK's modular architecture allows individual components to be embedded within larger software systems, making it the engine underlying many popular neuroimaging converters and visualization tools. The toolkit is distributed under a BSD-style license, enabling its widespread adoption in both academic and commercial projects [[cat12]].
+Among the most practically relevant command-line tools are **dcmconv**, which converts between different DICOM transfer syntaxes and character encodings, and **dcmodify**, which allows targeted editing of DICOM header fields—useful for de-identification workflows in compliance with privacy regulations such as HIPAA. The **dcmdump** utility prints the contents of DICOM files in a readable textual format, which is invaluable for troubleshooting header inconsistencies. Critically, DCMTK's modular architecture allows individual components to be embedded within larger software systems, making it the engine underlying many popular [[neuroimaging]] converters and visualization tools. The toolkit is distributed under a BSD-style license, enabling its widespread adoption in both academic and commercial projects [[cat12]].
 
 ## Relationship to TVB
 
@@ -43,6 +43,6 @@ DCMTK is closely related to several other tools in the neuroimaging software eco
 
 ## References
 
-1. (authors unknown). *Neurodesk: an accessible, flexible and portable data analysis environment for reproducible neuroimaging*.
-2. (authors unknown). *BRAPH: A Pipeline for Brain Connectivity Analysis*.
-3. B. Bein (2018). *pyedflib: Python library for reading and writing EDF/BDF files*. Journal of Open Source Software. [DOI](https://doi.org/10.21105/joss.00899)
+1. (authors unknown). *[[neurodesk]]: an accessible, flexible and portable data analysis environment for reproducible neuroimaging*.
+2. (authors unknown). *[[braph]]: A Pipeline for Brain [[connectivity]] Analysis*.
+3. B. Bein (2018). *[[pyedflib]]: Python library for reading and writing EDF/BDF files*. Journal of Open Source Software. [DOI](https://doi.org/10.21105/joss.00899)

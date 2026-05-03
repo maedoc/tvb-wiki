@@ -1,13 +1,23 @@
 ---
-title: CaImAn
 created: 2025-01-15
-updated: 2026-05-01
-type: entity
-tags: [software-modeling, neuroimaging-analysis, calcium-imaging, open-source-software, computational-neuroscience, python-toolbox, spike-inference]
 sources:
-  - Giovannucci et al. 2019. "CaImAn: An open-source tool for efficient Calcium Imaging Analysis." eLife
-  - Pnevmatikakis et al. 2016. "Sparse nonnegative deconvolution for calcium imaging." NIPS
-  - Zhou et al. 2018. "Efficient and accurate extraction of in vivo calcium signals." Nature Methods
+- Giovannucci et al. 2019. "CaImAn: An open-source tool for efficient Calcium Imaging
+    Analysis." eLife
+- Pnevmatikakis et al. 2016. "Sparse nonnegative deconvolution for calcium imaging."
+  NIPS
+- Zhou et al. 2018. "Efficient and accurate extraction of in vivo calcium signals."
+  Nature Methods
+tags:
+- software-modeling
+- neuroimaging-analysis
+- calcium-imaging
+- open-source-software
+- computational-neuroscience
+- python-toolbox
+- spike-inference
+title: CaImAn
+type: entity
+updated: '2026-05-03'
 ---
 
 # CaImAn
@@ -24,13 +34,13 @@ Prior to CaImAn, researchers typically relied on ad‑hoc custom scripts or prop
 
 ## Key Features
 
-CaImAn implements several interconnected processing stages. **Motion correction** aligns frames in the raw movie to compensate for tissue movement, using a rigid or piece‑wise rigid transformation model (Giovannucci et al. 2019). The **source extraction** component identifies regions of interest (ROIs) corresponding to individual neurons and demixes their signals when spatial footprints overlap; this uses a constrained nonnegative matrix factorization (CNMF) approach (Pnevmatikakis et al. 2016) that models the data as a sum of spatial footprints multiplied by temporal traces, plus background and noise terms. **Spike inference** (also called deconvolution) estimates the underlying spike train from the calcium transient using either optimal linear filtering or template‑matching algorithms (Vogelstein et al. 2010). Finally, **quality control** metrics help users identify and discard poorly reconstructed neurons based on spatial coherence, temporal SNR, and footprint characteristics (Giovannucci et al. 2019).
+CaImAn implements several interconnected processing stages. **Motion correction** aligns frames in the raw movie to compensate for tissue movement, using a rigid or piece‑wise rigid transformation model (Giovannucci et al. 2019). The **source extraction** component identifies regions of interest (ROIs) corresponding to individual neurons and demixes their signals when spatial footprints overlap; this uses a constrained nonnegative matrix factorization (CNMF) approach (Pnevmatikakis et al. 2016) that models the data as a sum of spatial footprints multiplied by temporal traces, plus background and noise terms. **Spike inference** (also called deconvolution) estimates the underlying spike train from the calcium transient using either optimal [[linear]] filtering or template‑matching algorithms (Vogelstein et al. 2010). Finally, **quality control** metrics help users identify and discard poorly reconstructed neurons based on spatial coherence, temporal SNR, and footprint characteristics (Giovannucci et al. 2019).
 
 The Python implementation of CaImAn integrates with key libraries in the scientific Python ecosystem, including NumPy, SciPy, and OpenCV, and can be combined with tools like [[suite2p]] for complementary functionality. The toolbox supports both offline batch processing and online real‑time analysis for closed‑loop experiments (Giovannucci et al. 2019).
 
 ## Comparison with Alternative Tools
 
-CaImAn occupies a specific niche in the calcium imaging analysis ecosystem, and understanding how it compares to other tools helps users choose the right approach for their needs. **Suite2p** is perhaps the most direct alternative to CaImAn, offering similar motion correction and source extraction capabilities but with a focus on speed, ease of use, and a unified graphical user interface (Pachitariu et al. 2017). Suite2p and CaImAn can actually be used complementarily—some researchers use Suite2p's fast motion correction followed by CaImAn's source extraction. **CNMF‑E** is another related approach, specifically designed for endoscopic calcium imaging data with high background contamination (Zhou et al. 2018). For general‑purpose image analysis, **Fiji/ImageJ** provides flexible plugins for calcium imaging preprocessing, though it lacks the specialized CNMF‑based source extraction and spike inference algorithms that CaImAn offers. **SpikeInterface** provides a unified interface for analyzing both extracellular electrophysiology and calcium imaging data, and can call CaImAn as one of several backends (Buccino et al. 2020).
+CaImAn occupies a specific niche in the calcium imaging analysis ecosystem, and understanding how it compares to other tools helps users choose the right approach for their needs. **Suite2p** is perhaps the most direct alternative to CaImAn, offering similar motion correction and source extraction capabilities but with a focus on speed, ease of use, and a unified graphical user interface (Pachitariu et al. 2017). Suite2p and CaImAn can actually be used complementarily—some researchers use Suite2p's fast motion correction followed by CaImAn's source extraction. **CNMF‑E** is another related approach, specifically designed for endoscopic calcium imaging data with high background contamination (Zhou et al. 2018). For general‑purpose image analysis, **[[fiji]]/ImageJ** provides flexible plugins for calcium imaging preprocessing, though it lacks the specialized CNMF‑based source extraction and spike inference algorithms that CaImAn offers. **SpikeInterface** provides a unified interface for analyzing both extracellular [[electrophysiology]] and calcium imaging data, and can call CaImAn as one of several backends (Buccino et al. 2020).
 
 ## Relationship to TVB
 
@@ -66,7 +76,7 @@ Pachitariu, M., Stringer, C., Dipoppa, M., Schröder, S., Rossi, L. F., & Carand
 
 Pnevmatikakis, E. A., Gao, Y., Sultino, D., Brown, B. L., Krishnamurthy, K., Shemesh, N., ... & Linderman, S. (2016). Sparse nonnegative deconvolution for calcium imaging. In *Advances in Neural Information Processing Systems* (pp. 1250–1258).
 
-Ritter, P., Schirner, M., & McIntosh, A. R. (2020). The Virtual Brain: A simulation framework for whole‑brain modeling. *Neuroinformatics*, 18(2), 243–259.
+Ritter, P., Schirner, M., & McIntosh, A. R. (2020). [[tvb|The Virtual Brain]]: A simulation framework for whole‑brain modeling. *Neuroinformatics*, 18(2), 243–259.
 
 Vogelstein, J. T., Packer, A. M., Snyder, L. H., Papert, D. Y., & Gray Ron, S. (2010). Fast online deconvolution of calcium imaging data. *PLoS Computational Biology*, 6(7), e1000809.
 

@@ -44,7 +44,7 @@ Connectome Mapper 3 operates within a broader ecosystem of connectomics tools. I
 
 ## Key Papers
 
-- Daducci, A., Gerhard, S., Griffa, A., Cammoun, L., Guo, Y., Thiran, J.-P., ... & Hagmann, P. (2014). Connectome Mapper: An Open-Source Processing Pipeline to Map Optic Radiations from Diffusion MRI Data. *Proc. IEEE ISBI 2014*.
+- Daducci, A., Gerhard, S., Griffa, A., Cammoun, L., Guo, Y., Thiran, J.-P., ... & Hagmann, P. (2014). Connectome Mapper: An Open-Source Processing Pipeline to Map Optic Radiations from [[diffusion-mri]] Data. *Proc. IEEE ISBI 2014*.
 
 - Daducci, A., Griffa, A., Cammoun, L., Guo, Y., Maumet, C., Gerhard, S., ... & Hagmann, P. (2015). The Connectome Mapper: A pipeline to fully process human connectomes. *Organization for Human Brain Mapping (OHBM)*.
 
@@ -70,5 +70,5 @@ Connectome Mapper 3 operates within a broader ecosystem of connectomics tools. I
 ## References
 
 1. Emmanuelle Renauld, Arnaud Boré, Charles Poirier, Alex Valcourt-Caron, Philippe Karan, Antoine Théberge, Guillaume Théaud, Manon Edde, P. Poulin, Gabriel Girard, Jean-Christophe Houde, A. Gagnon, Etienne St-Onge, Graham Little, Jon Haitz Legarreta, Stanislas Thoumyre, G. Grenier, Zineb El Yamani, Mario Ocampo Pineda, Matteo Battochio, Vincent Beaudoin, Alexandre Joanisse, Laurent Petit, F. Rheault, Maxime Descoteaux. (2026). *Tractography analysis with the scilpy toolbox*. Aperture Neuro. [DOI](https://doi.org/10.52294/001c.154022)
-2. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
+2. Ritter et al. (2013). *[[tvb|The Virtual Brain]] integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
 3. C. Goh, Hao Liu. (2025). *Mapping the Disordered Mind: A Computational Framework for Integrating Neuroimaging and Symptom Data*. Digital Neuropsychiatry. [DOI](https://doi.org/10.64229/zxdytz96)

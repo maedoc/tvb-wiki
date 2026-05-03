@@ -12,7 +12,7 @@ type: entity
 updated: '2026-05-03'
 ---
 
-The **Jülich Atlas**, also known as the **Jülich Brain Atlas** or **Julich-Brain**, is a comprehensive probabilistic cytoarchitectonic atlas of the human cerebral cortex developed by the Institute of Neuroscience and Medicine (INM-1) at the Forschungszentrum Jülich (Jülich Research Centre) in Germany. Unlike classical anatomical atlases based on a single brain specimen, the Jülich Atlas provides probabilistic maps that quantify the spatial distribution of different cortical areas across a population of post‑mortem brains, making it particularly valuable for neuroimaging research where individual variability is a central concern[^1].
+The **Jülich Atlas**, also known as the **Jülich Brain Atlas** or **Julich-Brain**, is a comprehensive probabilistic cytoarchitectonic atlas of the human cerebral cortex developed by the Institute of Neuroscience and Medicine (INM-1) at the Forschungszentrum Jülich (Jülich Research Centre) in Germany. Unlike classical anatomical atlases based on a single brain specimen, the Jülich Atlas provides probabilistic maps that quantify the spatial distribution of different cortical areas across a population of post‑mortem brains, making it particularly valuable for [[neuroimaging]] research where individual variability is a central concern[^1].
 
 ## Overview and Definition
 
@@ -24,7 +24,7 @@ Each cortical area in the atlas is represented as a three‑dimensional probabil
 
 The development of the Jülich Atlas began in the 1990s under the leadership of [[karl-j-fristol|Karl Zilles]] and Katrin Amunts at the Jülich Research Centre[^1]. The project represented a major advance over earlier cytoarchitectonic approaches, which typically produced hand‑drawn maps on single brain sections with limited spatial resolution. By digitizing histological sections at micron‑level resolution and reconciling them to a common stereotaxic reference space (first [[mni-space|Colin27]], later [[mni-space|MNI152]]), the Jülich team created maps that could be directly compared with in‑vivo neuroimaging data[^5].
 
-The atlas has undergone several iterations, with the “Julich‑Brain” version representing a particularly important update that made the probabilistic maps more accessible through the [[ebrains]] infrastructure[^6]. The atlas now includes over 80 distinct cortical areas, covering motor, somatosensory, auditory, visual, and association cortices[^1]. Recent extensions have also begun to include subcortical structures and cerebellar nuclei, broadening the scope beyond purely cortical parcellation.
+The atlas has undergone several iterations, with the “Julich‑Brain” version representing a particularly important update that made the probabilistic maps more accessible through the [[ebrains]] infrastructure[^6]. The atlas now includes over 80 distinct cortical areas, covering motor, somatosensory, auditory, visual, and association cortices[^1]. Recent extensions have also begun to include subcortical structures and cerebellar nuclei, broadening the scope beyond purely cortical [[parcellation]].
 
 ## Relationship to Whole‑Brain Modeling and TVB
 

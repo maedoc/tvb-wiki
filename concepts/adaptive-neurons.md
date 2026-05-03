@@ -1,19 +1,31 @@
 ---
-title: Adaptive Neurons
 created: 2025-01-15
-updated: 2026-05-03
+sources:
+- nicol2018adaptive
+- brette2005adaptive
+- zerlaut2018description
+- wong2006recurrent
+- destexhe2009conductance
+- jirsa2008epileptor
+tags:
+- neural-mass-models
+- spiking-neural-networks
+- computational-neuroscience
+- network-dynamics
+- brain-oscillations
+- excitation-inhibition-balance
+title: Adaptive Neurons
 type: concept
-tags: [neural-mass-models, spiking-neural-networks, computational-neuroscience, network-dynamics, brain-oscillations, excitation-inhibition-balance]
-sources: [nicol2018adaptive, brette2005adaptive, zerlaut2018description, wong2006recurrent, destexhe2009conductance, jirsa2008epileptor]
+updated: '2026-05-03'
 ---
 
-Adaptive neurons are neuron models that incorporate time-dependent mechanisms allowing them to modulate their firing properties based on recent activity history. Unlike simple leaky integrate-and-fire neurons, which respond predictably to constant current injection, adaptive neurons exhibit phenomena such as spike-frequency adaptation, accommodation, and afterhyperpolarization that are fundamental to realistic neural dynamics. In the context of [[whole-brain|whole-brain modeling]], adaptive neuron models provide the mechanistic substrate for capturing transient neural responses, fatigue effects under sustained stimulation, and the rich oscillatory patterns observed in electrophysiological recordings.
+Adaptive neurons are [[neuron]] models that incorporate time-dependent mechanisms allowing them to modulate their firing properties based on recent activity history. Unlike simple leaky [[spiking-neural-networks|integrate-and-fire]] neurons, which respond predictably to constant current injection, adaptive neurons exhibit phenomena such as spike-frequency adaptation, accommodation, and afterhyperpolarization that are fundamental to realistic neural dynamics. In the context of [[whole-brain|whole-brain modeling]], adaptive neuron models provide the mechanistic substrate for capturing transient neural responses, fatigue effects under sustained stimulation, and the rich oscillatory patterns observed in electrophysiological recordings.
 
 ## Motivation and Context
 
-The development of adaptive neuron models arose from the need to move beyond idealized point neurons that fire tonically at constant rates. Biological neurons exhibit remarkable plasticity on multiple timescales: they can transiently increase or decrease their firing rate in response to novel stimuli, adapt their threshold based on membrane potential history, and exhibit fatigue or recovery properties that shape the temporal dynamics of neural activity. These adaptive properties are not mere biological curiosities—they fundamentally shape how neural circuits process information, maintain stability, and generate oscillations.
+The development of adaptive neuron models arose from the need to move beyond idealized point neurons that fire tonically at constant rates. Biological neurons exhibit remarkable [[plasticity]] on multiple timescales: they can transiently increase or decrease their firing rate in response to novel stimuli, adapt their threshold based on membrane potential history, and exhibit fatigue or recovery properties that shape the temporal dynamics of neural activity. These adaptive properties are not mere biological curiosities—they fundamentally shape how neural circuits process information, maintain stability, and generate oscillations.
 
-In large-scale brain simulations, particularly those employing neural mass or mean-field approaches, the inclusion of adaptive mechanisms allows models to better reproduce empirical findings from neuroimaging and electrophysiology. Resting-state networks show characteristic temporal dynamics that cannot be captured by models with purely static gain. Furthermore, adaptive mechanisms are crucial for understanding pathological dynamics such as epileptic seizures, where the transition between seizure and interictal states often involves changes in neuronal adaptation.
+In large-scale brain simulations, particularly those employing neural mass or mean-field approaches, the inclusion of adaptive mechanisms allows models to better reproduce empirical findings from [[neuroimaging]] and [[electrophysiology]]. [[resting-state]] networks show characteristic temporal dynamics that cannot be captured by models with purely static gain. Furthermore, adaptive mechanisms are crucial for understanding pathological dynamics such as epileptic seizures, where the transition between seizure and interictal states often involves changes in neuronal adaptation.
 
 ## Biophysical Mechanisms
 
@@ -41,17 +53,17 @@ Compared to simpler neural mass models that assume static gain functions, adapti
 
 Adaptive neurons play an important role in [[whole-brain|whole-brain modeling]] efforts that aim to reproduce brain-wide dynamics measured with [[fmri]] and [[eeg]]. The inclusion of adaptation mechanisms improves the stability of large-scale simulations by providing negative feedback that prevents runaway excitation. Furthermore, adaptation contributes to the characteristic frequency-dependent modulation of brain signals: at low frequencies, adaptive mechanisms cause neurons to fire in bursts rather than tonically, which affects the low-frequency fluctuations measured in resting-state [[fmri]].
 
-In epilepsy modeling, adaptive properties are particularly important. The [[epileptor]] model incorporates adaptation-like mechanisms to capture the transition between interictal and ictal states. Changes in adaptation strength can model the pathological breakdown of inhibitory control that underlies seizure generation.
+In [[epilepsy-modeling]], adaptive properties are particularly important. The [[epileptor]] model incorporates adaptation-like mechanisms to capture the transition between interictal and ictal states. Changes in adaptation strength can model the pathological breakdown of inhibitory control that underlies seizure generation.
 
 ## Comparison with Related Models
 
-Non-adaptive neuron models such as the leaky integrate-and-fire or the [[izhikevich-neuron-model]] in their standard formulations lack activity-dependent modulation of excitability. While the Izhikevich model can exhibit adaptation through careful tuning of recovery variables, this behavior is not guaranteed by the model formulation. The AdEx model was specifically designed to provide a tractable two-variable system that guarantees adaptive behavior through its explicit adaptation variable.
+Non-adaptive neuron models such as the leaky integrate-and-fire or the [[izhikevich-neuron-model]] in their standard formulations lack activity-dependent modulation of excitability. While the [[izhikevich]] model can exhibit adaptation through careful tuning of recovery variables, this behavior is not guaranteed by the model formulation. The AdEx model was specifically designed to provide a tractable two-variable system that guarantees adaptive behavior through its explicit adaptation variable.
 
 Compared to conductance-based models like the [[hodgkin-huxley-model]], adaptive simplified models sacrifice biophysical realism for computational tractability. This trade-off is acceptable in whole-brain simulations where the number of neurons makes full conductance-based simulation prohibitively expensive. The [[mean-field-theory]] provides the mathematical framework for deriving these simplified models from more detailed representations.
 
 ## Open Questions
 
-Several open questions remain at the intersection of neural adaptation and whole-brain modeling. The relationship between single-neuron adaptation and population-level dynamics is not fully understood—mean-field approximations often assume homogeneous populations, but biological brains exhibit substantial heterogeneity that may shape adaptation properties. How adaptation interacts with structural connectivity as measured by [[dti]] and tractography to produce individual differences in brain dynamics remains an active area of research.
+Several open questions remain at the intersection of neural adaptation and whole-brain modeling. The relationship between single-neuron adaptation and population-level dynamics is not fully understood—mean-field approximations often assume homogeneous populations, but biological brains exhibit substantial heterogeneity that may shape adaptation properties. How adaptation interacts with [[structural-connectivity]] as measured by [[dti]] and tractography to produce individual differences in [[brain-dynamics]] remains an active area of research.
 
 Furthermore, the timescales of adaptation in whole-brain models are often tuned empirically rather than derived from physiological measurements. Establishing firm correspondences between cellular-level adaptation measurements and macro-scale brain dynamics is a key challenge for the field.
 

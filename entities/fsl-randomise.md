@@ -91,6 +91,6 @@ Winkler, A. M., Ridgway, G. R., Webster, M. A., Smith, S. M., & Nichols, T. E. (
 [resting-state]: resting-state.md
 [tractography]: tractography.md
 [connectomics]: [[connectomics]].md
-[brain-parcellations]: brain-parcellations.md
+[brain-parcellations]: [[brain-parcellations]].md
 [neuroimaging]: neuroimaging.md
-[fmriprep]: fmriprep.md
+[fmriprep]: [[fmriprep]].md

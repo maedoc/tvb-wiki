@@ -1,49 +1,57 @@
 ---
-title: Auto-07p
 created: 2024-01-15
-updated: 2026-05-02
-type: entity
-tags: [software, bifurcation-analysis, dynamical-systems-theory, nonlinear-dynamics, computational-neuroscience]
 sources:
-  - doi: 10.1007/978-1-4612-4636-4_1
-    key: doedel1981auto
-    title: "Auto: A program for the automatic bifurcation analysis of autonomous systems"
-    authors: Doedel, E.J.
-    year: 1981
-    venue: "Proceedments of the 1981 ACM Conference on Symbolic and Algebraic Computation"
-  - doi: 10.1007/978-1-4612-4636-4_2
-    key: doedel1991auto
-    title: " AUTO: Continuation and bifurcation software for ordinary differential equations (with homcont)"
-    authors: Doedel, E.J., Kernévez, J.P.
-    year: 1986
-    venue: "California Institute of Technology"
-  - doi: 10.1007/BF02000046
-    key: doedel1991numerical
-    title: "Numerical analysis and control of bifurcation problems (I)"
-    authors: Doedel, E.J., Jiang, H., Kevorkov, J., Khibnik, A.I., Kurowsky, M., Roose, D., Wang, R.
-    year: 1991
-    venue: "International Journal of Bifurcation and Chaos 1(3):493-513"
-  - doi: 10.1162/NETW_a_00020
-    key: laureys2007epileptor
-    title: "Epileptor: A neural mass model of focus and surround inhibition for epilepsy simulations"
-    authors: Laureys, E., Spiegler, A., Jirsa, V.K.
-    year: 2007
-    venue: "NeuroImage 36(1):45-65"
-  - doi: 10.1007/s10827-010-0274-1
-    key: sitt2008neural
-    title: "Neural mass models"
-    authors: Sitt, J.D., Jirsa, V.K., Wiroto, N.
-    year: 2008
-    venue: "Journal of Computational Neuroscience 25(3):401-428"
-  - doi: 10.1088/0953-4075/45/3/035101
-    key: wendler2012phase
-    title: "Phase-space reconstruction of the FitzHugh-Nagumo model"
-    authors: Wendler, A., Schanz, M., Parlitz, U.
-    year: 2012
-    venue: "Journal of Physics: Conference Series 45(3):035101"
+- authors: Doedel, E.J.
+  doi: 10.1007/978-1-4612-4636-4_1
+  key: doedel1981auto
+  title: 'Auto: A program for the automatic bifurcation analysis of autonomous systems'
+  venue: Proceedments of the 1981 ACM Conference on Symbolic and Algebraic Computation
+  year: 1981
+- authors: Doedel, E.J., Kernévez, J.P.
+  doi: 10.1007/978-1-4612-4636-4_2
+  key: doedel1991auto
+  title: ' AUTO: Continuation and bifurcation software for ordinary differential equations
+    (with homcont)'
+  venue: California Institute of Technology
+  year: 1986
+- authors: Doedel, E.J., Jiang, H., Kevorkov, J., Khibnik, A.I., Kurowsky, M., Roose,
+    D., Wang, R.
+  doi: 10.1007/BF02000046
+  key: doedel1991numerical
+  title: Numerical analysis and control of bifurcation problems (I)
+  venue: International Journal of Bifurcation and Chaos 1(3):493-513
+  year: 1991
+- authors: Laureys, E., Spiegler, A., Jirsa, V.K.
+  doi: 10.1162/NETW_a_00020
+  key: laureys2007epileptor
+  title: 'Epileptor: A neural mass model of focus and surround inhibition for epilepsy
+    simulations'
+  venue: NeuroImage 36(1):45-65
+  year: 2007
+- authors: Sitt, J.D., Jirsa, V.K., Wiroto, N.
+  doi: 10.1007/s10827-010-0274-1
+  key: sitt2008neural
+  title: Neural mass models
+  venue: Journal of Computational Neuroscience 25(3):401-428
+  year: 2008
+- authors: Wendler, A., Schanz, M., Parlitz, U.
+  doi: 10.1088/0953-4075/45/3/035101
+  key: wendler2012phase
+  title: Phase-space reconstruction of the FitzHugh-Nagumo model
+  venue: 'Journal of Physics: Conference Series 45(3):035101'
+  year: 2012
+tags:
+- software
+- bifurcation-analysis
+- dynamical-systems-theory
+- nonlinear-dynamics
+- computational-neuroscience
+title: Auto-07p
+type: entity
+updated: '2026-05-03'
 ---
 
-Auto-07p is a software package for numerical continuation and bifurcation analysis of ordinary differential equations (ODEs) and discrete dynamical systems. Originally developed by Eusebius J. Doedel and collaborators—primarily at Concordia University in Montreal, Canada—Auto-07p has become a standard tool in the computational neuroscience community for analyzing the dynamics of neural mass models and whole-brain network models (see {{doedel1981auto}}). The software enables researchers to trace solution branches as parameters vary, detect and locate bifurcations, and compute families of periodic orbits—capabilities essential for understanding the nonlinear dynamics that underlie brain activity.
+Auto-07p is a software package for numerical continuation and bifurcation analysis of ordinary differential equations (ODEs) and discrete dynamical systems. Originally developed by Eusebius J. Doedel and collaborators—primarily at Concordia University in Montreal, Canada—Auto-07p has become a standard tool in the computational neuroscience community for analyzing the dynamics of neural mass models and whole-[[brain-network]] models (see {{doedel1981auto}}). The software enables researchers to trace solution branches as parameters vary, detect and locate bifurcations, and compute families of periodic orbits—capabilities essential for understanding the nonlinear dynamics that underlie brain activity.
 
 ## Overview and Purpose
 
@@ -55,7 +63,7 @@ The software handles both ODEs and maps, supports systems with up to several doz
 
 Auto-07p provides a comprehensive suite of algorithms for nonlinear dynamics analysis. The continuation engine uses pseudo-arc length continuation, a method that can successfully traverse turning points and branch points that would defeat simpler predictor-corrector schemes. The software includes AUTOClib, a library of continuation routines, and supports user-defined systems written in Fortran, C, or Python via wrapper interfaces.
 
-For neural modelers, Auto-07p offers several features of particular relevance. Detection and location of Andronov-Hopf bifurcations allows researchers to identify parameter regimes where oscillatory activity emerges—a key question in models of brain oscillations. Continuation of periodic solutions enables analysis of limit cycle behavior, including the transition to chaos via period-doubling cascades. Two-parameter continuation reveals how bifurcation boundaries shift as multiple parameters vary jointly, essential for understanding the robust operating ranges of neural systems.
+For neural modelers, Auto-07p offers several features of particular relevance. Detection and location of Andronov-Hopf bifurcations allows researchers to identify parameter regimes where oscillatory activity emerges—a key question in models of [[brain-oscillations]]. Continuation of periodic solutions enables analysis of limit cycle behavior, including the transition to chaos via period-doubling cascades. Two-parameter continuation reveals how bifurcation boundaries shift as multiple parameters vary jointly, essential for understanding the robust operating ranges of neural systems.
 
 Auto-07p integrates with other analysis tools through its ability to export solution data in formats readable by plotting software. The command-line interface and script-based workflow support reproducible research workflows, and the software has been ported to multiple platforms including Linux, macOS, and Windows.
 
@@ -75,7 +83,7 @@ Auto-07p distinguishes itself through its maturity, numerical robustness, and ex
 
 Auto-07p has been instrumental in analyzing numerous neural mass and population models that form the basis of whole-brain modeling. Studies of the [[fitzhugh-nagumo-model]]—a simplified model of neuronal excitability—use Auto-07p to characterize the transition between excitable and oscillatory regimes (see {{wendler2012phase}}). The [[wilson-cowan-model]], which describes the dynamics of excitatory and inhibitory neural populations, has been extensively analyzed using bifurcation methods to understand how brain-wide oscillations emerge. Analysis of the [[epileptor]] model using Auto-07p has revealed the bifurcation structure underlying seizure onset and termination, guiding the interpretation of epileptic dynamics in TVB simulations.
 
-More broadly, Auto-07p enables researchers to move beyond "black box" simulation toward mechanistic understanding. By revealing the mathematical structure of neural dynamics—the bifurcations that create or destroy oscillations, the parameter manifolds where multistability occurs, the paths to chaos through period-doubling—bifurcation analysis provides a theoretical framework for interpreting empirical neuroimaging data. This theoretical grounding is essential for the [[personalized-brain-modeling]] approach, where individual differences in brain dynamics are understood through variations in the underlying bifurcation structure.
+More broadly, Auto-07p enables researchers to move beyond "black box" simulation toward mechanistic understanding. By revealing the mathematical structure of neural dynamics—the bifurcations that create or destroy oscillations, the parameter manifolds where multistability occurs, the paths to chaos through period-doubling—bifurcation analysis provides a theoretical framework for interpreting empirical [[neuroimaging]] data. This theoretical grounding is essential for the [[personalized-brain-modeling]] approach, where individual differences in [[brain-dynamics]] are understood through variations in the underlying bifurcation structure.
 
 ## Key Papers
 
@@ -91,7 +99,7 @@ More broadly, Auto-07p enables researchers to move beyond "black box" simulation
 
 ## Related Software
 
-- [[the-virtual-brain]] — whole-brain simulator with neural mass models
+- [[the-virtual-brain]] — [[whole-brain]] simulator with neural mass models
 - [[bifurcation-analysis]] — the analysis approach Auto-07p implements
 - [[matcont]] — MATLAB bifurcation analysis toolbox
 - [[pydstool]] — Python dynamical systems analysis package
