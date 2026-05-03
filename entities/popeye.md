@@ -4,6 +4,8 @@ sources:
 - raw/papers/semanticscholar-cb501cd33451.md
 - raw/papers/arxiv-2603.24176.md
 - raw/papers/arxiv-2604.14259.md
+- raw/papers/glean-github.md
+- raw/papers/semanticscholar-6295d2445697.md
 tags:
 - software-brain-modeling
 title: popeye

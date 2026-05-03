@@ -4,6 +4,9 @@ referenced_by:
 - markello2022
 sources:
 - markello2022
+- raw/papers/winkler-2014-palm.md
+- raw/papers/semanticscholar-028f7c6ac41d.md
+- raw/papers/arxiv-2603.21067.md
 tags:
 - software-neuromaps
 - neuroimaging

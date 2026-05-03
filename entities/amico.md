@@ -4,6 +4,9 @@ sources:
 - raw/papers/daducci-2015-amico.md
 - raw/papers/zhang2015-noddi.md
 - raw/papers/hcp-2013-methods.md
+- raw/papers/semanticscholar-d8b81edc13b4.md
+- raw/papers/semanticscholar-c393c4c4a671.md
+- raw/papers/semanticscholar-deecd9987645.md
 tags:
 - software-dti
 - diffusion-imaging

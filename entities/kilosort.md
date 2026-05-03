@@ -12,6 +12,7 @@ sources:
 - raw/papers/arxiv-2509.02799.md
 - raw/papers/arxiv-2604.03619.md
 - raw/papers/semanticscholar-b9acfa0a7c80.md
+- raw/papers/semanticscholar-60ca593f7e0c.md
 tags:
 - software-electrophysiology
 - spike-sorting

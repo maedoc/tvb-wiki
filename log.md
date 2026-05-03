@@ -140,3 +140,5 @@
 ## [2026-05-03 18:23] Improve: 7 pages improved (loris, nitransforms, aslprep, neurominer, synthseg, neuroquery, medpy)
 
 ## [2026-05-03 18:33] CrosslinkApplier: added 295 wikilinks (295 inline, 0 suggested)
+
+## [2026-05-03 18:37] Ingest: 8 new papers, 0 stubs created

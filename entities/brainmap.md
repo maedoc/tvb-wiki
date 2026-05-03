@@ -6,6 +6,9 @@ sources:
 - Laird et al. (2009)
 - Eickhoff et al. (2009)
 - Eickhoff et al. (2012)
+- raw/papers/sanz-leon-2013.md
+- raw/papers/ritter-2013.md
+- raw/papers/arxiv-2603.21032.md
 tags:
 - database
 - neuroimaging-fmri

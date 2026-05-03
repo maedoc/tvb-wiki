@@ -8,6 +8,7 @@ sources:
 - raw/papers/semanticscholar-8006c459587d.md
 - raw/papers/semanticscholar-518ee560ec89.md
 - raw/papers/semanticscholar-113f4eac2c33.md
+- raw/papers/semanticscholar-fb4cf47c4f31.md
 tags:
 - software-brain-modeling
 - structural-connectivity
@@ -18,7 +19,7 @@ tags:
 - database-hcp
 title: DataLad
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-03'
 ---
 
 The DataLad wiki page has been successfully improved:

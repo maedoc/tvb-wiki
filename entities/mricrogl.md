@@ -1,6 +1,9 @@
 ---
 created: 2026-04-23
-sources: []
+sources:
+- raw/papers/glean-github.md
+- raw/papers/semanticscholar-a0cce22e2ffc.md
+- raw/papers/sanz-leon-2013.md
 tags:
 - software-brain-modeling
 title: MRIcroGL

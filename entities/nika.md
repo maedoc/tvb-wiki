@@ -17,6 +17,9 @@ sources:
 - title: NIAK on NITRC
   url: https://www.nitrc.org/projects/niak/
   year: '2014'
+- raw/papers/arxiv-2603.26971.md
+- raw/papers/huntenburg-2018.md
+- raw/papers/semanticscholar-d6e43299345d.md
 tags:
 - software-neuroimaging
 - neuroimaging-fmri

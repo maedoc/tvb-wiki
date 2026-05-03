@@ -1,6 +1,9 @@
 ---
 created: 2026-04-29
-sources: []
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/power-2011.md
+- raw/papers/smith-2013-connectomics.md
 tags:
 - software-brain-modeling
 title: MELODIC

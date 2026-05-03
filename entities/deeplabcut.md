@@ -2,6 +2,9 @@
 created: 2025-01-15
 sources:
 - raw/papers/arxiv-1806.01474.md
+- raw/papers/arxiv-2601.13676.md
+- raw/papers/semanticscholar-a0cce22e2ffc.md
+- raw/papers/semanticscholar-ac35f7fc051b.md
 tags:
 - software-visualization
 - software-behavioral-tracking

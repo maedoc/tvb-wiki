@@ -5,6 +5,9 @@ sources:
 - https://github.com/matcont/toolbox
 - https://link.springer.com/article/10.1007/s10827-009-0160-8
 - http://www.scholarpedia.org/article/Computational_neuroscience:_Neural_mass_models
+- raw/papers/breakspear-2017.md
+- raw/papers/semanticscholar-7c3337c880fd.md
+- raw/papers/arxiv-2601.03796.md
 tags:
 - software
 - bifurcation-analysis

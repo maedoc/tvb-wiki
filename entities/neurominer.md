@@ -6,6 +6,9 @@ sources:
 - etkina2019
 - guntupalli2016
 - pobe2021
+- raw/papers/ritter-2013.md
+- raw/papers/glean-github.md
+- raw/papers/arxiv-2604.03619.md
 tags:
 - software-toolbox
 - neuroimaging

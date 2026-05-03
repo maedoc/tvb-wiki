@@ -2,6 +2,9 @@
 created: 2025-01-15
 sources:
 - raw/papers/arxiv-dde-biftool.md
+- raw/papers/breakspear-2006.md
+- raw/papers/semanticscholar-9e6c3252d305.md
+- raw/papers/semanticscholar-2004e006655b.md
 tags:
 - software-bifurcation-analysis
 - delay-differential-equations

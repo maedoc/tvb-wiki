@@ -4,6 +4,9 @@ sources:
 - https://proceedings.scipy.org/articles/Majora-342d178e-012
 - https://nipype.github.io/pydra/
 - https://github.com/nipype/pydra
+- raw/papers/Renton2024.md
+- raw/papers/semanticscholar-109de470e443.md
+- raw/papers/semanticscholar-380768cf42a8.md
 tags:
 - software-neuroimaging
 - workflow-engine
