@@ -8,7 +8,7 @@ tags:
 - software-brain-modeling
 title: EEGNet
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-03'
 ---
 
 ## Overview
@@ -44,3 +44,9 @@ EEGNet implementations are available in multiple popular EEG analysis frameworks
 Within the [[TVB]] ecosystem, EEGNet can be integrated as a downstream analysis tool for classifying simulated electrophysiological outputs. Researchers using [[The Virtual Brain]] to generate forward-modeled EEG data can apply EEGNet to the synthetic signals for tasks such as biomarker identification or cross-validation against empirical recordings. The combination of TVB's biophysically principled simulations and EEGNet's data-driven classification represents a powerful workflow for bridging computational modeling and empirical neuroscience.
 
 The relationship between EEGNet and other software tools in this domain is worth noting: EEGNet sits alongside traditional signal processing approaches (such as those implemented in [[EEGLAB]] and [[Fieldtrip]]) and physics-based forward modeling tools (such as those used for [[source localization]] in [[The Virtual Brain]]). While EEGNet learns its features directly from data without explicit biophysical modeling, the learned features often correspond to physiologically meaningful oscillations—alpha rhythm suppression, mu rhythm modulation, P300 components—suggesting that the network has learned to decompose EEG signals in ways that partially align with established neuroscientific knowledge.
+
+## References
+
+1. Xiangyu Xue, Liankun Ren, Hongyu Zhou, Anqi Dai, Di Wang, Huaqiang Zhang. (2026). *DiffLSTM-MTE: A Hybrid LSTM-Diffusion Framework for Virtual iEEG Reconstruction From MEG*. IEEE Access. [DOI](https://doi.org/10.1109/ACCESS.2026.3665952)
+2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *Arbor-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
+3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](https://doi.org/10.3389/fncom.2025.1731161)

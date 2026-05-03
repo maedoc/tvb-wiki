@@ -8,7 +8,7 @@ tags:
 - software-brain-modeling
 title: dcm2niix
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-03'
 ---
 
 dcm2niix is an open-source command-line tool designed to convert medical imaging data from DICOM format to NIfTI (Neuroimaging Informatics Technology Initiative) format. Developed by Chris Rorden, dcm2niix has become an essential utility in the neuroimaging processing pipeline because it robustly handles the complexity and variability of DICOM headers produced by different scanner manufacturers, sequence types, and acquisition protocols. Unlike simple format converters, dcm2niix performs intelligent metadata extraction and correction, producing NIfTI files that preserve critical spatial orientation information, slice timing, and acquisition parameters necessary for downstream neuroimaging analysis in tools like [[FSL]], [[SPM]], and [[TVB]].
@@ -38,3 +38,9 @@ dcm2niix integrates with several related tools in the neuroimaging ecosystem. Th
 - Rorden, C., & Brett, M. (2018). dcm2niix: a tool for converting DICOM to NIfTI. Journal of Open Source Software, 3(22), 777. https://doi.org/10.21105/joss.00777
 - Gorgolewski, K., et al. (2017). BIDS apps: Improving ease of use, accessibility, and [[reproducibility]] of neuroimaging data analysis methods. PLoS Computational Biology, 13(3), e1005209.
 - Holdgraf, C., et al. (2019). BIDS and Python. In: Winter R., Charvillat M. (eds) Python for Data Science. Springer, Cham. https://doi.org/10.1007/978-3-319-14376-0_15
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2026). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research.*. Brain Stimulation. [DOI](https://doi.org/10.1016/j.brs.2025.103016)
+3. (authors unknown). *MR diffusion tensor spectroscopy and imaging*.

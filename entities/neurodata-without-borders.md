@@ -8,7 +8,7 @@ tags:
 - software-brain-modeling
 title: Neurodata Without Borders
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-03'
 ---
 
 ## Overview
@@ -66,3 +66,9 @@ The standard is maintained by the [INCF](https://www.incf.org/) [1] and has beco
 5. **Human Connectome Project: A pipeline for processing and sharing highly quantitative neuroimaging and behavioral data at scale** — Describes the HCP data sharing infrastructure that influenced NWB development and continues to serve as a model for large-scale neuroscience data initiatives.
 
 6. **SpikeInterface: A unified framework for spike sorting** — Describes the electrophysiology analysis framework that integrates with NWB for standardized data export.
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
+3. (authors unknown). *The WU-Minn Human Connectome Project: An Overview*.

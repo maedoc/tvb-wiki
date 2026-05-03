@@ -53,3 +53,11 @@ Integration with other [[neuroimaging]] software is common in the field. Tools l
 While the Allen Brain Atlas has transformed neuroscience research, significant challenges remain. The atlas provides static snapshots of brain anatomy and molecular composition, but the brain is inherently dynamic. Future versions may incorporate temporal dimensions, showing how gene expression patterns and connectivity change across development, learning, and disease states. The integration of single-cell transcriptomics with traditional atlas data represents another frontier, potentially allowing researchers to understand brain organization at finer spatial scales.
 
 Another open question concerns the standardization of atlas-derived parcellations for computational modeling. Different research groups have developed different [[parcellation]] schemes derived from the same underlying data, leading to inconsistencies in the literature. Consensus efforts to standardize [[brain-parcellations]] for use in [[whole-brain modeling]] are ongoing, with the Allen Brain Atlas serving as a potential anchor point for these efforts.
+
+## References
+
+1. Konrad Kohnen, Peter Eipert, Laura Budde, Oliver Schmitt. (2025). *neuroVIISAS-based construction of a stereotactic rhesus monkey brain atlas for connectome research.*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2025.110656)
+2. (authors unknown). *The WU-Minn Human Connectome Project: An Overview*.
+3. R. Montgomery. (2025). *Applications of Random Matrix Theory in Neuroscience and Neural Network Analysis: Unraveling High-Dimensional Connectivity*. Wired Neuroscience. [DOI](https://doi.org/10.62162/wnsc10606312712241)
+4. Siva Venkadesh, Yuhe Tian, Wendy Linn, Jessica Barrios Martinez, Harrison Mansour, J. Cook, David J. Schaeffer, D. Szczupak, Afonso C Silva, Allan Johnson, Fang‐Cheng Yeh. (2025). *A hierarchical framework for cortical and subcortical gray-matter parcellation across rodents, primates, and humans*. bioRxiv. [DOI](https://doi.org/10.1101/2025.09.08.675002)
+5. (authors unknown). *BrainGlobe Atlas API: a common interface for neuroanatomical atlases*.

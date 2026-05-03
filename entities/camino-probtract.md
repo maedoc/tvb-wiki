@@ -45,3 +45,10 @@ Camino's probabilistic tractography is distinguished by its open-source implemen
 - [Dipy]([[dipy]]) — Python-based diffusion imaging analysis
 - [AFQ]([[afq]]) — automated fiber quantification pipeline
 - [The Virtual Brain]([[the-virtual-brain]]) — [[whole-brain]] simulator using structural connectivity from tractography
+
+## References
+
+1. Daniel J. Asay, Timothy M. O'Keefe, Randy L. Buckner, Ross W Mair. (2025). *DWIQC: A Python package for preprocessing and quality assurance of diffusion weighted images*. Journal of Open Source Software. [DOI](https://doi.org/10.21105/joss.06974)
+2. Emmanuelle Renauld, Arnaud Boré, Charles Poirier, Alex Valcourt-Caron, Philippe Karan, Antoine Théberge, Guillaume Théaud, Manon Edde, P. Poulin, Gabriel Girard, Jean-Christophe Houde, A. Gagnon, Etienne St-Onge, Graham Little, Jon Haitz Legarreta, Stanislas Thoumyre, G. Grenier, Zineb El Yamani, Mario Ocampo Pineda, Matteo Battochio, Vincent Beaudoin, Alexandre Joanisse, Laurent Petit, F. Rheault, Maxime Descoteaux. (2026). *Tractography analysis with the scilpy toolbox*. Aperture Neuro. [DOI](https://doi.org/10.52294/001c.154022)
+3. M. Cottaar, Zhiyu Zheng, Karla L. Miller, Benjamin C. Tendler, Saad Jbabdi. (2025). *Multi-modal Monte Carlo MRI simulator of tissue microstructure*. bioRxiv. [DOI](https://doi.org/10.1162/IMAG.a.1177)
+4. Ramiro Plüss, Hernán Villota, Patricio Orio. (2025). *Hemispheric-Specific Coupling Improves Modeling of Functional Connectivity Using Wilson-Cowan Dynamics*. [Link](https://arxiv.org/abs/2506.22951)

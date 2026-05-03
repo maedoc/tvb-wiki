@@ -9,7 +9,7 @@ tags:
 - software-brain-modeling
 title: OpenViBE
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-03'
 ---
 
 # OpenViBE
@@ -53,3 +53,10 @@ Under the hood, OpenViBE uses a box-and-stream architecture where data flows bet
 OpenViBE occupies a niche in the neurophysiology software landscape that partially overlaps with several other widely-used tools. [[eeglab]] provides comprehensive offline signal processing capabilities for EEG data but lacks native real-time operation; similarly, [[fieldtrip]] excels at offline analysis but requires additional infrastructure for real-time applications. For real-time BCI applications, OpenViBE competes with [[bci2000]], another established platform that has been widely used in BCI research communities. The platform also relates to [[mne-python]] and [[spikeinterface]], which offer sophisticated analysis pipelines for neurophysiological data, though these are primarily oriented toward offline analysis in Python rather than real-time processing.
 
 For researchers working with [[electrophysiology]] data who require both real-time capabilities and integration with large-scale brain modeling, OpenViBE may be used in conjunction with simulation environments like [[nest]] or [[the-virtual-brain]], where the former handles signal acquisition and processing while the latter provides computational models of brain dynamics. The complementary nature of these tools reflects the broader trend toward integrated experimental-computational neuroscience workflows that bridge empirical measurement and theoretical modeling.
+
+## References
+
+1. Amirreza Movahedin, Lennart P. L. Landsmeer, Christos Strydis. (2025). *HUMA: Heterogeneous, Ultra Low-Latency Model Accelerator for The Virtual Brain on a Versal Adaptive SoC*. Symposium on Field Programmable Gate Arrays. [DOI](https://doi.org/10.1145/3706628.3708875)
+2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *Arbor-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
+3. Gianluca Gaglioti, Alessandra Cardinale, Cosimo Lupo, Thierry Nieus, Federico Marmoreo, Elena Focacci, Robin Gutzen, Michael Denker, Andrea Pigorini, Marcello Massimini, Simone Sarasso, Pier Stanislao Paolucci, Giulia De Bonis. *Emergent complexity and rhythms in evoked and spontaneous dynamics of human whole-brain models after tuning through analysis tools*. [Link](https://arxiv.org/abs/2509.12873)
+4. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](https://doi.org/10.3389/fncom.2025.1731161)
