@@ -67,4 +67,4 @@ Brian2GeNN is part of a rich ecosystem of neural simulation tools, each with dif
 - Stimberg, M., Brette, R., & Goodman, D. F. M. (2019). Brian 2: an intuitive Python interface to spiking neural networks. *Frontiers in Neuroinformatics*, 13, 68. [[stimberg-2019-brian2]]
 - Nowotny, T., Mutch, J., & Lowe, G. (2014). GeNN: a code generation framework for accelerated brain simulations. *Frontiers in Neuroinformatics*, 8, 79. [[nowotny-2014-genn]]
 - Goodman, D. F. M., & Brette, R. (2008). Brian: a simulator for spiking neural networks in Python. *Frontiers in Neuroinformatics*, 2, 5. [[goodman-2008-brian]]
-- Bekolay, T., Bergstra, J., Hunsberger, E., et al. (2014). NEST: a simulator for spiking neural networks. *Frontiers in Neuroinformatics*, 8, 38. [[bekolay-2014-nest-gpu]]</parameter>
+- Bekolay, T., Bergstra, J., Hunsberger, E., et al. (2014). NEST: a simulator for spiking neural networks. *Frontiers in Neuroinformatics*, 8, 38. [[bekolay-2014-nest-gpu]]
