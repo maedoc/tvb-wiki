@@ -1,43 +1,37 @@
 ---
 title: NeuroConv
-created: 2024-01-15
+created: 2025-01-15
 updated: 2026-05-03
 type: entity
-tags: [neuroconv, nwb, spikeinterface, neo, open-ephys, suite2p, caiman, deeplabcut, python, electrophysiology, software-tools]
-sources: [web-search-neuroconv-2026]
+tags: [software, data-formats, neuroimaging, electrophysiology, conversion-tools]
+sources: [https://github.com/catalystneuro/neuroconv, https://nwb.org/tools/core/neuroconv/, https://doi.org/10.25080/cehj4257, https://doi.org/10.7554/eLife.78362]
 ---
 
-NeuroConv is a Python package for converting neurophysiology data from a wide variety of proprietary acquisition formats into the [[nwb|Neurodata Without Borders (NWB)]] standard. Developed by CatalystNeuro and the broader NWB community, NeuroConv addresses a critical bottleneck in computational neuroscience: the fragmentation of experimental data across dozens of incompatible file formats produced by different recording systems, analysis packages, and hardware manufacturers. By providing a unified, automated pipeline for data standardization, NeuroConv enables researchers to aggregate, share, and analyze neurophysiology datasets with significantly reduced manual effort and error.
+# NeuroConv
+
+## Overview
+
+NeuroConv is a Python package designed to streamline the conversion of neuroscience data between heterogeneous file formats, enabling interoperability across diverse recording systems, analysis pipelines, and archive standards <cite>Mayorquin et al. 2025</cite>. Developed as part of the broader [[neurodata-without-borders]] (NWB) ecosystem, NeuroConv provides a unified interface for reading proprietary binary formats from major electrophysiology vendors (such as Blackrock, Axona, and Intan) and exporting to standard open formats including NWB, MAT, and Pickle <cite>NeuroConv Documentation</cite>. The library plays a critical role in addressing the historical fragmentation of neuroscience data formats, where each manufacturer and laboratory developed idiosyncratic file conventions that impeded reproducibility, data sharing, and secondary analysis <cite>Rübel et al. 2022</cite>.
 
 ## Motivation and Context
 
-The landscape of neurophysiology data acquisition is remarkably heterogeneous. A typical laboratory may use [[spikeglx|SpikeGLX]] for extracellular recordings, [[open-ephys|OpenEphys]] for broadband electrophysiology, [[suite2p]] or [[caiman]] for calcium imaging analysis, and [[deeplabcut|DeepLabCut]] for behavioral tracking—each producing data in its own proprietary format. Before the advent of standardized data formats like NWB, researchers spent substantial time writing custom parsing scripts for each new dataset, often reinventing wheels and introducing inconsistencies <cite>Rübel et al. 2022</cite>. NWB provides a comprehensive schema for describing neurophysiology experiments, but the burden of actually converting data into NWB format remained substantial <cite>Teeters et al. 2015</cite>. NeuroConv automates this conversion process by providing ready-made interfaces for over 50 supported formats, extracting relevant metadata automatically and writing compliant NWB files using community best practices <cite>Mayorquin et al. 2025</cite>.
-
-## History and Development
-
-NeuroConv originated as **nwb-conversion-tools**, a project initiated in 2019 by CatalystNeuro to address the growing need for automated data conversion pipelines in neurophysiology laboratories. The early versions focused primarily on supporting common electrophysiology formats from recording systems like SpikeGLX, Blackrock, and Neuralynx.
-
-In July 2022, the project underwent a significant rebranding to **NeuroConv** along with a comprehensive reorganization of the codebase and API <cite>Mayorquin et al. 2025</cite>. This renaming reflected the project's maturation from a collection of conversion utilities into a fully-featured, modular data conversion framework. The new name emphasized both the neural data domain focus and the conversion capabilities while aligning with Python package naming conventions.
-
-Following the rename, NeuroConv experienced substantial community growth, with contributions expanding format support to include optical physiology interfaces (calcium imaging, two-photon microscopy), behavioral data streams, and intracellular electrophysiology. The project also integrated more deeply with the broader NWB ecosystem, including native support for data deposition to the [[dandi|DANDI Archive]] <cite>Rübel et al. 2022</cite>. This growth culminated in the first dedicated conference publication describing the software's architecture and design philosophy <cite>Mayorquin et al. 2025</cite>.
+The proliferation of custom data formats in neuroscience has long presented a barrier to reproducible research. Electrophysiology laboratories, for instance, historically used vendor-specific binary formats (e.g., .nev, .nsx from Blackrock; .set, .eeg, .pos from Axona) that required specialized proprietary software for access. This situation forced researchers to maintain fragile custom parsing scripts, limited the portability of analysis pipelines, and complicated collaborative data sharing <cite>Teeters et al. 2015</cite>. The NWB project emerged as a community-driven standard to address these issues, but adoption required robust conversion tooling that could handle the complexity of real-world recording data—including electrode geometry, stimulus definitions, behavioral timestamps, and metadata annotations <cite>Rübel et al. 2022</cite>. NeuroConv was developed to fill this gap, providing validated, well-tested conversion routes from common proprietary formats directly into NWB-compliant HDF5 or Zarr stores <cite>Mayorquin et al. 2025</cite>. By lowering the technical barrier to standardization, NeuroConv enables researchers to archive their data in future-proof open formats while maintaining compatibility with existing analysis workflows built around [[the-virtual-brain]] or other modeling platforms.
 
 ## Key Features
 
-NeuroConv provides an extensive set of capabilities designed to handle the complexities of modern neurophysiology data conversion workflows. The package supports an impressive range of data modalities, encompassing extracellular electrophysiology from systems such as [[spikeinterface|SpikeGLX]], [[open-ephys|OpenEphys]], [[neuralynx|Neuralynx]], [[blackrock|Blackrock]], and [[plexon|Plexon]], as well as intracellular electrophysiology from Axon Binary Files. Optical physiology interfaces handle calcium imaging data from [[suite2p]], [[caiman|CaImAn]], and [[scanimage|ScanImage]], while behavioral tracking is supported from tools like [[deeplabcut|DeepLabCut]], [[sleap|SLEAP]], and [[fictrac|FicTrac]].
+NeuroConv implements a modular architecture organized around **readers** and **converters**. Each reader is specialized for a specific input format and extracts the full complement of available data—spike times, continuous voltage traces, unit metadata, electrode positions, and behavioral events—into an intermediate standardized representation. Converters then map this intermediate representation to target format schemas (primarily NWB). The library handles the semantic translation automatically, including inferring missing required fields from available metadata where possible and raising informative errors when essential information is absent. Importantly, NeuroConv supports incremental conversion, allowing partial updates to existing NWB files without requiring complete re-conversion. The package also integrates with the [[spikeinterface]] ecosystem, enabling direct conversion of SpikeGLX, Open Ephys, and related formats through shared backends <cite>NeuroConv Documentation</cite>.
 
-A distinguishing feature of NeuroConv is its automatic metadata extraction capability. The package parses source files to recover sampling rates, electrode configurations, amplifier settings, and timestamp information, substantially reducing the manual annotation burden that previously fell on researchers attempting to standardize their data.
+## Relationship to TVB
 
-For handling large-scale datasets, NeuroConv implements chunked reading and streaming write operations that avoid the memory bottlenecks common in naive conversion implementations when processing multi-gigabyte recording files. The library also applies automatic chunking and lossless compression to output NWB files, optimizing storage requirements without sacrificing data fidelity <cite>Mayorquin et al. 2025</cite>.
+NeuroConv facilitates the integration of experimental electrophysiology data into whole-brain modeling workflows implemented in [[the-virtual-brain]] (TVB). Researchers collecting intracranial EEG, microelectrode recordings, or LFP data can use NeuroConv to convert their recordings into NWB format, which can subsequently be imported into TVB's data structures for connectivity estimation, model fitting, or validation purposes. This compatibility positions NeuroConv as a valuable ingestion layer for personalized brain modeling pipelines, where patient-specific electrophysiology recordings must be mapped onto generative connectome-based models. The library complements other TVB adapters—such as those for [[bids]] or custom TVB-specific formats—by providing a route from raw vendor files into the broader neuroimaging data ecosystem.
 
-The package excels at combining multiple heterogeneous data streams within a single NWB file. When experiments involve simultaneous electrophysiology recordings, behavioral tracking, and optical imaging, NeuroConv provides specialized tools for temporal alignment across these modalities, ensuring that timestamps remain synchronized even when the original data sources use different clocks or sampling rates.
+## Related Software
 
-## Architecture and Extensibility
+NeuroConv operates within a broader ecosystem of neuroscience data conversion and standardization tools. Key related packages include [[neurodata-without-borders]] (the target format standard), [[spikeinterface]] (which shares reader infrastructure), [[neo]] (an alternative Python library for electrophysiology data I/O), [[nix]] (a format specification for scientific data), and the [[ebrains]] data platform. Additionally, NeuroConv complements preprocessing pipelines such as [[spikeglx]] and [[open-ephys]] that produce the input data it converts. For researchers working with multimodal datasets, the library can be used alongside [[mne-python]] for signal processing or [[pybids]] for organizing derivative outputs in BIDS-compliant directory structures.
 
-NeuroConv employs a modular architecture based on **DataInterface** classes, each of which handles conversion for a specific format or data type. The [[nwb|NWBConverter]] class serves as the main orchestrator, coordinating multiple interfaces and ensuring consistent metadata across the converted file. Users can instantiate appropriate interfaces, extract and customize metadata programmatically, and execute the conversion with a single function call. The architecture is deliberately extensible: researchers can implement custom DataInterface subclasses to support formats not yet included in the core library, and the project welcomes contributions through pull requests. This design philosophy has fostered an active community of contributors extending NeuroConv's capabilities.
+## Technical Considerations
 
-## Relationship to TVB and Whole-Brain Modeling
-
-While NeuroConv itself is a data conversion tool rather than a simulation engine, it plays an important supporting role in [[whole-brain-modeling]] workflows. Personalized brain models require empirical data—structural connectivity from [[diffusion-imaging|DTI]], functional dynamics from [[fmri|fMRI]] or EEG recordings, and potentially electrophysiological measurements from intracranial electrodes. NeuroConv facilitates the ingestion of these diverse data sources into unified [[nwb|NWB]] archives that can be subsequently processed by analysis pipelines and imported into modeling frameworks. For researchers using [[the-virtual-brain]] or other [[whole-brain-simulators]], NeuroConv can help standardize the input data, particularly when combining datasets from multiple labs or acquisition systems.
+The primary technical challenge addressed by NeuroConv involves preserving the semantic fidelity of data during format translation. Proprietary formats often encode information in ways that are not directly mappable to NWB schemas—for example, electrode arrays may be described in manufacturer-specific coordinate systems, or stimulus events may be embedded in custom event codes <cite>Rübel et al. 2022</cite>. NeuroConv's architecture handles these complexities through hierarchical converters that can inject user-provided metadata or infer missing values based on standard conventions. The package also maintains comprehensive unit tests and validation routines to ensure that converted files pass NWB schema validation, reducing the risk of downstream compatibility issues. Users should be aware that while NeuroConv handles most common scenarios automatically, highly customized recording setups may require manual specification of additional metadata fields to achieve full compliance with NWB specifications <cite>Mayorquin et al. 2025</cite>. Performance considerations are also important: very large recordings (tens of gigabytes) may require significant processing time and disk space during conversion, though NeuroConv's chunked reading approach mitigates memory constraints. For cloud deployment scenarios, the library supports writing directly to remote storage backends compatible with the DANDI Archive.
 
 ## Key Papers
 
@@ -47,17 +41,10 @@ For the NWB standard itself, the comprehensive ecosystem description provides es
 
 An earlier foundational paper describing the NWB 1.0 specification: Teeters, J.L., Godbout, J., Rübel, O., et al. (2015). Neurodata without borders: creating a common data format for neurophysiology. *Neuron*, 88(4), 629-634. https://doi.org/10.1016/j.neuron.2015.10.025
 
-## Related Software
+## References
 
-- [[nwb|Neurodata Without Borders (NWB)]] — the standard format that NeuroConv converts to
-- [[spikeinterface]] — Python library for electrophysiology analysis that integrates with NeuroConv
-- [[neo|Neo]] — Python library for handling neurophysiology data formats
-- [[nwb]] — the NWB ecosystem and specification
-- [[dandi|DANDI]] — archive for publishing and sharing NWB data
-- [[open-ephys|OpenEphys]] — recording system with format support in NeuroConv
-- [[suite2p]] — calcium imaging analysis with export interfaces in NeuroConv
-- [[deeplabcut|DeepLabCut]] — pose estimation for behavior, supported as a data interface
-
-## Installation and Usage
-
-NeuroConv is distributed via PyPI and can be installed with `pip install neuroconv`. Specific format dependencies (such as readers for commercial acquisition systems) can be installed via extras, for example `pip install neuroconv[openephys]` or `pip install neuroconv[spikeglx]`. The documentation provides extensive conversion examples for each supported format, and the API supports both script-based conversions and integration into larger preprocessing pipelines.
+- Mayorquin, H., Baker, C., Adkisson-Floro, P., Weigl, S., Trapani, A., Tauffer, L., Rübel, O., & Dichter, B. (2025). NeuroConv: Streamlining Neurophysiology Data Conversion to the NWB Standard. Proceedings of the 24th Python in Science Conference (SciPy 2025). https://doi.org/10.25080/cehj4257
+- Rübel, O., Tritt, A., Ly, R., Dichter, B.K., Ghosh, S., et al. (2022). The Neurodata Without Borders ecosystem for neurophysiological data science. eLife, 11, e78362. https://doi.org/10.7554/eLife.78362
+- Teeters, J.L., Godbout, J., Rübel, O., et al. (2015). Neurodata without borders: creating a common data format for neurophysiology. Neuron, 88(4), 629-634. https://doi.org/10.1016/j.neuron.2015.10.025
+- NeuroConv Documentation. https://neuroconv.readthedocs.io/
+- NWB Tools: NeuroConv. https://nwb.org/tools/core/neuroconv/

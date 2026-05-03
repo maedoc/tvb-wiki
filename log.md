@@ -1,5 +1,6 @@
 # Log
 
+- Updated abcbids page: Created comprehensive entity page describing ABCD-HCP BIDS fMRI pipeline (abcd-hcp-pipeline), a BIDS App for processing BIDS-formatted MRI datasets using methods from Human Connectome Project minimal preprocessing and DCAN Labs tools. Added overview explaining pipeline design for developmental neuroimaging data from ABCD Study. Detailed Key Features covering nine processing stages (PreFreeSurfer, FreeSurfer, PostFreeSurfer, FMRIVolume, FMRISurface, DCANBOLDProcessing), respiratory motion filtering for multiband data, and automated parcellated time series generation for Gordon/Power/Yeo/HCP atlases. Added Technical Specifications section on computational requirements (12GB+ RAM, 24+ hours per subject), output formats (CIFTI dtseries/ptseries, NIfTI volume), and FreeSurfer license requirement. Included Relationship to TVB section explaining pipeline outputs provide preprocessed time series for whole-brain model calibration, functional connectivity matrices, and neurodevelopmental modeling. Related Software section linking to bids, fmriprep, qsiprep, freesurfer, fsl, connectome-workbench, dcabids with 10+ wikilinks to existing pages (the-virtual-brain, whole-brain-modeling, neural-mass-models, personalized-brain-modeling, neurodevelopment, functional-connectivity, bids-apps, preprocessing, human-connectome-project, neuroimaging-fmri, cifti-tools, connectome-workbench). Updated frontmatter tags to taxonomy-compliant [software-bids, neuroimaging-fmri, pipeline, bids-apps, preprocessing].
 ## [2026-05-03]
 - Improved neuroconv page: Created comprehensive entity page replacing placeholder content. Added overview explaining NeuroConv as Python library for converting neurophysiology data to NWB standard, developed by CatalystNeuro. Detailed Key Features covering support for 50+ formats (SpikeGLX, OpenEphys, Neuralynx, Blackrock, Plexon, Suite2p, CaImAn, DeepLabCut etc.), automatic metadata extraction, chunked reading for large datasets, lossless compression, and temporal alignment of multiple data streams. Added Motivation/Context section explaining data fragmentation problem in neurophysiology and NWB standardization benefits. Architecture section explaining DataInterface classes and NWBConverter orchestrator. Relationship to TVB section explaining role in standardizing input data for whole-brain modeling pipelines (structural connectivity from DTI, functional dynamics from fMRI/EEG). Key Papers section citing Mayorquin et al. 2025 (SciPy) as primary reference. Related Software section with NWB, spikeinterface, neo, DANDI, OpenEphys, Suite2p, DeepLabCut with 15+ wikilinks to existing pages (nwb, the-virtual-brain, whole-brain-modeling, whole-brain-simulators, diffusion-imaging, fmri, eeg, electrophysiology, spikeinterface, neo, open-ephys, deeplabcut, suite2p, caiman, neuroimaging, personalized-brain-modeling). Updated frontmatter tags to taxonomy-compliant [neuroconv, nwb, spikeinterface, neo, open-ephys, suite2p, caiman, deeplabcut, python, electrophysiology, software-tools].
 
@@ -206,3 +207,13 @@
 ## [2026-05-03 21:30] Improve: 7 pages improved (tvb-nest, lems, tractoflow, brian2cuda, cifti-tools, abcbids, neuroconv)
 
 ## [2026-05-03 21:43] CrosslinkApplier: added 155 wikilinks (153 inline, 2 suggested)
+
+## [2026-05-03 21:46] Matcher: 36 pages got 100 new sources
+
+## [2026-05-03 21:49] Improve: 1 page improved (fovd)
+
+- Replaced placeholder content with comprehensive FoVD overview
+- Added technical content on field of view parameters in MRI and their relationship to whole-brain modeling
+- Included relations to TVB, HCP, UK Biobank, and neuroimaging preprocessing tools
+- Added 18+ wikilinks to related pages
+- Added to entities index under Software Platforms section
