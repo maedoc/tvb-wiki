@@ -40,6 +40,9 @@ sources:
   title: Phase-space reconstruction of the FitzHugh-Nagumo model
   venue: 'Journal of Physics: Conference Series 45(3):035101'
   year: 2012
+- raw/papers/semanticscholar-3256c8880985.md
+- raw/papers/touboul-2011.md
+- raw/papers/semanticscholar-7733d5476149.md
 tags:
 - software
 - bifurcation-analysis

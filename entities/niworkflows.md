@@ -32,6 +32,9 @@ sources:
   title: 'The Virtual Brain: a platform for simulating whole-brain dynamics'
   volume: 8
   year: 2014
+- raw/papers/semanticscholar-109de470e443.md
+- raw/papers/semanticscholar-a0cce22e2ffc.md
+- raw/papers/semanticscholar-4d73a30d5c84.md
 tags:
 - software-neuroimaging
 - neuroimaging-pipeline

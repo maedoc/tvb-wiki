@@ -1,6 +1,9 @@
 ---
 created: 2026-05-03
-sources: []
+sources:
+- raw/papers/semanticscholar-5c84b271b035.md
+- raw/papers/arxiv-2505.16861.md
+- raw/papers/semanticscholar-eb704b6f5462.md
 tags:
 - software-brain-modeling
 title: LEMS

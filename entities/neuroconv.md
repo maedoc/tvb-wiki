@@ -11,6 +11,9 @@ sources:
     for organizing neuroimaging data."
 - DANDI Archive: https://dandiarchive.org
 - EBRAINS: https://ebrains.eu
+- raw/papers/bein-2018.md
+- raw/papers/semanticscholar-9afbfd2d37be.md
+- raw/papers/arxiv-2505.16861.md
 tags:
 - software-neuroconv
 - software-bids

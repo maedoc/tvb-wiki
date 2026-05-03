@@ -7,6 +7,9 @@ sources:
 - 'Garcia, S., Baldock, R., Heeger, D. J., & Horrocks, P. (2011). Neo: Reading and
   writing files in multiple formats. Frontiers in Neuroinformatics, 5, 3.'
 - '"G-Node Nix Documentation." German Neuroinformatics Node. https://g-node.org/nix/'
+- raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-301489ffb9de.md
+- raw/papers/glean-github.md
 tags:
 - software-neuroinformatics
 - neuroimaging-eeg

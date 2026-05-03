@@ -6,6 +6,7 @@ sources:
 - raw/papers/friston-1993.md
 - raw/papers/power-2011.md
 - raw/papers/semanticscholar-eadc34d87ac8.md
+- raw/papers/semanticscholar-a0a9350fb265.md
 tags:
 - software-brain-modeling
 title: Neurosynth

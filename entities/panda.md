@@ -10,6 +10,9 @@ sources:
 - 'Jiang, J., Y. Liu, X. Wang, C. Li, Q. Luo, Y. Li, and X. Chen. 2013. "Constructing
   Human Brain Structural Networks: A New Approach Based on DTI." Brain Connectivity
   3 (2): 193–206.'
+- raw/papers/sanz-leon-2013.md
+- raw/papers/ritter-2013.md
+- raw/papers/mijalkov-2017-braph.md
 tags:
 - software-brain-modeling
 - software-dipy

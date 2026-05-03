@@ -6,6 +6,9 @@ sources:
 - https://www.sciencedirect.com/science/article/pii/S1053811920301003
 - https://direct.mit.edu/neco/article/31/7/1442/8305/Geometric-Deep-Learning-Going-Beyond-Deep-Learning
 - https://www.nature.com/articles/s41598-022-18844-0
+- raw/papers/semanticscholar-b0ceb704952b.md
+- raw/papers/semanticscholar-eb704b6f5462.md
+- raw/papers/breakspear-2017.md
 tags:
 - software-graph
 - neural-network

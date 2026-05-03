@@ -28,6 +28,9 @@ sources:
   title: Atlas-based analysis of neuronal morphology
   type: article
   year: 2021
+- raw/papers/sanz-leon-2013.md
+- raw/papers/claudi-2020-brainglobe-atlas-api.md
+- raw/papers/ritter-2013.md
 tags:
 - software-brain-modeling
 title: BrainGlobe

@@ -35,6 +35,9 @@ sources:
   title: Whole-brain modeling with TVB
   volume: 80
   year: 2013
+- raw/papers/sanz-leon-2013.md
+- raw/papers/ritter-2013.md
+- raw/papers/semanticscholar-109de470e443.md
 tags:
 - software-visualization
 - neuroimaging-dti

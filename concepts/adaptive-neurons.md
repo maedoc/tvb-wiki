@@ -7,6 +7,9 @@ sources:
 - wong2006recurrent
 - destexhe2009conductance
 - jirsa2008epileptor
+- raw/papers/arxiv-2512.03907.md
+- raw/papers/arxiv-2510.08436.md
+- raw/papers/semanticscholar-62534125f066.md
 tags:
 - neural-mass-models
 - spiking-neural-networks

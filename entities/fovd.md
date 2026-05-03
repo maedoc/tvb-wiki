@@ -8,6 +8,7 @@ sources:
 - saenger2022
 - spiegelhalter2012
 - jeurissen2019
+- raw/papers/rubinov-sporns-2010.md
 tags:
 - neuroimaging-fmri
 - neuroimaging-meg

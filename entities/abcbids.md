@@ -1,6 +1,9 @@
 ---
 created: 2024-01-15
-sources: []
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/glasser-2013.md
+- raw/papers/semanticscholar-109de470e443.md
 tags:
 - software-bids
 - dataset

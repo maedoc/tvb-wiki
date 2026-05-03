@@ -2,6 +2,8 @@
 created: 2026-05-03
 sources:
 - raw/papers/semanticscholar-13d6bfc70f36.md
+- raw/papers/semanticscholar-1f3c81f58a9a.md
+- raw/papers/semanticscholar-81ffff459982.md
 tags:
 - software-brain-modeling
 title: eLORETA

@@ -2,6 +2,9 @@
 created: 2025-01-15
 sources:
 - raw/papers/semanticscholar-ce89e593c89e.md
+- raw/papers/semanticscholar-7c3337c880fd.md
+- raw/papers/semanticscholar-a0a9350fb265.md
+- raw/papers/glean-github.md
 tags:
 - people-researcher
 - functional-connectivity

@@ -7,6 +7,9 @@ sources:
   NIPS
 - Zhou et al. 2018. "Efficient and accurate extraction of in vivo calcium signals."
   Nature Methods
+- raw/papers/arxiv-2509.12873.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/arxiv-2505.16861.md
 tags:
 - software-modeling
 - neuroimaging-analysis

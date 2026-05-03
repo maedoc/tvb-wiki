@@ -8,6 +8,9 @@ sources:
 - raw/papers/arxiv-2603.28931.md
 - raw/papers/arxiv-2603.29903.md
 - raw/papers/arxiv-2603.29843.md
+- raw/papers/semanticscholar-9afbfd2d37be.md
+- raw/papers/arxiv-2602.18715.md
+- raw/papers/ritter-2013.md
 tags:
 - camino
 title: Camino
