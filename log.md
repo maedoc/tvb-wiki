@@ -232,3 +232,15 @@
 ## [2026-05-03 22:19] Improve: 7 pages improved (loris, pytorch-geometric, synthseg, nitransforms, fiji, neuroconv, neuroquery)
 
 ## [2026-05-03 22:23] RefFormatter: formatted references on 44 pages
+
+## [2026-05-03 22:36] Improve: 6 pages improved (michael-fox, neuroquery, medpy, adaptive-neurons, neuroharmonize, loris)
+
+## [2026-05-03 22:50] Improve: 1 page improved (neuroharmonize)
+- Corrected package type from R to Python (author Raymond Pomponio)
+- Replaced placeholder content with comprehensive overview of NeuroHarmonize Python package
+- Added technical content on ComBat algorithm, empirical Bayes, nonlinear covariate effects (GAMs)
+- Included features: NIFTI support, train/test separation, reference site harmonization
+- Fixed data leakage prevention in ML pipelines explanation
+- Added 15+ wikilinks to related pages (the-virtual-brain, fmri, freesurfer, fmriprep, openneuro, nilearn, etc.)
+- Updated frontmatter tags to taxonomy-compliant [software-modeling, preprocessing, harmonization, comBat, neuroimaging-fmri, neuroimaging-mri, multi-site, machine-learning-pipeline]
+- Added key paper references (Johnson 2007, Fortin 2017, Pomponio 2019)
