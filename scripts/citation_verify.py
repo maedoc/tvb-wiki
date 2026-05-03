@@ -105,8 +105,8 @@ def verify_doi(doi: str) -> dict | None:
     Returns None if not found or malformed.
     Cache backed.
     """
-    doi = doi.strip()
-    if not doi.startswith("10."):
+    doi = _clean_doi(doi.strip())
+    if not doi or not doi.startswith("10."):
         return None
 
     def _lookup():
@@ -206,10 +206,14 @@ def verify_citation(citation: dict, stub_index: dict) -> dict:
                 result["source"] = "stub_no_ext"
         else:
             ext = verify_doi(doi)
-            result["status"] = "NOT_FOUND"
-            result["metadata"] = ext
-            result["source"] = "crossref_doi" if ext else None
-        return result
+            if ext:
+                result["status"] = "VERIFIED"
+                result["metadata"] = ext
+                result["source"] = "crossref_doi"
+            else:
+                result["status"] = "NOT_FOUND"
+                result["source"] = None
+            return result
 
     # 2) Author-year path
     if citation.get("type") == "author_year":
@@ -372,7 +376,11 @@ def _clean_doi(doi: str) -> str | None:
     if not doi:
         return None
     # Strip common trailing punctuation added by writers
-    doi = doi.rstrip(".,;:!?)}/")
+    doi = doi.rstrip("\"'.,;:!?)}/")
+    # Strip page-mode suffixes (Frontiers/PLOS/Elsevier URLs append these)
+    for suffix in ['/full', '/abstract', '/pdf', '/abs', '/htm', '/epub', '/xml']:
+        if doi.lower().endswith(suffix):
+            doi = doi[:-len(suffix)]
     if not doi.startswith("10."):
         return None
     return doi
