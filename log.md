@@ -144,3 +144,7 @@
 ## [2026-05-03 18:37] Ingest: 8 new papers, 0 stubs created
 
 ## [2026-05-03 18:40] Matcher: 18 pages got 48 new sources
+
+## [2026-05-03 18:51] DeepResearch: 66 papers added via focused research
+
+## [2026-05-03 18:52] Audit: 926 issues (61 broken links, 48 orphans, 5 placeholders, 0 dup-refs, 3 bad-meta, 78 citation-verify, 13 opaque-refs, 79 thin, 373 missing-links)
