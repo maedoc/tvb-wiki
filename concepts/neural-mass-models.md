@@ -17,7 +17,7 @@ tags:
 - epilepsy-modeling
 title: Neural Mass Models
 type: concept
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 ## Definition
@@ -68,7 +68,7 @@ Neural mass models occupy an intermediate position between detailed biophysical 
 
 The relationship between neural mass models and [[dynamic-causal-modeling]] is particularly close: DCM uses the Jansen‑Rit model as its [[forward-model]] for generating synthetic EEG/MEG data, and parameter estimation in DCM amounts to inverting the neural mass model to fit observed neuroimaging data. Similarly, [[tvb]] provides a platform for whole‑brain simulations using multiple neural mass models (Jansen‑Rit, Wong‑Wang, Epileptor) embedded in patient‑specific connectomes.
 
-**See also [[marsatlas]] and [[mne-[[bids]]-pipeline]] for a software platform that integrates neural mass models in whole‑brain simulations.**
+**See also [[marsatlas]] and [[bids]] for a software platform that integrates neural mass models in whole‑brain simulations.**
 
 ## Parameter Estimation and Calibration
 
@@ -95,12 +95,12 @@ tags:
 - software-brain-modeling
 title: MEG/EEG Toolbox
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 title: MEG/EEG Toolbox
 created: 2025-01-15
-updated: 2026-05-03
+updated: 2026-05-04
 type: concept
 tags: [[neuroimaging]]-meg, neuroimaging-eeg, software-visualization, neural-mass-models, [[whole-brain]]-modeling
 sources: [gramfort-2013, oostenveld-etal-2010, delorey-etal-2021, makeig-etal-2004, tadel-etal-2011]

@@ -15,7 +15,7 @@ tags:
 - camino
 title: Camino
 type: concept
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 title: Camino
@@ -60,7 +60,7 @@ Tractography using Camino has been applied to study alterations in white matter 
 
 ## Open Questions and Limitations
 
-Despite its widespread adoption, Camino and tractography methods more broadly face ongoing methodological challenges. The fundamental inverse problem of inferring fiber orientation from averaged diffusion measurements remains underdetermined, leading to known biases in reconstructed pathways particularly in regions of fiber crossing. Recent advances in [[neurimaging-dti|diffusion imaging]] with higher angular resolution and multicompartment models promise improved accuracy, and Camino continues to evolve to incorporate these developments. Researchers should remain aware of tractography's limitations when interpreting connectivity estimates and validate findings against gold-standard histological data where possible.
+Despite its widespread adoption, Camino and tractography methods more broadly face ongoing methodological challenges. The fundamental inverse problem of inferring fiber orientation from averaged diffusion measurements remains underdetermined, leading to known biases in reconstructed pathways particularly in regions of fiber crossing. Recent advances in [[aging|diffusion imaging]] with higher angular resolution and multicompartment models promise improved accuracy, and Camino continues to evolve to incorporate these developments. Researchers should remain aware of tractography's limitations when interpreting connectivity estimates and validate findings against gold-standard histological data where possible.
 
 ## References
 

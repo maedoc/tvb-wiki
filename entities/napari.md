@@ -1,10 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- https://napari.org/
-- https://github.com/napari/napari
-- https://www.biorxiv.org/content/10.1101/2020.10.26.248542v1
-- https://www.nature.com/articles/s41592-019-0612-4
 - raw/papers/sanz-leon-2013.md
 - raw/papers/semanticscholar-380768cf42a8.md
 - raw/papers/mijalkov-2017-braph.md
@@ -16,7 +12,7 @@ tags:
 - python
 title: Napari
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 ## Overview
@@ -33,7 +29,7 @@ Napari emerged to address this gap by providing a performant, Python-native view
 
 Napari's architecture centers on a layer-based system where each layer represents a different type of data: image layers for volumetric data, points layers for electrode coordinates or [[neuron]] positions, shapes layers for regions of interest, and labels layers for segmentations. This design supports simultaneous visualization of diverse data types—a common need in [[whole-brain|whole-brain modeling]] where one might overlay [[structural-connectivity]] matrices on [[aal-atlas]] parcellations.
 
-The viewer leverages GPU acceleration through [[vispy]] for handling large datasets, enabling interactive exploration of full-brain volumes at near-realtime frame rates. Beyond multi-dimensional support accommodating up to five dimensions (time, z, y, x, channels) with intuitive scrolling and slicing, napari provides a full Python API for programmatic control, enabling seamless integration into analysis pipelines. Users can perform dimensionality transformation operations including transposing, reshaping, and reorienting data interactively. The annotation tools allow drawing regions of interest directly on images, which is particularly valuable for defining anatomical regions or marking病灶 for further analysis.
+The viewer leverages GPU acceleration through vispy for handling large datasets, enabling interactive exploration of full-brain volumes at near-realtime frame rates. Beyond multi-dimensional support accommodating up to five dimensions (time, z, y, x, channels) with intuitive scrolling and slicing, napari provides a full Python API for programmatic control, enabling seamless integration into analysis pipelines. Users can perform dimensionality transformation operations including transposing, reshaping, and reorienting data interactively. The annotation tools allow drawing regions of interest directly on images, which is particularly valuable for defining anatomical regions or marking病灶 for further analysis.
 
 ## Relationship to TVB
 

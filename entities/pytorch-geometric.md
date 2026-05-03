@@ -1,11 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- https://arxiv.org/abs/1903.02428
-- https://www.nature.com/articles/nature14539
-- https://www.sciencedirect.com/science/article/pii/S1053811920301003
-- https://direct.mit.edu/neco/article/31/7/1442/8305/Geometric-Deep-Learning-Going-Beyond-Deep-Learning
-- https://www.nature.com/articles/s41598-022-18844-0
 - raw/papers/semanticscholar-b0ceb704952b.md
 - raw/papers/semanticscholar-eb704b6f5462.md
 - raw/papers/breakspear-2017.md
@@ -20,10 +15,10 @@ tags:
 - brain-network
 title: PyTorch Geometric
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
-PyTorch Geometric (often abbreviated as PyG) is a Python library built on top of [[pytorch|PyTorch]] that enables deep learning on graph-structured data. While the foundational methods paper was published in 2022 (Fey & Yap), the library was first publicly released in 2019 and has since become one of the most cited libraries for graph deep learning in the machine learning literature [@arxiv:1903.02428]. The library provides standardized implementations of Graph Neural Network (GNN) architectures, efficient data loading utilities for graph datasets, and transformative operations for processing topological data structures. In the context of [[computational-neuroscience]] and [[whole-brain-modeling]], PyTorch Geometric offers a flexible framework for applying modern machine learning methods to [[connectome]] data, where brain regions and their interconnections are naturally represented as nodes and edges.
+PyTorch Geometric (often abbreviated as PyG) is a Python library built on top of [[pytorch-geometric|PyTorch]] that enables deep learning on graph-structured data. While the foundational methods paper was published in 2022 (Fey & Yap), the library was first publicly released in 2019 and has since become one of the most cited libraries for graph deep learning in the machine learning literature [@arxiv:1903.02428]. The library provides standardized implementations of Graph Neural Network (GNN) architectures, efficient data loading utilities for graph datasets, and transformative operations for processing topological data structures. In the context of [[computational-neuroscience]] and [[whole-brain-modeling]], PyTorch Geometric offers a flexible framework for applying modern machine learning methods to [[connectome]] data, where brain regions and their interconnections are naturally represented as nodes and edges.
 
 ## Motivation and Context
 
@@ -51,7 +46,7 @@ The foundational methods paper describing PyTorch Geometric was published in 202
 
 ## Related Software
 
-PyTorch Geometric operates within the broader Python scientific ecosystem and relates to several other tools in this wiki. It depends fundamentally on [[pytorch]] for automatic differentiation and GPU acceleration. For graph visualization, it can be used alongside [[gephi]] or [[graph-tool]] for network analysis and plotting. Related graph-based machine learning libraries include [[graphvar]] (which focuses on graph-theoretic feature extraction for neuroimaging) and [[brainiak]] (which provides advanced pattern recognition for fMRI data but not specifically GNN implementations). For preprocessing neuroimaging data into connectome format, [[mrtrix3-connectome]] and [[dipy]] provide tractography pipelines whose output can feed directly into PyTorch Geometric data structures.
+PyTorch Geometric operates within the broader Python scientific ecosystem and relates to several other tools in this wiki. It depends fundamentally on [[pytorch-geometric]] for automatic differentiation and GPU acceleration. For graph visualization, it can be used alongside [[gephi]] or [[graph-tool]] for network analysis and plotting. Related graph-based machine learning libraries include [[graphvar]] (which focuses on graph-theoretic feature extraction for neuroimaging) and [[brainiak]] (which provides advanced pattern recognition for fMRI data but not specifically GNN implementations). For preprocessing neuroimaging data into connectome format, [[mrtrix3-connectome]] and [[dipy]] provide tractography pipelines whose output can feed directly into PyTorch Geometric data structures.
 
 * [[TVB]] — The Virtual Brain can integrate with PyTorch Geometric for hybrid modeling approaches where GNNs process simulated [[brain-dynamics]].
 

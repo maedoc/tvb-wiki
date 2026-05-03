@@ -1,9 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- https://pypi.org/project/nitransforms/
-- https://github.com/nipy/nitransforms
-- https://joss.theoj.org/papers/10.21105/joss.03459
 - raw/papers/huntenburg-2018.md
 - raw/papers/arxiv-2512.17472.md
 - raw/papers/semanticscholar-d6e43299345d.md

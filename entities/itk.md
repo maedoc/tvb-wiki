@@ -1,40 +1,11 @@
 ---
 created: 2025-01-15
 sources:
-- authors: Yoo, T.S., et al.
-  id: 1
-  publisher: Kitware
-  title: The ITK Software Guide
-  year: 2002
-- authors: Ibáñez, L., et al.
-  id: 2
-  publisher: Wiley
-  title: 'Insight into Images: A Practical Guide to Segmentation and Registration'
-  year: 2004
 - authors: National Library of Medicine
   id: 3
   title: The Visible Human Project
   url: https://www.nlm.nih.gov/pubs/factsheet/visiblehuman.html
   year: 1993
-- authors: Chan, T., Vese, L.
-  id: 4
-  journal: IEEE Transactions on Image Processing
-  pages: 266-277
-  title: Active Contours Without Edges
-  volume: 10
-  year: 2001
-- authors: Avants, B., et al.
-  id: 5
-  journal: Insight Journal
-  title: Advanced Normalization Tools (ANTs)
-  year: 2009
-- authors: Ritter, P., et al.
-  id: 6
-  journal: NeuroImage
-  pages: 437-451
-  title: Whole-brain modeling with TVB
-  volume: 80
-  year: 2013
 - raw/papers/sanz-leon-2013.md
 - raw/papers/ritter-2013.md
 - raw/papers/semanticscholar-109de470e443.md

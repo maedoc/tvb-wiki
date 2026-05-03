@@ -1,9 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- kay_et_al_2021
-- prinzo_et_al_2016
-- smith_et_al_2021
 - raw/papers/arxiv-2603.24176.md
 - raw/papers/semanticscholar-109de470e443.md
 - raw/papers/glean-github.md
@@ -15,7 +12,7 @@ tags:
 - neural-mass-models
 title: GLMsingle
 type: concept
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 GLMsingle is an open-source software package for improving the accuracy of single-trial [[fmri]] analysis through optimized estimation of the [[hemodynamic-response-function]] (HRF). Developed by the laboratory of Kendrick Kay (University of Minnesota), GLMsingle implements a principled approach to solving one of the fundamental challenges in event-related functional magnetic resonance imaging: accurately recovering the timing and amplitude of neural events from the blood oxygen level-dependent ([[bold-signal|BOLD]]) signal. The method addresses the problem of HRF variability across brain regions and individuals, as traditional approaches often treat the HRF as a fixed shape rather than a parameter to be estimated from the data itself.
@@ -82,7 +79,7 @@ Related approaches include population receptive field (pRF) mapping techniques, 
 
 ## Relationship to Other Concepts
 
-GLMsingle addresses methodological challenges that sit at the intersection of [[parameter estimation]], [[forward modeling]], and [[neuroimaging-fmri]] analysis. Its approach to HRF estimation can be viewed as a form of regularization that incorporates biological knowledge about the shape of the hemodynamic response. The method also relates to the broader theme of [[personalized brain modeling]], since the voxel-wise HRF estimates effectively create a personalized forward model for each subject. Compared to simpler approaches that use a fixed HRF, GLMsingle provides improved sensitivity for detecting neural responses in rapid event-related designs, with particular benefits for studies of [[brain-oscillations]] where precise temporal information is critical.
+GLMsingle addresses methodological challenges that sit at the intersection of [[parameter estimation]], [[forward modeling]], and [[neuromorpho-toolkit]] analysis. Its approach to HRF estimation can be viewed as a form of regularization that incorporates biological knowledge about the shape of the hemodynamic response. The method also relates to the broader theme of [[personalized brain modeling]], since the voxel-wise HRF estimates effectively create a personalized forward model for each subject. Compared to simpler approaches that use a fixed HRF, GLMsingle provides improved sensitivity for detecting neural responses in rapid event-related designs, with particular benefits for studies of [[brain-oscillations]] where precise temporal information is critical.
 
 ## References
 

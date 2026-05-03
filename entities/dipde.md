@@ -1,33 +1,30 @@
 ---
-created: 2025-01-15
-sources:
-- raw/papers/semanticscholar-ad05f8fb9b0d.md
-- raw/papers/arxiv-2512.22093.md
-- raw/papers/semanticscholar-71ffb8153870.md
-tags:
-- software-neuroscience
-- spiking-neural-networks
-- computational-neuroscience
-- neural-mass-models
-- population-density-models
 title: DiPDE
+created: 2025-01-15
+updated: 2026-05-04
 type: entity
-updated: '2026-05-03'
+tags: [software-neuroscience, spiking-neural-networks, computational-neuroscience, neural-mass-models, population-density-models]
+sources:
+  - https://github.com/AllenInstitute/dipde
+  - https://alleninstitute.github.io/dipde/
+  - https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1003248
 ---
 
 # DiPDE
 
-**DiPDE** (Digital Propagation) is a high-performance Python-based simulator for large-scale population-level [[neural-network]] simulations, developed by the Modeling, Analysis and Theory group at the Allen Institute for Brain Science. It implements numerical solvers for networks of leaky [[spiking-neural-networks|integrate-and-fire]] neurons using the population density approach, which models the voltage distribution of a population of neurons with a single partial integro-differential equation rather than simulating individual neurons [<citation>1</citation>].
+**DiPDE** (Digital Propagation) is a high-performance Python-based simulator for large-scale population-level neural network simulations, developed by the Modeling, Analysis and Theory group at the Allen Institute for Brain Science. It implements numerical solvers for networks of leaky integrate-and-fire neurons using the population density approach, which models the voltage distribution of a population of neurons with a single partial integro-differential equation rather than simulating individual neurons [<citation>1</citation>].
 
 ## Overview
 
-DiPDE was developed to enable ultra-fast simulations of neural populations at the mesoscale level, where large populations of neurons are treated as homogeneous groups with random fine-scale [[connectivity]] [<citation>2</citation>]. Unlike spike-based simulators that track individual neurons, DiPDE leverages the population density approach pioneered by Knight, Sirovich, and colleagues [<citation>3</citation>], which can dramatically reduce computational overhead while still capturing network-level dynamics.
+DiPDE was developed to enable ultra-fast simulations of neural populations at the mesoscale level, where large populations of neurons are treated as homogeneous groups with random fine-scale connectivity [<citation>2</citation>]. Unlike spike-based simulators that track individual neurons, DiPDE leverages the population density approach pioneered by Knight, Sirovich, and colleagues [<citation>3</citation>], which can dramatically reduce computational overhead while still capturing network-level dynamics.
+
+The simulator's architecture combines Python for user interfaces and network specification with optimized numerical solvers for the computational core. This design allows neuroscientists to rapidly prototype network architectures while achieving simulation speeds suitable for exploring parameter spaces and conducting parameter sweeps [<citation>4</citation>].
 
 ## Relationship to The Virtual Brain
 
-DiPDE occupies a complementary niche relative to [[The Virtual Brain]] (TVB). While TVB operates primarily at the level of [[neural-mass-models]]—averaging over large populations to produce smooth firing rate dynamics suitable for [[whole-brain]] [[connectome]] modeling—DiPDE works at the finer resolution of population density equations [<citation>5</citation>]. Both approaches operate above the level of individual spiking neurons, making them suitable for mesoscopic and macroscopic brain modeling where detailed single-cell morphology is less critical.
+DiPDE occupies a complementary niche relative to [[The Virtual Brain]] (TVB). While TVB operates primarily at the level of neural mass models—averaging over large populations to produce smooth firing rate dynamics suitable for whole-brain connectome modeling—DiPDE works at the finer resolution of population density equations [<citation>5</citation>]. Both approaches operate above the level of individual spiking neurons, making them suitable for mesoscopic and macroscopic brain modeling where detailed single-cell morphology is less critical.
 
-In practice, DiPDE and TVB can be used complementarily: DiPDE's population-level framework can inform the parameterization of neural mass models by providing estimates of [[effective-connectivity]] and neural gain functions, while TVB's whole-brain framework provides the [[structural-connectivity]] scaffold that can guide network architecture. The two simulators thus serve different but overlapping resolution needs within the broader ecosystem of [[computational-neuroscience]] tools [<citation>6</citation>].
+In practice, DiPDE and TVB can be used complementarily: DiPDE's population-level framework can inform the parameterization of neural mass models by providing estimates of effective connectivity and neural gain functions, while TVB's whole-brain framework provides the structural connectivity scaffold that can guide network architecture. The two simulators thus serve different but overlapping resolution needs within the broader ecosystem of computational neuroscience tools [<citation>6</citation>].
 
 ## Key Features
 
@@ -41,7 +38,7 @@ DiPDE also supports the definition of external populations that provide backgrou
 
 DiPDE differs from other major neural simulators in several important respects. Compared to [[NEST]] (Neural Simulation Tool), which simulates individual point neurons at the network scale, DiPDE operates at the population level—modeling groups of neurons statistically rather than explicitly [<citation>11</citation>]. NEST supports more detailed neuron models and synaptic dynamics, while DiPDE optimizes for a narrower class of models but achieves superior performance for appropriate use cases.
 
-Compared to [[NEURON]], which excels at detailed multi-compartment simulations with realistic morphologies, DiPDE sacrifices single-neuron biophyscial detail for population-level tractability. NEURON remains the tool of choice when detailed morphology or compartment-specific dynamics are required [<citation>12</citation>].
+Compared to [[NEURON]], which excels at detailed multi-compartment simulations with realistic morphologies, DiPDE sacrifices single-neuron biophysical detail for population-level tractability. NEURON remains the tool of choice when detailed morphology or compartment-specific dynamics are required [<citation>12</citation>].
 
 Compared to [[Brian]] and [[Brian2]], which prioritize code clarity and ease of modification over raw performance, DiPDE takes the opposite approach—optimizing for computational efficiency with a more specialized domain of application [<citation>13</citation>].
 
@@ -69,8 +66,8 @@ A key distinction from spike-based simulators is that DiPDE tracks the probabili
 - [[NEURON]]
 - [[Brian]]
 - [[Brian2]]
-- [[Allen Institute]]
-- [[Brain Modeling Toolkit]]
+- [[allen-sdk]]
+- [[neuromorpho-toolkit]]
 
 ## References
 
@@ -88,7 +85,7 @@ A key distinction from spike-based simulators is that DiPDE tracks the probabili
 11. NEST Initiative. https://nest-simulator.org/
 12. NEURON Simulator. https://neuron.yale.edu/neuron/
 13. Brian Simulator. http://briansimulator.org/
-14. Whole-brain modeling with [[tvb|The Virtual Brain]]. http://thevirtualbrain.org/
+14. Whole-brain modeling with The Virtual Brain. http://thevirtualbrain.org/
 15. Omurtag, A., Knight, B.W., & Sirovich, L. (2000). On the Simulation of Large Populations of Neurons. Journal of Computational Neuroscience 8: 51–63.
 16. Knight, N.W., Manin, D., & Sirovich, L. (1996). Dynamical models of interacting neuron populations. Symposium on Robotics and Cybernetics.
 17. DiPDE Numerical Methods. https://alleninstitute.github.io/dipde/

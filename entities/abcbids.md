@@ -35,7 +35,7 @@ The ABCC derivatives include [[functional-connectivity]] matrices computed from 
 
 ### ABCD DICOM to BIDS Converters
 
-The primary conversion tools in the ABCBIDS ecosystem include `abcd-dicom2bids` and `abcc_dicom2bids_s3`, both developed by the DCAN Labs at Oregon Health & Science University (OHSU). These Python-based wrappers orchestrate the multi-step process of downloading ABCD Study DICOM data from the NIMH Data Archive (NDA), performing quality control filtering based on the FastTrack QC spreadsheet, converting DICOMs to [[nifti]] files using [[dcm2niix]] (by Chris Rorden's Lab), restructuring the output into BIDS-compliant directory structure using [[Dcm2Bids]], and finally running the official [[bids-validator]] to ensure compliance.
+The primary conversion tools in the ABCBIDS ecosystem include `abcd-dicom2bids` and `abcc_dicom2bids_s3`, both developed by the DCAN Labs at Oregon Health & Science University (OHSU). These Python-based wrappers orchestrate the multi-step process of downloading ABCD Study DICOM data from the NIMH Data Archive (NDA), performing quality control filtering based on the FastTrack QC spreadsheet, converting DICOMs to [[nifti]] files using [[dcm2niix]] (by Chris Rorden's Lab), restructuring the output into BIDS-compliant directory structure using [[dcm]], and finally running the official [[bids-validator]] to ensure compliance.
 
 A notable feature of the conversion process is the optimal spin echo field map selection algorithm. Because field maps are highly susceptible to motion artifacts and can substantially impact distortion correction quality, the wrappers select the field map pair with the least variance from the registered group average for each subject's session. The chosen pair is then associated with all anatomical and functional scans via the `IntendedFor` field in the JSON sidecar files, following BIDS specification requirements. This automated selection substantially improves preprocessing robustness compared to manual selection.
 
@@ -59,7 +59,7 @@ A distinctive aspect of ABCC is its emphasis on quality control at multiple stag
 
 The ABCBIDS ecosystem integrates with numerous established neuroimaging tools. For preprocessing, [[fMRIPrep]] provides an alternative functional MRI processing stream that ABCD investigators have also applied to the data, with derivatives available for the baseline sample. [[QSIPrep]] serves as the primary diffusion MRI preprocessing pipeline, analogous to fMRIPrep but specialized for DWI data. For quality control, the collection includes outputs from tools like [[MRIQC]] for raw data and custom QC visualizations in the ExecutiveSummary HTML reports.
 
-The pipeline dependencies include [[FreeSurfer]] (for segmentation and surface reconstruction), [[FSL]] (for topup, FLIRT, and general image processing), and [[ants]] (for registration and normalization). The DICOM handling relies on [[dcm2niix]] for conversion and DCMTK for metadata extraction. The entire ecosystem uses [[Docker]] and Singularity containers for reproducibility and portability.
+The pipeline dependencies include [[FreeSurfer]] (for segmentation and surface reconstruction), [[FSL]] (for topup, FLIRT, and general image processing), and [[ants]] (for registration and normalization). The DICOM handling relies on [[dcm2niix]] for conversion and DCMTK for metadata extraction. The entire ecosystem uses Docker and Singularity containers for reproducibility and portability.
 
 ## Key Papers
 

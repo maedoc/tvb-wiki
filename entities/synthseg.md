@@ -1,9 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- Billot et al. 2023
-- Billot et al. 2020
-- DeepMind SynthSeg repository
 - raw/papers/semanticscholar-b76b57eda5f0.md
 - raw/papers/semanticscholar-d94ac445ea77.md
 - raw/papers/semanticscholar-ac35f7fc051b.md

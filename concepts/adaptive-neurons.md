@@ -1,12 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- nicol2018adaptive
-- brette2005adaptive
-- zerlaut2018description
-- wong2006recurrent
-- destexhe2009conductance
-- jirsa2008epileptor
 - raw/papers/arxiv-2512.03907.md
 - raw/papers/arxiv-2510.08436.md
 - raw/papers/semanticscholar-62534125f066.md

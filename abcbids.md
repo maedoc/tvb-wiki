@@ -1,7 +1,7 @@
 ---
 title: ABCBIDS
 created: 2025-01-01
-updated: 2026-05-03
+updated: 2026-05-04
 type: entity
 tags: [software-bids, neuroimaging-fmri, pipeline, bids-apps, preprocessing]
 sources: [raw/papers/arxiv-1234.56789.md]

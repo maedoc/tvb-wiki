@@ -1,16 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- https://github.com/catalystneuro/neuroconv
-- https://pypi.org/project/neuroconv/
-- Rübel et al. (2022). "NeuroDataWithoutBorders (NWB): A standardized ecosystem for
-    neuroscience data." Nature Methods.
-- Buccino et al. (2020). "SpikeInterface, a unified framework for spike sorting."
-  eLife.
-- Nienborg et al. (2019). "Brain Imaging Data Structure (BIDS): A standardized format
-    for organizing neuroimaging data."
-- DANDI Archive: https://dandiarchive.org
-- EBRAINS: https://ebrains.eu
 - raw/papers/bein-2018.md
 - raw/papers/semanticscholar-9afbfd2d37be.md
 - raw/papers/arxiv-2505.16861.md

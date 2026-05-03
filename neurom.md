@@ -1,6 +1,6 @@
 title: NeuroM
 created: 2025-01-15
-updated: 2026-05-03
+updated: 2026-05-04
 type: entity
 tags: [software-neuroml, software-visualization, software-brian, computational-neuroscience, neuron, morphometrics, blue-brain-project, ebrains]
 sources: [raw/papers/arxiv-1234.56789.md]

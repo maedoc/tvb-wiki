@@ -1,12 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- Giovannucci et al. 2019. "CaImAn: An open-source tool for efficient Calcium Imaging
-    Analysis." eLife
-- Pnevmatikakis et al. 2016. "Sparse nonnegative deconvolution for calcium imaging."
-  NIPS
-- Zhou et al. 2018. "Efficient and accurate extraction of in vivo calcium signals."
-  Nature Methods
 - raw/papers/arxiv-2509.12873.md
 - raw/papers/sanz-leon-2013.md
 - raw/papers/arxiv-2505.16861.md

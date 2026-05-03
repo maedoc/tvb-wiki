@@ -1,7 +1,7 @@
 ---
 title: ilastik
 created: 2025-01-15
-updated: 2026-05-03
+updated: 2026-05-04
 type: entity
 tags: [software-visualization, bioimaging, machine-learning, segmentation, classification]
 sources:
@@ -18,13 +18,13 @@ sources:
 
 ## Key Features
 
-The core strength of ilastik lies in its **workflow-based architecture**, which guides users through a structured pipeline for batch processing of large image volumes. The workflow typically involves: (1) pixel classification, where users annotate example pixels and the system learns to distinguish between different tissue types or cellular structures; (2) object classification, which builds on pixel-level predictions to categorize entire objects; (3) tracking, for following labeled objects across time in time-lapse imaging; and (4) boundary-based segmentation, particularly useful for electron microscopy reconstruction of neural circuits. The software exports results in standard formats including [[NIfTI]] for neuroimaging applications, HDF5 for raw data storage, and various microscopy formats through the OME Bio-Formats ecosystem [2]. Recent versions (1.4+) support GPU acceleration via [[CUDA]], enabling processing of datasets exceeding tens of gigabytes within reasonable timeframes.
+The core strength of ilastik lies in its **workflow-based architecture**, which guides users through a structured pipeline for batch processing of large image volumes. The workflow typically involves: (1) pixel classification, where users annotate example pixels and the system learns to distinguish between different tissue types or cellular structures; (2) object classification, which builds on pixel-level predictions to categorize entire objects; (3) tracking, for following labeled objects across time in time-lapse imaging; and (4) boundary-based segmentation, particularly useful for electron microscopy reconstruction of neural circuits. The software exports results in standard formats including [[NIfTI]] for neuroimaging applications, HDF5 for raw data storage, and various microscopy formats through the OME Bio-Formats ecosystem [2]. Recent versions (1.4+) support GPU acceleration via [[brian2cuda]], enabling processing of datasets exceeding tens of gigabytes within reasonable timeframes.
 
 ilastik's **probability maps** output is particularly valuable for whole-brain modeling workflows, as the software can generate probabilistic segmentations of brain structures from multiple imaging modalities. These probability maps serve as anatomical priors for parcellation algorithms used in [[structural connectivity]] reconstruction from [[diffusion imaging]] data [3].
 
 ## Relationship to TVB
 
-While ilastik is not a dedicated whole-brain modeling platform like [[TVB]], it plays a complementary role in the TVB ecosystem by providing high-quality anatomical segmentations that inform [[personalized brain modeling]]. In TVB pipelines, ilastik-generated segmentations can serve as custom [[brain parcellations]] when standard atlases (such as [[Desikan-Killiany atlas]] or [[AAL atlas]]) do not adequately capture subject-specific anatomy. The probability-map outputs from ilastik can be thresholded to generate region-of-interest definitions for [[connectome]] construction, while the software's handling of [[T1-weighted MRI]] and [[T2-weighted MRI]] data aligns with TVB's requirements for anatomical mesh generation. Furthermore, ilastik's integration with [[napari]] through the `napari-ilastik` plugin enables modern Python-based neuroimaging workflows to incorporate interactive segmentation directly within TVB preprocessing pipelines.
+While ilastik is not a dedicated whole-brain modeling platform like [[TVB]], it plays a complementary role in the TVB ecosystem by providing high-quality anatomical segmentations that inform [[personalized brain modeling]]. In TVB pipelines, ilastik-generated segmentations can serve as custom [[brain parcellations]] when standard atlases (such as [[Desikan-Killiany atlas]] or [[AAL atlas]]) do not adequately capture subject-specific anatomy. The probability-map outputs from ilastik can be thresholded to generate region-of-interest definitions for [[connectome]] construction, while the software's handling of [[diffusion-mri]] and [[diffusion-mri]] data aligns with TVB's requirements for anatomical mesh generation. Furthermore, ilastik's integration with [[napari]] through the `napari-ilastik` plugin enables modern Python-based neuroimaging workflows to incorporate interactive segmentation directly within TVB preprocessing pipelines.
 
 ## Technical Implementation
 
@@ -34,7 +34,7 @@ More recent development has incorporated **deep learning** capabilities through 
 
 ## Related Software
 
-ilastik operates within a broader ecosystem of bioimage analysis tools that share complementary strengths. [[Fiji]] (a distribution of [[ImageJ]]) provides extensive plugin architecture for specialized image processing tasks and serves as a common entry point for ilastik workflows. [[Cellpose]] represents a newer alternative for cell segmentation using deep neural networks, with both tools now offering overlapping functionality. [[Deepmedic]] provides convolutional neural network-based segmentation specifically trained for brain tissue in MR images. For visualization and annotation, ilastik integrates with [[napari]] through dedicated plugins. [[ITK-SNAP]] offers manual and semi-automatic segmentation for neuroanatomy, while [[3D Slicer]] provides a comprehensive medical image computing platform. The [[Neuroimaging]] community's adoption of ilastik for customized segmentations reflects the tool's flexibility across modalities.
+ilastik operates within a broader ecosystem of bioimage analysis tools that share complementary strengths. [[Fiji]] (a distribution of ImageJ) provides extensive plugin architecture for specialized image processing tasks and serves as a common entry point for ilastik workflows. [[Cellpose]] represents a newer alternative for cell segmentation using deep neural networks, with both tools now offering overlapping functionality. [[Deepmedic]] provides convolutional neural network-based segmentation specifically trained for brain tissue in MR images. For visualization and annotation, ilastik integrates with [[napari]] through dedicated plugins. [[ITK-SNAP]] offers manual and semi-automatic segmentation for neuroanatomy, while [[3D Slicer]] provides a comprehensive medical image computing platform. The [[Neuroimaging]] community's adoption of ilastik for customized segmentations reflects the tool's flexibility across modalities.
 
 ## Key Papers
 

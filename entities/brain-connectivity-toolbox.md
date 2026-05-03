@@ -8,7 +8,7 @@ tags:
 - software-brain-modeling
 title: Brain Connectivity Toolbox
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 The **Brain Connectivity Toolbox** (BCT) is a widely used MATLAB toolbox for the analysis of structural and functional brain networks derived from neuroimaging data. Developed primarily by Mikail Rubinov and Olaf Sporns at Indiana University, with later contributions from Richard Betzel and colleagues, BCT provides a comprehensive set of tools for computing graph-theoretic measures on brain connectomes, enabling researchers to characterize the topological organization of neural networks at multiple scales. The toolbox has become a standard resource in the field of [[connectomics]], with applications spanning [[resting-state]] fMRI analysis, [[diffusion-imaging]] based tractography, and [[whole-brain]] modeling validation.
@@ -45,6 +45,7 @@ The Brain Connectivity Toolbox was first released in 2009 alongside a seminal re
 - [[network-dynamics]] — how brain network topology relates to neural dynamics
 - [[small-world-networks]] — a key topological property of brain networks
 - [[rich-club]] — densely connected hub regions in the brain
+[[bcbtoolkit]]
 
 ## References
 

@@ -1,11 +1,6 @@
 ---
 created: 2026-05-03
 sources:
-- avants2009
-- tustison2009
-- tustison2021
-- ritter2013
-- zuccarello2020
 - raw/papers/avants-2008.md
 - raw/papers/huntenburg-2018.md
 - raw/papers/sanz-leon-2013.md

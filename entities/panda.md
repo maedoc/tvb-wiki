@@ -1,15 +1,6 @@
 ---
 created: 2026-04-23
 sources:
-- 'Liu, Y., D. Zhu, J. Jiang, J. Zhang, Z. Li, Q. Luo, Y. Li, Y. Wang, Y. Chen, and
-  X. Chen. 2013. "PANDA: A Pipeline Tool for Brain Diffusion Image Processing." Frontiers
-  in Human Neuroscience 7: 816.'
-- 'Cui, Z., F. Su, J. Li, W. Yang, Q. Luo, Y. Liu, and X. Chen. 2018. "PANDA-Global:
-  A Fast and Scalable Pipeline for Fiber Orientation Distribution Estimation." Journal
-  of Neuroscience Methods 303: 1–8.'
-- 'Jiang, J., Y. Liu, X. Wang, C. Li, Q. Luo, Y. Li, and X. Chen. 2013. "Constructing
-  Human Brain Structural Networks: A New Approach Based on DTI." Brain Connectivity
-  3 (2): 193–206.'
 - raw/papers/sanz-leon-2013.md
 - raw/papers/ritter-2013.md
 - raw/papers/mijalkov-2017-braph.md

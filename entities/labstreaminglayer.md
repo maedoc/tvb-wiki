@@ -1,9 +1,6 @@
 ---
 created: 2025-01-01
 sources:
-- https://sccn.ucsd.edu/wiki/Lab_Streaming_Layer_(LSL)
-- https://github.com/sccn/labstreaminglayer
-- https://www.frontiersin.org/articles/10.3389/fnins.2013.00098/full
 - raw/papers/sanz-leon-2013.md
 - raw/papers/gramfort-2013.md
 - raw/papers/arxiv-2509.02799.md

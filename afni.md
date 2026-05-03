@@ -1,7 +1,7 @@
 ---
 title: AFNI
 created: 2024-01-15
-updated: 2026-04-24
+updated: 2026-05-04
 type: entity
 tags: [software-brain-modeling, neuroimaging-fmri, neuroimaging-dti, software-visualization, dynamic-causal-modeling]
 sources:
@@ -48,6 +48,7 @@ The foundational AFNI publication (Cox, 1996) established the software's core ph
 - [[ants]] — Advanced Normalization Tools, integrated with AFNI for registration and segmentation
 - [[freesurfer]] — Cortical surface reconstruction and parcellation, frequently used upstream of AFNI analysis
 - [[the-virtual-brain]] — Whole-brain simulation platform utilizing connectivity matrices derived from AFNI preprocessing
+- [[glmsingle]] — tool for single‑trial fMRI analysis and HRF estimation.
 
 ## References
 

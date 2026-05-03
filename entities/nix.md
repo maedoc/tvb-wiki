@@ -1,12 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- 'Stoewer, A., Wood, S. N., Zug, J., Baker, C. J., Dubitzky, M., & Obermayer, K.
-  (2014). Nix: A practical and efficient tool for storing results from neuroscience
-  simulations. Frontiers in Neuroinformatics, 8, 15.'
-- 'Garcia, S., Baldock, R., Heeger, D. J., & Horrocks, P. (2011). Neo: Reading and
-  writing files in multiple formats. Frontiers in Neuroinformatics, 5, 3.'
-- '"G-Node Nix Documentation." German Neuroinformatics Node. https://g-node.org/nix/'
 - raw/papers/sanz-leon-2013.md
 - raw/papers/semanticscholar-301489ffb9de.md
 - raw/papers/glean-github.md

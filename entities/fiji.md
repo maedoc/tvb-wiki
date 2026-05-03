@@ -1,10 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- schindelin2012fiji
-- imagej2
-- bioformats
-- weka
 - raw/papers/Renton2024.md
 tags:
 - software-visualization

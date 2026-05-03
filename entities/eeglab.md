@@ -11,7 +11,7 @@ tags:
 - software-eeglab
 title: EEGLAB
 type: entity
-updated: '2026-05-02'
+updated: '2026-05-04'
 ---
 
 EEGLAB (eeglab) is a open-source MATLAB environment for processing and analyzing electroencephalographic (EEG) and magnetoencephalographic (MEG) data.
@@ -33,6 +33,7 @@ EEGLAB is often used alongside [[tvb]] and other simulation platforms in pre-pro
 * [[bidscoin]]
 * [[brainstorm]]
 * [[eegnet]]
+* [[labstreaminglayer]]
 
 ## References
 
@@ -68,3 +69,26 @@ sources: [raw/papers/lawhern-2018-eegnet.md]
 ## Overview
 
 EEGNet is a compact convolut
+
+## ORPHAN PAGE CONTEXT (labstreaminglayer)
+---
+created: 2025-01-01
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/gramfort-2013.md
+- raw/papers/arxiv-2509.02799.md
+tags:
+- software-visualization
+- neuroimaging-eeg
+- neuroimaging-meg
+- electrophysiology
+title: LabStreamingLayer
+type: entity
+updated: '2026-05-03'
+---
+
+# LabStreamingLayer
+
+## Overview
+
+LabStreamingLayer (LSL) is an open-source software system for the real-time collection, synchronization, and multiplexing of streaming data from multiple biomedical and scientific data

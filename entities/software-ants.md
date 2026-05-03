@@ -17,7 +17,7 @@ tags:
 - software-freesurfer
 title: ANTS (Advanced Normalization Tools)
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 ## Overview
@@ -34,7 +34,7 @@ ANTS implements several registration algorithms, with symmetric normalization (S
 
 ## Key Features
 
-ANTS provides a comprehensive suite of tools that extend beyond basic registration. The **Atropos** tool implements Bayesian segmentation algorithms that leverage prior anatomical probability maps to segment brain volumes into anatomically meaningful regions, producing tissue probability maps that can serve as inputs to connectivity reconstruction pipelines [Avants et al. 2011](raw/papers/avants-2011.md). The **ANTS Cortical Thickness** pipeline computes cortical thickness measurements by combining information from T1-weighted structural images with probabilistic tissue segmentations, providing a validated measure of structural integrity in aging and disease studies [Tustison et al. 2014](raw/papers/tustison-2014.md). The **buildtemplateparallel.sh** script enables construction of population-specific anatomical templates from groups of subjects, allowing researchers to create customized reference spaces that better capture the anatomical characteristics of specific populations—particularly important when working with clinical cohorts or non-Western populations whose brains may differ from standard templates like the MNI152. ANTS also integrates with the broader neuroimaging ecosystem through bindings for Python (via [[antspy]] and [[antrs]]) and R (via [[antsr]]), enabling integration with analysis frameworks like [[nilearn]] and [[dipy]].
+ANTS provides a comprehensive suite of tools that extend beyond basic registration. The **Atropos** tool implements Bayesian segmentation algorithms that leverage prior anatomical probability maps to segment brain volumes into anatomically meaningful regions, producing tissue probability maps that can serve as inputs to connectivity reconstruction pipelines [Avants et al. 2011](raw/papers/avants-2011.md). The **ANTS Cortical Thickness** pipeline computes cortical thickness measurements by combining information from T1-weighted structural images with probabilistic tissue segmentations, providing a validated measure of structural integrity in aging and disease studies [Tustison et al. 2014](raw/papers/tustison-2014.md). The **buildtemplateparallel.sh** script enables construction of population-specific anatomical templates from groups of subjects, allowing researchers to create customized reference spaces that better capture the anatomical characteristics of specific populations—particularly important when working with clinical cohorts or non-Western populations whose brains may differ from standard templates like the MNI152. ANTS also integrates with the broader neuroimaging ecosystem through bindings for Python (via [[antspy]] and antrs) and R (via [[antsr]]), enabling integration with analysis frameworks like [[nilearn]] and [[dipy]].
 
 ## Relationship to Other Tools
 
@@ -42,7 +42,7 @@ ANTS occupies a central position in the neuroimaging software ecosystem and is f
 
 ## Applications in Brain Modeling
 
-In connectome-based [[whole-brain-modeling]], ANTS plays a critical preprocessing role by ensuring that individual [[structural-connectivity]] matrices can be compared across subjects and mapped onto standard atlases like the [[desikan-killiany-atlas]] or [[schaefer-atlas]]. When constructing personalized brain models in [[the-virtual-brain]], researchers typically use ANTS to normalize each participant's anatomical MRI to the template space, then apply the computed transformations to their connectivity data. This enables the construction of cohort-level models that can reveal how [[structural-connectivity]] patterns relate to [[functional-connectivity]] dynamics, or how anatomical variations contribute to individual differences in [[brain-dynamics]]. Recent work combining ANTS preprocessing with graph-theoretic analysis using tools like [[bctpy]] has enabled characterization of [[structural-core]] and [[rich-club]] organization in human connectomes, providing insights into the architectural principles that constrain [[network-dynamics]] in the human brain.
+In connectome-based [[whole-brain-modeling]], ANTS plays a critical preprocessing role by ensuring that individual [[structural-connectivity]] matrices can be compared across subjects and mapped onto standard atlases like the [[desikan-killiany-atlas]] or [[schaefer-atlas]] . When constructing personalized brain models in [[the-virtual-brain]], researchers typically use ANTS to normalize each participant's anatomical MRI to the template space, then apply the computed transformations to their connectivity data. This enables the construction of cohort-level models that can reveal how [[structural-connectivity]] patterns relate to [[functional-connectivity]] dynamics, or how anatomical variations contribute to individual differences in [[brain-dynamics]]. Recent work combining ANTS preprocessing with graph-theoretic analysis using tools like [[bctpy]] has enabled characterization of [[structural-core]] and [[rich-club]] organization in human connectomes, providing insights into the architectural principles that constrain [[network-dynamics]] in the human brain.
 
 ## References
 

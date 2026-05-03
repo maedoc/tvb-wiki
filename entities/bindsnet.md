@@ -14,14 +14,14 @@ tags:
 - plasticity
 title: BindsNET
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 # BindsNET
 
 ## Overview
 
-BindsNET is an open-source Python library for building and simulating [[spiking-neural-networks]] (SNNs), designed to bridge the gap between machine learning and [[computational-neuroscience]]. Developed primarily at the University of Massachusetts, Amherst, and first released on GitHub in 2017 (with the refereed paper appearing at ICLR 2018), BindsNET provides a flexible framework for creating brain-inspired [[neural-network]] architectures that mimic the temporal dynamics of biological neurons (Hazan et al., 2018). The library is built on top of [[PyTorch]], enabling GPU-accelerated simulations and integration with the broader deep learning ecosystem. Unlike traditional artificial neural networks that process information through rate-based activation functions, BindsNET simulates individual neurons that communicate through discrete voltage spikes, capturing the asynchronous, event-driven nature of biological neural tissue.
+BindsNET is an open-source Python library for building and simulating [[spiking-neural-networks]] (SNNs), designed to bridge the gap between machine learning and [[computational-neuroscience]]. Developed primarily at the University of Massachusetts, Amherst, and first released on GitHub in 2017 (with the refereed paper appearing at ICLR 2018), BindsNET provides a flexible framework for creating brain-inspired [[neural-network]] architectures that mimic the temporal dynamics of biological neurons (Hazan et al., 2018). The library is built on top of [[pytorch-geometric]], enabling GPU-accelerated simulations and integration with the broader deep learning ecosystem. Unlike traditional artificial neural networks that process information through rate-based activation functions, BindsNET simulates individual neurons that communicate through discrete voltage spikes, capturing the asynchronous, event-driven nature of biological neural tissue.
 
 ## Why BindsNET Exists
 

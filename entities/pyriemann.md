@@ -1,10 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- https://github.com/pyRiemann/pyRiemann
-- https://doi.org/10.1109/access.2023.3275285
-- https://doi.org/10.1109/TBME.2012.2184576
-- https://doi.org/10.1371/journal.pone.0131567
 - raw/papers/arxiv-2602.03522.md
 - raw/papers/semanticscholar-ce476d60fac5.md
 - raw/papers/glean-github.md
@@ -20,7 +16,7 @@ tags:
 - python
 title: pyRiemann
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 pyRiemann is an open-source Python library that implements machine learning algorithms for electrophysiological brain signals (EEG and MEG) based on Riemannian geometry. The library provides tools for classifying brain states, particularly in the context of brain-computer interfaces (BCIs), by treating covariance matrices as points on a Riemannian manifold rather than as vectors in Euclidean space. This approach has proven particularly effective for handling the high-dimensional, noisy nature of electrophysiological recordings where the second-order statistics (covariance) of signals carry discriminative information about underlying brain states [@pyRiemannGitHub].
@@ -41,7 +37,7 @@ While pyRiemann is primarily oriented toward single-trial classification for bra
 
 ## Related Software
 
-pyRiemann integrates with the broader Python scientific computing ecosystem, particularly [[mne-python]] for EEG/MEG data handling and preprocessing. It is often used alongside [[eeglab]] (via Python bridges) and [[fieldtrip]] for data collection and initial preprocessing. For brain-computer interface development, researchers may combine pyRiemann with [[bcilab]] or [[bci2000]] experimental paradigms. The classification pipeline builds upon [[sklearn]] (scikit-learn) estimators, making it accessible to practitioners familiar with standard machine learning workflows. Related approaches include [[brainiak]] for RSA and encoding models and [[PyMVPA]] for multivariate pattern analysis of neuroimaging data.
+pyRiemann integrates with the broader Python scientific computing ecosystem, particularly [[mne-python]] for EEG/MEG data handling and preprocessing. It is often used alongside [[eeglab]] (via Python bridges) and [[fieldtrip]] for data collection and initial preprocessing. For brain-computer interface development, researchers may combine pyRiemann with [[bcilab]] or [[bci2000]] experimental paradigms. The classification pipeline builds upon [[nilearn]] (scikit-learn) estimators, making it accessible to practitioners familiar with standard machine learning workflows. Related approaches include [[brainiak]] for RSA and encoding models and [[PyMVPA]] for multivariate pattern analysis of neuroimaging data.
 
 ## Key Papers
 

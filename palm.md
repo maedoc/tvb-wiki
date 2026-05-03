@@ -1,7 +1,7 @@
 ---
 title: PALM
 created: 2024-01-15
-updated: 2026-05-03
+updated: 2026-05-04
 type: entity
 tags: [neuroimaging, software-fsl, neuroimaging-fmri, bayes-factors, variational-bayes, parameter-estimation]
 sources:
@@ -27,7 +27,7 @@ Third, PALM supports flexible specification of linear models with arbitrary cont
 
 ## Relationship to TVB
 
-While PALM is primarily an [[fmri]] analysis tool rather than a [[whole-brain-modeling]] engine like [[the-virtual-brain]], it serves an important complementary role in the TVB workflow. Researchers using TVB to generate simulated [[functional-connectivity]] data often require statistical validation against empirical [[neuroimaging]] datasets. PALM provides the inferential framework for comparing simulated and observed brain dynamics, enabling researchers to assess whether [[whole-brain-model]] predictions align with empirical findings at the group level.
+While PALM is primarily an [[fmri]] analysis tool rather than a [[whole-brain-modeling]] engine like [[the-virtual-brain]], it serves an important complementary role in the TVB workflow. Researchers using TVB to generate simulated [[functional-connectivity]] data often require statistical validation against empirical [[neuroimaging]] datasets. PALM provides the inferential framework for comparing simulated and observed brain dynamics, enabling researchers to assess whether [[bold-model]] predictions align with empirical findings at the group level.
 
 The Bayesian inference capabilities in PALM are particularly relevant for [[parameter-estimation]] in [[whole-brain-modeling]]. When fitting TVB models to empirical [[resting-state]] data, researchers generate multiple candidate models with different parameter configurations. PALM's [[bayes-factors]] functionality can be used to compare these models, providing principled selection of the most parsimonious model that explains the observed [[brain-oscillations]] and connectivity patterns. This bridges the gap between [[computational-neuroscience]] simulation and statistical model comparison.
 
@@ -47,6 +47,6 @@ The foundational PALM paper describes the permutation-based inference framework 
 
 ## Relationships to Other Concepts
 
-PALM occupies a unique position at the intersection of [[neuroimaging-fmri]] analysis, statistical inference, and [[computational-neuroscience]]. Its permutation framework builds on the classical work on randomization tests, while its Bayesian capabilities draw on the [[free-energy-principle]] framework developed by Karl Friston. The tool is particularly relevant for researchers working on [[brain-network]] analysis, [[dynamic-causal-modeling]], and [[whole-brain-modeling]] applications where rigorous statistical inference is required.
+PALM occupies a unique position at the intersection of [[neuromorpho-toolkit]] analysis, statistical inference, and [[computational-neuroscience]]. Its permutation framework builds on the classical work on randomization tests, while its Bayesian capabilities draw on the [[free-energy-principle]] framework developed by Karl Friston. The tool is particularly relevant for researchers working on [[brain-network]] analysis, [[dynamic-causal-modeling]], and [[whole-brain-modeling]] applications where rigorous statistical inference is required.
 
 The development of PALM represents a broader trend in [[neuroimaging]] toward non-parametric, permutation-based methods that avoid the normality assumptions underpinning classical parametric inference. This shift was motivated by the recognition that [[fmri]] data exhibit spatial autocorrelation, limited sample sizes, and heterogeneous variance structures that violate standard parametric assumptions. By generating empirical null distributions through permutation, PALM provides valid inference even under these challenging conditions, making it a cornerstone tool for contemporary [[neuroimaging]] research.

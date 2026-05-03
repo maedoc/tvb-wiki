@@ -1,7 +1,7 @@
 ---
 title: DiPDE
 created: 2025-01-15
-updated: 2026-05-03
+updated: 2026-05-04
 type: entity
 tags: [software-neuroscience, spiking-neural-networks, computational-neuroscience, neural-mass-models, population-density-models]
 sources:
@@ -66,8 +66,8 @@ A key distinction from spike-based simulators is that DiPDE tracks the probabili
 - [[NEURON]]
 - [[Brian]]
 - [[Brian2]]
-- [[Allen Institute]]
-- [[Brain Modeling Toolkit]]
+- [[allen-sdk]]
+- [[neuromorpho-toolkit]]
 
 ## References
 

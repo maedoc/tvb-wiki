@@ -1,13 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- biswal2010
-- bullmore2009
-- hurtz2022
-- hcp2013
-- saenger2022
-- spiegelhalter2012
-- jeurissen2019
 - raw/papers/rubinov-sporns-2010.md
 tags:
 - neuroimaging-fmri

@@ -12,22 +12,6 @@ sources:
   type: article
   url: https://www.frontiersin.org/articles/10.3389/fninf.2019.00024
   year: 2019
-- authors:
-  - Tedeschi, A.
-  - Zouridakis, G.
-  id: tedeschi2020
-  journal: Neuroinformatics
-  title: The Allen Integrating framework for neuroanatomy data
-  type: article
-  year: 2020
-- authors:
-  - Tora, R.
-  - Bolam, J.
-  id: tora2021
-  journal: Frontiers in Computational Neuroscience
-  title: Atlas-based analysis of neuronal morphology
-  type: article
-  year: 2021
 - raw/papers/sanz-leon-2013.md
 - raw/papers/claudi-2020-brainglobe-atlas-api.md
 - raw/papers/ritter-2013.md
