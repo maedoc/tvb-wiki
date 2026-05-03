@@ -31,4 +31,6 @@
 | 19:51 | SoftwareMapper cycle | **24 software pages** created |
 | 20:51 | DeepResearch cycle | **36 papers** discovered |
 | 21:43 | CrosslinkApplier + Matcher | **155 crosslinks** + embedding 16k sentences |
+| 22:20 | Structural repair | **43 leaked frontmatter + 5 broken YAML** fixed (cococomac, dpabi, etc.) |
+| 22:20 | Scoring update | score_page() now detects structural corruption (-50 leaked FM, -40 empty body) |
 | 17:54 | First sprint cycle | 10 thin pages improving (placeholders) |
