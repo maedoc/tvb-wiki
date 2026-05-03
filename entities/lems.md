@@ -7,14 +7,6 @@ title: LEMS
 type: entity
 updated: 2026-05-03
 ---
-title: LEMS
-created: 2025-01-15
-updated: 2026-05-03
-type: concept
-tags: [software-neuroml, neural-mass-models, spiking-neural-networks, computational-neuroscience]
-sources: [cannon2007lems, gleeson2010neuroconstruct, vogelstein2010ten]
-
----
 
 LEMS (Low-level Entity Modeling System) is a domain-specific modeling language designed to specify the structure and dynamics of neuronal models in a format-independent, declarative manner. Originally developed as a component of the [[neuroml]] project, LEMS provides a text-based specification that describes the mathematical equations, state variables, and parameter dependencies of neural entities such as neurons, synapses, ion channels, and network populations. By separating model description from simulator-specific implementation, LEMS enables models to be ported across multiple simulation engines—including [[nest]], [[neuron]], [[brian]], and [[pynn]]—thereby enhancing reproducibility and interoperability in computational neuroscience [@cannon2007lems].
 
@@ -67,11 +59,3 @@ Despite its strengths, LEMS has seen limited adoption beyond the NeuroML communi
 2. Gleeson, P., Crook, S., Mitchell, M.L., et al. (2010). neuroConstruct: A tool for modeling networks of neurons in 3D space. *IEEE Transactions on Neural Networks*. [@gleeson2010neuroconstruct]
 
 3. Vogelstein, J.T., Watson, B.O., Panzeri, S., et al. (2010). Ten lessons to conclude a decade of brain modeling. *Biological Cybernetics*. [@vogelstein2010ten]
-
-## References
-
-[@cannon2007lems]: Cannon, R., Gleeson, P., Crook, S., et al. (2007). LEMS: A language for expressing compact, automated neuron model descriptions. *Neuroinformatics*, 5(3), 163-176.
-
-[@gleeson2010neuroconstruct]: Gleeson, P., Crook, S., Mitchell, M.L., et al. (2010). neuroConstruct: A tool for modeling networks of neurons in 3D space. *IEEE Transactions on Neural Networks*, 21(1), 123-136.
-
-[@vogelstein2010ten]: Vogelstein, J.T., Watson, B.O., Panzeri, S., et al. (2010). Ten lessons to conclude a decade of brain modeling. *Biological Cybernetics*, 103(6), 437-448.

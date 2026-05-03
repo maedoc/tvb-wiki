@@ -9,14 +9,6 @@ type: entity
 updated: '2026-05-03'
 ---
 
-title: MEG/EEG Toolbox
-created: 2025-01-15
-updated: 2026-05-03
-type: concept
-tags: [[neuroimaging]]-meg, neuroimaging-eeg, software-visualization, neural-mass-models, [[whole-brain]]-modeling
-sources: [gramfort-2013, oostenveld-etal-2010, delorey-etal-2021, makeig-etal-2004, tadel-etal-2011]
----
-
 A **MEG/EEG Toolbox** refers to any of several specialized software environments designed for the acquisition, preprocessing, source reconstruction, and analysis of magnetoencephalography (MEG) and electroencephalography (EEG) data. These toolboxes constitute the computational backbone of modern neurophysiology research, enabling researchers to transform raw electromagnetic signals from the brain into meaningful spatiotemporal representations of neural activity [[gramfort-2013]]. In the context of [[whole-brain-modeling]], MEG/EEG toolboxes provide essential functionality for generating empirical constraints on large-scale brain network dynamics, validating model predictions against observed electrophysiological data, and fitting [[neural-mass-models]] to empirical recordings.
 
 ## Motivation and Context
@@ -76,7 +68,3 @@ Several challenges remain in MEG/EEG analysis methodology relevant to whole‑br
 - [[brainstorm]]
 - [[connectivity]]
 - [[neural‑mass‑models]]
-
-## References
-
-1. Gramfort et al. (2013). *MEG and EEG: From Acquisition to Analysis*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fnins.2013.00010)

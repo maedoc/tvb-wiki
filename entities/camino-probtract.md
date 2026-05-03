@@ -12,14 +12,6 @@ type: entity
 updated: '2026-05-03'
 ---
 
-title: Camino Probabilistic [[tractography]]
-created: 2025-01-15
-updated: 2026-05-03
-type: concept
-tags: [tractography, [[diffusion-imaging]], structural-[[connectivity]], software-camino, connectomics, probabilistic-methods, [[neuroimaging]]-dti, network-dynamics]
-sources: [behrens2003, behrens2007, cook2004, chang2005, assaf2004]
----
-
 Camino Probabilistic Tractography is a technique implemented within the [Camino]([[camino]]) open-source software package for reconstructing [[white-matter]] fiber pathways from diffusion magnetic resonance imaging (dMRI) data using stochastic tractography methods. Unlike deterministic tractography, which computes a single streamline path from a seed region to a target based on principal diffusion directions, probabilistic tractography generates many candidate streamlines (often thousands per seed voxel) and builds a probability distribution over possible pathways. This approach provides a more nuanced representation of uncertainty in fiber tracking, which is particularly valuable when the underlying diffusion data exhibits ambiguity—such as in regions where fiber orientations cross, branch, or otherwise deviate from simple single-tensor models [behrens2003, behrens2007].
 
 ## Motivation and Context
@@ -53,11 +45,3 @@ Camino's probabilistic tractography is distinguished by its open-source implemen
 - [Dipy]([[dipy]]) — Python-based diffusion imaging analysis
 - [AFQ]([[afq]]) — automated fiber quantification pipeline
 - [The Virtual Brain]([[the-virtual-brain]]) — [[whole-brain]] simulator using structural connectivity from tractography
-
-## References
-
-- Assaf, Y., freed, R., & Basser, P. J. (2004). Composite hindered and restricted model of diffusion (CHARMED) MR imaging of the human brain. *NeuroImage*, 27(1), 48–58. [assaf2004]
-- Behrens, T. E. J., et al. (2003). Characterization and propagation of uncertainty in diffusion-weighted MR imaging. *Magnetic Resonance in Medicine*, 50(5), 1077–1088. [behrens2003]
-- Behrens, T. E. J., et al. (2007). Probabilistic diffusion tractography with multiple fibre orientations: What can we gain? *NeuroImage*, 34(1), 144–155. [behrens2007]
-- Chang, L. C., et al. (2005). RESTORE: Robust estimation of tensors by regression. *Proceedings of the International Society for Magnetic Resonance in Medicine*, 13th Annual Meeting, Miami Beach, FL. [chang2005]
-- Cook, P. A., et al. (2004). Camino: Open-source diffusion-MRI reconstruction and processing. *Proceedings of the International Society for Magnetic Resonance in Medicine*, 12th Annual Meeting, Kyoto, Japan. [cook2004]

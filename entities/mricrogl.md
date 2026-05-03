@@ -11,14 +11,6 @@ type: entity
 updated: '2026-05-03'
 ---
 
-title: MRIcroGL
-created: 2025-01-15
-updated: 2026-05-03
-type: entity
-tags: [software-visualization, neuroimaging, neuroimaging-fmri, neuroimaging-dti]
-sources: ["https://www.[[nitrc]].org/projects/mricrogl/", "https://github.com/neurolibuscui/mricrogl", "https://www.nitrc.org/projects/mricron/"]
----
-
 MRIcroGL is a lightweight, cross-platform medical imaging visualization program designed primarily for viewing three-dimensional neuroimaging datasets in formats such as [[nifti]] and DICOM. Originally developed as a modern OpenGL-based successor to the older MRIcron application, MRIcroGL provides neuroscientists with a fast, no-frills viewer that loads large brain volumes efficiently without the overhead of more comprehensive neuroimaging software suites. The program is particularly valued in the [[whole-brain|whole-brain modeling]] community for its ability to quickly inspect structural and functional data, verify preprocessing outputs, and perform basic region-of-interest analysis prior to fitting [[whole-brain-modeling|whole-brain models]] in simulators like [[the-virtual-brain|The Virtual Brain]].
 
 ## Overview
@@ -57,12 +49,3 @@ For users requiring more advanced visualization capabilities beyond what MRIcroG
 ## Related Software
 
 MRIcroGL should not be confused with its predecessor [[mricron|MRIcron]], which remains available but lacks the OpenGL-based rendering improvements of the newer version. Both tools share a common heritage in the neuroimaging open-source ecosystem and continue to be maintained in parallel. Other visualization alternatives in the ecosystem include [[fsl|FSLeyes]] (part of the FSL suite), [[mrtrix3|MRTrix3]] for advanced diffusion imaging visualization, and [[nilearn|Nilearn]] for Python-based programmatic visualization workflows. The choice among these tools typically depends on the specific visualization task, the data format being used, and integration requirements with existing analysis pipelines.
-
-## References
-
-<references>
-- MRIcroGL project page. NITRC. https://www.nitrc.org/projects/mricrogl/
-- MRIcron project page. NITRC. https://www.nitrc.org/projects/mricron/
-- Rorden C, Karnath HO, Bonilha L (2007). Improving lesion-symptom mapping. Journal of Cognitive Neuroscience.
-- Rorden C, Bonilha L, Fridriksson J, Bender B, Karnath HO (2012). Age-specific CT and MRI templates for spatial normalization. Neuroimage.
-</references>

@@ -11,19 +11,6 @@ type: entity
 updated: '2026-05-02'
 ---
 
-title: GeNN
-created: 2025-01-15
-updated: 2026-04-30
-type: entity
-tags: [software-[[neuromorphic-computing]], [[spiking-neural-networks]], gpu-computing, [[neural-network]], [[computational-neuroscience]], [[whole-brain]]-simulators]
-sources:
-  - "Nowke, C., Richter, M., & Morrison, A. (2019). GeNN: a code generation framework for accelerated brain simulation. Neuroinformatics."
-  - "Knight, J.C., Nowke, C., & Tully, P.J. (2021). Scaling spiking neural network simulations on multi-GPU clusters with GeNN. Frontiers in Neuroscience."
-  - "Hodgkin, A.L., & Huxley, A.F. (1952). A quantitative description of membrane current and its application to conduction and excitation in nerve. Journal of Physiology."
-  - "Stimberg, M., Brette, R., & Goodman, D.F. (2019). Brian 2, an intuitive and efficient neural simulator. eLife."
-
----
-
 # GeNN
 
 ## Overview
@@ -89,13 +76,3 @@ For researchers seeking to bridge between these scales, GeNN could theoretically
 - [[The Virtual Brain]] — Whole-brain modeling framework using neural mass models
 - [[Arbor]] — Modern GPU-accelerated neural simulator with modular architecture
 - [[Nengo]] — Neural engineering framework focusing on reservoir computing
-
-## References
-
-[@Hodgkin1952]: Hodgkin, A.L., & Huxley, A.F. (1952). A quantitative description of membrane current and its application to conduction and excitation in nerve. *Journal of Physiology*, 117(4), 500-544.
-
-[@Knight2021]: Knight, J.C., Nowke, C., & Tully, P.J. (2021). Scaling spiking neural network simulations on multi-GPU clusters with GeNN. *Frontiers in Neuroscience*, 15, 628524.
-
-[@Nowke2019]: Nowke, C., Richter, M., & Morrison, A. (2019). GeNN: a code generation framework for accelerated brain simulation. *Neuroinformatics*, 17(4), 511-521.
-
-[@Stimberg2019]: Stimberg, M., Brette, R., & Goodman, D.F. (2019). Brian 2, an intuitive and efficient neural simulator. *eLife*, 8, e47314.

@@ -12,14 +12,6 @@ type: entity
 updated: '2026-05-03'
 ---
 
-title: MELODIC
-created: 2025-01-15
-updated: 2026-05-03
-type: entity
-tags: [[software-fsl]], ica, [[neuroimaging]]-[[fmri]], resting-state, functional-[[connectivity]], [[source-separation]], software-visualization
-sources: [beckmann2004probabilistic, smith2004advances, salimi2014automatic, smith2009correlations]
----
-
 # MELODIC
 
 ## Overview
@@ -49,13 +41,3 @@ MELODIC integrates tightly within the FSL ecosystem, interfacing with other FSL 
 ## Key Papers
 
 The foundational MELODIC methodology was described in Beckmann and Smith (2004), "Probabilistic ICA for fMRI" [1] and in Smith et al. (2004), "Advances in functional and structural MR image analysis and implementation as FSL" [2]. These papers established both the theoretical framework and the practical implementation that made ICA analysis accessible to the broader neuroimaging community. Beckmann et al. (2005) extended the approach to group-level ICA, enabling identification of consistent brain networks across populations. Smith et al. (2009) demonstrated the application of MELODIC to resting-state fMRI, mapping the major functional networks of the brain [4]. Salimi-Khorshidi et al. (2014) introduced FSL FIX, the automated classification tool that works in concert with MELODIC outputs [3]. These papers collectively established the technique's value for identifying coherent brain networks in the absence of explicit task stimuli, contributing fundamentally to the modern understanding of [[resting-state]] functional organization of the brain.
-
-## References
-
-[1] Beckmann, C. F., & Smith, S. M. (2004). Probabilistic independent component analysis for functional magnetic resonance imaging. *IEEE Transactions on Medical Imaging*, 23(2), 137-152.
-
-[2] Smith, S. M., Jenkinson, M., Woolrich, M. W., Beckmann, C. F., Behrens, T. E., Johansen-Berg, H., ... & Matthews, P. M. (2004). Advances in functional and structural MR image analysis and implementation as FSL. *Neuroimage*, 23, S208-S219.
-
-[3] Salimi-Khorshidi, G., Douaud, G., Beckmann, C. F., Glasser, M. F., Griffanti, L., & Smith, S. M. (2014). Automatic denoising of functional MRI data: integrating independent component analysis, hierarchical extreme learning machines, and fully automated workflows. *Neuroimage*, 95, 488-498.
-
-[4] Smith, S. M., Fox, P. T., Miller, K. L., Glahn, D. C., Fox, P. M., Mackay, C. E., ... & Beckmann, C. F. (2009). Correspondence of the brain's functional architecture during activation and rest. *Proceedings of the National Academy of Sciences*, 106(31), 13040-13045.

@@ -11,14 +11,6 @@ type: entity
 updated: '2026-04-30'
 ---
 
-title: Brain [[connectivity]] Toolbox
-created: 2024-01-15
-updated: 2026-04-28
-type: entity
-tags: [[software-bct]], connectomics, graph-theory, network-analysis, functional-connectivity, structural-connectivity, neuroimaging-mri, matlab-toolbox
-sources: [rubinov-sporns-2010, bct-github, betzel-2019-multilayer]
----
-
 The **Brain Connectivity Toolbox** (BCT) is a widely used MATLAB toolbox for the analysis of structural and functional brain networks derived from neuroimaging data. Developed primarily by Mikail Rubinov and Olaf Sporns at Indiana University, with later contributions from Richard Betzel and colleagues, BCT provides a comprehensive set of tools for computing graph-theoretic measures on brain connectomes, enabling researchers to characterize the topological organization of neural networks at multiple scales. The toolbox has become a standard resource in the field of [[connectomics]], with applications spanning [[resting-state]] fMRI analysis, [[diffusion-imaging]] based tractography, and [[whole-brain]] modeling validation.
 
 ## Motivation and Clinical Context
@@ -53,9 +45,3 @@ The Brain Connectivity Toolbox was first released in 2009 alongside a seminal re
 - [[network-dynamics]] — how brain network topology relates to neural dynamics
 - [[small-world-networks]] — a key topological property of brain networks
 - [[rich-club]] — densely connected hub regions in the brain
-
-## References
-
-1. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
-2. Woodman et al. (2014). *GraphVar: A user-friendly toolbox for comprehensive graph analyses of functional brain connectivity*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2014.07.015)
-3. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)

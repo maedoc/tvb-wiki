@@ -13,14 +13,6 @@ type: entity
 updated: '2026-05-03'
 ---
 
-title: CoCoMac
-created: 2024-01-15
-updated: 2026-04-29
-type: entity
-tags: [connectomics, structural-[[connectivity]], database, brain-parcellations, tractography, diffusion-imaging, software-tool, neuroimaging]
-sources: [10.1007/s11571-007-9013-1, 10.1007/s11571-007-9023-z, 10.1093/cercor/bhj160]
----
-
 CoCoMac (Collation of Connectivity data on the Macaque brain) is a database and computational framework for organizing and mapping anatomical connectivity data from invasive tracer studies in the macaque monkey. Developed primarily by Rolf Kötter and colleagues at the Radboud University Nijmegen, CoCoMac emerged in the early 2000s as one of the first systematic efforts to aggregate published results from histological tracer injection experiments into a unified anatomical framework. The project addresses a fundamental challenge in [[connectomics]]: synthesizing disparate anatomical studies conducted across different brains, parcellation schemes, and methodological approaches into a coherent, searchable database of [[structural connectivity]] estimates suitable for [[whole-brain modeling]] applications.
 
 ## Motivation and Context
@@ -52,7 +44,3 @@ CoCoMac predates several later connectome resources, including the [[human-conne
 ## Key Papers
 
 The foundational CoCoMac publication described the database architecture and demonstrated its application to cortical network analysis (Kötter & Stephan, 2007). Subsequent work mapped the database to novel parcellation schemes and explored the relationship between [[structural-connectivity]] and [[functional-connectivity]] measured with [[fmri]] (Kötter et al., 2007; Honey et al., 2007). These studies established the empirical foundation for computational models demonstrating that structural connectivity patterns constrain functional dynamics in large‑scale brain networks.
-
-## References
-
-1. (authors unknown). *Networks of the Brain*.

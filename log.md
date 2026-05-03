@@ -217,3 +217,5 @@
 - Included relations to TVB, HCP, UK Biobank, and neuroimaging preprocessing tools
 - Added 18+ wikilinks to related pages
 - Added to entities index under Software Platforms section
+
+## [2026-05-03 22:01] Improve: 6 pages improved (fiji, lems, cifti-tools, synthseg, fovd, neuroconv)

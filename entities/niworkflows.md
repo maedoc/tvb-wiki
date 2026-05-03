@@ -1,4 +1,5 @@
 ---
+
 title: NiWorkflows
 created: 2024-01-15
 updated: 2026-05-03
@@ -10,31 +11,32 @@ sources:
     url: https://niworkflows.readthedocs.io/
     accessdate: "2026-05-03"
   - id: fmriprep2021
-    title: fMRIPrep: a robust preprocessing pipeline for functional MRI
+    title: "fMRIPrep: a robust preprocessing pipeline for functional MRI"
     journal: Nature Methods
     volume: 15
     pages: 733–737
     year: 2018
-    doi: 10.1038/s41592-018-0072-9
+    doi: "10.1038/s41592-018-0072-9"
   - id: nipype2017
-    title: Nipype: a flexible, robust and extensible neuroimaging computational framework
+    title: "Nipype: a flexible, robust and extensible neuroimaging computational framework"
     journal: Neuroinformatics
     volume: 15
     pages: 305–320
     year: 2017
-    doi: 10.1007/s12021-017-9342-0
+    doi: "10.1007/s12021-017-9342-0"
   - id: bids2016
-    title: BIDS apps: improving ease of use, accessibility, and reproducibility in neuroimaging data analysis
+    title: "BIDS apps: improving ease of use, accessibility, and reproducibility in neuroimaging data analysis"
     journal: Frontiers in Neuroinformatics
     volume: 10
     year: 2016
-    doi: 10.3389/fninf.2016.00027
+    doi: "10.3389/fninf.2016.00027"
   - id: TVB2016
-    title: The Virtual Brain: a platform for simulating whole-brain dynamics
+    title: "The Virtual Brain: a platform for simulating whole-brain dynamics"
     journal: Frontiers in Neuroinformatics
     volume: 8
     year: 2014
-    doi: 10.3389/fninf.2014.00002
+    doi: "10.3389/fninf.2014.00002"
+
 ---
 
 # NiWorkflows

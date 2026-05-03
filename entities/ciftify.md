@@ -9,14 +9,6 @@ type: entity
 updated: '2026-05-03'
 ---
 
-title: ciftify
-created: 2024-01-15
-updated: 2026-05-01
-type: entity
-tags: [software-[[neuroimaging]], neuroimaging-[[fmri]], [[cifti]], [[connectome]]-workbench, human-connectome-project, hcp-pipelines, visualization, python, grayordinates]
-sources: [https://github.com/edickie/ciftify, https://humanconnectome.org/, https://www.nature.com/articles/nmeth.4409, https://www.nature.com/articles/ncomms5309, https://pubmed.ncbi.nlm.nih.gov/31686035/]
----
-
 # ciftify
 
 ## Overview
@@ -60,15 +52,3 @@ The ciftify package, while primarily a software tool, has been referenced in num
 ## Related Software
 
 ciftify exists within a broader ecosystem of tools for CIFTI manipulation and [[human-connectome-project]] data processing. [[connectome-workbench]] provides the underlying visualization and file manipulation engine that ciftify wraps. [[human-connectome-project]] data processing pipelines (hcp-pipelines) provide complementary volumetric preprocessing that can be combined with ciftify's surface-based workflows. [[nilearn]] provides Python-native neuroimaging processing capabilities including connectivity estimation and statistical modeling that complement ciftify's visualization focus. [[freesurfer]] generates the cortical surface reconstructions that ciftify uses for gift projection. The package is part of the broader HCP ecosystem that includes [[hcp-dataset]], [[hcp-pipelines]], and associated analysis tools. For gift-format analysis specifically, ciftify shares functionality with [[brainiak]] which provides similar surface-based analysis capabilities though with a different algorithmic focus on matrix factorization approaches. Users of ciftify may also employ [[afq]] for tractography-based structural connectivity analysis or [[dipy]] for diffusion processing as complementary analysis streams.
-
-## References
-
-1. Dickie, E.W., et al. (2019). ciftify: A Python package to wrap Connectome Workbench commands for HDF5-CIFTI file manipulation. GitHub. https://github.com/edickie/ciftify
-
-2. Glasser, M.F., et al. (2013). The Human Connectome Project: A data acquisition perspective. *NeuroImage*, 62, 1872-1883. https://www.nature.com/articles/ncomms5309
-
-3. Glasser, M.F., et al. (2016). Multi-modal parcellation of human cerebral cortex. *Nature*, 536, 171-178. https://www.nature.com/articles/nmeth.4409
-
-4. Barch, D.M., et al. (2013). Function in the human connectome: Resting-state fMRI and its methodological variability. *NeuroImage*, 62, 1892-1901.
-
-5. Gordon, E.M., et al. (2016). Connectome and pace: A critique of "whole brain" v. "developmentally driven" clustering approaches to parcellating the cortex. *NeuroImage*, 132, 48-57. https://pubmed.ncbi.nlm.nih.gov/31686035/

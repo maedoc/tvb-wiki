@@ -11,14 +11,6 @@ type: entity
 updated: '2026-04-30'
 ---
 
-title: Neurodata Without Borders
-created: 2024-01-15
-updated: 2026-04-29
-type: entity
-tags: [software-brain-modeling, database-hcp, [[open-source-brain]], [[bids]], [[reproducibility]], neuroimaging]
-sources: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
----
-
 ## Overview
 
 **Neurodata Without Borders (NWB)** is a data standard and file format specification designed to standardize the storage and sharing of neurophysiology data across laboratories, institutions, and analysis tools. Developed through a community-driven process led by the [INCF](https://www.incf.org/) [1] and supported by major neuroscience initiatives including the [Human [[connectome]] Project]([[human-connectome-project]]) [2], NWB provides a unified framework for representing [[electrophysiology]] data, imaging data, and behavioral measurements in a way that enables interoperability between different software ecosystems. The format addresses a fundamental challenge in modern neuroscience: the explosion of data from large-scale recordings made possible by technologies like multi-electrode arrays, [[neuromorpho-toolkit]] probes, and high-density [[EEG]] systems, which has outpaced the field's ability to share and integrate data across studies [3].
@@ -74,9 +66,3 @@ The standard is maintained by the [INCF](https://www.incf.org/) [1] and has beco
 5. **Human Connectome Project: A pipeline for processing and sharing highly quantitative neuroimaging and behavioral data at scale** — Describes the HCP data sharing infrastructure that influenced NWB development and continues to serve as a model for large-scale neuroscience data initiatives.
 
 6. **SpikeInterface: A unified framework for spike sorting** — Describes the electrophysiology analysis framework that integrates with NWB for standardized data export.
-
-## References
-
-1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
-2. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain [[connectivity]]. [DOI](https://doi.org/10.1089/brain.2012.0120)
-3. (authors unknown). *The WU-Minn Human Connectome Project: An Overview*.

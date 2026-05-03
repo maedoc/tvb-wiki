@@ -9,14 +9,6 @@ type: entity
 updated: '2026-05-03'
 ---
 
-title: eLORETA
-created: 2025-01-15
-updated: 2026-05-03
-type: concept
-tags: [[[neuroimaging]]-eeg, neuroimaging-meg, [[source-localization]], [[computational-neuroscience]], inverse-problem, neural-mass-models, resting-state]
-sources: [Pascual-Marqui 1994, Pascual-Marqui 2002, Pascual-Marqui 2011, Halder et al. 2007, Hata et al. 2016, Becker et al. 2017]
----
-
 # eLORETA
 
 ## Overview
@@ -58,12 +50,3 @@ While eLORETA is primarily a data analysis method rather than a biophysical simu
 ## Related Software
 
 eLORETA implementations are available in multiple neuroimaging environments. The original implementation is distributed through the [LORETA](https://www.uzh.ch/keyinst/loreta) website. Within the wider EEG/MEG ecosystem, source localization using eLORETA-type approaches can be performed through [[eeglab]] (via the SIFT plugin or built-in functions), [[fieldtrip]], [[brainstorm]], and [[mne-python]]. These toolboxes typically offer multiple inverse solvers, allowing researchers to compare eLORETA against alternatives like [[dcm]] (Dynamic Causal Modeling) or beamformer methods. For researchers interested in connecting source estimates to [[whole-brain-modeling]], the [[tvb]] platform provides integration pathways for importing empirical connectivity data that can complement source localization analyses.
-
-## References
-
-- Becker, R., et al. (2017). Resting state EEG source imaging in epilepsy. *Epilepsy Research*, 128, 1–10.
-- Halder, E. M., et al. (2007). EEG resting-state functional connectivity in early-onset Alzheimer's disease. *Neuropsychiatric Disease and Treatment*, 3(6), 773–787.
-- Hata, M., et al. (2016). Ictal and interictal epileptiform discharges in LORETA: Validation with intracranial EEG. *Clinical Neurophysiology*, 127(1), 200–209.
-- Pascual-Marqui, R. D. (1994). Low resolution brain electromagnetic tomography (LORETA). *Methods of Information in Medicine*, 33(1), 77–81.
-- Pascual-Marqui, R. D. (2002). Standardized low-resolution brain electromagnetic tomography (sLORETA): A new method for localizing electrical activity in the brain. *Methods of Information in Medicine*, 41(1), 71–79.
-- Pascual-Marqui, R. D., et al. (2011). eLORETA: A new method for electromagnetic source localization. *Journal of Neural Engineering*, 8(2), 025006.

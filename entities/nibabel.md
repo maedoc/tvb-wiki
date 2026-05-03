@@ -12,14 +12,6 @@ type: entity
 updated: '2026-04-30'
 ---
 
-title: NiBabel
-created: 2025-01-15
-updated: 2026-04-29
-type: entity
-tags: [software-[[neuroimaging]], neuroimaging, software-python, neuroimaging-nifti, software-visualization]
-sources: [{"title": "NiBabel: access to a variety of neuroimaging file formats", "authors": "Brett M, Hanke M, et al.", "year": 2014, "journal": "Frontiers in Neuroinformatics", "doi": "10.3389/fninf.2014.00003"}]
----
-
 ## Overview
 
 NiBabel is an open-source Python library that provides read and write access to a wide range of neuroimaging data formats, serving as the foundational I/O layer for the Python neuroimaging ecosystem (Brett et al., 2014). Originally developed to handle the NIfTI (Neuroimaging Informatics Technology Initiative) format, NiBabel has expanded to support numerous file formats including Analyze, MINC, ECAT, DICOM (limited), and various GIFTI/[[cifti]] variants used in [[mrtrix3-connectome]] [[connectome-workbench]] workflows. The library abstracts away the complexities of different file formats behind a unified interface, allowing researchers to work with neuroimaging data programmatically without worrying about the underlying storage details.
@@ -51,10 +43,3 @@ NiBabel was first described in an influential software note published in Frontie
 ## Related Software
 
 NiBabel serves as a dependency for numerous downstream packages in the Python neuroimaging ecosystem. [[nilearn]] uses NiBabel as its primary I/O layer for loading [[nifti]] images and creating mask objects. [[nipype]] relies on NiBabel for handling data between processing nodes in workflow engines. [[mne-python]] leverages NiBabel for certain file format conversions in [[eeg]] and [[meg]] analysis pipelines. For surface-based visualization, NiBabel interfaces with [[freesurfer]] through [[freeview]] and the [[connectome-workbench]] suite, while [[fsl]] provides command-line tools that complement NiBabel's Python functionality. Additional related tools include [[ants]] for advanced image registration, [[dipy]] for diffusion MRI processing, and pitk for general-purpose neuroimaging toolkit operations.
-
-## References
-
-1. Emmanuelle Renauld, Arnaud Boré, Charles Poirier, Alex Valcourt-Caron, Philippe Karan, Antoine Théberge, Guillaume Théaud, Manon Edde, P. Poulin, Gabriel Girard, Jean-Christophe Houde, A. Gagnon, Etienne St-Onge, Graham Little, Jon Haitz Legarreta, Stanislas Thoumyre, G. Grenier, Zineb El Yamani, Mario Ocampo Pineda, Matteo Battochio, Vincent Beaudoin, Alexandre Joanisse, Laurent Petit, F. Rheault, Maxime Descoteaux. (2026). *Tractography analysis with the scilpy toolbox*. Aperture Neuro. [DOI](https://doi.org/10.52294/001c.154022)
-2. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
-3. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain [[connectivity]]. [DOI](https://doi.org/10.1089/brain.2012.0120)
-4. Gramfort et al. (2013). *MEG and EEG: From Acquisition to Analysis*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fnins.2013.00010)

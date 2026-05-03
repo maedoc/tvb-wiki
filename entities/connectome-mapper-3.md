@@ -16,18 +16,6 @@ type: entity
 updated: '2026-04-30'
 ---
 
-title: Connectome Mapper 3
-created: 2024-01-15
-updated: 2026-04-29
-type: entity
-tags: [software-connectome-mapper, neuroimaging-dti, tractography, structural-connectivity, [[connectomics]], software-visualization, database-hcp, biped]
-sources:
-  - "Daducci et al. (2014). Connectome Mapper: An Open-Source Processing Pipeline to Map Optic Radiations from [[diffusion-mri]] Data. Proc. IEEE ISBI 2014."
-  - "Daducci et al. (2015). The Connectome Mapper: A pipeline to fully process human connectomes. Organization for Human Brain Mapping (OHBM)."
-  - "Tourbier et al. (2021). Connectome Mapper 3: An open-source processing pipeline for multi-shell diffusion MRI including Q-space reconstruction and tractography. NeuroImage."
-  - "Gupta et al. (2023). Multi-scale personalized brain models from processing with Connectome Mapper 3. [[tvb|The Virtual Brain]] paper."
----
-
 Connectome Mapper 3 is an open-source neuroimaging software pipeline designed to process multimodal magnetic resonance imaging (MRI) data—particularly diffusion tensor imaging (DTI) and diffusion spectrum imaging (DSI)—for the purpose of reconstructing structural [[connectivity|connectome]] matrices from human brain white matter tractography. Developed primarily at the École Polytechnique Fédérale de Lausanne (EPFL) under the Connectome Lab, the pipeline provides a standardized, fully automated end-to-end workflow that transforms raw diffusion-weighted MRI scans into ready-to-use connectivity matrices and associated cortical/subcortical parcellations. The software integrates several established neuroimaging tools—including [[freesurfer|FreeSurfer]], [[fsl|FSL]], [[mrtrix3|MRtrix3]], and [[dipy|Dipy]]—into a cohesive framework that handles preprocessing, distortion correction, fiber tracking, parcellation, and network construction with minimal user intervention (Daducci et al., 2014; Tourbier et al., 2021).
 
 ## Motivation and Context
@@ -78,9 +66,3 @@ Connectome Mapper 3 operates within a broader ecosystem of connectomics tools. I
 - [[mrtrix3]] — The tractography package powering the fiber tracking engine
 - [[freesurfer]] — The cortical parcellation tool integrated into the pipeline
 - [[dipy]] — An alternative diffusion MRI package with overlapping functionality
-
-## References
-
-1. Emmanuelle Renauld, Arnaud Boré, Charles Poirier, Alex Valcourt-Caron, Philippe Karan, Antoine Théberge, Guillaume Théaud, Manon Edde, P. Poulin, Gabriel Girard, Jean-Christophe Houde, A. Gagnon, Etienne St-Onge, Graham Little, Jon Haitz Legarreta, Stanislas Thoumyre, G. Grenier, Zineb El Yamani, Mario Ocampo Pineda, Matteo Battochio, Vincent Beaudoin, Alexandre Joanisse, Laurent Petit, F. Rheault, Maxime Descoteaux. (2026). *Tractography analysis with the scilpy toolbox*. Aperture Neuro. [DOI](https://doi.org/10.52294/001c.154022)
-2. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
-3. C. Goh, Hao Liu. (2025). *Mapping the Disordered Mind: A Computational Framework for Integrating Neuroimaging and Symptom Data*. Digital Neuropsychiatry. [DOI](https://doi.org/10.64229/zxdytz96)

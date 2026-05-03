@@ -1,9 +1,10 @@
 ---
+
 created: 2026-04-29
 sources:
 - id: gleeson2019
   type: article
-  title: BrainGlobe: a computational neuroanatomy ecosystem
+  title: "BrainGlobe: a computational neuroanatomy ecosystem"
   authors:
   - Gleeson, P.
   - Cantarelli, M.
@@ -33,6 +34,7 @@ tags:
 title: BrainGlobe
 type: entity
 updated: 2026-05-03
+
 ---
 
 BrainGlobe is an open-source computational neuroanatomy suite that provides tools for atlas creation, image registration, cell detection, and three-dimensional visualization of brain structure. Developed as a collaborative effort among neuroscience laboratories, BrainGlobe addresses the need for standardized, reproducible workflows in neuroanatomical analysis. The suite integrates various software components that work together within a unified Python framework, enabling researchers to go from raw imaging data to quantitative anatomical insights without requiring extensive custom coding. BrainGlobe's architecture emphasizes modularity, allowing individual components such as the registration pipeline or visualization engine to be used independently while maintaining compatibility with the broader ecosystem.
