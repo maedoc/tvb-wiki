@@ -33,6 +33,7 @@ A collection of people, software platforms, datasets, and research groups releva
 - [SpiNNaker](spinnaker.md) - Neuromorphic many-core platform for real-time spiking neural network simulation
 - [Nighres](nighres.md) - High-resolution neuroimaging processing for laminar analysis
 - [NeuroM](neurom.md) - Python library for neuronal morphology analysis and visualization
+- [neuromaps](neuromaps.md) - Toolbox for multimodal brain map transformation and spatial comparison
 - [Neurodesk](neurodesk.md) — Containerized neuroimaging analysis environment with 100+ tools
 - [PopEye](popeye.md) — Python toolbox for estimating population receptive fields from fMRI data
 - [PALM](palm.md) — Parametric Analysis of Linear Models for neuroimaging statistical inference
