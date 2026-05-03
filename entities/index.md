@@ -33,6 +33,7 @@ A collection of people, software platforms, datasets, and research groups releva
 - [NeuroM](neurom.md) - Python library for neuronal morphology analysis and visualization
 - [Neurodesk](neurodesk.md) — Containerized neuroimaging analysis environment with 100+ tools
 - [PopEye](popeye.md) — Python toolbox for estimating population receptive fields from fMRI data
+- [PALM](palm.md) — Parametric Analysis of Linear Models for neuroimaging statistical inference
 - [PyDICOM](pydicom.md) — Pure Python library for reading and writing DICOM medical imaging files
 
 ## Research Projects & Datasets

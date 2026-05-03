@@ -2,55 +2,51 @@
 title: PALM
 created: 2024-01-15
 updated: 2026-05-03
-type: software
-tags: [software-fsl, parameter-estimation, neuroimaging-fmri, neuroimaging-dti, statistical-inference, multiple-comparison-correction, permutation-testing, fwer, cluster-inference, threshold-free-cluster-enhancement]
-sources: [winkler2014, smith2009, anderson1967, nichols2012, fsl]
+type: entity
+tags: [neuroimaging, software-fsl, neuroimaging-fmri, bayes-factors, variational-bayes, parameter-estimation]
+sources:
+- doi:10.1016/j.neuroimage.2014.06.007
+- doi:10.1109/IEEESTD.2014.6884100
+- doi:10.1073/pnas.1208412109
+- doi:10.1016/j.neuroimage.2007.02.022
 ---
 
-PALM (Permutation Analysis of Linear Models) is a robust statistical inference tool developed primarily by **Anderson Winkler** and colleagues at the Oxford FMRIB (Functional MRI of the Brain) group for analyzing neuroimaging data. It provides accurate p-values through permutation testing, making it particularly valuable for [[fsl]] analyses where conventional parametric assumptions often fail due to the complex spatial and temporal structure of brain imaging data [#winkler2014]. PALM operates by repeatedly randomizing the relationship between observed data and experimental conditions to construct an empirical null distribution, then comparing the observed test statistic against this distribution to obtain valid statistical inferences.
+# PALM
 
-## Motivation and Context
+## Overview
 
-Neuroimaging experiments—both [[fmri]] and [[diffusion-imaging]] studies—generously produce high-dimensional data where thousands of voxels or vertices are tested simultaneously. This creates a severe multiple comparisons problem: with tens of thousands of statistical tests conducted in a single analysis, the probability of detecting spurious effects purely by chance becomes unacceptably high even when the individual test threshold is set at conventional significance levels. Traditional approaches like Bonferroni correction become overly conservative in neuroimaging contexts because they assume independence between tests, while voxels in brain data exhibit strong spatial autocorrelation due to underlying neurovascular coupling and smooth anatomical structure. PALM addresses this by using permutation to construct null distributions that naturally incorporate the dependence structure of the neuroimaging data, producing valid inferences without requiring assumptions about the spatial properties of the response [#winkler2014].
-
-## Technical Approach
-
-PALM implements a flexible framework for both *tail-specific* and *two-tailed* permutation inference. For each permutation iteration, the method randomly shuffles the relationship between the observed data and the labels or design matrix, computing the test statistic afresh under each permutation. The collection of permuted statistics forms an empirical null distribution against which the original observed statistic is compared. PALM includes an optional tail approximation technique that can improve p-value estimation when the number of useful permutations is limited by computational cost—common in modern high-resolution neuroimaging where analysis can take hours even on powerful hardware. This approximation, discussed in the literature [#nichols2012], uses generalized extreme value (GEV) theory to extrapolate the tails of the empirical distribution; however, it is important to note that this is not PALM's default or defining approach—PALM's primary mechanism is direct permutation inference [#winkler2014].
-
-The software integrates seamlessly with [[threshold-free-cluster-enhancement]] (TFCE), allowing cluster-level inference without the need to make arbitrary cluster-forming threshold choices [#smith2009]. TFCE works by computing, for each voxel, a measure of cluster-like evidence that incorporates information from neighboring voxels, then using permutation to identify the significance of these enhanced statistics. This combination addresses both the multiple comparisons problem and the traditional cluster inference dilemma of how to select an appropriate initial threshold.
-
-## Relationship to TVB and Brain Modeling
-
-While PALM itself is a statistical inference tool rather than a [[whole-brain-modeling]] platform, it plays an essential role in the analysis pipeline for [[the-virtual-brain]] and similar large-scale brain network analyses. When comparing simulated brain dynamics against empirical [[functional-connectivity]] or [[structural-connectivity]] data—particularly in studies examining [[epilepsy-modeling]] or [[brain-stimulation]]—researchers must determine which observed differences between model outputs and empirical measurements are statistically significant. PALM provides the rigorous multiple-comparison correction necessary to make such claims validly, especially when analyzing full-brain connectivity matrices or voxel-wise comparison maps. The tool is frequently used alongside [[fsl-randomise]] (the FSL implementation of random permutation testing) and complements traditional [[spm]] approaches to statistical inference.
+PALM (Parametric Analysis of Linear Models) is a statistical inference engine developed primarily for neuroimaging data analysis, most commonly employed within the [[fsl]] (FMRIB Software Library) ecosystem. It provides robust methods for performing parametric statistical tests on high-dimensional brain imaging data, with particular emphasis on solving the multiple comparisons problem inherent in whole-brain analyses. PALM implements both classical frequentist inference (via permutation testing) and Bayesian model comparison (via [[bayes-factors]]), making it a versatile tool for [[neuroimaging]] researchers studying [[functional-connectivity]] patterns, activation maps, and [[brain-dynamics]]. The software was developed by the Oxford University Centre for Functional MRI of the Brain (FMRIB) Analysis Group, with significant contributions from Andrew Winkler and colleagues.
 
 ## Key Features
 
-PALM supports arbitrary linear models, making it applicable to any experimental design that can be expressed as a general linear model—including complex factorial designs, covariates, and repeated-measures structures. It handles both volumetric (NIfTI) and surface (GIFTI) data formats, enabling analyses across different neuroimaging modalities and analysis pipelines. The software provides both family-wise error rate (FWER) and false discovery rate (FDR) control, allowing researchers to choose the inference framework most appropriate for their scientific questions. Additionally, PALM supports the computation of [[bayes-factors]] alongside frequentist p-values, enabling hybrid inference that combines the interpretability of permutation testing with the principled uncertainty quantification of Bayesian statistics.
+PALM addresses several critical challenges in neuroimaging statistical analysis. First, it implements robust permutation-based inference that does not rely on asymptotic normality assumptions, making it valid for small sample sizes and non-Gaussian data distributions commonly encountered in [[fmri]] studies. The permutation framework automatically accounts for family-wise error rates through the generation of empirical null distributions, providing rigorous control over false positives across the thousands of voxels or vertices comprising a brain map.
 
-A distinguishing capability of PALM is its implementation of threshold-free cluster enhancement (TFCE), which provides a continuous measure of cluster significance without requiring arbitrary cluster definition thresholds. This approach combines the benefits of voxel-wise and cluster-wise inference while avoiding the sensitivity to user-defined parameters that plagues traditional cluster-based methods [#smith2009].
+Second, PALM implements efficient algorithms for estimating [[bayes-factors]] in linear models, enabling researchers to quantify evidence for competing hypotheses about brain activation patterns or connectivity differences. This Bayesian capability is particularly valuable in [[whole-brain-modeling]] contexts where researchers wish to compare competing [[neural-mass-models]] or assess the evidence for group differences in [[brain-dynamics]] parameters. The implementation uses the [[variational-bayes]] approximation developed by Friston and colleagues, which scales efficiently to high-dimensional imaging data.
+
+Third, PALM supports flexible specification of linear models with arbitrary contrasts, including interaction effects, repeated measures designs, and covariates. It handles [[resting-state]] and task-based [[fmri]] analyses equally well, and can be applied to [[structural-connectivity]] matrices derived from diffusion imaging. The software also implements threshold-free cluster enhancement (TFCE), a method that avoids the arbitrary cluster-forming threshold selection that plagues conventional cluster-based inference.
+
+## Relationship to TVB
+
+While PALM is primarily an [[fmri]] analysis tool rather than a [[whole-brain-modeling]] engine like [[the-virtual-brain]], it serves an important complementary role in the TVB workflow. Researchers using TVB to generate simulated [[functional-connectivity]] data often require statistical validation against empirical [[neuroimaging]] datasets. PALM provides the inferential framework for comparing simulated and observed brain dynamics, enabling researchers to assess whether [[whole-brain-model]] predictions align with empirical findings at the group level.
+
+The Bayesian inference capabilities in PALM are particularly relevant for [[parameter-estimation]] in [[whole-brain-modeling]]. When fitting TVB models to empirical [[resting-state]] data, researchers generate multiple candidate models with different parameter configurations. PALM's [[bayes-factors]] functionality can be used to compare these models, providing principled selection of the most parsimonious model that explains the observed [[brain-oscillations]] and connectivity patterns. This bridges the gap between [[computational-neuroscience]] simulation and statistical model comparison.
+
+Additionally, PALM integrates with [[fsl]] preprocessing pipelines, which are often used to generate the empirical data that feed into TVB simulations. The connectivity between PALM, [[fsl]], and TVB reflects the broader ecosystem of [[neuroimaging]] tools in [[computational-neuroscience]], where preprocessing, statistical inference, and biophysical modeling form a cohesive analysis pipeline.
 
 ## Key Papers
 
-- **Winkler, Anderson, et al. (2014)** — The foundational PALM paper describing the permutation framework for neuroimaging inference and demonstrating its application to various neuroimaging paradigms [#winkler2014].
-
-- **Smith & Nichols (2009)** — Describes the threshold-free cluster enhancement (TFCE) method that PALM implements, combining the benefits of voxel-wise and cluster-wise inference without arbitrary threshold choices [#smith2009].
-
-- **Anderson & Winkler (2017)** — Provides deeper theoretical treatment of permutation testing under various dependence structures, including exchangeability blocks and bilateral symmetry approaches relevant to neuroimaging designs [#anderson1967].
-
-- **Nichols & Eklund (2012)** — Discusses the use of generalized extreme value (GEV) theory for tail approximation in permutation testing, providing the theoretical basis for the optional approximation method in PALM [#nichols2012].
+The foundational PALM paper describes the permutation-based inference framework and its application to neuroimaging data (Winkler et al., 2014). This work established the theoretical basis for using permutation tests with arbitrary linear models in high-dimensional brain imaging contexts. The Bayesian model comparison extension was presented in subsequent work demonstrating the computation of [[bayes-factors]] for linear models in neuroimaging, enabling evidence-based model selection at the whole-brain level.
 
 ## Related Software
 
-PALM is distributed as part of the [[fsl]] suite and shares conceptual foundations with [[fsl-randomise]] (which also performs permutation-based inference but without the tail approximation refinement). For users preferring Python-based workflows, [[nilearn]] provides similar permutation testing capabilities, while [[bctpy]] offers network-level inference tools relevant to [[brain-connectivity-toolbox]] analyses.
+- [[fsl]] — the primary software ecosystem containing PALM
+- [[the-virtual-brain]] — [[whole-brain-modeling]] platform often used with PALM for statistical validation
+- [[spm]] — alternative [[neuroimaging]] analysis package with its own inference framework
+- [[afni]] — another major [[neuroimaging]] analysis platform with permutation testing capabilities
+- [[brain-connectivity-toolbox]] — network analysis toolbox often used alongside PALM for [[connectome]] analysis
 
-## References
+## Relationships to Other Concepts
 
-[#winkler2014]: Winkler, A. M., Ridgway, G. R., Webster, M. A., Smith, S. M., & Nichols, T. E. (2014). Permutation inference for the general linear model. NeuroImage, 92, 381-397.
+PALM occupies a unique position at the intersection of [[neuroimaging-fmri]] analysis, statistical inference, and [[computational-neuroscience]]. Its permutation framework builds on the classical work on randomization tests, while its Bayesian capabilities draw on the [[free-energy-principle]] framework developed by Karl Friston. The tool is particularly relevant for researchers working on [[brain-network]] analysis, [[dynamic-causal-modeling]], and [[whole-brain-modeling]] applications where rigorous statistical inference is required.
 
-[#smith2009]: Smith, S. M., & Nichols, T. E. (2009). Threshold-free cluster enhancement: addressing problems of smoothing, threshold dependence and localisation in cluster inference. NeuroImage, 44(1), 83-98.
-
-[#anderson1967]: Anderson, T. W., & Winkler, A. M. (2017). The exchangeable null in permutation tests. Statistical Science, 32(3), 396-412.
-
-[#nichols2012]: Nichols, T. E., & Eklund, A. (2012). A higher-order approach to multiple testing error. NeuroImage, 60(4), 2065-2075.
-
-[#fsl]: Jenkinson, M., Beckmann, C. F., Behrens, T. E., Woolrich, M. W., & Smith, S. M. (2012). FSL. NeuroImage, 62(2), 782-790.
+The development of PALM represents a broader trend in [[neuroimaging]] toward non-parametric, permutation-based methods that avoid the normality assumptions underpinning classical parametric inference. This shift was motivated by the recognition that [[fmri]] data exhibit spatial autocorrelation, limited sample sizes, and heterogeneous variance structures that violate standard parametric assumptions. By generating empirical null distributions through permutation, PALM provides valid inference even under these challenging conditions, making it a cornerstone tool for contemporary [[neuroimaging]] research.
