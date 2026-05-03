@@ -38,22 +38,22 @@ REVIEWER_MODEL = "ollama/glm-5.1:cloud"
 REPAIRER_MODEL = "ollama/gpt-oss:120b-cloud"
 
 # ── Parallelism ────────────────────────────────────────────────────────
-PARALLEL_WRITERS = 3
-PARALLEL_REVIEWERS = 5
+PARALLEL_WRITERS = 10
+PARALLEL_REVIEWERS = 8
 PARALLEL_INGESTORS = 5
 
 # ── Agent schedule (seconds) ──────────────────────────────────────────
-INGESTOR_INTERVAL = 86400       # daily + startup (TVB is niche, ~5-10 papers/week)
-IMPROVER_INTERVAL = 3600       # hourly
-AUDITOR_INTERVAL = 86400       # daily
+INGESTOR_INTERVAL = 86400       # daily + startup
+IMPROVER_INTERVAL = 600        # 10 min (SPRINT MODE)
+AUDITOR_INTERVAL = 18000         # 5h
 LIBRARIAN_INTERVAL = 86400     # daily
 SOFTWARE_MAPPER_INTERVAL = 604800  # weekly
-ORPHAN_LINKER_INTERVAL = 604800   # weekly (bi-weekly in practice via offset)
-DEEP_RESEARCH_INTERVAL = 259200   # 2x/week + on-demand (only when Matcher reports gaps)
-MATCHER_INTERVAL    = 21600    # 6 hours (was 1h; Matcher needs 1-2h to complete)
-REPAIRER_INTERVAL = 86400         # daily (runs after Auditor)
-REF_FORMATTER_INTERVAL = 86400     # daily (runs after Matcher)
-CROSSLINK_APPLIER_INTERVAL = 86400  # daily (replaces weekly Crosslink)
+ORPHAN_LINKER_INTERVAL = 604800   # weekly
+DEEP_RESEARCH_INTERVAL = 7200     # 2h (SPRINT MODE)
+MATCHER_INTERVAL    = 10800     # 3h (SPRINT MODE)
+REPAIRER_INTERVAL = 86400         # daily
+REF_FORMATTER_INTERVAL = 14400    # 4h (SPRINT MODE)
+CROSSLINK_APPLIER_INTERVAL = 10800 # 3h (SPRINT MODE)
 
 # ── Git push schedule ─────────────────────────────────────────────────────
 # Push to the remote at most once per hour (default). Adjust PUSH_INTERVAL if needed.
