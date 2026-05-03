@@ -20,7 +20,7 @@ tags:
 - open-source
 title: Kilosort
 type: entity
-updated: '2026-05-02'
+updated: '2026-05-03'
 ---
 
 Kilosort is a widely-used open-source spike sorting algorithm designed to automatically detect and cluster neural spikes from high-density extracellular electrophysiology recordings. Originally developed by Marius Pachitariu at the Janelia Research Campus of Howard Hughes Medical Institute, Kilosort has become one of the standard tools in the electrophysiology community for processing data from [[spikeglx]] and [[open-ephys]] recording systems, as well as data converted through [[neo]] and [[spikeinterface]] frameworks (Pachitariu et al., 2016).
@@ -52,3 +52,9 @@ The original Kilosort paper, "Kilosort: realtime spike-sorting for extracellular
 ## Related Software
 
 Kilosort is often used alongside [[spikeinterface]], a Python library that provides a unified interface for loading, preprocessing, and analyzing spike-sorted data. For visualization and manual curation, [[phy]] offers a graphical interface compatible with Kilosort outputs (Rossant et al., 2016). Alternative spike sorting tools include [[klusta]], [[MountainSort]], and [[JRClust]], each with different strengths for specific recording configurations. The broader electrophysiology ecosystem includes [[eeglab]] for [[eeg]] analysis, [[mne-python]] for [[meg]] and [[eeg]] processing, and [[elephant]] for spike train analysis within the [[neo]] data standard.
+
+## References
+
+1. Martin Breyton, Viktor Sip, M. Woodman, Meysam Hashemi, S. Petkoski, V. Jirsa. (2025). *Data-driven mean-field within whole-brain models*. [Link](https://www.semanticscholar.org/paper/144ae1f1dabec42c14493d0083d36f168508f886)
+2. Peter Yongho Kim, Juhyeon Park, Jungwoo Park, Jubin Choi, Jungwoo Seo, Jiook Cha, Taesup Moon. (2026). *Can Natural Image Autoencoders Compactly Tokenize fMRI Volumes for Long-Range Dynamics Modeling?*. [Link](https://arxiv.org/abs/2604.03619)
+3. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI), a flexible and integrative toolkit for efficient probabilistic inference on whole-brain models*. eLife. [DOI](https://doi.org/10.7554/eLife.106194)

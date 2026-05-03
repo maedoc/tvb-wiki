@@ -66,3 +66,9 @@ The following publications represent foundational references for MRIcron and its
 [@mricronmanual]: Rorden, C. (2024). MRIcron User Manual. https://www.nitrc.org/projects/mricron/
 
 [@nitrc]: NITRC. (2024). MRIcron. https://www.nitrc.org/projects/mricron
+
+## References
+
+1. (authors unknown). *Permutation inference for the general linear model*.
+2. M. Cottaar, Zhiyu Zheng, Karla L. Miller, Benjamin C. Tendler, Saad Jbabdi. (2025). *Multi-modal Monte Carlo MRI simulator of tissue microstructure*. bioRxiv. [DOI](https://doi.org/10.1162/IMAG.a.1177)
+3. Qianyu Chen, Shujian Yu. (2026). *Continual Learning for fMRI-Based Brain Disorder Diagnosis via Functional Connectivity Matrices Generative Replay*. [Link](https://arxiv.org/abs/2604.14259)
