@@ -29,6 +29,7 @@ A collection of people, software platforms, datasets, and research groups releva
 - [OpenMEEG](openmeeg.md) - Boundary Element Method forward solver for EEG/MEG
 - [OpenCortex](opencortex.md) - Framework for building cortical network models in NeuroML format
 - [DTI-TK](dti-tk.md) - Diffusion Tensor Imaging Toolkit for tensor-based tractography
+- [Camino](camino.md) - Open-source toolkit for diffusion MRI reconstruction, tractography, and Monte Carlo simulation
 - [BMTK](bmtk.md) - Brain Modeling Toolkit for large-scale neural network construction
 - [BIDSkit](bidskit.md) - Command-line toolkit for BIDS data manipulation and conversion
 - [ABCBIDS](abcbids.md) - ABCD Study data in BIDS format plus community-curated derivatives collection (ABCC) for developmental neuroimaging research
