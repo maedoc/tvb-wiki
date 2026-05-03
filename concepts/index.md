@@ -81,6 +81,7 @@ A collection of foundational concepts in computational neuroscience and whole-br
 - [Structural Core](structural-core.md) – Dense connectivity backbone
 - [Personalized Brain Modeling](personalized-brain-modeling.md) – Subject-specific simulations
 - [Whole-brain](whole-brain.md) – Macroscale network simulation
+- [MEG/EEG Toolbox](meg-eeg-toolbox.md) – Software environments for MEG/EEG analysis
 
 ---
 
