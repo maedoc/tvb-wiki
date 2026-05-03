@@ -24,6 +24,7 @@ A collection of people, software platforms, datasets, and research groups releva
 - [PsyNeuLink](psyneulink.md) - Graph-based cognitive neuroscience modeling framework
 - [jNeuroML](jneuroml.md) - Java implementation of NeuroML for neuronal model validation and export
 - [OpenMEEG](openmeeg.md) - Boundary Element Method forward solver for EEG/MEG
+- [OpenCortex](opencortex.md) - Framework for building cortical network models in NeuroML format
 - [DTI-TK](dti-tk.md) - Diffusion Tensor Imaging Toolkit for tensor-based tractography
 - [BMTK](bmtk.md) - Brain Modeling Toolkit for large-scale neural network construction
 - [BIDSkit](bidskit.md) - Command-line toolkit for BIDS data manipulation and conversion
