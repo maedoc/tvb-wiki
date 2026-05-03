@@ -11,8 +11,8 @@ sources:
     year: 2002
     publisher: Kitware
   - id: 2
-    title: Insight into Images: A Practical Guide to Segmentation and Registration
-    authors:Ibáñez, L., et al.
+    title: "Insight into Images: A Practical Guide to Segmentation and Registration"
+    authors: Ibáñez, L., et al.
     year: 2004
     publisher: Wiley
   - id: 3

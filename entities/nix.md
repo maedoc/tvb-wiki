@@ -5,9 +5,9 @@ updated: 2026-05-03
 type: entity
 tags: [software-neuroinformatics, neuroimaging-eeg, neuroimaging-meg, electrophysiology, data-format, software-data]
 sources:
-  - Stoewer, A., Wood, S. N., Zug, J., Baker, C. J., Dubitzky, M., & Obermayer, K. (2014). Nix: A practical and efficient tool for storing results from neuroscience simulations. Frontiers in Neuroinformatics, 8, 15.
-  - Garcia, S., Baldock, R., Heeger, D. J., & Horrocks, P. (2011). Neo: Reading and writing files in multiple formats. Frontiers in Neuroinformatics, 5, 3.
-  - "G-Node Nix Documentation." German Neuroinformatics Node. https://g-node.org/nix/
+  - 'Stoewer, A., Wood, S. N., Zug, J., Baker, C. J., Dubitzky, M., & Obermayer, K. (2014). Nix: A practical and efficient tool for storing results from neuroscience simulations. Frontiers in Neuroinformatics, 8, 15.'
+  - 'Garcia, S., Baldock, R., Heeger, D. J., & Horrocks, P. (2011). Neo: Reading and writing files in multiple formats. Frontiers in Neuroinformatics, 5, 3.'
+  - '"G-Node Nix Documentation." German Neuroinformatics Node. https://g-node.org/nix/'
 ---
 
 # Nix

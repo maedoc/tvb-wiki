@@ -1,12 +1,12 @@
 ---
 created: 2026-04-23
 sources:
-- Liu, Y., D. Zhu, J. Jiang, J. Zhang, Z. Li, Q. Luo, Y. Li, Y. Wang, Y. Chen, and X. Chen. 2013. "PANDA: A Pipeline Tool for Brain Diffusion Image Processing." Frontiers in Human Neuroscience 7: 816.
-- Cui, Z., F. Su, J. Li, W. Yang, Q. Luo, Y. Liu, and X. Chen. 2018. "PANDA-Global: A Fast and Scalable Pipeline for Fiber Orientation Distribution Estimation." Journal of Neuroscience Methods 303: 1–8.
-- Jiang, J., Y. Liu, X. Wang, C. Li, Q. Luo, Y. Li, and X. Chen. 2013. "Constructing Human Brain Structural Networks: A New Approach Based on DTI." Brain Connectivity 3 (2): 193–206.
+- 'Liu, Y., D. Zhu, J. Jiang, J. Zhang, Z. Li, Q. Luo, Y. Li, Y. Wang, Y. Chen, and X. Chen. 2013. "PANDA: A Pipeline Tool for Brain Diffusion Image Processing." Frontiers in Human Neuroscience 7: 816.'
+- 'Cui, Z., F. Su, J. Li, W. Yang, Q. Luo, Y. Liu, and X. Chen. 2018. "PANDA-Global: A Fast and Scalable Pipeline for Fiber Orientation Distribution Estimation." Journal of Neuroscience Methods 303: 1–8.'
+- 'Jiang, J., Y. Liu, X. Wang, C. Li, Q. Luo, Y. Li, and X. Chen. 2013. "Constructing Human Brain Structural Networks: A New Approach Based on DTI." Brain Connectivity 3 (2): 193–206.'
 tags:
-- software-brain-modeling
-- software-dipy
+- 'software-brain-modeling'
+- 'software-dipy'
 title: PANDA
 type: entity
 updated: 2026-05-01
@@ -57,14 +57,14 @@ This integration enables researchers to simulate personalized brain dynamics by 
 
 PANDA is part of a broader ecosystem of neuroimaging tools that collectively support the dMRI analysis workflow. The following software packages are commonly used in conjunction with PANDA or provide alternative functionality:
 
-- [[fsl]] — FMRIB Software Library, providing foundational preprocessing tools including BET and Eddy Correct
-- [[mricron]] — MRIcron, a visualization tool for browsing neuroimaging datasets
-- trackvis — TrackVis, for visualizing streamlines from fiber tracking
-- [[nipype]] — Nipype, a Python framework for neuroimaging workflow management that can interface with PANDA
-- [[the-virtual-brain]] — The Virtual Brain, platform for whole-brain dynamic modeling
-- [[nest]] — NEST, neural simulation tool sometimes combined with TVB for large-scale network simulations
-- [[brian2]] — Brian2, neural simulator useful for detailed local cortical modeling
-- [[resting-state]] — Resting-state fMRI analysis, complementary to structural connectivity from dMRI
+- '[[fsl]] — FMRIB Software Library, providing foundational preprocessing tools including BET and Eddy Correct'
+- '[[mricron]] — MRIcron, a visualization tool for browsing neuroimaging datasets'
+- 'trackvis — TrackVis, for visualizing streamlines from fiber tracking'
+- '[[nipype]] — Nipype, a Python framework for neuroimaging workflow management that can interface with PANDA'
+- '[[the-virtual-brain]] — The Virtual Brain, platform for whole-brain dynamic modeling'
+- '[[nest]] — NEST, neural simulation tool sometimes combined with TVB for large-scale network simulations'
+- '[[brian2]] — Brian2, neural simulator useful for detailed local cortical modeling'
+- '[[resting-state]] — Resting-state fMRI analysis, complementary to structural connectivity from dMRI'
 
 ## Installation and Availability
 
