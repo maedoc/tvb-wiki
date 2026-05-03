@@ -1,0 +1,15 @@
+# A prior-sampling conditional variational autoencoder for neuroimaging normative modelling: Benchmarking deep learning against statistical approaches
+
+**Source**: semantic-scholar
+**ID**: 25c577d0323b24cd5423feaebf185bee5c53cdcc
+**DOI**: 10.1162/IMAG.a.1098
+**URL**: https://www.semanticscholar.org/paper/25c577d0323b24cd5423feaebf185bee5c53cdcc
+**Date**: 2026-01-12
+**Year**: 2026
+**Authors**: Mai P. Ho, Yang Song, Perminder S. Sachdev, Lei Fan, Jiyang Jiang, Wei Wen
+**Venue**: Imaging neuroscience
+**Citations**: 0
+
+## Abstract
+
+Abstract Normative modelling in neuroimaging provides a powerful framework for quantifying individual deviations from expected brain measures as a function of relevant covariates. While earlier methods focused on analysing distinct variables in isolation, an increasing number of deep learning-based approaches are emerging to handle multiple response variables simultaneously. Conditional variational autoencoders (cVAEs) have previously been applied in this context and show promise for multivariate modelling. However, existing inference methods still face challenges in providing reliable probabilistic predictions, limiting their effectiveness as true normative models. In this study, we propose an enhanced cVAE-based framework that generates predictions directly from covariates through prior-sampling inference. This approach aligns with normative modelling principles while leveraging deep learning to handle high-dimensional data. We demonstrate the effectiveness of our approach using 195 imaging-derived phenotypes (IDPs), including morphometric features (cortical thickness, cortical volume, subcortical volume) and white matter hyperintensity (WMH) volumes, as a test case. Our dataset includes 8,551 normotensive and 18,180 hypertensive participants from the UK Biobank. We benchmarked our model against three well-established normative modelling techniques, including Generalised Additive Models for Location, Scale, and Shape (GAMLSS), Multivariate Fractional Polynomial Regression (MFPR), and Hierarchical Bayesian Regression (HBR), as well as the conventional posterior-sampling cVAE approach employed in existing autoencoder-based normative models. Through comparative analyses, our results show that the proposed cVAE-based framework achieves performance comparable with well-established normative models across various metrics, while appropriately capturing individual deviations associated with hypertension severity. Furthermore, our inference strategy demonstrates superior covariate sensitivity compared with those used in existing cVAE-based normative models, with deviations derived from our method showing better sensitivity to hypertension severity. Beyond predictive performance, our study also offers a comprehensive correlational mapping of the relationships between hypertension and brain structural damage. Taken together, this work highlights the promise of deep learning-based normative modelling for complex datasets such as neuroimaging, paving the way for personalised brain health assessment and early detection of neurological disorders.
