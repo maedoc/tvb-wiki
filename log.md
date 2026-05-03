@@ -262,3 +262,7 @@
 ## [2026-05-03 23:36] RefFormatter: formatted references on 2 pages
 
 ## [2026-05-03 23:46] CrosslinkApplier: added 311 wikilinks (311 inline, 0 suggested)
+
+## [2026-05-03 23:54] Matcher: 23 pages got 65 new sources
+
+## [2026-05-04 00:08] Audit: 1029 issues (72 broken links, 53 orphans, 7 placeholders, 0 dup-refs, 3 bad-meta, 78 citation-verify, 15 opaque-refs, 76 thin, 403 missing-links)
