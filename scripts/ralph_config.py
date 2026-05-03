@@ -38,7 +38,7 @@ REVIEWER_MODEL = "ollama/glm-5.1:cloud"
 REPAIRER_MODEL = "ollama/gpt-oss:120b-cloud"
 
 # ── Parallelism ────────────────────────────────────────────────────────
-PARALLEL_WRITERS = 10
+PARALLEL_WRITERS = 7
 PARALLEL_REVIEWERS = 8
 PARALLEL_INGESTORS = 5
 
