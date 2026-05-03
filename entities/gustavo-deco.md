@@ -7,6 +7,7 @@ sources:
 - raw/papers/semanticscholar-7c3337c880fd.md
 - raw/papers/arxiv-2510.02545.md
 - raw/papers/semanticscholar-2004e006655b.md
+- raw/papers/semanticscholar-a0a9350fb265.md
 tags:
 - people-researcher
 - whole-brain-modeling
@@ -14,7 +15,7 @@ tags:
 - neural-mass-models
 title: Gustavo Deco
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-03'
 ---
 
 # Gustavo Deco

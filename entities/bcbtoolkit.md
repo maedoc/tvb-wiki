@@ -2,6 +2,9 @@
 created: 2026-05-03
 sources:
 - raw/papers/bioarxiv-foulon-2018.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/rubinov-sporns-2010.md
+- raw/papers/mijalkov-2017-braph.md
 tags:
 - software-brain-modeling
 - software-connectomics

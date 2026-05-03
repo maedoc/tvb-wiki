@@ -4,6 +4,7 @@ sources:
 - raw/papers/sanz-leon-2013.md
 - raw/papers/power-2011.md
 - raw/papers/smith-2013-connectomics.md
+- raw/papers/semanticscholar-a0a9350fb265.md
 tags:
 - software-brain-modeling
 title: MELODIC

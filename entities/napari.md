@@ -5,6 +5,9 @@ sources:
 - https://github.com/napari/napari
 - https://www.biorxiv.org/content/10.1101/2020.10.26.248542v1
 - https://www.nature.com/articles/s41592-019-0612-4
+- raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-380768cf42a8.md
+- raw/papers/mijalkov-2017-braph.md
 tags:
 - software-visualization
 - neuroimaging

@@ -6,6 +6,7 @@ sources:
 - raw/papers/braph-2 genesis.md
 - raw/papers/glean-github.md
 - raw/papers/semanticscholar-6295d2445697.md
+- raw/papers/semanticscholar-dacc3b888fa6.md
 tags:
 - software-brain-modeling
 title: BrainCoGS

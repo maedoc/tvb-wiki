@@ -4,6 +4,9 @@ sources:
 - kay_et_al_2021
 - prinzo_et_al_2016
 - smith_et_al_2021
+- raw/papers/arxiv-2603.24176.md
+- raw/papers/semanticscholar-109de470e443.md
+- raw/papers/glean-github.md
 tags:
 - software
 - neuroimaging-fmri

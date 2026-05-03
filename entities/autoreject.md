@@ -4,6 +4,9 @@ sources:
 - Jas et al. 2017
 - Bigdely-Shamlo et al. 2015
 - Mainak Jas et al. 2020
+- raw/papers/semanticscholar-e3acb37d34ca.md
+- raw/papers/semanticscholar-4d73a30d5c84.md
+- raw/papers/semanticscholar-9e42d6a25d21.md
 tags:
 - software-visualization
 - neuroimaging-eeg

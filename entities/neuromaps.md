@@ -6,6 +6,7 @@ sources:
 - raw/papers/winkler-2014-palm.md
 - raw/papers/semanticscholar-028f7c6ac41d.md
 - raw/papers/arxiv-2603.21067.md
+- raw/papers/semanticscholar-dacc3b888fa6.md
 tags:
 - software-neuromaps
 - neuroimaging

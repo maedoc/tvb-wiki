@@ -3,11 +3,12 @@ created: 2026-04-23
 sources:
 - raw/papers/friston-2003-dcm.md
 - raw/papers/david-friston-2003.md
+- raw/papers/semanticscholar-f05f8cbafb78.md
 tags:
 - software-brain-modeling
 title: DCM
 type: entity
-updated: '2026-05-01'
+updated: '2026-05-03'
 ---
 
 # Dynamic Causal Modeling (DCM)

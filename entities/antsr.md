@@ -6,6 +6,9 @@ sources:
 - tustison2021
 - ritter2013
 - zuccarello2020
+- raw/papers/avants-2008.md
+- raw/papers/huntenburg-2018.md
+- raw/papers/sanz-leon-2013.md
 tags:
 - software-ants
 - software-brain-modeling

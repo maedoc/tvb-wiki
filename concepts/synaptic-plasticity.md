@@ -6,11 +6,12 @@ sources:
 - raw/papers/izhikevich-2007.md
 - raw/papers/power-2011.md
 - raw/papers/semanticscholar-ff8218c1e55e.md
+- raw/papers/semanticscholar-eadc34d87ac8.md
 tags:
 - synaptic-plasticity
 title: Synaptic Plasticity
 type: concept
-updated: '2026-04-30'
+updated: '2026-05-03'
 ---
 
 Synaptic [[plasticity]] — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].

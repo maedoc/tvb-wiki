@@ -5,6 +5,9 @@ sources:
 - https://doi.org/10.1109/access.2023.3275285
 - https://doi.org/10.1109/TBME.2012.2184576
 - https://doi.org/10.1371/journal.pone.0131567
+- raw/papers/arxiv-2602.03522.md
+- raw/papers/semanticscholar-ce476d60fac5.md
+- raw/papers/glean-github.md
 tags:
 - software
 - python-library

@@ -1,6 +1,9 @@
 ---
 created: 2024-01-15
-sources: []
+sources:
+- raw/papers/Renton2024.md
+- raw/papers/schirner-2018.md
+- raw/papers/sanz-leon-2013.md
 tags:
 - software-neurodebian
 - reproducibility

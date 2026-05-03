@@ -3,6 +3,9 @@ created: 2025-01-15
 sources:
 - 10.1038/s41592-020-01018-x
 - 10.1038/s41592-022-00466-z
+- raw/papers/Renton2024.md
+- raw/papers/semanticscholar-d94ac445ea77.md
+- raw/papers/sanz-leon-2013.md
 tags:
 - software-visualization
 - neuroimaging-microscopy

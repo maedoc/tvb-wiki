@@ -4,6 +4,7 @@ sources:
 - raw/papers/sanz-leon-2013.md
 - raw/papers/semanticscholar-e1fa0a868dbe.md
 - raw/papers/semanticscholar-60ca593f7e0c.md
+- raw/papers/arxiv-2509.12873.md
 tags:
 - electrophysiology
 - software

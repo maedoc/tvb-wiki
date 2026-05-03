@@ -5,11 +5,12 @@ sources:
 - raw/papers/barabasi-albert-1999.md
 - raw/papers/semanticscholar-7c3337c880fd.md
 - raw/papers/arxiv-2602.17820.md
+- raw/papers/semanticscholar-a0a9350fb265.md
 tags:
 - karen-friston
 title: Karen Friston
 type: concept
-updated: '2026-04-30'
+updated: '2026-05-03'
 ---
 
 Karen Friston — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].

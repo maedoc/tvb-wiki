@@ -1,6 +1,9 @@
 ---
 created: 2025-01-15
-sources: []
+sources:
+- raw/papers/arxiv-2507.22146.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-899d3552b2ad.md
 tags:
 - software-brian
 - spiking-neural-networks

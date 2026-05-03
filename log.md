@@ -204,3 +204,5 @@
 - Verified all wikilinks point to existing pages in inventory
 
 ## [2026-05-03 21:30] Improve: 7 pages improved (tvb-nest, lems, tractoflow, brian2cuda, cifti-tools, abcbids, neuroconv)
+
+## [2026-05-03 21:43] CrosslinkApplier: added 155 wikilinks (153 inline, 2 suggested)

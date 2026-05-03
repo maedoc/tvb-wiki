@@ -7,6 +7,7 @@ sources:
 - raw/papers/smith-2013-connectomics.md
 - raw/papers/andrews-hanna-2010.md
 - raw/papers/friston-1993.md
+- raw/papers/semanticscholar-a0a9350fb265.md
 tags:
 - default-mode-network
 - resting-state
@@ -20,7 +21,7 @@ tags:
 - epilepsy-modeling
 title: Default Mode Network (DMN)
 type: concept
-updated: '2026-04-30'
+updated: '2026-05-03'
 ---
 
 The **Default Mode Network (DMN)** is a large-scale [[brain-network]] identified through [[neuroimaging]] that demonstrates high metabolic activity during wakeful rest and systematic deactivation during externally-oriented goal-directed tasks. First characterized by Raichle et al. (2001) using positron emission tomography (PET), the DMN represents the brain's baseline or "default" mode of operation—the spontaneous neural activity that dominates when an individual is not engaged in explicit task performance. This network has become fundamental to our understanding of intrinsic brain organization and its dysfunction in psychiatric and neurological conditions.

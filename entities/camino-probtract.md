@@ -4,6 +4,7 @@ sources:
 - raw/papers/semanticscholar-deecd9987645.md
 - raw/papers/semanticscholar-380768cf42a8.md
 - raw/papers/semanticscholar-d8b81edc13b4.md
+- raw/papers/arxiv-2506.22951.md
 tags:
 - software-brain-modeling
 title: Camino Probabilistic Tractography

@@ -5,11 +5,12 @@ sources:
 - raw/papers/huettel-2009.md
 - raw/papers/friston-1993.md
 - raw/papers/power-2011.md
+- raw/papers/semanticscholar-eadc34d87ac8.md
 tags:
 - software-brain-modeling
 title: Neurosynth
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-03'
 ---
 
 title: Neurosynth

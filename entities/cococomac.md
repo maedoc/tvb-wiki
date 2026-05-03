@@ -5,11 +5,12 @@ sources:
 - raw/papers/arxiv-2506.22951.md
 - raw/papers/semanticscholar-028f7c6ac41d.md
 - raw/papers/semanticscholar-bb75bdb90ada.md
+- raw/papers/semanticscholar-dacc3b888fa6.md
 tags:
 - software-brain-modeling
 title: CoCoMac
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-03'
 ---
 
 title: CoCoMac

@@ -4,6 +4,7 @@ sources:
 - raw/papers/rubinov-sporns-2010.md
 - raw/papers/winkler-2014-palm.md
 - raw/papers/smith-2013-connectomics.md
+- raw/papers/semanticscholar-e680d00eecb5.md
 tags:
 - software-brain-modeling
 title: BrainStat
