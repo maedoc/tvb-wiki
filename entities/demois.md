@@ -1,10 +1,16 @@
 ---
-title: Demois
 created: 2026-04-30
-updated: 2026-05-03
+sources:
+- raw/papers/semanticscholar-eb4197c24bf2.md
+- raw/papers/semanticscholar-9afbfd2d37be.md
+- raw/papers/semanticscholar-adcab180dcd3.md
+tags:
+- software-tvb
+- whole-brain-modeling
+- computational-neuroscience
+title: Demois
 type: entity
-tags: [software-tvb, whole-brain-modeling, computational-neuroscience]
-sources: []
+updated: '2026-05-03'
 ---
 
 # Demois

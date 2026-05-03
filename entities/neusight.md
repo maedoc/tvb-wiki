@@ -1,12 +1,16 @@
 ---
 created: 2026-04-23
-sources: []
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/arxiv-2603.24176.md
+- raw/papers/arxiv-2603.07524.md
 tags:
 - software-brain-modeling
 title: NeuSIGHT
 type: entity
-updated: 2026-05-03
+updated: '2026-05-03'
 ---
+
 title: NeuSIGHT
 created: 2024-01-15
 updated: 2026-05-03

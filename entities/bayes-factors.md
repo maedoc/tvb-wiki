@@ -5,6 +5,7 @@ sources:
 - raw/papers/arxiv-2604.17151.md
 - raw/papers/arxiv-2512.03907.md
 - raw/papers/arxiv-2603.21067.md
+- raw/papers/winkler-2014-palm.md
 tags:
 - variational-bayes
 - parameter-estimation
@@ -13,7 +14,7 @@ tags:
 - computational-neuroscience
 title: Bayes Factors
 type: concept
-updated: '2026-05-02'
+updated: '2026-05-03'
 ---
 
 ## Overview

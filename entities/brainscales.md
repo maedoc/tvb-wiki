@@ -1,16 +1,32 @@
 ---
-title: BrainScaleS
 created: 2024-01-15
-updated: 2026-05-03
-type: entity
-tags: [neuromorphic-computing, spiking-neural-networks, adaptive-exponential-integrate-and-fire, neural-mass-models, software-neurom, computational-neuroscience, hardware-implementation, whole-brain-simulators]
 sources:
-  - "BrainScaleS Consortium. (2014). BrainScaleS: Analog neuromorphic hardware for scale. Frontiers in Neuroscience."
-  - "Schemmel, J., et al. (2010). A wafer-scale neuromorphic hardware for spiking neural networks. IEEE Symposium on Circuits and Systems."
-  - "Pfeil, T., et al. (2013). Six networks on a universal neuromorphic computing substrate. Frontiers in Neuroscience."
-  - "Aamir, S. A., et al. (2018). BrainScaleS-2: Analog neuromorphic chip with 1 million neurons. arXiv preprint."
-  - "Furber, S., et al. (2014). SpiNNaker: A multi-core system for spiking neural networks. Philosophical Transactions of the Royal Society B."
-  - "Davies, M., et al. (2018). Loihi: A neuromorphic manycore processor. IEEE Micro."
+- 'BrainScaleS Consortium. (2014). BrainScaleS: Analog neuromorphic hardware for scale.
+  Frontiers in Neuroscience.'
+- Schemmel, J., et al. (2010). A wafer-scale neuromorphic hardware for spiking neural
+  networks. IEEE Symposium on Circuits and Systems.
+- Pfeil, T., et al. (2013). Six networks on a universal neuromorphic computing substrate.
+  Frontiers in Neuroscience.
+- 'Aamir, S. A., et al. (2018). BrainScaleS-2: Analog neuromorphic chip with 1 million
+  neurons. arXiv preprint.'
+- 'Furber, S., et al. (2014). SpiNNaker: A multi-core system for spiking neural networks.
+  Philosophical Transactions of the Royal Society B.'
+- 'Davies, M., et al. (2018). Loihi: A neuromorphic manycore processor. IEEE Micro.'
+- raw/papers/sanz-leon-2013.md
+- raw/papers/arxiv-2509.12873.md
+- raw/papers/breakspear-2017.md
+tags:
+- neuromorphic-computing
+- spiking-neural-networks
+- adaptive-exponential-integrate-and-fire
+- neural-mass-models
+- software-neurom
+- computational-neuroscience
+- hardware-implementation
+- whole-brain-simulators
+title: BrainScaleS
+type: entity
+updated: '2026-05-03'
 ---
 
 # BrainScaleS

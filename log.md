@@ -85,3 +85,5 @@
 ## [2026-05-03 05:08] Improve: 2 pages improved (meg-eeg-toolbox, palm)
 
 ## [2026-05-03 06:17] Improve: 3 pages improved (open-ephys, meg-eeg-toolbox, brainscales)
+
+## [2026-05-03 07:27] Improve: 3 pages improved (brainglobe, dipde, niworkflows)

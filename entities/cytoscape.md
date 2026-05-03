@@ -1,15 +1,24 @@
 ---
-title: Cytoscape
 created: 2024-01-15
-updated: 2026-05-03
-type: entity
-tags: [software-visualization, graph-theory, connectomics, network-dynamics, software-bct, computational-neuroscience]
 sources:
-  - Shannon et al. 2003, Genome Research
-  - Sporns et al. 2004, PNAS
-  - Sporns et al. 2005, Cerebral Cortex
-  - Rubinov & Sporns 2010, NeuroImage
-  - Bassett & Bullmore 2006, The Neuroscientist
+- Shannon et al. 2003, Genome Research
+- Sporns et al. 2004, PNAS
+- Sporns et al. 2005, Cerebral Cortex
+- Rubinov & Sporns 2010, NeuroImage
+- Bassett & Bullmore 2006, The Neuroscientist
+- raw/papers/rubinov-sporns-2010.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/bullmore-sporns-2009.md
+tags:
+- software-visualization
+- graph-theory
+- connectomics
+- network-dynamics
+- software-bct
+- computational-neuroscience
+title: Cytoscape
+type: entity
+updated: '2026-05-03'
 ---
 
 # Cytoscape

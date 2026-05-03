@@ -1,12 +1,14 @@
 ---
 created: 2026-04-30
-sources: []
+sources:
+- raw/papers/gramfort-2013.md
 tags:
 - software-brain-modeling
 title: MEG/EEG Toolbox
 type: entity
-updated: 2026-05-03
+updated: '2026-05-03'
 ---
+
 title: MEG/EEG Toolbox
 created: 2025-01-15
 updated: 2026-05-03

@@ -1,10 +1,24 @@
 ---
-title: Open Ephys
 created: 2024-01-15
-updated: 2026-05-03
+sources:
+- Siegle et al. 2017
+- Jun et al. 2017
+- NWB Team 2020
+- Spinelli et al. 2019
+- raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-e1fa0a868dbe.md
+- raw/papers/semanticscholar-60ca593f7e0c.md
+tags:
+- electrophysiology
+- software
+- open-source
+- data-acquisition
+- in-vivo-recording
+- neural-recording
+- signal-processing
+title: Open Ephys
 type: entity
-tags: [electrophysiology, software, open-source, data-acquisition, in-vivo-recording, neural-recording, signal-processing]
-sources: [Siegle et al. 2017, Jun et al. 2017, NWB Team 2020, Spinelli et al. 2019]
+updated: '2026-05-03'
 ---
 
 # Open Ephys
