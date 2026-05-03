@@ -244,3 +244,5 @@
 - Added 15+ wikilinks to related pages (the-virtual-brain, fmri, freesurfer, fmriprep, openneuro, nilearn, etc.)
 - Updated frontmatter tags to taxonomy-compliant [software-modeling, preprocessing, harmonization, comBat, neuroimaging-fmri, neuroimaging-mri, multi-site, machine-learning-pipeline]
 - Added key paper references (Johnson 2007, Fortin 2017, Pomponio 2019)
+
+## [2026-05-03 22:54] Improve: 2 pages improved (michael-fox, neuroharmonize)
