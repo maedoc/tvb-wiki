@@ -125,6 +125,26 @@ def score_page(filepath: str) -> tuple[float, dict]:
     }
 
     score = 100.0
+    structural_issues = []
+
+    # ── Structural quality checks ──────────────────────────────────────
+    # 1) Leaked frontmatter in body (content starts with title: or ---)
+    content_start = content.strip()[:20].lower()
+    if content_start.startswith('title:') or content_start.startswith('---'):
+        score -= 50
+        structural_issues.append('leaked_frontmatter')
+        log.debug("%s: leaked frontmatter detected", filepath)
+
+    # 2) No body content (just frontmatter or empty)
+    body_words = word_count(content.strip())
+    if body_words < 20:
+        score -= 40
+        structural_issues.append('empty_body')
+
+    # 3) Duplicate hardcoded References section (should be hook-generated)
+    if re.search(r'^##\s*References\s*$', content, re.MULTILINE) and info['sources'] > 0:
+        score -= 20
+        structural_issues.append('dup_references')
 
     # Placeholder text = critical
     if info['has_placeholder']:
@@ -165,6 +185,7 @@ def score_page(filepath: str) -> tuple[float, dict]:
     except (ValueError, TypeError):
         score -= 5  # No date = unknown = slight penalty
 
+    info['structural_issues'] = structural_issues
     info['score'] = max(0, score)
     return info['score'], info
 
@@ -952,9 +973,12 @@ def run_improver_cycle(n_pages: int = None):
     # Pick worst N pages
     targets = queue[:n_pages]
     for t in targets:
-        log.info("  %s (score=%.0f, %d words, %d refs%s)",
+        issues = t.get('structural_issues', [])
+        issue_flag = f', STRUCTURAL:{",".join(issues)}' if issues else ''
+        log.info("  %s (score=%.0f, %d words, %d refs%s%s)",
                  t['slug'], t['score'], t['words'], t['sources'],
-                 ', PLACEHOLDER' if t.get('has_placeholder') else '')
+                 ', PLACEHOLDER' if t.get('has_placeholder') else '',
+                 issue_flag)
 
     # Improve pages in parallel
     improved = 0
