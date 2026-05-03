@@ -12,15 +12,6 @@ type: entity
 updated: '2026-04-30'
 ---
 
-title: pyedflib
-created: 2024-01-15
-updated: 2026-04-28
-type: entity
-tags: [software-visualization, [[neuroimaging]]-eeg, electrophysiology]
-sources: [https://www.edfplus.info/, https://github.com/holgern/pyedflib, https://www.sciencedirect.com/science/article/pii/S1875080218300315]
-
-pyedflib is a Python library designed for reading and writing biomedical time series data in the EDF (European Data Format) and EDF+ file formats. Originally developed to provide a Pythonic interface to the underlying libedflib C library, pyedflib enables neuroscientists and clinicians to efficiently work with continuous electrophysiological recordings—particularly electroencephalography (EEG) data—within the Python ecosystem. The library is open-source and widely used in both research and clinical settings for data preprocessing, format conversion, and integration with other neuroimaging analysis pipelines [[eeg]].
-
 ## Motivation and Context
 
 The EDF format emerged in the early 1990s as a standardized file format for storing biomedical signals, motivated by the need for a vendor-neutral, platform-independent method of exchanging neurophysiological data [[eeglab]]. Prior to standardized formats like EDF, different manufacturers used proprietary formats, making data sharing and analysis across institutions cumbersome. EDF addressed this by defining a simple binary structure that could store multi-channel signals with associated metadata (channel labels, sampling rate, physical dimensions, and start time). The EDF+ specification, introduced in the early 2000s, extended the format to support annotations and discontinuous recordings.
@@ -67,10 +58,3 @@ While pyedflib is relatively specialized compared to comprehensive analysis pack
 
 - Kemp, B., Olivan, J. S., & Rietveld, W. J. (2003). EDF+ Annotation: Adding temporal markers to European Data Format recordings. *Clinical Neurophysiology*. [[ica]]
 - Bein, B. (2018). pyedflib. *Journal of Open Source Software*. [[hybrid-architecture]]
-
-## References
-
-1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
-2. Rohith Alikkal, Venkat Harshith Akula, B. Shankar, Midhun Krishna, Sandeep Bodda, S. Krishna, Shyam Diwakar. (2025). *Implementing and Deploying a Student Friendly GUI-based Platfrom for EEG signal processing*. International Conference on Robotics and Mechatronics. [DOI](https://doi.org/10.1109/ICRM66809.2025.11349102)
-3. D. Y. Lodema, Herman J van Dellen, W. de Haan, Margot van Hest, A. Hillebrand, E. van Dellen. (2026). *EEG-Pype: An accessible MNE-Python pipeline with graphical user interface for preprocessing and analysis of [[resting-state]] electroencephalography data.*. PLoS Computational Biology. [DOI](https://doi.org/10.1371/journal.pcbi.1014043)
-4. B. Bein (2018). *pyedflib: Python library for reading and writing EDF/BDF files*. Journal of Open Source Software. [DOI](https://doi.org/10.21105/joss.00899)

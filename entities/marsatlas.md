@@ -12,13 +12,6 @@ type: entity
 updated: '2026-05-03'
 ---
 
-title: MarsAtlas
-created: 2024-01-15
-updated: 2026-05-01
-type: entity
-tags: [[stochastic-differential-equations]], [[neuroimaging]], neuroimaging-dti, [[structural-connectivity]], [[software-bct]], [[connectomics]], [[parcellation]], software-visualization
-sources: [https://www.sciencedirect.com/science/article/pii/S105381191730727X, https://www.sciencedirect.com/science/article/pii/S1053811916305513, https://academic.oup.com/neuroscientist/article/22/4/359/2663642]
-
 ## Overview
 
 MarsAtlas is a macroscopic brain parcellation atlas that provides a standardized partitioning of the cerebral cortex into anatomically and functionally relevant regions. Developed primarily for use in [[whole-brain|whole-brain modeling]] and [[connectome]]-based analyses, MarsAtlas offers a balance between anatomical precision and computational tractability, dividing each hemisphere into approximately 100 cortical regions organized by lobe and functional territory [1]. The atlas serves as a key resource for researchers constructing [structural connectivity][structural-connectivity] matrices from [[diffusion-imaging]] data, as well as those implementing [whole-brain models][whole-brain-modeling] in platforms like [The Virtual Brain][the-virtual-brain] or other [neural mass model][neural-mass-model] frameworks [2].
@@ -64,9 +57,3 @@ Related atlases include the [AAL Atlas][aal-atlas], [Brainnetome Atlas][brainnet
 5. Bullmore, E. T., & Sporns, O. (2009). Complex brain networks: graph theoretical analysis of structural and functional systems. *Nature Reviews Neuroscience*, 10(3), 186-198. [[netneuroscience|Network neuroscience]] background
 
 6. Fornito, A., Zalesky, A., & Bullmore, E. (2016). *Fundamentals of [[brain-network]] Analysis*. Academic Press. [Network analysis methods]
-
-## References
-
-1. (authors unknown). *Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems*.
-2. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
-3. Shengjie Qi, Xinda Song, Le Jia, Hongyu Cui, Yuchen Suo, Teng Long, Zhendong Wu, Xiaolin Ning. (2025). *The impact of channel density, inverse solutions, connectivity metrics and calibration errors on OPM-MEG connectivity analysis: A simulation study*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2025.121056)

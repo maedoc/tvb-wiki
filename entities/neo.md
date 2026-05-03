@@ -8,26 +8,6 @@ type: entity
 updated: '2026-05-01'
 ---
 
----  
-created: 2024-01-15  
-sources:  
-- raw/papers/semanticscholar-9afbfd2d37be.md  
-- raw/papers/semanticscholar-60ca593f7e0c.md  
-- raw/papers/arxiv-2505.16861.md  
-- raw/papers/bein-2018.md  
-tags:  
-- software  
-- electrophysiology  
-- data-formats  
-- spike-sorting  
-- python  
-- elephant  
-- spikeinterface  
-- neo  
-title: Neo  
-type: concept  
-updated: '2026-04-30'  
-
 # Neo  
 
 ## Overview  

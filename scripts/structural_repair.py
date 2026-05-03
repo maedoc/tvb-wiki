@@ -53,9 +53,24 @@ def repair_leaked_frontmatter(filepath: str) -> bool:
     # Find the end of the second frontmatter block
     second_fm_end = -1
     for i in range(second_fm_start, len(lines)):
+        # Case 1: explicit closing separator
         if lines[i].strip().rstrip('-') == '' and lines[i].strip().startswith('---'):
             second_fm_end = i
             break
+        # Case 2: blank line followed by heading or body text
+        if lines[i].strip() == '' and i + 1 < len(lines):
+            next_line = lines[i + 1].strip()
+            if next_line.startswith('#') or (next_line and not next_line.startswith(tuple('abcdefghijklmnopqrstuvwxyz')) and ':' not in next_line.split(':')[0]):
+                # This is likely the end of frontmatter — body starts after blank
+                second_fm_end = i
+                break
+    
+    if second_fm_end == -1:
+        # Fallback: second frontmatter might end right before a heading with no blank line
+        for i in range(second_fm_start, len(lines)):
+            if lines[i].strip().startswith('#'):
+                second_fm_end = i
+                break
     
     if second_fm_end == -1:
         return False

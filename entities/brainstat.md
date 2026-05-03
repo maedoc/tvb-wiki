@@ -12,13 +12,6 @@ type: entity
 updated: '2026-05-03'
 ---
 
-title: BrainStat
-created: 2024-01-15
-updated: 2026-05-03
-type: entity
-tags: [software-visualization, [[neuroimaging]], resting-state, functional-[[connectivity]], structural-connectivity]
-sources: [10.1016/j.neuroimage.2021.118337, 10.1016/j.neuroimage.2016.05.024, 10.1002/hbm.23798]
-
 # BrainStat
 
 ## Overview
@@ -81,10 +74,3 @@ Performance considerations arise when analyzing dense connectivity matrices: the
 [^4]: Chen, B., Xu, Y., & Zhou, Y. (2019). Statistical methods for brain connectivity research. *Human Brain Mapping*, 40(7), 2031-2050. https://doi.org/10.1002/hbm.23798
 
 [^5]: Rubinov, M., & Sporns, O. (2010). Complex network measures of brain connectivity: Uses and interpretations. *Neuroimage*, 52(3), 1059-1069. https://doi.org/10.1016/j.neuroimage.2009.10.003
-
-## References
-
-- Bayrak, Ş., Larivière, S., Liu, S., et al. (2023). BrainStat: Brain-wide statistical analysis toolbox for R and Python. *Frontiers in Neuroinformatics*, 17, 1059884.
-- Glasser, M.F., Coalson, T.S., Robinson, E.C., et al. (2016). A multi-modal [[parcellation]] of human cerebral cortex. *Nature*, 536, 171-178.
-- Schaefer, A., Kong, R., Gordon, E.M., et al. (2018). Local-global parcellation of the human cerebral cortex from intrinsic functional connectivity MRI. *Cerebral Cortex*, 28(9), 3095-3114.
-- [[tvb|The Virtual Brain]] Project. (2024). TVB Documentation. https://www.thevirtualbrain.org/

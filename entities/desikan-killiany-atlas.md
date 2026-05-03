@@ -8,27 +8,6 @@ type: entity
 updated: '2026-05-03'
 ---
 
----
-created: 2026-04-23
-sources:
-- raw/papers/semanticscholar-6295d2445697.md
-- raw/papers/rubinov-sporns-2010.md
-- raw/papers/power-2011.md
-- raw/papers/semanticscholar-66f887e82e89.md
-- raw/papers/glean-github.md
-tags:
-- software-brain-modeling
-title: Desikan-Killiany Atlas
-type: entity
-updated: '2026-05-02'
-
-title: Desikan-Killiany Atlas
-created: 2025-01-15
-updated: 2026-04-29
-type: entity
-tags: [[stochastic-differential-equations]], [[neuroimaging]], structural-[[connectivity]], freesurfer, [[harvard-oxford-atlas]], destrieux-atlas, glasser-atlas, schaefer-atlas
-sources: [Desikan et al., 2006; Klein & Tourville, 2012]
-
 The Desikan-Killiany Atlas is a widely used cortical [[parcellation]] scheme that divides the human cerebral cortex into anatomically defined regions based on magnetic resonance imaging (MRI). Developed by Rahul Desikan, Robert Killiany, and colleagues, this atlas provides a standardized framework for quantifying regional brain structure and function in both healthy and clinical populations [[desikan-killiany-atlas]]. The atlas is characterized by its use of easily identifiable anatomical landmarks—primarily sulcal patterns—that allow for reasonably consistent manual delineation across brains, making it particularly suitable for automated segmentation pipelines that require robust anatomical priors.
 
 ## Historical Context and Motivation
@@ -60,11 +39,3 @@ The atlas is supported by numerous software packages including [[FreeSurfer]], [
 ## Limitations and Open Questions
 
 Despite its widespread adoption, the Desikan-Killiany Atlas has notable limitations that continue to motivate the development of alternative parcellations. First, the anatomical boundaries do not necessarily correspond to functional boundaries—the same cortical region may subserve different cognitive functions depending on context. Second, the 68-region granularity may be too coarse to capture fine-scale network organization revealed by high-resolution [[functional-connectivity]]. Third, the atlas was developed primarily from healthy young adult brains, and its applicability to pediatric or geriatric populations requires careful validation. Future directions include the development of age-appropriate atlases and the integration of multiple modalities (anatomical, functional, and connectivity-based) into unified parcellation schemes.
-
-## References
-
-1. Xiaoyan Wu, Chuang Liang, J. Bustillo, Peter V. Kochunov, Xuyun Wen, Jing Sui, Rongtao Jiang, Xiao Yang, Zening Fu, Daoqiang Zhang, V. Calhoun, S. Qi. (2025). *The Impact of Atlas Parcellation on Functional Connectivity Analysis Across Six Psychiatric Disorders*. Human Brain Mapping. [DOI](https://doi.org/10.1002/hbm.70206)
-2. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
-3. (authors unknown). *Functional Network Organization of the Human Brain*.
-4. Federica Franza, M. Cirillo, M. Silvestro, F. Trojsi, Antonio Russo, Fabrizio Esposito, M. A. Pirozzi. (2025). *Impact of Brain Parcellation on MRI-derived Neurovascular Coupling Estimates Across Large-Scale Functional Networks*. 2025 IEEE International Conference on Metrology for eXtended Reality, Artificial Intelligence and Neural Engineering (MetroXRAINE). [DOI](https://doi.org/10.1109/MetroXRAINE66377.2025.11340209)
-5. (authors unknown). *[[lean|GLEAN]]: Group Level Exploratory Analysis of Networks*.

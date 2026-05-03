@@ -9,13 +9,6 @@ type: entity
 updated: '2026-04-30'
 ---
 
-title: Yeo Atlas
-created: 2025-01-15
-updated: 2026-04-29
-type: entity
-tags: [[stochastic-differential-equations]], [[neuroimaging]]-fmri, functional-[[connectivity]], resting-state, [[software-fsl]], software-freesurfer, connectomics
-sources: [yeeo-2011, tvb-documentation, hcp-publications]
-
 # Yeo Atlas
 
 ## Overview
@@ -55,7 +48,3 @@ The Yeo Atlas is supported by major neuroimaging platforms including [[fsl]] (wh
 - **Yeo et al. (2011)** — "The organization of the human cerebral cortex estimated by intrinsic functional connectivity," *Journal of Neurophysiology*. The primary paper describing the 7-network parcellation derived from 1000 subjects.
 - **Krienen, Yeo, & Buckner (2014)** — "Reconstructing the extent of the human [[connectome]]," *Proceedings of the National Academy of Sciences*. Describes the 17-network parcellation and provides additional validation.
 - **Van Essen et al. (2013)** — "The [[human-connectome-project]]: A data acquisition perspective," *NeuroImage*. Describes the [[hcp-dataset]] and preprocessing pipeline.
-
-## References
-
-1. (authors unknown). *The Human Connectome Project: A Data Acquisition Perspective*.

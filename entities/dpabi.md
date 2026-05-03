@@ -11,15 +11,6 @@ type: entity
 updated: '2026-04-30'
 ---
 
-title: DPABI
-created: 2024-01-15
-updated: 2026-04-28
-type: entity
-tags: [software-visualization, neuroimaging-fmri, [[resting-state]], data-processing]
-sources:
-  - https://doi.org/10.1016/j.neuroimage.2014.06.030
-  - https://doi.org/10.3389/fnins.2014.00671
-
 # DPABI
 
 ## Overview
@@ -61,9 +52,3 @@ DPABI shares methodological foundations with several other neuroimaging toolboxe
 | Surface visualization | ✓ | ✗ | ✓ | ✓ |
 
 The choice between these tools often depends on user expertise, specific analysis requirements, and integration with other pipelines. DPABI remains particularly popular in the East Asian neuroscience community and among researchers prioritizing rapid GUI‑based analysis workflows.
-
-## References
-
-1. Wang, J., Wang, X., Xia, M., Liao, X., Evans, A., & He, Y. (2015). *[[gretna]]: a graph theoretical network analysis toolbox for MATLAB*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2015.04.016)
-2. Sanz Leon et al. (2013). *[[the-virtual-brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
-3. Ritter et al. (2013). *[[tvb|The Virtual Brain]] integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
