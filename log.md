@@ -169,3 +169,12 @@
 ## [2026-05-03 20:21] Improve: 6 pages improved (cellpose, napari, nestml, ilastik, neurodebian, labstreaminglayer)
 
 ## [2026-05-03 20:42] Improve: 7 pages improved (tvb-nest, napari, pyriemann, brian2genn, brian2cuda, tractoflow, nestml)
+
+## [2026-05-03 20:59] DeepResearch: 36 papers added via focused research
+
+## [2026-05-03 21:15] Improve: 1 page improved (antsr)
+
+- Filled in placeholder content with comprehensive overview of ANTsR package
+- Added 10+ wikilinks to related software (ANTs, ANTsPy, TVB, nilearn, etc.)
+- Updated tags to include software-ants and r-packages
+- Added to entities index under Software Platforms section

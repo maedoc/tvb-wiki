@@ -12,6 +12,8 @@ A collection of people, software platforms, datasets, and research groups releva
 - [Cartool](cartool.md) - EEG analysis and source localization software
 - [3D Slicer](3d-slicer.md) - Open-source medical image computing and visualization platform
 - [ANTs](ants.md) - Advanced Normalization Tools for neuroimaging
+- [ANTsR](antsr.md) - R language bindings for ANTs
+- [ANTsPy](antspy.md) - Python language bindings for ANTs
 - [BrainVoyager](brainvoyager.md) - Commercial neuroimaging analysis and visualization platform
 - [DataLad](datalad.md) - Distributed data management and version control for neuroimaging
 - [GraphVar](graphvar.md) - Graph-theoretical analysis toolbox
