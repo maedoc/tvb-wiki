@@ -1,10 +1,20 @@
 ---
-title: FitLins
 created: 2024-01-15
-updated: 2026-05-03
+sources:
+- nilearn-docs
+- fmriprep-paper
+- bids-specification
+- raw/papers/semanticscholar-109de470e443.md
+- raw/papers/semanticscholar-d6e43299345d.md
+- raw/papers/huntenburg-2018.md
+tags:
+- software-visualization
+- neuroimaging-fmri
+- bids
+- computational-neuroscience
+title: FitLins
 type: entity
-tags: [software-visualization, neuroimaging-fmri, bids, computational-neuroscience]
-sources: [nilearn-docs, fmriprep-paper, bids-specification]
+updated: '2026-05-03'
 ---
 
 # FitLins

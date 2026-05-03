@@ -5,11 +5,12 @@ sources:
 - raw/papers/van-essen-2013.md
 - raw/papers/semanticscholar-88be174971d9.md
 - raw/papers/semanticscholar-913068805e7f.md
+- raw/papers/claudi-2020-brainglobe-atlas-api.md
 tags:
 - software-brain-modeling
 title: Allen Brain Atlas
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-03'
 ---
 
 title: Allen Brain Atlas

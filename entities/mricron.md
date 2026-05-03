@@ -1,12 +1,16 @@
 ---
 created: 2026-04-24
-sources: []
+sources:
+- raw/papers/winkler-2014-palm.md
+- raw/papers/semanticscholar-d8b81edc13b4.md
+- raw/papers/arxiv-2604.14259.md
 tags:
 - software-brain-modeling
 title: MRIcron
 type: entity
-updated: 2026-05-03
+updated: '2026-05-03'
 ---
+
 title: MRIcron
 created: 2025-01-15
 updated: 2026-05-03

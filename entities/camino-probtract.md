@@ -1,12 +1,16 @@
 ---
 created: 2026-04-29
-sources: []
+sources:
+- raw/papers/semanticscholar-deecd9987645.md
+- raw/papers/semanticscholar-380768cf42a8.md
+- raw/papers/semanticscholar-d8b81edc13b4.md
 tags:
 - software-brain-modeling
 title: Camino Probabilistic Tractography
 type: entity
-updated: 2026-05-03
+updated: '2026-05-03'
 ---
+
 title: Camino Probabilistic Tractography
 created: 2025-01-15
 updated: 2026-05-03

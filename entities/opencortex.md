@@ -1,10 +1,20 @@
 ---
-title: OpenCortex
 created: 2025-01-15
-updated: 2026-05-03
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/markram-2015.md
+- raw/papers/semanticscholar-eb4197c24bf2.md
+tags:
+- software-neural-simulator
+- neural-mass-models
+- spiking-neural-networks
+- computational-neuroscience
+- cortical-modeling
+- python
+- open-source
+title: OpenCortex
 type: entity
-tags: [software-neural-simulator, neural-mass-models, spiking-neural-networks, computational-neuroscience, cortical-modeling, python, open-source]
-sources: []
+updated: '2026-05-03'
 ---
 
 # OpenCortex
