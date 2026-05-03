@@ -112,3 +112,5 @@
 ## [2026-05-03 13:36] Matcher: 6 pages got 18 new sources
 
 ## [2026-05-03 13:40] Improve: 3 pages improved (fsl-randomise, brainmap, brain-dynamics-toolbox)
+
+## [2026-05-03 14:46] Improve: 3 pages improved (brainmap, fsl-randomise, neuromaps)
