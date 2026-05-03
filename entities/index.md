@@ -40,6 +40,7 @@ A collection of people, software platforms, datasets, and research groups releva
 - [MedPy](medpy.md) - Python library for medical image processing and analysis
 - [NeuroM](neurom.md) - Python library for neuronal morphology analysis and visualization
 - [neuromaps](neuromaps.md) - Toolbox for multimodal brain map transformation and spatial comparison
+- [NeuroQuery](neuroquery.md) - Model-based quantitative meta-analysis tool using topic models to predict brain activation from cognitive queries
 - [Neurodesk](neurodesk.md) — Containerized neuroimaging analysis environment with 100+ tools
 - [PopEye](popeye.md) — Python toolbox for estimating population receptive fields from fMRI data
 - [PALM](palm.md) — Parametric Analysis of Linear Models for neuroimaging statistical inference
