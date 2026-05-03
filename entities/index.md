@@ -30,6 +30,7 @@ A collection of people, software platforms, datasets, and research groups releva
 - [BMTK](bmtk.md) - Brain Modeling Toolkit for large-scale neural network construction
 - [BIDSkit](bidskit.md) - Command-line toolkit for BIDS data manipulation and conversion
 - [BindsNET](bindsnet.md) - Spiking neural network simulator with PyTorch integration and STDP learning rules
+- [BCBToolKit](bcbtoolkit.md) - Brain-Computer Interface toolkit for real-time EEG signal processing and BCI applications
 - [SpiNNaker](spinnaker.md) - Neuromorphic many-core platform for real-time spiking neural network simulation
 - [Nighres](nighres.md) - High-resolution neuroimaging processing for laminar analysis
 - [MedPy](medpy.md) - Python library for medical image processing and analysis
@@ -42,6 +43,7 @@ A collection of people, software platforms, datasets, and research groups releva
 - [PyDICOM](pydicom.md) — Pure Python library for reading and writing DICOM medical imaging files
 - [Pydra](pydra.md) — Lightweight dataflow engine for scientific workflow construction and execution
 - [DDE-Biftool](dde-biftool.md) — MATLAB toolbox for bifurcation analysis of delay differential equations, used for neural mass models
+- [LabStreamingLayer](labstreaminglayer.md) — Real-time data acquisition and synchronization framework for multimodal neuroimaging
 
 ## Research Projects & Datasets
 
@@ -104,4 +106,4 @@ A collection of people, software platforms, datasets, and research groups releva
 
 ---
 
-Total: ~53 entities
+Total: ~54 entities
