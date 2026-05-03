@@ -1,6 +1,12 @@
 # Log
 
 ## [2026-05-03]
+- Improved neuroconv page: Created comprehensive entity page replacing placeholder content. Added overview explaining NeuroConv as Python library for converting neurophysiology data to NWB standard, developed by CatalystNeuro. Detailed Key Features covering support for 50+ formats (SpikeGLX, OpenEphys, Neuralynx, Blackrock, Plexon, Suite2p, CaImAn, DeepLabCut etc.), automatic metadata extraction, chunked reading for large datasets, lossless compression, and temporal alignment of multiple data streams. Added Motivation/Context section explaining data fragmentation problem in neurophysiology and NWB standardization benefits. Architecture section explaining DataInterface classes and NWBConverter orchestrator. Relationship to TVB section explaining role in standardizing input data for whole-brain modeling pipelines (structural connectivity from DTI, functional dynamics from fMRI/EEG). Key Papers section citing Mayorquin et al. 2025 (SciPy) as primary reference. Related Software section with NWB, spikeinterface, neo, DANDI, OpenEphys, Suite2p, DeepLabCut with 15+ wikilinks to existing pages (nwb, the-virtual-brain, whole-brain-modeling, whole-brain-simulators, diffusion-imaging, fmri, eeg, electrophysiology, spikeinterface, neo, open-ephys, deeplabcut, suite2p, caiman, neuroimaging, personalized-brain-modeling). Updated frontmatter tags to taxonomy-compliant [neuroconv, nwb, spikeinterface, neo, open-ephys, suite2p, caiman, deeplabcut, python, electrophysiology, software-tools].
+
+## [2026-05-03]
+- Improved abcbids page: Created comprehensive entity page replacing placeholder content. Added overview explaining ABCBIDS as collection of software tools (abcd-dicom2bids, abcc_dicom2bids_s3) developed by the ABCD Study for converting DICOM neuroimaging data to BIDS format. Detailed Key Features covering Quality Control Integration (FastTrack QC spreadsheet filtering), Smart Field Map Selection (variance-based algorithm for optimal spin echo pairs), Scanner-Specific Processing (ANTs denoising/N4 bias field for Philips/GE), Multi-Stage DICOM-to-BIDS pipeline, and longitudinal support for multiple sessions. Added Motivation/Context section explaining large-scale multi-site dataset challenges (11,000+ subjects, 3 scanner vendors), BIDS standardization needs, and integration with downstream pipelines. Relationship to TVB section explaining how BIDS-standardized ABCD data feeds into whole-brain modeling workflows for structural connectivity and functional time series. Key Papers section referencing Feczko 2021 ABCD dataset paper and Marek 2019 brain-wide association studies. Related Software section with 12+ links (dcm2niix, Dcm2Bids, bidskit, bidscoin, heudiconv, fmriprep, ANTs, fsl) and 15+ wikilinks to existing pages including the-virtual-brain, whole-brain-modeling, bids, diffusion-imaging, fmri, mrtrix3, dipy, fmriprep, ants, connectome, structural-connectivity, functional-connectivity, neuroimaging, resting-state, neurodevelopment. Added page to entities/index.md under Software Platforms section.
+
+## [2026-05-03]
 - Improved brian2genn page: Created comprehensive entity page replacing placeholder content. Added overview explaining Brian2GeNN as software bridge between Brian2 and GeNN for GPU-accelerated spiking neural network simulations. Detailed Motivation/Context section explaining computational bottleneck in large-scale SNN simulations and GPU computing as solution. Technical Overview section covering automatic code generation pipeline, GPU optimization strategies (parallel neuron updates, sparse matrix synaptic operations, efficient spike kernels). Key Features section explaining transparent GPU acceleration, model compatibility (leaky IF, adaptive exponential IF, conductance-based), and performance benchmarks (10-100x speedup). Relationship to TVB section explaining complementary roles—TVB for macroscale mass models, Brian2GeNN for microscale detailed networks. Added relationship to GeNN and related software (Brian2, NEST, NEURON, SpiNNaker). Related Software section with 12+ links and 15+ wikilinks to existing pages (brian2, genn, nest, neuron, spinnaker, the-virtual-brain, tvb-nest, whole-brain-modeling, neural-mass-models, computational-neuroscience, spiking-neural-networks, gpu-computing, code-generation, brain-oscillations, epilepsy-modeling, personalized-brain-modeling, brain-network). Updated frontmatter tags to taxonomy-compliant [software-brian, software-neuron, spiking-neural-networks, gpu-computing, computational-neuroscience, neural-mass-models, neural-network, software-modeling, code-generation]. Added page to entities/index.md under Software Platforms section.
 
 - Created bcbtoolkit page: new entity page for Brain-Computer Interface toolkit. Added overview explaining BCBToolKit as open-source software for real-time EEG signal processing and BCI applications. Detailed Key Features covering preprocessing (bandpass filtering, artifact rejection), feature extraction (CSP, Fourier, wavelet), and classification (LDA, SVM, random forest) modules. Added Relationship to TVB section explaining complementary roles—TVB for large-scale whole-brain modeling, BCBToolKit for single-trial neural signal decoding. Included Technical Considerations noting MATLAB dependency and limitations vs alternatives (EEGLab, MNE-Python). Related Software section linking to eeglab, mne-python, openvibe, bci2000. Added 10+ wikilinks to existing pages (brain-computer-interface, neuroimaging-eeg, signal-processing, eeglab, mne-python, openvibe, the-virtual-brain, fieldtrip, bold-signal, brain-stimulation). Updated frontmatter tags to taxonomy-compliant [software-bci, neuroimaging-eeg, signal-processing, brain-computer-interface, open-source]. Added page to entities/index.md under Software Platforms section.
@@ -178,3 +184,21 @@
 - Added 10+ wikilinks to related software (ANTs, ANTsPy, TVB, nilearn, etc.)
 - Updated tags to include software-ants and r-packages
 - Added to entities index under Software Platforms section
+
+## [2026-05-03 21:08] Improve: 7 pages improved (tvb-nest, glmsingle, napari, brian2cuda, cifti-tools, tractoflow, antsr)
+
+## [2026-05-03 21:22] Improve: 1 page improved (lems)
+
+- Replaced placeholder content with comprehensive LEMS overview
+- Added technical content on XML schema, component types, and dimension system
+- Included relations to NeuroML, Brian, NEURON, NEST, and related tools
+- Added 10+ wikilinks to related pages
+- Added to entities index under Software Platforms section
+
+## [2026-05-03 21:19] Improve: 1 page improved (brian2cuda)
+
+- Fixed invalid tag "gpu-computing" (not in taxonomy) - replaced with valid tags
+- Fixed duplicate section heading and formatting issues
+- Cleaned up sources field (set to empty since no source files available)
+- Removed References section (handled by separate agent)
+- Verified all wikilinks point to existing pages in inventory

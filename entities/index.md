@@ -31,6 +31,7 @@ A collection of people, software platforms, datasets, and research groups releva
 - [DTI-TK](dti-tk.md) - Diffusion Tensor Imaging Toolkit for tensor-based tractography
 - [BMTK](bmtk.md) - Brain Modeling Toolkit for large-scale neural network construction
 - [BIDSkit](bidskit.md) - Command-line toolkit for BIDS data manipulation and conversion
+- [ABCBIDS](abcbids.md) - ABCD Study DICOM to BIDS conversion tools for large-scale multi-site neuroimaging datasets
 - [BindsNET](bindsnet.md) - Spiking neural network simulator with PyTorch integration and STDP learning rules
 - [Brian2GeNN](brian2genn.md) - GPU-accelerated spiking neural network simulation via Brian2-GeNN bridge
 - [BCBToolKit](bcbtoolkit.md) - Brain-Computer Interface toolkit for real-time EEG signal processing and BCI applications
@@ -47,6 +48,7 @@ A collection of people, software platforms, datasets, and research groups releva
 - [Pydra](pydra.md) — Lightweight dataflow engine for scientific workflow construction and execution
 - [DDE-Biftool](dde-biftool.md) — MATLAB toolbox for bifurcation analysis of delay differential equations, used for neural mass models
 - [LabStreamingLayer](labstreaminglayer.md) — Real-time data acquisition and synchronization framework for multimodal neuroimaging
+- [LEMS](lems.md) — Low-level Entity Meta-Schema for neural model specification and simulator interoperability
 
 ## Research Projects & Datasets
 
