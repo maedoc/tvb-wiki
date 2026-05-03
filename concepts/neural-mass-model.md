@@ -21,7 +21,7 @@ tags:
 - bifurcation-analysis
 title: Neural Mass Model
 type: concept
-updated: '2026-05-02'
+updated: '2026-05-03'
 ---
 
 Neural mass models (NMMs) are mathematical descriptions of the collective dynamics of large populations of neurons, employing mean-field approximations to reduce the high-dimensional firing patterns of individual cells into low-dimensional differential equations that capture population-level activity. This reductionist approach sits at the mesoscopic scale of brain organization—intermediate between the microscopic dynamics of single neurons and the macroscopic scale of whole-brain networks—so that a single neural mass variable can represent the aggregate behavior of millions of neurons within a cortical column or brain region. The resulting models are computationally tractable while retaining sufficient biological realism to explain emergent phenomena such as brain oscillations, seizure dynamics, and resting-state connectivity patterns that are observable in [[eeg]], [[meg]], and [[fmri]] recordings.
@@ -87,7 +87,7 @@ Despite their utility, neural mass models carry significant limitations that mot
 - [[jansen-rit]] – EEG/MEG‑focused cortical column model
 - [[wong-wang]] – [[fmri]]/BOLD‑optimized model
 - [[tvb]] – Primary software platform implementing NMMs
-- [[tvb-vs-nest-vs-neuron]]
+- [[tvb-vs-[[nest]]-vs-neuron]]
 - [[tvb-vs-nest-vs-neuron|TVB vs Nest vs Neuron]]
 - [[tvb-vs-nest-vs-neuron|Tvb Vs Nest Vs Neuron]]
 

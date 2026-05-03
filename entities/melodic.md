@@ -5,13 +5,14 @@ tags:
 - software-brain-modeling
 title: MELODIC
 type: entity
-updated: 2026-05-03
+updated: '2026-05-03'
 ---
+
 title: MELODIC
 created: 2025-01-15
 updated: 2026-05-03
 type: entity
-tags: [software-fsl, ica, neuroimaging-fmri, resting-state, functional-connectivity, source-separation, software-visualization]
+tags: [[[software-fsl]], ica, [[neuroimaging]]-[[fmri]], resting-state, functional-[[connectivity]], [[source-separation]], software-visualization]
 sources: [beckmann2004probabilistic, smith2004advances, salimi2014automatic, smith2009correlations]
 ---
 
@@ -19,7 +20,7 @@ sources: [beckmann2004probabilistic, smith2004advances, salimi2014automatic, smi
 
 ## Overview
 
-MELODIC (Multivariate Exploratory Linear Optimized Decomposition into Independent Components) is a widely-used software tool for performing Independent Component Analysis (ICA) on neuroimaging data, particularly functional magnetic resonance imaging (fMRI). Developed by the FMRIB (Oxford Centre for Functional MRI of the Brain) Analysis Group at the University of Oxford, MELODIC is distributed as part of the [[fsl|FMRIB Software Library (FSL)]] and provides a robust, automated approach to decomposing 4D fMRI datasets into spatially independent signal sources [1]. The tool has become a cornerstone of resting-state fMRI analysis, enabling researchers to decompose complex neuroimaging time-series into functionally meaningful network components without requiring a priori specification of signal models.
+MELODIC (Multivariate Exploratory [[linear]] Optimized Decomposition into Independent Components) is a widely-used software tool for performing Independent Component Analysis (ICA) on neuroimaging data, particularly functional magnetic resonance imaging (fMRI). Developed by the FMRIB (Oxford Centre for Functional MRI of the Brain) Analysis Group at the University of Oxford, MELODIC is distributed as part of the [[fsl|FMRIB Software Library (FSL)]] and provides a robust, automated approach to decomposing 4D fMRI datasets into spatially independent signal sources [1]. The tool has become a cornerstone of resting-state fMRI analysis, enabling researchers to decompose complex neuroimaging time-series into functionally meaningful network components without requiring a priori specification of signal models.
 
 ## Technical Background
 
@@ -35,7 +36,7 @@ Component classification in MELODIC is primarily handled by **FSL FIX** (FMRIB's
 
 ## Relationship to TVB
 
-While [[tvb|The Virtual Brain (TVB)]] focuses on computational modeling of whole-brain dynamics using large-scale neural mass and spiking neuron models, MELODIC serves a complementary role in the neuroimaging analysis pipeline. TVB simulations can be constrained by empirical functional connectivity patterns derived from ICA decompositions like those produced by MELODIC. In particular, resting-state networks identified through MELODIC analysis provide target patterns against which TVB model connectivity matrices can be tuned. The [[functional-connectivity]] patterns extracted from group ICA analyses serve as reference architectures for constructing personalized brain models in TVB, where individual structural connectivity from DTI is combined with functional network hierarchies derived from ICA decompositions [4].
+While [[tvb|[[the-virtual-brain]] (TVB)]] focuses on computational modeling of whole-[[brain-dynamics]] using large-scale neural mass and spiking neuron models, MELODIC serves a complementary role in the neuroimaging analysis pipeline. TVB simulations can be constrained by empirical functional connectivity patterns derived from ICA decompositions like those produced by MELODIC. In particular, resting-state networks identified through MELODIC analysis provide target patterns against which TVB model connectivity matrices can be tuned. The [[functional-connectivity]] patterns extracted from group ICA analyses serve as reference architectures for constructing [[personalized-brain-modeling|personalized brain]] models in TVB, where individual [[structural-connectivity]] from DTI is combined with functional network hierarchies derived from ICA decompositions [4].
 
 ## Related Software and Methods
 

@@ -6,7 +6,7 @@ tags:
 - software-brain-modeling
 title: ciftify
 type: entity
-updated: '2026-05-02'
+updated: '2026-05-03'
 ---
 
 title: ciftify
@@ -55,7 +55,7 @@ The ciftify package, while primarily a software tool, has been referenced in num
 
 4. **Barch, D.M., et al. (2013)** — "Function in the human connectome: Resting-state fMRI and its methodological variability." *NeuroImage*. This paper addresses methodological considerations in resting-state fMRI that are relevant to ciftify-based preprocessing pipelines.
 
-5. **Gordon, E.M., et al. (2016)** — "Connectome and pace: A critique of "whole brain" v. " developmentally driven" clustering approaches to parcellating the cortex." *NeuroImage*. This paper discusses approaches to cortical parcellation that inform the surface-based analyses ciftify enables.
+5. **Gordon, E.M., et al. (2016)** — "Connectome and pace: A critique of "[[whole-brain]]" v. " developmentally driven" clustering approaches to parcellating the cortex." *NeuroImage*. This paper discusses approaches to cortical parcellation that inform the surface-based analyses ciftify enables.
 
 ## Related Software
 

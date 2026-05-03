@@ -1,15 +1,23 @@
 ---
-title: Brain Dynamics Toolbox
 created: 2024-01-15
-updated: 2026-05-03
+sources:
+- heitmann-2017
+- breakspear-2017
+tags:
+- software-brain
+- software-tvb
+- neural-mass-models
+- dynamical-systems-theory
+- bifurcation-analysis
+- network-dynamics
+title: Brain Dynamics Toolbox
 type: entity
-tags: [software-brain, software-tvb, neural-mass-models, dynamical-systems-theory, bifurcation-analysis, network-dynamics]
-sources: [heitmann-2017, breakspear-2017]
+updated: '2026-05-03'
 ---
 
 # Brain Dynamics Toolbox
 
-The Brain Dynamics Toolbox (BDT) is an open-source MATLAB toolbox for simulating and analyzing dynamical systems in computational neuroscience. It provides a flexible framework for building neural mass models and conducting phase plane analysis, bifurcation analysis, and continuation studies of large-scale brain networks. The toolbox was developed by Stewart Heitmann, Matthew J. Aburn, and Michael Breakspear to address the need for standardized tools to explore the nonlinear dynamics underlying brain activity, particularly in the context of whole-brain modeling where multiple brain regions are coupled via structural connectivity [@heitmann2017].
+The [[brain-dynamics]] Toolbox (BDT) is an open-source MATLAB toolbox for simulating and analyzing dynamical systems in [[computational-neuroscience]]. It provides a flexible framework for building [[neural-mass-models]] and conducting phase plane analysis, [[bifurcation-analysis]], and continuation studies of large-scale brain networks. The toolbox was developed by Stewart Heitmann, Matthew J. Aburn, and Michael Breakspear to address the need for standardized tools to explore the [[nonlinear-dynamics]] underlying brain activity, particularly in the context of [[whole-brain|whole-brain modeling]] where multiple brain regions are coupled via structural [[connectivity]] [@heitmann2017].
 
 ## Motivation and Context
 
@@ -19,7 +27,7 @@ The toolbox fills a specific niche between low-level neural simulators like [[ne
 
 ## Technical Description
 
-The Brain Dynamics Toolbox provides several core capabilities for dynamical systems analysis. Model construction is achieved through a hierarchical architecture where individual neural mass models are defined as MATLAB classes and can be coupled together to form brain networks. The toolbox provides built-in implementations of classic neural mass models including the [[jansen-rit-model]], the Wilson-Cowan model, and the [[larter-breakspear]] model, while also allowing researchers to define custom models.
+The Brain Dynamics Toolbox provides several core capabilities for dynamical systems analysis. Model construction is achieved through a hierarchical architecture where individual neural mass models are defined as MATLAB classes and can be coupled together to form brain networks. The toolbox provides built-in implementations of classic neural mass models including the [[jansen-rit-model]], the [[wilson-cowan|Wilson-Cowan model]], and the [[larter-breakspear]] model, while also allowing researchers to define custom models.
 
 ### Phase Plane Analysis
 
@@ -37,7 +45,7 @@ For whole-brain models [[whole-brain-modeling]], BDT provides tools for coupling
 
 The Brain Dynamics Toolbox occupies a unique position in the ecosystem of brain simulation software. Unlike [[the-virtual-brain]], which emphasizes clinical workflows and empirical data fitting, BDT focuses on the fundamental dynamical systems behavior of neural mass models. Unlike [[brian2]] or [[nest]], which simulate spiking neurons at the level of individual cells, BDT operates at the population level where mean-field approximations apply.
 
-The toolbox complements [[dynamic-causal-modeling]] (DCM), which uses Bayesian inversion to estimate effective connectivity from neuroimaging data. While DCM is primarily inferential, BDT is complementary in being a forward-modeling tool that explores the dynamical consequences of specified connectivity patterns. Together, these approaches form a bidirectional bridge between empirical connectivity estimates and the theoretical dynamics they support.
+The toolbox complements [[dynamic-causal-modeling]] (DCM), which uses Bayesian inversion to estimate [[effective-connectivity]] from [[neuroimaging]] data. While DCM is primarily inferential, BDT is complementary in being a forward-modeling tool that explores the dynamical consequences of specified connectivity patterns. Together, these approaches form a bidirectional bridge between empirical connectivity estimates and the theoretical dynamics they support.
 
 ## Key Features and Usage
 

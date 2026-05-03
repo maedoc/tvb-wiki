@@ -15,10 +15,10 @@ title: NeuSIGHT
 created: 2024-01-15
 updated: 2026-05-03
 type: entity
-tags: [software-tvb, whole-brain-modeling, neural-mass-models, computational-neuroscience, neuroimaging-fmri, neuroimaging-eeg, neuroimaging-meg, parameter-estimation, personalized-brain-modeling, network-dynamics]
+tags: [software-tvb, [[whole-brain-modeling]], [[neural-mass-models]], [[computational-neuroscience]], [[neuroimaging]]-fmri, neuroimaging-eeg, neuroimaging-meg, parameter-estimation, personalized-brain-modeling, network-dynamics]
 sources:
   - id: "neysight2023"
-    title: "NeuSIGHT: Neural Simulation and Imaging for Whole-Brain Modeling"
+    title: "NeuSIGHT: Neural Simulation and Imaging for [[whole-brain|Whole-Brain Modeling]]"
     authors: ["A. R. Honey", "J. D. Murray", "K. J. Fransson"]
     venue: "OHBM Annual Meeting"
     year: 2023
@@ -45,7 +45,7 @@ sources:
     pages: "591-601"
     year: 2012
   - id: "tvb-jansen"
-    title: "The Virtual Brain: an online simulator of the Brain"
+    title: "[[tvb|The Virtual Brain]]: an online simulator of the Brain"
     authors: ["S. J. T. J. Woodman", "C. A. M. G. Lee"]
     journal: "SFN Abstracts"
     year: 2014
@@ -69,7 +69,7 @@ The software implements a mean-field approach to neural mass modeling, where eac
 
 ## Key Papers
 
-NeuSIGHT has been discussed primarily in conference presentations and technical reports rather than peer-reviewed publications, representing an approach to personalized brain modeling that aligns with the broader movement toward [[personalized-brain-modeling]] in computational psychiatry and neurology. The software draws on methodological foundations established in [[dynamic-causal-modeling]] for neural parameter estimation and extends these ideas to whole-brain models with multiple interacting regions.
+NeuSIGHT has been discussed primarily in conference presentations and technical reports rather than peer-reviewed publications, representing an approach to personalized brain modeling that aligns with the broader movement toward [[personalized-brain-modeling]] in [[computational-psychiatry]] and neurology. The software draws on methodological foundations established in [[dynamic-causal-modeling]] for neural parameter estimation and extends these ideas to whole-brain models with multiple interacting regions.
 
 ## Related Software
 

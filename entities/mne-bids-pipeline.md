@@ -11,7 +11,7 @@ tags:
 - data-processing
 title: MNE-BIDS-Pipeline
 type: entity
-updated: '2026-05-02'
+updated: '2026-05-03'
 ---
 
 ## Overview
@@ -42,7 +42,7 @@ Critically, MNE-BIDS-Pipeline generates outputs that conform to the BIDS-derivat
 
 MNE-BIDS-Pipeline is related to [[The Virtual Brain]] through the data preprocessing pipeline that bridges empirical electrophysiology recordings and whole-brain models. TVB requires empirical data for two primary purposes: generating subject-specific structural connectomes (typically from DTI tractography) and fitting [[neural-mass-models]] to observed [[brain-dynamics]]. For the latter, preprocessed EEG or MEG time series—after artifact removal and source estimation—provide the empirical targets that model parameters are optimized to match.
 
-Researchers employing TVB for personalized brain modeling can use MNE-BIDS-Pipeline to generate the processed electrophysiology data needed for model fitting, particularly when working with resting-state recordings or task-based MEG/EEG from datasets like those available in [[openneuro]]. The standardized output format facilitates integration with TVB's data adapters, which handle conversion from various neuroimaging formats to TVB's internal representation.
+Researchers employing TVB for [[personalized-brain-modeling]] can use MNE-BIDS-Pipeline to generate the processed electrophysiology data needed for model fitting, particularly when working with [[resting-state]] recordings or task-based MEG/EEG from datasets like those available in [[openneuro]]. The standardized output format facilitates integration with TVB's data adapters, which handle conversion from various neuroimaging formats to TVB's internal representation.
 
 The combination of MNE-BIDS-Pipeline and TVB represents a powerful workflow for researchers seeking to constrain whole-brain models with empirical electrophysiology. While MNE-BIDS-Pipeline handles the signal processing chain from raw recordings to source-localized time series, TVB leverages these outputs to fit neural mass model parameters that reproduce observed brain dynamics, enabling predictions about brain behavior under various conditions.
 
@@ -54,7 +54,7 @@ The combination of MNE-BIDS-Pipeline and TVB represents a powerful workflow for 
 
 3. Tait, R., et al. (2023). Large-scale analysis of resting-state MEG connectivity using MNE-BIDS-Pipeline. NeuroImage.
 
-4. Gorgolewski, K., et al. (2015). PyBIDS: A Python toolbox for organizing neuroimaging data. Frontiers in Neuroinformatics.
+4. Gorgolewski, K., et al. (2015). [[pybids]]: A Python toolbox for organizing neuroimaging data. Frontiers in Neuroinformatics.
 
 5. Gramfort, A., et al. (2013). MEG and EEG data analysis with MNE-Python. Frontiers in Neuroscience.
 
@@ -68,6 +68,6 @@ The combination of MNE-BIDS-Pipeline and TVB represents a powerful workflow for 
 
 - Jas, M., et al. (2017). MNE-BIDS: A tool to flexibly share MEG, EEG, and intracranial EEG data. Scientific Data, 4, 170054.
 
-- Van Essen, D. C., et al. (2013). The Human Connectome Project: A data acquisition perspective. NeuroImage, 62, 2222-2231.
+- Van Essen, D. C., et al. (2013). The [[human-[[connectome]]-project]]: A data acquisition perspective. NeuroImage, 62, 2222-2231.
 
-- The Virtual Brain. (2024). TVB Documentation. https://www.thevirtualbrain.org
+- [[tvb|The Virtual Brain]]. (2024). TVB Documentation. https://www.thevirtualbrain.org

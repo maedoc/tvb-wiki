@@ -16,12 +16,12 @@ created: 2025-01-15
 updated: 2026-05-03
 type: entity
 tags: [software-visualization, neuroimaging]
-sources: [https://www.nitrc.org/projects/mricron, https://nifti.nimh.nih.gov/, https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1481930/]
+sources: [https://www.[[nitrc]].org/projects/mricron, https://[[nifti]].nimh.nih.gov/, https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1481930/]
 ---
 
 ## Overview
 
-MRIcron is a lightweight, cross-platform neuroimaging visualization software application originally developed by Chris Rorden for viewing and inspecting MRI data, particularly statistical parametric maps in NIfTI format. The software serves as a rapid viewer for neurological and radiological images, enabling researchers to overlay statistical results onto anatomical templates, navigate brain volumes in orthographic views, and perform basic region-of-interest (ROI) analyses. MRIcron's design philosophy prioritizes speed and simplicity over comprehensive feature sets, making it an accessible entry point for neuroimaging visualization and a useful complement to more complex analysis pipelines. The software operates on Windows, macOS, and Linux platforms and is distributed as free and open-source software under a modified GPL license[@nitrc].
+MRIcron is a lightweight, cross-platform [[neuroimaging]] visualization software application originally developed by Chris Rorden for viewing and inspecting MRI data, particularly statistical parametric maps in NIfTI format. The software serves as a rapid viewer for neurological and radiological images, enabling researchers to overlay statistical results onto anatomical templates, navigate brain volumes in orthographic views, and perform basic region-of-interest (ROI) analyses. MRIcron's design philosophy prioritizes speed and simplicity over comprehensive feature sets, making it an accessible entry point for neuroimaging visualization and a useful complement to more complex analysis pipelines. The software operates on Windows, macOS, and Linux platforms and is distributed as free and open-source software under a modified GPL license[@nitrc].
 
 ## Relationship to TVB
 
@@ -35,7 +35,7 @@ The software also includes basic region-of-interest analysis capabilities, allow
 
 ## Technical Considerations
 
-MRIcron's architecture is designed around the NIfTI-1 data format, which stores 3D or 4D MRI volumes with associated header information including spatial transformations, voxel sizes, and data type. The software automatically handles axis reorientation and can display both RAS+ (right-anterior-superior) and LAS+ (left-anterior-superior) oriented datasets correctly. Memory efficiency is a key design consideration—the software can load large datasets (whole-brain volumes at high resolution) without excessive memory consumption, making it suitable for working with high-resolution structural MRI or dense diffusion imaging data.
+MRIcron's architecture is designed around the NIfTI-1 data format, which stores 3D or 4D MRI volumes with associated header information including spatial transformations, voxel sizes, and data type. The software automatically handles axis reorientation and can display both RAS+ (right-anterior-superior) and LAS+ (left-anterior-superior) oriented datasets correctly. Memory efficiency is a key design consideration—the software can load large datasets ([[whole-brain]] volumes at high resolution) without excessive memory consumption, making it suitable for working with high-resolution structural MRI or dense [[diffusion-imaging]] data.
 
 For researchers transitioning from clinical radiological practice, MRIcron provides both neurological (left-is-left) and radiological (left-is-right) viewing conventions via menu selection, accommodating different institutional standards. The software also supports multiple colormaps including standard statistical thresholds commonly used in neuroimaging (coolwarm, hot, statistical parametric mapping defaults). Export capabilities include screenshots in common image formats, facilitating incorporation into presentations and publications.
 
@@ -69,6 +69,6 @@ The following publications represent foundational references for MRIcron and its
 
 ## References
 
-1. (authors unknown). *Permutation inference for the general linear model*.
-2. M. Cottaar, Zhiyu Zheng, Karla L. Miller, Benjamin C. Tendler, Saad Jbabdi. (2025). *Multi-modal Monte Carlo MRI simulator of tissue microstructure*. bioRxiv. [DOI](https://doi.org/10.1162/IMAG.a.1177)
-3. Qianyu Chen, Shujian Yu. (2026). *Continual Learning for fMRI-Based Brain Disorder Diagnosis via Functional Connectivity Matrices Generative Replay*. [Link](https://arxiv.org/abs/2604.14259)
+1. (authors unknown). *Permutation inference for the general [[linear|linear model]]*.
+2. M. Cottaar, Zhiyu Zheng, [[patricia-miller|Karla L. Miller]], Benjamin C. Tendler, Saad Jbabdi. (2025). *Multi-modal Monte Carlo MRI simulator of tissue microstructure*. bioRxiv. [DOI](https://doi.org/10.1162/IMAG.a.1177)
+3. Qianyu Chen, Shujian Yu. (2026). *Continual Learning for [[fmri]]-Based Brain Disorder Diagnosis via Functional [[connectivity]] Matrices Generative Replay*. [Link](https://arxiv.org/abs/2604.14259)

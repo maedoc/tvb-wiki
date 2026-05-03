@@ -23,4 +23,6 @@
 | Time | Event | Count |
 |------|-------|-------|
 | 17:54 | Config bump, daemon restart | 10 writers active |
+| 18:11 | Daemon restart after crash | 7 writers, more stable |
+| 18:23 | First sprint cycle complete | **7 pages improved** (loris, nitransforms, aslprep, neurominer, synthseg, neuroquery, medpy) |
 | 17:54 | First sprint cycle | 10 thin pages improving (placeholders) |

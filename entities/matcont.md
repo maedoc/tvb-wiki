@@ -1,17 +1,24 @@
 ---
-title: MATCONT
 created: 2025-01-01
-updated: 2026-05-03
-type: entity
-tags: [software, bifurcation-analysis, dynamical-systems-theory, nonlinear-dynamics, parameter-estimation, whole-brain-modeling, neural-mass-models]
 sources:
-  - https://www.math.uu.nl/~doelman publications
-  - https://github.com/matcont/toolbox
-  - https://link.springer.com/article/10.1007/s10827-009-0160-8
-  - http://www.scholarpedia.org/article/Computational_neuroscience:_Neural_mass_models
+- https://www.math.uu.nl/~doelman publications
+- https://github.com/matcont/toolbox
+- https://link.springer.com/article/10.1007/s10827-009-0160-8
+- http://www.scholarpedia.org/article/Computational_neuroscience:_Neural_mass_models
+tags:
+- software
+- bifurcation-analysis
+- dynamical-systems-theory
+- nonlinear-dynamics
+- parameter-estimation
+- whole-brain-modeling
+- neural-mass-models
+title: MATCONT
+type: entity
+updated: '2026-05-03'
 ---
 
-MATCONT is a MATLAB-based interactive toolbox for numerical continuation and bifurcation analysis of dynamical systems. Developed by researchers at the University of Groningen and now hosted at Delft University of Technology, MATCONT provides a unified environment for tracking equilibria, periodic orbits, and their bifurcations as system parameters vary [1]. In the context of whole-brain modeling and computational neuroscience, MATCONT serves as an essential tool for characterizing the dynamic repertoire of neural mass models such as the Jansen-Rit model, the Wilson-Cowan model, and the Epileptor model [2].
+MATCONT is a MATLAB-based interactive toolbox for numerical continuation and bifurcation analysis of dynamical systems. Developed by researchers at the University of Groningen and now hosted at Delft University of Technology, MATCONT provides a unified environment for tracking equilibria, periodic orbits, and their bifurcations as system parameters vary [1]. In the context of [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]], MATCONT serves as an essential tool for characterizing the dynamic repertoire of [[neural-mass-models]] such as the [[jansen-rit|Jansen-Rit model]], the [[wilson-cowan|Wilson-Cowan model]], and the [[epileptor|Epileptor model]] [2].
 
 ## Overview
 
@@ -21,9 +28,9 @@ The software builds on the functionality of earlier continuation packages such a
 
 ## Relationship to TVB
 
-MATCONT has been used in conjunction with [[TVB]] (The Virtual Brain) for analyzing the dynamic behaviors that emerge from whole-brain connectome-based models. In the TVB framework, the brain is modeled as a network of neural mass models coupled via empirical structural connectivity matrices derived from diffusion tensor imaging. MATCONT enables researchers to perform a systematic analysis of how the model's equilibrium states and oscillatory behaviors change as a function of coupling strength, delay, and local model parameters [4].
+MATCONT has been used in conjunction with [[TVB]] ([[the-virtual-brain]]) for analyzing the dynamic behaviors that emerge from whole-brain [[connectome]]-based models. In the TVB framework, the brain is modeled as a network of neural mass models coupled via empirical [[structural-connectivity]] matrices derived from diffusion tensor imaging. MATCONT enables researchers to perform a systematic analysis of how the model's equilibrium states and oscillatory behaviors change as a function of coupling strength, delay, and local model parameters [4].
 
-When combined with TVB's parameter estimation capabilities, MATCONT allows for the identification of critical parameter regimes associated with physiologically relevant dynamics such as alpha rhythms, seizure-like events, and resting-state networks. The bifurcation diagrams produced by MATCONT provide a theoretical grounding for interpreting empirical neuroimaging findings, linking observed changes in functional connectivity to underlying mathematical transitions in the dynamical system.
+When combined with TVB's parameter estimation capabilities, MATCONT allows for the identification of critical parameter regimes associated with physiologically relevant dynamics such as alpha rhythms, seizure-like events, and resting-state networks. The bifurcation diagrams produced by MATCONT provide a theoretical grounding for interpreting empirical neuroimaging findings, linking observed changes in [[functional-connectivity]] to underlying mathematical transitions in the dynamical system.
 
 ## Key Features
 

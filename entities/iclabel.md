@@ -1,17 +1,17 @@
----  
-created: 2026-04-29  
-sources:  
-- raw/papers/semanticscholar-9e42d6a25d21.md  
-- raw/papers/semanticscholar-4d73a30d5c84.md  
-- raw/papers/makeig-1996.md  
-tags:  
-- software-brain-modeling  
-- source-separation  
-- eeg  
-title: ICLabel  
-type: entity  
-updated: '2026-05-02'  
----  
+---
+created: 2026-04-29
+sources:
+- raw/papers/semanticscholar-9e42d6a25d21.md
+- raw/papers/semanticscholar-4d73a30d5c84.md
+- raw/papers/makeig-1996.md
+tags:
+- software-brain-modeling
+- source-separation
+- eeg
+title: ICLabel
+type: entity
+updated: '2026-05-03'
+---
 
 **ICLabel** is an [[eeglab]] plugin that uses a deep [[neural-network]] to automatically classify independent components (ICs) derived from EEG recordings arxiv-1903.06496. It categorizes ICs into six main types: brain (cortical), muscle (EMG), eye (EOG), heart (ECG), line noise (powerline interference), and channel noise (sensor artifacts) arxiv-1903.06496. This automated classification addresses a major bottleneck in EEG preprocessing: the traditionally manual and time‑consistent process of identifying and removing artifacts from ICA‑decomposed data.  
 
@@ -76,11 +76,11 @@ When EEG data is used in TVB simulations, [[volume-conduction]] models are requi
 
 ### Connectome‑Based Analyses  
 
-Researchers may use ICLabel‑cleaned EEG data in connectome‑based investigations, though such analyses are distinct from TVB's whole‑brain simulation framework [[mrtrix3-connectome]]. The preprocessing step is peripheral to TVB core functionality rather than integral to it.  
+Researchers may use ICLabel‑cleaned EEG data in [[connectome]]‑based investigations, though such analyses are distinct from TVB's whole‑brain simulation framework [[mrtrix3-connectome]]. The preprocessing step is peripheral to TVB core functionality rather than integral to it.  
 
 ### Electrophysiology Integration  
 
-ICLabel contributes to electrophysiology preprocessing workflows that may feed into TVB's neural mass models [[electrophysiology]]. The relationship is one of data preparation rather than direct model integration.  
+ICLabel contributes to electrophysiology preprocessing workflows that may feed into TVB's [[neural-mass-models]] [[electrophysiology]]. The relationship is one of data preparation rather than direct model integration.  
 
 ## See Also  
 

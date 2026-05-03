@@ -1,15 +1,24 @@
 ---
-title: DDE-Biftool
 created: 2025-01-15
-updated: 2026-05-03
+sources:
+- raw/papers/arxiv-dde-biftool.md
+tags:
+- software-bifurcation-analysis
+- delay-differential-equations
+- dynamical-systems-theory
+- bifurcation-analysis
+- nonlinear-dynamics
+- parameter-estimation
+- computational-neuroscience
+- neural-mass-models
+title: DDE-Biftool
 type: entity
-tags: [software-bifurcation-analysis, delay-differential-equations, dynamical-systems-theory, bifurcation-analysis, nonlinear-dynamics, parameter-estimation, computational-neuroscience, neural-mass-models]
-sources: [raw/papers/arxiv-dde-biftool.md]
+updated: '2026-05-03'
 ---
 
 ## Overview
 
-DDE-Biftool (_delay differential equations bifurcation tool_) is a MATLAB-based software package for the numerical analysis of delay differential equations (DDEs), with particular emphasis on continuation and bifurcation analysis. The software was initially developed by Koen Engelborghs at the University of Ghent, with significant contributions from Tatyana Luzyanina, Dirk Roose, and Giovanni Samaey at ETH Zürich and the Belgian dynamical systems community [@engelborghs2001; @engelborghs2002]. The software enables researchers to compute and continue equilibria, periodic orbits, and their associated bifurcations in systems of DDEs, making it an essential tool for studying neural mass models and whole-brain models that incorporate synaptic or propagation delays.
+DDE-Biftool (_delay differential equations bifurcation tool_) is a MATLAB-based software package for the numerical analysis of delay differential equations (DDEs), with particular emphasis on continuation and [[bifurcation-analysis]]. The software was initially developed by Koen Engelborghs at the University of Ghent, with significant contributions from Tatyana Luzyanina, Dirk Roose, and Giovanni Samaey at ETH Zürich and the Belgian dynamical systems community [@engelborghs2001; @engelborghs2002]. The software enables researchers to compute and continue equilibria, periodic orbits, and their associated bifurcations in systems of DDEs, making it an essential tool for studying [[neural-mass-models]] and [[whole-brain]] models that incorporate synaptic or propagation delays.
 
 Delay differential equations arise naturally in neuroscientific modeling because neuronal signals propagate with finite velocity along axonal connections, and synaptic transmission itself involves intrinsic time delays. These delays, even when small, can dramatically alter the dynamical behavior of neural systems, introducing oscillations, multistability, and complex bifurcations that are not present in delay-free ODE formulations. DDE-Biftool provides the computational machinery to explore these delay-induced phenomena systematically.
 
@@ -19,7 +28,7 @@ DDE-Biftool implements a comprehensive suite of algorithms for dynamical systems
 
 The software detects and locates numerous types of bifurcations including **Andronov-Hopf bifurcations** (both supercritical and subcritical), **fold bifurcations** (saddle-node), **period-doubling (flip) bifurcations**, and **torus bifurcations**. At detected bifurcation points, DDE-Biftool can compute **center manifolds** and perform **Lyapunov coefficient** calculations to determine the dynamical type of the bifurcation—for example, classifying whether a Hopf bifurcation leads to stable or unstable oscillations.
 
-A particularly valuable feature for neuroscience applications is the software's ability to handle **state-dependent delays**, where the delay itself varies with the system state. This capability is crucial for modeling phenomena such as synaptic gating dynamics where the effective delay depends on the current firing rate or membrane potential. The continuation engine handles systems with multiple, independent delays, enabling analysis of large-scale connectome-based models where different brain regions may have distinct delay distributions.
+A particularly valuable feature for neuroscience applications is the software's ability to handle **state-dependent delays**, where the delay itself varies with the system state. This capability is crucial for modeling phenomena such as synaptic gating dynamics where the effective delay depends on the current firing rate or membrane potential. The continuation engine handles systems with multiple, independent delays, enabling analysis of large-scale [[connectome]]-based models where different brain regions may have distinct delay distributions.
 
 ## Relationship to TVB
 
@@ -27,7 +36,7 @@ DDE-Biftool has been used in conjunction with [[the-virtual-brain]] (TVB) for se
 
 Researchers have employed DDE-Biftool to perform **bifurcation analysis** on reduced versions of TVB models, identifying parameter regimes that produce physiologically realistic oscillations (e.g., alpha rhythms at 8–12 Hz) versus pathological dynamics (e.g., seizure-like bursting) [@proix2014; @spiegler2016]. By continuing equilibria and periodic orbits through the delay parameter space, one can map out the **dynamic repertoire** of the model—determining which combinations of delay and coupling strength yield stable resting states, synchronized oscillations, or unstable pathological activity.
 
-The software also supports **parameter estimation** workflows by characterizing the local stability properties of candidate parameter sets [@breakspear2014]. Rather than relying solely on goodness-of-fit to empirical functional connectivity data, researchers can use DDE-Biftool to ensure that estimated parameters correspond to physiologically plausible dynamical regimes, filtering out parameter combinations that would produce biologically implausible dynamics such as unbounded excitation or complete suppression of activity.
+The software also supports **[[parameter-estimation]]** workflows by characterizing the local stability properties of candidate parameter sets [@breakspear2014]. Rather than relying solely on goodness-of-fit to empirical [[functional-connectivity]] data, researchers can use DDE-Biftool to ensure that estimated parameters correspond to physiologically plausible dynamical regimes, filtering out parameter combinations that would produce biologically implausible dynamics such as unbounded excitation or complete suppression of activity.
 
 ## Key Papers
 
@@ -45,10 +54,10 @@ The choice between these tools often depends on the specific research question: 
 
 [@engelborghs2002] Engelborghs, K., Luzyanina, T., & Roose, D. (2002). Numerical bifurcation analysis of delay differential equations using DDE-BIFTOOL. *ACM Transactions on Mathematical Software*, 28(1), 1-21.
 
-[@kuznetsov2004] Kuznetsov, Y. A. (2004). *Elements of Applied Bifurcation Theory* (3rd ed.). Springer.
+[@kuznetsov2004] Kuznetsov, Y. A. (2004). *Elements of Applied [[bifurcation-theory]]* (3rd ed.). Springer.
 
 [@proix2014] Proix, T., Pert, F., Spiegler, A., Jirsa, V. K., & Wendling, F. (2014). Parasitic oscillations in a closed-loop brain model: implications for cortical seizures. *Frontiers in Neural Circuits*, 8, 10.
 
 [@spiegler2016] Spiegler, A., Kiebel, S. J., Lyttle, D. N., Jirsa, V. K., & Stephan, K. E. (2016). Parametric analysis of large-scale brain model dynamics: insights into epilepsy and seizures. In T. R. Jackson & A. V. G. Williams (Eds.), *Computational Neuroscience: Theoretical Insights into Brain Function* (pp. 345-367). Oxford University Press.
 
-[@breakspear2014] Breakspear, M., Heitmann, S., & Daffertshofer, A. (2014). Generative models of cortical oscillations: neurobiological implications of the Kuramoto model. *Frontiers in Human Neuroscience*, 8, 166.
+[@breakspear2014] Breakspear, M., Heitmann, S., & Daffertshofer, A. (2014). Generative models of cortical oscillations: neurobiological implications of the [[kuramoto]] model. *Frontiers in Human Neuroscience*, 8, 166.

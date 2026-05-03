@@ -14,7 +14,7 @@ tags:
 - neuropixels
 title: SpikeGLX
 type: entity
-updated: '2026-05-02'
+updated: '2026-05-03'
 ---
 
 SpikeGLX is an open-source data acquisition (DAQ) system designed for extracellular [[electrophysiology]] recordings, with particular emphasis on high-density neural probes such as NeuroPixels. Developed primarily by Bill Karsh at Janelia Research Campus (HHMI), SpikeGLX provides a unified software platform for streaming, storing, and synchronizing neural data from multiple electrode arrays simultaneously. The software has become a de facto standard in the electrophysiology community since its initial release, enabling researchers to capture large-scale neural recordings with sub-millisecond temporal precision and electrode-level spatial resolution.
@@ -55,7 +55,7 @@ The software complements other [[neuroimaging]] modalities in multi-modal experi
 
 SpikeGLX represents a specialized tool optimized for high-density probe recordings, and its feature set reflects this focus. Users seeking general-purpose data acquisition for other electrophysiology modalities (e.g., scalp EEG, intracortical LFP) may find alternative platforms such as [[open-ephys]] or [[fieldtrip]] more appropriate. The software requires technical familiarity with command-line interfaces and configuration files, presenting a steeper learning curve than point-and-click alternatives.
 
-Storage requirements represent a practical consideration for long-duration recordings. Researchers conducting studies of [[spontaneous-activity]] or resting-state dynamics spanning hours or days must budget accordingly for storage infrastructure and implement appropriate data management strategies. Compression utilities included with SpikeGLX can reduce footprint at the cost of requiring recompression before analysis.
+Storage requirements represent a practical consideration for long-duration recordings. Researchers conducting studies of [[spontaneous-activity]] or [[resting-state]] dynamics spanning hours or days must budget accordingly for storage infrastructure and implement appropriate data management strategies. Compression utilities included with SpikeGLX can reduce footprint at the cost of requiring recompression before analysis.
 
 Despite these limitations, SpikeGLX has established itself as an essential tool in the modern electrophysiology workflow, enabling experiments that would be impractical with earlier acquisition technology. Its open-source nature and active development community ensure continued utility as neural recording technology advances.
 

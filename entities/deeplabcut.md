@@ -1,10 +1,16 @@
 ---
-title: DeepLabCut
 created: 2025-01-15
-updated: 2026-05-03
+sources:
+- raw/papers/arxiv-1806.01474.md
+tags:
+- software-visualization
+- software-behavioral-tracking
+- computational-neuroscience
+- neuroimaging
+- behavioral-tracking
+title: DeepLabCut
 type: entity
-tags: [software-visualization, software-behavioral-tracking, computational-neuroscience, neuroimaging, behavioral-tracking]
-sources: [raw/papers/arxiv-1806.01474.md]
+updated: '2026-05-03'
 ---
 
 # DeepLabCut
@@ -15,7 +21,7 @@ DeepLabCut is an open-source software toolbox for markerless pose estimation in 
 
 ## Technical Foundation
 
-DeepLabCut builds upon the DeeperCut architecture, which extends the ResNet backbone with feature pyramid networks and novel learned intensity-based scoring for keypoint detection [@insafutdinov2016deeper]. The neural network is trained via transfer learning from ImageNet pre-trained weights, requiring only a small set of manually labeled frames (typically 50–200 frames per body part) to achieve robust performance [@mathis2018deep]. The training process employs a data augmentation pipeline that includes random cropping, rotation, scaling, and color jittering to improve generalization across lighting conditions and video quality variations.
+DeepLabCut builds upon the DeeperCut architecture, which extends the ResNet backbone with feature pyramid networks and novel learned intensity-based scoring for keypoint detection [@insafutdinov2016deeper]. The [[neural-network]] is trained via transfer learning from ImageNet pre-trained weights, requiring only a small set of manually labeled frames (typically 50–200 frames per body part) to achieve robust performance [@mathis2018deep]. The training process employs a data augmentation pipeline that includes random cropping, rotation, scaling, and color jittering to improve generalization across lighting conditions and video quality variations.
 
 The pose estimation pipeline proceeds in three stages. First, a user manually annotates a subset of video frames by marking the anatomical landmarks of interest (e.g., paw, nose, ear positions). Second, the network trains on these labeled frames using stochastic gradient descent with momentum, typically for 100,000+ iterations. Third, the trained model infers landmark positions across all remaining frames, outputting x, y (and z for multi-camera setups) coordinates with associated confidence scores. The confidence threshold is adjustable, allowing researchers to filter out unreliable predictions or flag frames requiring manual correction.
 
@@ -23,7 +29,7 @@ The pose estimation pipeline proceeds in three stages. First, a user manually an
 
 **Multi-animal tracking** represents one of DeepLabCut's most powerful capabilities, enabling simultaneous tracking of individual animals in social contexts without requiring artificial markers or dyes. The DLC-Multianimal extension employs a top-down approach where animal identity is first detected, followed by pose estimation within each detection window, maintaining consistent identity across frames.
 
-**3D reconstruction** becomes possible through triangulation when multiple calibrated cameras capture the same behavioral episode. DeepLabCut integrates seamlessly with OpenCV and custom calibration routines, allowing researchers to lift 2D pose estimates into 3D anatomical coordinates—a critical capability for validating [[whole-brain model|whole-brain modeling]] predictions about movement kinematics.
+**3D reconstruction** becomes possible through triangulation when multiple calibrated cameras capture the same behavioral episode. DeepLabCut integrates seamlessly with OpenCV and custom calibration routines, allowing researchers to lift 2D pose estimates into 3D anatomical coordinates—a critical capability for validating [[whole-brain model|[[whole-brain]] modeling]] predictions about movement kinematics.
 
 **Active learning** capabilities allow the system to iteratively improve by identifying frames where the network is uncertain, presenting these to human annotators for correction. This dramatically reduces the labeling burden compared to traditional approaches, as the network focuses learning on genuinely ambiguous cases.
 

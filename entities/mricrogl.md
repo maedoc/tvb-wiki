@@ -5,17 +5,18 @@ tags:
 - software-brain-modeling
 title: MRIcroGL
 type: entity
-updated: 2026-05-03
+updated: '2026-05-03'
 ---
+
 title: MRIcroGL
 created: 2025-01-15
 updated: 2026-05-03
 type: entity
 tags: [software-visualization, neuroimaging, neuroimaging-fmri, neuroimaging-dti]
-sources: ["https://www.nitrc.org/projects/mricrogl/", "https://github.com/neurolibuscui/mricrogl", "https://www.nitrc.org/projects/mricron/"]
+sources: ["https://www.[[nitrc]].org/projects/mricrogl/", "https://github.com/neurolibuscui/mricrogl", "https://www.nitrc.org/projects/mricron/"]
 ---
 
-MRIcroGL is a lightweight, cross-platform medical imaging visualization program designed primarily for viewing three-dimensional neuroimaging datasets in formats such as NIfTI and DICOM. Originally developed as a modern OpenGL-based successor to the older MRIcron application, MRIcroGL provides neuroscientists with a fast, no-frills viewer that loads large brain volumes efficiently without the overhead of more comprehensive neuroimaging software suites. The program is particularly valued in the whole-brain modeling community for its ability to quickly inspect structural and functional data, verify preprocessing outputs, and perform basic region-of-interest analysis prior to fitting [[whole-brain-modeling|whole-brain models]] in simulators like [[the-virtual-brain|The Virtual Brain]].
+MRIcroGL is a lightweight, cross-platform medical imaging visualization program designed primarily for viewing three-dimensional neuroimaging datasets in formats such as [[nifti]] and DICOM. Originally developed as a modern OpenGL-based successor to the older MRIcron application, MRIcroGL provides neuroscientists with a fast, no-frills viewer that loads large brain volumes efficiently without the overhead of more comprehensive neuroimaging software suites. The program is particularly valued in the [[whole-brain|whole-brain modeling]] community for its ability to quickly inspect structural and functional data, verify preprocessing outputs, and perform basic region-of-interest analysis prior to fitting [[whole-brain-modeling|whole-brain models]] in simulators like [[the-virtual-brain|The Virtual Brain]].
 
 ## Overview
 
@@ -25,9 +26,9 @@ The program's architecture supports multiple image formats common in neuroimagin
 
 ## Key Features
 
-One of MRIcroGL's distinguishing characteristics is its fast loading speed for large volumetric datasets. Modern high-resolution neuroimaging datasets—particularly those from the [[hcp-dataset|Human Connectome Project]] or [[uk-biobank|UK Biobank]]—can exceed several gigabytes in size, and many viewers struggle to load these efficiently. MRIcroGL handles such datasets with relative ease, making it practical for quality control workflows where researchers need to rapidly examine preprocessing outputs across many subjects.
+One of MRIcroGL's distinguishing characteristics is its fast loading speed for large volumetric datasets. Modern high-resolution neuroimaging datasets—particularly those from the [[hcp-dataset|Human [[connectome]] Project]] or [[uk-biobank|UK Biobank]]—can exceed several gigabytes in size, and many viewers struggle to load these efficiently. MRIcroGL handles such datasets with relative ease, making it practical for quality control workflows where researchers need to rapidly examine preprocessing outputs across many subjects.
 
-The software includes a range of visualization capabilities suited to different imaging modalities. For [[diffusion-mri|Diffusion MRI]] data, MRIcroGL can display fractional anisotropy maps, direction-encoded color maps, and tractography streamlines when properly formatted. For [[fmri|fMRI]] data, it renders statistical parametric maps overlaid on anatomical backgrounds, with adjustable transparency to balance visibility of activation patterns against underlying structural images. The program supports multiple colormaps commonly used in neuroimaging, including grayscale, hot metal, jet, and custom schemes for displaying positive and negative activations simultaneously.
+The software includes a range of visualization capabilities suited to different imaging modalities. For [[diffusion-mri|Diffusion MRI]] data, MRIcroGL can display [[fractional-anisotropy]] maps, direction-encoded color maps, and tractography streamlines when properly formatted. For [[fmri|fMRI]] data, it renders statistical parametric maps overlaid on anatomical backgrounds, with adjustable transparency to balance visibility of activation patterns against underlying structural images. The program supports multiple colormaps commonly used in neuroimaging, including grayscale, hot metal, jet, and custom schemes for displaying positive and negative activations simultaneously.
 
 Region-of-interest analysis is facilitated through the built-in drawing tools that allow users to define spherical or arbitrary-shaped regions on any plane and generate summary statistics. While this functionality is basic compared to dedicated analysis packages, it proves useful for quick visual confirmation of coverage or for defining simple masks that can be exported for use in downstream analyses. The program also supports time-series animation, enabling visualization of [[resting-state|resting-state]] fMRI data as a movie rather than static frames.
 

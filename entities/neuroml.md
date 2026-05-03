@@ -12,7 +12,7 @@ tags:
 - software-neuroml
 title: NeuroML
 type: entity
-updated: '2026-05-02'
+updated: '2026-05-03'
 ---
 
 NeuroML (neuroml) is a standardized model description language for [[computational-neuroscience]], enabling exchangeable, simulator-independent neural models.
@@ -59,9 +59,9 @@ tags:
 - spiking-neural-networks
 - computational-neuroscience
 - java
-- model-validation
+- [[model-validation]]
 - standards
-- neurodevelopment
+- [[neurodevelopment]]
 title: jNeuroML
 type: entity
 updated: '2026-04-30'

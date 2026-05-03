@@ -1,10 +1,23 @@
 ---
-title: BrainMap
 created: 2025-01-15
-updated: 2026-05-03
+sources:
+- Fox et al. (2005)
+- Laird et al. (2005)
+- Laird et al. (2009)
+- Eickhoff et al. (2009)
+- Eickhoff et al. (2012)
+tags:
+- database
+- neuroimaging-fmri
+- neuroimaging-pet
+- meta-analysis
+- functional-connectivity
+- resting-state
+- brain-atlases
+- software-tool
+title: BrainMap
 type: entity
-tags: [database, neuroimaging-fmri, neuroimaging-pet, meta-analysis, functional-connectivity, resting-state, brain-atlases, software-tool]
-sources: [Fox et al. (2005), Laird et al. (2005), Laird et al. (2009), Eickhoff et al. (2009), Eickhoff et al. (2012)]
+updated: '2026-05-03'
 ---
 
 # BrainMap
@@ -15,13 +28,13 @@ BrainMap is a database and software ecosystem for coordinate-based meta-analysis
 
 ## Motivation and Context
 
-The field of [[neuroimaging]] grew rapidly in the 1990s and 2000s, producing thousands of individual fMRI and PET studies, each reporting clusters of significant activation. However, individual studies often lacked sufficient statistical power to detect subtle but reliable activations, and the field suffered from poor reproducibility. BrainMap emerged as a solution to this problem by aggregating data across studies to perform meta-analyses that could identify consistent activation patterns with much greater statistical power than any single study. The database was conceived as a "Google for the brain" by its founders, allowing researchers to ask questions like "which brain regions are consistently activated during language processing across all published studies?" Before BrainMap, such questions could only be answered through narrative reviews, which were necessarily subjective and limited in scope.
+The field of [[neuroimaging]] grew rapidly in the 1990s and 2000s, producing thousands of individual fMRI and PET studies, each reporting clusters of significant activation. However, individual studies often lacked sufficient statistical power to detect subtle but reliable activations, and the field suffered from poor [[reproducibility]]. BrainMap emerged as a solution to this problem by aggregating data across studies to perform meta-analyses that could identify consistent activation patterns with much greater statistical power than any single study. The database was conceived as a "Google for the brain" by its founders, allowing researchers to ask questions like "which brain regions are consistently activated during language processing across all published studies?" Before BrainMap, such questions could only be answered through narrative reviews, which were necessarily subjective and limited in scope.
 
 The need for BrainMap was particularly acute given the challenges inherent in individual neuroimaging experiments. [[resting-state]] and task-based fMRI studies often produce noisy signals, and different analysis pipelines can yield substantially different results. By pooling data across studies, meta-analysis can distinguish robust findings from methodological artifacts. While the file drawer problem—the tendency for null results to go unpublished—remains a challenge in the literature, BrainMap captures the published activation peaks that represent the bulk of available meta-analytic data.
 
 ## Technical Framework
 
-BrainMap's database structure organizes published neuroimaging experiments into a hierarchical taxonomy of cognitive concepts, with each study coded for its behavioral domain (e.g., perception, cognition, emotion), paradigm (specific task type), and contrast (experimental vs. control condition) (Laird et al., 2005). Coordinates from each study are transformed into a standard space—originally Talairach space and subsequently also MNI space—to enable direct comparison across studies. The database employs a sophisticated weighting scheme that accounts for the number of subjects, the statistical threshold used, and the quality of the reported coordinates.
+BrainMap's database structure organizes published neuroimaging experiments into a hierarchical taxonomy of cognitive concepts, with each study coded for its behavioral domain (e.g., perception, cognition, emotion), paradigm (specific task type), and contrast (experimental vs. control condition) (Laird et al., 2005). Coordinates from each study are transformed into a standard space—originally Talairach space and subsequently also [[mni-space]]—to enable direct comparison across studies. The database employs a sophisticated weighting scheme that accounts for the number of subjects, the statistical threshold used, and the quality of the reported coordinates.
 
 The core analytical tool in the BrainMap ecosystem is **Sleuth**, a software package that allows researchers to perform meta-analyses by selecting studies based on the taxonomy and then applying one of several algorithms to identify consistent activation foci. The most commonly used algorithm is **ALE (Activation Likelihood Estimation)**, which models each reported activation peak as a probability distribution and identifies regions where the overlap across studies exceeds what would be expected by chance (Fox et al., 2005; Eickhoff et al., 2009). ALE has become one of the most widely used meta-analysis methods in neuroimaging, with applications spanning language, memory, emotion, motor control, and clinical populations.
 
@@ -47,7 +60,7 @@ Other tools that complement BrainMap include **[[fsl]]** and **[[software-spm]]*
 
 ## Key Publications
 
-The foundational BrainMap papers describe both the database architecture and the ALE algorithm. The original BrainMap publication (Laird et al., 2005) established the database structure and demonstrated its utility for meta-analysis across multiple cognitive domains. Subsequent methodological papers refined the ALE algorithm to account for spatial uncertainty and multiple within-study comparisons (Fox et al., 2005; Eickhoff et al., 2009). Recent work has extended BrainMap to include **[[effective-connectivity]]** analyses and integration with dynamic causal modeling frameworks.
+The foundational BrainMap papers describe both the database architecture and the ALE algorithm. The original BrainMap publication (Laird et al., 2005) established the database structure and demonstrated its utility for meta-analysis across multiple cognitive domains. Subsequent methodological papers refined the ALE algorithm to account for spatial uncertainty and multiple within-study comparisons (Fox et al., 2005; Eickhoff et al., 2009). Recent work has extended BrainMap to include **[[effective-connectivity]]** analyses and integration with [[dynamic-causal-modeling]] frameworks.
 
 ---
 

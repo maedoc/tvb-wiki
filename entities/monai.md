@@ -13,7 +13,7 @@ tags:
 - medical-imaging
 title: MONAI
 type: entity
-updated: '2026-05-02'
+updated: '2026-05-03'
 ---
 
 ## Overview
@@ -58,5 +58,5 @@ The original MONAI paper [@cardoso2022monai] published in *Nature Communications
 - [@cardoso2022monai] Cardoso, M. J., et al. (2022). MONAI: A Foundational Framework for Medical Image AI. *Nature Communications*, 13, 5548.
 - [@isensee2021nnunet] Isensee, F., et al. (2021). [[nnu‑net]]: Self‑adapting Framework for U‑Net‑Based Medical Image Segmentation. *Nature Methods*, 18(2), 144‑155.
 - [@chen2021hippocampal] Chen, Y., et al. (2021). Automated Hippocampal Segmentation Using MONAI. *Medical Image Analysis*, 71, 102041.
-- [@shi2022wmh] Shi, Y., et al. (2022). Deep Learning for White Matter Hyperintensity Detection in Brain MRI. *NeuroImage Clinical*, 35, 103076.
+- [@shi2022wmh] Shi, Y., et al. (2022). Deep Learning for [[white-matter]] Hyperintensity Detection in Brain MRI. *NeuroImage Clinical*, 35, 103076.
 - [@li2022cortical] Li, H., et al. (2022). Cortical Thickness Estimation Using Federated Learning with MONAI. *Frontiers in Neuroscience*, 16, 894530.

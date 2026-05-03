@@ -1,19 +1,25 @@
 ---
-title: neuromaps
 created: 2026-04-30
-updated: 2026-05-03
-type: entity
-tags: [software-neuromaps, neuroimaging, brain-parcellations, connectomics, software-visualization]
-sources: [markello2022]
 referenced_by:
-  - markello2022
+- markello2022
+sources:
+- markello2022
+tags:
+- software-neuromaps
+- neuroimaging
+- brain-parcellations
+- connectomics
+- software-visualization
+title: neuromaps
+type: entity
+updated: '2026-05-03'
 ---
 
 # neuromaps
 
 ## Overview
 
-neuromaps is a Python toolbox designed to facilitate rigorous comparisons between brain maps (also termed "brain annotations") across different neuroimaging modalities, coordinate spaces, and spatial resolutions. Developed by the Network Neuroscience Lab, the toolbox addresses a fundamental challenge in contemporary neuroimaging: the difficulty of comparing data that exist in heterogeneous formats, spaces, and representations. By providing standardized interfaces for fetching, transforming, and statistically comparing brain maps, neuromaps enables researchers to investigate correspondences between diverse imaging-derived measures—including [[functional-connectivity]] patterns, [[structural-connectivity]] metrics, receptor density distributions, and electrophysiological measurements—within a unified computational framework.
+neuromaps is a Python toolbox designed to facilitate rigorous comparisons between brain maps (also termed "brain annotations") across different [[neuroimaging]] modalities, coordinate spaces, and spatial resolutions. Developed by the [[netneuroscience|Network Neuroscience]] Lab, the toolbox addresses a fundamental challenge in contemporary neuroimaging: the difficulty of comparing data that exist in heterogeneous formats, spaces, and representations. By providing standardized interfaces for fetching, transforming, and statistically comparing brain maps, neuromaps enables researchers to investigate correspondences between diverse imaging-derived measures—including [[functional-connectivity]] patterns, [[structural-connectivity]] metrics, receptor density distributions, and electrophysiological measurements—within a unified computational framework.
 
 The toolbox was first released in 2021(@neuromaps-github) and subsequently published in *Nature Methods* (@markello2022), establishing it as a community-standard resource for map-to-map comparisons in network neuroscience. neuromaps operates as an open-source project (GitHub: netneurolab/neuromaps) distributed under a Creative Commons CC-BY-NC-SA license (@neuromaps-license), with ongoing development supported by the broader neuroimaging community.
 
@@ -21,7 +27,7 @@ The toolbox was first released in 2021(@neuromaps-github) and subsequently publi
 
 The proliferation of large-scale neuroimaging datasets—such as the [[human-connectome-project]] (HCP), [[uk-biobank]], and various task-based fMRI repositories—has generated an abundance of brain maps spanning multiple modalities and spatial scales. Researchers increasingly seek to relate these diverse measurements to one another: for example, correlating [[resting-state]] [[functional-connectivity]] with [[structural-connectivity]] derived from [[diffusion-imaging]], or comparing receptor density maps from [[neuroimaging-pet]] with [[neuroimaging-fmri|functional MRI]] activity patterns. However, such cross-modal comparisons are technically challenging because brain maps are typically represented in different coordinate systems (e.g., MNI152 volumetric space vs. FreeSurfer's fsaverage or fsLR surface spaces), at different spatial resolutions, and with different parcellation schemes.
 
-Prior to neuromaps, researchers had to individually implement transformation pipelines, locate and download appropriate atlases, and code custom statistical models to assess map correspondences—a process that was error-prone, poorly standardized, and difficult to reproduce. neuromaps addresses this fragmentation by providing a cohesive software ecosystem that handles atlas fetching, space transformation, parcellation, and statistical inference through a coherent API. This unification is particularly valuable for whole-brain modeling efforts, where empirical neuroimaging data must be integrated to constrain [[whole-brain-modeling|whole-brain models]] such as those implemented in [[tvb|The Virtual Brain]].
+Prior to neuromaps, researchers had to individually implement transformation pipelines, locate and download appropriate atlases, and code custom statistical models to assess map correspondences—a process that was error-prone, poorly standardized, and difficult to reproduce. neuromaps addresses this fragmentation by providing a cohesive software ecosystem that handles atlas fetching, space transformation, [[parcellation]], and statistical inference through a coherent API. This unification is particularly valuable for [[whole-brain|whole-brain modeling]] efforts, where empirical neuroimaging data must be integrated to constrain [[whole-brain-modeling|whole-brain models]] such as those implemented in [[tvb|The Virtual Brain]].
 
 ## Key Features
 
@@ -31,7 +37,7 @@ neuromaps includes a growing library of pre-processed brain maps ("annotations")
 
 ### Coordinate Space Transformations
 
-A core capability of neuromaps is robust transformation between major neuroimaging coordinate spaces. The toolbox supports bidirectional conversions between volumetric (MNI152) and surface-based (fsaverage, fsLR, CIVET) representations (@neuromaps-docs) through established registration fusion and multimodal surface matching algorithms. Volume-to-surface transformations leverage the "registration fusion" approach originally proposed by [[buckner2011]] and implemented by @wu2018, which combines anatomical and functional information to project volumetric signals onto the cortical surface. Surface-to-surface transformations employ the multimodal surface matching (MSM) algorithm developed by Robinson and colleagues (@robinson2014, @robinson2018), enabling accurate cross-subject alignment based on multiple features including myelin patterns and functional connectivity. These transformation capabilities are essential for comparing maps that natively exist in different representations—a common scenario when integrating multimodal neuroimaging data.
+A core capability of neuromaps is robust transformation between major neuroimaging coordinate spaces. The toolbox supports bidirectional conversions between volumetric (MNI152) and surface-based (fsaverage, fsLR, [[civet]]) representations (@neuromaps-docs) through established registration fusion and multimodal surface matching algorithms. Volume-to-surface transformations leverage the "registration fusion" approach originally proposed by [[buckner2011]] and implemented by @wu2018, which combines anatomical and functional information to project volumetric signals onto the cortical surface. Surface-to-surface transformations employ the multimodal surface matching (MSM) algorithm developed by Robinson and colleagues (@robinson2014, @robinson2018), enabling accurate cross-subject alignment based on multiple features including myelin patterns and functional [[connectivity]]. These transformation capabilities are essential for comparing maps that natively exist in different representations—a common scenario when integrating multimodal neuroimaging data.
 
 ### Spatial Null Models
 

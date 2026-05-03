@@ -17,7 +17,7 @@ tags:
 - open-source
 title: BCILAB
 type: entity
-updated: '2026-05-02'
+updated: '2026-05-03'
 ---
 
 # BCILAB
@@ -34,9 +34,9 @@ BCILAB addressed this fragmentation by providing a standardized, extensible plat
 
 ## Technical Capabilities
 
-BCILAB implements a comprehensive suite of signal processing operations organized into a modular pipeline architecture. The toolbox handles preprocessing steps including filtering (both finite and infinite impulse response filters), artifact rejection (using automated detection of eye blinks, muscle artifacts, and drift), channel re-referencing (including average, Laplacian, and bipolar montages), and epoching for trial-based analysis. These preprocessing stages can be concatenated into processing streams that process data sequentially, with intermediate results visible at each stage.
+BCILAB implements a comprehensive suite of signal processing operations organized into a modular pipeline architecture. The toolbox handles preprocessing [[steps]] including filtering (both finite and infinite impulse response filters), artifact rejection (using automated detection of eye blinks, muscle artifacts, and drift), channel re-referencing (including average, Laplacian, and bipolar montages), and epoching for trial-based analysis. These preprocessing stages can be concatenated into processing streams that process data sequentially, with intermediate results visible at each stage.
 
-For feature extraction, BCILAB supports multiple approaches common in BCI research. Spectral features can be computed using Welch's method or wavelet decomposition, capturing oscillations in specific frequency bands such as theta (4–8 Hz), alpha (8–13 Hz), beta (13–30 Hz), and gamma (30–100 Hz). Spatial features include independent component analysis (ICA) for source separation, which can isolate artifacts or meaningful neural sources [@makeig_1996; @makeig_2004]. The toolbox also implements common spatial pattern (CSP) algorithms for maximizing class discriminability, particularly useful for motor imagery BCI paradigms [@ramoser_2000]. These extracted features can then be passed to machine learning classifiers including linear discriminant analysis (LDA), support vector machines (SVMs), and other classification approaches common in [[computational-neuroscience]] research.
+For feature extraction, BCILAB supports multiple approaches common in BCI research. Spectral features can be computed using Welch's method or wavelet decomposition, capturing oscillations in specific frequency bands such as theta (4–8 Hz), alpha (8–13 Hz), beta (13–30 Hz), and gamma (30–100 Hz). Spatial features include independent component analysis (ICA) for [[source-separation]], which can isolate artifacts or meaningful neural sources [@makeig_1996; @makeig_2004]. The toolbox also implements common spatial pattern (CSP) algorithms for maximizing class discriminability, particularly useful for motor imagery BCI paradigms [@ramoser_2000]. These extracted features can then be passed to machine learning classifiers including [[linear]] discriminant analysis (LDA), support vector machines (SVMs), and other classification approaches common in [[computational-neuroscience]] research.
 
 A distinctive feature of BCILAB is its support for online processing and real-time BCI operation. The toolbox includes plugins for communicating with various EEG recording systems and can output processed signals via standard protocols, enabling closed-loop experiments where neural signals are decoded and fed back to subjects in real-time. This capability supports research into adaptive algorithms that adjust to changes in signal characteristics over time, a critical requirement for practical BCI systems.
 
@@ -50,7 +50,7 @@ BCILAB belongs to a broader ecosystem of neurophysiological signal processing to
 
 ## Key Features
 
-The features that distinguish BCILAB in the BCI toolbox landscape include its emphasis on reproducibility through saved processing pipelines, its extensive library of example BCI paradigms (allowing new researchers to quickly set up standard experiments), and its plugin architecture that enables extension with custom algorithms. The toolbox includes built-in support for common BCI paradigms including motor imagery (imagined movements), P300 event-related potentials (the oddball paradigm), and steady-state visual evoked potentials (SSVEP). Additionally, BCILAB provides tools for comparing classifier performance, visualizing feature spaces, and conducting cross-validation studies.
+The features that distinguish BCILAB in the BCI toolbox landscape include its emphasis on [[reproducibility]] through saved processing pipelines, its extensive library of example BCI paradigms (allowing new researchers to quickly set up standard experiments), and its plugin architecture that enables extension with custom algorithms. The toolbox includes built-in support for common BCI paradigms including motor imagery (imagined movements), P300 event-related potentials (the oddball paradigm), and steady-state visual evoked potentials (SSVEP). Additionally, BCILAB provides tools for comparing classifier performance, visualizing feature spaces, and conducting cross-validation studies.
 
 ## References
 

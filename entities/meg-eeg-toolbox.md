@@ -13,7 +13,7 @@ title: MEG/EEG Toolbox
 created: 2025-01-15
 updated: 2026-05-03
 type: concept
-tags: [neuroimaging-meg, neuroimaging-eeg, software-visualization, neural-mass-models, whole-brain-modeling]
+tags: [[[neuroimaging]]-meg, neuroimaging-eeg, software-visualization, neural-mass-models, [[whole-brain]]-modeling]
 sources: [grames-etal-2020, oostenveld-etal-2010, delorey-etal-2021, makeig-etal-2004, tadel-etal-2011]
 ---
 
@@ -21,7 +21,7 @@ A **MEG/EEG Toolbox** refers to any of several specialized software environments
 
 ## Motivation and Context
 
-MEG and EEG are direct measures of neural activity with millisecond temporal resolution, making them uniquely valuable for studying fast brain dynamics such as [[brain-oscillations]], event-related potentials, and seizure propagation. However, the raw signals recorded by these modalities represent the superposition of electrical currents from millions of neurons, complicated by volume conduction through the skull and scalp. The fundamental challenge in neurophysiology—the **inverse problem**—is to infer the intracranial sources of the observed electromagnetic fields from recordings made at sensors outside the head. This ill-posed problem has no unique solution, motivating the development of multiple computational approaches and specialized software packages.
+MEG and EEG are direct measures of neural activity with millisecond temporal resolution, making them uniquely valuable for studying fast [[brain-dynamics]] such as [[brain-oscillations]], event-related potentials, and seizure propagation. However, the raw signals recorded by these modalities represent the superposition of electrical currents from millions of neurons, complicated by volume conduction through the skull and scalp. The fundamental challenge in neurophysiology—the **inverse problem**—is to infer the intracranial sources of the observed electromagnetic fields from recordings made at sensors outside the head. This ill-posed problem has no unique solution, motivating the development of multiple computational approaches and specialized software packages.
 
 The broader field of [[computational-neuroscience]] relies on these toolboxes for empirical validation. When researchers build [[whole-brain-modeling]] frameworks using [[the-virtual-brain]] or similar simulators, they often use MEG/EEG data to estimate model parameters, validate emergent network dynamics, and compare simulated connectivity patterns against empirically observed [[functional-connectivity]]. The toolboxes thus bridge the gap between raw neurophysiological recordings and biophysically principled models of brain activity.
 

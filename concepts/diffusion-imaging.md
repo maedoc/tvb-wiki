@@ -9,14 +9,14 @@ tags:
 - diffusion-imaging
 title: Diffusion Imaging
 type: concept
-updated: '2026-05-02'
+updated: '2026-05-03'
 ---
 
 Diffusion Imaging — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
 
 ## Related Concepts
 * [[niftyreg]]
-* [[jhu-white-matter-atlas]]
+* [[jhu-[[white-matter]]-atlas]]
 
 ## References
 
@@ -34,13 +34,13 @@ sources:
 - raw/papers/semanticscholar-a65db6732ad1.md
 - raw/papers/semanticscholar-deecd9987645.md
 tags:
-- brain-parcellations
+- [[brain-parcellations]]
 - diffusion-imaging
 - dti
-- tractography
-- neuroimaging-dti
-- software-fsl
-- structural-connectivity
+- [[tractography]]
+- [[neuroimaging]]-dti
+- [[software-fsl]]
+- [[structural-connectivity]]
 - database-hcp
 title: JHU White Matter Atlas
 type: entity

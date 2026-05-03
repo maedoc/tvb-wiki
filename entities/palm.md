@@ -44,7 +44,7 @@ Additionally, PALM integrates with [[fsl]] preprocessing pipelines, which are of
 
 ## Key Papers
 
-The foundational PALM paper describes the permutation-based inference framework and its application to neuroimaging data (Winkler et al., 2014). This work established the theoretical basis for using permutation tests with arbitrary linear models in high-dimensional brain imaging contexts. The Bayesian model comparison extension was presented in subsequent work demonstrating the computation of [[bayes-factors]] for linear models in neuroimaging, enabling evidence-based model selection at the whole-brain level.
+The foundational PALM paper describes the permutation-based inference framework and its application to neuroimaging data (Winkler et al., 2014). This work established the theoretical basis for using permutation tests with arbitrary [[linear]] models in high-dimensional brain imaging contexts. The Bayesian model comparison extension was presented in subsequent work demonstrating the computation of [[bayes-factors]] for linear models in neuroimaging, enabling evidence-based model selection at the [[whole-brain]] level.
 
 ## Related Software
 
@@ -52,7 +52,7 @@ The foundational PALM paper describes the permutation-based inference framework 
 - [[the-virtual-brain]] — [[whole-brain-modeling]] platform often used with PALM for statistical validation
 - [[spm]] — alternative [[neuroimaging]] analysis package with its own inference framework
 - [[afni]] — another major [[neuroimaging]] analysis platform with permutation testing capabilities
-- [[brain-connectivity-toolbox]] — network analysis toolbox often used alongside PALM for [[connectome]] analysis
+- [[brain-[[connectivity]]-toolbox]] — network analysis toolbox often used alongside PALM for [[connectome]] analysis
 
 ## Relationships to Other Concepts
 
@@ -63,5 +63,5 @@ The development of PALM represents a broader trend in [[neuroimaging]] toward no
 ## References
 
 1. (authors unknown). *Permutation inference for the general linear model*.
-2. (authors unknown). *BRAPH: A Pipeline for Brain Connectivity Analysis*.
+2. (authors unknown). *[[braph]]: A Pipeline for Brain Connectivity Analysis*.
 3. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2018.05.040)

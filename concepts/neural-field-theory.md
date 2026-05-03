@@ -18,7 +18,7 @@ tags:
 - stochastic-differential-equations
 title: Neural Field Theory
 type: concept
-updated: '2026-05-02'
+updated: '2026-05-03'
 ---
 
 Neural Field Theory (NFT) is a mathematical framework for modeling the spatiotemporal dynamics of large-scale neuronal populations in cortical tissue. Unlike point-[[neuron]] models that treat individual neurons as discrete units, NFT represents populations of neurons as continuous fields, where the state variables (such as mean firing rates or membrane potentials) evolve as functions of both time and spatial position on the cortical sheet. This approach bridges the gap between detailed [[spiking-neural-networks]] that capture individual neuron dynamics and [[neural-mass-models]] that aggregate entire brain regions into single units, enabling researchers to study wave-like propagation, traveling pulses, and pattern formation in cortical tissue.
@@ -80,11 +80,11 @@ tags:
 - neural-mass-models
 - whole-brain-modeling
 - brain-oscillations
-- local-field-potentials
+- [[local-field-potentials]]
 - excitatory-inhibitory-networks
 - computational-neuroscience
 - laminar-cortex
-- forward-model
+- [[forward-model]]
 - eeg
 - meg
 title: HNN

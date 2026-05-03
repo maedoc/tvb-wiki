@@ -14,14 +14,14 @@ tags:
 - paper-methods
 title: Resting-State fMRI
 type: concept
-updated: '2026-05-02'
+updated: '2026-05-03'
 ---
 
 Resting-state functional magnetic resonance imaging (rs-fMRI) is a neuroimaging technique that measures spontaneous low-frequency (<0.1 Hz) fluctuations in the blood-oxygen-level-dependent (BOLD) signal during task‑free conditions. By correlating these intrinsic fluctuations across brain regions, researchers can map the brain's [[functional-connectivity]]—the statistical dependencies between regional time series that reveal the organization of coherent neural networks in the absence of explicit cognitive demands. This approach, pioneered by [[bharat-biswal]] in 1995, has become a cornerstone of modern neuroscience for understanding the brain's intrinsic functional architecture and serves as the primary empirical target for [[whole-brain]] computational models. Common preprocessing pipelines often employ tools such as [[ciftify]] to convert volumetric fMRI data into surface‑based CIFTI format for subsequent connectivity analyses.
 
 ## Discovery and Foundational Research
 
-The seminal work of [[bharat-biswal]] and colleagues demonstrated that spontaneous low-frequency fluctuations in the BOLD signal exhibit bilateral correlations in the motor cortex of healthy subjects during rest, even in the absence of any motor task. This discovery, reported in their 1995 paper "Functional [[connectivity]] in the motor cortex of resting human brain using echo-planar MRI," established the phenomenon of resting-state functional connectivity and launched an entire field of research. The key insight was that temporally correlated spontaneous activity could reveal the underlying functional organization of the brain—what would later be formalized as the brain's intrinsic connectivity network architecture.
+The seminal work of [[bharat-biswal]] and colleagues demonstrated that spontaneous low-frequency fluctuations in the BOLD signal exhibit bilateral correlations in the motor cortex of healthy subjects during rest, even in the absence of any motor task. This discovery, reported in their 1995 paper "Functional [[connectivity]] in the motor cortex of resting human brain using echo-planar MRI," established the phenomenon of resting-state functional connectivity and launched an entire field of research. The key insight was that temporally correlated [[spontaneous-activity]] could reveal the underlying functional organization of the brain—what would later be formalized as the brain's intrinsic connectivity network architecture.
 
 Subsequent research expanded this initial observation dramatically. The 2007 review by [[michael-fox]] and [[marcus-raichle]] in Nature Reviews Neuroscience provided a comprehensive synthesis of the field, characterizing the default mode network and other major resting-state networks, discussing the physiological basis of spontaneous fluctuations, and outlining clinical applications. Their work articulated the fundamental paradox that the resting brain exhibits rich, structured spontaneous activity despite the absence of explicit task demands—a finding that challenged the then-dominant view that baseline brain activity was merely noise. Complementing this, [[steven-smith]] and colleagues (2009) demonstrated striking correspondence between task‑evoked activation patterns and resting‑state connectivity, providing evidence that intrinsic networks reflect the brain's functional organization for task execution, thereby validating resting‑state as a window into cognitive architecture.
 
@@ -84,7 +84,7 @@ sources:
 - raw/papers/arxiv-2509.12873.md
 tags:
 - software-modeling
-- brain-connectivity-toolbox
+- [[brain-connectivity-toolbox]]
 - python
 - statistical-analysis
 - functional‑connectivity
@@ -109,7 +109,7 @@ sources:
 - raw/papers/makeig-1996.md  
 tags:  
 - software-brain-modeling  
-- source-separation  
+- [[source-separation]]  
 - eeg  
 title: ICLabel  
 type: entity  

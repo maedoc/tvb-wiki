@@ -1,17 +1,30 @@
 ---
-title: FSL Randomise
 created: 2026-04-29
-updated: 2026-05-03
+sources:
+- Smith et al. (2004)
+- Smith & Nichols (2009)
+- Winkler et al. (2014)
+tags:
+- software-fsl
+- neuroimaging-fmri
+- diffusion-imaging
+- resting-state
+- statistical-inference
+- permutation-tests
+- threshold-free-cluster-enhancement
+- multiple-comparisons-correction
+- brain-parcellations
+- connectivity
+title: FSL Randomise
 type: entity
-tags: [software-fsl, neuroimaging-fmri, diffusion-imaging, resting-state, statistical-inference, permutation-tests, threshold-free-cluster-enhancement, multiple-comparisons-correction, brain-parcellations, connectivity]
-sources: [Smith et al. (2004), Smith & Nichols (2009), Winkler et al. (2014)]
+updated: '2026-05-03'
 ---
 
 # FSL Randomise
 
 ## Overview
 
-FSL Randomise is a non-parametric permutation testing tool within the [FSL][fsl] (FMRIB Software Library) suite, designed for voxelwise and vertexwise statistical inference on neuroimaging data. Unlike parametric statistical methods that assume specific distributions (typically Gaussian), Randomise infers significance through empirical permutation of the data, making it particularly robust when the underlying distributional assumptions of standard parametric tests may be violated—a common scenario in [fmri] and [diffusion-imaging] analysis where sample sizes are often limited and noise characteristics are complex (Smith & Nichols, 2009). Randomise was developed primarily at FMRIB (Oxford Centre for Functional Magnetic Resonance Imaging of the Brain), now the Wellcome Centre for Integrative Neuroimaging (WIN), and has become a standard tool for group-level analysis in both [resting-state] and task-based fMRI studies, as well as for diffusion tensor imaging (DTI) and [tractography]-based analyses (Smith et al., 2004).
+FSL Randomise is a non-parametric permutation testing tool within the [FSL][fsl] (FMRIB Software Library) suite, designed for voxelwise and vertexwise statistical inference on [[neuroimaging]] data. Unlike parametric statistical methods that assume specific distributions (typically Gaussian), Randomise infers significance through empirical permutation of the data, making it particularly robust when the underlying distributional assumptions of standard parametric tests may be violated—a common scenario in [fmri] and [diffusion-imaging] analysis where sample sizes are often limited and noise characteristics are complex (Smith & Nichols, 2009). Randomise was developed primarily at FMRIB (Oxford Centre for Functional Magnetic Resonance Imaging of the Brain), now the Wellcome Centre for Integrative Neuroimaging (WIN), and has become a standard tool for group-level analysis in both [resting-state] and task-based [[fmri]] studies, as well as for diffusion tensor imaging (DTI) and [tractography]-based analyses (Smith et al., 2004).
 
 ## Key Features
 
@@ -25,17 +38,17 @@ One of Randomise's most influential features is its implementation of **Threshol
 
 ### Multiple Comparisons Correction
 
-Randomise provides rigorous correction for multiple comparisons through the permutation framework itself. Rather than applying post-hoc corrections like Bonferroni or false discovery rate (FDR) to p-values derived under parametric assumptions, the empirical null distribution implicitly accounts for the massive search space of voxelwise tests. This makes Randomise particularly suitable for analysis of [brain-parcellations] where parcel-wise statistics are computed, or for whole-brain exploratory analyses where spatial inference is complex (Winkler et al., 2014).
+Randomise provides rigorous correction for multiple comparisons through the permutation framework itself. Rather than applying post-hoc corrections like Bonferroni or false discovery rate (FDR) to p-values derived under parametric assumptions, the empirical null distribution implicitly accounts for the massive search space of voxelwise tests. This makes Randomise particularly suitable for analysis of [brain-parcellations] where parcel-wise statistics are computed, or for [[whole-brain]] exploratory analyses where spatial inference is complex (Winkler et al., 2014).
 
 ### Integration with FSL Infrastructure
 
-Randomise integrates seamlessly with other FSL tools, accepting input in standard NIfTI format and using FSL's design matrix setup (via FeatGUI or command-line specifications). It works with FEAT-produced statistical maps, as well as with outputs from other [neuroimaging] preprocessing pipelines like [fmriprep] or [freesurfer]. The tool supports various experimental designs including two-group comparisons, paired designs, and multiple regression covariates.
+Randomise integrates seamlessly with other FSL tools, accepting input in standard [[nifti]] format and using FSL's design matrix setup (via FeatGUI or command-line specifications). It works with FEAT-produced statistical maps, as well as with outputs from other [neuroimaging] preprocessing pipelines like [fmriprep] or [freesurfer]. The tool supports various experimental designs including two-group comparisons, paired designs, and multiple regression covariates.
 
 ## Relationship to TVB
 
-FSL Randomise operates upstream in the neuroimaging analysis pipeline relative to [the-virtual-brain]. While TVB is a [whole-brain] modeling simulator that uses empirical neuroimaging data to construct computational models of brain dynamics, Randomise is an analysis tool used to identify statistically significant differences in empirical data—whether between patient groups and controls, between conditions in task-based studies, or in correlation with behavioral measures. The statistical maps produced by Randomise (e.g., group difference maps, correlation maps) can inform the construction of [personalized-brain-modeling] by identifying regions or networks that show significant effects and thus merit particular attention in model parameterization. In studies combining [neural-mass-models] with empirical neuroimaging, Randomise may be used to determine which brain regions show significant differences that the model should capture.
+FSL Randomise operates upstream in the neuroimaging analysis pipeline relative to [the-virtual-brain]. While TVB is a [whole-brain] modeling simulator that uses empirical neuroimaging data to construct computational models of [[brain-dynamics]], Randomise is an analysis tool used to identify statistically significant differences in empirical data—whether between patient groups and controls, between conditions in task-based studies, or in correlation with behavioral measures. The statistical maps produced by Randomise (e.g., group difference maps, correlation maps) can inform the construction of [personalized-brain-modeling] by identifying regions or networks that show significant effects and thus merit particular attention in model parameterization. In studies combining [neural-mass-models] with empirical neuroimaging, Randomise may be used to determine which brain regions show significant differences that the model should capture.
 
-Randomise also connects to TVB through [structural-connectivity] and [functional-connectivity] analyses. DTI/tractography pipelines often use Randomise for tract-based spatial statistics (TBSS) to identify white matter differences between groups, while resting-state [functional-connectivity] analyses may use Randomise to identify group differences in connectivity matrices derived from [brain-connectivity-toolbox] or similar packages.
+Randomise also connects to TVB through [structural-connectivity] and [functional-connectivity] analyses. DTI/[[tractography]] pipelines often use Randomise for tract-based spatial statistics (TBSS) to identify [[white-matter]] differences between groups, while [[resting-state]] [functional-connectivity] analyses may use Randomise to identify group differences in [[connectivity]] matrices derived from [brain-connectivity-toolbox] or similar packages.
 
 ## Key Papers
 
@@ -62,7 +75,7 @@ Smith, S. M., & Nichols, T. E. (2009). Threshold-free cluster enhancement: Avoid
 Winkler, A. M., Ridgway, G. R., Webster, M. A., Smith, S. M., & Nichols, T. E. (2014). Non-parametric inference of subtle group differences using TFCE. *NeuroImage*, 95, 414-426. https://doi.org/10.1016/j.neuroimage.2014.06.007
 
 [fsl]: fsl.md
-[the-virtual-brain]: the-virtual-brain.md
+[the-virtual-brain]: [[the-virtual-brain]].md
 [whole-brain]: whole-brain.md
 [personalized-brain-modeling]: personalized-brain-modeling.md
 [neural-mass-models]: neural-mass-model.md

@@ -136,3 +136,5 @@
 ## [2026-05-03 17:31] RefFormatter: formatted references on 8 pages
 
 ## [2026-05-03 17:47] Audit: 902 issues (39 broken links, 49 orphans, 17 placeholders, 0 dup-refs, 3 bad-meta, 78 citation-verify, 13 opaque-refs, 79 thin, 364 missing-links)
+
+## [2026-05-03 18:23] Improve: 7 pages improved (loris, nitransforms, aslprep, neurominer, synthseg, neuroquery, medpy)

@@ -23,7 +23,7 @@ updated: '2026-05-03'
 # SUIT (Spatial Unbiased Infratentorial Template)
 
 ## Overview
-SUIT (Spatial Unbiased Infratentorial Template) is a specialized neuroimaging software tool developed by [Diedrichsen et al.](sources:) within the SPM (Statistical Parametric Mapping) framework for the accurate spatial normalization and segmentation of the cerebellum and brainstem. Unlike standard whole-brain normalization algorithms that treat the cerebellum as an afterthought—often yielding suboptimal alignment due to its complex and highly folded cortical structure—SUIT provides a dedicated, anatomically informed processing pipeline specifically optimized for these challenging posterior brain regions.
+SUIT (Spatial Unbiased Infratentorial Template) is a specialized [[neuroimaging]] software tool developed by [Diedrichsen et al.](sources:) within the SPM (Statistical Parametric Mapping) framework for the accurate spatial normalization and segmentation of the cerebellum and brainstem. Unlike standard [[whole-brain]] normalization algorithms that treat the cerebellum as an afterthought—often yielding suboptimal alignment due to its complex and highly folded cortical structure—SUIT provides a dedicated, anatomically informed processing pipeline specifically optimized for these challenging posterior brain regions.
 
 ## Technical Implementation
 
@@ -33,7 +33,7 @@ SUIT employs a two-stage normalization procedure that first isolates the cerebel
 The normalization itself follows an isolate-then-normalize approach as described in the original SUIT publications. First, the cerebellum and brainstem are isolated using a probabilistic mask. Second, the isolated structures are normalized to the SUIT template using a customized deformation model with cerebellum-specific regularization parameters that balance flexibility in capturing individual anatomical variation against the need for smooth, physiologically plausible deformations. The resulting deformation fields can be applied in either direction—warping individual cerebellar data into the SUIT template space for group analyses, or inverting the transformations to map group-level results back into native space for region-of-interest analyses.
 
 ### Segmentation Capabilities
-Beyond spatial normalization, SUIT provides automated segmentation of the cerebellum into its constituent lobules based on the SUIT probabilistic atlas, enabling region-specific analyses that are increasingly important for computational neuroscience applications. The segmentation distinguishes between the anterior lobe (lobules I–V), the posterior lobe (lobules VI–X), and the flocculonodular lobe, as well as subdivisions within these major lobular territories.
+Beyond spatial normalization, SUIT provides automated segmentation of the cerebellum into its constituent lobules based on the SUIT probabilistic atlas, enabling region-specific analyses that are increasingly important for [[computational-neuroscience]] applications. The segmentation distinguishes between the anterior lobe (lobules I–V), the posterior lobe (lobules VI–X), and the flocculonodular lobe, as well as subdivisions within these major lobular territories.
 
 ## Relationship to TVB
 SUIT is relevant to [[the-virtual-brain]] (TVB) in several important respects. First, TVB's personalized brain modeling pipeline requires accurate anatomical segmentation of brain regions, and the cerebellar parcellation provided by SUIT can be integrated into TVB's region-based modeling framework to assign distinct neural mass parameters to cerebellar subregions. Second, SUIT's normalization enables the generation of group-level cerebellar templates that can serve as atlases for TVB simulations, facilitating the construction of cerebellum-inclusive whole-brain connectomes from [[structural-connectivity]] data derived from [[diffusion-imaging]] and [[tractography]]. Third, the tool's compatibility with [[spm]] and the broader [[nilearn]] ecosystem means that preprocessed neuroimaging data from common pipelines can be readily imported into TVB for simulation.
@@ -45,7 +45,7 @@ SUIT is relevant to [[the-virtual-brain]] (TVB) in several important respects. F
 - [[the-virtual-brain]] — whole-brain simulator that uses anatomical parcellations
 - [[dipy]] — diffusion imaging toolbox for [[tractography]]
 - [thecerebellum.com](http://www.thecerebellum.com/) — alternative cerebellar tools and atlases
-- [CBS Tools](https://www.nitrc.org/projects/cbs_tools/) — complementary cerebellar segmentation in CBSTools/ITK-SNAP
+- [CBS Tools](https://www.[[nitrc]].org/projects/cbs_tools/) — complementary cerebellar segmentation in CBSTools/[[itk-snap]]
 
 ## Key Papers
 
@@ -53,7 +53,7 @@ SUIT is relevant to [[the-virtual-brain]] (TVB) in several important respects. F
 
 2. **Diedrichsen, J., & Zotow, E. (2009).** "Probabilistic atlases of the human cerebellum." In *NeuroImage*.
 
-3. **Ewert, S., et al. (2018).** "Neuroanatomical tract segmentation reveals the structural connectome of the human cerebellum." *Cerebral Cortex*.
+3. **Ewert, S., et al. (2018).** "Neuroanatomical tract segmentation reveals the structural [[connectome]] of the human cerebellum." *Cerebral Cortex*.
 
 ---
 

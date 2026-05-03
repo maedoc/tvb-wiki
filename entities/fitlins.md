@@ -21,7 +21,7 @@ updated: '2026-05-03'
 
 ## Overview
 
-FitLins (Fitting Linear Models) is a Python software package designed for model-based fMRI analysis within the BIDS (Brain Imaging Data Structure) ecosystem. It provides a command-line interface for estimating General Linear Model (GLM) parameters from fMRI data stored in BIDS-compliant datasets, enabling automated and reproducible first-level neuroimaging analysis. FitLins was developed to address the need for standardized, pipeline-based GLM estimation that integrates seamlessly with BIDS-derived preprocessing workflows such as those provided by [[fMRIprep]] (cite: fmriprep-paper). The tool operates as a wrapper around the [[nilearn]] GLM implementation, adding BIDS-aware functionality, automated model specification from sidecar JSON files, and output in formats compatible with downstream statistical inference tools (cite: nilearn-docs).
+FitLins (Fitting Linear Models) is a Python software package designed for model-based [[fmri]] analysis within the [[bids]] (Brain Imaging Data Structure) ecosystem. It provides a command-line interface for estimating General [[linear|Linear Model]] (GLM) parameters from fMRI data stored in BIDS-compliant datasets, enabling automated and reproducible first-level [[neuroimaging]] analysis. FitLins was developed to address the need for standardized, pipeline-based GLM estimation that integrates seamlessly with BIDS-derived preprocessing workflows such as those provided by [[fMRIprep]] (cite: fmriprep-paper). The tool operates as a wrapper around the [[nilearn]] GLM implementation, adding BIDS-aware functionality, automated model specification from sidecar JSON files, and output in formats compatible with downstream statistical inference tools (cite: nilearn-docs).
 
 ## Motivation and Context
 
@@ -41,7 +41,7 @@ While FitLins is primarily oriented toward task-based fMRI analysis using the GL
 
 ## Technical Considerations
 
-Users should note several technical requirements when deploying FitLins in their pipelines. The tool requires a BIDS-compliant dataset with preprocessed fMRI runs organized according to the BIDS specification, including appropriate JSON sidecars for event timing information. Memory requirements scale with the number of voxels and time points in the input data, and parallel processing capabilities are available through nilearn's joblib backend for accelerated estimation. FitLins outputs follow the BIDS-derivatives specification, including generated Nipype objects that capture the provenance of the analysis, facilitating reproducibility and transparency in the statistical inference pipeline.
+Users should note several technical requirements when deploying FitLins in their pipelines. The tool requires a BIDS-compliant dataset with preprocessed fMRI runs organized according to the BIDS specification, including appropriate JSON sidecars for event timing information. Memory requirements scale with the number of voxels and time points in the input data, and parallel processing capabilities are available through nilearn's joblib backend for accelerated estimation. FitLins outputs follow the [[bids-derivatives]] specification, including generated Nipype objects that capture the provenance of the analysis, facilitating [[reproducibility]] and transparency in the statistical inference pipeline.
 
 ## Related Software
 

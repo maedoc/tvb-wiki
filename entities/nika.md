@@ -1,25 +1,31 @@
 ---
-title: NIAK
 created: 2025-01-15
-updated: 2026-05-03
-type: entity
-tags: [software-neuroimaging, neuroimaging-fmri, neuroimaging-preprocessing, functional-connectivity, connectomics]
 sources:
-  - authors: Bellec P, et al.
-    title: 'NIAK: Neuroimaging Analysis Kit'
-    url: https://github.com/SIMEXP/niak
-    year: '2014'
-  - authors: Bellec P, et al.
-    title: 'BASC: A method for identifying stable clusters in brain parcellations'
-    url: https://doi.org/10.1016/j.neuroimage.2010.06.041
-    year: '2010'
-  - authors: Bellec P, et al.
-    title: 'The pipeline system for Octave and Matlab (PSOM): a lightweight scripting framework and execution engine for scientific workflows'
-    url: https://doi.org/10.3389/fninf.2012.00063
-    year: '2012'
-  - url: https://www.nitrc.org/projects/niak/
-    title: 'NIAK on NITRC'
-    year: '2014'
+- authors: Bellec P, et al.
+  title: 'NIAK: Neuroimaging Analysis Kit'
+  url: https://github.com/SIMEXP/niak
+  year: '2014'
+- authors: Bellec P, et al.
+  title: 'BASC: A method for identifying stable clusters in brain parcellations'
+  url: https://doi.org/10.1016/j.neuroimage.2010.06.041
+  year: '2010'
+- authors: Bellec P, et al.
+  title: 'The pipeline system for Octave and Matlab (PSOM): a lightweight scripting
+    framework and execution engine for scientific workflows'
+  url: https://doi.org/10.3389/fninf.2012.00063
+  year: '2012'
+- title: NIAK on NITRC
+  url: https://www.nitrc.org/projects/niak/
+  year: '2014'
+tags:
+- software-neuroimaging
+- neuroimaging-fmri
+- neuroimaging-preprocessing
+- functional-connectivity
+- connectomics
+title: NIAK
+type: entity
+updated: '2026-05-03'
 ---
 
 # NIAK
@@ -32,19 +38,19 @@ NIAK (NeuroImaging Analysis Kit) is an open-source software library for the prep
 
 ### Preprocessing Pipeline
 
-NIAK implements a complete fMRI preprocessing workflow that includes motion correction, slice timing correction, non-uniformity intensity normalization (N3 bias field correction), spatial normalization to MNI stereotaxic space, and spatial smoothing with configurable Gaussian kernels. The pipeline integrates seamlessly with the MINC (Medical Image NetCDF) file format native to the Montreal Neurological Institute, while also supporting NIfTI format through conversion utilities. A distinctive feature of NIAK is its emphasis on quality control, generating detailed reports at each preprocessing stage that allow researchers to identify and exclude problematic volumes or subjects from subsequent analyses.
+NIAK implements a complete fMRI preprocessing workflow that includes motion correction, slice timing correction, non-uniformity intensity normalization (N3 bias field correction), spatial normalization to MNI stereotaxic space, and spatial smoothing with configurable Gaussian kernels. The pipeline integrates seamlessly with the MINC (Medical Image NetCDF) file format native to the Montreal Neurological Institute, while also supporting [[nifti]] format through conversion utilities. A distinctive feature of NIAK is its emphasis on quality control, generating detailed reports at each preprocessing stage that allow researchers to identify and exclude problematic volumes or subjects from subsequent analyses.
 
 ### PSOM Framework
 
-The Pipeline System for Octave and Matlab (PSOM) underlying NIAK enables automatic parallel execution of processing steps across multi-core workstations and high-performance computing clusters. PSOM handles dependency resolution, ensuring that downstream processing steps only execute after their prerequisites complete successfully. This design allows researchers to define complex multi-step workflows with minimal overhead and automatically benefits from parallel processing resources without manual parallelization code.
+The Pipeline System for Octave and Matlab (PSOM) underlying NIAK enables automatic parallel execution of processing [[steps]] across multi-core workstations and high-performance computing clusters. PSOM handles dependency resolution, ensuring that downstream processing steps only execute after their prerequisites complete successfully. This design allows researchers to define complex multi-step workflows with minimal overhead and automatically benefits from parallel processing resources without manual parallelization code.
 
 ### Connectivity Analysis
 
-Beyond preprocessing, NIAK includes modules for functional connectivity analysis, including seed-based correlation, group-level stability analysis using bootstrap resampling, and the BASC (Bootstrap Analysis of Stable Clusters) framework for identifying robust brain parcellations. The BASC pipeline implements innovative methods for determining the optimal number of clusters using MSTEPS (Multi-Scale Stability Parameter Estimation), helping researchers avoid arbitrary choices in parcellation resolution.
+Beyond preprocessing, NIAK includes modules for functional [[connectivity]] analysis, including seed-based correlation, group-level stability analysis using bootstrap resampling, and the BASC (Bootstrap Analysis of Stable Clusters) framework for identifying robust brain parcellations. The BASC pipeline implements innovative methods for determining the optimal number of clusters using MSTEPS (Multi-Scale Stability [[parameter-estimation]]), helping researchers avoid arbitrary choices in [[parcellation]] resolution.
 
 ### Region Growing
 
-A signature capability of NIAK is its region-growing algorithm for spatially constrained parcellation of neuroimaging data. This method progressively builds regions by aggregating adjacent voxels based on similarity of their fMRI time series, producing anatomically meaningful parcels that maintain homogeneous temporal profiles. The algorithm can operate either on individual subject data or on concatenated multi-subject datasets, enabling generation of group-wise parcellations that respect population-level homogeneity while maintaining individual variability.
+A signature capability of NIAK is its region-growing algorithm for spatially constrained parcellation of [[neuroimaging]] data. This method progressively builds regions by aggregating adjacent voxels based on similarity of their fMRI time series, producing anatomically meaningful parcels that maintain homogeneous temporal profiles. The algorithm can operate either on individual subject data or on concatenated multi-subject datasets, enabling generation of group-wise parcellations that respect population-level homogeneity while maintaining individual variability.
 
 ## Relationship to TVB
 

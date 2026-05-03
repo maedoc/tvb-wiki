@@ -29,7 +29,7 @@ Kilosort is a widely-used open-source spike sorting algorithm designed to automa
 
 Spike sorting is the process of isolating the firing patterns of individual neurons from extracellular voltage recordings, which contain signals from many neurons simultaneously recorded by one or more electrodes. This is a fundamental challenge in [[electrophysiology]] because the recorded signal represents a superposition of action potentials from multiple neurons near each electrode contact, along with background noise and artifacts. Kilosort addresses this problem using a template-matching approach combined with drift correction, making it particularly suitable for recordings from chronic implants where brain tissue slowly moves relative to the electrodes over time.
 
-The algorithm operates by first detecting candidate spike events based on amplitude thresholds, then constructing templates representing the waveform shape of each putative neuron. These templates are used to decompose the raw voltage traces into contributions from individual units through a greedy source separation procedure. Kilosort's key innovation is its ability to handle "drift" — the gradual change in electrode positions relative to neurons that occurs over recording sessions lasting hours to days — by continuously updating template positions and accounting for slow deformations in the signal (Pachitariu et al., 2018).
+The algorithm operates by first detecting candidate spike events based on amplitude thresholds, then constructing templates representing the waveform shape of each putative [[neuron]]. These templates are used to decompose the raw voltage traces into contributions from individual units through a greedy [[source-separation]] procedure. Kilosort's key innovation is its ability to handle "drift" — the gradual change in electrode positions relative to neurons that occurs over recording sessions lasting hours to days — by continuously updating template positions and accounting for slow deformations in the signal (Pachitariu et al., 2018).
 
 ## Technical Approach
 
@@ -55,6 +55,6 @@ Kilosort is often used alongside [[spikeinterface]], a Python library that provi
 
 ## References
 
-1. Martin Breyton, Viktor Sip, M. Woodman, Meysam Hashemi, S. Petkoski, V. Jirsa. (2025). *Data-driven mean-field within whole-brain models*. [Link](https://www.semanticscholar.org/paper/144ae1f1dabec42c14493d0083d36f168508f886)
-2. Peter Yongho Kim, Juhyeon Park, Jungwoo Park, Jubin Choi, Jungwoo Seo, Jiook Cha, Taesup Moon. (2026). *Can Natural Image Autoencoders Compactly Tokenize fMRI Volumes for Long-Range Dynamics Modeling?*. [Link](https://arxiv.org/abs/2604.03619)
+1. Martin Breyton, Viktor Sip, M. Woodman, Meysam Hashemi, S. Petkoski, V. Jirsa. (2025). *Data-driven [[mean-field-theory|mean-field]] within [[whole-brain]] models*. [Link](https://www.semanticscholar.org/paper/144ae1f1dabec42c14493d0083d36f168508f886)
+2. Peter Yongho Kim, Juhyeon Park, Jungwoo Park, Jubin Choi, Jungwoo Seo, Jiook Cha, Taesup Moon. (2026). *Can Natural Image Autoencoders Compactly Tokenize [[fmri]] Volumes for Long-Range Dynamics Modeling?*. [Link](https://arxiv.org/abs/2604.03619)
 3. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI), a flexible and integrative toolkit for efficient probabilistic inference on whole-brain models*. eLife. [DOI](https://doi.org/10.7554/eLife.106194)
