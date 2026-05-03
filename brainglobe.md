@@ -3,7 +3,7 @@ title: BrainGlobe
 created: 2025-01-15
 updated: 2026-05-03
 type: entity
-tags: [software-visualization, software-brain-modeling, atlas, brain-parcellations, neuroanatomy, computational-neuroscience, neuroimaging-mri]
+tags: [software-brain-modeling, software-visualization, brain-parcellations, neuroanatomy, computational-neuroscience, parcellation, atlases]
 sources: [brainglobe-atlasapi-2020]
 ---
 
@@ -17,7 +17,7 @@ BrainGlobe is an open-source suite of interoperable Python tools for computation
 
 ### Atlas Infrastructure
 
-The **BrainGlobe Atlas API** (brainglobe-atlasapi) serves as the foundational component of the suite, providing a unified interface for accessing multiple neuroanatomical atlases programmatically. This addresses a persistent challenge in computational neuroanatomy: the fragmentation of brain atlas data across different formats, coordinate systems, and species. The API supports atlases for mouse, rat, zebrafish, and other species, including the [[allen-brain-atlas]] and various developmental atlases. Each atlas includes a reference image, annotation image with region labels, surface meshes in OBJ format, and hierarchical structure information in JSON format. The standardized data format enables consistent processing pipelines regardless of the underlying atlas source.
+The **BrainGlobe Atlas API** (brainglobe-atlasapi) serves as the foundational component of the suite, providing a unified interface for accessing multiple neuroanatomical atlases programmatically. This addresses a persistent challenge in computational neuroanatomy: the fragmentation of brain atlas data across different formats, coordinate systems, and species. The API supports atlases for mouse, rat, zebrafish, and other species, including the [[allen-brain-atlas]] and various developmental atlases. Each atlas includes a reference image, annotation image with region labels, surface meshes in OBJ format, and hierarchical structure information in JSON format. The standardized data format enables consistent processing pipelines regardless of the underlying atlas source. The API integrates with [[brain-parcellations]] tools to provide region-of-interest definitions for downstream analyses.
 
 ### Visualization with brainrender
 
@@ -25,7 +25,7 @@ The **BrainGlobe Atlas API** (brainglobe-atlasapi) serves as the foundational co
 
 ### Registration and Segmentation
 
-**brainreg** provides automated three-dimensional brain registration, supporting multiple species and atlases through a registration framework that aligns experimental data to standard coordinate spaces. This enables quantitative comparisons across specimens and laboratories by transforming diverse datasets into a common reference frame. Complementing registration, **cellfinder** offers automated three-dimensional cell detection in large microscopy images, addressing the computational challenge of quantifying cellular distributions in whole-brain datasets. **brainglobe-segmentation** extends these capabilities to anatomical structure segmentation within common coordinate spaces.
+**brainreg** provides automated three-dimensional brain registration, supporting multiple species and atlases through a registration framework that aligns experimental data to standard coordinate spaces. This enables quantitative comparisons across specimens and laboratories by transforming diverse datasets into a common reference frame using techniques from [[diffusion-imaging]] and [[tractography]]. Complementing registration, **cellfinder** offers automated three-dimensional cell detection in large microscopy images, addressing the computational challenge of quantifying cellular distributions in whole-brain datasets. **brainglobe-segmentation** extends these capabilities to anatomical structure segmentation within common coordinate spaces.
 
 ### Morphology Analysis
 
@@ -41,7 +41,7 @@ The BrainGlobe Atlas API is documented in a peer-reviewed publication: Claudi, F
 
 ## Related Software
 
-BrainGlobe integrates with several other tools in the computational neuroscience ecosystem. For visualization, it complements [[brainnet-viewer]] and [[brainrender]]. For atlas-related functionality, it works alongside [[nilearn]] and [[freesurfer]] for human neuroimaging, and [[fsl]] for general neuroimaging processing. The suite can be combined with [[dipy]] for diffusion imaging analysis and [[mrtrix3]] for tractography. For cell detection and microscopy analysis, it addresses similar domains as cellfinder. The modular architecture allows researchers to incorporate BrainGlobe into workflows using [[nipype]] for pipeline orchestration, enabling integration with nearly any Python-based neuroimaging processing chain.
+BrainGlobe integrates with several other tools in the computational neuroscience ecosystem. For visualization, it complements [[brainnet-viewer]] and [[brainrender]]. For atlas-related functionality, it works alongside [[nilearn]] and [[freesurfer]] for human neuroimaging, and [[fsl]] for general neuroimaging processing. The suite can be combined with [[dipy]] for diffusion imaging analysis and [[mrtrix3]] for tractography. For cell detection and microscopy analysis, it addresses similar domains as cellfinder. The modular architecture allows researchers to incorporate BrainGlobe into workflows using [[nipype]] for pipeline orchestration, enabling integration with nearly any Python-based neuroimaging processing chain. The atlas data can be read using [[nibabel]] for NIfTI file handling, and the resulting parcellations may be used in [[epilepsy-modeling]] and [[brain-stimulation]] studies.
 
 ## Summary
 
