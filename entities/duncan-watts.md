@@ -1,10 +1,15 @@
 ---
-title: Duncan J. Watts
 created: 2026-04-20
-updated: 2026-05-03
+sources:
+- raw/papers/watts-strogatz-1998.md
+- raw/papers/barabasi-albert-1999.md
+tags:
+- people-researcher
+- network-dynamics
+- connectomics
+title: Duncan J. Watts
 type: entity
-tags: [people-researcher, network-dynamics, connectomics]
-sources: [raw/papers/watts-strogatz-1998.md, raw/papers/barabasi-albert-1999.md]
+updated: '2026-05-03'
 ---
 
 # Duncan J. Watts
@@ -58,3 +63,8 @@ In the context of [[whole-brain-modeling]] and computational neuroscience, Watts
 - [[clustering-coefficient]] – Measure of local connectivity density
 - [[path-length]] – Average shortest path between nodes in a network
 - [[network-hubs]] – Highly connected nodes that play central roles
+
+## References
+
+1. (authors unknown). *Collective Dynamics of 'Small-World' Networks*.
+2. (authors unknown). *Emergence of Scaling in Random Networks*.

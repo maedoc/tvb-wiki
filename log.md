@@ -256,3 +256,5 @@
 ## [2026-05-03 23:17] DeepResearch: 41 papers added via focused research
 
 ## [2026-05-03 23:22] Improve: 2 pages improved (michael-fox, neuroharmonize)
+
+## [2026-05-03 23:36] Improve: 7 pages improved (marcus-raichle, mni-space, duncan-watts, ted-carnevale, camino, software-ants, adaptive-exponential-integrate-and-fire)
