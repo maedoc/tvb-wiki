@@ -32,12 +32,16 @@ A collection of people, software platforms, datasets, and research groups releva
 - [BindsNET](bindsnet.md) - Spiking neural network simulator with PyTorch integration and STDP learning rules
 - [SpiNNaker](spinnaker.md) - Neuromorphic many-core platform for real-time spiking neural network simulation
 - [Nighres](nighres.md) - High-resolution neuroimaging processing for laminar analysis
+- [MedPy](medpy.md) - Python library for medical image processing and analysis
 - [NeuroM](neurom.md) - Python library for neuronal morphology analysis and visualization
 - [neuromaps](neuromaps.md) - Toolbox for multimodal brain map transformation and spatial comparison
 - [Neurodesk](neurodesk.md) — Containerized neuroimaging analysis environment with 100+ tools
 - [PopEye](popeye.md) — Python toolbox for estimating population receptive fields from fMRI data
 - [PALM](palm.md) — Parametric Analysis of Linear Models for neuroimaging statistical inference
+- [FSL Randomise](fsl-randomise.md) — Non-parametric permutation testing with TFCE for neuroimaging statistical inference
 - [PyDICOM](pydicom.md) — Pure Python library for reading and writing DICOM medical imaging files
+- [Pydra](pydra.md) — Lightweight dataflow engine for scientific workflow construction and execution
+- [DDE-Biftool](dde-biftool.md) — MATLAB toolbox for bifurcation analysis of delay differential equations, used for neural mass models
 
 ## Research Projects & Datasets
 

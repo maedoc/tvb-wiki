@@ -94,7 +94,7 @@
 - [[Dcm]] – Dynamic Causal Modeling (DCM) is a Bayesian framework for inferring [[effective-connectivity]] in the brain from [[fmri]...
 - [[Dcm2Niix]] – tags: [[neuroimaging]], neuroimaging-[[fmri]], [[neuroimaging-pet]], [[diffusion-imaging]], software-visualization]
 - [[Dcmtk]] – tags: [software-visualization, [[neuroimaging]]-dti, neuroimaging-fmri]
-- [[Dde Biftool]] – *Placeholder — awaiting content from Ralph Improver.*
+- [[Dde Biftool]] – DDE-Biftool (Delay Differential Equation Bifurcation Toolbox) is a MATLAB-based software package for numerical bifurcation analysis of systems of delay differential equations. It enables computation of equilibria and periodic solutions, stability analysis, and continuation of bifurcations—essential for understanding neural systems with intrinsic time delays. Used for analyzing neural mass models including Jansen-Rit and Epileptor.
 - [[Deeplabcut]] – *Placeholder — awaiting content from Ralph Improver.*
 - [[Deepmedic]] – Deepmedic — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
 - [[Demois]] – *Placeholder — awaiting content from Ralph Improver.*
