@@ -1,19 +1,23 @@
 ---
-title: BCBToolKit
 created: 2026-05-03
-updated: 2026-05-03
+sources:
+- raw/papers/bioarxiv-foulon-2018.md
+tags:
+- software-brain-modeling
+- software-connectomics
+- brain-stimulation
+title: BCBToolKit
 type: entity
-tags: [software-brain-modeling, software-connectomics, brain-stimulation]
-sources: [raw/papers/bioarxiv-foulon-2018.md]
+updated: '2026-05-03'
 ---
 
 # BCBToolKit
 
 ## Overview
 
-BCBToolKit (Brain Connectivity and Behaviour Toolkit) is a free and open-source software package designed to quantify the non-local effects of brain lesions by measuring structural and functional disconnections in the human brain. Developed by the Brain Connectivity and Behaviour Laboratory (BCBlab) at Bordeaux, led by Michel Thiebaut de Schotten, the toolkit provides a comprehensive suite of tools for lesion-symptom mapping that extends beyond traditional voxel-based approaches. The fundamental premise underlying BCBToolKit is that brain functions emerge from the interaction between distributed brain regions through white matter connections; therefore, even focal brain lesions can produce widespread effects on structurally and functionally connected circuits. This perspective, rooted in the connectionist tradition pioneered by Geschwind and later elaborated by Catani, positions BCBToolKit as a critical tool for understanding the true anatomical basis of cognitive deficits following stroke, traumatic brain injury, or neurosurgical resection.
+BCBToolKit (Brain [[connectivity]] and Behaviour Toolkit) is a free and open-source software package designed to quantify the non-local effects of brain lesions by measuring structural and functional disconnections in the human brain. Developed by the Brain Connectivity and Behaviour Laboratory (BCBlab) at Bordeaux, led by Michel Thiebaut de Schotten, the toolkit provides a comprehensive suite of tools for lesion-symptom mapping that extends beyond traditional voxel-based approaches. The fundamental premise underlying BCBToolKit is that brain functions emerge from the interaction between distributed brain regions through [[white-matter]] connections; therefore, even focal brain lesions can produce widespread effects on structurally and functionally connected circuits. This perspective, rooted in the connectionist tradition pioneered by Geschwind and later elaborated by Catani, positions BCBToolKit as a critical tool for understanding the true anatomical basis of cognitive deficits following stroke, traumatic brain injury, or neurosurgical resection.
 
-The toolkit addresses a significant gap in the neuroimaging field: while traditional lesion-symptom mapping assumes that visibly damaged areas are solely responsible for observed deficits, accumulating evidence demonstrates that disconnections between regions—even regions not directly lesioned—contribute substantially to cognitive impairment through mechanisms of diaschisis and transneuronal degeneration. BCBToolKit operationalizes this understanding by providing automated pipelines that integrate diffusion-weighted imaging tractography, resting-state functional connectivity, and cortical thickness measurements to paint a complete picture of how a brain lesion disrupts large-scale brain networks.
+The toolkit addresses a significant gap in the [[neuroimaging]] field: while traditional lesion-symptom mapping assumes that visibly damaged areas are solely responsible for observed deficits, accumulating evidence demonstrates that disconnections between regions—even regions not directly lesioned—contribute substantially to cognitive impairment through mechanisms of diaschisis and transneuronal degeneration. BCBToolKit operationalizes this understanding by providing automated pipelines that integrate diffusion-weighted imaging [[tractography]], [[resting-state]] [[functional-connectivity]], and cortical thickness measurements to paint a complete picture of how a brain lesion disrupts large-scale brain networks.
 
 ## Key Features
 
@@ -29,7 +33,7 @@ Additional utilities include tools for **enantiomorphic normalization**, which e
 
 ## Relationship to TVB
 
-While BCBToolKit and [[the-virtual-brain]] serve complementary roles in whole-brain modeling, they address different stages of the analytical pipeline. BCBToolKit focuses on analyzing the consequences of structural damage to brain networks, providing quantitative measures of disconnection that can inform our understanding of how network integrity relates to function—knowledge that is essential for constructing personalized computational models. [[The Virtual Brain]] (TVB), by contrast, provides a simulation platform for modeling the dynamics of whole-brain networks under both healthy and pathological conditions.
+While BCBToolKit and [[the-virtual-brain]] serve complementary roles in [[whole-brain|whole-brain modeling]], they address different stages of the analytical pipeline. BCBToolKit focuses on analyzing the consequences of structural damage to brain networks, providing quantitative measures of disconnection that can inform our understanding of how network integrity relates to function—knowledge that is essential for constructing personalized computational models. [[The Virtual Brain]] (TVB), by contrast, provides a simulation platform for modeling the dynamics of whole-brain networks under both healthy and pathological conditions.
 
 The connection between these tools becomes particularly relevant in clinical applications. BCBToolKit's disconnectome maps can be used to constrain TVB simulations, allowing researchers to simulate the dynamics of a brain that has sustained specific patterns of disconnection. This integration enables prediction of how network dynamics change following structural damage, potentially informing rehabilitation strategies or surgical planning. Furthermore, both tools share a commitment to open science: BCBToolKit is freely available (similar to TVB's open-source philosophy), and both integrate with widely-used neuroimaging packages including [[fsl]], [[ants]], and [[dipy]].
 
@@ -49,6 +53,6 @@ The pipeline typically proceeds through several stages: first, lesion masks are 
 
 BCBToolKit integrates with and complements several other software packages in the neuroimaging ecosystem. For structural connectivity analysis, it works alongside [[mrtrack]] and [[mrtrix3-connectome]] for tractography, while the disconnectome methodology draws on approaches similar to those implemented in the Network Modification (NeMo) Tool. For functional connectivity, the toolkit's output can be further analyzed using [[conn]] or [[mne-connectivity]]. The enantiomorphic normalization procedure relies on [[ants]] for diffeomorphic image registration, and cortical thickness measurements employ the DiReCT algorithm which is available within the [[ants]] ecosystem.
 
-For researchers interested in whole-brain modeling, BCBToolKit provides anatomically-informed connectivity matrices that can serve as structural connectomes for simulation engines including [[the-virtual-brain]]. The toolkit also relates to clinical applications of brain stimulation, as understanding disconnection patterns is essential for predicting the effects of invasive or non-invasive stimulation on distributed brain networks.
+For researchers interested in whole-brain modeling, BCBToolKit provides anatomically-informed connectivity matrices that can serve as structural connectomes for simulation engines including [[the-virtual-brain]]. The toolkit also relates to clinical applications of [[brain-stimulation]], as understanding disconnection patterns is essential for predicting the effects of invasive or non-invasive stimulation on distributed brain networks.
 
 ## References

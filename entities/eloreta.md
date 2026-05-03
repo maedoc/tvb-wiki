@@ -5,13 +5,14 @@ tags:
 - software-brain-modeling
 title: eLORETA
 type: entity
-updated: 2026-05-03
+updated: '2026-05-03'
 ---
+
 title: eLORETA
 created: 2025-01-15
 updated: 2026-05-03
 type: concept
-tags: [neuroimaging-eeg, neuroimaging-meg, source-localization, computational-neuroscience, inverse-problem, neural-mass-models, resting-state]
+tags: [[[neuroimaging]]-eeg, neuroimaging-meg, [[source-localization]], [[computational-neuroscience]], inverse-problem, neural-mass-models, resting-state]
 sources: [Pascual-Marqui 1994, Pascual-Marqui 2002, Pascual-Marqui 2011, Halder et al. 2007, Hata et al. 2016, Becker et al. 2017]
 ---
 
@@ -19,7 +20,7 @@ sources: [Pascual-Marqui 1994, Pascual-Marqui 2002, Pascual-Marqui 2011, Halder 
 
 ## Overview
 
-**eLORETA** (exact Low Resolution Brain Electromagnetic Tomography) is a distributed source localization algorithm used in electroencephalography (EEG) and magnetoencephalography (MEG) to estimate the intracranial generators of measured electromagnetic brain activity. Developed by Roberto Pascual-Marqui and colleagues, eLORETA solves the inverse problem in neuroelectromagnetic imaging by computing a linear estimate of current density distributions across the brain. The method belongs to the broader family of low-resolution electromagnetic tomography approaches, which includes its predecessors LORETA and sLORETA (standardized LORETA) [[Pascual-Marqui 1994]]. What distinguishes eLORETA from earlier variants is its mathematically proven property of **exact localization**—under ideal noise-free conditions and correct forward modeling, the algorithm identifies the true source location without spatial bias or error [[Pascual-Marqui 2002]].
+**eLORETA** (exact Low Resolution Brain Electromagnetic Tomography) is a distributed source localization algorithm used in electroencephalography (EEG) and magnetoencephalography (MEG) to estimate the intracranial generators of measured electromagnetic brain activity. Developed by Roberto Pascual-Marqui and colleagues, eLORETA solves the inverse problem in neuroelectromagnetic imaging by computing a [[linear]] estimate of current density distributions across the brain. The method belongs to the broader family of low-resolution electromagnetic tomography approaches, which includes its predecessors LORETA and [[sloreta]] (standardized LORETA) [[Pascual-Marqui 1994]]. What distinguishes eLORETA from earlier variants is its mathematically proven property of **exact localization**—under ideal noise-free conditions and correct forward modeling, the algorithm identifies the true source location without spatial bias or error [[Pascual-Marqui 2002]].
 
 ## Relationship to Other LORETA Methods
 
@@ -49,7 +50,7 @@ While eLORETA is primarily a data analysis method rather than a biophysical simu
 
 3. **Pascual-Marqui, R. D., et al. (2011).** eLORETA: A new method for electromagnetic source localization. *The Journal of Neural Engineering*, 8(2), 025006. — The definitive eLORETA paper proving exact localization under ideal conditions.
 
-4. **Halder, E. M., et al. (2007).** EEG resting-state functional connectivity in early-onset Alzheimer's disease. *Neuropsychiatric Disease and Treatment*, 3(6), 773–787. — Demonstrates eLORETA applications in clinical neuroimaging.
+4. **Halder, E. M., et al. (2007).** EEG [[resting-state]] functional [[connectivity]] in early-onset Alzheimer's disease. *Neuropsychiatric Disease and Treatment*, 3(6), 773–787. — Demonstrates eLORETA applications in clinical neuroimaging.
 
 5. **Hata, M., et al. (2016).** Ictal and interictal epileptiform discharges in LORETA: Validation with intracranial EEG. *Clinical Neurophysiology*, 127(1), 200–209. — Validates eLORETA source localization against ground truth intracranial recordings.
 

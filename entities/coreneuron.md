@@ -12,7 +12,7 @@ tags:
 - software-coreneuron
 title: CoreNEURON
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-03'
 ---
 
 CoreNEURON (coreneuron) is a optimized compute engine for the [[neuron]] simulator, designed for large-scale network simulations on modern HPC systems.
@@ -41,5 +41,5 @@ CoreNEURON is often used alongside [[tvb]] and other simulation platforms in pre
 3. R. A. Benn, Ting Xu, R. Mars, Magdalena Boch, Léa Roumazeilles, K. Heuer, Roberto Toro, D. Margulies, J. Manzano-Patrón, Paula Montesinos, C. Galán-Arriola, G. López-Martín, J. Sanchez-González, E. P. Duff, Borja Ibáñez. (2025). *Precon_all: A species-agnostic automated pipeline for non-human cortical surface reconstruction*. bioRxiv. [DOI](https://doi.org/10.1101/2025.04.16.649072)
 4. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2018.05.040)
 5. Woodman et al. (2014). *[[graphvar]]: A user-friendly toolbox for comprehensive graph analyses of functional brain [[connectivity]]*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2014.07.015)
-6. C. Linssen, Pooja N. Babu, Jochen M. Eppler, Luca Koll, Bernhard Rumpe, Abigail Morrison. (2025). *NESTML: a generic modeling language and code generation tool for the simulation of [[spiking-neural-networks]] with advanced [[plasticity]] rules*. Frontiers Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2025.1544143)
+6. C. Linssen, Pooja N. Babu, Jochen M. Eppler, Luca Koll, Bernhard Rumpe, Abigail Morrison. (2025). *[[nestml]]: a generic modeling language and code generation tool for the simulation of [[spiking-neural-networks]] with advanced [[plasticity]] rules*. Frontiers Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2025.1544143)
 7. (authors unknown). *[[braph]]: A Pipeline for Brain Connectivity Analysis*.

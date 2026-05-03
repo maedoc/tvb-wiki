@@ -53,10 +53,10 @@ tags:
 - software-visualization
 - software-brain-modeling
 - neuroimaging-mri
-- brain-parcellations
+- [[brain-parcellations]]
 - parcellation
 - shape-analysis
-- open-source-brain
+- [[open-source-brain]]
 title: Mindboggle
 type: entity
 updated: '2026-04-30'

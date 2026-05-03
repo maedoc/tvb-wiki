@@ -10,7 +10,7 @@ tags:
 - software-brain-modeling
 title: sLORETA
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-03'
 ---
 
 title: sLORETA
@@ -43,7 +43,7 @@ Furthermore, sLORETA-derived [[connectivity]] matrices are frequently employed i
 
 ## Key Papers
 
-The seminal sLORETA paper appeared in 2002 in *Journal of Clinical Neurophysiology* (Pascual-Marqui, 2002), establishing the theoretical foundation and validating the method through simulations and visual cortex experiments. Subsequent methodological papers extended the framework to include temporal constraints (tLORETA) and frequency-domain analysis (eLORETA), the latter incorporating noise normalization based on the coherence spectrum to improve estimation in specific frequency bands relevant to [[brain-oscillations]] research.
+The seminal sLORETA paper appeared in 2002 in *Journal of Clinical Neurophysiology* (Pascual-Marqui, 2002), establishing the theoretical foundation and validating the method through simulations and visual cortex experiments. Subsequent methodological papers extended the framework to include temporal constraints (tLORETA) and frequency-domain analysis ([[eloreta]]), the latter incorporating noise normalization based on the coherence spectrum to improve estimation in specific frequency bands relevant to [[brain-oscillations]] research.
 
 ## Related Software and Implementations
 

@@ -68,7 +68,7 @@ Neural mass models occupy an intermediate position between detailed biophysical 
 
 The relationship between neural mass models and [[dynamic-causal-modeling]] is particularly close: DCM uses the Jansen‑Rit model as its [[forward-model]] for generating synthetic EEG/MEG data, and parameter estimation in DCM amounts to inverting the neural mass model to fit observed neuroimaging data. Similarly, [[tvb]] provides a platform for whole‑brain simulations using multiple neural mass models (Jansen‑Rit, Wong‑Wang, Epileptor) embedded in patient‑specific connectomes.
 
-**See also [[marsatlas]] and [[mne-bids-pipeline]] for a software platform that integrates neural mass models in whole‑brain simulations.**
+**See also [[marsatlas]] and [[mne-[[bids]]-pipeline]] for a software platform that integrates neural mass models in whole‑brain simulations.**
 
 ## Parameter Estimation and Calibration
 

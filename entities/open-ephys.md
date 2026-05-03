@@ -50,7 +50,7 @@ Open Ephys integrates naturally with the broader open-source electrophysiology e
 - Siegle, J. H., López, A. C., Stick, S. L., R水分, R. E., & Gray, E. T. (2017). Open Ephys: an open-source, GUI-based program for electrophysiology data acquisition and visualization. *Frontiers in Neuroinformatics*, 11, 47.
 - Jun, H., Steinmetz, N. A., Siegle, J. H., Denman, D. J., Bauza, M., & Daie, K. (2017). Fully integrated silicon probes for large-scale neural recording. *Nature*, 544(7649), 333-338.
 - NWB Team. (2020). NWB: a data standard for neurophysiology. *Scientific Data*, 7(1), 216.
-- Spinelli, G., Sanz-Leon, P., & Jirsa, V. K. (2019). The Virtual Brain: a discrete forward model to simulate whole brain dynamics. *bioRxiv*.
+- Spinelli, G., Sanz-Leon, P., & Jirsa, V. K. (2019). [[tvb|The Virtual Brain]]: a discrete [[forward-model]] to simulate whole brain dynamics. *bioRxiv*.
 
 ## References
 

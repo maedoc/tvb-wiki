@@ -1,21 +1,28 @@
 ---
-title: Cellpose
 created: 2025-01-15
-updated: 2026-05-03
+sources:
+- 10.1038/s41592-020-01018-x
+- 10.1038/s41592-022-00466-z
+tags:
+- software-visualization
+- neuroimaging-microscopy
+- deep-learning
+- image-segmentation
+- neuroinformatics
+title: Cellpose
 type: entity
-tags: [software-visualization, neuroimaging-microscopy, deep-learning, image-segmentation, neuroinformatics]
-sources: [10.1038/s41592-020-01018-x, 10.1038/s41592-022-00466-z]
+updated: '2026-05-03'
 ---
 
 # Cellpose
 
 ## Overview
 
-Cellpose is a deep learning-based algorithm for automated segmentation of cells, nuclei, and other subcellular structures in microscopy images. Originally developed by Carsen Stringer and Marius Pachitariu at Janelia Research Campus and published in *Nature Methods* (2020)[^1], Cellpose has become a widely adopted tool in computational neuroscience, neuroinformatics, and biomedical image analysis pipelines. In 2022, the team released Cellpose 2.0[^2], which introduced specialist models and a model zoo for improved performance on specific cell types. Unlike traditional threshold-based or watershed segmentation methods, Cellpose leverages a convolutional neural network trained on thousands of annotated cell images to robustly segment structures across diverse cell types, imaging modalities, and experimental conditions. The algorithm takes as input 2D or 3D grayscale microscopy images (e.g., confocal, two-photon, Lightsheet) and outputs binary masks delineating individual cells or nuclei, along with flow vectors that can be used for subsequent tracking or analysis.
+Cellpose is a deep learning-based algorithm for automated segmentation of cells, nuclei, and other subcellular structures in microscopy images. Originally developed by Carsen Stringer and Marius Pachitariu at Janelia Research Campus and published in *Nature Methods* (2020)[^1], Cellpose has become a widely adopted tool in [[computational-neuroscience]], neuroinformatics, and biomedical image analysis pipelines. In 2022, the team released Cellpose 2.0[^2], which introduced specialist models and a model zoo for improved performance on specific cell types. Unlike traditional threshold-based or watershed segmentation methods, Cellpose leverages a convolutional [[neural-network]] trained on thousands of annotated cell images to robustly segment structures across diverse cell types, imaging modalities, and experimental conditions. The algorithm takes as input 2D or 3D grayscale microscopy images (e.g., confocal, two-photon, Lightsheet) and outputs binary masks delineating individual cells or nuclei, along with flow vectors that can be used for subsequent tracking or analysis.
 
 ## Motivation and Context
 
-Automated cell segmentation has historically been a major bottleneck in high-throughput microscopy analysis pipelines. Traditional methods such as Otsu thresholding, watershed segmentation, or active contours require extensive manual parameter tuning and often fail when confronted with heterogeneous cell populations, touching cells, or variable image quality. The emergence of deep learning approaches promised improved robustness, but early implementations required substantial labeled data and expertise to train. Cellpose addressed these challenges by providing a pre-trained, generalist model that achieves high accuracy across diverse cell types without requiring users to collect their own training data—a paradigm that proved transformative for the neuroimaging and microscopy communities. In the context of whole-brain modeling and computational neuroscience, Cellpose enables quantitative analysis of cellular populations in histological sections, enabling researchers to extract cellular density distributions, morphometric features, and spatial statistics that can inform [[whole-brain-modeling]] approaches or parameterize [[neural-mass-models]] at the cellular level.
+Automated cell segmentation has historically been a major bottleneck in high-throughput microscopy analysis pipelines. Traditional methods such as Otsu thresholding, watershed segmentation, or active contours require extensive manual parameter tuning and often fail when confronted with heterogeneous cell populations, touching cells, or variable image quality. The emergence of deep learning approaches promised improved robustness, but early implementations required substantial labeled data and expertise to train. Cellpose addressed these challenges by providing a pre-trained, generalist model that achieves high accuracy across diverse cell types without requiring users to collect their own training data—a paradigm that proved transformative for the neuroimaging and microscopy communities. In the context of [[whole-brain|whole-brain modeling]] and computational neuroscience, Cellpose enables quantitative analysis of cellular populations in histological sections, enabling researchers to extract cellular density distributions, morphometric features, and spatial statistics that can inform [[whole-brain-modeling]] approaches or parameterize [[neural-mass-models]] at the cellular level.
 
 ## Technical Approach
 

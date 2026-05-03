@@ -1,17 +1,24 @@
 ---
-title: LabStreamingLayer
 created: 2025-01-01
-updated: 2026-05-03
+sources:
+- https://sccn.ucsd.edu/wiki/Lab_Streaming_Layer_(LSL)
+- https://github.com/sccn/labstreaminglayer
+- https://www.frontiersin.org/articles/10.3389/fnins.2013.00098/full
+tags:
+- software-visualization
+- neuroimaging-eeg
+- neuroimaging-meg
+- electrophysiology
+title: LabStreamingLayer
 type: entity
-tags: [software-visualization, neuroimaging-eeg, neuroimaging-meg, electrophysiology]
-sources: [https://sccn.ucsd.edu/wiki/Lab_Streaming_Layer_(LSL), https://github.com/sccn/labstreaminglayer, https://www.frontiersin.org/articles/10.3389/fnins.2013.00098/full]
+updated: '2026-05-03'
 ---
 
 # LabStreamingLayer
 
 ## Overview
 
-LabStreamingLayer (LSL) is an open-source software system for the real-time collection, synchronization, and multiplexing of streaming data from multiple biomedical and scientific data acquisition devices. Developed primarily to address the need for precise temporal alignment of multimodal neuroimaging and electrophysiology data in neuroscience experiments, LSL provides a network-based protocol and middleware implementation that enables heterogeneous data sources—ranging from [[eeg]] amplifiers and [[meg]] systems to eye trackers, stimulus presentation computers, and physiological sensors—to stream their data with millisecond-level temporal precision to one or more consumer applications. The system was created by the SCCN (Swartz Center for Computational Neuroscience) at UC San Diego and has become widely adopted in cognitive neuroscience research, providing the backbone for many closed-loop experiment paradigms and brain-computer interface implementations [@kothe2014; @sccn-lsl-wiki].
+LabStreamingLayer (LSL) is an open-source software system for the real-time collection, synchronization, and multiplexing of streaming data from multiple biomedical and scientific data acquisition devices. Developed primarily to address the need for precise temporal alignment of multimodal [[neuroimaging]] and [[electrophysiology]] data in neuroscience experiments, LSL provides a network-based protocol and middleware implementation that enables heterogeneous data sources—ranging from [[eeg]] amplifiers and [[meg]] systems to eye trackers, stimulus presentation computers, and physiological sensors—to stream their data with millisecond-level temporal precision to one or more consumer applications. The system was created by the SCCN (Swartz Center for [[computational-neuroscience]]) at UC San Diego and has become widely adopted in cognitive neuroscience research, providing the backbone for many closed-loop experiment paradigms and brain-computer interface implementations [@kothe2014; @sccn-lsl-wiki].
 
 ## Motivation and Context
 
@@ -21,7 +28,7 @@ LSL emerged from the need to standardize streaming data formats across different
 
 ## Key Features
 
-LSL provides several features that make it particularly well-suited for neuroscience research applications. The **clock synchronization mechanism** ensures that all data streams are timestamped with high accuracy relative to a master clock, eliminating the need for separate hardware synchronization units in many experimental setups. LSL achieves this through regular clock sampling and linear regression between local and remote clocks, providing sub-millisecond synchronization across devices on standard Ethernet networks without requiring specialized timing hardware like PTP [@sccn-lsl-wiki; @kothe2014]. The system supports a wide variety of data types including continuous signals (floating-point or integer), event markers, and complex data structures, making it adaptable to virtually any physiological recording modality.
+LSL provides several features that make it particularly well-suited for neuroscience research applications. The **clock synchronization mechanism** ensures that all data streams are timestamped with high accuracy relative to a master clock, eliminating the need for separate hardware synchronization units in many experimental setups. LSL achieves this through regular clock sampling and [[linear]] regression between local and remote clocks, providing sub-millisecond synchronization across devices on standard Ethernet networks without requiring specialized timing hardware like PTP [@sccn-lsl-wiki; @kothe2014]. The system supports a wide variety of data types including continuous signals (floating-point or integer), event markers, and complex data structures, making it adaptable to virtually any physiological recording modality.
 
 The **multiplexing capability** of LSL allows multiple data streams to be combined into a single unified stream, which is particularly useful for applications that require synchronized access to all modalities. LSL also includes **automatic discovery** functionality through DNS-SD (DNS Service Discovery), which allows consumer applications to automatically detect and connect to available data sources on the local network without manual configuration. The software provides official implementations in C++, Python, MATLAB, and Java, with third-party bindings available for additional languages including Julia and R [@github-lsl].
 
@@ -33,7 +40,7 @@ The relationship between LSL and TVB is therefore one of complementary tools rat
 
 ## Related Software and Tools
 
-LSL integrates with several other software packages in the neuroimaging ecosystem. The [[eeglab]] environment includes the **LSL Plugin** for streaming EEG data directly from LSL streams into EEGLAB for analysis, enabling researchers to combine real-time preprocessing with the extensive analysis capabilities of the EEGLAB toolbox [@eeglab-lsl-plugin]. The [[mne-python]] library provides native LSL support through its `mne.io.Stream` module, allowing seamless integration with the MNE ecosystem for source reconstruction and connectivity analysis.
+LSL integrates with several other software packages in the neuroimaging ecosystem. The [[eeglab]] environment includes the **LSL Plugin** for streaming EEG data directly from LSL streams into EEGLAB for analysis, enabling researchers to combine real-time preprocessing with the extensive analysis capabilities of the EEGLAB toolbox [@eeglab-lsl-plugin]. The [[mne-python]] library provides native LSL support through its `mne.io.Stream` module, allowing seamless integration with the MNE ecosystem for source reconstruction and [[connectivity]] analysis.
 
 For brain-computer interface applications, LSL is commonly used alongside [[bcilab]] (which was developed by the same group at SCCN) to implement real-time classifier training and decoding pipelines. The system also works with [[fieldtrip]] for near-real-time analysis and with the [[brainstorm]] software for visualization. In terms of data format, LSL data can be exported to standard neuroimaging formats like [[nifti]] or BIDS-compliant formats for offline analysis, bridging the gap between real-time experimentation and post-hoc processing in tools like [[freesurfer]] or [[spm]].
 

@@ -16,7 +16,7 @@ tags:
 - neurodevelopment
 title: jNeuroML
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-03'
 ---
 
 # jNeuroML
@@ -37,7 +37,7 @@ The relationship between jNeuroML and the broader NeuroML ecosystem is complemen
 
 ## Key Features
 
-jNeuroML offers several distinguishing features that make it valuable for [[computational-neuroscience]] research. The **LEMS (Lumped Element Model Specification) interpreter** built into jNeuroML provides support for running simulations defined using LEMS, a domain-specific language for describing dynamical systems that is closely integrated with NeuroML. This allows researchers to define and simulate abstract neural models that can be mapped onto specific simulator implementations.
+jNeuroML offers several distinguishing features that make it valuable for [[computational-neuroscience]] research. The **[[lems]] (Lumped Element Model Specification) interpreter** built into jNeuroML provides support for running simulations defined using LEMS, a domain-specific language for describing dynamical systems that is closely integrated with NeuroML. This allows researchers to define and simulate abstract neural models that can be mapped onto specific simulator implementations.
 
 The software includes **network generation capabilities**, supporting the creation of large-scale networks from parameterized specifications. This is particularly useful for researchers building [[whole-brain]] models or large-scale network simulations who need to generate [[connectivity]] patterns programmatically. jNeuroML can export network specifications to various formats suitable for simulation in [[nest]], [[neuron]], or other established simulators.
 
@@ -81,6 +81,6 @@ Recent developments in the NeuroML community, including the creation of database
 ## References
 
 1. W. Wybo. (2025). *The neural analysis toolkit unifies semi-analytical techniques to simplify, understand, and simulate dendrites*. bioRxiv. [DOI](https://doi.org/10.1101/2025.06.26.661734)
-2. C. Linssen, Pooja N. Babu, Jochen M. Eppler, Luca Koll, Bernhard Rumpe, Abigail Morrison. (2025). *NESTML: a generic modeling language and code generation tool for the simulation of spiking neural networks with advanced [[plasticity]] rules*. Frontiers Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2025.1544143)
+2. C. Linssen, Pooja N. Babu, Jochen M. Eppler, Luca Koll, Bernhard Rumpe, Abigail Morrison. (2025). *[[nestml]]: a generic modeling language and code generation tool for the simulation of spiking neural networks with advanced [[plasticity]] rules*. Frontiers Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2025.1544143)
 3. Leon Martin, Konstantin Bülau, Marius Pille, Rico Schmitt, Christoph Hüttl, J. Meier, Halgurd Taher, Dionysios Perdikis, M. Schirner, L. Stefanovski, [[petra-ritter]]. (2025). *[[tvb|The Virtual Brain]] Ontology: A Digital Knowledge Framework for Reproducible [[brain-network]] Modeling*. bioRxiv. [DOI](https://doi.org/10.1101/2025.11.19.689211)
 4. Amirreza Movahedin, Lennart P. L. Landsmeer, Christos Strydis. (2025). *HUMA: Heterogeneous, Ultra Low-Latency Model Accelerator for The Virtual Brain on a Versal Adaptive SoC*. Symposium on Field Programmable Gate Arrays. [DOI](https://doi.org/10.1145/3706628.3708875)

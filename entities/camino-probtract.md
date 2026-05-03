@@ -51,7 +51,7 @@ Camino's probabilistic tractography is distinguished by its open-source implemen
 - [FSL]([[software-fsl]]) — includes PROBTRACKX for probabilistic tractography
 - [Dipy]([[dipy]]) — Python-based diffusion imaging analysis
 - [AFQ]([[afq]]) — automated fiber quantification pipeline
-- [The Virtual Brain]([[the-virtual-brain]]) — whole-brain simulator using structural connectivity from tractography
+- [The Virtual Brain]([[the-virtual-brain]]) — [[whole-brain]] simulator using structural connectivity from tractography
 
 ## References
 

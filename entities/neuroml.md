@@ -42,7 +42,7 @@ NeuroML is often used alongside [[tvb]] and other simulation platforms in pre-pr
 3. Xiaobo Liu. (2026). *MLE-Toolbox: An Open-Source Toolbox for Comprehensive EEG and MEG Data Analysis*. [Link](https://www.semanticscholar.org/paper/e7aaa4f4bb01e70064493684b4500a950f83460f)
 4. Migliore et al. (2006). *[[modeldb]]: making models publicly accessible to support computational neuroscience*. Neuroinformatics. [DOI](https://doi.org/10.1007/s12021-006-0002-7)
 5. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2018.05.040)
-6. C. Linssen, Pooja N. Babu, Jochen M. Eppler, Luca Koll, Bernhard Rumpe, Abigail Morrison. (2025). *NESTML: a generic modeling language and code generation tool for the simulation of [[spiking-neural-networks]] with advanced [[plasticity]] rules*. Frontiers Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2025.1544143)
+6. C. Linssen, Pooja N. Babu, Jochen M. Eppler, Luca Koll, Bernhard Rumpe, Abigail Morrison. (2025). *[[nestml]]: a generic modeling language and code generation tool for the simulation of [[spiking-neural-networks]] with advanced [[plasticity]] rules*. Frontiers Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2025.1544143)
 7. (authors unknown). *[[braph]]: A Pipeline for Brain [[connectivity]] Analysis*.
 
 ## ORPHAN PAGE CONTEXT (jneuroml)

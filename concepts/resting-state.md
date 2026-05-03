@@ -133,7 +133,7 @@ sources:
 - raw/papers/smith-2013-connectomics.md
 tags:
 - people-researcher
-- network-dynamics
+- [[network-dynamics]]
 title: Mark E. J. Newman
 type: entity
 updated: '2026-04-30'

@@ -1,19 +1,27 @@
 ---
-title: GLMsingle
 created: 2024-01-15
-updated: 2026-05-03
+sources:
+- kay_et_al_2021
+- prinzo_et_al_2016
+- smith_et_al_2021
+tags:
+- software
+- neuroimaging-fmri
+- hemodynamic-response-function
+- parameter-estimation
+- neural-mass-models
+title: GLMsingle
 type: concept
-tags: [software, neuroimaging-fmri, hemodynamic-response-function, parameter-estimation, neural-mass-models]
-sources: [kay_et_al_2021, prinzo_et_al_2016, smith_et_al_2021]
+updated: '2026-05-03'
 ---
 
-GLMsingle is an open-source software package for improving the accuracy of single-trial fMRI analysis through optimized estimation of the hemodynamic response function (HRF). Developed by the laboratory of Kendrick Kay (University of Minnesota), GLMsingle implements a principled approach to solving one of the fundamental challenges in event-related functional magnetic resonance imaging: accurately recovering the timing and amplitude of neural events from the blood oxygen level-dependent (BOLD) signal. The method addresses the problem of HRF variability across brain regions and individuals, as traditional approaches often treat the HRF as a fixed shape rather than a parameter to be estimated from the data itself.
+GLMsingle is an open-source software package for improving the accuracy of single-trial [[fmri]] analysis through optimized estimation of the [[hemodynamic-response-function]] (HRF). Developed by the laboratory of Kendrick Kay (University of Minnesota), GLMsingle implements a principled approach to solving one of the fundamental challenges in event-related functional magnetic resonance imaging: accurately recovering the timing and amplitude of neural events from the blood oxygen level-dependent ([[bold-signal|BOLD]]) signal. The method addresses the problem of HRF variability across brain regions and individuals, as traditional approaches often treat the HRF as a fixed shape rather than a parameter to be estimated from the data itself.
 
 ## Motivation and Context
 
-The general linear model (GLM) has become the workhorse of fMRI data analysis since its introduction in the 1990s, treating the BOLD signal as a linear convolution of the neural event times with a canonical hemodynamic response function. However, this approach suffers from a critical limitation: the assumption of a universal HRF shape across all brain regions and all subjects introduces systematic errors that can obscure neural signals, particularly in rapid event-related designs where temporal precision matters. The HRF differs substantially across cortical areas (peaking earlier in motor cortex than in higher visual areas), across individuals (due to differences in vascular physiology), and even across sessions within the same individual [kay_et_al_2021].
+The general [[linear|linear model]] (GLM) has become the workhorse of fMRI data analysis since its introduction in the 1990s, treating the BOLD signal as a linear convolution of the neural event times with a canonical hemodynamic response function. However, this approach suffers from a critical limitation: the assumption of a universal HRF shape across all brain regions and all subjects introduces systematic errors that can obscure neural signals, particularly in rapid event-related designs where temporal precision matters. The HRF differs substantially across cortical areas (peaking earlier in motor cortex than in higher visual areas), across individuals (due to differences in vascular physiology), and even across sessions within the same individual [kay_et_al_2021].
 
-Prior approaches to addressing HRF variability included expanding the GLM to include multiple basis functions (e.g., Fourier basis in SPM, finite impulse response functions, TENT functions in AFNI), but these methods suffer from noise amplification when the number of parameters exceeds the information available in the data. GLMsingle addresses this limitation by imposing biologically motivated constraints on the HRF shape while allowing key parameters to vary across voxels. This approach achieves a favorable bias-variance tradeoff by constraining the HRF to a physiologically plausible space while still capturing meaningful variability in response timing across the brain.
+Prior approaches to addressing HRF variability included expanding the GLM to include multiple basis functions (e.g., Fourier basis in SPM, finite impulse response functions, TENT functions in [[afni]]), but these methods suffer from noise amplification when the number of parameters exceeds the information available in the data. GLMsingle addresses this limitation by imposing biologically motivated constraints on the HRF shape while allowing key parameters to vary across voxels. This approach achieves a favorable bias-variance tradeoff by constraining the HRF to a physiologically plausible space while still capturing meaningful variability in response timing across the brain.
 
 The method builds upon GLMdenoise, an earlier approach from the same laboratory that pioneered the use of data-driven HRF estimation [prinzo_et_al_2016]. GLMsingle extends this foundation with additional innovations for single-trial analysis.
 
@@ -31,7 +39,7 @@ The algorithm employs an alternating optimization procedure: given a candidate H
 
 ## Relationship to TVB and Whole-Brain Modeling
 
-While GLMsingle is primarily a tool for analyzing fMRI data at the single-subject level, its outputs can inform whole-brain modeling efforts in several ways. The single-trial amplitude estimates produced by GLMsingle provide more precise measurements of task-evoked responses than conventional GLM analysis, which can be used to constrain input functions in [[whole-brain]] simulations. Furthermore, the HRF parameter estimates generated by GLMsingle across cortical regions can be used to create personalized forward models that map neural activity to BOLD signals, improving the accuracy of model validation against fMRI data. In the context of [[dynamic causal modeling]] frameworks, the more precise estimation of trial-by-trial responses enabled by GLMsingle can improve the reliability of connectivity estimates.
+While GLMsingle is primarily a tool for analyzing fMRI data at the single-subject level, its outputs can inform whole-brain modeling efforts in several ways. The single-trial amplitude estimates produced by GLMsingle provide more precise measurements of task-evoked responses than conventional GLM analysis, which can be used to constrain input functions in [[whole-brain]] simulations. Furthermore, the HRF parameter estimates generated by GLMsingle across cortical regions can be used to create personalized forward models that map neural activity to BOLD signals, improving the accuracy of [[model-validation]] against fMRI data. In the context of [[dynamic causal modeling]] frameworks, the more precise estimation of trial-by-trial responses enabled by GLMsingle can improve the reliability of [[connectivity]] estimates.
 
 ## Key Features
 
@@ -43,7 +51,7 @@ Second, it incorporates a noise shrinkage procedure that pools information acros
 
 Third, the method provides uncertainty estimates for both the HRF parameters and the trial-by-trial amplitudes, allowing users to identify voxels where the estimates are reliable.
 
-Fourth, GLMsingle is implemented as a Python package that integrates with popular neuroimaging libraries including [[nilearn]] and [[nipype]], facilitating use within standard preprocessing pipelines.
+Fourth, GLMsingle is implemented as a Python package that integrates with popular [[neuroimaging]] libraries including [[nilearn]] and [[nipype]], facilitating use within standard preprocessing pipelines.
 
 Fifth, the method implements a GLM with the selected HRF to produce single-trial beta estimates, providing more precise measurements of neural responses than conventional finite impulse response (FIR) models while avoiding their excessive parameterization.
 

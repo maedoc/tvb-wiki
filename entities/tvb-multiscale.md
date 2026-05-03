@@ -19,7 +19,7 @@ tags:
 - neuroimaging-meg
 title: TVB-NEST multiscale
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-03'
 ---
 
 # TVB-NEST multiscale
@@ -28,7 +28,7 @@ TVB-NEST multiscale (also known as TVB-multiscale) is a co-simulation framework 
 
 ## Overview
 
-[[computational-neuroscience]] has historically operated at distinct scales: microscopic models capture detailed biophysical properties of individual neurons, while macroscopic models describe emergent dynamics of entire brain networks. The TVB-NEST framework addresses the fundamental challenge of connecting these scales in real-time, enabling researchers to investigate how single-neuron mechanisms give rise to population-level phenomena and vice versa.
+[[computational-neuroscience]] has historically operated at distinct scales: microscopic models capture detailed biophysical properties of individual neurons, while macroscopic models describe emergent dynamics of entire brain networks. The [[tvb-nest]] framework addresses the fundamental challenge of connecting these scales in real-time, enabling researchers to investigate how single-neuron mechanisms give rise to population-level phenomena and vice versa.
 
 The framework functions as a modular co-simulator where specific brain regions modeled as neural masses in TVB can be replaced with detailed spiking networks from NEST. This "selective zoom" approach maintains computational efficiency for the whole brain while permitting biophysically realistic neuron populations in regions of interest.
 

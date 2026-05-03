@@ -1,10 +1,18 @@
 ---
-title: AutoReject
 created: 2025-01-15
-updated: 2026-05-03
+sources:
+- Jas et al. 2017
+- Bigdely-Shamlo et al. 2015
+- Mainak Jas et al. 2020
+tags:
+- software-visualization
+- neuroimaging-eeg
+- neuroimaging-meg
+- electrophysiology
+- preprocessing
+title: AutoReject
 type: software
-tags: [software-visualization, neuroimaging-eeg, neuroimaging-meg, electrophysiology, preprocessing]
-sources: [Jas et al. 2017, Bigdely-Shamlo et al. 2015, Mainak Jas et al. 2020]
+updated: '2026-05-03'
 ---
 
 AutoReject is a Python library that provides automated rejection and repair of bad trials and bad sensors in magneto-/electroencephalography (M/EEG) data. Developed primarily by Mainak Jas, Denis Engemann, and colleagues [1], AutoReject addresses a persistent challenge in [[electrophysiology]] preprocessing: the need for manual, time-consuming inspection of [[eeg]] or [[meg]] data to identify and remove artifacts. The library employs machine learning and cross-validation techniques to automatically determine optimal thresholds for epoch rejection, significantly accelerating preprocessing workflows while maintaining data quality comparable to expert manual curation [1].
@@ -13,7 +21,7 @@ AutoReject is a Python library that provides automated rejection and repair of b
 
 The preprocessing pipeline for [[neuroimaging-eeg]] and [[neuroimaging-meg]] data traditionally requires substantial manual effort to identify and handle corrupted epochs. Artifacts arise from various sources including eye blinks, muscle contractions, electrode cable movement, and environmental interference. Before conducting analyses such as [[source-localization]], event-related potential averaging, or frequency-domain analysis, researchers must remove these contaminated segments to ensure valid results. Conventionally, this involved visual inspection of every epoch—a labor-intensive process that does not scale well to large datasets and introduces inter-rater variability.
 
-AutoReject emerged from the recognition that automated, data-driven approaches could match or exceed human performance in artifact detection while eliminating subjectivity and dramatically reducing processing time [1]. The library was designed to integrate seamlessly with [[mne-bids-pipeline]] and other standard [[electrophysiology]] toolchains, providing a drop-in solution that learns optimal rejection criteria from the specific dataset being processed.
+AutoReject emerged from the recognition that automated, data-driven approaches could match or exceed human performance in artifact detection while eliminating subjectivity and dramatically reducing processing time [1]. The library was designed to integrate seamlessly with [[mne-[[bids]]-pipeline]] and other standard [[electrophysiology]] toolchains, providing a drop-in solution that learns optimal rejection criteria from the specific dataset being processed.
 
 ## Technical Approach
 
@@ -27,7 +35,7 @@ Beyond the main AutoReject class, the library includes several specialized funct
 
 While AutoReject is primarily a preprocessing tool for [[electrophysiology]] data rather than a whole-brain modeling framework, it plays an important role in pipelines that feed data to models like [[the-virtual-brain]]. High-quality [[eeg]] or [[meg]] data is essential for parameter estimation and validation in [[whole-brain-modeling]] approaches that seek to reproduce neural dynamics at the level of brain networks. Poorly preprocessed data can introduce artifacts that masquerade as genuine brain signals, leading to erroneous parameter estimates or misleading comparisons between models and empirical observations.
 
-In [[personalized-brain-modeling]] workflows, where individual subject data is used to configure whole-brain models, AutoReject ensures that the empirical data used for calibration reflects true neural activity rather than measurement artifacts. This is particularly important when fitting models to [[resting-state]] data, where the goal is to characterize endogenous brain dynamics rather than stimulus-evoked responses.
+In [[personalized-brain-modeling]] workflows, where individual subject data is used to configure [[whole-brain]] models, AutoReject ensures that the empirical data used for calibration reflects true neural activity rather than measurement artifacts. This is particularly important when fitting models to [[resting-state]] data, where the goal is to characterize endogenous [[brain-dynamics]] rather than stimulus-evoked responses.
 
 ## Key Features
 
@@ -35,7 +43,7 @@ AutoReject offers several features that make it valuable for [[neuroimaging-eeg]
 
 ## Integration with Ecosystem
 
-AutoReject integrates with the broader [[neuroimaging]] software ecosystem, particularly MNE-Python from which it inherits much of its design philosophy. The library accepts MNE Epochs objects as input and returns cleaned Epochs objects, making it compatible with standard preprocessing pipelines. It is commonly used alongside other preprocessing steps such as high-pass filtering, independent component analysis ([[ica]]), and frequency-domain filtering.
+AutoReject integrates with the broader [[neuroimaging]] software ecosystem, particularly [[mne-python]] from which it inherits much of its design philosophy. The library accepts MNE Epochs objects as input and returns cleaned Epochs objects, making it compatible with standard preprocessing pipelines. It is commonly used alongside other preprocessing [[steps]] such as high-pass filtering, independent component analysis ([[ica]]), and frequency-domain filtering.
 
 For researchers using [[eeglab]] or [[fieldtrip]] in earlier stages of preprocessing, data can be exported to MNE-Python format to leverage AutoReject before converting back to the preferred analysis environment. This flexibility has contributed to the library's adoption across diverse research settings.
 
@@ -49,7 +57,7 @@ AutoReject is part of a broader ecosystem of [[neuroimaging-eeg]] preprocessing 
 - [[pycortex]]: Visualization toolkit for surface-based neuroimaging data
 - [[nilearn]]: Python library for fast and easy statistical learning on neuroimaging data
 
-These tools collectively enable fully automated preprocessing pipelines that minimize manual intervention while maximizing data quality and reproducibility.
+These tools collectively enable fully automated preprocessing pipelines that minimize manual intervention while maximizing data quality and [[reproducibility]].
 
 ## Key Papers
 

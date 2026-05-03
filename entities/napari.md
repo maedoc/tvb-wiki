@@ -1,15 +1,24 @@
 ---
-title: Napari
 created: 2024-01-15
-updated: 2026-05-03
+sources:
+- https://napari.org/
+- https://github.com/napari/napari
+- https://www.biorxiv.org/content/10.1101/2020.10.26.248542v1
+- https://www.nature.com/articles/s41592-019-0612-4
+tags:
+- software-visualization
+- neuroimaging
+- neuroimaging-fmri
+- neuroimaging-dti
+- python
+title: Napari
 type: entity
-tags: [software-visualization, neuroimaging, neuroimaging-fmri, neuroimaging-dti, python]
-sources: [https://napari.org/, https://github.com/napari/napari, https://www.biorxiv.org/content/10.1101/2020.10.26.248542v1, https://www.nature.com/articles/s41592-019-0612-4]
+updated: '2026-05-03'
 ---
 
 ## Overview
 
-Napari is a fast, interactive, and extensible multi-dimensional image viewer built in Python. It provides a graphical user interface for exploring large scientific datasets—particularly those common in neuroimaging such as volumetric MRI scans, diffusion tensor images, and connectome matrices—without requiring users to write extensive visualization code. Napari is designed to bridge the gap between lightweight quick-look tools and full-featured desktop applications, offering layer-based visualization, plugin extensibility, and integration with the broader scientific Python ecosystem including NumPy, scikit-image, and [[nilearn]]. Originally developed with support from the Chan Zuckerberg Initiative and emerging primarily from the microscopy and biomedical imaging communities, napari has become a widely adopted tool for visualizing brain imaging data across modalities.
+Napari is a fast, interactive, and extensible multi-dimensional image viewer built in Python. It provides a graphical user interface for exploring large scientific datasets—particularly those common in [[neuroimaging]] such as volumetric MRI scans, diffusion tensor images, and [[connectome]] matrices—without requiring users to write extensive visualization code. Napari is designed to bridge the gap between lightweight quick-look tools and full-featured desktop applications, offering layer-based visualization, plugin extensibility, and integration with the broader scientific Python ecosystem including NumPy, scikit-image, and [[nilearn]]. Originally developed with support from the Chan Zuckerberg Initiative and emerging primarily from the microscopy and biomedical imaging communities, napari has become a widely adopted tool for visualizing brain imaging data across modalities.
 
 ## Motivation and Context
 
@@ -19,7 +28,7 @@ Napari emerged to address this gap by providing a performant, Python-native view
 
 ## Key Features
 
-Napari's architecture centers on a layer-based system where each layer represents a different type of data: image layers for volumetric data, points layers for electrode coordinates or neuron positions, shapes layers for regions of interest, and labels layers for segmentations. This design supports simultaneous visualization of diverse data types—a common need in whole-brain modeling where one might overlay [[structural-connectivity]] matrices on [[aal-atlas]] parcellations.
+Napari's architecture centers on a layer-based system where each layer represents a different type of data: image layers for volumetric data, points layers for electrode coordinates or [[neuron]] positions, shapes layers for regions of interest, and labels layers for segmentations. This design supports simultaneous visualization of diverse data types—a common need in [[whole-brain|whole-brain modeling]] where one might overlay [[structural-connectivity]] matrices on [[aal-atlas]] parcellations.
 
 The viewer leverages GPU acceleration through [[vispy]] for handling large datasets, enabling interactive exploration of full-brain volumes at near-realtime frame rates. Beyond multi-dimensional support accommodating up to five dimensions (time, z, y, x, channels) with intuitive scrolling and slicing, napari provides a full Python API for programmatic control, enabling seamless integration into analysis pipelines. Users can perform dimensionality transformation operations including transposing, reshaping, and reorienting data interactively. The annotation tools allow drawing regions of interest directly on images, which is particularly valuable for defining anatomical regions or marking病灶 for further analysis.
 
@@ -41,7 +50,7 @@ Napari occupies a unique position in the neuroimaging visualization landscape. U
 
 ## Key Plugins for Neuroimaging
 
-The napari ecosystem includes several plugins particularly relevant to computational neuroscience. The **brainreg** plugin provides automated atlas-based registration of brain images, enabling researchers to align their data to standard anatomical templates without manual intervention. **napari-stress** offers tools for stress tensor visualization, useful for analyzing mechanical forces in brain tissue models. Additional plugins support integration with various neuroscience tools and formats, though users should verify compatibility with their specific analysis workflows.
+The napari ecosystem includes several plugins particularly relevant to [[computational-neuroscience]]. The **brainreg** plugin provides automated atlas-based registration of brain images, enabling researchers to align their data to standard anatomical templates without manual intervention. **napari-stress** offers tools for stress tensor visualization, useful for analyzing mechanical forces in brain tissue models. Additional plugins support integration with various neuroscience tools and formats, though users should verify compatibility with their specific analysis workflows.
 
 ## Related Software
 

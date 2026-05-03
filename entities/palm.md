@@ -59,5 +59,5 @@ The development of PALM represents a broader trend in [[neuroimaging]] toward no
 ## References
 
 1. (authors unknown). *Permutation inference for the general linear model*.
-2. (authors unknown). *[[braph]]: A Pipeline for Brain Connectivity Analysis*.
+2. (authors unknown). *[[braph]]: A Pipeline for Brain [[connectivity]] Analysis*.
 3. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2018.05.040)

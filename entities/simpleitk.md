@@ -17,7 +17,7 @@ updated: '2026-05-03'
 
 ## Overview
 
-SimpleITK is a simplified interface to the Insight Toolkit (ITK), one of the most widely used open-source libraries for medical image analysis and segmentation. Developed as a abstraction layer over the powerful but complex ITK, SimpleITK provides an intuitive API that makes common image processing tasks accessible to researchers without requiring deep expertise in C++ template programming #ref1. The library supports a broad range of image formats common in neuroimaging research, including NIfTI, DICOM, Analyze, and numerous other medical imaging formats, making it an essential tool in the preprocessing pipelines for [[fMRI]], [[dti|DTI]], and structural MRI analysis.
+SimpleITK is a simplified interface to the Insight Toolkit (ITK), one of the most widely used open-source libraries for medical image analysis and segmentation. Developed as a abstraction layer over the powerful but complex ITK, SimpleITK provides an intuitive API that makes common image processing tasks accessible to researchers without requiring deep expertise in C++ template programming #ref1. The library supports a broad range of image formats common in neuroimaging research, including [[nifti]], DICOM, Analyze, and numerous other medical imaging formats, making it an essential tool in the preprocessing pipelines for [[fMRI]], [[dti|DTI]], and structural MRI analysis.
 
 ## Key Features
 

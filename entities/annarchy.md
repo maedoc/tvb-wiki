@@ -15,7 +15,7 @@ tags:
 - whole-brain-modeling
 title: ANNarchy
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-03'
 ---
 
 # ANNarchy
@@ -93,4 +93,4 @@ ANNarchy is particularly valuable when researchers need to verify that mean-fiel
 4. Helias et al. (2012). *Supercomputers ready for use as discovery machines for neuroscience*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2012.00026)
 5. Martin Breyton, Viktor Sip, M. Woodman, Meysam Hashemi, S. Petkoski, V. Jirsa. (2025). *Data-driven mean-field within whole-brain models*. [Link](https://www.semanticscholar.org/paper/144ae1f1dabec42c14493d0083d36f168508f886)
 6. J. Bose. (2025). *Pendulum Model of Spiking Neurons*. arXiv.org. [DOI](https://doi.org/10.48550/arXiv.2507.22146)
-7. C. Linssen, Pooja N. Babu, Jochen M. Eppler, Luca Koll, Bernhard Rumpe, Abigail Morrison. (2025). *NESTML: a generic modeling language and code generation tool for the simulation of spiking neural networks with advanced plasticity rules*. Frontiers Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2025.1544143)
+7. C. Linssen, Pooja N. Babu, Jochen M. Eppler, Luca Koll, Bernhard Rumpe, Abigail Morrison. (2025). *[[nestml]]: a generic modeling language and code generation tool for the simulation of spiking neural networks with advanced plasticity rules*. Frontiers Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2025.1544143)

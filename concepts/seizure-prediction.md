@@ -41,15 +41,15 @@ sources:
 - raw/papers/semanticscholar-d759f2182295.md
 - raw/papers/semanticscholar-ff8218c1e55e.md
 - raw/papers/semanticscholar-7066925c753c.md
-- raw/papers/glean-github.md
+- raw/papers/[[lean|glean]]-github.md
 tags:
 - people-researcher
 - epilepsy-modeling
 - neural-mass-models
 - bifurcation-analysis
-- dynamical-systems-theory
+- [[dynamical-systems-theory]]
 - computational-neuroscience
-- whole-brain-modeling
+- [[whole-brain-modeling]]
 title: Krasimira Tsaneva Atanasova
 type: entity
 updated: '2026-04-30'

@@ -14,7 +14,7 @@ tags:
 - software-netpyne
 title: NetPyNE
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-03'
 ---
 
 NetPyNE (netpyne) is a Python package for developing, simulating, and analyzing data-driven multi-scale network models using [[neuron]].
@@ -44,6 +44,6 @@ NetPyNE is often used alongside [[tvb]] and other simulation platforms in pre-pr
 4. Gewaltig & Diesmann (2007). *NEST (NEural Simulation Tool)*. Scholarpedia. [DOI](https://doi.org/10.4249/scholarpedia.1430)
 5. Woodman et al. (2014). *[[graphvar]]: A user-friendly toolbox for comprehensive graph analyses of functional brain [[connectivity]]*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2014.07.015)
 6. Xiaobo Liu. (2026). *MLE-Toolbox: An Open-Source Toolbox for Comprehensive EEG and MEG Data Analysis*. [Link](https://www.semanticscholar.org/paper/e7aaa4f4bb01e70064493684b4500a950f83460f)
-7. C. Linssen, Pooja N. Babu, Jochen M. Eppler, Luca Koll, Bernhard Rumpe, Abigail Morrison. (2025). *NESTML: a generic modeling language and code generation tool for the simulation of [[spiking-neural-networks]] with advanced [[plasticity]] rules*. Frontiers Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2025.1544143)
+7. C. Linssen, Pooja N. Babu, Jochen M. Eppler, Luca Koll, Bernhard Rumpe, Abigail Morrison. (2025). *[[nestml]]: a generic modeling language and code generation tool for the simulation of [[spiking-neural-networks]] with advanced [[plasticity]] rules*. Frontiers Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2025.1544143)
 8. (authors unknown). *[[braph]]: A Pipeline for Brain Connectivity Analysis*.
 9. Gramfort et al. (2013). *MEG and EEG: From Acquisition to Analysis*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fnins.2013.00010)

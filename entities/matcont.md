@@ -29,7 +29,7 @@ The software builds on the functionality of earlier continuation packages such a
 
 MATCONT has been used in conjunction with [[TVB]] ([[the-virtual-brain]]) for analyzing the dynamic behaviors that emerge from whole-brain [[connectome]]-based models. In the TVB framework, the brain is modeled as a network of neural mass models coupled via empirical [[structural-connectivity]] matrices derived from diffusion tensor imaging. MATCONT enables researchers to perform a systematic analysis of how the model's equilibrium states and oscillatory behaviors change as a function of coupling strength, delay, and local model parameters [4].
 
-When combined with TVB's parameter estimation capabilities, MATCONT allows for the identification of critical parameter regimes associated with physiologically relevant dynamics such as alpha rhythms, seizure-like events, and resting-state networks. The bifurcation diagrams produced by MATCONT provide a theoretical grounding for interpreting empirical neuroimaging findings, linking observed changes in [[functional-connectivity]] to underlying mathematical transitions in the dynamical system.
+When combined with TVB's parameter estimation capabilities, MATCONT allows for the identification of critical parameter regimes associated with physiologically relevant dynamics such as alpha rhythms, seizure-like events, and [[resting-state]] networks. The bifurcation diagrams produced by MATCONT provide a theoretical grounding for interpreting empirical [[neuroimaging]] findings, linking observed changes in [[functional-connectivity]] to underlying mathematical transitions in the dynamical system.
 
 ## Key Features
 
@@ -39,7 +39,7 @@ The graphical interface includes interactive zooming, panning, and branch switch
 
 ## Relationship to TVB
 
-While MATCONT is an external tool rather than native to [[TVB]], it complements the TVB ecosystem by providing analytical capabilities that complement TVB's simulation engine. Researchers using [[TVB]] often employ MATCONT in a two-stage workflow: first, use TVB to simulate large-scale brain dynamics with the connectome; second, use MATCONT to analyze reduced versions of the local dynamics in isolation, identifying bifurcation structures that explain the emergent network-level behaviors [4].
+While MATCONT is an external tool rather than native to [[TVB]], it complements the TVB ecosystem by providing analytical capabilities that complement TVB's simulation engine. Researchers using [[TVB]] often employ MATCONT in a two-stage workflow: first, use TVB to simulate large-scale [[brain-dynamics]] with the connectome; second, use MATCONT to analyze reduced versions of the local dynamics in isolation, identifying bifurcation structures that explain the emergent network-level behaviors [4].
 
 The relationship between MATCONT and [[TVB]] exemplifies the broader practice in computational neuroscience of combining simulation with numerical analysis to achieve both descriptive and predictive power in brain modeling.
 
@@ -63,7 +63,7 @@ For an introduction to using MATCONT in computational neuroscience contexts, the
 
 3. Jirsa, V.K., & Haken, H. (1996). Field theory of electromagnetic wave activity in cerebral cortex. Physical Review Letters, 77(5), 960-963.
 
-4. Ritter, P., Schirner, M., Deco, G., & Jirsa, V.K. (2012). Computational approaches to brain network dynamics. NeuroImage, 52(3), 912-921.
+4. Ritter, P., Schirner, M., Deco, G., & Jirsa, V.K. (2012). Computational approaches to brain [[network-dynamics]]. NeuroImage, 52(3), 912-921.
 
 5. Engelken, R., Fietkiewicz, C., & Wolf, G. (2010). Stability analysis of neural circuits with synaptic delay. In Proceedings of the 5th International Conference on Neural Information Processing.
 

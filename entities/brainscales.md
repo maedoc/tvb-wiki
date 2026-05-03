@@ -58,7 +58,7 @@ The collaboration between BrainScaleS and TVB research groups has explored hybri
 
 - Pfeil, T., et al. (2013). "Six networks on a universal neuromorphic computing substrate." *Frontiers in Neuroscience* — Demonstrates cortical microcircuit implementations on the hardware [[3]].
 
-- Wunderlich, T., et al. (2015). "Demonstrating hybrid cognitive capabilities on a neuromorphic processor." *Frontiers in Neuroscience* — Shows learning and plasticity on the analog substrate [[1]].
+- Wunderlich, T., et al. (2015). "Demonstrating hybrid cognitive capabilities on a neuromorphic processor." *Frontiers in Neuroscience* — Shows learning and [[plasticity]] on the analog substrate [[1]].
 
 - Aamir, S. A., et al. (2018). "BrainScaleS-2: An analog neuromorphic chip with 1 million neurons." *arXiv preprint* — Documents the second-generation system with accelerated neurons [[4]].
 
@@ -74,7 +74,7 @@ Other related platforms include [[NEST]] and [[Brian2]], which are software simu
 - **Marocco**: Low-level mapping software for BrainScaleS hardware configuration.
 - **NEST**: Software simulator for spiking neural networks, used for code validation against BrainScaleS.
 - **Brian2**: Equation-based neural simulator, often used as reference for BrainScaleS model development.
-- **Nengo**: Neural network abstraction library supporting various backends including neuromorphic hardware.
+- **Nengo**: [[neural-network]] abstraction library supporting various backends including neuromorphic hardware.
 
 ## References
 

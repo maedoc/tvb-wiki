@@ -58,7 +58,7 @@ For researchers beginning with [[bids]]-formatted data, BrainStat integrates wit
 
 Related tools in this ecosystem include:
 - [[the-virtual-brain]] — whole-brain simulation platform
-- [[fmriprep]] — fMRI preprocessing pipeline
+- [[fmriprep]] — [[fmri]] preprocessing pipeline
 - [[nilearn]] — Python library for neuroimage GLM analysis
 - [[fieldtrip]] — MATLAB toolbox for MEG/EEG analysis
 - [[spm]] — Statistical Parametric Mapping software
@@ -73,7 +73,7 @@ Performance considerations arise when analyzing dense connectivity matrices: the
 
 [^1]: Larivière, S., Bayrak, Ş., Vasung, L., et al. (2021). BrainStat: A toolbox for brain-wide statistics and multi-model descriptions. *Neuroimage*, 245, 118337. https://doi.org/10.1016/j.neuroimage.2021.118337
 
-[^2]: Van Essen, D.C., Smith, S.M., Barch, D.M., et al. (2013). The WU-Minn Human Connectome Project: An overview. *Neuroimage*, 80, 62-79. https://doi.org/10.1016/j.neuroimage.2013.05.041
+[^2]: Van Essen, D.C., Smith, S.M., Barch, D.M., et al. (2013). The WU-Minn [[human-[[connectome]]-project]]: An overview. *Neuroimage*, 80, 62-79. https://doi.org/10.1016/j.neuroimage.2013.05.041
 
 [^3]: Nichols, T.E., & Holmes, A.P. (2001). Nonparametric permutation tests for functional neuroimaging: A primer with examples. *Human Brain Mapping*, 15(1), 1-25. https://doi.org/10.1002/hbm.1058
 
@@ -84,6 +84,6 @@ Performance considerations arise when analyzing dense connectivity matrices: the
 ## References
 
 - Bayrak, Ş., Larivière, S., Liu, S., et al. (2023). BrainStat: Brain-wide statistical analysis toolbox for R and Python. *Frontiers in Neuroinformatics*, 17, 1059884.
-- Glasser, M.F., Coalson, T.S., Robinson, E.C., et al. (2016). A multi-modal parcellation of human cerebral cortex. *Nature*, 536, 171-178.
+- Glasser, M.F., Coalson, T.S., Robinson, E.C., et al. (2016). A multi-modal [[parcellation]] of human cerebral cortex. *Nature*, 536, 171-178.
 - Schaefer, A., Kong, R., Gordon, E.M., et al. (2018). Local-global parcellation of the human cerebral cortex from intrinsic functional connectivity MRI. *Cerebral Cortex*, 28(9), 3095-3114.
-- The Virtual Brain Project. (2024). TVB Documentation. https://www.thevirtualbrain.org/
+- [[tvb|The Virtual Brain]] Project. (2024). TVB Documentation. https://www.thevirtualbrain.org/

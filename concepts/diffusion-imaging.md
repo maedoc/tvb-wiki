@@ -42,7 +42,7 @@ tags:
 - [[software-fsl]]
 - [[structural-connectivity]]
 - database-hcp
-title: JHU White Matter Atlas
+title: [[jhu-white-matter-atlas]]
 type: entity
 updated: '2026-04-30'
 ---
