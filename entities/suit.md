@@ -20,7 +20,7 @@ updated: '2026-05-04'
 # SUIT (Spatial Unbiased Infratentorial Template)
 
 ## Overview
-SUIT (Spatial Unbiased Infratentorial Template) is a specialized [[neuroimaging]] software tool developed by [Diedrichsen et al.](sources:) within the SPM (Statistical Parametric Mapping) framework for the accurate spatial normalization and segmentation of the cerebellum and brainstem. Unlike standard [[whole-brain]] normalization algorithms that treat the cerebellum as an afterthought—often yielding suboptimal alignment due to its complex and highly folded cortical structure—SUIT provides a dedicated, anatomically informed processing pipeline specifically optimized for these challenging posterior brain regions.
+SUIT (Spatial Unbiased Infratentorial Template) is a specialized [[neuroimaging]] software tool developed by Diedrichsen et al. within the SPM (Statistical Parametric Mapping) framework for the accurate spatial normalization and segmentation of the cerebellum and brainstem. Unlike standard [[whole-brain]] normalization algorithms that treat the cerebellum as an afterthought—often yielding suboptimal alignment due to its complex and highly folded cortical structure—SUIT provides a dedicated, anatomically informed processing pipeline specifically optimized for these challenging posterior brain regions.
 
 ## Technical Implementation
 
@@ -42,7 +42,7 @@ SUIT is relevant to [[the-virtual-brain]] (TVB) in several important respects. F
 - [[the-virtual-brain]] — whole-brain simulator that uses anatomical parcellations
 - [[dipy]] — diffusion imaging toolbox for [[tractography]]
 - [thecerebellum.com](http://www.thecerebellum.com/) — alternative cerebellar tools and atlases
-- [CBS Tools](https://www.[[nitrc]].org/projects/cbs_tools/) — complementary cerebellar segmentation in CBSTools/[[itk-snap]]
+- [CBS Tools](https://www.nitrc.org/projects/cbs_tools/) — complementary cerebellar segmentation in CBSTools/[[itk-snap]]
 
 ## Key Papers
 
@@ -51,11 +51,3 @@ SUIT is relevant to [[the-virtual-brain]] (TVB) in several important respects. F
 2. **Diedrichsen, J., & Zotow, E. (2009).** "Probabilistic atlases of the human cerebellum." In *NeuroImage*.
 
 3. **Ewert, S., et al. (2018).** "Neuroanatomical tract segmentation reveals the structural [[connectome]] of the human cerebellum." *Cerebral Cortex*.
-
----
-
-## References
-
-1. Siva Venkadesh, Yuhe Tian, Wendy Linn, Jessica Barrios Martinez, Harrison Mansour, J. Cook, David J. Schaeffer, D. Szczupak, Afonso C Silva, Allan Johnson, Fang‐Cheng Yeh. (2025). *A hierarchical framework for cortical and subcortical gray-matter [[parcellation]] across rodents, primates, and humans*. bioRxiv. [DOI](https://doi.org/10.1101/2025.09.08.675002)
-2. (authors unknown). *Functional Network Organization of the Human Brain*.
-3. Teppei Matsubara, Abbass Sohrabpur, Seppo Ahlfors, M. Jas, John G. W. Samuelsson, Padmavathi Sundaram, Steven M. Stufflebeam. (2026). *Quantifying Cerebellar Signal Detectability in MEG and EEG in Epilepsy Using Anatomically Informed Source Modeling*. bioRxiv. [DOI](https://doi.org/10.64898/2026.01.14.699512)

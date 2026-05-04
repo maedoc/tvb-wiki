@@ -55,7 +55,7 @@ The following publications represent foundational references for MRIcron and its
 
 [@colin27]: Holmes, C.J., Hoz, R., Collins, L., Woods, R., Toga, A.W., Evans, A.C., et al. (1998). Enhancement of MR images for registration with brain atlases. Proc. SPIE 3338, 326-334.
 
-[@mricronmanual]: Rorden, C. (2024). MRIcron User Manual. https://www.[[nitrc]].org/projects/mricron/
+[@mricronmanual]: Rorden, C. (2024). MRIcron User Manual. https://www.nitrc.org/projects/mricron/
 
 [@nitrc]: NITRC. (2024). MRIcron. https://www.nitrc.org/projects/mricron
 
