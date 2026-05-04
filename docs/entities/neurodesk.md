@@ -45,13 +45,3 @@ This integration pathway reflect a broader trend in which specialized tools are 
 ## Related Software
 
 Neurodesk intersects with several other software ecosystems in the neuroimaging landscape. Containerized alternatives include [[apptainer]] (formerly Singularity) for HPC environments and [[datalad-containers]] for data‑aware pipeline execution. Pure preprocessing pipelines like [[fmriprep]] and [[qsiprep]] provide automated versions of specific analysis steps that Neurodesk users may invoke through the platform. For cloud‑native pipeline orchestration, [[brainlife]] offers a complementary hosted solution, while [[cbrain]] provides HPC‑focused batch processing with a web interface. The underlying pipeline framework draws on [[nipype]] for workflow examples and leverages [[bids]] for data standardization across all tools.
-
-## References
-
-[^Renton2023]: Renton, A.I., Dao, T.T., Johnstone, T., Civier, O., Sullivan, R.P., White, D.J., Lyons, P., Slade, B.M., Abbott, D.F., Amos, T.J., Bollmann, S., Botting, A., Campbell, M.E.J., Chang, J., Close, T.G., Eckstein, K., Egan, G.F., Evas, S., Flandin, G., Garner, K.G., Garrido, M.I., Ghosh, S.S., Grignard, M., Hannan, A.J., Huber, R., Kaczmarzyk, J.R., Kasper, L., Kuhlmann, L., Lou, K., Mantilla‑Ramos, Y.J., Mattingley, J.B., Morris, J., Narayanan, A., Pestilli, F., Puce, A., Ribeiro, F.L., Rogasch, N.C., Rorden, C., Schira, M., Shaw, T.B., Sowman, P.F., Spitz, G., Stewart, A., Ye, X., Zhu, J.D., Hughes, M.E., Narayanan, A., & Bollmann, S. (2023). Neurodesk: An accessible, flexible, and portable data analysis environment for reproducible neuroimaging. *medRxiv*. https://pmc.ncbi.nlm.nih.gov/articles/PMC10055538/
-
-[^Glatard2015]: Glatard, T., Berghi, L.B., Jha, D., & Bergman, L. (2015). Reproducibility of neuroimaging analyses across operating systems. *Frontiers in Neuroinformatics*, 9, 12. https://doi.org/10.3389/fninf.2015.00012
-
-[^NationalAcademies2019]: National Academies of Sciences, Engineering, and Medicine. (2019). *Reproducibility and Replicability in Science*. Washington, DC: The National Academies Press. https://doi.org/10.17226/25303
-
-[^NeurodeskOrg]: Neurodesk Documentation. (2024). https://neurodesk.org/overview

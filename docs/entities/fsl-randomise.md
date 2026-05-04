@@ -65,32 +65,3 @@ The foundational paper for Randomise is Smith et al. (2004), "Advances in functi
 | [spm] | Statistical Parametric Mapping | Parametric alternative to Randomise |
 | [freesurfer] | Surface-based analysis | Alternative source for statistical maps |
 | [nilearn] | Python neuroimaging | Provides Python wrappers for permutation testing |
-
-## References
-
-Smith, S. M., Jenkinson, M., Woolrich, M. W., Beckmann, C. F., Behrens, T. E. J., Johansen-Berg, H., Bannister, P. R., De Luca, M., Drobnjak, I., Flitney, D. E., Niazy, R. K., Saunders, J., Vickers, J. J., Zhang, Y., De Stefano, N., Brady, J. M., & Matthews, P. M. (2004). Advances in functional and structural MR image analysis and implementation as FSL. *NeuroImage*, 23(S1), 208-219. https://doi.org/10.1016/j.neuroimage.2004.07.051
-
-Smith, S. M., & Nichols, T. E. (2009). Threshold-free cluster enhancement: Avoiding problems with cluster-size inference. *NeuroImage*, 47(2), 454-464. https://doi.org/10.1016/j.neuroimage.2009.04.065
-
-Winkler, A. M., Ridgway, G. R., Webster, M. A., Smith, S. M., & Nichols, T. E. (2014). Non-parametric inference of subtle group differences using TFCE. *NeuroImage*, 95, 414-426. https://doi.org/10.1016/j.neuroimage.2014.06.007
-
-[fsl]: fsl.md
-[the-virtual-brain]: [[the-virtual-brain]].md
-[whole-brain]: whole-brain.md
-[personalized-brain-modeling]: [[personalized-brain-modeling]].md
-[neural-mass-models]: [[neural-mass-model]].md
-[structural-connectivity]: [[structural-connectivity]].md
-[functional-connectivity]: [[functional-connectivity]].md
-[brain-connectivity-toolbox]: [[brain-connectivity-toolbox]].md
-[afni]: [[afni]].md
-[spm]: spm.md
-[freesurfer]: [[freesurfer]].md
-[nilearn]: [[nilearn]].md
-[fmri]: fmri.md
-[diffusion-imaging]: [[diffusion-imaging]].md
-[resting-state]: resting-state.md
-[tractography]: tractography.md
-[connectomics]: [[connectomics]].md
-[brain-parcellations]: [[brain-parcellations]].md
-[neuroimaging]: neuroimaging.md
-[fmriprep]: [[fmriprep]].md

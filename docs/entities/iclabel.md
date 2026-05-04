@@ -89,8 +89,4 @@ ICLabel contributes to electrophysiology preprocessing workflows that may feed i
 - [[eeg]]  
 - [[volume-conduction]]  
 - [[mrtrix3-connectome]]  
-- [[electrophysiology]]  
-
-## References  
-
-- **ICLabel: An automated electroencephalographic independent component classifier with datasets and benchmarks** arxiv-1903.06496
+- [[electrophysiology]]

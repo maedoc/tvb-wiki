@@ -18,14 +18,6 @@ type: concept
 updated: '2026-05-04'
 ---
 
-title: Camino
-created: 2026-04-20
-updated: 2026-05-03
-type: concept
-tags: [software-tools, diffusion-imaging, [[tractography]], software-tractography]
-sources: [raw/papers/cook-etal-2006-camino.md, raw/papers/parker-alexander-2003-camino.md, raw/papers/sporns-tononi-kotter-2005.md]
----
-
 ## Overview
 
 Camino is an open-source toolkit for diffusion magnetic resonance imaging (dMRI) tractography, providing a collection of algorithms for reconstructing [[white-matter]] fiber pathways from diffusion tensor imaging (DTI) and advanced diffusion models. Developed primarily at the University College London (UCL) by the Microstructure Imaging Group led by Daniel Alexander, Camino serves as a flexible platform for both deterministic and probabilistic tractography, enabling researchers to map structural [[connectivity]] across the human brain [Cook et al. 2006](raw/papers/cook-etal-2006-camino.md). The software is written in Java, ensuring cross-platform compatibility, and integrates with the broader [[fsl|FMRIB Software Library (FSL)]] ecosystem for preprocessing and statistical analysis of diffusion data [Parker and Alexander 2003](raw/papers/parker-alexander-2003-camino.md).
@@ -61,9 +53,3 @@ Tractography using Camino has been applied to study alterations in white matter 
 ## Open Questions and Limitations
 
 Despite its widespread adoption, Camino and tractography methods more broadly face ongoing methodological challenges. The fundamental inverse problem of inferring fiber orientation from averaged diffusion measurements remains underdetermined, leading to known biases in reconstructed pathways particularly in regions of fiber crossing. Recent advances in [[aging|diffusion imaging]] with higher angular resolution and multicompartment models promise improved accuracy, and Camino continues to evolve to incorporate these developments. Researchers should remain aware of tractography's limitations when interpreting connectivity estimates and validate findings against gold-standard histological data where possible.
-
-## References
-
-- Cook, P.D., B. Ning, R.L. Frank, J.C. Gee, and D.C. Alexander. 2006. "Camino: Open-Source Diffusion-MRI Reconstruction and Processing." In Proceedings of the 14th Scientific Meeting of the International Society for Magnetic Resonance in Medicine, 2759.
-- Parker, G.J.M., and D.C. Alexander. 2003. "Monte Carlo Diffusion MR Tractography in the Human Brain." In Proceedings of the 10th Scientific Meeting of the International Society for Magnetic Resonance in Metabolism, 1234.
-- Sporns, O., G. Tononi, and R. Kötter. 2005. "The Human Connectome: A Structural Description of the Brain." Cerebral Cortex 15 (3): 278–294.

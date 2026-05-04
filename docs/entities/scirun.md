@@ -44,7 +44,7 @@ However, the two platforms can be productively combined in multi-scale modeling 
 
 ## Historical Context and Development
 
-SCIRun was developed at the University of Utah under the direction of Chris R. Johnson and later Rob MacLeod, beginning in the late 1990s. The software emerged from the strong tradition of bioelectric field research at Utah, which included pioneering work on boundary element methods for EEG and MEG forward problems. The original development was supported by the National Institutes of Health and the National Science Foundation, reflecting the software's significance to the biomedical computing community.
+SCIRun was developed at the University of Utah under the direction of Chris R. Johnson and later Rob MacLeod, beginning in the late 1990s. The software emerged from the strong tradition of bioelectric field research at Utah, which included foundational work on boundary element methods for EEG and MEG forward problems. The original development was supported by the National Institutes of Health and the National Science Foundation, reflecting the software's significance to the biomedical computing community.
 
 A significant milestone was the integration of inverse simulation capabilities that allowed researchers to not only solve forward problems but to systematically investigate the properties and limitations of inverse algorithms through controlled simulation studies. This "inverse crime" approach, while recognized as methodologically problematic for validating inverse methods in practice, nonetheless provided valuable insights into algorithmic behavior and numerical properties (Parker, 1977).
 
@@ -79,10 +79,3 @@ For cardiac modeling specifically, which represents SCIRun's broader application
 - [[neuroimaging]]
 - [[computational-neuroscience]]
 - [[freesurfer]]
-
-## References
-
-1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate [[brain-network]] dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
-2. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
-3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
-4. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](https://doi.org/10.3389/fncom.2025.1731161)

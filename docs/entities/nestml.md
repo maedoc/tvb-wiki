@@ -1,10 +1,11 @@
 ---
-title: NESTML
 created: 2026-05-03
-updated: 2026-05-03
-type: entity
-tags: [software-brain-modeling]
 sources: []
+tags:
+- software-brain-modeling
+title: NESTML
+type: entity
+updated: 2026-05-03
 ---
 
 # NESTML
@@ -23,5 +24,3 @@ sources: []
 
 ## Related Software
 * [[TVB]]
-
-## References

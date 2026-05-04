@@ -54,15 +54,3 @@ For timestamp synchronization, LSL employs a hierarchical clock system where one
 
 - **Kothe, C. A.** (2014). Lab Streaming Layer (LSL). Poster presentation. SCCN, UC San Diego. [@kothe2014]
 - **Kothe, C. A., & Makeig, S.** (2013). BCILAB: A platform for brain-computer interface development. *Frontiers in Neuroscience*, 7, 98. [@makeig2013]
-
-## References
-
-[@kothe2014]: Kothe, C. A. (2014). Lab Streaming Layer: A unified interface for hardware time-synchronization and data streaming. Technical Report. SCCN, UC San Diego.
-
-[@sccn-lsl-wiki]: SCCN. "Lab Streaming Layer (LSL)." Wiki. UC San Diego. https://sccn.ucsd.edu/wiki/Lab_Streaming_Layer_(LSL)
-
-[@github-lsl]: LabStreamingLayer Repository. GitHub. https://github.com/sccn/labstreaminglayer
-
-[@makeig2013]: Kothe, C. A., & Makeig, S. (2013). BCILAB: A platform for brain-computer interface development. Frontiers in Neuroscience, 7, 98.
-
-[@eeglab-lsl-plugin]: EEGLAB LSL Plugin. https://github.com/sccn/eeglab/wiki/Plugins

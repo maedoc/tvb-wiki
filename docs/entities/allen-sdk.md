@@ -61,9 +61,3 @@ The Allen SDK complements other data resources like the [[human-connectome-proje
 2. Allen Institute for Brain Science. "Mouse Connectivity Atlas: Informatics Data Processing." Technical whitepaper describing the projection mapping studies and data processing pipeline.
 
 3. Allen Institute for Brain Science. "Allen Mouse Common Coordinate Framework Version 3 (2017)." Overview of the design and implementation of the reference atlas space.
-
-## References
-
-1. Konrad Kohnen, Peter Eipert, Laura Budde, Oliver Schmitt. (2025). *neuroVIISAS-based construction of a stereotactic rhesus monkey brain atlas for connectome research.*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2025.110656)
-2. (authors unknown). *[[braph]]: A Pipeline for Brain Connectivity Analysis*.
-3. R. Montgomery. (2025). *Applications of Random Matrix Theory in Neuroscience and [[neural-network]] Analysis: Unraveling High-Dimensional Connectivity*. Wired Neuroscience. [DOI](https://doi.org/10.62162/wnsc10606312712241)

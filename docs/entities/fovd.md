@@ -40,7 +40,7 @@ When [[structural-connectivity]] matrices are derived from [[dti]] or [[diffusio
 
 ### Solutions and Workarounds
 
-Modern best practices in [[whole-brain modeling]] favor full-brain coverage acquisitions whenever possible. The [[hcp-dataset]] and [[uk-biobank]] provide exemplary full-brain [[diffusion-imaging]] data suitable for connectome construction, with standardized acquisition protocols that capture the entire brain including cerebellum and brainstem (HCP, 2013). When limited FoV data must be used, researchers can employ several strategies: constraining models to regions with data coverage, using normative connectivity templates to fill missing regions, or explicitly modeling partial coverage as a confound in analysis.
+Modern standard practices in [[whole-brain modeling]] favor full-brain coverage acquisitions whenever possible. The [[hcp-dataset]] and [[uk-biobank]] provide exemplary full-brain [[diffusion-imaging]] data suitable for connectome construction, with standardized acquisition protocols that capture the entire brain including cerebellum and brainstem (HCP, 2013). When limited FoV data must be used, researchers can employ several strategies: constraining models to regions with data coverage, using normative connectivity templates to fill missing regions, or explicitly modeling partial coverage as a confound in analysis.
 
 ## Relationship to TVB
 
@@ -62,25 +62,3 @@ The field of view parameter touches multiple aspects of neuroimaging and computa
 - Jeurissen, B., et al. (2019). Diffusion MRI fiber tracking: A overview and recent developments. *NeuroImage*, 186, 341-349.
 - Saenger, R., et al. (2022). Impact of incomplete brain coverage on connectome reconstruction. *Human Brain Mapping*, 43(8), 2647-2661.
 - The [[human-connectome-project]]. (2013). Toward connectomic disease. *[[neuron]]*, 79(4), 668-681.
-
-## References
-
-Biswal, B. B., et al. (2010). Toward discovery science of human brain function. *Proceedings of the National Academy of Sciences*, 107(10), 4734–4739.
-
-Bullmore, E. T. (2009). Complex brain networks: graph theoretical analysis of structural and functional systems. *Nature Reviews Neuroscience*, 10(3), 186–198.
-
-Heo, S., et al. (2016). Trade-offs between spatial coverage and temporal resolution in resting-state fMRI. *NeuroImage*, 128, 281–292.
-
-Hurwitz, A., et al. (2022). Subcortical contributions to large-scale brain dynamics. *NeuroImage*, 251, 118976.
-
-Jeurissen, B., et al. (2019). Diffusion MRI fiber tracking: A overview and recent developments. *NeuroImage*, 186, 341–349.
-
-Sanz-Leon, P., et al. (2015). Computational neurophysics: The virtual brain. *Biomedical Engineering*, 58(6), 337–349.
-
-Saenger, R., et al. (2022). Impact of incomplete brain coverage on connectome reconstruction. *Human Brain Mapping*, 43(8), 2647–2661.
-
-Spiegelhalter, D. (2012). Visualizing the uncertainty in functional connectivity. *NeuroImage*, 59(2), 1153–1160.
-
-The Human Connectome Project. (2013). Toward connectomic disease. *Neuron*, 79(4), 668–681.
-
-TVB Documentation. (2024). Structural Connectivity Data Requirements. *[[tvb|The Virtual Brain]] Wiki*.

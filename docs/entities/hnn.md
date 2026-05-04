@@ -48,9 +48,3 @@ HNN is part of a broader ecosystem of computational neuroscience tools focusing 
 ## Related Concepts
 
 HNN connects to several foundational concepts in computational neuroscience. The platform embodies principles from [[mean-field-theory]], approximating the dynamics of large neuronal populations while retaining biophysical interpretability. Its study of [[brain-oscillations]] connects to the broader field of neural dynamics, linking cellular mechanisms to the rhythmic activity observed in [[eeg]] and [[meg]] recordings. The model's emphasis on laminar organization connects to the concept of [[neural-field-theory]], which describes cortical activity as a continuous medium. Parameter optimization in HNN employs techniques relevant to [[parameter-estimation]] and [[variational-bayes]], reflecting the broader challenge in computational neuroscience of fitting complex models to empirical data. Finally, HNN's focus on linking microcircuit dynamics to macroscope signals embodies the [[forward-model]]ing problem that pervades neuroimaging analysis.
-
-## References
-
-1. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and [[whole-brain]] Propagation*. [Link](https://arxiv.org/abs/2505.16861)
-2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](https://doi.org/10.3389/fncom.2025.1731161)
-3. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)

@@ -1,3 +1,7 @@
+---
+title: All Entities
+---
+
 # Entities Index
 
 A collection of people, software platforms, datasets, and research groups relevant to whole-brain modeling.
@@ -38,6 +42,7 @@ A collection of people, software platforms, datasets, and research groups releva
 - [BCBToolKit](bcbtoolkit.md) - Brain-Computer Interface toolkit for real-time EEG signal processing and BCI applications
 - [SpiNNaker](spinnaker.md) - Neuromorphic many-core platform for real-time spiking neural network simulation
 - [Nighres](nighres.md) - High-resolution neuroimaging processing for laminar analysis
+- [NiftyReg](niftyreg.md) - Open-source medical image registration toolkit for neuroimaging
 - [MedPy](medpy.md) - Python library for medical image processing and analysis
 - [NeuroM](neurom.md) - Python library for neuronal morphology analysis and visualization
 - [neuromaps](neuromaps.md) - Toolbox for multimodal brain map transformation and spatial comparison

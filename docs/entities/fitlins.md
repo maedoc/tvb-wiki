@@ -47,8 +47,3 @@ FitLins operates within a broader ecosystem of BIDS‑compatible neuroimaging to
 ## Key Papers
 
 FitLins builds upon several foundational works in statistical parametric mapping and BIDS‑compliant neuroimaging analysis. The nilearn library provides the underlying GLM implementation that FitLins wraps and extends for BIDS compatibility. The fMRIprep paper documents the preprocessing pipeline that produces the BIDS‑organized inputs consumed by FitLins. The BIDS specification itself (cite: bids‑specification) provides the data organization framework that enables FitLins to automatically discover and process neuroimaging datasets in a standardized manner.
-
-## References
-
-[//]: # (TODO: Add citations and references)
-[//]: # (Placeholder for FitLins‑related bibliographic entries)

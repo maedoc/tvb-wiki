@@ -25,7 +25,7 @@ updated: '2026-05-02'
 
 BrainIAK (Brain Interfacing and Knowledge) is an open-source Python toolbox developed at the University of Minnesota for advanced analysis of functional magnetic resonance imaging ([[fmri]]) data @cite{brainiak_org}. The software provides a comprehensive suite of tools for multivariate pattern analysis (MVPA), representational similarity analysis (RSA), and computational modeling of brain function @cite{kumar2020tutorials}. BrainIAK was designed to bridge the gap between machine learning techniques and cognitive neuroscience research, enabling researchers to apply sophisticated statistical learning methods to [[neuroimaging]] datasets without requiring extensive programming expertise.
 
-The toolbox emerged from the recognition that traditional univariate analysis methods—while foundational to neuroimaging—often fail to capture the distributed patterns of neural activity that underlie complex cognitive processes @cite{kriegeskorte2008representational}. By implementing state-of-the-art pattern classification algorithms, BrainIAK allows investigators to decode mental states, investigate neural representations, and test theories of brain organization using the full informational content present in fMRI signal patterns.
+The toolbox emerged from the recognition that traditional univariate analysis methods—while foundational to neuroimaging—often fail to capture the distributed patterns of neural activity that underlie complex cognitive processes @cite{kriegeskorte2008representational}. By implementing current pattern classification algorithms, BrainIAK allows investigators to decode mental states, investigate neural representations, and test theories of brain organization using the full informational content present in fMRI signal patterns.
 
 ## Motivation and Context
 
@@ -67,10 +67,3 @@ conda install -c brainiak brainiak
 # Docker
 docker pull brainiak/brainiak
 ```
-
-## References
-
-1. (authors unknown). *[[braph]]: A Pipeline for Brain [[connectivity]] Analysis*.
-2. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI): A flexible and integrative toolkit for efficient probabilistic inference on virtual brain models*. bioRxiv. [DOI](https://doi.org/10.1101/2025.01.21.633922)
-3. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI), a flexible and integrative toolkit for efficient probabilistic inference on whole-brain models*. eLife. [DOI](https://doi.org/10.7554/eLife.106194)
-4. (authors unknown). *[[nighres]]: processing tools for high-resolution neuroimaging*.

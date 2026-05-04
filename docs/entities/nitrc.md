@@ -19,7 +19,7 @@ NITRC ([[neuroimaging]] Tools and Resources Collaboratory) is a web-based comput
 
 ## Overview and Mission
 
-NITRC addresses a fundamental challenge in neuroimaging research: the fragmentation of software tools, datasets, and best practices across dozens of independent repositories and websites. Before NITRC's establishment in 2007, researchers spent considerable time locating, configuring, and validating individual analysis packages—a process that hindered [[reproducibility]] and increased the learning curve for new investigators entering the field (Book et al., 2008). The platform was designed to aggregate these resources into a searchable, curated repository with integrated documentation and community support features, effectively lowering barriers to entry and promoting open science practices in the neuroimaging community.
+NITRC addresses a fundamental challenge in neuroimaging research: the fragmentation of software tools, datasets, and standard practices across dozens of independent repositories and websites. Before NITRC's establishment in 2007, researchers spent considerable time locating, configuring, and validating individual analysis packages—a process that hindered [[reproducibility]] and increased the learning curve for new investigators entering the field (Book et al., 2008). The platform was designed to aggregate these resources into a searchable, curated repository with integrated documentation and community support features, effectively lowering barriers to entry and promoting open science practices in the neuroimaging community.
 
 The platform operates under the principle that reproducibility in neuroimaging requires not only transparent methods reporting but also accessible implementations of analysis pipelines. By hosting both software packages and reference datasets in a single environment, NITRC enables researchers to reproduce analyses from published studies, compare different methodological approaches, and build upon existing work without duplicating infrastructure development efforts.
 
@@ -48,9 +48,3 @@ Several specialized neuroimaging resources have emerged from or alongside NITRC,
 - Book, D. L., Lorensen, B. J., & Oakes, T. R. (2008). NITRC: Neuroimaging Tools and Resources Collaboratory. *Frontiers in Neuroinformatics*.
 - Evans, A. C. (2006). The NIH MRI study of normal brain development. *NeuroImage*, 30(1), 184-202.
 - Gorgolewski, K., & Poldrack, R. A. (2016). A practical guide to improving neuroimaging reproducibility. *NeuroImage*, 124, 315-327.
-
-## References
-
-1. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2025). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research*. bioRxiv. [DOI](https://doi.org/10.1101/2025.10.06.680781)
-2. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2026). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research.*. [[brain-stimulation]]. [DOI](https://doi.org/10.1016/j.brs.2025.103016)
-3. Wen-ju Pan, L. Daley, Harrison Watters, Lisa Meyer-Baese, K. Gopinath, Dieter Jaeger, Shella Keilholz. (2026). *An integrated platform for simultaneous wide-field voltage/calcium imaging and [[fmri]] (EPI & ZTE) reveals neuronal infraslow dynamics underlying [[functional-connectivity]]*. bioRxiv. [DOI](https://doi.org/10.64898/2026.01.26.701889)

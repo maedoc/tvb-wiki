@@ -24,7 +24,7 @@ PyMC (formerly PyMC3) is an open-source Python library for probabilistic program
 
 ## Key Features
 
-PyMC provides several core capabilities that make it valuable for [[whole-brain|whole-brain modeling]] applications. The library implements state-of-the-art MCMC samplers including the No-U-Turn Sampler (NUTS), which automatically tunes its integration parameters and provides efficient sampling from high-dimensional posterior distributions. NUTS, developed by Matthew Hoffman and Andrew Gelman, is particularly valuable for fitting the large parameter sets characteristic of whole-brain models, where computational efficiency can dramatically impact research throughput [@hoffman-gelman-nuts].
+PyMC provides several core capabilities that make it valuable for [[whole-brain|whole-brain modeling]] applications. The library implements current MCMC samplers including the No-U-Turn Sampler (NUTS), which automatically tunes its integration parameters and provides efficient sampling from high-dimensional posterior distributions. NUTS, developed by Matthew Hoffman and Andrew Gelman, is particularly valuable for fitting the large parameter sets characteristic of whole-brain models, where computational efficiency can dramatically impact research throughput [@hoffman-gelman-nuts].
 
 Beyond MCMC sampling, PyMC supports variational Bayesian inference through the ADVI (Automatic Differentiation Variational Inference) algorithm. This allows for fast approximation of posterior distributions when exact inference is intractable, which is often the case with biologically realistic [[neural-mass-models]] containing nonlinearities and delays. The variational inference approach is especially useful for initial exploration of parameter spaces and for models where MCMC sampling proves computationally prohibitive [@advi-paper].
 
@@ -53,9 +53,3 @@ PyMC occupies a similar niche to other probabilistic programming frameworks incl
 - Salvatier, J., Wiecki, T. V., & Fonnesbeck, C. (2016). Probabilistic programming in Python using PyMC3. *PeerJ Computer Science* [@pymc-docs]
 - Hoffman, M. D., & Gelman, A. (2014). The No-U-Turn Sampler: adaptively setting path lengths in Hamiltonian Monte Carlo. *Journal of Machine Learning Research* [@hoffman-gelman-nuts]
 - Kucukelbir, A., Ranganath, R., Gelman, A., & Blei, D. M. (2015). Automatic differentiation variational inference. *arXiv preprint* [@advi-paper]
-
-## References
-
-1. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI): A flexible and integrative toolkit for efficient probabilistic inference on virtual brain models*. bioRxiv. [DOI](https://doi.org/10.1101/2025.01.21.633922)
-2. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI), a flexible and integrative toolkit for efficient probabilistic inference on whole-brain models*. eLife. [DOI](https://doi.org/10.7554/eLife.106194)
-3. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)

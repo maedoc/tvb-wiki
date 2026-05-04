@@ -50,7 +50,7 @@ SurfIce is not designed for volume rendering, mesh editing, or advanced segmenta
 
 ## Key Papers
 
-The following publications inform best practices for using SurfIce in whole-brain modeling contexts:
+The following publications inform standard practices for using SurfIce in whole-brain modeling contexts:
 
 - Rorden, C., & Brett, M. (2012). Stereotaxic display of brain lesions. *Behavioural Neurology*, 22(1-2), 191-192. — Describes the origin and core functionality of SurfIce as a lesion mapping tool.
 - Glasser, M. F., et al. (2016). A multi-modal [[parcellation]] of human cerebral cortex. *Nature*, 536(7615), 171-178. — The HCP Multi-Modal Parcellation atlas, viewable in SurfIce.
@@ -64,11 +64,3 @@ The following publications inform best practices for using SurfIce in whole-brai
 - [[brainnet-viewer]] — general-purpose brain visualization
 - [[3d-slicer]] — comprehensive medical image computing platform
 - [[tvb]] — whole-brain simulator using similar anatomical data
-
-## References
-
-[@rorden2012surfice]: Rorden, C., & Brett, M. (2012). Stereotaxic display of brain lesions. *Behavioural Neurology*, 22(1-2), 191-192.
-
-[@himburg2018cifti]: Himberg, H., et al. (2018). The CIFTI format: A binary file format for storing brain-behavior data. *Human Brain Mapping*, 39(7), 2758-2768.
-
-[@glasser2016multi]: Glasser, M. F., et al. (2016). A multi-modal parcellation of human cerebral cortex. *Nature*, 536(7615), 171-178.

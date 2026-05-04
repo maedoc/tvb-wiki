@@ -1,10 +1,11 @@
 ---
-title: HRF
 created: 2026-05-04
-updated: 2026-05-04
-type: entity
-tags: [software-brain-modeling]
 sources: []
+tags:
+- software-brain-modeling
+title: HRF
+type: entity
+updated: 2026-05-04
 ---
 
 # HRF
@@ -23,5 +24,3 @@ sources: []
 
 ## Related Software
 * [[TVB]]
-
-## References

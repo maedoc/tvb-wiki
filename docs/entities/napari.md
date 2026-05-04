@@ -69,10 +69,3 @@ The napari ecosystem includes several plugins particularly relevant to [[computa
 
 - Ahlers, H., et al. (2024). "Napari: a multi-dimensional image viewer for Python." *Nature Methods*. https://www.nature.com/articles/s41592-019-0612-4
 - Sofroniew, N., et al. (2020). "Napari: fast, easy-to-use bioimage analysis." *BioRxiv*. https://www.biorxiv.org/content/10.1101/2020.10.26.248542v1
-
-## References
-
-- Official Website: https://napari.org/
-- GitHub Repository: https://github.com/napari/napari
-- Nature Methods Publication: https://www.nature.com/articles/s41592-019-0612-4
-- BioRxiv Preprint: https://www.biorxiv.org/content/10.1101/2020.10.26.248542v1

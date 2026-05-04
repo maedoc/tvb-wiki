@@ -54,13 +54,3 @@ ilastik operates within a broader ecosystem of bioimage analysis tools that shar
 - Berg, S., et al. "ilastik: interactive machine learning for (bio)image analysis." *Nature Methods*, 16(12), 2019. — Overview of ilastik's evolution including the deep learning integration.
 
 - Arshad, Z., et al. "Applications of ilastik in biological image analysis." *Bioinformatics*, 2022. — Recent review covering ilastik's applications across various biological imaging modalities.
-
-## References
-
-- Official ilastik website: https://ilastik.org/
-- napari-ilastik plugin repository: https://github.com/ilastik/napari-ilastik
-- ilastik documentation: https://www.ilastik.org/documentation.html
-
-## Conclusion
-
-ilastik bridges the gap between machine learning expertise and domain-specific biological knowledge by enabling researchers to leverage powerful classification algorithms without writing code. Its probabilistic outputs make it particularly valuable for whole-brain modeling workflows where uncertainty in anatomical boundaries propagates through connectome construction. For TVB users, ilastik offers a path to subject-specific anatomical models when standard atlases prove insufficient, though the learning curve and computational requirements should be considered for large-scale studies.

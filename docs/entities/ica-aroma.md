@@ -34,7 +34,7 @@ The classifier employs a threshold-based decision rule that was validated using 
 
 The primary advantage of ICA-AROMA is its data-driven nature: it identifies motion artifacts directly from the structure of each dataset rather than relying on generic assumptions or population-level thresholds. This makes it particularly effective for datasets with atypical motion profiles or when the standard motion parameters inadequately capture artifact structure. The method is computationally lightweight and can be run as a standalone tool or integrated into comprehensive preprocessing pipelines such as [[fmriprep]], which historically included ICA-AROMA as an optional denoising step (now available via the separate [[fmriprep]] package).
 
-The approach has been validated against alternative denoising strategies including CompCor, temporal filtering with motion regression, and aggressive scrubbing, demonstrating comparable or superior performance in preserving [[functional-connectivity]] metrics while reducing motion-related spurious correlations [@10.1016/j.neuroimage.2015.05.021]. Notably, ICA-AROMA preserves temporal degrees of freedom better than volume-censoring approaches like scrubbing, which can remove substantial portions of the fMRI time series in highly motion-contaminated data.
+The approach has been validated against alternative denoising strategies including CompCor, temporal filtering with motion regression, and aggressive scrubbing, demonstrating comparable or better in preserving [[functional-connectivity]] metrics while reducing motion-related spurious correlations [@10.1016/j.neuroimage.2015.05.021]. Notably, ICA-AROMA preserves temporal degrees of freedom better than volume-censoring approaches like scrubbing, which can remove substantial portions of the fMRI time series in highly motion-contaminated data.
 
 A limitation of ICA-AROMA is that it can occasionally misclassify slow neural fluctuations as motion artifacts (particularly very low-frequency oscillations in data with sustained head motion) or fail to capture certain types of structured noise that do not fit the classifier's assumptions (e.g., artifacts with atypical spatial distributions or frequency profiles). Users working with unusually motion-contaminated data or with specific hypotheses about very low-frequency [[connectivity]] should exercise caution and visually inspect the component classification results.
 
@@ -55,7 +55,3 @@ ICA-AROMA is available as a standalone Python package and is integrated into maj
 
 - Pruim, R. H., Mennes, M., van Rooij, D., Llera, A., Buitelaar, J. K., & Beckmann, C. F. (2015). ICA-AROMA: A robust ICA-based strategy for removing motion artifacts from fMRI data. NeuroImage, 112, 267-277. doi:10.1016/j.neuroimage.2015.02.064
 - Pruim, R. H., Mennes, M., Buitelaar, J. K., & Beckmann, C. F. (2015). Evaluation of ICA-AROMA and alternative strategies for motion artifact removal in resting state fMRI. NeuroImage, 112, 278-287. doi:10.1016/j.neuroimage.2015.05.021
-
-## References
-
-1. Sima Soltanpour, Md Taufiq Nasseef, Rachel Utama, Arnold Chang, D. Madularu, Praveen Kulkarni, Craig F. Ferris, Chris Joslin. (2025). *Robust automated preclinical fMRI preprocessing via a multi-stage dilated convolutional Swin Transformer affine registration*. Frontiers in Neuroscience. [DOI](https://doi.org/10.3389/fnins.2025.1621244)

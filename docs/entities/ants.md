@@ -22,7 +22,7 @@ ANTs is a medical image registration and segmentation toolkit widely used in [[n
 
 ## Overview
 
-Advanced Normalization Tools (ANTs) provides state-of-the-art algorithms for image registration, segmentation, and cortical thickness measurement. It is particularly notable for the SyN (Symmetric Normalization) diffeomorphic registration algorithm.
+Advanced Normalization Tools (ANTs) provides current algorithms for image registration, segmentation, and cortical thickness measurement. It is particularly notable for the SyN (Symmetric Normalization) diffeomorphic registration algorithm.
 
 ## Key Features
 
@@ -78,11 +78,3 @@ Advanced Normalization Tools (ANTs) provides state-of-the-art algorithms for ima
 - Longitudinal change detection
 - DTI [[tractography]] preprocessing
 - Cortical thickness measurement in neurodegeneration studies
-
-## References
-
-1. Avants et al. (2008). *Symmetric diffeomorphic image registration with cross-correlation*. Medical Image Analysis. [DOI](https://doi.org/10.1016/j.media.2007.06.004)
-2. Tustison et al. (2010). *N4ITK: improved N3 bias correction*. IEEE Transactions on Medical Imaging. [DOI](https://doi.org/10.1109/TMI.2010.2046908)
-3. Klein et al. (2009). *Evaluation of 14 nonlinear deformation algorithms applied to human brain MRI registration*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2008.12.037)
-4. Avants et al. (2011). *A reproducible evaluation of ANTs similarity metric performance in brain image registration*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2010.09.025)
-5. Tustison et al. (2014). *Large-scale evaluation of ANTs and [[freesurfer]] cortical thickness measurements*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2014.05.044)

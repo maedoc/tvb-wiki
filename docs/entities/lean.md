@@ -39,19 +39,3 @@ The primary software reference for GLEAN is the repository maintained by OHBA (B
 ## Related Software
 
 GLEAN is closely related to several other M/EEG analysis frameworks. The [[fieldtrip]] toolbox provides comprehensive preprocessing and source reconstruction capabilities that can feed into GLEAN's analysis pipeline. [[eeglab]] offers an alternative MATLAB-based environment for ICA decomposition of EEG data. For Python users, [[mne-python]] provides equivalent functionality for HMM and ICA-based analysis of electrophysiological data. The [[neural-mass-models]] approach in whole-brain modeling shares GLEAN's interest in frequency-specific dynamics, though at the level of biophysically parameterized neural masses rather than empirical decomposition. The dynamic causal modeling framework ([[dynamic-causal-modeling]]) similarly focuses on frequency-domain analysis of M/EEG data but from a model-based rather than data-driven perspective.
-
-## References
-
-Baker, A. P., Colclough, G. L., Woolrich, M. W., Abeysuriya, R., & Vidaurre, D. (2015). GLEAN (Group Level Exploratory Analysis of Networks). OHBA Analysis Toolbox. https://github.com/OHBA-analysis/GLEAN
-
-Hinczón, A. R., Quinn, A. J., Woolrich, M. W., & Brookes, M. J. (2020). A principled approach to automated quantitative analysis of resting-state magnetoencephalography. *NeuroImage*, 216, 116837.
-
-Litvak, V., Mattout, J., Kiebel, S., Phillips, C., Henson, R., Kilner, J., ... & Friston, K. (2011). EEG and MEG data analysis in SPM4. *Computational Intelligence and Neuroscience*, 2011, 852961.
-
-Vidaurre, D., Quinn, A. J., Baker, A. P., Dupret, D., Tejero-Canizal, A., & Woolrich, M. W. (2016). Spectrally resolved fast transient brain states in electrophysiological data. *Brain Structure and Function*, 221(3), 1631-1648.
-
-Vidaurre, D., Smith, S. M., & Woolrich, M. W. (2017). A multivariate hidden Markov model for brain-state classification. *IEEE Transactions on Biomedical Engineering*, 64(8), 1725-1739.
-
-## Open Questions and Limitations
-
-Several challenges remain in the application of GLEAN and similar group-level M/EEG analysis approaches. The choice between HMM and ICA decompositions is not guaranteed to produce anatomically meaningful components, and validation against known structural or functional networks is often required. The relationship between band-limited power fluctuations captured by GLEAN and the underlying synaptic activity remains an active area of investigation, particularly regarding the interpretation of high-frequency gamma oscillations. Additionally, the integration of M/EEG-derived network features with whole-brain models like TVB remains computationally non-trivial, requiring advances in [[parameter-estimation]] and [[model-validation]] frameworks.

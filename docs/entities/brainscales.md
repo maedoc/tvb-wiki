@@ -28,7 +28,7 @@ BrainScaleS is a [[neuromorphic-computing]] platform that employs analog very-la
 
 Traditional digital computers face fundamental limitations when simulating large-scale neural networks. Even with modern supercomputers, simulating a single second of activity in a million-[[neuron]] network can require hours or days of computation. This "time bottleneck" severely constrains researchers' ability to study processes that unfold over seconds, minutes, or longer—including learning, memory consolidation, and disease progression. BrainScaleS addresses this challenge by leveraging the inherent parallelism and energy efficiency of analog circuits, where the dynamics of each neuron are computed continuously in hardware rather than step-by-step in software.
 
-The project emerged from the recognition that biological brains achieve remarkable computational efficiency through fundamentally different principles than digital computers. Neural tissue computes through continuous analog dynamics while communicating via discrete electrical pulses (spikes). BrainScaleS mimics this [[hybrid-architecture]]: analog circuits implement continuous neuronal dynamics, while spike communication uses digital routing circuitry. This approach yields energy consumption orders of magnitude lower than conventional supercomputers for neural simulation workloads [[1]].
+The project emerged from the recognition that biological brains achieve computational efficiency through fundamentally different principles than digital computers. Neural tissue computes through continuous analog dynamics while communicating via discrete electrical pulses (spikes). BrainScaleS mimics this [[hybrid-architecture]]: analog circuits implement continuous neuronal dynamics, while spike communication uses digital routing circuitry. This approach yields energy consumption orders of magnitude lower than conventional supercomputers for neural simulation workloads [[1]].
 
 ## Technical Implementation
 
@@ -75,17 +75,3 @@ Other related platforms include [[NEST]] and [[Brian2]], which are software simu
 - **NEST**: Software simulator for spiking neural networks, used for code validation against BrainScaleS.
 - **Brian2**: Equation-based neural simulator, often used as reference for BrainScaleS model development.
 - **Nengo**: [[neural-network]] abstraction library supporting various backends including neuromorphic hardware.
-
-## References
-
-[[1]] BrainScaleS Consortium. (2014). BrainScaleS: Analog neuromorphic hardware for scale. *Frontiers in Neuroscience*, 8, 196.
-
-[[2]] Schemmel, J., et al. (2010). A wafer-scale neuromorphic hardware for spiking neural networks. *IEEE Symposium on Circuits and Systems*, 1947-1950.
-
-[[3]] Pfeil, T., et al. (2013). Six networks on a universal neuromorphic computing substrate. *Frontiers in Neuroscience*, 7, 11.
-
-[[4]] Aamir, S. A., et al. (2018). BrainScaleS-2: Analog neuromorphic chip with 1 million neurons. *arXiv preprint* arXiv:1805.01456.
-
-[[5]] Furber, S., et al. (2014). SpiNNaker: A multi-core system for spiking neural networks. *Philosophical Transactions of the Royal Society B*, 369(1655), 20130595.
-
-[[6]] Davies, M., et al. (2018). Loihi: A neuromorphic manycore processor. *IEEE Micro*, 38(1), 82-99.

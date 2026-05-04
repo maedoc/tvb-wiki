@@ -13,11 +13,11 @@ type: entity
 updated: '2026-05-04'
 ---
 
-**ANTsR** provides R language bindings to the [ANTs](/docs/software/[[ants]]) (Advanced Normalization Tools) C++ library, enabling R users to access state-of-the-art [[neuroimaging]] registration, segmentation, and preprocessing algorithms within the R statistical computing environment. Developed primarily by [[brian-avants]] and [[nick-tustison]], ANTsR extends the powerful image analysis capabilities of ANTs to the R ecosystem, facilitating reproducible research workflows in brain imaging studies. The package serves as a critical bridge between R-based statistical analysis pipelines and the cutting-edge registration techniques developed within the ANTs community.
+**ANTsR** provides R language bindings to the [ANTs](/docs/software/[[ants]]) (Advanced Normalization Tools) C++ library, enabling R users to access current [[neuroimaging]] registration, segmentation, and preprocessing algorithms within the R statistical computing environment. Developed primarily by [[brian-avants]] and [[nick-tustison]], ANTsR extends the powerful image analysis capabilities of ANTs to the R ecosystem, facilitating reproducible research workflows in brain imaging studies. The package serves as a critical bridge between R-based statistical analysis pipelines and the advanced registration techniques developed within the ANTs community.
 
 ## Core Functionality
 
-ANTsR implements a comprehensive suite of neuroimaging processing tools derived from the ANTs library. The most prominent algorithm is **SyN (Symmetric Normalization)**, a diffeomorphic registration technique that computes deformation fields preserving topological integrity while capturing both forward and backward transformations between image volumes. SyN has demonstrated superior performance in inter-subject registration tasks, consistently ranking among the top methods in landmark-based accuracy competitions. Additionally, ANTsR includes the **N4ITK bias correction algorithm**, which corrects intensity inhomogeneities in MR images without requiring tissue segmentation priors, making it robust for population-level processing pipelines.
+ANTsR implements a comprehensive suite of neuroimaging processing tools derived from the ANTs library. The most prominent algorithm is **SyN (Symmetric Normalization)**, a diffeomorphic registration technique that computes deformation fields preserving topological integrity while capturing both forward and backward transformations between image volumes. SyN has demonstrated better in inter-subject registration tasks, consistently ranking among the top methods in landmark-based accuracy competitions. Additionally, ANTsR includes the **N4ITK bias correction algorithm**, which corrects intensity inhomogeneities in MR images without requiring tissue segmentation priors, making it robust for population-level processing pipelines.
 
 The package also provides access to **DiReCT (Diffeomorphic Registering Cortical Thickness)**, a technique for measuring cortical thickness from MR images by directly estimating the cortical thickness map via a diffeomorphic mapping process. This method has been validated against histological measurements and shows improved sensitivity to subtle cortical changes in [[aging]] and disease populations. ANTsR additionally supports [[tractography]]-based analysis through integration with [tractography](/docs/software/tractography) tools, enabling [[diffusion-mri]] processing workflows within R.
 
@@ -42,11 +42,3 @@ For comparison and validation, ANTsR segmentations can be assessed against those
 ## Key Researchers
 
 The primary developers of ANTsR and the underlying ANTs library include **[[brian]] Avants** (University of Pennsylvania), who originally created the ANTs framework and continues active development, and **Nick Tustison** (University of Virginia), who contributed major algorithms including N4ITK and DiReCT. Both researchers have published extensively on medical image registration and segmentation, with their work citation counts reflecting significant community adoption.
-
-## References
-
-- Avants BB, Tustison NJ, Song G. Advanced Normalization Tools (ANTs). *The Insight Journal*. 2009.
-- Tustison NJ, Avants BB, Gee JC. Explicitly capturing the shape and variability of medical images with N4ITK. *Medical Image Analysis*. 2009.
-- Tustison NJ, Cook PA, Holbrook AJ, et al. The ANTsX ecosystem for biological image processing. *Journal of Open Source Software*. 2021.
-- Ritter K, Hobolth A, Eaves J, et al. [[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]. *Neuroinformatics*. 2013.
-- Zuccarello I, Shield J, Katifori E, et al. Comparative analysis of cortical thickness measurement methods. *Human Brain Mapping*. 2020.

@@ -34,7 +34,7 @@ These properties are the hallmarks of "rich-club" organization in network scienc
 
 ## Relationship to Functional Networks
 
-The structural core exhibits a remarkable correspondence with the [[default-mode-network]] (DMN), a set of brain regions that show high activity during resting-state conditions and are typically deactivated during task performance. This overlap includes the precuneus, posterior cingulate, and medial prefrontal cortex—regions that anchor both the structural core and the DMN. The correspondence between structural and functional network organization supports the hypothesis that [[functional-connectivity]] patterns at rest are substantially constrained by [[structural-connectivity]] pathways, though the relationship is not deterministic as functional connections canExist between regions lacking direct structural links through polysynaptic pathways.
+The structural core exhibits a correspondence with the [[default-mode-network]] (DMN), a set of brain regions that show high activity during resting-state conditions and are typically deactivated during task performance. This overlap includes the precuneus, posterior cingulate, and medial prefrontal cortex—regions that anchor both the structural core and the DMN. The correspondence between structural and functional network organization supports the hypothesis that [[functional-connectivity]] patterns at rest are substantially constrained by [[structural-connectivity]] pathways, though the relationship is not deterministic as functional connections canExist between regions lacking direct structural links through polysynaptic pathways.
 
 This structural-functional alignment has important implications for understanding the neural basis of [[resting-state]] activity. The core's central position in the structural network enables it to serve as a hub for integrating information from multiple functional modules, potentially explaining why core regions are consistently recruited during internally directed cognition, memory retrieval, and self-referential processing—core functions of the DMN.
 
@@ -51,12 +51,3 @@ From a [[brain-maintenance]] perspective, the structural core may be particularl
 ## Methodological Considerations
 
 Identifying the structural core depends critically on the imaging modality and tractography algorithm used. Diffusion spectrum imaging provides superior angular resolution compared to diffusion tensor imaging, enabling detection of complex fiber crossings crucial for accurate structural connectivity estimation. However, the core has also been identified using other [[diffusion-imaging]] protocols, suggesting robust findings across methodologies. Ongoing developments in [[diffusion-mri]] acquisition and tractography continue to refine estimates of the structural core's extent and connectivity profile.
-
-## References
-
-1. (authors unknown). *Mapping the Structural Core of Human Cerebral Cortex*.
-2. (authors unknown). *Networks of the Brain*.
-3. Deco et al. (2013). *Resting brains never rest: computational insights into potential cognitive architectures*. Trends in Neurosciences. [DOI](https://doi.org/10.1016/j.tins.2013.09.002)
-4. (authors unknown). *Functional Network Organization of the Human Brain*.
-5. (authors unknown). *Functional Connectivity in the Resting Brain: A Network Analysis of the Default Mode Hypothesis*.
-6. (authors unknown). *The Brain's Default Network: Anatomy, Function, and Relevance to Disease*.

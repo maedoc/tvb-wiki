@@ -62,7 +62,7 @@ Identifying modular structure requires algorithmic approaches to partition netwo
 | **Walktrap** | Random walk similarity | Intuitive | Computationally intensive |
 | **Infomap** | Information-theoretic (flow) | Handles directed flow | Requires specialized implementation |
 
-The choice of algorithm significantly affects results, and no single method is universally superior. Best practices involve comparing community structure across multiple algorithms, validating partitions against known anatomical or functional boundaries, and assessing robustness using resampling techniques.
+The choice of algorithm significantly affects results, and no single method is universally superior. Standard practices involve comparing community structure across multiple algorithms, validating partitions against known anatomical or functional boundaries, and assessing robustness using resampling techniques.
 
 ## Brain Network Modularity
 
@@ -110,14 +110,3 @@ Despite extensive research, several questions remain: What are the optimal modul
 - [[functional-connectivity]] – Statistical dependencies between brain regions
 - [[structural-connectivity]] – Anatomical [[white-matter]] pathways
 - [[resting-state]] – Spontaneous brain activity patterns
-
-## References
-
-1. (authors unknown). *Networks: An Introduction*.
-2. (authors unknown). *Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems*.
-3. (authors unknown). *Networks of the Brain*.
-4. (authors unknown). *Functional Network Organization of the Human Brain*.
-5. Tingting Liu, Mingyang Li, Y. You, Hongxi Zhang, Ying Lv, Chai Ji, Yuting Li, Dan Wu, Shenghong Ju. (2026). *Maturation and reorganization of structural connectivity in infants within half a year*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2026.121728)
-6. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
-7. Moo K. Chung, Luigi Maccotta, Aaron Struck. (2026). *Counterfactual Analysis of Brain [[network-dynamics]]*. [Link](https://arxiv.org/abs/2603.29843)
-8. (authors unknown). *Emergence of Scaling in [[random-networks]]*.

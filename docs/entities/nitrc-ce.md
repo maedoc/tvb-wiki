@@ -21,7 +21,7 @@ NITRC-CE ([[neuroimaging]] Tools and Resources Collaboratory – Computational E
 
 ## Motivation and Context
 
-The demand for sophisticated neuroimaging analysis has grown exponentially with the increase in large-scale brain imaging datasets such as those from the [[human-connectome-project]] and [[uk-biobank]]. However, many neuroimaging tools—particularly those for processing [[fMRI]], [[dti|diffusion imaging]], and [[eeg]] data—require substantial computational power, complex software installations, and expertise in command-line workflows. Researchers at institutions without dedicated compute clusters often faced significant barriers to conducting cutting-edge analyses. NITRC-CE was developed as a solution to democratize access to these tools, enabling any researcher with an internet connection to run standard neuroimaging pipelines on cloud infrastructure. The platform lowered the barrier to entry for [[reproducibility]] by providing pre-configured environments where analysis scripts could be executed in a consistent, version-controlled setting.
+The demand for sophisticated neuroimaging analysis has grown exponentially with the increase in large-scale brain imaging datasets such as those from the [[human-connectome-project]] and [[uk-biobank]]. However, many neuroimaging tools—particularly those for processing [[fMRI]], [[dti|diffusion imaging]], and [[eeg]] data—require substantial computational power, complex software installations, and expertise in command-line workflows. Researchers at institutions without dedicated compute clusters often faced significant barriers to conducting advanced analyses. NITRC-CE was developed as a solution to democratize access to these tools, enabling any researcher with an internet connection to run standard neuroimaging pipelines on cloud infrastructure. The platform lowered the barrier to entry for [[reproducibility]] by providing pre-configured environments where analysis scripts could be executed in a consistent, version-controlled setting.
 
 ## Key Features
 
@@ -45,5 +45,3 @@ NITRC-CE existed within an ecosystem of cloud-based neuroimaging solutions, each
 - [[brainlife]]
 - [[neurodesk]]
 - [[mrtrix3-connectome]]
-
-## References

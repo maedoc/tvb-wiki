@@ -18,7 +18,7 @@ updated: '2026-04-30'
 
 # Giulio Tononi
 
-Professor of Psychiatry at University of Wisconsin-Madison, leading researcher in sleep and consciousness, co-originator of the connectome concept.
+Professor of Psychiatry at University of Wisconsin-Madison, widely used in sleep and consciousness, co-originator of the connectome concept.
 
 ## Key Contributions
 
@@ -45,12 +45,3 @@ Tononi's research spans:
 ## Collaborators
 - [[olaf sporns]] – Connectomics
 - [[rolf kotter]] – Neuroanatomy
-
-## References
-
-1. (authors unknown). *The Human Connectome: A Structural Description of the Human Brain*.
-2. (authors unknown). *Networks of the Brain*.
-3. (authors unknown). *Functional Connectomics from [[resting-state|Resting-State fMRI]]*.
-4. (authors unknown). *Resting-State [[fmri]] in the [[human-connectome-project]]*.
-5. (authors unknown). *Functional Network Organization of the Human Brain*.
-6. (authors unknown). *[[functional-connectivity]]: The Principal-Component Analysis of Large (PET and fMRI) Data Sets*.

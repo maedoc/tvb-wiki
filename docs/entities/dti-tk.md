@@ -45,7 +45,7 @@ However, users should be aware of the limitations inherent in tensor-based tract
 
 ## Related Software and Methods
 
-DTI-TK operates within a broader ecosystem of diffusion imaging and tractography tools. The [[FSL]] package provides alternative tools for DTI processing including FDT (FMRIB's Diffusion Toolbox) and probabilistic tractography implementations. [[MRtrix3]] offers state-of-the-art multi-tissue constrained spherical deconvolution for robust fiber orientation estimation and advanced tractography algorithms. For white matter segmentation, the [[AFQ]] (Automated Fiber Quantification) toolkit provides automated extraction of major white matter tracts with quantitative metrics.
+DTI-TK operates within a broader ecosystem of diffusion imaging and tractography tools. The [[FSL]] package provides alternative tools for DTI processing including FDT (FMRIB's Diffusion Toolbox) and probabilistic tractography implementations. [[MRtrix3]] offers current multi-tissue constrained spherical deconvolution for robust fiber orientation estimation and advanced tractography algorithms. For white matter segmentation, the [[AFQ]] (Automated Fiber Quantification) toolkit provides automated extraction of major white matter tracts with quantitative metrics.
 
 The field of [[diffusion imaging]] has evolved substantially since DTI-TK's development, with modern techniques capable of resolving multiple fiber populations per voxel. Nevertheless, DTI-TK remains useful for applications where the simple tensor model provides adequate characterization, where computational efficiency is paramount, or where compatibility with established analysis pipelines is required. Its tensor-based registration capabilities continue to offer value for population-level studies requiring precise white matter alignment.
 
@@ -56,9 +56,3 @@ The field of [[diffusion imaging]] has evolved substantially since DTI-TK's deve
 - Parker GJ, Alexander DC. Probabilistic anatomical connectivity from diffusion tensor imaging. *Inf Process Med Imaging*. 2003;18:371-382. [@Parker2003]
 - Mori S, van Zijl PCM. Fiber tracking: principles and strategies—a technical review. *NMR Biomed*. 2002;15(7-8):468-480. [@Mori2002]
 - Basser PJ, Pajevic S, Pierpaoli C, Duda J, Aldroubi A. In vivo fiber tractography using DT-MRI data. *Magn Reson Med*. 2000;44(4):625-632. [@Basser2000]
-
-## References
-
-1. Daniele Licciardo, Chiara Matti, A. Benelli, V. Isella, I. Appollonio, E. Santarnecchi. (2026). *Gray matter atrophy and structural connectivity in Posterior Cortical Atrophy: a voxel-based meta-analysis.*. Neuroscience and Biobehavioral Reviews. [DOI](https://doi.org/10.1016/j.neubiorev.2026.106554)
-2. Yifei Sun, James M. Shine, Robert D. Sanders, Robin F. H. Cash, Sharon L. Naismith, Fernando Calamante, Jinglei Lv. (2026). *A Data-Driven Method to Map the Functional Organisation of Human Brain White Matter*. [Link](https://arxiv.org/abs/2602.18715)
-3. Chunxia Yang, Jiaxin Han, N. Sun, Penghong Liu, Kerang Zhang, Aixia Zhang, Zhifen Liu. (2025). *Identifying neurobiological markers as predictors of antidepressant treatment using diffusion tensor imaging: A tract-based spatial statistical analysis of cingulate bundle*. CNS Spectrums. [DOI](https://doi.org/10.1017/S1092852925000252)

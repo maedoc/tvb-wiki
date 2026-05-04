@@ -31,7 +31,7 @@ The physical basis of EEG generation is well described by the work of [[paul-nun
 
 ## Characteristics and Technical Specifications
 
-EEG offers exceptional temporal resolution but limited spatial resolution. The temporal resolution of 1-10 milliseconds reflects the physiological time course of synaptic processing and allows EEG to capture rapid neural events such as evoked responses, seizures, and sleep spindles. The spatial resolution on the scalp is approximately 1-10 cm, though this can be improved somewhat with high-density arrays and advanced source localization algorithms. The frequency content of EEG spans from very slow DC shifts (below 0.1 Hz) to fast oscillations approaching 100 Hz, though practical clinical recordings typically focus on the 0.5-50 Hz range where the signal-to-noise ratio is most favorable.
+EEG offers temporal resolution but limited spatial resolution. The temporal resolution of 1-10 milliseconds reflects the physiological time course of synaptic processing and allows EEG to capture rapid neural events such as evoked responses, seizures, and sleep spindles. The spatial resolution on the scalp is approximately 1-10 cm, though this can be improved somewhat with high-density arrays and advanced source localization algorithms. The frequency content of EEG spans from very slow DC shifts (below 0.1 Hz) to fast oscillations approaching 100 Hz, though practical clinical recordings typically focus on the 0.5-50 Hz range where the signal-to-noise ratio is most favorable.
 
 | Feature | Typical Value |
 |---------|---------------|
@@ -86,14 +86,3 @@ Each modality provides complementary information about brain function. EEG and M
 ## Related Concepts
 
 EEG is fundamentally linked to several key concepts in computational neuroscience and neuroimaging. [[Brain-oscillations]] are rhythmic neural activities that manifest prominently in EEG recordings and are thought to play important roles in communication between brain regions. The study of [[effective-connectivity]] uses EEG and MEG data to infer directional connections between brain regions. [[Resting-state]] networks identified in fMRI have EEG correlates that reveal the electrophysiological basis of intrinsic brain activity.
-
-## References
-
-1. (authors unknown). *Electroencephalography: Basic Principles, Clinical Applications, and Related Fields*.
-2. (authors unknown). *Electric Fields of the Brain: The Neurophysics of EEG*.
-3. (authors unknown). *Independent component analysis of electroencephalographic data*.
-4. O. David, K.J. Friston. *Dynamic causal modelling*. NeuroImage. [DOI](https://doi.org/10.1016/S1053-8119(03)00202-7)
-5. Chenghao Yue, Zhiyuan Ma, Zhongye Xia, Xinche Zhang, Yisi Zhang, Xinke Shen, Sen Song. *LI-DSN: A Layer-wise Interactive Dual-Stream Network for EEG Decoding*. [Link](https://arxiv.org/abs/2604.01889)
-6. Wanying Qu, Jianxiong Gao, Wei Wang, Yanwei Fu. *Modeling Spatiotemporal Neural Frames for High Resolution Brain Dynamic*. [Link](https://arxiv.org/abs/2603.24176)
-7. Neda Abdollahpour, N. Sertac Artan, Ian Daly, Mohammadreza Yazdchi, Zahra Baharlouei. (2025). *Effective Connectivity-Based Unsupervised Channel Selection Method for EEG*. [Link](https://arxiv.org/abs/2510.12910)
-8. Mohaddese Qaremohammadlou, Mohammad Bagher Shamsollahi. (2025). *Investigating Brain Connectivity and Information Flow in Mental Workload Using EEG and fNIRS Integration*. [Link](https://arxiv.org/abs/2511.02457)

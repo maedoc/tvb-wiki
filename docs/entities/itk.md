@@ -40,7 +40,7 @@ ITK is not directly used within TVB's simulation engine but appears in the broad
 
 ## Related Software
 
-ITK serves as the underlying engine for several specialized neuroimaging tools. [[ants]] (Advanced Normalization Tools) is built directly on ITK and provides state-of-the-art registration algorithms widely used for longitudinal MRI processing and multi-atlas segmentation[^5]. [[itk-snap]] provides a graphical interface for semi-automatic segmentation using level-set methods implemented in ITK. [[3d-slicer]], a comprehensive medical imaging platform, uses ITK for its core image processing operations.
+ITK serves as the underlying engine for several specialized neuroimaging tools. [[ants]] (Advanced Normalization Tools) is built directly on ITK and provides current registration algorithms widely used for longitudinal MRI processing and multi-atlas segmentation[^5]. [[itk-snap]] provides a graphical interface for semi-automatic segmentation using level-set methods implemented in ITK. [[3d-slicer]], a comprehensive medical imaging platform, uses ITK for its core image processing operations.
 
 Python wrappers are available through [[simpleitk]], which provides a simplified interface to ITK's functionality and integrates well with the scientific Python ecosystem including [[nilearn]]. Tools like [[fsl]], [[spm]], and [[freesurfer]] use ITK under the hood for various operations, making ITK a ubiquitous but often invisible component of neuroimaging preprocessing.
 
@@ -57,17 +57,3 @@ Python wrappers are available through [[simpleitk]], which provides a simplified
 The toolkit's registration capabilities relate closely to [[neuroimaging]] preprocessing and spatial normalization. ITK-based pipelines generate data in [[mni-space]], enabling comparison across subjects and studies. The [[parcellation]] of cortical and subcortical regions often relies on ITK registration to align atlases like [[desikan-killiany-atlas]] or [[yeo-atlas]] to individual subject space. These processed parcellations serve as node definitions in [[brain-network]] models used in whole-brain simulations driven by structural connectivity derived from diffusion imaging.
 
 Diffusion imaging processed with ITK contributes to [[structural-connectivity]] estimation, which is distinct from [[functional-connectivity]] measured via [[fmri]] or [[eeg]]. The relationship between structural and functional connectivity is a central topic in [[whole-brain-modeling]] research, where anatomical connectivity constrains dynamic models of brain activity[^6].
-
-## References
-
-[^1]: Yoo, T.S., et al. (2002). *The ITK Software Guide*. Kitware.
-
-[^2]: Ibáñez, L., et al. (2004). *Insight into Images: A Practical Guide to Segmentation and Registration*. Wiley.
-
-[^3]: National Library of Medicine. (1993). *The Visible Human Project*. https://www.nlm.nih.gov/pubs/factsheet/visiblehuman.html
-
-[^4]: Chan, T., Vese, L. (2001). Active Contours Without Edges. *IEEE Transactions on Image Processing*, 10(2), 266-277.
-
-[^5]: Avants, B., et al. (2009). *Advanced Normalization Tools (ANTs)*. Insight Journal.
-
-[^6]: Ritter, P., et al. (2013). Whole-brain modeling with TVB. *NeuroImage*, 80, 437-451.

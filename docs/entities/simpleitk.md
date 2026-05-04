@@ -44,9 +44,3 @@ The library's registration capabilities are particularly valuable for aligning i
 SimpleITK occupies a central position in the medical imaging software ecosystem, interacting with numerous tools relevant to whole-brain modeling. It builds directly upon [[itk|ITK]] (the Insight Toolkit), from which it derives its core image processing algorithms. In preprocessing pipelines, it often works alongside [[ants]] (Advanced Normalization Tools) for registration and [[freesurfer]] for cortical segmentation. For visualization of processing results, SimpleITK can generate outputs viewed in [[itk-snap|ITK-SNAP]], [[fsleyes]], or [[freeview]]. The library complements [[dipy]] for diffusion MRI processing and integrates with [[nilearn]] for statistical analysis and machine learning in neuroimaging research, providing a robust foundation for the end-to-end workflows needed in connectome-based research.
 
 [[nibabel]] serves as the primary interface for reading and writing NIfTI files in Python, and SimpleITK can convert between its native image format and nibabel objects for seamless integration. For whole-brain modeling specifically, SimpleITK can prepare the anatomical inputs needed by simulators like [[tvb]] and [[nest]], enabling researchers to derive [[structural-connectivity]] matrices from diffusion data processed through tools like [[mrtrix3]] or [[fsl]].
-
-## References
-
-- Lowekamp, B. C., Gee, D. R., Diehl, A., & Ibanez, L. (2013). SimpleITK: A Simplified Wrapper. *The Insight Journal*.
-- Yoo, T. S., Ackerman, M., Lorensen, W., et al. (2000). Engineering and Algorithm Design for the ITK. *Journal of Digital Imaging*, 13(4), 237-249.
-- Ibanez, L., et al. (2003). *The ITK Software Guide: The Insight Segmentation and Registration Toolkit*. Kitware.

@@ -66,15 +66,3 @@ For an introduction to using MATCONT in computational neuroscience contexts, the
 4. Ritter, P., Schirner, M., Deco, G., & Jirsa, V.K. (2012). Computational approaches to brain [[network-dynamics]]. NeuroImage, 52(3), 912-921.
 
 5. Engelken, R., Fietkiewicz, C., & Wolf, G. (2010). Stability analysis of neural circuits with synaptic delay. In Proceedings of the 5th International Conference on Neural Information Processing.
-
-## References
-
-[1] Govaerts, W., & Kuznetsov, Y.A. (2023). MATCONT: MATLAB Software for Bifurcation Study. Delft University of Technology. https://github.com/matcont/toolbox
-
-[2] Breakspear, M., Heitmann, S., & Daffertshofer, A. (2010). Generative models of cortical oscillations: A modern approach to dynamical systems. Journal of Neuroscience Methods, 190(2), 137-147. https://doi.org/10.1016/j.jneumeth.2010.02.015
-
-[3] Kuznetsov, Y.A. (2004). Elements of Applied Bifurcation Theory (3rd ed.). Springer.
-
-[4] Deco, G., Jirsa, V.K., & McIntosh, A.R. (2011). Resting state networks in the brain: From static patterns to dynamic models. Nature Reviews Neuroscience, 12(2), 101-113. https://doi.org/10.1038/nrn2858
-
-[5] MATLAB Help Documentation. (2023). Delay Differential Equations in MATLAB. MathWorks. https://www.mathworks.com/help/matlab/math/delay-differential-equations.html

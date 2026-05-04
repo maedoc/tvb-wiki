@@ -23,7 +23,7 @@ NeuroM is a Python-based software toolbox designed for the analysis, processing,
 
 ## Motivation and Context
 
-The study of neuronal morphology has long been recognized as fundamental to understanding brain function. Neuronal dendritic trees exhibit remarkable diversity across cell types, brain regions, and species, and this structural variation directly influences the electrophysiological behavior of neurons. Early computational models such as the [Hodgkin-Huxley model]([[hodgkin-huxley-model]]) and simplified point [[neuron]] approximations treated morphology as irrelevant, but modern large-scale simulations increasingly require morphologically detailed neuron models to accurately capture the integration of synaptic inputs across dendritic arbors.
+The study of neuronal morphology has long been recognized as fundamental to understanding brain function. Neuronal dendritic trees exhibit diversity across cell types, brain regions, and species, and this structural variation directly influences the electrophysiological behavior of neurons. Early computational models such as the [Hodgkin-Huxley model]([[hodgkin-huxley-model]]) and simplified point [[neuron]] approximations treated morphology as irrelevant, but modern large-scale simulations increasingly require morphologically detailed neuron models to accurately capture the integration of synaptic inputs across dendritic arbors.
 
 Several factors motivated the development of NeuroM. First, the proliferation of large publicly available morphology repositories — most notably [[[neuromorpho]].Org](neuromorpho) — created a need for standardized, reproducible morphometric analysis pipelines [@neuromorpho_org]. Second, the rise of data-driven [[whole-brain|whole-brain modeling]] approaches, including those implemented in [The Virtual Brain]([[the-virtual-brain]]), highlighted the importance of incorporating realistic single-neuron properties into network-level simulations. Third, while primarily designed for morphometric analysis rather than neuromorphic hardware training, NeuroM's detailed morphological data can inform research into brain-inspired computing architectures [@neuromorphic_overview].
 
@@ -70,12 +70,3 @@ Despite its capabilities, NeuroM and the broader field of morphometric analysis 
 - NeuroMorpho.Org. (2024). *Online Repository of Neuronal Morphologies*. Supported by the NIH-NBIA.
 - [[tvb|The Virtual Brain]]. (2024). *Whole-brain modeling framework documentation*.
 - LFPy. (2024). * extracellular potential modeling from morphologically detailed neurons.
-
-## References
-
-- Blue Brain Project. (2024). NeuroM Documentation. https://github.com/BlueBrain/NeuroM
-- NeuroMorpho.Org. (2024). http://neuromorpho.org
-- The Virtual Brain. (2024). https://www.thevirtualbrain.org
-- Brian Simulator. (2024). http://briansimulator.org/
-- LFPy. (2024). http://lfpy.readthedocs.io/
-- NEURON. (2024). https://neuron.yale.edu/neuron/

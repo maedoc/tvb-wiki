@@ -41,17 +41,3 @@ Cytoscape's utility in neuroscience research has been demonstrated across numero
 ## Related Software
 
 Cytoscape occupies a niche in the network visualization landscape alongside several alternatives. [[gephi]] provides similar graph visualization capabilities with enhanced real-time analytics and streaming support. The [[brain-connectivity-toolbox]] (BCT) offers a comprehensive suite of network analysis metrics implemented in MATLAB and Python, though without Cytoscape's interactive visualization interface. [[braph]] is a MATLAB toolbox specifically designed for brain network analysis with graph theory, offering both visualization and metrics comparable to Cytoscape's capabilities. For researchers working primarily in Python, the [[graphvar]] package provides network-based statistical analysis, while [[nilearn]] includes connectivity visualization capabilities suitable for neuroimaging data. The choice between these tools often depends on existing software ecosystems, with Cytoscape favored by researchers comfortable in its Java-based environment and those requiring integration with bioinformatics workflows.
-
-## References
-
-Shannon P, Markiel A, Ozier O, Baliga NS, Wang JT, Ramage D, Amin N, Schwikowski B, Ideker T. 2003. Cytoscape: a software environment for integrated models of biomolecular interaction networks. *Genome Research* 13(11): 2498-2504.
-
-Sporns O, Tononi G, Kötter R. 2001. The "small world" problem. *Nature* 411: 417-421.
-
-Sporns O, Chklovskii DB. 2005. Network analysis of the cerebral cortex. *Cerebral Cortex* 15(3): 264-278.
-
-Sporns O, O'Donnell LJ, McIntire L, Tecchio G, Dai G, Ding Z, van der Heuvel M, Hurles C, Cohen J, Hagmann P. 2004. Simple relational inference rules in the cerebral cortex. *PNAS* 101(45): 16688-16693.
-
-Bassett DS, Bullmore E. 2006. Small-world brain networks. *The Neuroscientist* 12(6): 512-523.
-
-Rubinov M, Sporns O. 2010. Complex network measures of brain connectivity: uses and interpretations. *NeuroImage* 52(3): 1059-1069.

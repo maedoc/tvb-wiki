@@ -1,10 +1,11 @@
 ---
-title: Nistats
 created: 2026-05-04
-updated: 2026-05-04
-type: entity
-tags: [software-brain-modeling]
 sources: []
+tags:
+- software-brain-modeling
+title: Nistats
+type: entity
+updated: 2026-05-04
 ---
 
 # Nistats
@@ -23,5 +24,3 @@ sources: []
 
 ## Related Software
 * [[TVB]]
-
-## References

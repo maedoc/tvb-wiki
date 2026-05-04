@@ -1,10 +1,11 @@
 ---
-title: NeuroQuery
 created: 2026-04-29
-updated: 2026-04-29
-type: entity
-tags: [software-brain-modeling]
 sources: []
+tags:
+- software-brain-modeling
+title: NeuroQuery
+type: entity
+updated: 2026-04-29
 ---
 
 # NeuroQuery
@@ -23,5 +24,3 @@ sources: []
 
 ## Related Software
 * [[TVB]]
-
-## References

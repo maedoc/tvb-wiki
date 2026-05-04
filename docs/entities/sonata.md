@@ -56,15 +56,3 @@ As of 2026, SONATA remains primarily oriented toward point-neuron architectures.
 - Arkhipov A, Gouwens NW, Billeh YN, Gratiy S, Iyer R, Wei Z, et al. (2018). Visual physiology of the layer 4 cortical circuit in silico. PLoS Computational Biology, 14(11), e1006535.
 
 - Markram H, Muller E, Ramaswamy S, Reimann MW, et al. (2015). Reconstruction and Simulation of Neocortical Microcircuitry. Cell, 163(2), 456-492.
-
-## References
-
-- Dai K, Hernando J, Billeh YN, Gratiy SL, Planas J, Davison AP, Dura-Bernal S, Gleeson P, Devresse A, Dichter BK, Gevaert M, King JGH, Van Geit WAH, Povolotsky AV, Muller E, Courcol J-D, Arkhipov A. (2020). The SONATA data format for efficient description of large-scale network models. PLoS Comput Biol 16(2): e1007696. https://doi.org/10.1371/journal.pcbi.1007696
-
-- Allen Institute for Brain Science. SONATA Data Format Repository. https://github.com/AllenInstitute/sonata
-
-- Blue Brain Project. libSONATA Library. https://github.com/BlueBrain/libsonata
-
-- Dura-Bernal S, Suter BA, Gleeson P, Cantarelli M, Quintana A, Rodriguez F, et al. (2019). NetPyNE, a tool for data-driven multiscale modeling of brain circuits. eLife, 8, e44494.
-
-- Davison AP, Brüderle D, Eppler J, Kremkow J, Muller E, Pecevski D, et al. (2009). [[pynn]]: A Common Interface for Neuronal Network Simulators. Front Neuroinform 2: 11.

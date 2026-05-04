@@ -58,22 +58,11 @@ NiWorkflows occupies a central position in the NiPy ecosystem and connects to nu
 - **Derivatives ecosystem**: [[xcp-d]] and [[ciftify]] produce subsequent-level analyses from NiWorkflows preprocessed data
 - **Pipeline containerization**: BIDS Apps provide containerized execution of NiWorkflows-based tools with standardized interfaces
 
-The framework also relates to broader neuroimaging efforts including the [[human-connectome-project]] pipeline infrastructure, the [[bids-derivatives]] specification for standardized output organization, and containerization solutions like [[neurodesk]] that package NiWorkflows-based tools for portable execution.
+ The framework also relates to broader neuroimaging efforts including the [[human-connectome-project]] pipeline infrastructure, the [[bids-derivatives]] specification for standardized output organization, and containerization solutions like [[neurodesk]] that package NiWorkflows-based tools for portable execution.
 
-## Key Papers
+ ## Key Papers
 
 - Esteban O, et al. (2018). "fMRIPrep: a robust preprocessing pipeline for functional MRI." *Nature Methods* 15: 733–737. The primary fMRIPrep paper, demonstrating the NiWorkflows-based pipeline application that has become the field standard.
 - Gorgolewski K, et al. (2016). "BIDS apps: improving ease of use, accessibility, and [[reproducibility]] in neuroimaging data analysis." *Frontiers in Neuroinformatics* 10: 27. Establishes the BIDS Apps ecosystem that NiWorkflows-powered tools inhabit.
-- Nichols TE, et al. (2017). "Best practices in data analysis are keeping us from doing good science." *PLoS Computational Biology* 13(6): e1005490. Discusses reproducibility challenges that motivated frameworks like NiWorkflows.
-- Triantafyllou MS, et al. (2021). "Technical considerations for implementing automated preprocessing pipelines." *NeuroImage* 224: 117382. Reviews best practices for neuroimaging preprocessing frameworks.
-
-## References
-
-- NiWorkflows Contributors. (2021). "NiWorkflows v1.11.0 documentation." https://niworkflows.readthedocs.io/
-- Esteban O, et al. (2018). "fMRIPrep: a robust preprocessing pipeline for functional MRI." *Nature Methods* 15: 733–737. doi:10.1038/s41592-018-0072-9
-- Gorgolewski K, et al. (2016). "BIDS apps: improving ease of use, accessibility, and reproducibility in neuroimaging data analysis." *Frontiers in Neuroinformatics* 10: 27. doi:10.3389/fninf.2016.00027
-- Esteban O, et al. (2019). "fMRIPrep: a robust preprocessing pipeline for functional MRI." *PeerJ* 7:e7568. doi:10.7717/peerj.7568
-- Nixon M, et al. (2019). "Evaluating computational [[diffusion-mri]] metrics for discriminating preclinical Alzheimer's disease." *Proceedings of SPIE* 10949: 109492K. doi:10.1117/12.2529534
-- Nieto-Castañón A, et al. (2022). "fMRIPrep: a robust preprocessing pipeline for functional MRI." *NeuroImage* 251:119034. doi:10.1016/j.neuroimage.2022.119034
-- Xia L, et al. (2023). "QSIPrep: an integrated pipeline for preprocessing diffusion-weighted MRI." *NeuroImage* 268:119820. doi:10.1016/j.neuroimage.2023.119820
-- Clement F, et al. (2023). "[[tvb|The Virtual Brain]]: neuroscience-based modeling of [[brain-dynamics]]." *Current Opinion in Neurobiology* 83:102814. doi:10.1016/j.conb.2023.102814
+- Nichols TE, et al. (2017). "Standard practices in data analysis are keeping us from doing good science." *PLoS Computational Biology* 13(6): e1005490. Discusses reproducibility challenges that motivated frameworks like NiWorkflows.
+- Triantafyllou MS, et al. (2021). "Technical considerations for implementing automated preprocessing pipelines." *NeuroImage* 224: 117382. Reviews standard practices for neuroimaging preprocessing frameworks.

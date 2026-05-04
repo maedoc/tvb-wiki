@@ -49,11 +49,3 @@ Compared to [[3d-slicer]], a comprehensive medical imaging platform with extensi
 ## Key Papers
 
 *This section is a stub. Key publications demonstrating MedPy's use in neuroimaging or computational neuroscience contexts are needed.*
-
-## References
-
-[@medpy-github]: MedPy GitHub repository. https://github.com/loli/medpy/
-
-[@medpy-pypi]: MedPy v0.5.2. Python Package Index. https://pypi.org/project/MedPy/
-
-[@medpy-docs]: MedPy documentation. https://loli.github.io/medpy/

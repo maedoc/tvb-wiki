@@ -37,8 +37,3 @@ The 2006 NEURON Book extended this foundation into a comprehensive educational r
 ## Related Entities
 
 Carnevale's work is deeply intertwined with [[Michael Hines]], his long-time collaborator on NEURON development. Together, they established computational neuroscience tool-building as a central pillar of the field. The [[NEURON]] simulator he co-developed stands as one of the foundational software platforms in computational neuroscience, alongside other major simulators including [[Brian]], [[Brian2]], [[NEST]], and [[GENN]]. His focus on biophysically detailed modeling complements the point-neuron approach taken by many large-scale network simulators, providing essential capability for investigating cellular-level dynamics that give rise to network-level phenomena in [[spiking neural networks]] research. The educational philosophy embedded in Carnevale's tutorials and documentation reflect broader values in the [[computational-neuroscience]] community regarding reproducible, transparent, and accessible scientific tools.
-
-## References
-
-- Hines, M. L., & Carnevale, N. T. (1997). The NEURON simulation environment. Neural Computation, 9(6), 1179-1209.
-- Carnevale, N. T., & Hines, M. L. (2006). The NEURON Book. Cambridge University Press.

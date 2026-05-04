@@ -11,18 +11,6 @@ type: entity
 updated: '2026-04-30'
 ---
 
-Here is the corrected STEPS page with all issues fixed:
-
-```yaml
----
-title: STEPS
-created: 2024-01-15
-updated: 2026-04-24
-type: entity
-tags: [software-brain-modeling, spiking-neural-networks, stochastic-differential-equations, molecular-simulation]
-sources: [https://steps.sourceforge.net/, https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3418487/, https://www.frontiersin.org/articles/10.3389/fninf.2014.00041/full]
----
-
 # STEPS
 
 ## Overview
@@ -70,9 +58,3 @@ While STEPS models the detailed biophysics of synaptic and subcellular processes
 - [[Brian]] — Python-based spiking neural network simulator; includes stochastic elements at the network level but uses compartmental approximations
 - [[The Virtual Brain]] — Whole-brain network modeling, potential downstream consumer of STEPS-derived synaptic parameters
 - [[MOOSE]] — Multiscale Object-Oriented Simulation Environment; supports reaction-diffusion simulations and stochastic methods including Gillespie algorithms
-
-## References
-
-1. Rui Dong, Xiaotong Zhang, Jiaxing Li, Yueying Li, Jiayin Wei, Youyong Kong. *M3D-BFS: a Multi-stage Dynamic Fusion Strategy for Sample-Adaptive Multi-Modal Brain Network Analysis*. [Link](https://arxiv.org/abs/2604.01667)
-2. Hong Yu, Xuehuan Liu, Xiao Gao, Yuting Wang, Feize Zheng, Zhiheng Zhou, Gouling Zhan, Weiwei Cui, Xiaowen Zheng, Haiyang Shao, Hao Wang, Qing He, Jun Liu. (2026). *Multimodal brain network disruption and structural-functional decoupling in overt hypothyroidism*. Frontiers in Endocrinology. [DOI](https://doi.org/10.3389/fendo.2026.1763670)
-3. *Patricia Burhunduli, Zhuo Fang, Katie L. Vandeloo, Pierre Blier, Jennifer L Phillips. (2025). *A PRELIMINARY INVESTIGATION OF RESTING STATE FUNCTIONAL CONNECTIVITY NETWORKS IN PATIENTS WITH TREATMENT-RESISTANT DEPRESSION AND A HISTORY OF SUICIDE ATTEMPT*. International Journal of Neuropsychopharmacology. [DOI](https://doi.org/10.1093/ijnp/pyae059.440)

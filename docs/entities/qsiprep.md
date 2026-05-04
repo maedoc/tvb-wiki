@@ -46,7 +46,7 @@ The relationship between QSIPrep and [[the-virtual-brain]] is therefore one of d
 
 QSIPrep offers several features that make it particularly valuable for connectomics research. First, its strict BIDS compliance ensures that all outputs follow standardized naming conventions and data organization, facilitating data sharing and integration with other BIDS-compatible tools. Second, the pipeline provides extensive visual reports (HTML format) that document preprocessing quality for each subject, including motion plots, SNR estimates, and registration quality assessments, enabling researchers to identify and exclude problematic data before analysis. Third, QSIPrep supports parallel processing for multi-subject datasets, substantially reducing wall-clock time when preprocessing large cohorts such as those from the [[hcp-dataset]] or [[uk-biobank]].
 
-The pipeline also supports multiple acquisition schemes including single-shell, multi-shell, and hybrid diffusion encoding, with automatic detection of shell configuration and appropriate modeling strategies. Advanced users can customize preprocessing parameters via configuration files, while the default settings reflect best practices established by the diffusion MRI community. Integration with Docker and Apptainer containers ensures identical behavior across computing environments, addressing a major source of non-reproducibility in [[computational-neuroscience]].
+The pipeline also supports multiple acquisition schemes including single-shell, multi-shell, and hybrid diffusion encoding, with automatic detection of shell configuration and appropriate modeling strategies. Advanced users can customize preprocessing parameters via configuration files, while the default settings reflect standard practices established by the diffusion MRI community. Integration with Docker and Apptainer containers ensures identical behavior across computing environments, addressing a major source of non-reproducibility in [[computational-neuroscience]].
 
 ## Related Software
 
@@ -58,7 +58,3 @@ QSIPrep is part of a broader ecosystem of neuroimaging preprocessing pipelines t
 - Gorgolewski, K., et al. (2017). fMRIPrep: A robust preprocessing pipeline for functional MRI. *Nature Methods*, 14(7), 733–736.
 
 ---
-
-## References
-
-1. Sima Soltanpour, Md Taufiq Nasseef, Rachel Utama, Arnold Chang, D. Madularu, Praveen Kulkarni, Craig F. Ferris, Chris Joslin. (2025). *Robust automated preclinical [[fmri]] preprocessing via a multi-stage dilated convolutional Swin Transformer affine registration*. Frontiers in Neuroscience. [DOI](https://doi.org/10.3389/fnins.2025.1621244)

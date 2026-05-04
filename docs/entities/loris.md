@@ -1,10 +1,11 @@
 ---
-title: LORIS
 created: 2026-04-28
-updated: 2026-04-28
-type: entity
-tags: [software-brain-modeling]
 sources: []
+tags:
+- software-brain-modeling
+title: LORIS
+type: entity
+updated: 2026-04-28
 ---
 
 # LORIS
@@ -23,5 +24,3 @@ sources: []
 
 ## Related Software
 * [[TVB]]
-
-## References

@@ -21,7 +21,7 @@ Adaptive neurons are [[neuron]] models that incorporate time-dependent mechanism
 
 ## Motivation and Context
 
-The development of adaptive neuron models arose from the need to move beyond idealized point neurons that fire tonically at constant rates. Biological neurons exhibit remarkable [[plasticity]] on multiple timescales: they can transiently increase or decrease their firing rate in response to novel stimuli, adapt their threshold based on membrane potential history, and exhibit fatigue or recovery properties that shape the temporal dynamics of neural activity. These adaptive properties are not mere biological curiosities—they fundamentally shape how neural circuits process information, maintain stability, and generate oscillations.
+The development of adaptive neuron models arose from the need to move beyond idealized point neurons that fire tonically at constant rates. Biological neurons exhibit [[plasticity]] on multiple timescales: they can transiently increase or decrease their firing rate in response to novel stimuli, adapt their threshold based on membrane potential history, and exhibit fatigue or recovery properties that shape the temporal dynamics of neural activity. These adaptive properties are not mere biological curiosities—they fundamentally shape how neural circuits process information, maintain stability, and generate oscillations.
 
 In large-scale brain simulations, particularly those employing neural mass or mean-field approaches, the inclusion of adaptive mechanisms allows models to better reproduce empirical findings from [[neuroimaging]] and [[electrophysiology]]. [[resting-state]] networks show characteristic temporal dynamics that cannot be captured by models with purely static gain. Furthermore, adaptive mechanisms are crucial for understanding pathological dynamics such as epileptic seizures, where the transition between seizure and interictal states often involves changes in neuronal adaptation.
 
@@ -76,9 +76,3 @@ Furthermore, the timescales of adaptation in whole-brain models are often tuned 
 - [[epileptor]]
 - [[mean-field-theory]]
 - [[hodgkin-huxley-model]]
-
-## References
-
-1. Rosa Maria Delicado, Gemma Huguet, Pau Clusella. (2025). *Emergent Spatiotemporal Dynamics in Large-Scale Brain Networks with Next Generation Neural Mass Models*. [Link](https://arxiv.org/abs/2512.03907)
-2. Ronja Strömsdörfer, Klaus Obermayer. *Spike-frequency and h-current based adaptation are dynamically equivalent in a [[wilson-cowan]] field model*. [Link](https://arxiv.org/abs/2510.08436)
-3. Futa Tomita, Jun-nosuke Teramae. (2025). *Dynamical mean-field theory for a highly heterogeneous neural population with graded persistent activity of the entorhinal cortex*. PLoS Comput. Biol.. [DOI](https://doi.org/10.1371/journal.pcbi.1013484)

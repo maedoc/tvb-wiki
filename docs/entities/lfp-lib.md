@@ -93,8 +93,3 @@ While LFPy operates at the single-neuron and microcircuit scale rather than the 
 - Studying the contribution of different cellular compartments to extracellular signals
 - Network-level simulations with realistic LFP signatures
 - Testing of electrode configurations and recording geometries
-
-## References
-
-1. I. Falconer, M. Varkanitsa, Swathi Kiran. (2026). *Abstract A124: Simulating Disruption of Large-Scale Functional Networks in Post-Stroke Aphasia Using Personalized Lesion-Based Neural Mass Modeling*. Stroke. [DOI](https://doi.org/10.1161/str.57.suppl_1.a124)
-2. Alain Destexhe, Terrence J. Sejnowski. *Wilson-Cowan model of the excitatory and inhibitory population dynamics*. Scholarpedia. [DOI](https://doi.org/10.4249/scholarpedia.1389)

@@ -1,4 +1,5 @@
-# Log
+## [2026-05-04]
+- Improved nnu-net page: Created comprehensive entity page replacing minimal placeholder content. Added overview explaining NNU-Net (No New Network) as self-configuring deep learning framework for medical image segmentation introduced by Isensee et al. in 2021. Detailed Motivation explaining why automated configuration was needed (manual hyperparameter tuning bottleneck in medical imaging). Technical Framework section covering rule-based configuration process analyzing dataset properties (spacing, intensity, patch sizes) and automatic U-Net architecture adaptation. Application to Neuroimaging section explaining use for brain tumor, hippocampus, cortical parcellation, white matter segmentation and integration with connectome construction pipelines. Relationship to whole-brain modeling explaining how NNU-Net segmentations provide parcellations for brain network node definition. Related Concepts section linking to niftynet, neural-network, neuroimaging, computational-neuroscience, whole-brain, brain-parcellations, connectome, structural-connectivity, freesurfer, human-connectome-project with 10+ wikilinks. Updated frontmatter tags to taxonomy-compliant [neural-network, neuroimaging, machine-learning, software-neuronetwork]. Updated catalog.md entry.
 
 - Improved adaptive-exponential-integrate-and-fire page: Created comprehensive concept page replacing minimal placeholder content. Added overview explaining AdEx model as two-dimensional spiking neuron model combining leaky integrate-and-fire mechanism with exponential spike generation and spike-triggered adaptation, introduced by Brette and Gerstner in 2005. Detailed motivation section explaining why AdEx was developed (biological realism vs computational tractability tradeoff). Added complete mathematical formulation with voltage and adaptation equations, explaining each parameter (C_m, g_L, E_L, V_T, Δ_T, τ_w, a, b). Included bifurcation analysis section explaining how AdEx exhibits multiple firing regimes—tonic spiking, adapting, initial burst, regular bursting, chaotic spiking—arising through saddle-node on invariant circle bifurcations. Added relationship section comparing AdEx to simpler models (LIF, Izhikevich) and explaining availability in simulation packages (NEST, Brian2, TVB). Included parameter estimation discussion and open questions about biophysical interpretation and network-level interactions. Related Concepts section with 8+ wikilinks to spiking-neural-networks, izhikevich-neuron-model, hodgkin-huxley-model, neural-mass-models, brain-oscillations, whole-brain-modeling, parameter-estimation, bifurcation-analysis. Updated frontmatter tags to taxonomy-compliant [spiking-neural-networks, neural-mass-models, computational-neuroscience, nonlinear-dynamics, dynamical-systems-theory, parameter-estimation, whole-brain-modeling, brain-oscillations].
 
@@ -292,3 +293,15 @@
 ## [2026-05-04 06:15] Matcher: 13 pages got 39 new sources
 
 ## [2026-05-04 06:35] DeepResearch: 10 papers added via focused research
+
+## [2026-05-04 10:29] Improve: Created niftyreg page
+- Created comprehensive entity page for NiftyReg, open-source medical image registration toolkit developed at UCL
+- Added overview explaining variational registration framework with block-matching algorithm
+- Included technical content on rigid/affine/B-spline free-form deformation models
+- Added relationship to ANTs, FSL, ITK as alternative registration tools
+- Included application in whole-brain modeling for preprocessing and anatomical alignment
+- Added 12+ wikilinks to related pages (ants, fsl, itk, nibabel, neuroimaging, fmri, diffusion-imaging, the-virtual-brain, whole-brain-modeling, connectome, structural-connectivity, brain-parcellations)
+- Updated frontmatter tags to taxonomy-compliant [software-visualization, neuroimaging, software-ants]
+- Added page to entities/index.md under Software Platforms section
+
+## [2026-05-04 08:43] DeepResearch: 2 papers added via focused research

@@ -53,9 +53,3 @@ SUIT is relevant to [[the-virtual-brain]] (TVB) in several important respects. F
 3. **Ewert, S., et al. (2018).** "Neuroanatomical tract segmentation reveals the structural [[connectome]] of the human cerebellum." *Cerebral Cortex*.
 
 ---
-
-## References
-
-- Diedrichsen J. (2006). A spatial unbiased atlas template of the human cerebellum. *NeuroImage*, 33(1), 127-138.
-- Diedrichsen J, Balsters JH, Flavell J, Cussans E, Ramnani N. (2009). A probabilistic atlas of the human cerebellum. *NeuroImage*, 47(4), 1512-1521.
-- Ewert S, Plomp G, Katsiamis A, et al. (2018). Neuroanatomical tract segmentation reveals the structural connectome of the human cerebellum. *Cerebral Cortex*, 28(10), 3465-3480.

@@ -52,7 +52,3 @@ While eLORETA is primarily a data analysis method rather than a biophysical simu
 ## Related Software
 
 eLORETA implementations are available in multiple neuroimaging environments. The original implementation is distributed through the [LORETA](https://www.uzh.ch/keyinst/loreta) website. Within the wider EEG/MEG ecosystem, source localization using eLORETA-type approaches can be performed through [[eeglab]] (via the SIFT plugin or built-in functions), [[fieldtrip]], [[brainstorm]], and [[mne-python]]. These toolboxes typically offer multiple inverse solvers, allowing researchers to compare eLORETA against alternatives like [[dcm]] (Dynamic Causal Modeling) or beamformer methods. For researchers interested in connecting source estimates to [[whole-brain-modeling]], the [[tvb]] platform provides integration pathways for importing empirical connectivity data that can complement source localization analyses.
-
-## References
-
-1. I. Tarasova, D. Kupriyanova, I. Kukhareva, A. Sosnina, O. Trubnikova, O. Barbarash. (2026). *THE TOPOLOGICAL FEATURES OF THE BRAIN ACTIVITY DURING MULTITASK COGNITIVE TRAINING IN THE POSTOPERATIVE PERIOD CORONARY ARTERY BYPASS GRAFTING*. Complex Issues of Cardiovascular Diseases. [DOI](https://doi.org/10.17802/2306-1278-2025-14-6s-193-203)

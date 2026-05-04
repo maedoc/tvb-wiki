@@ -26,7 +26,7 @@ MONAI (Medical Open Network for AI) is an open-source, PyTorch-based framework s
 
 Medical imaging analysis presents unique challenges that general-purpose deep learning frameworks do not adequately address. Unlike natural images, medical scans exhibit anisotropic spatial resolutions, three-dimensional volumetric data structures, complex anatomical geometries, and modality-specific intensity characteristics. Additionally, healthcare data formats like [[nifti]] and DICOM require specialized handling, and regulatory considerations demand reproducible, auditable pipelines.
 
-MONAI emerged to fill this gap by providing a unified framework that bridges the gap between cutting-edge machine learning research and clinical applicability. The framework builds upon the success of earlier medical imaging tools such as [[niftynet]]—a TensorFlow-based deep learning platform for medical imaging—and [[deepmedic]], a CNN-based tool for efficient medical image segmentation, but leverages the flexibility and ecosystem of PyTorch to offer more modular, extensible architectures. By targeting standardization in medical imaging AI, MONAI addresses reproducibility concerns that have plagued the field, enabling direct integration with established neuroimage processing pipelines including [[fMRIprep]], [[mriqc]], and [[CAT12]].
+MONAI emerged to fill this gap by providing a unified framework that bridges the gap between advanced machine learning research and clinical applicability. The framework builds upon the success of earlier medical imaging tools such as [[niftynet]]—a TensorFlow-based deep learning platform for medical imaging—and [[deepmedic]], a CNN-based tool for efficient medical image segmentation, but leverages the flexibility and ecosystem of PyTorch to offer more modular, extensible architectures. By targeting standardization in medical imaging AI, MONAI addresses reproducibility concerns that have plagued the field, enabling direct integration with established neuroimage processing pipelines including [[fMRIprep]], [[mriqc]], and [[CAT12]].
 
 ## Key Features
 
@@ -54,11 +54,3 @@ The original MONAI paper [@cardoso2022monai] published in *Nature Communications
 - [[niftynet]] — Earlier [[tensorflow]]‑based medical imaging deep learning framework
 - [[deepmedic]] — CNN‑based tool for medical image segmentation
 - [[fMRIprep]] — Preprocessing pipeline for functional MRI
-
-## References
-
-- [@cardoso2022monai] Cardoso, M. J., et al. (2022). MONAI: A Foundational Framework for Medical Image AI. *Nature Communications*, 13, 5548.
-- [@isensee2021nnunet] Isensee, F., et al. (2021). [[nnu‑net]]: Self‑adapting Framework for U‑Net‑Based Medical Image Segmentation. *Nature Methods*, 18(2), 144‑155.
-- [@chen2021hippocampal] Chen, Y., et al. (2021). Automated Hippocampal Segmentation Using MONAI. *Medical Image Analysis*, 71, 102041.
-- [@shi2022wmh] Shi, Y., et al. (2022). Deep Learning for [[white-matter]] Hyperintensity Detection in Brain MRI. *NeuroImage Clinical*, 35, 103076.
-- [@li2022cortical] Li, H., et al. (2022). Cortical Thickness Estimation Using Federated Learning with MONAI. *Frontiers in Neuroscience*, 16, 894530.

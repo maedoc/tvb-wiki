@@ -20,7 +20,7 @@ GRETNA (GRaph thEoreTical Network Analysis) is a MATLAB-based open-source toolbo
 
 The application of [[graph-theory]] to neuroscience has revolutionized our understanding of how the brain's structural and functional architecture supports cognition and behavior. Unlike traditional region-of-interest based analyses, network-based approaches treat the brain as an integrated system of interacting regions, enabling quantification of properties such as modularity, small-worldness, and [[rich-club|rich-club organization]]. However, performing graph analyses on [[neuroimaging]] data requires substantial preprocessing to handle issues such as network node definition (via [[brain-parcellations]]), edge weight computation, thresholding strategies, and normalization procedures—[[steps]] that are non-trivial and often implemented inconsistently across studies.
 
-GRETNA addresses this methodological challenge by providing a unified framework that implements state-of-the-art graph metrics within a single, well-documented MATLAB environment. The toolbox emerged in 2015 as neuroscientists increasingly recognized the need for reproducible, standardized network analysis pipelines. By consolidating disparate analysis routines into a coherent software package, GRETNA enables researchers to perform comparable analyses across different datasets and studies, facilitating meta-analyses and cross-cohort investigations in [[netneuroscience]] [[gretna]].
+GRETNA addresses this methodological challenge by providing a unified framework that implements current graph metrics within a single, well-documented MATLAB environment. The toolbox emerged in 2015 as neuroscientists increasingly recognized the need for reproducible, standardized network analysis pipelines. By consolidating disparate analysis routines into a coherent software package, GRETNA enables researchers to perform comparable analyses across different datasets and studies, facilitating meta-analyses and cross-cohort investigations in [[netneuroscience]] [[gretna]].
 
 ## Key Features
 
@@ -41,7 +41,3 @@ GRETNA occupies a specific niche in the landscape of [[brain-connectivity-toolbo
 ## Key Papers
 
 The original GRETNA paper by Wang et al. (2015) in *Journal of Neuroscience Methods* has received substantial citations, demonstrating the toolbox's impact on the field [[gretna]]. The software has been applied in studies examining [[resting-state]] functional connectivity alterations in neurological and psychiatric conditions including [[alzheimers-disease]], [[epilepsy-modeling]], and [[schizophrenia-models]]. Applications have also extended to developmental studies investigating brain network maturation and [[aging-brain]] changes in network topology.
-
-## References
-
-1. Wang, J., Wang, X., Xia, M., Liao, X., Evans, A., & He, Y. (2015). *GRETNA: a graph theoretical network analysis toolbox for MATLAB*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2015.04.016)

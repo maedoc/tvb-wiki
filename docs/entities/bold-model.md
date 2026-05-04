@@ -94,9 +94,3 @@ The BOLD forward model is implemented in several software packages. [[spm]] (Sta
 ## Related Concepts
 
 The BOLD model connects to several core concepts in whole-brain modeling. It serves as the primary link between [[neural-mass-models]] (which simulate synaptic and firing rate dynamics) and empirical [[fmri]] data. The hemodynamic parameters of the BOLD model can be individualized for [[personalized-brain-modeling]], improving the accuracy of patient-specific simulations in applications ranging from [[epilepsy-modeling]] to [[alzheimers-modeling]]. Related neuroimaging modalities include [[eeg]] and [[meg]], which offer superior temporal resolution but poorer spatial resolution compared to BOLD fMRI.
-
-## References
-
-1. Ramiro Plüss, Hernán Villota, Patricio Orio. (2025). *Hemispheric-Specific Coupling Improves Modeling of Functional Connectivity Using [[wilson-cowan]] Dynamics*. [Link](https://arxiv.org/abs/2506.22951)
-2. Martin Breyton, Viktor Sip, M. Woodman, Meysam Hashemi, S. Petkoski, V. Jirsa. (2025). *Data-driven [[mean-field-theory|mean-field]] within whole-brain models*. [Link](https://www.semanticscholar.org/paper/144ae1f1dabec42c14493d0083d36f168508f886)
-3. V. Myrov, A. Suleimanova, Samanta Knapič, P. Partanen, M. Vesterinen, Wenya Liu, S. Palva, J. M. Palva. (2026). *Hierarchical whole-brain modeling of critical synchronization dynamics in the human brain.*. Proceedings of the National Academy of Sciences of the United States of America. [DOI](https://doi.org/10.1073/pnas.2505768123)

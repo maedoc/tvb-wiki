@@ -49,7 +49,7 @@ The software architecture emphasizes efficiency and portability. Written primari
 
 ## Key Papers
 
-The seminal reference for Cartool is the 2011 paper by Brunet, Murray, and Michel titled "Spatiotemporal Analysis of Multichannel EEG: CARTOOL," which describes the software's architecture and capabilities for multichannel EEG analysis. A 2019 review article by Michel and Brunet, "EEG Source Imaging: A Practical Review of the Analysis [[steps]]," provides guidance on best practices for source localization using tools like Cartool. The microstate analysis capabilities are detailed in several methodological papers, including a 2024 tutorial on infant EEG microstate analysis by Bagdasarov and colleagues.
+The seminal reference for Cartool is the 2011 paper by Brunet, Murray, and Michel titled "Spatiotemporal Analysis of Multichannel EEG: CARTOOL," which describes the software's architecture and capabilities for multichannel EEG analysis. A 2019 review article by Michel and Brunet, "EEG Source Imaging: A Practical Review of the Analysis [[steps]]," provides guidance on standard practices for source localization using tools like Cartool. The microstate analysis capabilities are detailed in several methodological papers, including a 2024 tutorial on infant EEG microstate analysis by Bagdasarov and colleagues.
 
 ## Licensing and Availability
 
@@ -58,9 +58,3 @@ Cartool is distributed as a standalone Windows executable under an academic lice
 ## Related Software
 
 Cartool occupies a specific niche in the EEG analysis landscape, complementary to several other popular platforms. [[eeglab]] is a widely used MATLAB-based toolbox that offers broader preprocessing capabilities but less specialized tools for source imaging and microstates. [[fieldtrip]] provides similar [[source-localization]] functionality with stronger integration with [[meg]] data and a more open development model. [[brainstorm]] offers a comprehensive environment for EEG and MEG analysis with advanced visualization capabilities. For [[source-localization]] specifically, Cartesian implementations of LORETA and minimum norm estimation are also available in [[mne-python]], which provides a Python-based ecosystem with modern machine learning integrations. The microstate functionality in Cartool has parallels in the R package `microstate` and implementations in `pyeeg`, though Cartool remains among the most fully featured platforms for this specific analysis mode.
-
-## References
-
-1. Xiaobo Liu. (2026). *MLE-Toolbox: An Open-Source Toolbox for Comprehensive EEG and MEG Data Analysis*. [Link](https://www.semanticscholar.org/paper/e7aaa4f4bb01e70064493684b4500a950f83460f)
-2. D. Y. Lodema, Herman J van Dellen, W. de Haan, Margot van Hest, A. Hillebrand, E. van Dellen. (2026). *EEG-Pype: An accessible MNE-Python pipeline with graphical user interface for preprocessing and analysis of resting-state electroencephalography data.*. PLoS Computational Biology. [DOI](https://doi.org/10.1371/journal.pcbi.1014043)
-3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and [[whole-brain]] Propagation*. [Link](https://arxiv.org/abs/2505.16861)

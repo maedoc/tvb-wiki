@@ -40,7 +40,7 @@ fMRIPrep outputs feed directly into tools such as [[c-pac]], [[conn]], and speci
 
 ## Key Features and Usage
 
-The pipeline runs within Docker or Singularity containers, encapsulating all dependencies and eliminating the "it works on my machine" problem that plagued earlier preprocessing approaches. Researchers execute fMRIPrep via command-line interface, specifying input directories containing BIDS-formatted data and output directories for processed results. Configuration options allow users to customize processing flags, though the pipeline's defaults are designed to represent best practices suitable for most studies.
+The pipeline runs within Docker or Singularity containers, encapsulating all dependencies and eliminating the "it works on my machine" problem that plagued earlier preprocessing approaches. Researchers execute fMRIPrep via command-line interface, specifying input directories containing BIDS-formatted data and output directories for processed results. Configuration options allow users to customize processing flags, though the pipeline's defaults are designed to represent standard practices suitable for most studies.
 
 Quality control outputs include interactive HTML reports summarizing registration accuracy, motion statistics, and segmentation quality. These reports have become standard documentation for neuroimaging manuscripts, allowing reviewers and readers to evaluate preprocessing quality. The pipeline's detailed log files enable full reprocessing traceability, supporting [[reproducibility]] standards increasingly required by journals and funding agencies.
 
@@ -51,9 +51,3 @@ The primary citation for fMRIPrep is Esteban et al. (2019), published in *Nature
 ## Related Software
 
 fMRIPrep represents one component within a broader ecosystem of automated neuroimaging pipelines. Related tools include [[qsiprep]] for diffusion MRI preprocessing, [[mriqc]] for image quality assessment, [[c-pac]] for configurable automated preprocessing, and [[brainlife]] as a platform for integrated neuroimaging workflows. The pipeline's development has influenced standardization efforts across the neuroimaging community and established templates for other modality-specific preprocessing solutions.
-
-## References
-
-1. Sima Soltanpour, Md Taufiq Nasseef, Rachel Utama, Arnold Chang, D. Madularu, Praveen Kulkarni, Craig F. Ferris, Chris Joslin. (2025). *Robust automated preclinical fMRI preprocessing via a multi-stage dilated convolutional Swin Transformer affine registration*. Frontiers in Neuroscience. [DOI](https://doi.org/10.3389/fnins.2025.1621244)
-2. Zhishun Wang, Feng Liu, Rachel Marsh, Gaurav H. Patel, J. Grinband. (2026). *MEPrep: A robust pipeline for multi-echo fMRI denoising and preprocessing*. Imaging Neuroscience. [DOI](https://doi.org/10.1162/IMAG.a.1198)
-3. A. Dehsarvi, Lukas Frontzkowski, Anna Dewenter, Michael Schöll, N. Franzmeier. (2025). *ADprep – A Fully‐Automated Software for Large‐scale Multimodal MRI and PET Imaging Workflows*. Alzheimer's & Dementia. [DOI](https://doi.org/10.1002/alz70856_101373)

@@ -56,9 +56,3 @@ Mathis, A., Mamidanna, P., Cury, K.M., Abe, T., Murthy, V.N., Mathis, M.W., & Be
 - [[spikeinterface]] — Can integrate with behavioral tracking for multimodal neurophysiology studies
 - [[bids]] — Data format standard applicable to behavioral video datasets
 - [[3d-slicer]] — Visualization platform sometimes used for 3D pose reconstruction
-
-## References
-
-[@insafutdinov2016deeper] Insafutdinov, E., Pishchulin, L., Andres, B., & Andre Schiele, B. (2016). DeeperCut: A Deeper, Stronger, and Faster Multi-Person Pose Estimation Model. *arXiv*:1610.03702.
-
-[@mathis2018deep] Mathis, A., Mamidanna, P., Cury, K.M., Abe, T., Murthy, V.N., Mathis, M.W., & Bethge, M. (2018). DeepLabCut: markerless pose estimation of user-defined body parts with deep learning. *Nature Neuroscience*, 21(9), 1281–1289. https://doi.org/10.1038/s41593-018-0209-y

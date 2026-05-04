@@ -44,13 +44,3 @@ The broader visualization ecosystem also includes [[fsl]]'s [[fsleyes]], [[brain
 ## Key Papers
 
 While PySurfer is a software tool rather than a research publication, it is used extensively in neuroimaging research. The library is cited in studies employing surface-based analysis of fMRI, MEG, and connectivity data. Notable applications include cortical structural and functional coupling studies during development [[source-separation]], investigations of brain-gastric phase synchronization [[source-separation]], and analyses of default-mode network organization across primates [[source-separation]]. The library has been used in work published in journals including *Translational Psychiatry*, *Human Brain Mapping*, *NeuroImage*, and *Cell Reports* [[source-separation]].
-
-## References
-
-1. PySurfer Documentation. https://pysurfer.github.io/
-2. PySurfer GitHub Repository. https://github.com/nipy/PySurfer
-3. PySurfer (RRID:SCR_002524). [[nitrc]]. https://www.nitrc.org/projects/pysurfer/
-4. Waskom M, Gramfort A, Burns S, et al. (2023). nipy/PySurfer (Version 0.11.2) [Data set]. Zenodo. https://doi.org/10.5281/zenodo.592515
-5. Soman SM, et al. (2023). Cortical structural and functional coupling during development and implications for attention deficit hyperactivity disorder. *Translational Psychiatry*, 13(1), 252.
-6. Levakov G, et al. (2023). Reliability and validity of brain-gastric phase synchronization. *Human Brain Mapping*, 44(14), 4956-4971.
-7. Garin CM, et al. (2022). An evolutionary gap in primate [[default-mode-network]] organization. *Cell Reports*, 39(2), 110669.

@@ -20,7 +20,7 @@ updated: '2026-05-03'
 
 ## Motivation and Context
 
-The analysis of MEG and EEG data has historically suffered from methodological heterogeneity across labs, with each research group developing custom preprocessing scripts that are difficult to share, reproduce, or compare across studies. This "pipeline fragmentation" problem becomes especially acute in [[connectomics]] and [[whole-brain|whole-brain modeling]] applications, where different preprocessing choices can substantially affect estimated [[functional-connectivity]] patterns and subsequent model fits. MNE-BIDS-Pipeline addresses this challenge by implementing a well-documented, configurable, yet default-protected workflow that follows best practices established by the [[mne-python]] community and the BIDS standard.
+The analysis of MEG and EEG data has historically suffered from methodological heterogeneity across labs, with each research group developing custom preprocessing scripts that are difficult to share, reproduce, or compare across studies. This "pipeline fragmentation" problem becomes especially acute in [[connectomics]] and [[whole-brain|whole-brain modeling]] applications, where different preprocessing choices can substantially affect estimated [[functional-connectivity]] patterns and subsequent model fits. MNE-BIDS-Pipeline addresses this challenge by implementing a well-documented, configurable, yet default-protected workflow that follows standard practices established by the [[mne-python]] community and the BIDS standard.
 
 The pipeline emerged from the recognition that the BIDS format, while excellent for organizing raw neuroimaging data, does not specify how to process that data. By coupling BIDS-compliant data organization with a standardized processing stream, MNE-BIDS-Pipeline enables researchers to deposit processed data in [[bids-derivatives]] format, facilitating data sharing and secondary analyses. This is particularly relevant for projects like the [[mrtrix3-connectome]] (HCP) and the OASIS (Open Access Series of Imaging Studies) initiative, which have released large cohorts of MEG and EEG data that benefit from consistent processing.
 
@@ -57,17 +57,3 @@ The combination of MNE-BIDS-Pipeline and TVB represents a powerful workflow for 
 4. Gorgolewski, K., et al. (2015). [[pybids]]: A Python toolbox for organizing neuroimaging data. Frontiers in Neuroinformatics.
 
 5. Gramfort, A., et al. (2013). MEG and EEG data analysis with MNE-Python. Frontiers in Neuroscience.
-
-## References
-
-- Brain Imaging Data Structure Specification. (2024). BIDS Specification v1.14.0. https://bids-specification.readthedocs.io
-
-- Gorgolewski, K., et al. (2015). PyBIDS: A Python toolbox for organizing neuroimaging data. Frontiers in Neuroinformatics, 9, 8.
-
-- Gramfort, A., et al. (2013). MEG and EEG data analysis with MNE-Python. Frontiers in Neuroscience, 7, 267.
-
-- Jas, M., et al. (2017). MNE-BIDS: A tool to flexibly share MEG, EEG, and intracranial EEG data. Scientific Data, 4, 170054.
-
-- Van Essen, D. C., et al. (2013). The [[mrtrix3-connectome]]: A data acquisition perspective. NeuroImage, 62, 2222-2231.
-
-- [[tvb|The Virtual Brain]]. (2024). TVB Documentation. https://www.thevirtualbrain.org

@@ -44,11 +44,3 @@ The ForceAtlas2 layout algorithm itself is described in "ForceAtlas2, a Continuo
 ## Related Software
 
 Several alternatives and complements to Gephi exist for network visualization and analysis in neuroscience. [[cytoscape]] offers similar visualization capabilities with strong integration into biological pathway databases. [[graph-tool]] provides optimized C++ implementations of graph algorithms for large-scale analysis, though with a steeper learning curve. The [[brain-connectivity-toolbox]] (BCT) is a MATLAB library specifically designed for brain network analysis and integrates well with Gephi through standard graph file formats. For web-based visualization, [[brainnet-viewer]] offers a Three.js-based viewer optimized for brain surfaces. For Python-centric workflows, the NetworkX library combined with matplotlib or pyvis provides programmatic network visualization with greater automation potential.
-
-## References
-
-Bastian, M., Heymann, S., & Jacomy, M. (2009). Gephi: an open source software for exploring and manipulating networks. In Proceedings of the International Conference on Weblogs and Social Media (ICWSM 2009).
-
-Griffa, A., Baumann, P. S., Thiran, J. P., & Hagmann, P. (2019). Graph-theoretical metrics of the brain network: a review. In_connectomics (pp. 117-142). Springer.
-
-Jacomy, M., Venturini, T., Heymann, S., & Bastian, M. (2014). ForceAtlas2, a continuous graph layout algorithm for handy network visualization designed for the Gephi software. PloS ONE, 9(6), e98679.

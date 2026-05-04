@@ -72,9 +72,3 @@ PANDA is part of a broader ecosystem of neuroimaging tools that collectively sup
 PANDA is distributed as open-source software and is freely available for academic use. The toolbox runs on MATLAB (with Statistics and Image Processing Toolboxes) and requires a working installation of [[fsl]] for certain preprocessing steps. Documentation, source code, and example datasets are available from the project repository.
 
 The current maintenance status reflects its role as established infrastructure within the neuroimaging community. While active development has slowed relative to the initial release period, the software remains widely used and continues to receive updates for compatibility with newer MATLAB versions and dMRI acquisition protocols.
-
-## References
-
-1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
-2. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
-3. (authors unknown). *[[braph]]: A Pipeline for Brain Connectivity Analysis*.

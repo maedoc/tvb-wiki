@@ -25,7 +25,7 @@ updated: '2026-05-04'
 
 ## Overview
 
-SynthSeg is a deep learning-based framework for automatic segmentation of brain magnetic resonance imaging (MRI) scans that operates without any task-specific training data. Originally developed by Ben Billot and colleagues at MGH/Harvard Medical School's [[freesurfer]] laboratory, SynthSeg uses a domain adaptation approach whereby a [[neural-network]] is trained exclusively on synthetic data and then generalizes to real brain images without fine-tuning. The framework achieved state-of-the-art performance on diverse MRI contrasts including T1-weighted, T2-weighted, FLAIR, and others, demonstrating remarkable robustness to acquisition parameters, scanner types, and pathological variations [Billot et al. 2023]. Unlike traditional segmentation methods that require manually annotated training datasets, SynthSeg leverages a generative model to create unlimited labeled training examples, bypassing one of the most labor-intensive bottlenecks in medical image analysis.
+SynthSeg is a deep learning-based framework for automatic segmentation of brain magnetic resonance imaging (MRI) scans that operates without any task-specific training data. Originally developed by Ben Billot and colleagues at MGH/Harvard Medical School's [[freesurfer]] laboratory, SynthSeg uses a domain adaptation approach whereby a [[neural-network]] is trained exclusively on synthetic data and then generalizes to real brain images without fine-tuning. The framework achieved current performance on diverse MRI contrasts including T1-weighted, T2-weighted, FLAIR, and others, demonstrating robustness to acquisition parameters, scanner types, and pathological variations [Billot et al. 2023]. Unlike traditional segmentation methods that require manually annotated training datasets, SynthSeg leverages a generative model to create unlimited labeled training examples, bypassing one of the most labor-intensive bottlenecks in medical image analysis.
 
 ## Motivation and Context
 
@@ -54,12 +54,3 @@ The foundational work on SynthSeg was published by Ben Billot and colleagues at 
 ## Related Software
 
 SynthSeg builds upon and relates to several established neuroimaging tools in the ecosystem. It performs a similar function to [freesurfer], the most widely used cortical reconstruction software, but without training data requirements. Compared to [fastsurfer], which accelerates freesurfer processing through deep learning while retaining the same anatomical model, SynthSeg takes a fundamentally different training approach. Other related segmentation tools include [brainsuite], [mindboggle], and [cat12], each offering distinct feature sets. For preprocessing, SynthSeg often complements tools like [fsl], [ants], and [elastix] that handle registration and normalization, while output segmentations may be visualized using [freesurfer]'s [freeview] or general neuroimaging viewers like [fsleyes].
-
-## References
-
-- Billot, B., Greve, D. N., Kaur, S., Tariq, S., Vidal, E. J., Boada, F. E., & Fischl, B. (2023). Synthseg: Domain adaptation for contrast-agnostic MRI segmentation. NeuroImage, 263, 119436.
-- Billot, B., Robinson, E., Dalca, A. V., & T. Golland, P. (2020). Domain adaptation without source data. In International Conference on Medical Image Computing and Computer-Assisted Intervention (MICCAI).
-- FreeSurfer: https://surfer.nmr.mgh.harvard.edu/
-- [[fastsurfer]]: https://github.com/nickhils/fast-surfer
-- DeepLearnBio SynthSeg: https://github.com/DeepLearnBio/SynthSeg
-- BBillot SynthSeg: https://github.com/bbillot/SynthSeg

@@ -66,15 +66,3 @@ The library's handling of anonymization deserves particular attention in researc
 2. **nibabel: Accessing a Plethora of Neuroimaging file formats** — This paper describes the NIfTI format ecosystem that PyDICOM often feeds into, establishing the relationship between DICOM ingestion and downstream format conversion[^nibabel-paper].
 
 3. **dcm2niix: A Cross Platform Tool for Converting DICOM to NIfTI** — Documents the complementary role of dcm2niix in neuroimaging pipelines, which often operates on data preprocessed via PyDICOM[^dcm2niix-paper].
-
-## References
-
-[^pydicom-docs]: PyDICOM Documentation. https://pydicom.github.io/
-
-[^pydicom-github]: PyDICOM GitHub Repository. https://github.com/pydicom/pydicom
-
-[^dcmtk-official]: DCMTK - DICOM Toolkit. https://www.dcmtk.org/
-
-[^nibabel-paper]: Brett, M., et al. "nibabel: Accessing a Plethora of Neuroimaging file formats." NeuroImage 169 (2019): 427.
-
-[^dcm2niix-paper]: Li, X., et al. "dcm2niix: A Cross Platform Tool for Converting DICOM to NIfTI." Journal of Open Source Software 1.9 (2016): 482.

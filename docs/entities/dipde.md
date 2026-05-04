@@ -44,7 +44,7 @@ DiPDE also supports the definition of external populations that provide backgrou
 
 ## Comparison to Related Simulators
 
-DiPDE differs from other major neural simulators in several important respects. Compared to [[NEST]] (Neural Simulation Tool), which simulates individual point neurons at the network scale, DiPDE operates at the population level—modeling groups of neurons statistically rather than explicitly [<citation>11</citation>]. NEST supports more detailed neuron models and synaptic dynamics, while DiPDE optimizes for a narrower class of models but achieves superior performance for appropriate use cases.
+DiPDE differs from other major neural simulators in several important respects. Compared to [[NEST]] (Neural Simulation Tool), which simulates individual point neurons at the network scale, DiPDE operates at the population level—modeling groups of neurons statistically rather than explicitly [<citation>11</citation>]. NEST supports more detailed neuron models and synaptic dynamics, while DiPDE optimizes for a narrower class of models but achieves better for appropriate use cases.
 
 Compared to [[NEURON]], which excels at detailed multi-compartment simulations with realistic morphologies, DiPDE sacrifices single-neuron biophysical detail for population-level tractability. NEURON remains the tool of choice when detailed morphology or compartment-specific dynamics are required [<citation>12</citation>].
 
@@ -76,26 +76,3 @@ A key distinction from spike-based simulators is that DiPDE tracks the probabili
 - [[Brian2]]
 - [[allen-sdk]]
 - [[neuromorpho-toolkit]]
-
-## References
-
-<references>
-1. Cain, N., Iyer, R., Koch, C., & Mihalas, S. (2015). The computational properties of a simplified cortical column model. Allen Institute Technical Report.
-2. DiPDE Documentation. https://alleninstitute.github.io/dipde/
-3. Knight, N.W., Manin, D., & Sirovich, L. (1996). Dynamical models of interacting neuron populations in visual cortex. Symposium on Robotics and Cybernetics.
-4. Iyer, R., Menon, V., Buice, M., Koch, C., & Mihalas, S. (2013). The Influence of Synaptic Weight Distribution on Neuronal Population Dynamics. PLoS Computational Biology 9(10): e1003248.
-5. Potjans, T.C., & Diesmann, M. (2014). The cell-type specific cortical microcircuit. Cerebral Cortex 24: 785–806.
-6. Cain, N., Fliss, T., Menon, V., Iyer, R., Koch, C., & Mihalas, S. (2014). Simulations of the statistics of firing activity of neuronal populations in the entire mouse brain. Society for Neuroscience Meeting.
-7. de Kamps, M. (2003). A simple and stable numerical solution for the population density equation. Neural Computation 15: 2129–2146.
-8. DiPDE Core Functionality Documentation. https://alleninstitute.github.io/dipde/dipde.internals.html
-9. DiPDE Examples Documentation. https://alleninstitute.github.io/dipde/dipde.examples.html
-10. External Population Class. https://alleninstitute.github.io/dipde/dipde.internals.html#module-dipde.internals.externalpopulation
-11. NEST Initiative. https://nest-simulator.org/
-12. NEURON Simulator. https://neuron.yale.edu/neuron/
-13. Brian Simulator. http://briansimulator.org/
-14. Whole-brain modeling with [[tvb|The Virtual Brain]]. http://thevirtualbrain.org/
-15. Omurtag, A., Knight, B.W., & Sirovich, L. (2000). On the Simulation of Large Populations of Neurons. Journal of Computational Neuroscience 8: 51–63.
-16. Knight, N.W., Manin, D., & Sirovich, L. (1996). Dynamical models of interacting neuron populations. Symposium on Robotics and Cybernetics.
-17. DiPDE Numerical Methods. https://alleninstitute.github.io/dipde/
-18. Population Density Approach. https://alleninstitute.github.io/dipde/
-</references>

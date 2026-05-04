@@ -45,7 +45,7 @@ DataLad Containers integrates naturally with other tools in the reproducible neu
 
 ## Limitations and Considerations
 
-DataLad Containers assumes familiarity with the DataLad workflow, which has a learning curve for researchers accustomed to traditional file management approaches. Container building also requires some expertise with Docker or Singularity, and researchers must ensure their institutional computing environments support container execution. For teams seeking a lower-barrier alternative, the [[neurodesk]] project provides ready-to-use containers without requiring dataset-specific configuration. Nonetheless, for projects where full control over the computational environment and tight integration with version-controlled data are paramount, DataLad Containers offers a powerful solution that aligns with best practices in reproducible science.
+DataLad Containers assumes familiarity with the DataLad workflow, which has a learning curve for researchers accustomed to traditional file management approaches. Container building also requires some expertise with Docker or Singularity, and researchers must ensure their institutional computing environments support container execution. For teams seeking a lower-barrier alternative, the [[neurodesk]] project provides ready-to-use containers without requiring dataset-specific configuration. Nonetheless, for projects where full control over the computational environment and tight integration with version-controlled data are paramount, DataLad Containers offers a powerful solution that aligns with standard practices in reproducible science.
 
 ## Key Papers
 
@@ -54,12 +54,3 @@ DataLad Containers assumes familiarity with the DataLad workflow, which has a le
 - **Gorgolewski et al., 2017** — "Docker: an open source container for science." Background on containerization in scientific workflows.
 - **Esteban et al., 2019** — "fMRIprep: a robust preprocessing pipeline for functional MRI." Example of containerized [[neuroimaging]] pipelines that inspired similar approaches in the community.
 - **Ricci et al., 2020** — "NeuroDesk: flexible and accessible data analysis for reproducible neuroimaging." Describes the ready-to-use container approach as an alternative to user-managed containers.
-
-## References
-
-- Esteban O, Markiewicz CJ, Brown RW, Jobert J, Camerlengo F, Jul-Aguilar J, DuPre E, Landman BA, Caparas D, Poldrack R, Gorgolewski KJ. fMRIPrep: a robust preprocessing pipeline for functional MRI. Nat Methods. 2019;16(1):111-116.
-- Gorgolewski KJ, Storkey AJ, Bastien M, Picard P. Docker: an open source container for science. arXiv:1709.07021. 2017.
-- Halchenko Y, Hanke M, Donders R, et al. Open Data Products: a framework for creating portable, distributed data products. Front Neurosci. 2021;15:659050.
-- Hanke M, Halchenko Y, Sederberg PB, et al. [[pymvpa]]: a Python toolbox for multivariate pattern analysis of [[fmri]] data. Neuroinformatics. 2008;6(1):11-34.
-- Ricci C, Sedler K, Chen A, et al. NeuroDesk: flexible and accessible data analysis for reproducible neuroimaging. Front Neuroinform. 2020;14:594287.
-- Wagner A, Halchenko Y, et al. DataLad: distributed data product management with git and git-annex. J Open Source Softw. 2021;6(61):3112.
