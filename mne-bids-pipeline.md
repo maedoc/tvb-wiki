@@ -1,13 +1,13 @@
 ---
 title: MNE-BIDS-Pipeline
 created: 2024-01-15
-updated: 2026-05-01
+updated: '2026-05-04'
 type: entity
 tags: [software, neuroimaging-eeg, neuroimaging-meg, eeg, meg, preprocessing, bids]
 sources: []
 ---
 
-MNE-BIDS-Pipeline is a comprehensive, automated processing pipeline for magnetoencephalography (MEG) and electroencephalography (EEG) data that are stored in the Brain Imaging Data Structure (BIDS) format. Developed and maintained by the MNE-Python team, the pipeline provides a complete workflow that transforms raw electrophysiological recordings through preprocessing, sensor-space analysis, and source-space reconstruction in a single, cohesive execution framework. The pipeline is written in Python and leverages the extensive functionality of [[mne-python]] to implement state-of-the-art artifact rejection, signal filtering, and inverse solution computations.
+MNE-BIDS-Pipeline is a comprehensive, automated processing pipeline for magnetoencephalography (MEG) and electroencephalography (EEG) data that are stored in the Brain Imaging Data Structure (BIDS) format. Developed and maintained by the MNE-Python team, the pipeline provides a complete workflow that transforms raw electrophysiological recordings through preprocessing, sensor-space analysis, and source-space reconstruction in a single, cohesive execution framework. The pipeline is written in Python and leverages the extensive functionality of [[mne-bids-pipeline]] to implement state-of-the-art artifact rejection, signal filtering, and inverse solution computations.
 
 ## Motivation and Context
 
@@ -41,7 +41,7 @@ Furthermore, both platforms share a commitment to transparency and reproducibili
 
 ## Related Software
 
-- [[mne-python]] — the underlying library powering all computational operations
+- [[mne-bids-pipeline]] — the underlying library powering all computational operations
 - [[mne-bids]] — utility for converting raw data to BIDS format
 - [[bids]] — the data organization standard the pipeline requires
 - [[eeglab]] — an alternative MATLAB-based environment for EEG/MEG analysis

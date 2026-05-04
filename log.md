@@ -134,3 +134,5 @@
 - Added sections on overview, key features (simulation configuration, connectivity/data management, analysis endpoints), relationship to TVB
 - Included 12+ wikilinks connecting to the-virtual-brain, tvb-library, tvb-adapters, tvb-nest, tvb-multiscale, rest, structural-connectivity, functional-connectivity, neural-mass-models, jansen-rit-model, wong-wang-model, epileptor, bids, brain-stimulation, diffusion-imaging, tractography, fmri, eeg, meg, brain-oscillations, graph-theory, bifurcation-analysis, connectome, personalized-brain-modeling, fmriprep, dmriprep, mrtrix3-connectome, afq, connectome-workbench, nipype
 - Updated frontmatter with proper tags (software-tvb, software-brain-modeling, whole-brain-modeling, api)
+
+## [2026-05-04 22:49] Improve: 5 pages improved (cifti-tools, neurokernel, tvb-rest, lfpykern, brainsuite)

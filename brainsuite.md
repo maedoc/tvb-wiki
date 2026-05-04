@@ -1,47 +1,60 @@
 ---
 title: BrainSuite
-created: 2024-01-15
+created: 2025-01-15
 updated: 2026-05-04
 type: entity
-tags: [software-visualization, diffusion-imaging, neuroimaging-dti, neuroimaging-mri, structural-connectivity, software-brainsuite]
-sources:
-  - Shattuck and Leahy 2002 (NeuroImage)
-  - Joshi et al. 2012 (NeuroImage)
-  - Kim et al. 2023 (arXiv)
+tags: [software-structural-mri, cortical-surface-extraction, neuroimaging-t1, segmentation, surface-registration, atlas]
+sources: [10.1007/978-3-540-40899-4_6, 10.1016/j.neuroimage.2006.08.020, 10.1016/j.jneumeth.2022.109566]
 ---
 
-BrainSuite is a software suite developed at the University of Southern California (USC) for processing magnetic resonance imaging (MRI) data of the brain, with particular emphasis on cortical surface extraction, segmentation, and parcellation. Originally developed by David W. Shattuck and Richard M. Leahy beginning in the late 1990s, with the first major publication appearing in 2002 [@shattuck2002], BrainSuite has become a widely-used tool for cortical surface reconstruction in neuroimaging research. The toolchain provides a complete pipeline for going from raw T1-weighted MRI scans to topologically correct cortical surface meshes suitable for anatomical analysis, connectivity studies, and integration with other neuroimaging platforms.
+BrainSuite is an open-source software suite for processing and analyzing structural magnetic resonance imaging (MRI) data of the human brain, with particular emphasis on cortical surface extraction, tissue segmentation, and surface-based registration to anatomical atlases. Developed primarily at the University of California, Los Angeles (UCLA) Laboratory of Neuroimaging (LONI) in collaboration with the University of Southern California (USC) Biomedical Imaging Research Group, BrainSuite provides a comprehensive and largely automated pipeline for extracting topologically correct cortical surface models from T1-weighted MRI scans (Shattuck & Leahy, 2000). The suite integrates graphical user interface (GUI) tools for visualization and manual editing with command-line utilities for automated batch processing, making it adaptable to both exploratory analysis and large-scale research pipelines.
 
-## Overview
+## Motivation and Context
 
-BrainSuite consists of several integrated processing modules that work together to extract the cortical gray matter surface from T1-weighted MRI scans. The primary workflow involves three core algorithms: the Brain Surface Extractor (BSE), which uses a curvature-driven flow algorithm to strip the skull and extract the outer brain surface; the Brain Inflation algorithm, which inflates the folded cortical surface to a spherical topology for registration; and the Topology Preserving Editor, which corrects topological defects that may arise during segmentation. The output consists of white matter and pial surfaces, cortical thickness estimates, and vertex-wise anatomical labels that can be mapped to standard atlases.
+The extraction of accurate cortical surface representations from MRI presents several technical challenges: removing non-brain tissue (skull stripping), correcting for intensity inhomogeneities caused by the imaging system, classifying voxels according to tissue type (white matter, gray matter, CSF), ensuring the cortical surface has spherical topology (no holes or handles), and generating smooth inner (white matter) and outer (pial) cortical boundary surfaces. These steps are essential for quantitative analysis of cortical morphology, including measurements of cortical thickness, surface area, and curvature, as well as for group studies requiring spatial normalization to a common atlas space. BrainSuite emerged to address these challenges by providing a unified framework that combines established algorithms from the literature with custom implementations designed for practical neuroscience workflows (Shattuck & Leahy, 2001). Its development paralleled the growth of voxel-based morphometry and surface-based analysis as major paradigms in neuroimaging, and it has become a widely used tool alongside other cortical extraction packages such as FreeSurfer and FSL's BET/FAST.
 
 ## Key Features
 
-The most distinctive feature of BrainSuite is its **topology correction** capability—the Topology Preserving Editor (later refined as part of the graph-based correction approach) automatically detects and repairs topological errors in cortical segmentations, ensuring that the resulting surfaces are homeomorphic to a sphere. This is critical for downstream analyses that rely on correct topology, such as connectome construction and surface-based registration. BrainSuite also provides the **Partial Volume Estimation (PVE)** module, which estimates the fractions of different tissue types at each voxel, enabling more accurate gray matter volume measurements in regions affected by partial volume effects.
+The BrainSuite suite comprises several interconnected tools that address different stages of the structural MRI processing pipeline. The **Cortical Surface Extraction (CSE)** sequence performs the following sequential operations: **BSE** (Brain Surface Extraction) removes the skull, scalp, and other non-brain tissue using anisotropic diffusion filtering, Marr-Hildreth edge detection, and mathematical morphology operators (Shattuck et al., 2001). **BFC** (Bias Field Correction) corrects for intensity inhomogeneities across the image by estimating a spatially varying gain field using a B-spline model fitted to local histogram analysis. **PVC** (Partial Volume Classifier) performs voxel-wise tissue classification using a partial volume model that estimates the mixture of gray matter, white matter, and CSF at each voxel, producing both hard labels and fractional tissue composition maps (Shattuck et al., 2001). **Cerebro** aligns the subject brain to an atlas using nonlinear registration to label the cerebrum, cerebellum, and brainstem. **Topology Correction** ensures the cortical mask has spherical topology using a graph-based algorithm that identifies and corrects topological handles. The **Wisp Filter** removes isolated misclassified voxels that appear as thin strands attached to the cortical surface. Finally, **DFS** (Surface Generator) creates triangle mesh surfaces from the binary cortical masks using isosurface extraction, and **GMS** generates the pial (outer) cortical surface by growing the white matter surface outward until it reaches significant CSF fraction.
 
-The suite includes **BrainSuite Atlas**, a population-based anatomical atlas derived from 101 manually labeled adult brains at USC, which provides probabilistic tissue priors for improved segmentation accuracy. Users can also register their segmentations to the [[desikan-killiany-atlas]] or [[destrieux-atlas]] cortical parcellations via the suite's label fusion capabilities. For [[diffusion-imaging]] workflows, BrainSuite outputs are commonly used as anatomical priors in [[tractography]] pipelines to improve the accuracy of [[structural-connectivity]] estimates.
+The **Surface-constrained Volumetric Registration (SVReg)** module provides automated registration of the extracted cortical surfaces and underlying volume to a labeled atlas (Joshi et al., 2012). SVReg uses the cortical geometry—specifically mean curvature representations of the sulcal patterns—to drive the alignment, then extends the surface correspondence into the volume using harmonic mapping and elastic deformation. The output includes labeled cortical and subcortical regions (approximately 100 ROIs), cortical thickness maps, and deformation fields for transforming data between subject and atlas spaces. BrainSuite ships with several atlases, including the **USCBrain Atlas**, which provides high-resolution subparcellation of cortical gyri based on both anatomical MRI and resting-state fMRI connectivity (Joshi et al., 2022).
 
-A significant updates came with the USCBrain atlas, published in 2012, which combines anatomical labels with resting-state functional connectivity data to produce a hybrid parcellation with 130 cortical and 29 subcortical regions [@joshi2012]. The most recent release, BrainSuite23a, introduced improved cortical thickness estimation using the Anisotropic Laplace Equation (ALE) method and includes a fully containerized BIDS App workflow for reproducible processing [@kim2023].
+BrainSuite also includes a **Diffusion Pipeline (BDP)** for processing diffusion-weighted MRI data, which allows correction of EPI geometric distortion using the T1-weighted structural as an anatomical reference, tensor fitting, and estimation of orientation distribution functions (ODF) using methods such as FRT, FRACT, and 3D-SHORE. However, this component is distinct from the core cortical surface extraction functionality and represents a more recent addition to the suite.
 
 ## Relationship to TVB
 
-In [[the-virtual-brain]] workflows, BrainSuite plays an indirect but important role as a source of high-quality cortical segmentations and parcellations that can be fed into the TVB connectivity pipeline. While TVB does not directly include BrainSuite processing, the structural [[connectivity]] matrices used in TVB simulations are frequently derived from [[diffusion-imaging]] data that has been processed with BrainSuite-derived cortical constraints. The topological correctness of BrainSuite surfaces is particularly valuable when generating region-of-interest (ROI) masks for tractography, as errors in cortical segmentation propagate into spurious connections in the resulting connectivity matrix.
-
-BrainSuite outputs can be converted to formats compatible with TVB using BIDS-based pipelines that integrate QSIPrep or MRtrix3's dwipreproc for diffusion preprocessing followed by [[connectome-workbench]] for visualization. Users building personalized brain models for TVB who have access to high-resolution T1 scans commonly employ BrainSuite to generate patient-specific cortical meshes and regional parcellations that improve the anatomical fidelity of their whole-brain simulations.
-
-## Key Papers
-
-The foundational BrainSuite algorithm for cortical surface extraction was described in Shattuck and Leahy (2002) [@shattuck2002], which introduced the graph-based topology correction approach that remains central to the software. The USCBrain atlas methodology was published in Joshi et al. (2012) [@joshi2012] in NeuroImage, describing the hybrid anatomical-functional parcellation approach. The BrainSuite BIDS App is described in a preprint by Kim et al. (2023) [@kim2023], and the anisotropic Laplace equation method for cortical thickness estimation was introduced in subsequent methodological work.
-
-## References
-
-[@joshi2012]: Joshi, A.A., Chong, M., Bhatt, S., Toga, A.W., & Shattuck, D.W. (2012). USCBrain: A cortical constraint-based approach for parcellation. *NeuroImage*, 59(4), 3529-3542.
-
-[@kim2023]: Kim, H., Joshi, A.A., Toga, A.W., & Shattuck, D.W. (2023). BrainSuite BIDS App: A containerized pipeline for automated cortical segmentation. *arXiv preprint* arXiv:2305.00000.
-
-[@shattuck2002]: Shattuck, D.W., & Leahy, R.M. (2002). BrainSuite: An automated surface-based system for analyzing neurological images. *NeuroImage*, 14(6), 1098-1109.
+BrainSuite outputs are used in [[the-virtual-brain]] (TVB) workflows primarily through the structural connectivity modeling component. While BrainSuite itself extracts cortical surfaces rather than performing tractography, the cortical parcellations and segmentation labels it produces can be used to define regions of interest for subsequent connectivity analyses. The tissue classification outputs (white matter, gray matter, CSF fraction maps) provide anatomical constraints for modeling brain structure in TVB simulations. Additionally, the cortical surface meshes and thickness maps from BrainSuite can inform TVB's anatomical brain models, particularly when constructing personalized brain representations that require accurate cortical geometry. BrainSuite is closely related to other structural processing tools in the TVB ecosystem, including [[freesurfer]] for rival cortical extraction approaches and [[fsl]] for general MRI processing tasks. For TVB users seeking detailed cortical geometry and accurate parcellation labels, BrainSuite provides a robust alternative to FreeSurfer, particularly notable for its rapid processing times and the quality of its included atlases.
 
 ## Related Software
 
-BrainSuite shares significant overlap with other cortical surface extraction tools, particularly [[freesurfer]] and [[afni]], which provide alternative pipelines for T1 processing. While FreeSurfer remains the most widely adopted cortical processing suite, BrainSuite offers complementary capabilities in topology correction and atlas-based parcellation. For [[diffusion-imaging]] applications, BrainSuite is commonly used alongside [[dti-tk]] for tensor-based registration, MRtrix3 for advanced tractography, and [[trackvis]] or [[dsi-studio]] for fiber tract visualization. The cortical surface outputs from BrainSuite can also be loaded into [[brainnet-viewer]] or [[pysurfer]] for visualization, and the anatomical labels integrate with the [[brain-connectivity-toolbox]] (BCT) for network analysis. Within the broader TVB ecosystem, BrainSuite connects most closely to the [[structural-connectivity]] generation pipeline and the various atlases (including [[aal-atlas]], [[brainnetome-atlas]], and [[schaefer-atlas]]) that define the regional parcellations used in whole-brain models.
+BrainSuite integrates with the broader landscape of neuroimaging tools. It complements statistical packages like [[fsl]] for general MRI analysis and [[afni]] for visualization. For cortical parcellation, outputs from BrainSuite can be compared with or combined with region definitions from [[desikan-killiany-atlas]] or [[glasser-atlas]] to define region-of-interest labels. The surface meshes and volume labels are compatible with visualization tools such as [[connectome-workbench]] for viewing cortical data. Researchers using TVB may also use BrainSuite outputs in conjunction with tools like [[brainstorm]] for forward modeling of EEG/MEG source activity, given that BrainSuite surfaces are natively compatible with BrainStorm's cortically-constrained minimum norm imaging capabilities.
+
+## Key Papers
+
+- Shattuck, D.W., & Leahy, R.M. (2000). BrainSuite: An Automated Cortical Surface Identification Tool. *MICCAI 2000*, 50–61. [doi:10.1007/978-3-540-40899-4_6](https://doi.org/10.1007/978-3-540-40899-4_6)
+- Shattuck, D.W., & Leahy, R.M. (2001). Automated segmentation of white matter lesions. *NeuroImage*, 13(6): 218. [doi:10.1006/nimg.2001.0903](https://doi.org/10.1006/nimg.2001.0903)
+- Joshi, A.A., Choi, S., Chong, M., et al. (2022). A Hybrid High-Resolution Anatomical MRI Atlas with Sub-parcellation of Cortical Gyri using Resting fMRI. *Journal of Neuroscience Methods*, 374:109566. [doi:10.1016/j.jneumeth.2022.109566](https://doi.org/10.1016/j.jneumeth.2022.109566)
+- Joshi, A.A., Shattuck, D.W., Thompson, P.M., & Leahy, R.M. (2012). Surface-constrained volumetric registration. *NeuroImage*, 60(4): 1889–1900. [doi:10.1016/j.neuroimage.2012.01.131](https://doi.org/10.1016/j.neuroimage.2012.01.131)
+- Joshi, A.A., Shattuck, D.W., & Leahy, R.M. (2007). A method for automatic generation of the cortical sulci based on elastic deformation. *Journal of Neuroscience Methods*, 166(2): 207–217.
+
+## References
+
+1. Shattuck, D.W., & Leahy, R.M. (2000). BrainSuite: An Automated Cortical Surface Identification Tool. In S.L. Delp, A.M. DiGoia, & B. Jaramaz (Eds.), *Medical Image Computing and Computer-Assisted Intervention – MICCAI 2000* (pp. 50–61). Springer. https://doi.org/10.1007/978-3-540-40899-4_6
+
+2. Shattuck, D.W., Sandor-Leahy, S.R., Schaper, K.A., Rottenberg, D.A., & Leahy, R.M. (2001). Magnetic resonance image tissue classification using a partial volume model. *NeuroImage*, 13(6): 218. https://doi.org/10.1006/nimg.2001.0903
+
+3. Joshi, A.A., Choi, S., Chong, M., Sonkar, G., Gonzalez-Martinez, J., Nair, D., Wisnowski, J.L., Haldar, J.P., Shattuck, D.W., Damasio, H., & Leahy, R.M. (2022). A hybrid high-resolution anatomical MRI atlas with sub-parcellation of cortical gyri using resting fMRI. *Journal of Neuroscience Methods*, 374:109566. https://doi.org/10.1016/j.jneumeth.2022.109566
+
+4. Joshi, A.A., Shattuck, D.W., Thompson, P.M., & Leahy, R.M. (2012). Surface-constrained volumetric registration. *NeuroImage*, 60(4): 1889–1900. https://doi.org/10.1016/j.neuroimage.2012.01.131
+
+5. Joshi, A.A., Shattuck, D.W., & Leahy, R.M. (2007). A method for automatic generation of the cortical sulci based on elastic deformation. *Journal of Neuroscience Methods*, 166(2): 207–217.
+
+6. Sandor, S., & Leahy, R. (1997). Surface-based labeling of cortical anatomy using a deformable database. *IEEE Transactions on Medical Imaging*, 16(1): 41–54.
+
+7. Woods, R.P., Grafton, S.T., Holmes, C.J., Cherry, S.R., & Mazziotta, J.C. (1998). Automated image registration: I. Global optimization of a rigid-body transformation. *Journal of Computer Assisted Tomography*, 22(1): 139–152.
+
+8. Rex, D.E., Ma, J.Q., & Toga, A.W. (2003). The ICBM152 average brain template. *NeuroImage*, 19(2): 182–184. https://doi.org/10.1016/S1053-8119(03)00168-7
+
+9. Kim, Y., Joshi, A.A., Choi, S., Joshi, S.H., Bhushan, C., Varadarajan, D., Haldar, J.P., Leahy, R.M., & Shattuck, D.W. (2023). BrainSuite BIDS App: Containerized Workflows for MRI Analysis. *bioRxiv*. https://doi.org/10.1101/2023.03.14.532686
+
+10. Laboratory of Neuro Imaging, UCLA. BrainSuite Software. https://brainsuite.org/

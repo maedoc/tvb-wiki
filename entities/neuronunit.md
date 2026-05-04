@@ -28,7 +28,7 @@ tags:
   - [[reproducibility]]
 title: NeuronUnit
 type: entity
-updated: 2026-04-24
+updated: 2026-05-04
 
 # NeuronUnit
 
