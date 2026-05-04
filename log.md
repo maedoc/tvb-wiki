@@ -108,3 +108,5 @@
 ## [2026-05-04 21:53] Audit: 1035 issues (141 broken links, 65 orphans, 22 placeholders, 0 dup-refs, 3 bad-meta, 81 citation-verify, 4 opaque-refs, 73 thin, 342 missing-links)
 
 ## [2026-05-04 21:56] CrosslinkApplier: added 160 wikilinks (160 inline, 0 suggested)
+
+## [2026-05-04 22:01] Improve: 5 pages improved ( Allen SDK, brain-map, brain-life, trajectory, coins)
