@@ -28,7 +28,7 @@ All participants were screened for neurological and psychiatric conditions to en
 
 The AOMIC cohort includes high-resolution T1-weighted structural images used for volumetric and morphometric analyses, resting-state fMRI acquisitions for examining [[functional-connectivity]] between brain regions, and diffusion-weighted imaging for reconstructing [[white-matter]] tracts and computing metrics such as [[fractional-anisotropy]]. All MRI data were collected on 3T MRI scanners following standardized acquisition protocols to ensure data quality and consistency across participants.
 
-The data were preprocessed using established pipelines including [[fsl]], [[freesurfer]], and [[mrtrix3]], with derivative outputs such as gray matter volumes, [[resting-state]] network maps, and tractography files made available through the OpenNeuro repository [@openneuro_aomic]. This standardized preprocessing enables direct comparison across studies and facilitates [[reproducibility]]—a persistent challenge in neuroimaging research. All data are released in [[bids]] format, following community standards for neuroimaging data organization.
+The data were preprocessed using established pipelines including Fsl, Freesurfer, and Mrtrix3, with derivative outputs such as gray matter volumes, [[resting-state]] network maps, and tractography files made available through the OpenNeuro repository [@openneuro_aomic]. This standardized preprocessing enables direct comparison across studies and facilitates [[reproducibility]]—a persistent challenge in neuroimaging research. All data are released in [[bids]] format, following community standards for neuroimaging data organization.
 
 ## Scientific Applications
 

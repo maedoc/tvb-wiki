@@ -87,3 +87,5 @@
 - Updated frontmatter with 4 sources including sanz-leon-2013, gewaltig-diesmann-2007, arxiv-2505.16861, stefanescu-jirsa-2008
 
 ## [2026-05-04 21:39] DeepResearch: 16 papers added via focused research
+
+## [2026-05-04 21:44] Improve: 5 pages improved (dipy, spinal-cord-toolbox, destrieux-atlas, tractoflow, tvb-nest)

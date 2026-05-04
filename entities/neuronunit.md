@@ -118,7 +118,7 @@ This paper describes the NeuroElectro database, which serves as NeuronUnit's pri
 
 - [[SciUnit]] — The scientific unit testing framework upon which NeuronUnit is built
 - [[NEURON]] — Multi-compartment neuron simulator; primary backend for detailed model validation
-- [[brian2]] — Spiking [[neural-network]] simulator; can be integrated via SciUnit interfaces
+- Brian2 — Spiking [[neural-network]] simulator; can be integrated via SciUnit interfaces
 - [[NEST]] — Point neuron network simulator for large-scale network modeling
 - [[Neo]] — Data model for electrophysiology; used for spike and signal representation
 - [[Elephant]] — Analysis toolkit for Neo data; complements NeuronUnit with quantitative metrics

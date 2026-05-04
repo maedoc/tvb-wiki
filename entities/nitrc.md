@@ -32,9 +32,9 @@ updated: '2026-05-04'
 
 ## Technical Implementation
 
-NITRC-CE leverages container virtualization through Docker to package complete software stacks that include core neuroimaging toolkits such as [[pysurfer]], [[fsl-melodic]], [[SPM]], [[mrtrix3-connectome]], [[mne-python]], [[eeglab]], [[dipy]], and numerous additional specialized packages. Each container image is built following best practices for neuroimaging workflows, ensuring that software versions are pinned and compatible with each other. This approach addresses one of the most persistent challenges in computational neuroscience: the "dependency hell" that arises when trying to coordinate the diverse software packages required for a typical neuroimaging analysis pipeline, particularly those involving multimodal data integration [2].
+NITRC-CE leverages container virtualization through Docker to package complete software stacks that include core neuroimaging toolkits such as [[pysurfer]], [[fsl-melodic]], [[SPM]], [[mrtrix3-connectome]], Mne Python, [[eeglab]], Dipy, and numerous additional specialized packages. Each container image is built following best practices for neuroimaging workflows, ensuring that software versions are pinned and compatible with each other. This approach addresses one of the most persistent challenges in computational neuroscience: the "dependency hell" that arises when trying to coordinate the diverse software packages required for a typical neuroimaging analysis pipeline, particularly those involving multimodal data integration [2].
 
-The computational environment supports full neuroimaging workflows spanning [[structural connectivity|diffusion tensor imaging (DTI)]] tractography, [[functional connectivity|fMRI resting-state analysis]], [[EEG]] and [[MEG]] source reconstruction, and voxel-based morphometry. Researchers can instantiate pre-built containers that include complete software ecosystems—for example, a container containing both [[fsl-melodic]] and [[mrtrix3-connectome]] for integrated diffusion analysis, or another bundling [[mne-python]] with [[eeglab]] for electrophysiology preprocessing. This modular design allows users to select precisely the software combination needed for their specific analysis pipeline.
+The computational environment supports full neuroimaging workflows spanning [[structural connectivity|diffusion tensor imaging (DTI)]] tractography, [[functional connectivity|fMRI resting-state analysis]], [[EEG]] and [[MEG]] source reconstruction, and voxel-based morphometry. Researchers can instantiate pre-built containers that include complete software ecosystems—for example, a container containing both [[fsl-melodic]] and [[mrtrix3-connectome]] for integrated diffusion analysis, or another bundling Mne Python with [[eeglab]] for electrophysiology preprocessing. This modular design allows users to select precisely the software combination needed for their specific analysis pipeline.
 
 ## Relationship to TVB
 
@@ -46,13 +46,13 @@ What distinguishes NITRC-CE from general-purpose container platforms is its cura
 
 ## Relationship to Other Resources
 
-NITRC-CE occupies a niche distinct from both general container registries and integrated neuroimaging platforms. Compared to [[brainlife]]—which offers a fully-managed cloud computing service with graphical interface—NITRC-CE provides more granular control suitable for users comfortable with command-line execution. Unlike [[neurodesk]], which similarly provides containerized neuroimaging software environments, NITRC-CE emphasizes accessibility for the broader research community and maintains close integration with the original NITRC software repository [2]. The platform complements resources like [[BIDS]] and [[datalad]] by providing the computational environment in which these data standards can be operationalized. NITRC-CE also relates to [[NITRC]] proper (the original software repository), which serves as the distribution mechanism for the container images.
+NITRC-CE occupies a niche distinct from both general container registries and integrated neuroimaging platforms. Compared to [[brainlife]]—which offers a fully-managed cloud computing service with graphical interface—NITRC-CE provides more granular control suitable for users comfortable with command-line execution. Unlike Neurodesk, which similarly provides containerized neuroimaging software environments, NITRC-CE emphasizes accessibility for the broader research community and maintains close integration with the original NITRC software repository [2]. The platform complements resources like [[BIDS]] and [[datalad]] by providing the computational environment in which these data standards can be operationalized. NITRC-CE also relates to [[NITRC]] proper (the original software repository), which serves as the distribution mechanism for the container images.
 
 ## Related Software
 
 - [[NITRC]]
 - [[brainlife]]
-- [[neurodesk]]
+- Neurodesk
 - [[datalad]]
 - [[BIDS]]
 - [[pysurfer]]

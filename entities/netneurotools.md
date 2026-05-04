@@ -13,7 +13,7 @@ Netneurotools is a Python toolbox for network neuroscience research, developed b
 
 Netneurotools serves as a bridge between raw neuroimaging data and network-theoretic analyses that characterize brain connectivity patterns. The toolbox implements graph-theoretic measures from the brain connectivity literature, including metrics for network segregation (clustering coefficient, modularity), integration (path length, efficiency), and centralities (degree, betweenness, eigenvector) [[cite:netneurotools-github]]. Beyond metric computation, netneurotools provides utilities for working with common neuroimaging file formats, brain parcellations, and coordinate systems that facilitate the construction of connectivity matrices from imaging data.
 
-The software is designed to integrate with the broader Python neuroimaging ecosystem, particularly libraries such as [[nilearn]], [[nibabel]], and [[bctpy]]. This interoperability allows researchers to incorporate netneurotools functions into existing preprocessing and analysis pipelines that handle [[fMRI]], [[diffusion-imaging]], or [[dti]] data. The package emphasizes functional convenience, providing high-level functions that combine multiple operations—such as loading a parcellation, extracting time series, and computing connectivity matrices—into single function calls [[cite:netneurotools-docs]].
+The software is designed to integrate with the broader Python neuroimaging ecosystem, particularly libraries such as Nilearn, [[nibabel]], and [[bctpy]]. This interoperability allows researchers to incorporate netneurotools functions into existing preprocessing and analysis pipelines that handle [[fMRI]], [[diffusion-imaging]], or [[dti]] data. The package emphasizes functional convenience, providing high-level functions that combine multiple operations—such as loading a parcellation, extracting time series, and computing connectivity matrices—into single function calls [[cite:netneurotools-docs]].
 
 ## Key Features
 
@@ -35,7 +35,7 @@ In practice, researchers using TVB may employ netneurotools to analyze the simul
 
 ## Related Software
 
-Netneurotools operates within an ecosystem of Python tools for network neuroscience and brain connectivity analysis. Related packages include [[bctpy]] (Brain Connectivity Toolbox in Python), which provides a comprehensive set of network metrics; [[brainspace]] for manifold learning and dimensionality reduction on connectivity data; and [[nilearn]] for general neuroimaging data manipulation and decoding. The toolbox also complements connectivity-focused packages such as [[mne-connectivity]] for EEG/MEG connectivity analysis.
+Netneurotools operates within an ecosystem of Python tools for network neuroscience and brain connectivity analysis. Related packages include [[bctpy]] (Brain Connectivity Toolbox in Python), which provides a comprehensive set of network metrics; [[brainspace]] for manifold learning and dimensionality reduction on connectivity data; and Nilearn for general neuroimaging data manipulation and decoding. The toolbox also complements connectivity-focused packages such as [[mne-connectivity]] for EEG/MEG connectivity analysis.
 
 For whole-brain modeling workflows, netneurotools can be combined with TVB's [[tvb-library]] to create analysis pipelines that compare simulated and empirical network properties, supporting the goal of personalized brain modeling through parameter optimization and model validation.
 

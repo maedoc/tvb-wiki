@@ -18,7 +18,7 @@ The atlas divides each cerebral hemisphere into regions organized by major corti
 
 ## Integration with FreeSurfer and Neuroimaging Pipelines
 
-The primary tool for generating Destrieux Atlas parcellations is [[freesurfer]], an open-source suite for processing and analyzing neuroimaging data, particularly T1-weighted structural MRI scans. During the standard FreeSurfer recon-all processing pipeline, the Destrieux Atlas is applied to segment the cortical ribbon into its constituent regions automatically [4]. The resulting parcellation labels can be used for region-of-interest analyses, connectivity computations, and as input to whole-brain modeling frameworks. This integration has made the Destrieux Atlas a standard option in many neuroimaging preprocessing pipelines, alongside other popular atlases like the [[desikan-killiany-atlas]] (34 regions/hemisphere) [5] and the [[glasser-atlas]] (180 regions/hemisphere) [6].
+The primary tool for generating Destrieux Atlas parcellations is Freesurfer, an open-source suite for processing and analyzing neuroimaging data, particularly T1-weighted structural MRI scans. During the standard FreeSurfer recon-all processing pipeline, the Destrieux Atlas is applied to segment the cortical ribbon into its constituent regions automatically [4]. The resulting parcellation labels can be used for region-of-interest analyses, connectivity computations, and as input to whole-brain modeling frameworks. This integration has made the Destrieux Atlas a standard option in many neuroimaging preprocessing pipelines, alongside other popular atlases like the [[desikan-killiany-atlas]] (34 regions/hemisphere) [5] and the [[glasser-atlas]] (180 regions/hemisphere) [6].
 
 ## Use in Whole-Brain Modeling and Connectomics
 
@@ -30,7 +30,7 @@ The Destrieux Atlas represents one of several anatomical parcellation schemes av
 
 ## Technical Considerations and Preprocessing
 
-When using the Destrieux Atlas for [[whole-brain]] analyses, researchers must ensure proper registration between the atlas and their target neuroimaging data. The FreeSurfer pipeline applies several preprocessing steps to ensure accuracy, including skull stripping, intensity normalization, and white matter segmentation [4]. Quality control measures such as those implemented in tools like [[mriqc]] are essential to verify parcellation accuracy, particularly when working with clinical populations or data with motion artifacts [10]. The atlas labels are typically stored in CIFTI or GIFTI format for compatibility with modern neuroimaging file standards and can be visualized using tools like [[connectome-workbench]] or [[freesurfer]]'s freeview interface [4].
+When using the Destrieux Atlas for [[whole-brain]] analyses, researchers must ensure proper registration between the atlas and their target neuroimaging data. The FreeSurfer pipeline applies several preprocessing steps to ensure accuracy, including skull stripping, intensity normalization, and white matter segmentation [4]. Quality control measures such as those implemented in tools like [[mriqc]] are essential to verify parcellation accuracy, particularly when working with clinical populations or data with motion artifacts [10]. The atlas labels are typically stored in CIFTI or GIFTI format for compatibility with modern neuroimaging file standards and can be visualized using tools like [[connectome-workbench]] or Freesurfer's freeview interface [4].
 
 ## Relationship to TVB
 

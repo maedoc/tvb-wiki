@@ -19,7 +19,7 @@ updated: '2026-05-04'
 # NEST (NEural Simulation Tool)
 
 NEST is a simulator for spiking [[neural-network]] models, widely used in [[computational-neuroscience]].
-[[fooof]]
+Fooof
 
 ## Overview
 

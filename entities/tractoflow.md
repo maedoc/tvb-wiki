@@ -18,7 +18,7 @@ TractoFlow is a fully automated and reproducible **diffusion MRI preprocessing p
 
 TractoFlow addresses a critical bottleneck in diffusion imaging workflows: the lack of a unified, validated preprocessing pipeline that produces consistent, high-quality outputs for downstream tractography. Traditional manual preprocessing is time-consuming, error-prone, and difficult to reproduce across studies (Gorgolewski et al., 2016). TractoFlow automates the entire preprocessing chain—from raw DICOM or NIfTI inputs to tractography-ready diffusion tensors and fiber orientation distributions—ensuring methodological consistency and facilitating reproducible research.
 
-The pipeline is implemented in Python and leverages well-established neuroimaging libraries, primarily [[ANTs]] for registration (Tustison et al., 2021) and [[dipy]] for diffusion-specific processing (Garyfallidis et al., 2014). It follows [[BIDS]] conventions for input and output organization, making it compatible with the broader neuroimaging data ecosystem and facilitating integration with databases like [[UK-Biobank]] and [[HCP-dataset]] that require standardized data formats.
+The pipeline is implemented in Python and leverages well-established neuroimaging libraries, primarily [[ANTs]] for registration (Tustison et al., 2021) and Dipy for diffusion-specific processing (Garyfallidis et al., 2014). It follows [[BIDS]] conventions for input and output organization, making it compatible with the broader neuroimaging data ecosystem and facilitating integration with databases like [[UK-Biobank]] and [[HCP-dataset]] that require standardized data formats.
 
 ## Technical Pipeline
 
@@ -56,7 +56,7 @@ The combination of TractoFlow for preprocessing, [[MRtrix3]] or [[AFQ]] for trac
 ## Related Software
 
 - [[ANTs]] — used for registration and transformations
-- [[dipy]] — used for diffusion processing and tensor estimation
+- Dipy — used for diffusion processing and tensor estimation
 - [[MRtrix3]] — alternative tractography tool often used with TractoFlow outputs
 - [[AFQ]] — automated fiber quantification pipeline
 - [[tractography]] — the broader methodology this pipeline serves

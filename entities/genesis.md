@@ -38,7 +38,7 @@ While GENESIS itself is primarily a single‑neuron and small‑network simulato
 
 Within the [[TVB]] (The Virtual Brain) ecosystem, GENESIS serves primarily as a source of reference models and validation benchmarks. Researchers using TVB can compare the simplified dynamics of [[neural‑mass‑models]] such as the [[Jansen‑Rig model]] or [[Wong‑Wang model]] against more detailed simulations generated in GENESIS to assess the biological validity of their approximations. This validation process is particularly important for applications in [[epilepsy‑modeling]] and [[personalized‑brain‑modeling]], where the accurate representation of neural dynamics can have direct clinical implications.
 
-GENESIS also contributed to the development of the [[neuromorpho‑toolkit]] standard for describing neural models in a format that can be shared across different simulation platforms (Bower et al., 1998). Models originally developed in GENESIS have been ported to NeuroML format, enabling their use in other simulators including [[NEURON]], [[brian2]], and [[PyNN]]‑based frameworks.
+GENESIS also contributed to the development of the [[neuromorpho‑toolkit]] standard for describing neural models in a format that can be shared across different simulation platforms (Bower et al., 1998). Models originally developed in GENESIS have been ported to NeuroML format, enabling their use in other simulators including [[NEURON]], Brian2, and [[PyNN]]‑based frameworks.
 
 ## Comparison with NEURON
 
