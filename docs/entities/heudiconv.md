@@ -10,7 +10,7 @@ tags:
 - reproducibility
 title: heudiconv
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 ## Overview
@@ -27,7 +27,7 @@ The tool fits within a broader ecosystem of BIDS-compliant utilities. Unlike [[b
 
 heudiconv operates as a flexible, heuristic-driven converter rather than a rigid pipeline. Users provide a "converter" information file—typically a Python dictionary or module—that specifies how to map DICOM header fields (PatientID, SeriesDescription, ProtocolName, etc.) onto BIDS entities (subject, session, datatype, suffix, etc.). The tool then walks through the raw DICOM directory, groups files by acquisition, applies the specified heuristics, and writes output in the correct BIDS hierarchy. Key features include:
 
-**Automatic metadata extraction**: heudiconv parses DICOM headers to extract essential fields such as repetition time (TR), echo time (TE), flip angle, and slice timing, embedding them in accompanying JSON sidecars. This metadata is critical for downstream processing with tools like [[SPM]], [[FSL]], or [[MRtrix3]] [1][2].
+**Automatic metadata extraction**: heudiconv parses DICOM headers to extract essential fields such as repetition time (TR), echo time (TE), flip angle, and slice timing, embedding them in accompanying JSON sidecars. This metadata is critical for downstream processing with tools like SPM, FSL, or MRtrix3 [1][2].
 
 **Primary support for MRI modalities**: The tool's core strength lies in handling structural MRI, functional MRI (fMRI), and [[diffusion-mri]] (DTI/DWI) data. Support for other modalities such as [[EEG]], [[MEG]], and PET exists but is more limited, experimental, or typically handled by modality-specific conversion tools [2][3].
 

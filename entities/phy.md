@@ -25,7 +25,7 @@ Phy emerged in the early 2010s as part of a broader movement toward open‑sourc
 
 ## Key Features
 
-Phy implements several features that distinguish it from other spike‑sorting tools. Its core architecture separates the data preprocessing pipeline from the GUI, allowing users to run sorting algorithms in batch and then interactively refine the results. The software supports multiple file formats common in [[electrophysiology]], including raw binary files, [[NWB]] (Neurodata Without Borders) format, and data exported from acquisition systems like [[Open‑Ephys]] and SpikeGLX[5]. This flexibility makes Phy an excellent front‑end for workflows involving [[spikeinterface]] and [[neo]] for data handling.
+Phy implements several features that distinguish it from other spike‑sorting tools. Its core architecture separates the data preprocessing pipeline from the GUI, allowing users to run sorting algorithms in batch and then interactively refine the results. The software supports multiple file formats common in [[electrophysiology]], including raw binary files, NWB (Neurodata Without Borders) format, and data exported from acquisition systems like [[Open‑Ephys]] and SpikeGLX[5]. This flexibility makes Phy an excellent front‑end for workflows involving [[spikeinterface]] and [[neo]] for data handling.
 
 A hallmark of Phy is its rich visualization capabilities. The GUI displays feature‑space projections (e.g., [[principal-component-analysis]], t‑SNE) alongside waveform overlays, allowing users to visually assess cluster quality and merge or split spike groups. Phy also includes tools for handling "noise" or multi‑unit activity, and supports the manual creation of templates for cells that automated algorithms miss. Importantly, Phy's entire workflow is scriptable via Python, enabling reproducible pipelines that can be shared as part of the broader [[reproducibility]] ecosystem in [[computational‑neuroscience]][6].
 
@@ -47,9 +47,7 @@ The following publications are foundational to understanding Phy and its context
 
 2. Gilboa M, R. R. tringer, et et al. (2020). “SpikeInterface: a unified framework for extracellular recordings.” *eLife* 9: e61834. — Documents the integration between Phy and the SpikeInterface ecosystem.
 
-3. Rey H. G., Pedreira C., Quian Quiroga R. (2015). “Past, present and future of spike sorting techniques.” *Brain Research Bulletin* 119: 106–117. — Review of spike sorting methodology and context for manual curation tools like Phy.
-
-4. Harris K. D., Quiroga R. Q., Freeman J., Lee D. (2016). “Improving data quality in neuronal ensemble recordings.” *Nature Neuroscience* 19(9): 1165–1174. — Addresses the importance of accurate spike sorting for neural decoding.
+3. Rey H. G., Pedreira C., Quian Quiroga R. (5
 
 ## References
 

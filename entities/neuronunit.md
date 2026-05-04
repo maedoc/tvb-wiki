@@ -29,7 +29,6 @@ tags:
 title: NeuronUnit
 type: entity
 updated: 2026-04-24
----
 
 # NeuronUnit
 
@@ -119,11 +118,11 @@ This paper describes the NeuroElectro database, which serves as NeuronUnit's pri
 
 - [[SciUnit]] — The scientific unit testing framework upon which NeuronUnit is built
 - [[NEURON]] — Multi-compartment neuron simulator; primary backend for detailed model validation
-- [[Brian]] — Spiking [[neural-network]] simulator; can be integrated via SciUnit interfaces
+- [[brian2]] — Spiking [[neural-network]] simulator; can be integrated via SciUnit interfaces
 - [[NEST]] — Point neuron network simulator for large-scale network modeling
 - [[Neo]] — Data model for electrophysiology; used for spike and signal representation
 - [[Elephant]] — Analysis toolkit for Neo data; complements NeuronUnit with quantitative metrics
-- [[PyNN]] — Simulator-independent Python API for neuronal network models
+- PyNN — Simulator-independent Python API for neuronal network models
 - **NeuroElectro** — Database of neuron electrophysiology; NeuronUnit's primary data source for validation targets
 - **[[allen-sdk]]** — Tools for accessing [[allen-brain-atlas]] and Allen Cell Types data
 
