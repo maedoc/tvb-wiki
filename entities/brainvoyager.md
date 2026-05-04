@@ -57,7 +57,7 @@ BrainVoyager was a pioneer in real-time fMRI neurofeedback applications, enablin
 - Integration with external stimulation devices
 
 ### HCP Format Compatibility
-Modern versions support connectivity analysis compatible with the [[human-[[connectome]]-project]] (HCP) file formats, allowing seamless exchange of data with other neuroimaging ecosystems.
+Modern versions support connectivity analysis compatible with the [[mrtrix3-connectome]] (HCP) file formats, allowing seamless exchange of data with other neuroimaging ecosystems.
 
 ## Relationship to TVB
 

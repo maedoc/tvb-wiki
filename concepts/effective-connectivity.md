@@ -42,7 +42,7 @@ Model-based methods estimate effective connectivity by fitting parametric models
 
 **Structural Equation Modeling (SEM)** offers a simpler, more phenomenological approach, treating brain regions as nodes and effective connections as directed edges in a path model. SEM specifies a set of hypothesized causal relationships and tests how well the model explains the observed covariance structure in the data. While less physiologically grounded than DCM, SEM has been widely used in early connectivity studies and provides a useful bridge between purely statistical and mechanistically motivated approaches.
 
-**Granger Causality** provides a model-free alternative based on temporal precedence. If knowing the past of time series X helps predict the future of time series Y beyond of what is already known from Y's own past, then X is said to Granger-cause Y. This approach has been widely applied to [[eeg]] and [[meg]] data, though its validity as a measure of true causal influence remains debated because Granger causality can detect directed statistical dependencies that may not correspond to direct causal connections.
+**Granger Causality** provides a model-free alternative based on temporal precedence. If knowing the past of time series X helps predict the future of time series Y beyond of what is already known from Y's own past, then X is said to Granger-cause Y. This approach has been widely applied to [[eeg]] and [[meg]] data, though its validity as a measure of true causal influence remains debated because Granger causality can detect directed statistical dependencies that may not correspond to direct causal connections. (see the MVGC toolbox[[mvgc]])
 
 ### Model-Free Approaches
 

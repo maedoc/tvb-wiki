@@ -17,3 +17,4 @@ Neuromorphic Computing — a concept in [[whole-brain|whole-brain modeling]] and
 
 ## Related Concepts
 * [[carlsim]]
+* [[neurom]]

@@ -67,7 +67,7 @@ Performance considerations arise when analyzing dense connectivity matrices: the
 
 [^1]: Larivière, S., Bayrak, Ş., Vasung, L., et al. (2021). BrainStat: A toolbox for brain-wide statistics and multi-model descriptions. *Neuroimage*, 245, 118337. https://doi.org/10.1016/j.neuroimage.2021.118337
 
-[^2]: Van Essen, D.C., Smith, S.M., Barch, D.M., et al. (2013). The WU-Minn [[human-[[connectome]]-project]]: An overview. *Neuroimage*, 80, 62-79. https://doi.org/10.1016/j.neuroimage.2013.05.041
+[^2]: Van Essen, D.C., Smith, S.M., Barch, D.M., et al. (2013). The WU-Minn [[mrtrix3-connectome]]: An overview. *Neuroimage*, 80, 62-79. https://doi.org/10.1016/j.neuroimage.2013.05.041
 
 [^3]: Nichols, T.E., & Holmes, A.P. (2001). Nonparametric permutation tests for functional neuroimaging: A primer with examples. *Human Brain Mapping*, 15(1), 1-25. https://doi.org/10.1002/hbm.1058
 

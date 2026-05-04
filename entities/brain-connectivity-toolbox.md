@@ -46,3 +46,4 @@ The Brain Connectivity Toolbox was first released in 2009 alongside a seminal re
 - [[small-world-networks]] — a key topological property of brain networks
 - [[rich-club]] — densely connected hub regions in the brain
 [[bcbtoolkit]]
+[[neuromaps]]

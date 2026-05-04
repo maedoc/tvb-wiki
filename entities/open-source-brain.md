@@ -1,7 +1,12 @@
 ---
 created: 2025-01-15
 sources:
-- raw/papers/sanz-leon-2013.md
+- '[Gleeson et al. 2019, Neuron](https://doi.org/10.1016/j.neuron.2019.05.019)'
+- '[Gleeson et al. 2010, PLoS Comput Biol](https://doi.org/10.1371/journal.pcbi.1000815)'
+- '[Cannon et al. 2014, Front Neuroinform](https://doi.org/10.3389/fninf.2014.00079)'
+- '[Davison et al. 2009, Front Neuroinform](https://doi.org/10.3389/neuro.11.011.2008)'
+- '[Sanz Leon et al. 2013, Front Neuroinform](https://doi.org/10.3389/fninf.2013.00010)'
+- '[McDougal et al. 2017, J Comput Neurosci](https://doi.org/10.1007/s10827-016-0623-7)'
 tags:
 - software-neuroml
 - computational-neuroscience
@@ -21,7 +26,7 @@ Open Source Brain (OSB) is an online platform and community repository for shari
 
 Computational neuroscience has historically suffered from a reproducibility crisis comparable to that in experimental sciences. When researchers publish computational models in journal articles, they typically provide model code that is tightly coupled to a specific simulator (such as [[neuron]], [[brian2]], or [[nest]]), written in a custom format, and poorly documented with respect to parameters, initial conditions, and numerical methods. This siloed approach makes it extraordinarily difficult for other laboratories to build upon existing work, to verify published claims, or to compare competing models directly. Open Source Brain emerged as a response to this fragmentation, promoting the use of [[neuroml]] (Neural Open Markup Language) as a simulator-independent standard for specifying neural models. By encoding models in [[neuroml]], researchers can execute the same mathematical specification across multiple simulator backends, compare implementations for numerical consistency, and archive the canonical form of a model independent of whichever simulator was used for the original publication.
 
-The platform also fills a niche distinct from other model repositories. While [[modeldb]] (hosted at Yale) focuses primarily on archiving published models with minimal curation, OSB emphasizes active community involvement, model validation against multiple simulators, and integration with the broader [[neuroinformatics]] ecosystem including tools like [[pynest]], PyBrain, and [[nengo]]. OSB models are also exported to the [[ebrains]] infrastructure, providing European neuroscience researchers with a pathway to integrate their computational work into the European Brain Project's data ecosystem.
+The platform also fills a niche distinct from other model repositories. While [[modeldb]] (hosted at Yale) focuses primarily on archiving published models with minimal curation, OSB emphasizes active community involvement, model validation against multiple simulators, and integration with the broader [[neuromorpho-toolkit]] ecosystem including tools like [[pynest]], PyBrain, and [[nengo]]. OSB models are also exported to the [[ebrains]] infrastructure, providing European neuroscience researchers with a pathway to integrate their computational work into the European Brain Project's data ecosystem.
 
 ## Key Features
 
@@ -35,7 +40,7 @@ While Open Source Brain and [[the-virtual-brain]] (TVB) serve different primary 
 
 ## Related Software
 
-Open Source Brain operates within a broader ecosystem of neuroscience software tools. The platform is closely tied to [[neuroml]] as its primary model specification language and to the [[lems]] (Low-Electrophysiology Model Specification) framework that provides the execution engine for mathematical descriptions. Model curation and validation rely on the [[pynest]] interface for NEST simulations and the [[brian2]] simulator for Python-based implementations. For visualization and analysis, OSB integrates with tools like [[pymvpa]] for multivariate pattern analysis of simulation outputs and [[connectome-workbench]] for exploring brain parcellations that inform network topology. The platform also maintains interoperability with [[braininit]] and [[brainlife]] repositories for sharing full analysis pipelines alongside raw model code.
+Open Source Brain operates within a broader ecosystem of neuroscience software tools. The platform is closely tied to [[neuroml]] as its primary model specification language and to the [[lems]] (Low-Electrophysiology Model Specification) framework that provides the execution engine for mathematical descriptions. Model curation and validation rely on the [[pynest]] interface for NEST simulations and the [[brian2]] simulator for Python-based implementations. For visualization and analysis, OSB integrates with tools like [[pymvpa]] for multivariate pattern analysis of simulation outputs and [[connectome-workbench]] for exploring brain parcellations that inform network topology. The platform also maintains interoperability with [[brainsuite]] and [[brainlife]] repositories for sharing full analysis pipelines alongside raw model code.
 
 ## Key Papers
 

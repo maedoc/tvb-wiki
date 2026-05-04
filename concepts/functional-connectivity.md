@@ -47,7 +47,7 @@ Unlike [[structural-connectivity]] (anatomical connections), functional connecti
 ## Resting-State Networks
 
 Functional connectivity at rest reveals intrinsic-connectivity-networks including:
-- [[default-mode-network]]
+- [[default-mode-network]] [[nancy-andrews-hanna]]
 - Sensorimotor network
 - Visual network
 - Attention networks
@@ -101,3 +101,27 @@ Functional connectivity can exist without direct structural connections due to:
 - Dynamic synchronization
 
 See honey-2009 for empirical evidence of the SC-FC relationship.
+
+## ORPHAN PAGE CONTEXT (nancy-andrews-hanna)
+---
+created: 2026-04-20
+sources:
+- raw/papers/damoiseaux-2008.md
+- raw/papers/buckner-andrews-hanna-schacter-2008.md
+- raw/papers/andrews-hanna-2010.md
+- raw/papers/grady-2012.md
+- raw/papers/fjell-walhovd-2010.md
+- raw/papers/arxiv-2602.18715.md
+tags:
+- people-researcher
+- default-mode-network
+- aging-brain
+- neuroimaging-fmri
+title: Nancy Andrews-Hanna
+type: entity
+updated: '2026-04-29'
+---
+
+# Nancy Andrews-Hanna (Jessica R. Andrews-Hanna)
+
+Cognitive neuroscientist specializing in the default

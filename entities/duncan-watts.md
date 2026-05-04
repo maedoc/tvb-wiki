@@ -36,17 +36,17 @@ Beyond the small-world model, Watts has contributed to understanding contagion p
 
 ## Relationship to Other Researchers and Concepts
 
-Watts' work is closely connected to several other major developments in network science. The small-world model preceded and complemented the [[scale-free-networks]] framework introduced by [[albert-laszlo-barabási]] and Réka Albert in 1999, which demonstrated that many real-world networks exhibit [[preferential-attachment]] in their growth dynamics [Barabási & Albert, 1999]. Together, these papers established the foundation of modern [[network-dynamics]] research.
+Watts' work is closely connected to several other major developments in network science. The small-world model preceded and complemented the [[scale-free-networks]] framework introduced by [[albert-laszlo-barabasi]] and Réka Albert in 1999, which demonstrated that many real-world networks exhibit [[preferential-attachment]] in their growth dynamics [Barabási & Albert, 1999]. Together, these papers established the foundation of modern [[network-dynamics]] research.
 
 Watts has collaborated extensively with [[steven-strogatz]] and other researchers in the field. His work intersects with [[community-detection]] algorithms, [[modularity]] analysis, and the study of [[network-hubs]] in complex systems.
 
 ## Significance for Whole-Brain Modeling
 
-In the context of [[whole-brain-modeling]] and computational neuroscience, Watts' contributions are foundational. The small-world hypothesis provides a theoretical justification for why [[structural-connectivity]] patterns observed in diffusion tensor imaging support both segregated, specialized processing and rapid global integration—key requirements for brain function. The model's emphasis on the interplay between local connectivity density (measured by the [[clustering-coefficient]]) and global efficiency (measured by average [[path-length]]) has guided the development of personalized brain models in software platforms like [[the-virtual-brain]].
+In the context of [[whole-brain-modeling]] and computational neuroscience, Watts' contributions are foundational. The small-world hypothesis provides a theoretical justification for why [[structural-connectivity]] patterns observed in diffusion tensor imaging support both segregated, specialized processing and rapid global integration—key requirements for brain function. The model's emphasis on the interplay between local connectivity density (measured by the clustering-coefficient) and global efficiency (measured by average path-length) has guided the development of personalized brain models in software platforms like [[the-virtual-brain]].
 
 ## Key Publications
 
-- Watts, D. J., & Strogatz, S. H. (1998). Collective dynamics of 'small-world' networks. *Nature*, 393(6684), 440–442.
+- Watts, D. J., & Strogatz, S. H. (1998). Collective dynamics of 'small‑world' networks. *Nature*, 393(6684), 440–442.
 - Barabási, A. L., & Albert, R. (1999). Emergence of scaling in random networks. *Science*, 286(5439), 509–512.
 - Watts, D. J. (2003). *Six Degrees: The Science of a Connected Age*. W.W. Norton.
 
@@ -59,7 +59,7 @@ In the context of [[whole-brain-modeling]] and computational neuroscience, Watts
 - [[structural-connectivity]] – Anatomical connections between brain regions
 - [[functional-connectivity]] – Statistical dependencies between brain regions
 - [[random-networks]] – Networks with random edge placement
-- [[scale-free-networks]] – Networks with power-law degree distributions
-- [[clustering-coefficient]] – Measure of local [[connectivity]] density
-- [[path-length]] – Average shortest path between nodes in a network
+- [[scale-free-networks]] – Networks with power‑law degree distributions
+- clustering-coefficient – Measure of local [[connectivity]] density
+- path-length – Average shortest path between nodes in a network
 - [[network-hubs]] – Highly connected nodes that play central roles
