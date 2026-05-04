@@ -48,3 +48,21 @@ For whole-brain modeling workflows, netneurotools can be combined with TVB's [[t
 - Markello RD, Hansen JY, Liu ZQ, et al. "neuromaps: structural and functional interpretation of brain maps." *Nature Methods* (2022). [[cite:neuromaps-paper]]
 
 - Suarez LE, Markello RD, Betzel RF, Misic B. "Linking structure and function in macroscale brain networks." *Trends in Cognitive Sciences* (2020). [[cite:structure-function]]
+
+## References
+
+- netneurolab/netneurotools. GitHub repository. https://github.com/netneurolab/netneurotools
+
+- netneurotools documentation. https://netneurotools.readthedocs.io/
+
+- Liu ZQ et al. (2025). netneurotools: a trainee-oriented approach to network neuroscience. bioRxiv. https://www.biorxiv.org/content/10.1101/2025.02.14.638374v1
+
+- Schaefer A, Kong R, Gordon EM, et al. (2018). Local-Global Parcellation of the Human Cerebral Cortex from Intrinsic Functional Connectivity MRI. *Cerebral Cortex*, 28(9), 3093-3104.
+
+- Cammoun L, Hamilton RA, Tithof J, et al. (2012). Mapping the human brain cortex: cortical parcellation from MRI data. *Journal of Neuroscience*, 32(43), 15137-15148.
+
+- Glasser MF, Coalson TS, Robinson EC, et al. (2016). A multi-modal parcellation of human cerebral cortex. *Nature*, 536, 171-178.
+
+- Tian Y, Zhang J, Yeong CH, et al. (2020). A multi-scale hippocampal parcellation framework for mapping sub-regional structure-function relationships. *NeuroImage*, 223, 117381.
+
+- Van Essen DC, Glasser MF. (2018). The Human Connectome Project: current progress and frontiers of development. *NeuroImage*, 180, 280-286.

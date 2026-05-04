@@ -41,3 +41,9 @@ This paper has been cited over 200 times and serves as the canonical reference f
 ## Related Software
 
 NetPyNE shares conceptual territory with other neural simulation platforms including [[neuron]], [[nest]], and [[brian2]], each offering different tradeoffs between ease of specification and biophysical detail. For users interested in [[whole-brain-simulators]], [[the-virtual-brain]] provides a complementary macroscopic approach, while [[tvb-multiscale]] offers capabilities for coupling different simulation scales. Other related tools include [[pynest]] (Python bindings for NEST), [[brian2genn]] (GPU-accelerated Brian2), and [[arbor]] (which focuses on performance scalability for detailed single-cell models).
+
+## References
+
+1. Dura-Bernal S, Suter BA, Gleeson P, Cantarelli M, Quintana A, Rodriguez F, Kedziora DJ, Chadderdon GL, Kerr CC, Neymotin SA, McDougal RA, Hines M, Shepherd GMG, Lytton WW. (2019). NetPyNE, a tool for data-driven multiscale modeling of brain circuits. *eLife* 8:e44494. https://doi.org/10.7554/eLife.44494
+
+2. Co-simulation interface marks a new milestone for multiscale modelling. (2022). EBRAINS. https://www.ebrains.eu/news-and-events/co-simulation-interface-marks-a-new-milestone-for-multiscale-modelling

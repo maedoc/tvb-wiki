@@ -13,7 +13,7 @@ tags:
 - brain-network
 title: NEST
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 # NEST (NEural Simulation Tool)
@@ -54,7 +54,7 @@ Jordan et al. (2018) demonstrated NEST's near-perfect weak scaling:
 
 - [[TVB]] — [[neural-mass-models|Neural mass model]] simulator for whole-[[brain-dynamics]]
 - [[NEURON]] — Multi-compartment detailed neuron simulations
-- [[ModelDB]] — Repository for sharing NEST and other simulator models
+- [[model-validation]] — Repository for sharing NEST and other simulator models
 
 ## Related Concepts
 
@@ -65,7 +65,7 @@ Jordan et al. (2018) demonstrated NEST's near-perfect weak scaling:
 - [[tvb-multiscale|Tvb Multiscale]]
 ## Key Researchers
 
-- [[Markus Diesmann]] — Core NEST developer and lead researcher
+- Markus Diesmann — Core NEST developer and lead researcher
 
 ## Use Cases
 

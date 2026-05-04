@@ -63,3 +63,5 @@
 ## [2026-05-04 19:24] DeepResearch: 17 papers added via focused research
 
 ## [2026-05-04 19:26] Improve: 5 pages improved (mrtrix3, coreneuron, brian2, rabies, fieldtrip)
+
+## [2026-05-04 19:33] SoftwareMapper: 25 pages created
