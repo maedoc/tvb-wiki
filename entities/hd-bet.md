@@ -1,17 +1,19 @@
 ---
-title: HD-BET
 created: 2026-05-04
-updated: 2026-05-04
-type: entity
-tags: [software-brain-modeling, software-neuroimaging]
 sources: []
+tags:
+- software-brain-modeling
+- software-neuroimaging
+title: HD-BET
+type: entity
+updated: '2026-05-04'
 ---
 
 # HD-BET
 
 ## Overview
 
-HD-BET (Hip-deep Brain Extraction Tool) is a deep learning-based software tool for automatic brain extraction—also known as skull stripping—from T1-weighted magnetic resonance imaging (MRI) scans. Developed by Isensee et al. and first presented at the MICCAI 2019 conference, HD-BET employs a 3D convolutional neural network trained on the [[hcp-dataset]] and other publicly available brain imaging datasets to robustly segment brain tissue from surrounding anatomical structures including skull, dura, and venous sinuses. The tool addresses a fundamental preprocessing challenge in quantitative neuroimage analysis: obtaining a clean, accurate brain mask that excludes non-brain tissues while preserving the full brain parenchyma, including challenging regions such as the cerebellum and brainstem that are frequently eroded or over-segmented by classical threshold-based methods.
+HD-BET (Hip-deep Brain Extraction Tool) is a deep learning-based software tool for automatic brain extraction—also known as skull stripping—from T1-weighted magnetic resonance imaging (MRI) scans. Developed by Isensee et al. and first presented at the MICCAI 2019 conference, HD-BET employs a 3D convolutional [[neural-network]] trained on the [[hcp-dataset]] and other publicly available brain imaging datasets to robustly segment brain tissue from surrounding anatomical structures including skull, dura, and venous sinuses. The tool addresses a fundamental preprocessing challenge in quantitative neuroimage analysis: obtaining a clean, accurate brain mask that excludes non-brain tissues while preserving the full brain parenchyma, including challenging regions such as the cerebellum and brainstem that are frequently eroded or over-segmented by classical threshold-based methods.
 
 ## Key Features
 
@@ -23,7 +25,7 @@ The software is distributed as a Python package with both command-line interface
 
 ## Technical Considerations and Limitations
 
-Several technical considerations affect HD-BET's practical deployment. The tool was optimized for T1-weighted MPRAGE and SPGR sequences commonly used in structural neuroimaging; performance degrades for T2-weighted, FLAIR, or contrast-enhanced images unless retrained on appropriate data. Memory requirements scale with the input volume size, typically requiring 8-12 GB of RAM for whole-brain volumes at 1mm isotropic resolution. Post-processing steps such as cerebellar peduncle correction or brainstem refinement may be necessary for specific anatomical regions of interest.
+Several technical considerations affect HD-BET's practical deployment. The tool was optimized for T1-weighted MPRAGE and SPGR sequences commonly used in structural [[neuroimaging]]; performance degrades for T2-weighted, FLAIR, or contrast-enhanced images unless retrained on appropriate data. Memory requirements scale with the input volume size, typically requiring 8-12 GB of RAM for [[whole-brain]] volumes at 1mm isotropic resolution. Post-processing [[steps]] such as cerebellar peduncle correction or brainstem refinement may be necessary for specific anatomical regions of interest.
 
 Compared to classical approaches like BET or ROBEX, HD-BET generally achieves superior accuracy on diverse data but requires GPU acceleration for practical throughput. The deep learning model introduces dependencies on PyTorch and associated libraries, adding complexity to containerized environments. For large cohort studies, the computational overhead (approximately 30-60 seconds per volume on modern GPU hardware) must be weighed against quality improvements in downstream analyses.
 
@@ -41,6 +43,6 @@ HD-BET operates within a broader ecosystem of brain extraction and neuroimaging 
 [[mrtrix3]]
 [[mni-space]]
 [[structural-connectivity]]
-[[human-connectome-project]]
+[[human-[[connectome]]-project]]
 [[whole-brain-modeling]]
 [[the-virtual-brain]]

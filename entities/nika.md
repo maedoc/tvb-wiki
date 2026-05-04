@@ -61,7 +61,7 @@ While NIAK and [[the-virtual-brain]] (TVB) serve different primary purposes—th
 
 ## Key Papers
 
-The foundational paper describing NIAK's pipeline architecture is "The pipeline system for Octave and Matlab (PSOM): a lightweight scripting framework and execution engine for scientific workflows" (Bellec et al., 2012, Frontiers in Neuroinformatics). NIAK played a critical role in preprocessing the ABIDE (Autism Brain Imaging Data Exchange) dataset, making possible numerous studies of [[functional-connectivity]] alterations in autism spectrum disorder. The ABIDE preprocessed dataset using NIAK has been cited extensively in the [[connectomics]] literature.
+The foundational paper describing NIAK's pipeline architecture is "The pipeline system for Octave and Matlab (PSOM): a lightweight scripting framework and execution engine for scientific workflows" (Bellec et al., 2012, Frontiers in Neuroinformatics). NIAK played a critical role in preprocessing the [[abide]] (Autism Brain Imaging Data Exchange) dataset, making possible numerous studies of [[functional-connectivity]] alterations in autism spectrum disorder. The ABIDE preprocessed dataset using NIAK has been cited extensively in the [[connectomics]] literature.
 
 ## Historical Context and Current Status
 
@@ -77,5 +77,5 @@ NIAK was initiated around 2008 and saw active development through approximately 
 ## References
 
 1. Abigail Kelly, Ramchandra Rimal, Arpan Sainju. (2026). *Graph Attention Network-Based Detection of Autism Spectrum Disorder*. [Link](https://arxiv.org/abs/2603.26971)
-2. (authors unknown). *Nighres: processing tools for high-resolution neuroimaging*.
+2. (authors unknown). *[[nighres]]: processing tools for high-resolution neuroimaging*.
 3. A. Dehsarvi, Lukas Frontzkowski, Anna Dewenter, Michael Schöll, N. Franzmeier. (2025). *ADprep – A Fully‐Automated Software for Large‐scale Multimodal MRI and PET Imaging Workflows*. Alzheimer's & Dementia. [DOI](https://doi.org/10.1002/alz70856_101373)

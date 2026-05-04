@@ -13,3 +13,6 @@
 - Added sections on key features, technical considerations, relationship to TVB, and related software
 - Included 16 wikilinks connecting to fsl, freesurfer, mrtrix3, hcp-dataset, and other relevant entities
 ## [2026-05-04 13:38] Improve: 5 pages improved (software-fsl, rabies, osi, limo, aomic)
+
+## [2026-05-04 13:38] RefFormatter: formatted references on 484 pages
+- 2026-05-04: Updated AOMIC page - fixed [[epilepsy]] → [[epileptor]] wikilink, improved sources format in frontmatter

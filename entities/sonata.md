@@ -59,6 +59,6 @@ As of 2026, SONATA remains primarily oriented toward point-neuron architectures.
 
 ## References
 
-1. (authors unknown). *Geppetto - a reusable modular open platform for exploring neuroscience data and models*.
+1. (authors unknown). *[[geppetto]] - a reusable modular open platform for exploring neuroscience data and models*.
 2. Duy Pham, Gene J. Yu, G. Lazzi, Jean-Marie C Bouteiller. (2026). *A spatially discretized convolutional neural mass model for studying meso-scale spatio-temporal transformations in the rat hippocampus*. Research Square. [DOI](https://doi.org/10.21203/rs.3.rs-9306977/v1)
-3. (authors unknown). *GLEAN: Group Level Exploratory Analysis of Networks*.
+3. (authors unknown). *[[lean|GLEAN]]: Group Level Exploratory Analysis of Networks*.

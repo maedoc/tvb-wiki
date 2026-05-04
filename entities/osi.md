@@ -1,10 +1,14 @@
 ---
-title: OSI
 created: 2025-01-15
-updated: 2026-05-04
-type: concept
-tags: [oscillator, neural-mass-models, network-dynamics, software-brian]
 sources: []
+tags:
+- oscillator
+- neural-mass-models
+- network-dynamics
+- software-brian
+title: OSI
+type: concept
+updated: '2026-05-04'
 ---
 
 # OSI
@@ -37,13 +41,13 @@ The metric also relates to concepts in [[small-world-networks]] and [[scale-free
 
 ## Practical Applications
 
-In The Virtual Brain ecosystem, OSI is used during the parameter estimation pipeline to ensure that fitted models produce stable oscillatory dynamics consistent with empirical observations. When fitting to [[resting-state]] [[functional-connectivity]] data, TVB's optimization routines monitor OSI to reject parameter configurations that would produce unstable or epileptic-like activity.
+In [[tvb|The Virtual Brain]] ecosystem, OSI is used during the [[parameter-estimation]] pipeline to ensure that fitted models produce stable oscillatory dynamics consistent with empirical observations. When fitting to [[resting-state]] [[functional-connectivity]] data, TVB's optimization routines monitor OSI to reject parameter configurations that would produce unstable or epileptic-like activity.
 
 The metric also appears in comparative studies of [[neural-mass-models]] such as the [[jansen-rit-model]], [[wong-wang-model]], or [[epileptor]], where different models' oscillatory stability properties inform their suitability for specific clinical applications. For epilepsy modeling, low OSI values in certain brain regions may indicate vulnerability to seizure initiation—areas with reduced oscillatory stability.
 
 ## Related Software
 
-OSI computation is implemented in several computational neuroscience packages. In the Brian2 simulator, custom monitors can track phase relationships to estimate stability. The [[Brain Dynamics Toolbox]] provides tools for computing Lyapunov exponents and related stability measures that inform OSI-like diagnostics. The [[pydstool]] package enables bifurcation analysis that complements empirical OSI measurements.
+OSI computation is implemented in several [[computational-neuroscience]] packages. In the [[brian2]] simulator, custom monitors can track phase relationships to estimate stability. The [[Brain Dynamics Toolbox]] provides tools for computing Lyapunov exponents and related stability measures that inform OSI-like diagnostics. The [[pydstool]] package enables bifurcation analysis that complements empirical OSI measurements.
 
 ## Open Questions
 

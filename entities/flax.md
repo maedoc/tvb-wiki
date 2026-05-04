@@ -1,13 +1,21 @@
 ---
-title: Flax
 created: 2024-01-15
-updated: 2026-05-04
+sources:
+- 10.48550/arXiv.2312.12085
+- 10.48550/arXiv.2112.15284
+tags:
+- software-neural-network
+- software-jax
+- computational-neuroscience
+- python
+- deep-learning
+- neural-network-library
+title: Flax
 type: entity
-tags: [software-neural-network, software-jax, computational-neuroscience, python, deep-learning, neural-network-library]
-sources: [10.48550/arXiv.2312.12085, 10.48550/arXiv.2112.15284]
+updated: '2026-05-04'
 ---
 
-Flax is an open-source neural network library built on top of [[jax]], developed by Google Research and released in 2020. It provides a flexible, high-performance framework for defining, training, and deploying neural network models, with an emphasis on research flexibility and rapid experimentation. Flax has become increasingly relevant to computational neuroscience as researchers adopt deep learning approaches for modeling brain structure and function, particularly in the context of [[whole-brain-modeling]] where flexible, scalable simulation frameworks are essential.
+Flax is an open-source [[neural-network]] library built on top of [[jax]], developed by Google Research and released in 2020. It provides a flexible, high-performance framework for defining, training, and deploying neural network models, with an emphasis on research flexibility and rapid experimentation. Flax has become increasingly relevant to [[computational-neuroscience]] as researchers adopt deep learning approaches for modeling brain structure and function, particularly in the context of [[whole-brain-modeling]] where flexible, scalable simulation frameworks are essential.
 
 ## Overview
 
@@ -17,7 +25,7 @@ Flax was designed to address the need for a neural network library that combines
 
 The defining characteristic of Flax is its functional transformation system. A neural network is defined as a simple Python function that takes two arguments: an input tensor and a set of parameters (typically represented as a nested dictionary or PyTree). Training proceeds by applying higher-order functions such as `flax.linen.apply` in combination with optimization libraries like Optax, which orchestrate the optimization loop while maintaining separation between model definition and training logic. This separation allows researchers to easily swap components, implement custom training regimes, and embed models within larger simulation pipelines—a capability particularly valuable when integrating neural network components with biologically detailed simulators like [[the-virtual-brain]] or [[brian2]].
 
-Flax implements the Linen API, which is the original module system for the library and provides immutable configuration objects, automatic tracking of model variables, and a module system that mirrors the layer abstractions found in Keras or PyTorch while maintaining functional semantics. The more recent NNX API offers a stateful, object-oriented approach for models that require mutable state. The library includes standard building blocks such as dense layers, convolutional layers, attention mechanisms, and recurrent modules. Importantly, Flax leverages JAX's `vmap` (vectorized map) and `pmap` (parallelized map) primitives, enabling users to vectorize and parallelize computations across multiple devices—a useful feature for large-scale brain simulations that may require training on datasets from the [[hcp-dataset]] or similar neuroimaging repositories.
+Flax implements the Linen API, which is the original module system for the library and provides immutable configuration objects, automatic tracking of model variables, and a module system that mirrors the layer abstractions found in Keras or PyTorch while maintaining functional semantics. The more recent NNX API offers a stateful, object-oriented approach for models that require mutable state. The library includes standard building blocks such as dense layers, convolutional layers, attention mechanisms, and recurrent modules. Importantly, Flax leverages JAX's `vmap` (vectorized map) and `pmap` (parallelized map) primitives, enabling users to vectorize and parallelize computations across multiple devices—a useful feature for large-scale brain simulations that may require training on datasets from the [[hcp-dataset]] or similar [[neuroimaging]] repositories.
 
 ## Relationship to TVB and Brain Modeling
 
@@ -33,4 +41,4 @@ Flax occupies a distinct niche alongside other [[python]]-based neural network f
 
 - **"Flax: A Neural Network Library for JAX"** (2023) — Main documentation paper for the Flax library, describing the Linen API and design philosophy.
 - **"JAX: Composable Transformations of Python+NumPy Programs"** (2021) — Foundational paper describing the underlying library that Flax builds upon.
-- **"Neural Mechanisms of Whole-Brain Dynamics"** — Research using deep learning approaches in computational neuroscience contexts.
+- **"Neural Mechanisms of Whole-[[brain-dynamics]]"** — Research using deep learning approaches in computational neuroscience contexts.

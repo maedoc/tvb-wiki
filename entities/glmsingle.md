@@ -86,5 +86,5 @@ GLMsingle addresses methodological challenges that sit at the intersection of [[
 
 1. Wanying Qu, Jianxiong Gao, Wei Wang, Yanwei Fu. *Modeling Spatiotemporal Neural Frames for High Resolution Brain Dynamic*. [Link](https://arxiv.org/abs/2603.24176)
 2. Sima Soltanpour, Md Taufiq Nasseef, Rachel Utama, Arnold Chang, D. Madularu, Praveen Kulkarni, Craig F. Ferris, Chris Joslin. (2025). *Robust automated preclinical fMRI preprocessing via a multi-stage dilated convolutional Swin Transformer affine registration*. Frontiers in Neuroscience. [DOI](https://doi.org/10.3389/fnins.2025.1621244)
-3. (authors unknown). *GLEAN: Group Level Exploratory Analysis of Networks*.
-4. Xiaoqing Huang, Rishit Puri, Dayu Sun, Yi Zhao, Jie Zhang, Kun Huang, Yijie Wang. (2025). *Functional Connectome Signatures of Patients with Asymptomatic and Typical Alzheimer's*. Alzheimer's & Dementia. [DOI](https://doi.org/10.1002/alz70856_103445)
+3. (authors unknown). *[[lean|GLEAN]]: Group Level Exploratory Analysis of Networks*.
+4. Xiaoqing Huang, Rishit Puri, Dayu Sun, Yi Zhao, Jie Zhang, Kun Huang, Yijie Wang. (2025). *Functional [[connectome]] Signatures of Patients with Asymptomatic and Typical Alzheimer's*. Alzheimer's & Dementia. [DOI](https://doi.org/10.1002/alz70856_103445)

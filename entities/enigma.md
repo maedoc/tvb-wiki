@@ -56,5 +56,5 @@ ENIGMA's work connects to several key domains within the wiki: the consortium's 
 ## References
 
 1. Xinyu Wang, Sicheng Chen, Yanrong Chen, Xinian Zuo, Jingping Zhao, Yufeng Zang, Chao-Gan Yan. (2025). *The academic impact of open data: Bibliometric evidence from the DIRECT consortium and the REST-meta-MDD database*. China Scientific Data. [DOI](https://doi.org/10.11922/11-6035.csd.2025.0033.zh)
-2. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
 3. (authors unknown). *Genome-wide Association Studies of Brain Imaging Phenotypes from UK Biobank*.

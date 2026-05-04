@@ -53,5 +53,5 @@ SurfStat integrates closely with the broader neuroimaging software ecosystem. It
 
 1. Chetan Gohil, Oliver M. Cliff, James M. Shine, Ben D. Fulcher, Joseph T. Lizier. (2026). *Estimating measures of information processing during cognitive tasks using functional magnetic resonance imaging*. [Link](https://arxiv.org/abs/2602.03240)
 2. (authors unknown). *Networks: An Introduction*.
-3. (authors unknown). *GLEAN: Group Level Exploratory Analysis of Networks*.
-4. Nina Baldy, P. Triebkorn, S. Petkoski, Meysam Hashemi, V. Jirsa. (2026). *Normative Modeling of Static and Dynamic Functional Connectivity*. bioRxiv. [DOI](https://doi.org/10.64898/2026.04.03.716292)
+3. (authors unknown). *[[lean|GLEAN]]: Group Level Exploratory Analysis of Networks*.
+4. Nina Baldy, P. Triebkorn, S. Petkoski, Meysam Hashemi, V. Jirsa. (2026). *Normative Modeling of Static and Dynamic Functional [[connectivity]]*. bioRxiv. [DOI](https://doi.org/10.64898/2026.04.03.716292)

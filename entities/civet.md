@@ -73,7 +73,7 @@ CIVET was developed through the Canadian Institute for Advanced Research (CIFAR)
 ## References
 
 1. G. Deepali, H. Anitha, B. P. Swathi, M. V. Suhas. (2025). *Autoencoder-Driven Fiducial Landmark Identification in 3D Brain MRI for Neuroimaging Alignment*. IEEE Access. [DOI](https://doi.org/10.1109/ACCESS.2025.3582273)
-2. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Sanz Leon et al. (2013). *[[the-virtual-brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
 3. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2018.05.040)
 4. A. Gregoire, L. Dricot, C. Huart, M. Decat, N. Deggouj, Ron Kupers. (2025). *Preoperative MRI, audiovisual speech perception, and mood are associated with cochlear implant outcomes in adults with postlingual deafness.*. Hearing Research. [DOI](https://doi.org/10.1016/j.heares.2025.109272)
-5. (authors unknown). *GLEAN: Group Level Exploratory Analysis of Networks*.
+5. (authors unknown). *[[lean|GLEAN]]: Group Level Exploratory Analysis of Networks*.

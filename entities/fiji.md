@@ -23,7 +23,7 @@ Fiji's architecture centers on a plugin-based extension system that allows resea
 
 For neuroimaging specifically, Fiji integrates with several key file formats through plugins like **Bio-Formats**, which supports reading over 150 file formats including DICOM (the standard clinical imaging format), [[nifti]] (common in neuroscience research), and various scanner-specific formats bioformats. The platform can handle 3D and 4D image stacks, making it suitable for analyzing fMRI time series data and [[diffusion-mri]] [[tractography]] results. Researchers can also leverage Fiji's scripting capabilities (via ImageJ Macro, Python via pyimagej, or BeanShell) to automate repetitive preprocessing [[steps]] in their whole-brain modeling pipelines.
 
-The **Trainable Weka Segmentation** plugin deserves special mention for neuroscience applications—it provides a machine learning-based approach to segmenting brain structures, white matter lesions, or other anatomical features without requiring extensive programming expertise weka. Combined with **Interactive Annotations** and **MorphoLibJ** (for mathematical morphology operations), Fiji enables rapid prototyping of segmentation workflows that may later be ported to more automated pipeline frameworks like [[snakemake]] or [[nipype]].
+The **Trainable Weka Segmentation** plugin deserves special mention for neuroscience applications—it provides a machine learning-based approach to segmenting brain structures, [[white-matter]] lesions, or other anatomical features without requiring extensive programming expertise weka. Combined with **Interactive Annotations** and **MorphoLibJ** (for mathematical morphology operations), Fiji enables rapid prototyping of segmentation workflows that may later be ported to more automated pipeline frameworks like [[snakemake]] or [[nipype]].
 
 ## Relationship to TVB
 
@@ -59,4 +59,4 @@ Fiji contributes to whole-brain modeling workflows in several concrete ways that
 
 ## References
 
-1. (authors unknown). *Neurodesk: an accessible, flexible and portable data analysis environment for reproducible neuroimaging*.
+1. (authors unknown). *[[neurodesk]]: an accessible, flexible and portable data analysis environment for reproducible neuroimaging*.

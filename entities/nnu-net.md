@@ -1,14 +1,23 @@
 ---
-title: nnU-Net
 created: 2026-04-20
-updated: 2026-05-04
-type: entity
-tags: [software-visualization, neural-network, neuroimaging]
 sources:
-  - Isensee, F., Jaeger, P. F., Kohl, S. A. A., et al. (2021). nnU-Net: Self-adapting framework for U-Net-based medical image segmentation. Nature Methods, 18(2), 183-188.
-  - Antonelli, M., Reinke, A., Bakas, S., et al. (2022). The Medical Segmentation Decathlon. Nature Scientific Data, 9(1), 139.
-  - Ronneberger, O., Fischer, P., & Brox, T. (2015). U-Net: Convolutional networks for biomedical image segmentation. International Conference on Medical Image Computing and Computer-Assisted Intervention (MICCAI), 234-241.
-  - Çiçek, Ö., Abdulkadir, A., Lienkamp, S. S., et al. (2016). 3D U-Net: Learning dense volumetric segmentation from sparse annotation. International Conference on Medical Image Computing and Computer-Assisted Intervention (MICCAI), 424-432.
+- Isensee, F., Jaeger, P. F., Kohl, S. A. A., et al. (2021). nnU-Net: Self-adapting
+    framework for U-Net-based medical image segmentation. Nature Methods, 18(2), 183-188.
+- Antonelli, M., Reinke, A., Bakas, S., et al. (2022). The Medical Segmentation Decathlon.
+  Nature Scientific Data, 9(1), 139.
+- Ronneberger, O., Fischer, P., & Brox, T. (2015). U-Net: Convolutional networks for
+    biomedical image segmentation. International Conference on Medical Image Computing
+    and Computer-Assisted Intervention (MICCAI), 234-241.
+- Çiçek, Ö., Abdulkadir, A., Lienkamp, S. S., et al. (2016). 3D U-Net: Learning dense
+    volumetric segmentation from sparse annotation. International Conference on Medical
+    Image Computing and Computer-Assisted Intervention (MICCAI), 424-432.
+tags:
+- software-visualization
+- neural-network
+- neuroimaging
+title: nnU-Net
+type: entity
+updated: '2026-05-04'
 ---
 
 nnU-Net (No New U-Net) is a self-configuring deep learning framework for medical image segmentation that automatically adapts its network architecture, preprocessing pipelines, and training hyperparameters to any given dataset without manual intervention [[Isensee et al., 2021]](). Originally introduced by Isensee et al. in 2021, nnU-Net emerged from the observation that architectural innovations in U-Net variants often provide marginal improvements over well-tuned baseline architectures [[Ronneberger et al., 2015]](), leading the authors to focus instead on systematic optimization of the training pipeline itself. The framework has become one of the most widely adopted tools for automated segmentation in neuroimaging, particularly for tasks involving MR, CT, and other volumetric medical imaging modalities.
@@ -21,7 +30,7 @@ The name "No New U-Net" reflects the authors' deliberate choice to avoid introdu
 
 ## Technical Framework
 
-nnU-Net's configuration pipeline operates through a series of dataset analysis steps. First, the framework extracts intrinsic properties of the training data, including the voxel spacing distribution, intensity histograms, and anatomical priors. Based on these properties, it automatically determines target voxels per dimension, selects appropriate intensity normalization strategies (e.g., z-score normalization for MR, clipping and scaling for CT), and configures patch-based training to handle datasets that exceed GPU memory constraints. The network architecture itself is parameterized by rules that map dataset properties to architectural choices: for example, smaller voxel spacings typically require deeper networks with more pooling stages to capture sufficient receptive field, while anisotropic data triggers specific adaptations in the decoder path [[Isensee et al., 2021]]().
+nnU-Net's configuration pipeline operates through a series of dataset analysis [[steps]]. First, the framework extracts intrinsic properties of the training data, including the voxel spacing distribution, intensity histograms, and anatomical priors. Based on these properties, it automatically determines target voxels per dimension, selects appropriate intensity normalization strategies (e.g., z-score normalization for MR, clipping and scaling for CT), and configures patch-based training to handle datasets that exceed GPU memory constraints. The network architecture itself is parameterized by rules that map dataset properties to architectural choices: for example, smaller voxel spacings typically require deeper networks with more pooling stages to capture sufficient receptive field, while anisotropic data triggers specific adaptations in the decoder path [[Isensee et al., 2021]]().
 
 The training process incorporates extensive data augmentation including random rotations, scaling, elastic deformations, gamma corrections, and mirroring operations. nnU-Net employs a combination of dice loss and cross-entropy loss to handle class imbalance, which is prevalent in medical imaging where foreground structures often occupy small fractions of the total volume. The framework uses a five-fold cross-validation scheme to estimate validation performance and selects the best-performing fold for inference [[Isensee et al., 2021]](). During testing, test-time augmentation (TTA) applies multiple augmented inference passes and averages the results to improve segmentation robustness.
 
@@ -45,5 +54,5 @@ Within the neuroimaging domain, nnU-Net has been applied to segment brain struct
 * [[nibabel]] — Python library for reading neuroimaging file formats
 * [[freesurfer]] — Tool for automated segmentation of brain structures
 * [[human-connectome-project]] — Large neuroimaging dataset initiative
-* [[connectome]] — Framework for mapping brain connectivity
+* [[connectome]] — Framework for mapping brain [[connectivity]]
 * [[tractography]] — Fiber tracking methodology for structural connectivity

@@ -49,6 +49,6 @@ Several alternatives and complements to Gephi exist for network visualization an
 
 ## References
 
-1. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
-2. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
-3. (authors unknown). *BRAPH: A Pipeline for Brain Connectivity Analysis*.
+1. (authors unknown). *Complex Network Measures of Brain [[connectivity]]: Uses and Interpretations*.
+2. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+3. (authors unknown). *[[braph]]: A Pipeline for Brain Connectivity Analysis*.

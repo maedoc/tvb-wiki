@@ -30,13 +30,13 @@ sources:
 - raw/papers/arxiv-2505.16861.md
 tags:
 - software-neuroconv
-- software-bids
+- software-[[bids]]
 - software-nwb
-- neurodata-without-borders
+- [[neurodata-without-borders]]
 - bids
 - data-formats
-- electrophysiology
-- spikeinterface
+- [[electrophysiology]]
+- [[spikeinterface]]
 title: NeuroConv
 type: entity
 updated: '2026-05-04'

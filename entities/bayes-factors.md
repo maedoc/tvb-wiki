@@ -63,5 +63,5 @@ Bayes Factors connect to several important concepts in the wiki: [[variational-b
 2. Moo K. Chung, D. Vijay Anand, Anass B El-Yaagoubi, Jae-Hun Jung, Anqi Qiu, Hernando Ombao. (2026). *Causality as a Minimum Energy Principle*. [Link](https://arxiv.org/abs/2604.17151)
 3. Rosa Maria Delicado, Gemma Huguet, Pau Clusella. (2025). *Emergent Spatiotemporal Dynamics in Large-Scale Brain Networks with Next Generation Neural Mass Models*. [Link](https://arxiv.org/abs/2512.03907)
 4. Sakul Mahat, Sharmistha Guha, Jessica Bernard. (2026). *A Bayesian Framework for Quantifying Association Between Functional and Structural Data in Neuroimaging*. [Link](https://arxiv.org/abs/2603.21067)
-5. (authors unknown). *Permutation inference for the general linear model*.
+5. (authors unknown). *Permutation inference for the general [[linear|linear model]]*.
 6. Abdoreza Asadpour, Amin Azimi, Kongfatt Wong-Lin. (2025). *Limitations of Variational Laplace-Based Dynamic Causal Modelling for Multistable Cortical Circuits*. bioRxiv. [DOI](https://doi.org/10.1101/2025.03.10.642327)

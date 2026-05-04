@@ -94,7 +94,7 @@ Freeman's insight that chaotic attractors in KIII sets enable rapid perceptual t
 ## References
 
 1. Walter J. Freeman. *Mass Action in the Nervous System*.
-2. Alain Destexhe, Terrence J. Sejnowski. *Wilson-Cowan model of the excitatory and inhibitory population dynamics*. Scholarpedia. [DOI](https://doi.org/10.4249/scholarpedia.1389)
+2. [[alain-destexhe]], [[terrence-sejnowski|Terrence J. Sejnowski]]. *[[wilson-cowan|Wilson-Cowan model]] of the excitatory and inhibitory population dynamics*. Scholarpedia. [DOI](https://doi.org/10.4249/scholarpedia.1389)
 3. Yupei Li, Shuaijie Shao, Manuel Milling, Björn Schuller. *Enhancing Efficiency and Performance in Deepfake Audio Detection through Neuron-level Dropin & Neuroplasticity Mechanisms*. [Link](https://arxiv.org/abs/2603.24343)
 4. Duy Pham, Gene J. Yu, G. Lazzi, Jean-Marie C Bouteiller. (2026). *A spatially discretized convolutional neural mass model for studying meso-scale spatio-temporal transformations in the rat hippocampus*. Research Square. [DOI](https://doi.org/10.21203/rs.3.rs-9306977/v1)
-5. Hugh R. Wilson, Jack D. Cowan. *Excitatory and inhibitory interactions in localized populations of model neurons*. Biophysical Journal. [DOI](https://doi.org/10.1016/S0006-3495(72)86068-5)
+5. [[hugh-wilson|Hugh R. Wilson]], [[jack-cowan|Jack D. Cowan]]. *Excitatory and inhibitory interactions in localized populations of model neurons*. Biophysical Journal. [DOI](https://doi.org/10.1016/S0006-3495(72)86068-5)

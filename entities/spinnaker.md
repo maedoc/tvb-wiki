@@ -78,6 +78,6 @@ In the software simulation space, [[NEST]] and [[Brian2]] remain the most widely
 
 ## References
 
-1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
 2. J. Bose. (2025). *Pendulum Model of Spiking Neurons*. arXiv.org. [DOI](https://doi.org/10.48550/arXiv.2507.22146)
 3. Dayashankar Singh, S.Sangeetha, Raja Thimmarayan, S. Murugan, Dr. E. Punarselvam, PG Student. (2025). *Spiking Neural Networks for Modeling Synaptic Activity in Brain Simulations*. 2025 IEEE 2nd International Conference on Information Technology, Electronics and Intelligent Communication Systems (ICITEICS). [DOI](https://doi.org/10.1109/ICITEICS64870.2025.11341691)

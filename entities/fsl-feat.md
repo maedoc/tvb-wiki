@@ -51,7 +51,7 @@ Higher-level FEAT analysis enables mixed-effects aggregation across subjects for
 
 In the context of [[whole-brain-modeling]] and [[computational-neuroscience]], FEAT plays a complementary role to simulation platforms like [[tvb]] (The Virtual Brain). While FEAT is primarily an analysis tool for empirical fMRI data, its outputs—particularly [[functional-connectivity]] matrices derived from [[resting-state]] seed correlations or ICA components—frequently serve as target data for model fitting and validation. The empirical connectivity patterns extracted via FEAT enable researchers to constrain whole-brain network models, estimate parameters of [[neural-mass-model]]s running on [[structural-connectivity]] scaffolds derived from diffusion imaging, and validate simulated BOLD signals against observed data.
 
-FEAT-generated connectivity matrices have been used extensively in [[personalized-brain-modeling]] workflows where individual empirical data informs the configuration of large-scale models. The tool's standardized output formats and quality control metrics make it a preferred choice for preprocessing and analyzing fMRI data intended for downstream integration with [[the-virtual-brain]] or similar whole-brain simulation frameworks.
+FEAT-generated connectivity matrices have been used extensively in [[personalized-brain-modeling]] workflows where individual empirical data informs the configuration of large-scale models. The tool's standardized output formats and quality control metrics make it a preferred choice for preprocessing and analyzing fMRI data intended for downstream integration with [[the-virtual-brain]] or similar [[whole-brain]] simulation frameworks.
 
 ## Related Software
 

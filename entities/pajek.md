@@ -61,4 +61,4 @@ Pajek has influenced the development of several related tools in the network sci
 
 1. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
 2. (authors unknown). *Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems*.
-3. M. A. van den Boom, Nicholas M. Gregg, G. Valencia, B. Lundstrom, K. J. Miller, D. van Blooijs, G. Huiskamp, F. Leijten, G. Worrell, Dora Hermes. (2025). *ER-detect: a pipeline for robust detection of early evoked responses in BIDS-iEEG electrical stimulation data.*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2025.110389)
+3. M. A. van den Boom, Nicholas M. Gregg, G. Valencia, B. Lundstrom, K. J. Miller, D. van Blooijs, G. Huiskamp, F. Leijten, G. Worrell, Dora [[hermes]]. (2025). *ER-detect: a pipeline for robust detection of early evoked responses in [[bids]]-iEEG electrical stimulation data.*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2025.110389)

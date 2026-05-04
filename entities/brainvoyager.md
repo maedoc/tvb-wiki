@@ -61,15 +61,15 @@ Modern versions support connectivity analysis compatible with the [[mrtrix3-conn
 
 ## Relationship to TVB
 
-While BrainVoyager and [[TVB]] serve different primary purposes—BrainVoyager focuses on preprocessing and analysis of empirical neuroimaging data, while TVB specializes in computational whole-brain simulation—they are highly complementary in the connectome-based modeling workflow:
+While BrainVoyager and [[TVB]] serve different primary purposes—BrainVoyager focuses on preprocessing and analysis of empirical neuroimaging data, while TVB specializes in computational whole-brain simulation—they are highly complementary in the [[connectome]]-based modeling workflow:
 
 ### Data Preparation Pipeline
 BrainVoyager can provide critical inputs to TVB simulations:
 
-1. **[[structural-connectivity]]**: DTI tractography processed in BrainVoyager can be exported as connectivity matrices (structural connectivity) for use in TVB
-2. **Cortical Surfaces**: High-resolution cortical meshes generated in BrainVoyager can inform spatial embedding of neural mass models
-3. **Parcellation Schemes**: Custom or atlas-based parcellations can be exported for network node definitions
-4. **fMRI Time Series**: Preprocessed empirical fMRI data can be used to validate TVB simulations through functional connectivity and power spectrum comparison
+1. **[[structural-connectivity]]**: DTI [[tractography]] processed in BrainVoyager can be exported as connectivity matrices (structural connectivity) for use in TVB
+2. **Cortical Surfaces**: High-resolution cortical meshes generated in BrainVoyager can inform spatial embedding of [[neural-mass-models]]
+3. **[[parcellation]] Schemes**: Custom or atlas-based parcellations can be exported for network node definitions
+4. **fMRI Time Series**: Preprocessed empirical fMRI data can be used to validate TVB simulations through [[functional-connectivity]] and power spectrum comparison
 
 ### Comparative Positioning
 | Aspect | BrainVoyager | TVB |
@@ -79,7 +79,7 @@ BrainVoyager can provide critical inputs to TVB simulations:
 | Dynamic Causal Modeling | Indirect (via GLM) | Direct (biophysical models) |
 | Parameter Estimation | Limited | Advanced (simulation-based) |
 
-Researchers often use BrainVoyager for preprocessing and standard neuroimaging analysis, then export connectivity matrices and surface data to TVB for mechanistic modeling of brain dynamics.
+Researchers often use BrainVoyager for preprocessing and standard neuroimaging analysis, then export connectivity matrices and surface data to TVB for mechanistic modeling of [[brain-dynamics]].
 
 ## Key Papers
 
@@ -96,7 +96,7 @@ BrainVoyager has been cited in thousands of neuroimaging studies. Key methodolog
 - [[TVB]] — Whole-brain simulation platform that can use BrainVoyager-processed connectivity data
 - [[ANTs]] — Alternative neuroimaging registration tools (volume-based)
 - [[3D Slicer]] — Open-source alternative for medical image computing
-- **FreeSurfer** — Open-source cortical surface reconstruction (complementary/alternative to BrainVoyager's surface tools)
+- **[[freesurfer]]** — Open-source cortical surface reconstruction (complementary/alternative to BrainVoyager's surface tools)
 - **FSL** — UK-based open-source fMRI analysis suite (volume-based)
 - **SPM** — Statistical parametric mapping toolbox for neuroimaging
 
@@ -105,5 +105,5 @@ BrainVoyager has been cited in thousands of neuroimaging studies. Key methodolog
 1. Muhammad Nabi Yasinzai, R. Mito, M. Pedersen. (2025). *BrainScape: An open-source framework for integrating and preprocessing anatomical MRI datasets*. Imaging neuroscience. [DOI](https://doi.org/10.1162/IMAG.a.944)
 2. *Patricia Burhunduli, Zhuo Fang, Katie L. Vandeloo, Pierre Blier, Jennifer L Phillips. (2025). *A PRELIMINARY INVESTIGATION OF RESTING STATE FUNCTIONAL CONNECTIVITY NETWORKS IN PATIENTS WITH TREATMENT-RESISTANT DEPRESSION AND A HISTORY OF SUICIDE ATTEMPT*. International Journal of Neuropsychopharmacology. [DOI](https://doi.org/10.1093/ijnp/pyae059.440)
 3. Andrés Perissinotti, A. Farré-Melero, F. López-González, María del Carmen Mallón-Araujo, Julia Cortés, X. Setoain, Andrea Fritsch, Katherine Quintero, Ángel E. Esteban, S. Morbelli, Matteo Bauckneht, A. Miceli, Aida Niñerola-Baizán, Pablo Aguiar, J. Silva-Rodríguez. (2026). *Added value of quantitative [18F]FDG-PET analysis in MRI-negative epilepsy: A simulation-based study using realistic ground-truths*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2026.121740)
-4. (authors unknown). *BRAPH 2.0 Genesis: An Open-Source Toolbox for Brain Connectivity Analysis*.
-5. (authors unknown). *GLEAN: Group Level Exploratory Analysis of Networks*.
+4. (authors unknown). *[[braph]] 2.0 [[genesis]]: An Open-Source Toolbox for Brain Connectivity Analysis*.
+5. (authors unknown). *[[lean|GLEAN]]: Group Level Exploratory Analysis of Networks*.

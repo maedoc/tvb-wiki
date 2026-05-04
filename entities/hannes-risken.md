@@ -44,6 +44,6 @@ Hannes Risken was a German physicist known for his definitive work on Fokker-Pla
 1. (authors unknown). *The Fokker-Planck Equation: Methods of Solution and Applications*.
 2. (authors unknown). *Stochastic Methods: A Handbook for the Natural and Social Sciences*.
 3. (authors unknown). *Networks: An Introduction*.
-4. Romain Veltz. (2025). *Analysis of a mean-field limit of interacting two-dimensional nonlinear integrate-and-fire neurons*. [Link](https://www.semanticscholar.org/paper/c2b31ea32345e88726e581ea675d6450a44df2a1)
+4. Romain Veltz. (2025). *Analysis of a mean-field limit of interacting two-dimensional nonlinear [[spiking-neural-networks|integrate-and-fire]] neurons*. [Link](https://www.semanticscholar.org/paper/c2b31ea32345e88726e581ea675d6450a44df2a1)
 5. Pierre-Emmanuel Jabin, Datong Zhou. (2025). *The mean-field limit of sparse networks of integrate-and-fire neurons*. Annales de l'Institut Henri Poincare. Analyse non linéar. [DOI](https://doi.org/10.4171/aihpc/157)
-6. Nikolaos Papadopoulos, Thibaud Taillefumier. (2025). *Physical blowups via buffered time change in a mean-field neural network*. [Link](https://www.semanticscholar.org/paper/c381bcaf23cd6a2703edc76fa5af0e1830ef799d)
+6. Nikolaos Papadopoulos, Thibaud Taillefumier. (2025). *Physical blowups via buffered time change in a mean-field [[neural-network]]*. [Link](https://www.semanticscholar.org/paper/c381bcaf23cd6a2703edc76fa5af0e1830ef799d)

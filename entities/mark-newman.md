@@ -53,9 +53,9 @@ Newman's research emphasizes:
 1. (authors unknown). *Networks: An Introduction*.
 2. (authors unknown). *Networks of the Brain*.
 3. (authors unknown). *Collective Dynamics of 'Small-World' Networks*.
-4. (authors unknown). *Emergence of Scaling in Random Networks*.
-5. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
-6. Kashyap Gudibanda, J. Fousek, S. Petkoski, V. Jirsa. (2026). *The role of connectivity for the degeneracy of the brain’s resting state dynamics*. Journal of Computational Neuroscience. [DOI](https://doi.org/10.1007/s10827-025-00919-0)
+4. (authors unknown). *Emergence of Scaling in [[random-networks]]*.
+5. (authors unknown). *Complex Network Measures of Brain [[connectivity]]: Uses and Interpretations*.
+6. Kashyap Gudibanda, J. Fousek, S. Petkoski, V. Jirsa. (2026). *The role of connectivity for the degeneracy of the brain’s [[resting-state]] dynamics*. Journal of [[computational-neuroscience]]. [DOI](https://doi.org/10.1007/s10827-025-00919-0)
 7. Irem Topal, Anna Poggialini, Marco Dal Maschio, Daniele De Martino, Oren Shriki, Fabrizio Lombardi. (2026). *Scaling and tuning to criticality in resting-state human magnetoencephalography*. [Link](https://arxiv.org/abs/2602.17820)
-8. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
-9. Diego Derman, Damon D. Pham, Amanda F. Mejia, Silvina L. Ferradal. (2025). *Individual patterns of functional connectivity in neonates as revealed by surface-based Bayesian modeling*. Imaging neuroscience. [DOI](https://doi.org/10.1162/imag_a_00504)
+8. (authors unknown). *Functional [[connectomics]] from Resting-State [[fmri]]*.
+9. Diego Derman, Damon D. Pham, Amanda F. Mejia, Silvina L. Ferradal. (2025). *Individual patterns of [[functional-connectivity]] in neonates as revealed by surface-based Bayesian modeling*. Imaging neuroscience. [DOI](https://doi.org/10.1162/imag_a_00504)

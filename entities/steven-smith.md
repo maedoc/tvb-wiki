@@ -47,8 +47,8 @@ Smith's work on resting-state networks and his software tools have been fundamen
 ## References
 
 1. (authors unknown). *Correspondence of the brain's functional architecture during activation and rest*.
-2. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
+2. (authors unknown). *Functional [[connectomics]] from Resting-State fMRI*.
 3. (authors unknown). *Functional Network Organization of the Human Brain*.
 4. B. Sarton, Giulia Maria Mattia, Eve Cervoni, Julie Decourt, Patrice Péran, Béatrice Riu, Fanny Bounes, Edouard Naboulsi, P. Barttfeld, Jean-Marc Olivot, Stein Silva, Sylvain Cussat-Blanc. (2026). *Explainable Machine Learning for Coma Outcome Prediction Based on Structural and Functional Brain MRI.*. Critical Care Medicine. [DOI](https://doi.org/10.1097/CCM.0000000000007068)
-5. Kashyap Gudibanda, J. Fousek, S. Petkoski, V. Jirsa. (2026). *The role of connectivity for the degeneracy of the brain’s resting state dynamics*. Journal of Computational Neuroscience. [DOI](https://doi.org/10.1007/s10827-025-00919-0)
-6. Mengyuan Liu, Jing Hu, Zhenzhen Ru, Ruomeng Quan, Xu Zhang, Ning Qiang, Jin Li. (2025). *Exploring the changes in brain network SC-FC coupling patterns of partial sleep deprivation based on DTI-fMRI fusion analysis*. [Link](https://arxiv.org/abs/2512.00063)
+5. Kashyap Gudibanda, J. Fousek, S. Petkoski, V. Jirsa. (2026). *The role of connectivity for the degeneracy of the brain’s resting state dynamics*. Journal of [[computational-neuroscience]]. [DOI](https://doi.org/10.1007/s10827-025-00919-0)
+6. Mengyuan Liu, Jing Hu, Zhenzhen Ru, Ruomeng Quan, Xu Zhang, Ning Qiang, Jin Li. (2025). *Exploring the changes in [[brain-network]] SC-FC coupling patterns of partial sleep deprivation based on DTI-fMRI fusion analysis*. [Link](https://arxiv.org/abs/2512.00063)

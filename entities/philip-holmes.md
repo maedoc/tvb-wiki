@@ -43,5 +43,5 @@ Philip Holmes (born 1945) is a British mathematician and the Eugene Higgins Prof
 1. (authors unknown). *Nonlinear Oscillations, Dynamical Systems, and Bifurcations of Vector Fields*.
 2. (authors unknown). *Differential Equations, Dynamical Systems, and an Introduction to Chaos*.
 3. (authors unknown). *Introduction to Theoretical Neurobiology: Volume 2, Nonlinear and Stochastic Theories*.
-4. Eugene M. Izhikevich. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
+4. [[eugene-izhikevich|Eugene M. Izhikevich]]. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
 5. (authors unknown). *Introduction to Applied Nonlinear Dynamical Systems and Chaos*.

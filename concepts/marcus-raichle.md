@@ -51,12 +51,12 @@ Marcus Raichle's influence extends through his extensive publication record (wit
 - [[whole‑brain‑modeling]] — Computational approaches that simulate large‑scale dynamics observed in resting‑state data
 - [[neuroimaging‑fmri]] — The modality Raichle helped develop for mapping brain function
 - [[connectomics]] — The broader field of mapping brain [[connectivity]] that Raichle's work enabled
-- human-connectome-project — The major initiative Raichle contributed to for mapping brain connectivity
+- [[human-[[connectome]]-project]] — The major initiative Raichle contributed to for mapping brain connectivity
 - [[brain‑oscillations]] — The rhythmic neural activity underlying resting‑state synchronization patterns
 
 ## References
 
 1. V. Myrov, A. Suleimanova, Samanta Knapič, P. Partanen, M. Vesterinen, Wenya Liu, S. Palva, J. M. Palva. (2026). *Hierarchical whole-brain modeling of critical synchronization dynamics in the human brain.*. Proceedings of the National Academy of Sciences of the United States of America. [DOI](https://doi.org/10.1073/pnas.2505768123)
-2. Kashyap Gudibanda, J. Fousek, S. Petkoski, V. Jirsa. (2026). *The role of connectivity for the degeneracy of the brain’s resting state dynamics*. Journal of Computational Neuroscience. [DOI](https://doi.org/10.1007/s10827-025-00919-0)
+2. Kashyap Gudibanda, J. Fousek, S. Petkoski, V. Jirsa. (2026). *The role of connectivity for the degeneracy of the brain’s resting state dynamics*. Journal of [[computational-neuroscience]]. [DOI](https://doi.org/10.1007/s10827-025-00919-0)
 3. Diego Derman, Damon D. Pham, Amanda F. Mejia, Silvina L. Ferradal. (2025). *Individual patterns of functional connectivity in neonates as revealed by surface-based Bayesian modeling*. Imaging neuroscience. [DOI](https://doi.org/10.1162/imag_a_00504)
-4. (authors unknown). *GLEAN: Group Level Exploratory Analysis of Networks*.
+4. (authors unknown). *[[lean|GLEAN]]: Group Level Exploratory Analysis of Networks*.

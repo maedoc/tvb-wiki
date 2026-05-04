@@ -1,17 +1,22 @@
 ---
-title: Limo
 created: 2025-01-15
-updated: 2026-05-04
-type: entity
-tags: [software-modeling, neuroimaging-eeg, neuroimaging-meg, statistical-analysis, eeglab]
 sources: []
+tags:
+- software-modeling
+- neuroimaging-eeg
+- neuroimaging-meg
+- statistical-analysis
+- eeglab
+title: Limo
+type: entity
+updated: '2026-05-04'
 ---
 
 # Limo
 
 ## Overview
 
-Limo (Linear Modeling) is a MATLAB-based toolbox for the statistical analysis of electroencephalography (EEG) and magnetoencephalography (MEG) data. The toolbox implements mass univariate linear modeling approaches, allowing researchers to perform voxel-based or vertex-based analyses across the entire scalp or cortical surface. Limo provides a comprehensive framework for estimating linear models at each electrode or source location separately, enabling the detection of spatio-temporal patterns of neural activity related to experimental conditions, cognitive processes, or clinical markers. The tool is designed to integrate seamlessly with [[eeglab]], one of the most widely used open-source environments for EEG and MEG data processing, making it accessible to the broad neuroimaging community.
+Limo ([[linear]] Modeling) is a MATLAB-based toolbox for the statistical analysis of electroencephalography (EEG) and magnetoencephalography (MEG) data. The toolbox implements mass univariate linear modeling approaches, allowing researchers to perform voxel-based or vertex-based analyses across the entire scalp or cortical surface. Limo provides a comprehensive framework for estimating linear models at each electrode or source location separately, enabling the detection of spatio-temporal patterns of neural activity related to experimental conditions, cognitive processes, or clinical markers. The tool is designed to integrate seamlessly with [[eeglab]], one of the most widely used open-source environments for EEG and MEG data processing, making it accessible to the broad [[neuroimaging]] community.
 
 ## Key Features
 
@@ -23,17 +28,17 @@ The toolbox incorporates rigorous approaches to **multiple comparisons correctio
 
 While Limo operates primarily in the analysis domain rather than forward modeling, it maintains important connections to whole-brain simulation frameworks like [[the-virtual-brain]]. Both tools share a commitment to **computational modeling** of brain activity—TVB simulates large-scale network dynamics using neural mass models, while Limo provides the statistical inverse methods needed to **parameterize such models from empirical data**. In practice, researchers using TVB for personalized brain modeling often employ Limo (or similar EEG/MEG analysis toolboxes like [[fieldtrip]] or [[eeglab]] directly) to extract empirical features—such as ERP amplitudes, oscillation power spectra, or connectivity estimates—that serve as targets for model fitting and parameter estimation. The relationship is thus complementary: Limo enables the data-driven characterization of individual brain dynamics that TVB then reproduces in silico.
 
-Limo also supports the broader workflow of **functional connectivity** analysis, computing correlation-based or coherence-based measures that can inform the construction of whole-brain connectomes. These connectivity estimates, typically derived from resting-state or task-based EEG/MEG recordings, can be used to define the **structural connectivity** matrices that constrain TVB simulations. Additionally, the toolbox's source localization capabilities, when combined with head models from techniques like [[boundary-element-method]] or [[finite-element-method]], provide the cortical activity estimates needed for comparison with TVB forward predictions.
+Limo also supports the broader workflow of **[[functional-connectivity]]** analysis, computing correlation-based or coherence-based measures that can inform the construction of [[whole-brain]] connectomes. These connectivity estimates, typically derived from [[resting-state]] or task-based EEG/MEG recordings, can be used to define the **[[structural-connectivity]]** matrices that constrain TVB simulations. Additionally, the toolbox's [[source-localization]] capabilities, when combined with head models from techniques like [[boundary-element-method]] or [[finite-element-method]], provide the cortical activity estimates needed for comparison with TVB forward predictions.
 
 ## Key Papers
 
-The Limo toolbox was introduced by Arnaud Delorme and colleagues, building on the mass univariate analysis philosophy pioneered in the fMRI community. Key methodological publications establishing the theoretical foundation for mass univariate EEG analysis appeared in the early 2000s, establishing the statistical framework that Limo implements. The toolbox has been applied in numerous studies of cognitive neuroscience, including research on **working memory**, **attention**, **perception**, and **clinical populations** such as patients with schizophrenia or epilepsy. Several validation studies have demonstrated Limo's ability to recover known experimental effects from simulated and empirical EEG data, providing confidence in its statistical inference procedures.
+The Limo toolbox was introduced by Arnaud Delorme and colleagues, building on the mass univariate analysis philosophy pioneered in the [[fmri]] community. Key methodological publications establishing the theoretical foundation for mass univariate EEG analysis appeared in the early 2000s, establishing the statistical framework that Limo implements. The toolbox has been applied in numerous studies of cognitive neuroscience, including research on **working memory**, **attention**, **perception**, and **clinical populations** such as patients with schizophrenia or epilepsy. Several validation studies have demonstrated Limo's ability to recover known experimental effects from simulated and empirical EEG data, providing confidence in its statistical inference procedures.
 
 ## Technical Implementation
 
 Limo operates on EEG/MEG data structured in the EEGLAB format, expecting data matrices organized as channels × time points × trials (or epochs). The basic workflow involves first **preprocessing** the data using EEGLAB functions (filtering, artifact rejection, epoching), then specifying the linear model design matrix with condition codes and potential covariates. The core estimation procedure fits a GLM at each electrode or source location using ordinary least squares or, for repeated-measures designs, mixed-effects approaches. Test statistics are computed for relevant contrasts (e.g., condition A vs. condition B), and p-values are adjusted for the multiple tests performed across the spatio-temporal domain.
 
-The toolbox stores results in structured formats that integrate with EEGLAB's data visualization functions, enabling the creation of scalp maps, topographic animations, and butterfly plots showing significant time windows. Output includes both raw test statistics and p-value maps, allowing researchers to set custom thresholds or visualize the full statistical landscape. Limo's modular architecture allows researchers to customize individual analysis steps—using custom preprocessing pipelines, alternative GLM estimators, or novel multiple comparison corrections—while maintaining compatibility with the core analysis framework.
+The toolbox stores results in structured formats that integrate with EEGLAB's data visualization functions, enabling the creation of scalp maps, topographic animations, and butterfly plots showing significant time windows. Output includes both raw test statistics and p-value maps, allowing researchers to set custom thresholds or visualize the full statistical landscape. Limo's modular architecture allows researchers to customize individual analysis [[steps]]—using custom preprocessing pipelines, alternative GLM estimators, or novel multiple comparison corrections—while maintaining compatibility with the core analysis framework.
 
 ## Related Software
 

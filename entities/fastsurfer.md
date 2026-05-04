@@ -88,11 +88,11 @@ TVB users can import FastSurfer parcellations to define the 68 cortical nodes (3
 
 ### Structural Connectivity Integration
 FastSurfer outputs enable:
-- **Seed region definition** for tractography in [[MRtrix3]] or [[FSL]]
+- **Seed region definition** for [[tractography]] in [[MRtrix3]] or [[FSL]]
 - **Gray matter interface** surfaces for streamline termination
 - **Volume-to-surface mapping** for functional data projection
 
-Combined with diffusion MRI processing, FastSurfer-derived surfaces facilitate the construction of subject-specific structural connectivity matrices used to constrain TVB simulations.
+Combined with [[diffusion-mri]] processing, FastSurfer-derived surfaces facilitate the construction of subject-specific structural [[connectivity]] matrices used to constrain TVB simulations.
 
 ### Quality Control for Personalized Modeling
 FastSurfer's rapid processing enables:
@@ -109,7 +109,7 @@ Introduced the FastSurferCNN architecture and demonstrated equivalent Dice coeff
 Presented VINN (Vector-Image Neural Network), a resolution-independent architecture enabling consistent segmentation across varying MRI resolutions without retraining. Extended FastSurfer to handle 0.7mm to 1.5mm isotropic acquisitions.
 
 **Reuter et al. (2022)** — *High-throughput neuroimaging with FastSurfer*  
-Demonstrated large-scale deployment processing 10,000+ UK Biobank subjects, validating robustness across scanners, protocols, and demographic variations. Established reliability metrics for population neuroscience applications.
+Demonstrated large-scale deployment processing 10,000+ [[uk-biobank]] subjects, validating robustness across scanners, protocols, and demographic variations. Established reliability metrics for population neuroscience applications.
 
 ## Related Software
 
@@ -129,4 +129,4 @@ Demonstrated large-scale deployment processing 10,000+ UK Biobank subjects, vali
 4. Olga M. Sigalova, Alexandra Pančíková, Julie De Man, K. Theunis, Gert J. Hulselmans, V. Konstantakos, Bram Stuyven, Anton De Brabandere, Jarne Geurts, A. Mikorska, Shinjini Mukherjee, S. Abouelasrar Salama, K. Vandereyken, K. Davie, Lukas Mahieu, C. Adler, T. Beach, G. Serrano, Thierry Voet, J. Demeulemeester, S. Aerts. (2026). *Modeling cis-regulatory variation in human brain enhancers across a large Parkinson’s Disease cohort*. bioRxiv. [DOI](https://doi.org/10.64898/2026.03.15.711881)
 5. Haojian Huang, Chuanyu Qin, Yinchuan Li, Yingcong Chen. *Find, Fix, Reason: Context Repair for Video Reasoning*. [Link](https://arxiv.org/abs/2604.16243)
 6. Sima Soltanpour, Rachel Utama, Arnold Chang, Md Taufiq Nasseef, D. Madularu, Praveen Kulkarni, Craig F. Ferris, Chris Joslin. (2025). *SST-DUNet: Automated preclinical functional MRI skull stripping using Smart Swin Transformer and Dense UNet*. arXiv.org. [DOI](https://doi.org/10.48550/arXiv.2504.19937)
-7. (authors unknown). *GLEAN: Group Level Exploratory Analysis of Networks*.
+7. (authors unknown). *[[lean|GLEAN]]: Group Level Exploratory Analysis of Networks*.
