@@ -31,7 +31,7 @@ The physical basis of EEG generation is well described by the work of [[paul-nun
 
 ## Characteristics and Technical Specifications
 
-EEG offers exceptional temporal resolution but limited spatial resolution. The temporal resolution of 1-10 milliseconds reflects the physiological time course of synaptic processing and allows EEG to capture rapid neural events such as evoked responses, seizures, and sleep spindles. The spatial resolution on the scalp is approximately 1-10 cm, though this can be improved somewhat with high-density arrays and advanced source localization algorithms. The frequency content of EEG spans from very slow DC shifts (below 0.1 Hz) to fast oscillations approaching 100 Hz, though practical clinical recordings typically focus on the 0.5-50 Hz range where the signal-to-noise ratio is most favorable.
+EEG offers temporal resolution but limited spatial resolution. The temporal resolution of 1-10 milliseconds reflects the physiological time course of synaptic processing and allows EEG to capture rapid neural events such as evoked responses, seizures, and sleep spindles. The spatial resolution on the scalp is approximately 1-10 cm, though this can be improved somewhat with high-density arrays and advanced source localization algorithms. The frequency content of EEG spans from very slow DC shifts (below 0.1 Hz) to fast oscillations approaching 100 Hz, though practical clinical recordings typically focus on the 0.5-50 Hz range where the signal-to-noise ratio is most favorable.
 
 | Feature | Typical Value |
 |---------|---------------|

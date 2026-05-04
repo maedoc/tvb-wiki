@@ -16,7 +16,7 @@ updated: '2026-04-30'
 ---
 
 ## Overview
-John Guckenheimer (born 1945) is an American mathematician and the Abram R. Bullis Professor of Mathematics at Cornell University. He is a leading authority on dynamical systems and bifurcation theory, with applications to neuroscience and biology.
+John Guckenheimer (born 1945) is an American mathematician and the Abram R. Bullis Professor of Mathematics at Cornell University. He is a widely used on dynamical systems and bifurcation theory, with applications to neuroscience and biology.
 
 ## Key Contributions
 - **Bifurcation Theory**: Co-author of the definitive text "Nonlinear Oscillations, Dynamical Systems, and Bifurcations of Vector Fields"

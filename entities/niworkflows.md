@@ -2,9 +2,9 @@
 created: 2024-01-15
 sources:
 - accessdate: '2026-05-03'
-  id: NiWorkflows2021
-  title: NiWorkflows v1.11.0 documentation
-  url: https://niworkflows.readthedocs.io/
+ id: NiWorkflows2021
+ title: NiWorkflows v1.11.0 documentation
+ url: https://niworkflows.readthedocs.io/
 - raw/papers/semanticscholar-109de470e443.md
 - raw/papers/semanticscholar-a0cce22e2ffc.md
 - raw/papers/semanticscholar-4d73a30d5c84.md
@@ -64,5 +64,5 @@ The framework also relates to broader neuroimaging efforts including the [[human
 
 - Esteban O, et al. (2018). "fMRIPrep: a robust preprocessing pipeline for functional MRI." *Nature Methods* 15: 733–737. The primary fMRIPrep paper, demonstrating the NiWorkflows-based pipeline application that has become the field standard.
 - Gorgolewski K, et al. (2016). "BIDS apps: improving ease of use, accessibility, and [[reproducibility]] in neuroimaging data analysis." *Frontiers in Neuroinformatics* 10: 27. Establishes the BIDS Apps ecosystem that NiWorkflows-powered tools inhabit.
-- Nichols TE, et al. (2017). "Best practices in data analysis are keeping us from doing good science." *PLoS Computational Biology* 13(6): e1005490. Discusses reproducibility challenges that motivated frameworks like NiWorkflows.
-- Triantafyllou MS, et al. (2021). "Technical considerations for implementing automated preprocessing pipelines." *NeuroImage* 224: 117382. Reviews best practices for neuroimaging preprocessing frameworks.
+- Nichols TE, et al. (2017). "Standard practices in data analysis are keeping us from doing good science." *PLoS Computational Biology* 13(6): e1005490. Discusses reproducibility challenges that motivated frameworks like NiWorkflows.
+- Triantafyllou MS, et al. (2021). "Technical considerations for implementing automated preprocessing pipelines." *NeuroImage* 224: 117382. Reviews standard practices for neuroimaging preprocessing frameworks.

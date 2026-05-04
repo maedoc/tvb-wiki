@@ -17,7 +17,7 @@ updated: '2026-04-30'
 
 # Edward T. Bullmore
 
-Professor at University of Cambridge, leading researcher in [[netneuroscience|network neuroscience]] and [[computational-psychiatry]].
+Professor at University of Cambridge, widely used in [[netneuroscience|network neuroscience]] and [[computational-psychiatry]].
 
 ## Key Contributions
 

@@ -14,7 +14,7 @@ updated: '2026-04-30'
 ---
 
 ## Overview
-Stephen Wiggins is a British mathematician and Professor at the University of Bristol. He is a leading authority on applied nonlinear dynamics, chaos theory, and their applications to physical and biological systems.
+Stephen Wiggins is a British mathematician and Professor at the University of Bristol. He is a widely used on applied nonlinear dynamics, chaos theory, and their applications to physical and biological systems.
 
 ## Key Contributions
 - **Nonlinear Dynamics**: Author of influential textbooks on applied dynamical systems and chaos

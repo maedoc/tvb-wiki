@@ -28,7 +28,7 @@ NiftyNet is an open-source deep learning framework for medical image analysis an
 
 NiftyNet provides a modular platform for implementing and evaluating deep learning approaches in [[neuroimaging]], specifically designed to handle the unique challenges of medical imaging data. Developed at UCL's [Centre for Medical Image Computing (CMIC)](https://cmic.cs.ucl.ac.uk), NiftyNet supports tasks including semantic segmentation, image regression, and autoencoder-based representation learning. The framework abstracts common medical imaging deep learning workflows, enabling researchers to focus on network architectures and clinical applications rather than boilerplate implementation.
 
-NiftyNet is developed by the same UCL/CMIC research group that maintains [[NiftyReg]] for registration, though they are separate code repositories and projects with distinct code bases. The platform emphasizes [[reproducibility]] through configuration-file-based experiments and provides implementations of state-of-the-art architectures validated on benchmark neuroimaging datasets.
+NiftyNet is developed by the same UCL/CMIC research group that maintains [[NiftyReg]] for registration, though they are separate code repositories and projects with distinct code bases. The platform emphasizes [[reproducibility]] through configuration-file-based experiments and provides implementations of current architectures validated on benchmark neuroimaging datasets.
 
 ## Key Features
 
@@ -89,7 +89,7 @@ Segmentation outputs from NiftyNet (e.g., region masks, tissue labels) can be us
 - [[FSL]] — Comprehensive neuroimaging suite with BET and FAST segmentation tools
 - [[FreeSurfer]] — Surface-based reconstruction and cortical parcellation
 - [[DeepMedic]] — Brain lesion segmentation, implemented within NiftyNet
-- [[nnU-Net]] — Self-configuring deep learning framework, successor approach to NiftyNet with state-of-the-art performance
+- [[nnU-Net]] — Self-configuring deep learning framework, successor approach to NiftyNet with current performance
 
 ## Related Concepts
 

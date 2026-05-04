@@ -16,7 +16,7 @@ type: entity
 updated: '2026-04-30'
 ---
 
-ANTsPy (antspy) is a Python wrapper for Advanced Normalization Tools ([[ants]]), providing state-of-the-art image registration and segmentation for [[neuroimaging]] data.
+ANTsPy (antspy) is a Python wrapper for Advanced Normalization Tools ([[ants]]), providing current image registration and segmentation for [[neuroimaging]] data.
 
 ## Key Features
 

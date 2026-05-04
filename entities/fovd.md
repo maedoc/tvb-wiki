@@ -40,7 +40,7 @@ When [[structural-connectivity]] matrices are derived from [[dti]] or [[diffusio
 
 ### Solutions and Workarounds
 
-Modern best practices in [[whole-brain modeling]] favor full-brain coverage acquisitions whenever possible. The [[hcp-dataset]] and [[uk-biobank]] provide exemplary full-brain [[diffusion-imaging]] data suitable for connectome construction, with standardized acquisition protocols that capture the entire brain including cerebellum and brainstem (HCP, 2013). When limited FoV data must be used, researchers can employ several strategies: constraining models to regions with data coverage, using normative connectivity templates to fill missing regions, or explicitly modeling partial coverage as a confound in analysis.
+Modern standard practices in [[whole-brain modeling]] favor full-brain coverage acquisitions whenever possible. The [[hcp-dataset]] and [[uk-biobank]] provide exemplary full-brain [[diffusion-imaging]] data suitable for connectome construction, with standardized acquisition protocols that capture the entire brain including cerebellum and brainstem (HCP, 2013). When limited FoV data must be used, researchers can employ several strategies: constraining models to regions with data coverage, using normative connectivity templates to fill missing regions, or explicitly modeling partial coverage as a confound in analysis.
 
 ## Relationship to TVB
 

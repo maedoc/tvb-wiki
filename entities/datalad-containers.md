@@ -45,7 +45,7 @@ DataLad Containers integrates naturally with other tools in the reproducible neu
 
 ## Limitations and Considerations
 
-DataLad Containers assumes familiarity with the DataLad workflow, which has a learning curve for researchers accustomed to traditional file management approaches. Container building also requires some expertise with Docker or Singularity, and researchers must ensure their institutional computing environments support container execution. For teams seeking a lower-barrier alternative, the [[neurodesk]] project provides ready-to-use containers without requiring dataset-specific configuration. Nonetheless, for projects where full control over the computational environment and tight integration with version-controlled data are paramount, DataLad Containers offers a powerful solution that aligns with best practices in reproducible science.
+DataLad Containers assumes familiarity with the DataLad workflow, which has a learning curve for researchers accustomed to traditional file management approaches. Container building also requires some expertise with Docker or Singularity, and researchers must ensure their institutional computing environments support container execution. For teams seeking a lower-barrier alternative, the [[neurodesk]] project provides ready-to-use containers without requiring dataset-specific configuration. Nonetheless, for projects where full control over the computational environment and tight integration with version-controlled data are paramount, DataLad Containers offers a powerful solution that aligns with standard practices in reproducible science.
 
 ## Key Papers
 

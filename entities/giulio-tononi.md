@@ -18,7 +18,7 @@ updated: '2026-04-30'
 
 # Giulio Tononi
 
-Professor of Psychiatry at University of Wisconsin-Madison, leading researcher in sleep and consciousness, co-originator of the connectome concept.
+Professor of Psychiatry at University of Wisconsin-Madison, widely used in sleep and consciousness, co-originator of the connectome concept.
 
 ## Key Contributions
 

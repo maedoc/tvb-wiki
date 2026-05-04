@@ -23,7 +23,7 @@ updated: '2026-04-30'
 
 # Eugene M. Izhikevich
 
-Russian-American computational neuroscientist and former CEO of the Brain Corporation. Leading researcher in [[nonlinear-dynamics]] of neurons and author of the influential textbook "Dynamical Systems in Neuroscience."
+Russian-American computational neuroscientist and former CEO of the Brain Corporation. Widely used in [[nonlinear-dynamics]] of neurons and author of the influential textbook "Dynamical Systems in Neuroscience."
 
 ## Key Contributions
 

@@ -28,7 +28,7 @@ Brain aging encompasses the progressive structural, functional, and connectomic 
 
 ## Definition and Scope
 
-Brain aging represents a lifespan process beginning in the third decade of life, though the rate and magnitude of changes vary substantially across individuals and brain regions. The field distinguishes between normal aging, which involves predictable but benign changes, and pathological aging associated with neurodegenerative diseases such as Alzheimer's disease. Critically, aging is not a uniform process: some circuits and cognitive systems show remarkable preservation while others exhibit marked decline. This heterogeneity poses both a challenge and an opportunity for [[personalized-brain-modeling]], as individual differences in aging trajectories must be captured by computational models to make accurate predictions about cognitive outcomes and disease progression.
+Brain aging represents a lifespan process beginning in the third decade of life, though the rate and magnitude of changes vary substantially across individuals and brain regions. The field distinguishes between normal aging, which involves predictable but benign changes, and pathological aging associated with neurodegenerative diseases such as Alzheimer's disease. Critically, aging is not a uniform process: some circuits and cognitive systems show preservation while others exhibit marked decline. This heterogeneity poses both a challenge and an opportunity for [[personalized-brain-modeling]], as individual differences in aging trajectories must be captured by computational models to make accurate predictions about cognitive outcomes and disease progression.
 
 ## Structural Changes
 

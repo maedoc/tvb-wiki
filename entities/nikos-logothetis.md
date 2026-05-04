@@ -17,12 +17,12 @@ updated: '2026-04-30'
 
 # Nikos Logothetis
 
-**Born:** 1950  
-**Nationality:** Greek  
+**Born:** 1950
+**Nationality:** Greek
 **Institution:** Max Planck Institute for Biological Cybernetics (emeritus)
 
 ## Overview
-Nikos Logothetis is a Greek neuroscientist known for pioneering work combining neurophysiology with functional imaging. His 2001 Nature paper established the critical link between neural activity and the BOLD signal through simultaneous [[electrophysiology]] and fMRI recordings in monkeys.
+Nikos Logothetis is a Greek neuroscientist known for foundational work combining neurophysiology with functional imaging. His 2001 Nature paper established the critical link between neural activity and the BOLD signal through simultaneous [[electrophysiology]] and fMRI recordings in monkeys.
 
 ## Key Contributions
 - **2001**: Demonstrated that BOLD correlates with [[local-field-potentials]] (LFPs) more than spiking activity

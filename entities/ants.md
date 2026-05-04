@@ -22,7 +22,7 @@ ANTs is a medical image registration and segmentation toolkit widely used in [[n
 
 ## Overview
 
-Advanced Normalization Tools (ANTs) provides state-of-the-art algorithms for image registration, segmentation, and cortical thickness measurement. It is particularly notable for the SyN (Symmetric Normalization) diffeomorphic registration algorithm.
+Advanced Normalization Tools (ANTs) provides current algorithms for image registration, segmentation, and cortical thickness measurement. It is particularly notable for the SyN (Symmetric Normalization) diffeomorphic registration algorithm.
 
 ## Key Features
 

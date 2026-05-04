@@ -50,7 +50,7 @@ SurfIce is not designed for volume rendering, mesh editing, or advanced segmenta
 
 ## Key Papers
 
-The following publications inform best practices for using SurfIce in whole-brain modeling contexts:
+The following publications inform standard practices for using SurfIce in whole-brain modeling contexts:
 
 - Rorden, C., & Brett, M. (2012). Stereotaxic display of brain lesions. *Behavioural Neurology*, 22(1-2), 191-192. — Describes the origin and core functionality of SurfIce as a lesion mapping tool.
 - Glasser, M. F., et al. (2016). A multi-modal [[parcellation]] of human cerebral cortex. *Nature*, 536(7615), 171-178. — The HCP Multi-Modal Parcellation atlas, viewable in SurfIce.

@@ -22,7 +22,7 @@ updated: '2026-04-30'
 
 # Alain Destexhe
 
-French computational neuroscientist. Senior Researcher at CNRS and UNIC (Unité de Neurosciences Intégratives et Computationnelles). Leading researcher in mean-field theory, neural population dynamics, and computational models of cortical states.
+French computational neuroscientist. Senior Researcher at CNRS and UNIC (Unité de Neurosciences Intégratives et Computationnelles). Widely used in mean-field theory, neural population dynamics, and computational models of cortical states.
 
 ## Key Contributions
 

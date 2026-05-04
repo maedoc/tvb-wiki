@@ -65,7 +65,7 @@ Several software platforms have been developed specifically to support personali
 
 [[TVB]] (The Virtual Brain) is the most widely used open-source platform for [[whole-brain]] simulation and personalized modeling. TVB provides an integrated environment for data import, connectivity matrix construction, neural mass model selection, parameter optimization, and simulation. It supports multiple [[neural-mass-models]] (including Jansen-Rit, Wong-Wang, and Epileptor) and can generate both fMRI and EEG-compatible outputs. The platform includes a graphical user interface for interactive exploration as well as a Python API for programmatic workflows.
 
-[[ANTs]] (Advanced Normalization Tools) is essential for image registration and preprocessing—particularly for aligning individual anatomical scans to template spaces and performing skull-stripping. ANTs provides sophisticated diffeomorphic registration algorithms that are considered state-of-the-art for neuroimaging preprocessing.
+[[ANTs]] (Advanced Normalization Tools) is essential for image registration and preprocessing—particularly for aligning individual anatomical scans to template spaces and performing skull-stripping. ANTs provides sophisticated diffeomorphic registration algorithms that are considered current for neuroimaging preprocessing.
 
 [[GraphVar]] is a MATLAB-based toolbox for graph-theoretic analysis of brain connectivity networks. While not a simulation platform itself, GraphVar provides the connectivity analysis tools needed for validating personalized models by comparing simulated and empirical network metrics (e.g., [[modularity]], [[rich-club]] coefficients, small-world properties).
 

@@ -40,7 +40,7 @@ fMRIPrep outputs feed directly into tools such as [[c-pac]], [[conn]], and speci
 
 ## Key Features and Usage
 
-The pipeline runs within Docker or Singularity containers, encapsulating all dependencies and eliminating the "it works on my machine" problem that plagued earlier preprocessing approaches. Researchers execute fMRIPrep via command-line interface, specifying input directories containing BIDS-formatted data and output directories for processed results. Configuration options allow users to customize processing flags, though the pipeline's defaults are designed to represent best practices suitable for most studies.
+The pipeline runs within Docker or Singularity containers, encapsulating all dependencies and eliminating the "it works on my machine" problem that plagued earlier preprocessing approaches. Researchers execute fMRIPrep via command-line interface, specifying input directories containing BIDS-formatted data and output directories for processed results. Configuration options allow users to customize processing flags, though the pipeline's defaults are designed to represent standard practices suitable for most studies.
 
 Quality control outputs include interactive HTML reports summarizing registration accuracy, motion statistics, and segmentation quality. These reports have become standard documentation for neuroimaging manuscripts, allowing reviewers and readers to evaluate preprocessing quality. The pipeline's detailed log files enable full reprocessing traceability, supporting [[reproducibility]] standards increasingly required by journals and funding agencies.
 

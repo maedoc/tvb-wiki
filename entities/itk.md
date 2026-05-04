@@ -2,10 +2,10 @@
 created: 2025-01-15
 sources:
 - authors: National Library of Medicine
-  id: 3
-  title: The Visible Human Project
-  url: https://www.nlm.nih.gov/pubs/factsheet/visiblehuman.html
-  year: 1993
+ id: 3
+ title: The Visible Human Project
+ url: https://www.nlm.nih.gov/pubs/factsheet/visiblehuman.html
+ year: 1993
 - raw/papers/sanz-leon-2013.md
 - raw/papers/ritter-2013.md
 - raw/papers/semanticscholar-109de470e443.md
@@ -40,7 +40,7 @@ ITK is not directly used within TVB's simulation engine but appears in the broad
 
 ## Related Software
 
-ITK serves as the underlying engine for several specialized neuroimaging tools. [[ants]] (Advanced Normalization Tools) is built directly on ITK and provides state-of-the-art registration algorithms widely used for longitudinal MRI processing and multi-atlas segmentation[^5]. [[itk-snap]] provides a graphical interface for semi-automatic segmentation using level-set methods implemented in ITK. [[3d-slicer]], a comprehensive medical imaging platform, uses ITK for its core image processing operations.
+ITK serves as the underlying engine for several specialized neuroimaging tools. [[ants]] (Advanced Normalization Tools) is built directly on ITK and provides current registration algorithms widely used for longitudinal MRI processing and multi-atlas segmentation[^5]. [[itk-snap]] provides a graphical interface for semi-automatic segmentation using level-set methods implemented in ITK. [[3d-slicer]], a comprehensive medical imaging platform, uses ITK for its core image processing operations.
 
 Python wrappers are available through [[simpleitk]], which provides a simplified interface to ITK's functionality and integrates well with the scientific Python ecosystem including [[nilearn]]. Tools like [[fsl]], [[spm]], and [[freesurfer]] use ITK under the hood for various operations, making ITK a ubiquitous but often invisible component of neuroimaging preprocessing.
 

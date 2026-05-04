@@ -62,7 +62,7 @@ Identifying modular structure requires algorithmic approaches to partition netwo
 | **Walktrap** | Random walk similarity | Intuitive | Computationally intensive |
 | **Infomap** | Information-theoretic (flow) | Handles directed flow | Requires specialized implementation |
 
-The choice of algorithm significantly affects results, and no single method is universally superior. Best practices involve comparing community structure across multiple algorithms, validating partitions against known anatomical or functional boundaries, and assessing robustness using resampling techniques.
+The choice of algorithm significantly affects results, and no single method is universally superior. Standard practices involve comparing community structure across multiple algorithms, validating partitions against known anatomical or functional boundaries, and assessing robustness using resampling techniques.
 
 ## Brain Network Modularity
 

@@ -16,13 +16,13 @@ updated: '2026-04-30'
 
 ## Overview
 
-BrainSpace is an open-source Python and MATLAB toolbox designed for the analysis of macroscale gradients in the [[connectome]]. Developed to address the growing interest in continuous, manifold-based representations of brain organization, BrainSpace provides a unified framework for identifying, aligning, and visualizing gradient patterns across the cerebral cortex. The toolbox implements state-of-the-art algorithms for dimensionality reduction and null model generation, enabling researchers to extract intrinsic patterns of [[functional-connectivity]] variation without relying on discrete [[brain-parcellations]].
+BrainSpace is an open-source Python and MATLAB toolbox designed for the analysis of macroscale gradients in the [[connectome]]. Developed to address the growing interest in continuous, manifold-based representations of brain organization, BrainSpace provides a unified framework for identifying, aligning, and visualizing gradient patterns across the cerebral cortex. The toolbox implements current algorithms for dimensionality reduction and null model generation, enabling researchers to extract intrinsic patterns of [[functional-connectivity]] variation without relying on discrete [[brain-parcellations]].
 
 ## Motivation and Context
 
 Traditional approaches to [[connectomics]] have relied heavily on parcellated representations of the brain, where the cortex is divided into discrete regions based on [[neuroimaging]] data. However, evidence has accumulated suggesting that brain organization is better represented as a continuous manifold rather than a set of disjoint parcels. Gradient analysis approaches this problem by identifying smooth, continuous axes of variation in [[functional-connectivity]] patterns, revealing the principal modes of co-variation that organize the brain's intrinsic activity [1].
 
-The motivation for BrainSpace emerged from the need to unify the fragmented software landscape for gradient analysis. Prior to its development, researchers implemented gradient detection algorithms using disparate tools, often lacking proper null models for statistical validation or standardized procedures for cross-dataset alignment. BrainSpace addresses these limitations by providing a comprehensive, well-documented toolkit that implements best practices from the literature while remaining accessible to both Python and MATLAB users.
+The motivation for BrainSpace emerged from the need to unify the fragmented software landscape for gradient analysis. Prior to its development, researchers implemented gradient detection algorithms using disparate tools, often lacking proper null models for statistical validation or standardized procedures for cross-dataset alignment. BrainSpace addresses these limitations by providing a comprehensive, well-documented toolkit that implements standard practices from the literature while remaining accessible to both Python and MATLAB users.
 
 ## Key Features
 

@@ -41,7 +41,7 @@ Point neuron models treat the entire cell body (soma) as a single computational 
 
 **Integrate-and-fire models** represent the simplest class, accumulating membrane potential until reaching a threshold that triggers a spike, after which the membrane potential resets. Variations include leaky integrate-and-fire (LIF) models that incorporate exponential decay, and quadratic integrate-and-fire models that better capture dynamical systems properties near the spike initiation threshold. The adaptive exponential (AdEx) model extends this framework by including spike frequency adaptation through a slow recovery variable, enabling study of firing rate regulation and transient responses.
 
-**Hodgkin-Huxley models** provide the highest degree of biophysical detail among point neuron frameworks, explicitly modeling [[ion-channel]] conductances for sodium, potassium, and leak currents. Named after the 1963 Nobel Prize-winning work of Alan Hodgkin and Andrew Huxley, these models capture action potential generation with remarkable accuracy and form the foundation for many modern neuron models. However, their computational cost is substantially higher than simpler integrate-and-fire variants.
+**Hodgkin-Huxley models** provide the highest degree of biophysical detail among point neuron frameworks, explicitly modeling [[ion-channel]] conductances for sodium, potassium, and leak currents. Named after the 1963 Nobel Prize-winning work of Alan Hodgkin and Andrew Huxley, these models capture action potential generation with accuracy and form the foundation for many modern neuron models. However, their computational cost is substantially higher than simpler integrate-and-fire variants.
 
 ### Multi-Compartment Models
 

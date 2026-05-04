@@ -51,4 +51,4 @@ The consortium produced landmark findings including the identification of reduce
 
 ## Related Concepts
 
-ENIGMA's work connects to several key domains within the wiki: the consortium's standardized processing pipelines represent best practices in neuroimaging quality control; its disease working groups advance personalized brain modeling through identification of biomarkers; and its emphasis on open data sharing supports reproducibility best practices. The consortium's approach to combining data across sites parallels efforts in the [[mrtrix3-connectome]] and [[uk-biobank]] to create large-scale neuroimaging resources.
+ENIGMA's work connects to several key domains within the wiki: the consortium's standardized processing pipelines represent standard practices in neuroimaging quality control; its disease working groups advance personalized brain modeling through identification of biomarkers; and its emphasis on open data sharing supports reproducibility standard practices. The consortium's approach to combining data across sites parallels efforts in the [[mrtrix3-connectome]] and [[uk-biobank]] to create large-scale neuroimaging resources.

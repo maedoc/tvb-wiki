@@ -78,7 +78,7 @@ The quality of MRtrix3 Connectome outputs directly impacts TVB simulation result
 
 - **Tournier et al. (2008)**: "Resolving crossing fibres using constrained spherical deconvolution: validation with diffusion-weighted imaging phantom data" – *NeuroImage* – Methodological basis for the CSD approach
 
-- **Sotiropoulos & Zalesky (2019)**: "Building connectomes using diffusion MRI: why, how and but" – *Brain Connectivity* – Guidelines for validation and interpretation of connectome data, including critical discussion of tractography biases and connectome construction best practices
+- **Sotiropoulos & Zalesky (2019)**: "Building connectomes using diffusion MRI: why, how and but" – *Brain Connectivity* – Guidelines for validation and interpretation of connectome data, including critical discussion of tractography biases and connectome construction standard practices
 
 - **Yeh et al. (2019)**: "Quantifying brain microstructure with diffusion MRI: Theory and [[parameter-estimation]]" – *NMR in Biomedicine* – Background on diffusion modeling methods
 

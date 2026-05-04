@@ -44,7 +44,7 @@ However, the two platforms can be productively combined in multi-scale modeling 
 
 ## Historical Context and Development
 
-SCIRun was developed at the University of Utah under the direction of Chris R. Johnson and later Rob MacLeod, beginning in the late 1990s. The software emerged from the strong tradition of bioelectric field research at Utah, which included pioneering work on boundary element methods for EEG and MEG forward problems. The original development was supported by the National Institutes of Health and the National Science Foundation, reflecting the software's significance to the biomedical computing community.
+SCIRun was developed at the University of Utah under the direction of Chris R. Johnson and later Rob MacLeod, beginning in the late 1990s. The software emerged from the strong tradition of bioelectric field research at Utah, which included foundational work on boundary element methods for EEG and MEG forward problems. The original development was supported by the National Institutes of Health and the National Science Foundation, reflecting the software's significance to the biomedical computing community.
 
 A significant milestone was the integration of inverse simulation capabilities that allowed researchers to not only solve forward problems but to systematically investigate the properties and limitations of inverse algorithms through controlled simulation studies. This "inverse crime" approach, while recognized as methodologically problematic for validating inverse methods in practice, nonetheless provided valuable insights into algorithmic behavior and numerical properties (Parker, 1977).
 
