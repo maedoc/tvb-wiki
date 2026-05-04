@@ -334,6 +334,13 @@ def build_priority_queue(n: int = None) -> list[dict]:
             elif dist == 999:
                 info['score'] += 5  # Slight penalty for orphans
             
+            # Boost very thin pages (high priority for expansion)
+            wc = info.get('word_count', 0)
+            if wc < 20:
+                info['score'] = max(0, info['score'] - 20)
+            elif wc < 100:
+                info['score'] = max(0, info['score'] - 10)
+            
             scored.append(info)
 
     scored.sort(key=lambda x: x['score'])
@@ -433,7 +440,11 @@ Improve the wiki page: {slug}
 5. Add any new sources used to the `sources:` frontmatter list
 6. Aim for {word_target} words for a full page
 7. Use clear section headings (##)
-8. Do NOT add a ## References section — a separate agent handles reference formatting
+8. Do NOT add a `## References` section in the body — add sources to YAML `sources:` frontmatter only
+9. Do NOT write meta-commentary like "Here is the corrected file", "I have fixed", or "Below is the updated version"
+10. Do NOT wrap your output in ```markdown or ```yaml code fences — output raw markdown only
+11. Do NOT leak frontmatter into the body — the frontmatter block ends at the second `---` and the body starts immediately after
+12. Do NOT write in first person ("I think", "I recommend") or address the reader directly ("you should", "let me explain")
 
 Write the COMPLETE updated page (including frontmatter). Output ONLY the markdown file content, no commentary."""
     return prompt
@@ -528,6 +539,42 @@ def validate_edit(filepath: str, new_content: str, original_content: str) -> tup
         except ValueError:
             issues.append("Invalid updated date format")
 
+    # ── Post-write structural guards ──
+    # Check body starts with meta-commentary
+    body_lower = new_content.lower()
+    meta_phrases = [
+        'here is the corrected', 'here is the revised', 'here is the updated',
+        'here is the fixed', 'i\'ll fix', 'i will fix', 'all issues fixed',
+        'i have fixed', 'i have corrected', 'i have addressed',
+        'i have updated', 'i have added', 'i have removed', 'i have modified',
+        'i have rewritten', 'i have revised', 'i have successfully',
+        'below is the corrected', 'below is the revised', 'below is the updated',
+        'the corrected file', 'corrected file has been written',
+        'revision complete', 'update complete', 'changes applied',
+    ]
+    for phrase in meta_phrases:
+        if phrase in body_lower[:2000]:
+            issues.append(f"Meta-commentary detected: '{phrase}'")
+            break
+
+    # Check for leaked frontmatter in body
+    # Find end of frontmatter
+    body = new_content
+    if body.startswith('---'):
+        fm_end = body.find('\n---', 3)
+        if fm_end != -1:
+            actual_body = body[fm_end+4:].strip()
+            if actual_body.startswith('title:') or actual_body.startswith('created:') or actual_body.startswith('---'):
+                issues.append("Leaked frontmatter in body")
+
+    # Check for body ## References (should not exist anymore)
+    if '\n## References' in body or body.strip().startswith('## References'):
+        issues.append("Body contains ## References section — use YAML sources: instead")
+
+    # Check for code fences still present
+    if '```markdown' in body or '```yaml' in body:
+        issues.append("Output wrapped in code fences — output raw markdown only")
+
     return len(issues) == 0, issues
 
 
@@ -535,6 +582,14 @@ def validate_edit(filepath: str, new_content: str, original_content: str) -> tup
 
 def _strip_code_fences(text: str) -> str:
     """Remove surrounding code fences from LLM output."""
+    stripped = text.strip()
+    if stripped.startswith('```markdown') or stripped.startswith('```yaml'):
+        lines = stripped.split('\n')
+        if lines[0].startswith('```'):
+            lines = lines[1:]
+        if lines and lines[-1].strip() == '```':
+            lines = lines[:-1]
+        text = '\n'.join(lines)
     if text.startswith('```'):
         lines = text.split('\n')
         if lines[0].startswith('```'):
