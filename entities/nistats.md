@@ -51,4 +51,4 @@ Nistats shares conceptual and data-processing lineage with several other Python 
 ## References
 
 1. (authors unknown). *Statistical parametric maps in functional imaging: A general linear approach*.
-2. (authors unknown). *Machine learning for neuroimaging with scikit‑lean*.
+2. (authors unknown). *Machine learning for neuroimaging with scikit‑[[lean]]*.
