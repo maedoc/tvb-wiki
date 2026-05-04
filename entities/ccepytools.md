@@ -23,10 +23,10 @@ The Python ecosystem for brain connectivity analysis has matured considerably, w
 
 [[the-virtual-brain]] (TVB) is a comprehensive platform for whole-brain modeling that integrates [[structural-connectivity]] derived from [[diffusion-imaging]] with [[neural-mass-models]] to simulate [[brain-dynamics]]. While TVB provides its own built-in analysis tools through the [[tvb-library]], researchers often complement TVB workflows with external Python packages for specialized tasks such as:
 
-- Preprocessing of neuroimaging data using packages like Mne Python for electrophysiology
+- Preprocessing of neuroimaging data using packages like Mne Python for [[electrophysiology]]
 - Advanced connectivity metrics unavailable in TVB's core distribution
 - Graph-theoretical analyses using [[bctpy]] or similar packages
-- Connectivity-based parcellation using Nilearn functionality
+- Connectivity-based [[parcellation]] using Nilearn functionality
 - Source reconstruction and beamforming for M/EEG data
 
 The term "CCEytools" may have emerged from discussions about external Python tools to augment TVB's native capabilities, though no single unified package by that exact name was ever developed or released.
@@ -35,11 +35,11 @@ The term "CCEytools" may have emerged from discussions about external Python too
 
 ### Connectivity Analysis
 
-Several dedicated packages exist for computing functional and effective connectivity from neuroimaging data:
+Several dedicated packages exist for computing functional and [[effective-connectivity]] from neuroimaging data:
 
-- **MNE-Connectivity** (extends Mne Python): Provides connectivity measures including coherence, phase locking value, amplitude envelope correlation, and granger causality for MEG, EEG, and iEEG data.
+- **[[mne-connectivity]]** (extends Mne Python): Provides connectivity measures including coherence, phase locking value, amplitude envelope correlation, and granger causality for MEG, EEG, and iEEG data.
 
-- **GraphVar**: Offers graph-theoretical network analysis with a focus on connectivity matrices and their topological properties, useful for analyzing resting-state networks derived from TVB simulations.
+- **[[graphvar]]**: Offers graph-theoretical network analysis with a focus on connectivity matrices and their topological properties, useful for analyzing [[resting-state]] networks derived from TVB simulations.
 
 - **EEGraph**: A Python library for modeling EEG data as graphs with various connectivity measures including cross-correlation, Pearson correlation, coherence, and directed transfer function.
 
@@ -47,11 +47,11 @@ Several dedicated packages exist for computing functional and effective connecti
 
 ### Structural Connectivity and Network Analysis
 
-- **[[bctpy]]**: The Brain Connectivity Toolbox ported to Python, offering over 200 network metrics including degree distribution, betweenness centrality, modularity, and rich-club coefficients.
+- **[[bctpy]]**: The Brain Connectivity Toolbox ported to Python, offering over 200 network metrics including degree distribution, betweenness centrality, [[modularity]], and [[rich-club]] coefficients.
 
-- **Dipy**: Comprehensive diffusion imaging processing library that includes tractography algorithms essential for deriving structural connectivity matrices used as TVB input.
+- **Dipy**: Comprehensive diffusion imaging processing library that includes [[tractography]] algorithms essential for deriving structural connectivity matrices used as TVB input.
 
-- **Mrtrix3**: Advanced diffusion MRI analysis suite with tractography capabilities.
+- **Mrtrix3**: Advanced [[diffusion-mri]] analysis suite with tractography capabilities.
 
 ### Connectome Embedding and Advanced Methods
 
