@@ -37,3 +37,5 @@
 ## [2026-05-04 15:54] Improve: 4 pages improved (nistats, hcp-dataset, aomic, petsurfer)
 
 ## [2026-05-04 15:54] RefFormatter: formatted references on 10 pages
+
+## [2026-05-04 16:01] CrosslinkApplier: added 125 wikilinks (125 inline, 0 suggested)

@@ -7,6 +7,9 @@ sources:
 - FSL documentation
 - raw/papers/doi-10-1002-hbm-460020402.md
 - raw/papers/doi-10-3389-fninf-2014-00014.md
+- raw/papers/semanticscholar-109de470e443.md
+- raw/papers/semanticscholar-a0cce22e2ffc.md
+- raw/papers/Renton2024.md
 tags:
 - software-neuroimaging
 - neuroimaging-fmri
