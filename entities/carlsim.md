@@ -46,7 +46,7 @@ CARLsim is built around three core components:
 2. **Synapse Engine**: Manages synaptic transmission and plasticity rules
 3. **GPU Kernel Scheduler**: Optimizes CUDA kernel execution for spike generation and delivery
 
-The simulator uses fixed time-step integration, typically with 1 ms [[steps]], achieving significant computational speedups over CPU-based alternatives for large networks through massive GPU parallelism.
+The simulator uses fixed time-step integration, typically with 1 ms Steps, achieving significant computational speedups over CPU-based alternatives for large networks through massive GPU parallelism.
 
 ## Relationship to TVB
 

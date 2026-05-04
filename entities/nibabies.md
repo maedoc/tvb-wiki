@@ -24,7 +24,7 @@ nibabies is a specialized Python package designed for processing magnetic resona
 
 Infant brain imaging presents distinct computational challenges that mainstream adult-oriented neuroimaging tools struggle to address. During the first years of life, the brain undergoes rapid myelination, cortical folding, and volumetric changes that affect image contrast, tissue segmentation, and registration quality (doi.org/10.1016/j.neuroimage.2020.117305). Additionally, infant datasets often exhibit higher rates of head motion, require specialized acquisition parameters, and lack the well-established anatomical atlases available for adults. nibabies was developed to bridge this gap by adapting established preprocessing workflows specifically for the infant population, enabling reproducible, automated processing of neonatal and pediatric MRI data within a [[BIDS]]-compliant framework (doi.org/10.5281/zenodo.6573462).
 
-The software is developed by the NiPreps community and builds upon the [[nipype]] workflow engine, leveraging existing tools including [[freesurfer]], [[ANTs]], and [[FSL]] to provide a comprehensive preprocessing pipeline. By maintaining compatibility with the [[BIDS]] standard, nibabies ensures that infant neuroimaging data can be integrated into larger multi-study analyses and shared through established data repositories.
+The software is developed by the NiPreps community and builds upon the [[nipype]] workflow engine, leveraging existing tools including Freesurfer, [[ANTs]], and [[FSL]] to provide a comprehensive preprocessing pipeline. By maintaining compatibility with the [[BIDS]] standard, nibabies ensures that infant neuroimaging data can be integrated into larger multi-study analyses and shared through established data repositories.
 
 ## Key Features
 
@@ -32,7 +32,7 @@ nibabies provides several specialized capabilities that distinguish it from gene
 
 A critical feature is the automated identification and handling of motion artifacts, which are particularly prevalent in infant scanning sessions. The pipeline incorporates custom motion correction strategies that account for the rapid, discontinuous movement patterns typical of awake or sedated infants. Additionally, nibabies provides age-adaptive segmentation that distinguishes between developing [[white-matter]], cortical gray matter, and the cerebrospinal fluid compartments that have not yet achieved the stable contrast properties seen in adult brains.
 
-The software generates comprehensive quality control outputs including motion statistics, registration quality metrics, and tissue segmentation visualizations. These outputs facilitate the identification of problematic volumes and subjects, enabling researchers to make informed decisions about data inclusion in downstream analyses. The pipeline also produces derivatives organized according to the [[BIDS-derivatives]] specification, ensuring compatibility with statistical modeling packages such as [[nilearn]] and [[nistats]].
+The software generates comprehensive quality control outputs including motion statistics, registration quality metrics, and tissue segmentation visualizations. These outputs facilitate the identification of problematic volumes and subjects, enabling researchers to make informed decisions about data inclusion in downstream analyses. The pipeline also produces derivatives organized according to the [[BIDS-derivatives]] specification, ensuring compatibility with statistical modeling packages such as Nilearn and [[nistats]].
 
 ## Relationship to TVB
 
@@ -40,7 +40,7 @@ While nibabies is primarily a preprocessing tool for infant neuroimaging data, i
 
 For researchers working with [[The Virtual Brain]] or other whole-brain simulators, nibabies offers a pathway to generate infant-specific brain network models. The pipeline's outputs—including parcellated functional timeseries and white-matter tractography—can serve as empirical constraints for computational models targeting neurodevelopmental populations. This connection is particularly relevant for researchers investigating [[developmental-trajectories]] or modeling the emergence of [[brain-network]] architecture during early life.
 
-nibabies also complements other software in the TVB ecosystem by providing processed data in standard formats ([[cifti]], [[nifti]]) that can be readily imported into [[Brainstorm]], [[mne-python]], or TVB's own data adapters.
+nibabies also complements other software in the TVB ecosystem by providing processed data in standard formats ([[cifti]], [[nifti]]) that can be readily imported into [[Brainstorm]], Mne Python, or TVB's own data adapters.
 
 ## Key Papers
 
@@ -55,12 +55,12 @@ Applications of nibabies have appeared in studies of early brain development, in
 nibabies is closely related to several other software packages in the neuroimaging ecosystem that address specialized processing populations or modalities:
 
 - [[fMRIprep]] — the adult-focused preprocessing pipeline that nibabies extends
-- [[freesurfer]] — used for cortical reconstruction and segmentation
+- Freesurfer — used for cortical reconstruction and segmentation
 - [[ANTs]] — providing elastic registration for age-appropriate template alignment
 - [[FSL]] — contributing [[diffusion-mri]] processing tools
 - [[mriqc]] — generating quality control metrics for processed data
 - [[datalad]] — enabling reproducible data versioning and distribution
-- [[qsiprep]] — a complementary pipeline for general diffusion MRI processing
+- Qsiprep — a complementary pipeline for general diffusion MRI processing
 - [[Templateflow]] — providing age-appropriate template spaces for infant processing
 
 ## Technical Considerations

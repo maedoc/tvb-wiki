@@ -45,7 +45,7 @@ The pybdf library provides focused functionality specifically for BioSemi BDF fi
 
 The pyedflib library provides more general EDF/EDF+/BDF support and can also write BDF files, enabling bidirectional conversion between formats.
 
-At a higher level of abstraction, [[mne-python]]'s `mne.io.read_raw_bdf()` function integrates BDF reading directly into the MNE-Python ecosystem, automatically handling channel type inference, montage assignment, and conversion to MNE's internal Raw object representation—this integration means BDF data can be immediately preprocessed (filtered, re-referenced, epoched) using the full suite of MNE tools for [[source-localization]] and time-frequency analysis.
+At a higher level of abstraction, Mne Python's `mne.io.read_raw_bdf()` function integrates BDF reading directly into the MNE-Python ecosystem, automatically handling channel type inference, montage assignment, and conversion to MNE's internal Raw object representation—this integration means BDF data can be immediately preprocessed (filtered, re-referenced, epoched) using the full suite of MNE tools for [[source-localization]] and time-frequency analysis.
 
 ## Relationship to TVB
 
@@ -53,7 +53,7 @@ While [[the-virtual-brain]] (TVB) primarily operates on [[fmri]] data and struct
 
 ## Related Software
 
-Beyond the core BDF libraries, the broader electrophysiology ecosystem includes several tools with which BDF interoperability is essential: [[eeglab]] (a MATLAB-based comprehensive EEG processing environment) can import BDF files through its plugin system; [[fieldtrip]] (another MATLAB toolbox from the Donders Institute) provides BDF reading through its dataio functions; and commercial systems like [[brainstorm]] and [[cartool]] also handle BDF input. For forward modeling and source localization that may follow BDF data import, the boundary element method implementations in [[openmeeg]] and the leadfield computation capabilities in [[mne-python]] enable researchers to project sensor-space EEG data to estimated cortical sources—these sources can then be compared to TVB simulated activity.
+Beyond the core BDF libraries, the broader electrophysiology ecosystem includes several tools with which BDF interoperability is essential: [[eeglab]] (a MATLAB-based comprehensive EEG processing environment) can import BDF files through its plugin system; Fieldtrip (another MATLAB toolbox from the Donders Institute) provides BDF reading through its dataio functions; and commercial systems like Brainstorm and Cartool also handle BDF input. For forward modeling and source localization that may follow BDF data import, the boundary element method implementations in [[openmeeg]] and the leadfield computation capabilities in Mne Python enable researchers to project sensor-space EEG data to estimated cortical sources—these sources can then be compared to TVB simulated activity.
 
 ## Open Questions and Limitations
 

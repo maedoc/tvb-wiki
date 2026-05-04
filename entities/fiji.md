@@ -21,21 +21,21 @@ Fiji (Fiji Is Just ImageJ) is an open-source image processing platform that exte
 
 Fiji's architecture centers on a plugin-based extension system that allows researchers to install and manage specialized functionality through a built-in updater. The distribution includes over 300 pre-bundled plugins covering virtually every common image processing operation—filters, segmentations, registration, feature detection, and morphological operations [[fiji]]. Of particular relevance to [[whole-brain|whole-brain modeling]] is the **ImageJ-OPS** library, which provides standardized operations for image processing pipelines, and the **AnalyzeSkeleton** plugin for analyzing morphological skeletons of neurons or vascular networks.
 
-For neuroimaging specifically, Fiji integrates with several key file formats through plugins like **Bio-Formats**, which supports reading over 150 file formats including DICOM (the standard clinical imaging format), [[nifti]] (common in neuroscience research), and various scanner-specific formats bioformats. The platform can handle 3D and 4D image stacks, making it suitable for analyzing fMRI time series data and [[diffusion-mri]] [[tractography]] results. Researchers can also leverage Fiji's scripting capabilities (via ImageJ Macro, Python via pyimagej, or BeanShell) to automate repetitive preprocessing [[steps]] in their whole-brain modeling pipelines.
+For neuroimaging specifically, Fiji integrates with several key file formats through plugins like **Bio-Formats**, which supports reading over 150 file formats including DICOM (the standard clinical imaging format), [[nifti]] (common in neuroscience research), and various scanner-specific formats bioformats. The platform can handle 3D and 4D image stacks, making it suitable for analyzing fMRI time series data and [[diffusion-mri]] [[tractography]] results. Researchers can also leverage Fiji's scripting capabilities (via ImageJ Macro, Python via pyimagej, or BeanShell) to automate repetitive preprocessing Steps in their whole-brain modeling pipelines.
 
 The **Trainable Weka Segmentation** plugin deserves special mention for neuroscience applications—it provides a machine learning-based approach to segmenting brain structures, [[white-matter]] lesions, or other anatomical features without requiring extensive programming expertise weka. Combined with **Interactive Annotations** and **MorphoLibJ** (for mathematical morphology operations), Fiji enables rapid prototyping of segmentation workflows that may later be ported to more automated pipeline frameworks like [[snakemake]] or [[nipype]].
 
 ## Relationship to TVB
 
-While Fiji is not a neural simulation environment itself, it plays an important supporting role in The Virtual Brain ([[TVB]]) workflows by facilitating the preprocessing and quality control of neuroimaging data used to construct personalized brain models. Researchers typically use Fiji to inspect and segment structural MRI scans for [[personalized-brain-modeling]] applications, where anatomical parcellations derived from tools like [[freesurfer]] or [[fsl]] may be refined using Fiji's interactive tools. The software also serves as a visual inspection tool for reviewing [[structural-connectivity]] matrices derived from [[diffusion-imaging]] tractography, allowing researchers to verify fiber tracking results before input to TVB's connectome construction pipeline.
+While Fiji is not a neural simulation environment itself, it plays an important supporting role in The Virtual Brain ([[TVB]]) workflows by facilitating the preprocessing and quality control of neuroimaging data used to construct personalized brain models. Researchers typically use Fiji to inspect and segment structural MRI scans for [[personalized-brain-modeling]] applications, where anatomical parcellations derived from tools like Freesurfer or Fsl may be refined using Fiji's interactive tools. The software also serves as a visual inspection tool for reviewing [[structural-connectivity]] matrices derived from [[diffusion-imaging]] tractography, allowing researchers to verify fiber tracking results before input to TVB's connectome construction pipeline.
 
-In practice, a typical TVB preprocessing pipeline might involve: (1) acquiring raw T1-weighted MRI and diffusion MRI scans, (2) performing initial brain extraction and bias correction using [[fsl]] bet or [[ants]], (3) importing results into Fiji for visual quality control and manual intervention if needed, and (4) exporting processed images to TVB for forward modeling. This hybrid approach leverages Fiji's interactivity for tasks requiring human judgment while automating computationally intensive operations in dedicated tools.
+In practice, a typical TVB preprocessing pipeline might involve: (1) acquiring raw T1-weighted MRI and diffusion MRI scans, (2) performing initial brain extraction and bias correction using Fsl bet or [[ants]], (3) importing results into Fiji for visual quality control and manual intervention if needed, and (4) exporting processed images to TVB for forward modeling. This hybrid approach leverages Fiji's interactivity for tasks requiring human judgment while automating computationally intensive operations in dedicated tools.
 
 ## Relationship to Other Imaging Software
 
-Fiji occupies a unique niche in the neuroimaging software ecosystem that complements rather than competes with other tools. Unlike dedicated neuroimaging packages like [[fsl]], [[freesurfer]], or [[spm]], Fiji is not specialized for any particular modality but instead provides general-purpose image processing applicable across MRI, histology, microscopy, and other imaging domains. This generality makes it especially valuable for researchers working across multiple imaging modalities or developing novel analysis approaches.
+Fiji occupies a unique niche in the neuroimaging software ecosystem that complements rather than competes with other tools. Unlike dedicated neuroimaging packages like Fsl, Freesurfer, or Spm, Fiji is not specialized for any particular modality but instead provides general-purpose image processing applicable across MRI, histology, microscopy, and other imaging domains. This generality makes it especially valuable for researchers working across multiple imaging modalities or developing novel analysis approaches.
 
-Compared to 3D visualization tools like [[3d-slicer]] or [[itk-snap]], Fiji emphasizes 2D slice-by-slice viewing and batch processing more than 3D rendering, though it does support basic 3D visualization through plugins like the **3D Viewer** [[fiji]]. The relationship with [[itk]] (Insight Toolkit) is particularly significant—Fiji's **elastix** plugin integrates the elastix registration library (also used by [[ants]]), enabling sophisticated affine and non-linear registration within Fiji's interface. For researchers needing more advanced 3D visualization, Fiji often serves as a preprocessing companion to these specialized viewers rather than a replacement.
+Compared to 3D visualization tools like [[3d-slicer]] or Itk Snap, Fiji emphasizes 2D slice-by-slice viewing and batch processing more than 3D rendering, though it does support basic 3D visualization through plugins like the **3D Viewer** [[fiji]]. The relationship with [[itk]] (Insight Toolkit) is particularly significant—Fiji's **elastix** plugin integrates the elastix registration library (also used by [[ants]]), enabling sophisticated affine and non-linear registration within Fiji's interface. For researchers needing more advanced 3D visualization, Fiji often serves as a preprocessing companion to these specialized viewers rather than a replacement.
 
 ## Key Capabilities for Whole-Brain Modeling
 
@@ -50,13 +50,13 @@ Fiji contributes to whole-brain modeling workflows in several concrete ways that
 
 ## Related Software
 
-- [[itk-snap]] — specialized 3D neuroimaging viewer and editor
+- Itk Snap — specialized 3D neuroimaging viewer and editor
 - [[3d-slicer]] — comprehensive medical image computing platform
-- [[fsl]] — comprehensive neuroimaging analysis suite
-- [[freesurfer]] — cortical reconstruction and [[parcellation]]
+- Fsl — comprehensive neuroimaging analysis suite
+- Freesurfer — cortical reconstruction and [[parcellation]]
 - [[nipype]] — Python pipeline framework for neuroimaging
-- [[spm]] — statistical parametric mapping toolbox
+- Spm — statistical parametric mapping toolbox
 
 ## References
 
-1. (authors unknown). *[[neurodesk]]: an accessible, flexible and portable data analysis environment for reproducible neuroimaging*.
+1. (authors unknown). *Neurodesk: an accessible, flexible and portable data analysis environment for reproducible neuroimaging*.

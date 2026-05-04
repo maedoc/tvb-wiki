@@ -1,11 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- stimberg-2019-brian2genn
-- stimberg-2019-brian2
-- nowotny-2014-genn
-- goodman-2008-brian
-- bekolay-2014-nest-gpu
 - raw/papers/arxiv-2505.16861.md
 - raw/papers/semanticscholar-eb704b6f5462.md
 - raw/papers/semanticscholar-bceb6bea8311.md
@@ -24,7 +19,7 @@ type: entity
 updated: '2026-05-04'
 ---
 
-Brian2GeNN is a software bridge that connects the [[brian2|Brian2]] spiking [[neural-network]] simulator with the GeNN (GPU-enhanced Neuronal Networks) code generation framework, enabling high-performance GPU-accelerated simulations of spiking neural networks. The tool was developed to address the computational bottleneck inherent in large-scale [[spiking-neural-networks]] simulations, which often require millions of neurons and synapses to achieve biologically realistic [[network-dynamics]]. By automatically converting Brian2 model definitions into optimized CUDA code via GeNN, Brian2GeNN allows neuroscientists to write network models in Brian2's intuitive Python-based syntax while transparently benefiting from the massive parallelism of graphics processing units.
+Brian2GeNN is a software bridge that connects the Brian2 spiking [[neural-network]] simulator with the GeNN (GPU-enhanced Neuronal Networks) code generation framework, enabling high-performance GPU-accelerated simulations of spiking neural networks. The tool was developed to address the computational bottleneck inherent in large-scale [[spiking-neural-networks]] simulations, which often require millions of neurons and synapses to achieve biologically realistic [[network-dynamics]]. By automatically converting Brian2 model definitions into optimized CUDA code via GeNN, Brian2GeNN allows neuroscientists to write network models in Brian2's intuitive Python-based syntax while transparently benefiting from the massive parallelism of graphics processing units.
 
 ## History and Development
 
@@ -34,7 +29,7 @@ The first major version (Brian2GeNN 1.0) was released alongside the publication 
 
 ## Motivation and Context
 
-The field of [[computational-neuroscience]] has increasingly relied on detailed [[spiking-neural-networks]] (SNNs) to understand brain dynamics at multiple scales. However, simulating large neural circuits with biologically plausible connectivity and dynamics poses a significant computational challenge. Traditional CPU-based simulators such as [[brian|Brian]], [[neuron|NEURON]], and [[nest]] can handle networks of tens of thousands of neurons, but scaling to brain-scale simulations—requiring millions of neurons and billions of synapses—remains prohibitively slow on conventional hardware.
+The field of [[computational-neuroscience]] has increasingly relied on detailed [[spiking-neural-networks]] (SNNs) to understand brain dynamics at multiple scales. However, simulating large neural circuits with biologically plausible connectivity and dynamics poses a significant computational challenge. Traditional CPU-based simulators such as Brian, [[neuron|NEURON]], and [[nest]] can handle networks of tens of thousands of neurons, but scaling to brain-scale simulations—requiring millions of neurons and billions of synapses—remains prohibitively slow on conventional hardware.
 
 GPU computing emerged as a promising solution because modern graphics processors can execute thousands of threads in parallel, making them well-suited for the inherently parallel nature of neural network simulations. However, writing GPU code directly requires expertise in CUDA or OpenCL and significantly increased development time. Brian2GeNN addresses this gap by providing an automatic code generation pipeline: users write models in Brian2's domain-specific language, and Brian2GeNN generates optimized CUDA code that runs on GPUs without requiring the user to write any GPU-specific code.
 
@@ -58,11 +53,11 @@ Performance benchmarking has demonstrated significant speedups compared to CPU-b
 
 While [[the-virtual-brain|TVB]] focuses on [[whole-brain-modeling]] using [[neural-mass-models]] at the macroscale, Brian2GeNN operates at the microscale of individual spiking neurons. These approaches are complementary: TVB simulates large-scale brain dynamics using simplified population models, while Brian2GeNN enables detailed investigations of cellular-level mechanisms that can inform the development of more accurate mass models.
 
-Brian2GeNN fits within a broader ecosystem of [[spiking-neural-networks]] simulators that also includes [[nest]] (which has its own GPU extension via the NEST GPU project) [[bekolay-2014-nest-gpu]], [[brian2cuda]] (another GPU backend for Brian2 using CUDA directly), and [[auryn]] (a simulator optimized for asynchronous spiking networks). The distinction is that Brian2GeNN uses GeNN as an intermediate layer, which provides additional flexibility for custom GPU kernel definitions.
+Brian2GeNN fits within a broader ecosystem of [[spiking-neural-networks]] simulators that also includes [[nest]] (which has its own GPU extension via the NEST GPU project) [[bekolay-2014-nest-gpu]], [[brian2cuda]] (another GPU backend for Brian2 using CUDA directly), and Auryn (a simulator optimized for asynchronous spiking networks). The distinction is that Brian2GeNN uses GeNN as an intermediate layer, which provides additional flexibility for custom GPU kernel definitions.
 
 ## Relationship to GeNN
 
-[[genn|GeNN]] (GPU-enhanced Neuronal Networks) is a C++/CUDA library that generates optimized GPU code for neural network simulations. Originally developed for spiking neural networks with support for detailed neuron models [[nowotny-2014-genn]], GeNN has evolved to support a wide range of model types. Brian2GeNN serves as the bridge between Brian2's Python interface and GeNN's code generation backend, translating the declarative Brian2 model specification into the imperative C++/CUDA code that GeNN compiles and executes.
+GeNN (GPU-enhanced Neuronal Networks) is a C++/CUDA library that generates optimized GPU code for neural network simulations. Originally developed for spiking neural networks with support for detailed neuron models [[nowotny-2014-genn]], GeNN has evolved to support a wide range of model types. Brian2GeNN serves as the bridge between Brian2's Python interface and GeNN's code generation backend, translating the declarative Brian2 model specification into the imperative C++/CUDA code that GeNN compiles and executes.
 
 The relationship is asymmetric: while GeNN can be used independently with manually written C++ models, Brian2GeNN provides the reverse mapping—enabling Brian2 users to leverage GeNN without learning C++. This follows a similar pattern to [[tvb-nest|TVB-NEST]], which connects [[tvb|The Virtual Brain]] with NEST for co-simulation of mass models and spiking networks.
 
@@ -72,8 +67,8 @@ Brian2GeNN, while powerful, has important limitations that users should consider
 
 GPU memory constraints represent a practical limitation for very large simulations. While GPUs offer massive parallelism, the amount of available GPU memory (typically 4-16 GB on consumer hardware) can limit network size, particularly when storing detailed state variables for each neuron and synapse. Simulations exceeding GPU memory capacity will fail or require manual partitioning.
 
-Additionally, Brian2GeNN currently supports single-GPU execution only. Multi-GPU parallelization across multiple devices is not supported, which can limit scalability for simulations requiring more neurons than a single GPU can accommodate. Users with very large-scale simulation needs may need to consider alternative approaches such as distributed CPU clusters or the [[spinnaker]] neuromorphic hardware platform.
+Additionally, Brian2GeNN currently supports single-GPU execution only. Multi-GPU parallelization across multiple devices is not supported, which can limit scalability for simulations requiring more neurons than a single GPU can accommodate. Users with very large-scale simulation needs may need to consider alternative approaches such as distributed CPU clusters or the Spinnaker neuromorphic hardware platform.
 
 ## Related Software
 
-Brian2GeNN is part of a rich ecosystem of neural simulation tools, each with different strengths. [[brian2]] is the Python-based spiking neural network simulator that serves as the frontend for Brian2GeNN, providing the modeling interface that users interact with directly [[stimberg-2019-brian2]]. The [[brian2cuda]] project offers an alternative GPU backend for Brian2 that uses CUDA directly rather than through GeNN, potentially offering different performance characteristics. [[genn]] itself is the underlying code generation framework that transforms model specifications into optimized CUDA executables [[nowotny-2014-genn]]. [[nest]] is a widely-used simulator for spiking networks that has its own GPU acceleration effort through the NEST GPU project [[bekolay-2014-nest-gpu]]. The [[neuron]] simulator provides another established option for neuron and network simulations. [[spinnaker]] represents a fundamentally different approach using custom neuromorphic hardware rather than GPU acceleration. Finally, [[tvb-nest]] provides integration between TVB and NEST, analogous to how Brian2GeNN connects Brian2 with GeNN.
+Brian2GeNN is part of a rich ecosystem of neural simulation tools, each with different strengths. Brian2 is the Python-based spiking neural network simulator that serves as the frontend for Brian2GeNN, providing the modeling interface that users interact with directly [[stimberg-2019-brian2]]. The [[brian2cuda]] project offers an alternative GPU backend for Brian2 that uses CUDA directly rather than through GeNN, potentially offering different performance characteristics. Genn itself is the underlying code generation framework that transforms model specifications into optimized CUDA executables [[nowotny-2014-genn]]. [[nest]] is a widely-used simulator for spiking networks that has its own GPU acceleration effort through the NEST GPU project [[bekolay-2014-nest-gpu]]. The [[neuron]] simulator provides another established option for neuron and network simulations. Spinnaker represents a fundamentally different approach using custom neuromorphic hardware rather than GPU acceleration. Finally, [[tvb-nest]] provides integration between TVB and NEST, analogous to how Brian2GeNN connects Brian2 with GeNN.

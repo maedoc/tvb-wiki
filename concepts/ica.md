@@ -34,7 +34,7 @@ The most common ICA algorithms optimize different objective functions. The **Inf
 
 ## Historical Development
 
-ICA was first applied to EEG data by Scott Makeig, Anthony Bell, Tzyy-Ping Jung, and [[terrence-sejnowski]] in their seminal 1996 paper "Independent component analysis of electroencephalographic and magnetoencephalographic data" published in Advances in Neural Information Processing Systems. This work demonstrated that ICA could successfully separate brain-derived neural sources from artifacts such as eye movements and muscle activity, which had previously required extensive manual intervention. The technique rapidly became standard preprocessing and analysis tooling in [[electrophysiology]] laboratories worldwide.
+ICA was first applied to EEG data by Scott Makeig, Anthony Bell, Tzyy-Ping Jung, and Terrence Sejnowski in their seminal 1996 paper "Independent component analysis of electroencephalographic and magnetoencephalographic data" published in Advances in Neural Information Processing Systems. This work demonstrated that ICA could successfully separate brain-derived neural sources from artifacts such as eye movements and muscle activity, which had previously required extensive manual intervention. The technique rapidly became standard preprocessing and analysis tooling in [[electrophysiology]] laboratories worldwide.
 
 ## Applications in Neuroimaging
 

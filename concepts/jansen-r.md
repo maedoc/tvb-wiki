@@ -20,7 +20,7 @@ Jansen R — a concept in [[whole-brain|whole-brain modeling]] and [[computation
 
 ## References
 
-1. [[benjamin-jansen|Benjamin H. Jansen]], [[vincent-rit|Vincent G. Rit]]. *Electroencephalogram and visual evoked potential generation in a mathematical model of coupled cortical columns*. Biological Cybernetics. [DOI](https://doi.org/10.1007/BF00199471)
+1. Benjamin H. Jansen, Vincent G. Rit. *Electroencephalogram and visual evoked potential generation in a mathematical model of coupled cortical columns*. Biological Cybernetics. [DOI](https://doi.org/10.1007/BF00199471)
 2. Vincent G. Rit, Benjamin H. Jansen. *A [[neural-mass-models|neural mass model]] for the generation of electroencephalograms*. Critical Reviews in Biomedical Engineering.
 3. Huda Mahdi, Jan Sieber, Krasimira Tsaneva-Atanasova. *Alpha-Delta Transitions in Cortical Rhythms as grazing bifurcations*. [Link](https://arxiv.org/abs/2411.16449)
 4. Gianluca Gaglioti, L. Porta, M. Colombo, Simone Russo, Thierry Nieus, G. Deco, M. Corbetta, S. Sarasso, M. V. Sanchez-Vives, M. Massimini. (2026). *Slow wave generation and propagation in a model of brain lesions*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2026.121817)

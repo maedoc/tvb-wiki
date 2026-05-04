@@ -15,7 +15,7 @@ updated: '2026-05-04'
 
 ## Overview
 
-DPABI (Data Processing Assistant for Brain Imaging) is a MATLAB-based toolbox that provides graphical user interface (GUI) and batch processing capabilities for analyzing neuroimaging data, with a primary focus on [[resting-state]] functional magnetic resonance imaging (fMRI). Developed by Chao‑Gan Yan and colleagues at the Institute of Psychology, Chinese Academy of Sciences, DPABI integrates commonly used preprocessing [[steps]] and analysis routines into a unified framework, enabling researchers to perform complete data analysis workflows without writing extensive custom code. The toolbox has become one of the most widely adopted open‑source packages for resting‑state fMRI analysis, particularly among researchers who prefer GUI‑driven workflows over command‑line interfaces.
+DPABI (Data Processing Assistant for Brain Imaging) is a MATLAB-based toolbox that provides graphical user interface (GUI) and batch processing capabilities for analyzing neuroimaging data, with a primary focus on [[resting-state]] functional magnetic resonance imaging (fMRI). Developed by Chao‑Gan Yan and colleagues at the Institute of Psychology, Chinese Academy of Sciences, DPABI integrates commonly used preprocessing Steps and analysis routines into a unified framework, enabling researchers to perform complete data analysis workflows without writing extensive custom code. The toolbox has become one of the most widely adopted open‑source packages for resting‑state fMRI analysis, particularly among researchers who prefer GUI‑driven workflows over command‑line interfaces.
 
 ## Key Features
 
@@ -41,7 +41,7 @@ A subsequent publication by Yan et al. (2014b) introduced DPARSF (Data Processin
 
 ## Related Software
 
-DPABI shares methodological foundations with several other neuroimaging toolboxes in the ecosystem. It complements [[spm]] (Statistical Parametric Mapping) and [[fsl]] (FMRIB Software Library) by providing resting‑state‑specific analysis routines that extend general‑purpose preprocessing capabilities. For connectivity analysis, DPABI overlaps functionally with the [[neuromorpho‑toolkit]], which provides graph theoretical methods, and [[conn]], another GUI‑driven connectivity analysis toolbox. The visualization components of DPABI integrate with [[afni]], [[freesurfer]], and [[connectome‑workbench]], enabling multi‑modal visualization workflows.
+DPABI shares methodological foundations with several other neuroimaging toolboxes in the ecosystem. It complements Spm (Statistical Parametric Mapping) and Fsl (FMRIB Software Library) by providing resting‑state‑specific analysis routines that extend general‑purpose preprocessing capabilities. For connectivity analysis, DPABI overlaps functionally with the [[neuromorpho‑toolkit]], which provides graph theoretical methods, and [[conn]], another GUI‑driven connectivity analysis toolbox. The visualization components of DPABI integrate with [[afni]], Freesurfer, and [[connectome‑workbench]], enabling multi‑modal visualization workflows.
 
 | Feature | DPABI | SPM | FSL | Conn |
 |--------|-------|-----|-----|------|
@@ -55,6 +55,6 @@ The choice between these tools often depends on user expertise, specific analysi
 
 ## References
 
-1. Wang, J., Wang, X., Xia, M., Liao, X., Evans, A., & He, Y. (2015). *[[gretna]]: a graph theoretical network analysis toolbox for MATLAB*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2015.04.016)
+1. Wang, J., Wang, X., Xia, M., Liao, X., Evans, A., & He, Y. (2015). *Gretna: a graph theoretical network analysis toolbox for MATLAB*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2015.04.016)
 2. Sanz Leon et al. (2013). *[[the-virtual-brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
 3. Ritter et al. (2013). *[[tvb|The Virtual Brain]] integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)

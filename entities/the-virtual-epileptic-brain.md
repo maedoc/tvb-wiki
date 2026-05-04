@@ -40,7 +40,7 @@ The foundational work establishing the TVEB framework includes Jirsa et al. (201
 
 ## Related Software
 
-TVEB operates within a broader ecosystem of computational neuroscience tools. As part of [[the-virtual-brain]], TVEB inherits the core simulation infrastructure, while specialized analysis routines build upon tools like the [[brain-connectivity-toolbox]] for network analysis and [[graphvar]] for dynamical systems analysis. For forward modeling of electrophysiological signals, TVEB can be combined with volume conduction models from packages like [[openmeeg]], while neuroimaging preprocessing leverages tools such as [[freesurfer]] and [[fsl]].
+TVEB operates within a broader ecosystem of computational neuroscience tools. As part of [[the-virtual-brain]], TVEB inherits the core simulation infrastructure, while specialized analysis routines build upon tools like the [[brain-connectivity-toolbox]] for network analysis and [[graphvar]] for dynamical systems analysis. For forward modeling of electrophysiological signals, TVEB can be combined with volume conduction models from packages like [[openmeeg]], while neuroimaging preprocessing leverages tools such as Freesurfer and Fsl.
 
 ## References
 

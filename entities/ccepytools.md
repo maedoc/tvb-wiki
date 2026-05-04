@@ -17,16 +17,16 @@ updated: '2026-05-04'
 
 CCEytools represents (or perhaps was intended to represent) a category of Python-based computational tools for analyzing brain connectivity and dynamical systems in the context of whole-brain modeling. The name may have been inspired by similar toolkits in the field—combining "CC" (possibly referring to connectivity or cortico-cortical) with "Ey" (possibly a partial derivation from Python or "analysis") and "tools" to denote a software package. Within the The Virtual Brain and broader connectomics ecosystems, researchers frequently assemble toolchains from multiple Python packages rather than relying on a single monolithic application.
 
-The Python ecosystem for brain connectivity analysis has matured considerably, with packages like [[nilearn]] providing interfaces for neuroimaging data handling, and [[bctpy]] implementing graph-theoretical network metrics.
+The Python ecosystem for brain connectivity analysis has matured considerably, with packages like Nilearn providing interfaces for neuroimaging data handling, and [[bctpy]] implementing graph-theoretical network metrics.
 
 ## Relationship to TVB
 
 [[the-virtual-brain]] (TVB) is a comprehensive platform for whole-brain modeling that integrates structural connectivity derived from diffusion imaging with neural mass models to simulate brain dynamics. While TVB provides its own built-in analysis tools through the tvb-library, researchers often complement TVB workflows with external Python packages for specialized tasks such as:
 
-- Preprocessing of neuroimaging data using packages like [[mne-python]] for electrophysiology
+- Preprocessing of neuroimaging data using packages like Mne Python for electrophysiology
 - Advanced connectivity metrics unavailable in TVB's core distribution
 - Graph-theoretical analyses using [[bctpy]] or similar packages
-- Connectivity-based parcellation using [[nilearn]] functionality
+- Connectivity-based parcellation using Nilearn functionality
 - Source reconstruction and beamforming for M/EEG data
 
 The term "CCEytools" may have emerged from discussions about external Python tools to augment TVB's native capabilities, though no single unified package by that exact name was ever developed or released.
@@ -37,7 +37,7 @@ The term "CCEytools" may have emerged from discussions about external Python too
 
 Several dedicated packages exist for computing functional and effective connectivity from neuroimaging data:
 
-- **MNE-Connectivity** (extends [[mne-python]]): Provides connectivity measures including coherence, phase locking value, amplitude envelope correlation, and granger causality for MEG, EEG, and iEEG data.
+- **MNE-Connectivity** (extends Mne Python): Provides connectivity measures including coherence, phase locking value, amplitude envelope correlation, and granger causality for MEG, EEG, and iEEG data.
 
 - **GraphVar**: Offers graph-theoretical network analysis with a focus on connectivity matrices and their topological properties, useful for analyzing resting-state networks derived from TVB simulations.
 
@@ -49,9 +49,9 @@ Several dedicated packages exist for computing functional and effective connecti
 
 - **[[bctpy]]**: The Brain Connectivity Toolbox ported to Python, offering over 200 network metrics including degree distribution, betweenness centrality, modularity, and rich-club coefficients.
 
-- **[[dipy]]**: Comprehensive diffusion imaging processing library that includes tractography algorithms essential for deriving structural connectivity matrices used as TVB input.
+- **Dipy**: Comprehensive diffusion imaging processing library that includes tractography algorithms essential for deriving structural connectivity matrices used as TVB input.
 
-- **[[mrtrix3]]**: Advanced diffusion MRI analysis suite with tractography capabilities.
+- **Mrtrix3**: Advanced diffusion MRI analysis suite with tractography capabilities.
 
 ### Connectome Embedding and Advanced Methods
 
@@ -61,9 +61,9 @@ Several dedicated packages exist for computing functional and effective connecti
 
 ### General Neuroimaging Utilities
 
-- **[[nilearn]]**: Provides easy access to neuroimaging data formats, mass-univariate analysis, and machine learning pipelines for brain data.
+- **Nilearn**: Provides easy access to neuroimaging data formats, mass-univariate analysis, and machine learning pipelines for brain data.
 
-- **[[mne-python]]**: The foundational package for electrophysiology data analysis, including preprocessing, source estimation, and time-frequency analysis.
+- **Mne Python**: The foundational package for electrophysiology data analysis, including preprocessing, source estimation, and time-frequency analysis.
 
 - **Nitime**: Time-series analysis library specifically designed for neuroscience data.
 
@@ -81,7 +81,7 @@ For graph-theoretical approaches, Rubinov and Sporns (2010) established the foun
 
 A typical research workflow combining TVB with external connectivity tools might proceed as follows:
 
-First, structural connectivity is derived from diffusion-weighted MRI using [[mrtrix3]] or [[dipy]], producing fiber tracts that are segmented using a parcellation atlas such as [[desikan-killiany-atlas]] or [[schaefer-atlas]]. This yields a connectivity matrix representing white matter streamline counts between brain regions.
+First, structural connectivity is derived from diffusion-weighted MRI using Mrtrix3 or Dipy, producing fiber tracts that are segmented using a parcellation atlas such as [[desikan-killiany-atlas]] or [[schaefer-atlas]]. This yields a connectivity matrix representing white matter streamline counts between brain regions.
 
 Next, TVB uses this structural connectivity matrix to configure whole-brain simulations using neural mass models such as the [[jansen-rit-model]] or [[wong-wang-model]]. The simulated dynamics can then be analyzed using external tools to compute functional connectivity matrices from the simulated time series.
 
@@ -90,8 +90,8 @@ Finally, graph-theoretical analyses via [[bctpy]] can characterize the emergent 
 ## Related Software Entities
 
 - [[the-virtual-brain]] — Primary whole-brain simulation platform
-- [[mne-python]] — Electrophysiology analysis foundation
-- [[nilearn]] — Neuroimaging data handling
+- Mne Python — Electrophysiology analysis foundation
+- Nilearn — Neuroimaging data handling
 - [[bctpy]] — Graph-theoretical network analysis
 - [[brain-connectivity-toolbox]] — Original MATLAB network toolbox
 - [[nest]] — Neural simulator for detailed spiking network models

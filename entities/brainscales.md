@@ -40,11 +40,11 @@ $$\tau_w \frac{dw}{dt} = a(V - E_L) - w$$
 
 where $V$ is the membrane potential, $w$ is the adaptation variable, $C_m$ is the membrane capacitance, $g_L$ is the leak conductance, $E_L$ is the resting potential, $V_T$ is the threshold, $\Delta_T$ is the exponential slope, $\tau_w$ is the adaptation time constant, and $a$ is the subthreshold adaptation increment.
 
-Unlike purely digital simulations where equations are solved numerically at discrete time [[steps]], BrainScaleS's analog neurons evolve continuously in real-time, capturing the full dynamical richness of biological neurons.
+Unlike purely digital simulations where equations are solved numerically at discrete time Steps, BrainScaleS's analog neurons evolve continuously in real-time, capturing the full dynamical richness of biological neurons.
 
 The communication architecture uses a digital spike router capable of transmitting millions of spikes per second across the network. This hybrid approach—analog computation combined with digital communication—provides the best of both worlds: the speed and efficiency of analog circuits for neuronal dynamics, and the flexibility and scalability of digital systems for network [[connectivity]]. The system supports various synaptic connection topologies including random connectivity, structured receptive fields, and biologically realistic motifs derived from experimental data.
 
-Several software stacks have been developed to interface with BrainScaleS hardware. The [[pynn]] interface allows users to define networks using the standardized Python Neural Networks API, enabling portability across neuromorphic platforms [[4]]. Low-level access is provided through the Marocco software framework, which handles the mapping between network descriptions and hardware configurations. These tools have enabled researchers to implement diverse neural models ranging from single-population rate models to large-scale cortical microcircuit simulations [[3]].
+Several software stacks have been developed to interface with BrainScaleS hardware. The Pynn interface allows users to define networks using the standardized Python Neural Networks API, enabling portability across neuromorphic platforms [[4]]. Low-level access is provided through the Marocco software framework, which handles the mapping between network descriptions and hardware configurations. These tools have enabled researchers to implement diverse neural models ranging from single-population rate models to large-scale cortical microcircuit simulations [[3]].
 
 ## Relationship to The Virtual Brain and Whole-Brain Modeling
 

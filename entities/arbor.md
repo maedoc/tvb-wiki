@@ -26,11 +26,11 @@ Arbor (arbor) is a high-performance library for [[neural-network]] simulation, e
 Arbor is often used alongside [[tvb]] and other simulation platforms in pre-processing or post-processing pipelines for [[connectome]]-based brain modeling.
 
 ## Related Software
-* [[antspy]]
-* [[bids-validator]]
-* [[bidscoin]]
-* [[brainstorm]]
-* [[brian]]
+* Antspy
+* Bids Validator
+* Bidscoin
+* Brainstorm
+* Brian
 
 ## References
 

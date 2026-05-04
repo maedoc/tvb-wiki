@@ -16,7 +16,7 @@ type: entity
 updated: '2026-05-04'
 ---
 
-fMRIPrep is a robust and widely adopted preprocessing pipeline designed to automate the complex sequence of steps required to prepare functional magnetic resonance imaging (fMRI) data for downstream statistical analysis. Developed by the [NiPreps](NiPreps) community to address the reproducibility crisis in neuroimaging, fMRIPrep provides a standardized, containerized workflow that transforms raw MR images into analysis-ready datasets while rigorously documenting every processing decision. The pipeline integrates established neuroimaging tools—including [[fsl]], [[FreeSurfer]], [[ANTs]], and [[nilearn]]—within a unified framework built on [[nipype]], ensuring computational consistency across different computing environments and reducing the burden on individual researchers to manually configure preprocessing parameters.
+fMRIPrep is a robust and widely adopted preprocessing pipeline designed to automate the complex sequence of steps required to prepare functional magnetic resonance imaging (fMRI) data for downstream statistical analysis. Developed by the [NiPreps](NiPreps) community to address the reproducibility crisis in neuroimaging, fMRIPrep provides a standardized, containerized workflow that transforms raw MR images into analysis-ready datasets while rigorously documenting every processing decision. The pipeline integrates established neuroimaging tools—including Fsl, [[FreeSurfer]], [[ANTs]], and Nilearn—within a unified framework built on [[nipype]], ensuring computational consistency across different computing environments and reducing the burden on individual researchers to manually configure preprocessing parameters.
 
 ## Motivation and Context
 
@@ -28,9 +28,9 @@ First released in 2017 (Esteban et al., 2017), fMRIPrep gained rapid adoption ac
 
 ## Technical Overview
 
-The fMRIPrep workflow proceeds through several distinct processing stages, each building upon the outputs of previous [[steps]]. Beginning with the raw T1-weighted anatomical images, the pipeline first performs bias field correction and skull stripping using a combination of [[ANTs]] and [[FreeSurfer]] algorithms, then generates tissue probability maps through segmentation. Functional runs undergo slice-timing correction to account for the temporal offset between slice acquisitions, followed by motion correction through rigid-body registration to a reference volume.
+The fMRIPrep workflow proceeds through several distinct processing stages, each building upon the outputs of previous Steps. Beginning with the raw T1-weighted anatomical images, the pipeline first performs bias field correction and skull stripping using a combination of [[ANTs]] and [[FreeSurfer]] algorithms, then generates tissue probability maps through segmentation. Functional runs undergo slice-timing correction to account for the temporal offset between slice acquisitions, followed by motion correction through rigid-body registration to a reference volume.
 
-fMRIPrep employs boundary-based registration (BBR)—a method originally developed by [[fsl]]—to guide functional-to-anatomical registration using anatomical landmarks. This approach improves the precision of spatial normalization to standard spaces such as [[MNI-space]]. The pipeline generates comprehensive quality control reports documenting processing outcomes, including motion parameters, registration quality, and tissue segmentations, enabling researchers to identify and exclude problematic data before further analysis. Output data are provided in native scanner space, anatomical space, and normalized MNI152 space, allowing flexibility in downstream analyses.
+fMRIPrep employs boundary-based registration (BBR)—a method originally developed by Fsl—to guide functional-to-anatomical registration using anatomical landmarks. This approach improves the precision of spatial normalization to standard spaces such as [[MNI-space]]. The pipeline generates comprehensive quality control reports documenting processing outcomes, including motion parameters, registration quality, and tissue segmentations, enabling researchers to identify and exclude problematic data before further analysis. Output data are provided in native scanner space, anatomical space, and normalized MNI152 space, allowing flexibility in downstream analyses.
 
 ## Relationship to Whole-Brain Modeling
 
@@ -50,7 +50,7 @@ The primary citation for fMRIPrep is Esteban et al. (2019), published in *Nature
 
 ## Related Software
 
-fMRIPrep represents one component within a broader ecosystem of automated neuroimaging pipelines. Related tools include [[qsiprep]] for diffusion MRI preprocessing, [[mriqc]] for image quality assessment, [[c-pac]] for configurable automated preprocessing, and [[brainlife]] as a platform for integrated neuroimaging workflows. The pipeline's development has influenced standardization efforts across the neuroimaging community and established templates for other modality-specific preprocessing solutions.
+fMRIPrep represents one component within a broader ecosystem of automated neuroimaging pipelines. Related tools include Qsiprep for diffusion MRI preprocessing, [[mriqc]] for image quality assessment, [[c-pac]] for configurable automated preprocessing, and [[brainlife]] as a platform for integrated neuroimaging workflows. The pipeline's development has influenced standardization efforts across the neuroimaging community and established templates for other modality-specific preprocessing solutions.
 
 ## References
 

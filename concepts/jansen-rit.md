@@ -20,7 +20,7 @@ updated: '2026-05-04'
 
 # Jansen-Rit Model
 
-The **Jansen-Rit model** is a [[neural-mass-models|neural mass model]] of a single cortical column capable of generating realistic electroencephalogram (EEG) and magnetoencephalography (MEG) signals. Developed by [[benjamin-jansen|Benjamin Jansen]] and [[vincent-rit|Vincent Rit]] in 1995, it represents one of the most influential mathematical frameworks in computational neuroscience for modeling mesoscale cortical dynamics. The model extends earlier work by [[fernando-lopes-da-silva|Fernando Lopes da Silva]] on thalamocortical alpha rhythms and serves as the default neural mass implementation in [[tvb|The Virtual Brain]] (TVB), where it forms the foundation for whole-brain simulations and [[dynamic-causal-modeling|Dynamic Causal Modeling]] (DCM) of EEG and MEG data.
+The **Jansen-Rit model** is a [[neural-mass-models|neural mass model]] of a single cortical column capable of generating realistic electroencephalogram (EEG) and magnetoencephalography (MEG) signals. Developed by Benjamin Jansen and Vincent Rit in 1995, it represents one of the most influential mathematical frameworks in computational neuroscience for modeling mesoscale cortical dynamics. The model extends earlier work by [[fernando-lopes-da-silva|Fernando Lopes da Silva]] on thalamocortical alpha rhythms and serves as the default neural mass implementation in [[tvb|The Virtual Brain]] (TVB), where it forms the foundation for whole-brain simulations and [[dynamic-causal-modeling|Dynamic Causal Modeling]] (DCM) of EEG and MEG data.
 
 ## Motivation and Biological Context
 

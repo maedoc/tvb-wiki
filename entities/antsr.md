@@ -13,7 +13,7 @@ type: entity
 updated: '2026-05-04'
 ---
 
-**ANTsR** provides R language bindings to the [ANTs](/docs/software/[[ants]]) (Advanced Normalization Tools) C++ library, enabling R users to access current [[neuroimaging]] registration, segmentation, and preprocessing algorithms within the R statistical computing environment. Developed primarily by [[brian-avants]] and [[nick-tustison]], ANTsR extends the powerful image analysis capabilities of ANTs to the R ecosystem, facilitating reproducible research workflows in brain imaging studies. The package serves as a critical bridge between R-based statistical analysis pipelines and the advanced registration techniques developed within the ANTs community.
+**ANTsR** provides R language bindings to the [ANTs](/docs/software/[[ants]]) (Advanced Normalization Tools) C++ library, enabling R users to access current [[neuroimaging]] registration, segmentation, and preprocessing algorithms within the R statistical computing environment. Developed primarily by Brian Avants and Nick Tustison, ANTsR extends the powerful image analysis capabilities of ANTs to the R ecosystem, facilitating reproducible research workflows in brain imaging studies. The package serves as a critical bridge between R-based statistical analysis pipelines and the advanced registration techniques developed within the ANTs community.
 
 ## Core Functionality
 
@@ -29,19 +29,19 @@ The integration between ANTsR and TVB is particularly valuable for **personalize
 
 ## Brain Network and Connectivity Analysis
 
-ANTsR enables sophisticated [brain network](/docs/software/brain-network) analysis workflows through its integration with [[connectomics]] tools. The package's segmentation capabilities produce region-of-interest definitions that can be used to extract timeseries from functional MRI data, enabling computation of [functional connectivity](/docs/software/[[functional-connectivity]]) matrices. The [brain-parcellations](/docs/software/[[brain-parcellations]]) generated using ANTs algorithms—including atlas-based segmentations and label-driven parcellations—are compatible with major neuroimaging packages including [nilearn](/docs/software/[[nilearn]]), [freesurfer](/docs/software/[[freesurfer]]), and [FSL](/docs/software/fsl).
+ANTsR enables sophisticated [brain network](/docs/software/brain-network) analysis workflows through its integration with [[connectomics]] tools. The package's segmentation capabilities produce region-of-interest definitions that can be used to extract timeseries from functional MRI data, enabling computation of [functional connectivity](/docs/software/[[functional-connectivity]]) matrices. The [brain-parcellations](/docs/software/[[brain-parcellations]]) generated using ANTs algorithms—including atlas-based segmentations and label-driven parcellations—are compatible with major neuroimaging packages including [nilearn](/docs/software/Nilearn), [freesurfer](/docs/software/Freesurfer), and [FSL](/docs/software/fsl).
 
 For [structural connectivity](/docs/software/[[structural-connectivity]]) analysis, ANTsR's tractography tools can produce [[white-matter]] tract delineations that, when combined with parcellated regions, yield structural connectivity matrices representing anatomical wiring patterns between brain areas. These connectivity representations form the basis for [connectomics](/docs/software/connectomics) research and TVB's structural connectivity matrices.
 
 ## Related Software Ecosystem
 
-ANTsR exists within a broader ecosystem of ANTs-derived tools. [ANTsPy](/docs/software/[[antspy]]) provides Python bindings to the same underlying C++ library, offering similar functionality in the Python ecosystem. ANTsR can interoperate with Python-based workflows through tools like reticulate, and both packages share the same underlying registration and segmentation engines. The template registration workflows benefit from integration with [TemplateFlow](/docs/software/[[templateflow]]), which provides a library of harmonized neuroimaging templates.
+ANTsR exists within a broader ecosystem of ANTs-derived tools. [ANTsPy](/docs/software/Antspy) provides Python bindings to the same underlying C++ library, offering similar functionality in the Python ecosystem. ANTsR can interoperate with Python-based workflows through tools like reticulate, and both packages share the same underlying registration and segmentation engines. The template registration workflows benefit from integration with [TemplateFlow](/docs/software/[[templateflow]]), which provides a library of harmonized neuroimaging templates.
 
 For comparison and validation, ANTsR segmentations can be assessed against those produced by [FreeSurfer](/docs/software/freesurfer) and [FSL](/docs/software/fsl), while the Python ecosystem offers alternative solutions through [nilearn](/docs/software/nilearn) and [nibabel](/docs/software/[[nibabel]]) for image I/O. The [BrainGlobe](/docs/software/[[brainglobe]]) initiative provides additional tooling for atlas-based analysis that complements ANTsR workflows.
 
 ## Key Researchers
 
-The primary developers of ANTsR and the underlying ANTs library include **[[brian]] Avants** (University of Pennsylvania), who originally created the ANTs framework and continues active development, and **Nick Tustison** (University of Virginia), who contributed major algorithms including N4ITK and DiReCT. Both researchers have published extensively on medical image registration and segmentation, with their work citation counts reflecting significant community adoption.
+The primary developers of ANTsR and the underlying ANTs library include **Brian Avants** (University of Pennsylvania), who originally created the ANTs framework and continues active development, and **Nick Tustison** (University of Virginia), who contributed major algorithms including N4ITK and DiReCT. Both researchers have published extensively on medical image registration and segmentation, with their work citation counts reflecting significant community adoption.
 
 ## References
 

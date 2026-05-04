@@ -14,7 +14,7 @@ updated: '2026-05-04'
 Viktor Jirsa — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
 
 ## Related Concepts
-* [[yan-wang]]
+* Yan Wang
 
 ## References
 

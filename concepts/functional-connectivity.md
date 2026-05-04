@@ -47,7 +47,7 @@ Unlike [[structural-connectivity]] (anatomical connections), functional connecti
 ## Resting-State Networks
 
 Functional connectivity at rest reveals intrinsic-connectivity-networks including:
-- [[default-mode-network]] [[nancy-andrews-hanna]]
+- [[default-mode-network]] Nancy Andrews Hanna
 - Sensorimotor network
 - Visual network
 - Attention networks

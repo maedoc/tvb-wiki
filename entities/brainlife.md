@@ -23,11 +23,11 @@ BrainLife.io distinguishes itself through its browser-based interface that abstr
 
 ### Appstore Model and Tool Integration
 
-The BrainLife Appstore provides modular processing tools ("apps") that implement standard neuroimaging algorithms. These include preprocessing pipelines for [[fMRI|fMRI]] data (using tools similar to [[fmriprep]]), diffusion imaging analysis (supporting [[MRtrix3]], [[DIPY]], and [[FSL]]), and cortical reconstruction (integrating [[FreeSurfer]]) [4]. Users can chain multiple apps together to create custom workflows, and the platform maintains versioned archives of all processing outputs. This modular approach allows researchers to mix and match tools from different software ecosystems, combining the strengths of [[nilearn]]-style Python pipelines with traditional [[SPM]] or [[FSL]] workflows.
+The BrainLife Appstore provides modular processing tools ("apps") that implement standard neuroimaging algorithms. These include preprocessing pipelines for [[fMRI|fMRI]] data (using tools similar to [[fmriprep]]), diffusion imaging analysis (supporting [[MRtrix3]], [[DIPY]], and [[FSL]]), and cortical reconstruction (integrating [[FreeSurfer]]) [4]. Users can chain multiple apps together to create custom workflows, and the platform maintains versioned archives of all processing outputs. This modular approach allows researchers to mix and match tools from different software ecosystems, combining the strengths of Nilearn-style Python pipelines with traditional [[SPM]] or [[FSL]] workflows.
 
 ### Data Management and Sharing
 
-Beyond processing capabilities, BrainLife.io provides integrated data management features including secure storage, version control, and collaboration tools. Datasets can be shared with specific collaborators or made public, facilitating open science initiatives in neuroimaging [5]. The platform maintains data provenance metadata, tracking which processing [[steps]] were applied and with what parameters—a critical feature for reproducible research. BrainLife.io also integrates with [[DataLad]] for distributed data versioning, enabling users to track changes to large neuroimaging datasets over time [6].
+Beyond processing capabilities, BrainLife.io provides integrated data management features including secure storage, version control, and collaboration tools. Datasets can be shared with specific collaborators or made public, facilitating open science initiatives in neuroimaging [5]. The platform maintains data provenance metadata, tracking which processing Steps were applied and with what parameters—a critical feature for reproducible research. BrainLife.io also integrates with [[DataLad]] for distributed data versioning, enabling users to track changes to large neuroimaging datasets over time [6].
 
 ## Relationship to TVB
 
@@ -43,7 +43,7 @@ EEG and MEG processing includes filtering, artifact rejection, and [[source-loca
 
 ### Integration with Existing Software Ecosystem
 
-Rather than implementing analysis algorithms from scratch, BrainLife.io wraps established neuroimaging tools as deployable apps. This includes native integration with [[AFQ]] (Automated Fiber quantification), [[MRtrix3]] for advanced diffusion analysis, [[cat12]] for volumetric segmentation, and [[connectome-workbench]] for visualization [9]. The platform's underlying architecture builds on [[nipype]] for workflow orchestration, ensuring compatibility with the broader Python neuroimaging ecosystem. Users can also deploy custom apps, extending the platform's functionality for specialized analysis needs.
+Rather than implementing analysis algorithms from scratch, BrainLife.io wraps established neuroimaging tools as deployable apps. This includes native integration with [[AFQ]] (Automated Fiber quantification), [[MRtrix3]] for advanced diffusion analysis, Cat12 for volumetric segmentation, and [[connectome-workbench]] for visualization [9]. The platform's underlying architecture builds on [[nipype]] for workflow orchestration, ensuring compatibility with the broader Python neuroimaging ecosystem. Users can also deploy custom apps, extending the platform's functionality for specialized analysis needs.
 
 ## Key Papers
 

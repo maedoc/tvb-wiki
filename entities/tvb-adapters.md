@@ -27,11 +27,11 @@ TVB Adapters (tvb-adapters) is a component of [[the-virtual-brain]] framework pr
 TVB Adapters is often used alongside [[tvb]] and other simulation platforms in pre-processing or post-processing pipelines for [[connectome]]-based brain modeling.
 
 ## Related Software
-* [[antspy]]
+* Antspy
 * [[arbor]]
-* [[bids-validator]]
-* [[bidscoin]]
-* [[brainstorm]]
+* Bids Validator
+* Bidscoin
+* Brainstorm
 
 ## References
 

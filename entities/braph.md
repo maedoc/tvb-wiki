@@ -81,7 +81,7 @@ The primary references for BRAPH are:
 - [[graphvar]] — Graph-theoretic analysis toolbox for neuroimaging
 - [[graph-tool]] — Open-source software for network analysis
 - [[bctpy]] — Python bindings for the Brain Connectivity Toolbox
-- [[nilearn]] — Python library for neuroimaging data analysis
+- Nilearn — Python library for neuroimaging data analysis
 - [[the-virtual-brain]] — [[whole-brain]] simulation platform
 
 ## References

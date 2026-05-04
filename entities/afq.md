@@ -21,7 +21,7 @@ updated: '2026-05-04'
 
 ## Overview
 
-AFQ (Automated Fiber Quantification) is an open-source software pipeline for automated segmentation, visualization, and quantitative analysis of [[white-matter]] fiber tracts from [[diffusion-mri]] (dMRI) data. Developed primarily by Jason Yeatman, [[brian]] Wandell, and colleagues at Stanford University [1], AFQ provides a standardized, reproducible method for extracting diffusion metrics—such as fractional anisotropy (FA), mean diffusivity (MD), and radial diffusivity (RD)—along major white matter pathways [2]. The software automates what was previously a labor-intensive manual tractography process, enabling researchers to characterize white matter integrity across the [[whole-brain]] in a computationally efficient manner.
+AFQ (Automated Fiber Quantification) is an open-source software pipeline for automated segmentation, visualization, and quantitative analysis of [[white-matter]] fiber tracts from [[diffusion-mri]] (dMRI) data. Developed primarily by Jason Yeatman, Brian Wandell, and colleagues at Stanford University [1], AFQ provides a standardized, reproducible method for extracting diffusion metrics—such as fractional anisotropy (FA), mean diffusivity (MD), and radial diffusivity (RD)—along major white matter pathways [2]. The software automates what was previously a labor-intensive manual tractography process, enabling researchers to characterize white matter integrity across the [[whole-brain]] in a computationally efficient manner.
 
 ## Motivation and Context
 
@@ -37,13 +37,13 @@ AFQ thus bridges the gap between whole-brain [[connectomics]] and targeted white
 
 AFQ operates as a pipeline that processes raw diffusion MRI data through several stages [4]:
 
-**Fiber tractography**: The method begins with deterministic or probabilistic tractography to reconstruct fiber trajectories across the brain. AFQ can work with multiple diffusion models (tensor, DSI, etc.) and supports common tractography engines including [[mrtrix]] and [[dipy]].
+**Fiber tractography**: The method begins with deterministic or probabilistic tractography to reconstruct fiber trajectories across the brain. AFQ can work with multiple diffusion models (tensor, DSI, etc.) and supports common tractography engines including Mrtrix and Dipy.
 
 **Automated tract segmentation**: AFQ uses a two‑stage approach to isolate specific fiber tracts. First, it identifies “waypoint” regions (virtual waypoints) that a given tract must pass through based on its known anatomy. For example, the arcuate fasciculus must pass through posterior temporal and inferior frontal regions [5]. Second, it applies a “fiber cleansing” procedure that removes fibers deviating significantly from the main tract [[trajectory]].
 
 **Fiber sampling and metric computation**: Once a tract is isolated, AFQ samples diffusion metrics along the tract's length, typically at 100 equidistant points from one endpoint to the other [1]. This produces a “tract profile” showing how FA, MD, RD, and axial diffusivity (AD) vary along each pathway. Researchers can then compute summary statistics (mean, standard deviation, peak location) or compare profiles across groups.
 
-The computational pipeline is implemented in Python and integrates with the [[nipype]] workflow engine, enabling seamless integration with other neuroimaging tools like [[fsl]], [[ants]], and MRVista.
+The computational pipeline is implemented in Python and integrates with the [[nipype]] workflow engine, enabling seamless integration with other neuroimaging tools like Fsl, [[ants]], and MRVista.
 
 ## Key Features
 
@@ -79,9 +79,9 @@ Researchers studying [[epilepsy-modeling]], [[alzheimers-modeling]], or [[schizo
 
 ## Related Software
 
-- [[dipy]] – General diffusion MRI processing library
-- [[mrtrix]] – Advanced tractography software
-- [[fsl]] – FMRIB Software Library (includes DTIFIT and other diffusion tools)
+- Dipy – General diffusion MRI processing library
+- Mrtrix – Advanced tractography software
+- Fsl – FMRIB Software Library (includes DTIFIT and other diffusion tools)
 - [[ants]] – Advanced Normalization Tools (used for registration in AFQ pipeline)
 - [[afq‑notebooks]] – Cloud‑based interactive AFQ analysis environment
 - [[tractography]] – The broader technique category

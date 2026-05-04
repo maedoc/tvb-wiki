@@ -11,11 +11,11 @@ type: concept
 updated: '2026-05-04'
 ---
 
-[[tvb|The Virtual Brain]] — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]]. It complements tools such as [[brainsuite]] for cortical surface analysis.
+[[tvb|The Virtual Brain]] — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]]. It complements tools such as Brainsuite for cortical surface analysis.
 
 ## Related Concepts
 * [[oscillator]]
-* [[steps]]
+* Steps
 
 ## References
 

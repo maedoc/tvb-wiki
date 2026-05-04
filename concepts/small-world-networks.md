@@ -33,7 +33,7 @@ The small-world quotient (σ) provides a single scalar metric for quantifying th
 
 σ = (C_real / C_random) / (L_real / L_random)
 
-where C_real and L_real are the clustering coefficient and characteristic path length of the network under investigation, and C_random and L_random are the expected values for a randomized network with the same number of nodes and edges. When σ > 1, the network qualifies as small-world, indicating that high local clustering is achieved without sacrificing global efficiency. This criterion was originally articulated by [[duncan-watts|Duncan Watts]] and [[steven-strogatz|Steven Strogatz]] in their seminal 1998 paper, which established the formal framework for analyzing small-world topology across diverse biological and technological systems.
+where C_real and L_real are the clustering coefficient and characteristic path length of the network under investigation, and C_random and L_random are the expected values for a randomized network with the same number of nodes and edges. When σ > 1, the network qualifies as small-world, indicating that high local clustering is achieved without sacrificing global efficiency. This criterion was originally articulated by Duncan Watts and Steven Strogatz in their seminal 1998 paper, which established the formal framework for analyzing small-world topology across diverse biological and technological systems.
 
 ## The Watts-Strogatz Model
 

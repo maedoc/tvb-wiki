@@ -65,7 +65,7 @@ Current research addresses these challenges through adaptive head modeling, Baye
 
 ## Related Concepts
 
-Source localization is closely related to several other concepts in the wiki. It can be understood as the inverse of the [[forward-model|forward model]], and relies fundamentally on principles of [[volume-conduction|volume conduction]] to relate scalp potentials to neural sources. The technique is directly supported by software packages such as [[mne-python|MNE-Python]] and [[fieldtrip|FieldTrip]]. When combined with [[brain-dynamics|brain dynamics]] analyses, source localization enables investigation of [[brain-oscillations|brain oscillations]] and their interactions across distributed networks. The [[fmri-vs-eeg|comparison between fMRI and EEG]] highlights the superior temporal resolution of source-localized electrophysiology, complementing fMRI's spatial precision.
+Source localization is closely related to several other concepts in the wiki. It can be understood as the inverse of the [[forward-model|forward model]], and relies fundamentally on principles of [[volume-conduction|volume conduction]] to relate scalp potentials to neural sources. The technique is directly supported by software packages such as MNE-Python and FieldTrip. When combined with [[brain-dynamics|brain dynamics]] analyses, source localization enables investigation of [[brain-oscillations|brain oscillations]] and their interactions across distributed networks. The [[fmri-vs-eeg|comparison between fMRI and EEG]] highlights the superior temporal resolution of source-localized electrophysiology, complementing fMRI's spatial precision.
 
 ## References
 

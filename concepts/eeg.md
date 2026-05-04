@@ -69,7 +69,7 @@ EEG analysis encompasses a wide range of techniques for extracting information f
 
 ## Software Tools
 
-Several software packages are widely used for EEG analysis. **[[eeglab]]** is an interactive MATLAB toolbox for EEG processing, including preprocessing, ICA decomposition, time-frequency analysis, and statistical testing. **[[mne-python]]** provides a Python-based environment for EEG and MEG analysis with particular strengths in source localization and visualization. **[[fieldtrip]]** is a MATLAB toolbox from the Donders Institute that emphasizes beamforming and source analysis. Other tools include **[[brainstorm]]**, **[[cartool]]**, **[[openvibe]]**, and **[[bci2000]]**.
+Several software packages are widely used for EEG analysis. **[[eeglab]]** is an interactive MATLAB toolbox for EEG processing, including preprocessing, ICA decomposition, time-frequency analysis, and statistical testing. **Mne Python** provides a Python-based environment for EEG and MEG analysis with particular strengths in source localization and visualization. **Fieldtrip** is a MATLAB toolbox from the Donders Institute that emphasizes beamforming and source analysis. Other tools include **Brainstorm**, **Cartool**, **[[openvibe]]**, and **Bci2000**.
 
 ## Comparison with Other Neuroimaging Modalities
 

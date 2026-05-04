@@ -23,7 +23,7 @@ The corrected `pronto.md` file has been written. Summary of fixes:
 2. **Removed Relevance Vector Machines** from the ML capabilities list (not confirmed in the foundational paper)
 3. **Fixed `[[structural-connectivity|structural MRI]]`** → plain text "structural MRI" (avoiding conceptual mismatch)
 4. **Fixed `[[neuroimaging-pet|PET]]`** → plain text "PET" (page doesn't exist)
-5. **Normalized wikilinks**: `[[spm|SPM...]]` → `[[SPM]]` and `[[tvb|TVB...]]` → `[[TVB]]` for consistency
+5. **Normalized wikilinks**: `SPM...` → `[[SPM]]` and `[[tvb|TVB...]]` → `[[TVB]]` for consistency
 6. **Added MATLAB-only note** and maintenance status caveat in Overview section
 
 ## References

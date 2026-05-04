@@ -1,10 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- doi:10.1016/j.neuroimage.2014.06.007
-- doi:10.1109/IEEESTD.2014.6884100
-- doi:10.1073/pnas.1208412109
-- doi:10.1016/j.neuroimage.2007.02.022
 - raw/papers/winkler-2014-palm.md
 - raw/papers/mijalkov-2017-braph.md
 - raw/papers/schirner-2018.md
@@ -24,7 +20,7 @@ updated: '2026-05-04'
 
 ## Overview
 
-PALM (Parametric Analysis of Linear Models) is a statistical inference engine developed primarily for neuroimaging data analysis, most commonly employed within the [[fsl]] (FMRIB Software Library) ecosystem. It provides robust methods for performing parametric statistical tests on high-dimensional brain imaging data, with particular emphasis on solving the multiple comparisons problem inherent in whole-brain analyses. PALM implements both classical frequentist inference (via permutation testing) and Bayesian model comparison (via [[bayes-factors]]), making it a versatile tool for [[neuroimaging]] researchers studying [[functional-connectivity]] patterns, activation maps, and [[brain-dynamics]]. The software was developed by the Oxford University Centre for Functional MRI of the Brain (FMRIB) Analysis Group, with significant contributions from Andrew Winkler and colleagues.
+PALM (Parametric Analysis of Linear Models) is a statistical inference engine developed primarily for neuroimaging data analysis, most commonly employed within the Fsl (FMRIB Software Library) ecosystem. It provides robust methods for performing parametric statistical tests on high-dimensional brain imaging data, with particular emphasis on solving the multiple comparisons problem inherent in whole-brain analyses. PALM implements both classical frequentist inference (via permutation testing) and Bayesian model comparison (via [[bayes-factors]]), making it a versatile tool for [[neuroimaging]] researchers studying [[functional-connectivity]] patterns, activation maps, and [[brain-dynamics]]. The software was developed by the Oxford University Centre for Functional MRI of the Brain (FMRIB) Analysis Group, with significant contributions from Andrew Winkler and colleagues.
 
 ## Key Features
 
@@ -40,7 +36,7 @@ While PALM is primarily an [[fmri]] analysis tool rather than a [[whole-brain-mo
 
 The Bayesian inference capabilities in PALM are particularly relevant for [[parameter-estimation]] in [[whole-brain-modeling]]. When fitting TVB models to empirical [[resting-state]] data, researchers generate multiple candidate models with different parameter configurations. PALM's [[bayes-factors]] functionality can be used to compare these models, providing principled selection of the most parsimonious model that explains the observed [[brain-oscillations]] and connectivity patterns. This bridges the gap between [[computational-neuroscience]] simulation and statistical model comparison.
 
-Additionally, PALM integrates with [[fsl]] preprocessing pipelines, which are often used to generate the empirical data that feed into TVB simulations. The connectivity between PALM, [[fsl]], and TVB reflects the broader ecosystem of [[neuroimaging]] tools in [[computational-neuroscience]], where preprocessing, statistical inference, and biophysical modeling form a cohesive analysis pipeline.
+Additionally, PALM integrates with Fsl preprocessing pipelines, which are often used to generate the empirical data that feed into TVB simulations. The connectivity between PALM, Fsl, and TVB reflects the broader ecosystem of [[neuroimaging]] tools in [[computational-neuroscience]], where preprocessing, statistical inference, and biophysical modeling form a cohesive analysis pipeline.
 
 ## Key Papers
 
@@ -48,11 +44,11 @@ The foundational PALM paper describes the permutation-based inference framework 
 
 ## Related Software
 
-- [[fsl]] — the primary software ecosystem containing PALM
+- Fsl — the primary software ecosystem containing PALM
 - [[the-virtual-brain]] — [[whole-brain-modeling]] platform often used with PALM for statistical validation
-- [[spm]] — alternative [[neuroimaging]] analysis package with its own inference framework
+- Spm — alternative [[neuroimaging]] analysis package with its own inference framework
 - [[afni]] — another major [[neuroimaging]] analysis platform with permutation testing capabilities
-- [[brain-[[connectivity]]-toolbox]] — network analysis toolbox often used alongside PALM for [[connectome]] analysis
+- Brainsuite — network analysis toolbox often used alongside PALM for [[connectome]] analysis
 
 ## Relationships to Other Concepts
 

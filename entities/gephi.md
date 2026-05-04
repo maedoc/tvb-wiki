@@ -21,7 +21,7 @@ updated: '2026-05-04'
 
 ## Overview
 
-Gephi is an open-source network visualization and analysis platform written in Java, originally developed at École Polytechnique de Montréal and now maintained by the Gephi Consortium. It provides interactive tools for exploring, analyzing, and visualizing graphs and networks across many domains, from social media analysis to biological networks. In computational neuroscience, Gephi has become a standard tool for visualizing [[brainsuite]] datasets, particularly [[structural-connectivity]] matrices derived from [[diffusion-imaging]] and [[tractography]], as well as [[functional-connectivity]] networks from [[fmri]] or [[eeg]] data [Bastian et al., 2009]. The platform runs on Windows, macOS, and Linux, and is distributed under the terms of the GNU General Public License.
+Gephi is an open-source network visualization and analysis platform written in Java, originally developed at École Polytechnique de Montréal and now maintained by the Gephi Consortium. It provides interactive tools for exploring, analyzing, and visualizing graphs and networks across many domains, from social media analysis to biological networks. In computational neuroscience, Gephi has become a standard tool for visualizing Brainsuite datasets, particularly [[structural-connectivity]] matrices derived from [[diffusion-imaging]] and [[tractography]], as well as [[functional-connectivity]] networks from [[fmri]] or [[eeg]] data [Bastian et al., 2009]. The platform runs on Windows, macOS, and Linux, and is distributed under the terms of the GNU General Public License.
 
 ## Key Features
 

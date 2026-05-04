@@ -13,7 +13,7 @@ sources: []
 
 XCOS represents a neural mass modeling framework used within whole-brain simulation environments, particularly associated with The Virtual Brain (TVB) ecosystem for simulating large-scale brain dynamics. Neural mass models like XCOS abstract the collective activity of large neuronal populations into simplified mathematical descriptions, enabling tractable simulations of whole-brain activity while retaining key dynamical features observed in neuroimaging data such as [[fmri|functional magnetic resonance imaging (fMRI)]] and [[eeg|electroencephalography (EEG)]].
 
-Neural mass models form a critical bridge between detailed biophysical simulations (such as those conducted in [[nest]] or [[neuron]]) and population-level descriptions used for clinical and cognitive applications. XCOS follows the tradition of models pioneered by [[jansen-rit|Jansen and Rit]] and later extended by researchers like [[viktor-jirsa]] and [[olaf-sporns]], providing a computationally efficient representation of cortical dynamics that can be parameterized using empirical connectivity data from diffusion imaging (see [[dti|diffusion tensor imaging]]).
+Neural mass models form a critical bridge between detailed biophysical simulations (such as those conducted in [[nest]] or [[neuron]]) and population-level descriptions used for clinical and cognitive applications. XCOS follows the tradition of models pioneered by [[jansen-rit|Jansen and Rit]] and later extended by researchers like [[viktor-jirsa]] and Olaf Sporns, providing a computationally efficient representation of cortical dynamics that can be parameterized using empirical connectivity data from diffusion imaging (see [[dti|diffusion tensor imaging]]).
 
 ## Technical Foundation
 
@@ -51,8 +51,8 @@ XCOS exists within a broader ecosystem of whole-brain modeling tools. Key relate
 
 - [[the-virtual-brain|TVB]]: The primary simulation environment where XCOS is implemented
 - [[nest]]: Simulator for spiking neural networks offering higher biological detail
-- [[brian]]: Another spiking neural network simulator with emphasis on flexibility
-- [[neuroml]]: Standardized language for describing neuronal models
+- Brian: Another spiking neural network simulator with emphasis on flexibility
+- Neuroml: Standardized language for describing neuronal models
 
 The field of [[computational-neuroscience]] provides the theoretical foundations for models like XCOS, drawing on [[dynamical-systems-theory]], [[mean-field-theory]], and [[neural-field-theory]]. Parameter estimation techniques (see [[parameter-estimation]]) are essential for fitting models to individual subject data.
 

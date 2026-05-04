@@ -29,7 +29,7 @@ updated: '2026-05-04'
 
 ## What is Variational Bayes?
 
-Variational Bayes (VB) is a framework for approximate Bayesian inference that reformulates the problem of computing an intractable posterior distribution as an optimization problem over a simpler, tractable family of distributions. Instead of sampling from the posterior as in Markov chain Monte Carlo (MCMC), VB posits an approximating distribution $q(\theta)$ and adjusts its parameters to minimize the discrepancy—typically the Kullback-Leibler divergence—between $q(\theta)$ and the true posterior $p(\theta \mid y)$. This deterministic approach yields computational savings that have made VB the inference engine underlying much of modern [[neuroimaging]] analysis, including [[dynamic-causal-modeling]] in [[spm]].
+Variational Bayes (VB) is a framework for approximate Bayesian inference that reformulates the problem of computing an intractable posterior distribution as an optimization problem over a simpler, tractable family of distributions. Instead of sampling from the posterior as in Markov chain Monte Carlo (MCMC), VB posits an approximating distribution $q(\theta)$ and adjusts its parameters to minimize the discrepancy—typically the Kullback-Leibler divergence—between $q(\theta)$ and the true posterior $p(\theta \mid y)$. This deterministic approach yields computational savings that have made VB the inference engine underlying much of modern [[neuroimaging]] analysis, including [[dynamic-causal-modeling]] in Spm.
 
 ## Motivation and Context
 
@@ -49,7 +49,7 @@ Two families of approximating distributions dominate applications in neuroscienc
 
 ## Advantages and Trade-offs
 
-The principal advantage of VB is speed: deterministic optimization converges in minutes for models where MCMC might require hours or days. The ELBO also furnishes a natural criterion for model comparison, since improving the bound tightens the approximation to the log evidence—a property heavily exploited in Bayesian model reduction and group-level random-effects analyses within [[spm]]. However, the quality of inference is bounded by the expressiveness of the approximating family $q$. A mean-field approximation that ignores posterior correlations can underestimate uncertainty, and a poorly chosen Laplace center can miss multimodal structure. These biases are acceptable for many neuroimaging applications, where the dominant challenge is scaling inference to large datasets, but they caution against treating VB posteriors as exact.
+The principal advantage of VB is speed: deterministic optimization converges in minutes for models where MCMC might require hours or days. The ELBO also furnishes a natural criterion for model comparison, since improving the bound tightens the approximation to the log evidence—a property heavily exploited in Bayesian model reduction and group-level random-effects analyses within Spm. However, the quality of inference is bounded by the expressiveness of the approximating family $q$. A mean-field approximation that ignores posterior correlations can underestimate uncertainty, and a poorly chosen Laplace center can miss multimodal structure. These biases are acceptable for many neuroimaging applications, where the dominant challenge is scaling inference to large datasets, but they caution against treating VB posteriors as exact.
 
 ## Applications in Whole-Brain Modeling
 

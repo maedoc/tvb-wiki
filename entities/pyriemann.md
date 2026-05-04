@@ -37,7 +37,7 @@ While pyRiemann is primarily oriented toward single-trial classification for bra
 
 ## Related Software
 
-pyRiemann integrates with the broader Python scientific computing ecosystem, particularly [[mne-python]] for EEG/MEG data handling and preprocessing. It is often used alongside [[eeglab]] (via Python bridges) and [[fieldtrip]] for data collection and initial preprocessing. For brain-computer interface development, researchers may combine pyRiemann with [[bcilab]] or [[bci2000]] experimental paradigms. The classification pipeline builds upon [[nilearn]] (scikit-learn) estimators, making it accessible to practitioners familiar with standard machine learning workflows. Related approaches include [[brainiak]] for RSA and encoding models and [[PyMVPA]] for multivariate pattern analysis of neuroimaging data.
+pyRiemann integrates with the broader Python scientific computing ecosystem, particularly Mne Python for EEG/MEG data handling and preprocessing. It is often used alongside [[eeglab]] (via Python bridges) and Fieldtrip for data collection and initial preprocessing. For brain-computer interface development, researchers may combine pyRiemann with [[bcilab]] or Bci2000 experimental paradigms. The classification pipeline builds upon Nilearn (scikit-learn) estimators, making it accessible to practitioners familiar with standard machine learning workflows. Related approaches include Brainiak for RSA and encoding models and [[PyMVPA]] for multivariate pattern analysis of neuroimaging data.
 
 ## Key Papers
 

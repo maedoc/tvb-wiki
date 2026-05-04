@@ -20,7 +20,7 @@ The Glasser Atlas, formally designated HCP_MMP1.0 (Human Connectome Project Mult
 
 ## Motivation and Context
 
-Prior to the Glasser Atlas, cortical parcellations were typically derived from single modalities—such as anatomical boundaries from structural MRI [[freesurfer]] or functionally defined regions from task-based [[fmri]] activation patterns. These single-modality approaches suffered from significant limitations: purely anatomical parcellations did not capture functional boundaries, while purely functional parcellations often lacked correspondence to underlying structural architecture. The [[human-connectome-project]] provided an unprecedented dataset combining multiple imaging modalities from the same individuals, enabling a genuinely multi-modal approach to [[parcellation]].
+Prior to the Glasser Atlas, cortical parcellations were typically derived from single modalities—such as anatomical boundaries from structural MRI Freesurfer or functionally defined regions from task-based [[fmri]] activation patterns. These single-modality approaches suffered from significant limitations: purely anatomical parcellations did not capture functional boundaries, while purely functional parcellations often lacked correspondence to underlying structural architecture. The [[human-connectome-project]] provided an unprecedented dataset combining multiple imaging modalities from the same individuals, enabling a genuinely multi-modal approach to [[parcellation]].
 
 The motivation behind the Glasser Atlas was to create a parcellation that reflects both the structural (myelin content, cortical thickness) and functional (resting-state connectivity, task activation) organization of the cortex in a principled, data-driven manner. This addresses a fundamental challenge in [[whole-brain modeling]]: the need for parcels that represent meaningful computational units—regions that are internally homogeneous in their [[functional-connectivity]] patterns but distinct from their neighbors. Such parcellations are essential for constructing [[connectome]]-based models, as the choice of parcellation directly influences the topology of the resulting brain network and the dynamics that can be simulated.
 
@@ -46,11 +46,11 @@ The Glasser Atlas can be compared with other widely used cortical parcellations.
 
 ## Key Features
 
-The defining characteristics of the Glasser Atlas include its multi-modal derivation (combining myelin, cortical thickness, resting-state, and task data), its high spatial resolution (180 areas per hemisphere), its expert-approved neuroanatomical boundaries, and its probabilistic boundary maps. The atlas is distributed in multiple formats including Volume (NIfTI), Surface (GIFTI), and CIFTI, making it compatible with a wide range of neuroimaging software including [[freesurfer]], [[connectome-workbench]], [[fsl]], [[afni]], and [[the-virtual-brain]].
+The defining characteristics of the Glasser Atlas include its multi-modal derivation (combining myelin, cortical thickness, resting-state, and task data), its high spatial resolution (180 areas per hemisphere), its expert-approved neuroanatomical boundaries, and its probabilistic boundary maps. The atlas is distributed in multiple formats including Volume (NIfTI), Surface (GIFTI), and CIFTI, making it compatible with a wide range of neuroimaging software including Freesurfer, [[connectome-workbench]], Fsl, [[afni]], and [[the-virtual-brain]].
 
 ## Related Software
 
-The Glasser Atlas can be visualized and manipulated using several software packages: [[connectome-workbench]] provides dedicated viewing and editing tools for CIFTI-format data; [[freesurfer]] includes the atlas in its annotation files; [[fsl]] and [[afni]] support volume-based versions; and tools like [[nilearn]] and [[pybids]] enable programmatic access for Python-based workflows. Visualization tools such as [[brainnet-viewer]] and [[brainvoyager]] also support the atlas format.
+The Glasser Atlas can be visualized and manipulated using several software packages: [[connectome-workbench]] provides dedicated viewing and editing tools for CIFTI-format data; Freesurfer includes the atlas in its annotation files; Fsl and [[afni]] support volume-based versions; and tools like Nilearn and [[pybids]] enable programmatic access for Python-based workflows. Visualization tools such as [[brainnet-viewer]] and [[brainvoyager]] also support the atlas format.
 
 ## Key Papers
 

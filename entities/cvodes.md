@@ -84,7 +84,7 @@ The primary developers of CVODES include Alan Hindmarsh, Peter Brown, and Radu S
 
 - [The Virtual Brain](the-virtual-brain.md) — Whole-brain simulator that uses CVODES for neural mass model integration
 - [NEST]([[nest]].md) — [[spiking-neural-networks|Spiking neural network]] simulator with its own differential equation solvers
-- [Brian]([[brian]].md) — Python-based neural simulator with flexible equation specification
+- [Brian](Brian.md) — Python-based neural simulator with flexible equation specification
 - [NEURON]([[neuron]].md) — Multi-compartment neuron simulator with sophisticated stiff solvers
 - [SUNDIALS](software-sundials.md) — Parent suite containing CVODE, KINSOL, and IDA
 - [Dynamical Systems Theory]([[dynamical-systems-theory]].md) — Mathematical framework that CVODES implements numerically

@@ -26,7 +26,7 @@ ICA-AROMA emerged from the recognition that motion artifacts often form spatiall
 
 ## Technical Approach
 
-The ICA-AROMA algorithm proceeds in three stages. First, the fMRI data is decomposed into a set of spatial independent components using [[melodic]], the ICA implementation from the [[fsl]] (FMRIB Software Library) package, or an equivalent ICA algorithm. Second, each component is classified as either neural or noise using a set of heuristic features that capture the temporal and spatial characteristics distinguishing motion artifacts from signal. These features include the maximum framewise displacement correlation (the degree to which a component's time course correlates with head motion parameters), the high-frequency content (noise components typically exhibit greater power at frequencies above 0.1 Hz), and spatial properties such as the extent of component overlap with [[white-matter]] or CSF regions versus cortical gray matter.
+The ICA-AROMA algorithm proceeds in three stages. First, the fMRI data is decomposed into a set of spatial independent components using Melodic, the ICA implementation from the Fsl (FMRIB Software Library) package, or an equivalent ICA algorithm. Second, each component is classified as either neural or noise using a set of heuristic features that capture the temporal and spatial characteristics distinguishing motion artifacts from signal. These features include the maximum framewise displacement correlation (the degree to which a component's time course correlates with head motion parameters), the high-frequency content (noise components typically exhibit greater power at frequencies above 0.1 Hz), and spatial properties such as the extent of component overlap with [[white-matter]] or CSF regions versus cortical gray matter.
 
 The classifier employs a threshold-based decision rule that was validated using a leave-N-out cross-validation approach applied to resting-state (100 participants) and task-based (118 participants) fMRI datasets [@10.1016/j.neuroimage.2015.02.064]. Components exceeding the noise threshold are classified as motion-related artifacts and are regressed out of the fMRI time series through [[linear]] regression, producing a denoised dataset that preserves the remaining components representing neural activity. Importantly, ICA-AROMA does not require any user-specified parameters—the threshold values are fixed based on validation studies, making the method fully automated and reproducible.
 
@@ -47,8 +47,8 @@ While ICA-AROMA is primarily a preprocessing tool for [[fmri]] data, it is relev
 ICA-AROMA is available as a standalone Python package and is integrated into major fMRI preprocessing frameworks:
 
 - [[fmriprep]] — post-fMRIPrep ICA-AROMA BIDS App (replaces the built-in workflow in fMRIPrep 23.0 and earlier)
-- [[fsl]] — ICA decomposition via MELODIC
-- [[nilearn]] — includes utilities for ICA-AROMA classification
+- Fsl — ICA decomposition via MELODIC
+- Nilearn — includes utilities for ICA-AROMA classification
 - [[bids-derivatives]] — ICA-AROMA outputs conform to BIDS specification for processed data
 
 ## Key Papers

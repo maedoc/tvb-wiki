@@ -16,9 +16,9 @@ updated: '2026-05-04'
 
 ## Overview
 
-**BrainStat** is a Python toolbox designed for statistical analysis of brain imaging data, with a particular emphasis on connectivity-based analyses in [[whole-brain|whole-brain modeling]] contexts. The toolbox provides a unified interface for performing mass-univariate and multivariate statistical tests on neuroimaging datasets, including cortical thickness, functional connectivity matrices, and graph-theoretic metrics derived from structural and functional connectomes. BrainStat integrates tightly with established Python neuroimaging libraries such as [[nilearn]] and supports data formats common in the [[mrtrix3-connectome]] and similar large-scale neuroimaging initiatives.
+**BrainStat** is a Python toolbox designed for statistical analysis of brain imaging data, with a particular emphasis on connectivity-based analyses in [[whole-brain|whole-brain modeling]] contexts. The toolbox provides a unified interface for performing mass-univariate and multivariate statistical tests on neuroimaging datasets, including cortical thickness, functional connectivity matrices, and graph-theoretic metrics derived from structural and functional connectomes. BrainStat integrates tightly with established Python neuroimaging libraries such as Nilearn and supports data formats common in the [[mrtrix3-connectome]] and similar large-scale neuroimaging initiatives.
 
-The software addresses a critical gap in the neuroimaging analysis ecosystem: while tools like [[spm]], [[fsl]], and [[fieldtrip]] excel at preprocessing and first-level analysis, and libraries like the **Brain Connectivity Toolbox** (BCT, also known as [bctpy](https://github.com/aestivabrainconn/bctpy)) provide sophisticated network metrics, there existed no dedicated Python toolbox bridging the gap between raw connectivity estimates and group-level statistical inference. BrainStat fills this role by offering robust statistical primitives specifically optimized for high-dimensional brain data, as documented in the primary BrainStat publication (Larivière et al., 2021)[^1].
+The software addresses a critical gap in the neuroimaging analysis ecosystem: while tools like Spm, Fsl, and Fieldtrip excel at preprocessing and first-level analysis, and libraries like the **Brain Connectivity Toolbox** (BCT, also known as [bctpy](https://github.com/aestivabrainconn/bctpy)) provide sophisticated network metrics, there existed no dedicated Python toolbox bridging the gap between raw connectivity estimates and group-level statistical inference. BrainStat fills this role by offering robust statistical primitives specifically optimized for high-dimensional brain data, as documented in the primary BrainStat publication (Larivière et al., 2021)[^1].
 
 ## Motivations and Context
 
@@ -42,20 +42,20 @@ BrainStat also implements tools for **multivariate pattern analysis** (MVPA), en
 
 While BrainStat is not part of [[the-virtual-brain]] core simulation infrastructure, it plays a complementary role in whole-brain modeling workflows. TVB researchers frequently employ BrainStat for post-hoc statistical analysis of simulated [[functional-connectivity]] patterns, comparing model-derived connectivity against empirical datasets from the [[hcp-dataset]] or clinical cohorts. The combination enables rigorous assessment of whether whole-brain models accurately capture population-level differences in brain network organization, and whether the statistical differences observed between groups in empirical data can be reproduced in silico.
 
-In epilepsy modeling contexts, BrainStat serves as the statistical back-end for comparing [[epileptor]]-derived connectivity changes against patient data, supporting the model validation framework essential for clinical translation of personalized brain models. The toolbox's ability to handle [[structural-connectivity]] derived from [[diffusion-imaging]] (via [[freesurfer]] or [[mrtrix]] preprocessing) makes it particularly valuable for TVB workflows that begin with empirical DTI tractography. BrainStat's statistical inference procedures help determine whether modeled seizure dynamics produce connectivity patterns that significantly differ from healthy controls in ways that align with clinical observations.
+In epilepsy modeling contexts, BrainStat serves as the statistical back-end for comparing [[epileptor]]-derived connectivity changes against patient data, supporting the model validation framework essential for clinical translation of personalized brain models. The toolbox's ability to handle [[structural-connectivity]] derived from [[diffusion-imaging]] (via Freesurfer or Mrtrix preprocessing) makes it particularly valuable for TVB workflows that begin with empirical DTI tractography. BrainStat's statistical inference procedures help determine whether modeled seizure dynamics produce connectivity patterns that significantly differ from healthy controls in ways that align with clinical observations.
 
 ## Related Software
 
-BrainStat exists within a broader ecosystem of neuroimaging analysis tools. It extends the statistical capabilities of [[nilearn]] (which focuses primarily on mass-univariate GLM analysis) by providing specialized procedures for connectivity data. Unlike the **[[brain-connectivity-toolbox]]** (BCT/[[bctpy]]), which computes network metrics, BrainStat focuses on their statistical inference—making the two tools highly complementary. The BCT software was developed by Rubinov and Sporns (2010)[^5] and remains the standard for graph-theoretic network analysis in neuroimaging.
+BrainStat exists within a broader ecosystem of neuroimaging analysis tools. It extends the statistical capabilities of Nilearn (which focuses primarily on mass-univariate GLM analysis) by providing specialized procedures for connectivity data. Unlike the **[[brain-connectivity-toolbox]]** (BCT/[[bctpy]]), which computes network metrics, BrainStat focuses on their statistical inference—making the two tools highly complementary. The BCT software was developed by Rubinov and Sporns (2010)[^5] and remains the standard for graph-theoretic network analysis in neuroimaging.
 
 For researchers beginning with [[bids]]-formatted data, BrainStat integrates with the [[pybids]] ecosystem for automated data discovery. Comparison with commercial packages like [[brainvoyager]] reveals BrainStat's strengths in open-source flexibility and scriptability, though it lacks the graphical user interface favored by some clinical researchers.
 
 Related tools in this ecosystem include:
 - [[the-virtual-brain]] — whole-brain simulation platform
 - [[fmriprep]] — [[fmri]] preprocessing pipeline
-- [[nilearn]] — Python library for neuroimage GLM analysis
-- [[fieldtrip]] — MATLAB toolbox for MEG/EEG analysis
-- [[spm]] — Statistical Parametric Mapping software
+- Nilearn — Python library for neuroimage GLM analysis
+- Fieldtrip — MATLAB toolbox for MEG/EEG analysis
+- Spm — Statistical Parametric Mapping software
 
 ## Key Technical Considerations
 

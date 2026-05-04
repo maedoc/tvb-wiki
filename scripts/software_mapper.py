@@ -77,6 +77,7 @@ def find_missing_software() -> list[tuple[str, str]]:
 
 # ── Generic software blacklist (prevents LLM from hallucinating pandas etc.) ──
 GENERIC_BLACKLIST = {
+    # Generic Python/ML libraries
     'pandas', 'matplotlib', 'scipy', 'seaborn', 'statsmodels',
     'scikit-learn', 'sklearn', 'pytorch', 'torch', 'tensorflow', 'keras',
     'numpy', 'numba', 'plotly', 'bokeh', 'holoviews', 'pyvista', 'vtk',
@@ -84,6 +85,65 @@ GENERIC_BLACKLIST = {
     'networkx', 'igraph', 'skimage', 'pillow', 'opencv',
     'flask', 'django', 'fastapi', 'tornado',
     'jupyter', 'ipython', 'spyder', 'vscode',
+}
+
+# ── Off-mission neuro tools: generic neuroimaging pipelines, generic ML, 
+#    data standards, or tools that TVB does NOT directly integrate with ──
+OFF_MISSION_BLACKLIST = {
+    # Generic fMRI preprocessing (TVB takes connectivity matrices from these, doesn't wrap them)
+    'fmriprep', 'mriqc', 'sdcflows', 'heudiconv', 'xcp-d', 'qsiprep', 'aslprep',
+    'fitlins', 'nistats', 'nilearn-datasets', 'fsl-feat', 'fsl-melodic',
+    # Generic segmentation (TVB uses outputs, doesn't wrap)
+    'fastsurfer', 'deepmedic', 'synthseg', 'cellpose',
+    # Generic BIDS/data management
+    'bids-validator', 'bidscoin', 'pybids', 'bidskit', 'bids-derivatives',
+    'datalad', 'git', 'github',
+    # Generic ML for neuro
+    'monai', 'nnu-net', 'deepmedic', 'brainiak',
+    # Generic data visualization / viewers (not simulators)
+    'brainrender', 'surfice','freeview', 'fsleyes',
+    # Generic cognitive/behavioral
+    'bci2000', 'openvibe', 'psychopy', 'opensesame',
+    # Generic connectivity / graph tools with no TVB-specific integration
+    'gretna', 'graphvar', 'graph-tool', 'pajek', 'cytoscape', 'gephi',
+    # Generic signal processing
+    'chronux', 'fooof', 'yasa', 'popeye', 'nitime',
+    # Generic data formats
+    'nifti', 'cifti', 'gift', 'nrrd', 'nwb', 'pynrrd',
+    # Generic computing platforms
+    'cbrain', 'neuroscience-gateway', 'open-ephys', 'spinnaker',
+    # Generic databases / catalogs
+    'narc', 'nirx', 'ndar', 'loni', 'xnat', 'connectomedb', 'neuromorpho',
+    'modeldb', 'neuroelectro', 'brainmap',
+    # Generic statistics / math
+    'matcont', 'dde-biftool', 'auto-07p', 'pydstool', 'xppaut', 'xcos',
+    # Generic research data management
+    'physionet', 'uk-biobank', 'openneuro', 'neurovault', 'neurosynth',
+    # Generic hardware / acquisition
+    'spikeglx', 'open-ephys', 'intan',
+    # Generic atlases (TVB bundles its own, these are competitors)
+    'aal-atlas', 'harvard-oxford-atlas', 'desikan-killiany-atlas', 
+    'destrieux-atlas', 'schaefer-atlas', 'glasser-atlas', 'julich-atlas',
+    'hcp-dataset', 'brainnetome-atlas', 'marsatlas', 'yeo-atlas', 'power-atlas',
+    # Generic web/data interfaces
+    'ebrains', 'neuroquery', 'neuroharmonize', 'neurodebian', 'neurodesk',
+    'cococomac', 'netneuroscience',
+    # Generic EEG/MEG pipelines (not TVB-specific)
+    'mne-bids-pipeline', 'iclabel', 'ica-aroma', 'ica', 'autoreject',
+    'mnepython', 'mne-python', 'mneconnectivity', 'mne-bids',
+    # Generic clinical
+    'lead-dbs', 'simnibs', 'exploreasl', 'medpy', 'bdftools',
+    # Generic domain-specific simulators not connected to TVB
+    'auryn', 'bindsnet', 'brainscales', 'cbgt', 'cbstools',
+    # Generic Python packages
+    'nipype', 'nipal', 'niworkflows', 'templateflow', 'smriprep',
+    # Generic containers / packaging
+    'apptainer', 'docker', 'singularity',
+    # Generic LFP / spike analysis (not whole-brain modeling)
+    'pynapple', 'spikeinterface', 'kilosort', 'mountainsort', 'phy',
+    'neuropixels', 'openephys', 'plexon', 'caiman', 'suite2p',
+    # Generic brain-computer interface
+    'mubci', 'wyrm', 'bcilab',
 }
 
 
@@ -107,8 +167,8 @@ def _has_neuro_relevance(item: dict) -> bool:
 
 def create_software_page(slug: str, title: str) -> bool:
     """Create a stub page for a software tool. Block generic libraries."""
-    if slug.lower() in GENERIC_BLACKLIST:
-        log.info("Skipping generic library: %s", slug)
+    if slug.lower() in GENERIC_BLACKLIST or slug.lower() in OFF_MISSION_BLACKLIST:
+        log.info("Skipping off-mission software: %s", slug)
         return False
 
     filepath = os.path.join(ENTITIES_DIR, f"{slug}.md")

@@ -52,7 +52,7 @@ The primary reference for SUMA is the original technical description by Ziad S. 
 
 ## Related Software
 
-SUMA is intimately connected to the broader neuroimaging software ecosystem. It is distributed alongside [[afni]] as part of the NIMH's open-source neuroimaging suite. The software interfaces with [[freesurfer]] for surface generation, [[connectome-workbench]] for additional group-level surface visualization, and standard volumetric tools such as [[fsl]] and [[spm]] for preprocessing. Alternative surface visualization platforms include [[brainnet-viewer]] and [[brainstorm]], though these operate independently of AFNI's processing framework.
+SUMA is intimately connected to the broader neuroimaging software ecosystem. It is distributed alongside [[afni]] as part of the NIMH's open-source neuroimaging suite. The software interfaces with Freesurfer for surface generation, [[connectome-workbench]] for additional group-level surface visualization, and standard volumetric tools such as Fsl and Spm for preprocessing. Alternative surface visualization platforms include [[brainnet-viewer]] and Brainstorm, though these operate independently of AFNI's processing framework.
 
 ## References
 

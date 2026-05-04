@@ -24,14 +24,14 @@ updated: '2026-05-04'
 
 ## Overview
 
-MRtrix3 Connectome is an automated end-to-end processing pipeline within the [[mrtrix]] software suite for generating whole-brain [[structural-connectivity]] matrices from [[diffusion-mri]] data. It streamlines the complex multi-step workflow required to convert raw diffusion MRI acquisitions into weighted connectivity matrices suitable for network analysis and computational modeling in tools such as [[tvb]].
+MRtrix3 Connectome is an automated end-to-end processing pipeline within the Mrtrix software suite for generating whole-brain [[structural-connectivity]] matrices from [[diffusion-mri]] data. It streamlines the complex multi-step workflow required to convert raw diffusion MRI acquisitions into weighted connectivity matrices suitable for network analysis and computational modeling in tools such as [[tvb]].
 
 The pipeline was developed to provide reproducible, standardized connectome generation while maintaining the flexibility for researchers to customize specific processing steps. It integrates preprocessing, fiber orientation estimation, probabilistic [[tractography]], [[sift]] filtering (typically [[sift|SIFT2]] in modern implementations), and parcellation-based connectivity matrix construction into a unified framework.
 
 ## Key Features
 
 ### Automated Pipeline Stages
-The [[mrtrix3]] [[connectome]] script executes the following stages in sequence:
+The Mrtrix3 [[connectome]] script executes the following stages in sequence:
 
 1. **Preprocessing**: Denoising using the Marchenko-Pastur PCA (MP-PCA) method^1, Gibbs ringing removal, distortion correction using FSL TOPUP^2, bias field correction, and intensity normalization across subjects
 
@@ -51,7 +51,7 @@ The [[mrtrix3]] [[connectome]] script executes the following stages in sequence:
 
 | Feature | Description |
 |---------|-------------|
-| Multi-atlas support | Compatible with Freesurfer, [[aal-atlas]], [[harvard-oxford-atlas]], and custom parcellations |
+| Multi-atlas support | Compatible with Freesurfer, [[aal-atlas]], Harvard Oxford Atlas, and custom parcellations |
 | Subject-specific | Generates personalized structural connectomes from individual diffusion scans |
 | Weight options | Streamline count (SIFT2-weighted), mean FA, mean ADC, or FOD amplitude along bundles |
 | Batch processing | Designed for efficient processing of multi-subject datasets |
@@ -85,10 +85,10 @@ The quality of MRtrix3 Connectome outputs directly impacts TVB simulation result
 ## Related Software
 
 - [[tvb]] – [[the-virtual-brain]]; primary destination software for connectome matrices
-- [[mrtrix]] – Parent software suite containing the connectome pipeline
-- [[fsl]] – Used internally for distortion correction (TOPUP, eddy)^2
-- [[freesurfer]] – Often used for cortical parcellation input
-- [[dipy]] – Alternative diffusion analysis Python library
+- Mrtrix – Parent software suite containing the connectome pipeline
+- Fsl – Used internally for distortion correction (TOPUP, eddy)^2
+- Freesurfer – Often used for cortical parcellation input
+- Dipy – Alternative diffusion analysis Python library
 - [[ants]] – Optional registration tool for atlas alignment
 
 ## References

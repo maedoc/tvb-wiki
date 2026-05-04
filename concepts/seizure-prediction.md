@@ -16,7 +16,7 @@ updated: '2026-05-04'
 
 Seizure Prediction — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
 
-Prominent researchers such as [[krasimira-tsaneva-atanasova]] have contributed to advancing seizure prediction methodologies.
+Prominent researchers such as Krasimira Tsaneva Atanasova have contributed to advancing seizure prediction methodologies.
 
 ## Related Concepts
 * [[bifurcation-analysis]]

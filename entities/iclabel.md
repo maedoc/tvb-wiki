@@ -68,7 +68,7 @@ ICLabel operates at the preprocessing stage, upstream of [[the-virtual-brain]] (
 
 ### Data Preparation for Connectivity Analysis  
 
-Clean EEG data processed through ICLabel can be used as basis for constructing [[functional-connectivity]] matrices. However, this involves additional pipeline [[steps]] (source reconstruction, [[connectivity]] estimation) that are external to ICLabel's core functionality. The classification of ICs merely ensures that the cleaned data better reflects genuine neural activity rather than artifacts that could distort connectivity estimates.  
+Clean EEG data processed through ICLabel can be used as basis for constructing [[functional-connectivity]] matrices. However, this involves additional pipeline Steps (source reconstruction, [[connectivity]] estimation) that are external to ICLabel's core functionality. The classification of ICs merely ensures that the cleaned data better reflects genuine neural activity rather than artifacts that could distort connectivity estimates.  
 
 ### Volume Conduction and Forward Modeling  
 
@@ -93,6 +93,6 @@ ICLabel contributes to electrophysiology preprocessing workflows that may feed i
 
 ## References
 
-1. D. Y. Lodema, Herman J van Dellen, W. de Haan, Margot van Hest, A. Hillebrand, E. van Dellen. (2026). *EEG-Pype: An accessible [[mne-python]] pipeline with graphical user interface for preprocessing and analysis of resting-state electroencephalography data.*. PLoS Computational Biology. [DOI](https://doi.org/10.1371/journal.pcbi.1014043)
+1. D. Y. Lodema, Herman J van Dellen, W. de Haan, Margot van Hest, A. Hillebrand, E. van Dellen. (2026). *EEG-Pype: An accessible Mne Python pipeline with graphical user interface for preprocessing and analysis of resting-state electroencephalography data.*. PLoS Computational Biology. [DOI](https://doi.org/10.1371/journal.pcbi.1014043)
 2. Zhishun Wang, Feng Liu, Rachel Marsh, Gaurav H. Patel, J. Grinband. (2026). *MEPrep: A robust pipeline for multi-echo [[fmri]] denoising and preprocessing*. Imaging Neuroscience. [DOI](https://doi.org/10.1162/IMAG.a.1198)
 3. (authors unknown). *Independent component analysis of electroencephalographic data*.

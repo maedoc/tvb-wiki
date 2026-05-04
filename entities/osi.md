@@ -38,7 +38,7 @@ In practice, OSI computation involves running multiple simulations of the networ
 
 ## Relationship to Other Stability Metrics
 
-OSI complements rather than replaces existing measures of neural dynamics stability. Unlike the [[lyapunov-exponent]]—which quantifies chaotic sensitivity to initial conditions—OSI specifically targets the robustness of periodic oscillatory states. In the context of [[bifurcation-analysis]], OSI effectively captures proximity to Hopf bifurcations where oscillations emerge or disappear, providing a continuous measure of dynamical regime proximity that complements discrete bifurcation diagrams.
+OSI complements rather than replaces existing measures of neural dynamics stability. Unlike the lyapunov-exponent—which quantifies chaotic sensitivity to initial conditions—OSI specifically targets the robustness of periodic oscillatory states. In the context of [[bifurcation-analysis]], OSI effectively captures proximity to Hopf bifurcations where oscillations emerge or disappear, providing a continuous measure of dynamical regime proximity that complements discrete bifurcation diagrams.
 
 The metric also relates to concepts in [[small-world-networks]] and [[scale-free-networks]], where topological properties of the underlying [[structural-connectivity]] influence oscillatory stability. Networks with particular community structure or [[rich-club]] organization often exhibit higher OSI values, suggesting that structural architecture buffers against destabilizing perturbations.
 
@@ -50,7 +50,7 @@ The metric also appears in comparative studies of [[neural-mass-models]] such as
 
 ## Related Software
 
-OSI computation is implemented in several [[computational-neuroscience]] packages. In the [[brian2]] simulator, custom monitors can track phase relationships to estimate stability. The [[Brain Dynamics Toolbox]] provides tools for computing Lyapunov exponents and related stability measures that inform OSI-like diagnostics. The [[pydstool]] package enables bifurcation analysis that complements empirical OSI measurements.
+OSI computation is implemented in several [[computational-neuroscience]] packages. In the Brian2 simulator, custom monitors can track phase relationships to estimate stability. The [[Brain Dynamics Toolbox]] provides tools for computing Lyapunov exponents and related stability measures that inform OSI-like diagnostics. The [[pydstool]] package enables bifurcation analysis that complements empirical OSI measurements.
 
 ## Open Questions
 

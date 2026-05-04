@@ -41,7 +41,7 @@ The granularity of the Brainnetome Atlas (246 regions total) allows researchers 
 
 ## Comparison to Related Atlases
 
-The Brainnetome Atlas occupies a specific niche in the landscape of human brain parcellations. Compared to the [[aal-atlas]], which contains 90 anatomical regions defined primarily from anatomical landmarks, the Brainnetome Atlas provides connectivity-derived regions that are more biologically meaningful for network analyses. The [[harvard-oxford-atlas]] offers probabilistic anatomical parcellations but does not incorporate connectivity information. The [[desikan-killiany-atlas]] provides FreeSurfer-based anatomical parcellations similar in spirit to Harvard-Oxford but with different regional definitions.
+The Brainnetome Atlas occupies a specific niche in the landscape of human brain parcellations. Compared to the [[aal-atlas]], which contains 90 anatomical regions defined primarily from anatomical landmarks, the Brainnetome Atlas provides connectivity-derived regions that are more biologically meaningful for network analyses. The Harvard Oxford Atlas offers probabilistic anatomical parcellations but does not incorporate connectivity information. The [[desikan-killiany-atlas]] provides FreeSurfer-based anatomical parcellations similar in spirit to Harvard-Oxford but with different regional definitions.
 
 The Glasser Atlas represents another major connectivity-based parcellation based on multi-modal imaging data from the [[human-connectome-project]] (HCP), while the Brainnetome Atlas was developed primarily from Chinese population samples. The Schaefer Atlas provides task-based functional parcellations derived from meta-analysis. Each atlas has distinct strengths—the choice depends on the specific research application, with Brainnetome being particularly well-suited for Chinese population studies and connectivity-based modeling applications.
 
@@ -58,13 +58,13 @@ The Glasser Atlas represents another major connectivity-based parcellation based
 - [[brainnet-viewer]] — Visualization toolkit for Brainnetome data
 - [[the-virtual-brain]] — Whole-brain simulator that can use Brainnetome parcellations
 - [[connectome-workbench]] — General visualization tool compatible with various atlases
-- [[nilearn]] — Python library for [[neuroimaging]] data manipulation, including atlas handling
+- Nilearn — Python library for [[neuroimaging]] data manipulation, including atlas handling
 
 ## Related Atlases
 
 - [[aal-atlas]]
 - [[desikan-killiany-atlas]]  
-- [[harvard-oxford-atlas]]
+- Harvard Oxford Atlas
 - [[glasser-atlas]]
 - [[schaefer-atlas]]
 - [[destrieux-atlas]]

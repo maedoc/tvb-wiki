@@ -37,9 +37,9 @@ While TVB users more commonly interact with pre-processed NIfTI data (handled by
 
 ## Relationship to Other DICOM Tools
 
-PyDICOM differs from [[dcmtk]] (the officially-supported C++ DICOM toolkit maintained by OFFIS) in that it is written in pure Python and prioritizes programmatic access over command-line utilities. DCMTK provides mature tools like dcmconv, dcmdump, and dcmodify for batch processing; PyDICOM instead offers the flexibility of Python scripting for custom workflows[^dcmtk-official]. In practical neuroimaging contexts, the two tools are often used together: dcmtk handles conversion to intermediate formats while PyDICOM provides rapid prototyping and integration with analysis code.
+PyDICOM differs from Dcmtk (the officially-supported C++ DICOM toolkit maintained by OFFIS) in that it is written in pure Python and prioritizes programmatic access over command-line utilities. DCMTK provides mature tools like dcmconv, dcmdump, and dcmodify for batch processing; PyDICOM instead offers the flexibility of Python scripting for custom workflows[^dcmtk-official]. In practical neuroimaging contexts, the two tools are often used together: dcmtk handles conversion to intermediate formats while PyDICOM provides rapid prototyping and integration with analysis code.
 
-Within the broader Python ecosystem, PyDICOM complements [[pydra]] for workflow orchestration and interfaces with [[nipype]] through DICOM-based input nodes. The library is also related to [[dcm2niix]] (a DICOM-to-NIfTI converter) but operates at a lower level—PyDICOM can implement custom conversion logic or preprocess DICOM data before passing to dcm2niix for format conversion[^dcm2niix-paper]. For [[diffusion-imaging]] pipelines specifically, PyDICOM's handling of diffusion-weighted imaging (DWI) headers makes it useful for quality control and bvec/bval extraction prior to tractography with [[mrtrix3]] or [[dipy]].
+Within the broader Python ecosystem, PyDICOM complements [[pydra]] for workflow orchestration and interfaces with [[nipype]] through DICOM-based input nodes. The library is also related to [[dcm2niix]] (a DICOM-to-NIfTI converter) but operates at a lower level—PyDICOM can implement custom conversion logic or preprocess DICOM data before passing to dcm2niix for format conversion[^dcm2niix-paper]. For [[diffusion-imaging]] pipelines specifically, PyDICOM's handling of diffusion-weighted imaging (DWI) headers makes it useful for quality control and bvec/bval extraction prior to tractography with Mrtrix3 or Dipy.
 
 ## Key Technical Considerations
 
@@ -50,14 +50,14 @@ The library's handling of anonymization deserves particular attention in researc
 ## Related Software
 
 - [[nibabel]] — Python library for reading neuroimaging formats including [[nifti]] and CIFTI
-- [[dcmtk]] — C++ DICOM toolkit with command-line utilities
+- Dcmtk — C++ DICOM toolkit with command-line utilities
 - [[dcm2niix]] — DICOM to NIfTI/[[bids]] converter
-- [[dipy]] — Diffusion MRI analysis in Python
-- [[mrtrix3]] — Advanced [[tractography]] and [[connectivity]] analysis
-- [[freesurfer]] — Automated segmentation and cortical parcellation
+- Dipy — Diffusion MRI analysis in Python
+- Mrtrix3 — Advanced [[tractography]] and [[connectivity]] analysis
+- Freesurfer — Automated segmentation and cortical parcellation
 - [[mriqc]] — Automated MRI quality control
 - [[nitrc]] — Neuroimaging software resource portal
-- [[spm]] — Statistical Parametric Mapping (also handles DICOM import)
+- Spm — Statistical Parametric Mapping (also handles DICOM import)
 
 ## Key Papers
 

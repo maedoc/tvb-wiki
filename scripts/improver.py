@@ -481,7 +481,15 @@ Improve the wiki page: {slug}
 2. **Motivation / Context** (1–2 paragraphs): WHY does this exist? What problem does it solve? How does it fit into the broader field?
 3. **Technical content**: Equations and tables are welcome but must be **surrounded by explanatory prose** — explain what each equation means in words
 4. **Relationships**: Compare to related models/concepts. What came before? What came after? What are the tradeoffs?
-{"5. **Biological grounding**: For model pages, explain what biological phenomena the model captures and how parameters map to neural mechanisms" if is_concept else "5. **Key features**: For entity pages, explain what makes this notable and how it's used in practice"}
+{"5. **Biological grounding**: For model pages, explain what biological phenomena the model captures and how parameters map to neural mechanisms" if is_concept else "5. **Key features**: For entity pages, explain what makes this notable and how it's used in practice, with a mandatory Relationship to TVB section"}
+
+## SCOPE RULES — DO NOT VIOLATE
+- This wiki covers whole-brain modeling via TVB and related computational neuroscience
+- Do NOT write biographical content about individual researchers or lab PIs
+- Do NOT write about generic neuroimaging preprocessing pipelines (SPM, FSL, fmriprep) unless specifically discussing TVB connectivity pipeline integration
+- Do NOT write about generic data viewers, atlases, or segmentation tools unless discussing how TVB uses their outputs
+- Do NOT write about generic Python data science libraries
+- For entity pages, ALWAYS include a "Relationship to TVB" section explaining how this tool/concept connects to TVB workflows
 
 ## FORMATTING RULES
 1. Replace ALL placeholder text (*Placeholder*) with real, sourced content

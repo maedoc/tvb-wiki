@@ -35,7 +35,7 @@ The ABCC derivatives include [[functional-connectivity]] matrices computed from 
 
 ### ABCD DICOM to BIDS Converters
 
-The primary conversion tools in the ABCBIDS ecosystem include `abcd-dicom2bids` and `abcc_dicom2bids_s3`, both developed by the DCAN Labs at Oregon Health & Science University (OHSU). These Python-based wrappers orchestrate the multi-step process of downloading ABCD Study DICOM data from the NIMH Data Archive (NDA), performing quality control filtering based on the FastTrack QC spreadsheet, converting DICOMs to [[nifti]] files using [[dcm2niix]] (by Chris Rorden's Lab), restructuring the output into BIDS-compliant directory structure using [[dcm]], and finally running the official [[bids-validator]] to ensure compliance.
+The primary conversion tools in the ABCBIDS ecosystem include `abcd-dicom2bids` and `abcc_dicom2bids_s3`, both developed by the DCAN Labs at Oregon Health & Science University (OHSU). These Python-based wrappers orchestrate the multi-step process of downloading ABCD Study DICOM data from the NIMH Data Archive (NDA), performing quality control filtering based on the FastTrack QC spreadsheet, converting DICOMs to [[nifti]] files using [[dcm2niix]] (by Chris Rorden's Lab), restructuring the output into BIDS-compliant directory structure using [[dcm]], and finally running the official Bids Validator to ensure compliance.
 
 A notable feature of the conversion process is the optimal spin echo field map selection algorithm. Because field maps are highly susceptible to motion artifacts and can substantially impact distortion correction quality, the wrappers select the field map pair with the least variance from the registered group average for each subject's session. The chosen pair is then associated with all anatomical and functional scans via the `IntendedFor` field in the JSON sidecar files, following BIDS specification requirements. This automated selection substantially improves preprocessing robustness compared to manual selection.
 
@@ -70,10 +70,10 @@ The foundational methodology papers for the ABCBIDS ecosystem include Feczko et 
 - [[bids]] — The underlying data standard
 - [[bids-derivatives]] — BIDS-compliant derivative outputs
 - [[human-connectome-project]] — Original pipeline source
-- [[freesurfer]] — Segmentation and surface processing
-- [[fsl]] — Volume-based image processing
+- Freesurfer — Segmentation and surface processing
+- Fsl — Volume-based image processing
 - [[ants]] — Advanced normalization tools
-- [[qsiprep]] — Diffusion MRI preprocessing
+- Qsiprep — Diffusion MRI preprocessing
 - [[fmriprep]] — Functional MRI preprocessing
 - [[diffusion-imaging]] — DWI acquisition and processing
 - [[resting-state]] — Resting-state [[fmri]] methodology

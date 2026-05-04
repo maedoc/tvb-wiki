@@ -81,7 +81,7 @@ ANNarchy is particularly valuable when researchers need to verify that mean-fiel
 
 - [[TVB]] – Whole-brain neural mass modeling with focus on connectivity
 - [[NEST]] – Event-driven simulation of large-scale spiking networks
-- [[brian]] – Flexible Python spiking network simulator with code generation
+- Brian – Flexible Python spiking network simulator with code generation
 - [[neuron]] – Detailed compartmental modeling of individual neurons
 - [[elephant]] – Analysis toolkit for [[electrophysiology]] data from simulations
 

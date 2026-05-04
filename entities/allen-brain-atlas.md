@@ -39,7 +39,7 @@ In the context of The Virtual Brain, the atlas supports the construction of pers
 
 The Allen Brain Atlas data is accessible through multiple software interfaces. The official Allen Brain Atlas web portal provides interactive viewing and query capabilities, allowing researchers to search for gene expression in specific anatomical regions. For computational access, the Allen Institute provides a Python SDK ([[allen-sdk]]) that enables programmatic queries to the atlas database, making it possible to integrate atlas data into automated analysis pipelines.
 
-Integration with other [[neuroimaging]] software is common in the field. Tools like [[nilearn]] and [[nipype]] can incorporate atlas data for parcellation-based analyses. The atlas is also compatible with visualization tools like [[brainnet-viewer]] and [[connectome-workbench]], which can display gene expression overlays on anatomical surfaces. For researchers working with [[connectome]] data, the atlas provides a crucial reference framework that connects [[functional-connectivity]] findings to underlying anatomical structure.
+Integration with other [[neuroimaging]] software is common in the field. Tools like Nilearn and [[nipype]] can incorporate atlas data for parcellation-based analyses. The atlas is also compatible with visualization tools like [[brainnet-viewer]] and [[connectome-workbench]], which can display gene expression overlays on anatomical surfaces. For researchers working with [[connectome]] data, the atlas provides a crucial reference framework that connects [[functional-connectivity]] findings to underlying anatomical structure.
 
 ## Key Papers
 

@@ -28,7 +28,7 @@ ERPLAB provides a comprehensive suite of tools organized into processing stages 
 
 Epoching functionality in ERPLAB allows researchers to extract time-locked segments from continuous data with precise control over baseline periods and time windows. The toolbox supports multiple epoch rejection strategies including amplitude thresholds, joint probability checks, and spatial gradient detection for identifying artifacts. Once epochs are extracted, ERPLAB facilitates averaging across trials to create ERP waveforms, with support for weighted averaging based on trial counts or signal quality.
 
-For statistical analysis, ERPLAB implements popular approaches for ERP data including time-point by time-point t-tests, permutation tests, and planned comparisons across conditions. The visualization tools enable researchers to plot ERP waveforms, topographic maps at specified latencies, and difference waves comparing conditions. Researchers requiring advanced cluster-based permutation statistics for controlling Type I error across multiple channels and time points often integrate with [[fieldtrip]] for these specialized analyses, which provides more advanced statistical implementations.
+For statistical analysis, ERPLAB implements popular approaches for ERP data including time-point by time-point t-tests, permutation tests, and planned comparisons across conditions. The visualization tools enable researchers to plot ERP waveforms, topographic maps at specified latencies, and difference waves comparing conditions. Researchers requiring advanced cluster-based permutation statistics for controlling Type I error across multiple channels and time points often integrate with Fieldtrip for these specialized analyses, which provides more advanced statistical implementations.
 
 ## Relationship to TVB
 
@@ -36,7 +36,7 @@ While [[the-virtual-brain]] (TVB) focuses on [[whole-brain-modeling]] and large-
 
 ## Related Software
 
-ERPLAB operates within the [[eeglab]] ecosystem, which itself is built on MATLAB and integrates with tools like [[fieldtrip]] for advanced source analysis and statistical implementations. For researchers interested in [[neural-mass-models]] or [[dynamic-causal-modeling]], ERPLAB provides the empirical data analysis foundation that can complement model fitting procedures. The toolbox is related to other [[neuromorpho-toolkit]] software including [[brainstorm]] and [[openvibe]], though ERPLAB's focus specifically on ERP analysis distinguishes it from these more general EEG/MEG analysis platforms.
+ERPLAB operates within the [[eeglab]] ecosystem, which itself is built on MATLAB and integrates with tools like Fieldtrip for advanced source analysis and statistical implementations. For researchers interested in [[neural-mass-models]] or [[dynamic-causal-modeling]], ERPLAB provides the empirical data analysis foundation that can complement model fitting procedures. The toolbox is related to other [[neuromorpho-toolkit]] software including Brainstorm and [[openvibe]], though ERPLAB's focus specifically on ERP analysis distinguishes it from these more general EEG/MEG analysis platforms.
 
 ## Key Papers
 
@@ -46,5 +46,5 @@ ERPLAB operates within the [[eeglab]] ecosystem, which itself is built on MATLAB
 ## References
 
 1. Xiaobo Liu. (2026). *MLE-Toolbox: An Open-Source Toolbox for Comprehensive EEG and MEG Data Analysis*. [Link](https://www.semanticscholar.org/paper/e7aaa4f4bb01e70064493684b4500a950f83460f)
-2. D. Y. Lodema, Herman J van Dellen, W. de Haan, Margot van Hest, A. Hillebrand, E. van Dellen. (2026). *EEG-Pype: An accessible [[mne-python]] pipeline with graphical user interface for preprocessing and analysis of [[resting-state]] electroencephalography data.*. PLoS Computational Biology. [DOI](https://doi.org/10.1371/journal.pcbi.1014043)
+2. D. Y. Lodema, Herman J van Dellen, W. de Haan, Margot van Hest, A. Hillebrand, E. van Dellen. (2026). *EEG-Pype: An accessible Mne Python pipeline with graphical user interface for preprocessing and analysis of [[resting-state]] electroencephalography data.*. PLoS Computational Biology. [DOI](https://doi.org/10.1371/journal.pcbi.1014043)
 3. M. A. van den Boom, Nicholas M. Gregg, G. Valencia, B. Lundstrom, K. J. Miller, D. van Blooijs, G. Huiskamp, F. Leijten, G. Worrell, Dora [[hermes]]. (2025). *ER-detect: a pipeline for robust detection of early evoked responses in [[bids]]-iEEG electrical stimulation data.*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2025.110389)

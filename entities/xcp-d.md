@@ -25,7 +25,7 @@ The pipeline operates on the principle that a comprehensive confound regression 
 
 ## Technical Approach
 
-XCP-D employs a modular architecture that allows users to customize the confound regression strategy while maintaining a consistent output structure. The core processing [[steps]] include selection of nuisance regressors from a comprehensive menu, application of temporal filtering to isolate relevant frequency bands, and generation of quality control metrics to assess data quality post-processing.
+XCP-D employs a modular architecture that allows users to customize the confound regression strategy while maintaining a consistent output structure. The core processing Steps include selection of nuisance regressors from a comprehensive menu, application of temporal filtering to isolate relevant frequency bands, and generation of quality control metrics to assess data quality post-processing.
 
 The nuisance regression model in XCP-D follows the general form:
 
@@ -45,7 +45,7 @@ The [[conn]] toolbox represents another popular choice for connectivity-focused 
 
 One of XCP-D's distinguishing features is its integration with the broader C-PAC preprocessing ecosystem, allowing seamless application of confound regression following C-PAC's adaptive preprocessing pipeline. The pipeline generates comprehensive quality control outputs including framewise displacement plots, correlation matrices showing the effect of processing on motion-related artifacts, and standardized quality metrics that facilitate identification of problematic scans (Chen et al., 2019). Additionally, XCP-D supports multiple regression models (including aCompCor, Global Signal Regression, and hybrid approaches) giving researchers flexibility to choose the confound strategy best suited to their scientific questions.
 
-The pipeline produces outputs in standard [[nifti]] format compatible with a wide range of connectivity analysis tools including [[nilearn]], [[cifti]], and custom scripts. Outputs include both the cleaned timeseries and the estimated confound parameters, enabling full reproducibility and transparency in preprocessing decisions. XCP-D also generates processed derivatives in the Brain Imaging Data Structure ([[bids]]) specification, facilitating data sharing and integration with other BIDS-compliant tools. Processed outputs include cleaned timeseries files, quality control reports in HTML format, and derivative summary statistics that can be used for cohort-level quality assessment.
+The pipeline produces outputs in standard [[nifti]] format compatible with a wide range of connectivity analysis tools including Nilearn, [[cifti]], and custom scripts. Outputs include both the cleaned timeseries and the estimated confound parameters, enabling full reproducibility and transparency in preprocessing decisions. XCP-D also generates processed derivatives in the Brain Imaging Data Structure ([[bids]]) specification, facilitating data sharing and integration with other BIDS-compliant tools. Processed outputs include cleaned timeseries files, quality control reports in HTML format, and derivative summary statistics that can be used for cohort-level quality assessment.
 
 ## Relationship to TVB
 
@@ -53,7 +53,7 @@ While XCP-D is primarily designed for [[functional-connectivity]] analysis in th
 
 ## Related Software
 
-XCP-D operates within a broader ecosystem of fMRI preprocessing and connectivity analysis tools. Key related software includes [[c-pac]] (the parent pipeline suite from which XCP-D emerged), [[fmriprep]] (a widely used preprocessing pipeline offering different preprocessing approaches), [[nilearn]] (a Python library for connectivity analysis that can consume XCP-D outputs), and [[nipype]] (the workflow engine underlying C-PAC). Additional related tools for connectivity analysis include [[connectome-workbench]] for visualization of connectivity data, [[bctpy]] for graph-theoretic analysis of brain networks, and [[graphvar]] for graph-based network analysis.
+XCP-D operates within a broader ecosystem of fMRI preprocessing and connectivity analysis tools. Key related software includes [[c-pac]] (the parent pipeline suite from which XCP-D emerged), [[fmriprep]] (a widely used preprocessing pipeline offering different preprocessing approaches), Nilearn (a Python library for connectivity analysis that can consume XCP-D outputs), and [[nipype]] (the workflow engine underlying C-PAC). Additional related tools for connectivity analysis include [[connectome-workbench]] for visualization of connectivity data, [[bctpy]] for graph-theoretic analysis of brain networks, and [[graphvar]] for graph-based network analysis.
 
 ## Key Papers
 

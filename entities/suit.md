@@ -33,16 +33,16 @@ The normalization itself follows an isolate-then-normalize approach as described
 Beyond spatial normalization, SUIT provides automated segmentation of the cerebellum into its constituent lobules based on the SUIT probabilistic atlas, enabling region-specific analyses that are increasingly important for [[computational-neuroscience]] applications. The segmentation distinguishes between the anterior lobe (lobules I–V), the posterior lobe (lobules VI–X), and the flocculonodular lobe, as well as subdivisions within these major lobular territories.
 
 ## Relationship to TVB
-SUIT is relevant to [[the-virtual-brain]] (TVB) in several important respects. First, TVB's personalized brain modeling pipeline requires accurate anatomical segmentation of brain regions, and the cerebellar parcellation provided by SUIT can be integrated into TVB's region-based modeling framework to assign distinct neural mass parameters to cerebellar subregions. Second, SUIT's normalization enables the generation of group-level cerebellar templates that can serve as atlases for TVB simulations, facilitating the construction of cerebellum-inclusive whole-brain connectomes from [[structural-connectivity]] data derived from [[diffusion-imaging]] and [[tractography]]. Third, the tool's compatibility with [[spm]] and the broader [[nilearn]] ecosystem means that preprocessed neuroimaging data from common pipelines can be readily imported into TVB for simulation.
+SUIT is relevant to [[the-virtual-brain]] (TVB) in several important respects. First, TVB's personalized brain modeling pipeline requires accurate anatomical segmentation of brain regions, and the cerebellar parcellation provided by SUIT can be integrated into TVB's region-based modeling framework to assign distinct neural mass parameters to cerebellar subregions. Second, SUIT's normalization enables the generation of group-level cerebellar templates that can serve as atlases for TVB simulations, facilitating the construction of cerebellum-inclusive whole-brain connectomes from [[structural-connectivity]] data derived from [[diffusion-imaging]] and [[tractography]]. Third, the tool's compatibility with Spm and the broader Nilearn ecosystem means that preprocessed neuroimaging data from common pipelines can be readily imported into TVB for simulation.
 
 ## Related Software
-- [[spm]] — SUIT is developed within the SPM ecosystem
-- [[nilearn]] — Python toolbox that can interface with SUIT outputs
-- [[freesurfer]] — alternative cerebellar segmentation tool
+- Spm — SUIT is developed within the SPM ecosystem
+- Nilearn — Python toolbox that can interface with SUIT outputs
+- Freesurfer — alternative cerebellar segmentation tool
 - [[the-virtual-brain]] — whole-brain simulator that uses anatomical parcellations
-- [[dipy]] — diffusion imaging toolbox for [[tractography]]
+- Dipy — diffusion imaging toolbox for [[tractography]]
 - [thecerebellum.com](http://www.thecerebellum.com/) — alternative cerebellar tools and atlases
-- [CBS Tools](https://www.[[nitrc]].org/projects/cbs_tools/) — complementary cerebellar segmentation in CBSTools/[[itk-snap]]
+- [CBS Tools](https://www.[[nitrc]].org/projects/cbs_tools/) — complementary cerebellar segmentation in CBSTools/Itk Snap
 
 ## Key Papers
 

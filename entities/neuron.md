@@ -51,7 +51,7 @@ NEURON provides tools for building and simulating biophysically detailed models 
 - [[NEST]] — Point neuron network simulator for large-scale networks
 - [[TVB]] — [[neural-mass-models|Neural mass model]] [[whole-brain]] simulator
 - [[ModelDB]] — Model repository for sharing NEURON simulations
-- [[coreneuron]] — Optimized compute engine for large-scale NEURON simulations
+- Coreneuron — Optimized compute engine for large-scale NEURON simulations
 
 ## Related Concepts
 

@@ -44,7 +44,7 @@ Furthermore, Open Ephys data can be integrated with TVB through custom import pi
 
 ## Related Software
 
-Open Ephys integrates naturally with the broader open-source electrophysiology ecosystem. Downstream spike sorting pipelines such as Kilosort, [[spikeinterface]], and phy process the recorded data to extract spike trains from identified single units. For local field potential analysis, researchers commonly use [[mne-python]] or [[eeglab]]. The platform also relates to other open-source acquisition systems including [[spikeglx]] (a data acquisition software tool from the Allen Institute) and commercial offerings, though Open Ephys distinguishes itself through its fully open-source licensing and active community development.
+Open Ephys integrates naturally with the broader open-source electrophysiology ecosystem. Downstream spike sorting pipelines such as Kilosort, [[spikeinterface]], and phy process the recorded data to extract spike trains from identified single units. For local field potential analysis, researchers commonly use Mne Python or [[eeglab]]. The platform also relates to other open-source acquisition systems including [[spikeglx]] (a data acquisition software tool from the Allen Institute) and commercial offerings, though Open Ephys distinguishes itself through its fully open-source licensing and active community development.
 
 ## Key Papers
 

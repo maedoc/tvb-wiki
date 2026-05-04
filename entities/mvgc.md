@@ -103,8 +103,8 @@ In TVB workflows, MVGC analysis typically proceeds as follows: empirically recor
 - **MVGC Toolbox** for MATLAB: The original reference implementation developed by Anil Seth and colleagues {% cite url=https://journals.physiological.org/10.1152/jn.00293.2014 %}
 - **[[the-virtual-brain]]**: Includes connectivity analysis features that can be compared against MVGC estimates
 - **[[mne-connectivity]]**: Implements MVGC in Python for use with M/EEG data
-- **[[fieldtrip]]**: Includes MVGC functionality for neuroimaging analysis
-- **Bruche and [[gretna]]**: Provide MVGC for graph-theoretic network analysis
+- **Fieldtrip**: Includes MVGC functionality for neuroimaging analysis
+- **Bruche and Gretna**: Provide MVGC for graph-theoretic network analysis
 
 ## References
 

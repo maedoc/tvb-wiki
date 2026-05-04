@@ -45,11 +45,11 @@ DSI Studio generates [[structural-connectivity]] matrices that can be directly i
 
 ## Related Software
 
-* [[mrtrix3]]
-* [[fsl]]
+* Mrtrix3
+* Fsl
 * [[ants]]
 * [[tvb]]
-* [[dipy]]
+* Dipy
 * [[brainlife]]
 
 ## References

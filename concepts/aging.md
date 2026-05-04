@@ -76,7 +76,7 @@ Applications to personalized modeling involve fitting individual parameters to e
 
 ## See also
 
-- [[andrei-medvedev]]
+- Andrei Medvedev
 
 ## References
 

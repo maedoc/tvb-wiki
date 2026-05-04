@@ -19,7 +19,7 @@ updated: '2026-05-04'
 Destrieux Atlas — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
 
 ## Related Concepts
-* [[fastsurfer]]
+* Fastsurfer
 
 ## References
 

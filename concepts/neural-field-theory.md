@@ -27,7 +27,7 @@ Neural Field Theory (NFT) is a mathematical framework for modeling the spatiotem
 
 The development of Neural Field Theory was motivated by the recognition that many brain phenomena—most notably [[brain-oscillations]], seizure propagation, and cortical waves—cannot be adequately described by models that ignore spatial structure. Early [[neural-mass-models]] such as the [[jansen-rit-model]] and [[wilson-cowan-model]] successfully captured the mean dynamics of localized populations but treated these populations as point-like entities with no spatial extent. This simplification works well for understanding average population activity but fails to capture phenomena that depend on the spatial geometry of cortical connections.
 
-NFT emerged from the work of several researchers in the 1970s, most notably [[hugh-wilson]] and [[jack-cowan]], who developed the mathematical formalism for describing cortical activity as a continuum. [[paul-nunez]] subsequently applied these ideas to understand the [[eeg]] signals measured on the scalp, showing how spatial filtering through the skull and scalp tissues shapes the observed oscillations. The framework proved particularly valuable for understanding [[resting-state]] networks and the [[default-mode-network]], whose spatial patterns reflect the underlying structural connectivity of the cortex.
+NFT emerged from the work of several researchers in the 1970s, most notably Hugh Wilson and Jack Cowan, who developed the mathematical formalism for describing cortical activity as a continuum. [[paul-nunez]] subsequently applied these ideas to understand the [[eeg]] signals measured on the scalp, showing how spatial filtering through the skull and scalp tissues shapes the observed oscillations. The framework proved particularly valuable for understanding [[resting-state]] networks and the [[default-mode-network]], whose spatial patterns reflect the underlying structural connectivity of the cortex.
 
 ## Mathematical Formalism
 
@@ -57,7 +57,7 @@ Modern extensions of Neural Field Theory incorporate [[stochastic-differential-e
 
 Applications of NFT span [[whole-brain-modeling]], where regional neural fields are coupled via [[structural-connectivity]] matrices derived from diffusion imaging, to detailed models ofspecific cortical areas that aim to reproduce the spatially resolved patterns observed in [[fmri]] and [[meg]]. The framework also underlies models of [[brain-stimulation]], where external inputs propagate through the cortical sheet according to the field dynamics.
 
-[[hnn]]
+Hnn
 
 ## References
 
@@ -65,5 +65,5 @@ Applications of NFT span [[whole-brain-modeling]], where regional neural fields 
 2. Michael Breakspear, John A. Roberts, John R. Terry, Stefano Rodrigues, Nader Mahmud, Philip Robinson. *Large-scale [[brain-dynamics]] of seizures: asymptotic analysis of a neural field model*. Journal of [[computational-neuroscience]]. [DOI](https://doi.org/10.1007/s10827-006-8135-2)
 3. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)
 4. Martin Breyton, Viktor Sip, M. Woodman, Meysam Hashemi, S. Petkoski, V. Jirsa. (2025). *Data-driven mean-field within [[whole-brain]] models*. [Link](https://www.semanticscholar.org/paper/144ae1f1dabec42c14493d0083d36f168508f886)
-5. [[eugene-izhikevich|Eugene M. Izhikevich]]. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
+5. Eugene M. Izhikevich. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
 6. Marianna Angiolelli, D. Depannemaecker, H. Agouram, J. Régis, R. Carron, M. Woodman, L. Chiodo, P. Triebkorn, Abolfazl Ziaeemehr, Meysam Hashemi, Alexandre Eusebio, [[viktor-jirsa]], P. Sorrentino. (2025). *The Virtual Parkinsonian patient*. npj Systems Biology and Applications. [DOI](https://doi.org/10.1038/s41540-025-00516-y)

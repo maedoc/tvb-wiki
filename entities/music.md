@@ -21,7 +21,7 @@ updated: '2026-05-04'
 
 ## Overview
 
-**MUSIC** (MUlti-SImulator Coordinator) is a C++ library with Python bindings designed for co-simulation of spiking neural networks across multiple neuronal simulators running in parallel. Originally developed by researchers at the Royal Institute of Technology (KTH) Stockholm and initiated by the International Neuroinformatics Coordinating Facility (INCF), MUSIC provides a standardized API that allows different simulators—such as [[nest]], [[neuron]], [[brian]], and other [[spiking-neural-networks]] engines—to communicate in real-time during a unified simulation. This orchestration capability enables researchers to build hybrid models that leverage the strengths of multiple simulation environments, combining, for example, the detailed biophysics of NEURON with the large-scale population dynamics supported by NEST.
+**MUSIC** (MUlti-SImulator Coordinator) is a C++ library with Python bindings designed for co-simulation of spiking neural networks across multiple neuronal simulators running in parallel. Originally developed by researchers at the Royal Institute of Technology (KTH) Stockholm and initiated by the International Neuroinformatics Coordinating Facility (INCF), MUSIC provides a standardized API that allows different simulators—such as [[nest]], [[neuron]], Brian, and other [[spiking-neural-networks]] engines—to communicate in real-time during a unified simulation. This orchestration capability enables researchers to build hybrid models that leverage the strengths of multiple simulation environments, combining, for example, the detailed biophysics of NEURON with the large-scale population dynamics supported by NEST.
 
 The framework operates by establishing a communication bus through which simulators exchange spike events and continuous signals during each simulation timestep. Rather than requiring all components of a model to be implemented within a single simulator, MUSIC empowers researchers to partition biologically realistic brain networks across heterogeneous computational resources, allocating specific brain regions or cell types to whichever simulator best handles their computational demands.
 
@@ -47,7 +47,7 @@ While [[the-virtual-brain]] (TVB) primarily operates at the level of [[neural-ma
 
 ## Relationship to Other Software
 
-MUSIC occupies a unique niche as an orchestration layer rather than a standalone simulator. It builds upon the MPI standard widely used in high-performance computing and draws inspiration from earlier multi-process coordination efforts in computational neuroscience. Unlike [[nest]] or [[brian]], which provide complete simulation environments, MUSIC provides only the communication fabric—the actual neuronal dynamics must be supplied by the partnered simulators. The framework shares conceptual ground with [[netpyne]] and [[annarchy]] in enabling hybrid model architectures, though those tools focus on code generation and optimization within single simulators rather than true cross-simulator coordination.
+MUSIC occupies a unique niche as an orchestration layer rather than a standalone simulator. It builds upon the MPI standard widely used in high-performance computing and draws inspiration from earlier multi-process coordination efforts in computational neuroscience. Unlike [[nest]] or Brian, which provide complete simulation environments, MUSIC provides only the communication fabric—the actual neuronal dynamics must be supplied by the partnered simulators. The framework shares conceptual ground with Netpyne and [[annarchy]] in enabling hybrid model architectures, though those tools focus on code generation and optimization within single simulators rather than true cross-simulator coordination.
 
 ## Key Features
 
@@ -64,7 +64,7 @@ MUSIC occupies a unique niche as an orchestration layer rather than a standalone
 
 ## Open Questions
 
-The primary challenge facing MUSIC lies in ensuring temporal accuracy when simulators with different intrinsic timesteps must coordinate. While the framework provides mechanisms for interpolation and event buffering, mismatches in simulation resolution can introduce artifacts that are only beginning to be systematically characterized. Additionally, the user base remains relatively small compared to standalone simulators, limiting the availability of community resources, tutorials, and third-party integrations. Future development may benefit from tighter integration with [[neuroml]] standardization efforts, which seek to define common model description formats that could further reduce friction in multi-simulator workflows.
+The primary challenge facing MUSIC lies in ensuring temporal accuracy when simulators with different intrinsic timesteps must coordinate. While the framework provides mechanisms for interpolation and event buffering, mismatches in simulation resolution can introduce artifacts that are only beginning to be systematically characterized. Additionally, the user base remains relatively small compared to standalone simulators, limiting the availability of community resources, tutorials, and third-party integrations. Future development may benefit from tighter integration with Neuroml standardization efforts, which seek to define common model description formats that could further reduce friction in multi-simulator workflows.
 
 ## References
 

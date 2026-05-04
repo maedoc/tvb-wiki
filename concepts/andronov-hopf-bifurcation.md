@@ -23,7 +23,7 @@ Andronov Hopf [[bifurcation-analysis|Bifurcation]] — a concept in [[whole-brai
 
 ## References
 
-1. [[eugene-izhikevich|Eugene M. Izhikevich]]. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
+1. Eugene M. Izhikevich. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
 2. (authors unknown). *Emerging concepts for the dynamical organization of [[resting-state]] activity in the brain*.
 3. (authors unknown). *[[auto-07p]]: Continuation and Bifurcation Software for Ordinary Differential Equations*.
 4. (authors unknown). *[[nonlinear-dynamics]] and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering*.

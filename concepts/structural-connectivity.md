@@ -50,7 +50,7 @@ The process of constructing a structural connectivity matrix from diffusion MRI 
 
 **Parcellation** defines the nodes of the network by dividing the brain into discrete regions. Common atlases include the [[desikan-killiany-atlas|Desikan-Killiany]] cortical parcellation (34 regions per hemisphere), the [[aal-atlas|Automated Anatomical Label]] (90 regions), and the more recent [[brainnetome-atlas|Brainnetome]] atlas (210 regions). The choice of parcellation fundamentally determines the granularity of connectivity estimates—finer parcellations reveal more detail but yield sparser individual connections.
 
-**Tractography** generates candidate fiber pathways between parcellated regions. Tools like [[mrtrix3|MRTrix3]], [[dipy|DIPY]], and [[dsi-studio|DSI Studio]] implement various algorithms with different performance characteristics. Probabilistic tractography provides uncertainty estimates but at computational cost.
+**Tractography** generates candidate fiber pathways between parcellated regions. Tools like MRTrix3, DIPY, and [[dsi-studio|DSI Studio]] implement various algorithms with different performance characteristics. Probabilistic tractography provides uncertainty estimates but at computational cost.
 
 **Weighting** assigns values to each connection reflecting its anatomical strength. Common metrics include streamline count (the number of reconstructed fibers), [[fractional-anisotropy]] (FA) averaged along tracts, and quantitative anisotropy. Each weighting scheme captures different aspects of connectivity—streamline count reflects anatomical presence, while FA reports microstructural properties.
 

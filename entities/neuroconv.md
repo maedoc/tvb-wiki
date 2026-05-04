@@ -46,7 +46,7 @@ The use case is particularly relevant for [[epilepsy-modeling]] studies, where i
 
 ## Related Software
 
-NeuroConv operates within a broader ecosystem of neuroscience data conversion and standardization tools. Key related packages include [[neurodata-without-borders]] (the target format standard), [[spikeinterface]] (which shares reader infrastructure), Neo (an alternative Python library for electrophysiology data I/O), NIX (a format specification for scientific data), and the [[ebrains]] data platform [2]. For researchers working with multimodal datasets, the library can be used alongside [[mne-python]] for signal processing or pybids for organizing derivative outputs in BIDS-compliant directory structures. Additionally, NeuroConv complements preprocessing pipelines such as SpikeGLX and Open Ephys that produce the input data it converts.
+NeuroConv operates within a broader ecosystem of neuroscience data conversion and standardization tools. Key related packages include [[neurodata-without-borders]] (the target format standard), [[spikeinterface]] (which shares reader infrastructure), Neo (an alternative Python library for electrophysiology data I/O), NIX (a format specification for scientific data), and the [[ebrains]] data platform [2]. For researchers working with multimodal datasets, the library can be used alongside Mne Python for signal processing or pybids for organizing derivative outputs in BIDS-compliant directory structures. Additionally, NeuroConv complements preprocessing pipelines such as SpikeGLX and Open Ephys that produce the input data it converts.
 
 ## Technical Considerations
 

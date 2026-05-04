@@ -33,7 +33,7 @@ The platform exposes a comprehensive RESTful API enabling programmatic access to
 
 **Integration with Analysis Tools**
 
-NeuroVault integrates directly with PyMVPA [@gorgolewski2015], a Python machine learning library for neuroimaging, enabling seamless import of statistical maps into multivariate pattern analysis workflows. The platform also provides links to [[nilearn]] for Python-based neuroimaging analysis and supports export formats compatible with SPM, FSL, and [[afni]].
+NeuroVault integrates directly with PyMVPA [@gorgolewski2015], a Python machine learning library for neuroimaging, enabling seamless import of statistical maps into multivariate pattern analysis workflows. The platform also provides links to Nilearn for Python-based neuroimaging analysis and supports export formats compatible with SPM, FSL, and [[afni]].
 
 **Web-Based Visualization**
 
@@ -64,10 +64,10 @@ The platform's adoption reflects growing recognition that complete statistical m
 ## Related Software and Resources
 
 - [[openneuro|OpenNeuro]] — Complementary repository for raw neuroimaging datasets (BIDS-formatted)
-- [[nilearn|Nilearn]] — Python library for neuroimaging analysis with NeuroVault integration
+- Nilearn — Python library for neuroimaging analysis with NeuroVault integration
 - [[pymvpa|PyMVPA]] — Multivariate pattern analysis library supporting direct NeuroVault import
 - [[nipype|Nipype]] — Pipeline framework that can automate NeuroVault uploads
-- [[brainsuite]]
+- Brainsuite
 
 ## Key Papers
 

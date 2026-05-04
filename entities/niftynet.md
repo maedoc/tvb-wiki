@@ -72,7 +72,7 @@ NiftyNet outputs can be integrated into [[TVB]] workflows through automated neur
 - **Tissue classification**: Gray matter, [[white-matter]], and CSF segmentation supporting accurate forward modeling
 - **Region label mapping**: Segmentation outputs can be registered to standard atlases like [[AAL Atlas]] or [[Desikan-Killiany Atlas]] using complementary registration tools such as [[NiftyReg]] or [[ANTs]]
 
-Segmentation outputs from NiftyNet (e.g., region masks, tissue labels) can be used as inputs to various stages of TVB's pipeline, including preprocessing [[steps]] for generating connectivity matrices and region boundaries required for personalized [[whole-brain]] modeling. The exact integration path varies by specific TVB pipeline configuration and may require format conversion or additional preprocessing with registration tools.
+Segmentation outputs from NiftyNet (e.g., region masks, tissue labels) can be used as inputs to various stages of TVB's pipeline, including preprocessing Steps for generating connectivity matrices and region boundaries required for personalized [[whole-brain]] modeling. The exact integration path varies by specific TVB pipeline configuration and may require format conversion or additional preprocessing with registration tools.
 
 ## Key Papers
 

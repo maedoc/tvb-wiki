@@ -27,7 +27,7 @@ The wiki page is now complete. Here's a summary of what I've done:
 - **Related Software**: Comparison to mrVista, analyzePRF, [[afni]], prf-py
 
 **Wikilinks added (11 total):**
-- [[fmri]], [[whole-brain-modeling]], [[jansen-rit-model]], [[wong-wang-model]], [[neuroimaging]], [[brain-dynamics]], [[computational-neuroscience]], [[fsleyes]], [[freesurfer]], [[nilearn]], [[bids]]
+- [[fmri]], [[whole-brain-modeling]], [[jansen-rit-model]], [[wong-wang-model]], [[neuroimaging]], [[brain-dynamics]], [[computational-neuroscience]], Fsleyes, Freesurfer, Nilearn, [[bids]]
 
 **Frontmatter corrected:**
 - Updated `updated:` to 2026-05-02

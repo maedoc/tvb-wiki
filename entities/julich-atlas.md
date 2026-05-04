@@ -36,7 +36,7 @@ When used with TVB, the Jülich Atlas regions can be mapped to [[neural‑mass�
 
 The Jülich Atlas provides several distinctive features that distinguish it from other [[stochastic‑differential‑equations]]. First, the probabilistic maps explicitly quantify uncertainty in cytoarchitectonic boundaries, acknowledging that individual brains do not conform perfectly to a population average[^4]. Second, the atlas is based on thorough histological analysis rather than purely functional or [[connectivity]]‑based parcellation, providing an anatomical foundation that complements other approaches. Third, the maps are provided in standard stereotaxic spaces, enabling straightforward integration with virtually any neuroimaging processing pipeline.
 
-The data is freely available through multiple channels: directly from the Jülich website, through the [[ebrains]] Knowledge Graph, and integrated into popular neuroimaging software packages including [[fsl]] (as part of the FSL Harvard‑Oxford Atlas toolkit) and [[freesurfer]]. The atlas is distributed under open licenses that permit both academic and commercial use.
+The data is freely available through multiple channels: directly from the Jülich website, through the [[ebrains]] Knowledge Graph, and integrated into popular neuroimaging software packages including Fsl (as part of the FSL Harvard‑Oxford Atlas toolkit) and Freesurfer. The atlas is distributed under open licenses that permit both academic and commercial use.
 
 ## Relationship to Other Atlases
 
@@ -46,7 +46,7 @@ The atlas also relates to the [[mrtrix3‑connectome]] and its derivatives, whic
 
 ## Related Software and Tools
 
-The Jülich Atlas can be used with standard neuroimaging toolkits including [[fsl]], [[freesurfer]], [[spm|SPM (Statistical Parametric Mapping)]], and [[afni]]. Integration with the [[brain‑connectivity‑toolbox|Brain Connectivity Toolbox]] enables network analysis using cytoarchitectonically‑defined regions. For visualization, tools such as [[brainnet‑viewer]] and [[connectome‑workbench]] can display the probability maps alongside functional data.
+The Jülich Atlas can be used with standard neuroimaging toolkits including Fsl, Freesurfer, SPM (Statistical Parametric Mapping), and [[afni]]. Integration with the [[brain‑connectivity‑toolbox|Brain Connectivity Toolbox]] enables network analysis using cytoarchitectonically‑defined regions. For visualization, tools such as [[brainnet‑viewer]] and [[connectome‑workbench]] can display the probability maps alongside functional data.
 
 ## Key Papers
 

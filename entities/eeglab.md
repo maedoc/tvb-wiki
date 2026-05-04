@@ -27,11 +27,11 @@ EEGLAB (eeglab) is a open-source MATLAB environment for processing and analyzing
 EEGLAB is often used alongside [[tvb]] and other simulation platforms in pre-processing or post-processing pipelines for [[connectome]]-based brain modeling.
 
 ## Related Software
-* [[antspy]]
+* Antspy
 * [[arbor]]
-* [[bids-validator]]
-* [[bidscoin]]
-* [[brainstorm]]
+* Bids Validator
+* Bidscoin
+* Brainstorm
 * [[eegnet]]
 * [[labstreaminglayer]]
 

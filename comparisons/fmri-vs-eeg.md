@@ -50,7 +50,7 @@ fMRI and EEG are complementary neuroimaging modalities that measure different as
 ### fMRI
 - Measures blood oxygenation changes via [[bold-signal]]
 - neurovascular-coupling introduces ~6 second hemodynamic delay
-- Correlates with [[local-field-potentials]] (LFPs) per [[nikos-logothetis]]
+- Correlates with [[local-field-potentials]] (LFPs) per Nikos Logothetis
 - Excellent for spatial localization of networks
 
 ### EEG

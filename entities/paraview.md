@@ -31,7 +31,7 @@ ParaView is an open-source, multi-platform data analysis and visualization appli
 
 The exponential growth in neuroimaging data resolution and simulation complexity has created a critical need for visualization tools capable of handling multi-gigabyte datasets while maintaining interactive performance. Traditional neuroimaging viewers often struggle with the geometric complexity of [[connectome]] representations or the temporal dynamics of [[whole-brain-modeling]] simulations. ParaView addresses this gap by providing parallelized rendering capabilities that scale across distributed computing resources, making it valuable for researchers working with [[hcp-dataset]]-scale datasets or long-duration [[network-dynamics]] simulations [@hanwell2019].
 
-Unlike domain-specific viewers such as [[freesurfer]] or [[fsleyes]], ParaView offers general-purpose visualization primitives that can be customized for neuroscience applications without being constrained to particular file formats or analysis pipelines. This flexibility has made it attractive for [[computational-neuroscience]] researchers who need to visualize data spanning multiple modalities—from [[diffusion-mri]] derived structural networks to [[eeg]] source reconstructions and [[neural-mass-models]] simulation outputs.
+Unlike domain-specific viewers such as Freesurfer or Fsleyes, ParaView offers general-purpose visualization primitives that can be customized for neuroscience applications without being constrained to particular file formats or analysis pipelines. This flexibility has made it attractive for [[computational-neuroscience]] researchers who need to visualize data spanning multiple modalities—from [[diffusion-mri]] derived structural networks to [[eeg]] source reconstructions and [[neural-mass-models]] simulation outputs.
 
 ## Key Features
 
@@ -47,13 +47,13 @@ This workflow is particularly valuable for [[personalized-brain-modeling]] proje
 
 ## Related Software
 
-ParaView occupies a distinct niche compared to other neuroscience visualization tools. While [[3d-slicer]] provides integrated analysis and visualization with strong clinical orientation, ParaView focuses purely on visualization with strong scaling capabilities for large datasets. Unlike [[brainnet-viewer]] or [[connectome-workbench]] which are optimized specifically for neuroimaging data formats, ParaView requires format conversion but offers greater flexibility in visualization techniques. For researchers working across multiple simulation platforms (e.g., [[nest]], [[brian]], [[neuron]]), ParaView provides a unified visualization environment rather than learning platform-specific viewers.
+ParaView occupies a distinct niche compared to other neuroscience visualization tools. While [[3d-slicer]] provides integrated analysis and visualization with strong clinical orientation, ParaView focuses purely on visualization with strong scaling capabilities for large datasets. Unlike [[brainnet-viewer]] or [[connectome-workbench]] which are optimized specifically for neuroimaging data formats, ParaView requires format conversion but offers greater flexibility in visualization techniques. For researchers working across multiple simulation platforms (e.g., [[nest]], Brian, [[neuron]]), ParaView provides a unified visualization environment rather than learning platform-specific viewers.
 
-Other notable alternatives include [[fsleyes]], which provides lightweight viewing of NIfTI and other neuroimaging formats with minimal setup, and [[freesurfer]] with its FreeView interface, which offers deep integration with cortical surface analysis workflows. Tools like MRtrix are specifically optimized for [[diffusion-mri]] and [[tractography]] visualization, making them more specialized than ParaView for those specific tasks.
+Other notable alternatives include Fsleyes, which provides lightweight viewing of NIfTI and other neuroimaging formats with minimal setup, and Freesurfer with its FreeView interface, which offers deep integration with cortical surface analysis workflows. Tools like MRtrix are specifically optimized for [[diffusion-mri]] and [[tractography]] visualization, making them more specialized than ParaView for those specific tasks.
 
 ## Comparison with Alternative Tools
 
-| Feature | ParaView | [[freesurfer]]/FreeView | [[connectome-workbench]] |
+| Feature | ParaView | Freesurfer/FreeView | [[connectome-workbench]] |
 |---------|----------|------------------------|-------------------------|
 | Primary focus | General scientific visualization | Cortical surface analysis | CIFTI/Connectome visualization |
 | Learning curve | Steep | Moderate | Moderate |

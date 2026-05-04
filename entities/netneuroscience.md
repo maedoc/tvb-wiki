@@ -52,13 +52,13 @@ The relationship is bidirectional: network analysis characterizes empirical brai
 
 Several software packages implement network neuroscience methods:
 
-- [[brainsuite]] (BCT): MATLAB toolbox for complex network analysis
+- Brainsuite (BCT): MATLAB toolbox for complex network analysis
 - [[bctpy]]: Python implementation of BCT functions
 - [[brainspace]]: Python library for mapping [[connectivity]] patterns
 - [[braph]]: Graph-theoretic analysis of brain connectivity in MATLAB/Python
 - [[graph-tool]]: Efficient Python library for statistical analysis of networks
 
-For network reconstruction from neuroimaging data, researchers use packages like [[mrtrix3-connectome]] (for tractography-based connectivity), [[dipy]] (for [[diffusion-mri]] processing), and nilearn (for functional connectivity matrices). Visualization tools include [[brainnet-viewer]] and [[connectome-workbench]].
+For network reconstruction from neuroimaging data, researchers use packages like [[mrtrix3-connectome]] (for tractography-based connectivity), Dipy (for [[diffusion-mri]] processing), and nilearn (for functional connectivity matrices). Visualization tools include [[brainnet-viewer]] and [[connectome-workbench]].
 
 ## Key Papers
 

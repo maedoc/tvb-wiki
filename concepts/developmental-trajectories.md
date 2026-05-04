@@ -52,7 +52,7 @@ The majority of developmental processes follow non-linear trajectories, reflecti
 
 ### The Gogtay et al. (2004) Framework
 
-The landmark longitudinal study by [[nitin-gogtay|Gogtay et al.]] (2004) established the spatial-temporal pattern of human cortical development using repeated MRI scans of 13 children followed from ages 4 to 21 years. This work revealed that cortical maturation follows a hierarchical "back-to-front" pattern, with phylogenetically older regions maturing before newer ones. The study demonstrated that cortical thinning, far from representing mere loss, reflects the coordinated processes of synaptic pruning and myelination that refine neural circuitry.
+The landmark longitudinal study by Gogtay et al. (2004) established the spatial-temporal pattern of human cortical development using repeated MRI scans of 13 children followed from ages 4 to 21 years. This work revealed that cortical maturation follows a hierarchical "back-to-front" pattern, with phylogenetically older regions maturing before newer ones. The study demonstrated that cortical thinning, far from representing mere loss, reflects the coordinated processes of synaptic pruning and myelination that refine neural circuitry.
 
 **Primary regions** (sensory and motor cortex) demonstrate the earliest maturation, reaching peak thickness in middle childhood and then gradually declining. These regions mature first because they are essential for basic sensorimotor function and have relatively straightforward computational demands. Their earlier maturation also reflects their earlier phylogenetic development, as sensory and motor cortices are conserved across mammalian evolution.
 

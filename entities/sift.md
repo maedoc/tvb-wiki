@@ -61,7 +61,7 @@ SIFT operates on source-reconstructed time series obtained from EEG/MEG preproce
 
 1. **Preprocessing**: Importing epoched or continuous data from EEGLAB or other formats, applying artifact rejection and filtering. SIFT is developed as an EEGLAB plugin (Mullen et al., 2011), enabling seamless integration with its preprocessing pipeline.
 
-2. **Source Reconstruction**: Using beamforming or minimum-norm estimation to project sensor-space data to cortical sources. This step is often performed with EEGLAB's *dipfit* plugin or external tools like [[fieldtrip]].
+2. **Source Reconstruction**: Using beamforming or minimum-norm estimation to project sensor-space data to cortical sources. This step is often performed with EEGLAB's *dipfit* plugin or external tools like Fieldtrip.
 
 3. **Model Fitting**: Fitting vector autoregressive (VAR) models to the source time series, with automatic model order selection using AIC/BIC criteria. The methodological foundation for this approach was established by Brovelli and colleagues in their analysis of beta oscillations in cortical networks (Brovelli et al., 2004).
 
@@ -86,9 +86,9 @@ SIFT operates on source-reconstructed time series obtained from EEG/MEG preproce
 ## Related Software
 
 - [[eeglab]]: SIFT is developed as an EEGLAB plugin and integrates with its preprocessing pipeline
-- [[fieldtrip]]: An alternative MATLAB toolbox for MEG/EEG analysis with overlapping functionality
+- Fieldtrip: An alternative MATLAB toolbox for MEG/EEG analysis with overlapping functionality
 - [[brain-connectivity-toolbox]]: A Python toolbox for graph-theoretic analysis of brain networks
-- [[dynasim]]: A MATLAB toolbox for dynamical systems analysis that complements SIFT's information-theoretic approach
+- Dynasim: A MATLAB toolbox for dynamical systems analysis that complements SIFT's information-theoretic approach
 - [[mne-connectivity]]: A Python-based toolbox for connectivity analysis that offers some overlap with SIFT's capabilities
 
 ## Limitations and Considerations

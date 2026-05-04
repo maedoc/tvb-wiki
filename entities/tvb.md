@@ -56,13 +56,13 @@ TVB combines:
 - [[NEST]] — [[spiking-neural-networks|Spiking neural network]] simulator for detailed neuron models
 - [[NEURON]] — Multi-compartment neuron simulation environment
 - [[ANTs]] — Image registration for preprocessing neuroimaging data
-- [[auryn]]
+- Auryn
 - [[geppetto]]
 - [[gift]]
-- [[amico]]
+- Amico
 - [[brainglobe]]
 - [[braincogs]]
-- [[bindsnet]]
+- Bindsnet
 - [[dipde]]
 - [[deeplabcut]]
 - [[bdftools]]
@@ -74,7 +74,7 @@ TVB combines:
 
 [[cvodes]]
 
-- [[genn]]
+- Genn
 
 - [[bcilab]]
 - [[camino-probtract]]
@@ -86,7 +86,7 @@ TVB combines:
 - [[personalized brain modeling]] — Subject-specific model construction
 - [[functional connectivity]] — Simulated and empirical connectivity patterns
 - [[elephant|Elephant]]
-- [[mrtrix3-connectome|[[mrtrix|Mrtrix3]] Connectome]]
+- [[mrtrix3-connectome|Mrtrix3 Connectome]]
 - [[epilepsy-modeling|Epilepsy Modeling]]
 ## Use Cases
 

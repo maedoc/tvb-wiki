@@ -73,9 +73,9 @@ These papers serve as the primary citations for researchers using LFPy in their 
 
 LFPy integrates with several related software packages in the computational neuroscience ecosystem:
 
-- **[[lfpykit]]**: A companion Python package that provides general classes for volume conductor modeling and extracellular potential calculation. LFPy builds on lfpykit to extend its functionality to specific use cases involving NEURON simulations.
+- **Lfpykit**: A companion Python package that provides general classes for volume conductor modeling and extracellular potential calculation. LFPy builds on lfpykit to extend its functionality to specific use cases involving NEURON simulations.
 - **NEURON**: The simulation environment that LFPy uses for computing neural dynamics. NEURON provides the compartmental modeling framework needed to calculate transmembrane currents for neurons with arbitrary morphologies.
-- **[[brian2]]**: Another neuron simulator that can in principle be integrated with forward modeling tools, though LFPy specifically targets the NEURON interface.
+- **Brian2**: Another neuron simulator that can in principle be integrated with forward modeling tools, though LFPy specifically targets the NEURON interface.
 - **[[nest]]**: A simulator focused on large-scale network dynamics that complements LFPy's detailed single-neuron capabilities.
 
 The modular design of LFPy allows researchers to combine these tools in various configurations depending on their modeling needs. For instance, LFPy can be used with custom NEURON models imported from [[ModelDB]], enabling forward modeling of LFPs from biologically realistic neural networks.

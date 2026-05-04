@@ -29,7 +29,7 @@ updated: '2026-05-04'
 ## Key Features
 
 ### Configurable Pipeline Architecture
-C-PAC employs a YAML-based configuration system that allows researchers to define preprocessing [[steps]], parameter choices, and analysis options without modifying source code. This configurability supports multiple "pipeline strategies" for key preprocessing decisions—such as motion correction methods, nuisance regression approaches, and spatial smoothing kernels—enabling systematic comparison of preprocessing choices on downstream [[connectivity]] measures.
+C-PAC employs a YAML-based configuration system that allows researchers to define preprocessing Steps, parameter choices, and analysis options without modifying source code. This configurability supports multiple "pipeline strategies" for key preprocessing decisions—such as motion correction methods, nuisance regression approaches, and spatial smoothing kernels—enabling systematic comparison of preprocessing choices on downstream [[connectivity]] measures.
 
 ### Comprehensive Preprocessing
 The platform includes modules for standard [[fmri]] preprocessing including slice-timing correction, motion realignment, spatial normalization to standard templates (MNI152), spatial smoothing, and temporal filtering. C-PAC integrates ANTs for robust registration and implements multiple strategies for nuisance signal removal, including CompCor (Component-based Noise Correction), which identifies nuisance components from [[white-matter]] and CSF signals rather than relying solely on global signal regression.
@@ -63,9 +63,9 @@ C-PAC serves a complementary role to [[tvb|The Virtual Brain]] in [[connectome]]
 - [[tvb|The Virtual Brain]] — Whole-brain simulation platform that can use C-PAC-preprocessed connectivity data
 - [[ants|ANTs]] — Advanced registration toolkit integrated into C-PAC for robust spatial normalization
 - [[nipype|Nipype]] — Python framework for neuroimaging pipelines; C-PAC shares similar architectural principles
-- [[fsl|FSL]] — Alternative preprocessing suite with overlapping functionality
+- FSL — Alternative preprocessing suite with overlapping functionality
 - [[hcp-pipelines|HCP Pipelines]] — Minimal preprocessing pipelines for [[human-connectome-project]] data; often compared with C-PAC strategies
-- [[nilearn|Nilearn]] — Python library for neuroimaging analysis that can work with C-PAC outputs
+- Nilearn — Python library for neuroimaging analysis that can work with C-PAC outputs
 
 ## References
 

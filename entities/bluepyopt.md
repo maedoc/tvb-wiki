@@ -34,7 +34,7 @@ The optimization algorithms available include the Covariance Matrix Adaptation E
 
 While BluePyOpt focuses on single-neuron and small-network optimization, it relates to [[the-virtual-brain]] (TVB) through the complementary nature of their applications. TVB operates at the [[whole-brain]] level, simulating large-scale [[network-dynamics]] using neural-mass models. The optimization outcomes from BluePyOpt can in principle inform the [[mean-field-theory|mean-field]] parameters used in TVB's population-level models, creating a multi-scale modeling pipeline from cellular to systems-level dynamics.
 
-The software integrates with the broader [[computational-neuroscience]] ecosystem through its compatibility with neuron-simulator and support for standards such as [[neuroml]] for model description. This integration positions BluePyOpt as a key component in the toolchain connecting experimental data to detailed computational models used in studies of [[brain-dynamics]], [[epilepsy-modeling]], and [[personalized-brain-modeling]].
+The software integrates with the broader [[computational-neuroscience]] ecosystem through its compatibility with neuron-simulator and support for standards such as Neuroml for model description. This integration positions BluePyOpt as a key component in the toolchain connecting experimental data to detailed computational models used in studies of [[brain-dynamics]], [[epilepsy-modeling]], and [[personalized-brain-modeling]].
 
 ## Key Papers
 

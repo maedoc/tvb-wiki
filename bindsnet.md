@@ -1,7 +1,7 @@
 ---
 title: BindsNET
 created: 2025-01-15
-updated: 2026-05-02
+updated: 2026-05-04
 type: entity
 tags: [software-brian, spiking-neural-networks, neuromorphic-computing, neural-network, machine-learning, computational-neuroscience]
 sources: []

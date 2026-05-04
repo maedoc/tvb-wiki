@@ -58,7 +58,7 @@ The transition to TORTOISEV4 represents a major architectural change, with the s
 
 ## Related Software
 
-TORTOISE complements and intersects with several other tools in the diffusion MRI ecosystem. The [[fsl]] package provides the [[fsl-randomise]] tool for tract-based statistics and includes the well-established EDDY module for motion and eddy-current correction. For tensor fitting and tractography, researchers often use [[mrtrix3]] or [[dipy]] in conjunction with TORTOISE-processed data. The [[dti-tk]] software provides alternative tensor-based registration tools, though it operates on different principles than the DR-TAMAS approach. The [[qsiprep]] offers an integrated preprocessing framework that incorporates elements of TORTOISE. For visualization of results, [[freesurfer]] and its associated tools can integrate with TORTOISE outputs for overlay and analysis purposes.
+TORTOISE complements and intersects with several other tools in the diffusion MRI ecosystem. The Fsl package provides the [[fsl-randomise]] tool for tract-based statistics and includes the well-established EDDY module for motion and eddy-current correction. For tensor fitting and tractography, researchers often use Mrtrix3 or Dipy in conjunction with TORTOISE-processed data. The [[dti-tk]] software provides alternative tensor-based registration tools, though it operates on different principles than the DR-TAMAS approach. The Qsiprep offers an integrated preprocessing framework that incorporates elements of TORTOISE. For visualization of results, Freesurfer and its associated tools can integrate with TORTOISE outputs for overlay and analysis purposes.
 
 ## References
 

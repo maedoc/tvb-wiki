@@ -36,7 +36,7 @@ TVB's architecture includes adapters for connecting to NEST-style simulators, en
 
 ## Relationship to Other Simulators
 
-PyNEST occupies a specific niche among neural simulators. Unlike [[brian2]] which emphasizes flexibility and ease of modification for new models, NEST prioritizes performance and biological detail for standard neuron and synapse models [@Stimberg2019]. Compared to [[neuron]], NEST offers more straightforward parallel scaling through its message-passing interface [@Carnevale2006]. Benchmark comparisons have shown NEST demonstrating strong scaling characteristics across distributed computing environments [@VanAlbada2021]. The [[nest]] simulator (the underlying C++ engine) has been extensively validated against experimental data and is used by numerous research groups worldwide [@Gewaltig2007].
+PyNEST occupies a specific niche among neural simulators. Unlike Brian2 which emphasizes flexibility and ease of modification for new models, NEST prioritizes performance and biological detail for standard neuron and synapse models [@Stimberg2019]. Compared to [[neuron]], NEST offers more straightforward parallel scaling through its message-passing interface [@Carnevale2006]. Benchmark comparisons have shown NEST demonstrating strong scaling characteristics across distributed computing environments [@VanAlbada2021]. The [[nest]] simulator (the underlying C++ engine) has been extensively validated against experimental data and is used by numerous research groups worldwide [@Gewaltig2007].
 
 ## Research Applications
 
@@ -44,12 +44,12 @@ PyNEST has been applied to studies of [[brain-oscillations]], [[epilepsy-modelin
 
 ## Related Software
 
-- [[brian2]] — Another popular Python-based neural simulator
+- Brian2 — Another popular Python-based neural simulator
 - [[nest]] — The underlying C++ simulation engine
-- [[spinnaker]] — GPU-based spiking [[neural-network]] simulator
-- [[auryn]] — Fast spiking neural network simulator
-- [[netpyne]] — Python tool for building and analyzing neuronal networks
-- [[neuroml]] — Standardized language for neuronal model specification
+- Spinnaker — GPU-based spiking [[neural-network]] simulator
+- Auryn — Fast spiking neural network simulator
+- Netpyne — Python tool for building and analyzing neuronal networks
+- Neuroml — Standardized language for neuronal model specification
 
 ## References
 

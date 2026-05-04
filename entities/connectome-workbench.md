@@ -43,7 +43,7 @@ Connectome Workbench serves a complementary role to [[The Virtual Brain]] (TVB) 
 
 ## Related Software
 
-Connectome Workbench operates within a broader ecosystem of neuroimaging visualization tools. [[Freeview]] (the FreeSurfer visualization companion) serves similar purposes for FreeSurfer-processed data, while [[fsleyes]] provides another free alternative for volume and surface visualization. For CIFTI-specific operations, the [[cifti]] format is supported by other packages including [[nilearn]] and [[pycortex]], though these lack Workbench's full GUI capabilities. The [[human-connectome-project]] maintains Workbench as part of its data processing pipeline, alongside [[hcp-pipelines]] and related tools for minimal preprocessing of diffusion and functional MRI data.
+Connectome Workbench operates within a broader ecosystem of neuroimaging visualization tools. [[Freeview]] (the FreeSurfer visualization companion) serves similar purposes for FreeSurfer-processed data, while Fsleyes provides another free alternative for volume and surface visualization. For CIFTI-specific operations, the [[cifti]] format is supported by other packages including Nilearn and Pycortex, though these lack Workbench's full GUI capabilities. The [[human-connectome-project]] maintains Workbench as part of its data processing pipeline, alongside [[hcp-pipelines]] and related tools for minimal preprocessing of diffusion and functional MRI data.
 
 ## Key Capabilities Summary
 

@@ -31,13 +31,13 @@ Most MEG/EEG toolboxes share a common set of processing stages, though implement
 
 The ecosystem of MEG/EEG analysis software spans multiple programming languages and user communities. Several toolboxes have achieved widespread adoption in the [[whole‑brain‑modeling]] community:
 
-[[mne‑python]] represents the dominant open‑source Python environment for neurophysiological data analysis, with strong integration into the scientific Python ecosystem including [[nilearn]] for visualization and [[nipype]] for pipeline automation gramfort-2013. MNE‑Python implements both forward and inverse operators, supports BEM and FEM head models, and provides extensive connectivity analysis routines through [[mne‑connectivity]].
+[[mne‑python]] represents the dominant open‑source Python environment for neurophysiological data analysis, with strong integration into the scientific Python ecosystem including Nilearn for visualization and [[nipype]] for pipeline automation gramfort-2013. MNE‑Python implements both forward and inverse operators, supports BEM and FEM head models, and provides extensive connectivity analysis routines through [[mne‑connectivity]].
 
-[[eeglab]] is a MATLAB‑based toolbox particularly popular in the cognitive neuroscience community, offering a graphical user interface and extensive plugin architecture. Its tight integration with [[fieldtrip]] (which can run as an EEGLAB plugin) enables advanced source reconstruction within a unified workflow delorey-etal-2021.
+[[eeglab]] is a MATLAB‑based toolbox particularly popular in the cognitive neuroscience community, offering a graphical user interface and extensive plugin architecture. Its tight integration with Fieldtrip (which can run as an EEGLAB plugin) enables advanced source reconstruction within a unified workflow delorey-etal-2021.
 
-[[fieldtrip]], developed at the Donders Center for Cognitive [[neuroimaging]] in Nijmegen, emphasizes model‑based analysis approaches and provides extensive documentation and tutorials that have made it a pedagogical standard in the field oostenveld-etal-2010. It implements beamforming, dipole fitting, and frequency‑domain analysis methods particularly suited to studying [[brain‑oscillations]]. FieldTrip's modular architecture allows researchers to combine arbitrary preprocessing, sensor‑level, and source‑level analyses, and its extensive tutorial corpus has made it a common entry point for newcomers to MEG/EEG methodology.
+Fieldtrip, developed at the Donders Center for Cognitive [[neuroimaging]] in Nijmegen, emphasizes model‑based analysis approaches and provides extensive documentation and tutorials that have made it a pedagogical standard in the field oostenveld-etal-2010. It implements beamforming, dipole fitting, and frequency‑domain analysis methods particularly suited to studying [[brain‑oscillations]]. FieldTrip's modular architecture allows researchers to combine arbitrary preprocessing, sensor‑level, and source‑level analyses, and its extensive tutorial corpus has made it a common entry point for newcomers to MEG/EEG methodology.
 
-[[brainstorm]] offers an intuitive graphical interface particularly suited to clinical research and users without extensive programming background, while also exposing a full MATLAB API for advanced users tadel-etal-2011. The toolbox emphasizes ease of use and includes sophisticated visualization capabilities for cortical mapping and connectivity display.
+Brainstorm offers an intuitive graphical interface particularly suited to clinical research and users without extensive programming background, while also exposing a full MATLAB API for advanced users tadel-etal-2011. The toolbox emphasizes ease of use and includes sophisticated visualization capabilities for cortical mapping and connectivity display.
 
 ## Relationship to TVB
 
@@ -64,8 +64,8 @@ Several challenges remain in MEG/EEG analysis methodology relevant to whole‑br
 - [[volume‑conduction]]
 - [[mne‑python]]
 - [[eeglab]]
-- [[fieldtrip]]
-- [[brainstorm]]
+- Fieldtrip
+- Brainstorm
 - [[connectivity]]
 - [[neural‑mass‑models]]
 

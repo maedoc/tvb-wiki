@@ -41,7 +41,7 @@ The primary reference for OpenCortex is a 2019 publication in *Frontiers in Neur
 
 ## Related Software
 
-OpenCortex occupies a niche in the computational neuroscience software ecosystem that bridges several existing tools. Like [[brian2]] and [[nest]], it provides a Python-based environment for spiking neural network simulations, but emphasizes cortical microcircuit architecture. Unlike these general-purpose simulators, OpenCortex includes built-in neural mass implementations similar to those found in [[the-virtual-brain]]. The software complements [[neuroml]]-based workflows for standardized model description and can be compared with other hybrid approaches like [[netpyne]] and [[auryn]] for large-scale neural simulations.
+OpenCortex occupies a niche in the computational neuroscience software ecosystem that bridges several existing tools. Like Brian2 and [[nest]], it provides a Python-based environment for spiking neural network simulations, but emphasizes cortical microcircuit architecture. Unlike these general-purpose simulators, OpenCortex includes built-in neural mass implementations similar to those found in [[the-virtual-brain]]. The software complements Neuroml-based workflows for standardized model description and can be compared with other hybrid approaches like Netpyne and Auryn for large-scale neural simulations.
 
 ## Technical Implementation
 

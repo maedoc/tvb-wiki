@@ -37,7 +37,7 @@ For [[parcellation]] workflows, ciftiTools provides built-in support for the Sch
 
 ciftiTools serves a complementary role in the [[tvb]] ecosystem by enabling preprocessing and analysis of HCP-style datasets that may be used as empirical priors or validation targets for [[whole-brain]] simulations. Researchers can use ciftiTools to extract connectivity matrices from empirical CIFTI data, which can then serve as structural connectome inputs for TVB simulations. Conversely, simulated [[bold-signal|BOLD]] signals from TVB can be visualized and compared with empirical data using ciftiTools.
 
-The package integrates with the broader neuroimaging ecosystem: it depends on [[connectome-workbench]] for computationally intensive operations, uses [[gift]] format for surface geometry, and complements Python tools such as [[nilearn]] and [[pycortex]]. Unlike the cifti R package which supports all CIFTI intents but offers limited functionality, ciftiTools provides a user-friendly interface specifically optimized for dscalar, dtseries, and dlabel intents common in fMRI analysis.
+The package integrates with the broader neuroimaging ecosystem: it depends on [[connectome-workbench]] for computationally intensive operations, uses [[gift]] format for surface geometry, and complements Python tools such as Nilearn and Pycortex. Unlike the cifti R package which supports all CIFTI intents but offers limited functionality, ciftiTools provides a user-friendly interface specifically optimized for dscalar, dtseries, and dlabel intents common in fMRI analysis.
 
 ## Key Packages Summary
 

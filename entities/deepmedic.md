@@ -18,7 +18,7 @@ Deepmedic — a concept in [[whole-brain|whole-brain modeling]] and [[computatio
 
 ## Related Concepts
 * [[niftynet]]
-* [[monai]]
+* Monai
 
 ## References
 

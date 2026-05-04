@@ -22,7 +22,7 @@ updated: '2026-05-04'
 
 ## Overview
 
-The Blood Oxygen Level Dependent ([[bold-signal|BOLD]]) model is a computational framework that describes the relationship between neural activity and the fMRI signal. The BOLD contrast was discovered by [[seiji-ogawa]] and colleagues (Ogawa et al., 1990), and relies on the magnetic properties of hemoglobin: deoxyhemoglobin is paramagnetic (distorts the local magnetic field), while oxyhemoglobin is diamagnetic. When neural activity increases, regional cerebral blood flow (CBF) increases disproportionately relative to the oxygen extraction rate, leading to a net decrease in deoxyhemoglobin concentration and thus an increased MRI signal (Buxton et al., 1998). The BOLD model provides the biophysical and mathematical foundations for interpreting this indirect measure of neural activity, making it essential for both experimental fMRI analysis and computational [[whole-brain|whole-brain modeling]].
+The Blood Oxygen Level Dependent ([[bold-signal|BOLD]]) model is a computational framework that describes the relationship between neural activity and the fMRI signal. The BOLD contrast was discovered by Seiji Ogawa and colleagues (Ogawa et al., 1990), and relies on the magnetic properties of hemoglobin: deoxyhemoglobin is paramagnetic (distorts the local magnetic field), while oxyhemoglobin is diamagnetic. When neural activity increases, regional cerebral blood flow (CBF) increases disproportionately relative to the oxygen extraction rate, leading to a net decrease in deoxyhemoglobin concentration and thus an increased MRI signal (Buxton et al., 1998). The BOLD model provides the biophysical and mathematical foundations for interpreting this indirect measure of neural activity, making it essential for both experimental fMRI analysis and computational [[whole-brain|whole-brain modeling]].
 
 ## Biophysical Basis
 
@@ -78,7 +78,7 @@ A fundamental open question is whether **functional connectivity** patterns obse
 
 ## Software Implementations
 
-The BOLD forward model is implemented in several software packages. [[spm]] (Statistical Parametric Mapping) includes the canonical Balloon Model as part of its DCM implementation. The [[dynamic-causal-modeling]] framework in SPM uses a variational Bayes scheme to estimate both neural and hemodynamic parameters. In The Virtual Brain, the BOLD forward model enables comparison of simulated and empirical functional connectivity in whole-brain simulations. Standalone implementations also exist in Python packages such as [[nilearn]] (for HRF modeling) and custom toolboxes for DCM analysis.
+The BOLD forward model is implemented in several software packages. Spm (Statistical Parametric Mapping) includes the canonical Balloon Model as part of its DCM implementation. The [[dynamic-causal-modeling]] framework in SPM uses a variational Bayes scheme to estimate both neural and hemodynamic parameters. In The Virtual Brain, the BOLD forward model enables comparison of simulated and empirical functional connectivity in whole-brain simulations. Standalone implementations also exist in Python packages such as Nilearn (for HRF modeling) and custom toolboxes for DCM analysis.
 
 ## Key Papers
 

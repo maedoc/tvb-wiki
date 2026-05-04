@@ -28,7 +28,7 @@ The software operates primarily within the MATLAB environment (with additional P
 
 ## Key Features
 
-Lead-DBS provides several core functionalities that support the DBS workflow from preprocessing to analysis. The **preprocessing pipeline** incorporates advanced image registration techniques using [[elastix]] and ANTs, enabling accurate alignment of preoperative neuroimaging scans with postoperative CT images to localize electrode contacts. The software supports multiple brain atlases including the [[desikan-killiany-atlas]], [[destrieux-atlas]], [[harvard-oxford-atlas]], [[aal-atlas]], and the [[brainnetome-atlas]], allowing users to define targets according to their preferred [[parcellation]] scheme.
+Lead-DBS provides several core functionalities that support the DBS workflow from preprocessing to analysis. The **preprocessing pipeline** incorporates advanced image registration techniques using [[elastix]] and ANTs, enabling accurate alignment of preoperative neuroimaging scans with postoperative CT images to localize electrode contacts. The software supports multiple brain atlases including the [[desikan-killiany-atlas]], [[destrieux-atlas]], Harvard Oxford Atlas, [[aal-atlas]], and the [[brainnetome-atlas]], allowing users to define targets according to their preferred [[parcellation]] scheme.
 
 A distinctive capability of Lead-DBS is its **tractography integration**, which leverages DTI and tractography data to visualize and analyze [[white-matter]] pathways surrounding the electrode contacts. This functionality enables surgeons to assess whether intended structural pathways are being targeted and to predict stimulation effects based on the distribution of electric fields through anatomically defined fiber tracts. The **distance computation** tools calculate Euclidean and Mahalanobis distances between electrode contacts and anatomical landmarks, while the **volume of activation estimation** module simulates the electric field spreading from each contact given specified stimulation parameters.
 
@@ -40,7 +40,7 @@ The software also supports **group studies** through its export capabilities, al
 
 In practice, Lead-DBS can provide TVB with patient-specific anatomical information, including the exact coordinates of implanted electrodes and the [[structural-connectivity]] patterns derived from tractography. This enables researchers to build personalized whole-brain models that incorporate realistic stimulation parameters, potentially improving predictions of therapeutic outcomes. Conversely, TVB simulation results could inform Lead-DBS planning by identifying optimal stimulation targets that suppress pathological dynamics in silico before surgical implementation.
 
-Both software packages share a commitment to open-source development and have been integrated into broader neuroimaging workflows through compatibility with formats such as [[bids]] and tools including [[nilearn]], [[dipy]], and the [[brain-connectivity-toolbox]].
+Both software packages share a commitment to open-source development and have been integrated into broader neuroimaging workflows through compatibility with formats such as [[bids]] and tools including Nilearn, Dipy, and the [[brain-connectivity-toolbox]].
 
 ## Key Papers
 
@@ -48,7 +48,7 @@ The development and validation of Lead-DBS has been documented in several influe
 
 ## Related Software
 
-Lead-DBS interfaces with several other tools in the computational neuroimaging ecosystem. For visualization, it works with [[brainnet-viewer]] and MRICroGL for displaying electrode positions on brain surfaces. The [[connectome-workbench]] provides additional visualization capabilities for group-level analyses. For tractography processing, Lead-DBS integrates with MRtrix3 and [[dsi-studio]], while the [[freesurfer]] suite handles cortical reconstruction. Surgical planning may also involve 3D Slicer or SimNIBS for neuronavigation, and the software accepts inputs preprocessed with fMRIPrep or QSIPrep for standardized pipeline compliance.
+Lead-DBS interfaces with several other tools in the computational neuroimaging ecosystem. For visualization, it works with [[brainnet-viewer]] and MRICroGL for displaying electrode positions on brain surfaces. The [[connectome-workbench]] provides additional visualization capabilities for group-level analyses. For tractography processing, Lead-DBS integrates with MRtrix3 and [[dsi-studio]], while the Freesurfer suite handles cortical reconstruction. Surgical planning may also involve 3D Slicer or SimNIBS for neuronavigation, and the software accepts inputs preprocessed with fMRIPrep or QSIPrep for standardized pipeline compliance.
 
 TVB can leverage Lead-DBS output for personalized stimulation modeling, and additional Python utilities support integration with the broader Python neuroimaging ecosystem including [[nipype]] for pipeline automation.
 

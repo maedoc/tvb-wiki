@@ -40,7 +40,7 @@ MOOSE employs a modular architecture where different computational engines can o
 ### Interface and Accessibility
 - **Python bindings** (PyMOOSE) as the primary user interface[^2]
 - **C++ core** for computational performance
-- **Declarative model definition** using [[neuroml]] and model-exchange formats
+- **Declarative model definition** using Neuroml and model-exchange formats
 - **NSDF (Neuroscience Simulation Data Format)** support for standardized data storage and provenance tracking[^3]
 
 ## Relationship to TVB

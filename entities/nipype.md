@@ -27,11 +27,11 @@ NiPype enables researchers to construct complex neuroimaging workflows that leve
 ## Key Features
 
 **Unified Interface Layer**
-NiPype provides standardized Python interfaces to major neuroimaging packages including [[fsl]], [[spm]], [[afni]], [[ants]], [[camino]], [[mrtrix]], [[freesurfer]], and [[cmtk]]. Each interface exposes the complete functionality of the underlying command-line tool while handling input validation, output parsing, and error checking automatically.
+NiPype provides standardized Python interfaces to major neuroimaging packages including Fsl, Spm, [[afni]], [[ants]], [[camino]], Mrtrix, Freesurfer, and [[cmtk]]. Each interface exposes the complete functionality of the underlying command-line tool while handling input validation, output parsing, and error checking automatically.
 
 **Workflow Engine**
 The workflow system in NiPype implements a directed acyclic graph (DAG) execution model, enabling:
-- Automatic dependency resolution between processing [[steps]]
+- Automatic dependency resolution between processing Steps
 - Parallel execution on local multi-core machines or distributed computing clusters (via SGE, SLURM, PBS, or HTCondor)
 - Lazy re-execution that only recomputes changed steps when pipelines are modified
 - Detailed provenance tracking recording the exact software versions and parameters used
@@ -63,8 +63,8 @@ Both projects emphasize [[reproducibility]] and open science, with NiPype provid
 
 - [[tvb|The Virtual Brain]] - Whole-brain simulation platform
 - [[nibabel]] - Python library for neuroimaging file I/O (companion tool)
-- [[fsl]] - FMRIB Software Library (interfaced via NiPype)
-- [[spm]] - Statistical Parametric Mapping (interfaced via NiPype)
+- Fsl - FMRIB Software Library (interfaced via NiPype)
+- Spm - Statistical Parametric Mapping (interfaced via NiPype)
 - [[ants]] - Advanced Normalization Tools (interfaced via NiPype)
 
 ## References

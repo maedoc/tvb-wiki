@@ -96,7 +96,7 @@ BrainVoyager has been cited in thousands of neuroimaging studies. Key methodolog
 - [[TVB]] — Whole-brain simulation platform that can use BrainVoyager-processed connectivity data
 - [[ANTs]] — Alternative neuroimaging registration tools (volume-based)
 - [[3D Slicer]] — Open-source alternative for medical image computing
-- **[[freesurfer]]** — Open-source cortical surface reconstruction (complementary/alternative to BrainVoyager's surface tools)
+- **Freesurfer** — Open-source cortical surface reconstruction (complementary/alternative to BrainVoyager's surface tools)
 - **FSL** — UK-based open-source fMRI analysis suite (volume-based)
 - **SPM** — Statistical parametric mapping toolbox for neuroimaging
 

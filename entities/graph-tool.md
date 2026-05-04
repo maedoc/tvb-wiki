@@ -30,7 +30,7 @@ Graph-tool offers an extensive repertoire of network analysis algorithms relevan
 
 The library provides efficient implementations of core network metrics including degree distribution, [[small‑world‑networks|small‑world]] properties, [[scale‑free‑networks|scale‑free]] degree exponents, [[rich‑club|rich‑club]] coefficients, and betweenness centrality. For flow‑based analysis, graph‑tool includes algorithms for maximum flow/minimum cut computations, which can be applied to analyze information transfer pathways in brain networks. The library also supports block‑model inference, a hierarchical approach to network analysis that can reveal multi‑scale community structure in cortical networks peixoto2014sbm.
 
-Graph‑tool integrates with popular Python scientific computing stacks including NumPy and SciPy, allowing seamless integration with neuroimaging pipelines using [[nilearn|nilearn]] or [[nibabel|nibabel]] for processing [[dti|DTI]] tractography data or [[bold‑signal|BOLD]] time series.
+Graph‑tool integrates with popular Python scientific computing stacks including NumPy and SciPy, allowing seamless integration with neuroimaging pipelines using nilearn or [[nibabel|nibabel]] for processing [[dti|DTI]] tractography data or [[bold‑signal|BOLD]] time series.
 
 ## Relationship to TVB
 
@@ -46,7 +46,7 @@ The library is frequently used in conjunction with [[brain‑connectivity‑tool
 
 ## Related Software
 
-Graph‑tool occupies a specific niche in the network analysis ecosystem alongside several related tools. [[bctpy|The Brain Connectivity Toolbox]] (bctpy) provides a larger collection of neuroscience‑specific network metrics but runs slower than graph‑tool for large networks rubinov2010. [[braph|Braph]] offers a MATLAB‑compatible Python approach for brain network analysis with a focus on [[connectomics|connectomics]] workflows. [[gretna|GRETNA]] provides a graphical interface for network analysis focused on neuroimaging data. For general‑purpose network analysis beyond neuroscience, [[network‑dynamics]] offers a broader but slower pure‑Python implementation. For [[community‑detection|community detection]] specifically, the [[graphvar|GraphVar]] package integrates graph‑theoretic analysis with statistical testing for neuroimaging applications.
+Graph‑tool occupies a specific niche in the network analysis ecosystem alongside several related tools. [[bctpy|The Brain Connectivity Toolbox]] (bctpy) provides a larger collection of neuroscience‑specific network metrics but runs slower than graph‑tool for large networks rubinov2010. [[braph|Braph]] offers a MATLAB‑compatible Python approach for brain network analysis with a focus on [[connectomics|connectomics]] workflows. GRETNA provides a graphical interface for network analysis focused on neuroimaging data. For general‑purpose network analysis beyond neuroscience, [[network‑dynamics]] offers a broader but slower pure‑Python implementation. For [[community‑detection|community detection]] specifically, the [[graphvar|GraphVar]] package integrates graph‑theoretic analysis with statistical testing for neuroimaging applications.
 
 ## References
 

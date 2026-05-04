@@ -47,12 +47,12 @@ While the Allen SDK itself provides data access rather than simulator coupling, 
 
 The Allen SDK is part of a broader ecosystem of brain atlas tools and data resources:
 
-- **[[freesurfer]]**: For cortical [[parcellation]] and segmentation of human [[neuroimaging]] data
+- **Freesurfer**: For cortical [[parcellation]] and segmentation of human [[neuroimaging]] data
 - **[[brain-connectivity-toolbox]]**: For network analysis of connectivity data
-- **[[dipy]]**: For advanced [[diffusion-mri]] tractography processing
+- **Dipy**: For advanced [[diffusion-mri]] tractography processing
 - **[[connectome-workbench]]**: For visualization of [[brain-parcellations]] and connectivity data
 
-The Allen SDK complements other data resources like the [[human-connectome-project]] (HCP) and can be used alongside [[nilearn]] for human neuroimaging data workflows. The data formats used by Allen Institute (NWB, NRRD) align with Neurodata Without Borders standards for neurophysiology data.
+The Allen SDK complements other data resources like the [[human-connectome-project]] (HCP) and can be used alongside Nilearn for human neuroimaging data workflows. The data formats used by Allen Institute (NWB, NRRD) align with Neurodata Without Borders standards for neurophysiology data.
 
 ## Key Papers
 
