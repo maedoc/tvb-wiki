@@ -74,3 +74,5 @@
 ## [2026-05-04 19:50] Improve: 5 pages improved (crcns, netpyne, cat12, netneurotools, scot)
 
 ## [2026-05-04 19:55] Improve: simbrain.md filled in (neural network simulator content)
+
+## [2026-05-04 20:17] Improve: 5 pages improved (dynasim, spm, brainstorm, crcns, simbrain)
