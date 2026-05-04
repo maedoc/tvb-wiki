@@ -1,6 +1,6 @@
 ---
 title: BrainSuite
-created: 2024-01-15
+created: 2026-05-04
 updated: 2026-05-04
 type: entity
 tags: [software-brain-modeling, brain-parcellations, neuroimaging-dti]
