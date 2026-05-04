@@ -4,6 +4,9 @@ sources:
 - https://github.com/AllenInstitute/dipde
 - https://alleninstitute.github.io/dipde/
 - https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1003248
+- raw/papers/semanticscholar-ad05f8fb9b0d.md
+- raw/papers/arxiv-2512.22093.md
+- raw/papers/semanticscholar-71ffb8153870.md
 tags:
 - software-neuroscience
 - spiking-neural-networks

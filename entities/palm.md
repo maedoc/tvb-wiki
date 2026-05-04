@@ -5,6 +5,9 @@ sources:
 - doi:10.1109/IEEESTD.2014.6884100
 - doi:10.1073/pnas.1208412109
 - doi:10.1016/j.neuroimage.2007.02.022
+- raw/papers/winkler-2014-palm.md
+- raw/papers/schirner-2018.md
+- raw/papers/mijalkov-2017-braph.md
 tags:
 - neuroimaging
 - software-fsl

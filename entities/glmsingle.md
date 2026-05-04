@@ -4,6 +4,7 @@ sources:
 - raw/papers/arxiv-2603.24176.md
 - raw/papers/semanticscholar-109de470e443.md
 - raw/papers/glean-github.md
+- raw/papers/semanticscholar-d70e1661858c.md
 tags:
 - software
 - neuroimaging-fmri

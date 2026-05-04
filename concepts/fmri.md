@@ -9,11 +9,12 @@ sources:
 - raw/papers/arxiv-2509.24715.md
 - raw/papers/arxiv-2602.03240.md
 - raw/papers/semanticscholar-e08252ec3941.md
+- raw/papers/semanticscholar-d70e1661858c.md
 tags:
 - neuroimaging-fmri
 title: fMRI
 type: concept
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 # fMRI

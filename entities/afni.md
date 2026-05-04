@@ -4,6 +4,9 @@ sources:
 - Cox 1996 (Computers and Biomedical Research)
 - Saad et al. 2004 (NeuroImage)
 - https://afni.nimh.nih.gov
+- raw/papers/semanticscholar-cabf914d6370.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/arxiv-2511.02457.md
 tags:
 - software-brain-modeling
 - neuroimaging-fmri
