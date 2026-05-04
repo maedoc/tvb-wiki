@@ -65,3 +65,9 @@ MUSIC occupies a unique niche as an orchestration layer rather than a standalone
 ## Open Questions
 
 The primary challenge facing MUSIC lies in ensuring temporal accuracy when simulators with different intrinsic timesteps must coordinate. While the framework provides mechanisms for interpolation and event buffering, mismatches in simulation resolution can introduce artifacts that are only beginning to be systematically characterized. Additionally, the user base remains relatively small compared to standalone simulators, limiting the availability of community resources, tutorials, and third-party integrations. Future development may benefit from tighter integration with [[neuroml]] standardization efforts, which seek to define common model description formats that could further reduce friction in multi-simulator workflows.
+
+## References
+
+1. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *Arbor-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
+2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](https://doi.org/10.3389/fncom.2025.1731161)
+3. Pascal Helson, Etienne Tanré, Romain Veltz. *Mean-field analysis of a neural network with stochastic STDP*. [Link](https://arxiv.org/abs/2510.02545)

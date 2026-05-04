@@ -45,3 +45,9 @@ While Cellpose is primarily a tool for microscopy image analysis rather than a w
 ## Related Software
 
 Cellpose belongs to a broader ecosystem of segmentation and analysis tools for microscopy images. [[Ilastik]] provides interactive machine learning segmentation with a complementary approach to Cellpose. [[Suite2p]] offers a complete pipeline for calcium imaging analysis including cell detection, registration, and spike extraction. [[DeepMediC]] represents another deep learning framework for medical image segmentation. [[Fiji]] (a distribution of ImageJ) provides the plugin infrastructure for running Cellpose interactively. [[Napari]] serves as a common visualization platform for Cellpose outputs. [[Neuron]] and related neuronal reconstruction tools address the complementary problem of tracing axonal and dendritic arbors from microscopy data. Researchers interested in cell tracking over time may combine Cellpose with [[Suite2p]] or custom tracking algorithms to generate longitudinal measurements of cellular dynamics.
+
+## References
+
+1. (authors unknown). *Neurodesk: an accessible, flexible and portable data analysis environment for reproducible neuroimaging*.
+2. Maya Iratni, Amirali Abdullah, Mariam Aldhaheri, Omar Elharrouss, Alaa A. Abd-alrazaq, Zahiriddin Rustamov, Nazar Zaki, Rafat Damseh. (2025). *Transformers for Neuroimage Segmentation: Scoping Review*. Journal of Medical Internet Research. [DOI](https://doi.org/10.2196/57723)
+3. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)

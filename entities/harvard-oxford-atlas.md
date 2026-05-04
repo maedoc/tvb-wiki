@@ -68,3 +68,9 @@ A comparative parcellation framework (HOA2.0‑ComPaRe) extending the Harvard‑
 * [[nilearn]] — Python toolbox for neuroimaging that includes atlas loading utilities  
 * [[brainnetome‑atlas]] — A further subdivided anatomical parcellation  
 * [[connectome‑workbench]] — Visualization tool compatible with volume‑based atlases
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Siva Venkadesh, Yuhe Tian, Wendy Linn, Jessica Barrios Martinez, Harrison Mansour, J. Cook, David J. Schaeffer, D. Szczupak, Afonso C Silva, Allan Johnson, Fang‐Cheng Yeh. (2025). *A hierarchical framework for cortical and subcortical gray-matter parcellation across rodents, primates, and humans*. bioRxiv. [DOI](https://doi.org/10.1101/2025.09.08.675002)
+3. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)

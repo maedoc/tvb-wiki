@@ -53,3 +53,12 @@ Sporns' research integrates network science with neuroscience to understand how 
 - [[giulio tononi]] – Consciousness and connectivity
 - [[rolf kotter]] – Connectome concept
 - [[ed bullmore]] – Network analysis
+
+## References
+
+1. (authors unknown). *The Human Connectome: A Structural Description of the Human Brain*.
+2. (authors unknown). *Networks of the Brain*.
+3. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
+4. (authors unknown). *Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems*.
+5. (authors unknown). *Functional Network Organization of the Human Brain*.
+6. (authors unknown). *Functional Connectomics from Resting-State fMRI*.

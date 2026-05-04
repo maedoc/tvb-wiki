@@ -62,3 +62,9 @@ The standardization of derivatives also facilitates **personalized‑brain‑mod
 - **"fMRIPrep: a robust preprocessing pipeline for functional MRI"** — Esteban et al., 2019. Describes the most widely used BIDS Derivatives‑compatible preprocessing pipeline [[cat12]].
 - **"BIDS Derivatives: A Practical Guide"** — Holdgraf et al., 2019. Community resource for working with derivative data.
 - **"BIDS 2.0: Recent Extensions and Future Directions"** — Taylor et al., 2023. Overview of recent updates to the BIDS ecosystem 4.
+
+## References
+
+1. Thomas Sanchez, Gerard Mart'i-Juan, David Meunier, M. A. Ballester, Oscar Camara, Gemma Piella, M. Cuadra, G. Auzias. (2025). *Fetpype: An Open-Source Pipeline for Reproducible Fetal Brain MRI Analysis*. [Link](https://www.semanticscholar.org/paper/b1155c0f0a55def1383ea0895df9d4a755597e00)
+2. Sima Soltanpour, Md Taufiq Nasseef, Rachel Utama, Arnold Chang, D. Madularu, Praveen Kulkarni, Craig F. Ferris, Chris Joslin. (2025). *Robust automated preclinical fMRI preprocessing via a multi-stage dilated convolutional Swin Transformer affine registration*. Frontiers in Neuroscience. [DOI](https://doi.org/10.3389/fnins.2025.1621244)
+3. Zhishun Wang, Feng Liu, Rachel Marsh, Gaurav H. Patel, J. Grinband. (2026). *MEPrep: A robust pipeline for multi-echo fMRI denoising and preprocessing*. Imaging Neuroscience. [DOI](https://doi.org/10.1162/IMAG.a.1198)

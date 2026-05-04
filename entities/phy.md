@@ -50,3 +50,9 @@ The following publications are foundational to understanding Phy and its context
 3. Rey H. G., Pedreira C., Quian Quiroga R. (2015). “Past, present and future of spike sorting techniques.” *Brain Research Bulletin* 119: 106–117. — Review of spike sorting methodology and context for manual curation tools like Phy.
 
 4. Harris K. D., Quiroga R. Q., Freeman J., Lee D. (2016). “Improving data quality in neuronal ensemble recordings.” *Nature Neuroscience* 19(9): 1165–1174. — Addresses the importance of accurate spike sorting for neural decoding.
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Song Yang, Haotian Fu, Herui Zhang, Peng Zhang, Wei Li, Dongrui Wu. (2025). *Spiking Neural Network for Intra-cortical Brain Signal Decoding*. Knowledge-Based Systems. [DOI](https://doi.org/10.48550/arXiv.2504.09213)
+3. D. Y. Lodema, Herman J van Dellen, W. de Haan, Margot van Hest, A. Hillebrand, E. van Dellen. (2026). *EEG-Pype: An accessible MNE-Python pipeline with graphical user interface for preprocessing and analysis of resting-state electroencephalography data.*. PLoS Computational Biology. [DOI](https://doi.org/10.1371/journal.pcbi.1014043)

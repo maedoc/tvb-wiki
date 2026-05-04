@@ -49,3 +49,9 @@ BCILAB belongs to a broader ecosystem of neurophysiological signal processing to
 ## Key Features
 
 The features that distinguish BCILAB in the BCI toolbox landscape include its emphasis on [[reproducibility]] through saved processing pipelines, its extensive library of example BCI paradigms (allowing new researchers to quickly set up standard experiments), and its plugin architecture that enables extension with custom algorithms. The toolbox includes built-in support for common BCI paradigms including motor imagery (imagined movements), P300 event-related potentials (the oddball paradigm), and steady-state visual evoked potentials (SSVEP). Additionally, BCILAB provides tools for comparing classifier performance, visualizing feature spaces, and conducting cross-validation studies.
+
+## References
+
+1. Xiaobo Liu. (2026). *MLE-Toolbox: An Open-Source Toolbox for Comprehensive EEG and MEG Data Analysis*. [Link](https://www.semanticscholar.org/paper/e7aaa4f4bb01e70064493684b4500a950f83460f)
+2. Gursimran Singh, Aviral Chharia, Rahul Upadhyay, Vinay Kumar, Luca Longo. (2025). *PyNoetic: A modular python framework for no-code development of EEG brain-computer interfaces*. PLoS ONE. [DOI](https://doi.org/10.1371/journal.pone.0327791)
+3. Neda Abdollahpour, N. Sertac Artan, Ian Daly, Mohammadreza Yazdchi, Zahra Baharlouei. (2025). *Effective Connectivity-Based Unsupervised Channel Selection Method for EEG*. [Link](https://arxiv.org/abs/2510.12910)

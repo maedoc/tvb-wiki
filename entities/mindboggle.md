@@ -42,3 +42,7 @@ The primary reference for Mindboggle is Klein et al. (2017) "Mindboggling morpho
 ## Related Software
 
 Mindboggle relates to several other tools in the neuroimaging ecosystem. [[freesurfer]] and [[ants]] are its primary input providers, while [[connectome-workbench]] and [[pycortex]] provide visualization capabilities for exploring Mindboggle output. For statistical analysis of shape measures, [[nilearn]] and [[brainstat]] offer Python-based toolkits that integrate well with Mindboggle's CSV outputs. The [[brain-connectivity-toolbox]] provides complementary graph-theoretic analysis for treating parcellated brain regions as network nodes. Alternative parcellation approaches include [[brainnetome-atlas]], [[schaefer-atlas]], [[glasser-atlas]], and [[destrieux-atlas]], each offering different trade-offs between anatomical granularity and functional homogeneity.
+
+## References
+
+1. (authors unknown). *Mindboggling morphometry of human brains*.

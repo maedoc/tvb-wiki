@@ -20,3 +20,12 @@ Neuroimaging — a concept in [[whole-brain|whole-brain modeling]] and [[computa
 * [[diffusion-mri]]
 * [[civet]]
 * [[cititools]]
+
+## References
+
+1. (authors unknown). *Functional Connectivity: The Principal-Component Analysis of Large (PET and fMRI) Data Sets*.
+2. Wanting Zhang, Jinhua Yue, Bo Liu, Fugen Zhou. (2026). *MSCMH-Net: A multi-scale channel-mixing hybrid network for whole-brain segmentation.*. Neuroscience. [DOI](https://doi.org/10.1016/j.neuroscience.2026.03.022)
+3. (authors unknown). *The Cognitive Neuroscience of Ageing and Functional Reserve*.
+4. Hongjie Jiang, Yifei Tang, Shuqiang Wang. *Neural Dynamics-Informed Pre-trained Framework for Personalized Brain Functional Network Construction*. [Link](https://arxiv.org/abs/2603.07524)
+5. Jianwei Chen, Zhengyang Miao, Wenjie Cai, Jiaxue Tang, Boxing Liu, Yunfan Zhang, Yuhang Yang, Hao Tang, Carola-Bibiane Schönlieb, Zaixu Cui, Du Lei, Shouliang Qi, Chao Li. (2026). *Hierarchical Multiscale Structure-Function Coupling for Brain Connectome Integration*. [Link](https://arxiv.org/abs/2603.20680)
+6. (authors unknown). *GLEAN: Group Level Exploratory Analysis of Networks*.

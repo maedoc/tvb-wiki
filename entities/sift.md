@@ -98,3 +98,9 @@ While SIFT provides powerful tools for causal connectivity analysis, several cav
 ## Open Questions
 
 The field of causal connectivity analysis using information-theoretic methods remains actively debated. Questions persist regarding the optimal embedding parameters for transfer entropy estimation in neural data, the relationship between SIFT estimates and [[dynamic-causal-modeling]] (DCM) results, and how to best integrate directed connectivity findings with [[structural-connectivity]] from Diffusion Tensor Imaging (DTI). Future developments may see increased integration between SIFT-style causality analysis and large-scale [[whole-brain-modeling]] frameworks like TVB to create iterative cycles of empirical data analysis and mechanistic model validation.
+
+## References
+
+1. Shengjie Qi, Xinda Song, Le Jia, Hongyu Cui, Yuchen Suo, Teng Long, Zhendong Wu, Xiaolin Ning. (2025). *The impact of channel density, inverse solutions, connectivity metrics and calibration errors on OPM-MEG connectivity analysis: A simulation study*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2025.121056)
+2. Deepa Tilwani, Christian O'Reilly. *Deep Jansen-Rit Parameter Inference for Model-Driven Analysis of Brain Activity*. [Link](https://arxiv.org/abs/2406.05002)
+3. Christopher Gabaldon, Adria Mulero, Rong Wang, Daniel A. Martin, Sabrina Camargo, Qian-Yuan Tang, Ignacio Cifre, Changsong Zhou, Dante R. Chialvo. (2026). *Data-driven inference of brain dynamical states from the r-spectrum of correlation matrices*. [Link](https://arxiv.org/abs/2601.03796)

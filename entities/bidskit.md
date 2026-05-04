@@ -57,3 +57,9 @@ BIDSkit plays a supporting but essential role in [[whole-brain-modeling]] workfl
 * [[fmriprep]] — Preprocessing pipeline accepting BIDS input
 * [[nilearn]] — Machine learning and statistical analysis on BIDS data
 * [[mne-bids]] — BIDS conversion for EEG/MEG data
+
+## References
+
+1. A. Dehsarvi, Lukas Frontzkowski, Anna Dewenter, Michael Schöll, N. Franzmeier. (2025). *ADprep – A Fully‐Automated Software for Large‐scale Multimodal MRI and PET Imaging Workflows*. Alzheimer's & Dementia. [DOI](https://doi.org/10.1002/alz70856_101373)
+2. (authors unknown). *BRAPH: A Pipeline for Brain Connectivity Analysis*.
+3. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2025). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research*. bioRxiv. [DOI](https://doi.org/10.1101/2025.10.06.680781)

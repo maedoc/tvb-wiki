@@ -83,3 +83,9 @@ The primary references for BRAPH are:
 - [[bctpy]] — Python bindings for the Brain Connectivity Toolbox
 - [[nilearn]] — Python library for neuroimaging data analysis
 - [[the-virtual-brain]] — [[whole-brain]] simulation platform
+
+## References
+
+1. (authors unknown). *BRAPH: A Pipeline for Brain Connectivity Analysis*.
+2. (authors unknown). *BRAPH 2.0 Genesis: An Open-Source Toolbox for Brain Connectivity Analysis*.
+3. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.

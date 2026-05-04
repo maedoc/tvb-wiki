@@ -74,3 +74,11 @@ Future directions include the integration of [[effective-connectivity]] framewor
 * [[epilepsy modeling]]
 * [[bifurcation analysis]]
 * [[personalized brain modeling]]
+
+## References
+
+1. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)
+2. V. Myrov, A. Suleimanova, Samanta Knapič, P. Partanen, M. Vesterinen, Wenya Liu, S. Palva, J. M. Palva. (2026). *Hierarchical whole-brain modeling of critical synchronization dynamics in the human brain.*. Proceedings of the National Academy of Sciences of the United States of America. [DOI](https://doi.org/10.1073/pnas.2505768123)
+3. Cristiana Dimulescu, Ronja Strömsdörfer, Agnes Flöel, Klaus Obermayer. (2025). *On the robustness of the emergent spatiotemporal dynamics in biophysically realistic and phenomenological whole-brain models at multiple network resolutions*. [Link](https://arxiv.org/abs/2504.17491)
+4. G. Deco, Y. Sanz Perl, J. Vohryzek, Andrea I. Luppi, M. Kringelbach. (2026). *Neurotransmission-modulated whole-brain computation captures full task repertoire.*. Cell Reports. [DOI](https://doi.org/10.1016/j.celrep.2025.116816)
+5. Martin Breyton, Viktor Sip, M. Woodman, Meysam Hashemi, S. Petkoski, V. Jirsa. (2025). *Data-driven mean-field within whole-brain models*. [Link](https://www.semanticscholar.org/paper/144ae1f1dabec42c14493d0083d36f168508f886)

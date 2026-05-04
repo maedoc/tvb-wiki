@@ -44,3 +44,9 @@ More recent developments have produced improved normalization approaches, includ
 ## Related Concepts
 
 MNI space is fundamentally related to [[neuroimaging]] more broadly, particularly [[neuroimaging-fmri]] and [[neuroimaging-pet]] modalities where it serves as the standard spatial framework. The [[nifti]] file format, the standard container for neuroimaging data, encodes MNI space through header flags indicating the coordinate system. Research employing [[dynamic-causal-modeling]] or [[effective-connectivity]] analyses similarly relies on MNI-based parcellations for defining nodes in large-scale brain networks. The development of [[human-connectome-project|HCP]] pipelines has further refined best practices for normalization, building upon but often transforming data into MNI-compatible spaces for comparability with the broader neuroimaging literature.
+
+## References
+
+1. Ramiro Plüss, Hernán Villota, Patricio Orio. (2025). *Hemispheric-Specific Coupling Improves Modeling of Functional Connectivity Using Wilson-Cowan Dynamics*. [Link](https://arxiv.org/abs/2506.22951)
+2. Federica Franza, M. Cirillo, M. Silvestro, F. Trojsi, Antonio Russo, Fabrizio Esposito, M. A. Pirozzi. (2025). *Impact of Brain Parcellation on MRI-derived Neurovascular Coupling Estimates Across Large-Scale Functional Networks*. 2025 IEEE International Conference on Metrology for eXtended Reality, Artificial Intelligence and Neural Engineering (MetroXRAINE). [DOI](https://doi.org/10.1109/MetroXRAINE66377.2025.11340209)
+3. R. Shen, D. Parker, Andrew A. Chen, Benjamin E. Yerys, Birkan Tunç, T. Roberts, Russell T. Shinohara, Ragini Verma. (2025). *Big Data, Small Bias: Harmonizing Diffusion MRI‐Based Structural Connectomes to Mitigate Site‐Related Bias in Data Integration*. Human Brain Mapping. [DOI](https://doi.org/10.1002/hbm.70256)

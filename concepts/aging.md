@@ -77,3 +77,11 @@ Applications to personalized modeling involve fitting individual parameters to e
 ## See also
 
 - [[andrei-medvedev]]
+
+## References
+
+1. (authors unknown). *Memory and Executive Function in Aging and AD: Multiple Factors that Cause Decline and Reserve Factors that Compensate*.
+2. (authors unknown). *The Cognitive Neuroscience of Ageing and Functional Reserve*.
+3. (authors unknown). *Effects of Aging on Functional Connectivity of the Default Mode Network*.
+4. (authors unknown). *Structural Brain Changes in Aging: Courses, Causes and Cognitive Consequences*.
+5. J. King, M. Prigge, Vincent Koppelmans, John M. Hoffman, Kevin Duff. (2026). *Altered functional connectivity is associated with Repeatable Battery for the Assessment of Neuropsychological Status across the dementia spectrum*. Journal of the International Neuropsychological Society. [DOI](https://doi.org/10.1017/s135561772610191x)

@@ -64,3 +64,9 @@ The format also relates to data-format standards more broadly, including [[nifti
 - Stoewer, A., Wood, S. N., Zug, J., Baker, C. J., Dubitzky, M., & Obermayer, K. (2014). "Nix: A practical and efficient tool for storing results from neuroscience simulations." Frontiers in Neuroinformatics, 8, 15.
 - Garcia, S., Baldock, R., Heeger, D. J., & Horrocks, P. (2011). "Neo: Reading and writing files in multiple formats." Frontiers in Neuroinformatics, 5, 3.
 - Wachtler, T., & Ebbers, L. (2013). "Supporting reproducibility in neurophysiology through standardized data formats." Frontiers in Neuroinformatics, 7, 35.
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Muhammad Nabi Yasinzai, R. Mito, M. Pedersen. (2025). *BrainScape: An open-source framework for integrating and preprocessing anatomical MRI datasets*. Imaging neuroscience. [DOI](https://doi.org/10.1162/IMAG.a.944)
+3. (authors unknown). *GLEAN: Group Level Exploratory Analysis of Networks*.

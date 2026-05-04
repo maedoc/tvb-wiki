@@ -84,3 +84,7 @@ The following publications form the foundation for Nighres and its underlying me
 6. **Greve, D.N., et al. (2013)**. Multi‑modal correspondence between MRI and histology in the JHU cadaver study. *NeuroImage*, 66, 144‑151. [@Greve2013]
 
 ---
+
+## References
+
+1. (authors unknown). *Nighres: processing tools for high-resolution neuroimaging*.

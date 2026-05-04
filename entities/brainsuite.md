@@ -59,3 +59,10 @@ BrainSuite interfaces with several other tools in the neuroimaging ecosystem. It
 4. Joshi AA, Shattuck DW, Leahy RM. "Surface-based volumetric registration." *Machine Vision and Applications*. 2012;23(5):849-864. This work extends SVReg for accurate volumetric registration of cortical structures.
 
 5. Lee J, Joshi AA, Torgerson C, Shattuck DW, Damiano M, Lin K, McLaren D, Leahy RM. "A Bayesian approach for determining optimal parameters for a skull-stripping algorithm." *Annual International Conference of the IEEE Engineering in Medicine and Biology Society*. 2009;5153-5156. This work improves the BSE skull-stripping algorithm through Bayesian optimization.
+
+## References
+
+1. (authors unknown). *Image Processing and Quality Control for the First 100,000 Brain Imaging Datasets from UK Biobank*.
+2. G. Deepali, H. Anitha, B. P. Swathi, M. V. Suhas. (2025). *Autoencoder-Driven Fiducial Landmark Identification in 3D Brain MRI for Neuroimaging Alignment*. IEEE Access. [DOI](https://doi.org/10.1109/ACCESS.2025.3582273)
+3. Chetan Gohil, Oliver M. Cliff, James M. Shine, Ben D. Fulcher, Joseph T. Lizier. (2026). *Estimating measures of information processing during cognitive tasks using functional magnetic resonance imaging*. [Link](https://arxiv.org/abs/2602.03240)
+4. (authors unknown). *GLEAN: Group Level Exploratory Analysis of Networks*.

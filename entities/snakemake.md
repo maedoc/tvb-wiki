@@ -70,3 +70,9 @@ For neuroimaging projects requiring reproducibility, pairing Snakemake with [[da
 - **Köster, J., & Rahmann, S.** (2012). Snakemake—a scalable bioinformatics workflow framework. *Bioinformatics*, 28(19), 2520-2522. — The original publication describing Snakemake's design and implementation.
 - **Mölder, F., et al.** (2021). Sustainable data analysis with Snakemake. *F1000Research*, 10(33). — Comprehensive overview of Snakemake's features including cluster execution, container integration, and standard practices for reproducible workflows.
 - **Köster, J., et al.** (2022). Snakemake 7.0: A portable and scalable workflow system for reproducible data analysis. *SoftwareX*, 19, 101216. — Updated release documenting new features and performance improvements.
+
+## References
+
+1. Jure Demšar, Aleksij Kraljič, Andraž Matkovič, Samuel Brege, Lining Pan, Zailyn Tamayo, Clara Fonteneau, Markus Helmer, J. Ji, A. Anticevic, Cole Korponay, Melissa Salavrakos, M. Glasser, Lisa D. Nickerson, Youngsun T. Cho, G. Repovš. (2025). *QuNex Recipes: Executable, Human-Readable Workflows for Reproducible Neuroimaging Research*. bioRxiv. [DOI](https://doi.org/10.1101/2025.11.08.687330)
+2. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2018.05.040)
+3. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2026). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research.*. Brain Stimulation. [DOI](https://doi.org/10.1016/j.brs.2025.103016)

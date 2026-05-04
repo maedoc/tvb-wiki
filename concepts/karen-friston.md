@@ -17,3 +17,11 @@ Karen Friston — a concept in [[whole-brain|whole-brain modeling]] and [[comput
 
 ## Related Concepts
 * [[eeg]]
+
+## References
+
+1. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
+2. (authors unknown). *Emergence of Scaling in Random Networks*.
+3. Kashyap Gudibanda, J. Fousek, S. Petkoski, V. Jirsa. (2026). *The role of connectivity for the degeneracy of the brain’s resting state dynamics*. Journal of Computational Neuroscience. [DOI](https://doi.org/10.1007/s10827-025-00919-0)
+4. Irem Topal, Anna Poggialini, Marco Dal Maschio, Daniele De Martino, Oren Shriki, Fabrizio Lombardi. (2026). *Scaling and tuning to criticality in resting-state human magnetoencephalography*. [Link](https://arxiv.org/abs/2602.17820)
+5. Diego Derman, Damon D. Pham, Amanda F. Mejia, Silvina L. Ferradal. (2025). *Individual patterns of functional connectivity in neonates as revealed by surface-based Bayesian modeling*. Imaging neuroscience. [DOI](https://doi.org/10.1162/imag_a_00504)

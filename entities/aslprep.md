@@ -61,3 +61,7 @@ ASLPrep is part of a broader ecosystem of BIDS Apps and preprocessing tools for 
 - **fMRIPrep: A Robust Preprocessing Pipeline for Functional MRI** [@doi:10.1016/j.neuroimage.2020.117336] — The foundational paper for the preprocessing philosophy that ASLPrep draws upon.
 - **Recommended ASL Processing Steps and Sources** [@doi:10.1002/mrm.25197] — Consensus paper on standard ASL processing methods and nomenclature.
 - **BIDS Application Specification** [@doi:10.1002/hbm.25230] — Description of the BIDS Apps ecosystem and standardization approach.
+
+## References
+
+1. Sima Soltanpour, Md Taufiq Nasseef, Rachel Utama, Arnold Chang, D. Madularu, Praveen Kulkarni, Craig F. Ferris, Chris Joslin. (2025). *Robust automated preclinical fMRI preprocessing via a multi-stage dilated convolutional Swin Transformer affine registration*. Frontiers in Neuroscience. [DOI](https://doi.org/10.3389/fnins.2025.1621244)

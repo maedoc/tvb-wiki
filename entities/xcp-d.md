@@ -58,3 +58,9 @@ XCP-D operates within a broader ecosystem of fMRI preprocessing and connectivity
 ## Key Papers
 
 The XCP-D pipeline was introduced alongside the C-PAC software suite, with foundational documentation describing both the technical implementation and validation against established benchmarks for motion artifact removal (Ciric et al., 2017). This seminal work established a taxonomy of confound regression strategies and demonstrated the relative effectiveness of different approaches for motion artifact reduction while preserving neural signal sensitivity. Subsequent studies using XCP-D for preprocessing have demonstrated its utility in improving motion correction and enabling reliable connectivity estimates in clinical populations including individuals with [[alzheimers-disease]] and [[schizophrenia-models]] (Siegel et al., 2017; Chen et al., 2019). Additional foundational references include the work establishing framewise displacement as a quality metric (Power et al., 2012) and the development of aCompCor for physiological noise regression (Behzadi et al., 2007), both of which inform XCP-D's processing strategies.
+
+## References
+
+1. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2018.05.040)
+2. Sali Issa, Qi Wang, Ruinan Qi, Guangxi Peng, Shi Yin, Qinmu Peng. (2026). *An effective alzheimer disease diagnosis using resting state fmri images and broad learning system.*. Psychiatry research. Neuroimaging. [DOI](https://doi.org/10.1016/j.pscychresns.2025.112133)
+3. Sima Soltanpour, Md Taufiq Nasseef, Rachel Utama, Arnold Chang, D. Madularu, Praveen Kulkarni, Craig F. Ferris, Chris Joslin. (2025). *Robust automated preclinical fMRI preprocessing via a multi-stage dilated convolutional Swin Transformer affine registration*. Frontiers in Neuroscience. [DOI](https://doi.org/10.3389/fnins.2025.1621244)

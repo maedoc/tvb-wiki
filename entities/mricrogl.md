@@ -49,3 +49,9 @@ For users requiring more advanced visualization capabilities beyond what MRIcroG
 ## Related Software
 
 MRIcroGL should not be confused with its predecessor [[mricron|MRIcron]], which remains available but lacks the OpenGL-based rendering improvements of the newer version. Both tools share a common heritage in the neuroimaging open-source ecosystem and continue to be maintained in parallel. Other visualization alternatives in the ecosystem include [[fsl|FSLeyes]] (part of the FSL suite), [[mrtrix3|MRTrix3]] for advanced diffusion imaging visualization, and [[nilearn|Nilearn]] for Python-based programmatic visualization workflows. The choice among these tools typically depends on the specific visualization task, the data format being used, and integration requirements with existing analysis pipelines.
+
+## References
+
+1. (authors unknown). *GLEAN: Group Level Exploratory Analysis of Networks*.
+2. L. Fisch, N. Winter, J. Goltermann, Carlotta B. C. Barkhau, D. Emden, J. Ernsting, M. Konowski, R. Leenings, T. Borgers, K. Flinkenflügel, D. Grotegerd, Anna Kraus, E. Leehr, S. Meinert, F. Stein, L. Teutenberg, F. Thomas-Odenthal, P. Usemann, M. Hermesdorf, H. Jamalabadi, Andreas Jansen, I. Nenadić, Benjamin Straube, T. Kircher, Klaus Berger, Benjamin Risse, U. Dannlowski, T. Hahn. (2026). *deepmriprep: voxel-based morphometry preprocessing via deep neural networks*. Nature Computational Science. [DOI](https://doi.org/10.1038/s43588-026-00953-7)
+3. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)

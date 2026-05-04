@@ -49,3 +49,13 @@ The Wilson-Cowan model is the most cited and widely used neural population model
 - [[neural mass model]]
 - [[Hugh Wilson]]
 - [[brain-oscillations]]
+
+## References
+
+1. Hugh R. Wilson, Jack D. Cowan. *Excitatory and inhibitory interactions in localized populations of model neurons*. Biophysical Journal. [DOI](https://doi.org/10.1016/S0006-3495(72)86068-5)
+2. Hugh R. Wilson, Jack D. Cowan. *A mathematical theory of the functional dynamics of cortical and thalamic nervous tissue*. Kybernetik. [DOI](https://doi.org/10.1007/BF00288786)
+3. G. Bard Ermentrout, Jack D. Cowan. *Visual hallucinations and neural dynamics*. Biological Cybernetics. [DOI](https://doi.org/10.1007/BF00336963)
+4. Cyprien Tamekue, ShiNung Ching. *Control of neural field equations with step-function inputs*. [Link](https://arxiv.org/abs/2510.22022)
+5. Alain Destexhe, Terrence J. Sejnowski. *Wilson-Cowan model of the excitatory and inhibitory population dynamics*. Scholarpedia. [DOI](https://doi.org/10.4249/scholarpedia.1389)
+6. Pascal Helson, Etienne Tanré, Romain Veltz. *Mean-field analysis of a neural network with stochastic STDP*. [Link](https://arxiv.org/abs/2510.02545)
+7. Jeremy B. Goetz, Naruepon Weerawongphrom, Rashid V. Williams-García, John M. Beggs, Gerardo Ortiz. (2025). *A Minimal Network of Brain Dynamics: Hierarchy of Approximations to Quasi-critical Neural Network Dynamics*. [Link](https://arxiv.org/abs/2512.22093)

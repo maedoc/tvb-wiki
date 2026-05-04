@@ -57,3 +57,11 @@ The distinction between brain maintenance and [[cognitive-reserve]] is conceptua
 Within the framework of [[whole-brain modeling]], brain maintenance represents an individual difference variable that affects model parameters and predictions. Personalized brain models can incorporate maintenance-related factors as variables influencing the rate of parameter change over simulated time, enabling virtual aging simulations that capture individual variability in aging trajectories. This application connects to the broader field of [[personalized-brain-modeling]], where individual-specific [[parameter-estimation]] allows models to reflect personal neurobiological characteristics. Understanding maintenance mechanisms also informs intervention targeting—identifying which factors to modulate in silico to predict optimal outcomes—and provides validation targets for models attempting to capture successful versus typical aging.
 
 The concept of brain maintenance continues to evolve as neuroimaging methodologies advance and longitudinal datasets mature. Future directions include refining maintenance metrics to distinguish between different subtypes of successful aging, investigating the neural mechanisms underlying maintenance-promoting factors, and translating these insights into clinical interventions that extend healthy brain aging.
+
+## References
+
+1. (authors unknown). *Maintenance, Reserve and Compensation: The Cognitive Neuroscience of Healthy Ageing*.
+2. (authors unknown). *Structural Brain Changes in Aging: Courses, Causes and Cognitive Consequences*.
+3. (authors unknown). *The Cognitive Neuroscience of Ageing and Functional Reserve*.
+4. (authors unknown). *Memory and Executive Function in Aging and AD: Multiple Factors that Cause Decline and Reserve Factors that Compensate*.
+5. (authors unknown). *UK Biobank Brain Imaging: Structural MRI in a Massive Population Resource*.

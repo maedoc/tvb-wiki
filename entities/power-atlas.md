@@ -53,3 +53,8 @@ While the Power Atlas has been widely adopted and proven tremendously useful for
 ## Key References
 
 The foundational paper describing the Power Atlas was published in [[neuron]] in 2011 by Jonathan Power, Alexander Cohen, Steven Nelson, and colleagues under the leadership of Steven Petersen at Washington University. This paper, titled "Functional network organization of the human brain," has become one of the most-cited works in contemporary neuroimaging, with thousands of citations reflecting its broad impact on the field. A subsequent publication in 2012 by Power and colleagues further elaborated the methodology and demonstrated its utility for identifying hubs and canonical network organizations in the human brain.
+
+## References
+
+1. (authors unknown). *Functional Network Organization of the Human Brain*.
+2. (authors unknown). *Spurious but systematic correlations in functional connectivity MRI networks arise from subject motion*.

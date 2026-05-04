@@ -121,3 +121,15 @@ Seven cognitive domains assessed:
 - [[david van essen]] – Principal Investigator
 - kamil ugurbil – Imaging physics
 - [[steven smith]] – Analysis methods
+
+## References
+
+1. (authors unknown). *The WU-Minn Human Connectome Project: An Overview*.
+2. (authors unknown). *The Human Connectome Project: A Data Acquisition Perspective*.
+3. (authors unknown). *The Minimal Preprocessing Pipelines for the Human Connectome Project*.
+4. (authors unknown). *Resting-State fMRI in the Human Connectome Project*.
+5. (authors unknown). *Pushing Spatial and Temporal Resolution for Functional and Diffusion MRI in the Human Connectome Project*.
+6. (authors unknown). *Function in the Human Connectome: Task-fMRI and Individual Differences in Behavior*.
+7. (authors unknown). *Functional Network Organization of the Human Brain*.
+8. (authors unknown). *Multimodal Population Brain Imaging in the UK Biobank: Prospective Epidemiological Study*.
+9. (authors unknown). *The Human Connectome: A Structural Description of the Human Brain*.

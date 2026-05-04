@@ -53,3 +53,13 @@ Beyond methodological unification, the FEP has motivated specific hypotheses abo
 ## Criticisms and Open Questions
 
 Despite its elegance, the FEP faces substantial criticism. Skeptics question whether it is falsifiable: because the principle is so general, virtually any adaptive behavior can be redescribed as free energy minimization. Others note the computational complexity of exact variational schemes, especially for nonlinear, delay-coupled [[whole-brain]] systems where [[bifurcation-analysis]] reveals sensitive parameter dependence. Alternative frameworks such as reinforcement learning and enactive cognition offer different vocabularies for perception and action, and it remains unclear whether the FEP supersedes these or merely redescribes them. Resolving these debates will require tighter links between normative mathematics and quantitative, model-based predictions at the level of individual neural circuits.
+
+## References
+
+1. (authors unknown). *The Free-Energy Principle: A Unified Brain Theory?*.
+2. (authors unknown). *Variational Free Energy and the Laplace Approximation*.
+3. Deco et al. (2013). *Resting brains never rest: computational insights into potential cognitive architectures*. Trends in Neurosciences. [DOI](https://doi.org/10.1016/j.tins.2013.09.002)
+4. Moo K. Chung, D. Vijay Anand, Anass B El-Yaagoubi, Jae-Hun Jung, Anqi Qiu, Hernando Ombao. (2026). *Causality as a Minimum Energy Principle*. [Link](https://arxiv.org/abs/2604.17151)
+5. Hongjie Jiang, Yifei Tang, Shuqiang Wang. *Neural Dynamics-Informed Pre-trained Framework for Personalized Brain Functional Network Construction*. [Link](https://arxiv.org/abs/2603.07524)
+6. Sakul Mahat, Sharmistha Guha, Jessica Bernard. (2026). *A Bayesian Framework for Quantifying Association Between Functional and Structural Data in Neuroimaging*. [Link](https://arxiv.org/abs/2603.21067)
+7. Martin Breyton, Viktor Sip, M. Woodman, Meysam Hashemi, S. Petkoski, V. Jirsa. (2025). *Data-driven mean-field within whole-brain models*. [Link](https://www.semanticscholar.org/paper/144ae1f1dabec42c14493d0083d36f168508f886)

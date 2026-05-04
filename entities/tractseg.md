@@ -52,3 +52,10 @@ Users should be aware of several limitations when using TractSeg. First, the neu
 ## Related Software
 
 TractSeg operates within a broader ecosystem of diffusion MRI and tractography tools. Related software includes [[MRtrix3]] and [[MRTrix3-Connectome]], which provide the underlying preprocessing and tractography capabilities; [[AFQ]], another automated tractography segmentation tool that uses a different approach based on waypoint masks; [[Dipy]], a comprehensive diffusion MRI analysis library; and [[DSI-Studio]], which offers alternative tractography algorithms and visualization capabilities. Additionally, tract segmentation outputs can be visualized using tools such as [[BrainNet-Viewer]], [[Connectome-Workbench]] (specifically its [[SUMA]] surface module), or [[MRIcron]]. The structural connectivity matrices generated from TractSeg can be analyzed using the [[Brain-Connectivity-Toolbox]] or [[BRAPH]] for graph-theoretic network analysis, and can serve as input to whole-brain simulators including TVB, [[The-Virtual-Epileptic-Brain]], and other [[whole-brain-modeling]] platforms.
+
+## References
+
+1. (authors unknown). *The Human Connectome Project: A Data Acquisition Perspective*.
+2. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+3. (authors unknown). *BRAPH: A Pipeline for Brain Connectivity Analysis*.
+4. Haolin He, Ce Zhu, Le Zhang, Yipeng Liu, Xiao Xu, Yuqian Chen, L. Zekelman, Jarrett Rushmore, Y. Rathi, N. Makris, L. O’Donnell, Fan Zhang. (2025). *DeepNuParc: A novel deep clustering framework for fine-scale parcellation of brain nuclei using diffusion MRI tractography*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2025.121421)

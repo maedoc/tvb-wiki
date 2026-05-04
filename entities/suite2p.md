@@ -52,3 +52,9 @@ The primary reference for Suite2p is the original publication by Pachitariu and 
 Suite2p exists in a landscape of related calcium imaging analysis tools. [[caiman]] represents another popular package that implements similar functionality but uses different algorithmic approaches for cell detection and spike inference, including constrained nonnegative matrix factorization. The Python-based [[spikeinterface]] project provides a unified interface for loading data from multiple analysis platforms, facilitating comparisons between results from different pipelines. Commercial options like ZIVIT and PyRhoana offer GUI-based alternatives, though they lack the transparency and extensibility of open-source solutions like Suite2p.
 
 Other software tools for neural simulation environments often consume data processed through tools like Suite2p, using the extracted spike trains as input to large-scale network simulations. The combination of modern calcium imaging analysis with biophysically realistic [[spiking-neural-networks]] enables a powerful iterative dialogue between experimental observation and computational theory in neuroscience research.
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. R. Montgomery. (2025). *Applications of Random Matrix Theory in Neuroscience and Neural Network Analysis: Unraveling High-Dimensional Connectivity*. Wired Neuroscience. [DOI](https://doi.org/10.62162/wnsc10606312712241)
+3. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)

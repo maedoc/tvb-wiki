@@ -58,3 +58,7 @@ Geppetto shares conceptual territory with several other simulation platforms in 
 ## Use Cases
 
 The combination of Geppetto and TVB enables several important research applications. In [[epilepsy-modeling]], researchers construct personalized brain models from patient MRI and DTI data, then use the [[epileptor]] model within the TVB simulation framework to simulate seizure propagation and test intervention strategies. For [[resting-state]] research, the platform generates simulated [[functional-connectivity]] patterns that can be compared against empirical [[fmri]] recordings to test hypotheses about the neural basis of intrinsic brain activity. Clinical applications include pre-surgical planning for [[brain-stimulation]] interventions, where virtual electrode placements in the personalized brain model predict outcomes of deep brain stimulation or epilepsy surgery.
+
+## References
+
+1. (authors unknown). *Geppetto - a reusable modular open platform for exploring neuroscience data and models*.

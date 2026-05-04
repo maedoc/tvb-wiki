@@ -46,3 +46,11 @@ Van Essen's research emphasizes:
 
 ## Resources
 - HCP data available at humanconnectome.org
+
+## References
+
+1. (authors unknown). *The WU-Minn Human Connectome Project: An Overview*.
+2. (authors unknown). *The Human Connectome Project: A Data Acquisition Perspective*.
+3. (authors unknown). *Resting-State fMRI in the Human Connectome Project*.
+4. (authors unknown). *Function in the Human Connectome: Task-fMRI and Individual Differences in Behavior*.
+5. I. Falconer, M. Varkanitsa, Swathi Kiran. (2026). *Abstract A124: Simulating Disruption of Large-Scale Functional Networks in Post-Stroke Aphasia Using Personalized Lesion-Based Neural Mass Modeling*. Stroke. [DOI](https://doi.org/10.1161/str.57.suppl_1.a124)

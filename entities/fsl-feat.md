@@ -56,3 +56,9 @@ FEAT-generated connectivity matrices have been used extensively in [[personalize
 ## Related Software
 
 FEAT exists within a broader ecosystem of neuroimaging analysis tools. Alternative packages for fMRI analysis include [[spm]] (Statistical Parametric Mapping, developed at University College London), [[afni]] (Analysis of Functional NeuroImages, from the NIH), and Python-based frameworks such as [[nilearn]] and [[mne-connectivity]] that offer greater flexibility for custom pipelines. For connectivity-specific analyses, dedicated tools like [[connectome-workbench]] (for CIFTI format data), [[bctpy]] (Brain Connectivity Toolbox), and [[gretna]] provide more specialized implementations. The FSL suite continues to maintain FEAT, with ongoing development addressing modern statistical concerns including cross-species alignment, accelerated acquisitions, and integration with machine learning frameworks.
+
+## References
+
+1. Diego Derman, Damon D. Pham, Amanda F. Mejia, Silvina L. Ferradal. (2025). *Individual patterns of functional connectivity in neonates as revealed by surface-based Bayesian modeling*. Imaging neuroscience. [DOI](https://doi.org/10.1162/imag_a_00504)
+2. Yuan Zhong, Gang Chen, Paul A. Taylor, Jian Kang. (2025). *SIMBA: Scalable Image Modeling using a Bayesian Approach, A Consistent Framework for Including Spatial Dependencies in fMRI Studies*. arXiv.org. [Link](https://www.semanticscholar.org/paper/dc7ba77017bb9e90de4ea96bf586dfba0dae40ab)
+3. M. McAvoy, Lei Liu, Ruiwen Zhou, Benjamin A. Philip. (2025). *Reducing Inter-Individual Differences in Task fMRI Preprocessing with OGRE (One-Step General Registration and Extraction) Preprocessing*. Neuroinformatics. [DOI](https://doi.org/10.1007/s12021-025-09741-6)

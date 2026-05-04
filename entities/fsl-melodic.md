@@ -68,3 +68,9 @@ While MELODIC remains the most widely cited ICA tool for fMRI, several alternati
 [hyvarinen1999fast]: Hyvärinen, A. (1999). Fast and robust fixed-point algorithms for independent component analysis. *IEEE Transactions on Neural Networks*, 10(3), 626-634.
 
 [mcevoy2000linear]: McEvoy, L. K., Smith, M. E., & Storey, J. D. (2000). Linear dimensionality reduction. In *Advances in Neural Information Processing Systems*.
+
+## References
+
+1. Dionysios Perdikis, Rita Sleimen-Malkoun, Viktor Müller, V. Jirsa. (2025). *Developmental and aging changes in brain network switching dynamics revealed by EEG phase synchronization*. bioRxiv. [DOI](https://doi.org/10.1371/journal.pcbi.1013290)
+2. Winn W Chow, A. Seghouane, M. Seghier. (2025). *A Statistical Characterization of Dynamic Brain Functional Connectivity*. Human Brain Mapping. [DOI](https://doi.org/10.1002/hbm.70145)
+3. Diego Derman, Damon D. Pham, Amanda F. Mejia, Silvina L. Ferradal. (2025). *Individual patterns of functional connectivity in neonates as revealed by surface-based Bayesian modeling*. Imaging neuroscience. [DOI](https://doi.org/10.1162/imag_a_00504)

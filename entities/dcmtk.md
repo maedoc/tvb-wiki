@@ -40,3 +40,9 @@ DCMTK is closely related to several other tools in the neuroimaging software eco
 3. Rorden C, Li Q. dcm2niix: A Brief History. GitHub. https://github.com/rordenlab/dcm2niix (accessed 2026). This tool, which builds upon DCMTK, has become the standard converter for transforming DICOM acquisitions into the NIfTI format used by neuroimaging analysis packages.
 
 4. DCMTK Source Code Repository. GitHub. https://github.com/DCMTK/dcmtk (accessed 2026). The official GitHub repository contains the complete source code, issue tracker, and development history of the DCMTK project.
+
+## References
+
+1. (authors unknown). *Neurodesk: an accessible, flexible and portable data analysis environment for reproducible neuroimaging*.
+2. (authors unknown). *BRAPH: A Pipeline for Brain Connectivity Analysis*.
+3. B. Bein (2018). *pyedflib: Python library for reading and writing EDF/BDF files*. Journal of Open Source Software. [DOI](https://doi.org/10.21105/joss.00899)

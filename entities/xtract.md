@@ -43,3 +43,7 @@ The development of XTRACT addresses a critical gap in [[neuroimaging]] methodolo
 [^5]: Ritter, K., et al. (2013). [[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]. *NeuroImage*, 80, 248-262.
 [^6]: Deco, G., et al. (2013). [[resting-state]] [[functional-connectivity]] emerges from structurally and dynamically coupled neural assemblies. *Human Brain Mapping*, 34(6), 1448-1461.
 [^7]: Smith, R. E., et al. (2004). Advances in functional and structural MR image analysis and implementation as FSL. *NeuroImage*, 23(S1), S208-S219.
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)

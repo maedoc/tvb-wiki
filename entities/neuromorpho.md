@@ -67,3 +67,9 @@ The database operates as a collaborative resource, welcoming contributions from 
 - [[neuron]]
 - [[brain-network]]
 - [[connectomics]]
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Hongjie Jiang, Yifei Tang, Shuqiang Wang. *Neural Dynamics-Informed Pre-trained Framework for Personalized Brain Functional Network Construction*. [Link](https://arxiv.org/abs/2603.07524)
+3. Miguel Guillén-Pujadas, David Alaminos, Emili Vizuete Luciano, José M. Merigó, J. Horn. (2025). *Twenty Years of Neuroinformatics: A Bibliometric Analysis*. Neuroinformatics. [DOI](https://doi.org/10.1007/s12021-024-09712-3)

@@ -48,3 +48,9 @@ Several specialized neuroimaging resources have emerged from or alongside NITRC,
 - Book, D. L., Lorensen, B. J., & Oakes, T. R. (2008). NITRC: Neuroimaging Tools and Resources Collaboratory. *Frontiers in Neuroinformatics*.
 - Evans, A. C. (2006). The NIH MRI study of normal brain development. *NeuroImage*, 30(1), 184-202.
 - Gorgolewski, K., & Poldrack, R. A. (2016). A practical guide to improving neuroimaging reproducibility. *NeuroImage*, 124, 315-327.
+
+## References
+
+1. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2025). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research*. bioRxiv. [DOI](https://doi.org/10.1101/2025.10.06.680781)
+2. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2026). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research.*. Brain Stimulation. [DOI](https://doi.org/10.1016/j.brs.2025.103016)
+3. Wen-ju Pan, L. Daley, Harrison Watters, Lisa Meyer-Baese, K. Gopinath, Dieter Jaeger, Shella Keilholz. (2026). *An integrated platform for simultaneous wide-field voltage/calcium imaging and fMRI (EPI & ZTE) reveals neuronal infraslow dynamics underlying functional connectivity*. bioRxiv. [DOI](https://doi.org/10.64898/2026.01.26.701889)

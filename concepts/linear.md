@@ -47,3 +47,11 @@ The primary limitation of linear models is their inability to capture threshold 
 - [[bifurcation-analysis]] — Techniques for understanding qualitative changes in system behavior, often applied to nonlinear systems after linearization
 - [[whole-brain]] — The larger paradigm of simulating brain-wide dynamics using coupled regional models
 - [[brain-network]] — The.graph-theoretic representation of brain regions and their connections
+
+## References
+
+1. Hugh R. Wilson, Jack D. Cowan. *Excitatory and inhibitory interactions in localized populations of model neurons*. Biophysical Journal. [DOI](https://doi.org/10.1016/S0006-3495(72)86068-5)
+2. Cyprien Tamekue, ShiNung Ching. *Control of neural field equations with step-function inputs*. [Link](https://arxiv.org/abs/2510.22022)
+3. Ronja Strömsdörfer, Klaus Obermayer. *Spike-frequency and h-current based adaptation are dynamically equivalent in a Wilson-Cowan field model*. [Link](https://arxiv.org/abs/2510.08436)
+4. Manish Yadav. *Emergent E-I Structure in Performance-Evolved Reservoir Networks of Neuronal Population Dynamics*. [Link](https://arxiv.org/abs/2603.13635)
+5. Jeremy B. Goetz, Naruepon Weerawongphrom, Rashid V. Williams-García, John M. Beggs, Gerardo Ortiz. (2025). *A Minimal Network of Brain Dynamics: Hierarchy of Approximations to Quasi-critical Neural Network Dynamics*. [Link](https://arxiv.org/abs/2512.22093)

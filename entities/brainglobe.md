@@ -71,3 +71,9 @@ BrainGlobe integrates with and extends numerous established tools in the neuroin
 ## Summary
 
 BrainGlobe provides a comprehensive computational neuroanatomy ecosystem that addresses critical needs in modern neuroscience research. Its integrated approach to atlas management, image registration, cell detection, and three-dimensional visualization enables end-to-end analysis workflows that proceed from raw imaging data to quantified anatomical results. The suite's emphasis on standardization, reproducibility, and interoperability positions it as a valuable foundation for computational studies requiring accurate neuroanatomical data. Through its relationship with [[the-virtual-brain]], BrainGlobe supports the construction of biologically detailed brain models that combine structural anatomy with dynamical simulation, advancing capabilities in both basic neuroscience and clinical applications including [[epilepsy-modeling]] and [[brain-stimulation]].
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. (authors unknown). *BrainGlobe Atlas API: a common interface for neuroanatomical atlases*.
+3. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)

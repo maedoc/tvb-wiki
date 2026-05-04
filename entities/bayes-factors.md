@@ -56,3 +56,12 @@ Bayes Factors connect to several important concepts in the wiki: [[variational-b
 - Kass, R. E., & Raftery, A. E. (1995). Bayes Factors. *Journal of the American Statistical Association*, 90(430), 773–795. — Comprehensive review of Bayes Factors in statistical practice.
 - Friston, K. J., Mattout, J., Trujillo-Barreto, N., Ashburner, J., & Penny, W. (2007). Variational Bayes under the [[palm]] framework. *NeuroImage*, 35(4), 1499–1510. — Application of variational methods to model comparison in neuroimaging.
 - Friston, K. J., & Penny, W. (2003). Posterior probability maps and SPMs. *NeuroImage*, 19(3), 1240–1249. — Early work connecting variational Bayes to the free-energy principle in neuroscience.
+
+## References
+
+1. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI): A flexible and integrative toolkit for efficient probabilistic inference on virtual brain models*. bioRxiv. [DOI](https://doi.org/10.1101/2025.01.21.633922)
+2. Moo K. Chung, D. Vijay Anand, Anass B El-Yaagoubi, Jae-Hun Jung, Anqi Qiu, Hernando Ombao. (2026). *Causality as a Minimum Energy Principle*. [Link](https://arxiv.org/abs/2604.17151)
+3. Rosa Maria Delicado, Gemma Huguet, Pau Clusella. (2025). *Emergent Spatiotemporal Dynamics in Large-Scale Brain Networks with Next Generation Neural Mass Models*. [Link](https://arxiv.org/abs/2512.03907)
+4. Sakul Mahat, Sharmistha Guha, Jessica Bernard. (2026). *A Bayesian Framework for Quantifying Association Between Functional and Structural Data in Neuroimaging*. [Link](https://arxiv.org/abs/2603.21067)
+5. (authors unknown). *Permutation inference for the general linear model*.
+6. Abdoreza Asadpour, Amin Azimi, Kongfatt Wong-Lin. (2025). *Limitations of Variational Laplace-Based Dynamic Causal Modelling for Multistable Cortical Circuits*. bioRxiv. [DOI](https://doi.org/10.1101/2025.03.10.642327)

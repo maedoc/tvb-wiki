@@ -77,3 +77,10 @@ Recent developments in the NeuroML community, including the creation of database
 4. **Gleeson et al. (2007)** — "neuroConstruct: A Tool for Modeling Networks of Neurons in 3D Space" — Describes neuroConstruct, a complementary tool for building NeuroML models. Published in Neuron.
 
 5. **Goddard et al. (2001)** — "Towards NeuroML: Model Description Methods for Collaborative Modelling in Neuroscience" — The original proposal that led to the development of NeuroML. Published in Philosophical Transactions of the Royal Society B. PMID: 11545699.
+
+## References
+
+1. W. Wybo. (2025). *The neural analysis toolkit unifies semi-analytical techniques to simplify, understand, and simulate dendrites*. bioRxiv. [DOI](https://doi.org/10.1101/2025.06.26.661734)
+2. C. Linssen, Pooja N. Babu, Jochen M. Eppler, Luca Koll, Bernhard Rumpe, Abigail Morrison. (2025). *NESTML: a generic modeling language and code generation tool for the simulation of spiking neural networks with advanced plasticity rules*. Frontiers Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2025.1544143)
+3. Leon Martin, Konstantin Bülau, Marius Pille, Rico Schmitt, Christoph Hüttl, J. Meier, Halgurd Taher, Dionysios Perdikis, M. Schirner, L. Stefanovski, Petra Ritter. (2025). *The Virtual Brain Ontology: A Digital Knowledge Framework for Reproducible Brain Network Modeling*. bioRxiv. [DOI](https://doi.org/10.1101/2025.11.19.689211)
+4. Amirreza Movahedin, Lennart P. L. Landsmeer, Christos Strydis. (2025). *HUMA: Heterogeneous, Ultra Low-Latency Model Accelerator for The Virtual Brain on a Versal Adaptive SoC*. Symposium on Field Programmable Gate Arrays. [DOI](https://doi.org/10.1145/3706628.3708875)

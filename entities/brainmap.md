@@ -61,3 +61,9 @@ Other tools that complement BrainMap include **[[fsl]]** and **[[software-spm]]*
 The foundational BrainMap papers describe both the database architecture and the ALE algorithm. The original BrainMap publication (Laird et al., 2005) established the database structure and demonstrated its utility for meta-analysis across multiple cognitive domains. Subsequent methodological papers refined the ALE algorithm to account for spatial uncertainty and multiple within-study comparisons (Fox et al., 2005; Eickhoff et al., 2009). Recent work has extended BrainMap to include **[[effective-connectivity]]** analyses and integration with [[dynamic-causal-modeling]] frameworks.
 
 ---
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
+3. Jose Rodriguez-Acosta, Sharmistha Guha, Jessica Bernard, Thamires Magalhaes, Kaitlin McOwen. *Integrative Predictor-Dependent Learning of Network Data and Spatially Correlated Nodal Attributes for Multimodal Brain Imaging in Aging*. [Link](https://arxiv.org/abs/2603.21032)

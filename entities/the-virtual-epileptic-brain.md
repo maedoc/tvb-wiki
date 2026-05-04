@@ -41,3 +41,10 @@ The foundational work establishing the TVEB framework includes Jirsa et al. (201
 ## Related Software
 
 TVEB operates within a broader ecosystem of computational neuroscience tools. As part of [[the-virtual-brain]], TVEB inherits the core simulation infrastructure, while specialized analysis routines build upon tools like the [[brain-connectivity-toolbox]] for network analysis and [[graphvar]] for dynamical systems analysis. For forward modeling of electrophysiological signals, TVEB can be combined with volume conduction models from packages like [[openmeeg]], while neuroimaging preprocessing leverages tools such as [[freesurfer]] and [[fsl]].
+
+## References
+
+1. Michael Breakspear, John A. Roberts, John R. Terry, Stefano Rodrigues, Nader Mahmud, Philip Robinson. *Large-scale brain dynamics of seizures: asymptotic analysis of a neural field model*. Journal of Computational Neuroscience. [DOI](https://doi.org/10.1007/s10827-006-8135-2)
+2. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+3. Kang You, Gary Green, Jian Zhang. *Differential Dynamic Causal Nets: Model Construction, Identification and Group Comparisons*. [Link](https://arxiv.org/abs/2601.21478)
+4. Amirreza Movahedin, Lennart P. L. Landsmeer, Christos Strydis. (2025). *HUMA: Heterogeneous, Ultra Low-Latency Model Accelerator for The Virtual Brain on a Versal Adaptive SoC*. Symposium on Field Programmable Gate Arrays. [DOI](https://doi.org/10.1145/3706628.3708875)

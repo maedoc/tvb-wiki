@@ -44,3 +44,9 @@ The broader visualization ecosystem also includes [[fsl]]'s [[fsleyes]], [[brain
 ## Key Papers
 
 While PySurfer is a software tool rather than a research publication, it is used extensively in neuroimaging research. The library is cited in studies employing surface-based analysis of fMRI, MEG, and connectivity data. Notable applications include cortical structural and functional coupling studies during development [[source-separation]], investigations of brain-gastric phase synchronization [[source-separation]], and analyses of default-mode network organization across primates [[source-separation]]. The library has been used in work published in journals including *Translational Psychiatry*, *Human Brain Mapping*, *NeuroImage*, and *Cell Reports* [[source-separation]].
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
+3. R. A. Benn, Ting Xu, R. Mars, Magdalena Boch, Léa Roumazeilles, K. Heuer, Roberto Toro, D. Margulies, J. Manzano-Patrón, Paula Montesinos, C. Galán-Arriola, G. López-Martín, J. Sanchez-González, E. P. Duff, Borja Ibáñez. (2025). *Precon_all: A species-agnostic automated pipeline for non-human cortical surface reconstruction*. bioRxiv. [DOI](https://doi.org/10.1101/2025.04.16.649072)

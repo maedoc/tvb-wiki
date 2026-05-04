@@ -75,3 +75,14 @@ CONN serves as a critical preprocessing and analysis tool in the [[connectome]]-
 - [[software-fsl|FSL]] — Alternative fMRI analysis suite for preprocessing and first-level analysis
 - [[software-spm|SPM]] — MATLAB-based statistical parametric mapping software; CONN operates as an SPM toolbox
 - [[software-bct|BCT ([[brain-connectivity-toolbox]])]] — MATLAB toolbox for graph-theoretical analysis of connectivity matrices, complementary to CONN's graph theory functions
+
+## References
+
+1. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
+2. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
+3. Woodman et al. (2014). *GraphVar: A user-friendly toolbox for comprehensive graph analyses of functional brain connectivity*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2014.07.015)
+4. F. Caramia, A. Di Renzo, Irene Giardina, Davide Chiffi, G. Giuliani, G. Sebastianelli, Francesco Casillo, C. Abagnale, Francesca Conti, Francesca Lafavia, Marco Fiorelli, Mao-mei Song, Marta Altieri, Gianluca Coppola. (2026). *Multimodal MRI of episodic cluster headache reveals frontal cortical alterations and network-level connectivity changes*. The Journal of Headache and Pain. [DOI](https://doi.org/10.1186/s10194-026-02282-6)
+5. Ramiro Plüss, Hernán Villota, Patricio Orio. (2025). *Hemispheric-Specific Coupling Improves Modeling of Functional Connectivity Using Wilson-Cowan Dynamics*. [Link](https://arxiv.org/abs/2506.22951)
+6. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+7. Sali Issa, Qi Wang, Ruinan Qi, Guangxi Peng, Shi Yin, Qinmu Peng. (2026). *An effective alzheimer disease diagnosis using resting state fmri images and broad learning system.*. Psychiatry research. Neuroimaging. [DOI](https://doi.org/10.1016/j.pscychresns.2025.112133)
+8. Wang, J., Wang, X., Xia, M., Liao, X., Evans, A., & He, Y. (2015). *GRETNA: a graph theoretical network analysis toolbox for MATLAB*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2015.04.016)

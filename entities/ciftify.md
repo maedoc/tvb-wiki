@@ -52,3 +52,7 @@ The ciftify package, while primarily a software tool, has been referenced in num
 ## Related Software
 
 ciftify exists within a broader ecosystem of tools for CIFTI manipulation and [[human-connectome-project]] data processing. [[connectome-workbench]] provides the underlying visualization and file manipulation engine that ciftify wraps. [[human-connectome-project]] data processing pipelines (hcp-pipelines) provide complementary volumetric preprocessing that can be combined with ciftify's surface-based workflows. [[nilearn]] provides Python-native neuroimaging processing capabilities including connectivity estimation and statistical modeling that complement ciftify's visualization focus. [[freesurfer]] generates the cortical surface reconstructions that ciftify uses for gift projection. The package is part of the broader HCP ecosystem that includes [[hcp-dataset]], [[hcp-pipelines]], and associated analysis tools. For gift-format analysis specifically, ciftify shares functionality with [[brainiak]] which provides similar surface-based analysis capabilities though with a different algorithmic focus on matrix factorization approaches. Users of ciftify may also employ [[afq]] for tractography-based structural connectivity analysis or [[dipy]] for diffusion processing as complementary analysis streams.
+
+## References
+
+1. (authors unknown). *The Human Connectome Project: A Data Acquisition Perspective*.

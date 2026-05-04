@@ -51,3 +51,10 @@ YASA operates within the broader EEG and sleep analysis software ecosystem. As a
 ## Technical Implementation
 
 YASA is implemented in Python and depends on scientific computing libraries including NumPy, SciPy, Pandas, and MNE‑Python for certain operations. The software is distributed via PyPI and conda‑forge, facilitating straightforward installation via standard Python package managers. The codebase emphasizes performance optimization for handling full‑night polysomnography recordings, which may contain millions of data points across multiple EEG channels. Detection algorithms implement validated approaches from the sleep research literature, with the spindle detection method based on the algorithm described by Lacourse et al. (2018) Lacourse2018. The sleep staging module employs a trained classifier approach, with the specific algorithm details available in the eLife publication Vallat2021.
+
+## References
+
+1. B. Şanlıdağ, Furkan Donbaloğlu, Mehpare Sarı Yanartaş, B. Şekeroğlu, Arzu Yılmaz, Ö. Köken. (2025). *High-frequency oscillations in autism spectrum disorder: are they related to clinical severity?*. Cerebral Cortex. [DOI](https://doi.org/10.1093/cercor/bhaf068)
+2. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
+3. Xiaobo Liu. (2026). *MLE-Toolbox: An Open-Source Toolbox for Comprehensive EEG and MEG Data Analysis*. [Link](https://www.semanticscholar.org/paper/e7aaa4f4bb01e70064493684b4500a950f83460f)
+4. Siyu Li, Zhuo Wang, Yun Li, Xue Luo, T. Ru, Qingwei Chen, Guofu Zhou. (2025). *Insomnia and emotional dysfunction: Altered brain network connectivity across sleep and wakefulness states.*. Sleep Medicine. [DOI](https://doi.org/10.1016/j.sleep.2025.106582)
