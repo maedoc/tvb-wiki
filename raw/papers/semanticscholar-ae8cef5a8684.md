@@ -1,0 +1,15 @@
+# Multi-center evaluation of Neurophet AQUA for brain MRI segmentation: T1 compared with FreeSurfer and T2-FLAIR compared with ground truth
+
+**Source**: semantic-scholar
+**ID**: ae8cef5a86847f0e3428ca24d35f039f52908d9e
+**DOI**: 10.3389/fneur.2025.1672133
+**URL**: https://www.semanticscholar.org/paper/ae8cef5a86847f0e3428ca24d35f039f52908d9e
+**Date**: 2025-12-17
+**Year**: 2025
+**Authors**: Hyunjae Yu, Hyunji Lee, M. Lee, Donghyeon Kim, Lukas Pirpamer, Marco Duering, Sue Moy, Karl G. Helmer, R. E. Y. Kim
+**Venue**: Frontiers in Neurology
+**Citations**: 0
+
+## Abstract
+
+Introduction Accurate segmentation of brain regions in magnetic resonance imaging (MRI) is essential for diagnosing and managing neurological diseases. FreeSurfer is a widely used tool for brain MRI segmentation, but its limitations in speed and usability pose challenges in clinical practice. Neurophet AQUA, an advanced automated segmentation tool, aims to overcome these challenges by offering rapid and reliable segmentation. This study evaluates two segmentation pipelines: (1) a T1-based brain region segmentation pipeline, comparing the performance and reliability of Neurophet AQUA and FreeSurfer v7.3.2 using the standard recon-all pipeline in segmenting gray matter, white matter, and subcortical structures; and (2) a T2-FLAIR-based white matter lesion segmentation pipeline of Neurophet AQUA, assessing the detection of white matter hyperintensities (WMH). Methods Four main datasets were used. For the T1-based segmentation pipeline, the Alzheimer’s Disease Neuroimaging Initiative (ADNI) dataset was used to compare the segmentation results of Neurophet AQUA and FreeSurfer, with quality assessed by expert evaluation. The MarkVCID dataset was used to evaluate the scan-rescan repeatability and inter-scanner reproducibility of Neurophet AQUA. For the T2-FLAIR-based pipeline, WMH segmentation performance was assessed using 2D and 3D FLAIR sequences from the ADNI dataset by comparing the segmentations to ground truth (GT) labels and calculating Dice similarity coefficients (DSC). Results Segmentation quality and reliability showed that Neurophet AQUA and FreeSurfer achieved comparable performance in most regions, with no significant differences. However, Neurophet AQUA had significantly faster processing time. In intracranial volume (ICV) measurements, Neurophet AQUA showed better repeatability than FreeSurfer in both rescans (ICC: 0.999 vs. 0.991) and inter-scanner settings (ICC: 0.983 vs. 0.866). AQUA also demonstrated consistent WMH segmentation across 2D and 3D FLAIR images. Conclusion Neurophet AQUA demonstrated high segmentation accuracy and excellent repeatability in rescanned measurements, as well as exploratory evidence of inter-scanner reproducibility on T1-weighted MRI, showing comparable performance to established tools such as FreeSurfer. It also showed consistent WMH segmentation across FLAIR types. Neurophet AQUA is highly suitable for clinical applications that require accurate analysis, high repeatability and reproducibility, and rapid brain MRI processing, making it particularly well-suited for multicenter research studies.

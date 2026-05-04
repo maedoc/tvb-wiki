@@ -57,3 +57,5 @@
 ## [2026-05-04 19:16] CrosslinkApplier: added 75 wikilinks (75 inline, 0 suggested)
 
 ## [2026-05-04 19:20] Improve: 5 pages improved (aomic, itk-snap, fieldtrip, nilearn, rabies)
+
+## [2026-05-04 19:21] Matcher: 9 pages got 17 new sources
