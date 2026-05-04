@@ -45,9 +45,3 @@ DWItoolbox exists within a rich ecosystem of diffusion MRI processing tools. The
 [[MRtrix3]] represents a more modern approach, with C++ implementations offering highly efficient fiber tracking capabilities, including advanced fiber orientation distribution function estimation and global tractography algorithms that have become popular in many research groups. For users preferring Python-based environments, [[DIPY]] provides a comprehensive open-source platform for diffusion imaging analysis.
 
 Another related toolbox is DMRITool, written in C++ with MATLAB interface, offering advanced reconstruction methods including Diffusion Spectrum Imaging and orientation distribution function estimation. While DWItoolbox has a narrower scope than these alternatives, its modular design makes it more approachable for teaching purposes and for understanding fundamental diffusion imaging concepts.
-
-## References
-
-1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
-2. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain [[connectivity]]. [DOI](https://doi.org/10.1089/brain.2012.0120)
-3. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2018.05.040)

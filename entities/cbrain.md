@@ -83,9 +83,3 @@ Despite its widespread adoption, CBRAIN faces ongoing challenges. The tool wrapp
 
 - Sherif T, Rioux P, Rousseau M-E, Kassis N, Beck N, Adalat R, Das S, Glatard T and Evans AC (2014) CBRAIN: a web-based, distributed computing platform for collaborative neuroimaging research. Front. Neuroinform. 8:54. https://doi.org/10.3389/fninf.2014.00054 — The primary CBRAIN publication describing the platform architecture, deployment, and usage.
 - Glatard T, et al. (2014) Integration of a neuroimaging processing pipeline into a pan-Canadian computing grid. J. Phys. Conf. Ser. 341:012032 — Describes pipeline integration into CBRAIN.
-
-## References
-
-1. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2025). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research*. bioRxiv. [DOI](https://doi.org/10.1101/2025.10.06.680781)
-2. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2026). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research.*. [[brain-stimulation]]. [DOI](https://doi.org/10.1016/j.brs.2025.103016)
-3. Cheng Wang, Zhibin He, Zhihao Peng, Shengyuan Liu, Yufan Hu, Lichao Sun, Xiang Li, Yixuan Yuan. (2026). *NeuroClaw Technical Report*. [Link](https://arxiv.org/abs/2604.24696)

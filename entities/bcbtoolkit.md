@@ -56,9 +56,3 @@ The pipeline typically proceeds through several stages: first, lesion masks are 
 BCBToolKit integrates with and complements several other software packages in the neuroimaging ecosystem. For structural connectivity analysis, it works alongside mrtrack and [[mrtrix3-connectome]] for tractography, while the disconnectome methodology draws on approaches similar to those implemented in the Network Modification (NeMo) Tool. For functional connectivity, the toolkit's output can be further analyzed using [[conn]] or [[mne-connectivity]]. The enantiomorphic normalization procedure relies on [[ants]] for diffeomorphic image registration, and cortical thickness measurements employ the DiReCT algorithm which is available within the [[ants]] ecosystem.
 
 For researchers interested in whole-brain modeling, BCBToolKit provides anatomically-informed connectivity matrices that can serve as structural connectomes for simulation engines including [[the-virtual-brain]]. The toolkit also relates to clinical applications of [[brain-stimulation]], as understanding disconnection patterns is essential for predicting the effects of invasive or non-invasive stimulation on distributed brain networks.
-
-## References
-
-1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
-2. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
-3. (authors unknown). *[[braph]]: A Pipeline for Brain Connectivity Analysis*.

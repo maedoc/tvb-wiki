@@ -17,10 +17,3 @@ Source Separation — a concept in [[whole-brain|whole-brain modeling]] and [[co
 
 ## Related Concepts
 * [[ica]]
-
-## References
-
-1. (authors unknown). *[[functional-connectivity]]: The Principal-Component Analysis of Large (PET and [[fmri]]) Data Sets*.
-2. (authors unknown). *Functional [[connectomics]] from [[resting-state|Resting-State fMRI]]*.
-3. (authors unknown). *Networks of the Brain*.
-4. Shengjie Qi, Xinda Song, Le Jia, Hongyu Cui, Yuchen Suo, Teng Long, Zhendong Wu, Xiaolin Ning. (2025). *The impact of channel density, inverse solutions, [[connectivity]] metrics and calibration errors on OPM-MEG connectivity analysis: A simulation study*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2025.121056)

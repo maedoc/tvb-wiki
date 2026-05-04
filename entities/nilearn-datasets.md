@@ -31,7 +31,7 @@ This module serves multiple purposes within the broader neuroimaging ecosystem. 
 
 The nilearn datasets module provides several fetch functions, each designed to retrieve specific well-characterized datasets. The **`fetch_haxby`** function retrieves the famous HAXBY single-subject dataset from a seminal study on object representation in the ventral temporal cortex, which includes both task-based fMRI data and anatomical scans, making it ideal for learning pattern classification and multivariate analysis techniques (Haxby et al., 2001). The **`fetch_development_fmri`** function provides developmental fMRI data, useful for understanding age-related differences in brain function, while **`fetch_adhd`** accesses the ADHD-200 dataset containing neuroimaging data from individuals with attention-deficit hyperactivity disorder and healthy controls (ADHD-200 Consortium, 2012).
 
-For resting-state [[functional-connectivity]] research, the module offers access to datasets from multiple acquisition epochs. The **`fetch_hcp_rest_partition`** and related functions can access raw or preprocessed data from the [[mrtrix3-connectome]], enabling researchers to work with high-quality resting-state fMRI data without necessitating direct interaction with the HCP data portal (Glasser et al., 2013). The datasets module implements smart caching, meaning that once a dataset is downloaded, subsequent calls to fetch functions retrieve data from local storage rather than re-downloading, significantly improving workflow efficiency for users who repeatedly work with the same datasets.
+For resting-state [[functional-connectivity]] research, the module offers access to datasets from multiple acquisition epochs. The **`fetch_hcp_rest_partition`** and related functions can access raw or preprocessed data from the [[mrtrix3-connectome]], enabling researchers to work with high-quality resting-state fMRI data without necessitating direct interaction with the HCP data portal (Glasser et al., 2013). The datasets module implements smart caching, meaning that once a dataset is downloaded, subsequent calls to fetch functions retrieve data from local storage rather than re‑downloading, significantly improving workflow efficiency for users who repeatedly work with the same datasets.
 
 ## Relationship to TVB and Whole-Brain Modeling
 
@@ -67,11 +67,3 @@ Additionally, the module does not provide tools for advanced dataset management 
 - SPM: Statistical Parametric Mapping for neuroimaging
 - Brain Connectivity Toolbox: Graph-theoretic analysis of brain networks
 - DataLad: Version control for data and code
-
-## References
-
-1. (authors unknown). *Resting-State fMRI in the [[human-[[connectome]]-project]]*.
-2. Emmanuelle Renauld, Arnaud Boré, Charles Poirier, Alex Valcourt-Caron, Philippe Karan, Antoine Théberge, Guillaume Théaud, Manon Edde, P. Poulin, Gabriel Girard, Jean-Christophe Houde, A. Gagnon, Etienne St-Onge, Graham Little, Jon Haitz Legarreta, Stanislas Thoumyre, G. Grenier, Zineb El Yamani, Mario Ocampo Pineda, Matteo Battochio, Vincent Beaudoin, Alexandre Joanisse, Laurent Petit, F. Rheault, Maxime Descoteaux. (2026). *[[tractography]] analysis with the scilpy toolbox*. Aperture Neuro. [DOI](https://doi.org/10.52294/001c.154022)
-3. Wenqi Zhu, Zhong Yin, Yinghua Fu. (2026). *CGLK-GNN : A connectome generation network with large kernels for GNN based Alzheimer's disease analysis*. Neural Networks. [DOI](https://doi.org/10.1016/j.neunet.2026.108689)
-4. Maya Iratni, Amirali Abdullah, Mariam Aldhaheri, Omar Elharrouss, Alaa A. Abd-alrazaq, Zahiriddin Rustamov, Nazar Zaki, Rafat Damseh. (2025). *Transformers for Neuroimage Segmentation: Scoping Review*. Journal of Medical Internet Research. [DOI](https://doi.org/10.2196/57723)
-5. Xiaoqing Huang, Rishit Puri, Dayu Sun, Yi Zhao, Jie Zhang, Kun Huang, Yijie Wang. (2025). *Functional Connectome Signatures of Patients with Asymptomatic and Typical Alzheimer's*. Alzheimer's & Dementia. [DOI](https://doi.org/10.1002/alz70856_103445)

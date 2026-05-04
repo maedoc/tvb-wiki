@@ -48,14 +48,3 @@ Validation strategies include physical phantoms with known fiber geometry, post-
 ## Related Concepts
 
 Tractography is the primary computational engine that transforms raw diffusion imaging data into the structural connectivity matrices used in connectomics, distinguishing itself from [[dti]]—the broader tensor framework from which it emerged. Tractography-derived connectivity is often compared against [[effective-connectivity]] estimates from [[dynamic-causal-modeling]] or [[functional-connectivity]] from fMRI and EEG, with mismatches providing clues about unmeasured polysynaptic pathways or state-dependent modulation of connection strengths.
-
-## References
-
-1. (authors unknown). *Three-dimensional tracking of axonal projections in the brain by magnetic resonance imaging*.
-2. (authors unknown). *Challenges and limitations of quantifying brain connectivity in vivo with diffusion MRI*.
-3. (authors unknown). *Robust determination of the fibre orientation distribution in diffusion MRI: Non-negativity constrained super-resolved spherical deconvolution*.
-4. (authors unknown). *Building connectomes using diffusion MRI: Why, how and but*.
-5. R. Lorenzi, Fulvia Palesi, C. Casellato, C. G. Gandini Wheeler-Kingshott, Egidio D’Angelo. (2025). *Region-specific [[mean-field-theory|mean field]] models enhance simulations of local and global [[brain-dynamics]]*. bioRxiv. [DOI](https://doi.org/10.1038/s41540-025-00543-9)
-6. (authors unknown). *Functional [[connectomics]] from [[resting-state|Resting-State fMRI]]*.
-7. Wenqi Zhu, Zhong Yin, Yinghua Fu. (2026). *CGLK-GNN : A connectome generation network with large kernels for GNN based Alzheimer's disease analysis*. Neural Networks. [DOI](https://doi.org/10.1016/j.neunet.2026.108689)
-8. Breno C. Bispo, Stefania Sardellitti, Juliano B. Lima, Fernando A. N. Santos. (2026). *Multimodal Higher-Order Brain Networks: A Topological Signal Processing Perspective*. [Link](https://arxiv.org/abs/2603.29903)

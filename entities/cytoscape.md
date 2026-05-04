@@ -41,9 +41,3 @@ Cytoscape's utility in neuroscience research has been demonstrated across numero
 ## Related Software
 
 Cytoscape occupies a niche in the network visualization landscape alongside several alternatives. [[gephi]] provides similar graph visualization capabilities with enhanced real-time analytics and streaming support. The [[brain-connectivity-toolbox]] (BCT) offers a comprehensive suite of network analysis metrics implemented in MATLAB and Python, though without Cytoscape's interactive visualization interface. [[braph]] is a MATLAB toolbox specifically designed for brain network analysis with graph theory, offering both visualization and metrics comparable to Cytoscape's capabilities. For researchers working primarily in Python, the [[graphvar]] package provides network-based statistical analysis, while [[nilearn]] includes connectivity visualization capabilities suitable for neuroimaging data. The choice between these tools often depends on existing software ecosystems, with Cytoscape favored by researchers comfortable in its Java-based environment and those requiring integration with bioinformatics workflows.
-
-## References
-
-1. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
-2. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
-3. (authors unknown). *Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems*.

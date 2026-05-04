@@ -57,9 +57,3 @@ Python wrappers are available through [[simpleitk]], which provides a simplified
 The toolkit's registration capabilities relate closely to [[neuroimaging]] preprocessing and spatial normalization. ITK-based pipelines generate data in [[mni-space]], enabling comparison across subjects and studies. The [[parcellation]] of cortical and subcortical regions often relies on ITK registration to align atlases like [[desikan-killiany-atlas]] or [[yeo-atlas]] to individual subject space. These processed parcellations serve as node definitions in [[brain-network]] models used in whole-brain simulations driven by structural connectivity derived from diffusion imaging.
 
 Diffusion imaging processed with ITK contributes to [[structural-connectivity]] estimation, which is distinct from [[functional-connectivity]] measured via [[fmri]] or [[eeg]]. The relationship between structural and functional connectivity is a central topic in [[whole-brain-modeling]] research, where anatomical connectivity constrains dynamic models of brain activity[^6].
-
-## References
-
-1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
-2. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain [[connectivity]]. [DOI](https://doi.org/10.1089/brain.2012.0120)
-3. Sima Soltanpour, Md Taufiq Nasseef, Rachel Utama, Arnold Chang, D. Madularu, Praveen Kulkarni, Craig F. Ferris, Chris Joslin. (2025). *Robust automated preclinical fMRI preprocessing via a multi-stage dilated convolutional Swin Transformer affine registration*. Frontiers in Neuroscience. [DOI](https://doi.org/10.3389/fnins.2025.1621244)

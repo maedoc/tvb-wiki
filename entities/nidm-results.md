@@ -70,9 +70,3 @@ The NIDM family includes related specifications beyond NIDM-Results: **NIDM-Expe
 Despite its utility, NIDM-Results adoption has been incremental rather than universal. Some analysis packages still lack native NIDM export capabilities, and many published results in the literature are not available in NIDM-Results format, limiting its usefulness for meta-analysis. Additionally, the JSON-LD serialization, while powerful, can be verbose compared to simple image formats, creating challenges for storage and bandwidth in large-scale studies.
 
 An ongoing question is how to extend NIDM-Results to cover newer analysis paradigms beyond mass-univariate modeling—including multivariate pattern analysis (MVPA), representational similarity analysis (RSA), and the statistical outputs from [[dynamic-causal-modeling]] (DCM) analyses. As these analysis approaches become more common, the NIDM working group continues to develop extensions that can accommodate their specific result structures. The relationship between NIDM-Results and emerging standards like **ODR** (Open Data Repository) also remains an area of active development.
-
-## References
-
-1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
-2. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain [[connectivity]]. [DOI](https://doi.org/10.1089/brain.2012.0120)
-3. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2018.05.040)

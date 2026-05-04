@@ -57,12 +57,3 @@ Several practical considerations affect ICA performance in neuroimaging applicat
 ## Related Concepts
 
 ICA relates to several other signal decomposition and [[connectivity]] methods. [[Principal Component Analysis]] provides orthogonal dimensionality reduction but cannot separate sources that are only uncorrelated rather than independent. [[Effective connectivity]] methods like dynamic causal modeling characterize directed causal interactions rather than undirected decompositions. [[EEGLab]], a popular EEG analysis environment, provides graphical interfaces for ICA decomposition and visualization. The technique of [[source-separation]] more broadly encompasses both ICA and other methods like beamforming that isolate signals from specific spatial origins.
-
-## References
-
-1. (authors unknown). *Independent component analysis of electroencephalographic data*.
-2. Neda Abdollahpour, N. Sertac Artan, Ian Daly, Mohammadreza Yazdchi, Zahra Baharlouei. (2025). *Effective Connectivity-Based Unsupervised Channel Selection Method for EEG*. [Link](https://arxiv.org/abs/2510.12910)
-3. Sunia Tanweer, Narayan Puthanmadam Subramaniyam, Firas A. Khasawneh. (2026). *Classification of Epileptic iEEG using Topological Machine Learning*. [Link](https://arxiv.org/abs/2604.11971)
-4. Moo K. Chung, D. Vijay Anand, Anass B El-Yaagoubi, Jae-Hun Jung, Anqi Qiu, Hernando Ombao. (2026). *Causality as a Minimum Energy Principle*. [Link](https://arxiv.org/abs/2604.17151)
-5. Christopher Gabaldon, Adria Mulero, Rong Wang, Daniel A. Martin, Sabrina Camargo, Qian-Yuan Tang, Ignacio Cifre, Changsong Zhou, Dante R. Chialvo. (2026). *Data-driven inference of brain dynamical states from the r-spectrum of correlation matrices*. [Link](https://arxiv.org/abs/2601.03796)
-6. Yifei Sun, James M. Shine, Robert D. Sanders, Robin F. H. Cash, Sharon L. Naismith, Fernando Calamante, Jinglei Lv. (2026). *A Data-Driven Method to Map the Functional Organisation of Human Brain [[white-matter]]*. [Link](https://arxiv.org/abs/2602.18715)

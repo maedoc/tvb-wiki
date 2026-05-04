@@ -54,9 +54,3 @@ For timestamp synchronization, LSL employs a hierarchical clock system where one
 
 - **Kothe, C. A.** (2014). Lab Streaming Layer (LSL). Poster presentation. SCCN, UC San Diego. [@kothe2014]
 - **Kothe, C. A., & Makeig, S.** (2013). BCILAB: A platform for brain-computer interface development. *Frontiers in Neuroscience*, 7, 98. [@makeig2013]
-
-## References
-
-1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
-2. Gramfort et al. (2013). *MEG and EEG: From Acquisition to Analysis*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fnins.2013.00010)
-3. Martin Breyton, Viktor Sip, M. Woodman, Meysam Hashemi, S. Petkoski, V. Jirsa. (2025). *Data-driven [[mean-field-theory|mean-field]] within [[whole-brain]] models*. [Link](https://www.semanticscholar.org/paper/144ae1f1dabec42c14493d0083d36f168508f886)

@@ -44,9 +44,3 @@ pyRiemann integrates with the broader Python scientific computing ecosystem, par
 - **Congedo, M.** (2017). pyRiemann-qiskit: A Python library for quantum machine learning on quantum devices. *IEEE Access*. This paper introduces the pyRiemann library and its extension to quantum machine learning[@pyRiemannQuantum].
 - **Barachant, A., et al.** (2012). Classification of covariance matrices using Riemannian geometry applied to SSVEP-based BCI. *IEEE Transactions on Biomedical Engineering*. This foundational work demonstrates the effectiveness of MDM classifier for BCI applications[@MDMPaper].
 - **Barachant, A., et al.** (2013). Multi-session P300-based brain-computer interface with Riemannian geometry. *PLOS ONE*. This paper extends the Riemannian approach to multi-session BCI paradigms[@P300Paper].
-
-## References
-
-1. Anderson Fernandes P. Santos. (2026). *QRC-Lab: An Educational Toolbox for Quantum Reservoir Computing*. [Link](https://www.semanticscholar.org/paper/dc8f7606dbf698ecf8a7e148e55adcea2ff0ad69)
-2. Sumitro Barua, Dipon Deb Dipu, Tanjila Broti. (2025). *A Hybrid Classical-Quantum Deep Learning Framework for MRI-Guided Alzheimer’s Disease Classification, Comparative Analysis & Explainable AI for Medical Interpretation*. 2025 IEEE 6th India Council International Subsections Conference (INDISCON). [DOI](https://doi.org/10.1109/INDISCON66021.2025.11252366)
-3. (authors unknown). *[[lean|GLEAN]]: Group Level Exploratory Analysis of Networks*.

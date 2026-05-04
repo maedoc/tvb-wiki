@@ -60,10 +60,3 @@ Typical applications include investigating the mechanisms of brain oscillations 
 Despite its utility, the Brain Dynamics Toolbox operates primarily at the neural mass level of abstraction, which involves [[mean-field-theory|mean-field]] approximations whose validity is not always guaranteed, particularly for small neural populations. The toolbox's reliance on MATLAB limits its adoption in the broader open-source ecosystem. Furthermore, while BDT excels at local stability analysis, its capabilities for analyzing transient dynamics and stochastic dynamics [[stochastic-differential-equations]] remain more limited compared to purpose-built packages.
 
 Future directions include better integration with Python-based neuroscience tools, expanded support for stochastic differential equations using [[fokker-planck-equation]] methods, and enhanced connectivity with empirical structural and [[functional-connectivity]] databases like the Human [[connectome]] Project [[human-connectome-project]].
-
-## References
-
-1. (authors unknown). *[[lean|GLEAN]]: Group Level Exploratory Analysis of Networks*.
-2. (authors unknown). *[[braph]]: A Pipeline for Brain Connectivity Analysis*.
-3. R. Montgomery. (2025). *Applications of Random Matrix Theory in Neuroscience and [[neural-network]] Analysis: Unraveling High-Dimensional Connectivity*. Wired Neuroscience. [DOI](https://doi.org/10.62162/wnsc10606312712241)
-4. Abdoreza Asadpour, Amin Azimi, Kongfatt Wong-Lin. (2025). *Limitations of Variational Laplace-Based Dynamic Causal Modelling for Multistable Cortical Circuits*. bioRxiv. [DOI](https://doi.org/10.1101/2025.03.10.642327)

@@ -1,9 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- https://github.com/AllenInstitute/dipde
-- https://alleninstitute.github.io/dipde/
-- https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1003248
 - raw/papers/semanticscholar-ad05f8fb9b0d.md
 - raw/papers/arxiv-2512.22093.md
 - raw/papers/semanticscholar-71ffb8153870.md
@@ -76,9 +73,3 @@ A key distinction from spike-based simulators is that DiPDE tracks the probabili
 - [[Brian2]]
 - [[allen-sdk]]
 - [[neuromorpho-toolkit]]
-
-## References
-
-1. Dayashankar Singh, S.Sangeetha, Raja Thimmarayan, S. Murugan, Dr. E. Punarselvam, PG Student. (2025). *Spiking Neural Networks for Modeling Synaptic Activity in Brain Simulations*. 2025 IEEE 2nd International Conference on Information Technology, Electronics and Intelligent Communication Systems (ICITEICS). [DOI](https://doi.org/10.1109/ICITEICS64870.2025.11341691)
-2. Jeremy B. Goetz, Naruepon Weerawongphrom, Rashid V. Williams-García, John M. Beggs, Gerardo Ortiz. (2025). *A Minimal Network of [[brain-dynamics]]: Hierarchy of Approximations to Quasi-critical Neural [[network-dynamics]]*. [Link](https://arxiv.org/abs/2512.22093)
-3. Valerio Barabino, F. Callegari, Sérgio Martinoia, P. Massobrio. (2026). *Hierarchical afferent connectivity drives population-wide bursting dynamics in a computational model of human-derived excitatory neuronal networks*. Journal of Neuroscience. [DOI](https://doi.org/10.1523/jneurosci.0912-25.2026)

@@ -66,9 +66,3 @@ These tools collectively enable fully automated preprocessing pipelines that min
 2. Bigdely‑Shamlo, N., Mullen, T., Kothe, C., Su, K.M., & Robbins, K.A. (2015). *The PREP pipeline: standardized preprocessing for large‑scale EEG analysis.* Frontiers in Neuroinformatics, 9, 16. [2]
 
 3. Mainak Jas, Denis Engemann, Federico Raimondo, Yousra Bekhti, & Alexandre Gramfort. (2020). *Autoreject (Version 0.3.0)* [Python package]. Zenodo. [3]
-
-## References
-
-1. Seyyed Erfan Mohammadi, Hasti Shabani, Mohammad Mahdi Begmaz, N. S. Dehaghani. (2025). *MEGAP: A Comprehensive Pipeline for Automatic Preprocessing of Large‐Scale Magnetoencephalography Data*. Psychophysiology. [DOI](https://doi.org/10.1111/psyp.70109)
-2. Zhishun Wang, Feng Liu, Rachel Marsh, Gaurav H. Patel, J. Grinband. (2026). *MEPrep: A robust pipeline for multi-echo [[fmri]] denoising and preprocessing*. Imaging Neuroscience. [DOI](https://doi.org/10.1162/IMAG.a.1198)
-3. D. Y. Lodema, Herman J van Dellen, W. de Haan, Margot van Hest, A. Hillebrand, E. van Dellen. (2026). *EEG-Pype: An accessible [[mne-python]] pipeline with graphical user interface for preprocessing and analysis of [[resting-state]] electroencephalography data.*. PLoS Computational Biology. [DOI](https://doi.org/10.1371/journal.pcbi.1014043)

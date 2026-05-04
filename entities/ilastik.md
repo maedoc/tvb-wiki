@@ -1,9 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- https://arxiv.org/abs/2205.04554
-- https://academic.oup.com/bioinformatics/article/28/11/1547/340308
-- https://www.nature.com/articles/s41592-022-01668-z
 - raw/papers/huntenburg-2018.md
 - raw/papers/semanticscholar-a0cce22e2ffc.md
 - raw/papers/semanticscholar-d94ac445ea77.md
@@ -54,10 +51,3 @@ ilastik operates within a broader ecosystem of bioimage analysis tools that shar
 - Berg, S., et al. "ilastik: interactive machine learning for (bio)image analysis." *Nature Methods*, 16(12), 2019. — Overview of ilastik's evolution including the deep learning integration.
 
 - Arshad, Z., et al. "Applications of ilastik in biological image analysis." *Bioinformatics*, 2022. — Recent review covering ilastik's applications across various biological imaging modalities.
-
-## References
-
-1. (authors unknown). *[[nighres]]: processing tools for high-resolution neuroimaging*.
-2. L. Fisch, N. Winter, J. Goltermann, Carlotta B. C. Barkhau, D. Emden, J. Ernsting, M. Konowski, R. Leenings, T. Borgers, K. Flinkenflügel, D. Grotegerd, Anna Kraus, E. Leehr, S. Meinert, F. Stein, L. Teutenberg, F. Thomas-Odenthal, P. Usemann, M. Hermesdorf, H. Jamalabadi, Andreas Jansen, I. Nenadić, Benjamin Straube, T. Kircher, Klaus Berger, Benjamin Risse, U. Dannlowski, T. Hahn. (2026). *deepmriprep: voxel-based morphometry preprocessing via deep neural networks*. Nature Computational Science. [DOI](https://doi.org/10.1038/s43588-026-00953-7)
-3. Maya Iratni, Amirali Abdullah, Mariam Aldhaheri, Omar Elharrouss, Alaa A. Abd-alrazaq, Zahiriddin Rustamov, Nazar Zaki, Rafat Damseh. (2025). *Transformers for Neuroimage Segmentation: Scoping Review*. Journal of Medical Internet Research. [DOI](https://doi.org/10.2196/57723)
-4. Aryan Kalluvila, Jay B. Patel, Jason M. Johnson. (2025). *Ultra-High Resolution 9.4T Brain MRI Segmentation via a Newly Engineered Multi-Scale Residual Nested U-Net with Gated Attention*. Bioengineering. [DOI](https://doi.org/10.3390/bioengineering12101014)

@@ -73,9 +73,3 @@ NIAK was initiated around 2008 and saw active development through approximately 
 - [[nilearn]] — Python library for neuroimaging data analysis
 - [[bids]] — standard data format for neuroimaging datasets
 - [[aal-atlas]] — Automated Anatomical Labeling atlas used in NIAK pipelines
-
-## References
-
-1. Abigail Kelly, Ramchandra Rimal, Arpan Sainju. (2026). *Graph Attention Network-Based Detection of Autism Spectrum Disorder*. [Link](https://arxiv.org/abs/2603.26971)
-2. (authors unknown). *[[nighres]]: processing tools for high-resolution neuroimaging*.
-3. A. Dehsarvi, Lukas Frontzkowski, Anna Dewenter, Michael Schöll, N. Franzmeier. (2025). *ADprep – A Fully‐Automated Software for Large‐scale Multimodal MRI and PET Imaging Workflows*. Alzheimer's & Dementia. [DOI](https://doi.org/10.1002/alz70856_101373)

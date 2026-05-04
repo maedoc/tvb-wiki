@@ -1,12 +1,6 @@
 ---
 created: 2026-04-20
 sources:
-- evans-1993
-- mazziotta-2001
-- spm-manual
-- fsl-manual
-- collins-1994
-- holmes-1998
 - raw/papers/arxiv-2506.22951.md
 - raw/papers/semanticscholar-66f887e82e89.md
 - raw/papers/semanticscholar-444387e9c4ec.md

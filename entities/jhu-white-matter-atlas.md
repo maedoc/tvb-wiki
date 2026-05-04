@@ -46,10 +46,3 @@ The JHU White Matter Atlas is part of a broader ecosystem of anatomical atlases 
 ## Key Papers
 
 The JHU White Matter Atlas was originally described in Mori et al. (2005) "White matter anatomy: tract-specific anisotropy measurement by probabilistic diffusion tensor tractography" [[cat12]]. Wakana et al. (2004) established the ICBM-DTI-81 white matter atlas with comprehensive anatomical labeling of 50 regions [[homer3]]. Hua et al. (2008) extended the atlas with improved segmentation and validation across multiple datasets 4. Oishi et al. (2009) contributed detailed tract-specific analysis methods and statistical approaches for white matter characterization in normal adult brains.
-
-## References
-
-1. Konrad Kohnen, Peter Eipert, Laura Budde, Oliver Schmitt. (2025). *neuroVIISAS-based construction of a stereotactic rhesus monkey brain atlas for [[connectome]] research.*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2025.110656)
-2. (authors unknown). *Complex Network Measures of Brain [[connectivity]]: Uses and Interpretations*.
-3. Amedeo Piazza, V. Stumpo, V. Staartjes, Giovanni Colacicco, Matteo De Notaris, A. Frati, Edoardo Agosti, L. Regli, N. Krayenbühl, Carlo Serra, U. Türe. (2026). *Virtual Human White Matter Dissection: A Stratigraphic Layer-by-Layer Dissection of Human Brain in Photogrammetry.*. Operative Neurosurgery. [DOI](https://doi.org/10.1227/ons.0000000000001946)
-4. Daniel J. Asay, Timothy M. O'Keefe, Randy L. Buckner, Ross W Mair. (2025). *DWIQC: A Python package for preprocessing and quality assurance of diffusion weighted images*. Journal of Open Source Software. [DOI](https://doi.org/10.21105/joss.06974)

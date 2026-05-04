@@ -56,7 +56,3 @@ Fiji contributes to whole-brain modeling workflows in several concrete ways that
 - [[freesurfer]] — cortical reconstruction and [[parcellation]]
 - [[nipype]] — Python pipeline framework for neuroimaging
 - [[spm]] — statistical parametric mapping toolbox
-
-## References
-
-1. (authors unknown). *[[neurodesk]]: an accessible, flexible and portable data analysis environment for reproducible neuroimaging*.

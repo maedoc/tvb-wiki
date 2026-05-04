@@ -1,12 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- '[Gleeson et al. 2019, Neuron](https://doi.org/10.1016/j.neuron.2019.05.019)'
-- '[Gleeson et al. 2010, PLoS Comput Biol](https://doi.org/10.1371/journal.pcbi.1000815)'
-- '[Cannon et al. 2014, Front Neuroinform](https://doi.org/10.3389/fninf.2014.00079)'
-- '[Davison et al. 2009, Front Neuroinform](https://doi.org/10.3389/neuro.11.011.2008)'
-- '[Sanz Leon et al. 2013, Front Neuroinform](https://doi.org/10.3389/fninf.2013.00010)'
-- '[McDougal et al. 2017, J Comput Neurosci](https://doi.org/10.1007/s10827-016-0623-7)'
 - raw/papers/sanz-leon-2013.md
 tags:
 - software-neuroml

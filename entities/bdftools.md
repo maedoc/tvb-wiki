@@ -64,13 +64,3 @@ Second, BioSemi amplifiers do not perform hardware common-mode noise rejection i
 Third, the status channel encoding differs between BioSemi systems and can include both trigger codes and system status bits that are partially documented—the community lacks a standardized parser for all edge cases in the system codes channel. This has been noted in discussions within the pyedflib repository and related GitHub issues.
 
 Finally, while the Python ecosystem provides multiple excellent options for BDF reading, the lack of a unified "bdftools" package means users must navigate which library best suits their specific needs (pybdf for focused BioSemi access versus pyedflib for general EDF/BDF interoperability versus MNE-Python for integrated preprocessing), and documentation of standard practices for integrating BDF-derived EEG data into [[whole-brain-modeling]] workflows like TVB remains sparse.
-
-## References
-
-1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
-2. B. Bein (2018). *pyedflib: Python library for reading and writing EDF/BDF files*. Journal of Open Source Software. [DOI](https://doi.org/10.21105/joss.00899)
-3. Gramfort et al. (2013). *MEG and EEG: From Acquisition to Analysis*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fnins.2013.00010)
-4. (authors unknown). *BioSemi BDF Format Specification*.
-5. T. R. Oostendorp and J. C. van den Oever (referenced in methodology literature). *Reference Choice Affects EEG Connectivity Dynamics*. Clinical Neurophysiology.
-6. (authors unknown). *Status Channel Parsing in BioSemi BDF Files*.
-7. Samuele Carcagno. *pybdf: Python library for BioSemi BDF files*.

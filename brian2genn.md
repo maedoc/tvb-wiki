@@ -13,7 +13,7 @@ Brian2GeNN is a software bridge that connects the [[brian2|Brian2]] spiking neur
 
 Brian2GeNN was developed by Marcel Stimberg, Dan F. M. Goodman, and Thomas Nowotny, with the initial public release in 2019. The project emerged from the intersection of two established software efforts in computational neuroscience: Brian2, a Python-based spiking neural network simulator developed by Romain Brette and Goodman at the École Normale Supérieure in Paris, and GeNN, a GPU code generation framework originally created by Nowotny and colleagues at the University of Sussex. The motivation for Brian2GeNN was to enable neuroscientists to access the performance benefits of GPU acceleration without abandoning Brian2's accessible Python modeling paradigm.
 
-The first major version (Brian2GeNN 1.0) was released alongside the publication of the primary reference paper in Frontiers in Neuroinformatics, demonstrating the tool's capability to accelerate Brian2 simulations by orders of magnitude [[stimberg-2019-brian2genn]]. Subsequent releases have expanded model compatibility and improved integration with newer versions of both Brian2 and GeNN.
+The first major version (Brian2GeNN 1.0) was released alongside the publication of the primary reference paper in Frontiers in Neuroinformatics, demonstrating the tool's capability to accelerate Brian2 simulations by orders of magnitude [[brian2genn]]. Subsequent releases have expanded model compatibility and improved integration with newer versions of both Brian2 and GeNN.
 
 ## Motivation and Context
 

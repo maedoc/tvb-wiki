@@ -56,9 +56,3 @@ As of 2026, SONATA remains primarily oriented toward point-neuron architectures.
 - Arkhipov A, Gouwens NW, Billeh YN, Gratiy S, Iyer R, Wei Z, et al. (2018). Visual physiology of the layer 4 cortical circuit in silico. PLoS Computational Biology, 14(11), e1006535.
 
 - Markram H, Muller E, Ramaswamy S, Reimann MW, et al. (2015). Reconstruction and Simulation of Neocortical Microcircuitry. Cell, 163(2), 456-492.
-
-## References
-
-1. (authors unknown). *[[geppetto]] - a reusable modular open platform for exploring neuroscience data and models*.
-2. Duy Pham, Gene J. Yu, G. Lazzi, Jean-Marie C Bouteiller. (2026). *A spatially discretized convolutional neural mass model for studying meso-scale spatio-temporal transformations in the rat hippocampus*. Research Square. [DOI](https://doi.org/10.21203/rs.3.rs-9306977/v1)
-3. (authors unknown). *[[lean|GLEAN]]: Group Level Exploratory Analysis of Networks*.

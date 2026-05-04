@@ -39,7 +39,3 @@ The primary software reference for GLEAN is the repository maintained by OHBA (B
 ## Related Software
 
 GLEAN is closely related to several other M/EEG analysis frameworks. The [[fieldtrip]] toolbox provides comprehensive preprocessing and source reconstruction capabilities that can feed into GLEAN's analysis pipeline. [[eeglab]] offers an alternative MATLAB-based environment for ICA decomposition of EEG data. For Python users, [[mne-python]] provides equivalent functionality for HMM and ICA-based analysis of electrophysiological data. The [[neural-mass-models]] approach in whole-brain modeling shares GLEAN's interest in frequency-specific dynamics, though at the level of biophysically parameterized neural masses rather than empirical decomposition. The dynamic causal modeling framework ([[dynamic-causal-modeling]]) similarly focuses on frequency-domain analysis of M/EEG data but from a model-based rather than data-driven perspective.
-
-## References
-
-1. (authors unknown). *GLEAN: Group Level Exploratory Analysis of Networks*.

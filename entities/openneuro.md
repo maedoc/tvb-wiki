@@ -40,9 +40,3 @@ OpenNeuro operates within a broader ecosystem of tools and platforms that suppor
 - Gorgolewski, K. J., et al. (2017). BIDS apps: Improving ease of use, functionality, and robustness for [[neuroimaging]]. *NeuroImage*.
 - Esteban, O., et al. (2019). fMRIPrep: A robust preprocessing pipeline for functional MRI. *Nature Methods*.
 -钮文艳等. (2019). OpenNeuro: A flexible and sustainable platform for reproducible neuroimaging research. *Scientific Data*.
-
-## References
-
-1. Zhishun Wang, Feng Liu, Rachel Marsh, Gaurav H. Patel, J. Grinband. (2026). *MEPrep: A robust pipeline for multi-echo fMRI denoising and preprocessing*. Imaging Neuroscience. [DOI](https://doi.org/10.1162/IMAG.a.1198)
-2. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
-3. Muhammad Nabi Yasinzai, R. Mito, M. Pedersen. (2025). *BrainScape: An open-source framework for integrating and preprocessing anatomical MRI datasets*. Imaging neuroscience. [DOI](https://doi.org/10.1162/IMAG.a.944)

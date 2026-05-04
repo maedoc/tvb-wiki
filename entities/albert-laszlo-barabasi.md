@@ -44,12 +44,3 @@ Barabási's research covers:
 
 ## Collaborators
 - Réka Albert – Scale-free networks
-
-## References
-
-1. (authors unknown). *Emergence of Scaling in Random Networks*.
-2. (authors unknown). *Collective Dynamics of 'Small-World' Networks*.
-3. (authors unknown). *Networks of the Brain*.
-4. Kashyap Gudibanda, J. Fousek, S. Petkoski, V. Jirsa. (2026). *The role of [[connectivity]] for the degeneracy of the brain’s [[resting-state]] dynamics*. Journal of [[computational-neuroscience]]. [DOI](https://doi.org/10.1007/s10827-025-00919-0)
-5. Chathranee Jayathilaka, Mark B. Flegg. *Mathematical modeling of biochemical signal propagation in many-stage enzymatic pathways*. [Link](https://arxiv.org/abs/2604.15716)
-6. Valerio Barabino, F. Callegari, Sérgio Martinoia, P. Massobrio. (2026). *Hierarchical afferent connectivity drives population-wide bursting dynamics in a computational model of human-derived excitatory neuronal networks*. Journal of Neuroscience. [DOI](https://doi.org/10.1523/jneurosci.0912-25.2026)
