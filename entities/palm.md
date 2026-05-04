@@ -55,3 +55,9 @@ The foundational PALM paper describes the permutation-based inference framework 
 PALM occupies a unique position at the intersection of [[neuromorpho-toolkit]] analysis, statistical inference, and [[computational-neuroscience]]. Its permutation framework builds on the classical work on randomization tests, while its Bayesian capabilities draw on the [[free-energy-principle]] framework developed by Karl Friston. The tool is particularly relevant for researchers working on [[brain-network]] analysis, [[dynamic-causal-modeling]], and [[whole-brain-modeling]] applications where rigorous statistical inference is required.
 
 The development of PALM represents a broader trend in [[neuroimaging]] toward non-parametric, permutation-based methods that avoid the normality assumptions underpinning classical parametric inference. This shift was motivated by the recognition that [[fmri]] data exhibit spatial autocorrelation, limited sample sizes, and heterogeneous variance structures that violate standard parametric assumptions. By generating empirical null distributions through permutation, PALM provides valid inference even under these challenging conditions, making it a cornerstone tool for contemporary [[neuroimaging]] research.
+
+## References
+
+1. (authors unknown). *Permutation inference for the general linear model*.
+2. (authors unknown). *BRAPH: A Pipeline for Brain Connectivity Analysis*.
+3. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2018.05.040)

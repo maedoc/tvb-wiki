@@ -1,10 +1,22 @@
 ---
-title: HCP Dataset
 created: 2026-04-20
-updated: 2026-05-04
+sources:
+- raw/papers/van-essen-2013.md
+- raw/papers/barch-2013.md
+- raw/papers/smith-2013-hcp.md
+tags:
+- database-hcp
+- neuroimaging-fmri
+- neuroimaging-dti
+- connectomics
+- structural-connectivity
+- functional-connectivity
+- resting-state
+- task-based
+- dataset
+title: HCP Dataset
 type: concept
-tags: [database-hcp, neuroimaging-fmri, neuroimaging-dti, connectomics, structural-connectivity, functional-connectivity, resting-state, task-based, dataset]
-sources: [raw/papers/van-essen-2013.md, raw/papers/barch-2013.md, raw/papers/smith-2013-hcp.md]
+updated: '2026-05-04'
 ---
 
 The **HCP Dataset** refers to the publicly released neuroimaging data from the Human Connectome Project (HCP), a landmark initiative to map the structural and functional connectivity of the healthy adult human brain. Unlike its parent initiative (the human-connectome-project), which encompasses the broader research program, the HCP Dataset specifically denotes the curated collection of multimodal brain imaging scans acquired using standardized protocols and made openly available to the neuroscience community. The dataset comprises structural MRI, task-based functional MRI, resting-state functional MRI, and diffusion imaging data from approximately 1200 healthy young adults [1], representing the largest and most comprehensively characterized neuroimaging repository of its kind when first released.
@@ -30,3 +42,9 @@ The HCP Dataset serves as a critical data source for [[the-virtual-brain]] (TVB)
 ## Related Concepts
 
 The HCP Dataset intersects with numerous concepts in the [[connectomics]] and neuroimaging domains. It provides the empirical basis for [[structural-connectivity]] reconstruction, serves as the source data for [[functional-connectivity]] analyses, and supports both [[resting-state]] and [[task-based]] research paradigms. The dataset's multi-modal nature enables integration of [[diffusion-imaging]]-derived tractography with [[fmri]]-based functional dynamics, supporting [[effective-connectivity]] analyses and [[dynamic-causal-modeling]] approaches. Alternative large-scale neuroimaging resources include [[abide]] for autism research and the [[uk-biobank]] for population-level studies, though these differ in demographic composition and acquisition protocols.
+
+## References
+
+1. (authors unknown). *The WU-Minn Human Connectome Project: An Overview*.
+2. (authors unknown). *Function in the Human Connectome: Task-fMRI and Individual Differences in Behavior*.
+3. (authors unknown). *Resting-State fMRI in the Human Connectome Project*.

@@ -55,3 +55,9 @@ OSI computation is implemented in several [[computational-neuroscience]] package
 ## Open Questions
 
 Despite its utility, the precise relationship between OSI values derived from simplified neural mass models and empirical measurements of oscillation stability (e.g., inter-trial coherence in [[eeg]] or [[meg]]) remains an active area of investigation. Future work may establish tighter links between model-based OSI and clinical biomarkers for neurological and psychiatric disorders. Additionally, extending OSI to characterize stability of quasi-periodic or chaotic dynamics—rather than strict periodic oscillations—would broaden its applicability to [[brain-dynamics]] across the entire dynamical spectrum.
+
+## References
+
+1. Cristiana Dimulescu, Ronja Strömsdörfer, Agnes Flöel, Klaus Obermayer. (2025). *On the robustness of the emergent spatiotemporal dynamics in biophysically realistic and phenomenological whole-brain models at multiple network resolutions*. [Link](https://arxiv.org/abs/2504.17491)
+2. Francesca Castaldo, Raul de Palma Aristides, Pau Clusella, Jordi Garcia-Ojalvo, Giulio Ruffini. (2025). *Rosetta Stone of Neural Mass Models*. [Link](https://arxiv.org/abs/2512.10982)
+3. Jelena Trajkovic, G. Ricci, G. Pirazzini, L. Tarasi, Francesco Di Gregorio, E. Magosso, Mauro Ursino, V. Romei. (2025). *Aberrant Functional Connectivity and Brain Network Organization in High-Schizotypy Individuals: An Electroencephalography Study*. Schizophrenia bulletin. [DOI](https://doi.org/10.1093/schbul/sbaf004)

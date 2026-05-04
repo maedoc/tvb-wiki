@@ -46,3 +46,9 @@ The toolbox stores results in structured formats that integrate with EEGLAB's da
 ## Related Software
 
 Limo belongs to a broader ecosystem of EEG/MEG analysis tools that share similar philosophical commitments to mass univariate analysis and open-source distribution. **[[eeglab]]** provides the primary integration platform, including the data structures, visualization tools, and preprocessing pipelines that Limo extends. **Fieldtrip**, developed at the Donders Institute, offers comparable mass univariate capabilities with additional features for source analysis and beamforming, representing the main alternative to Limo for EEG/MEG statistical modeling. **Mne Python** provides a Python-based alternative implementing similar functionality, with growing adoption in the research community. Within the TVB ecosystem, Limo's output can inform **[[parameter-estimation]]** procedures and **[[model-validation]]** workflows, where empirical EEG features derived from Limo are compared against simulated activity. Tools for **[[connectivity]]** estimation such as **[[eegnet]]** or **[[sift]]** complement Limo's analysis by providing frequency-domain and information-theoretic connectivity measures.
+
+## References
+
+1. Xiaobo Liu. (2026). *MLE-Toolbox: An Open-Source Toolbox for Comprehensive EEG and MEG Data Analysis*. [Link](https://www.semanticscholar.org/paper/e7aaa4f4bb01e70064493684b4500a950f83460f)
+2. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+3. Woodman et al. (2014). *GraphVar: A user-friendly toolbox for comprehensive graph analyses of functional brain connectivity*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2014.07.015)

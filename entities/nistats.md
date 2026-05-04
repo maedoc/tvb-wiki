@@ -48,3 +48,8 @@ Nistats shares conceptual and data-processing lineage with several other Python 
 - Smith, S. M., Jenkinson, M., Woolrich, M. W., Beckmann, C. F., Behrens, T. E., Johansen-Berg, H., ... & Matthews, P. M. (2004). Advances in functional and structural MR image analysis and implementation as FSL. *Neuroimage*, 23, S208-S219. [[citation:https://www.sciencedirect.com/science/article/pii/S1053811904003933]]
 - Abraham, A., Pedregosa, F., Eickenberg, M., Gervais, P., Mueller, A., Kossaifi, J., ... & Gramfort, A. (2014). Machine learning for neuroimaging with scikit-learn. *Frontiers in Neuroinformatics*, 8, 14. [[citation:https://www.frontiersin.org/articles/10.3389/fninf.2014.00014/full]]
 - Gorgolewski, K., Esteban, O., Markiewicz, C. J., Ziegler, E., Gutierrez, D. P., Hutton, C., ... & Poldrack, R. (2018). fmriprep: A robust preprocessing pipeline for functional MRI. *Nature Methods*, 15(11), 875-878. [[citation:https://www.nature.com/articles/s41592-018-0055-6]]
+
+## References
+
+1. (authors unknown). *Statistical parametric maps in functional imaging: A general linear approach*.
+2. (authors unknown). *Machine learning for neuroimaging with scikit-learn*.

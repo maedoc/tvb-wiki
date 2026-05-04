@@ -40,3 +40,7 @@ Open Source Brain operates within a broader ecosystem of neuroscience software t
 ## Key Papers
 
 The foundational paper describing Open Source Brain was published in *Neuron* (Gleeson et al., 2019), outlining the architecture, validation framework, and growth trajectory of the model repository. This paper demonstrated OSB's capabilities for browser-based visualization, analysis, and simulation of standardized neuronal models. The original NeuroML specification paper (Gleeson et al., 2010) established the standardized model description language that underlies OSB's interoperability. Subsequent work detailed the integration of OSB with [[ebrains]] and the development of the validation testing infrastructure. The platform has also been referenced in methodological reviews of computational neuroscience tooling, including comparisons between Neuroml and alternative standards such as NineML and PyNN (Davison et al., 2009). Additionally, OSB has been cited in discussions of reproducibility and best practices in computational neuroscience (McDougal et al., 2017), particularly in comparisons with Modeldb for model archiving and reuse.
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
