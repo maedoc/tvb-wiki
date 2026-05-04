@@ -14,7 +14,7 @@ tags:
 - software-visualization
 title: Elastix
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 ## Overview
@@ -44,3 +44,9 @@ Users building connectome-based models should also consult the methods literatur
 ## Related Software
 
 Elastix occupies a similar functional niche as [[ants]] and [[fsl]] for image registration tasks, with each tool having distinct strengths. [[fsl]] provides the FLIRT tool for linear registration and FNIRT for non-linear registration within a comprehensive neuroimaging analysis suite. [[ants]] offers symmetric diffeomorphic normalization and extensive tools for template construction. Elastix is distinguished by its modular parameter framework and strong performance on multi-modal registration problems. For visualization of registered results, users often employ [[fsleyes]] (part of [[fsl]]), [[itk-snap]], or [[freeview]] (from [[freesurfer]]), and the resulting connectivity matrices can be analyzed using the [[brain-connectivity-toolbox]].
+
+## References
+
+1. Avants et al. (2011). *A reproducible evaluation of ANTs similarity metric performance in brain image registration*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2010.09.025)
+2. Mohammadtaha Parsayan, S. Andalib, T. L. Andersen, Habib Ganjgahi, P. Høilund-Carlsen, Abass Alavi, Mojtaba Zarei. (2025). *Odense-Oxford PET Image Analysis (OPETIA): An FSL-based toolbox for multimodal neuroimaging*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2025.121278)
+3. Avants et al. (2008). *Symmetric diffeomorphic image registration with cross-correlation*. Medical Image Analysis. [DOI](https://doi.org/10.1016/j.media.2007.06.004)

@@ -19,7 +19,7 @@ tags:
 - parameter-estimation
 title: Forward Model
 type: concept
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 A **Forward Model** in computational neuroscience is a mathematical framework that predicts observable electrophysiological or hemodynamic signals from underlying neural dynamics. It constitutes the generative component of brain modeling: given a specification of neural states (such as firing rates of [[neural-mass-models|neural mass]] populations or spiking activity of [[spiking-neural-networks|detailed neuron models]]), the forward model produces synthetic measurements that would be captured by neuroimaging modalities such as [[eeg|EEG]], [[meg|MEG]], or [[fmri|fMRI]]. In this sense, forward models answer the question: "What would the brain look like from the outside if these particular neural dynamics were occurring?"
@@ -65,3 +65,12 @@ Despite substantial progress, forward modeling in neuroimaging faces several ope
 ## Related Concepts
 
 Forward models connect to several other key concepts in the wiki. They are the generative counterpart to [[source-localization|source localization]] algorithms, which attempt to solve the inverse problem. They provide the observation model for [[dynamic-causal-modeling|DCM]] and for related [[parameter-estimation|parameter estimation]] frameworks. The [[hemodynamic-response-function]] is itself a forward model component for fMRI. Forward models are used extensively in [[the-virtual-brain|The Virtual Brain]] and related [[whole-brain-simulators|whole-brain simulators]] to produce virtual neuroimaging data from large-scale network dynamics.
+
+## References
+
+1. (authors unknown). *Large-scale recording of neuronal ensembles*.
+2. Peter Yongho Kim, Juhyeon Park, Jungwoo Park, Jubin Choi, Jungwoo Seo, Jiook Cha, Taesup Moon. (2026). *Can Natural Image Autoencoders Compactly Tokenize fMRI Volumes for Long-Range Dynamics Modeling?*. [Link](https://arxiv.org/abs/2604.03619)
+3. Sangyoon Bae, Miruna Oprescu, David Keetae Park, Shinjae Yoo, Jiook Cha. *Recovering Whole-Brain Causal Connectivity under Indirect Observation with Applications to Human EEG and fMRI*. [Link](https://arxiv.org/abs/2602.09034)
+4. (authors unknown). *Variational Free Energy and the Laplace Approximation*.
+5. Rosa Maria Delicado, Gemma Huguet, Pau Clusella. (2025). *Emergent Spatiotemporal Dynamics in Large-Scale Brain Networks with Next Generation Neural Mass Models*. [Link](https://arxiv.org/abs/2512.03907)
+6. Christopher Gabaldon, Adria Mulero, Rong Wang, Daniel A. Martin, Sabrina Camargo, Qian-Yuan Tang, Ignacio Cifre, Changsong Zhou, Dante R. Chialvo. (2026). *Data-driven inference of brain dynamical states from the r-spectrum of correlation matrices*. [Link](https://arxiv.org/abs/2601.03796)

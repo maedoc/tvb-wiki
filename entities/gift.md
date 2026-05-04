@@ -14,7 +14,7 @@ tags:
 - source-separation
 title: GIFT (Group ICA of fMRI Toolbox)
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 # GIFT (Group ICA of fMRI Toolbox)
@@ -69,3 +69,10 @@ Several methodological debates surround ICA application in fMRI. The optimal num
 - Allen, E. A., Erhardt, E. B., Damaraju, E., Gruner, W., Segall, J. M., Silva, R. F., ... & Calhoun, V. D. (2011). A baseline for the multivariate comparison of resting‑state networks. *Frontiers in Neuroscience*, 5, 17. [^allen-2011]
 - Erhardt, E. B., Allen, E. A., Wei, Y., Eichele, T., & Calhoun, V. D. (2012). SimTB, a simulation toolbox for fMRI data under a model of spatial stationarity. *Psychophysiology*, 49(6), 853–865. [^erhardt-2012]
 - Correa, N., Adali, T., Li, Y. O., & Calhoun, V. D. (2007). Canonical correlation analysis for data fusion and group inferences: Examining applications of imaging genetics. *IEEE Signal Processing Magazine*, 24(3), 86–94. [^correa-2007]
+
+## References
+
+1. M. M. Esfahani, Vladislav Esaulov, Hemanth Venkateswara, V. Calhoun. (2025). *NEUROMARK DFNC PATTERNS: A FULLY AUTOMATED PIPELINE TO ESTIMATE SUBJECT-SPECIFIC STATES FROM RS-FMRI DATA VIA CONSTRAINED ICA OF DFNC IN +100K SUBJECTS*. bioRxiv. [DOI](https://doi.org/10.1101/2025.01.29.635539)
+2. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
+3. (authors unknown). *Comparing Dynamic Causal Models*.
+4. (authors unknown). *GLEAN: Group Level Exploratory Analysis of Networks*.

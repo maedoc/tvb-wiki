@@ -75,3 +75,7 @@ Additionally, Brian2GeNN currently supports single-GPU execution only. Multi-GPU
 ## Related Software
 
 Brian2GeNN is part of a rich ecosystem of neural simulation tools, each with different strengths. [[brian2]] is the Python-based spiking neural network simulator that serves as the frontend for Brian2GeNN, providing the modeling interface that users interact with directly [[brian2]]. The [[brian2cuda]] project offers an alternative GPU backend for Brian2 that uses CUDA directly rather than through GeNN, potentially offering different performance characteristics. [[genn]] itself is the underlying code generation framework that transforms model specifications into optimized CUDA executables [[genn]]. [[nest]] is a widely-used simulator for spiking networks that has its own GPU acceleration effort through the NEST GPU project [[nest]]. The [[neuron]] simulator provides another established option for neuron and network simulations. [[spinnaker]] represents a fundamentally different approach using custom neuromorphic hardware rather than GPU acceleration. Finally, [[tvb-nest]] provides integration between TVB and NEST, analogous to how Brian2GeNN connects Brian2 with GeNN.
+
+## References
+
+1. Gewaltig & Diesmann (2007). *NEST (NEural Simulation Tool)*. Scholarpedia. [DOI](https://doi.org/10.4249/scholarpedia.1430)

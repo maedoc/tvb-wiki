@@ -14,7 +14,7 @@ tags:
 - paper-methods
 title: Resting-State fMRI
 type: concept
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 Resting-state functional magnetic resonance imaging (rs-fMRI) is a neuroimaging technique that measures spontaneous low-frequency (<0.1 Hz) fluctuations in the blood-oxygen-level-dependent (BOLD) signal during task‑free conditions. By correlating these intrinsic fluctuations across brain regions, researchers can map the brain's [[functional-connectivity]]—the statistical dependencies between regional time series that reveal the organization of coherent neural networks in the absence of explicit cognitive demands. This approach, pioneered by [[bharat-biswal]] in 1995, has become a cornerstone of modern neuroscience for understanding the brain's intrinsic functional architecture and serves as the primary empirical target for [[whole-brain]] computational models. Common preprocessing pipelines often employ tools such as [[ciftify]] to convert volumetric fMRI data into surface‑based CIFTI format for subsequent connectivity analyses.
@@ -66,3 +66,12 @@ A persistent controversy in the field concerns global signal regression—a prep
 - [[spontaneous‑activity]] – Ongoing neural dynamics in the absence of tasks
 - [[mark-newman]]
 [[brainsmash]]
+
+## References
+
+1. (authors unknown). *Functional connectivity in the motor cortex of resting human brain using echo-planar MRI*.
+2. (authors unknown). *Spontaneous fluctuations in brain activity observed with functional magnetic resonance imaging*.
+3. (authors unknown). *Correspondence of the brain's functional architecture during activation and rest*.
+4. (authors unknown). *Functional Network Organization of the Human Brain*.
+5. (authors unknown). *A Default Mode of Brain Function*.
+6. Deco et al. (2013). *Resting brains never rest: computational insights into potential cognitive architectures*. Trends in Neurosciences. [DOI](https://doi.org/10.1016/j.tins.2013.09.002)

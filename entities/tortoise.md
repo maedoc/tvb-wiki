@@ -15,7 +15,7 @@ tags:
 - preprocessing
 title: TORTOISE
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 # TORTOISE
@@ -59,3 +59,9 @@ The transition to TORTOISEV4 represents a major architectural change, with the s
 ## Related Software
 
 TORTOISE complements and intersects with several other tools in the diffusion MRI ecosystem. The [[fsl]] package provides the [[fsl-randomise]] tool for tract-based statistics and includes the well-established EDDY module for motion and eddy-current correction. For tensor fitting and tractography, researchers often use [[mrtrix3]] or [[dipy]] in conjunction with TORTOISE-processed data. The [[dti-tk]] software provides alternative tensor-based registration tools, though it operates on different principles than the DR-TAMAS approach. The [[qsiprep]] offers an integrated preprocessing framework that incorporates elements of TORTOISE. For visualization of results, [[freesurfer]] and its associated tools can integrate with TORTOISE outputs for overlay and analysis purposes.
+
+## References
+
+1. L. Fisch, N. Winter, J. Goltermann, Carlotta B. C. Barkhau, D. Emden, J. Ernsting, M. Konowski, R. Leenings, T. Borgers, K. Flinkenflügel, D. Grotegerd, Anna Kraus, E. Leehr, S. Meinert, F. Stein, L. Teutenberg, F. Thomas-Odenthal, P. Usemann, M. Hermesdorf, H. Jamalabadi, Andreas Jansen, I. Nenadić, Benjamin Straube, T. Kircher, Klaus Berger, Benjamin Risse, U. Dannlowski, T. Hahn. (2026). *deepmriprep: voxel-based morphometry preprocessing via deep neural networks*. Nature Computational Science. [DOI](https://doi.org/10.1038/s43588-026-00953-7)
+2. Emmanuelle Renauld, Arnaud Boré, Charles Poirier, Alex Valcourt-Caron, Philippe Karan, Antoine Théberge, Guillaume Théaud, Manon Edde, P. Poulin, Gabriel Girard, Jean-Christophe Houde, A. Gagnon, Etienne St-Onge, Graham Little, Jon Haitz Legarreta, Stanislas Thoumyre, G. Grenier, Zineb El Yamani, Mario Ocampo Pineda, Matteo Battochio, Vincent Beaudoin, Alexandre Joanisse, Laurent Petit, F. Rheault, Maxime Descoteaux. (2026). *Tractography analysis with the scilpy toolbox*. Aperture Neuro. [DOI](https://doi.org/10.52294/001c.154022)
+3. Zhishun Wang, Feng Liu, Rachel Marsh, Gaurav H. Patel, J. Grinband. (2026). *MEPrep: A robust pipeline for multi-echo fMRI denoising and preprocessing*. Imaging Neuroscience. [DOI](https://doi.org/10.1162/IMAG.a.1198)

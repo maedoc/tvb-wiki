@@ -13,7 +13,7 @@ tags:
 - neuroml
 title: Boutiques
 type: entity
-updated: '2026-05-02'
+updated: '2026-05-04'
 ---
 
 ## Overview
@@ -53,3 +53,9 @@ Boutiques exists within a broader ecosystem of neuroscience software standardiza
 - Official Boutiques documentation: https://boutiques.github.io/
 - BApps tool registry: https://app.boutiquesandbox.org/
 - Boutiques GitHub repository: https://github.com/boutiques/boutiques
+
+## References
+
+1. Leon Martin, Konstantin Bülau, Marius Pille, Rico Schmitt, Christoph Hüttl, J. Meier, Halgurd Taher, Dionysios Perdikis, M. Schirner, L. Stefanovski, Petra Ritter. (2025). *The Virtual Brain Ontology: A Digital Knowledge Framework for Reproducible Brain Network Modeling*. bioRxiv. [DOI](https://doi.org/10.1101/2025.11.19.689211)
+2. Jure Demšar, Aleksij Kraljič, Andraž Matkovič, Samuel Brege, Lining Pan, Zailyn Tamayo, Clara Fonteneau, Markus Helmer, J. Ji, A. Anticevic, Cole Korponay, Melissa Salavrakos, M. Glasser, Lisa D. Nickerson, Youngsun T. Cho, G. Repovš. (2025). *QuNex Recipes: Executable, Human-Readable Workflows for Reproducible Neuroimaging Research*. bioRxiv. [DOI](https://doi.org/10.1101/2025.11.08.687330)
+3. R. A. Benn, Ting Xu, R. Mars, Magdalena Boch, Léa Roumazeilles, K. Heuer, Roberto Toro, D. Margulies, J. Manzano-Patrón, Paula Montesinos, C. Galán-Arriola, G. López-Martín, J. Sanchez-González, E. P. Duff, Borja Ibáñez. (2025). *Precon_all: A species-agnostic automated pipeline for non-human cortical surface reconstruction*. bioRxiv. [DOI](https://doi.org/10.1101/2025.04.16.649072)

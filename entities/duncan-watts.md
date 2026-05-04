@@ -9,7 +9,7 @@ tags:
 - connectomics
 title: Duncan J. Watts
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 # Duncan J. Watts
@@ -63,3 +63,8 @@ In the context of [[whole-brain-modeling]] and computational neuroscience, Watts
 - [[clustering-coefficient]] – Measure of local [[connectivity]] density
 - [[path-length]] – Average shortest path between nodes in a network
 - [[network-hubs]] – Highly connected nodes that play central roles
+
+## References
+
+1. (authors unknown). *Collective Dynamics of 'Small-World' Networks*.
+2. (authors unknown). *Emergence of Scaling in Random Networks*.

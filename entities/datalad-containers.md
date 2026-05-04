@@ -14,7 +14,7 @@ tags:
 - software-bids
 title: Datalad Containers
 type: entity
-updated: '2026-05-01'
+updated: '2026-05-04'
 ---
 
 Datalad Containers is an extension to the [[datalad]] data management framework that enables packaging, sharing, and running analysis software within containerized environments. The extension bridges the gap between reproducible data versioning and reproducible computational environments by allowing researchers to associate specific software containers with datasets and execute them seamlessly. This capability is particularly valuable in computational neuroscience and neuroimaging, where complex pipelines involving multiple software tools (such as [[freesurfer]], [[fsl]], [[afni]], and [[mrtrix3]]) must be executed with exact versions to ensure reproducibility across experiments.
@@ -54,3 +54,10 @@ DataLad Containers assumes familiarity with the DataLad workflow, which has a le
 - **Gorgolewski et al., 2017** — "Docker: an open source container for science." Background on containerization in scientific workflows.
 - **Esteban et al., 2019** — "fMRIprep: a robust preprocessing pipeline for functional MRI." Example of containerized [[neuroimaging]] pipelines that inspired similar approaches in the community.
 - **Ricci et al., 2020** — "NeuroDesk: flexible and accessible data analysis for reproducible neuroimaging." Describes the ready-to-use container approach as an alternative to user-managed containers.
+
+## References
+
+1. Emmanuelle Renauld, Arnaud Boré, Charles Poirier, Alex Valcourt-Caron, Philippe Karan, Antoine Théberge, Guillaume Théaud, Manon Edde, P. Poulin, Gabriel Girard, Jean-Christophe Houde, A. Gagnon, Etienne St-Onge, Graham Little, Jon Haitz Legarreta, Stanislas Thoumyre, G. Grenier, Zineb El Yamani, Mario Ocampo Pineda, Matteo Battochio, Vincent Beaudoin, Alexandre Joanisse, Laurent Petit, F. Rheault, Maxime Descoteaux. (2026). *Tractography analysis with the scilpy toolbox*. Aperture Neuro. [DOI](https://doi.org/10.52294/001c.154022)
+2. Zhishun Wang, Feng Liu, Rachel Marsh, Gaurav H. Patel, J. Grinband. (2026). *MEPrep: A robust pipeline for multi-echo fMRI denoising and preprocessing*. Imaging Neuroscience. [DOI](https://doi.org/10.1162/IMAG.a.1198)
+3. A. Dehsarvi, Lukas Frontzkowski, Anna Dewenter, Michael Schöll, N. Franzmeier. (2025). *ADprep – A Fully‐Automated Software for Large‐scale Multimodal MRI and PET Imaging Workflows*. Alzheimer's & Dementia. [DOI](https://doi.org/10.1002/alz70856_101373)
+4. (authors unknown). *Neurodesk: an accessible, flexible and portable data analysis environment for reproducible neuroimaging*.

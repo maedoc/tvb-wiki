@@ -16,7 +16,7 @@ tags:
 - tractography
 title: FastSurfer
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 # FastSurfer
@@ -120,3 +120,13 @@ Demonstrated large-scale deployment processing 10,000+ UK Biobank subjects, vali
 - [[MRtrix3]] — Diffusion MRI processing and tractography for structural connectivity
 - [[NiftyReg]] — Medical image registration library for atlas-based segmentation
 - [[Desikan-Killiany Atlas]] — Standard 68-region cortical parcellation included in FastSurfer outputs
+
+## References
+
+1. Shawn T. Schwartz, Haopei Yang, Alice M. Xue, M. He. (2025). *eyeris: A flexible, extensible, and reproducible pupillometry preprocessing framework in R*. bioRxiv. [DOI](https://doi.org/10.1101/2025.06.01.657312)
+2. Thomas Sanchez, Gerard Mart'i-Juan, David Meunier, M. A. Ballester, Oscar Camara, Gemma Piella, M. Cuadra, G. Auzias. (2025). *Fetpype: An Open-Source Pipeline for Reproducible Fetal Brain MRI Analysis*. [Link](https://www.semanticscholar.org/paper/b1155c0f0a55def1383ea0895df9d4a755597e00)
+3. Muhammad Nabi Yasinzai, R. Mito, M. Pedersen. (2025). *BrainScape: An open-source framework for integrating and preprocessing anatomical MRI datasets*. Imaging neuroscience. [DOI](https://doi.org/10.1162/IMAG.a.944)
+4. Olga M. Sigalova, Alexandra Pančíková, Julie De Man, K. Theunis, Gert J. Hulselmans, V. Konstantakos, Bram Stuyven, Anton De Brabandere, Jarne Geurts, A. Mikorska, Shinjini Mukherjee, S. Abouelasrar Salama, K. Vandereyken, K. Davie, Lukas Mahieu, C. Adler, T. Beach, G. Serrano, Thierry Voet, J. Demeulemeester, S. Aerts. (2026). *Modeling cis-regulatory variation in human brain enhancers across a large Parkinson’s Disease cohort*. bioRxiv. [DOI](https://doi.org/10.64898/2026.03.15.711881)
+5. Haojian Huang, Chuanyu Qin, Yinchuan Li, Yingcong Chen. *Find, Fix, Reason: Context Repair for Video Reasoning*. [Link](https://arxiv.org/abs/2604.16243)
+6. Sima Soltanpour, Rachel Utama, Arnold Chang, Md Taufiq Nasseef, D. Madularu, Praveen Kulkarni, Craig F. Ferris, Chris Joslin. (2025). *SST-DUNet: Automated preclinical functional MRI skull stripping using Smart Swin Transformer and Dense UNet*. arXiv.org. [DOI](https://doi.org/10.48550/arXiv.2504.19937)
+7. (authors unknown). *GLEAN: Group Level Exploratory Analysis of Networks*.

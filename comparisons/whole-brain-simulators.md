@@ -21,7 +21,7 @@ tags:
 - spiking-neural-networks
 title: Whole Brain Simulators
 type: comparison
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 # Whole-Brain Simulation Platforms
@@ -106,3 +106,15 @@ Recent developments in the whole-brain simulation landscape indicate growing emp
 - [[tvb-vs-nest-vs-neuron]] — Detailed three-way platform comparison
 - [[neural-mass-models]] — Population-level brain modeling approach
 - [[computational-neuroscience]] — Broader field of neural simulation research
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Eppler et al. (2009). *PyNEST: A convenient interface to the NEST simulator*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/neuro.11.012.2008)
+3. Jordan et al. (2018). *Extremely scalable spiking neuronal network simulation code: from laptops to exascale computers*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2018.00002)
+4. Hines & Carnevale (1997). *The NEURON simulation environment*. Neural Computation. [DOI](https://doi.org/10.1162/neco.1997.9.6.1179)
+5. (authors unknown). *Towards a Statistical Theory of Learning and Generalization in Neural Networks*.
+6. Potjans & Diesmann (2014). *The cell-type specific cortical microcircuit: relating structure and activity*. Cerebral Cortex. [DOI](https://doi.org/10.1093/cercor/bhs358)
+7. (authors unknown). *Spontaneous fluctuations in brain activity observed with functional magnetic resonance imaging*.
+8. Leon Martin, Konstantin Bülau, Marius Pille, Rico Schmitt, Christoph Hüttl, J. Meier, Halgurd Taher, Dionysios Perdikis, M. Schirner, L. Stefanovski, Petra Ritter. (2025). *The Virtual Brain Ontology: A Digital Knowledge Framework for Reproducible Brain Network Modeling*. bioRxiv. [DOI](https://doi.org/10.1101/2025.11.19.689211)
+9. Timo Hofsähs, Marius Pille, Lucas Kern, Anuja Negi, J. Meier, Petra Ritter. (2026). *The Virtual Brain links transcranial magnetic stimulation evoked potentials and inhibitory neurotransmitter changes in major depressive disorder*. bioRxiv. [DOI](https://doi.org/10.1101/2024.11.25.622620)

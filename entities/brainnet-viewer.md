@@ -15,7 +15,7 @@ tags:
 - brain-parcellations
 title: BrainNet Viewer
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 ## Overview
@@ -52,3 +52,9 @@ See also: [[nilearn]] for Python-based brain visualization, [[brainvoyager]] for
 - **Zhang, J., et al.** (2014). BrainNet Viewer: A network visualization tool for human brain connectomics—updates. *Frontiers in Neuroscience*, 8, 119. [zhang2014brainnetome]
 - **Rubinov, M., & Sporns, O.** (2010). Complex network measures of brain connectivity: Uses and interpretations. *Current Opinion in Neurobiology*, 20(3), 663-670. [rubinov2010complex]
 - **Theis, M., et al.** (2016). Human [[connectome]] Project: The importance of being exchangeable. *Neuroinformatics*, 14(2), 157-166. [theis2016human]
+
+## References
+
+1. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
+2. (authors unknown). *Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems*.
+3. (authors unknown). *Functional Connectomics from Resting-State fMRI*.

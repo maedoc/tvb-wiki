@@ -11,7 +11,7 @@ tags:
 - brain-dynamics
 title: Nitime
 type: entity
-updated: '2026-05-02'
+updated: '2026-05-04'
 ---
 
 # Nitime
@@ -53,3 +53,9 @@ For simulation purposes, [[brian]] and [[brian2]] provide point-neuron-level sim
 A typical nitime workflow begins with loading time-series data—either from file or generated programmatically—and applying spectral decomposition to characterize oscillatory content. Researchers then compute connectivity metrics between regions of interest defined by a [[brain-parcellations]] such as the [[desikan-killiany-atlas]] or [[schaefer-atlas]], producing connectivity matrices that can be thresholded and analyzed.
 
 For [[effective-connectivity]] analysis, nitime's Granger causality routines have been applied to study directed information flow in [[resting-state]] networks and during task performance. The library's support for multivariate autoregressive models allows investigation of [[network-dynamics]] in the frequency domain, producing frequency-specific directed connectivity estimates that complement model-based approaches like [[dynamic-causal-modeling]]. These capabilities make nitime particularly valuable for researchers investigating the temporal dynamics of large-scale [[brain-network]] organization, whether in the context of [[epilepsy-modeling]], [[schizophrenia-models]], or studies of normal aging and [[alzheimers-modeling]].
+
+## References
+
+1. (authors unknown). *BRAPH: A Pipeline for Brain Connectivity Analysis*.
+2. Gramfort et al. (2013). *MEG and EEG: From Acquisition to Analysis*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fnins.2013.00010)
+3. (authors unknown). *Nighres: processing tools for high-resolution neuroimaging*.

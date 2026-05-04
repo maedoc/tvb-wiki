@@ -14,7 +14,7 @@ tags:
 - numerical-methods
 title: CVODES
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 # CVODES
@@ -90,3 +90,11 @@ The primary developers of CVODES include Alan Hindmarsh, Peter Brown, and Radu S
 - [Dynamical Systems Theory]([[dynamical-systems-theory]].md) — Mathematical framework that CVODES implements numerically
 - [Stochastic Differential Equations](stochastic-differential-equations.md) — CVODES handles stochastic variants through its solver framework
 - [Parameter Estimation](parameter-estimation.md) — CVODES sensitivity analysis enables gradient-based fitting of brain models
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Gianluca Gaglioti, Alessandra Cardinale, Cosimo Lupo, Thierry Nieus, Federico Marmoreo, Elena Focacci, Robin Gutzen, Michael Denker, Andrea Pigorini, Marcello Massimini, Simone Sarasso, Pier Stanislao Paolucci, Giulia De Bonis. *Emergent complexity and rhythms in evoked and spontaneous dynamics of human whole-brain models after tuning through analysis tools*. [Link](https://arxiv.org/abs/2509.12873)
+3. Rosa Maria Delicado, Gemma Huguet, Pau Clusella. (2025). *Emergent Spatiotemporal Dynamics in Large-Scale Brain Networks with Next Generation Neural Mass Models*. [Link](https://arxiv.org/abs/2512.03907)
+4. J. Bose. (2025). *Pendulum Model of Spiking Neurons*. arXiv.org. [DOI](https://doi.org/10.48550/arXiv.2507.22146)
+5. (authors unknown). *GLEAN: Group Level Exploratory Analysis of Networks*.

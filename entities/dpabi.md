@@ -8,7 +8,7 @@ tags:
 - software-brain-modeling
 title: DPABI
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 # DPABI
@@ -52,3 +52,9 @@ DPABI shares methodological foundations with several other neuroimaging toolboxe
 | Surface visualization | ✓ | ✗ | ✓ | ✓ |
 
 The choice between these tools often depends on user expertise, specific analysis requirements, and integration with other pipelines. DPABI remains particularly popular in the East Asian neuroscience community and among researchers prioritizing rapid GUI‑based analysis workflows.
+
+## References
+
+1. Wang, J., Wang, X., Xia, M., Liao, X., Evans, A., & He, Y. (2015). *GRETNA: a graph theoretical network analysis toolbox for MATLAB*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2015.04.016)
+2. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+3. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)

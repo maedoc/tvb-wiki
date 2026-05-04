@@ -13,7 +13,7 @@ tags:
 - brain-parcellations
 title: PyCortex
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 ## Overview
@@ -51,3 +51,11 @@ PyCortex operates within a broader ecosystem of neuroimaging visualization tools
 For volumetric visualization, [[freesurfer]]'s built‑in tools and [[fsl]] remain widely used, while [[nilearn]] provides Python‑native interfaces to both volume and surface‑based visualization within a machine‑learning‑focused framework. The [[brain‑dynamics‑toolbox]] and [[bctpy]] (Brain Connectivity Toolbox) complement PyCortex by providing analysis capabilities that precede visualization, enabling researchers to compute [[network‑dynamics]] metrics, perform [[community‑detection]], and analyze [[modularity]] before rendering results on cortical surfaces. For projects requiring integration with [[tvb]] simulations, researchers may use PyCortex alongside [[nilearn]] or matplotlib for complete analysis and visualization pipelines.
 
 Unlike specialized whole‑brain simulators such as TVB or tools designed for [[neural‑mass‑models]] implementation like [[brian2]] or [[nest]], PyCortex focuses exclusively on visualization and does not provide analysis, simulation, or modeling capabilities. This specialization allows the software to maintain a focused API and lightweight dependencies while providing robust visualization functions.
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. R. A. Benn, Ting Xu, R. Mars, Magdalena Boch, Léa Roumazeilles, K. Heuer, Roberto Toro, D. Margulies, J. Manzano-Patrón, Paula Montesinos, C. Galán-Arriola, G. López-Martín, J. Sanchez-González, E. P. Duff, Borja Ibáñez. (2025). *Precon_all: A species-agnostic automated pipeline for non-human cortical surface reconstruction*. bioRxiv. [DOI](https://doi.org/10.1101/2025.04.16.649072)
+3. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
+4. Emmanuelle Renauld, Arnaud Boré, Charles Poirier, Alex Valcourt-Caron, Philippe Karan, Antoine Théberge, Guillaume Théaud, Manon Edde, P. Poulin, Gabriel Girard, Jean-Christophe Houde, A. Gagnon, Etienne St-Onge, Graham Little, Jon Haitz Legarreta, Stanislas Thoumyre, G. Grenier, Zineb El Yamani, Mario Ocampo Pineda, Matteo Battochio, Vincent Beaudoin, Alexandre Joanisse, Laurent Petit, F. Rheault, Maxime Descoteaux. (2026). *Tractography analysis with the scilpy toolbox*. Aperture Neuro. [DOI](https://doi.org/10.52294/001c.154022)
+5. Amirreza Movahedin, Lennart P. L. Landsmeer, Christos Strydis. (2025). *HUMA: Heterogeneous, Ultra Low-Latency Model Accelerator for The Virtual Brain on a Versal Adaptive SoC*. Symposium on Field Programmable Gate Arrays. [DOI](https://doi.org/10.1145/3706628.3708875)

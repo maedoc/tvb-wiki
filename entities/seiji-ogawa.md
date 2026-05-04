@@ -10,7 +10,7 @@ tags:
 - neuroimaging-fmri
 title: Seiji Ogawa
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 # Seiji Ogawa
@@ -37,3 +37,10 @@ Ogawa's discovery transformed neuroscience by enabling non-invasive mapping of h
 - [[fmri]]
 - [[bold-signal]]
 - neuroimaging-fmri
+
+## References
+
+1. (authors unknown). *Brain magnetic resonance imaging with contrast dependent on blood oxygenation*.
+2. Mennahtullah Mabrouk, Reem Reda, Hana Hisham, Abdelrahman Hazem, Bola Hosny, Hossam Elsawaf, Saif Elaswad, Sameh Sherif. (2025). *A Hybrid Learning Approach for Detection of Autism Spectrum Disorder Using fMRI Data*. 2025 13th International Japan-Africa Conference on Electronics, Communications, and Computations (JAC-ECC). [DOI](https://doi.org/10.1109/JAC-ECC67970.2025.11417627)
+3. Chetan Gohil, Oliver M. Cliff, James M. Shine, Ben D. Fulcher, Joseph T. Lizier. (2026). *Estimating measures of information processing during cognitive tasks using functional magnetic resonance imaging*. [Link](https://arxiv.org/abs/2602.03240)
+4. Breno C. Bispo, Stefania Sardellitti, Juliano B. Lima, Fernando A. N. Santos. (2026). *Multimodal Higher-Order Brain Networks: A Topological Signal Processing Perspective*. [Link](https://arxiv.org/abs/2603.29903)

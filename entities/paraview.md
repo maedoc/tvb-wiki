@@ -18,7 +18,7 @@ tags:
 - connectomics
 title: ParaView
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 # ParaView
@@ -71,3 +71,9 @@ Despite its capabilities, ParaView's general-purpose nature means neuroscience r
 - Ayachit, U. (2015). *The ParaView Guide*. Kitware, Inc. — The definitive user manual and reference guide for ParaView.
 - Hanwell, M. D., et al. (2019). New capabilities in ParaView 5.7. *Electronic Imaging*, 2019, 1-8. — Describes recent feature developments including improved performance and new visualization algorithms.
 - Sanz-Leon, P., et al. (2013). The Virtual brain: a simulator of primate brain macrodynamics. *Scientific Reports*, 3, 2200. — Describes TVB simulation capabilities with discussion of export workflows for external visualization.
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Gianluca Gaglioti, Alessandra Cardinale, Cosimo Lupo, Thierry Nieus, Federico Marmoreo, Elena Focacci, Robin Gutzen, Michael Denker, Andrea Pigorini, Marcello Massimini, Simone Sarasso, Pier Stanislao Paolucci, Giulia De Bonis. *Emergent complexity and rhythms in evoked and spontaneous dynamics of human whole-brain models after tuning through analysis tools*. [Link](https://arxiv.org/abs/2509.12873)
+3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *Arbor-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)

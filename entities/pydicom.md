@@ -14,7 +14,7 @@ tags:
 - neuroimaging-dti
 title: PyDICOM
 type: entity
-updated: '2026-05-02'
+updated: '2026-05-04'
 ---
 
 ## Overview
@@ -66,3 +66,10 @@ The library's handling of anonymization deserves particular attention in researc
 2. **nibabel: Accessing a Plethora of Neuroimaging file formats** — This paper describes the NIfTI format ecosystem that PyDICOM often feeds into, establishing the relationship between DICOM ingestion and downstream format conversion[^nibabel-paper].
 
 3. **dcm2niix: A Cross Platform Tool for Converting DICOM to NIfTI** — Documents the complementary role of dcm2niix in neuroimaging pipelines, which often operates on data preprocessed via PyDICOM[^dcm2niix-paper].
+
+## References
+
+1. B. Bein (2018). *pyedflib: Python library for reading and writing EDF/BDF files*. Journal of Open Source Software. [DOI](https://doi.org/10.21105/joss.00899)
+2. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+3. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
+4. Emmanuelle Renauld, Arnaud Boré, Charles Poirier, Alex Valcourt-Caron, Philippe Karan, Antoine Théberge, Guillaume Théaud, Manon Edde, P. Poulin, Gabriel Girard, Jean-Christophe Houde, A. Gagnon, Etienne St-Onge, Graham Little, Jon Haitz Legarreta, Stanislas Thoumyre, G. Grenier, Zineb El Yamani, Mario Ocampo Pineda, Matteo Battochio, Vincent Beaudoin, Alexandre Joanisse, Laurent Petit, F. Rheault, Maxime Descoteaux. (2026). *Tractography analysis with the scilpy toolbox*. Aperture Neuro. [DOI](https://doi.org/10.52294/001c.154022)

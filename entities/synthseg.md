@@ -54,3 +54,10 @@ The foundational work on SynthSeg was published by Ben Billot and colleagues at 
 ## Related Software
 
 SynthSeg builds upon and relates to several established neuroimaging tools in the ecosystem. It performs a similar function to [freesurfer], the most widely used cortical reconstruction software, but without training data requirements. Compared to [fastsurfer], which accelerates freesurfer processing through deep learning while retaining the same anatomical model, SynthSeg takes a fundamentally different training approach. Other related segmentation tools include [brainsuite], [mindboggle], and [cat12], each offering distinct feature sets. For preprocessing, SynthSeg often complements tools like [fsl], [ants], and [elastix] that handle registration and normalization, while output segmentations may be visualized using [freesurfer]'s [freeview] or general neuroimaging viewers like [fsleyes].
+
+## References
+
+1. Wanting Zhang, Jinhua Yue, Bo Liu, Fugen Zhou. (2026). *MSCMH-Net: A multi-scale channel-mixing hybrid network for whole-brain segmentation.*. Neuroscience. [DOI](https://doi.org/10.1016/j.neuroscience.2026.03.022)
+2. Maya Iratni, Amirali Abdullah, Mariam Aldhaheri, Omar Elharrouss, Alaa A. Abd-alrazaq, Zahiriddin Rustamov, Nazar Zaki, Rafat Damseh. (2025). *Transformers for Neuroimage Segmentation: Scoping Review*. Journal of Medical Internet Research. [DOI](https://doi.org/10.2196/57723)
+3. S. Buoso, C. Stoeck, Sebastian Kozerke. (2025). *Automatic analysis of three-dimensional cardiac tagged magnetic resonance images using neural networks trained on synthetic data*. Journal of Cardiovascular Magnetic Resonance. [DOI](https://doi.org/10.1016/j.jocmr.2025.101869)
+4. Jon Haitz Legarreta, Zhou Lan, Yuqian Chen, Fan Zhang, Edward H. Yeterian, N. Makris, Jarrett Rushmore, Y. Rathi, L. O’Donnell. (2025). *Towards an Informed Choice of Diffusion MRI Image Contrasts for Cerebellar Segmentation*. bioRxiv. [DOI](https://doi.org/10.1002/hbm.70317)

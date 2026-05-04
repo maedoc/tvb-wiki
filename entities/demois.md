@@ -10,7 +10,7 @@ tags:
 - computational-neuroscience
 title: Demois
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 # Demois
@@ -67,3 +67,9 @@ Due to the unverified status of this entity, the following related pages from th
 
 - [[the-virtual-brain]] — Core whole-brain simulation engine
 - [[tvb-library]] — TVB's scientific library for custom model development
+
+## References
+
+1. Amirreza Movahedin, Lennart P. L. Landsmeer, Christos Strydis. (2025). *HUMA: Heterogeneous, Ultra Low-Latency Model Accelerator for The Virtual Brain on a Versal Adaptive SoC*. Symposium on Field Programmable Gate Arrays. [DOI](https://doi.org/10.1145/3706628.3708875)
+2. Leon Martin, Konstantin Bülau, Marius Pille, Rico Schmitt, Christoph Hüttl, J. Meier, Halgurd Taher, Dionysios Perdikis, M. Schirner, L. Stefanovski, Petra Ritter. (2025). *The Virtual Brain Ontology: A Digital Knowledge Framework for Reproducible Brain Network Modeling*. bioRxiv. [DOI](https://doi.org/10.1101/2025.11.19.689211)
+3. J. Meier, P. Triebkorn, M. Schirner, Petra Ritter. (2025). *Connectomes, simultaneous EEG-fMRI resting-state data and brain simulation results from 50 healthy subjects*. bioRxiv. [DOI](https://doi.org/10.1101/2024.04.17.589718)

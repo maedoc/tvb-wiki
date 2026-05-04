@@ -15,7 +15,7 @@ tags:
 - signal-processing
 title: Open Ephys
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 # Open Ephys
@@ -52,3 +52,10 @@ Open Ephys integrates naturally with the broader open-source electrophysiology e
 - Jun, H., Steinmetz, N. A., Siegle, J. H., Denman, D. J., Bauza, M., & Daie, K. (2017). Fully integrated silicon probes for large-scale neural recording. *Nature*, 544(7649), 333-338.
 - NWB Team. (2020). NWB: a data standard for neurophysiology. *Scientific Data*, 7(1), 216.
 - Spinelli, G., Sanz-Leon, P., & Jirsa, V. K. (2019). [[tvb|The Virtual Brain]]: a discrete [[forward-model]] to simulate whole brain dynamics. *bioRxiv*.
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. R. Lorenzi, Fulvia Palesi, C. Casellato, C. G. Gandini Wheeler-Kingshott, Egidio D’Angelo. (2025). *Region-specific mean field models enhance simulations of local and global brain dynamics*. bioRxiv. [DOI](https://doi.org/10.1038/s41540-025-00543-9)
+3. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI): A flexible and integrative toolkit for efficient probabilistic inference on virtual brain models*. bioRxiv. [DOI](https://doi.org/10.1101/2025.01.21.633922)
+4. Gianluca Gaglioti, Alessandra Cardinale, Cosimo Lupo, Thierry Nieus, Federico Marmoreo, Elena Focacci, Robin Gutzen, Michael Denker, Andrea Pigorini, Marcello Massimini, Simone Sarasso, Pier Stanislao Paolucci, Giulia De Bonis. *Emergent complexity and rhythms in evoked and spontaneous dynamics of human whole-brain models after tuning through analysis tools*. [Link](https://arxiv.org/abs/2509.12873)

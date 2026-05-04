@@ -17,7 +17,7 @@ tags:
 - connectivity
 title: FSL Randomise
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 # FSL Randomise
@@ -65,3 +65,9 @@ The foundational paper for Randomise is Smith et al. (2004), "Advances in functi
 | [spm] | Statistical Parametric Mapping | Parametric alternative to Randomise |
 | [freesurfer] | Surface-based analysis | Alternative source for statistical maps |
 | [nilearn] | Python neuroimaging | Provides Python wrappers for permutation testing |
+
+## References
+
+1. A. Dehsarvi, Lukas Frontzkowski, Anna Dewenter, Michael Schöll, N. Franzmeier. (2025). *ADprep – A Fully‐Automated Software for Large‐scale Multimodal MRI and PET Imaging Workflows*. Alzheimer's & Dementia. [DOI](https://doi.org/10.1002/alz70856_101373)
+2. Mohammadtaha Parsayan, S. Andalib, T. L. Andersen, Habib Ganjgahi, P. Høilund-Carlsen, Abass Alavi, Mojtaba Zarei. (2025). *Odense-Oxford PET Image Analysis (OPETIA): An FSL-based toolbox for multimodal neuroimaging*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2025.121278)
+3. R. Montgomery. (2025). *Applications of Random Matrix Theory in Neuroscience and Neural Network Analysis: Unraveling High-Dimensional Connectivity*. Wired Neuroscience. [DOI](https://doi.org/10.62162/wnsc10606312712241)

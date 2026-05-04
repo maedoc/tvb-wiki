@@ -14,7 +14,7 @@ tags:
 - people-researcher
 title: Steven Strogatz
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 ## Overview
@@ -41,3 +41,15 @@ Steven H. Strogatz (born 1959) is an American mathematician and the Jacob Gould 
 - Strogatz (1994) — Nonlinear Dynamics and Chaos
 - Watts & Strogatz (1998) — Small-world networks
 - Strogatz (2003) — Sync: The Emerging Science of Spontaneous Order
+
+## References
+
+1. (authors unknown). *Nonlinear Dynamics and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering*.
+2. (authors unknown). *Nonlinear Oscillations, Dynamical Systems, and Bifurcations of Vector Fields*.
+3. (authors unknown). *Differential Equations, Dynamical Systems, and an Introduction to Chaos*.
+4. (authors unknown). *Networks: An Introduction*.
+5. Eugene M. Izhikevich. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
+6. (authors unknown). *Mathematical Foundations of Neuroscience*.
+7. (authors unknown). *Introduction to Applied Nonlinear Dynamical Systems and Chaos*.
+8. Marco Zenari, Luca Taffarello, Luca Mazzucato, Amos Maritan, Samir Suweis. (2026). *Topological Origin of the Diversity of Timescales in Recurrent Neural Circuits*. [Link](https://arxiv.org/abs/2603.04149)
+9. Marianna Angiolelli, D. Depannemaecker, H. Agouram, J. Régis, R. Carron, M. Woodman, L. Chiodo, P. Triebkorn, Abolfazl Ziaeemehr, Meysam Hashemi, Alexandre Eusebio, Viktor Jirsa, P. Sorrentino. (2025). *The Virtual Parkinsonian patient*. npj Systems Biology and Applications. [DOI](https://doi.org/10.1038/s41540-025-00516-y)

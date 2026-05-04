@@ -18,3 +18,11 @@ Bids — a concept in [[whole-brain|whole-brain modeling]] and [[computational-n
 ## Related Concepts
 * [[nipype]]
 * [[neurovault]]
+
+## References
+
+1. Jordan et al. (2018). *Extremely scalable spiking neuronal network simulation code: from laptops to exascale computers*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2018.00002)
+2. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+3. Peter Yongho Kim, Juhyeon Park, Jungwoo Park, Jubin Choi, Jungwoo Seo, Jiook Cha, Taesup Moon. (2026). *Can Natural Image Autoencoders Compactly Tokenize fMRI Volumes for Long-Range Dynamics Modeling?*. [Link](https://arxiv.org/abs/2604.03619)
+4. Christopher Gabaldon, Adria Mulero, Rong Wang, Daniel A. Martin, Sabrina Camargo, Qian-Yuan Tang, Ignacio Cifre, Changsong Zhou, Dante R. Chialvo. (2026). *Data-driven inference of brain dynamical states from the r-spectrum of correlation matrices*. [Link](https://arxiv.org/abs/2601.03796)
+5. Fariba Karimi, Melanie Steiner, Taylor H. Newton, B. Lloyd, A. Cassarà, Paul de Fontenay, S. Farcito, Jan Paul Triebkorn, E. Beanato, Huifang E. Wang, Elisabetta Iavarone, F. Hummel, Niels Kuster, V. Jirsa, Esra Neufeld. (2025). *Precision non-invasive brain stimulation: an in silico pipeline for personalized control of brain dynamics*. Journal of Neural Engineering. [DOI](https://doi.org/10.1088/1741-2552/adb88f)

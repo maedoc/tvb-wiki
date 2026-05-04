@@ -11,7 +11,7 @@ tags:
 - neuroimaging-fmri
 title: PyXDF
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 PyXDF is a Python library for reading multi-stream time series data stored in the XDF (eXtensible Data Format) file format[^1]. It provides a robust and efficient interface for parsing XDF files, which have become a standard interchange format for combining multimodal [[neuroimaging]] and [[electrophysiology]] data, particularly in brain-computer interface (BCI) research, neurofeedback experiments, and combined EEG/MEG-fMRI studies[^2]. The library is maintained by the xdf-modules organization and serves as the primary Python solution for working with XDF data, complementing the MATLAB-based implementation in the EEGLAB XDF plugin[^3].
@@ -60,3 +60,9 @@ PyXDF exists within a broader ecosystem of data format tools and analysis framew
 ## Open Questions and Limitations
 
 While PyXDF provides robust reading capabilities, some aspects of the XDF ecosystem remain challenging. Clock synchronization between devices with fundamentally different sampling rates or clock stabilities can be imperfect, and the quality of synchronization depends on the accuracy of the synchronization samples embedded during recording[^1]. Additionally, while XDF supports arbitrary channel types, interoperability with standard formats like [[bids]] requires additional conversion [[steps]] that can introduce friction in large-scale reproducible workflows.
+
+## References
+
+1. Samuele Carcagno. *pybdf: Python library for BioSemi BDF files*.
+2. B. Bein (2018). *pyedflib: Python library for reading and writing EDF/BDF files*. Journal of Open Source Software. [DOI](https://doi.org/10.21105/joss.00899)
+3. Gramfort et al. (2013). *MEG and EEG: From Acquisition to Analysis*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fnins.2013.00010)

@@ -15,7 +15,7 @@ tags:
 - neural-mass-models
 title: DDE-Biftool
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 ## Overview
@@ -49,3 +49,9 @@ Key methodological papers establishing DDE-Biftool include the seminal work by E
 DDE-Biftool occupies a niche in the bifurcation analysis ecosystem alongside several related tools. [[auto-07p]] is a prominent alternative for bifurcation analysis of ODEs and DDEs, offering similar continuation capabilities but with a different interface and some distinct algorithmic approaches. [[matcont]] provides a MATLAB-based interactive environment for numerical bifurcation analysis of ODEs. [[xppaut]] (formerly XPPAUT) offers a combined differential equation solver and bifurcation analysis tool with a long history in the neuroscience community. Within the neural simulation ecosystem, [[brian]] and [[brian2]] incorporate some delay functionality but lack the specialized bifurcation analysis capabilities of DDE-Biftool, while [[nest]] and [[neuron]] focus on spike-level simulation rather than continuum bifurcation analysis.
 
 The choice between these tools often depends on the specific research question: DDE-Biftool excels when delays are central to the dynamical hypothesis, while auto-07p offers broader functionality for ODE systems with occasional delays. For rapid prototyping and exploratory work, many researchers begin with MATLAB-based tools like DDE-Biftool or matcont before migrating to custom implementations in Python or C++ for large-scale simulation studies.
+
+## References
+
+1. Michael Breakspear, John A. Roberts, John R. Terry, Stefano Rodrigues, Nader Mahmud, Philip Robinson. *Large-scale brain dynamics of seizures: asymptotic analysis of a neural field model*. Journal of Computational Neuroscience. [DOI](https://doi.org/10.1007/s10827-006-8135-2)
+2. S. Fatima, F. Nasir, A. Ahmed. (2026). *Antiepileptic potential of Jatropha integerrima Jacq. extracts: an exploratory study integrating in vivo seizure models and computational analysis*. SAR and QSAR in environmental research (Print). [DOI](https://doi.org/10.1080/1062936x.2026.2640387)
+3. Marianna Angiolelli, D. Depannemaecker, H. Agouram, J. Régis, R. Carron, M. Woodman, L. Chiodo, P. Triebkorn, Abolfazl Ziaeemehr, Meysam Hashemi, Alexandre Eusebio, Viktor Jirsa, P. Sorrentino. (2025). *The Virtual Parkinsonian patient*. npj Systems Biology and Applications. [DOI](https://doi.org/10.1038/s41540-025-00516-y)

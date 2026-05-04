@@ -13,7 +13,7 @@ tags:
 - acquisition-parameters
 title: Field of View
 type: concept
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 # Field of View
@@ -62,3 +62,7 @@ The field of view parameter touches multiple aspects of neuroimaging and computa
 - Jeurissen, B., et al. (2019). Diffusion MRI fiber tracking: A overview and recent developments. *NeuroImage*, 186, 341-349.
 - Saenger, R., et al. (2022). Impact of incomplete brain coverage on connectome reconstruction. *Human Brain Mapping*, 43(8), 2647-2661.
 - The [[human-connectome-project]]. (2013). Toward connectomic disease. *[[neuron]]*, 79(4), 668-681.
+
+## References
+
+1. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.

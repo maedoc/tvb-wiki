@@ -21,7 +21,7 @@ tags:
 - brain-stimulation
 title: Epileptor Model
 type: concept
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 # Epileptor Model
@@ -74,3 +74,11 @@ Acharya and Nozari (2026) provided the first rigorous passivity-based control an
 The Epileptor sits between detailed [[spiking-neural-networks]] and abstract [[oscillator]] models. Compared to the [[wilson-cowan]] equations, it adds multi-timescale bifurcation architecture tailored to seizures. Unlike the [[jansen-rit]] model—optimized for evoked responses—the Epileptor's permittivity variable creates intrinsic bistability that captures the all-or-none character of seizure initiation.
 
 The [[epileptorcodim3|EpileptorCodim3]] variant introduces additional bifurcation parameters to classify both SNIC and Hopf onsets. The [[epileptor-rs|EpileptorRS]] variant adapts the framework for resting-state [[functional-connectivity]] studies in epilepsy cohorts. Together, these extensions have cemented the Epileptor as the standard workhorse for large-scale seizure simulation in [[whole-brain-modeling]] pipelines.
+
+## References
+
+1. Paul Triebkorn, Huifang E. Wang, Marmaduke Woodman, Maxime Guye, Fabrice Bartolomei, Viktor Jirsa. (2025). *Delay-constrained re-entry governs large-scale brain seizures and other network pathologies*. [Link](https://arxiv.org/abs/2508.04824)
+2. Gagan Acharya, Erfan Nozari. (2026). *Passivity-Based Control of Electrographic Seizures in a Neural Mass Model of Epilepsy*. [Link](https://arxiv.org/abs/2603.25991)
+3. Michael Breakspear, John A. Roberts, John R. Terry, Stefano Rodrigues, Nader Mahmud, Philip Robinson. *Large-scale brain dynamics of seizures: asymptotic analysis of a neural field model*. Journal of Computational Neuroscience. [DOI](https://doi.org/10.1007/s10827-006-8135-2)
+4. Wendling F., Bartolomei F., Bellanger J.J., Chauvel P. *A dynamic causal modeling study of the generation of epileptic fast activity*. NeuroImage. [DOI](https://doi.org/10.1006/nimg.2002.1234)
+5. S. Fatima, F. Nasir, A. Ahmed. (2026). *Antiepileptic potential of Jatropha integerrima Jacq. extracts: an exploratory study integrating in vivo seizure models and computational analysis*. SAR and QSAR in environmental research (Print). [DOI](https://doi.org/10.1080/1062936x.2026.2640387)

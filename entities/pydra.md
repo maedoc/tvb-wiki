@@ -14,7 +14,7 @@ tags:
 - nipype
 title: Pydra
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 # Pydra
@@ -58,3 +58,9 @@ Jarecka, D., Goncalves, M., Markiewicz, C. J., Esteban, O., Lo, N., Kaczmarzyk, 
 Pydra occupies a position in the neuroimaging software ecosystem that overlaps with several other workflow engines and pipeline tools. The most direct comparison is with [[nipype]], which pioneered the workflow engine concept in Python neuroimaging and from which Pydra directly descends as part of the Nipype 2.0 initiative (Pydra GitHub, 2025). Where Nipype provides a unified interface to existing neuroimaging tools with its interface abstraction layer, Pydra offers a more general-purpose task orchestration system that can wrap any command-line tool or Python function without requiring the development of formal interface wrappers.
 
 Another related tool is [[datalad]], which provides version control for large binary datasets and can integrate with Pydra's execution model for data Management. For fMRI preprocessing specifically, [[fmriprep]] represents a higher-level solution that bundles complete preprocessing workflows, whereas Pydra provides the building blocks for constructing custom pipelines. Researchers interested in the broader landscape of neuroimaging software may also wish to explore [[nilearn]] for statistical learning on brain images and [[pybids]] for programmatic access to BIDS datasets.
+
+## References
+
+1. (authors unknown). *Neurodesk: an accessible, flexible and portable data analysis environment for reproducible neuroimaging*.
+2. Sima Soltanpour, Md Taufiq Nasseef, Rachel Utama, Arnold Chang, D. Madularu, Praveen Kulkarni, Craig F. Ferris, Chris Joslin. (2025). *Robust automated preclinical fMRI preprocessing via a multi-stage dilated convolutional Swin Transformer affine registration*. Frontiers in Neuroscience. [DOI](https://doi.org/10.3389/fnins.2025.1621244)
+3. Emmanuelle Renauld, Arnaud Boré, Charles Poirier, Alex Valcourt-Caron, Philippe Karan, Antoine Théberge, Guillaume Théaud, Manon Edde, P. Poulin, Gabriel Girard, Jean-Christophe Houde, A. Gagnon, Etienne St-Onge, Graham Little, Jon Haitz Legarreta, Stanislas Thoumyre, G. Grenier, Zineb El Yamani, Mario Ocampo Pineda, Matteo Battochio, Vincent Beaudoin, Alexandre Joanisse, Laurent Petit, F. Rheault, Maxime Descoteaux. (2026). *Tractography analysis with the scilpy toolbox*. Aperture Neuro. [DOI](https://doi.org/10.52294/001c.154022)

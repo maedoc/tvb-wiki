@@ -12,7 +12,7 @@ tags:
 - computational-neuroscience
 title: XCOS
 type: concept
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 # XCOS
@@ -68,3 +68,10 @@ This framework connects to numerous concepts in [[computational-neuroscience]] a
 Despite advances in electrode positioning technology and registration algorithms, significant challenges remain in the field. Registration accuracy depends on the quality of anatomical landmark identification, which can vary across operators and participants. Head movement during long-term EEG monitoring—common in epilepsy monitoring units—introduces spatial errors that are difficult to correct without additional reference channels. The assumption of isotropic conductivity in standard volume conductor models may be inadequate for capturing anisotropic effects in [[white-matter]] regions, potentially limiting source localization accuracy for deep brain structures.
 
 Future directions include developing automated, machine learning-driven registration algorithms, incorporating patient-specific conductivity estimates from diffusion imaging and PET data into personalized forward models, and establishing community standards for electrode coordinate file formats to improve software interoperability.
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
+3. Lucia Zavaglia, Laura Astolfi, Federico Babiloni, Melani B.C. *Comparison of a mean-field model of electroencephalographic activity to individual brain networks*. IEEE Engineering in Medicine and Biology.
+4. (authors unknown). *GLEAN: Group Level Exploratory Analysis of Networks*.

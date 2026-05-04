@@ -10,10 +10,18 @@ tags:
 - karl-j-fristol
 title: Karl J Fristol
 type: concept
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 Karl J Fristol — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
 
 ## Related Concepts
 * [[fmri]]
+
+## References
+
+1. O. David, K.J. Friston. *Dynamic causal modelling*. NeuroImage. [DOI](https://doi.org/10.1016/S1053-8119(03)00202-7)
+2. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
+3. (authors unknown). *Functional Connectivity: The Principal-Component Analysis of Large (PET and fMRI) Data Sets*.
+4. (authors unknown). *Functional Network Organization of the Human Brain*.
+5. Diego Derman, Damon D. Pham, Amanda F. Mejia, Silvina L. Ferradal. (2025). *Individual patterns of functional connectivity in neonates as revealed by surface-based Bayesian modeling*. Imaging neuroscience. [DOI](https://doi.org/10.1162/imag_a_00504)

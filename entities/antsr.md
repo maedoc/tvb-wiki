@@ -42,3 +42,9 @@ For comparison and validation, ANTsR segmentations can be assessed against those
 ## Key Researchers
 
 The primary developers of ANTsR and the underlying ANTs library include **[[brian]] Avants** (University of Pennsylvania), who originally created the ANTs framework and continues active development, and **Nick Tustison** (University of Virginia), who contributed major algorithms including N4ITK and DiReCT. Both researchers have published extensively on medical image registration and segmentation, with their work citation counts reflecting significant community adoption.
+
+## References
+
+1. Avants et al. (2008). *Symmetric diffeomorphic image registration with cross-correlation*. Medical Image Analysis. [DOI](https://doi.org/10.1016/j.media.2007.06.004)
+2. (authors unknown). *Nighres: processing tools for high-resolution neuroimaging*.
+3. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)

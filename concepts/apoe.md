@@ -8,10 +8,16 @@ tags:
 - apoe
 title: Apoe
 type: concept
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 Apoe — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
 
 ## Related Concepts
 * [[aging]]
+
+## References
+
+1. (authors unknown). *The Human Connectome: A Structural Description of the Human Brain*.
+2. (authors unknown). *Functional Network Organization of the Human Brain*.
+3. (authors unknown). *Networks of the Brain*.

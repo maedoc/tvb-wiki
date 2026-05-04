@@ -14,7 +14,7 @@ tags:
 - neuroimaging-dti
 title: NITRC-CE
 type: entity
-updated: '2026-05-01'
+updated: '2026-05-04'
 ---
 
 NITRC-CE ([[neuroimaging]] Tools and Resources Collaboratory – Computational Environment) was a cloud-based computing platform developed to address the computational challenges faced by neuroimaging researchers. It provided a web-based interface through which users could execute neuroimaging analysis pipelines without requiring extensive local computational resources or technical expertise in high-performance computing. The platform was offered as part of the broader NITRC ecosystem, which also includes the NITRC resource repository and [[nitrc]] itself as the original resource discovery platform.
@@ -45,3 +45,9 @@ NITRC-CE existed within an ecosystem of cloud-based neuroimaging solutions, each
 - [[brainlife]]
 - [[neurodesk]]
 - [[mrtrix3-connectome]]
+
+## References
+
+1. (authors unknown). *Neurodesk: an accessible, flexible and portable data analysis environment for reproducible neuroimaging*.
+2. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2025). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research*. bioRxiv. [DOI](https://doi.org/10.1101/2025.10.06.680781)
+3. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2026). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research.*. Brain Stimulation. [DOI](https://doi.org/10.1016/j.brs.2025.103016)

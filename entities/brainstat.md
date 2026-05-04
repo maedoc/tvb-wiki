@@ -9,7 +9,7 @@ tags:
 - software-brain-modeling
 title: BrainStat
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 # BrainStat
@@ -74,3 +74,10 @@ Performance considerations arise when analyzing dense connectivity matrices: the
 [^4]: Chen, B., Xu, Y., & Zhou, Y. (2019). Statistical methods for brain connectivity research. *Human Brain Mapping*, 40(7), 2031-2050. https://doi.org/10.1002/hbm.23798
 
 [^5]: Rubinov, M., & Sporns, O. (2010). Complex network measures of brain connectivity: Uses and interpretations. *Neuroimage*, 52(3), 1059-1069. https://doi.org/10.1016/j.neuroimage.2009.10.003
+
+## References
+
+1. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
+2. (authors unknown). *Permutation inference for the general linear model*.
+3. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
+4. Anass B. El-Yaagoubi, Sipan Aslan, Farah Gomawi, P. V. Redondo, Sarbojit Roy, M. S. Sultan, Mara S. Talento, Francine T. Tarrazona, Haibo Wu, Keiland W Cooper, Norbert J. Fortin, H. Ombao. (2025). *Methods for Brain Connectivity Analysis with Applications to Rat Local Field Potential Recordings*. Entropy. [DOI](https://doi.org/10.3390/e27040328)

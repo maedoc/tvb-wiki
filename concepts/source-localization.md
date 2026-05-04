@@ -20,7 +20,7 @@ tags:
 - volume-conduction
 title: Source Localization
 type: concept
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 **Source localization** (also termed *source imaging* or the *electromagnetic inverse problem*) is a computational technique in [[electrophysiology]] that estimates the locations and sometimes the time courses of intracranial neural generators from scalp recordings of [[eeg]] or [[meg]] signals. In a whole-brain modeling context, source localization provides the empirical constraints that inform [[dynamic-causal-modeling|dynamic causal modeling]] or neural mass models, linking observed macroscopic brain dynamics to underlying mesoscopic network activity.
@@ -66,3 +66,12 @@ Current research addresses these challenges through adaptive head modeling, Baye
 ## Related Concepts
 
 Source localization is closely related to several other concepts in the wiki. It can be understood as the inverse of the [[forward-model|forward model]], and relies fundamentally on principles of [[volume-conduction|volume conduction]] to relate scalp potentials to neural sources. The technique is directly supported by software packages such as [[mne-python|MNE-Python]] and [[fieldtrip|FieldTrip]]. When combined with [[brain-dynamics|brain dynamics]] analyses, source localization enables investigation of [[brain-oscillations|brain oscillations]] and their interactions across distributed networks. The [[fmri-vs-eeg|comparison between fMRI and EEG]] highlights the superior temporal resolution of source-localized electrophysiology, complementing fMRI's spatial precision.
+
+## References
+
+1. Deepa Tilwani, Christian O'Reilly. *Deep Jansen-Rit Parameter Inference for Model-Driven Analysis of Brain Activity*. [Link](https://arxiv.org/abs/2406.05002)
+2. Yang Liu, YuXuan Han, Chunsheng Li. (2026). *Localizing Target for Transcranial Direct Current Stimulation in Drug-Resistant Epilepsy Using Dynamic EEG Source Network*. IEEE transactions on neural systems and rehabilitation engineering. [DOI](https://doi.org/10.1109/TNSRE.2026.3677891)
+3. V. Myrov, A. Suleimanova, Samanta Knapič, P. Partanen, M. Vesterinen, Wenya Liu, S. Palva, J. M. Palva. (2026). *Hierarchical whole-brain modeling of critical synchronization dynamics in the human brain.*. Proceedings of the National Academy of Sciences of the United States of America. [DOI](https://doi.org/10.1073/pnas.2505768123)
+4. Wanying Qu, Jianxiong Gao, Wei Wang, Yanwei Fu. *Modeling Spatiotemporal Neural Frames for High Resolution Brain Dynamic*. [Link](https://arxiv.org/abs/2603.24176)
+5. Sakul Mahat, Sharmistha Guha, Jessica Bernard. (2026). *A Bayesian Framework for Quantifying Association Between Functional and Structural Data in Neuroimaging*. [Link](https://arxiv.org/abs/2603.21067)
+6. Christopher Gabaldon, Adria Mulero, Rong Wang, Daniel A. Martin, Sabrina Camargo, Qian-Yuan Tang, Ignacio Cifre, Changsong Zhou, Dante R. Chialvo. (2026). *Data-driven inference of brain dynamical states from the r-spectrum of correlation matrices*. [Link](https://arxiv.org/abs/2601.03796)

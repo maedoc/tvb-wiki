@@ -81,3 +81,10 @@ Related approaches include population receptive field (pRF) mapping techniques, 
 ## Relationship to Other Concepts
 
 GLMsingle addresses methodological challenges that sit at the intersection of [[parameter estimation]], [[forward modeling]], and [[neuromorpho-toolkit]] analysis. Its approach to HRF estimation can be viewed as a form of regularization that incorporates biological knowledge about the shape of the hemodynamic response. The method also relates to the broader theme of [[personalized brain modeling]], since the voxel-wise HRF estimates effectively create a personalized forward model for each subject. Compared to simpler approaches that use a fixed HRF, GLMsingle provides improved sensitivity for detecting neural responses in rapid event-related designs, with particular benefits for studies of [[brain-oscillations]] where precise temporal information is critical.
+
+## References
+
+1. Wanying Qu, Jianxiong Gao, Wei Wang, Yanwei Fu. *Modeling Spatiotemporal Neural Frames for High Resolution Brain Dynamic*. [Link](https://arxiv.org/abs/2603.24176)
+2. Sima Soltanpour, Md Taufiq Nasseef, Rachel Utama, Arnold Chang, D. Madularu, Praveen Kulkarni, Craig F. Ferris, Chris Joslin. (2025). *Robust automated preclinical fMRI preprocessing via a multi-stage dilated convolutional Swin Transformer affine registration*. Frontiers in Neuroscience. [DOI](https://doi.org/10.3389/fnins.2025.1621244)
+3. (authors unknown). *GLEAN: Group Level Exploratory Analysis of Networks*.
+4. Xiaoqing Huang, Rishit Puri, Dayu Sun, Yi Zhao, Jie Zhang, Kun Huang, Yijie Wang. (2025). *Functional Connectome Signatures of Patients with Asymptomatic and Typical Alzheimer's*. Alzheimer's & Dementia. [DOI](https://doi.org/10.1002/alz70856_103445)

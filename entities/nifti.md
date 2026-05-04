@@ -10,10 +10,18 @@ tags:
 - nifti
 title: Nifti
 type: concept
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 Nifti — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
 
 ## Related Concepts
 * [[nipype]]
+
+## References
+
+1. (authors unknown). *Functional Connectivity: The Principal-Component Analysis of Large (PET and fMRI) Data Sets*.
+2. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
+3. (authors unknown). *Networks of the Brain*.
+4. Atsuko Takahashi, Ling Zhu, Makoto Fukushima. (2025). *The Role of Brain Connectivity Patterns in Applying Connectome-Based Reservoir Computing to Neuroscience Tasks*. IEEE International Joint Conference on Neural Network. [DOI](https://doi.org/10.1109/IJCNN64981.2025.11227896)
+5. Diego Derman, Damon D. Pham, Amanda F. Mejia, Silvina L. Ferradal. (2025). *Individual patterns of functional connectivity in neonates as revealed by surface-based Bayesian modeling*. Imaging neuroscience. [DOI](https://doi.org/10.1162/imag_a_00504)

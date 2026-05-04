@@ -14,7 +14,7 @@ tags:
 - neuroimaging-meg
 title: LFPykit
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 ## Overview
@@ -97,3 +97,10 @@ While [[the-virtual-brain]] and similar whole-brain modeling platforms like thos
 - [[nest]] — Neural simulation tool for large-scale spiking networks
 - [[electrophysiology]] — Experimental recording of neural signals
 - [[computational-neuroscience]] — The broader field of modeling neural systems
+
+## References
+
+1. Rosa Maria Delicado, Gemma Huguet, Pau Clusella. (2025). *Emergent Spatiotemporal Dynamics in Large-Scale Brain Networks with Next Generation Neural Mass Models*. [Link](https://arxiv.org/abs/2512.03907)
+2. Irem Topal, Anna Poggialini, Marco Dal Maschio, Daniele De Martino, Oren Shriki, Fabrizio Lombardi. (2026). *Scaling and tuning to criticality in resting-state human magnetoencephalography*. [Link](https://arxiv.org/abs/2602.17820)
+3. Chetan Gohil, Oliver M. Cliff, James M. Shine, Ben D. Fulcher, Joseph T. Lizier. (2026). *Estimating measures of information processing during cognitive tasks using functional magnetic resonance imaging*. [Link](https://arxiv.org/abs/2602.03240)
+4. (authors unknown). *GLEAN: Group Level Exploratory Analysis of Networks*.

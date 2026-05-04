@@ -8,7 +8,7 @@ tags:
 - software-brain-modeling
 title: BrainLife.io
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 ## Overview
@@ -52,3 +52,9 @@ The platform's development and validation have been described in several influen
 ## Related Software
 
 BrainLife.io operates within a landscape of neuroimaging processing platforms. Similar web-based solutions include [[CBRAIN]] (a Canadian platform for neuroimaging analysis) and [[neuromorpho-toolkit]]. For local processing, researchers often use [[FSL]], [[FreeSurfer]], or [[SPM]] directly. The platform complements rather than replaces these tools—the strength of BrainLife.io lies in its workflow orchestration and cloud execution rather than novel algorithmic implementations. For connectomics specifically, the platform integrates with the [[Brain Connectivity Toolbox]] ([[bctpy]]) for network analysis and [[brainspace]] for visualization, enabling users to proceed from raw data to network-theoretic metrics within a unified environment.
+
+## References
+
+1. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2025). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research*. bioRxiv. [DOI](https://doi.org/10.1101/2025.10.06.680781)
+2. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2026). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research.*. Brain Stimulation. [DOI](https://doi.org/10.1016/j.brs.2025.103016)
+3. Wen-ju Pan, L. Daley, Harrison Watters, Lisa Meyer-Baese, K. Gopinath, Dieter Jaeger, Shella Keilholz. (2026). *An integrated platform for simultaneous wide-field voltage/calcium imaging and fMRI (EPI & ZTE) reveals neuronal infraslow dynamics underlying functional connectivity*. bioRxiv. [DOI](https://doi.org/10.64898/2026.01.26.701889)

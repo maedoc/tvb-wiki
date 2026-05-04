@@ -15,7 +15,7 @@ tags:
 - preprocessing
 title: QSIPrep
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 ## Overview
@@ -58,3 +58,7 @@ QSIPrep is part of a broader ecosystem of neuroimaging preprocessing pipelines t
 - Gorgolewski, K., et al. (2017). fMRIPrep: A robust preprocessing pipeline for functional MRI. *Nature Methods*, 14(7), 733–736.
 
 ---
+
+## References
+
+1. Sima Soltanpour, Md Taufiq Nasseef, Rachel Utama, Arnold Chang, D. Madularu, Praveen Kulkarni, Craig F. Ferris, Chris Joslin. (2025). *Robust automated preclinical fMRI preprocessing via a multi-stage dilated convolutional Swin Transformer affine registration*. Frontiers in Neuroscience. [DOI](https://doi.org/10.3389/fnins.2025.1621244)

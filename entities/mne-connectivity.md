@@ -16,7 +16,7 @@ tags:
 - software-visualization
 title: MNE-Connectivity
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 MNE-Connectivity is a specialized Python package designed for the computation and visualization of functional and effective connectivity from neurophysiological data, particularly [[eeg]] and [[meg]] signals. Developed as an integral component of the broader [[mne-python]] ecosystem, MNE-Connectivity provides researchers with a comprehensive suite of connectivity estimation methods ranging from simple linear measures like Pearson correlation to advanced frequency-domain techniques including coherence, phase-locking value, and Granger causality <cite>https://mne.tools/mne-connectivity/</cite>. The package emerged from the recognition that connectivity analysis—identifying statistical dependencies between brain regions—is fundamental to understanding large-scale brain networks and their dynamics in both healthy individuals and clinical populations <cite>https://www.nature.com/articles/s41597-023-00462-w</cite>.
@@ -49,3 +49,10 @@ MNE-Connectivity occupies a specific niche within the broader landscape of conne
 - Gramfort, A., et al. (2013). "MNE-Python: Open-source toolbox for MEG and EEG analysis." *NeuroImage*. (Foundational MNE-Python paper)
 - Bastos, A. M., & Schoffelen, J. M. (2015). "A tutorial review of functional connectivity analysis methods and their interpretation." *NeuroImage*. (Methodology background for PLV, WPLI, and coherence)
 - Winkler, I., et al. (2015). "TensorConnectome: Unified framework for fiber tracking and connectivity analysis." *NeuroImage*. (Connectivity methodology context)
+
+## References
+
+1. P. S. Shabestari, Delphine Ribes, Lara Défayes, Danpeng Cai, Emily Groves, Harry H. Behjat, D. Van de Ville, Tobias Kleinjung, A. Naas, N. Henchoz, A. Sonderegger, Patrick Neff. (2025). *Advances on Real Time M/EEG Neural Feature Extraction*. 2025 IEEE 38th International Symposium on Computer-Based Medical Systems (CBMS). [DOI](https://doi.org/10.1109/CBMS65348.2025.00074)
+2. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+3. Rohith Alikkal, Venkat Harshith Akula, B. Shankar, Midhun Krishna, Sandeep Bodda, S. Krishna, Shyam Diwakar. (2025). *Implementing and Deploying a Student Friendly GUI-based Platfrom for EEG signal processing*. International Conference on Robotics and Mechatronics. [DOI](https://doi.org/10.1109/ICRM66809.2025.11349102)
+4. Gramfort et al. (2013). *MEG and EEG: From Acquisition to Analysis*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fnins.2013.00010)

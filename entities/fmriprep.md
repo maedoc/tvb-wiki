@@ -13,7 +13,7 @@ tags:
 - functional-connectivity
 title: fMRIPrep
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 fMRIPrep is a robust and widely adopted preprocessing pipeline designed to automate the complex sequence of steps required to prepare functional magnetic resonance imaging (fMRI) data for downstream statistical analysis. Developed by the [NiPreps](NiPreps) community to address the reproducibility crisis in neuroimaging, fMRIPrep provides a standardized, containerized workflow that transforms raw MR images into analysis-ready datasets while rigorously documenting every processing decision. The pipeline integrates established neuroimaging tools—including [[fsl]], [[FreeSurfer]], [[ANTs]], and [[nilearn]]—within a unified framework built on [[nipype]], ensuring computational consistency across different computing environments and reducing the burden on individual researchers to manually configure preprocessing parameters.
@@ -51,3 +51,9 @@ The primary citation for fMRIPrep is Esteban et al. (2019), published in *Nature
 ## Related Software
 
 fMRIPrep represents one component within a broader ecosystem of automated neuroimaging pipelines. Related tools include [[qsiprep]] for diffusion MRI preprocessing, [[mriqc]] for image quality assessment, [[c-pac]] for configurable automated preprocessing, and [[brainlife]] as a platform for integrated neuroimaging workflows. The pipeline's development has influenced standardization efforts across the neuroimaging community and established templates for other modality-specific preprocessing solutions.
+
+## References
+
+1. Sima Soltanpour, Md Taufiq Nasseef, Rachel Utama, Arnold Chang, D. Madularu, Praveen Kulkarni, Craig F. Ferris, Chris Joslin. (2025). *Robust automated preclinical fMRI preprocessing via a multi-stage dilated convolutional Swin Transformer affine registration*. Frontiers in Neuroscience. [DOI](https://doi.org/10.3389/fnins.2025.1621244)
+2. Zhishun Wang, Feng Liu, Rachel Marsh, Gaurav H. Patel, J. Grinband. (2026). *MEPrep: A robust pipeline for multi-echo fMRI denoising and preprocessing*. Imaging Neuroscience. [DOI](https://doi.org/10.1162/IMAG.a.1198)
+3. A. Dehsarvi, Lukas Frontzkowski, Anna Dewenter, Michael Schöll, N. Franzmeier. (2025). *ADprep – A Fully‐Automated Software for Large‐scale Multimodal MRI and PET Imaging Workflows*. Alzheimer's & Dementia. [DOI](https://doi.org/10.1002/alz70856_101373)

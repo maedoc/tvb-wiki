@@ -8,7 +8,7 @@ tags:
 - software-brain-modeling
 title: SDCflows
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 SDCflows (Susceptibility Distortion Correction flows) is a Python-based software package designed to correct geometric distortions in diffusion-weighted MRI (DWI) data caused by magnetic susceptibility differences between tissues, particularly at air-tissue interfaces in the orbitofrontal and temporal regions. These distortions manifest as geometric warping that can severely compromise the accuracy of [[tractography]]-derived [[structural connectivity]] estimates if left uncorrected. SDCflows provides a modular, automated pipeline for estimating and applying susceptibility-related distortion fields, drawing on established methods from [[fsl]] (notably TOPUP and EDDY while wrapping them in a standardized Nipype-based workflow that integrates seamlessly with larger preprocessing chains like [[qsiprep]] [[smriprep]]).
@@ -44,3 +44,9 @@ SDCflows was developed by the NiPreps team, primarily at the University of South
 - [[tractography]] — The downstream application requiring distortion-free data
 - [[structural-connectivity]] — The matrix derived from corrected tractography
 - [[dti]] — The fundamental modality SDCflows processes
+
+## References
+
+1. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2018.05.040)
+2. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI), a flexible and integrative toolkit for efficient probabilistic inference on whole-brain models*. eLife. [DOI](https://doi.org/10.7554/eLife.106194)
+3. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI): A flexible and integrative toolkit for efficient probabilistic inference on virtual brain models*. bioRxiv. [DOI](https://doi.org/10.1101/2025.01.21.633922)

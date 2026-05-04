@@ -12,7 +12,7 @@ tags:
 - neurophysiology
 title: Nikos Logothetis
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 # Nikos Logothetis
@@ -41,3 +41,11 @@ Logothetis's work provides the empirical foundation for coupling [[neural-mass-m
 - [[bold-signal]]
 - neurovascular-coupling
 - local-field-potential
+
+## References
+
+1. (authors unknown). *Neurophysiological investigation of the basis of the fMRI signal*.
+2. Chetan Gohil, Oliver M. Cliff, James M. Shine, Ben D. Fulcher, Joseph T. Lizier. (2026). *Estimating measures of information processing during cognitive tasks using functional magnetic resonance imaging*. [Link](https://arxiv.org/abs/2602.03240)
+3. Wanying Qu, Jianxiong Gao, Wei Wang, Yanwei Fu. *Modeling Spatiotemporal Neural Frames for High Resolution Brain Dynamic*. [Link](https://arxiv.org/abs/2603.24176)
+4. Mohaddese Qaremohammadlou, Mohammad Bagher Shamsollahi. (2025). *Investigating Brain Connectivity and Information Flow in Mental Workload Using EEG and fNIRS Integration*. [Link](https://arxiv.org/abs/2511.02457)
+5. D. Fasoli, L. Coletta, Daniel Gutierrez-Barragan, S. Gini, A. Gozzi, S. Panzeri. (2026). *Attractor dynamics of a whole-cortex network model predicts emergence and structure of fMRI co-activation patterns in the mouse brain.*. PLoS Computational Biology. [DOI](https://doi.org/10.1371/journal.pcbi.1013995)

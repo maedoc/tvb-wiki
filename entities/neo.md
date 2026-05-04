@@ -5,7 +5,7 @@ sources:
 tags: []
 title: Neo
 type: entity
-updated: '2026-05-01'
+updated: '2026-05-04'
 ---
 
 # Neo  
@@ -60,3 +60,7 @@ Despite its utility, Neo faces challenges that remain active areas of developmen
 ## Related Tools and Concepts  
 
 Neo intersects with several related concepts in the wiki. For data‑formats, Neo provides adapters to/from formats like NIX and NWB. For spike‑sorting, Neo integrates with SpikeInterface to provide the data foundation for spike extraction algorithms. The library also relates to broader topics in electrophysiology and data‑formats in neuroscience more generally. Users interested in the Python scientific computing stack may also wish to explore how Neo's data model compares to those in Python data analysis frameworks more broadly.
+
+## References
+
+1. Leon Martin, Konstantin Bülau, Marius Pille, Rico Schmitt, Christoph Hüttl, J. Meier, Halgurd Taher, Dionysios Perdikis, M. Schirner, L. Stefanovski, Petra Ritter. (2025). *The Virtual Brain Ontology: A Digital Knowledge Framework for Reproducible Brain Network Modeling*. bioRxiv. [DOI](https://doi.org/10.1101/2025.11.19.689211)

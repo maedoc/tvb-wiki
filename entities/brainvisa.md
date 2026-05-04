@@ -12,7 +12,7 @@ tags:
 - software-visualization
 title: BrainVISA
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 ## Overview
@@ -50,3 +50,9 @@ The integration between BrainVISA and TVB typically proceeds as follows: structu
 BrainVISA exists within a rich ecosystem of neuroimaging tools, and its design philosophy emphasizes interoperability rather than isolation. The platform maintains formal interfaces with [[SPM]] (Statistical Parametric Mapping) for voxel-based analyses and with [[freesurfer]] for complementary cortical measurements. In the Python ecosystem, BrainVISA functionalities are accessible through [[nilearn]] and [[nipype]], which provide scriptable access to processing workflows and facilitate integration with machine learning pipelines.
 
 Alternative packages for morphological analysis include [[brainsuite]], which provides a streamlined pipeline for cortical reconstruction, and [[ica]], a more recent framework that offers end-to-end processing for clinical neuroimaging studies. For [[connectome]] construction specifically, the [[connectome-mapper-3]] toolkit provides complementary functionality focusing on tractography-based connectivity estimation.
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2025). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research*. bioRxiv. [DOI](https://doi.org/10.1101/2025.10.06.680781)
+3. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2026). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research.*. Brain Stimulation. [DOI](https://doi.org/10.1016/j.brs.2025.103016)

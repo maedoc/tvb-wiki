@@ -19,7 +19,7 @@ tags:
 - spiking-neural-networks
 title: TVB vs NEST vs NEURON
 type: comparison
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 # TVB vs NEST vs NEURON
@@ -111,3 +111,15 @@ These platforms are increasingly used together:
 - **TVB + NEST**: [[mean-field-theory|Mean-field]] reduction of detailed spiking networks for whole-brain scaling (e.g., [[stefanescu-jirsa]] models in TVB)
 - **NEST + NEURON**: Point neurons informed by detailed compartmental studies
 - **NEURON → NEST → TVB**: Hierarchy of model abstraction for multiscale brain simulation
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Gewaltig & Diesmann (2007). *NEST (NEural Simulation Tool)*. Scholarpedia. [DOI](https://doi.org/10.4249/scholarpedia.1430)
+3. Hines & Carnevale (1997). *The NEURON simulation environment*. Neural Computation. [DOI](https://doi.org/10.1162/neco.1997.9.6.1179)
+4. Jordan et al. (2018). *Extremely scalable spiking neuronal network simulation code: from laptops to exascale computers*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2018.00002)
+5. Gianluca Gaglioti, Alessandra Cardinale, Cosimo Lupo, Thierry Nieus, Federico Marmoreo, Elena Focacci, Robin Gutzen, Michael Denker, Andrea Pigorini, Marcello Massimini, Simone Sarasso, Pier Stanislao Paolucci, Giulia De Bonis. *Emergent complexity and rhythms in evoked and spontaneous dynamics of human whole-brain models after tuning through analysis tools*. [Link](https://arxiv.org/abs/2509.12873)
+6. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
+7. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *Arbor-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
+8. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](https://doi.org/10.3389/fncom.2025.1731161)
+9. Maxime Carriere, Fynn R. Dobler, H. Plesser, Agata Feledyn, Rosario Tomasello, Thomas Wennekers, F. Pulvermüller. (2026). *A brain-constrained neural model of cognition and language with NEST: transitioning from the Felix framework*. Cognitive Neurodynamics. [DOI](https://doi.org/10.1007/s11571-026-10415-5)

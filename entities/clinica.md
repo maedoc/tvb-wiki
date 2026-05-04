@@ -18,7 +18,7 @@ tags:
 - database-uk-biobank
 title: Clinica
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 Clinica is an open-source software platform designed for clinical neuroimaging data processing and analysis, with a particular focus on large-scale studies of neurological and psychiatric disorders. Developed primarily by the Aramis team at Inria (France), Clinica provides a unified framework that integrates current neuroimaging processing tools into standardized, reproducible pipelines that adhere to the [[bids]] (Brain Imaging Data Structure) specification. The platform emerged from the recognition that clinical neuroimaging research often suffers from methodological heterogeneity, making cross-study comparisons difficult and limiting the reproducibility of findings. By wrapping established software packages—including [[spm]] (Statistical Parametric Mapping), [[freesurfer]], [[cat12]] (Computational Anatomy Toolbox), and various tractography tools—into a cohesive command-line interface, Clinica enables researchers to process neuroimaging data consistently without manually orchestrating disparate processing steps.
@@ -42,3 +42,10 @@ Clinica occupies a niche in the neuroimaging software ecosystem that overlaps wi
 - **Routier, A.**, et al. (2021). Clinica: an open-source software platform for clinical [[neuroimaging]] studies. *Neuroimage*, 236, 118386. https://doi.org/10.1016/j.neuroimage.2021.118386
 - **Marcade, G.**, et al. (2022). Processing of PET data in the Clinica software platform. *Frontiers in Nuclear Medicine*, 2, 1054215.
 - **Samper-González, J.**, et al. (2018). Reproducible preprocessing pipelines for neuroimaging data. *Frontiers in Neuroinformatics*, 12, 12.
+
+## References
+
+1. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2018.05.040)
+2. (authors unknown). *The Minimal Preprocessing Pipelines for the Human Connectome Project*.
+3. Zhishun Wang, Feng Liu, Rachel Marsh, Gaurav H. Patel, J. Grinband. (2026). *MEPrep: A robust pipeline for multi-echo fMRI denoising and preprocessing*. Imaging Neuroscience. [DOI](https://doi.org/10.1162/IMAG.a.1198)
+4. A. Dehsarvi, Lukas Frontzkowski, Anna Dewenter, Michael Schöll, N. Franzmeier. (2025). *ADprep – A Fully‐Automated Software for Large‐scale Multimodal MRI and PET Imaging Workflows*. Alzheimer's & Dementia. [DOI](https://doi.org/10.1002/alz70856_101373)

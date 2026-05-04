@@ -9,7 +9,7 @@ tags:
 - software-brain-modeling
 title: MELODIC
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 # MELODIC
@@ -41,3 +41,10 @@ MELODIC integrates tightly within the FSL ecosystem, interfacing with other FSL 
 ## Key Papers
 
 The foundational MELODIC methodology was described in Beckmann and Smith (2004), "Probabilistic ICA for fMRI" [1] and in Smith et al. (2004), "Advances in functional and structural MR image analysis and implementation as FSL" [2]. These papers established both the theoretical framework and the practical implementation that made ICA analysis accessible to the broader neuroimaging community. Beckmann et al. (2005) extended the approach to group-level ICA, enabling identification of consistent brain networks across populations. Smith et al. (2009) demonstrated the application of MELODIC to resting-state fMRI, mapping the major functional networks of the brain [4]. Salimi-Khorshidi et al. (2014) introduced FSL FIX, the automated classification tool that works in concert with MELODIC outputs [3]. These papers collectively established the technique's value for identifying coherent brain networks in the absence of explicit task stimuli, contributing fundamentally to the modern understanding of [[resting-state]] functional organization of the brain.
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. (authors unknown). *Functional Network Organization of the Human Brain*.
+3. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
+4. Diego Derman, Damon D. Pham, Amanda F. Mejia, Silvina L. Ferradal. (2025). *Individual patterns of functional connectivity in neonates as revealed by surface-based Bayesian modeling*. Imaging neuroscience. [DOI](https://doi.org/10.1162/imag_a_00504)

@@ -18,7 +18,7 @@ tags:
 - bids-validator
 title: PyBIDS
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 # PyBIDS
@@ -47,3 +47,10 @@ PyBIDS exists within a broader ecosystem of BIDS-related tools. The [[bids-valid
 
 - Yarkoni, T., Hoge, R., Gollub, R., et al. (2019). PyBIDS: A Python toolkit for [[bids]]-compliant [[neuroimaging]] metadata and analytics. *Scientific Data*, 6, 180261. https://doi.org/10.1038/sdata.2018.261
 - Gorgolewski, K., Auer, T., Calhoun, V., et al. (2016). Brain Imaging Data Structure: A format for organizing and describing outputs of neuroimaging experiments. *Scientific Data*, 3, 160044. https://doi.org/10.1038/sdata.2016.44
+
+## References
+
+1. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
+2. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+3. J. Meier, P. Triebkorn, M. Schirner, Petra Ritter. (2025). *Connectomes, simultaneous EEG-fMRI resting-state data and brain simulation results from 50 healthy subjects*. bioRxiv. [DOI](https://doi.org/10.1101/2024.04.17.589718)
+4. Emmanuelle Renauld, Arnaud Boré, Charles Poirier, Alex Valcourt-Caron, Philippe Karan, Antoine Théberge, Guillaume Théaud, Manon Edde, P. Poulin, Gabriel Girard, Jean-Christophe Houde, A. Gagnon, Etienne St-Onge, Graham Little, Jon Haitz Legarreta, Stanislas Thoumyre, G. Grenier, Zineb El Yamani, Mario Ocampo Pineda, Matteo Battochio, Vincent Beaudoin, Alexandre Joanisse, Laurent Petit, F. Rheault, Maxime Descoteaux. (2026). *Tractography analysis with the scilpy toolbox*. Aperture Neuro. [DOI](https://doi.org/10.52294/001c.154022)

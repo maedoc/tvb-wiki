@@ -12,7 +12,7 @@ tags:
 - software-visualization
 title: Allen SDK
 type: entity
-updated: '2026-05-01'
+updated: '2026-05-04'
 ---
 
 The Allen SDK (Software Development Kit) is a Python-based toolkit developed by the Allen Institute for Brain Science that provides programmatic access to the extensive datasets produced by the [[allen-brain-atlas]] project. Initially released in 2015, the SDK enables researchers to query, download, and work with brain atlas data including gene expression maps, cell type classifications, connectivity datasets, and reference atlases without requiring manual data curation or web-based downloads [@allen-sdk-github]. The toolkit has become an essential infrastructure component for researchers working in [[connectomics]], [[structural-connectivity]] analysis, and [[computational-neuroscience]] who require high-quality anatomical and physiological reference data for their whole-brain modeling efforts.
@@ -61,3 +61,9 @@ The Allen SDK complements other data resources like the [[human-connectome-proje
 2. Allen Institute for Brain Science. "Mouse Connectivity Atlas: Informatics Data Processing." Technical whitepaper describing the projection mapping studies and data processing pipeline.
 
 3. Allen Institute for Brain Science. "Allen Mouse Common Coordinate Framework Version 3 (2017)." Overview of the design and implementation of the reference atlas space.
+
+## References
+
+1. Konrad Kohnen, Peter Eipert, Laura Budde, Oliver Schmitt. (2025). *neuroVIISAS-based construction of a stereotactic rhesus monkey brain atlas for connectome research.*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2025.110656)
+2. (authors unknown). *BRAPH: A Pipeline for Brain Connectivity Analysis*.
+3. R. Montgomery. (2025). *Applications of Random Matrix Theory in Neuroscience and Neural Network Analysis: Unraveling High-Dimensional Connectivity*. Wired Neuroscience. [DOI](https://doi.org/10.62162/wnsc10606312712241)

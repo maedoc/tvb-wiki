@@ -8,7 +8,7 @@ tags:
 - software-brain-modeling
 title: NeuSIGHT
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 ## Overview
@@ -34,3 +34,9 @@ NeuSIGHT has been discussed primarily in conference presentations and technical 
 ## Related Software
 
 NeuSIGHT interacts with several established tools in the neuroimaging and computational neuroscience ecosystem. As a complement to [[the-virtual-brain]], it can export estimated parameters for use in TVB simulations. For [[structural-connectivity]] estimation, it can utilize [[mrtrix3]] or [[dipy]] for tractography. For neuroimaging preprocessing, the software integrates with standard pipelines including [[fsl]] and [[spm]], and can accept preprocessed data from tools like [[fmriprep]]. The parameter estimation framework shares conceptual foundations with other Bayesian estimation tools in the field, though NeuSIGHT is specialized for whole-brain neural mass models rather than single-region or DCM-style models. NeuSIGHT can also interface with tools like [[brainstorm]] and [[fieldtrip]] for advanced source reconstruction and connectivity analysis, providing users with a flexible ecosystem for multimodal brain modeling research.
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Wanying Qu, Jianxiong Gao, Wei Wang, Yanwei Fu. *Modeling Spatiotemporal Neural Frames for High Resolution Brain Dynamic*. [Link](https://arxiv.org/abs/2603.24176)
+3. Hongjie Jiang, Yifei Tang, Shuqiang Wang. *Neural Dynamics-Informed Pre-trained Framework for Personalized Brain Functional Network Construction*. [Link](https://arxiv.org/abs/2603.07524)

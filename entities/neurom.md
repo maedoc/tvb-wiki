@@ -12,7 +12,7 @@ tags:
 - python
 title: NeuroM
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 # NeuroM
@@ -70,3 +70,9 @@ Despite its capabilities, NeuroM and the broader field of morphometric analysis 
 - NeuroMorpho.Org. (2024). *Online Repository of Neuronal Morphologies*. Supported by the NIH-NBIA.
 - [[tvb|The Virtual Brain]]. (2024). *Whole-brain modeling framework documentation*.
 - LFPy. (2024). * extracellular potential modeling from morphologically detailed neurons.
+
+## References
+
+1. R. A. Benn, Ting Xu, R. Mars, Magdalena Boch, Léa Roumazeilles, K. Heuer, Roberto Toro, D. Margulies, J. Manzano-Patrón, Paula Montesinos, C. Galán-Arriola, G. López-Martín, J. Sanchez-González, E. P. Duff, Borja Ibáñez. (2025). *Precon_all: A species-agnostic automated pipeline for non-human cortical surface reconstruction*. bioRxiv. [DOI](https://doi.org/10.1101/2025.04.16.649072)
+2. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI): A flexible and integrative toolkit for efficient probabilistic inference on virtual brain models*. bioRxiv. [DOI](https://doi.org/10.1101/2025.01.21.633922)
+3. W. Wybo. (2025). *The neural analysis toolkit unifies semi-analytical techniques to simplify, understand, and simulate dendrites*. bioRxiv. [DOI](https://doi.org/10.1101/2025.06.26.661734)

@@ -12,7 +12,7 @@ tags:
 - computational-neuroscience
 title: Auto-07p
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 Auto-07p is a software package for numerical continuation and bifurcation analysis of ordinary differential equations (ODEs) and discrete dynamical systems. Originally developed by Eusebius J. Doedel and collaborators—primarily at Concordia University in Montreal, Canada—Auto-07p has become a standard tool in the computational neuroscience community for analyzing the dynamics of neural mass models and whole-[[brain-network]] models (see {{doedel1981auto}}). The software enables researchers to trace solution branches as parameters vary, detect and locate bifurcations, and compute families of periodic orbits—capabilities essential for understanding the nonlinear dynamics that underlie brain activity.
@@ -76,3 +76,9 @@ More broadly, Auto-07p enables researchers to move beyond "black box" simulation
 - [[andronov-hopf-bifurcation]] — key bifurcation type for neural oscillations
 - [[nonlinear-dynamics]] — broader field of which bifurcation analysis is part
 - [[computational-neuroscience]] — domain where Auto-07p is applied
+
+## References
+
+1. Duy Pham, Gene J. Yu, G. Lazzi, Jean-Marie C Bouteiller. (2026). *A spatially discretized convolutional neural mass model for studying meso-scale spatio-temporal transformations in the rat hippocampus*. Research Square. [DOI](https://doi.org/10.21203/rs.3.rs-9306977/v1)
+2. Jonathan Touboul, Fabien Wendling, Bruno Bellanger, Patrick Chauvel, Olivier Faugeras. *Bifurcation analysis of Jansen's neural mass model*. Neural Computation. [DOI](https://doi.org/10.1162/NECO_a_00151)
+3. P.Yu. Kondrakhin, F.A. Kolpakov. (2026). *Modular Model of Neuronal Activity That Captures the Dynamics of Main Molecular Targets of Antiepileptic Drugs*. International Journal of Molecular Sciences. [DOI](https://doi.org/10.3390/ijms27010490)

@@ -9,7 +9,7 @@ tags:
 - software-brain-modeling
 title: Jülich Atlas
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 The **Jülich Atlas**, also known as the **Jülich Brain Atlas** or **Julich-Brain**, is a comprehensive probabilistic cytoarchitectonic atlas of the human cerebral cortex developed by the Institute of Neuroscience and Medicine (INM-1) at the Forschungszentrum Jülich (Jülich Research Centre) in Germany. Unlike classical anatomical atlases based on a single brain specimen, the Jülich Atlas provides probabilistic maps that quantify the spatial distribution of different cortical areas across a population of post‑mortem brains, making it particularly valuable for [[neuroimaging]] research where individual variability is a central concern[^1].
@@ -59,3 +59,10 @@ The Jülich Atlas can be used with standard neuroimaging toolkits including [[fs
 4. Amunts K, Zilles K. (2015). “Architectonic Mapping of the Human Brain.” In: Toga AW (ed). *Brain Mapping: An Encyclopedic Reference*. Academic Press.
 
 5. Evans AC, Collins DL, Mills SR, et al. (1992). “3D Statistical Neuroanatomic Models of 305 Normal Brains.” *Proceedings of the IEEE Nuclear Science Symposium and Medical Imaging Conference*.
+
+## References
+
+1. (authors unknown). *Networks: An Introduction*.
+2. (authors unknown). *Networks of the Brain*.
+3. (authors unknown). *Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems*.
+4. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
