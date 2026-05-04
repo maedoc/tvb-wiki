@@ -16,7 +16,7 @@ tags:
 - neuroimaging
 title: EEG
 type: concept
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 # EEG
@@ -69,7 +69,7 @@ EEG analysis encompasses a wide range of techniques for extracting information f
 
 ## Software Tools
 
-Several software packages are widely used for EEG analysis. **[[eeglab]]** is an interactive MATLAB toolbox for EEG processing, including preprocessing, ICA decomposition, time-frequency analysis, and statistical testing. **[[mne-python]]** provides a Python-based environment for EEG and MEG analysis with particular strengths in source localization and visualization. **[[fieldtrip]]** is a MATLAB toolbox from the Donders Institute that emphasizes beamforming and source analysis. Other tools include **[[brainstorm]]**, **[[openvibe]]**, and **[[bci2000]]**.
+Several software packages are widely used for EEG analysis. **[[eeglab]]** is an interactive MATLAB toolbox for EEG processing, including preprocessing, ICA decomposition, time-frequency analysis, and statistical testing. **[[mne-python]]** provides a Python-based environment for EEG and MEG analysis with particular strengths in source localization and visualization. **[[fieldtrip]]** is a MATLAB toolbox from the Donders Institute that emphasizes beamforming and source analysis. Other tools include **[[brainstorm]]**, **[[cartool]]**, **[[openvibe]]**, and **[[bci2000]]**.
 
 ## Comparison with Other Neuroimaging Modalities
 
@@ -89,7 +89,11 @@ EEG is fundamentally linked to several key concepts in computational neuroscienc
 
 ## References
 
-1. Ernst Niedermeyer, Fernando HL da Silva (eds). (2004). *Electroencephalography: Basic Principles, Clinical Applications, and Related Fields* (5th ed.). Lippincott Williams & Wilkins.
-2. Paul L. Nunez, Ramesh Srinivasan. (2006). *Electric Fields of the Brain: The Neurophysics of EEG* (2nd ed.). Oxford University Press.
-3. Scott Makeig, Anthony J. Bell, Tzyy-Ping Jung, [[terrence-sejnowski|Terrence J. Sejnowski]]. (1996). Independent component analysis of electroencephalographic data. *Advances in Neural Information Processing Systems*, 8, 145-151.
-4. Michael X. Cohen. (2014). *Analyzing Neural Time Series Data: Theory and Practice*. MIT Press.
+1. (authors unknown). *Electroencephalography: Basic Principles, Clinical Applications, and Related Fields*.
+2. (authors unknown). *Electric Fields of the Brain: The Neurophysics of EEG*.
+3. (authors unknown). *Independent component analysis of electroencephalographic data*.
+4. O. David, K.J. Friston. *Dynamic causal modelling*. NeuroImage. [DOI](https://doi.org/10.1016/S1053-8119(03)00202-7)
+5. Chenghao Yue, Zhiyuan Ma, Zhongye Xia, Xinche Zhang, Yisi Zhang, Xinke Shen, Sen Song. *LI-DSN: A Layer-wise Interactive Dual-Stream Network for EEG Decoding*. [Link](https://arxiv.org/abs/2604.01889)
+6. Wanying Qu, Jianxiong Gao, Wei Wang, Yanwei Fu. *Modeling Spatiotemporal Neural Frames for High Resolution Brain Dynamic*. [Link](https://arxiv.org/abs/2603.24176)
+7. Neda Abdollahpour, N. Sertac Artan, Ian Daly, Mohammadreza Yazdchi, Zahra Baharlouei. (2025). *Effective Connectivity-Based Unsupervised Channel Selection Method for EEG*. [Link](https://arxiv.org/abs/2510.12910)
+8. Mohaddese Qaremohammadlou, Mohammad Bagher Shamsollahi. (2025). *Investigating Brain Connectivity and Information Flow in Mental Workload Using EEG and fNIRS Integration*. [Link](https://arxiv.org/abs/2511.02457)

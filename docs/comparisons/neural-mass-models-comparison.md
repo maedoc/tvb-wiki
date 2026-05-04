@@ -20,7 +20,7 @@ tags:
 - whole-brain-modeling
 title: 'Neural Mass Models: Jansen-Rit vs Wilson-Cowan'
 type: comparison
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 # Neural Mass Models: Jansen-Rit vs Wilson-Cowan
@@ -259,3 +259,5 @@ The choice depends on the specific question: use Wilson-Cowan for theoretical in
 7. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](https://doi.org/10.3389/fncom.2025.1731161)
 8. Cristiana Dimulescu, Ronja Strömsdörfer, Agnes Flöel, Klaus Obermayer. (2025). *On the robustness of the emergent spatiotemporal dynamics in biophysically realistic and phenomenological whole-brain models at multiple network resolutions*. [Link](https://arxiv.org/abs/2504.17491)
 9. Cyprien Tamekue, ShiNung Ching. *Control of neural field equations with step-function inputs*. [Link](https://arxiv.org/abs/2510.22022)
+10. Gianluca Gaglioti, L. Porta, M. Colombo, Simone Russo, Thierry Nieus, G. Deco, M. Corbetta, S. Sarasso, M. V. Sanchez-Vives, M. Massimini. (2026). *Slow wave generation and propagation in a model of brain lesions*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2026.121817)
+11. Jeremy B. Goetz, Naruepon Weerawongphrom, Rashid V. Williams-García, John M. Beggs, Gerardo Ortiz. (2025). *A Minimal Network of [[brain-dynamics]]: Hierarchy of Approximations to Quasi-critical Neural [[network-dynamics]]*. [Link](https://arxiv.org/abs/2512.22093)

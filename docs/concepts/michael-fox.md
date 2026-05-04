@@ -6,7 +6,7 @@ tags:
 - michael-fox
 title: Michael Fox
 type: concept
-updated: '2026-04-28'
+updated: '2026-04-30'
 ---
 
 Michael Fox — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].

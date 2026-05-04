@@ -5,6 +5,8 @@ sources:
 - raw/papers/sanz-leon-2013.md
 - raw/papers/semanticscholar-d759f2182295.md
 - raw/papers/semanticscholar-ff8218c1e55e.md
+- raw/papers/semanticscholar-7066925c753c.md
+- raw/papers/glean-github.md
 tags:
 - people-researcher
 - epilepsy-modeling
@@ -13,16 +15,10 @@ tags:
 - dynamical-systems-theory
 - computational-neuroscience
 - whole-brain-modeling
+title: Krasimira Tsaneva Atanasova
 type: entity
-updated: '2026-04-28'
+updated: '2026-05-03'
 ---
-
-title: Krasimira Tsaneva-Atanasova
-created: 2026-04-20
-updated: 2026-04-28
-type: entity
-tags: [people-researcher, computational-neuroscience, dynamical-systems, mathematical-biology, healthcare-modeling]
-sources: []
 
 # Krasimira Tsaneva-Atanasova
 
@@ -89,16 +85,19 @@ In the neuroscientific domain, understanding how neuronal and endocrine systems 
 * [[dynamical-systems-theory]]
 * [[bifurcation-theory]]
 * [[computational-neuroscience]]
-* [[mathematical-biology]]
+* [[electrophysiology]]
 * [[parameter-estimation]]
 * [[epilepsy-modeling]]
-* [[endocrine-system]]
-* [[hormone-dynamics]]
-* [[personalized-medicine]]
-* [[numerical-continuation]]
+* endocrine-system
+* [[nonlinear-dynamics]]
+* [[personalized-brain-modeling]]
+* [[parameter-estimation]]
 
 ## References
 
-1. University of Exeter Living Systems Institute Profile. [Link](https://lsi.exeter.ac.uk/member/prof-krasimira-tsaneva-atanasova/)
-2. Institute for Advanced Study, Technical University of Munich. [Link](https://www.ias.tum.de/en/ias/tsaneva-atanasova-krasimira/)
-3. ORCID: 0000-0002-6294-7051
+1. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)
+2. Sanz Leon et al. (2013). *[[the-virtual-brain]]: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+3. B. Zikopoulos, Natalia Matuk, I. Romanova, Arash Yazdanbakhsh. (2026). *Biophysical Modeling of Thalamocortical Circuit Dynamics: Species-Specific Insights into Neural Synchrony, Sleep Spindles, and Mechanisms of Neuropsychiatric Disorders*. bioRxiv. [DOI](https://doi.org/10.64898/2026.02.01.703170)
+4. Yunman Xia, S. Peng, J. Dukart, C. Xie, Shitong Xiang, S. Petkoski, Zilin Li, Joerg F. Hipp, S. Muthukumaraswamy, A. Forsyth, Tianye Jia, N. Vaidya, T. Lett, Liyi Qian, Xiao Chang, Yuxiang Dai, T. Banaschewski, G. Barker, A. Bokde, R. Brühl, S. Desrivières, Herta Flor, P. Gowland, A. Grigis, Andreas Heinz, H. Lemaître, F. Nees, D. Orfanos, Luise Poustka, M. Smolka, Sarah Hohmann, H. Walter, R. Whelan, Paul Wirsching, Zuo Zhang, Lauren Robinson, J. Winterer, Yuning Zhang, H. Kebir, Ulrike Schmidt, Julia Sinclair, Yuchen Liu, Jiexiang Wang, Fei Dai, Longbin Zeng, Yubo Hou, Huarui Wang, Leijun Ye, Chunhe Li, Qibao Zheng, Andre F Marquand, Changsong Zhou, V. Jirsa, Jianfeng Feng, Wenlian Lu, Gunter Schumann. (2026). *Digital Twin Brain simulation and manipulation of a functional brain network underlying mental illness*. bioRxiv. [DOI](https://doi.org/10.64898/2026.03.06.710030)
+5. Xiaojun Zhou, Yuan Wang, Bailu Si. (2025). *Controlling Epileptic Seizures through Hippocampal Regulation: A Complex Network Analysis in the Mouse Brain*. IEEE transactions on neural systems and rehabilitation engineering. [DOI](https://doi.org/10.1109/TNSRE.2025.3616957)
+6. (authors unknown). *[[lean|GLEAN]]: Group Level Exploratory Analysis of Networks*.

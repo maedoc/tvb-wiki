@@ -1,0 +1,60 @@
+---
+created: 2024-01-15
+sources:
+- raw/papers/power-2011.md
+- raw/papers/power-2012.md
+tags:
+- brain-parcellations
+- functional-connectivity
+- neuroimaging-fmri
+- resting-state
+- network-dynamics
+title: Power Atlas
+type: entity
+updated: '2026-04-30'
+---
+
+The Power Atlas, formally known as the Power 2011 atlas, is a widely-used brain [[parcellation]] scheme that divides the human cerebral cortex into 264 discrete regions of interest (ROIs) based on [[functional-connectivity]] patterns derived from [[resting-state|resting-state fMRI]]. Developed by Jonathan Power and colleagues at Washington University in St. Louis, this atlas represents a landmark contribution to [[connectomics]] research, providing a data-driven organizational framework that has shaped our understanding of the brain's intrinsic functional architecture. Unlike anatomical parcellations that rely solely on cytoarchitecture or macroanatomical landmarks, the Power Atlas emerges from empirical patterns of coherent [[bold-signal]] fluctuations, offering a parcellation scheme that reflects the brain's underlying functional organization rather than its purely structural divisions.
+
+## Motivation and Context
+
+The development of the Power Atlas in 2011 addressed a fundamental challenge in resting-state functional [[connectivity]] research: the need for a standardized parcellation scheme that could be applied across studies and datasets. Prior to this work, researchers relied heavily on anatomical atlases such as the [[desikan-killiany-atlas]] or the [[aal-atlas]], which, while useful for many purposes, do not necessarily align with the brain's actual functional boundaries. Resting-state fMRI, pioneered by [[bharat-biswal]] and colleagues in the mid-1990s, had revealed that the brain exhibits coherent spontaneous fluctuations even in the absence of task demands, and these correlations could be used to define functional networks. However, the lack of a consensus parcellation scheme hindered comparisons across studies and limited the ability to build comprehensive models of whole-[[brain-dynamics]].
+
+Power and colleagues recognized that by combining evidence from multiple published [[neuroimaging]] studies, they could identify regions that consistently showed co-activation patterns across a wide range of experiments. This meta-analytic approach allowed them to construct a parcellation that was not dependent on any single dataset or analysis method, making it broadly applicable and robust. The resulting atlas provides coordinates in standard [[mni-space]], enabling straightforward integration with most neuroimaging software pipelines and analysis frameworks.
+
+## Technical Specification and Construction Methodology
+
+The Power Atlas consists of 264 spherical regions of interest with a radius of 5 mm, distributed across the cerebral cortex and select subcortical structures. The construction methodology employed a sophisticated meta-analytic approach that combined coordinate-based meta-analysis of published neuroimaging experiments with resting-state functional connectivity analysis. The authors first compiled coordinates from over 10,000 neuroimaging experiments published in the literature, then used clustering algorithms to identify regions that showed consistent co-activation patterns across these diverse studies. These functionally-defined clusters were then validated and refined using independent resting-state [[fmri]] datasets, ensuring that the resulting parcellation scheme captured genuine patterns of functional organization.
+
+Each ROI in the atlas is assigned to one of 13 functional networks, including well-established systems such as the [[default-mode-network]], frontoparietal control network, dorsal and ventral attention networks, motor cortex, visual cortex, and limbic systems. This network assignment provides a hierarchical organization that has proven extremely valuable for understanding the brain's modular structure and for testing hypotheses about the relationship between network topology and cognitive function. The network labels were determined through a combination of clustering of the resting-state functional connectivity matrices and examination of the cognitive domains associated with each network in the original published studies.
+
+## Relationship to Whole-Brain Modeling and TVB
+
+In the context of [[connectome]]-based [[whole-brain|whole-brain modeling]], the Power Atlas has become one of the most frequently employed parcellation schemes for defining network nodes in computational models. When constructing large-scale [[brain-network]] models in platforms such as [[the-virtual-brain]] (TVB), researchers must make critical decisions about how to divide the brain into discrete regions that will serve as model nodes. The Power Atlas offers several advantages for this purpose: the regions are relatively small (compared to coarser atlases), they are defined based on functional criteria rather than purely anatomical boundaries, and the network assignments provide a natural way to specify initial conditions and compare model dynamics to empirical data. 
+
+TVB and similar whole-brain modeling frameworks can use the Power Atlas to construct connectivity matrices by extracting time series from each of the 264 ROIs and computing pairwise correlations or other connectivity measures. These empirical connectivity matrices can then be used to constrain model parameters, such as coupling strengths between brain regions. The network-level organization provided by the atlas also facilitates comparison between simulated dynamics and empirical functional networks, enabling researchers to assess whether their models can reproduce the characteristic patterns of resting-state connectivity, including the presence of strongly correlated within-network regions and anti-correlations between certain networks.
+
+## Comparison with Related Atlases
+
+The Power Atlas occupies a specific niche in the landscape of [[brain-parcellations]], and understanding its relationship to other widely-used schemes clarifies its strengths and limitations. Compared to purely anatomical atlases like the Desikan-Killiany atlas or the [[harvard-oxford-atlas]], the Power Atlas has the advantage of being based on empirical functional data rather than anatomical landmarks. This means that the boundaries between regions in the Power Atlas often align with transitions between different functional networks, making it particularly suitable for studies of functional connectivity and [[network-dynamics]].
+
+Compared to other functionally-derived parcellations, the Power Atlas stands alongside the Yeo 2011 atlas, which provides a complementary seven-network parcellation of the cortex using similar methodology but at a coarser resolution. The [[yeo-atlas]] is often preferred when a simpler network-level organization is desired, while the Power Atlas provides finer-grained detail with its 264 regions. More recent parcellation schemes, such as the Schaefer 2018 atlas, have built upon this foundation using larger datasets and more sophisticated clustering algorithms, but the Power Atlas remains a foundational reference in the field.
+
+## Applications in Neuroimaging Research
+
+The Power Atlas has found extensive application across numerous domains of neuroimaging research. In studies of typical and atypical brain development, researchers have used the atlas to examine how functional connectivity networks mature from childhood through adulthood, revealing characteristic patterns of strengthening within-network connectivity and pruning of between-network correlations. In clinical research, the atlas has been employed to identify altered patterns of functional connectivity in psychiatric and neurological disorders, including schizophrenia, autism, Alzheimer's disease, and epilepsy.
+
+The atlas has also proven valuable in the context of the [[human-connectome-project]] and other large-scale efforts to characterize the healthy human brain. By applying consistent parcellation schemes like the Power Atlas across large datasets, researchers can establish normative ranges for connectivity metrics and identify deviations that may indicate pathology. The atlas's inclusion in widely-used Python toolboxes such as [[nilearn]] has further democratized its use, making it accessible to researchers across the neuroimaging community.
+
+## Limitations and Criticisms
+
+While the Power Atlas has been widely adopted and proven tremendously useful for whole-brain connectivity analyses, several limitations have been identified in the literature. First, the use of spherical ROIs with a fixed 5 mm radius does not account for the highly variable cortical thickness across brain regions, meaning that in some areas the spheres may capture signals from multiple functionally distinct cortical territories, while in other regions the spheres may be too small to capture the full extent of a functional area. Second, because the spheres are defined in MNI space rather than on individual participants' anatomy, the ROIs may cross sulcal and gyral boundaries in ways that are not anatomically principled, potentially mixing signals from functionally distinct cortical patches. Third, the meta-analytic component of the atlas construction relied on the published literature, which is subject to publication bias toward significant findings and may not comprehensively represent all brain regions. These limitations have motivated the development of newer parcellation schemes that address these concerns, including surface-based parcellations that conform to the cortical sheet and data-driven parcellations derived from larger resting-state datasets.
+
+## Key References
+
+The foundational paper describing the Power Atlas was published in [[neuron]] in 2011 by Jonathan Power, Alexander Cohen, Steven Nelson, and colleagues under the leadership of Steven Petersen at Washington University. This paper, titled "Functional network organization of the human brain," has become one of the most-cited works in contemporary neuroimaging, with thousands of citations reflecting its broad impact on the field. A subsequent publication in 2012 by Power and colleagues further elaborated the methodology and demonstrated its utility for identifying hubs and canonical network organizations in the human brain.
+
+## References
+
+1. (authors unknown). *Functional Network Organization of the Human Brain*.
+2. (authors unknown). *Spurious but systematic correlations in functional connectivity MRI networks arise from subject motion*.

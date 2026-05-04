@@ -14,12 +14,12 @@ tags:
 - functional-connectivity
 title: Small-World Networks
 type: concept
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 # Small-World Networks
 
-Small-world networks represent a fundamental network topology characterized by the coexistence of high local clustering among neighboring nodes and short global path lengths between any two nodes in the network. This combination endows small-world networks with unique dynamical properties that bridge the gap between regular lattices, which exhibit strong local cohesion but poor global integration, and random graphs, which achieve efficient global communication at the expense of local structure. The small-world concept has become one of the most influential frameworks in contemporary network neuroscience, providing a theoretical bridge between anatomical organization and functional dynamics in the brain.
+Small-world networks represent a fundamental network topology characterized by the coexistence of high local clustering among neighboring nodes and short global path lengths between any two nodes in the network. This combination endows small-world networks with unique dynamical properties that bridge the gap between regular lattices, which exhibit strong local cohesion but poor global integration, and random graphs, which achieve efficient global communication at the expense of local structure. The small-world concept has become one of the most influential frameworks in contemporary [[netneuroscience|network neuroscience]], providing a theoretical bridge between anatomical organization and functional dynamics in the brain.
 
 ## Definition and Core Properties
 
@@ -62,3 +62,5 @@ The small-world framework intersects with several other key concepts in brain ne
 1. (authors unknown). *Collective Dynamics of 'Small-World' Networks*.
 2. (authors unknown). *Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems*.
 3. (authors unknown). *Networks of the Brain*.
+4. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
+5. (authors unknown). *Emergence of Scaling in [[random-networks]]*.

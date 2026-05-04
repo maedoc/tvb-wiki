@@ -20,7 +20,7 @@ tags:
 - neuroimaging-eeg
 title: fMRI vs EEG for Whole-Brain Modeling
 type: comparison
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 # fMRI vs EEG for Whole-Brain Modeling
@@ -93,6 +93,7 @@ Neither modality alone is sufficient. fMRI provides the spatial organization tha
 - neurovascular-coupling – Link between activity and BOLD
 - volume-conduction – EEG signal spread
 - [[personalized-brain-modeling|Personalized Brain Modeling]]
+
 ## References
 
 1. (authors unknown). *Brain magnetic resonance imaging with contrast dependent on blood oxygenation*.
@@ -105,5 +106,6 @@ Neither modality alone is sufficient. fMRI provides the spatial organization tha
 8. Cristiana Dimulescu, Ronja Strömsdörfer, Agnes Flöel, Klaus Obermayer. (2025). *On the robustness of the emergent spatiotemporal dynamics in biophysically realistic and phenomenological whole-brain models at multiple network resolutions*. [Link](https://arxiv.org/abs/2504.17491)
 9. Chetan Gohil, Oliver M. Cliff, James M. Shine, Ben D. Fulcher, Joseph T. Lizier. (2026). *Estimating measures of information processing during cognitive tasks using functional magnetic resonance imaging*. [Link](https://arxiv.org/abs/2602.03240)
 10. Mohaddese Qaremohammadlou, Mohammad Bagher Shamsollahi. (2025). *Investigating Brain Connectivity and Information Flow in Mental Workload Using EEG and fNIRS Integration*. [Link](https://arxiv.org/abs/2511.02457)
-11. Ritter et al. (2013). *[[tvb|The Virtual Brain]] integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
+11. Ritter et al. (2013). *[[the-virtual-brain]] integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
 12. Yifei Sun, James M. Shine, Robert D. Sanders, Robin F. H. Cash, Sharon L. Naismith, Fernando Calamante, Jinglei Lv. (2026). *A Data-Driven Method to Map the Functional Organisation of Human Brain [[white-matter]]*. [Link](https://arxiv.org/abs/2602.18715)
+13. Christopher Gabaldon, Adria Mulero, Rong Wang, Daniel A. Martin, Sabrina Camargo, Qian-Yuan Tang, Ignacio Cifre, Changsong Zhou, Dante R. Chialvo. (2026). *Data-driven inference of brain dynamical states from the r-spectrum of correlation matrices*. [Link](https://arxiv.org/abs/2601.03796)

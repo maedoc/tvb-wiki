@@ -8,6 +8,7 @@ sources:
 - raw/papers/arxiv-2506.22951.md
 - raw/papers/sanz-leon-2013.md
 - raw/papers/semanticscholar-7b51fe740684.md
+- raw/papers/wang-etal-2015-gretna.md
 tags:
 - software-brain-modeling
 - neuroimaging-fmri
@@ -16,7 +17,7 @@ tags:
 - connectomics
 title: CONN
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 # CONN
@@ -77,7 +78,11 @@ CONN serves as a critical preprocessing and analysis tool in the [[connectome]]-
 
 ## References
 
-- Whitfield-Gabrieli, S., & Nieto-Castanon, A. (2012). Conn: A functional connectivity toolbox for correlated and anticorrelated brain networks. *Brain Connectivity*, 2(3), 125-141. https://doi.org/10.1089/brain.2012.0073
-- Behzadi, Y., Restom, K., Liau, J., & Liu, T. T. (2007). A component based noise correction method (CompCor) for [[bold-signal|BOLD]] and perfusion based fMRI. *NeuroImage*, 37(1), 90-101. https://doi.org/10.1016/j.neuroimage.2007.04.042
-- Nieto-Castanon, A. (2020). Handbook of functional connectivity Magnetic Resonance Imaging methods in CONN. *Hilbert Press*. https://doi.org/10.1101/2020.08.05.234243
-- www.nitrc.org/projects/conn — Official CONN project repository
+1. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
+2. (authors unknown). *Functional [[connectomics]] from Resting-State fMRI*.
+3. Woodman et al. (2014). *[[graphvar]]: A user-friendly toolbox for comprehensive graph analyses of functional brain connectivity*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2014.07.015)
+4. F. Caramia, A. Di Renzo, Irene Giardina, Davide Chiffi, G. Giuliani, G. Sebastianelli, Francesco Casillo, C. Abagnale, Francesca Conti, Francesca Lafavia, Marco Fiorelli, Mao-mei Song, Marta Altieri, Gianluca Coppola. (2026). *Multimodal MRI of episodic cluster headache reveals frontal cortical alterations and network-level connectivity changes*. The Journal of Headache and Pain. [DOI](https://doi.org/10.1186/s10194-026-02282-6)
+5. Ramiro Plüss, Hernán Villota, Patricio Orio. (2025). *Hemispheric-Specific Coupling Improves Modeling of Functional Connectivity Using [[wilson-cowan]] Dynamics*. [Link](https://arxiv.org/abs/2506.22951)
+6. Sanz Leon et al. (2013). *[[the-virtual-brain]]: a simulator of primate [[brain-network]] dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+7. Sali Issa, Qi Wang, Ruinan Qi, Guangxi Peng, Shi Yin, Qinmu Peng. (2026). *An effective alzheimer disease diagnosis using resting state fmri images and broad learning system.*. Psychiatry research. Neuroimaging. [DOI](https://doi.org/10.1016/j.pscychresns.2025.112133)
+8. Wang, J., Wang, X., Xia, M., Liao, X., Evans, A., & He, Y. (2015). *[[gretna]]: a graph theoretical network analysis toolbox for MATLAB*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2015.04.016)

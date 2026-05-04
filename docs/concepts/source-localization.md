@@ -20,7 +20,7 @@ tags:
 - volume-conduction
 title: Source Localization
 type: concept
-updated: '2026-04-27'
+updated: '2026-05-03'
 ---
 
 **Source localization** (also termed *source imaging* or the *electromagnetic inverse problem*) is a computational technique in [[electrophysiology]] that estimates the locations and sometimes the time courses of intracranial neural generators from scalp recordings of [[eeg]] or [[meg]] signals. In a whole-brain modeling context, source localization provides the empirical constraints that inform [[dynamic-causal-modeling|dynamic causal modeling]] or neural mass models, linking observed macroscopic brain dynamics to underlying mesoscopic network activity.
@@ -43,7 +43,7 @@ Various solution strategies have been developed, each embodying different assump
 
 **Beamformers** (e.g., synthetic aperture magnetometry for MEG, or linear constraint minimum variance beamformers for both EEG and MEG) construct spatial filters that pass activity from a specific location while attenuating contributions from elsewhere. By scanning across a lattice of candidate source locations, beamformers produce tomographic images of neural activity. They are computationally efficient and can accommodate noise characteristics, but assume source activity is temporally uncorrelated across different locations—violation of this assumption can lead to filter interference.
 
-**Minimum norm estimation (MNE)** and its regularized variants (depth-weighted MNE, [[sloreta]], eLORETA) formulate the inverse problem as an optimization: find the source distribution $\mathbf{q}$ that minimizes the mismatch with observations, subject to a regularization term that penalizes implausible solutions. The classical MNE solution is:
+**Minimum norm estimation (MNE)** and its regularized variants (depth-weighted MNE, [[sloreta]], [[eloreta]]) formulate the inverse problem as an optimization: find the source distribution $\mathbf{q}$ that minimizes the mismatch with observations, subject to a regularization term that penalizes implausible solutions. The classical MNE solution is:
 
 $$\hat{\mathbf{q}} = \mathbf{G}^{\mathsf{T}} (\mathbf{G} \mathbf{G}^{\mathsf{T}} + \lambda \mathbf{I})^{-1} \mathbf{y}$$
 
@@ -74,3 +74,4 @@ Source localization is closely related to several other concepts in the wiki. It
 3. V. Myrov, A. Suleimanova, Samanta Knapič, P. Partanen, M. Vesterinen, Wenya Liu, S. Palva, J. M. Palva. (2026). *Hierarchical whole-brain modeling of critical synchronization dynamics in the human brain.*. Proceedings of the National Academy of Sciences of the United States of America. [DOI](https://doi.org/10.1073/pnas.2505768123)
 4. Wanying Qu, Jianxiong Gao, Wei Wang, Yanwei Fu. *Modeling Spatiotemporal Neural Frames for High Resolution Brain Dynamic*. [Link](https://arxiv.org/abs/2603.24176)
 5. Sakul Mahat, Sharmistha Guha, Jessica Bernard. (2026). *A Bayesian Framework for Quantifying Association Between Functional and Structural Data in [[neuroimaging]]*. [Link](https://arxiv.org/abs/2603.21067)
+6. Christopher Gabaldon, Adria Mulero, Rong Wang, Daniel A. Martin, Sabrina Camargo, Qian-Yuan Tang, Ignacio Cifre, Changsong Zhou, Dante R. Chialvo. (2026). *Data-driven inference of brain dynamical states from the r-spectrum of correlation matrices*. [Link](https://arxiv.org/abs/2601.03796)

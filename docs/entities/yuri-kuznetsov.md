@@ -7,15 +7,16 @@ sources:
 - raw/papers/touboul-2011.md
 - raw/papers/izhikevich-2007.md
 - raw/papers/arxiv-2512.22093.md
+- raw/papers/semanticscholar-2004e006655b.md
 tags:
 - people-researcher
 title: Yuri Kuznetsov
 type: entity
-updated: '2026-04-27'
+updated: '2026-05-01'
 ---
 
 ## Overview
-Yuri A. Kuznetsov is a Russian mathematician and Professor at Utrecht University, Netherlands. He is a leading expert on numerical continuation and bifurcation analysis, and the developer of MATCONT software.
+Yuri A. Kuznetsov is a Russian mathematician and Professor at Utrecht University, Netherlands. He is a leading expert on numerical continuation and bifurcation analysis, and the developer of [[matcont]] software.
 
 ## Key Contributions
 - **Applied Bifurcation Theory**: Author of the standard reference "Elements of Applied Bifurcation Theory"
@@ -45,3 +46,6 @@ Yuri A. Kuznetsov is a Russian mathematician and Professor at Utrecht University
 2. (authors unknown). *Practical Bifurcation and Stability Analysis*.
 3. (authors unknown). *Nonlinear Oscillations, Dynamical Systems, and Bifurcations of Vector Fields*.
 4. Jonathan Touboul, Fabien Wendling, Bruno Bellanger, Patrick Chauvel, Olivier Faugeras. *Bifurcation analysis of Jansen's [[neural-mass-models|neural mass model]]*. Neural Computation. [DOI](https://doi.org/10.1162/NECO_a_00151)
+5. [[eugene-izhikevich|Eugene M. Izhikevich]]. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
+6. Jeremy B. Goetz, Naruepon Weerawongphrom, Rashid V. Williams-García, John M. Beggs, Gerardo Ortiz. (2025). *A Minimal Network of [[brain-dynamics]]: Hierarchy of Approximations to Quasi-critical Neural [[network-dynamics]]*. [Link](https://arxiv.org/abs/2512.22093)
+7. Marianna Angiolelli, D. Depannemaecker, H. Agouram, J. Régis, R. Carron, M. Woodman, L. Chiodo, P. Triebkorn, Abolfazl Ziaeemehr, Meysam Hashemi, Alexandre Eusebio, [[viktor-jirsa]], P. Sorrentino. (2025). *The Virtual Parkinsonian patient*. npj Systems Biology and Applications. [DOI](https://doi.org/10.1038/s41540-025-00516-y)

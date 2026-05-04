@@ -8,7 +8,7 @@ tags:
 - people-researcher
 title: Crispin Gardiner
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 ## Overview
@@ -39,3 +39,5 @@ Crispin W. Gardiner is a New Zealand physicist and Professor at the University o
 ## References
 
 1. (authors unknown). *Stochastic Methods: A Handbook for the Natural and Social Sciences*.
+2. K. Reddy. (2026). *Compact dynamical mean-field theory of [[oscillator]] networks*. Physical Review E. [DOI](https://doi.org/10.1103/lt71-mfpw)
+3. (authors unknown). *Networks: An Introduction*.

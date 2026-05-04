@@ -1,16 +1,10 @@
 ---
 created: 2024-01-15
 sources:
-- '[Gaser & Dahnke, 2023](https://doi.org/10.1101/2023.04.04.535197) - CAT12 methods
-  paper'
-- '[SPM Software](https://www.fil.ion.ucl.ac.uk/spm/) - Statistical Parametric Mapping'
-- '[Gaser et al., 2012](https://www.ncbi.nlm.nih.gov/pmc/articles/PMCPMC3849212/)
-  - Original CAT12 publication'
-- '[Kurth et al., 2015](https://doi.org/10.1016/j.neuroimage.2015.03.022) - CAT12
-  validation review'
 - raw/papers/semanticscholar-a0cce22e2ffc.md
 - raw/papers/power-2011.md
 - raw/papers/arxiv-2601.03796.md
+- raw/papers/glean-github.md
 tags:
 - software
 - neuroimage-analysis
@@ -22,7 +16,7 @@ tags:
 - structural-mri
 title: CAT12
 type: entity
-updated: '2026-04-28'
+updated: '2026-04-30'
 ---
 
 # CAT12
@@ -68,12 +62,7 @@ The development and validation of CAT12 has been described in several influentia
 
 ## References
 
-Gaser, C., & Dahnke, R. (2023). CAT – A Computational Anatomy Toolbox for the Analysis of Structural MRI Data. *bioRxiv*. https://doi.org/10.1101/2023.04.04.535197
-
-Gaser, C., Franke, K., Klöppel, S., Koutsouleris, N., & Sauer, H. (2015). BrainAGE in Mild Cognitive Impairment and Alzheimer's Disease: A Comparison of Different Gray Matter Loss Pipelines. *Neurobiology of [[aging]]*, 36, S4-S13. https://doi.org/10.1016/j.neurobioaging.2015.03.022
-
-Gaser, C., & Schmidt, M. (2012). CAT – A Computational Anatomy Toolbox for the Analysis of Structural MRI Data. *Organization for Human Brain Mapping*. https://www.ncbi.nlm.nih.gov/pmc/articles/PMCPMC3849212/
-
-Kurth, F., Gaser, C., & Luders, E. (2015). A 3D probabilistic atlas of the human brain's gyri and sulci. *Brain Structure and Function*, 220(1), 149-163. https://doi.org/10.1007/s00429-014-0862-7
-
-Penny, W. D., Friston, K. J., Ashburner, J. T., Kiebel, S. J., & Nichols, T. E. (Eds.). (2007). *Statistical Parametric Mapping: The Analysis of Functional Brain Images*. Academic Press.
+1. L. Fisch, N. Winter, J. Goltermann, Carlotta B. C. Barkhau, D. Emden, J. Ernsting, M. Konowski, R. Leenings, T. Borgers, K. Flinkenflügel, D. Grotegerd, Anna Kraus, E. Leehr, S. Meinert, F. Stein, L. Teutenberg, F. Thomas-Odenthal, P. Usemann, M. Hermesdorf, H. Jamalabadi, Andreas Jansen, I. Nenadić, Benjamin Straube, T. Kircher, Klaus Berger, Benjamin Risse, U. Dannlowski, T. Hahn. (2026). *deepmriprep: voxel-based morphometry preprocessing via deep neural networks*. Nature Computational Science. [DOI](https://doi.org/10.1038/s43588-026-00953-7)
+2. (authors unknown). *Functional Network Organization of the Human Brain*.
+3. Christopher Gabaldon, Adria Mulero, Rong Wang, Daniel A. Martin, Sabrina Camargo, Qian-Yuan Tang, Ignacio Cifre, Changsong Zhou, Dante R. Chialvo. (2026). *Data-driven inference of brain dynamical states from the r-spectrum of correlation matrices*. [Link](https://arxiv.org/abs/2601.03796)
+4. (authors unknown). *[[lean|GLEAN]]: Group Level Exploratory Analysis of Networks*.

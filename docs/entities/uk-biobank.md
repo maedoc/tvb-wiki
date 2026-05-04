@@ -13,7 +13,7 @@ tags:
 - aging-brain
 title: UK Biobank
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 # UK Biobank

@@ -15,7 +15,7 @@ tags:
 - rich-club
 title: Structural Core
 type: concept
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 The structural core is a set of highly interconnected hub regions that form a central backbone for brain communication. Located predominantly in the posterior medial and parietal cortex, these regions exhibit the highest degree of anatomical [[connectivity]] in the brain and serve as major conduit points for information flow between disparate brain regions. The concept emerged from early [[connectomics]] work applying graph theoretical analysis to diffusion MRI data, revealing that [[brain-network]] organization is not homogeneous but contains a densely interconnected core of regions that anchor global communication.
@@ -56,3 +56,7 @@ Identifying the structural core depends critically on the imaging modality and t
 
 1. (authors unknown). *Mapping the Structural Core of Human Cerebral Cortex*.
 2. (authors unknown). *Networks of the Brain*.
+3. Deco et al. (2013). *Resting brains never rest: computational insights into potential cognitive architectures*. Trends in Neurosciences. [DOI](https://doi.org/10.1016/j.tins.2013.09.002)
+4. (authors unknown). *Functional Network Organization of the Human Brain*.
+5. (authors unknown). *Functional Connectivity in the Resting Brain: A Network Analysis of the Default Mode Hypothesis*.
+6. (authors unknown). *The Brain's Default Network: Anatomy, Function, and Relevance to Disease*.

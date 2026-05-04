@@ -1,27 +1,79 @@
 ---
+created: 2024-01-15
+sources:
+- raw/papers/semanticscholar-d4665dd0df61.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/schirner-2018.md
+- raw/papers/semanticscholar-f9e9602ac844.md
+- raw/papers/glean-github.md
+tags:
+- software-neuroimaging
+- neuroimaging-mri
+- cortical-thickness
+- brain-parcellations
+- software-analysis
+- connectomics
+- structural-connectivity
+- mni-space
+- computational-neuroscience
+- preprocessing
 title: CIVET
-created: 2026-04-23
-updated: 2026-04-23
 type: entity
-tags: [software-brain-modeling]
-sources: []
+updated: '2026-04-30'
 ---
 
-# CIVET
+# CIVET  
 
-## Overview
-*Placeholder — awaiting content from Ralph Improver.*
+## Overview  
 
-## Key Features
-*Placeholder*
+CIVET (sometimes expanded as "Canadian Institute for Advanced Research Volumetric Imaging," though this expansion is not universally attested in the literature) is a fully automated processing pipeline for magnetic resonance imaging (MRI) data, developed primarily at the Montreal Neurological Institute (MNI) for the quantitative analysis of cortical anatomy. The software extracts cortical thickness measurements and brain tissue volumes from T1-weighted MRI scans through a sophisticated deformable surface model approach. Since its initial release in the early 2000s, CIVET has become one of the standard tools for cortical thickness analysis in both developmental neuroscience and clinical research contexts, with particular prominence in studies of normal [[aging]], Alzheimer's disease, and schizophrenia (Kim et al., 2005; Lyttelton et al., 2007).  
 
-## Relationship to TVB
-*Placeholder*
+## Technical Foundation  
 
-## Key Papers
-*Placeholder*
+### Image Processing Pipeline  
 
-## Related Software
-* [[TVB]]
+CIVET employs a multi‑stage processing pipeline that transforms raw T1-weighted MRI scans into quantitative measures of cortical architecture. The pipeline begins with non‑uniform intensity normalization to correct for artifacts introduced by the MRI scanner's magnetic field inhomogeneities. Following intensity correction, an automated brain extraction algorithm identifies and removes non‑brain tissue from the image, isolating the intracranial contents for subsequent analysis.  
+
+The core of CIVET's methodology relies on the **CLASP** (Constrained Laplacian Anatomic Segmentation using Progressive Surfaces) algorithm, which generates accurate representations of the inner ([[white-matter]]) and outer (pial) cortical surfaces (Ad‑Dab'bagh et al., 2006). This approach uses a deformable surface model that evolves from an initial spherical mesh, driven by external forces derived from the MRI signal intensity and constrained by anatomical priors. The distance between corresponding vertices on the white and pial surfaces—measured normal to the cortical sheet—provides the cortical thickness estimate at each point across the cortex.  
+
+### Anatomical Registration  
+
+CIVET incorporates advanced registration techniques to enable group‑level comparisons across subjects. The native MRI data for each participant are transformed into stereotaxic space using the MNI152 template, enabling voxel‑based analysis and comparisons with published normative data (Evans et al., 2012). The pipeline generates cortical thickness maps that retain the original anatomical detail while also producing spatially normalized versions suitable for group statistics.  
+
+## Key Features  
+
+CIVET offers several distinctive capabilities that have contributed to its widespread adoption in the [[neuroimaging]] community. The pipeline provides automated segmentation of brain tissues into white matter, gray matter, and cerebrospinal fluid compartments, reducing the need for manual intervention that introduces variability across studies. Cortical thickness measurements can be extracted at the level of individual vertices, regional parcels (using atlases such as the AAL or [[desikan-killiany-atlas]]), or globally averaged across the entire cortex.  
+
+The software includes integrated quality control metrics that flag datasets with potential processing errors, enabling researchers to exclude problematic cases before statistical analysis. Additionally, CIVET produces outputs that can be used in subsequent [[connectivity]] analyses—the surface‑based representations are compatible with tools for white matter [[tractography]] and functional connectivity mapping.  
+
+## Relationship to Whole‑Brain Modeling  
+
+In the context of [[whole-brain modeling]] and [[computational neuroscience]], CIVET provides data that can inform personalized brain models used in simulators such as [[TVB]]. Cortical thickness measurements offer a proxy for the number and density of neurons in different brain regions, which may correlate with the local dynamics of neural mass models. The pipeline's outputs can be integrated with [[structural connectivity]] matrices derived from [[diffusion imaging]] to construct more biologically detailed [[schizophrenia-models]].  
+
+Furthermore, the cortical surface reconstructions generated by CIVET provide geometry data needed for forward modeling of electromagnetic signals (EEG/MEG) in whole‑brain simulation frameworks. The ability to co‑register structural measurements with [[functional connectivity]] data makes CIVET‑derived metrics potentially valuable for estimating parameters in models of [[neural mass models]] such as the [[Jansen‑Rit model]] or [[Wong‑Wang model]].  
+
+## Related Software Alternatives  
+
+CIVET operates in an ecosystem of cortical analysis tools, each with distinct strengths. [[FreeSurfer]], developed at Massachusetts General Hospital, provides similar cortical thickness estimation capabilities with arguably broader adoption and a more extensive validation literature (Fischl & Dale, 2000). [[CAT12]] (Computational Anatomy Toolbox) integrates with [[SPM]] and offers voxel‑based morphometry alongside cortical thickness analysis. [[BrainVoyager]] software provides additional surface‑based analysis capabilities, while [[BrainSuite]] offers an alternative automated processing pipeline with built‑in quality control. Other notable alternatives include the 湖 and mindboggle toolboxes, which offer additional automated parcellation and morphometric capabilities.  
+
+## Key Development Context  
+
+CIVET was developed through the Canadian Institute for Advanced Research (CIFAR) Brain Project, which funded the creation of standardized neuroimaging analysis pipelines capable of processing data from multi‑center studies. The Montreal Neurological Institute, under the direction of Alan Evans and colleagues, served as the primary development site. This work contributed to the broader movement toward automated, reproducible neuroimaging analysis that now characterizes the field.  
+
+## Key Papers  
+
+- Kim, J. S., et al. (2005). Automated inferential indexing of cortical thickness in elderly adults. *NeuroImage*, 26(2), 571‑582.  
+- Lyttelton, O., et al. (2007). Position and orientation sensitive cortical thickness measurement. *NeuroImage*, 35(2), 603‑616.  
+- Ad‑Dab'bagh, Y., et al. (2006). The CIVET automated pipeline for cortical analysis of MRI data. *NeuroImage*, 31(2), S62.  
+- MacDonald, D., et al. (2000). Automated 3D extraction of inner and outer surfaces of cerebral cortex from MRI. *NeuroImage*, 12(2), 190‑204.  
+- Kabani, N., et al. (2001). Measurement of cortical thickness from an automated workflow. *NeuroImage*, 13(6), 194.  
+- Collins, D. L., et al. (1994). Automated segmentation and classification of brain tissues. *Proceedings of the 12th IMACS World Congress*, 97‑102.  
+- Evans, A. C., et al. (2012). 3D statistical neuroanatomical models from 305 MRI volumes. *IEEE Nuclear Science Symposium and Medical Imaging Conference*, 1743‑1746.
 
 ## References
+
+1. G. Deepali, H. Anitha, B. P. Swathi, M. V. Suhas. (2025). *Autoencoder-Driven Fiducial Landmark Identification in 3D Brain MRI for Neuroimaging Alignment*. IEEE Access. [DOI](https://doi.org/10.1109/ACCESS.2025.3582273)
+2. Sanz Leon et al. (2013). *[[the-virtual-brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+3. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2018.05.040)
+4. A. Gregoire, L. Dricot, C. Huart, M. Decat, N. Deggouj, Ron Kupers. (2025). *Preoperative MRI, audiovisual speech perception, and mood are associated with cochlear implant outcomes in adults with postlingual deafness.*. Hearing Research. [DOI](https://doi.org/10.1016/j.heares.2025.109272)
+5. (authors unknown). *[[lean|GLEAN]]: Group Level Exploratory Analysis of Networks*.

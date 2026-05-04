@@ -13,7 +13,7 @@ tags:
 - brain-oscillations
 title: Network Hubs
 type: concept
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 ## Definition
@@ -55,3 +55,6 @@ Network hubs are fundamentally intertwined with several other concepts in brain 
 1. (authors unknown). *Networks of the Brain*.
 2. (authors unknown). *Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems*.
 3. (authors unknown). *Mapping the Structural Core of Human Cerebral Cortex*.
+4. (authors unknown). *Emergence of Scaling in [[random-networks]]*.
+5. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
+6. (authors unknown). *Functional Network Organization of the Human Brain*.

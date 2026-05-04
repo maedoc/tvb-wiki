@@ -12,7 +12,7 @@ tags:
 - people-researcher
 title: Emanuel Tuckwell
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 ## Overview
@@ -46,3 +46,6 @@ Henry C. Tuckwell is a mathematician and theoretical neuroscientist known for hi
 2. [[walter-freeman|Walter J. Freeman]]. *Mass Action in the Nervous System*.
 3. (authors unknown). *Mathematical Foundations of Neuroscience*.
 4. Peter Dayan, Larry F. Abbott. *Theoretical Neuroscience: Computational and Mathematical Modeling of Neural Systems*.
+5. [[eugene-izhikevich|Eugene M. Izhikevich]]. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
+6. (authors unknown). *Networks of the Brain*.
+7. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)

@@ -19,7 +19,7 @@ tags:
 - resting-state
 title: Cognitive Reserve
 type: concept
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 Cognitive reserve refers to the capacity of the brain to sustain cognitive function despite accumulating age-related neuropathology or structural deterioration. Unlike [[brain-reserve]], which denotes passive anatomical features such as brain size or neuronal count that provide a buffer against damage, cognitive reserve encompasses active, adaptively deployed processes including the efficiency of neural networks, the ability to recruit alternative circuits, and the flexible reorganization of cognitive strategies. This distinction, articulated by Yaakov Stern and elaborated through subsequent [[neuroimaging]] research, frames cognitive reserve not as a fixed biological asset but as a dynamic, experience-dependent property that mediates the observed dissociation between brain integrity and cognitive performance across [[aging]] and neurodegenerative disease.
@@ -46,6 +46,8 @@ Within the [[tvb]] modeling framework and related [[whole-brain]] simulation par
 
 ## References
 
-1. Buckner, R. L. (2004). Memory and executive function in aging and AD: Multiple factors that cause decline and reserve factors that compensate. *[[neuron]]*, 44(1), 195–208.
-2. Grady, C. L. (2012). The cognitive neuroscience of ageing and functional reserve. *European Review of Aging and Physical Activity*, 9, 79–93.
-3. Cabeza, R. (2018). Maintenance, reserve and compensation: The cognitive neuroscience of healthy ageing. *Nature Reviews Neuroscience*, 19(11), 701–710.
+1. (authors unknown). *Memory and Executive Function in Aging and AD: Multiple Factors that Cause Decline and Reserve Factors that Compensate*.
+2. (authors unknown). *The Cognitive Neuroscience of Ageing and Functional Reserve*.
+3. (authors unknown). *Maintenance, Reserve and Compensation: The Cognitive Neuroscience of Healthy Ageing*.
+4. J. King, M. Prigge, Vincent Koppelmans, John M. Hoffman, Kevin Duff. (2026). *Altered functional connectivity is associated with Repeatable Battery for the Assessment of Neuropsychological Status across the dementia spectrum*. Journal of the International Neuropsychological Society. [DOI](https://doi.org/10.1017/s135561772610191x)
+5. (authors unknown). *Structural Brain Changes in Aging: Courses, Causes and Cognitive Consequences*.

@@ -4,19 +4,12 @@ sources:
 - raw/papers/breakspear-2006.md
 - raw/papers/sanz-leon-2013.md
 - raw/papers/arxiv-2601.21478.md
+- raw/papers/semanticscholar-eb4197c24bf2.md
 tags:
 - software-brain-modeling
 title: The Virtual Epileptic Brain
 type: entity
-updated: '2026-04-28'
----
-
-title: The Virtual Epileptic Brain
-created: 2024-01-15
-updated: 2026-04-28
-type: entity
-tags: [software-tvb, [[epilepsy-modeling]], [[whole-brain-modeling]], neural-mass-models, seizure-prediction, brain-stimulation, personalized-brain-modeling]
-sources: [10.1007/s10827-014-0528-2, 10.1088/1741-2560/11/4/045010, 10.1371/journal.pone.0106920, 10.1523/JNEUROSCI.1889-16.2017]
+updated: '2026-05-03'
 ---
 
 The Virtual Epileptic Brain (TVEB) is a specialized computational modeling platform designed to simulate and analyze epileptic dynamics in the human brain. Built as an extension of [[the-virtual-brain]], TVEB integrates [[neural-mass-model]]s such as the [[epileptor]] to model seizure generation, propagation, and the effects of therapeutic interventions like [[brain-stimulation]]. The platform enables researchers to create personalized brain models derived from individual patient neuroimaging data, making it a tool for both basic neuroscience research into seizure mechanisms and clinical translation in pre-surgical planning and treatment optimization.
@@ -51,10 +44,7 @@ TVEB operates within a broader ecosystem of computational neuroscience tools. As
 
 ## References
 
-[1] Jirsa, V.K., Stacey, W.C., Quinn, P.V., & Bernard, C. (2014). On the concept of the epileptor. *Journal of [[computational-neuroscience]]*, 37(1), 1-18. https://doi.org/10.1007/s10827-014-0528-2
-
-[2] Proix, T., Bartoli, E., DicleMENTE, F., Jirsa, V.K., Bernard, C., & Benquet, P. (2014). Spatiotemporal structure of seizure propagation in models of epilepsy. *Brain Topography*, 27(2), 205-220. https://doi.org/10.1007/s10548-014-0380-8
-
-[3] Jirsa, V.K., Proix, T., Perí, D., Zamponi, N., Guye, M., Zub, E., et al. (2017). The Virtual Epileptic Patient: A personalized approach to presurgical planning in epilepsy using causal modeling. *Epilepsy & Behavior*, 68, 37-46. https://doi.org/10.1016/j.yebeh.2016.04.032
-
-[4] Bortel, K.J., Jirsa, V.K., & Bernard, C. (2017). Seizure propagation in a [[personalized-brain-modeling|personalized brain]] network model using patient-derived [[connectivity]]. In: Jirsa, V.K. (ed) *Connectivity and Epilepsy*. Cambridge University Press. https://doi.org/10.1017/9781108143916.012
+1. Michael Breakspear, John A. Roberts, John R. Terry, Stefano Rodrigues, Nader Mahmud, Philip Robinson. *Large-scale [[brain-dynamics]] of seizures: asymptotic analysis of a [[neural-field-theory|neural field]] model*. Journal of [[computational-neuroscience]]. [DOI](https://doi.org/10.1007/s10827-006-8135-2)
+2. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+3. Kang You, Gary Green, Jian Zhang. *Differential Dynamic Causal Nets: Model Construction, Identification and Group Comparisons*. [Link](https://arxiv.org/abs/2601.21478)
+4. Amirreza Movahedin, Lennart P. L. Landsmeer, Christos Strydis. (2025). *HUMA: Heterogeneous, Ultra Low-Latency Model Accelerator for The Virtual Brain on a Versal Adaptive SoC*. Symposium on Field Programmable Gate Arrays. [DOI](https://doi.org/10.1145/3706628.3708875)

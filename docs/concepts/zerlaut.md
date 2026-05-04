@@ -17,7 +17,7 @@ tags:
 - software-tvb
 title: Zerlaut Model
 type: concept
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 The **Zerlaut model** is a mean-field representation of cortical microcircuit dynamics that describes the collective activity of interacting excitatory and inhibitory neural populations with spike-frequency adaptation. Developed by [[alain-destexhe|Yann Zerlaut and colleagues]] (2018), this model provides a mathematically tractable bridge between detailed [[spiking-neural-networks]] composed of leaky integrate-and-fire neurons with adaptation currents and the population-level descriptions used in whole-brain modeling frameworks such as [[tvb]]. The model captures essential cortical dynamics including oscillatory behavior, adaptation effects, and excitation-inhibition balance while remaining computationally efficient enough for large-scale brain network simulations.
@@ -92,8 +92,11 @@ Another direction involves extending the model to include multiple adaptation ti
 - [[bifurcation-analysis]] — The mathematical framework for understanding regime changes in the model
 - [[adaptive-neurons]] — The broader class of neuron models with adaptation currents
 - [[infinite-theta|Infinite Theta]]
+
 ## References
 
 1. Martin Breyton, Viktor Sip, M. Woodman, Meysam Hashemi, S. Petkoski, V. Jirsa. (2025). *Data-driven mean-field within whole-brain models*. [Link](https://www.semanticscholar.org/paper/144ae1f1dabec42c14493d0083d36f168508f886)
 2. Roxana A. Stefanescu, Viktor K. Jirsa. *A low dimensional description of globally coupled heterogeneous neural networks of excitatory and inhibitory neurons*. PLoS Computational Biology. [DOI](https://doi.org/10.1371/journal.pcbi.1000219)
 3. R. Lorenzi, Fulvia Palesi, C. Casellato, C. G. Gandini Wheeler-Kingshott, Egidio D’Angelo. (2025). *Region-specific mean field models enhance simulations of local and global [[brain-dynamics]]*. bioRxiv. [DOI](https://doi.org/10.1038/s41540-025-00543-9)
+4. Soon Ho Kim, Hannah Choi. (2025). *Inhibitory cell type heterogeneity in a spatially structured mean-field model of V1*. bioRxiv. [DOI](https://doi.org/10.1101/2025.03.13.643046)
+5. Yunman Xia, S. Peng, J. Dukart, C. Xie, Shitong Xiang, S. Petkoski, Zilin Li, Joerg F. Hipp, S. Muthukumaraswamy, A. Forsyth, Tianye Jia, N. Vaidya, T. Lett, Liyi Qian, Xiao Chang, Yuxiang Dai, T. Banaschewski, G. Barker, A. Bokde, R. Brühl, S. Desrivières, Herta Flor, P. Gowland, A. Grigis, Andreas Heinz, H. Lemaître, F. Nees, D. Orfanos, Luise Poustka, M. Smolka, Sarah Hohmann, H. Walter, R. Whelan, Paul Wirsching, Zuo Zhang, Lauren Robinson, J. Winterer, Yuning Zhang, H. Kebir, Ulrike Schmidt, Julia Sinclair, Yuchen Liu, Jiexiang Wang, Fei Dai, Longbin Zeng, Yubo Hou, Huarui Wang, Leijun Ye, Chunhe Li, Qibao Zheng, Andre F Marquand, Changsong Zhou, V. Jirsa, Jianfeng Feng, Wenlian Lu, Gunter Schumann. (2026). *Digital Twin Brain simulation and manipulation of a functional [[brain-network]] underlying mental illness*. bioRxiv. [DOI](https://doi.org/10.64898/2026.03.06.710030)

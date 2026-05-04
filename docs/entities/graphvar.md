@@ -15,7 +15,7 @@ tags:
 - neuroimaging-processing
 title: GraphVar
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 # GraphVar
@@ -72,3 +72,4 @@ GraphVar provides a graphical user interface (GUI) for performing graph-theoreti
 3. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
 4. (authors unknown). *Networks of the Brain*.
 5. Mohammadtaha Parsayan, S. Andalib, T. L. Andersen, Habib Ganjgahi, P. Høilund-Carlsen, Abass Alavi, Mojtaba Zarei. (2025). *Odense-Oxford PET Image Analysis (OPETIA): An FSL-based toolbox for multimodal neuroimaging*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2025.121278)
+6. (authors unknown). *Functional [[connectomics]] from Resting-State fMRI*.

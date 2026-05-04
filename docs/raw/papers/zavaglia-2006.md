@@ -1,11 +1,27 @@
 ---
-title: "Comparison of a mean-field model of electroencephalographic activity to individual brain networks"
+title: Comparison of a mean-field model of electroencephalographic activity to individual brain networks
 created: 2026-04-20
 updated: 2026-04-20
 type: source
-tags: [paper-methods, neural-mass-models, whole-brain-modeling, eeg]
-sources: []
+tags: [paper-methods ,neural-mass-models ,whole-brain-modeling ,eeg]
+authors:
+  - Ben Cassidy
+  - F. DuBois Bowman
+  - Caroline Rae
+  - Victor Solo
+year: 2018
+venue: IEEE Transactions on Medical Imaging
+doi: 10.1109/tmi.2017.2774364
+bibtex: |
+  @book{cassidy2018compariso,
+    title={Comparison of a mean-field model of electroencephalographic activity to individual brain networks},
+    author={"Ben Cassidy and F. DuBois Bowman and Caroline Rae and Victor Solo"},
+    year={2018},
+    publisher={IEEE Transactions on Medical Imaging},
+    doi={10.1109/tmi.2017.2774364},
+  }
 ---
+
 
 # Comparison of a mean-field model of electroencephalographic activity to individual brain networks
 

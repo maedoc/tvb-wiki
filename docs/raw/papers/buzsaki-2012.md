@@ -1,13 +1,26 @@
 ---
-title: "Large-scale recording of neuronal ensembles"
+title: Large-scale recording of neuronal ensembles
 created: 2026-04-20
 updated: 2026-04-20
 type: paper
-tags: [neuroimaging-eeg, neuroimaging-meg, paper-review, electrophysiology]
-authors: [Gyorgy Buzsáki, Costas A Anastassiou, Christof Koch]
+tags: [neuroimaging-eeg ,neuroimaging-meg ,paper-review ,electrophysiology]
+authors:
+  - Gyorgy Buzsáki
+  - Costas A Anastassiou
+  - Christof Koch
 year: 2012
-venue: "Nature Neuroscience"
+venue: Nature Neuroscience
+doi: "https://doi.org/10.1038/nn1233"
+bibtex: |
+  @article{buzski2012largescale,
+    title={Large-scale recording of neuronal ensembles},
+    author={"Gyorgy Buzsáki and Costas A Anastassiou and Christof Koch"},
+    year={2012},
+    journal={Nature Neuroscience},
+    doi={https://doi.org/10.1038/nn1233},
+  }
 ---
+
 
 # Large-scale recording of neuronal ensembles
 

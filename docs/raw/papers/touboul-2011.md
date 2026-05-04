@@ -3,9 +3,25 @@ title: "Bifurcation analysis of Jansen's neural mass model"
 created: 2026-04-20
 updated: 2026-04-20
 type: source
-tags: [paper-methods, neural-mass-models, bifurcation-analysis, epilepsy-modeling]
-sources: []
+tags: [paper-methods ,neural-mass-models ,bifurcation-analysis ,epilepsy-modeling]
+authors:
+  - François Grimbert
+  - Olivier Faugeras
+year: 2006
+venue: Neural Computation
+doi: "https://doi.org/10.1162/neco.2006.18.12.3052"
+bibtex: |
+  @book{grimbert2006bifurcat,
+    title={Bifurcation analysis of Jansen's neural mass model},
+    author={"François Grimbert and Olivier Faugeras"},
+    year={2006},
+    publisher={Neural Computation},
+    doi={https://doi.org/10.1162/neco.2006.18.12.3052},
+  }
 ---
+
+
+
 
 # Bifurcation analysis of Jansen's neural mass model
 

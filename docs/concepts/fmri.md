@@ -9,11 +9,12 @@ sources:
 - raw/papers/arxiv-2509.24715.md
 - raw/papers/arxiv-2602.03240.md
 - raw/papers/semanticscholar-e08252ec3941.md
+- raw/papers/semanticscholar-d70e1661858c.md
 tags:
 - neuroimaging-fmri
 title: fMRI
 type: concept
-updated: '2026-04-27'
+updated: '2026-05-04'
 ---
 
 # fMRI
@@ -30,7 +31,7 @@ The [[bold-signal]] is fundamentally an indirect measure of neural activity, med
 
 ### Statistical Parametric Mapping
 
-The standard framework for analyzing fMRI data was established by [[karl-j-fristol]] and colleagues in their 1994 paper introducing Statistical Parametric Mapping (SPM). This approach applies the general linear model (GLM) to model the expected hemodynamic response to experimental conditions, typically represented as convolved boxcar functions for block designs or impulse responses for event-related designs. The GLM framework allows for the estimation of model parameters using ordinary least squares, followed by statistical inference on linear contrasts to identify brain regions showing significant activation. Critically, the SPM framework incorporated random field theory corrections for multiple comparisons, addressing the fundamental problem of false positives when testing thousands of voxels across the brain.
+The standard framework for analyzing fMRI data was established by [[karl-j-fristol]] and colleagues in their 1994 paper introducing Statistical Parametric Mapping (SPM). This approach applies the general [[linear|linear model]] (GLM) to model the expected hemodynamic response to experimental conditions, typically represented as convolved boxcar functions for block designs or impulse responses for event-related designs. The GLM framework allows for the estimation of model parameters using ordinary least squares, followed by statistical inference on linear contrasts to identify brain regions showing significant activation. Critically, the SPM framework incorporated random field theory corrections for multiple comparisons, addressing the fundamental problem of false positives when testing thousands of voxels across the brain.
 
 ### Connectivity Analysis
 
@@ -61,4 +62,9 @@ Several methodological challenges affect fMRI interpretation and its use in [[mo
 
 1. (authors unknown). *Brain magnetic resonance imaging with contrast dependent on blood oxygenation*.
 2. (authors unknown). *Neurophysiological investigation of the basis of the fMRI signal*.
-3. (authors unknown). *Statistical parametric maps in functional imaging: A general [[linear]] approach*.
+3. (authors unknown). *Statistical parametric maps in functional imaging: A general linear approach*.
+4. Wanying Qu, Jianxiong Gao, Wei Wang, Yanwei Fu. *Modeling Spatiotemporal Neural Frames for High Resolution Brain Dynamic*. [Link](https://arxiv.org/abs/2603.24176)
+5. (authors unknown). *Functional Network Organization of the Human Brain*.
+6. Jiangnan Zhang, Chengyuan Qian, Wenlian Lu, [[gustavo-deco]], Weiyang Ding, Jianfeng Feng. (2025). *Dark Signals in the Brain: Augment Brain [[network-dynamics]] to the Complex-valued Field*. [Link](https://arxiv.org/abs/2509.24715)
+7. Chetan Gohil, Oliver M. Cliff, James M. Shine, Ben D. Fulcher, Joseph T. Lizier. (2026). *Estimating measures of information processing during cognitive tasks using functional magnetic resonance imaging*. [Link](https://arxiv.org/abs/2602.03240)
+8. Mennahtullah Mabrouk, Reem Reda, Hana Hisham, Abdelrahman Hazem, Bola Hosny, Hossam Elsawaf, Saif Elaswad, Sameh Sherif. (2025). *A Hybrid Learning Approach for Detection of Autism Spectrum Disorder Using fMRI Data*. 2025 13th International Japan-Africa Conference on Electronics, Communications, and Computations (JAC-ECC). [DOI](https://doi.org/10.1109/JAC-ECC67970.2025.11417627)

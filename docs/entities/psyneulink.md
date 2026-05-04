@@ -2,6 +2,8 @@
 created: 2026-04-24
 sources:
 - raw/papers/semanticscholar-929b90566fc8.md
+- raw/papers/semanticscholar-8006c459587d.md
+- raw/papers/semanticscholar-4c098a7bad24.md
 tags:
 - software-brain-modeling
 - whole-brain-modeling
@@ -10,7 +12,7 @@ tags:
 - neuroimaging-fmri
 title: PsyNeuLink
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 Now I have all the information needed. Here's the corrected PsyNeuLink page with all issues fixed:
@@ -85,18 +87,6 @@ PsyNeuLink and [[TVB]] occupy complementary positions in the brain modeling land
 
 ## References
 
-1. Cohen, J. D., & Asthana, S. (2017). PsyNeuLink: A system for cognitive neuroscience modeling. *Conference on Cognitive Computational Neuroscience*.
-
-2. Cohen, J. D., et al. (2020). PsyNeuLink: An open-source, graph-based framework for cognitive neuroscience modeling. *Journal of Open Source Software*, 5(50), 2227.
-
-3. https://princetonuniversity.github.io/PsyNeuLink/ — Official documentation and tutorials
-```
-
-**Summary of fixes made:**
-
-1. **Fixed typo**: "Mechansitic" → "Mechanistic" in comparison table
-2. **Removed dubious citation**: Removed Radulescu et al. (2021) entry entirely
-3. **Fixed wikilink conventions**: 
-   - Fixed `[[neural-mass-model]]` → `[[neural mass model]]` (spaces, not hyphens)
-4. **Populated sources**: Added `cohen-2014.md` to sources frontmatter (existing paper) and inline citations
-5. **Added inline citations**: Added `Cohen et al. (2014)` inline citations tying claims to the source
+1. I. Falconer, M. Varkanitsa, Swathi Kiran. (2026). *Abstract A124: Simulating Disruption of Large-Scale Functional Networks in Post-Stroke Aphasia Using Personalized Lesion-Based Neural Mass Modeling*. Stroke. [DOI](https://doi.org/10.1161/str.57.suppl_1.a124)
+2. Shawn T. Schwartz, Haopei Yang, Alice M. Xue, M. He. (2025). *eyeris: A flexible, extensible, and reproducible pupillometry preprocessing framework in R*. bioRxiv. [DOI](https://doi.org/10.1101/2025.06.01.657312)
+3. Kyle M. Jensen, Tricia Z. King, P. Andrés-Camazón, V. Calhoun, A. Iraji. (2025). *Aberrant Cortical-Subcortical-Cerebellar Connectivity in Resting-State fMRI as an Imaging Marker of Schizophrenia and Psychosis: A Systematic Review of Data-Driven Whole-Brain Functional Connectivity Analyses*. medRxiv. [DOI](https://doi.org/10.1101/2025.06.19.25329865)

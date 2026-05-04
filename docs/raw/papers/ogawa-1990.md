@@ -1,13 +1,27 @@
 ---
-title: "Brain magnetic resonance imaging with contrast dependent on blood oxygenation"
+title: Brain magnetic resonance imaging with contrast dependent on blood oxygenation
 created: 2026-04-20
 updated: 2026-04-20
 type: paper
-tags: [neuroimaging-fmri, paper-methods, resting-state]
-authors: [Seiji Ogawa, Tso-Ming Lee, Alan R Kay, David W Tank]
+tags: [neuroimaging-fmri ,paper-methods ,resting-state]
+authors:
+  - Seiji Ogawa
+  - Tso-Ming Lee
+  - Alan R Kay
+  - David W Tank
 year: 1990
-venue: "Proceedings of the National Academy of Sciences"
+venue: Proceedings of the National Academy of Sciences
+doi: "https://doi.org/10.1073/pnas.87.24.9868"
+bibtex: |
+  @book{ogawa1990brain,
+    title={Brain magnetic resonance imaging with contrast dependent on blood oxygenation},
+    author={"Seiji Ogawa and Tso-Ming Lee and Alan R Kay and David W Tank"},
+    year={1990},
+    publisher={Proceedings of the National Academy of Sciences},
+    doi={https://doi.org/10.1073/pnas.87.24.9868},
+  }
 ---
+
 
 # Brain magnetic resonance imaging with contrast dependent on blood oxygenation
 

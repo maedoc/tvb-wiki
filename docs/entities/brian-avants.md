@@ -13,7 +13,7 @@ tags:
 - brain-network
 title: Brian Avants
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 # Brian Avants
@@ -52,3 +52,4 @@ Lead developer of ANTs (Advanced Normalization Tools), known for SyN image regis
 2. Avants et al. (2011). *A reproducible evaluation of ANTs similarity metric performance in brain image registration*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2010.09.025)
 3. Klein et al. (2009). *Evaluation of 14 nonlinear deformation algorithms applied to human brain MRI registration*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2008.12.037)
 4. Tustison et al. (2010). *N4ITK: improved N3 bias correction*. IEEE Transactions on Medical Imaging. [DOI](https://doi.org/10.1109/TMI.2010.2046908)
+5. Mahsa Karimzadeh, Hadi Seyedarabi, Ata Jodeiri, Reza Afrouzian. (2025). *Enhanced Brain Stroke Lesion Segmentation in MRI Using a 2.5D Transformer Backbone U-Net Model*. Brain Science. [DOI](https://doi.org/10.3390/brainsci15080778)

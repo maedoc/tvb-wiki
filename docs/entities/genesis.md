@@ -1,13 +1,10 @@
 ---
 created: 2025-01-15
 sources:
-- 'Bower & Beeman (1998). The Book of GENESIS: Exploring Realistic Neural Models with
-  the GEneral NEural Simulation System'
-- 'Bower et al. (1998). GENESIS: A System for Simulating Neurons and Networks'
-- Hines & Carnevale (1997). The NEURON Simulation Environment
-- Nordlie et al. (2009). A systematic evaluation of the speed and accuracy of object-oriented
-  neural simulators
-- 'Gleason et al. (2024). NetPyNE: Toolset for Multiscale Brain Modeling'
+- raw/papers/dayan-abbott-2001.md
+- raw/papers/arxiv-2505.16861.md
+- raw/papers/semanticscholar-eb704b6f5462.md
+- raw/papers/glean-github.md
 tags:
 - software-neurons
 - computational-neuroscience
@@ -16,7 +13,7 @@ tags:
 - neural-modeling
 title: GENESIS
 type: entity
-updated: '2026-04-28'
+updated: '2026-04-30'
 ---
 
 GENESIS (GEneral NEural Simulation System) is a widely-used, open-source neural simulation platform developed for constructing and simulating detailed, biologically realistic models of neural systems. It represents one of the earliest comprehensive frameworks for neural modeling and has had substantial influence on the development of [[computational-neuroscience]] as a discipline. GENESIS provides a modular architecture that allows researchers to construct models ranging from single neurons with arbitrary morphologies to large-scale network simulations containing thousands of interconnected cells.
@@ -75,10 +72,7 @@ Modern neural simulation continues to benefit from the foundational work begun w
 
 ## References
 
-- Bower, J.M. & Beeman, D. (1998). *The Book of GENESIS: Exploring Realistic Neural Models with the GEneral NEural Simulation System*. Springer-Verlag.
-- Bower, J.M., Beeman, D., & Hucka, M. (1998). GENESIS: A System for Simulating Neurons and Networks. In *Computational Neuroscience: Demystifying the Brain*. MIT Press.
-- Gleason, K. et al. (2024). NetPyNE: Toolset for Multiscale Brain Modeling. *Neural Networks*, 158, 44-58.
-- Hines, M.L. & Carnevale, N.T. (1997). The NEURON Simulation Environment. *Neural Computation*, 9(6), 1179-1209.
-- Nordlie, E., Gewaltig, M.O., & Plesser, H.E. (2009). Towards Systematic Description of Neurons Using Only Parameter Values. *PLoS Computational Biology*, 5(11), e1000563.
-
-[[computational-neuroscience]], [[neural-mass-models]], [[NEURON]], [[Brian]], [[TVB]], [[Jansen-Rit model]], [[Wong-Wang model]], [[NeuroML]], [[NeuroMorpho]], [[whole-brain-modeling]], [[epilepsy-modeling]], [[personalized-brain-modeling]], [[spiking-neural-networks]], [[NEST]], [[PyNN]], [[NetPyNE]], [[Arbor]]
+1. Peter Dayan, Larry F. Abbott. *Theoretical Neuroscience: Computational and Mathematical Modeling of Neural Systems*.
+2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *Arbor-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and [[whole-brain]] Propagation*. [Link](https://arxiv.org/abs/2505.16861)
+3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](https://doi.org/10.3389/fncom.2025.1731161)
+4. (authors unknown). *[[lean|GLEAN]]: Group Level Exploratory Analysis of Networks*.

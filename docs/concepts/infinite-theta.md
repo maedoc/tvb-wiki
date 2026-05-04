@@ -6,6 +6,8 @@ sources:
 - raw/papers/izhikevich-2007.md
 - raw/papers/wilson-cowan-1972.md
 - raw/papers/arxiv-2512.03907.md
+- raw/papers/arxiv-2512.22093.md
+- raw/papers/semanticscholar-ff8218c1e55e.md
 tags:
 - neural-mass-models
 - mean-field-theory
@@ -17,7 +19,7 @@ tags:
 - whole-brain-modeling
 title: Infinite Theta Neuron Model (Montbrió-Pazó-Roxin)
 type: concept
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 # Infinite Theta Neuron Model (Montbrió-Pazó-Roxin)
@@ -78,3 +80,7 @@ Despite its mathematical rigor, several questions remain active areas of researc
 ## References
 
 1. Roxana A. Stefanescu, Viktor K. Jirsa. *A low dimensional description of globally coupled heterogeneous neural networks of excitatory and inhibitory neurons*. PLoS Computational Biology. [DOI](https://doi.org/10.1371/journal.pcbi.1000219)
+2. Potjans & Diesmann (2014). *The cell-type specific cortical microcircuit: relating structure and activity*. Cerebral Cortex. [DOI](https://doi.org/10.1093/cercor/bhs358)
+3. [[eugene-izhikevich|Eugene M. Izhikevich]]. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
+4. [[hugh-wilson|Hugh R. Wilson]], [[jack-cowan|Jack D. Cowan]]. *Excitatory and inhibitory interactions in localized populations of model neurons*. Biophysical Journal. [DOI](https://doi.org/10.1016/S0006-3495(72)86068-5)
+5. Rosa Maria Delicado, Gemma Huguet, Pau Clusella. (2025). *Emergent Spatiotemporal Dynamics in Large-Scale Brain Networks with Next Generation [[neural-mass-models]]*. [Link](https://arxiv.org/abs/2512.03907)

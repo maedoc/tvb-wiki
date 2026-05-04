@@ -12,7 +12,7 @@ tags:
 - neuroimaging-fmri
 title: David C. Van Essen
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 # David C. Van Essen
@@ -53,3 +53,4 @@ Van Essen's research emphasizes:
 2. (authors unknown). *The Human Connectome Project: A Data Acquisition Perspective*.
 3. (authors unknown). *[[resting-state|Resting-State fMRI]] in the Human Connectome Project*.
 4. (authors unknown). *Function in the Human Connectome: Task-[[fmri]] and Individual Differences in Behavior*.
+5. I. Falconer, M. Varkanitsa, Swathi Kiran. (2026). *Abstract A124: Simulating Disruption of Large-Scale Functional Networks in Post-Stroke Aphasia Using Personalized Lesion-Based Neural Mass Modeling*. Stroke. [DOI](https://doi.org/10.1161/str.57.suppl_1.a124)

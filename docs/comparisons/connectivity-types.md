@@ -24,7 +24,7 @@ tags:
 - connectomics
 title: Structural vs Functional vs Effective Connectivity
 type: comparison
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 # Structural vs Functional vs Effective Connectivity
@@ -142,3 +142,5 @@ See honey-2009 for empirical evidence of this relationship.
 11. V. Myrov, A. Suleimanova, Samanta Knapič, P. Partanen, M. Vesterinen, Wenya Liu, S. Palva, J. M. Palva. (2026). *Hierarchical whole-brain modeling of critical synchronization dynamics in the human brain.*. Proceedings of the National Academy of Sciences of the United States of America. [DOI](https://doi.org/10.1073/pnas.2505768123)
 12. Yifei Zhang, Meimei Liu, Zhengwu Zhang. (2026). *Attention-Based Variational Framework for Joint and Individual Components Learning with Applications in [[brain-network]] Analysis*. [Link](https://arxiv.org/abs/2601.17073)
 13. Peizhen Yang, Xinke Shen, Zongsheng Li, Zixiang Luo, Kexin Lou, Quanying Liu. *Perturbing a [[neural-network]] to Infer Effective Connectivity: Evidence from Synthetic EEG Data*. [Link](https://arxiv.org/abs/2307.09770)
+14. Breno C. Bispo, Stefania Sardellitti, Juliano B. Lima, Fernando A. N. Santos. (2026). *Multimodal Higher-Order Brain Networks: A Topological Signal Processing Perspective*. [Link](https://arxiv.org/abs/2603.29903)
+15. (authors unknown). *Functional Connectomics from Resting-State fMRI*.

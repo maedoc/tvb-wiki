@@ -1,75 +1,72 @@
 ---
-created: 2026-04-23
-sources:
-- raw/papers/jansen-rit-1995.md
-- raw/papers/ritter-2013.md
-- raw/papers/sanz-leon-2013.md
-tags:
-- software-brain-modeling
-- neural-mass-models
-- whole-brain-modeling
-- dynamical-systems
 title: XCOS
+created: 2024-01-15
+updated: 2026-04-28
 type: entity
-updated: '2026-04-28'
+tags: [neural-mass-models, whole-brain-modeling, software-tvb, network-dynamics]
+sources: []
 ---
 
 # XCOS
 
-**XCOS** (also written as Xcos) is a graphical dynamical system modeler and simulator distributed with the [[scilab|Scilab]] open-source computing environment. Originally developed as a successor to SCICOS, XCOS provides a visual editor for designing and simulating hybrid dynamical systems in discrete and continuous time domains. The platform enables researchers to build block diagrams representing mathematical models, making it valuable for computational neuroscience applications involving neural mass modeling.
-
 ## Overview
 
-XCOS serves as a flexible framework for building block diagram models of dynamical systems, with applications spanning control engineering, signal processing, and neuroscience^[scilab-xcos]. The graphical interface allows users to construct models by connecting functional blocks from standard palettes, with the ability to create custom blocks using Scilab's scripting capabilities. This makes XCOS particularly useful for implementing neural mass models such as the [[jansen-rit-model|Jansen-Rit model]], which describes the collective activity of cortical neuronal populations^[jansen-rit-1995].
+XCOS represents a neural mass modeling framework used within whole-brain simulation environments, particularly associated with The Virtual Brain (TVB) ecosystem for simulating large-scale brain dynamics. Neural mass models like XCOS abstract the collective activity of large neuronal populations into simplified mathematical descriptions, enabling tractable simulations of whole-brain activity while retaining key dynamical features observed in neuroimaging data such as [[fmri|functional magnetic resonance imaging (fMRI)]] and [[eeg|electroencephalography (EEG)]].
 
-In the context of [[whole-brain]] modeling, XCOS provides a platform for implementing and simulating [[neural-mass-models]] that describe the average activity of large neuronal populations. These models abstract detailed dynamics of individual neurons into simplified mathematical descriptions, capturing essential features of brain activity visible in [[eeg|electroencephalography (EEG)]] and [[fmri|functional magnetic resonance imaging (fMRI)]] recordings^[sanz-leon-2013].
+Neural mass models form a critical bridge between detailed biophysical simulations (such as those conducted in [[nest]] or [[neuron]]) and population-level descriptions used for clinical and cognitive applications. XCOS follows the tradition of models pioneered by [[jansen-rit|Jansen and Rit]] and later extended by researchers like [[viktor-jirsa]] and [[olaf-sporns]], providing a computationally efficient representation of cortical dynamics that can be parameterized using empirical connectivity data from diffusion imaging (see [[dti|diffusion tensor imaging]]).
 
-## Key Features
+## Technical Foundation
 
-### Graphical Modeling Environment
-- **Block diagram editor**: Visual drag-and-drop interface for constructing dynamical system models
-- **Standard palettes**: Pre-built blocks for signal processing, control systems, and mathematical operations
-- **Custom block creation**: Users can define custom blocks using Scilab functions
-- **Hierarchical modeling**: Support for creating composite blocks and subsystems
+The mathematical formulation of neural mass models like XCOS typically employs systems of ordinary differential equations that describe the evolution of mean activity in distinct neural populations. Common formulations include populations of excitatory and inhibitory neurons, with coupling terms representing synaptic connections. The dynamics often exhibit rich oscillatory behavior, including alpha rhythms (8-12 Hz), beta rhythms (13-30 Hz), and gamma oscillations (>30 Hz), which are fundamental to understanding cognitive processes (see [[brain-oscillations]]) and clinical conditions like epilepsy (see [[epilepsy-modeling]]).
 
-### Simulation Capabilities
-- **Continuous and discrete time**: Support for hybrid dynamical systems
-- **ODE solvers**: Multiple numerical integration methods for solving ordinary differential equations
-- **Batch simulation**: Command-line interface for running simulations without the GUI
+The relationship between structural connectivity (derived from [[dti]] tractography) and functional connectivity (measured via [[fmri]] or [[eeg]]) represents a core research question that models like XCOS help address. The framework enables researchers to perform *in silico* experiments manipulating structural connectivity, coupling strength, and neural parameters to understand how large-scale brain networks generate observed patterns of activity (see [[structural-connectivity]] and [[functional-connectivity]]).
 
-### Neural Mass Model Implementation
-- **Population dynamics**: Blocks representing excitatory and inhibitory neural populations
-- **Synaptic blocks**: Alpha-functions for postsynaptic responses
-- **Connectivity modeling**: Ability to couple multiple cortical column models
-- **Forward modeling**: Generation of simulated EEG signals from neural mass activity
+## Relationship to TVB and Other Frameworks
 
-## Relationship to TVB
+Within the TVB ecosystem, XCOS serves as one of several neural mass model implementations available for whole-brain simulations. The Virtual Brain provides an interface for integrating personalized connectivity data (often from the [[hcp-dataset|Human Connectome Project]] or [[uk-biobank|UK Biobank]]) with these models to create individualized brain models for clinical applications (see [[personalized-brain-modeling]]).
 
-Within the [[the-virtual-brain|TVB]] ecosystem, XCOS represents an approach to implementing neural mass models for whole-brain simulations. While TVB provides a comprehensive neuroinformatics platform with built-in neural mass model implementations^[ritter-2013], XCOS offers an alternative for researchers preferring explicit block diagram modeling.
+Related models in the TVB library include the [[jansen-rit-model]], [[wong-wang-model]], and the [[epileptor]] model, each designed for different research applications. The Jansen-Rit model remains one of the most widely used neural mass models, particularly for generating simulated EEG and MEG data. The Wong-Wang model provides a more abstract description of cortical dynamics useful for studying resting-state networks (see [[resting-state]]). The Epileptor model specifically addresses seizure dynamics and has been used for predicting epileptic seizures (see [[seizure-prediction]]).
 
-Key differences from TVB's built-in models:
-- **Explicit structure**: Block diagram representation makes model equations visible
-- **Complete customization**: Direct control over block parameters and connections
-- **Educational value**: Useful for teaching neural mass modeling concepts
+XCOS differs from these specific implementations in its focus on generic oscillatory dynamics, providing a flexible framework that can be adapted to various modeling questions. Researchers can customize parameters to match specific frequency bands or dynamical regimes of interest, making it useful for exploratory modeling and hypothesis generation.
 
-## Related Software
+## Key Parameters and Applications
 
-- [[scilab|Scilab]]: Parent environment for numerical computing
-- [[TVB]]: Whole-brain modeling platform with built-in neural mass models
-- [[brian]]: Spiking neural network simulator with neural mass implementations
-- [[NEST]]: Large-scale spiking neural network simulator
-- [[annarchy]]: Hybrid rate-coded and spiking network simulator
+Typical parameters in neural mass models like XCOS include:
 
-## References
+- **Coupling strength**: The strength of connections between brain regions, often derived from empirical [[structural-connectivity]] data
+- **Population time constants**: The characteristic timescales of neural responses
+- **Excitatory/inhibitory balance**: The relative strength of excitatory and inhibitory processes (see [[excitation-inhibition-balance]])
+- **Noise**: Stochastic inputs that drive the system and enable transitions between dynamical states
 
-1. Jansen, B. H., & Rit, V. G. (1995). Electroencephalogram and visual evoked potential generation in a mathematical model of coupled cortical columns. *Biological Cybernetics*, 73(4), 357-366. https://doi.org/10.1007/BF00199471
+Applications include:
 
-2. Ritter, P., Schirner, M., McIntosh, A. R., & Jirsa, V. K. (2013). The Virtual Brain integrates computational modeling and multimodal neuroimaging. *Brain Connectivity*, 3(2), 121-145. https://doi.org/10.1089/brain.2012.0120
+- Understanding the neural basis of [[resting-state]] networks
+- Modeling changes in brain dynamics during development (see [[neurodevelopment]]) and aging (see [[aging-brain]])
+- Investigating alterations in brain connectivity in conditions like [[schizophrenia-models]] and [[alzheimers-modeling]]
+- Optimizing [[brain-stimulation]] protocols for therapeutic intervention
 
-3. Sanz Leon, P., Jones, S. R., Detorakis, G., Yegen, G., McIntosh, A. R., & Jirsa, V. K. (2013). The Virtual Brain: a simulator of primate brain network dynamics. *Frontiers in Neuroinformatics*, 7, 10. https://doi.org/10.3389/fninf.2013.00010
+## Relationship to Other Entities
 
-4. Scilab Xcos documentation: https://www.scilab.org/software/xcos
+XCOS exists within a broader ecosystem of whole-brain modeling tools. Key related software platforms include:
 
----
+- [[the-virtual-brain|TVB]]: The primary simulation environment where XCOS is implemented
+- [[nest]]: Simulator for spiking neural networks offering higher biological detail
+- [[brian]]: Another spiking neural network simulator with emphasis on flexibility
+- [[neuroml]]: Standardized language for describing neuronal models
 
-*XCOS provides a valuable platform for computational neuroscience research, enabling researchers to implement neural mass models through an intuitive block diagram interface.*
+The field of [[computational-neuroscience]] provides the theoretical foundations for models like XCOS, drawing on [[dynamical-systems-theory]], [[mean-field-theory]], and [[neural-field-theory]]. Parameter estimation techniques (see [[parameter-estimation]]) are essential for fitting models to individual subject data.
+
+## Open Questions and Future Directions
+
+Several key challenges remain in neural mass modeling:
+
+1. **Multi-scale integration**: Linking neural mass descriptions with detailed single-neuron or circuit-level models (see [[spiking-neural-networks]])
+2. **Personalization**: Improving methods for estimating model parameters from limited neuroimaging data
+3. **Validation**: Developing robust benchmarks for comparing model predictions to empirical observations (see [[model-validation]])
+4. **Clinical translation**: Translating modeling insights into clinical applications for individualized treatment planning
+
+The development of [[dynamic-causal-modeling]] and its applications in [[computational-psychiatry]] represent important frontier areas where models like XCOS may contribute to understanding psychiatric conditions through a mechanistic lens.
+
+## Summary
+
+XCOS represents an important component in the toolkit of whole-brain modeling, providing a computationally tractable framework for simulating large-scale neural dynamics. As part of the TVB ecosystem, it enables researchers to investigate how structural connectivity shapes functional brain activity, with applications spanning basic neuroscience, clinical research, and personalized medicine. The continued development of neural mass models, including improvements in parameter estimation and validation against empirical data, positions these approaches as valuable tools for understanding the complex dynamics of the human brain.

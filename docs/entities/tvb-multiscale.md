@@ -19,7 +19,7 @@ tags:
 - neuroimaging-meg
 title: TVB-NEST multiscale
 type: entity
-updated: '2026-04-27'
+updated: '2026-05-03'
 ---
 
 # TVB-NEST multiscale
@@ -28,7 +28,7 @@ TVB-NEST multiscale (also known as TVB-multiscale) is a co-simulation framework 
 
 ## Overview
 
-[[computational-neuroscience]] has historically operated at distinct scales: microscopic models capture detailed biophysical properties of individual neurons, while macroscopic models describe emergent dynamics of entire brain networks. The TVB-NEST framework addresses the fundamental challenge of connecting these scales in real-time, enabling researchers to investigate how single-neuron mechanisms give rise to population-level phenomena and vice versa.
+[[computational-neuroscience]] has historically operated at distinct scales: microscopic models capture detailed biophysical properties of individual neurons, while macroscopic models describe emergent dynamics of entire brain networks. The [[tvb-nest]] framework addresses the fundamental challenge of connecting these scales in real-time, enabling researchers to investigate how single-neuron mechanisms give rise to population-level phenomena and vice versa.
 
 The framework functions as a modular co-simulator where specific brain regions modeled as neural masses in TVB can be replaced with detailed spiking networks from NEST. This "selective zoom" approach maintains computational efficiency for the whole brain while permitting biophysically realistic neuron populations in regions of interest.
 
@@ -119,6 +119,10 @@ The framework requires:
 
 ## References
 
-[^sanz-leon-2013]: Sanz Leon P, Knock SA, Woodman MM, et al. [[the-virtual-brain]]: a simulator of primate brain [[network-dynamics]]. *Front Neuroinform*. 2013;7:10.
-[^gewaltig-diesmann-2007]: Gewaltig MO, Diesmann M. NEST (NEural Simulation Tool). *Scholarpedia*. 2007;2(4):1430.
-[^arxiv-2505.16861]: Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation. arXiv:2505.16861. 2024.
+1. Sanz Leon et al. (2013). *[[the-virtual-brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Gewaltig & Diesmann (2007). *NEST (NEural Simulation Tool)*. Scholarpedia. [DOI](https://doi.org/10.4249/scholarpedia.1430)
+3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *Arbor-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
+4. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](https://doi.org/10.3389/fncom.2025.1731161)
+5. Leon Martin, Konstantin Bülau, Marius Pille, Rico Schmitt, Christoph Hüttl, J. Meier, Halgurd Taher, Dionysios Perdikis, M. Schirner, L. Stefanovski, [[petra-ritter]]. (2025). *The Virtual Brain Ontology: A Digital Knowledge Framework for Reproducible Brain Network Modeling*. bioRxiv. [DOI](https://doi.org/10.1101/2025.11.19.689211)
+6. Gianluca Gaglioti, Alessandra Cardinale, Cosimo Lupo, Thierry Nieus, Federico Marmoreo, Elena Focacci, Robin Gutzen, Michael Denker, Andrea Pigorini, Marcello Massimini, Simone Sarasso, Pier Stanislao Paolucci, Giulia De Bonis. *Emergent complexity and rhythms in evoked and spontaneous dynamics of human whole-brain models after tuning through analysis tools*. [Link](https://arxiv.org/abs/2509.12873)
+7. Martin Breyton, Viktor Sip, M. Woodman, Meysam Hashemi, S. Petkoski, V. Jirsa. (2025). *Data-driven mean-field within whole-brain models*. [Link](https://www.semanticscholar.org/paper/144ae1f1dabec42c14493d0083d36f168508f886)

@@ -3,9 +3,24 @@ title: "PyNEST: A convenient interface to the NEST simulator"
 created: 2026-04-20
 updated: 2026-04-20
 type: source
-tags: [paper-methods, software-nest, spiking-neural-networks, tutorial]
-sources: []
+tags: [paper-methods ,software-nest ,spiking-neural-networks ,tutorial]
+authors:
+  - Jochen Martin Eppler
+year: 2008
+venue: Frontiers in Neuroinformatics
+doi: "https://doi.org/10.3389/neuro.11.012.2008"
+bibtex: |
+  @article{eppler2008pynest,
+    title={PyNEST: A convenient interface to the NEST simulator},
+    author={"Jochen Martin Eppler"},
+    year={2008},
+    journal={Frontiers in Neuroinformatics},
+    doi={https://doi.org/10.3389/neuro.11.012.2008},
+  }
 ---
+
+
+
 
 # PyNEST: A convenient interface to the NEST simulator
 

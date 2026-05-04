@@ -1,26 +1,33 @@
 ---
-title: CBRAIN
 created: 2025-01-15
-updated: 2026-04-29
-type: entity
-tags: [software-neuroimaging, neuroimaging, data-processing, workflow-automation, high-performance-computing, reproducibility, bids]
 sources:
-  - Sherif et al., 2014 - CBRAIN: a web-based, distributed computing platform for collaborative neuroimaging research
-  - Glatard et al., 2014 - Interoperability between the CBRAIN and VIP web platforms
-  - CBRAIN GitHub Wiki - Generic CBRAIN Documentation
+- raw/papers/semanticscholar-a324c47ea982.md
+- raw/papers/semanticscholar-f45e6044c92f.md
+- raw/papers/arxiv-2604.24696.md
+tags:
+- software-neuroimaging
+- neuroimaging
+- data-processing
+- workflow-automation
+- high-performance-computing
+- reproducibility
+- bids
+title: CBRAIN
+type: entity
+updated: '2026-04-30'
 ---
 
 # CBRAIN
 
 ## Overview
 
-CBRAIN is a web-based computational platform designed for large-scale neuroimaging data processing, analysis, and management. Developed at the McGill Centre for Integrative Neuroscience (MCIN) at the Montreal Neurological Institute, McGill University, under the direction of Professor Alan C. Evans—with significant contributions from lead developers Pierre Rioux, Tarek Sherif, Tristan Glatard, Natacha Beck, Nicolas Kassis, and the CBRAIN team—CBRAIN provides a unified graphical interface that allows researchers to run neuroimaging pipelines on remote high-performance computing (HPC) clusters without requiring direct command-line access. The platform serves as a middleman between users and compute resources, enabling the execution of complex neuroimaging workflows—such as those built on [[freesurfer]], [[fsl]], [[spm]], and [[afni]]—through a user-friendly web browser while handling data transfer, job scheduling, and result aggregation automatically [[Sherif et al., 2014]].
+CBRAIN is a web-based computational platform designed for large-scale neuroimaging data processing, analysis, and management. Developed at the McConnell Brain Imaging Centre at McGill University under the direction of Professor Alan C. Evans, with significant contributions from lead developers including Tarek Sherif, Pierre Rioux, Nicolas Kassis, Natacha Beck, and Tristan Glatard, CBRAIN provides a unified graphical interface that allows researchers to run neuroimaging pipelines on remote high-performance computing (HPC) clusters without requiring direct command-line access [@sources[0]]. The platform serves as a middleman between users and compute resources, enabling the execution of complex neuroimaging workflows—such as those built on [[freesurfer]], [[fsl]], [[spm]], and [[afni]]—through a user-friendly web browser while handling data transfer, job scheduling, and result aggregation automatically.
 
 ## Motivation and Context
 
-The neuroimaging community faces a fundamental infrastructure challenge: modern analysis pipelines require substantial computational resources (hundreds to thousands of CPU hours per subject) that are impractical to run on individual workstations. Simultaneously, many neuroscientists lack the technical expertise to interact directly with HPC systems via command-line interfaces. Traditional solutions like sending data to a central facility for processing created bottlenecks, while manual cluster management consumed significant research time and introduced variability that compromised reproducibility.
+The [[neuroimaging]] community faces a fundamental infrastructure challenge: modern analysis pipelines require substantial computational resources (hundreds to thousands of CPU hours per subject) that are impractical to run on individual workstations. Simultaneously, many neuroscientists lack the technical expertise to interact directly with HPC systems via command-line interfaces. Traditional solutions like sending data to a central facility for processing created bottlenecks, while manual cluster management consumed significant research time and introduced variability that compromised [[reproducibility]].
 
-CBRAIN emerged to address these challenges by providing a layer of abstraction over heterogeneous computing infrastructure. The platform implements a federated model where multiple institutions can contribute compute resources (clusters, cloud instances) while retaining local control, and users can access these resources through a unified portal. This architecture proved particularly valuable for large consortia projects like the [[human-connectome-project]] (HCP) and [[enigma]], where thousands of subjects required standardized processing across multiple sites [[Sherif et al., 2014]].
+CBRAIN emerged to address these challenges by providing a layer of abstraction over heterogeneous computing infrastructure. The platform implements a federated model where multiple institutions can contribute compute resources (clusters, cloud instances) while retaining local control, and users can access these resources through a unified portal. This architecture proved particularly valuable for large consortia projects, where thousands of subjects required standardized processing across multiple sites. The platform has served over 200 users across 53 cities in 17 countries as of 2013, with processing totaling millions of CPU hours from Compute Canada HPC resources alone [@sources[0]].
 
 ## Key Features
 
@@ -30,7 +37,7 @@ CBRAIN exposes a graphical web interface that allows users to upload neuroimagin
 
 ### Multi-Site Compute Federation
 
-One of CBRAIN's distinctive features is its support for distributed computing resources. Institutions can register their own HPC clusters as CBRAIN compute targets, allowing jobs to run on local infrastructure while the web interface remains centralized. This federated model has been particularly adopted in Canada (through the CBRAIN/HCPTalk initiative) and increasingly in international collaborations. As of recent reporting, CBRAIN connects to six Compute Canada HPC clusters plus international resources, totaling over 80,000 CPU cores [[CBRAIN GitHub Wiki]].
+One of CBRAIN's distinctive features is its support for distributed computing resources. Institutions can register their own HPC clusters as CBRAIN compute targets, allowing jobs to run on local infrastructure while the web interface remains centralized. This federated model has been particularly adopted in Canada through the CBRAIN/HCPTalk initiative, with connections to Compute Canada clusters and international collaborators in Germany and Korea [@sources[0]].
 
 ### Tool Integration
 
@@ -39,7 +46,7 @@ CBRAIN bundles and maintains wrappers for dozens of leading neuroimaging tools, 
 - **Structural processing**: [[freesurfer]], [[fsl]]'s BET/FAST, [[ants]]
 - **Diffusion imaging**: [[mrtrix3]], [[dipy]], [[fsl]]'s FDT, [[camino]]
 - **Functional processing**: [[fsl]]'s FEAT, [[spm]], [[afni]]
-- **Connectivity analysis**: [[connectome-workbench]], [[bctpy]]
+- **[[connectivity]] analysis**: [[connectome-workbench]], [[bctpy]]
 
 Each tool wrapper ensures consistent input/output handling and proper integration with CBRAIN's data management system.
 
@@ -66,7 +73,7 @@ CBRAIN occupies a distinct niche in the neuroimaging software ecosystem, but sev
 
 ## Technical Architecture
 
-At its core, CBRAIN consists of three interconnected components: a Ruby-on-Rails web application (the user-facing portal), a database for job and data metadata, and a set of "BrainPlugins" that wrap individual software tools. The system uses SSH tunneling to communicate with remote compute servers, submitting jobs through scheduler APIs (SLURM, PBS, SGE) and managing data transfer via dedicated storage systems. Data remains stored at the user's home institution, with CBRAIN only orchestrating the processing—this federated data model addresses many institutional data governance concerns that would otherwise preclude centralized cloud solutions [[Sherif et al., 2014]].
+At its core, CBRAIN consists of three interconnected components: a Ruby-on-Rails web application (the user-facing portal), a database for job and data metadata, and a set of "BrainPlugins" that wrap individual software tools. The system uses SSH tunneling to communicate with remote compute servers, submitting jobs through scheduler APIs (SLURM, PBS, SGE) and managing data transfer via dedicated storage systems. Data remains stored at the user's home institution, with CBRAIN only orchestrating the processing—this federated data model addresses many institutional data governance concerns that would otherwise preclude centralized cloud solutions.
 
 ## Open Questions and Limitations
 
@@ -74,12 +81,11 @@ Despite its widespread adoption, CBRAIN faces ongoing challenges. The tool wrapp
 
 ## Key Papers
 
-- Sherif T, Rioux P, Rousseau M-E, Kassis N, Beck N, Adalat R, Das S, Glatard T and Evans AC (2014). CBRAIN: a web-based, distributed computing platform for collaborative neuroimaging research. *Frontiers in Neuroinformatics* 8:54. https://doi.org/10.3389/fninf.2014.00054
-- Glatard T, Rousseau M-E, Camarasu-Pop S, Rioux P, Sherif T, Beck N, Adalat R and Evans AC (2014). Interoperability between the CBRAIN and VIP web platforms for neuroimage analysis. *Frontiers in Neuroinformatics*, Conference Abstract: Neuroinformatics 2014. https://doi.org/10.3389/conf.fninf.2014.18.00070
+- Sherif T, Rioux P, Rousseau M-E, Kassis N, Beck N, Adalat R, Das S, Glatard T and Evans AC (2014) CBRAIN: a web-based, distributed computing platform for collaborative neuroimaging research. Front. Neuroinform. 8:54. https://doi.org/10.3389/fninf.2014.00054 — The primary CBRAIN publication describing the platform architecture, deployment, and usage.
+- Glatard T, et al. (2014) Integration of a neuroimaging processing pipeline into a pan-Canadian computing grid. J. Phys. Conf. Ser. 341:012032 — Describes pipeline integration into CBRAIN.
 
 ## References
 
-- Sherif, T., Rioux, P., Rousseau, M.-E., Kassis, N., Beck, N., Adalat, R., Das, S., Glatard, T., & Evans, A. C. (2014). CBRAIN: a web-based, distributed computing platform for collaborative neuroimaging research. *Frontiers in Neuroinformatics*, 8, 54. https://doi.org/10.3389/fninf.2014.00054
-- Glatard, T., Rousseau, M.-E., Camarasu-Pop, S., Rioux, P., Sherif, T., Beck, N., Adalat, R., & Evans, A. C. (2014). Interoperability between the CBRAIN and VIP web platforms for neuroimage analysis. *Frontiers in Neuroinformatics*. https://doi.org/10.3389/conf.fninf.2014.18.00070
-- CBRAIN GitHub Repository. https://github.com/aces/cbrain
-- CBRAIN Portal. https://portal.cbrain.mcgill.ca
+1. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2025). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research*. bioRxiv. [DOI](https://doi.org/10.1101/2025.10.06.680781)
+2. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2026). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research.*. [[brain-stimulation]]. [DOI](https://doi.org/10.1016/j.brs.2025.103016)
+3. Cheng Wang, Zhibin He, Zhihao Peng, Shengyuan Liu, Yufan Hu, Lichao Sun, Xiang Li, Yixuan Yuan. (2026). *NeuroClaw Technical Report*. [Link](https://arxiv.org/abs/2604.24696)

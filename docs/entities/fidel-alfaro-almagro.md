@@ -12,7 +12,7 @@ tags:
 - database-uk-biobank
 title: Fidel Alfaro-Almagro
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 # Fidel Alfaro-Almagro
@@ -47,3 +47,5 @@ Alfaro-Almagro's work focuses on:
 1. (authors unknown). *Image Processing and Quality Control for the First 100,000 Brain Imaging Datasets from UK Biobank*.
 2. (authors unknown). *Genome-wide Association Studies of Brain Imaging Phenotypes from UK Biobank*.
 3. (authors unknown). *Multimodal Population Brain Imaging in the UK Biobank: Prospective Epidemiological Study*.
+4. (authors unknown). *UK Biobank Brain Imaging: Structural MRI in a Massive Population Resource*.
+5. (authors unknown). *The UK Biobank Imaging Study: 100,000 Participants and Beyond*.

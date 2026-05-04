@@ -16,7 +16,7 @@ tags:
 - neuroimaging-meg
 title: Connectome
 type: concept
-updated: '2026-04-27'
+updated: '2026-05-04'
 ---
 
 The connectome represents a comprehensive structural description of the network of neural elements and connections forming the brain. Introduced as a formal concept by olaf-sporns|[[giulio-tononi]] and rolf-kotter|[[rolf-kotter|Rolf Kötter]] in their seminal 2005 paper, the connectome encompasses the complete mapping of neural pathways—both structural and functional—that underlie brain organization. This concept has fundamentally transformed how neuroscientists conceptualize the brain, shifting from a collection of isolated regions to a network-centric view emphasizing the integration of information across distributed neural systems.
@@ -55,7 +55,7 @@ Other species have served as important targets for complete connectome reconstru
 
 ## Relationship to Whole-Brain Modeling
 
-The connectome provides the anatomical scaffold upon which brain dynamics unfold in [[whole-brain|whole-brain modeling]] approaches. Structural connectivity matrices derived from diffusion imaging serve as the physical substrate for simulating neural activity propagation across the brain. The relationship can be conceptualized as a cascade: structure constrains dynamics, and dynamics generate function. Understanding this structure-function mapping represents one of the central challenges in computational neuroscience, requiring integration of anatomical data with [[dynamical-systems-theory]] and [[neural-mass-models]].
+The connectome provides the anatomical scaffold upon which brain dynamics unfold in [[whole-brain|whole-brain modeling]] approaches. Structural connectivity matrices derived from diffusion imaging serve as the physical substrate for simulating neural activity propagation across the brain. Imaging parameters such as the field of view (FoV) can influence data quality and coverage, and considerations of FoV are discussed in [[fovd]]. The relationship can be conceptualized as a cascade: structure constrains dynamics, and dynamics generate function. Understanding this structure‑function mapping represents one of the central challenges in computational neuroscience, requiring integration of anatomical data with [[dynamical-systems-theory]] and [[neural-mass-models]].
 
 ## Related Concepts
 
@@ -73,3 +73,30 @@ The connectome provides the anatomical scaffold upon which brain dynamics unfold
 1. (authors unknown). *The Human Connectome: A Structural Description of the Human Brain*.
 2. (authors unknown). *The WU-Minn Human Connectome Project: An Overview*.
 3. (authors unknown). *Functional Network Organization of the Human Brain*.
+4. (authors unknown). *Correspondence of the brain's functional architecture during activation and rest*.
+5. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
+
+## ORPHAN PAGE CONTEXT (fovd)
+---
+created: 2024-01-15
+sources:
+- raw/papers/rubinov-sporns-2010.md
+tags:
+- [[neuroimaging]]-fmri
+- neuroimaging-meg
+- neuroimaging-eeg
+- field-of-view
+- [[whole-brain-modeling]]
+- structural-connectivity
+- neuroimaging
+- acquisition-parameters
+title: Field of View
+type: concept
+updated: '2026-05-03'
+---
+
+# Field of View
+
+## Overview
+
+**Field of View (FoV)** refers to the spatial extent of the imaging volume captured during neuroimaging acquisitions such as [[fmri]] and [[meg]]. In whole-brain modeling

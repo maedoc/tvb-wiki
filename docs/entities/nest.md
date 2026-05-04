@@ -13,12 +13,13 @@ tags:
 - brain-network
 title: NEST
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 # NEST (NEural Simulation Tool)
 
 NEST is a simulator for spiking [[neural-network]] models, widely used in [[computational-neuroscience]].
+[[fooof]]
 
 ## Overview
 
@@ -30,7 +31,7 @@ NEST is specifically designed for large networks of point neurons with biologica
 - **Biologically realistic synapses**: Detailed synaptic dynamics and plasticity rules
 - **Massive scalability**: From laptops to petascale supercomputers (10^11+ synapses)
 - **Parallel computing**: MPI and OpenMP support for distributed simulation
-- **PyNEST interface**: Python API for rapid prototyping and scientific workflow integration
+- **[[pynest]] interface**: Python API for rapid prototyping and scientific workflow integration
 - **Canonical microcircuits**: Reference implementations like the Potjans-Diesmann cortical model
 
 ## Scalability

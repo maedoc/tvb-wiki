@@ -7,6 +7,9 @@ sources:
 - raw/papers/arxiv-2603.04149.md
 - raw/papers/arxiv-2512.03907.md
 - raw/papers/arxiv-2509.24715.md
+- raw/papers/semanticscholar-028f7c6ac41d.md
+- raw/papers/semanticscholar-7ce00494427f.md
+- raw/papers/semanticscholar-2004e006655b.md
 tags:
 - connectomics
 - network-dynamics
@@ -15,7 +18,7 @@ tags:
 - functional-connectivity
 title: Scale-Free Networks
 type: concept
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 # Scale-Free Networks
@@ -83,3 +86,8 @@ Despite substantial progress, several fundamental questions remain unanswered. W
 
 1. (authors unknown). *Emergence of Scaling in Random Networks*.
 2. (authors unknown). *Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems*.
+3. Coşkun Çetin, Jose Roberto Castilho Piqueira, Burhaneddin İzgi̇, Ayşe Peker-Dobie, Semra Ahmetolan, Murat Özkaya. (2026). *Deterministic, stochastic, and [[mean-field-theory|mean-field]] PDE models in neuroscience*. Frontiers in [[computational-neuroscience]]. [DOI](https://doi.org/10.3389/fncom.2026.1762692)
+4. Marco Zenari, Luca Taffarello, Luca Mazzucato, Amos Maritan, Samir Suweis. (2026). *Topological Origin of the Diversity of Timescales in Recurrent Neural Circuits*. [Link](https://arxiv.org/abs/2603.04149)
+5. Rosa Maria Delicado, Gemma Huguet, Pau Clusella. (2025). *Emergent Spatiotemporal Dynamics in Large-Scale Brain Networks with Next Generation [[neural-mass-models]]*. [Link](https://arxiv.org/abs/2512.03907)
+6. Jiangnan Zhang, Chengyuan Qian, Wenlian Lu, [[gustavo-deco]], Weiyang Ding, Jianfeng Feng. (2025). *Dark Signals in the Brain: Augment Brain Network Dynamics to the Complex-valued Field*. [Link](https://arxiv.org/abs/2509.24715)
+7. Shengjie Qi, Xinda Song, Le Jia, Hongyu Cui, Yuchen Suo, Teng Long, Zhendong Wu, Xiaolin Ning. (2025). *The impact of channel density, inverse solutions, connectivity metrics and calibration errors on OPM-MEG connectivity analysis: A simulation study*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2025.121056)

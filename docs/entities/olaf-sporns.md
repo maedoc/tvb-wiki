@@ -13,7 +13,7 @@ tags:
 - network-dynamics
 title: Olaf Sporns
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 # Olaf Sporns
@@ -60,3 +60,5 @@ Sporns' research integrates network science with neuroscience to understand how 
 2. (authors unknown). *Networks of the Brain*.
 3. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
 4. (authors unknown). *Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems*.
+5. (authors unknown). *Functional Network Organization of the Human Brain*.
+6. (authors unknown). *Functional Connectomics from [[resting-state|Resting-State fMRI]]*.

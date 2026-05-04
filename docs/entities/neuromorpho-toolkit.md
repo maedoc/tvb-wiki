@@ -4,6 +4,7 @@ sources:
 - raw/papers/sanz-leon-2013.md
 - raw/papers/breakspear-2017.md
 - raw/papers/ritter-2013.md
+- raw/papers/semanticscholar-eb4197c24bf2.md
 tags:
 - software-neuromorpho
 - database-neuromorpho
@@ -15,7 +16,7 @@ tags:
 - dataset-neurons
 title: NeuroMorpho.org Toolkit
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 # NeuroMorpho.org Toolkit
@@ -46,22 +47,7 @@ The NeuroMorpho.org Toolkit intersects with several software ecosystems in compu
 
 ## References
 
-- Akram, M. A., Nanda, S., Maraver, P., Armañanzas, R., & Ascoli, G. A. (2018). An open repository for single-cell reconstructions of the brain forest. *Scientific Data*, 5, 180006. https://doi.org/10.1038/sdata.2018.6
-
-- Ascoli, G. A. (2006). Mobilizing the base of neuroscience data: the case of neuronal morphologies. *Nature Reviews Neuroscience*, 7, 318-324.
-
-- Ascoli, G. A., Donohue, D. E., & Halavi, M. (2007). NeuroMorpho.Org: A central resource for neuronal morphologies. *Journal of Neuroscience*, 27(35), 9247-9251. https://doi.org/10.1523/JNEUROSCI.2055-07.2007
-
-- Halavi, M., Polavaram, S., Donohue, D. E., Hamilton, G., Hoyt, J., Smith, K. P., & Ascoli, G. A. (2008). NeuroMorpho.Org implementation of digital neuroscience: dense coverage and integration with the NIF. *Neuroinformatics*, 6(3), 241-252. https://doi.org/10.1007/s12021-008-9030-1
-
-- Scorcioni, R., Polavaram, S., & Ascoli, G. A. (2008). L-Measure: a web-accessible tool for the analysis, comparison and search of digital reconstructions of neuronal morphologies. *Nature Protocols*, 3(5), 866-876.
-
-[[brian]]
-[[neuroml]]
-[[neuron]]
-[[the-virtual-brain]]
-[[brainnet-viewer]]
-[[freesurfer]]
-[[whole-brain-modeling]]
-[[computational-neuroscience]]
-[[spiking-neural-networks]]
+1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)
+3. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal [[neuroimaging]]*. Brain [[connectivity]]. [DOI](https://doi.org/10.1089/brain.2012.0120)
+4. Amirreza Movahedin, Lennart P. L. Landsmeer, Christos Strydis. (2025). *HUMA: Heterogeneous, Ultra Low-Latency Model Accelerator for The Virtual Brain on a Versal Adaptive SoC*. Symposium on Field Programmable Gate Arrays. [DOI](https://doi.org/10.1145/3706628.3708875)

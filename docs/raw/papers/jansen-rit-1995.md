@@ -1,11 +1,27 @@
 ---
-title: "Electroencephalogram and visual evoked potential generation in a mathematical model of coupled cortical columns"
+title: Electroencephalogram and visual evoked potential generation in a mathematical model of coupled cortical columns
 created: 2026-04-20
 updated: 2026-04-20
 type: source
-tags: [paper-methods, neural-mass-models, eeg, meg, people-researcher]
-sources: []
+tags: [paper-methods ,neural-mass-models ,eeg ,meg ,people-researcher]
+authors:
+  - Ben H. Jansen
+  - Vincent G. Rit
+year: 1995
+venue: Biological Cybernetics
+doi: "https://doi.org/10.1007/bf00199471"
+bibtex: |
+  @book{jansen1995electroenc,
+    title={Electroencephalogram and visual evoked potential generation in a mathematical model of coupled cortical columns},
+    author={"Ben H. Jansen and Vincent G. Rit"},
+    year={1995},
+    publisher={Biological Cybernetics},
+    doi={https://doi.org/10.1007/bf00199471},
+  }
 ---
+
+
+
 
 # Electroencephalogram and visual evoked potential generation in a mathematical model of coupled cortical columns
 

@@ -3,11 +3,27 @@ title: "Statistical parametric maps in functional imaging: A general linear appr
 created: 2026-04-20
 updated: 2026-04-20
 type: paper
-tags: [neuroimaging-fmri, paper-methods, statistical-analysis]
-authors: [Karl J Friston, Andrew P Holmes, Keith J Worsley, Jean-Baptiste Poline, Chris D Frith, Richard SJ Frackowiak]
+tags: [neuroimaging-fmri ,paper-methods ,statistical-analysis]
+authors:
+  - Karl J Friston
+  - Andrew P Holmes
+  - Keith J Worsley
+  - Jean-Baptiste Poline
+  - Chris D Frith
+  - Richard SJ Frackowiak
 year: 1994
-venue: "Human Brain Mapping"
+venue: Human Brain Mapping
+doi: "https://doi.org/10.1002/hbm.460020402"
+bibtex: |
+  @book{friston1994statistic,
+    title={Statistical parametric maps in functional imaging: A general linear approach},
+    author={"Karl J Friston and Andrew P Holmes and Keith J Worsley and Jean-Baptiste Poline and Chris D Frith and Richard SJ Frackowiak"},
+    year={1994},
+    publisher={Human Brain Mapping},
+    doi={https://doi.org/10.1002/hbm.460020402},
+  }
 ---
+
 
 # Statistical parametric maps in functional imaging: A general linear approach
 

@@ -17,7 +17,7 @@ tags:
 - neuroimaging-dti
 title: Human Connectome Project
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 # Human Connectome Project (HCP)
@@ -99,7 +99,7 @@ Seven cognitive domains assessed:
 ## Resources
 
 ### Data Access
-- **ConnectomeDB**: Database for downloading data
+- **[[connectomedb]]**: Database for downloading data
 - **HCP Website**: humanconnectome.org
 - **Open Access**: Free to researchers
 

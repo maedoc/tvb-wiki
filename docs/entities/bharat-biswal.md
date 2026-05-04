@@ -14,7 +14,7 @@ tags:
 - resting-state
 title: Bharat Biswal
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 # Bharat Biswal
@@ -51,3 +51,5 @@ Resting-state functional connectivity is the primary empirical target for [[whol
 3. D. Fasoli, L. Coletta, Daniel Gutierrez-Barragan, S. Gini, A. Gozzi, S. Panzeri. (2026). *Attractor dynamics of a whole-cortex network model predicts emergence and structure of fMRI co-activation patterns in the mouse brain.*. PLoS Computational Biology. [DOI](https://doi.org/10.1371/journal.pcbi.1013995)
 4. Benjamin S. Sipes, Fahimeh Arab, S. Nagarajan, Ashish Raj. (2026). *HONeD-in on Brain Activity: Deconvolving Passive Diffusion on the Structural Network from Functional Brain Signals*. bioRxiv. [DOI](https://doi.org/10.64898/2026.01.05.697753)
 5. Seohyeon Lee, Wonyoung Kim, Nayoung Kim, M. J. Kim. (2026). *Resting-state functional [[connectome]]-based prediction of valence bias.*. Neuropsychologia. [DOI](https://doi.org/10.1016/j.neuropsychologia.2026.109429)
+6. Debby C W Klooster, Guo-Rong Wu, Sara De Witte, Koen Kaalberg, B. Kalkhoven, Rob M C Mestrom, C. Baeken. (2026). *Simultaneous tDCS-fMRI reveals limited and inconsistent changes in functional connectivity: Insights from a temporal dynamics study*. Imaging Neuroscience. [DOI](https://doi.org/10.1162/IMAG.a.1109)
+7. Valerio Barabino, F. Callegari, Sérgio Martinoia, P. Massobrio. (2026). *Hierarchical afferent connectivity drives population-wide bursting dynamics in a computational model of human-derived excitatory neuronal networks*. Journal of Neuroscience. [DOI](https://doi.org/10.1523/jneurosci.0912-25.2026)

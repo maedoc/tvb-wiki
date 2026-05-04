@@ -12,12 +12,12 @@ tags:
 - network-dynamics
 title: Edward T. Bullmore
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 # Edward T. Bullmore
 
-Professor at University of Cambridge, leading researcher in network neuroscience and [[computational-psychiatry]].
+Professor at University of Cambridge, leading researcher in [[netneuroscience|network neuroscience]] and [[computational-psychiatry]].
 
 ## Key Contributions
 
@@ -50,3 +50,5 @@ Bullmore's research spans:
 1. (authors unknown). *Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems*.
 2. (authors unknown). *Networks of the Brain*.
 3. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
+4. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)
+5. (authors unknown). *Functional Connectomics from [[resting-state|Resting-State fMRI]]*.

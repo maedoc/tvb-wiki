@@ -22,14 +22,14 @@ tags:
 - personalized-brain-modeling
 title: Personalized Brain Modeling
 type: concept
-updated: '2026-04-27'
+updated: '2026-05-04'
 ---
 
 Personalized brain modeling (also termed patient-specific brain modeling or virtual brain建模) refers to the construction of subject-specific computational brain models that are parameterized by an individual's unique [[neuroimaging]] data. Unlike generic brain models that represent average anatomical and functional patterns across a population, personalized models capture the distinctive structural architecture and dynamics of a specific individual—including their unique [[white-matter]] pathways, cortical [[parcellation]], and characteristic neural rhythms. This individualization enables clinically relevant simulations that can predict disease progression, treatment outcomes, and personalized neuromodulation protocols with significantly higher fidelity than population-level models.
 
 ## Motivation and Clinical Context
 
-The motivation for personalized brain modeling emerges from a fundamental limitation of population-average approaches in clinical neuroscience: the high degree of inter-subject variability in brain anatomy, [[connectivity]], and dynamics. While group-level studies have successfully identified canonical brain networks and biomarkers, they often fail to capture the idiosyncratic features that determine an individual patient's disease trajectory or treatment response. For example, the pattern of seizure propagation in [[epilepsy-modeling]] depends critically on the specific white matter pathways connecting epileptogenic zones to downstream regions—pathways that vary substantially across individuals and cannot be adequately represented by a template brain.
+The motivation for personalized brain modeling emerges from a fundamental limitation of population-average approaches in clinical neuroscience: the high degree of inter-subject variability in brain anatomy, [[connectivity]], and dynamics. While group-level studies have successfully identified canonical brain networks and biomarkers, they often fail to capture the idiosyncratic features that determine an individual patient's disease [[trajectory]] or treatment response. For example, the pattern of seizure propagation in [[epilepsy-modeling]] depends critically on the specific white matter pathways connecting epileptogenic zones to downstream regions—pathways that vary substantially across individuals and cannot be adequately represented by a template brain.
 
 Personalized brain modeling addresses this problem by transforming individual neuroimaging data into computational model parameters, creating a "digital twin" of the patient's brain that can be simulated in silico. This approach draws on the theoretical framework of [[whole-brain modeling]], which represents the brain as a network of coupled [[neural-mass-model]]s connected by empirical structural connectivity matrices derived from [[diffusion-mri]] tractography. By parameterizing these models with subject-specific data, researchers can generate predictions that account for individual anatomical differences—something thatpurely data-driven analyses of functional neuroimaging cannot achieve without mechanistic modeling.
 
@@ -104,8 +104,12 @@ The integration of [[effective-connectivity]] methods—such as [[dynamic-causal
 - [[TVB]] — Primary software platform for personalized brain simulation
 - [[resting-state]] — The empirical functional patterns commonly used for model validation
 - [[fmri-vs-eeg|Fmri Vs Eeg]]
+
 ## References
 
 1. Ritter et al. (2013). *[[the-virtual-brain]] integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
 2. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2018.05.040)
 3. Hongjie Jiang, Yifei Tang, Shuqiang Wang. *Neural Dynamics-Informed Pre-trained Framework for Personalized Brain Functional Network Construction*. [Link](https://arxiv.org/abs/2603.07524)
+4. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+5. Woodman et al. (2014). *GraphVar: A user-friendly toolbox for comprehensive graph analyses of functional brain connectivity*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2014.07.015)
+6. Nina Baldy, Marmaduke M Woodman, Viktor K Jirsa. (2025). *Amortizing personalization in virtual brain twins*. [Link](https://arxiv.org/abs/2506.21155)

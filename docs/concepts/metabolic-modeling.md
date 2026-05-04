@@ -8,7 +8,7 @@ tags:
 - metabolic-modeling
 title: Metabolic Modeling
 type: concept
-updated: '2026-04-28'
+updated: '2026-04-30'
 ---
 
 Metabolic Modeling — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].

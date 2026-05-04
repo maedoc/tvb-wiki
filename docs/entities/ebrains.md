@@ -16,7 +16,7 @@ tags:
 - research-infrastructure
 title: EBRAINS
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 # EBRAINS
@@ -67,12 +67,6 @@ The infrastructure connects to several foundational concepts in modern neuroscie
 
 ## References
 
-[^esfri]: European Strategy Forum on Research Infrastructures. "ESFRI Roadmap 2021." https://www.esfri.org/roadmap/2021
-
-[^about]: EBRAINS. "About EBRAINS." https://www.ebrains.eu/about
-
-[^hbp]: "The Human Brain Project: Strategic details, background, news and resources." https://www.humanbrainproject.eu/en
-
-[^hcp]: "Human Connectome Project." https://www.humanconnectomeproject.org/
-
-[^tvbp]: Sanz-Leon, P., et al. (2015). "The virtual brain: a simulator of primate [[brain-network]] dynamics." *NeuroImage*, 111, 385-407.
+1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate [[brain-network]] dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2025). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research*. bioRxiv. [DOI](https://doi.org/10.1101/2025.10.06.680781)
+3. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2026). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research.*. Brain Stimulation. [DOI](https://doi.org/10.1016/j.brs.2025.103016)

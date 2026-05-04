@@ -8,7 +8,7 @@ tags:
 - software-brain-modeling
 title: STEPS
 type: entity
-updated: '2026-04-24'
+updated: '2026-04-30'
 ---
 
 Here is the corrected STEPS page with all issues fixed:
@@ -73,20 +73,6 @@ While STEPS models the detailed biophysics of synaptic and subcellular processes
 
 ## References
 
-1. Hepburn, I., Chen, W., Wils, S., & De Schutter, E. (2012). STEPS: Efficient simulation of stochastic reaction-diffusion models in realistic morphologies. *BMC Systems Biology*, 6(1), 36.
-
-2. Chen, W., & De Schutter, E. (2014). STEPS—Modeling and simulating complex reaction-diffusion systems with Python. *Frontiers in Neuroinformatics*, 8, 41.
-
-3. Chen, W., Hepburn, I., & De Schutter, E. (2020). Parallel STEPS: Large scale stochastic spatial reaction-diffusion simulation with high performance computers. *Frontiers in Neuroinformatics*, 14, 11.
-```
-
-## Summary of Fixes
-
-| Issue | Fix |
-|-------|-----|
-| **Hepburn 2012 title mismatch** | Fixed to "STEPS: Efficient simulation of stochastic reaction-diffusion models in realistic morphologies" in both sections (removed "with adaptive mesh refinement") |
-| **Crook et al. (2020)** | Replaced with Chen/Hepburn/De Schutter (2020), the actual OIST STEPS development team; venue consistently Frontiers in Neuroinformatics |
-| **"Developed at OIST"** | Changed to "Originally developed at the University of Antwerp and continuing development at OIST" |
-| **Future date** | Updated from `2026-04-24` to current date `2026-04-23` |
-| **MOOSE comparison** | Changed from "less specialized for spatial stochasticity" to accurate description acknowledging MOOSE's stochastic/Gillespie capabilities |
-| **Empty sources field** | Populated with STEPS website and primary paper URLs |
+1. Rui Dong, Xiaotong Zhang, Jiaxing Li, Yueying Li, Jiayin Wei, Youyong Kong. *M3D-BFS: a Multi-stage Dynamic Fusion Strategy for Sample-Adaptive Multi-Modal Brain Network Analysis*. [Link](https://arxiv.org/abs/2604.01667)
+2. Hong Yu, Xuehuan Liu, Xiao Gao, Yuting Wang, Feize Zheng, Zhiheng Zhou, Gouling Zhan, Weiwei Cui, Xiaowen Zheng, Haiyang Shao, Hao Wang, Qing He, Jun Liu. (2026). *Multimodal brain network disruption and structural-functional decoupling in overt hypothyroidism*. Frontiers in Endocrinology. [DOI](https://doi.org/10.3389/fendo.2026.1763670)
+3. *Patricia Burhunduli, Zhuo Fang, Katie L. Vandeloo, Pierre Blier, Jennifer L Phillips. (2025). *A PRELIMINARY INVESTIGATION OF RESTING STATE FUNCTIONAL CONNECTIVITY NETWORKS IN PATIENTS WITH TREATMENT-RESISTANT DEPRESSION AND A HISTORY OF SUICIDE ATTEMPT*. International Journal of Neuropsychopharmacology. [DOI](https://doi.org/10.1093/ijnp/pyae059.440)

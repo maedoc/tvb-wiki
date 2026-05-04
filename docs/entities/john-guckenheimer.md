@@ -7,11 +7,12 @@ sources:
 - raw/papers/arxiv-2603.04149.md
 - raw/papers/breakspear-2017.md
 - raw/papers/deco-2009-stochastic.md
+- raw/papers/semanticscholar-2004e006655b.md
 tags:
 - people-researcher
 title: John Guckenheimer
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 ## Overview
@@ -44,3 +45,7 @@ John Guckenheimer (born 1945) is an American mathematician and the Abram R. Bull
 1. (authors unknown). *Nonlinear Oscillations, Dynamical Systems, and Bifurcations of Vector Fields*.
 2. [[eugene-izhikevich|Eugene M. Izhikevich]]. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
 3. (authors unknown). *Mathematical Foundations of Neuroscience*.
+4. Marco Zenari, Luca Taffarello, Luca Mazzucato, Amos Maritan, Samir Suweis. (2026). *Topological Origin of the Diversity of Timescales in Recurrent Neural Circuits*. [Link](https://arxiv.org/abs/2603.04149)
+5. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)
+6. (authors unknown). *Stochastic Dynamics in the Brain and Probabilistic Models*.
+7. Marianna Angiolelli, D. Depannemaecker, H. Agouram, J. Régis, R. Carron, M. Woodman, L. Chiodo, P. Triebkorn, Abolfazl Ziaeemehr, Meysam Hashemi, Alexandre Eusebio, [[viktor-jirsa]], P. Sorrentino. (2025). *The Virtual Parkinsonian patient*. npj Systems Biology and Applications. [DOI](https://doi.org/10.1038/s41540-025-00516-y)

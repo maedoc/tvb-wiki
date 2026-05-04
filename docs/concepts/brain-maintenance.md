@@ -15,7 +15,7 @@ tags:
 - personalized-brain-modeling
 title: Brain Maintenance
 type: concept
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 Brain maintenance refers to the preservation of brain structure and function across the lifespan, representing the successful resistance to age-related neurobiological changes. As one of three key mechanisms posited to explain differential cognitive [[aging]] trajectories—alongside [[cognitive-reserve]] and compensation—brain maintenance reflects the relative absence of age-related decline in neural integrity. Individuals who exhibit high brain maintenance demonstrate less cortical thinning, preserved white matter integrity, maintained [[functional-connectivity]] patterns, and stable cognitive performance despite advancing chronological age. This concept has become fundamental to understanding why some older adults maintain sharp cognitive function into late life while others experience significant decline.
@@ -63,3 +63,5 @@ The concept of brain maintenance continues to evolve as neuroimaging methodologi
 1. (authors unknown). *Maintenance, Reserve and Compensation: The Cognitive Neuroscience of Healthy Ageing*.
 2. (authors unknown). *Structural Brain Changes in Aging: Courses, Causes and Cognitive Consequences*.
 3. (authors unknown). *The Cognitive Neuroscience of Ageing and Functional Reserve*.
+4. (authors unknown). *Memory and Executive Function in Aging and AD: Multiple Factors that Cause Decline and Reserve Factors that Compensate*.
+5. (authors unknown). *[[uk-biobank]] Brain Imaging: Structural MRI in a Massive Population Resource*.

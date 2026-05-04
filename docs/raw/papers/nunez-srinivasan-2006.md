@@ -3,11 +3,23 @@ title: "Electric Fields of the Brain: The Neurophysics of EEG"
 created: 2026-04-20
 updated: 2026-04-20
 type: paper
-tags: [neuroimaging-eeg, paper-review, textbook]
-authors: [Paul L Nunez, Ramesh Srinivasan]
+tags: [neuroimaging-eeg ,paper-review ,textbook]
+authors:
+  - Paul L Nunez
+  - Ramesh Srinivasan
 year: 2006
-venue: "Oxford University Press (Textbook)"
+venue: Oxford University Press (Textbook)
+doi: "https://doi.org/10.1001/jama.1982.03320380071046"
+bibtex: |
+  @book{nunez2006electric,
+    title={Electric Fields of the Brain: The Neurophysics of EEG},
+    author={"Paul L Nunez and Ramesh Srinivasan"},
+    year={2006},
+    publisher={Oxford University Press (Textbook)},
+    doi={https://doi.org/10.1001/jama.1982.03320380071046},
+  }
 ---
+
 
 # Electric Fields of the Brain: The Neurophysics of EEG (2nd Edition)
 

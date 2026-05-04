@@ -15,7 +15,7 @@ tags:
 - tractography
 title: 3D Slicer
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 **Fixed issues:**
@@ -40,3 +40,7 @@ The corrected markdown file is now ready for re-review.
 ## References
 
 1. Tustison et al. (2010). *N4ITK: improved N3 bias correction*. IEEE Transactions on Medical Imaging. [DOI](https://doi.org/10.1109/TMI.2010.2046908)
+2. (authors unknown). *Image Processing and Quality Control for the First 100,000 Brain Imaging Datasets from [[uk-biobank]]*.
+3. Muhammad Nabi Yasinzai, R. Mito, M. Pedersen. (2025). *BrainScape: An open-source framework for integrating and preprocessing anatomical MRI datasets*. Imaging neuroscience. [DOI](https://doi.org/10.1162/IMAG.a.944)
+4. Xiaofeng Wang, Walter Zhao, Yifan Wang, Deborah H Kwon, T. Su, N. Obuchowski, Mark A Griswold, Z. Wang, Dan Ma. (2026). *Enhancing Study Design and Analysis of MR Imaging Markers Through Measurement Error Modeling.*. Journal of Magnetic Resonance Imaging. [DOI](https://doi.org/10.1002/jmri.70229)
+5. Wanying Qu, Jianxiong Gao, Wei Wang, Yanwei Fu. *Modeling Spatiotemporal Neural Frames for High Resolution Brain Dynamic*. [Link](https://arxiv.org/abs/2603.24176)

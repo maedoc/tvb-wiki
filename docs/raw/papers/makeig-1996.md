@@ -1,13 +1,28 @@
 ---
-title: "Independent component analysis of electroencephalographic data"
+title: Independent component analysis of electroencephalographic data
 created: 2026-04-20
 updated: 2026-04-20
 type: paper
-tags: [neuroimaging-eeg, neuroimaging-meg, paper-methods, ica]
-authors: [Scott Makeig, Anthony J Bell, Tzyy-Ping Jung, Terrence J Sejnowski]
+tags: [neuroimaging-eeg ,neuroimaging-meg ,paper-methods ,ica]
+authors:
+  - Scott Makeig
+  - Anthony J. Bell
+  - Tzyy‐Ping Jung
+  - Terrence J. Sejnowski
 year: 1996
-venue: "Advances in Neural Information Processing Systems"
+venue: Advances in Neural Information Processing Systems
+bibtex: |
+  @book{makeig1996independen,
+    title={Independent component analysis of electroencephalographic data},
+    author={"Scott Makeig and Anthony J. Bell and Tzyy‐Ping Jung and Terrence J. Sejnowski"},
+    year={1996},
+    publisher={Advances in Neural Information Processing Systems},
+  }
 ---
+
+
+
+
 
 # Independent component analysis of electroencephalographic data
 

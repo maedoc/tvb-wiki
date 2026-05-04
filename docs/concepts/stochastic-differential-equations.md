@@ -12,6 +12,8 @@ sources:
 - raw/papers/arxiv-2510.02545.md
 - raw/papers/doi-10.3389-fncom.2026.1762692.md
 - raw/papers/semanticscholar-7593809733f3.md
+- raw/papers/semanticscholar-2004e006655b.md
+- raw/papers/glean-github.md
 tags:
 - stochastic-differential-equations
 - neural-mass-models
@@ -25,7 +27,7 @@ tags:
 - brain-oscillations
 title: Stochastic Differential Equations
 type: concept
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 Stochastic differential equations (SDEs) extend ordinary differential equations by incorporating random noise terms, providing a mathematical framework for dynamical systems in which deterministic laws coexist with intrinsic or extrinsic uncertainty. In neuroscience, SDEs are essential because every scale of neural activity—from the stochastic opening of individual ion channels to irregular population firing patterns—exhibits variability that smooth deterministic trajectories cannot capture. Rather than predicting a single future state, SDEs describe how probability distributions evolve, making them the natural language for linking biophysical mechanisms to the statistical structure of empirical recordings.
@@ -52,3 +54,10 @@ SDEs thus occupy a central position in the theoretical architecture of computati
 4. (authors unknown). *Stochastic Dynamics in the Brain and Probabilistic Models*.
 5. Wanying Qu, Jianxiong Gao, Wei Wang, Yanwei Fu. *Modeling Spatiotemporal Neural Frames for High Resolution Brain Dynamic*. [Link](https://arxiv.org/abs/2603.24176)
 6. (authors unknown). *Macroscopic Description for Networks of Spiking Neurons*.
+7. Coskun Çetin, J.R.C. Piqueira, Burhaneddin Izgi, Ayse Peker-Dobie, S. Ahmetolan, Murat Özkaya. (2026). *Deterministic, stochastic, and mean-field PDE models in neuroscience*. Frontiers in [[computational-neuroscience]]. [DOI](https://doi.org/10.3389/fncom.2026.1762692)
+8. Hongjie Jiang, Yifei Tang, Shuqiang Wang. *Neural Dynamics-Informed Pre-trained Framework for [[personalized-brain-modeling|Personalized Brain]] Functional Network Construction*. [Link](https://arxiv.org/abs/2603.07524)
+9. Pascal Helson, Etienne Tanré, Romain Veltz. *Mean-field analysis of a [[neural-network]] with stochastic STDP*. [Link](https://arxiv.org/abs/2510.02545)
+10. Coşkun Çetin, Jose Roberto Castilho Piqueira, Burhaneddin İzgi̇, Ayşe Peker-Dobie, Semra Ahmetolan, Murat Özkaya. (2026). *Deterministic, stochastic, and mean-field PDE models in neuroscience*. Frontiers in Computational Neuroscience. [DOI](https://doi.org/10.3389/fncom.2026.1762692)
+11. Pierre-Emmanuel Jabin, Datong Zhou. (2025). *The mean-field limit of sparse networks of integrate-and-fire neurons*. Annales de l'Institut Henri Poincare. Analyse non linéar. [DOI](https://doi.org/10.4171/aihpc/157)
+12. Marianna Angiolelli, D. Depannemaecker, H. Agouram, J. Régis, R. Carron, M. Woodman, L. Chiodo, P. Triebkorn, Abolfazl Ziaeemehr, Meysam Hashemi, Alexandre Eusebio, [[viktor-jirsa]], P. Sorrentino. (2025). *The Virtual Parkinsonian patient*. npj Systems Biology and Applications. [DOI](https://doi.org/10.1038/s41540-025-00516-y)
+13. (authors unknown). *[[lean|GLEAN]]: Group Level Exploratory Analysis of Networks*.

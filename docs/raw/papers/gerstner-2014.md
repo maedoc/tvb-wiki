@@ -3,9 +3,27 @@ title: "Neuronal Dynamics: From Single Neurons to Networks and Models of Cogniti
 created: 2026-04-20
 updated: 2026-04-20
 type: source
-tags: [paper-review, neural-mass-models, whole-brain-modeling, spiking-neural-networks]
-sources: []
+tags: [paper-review ,neural-mass-models ,whole-brain-modeling ,spiking-neural-networks]
+authors:
+  - Wulfram Gerstner
+  - Werner M. Kistler
+  - Richard Naud
+  - Liam Paninski
+year: 2014
+venue: Infoscience (Ecole Polytechnique Fédérale de Lausanne)
+doi: "https://doi.org/10.1017/cbo9781107447615"
+bibtex: |
+  @book{gerstner2014neuronal,
+    title={Neuronal Dynamics: From Single Neurons to Networks and Models of Cognition},
+    author={"Wulfram Gerstner and Werner M. Kistler and Richard Naud and Liam Paninski"},
+    year={2014},
+    publisher={Infoscience (Ecole Polytechnique Fédérale de Lausanne)},
+    doi={https://doi.org/10.1017/cbo9781107447615},
+  }
 ---
+
+
+
 
 # Neuronal Dynamics: From Single Neurons to Networks and Models of Cognition
 

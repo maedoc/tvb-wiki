@@ -11,6 +11,8 @@ sources:
 - raw/papers/arxiv-2602.09535.md
 - raw/papers/arxiv-2603.07524.md
 - raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-2004e006655b.md
+- raw/papers/glean-github.md
 tags:
 - software-brain-modeling
 - neuroimaging-eeg
@@ -20,7 +22,7 @@ tags:
 - software-tvb
 title: FOOOF
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 # FOOOF
@@ -74,6 +76,15 @@ The foundational publication for FOOOF is:
 
 ## References
 
-1. Donoghue, T., Haller, M., Peterson, E. J., Varma, P., Sebastian, P., Gao, R., (...) & Voytek, B. (2020). Parameterizing neural power spectra into periodic and aperiodic components. *Nature Neuroscience*, 23(12), 1655-1665. https://doi.org/10.1038/s41593-020-00744-x
-
-2. Voytek Lab. (n.d.). FOOOF: Fitting Oscillations & One Over F. Documentation and source code available at https://fooof-tools.github.io/
+1. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *[[arbor]]-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](https://doi.org/10.3389/fncom.2025.1731161)
+2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *Arbor-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
+3. Qianyu Chen, Shujian Yu. (2026). *Continual Learning for [[fmri]]-Based Brain Disorder Diagnosis via [[functional-connectivity]] Matrices Generative Replay*. [Link](https://arxiv.org/abs/2604.14259)
+4. Ferdaus Anam Jibon, Fazlul Hasan Siddiqui, F. Deeba, Gahangir Hossain. *Epileptic Seizure Detection in Separate Frequency Bands Using Feature Analysis and Graph Convolutional [[neural-network]] (GCN) from Electroencephalogram (EEG) Signals*. [Link](https://arxiv.org/abs/2604.00163)
+5. Deepa Tilwani, Christian O'Reilly. *Deep Jansen-Rit Parameter Inference for Model-Driven Analysis of Brain Activity*. [Link](https://arxiv.org/abs/2406.05002)
+6. Xuanyu Shen, Yu Hu. (2025). *Covariance spectrum in nonlinear recurrent neural networks*. [Link](https://arxiv.org/abs/2508.05288)
+7. Gianluca Gaglioti, Alessandra Cardinale, Cosimo Lupo, Thierry Nieus, Federico Marmoreo, Elena Focacci, Robin Gutzen, Michael Denker, Andrea Pigorini, Marcello Massimini, Simone Sarasso, Pier Stanislao Paolucci, Giulia De Bonis. *Emergent complexity and rhythms in evoked and spontaneous dynamics of human whole-brain models after tuning through analysis tools*. [Link](https://arxiv.org/abs/2509.12873)
+8. Irmantas Ratas, Kestutis Pyragas. (2026). *Parameter and hidden-state inference in mean-field models from partial observations of finite-size neural networks*. [Link](https://www.semanticscholar.org/paper/274d3afcf4f54ddb5bd2122157c2ab2a105b41ef)
+9. Hongjie Jiang, Yifei Tang, Shuqiang Wang. *Neural Dynamics-Informed Pre-trained Framework for [[personalized-brain-modeling|Personalized Brain]] Functional Network Construction*. [Link](https://arxiv.org/abs/2603.07524)
+10. Sanz Leon et al. (2013). *[[the-virtual-brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+11. Marianna Angiolelli, D. Depannemaecker, H. Agouram, J. Régis, R. Carron, M. Woodman, L. Chiodo, P. Triebkorn, Abolfazl Ziaeemehr, Meysam Hashemi, Alexandre Eusebio, [[viktor-jirsa]], P. Sorrentino. (2025). *The Virtual Parkinsonian patient*. npj Systems Biology and Applications. [DOI](https://doi.org/10.1038/s41540-025-00516-y)
+12. (authors unknown). *[[lean|GLEAN]]: Group Level Exploratory Analysis of Networks*.

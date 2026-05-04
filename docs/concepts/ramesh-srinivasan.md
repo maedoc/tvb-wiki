@@ -7,7 +7,7 @@ tags:
 - ramesh-srinivasan
 title: Ramesh Srinivasan
 type: concept
-updated: '2026-04-28'
+updated: '2026-04-30'
 ---
 
 Ramesh Srinivasan — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].

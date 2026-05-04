@@ -21,7 +21,7 @@ tags:
 - neural-mass-models
 title: Brain Aging
 type: concept
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 Brain aging encompasses the progressive structural, functional, and connectomic changes that occur in the human brain from early adulthood through senescence. Unlike neurodevelopment, which is characterized by growth and integration, aging involves a complex interplay of decline and adaptation—both normative losses in gray matter volume, white matter integrity, and [[functional-connectivity]], as well as compensatory reorganizations that allow many older adults to maintain cognitive function. Understanding these trajectories is essential for [[whole-brain|whole-brain modeling]] approaches that aim to simulate individual brains, as age-related parameter changes fundamentally alter [[network-dynamics]], synchronization properties, and the brain's computational capacity.
@@ -62,7 +62,7 @@ However, compensation is not without limits: when pathology exceeds the capacity
 
 ### The Reserve, Maintenance, and Compensation Framework
 
-The conceptual framework distinguishing brain maintenance, cognitive reserve, and compensation provides the dominant theoretical structure for understanding aging outcomes. Brain maintenance refers to the preservation of brain structure and function, with individuals exhibiting less age-related change demonstrating superior maintenance. This preservation is influenced by genetic factors (including [[APOE]] status), education, cardiovascular health, and lifestyle factors such as physical exercise and cognitive engagement.
+The conceptual framework distinguishing [[brain-maintenance]], [[cognitive-reserve]], and compensation provides the dominant theoretical structure for understanding aging outcomes. Brain maintenance refers to the preservation of brain structure and function, with individuals exhibiting less age-related change demonstrating superior maintenance. This preservation is influenced by genetic factors (including [[APOE]] status), education, cardiovascular health, and lifestyle factors such as physical exercise and cognitive engagement.
 
 Cognitive reserve represents the capacity to withstand pathology through pre-existing neural resources. Two forms are distinguished: passive reserve (structural [[brain-reserve]], including brain size and [[neuron]] count) and active reserve (the efficiency and capacity of cognitive networks). Compensation involves the recruitment of additional brain regions or alternative neural circuits to maintain function—a dynamic process that requires both structural integrity and flexibility in network reconfiguration.
 
@@ -74,21 +74,40 @@ Computational models incorporating these parameters have been used to predict co
 
 Applications to personalized modeling involve fitting individual parameters to empirical neuroimaging data—including regional volumes, white matter integrity measures, and [[resting-state]] connectivity patterns—to generate predictions about future cognitive trajectories or responses to interventions. This approach requires careful attention to the non-stationarity of [[brain-dynamics]] with age, as the same model structure may require different parameter constraints across the lifespan.
 
-## Related Concepts
+## See also
 
-- [[cognitive-reserve]] – Capacity to maintain function despite pathology
-- [[brain-maintenance]] – Preservation of brain structure and function
-- [[default-mode-network]] – DMN changes in aging
-- [[neurodevelopment]] – Opposite trajectory of growth
-- [[developmental-trajectories]] – Lifespan changes across domains
-- [[functional-connectivity]] – Age-related connectivity decline
-- [[structural-connectivity]] – White matter changes
-- [[neural-mass-models]] – Models for [[aging-brain]] dynamics
-- [[whole-brain-modeling]] – Computational approaches
-- [[personalized-brain-modeling]] – Individual-specific models
+- [[andrei-medvedev]]
 
 ## References
 
 1. (authors unknown). *Memory and Executive Function in Aging and AD: Multiple Factors that Cause Decline and Reserve Factors that Compensate*.
 2. (authors unknown). *The Cognitive Neuroscience of Ageing and Functional Reserve*.
 3. (authors unknown). *Effects of Aging on Functional Connectivity of the Default Mode Network*.
+4. (authors unknown). *Structural Brain Changes in Aging: Courses, Causes and Cognitive Consequences*.
+5. J. King, M. Prigge, Vincent Koppelmans, John M. Hoffman, Kevin Duff. (2026). *Altered functional connectivity is associated with Repeatable Battery for the Assessment of Neuropsychological Status across the dementia spectrum*. Journal of the International Neuropsychological Society. [DOI](https://doi.org/10.1017/s135561772610191x)
+
+## ORPHAN PAGE CONTEXT (andrei-medvedev)
+---
+created: 2026-04-20
+sources:
+- raw/papers/sporns-2011.md
+- raw/papers/semanticscholar-a4f4c699c90f.md
+- raw/papers/arxiv-2603.24343.md
+- raw/papers/semanticscholar-929b90566fc8.md
+tags:
+- people-researcher
+title: Andrei Medvedev
+type: entity
+updated: '2026-04-30'
+---
+
+# Andrei Medvedev
+
+Researcher in neuroscience. Mentioned in the context of Domain 5 sources.
+
+## Related Concepts
+- [[neurodevelopment]]
+- [[aging]]
+
+## Note
+This page was created as part of Domain 5 ingestion. More specific co

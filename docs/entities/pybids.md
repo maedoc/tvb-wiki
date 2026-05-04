@@ -1,14 +1,10 @@
 ---
 created: 2024-01-15
 sources:
-- https://github.com/bids-standard/pybids
-- https://bids-specification.readthedocs.io
-- https://www.nature.com/articles/sdata2019161
-- https://www.frontiersin.org/articles/10.3389/fninf.2019.00007/full
-- https://www.sciencedirect.com/science/article/pii/S1053811918305492
 - raw/papers/ritter-2013.md
 - raw/papers/sanz-leon-2013.md
 - raw/papers/semanticscholar-adcab180dcd3.md
+- raw/papers/semanticscholar-380768cf42a8.md
 tags:
 - software-bids
 - neuroimaging-fmri
@@ -22,7 +18,7 @@ tags:
 - bids-validator
 title: PyBIDS
 type: entity
-updated: '2026-04-28'
+updated: '2026-04-30'
 ---
 
 # PyBIDS
@@ -54,8 +50,7 @@ PyBIDS exists within a broader ecosystem of BIDS-related tools. The [[bids-valid
 
 ## References
 
-- BIDS Specification. (2024). Brain Imaging Data Structure Specification v1.14.0. https://bids-specification.readthedocs.io
-- PyBIDS GitHub Repository. (2024). https://github.com/bids-standard/pybids
-- Gorgolewski, K., Auer, T., Calhoun, V., et al. (2016). Brain Imaging Data Structure: A format for organizing and describing outputs of neuroimaging experiments. *Scientific Data*, 3, 160044.
-- Yarkoni, T., Hoge, R., Gollub, R., et al. (2019). PyBIDS: A Python toolkit for BIDS-compliant neuroimaging metadata and analytics. *Scientific Data*, 6, 180261.
-- [[tvb|The Virtual Brain]]. (2024). [[whole-brain-modeling]] Platform. https://thevirtualbrain.org
+1. Ritter et al. (2013). *[[tvb|The Virtual Brain]] integrates computational modeling and multimodal neuroimaging*. Brain [[connectivity]]. [DOI](https://doi.org/10.1089/brain.2012.0120)
+2. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+3. J. Meier, P. Triebkorn, M. Schirner, [[petra-ritter]]. (2025). *Connectomes, simultaneous EEG-fMRI [[resting-state]] data and brain simulation results from 50 healthy subjects*. bioRxiv. [DOI](https://doi.org/10.1101/2024.04.17.589718)
+4. Emmanuelle Renauld, Arnaud Boré, Charles Poirier, Alex Valcourt-Caron, Philippe Karan, Antoine Théberge, Guillaume Théaud, Manon Edde, P. Poulin, Gabriel Girard, Jean-Christophe Houde, A. Gagnon, Etienne St-Onge, Graham Little, Jon Haitz Legarreta, Stanislas Thoumyre, G. Grenier, Zineb El Yamani, Mario Ocampo Pineda, Matteo Battochio, Vincent Beaudoin, Alexandre Joanisse, Laurent Petit, F. Rheault, Maxime Descoteaux. (2026). *[[tractography]] analysis with the scilpy toolbox*. Aperture Neuro. [DOI](https://doi.org/10.52294/001c.154022)

@@ -1,13 +1,30 @@
 ---
-title: "The organization of the human cerebellum estimated by intrinsic functional connectivity"
+title: The organization of the human cerebellum estimated by intrinsic functional connectivity
 created: 2026-04-20
 updated: 2026-04-20
 type: paper
-tags: [neuroimaging-fmri, resting-state, functional-connectivity, paper-review]
-authors: [Randy L Buckner, Fenna M Krienen, Anastasia Castellanos, Julio C Diaz, Trey Hedden, Yulia O Kamuva, Abraham Z Snyder]
+tags: [neuroimaging-fmri ,resting-state ,functional-connectivity ,paper-review]
+authors:
+  - Randy L Buckner
+  - Fenna M Krienen
+  - Anastasia Castellanos
+  - Julio C Diaz
+  - Trey Hedden
+  - Yulia O Kamuva
+  - Abraham Z Snyder
 year: 2013
-venue: "Neuron"
+venue: Neuron
+doi: "https://doi.org/10.1152/jn.00339.2011"
+bibtex: |
+  @article{buckner2013the,
+    title={The organization of the human cerebellum estimated by intrinsic functional connectivity},
+    author={"Randy L Buckner and Fenna M Krienen and Anastasia Castellanos and Julio C Diaz and Trey Hedden and Yulia O Kamuva and Abraham Z Snyder"},
+    year={2013},
+    journal={Neuron},
+    doi={https://doi.org/10.1152/jn.00339.2011},
+  }
 ---
+
 
 # The organization of the human cerebellum estimated by intrinsic functional connectivity
 

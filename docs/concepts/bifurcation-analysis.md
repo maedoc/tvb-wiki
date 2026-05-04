@@ -8,6 +8,7 @@ sources:
 - raw/papers/wilson-cowan-1972.md
 - raw/papers/semanticscholar-e5e78e93bf31.md
 - raw/papers/breakspear-2006.md
+- raw/papers/semanticscholar-2004e006655b.md
 tags:
 - bifurcation-analysis
 - dynamical-systems-theory
@@ -17,7 +18,7 @@ tags:
 - nonlinear-dynamics
 title: Bifurcation Analysis
 type: concept
-updated: '2026-04-27'
+updated: '2026-05-01'
 ---
 
 Bifurcation analysis is the mathematical study of qualitative changes in the behavior of dynamical systems as parameters vary smoothly. In the context of [[computational-neuroscience]], bifurcation analysis provides a powerful theoretical framework for understanding transitions between different brain states—including the switch from resting activity to oscillatory rhythms, and the emergence of pathological states such as epileptic seizures. Rather than treating brain states as fixed or stochastic, [[bifurcation-theory]] reveals that these states emerge from the underlying structure of the dynamical equations governing neural activity, and that transitions between states occur at specific parameter values called **bifurcation points**. This perspective has proven essential for interpreting [[neuroimaging]] data, designing [[brain-stimulation]] protocols, and building predictive models of neurological disorders.
@@ -106,7 +107,7 @@ For two-dimensional systems such as [[Wilson-Cowan]], phase plane analysis provi
 
 ### Numerical Continuation
 
-Software packages including AUTO, XPPAUT, and MATCONT enable numerical continuation—the tracing of solution branches (fixed points, limit cycles) as parameters vary. These tools can automatically detect and classify bifurcation points, compute stability along branches, and map out complete bifurcation diagrams. This is essential for high-dimensional systems where analytical approaches fail.
+Software packages including AUTO, [[xppaut]], and [[matcont]] enable numerical continuation—the tracing of solution branches (fixed points, limit cycles) as parameters vary. These tools can automatically detect and classify bifurcation points, compute stability along branches, and map out complete bifurcation diagrams. This is essential for high-dimensional systems where analytical approaches fail.
 
 ### Center Manifold and Normal Form Theory
 
@@ -131,3 +132,7 @@ Bifurcation analysis is fundamentally grounded in **dynamical systems theory** a
 1. Eugene M. [[izhikevich]]. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
 2. Jonathan Touboul, Fabien Wendling, Bruno Bellanger, Patrick Chauvel, Olivier Faugeras. *Bifurcation analysis of Jansen's neural mass model*. Neural Computation. [DOI](https://doi.org/10.1162/NECO_a_00151)
 3. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)
+4. Rosa Maria Delicado, Gemma Huguet, Pau Clusella. (2025). *Emergent Spatiotemporal Dynamics in Large-Scale Brain Networks with Next Generation Neural Mass Models*. [Link](https://arxiv.org/abs/2512.03907)
+5. [[hugh-wilson|Hugh R. Wilson]], [[jack-cowan|Jack D. Cowan]]. *Excitatory and inhibitory interactions in localized populations of model neurons*. Biophysical Journal. [DOI](https://doi.org/10.1016/S0006-3495(72)86068-5)
+6. Raul de Palma Aristides, Pau Clusella, R. Sanchez-Todo, G. Ruffini, Jordi García-Ojalvo. (2026). *Emergence of multifrequency activity in a laminar neural mass model*. PLoS Computational Biology. [DOI](https://doi.org/10.1371/journal.pcbi.1014022)
+7. Michael Breakspear, John A. Roberts, John R. Terry, Stefano Rodrigues, Nader Mahmud, Philip Robinson. *Large-scale [[brain-dynamics]] of seizures: asymptotic analysis of a [[neural-field-theory|neural field]] model*. Journal of Computational Neuroscience. [DOI](https://doi.org/10.1007/s10827-006-8135-2)

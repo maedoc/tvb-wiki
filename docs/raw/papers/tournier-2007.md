@@ -3,11 +3,25 @@ title: "Robust determination of the fibre orientation distribution in diffusion 
 created: 2026-04-20
 updated: 2026-04-20
 type: paper
-tags: [neuroimaging-dti, diffusion-imaging, paper-methods, tractography]
-authors: [Jacques-Donald Tournier, Fernando Calamante, David G Gadian, Alan Connelly]
+tags: [neuroimaging-dti ,diffusion-imaging ,paper-methods ,tractography]
+authors:
+  - Jacques-Donald Tournier
+  - Fernando Calamante
+  - David G Gadian
+  - Alan Connelly
 year: 2007
-venue: "NeuroImage"
+venue: NeuroImage
+doi: "https://doi.org/10.1016/j.neuroimage.2007.02.016"
+bibtex: |
+  @article{tournier2007robust,
+    title={Robust determination of the fibre orientation distribution in diffusion MRI: Non-negativity constrained super-resolved spherical deconvolution},
+    author={"Jacques-Donald Tournier and Fernando Calamante and David G Gadian and Alan Connelly"},
+    year={2007},
+    journal={NeuroImage},
+    doi={https://doi.org/10.1016/j.neuroimage.2007.02.016},
+  }
 ---
+
 
 # Robust determination of the fibre orientation distribution in diffusion MRI
 

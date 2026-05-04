@@ -15,7 +15,7 @@ tags:
 - whole-brain-modeling
 title: ANNarchy
 type: entity
-updated: '2026-04-27'
+updated: '2026-05-03'
 ---
 
 # ANNarchy
@@ -87,16 +87,10 @@ ANNarchy is particularly valuable when researchers need to verify that mean-fiel
 
 ## References
 
-1. Vitay, J., Dinkelbach, H. Ü., & Hamker, F. H. (2015). ANNarchy: a code generation approach to neural simulations on parallel hardware. *Frontiers in Neuroinformatics*, 9, 19. https://doi.org/10.3389/fninf.2015.00019
-
-2. Dinkelbach, H. Ü., Vitay, J., & Hamker, F. H. (2015). Comparison of GPU- and CPU-implementations of mean-field models of spiking neural networks. *Frontiers in Neuroinformatics*, 9, 17. https://doi.org/10.3389/fninf.2015.00017
-
-3. Hamker, F. H., Zirnsak, M., Ziesche, A., & Lappe, M. (2017). Computational models of spatial attention in the barn owl. In *Computational and Cognitive Neuroscience of Vision* (pp. 69-101). Springer.
-
-4. ANNarchy documentation: [https://annarchy.readthedocs.io](https://annarchy.readthedocs.io)
-
-5. GitHub repository: [https://github.com/annarchy/annarchy](https://github.com/annarchy/annarchy)
-
----
-
-*Note: ANNarchy is actively maintained and provides a unique capability for hybrid rate/spiking simulations that can validate or extend [[TVB]]'s mean-field approaches through detailed spiking implementations.*
+1. Jordan et al. (2018). *Extremely scalable spiking neuronal network simulation code: from laptops to exascale computers*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2018.00002)
+2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *[[arbor]]-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](https://doi.org/10.3389/fncom.2025.1731161)
+3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *Arbor-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
+4. Helias et al. (2012). *Supercomputers ready for use as discovery machines for neuroscience*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2012.00026)
+5. Martin Breyton, Viktor Sip, M. Woodman, Meysam Hashemi, S. Petkoski, V. Jirsa. (2025). *Data-driven mean-field within whole-brain models*. [Link](https://www.semanticscholar.org/paper/144ae1f1dabec42c14493d0083d36f168508f886)
+6. J. Bose. (2025). *Pendulum Model of Spiking Neurons*. arXiv.org. [DOI](https://doi.org/10.48550/arXiv.2507.22146)
+7. C. Linssen, Pooja N. Babu, Jochen M. Eppler, Luca Koll, Bernhard Rumpe, Abigail Morrison. (2025). *[[nestml]]: a generic modeling language and code generation tool for the simulation of spiking neural networks with advanced plasticity rules*. Frontiers Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2025.1544143)

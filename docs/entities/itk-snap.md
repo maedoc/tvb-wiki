@@ -4,26 +4,19 @@ sources:
 - raw/papers/semanticscholar-97e6ff441097.md
 - raw/papers/semanticscholar-518ee560ec89.md
 - raw/papers/semanticscholar-fb4cf47c4f31.md
+- raw/papers/mijalkov-2017-braph.md
 tags:
 - software-brain-modeling
 title: ITK-SNAP
 type: entity
-updated: '2026-04-28'
----
-
-title: ITK-SNAP
-created: 2024-01-15
-updated: 2026-04-28
-type: entity
-tags: [software-visualization, [[neuroimaging]], [[brain-parcellations]], tractography, diffusion-imaging]
-sources: [yushkevich2006itk]
+updated: '2026-05-03'
 ---
 
 ITK-SNAP is an open-source software application for segmenting anatomical structures and pathological lesions in three-dimensional medical imaging data. Originally developed at the University of Pennsylvania by Paul Yushkevich and colleagues, the name derives from "Insight Toolkit Segmentation and Registration" (a reference to the underlying ITK library from the National Library of Medicine). The software provides an interactive interface for manual, semi-automated, and fully automated segmentation of magnetic resonance imaging (MRI), computed tomography (CT), and other volumetric medical images, with particular strength in brain imaging applications.
 
 ## Motivation and Context
 
-The need for ITK-SNAP arose from the practical challenges of segmenting complex anatomical structures in medical images—a task essential for quantitative neuroimaging analysis, surgical planning, and research quantification. Traditional manual segmentation by expert tracers is extremely time-consuming (often requiring dozens of hours per subject) and suffers from inter-rater variability. While automated methods exist, they often produce errors requiring manual correction. ITK-SNAP was designed to bridge this gap by combining powerful active contour segmentation algorithms with an intuitive user interface that allows efficient correction of automated results.
+The need for ITK-SNAP arose from the practical challenges of segmenting complex anatomical structures in medical images—a task essential for quantitative [[neuroimaging]] analysis, surgical planning, and research quantification. Traditional manual segmentation by expert tracers is extremely time-consuming (often requiring dozens of hours per subject) and suffers from inter-rater variability. While automated methods exist, they often produce errors requiring manual correction. ITK-SNAP was designed to bridge this gap by combining powerful active contour segmentation algorithms with an intuitive user interface that allows efficient correction of automated results.
 
 Within the broader landscape of neuroimaging software, ITK-SNAP occupies a specific niche as a general-purpose segmentation and labeling tool. It complements rather than replaces specialized pipelines like [[freesurfer]] (which provides automated cortical [[parcellation]]) or [[fsl]] (which offers automated subcortical segmentation via FIRST). The software is particularly valuable for creating custom region-of-interest (ROI) masks, segmenting lesions or tumors, delineating hippocampal subfields, and generating training data for machine learning segmentation models.
 
@@ -61,8 +54,11 @@ The software integrates with the broader neuroimaging ecosystem through standard
 
 ITK-SNAP is part of a broader ecosystem of neuroimaging visualization and segmentation tools. [[3d-slicer]] is a more general medical imaging platform that includes segmentation capabilities and is often used for surgical planning; it builds on the same ITK foundation. [[freesurfer]] provides automated cortical and subcortical segmentation via recon-all pipeline, offering a more automated alternative when processing large cohorts with standard parcellations. [[fsl]] (FMRIB Software Library) includes FIRST for subcortical segmentation and BET for brain extraction, providing command-line alternatives to ITK-SNAP's interactive interface.
 
-For deep learning-based segmentation, the field has shifted toward frameworks like [[niftynet]] or nnU-Net, which can outperform classical active contour methods for many tasks. However, ITK-SNAP remains valuable for generating training data (manual segmentations) for such deep learning systems, for cases where automated methods fail, and for researchers preferring interactive control over their segmentation process.
+For deep learning-based segmentation, the field has shifted toward frameworks like [[niftynet]] or [[nnu-net]], which can outperform classical active contour methods for many tasks. However, ITK-SNAP remains valuable for generating training data (manual segmentations) for such deep learning systems, for cases where automated methods fail, and for researchers preferring interactive control over their segmentation process.
 
 ## References
 
-- Yushkevich, P. A., Piven, J., Hazlett, H. C., Smith, R. G., Ho, S., Gee, J. C., & Gerig, G. (2006). User-guided 3D active contour segmentation of anatomical structures: Significantly improved efficiency and reliability. NeuroImage, 31(3), 1116-1128.
+1. R. A. Benn, Ting Xu, R. Mars, Magdalena Boch, Léa Roumazeilles, K. Heuer, Roberto Toro, D. Margulies, J. Manzano-Patrón, Paula Montesinos, C. Galán-Arriola, G. López-Martín, J. Sanchez-González, E. P. Duff, Borja Ibáñez. (2025). *Precon_all: A species-agnostic automated pipeline for non-human cortical surface reconstruction*. bioRxiv. [DOI](https://doi.org/10.1101/2025.04.16.649072)
+2. Rohan Banerjee, M. Kaptan, Alexandra Tinnermann, Ali Khatibi, Alice Dabbagh, C. Büchel, Christian W Kündig, C. S. Law, Dario Pfyffer, D. Lythgoe, Dimitra Tsivaka, D. Van de Ville, Falk Eippert, Fauziyya Muhammad, Gary H. Glover, Gergely Dávid, Grace Haynes, Jan Haaker, Jonathan C. W. Brooks, J. Finsterbusch, K. Martucci, K. Hemmerling, Mahdi Mobarak-Abadi, M. Hoggarth, M. Howard, Molly G. Bright, Nawal Kinany, O. Kowalczyk, Patrick Freund, Robert L. Barry, S. Mackey, Shahabeddin Vahdat, Simon Schading, Stephen B McMahon, Todd Parish, Véronique Marchand-Pauvert, Yufen Chen, Z. A. Smith, K. Weber, B. De Leener, Julien Cohen-Adad. (2025). *EPISeg: Automated segmentation of the spinal cord on echo planar images using open-access multi-center data*. bioRxiv. [DOI](https://doi.org/10.1101/2025.01.07.631402)
+3. Rohan Banerjee, M. Kaptan, Alexandra Tinnermann, Ali Khatibi, Alice Dabbagh, C. Büchel, Christian W Kündig, C. S. Law, Dario Pfyffer, D. Lythgoe, Dimitra Tsivaka, D. Van de Ville, Falk Eippert, Fauziyya Muhammad, Gary H. Glover, Gergely Dávid, Grace Haynes, Jan Haaker, Jonathan C. W. Brooks, J. Finsterbusch, K. Martucci, K. Hemmerling, Mahdi Mobarak-Abadi, M. Hoggarth, M. Howard, Molly G. Bright, Nawal Kinany, O. Kowalczyk, Patrick Freund, Robert L. Barry, S. Mackey, Shahabeddin Vahdat, Simon Schading, Stephen B McMahon, Todd Parish, Véronique Marchand-Pauvert, Yufen Chen, Z. Smith, K. Weber II, B. De Leener, Julien Cohen-Adad. (2025). *EPISeg: Automated segmentation of the spinal cord on echo planar images using open-access multi-center data*. Imaging neuroscience. [DOI](https://doi.org/10.1162/IMAG.a.98)
+4. (authors unknown). *[[braph]]: A Pipeline for Brain [[connectivity]] Analysis*.

@@ -18,7 +18,7 @@ tags:
 - tractography
 title: HCP Pipelines
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 # HCP Pipelines
@@ -78,8 +78,9 @@ The **HCP Connectome Workbench** software, distributed alongside the pipelines, 
 
 ## References
 
-1. Glasser, M.F., et al. (2013). The minimal preprocessing pipelines for the Human Connectome Project. *NeuroImage*, 80, 105-124.
-2. Smith, S.M., et al. (2013). Resting-state fMRI in the Human Connectome Project. *NeuroImage*, 80, 144-168.
-3. Van Essen, D.C., et al. (2013). The WU-Minn Human Connectome Project: An overview. *NeuroImage*, 80, 62-79.
-4. Sotiropoulos, S.N., et al. (2013). Effects of image reconstruction on fibre orientation mapping from diffusion MRI. *NeuroImage*, 81, 371-384.
-5. HCP Pipelines Documentation: https://github.com/Washington-University/HCPpipelines
+1. (authors unknown). *The Minimal Preprocessing Pipelines for the Human Connectome Project*.
+2. (authors unknown). *Resting-State fMRI in the Human Connectome Project*.
+3. (authors unknown). *The WU-Minn Human Connectome Project: An Overview*.
+4. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2018.05.040)
+5. (authors unknown). *Function in the Human Connectome: Task-fMRI and Individual Differences in Behavior*.
+6. (authors unknown). *The Human Connectome Project: A Data Acquisition Perspective*.

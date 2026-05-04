@@ -10,7 +10,7 @@ tags:
 - software-brain-modeling
 title: NeuronUnit
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 created: 2026-04-24
@@ -125,7 +125,7 @@ This paper describes the NeuroElectro database, which serves as NeuronUnit's pri
 - [[Elephant]] — Analysis toolkit for Neo data; complements NeuronUnit with quantitative metrics
 - [[PyNN]] — Simulator-independent Python API for neuronal network models
 - **NeuroElectro** — Database of neuron electrophysiology; NeuronUnit's primary data source for validation targets
-- **Allen SDK** — Tools for accessing [[allen-brain-atlas]] and Allen Cell Types data
+- **[[allen-sdk]]** — Tools for accessing [[allen-brain-atlas]] and Allen Cell Types data
 
 ## Key Researchers
 
@@ -153,10 +153,8 @@ Researchers employ NeuronUnit for several applications:
 
 ## References
 
-Birgiolas, J., Justus, D., Cayco-Gajic, N.A., Hengen, K.B., & Crook, S.M. (2021). NeuronUnit: A SciUnit library for data-driven validation of neuron models. *Journal of Open Source Software*, 6(62), 3995. https://doi.org/10.21105/joss.03995
-
-Birgiolas, J., Justus, D., Peters, R.K., Shi, Y., Jie, C., Greiner, T., et al. (2019). Ion channel screening technology identifies a novel Kv7.2 inhibitor. *eLife*, 8, e47929. https://doi.org/10.7554/eLife.47929
-
-Gerkin, R.C., Nau, S., Khazen, G., & Aldana, M. (2019). SciUnit: A framework for validation and standardized testing of scientific models. *PLOS Computational Biology*, 15(5), e1007008. https://doi.org/10.1371/journal.pcbi.1007008
-
-Tripathy, S.J., Savitskaya, J., Burton, S.D., Urban, N.N., & Gerkin, R.C. (2014). NeuroElectro: a window to the world's neuron electrophysiology data. *Frontiers in Neuroinformatics*, 8, 40. https://doi.org/10.3389/fninf.2014.00040
+1. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and [[whole-brain]] Propagation*. [Link](https://arxiv.org/abs/2505.16861)
+2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](https://doi.org/10.3389/fncom.2025.1731161)
+3. Sanz Leon et al. (2013). *[[the-virtual-brain]]: a simulator of primate [[brain-network]] dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+4. Valerio Barabino, F. Callegari, Sérgio Martinoia, P. Massobrio. (2026). *Hierarchical afferent [[connectivity]] drives population-wide bursting dynamics in a computational model of human-derived excitatory neuronal networks*. Journal of Neuroscience. [DOI](https://doi.org/10.1523/jneurosci.0912-25.2026)
+5. Martin Breyton, Viktor Sip, M. Woodman, Meysam Hashemi, S. Petkoski, V. Jirsa. (2025). *Data-driven mean-field within whole-brain models*. [Link](https://www.semanticscholar.org/paper/144ae1f1dabec42c14493d0083d36f168508f886)

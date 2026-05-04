@@ -16,7 +16,7 @@ tags:
 - neural-mass-models
 title: TVB
 type: entity
-updated: '2026-04-27'
+updated: '2026-05-03'
 ---
 
 # TVB (The Virtual Brain)
@@ -48,7 +48,7 @@ TVB combines:
 
 - Sanz Leon et al. (2013) — Introduced TVB platform sanz-leon-2013
 - Ritter et al. (2013) — Multimodal neuroimaging integration ritter-2013
-- Schirner et al. (2018) — Automated personalized pipeline schirner-2018
+- Schirner et al. (2018) — Automated personalized pipeline schirner-2018 [[michael-schirner]]
 - Deco et al. (2013) — [[resting-state]] computational insights deco-2013
 
 ## Related Software
@@ -56,8 +56,28 @@ TVB combines:
 - [[NEST]] — [[spiking-neural-networks|Spiking neural network]] simulator for detailed neuron models
 - [[NEURON]] — Multi-compartment neuron simulation environment
 - [[ANTs]] — Image registration for preprocessing neuroimaging data
+- [[auryn]]
+- [[geppetto]]
+- [[gift]]
+- [[amico]]
+- [[brainglobe]]
+- [[braincogs]]
+- [[bindsnet]]
+- [[dipde]]
+- [[deeplabcut]]
+- [[bdftools]]
+- [[demois]]
+
+- [[cococomac]]
 
 [[chronux]]
+
+[[cvodes]]
+
+- [[genn]]
+
+- [[bcilab]]
+- [[camino-probtract]]
 
 ## Related Concepts
 
@@ -81,7 +101,34 @@ TVB combines:
 2. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
 3. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2018.05.040)
 4. Deco et al. (2013). *Resting brains never rest: computational insights into potential cognitive architectures*. Trends in Neurosciences. [DOI](https://doi.org/10.1016/j.tins.2013.09.002)
-5. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)
+5. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience ( Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)
 6. Leon Martin, Konstantin Bülau, Marius Pille, Rico Schmitt, Christoph Hüttl, J. Meier, Halgurd Taher, Dionysios Perdikis, M. Schirner, L. Stefanovski, [[petra-ritter]]. (2025). *The Virtual Brain Ontology: A Digital Knowledge Framework for Reproducible Brain Network Modeling*. bioRxiv. [DOI](https://doi.org/10.1101/2025.11.19.689211)
 7. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
 8. Gianluca Gaglioti, Alessandra Cardinale, Cosimo Lupo, Thierry Nieus, Federico Marmoreo, Elena Focacci, Robin Gutzen, Michael Denker, Andrea Pigorini, Marcello Massimini, Simone Sarasso, Pier Stanislao Paolucci, Giulia De Bonis. *Emergent complexity and rhythms in evoked and spontaneous dynamics of human whole-brain models after tuning through analysis tools*. [Link](https://arxiv.org/abs/2509.12873)
+9. Yunman Xia, S. Peng, J. Dukart, C. Xie, Shitong Xiang, S. Petkoski, Zilin Li, Joerg F. Hipp, S. Muthukumaraswamy, A. Forsyth, Tianye Jia, N. Vaidya, T. Lett, Liyi Qian, Xiao Chang, Yuxiang Dai, T. Banaschewski, G. Barker, A. Bokde, R. Brühl, S. Desrivières, H. Flor, P. Gowland, A. Grigis, A. Heinz, H. Lemaître, F. Nees, D. Orfanos, L. Poustka, M. Smolka, S. Hohmann, H. Walter, R. Whelan, P. Wirsching, Z. Zhang, L. Robinson, J. Winterer, Y. Zhang, H. Kebir, U. Schmidt, J. Sinclair, Y. Liu, J. Wang, F. Dai, L. Zeng, H. Hou, H. Wang, L. Ye, C. Li, Q. Zheng, A. Marquand, C. Zhou, V. Jirsa, J. Feng, W. Lu, G. Schumann. (2026). *Digital Twin Brain simulation and manipulation of a functional brain network underlying mental illness*. bioRxiv. [DOI](https://doi.org/10.64898/2026.03.06.710030)
+
+## ORPHAN PAGE CONTEXT (michael-schirner)
+---
+created: 2026-04-20
+sources:
+- raw/papers/schirner-2018.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/ritter-2013.md
+- raw/papers/semanticscholar-adcab180dcd3.md
+- raw/papers/semanticscholar-ff8218c1e55e.md
+tags:
+- people-researcher
+- software-tvb
+- personalized-brain-modeling
+title: Michael Schirner
+type: entity
+updated: '2026-04-30'
+---
+
+# Michael Schirner
+
+Researcher in personalized brain modeling and TVB pipeline development.
+
+## Research Focus
+
+- Automated pipelines for personalized vi

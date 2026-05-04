@@ -16,7 +16,7 @@ tags:
 - spiking-neural-networks
 title: Elephant
 type: entity
-updated: '2026-04-27'
+updated: '2026-05-03'
 ---
 
 # Elephant
@@ -68,7 +68,7 @@ Stochastic models for surrogate data and simulations:
 3. **Connectivity assessment** — Quantifying [[functional-connectivity]] patterns in simulated network activity
 4. **Parameter optimization** — Statistical characterization of model outputs to guide parameter fitting
 
-When TVB simulations incorporate spiking models (e.g., through the TVB-NEST co-simulation framework), Elephant provides essential post-processing tools to extract meaningful insights from the raw simulation outputs.
+When TVB simulations incorporate spiking models (e.g., through the [[tvb-nest]] co-simulation framework), Elephant provides essential post-processing tools to extract meaningful insights from the raw simulation outputs.
 
 ## Key Papers
 

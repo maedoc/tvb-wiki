@@ -1,538 +1,294 @@
-# Wiki Log
-
-## 2026-04-28
-
-- Improved page: [[krasimira-tsaneva-atanasova]] – Researcher in connectome-based whole-brain modeling
-  - Complete rewrite from placeholder to comprehensive entity page (~600 words)
-  - Updated frontmatter: changed updated date to 2026-04-28, added sources: raw/papers/breakspear-2017.md, raw/papers/sanz-leon-2013.md
-  - Tags: people-researcher, whole-brain-modeling, neural-mass-models, computational-neuroscience, network-dynamics
-  - Established 10+ wikilinks: connectome, whole-brain-modeling, neural-mass-model, tvb, structural-connectivity, functional-connectivity, parameter-estimation, personalized-brain-modeling, brain-dynamics, network-dynamics, epilepsy-modeling, computational-psychiatry
-  - Added sections: Affiliations, Research Focus (whole-brain modeling, parameter estimation, neural mass models), Key Publications with context, Relationships and Collaborative Context, Open Questions
-  - Replaced all placeholders with substantive content about the researcher's work in computational neuroscience
-  - Linked to key foundational papers (Breakspear 2017, Sanz Leon et al. 2013) and explained their relevance to the field
-
-- Improved page: [[pynrrd]] – Python library for reading/writing NRRD file format
-  - Complete rewrite from placeholder to comprehensive entity page (~900 words)
-  - Updated frontmatter: changed updated date to 2026-04-28, added tags: neuroimaging-dti, diffusion-imaging
-  - Added sources: raw/papers/pynrrd-docs.md, raw/papers/nrrd-format.md
-  - Established 9+ wikilinks: nibabel, dipy, 3d-slicer, ants, mrtrix, nilearn, the-virtual-brain, whole-brain, connectome, structural-connectivity, diffusion-imaging
-  - Added detailed sections: Overview, Relationship to TVB, Key Features, Technical Implementation, Comparison with Related Formats, Integration with Neuroimaging Software
-  - Explained NRRD format's role in DTI/tractography and whole-brain modeling workflows
-  - Included usage code example demonstrating 4D DWI volume handling
-
-## 2026-04-27
-
-- Fixed and re-improved page: [[cognitive-reserve]] – Brain's adaptive capacity to maintain function despite pathology
-  - **CRITICAL FIX**: Page content was corrupted (contained garbled metadata instead of actual concept content)
-  - Complete rewrite to proper concept page (~1400 words) with actual substantive content
-  - Updated frontmatter: updated date remains 2026-04-27, added tags: neuroimaging-eeg, neuroimaging-meg, compensation, network-dynamics
-  - Established 15+ wikilinks: brain-maintenance, aging, functional-connectivity, resting-state, default-mode-network, structural-connectivity, connectomics, whole-brain-modeling, personalized-brain-modeling, network-dynamics, structural-core, brain-network, bold-signal
-  - Proper opening paragraph defining cognitive reserve and distinguishing it from brain reserve
-  - Added "Theoretical Motivation and Clinical Significance" explaining the threshold model and clinical implications
-  - Expanded "Historical Development" with detailed prose on Stern's theory, Buckner's neuroimaging integration, and Cabeza's three-mechanism framework
-  - Added section on "Types of Reserve: Brain Versus Cognitive" with threshold model explanation
-  - Expanded "Proxy Measures and Their Limitations" with confounding factor discussion
-  - Added "Neural Mechanisms and Neuroimaging Evidence" section covering fMRI, EEG, and MEG findings
-  - Added "Role in Whole-Brain Modeling" section linking to neural mass models and network resilience
-  - Added "Relationship to Brain Maintenance" section explaining conceptual distinctions and complementarities
-  - Removed invalid ## References section that was in corrupted content
-  - Sources retained: raw/papers/buckner-2004.md, raw/papers/grady-2012.md, raw/papers/cabeza-2018.md
-
-- Improved page: [[neurodevelopment]] – Brain development across the lifespan
-  - Complete rewrite expanding from ~400 words to ~800 words
-  - Updated frontmatter: changed updated date from 2026-04-23 to 2026-04-27
-  - Tags: neurodevelopment, developmental-trajectories, whole-brain-modeling
-  - Established 10+ wikilinks: Nitin Gogtay, developmental-trajectories, aging, brain-network, functional-connectivity, structural-connectivity, personalized-brain-modeling, whole-brain-modeling, resting-state, default-mode-network, network-dynamics
-  - Expanded opening paragraph to define neurodevelopment in context of whole-brain modeling, explaining why developmental stage matters for model parameter calibration
-  - Added "Definition and Scope" section with more detailed explanation of the integration of developmental neuroscience, neuroimaging, and computational modeling
-  - Expanded "Structural Development" section with prose explaining neurogenesis in proliferative zones, neuronal migration mechanisms, differentiation processes, and detailed timeline of synaptogenesis and synaptic pruning
-  - Expanded "Functional Development" section detailing transition from local to distributed processing and cognitive maturation
-  - Enhanced "Cortical Maturation Pattern" section to integrate resting-state neuroimaging context and link to whole-brain modeling implications
-  - Added detail to "Network Development" section describing transitions from infancy through adulthood with specific network behaviors
-  - Expanded "Role in Whole-Brain Modeling" section with specific parameter types that must be age-calibrated: synaptic time constants, connection strengths, network topology
-  - Added "Modeling Developmental Disorders" subsection explaining how personalized-brain-modeling approaches can identify deviations in developmental trajectories
-  - Replaced broken link to "plasticity" with valid links to brain-network and network-dynamics
-  - Added more related concepts in final section to reach 10 wikilinks: whole-brain-modeling, resting-state, default-mode-network, network-dynamics
-  - Removed ## References section per schema, as sources are already documented in frontmatter
-  - Sources retained from frontmatter: raw/papers/tau-peterson-2010.md, raw/papers/gogtay-2004.md, raw/papers/fair-2009.md, raw/papers/power-2010.md, raw/papers/stiles-jernigan-2010.md, raw/papers/semanticscholar-c4bc6ce91683.md, raw/papers/smith-2021.md
-
-## 2026-04-24
-
-- Improved page: [[Stochastic Differential Equations]] – Concept page on noise-driven dynamics in neural systems
-  - Complete rewrite from sparse bullet-point outline to full concept page (~720 words)
-  - Tags: stochastic-differential-equations, neural-mass-models, whole-brain-modeling, dynamical-systems-theory, nonlinear-dynamics, network-dynamics, mean-field-theory, fokker-planck-equation, resting-state, brain-oscillations
-  - Established 18+ wikilinks: resting-state, whole-brain, functional-connectivity, tvb, neural-mass-models, fmri, eeg, meg, neural-mass-model, brain-oscillations, structural-connectivity, jansen-rit, wilson-cowan, fokker-planck-equation, bifurcation-analysis, parameter-estimation, dynamical-systems-theory, nonlinear-dynamics, spiking-neural-networks, mean-field-theory
-  - Expanded opening paragraph with plain definition of SDEs as probability-distribution evolution equations bridging biophysics and empirical recordings
-  - Added motivation/context section explaining tension between deterministic ODE elegance and biological variability in resting-state and whole-brain modeling
-  - Replaced list-only Langevin/Itô/Stratonovich notes with prose-integrated mathematical formulation and calculus interpretation
-  - Enhanced biological grounding: channel noise, synaptic quantal variability, finite-size effects, and neuromodulatory background input across scales
-  - Documented whole-brain applications: TVB stochastic simulations, Jansen-Rit and Wilson-Cowan nodes with noise, Deco et al. resting-state fMRI results
-  - Added numerical methods prose: Euler-Maruyama for additive noise, Milstein and stochastic Runge-Kutta for multiplicative noise
-  - Strengthened analysis methods section: Fokker-Planck density evolution, moment equations, linear noise approximation, Monte Carlo ensembles
-  - Enhanced relationships section linking SDEs to dynamical-systems-theory, nonlinear-dynamics, spiking-neural-networks, mean-field-theory, and fokker-planck-equation
-  - Removed ## References section per schema
-  - Sources retained: raw/papers/gardiner-2009.md, raw/papers/tuckwell-1988.md, raw/papers/deco-2008-stochastic.md, raw/papers/deco-2009-stochastic.md, raw/papers/arxiv-2603.24176.md, raw/papers/montbrio-pazo-roxin-2015.md
-
-- Improved page: [[Free Energy Principle]] – Variational brain theory and active inference
-  - Complete rewrite from sparse bullet-point outline to full concept page (~800 words)
-  - Tags: free-energy-principle, variational-bayes, dynamic-causal-modeling, mean-field-theory, effective-connectivity, whole-brain-modeling, neural-mass-models, resting-state, neuroimaging-fmri, neuroimaging-eeg
-  - Established 17 wikilinks: dynamic-causal-modeling, variational-bayes, effective-connectivity, fmri, eeg, resting-state, structural-connectivity, tvb, neural-mass-model, whole-brain, functional-connectivity, mean-field-theory, personalized-brain-modeling, epilepsy-modeling, whole-brain-modeling, bifurcation-analysis, stochastic-differential-equations
-  - Expanded opening paragraph with plain definition of FEP as unifying perception, action, and learning under approximate Bayesian inference
-  - Added motivation/context section explaining intractability of exact inference and FEP roots in Helmholtz/Ashby, with concrete instantiation in DCM for neuroimaging
-  - Replaced list-only core concepts with prose-integrated mathematical formulation of variational free energy, ELBO, and Laplace approximation
-  - Documented active inference as policy selection minimizing expected free energy with exploration-exploitation balance
-  - Enhanced whole-brain modeling connections: TVB neural-mass-model inversion, spectral DCM, mean-field approximations, and resting-state functional-connectivity
-  - Added biological grounding: computational psychiatry (precision weighting in schizophrenia), epilepsy-modeling (homeostatic failure), and consciousness theories
-  - Strengthened criticisms section: falsifiability concerns, computational complexity in delay-coupled systems, relationship to reinforcement learning/enactive cognition
-  - Removed placeholder ## References section per schema
-  - Sources retained: raw/papers/friston-2010-fep.md, raw/papers/friston-2007.md, raw/papers/deco-2013.md
-
-- Improved page: [[Variational Bayes]] – Approximate Bayesian inference via optimization
-  - Complete rewrite from sparse bullet-point outline to full concept page (~720 words)
-  - Tags: variational-bayes, dynamic-causal-modeling, parameter-estimation, free-energy-principle, mean-field-theory, neuroimaging-fmri, neuroimaging-eeg, effective-connectivity, neural-mass-models, whole-brain-modeling
-  - Established 14+ wikilinks: dynamic-causal-modeling, spm, neural-mass-models, fmri, eeg, meg, effective-connectivity, free-energy-principle, whole-brain, tvb, mean-field-theory, stochastic-differential-equations, fokker-planck-equation, parameter-estimation
-  - Expanded opening paragraph with plain definition contrasting VB to MCMC sampling
-  - Added motivation/context section explaining intractability of exact inference in high-dimensional neural models and VB's speed advantage
-  - Replaced list-only ELBO/mean-field/Laplace sections with prose-integrated mathematical explanations
-  - Documented modern extensions: normalizing flows for flexible posterior approximations (Rezende & Mohamed 2015)
-  - Enhanced applications section: DCM/SPM inversion for fMRI/EEG/MEG, parameter estimation in TVB neural-mass-models, group-level random effects
-  - Strengthened relationships section linking VB to free-energy-principle, mean-field-theory, stochastic-differential-equations, and fokker-planck-equation
-  - Removed placeholder ## References section per schema
-  - Sources retained: raw/papers/friston-2007.md, raw/papers/beal-2003.md, raw/papers/blei-kucukelbir-mcauliffe-2017.md, raw/papers/wainwright-jordan-2008.md, raw/papers/rezende-mohamed-2015.md
-
-- Improved page: [[Tractography]] – Concept page on diffusion-MRI-based white matter tract reconstruction
-  - Complete rewrite from sparse bullet-point outline to full concept page (~720 words)
-  - Tags: tractography, neuroimaging-dti, diffusion-imaging, structural-connectivity, connectomics, whole-brain-modeling, paper-methods, paper-review
-  - Established 15 wikilinks: tvb, nest, network-hubs, rich-club, functional-connectivity, epilepsy-modeling, diffusion-mri, structural-connectivity, connectome, dti, whole-brain, effective-connectivity, dynamic-causal-modeling, fmri, eeg
-  - Expanded opening paragraph with plain definition of tractography and its role in connectome construction
-  - Added motivation/context section tracing history from invasive tracers to Mori et al. (1999) and emphasizing structural connectivity matrix generation
-  - Replaced list-only methods section with prose covering deterministic tracking, probabilistic approaches, CSD (Tournier 2007), global optimization, and anatomically constrained tractography
-  - Documented role in whole-brain modeling: connection weights, transmission delays, network topology, and relationship to TVB/NEST platforms
-  - Enhanced challenges section with Jones (2010) validation critique and Sotiropoulos & Zalesky (2019) connectome construction caveats
-  - Added sensitivity analysis implications for model robustness
-  - Removed placeholder ## References section per schema
-  - Sources retained: raw/papers/mori-1999.md, raw/papers/jones-2010.md, raw/papers/tournier-2007.md, raw/papers/sotiropoulos-zalesky-2019.md
-
-- Improved page: [[Bifurcation Theory]] – Mathematical theory of qualitative transitions in dynamical systems
-  - Complete rewrite from sparse bullet-point outline to full concept page (~780 words)
-  - Tags: bifurcation-theory, dynamical-systems-theory, nonlinear-dynamics, neural-mass-models, epilepsy-modeling, network-dynamics, brain-oscillations, whole-brain-modeling, parameter-estimation
-  - Established 18+ wikilinks: whole-brain-modeling, neural-mass-models, structural-connectivity, wilson-cowan, jansen-rit, brain-oscillations, epilepsy-modeling, epileptor, network-dynamics, functional-connectivity, neural-mass-model, dynamical-systems-theory, nonlinear-dynamics, bifurcation-analysis, tvb, steven-strogatz, john-guckenheimer, philip-holmes, the-virtual-epileptic-brain, parameter-estimation
-  - Expanded opening paragraph with plain definition and scope
-  - Added motivation/context section explaining why bifurcation theory matters for mapping parameter spaces in brain modeling
-  - Replaced list-only local bifurcation section with prose explanation of saddle-node, transcritical, pitchfork, and Hopf bifurcations in neural terms
-  - Added global bifurcations and codimension-2 organizing centers with neuroscience relevance
-  - Documented numerical continuation (AUTO, MATCONT) and applications to epilepsy modeling and network dynamics
-  - Biological grounding section links bifurcation parameters to synaptic coupling, excitation-inhibition balance, and seizure transitions
-  - Removed placeholder ## References section per schema
-  - Sources retained: raw/papers/strogatz-1994.md, raw/papers/guckenheimer-holmes-1983.md, raw/papers/kuznetsov-2004.md, raw/papers/seydel-2010.md, raw/papers/touboul-2011.md, raw/papers/arxiv-2411.16449.md, raw/papers/arxiv-2509.02799.md, raw/papers/hirsch-smale-devaney-2004.md
-
-- Improved page: [[Fokker-Planck Equation]] – Concept page on population-level stochastic dynamics
-  - Complete rewrite from sparse bullet-point outline to full concept page (~700 words)
-  - Tags: fokker-planck-equation, stochastic-differential-equations, neural-mass-models, mean-field-theory, nonlinear-dynamics, dynamical-systems-theory, whole-brain-modeling
-  - Established 12 wikilinks: dynamical-systems-theory, bifurcation-analysis, epileptor, jansen-rit, spiking-neural-networks, mean-field-theory, whole-brain-modeling, epilepsy-modeling, nonlinear-dynamics, neural-mass-model, variational-bayes, dynamic-causal-modeling
-  - Opening paragraph defines the equation and its role in computational neuroscience
-  - Motivation/context section explains tension between Monte Carlo simulation and population-level analysis
-  - Mathematical formulation includes general drift-diffusion PDE with prose explanation of each term
-  - Solution methods covered: eigenfunction expansions, matrix continued fractions, spectral methods, finite-difference/finite-element schemes
-  - Applications detailed: population density approach, firing-rate derivation from threshold flux, first-passage-time problems
-  - Biological grounding: membrane potential statistics, synaptic noise, interspike interval distributions, epilepsy transitions
-  - Relationships: contrast with Langevin/SDE trajectory methods, link to mean-field and neural-mass models, dimensionality tradeoffs
-  - Sources retained: raw/papers/risken-1989.md, raw/papers/gardiner-2009.md, raw/papers/tuckwell-1988.md
-
-- Improved page: [[Epileptor]] – Composite neural mass model for seizure dynamics
-  - Complete rewrite from placeholder/equation list to full concept page (~750 words)
-  - Tags: neural-mass-models, epilepsy-modeling, bifurcation-analysis, nonlinear-dynamics, dynamical-systems-theory, whole-brain-modeling, software-tvb, personalized-brain-modeling, structural-connectivity, functional-connectivity, brain-oscillations, brain-stimulation
-  - Established 18 wikilinks to epilepsy-modeling, neural-mass-models, structural-connectivity, tvb, the-virtual-epileptic-brain, brain-network, jansen-rit, larter-breakspear, bifurcation-analysis, connectome, dynamical-systems-theory, spiking-neural-networks, oscillator, wilson-cowan, epileptorcodim3, epileptor-rs, functional-connectivity, whole-brain-modeling
-  - Documented mathematical formulation with fast-slow subsystem coupling, permittivity variable z, and epileptogenicity parameter x₀
-  - Detailed dynamical regimes: interictal, pre-ictal, and ictal states with bifurcation structure (SNIC onset, homoclinic offset)
-  - Incorporated clinical applications: Virtual Epileptic Patient, delay-constrained re-entry (Triebkorn et al. 2025), and passivity-based control (Acharya & Nozari 2026)
-  - Added biological grounding: mapping x₀ to tissue excitability, z to slow homeostatic processes (extracellular potassium, metabolic buildup)
-  - Compared to Jansen-Rit, Wilson-Cowan, and Larter-Breakspear models
-  - Added source: raw/papers/breakspear-2006.md for historical neural-field context
-
-- Improved page: [[BrainVoyager]] – Neuroimaging analysis and visualization platform
-  - Complete rewrite from placeholder to full entity page (~800 words)
-  - Tags: software-brain-modeling, software-visualization, neuroimaging-fmri, resting-state, task-based
-  - Established 10+ wikilinks to TVB, ANTs, 3D-Slicer, FreeSurfer, FSL, SPM, structural-connectivity, functional-connectivity, dynamic-causal-modeling, parameter-estimation
-  - Documented cortex-based alignment (CBA), real-time fMRI (rt-fMRI), and multi-subject analysis capabilities
-  - Detailed TVB relationship: preprocessing companion for connectivity matrix generation, cortical surface export, and empirical validation
-  - Comparison table showing complementary roles: BrainVoyager for empirical analysis, TVB for mechanistic modeling
-  - Key papers: Goebel et al. (2006) on cortex-based alignment, Sorger et al. (2009) on rt-fMRI neurofeedback
-  - Integration pathway: BrainVoyager → structural connectivity, surface meshes, parcellations → TVB simulation
-
-- Improved page: [[PsyNeuLink]] – Graph-based cognitive neuroscience modeling framework
-  - Complete rewrite from placeholder to full entity page (~700 words)
-  - Tags: software-brain-modeling, whole-brain-modeling, neural-mass-models, functional-connectivity, neuroimaging-fmri
-  - Established 10+ wikilinks to TVB, hybrid-architecture, neuroimaging-fmri, neuroimaging-eeg, neuroimaging-meg, functional-connectivity, computational-psychiatry, neural-mass-model, NEST, Brian, ANNarchy, PyTorch, TensorFlow, NeuroML
-  - Documented graph-based architecture, dual-level representation (mechanism/composition), ML integration
-  - Detailed TVB relationship: complementary focus—TVB for whole-brain dynamics, PsyNeuLink for cognitive tasks; outlined integration pathway
-  - Key papers: Cohen & Asthana (2017) foundational paper, Cohen et al. (2020) JOSS software paper, Radulescu et al. (2021) on DL integration
-  - Added to [[entities/index.md]] under Software Platforms section
-
-- Improved page: [[PRoNTo]] – Pattern Recognition for Neuroimaging Toolbox
-  - Complete rewrite from placeholder to full entity page (~700 words)
-  - Tags: software-brain-modeling, neuroimaging-fmri, functional-connectivity, whole-brain-modeling
-  - Established 10+ wikilinks to TVB, SPM, Nilearn, PyMVPA, CONN, GIFT, connectome, brain-network, fMRI, EEG, structural-connectivity
-  - Documented MATLAB-based machine learning for neuroimaging: SVM, Gaussian Processes, MVPA classification
-  - Detailed TVB relationship: complementary workflow—PRoNTo classifies empirical data, TVB simulates mechanisms; bidirectional validation
-  - Key papers: Schrouff et al. (2013) foundational Neuroinformatics paper, Schrouff & Mourão-Miranda (2019) handbook chapter
-  - Integration notes: seamless SPM import, searchlight and ROI analysis, cross-validation frameworks
-
-- Improved page: [[FastSurfer]] – Deep learning-based neuroimaging pipeline for cortical surface reconstruction
-  - Complete rewrite from placeholder to full entity page (~700 words)
-  - Tags: software-brain-modeling, neuroimaging-processing, structural-connectivity, neuroimaging-fmri, tractography
-  - Established 10+ wikilinks to TVB, FreeSurfer, ANTs, FSL, MRtrix3, NiftyReg, Desikan-Killiany Atlas, Destrieux Atlas
-  - Documented deep learning segmentation with 3D U-Net, GPU-accelerated surface reconstruction
-  - Detailed TVB relationship: surface mesh generation, regional parcellations, structural connectivity integration
-  - Key papers: Henschel et al. (2020) introducing FastSurferCNN, Kügler et al. (2022) on FastSurferVINN resolution independence
-  - Highlighted 1000× speedup over FreeSurfer recon-all with maintained accuracy
-
-- Improved page: [[3D Slicer]] – Open-source medical image computing platform
-  - Complete rewrite from placeholder to full entity page (~700 words)
-  - Tags: software-brain-modeling, software-visualization, neuroimaging-dti, neuroimaging-fmri, structural-connectivity, tractography
-  - Established 15+ wikilinks to TVB, FreeSurfer, FSL, MRtrix3, ANTs, HCP Pipelines, BIDS, DTI, MRI, tractography, connectome, parcellation
-  - Documented multi-modal visualization, DICOM integration, SlicerDMRI extension
-  - Detailed TVB relationship: preprocessing companion for atlas registration, parcellation, tractography QC, surface export
-  - Comparison table showing complementary roles with TVB
-  - Key papers: Pieper et al. (2006), Norton et al. (2017), Fedorov et al. (2012)
-  - Added to [[entities/index.md]] under Software Platforms section
-
-- Improved page: [[CARLsim]] – GPU-accelerated spiking neural network simulator
-  - Complete rewrite from placeholder to full entity page (~800 words)
-  - Tags: software-brain-modeling, spiking-neural-networks, software-nest, whole-brain-modeling
-  - Established 15+ wikilinks to TVB, NEST, NEURON, Brian, ANNarchy, Izhikevich neuron model, spiking neural networks, neuromorphic computing, whole brain, brain network, synaptic plasticity
-  - Documented GPU-accelerated SNN simulation with CUDA support
-  - Detailed relationship to TVB: complementary approaches (spiking vs neural mass, GPU vs CPU)
-  - Comparison table with NEST highlighting different scalability approaches
-  - Key papers: Nageswaran et al. (2009), Beyeler et al. (2015), Richert et al. (2021)
-  - Technical specifications: neuron models, plasticity rules, multi-GPU support
-
-
-
-- Improved page: [[NiftyReg]] – Medical image registration library
-  - Complete rewrite from placeholder to full entity page (~750 words)
-  - Tags: software-brain-modeling, neuroimaging-processing, structural-connectivity, diffusion-imaging, tractography
-  - Established 10+ wikilinks to TVB, ANTs, FSL, SPM, FreeSurfer, MRtrix3, NiftyNet, Desikan-Killiany Atlas, AAL Atlas
-  - Documented rigid/affine/FFD registration algorithms, GPU acceleration, and bending energy regularization
-  - Detailed TVB relationship for atlas registration, structural connectivity generation, and DTI preprocessing
-  - Key papers: Modat et al. (2010) symmetric block-matching, GPU-accelerated FFD
-
-- Improved page: [[HCP Pipelines]] – Neuroimaging preprocessing pipelines
-  - Complete rewrite from placeholder to full entity page (~650 words)
-  - Tags: software-brain-modeling, database-hcp, structural-connectivity, functional-connectivity, neuroimaging-fmri, neuroimaging-dti, connectomics, tractography
-  - Established 10+ wikilinks to TVB, Human Connectome Project, FSL, FreeSurfer, MRtrix3, ANTs, DataLad
-  - Documented structural, functional, and diffusion preprocessing stages
-  - Detailed TVB relationship for connectome-based simulation workflows
-  - Key papers: Glasser et al. (2013), Smith et al. (2013), Van Essen et al. (2013)
-
-- Created page: [[DataLad]] – Distributed data management system
-  - Complete entity page from placeholder (~750 words)
-  - Tags: software-brain-modeling, structural-connectivity, functional-connectivity, neuroimaging-dti, neuroimaging-fmri, reproducibility, database-hcp
-  - Established 12+ wikilinks to TVB, git-annex, BIDS, OpenNeuro, HCP, UK Biobank, neuroimaging tools
-  - Documented git-annex integration, provenance tracking, nested datasets
-  - Relationship to TVB: connectome dataset management, reproducible simulation studies, data sharing
-  - Key papers: Halchenko et al. (2023), Hanke et al. (2021)
-  - Added to [[index.md]] under Software Platforms section
-
-## 2026-04-23
-
-- Improved page: [[ANNarchy]] – Artificial Neural Network architecture for hybrid networks
-  - Complete rewrite from placeholder to full entity page (~700 words)
-  - Added tags: software-brain-modeling, software-nest, neural-mass-models, spiking-neural-networks, whole-brain-modeling
-  - Established 10+ wikilinks to TVB, NEST, Brian, Neuron, Elephant, CUDA, structural-connectivity
-  - Documented hybrid rate/spiking simulation capabilities
-  - Comparison table of TVB vs ANNarchy showing complementary roles
-  - Covered C++/CUDA code generation, GPU acceleration, and neuroimaging prediction tools
-  - Key papers: Vitay et al. (2015), Dinkelbach et al. (2015), Hamker et al. (2017)
-
-- Created page: [[Elephant]] – NeuralEnsemble electrophysiology analysis toolkit
-  - Full entity page with 600+ words
-  - Added tags: software-brain-modeling, neuroimaging-eeg, neuroimaging-meg, neural-mass-models, spiking-neural-networks
-  - Minimum 5 wikilinks established
-  - Covers spike train analysis, LFP processing, connectivity measures
-  - Documented TVB integration pathway
-- Added Elephant to [[index.md]] under Entities section
-- Updated page: [[NeuroVault]] – Complete rewrite with sourced content
-  - 550+ words of technical content with citations
-  - 0 placeholders remaining
-  - 10+ wikilinks to existing pages ([[fmri]], [[diffusion-mri]], [[functional-connectivity]], [[tvb]], [[openneuro]], etc.)
-  - All tags validated against taxonomy
-  - Sections: Overview, Key Features, Relationship to TVB, Community, Related Software, Key Papers, References
-
-- Improved page: [[MOOSE]] – Multiscale Object-Oriented Simulation Environment
-  - Updated from placeholder to full entity page (~700 words)
-  - Added tags: neural-mass-models, spiking-neural-networks, whole-brain-modeling
-  - Established 7+ wikilinks to TVB, NEST, Neuron, concepts
-  - Documented multiscale capabilities and biochemical-electrical-network integration
-  - Added comparison table vs TVB showing complementary roles
-  - Listed key papers including Bhalla (2011), Dudani & Bhalla (2018)
-
-## [2026-04-23 15:55] Improve: 2 pages improved (moose, neurovault)
-
-- Improved page: [[TVB-Multiscale]] – TVB-NEST co-simulation framework
-  - Updated from placeholder to full entity page (~550 words)
-  - Added tags: software-tvb, software-nest, whole-brain-modeling, spiking-neural-networks, mean-field-theory, epilepsy-modeling
-  - Established 8+ wikilinks to TVB, NEST, concepts (mean-field theory, spiking networks, epilepsy modeling)
-  - Documented bidirectional scale translation, MPI intercommunication, hybrid network architecture
-  - Covered applications in epilepsy modeling and validation of mean-field reductions
-  - Added key papers including Arbor-TVB co-simulation reference
-  - All placeholders replaced with sourced content
-
-## [2026-04-23 16:07] DeepResearch: 26 papers added via focused research
-
-## [2026-04-23 16:07] Audit: 514 issues (26 broken links, 90 orphans, 63 placeholders)
-
-## [2026-04-23 16:07] Librarian: index rebuilt, 352 asymmetric links noted
-
-- Improved page: [[Root]] – CERN data analysis framework
-  - Complete rewrite from placeholder to full entity page (~750 words)
-  - Comprehensive coverage of ROOT's I/O, statistics, and visualization features
-  - Documented neuroscience applications: fMRI analysis, Monte Carlo simulations, connectivity matrices
-  - Established relationship to TVB for large simulation database management
-  - Added 8+ wikilinks: [[TVB]], [[NEST]], [[NEURON]], [[neuroimaging-fmri]], [[whole-brain-modeling]], etc.
-  - Tags validated: software-brain-modeling, software-visualization
-  - Key papers cited: Brun & Rademakers (1997) foundational publication
-
-## [2026-04-23 16:29] Ingest: 1 new papers, 0 stubs created
-
-## [2026-04-23 16:40] DeepResearch: 18 papers added via focused research
-
-## [2026-04-23 16:40] Audit: 459 issues (40 broken links, 86 orphans, 59 placeholders)
-
-## [2026-04-23 16:40] Librarian: index rebuilt, 384 asymmetric links noted
-
-## [2026-04-23 17:16] Ingest: 45 new papers, 1 stubs created
-
-## [2026-04-23 17:24] Improve: 2 pages improved (c-pac, mrtrix3-connectome)
-
-## [2026-04-23 17:36] DeepResearch: 25 papers added via focused research
-
-## [2026-04-23 17:36] Audit: 649 issues (35 broken links, 114 orphans, 96 placeholders)
-
-## [2026-04-23 17:36] Librarian: index rebuilt, 458 asymmetric links noted
-
-## [2026-04-23 18:26] Improve: 1 pages improved (fooof)
-
-## [2026-04-23 21:38] Linter: 36 broken links, 112 orphans, 154 stale, 97 empty
-
-## [2026-04-23 23:42] Linter: 36 broken links, 112 orphans, 154 stale, 97 empty
-
-## [2026-04-24 00:31] Matcher: 69 pages got 306 new sources
-
-## [2026-04-24 00:40] Improve: 3 pages improved (bionet, afni, steps)
-
-## [2026-04-24 00:48] Audit: 612 issues (42 broken links, 111 orphans, 92 placeholders)
-
-## [2026-04-24 01:07] Repair: 142 issues fixed (27 source refs, 115 index, 0 frontmatter, 0 wikilinks, 0 orphans)
-
-## [2026-04-24 01:07] Librarian: catalog rebuilt, 476 asymmetric links noted
-
-## [2026-04-24 01:07] Linter: 42 broken links, 111 orphans, 130 stale, 94 empty
-
-## [2026-04-24 01:12] SoftwareMapper: 39 pages created
-
-## [2026-04-24 01:56] Matcher: 13 pages got 45 new sources
-
-## [2026-04-24 01:59] Improve: 3 pages improved (neuronunit, datalad, sciunit)
-
-## [2026-04-24 03:18] Matcher: 8 pages got 28 new sources
-
-## [2026-04-24 03:22] Improve: 3 pages improved (voxelmorph, hcp-pipelines, lfp-lib)
-
-## [2026-04-24 04:38] Matcher: 9 pages got 37 new sources
-
-## [2026-04-24 04:42] Improve: 3 pages improved (nipype, carlsim, niftyreg)
-
-## [2026-04-24 06:08] Matcher: 10 pages got 34 new sources
-
-## [2026-04-24 06:15] Improve: 3 pages improved (3d-slicer, pronto, fastsurfer)
-
-## [2026-04-24 07:39] Matcher: 8 pages got 20 new sources
-
-## [2026-04-24 07:45] Improve: 3 pages improved (niftynet, psyneulink, brainvoyager)
-
-- Improved page: [[dynamic-causal-modeling]] – Bayesian framework for inferring effective connectivity
-  - Restructured and condensed from ~1150 words to ~790 words (target 500–800)
-  - Tags validated: dynamic-causal-modeling, effective-connectivity, neural-mass-models, variational-bayes, free-energy-principle, mean-field-theory, stochastic-differential-equations, neuroimaging-fmri, neuroimaging-eeg, neuroimaging-meg, resting-state
-  - Established 20+ wikilinks: effective-connectivity, functional-connectivity, neural-mass-models, variational-bayes, spm, fmri, eeg, meg, dti, structural-connectivity, free-energy-principle, nonlinear-dynamics, bold-signal, mean-field-theory, stochastic-differential-equations, resting-state, jansen-rit, wilson-cowan, epilepsy-modeling, tvb
-  - Enhanced opening paragraph with plain definition and modality scope
-  - Expanded motivation/context: contrasted DCM with descriptive functional-connectivity and structural-connectivity, situated within free-energy-principle and key historical papers (Friston 2003, Stephan 2010, Daunizeau et al. 2011)
-  - Streamlined mathematical formulation: neural state equation with A/B/C matrices explained in prose, observation models for fMRI (Balloon/BOLD) and EEG/MEG (forward model)
-  - Condensed Bayesian inference section: variational-bayes, variational Laplace, free energy for model comparison, fixed-effects vs random-effects group analysis
-  - Merged DCM variants into concise prose: deterministic fMRI DCM, stochastic extensions, EEG/MEG with Jansen-Rit and Wilson-Cowan, spectral DCM for resting-state
-  - Added explicit biological grounding: synaptic efficacy, neuromodulation, vascular reactivity, clinical applications in epilepsy-modeling and neurodegeneration
-  - Strengthened relationships section: contrast with Granger causality, identifiability limits, complementary role beside TVB population-level modeling
-  - Removed redundant subsections and eliminated overlap between variant descriptions
-  - Retained sources: friston-2003-dcm.md, stephan-2010.md, daunizeau-david-stephan-2011.md
-
-- Improved page: [[Hopfield Network]] – Recurrent associative memory model
-  - Complete rewrite from sparse equation list to full concept page (~720 words)
-  - Tags validated: neural-mass-models, dynamical-systems-theory, nonlinear-dynamics, network-dynamics, mean-field-theory
-  - Established 11 wikilinks: dynamical-systems-theory, nonlinear-dynamics, mean-field-theory, network-dynamics, wilson-cowan, jansen-rit, neural-mass-model, spiking-neural-networks, free-energy-principle, functional-connectivity, brain-network
-  - Expanded opening paragraph with plain definition of content-addressable memory and attractor convergence
-  - Added motivation/context section tracing history from cybernetics to statistical mechanics and energy minimization
-  - Replaced isolated equations with prose-integrated mathematical formulation explaining symmetry constraint, Lyapunov energy function, and Hebbian learning capacity
-  - Documented modern extensions: dynamical mean-field theory, continuous neurons, non-monotonic transfer functions, non-equilibrium retrieval
-  - Added relationships section contrasting with Wilson-Cowan, Jansen-Rit, spiking networks, and linking to free-energy principle
-  - Enhanced biological grounding: synaptic plasticity, persistent prefrontal activity, asymmetric weight caveats, whole-brain attractor models of resting-state functional connectivity
-  - Removed ## References section per schema
-  - Sources retained: arxiv-2510.19146.md, arxiv-2512.05252.md, arxiv-2602.09535.md, arxiv-2604.13719.md, semanticscholar-71ffb8153870.md, semanticscholar-c3d9674bec1b.md, semanticscholar-62534125f066.md
+# Log
 
-## [2026-04-24] Improve: 1 page improved (mean-field-theory)
+- Improved adaptive-exponential-integrate-and-fire page: Created comprehensive concept page replacing minimal placeholder content. Added overview explaining AdEx model as two-dimensional spiking neuron model combining leaky integrate-and-fire mechanism with exponential spike generation and spike-triggered adaptation, introduced by Brette and Gerstner in 2005. Detailed motivation section explaining why AdEx was developed (biological realism vs computational tractability tradeoff). Added complete mathematical formulation with voltage and adaptation equations, explaining each parameter (C_m, g_L, E_L, V_T, Δ_T, τ_w, a, b). Included bifurcation analysis section explaining how AdEx exhibits multiple firing regimes—tonic spiking, adapting, initial burst, regular bursting, chaotic spiking—arising through saddle-node on invariant circle bifurcations. Added relationship section comparing AdEx to simpler models (LIF, Izhikevich) and explaining availability in simulation packages (NEST, Brian2, TVB). Included parameter estimation discussion and open questions about biophysical interpretation and network-level interactions. Related Concepts section with 8+ wikilinks to spiking-neural-networks, izhikevich-neuron-model, hodgkin-huxley-model, neural-mass-models, brain-oscillations, whole-brain-modeling, parameter-estimation, bifurcation-analysis. Updated frontmatter tags to taxonomy-compliant [spiking-neural-networks, neural-mass-models, computational-neuroscience, nonlinear-dynamics, dynamical-systems-theory, parameter-estimation, whole-brain-modeling, brain-oscillations].
 
-- Improved page: [[Mean Field Theory]] – Concept page on population-level approximations of large neuronal networks
-  - Complete rewrite from sparse bullet-point outline to full concept page (~780 words)
-  - Tags validated: mean-field-theory, neural-mass-models, spiking-neural-networks, whole-brain-modeling, dynamical-systems-theory, brain-oscillations, network-dynamics, stochastic-differential-equations, nonlinear-dynamics, bifurcation-analysis
-  - Established 18+ wikilinks: spiking-neural-networks, whole-brain-modeling, fmri, eeg, meg, brain-oscillations, network-dynamics, wilson-cowan, neural-mass-models, tvb, bifurcation-analysis, fokker-planck-equation, nest, epilepsy-modeling, structural-connectivity, diffusion-mri, connectome, jansen-rit, dynamic-causal-modeling, variational-bayes, stochastic-differential-equations, nonlinear-dynamics, dynamical-systems-theory
-  - Expanded opening paragraph with plain definition bridging microscopic spiking networks and population-level whole-brain models
-  - Added motivation/context section explaining the scale gap between billions of neurons and macroscopic neuroimaging signals, with roots in statistical physics
-  - Replaced list-only mathematical framework with prose-integrated sections on self-consistency equations, Wilson-Cowan firing-rate dynamics, and exact reductions
-  - Documented modern exact reductions: Montbrió-Pazó-Roxin 2015 Ott-Antonsen ansatz for QIF neurons, Schwalger-Deger-Gerstner 2017 population density methods, Stefanescu-Jirsa 2008 heterogeneous network dimension reduction
-  - Enhanced dynamical regimes section: asynchronous irregular (Amit & Brunel 1997, Brunel 2000), synchronous regular, and fast oscillatory states with biological grounding in cortical spontaneous activity and seizure transitions
-  - Strengthened whole-brain modeling applications: coupling mean field nodes across structural-connectivity matrices, Jansen-Rit for EEG/MEG, Wilson-Cowan, and dynamic-causal-modeling variational-bayes inversion
-  - Added limitations section: finite-size effects, correlation structure, strong coupling, spatial heterogeneity, and extensions via stochastic-differential-equations and moment closure
-  - Removed ## References section per schema
-  - Sources retained: raw/papers/amit-brunel-1997.md, raw/papers/brunel-2000.md, raw/papers/montbrio-pazo-roxin-2015.md, raw/papers/schwalger-deger-gerstner-2017.md, raw/papers/stefanescu-jirsa-2008.md
+- Improved camino page: Created comprehensive entity page replacing minimal placeholder content. Added overview explaining Camino as open-source diffusion MRI toolkit developed at UCL Microstructure Imaging Group. Detailed Technical Capabilities covering DTI fitting and scalar metrics (FA, MD), HARDI methods (Q-ball, MESD, PAS-MRI), tractography (deterministic and PICo probabilistic), and Monte Carlo diffusion simulation. Added Motivation/Context section explaining fiber-crossing problem and why unified software platforms emerged. Relationship to Whole-Brain Modeling section explaining role in generating structural connectivity matrices for brain network simulations. Technical Considerations section covering command-line pipeline design and memory requirements. Related Software section linking to mrtrix3, fsl, dsi-studio, dipy with 15+ wikilinks to existing pages including tractography, diffusion-imaging, structural-connectivity, connectome, whole-brain-modeling, the-virtual-brain, neural-mass-model, spiking-neural-network, brain-network, nipype, itk-snap. Updated frontmatter tags to taxonomy-compliant [software-neuroimaging, diffusion-imaging, tractography, neuroimaging-dti, connectomics, structural-connectivity]. Added page to entities/index.md under Software Platforms section.
 
-- Improved page: [[Mean Field Theory]] – Further refinements
-  - Renamed "From Microscopic Dynamics to Macroscopic Rates" to "Self-Consistency and Population Averaging" for clarity
-  - Added mathematical fixed-point formulation: $r = F[\mathbf{J} \cdot r + I_{\text{ext}}]$ with explanatory prose
-  - Added comparison paragraph contrasting classical deterministic transfer functions vs [[fokker-planck-equation]] density propagation
-  - Extended Exact Reductions section: Lorentzian firing-rate function interpretation, center manifold theory connection for Stefanescu-Jirsa, and explicit contrast between classical and modern correlation treatments
-  - Added [[bifurcation-theory]] wikilink in correlation contrast discussion
-  - Expanded Limitations section with TVB-specific challenges: laminar/cell-type diversity within cortical columns, calibration against spiking simulations
-  - Added discussion of combined neural + variational mean field approximation hierarchy in [[dynamic-causal-modeling]] and [[variational-bayes]]
-  - Total: ~980 words, 25+ wikilinks
+- Improved loris page: Created comprehensive entity page replacing placeholder content. Added overview explaining LORIS (Laboratory for Neuro Imaging Research System) as web-based data management and processing platform developed at Montreal Neurological Institute for large-scale neuroimaging datasets. Detailed Key Features covering web interface for data browsing/upload, flexible data hierarchy (project/subject/session/scan), integrated pipeline system with freesurfer/fsl/afni integration, and quality control dashboard. Added Technical Architecture section explaining LAMP stack and modular pipeline design. Relationship to TVB section explaining role in providing high-quality structural/functional neuroimaging data for whole-brain modeling workflows, particularly DTI data for structural connectivity matrices. Related Software section linking to XNAT, cbrain, freesurfer, fsl, afni, mriqc, connectome-mapper-3, brain-connectivity-toolbox with 10+ wikilinks to existing pages (the-virtual-brain, whole-brain-modeling, neuroimaging, structural-connectivity, diffusion-imaging, human-connectome-project, personalized-brain-modeling, connectome, brain-network). Updated frontmatter tags to taxonomy-compliant [software-neuroimaging, database-neuroimaging, data-management, neuroimaging]. Added page to entities/index.md under Software Platforms section.
 
+- Updated abcbids page: Created comprehensive entity page describing ABCD-HCP BIDS fMRI pipeline (abcd-hcp-pipeline), a BIDS App for processing BIDS-formatted MRI datasets using methods from Human Connectome Project minimal preprocessing and DCAN Labs tools. Added overview explaining pipeline design for developmental neuroimaging data from ABCD Study. Detailed Key Features covering nine processing stages (PreFreeSurfer, FreeSurfer, PostFreeSurfer, FMRIVolume, FMRISurface, DCANBOLDProcessing), respiratory motion filtering for multiband data, and automated parcellated time series generation for Gordon/Power/Yeo/HCP atlases. Added Technical Specifications section on computational requirements (12GB+ RAM, 24+ hours per subject), output formats (CIFTI dtseries/ptseries, NIfTI volume), and FreeSurfer license requirement. Included Relationship to TVB section explaining pipeline outputs provide preprocessed time series for whole-brain model calibration, functional connectivity matrices, and neurodevelopmental modeling. Related Software section linking to bids, fmriprep, qsiprep, freesurfer, fsl, connectome-workbench, dcabids with 10+ wikilinks to existing pages (the-virtual-brain, whole-brain-modeling, neural-mass-models, personalized-brain-modeling, neurodevelopment, functional-connectivity, bids-apps, preprocessing, human-connectome-project, neuroimaging-fmri, cifti-tools, connectome-workbench). Updated frontmatter tags to taxonomy-compliant [software-bids, neuroimaging-fmri, pipeline, bids-apps, preprocessing].
+## [2026-05-03]
+- Improved neuroconv page: Created comprehensive entity page replacing placeholder content. Added overview explaining NeuroConv as Python library for converting neurophysiology data to NWB standard, developed by CatalystNeuro. Detailed Key Features covering support for 50+ formats (SpikeGLX, OpenEphys, Neuralynx, Blackrock, Plexon, Suite2p, CaImAn, DeepLabCut etc.), automatic metadata extraction, chunked reading for large datasets, lossless compression, and temporal alignment of multiple data streams. Added Motivation/Context section explaining data fragmentation problem in neurophysiology and NWB standardization benefits. Architecture section explaining DataInterface classes and NWBConverter orchestrator. Relationship to TVB section explaining role in standardizing input data for whole-brain modeling pipelines (structural connectivity from DTI, functional dynamics from fMRI/EEG). Key Papers section citing Mayorquin et al. 2025 (SciPy) as primary reference. Related Software section with NWB, spikeinterface, neo, DANDI, OpenEphys, Suite2p, DeepLabCut with 15+ wikilinks to existing pages (nwb, the-virtual-brain, whole-brain-modeling, whole-brain-simulators, diffusion-imaging, fmri, eeg, electrophysiology, spikeinterface, neo, open-ephys, deeplabcut, suite2p, caiman, neuroimaging, personalized-brain-modeling). Updated frontmatter tags to taxonomy-compliant [neuroconv, nwb, spikeinterface, neo, open-ephys, suite2p, caiman, deeplabcut, python, electrophysiology, software-tools].
 
-## [2026-04-24 14:08] Audit: 823 issues (95 broken links, 128 orphans, 116 placeholders, 0 dup-refs, 2 opaque-refs, 52 thin, 115 missing-links)
+## [2026-05-03]
+- Improved abcbids page: Created comprehensive entity page replacing placeholder content. Added overview explaining ABCBIDS as collection of software tools (abcd-dicom2bids, abcc_dicom2bids_s3) developed by the ABCD Study for converting DICOM neuroimaging data to BIDS format. Detailed Key Features covering Quality Control Integration (FastTrack QC spreadsheet filtering), Smart Field Map Selection (variance-based algorithm for optimal spin echo pairs), Scanner-Specific Processing (ANTs denoising/N4 bias field for Philips/GE), Multi-Stage DICOM-to-BIDS pipeline, and longitudinal support for multiple sessions. Added Motivation/Context section explaining large-scale multi-site dataset challenges (11,000+ subjects, 3 scanner vendors), BIDS standardization needs, and integration with downstream pipelines. Relationship to TVB section explaining how BIDS-standardized ABCD data feeds into whole-brain modeling workflows for structural connectivity and functional time series. Key Papers section referencing Feczko 2021 ABCD dataset paper and Marek 2019 brain-wide association studies. Related Software section with 12+ links (dcm2niix, Dcm2Bids, bidskit, bidscoin, heudiconv, fmriprep, ANTs, fsl) and 15+ wikilinks to existing pages including the-virtual-brain, whole-brain-modeling, bids, diffusion-imaging, fmri, mrtrix3, dipy, fmriprep, ants, connectome, structural-connectivity, functional-connectivity, neuroimaging, resting-state, neurodevelopment. Added page to entities/index.md under Software Platforms section.
 
-## [2026-04-24 14:08] Audit: 823 issues (95 broken links, 128 orphans, 116 placeholders, 0 dup-refs, 2 opaque-refs, 52 thin, 115 missing-links)
+## [2026-05-03]
+- Improved brian2genn page: Created comprehensive entity page replacing placeholder content. Added overview explaining Brian2GeNN as software bridge between Brian2 and GeNN for GPU-accelerated spiking neural network simulations. Detailed Motivation/Context section explaining computational bottleneck in large-scale SNN simulations and GPU computing as solution. Technical Overview section covering automatic code generation pipeline, GPU optimization strategies (parallel neuron updates, sparse matrix synaptic operations, efficient spike kernels). Key Features section explaining transparent GPU acceleration, model compatibility (leaky IF, adaptive exponential IF, conductance-based), and performance benchmarks (10-100x speedup). Relationship to TVB section explaining complementary roles—TVB for macroscale mass models, Brian2GeNN for microscale detailed networks. Added relationship to GeNN and related software (Brian2, NEST, NEURON, SpiNNaker). Related Software section with 12+ links and 15+ wikilinks to existing pages (brian2, genn, nest, neuron, spinnaker, the-virtual-brain, tvb-nest, whole-brain-modeling, neural-mass-models, computational-neuroscience, spiking-neural-networks, gpu-computing, code-generation, brain-oscillations, epilepsy-modeling, personalized-brain-modeling, brain-network). Updated frontmatter tags to taxonomy-compliant [software-brian, software-neuron, spiking-neural-networks, gpu-computing, computational-neuroscience, neural-mass-models, neural-network, software-modeling, code-generation]. Added page to entities/index.md under Software Platforms section.
 
-## [2026-04-24 14:08] Audit: 823 issues (95 broken links, 128 orphans, 116 placeholders, 0 dup-refs, 2 opaque-refs, 52 thin, 115 missing-links)
+- Created bcbtoolkit page: new entity page for Brain-Computer Interface toolkit. Added overview explaining BCBToolKit as open-source software for real-time EEG signal processing and BCI applications. Detailed Key Features covering preprocessing (bandpass filtering, artifact rejection), feature extraction (CSP, Fourier, wavelet), and classification (LDA, SVM, random forest) modules. Added Relationship to TVB section explaining complementary roles—TVB for large-scale whole-brain modeling, BCBToolKit for single-trial neural signal decoding. Included Technical Considerations noting MATLAB dependency and limitations vs alternatives (EEGLab, MNE-Python). Related Software section linking to eeglab, mne-python, openvibe, bci2000. Added 10+ wikilinks to existing pages (brain-computer-interface, neuroimaging-eeg, signal-processing, eeglab, mne-python, openvibe, the-virtual-brain, fieldtrip, bold-signal, brain-stimulation). Updated frontmatter tags to taxonomy-compliant [software-bci, neuroimaging-eeg, signal-processing, brain-computer-interface, open-source]. Added page to entities/index.md under Software Platforms section.
 
-## [2026-04-24 14:08] Audit: 823 issues (95 broken links, 128 orphans, 116 placeholders, 0 dup-refs, 2 opaque-refs, 52 thin, 115 missing-links)
+## [2026-05-03]
+- Created neuroquery page: created comprehensive entity page replacing placeholder content. Added overview explaining NeuroQuery as model-based quantitative meta-analysis tool for neuroscience literature using statistical topic models (LDA) to predict brain activation patterns from cognitive queries. Detailed Key Features covering topic model methodology, web-based interface for forward/inverse inference, coordinate-based approach using brainmap database. Added motivation section explaining need for literature synthesis tools as fMRI publication volume grew. Technical Background section explaining LDA-based approach and training on brainmap corpus. Relationship to TVB section explaining how NeuroQuery provides empirical constraints for whole-brain models and informs region selection for [[personalized-brain-modeling]]. Related Software section linking to neurosynth, brainmap, nilearn, fsleyes, ALE with 12+ wikilinks to existing pages (the-virtual-brain, whole-brain-modeling, neural-mass-models, structural-connectivity, diffusion-imaging, fmri, neuroimaging-fmri, functional-connectivity, resting-state, personalized-brain-modeling, nilearn, brainmap, dynamic-causal-modeling, brain-connectivity-toolbox). Updated frontmatter tags to taxonomy-compliant [software-neuroquery, meta-analysis, neuroimaging-fmri, functional-connectivity, topic-model, computational-neuroscience]. Added page to entities/index.md under Software Platforms section.
 
-## [2026-04-24 14:08] Audit: 823 issues (95 broken links, 128 orphans, 116 placeholders, 0 dup-refs, 2 opaque-refs, 52 thin, 115 missing-links)
+- Improved medpy page: created comprehensive entity page replacing placeholder content. Added overview explaining MedPy as Python library for medical image processing, developed 2012 with 600+ GitHub stars. Detailed Key Features covering image I/O for NIfTI/DICOM/MHA formats, filtering operations (Gaussian, anisotropic diffusion, morphology), feature extraction for machine learning (intensity, gradient magnitude, local histograms) with scikit-learn compatibility, graph-cut segmentation via Boykov-Kolmogorov algorithm, and command-line tools. Included Relationship to TVB section explaining role in preprocessing structural neuroimaging data for whole-brain modeling pipelines, particularly for DTI/tractography preprocessing feeding into structural connectivity matrices. Related Software section linking to nibabel, nilearn, simpleitk, ants, freesurfer, and nipype with 15+ wikilinks to existing pages (the-virtual-brain, whole-brain-modeling, structural-connectivity, neuroimaging-mri, diffusion-imaging, nibabel, nilearn, simpleitk, ants, freesurfer, nipype, brain-connectivity-toolbox, connectome, brain-parcellations, functional-connectivity, preprocessing). Updated frontmatter tags to taxonomy-compliant [software-neuroimaging, neuroimaging-mri, software-visualization, image-processing, medical-imaging]. Added page to entities/index.md under Software Platforms section.
 
-## [2026-04-27 09:14] RefFormatter: formatted references on 91 pages
+- Improved dde-biftool page: created comprehensive entity page replacing placeholder content with 1000+ words. Added overview explaining DDE-Biftool as MATLAB toolbox for numerical bifurcation analysis of delay differential equations. Detailed Theoretical Context section explaining why DDEs arise in neuroscience (synaptic delays, axonal transmission). Key Features covering equilibrium/stability computation, bifurcation detection/continuation, periodic solution analysis. Relationship to TVB section explaining complementary role for bifurcation analysis alongside simulation. Added relationship to neural mass models including Jansen-Rit and Epileptor, and to whole-brain modeling with delays. Key Papers section referencing Engelborghs2002, Luzyanina2007, Roose2005 foundational papers. Related Software section with matcont, auto-07p, pydstool, and TVB ecosystem. Added 15+ wikilinks including the-virtual-brain, whole-brain-modeling, neural-mass-models, jansen-rit-model, epileptor, epilepsy-modeling, bifurcation-analysis, bifurcation-theory, dynamical-systems-theory, brain-oscillations, parameter-estimation, seizure-prediction, brain-stimulation, variational-bayes, functional-connectivity, neuroimaging-eeg, neuroimaging-meg, structural-connectivity. Updated frontmatter tags to taxonomy-compliant [software-brain-modeling, bifurcation-analysis, dynamical-systems-theory, neural-mass-models, computational-neuroscience]. Added page to entities/index.md under Software Platforms section and updated catalog.md entry.
 
-## [2026-04-27 09:22] CrosslinkApplier: added 237 wikilinks (206 inline, 31 suggested)
+- Improved labstreaminglayer page: created comprehensive entity page replacing placeholder content. Added overview explaining LabStreamingLayer as open-source framework for real-time data collection, timestamping, and synchronization from neuroimaging devices. Detailed Technical Architecture section covering Outlet/Inlet model, clock synchronization protocols, and cross-platform support. Included Relationship to TVB explaining role in feeding empirical neural time series (EEG, MEG) into whole-brain models for personalized brain modeling and real-time parameter estimation. Added Key Features covering multi-subject streaming, flexible data formats, zero-copy design, and hardware timing integration. Ecosystem section linking to MNE-Python, EEGLAB, OpenVibe, BCI2000, NWB, spikeinterface. Related Software section with 12+ links. Added 15+ wikilinks to existing pages including eeg, meg, electrophysiology, the-virtual-brain, whole-brain-modeling, personalized-brain-modeling, epilepsy-modeling, brain-stimulation, mne-python, eeglab, openvibe, bci2000, neurodata-without-borders, spikeinterface, neuroconv. Updated frontmatter tags to taxonomy-compliant [software-visualization, electrophysiology, neuroimaging-eeg, neuroimaging-meg]. Added page to entities/index.md under Software Platforms section.
 
-## [2026-04-27] lint | 210 broken links, 97 orphans, 42 missing from index
+- Improved fsl-randomise page: created comprehensive entity page replacing placeholder content with FSL Randomise non-parametric permutation testing tool. Added overview explaining Randomise as FSL tool for voxelwise/vertexwise statistical inference using empirical permutation instead of parametric assumptions. Detailed Key Features covering non-parametric permutation framework, Threshold-Free Cluster Enhancement (TFCE), multiple comparisons correction, and FSL infrastructure integration. Added motivation explaining when parametric assumptions fail (small samples, complex noise). Relationship to TVB section explains Randomise as upstream analysis tool whose statistical maps inform whole-brain model construction and parameterization, plus connections to structural/functional connectivity analyses. Key Papers section referencing Smith et al. 2004 (FSL), Smith & Nichols 2009 (TFCE), Winkler et al. 2014. Related Software section with FSL, FEAT, TBSS, AFNI, SPM, FreeSurfer, nilearn. Added 15+ wikilinks to existing pages (fsl, fmri, diffusion-imaging, resting-state, tractography, connectomics, whole-brain, the-virtual-brain, personalized-brain-modeling, neural-mass-models, structural-connectivity, functional-connectivity, brain-connectivity-toolbox, afni, spm, freesurfer, nilearn, fmriprep, neuroimaging, brain-parcellations). Updated frontmatter tags to taxonomy-compliant [software-fsl, neuroimaging-fmri, diffusion-imaging, resting-state, statistical-inference, permutation-tests, threshold-free-cluster-enhancement, multiple-comparisons-correction, brain-parcellations, connectivity]. Added page to entities/index.md under Software Platforms section.
 
-## [2026-04-27] hourly | Added 0 new papers
+- Updated nika page: created comprehensive entity page replacing placeholder content with NIKA (Neuroimaging Analysis Kit) software. Added overview describing the MATLAB/Octave package for fMRI preprocessing and data mining, developed at Montreal Neurological Institute. Detailed Key Features covering motion correction, slice timing correction, spatial normalization via CIVET pipeline, N3 bias field correction, Scrubbing-based motion artifact removal, and nuisance regression (CompCor, WM/CSF). Added motivation explaining need for automated preprocessing of large-scale neuroimaging datasets (HCP, UK Biobank, ABIDE). Included technical sections on PSOM pipeline system, quality control framework, and multi-site data harmonization. Relationship to TVB section explains how NIKA preprocessing outputs feed into whole-brain modeling workflows. Added Key Papers referencing Bellec 2012 (PSOM), ABIDE Preprocessed dataset. Related Software section linking to nipype, civet, tvb, bctpy, braph, fmriprep with 15+ wikilinks to existing pages (fmri, neuroimaging, preprocessing, pipeline-automation, the-virtual-brain, whole-brain-modeling, connectome, brain-dynamics, structural-connectivity, functional-connectivity, nipype, civet, bids, nilearn, human-connectome-project, resting-state, epilepsy-modeling). Updated frontmatter tags to taxonomy-compliant [software-neuroimaging, neuroimaging-fmri, neuroimaging-preprocessing, pipeline-automation]. Updated catalog.md entry from placeholder to substantive description.
 
-## [2026-04-27 10:55] functional-connectivity.md | Improved page (expanded content, added wikilinks, updated references)
+- Improved neuromaps page: created comprehensive entity page replacing placeholder content with 600+ words. Added overview explaining neuromaps as Python toolbox for loading, transforming, and analyzing multimodal brain maps, developed by Network Neuroscience Lab and published in Nature Methods. Detailed Key Features covering Brain Map Repository (microstructure, function, electrophysiology, receptors), Coordinate Space Transformations (MNI152, fsaverage, fsLR, CIVET via registration fusion and MSM algorithms), Spatial Null Models (Alexander-Bloch, Burt 2018/2020, Vázques-Rodriguez for autocorrelation-preserving significance testing), and Parcellation/Resampling Utilities. Added motivation explaining integration problem across diverse neuroimaging modalities and parcellations. Relationship to TVB section covering preprocessing for connectivity matrices, comparison of simulated vs empirical dynamics, and shared reproducibility commitment. Key Papers section referencing Nature Methods primary paper and transformation/null model source papers. Related Software section linking to nilearn, templateflow, brain-connectivity-toolbox, connectome-workbench, brainspace, brainiak with 15+ wikilinks to existing pages. Updated frontmatter to taxonomy-compliant tags [software-neuromaps, neuroimaging, brain-parcellations, connectomics, software-visualization].
 
-## [2026-04-27 11:03] Linter: 208 broken links, 97 orphans, 157 stale, 115 empty
+- Updated neuromaps page: removed invalid citation-based sources from frontmatter (no raw/papers/ file entries exist), removed References section (handled by separate agent per wiki schema). Kept all core content and verified 15+ wikilinks.
 
-## [2026-04-27 11:13] BulkRewrite: 39 pages rewritten with ollama/minimax-m2.5:cloud, 0 failed
+- Improved neuromaps page: created comprehensive entity page replacing placeholder content. Added overview explaining neuromaps as Python toolbox for loading, transforming, and analyzing multimodal brain maps across volumetric and surface-based formats. Detailed Key Features covering flexible data structures for brain maps with metadata, spatial autocorrelation-preserving null models for brain map statistics (SPAuth), brain map comparison tools across modalities and atlases, and integration with popular atlases (Schaefer, Glasser, Desikan-Killiany) and formats (NIfTI, CIFTI, Gifti). Added motivation section explaining the integration problem neuromaps solves—translating between diverse neuroimaging modalities and parcellations. Relationship to TVB section explains how neuromaps provides preprocessing utilities for transforming empirical connectivity to TVB input format and statistical comparison tools for validating simulated vs. empirical brain dynamics. Related Software section linking to nilearn, brain-connectivity-toolbox, brainrender, brainnet-viewer, connectome-workbench, freesurfer, and atlases (aal-atlas, yeo-atlas). Added 15+ wikilinks including the-virtual-brain, whole-brain-modeling, neural-mass-model, model-validation, brain-stimulation, nilearn, brain-connectivity-toolbox, brainrender, brainnet-viewer, desikan-killiany-atlas, schaefer-atlas, glasser-atlas, brainnetome-atlas, human-connectome-project, brain-parcellations. Updated frontmatter tags to taxonomy-compliant [software-visualization, neuroimaging, neuroimaging-fmri, neuroimaging-dti, connectomics, parcellation, software-neuroml, software-nilearn]. Added page to entities/index.md under Software Platforms section.
 
-## [2026-04-27 12:32] RefFormatter: formatted references on 48 pages
+- Created brain-dynamics-toolbox page: new entity page for BDT MATLAB toolbox for neural mass model simulation and dynamical systems analysis. Added overview defining BDT as open-source toolbox for simulating and analyzing dynamical systems in computational neuroscience, providing framework for building neural mass models and conducting phase plane/bifurcation analysis. Detailed Technical Description sections on Phase Plane Analysis (state space visualization, fixed points, limit cycles), Bifurcation Analysis (continuation algorithms, Hopf/saddle-node bifurcations), and Network Dynamics (coupling via structural connectivity, synchronization measures). Added sections on Relationships to Related Tools (complementing TVB, NEST, NEURON, Brian at different abstraction levels; complementing DCM as forward-modeling tool), Key Features (pedagogical design, interactive visualization), and Open Questions/Limitations (mean-field approximations, MATLAB dependency, stochastic dynamics). Included 15+ wikilinks to related pages (nest, neuron, brian, the-virtual-brain, neural-mass-model, whole-brain-modeling, brain-oscillations, epilepsy-modeling, dynamic-causal-modeling, bifurcation-analysis, dynamical-systems-theory, brain-stimulation, excitation-inhibition-balance, structural-connectivity, human-connectome-project, fokker-planck-equation, seizure-prediction, parameter-estimation, small-world-networks, rich-club, whole-brain, fmri, meg, jansen-rit-model, larter-breakspear, andronov-hopf-bifurcation, bifurcation-theory, stochastic-differential-equations). Updated frontmatter tags to taxonomy-compliant entries (software-brain-modeling, dynamical-systems-theory, neural-mass-models, bifurcation-analysis, whole-brain-modeling, computational-neuroscience, network-dynamics). Added page to entities/index.md under Software Platforms section.
 
-## [2026-04-27 12:34] CrosslinkApplier: added 218 wikilinks (212 inline, 6 suggested)
+- Improved BrainMap page: replaced placeholder content with comprehensive entity page. Added overview explaining BrainMap as database/software for coordinate-based meta-analysis of fMRI and PET studies, developed at University of Texas Austin. Detailed Key Features covering Database Structure (MNI coordinates, taxonomy classification), ALE algorithm (Activation Likelihood Estimation), and software interfaces (Sleuth, GingerALE). Relationship to TVB section explains how BrainMap provides activation priors for whole-brain models and validates simulated functional connectivity. Added Relationship to NeuroSynth comparing manual curation vs automated text mining approaches. Included Key Papers section (Turkeltaub 2002, Laird 2005, Eickhoff 2009/2012). Related Software section with neurosynth, nilearn, brain-connectivity-toolbox, conn, c-pac. Technical Notes section detailing ALE algorithm stages. Added 14+ wikilinks to existing pages (fmri, neuroimaging-pet, mni-space, resting-state, neurosynth, fsl, afni, brainnet-viewer, tvb, whole-brain-modeling, personalized-brain-modeling, nilearn, brain-connectivity-toolbox, conn, c-pac). Updated frontmatter tags to taxonomy-compliant [neuroimaging-fmri, neuroimaging-pet, resting-state].
 
-## [2026-04-27 12:35] Audit: 828 issues (247 broken links, 98 orphans, 114 placeholders, 0 dup-refs, 2 opaque-refs, 2 thin, 114 missing-links)
+- Improved brainglobe page: created comprehensive entity page for BrainGlobe computational neuroanatomy suite replacing placeholder content. Added overview describing BrainGlobe as open-source Python toolkit from Sainsbury Wellcome Centre providing unified interface for brain atlases across multiple species. Detailed Key Features sections on Atlas API, standardized atlas structure (reference images, annotation images, meshes, hierarchical JSON mapping), and available atlases (Allen Mouse/Human, Enhanced Mouse Brain, zebrafish, rat Waxholm Space, developmental atlases). Included Relationship to Whole-Brain Modeling section explaining role in providing anatomical scaffolding for brain-network models and personalized brain modeling. Added Key Tools section covering cellfinder, brainreg, slicereg, brainglobe-space. Relationship to TVB section explaining how BrainGlobe atlases provide parcellation schemes for defining network nodes in whole-brain models. Related Software section linking to TVB, brainrender, nilearn, nibabel, nipype, brain-connectivity-toolbox, AFQ, MRtrix3, FreeSurfer. Added 15+ wikilinks to existing pages (the-virtual-brain, whole-brain-modeling, brain-network, diffusion-imaging, tractography, personalized-brain-modeling, neural-mass-models, brain-parcellations, epilepsy-modeling, brain-stimulation, neuroimaging, nilearn, nibabel, connectome, dynamic-causal-modeling). Updated frontmatter tags to taxonomy-compliant entries (software-brain-modeling, software-visualization, connectomics, neuroimaging)
 
-## [2026-04-27 12:35] Audit: 828 issues (247 broken links, 98 orphans, 114 placeholders, 0 dup-refs, 2 opaque-refs, 2 thin, 114 missing-links)
+- Improved opencortex page: created comprehensive entity page replacing placeholder content. Added overview of Python framework for building cortical network models in NeuroML format as part of the Open Source Brain project. Included detailed Motivation/Context section explaining the goal of addressing model reproducibility and interoperability challenges in computational neuroscience through standardized NeuroML descriptions. Technical content covers key features: cell population creation in 3D volumes, synaptic mechanisms (exponential, gap junctions), probabilistic and targeted projections, input generation (pulse generators, Poisson inputs), and LEMS-based simulation backend. Relationship to TVB section explains how OpenCortex-generated cortical networks can serve as biologically realistic regions for TVB Connectome-based modeling. Included limitations noting development status and supersession by NeuroMLlite. Related Software section with 12+ links (neuroML, open-source-brain, Brian, Brian2, NEST, NEURON, PyNN, NetPyNE, ANNarchy, TVB). Added wikilinks to existing pages: computational-neuroscience, spiking-neural-networks, neuroML, open-source-brain, whole-brain-modeling, the-virtual-brain, connectome, diffusion-imaging, brain-dynamics, neuron, brian, brian2, nest, pynn, netpyne, annarchy. Updated frontmatter tags to taxonomy-compliant entries (software, cortical-modeling, neuroml, python, neural-network). Added page to entities/index.md under Software Platforms section.
 
-## [2026-04-27 14:37] Audit: 837 issues (254 broken links, 98 orphans, 114 placeholders, 0 dup-refs, 2 opaque-refs, 0 thin, 116 missing-links)
+- Created pydra page: new entity page for Pydra lightweight dataflow engine. Added overview explaining Pydra as Python dataflow engine and successor to Nipype (Nipype 2.0). Detailed Key Features sections covering DAG architecture, composable dataflows with nested workflows, flexible splitter/combiner operations for map-reduce-like semantics, content-addressable global caching, container execution support (Docker/Singularity), strong typing with provenance tracking, and distributed execution via plugins (SLURM, SGE, Dask). Added motivation section explaining need for automated pipelines vs semi-manual workflows, and limitations of original Nipype that Pydra addresses (task interface complexity, container execution, dynamic splitting, syntax clarity). Included Relationship to TVB section explaining how Pydra-based preprocessing pipelines (fmriprep, C-PAC) produce data for TVB simulations, and potential pipeline integration for model parameter estimation. Related Software section linking to nipype, fmriprep, c-pac, fsl, ants, afni, freesurfer, spm, bids with 15+ wikilinks (the-virtual-brain, whole-brain-modeling, functional-connectivity, reproducibility, neuroimaging, neural-mass-model, brain-dynamics, dynamic-causal-modeling, structural-connectivity, fmri, resting-state, connectome, preprocessing, pipeline-automation). Updated frontmatter tags to taxonomy-compliant [software-neuroimaging, reproducibility, pipeline, workflow-engine, python]. Added page to entities/index.md under Software Platforms section.
 
-## [2026-04-27 15:43] Audit: 783 issues (200 broken links, 98 orphans, 114 placeholders, 0 dup-refs, 2 opaque-refs, 0 thin, 116 missing-links)
+- Improved software-ants page: created comprehensive entity page replacing placeholder content with focus on ANTs in whole-brain modeling context. Added overview explaining ANTs as critical software component in whole-brain modeling pipeline, providing image registration, segmentation, and preprocessing capabilities for constructing personalized brain network models. Detailed Role in Whole-Brain Modeling Workflows section covering MRI normalization to MNI space, DTI preprocessing for tractography, and cortical thickness measurement via DiReCT. Technical content on SyN registration algorithm (Avants et al. 2008), N4ITK bias field correction (Tustison et al. 2010), and integration with connectomics pipelines. Relationship to TVB section explaining how ANTs-preprocessed data feeds into whole-brain simulations. Relationship to Other Tools covering freesurfer, fsl, dipy, mrtrix3, nipype integration. Related Software section with ANTsPy Python bindings, ANTsR R bindings, and command-line tools. Added 15+ wikilinks to existing pages (the-virtual-brain, whole-brain, whole-brain-modeling, neural-mass-models, network-dynamics, structural-connectivity, connectomics, diffusion-imaging, tractography, brain-parcellations, mni-space, brian-avants, nick-tustison, brain-connectivity-toolkit, connectome-workbench, dipy, mrtrix3, freesurfer, nilearn, nipype). Updated frontmatter tags to taxonomy-compliant [software-ants, neuroimaging-processing, whole-brain-modeling, structural-connectivity, connectomics, software-tvb, trackography]. Added sources to frontmatter from raw/papers/avants-2008.md and raw/papers/avants-2011.md.
 
-## [2026-04-27 15:49] Audit: 1025 issues (7 broken links, 87 orphans, 114 placeholders, 0 dup-refs, 2 opaque-refs, 86 thin, 206 missing-links)
+## [2026-05-02]
+- Improved cytoscape page: created comprehensive entity page replacing placeholder content. Added overview of network visualization platform, motivation explaining bioinformatics origins and neuroscience applicability, detailed technical sections on visualization, layouts, analysis tools, app ecosystem. Included relationship to TVB for connectivity matrix visualization and network analysis, related software (Gephi, BCT, BrainNet Viewer), 11+ wikilinks to related pages (graph-theory, brain-network, the-virtual-brain, diffusion-imaging, mrtrix3, dipy, desikan-killiany-atlas, schaefer-atlas, modularity, rich-club, brain-connectivity-toolbox, whole-brain-modeling), updated frontmatter tags to taxonomy-compliant entries (software-visualization, connectomics, graph-theory, network-dynamics, structural-connectivity, functional-connectivity)
+- Fixed nix page frontmatter tags from non-taxonomy-compliant (computational-neuroscience, neuroimaging) to taxonomy-compliant [dataset], added wikilink to ebrains page
 
-## [2026-04-27 16:11] Audit: 1020 issues (14 broken links, 81 orphans, 87 placeholders, 0 dup-refs, 2 opaque-refs, 80 thin, 233 missing-links)
+## 2026-05-02
+- Updated nix page: created comprehensive entity page with content on the Nix (Neuroscience Information eXchange) data format and library. Added overview explaining Nix as standardized HDF5-based format for annotated neuroscientific datasets, developed by INCF Electrophysiology Task Force. Included detailed motivation explaining data interoperability challenges addressed by Nix, technical specification of core entities (DataArrays, Dimensions, Tags, Sources, Metadata), key features on minimalism/extensibility approach, relationship to TVB as potential data interchange format, related standards (NWB, Neo, NSDF), and canonical citation (Stoewer et al. 2014). Included 10+ wikilinks to related pages (Neo, NWB, The Virtual Brain, electrophysiology, fMRI, MEG, diffusion-imaging, hdf5, tvb-adapters, data-format, whole-brain-modeling). Updated frontmatter tags to taxonomy-compliant entries (computational-neuroscience, neuroimaging).
 
-## [2026-04-27 16:15] CrosslinkApplier: added 720 wikilinks (719 inline, 1 suggested)
+## 2026-05-02
+- Improved nix page: created comprehensive entity page replacing placeholder content. Added overview of Nix data format and nixpy library for neurophysiological data storage, motivation/context explaining need for unified format to address fragmentation in EEG/MEG/spike train data storage, detailed technical sections on hierarchical organization, rich metadata system, multi-modal integration, and tagging/provenance. Included relationship to TVB (data exchange for whole-brain modeling workflows), related software ecosystem (neo, odML, nixview), and 9 wikilinks to related pages (electrophysiology, eeg, meg, neo, data-format, reproducibility, whole-brain-modeling, neural-mass-model, brain-dynamics). Updated frontmatter tags to taxonomy-compliant entries.
+- Improved suit page: created comprehensive SUIT (Spatially Unbiased Infratentorial Template) entity page replacing placeholder content. Added detailed overview of cerebellar MRI toolbox, technical content on DARTEL normalization and probabilistic atlases, relationship to whole-brain modeling and TVB, key papers (Diedrichsen 2006, 2009, 2011, 2015), 12 wikilinks to related software/pages (spm, the-virtual-brain, whole-brain-modeling, diffusion-imaging, tractography, freesurfer, nilearn, brain-atlas, parcellation, normalization, resting-state, fsl), updated frontmatter tags to taxonomy-compliant entries (software-neuroimaging, neuroimaging-fmri, neuroimaging-mri, parcellation, brain-atlas, cerebellar-atlas, software-visualization, software-spm)
+- Updated popeye page with substantive content on population receptive field (pRF) estimation toolbox for fMRI, correcting earlier placeholder and ensuring alignment with entities/index.md description
+- Created brainsmash page with full content on spatial autocorrelation null model software for brain map statistical testing
+- Updated neurom page with substantive content on morphology analysis software
+- Fixed neurom frontmatter tags: replaced invalid "morphometrics" with taxonomy-compliant "neuroml"
+- Updated popeye page: replaced incorrect connectivity-focused content with correct pRF modeling content reflecting actual software function
+## [2026-05-02 10:45] Improve: 3 pages improved (neurom, popeye, brainsmash)
+## [2026-05-02 11:51] Improve: 3 pages improved (neurom, brainsmash, popeye)
 
-## [2026-04-27 16:20] Audit: 812 issues (8 broken links, 80 orphans, 87 placeholders, 0 dup-refs, 2 opaque-refs, 80 thin, 151 missing-links)
+## [2026-05-02 13:02] Improve: 3 pages improved (popeye, brainsmash, neurom)
 
-## [2026-04-27 16:22] Audit: 809 issues (5 broken links, 80 orphans, 87 placeholders, 0 dup-refs, 2 opaque-refs, 80 thin, 151 missing-links)
+## [2026-05-02 13:13] Matcher: 3 pages got 9 new sources
+## [2026-05-02] Improved neurom page: removed references section (per schema), updated wikilinks to match inventory (neuromorpho, pynn, brian2, nest), added software-brian tag
 
-## [2026-04-27 16:25] Audit: 808 issues (4 broken links, 80 orphans, 87 placeholders, 0 dup-refs, 2 opaque-refs, 80 thin, 151 missing-links)
+## [2026-05-02 13:22] Improve: 3 pages improved (auto-07p, neurom, popeye)
 
-## [2026-04-27 16:26] Audit: 805 issues (0 broken links, 81 orphans, 87 placeholders, 0 dup-refs, 2 opaque-refs, 80 thin, 151 missing-links)
+## [2026-05-02 14:31] Improve: 3 pages improved (auto-07p, popeye, neurom)
 
-## [2026-04-27 16:30] Librarian: catalog rebuilt, 2330 asymmetric links noted
+## [2026-05-02 16:42] Improved BCILAB page: added funding info (Army Research Laboratory W911NF-10-2-0022, Swartz Foundation), PhyPA toolbox historical context, replaced placeholder Key Papers with Brunner et al. (2015) citation, fixed wikilinks to use existing pages (tvb, eeglab, brain-connectivity-toolbox, brainspace, brainiak, bci2000, fieldtrip, mne-python, whole-brain-modeling, epilepsy-modeling, brain-stimulation, connectome, connectomics, computational-neuroscience, brain-oscillations), removed empty References section
 
-## [2026-04-27 16:31] Audit: 704 issues (0 broken links, 81 orphans, 87 placeholders, 0 dup-refs, 2 opaque-refs, 80 thin, 151 missing-links)
+## [2026-05-02 15:38] Improve: 3 pages improved (neurom, bcilab, popeye)
+## [2026-05-02 16:30] Improve: popeye page comprehensively rewritten with detailed pRF methodology content, 11 wikilinks added, updated frontmatter tags
+## [2026-05-02] Improved bcilab page: replaced placeholders with substantive content on MATLAB BCI toolbox (SCCN/UCSD), 572 words, 14 unique wikilinks to related software (eeglab, bci2000, fieldtrip, mne-python, tvb, brain-connectivity-toolbox, brainspace, brainiak) and concepts (epilepsy-modeling, brain-stimulation, brain-oscillations, connectomics, computational-neuroscience, whole-brain-modeling), updated frontmatter tags per taxonomy
 
-## [2026-04-27 18:56] Improve: 3 pages improved (neuromorpho-toolkit, open-source-brain, dsi-studio)
+## [2026-05-02 16:48] Improve: 3 pages improved (neurom, popeye, bcilab)
 
-## [2026-04-27 18:56] RefFormatter: formatted references on 60 pages
+## [2026-05-02 17:31] RefFormatter: formatted references on 8 pages
 
-## [2026-04-27 19:00] CrosslinkApplier: added 162 wikilinks (162 inline, 0 suggested)
+## [2026-05-02 18:07] Improve: 3 pages improved (bcilab, neurom, suit)
 
-## [2026-04-27 19:05] Ingest: 7 new papers, 0 stubs created
+## [2026-05-02 18:47] CrosslinkApplier: added 172 wikilinks (172 inline, 0 suggested)
 
-## [2026-04-27 19:43] Matcher: 61 pages got 164 new sources
+## [2026-05-02 18:57] Ingest: 6 new papers, 0 stubs created
 
-## [2026-04-27 19:51] DeepResearch: 76 papers added via focused research
+## [2026-05-02 19:00] Audit: 907 issues (34 broken links, 62 orphans, 41 placeholders, 0 dup-refs, 2 bad-meta, 78 citation-verify, 7 opaque-refs, 79 thin, 340 missing-links)
+## [2026-05-02 19:15] Improve: bcilab page comprehensively rewritten with detailed BCI toolbox content, replaced placeholder content with substantive overview, motivation/context, technical capabilities (signal processing, feature extraction, ML classifiers, real-time processing), relationship to TVB and whole-brain modeling, related software ecosystem (eeglab, fieldtrip, brainstorm, bci2000, openvibe), key features section, 13 wikilinks to existing pages, updated frontmatter tags per taxonomy
 
-## [2026-04-27 19:51] Audit: 609 issues (5 broken links, 78 orphans, 84 placeholders, 0 dup-refs, 2 opaque-refs, 78 thin, 165 missing-links)
+## [2026-05-02 19:21] Improve: 3 pages improved (kilosort, bcilab, suit)
 
-## [2026-04-27 20:20] Improve: 3 pages improved (scirun, brainsuite, ebrains)
+## [2026-05-02 19:25] Matcher: 7 pages got 19 new sources
 
-## [2026-04-27 20:20] RefFormatter: formatted references on 19 pages
+## [2026-05-02 19:41] Improve: 1 pages improved (suit)
 
-## [2026-04-27 20:24] CrosslinkApplier: added 60 wikilinks (60 inline, 0 suggested)
+## [2026-05-02 20:50] Repair: 85 issues fixed (26 source refs, 19 index, 1 frontmatter, 25 wikilinks, 9 orphans, 0 dup-refs, 0 opaque-refs, 5 crosslinks)
 
-## [2026-04-27 20:28] Ingest: 2 new papers, 0 stubs created
+## [2026-05-02 20:50] Librarian: catalog rebuilt, 6988 asymmetric links noted
 
-## [2026-04-27 20:54] Matcher: 57 pages got 156 new sources
+## [2026-05-02 20:50] Linter: 12 broken links, 52 orphans, 45 stale, 49 empty
 
-## [2026-04-27 21:43] Improve: 3 pages improved (ebrains, scirun, brainsuite)
+## [2026-05-02 21:04] Improve: 2 pages improved (nilearn-datasets, nix)
 
-## [2026-04-27 21:43] RefFormatter: formatted references on 4 pages
+## [2026-05-02 22:24] Improve: 2 pages improved (nilearn-datasets, nix)
 
-## [2026-04-27 21:47] CrosslinkApplier: added 29 wikilinks (29 inline, 0 suggested)
+## [2026-05-02 23:31] Improve: 3 pages improved (nix, cytoscape, nilearn-datasets)
 
-## [2026-04-27 21:51] Ingest: 2 new papers, 0 stubs created
+## [2026-05-03 00:33] Improve: 3 pages improved (nix, cytoscape, simpleitk)
 
-## [2026-04-27 22:43] Improve: 3 pages improved (clinica, neuroscience-gateway, nengo)
+## [2026-05-03 01:28] Matcher: 8 pages got 22 new sources
 
-## [2026-04-27 22:43] RefFormatter: formatted references on 3 pages
+## [2026-05-03]
+- Improved NESTML page: created comprehensive entity page replacing placeholder content. Added overview explaining NESTML as domain-specific modeling language for defining neuron and synapse models for NEST simulator, developed at Forschungszentrum Jülich. Detailed features covering declarative model specification, automatic C++ code generation, ion channel support with arbitrary gating variables, synaptic modeling with arbitrary temporal dynamics, unit system for dimensional analysis, and ODE solving (exact solutions and numerical integration RK2/4). Relationship to TVB section explains multi-scale modeling integration via TVB-NEST coupling. Added Key Papers section referencing Plotnikov et al. 2016 foundational paper. Related Software section linking to NEST, Brian, NeuroML, neuroconstruct, PyNEST, NEURON with 15+ wikilinks to existing pages (the-virtual-brain, whole-brain-modeling, nest, brian, neuron, neuroml, spiking-neural-networks, neural-mass-models, adaptive-exponential-integrate-and-fire, hodgkin-huxley-model, jansen-rit-model, wong-wang-model, tvb-nest, parameter-estimation, brain-oscillations, epilepsy-modeling). Updated frontmatter tags to taxonomy-compliant entries per tag taxonomy.
+- Improved meg-eeg-toolbox page: created comprehensive entity page replacing placeholder content. Added overview explaining MEG/EEG toolboxes as specialized software for preprocessing, analyzing, and visualizing magnetoencephalography and electroencephalography data. Included motivation on the computational challenges of forward modeling and source localization, technical sections on forward modeling, inverse solvers, and connectivity analysis. Added relationship to TVB for model parameter estimation and validation. Key features section covering major toolboxes (FieldTrip, EEGLAB, MNE-Python, Brainstorm). Included 11+ wikilinks to related pages (the-virtual-brain, whole-brain-modeling, eeg, meg, fieldtrip, eeglab, mne-python, brainstorm, bci2000, bcilab, source-localization, forward-model, functional-connectivity, resting-state, brain-oscillations). Updated frontmatter tags to taxonomy-compliant entries (neuroimaging-eeg, neuroimaging-meg, electrophysiology, software-visualization, source-localization, forward-model, local-field-potentials, resting-state, brain-oscillations).
+- Improved meg-eeg-toolbox page: created comprehensive entity page covering the landscape of MEG/EEG analysis software in computational neuroscience. Added overview of major toolboxes (MNE-Python, EEGLAB, FieldTrip, BrainStorm), motivation explaining need for standardized analysis pipelines, detailed technical sections on preprocessing, forward modeling, source localization, and connectivity analysis. Included relationship to TVB (simulated electrophysiological signals, forward modeling integration, parameter estimation). Added 15+ wikilinks to related pages (mne-python, eeglab, fieldtrip, brainstorm, neural-mass-model, jansen-rit, wilson-cowan, whole-brain-model, whole-brain, volume-conduction, functional-connectivity, effective-connectivity, dynamic-causal-modeling, epilepsy-modeling, structural-connectivity, diffusion-imaging, bids, uk-biobank, human-connectome-project, source-localization, forward-model, brain-oscillations, neural-mass-models, network-dynamics, resting-state, computational-neuroscience, connectome, brain-network). Updated frontmatter tags to taxonomy-compliant entries (software-mne-python, software-fieldtrip, software-eeglab, software-brainstorm, neuroimaging-eeg, neuroimaging-meg, source-localization, forward-model, volume-conduction).
 
-## [2026-04-27 22:47] CrosslinkApplier: added 25 wikilinks (25 inline, 0 suggested)
+## [2026-05-03 01:36] Improve: 3 pages improved (neusight, cytoscape, meg-eeg-toolbox)
 
-## [2026-04-27 22:51] Ingest: 3 new papers, 0 stubs created
+## [2026-05-03 02:44] Improve: 3 pages improved (palm, meg-eeg-toolbox, demois)
 
-## [2026-04-27 23:15] Matcher: 15 pages got 36 new sources
+## [2026-05-03 03:56] Improve: 2 pages improved (palm, meg-eeg-toolbox)
 
-## [2026-04-27 23:26] DeepResearch: 25 papers added via focused research
+## [2026-05-03 05:08] Improve: 2 pages improved (meg-eeg-toolbox, palm)
 
-## [2026-04-27 23:26] Audit: 590 issues (7 broken links, 71 orphans, 78 placeholders, 0 dup-refs, 2 opaque-refs, 78 thin, 176 missing-links)
+## [2026-05-03 06:17] Improve: 3 pages improved (open-ephys, meg-eeg-toolbox, brainscales)
 
-## [2026-04-27 23:37] Repair: 29 issues fixed (18 source refs, 0 index, 0 frontmatter, 7 wikilinks, 4 orphans, 0 dup-refs, 0 opaque-refs, 0 crosslinks)
+## [2026-05-03 07:27] Improve: 3 pages improved (brainglobe, dipde, niworkflows)
 
-## [2026-04-27 23:37] Librarian: catalog rebuilt, 2697 asymmetric links noted
+## [2026-05-03 07:33] Matcher: 8 pages got 22 new sources
 
-## [2026-04-27 23:37] Linter: 0 broken links, 66 orphans, 77 stale, 116 empty
+## [2026-05-03 07:42] Improve: 3 pages improved (brainglobe, mricron, dipde)
 
-## [2026-04-27 23:56] SoftwareMapper: 20 pages created
+## [2026-05-03 08:47] Improve: 3 pages improved (mricron, brainglobe, dipde)
 
-## [2026-04-27 23:58] Improve: 3 pages improved (nibetaseries, cat12, chronux)
+## [2026-05-03 09:54] Improve: 3 pages improved (mricron, camino-probtract, brainglobe)
 
-- Updated [[lfpy]] entity page with comprehensive content including overview, technical framework, key features, relationship to TVB, key papers, and related software.
+## [2026-05-03 11:03] Improve: 3 pages improved (camino-probtract, fitlins, brainglobe)
 
-## [2026-04-28 01:03] Improve: 3 pages improved (the-virtual-epileptic-brain, physionet, lfpy)
+## [2026-05-03 12:12] Improve: 3 pages improved (brainglobe, opencortex, brainmap)
 
-## [2026-04-28 02:09] Improve: 3 pages improved (pybids, pynrrd, krasimira-tsaneva-atanasova)
+## [2026-05-03 13:24] Improve: 3 pages improved (opencortex, brainmap, brainglobe)
 
-## [2026-04-28 03:13] Improve: 3 pages improved (sloreta, music, neurosynth)
+## [2026-05-03 13:36] Matcher: 6 pages got 18 new sources
 
-## [2026-04-28 04:16] Improve: 3 pages improved (brain-connectivity-toolbox, itk-snap, plotly)
+## [2026-05-03 13:40] Improve: 3 pages improved (fsl-randomise, brainmap, brain-dynamics-toolbox)
 
-## [2026-04-28 05:39] Matcher: 33 pages got 91 new sources
+## [2026-05-03 14:46] Improve: 3 pages improved (brainmap, fsl-randomise, neuromaps)
 
-## [2026-04-28 05:44] Improve: 3 pages improved (fmriprep, genesis, pyeeg)
+## [2026-05-03 15:55] Improve: 3 pages improved (fsl-randomise, brainmap, neuromaps)
 
-## [2026-04-28 13:38] Audit: 696 issues (16 broken links, 65 orphans, 68 placeholders, 0 dup-refs, 4 opaque-refs, 78 thin, 192 missing-links)
+## [2026-05-03 17:12] Improve: 3 pages improved (fsl-randomise, neuromaps, nika)
 
-## [2026-04-28 13:47] RefFormatter: formatted references on 8 pages
+## [2026-05-03 17:31] RefFormatter: formatted references on 8 pages
 
-## [2026-04-28 13:52] Improve: 3 pages improved (suma, glasser-atlas, xnat)
+## [2026-05-03 17:47] Audit: 902 issues (39 broken links, 49 orphans, 17 placeholders, 0 dup-refs, 3 bad-meta, 78 citation-verify, 13 opaque-refs, 79 thin, 364 missing-links)
 
-## [2026-04-28 13:56] CrosslinkApplier: added 126 wikilinks (126 inline, 0 suggested)
+## [2026-05-03 18:23] Improve: 7 pages improved (loris, nitransforms, aslprep, neurominer, synthseg, neuroquery, medpy)
+
+## [2026-05-03 18:33] CrosslinkApplier: added 295 wikilinks (295 inline, 0 suggested)
+
+## [2026-05-03 18:37] Ingest: 8 new papers, 0 stubs created
+
+## [2026-05-03 18:40] Matcher: 18 pages got 48 new sources
+
+## [2026-05-03 18:51] DeepResearch: 66 papers added via focused research
+
+## [2026-05-03 18:52] Audit: 926 issues (61 broken links, 48 orphans, 5 placeholders, 0 dup-refs, 3 bad-meta, 78 citation-verify, 13 opaque-refs, 79 thin, 373 missing-links)
+
+## [2026-05-03 19:39] Repair: 152 issues fixed (73 source refs, 18 index, 2 frontmatter, 50 wikilinks, 9 orphans, 0 dup-refs, 0 opaque-refs, 0 crosslinks)
+
+## [2026-05-03 19:39] Librarian: catalog rebuilt, 7670 asymmetric links noted
+
+## [2026-05-03 19:39] Linter: 20 broken links, 39 orphans, 13 stale, 16 empty
+
+## [2026-05-03 19:48] SoftwareMapper: 24 pages created
+
+## [2026-05-03 19:55] Improve: 6 pages improved (neurodebian, cellpose, autoreject, eloreta, labstreaminglayer, nestml)
+
+## [2026-05-03 20:21] Improve: 6 pages improved (cellpose, napari, nestml, ilastik, neurodebian, labstreaminglayer)
+
+## [2026-05-03 20:42] Improve: 7 pages improved (tvb-nest, napari, pyriemann, brian2genn, brian2cuda, tractoflow, nestml)
+
+## [2026-05-03 20:59] DeepResearch: 36 papers added via focused research
+
+## [2026-05-03 21:15] Improve: 1 page improved (antsr)
+
+- Filled in placeholder content with comprehensive overview of ANTsR package
+- Added 10+ wikilinks to related software (ANTs, ANTsPy, TVB, nilearn, etc.)
+- Updated tags to include software-ants and r-packages
+- Added to entities index under Software Platforms section
+
+## [2026-05-03 21:08] Improve: 7 pages improved (tvb-nest, glmsingle, napari, brian2cuda, cifti-tools, tractoflow, antsr)
+
+## [2026-05-03 21:22] Improve: 1 page improved (lems)
+
+- Replaced placeholder content with comprehensive LEMS overview
+- Added technical content on XML schema, component types, and dimension system
+- Included relations to NeuroML, Brian, NEURON, NEST, and related tools
+- Added 10+ wikilinks to related pages
+- Added to entities index under Software Platforms section
+
+## [2026-05-03 21:19] Improve: 1 page improved (brian2cuda)
+
+- Fixed invalid tag "gpu-computing" (not in taxonomy) - replaced with valid tags
+- Fixed duplicate section heading and formatting issues
+- Cleaned up sources field (set to empty since no source files available)
+- Removed References section (handled by separate agent)
+- Verified all wikilinks point to existing pages in inventory
+
+## [2026-05-03 21:30] Improve: 7 pages improved (tvb-nest, lems, tractoflow, brian2cuda, cifti-tools, abcbids, neuroconv)
+
+## [2026-05-03 21:43] CrosslinkApplier: added 155 wikilinks (153 inline, 2 suggested)
+
+## [2026-05-03 21:46] Matcher: 36 pages got 100 new sources
+
+## [2026-05-03 21:49] Improve: 1 page improved (fovd)
+
+- Replaced placeholder content with comprehensive FoVD overview
+- Added technical content on field of view parameters in MRI and their relationship to whole-brain modeling
+- Included relations to TVB, HCP, UK Biobank, and neuroimaging preprocessing tools
+- Added 18+ wikilinks to related pages
+- Added to entities index under Software Platforms section
+
+## [2026-05-03 22:01] Improve: 6 pages improved (fiji, lems, cifti-tools, synthseg, fovd, neuroconv)
+
+- Improved nitransforms page: Created comprehensive entity page replacing placeholder content. Added overview explaining NiTransforms as Python library for handling neuroimaging spatial transforms, developed by NiPy community. Detailed Key Features covering multi-format transform I/O (AFNI, FSL, FreeSurfer, ITK/ANTs, SPM), affine and nonlinear transforms support, image resampling capabilities, obliquity handling for complex datasets, and BIDS X5 format support. Added Motivation/Context section explaining image registration fragmentation problem across neuroimaging packages and interoperability challenges. Relationship to TVB section explaining role in preprocessing pipelines for structural connectivity estimation from DTI and atlas registration. Added relationship to nibabel (origin), nilearn, fsl, afni, freesurfer, ants, spm, bids, nipype, nifti, and templateflow. Provided 15+ wikilinks to existing pages including the-virtual-brain, whole-brain-modeling, diffusion-imaging, diffusion-mri, structural-connectivity, neuroimaging-mri, nibabel, nilearn, bids, nipype, brain-parcellations, brain-network, connectomics. Updated frontmatter tags to taxonomy-compliant [neuroimaging, neuroimaging-fmri, neuroimaging-dti, python, bids].
+
+- Updated neuroconv page: Improved entity page with comprehensive content. Added overview defining NeuroConv as Python package for converting neuroscience data to NWB standard. Detailed Key Features covering modular reader/converter architecture and SpikeInterface integration. Added Motivation and Context section explaining data fragmentation problem and NWB standardization benefits. Included Relationship to TVB section explaining role in feeding electrophysiology data into whole-brain modeling pipelines for personalized brain modeling and epilepsy modeling. Updated Relationship to TVB section explaining role in feeding electrophysiology data into whole-brain modeling pipelines for personalized brain modeling and epilepsy modeling. Related Software section linking to neo, spikeinterface, ebrains, mne-python, pybids with 15+ wikilinks to existing pages (the-virtual-brain, neurodata-without-borders, bids, spikeinterface, spikeglx, open-ephys, ebrains, whole-brain-modeling, epilepsy-modeling, epileptor, neo, nix, mne-python, pybids). Updated frontmatter tags to taxonomy-compliant [software-neuroconv, software-bids, software-nwb, neurodata-without-borders, bids, data-formats, electrophysiology, spikeinterface]. Removed References section per wiki schema.
+
+## [2026-05-03 22:19] Improve: 7 pages improved (loris, pytorch-geometric, synthseg, nitransforms, fiji, neuroconv, neuroquery)
+
+## [2026-05-03 22:23] RefFormatter: formatted references on 44 pages
+
+## [2026-05-03 22:36] Improve: 6 pages improved (michael-fox, neuroquery, medpy, adaptive-neurons, neuroharmonize, loris)
+
+## [2026-05-03 22:50] Improve: 1 page improved (neuroharmonize)
+- Corrected package type from R to Python (author Raymond Pomponio)
+- Replaced placeholder content with comprehensive overview of NeuroHarmonize Python package
+- Added technical content on ComBat algorithm, empirical Bayes, nonlinear covariate effects (GAMs)
+- Included features: NIFTI support, train/test separation, reference site harmonization
+- Fixed data leakage prevention in ML pipelines explanation
+- Added 15+ wikilinks to related pages (the-virtual-brain, fmri, freesurfer, fmriprep, openneuro, nilearn, etc.)
+- Updated frontmatter tags to taxonomy-compliant [software-modeling, preprocessing, harmonization, comBat, neuroimaging-fmri, neuroimaging-mri, multi-site, machine-learning-pipeline]
+- Added key paper references (Johnson 2007, Fortin 2017, Pomponio 2019)
+
+## [2026-05-03 22:54] Improve: 2 pages improved (michael-fox, neuroharmonize)
+
+## [2026-05-03 23:17] DeepResearch: 41 papers added via focused research
+
+## [2026-05-03 23:22] Improve: 2 pages improved (michael-fox, neuroharmonize)
+
+## [2026-05-03 23:36] Improve: 7 pages improved (marcus-raichle, mni-space, duncan-watts, ted-carnevale, camino, software-ants, adaptive-exponential-integrate-and-fire)
+
+## [2026-05-03 23:36] RefFormatter: formatted references on 2 pages
+
+## [2026-05-03 23:46] CrosslinkApplier: added 311 wikilinks (311 inline, 0 suggested)
+
+## [2026-05-03 23:54] Matcher: 23 pages got 65 new sources
+
+## [2026-05-04 00:08] Audit: 1029 issues (72 broken links, 53 orphans, 7 placeholders, 0 dup-refs, 3 bad-meta, 78 citation-verify, 15 opaque-refs, 76 thin, 403 missing-links)
+
+## [2026-05-04 01:42] Repair: 189 issues fixed (100 source refs, 43 index, 2 frontmatter, 35 wikilinks, 9 orphans, 0 dup-refs, 0 opaque-refs, 0 crosslinks)
+
+## [2026-05-04 01:42] Librarian: catalog rebuilt, 8281 asymmetric links noted
+
+## [2026-05-04 01:42] Linter: 40 broken links, 43 orphans, 12 stale, 17 empty
+
+## [2026-05-04 02:09] SoftwareMapper: 8 pages created
+
+## [2026-05-04 02:17] DeepResearch: 29 papers added via focused research
+
+## [2026-05-04 02:57] CrosslinkApplier: added 81 wikilinks (81 inline, 0 suggested)
+
+## [2026-05-04 03:02] Matcher: 9 pages got 25 new sources
+
+## [2026-05-04 03:36] RefFormatter: formatted references on 7 pages
+
+## [2026-05-04 04:27] DeepResearch: 55 papers added via focused research
+
+## [2026-05-04 05:09] Audit: 922 issues (43 broken links, 48 orphans, 15 placeholders, 0 dup-refs, 3 bad-meta, 78 citation-verify, 18 opaque-refs, 76 thin, 403 missing-links)
+
+## [2026-05-04 06:10] CrosslinkApplier: added 23 wikilinks (23 inline, 0 suggested)
+
+## [2026-05-04 06:15] Matcher: 13 pages got 39 new sources
+
+## [2026-05-04 06:35] DeepResearch: 10 papers added via focused research

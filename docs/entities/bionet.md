@@ -4,11 +4,13 @@ sources:
 - raw/papers/freeman-1975.md
 - raw/papers/destexhe-sejnowski-2009.md
 - raw/papers/arxiv-2603.24343.md
+- raw/papers/semanticscholar-3256c8880985.md
+- raw/papers/wilson-cowan-1972.md
 tags:
 - software-brain-modeling
 title: BioNet
 type: entity
-updated: '2026-04-28'
+updated: '2026-04-30'
 ---
 
 I'll fix the factual errors and add proper citations. Key corrections: Walter Freeman was at UC Berkeley (not Krasnow Institute), K0 is a non-interactive population (not a single [[neuron]]), KIII is coupled KII sets (not multisensory integration), and I'm adding verified sources.
@@ -103,11 +105,6 @@ Freeman's insight that chaotic attractors in KIII sets enable rapid perceptual t
 
 ## References
 
-Freeman (1975): Freeman, W.J. (1975). "Mass Action in the Nervous System: Examination of the Neurophysiological Basis of Adaptive Behavior Through the EEG." Academic Press.
-
-Freeman (2000): Freeman, W.J. (2000). "Neurodynamics: An Exploration in Mesoscopic Brain Dynamics." Springer.
-
-Kozma et al. (2012): Kozma, R., & Freeman, W.J. (2012). "The KIV model of intentional dynamics and decision making." Neural Networks, 22(8), 737-747.
-
-Schuster et al. (2021): Schuster, L., et al. (2021). "Neural mass models in neuroscience." *Brain Topography*, 34(6), 717-740.
-```
+1. Walter J. Freeman. *Mass Action in the Nervous System*.
+2. Alain Destexhe, Terrence J. Sejnowski. *Wilson-Cowan model of the excitatory and inhibitory population dynamics*. Scholarpedia. [DOI](https://doi.org/10.4249/scholarpedia.1389)
+3. Yupei Li, Shuaijie Shao, Manuel Milling, Björn Schuller. *Enhancing Efficiency and Performance in Deepfake Audio Detection through Neuron-level Dropin & Neuroplasticity Mechanisms*. [Link](https://arxiv.org/abs/2603.24343)

@@ -1,11 +1,26 @@
 ---
-title: "Dynamic models of large-scale brain activity"
+title: Dynamic models of large-scale brain activity
 created: 2026-04-20
 updated: 2026-04-20
 type: source
-tags: [paper-review, whole-brain-modeling, neural-mass-models, brain-oscillations, network-dynamics]
-sources: []
+tags: [paper-review ,whole-brain-modeling ,neural-mass-models ,brain-oscillations ,network-dynamics]
+authors:
+  - Michael Breakspear
+year: 2017
+venue: Nature Neuroscience
+doi: "https://doi.org/10.1038/nn.4497"
+bibtex: |
+  @article{breakspear2017dynami,
+    title={Dynamic models of large-scale brain activity},
+    author={"Michael Breakspear"},
+    year={2017},
+    journal={Nature Neuroscience},
+    doi={https://doi.org/10.1038/nn.4497},
+  }
 ---
+
+
+
 
 # Dynamic models of large-scale brain activity
 

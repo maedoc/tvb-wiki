@@ -10,7 +10,7 @@ tags:
 - spiking-neural-networks
 title: Michael Hines
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 # Michael Hines

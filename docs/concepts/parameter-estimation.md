@@ -19,7 +19,7 @@ tags:
 - free-energy-principle
 title: Parameter Estimation
 type: concept
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 Parameter Estimation is a fundamental methodological concept in [[computational-neuroscience]] that refers to the process of inferring the numerical values of free parameters in mathematical models of neural systems by fitting model predictions to empirical observations. In the context of [[whole-brain|whole-brain modeling]], parameter estimation serves as the critical bridge between abstract mathematical formulations of neural dynamics and the empirically measured brain activity obtained through [[neuroimaging]] modalities such as [[fmri]], EEG, and MEG.

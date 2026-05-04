@@ -1,11 +1,27 @@
 ---
-title: "Excitatory and inhibitory interactions in localized populations of model neurons"
+title: Excitatory and inhibitory interactions in localized populations of model neurons
 created: 2026-04-20
 updated: 2026-04-20
 type: source
-tags: [paper-methods, neural-mass-models, brain-oscillations, people-researcher]
-sources: []
+tags: [paper-methods ,neural-mass-models ,brain-oscillations ,people-researcher]
+authors:
+  - Hugh R. Wilson
+  - Jack D. Cowan
+year: 1972
+venue: Biophysical Journal
+doi: "https://doi.org/10.1016/s0006-3495(72)86068-5"
+bibtex: |
+  @article{wilson1972excitatory,
+    title={Excitatory and inhibitory interactions in localized populations of model neurons},
+    author={"Hugh R. Wilson and Jack D. Cowan"},
+    year={1972},
+    journal={Biophysical Journal},
+    doi={https://doi.org/10.1016/s0006-3495(72)86068-5},
+  }
 ---
+
+
+
 
 # Excitatory and inhibitory interactions in localized populations of model neurons
 

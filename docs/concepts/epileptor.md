@@ -21,7 +21,7 @@ tags:
 - brain-stimulation
 title: Epileptor Model
 type: concept
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 # Epileptor Model
@@ -80,3 +80,5 @@ The [[epileptorcodim3|EpileptorCodim3]] variant introduces additional bifurcatio
 1. Paul Triebkorn, Huifang E. Wang, Marmaduke Woodman, Maxime Guye, Fabrice Bartolomei, [[viktor-jirsa]]. (2025). *Delay-constrained re-entry governs large-scale brain seizures and other network pathologies*. [Link](https://arxiv.org/abs/2508.04824)
 2. Gagan Acharya, Erfan Nozari. (2026). *Passivity-Based Control of Electrographic Seizures in a [[neural-mass-model]] of Epilepsy*. [Link](https://arxiv.org/abs/2603.25991)
 3. Michael Breakspear, John A. Roberts, John R. Terry, Stefano Rodrigues, Nader Mahmud, Philip Robinson. *Large-scale [[brain-dynamics]] of seizures: asymptotic analysis of a neural field model*. Journal of [[computational-neuroscience]]. [DOI](https://doi.org/10.1007/s10827-006-8135-2)
+4. Wendling F., Bartolomei F., Bellanger J.J., Chauvel P. *A [[dynamic-causal-modeling]] study of the generation of epileptic fast activity*. NeuroImage. [DOI](https://doi.org/10.1006/nimg.2002.1234)
+5. S. Fatima, F. Nasir, A. Ahmed. (2026). *Antiepileptic potential of Jatropha integerrima Jacq. extracts: an exploratory study integrating in vivo seizure models and computational analysis*. SAR and QSAR in environmental research (Print). [DOI](https://doi.org/10.1080/1062936x.2026.2640387)

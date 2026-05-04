@@ -17,12 +17,12 @@ tags:
 - dynamical-systems-theory
 title: Fokker-Planck Equation
 type: concept
-updated: '2026-04-27'
+updated: '2026-05-04'
 ---
 
 ## Definition
 
-The Fokker-Planck equation (FPE), also known as the forward Kolmogorov equation, is a partial differential equation that describes the time evolution of the probability density function for the state of a stochastic dynamical system. It provides a macroscopic, ensemble-level description of systems governed by stochastic differential equations (SDEs), complementing the microscopic, trajectory-level description that one obtains by simulating individual sample paths. The equation is named after Adriaan Fokker and Max Planck, who independently derived it in the early twentieth century to describe Brownian motion, though its mathematical foundations trace back to the work of Andrey Kolmogorov in the 1930s.
+The Fokker-Planck equation (FPE), also known as the forward Kolmogorov equation, is a partial differential equation that describes the time evolution of the probability density function for the state of a stochastic dynamical system. It provides a macroscopic, ensemble-level description of systems governed by stochastic differential equations (SDEs), complementing the microscopic, [[trajectory]]-level description that one obtains by simulating individual sample paths. The equation is named after Adriaan Fokker and Max Planck, who independently derived it in the early twentieth century to describe Brownian motion, though its mathematical foundations trace back to the work of Andrey Kolmogorov in the 1930s.
 
 ## Mathematical Form
 
@@ -81,3 +81,8 @@ The Fokker-Planck equation sits at the intersection of several foundational fram
 1. (authors unknown). *The Fokker-Planck Equation: Methods of Solution and Applications*.
 2. (authors unknown). *Stochastic Methods: A Handbook for the Natural and Social Sciences*.
 3. (authors unknown). *Introduction to Theoretical Neurobiology: Volume 2, Nonlinear and Stochastic Theories*.
+4. Roxana A. Stefanescu, Viktor K. Jirsa. *A low dimensional description of globally coupled heterogeneous neural networks of excitatory and inhibitory neurons*. PLoS Computational Biology. [DOI](https://doi.org/10.1371/journal.pcbi.1000219)
+5. Coşkun Çetin, Jose Roberto Castilho Piqueira, Burhaneddin İzgi̇, Ayşe Peker-Dobie, Semra Ahmetolan, Murat Özkaya. (2026). *Deterministic, stochastic, and mean-field PDE models in neuroscience*. Frontiers in Computational Neuroscience. [DOI](https://doi.org/10.3389/fncom.2026.1762692)
+6. Coskun Çetin, J.R.C. Piqueira, Burhaneddin Izgi, Ayse Peker-Dobie, S. Ahmetolan, Murat Özkaya. (2026). *Deterministic, stochastic, and mean-field PDE models in neuroscience*. Frontiers in Computational Neuroscience. [DOI](https://doi.org/10.3389/fncom.2026.1762692)
+7. [[hugh-wilson|Hugh R. Wilson]], [[jack-cowan|Jack D. Cowan]]. *Excitatory and inhibitory interactions in localized populations of model neurons*. Biophysical Journal. [DOI](https://doi.org/10.1016/S0006-3495(72)86068-5)
+8. Preksha Girish, Rachana Mysore, Mahanthesha U, Shrey Kumar, Misbah Fatimah Annigeri, Tanish Jain. (2025). *Geometric-Stochastic Multimodal Deep Learning for Predictive Modeling of SUDEP and Stroke Vulnerability*. [Link](https://arxiv.org/abs/2512.08257)

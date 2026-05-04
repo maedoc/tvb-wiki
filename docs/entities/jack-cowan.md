@@ -14,7 +14,7 @@ tags:
 - brain-oscillations
 title: Jack D. Cowan
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 # Jack D. Cowan (1933-2021)
@@ -58,3 +58,4 @@ The Wilson-Cowan model is the most cited and widely used neural population model
 4. Cyprien Tamekue, ShiNung Ching. *Control of neural field equations with step-function inputs*. [Link](https://arxiv.org/abs/2510.22022)
 5. [[alain-destexhe]], [[terrence-sejnowski|Terrence J. Sejnowski]]. *Wilson-Cowan model of the excitatory and inhibitory population dynamics*. Scholarpedia. [DOI](https://doi.org/10.4249/scholarpedia.1389)
 6. Pascal Helson, Etienne Tanré, Romain Veltz. *Mean-field analysis of a [[neural-network]] with stochastic STDP*. [Link](https://arxiv.org/abs/2510.02545)
+7. Jeremy B. Goetz, Naruepon Weerawongphrom, Rashid V. Williams-García, John M. Beggs, Gerardo Ortiz. (2025). *A Minimal Network of [[brain-dynamics]]: Hierarchy of Approximations to Quasi-critical Neural [[network-dynamics]]*. [Link](https://arxiv.org/abs/2512.22093)

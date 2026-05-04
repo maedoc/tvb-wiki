@@ -4,39 +4,19 @@ sources:
 - raw/papers/alfaro-almagro-2018.md
 - raw/papers/semanticscholar-d4665dd0df61.md
 - raw/papers/arxiv-2602.03240.md
+- raw/papers/glean-github.md
 tags:
 - software-brain-modeling
 title: BrainSuite
 type: entity
-updated: '2026-04-27'
----
-
-title: BrainSuite
-created: 2025-01-15
-updated: 2026-04-27
-type: entity
-tags: [software-modeling, [[neuroimaging]], neuroimaging-mri, software-visualization]
-sources:
-  - title: "BrainSuite: An automated cortical surface identification tool"
-    url: "https://pubmed.ncbi.nlm.nih.gov/12413737/"
-    date: "2002"
-   -source: "Shattuck DW, Leahy RM. Medical Image Analysis."
-  - title: "Construction of an online probabilistic brain atlas"
-    url: "https://pubmed.ncbi.nlm.nih.gov/11420697/"
-    date: "2001"
-    source: "Shattuck DW, Joshi AA, Leahy RM. Information Processing in Medical Imaging."
-  - title: "BrainSuite SVReg"
-    url: "https://pubmed.ncbi.nlm.nih.gov/18466908/"
-    date: "2008"
-    source: "Joshi AA, Shattuck DW, Leahy RM. MICCAI."
-
+updated: '2026-05-03'
 ---
 
 BrainSuite is an open-source software suite for processing and analyzing structural magnetic resonance imaging (sMRI) data, developed and maintained by the Laboratory of Neuro Imaging (LONI) at the University of California, Los Angeles (UCLA). Originally released in the early 2000s, BrainSuite provides an integrated set of tools for performing voxel-based morphometry and cortical surface analysis, with particular emphasis on automated brain extraction (skull stripping), tissue classification, and cortical [[parcellation]]. The software is written primarily in C++ with Java-based graphical user interfaces, and it is freely available for download on multiple platforms including Linux, macOS, and Windows.
 
 ## Motivation and Context
 
-The emergence of high-resolution structural MRI as a cornerstone of modern neuroscience research created an urgent need for robust, automated tools capable of extracting meaningful anatomical information from raw scanner output. Manual segmentation of brain structures is prohibitively time-consuming when dealing with large neuroimaging datasets such as those collected by [[mrtrix3-connectome]] (HCP) or longitudinal studies of development and [[aging]]. BrainSuite was developed to address this bottleneck by providing a streamlined pipeline that takes raw T1-weighted MPRAGE or SPGR scans and produces skull-stripped brain volumes, tissue probability maps, and cortical surface representations suitable for downstream statistical analyses.
+The emergence of high-resolution structural MRI as a cornerstone of modern neuroscience research created an urgent need for robust, automated tools capable of extracting meaningful anatomical information from raw scanner output. Manual segmentation of brain structures is prohibitively time-consuming when dealing with large [[neuroimaging]] datasets such as those collected by [[mrtrix3-connectome]] (HCP) or longitudinal studies of development and [[aging]]. BrainSuite was developed to address this bottleneck by providing a streamlined pipeline that takes raw T1-weighted MPRAGE or SPGR scans and produces skull-stripped brain volumes, tissue probability maps, and cortical surface representations suitable for downstream statistical analyses.
 
 The software occupies a niche in the neuroimaging ecosystem alongside other established packages such as [[freesurfer]], [[FSL]], [[3d-slicer]], and [[brainvisa]]. Unlike [[freesurfer]], which emphasizes detailed cortical reconstruction and thickness measurements, BrainSuite offers a more lightweight and computationally efficient workflow that remains accessible to users without extensive computational resources. This efficiency makes it particularly suitable for preprocessing large cohorts or for applications where only bulk volumetric measures are required rather than vertex-wise cortical thickness maps.
 
@@ -82,9 +62,7 @@ BrainSuite interfaces with several other tools in the neuroimaging ecosystem. It
 
 ## References
 
-- Laboratory of Neuro Imaging (LONI) BrainSuite Website. https://brainsuite.org/
-- [[mrtrix3-connectome]]. https://www.humanconnectome.org/
-- Freesurfer Documentation. https://surfer.nmr.mgh.harvard.edu/
-- FSL Software Package. https://fsl.fmrib.ox.ac.uk/fsl/fslwiki
-- Nilearn Documentation. https://nilearn.github.io/
-- Nipype Documentation. https://nipype.readthedocs.io/
+1. (authors unknown). *Image Processing and Quality Control for the First 100,000 Brain Imaging Datasets from [[uk-biobank]]*.
+2. G. Deepali, H. Anitha, B. P. Swathi, M. V. Suhas. (2025). *Autoencoder-Driven Fiducial Landmark Identification in 3D Brain MRI for Neuroimaging Alignment*. IEEE Access. [DOI](https://doi.org/10.1109/ACCESS.2025.3582273)
+3. Chetan Gohil, Oliver M. Cliff, James M. Shine, Ben D. Fulcher, Joseph T. Lizier. (2026). *Estimating measures of information processing during cognitive tasks using functional magnetic resonance imaging*. [Link](https://arxiv.org/abs/2602.03240)
+4. (authors unknown). *[[lean|GLEAN]]: Group Level Exploratory Analysis of Networks*.

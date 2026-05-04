@@ -9,6 +9,7 @@ sources:
 - raw/papers/arxiv-2602.18715.md
 - raw/papers/arxiv-2506.22951.md
 - raw/papers/arxiv-2603.24176.md
+- raw/papers/glean-github.md
 tags:
 - neuroimaging-meg
 - neuroimaging-eeg
@@ -25,7 +26,7 @@ tags:
 - software-eeglab
 title: MEG
 type: concept
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 # MEG
@@ -67,3 +68,9 @@ The combination of MEG with EEG, [[structural-connectivity]] from DTI, and funct
 1. (authors unknown). *Independent component analysis of electroencephalographic data*.
 2. (authors unknown). *Analyzing Neural Time Series Data: Theory and Practice*.
 3. (authors unknown). *Large-scale recording of neuronal ensembles*.
+4. Jose Rodriguez-Acosta, Sharmistha Guha, Jessica Bernard, Thamires Magalhaes, Kaitlin McOwen. *Integrative Predictor-Dependent Learning of Network Data and Spatially Correlated Nodal Attributes for Multimodal Brain Imaging in [[aging]]*. [Link](https://arxiv.org/abs/2603.21032)
+5. Paul Anders, M. Brickwedde, T. Grent-‘t-Jong, P. Krüger, Jens Haueisen, P. Uhlhaas, T. Sander-Thoemmes. (2026). *Characterization of a flexible cap for simultaneous OPM-MEG and EEG measurements*. Journal of Neural Engineering. [DOI](https://doi.org/10.1088/1741-2552/ae60cf)
+6. Yifei Sun, James M. Shine, Robert D. Sanders, Robin F. H. Cash, Sharon L. Naismith, Fernando Calamante, Jinglei Lv. (2026). *A Data-Driven Method to Map the Functional Organisation of Human Brain [[white-matter]]*. [Link](https://arxiv.org/abs/2602.18715)
+7. Ramiro Plüss, Hernán Villota, Patricio Orio. (2025). *Hemispheric-Specific Coupling Improves Modeling of Functional [[connectivity]] Using Wilson-Cowan Dynamics*. [Link](https://arxiv.org/abs/2506.22951)
+8. Wanying Qu, Jianxiong Gao, Wei Wang, Yanwei Fu. *Modeling Spatiotemporal Neural Frames for High Resolution Brain Dynamic*. [Link](https://arxiv.org/abs/2603.24176)
+9. (authors unknown). *[[lean|GLEAN]]: Group Level Exploratory Analysis of Networks*.

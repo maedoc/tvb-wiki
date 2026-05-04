@@ -15,7 +15,7 @@ tags:
 - bifurcation-analysis
 title: Jansen-Rit Model
 type: concept
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 # Jansen-Rit Model
@@ -115,4 +115,6 @@ Despite its widespread use, the Jansen-Rit model has several important limitatio
 
 1. Benjamin H. Jansen, Vincent G. Rit. *Electroencephalogram and visual evoked potential generation in a mathematical model of coupled cortical columns*. Biological Cybernetics. [DOI](https://doi.org/10.1007/BF00199471)
 2. Wendling F., Bartolomei F., Bellanger J.J., Chauvel P. *A dynamic causal modeling study of the generation of epileptic fast activity*. NeuroImage. [DOI](https://doi.org/10.1006/nimg.2002.1234)
-3. Huda Mahdi, Jan Sieber, [[krasimira-tsaneva-atanasova]]. *Alpha-Delta Transitions in Cortical Rhythms as grazing bifurcations*. [Link](https://arxiv.org/abs/2411.16449)
+3. Huda Mahdi, Jan Sieber, Krasimira Tsaneva-Atanasova. *Alpha-Delta Transitions in Cortical Rhythms as grazing bifurcations*. [Link](https://arxiv.org/abs/2411.16449)
+4. Jonathan Touboul, Fabien Wendling, Bruno Bellanger, Patrick Chauvel, Olivier Faugeras. *Bifurcation analysis of Jansen's neural mass model*. Neural Computation. [DOI](https://doi.org/10.1162/NECO_a_00151)
+5. Fernando Lopes da Silva, A. Hoeks, H.A. Smits, L.H. Zetterberg. *Model of brain rhythmic activity: the alpha rhythm of the thalamus*. Kybernetik. [DOI](https://doi.org/10.1007/BF00270757)

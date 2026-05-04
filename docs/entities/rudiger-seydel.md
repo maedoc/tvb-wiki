@@ -7,11 +7,12 @@ sources:
 - raw/papers/touboul-2011.md
 - raw/papers/izhikevich-2007.md
 - raw/papers/wiggins-2003.md
+- raw/papers/semanticscholar-2004e006655b.md
 tags:
 - people-researcher
 title: Rüdiger Seydel
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 ## Overview
@@ -45,3 +46,5 @@ Rüdiger Seydel is a German mathematician and Professor at the University of Col
 2. (authors unknown). *Nonlinear Oscillations, Dynamical Systems, and Bifurcations of Vector Fields*.
 3. (authors unknown). *Differential Equations, Dynamical Systems, and an Introduction to Chaos*.
 4. Jonathan Touboul, Fabien Wendling, Bruno Bellanger, Patrick Chauvel, Olivier Faugeras. *Bifurcation analysis of Jansen's [[neural-mass-models|neural mass model]]*. Neural Computation. [DOI](https://doi.org/10.1162/NECO_a_00151)
+5. [[eugene-izhikevich|Eugene M. Izhikevich]]. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
+6. (authors unknown). *Introduction to Applied Nonlinear Dynamical Systems and Chaos*.

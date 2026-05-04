@@ -7,6 +7,7 @@ sources:
 - raw/papers/smith-2013-connectomics.md
 - raw/papers/andrews-hanna-2010.md
 - raw/papers/friston-1993.md
+- raw/papers/semanticscholar-a0a9350fb265.md
 tags:
 - default-mode-network
 - resting-state
@@ -20,7 +21,7 @@ tags:
 - epilepsy-modeling
 title: Default Mode Network (DMN)
 type: concept
-updated: '2026-04-27'
+updated: '2026-05-04'
 ---
 
 The **Default Mode Network (DMN)** is a large-scale [[brain-network]] identified through [[neuroimaging]] that demonstrates high metabolic activity during wakeful rest and systematic deactivation during externally-oriented goal-directed tasks. First characterized by Raichle et al. (2001) using positron emission tomography (PET), the DMN represents the brain's baseline or "default" mode of operation—the spontaneous neural activity that dominates when an individual is not engaged in explicit task performance. This network has become fundamental to our understanding of intrinsic brain organization and its dysfunction in psychiatric and neurological conditions.
@@ -71,7 +72,7 @@ The DMN undergoes substantial reorganization across the lifespan, with distinct 
 
 ### Neurodevelopment
 
-During childhood and adolescence, the DMN exhibits a characteristic developmental trajectory from relatively local, fragmented organization toward the distributed, integrated network observed in adults. [[neurodevelopment]] of the DMN follows a posterior-to-anterior progression, with sensory and motor regions maturing first while association cortex develops later. Long-range connections between frontal and posterior DMN regions mature last, consistent with the protracted development of prefrontal executive functions. This extended developmental timeline renders the DMN particularly vulnerable to early-life insults, with implications for neurodevelopmental disorders.
+During childhood and adolescence, the DMN exhibits a characteristic developmental [[trajectory]] from relatively local, fragmented organization toward the distributed, integrated network observed in adults. [[neurodevelopment]] of the DMN follows a posterior-to-anterior progression, with sensory and motor regions maturing first while association cortex develops later. Long-range connections between frontal and posterior DMN regions mature last, consistent with the protracted development of prefrontal executive functions. This extended developmental timeline renders the DMN particularly vulnerable to early-life insults, with implications for neurodevelopmental disorders.
 
 ### Aging and Decline
 
@@ -113,3 +114,6 @@ The DMN presents both opportunities and challenges for [[whole-brain modeling]] 
 1. (authors unknown). *A Default Mode of Brain Function*.
 2. (authors unknown). *The Brain's Default Network: Anatomy, Function, and Relevance to Disease*.
 3. (authors unknown). *Functional Connectivity in the Resting Brain: A Network Analysis of the Default Mode Hypothesis*.
+4. (authors unknown). *Functional [[connectomics]] from Resting-State fMRI*.
+5. (authors unknown). *Functional-Anatomic Fractionation of the Brain's Default Network*.
+6. (authors unknown). *Functional Connectivity: The Principal-Component Analysis of Large (PET and fMRI) Data Sets*.

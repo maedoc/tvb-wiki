@@ -1,11 +1,26 @@
 ---
-title: "Wilson-Cowan model of the excitatory and inhibitory population dynamics"
+title: Wilson-Cowan model of the excitatory and inhibitory population dynamics
 created: 2026-04-20
 updated: 2026-04-20
 type: source
-tags: [paper-review, neural-mass-models, people-researcher]
-sources: []
+tags: [paper-review ,neural-mass-models ,people-researcher]
+authors:
+  - Paul C. Bressloff
+year: 2010
+venue: Physical Review E
+doi: "https://doi.org/10.1103/physreve.82.051903"
+bibtex: |
+  @book{bressloff2010wilsonc,
+    title={Wilson-Cowan model of the excitatory and inhibitory population dynamics},
+    author={"Paul C. Bressloff"},
+    year={2010},
+    publisher={Physical Review E},
+    doi={https://doi.org/10.1103/physreve.82.051903},
+  }
 ---
+
+
+
 
 # Wilson-Cowan model of the excitatory and inhibitory population dynamics
 

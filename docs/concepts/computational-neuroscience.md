@@ -13,7 +13,7 @@ tags:
 - computational-neuroscience
 title: Computational Neuroscience
 type: concept
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 Computational Neuroscience — a concept in [[whole-brain|whole-brain modeling]] and computational neuroscience.
@@ -29,3 +29,6 @@ Computational Neuroscience — a concept in [[whole-brain|whole-brain modeling]]
 3. (authors unknown). *[[nonlinear-dynamics]] and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering*.
 4. (authors unknown). *[[functional-connectivity]]: The Principal-Component Analysis of Large (PET and [[fmri]]) Data Sets*.
 5. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *[[arbor]]-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](https://doi.org/10.3389/fncom.2025.1731161)
+6. Christopher Gabaldon, Adria Mulero, Rong Wang, Daniel A. Martin, Sabrina Camargo, Qian-Yuan Tang, Ignacio Cifre, Changsong Zhou, Dante R. Chialvo. (2026). *Data-driven inference of brain dynamical states from the r-spectrum of correlation matrices*. [Link](https://arxiv.org/abs/2601.03796)
+7. Jianwei Chen, Zhengyang Miao, Wenjie Cai, Jiaxue Tang, Boxing Liu, Yunfan Zhang, Yuhang Yang, Hao Tang, Carola-Bibiane Schönlieb, Zaixu Cui, Du Lei, Shouliang Qi, Chao Li. (2026). *Hierarchical Multiscale Structure-Function Coupling for Brain [[connectome]] Integration*. [Link](https://arxiv.org/abs/2603.20680)
+8. C. Goh, Hao Liu. (2025). *Mapping the Disordered Mind: A Computational Framework for Integrating [[neuroimaging]] and Symptom Data*. Digital Neuropsychiatry. [DOI](https://doi.org/10.64229/zxdytz96)

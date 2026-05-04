@@ -12,7 +12,7 @@ tags:
 - database-hcp
 title: Neuroscience Gateway
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 ## Overview
@@ -67,7 +67,7 @@ The following publications document the development and use of the Neuroscience 
 - Sivagnanam S, Yoshimoto K, Astakhov V, Majumdar A (2018). The Neuroscience Gateway: Enabling Large Scale Modeling and Data Processing in Neuroscience. PEARC '18.
 
 ## References
-1. Carnevale T, Majumdar A, Sivagnanam S, Yoshimoto K, Astakhov V, Bandrowski A, Martone M. The neuroscience gateway portal: high performance computing made easy. BMC Neurosci. 2014;15(Suppl 1):P101. https://doi.org/10.1186/1471-2202-15-S1-P101
-2. Sivagnanam S, Majumdar A, Yoshimoto K, Astakhov V, Bandrowski A, Martone M, Carnevale N. Introducing the Neuroscience Gateway. Proc. 5th Intl Workshop on Science Gateways. 2013. https://ceur-ws.org/Vol-993/
-3. UC San Diego. UC San Diego, Yale Awarded Collaborative NSF Grant for Neuroscience Gateway. 2012. https://today.ucsd.edu/story/uc_san_diego_yale_awarded_collaborative_nsf_grant_for_neuroscience_gateway
-4. Neuroscience Gateway Portal. https://www.nsgportal.org/overview.html
+
+1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
+3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](https://doi.org/10.3389/fncom.2025.1731161)

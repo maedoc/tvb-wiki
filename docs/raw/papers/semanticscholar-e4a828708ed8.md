@@ -1,0 +1,15 @@
+# Virtual Reality in Awake brain Surgery (VIRAS) stage I: Proof of concept and tolerance validation during scheduled orthopedic surgery
+
+**Source**: semantic-scholar
+**ID**: e4a828708ed85987d5320e37aa8a660a3e47f776
+**DOI**: 10.1371/journal.pone.0329894
+**URL**: https://www.semanticscholar.org/paper/e4a828708ed85987d5320e37aa8a660a3e47f776
+**Date**: 2025-09-03
+**Year**: 2025
+**Authors**: Vanessa Saliou, Guillaume Dardenne, Céline Panheleux, Florence Le Vourc’h, Justine Bleunven, Ilias Maoudj, Basile Longo, Frédéric Dubrana, Agathe Yvinou, M. Fernandez, Maëlys Consigny, Emmanuel Nowak, Dewi Guellec, Romuald Seizeur
+**Venue**: PLoS ONE
+**Citations**: 0
+
+## Abstract
+
+Introduction The VIRAS (Virtual Reality in Awake Surgery) project is a two-stage, adaptive study. Its goal is to demonstrate the tolerance of the virtual reality (VR) headset for performing cognitive neuro-monitoring during awake brain surgery. Awake surgery involves operating on patients who remain conscious during the procedure and is most commonly employed in interventions such as tumor resections and epilepsy treatments. This approach allows surgeons to monitor and preserve critical brain functions by engaging the patient in real-time assessments of motor, sensory, and cognitive capabilities. The use of immersive distractions such as VR can help reduce anxiety and discomfort during awake craniotomy. We present the results of the first stage of the study, conducted in patients undergoing scheduled orthopedic surgery under regional anesthesia, aimed at validating the tolerance and safety of using the VR headset in the operating room. Materials and methods Eligibility required a minimum predicted surgery duration of one hour. All participants received standardized training in the use of VR headset the day before surgery. Investigators supervised intraoperative neurofunctional testing delivered through the VR system. Tolerance and safety were evaluated using VAS scores, the Simulator Sickness Questionnaire (SSQ), and the State-Trait Anxiety Inventory (STAI). Acceptability was assessed among healthcare providers. The primary outcome was defined as successful maintenance of the VR headset and completion of neurofunctional testing for at least one hour. Data analysis employed the Sequential Probability Ratio Test (SPRT) with predefined thresholds (P₀ = 0.6, P₁ = 0.8; Nmin = 10, Nmax = 50). Result The first 10 patients completed the procedure successfully, meeting the primary endpoint and leading to early study termination per SPRT design. The VR headset was well tolerated in all cases, with no adverse events reported. Median VAS tolerance scores were high (training: 9.0; intraoperative: 10.0). SSQ scores indicated minimal cybersickness. All participants completed neurofunctional tests during surgery and expressed willingness to reuse the device. Acceptance among healthcare providers was excellent (median VAS: 10). Conclusion The initial phase of the VIRAS study demonstrated excellent overall tolerance of the VR headset by both participants and the healthcare professionals involved in orthopedic surgery.

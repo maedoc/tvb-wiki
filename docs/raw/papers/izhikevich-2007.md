@@ -3,9 +3,27 @@ title: "Dynamical Systems in Neuroscience: The Geometry of Excitability and Burs
 created: 2026-04-20
 updated: 2026-04-20
 type: source
-tags: [paper-review, neural-mass-models, brain-oscillations, bifurcation-analysis, people-researcher]
-sources: []
+tags: [paper-review ,neural-mass-models ,brain-oscillations ,bifurcation-analysis ,people-researcher]
+authors:
+  - Símone Rossi
+  - Mark Hallett
+  - Paolo Maria Rossini
+  - Álvaro Pascual‐Leone
+year: 2009
+venue: Clinical Neurophysiology
+doi: "https://doi.org/10.1016/j.clinph.2009.08.016"
+bibtex: |
+  @article{rossi2009dynamical,
+    title={Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting},
+    author={"Símone Rossi and Mark Hallett and Paolo Maria Rossini and Álvaro Pascual‐Leone"},
+    year={2009},
+    journal={Clinical Neurophysiology},
+    doi={https://doi.org/10.1016/j.clinph.2009.08.016},
+  }
 ---
+
+
+
 
 # Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting
 

@@ -1,13 +1,26 @@
 ---
-title: "MR diffusion tensor spectroscopy and imaging"
+title: MR diffusion tensor spectroscopy and imaging
 created: 2026-04-20
 updated: 2026-04-20
 type: paper
-tags: [neuroimaging-dti, diffusion-imaging, paper-methods, tractography]
-authors: [Peter J Basser, James Mattiello, Denis LeBihan]
+tags: [neuroimaging-dti ,diffusion-imaging ,paper-methods ,tractography]
+authors:
+  - Peter J Basser
+  - James Mattiello
+  - Denis LeBihan
 year: 1994
-venue: "Biophysical Journal"
+venue: Biophysical Journal
+doi: "https://doi.org/10.1016/s0006-3495(94)80775-1"
+bibtex: |
+  @article{basser1994mr,
+    title={MR diffusion tensor spectroscopy and imaging},
+    author={"Peter J Basser and James Mattiello and Denis LeBihan"},
+    year={1994},
+    journal={Biophysical Journal},
+    doi={https://doi.org/10.1016/s0006-3495(94)80775-1},
+  }
 ---
+
 
 # MR diffusion tensor spectroscopy and imaging
 

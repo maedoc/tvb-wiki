@@ -16,7 +16,7 @@ tags:
 - neuroimaging-fmri
 title: VoxelMorph
 type: entity
-updated: '2026-04-28'
+updated: '2026-04-30'
 ---
 
 # VoxelMorph
@@ -97,8 +97,11 @@ VoxelMorph complements [[TVB]] workflows in several ways:
 
 ## References
 
-[^1]: Balakrishnan, G., Zhao, A., Sabuncu, M. R., Guttag, J., & Dalca, A. V. (2019). VoxelMorph: A Learning Framework for Deformable Medical Image Registration. *IEEE Transactions on Medical Imaging*, 38(8), 1788–1800. https://doi.org/10.1109/TMI.2019.2897538
-
-[^2]: Balakrishnan, G., Zhao, A., Sabuncu, M. R., Guttag, J., & Dalca, A. V. (2018). An Unsupervised Learning Model for Deformable Medical Image Registration. *Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR)*, 9252–9260.
-
-[^3]: Dalca, A. V., Balakrishnan, G., Guttag, J., & Sabuncu, M. R. (2019). Unsupervised Learning for Fast Probabilistic Diffeomorphic Registration. *International Conference on Medical Image Computing and Computer-Assisted Intervention (MICCAI)*, 729–738. https://doi.org/10.1007/978-3-030-32245-8_7
+1. R. A. Benn, Ting Xu, R. Mars, Magdalena Boch, Léa Roumazeilles, K. Heuer, Roberto Toro, D. Margulies, J. Manzano-Patrón, Paula Montesinos, C. Galán-Arriola, G. López-Martín, J. Sanchez-González, E. P. Duff, Borja Ibáñez. (2025). *Precon_all: A species-agnostic automated pipeline for non-human cortical surface reconstruction*. bioRxiv. [DOI](https://doi.org/10.1101/2025.04.16.649072)
+2. Mahsa Karimzadeh, Hadi Seyedarabi, Ata Jodeiri, Reza Afrouzian. (2025). *Enhanced Brain Stroke Lesion Segmentation in MRI Using a 2.5D Transformer Backbone U-Net Model*. Brain Science. [DOI](https://doi.org/10.3390/brainsci15080778)
+3. (authors unknown). *The Minimal Preprocessing Pipelines for the [[human-connectome-project]]*.
+4. Hu Xu, Yang Jingling, Jia Sihan, Bi Yuda, Calhoun Vince. (2025). *GM-LDM: Latent Diffusion Model for Brain Biomarker Identification through Functional Data-Driven Gray Matter Synthesis*. [Link](https://arxiv.org/abs/2506.12719)
+5. Fabian Greifeneder, Wolfgang Fenz, Benedikt Alkin, Johannes Brandstetter, Michael Giretzlehner, Philipp Moser. *Autoregressive deep learning for real-time simulation of soft tissue dynamics during virtual neurosurgery*. [Link](https://arxiv.org/abs/2601.13676)
+6. Sima Soltanpour, Md Taufiq Nasseef, Rachel Utama, Arnold Chang, D. Madularu, Praveen Kulkarni, Craig F. Ferris, Chris Joslin. (2025). *Robust automated preclinical [[fmri]] preprocessing via a multi-stage dilated convolutional Swin Transformer affine registration*. Frontiers in Neuroscience. [DOI](https://doi.org/10.3389/fnins.2025.1621244)
+7. G. Deepali, H. Anitha, B. P. Swathi, M. V. Suhas. (2025). *Autoencoder-Driven Fiducial Landmark Identification in 3D Brain MRI for Neuroimaging Alignment*. IEEE Access. [DOI](https://doi.org/10.1109/ACCESS.2025.3582273)
+8. S. Buoso, C. Stoeck, Sebastian Kozerke. (2025). *Automatic analysis of three-dimensional cardiac tagged magnetic resonance images using neural networks trained on synthetic data*. Journal of Cardiovascular Magnetic Resonance. [DOI](https://doi.org/10.1016/j.jocmr.2025.101869)

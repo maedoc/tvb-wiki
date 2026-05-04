@@ -3,11 +3,22 @@ title: "Analyzing Neural Time Series Data: Theory and Practice"
 created: 2026-04-20
 updated: 2026-04-20
 type: paper
-tags: [neuroimaging-eeg, neuroimaging-meg, paper-review, textbook]
-authors: [Mike X Cohen]
+tags: [neuroimaging-eeg ,neuroimaging-meg ,paper-review ,textbook]
+authors:
+  - Mike X Cohen
 year: 2014
-venue: "MIT Press (Textbook)"
+venue: MIT Press (Textbook)
+doi: "https://doi.org/10.7551/mitpress/9609.001.0001"
+bibtex: |
+  @book{cohen2014analyzing,
+    title={Analyzing Neural Time Series Data: Theory and Practice},
+    author={"Mike X Cohen"},
+    year={2014},
+    publisher={MIT Press (Textbook)},
+    doi={https://doi.org/10.7551/mitpress/9609.001.0001},
+  }
 ---
+
 
 # Analyzing Neural Time Series Data: Theory and Practice
 

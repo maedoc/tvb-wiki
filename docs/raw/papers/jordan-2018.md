@@ -3,9 +3,31 @@ title: "Extremely scalable spiking neuronal network simulation code: from laptop
 created: 2026-04-20
 updated: 2026-04-20
 type: source
-tags: [paper-methods, software-nest, spiking-neural-networks, brain-network, whole-brain-modeling]
-sources: []
+tags: [paper-methods ,software-nest ,spiking-neural-networks ,brain-network ,whole-brain-modeling]
+authors:
+  - Jakob Jordan
+  - Tammo Ippen
+  - Moritz Helias
+  - Itaru Kitayama
+  - Mitsuhisa Sato
+  - Jun Igarashi
+  - Markus Diesmann
+  - Susanne Kunkel
+year: 2018
+venue: Frontiers in Neuroinformatics
+doi: "https://doi.org/10.3389/fninf.2018.00002"
+bibtex: |
+  @article{jordan2018extremely,
+    title={Extremely scalable spiking neuronal network simulation code: from laptops to exascale computers},
+    author={"Jakob Jordan and Tammo Ippen and Moritz Helias and Itaru Kitayama and Mitsuhisa Sato and Jun Igarashi and Markus Diesmann and Susanne Kunkel"},
+    year={2018},
+    journal={Frontiers in Neuroinformatics},
+    doi={https://doi.org/10.3389/fninf.2018.00002},
+  }
 ---
+
+
+
 
 # Extremely scalable spiking neuronal network simulation code: from laptops to exascale computers
 

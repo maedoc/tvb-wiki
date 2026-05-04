@@ -8,13 +8,14 @@ sources:
 - raw/papers/power-2010.md
 - raw/papers/arxiv-2603.07524.md
 - raw/papers/power-2011.md
+- raw/papers/semanticscholar-2004e006655b.md
 tags:
 - people-researcher
 - neural-mass-models
 - eeg
 title: Walter J. Freeman
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 # Walter J. Freeman (1927-2016)
@@ -53,3 +54,6 @@ Freeman's work established the mathematical framework for population-level brain
 3. (authors unknown). *Nonlinear Dynamics and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering*.
 4. [[eugene-izhikevich|Eugene M. Izhikevich]]. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
 5. (authors unknown). *The Development of Human Functional Brain Networks*.
+6. Hongjie Jiang, Yifei Tang, Shuqiang Wang. *Neural Dynamics-Informed Pre-trained Framework for [[personalized-brain-modeling|Personalized Brain]] Functional Network Construction*. [Link](https://arxiv.org/abs/2603.07524)
+7. (authors unknown). *Functional Network Organization of the Human Brain*.
+8. Marianna Angiolelli, D. Depannemaecker, H. Agouram, J. Régis, R. Carron, M. Woodman, L. Chiodo, P. Triebkorn, Abolfazl Ziaeemehr, Meysam Hashemi, Alexandre Eusebio, [[viktor-jirsa]], P. Sorrentino. (2025). *The Virtual Parkinsonian patient*. npj Systems Biology and Applications. [DOI](https://doi.org/10.1038/s41540-025-00516-y)

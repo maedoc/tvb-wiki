@@ -10,7 +10,7 @@ tags:
 - people-researcher
 title: Philip Holmes
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 ## Overview

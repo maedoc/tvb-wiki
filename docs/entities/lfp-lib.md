@@ -3,11 +3,14 @@ created: 2026-04-23
 sources:
 - raw/papers/semanticscholar-929b90566fc8.md
 - raw/papers/destexhe-sejnowski-2009.md
+- raw/papers/semanticscholar-ff8218c1e55e.md
+- raw/papers/semanticscholar-f52da2a6cbf2.md
+- raw/papers/semanticscholar-0b1a696a39c5.md
 tags:
 - software-brain-modeling
 title: LFPy
 type: entity
-updated: '2026-04-24'
+updated: '2026-05-04'
 ---
 
 Now I'll provide the corrected markdown file with proper sources and references:
@@ -93,13 +96,5 @@ While LFPy operates at the single-neuron and microcircuit scale rather than the 
 
 ## References
 
-1. Hagen, E., Næss, S., Ness, T. V., & Einevoll, G. T. (2018). LFPy: A tool for calculating extracellular potentials from multicompartment neuron models. *Frontiers in Neuroinformatics*, 12, 57. https://doi.org/10.3389/fninf.2018.00057
-
-2. Łęski, S., Lindén, H., Tetzlaff, T., Pettersen, K. H., & Einevoll, G. T. (2013). Kernels for calculating extracellular potentials. *Frontiers in Neuroinformatics*, 7, 33. https://doi.org/10.3389/fninf.2013.00033
-
-3. Lindén, H., Tetzlaff, T., Potjans, T. C., Pettersen, K. H., Grün, S., Diesmann, M., & Einevoll, G. T. (2011). Modeling the spatial reach of the LFP. *Neuron*, 72(5), 859-872. https://doi.org/10.1016/j.neuron.2011.11.006
-
-4. LFPy GitHub repository: https://github.com/LFPy/LFPy
-
-5. LFPy Documentation: https://lfpy.readthedocs.io
-```
+1. I. Falconer, M. Varkanitsa, Swathi Kiran. (2026). *Abstract A124: Simulating Disruption of Large-Scale Functional Networks in Post-Stroke Aphasia Using Personalized Lesion-Based Neural Mass Modeling*. Stroke. [DOI](https://doi.org/10.1161/str.57.suppl_1.a124)
+2. Alain Destexhe, Terrence J. Sejnowski. *Wilson-Cowan model of the excitatory and inhibitory population dynamics*. Scholarpedia. [DOI](https://doi.org/10.4249/scholarpedia.1389)

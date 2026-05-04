@@ -3,11 +3,22 @@ title: "Introduction to Theoretical Neurobiology: Volume 2, Nonlinear and Stocha
 created: 2026-04-20
 updated: 2026-04-20
 type: source
-tags: [neural-mass-models, spiking-neural-networks, whole-brain-modeling]
-authors: ["Henry C. Tuckwell"]
+tags: [neural-mass-models ,spiking-neural-networks ,whole-brain-modeling]
+authors:
+  - Henry C. Tuckwell
 year: 1988
-venue: "Cambridge University Press"
+venue: Cambridge University Press
+doi: "https://doi.org/10.1016/0300-9629(89)90177-1"
+bibtex: |
+  @book{tuckwell1988introduc,
+    title={Introduction to Theoretical Neurobiology: Volume 2, Nonlinear and Stochastic Theories},
+    author={"Henry C. Tuckwell"},
+    year={1988},
+    publisher={Cambridge University Press},
+    doi={https://doi.org/10.1016/0300-9629(89)90177-1},
+  }
 ---
+
 
 ## Summary
 Second volume of comprehensive theoretical neurobiology text. Covers nonlinear and stochastic theories including cable theory, stochastic processes, and population dynamics.

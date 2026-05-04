@@ -3,11 +3,15 @@ created: 2026-04-20
 sources:
 - raw/papers/risken-1989.md
 - raw/papers/gardiner-2009.md
+- raw/papers/newman-2010.md
+- raw/papers/arxiv-2508.19134.md
+- raw/papers/semanticscholar-7593809733f3.md
+- raw/papers/arxiv-2508.15961.md
 tags:
 - people-researcher
 title: Hannes Risken
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 ## Overview
@@ -39,3 +43,5 @@ Hannes Risken was a German physicist known for his definitive work on Fokker-Pla
 
 1. (authors unknown). *The Fokker-Planck Equation: Methods of Solution and Applications*.
 2. (authors unknown). *Stochastic Methods: A Handbook for the Natural and Social Sciences*.
+3. (authors unknown). *Networks: An Introduction*.
+4. Romain Veltz. (2025). *Analysis of a mean-field limit of interacting two-dimensional nonlinear [[spiking-neural-networks|integrate-and-fire]] neurons*. [Link](https://www.semanticscholar.org/paper/c2b31ea32345e88726e581ea675d6450a44df2a1)

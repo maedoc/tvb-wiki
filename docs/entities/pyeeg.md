@@ -1,9 +1,11 @@
 ---
 created: 2024-01-15
 sources:
-- https://doi.org/10.1155/2011/406391
-- https://pmc.ncbi.nlm.nih.gov/articles/PMC3070217/
-- https://doi.org/10.1002/hbm.20346
+- raw/papers/semanticscholar-5a69b770faf9.md
+- raw/papers/semanticscholar-769ed169ed7c.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-9e42d6a25d21.md
+- raw/papers/gramfort-2013.md
 tags:
 - neuroimaging-eeg
 - software-visualization
@@ -11,7 +13,7 @@ tags:
 - neural-mass-models
 title: PyEEG
 type: entity
-updated: '2026-04-28'
+updated: '2026-04-30'
 ---
 
 # PyEEG
@@ -54,7 +56,7 @@ Furthermore, PyEEG's feature extraction capabilities complement TVB's forward mo
 
 ## Related Software
 
-PyEEG is part of a broader ecosystem of EEG analysis tools, each with distinct strengths. [[EEGLAB]] is a comprehensive MATLAB-based toolbox offering preprocessing, independent component analysis (ICA), and clustering, with extensive plugin support. [[fieldtrip]] provides a MATLAB framework emphasizing forward modeling and source analysis with strong ties to [[dynamic-causal-modeling]]. [[mne-python]] offers a modern Python alternative with sophisticated source estimation, connectivity analysis, and integration with the PyData ecosystem. For nonlinear dynamics analysis specifically, [[ nonlinearity]] toolboxes and custom implementations using [[scipy]] or [[torch]] provide alternative approaches to Lyapunov exponent estimation and recurrence quantification.
+PyEEG is part of a broader ecosystem of EEG analysis tools, each with distinct strengths. [[EEGLAB]] is a comprehensive MATLAB-based toolbox offering preprocessing, independent component analysis (ICA), and clustering, with extensive plugin support. [[fieldtrip]] provides a MATLAB framework emphasizing forward modeling and source analysis with strong ties to [[dynamic-causal-modeling]]. [[mne-python]] offers a modern Python alternative with sophisticated source estimation, connectivity analysis, and integration with the PyData ecosystem. For nonlinear dynamics analysis specifically, nonlinearity toolboxes and custom implementations using scipy or torch provide alternative approaches to Lyapunov exponent estimation and recurrence quantification.
 
 ## Key Papers
 
@@ -64,8 +66,8 @@ A key methodological reference for the connectivity measures is the Phase Lag In
 
 ## References
 
-1. Bao FS, Liu X, Zhang C. PyEEG: An Open Source Python Module for EEG/MEG Feature Extraction. Computational Intelligence and Neuroscience. 2011;2011:406391. doi:10.1155/2011.406391
-
-2. Stam CJ, Nolte G, Daffertshofer A. Phase lag index: Assessment of functional connectivity from multichannel EEG and MEG with diminished bias from common sources. Human Brain Mapping. 2007;28(11):1178-1193. doi:10.1002/hbm.20346
-
-3. Vinck M, Oostenveld R, van Wingerden M, Battaglia F, Pennartz CM. An improved index of phase-synchronization for electrophysiological data in the presence of volume-conduction, noise and sample-size bias. Neuroimage. 2011;55(4):1548-1565. doi:10.1016/j.neuroimage.2011.01.055
+1. P. S. Shabestari, Delphine Ribes, Lara Défayes, Danpeng Cai, Emily Groves, Harry H. Behjat, D. Van de Ville, Tobias Kleinjung, A. Naas, N. Henchoz, A. Sonderegger, Patrick Neff. (2025). *Advances on Real Time M/EEG Neural Feature Extraction*. 2025 IEEE 38th International Symposium on Computer-Based Medical Systems (CBMS). [DOI](https://doi.org/10.1109/CBMS65348.2025.00074)
+2. Rohith Alikkal, Venkat Harshith Akula, B. Shankar, Midhun Krishna, Sandeep Bodda, S. Krishna, Shyam Diwakar. (2025). *Implementing and Deploying a Student Friendly GUI-based Platfrom for EEG signal processing*. International Conference on Robotics and Mechatronics. [DOI](https://doi.org/10.1109/ICRM66809.2025.11349102)
+3. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+4. D. Y. Lodema, Herman J van Dellen, W. de Haan, Margot van Hest, A. Hillebrand, E. van Dellen. (2026). *EEG-Pype: An accessible MNE-Python pipeline with graphical user interface for preprocessing and analysis of resting-state electroencephalography data.*. PLoS Computational Biology. [DOI](https://doi.org/10.1371/journal.pcbi.1014043)
+5. Gramfort et al. (2013). *MEG and EEG: From Acquisition to Analysis*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fnins.2013.00010)

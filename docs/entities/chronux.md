@@ -1,10 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- Mitra and Bokde (2022). "Chronux Analysis Software." http://www.chronux.org/
-- Bokde and Mitra (2011). "The Chronux toolbox for analysis of neural data." Society
-  for Neuroscience. Http://chronux.org/
-- Thomson (1982). "Spectrum estimation and harmonic analysis." Proceedings of the IEEE 70(9): 1055-1096.
 - raw/papers/sanz-leon-2013.md
 - raw/papers/rubinov-sporns-2010.md
 - raw/papers/arxiv-2604.16463.md
@@ -21,7 +17,7 @@ tags:
 - multitaper-methods
 title: Chronux
 type: entity
-updated: '2026-04-28'
+updated: '2026-04-30'
 ---
 
 # Chronux
@@ -72,11 +68,6 @@ The electrophysiology analysis ecosystem includes several alternatives and compl
 
 ## References
 
-1. Mitra, P.P. and Bokde, R. (2022). Chronux Analysis Software. http://www.chronux.org/
-2. Bokde, R. and Mitra, P.P. (2011). The Chronux toolbox for analysis of neural data. Society for Neuroscience meeting.
-3. Thomson, D.J. (1982). Spectrum estimation and harmonic analysis. Proceedings of the IEEE 70(9): 1055-1096.
-4. Bruns, A. (2004). Fourier-, Hilbert- and wavelet-based signal analysis: are they really different approaches? Journal of Neuroscience Methods 137(2): 321-332.
-5. Pesaran, B. (2010). Neural recordings and analysis. Current Opinion in Neurobiology 20(5): 613-618.
-6. Slepian, D. (1978). Prolate spheroidal wave functions, Fourier analysis, and uncertainty principle. Bell Labs Technical Journal 57(5): 137-143.
-7. Percival, D.B. and Walden, A.T. (1993). Spectral Analysis for Physical Applications: Multitaper and Conventional Univariate Techniques. Cambridge University Press.
-8. Jarvis, M.R. and Mitra, P.P. (2001). Sampling properties of the spectrum and coherency in sequences of action potentials. Neural Computation 13(4): 717-749.
+1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
+3. Xiaobo Liu. (2026). *MLE-Toolbox: An Open-Source Toolbox for Comprehensive EEG and MEG Data Analysis*. [Link](https://www.semanticscholar.org/paper/e7aaa4f4bb01e70064493684b4500a950f83460f)

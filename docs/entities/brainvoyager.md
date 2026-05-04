@@ -4,6 +4,8 @@ sources:
 - raw/papers/semanticscholar-301489ffb9de.md
 - raw/papers/semanticscholar-24420855b2da.md
 - raw/papers/semanticscholar-35c59867495b.md
+- raw/papers/braph-2 genesis.md
+- raw/papers/glean-github.md
 tags:
 - software-brain-modeling
 - software-visualization
@@ -12,7 +14,7 @@ tags:
 - task-based
 title: BrainVoyager
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 Here is the corrected `brainvoyager.md` file with all issues fixed:
@@ -110,16 +112,8 @@ BrainVoyager has been cited in thousands of neuroimaging studies. Key methodolog
 
 ## References
 
-1. Goebel, R., Esposito, F., & Formisano, E. (2006). Analysis of functional image analysis contest (FIAC) data with brainvoyager QX: From single-subject to cortically aligned group general linear model analysis and self-organizing group independent component analysis. *Human Brain Mapping*, 27(5), 392-401.
-
-2. Brain Innovation. BrainVoyager Documentation and User Guides. Retrieved from https://www.brainvoyager.com/
-
-3. Sorger, B., Reithler, J., Dahmen, B., & Goebel, R. (2012). A real-time fMRI self-regulation approach to the treatment of chronic, treatment-resistant tinnitus. *Neuroscience & Biobehavioral Reviews*, 37(4), 697-703.
-```
-
-**Summary of fixes:**
-1. ✅ **Corrected Sorger et al. year**: Changed "(2009)" to "(2012)" in Key Papers section
-2. ✅ **Fixed 4 broken wikilinks**: Removed brackets from `[[structural-connectivity]]`, `[[functional-connectivity]]`, `[[dynamic-causal-modeling]]`, `parameter-estimation`
-3. ✅ **Fixed comparison table**: Row headers now use plain text labels
-4. ✅ **Renamed section**: "[[connectome-workbench]] Integration" → "HCP Format Compatibility"
-5. ✅ **Populated sources frontmatter**: Added all three cited references
+1. Muhammad Nabi Yasinzai, R. Mito, M. Pedersen. (2025). *BrainScape: An open-source framework for integrating and preprocessing anatomical MRI datasets*. Imaging neuroscience. [DOI](https://doi.org/10.1162/IMAG.a.944)
+2. *Patricia Burhunduli, Zhuo Fang, Katie L. Vandeloo, Pierre Blier, Jennifer L Phillips. (2025). *A PRELIMINARY INVESTIGATION OF RESTING STATE FUNCTIONAL CONNECTIVITY NETWORKS IN PATIENTS WITH TREATMENT-RESISTANT DEPRESSION AND A HISTORY OF SUICIDE ATTEMPT*. International Journal of Neuropsychopharmacology. [DOI](https://doi.org/10.1093/ijnp/pyae059.440)
+3. Andrés Perissinotti, A. Farré-Melero, F. López-González, María del Carmen Mallón-Araujo, Julia Cortés, X. Setoain, Andrea Fritsch, Katherine Quintero, Ángel E. Esteban, S. Morbelli, Matteo Bauckneht, A. Miceli, Aida Niñerola-Baizán, Pablo Aguiar, J. Silva-Rodríguez. (2026). *Added value of quantitative [18F]FDG-PET analysis in MRI-negative epilepsy: A simulation-based study using realistic ground-truths*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2026.121740)
+4. (authors unknown). *BRAPH 2.0 Genesis: An Open-Source Toolbox for Brain Connectivity Analysis*.
+5. (authors unknown). *GLEAN: Group Level Exploratory Analysis of Networks*.

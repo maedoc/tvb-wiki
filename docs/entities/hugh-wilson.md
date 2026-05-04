@@ -15,7 +15,7 @@ tags:
 - brain-oscillations
 title: Hugh R. Wilson
 type: entity
-updated: '2026-04-27'
+updated: '2026-04-30'
 ---
 
 # Hugh R. Wilson
@@ -64,3 +64,4 @@ The Wilson-Cowan equations are the foundation of neural mass modeling. Virtually
 5. Peter Dayan, Larry F. Abbott. *Theoretical Neuroscience: Computational and Mathematical Modeling of Neural Systems*.
 6. Manish Yadav. *Emergent E-I Structure in Performance-Evolved Reservoir Networks of Neuronal Population Dynamics*. [Link](https://arxiv.org/abs/2603.13635)
 7. Wulfram Gerstner, Werner M. Kistler, Richard Naud, Liam Paninski. *Neuronal Dynamics: From Single Neurons to Networks and Models of Cognition*.
+8. Jeremy B. Goetz, Naruepon Weerawongphrom, Rashid V. Williams-García, John M. Beggs, Gerardo Ortiz. (2025). *A Minimal Network of [[brain-dynamics]]: Hierarchy of Approximations to Quasi-critical Neural [[network-dynamics]]*. [Link](https://arxiv.org/abs/2512.22093)

@@ -17,7 +17,7 @@ tags:
 - network-dynamics
 title: Nonlinear Dynamics
 type: concept
-updated: '2026-04-27'
+updated: '2026-05-04'
 ---
 
 ## Definition
@@ -51,7 +51,7 @@ where $r$ is the firing rate, $\tau$ is a time constant, $c_1, c_2$ are coupling
 The geometric approach to nonlinear dynamics analyzes the structure of phase space—the space of all possible states of the system. Key objects include:
 
 - **Fixed points** where $\dot{\mathbf{x}} = \mathbf{0}$; their stability is determined by the eigenvalues of the Jacobian matrix $\mathbf{J} = \partial\mathbf{F}/\partial\mathbf{x}$ evaluated at the point
-- **Limit cycles** representing self-sustained oscillations, analyzed via the Poincaré-Bendixson theorem which establishes that a recurrent trajectory in a two-dimensional phase plane must be a limit cycle if the vector field points nowhere outward
+- **Limit cycles** representing self-sustained oscillations, analyzed via the Poincaré-Bendixson theorem which establishes that a recurrent [[trajectory]] in a two-dimensional phase plane must be a limit cycle if the vector field points nowhere outward
 - **Strange attractors** in chaotic systems, characterized by fractal geometry and positive Lyapunov exponents measuring the exponential divergence of nearby trajectories
 
 For neural systems, the classification of fixed points and their bifurcations as parameters vary provides a powerful framework for understanding state transitions. The [[bifurcation theory]] of these transitions—whether saddle-node, transcritical, pitchfork, or Hopf—predicts qualitative changes in neural activity that correspond to observations such as the onset of oscillatory activity or the sudden transition into a seizure-like state.
@@ -86,4 +86,8 @@ Nevertheless, nonlinear dynamics provides the essential conceptual and mathemati
 
 1. (authors unknown). *Nonlinear Dynamics and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering*.
 2. (authors unknown). *Introduction to Applied Nonlinear Dynamical Systems and Chaos*.
-3. (authors unknown). *Mathematical Foundations of Neuroscience*.
+3. Martin Breyton, Viktor Sip, M. Woodman, Meysam Hashemi, S. Petkoski, V. Jirsa. (2025). *Data-driven mean-field within whole-brain models*. [Link](https://www.semanticscholar.org/paper/144ae1f1dabec42c14493d0083d36f168508f886)
+4. [[eugene-izhikevich|Eugene M. Izhikevich]]. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
+5. Coşkun Çetin, Jose Roberto Castilho Piqueira, Burhaneddin İzgi̇, Ayşe Peker-Dobie, Semra Ahmetolan, Murat Özkaya. (2026). *Deterministic, stochastic, and mean-field PDE models in neuroscience*. Frontiers in Computational Neuroscience. [DOI](https://doi.org/10.3389/fncom.2026.1762692)
+6. Coskun Çetin, J.R.C. Piqueira, Burhaneddin Izgi, Ayse Peker-Dobie, S. Ahmetolan, Murat Özkaya. (2026). *Deterministic, stochastic, and mean-field PDE models in neuroscience*. Frontiers in Computational Neuroscience. [DOI](https://doi.org/10.3389/fncom.2026.1762692)
+7. Roxana A. Stefanescu, Viktor K. Jirsa. *A low dimensional description of globally coupled heterogeneous neural networks of excitatory and inhibitory neurons*. PLoS Computational Biology. [DOI](https://doi.org/10.1371/journal.pcbi.1000219)

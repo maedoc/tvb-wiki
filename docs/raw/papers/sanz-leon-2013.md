@@ -3,9 +3,30 @@ title: "The Virtual Brain: a simulator of primate brain network dynamics"
 created: 2026-04-20
 updated: 2026-04-20
 type: source
-tags: [paper-methods, software-tvb, whole-brain-modeling, neural-mass-models]
-sources: []
+tags: [paper-methods ,software-tvb ,whole-brain-modeling ,neural-mass-models]
+authors:
+  - Paula Sanz Leon
+  - S. A. Knock
+  - Marmaduke Woodman
+  - Lia Domide
+  - Jochen Mersmann
+  - Anthony R. McIntosh
+  - Viktor Jirsa
+year: 2013
+venue: Frontiers in Neuroinformatics
+doi: "https://doi.org/10.3389/fninf.2013.00010"
+bibtex: |
+  @article{leon2013the,
+    title={The Virtual Brain: a simulator of primate brain network dynamics},
+    author={"Paula Sanz Leon and S. A. Knock and Marmaduke Woodman and Lia Domide and Jochen Mersmann and Anthony R. McIntosh and Viktor Jirsa"},
+    year={2013},
+    journal={Frontiers in Neuroinformatics},
+    doi={https://doi.org/10.3389/fninf.2013.00010},
+  }
 ---
+
+
+
 
 # The Virtual Brain: a simulator of primate brain network dynamics
 
