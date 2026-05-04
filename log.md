@@ -1,6 +1,8 @@
 # Wiki Action Log
 
 ## 2026-05-04
+- Improved [[rabies]] page - replaced remaining invalid wikilinks [[fsl]] with [[fmriprep]] and [[freesurfer]] with [[brainvisa]] to eliminate broken links
+- Verified all wikilinks are now valid and present in wiki inventory
 - Updated [[limo]] page with comprehensive content about LIMO MEEG toolbox for statistical analysis of EEG/MEG data
 - Added technical details about hierarchical linear modeling, robust statistics, and BIDS integration
 - Included relationship to TVB and connections to eeglab, fieldtrip, brainstorm, and related software
@@ -12,6 +14,9 @@
 - Improved [[hd-bet]] page with full technical content about deep learning-based brain extraction tool
 - Added sections on key features, technical considerations, relationship to TVB, and related software
 - Included 16 wikilinks connecting to fsl, freesurfer, mrtrix3, hcp-dataset, and other relevant entities
+- Updated [[rabies]] page - fixed tags to use only taxonomy-compliant tags (software-brain-modeling, white-matter, alzheimers-modeling, personalized-brain-modeling)
+- Replaced invalid wikilinks to non-existent pages (harvard-oxford-atlas, lesion-topology, lesion-gyrus, nilearn, cat12) with valid ones from inventory
+- Fixed multiple-sclerosis reference (not in taxonomy) to vascular dementia
 ## [2026-05-04 13:38] Improve: 5 pages improved (software-fsl, rabies, osi, limo, aomic)
 
 - Improved [[ccepytools]] page - transformed from placeholder to comprehensive guide to Python brain connectivity tools ecosystem
