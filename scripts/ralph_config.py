@@ -38,26 +38,26 @@ REVIEWER_MODEL = "ollama/glm-5.1:cloud"
 REPAIRER_MODEL = "ollama/gpt-oss:120b-cloud"
 
 # ── Parallelism ────────────────────────────────────────────────────────
-PARALLEL_WRITERS = 7
-PARALLEL_REVIEWERS = 8
+PARALLEL_WRITERS = 9
+PARALLEL_REVIEWERS = 10
 PARALLEL_INGESTORS = 5
 
 # ── Agent schedule (seconds) ──────────────────────────────────────────
 INGESTOR_INTERVAL = 86400       # daily + startup
-IMPROVER_INTERVAL = 600        # 10 min (SPRINT MODE)
-AUDITOR_INTERVAL = 18000         # 5h
-LIBRARIAN_INTERVAL = 86400     # daily
+IMPROVER_INTERVAL = 300         # 5 min (HIGH THROUGHPUT BURST)
+AUDITOR_INTERVAL = 18000        # 5h
+LIBRARIAN_INTERVAL = 86400      # daily
 SOFTWARE_MAPPER_INTERVAL = 604800  # weekly
-ORPHAN_LINKER_INTERVAL = 604800   # weekly
-DEEP_RESEARCH_INTERVAL = 7200     # 2h (SPRINT MODE)
-MATCHER_INTERVAL    = 10800     # 3h (SPRINT MODE)
-REPAIRER_INTERVAL = 86400         # daily
-REF_FORMATTER_INTERVAL = 14400    # 4h (SPRINT MODE)
-CROSSLINK_APPLIER_INTERVAL = 10800 # 3h (SPRINT MODE)
+ORPHAN_LINKER_INTERVAL = 604800    # weekly
+DEEP_RESEARCH_INTERVAL = 7200      # 2h
+MATCHER_INTERVAL    = 21600      # 6h
+REPAIRER_INTERVAL = 86400          # daily
+REF_FORMATTER_INTERVAL = 21600     # 6h
+CROSSLINK_APPLIER_INTERVAL = 21600 # 6h
 
 # ── Git push schedule ─────────────────────────────────────────────────────
-# Push to the remote at most once per hour (default). Adjust PUSH_INTERVAL if needed.
-PUSH_INTERVAL = 3600  # seconds
+# Push to the remote at most once per 30 min during burst mode. Adjust PUSH_INTERVAL if needed.
+PUSH_INTERVAL = 1800  # seconds
 LAST_PUSH_FILE = os.path.join(META_DIR, "last_push.txt")
 
 # ── Error handling ─────────────────────────────────────────────────────
