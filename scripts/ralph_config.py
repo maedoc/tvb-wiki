@@ -38,13 +38,13 @@ REVIEWER_MODEL = "ollama/glm-5.1:cloud"
 REPAIRER_MODEL = "ollama/gpt-oss:120b-cloud"
 
 # ── Parallelism ────────────────────────────────────────────────────────
-PARALLEL_WRITERS = 9
-PARALLEL_REVIEWERS = 10
+PARALLEL_WRITERS = 5
+PARALLEL_REVIEWERS = 5
 PARALLEL_INGESTORS = 5
 
 # ── Agent schedule (seconds) ──────────────────────────────────────────
 INGESTOR_INTERVAL = 86400       # daily + startup
-IMPROVER_INTERVAL = 300         # 5 min (HIGH THROUGHPUT BURST)
+IMPROVER_INTERVAL = 900         # 15 min — allows review-revise loop to complete
 AUDITOR_INTERVAL = 18000        # 5h
 LIBRARIAN_INTERVAL = 86400      # daily
 SOFTWARE_MAPPER_INTERVAL = 604800  # weekly
