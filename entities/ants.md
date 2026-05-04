@@ -12,6 +12,7 @@ sources:
 - Rubinov:2010
 - Power:2014
 - kandel2015decomposing
+- raw/papers/tustison-2010.md
 tags:
 - software-ants
 - software-brain-modeling

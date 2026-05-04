@@ -12,6 +12,7 @@ sources:
 - raw/papers/semanticscholar-913068805e7f.md
 - raw/papers/arxiv-2604.03619.md
 - raw/papers/glean-github.md
+- raw/papers/semanticscholar-e59e692be8e5.md
 tags:
 - structural-connectivity
 - neuroimaging-fmri

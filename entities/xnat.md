@@ -6,6 +6,9 @@ sources:
 - ? Marcus, D. S., Harwell, J., Olsen, T., Mhembre, M., Fleisher, T., Bert, A. Z.,
     ... & Van Essen, D. C. (2011). The Human Connectome Project
   : A public neuroimaging resource. Frontiers in Neuroscience, 5, 29. https://doi.org/10.3389/fnins.2011.00029
+- raw/papers/barch-2013.md
+- raw/papers/Renton2024.md
+- raw/papers/semanticscholar-f45e6044c92f.md
 tags:
 - software-neuroimaging
 - database-neuroimaging

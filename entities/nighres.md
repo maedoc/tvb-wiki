@@ -5,6 +5,7 @@ sources:
 - 10.1016/j.neuroimage.2013.03.078
 - 10.1016/j.neuroimage.2014.03.032
 - 10.1016/j.neuroimage.2015.10.001
+- raw/papers/huntenburg-2018.md
 tags:
 - software-neuroimaging
 - neuroimaging-mri
