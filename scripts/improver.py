@@ -258,7 +258,7 @@ def pick_weakest_section(sections: list[dict], page_score: float) -> dict | None
 
 
 def apply_mechanical_fixes(content: str, filepath: str) -> str:
-    """Apply mechanical fixes without LLM: frontmatter, dates, orphan wikilinks."""
+    """Apply mechanical fixes without LLM: frontmatter, dates, orphan wikilinks, strip body refs, strip leaked frontmatter."""
     today = datetime.date.today().isoformat()
 
     # Ensure frontmatter exists
@@ -280,8 +280,59 @@ def apply_mechanical_fixes(content: str, filepath: str) -> str:
         content
     )
 
+    # ── Strip leaked frontmatter from body ──
+    # If content has multiple --- blocks, keep only the first
+    if content.startswith('---'):
+        first_end = content.find('\n---', 3)
+        if first_end != -1:
+            after_first = content[first_end + 4:]
+            # Check for second frontmatter block starting with \ntitle: or \ncreated:
+            second_fm = re.search(r'\n(?:title:|created:|sources:|tags:)\s*', after_first)
+            if second_fm:
+                # Strip everything from second frontmatter onward
+                content = content[:first_end + 4] + after_first[:second_fm.start()]
+
+    # ── Strip code fences ──
+    stripped = content.strip()
+    if stripped.startswith('```markdown') or stripped.startswith('```yaml'):
+        lines = stripped.split('\n')
+        if lines[0].startswith('```'):
+            lines = lines[1:]
+        if lines and lines[-1].strip() == '```':
+            lines = lines[:-1]
+        content = '\n'.join(lines)
+    if stripped.startswith('```'):
+        lines = stripped.split('\n')
+        if lines[0].startswith('```'):
+            lines = lines[1:]
+        if lines and lines[-1].strip() == '```':
+            lines = lines[:-1]
+        content = '\n'.join(lines)
+
+    # ── Strip body ## References section ──
+    # Find ## References in body (not in frontmatter)
+    if content.startswith('---'):
+        fm_end = content.find('\n---', 3)
+        if fm_end != -1:
+            body = content[fm_end + 4:]
+            # Remove ## References to end of content or next ## heading
+            refs_match = re.search(r'\n##\s*References\s*\n', body)
+            if refs_match:
+                refs_start = refs_match.start()
+                refs_end = len(body)
+                # Check if there's another ## heading after References
+                next_heading = re.search(r'\n##\s+', body[refs_match.end():])
+                if next_heading:
+                    refs_end = refs_match.end() + next_heading.start()
+                body = body[:refs_start] + body[refs_end:]
+                content = content[:fm_end + 4] + body
+
     # Remove duplicate blank lines
     content = re.sub(r'\n{3,}', '\n\n', content)
+    # Remove trailing whitespace
+    content = re.sub(r' +\n', '\n', content)
+    # Ensure content ends with single newline
+    content = content.rstrip() + '\n'
 
     return content
 
