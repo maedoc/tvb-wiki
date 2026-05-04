@@ -70,7 +70,7 @@ Forward models connect to several other key concepts in the wiki. They are the g
 
 1. (authors unknown). *Large-scale recording of neuronal ensembles*.
 2. Peter Yongho Kim, Juhyeon Park, Jungwoo Park, Jubin Choi, Jungwoo Seo, Jiook Cha, Taesup Moon. (2026). *Can Natural Image Autoencoders Compactly Tokenize fMRI Volumes for Long-Range Dynamics Modeling?*. [Link](https://arxiv.org/abs/2604.03619)
-3. Sangyoon Bae, Miruna Oprescu, David Keetae Park, Shinjae Yoo, Jiook Cha. *Recovering Whole-Brain Causal Connectivity under Indirect Observation with Applications to Human EEG and fMRI*. [Link](https://arxiv.org/abs/2602.09034)
+3. Sangyoon Bae, Miruna Oprescu, David Keetae Park, Shinjae Yoo, Jiook Cha. *Recovering Whole-Brain Causal [[connectivity]] under Indirect Observation with Applications to Human EEG and fMRI*. [Link](https://arxiv.org/abs/2602.09034)
 4. (authors unknown). *Variational Free Energy and the Laplace Approximation*.
 5. Rosa Maria Delicado, Gemma Huguet, Pau Clusella. (2025). *Emergent Spatiotemporal Dynamics in Large-Scale Brain Networks with Next Generation Neural Mass Models*. [Link](https://arxiv.org/abs/2512.03907)
 6. Christopher Gabaldon, Adria Mulero, Rong Wang, Daniel A. Martin, Sabrina Camargo, Qian-Yuan Tang, Ignacio Cifre, Changsong Zhou, Dante R. Chialvo. (2026). *Data-driven inference of brain dynamical states from the r-spectrum of correlation matrices*. [Link](https://arxiv.org/abs/2601.03796)

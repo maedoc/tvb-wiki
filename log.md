@@ -10,3 +10,5 @@
 - Added citation to original NNU-Net paper (Isensee et al., 2021)
 
 ## [2026-05-04 10:45] Improve: 5 pages improved (mni-space, fsl-feat, fsl-melodic, niftyreg, open-source-brain)
+
+## [2026-05-04 10:45] RefFormatter: formatted references on 485 pages

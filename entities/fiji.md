@@ -59,4 +59,4 @@ Fiji contributes to whole-brain modeling workflows in several concrete ways that
 
 ## References
 
-1. (authors unknown). *Neurodesk: an accessible, flexible and portable data analysis environment for reproducible neuroimaging*.
+1. (authors unknown). *[[neurodesk]]: an accessible, flexible and portable data analysis environment for reproducible neuroimaging*.

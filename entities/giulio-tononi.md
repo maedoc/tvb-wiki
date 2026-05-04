@@ -50,7 +50,7 @@ Tononi's research spans:
 
 1. (authors unknown). *The Human Connectome: A Structural Description of the Human Brain*.
 2. (authors unknown). *Networks of the Brain*.
-3. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
-4. (authors unknown). *Resting-State fMRI in the Human Connectome Project*.
+3. (authors unknown). *Functional Connectomics from [[resting-state|Resting-State fMRI]]*.
+4. (authors unknown). *Resting-State [[fmri]] in the [[human-connectome-project]]*.
 5. (authors unknown). *Functional Network Organization of the Human Brain*.
-6. (authors unknown). *Functional Connectivity: The Principal-Component Analysis of Large (PET and fMRI) Data Sets*.
+6. (authors unknown). *[[functional-connectivity]]: The Principal-Component Analysis of Large (PET and fMRI) Data Sets*.

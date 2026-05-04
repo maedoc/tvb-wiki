@@ -36,7 +36,7 @@ Neurodevelopment involves the sequential processes of neurogenesis, neuronal mig
 - **Myelination**: Insulation of axons with myelin
 
 ### Functional Development
-- Local circuit formation precedes long-range connectivity
+- Local circuit formation precedes long-range [[connectivity]]
 - Short-range connections dominate early development
 - Long-range connections strengthen during adolescence
 - Network topology shifts from local to distributed
@@ -67,7 +67,7 @@ This "back-to-front" gradient mirrors evolutionary cortical development.
 
 ### Applications
 - Understanding developmental disorders
-- Modeling critical periods
+- Modeling [[critical-periods]]
 - Predicting developmental outcomes
 - Studying atypical trajectories
 
@@ -76,7 +76,7 @@ This "back-to-front" gradient mirrors evolutionary cortical development.
 Development varies across individuals due to:
 - Genetic factors
 - Environmental influences
-- Experience-dependent plasticity
+- Experience-dependent [[plasticity]]
 - Sensitive periods for specific functions
 
 ## Related Concepts
@@ -84,7 +84,7 @@ Development varies across individuals due to:
 - [[aging]] – Changes in the opposite direction (later life)
 - plasticity – Experience-dependent changes
 - [[functional-connectivity]] – Network organization
-- [[structural-connectivity]] – White matter development
+- [[structural-connectivity]] – [[white-matter]] development
 - [[personalized-brain-modeling]] – Subject-specific models
 
 ## References
@@ -95,4 +95,4 @@ Development varies across individuals due to:
 4. (authors unknown). *The Development of Human Functional Brain Networks*.
 5. (authors unknown). *The Basics of Brain Development*.
 6. Fatemeh Mahani, Aref Kalantari, M. Diedenhofen, Claudia Green, Dirk Wiedermann, G.R. Fink, Mathias Hoehn, M. Aswendt. (2026). *Dynamic structural connectivity changes in cortical and cortico-striatal strokes in mice.*. Neural Regeneration Research. [DOI](https://doi.org/10.4103/NRR.NRR-D-25-00491)
-7. (authors unknown). *UK Biobank Brain Imaging: Structural MRI in a Massive Population Resource*.
+7. (authors unknown). *[[uk-biobank]] Brain Imaging: Structural MRI in a Massive Population Resource*.

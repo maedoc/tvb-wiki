@@ -63,4 +63,4 @@ The small-world framework intersects with several other key concepts in brain ne
 2. (authors unknown). *Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems*.
 3. (authors unknown). *Networks of the Brain*.
 4. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
-5. (authors unknown). *Emergence of Scaling in Random Networks*.
+5. (authors unknown). *Emergence of Scaling in [[random-networks]]*.

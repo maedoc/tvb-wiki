@@ -47,4 +47,4 @@ Lead developer of the NEURON simulation environment for multi-compartment neuron
 
 1. Hines & Carnevale (1997). *The NEURON simulation environment*. Neural Computation. [DOI](https://doi.org/10.1162/neco.1997.9.6.1179)
 2. Carnevale & Hines (2006). *The NEURON Book*.
-3. Migliore et al. (2006). *ModelDB: making models publicly accessible to support computational neuroscience*. Neuroinformatics. [DOI](https://doi.org/10.1007/s12021-006-0002-7)
+3. Migliore et al. (2006). *[[modeldb]]: making models publicly accessible to support [[computational-neuroscience]]*. Neuroinformatics. [DOI](https://doi.org/10.1007/s12021-006-0002-7)

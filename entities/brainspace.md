@@ -58,6 +58,6 @@ BrainSpace interacts with several other tools in the [[neuroimaging]] ecosystem.
 
 ## References
 
-1. Woodman et al. (2014). *GraphVar: A user-friendly toolbox for comprehensive graph analyses of functional brain connectivity*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2014.07.015)
-2. (authors unknown). *BRAPH: A Pipeline for Brain Connectivity Analysis*.
+1. Woodman et al. (2014). *[[graphvar]]: A user-friendly toolbox for comprehensive graph analyses of functional brain connectivity*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2014.07.015)
+2. (authors unknown). *[[braph]]: A Pipeline for Brain Connectivity Analysis*.
 3. Breno C. Bispo, Stefania Sardellitti, Juliano B. Lima, Fernando A. N. Santos. (2026). *Multimodal Higher-Order Brain Networks: A Topological Signal Processing Perspective*. [Link](https://arxiv.org/abs/2603.29903)

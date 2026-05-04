@@ -60,7 +60,7 @@ Methodological debates continue about the appropriate use of Neurosynth data for
 
 ## References
 
-1. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
+1. (authors unknown). *Functional [[connectomics]] from Resting-State fMRI*.
 2. (authors unknown). *Functional Magnetic Resonance Imaging*.
 3. (authors unknown). *Functional Connectivity: The Principal-Component Analysis of Large (PET and fMRI) Data Sets*.
 4. (authors unknown). *Functional Network Organization of the Human Brain*.

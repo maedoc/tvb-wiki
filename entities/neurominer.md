@@ -52,7 +52,7 @@ NeuroMiner has been deployed extensively in studies of [[brain-oscillations]] an
 
 ## References
 
-1. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
-2. (authors unknown). *GLEAN: Group Level Exploratory Analysis of Networks*.
+1. Ritter et al. (2013). *[[tvb|The Virtual Brain]] integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
+2. (authors unknown). *[[lean|GLEAN]]: Group Level Exploratory Analysis of Networks*.
 3. Peter Yongho Kim, Juhyeon Park, Jungwoo Park, Jubin Choi, Jungwoo Seo, Jiook Cha, Taesup Moon. (2026). *Can Natural Image Autoencoders Compactly Tokenize fMRI Volumes for Long-Range Dynamics Modeling?*. [Link](https://arxiv.org/abs/2604.03619)
 4. Raquel González-Alday, Adriana Ferreiro, Nuria Arias-Ramos, B. Lizarbe, Pilar López-Larrubia. (2025). *Resomapper: A Versatile Pipeline for Multiparametric MRI Processing. A Demonstrative Application in Mouse Brain Imaging*. bioRxiv. [DOI](https://doi.org/10.1101/2025.08.20.671222)

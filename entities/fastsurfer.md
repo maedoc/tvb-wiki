@@ -21,14 +21,14 @@ updated: '2026-05-04'
 
 # FastSurfer
 
-FastSurfer is a deep learning-based neuroimaging pipeline for rapid cortical surface reconstruction, brain segmentation, and parcellation that achieves comparable accuracy to FreeSurfer in a fraction of the computation time.
+FastSurfer is a deep learning-based [[neuroimaging]] pipeline for rapid cortical surface reconstruction, brain segmentation, and [[parcellation]] that achieves comparable accuracy to FreeSurfer in a fraction of the computation time.
 
 ## Overview
 
-FastSurfer was developed at the Martinos Center for Biomedical Imaging and the University of Bonn as a computationally efficient alternative to FreeSurfer's recon-all pipeline. The tool uses a convolutional neural network (CNN) architecture—specifically a 3D U-Net—to perform whole-brain segmentation in approximately 1 minute on a GPU, achieving a ~1000× speedup for this step compared to traditional methods. The complete FastSurfer pipeline (segmentation plus surface reconstruction) runs in approximately 1 hour total, compared to 20–30 hours for FreeSurfer's full recon-all pipeline—a ~20–30× overall speedup.
+FastSurfer was developed at the Martinos Center for Biomedical Imaging and the University of Bonn as a computationally efficient alternative to FreeSurfer's recon-all pipeline. The tool uses a convolutional [[neural-network]] (CNN) architecture—specifically a 3D U-Net—to perform [[whole-brain]] segmentation in approximately 1 minute on a GPU, achieving a ~1000× speedup for this step compared to traditional methods. The complete FastSurfer pipeline (segmentation plus surface reconstruction) runs in approximately 1 hour total, compared to 20–30 hours for FreeSurfer's full recon-all pipeline—a ~20–30× overall speedup.
 
 The pipeline generates standard neuroimaging outputs including:
-- Cortical surface meshes (pial, white matter, inflated)
+- Cortical surface meshes (pial, [[white-matter]], inflated)
 - Subcortical structure segmentations (aseg)
 - Cortical thickness maps
 - Surface-based parcellations (Desikan-Killiany, Destrieux atlases)
@@ -69,8 +69,8 @@ FastSurfer serves as a critical preprocessing tool for [[TVB]] workflows in seve
 
 ### Surface Mesh Generation
 TVB requires high-quality cortical surface meshes for:
-- **Geometric embedding** of neural mass models
-- **Visualization** of simulated brain dynamics
+- **Geometric embedding** of [[neural-mass-models]]
+- **Visualization** of simulated [[brain-dynamics]]
 - **Region boundary definition** for parcellation-based models
 
 FastSurfer provides these meshes directly compatible with TVB's surface import functions, including:
@@ -79,9 +79,9 @@ FastSurfer provides these meshes directly compatible with TVB's surface import f
 - High-resolution pial surfaces for accurate region delineation
 
 ### Regional Parcellations
-The [[Desikan-Killiany Atlas]] and Destrieux Atlas outputs from FastSurfer define:
-- **Region count** for whole-brain network nodes
-- **Region boundaries** for structural connectivity mapping
+The [[Desikan-Killiany Atlas]] and [[destrieux-atlas]] outputs from FastSurfer define:
+- **Region count** for whole-[[brain-network]] nodes
+- **Region boundaries** for [[structural-connectivity]] mapping
 - **Cortical thickness** for individual subject calibration
 
 TVB users can import FastSurfer parcellations to define the 68 cortical nodes (34 per hemisphere) commonly used in large-scale brain simulations.

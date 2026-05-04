@@ -73,6 +73,6 @@ While NiTransforms is not specifically designed for [[whole-brain|whole-brain mo
 
 ## References
 
-1. (authors unknown). *Nighres: processing tools for high-resolution neuroimaging*.
+1. (authors unknown). *[[nighres]]: processing tools for high-resolution neuroimaging*.
 2. Thomas Sanchez, Gerard Mart'i-Juan, David Meunier, M. A. Ballester, Oscar Camara, Gemma Piella, M. Cuadra, G. Auzias. (2025). *Fetpype: An Open-Source Pipeline for Reproducible Fetal Brain MRI Analysis*. [Link](https://www.semanticscholar.org/paper/b1155c0f0a55def1383ea0895df9d4a755597e00)
 3. A. Dehsarvi, Lukas Frontzkowski, Anna Dewenter, Michael Schöll, N. Franzmeier. (2025). *ADprep – A Fully‐Automated Software for Large‐scale Multimodal MRI and PET Imaging Workflows*. Alzheimer's & Dementia. [DOI](https://doi.org/10.1002/alz70856_101373)

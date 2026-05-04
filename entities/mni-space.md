@@ -1,23 +1,32 @@
 ---
-title: MNI Space
 created: 2026-04-20
-updated: 2026-05-04
+sources:
+- evans-1993
+- mazziotta-2001
+- spm-manual
+- fsl-manual
+- collins-1994
+- holmes-1998
+tags:
+- neuroimaging
+- neuroimaging-fmri
+- neuroimaging-pet
+title: MNI Space
 type: concept
-tags: [neuroimaging, neuroimaging-fmri, neuroimaging-pet]
-sources: [evans-1993, mazziotta-2001, spm-manual, fsl-manual, collins-1994, holmes-1998]
+updated: '2026-05-04'
 ---
 
 MNI Space refers to the standardized coordinate system and associated brain templates developed at the Montreal Neurological Institute (MNI). This coordinate framework has become the de facto standard for spatial normalization and reporting of neuroimaging data, enabling the comparison of brain structure and function across individuals and studies. The MNI templates represent an average brain derived from hundreds of individual MR scans, providing a common anatomical reference that accommodates the significant variability in human brain morphology.
 
 ## Motivation and Context
 
-The human brain exhibits substantial inter-individual variability in size, shape, and folding patterns. Prior to the development of standardized coordinate systems, comparing neuroimaging findings across different subjects or studies was extremely challenging, often requiring qualitative judgments that limited scientific reproducibility. The MNI space was developed to address this fundamental problem by providing a common anatomical framework onto which individual brains can be warped through a process known as spatial normalization.
+The human brain exhibits substantial inter-individual variability in size, shape, and folding patterns. Prior to the development of standardized coordinate systems, comparing neuroimaging findings across different subjects or studies was extremely challenging, often requiring qualitative judgments that limited scientific [[reproducibility]]. The MNI space was developed to address this fundamental problem by providing a common anatomical framework onto which individual brains can be warped through a process known as spatial normalization.
 
 The original MNI templates were created by averaging magnetic resonance imaging (MRI) scans from hundreds of healthy volunteers. The most widely used variant, MNI152, represents the average of 152 normal brains scanned at the Montreal Neurological Institute between 1992 and 1995. While early descriptions noted approximate demographic composition (predominantly young adult volunteers), detailed demographic metadata was not systematically published for the original cohort. This template was subsequently refined through additional iterations, with the MNI152NL2009 and later versions providing improved anatomical accuracy. The coordinate system defines the origin at the anterior commissure, with the Y-axis pointing anteriorly, the X-axis to the right, and the Z-axis pointing superiorly—a convention that has been adopted by major neuroimaging software packages including [[spm|SPM]], [[fsl|FSL]], and [[afni|AFNI]].
 
 ## Technical Components
 
-The MNI space implementation involves several interconnected technical elements that together enable standardized neuroimaging analysis. Spatial normalization algorithms, such as those implemented in [[spm]]'s Unified Segmentation or [[fsl]]'s FLIRT and FNIRT, compute the transformation required to align an individual's brain to the MNI template by maximizing the similarity between the source and target images through iterative optimization. These transformations typically employ affine transformations for initial alignment followed by non-linear warping to capture finer anatomical details that cannot be captured by rigid-body registration alone.
+The MNI space implementation involves several interconnected technical elements that together enable standardized neuroimaging analysis. Spatial normalization algorithms, such as those implemented in [[spm]]'s Unified Segmentation or [[fsl]]'s FLIRT and FNIRT, compute the transformation required to align an individual's brain to the MNI template by maximizing the similarity between the source and target images through iterative optimization. These transformations typically employ affine transformations for initial alignment followed by non-[[linear]] warping to capture finer anatomical details that cannot be captured by rigid-body registration alone.
 
 The resulting transformation can be applied to any neuroimaging dataset—regardless of the original acquisition geometry—reshaping it into the MNI152 space where voxel-by-voxel comparisons across subjects become meaningful. Coordinates reported in MNI space thus represent locations in this standardized frame rather than the original scanner coordinates, enabling direct comparison of findings across studies. For instance, a coordinate of [−44, −28, −12] in MNI space refers to a consistent anatomical location: 44 mm left of the midline, 28 mm posterior to the anterior commissure, and 12 mm inferior to the commissural plane.
 

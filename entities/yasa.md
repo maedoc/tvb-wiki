@@ -55,6 +55,6 @@ YASA is implemented in Python and depends on scientific computing libraries incl
 ## References
 
 1. B. Şanlıdağ, Furkan Donbaloğlu, Mehpare Sarı Yanartaş, B. Şekeroğlu, Arzu Yılmaz, Ö. Köken. (2025). *High-frequency oscillations in autism spectrum disorder: are they related to clinical severity?*. Cerebral Cortex. [DOI](https://doi.org/10.1093/cercor/bhaf068)
-2. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
+2. (authors unknown). *Functional [[connectomics]] from [[resting-state|Resting-State fMRI]]*.
 3. Xiaobo Liu. (2026). *MLE-Toolbox: An Open-Source Toolbox for Comprehensive EEG and MEG Data Analysis*. [Link](https://www.semanticscholar.org/paper/e7aaa4f4bb01e70064493684b4500a950f83460f)
-4. Siyu Li, Zhuo Wang, Yun Li, Xue Luo, T. Ru, Qingwei Chen, Guofu Zhou. (2025). *Insomnia and emotional dysfunction: Altered brain network connectivity across sleep and wakefulness states.*. Sleep Medicine. [DOI](https://doi.org/10.1016/j.sleep.2025.106582)
+4. Siyu Li, Zhuo Wang, Yun Li, Xue Luo, T. Ru, Qingwei Chen, Guofu Zhou. (2025). *Insomnia and emotional dysfunction: Altered [[brain-network]] [[connectivity]] across sleep and wakefulness states.*. Sleep Medicine. [DOI](https://doi.org/10.1016/j.sleep.2025.106582)

@@ -43,6 +43,6 @@ DCMTK is closely related to several other tools in the neuroimaging software eco
 
 ## References
 
-1. (authors unknown). *Neurodesk: an accessible, flexible and portable data analysis environment for reproducible neuroimaging*.
-2. (authors unknown). *BRAPH: A Pipeline for Brain Connectivity Analysis*.
-3. B. Bein (2018). *pyedflib: Python library for reading and writing EDF/BDF files*. Journal of Open Source Software. [DOI](https://doi.org/10.21105/joss.00899)
+1. (authors unknown). *[[neurodesk]]: an accessible, flexible and portable data analysis environment for reproducible neuroimaging*.
+2. (authors unknown). *[[braph]]: A Pipeline for Brain [[connectivity]] Analysis*.
+3. B. Bein (2018). *[[pyedflib]]: Python library for reading and writing EDF/BDF files*. Journal of Open Source Software. [DOI](https://doi.org/10.21105/joss.00899)
