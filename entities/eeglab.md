@@ -29,7 +29,7 @@ EEGLAB is often used alongside [[tvb]] and other simulation platforms in pre-pro
 ## Related Software
 * Antspy
 * [[arbor]]
-* Bids Validator
+* [[bids]] Validator
 * Bidscoin
 * Brainstorm
 * [[eegnet]]

@@ -43,7 +43,7 @@ AFQ operates as a pipeline that processes raw diffusion MRI data through several
 
 **Fiber sampling and metric computation**: Once a tract is isolated, AFQ samples diffusion metrics along the tract's length, typically at 100 equidistant points from one endpoint to the other [1]. This produces a “tract profile” showing how FA, MD, RD, and axial diffusivity (AD) vary along each pathway. Researchers can then compute summary statistics (mean, standard deviation, peak location) or compare profiles across groups.
 
-The computational pipeline is implemented in Python and integrates with the [[nipype]] workflow engine, enabling seamless integration with other neuroimaging tools like Fsl, [[ants]], and MRVista.
+The computational pipeline is implemented in Python and integrates with the [[nipype]] workflow engine, enabling seamless integration with other [[neuroimaging]] tools like Fsl, [[ants]], and MRVista.
 
 ## Key Features
 

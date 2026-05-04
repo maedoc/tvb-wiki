@@ -18,7 +18,7 @@ type: entity
 updated: '2026-05-04'
 ---
 
-Nistats (NeuroImaging STATistics) is a Python library designed for statistical analysis of neuroimaging data, with a primary focus on functional magnetic resonance imaging (fMRI). Originally developed as part of the NiPy ecosystem, nistats provides tools for implementing General Linear Model (GLM) analysis pipelines for both first-level (single-subject) and second-level (group-level) fMRI experiments. The library enables researchers to perform voxel-wise statistical tests, construct design matrices, run contrast analyses, and generate statistical parametric maps from BOLD (Blood-Oxygen-Level-Dependent) signal data in NIfTI format. [[citation:https://github.com/nipy/nistats]]
+Nistats ([[neuroimaging]] STATistics) is a Python library designed for statistical analysis of neuroimaging data, with a primary focus on functional magnetic resonance imaging ([[fmri]]). Originally developed as part of the NiPy ecosystem, nistats provides tools for implementing General [[linear|Linear Model]] (GLM) analysis pipelines for both first-level (single-subject) and second-level (group-level) fMRI experiments. The library enables researchers to perform voxel-wise statistical tests, construct design matrices, run contrast analyses, and generate statistical parametric maps from [[bold-signal|BOLD]] (Blood-Oxygen-Level-Dependent) signal data in [[nifti]] format. [[citation:https://github.com/nipy/nistats]]
 
 ## Motivation and Context
 

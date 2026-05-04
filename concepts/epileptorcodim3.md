@@ -90,4 +90,4 @@ The Epileptor Codimension-3 thus stands as a prime example of how sophisticated 
 2. Jonathan Touboul, Fabien Wendling, Bruno Bellanger, Patrick Chauvel, Olivier Faugeras. *Bifurcation analysis of Jansen's neural mass model*. Neural Computation. [DOI](https://doi.org/10.1162/NECO_a_00151)
 3. Michael Breakspear, John A. Roberts, John R. Terry, Stefano Rodrigues, Nader Mahmud, Philip Robinson. *Large-scale [[brain-dynamics]] of seizures: asymptotic analysis of a [[neural-field-theory|neural field]] model*. Journal of [[computational-neuroscience]]. [DOI](https://doi.org/10.1007/s10827-006-8135-2)
 4. Jeremy B. Goetz, Naruepon Weerawongphrom, Rashid V. Williams-García, John M. Beggs, Gerardo Ortiz. (2025). *A Minimal Network of Brain Dynamics: Hierarchy of Approximations to Quasi-critical Neural [[network-dynamics]]*. [Link](https://arxiv.org/abs/2512.22093)
-5. Eugene M. Izhikevich. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
+5. Eugene M. [[izhikevich]]. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.

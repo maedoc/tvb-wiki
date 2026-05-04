@@ -43,7 +43,7 @@ Another important consideration is species scaling. Morphological measurements d
 
 Neuromorpho.Org integrates with numerous software tools in the computational neuroscience ecosystem. The [[neuron]] simulation environment has built-in import functions for SWC-format morphologies from Neuromorpho. Similarly, Brian and Brian2 can directly import these reconstructions for use in detailed single-neuron models. The Neuroconstruct platform provides a graphical interface for managing neuronal simulations with morphologies from the database. For visualization, tools like [[neuron]]'s built-in GUI, Pycortex, and [[brainnet-viewer]] can render reconstructed morphologies in three dimensions.
 
-Beyond simulation software, Neuromorpho.Org data feeds into analysis tools that quantify neuronal structure. The [[bctpy]] can be extended to analyze topological features of dendritic trees, while specialized tools like [[lfpy]] use detailed morphology to compute local field potentials from network simulations. The database also connects to Neuroml standards, as morphological structure can be encoded in NeuroML format for interoperability across platforms [@gleeson2019sonata].
+Beyond simulation software, Neuromorpho.Org data feeds into analysis tools that quantify neuronal structure. The [[bctpy]] can be extended to analyze topological features of dendritic trees, while specialized tools like [[lfpy]] use detailed morphology to compute [[local-field-potentials]] from network simulations. The database also connects to Neuroml standards, as morphological structure can be encoded in NeuroML format for interoperability across platforms [@gleeson2019sonata].
 
 ## Data Contribution and Curation Process
 

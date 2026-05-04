@@ -21,7 +21,7 @@ Napari is a fast, interactive, and extensible multi-dimensional image viewer bui
 
 ## Motivation and Context
 
-Neuroimaging research produces massive datasets: a single [[fMRI]] run can generate hundreds of gigabytes of volumetric time-series data, while [[diffusion-imaging]] tractography produces complex 3D streamline representations that strain conventional viewers. Traditional tools like Fsl's fsleyes or Freesurfer's freeview are powerful but limited to specific file formats and workflows. Meanwhile, general-purpose image viewers lack the domain-specific features neuroscientists need—support for NIfTI headers, atlas overlays, and connectivity matrices.
+Neuroimaging research produces massive datasets: a single [[fMRI]] run can generate hundreds of gigabytes of volumetric time-series data, while [[diffusion-imaging]] tractography produces complex 3D streamline representations that strain conventional viewers. Traditional tools like Fsl's fsleyes or Freesurfer's [[freeview]] are powerful but limited to specific file formats and workflows. Meanwhile, general-purpose image viewers lack the domain-specific features neuroscientists need—support for [[nifti]] headers, atlas overlays, and connectivity matrices.
 
 Napari emerged to address this gap by providing a performant, Python-native viewer that accepts any NumPy array as input. This means researchers can load preprocessed data directly from [[nipype]] pipelines, visualize outputs from tractography tools like Mrtrix3 or Dipy, or render custom analyses without data conversion. The plugin architecture also allows developers to add domain-specific functionality—plugins have been developed for brain atlases, electrode localization, and various neuroscience visualization needs.
 

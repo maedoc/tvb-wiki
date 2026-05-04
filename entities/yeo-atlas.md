@@ -41,7 +41,7 @@ Several features make the Yeo Atlas particularly valuable for [[computational-ne
 
 The Yeo Atlas is part of a broader ecosystem of connectivity-based brain parcellations that have been developed in recent years. The [[schaefer-atlas]] provides a similar 100- to 1000-region parcellation based on a different clustering approach and is also widely used in resting-state research. The [[glasser-atlas]] (HCP Multi-Modal Parcellation) combines multiple neuroimaging modalities—including structural MRI, rest fMRI, and task fMRI—to produce a higher-resolution parcellation with 180 regions per hemisphere. More recently, the [[brainnetome-atlas]] integrates both functional and anatomical connectivity to define a hybrid parcellation. These atlases can be viewed as complementary, with the choice depending on the specific research application.
 
-The Yeo Atlas is supported by major neuroimaging platforms including Fsl (where it is distributed as the "Yeo 2011 7 Networks" template), Freesurfer (via the HCP pipelines), and Nilearn (through the nilearn-datasets module). It can also be visualized using [[brainnet-viewer]] or [[connectome-workbench]], and is directly usable in TVB through the TVB's built-in connectivity matrices.
+The Yeo Atlas is supported by major neuroimaging platforms including Fsl (where it is distributed as the "Yeo 2011 7 Networks" template), Freesurfer (via the [[hcp-pipelines]]), and Nilearn (through the [[nilearn-datasets]] module). It can also be visualized using [[brainnet-viewer]] or [[connectome-workbench]], and is directly usable in TVB through the TVB's built-in connectivity matrices.
 
 ## Key Papers
 

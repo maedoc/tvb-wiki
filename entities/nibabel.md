@@ -20,7 +20,7 @@ NiBabel is an open-source Python library that provides read and write access to 
 
 The [[neuroimaging]] field faces a fundamental challenge: different scanner vendors, analysis software packages, and research groups have historically used disparate file formats to store volumetric and surface-based data. This format fragmentation created significant friction in reproducible research workflows, as code written for one format often failed when presented with another. NiBabel emerged to solve this interoperability problem by providing a consistent, Pythonic API across formats, enabling researchers to write format-agnostic code that works seamlessly across datasets from different sources (Smith et al., 2014).
 
-The library plays a crucial role in the broader [[computational-neuroscience]] software stack. It sits at the entry point of nearly every Python-based neuroimaging analysis pipeline, from preprocessing with Fsl and Freesurfer to advanced connectomics analyses with Nilearn and [[brain-connectivity-toolbox]]. Without NiBabel's standardized interface, the development of higher-level analysis tools would require redundant format-specific code in each package.
+The library plays a crucial role in the broader [[computational-neuroscience]] software stack. It sits at the entry point of nearly every Python-based neuroimaging analysis pipeline, from preprocessing with Fsl and Freesurfer to advanced [[connectomics]] analyses with Nilearn and [[brain-connectivity-toolbox]]. Without NiBabel's standardized interface, the development of higher-level analysis tools would require redundant format-specific code in each package.
 
 ## Key Features
 

@@ -35,3 +35,5 @@
 ## [2026-05-04 14:06] Audit: 941 issues (42 broken links, 54 orphans, 20 placeholders, 0 dup-refs, 3 bad-meta, 78 citation-verify, 4 opaque-refs, 75 thin, 421 missing-links)
 
 ## [2026-05-04 15:54] Improve: 4 pages improved (nistats, hcp-dataset, aomic, petsurfer)
+
+## [2026-05-04 15:54] RefFormatter: formatted references on 10 pages

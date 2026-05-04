@@ -46,7 +46,7 @@ The relationship between PyMC and the [[free-energy-principle]] framework warran
 
 ## Related Software
 
-PyMC occupies a similar niche to other probabilistic programming frameworks including Stan, which offers a domain-specific language for model specification, and TensorFlow Probability, which provides probabilistic modeling primitives within the TensorFlow ecosystem. Within computational neuroscience specifically, PyMC complements the simulation-oriented approaches of Brian and [[neuron]] by providing the inference machinery needed to fit such simulation models to data. The library also interfaces with Nilearn for preprocessing neuroimaging data prior to model fitting.
+PyMC occupies a similar niche to other probabilistic programming frameworks including Stan, which offers a domain-specific language for model specification, and [[tensorflow]] Probability, which provides probabilistic modeling primitives within the TensorFlow ecosystem. Within computational neuroscience specifically, PyMC complements the simulation-oriented approaches of Brian and [[neuron]] by providing the inference machinery needed to fit such simulation models to data. The library also interfaces with Nilearn for preprocessing neuroimaging data prior to model fitting.
 
 ## Key Papers
 

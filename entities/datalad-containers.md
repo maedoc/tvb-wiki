@@ -17,7 +17,7 @@ type: entity
 updated: '2026-05-04'
 ---
 
-Datalad Containers is an extension to the [[datalad]] data management framework that enables packaging, sharing, and running analysis software within containerized environments. The extension bridges the gap between reproducible data versioning and reproducible computational environments by allowing researchers to associate specific software containers with datasets and execute them seamlessly. This capability is particularly valuable in computational neuroscience and neuroimaging, where complex pipelines involving multiple software tools (such as Freesurfer, Fsl, [[afni]], and Mrtrix3) must be executed with exact versions to ensure reproducibility across experiments.
+Datalad Containers is an extension to the [[datalad]] data management framework that enables packaging, sharing, and running analysis software within containerized environments. The extension bridges the gap between reproducible data versioning and reproducible computational environments by allowing researchers to associate specific software containers with datasets and execute them seamlessly. This capability is particularly valuable in [[computational-neuroscience]] and neuroimaging, where complex pipelines involving multiple software tools (such as Freesurfer, Fsl, [[afni]], and Mrtrix3) must be executed with exact versions to ensure reproducibility across experiments.
 
 ## Overview and Core Functionality
 
@@ -31,7 +31,7 @@ In the context of [[the-virtual-brain]] and whole-brain modeling, DataLad Contai
 
 For [[personalized-brain-modeling]] workflows that process individual subject data through [[bids]]-compliant pipelines, containers provide an additional layer of standardization. Researchers can create containerized versions of preprocessing workflows (similar to those embodied in [[fmriprep]] or Qsiprep) and execute them through DataLad Containers, ensuring that every subject's data is processed with the same software versions. This capability is essential for multi-site studies where the goal is to harmonize processing across scanners and institutions—for example, when aggregating data from the [[hcp-dataset]] with data from the [[uk-biobank]] for connectome-based analyses.
 
-The extension also complements platforms like [[brainlife]] and Cbrain, which provide managed compute environments for neuroimaging. While those platforms handle infrastructure, DataLad Containers gives researchers portable pipelines that can run anywhere—whether on a local workstation, an HPC cluster, or a cloud VM. This portability is particularly valuable for simulation workflows that require custom configurations, such as large-scale whole-brain modeling simulations using [[the-virtual-brain]] that may need GPU acceleration or custom parameter sweeps not easily accommodated in fixed cloud environments. [@Esteban2019]
+The extension also complements platforms like [[brainlife]] and Cbrain, which provide managed compute environments for neuroimaging. While those platforms handle infrastructure, DataLad Containers gives researchers portable pipelines that can run anywhere—whether on a local workstation, an HPC cluster, or a cloud VM. This portability is particularly valuable for simulation workflows that require custom configurations, such as large-scale [[whole-brain|whole-brain modeling]] simulations using [[the-virtual-brain]] that may need GPU acceleration or custom parameter sweeps not easily accommodated in fixed cloud environments. [@Esteban2019]
 
 ## Key Features
 

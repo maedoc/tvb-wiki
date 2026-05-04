@@ -65,7 +65,7 @@ The foundational paper describing NIAK's pipeline architecture is "The pipeline 
 
 ## Historical Context and Current Status
 
-NIAK was initiated around 2008 and saw active development through approximately 2017, with the SIMEXP laboratory at Université de Montréal assuming maintenance responsibilities. As documented in the GitHub repository, the SIMEXP lab announced cessation of active development around 2022, though the software remains available on GitHub and NITRC for researchers who have existing pipelines or methodological reasons to continue using it. The Python ecosystem, particularly packages like Nilearn and [[bids]]-based workflows (including [[fmriprep]]), has largely absorbed the user community seeking modern, actively maintained neuroimaging preprocessing solutions.
+NIAK was initiated around 2008 and saw active development through approximately 2017, with the SIMEXP laboratory at Université de Montréal assuming maintenance responsibilities. As documented in the GitHub repository, the SIMEXP lab announced cessation of active development around 2022, though the software remains available on GitHub and [[nitrc]] for researchers who have existing pipelines or methodological reasons to continue using it. The Python ecosystem, particularly packages like Nilearn and [[bids]]-based workflows (including [[fmriprep]]), has largely absorbed the user community seeking modern, actively maintained neuroimaging preprocessing solutions.
 
 ## Related Software
 

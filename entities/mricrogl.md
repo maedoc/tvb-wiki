@@ -48,7 +48,7 @@ For users requiring more advanced visualization capabilities beyond what MRIcroG
 
 ## Related Software
 
-MRIcroGL should not be confused with its predecessor [[mricron|MRIcron]], which remains available but lacks the OpenGL-based rendering improvements of the newer version. Both tools share a common heritage in the neuroimaging open-source ecosystem and continue to be maintained in parallel. Other visualization alternatives in the ecosystem include FSLeyes (part of the FSL suite), MRTrix3 for advanced diffusion imaging visualization, and Nilearn for Python-based programmatic visualization workflows. The choice among these tools typically depends on the specific visualization task, the data format being used, and integration requirements with existing analysis pipelines.
+MRIcroGL should not be confused with its predecessor [[mricron|MRIcron]], which remains available but lacks the OpenGL-based rendering improvements of the newer version. Both tools share a common heritage in the neuroimaging open-source ecosystem and continue to be maintained in parallel. Other visualization alternatives in the ecosystem include FSLeyes (part of the FSL suite), MRTrix3 for advanced [[diffusion-imaging]] visualization, and Nilearn for Python-based programmatic visualization workflows. The choice among these tools typically depends on the specific visualization task, the data format being used, and integration requirements with existing analysis pipelines.
 
 ## References
 

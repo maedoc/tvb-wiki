@@ -66,7 +66,7 @@ CONN serves as a critical preprocessing and analysis tool in the [[connectome]]-
 
 3. **Patient-Specific Models**: Individual subject connectivity maps from CONN can inform [[personalized-brain-modeling|personalized brain models]], particularly in clinical applications such as [[epilepsy-modeling|epilepsy]] and [[alzheimers-modeling|Alzheimer's disease]] where individual functional network alterations guide model parameterization.
 
-4. **Multi-modal Integration**: CONN outputs can be combined with [[dti|structural connectivity data]] from tools like ANTs or FSL to constrain structural-functional coupling in multi-modal modeling approaches.
+4. **Multi-modal Integration**: CONN outputs can be combined with [[dti|structural connectivity data]] from tools like [[ants]] or FSL to constrain structural-functional coupling in multi-modal modeling approaches.
 
 ## Related Software
 

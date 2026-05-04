@@ -29,7 +29,7 @@ The toolbox was developed mainly by Michael Wibral, Raul Vicente, and collaborat
 
 TRENTOOL provides several interrelated functionalities centered on information-theoretic analysis of neural time series. The core algorithm implements transfer entropy estimation using either binning-based (discrete) estimators or kernel-based (continuous) estimators, with appropriate bias correction methods for finite sample sizes. The toolbox includes the TRENDE algorithm for detecting state-dependent changes in connectivity, allowing researchers to identify how information flow varies across different brain states or experimental conditions.
 
-One of TRENTOOL's distinctive features is its integration with source reconstruction capabilities, enabling connectivity analysis in source-space rather than just sensor-space. This is particularly important for [[neuromorpho-toolkit]] and [[neuromorpho-toolkit]] data where sensor-level analyses are confounded by volume conduction and recording artifacts. The toolbox supports integration with Fieldtrip for preprocessing and data handling, making it compatible with standard neurophysiology workflows.
+One of TRENTOOL's distinctive features is its integration with source reconstruction capabilities, enabling connectivity analysis in source-space rather than just sensor-space. This is particularly important for [[neuromorpho-toolkit]] and [[neuromorpho-toolkit]] data where sensor-level analyses are confounded by [[volume-conduction]] and recording artifacts. The toolbox supports integration with Fieldtrip for preprocessing and data handling, making it compatible with standard neurophysiology workflows.
 
 ## Relationship to TVB and Whole-Brain Modeling
 

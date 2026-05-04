@@ -27,7 +27,7 @@ Arbor is often used alongside [[tvb]] and other simulation platforms in pre-proc
 
 ## Related Software
 * Antspy
-* Bids Validator
+* [[bids]] Validator
 * Bidscoin
 * Brainstorm
 * Brian

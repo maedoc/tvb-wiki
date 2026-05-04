@@ -49,7 +49,7 @@ This workflow is particularly valuable for [[personalized-brain-modeling]] proje
 
 ParaView occupies a distinct niche compared to other neuroscience visualization tools. While [[3d-slicer]] provides integrated analysis and visualization with strong clinical orientation, ParaView focuses purely on visualization with strong scaling capabilities for large datasets. Unlike [[brainnet-viewer]] or [[connectome-workbench]] which are optimized specifically for neuroimaging data formats, ParaView requires format conversion but offers greater flexibility in visualization techniques. For researchers working across multiple simulation platforms (e.g., [[nest]], Brian, [[neuron]]), ParaView provides a unified visualization environment rather than learning platform-specific viewers.
 
-Other notable alternatives include Fsleyes, which provides lightweight viewing of NIfTI and other neuroimaging formats with minimal setup, and Freesurfer with its FreeView interface, which offers deep integration with cortical surface analysis workflows. Tools like MRtrix are specifically optimized for [[diffusion-mri]] and [[tractography]] visualization, making them more specialized than ParaView for those specific tasks.
+Other notable alternatives include Fsleyes, which provides lightweight viewing of [[nifti]] and other neuroimaging formats with minimal setup, and Freesurfer with its [[freeview]] interface, which offers deep integration with cortical surface analysis workflows. Tools like MRtrix are specifically optimized for [[diffusion-mri]] and [[tractography]] visualization, making them more specialized than ParaView for those specific tasks.
 
 ## Comparison with Alternative Tools
 

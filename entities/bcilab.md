@@ -44,7 +44,7 @@ While BCILAB focuses on real-time BCI applications and single-subject signal pro
 
 ## Related Software Ecosystem
 
-BCILAB belongs to a broader ecosystem of neurophysiological signal processing toolboxes from the SCCN group. Its closest relative is [[eeglab]], which provides general-purpose EEG processing capabilities from which BCILAB inherits several functions. Unlike EEGLAB's emphasis on exploratory data analysis, BCILAB is optimized for the specific workflows of BCI research. Other related toolboxes include Fieldtrip (an EEG/MEG toolbox from the Donders Institute with strong source localization capabilities), Brainstorm (a comprehensive EEG/MEG/SEEG analysis platform), and commercial systems such as Bci2000 and [[openvibe]] that provide complete BCI experimentation environments.
+BCILAB belongs to a broader ecosystem of neurophysiological signal processing toolboxes from the SCCN group. Its closest relative is [[eeglab]], which provides general-purpose EEG processing capabilities from which BCILAB inherits several functions. Unlike EEGLAB's emphasis on exploratory data analysis, BCILAB is optimized for the specific workflows of BCI research. Other related toolboxes include Fieldtrip (an EEG/MEG toolbox from the Donders Institute with strong [[source-localization]] capabilities), Brainstorm (a comprehensive EEG/MEG/SEEG analysis platform), and commercial systems such as Bci2000 and [[openvibe]] that provide complete BCI experimentation environments.
 
 ## Key Features
 

@@ -29,7 +29,7 @@ TVB Library is often used alongside [[tvb]] and other simulation platforms in pr
 ## Related Software
 * Antspy
 * [[arbor]]
-* Bids Validator
+* [[bids]] Validator
 * Bidscoin
 * Brainstorm
 

@@ -36,7 +36,7 @@ ITK's **filtering infrastructure** includes Gaussian smoothing, anisotropic diff
 
 While [[the-virtual-brain]] focuses on dynamical whole-brain modeling and simulation, ITK plays a supporting role in the preprocessing pipeline that generates structural connectivity matrices. TVB workflows typically begin with [[neuroimaging]] data—T1-weighted anatomical scans and diffusion-weighted images—that require processing through ITK-based tools before network construction. The structural connectivity matrices derived from [[tractography]] processed with ITK directly feed into TVB's connectome-based models[^6].
 
-ITK is not directly used within TVB's simulation engine but appears in the broader ecosystem of TVB's data processing pipelines. Researchers preparing personalized brain models often use Freesurfer or Fsl for parcellation, with ITK providing underlying registration functions. The emphasis on [[structural-connectivity]] in whole-brain modeling means that preprocessing tools like ITK, while not model components themselves, are essential infrastructure for the field.
+ITK is not directly used within TVB's simulation engine but appears in the broader ecosystem of TVB's data processing pipelines. Researchers preparing [[personalized-brain-modeling|personalized brain]] models often use Freesurfer or Fsl for parcellation, with ITK providing underlying registration functions. The emphasis on [[structural-connectivity]] in whole-brain modeling means that preprocessing tools like ITK, while not model components themselves, are essential infrastructure for the field.
 
 ## Related Software
 

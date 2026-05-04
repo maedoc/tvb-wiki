@@ -29,7 +29,7 @@ TVB Adapters is often used alongside [[tvb]] and other simulation platforms in p
 ## Related Software
 * Antspy
 * [[arbor]]
-* Bids Validator
+* [[bids]] Validator
 * Bidscoin
 * Brainstorm
 

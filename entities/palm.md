@@ -36,7 +36,7 @@ While PALM is primarily an [[fmri]] analysis tool rather than a [[whole-brain-mo
 
 The Bayesian inference capabilities in PALM are particularly relevant for [[parameter-estimation]] in [[whole-brain-modeling]]. When fitting TVB models to empirical [[resting-state]] data, researchers generate multiple candidate models with different parameter configurations. PALM's [[bayes-factors]] functionality can be used to compare these models, providing principled selection of the most parsimonious model that explains the observed [[brain-oscillations]] and connectivity patterns. This bridges the gap between [[computational-neuroscience]] simulation and statistical model comparison.
 
-Additionally, PALM integrates with Fsl preprocessing pipelines, which are often used to generate the empirical data that feed into TVB simulations. The connectivity between PALM, Fsl, and TVB reflects the broader ecosystem of [[neuroimaging]] tools in [[computational-neuroscience]], where preprocessing, statistical inference, and biophysical modeling form a cohesive analysis pipeline.
+Additionally, PALM integrates with Fsl preprocessing pipelines, which are often used to generate the empirical data that feed into TVB simulations. The [[connectivity]] between PALM, Fsl, and TVB reflects the broader ecosystem of [[neuroimaging]] tools in [[computational-neuroscience]], where preprocessing, statistical inference, and biophysical modeling form a cohesive analysis pipeline.
 
 ## Key Papers
 
@@ -59,5 +59,5 @@ The development of PALM represents a broader trend in [[neuroimaging]] toward no
 ## References
 
 1. (authors unknown). *Permutation inference for the general linear model*.
-2. (authors unknown). *BRAPH: A Pipeline for Brain Connectivity Analysis*.
+2. (authors unknown). *[[braph]]: A Pipeline for Brain Connectivity Analysis*.
 3. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2018.05.040)

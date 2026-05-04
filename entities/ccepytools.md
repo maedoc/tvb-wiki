@@ -11,17 +11,17 @@ updated: '2026-05-04'
 
 # CCEytools
 
-**Note:** This entry appears to have been created as a placeholder for Python-based brain connectivity and modeling tools. No standalone tool called "CCEytools" specifically exists in the literature; however, this entry serves as a reference point for the ecosystem of Python packages used for brain connectivity analysis, neural signal processing, and whole-brain modeling in the TVB community.
+**Note:** This entry appears to have been created as a placeholder for Python-based brain [[connectivity]] and modeling tools. No standalone tool called "CCEytools" specifically exists in the literature; however, this entry serves as a reference point for the ecosystem of Python packages used for brain connectivity analysis, neural signal processing, and [[whole-brain|whole-brain modeling]] in the TVB community.
 
 ## Overview
 
-CCEytools represents (or perhaps was intended to represent) a category of Python-based computational tools for analyzing brain connectivity and dynamical systems in the context of whole-brain modeling. The name may have been inspired by similar toolkits in the field—combining "CC" (possibly referring to connectivity or cortico-cortical) with "Ey" (possibly a partial derivation from Python or "analysis") and "tools" to denote a software package. Within the The Virtual Brain and broader connectomics ecosystems, researchers frequently assemble toolchains from multiple Python packages rather than relying on a single monolithic application.
+CCEytools represents (or perhaps was intended to represent) a category of Python-based computational tools for analyzing brain connectivity and dynamical systems in the context of whole-brain modeling. The name may have been inspired by similar toolkits in the field—combining "CC" (possibly referring to connectivity or cortico-cortical) with "Ey" (possibly a partial derivation from Python or "analysis") and "tools" to denote a software package. Within the [[tvb|The Virtual Brain]] and broader [[connectomics]] ecosystems, researchers frequently assemble toolchains from multiple Python packages rather than relying on a single monolithic application.
 
-The Python ecosystem for brain connectivity analysis has matured considerably, with packages like Nilearn providing interfaces for neuroimaging data handling, and [[bctpy]] implementing graph-theoretical network metrics.
+The Python ecosystem for brain connectivity analysis has matured considerably, with packages like Nilearn providing interfaces for [[neuroimaging]] data handling, and [[bctpy]] implementing graph-theoretical network metrics.
 
 ## Relationship to TVB
 
-[[the-virtual-brain]] (TVB) is a comprehensive platform for whole-brain modeling that integrates structural connectivity derived from diffusion imaging with neural mass models to simulate brain dynamics. While TVB provides its own built-in analysis tools through the tvb-library, researchers often complement TVB workflows with external Python packages for specialized tasks such as:
+[[the-virtual-brain]] (TVB) is a comprehensive platform for whole-brain modeling that integrates [[structural-connectivity]] derived from [[diffusion-imaging]] with [[neural-mass-models]] to simulate [[brain-dynamics]]. While TVB provides its own built-in analysis tools through the [[tvb-library]], researchers often complement TVB workflows with external Python packages for specialized tasks such as:
 
 - Preprocessing of neuroimaging data using packages like Mne Python for electrophysiology
 - Advanced connectivity metrics unavailable in TVB's core distribution
