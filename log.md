@@ -27,6 +27,11 @@
 - Replaced invalid wikilinks to non-existent pages (harvard-oxford-atlas, lesion-topology, lesion-gyrus, nilearn, cat12) with valid ones from inventory
 - Fixed multiple-sclerosis reference (not in taxonomy) to vascular dementia
 ## [2026-05-04 13:38] Improve: 5 pages improved (software-fsl, rabies, osi, limo, aomic)
+- Created [[neurosift]] entity page with comprehensive content about browser-based NWB visualization tool
+- Added sections on overview, key features (NWB, DANDI, OpenNeuro, NIfTI visualization), relationship to TVB, key papers
+- Included 10+ wikilinks connecting to neurodata-without-borders, dandi, openneuro, the-virtual-brain, connectome-workbench, functional-connectivity, structural-connectivity, personalized-brain-modeling
+- Added to entities index in software platforms section (alphabetical position between NeuroM and neuromaps)
+- Updated frontmatter with proper tags (software-visualization, neurodata-without-borders, dandi, openneuro, neuroimaging, visualization-tools)
 
 - Improved [[ccepytools]] page - transformed from placeholder to comprehensive guide to Python brain connectivity tools ecosystem
 - Added sections on relationship to TVB, key packages (MNE-Connectivity, GraphVar, Cepy, BCTpy, etc.)
@@ -48,6 +53,13 @@
 ## [2026-05-04 15:54] RefFormatter: formatted references on 10 pages
 
 ## [2026-05-04 16:01] CrosslinkApplier: added 125 wikilinks (125 inline, 0 suggested)
+- Improved [[brainsuite]] page - replaced placeholders with comprehensive content about BrainSuite cortical surface extraction software
+- Added sections on overview, key features (BSE skull stripping, BFC bias correction, tissue classification, cortical surface extraction, ALE thickness estimation, SVReg, USCBrain atlas, BIDS App)
+- Included relationship to TVB section explaining how BrainSuite outputs (cortical surfaces, parcellations, structural connectivity) can feed into TVB whole-brain modeling workflows
+- Added key papers (Shattuck & Leahy 2001, Joshi et al. 2022, Kim et al. 2023) and related software connections (connectome-workbench, bids, fmriprep, mrtrix3-connectome)
+- Included 12+ wikilinks connecting to the-virtual-brain, structural-connectivity, diffusion-imaging, tractography, neuroimaging, human-connectome-project, hcp-dataset, brain-parcellations, network-dynamics, afni, connectome-workbench, bids
+- Updated frontmatter with proper tags (software-brain-modeling, neuroimaging-mri, brain-parcellations, cortical-surface-extraction)
+- Updated source paper reference format
 
 ## [2026-05-04 16:08] Matcher: 1 pages got 3 new sources
 
@@ -110,3 +122,5 @@
 ## [2026-05-04 21:56] CrosslinkApplier: added 160 wikilinks (160 inline, 0 suggested)
 
 ## [2026-05-04 22:01] Improve: 5 pages improved ( Allen SDK, brain-map, brain-life, trajectory, coins)
+
+## [2026-05-04 22:02] Matcher: 15 pages got 39 new sources

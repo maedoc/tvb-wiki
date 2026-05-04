@@ -36,3 +36,10 @@ The EEGSynth project does not have a dedicated primary reference paper, but it i
 ## Related Software
 
 EEGSynth occupies a niche in the real-time EEG processing ecosystem that overlaps with several other software platforms. EEGLAB provides comprehensive offline EEG analysis capabilities and can serve as a preprocessing toolchain for data subsequently used in TVB modeling. OpenVibe offers a visual programming environment for real-time BCI applications with a comparable modular architecture. The MNE-Python connectivity module provides Python-native connectivity analysis tools that can process EEG data exported from EEGSynth. For real-time signal processing in Python, the electrophysiology community also includes pyxdf for reading LSL data streams and neuroconv for format conversions.
+
+## References
+
+1. EEGSynth Official Website. https://www.eegsynth.org
+2. EEGSynth GitHub Repository. https://github.com/eegsynth/eegsynth
+3. Oostenveld, R., Fries, P., Maris, E., & Schoffelen, J.M. (2011). FieldTrip: Open Source Software for Advanced Analysis of MEG, EEG, and Invasive Electrophysiological Data. Computational Intelligence and Neuroscience, 2011:156869. https://doi.org/10.1155/2011/156869
+4. Donders Centre for Cognitive Neuroimaging. https://en.wikipedia.org/wiki/Donders_Centre_for_Cognitive_Neuroimaging

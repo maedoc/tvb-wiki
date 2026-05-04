@@ -47,6 +47,7 @@ A collection of people, software platforms, datasets, and research groups releva
 - [NiftyReg](niftyreg.md) - Open-source medical image registration toolkit for neuroimaging
 - [MedPy](medpy.md) - Python library for medical image processing and analysis
 - [NeuroM](neurom.md) - Python library for neuronal morphology analysis and visualization
+- [Neurosift](neurosift.md) - Browser-based NWB visualization and cloud archive exploration tool
 - [neuromaps](neuromaps.md) - Toolbox for multimodal brain map transformation and spatial comparison
 - [NeuroQuery](neuroquery.md) - Model-based quantitative meta-analysis tool using topic models to predict brain activation from cognitive queries
 - [Neurodesk](neurodesk.md) — Containerized neuroimaging analysis environment with 100+ tools

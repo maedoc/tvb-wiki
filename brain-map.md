@@ -1,64 +1,65 @@
+---
 title: Brain Map
 created: 2024-01-15
 updated: 2026-05-04
 type: concept
-tags: [connectomics, structural-connectivity, functional-connectivity, brain-parcellations, neuroimaging, whole-brain-modeling, parcellation]
-sources: [[doi:10.1016/j.neuroimage.2020.116923], [doi:10.1002/hbm.25247], [doi:10.1016/j.neuroimage.2021.117987], [doi:10.1002/hbm.23821], [doi:10.1073/pnas.0601607103]]
+tags: [connectomics, structural-connectivity, functional-connectivity, neuroimaging, parcellation, whole-brain-modeling]
+sources:
+  - "[Human Connectome Project: A multimodal parcellation of human cerebral cortex](https://www.nature.com/articles/nature18933)"
+  - "[UK Biobank: Imaging-derived phenotypes](https://www.nature.com/articles/s41586-019-1830-y)"
+  - "[The Virtual Brain: Whole-brain modeling of electrophysiological dynamics](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4276718/)"
+  - "[Allen Human Brain Atlas: Transcriptional mapping](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3613042/)"
+  - "[Desikan-Killiany Atlas: An automated labeling system for subdividing the human cerebral cortex](https://pubmed.ncbi.nlm.nih.gov/16641949/)"
+  - "[Schaefer Parcellation: Local granularity of the human cerebral cortex](https://pubmed.ncbi.nlm.nih.gov/29971048/)"
+  - "[Glasser Multi-modal Parcellation of Human Cortex](https://www.nature.com/articles/nature26005)"
+  - "[Tractography-based structural connectivity: Acquisition and normalization](https://pubmed.ncbi.nlm.nih.gov/19702440/)"
+  - "[Destrieux Atlas: Automatic parcellation of the cerebral cortex](https://pubmed.ncbi.nlm.nih.gov/20493346/)"
 ---
 
-A brain map in the context of whole-brain modeling refers to a computational representation of the brain's regional structure and connectivity. It comprises two essential components: a parcellation scheme that divides the brain into discrete regions (nodes), and a connectivity matrix that characterizes the structural or functional connections between those regions (edges). Brain maps serve as the foundational anatomical scaffold upon which [[whole-brain-modeling|whole-brain simulations]] are constructed, providing the bridge between empirical neuroimaging data and computational models of neural dynamics.
+A brain map, in the context of whole-brain modeling and computational neuroscience, refers to a spatially resolved representation of brain structure or function that serves as the geometrical framework for connectome-based models. Unlike a simple connectivity matrix, a brain map embeds the topological relationships between brain regions within physical three-dimensional space, enabling the interpretation of neural dynamics in terms of anatomical location and inter-regional proximity. Brain maps are fundamental to whole-brain simulators such as [[the-virtual-brain]], where they define the nodes of the dynamical system and provide the structural skeleton onto which neural mass models are instantiated.
 
-## Historical Context
+## Definition and Scope
 
-The concept of brain mapping traces its origins to the early 20th century, when neuroanatomist Korbinian Brodmann published his influential cytoarchitectonic map of the cerebral cortex in 1909, dividing the cortex into 52 distinct regions based on cellular composition (Brodmann, 1909). These "Brodmann areas" represent the earliest systematic parcellation scheme and remain foundational in modern neuroscience. The evolution from post-mortem histological analysis to in vivo neuroimaging-based parcellation represents a major methodological shift, enabled by MRI technology in the 1980s-1990s. Modern brain maps leverage high-resolution diffusion-weighted imaging to derive structural connectivity non-invasively, and resting-state fMRI to characterize functional networks, building upon the conceptual foundation established by early cytoarchitectonic maps while dramatically expanding spatial resolution and coverage (Glasser et al., 2016; Yeh et al., 2021).
+A brain map consists of two complementary components: a parcellation scheme that partitions the brain into discrete regions of interest, and a coordinate system that assigns each region a spatial location—typically in Montreal Neurological Institute (MNI) space or similar stereotaxic frameworks. The parcellation may be based on anatomical boundaries (e.g., [[desikan-killiany-atlas]], [[destrieux-atlas]]), functional similarity (e.g., [[schaefer-atlas]], [[glasser-atlas]]), or a combination of both. Each parcel serves as a node in the network representation of the brain, and the edges between nodes are derived from [[structural-connectivity]] measurements obtained through [[diffusion-imaging]] and [[tractography]], or from [[functional-connectivity]] estimated from correlated [[fmri]] or [[meg]] time series.
 
-## Definition and Components
+The term "brain map" is sometimes used more broadly to refer to any spatial representation of brain data, including statistical parametric maps from neuroimaging experiments, molecular maps from positron emission tomography, or gene expression maps from postmortem tissue. However, in the context of whole-brain modeling, the term specifically denotes the parcellated, coordinate-based representation that formalizes the brain as a network of coupled dynamical systems.
 
-A brain map consists of three primary elements that together define the topology of a [[brain-network]]. First, the **parcellation scheme** partitions the cerebral cortex (and often subcortical structures) into a set of mutually exclusive regions, typically ranging from 68 to 500+ regions depending on the resolution desired (Eickhoff et al., 2018). Second, the **structural connectivity** matrix encodes the strength of white matter pathways between regions, usually derived from diffusion tensor imaging (DTI) or more advanced diffusion models via [[tractography]] (Yeh et al., 2021). Third, the **functional connectivity** matrix captures statistical dependencies between regional time series, commonly extracted from resting-state [[fmri]] or [[meg]] data (Biswal et al., 2010). While structural connectivity reflects anatomical wiring, functional connectivity reflects coherent neural activity and can be mediated by indirect pathways not directly visible in anatomical data.
+### Mathematical Formalization
 
-## Types of Brain Maps
+A brain map can be formalized as a tuple $M = (V, C, A)$ where:
 
-Brain maps can be categorized by their modality of origin and the type of connectivity they represent. **Structural brain maps** derive from diffusion-weighted MRI and provide anatomically grounded connectivity matrices representing white matter fiber tracts. These maps capture the physical pathways through which neural signals propagate, making them essential for models of signal transmission and seizure spread. **Functional brain maps** emerge from statistical analysis of neuroimaging time series, capturing correlations in BOLD signal (for fMRI) or electromagnetic activity (for EEG/MEG) between brain regions. **Effective connectivity** maps, often derived from [[dynamic-causal-modeling]] or Granger causality, attempt to infer directional causal relationships between regions rather than mere correlations (Friston, 2011).
+- $V = \{v_1, v_2, ..., v_N\}$ denotes the set of $N$ brain regions (nodes) defined by the parcellation scheme
+- $C = \{\mathbf{c}_1, \mathbf{c}_2, ..., \mathbf{c}_N\}$ denotes the set of 3D centroid coordinates in MNI space, where each $\mathbf{c}_i \in \mathbb{R}^3$
+- $A \in \mathbb{R}^{N \times N}$ denotes the connectivity (or adjacency) matrix, where element $A_{ij}$ represents the structural or functional connection strength between regions $v_i$ and $v_j$
 
-The choice of parcellation scheme significantly impacts whole-brain model behavior. Established cortical parcellations include the [[desikan-killiany-atlas]] (68 regions), [[yeo-atlas]] (7 and 17 network parcellations), and [[glasser-atlas]] (360 regions). The [[aal-atlas]] (Automated Anatomical Labeling) is a widely-used tool that provides comprehensive coverage of both cortical and subcortical structures, offering labels for 116 regions (90 cortical and subcortical, plus 26 cerebellar) (Tzourio-Mazoyer et al., 2002). More recent efforts provide finer-grained subcortical parcellations, such as the Brainnetome atlas, which divides subcortical structures into 246 regions (Fan et al., 2016). Higher-resolution parcellations capture finer-grained network structure but increase computational demands and may introduce noise from imperfect region assignment.
+The connectivity matrix is typically symmetric ($A_{ij} = A_{ji}$) for undirected structural connections, though directed variants can be constructed for effective connectivity analyses. Distance-based normalization of streamline counts is commonly applied to account for the relationship between fiber length and tractography detection bias.
 
-## Relationship to TVB
+## Construction and Sources
 
-In The Virtual Brain ([[the-virtual-brain]]), brain maps constitute the mandatory anatomical substrate for all simulations. The TVB workflow accepts brain maps in multiple formats, with the most common being:
-- **Connectivity matrices**: CSV or MATLAB files specifying connection weights between all region pairs
-- **Surface meshes**: GIFTI or FreeSurfer surfaces defining regional boundaries
-- **Region labels**: Text files mapping region indices to anatomical labels
+Brain maps for whole-brain modeling are constructed from neuroimaging data acquired in vivo, typically from high-resolution [[diffusion-mri]] acquisitions that enable probabilistic tractography to estimate white matter pathways between cortical and subcortical regions. The resulting [[structural-connectivity]] matrix encodes the number or probability of streamlines connecting each pair of regions, often normalized by the geometric distance between region centroids to account for tract length biases.
 
-TVB provides built-in support for several standard brain parcellations and integrates with tools like [[connectome-workbench]] for visualizing connectivity data. The [[tvb-library]] implements brain map readers that handle various file formats, performing necessary validation and normalization. Brain maps from the [[hcp-dataset]] and [[uk-biobank]] are frequently used in TVB research due to their high-quality diffusion and functional imaging data.
+Several public datasets provide pre-computed brain maps that have been widely used in the literature. The [[human-connectome-project]] (HCP) provides high-quality diffusion imaging data from over 1,000 subjects, from which group-level structural connectivity matrices have been derived using multiple parcellation schemes. The [[uk-biobank]] similarly provides multimodal imaging data from nearly 40,000 participants, enabling the construction of population-representative brain maps with unprecedented statistical power. For specific applications, the [[allen-brain-atlas]] provides gene expression maps that can be integrated with structural parcellations to create biologically informed brain models.
 
-## Key Features
+In [[the-virtual-brain]], brain maps are imported through the TVB library's connectivity pipeline, which accepts parcellation files in GIFTI or NIfTI format along with corresponding connectivity matrices. The software supports multiple parcellation schemes and allows users to define custom brain maps for personalized modeling applications.
 
-The quality and utility of a brain map for whole-brain modeling depends on several factors. **Parcellation resolution** determines the granularity of network analysis, with trade-offs between anatomical fidelity and computational tractability. **Connectivity weight normalization** ensures that connection strengths fall within biologically plausible ranges for the chosen [[neural-mass-model]]. **Edge density** refers to the proportion of non-zero connections; sparse brain maps may better reflect the relatively sparse cortical wiring, while dense matrices capture all statistically significant correlations. **Weight distribution** properties, including the presence of strong hub regions and modular structure, critically influence model dynamics such as synchronization patterns and criticality (Bullmore & Sporns, 2009).
+## Relationship to Connectome
 
-## Related Software
+The brain map is conceptually distinct from but intimately related to the connectome. The connectome represents the complete set of connections in the brain, formalized as a graph where nodes correspond to brain regions and edges correspond to structural or functional links. The brain map adds the spatial embedding that makes this graph interpretable in anatomical terms. Without spatial coordinates, a connectome is an abstract topological object; with a brain map, it becomes a model of the physical brain that can be visualized, simulated, and compared to empirical neuroimaging data.
 
-Several software tools are specifically designed for constructing and analyzing brain maps. [[brain-connectivity-toolbox]] (BCT) provides MATLAB functions for calculating network metrics. [[bctpy]] offers a Python implementation of these metrics. [[brainsmash]] generates surrogate brain maps for statistical comparison. [[brainstat]] performs statistical inference on brain map data. [[nilearn-datasets]] provides programmatic access to standard brain map datasets.
+In practice, the distinction blurs because brain maps typically include both the parcellation and the connectivity matrix as a unified package. The term "brain map" in TVB documentation often refers to the complete workspace containing region labels, coordinates, and connection weights. This integrated representation enables key operations in whole-brain modeling, including the projection of simulated neural activity back to virtual electrode locations and the comparison of model-predicted dynamics with empirical [[bold-signal]] measurements.
+
+## Applications in Whole-Brain Modeling
+
+Brain maps serve multiple purposes in whole-brain modeling workflows. First, they define the dimensionality of the model—by specifying the number of brain regions, they determine the size of the connectivity matrix and the number of coupled differential equations that must be integrated. Second, they provide the geometrical context for visualizing simulation results, enabling researchers to overlay time series data onto brain surfaces or volumes for qualitative assessment. Third, they enable the integration of multimodal imaging data, where different modalities (e.g., [[fmri]] and [[meg]]) are aligned to a common spatial framework.
+
+Personalized brain modeling, a key application of [[the-virtual-brain]], relies on individually parcellated brain maps derived from each subject's native-space diffusion imaging data. This individualization improves model fits to empirical functional data and enables patient-specific clinical applications in domains such as [[epilepsy-modeling]] and [[brain-stimulation]].
 
 ## Related Concepts
 
-Brain maps are closely related to [[connectome]] representations and [[structural-connectivity]] analysis. They provide the anatomical foundation for [[whole-brain-simulators]] and are essential inputs for [[parameter-estimation]] in personalized brain models. [[Brain-parcellations]] represent the regional division schemes used within brain maps, while [[parcellation]] describes the general methodology of dividing continuous neural data into discrete units.
+Brain maps are closely related to [[brain-parcellations]], which focus specifically on the partition scheme without the connectivity information. The construction of brain maps draws on methods from [[diffusion-imaging]] and [[tractography]] for extracting structural connectivity, and from [[functional-connectivity]] analysis for deriving data-driven parcellations. Graph-theoretic analyses using tools such as [[bctpy]] or [[graph-tool]] operate on the connectivity matrix embedded within the brain map to characterize network properties such as [[modularity]], [[small-world-networks]], and [[rich-club]] organization.
 
-## References
+## See Also
 
-Biswal, B., Yetkin, F. Z., Haughton, V. M., & Hyde, J. S. (2010). Functional connectivity in the motor cortex of resting human brain using echo-planar MRI. *Magnetic Resonance in Medicine*, 34(4), 537-541.
-
-Brodmann, K. (1909). *Vergleichende Lokalisationslehre der Grosshirnrinde in ihren Prinzipien dargestellt auf Grund des Zellenbaues*. J.A. Barth.
-
-Bullmore, E., & Sporns, O. (2009). Complex brain networks: graph theoretical analysis of structural and functional systems. *Nature Reviews Neuroscience*, 10(3), 186-198.
-
-Eickhoff, S. B., Yeo, B. T. T., & Genon, S. (2018). Imaging-based parcellations of the human brain. *Nature Reviews Neuroscience*, 19(11), 672-686.
-
-Fan, L., Li, H., Zhuo, J., Zhang, Y., Wang, J., Chen, L., ... & Liu, S. (2016). The Human Brainnetome Atlas: A new brain atlas based on connectional architecture. *Cerebral Cortex*, 26(8), 3508-3526.
-
-Friston, K. J. (2011). Functional and effective connectivity: a review. *Brain Connectivity*, 1(1), 3-36.
-
-Glasser, M. F., Coalson, T. S., Robinson, E. C., Hacker, C. D., Harwell, J., Yacoub, E., ... & Van Essen, D. C. (2016). A multi-modal parcellation of human cerebral cortex. *Nature*, 536(7615), 171-178.
-
-Tzourio-Mazoyer, N., Landeau, B., Papathanassiou, D., Crivello, F., Etard, O., Delcroix, N., ... & Joliot, M. (2002). Automated anatomical labeling of activations in SPM using a macroscopic anatomical parcellation of the MNI MRI single-subject brain. *NeuroImage*, 15(1), 273-289.
-
-Yeh, C. H., Smith, R. E., Liang, X., Descoteaux, M., & Connelly, A. (2021). Reconstruction of the human connectome using diffusion imaging and tractography. *NeuroImage*, 232, 117987.
+- [[neural-mass-models]] — The dynamical systems instantiated on brain map nodes
+- [[whole-brain-modeling]] — The broader modeling framework that employs brain maps
+- [[functional-connectivity]] — Correlation-based connectivity derived from brain map time series
