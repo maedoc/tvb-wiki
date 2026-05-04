@@ -12,3 +12,5 @@
 ## [2026-05-04 10:45] Improve: 5 pages improved (mni-space, fsl-feat, fsl-melodic, niftyreg, open-source-brain)
 
 ## [2026-05-04 10:45] RefFormatter: formatted references on 485 pages
+
+## [2026-05-04 10:56] CrosslinkApplier: added 1365 wikilinks (1365 inline, 0 suggested)

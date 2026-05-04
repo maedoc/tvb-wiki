@@ -7,6 +7,9 @@ sources:
 - smith2009resting
 - hyvarinen1999fast
 - mcevoy2000linear
+- raw/papers/semanticscholar-7dcd55ff92e4.md
+- raw/papers/semanticscholar-d2dfba2091a2.md
+- raw/papers/semanticscholar-a0a9350fb265.md
 tags:
 - neuroimaging-fmri
 - software-fsl

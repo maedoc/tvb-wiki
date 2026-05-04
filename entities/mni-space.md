@@ -7,6 +7,9 @@ sources:
 - fsl-manual
 - collins-1994
 - holmes-1998
+- raw/papers/arxiv-2506.22951.md
+- raw/papers/semanticscholar-66f887e82e89.md
+- raw/papers/semanticscholar-444387e9c4ec.md
 tags:
 - neuroimaging
 - neuroimaging-fmri

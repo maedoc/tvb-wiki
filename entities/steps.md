@@ -4,6 +4,8 @@ sources:
 - raw/papers/arxiv-2604.01667.md
 - raw/papers/semanticscholar-e923a3372ab2.md
 - raw/papers/semanticscholar-24420855b2da.md
+- raw/papers/semanticscholar-1a92676130d2.md
+- raw/papers/semanticscholar-ff8218c1e55e.md
 tags:
 - software-brain-modeling
 title: STEPS

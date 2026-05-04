@@ -2,6 +2,8 @@
 created: 2024-01-15
 sources:
 - raw/papers/rubinov-sporns-2010.md
+- raw/papers/bullmore-sporns-2009.md
+- raw/papers/semanticscholar-028f7c6ac41d.md
 tags:
 - neuroimaging-fmri
 - neuroimaging-meg

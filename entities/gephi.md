@@ -5,6 +5,8 @@ sources:
 - 2019
 - 2014
 - raw/papers/rubinov-sporns-2010.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/mijalkov-2017-braph.md
 tags:
 - software-visualization
 - software-graphvar

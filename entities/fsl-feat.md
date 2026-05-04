@@ -6,6 +6,9 @@ sources:
 - '[Woolrich et al. 2004 - FLAME](https://doi.org/10.1006/nimg.2004.01.018)'
 - '[Jenkinson et al. 2012 - FSL Overview](https://doi.org/10.1006/nimg.2011.1016)'
 - '[Smith et al. 2004 - FSL for Resting-State](https://doi.org/10.1016/j.neuroimage.2004.07.051)'
+- raw/papers/semanticscholar-a0a9350fb265.md
+- raw/papers/arxiv-2511.12825.md
+- raw/papers/semanticscholar-ed8fd167fe15.md
 tags:
 - software-fsl
 - neuroimaging-fmri

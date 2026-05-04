@@ -5,6 +5,9 @@ sources:
 - https://doi.org/10.1016/j.cmpb.2009.09.002
 - https://doi.org/10.1016/S0262-8856(00)00052-4
 - https://github.com/UCL/NiftyReg
+- raw/papers/semanticscholar-b26093d51a70.md
+- raw/papers/avants-2008.md
+- raw/papers/semanticscholar-444387e9c4ec.md
 tags:
 - software-brain-modeling
 - neuroimaging-processing
