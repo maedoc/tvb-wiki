@@ -1,7 +1,11 @@
 # Wiki Action Log
 
 ## 2026-05-04
-- Improved [[rabies]] page - replaced remaining invalid wikilinks [[fsl]] with [[fmriprep]] and [[freesurfer]] with [[brainvisa]] to eliminate broken links
+- Improved [[coins]] page - replaced placeholder with comprehensive content about COINS (Collaborative Informatics and Neuroimaging Suite)
+- Added sections on overview, key features (data acquisition, study management, security, data sharing), relationship to TVB, key papers
+- Included 12+ wikilinks connecting to xnat, bids, fmri, dti, eeg, meg, the-virtual-brain, human-connectome-project, abide, brainlife, epilepsy-modeling, schizophrenia-models
+- Added COINS entry to entities index under software platforms
+- Updated frontmatter with proper tags and sources
 - Verified all wikilinks are now valid and present in wiki inventory
 - Updated [[limo]] page with comprehensive content about LIMO MEEG toolbox for statistical analysis of EEG/MEG data
 - Added technical details about hierarchical linear modeling, robust statistics, and BIDS integration
@@ -93,3 +97,7 @@
 ## [2026-05-04 21:49] Librarian: catalog rebuilt, 6573 asymmetric links noted
 
 ## [2026-05-04 21:49] Linter: 142 broken links, 65 orphans, 37 stale, 27 empty
+
+## [2026-05-04 21:49] RefFormatter: formatted references on 6 pages
+
+## [2026-05-04 21:53] Audit: 1035 issues (141 broken links, 65 orphans, 22 placeholders, 0 dup-refs, 3 bad-meta, 81 citation-verify, 4 opaque-refs, 73 thin, 342 missing-links)

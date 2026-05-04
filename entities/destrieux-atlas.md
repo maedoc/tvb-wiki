@@ -1,12 +1,17 @@
 ---
 created: 2026-04-20
-updated: 2026-05-04
+sources:
+- raw/papers/destrieux-2010.md
+tags:
+- brain-parcellations
+- neuroimaging
+- software-freesurfer
+- structural-connectivity
 type: entity
-tags: [brain-parcellations, neuroimaging, software-freesurfer, structural-connectivity]
-sources: [raw/papers/destrieux-2010.md]
+updated: '2026-05-04'
 ---
 
-The Destrieux Atlas is an anatomical parcellation of the human cerebral cortex developed by Bruno Destrieux and colleagues [1], widely used in neuroimaging research and whole-brain modeling applications. The atlas provides a systematic division of the cortical surface into 148 distinct regions (74 per hemisphere) based on anatomical landmarks, particularly the pattern of cortical sulci, making it one of the most detailed sulcal-based parcellations available.
+The Destrieux Atlas is an anatomical [[parcellation]] of the human cerebral cortex developed by Bruno Destrieux and colleagues [1], widely used in neuroimaging research and whole-brain modeling applications. The atlas provides a systematic division of the cortical surface into 148 distinct regions (74 per hemisphere) based on anatomical landmarks, particularly the pattern of cortical sulci, making it one of the most detailed sulcal-based parcellations available.
 
 ## Background and Development
 
@@ -18,7 +23,7 @@ The atlas divides each cerebral hemisphere into regions organized by major corti
 
 ## Integration with FreeSurfer and Neuroimaging Pipelines
 
-The primary tool for generating Destrieux Atlas parcellations is Freesurfer, an open-source suite for processing and analyzing neuroimaging data, particularly T1-weighted structural MRI scans. During the standard FreeSurfer recon-all processing pipeline, the Destrieux Atlas is applied to segment the cortical ribbon into its constituent regions automatically [4]. The resulting parcellation labels can be used for region-of-interest analyses, connectivity computations, and as input to whole-brain modeling frameworks. This integration has made the Destrieux Atlas a standard option in many neuroimaging preprocessing pipelines, alongside other popular atlases like the [[desikan-killiany-atlas]] (34 regions/hemisphere) [5] and the [[glasser-atlas]] (180 regions/hemisphere) [6].
+The primary tool for generating Destrieux Atlas parcellations is Freesurfer, an open-source suite for processing and analyzing neuroimaging data, particularly T1-weighted structural MRI scans. During the standard FreeSurfer recon-all processing pipeline, the Destrieux Atlas is applied to segment the cortical ribbon into its constituent regions automatically [4]. The resulting parcellation labels can be used for region-of-interest analyses, [[connectivity]] computations, and as input to whole-brain modeling frameworks. This integration has made the Destrieux Atlas a standard option in many neuroimaging preprocessing pipelines, alongside other popular atlases like the [[desikan-killiany-atlas]] (34 regions/hemisphere) [5] and the [[glasser-atlas]] (180 regions/hemisphere) [6].
 
 ## Use in Whole-Brain Modeling and Connectomics
 
@@ -34,7 +39,7 @@ When using the Destrieux Atlas for [[whole-brain]] analyses, researchers must en
 
 ## Relationship to TVB
 
-The Destrieux Atlas connects to [[the-virtual-brain]] workflows primarily through its role in defining cortical regions for whole-brain simulations. TVB accepts structural parcellations in various formats, and the Destrieux Atlas can serve as the basis for constructing brain network models. The connectivity matrices derived from diffusion imaging using this parcellation feed directly into TVB's neural mass models, enabling researchers to simulate large-scale brain dynamics [7]. While TVB also supports other atlases like AAL and Schaefer, the Destrieux Atlas remains a popular choice for researchers requiring anatomically detailed parcellations. The atlas is also related to other tools in the TVB ecosystem, including [[connectome-workbench]] for visualization and various tractography tools in the diffusion imaging pipeline.
+The Destrieux Atlas connects to [[the-virtual-brain]] workflows primarily through its role in defining cortical regions for whole-brain simulations. TVB accepts structural parcellations in various formats, and the Destrieux Atlas can serve as the basis for constructing [[brain-network]] models. The connectivity matrices derived from [[diffusion-imaging]] using this parcellation feed directly into TVB's [[neural-mass-models]], enabling researchers to simulate large-scale [[brain-dynamics]] [7]. While TVB also supports other atlases like AAL and Schaefer, the Destrieux Atlas remains a popular choice for researchers requiring anatomically detailed parcellations. The atlas is also related to other tools in the TVB ecosystem, including [[connectome-workbench]] for visualization and various [[tractography]] tools in the diffusion imaging pipeline.
 
 ## References
 
