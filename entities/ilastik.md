@@ -7,6 +7,7 @@ sources:
 - raw/papers/huntenburg-2018.md
 - raw/papers/semanticscholar-a0cce22e2ffc.md
 - raw/papers/semanticscholar-d94ac445ea77.md
+- raw/papers/semanticscholar-a51325b7fd19.md
 tags:
 - software-visualization
 - bioimaging

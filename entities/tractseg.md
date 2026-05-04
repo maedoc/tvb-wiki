@@ -4,6 +4,7 @@ sources:
 - raw/papers/van-essen-2012.md
 - raw/papers/sanz-leon-2013.md
 - raw/papers/mijalkov-2017-braph.md
+- raw/papers/arxiv-2503.07263.md
 tags:
 - software-tractography
 - software-mrtrix3
@@ -13,7 +14,7 @@ tags:
 - tractography
 title: TractSeg
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 TractSeg is an open-source software tool for the automated segmentation of [[white-matter]] tracts from diffusion magnetic resonance imaging (dMRI) data. Developed by **Jakob Wasserthal**, **Peter Neher**, and colleagues at the German Cancer Research Center (DKFZ), it employs machine learning techniques, specifically convolutional neural networks, to identify and extract major white matter fiber bundles in the brain. The tool produces binary segmentation masks for each identified tract, which can then be used to generate region-of-interest (ROI) masks for [[tractography]] analysis or to construct [[structural-connectivity]] matrices for [[whole-brain|whole-brain modeling]] applications.

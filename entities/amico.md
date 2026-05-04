@@ -5,6 +5,9 @@ sources:
 - raw/papers/semanticscholar-c393c4c4a671.md
 - raw/papers/semanticscholar-deecd9987645.md
 - raw/papers/semanticscholar-d94ac445ea77.md
+- raw/papers/semanticscholar-67bfc55dcfc8.md
+- raw/papers/arxiv-2503.07263.md
+- raw/papers/semanticscholar-2c08584d27f9.md
 tags:
 - software-dti
 - diffusion-imaging
@@ -16,7 +19,7 @@ tags:
 - parameter-estimation
 title: AMICO
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 # AMICO

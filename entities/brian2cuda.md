@@ -4,13 +4,14 @@ sources:
 - raw/papers/arxiv-2507.22146.md
 - raw/papers/sanz-leon-2013.md
 - raw/papers/semanticscholar-899d3552b2ad.md
+- raw/papers/semanticscholar-0b1a696a39c5.md
 tags:
 - software-brian
 - spiking-neural-networks
 - computational-neuroscience
 title: Brian2CUDA
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 Brian2CUDA is a GPU-accelerated backend for the [[brian2]] spiking [[neural-network]] simulator that enables high-performance simulations of neuronal networks on NVIDIA graphics processing units (GPUs) using CUDA. Developed primarily by Denis Alevi, Marcel Stimberg, and colleagues, Brian2CUDA extends Brian2's CPU-based computation framework to leverage the massive parallel processing capabilities of modern GPUs, enabling simulations of neural circuits at scales and speeds previously impractical with conventional CPU-only implementations (Alevi et al., 2022).

@@ -4,6 +4,7 @@ sources:
 - raw/papers/arxiv-2512.03907.md
 - raw/papers/arxiv-2510.08436.md
 - raw/papers/semanticscholar-62534125f066.md
+- raw/papers/semanticscholar-2004e006655b.md
 tags:
 - neural-mass-models
 - spiking-neural-networks

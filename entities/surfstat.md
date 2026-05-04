@@ -6,6 +6,7 @@ sources:
 - raw/papers/arxiv-2602.03240.md
 - raw/papers/newman-2010.md
 - raw/papers/glean-github.md
+- raw/papers/semanticscholar-89e6c89fac1d.md
 tags:
 - software-visualization
 - neuroimaging
@@ -17,7 +18,7 @@ tags:
 - cortical-thickness
 title: SurfStat
 type: entity
-updated: '2026-05-01'
+updated: '2026-05-04'
 ---
 
 # SurfStat

@@ -4,6 +4,7 @@ sources:
 - raw/papers/semanticscholar-b76b57eda5f0.md
 - raw/papers/semanticscholar-d94ac445ea77.md
 - raw/papers/semanticscholar-ac35f7fc051b.md
+- raw/papers/semanticscholar-2c08584d27f9.md
 tags:
 - neuroimaging
 - neuroimaging-mri
@@ -17,7 +18,7 @@ tags:
 - freesurfer
 title: SynthSeg
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 # SynthSeg

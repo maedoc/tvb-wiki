@@ -5,11 +5,12 @@ sources:
 - raw/papers/destexhe-sejnowski-2009.md
 - raw/papers/semanticscholar-ff8218c1e55e.md
 - raw/papers/semanticscholar-f52da2a6cbf2.md
+- raw/papers/semanticscholar-0b1a696a39c5.md
 tags:
 - software-brain-modeling
 title: LFPy
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 Now I'll provide the corrected markdown file with proper sources and references:

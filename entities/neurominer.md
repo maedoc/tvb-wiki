@@ -4,6 +4,7 @@ sources:
 - raw/papers/ritter-2013.md
 - raw/papers/glean-github.md
 - raw/papers/arxiv-2604.03619.md
+- raw/papers/semanticscholar-a39db1f1a2a8.md
 tags:
 - software-toolbox
 - neuroimaging
@@ -15,7 +16,7 @@ tags:
 - decoding
 title: NeuroMiner
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 # NeuroMiner

@@ -7,6 +7,7 @@ sources:
 - raw/papers/semanticscholar-028f7c6ac41d.md
 - raw/papers/arxiv-2603.21067.md
 - raw/papers/semanticscholar-dacc3b888fa6.md
+- raw/papers/semanticscholar-ebab0fdee30d.md
 tags:
 - software-neuromaps
 - neuroimaging
@@ -15,7 +16,7 @@ tags:
 - software-visualization
 title: neuromaps
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 # neuromaps

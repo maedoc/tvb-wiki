@@ -6,6 +6,8 @@ sources:
 - raw/papers/semanticscholar-8edd59e14fa3.md
 - raw/papers/semanticscholar-ac35f7fc051b.md
 - raw/papers/semanticscholar-d4665dd0df61.md
+- raw/papers/semanticscholar-3220be3bec47.md
+- raw/papers/semanticscholar-afc9b68e804a.md
 tags:
 - software-neuroml
 - neuroimaging
@@ -13,7 +15,7 @@ tags:
 - medical-imaging
 title: MONAI
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 ## Overview
