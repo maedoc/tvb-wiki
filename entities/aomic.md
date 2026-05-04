@@ -1,16 +1,21 @@
 ---
-title: AOMIC (Amsterdam Open MRI Collection)
 created: 2025-01-15
-updated: 2026-05-04
-type: entity
-tags: [database, neuroimaging, resting-state, diffusion-imaging, dataset]
 sources:
-  - https://doi.org/10.1101/2020.07.13.201316
-  - https://openneuro.org/datasets/ds000102
-  - https://doi.org/10.1016/j.neuroimage.2021.118494
+- https://doi.org/10.1101/2020.07.13.201316
+- https://openneuro.org/datasets/ds000102
+- https://doi.org/10.1016/j.neuroimage.2021.118494
+tags:
+- database
+- neuroimaging
+- resting-state
+- diffusion-imaging
+- dataset
+title: AOMIC (Amsterdam Open MRI Collection)
+type: entity
+updated: '2026-05-04'
 ---
 
-The Amsterdam Open MRI Collection (AOMIC) is a large-scale open neuroimaging dataset originating from the Netherlands, designed to advance research on brain connectivity, cognition, and individual differences in brain structure and function across the adult lifespan. The AOMIC dataset comprises multimodal magnetic resonance imaging (MRI) data from over 1,400 healthy adult participants, including structural MRI, resting-state functional MRI (rs-fMRI), diffusion tensor imaging (DTI), and behavioral measurements. The collection was assembled to address the growing need for publicly accessible neuroimaging datasets that capture individual differences in brain organization across the adult lifespan.
+The Amsterdam Open MRI Collection (AOMIC) is a large-scale open [[neuroimaging]] dataset originating from the Netherlands, designed to advance research on brain [[connectivity]], cognition, and individual differences in brain structure and function across the adult lifespan. The AOMIC dataset comprises multimodal magnetic resonance imaging (MRI) data from over 1,400 healthy adult participants, including structural MRI, resting-state functional MRI (rs-[[fmri]]), diffusion tensor imaging (DTI), and behavioral measurements. The collection was assembled to address the growing need for publicly accessible neuroimaging datasets that capture individual differences in brain organization across the adult lifespan.
 
 ## Motivation and Scientific Context
 

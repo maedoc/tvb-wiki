@@ -1,17 +1,6 @@
 ---
 created: 2026-05-03
 sources:
-- avants2014insight
-- tustison2014ants
-- tustison2010n4itk
-- Avants:2011
-- Tustison:2013
-- Kandel:2014
-- Cook:2014
-- Dhillon:2014
-- Rubinov:2010
-- Power:2014
-- kandel2015decomposing
 - raw/papers/tustison-2010.md
 tags:
 - software-ants
@@ -54,14 +43,14 @@ ANTsR plays a complementary role to [TVB](/tvb) in the personalized brain modeli
 
 ## Brain Network Analysis
 
-Beyond structural processing, ANTsR supports functional connectivity analysis through its BOLD processing pipeline. The framework implements established preprocessing steps for resting-state fMRI including motion correction, frequency filtering (typically 0.009–0.08 Hz), and nuisance regression from white matter and CSF signals [@power2014methods]. The `makeGraph` function constructs [brain network](/brain-network) adjacency matrices from regional time series, enabling graph-theoretic analysis of [connectomics](/connectomics) data including degree, clustering coefficient, and efficiency metrics [@rubinov2010complex].
+Beyond structural processing, ANTsR supports [[functional-connectivity]] analysis through its BOLD processing pipeline. The framework implements established preprocessing steps for [[resting-state|resting-state fMRI]] including motion correction, frequency filtering (typically 0.009–0.08 Hz), and nuisance regression from [[white-matter]] and CSF signals [@power2014methods]. The `makeGraph` function constructs [brain network](/[[brain-network]]) adjacency matrices from regional time series, enabling graph-theoretic analysis of [connectomics](/[[connectomics]]) data including degree, clustering coefficient, and efficiency metrics [@rubinov2010complex].
 
 ## Related Software Ecosystem
 
-ANTsR integrates with and complements numerous neuroimaging packages. The Python counterpart [ANTsPy](/antspy) provides equivalent functionality for users preferring the Python ecosystem. ANTsR can exchange data with [nilearn](/nilearn) and [nibabel](/nibabel) for visualization and additional analysis, use atlases from [TemplateFlow](/templateflow) or traditional packages like [FreeSurfer](/freesurfer) and [FSL](/fsl) for parcellation, and supports [BrainGlobe](/brainglobe) atlases for non-human studies.
+ANTsR integrates with and complements numerous neuroimaging packages. The Python counterpart [ANTsPy](/antspy) provides equivalent functionality for users preferring the Python ecosystem. ANTsR can exchange data with [nilearn](/nilearn) and [nibabel](/[[nibabel]]) for visualization and additional analysis, use atlases from [TemplateFlow](/[[templateflow]]) or traditional packages like [FreeSurfer](/freesurfer) and [FSL](/fsl) for [[parcellation]], and supports [BrainGlobe](/[[brainglobe]]) atlases for non-human studies.
 
 ## Key Contributors
 
-The primary authors and maintainers of ANTs include [Brian Avants](/brian2cuda)—the principal developer and maintainer—Nick Tustison, Philip A. Cook, Benjamin M. Kandel, and Jeff T. Duda. Their collective work on ANTs and ANTsR has resulted in extensively validated methods that have become standard practice in neuroimaging research, particularly for cortical thickness measurement and population-based studies.
+The primary authors and maintainers of ANTs include [Brian Avants](/[[brian2cuda]])—the principal developer and maintainer—Nick Tustison, Philip A. Cook, Benjamin M. Kandel, and Jeff T. Duda. Their collective work on ANTs and ANTsR has resulted in extensively validated methods that have become standard practice in neuroimaging research, particularly for cortical thickness measurement and population-based studies.
 
 ## References
