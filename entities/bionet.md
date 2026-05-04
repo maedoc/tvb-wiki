@@ -15,17 +15,17 @@ updated: '2026-05-04'
 
 # BioNet
 
-BioNet is a neural mass modeling framework implementing [[Walter Freeman]]'s K-set hierarchy for simulating mesoscopic [[brain-dynamics]]. Developed in the broader context of nonlinear neurodynamics research, BioNet provides tools for modeling population-level neural activity through coupled differential equations describing excitatory and inhibitory interactions.
+BioNet is a neural mass modeling framework implementing Walter Freeman's K-set hierarchy for simulating mesoscopic [[brain-dynamics]]. Developed in the broader context of nonlinear neurodynamics research, BioNet provides tools for modeling population-level neural activity through coupled differential equations describing excitatory and inhibitory interactions.
 
 ## Overview
 
-BioNet implements [[Walter Freeman]]'s theoretical framework for neural mass modeling, focusing on the mesoscopic scale between single neurons and macroscopic brain regions. The approach treats neural populations as dynamical units whose collective behavior emerges from local interactions within cortical columns and nuclei.
+BioNet implements Walter Freeman's theoretical framework for neural mass modeling, focusing on the mesoscopic scale between single neurons and macroscopic brain regions. The approach treats neural populations as dynamical units whose collective behavior emerges from local interactions within cortical columns and nuclei.
 
 The framework emphasizes "mass action" in neural systems—how populations of neurons generate coherent macroscopic activity patterns through excitatory and inhibitory feedback loops. This mesoscopic approach bridges single-[[neuron]] biophysics and large-scale brain dynamics, with particular attention to nonlinear phenomena including limit cycles, chaotic attractors, and state transitions.
 
 ## Key Features
 
-- **Neural mass modeling**: Population-level simulation using [[mean-field-theory|mean-field]] approximations capturing average activity of excitatory and inhibitory subpopulations
+- **Neural mass modeling**: Population-level simulation using mean-field approximations capturing average activity of excitatory and inhibitory subpopulations
 - **K-set model implementation**: Support for Freeman's K-set hierarchy: K0 (non-interactive population), KI (excitatory population with feedback), KII (coupled excitatory-inhibitory populations), and KIII (multiple interacting KII sets)
 - **[[nonlinear-dynamics]] focus**: Tools for bifurcation analysis, attractor reconstruction, and quantification of chaotic activity
 - **Olfactory system models**: Specialized implementations for simulating bulb and cortical dynamics
@@ -71,7 +71,7 @@ Freeman's K-set framework influenced subsequent neural mass formulations, includ
 
 ## Historical Context
 
-[[Walter Freeman]] (1927–2016) pursued this work at the University of California, Berkeley, where he developed the K-set framework through decades of research on the olfactory system and cortical dynamics Freeman (2000)Kozma et al. (2012). His mesoscopic approach emphasized that EEG and [[local-field-potentials]] reflect cooperative activity of neural populations rather than single-neuron spiking.
+Walter Freeman (1927–2016) pursued this work at the University of California, Berkeley, where he developed the K-set framework through decades of research on the olfactory system and cortical dynamics Freeman (2000)Kozma et al. (2012). His mesoscopic approach emphasized that EEG and [[local-field-potentials]] reflect cooperative activity of neural populations rather than single-neuron spiking.
 
 Freeman's insight that chaotic attractors in KIII sets enable rapid perceptual transitions influenced later [[whole-brain|whole-brain modeling]] approaches, demonstrating how structured neural population dynamics support cognitive function.
 
@@ -85,7 +85,7 @@ Freeman's insight that chaotic attractors in KIII sets enable rapid perceptual t
 ## Related Concepts
 
 - [[neural mass model]] — Population-level brain dynamics
-- [[Walter Freeman]] — Pioneer of mesoscopic neural modeling
+- Walter Freeman — Pioneer of mesoscopic neural modeling
 - [[Jansen-Rit]] — [[neural-mass-models|Neural mass model]] influenced by Freeman's approach
 - [[bifurcation analysis]] — Exploring qualitative changes in model behavior
 - [[brain oscillations]] — Emergent dynamics in coupled populations

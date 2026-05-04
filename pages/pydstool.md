@@ -42,7 +42,7 @@ The relationship between the two tools is thus one of **complementarity rather t
 ## Related Software
 
 - [[the-virtual-brain]] — Whole-brain simulation platform where PyDSTool informs local dynamics
-- [[brian]] — Neural simulation environment with similar capabilities
+- [[brian2]] — Neural simulation environment with similar capabilities
 - [[nest]] — Spiking network simulator for large-scale neural modeling
 - [[neuron]] — Established compartmental neuron modeling environment
 - [[auto-07p]] — Continuation and bifurcation analysis software

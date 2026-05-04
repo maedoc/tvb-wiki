@@ -33,7 +33,7 @@ The language was developed in response to a perennial challenge in computational
 
 NESTML is tightly integrated with the [[nest]] simulator, which provides the primary simulation backend. When a NESTML model is compiled, it produces a native NEST extension module that can be loaded at runtime. This allows users to create custom neuron types that integrate seamlessly with NEST's connection management and recording facilities.
 
-Beyond NEST, NESTML shares conceptual territory with other neuronal modeling tools. Unlike the general-purpose [[brian]] language which uses interpreted Python, NESTML generates compiled simulation code optimized for large-scale network simulations. Compared to NeuroML, which provides a broader but less simulation-specific format, NESTML offers deeper integration with NEST at the cost of narrower target support [@nestml-recent].
+Beyond NEST, NESTML shares conceptual territory with other neuronal modeling tools. Unlike the general-purpose [[brian2]] language which uses interpreted Python, NESTML generates compiled simulation code optimized for large-scale network simulations. Compared to NeuroML, which provides a broader but less simulation-specific format, NESTML offers deeper integration with NEST at the cost of narrower target support [@nestml-recent].
 
 The language builds upon concepts from LEMS (Low Entropy Model Specification), sharing a philosophical approach to declarative model definition, though NESTML is specifically optimized for point neuron models rather than the more general morphological neuron descriptions supported by NeuroML which can handle detailed compartmental models with complex dendritic architectures.
 
@@ -52,7 +52,7 @@ The language has been applied to implement various neuron models including varia
 ## Related Software
 
 - [[nest]] — Neural simulation tool, primary target for NESTML code generation
-- [[brian]] — Alternative spiking neural network simulator with interpreted Python interface
+- [[brian2]] — Alternative spiking neural network simulator with interpreted Python interface
 - [[neuroml]] — Broader neural modeling format with multiple simulation targets
 - [[neuroconstruct]] — GUI tool for managing neuronal models
 - [[pynest]] — Python interface to NEST

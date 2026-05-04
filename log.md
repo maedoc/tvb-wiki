@@ -61,3 +61,5 @@
 ## [2026-05-04 19:21] Matcher: 9 pages got 17 new sources
 
 ## [2026-05-04 19:24] DeepResearch: 17 papers added via focused research
+
+## [2026-05-04 19:26] Improve: 5 pages improved (mrtrix3, coreneuron, brian2, rabies, fieldtrip)
