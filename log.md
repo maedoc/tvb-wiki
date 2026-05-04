@@ -282,3 +282,7 @@
 ## [2026-05-04 03:02] Matcher: 9 pages got 25 new sources
 
 ## [2026-05-04 03:36] RefFormatter: formatted references on 7 pages
+
+## [2026-05-04 04:27] DeepResearch: 55 papers added via focused research
+
+## [2026-05-04 05:09] Audit: 922 issues (43 broken links, 48 orphans, 15 placeholders, 0 dup-refs, 3 bad-meta, 78 citation-verify, 18 opaque-refs, 76 thin, 403 missing-links)
