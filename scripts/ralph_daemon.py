@@ -357,17 +357,53 @@ def print_banner():
     log.info("Ready. Ctrl+C to stop.")
 
 
+# ── Concurrent agent execution ─────────────────────────────────────────
+import concurrent.futures
+
+_agent_executors = {}  # agent_name -> ThreadPoolExecutor
+_agent_futures = {}     # agent_name -> Future
+
+def _run_agent_async(agent_name: str, runner) -> bool:
+    """Run an agent in a background thread. Returns immediately.
+    Returns False if the agent is already running.
+    """
+    global _agent_futures
+    
+    # Check if already running
+    future = _agent_futures.get(agent_name)
+    if future and not future.done():
+        log.info("%s still running from last cycle — skipping", agent_name)
+        return True  # Don't mark as failed, just not ready yet
+    
+    # Clean up done futures
+    if future and future.done():
+        try:
+            result = future.result(timeout=0)
+            if not result and agent_name in state.disabled:
+                log.warn("%s disabled after failure", agent_name)
+        except Exception as e:
+            log.error("%s thread raised: %s", agent_name, e)
+        del _agent_futures[agent_name]
+    
+    # Launch new thread
+    executor = _agent_executors.setdefault(agent_name, concurrent.futures.ThreadPoolExecutor(max_workers=1))
+    _agent_futures[agent_name] = executor.submit(runner)
+    log.info("── %s launched in background ──", agent_name)
+    return True
+
+
 # ── Main loop ──────────────────────────────────────────────────────────
 
 def main_loop_with_agents(agents, poll_interval: int = 60):
     """
     Main event loop. Checks every poll_interval seconds which agents need to run.
+    Agents execute concurrently in background threads.
     """
-    log.info("Entering main loop (poll every %ds)", poll_interval)
+    log.info("Entering main loop (poll every %ds, agents run concurrently)", poll_interval)
 
     while state.running:
         state.cycle += 1
-        any_ran = False
+        any_launched = False
 
         for agent_name, interval, runner in agents:
             if not state.running:
@@ -379,19 +415,35 @@ def main_loop_with_agents(agents, poll_interval: int = 60):
                 continue
 
             if state.should_run(agent_name, interval):
-                log.info("── %s due ──", agent_name)
-                success = runner()
-                any_ran = True
-
-                if not success and agent_name in state.disabled:
-                    log.warn("%s disabled after 3 consecutive failures", agent_name)
+                # Check if already running
+                future = _agent_futures.get(agent_name)
+                if future and not future.done():
+                    log.info("%s still running — not starting new cycle", agent_name)
+                    continue
+                    
+                # Clean up done futures
+                if future and future.done():
+                    try:
+                        result = future.result(timeout=0)
+                        if not result and agent_name in state.disabled:
+                            log.warn("%s disabled after failure", agent_name)
+                    except Exception as e:
+                        log.error("%s thread raised: %s", agent_name, e)
+                    del _agent_futures[agent_name]
+                
+                # Launch
+                executor = _agent_executors.setdefault(agent_name, concurrent.futures.ThreadPoolExecutor(max_workers=1))
+                future = executor.submit(runner)
+                _agent_futures[agent_name] = future
+                log.info("── %s launched ──", agent_name)
+                any_launched = True
 
         # Check if all agents disabled
         if len(state.disabled) >= len(agents):
             log.error("All agents disabled. Halting.")
             break
 
-        if not any_ran:
+        if not any_launched:
             # Nothing to do — sleep
             # Find the soonest agent that will be ready
             sleep_until = poll_interval
@@ -412,8 +464,38 @@ def main_loop_with_agents(agents, poll_interval: int = 60):
             end_time = time.time() + sleep_until
             while time.time() < end_time and state.running:
                 time.sleep(min(5, end_time - time.time()))
+                
+            # Check for completed futures during sleep and process results
+            for agent_name, future in list(_agent_futures.items()):
+                if future.done():
+                    try:
+                        result = future.result(timeout=0)
+                        if not result and agent_name in state.disabled:
+                            log.warn("%s disabled after failure", agent_name)
+                    except Exception as e:
+                        log.error("%s thread raised: %s", agent_name, e)
+                    del _agent_futures[agent_name]
+        else:
+            # Something launched — short sleep to let threads start, then check others
+            time.sleep(2)
+            
+            # Process any completed futures
+            for agent_name, future in list(_agent_futures.items()):
+                if future.done():
+                    try:
+                        result = future.result(timeout=0)
+                        if not result and agent_name in state.disabled:
+                            log.warn("%s disabled after failure", agent_name)
+                    except Exception as e:
+                        log.error("%s thread raised: %s", agent_name, e)
+                    del _agent_futures[agent_name]
 
     log.info("Ralph daemon stopped.")
+    
+    # Shutdown executors
+    for name, executor in _agent_executors.items():
+        executor.shutdown(wait=False)
+        log.info("Shutdown executor for %s", name)
 
 
 def main_loop(poll_interval: int = 60):
