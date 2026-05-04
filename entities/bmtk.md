@@ -68,9 +68,3 @@ The following publications form the foundational literature for BMTK and its eco
 - **Carnevale and Hines (2006)** established NEURON as the standard simulation engine for biologically detailed neural modeling[5], which BMTK leverages as its primary backend.
 
 - **Kumbhar et al. (2019)** presented CoreNEURON, the optimized simulation backend that enables BMTK to scale to millions of neurons with GPU acceleration[6].
-
-## References
-
-1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
-2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
-3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](https://doi.org/10.3389/fncom.2025.1731161)

@@ -43,11 +43,3 @@ In practice, cognitive reserve is rarely measured directly but inferred from pro
 ## Relationship to Whole-Brain Modeling and Brain Maintenance
 
 Within the [[tvb]] modeling framework and related [[whole-brain]] simulation paradigms, cognitive reserve can be parameterized in several ways. One approach treats reserve as a global scaling factor on connection weights or conduction velocities, effectively simulating a more robust network that tolerates greater disruption before transitioning to pathological dynamical regimes such as seizure-like activity or metastability collapse. Another approach models reserve through local node parameters that vary across the cortex according to structural reserve maps derived from neuroimaging. Cabeza's concept of [[brain-maintenance]]—the preservation of youthful neural structure and function into old age—complements cognitive reserve by explaining why some individuals show neither compensation nor decline: their networks simply age more successfully. The interplay of maintenance, reserve, and compensation determines individual cognitive trajectories and warrants integrated representation in computational aging models that seek to forecast the transition from [[successful-aging]] to mild cognitive impairment.
-
-## References
-
-1. (authors unknown). *Memory and Executive Function in Aging and AD: Multiple Factors that Cause Decline and Reserve Factors that Compensate*.
-2. (authors unknown). *The Cognitive Neuroscience of Ageing and Functional Reserve*.
-3. (authors unknown). *Maintenance, Reserve and Compensation: The Cognitive Neuroscience of Healthy Ageing*.
-4. J. King, M. Prigge, Vincent Koppelmans, John M. Hoffman, Kevin Duff. (2026). *Altered functional connectivity is associated with Repeatable Battery for the Assessment of Neuropsychological Status across the dementia spectrum*. Journal of the International Neuropsychological Society. [DOI](https://doi.org/10.1017/s135561772610191x)
-5. (authors unknown). *Structural Brain Changes in Aging: Courses, Causes and Cognitive Consequences*.

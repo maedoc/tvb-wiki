@@ -48,13 +48,3 @@ SurfStat was introduced by Keith J. Worsley and colleagues at the Montreal Neuro
 ## Related Software
 
 SurfStat integrates closely with the broader neuroimaging software ecosystem. It works seamlessly with outputs from [[freesurfer]] for cortical reconstruction, with [[brainvisa]] for alternative processing pipelines, and with visualization tools like [[freeview]] for displaying statistical results. For volumetric statistical analysis, researchers often complement SurfStat with [[spm]] or [[fsl-randomise]], while connectivity-based analyses may utilize the [[brain-connectivity-toolbox]] ([[bctpy]]) or [[nilearn]]. The toolbox is written in MATLAB, making it compatible with other MATLAB-based analysis pipelines including those in the [[eeglab]] ecosystem for combined EEG-fMRI analyses.
-
-## References
-
-Charil, A., Zijdenbos, A. P., Taylor, J., Boelman, G., Worsley, K. J., Müller-Gärtner, H. W., &Evans, A. (2007). Statistical analysis of activation maps: Characterisation and correction of the bias caused by anisotropy. In T. D. R. S. R. (Ed.), *Statistical Parametric Mapping: The Analysis of Functional Brain Images* (pp. 198-214). Academic Press.
-
-Goldstein, J. M., Zajac, L., Cosgrove, J., Madsen, K., Ge, Y., & Sehat, M. (2017). The impact of surface-based cortical thickness measurement on understanding brain development: methods and applications. *Developmental Cognitive Neuroscience*, 27, 85-98.
-
-Worsley, K. J., Charil, A., Leritz, J., & Zijdenbos, A. (2009a). Statistical analysis of activation maps. In *Statistical Parametric Mapping: The Analysis of Functional Brain Images* (pp. 218-232). Elsevier.
-
-Worsley, K. J., Charil, A., & Leritz, J. (2009b). SurfStat: A Matlab toolbox for the statistical analysis of univariate and multivariate surface data. *NeuroImage*, 45(2), S172-S178.

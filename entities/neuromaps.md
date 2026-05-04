@@ -70,29 +70,3 @@ neuromaps intersects with several other tools in the neuroimaging ecosystem. [[n
 neuromaps is written in Python (version 3.8+) (@neuromaps-docs) and depends on established scientific computing libraries including [[nibabel]] for neuroimaging file I/O, [[nilearn]] for basic image operations, NumPy/SciPy for numerical computing, and scikit-learn for machine learning utilities. The toolbox provides both a programmatic Python API and command-line interfaces for common operations. Installation is available via PyPI (`pip install neuromaps`) or directly from the GitHub repository. Notably, full transformation functionality requires [[connectome-workbench]] to be installed and accessible on the system PATH, as neuromaps delegates computational heavy-lifting to Workbench's `wb_command` utility.
 
 The toolbox's architecture is organized into functional modules: `datasets` for annotation and atlas fetching, `transforms` for coordinate space conversions, `nulls` for spatial null model generation, `parcellate` for region-based summarization, `stats` for statistical comparisons, and `plotting` for visualization utilities. This modular design enables users to employ specific components in isolation while maintaining interoperability across the full analysis pipeline.
-
-## References
-
-- Alexander-Bloch, A., Shou, H., Liu, S., Satterthwaite, T. D., Glahn, D. C., Shinohara, R. T., Vandekar, S. N., & Raznahan, A. (2018). On testing for spatial correspondence between maps of human brain structure and function. *NeuroImage*, 178, 540-551. https://doi.org/10.1016/j.neuroimage.2018.05.070
-
-- Buckner, R. L., Krienen, F. M., Castellanos, A., Thomas, M. B., & Yeo, B. T. T. (2011). The organization of the human cerebral cortex estimated by intrinsic functional connectivity. *Journal of Neurophysiology*, 106(3), 1125-1165. https://doi.org/10.1152/jn.00338.2011
-
-- Burt, J. B., Demirtaş, M., Eckner, W. J., Nave, G., Ji, A., Martin, W. J., ... & Murray, J. D. (2018). Hierarchy of non-random features of spatial autocorrelation in the human brain. *Nature Neuroscience*, 21(10), 1404-1412. https://doi.org/10.1038/s41593-018-0189-4
-
-- Burt, J. B., Zheng, Y., & Helmer, K. (2020). A statistical framework for robust null models applied to neuroimaging data. *NeuroImage*, 223, 117340. https://doi.org/10.1016/j.neuroimage.2020.117340
-
-- Markello, R. D., Bazir, A. J., Paquola, C., Zhang, Y., Amiri, K., Milham, M. P., ... & Margulies, D. S. (2022). neuromaps: a toolbox for standardized and reproducible processing, visualization, and comparison of brain maps. *Nature Methods*, 19(12), 1792-1799. https://doi.org/10.1038/s41592-022-01637-6
-
-- Robinson, E. C., Jbabdi, S., Glasser, M. F., Andersson, J., Burgess, G. C., Harms, M. P., ... & Smith, S. M. (2014). MSM: Multimodal surface matching. *NeuroImage*, 100, 192-206. https://doi.org/10.1016/j.neuroimage.2014.04.069
-
-- Robinson, E. C., Garcia, K., Glasser, M. F., Chen, L., Coalson, T. S., Makropoulos, A., ... & Smith, S. M. (2018). Multimodal surface matching with fast and robust methods. *NeuroImage*, 171, 256-270. https://doi.org/10.1016/j.neuroimage.2018.01.071
-
-- Vázquez-Rodríguez, B., Suárez, L. E., Markello, R. D., Shafiei, G., Paquola, C., Hagmann, P., ... & Misic, B. (2019). Integrating gradient and framework: A structure-function correspondence in the human cortex. *Proceedings of the National Academy of Sciences*, 116(35), 17335-17344. https://doi.org/10.1073/pnas.1814844116
-
-- Wu, J., T., Zalesky, A., & Eickhoff, S. B. (2018). Registration fusion for surface-based neuroimaging. *Human Brain Mapping*, 39(8), 3233-3248. https://doi.org/10.1002/hbm.24071
-
-- neuromaps contributors. (2021). neuromaps v0.1.0 [Software release]. GitHub. https://github.com/netneurolab/neuromaps/releases
-
-- neuromaps contributors. (2024). neuromaps Documentation [Software documentation]. GitHub. https://netneurolab.github.io/neuromaps/
-
-- neuromaps contributors. (2024). neuromaps README: License [Software documentation]. GitHub. https://github.com/netneurolab/neuromaps/blob/main/README.md

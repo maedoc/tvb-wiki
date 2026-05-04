@@ -67,8 +67,3 @@ Due to the unverified status of this entity, the following related pages from th
 
 - [[the-virtual-brain]] — Core whole-brain simulation engine
 - [[tvb-library]] — TVB's scientific library for custom model development
-
-## References
-
-
-*No verifiable sources available for this entity.*

@@ -53,11 +53,3 @@ For simulation purposes, [[brian]] and [[brian2]] provide point-neuron-level sim
 A typical nitime workflow begins with loading time-series data—either from file or generated programmatically—and applying spectral decomposition to characterize oscillatory content. Researchers then compute connectivity metrics between regions of interest defined by a [[brain-parcellations]] such as the [[desikan-killiany-atlas]] or [[schaefer-atlas]], producing connectivity matrices that can be thresholded and analyzed.
 
 For [[effective-connectivity]] analysis, nitime's Granger causality routines have been applied to study directed information flow in [[resting-state]] networks and during task performance. The library's support for multivariate autoregressive models allows investigation of [[network-dynamics]] in the frequency domain, producing frequency-specific directed connectivity estimates that complement model-based approaches like [[dynamic-causal-modeling]]. These capabilities make nitime particularly valuable for researchers investigating the temporal dynamics of large-scale [[brain-network]] organization, whether in the context of [[epilepsy-modeling]], [[schizophrenia-models]], or studies of normal aging and [[alzheimers-modeling]].
-
-## References
-
-Chung, A., G. K. Rohle, J. D. D. K.遮挡, A. W. Song, and M. A. Taylor. "Nitime: a Python toolkit for time-series analysis in neuroscience." *Frontiers in Neuroinformatics* (2010).
-
-Fransson, P., and G. Marrelec. "The precuneus/posterior cingulate cortex participates in the [[default-mode-network]]." *NeuroImage* 39, no. 4 (2008): 1918-1928.
-
-Biswal, B., F. Zerrin Yetkin, V. M. Haughton, and J. S. Hyde. "Functional connectivity in the motor cortex of resting human brain using echo-planar MRI." *Magnetic Resonance in Medicine* 34, no. 4 (1995): 537-541.

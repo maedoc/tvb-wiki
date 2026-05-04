@@ -70,9 +70,3 @@ While NiTransforms is not specifically designed for [[whole-brain|whole-brain mo
 ## Key Papers
 
 - **NiTransforms: Transforms for Neuroimaging Data** — R. A. P. Kellner, B. N. P. Moreels, C. R. D. Burns, R. D. J. Miller, A. C. L. Ghoshal, J. M. S. H. Matelsky, "NiTransforms: Transforms for Neuroimaging Data," *Journal of Open Source Software*, vol. 7, no. 70, p. 3459, 2022. DOI: [10.21105/joss.03459](https://doi.org/10.21105/joss.03459)
-
-## References
-
-[@nitransforms-joss]: https://joss.theoj.org/papers/10.21105/joss.03459
-[@nibabel-pr656]: https://github.com/nipy/nibabel/pull/656
-[@bids-x5]: https://bids-specification.readthedocs.io/en/stable/appendices/schema.html

@@ -76,9 +76,3 @@ Furthermore, the timescales of adaptation in whole-brain models are often tuned 
 - [[epileptor]]
 - [[mean-field-theory]]
 - [[hodgkin-huxley-model]]
-
-## References
-
-1. Rosa Maria Delicado, Gemma Huguet, Pau Clusella. (2025). *Emergent Spatiotemporal Dynamics in Large-Scale Brain Networks with Next Generation Neural Mass Models*. [Link](https://arxiv.org/abs/2512.03907)
-2. Ronja Strömsdörfer, Klaus Obermayer. *Spike-frequency and h-current based adaptation are dynamically equivalent in a [[wilson-cowan]] field model*. [Link](https://arxiv.org/abs/2510.08436)
-3. Futa Tomita, Jun-nosuke Teramae. (2025). *Dynamical mean-field theory for a highly heterogeneous neural population with graded persistent activity of the entorhinal cortex*. PLoS Comput. Biol.. [DOI](https://doi.org/10.1371/journal.pcbi.1013484)

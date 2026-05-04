@@ -49,17 +49,3 @@ Key methodological papers establishing DDE-Biftool include the seminal work by E
 DDE-Biftool occupies a niche in the bifurcation analysis ecosystem alongside several related tools. [[auto-07p]] is a prominent alternative for bifurcation analysis of ODEs and DDEs, offering similar continuation capabilities but with a different interface and some distinct algorithmic approaches. [[matcont]] provides a MATLAB-based interactive environment for numerical bifurcation analysis of ODEs. [[xppaut]] (formerly XPPAUT) offers a combined differential equation solver and bifurcation analysis tool with a long history in the neuroscience community. Within the neural simulation ecosystem, [[brian]] and [[brian2]] incorporate some delay functionality but lack the specialized bifurcation analysis capabilities of DDE-Biftool, while [[nest]] and [[neuron]] focus on spike-level simulation rather than continuum bifurcation analysis.
 
 The choice between these tools often depends on the specific research question: DDE-Biftool excels when delays are central to the dynamical hypothesis, while auto-07p offers broader functionality for ODE systems with occasional delays. For rapid prototyping and exploratory work, many researchers begin with MATLAB-based tools like DDE-Biftool or matcont before migrating to custom implementations in Python or C++ for large-scale simulation studies.
-
-## References
-
-[@engelborghs2001] Engelborghs, K., Luzyanina, T., Roose, D., & Samaey, G. (2001). DDE-BIFTOOL v. 2.00: a MATLAB package for numerical bifurcation analysis of delay differential equations. Technical Report TW-305, Department of Computer Science, KU Leuven.
-
-[@engelborghs2002] Engelborghs, K., Luzyanina, T., & Roose, D. (2002). Numerical bifurcation analysis of delay differential equations using DDE-BIFTOOL. *ACM Transactions on Mathematical Software*, 28(1), 1-21.
-
-[@kuznetsov2004] Kuznetsov, Y. A. (2004). *Elements of Applied [[bifurcation-theory]]* (3rd ed.). Springer.
-
-[@proix2014] Proix, T., Pert, F., Spiegler, A., Jirsa, V. K., & Wendling, F. (2014). Parasitic oscillations in a closed-loop brain model: implications for cortical seizures. *Frontiers in Neural Circuits*, 8, 10.
-
-[@spiegler2016] Spiegler, A., Kiebel, S. J., Lyttle, D. N., Jirsa, V. K., & Stephan, K. E. (2016). Parametric analysis of large-scale brain model dynamics: insights into epilepsy and seizures. In T. R. Jackson & A. V. G. Williams (Eds.), *Computational Neuroscience: Theoretical Insights into Brain Function* (pp. 345-367). Oxford University Press.
-
-[@breakspear2014] Breakspear, M., Heitmann, S., & Daffertshofer, A. (2014). Generative models of cortical oscillations: neurobiological implications of the [[kuramoto]] model. *Frontiers in Human Neuroscience*, 8, 166.

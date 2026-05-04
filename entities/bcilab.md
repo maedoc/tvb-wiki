@@ -49,17 +49,3 @@ BCILAB belongs to a broader ecosystem of neurophysiological signal processing to
 ## Key Features
 
 The features that distinguish BCILAB in the BCI toolbox landscape include its emphasis on [[reproducibility]] through saved processing pipelines, its extensive library of example BCI paradigms (allowing new researchers to quickly set up standard experiments), and its plugin architecture that enables extension with custom algorithms. The toolbox includes built-in support for common BCI paradigms including motor imagery (imagined movements), P300 event-related potentials (the oddball paradigm), and steady-state visual evoked potentials (SSVEP). Additionally, BCILAB provides tools for comparing classifier performance, visualizing feature spaces, and conducting cross-validation studies.
-
-## References
-
-1. **SCCN.** BCILAB Toolbox. Swartz Center for Computational Neuroscience, UC San Diego. https://sccn.ucsd.edu/bcilab/
-
-2. **Kothe, C.A. & Makeig, S.** (2013). BCILAB: A platform for brain-computer interface development. *Journal of Neural Engineering*, 10(5), 056014.
-
-3. **Vidal, J.J.** (1973). Toward direct brain-computer communication. *Annual Review of Biophysics and Bioengineering*, 2, 413–433.
-
-4. **Makeig, S., Bell, A.J., Jung, T.P., & Sejnowski, T.J.** (1996). Independent component analysis of electroencephalographic and electrocorticographic data. *Advances in Neural Information Processing Systems*, 8, 145–151.
-
-5. **Makeig, S., Jung, T.P., Bell, A.J., Ghahremani, D., & Sejnowski, T.J.** (2004). Blind separation of auditory event-related brain responses into independent components. *Proceedings of the National Academy of Sciences*, 94(20), 10979–10984.
-
-6. **Ramoser, H., Wolpaw, J.R., & Pfurtscheller, G.** (2000). EEG-based communication: Evaluation of alternative signal processing methods. *Proceedings of the 1st International IEEE EMBS Conference on Neural Engineering*, 159–162.

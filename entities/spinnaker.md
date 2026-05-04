@@ -75,15 +75,3 @@ The two platforms occasionally serve complementary roles in multi-scale modeling
 SpiNNaker occupies a niche in the neuromorphic computing landscape adjacent to several related platforms. [[BrainScaleS]], developed at Heidelberg University, employs analog circuits for even faster-than-real-time simulation but with less flexibility than SpiNNaker. Intel's Loihi chip implements learned spike-timing-dependent [[plasticity]] rules in hardware, targeting applications in embedded intelligence rather than biological simulation. The [[nengo]] neural simulator provides another software framework capable of targeting SpiNNaker as a backend, offering alternative programming abstractions.
 
 In the software simulation space, [[NEST]] and [[Brian2]] remain the most widely used platforms for spiking network simulation on conventional hardware. These tools offer superior flexibility and larger community support but cannot match SpiNNaker's real-time performance without significant computational resources. The choice between these approaches depends on research priorities: biological realism and real-time constraints favor SpiNNaker, while maximum flexibility and ease of use favor software simulators. [[TVB]] complements SpiNNaker by providing mesoscopic whole-brain modeling capabilities at the neural mass level, making the two platforms complementary in multi-scale modeling workflows.
-
-## References
-
-- Furber, S. B., Galluppi, F., Temple, S., & Plana, L. A. (2014). The SpiNNaker Project: A Massively Parallel Coprocessor for Simulating Large Spiking Neural Networks. *Proceedings of the IEEE, 102(5), 699-715.*
-
-- Sharp, T., Plana, L. A., Gallipoli, F., & Furber, S. (2014). The SpiNNaker Toolchain. *arXiv preprint arXiv:1409.4351.*
-
-- Khan, M. M., Lester, D. R., Hall, L. A., Plana, L. A., Choudhary, R. A., Rast, A., ... & Furber, S. B. (2008). SpiNNaker: Mapping Neural Networks onto a Massively-Parallel Chip. In *2008 IEEE International Joint Conference on Neural Networks (IJCNN)* (pp. 2849-2856). IEEE.
-
-- Galluppi, F., Davies, S., Rast, A., Sharp, T., Plana, L. A., & Furber, S. (2012). A Framework for Flexible Execution of Algorithms on a Neuromorphic Computing Platform. In *International Conference on Neural Information Processing* (pp. 425-432). Springer.
-
-- Rowley, A. G. D., Rast, A., Sharp, T., Davies, S., & Furber, S. B. (2015). Neural Modeling Pipeline: A Standard, Integrated, Extensible Python Toolchain for SpiNNaker. *Neural Networks, 62, 69-80.*

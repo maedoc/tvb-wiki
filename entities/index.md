@@ -1,3 +1,7 @@
+---
+title: All Entities
+---
+
 # Entities Index
 
 A collection of people, software platforms, datasets, and research groups relevant to whole-brain modeling.

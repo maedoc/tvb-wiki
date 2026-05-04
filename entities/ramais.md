@@ -64,5 +64,3 @@ RAMAIS-type segmentation pipelines can feed directly into [[TVB]] workflows by p
 - [[diffusion-imaging]] — MRI technique for tracking white matter tracts
 - [[tractography]] — Reconstruction of white matter pathways
 - [[neuroimaging]] — Magnetic resonance imaging methodology
-
-## References

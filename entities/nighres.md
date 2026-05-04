@@ -84,19 +84,3 @@ The following publications form the foundation for Nighres and its underlying me
 6. **Greve, D.N., et al. (2013)**. Multi‑modal correspondence between MRI and histology in the JHU cadaver study. *NeuroImage*, 66, 144‑151. [@Greve2013]
 
 ---
-
-## References
-
-[@Marques2010]: Marques, J.P., et al. (2010). MP2RAGE: a self‑bipolarizing sequence for fast and accurate T1 mapping at 7T. *Magnetic Resonance in Medicine*, 64(6), 1554‑1568.
-
-[@HCP2013]: Glasser, M.F., et al. (2013). The [[mrtrix3-connectome]]'s neuroimaging approach. *Nature Neuroscience*, 16(9), 1213‑1221.
-
-[@Weiner2014]: Weiner, K.S., et al. (2014). The modular architecture of the cerebral cortex. *Brain Structure and Function*, 219(1), 147‑164.
-
-[@Schiffer2017]: Schiffer, C., et al. (2017). Nighres: a toolbox for high‑resolution neuroimaging. *Frontiers in Neuroinformatics*, 11, 47.
-
-[@Bazin2011]: Bazin, P.L., et al. (2011). A computational framework for ultra‑high resolution cortical segmentation at 7 Tesla. *Proceedings of the 17th Annual Meeting of the Organization for Human Brain Mapping*.
-
-[@Greve2013]: Greve, D.N., et al. (2013). Multi‑modal correspondence between MRI and histology in the JHU cadaver study. *NeuroImage*, 66, 144‑151.
-
-[@Avants2009]: Avants, B.B., et al. (2009). Symmetric diffeomorphic image registration with cross‑correlation: evaluating automated labeling of elderly, neurodegenerative, and adult brains. *IEEE Transactions on Medical Imaging*, 28(2), 254‑269.

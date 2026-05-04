@@ -43,10 +43,3 @@ ANTS occupies a central position in the neuroimaging software ecosystem and is f
 ## Applications in Brain Modeling
 
 In connectome-based [[whole-brain-modeling]], ANTS plays a critical preprocessing role by ensuring that individual [[structural-connectivity]] matrices can be compared across subjects and mapped onto standard atlases like the [[desikan-killiany-atlas]] or [[schaefer-atlas]] . When constructing personalized brain models in [[the-virtual-brain]], researchers typically use ANTS to normalize each participant's anatomical MRI to the template space, then apply the computed transformations to their connectivity data. This enables the construction of cohort-level models that can reveal how [[structural-connectivity]] patterns relate to [[functional-connectivity]] dynamics, or how anatomical variations contribute to individual differences in [[brain-dynamics]]. Recent work combining ANTS preprocessing with graph-theoretic analysis using tools like [[bctpy]] has enabled characterization of [[structural-core]] and [[rich-club]] organization in human connectomes, providing insights into the architectural principles that constrain [[network-dynamics]] in the human brain.
-
-## References
-
-1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate [[brain-network]] dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
-2. Avants et al. (2008). *Symmetric diffeomorphic image registration with cross-correlation*. Medical Image Analysis. [DOI](https://doi.org/10.1016/j.media.2007.06.004)
-3. Avants et al. (2011). *A reproducible evaluation of ANTs similarity metric performance in brain image registration*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2010.09.025)
-4. Tustison et al. (2014). *Large-scale evaluation of ANTs and FreeSurfer cortical thickness measurements*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2014.05.044)

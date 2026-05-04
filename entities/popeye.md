@@ -35,9 +35,3 @@ The wiki page is now complete. Here's a summary of what I've done:
 - Added sources from web research
 
 **Log updated:** Added entry documenting this improvement.
-
-## References
-
-1. Micha Burkhardt, Carsten Gießing. (2025). *The Comet Toolbox: Improving robustness in [[netneuroscience|network neuroscience]] through multiverse analysis*. bioRxiv. [DOI](https://doi.org/10.1101/2024.01.21.576546)
-2. Wanying Qu, Jianxiong Gao, Wei Wang, Yanwei Fu. *Modeling Spatiotemporal Neural Frames for High Resolution Brain Dynamic*. [Link](https://arxiv.org/abs/2603.24176)
-3. Qianyu Chen, Shujian Yu. (2026). *Continual Learning for fMRI-Based Brain Disorder Diagnosis via [[functional-connectivity]] Matrices Generative Replay*. [Link](https://arxiv.org/abs/2604.14259)

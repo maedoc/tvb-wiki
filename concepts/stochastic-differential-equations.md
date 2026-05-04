@@ -45,19 +45,3 @@ When full trajectory simulation is computationally expensive, the [[fokker-planc
 The foundational work of [[emanuel-tuckwell|Tuckwell]] (1988) on stochastic cable theory and diffusion approximations for first-passage time problems established the mathematical bridge between single-neuron stochastic processes and population-level descriptions, while [[crispin-gardiner|Gardiner]]'s (2009) handbook provided the systematic Fokker-Planck and Langevin machinery that underpins modern [[whole-brain]] simulation frameworks. Together, these sources formalize a core insight: SDEs are not deterministic models with noise appended as an afterthought, but a foundational theoretical language in which randomness is a constitutive feature of neural computation.
 
 SDEs thus occupy a central position in the theoretical architecture of computational neuroscience. They generalize the deterministic skeletons of [[dynamical-systems-theory]] and [[nonlinear-dynamics]] by injecting biologically realistic variability, while their diffusion limits formalize the bridge between microscopic [[spiking-neural-networks]] and macroscopic [[mean-field-theory]]. The reduction from master equations describing discrete spike counts to continuous Langevin SDEs is itself a mean-field approximation, and understanding when this reduction fails—typically under strong coupling, spatial heterogeneity, or near critical transitions—remains an open frontier explored by next-generation stochastic models referenced in the [[fokker-planck-equation]] and [[neural-mass-models]] literature.
-
-## References
-
-1. (authors unknown). *Stochastic Methods: A Handbook for the Natural and Social Sciences*.
-2. (authors unknown). *Introduction to Theoretical Neurobiology: Volume 2, Nonlinear and Stochastic Theories*.
-3. (authors unknown). *Stochastic Dynamics and the Brain*.
-4. (authors unknown). *Stochastic Dynamics in the Brain and Probabilistic Models*.
-5. Wanying Qu, Jianxiong Gao, Wei Wang, Yanwei Fu. *Modeling Spatiotemporal Neural Frames for High Resolution Brain Dynamic*. [Link](https://arxiv.org/abs/2603.24176)
-6. (authors unknown). *Macroscopic Description for Networks of Spiking Neurons*.
-7. Coskun Çetin, J.R.C. Piqueira, Burhaneddin Izgi, Ayse Peker-Dobie, S. Ahmetolan, Murat Özkaya. (2026). *Deterministic, stochastic, and mean-field PDE models in neuroscience*. Frontiers in [[computational-neuroscience]]. [DOI](https://doi.org/10.3389/fncom.2026.1762692)
-8. Hongjie Jiang, Yifei Tang, Shuqiang Wang. *Neural Dynamics-Informed Pre-trained Framework for [[personalized-brain-modeling|Personalized Brain]] Functional Network Construction*. [Link](https://arxiv.org/abs/2603.07524)
-9. Pascal Helson, Etienne Tanré, Romain Veltz. *Mean-field analysis of a [[neural-network]] with stochastic STDP*. [Link](https://arxiv.org/abs/2510.02545)
-10. Coşkun Çetin, Jose Roberto Castilho Piqueira, Burhaneddin İzgi̇, Ayşe Peker-Dobie, Semra Ahmetolan, Murat Özkaya. (2026). *Deterministic, stochastic, and mean-field PDE models in neuroscience*. Frontiers in Computational Neuroscience. [DOI](https://doi.org/10.3389/fncom.2026.1762692)
-11. Pierre-Emmanuel Jabin, Datong Zhou. (2025). *The mean-field limit of sparse networks of integrate-and-fire neurons*. Annales de l'Institut Henri Poincare. Analyse non linéar. [DOI](https://doi.org/10.4171/aihpc/157)
-12. Marianna Angiolelli, D. Depannemaecker, H. Agouram, J. Régis, R. Carron, M. Woodman, L. Chiodo, P. Triebkorn, Abolfazl Ziaeemehr, Meysam Hashemi, Alexandre Eusebio, [[viktor-jirsa]], P. Sorrentino. (2025). *The Virtual Parkinsonian patient*. npj Systems Biology and Applications. [DOI](https://doi.org/10.1038/s41540-025-00516-y)
-13. (authors unknown). *[[lean|GLEAN]]: Group Level Exploratory Analysis of Networks*.

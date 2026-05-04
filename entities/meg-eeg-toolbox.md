@@ -68,7 +68,3 @@ Several challenges remain in MEG/EEG analysis methodology relevant to whole‑br
 - [[brainstorm]]
 - [[connectivity]]
 - [[neural‑mass‑models]]
-
-## References
-
-1. Gramfort et al. (2013). *MEG and EEG: From Acquisition to Analysis*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fnins.2013.00010)

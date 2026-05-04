@@ -64,9 +64,3 @@ The infrastructure connects to several foundational concepts in modern neuroscie
 *The following represents foundational publications related to EBRAINS and its integrated tools. A comprehensive bibliography is maintained on the EBRAINS website.*
 
 - Sanz-Leon, P., et al. (2015). "The virtual brain: a simulator of primate brain [[network-dynamics]]." *NeuroImage*, 111, 385-407.[^tvbp]
-
-## References
-
-1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate [[brain-network]] dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
-2. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2025). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research*. bioRxiv. [DOI](https://doi.org/10.1101/2025.10.06.680781)
-3. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2026). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research.*. Brain Stimulation. [DOI](https://doi.org/10.1016/j.brs.2025.103016)

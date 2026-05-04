@@ -47,7 +47,3 @@ TVB's simulation engine can interface with spiking network simulators including 
 - [[the-virtual-brain]] — Related [[whole-brain|whole-brain modeling]] framework
 - [[neural-mass-models]] — Alternative modeling approach used in TVB
 - [[tvb-nest]] — TVB's interface to the NEST simulator
-
-## References
-
-Alevi, D., Stimberg, M., & Goodman, D. (2022). Brian2CUDA: A GPU-accelerated Brian2 backend for efficient simulation of spiking neural networks. Frontiers in Neuroscience, 16, 892145.

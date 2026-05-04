@@ -52,7 +52,3 @@ Users should be aware of several limitations when using TractSeg. First, the neu
 ## Related Software
 
 TractSeg operates within a broader ecosystem of diffusion MRI and tractography tools. Related software includes [[MRtrix3]] and [[MRTrix3-Connectome]], which provide the underlying preprocessing and tractography capabilities; [[AFQ]], another automated tractography segmentation tool that uses a different approach based on waypoint masks; [[Dipy]], a comprehensive diffusion MRI analysis library; and [[DSI-Studio]], which offers alternative tractography algorithms and visualization capabilities. Additionally, tract segmentation outputs can be visualized using tools such as [[BrainNet-Viewer]], [[Connectome-Workbench]] (specifically its [[SUMA]] surface module), or [[MRIcron]]. The structural connectivity matrices generated from TractSeg can be analyzed using the [[Brain-Connectivity-Toolbox]] or [[BRAPH]] for graph-theoretic network analysis, and can serve as input to whole-brain simulators including TVB, [[The-Virtual-Epileptic-Brain]], and other [[whole-brain-modeling]] platforms.
-
-## References
-
-1. (authors unknown). *The Human Connectome Project: A Data Acquisition Perspective*.

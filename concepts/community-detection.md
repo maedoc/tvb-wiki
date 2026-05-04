@@ -16,9 +16,3 @@ Community Detection — a concept in [[whole-brain|whole-brain modeling]] and [[
 
 ## Related Concepts
 * [[modularity]]
-
-## References
-
-1. (authors unknown). *Functional [[connectomics]] from [[resting-state|Resting-State fMRI]]*.
-2. (authors unknown). *[[nonlinear-dynamics]] and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering*.
-3. Marco Zenari, Luca Taffarello, Luca Mazzucato, Amos Maritan, Samir Suweis. (2026). *Topological Origin of the Diversity of Timescales in Recurrent Neural Circuits*. [Link](https://arxiv.org/abs/2603.04149)

@@ -45,5 +45,3 @@ NITRC-CE existed within an ecosystem of cloud-based neuroimaging solutions, each
 - [[brainlife]]
 - [[neurodesk]]
 - [[mrtrix3-connectome]]
-
-## References

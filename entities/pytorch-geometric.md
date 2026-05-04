@@ -49,15 +49,3 @@ The foundational methods paper describing PyTorch Geometric was published in 202
 PyTorch Geometric operates within the broader Python scientific ecosystem and relates to several other tools in this wiki. It depends fundamentally on [[pytorch-geometric]] for automatic differentiation and GPU acceleration. For graph visualization, it can be used alongside [[gephi]] or [[graph-tool]] for network analysis and plotting. Related graph-based machine learning libraries include [[graphvar]] (which focuses on graph-theoretic feature extraction for neuroimaging) and [[brainiak]] (which provides advanced pattern recognition for fMRI data but not specifically GNN implementations). For preprocessing neuroimaging data into connectome format, [[mrtrix3-connectome]] and [[dipy]] provide tractography pipelines whose output can feed directly into PyTorch Geometric data structures.
 
 * [[TVB]] — The Virtual Brain can integrate with PyTorch Geometric for hybrid modeling approaches where GNNs process simulated [[brain-dynamics]].
-
-## References
-
-[@arxiv:1903.02428]: Fey, M., & Yap, K. H. (2022). PyTorch Geometric: Graph deep learning in PyTorch. *arXiv preprint arXiv:1903.02428*.
-
-[@nature:nature14539]: Van Essen, D. C., et al. (2013). The [[human-connectome-project]]: A data acquisition perspective. *Neuroimage*, 62, 2222-2231.
-
-[@direct.mit.edu:neco.31.7.1442]: Bronstein, M. M., et al. (2017). Geometric deep learning: Going beyond deep learning. *Neural Computation*, 31(7), 1442-1471.
-
-[@sciencedirect:S1053811920301003]: Zhang, X., et al. (2020). Graph neural networks for functional brain connectivity: A survey. *NeuroImage*, 220, 117148.
-
-[@nature:s41598-022-18844-0]: Kim, H., et al. (2022). Application of graph convolutional neural networks for classifying Alzheimer's disease. *Scientific Reports*, 12, 18844.

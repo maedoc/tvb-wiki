@@ -57,17 +57,3 @@ The combination of MNE-BIDS-Pipeline and TVB represents a powerful workflow for 
 4. Gorgolewski, K., et al. (2015). [[pybids]]: A Python toolbox for organizing neuroimaging data. Frontiers in Neuroinformatics.
 
 5. Gramfort, A., et al. (2013). MEG and EEG data analysis with MNE-Python. Frontiers in Neuroscience.
-
-## References
-
-- Brain Imaging Data Structure Specification. (2024). BIDS Specification v1.14.0. https://bids-specification.readthedocs.io
-
-- Gorgolewski, K., et al. (2015). PyBIDS: A Python toolbox for organizing neuroimaging data. Frontiers in Neuroinformatics, 9, 8.
-
-- Gramfort, A., et al. (2013). MEG and EEG data analysis with MNE-Python. Frontiers in Neuroscience, 7, 267.
-
-- Jas, M., et al. (2017). MNE-BIDS: A tool to flexibly share MEG, EEG, and intracranial EEG data. Scientific Data, 4, 170054.
-
-- Van Essen, D. C., et al. (2013). The [[mrtrix3-connectome]]: A data acquisition perspective. NeuroImage, 62, 2222-2231.
-
-- [[tvb|The Virtual Brain]]. (2024). TVB Documentation. https://www.thevirtualbrain.org

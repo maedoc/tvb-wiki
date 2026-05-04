@@ -70,15 +70,3 @@ The NIDM family includes related specifications beyond NIDM-Results: **NIDM-Expe
 Despite its utility, NIDM-Results adoption has been incremental rather than universal. Some analysis packages still lack native NIDM export capabilities, and many published results in the literature are not available in NIDM-Results format, limiting its usefulness for meta-analysis. Additionally, the JSON-LD serialization, while powerful, can be verbose compared to simple image formats, creating challenges for storage and bandwidth in large-scale studies.
 
 An ongoing question is how to extend NIDM-Results to cover newer analysis paradigms beyond mass-univariate modeling—including multivariate pattern analysis (MVPA), representational similarity analysis (RSA), and the statistical outputs from [[dynamic-causal-modeling]] (DCM) analyses. As these analysis approaches become more common, the NIDM working group continues to develop extensions that can accommodate their specific result structures. The relationship between NIDM-Results and emerging standards like **ODR** (Open Data Repository) also remains an area of active development.
-
-## References
-
-[nidm-wg] Neuroimaging Data Model (NIDM) Working Group. NIDM-Results Specification. https://nidm.nidash.org/
-
-[prov-ontology] W3C PROV Ontology Specification. https://www.w3.org/TR/prov-o/
-
-[nidm-jsonld] NIDM Working Group. NIDM JSON-LD Context and Specification. https://nidm.nidash.org/spec/
-
-[spm-nidm] SPM NIDM-Results Export. Statistical Parametric Mapping Software Documentation. https://www.fil.ion.ucl.ac.uk/spm/
-
-[fsl-nidm] FSL NIDM-Results Export. Oxford University FMRIB Software Library Documentation. https://fsl.fmrib.ox.ac.uk/fsl/

@@ -81,12 +81,3 @@ Related approaches include population receptive field (pRF) mapping techniques, 
 ## Relationship to Other Concepts
 
 GLMsingle addresses methodological challenges that sit at the intersection of [[parameter estimation]], [[forward modeling]], and [[neuromorpho-toolkit]] analysis. Its approach to HRF estimation can be viewed as a form of regularization that incorporates biological knowledge about the shape of the hemodynamic response. The method also relates to the broader theme of [[personalized brain modeling]], since the voxel-wise HRF estimates effectively create a personalized forward model for each subject. Compared to simpler approaches that use a fixed HRF, GLMsingle provides improved sensitivity for detecting neural responses in rapid event-related designs, with particular benefits for studies of [[brain-oscillations]] where precise temporal information is critical.
-
-## References
-
-[kay_et_al_2021] Kay, K., et al. (2021). Optimizing the accuracy of single-trial fMRI response estimates. NeuroImage. 
-
-[prinzo_et_al_2016] Prinzo, O., et al. (2016). GLMdenoise: A method for improving the accuracy of fMRI responses. NeuroImage.
-
-[smith_et_al_2021] Smith, S., et al. (2021). Trends in automated fMRI analysis. NeuroImage.
----

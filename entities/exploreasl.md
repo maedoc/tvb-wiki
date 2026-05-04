@@ -64,11 +64,3 @@ Future developments for ExploreASL include deeper integration with [[mne-python]
 3. Douaud, G., Jbabdi, S., Behrens, T.E., Menke, R.A., Gass, A., Monsch, A.U., ... & Smith, S. (2014). Can CSF biomarkers predict progression to dementia in Alzheimer's disease? *Brain*, 135(10), 2994‑3004. DOI:10.1093/brain/awr222
 
 4. Petersen, E.T., Mutsaerts, H.J., Stehning, C., Kruit, W.C., van Osch, M.J., & Golay, X. (2010). Comparison of continuous arterial spin labeling and quantitative MR perfusion imaging. *Proceedings of the International Society for Magnetic Resonance in Medicine*, 18.
-
-## References
-
-1. (authors unknown). *Image Processing and Quality Control for the First 100,000 Brain Imaging Datasets from [[uk-biobank]]*.
-2. L. Fisch, N. Winter, J. Goltermann, Carlotta B. C. Barkhau, D. Emden, J. Ernsting, M. Konowski, R. Leenings, T. Borgers, K. Flinkenflügel, D. Grotegerd, Anna Kraus, E. Leehr, S. Meinert, F. Stein, L. Teutenberg, F. Thomas-Odenthal, P. Usemann, M. Hermesdorf, H. Jamalabadi, Andreas Jansen, I. Nenadić, Benjamin Straube, T. Kircher, Klaus Berger, Benjamin Risse, U. Dannlowski, T. Hahn. (2026). *deepmriprep: voxel-based morphometry preprocessing via deep neural networks*. Nature Computational Science. [DOI](https://doi.org/10.1038/s43588-026-00953-7)
-3. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
-4. Emmanuelle Renauld, Arnaud Boré, Charles Poirier, Alex Valcourt-Caron, Philippe Karan, Antoine Théberge, Guillaume Théaud, Manon Edde, P. Poulin, Gabriel Girard, Jean-Christophe Houde, A. Gagnon, Etienne St-Onge, Graham Little, Jon Haitz Legarreta, Stanislas Thoumyre, G. Grenier, Zineb El Yamani, Mario Ocampo Pineda, Matteo Battochio, Vincent Beaudoin, Alexandre Joanisse, Laurent Petit, F. Rheault, Maxime Descoteaux. (2026). *[[tractography]] analysis with the scilpy toolbox*. Aperture Neuro. [DOI](https://doi.org/10.52294/001c.154022)
-5. (authors unknown). *[[lean|GLEAN]]: Group Level Exploratory Analysis of Networks*.

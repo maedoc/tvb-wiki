@@ -58,11 +58,3 @@ Jarecka, D., Goncalves, M., Markiewicz, C. J., Esteban, O., Lo, N., Kaczmarzyk, 
 Pydra occupies a position in the neuroimaging software ecosystem that overlaps with several other workflow engines and pipeline tools. The most direct comparison is with [[nipype]], which pioneered the workflow engine concept in Python neuroimaging and from which Pydra directly descends as part of the Nipype 2.0 initiative (Pydra GitHub, 2025). Where Nipype provides a unified interface to existing neuroimaging tools with its interface abstraction layer, Pydra offers a more general-purpose task orchestration system that can wrap any command-line tool or Python function without requiring the development of formal interface wrappers.
 
 Another related tool is [[datalad]], which provides version control for large binary datasets and can integrate with Pydra's execution model for data Management. For fMRI preprocessing specifically, [[fmriprep]] represents a higher-level solution that bundles complete preprocessing workflows, whereas Pydra provides the building blocks for constructing custom pipelines. Researchers interested in the broader landscape of neuroimaging software may also wish to explore [[nilearn]] for statistical learning on brain images and [[pybids]] for programmatic access to BIDS datasets.
-
-## References
-
-Goncalves, M., Jarecka, D., Markiewicz, C. J., & Ghosh, S. (2020). Pydra: Dataflow engine (Version 1.0a) [Computer software]. https://github.com/nipype/pydra
-
-Jarecka, D., Goncalves, M., Markiewicz, C. J., Esteban, O., Lo, N., Kaczmarzyk, J., & Ghosh, S. (2020). Pydra: A flexible and lightweight dataflow engine for scientific analyses. In *Proceedings of the 19th Python in Science Conference* (pp. 84-92). https://doi.org/10.25080/Majora-342d178e-012
-
-Nipype Developers. (2025). Pydra documentation. https://nipype.github.io/pydra/

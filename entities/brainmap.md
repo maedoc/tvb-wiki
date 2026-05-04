@@ -61,15 +61,3 @@ Other tools that complement BrainMap include **[[fsl]]** and **[[software-spm]]*
 The foundational BrainMap papers describe both the database architecture and the ALE algorithm. The original BrainMap publication (Laird et al., 2005) established the database structure and demonstrated its utility for meta-analysis across multiple cognitive domains. Subsequent methodological papers refined the ALE algorithm to account for spatial uncertainty and multiple within-study comparisons (Fox et al., 2005; Eickhoff et al., 2009). Recent work has extended BrainMap to include **[[effective-connectivity]]** analyses and integration with [[dynamic-causal-modeling]] frameworks.
 
 ---
-
-## References
-
-- Fox, P. T., Laird, A. R., Fox, S. P., Fox, P. M., Uecker, A. M., Crank, M., ... & Lancaster, J. L. (2005). ALEmeta: A method for predicting neurotransmitter receptor activation. *NeuroImage*, 26(2), 431-440.
-
-- Laird, A. R., Fox, P. M., Price, C. J., Glahn, D. C., Uecker, A. M., Lancaster, J. L., ... & Fox, P. T. (2005). ALEmeta: I. A coordinate-based meta-analysis framework for neuroimaging. *NeuroImage*, 26(2), 430-430.
-
-- Laird, A. R., Robinson, J. L., McMillan, K. M., Tordesillas-Gutiérrez, D., Moran, S. M., Gonzales, S. M., ... & Lancaster, J. L. (2009). Towards an ontology for a meta-analytic database: Cognitive Paradigm Ontology. *NeuroImage*, 47(1), 296-307.
-
-- Eickhoff, S. B., Laird, A. R., Grefkes, C., Wang, L. E., Zilles, K., & Fox, P. T. (2009). Coordinate-based activation likelihood estimation meta-analysis: A new ALE method for focus detection. *NeuroImage*, 46(4), 1104-1119.
-
-- Eickhoff, S. B., Bzdok, D., Laird, A. R., Kurth, F., & Fox, P. T. (2012). Activation likelihood estimation meta-analysis revisit. *NeuroImage*, 62(1), 353-367.

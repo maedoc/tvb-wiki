@@ -44,9 +44,3 @@ The network-based statistic (NBS) method introduced by Zalesky et al. (2010) pro
 ## Related Software
 
 BCTpy occupies a niche in the Python ecosystem for brain network analysis, complementing rather than replacing other graph analysis libraries. [[graph-tool]] provides a more general-purpose network analysis library with highly optimized C++ backends, suitable for very large networks but requiring more specialized knowledge. [[braph]] offers a MATLAB-friendly alternative with GUI components. For connectome-specific workflows, the [[brainspace]] library implements complementary dimensionality reduction and manifold learning approaches, while the Connectome Mapper Toolkit ([[connectome-mapper-3]]) provides end-to-end preprocessing pipelines that can export to BCTpy format. Whole-brain simulators like [[the-virtual-brain]] and neural simulation environments such as [[nest]] frequently employ BCTpy for network analysis of their outputs.
-
-## References
-
-1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
-2. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
-3. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal [[neuroimaging]]*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)

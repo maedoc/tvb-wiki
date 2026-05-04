@@ -76,9 +76,3 @@ For researchers seeking to bridge between these scales, GeNN could theoretically
 - [[The Virtual Brain]] — Whole-brain modeling framework using neural mass models
 - [[Arbor]] — Modern GPU-accelerated neural simulator with modular architecture
 - [[Nengo]] — Neural engineering framework focusing on reservoir computing
-
-## References
-
-1. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *Arbor-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
-2. Jordan et al. (2018). *Extremely scalable spiking neuronal network simulation code: from laptops to exascale computers*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2018.00002)
-3. Martin Breyton, Viktor Sip, M. Woodman, Meysam Hashemi, S. Petkoski, V. Jirsa. (2025). *Data-driven [[mean-field-theory|mean-field]] within whole-brain models*. [Link](https://www.semanticscholar.org/paper/144ae1f1dabec42c14493d0083d36f168508f886)

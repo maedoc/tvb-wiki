@@ -1,3 +1,7 @@
+---
+title: All Concepts
+---
+
 # Concepts Index
 
 A collection of foundational concepts in computational neuroscience and whole-brain modeling, organized by domain.

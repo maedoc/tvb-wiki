@@ -47,9 +47,3 @@ sMRIPrep belongs to the fMRIPrep family of preprocessing tools, which also inclu
 - Gorgolewski KJ, Wolfers T, Poldrack RA. "The proliferation of reproducible [[neuroimaging]] analysis workflows." Curr Opin Neurobiol. 2017.
 - Nichols TE, Das S, Ebrahim A, et al. "Best practices in data analysis and sharing in neuroimaging using MRI." NeuroImage. 2017.
 - Taylor PA, G. Chen K, E. L., et al. "A reproducible set of analysis tools forcbids-formatted JSON." Front Neuroinform. 2018.
-
-## References
-
-1. L. Fisch, N. Winter, J. Goltermann, Carlotta B. C. Barkhau, D. Emden, J. Ernsting, M. Konowski, R. Leenings, T. Borgers, K. Flinkenflügel, D. Grotegerd, Anna Kraus, E. Leehr, S. Meinert, F. Stein, L. Teutenberg, F. Thomas-Odenthal, P. Usemann, M. Hermesdorf, H. Jamalabadi, Andreas Jansen, I. Nenadić, Benjamin Straube, T. Kircher, Klaus Berger, Benjamin Risse, U. Dannlowski, T. Hahn. (2026). *deepmriprep: voxel-based morphometry preprocessing via deep neural networks*. Nature Computational Science. [DOI](https://doi.org/10.1038/s43588-026-00953-7)
-2. Sima Soltanpour, Md Taufiq Nasseef, Rachel Utama, Arnold Chang, D. Madularu, Praveen Kulkarni, Craig F. Ferris, Chris Joslin. (2025). *Robust automated preclinical [[fmri]] preprocessing via a multi-stage dilated convolutional Swin Transformer affine registration*. Frontiers in Neuroscience. [DOI](https://doi.org/10.3389/fnins.2025.1621244)
-3. Zhishun Wang, Feng Liu, Rachel Marsh, Gaurav H. Patel, J. Grinband. (2026). *MEPrep: A robust pipeline for multi-echo fMRI denoising and preprocessing*. Imaging Neuroscience. [DOI](https://doi.org/10.1162/IMAG.a.1198)

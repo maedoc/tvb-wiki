@@ -1,10 +1,11 @@
 ---
-title: NeuroHarmonize
 created: 2026-05-03
-updated: 2026-05-03
-type: entity
-tags: [software-brain-modeling]
 sources: []
+tags:
+- software-brain-modeling
+title: NeuroHarmonize
+type: entity
+updated: 2026-05-03
 ---
 
 # NeuroHarmonize
@@ -23,5 +24,3 @@ sources: []
 
 ## Related Software
 * [[TVB]]
-
-## References

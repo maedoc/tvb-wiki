@@ -45,31 +45,3 @@ The typical preprocessing pipeline for TVB involves [[fmriprep]] for functional 
 MRIQC is part of a broader ecosystem of [[bids-derivatives]] tools for neuroimaging preprocessing and quality assurance. [[fmriprep]] is closely related and often used in conjunction with MRIQC—while fmriprep provides full preprocessing of functional and anatomical MRI data with built-in quality metrics, MRIQC offers more detailed, modality-specific image quality metrics computed on raw or minimally processed data. The [[xcp-d]] tool provides additional quality control for processed fMRIPrep outputs, focusing on derivatives quality. For diffusion data specifically, tools like [[mrtrix3]] and [[dipy]] incorporate their own quality assessment capabilities, though these are more integrated into the processing workflow than MRIQC's dedicated quality inspection paradigm.
 
 Other relevant tools in the quality control ecosystem include [[afq]] (AFQ-Lite), which provides [[tractography]]-based quality assessment, and the general visualization tools in the [[brainlife]] platform, which incorporate quality metrics into their processing pipelines. The [[brainrender]] toolkit can be used to visualize MRIQC quality metrics and brain images interactively, complementing the quantitative reports. For whole-brain modeling researchers, these tools complement MRIQC by providing quality assessment at different stages of the preprocessing pipeline.
-
-## References
-
-1. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2018.05.040)
-2. Sima Soltanpour, Md Taufiq Nasseef, Rachel Utama, Arnold Chang, D. Madularu, Praveen Kulkarni, Craig F. Ferris, Chris Joslin. (2025). *Robust automated preclinical fMRI preprocessing via a multi-stage dilated convolutional Swin Transformer affine registration*. Frontiers in Neuroscience. [DOI](https://doi.org/10.3389/fnins.2025.1621244)
-3. L. Fisch, N. Winter, J. Goltermann, Carlotta B. C. Barkhau, D. Emden, J. Ernsting, M. Konowski, R. Leenings, T. Borgers, K. Flinkenflügel, D. Grotegerd, Anna Kraus, E. Leehr, S. Meinert, F. Stein, L. Teutenberg, F. Thomas-Odenthal, P. Usemann, M. Hermesdorf, H. Jamalabadi, Andreas Jansen, I. Nenadić, Benjamin Straube, T. Kircher, Klaus Berger, Benjamin Risse, U. Dannlowski, T. Hahn. (2026). *deepmriprep: voxel-based morphometry preprocessing via deep neural networks*. Nature Computational Science. [DOI](https://doi.org/10.1038/s43588-026-00953-7)
-
-## ORPHAN PAGE CONTEXT (brainrender)
----
-created: 2024-01-15
-sources:
-- raw/papers/mijalkov-2017-[[braph]].md
-- raw/papers/arxiv-2604.16463.md
-- raw/papers/woodman-2014.md
-tags:
-- software-visualization
-- neuroimaging
-- software-[[neuroml]]
-- [[brain-parcellations]]
-- [[connectomics]]
-- software-nilearn
-- [[brain-network]]
-title: BrainRender
-type: entity
-updated: '2026-05-01'
----
-
-BrainRender is an open-source Python toolkit for the interactive three-dimensional visualization of brain data, with particular strength in rendering structural and function

@@ -16,10 +16,3 @@ updated: '2026-04-30'
 
 ## Related Concepts
 * [[pronto]]
-
-## References
-
-1. (authors unknown). *[[functional-connectivity]]: The Principal-Component Analysis of Large (PET and [[fmri]]) Data Sets*.
-2. Sanz Leon et al. (2013). *[[the-virtual-brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
-3. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2018.05.040)
-4. Ritter et al. (2013). *[[tvb|The Virtual Brain]] integrates computational modeling and multimodal neuroimaging*. Brain [[connectivity]]. [DOI](https://doi.org/10.1089/brain.2012.0120)

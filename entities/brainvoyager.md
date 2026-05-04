@@ -17,17 +17,7 @@ type: entity
 updated: '2026-04-30'
 ---
 
-Here is the corrected `brainvoyager.md` file with all issues fixed:
-
-```markdown
----
-title: BrainVoyager
-created: 2026-04-23
-updated: 2026-04-24
-type: entity
-tags: [software-brain-modeling, software-visualization, neuroimaging-fmri, resting-state, task-based]
-sources:
-  - "Goebel, R., Esposito, F., & Formisano, E. (2006). Analysis of functional image analysis contest (FIAC) data with brainvoyager QX: From single-subject to cortically aligned group general linear model analysis and self-organizing group independent component analysis. Human Brain Mapping, 27(5), 392-401."
+- "Goebel, R., Esposito, F., & Formisano, E. (2006). Analysis of functional image analysis contest (FIAC) data with brainvoyager QX: From single-subject to cortically aligned group general linear model analysis and self-organizing group independent component analysis. Human Brain Mapping, 27(5), 392-401."
   - "Sorger, B., Reithler, J., Dahmen, B., & Goebel, R. (2012). A real-time fMRI self-regulation approach to the treatment of chronic, treatment-resistant tinnitus. Neuroscience & Biobehavioral Reviews, 37(4), 697-703."
   - "Brain Innovation. BrainVoyager Documentation and User Guides. https://www.brainvoyager.com/"
 ---
@@ -109,11 +99,3 @@ BrainVoyager has been cited in thousands of neuroimaging studies. Key methodolog
 - **FreeSurfer** — Open-source cortical surface reconstruction (complementary/alternative to BrainVoyager's surface tools)
 - **FSL** — UK-based open-source fMRI analysis suite (volume-based)
 - **SPM** — Statistical parametric mapping toolbox for neuroimaging
-
-## References
-
-1. Muhammad Nabi Yasinzai, R. Mito, M. Pedersen. (2025). *BrainScape: An open-source framework for integrating and preprocessing anatomical MRI datasets*. Imaging neuroscience. [DOI](https://doi.org/10.1162/IMAG.a.944)
-2. *Patricia Burhunduli, Zhuo Fang, Katie L. Vandeloo, Pierre Blier, Jennifer L Phillips. (2025). *A PRELIMINARY INVESTIGATION OF RESTING STATE FUNCTIONAL CONNECTIVITY NETWORKS IN PATIENTS WITH TREATMENT-RESISTANT DEPRESSION AND A HISTORY OF SUICIDE ATTEMPT*. International Journal of Neuropsychopharmacology. [DOI](https://doi.org/10.1093/ijnp/pyae059.440)
-3. Andrés Perissinotti, A. Farré-Melero, F. López-González, María del Carmen Mallón-Araujo, Julia Cortés, X. Setoain, Andrea Fritsch, Katherine Quintero, Ángel E. Esteban, S. Morbelli, Matteo Bauckneht, A. Miceli, Aida Niñerola-Baizán, Pablo Aguiar, J. Silva-Rodríguez. (2026). *Added value of quantitative [18F]FDG-PET analysis in MRI-negative epilepsy: A simulation-based study using realistic ground-truths*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2026.121740)
-4. (authors unknown). *BRAPH 2.0 Genesis: An Open-Source Toolbox for Brain Connectivity Analysis*.
-5. (authors unknown). *GLEAN: Group Level Exploratory Analysis of Networks*.

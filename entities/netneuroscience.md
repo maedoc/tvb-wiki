@@ -73,9 +73,3 @@ Foundational references in network neuroscience include:
 ## Open Questions
 
 Network neuroscience continues to grapple with fundamental questions. The relationship between [[structural-connectivity]] and [[functional-connectivity]] remains incompletely understood—strong structural links do not always produce strong functional coupling, and functional networks can emerge even absent direct structural connections through polysynaptic pathways. The field faces challenges in [[reproducibility]] related to preprocessing choices, parcellation scheme selection, and the interpretation of tractography-derived connectivity. Future directions include integrating multi-modal data across spatial scales, extending network analysis to understand temporal dynamics and [[neurodevelopment]], and applying network-level insights to clinical translation in [[schizophrenia-models]] and [[alzheimers-modeling]] [@doi:10.1093/brain/awx275].
-
-## References
-
-1. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI), a flexible and integrative toolkit for efficient probabilistic inference on [[whole-brain]] models*. eLife. [DOI](https://doi.org/10.7554/eLife.106194)
-2. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI): A flexible and integrative toolkit for efficient probabilistic inference on virtual brain models*. bioRxiv. [DOI](https://doi.org/10.1101/2025.01.21.633922)
-3. Ramiro Plüss, Hernán Villota, Patricio Orio. (2025). *Hemispheric-Specific Coupling Improves Modeling of Functional Connectivity Using [[wilson-cowan]] Dynamics*. [Link](https://arxiv.org/abs/2506.22951)

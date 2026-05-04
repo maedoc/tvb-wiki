@@ -75,11 +75,3 @@ Additionally, Brian2GeNN currently supports single-GPU execution only. Multi-GPU
 ## Related Software
 
 Brian2GeNN is part of a rich ecosystem of neural simulation tools, each with different strengths. [[brian2]] is the Python-based spiking neural network simulator that serves as the frontend for Brian2GeNN, providing the modeling interface that users interact with directly [[brian2]]. The [[brian2cuda]] project offers an alternative GPU backend for Brian2 that uses CUDA directly rather than through GeNN, potentially offering different performance characteristics. [[genn]] itself is the underlying code generation framework that transforms model specifications into optimized CUDA executables [[genn]]. [[nest]] is a widely-used simulator for spiking networks that has its own GPU acceleration effort through the NEST GPU project [[nest]]. The [[neuron]] simulator provides another established option for neuron and network simulations. [[spinnaker]] represents a fundamentally different approach using custom neuromorphic hardware rather than GPU acceleration. Finally, [[tvb-nest]] provides integration between TVB and NEST, analogous to how Brian2GeNN connects Brian2 with GeNN.
-
-## References
-
-- Stimberg, M., Goodman, D. F. M., Nowotny, T., et al. (2019). Brian2GeNN: a system for GPU-accelerated network simulations. *Frontiers in Neuroinformatics*, 13, 10. [[brian2genn]]
-- Stimberg, M., Brette, R., & Goodman, D. F. M. (2019). Brian 2: an intuitive Python interface to spiking neural networks. *Frontiers in Neuroinformatics*, 13, 68. [[stimberg-2019-brian2]]
-- Nowotny, T., Mutch, J., \u0026 Lowe, G. (2014). GeNN: a code generation framework for accelerated brain simulations. *Frontiers in Neuroinformatics*, 8, 79. [[genn]]
-- Goodman, D. F. M., \u0026 Brette, R. (2008). Brian: a simulator for spiking neural networks in Python. *Frontiers in Neuroinformatics*, 2, 5. [[brian]]
-- Bekolay, T., Bergstra, J., Hunsberger, E., et al. (2014). NEST: a simulator for spiking neural networks. *Frontiers in Neuroinformatics*, 8, 38. [[nest]]

@@ -13,18 +13,6 @@ type: entity
 updated: '2026-04-30'
 ---
 
-I'll fix the factual errors and add proper citations. Key corrections: Walter Freeman was at UC Berkeley (not Krasnow Institute), K0 is a non-interactive population (not a single [[neuron]]), KIII is coupled KII sets (not multisensory integration), and I'm adding verified sources.
-
-```markdown
----
-title: BioNet
-created: 2026-04-23
-updated: 2026-04-24
-type: entity
-tags: [software-brain-modeling, neural-mass-models, whole-brain-modeling, brain-oscillations, k-set-models]
-sources: ["freeman1975", "freeman2000", "kozma2012", "schuster2021"]
----
-
 # BioNet
 
 BioNet is a neural mass modeling framework implementing [[Walter Freeman]]'s K-set hierarchy for simulating mesoscopic brain dynamics. Developed in the broader context of nonlinear neurodynamics research, BioNet provides tools for modeling population-level neural activity through coupled differential equations describing excitatory and inhibitory interactions.
@@ -102,9 +90,3 @@ Freeman's insight that chaotic attractors in KIII sets enable rapid perceptual t
 - [[bifurcation analysis]] — Exploring qualitative changes in model behavior
 - [[brain oscillations]] — Emergent dynamics in coupled populations
 - [[eeg]] — Simulated via population-level forward models
-
-## References
-
-1. Walter J. Freeman. *Mass Action in the Nervous System*.
-2. Alain Destexhe, Terrence J. Sejnowski. *Wilson-Cowan model of the excitatory and inhibitory population dynamics*. Scholarpedia. [DOI](https://doi.org/10.4249/scholarpedia.1389)
-3. Yupei Li, Shuaijie Shao, Manuel Milling, Björn Schuller. *Enhancing Efficiency and Performance in Deepfake Audio Detection through Neuron-level Dropin & Neuroplasticity Mechanisms*. [Link](https://arxiv.org/abs/2603.24343)

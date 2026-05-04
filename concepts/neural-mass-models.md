@@ -77,33 +77,3 @@ A critical challenge in applying neural mass models is estimating the free param
 ## Open Questions and Limitations
 
 Despite their widespread use, neural mass models face several open questions. The validity of the mean‑field approximation breaks down when population‑level correlations become strong (as near critical points or during seizures), and it remains unclear how well NMMs capture the effects of cell‑type‑specific [[connectivity]]. Parameter identifiability is also a concern: many parameter combinations can produce similar functional dynamics, complicating biological interpretation. Ongoing research aims to address these limitations through more biophysically grounded neural mass formulations and hybrid models that combine population‑level dynamics with selected single‑[[neuron]] detail.
-
-## References
-
-1. Raul de Palma Aristides, Pau Clusella, R. Sanchez‑Todo, G. Ruffini, Jordi García‑Ojalvo. (2026). *Emergence of multifrequency activity in a laminar neural mass model*. PLoS Computational Biology. [DOI](https://doi.org/10.1371/journal.pcbi.1014022)
-2. Ramiro Plüss, Hernán Villota, Patricio Orio. (2025). *Hemispheric‑Specific Coupling Improves Modeling of Functional Connectivity Using Wilson‑Cowan Dynamics*. [Link](https://arxiv.org/abs/2506.22951)
-3. Hugh R. Wilson, [[jack-cowan|Jack D. Cowan]]. *Excitatory and inhibitory interactions in localized populations of model neurons*. Biophysical Journal. [DOI](https://doi.org/10.1016/S0006-3495(72)86068-5)
-4. Rosa Maria Delicado, Gemma Huguet, Pau Clusella. (2025). *Emergent Spatiotemporal Dynamics in Large‑Scale Brain Networks with Next Generation Neural Mass Models*. [Link](https://arxiv.org/abs/2512.03907)
-5. (authors unknown). *[[nonlinear-dynamics]] and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering*.
-
-## ORPHAN PAGE CONTEXT (meg-eeg-toolbox)
----
-created: 2026-04-30
-sources:
-- raw/papers/gramfort-2013.md
-tags:
-- software-brain-modeling
-title: MEG/EEG Toolbox
-type: entity
-updated: '2026-05-04'
----
-
-title: MEG/EEG Toolbox
-created: 2025-01-15
-updated: 2026-05-04
-type: concept
-tags: [[neuroimaging]]-meg, neuroimaging-eeg, software-visualization, neural-mass-models, [[whole-brain]]-modeling
-sources: [gramfort-2013, oostenveld-etal-2010, delorey-etal-2021, makeig-etal-2004, tadel-etal-2011]
----
-
-A **MEG/EEG Toolbox** refers to any of sever
