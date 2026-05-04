@@ -89,3 +89,7 @@
 ## [2026-05-04 21:39] DeepResearch: 16 papers added via focused research
 
 ## [2026-05-04 21:44] Improve: 5 pages improved (dipy, spinal-cord-toolbox, destrieux-atlas, tractoflow, tvb-nest)
+
+## [2026-05-04 21:49] Librarian: catalog rebuilt, 6573 asymmetric links noted
+
+## [2026-05-04 21:49] Linter: 142 broken links, 65 orphans, 37 stale, 27 empty

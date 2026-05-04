@@ -25,7 +25,7 @@ The framework emphasizes "mass action" in neural systems—how populations of ne
 
 ## Key Features
 
-- **Neural mass modeling**: Population-level simulation using mean-field approximations capturing average activity of excitatory and inhibitory subpopulations
+- **Neural mass modeling**: Population-level simulation using [[mean-field-theory|mean-field]] approximations capturing average activity of excitatory and inhibitory subpopulations
 - **K-set model implementation**: Support for Freeman's K-set hierarchy: K0 (non-interactive population), KI (excitatory population with feedback), KII (coupled excitatory-inhibitory populations), and KIII (multiple interacting KII sets)
 - **[[nonlinear-dynamics]] focus**: Tools for bifurcation analysis, attractor reconstruction, and quantification of chaotic activity
 - **Olfactory system models**: Specialized implementations for simulating bulb and cortical dynamics

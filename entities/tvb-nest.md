@@ -14,7 +14,7 @@ tags:
 - mean-field-theory
 - epilepsy-modeling
 type: entity
-updated: 2026-05-04
+updated: '2026-05-04'
 ---
 
 # TVB-NEST
@@ -116,3 +116,10 @@ Drug effects on neural circuits often target specific receptor subtypes or ion c
 - [[structural-connectivity]] — Anatomical constraints
 - [[functional-connectivity]] — Activity-based connectivity
 - [[tvb-vs-nest-vs-neuron]] — Comparison of simulators
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Gewaltig & Diesmann (2007). *NEST (NEural Simulation Tool)*. Scholarpedia. [DOI](https://doi.org/10.4249/scholarpedia.1430)
+3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *Arbor-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
+4. Roxana A. Stefanescu, Viktor K. Jirsa. *A low dimensional description of globally coupled heterogeneous neural networks of excitatory and inhibitory neurons*. PLoS Computational Biology. [DOI](https://doi.org/10.1371/journal.pcbi.1000219)
