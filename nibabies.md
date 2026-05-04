@@ -29,7 +29,7 @@ While nibabies is primarily a preprocessing tool for infant neuroimaging data, i
 
 For researchers working with [[The Virtual Brain]] or other whole-brain simulators, nibabies offers a pathway to generate infant-specific brain network models. The pipeline's outputs—including parcellated functional timeseries and white-matter tractography—can serve as empirical constraints for computational models targeting neurodevelopmental populations. This connection is particularly relevant for researchers investigating [[developmental-trajectories]] or modeling the emergence of [[brain-network]] architecture during early life.
 
-nibabies also complements other software in the TVB ecosystem by providing processed data in standard formats (CIFTI, NIfTI) that can be readily imported into [[brainvoyager]], [[mne-python]], or TVB's own data adapters.
+nibabies also complements other software in the TVB ecosystem by providing processed data in standard formats (CIFTI, NIfTI) that can be readily imported into [[brainvoyager]], [[mne-bids-pipeline]], or TVB's own data adapters.
 
 ## Key Papers
 
@@ -47,7 +47,7 @@ nibabies is closely related to several other software packages in the neuroimagi
 - [[fsl-melodic]] — contributing diffusion MRI processing tools
 - [[mriqc]] — generating quality control metrics for processed data
 - [[datalad]] — enabling reproducible data versioning and distribution
-- [[qsiprep]] — a complementary pipeline for infant diffusion MRI processing
+- [[smriprep]] — a complementary pipeline for infant diffusion MRI processing
 - [[Templateflow]] — providing age-appropriate template spaces for infant processing
 
 ## Technical Considerations

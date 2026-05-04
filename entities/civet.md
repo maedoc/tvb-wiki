@@ -68,7 +68,7 @@ CIVET was developed through the Canadian Institute for Advanced Research (CIFAR)
 - MacDonald, D., et al. (2000). Automated 3D extraction of inner and outer surfaces of cerebral cortex from MRI. *NeuroImage*, 12(2), 190‑204.  
 - Kabani, N., et al. (2001). Measurement of cortical thickness from an automated workflow. *NeuroImage*, 13(6), 194.  
 - Collins, D. L., et al. (1994). Automated segmentation and classification of brain tissues. *Proceedings of the 12th IMACS World Congress*, 97‑102.  
-- Evans, A. C., et al. (2012). 3D statistical neuroanatomical models from 305 MRI volumes. *IEEE Nuclear Science Symposium and Medical Imaging Conference*, 1743‑1746.
+- Evans, A. C., et al. (2012). 3D statistical neuroanatomical models from 305 MRI volumes. *IEEE Nuclear Science Symposium and Medical Imaging Conference*, 1743‑1746.  
 
 ## References
 

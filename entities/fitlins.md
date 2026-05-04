@@ -42,7 +42,7 @@ Users should note several technical requirements when deploying FitLins in their
 
 ## Related Software
 
-FitLins operates within a broader ecosystem of BIDS‑compatible neuroimaging tools. Key related packages include [[fMRIprep]] for preprocessing, Nilearn for statistical modeling, [[nipype]] for pipeline orchestration, [[FSL]] for randomise‑based non‑parametric inference, and [[SPM]] for traditional GLM analysis. The tool also complements BIDS validation utilities like [[bids‑validator]] and derivative processing tools such as [[ciftify]] for surface‑based analyses.
+FitLins operates within a broader ecosystem of BIDS‑compatible neuroimaging tools. Key related packages include [[fMRIprep]] for preprocessing, Nilearn for statistical modeling, [[nipype]] for pipeline orchestration, [[FSL]] for randomise‑based non‑parametric inference, and [[SPM]] for traditional GLM analysis. The tool also complements BIDS validation utilities like [[bids-derivatives]] and derivative processing tools such as [[ciftify]] for surface‑based analyses.
 
 ## Key Papers
 

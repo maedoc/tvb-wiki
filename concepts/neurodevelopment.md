@@ -44,7 +44,7 @@ Neurodevelopment involves the sequential processes of neurogenesis, neuronal mig
 ## Developmental Trajectories
 
 ### Cortical Maturation Pattern
-Following [[gogtay-2004|Nitin Gogtay]]'s landmark findings:
+Following Nitin Gogtay's landmark findings:
 1. **Primary sensory/motor regions** mature first (occipital, motor cortex)
 2. **Temporal and parietal association areas** mature next
 3. **Prefrontal cortex** matures last (continues into mid-20s)

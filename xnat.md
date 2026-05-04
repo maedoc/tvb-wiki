@@ -35,7 +35,7 @@ XNAT has been widely adopted across neuroimaging consortia and individual labora
 
 ## Related Software
 
-XNAT operates within a broader ecosystem of neuroimaging software tools. It complements analysis packages like [[fsl-melodic]], [[pysurfer]], and [[ANTs]] that process the stored images, and integrates with data organization standards like [[BIDS]] that provide machine-readable metadata schemas. For visualization, XNAT's built-in image viewer can work alongside dedicated tools like [[3d-Slicer]], [[itk]], and FSLeyes. For data sharing and version control, XNAT installations often complement [[DataLad]] and [[GitLab]]-based workflows. Large XNAT installations may also interface with cloud computing platforms for scalable analysis, and the platform supports integration with workflow management systems built on [[Nipype]].
+XNAT operates within a broader ecosystem of neuroimaging software tools. It complements analysis packages like [[fsl-melodic]], [[pysurfer]], and [[ANTs]] that process the stored images, and integrates with data organization standards like [[BIDS]] that provide machine-readable metadata schemas. For visualization, XNAT's built-in image viewer can work alongside dedicated tools like [[3d-Slicer]], [[itk]], and FSLeyes. For data sharing and version control, XNAT installations often complement [[DataLad]] and GitLab-based workflows. Large XNAT installations may also interface with cloud computing platforms for scalable analysis, and the platform supports integration with workflow management systems built on [[Nipype]].
 
 ---
 

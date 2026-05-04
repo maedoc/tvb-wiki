@@ -49,7 +49,7 @@ The software implements the line-source approximation, which treats elongated ne
 
 LFPy supports multimodal signal prediction, allowing researchers to compute not only the LFP but also the extracellular potassium concentration and magnetic fields from the same neural activity data. This feature enables comparison with other measurement modalities and facilitates integration with [[whole-brain-modeling]] frameworks that combine electrophysiological and hemodynamic signals.
 
-The package provides tools for calculating extracellular potentials from arbitrarily structured networks, supporting both random [[connectivity]] and detailed reconstructions from databases such as [[ModelDB]]. Researchers can import morphologically detailed neuron models and specify the spatial arrangement of cells to create customized network simulations.
+The package provides tools for calculating extracellular potentials from arbitrarily structured networks, supporting both random [[connectivity]] and detailed reconstructions from databases such as [[model-validation]]. Researchers can import morphologically detailed neuron models and specify the spatial arrangement of cells to create customized network simulations.
 
 LFPy includes support for subcellular resolution modeling, enabling the investigation of how activity in specific cellular compartments (such as soma, dendrites, or axon initial segments) contributes to the recorded LFP. This capability is particularly valuable for studying the spatial filtering properties of the extracellular medium and for interpreting the relative contributions of excitatory and inhibitory neurons to field potentials.
 
@@ -78,7 +78,7 @@ LFPy integrates with several related software packages in the computational neur
 - **Brian2**: Another neuron simulator that can in principle be integrated with forward modeling tools, though LFPy specifically targets the NEURON interface.
 - **[[nest]]**: A simulator focused on large-scale network dynamics that complements LFPy's detailed single-neuron capabilities.
 
-The modular design of LFPy allows researchers to combine these tools in various configurations depending on their modeling needs. For instance, LFPy can be used with custom NEURON models imported from [[ModelDB]], enabling forward modeling of LFPs from biologically realistic neural networks.
+The modular design of LFPy allows researchers to combine these tools in various configurations depending on their modeling needs. For instance, LFPy can be used with custom NEURON models imported from [[model-validation]], enabling forward modeling of LFPs from biologically realistic neural networks.
 
 ## Development and Community
 

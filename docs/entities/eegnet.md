@@ -8,7 +8,7 @@ tags:
 - software-brain-modeling
 title: EEGNet
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 ## Overview
@@ -39,7 +39,7 @@ Another significant direction of research has focused on **domain adaptation** a
 
 ## Related Software
 
-EEGNet implementations are available in multiple popular EEG analysis frameworks. The original TensorFlow/Keras implementation is maintained by the authors, while ports exist in PyTorch (under the名称 EEGConformer variants) and MATLAB (via the BCI2000 and [[EEGLAB]] environments). For researchers working with [[MNE-Python]], the library includes tutorials demonstrating EEGNet training and evaluation on benchmark datasets. Additionally, EEGNet features serve as pretrained feature extractors in libraries such as [[brainsuite]] and PyEEG, which provide routines for extracting spectral, temporal, and spatial features derived from the first layers of the network.
+EEGNet implementations are available in multiple popular EEG analysis frameworks. The original TensorFlow/Keras implementation is maintained by the authors, while ports exist in PyTorch (under the名称 EEGConformer variants) and MATLAB (via the BCI2000 and [[EEGLAB]] environments). For researchers working with [[mne-bids-pipeline]], the library includes tutorials demonstrating EEGNet training and evaluation on benchmark datasets. Additionally, EEGNet features serve as pretrained feature extractors in libraries such as [[brainsuite]] and PyEEG, which provide routines for extracting spectral, temporal, and spatial features derived from the first layers of the network.
 
 Within the [[TVB]] ecosystem, EEGNet can be integrated as a downstream analysis tool for classifying simulated electrophysiological outputs. Researchers using [[The Virtual Brain]] to generate forward-modeled EEG data can apply EEGNet to the synthetic signals for tasks such as biomarker identification or cross-validation against empirical recordings. The combination of TVB's biophysically principled simulations and EEGNet's data-driven classification represents a powerful workflow for bridging computational modeling and empirical neuroscience.
 

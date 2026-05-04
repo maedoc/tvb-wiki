@@ -128,3 +128,9 @@
 ## [2026-05-04 22:07] SoftwareMapper: 18 pages created
 
 ## [2026-05-04 22:11] DeepResearch: 123 papers added via focused research
+
+## [2026-05-04 22:14] Improve: 5 pages improved (theano, brain-map, eegsynth, neurosift, brainsuite)
+- Improved [[tvb-rest]] page - transformed from placeholder into comprehensive entity page covering the TVB REST API for programmatic whole-brain simulation access
+- Added sections on overview, key features (simulation configuration, connectivity/data management, analysis endpoints), relationship to TVB
+- Included 12+ wikilinks connecting to the-virtual-brain, tvb-library, tvb-adapters, tvb-nest, tvb-multiscale, rest, structural-connectivity, functional-connectivity, neural-mass-models, jansen-rit-model, wong-wang-model, epileptor, bids, brain-stimulation, diffusion-imaging, tractography, fmri, eeg, meg, brain-oscillations, graph-theory, bifurcation-analysis, connectome, personalized-brain-modeling, fmriprep, dmriprep, mrtrix3-connectome, afq, connectome-workbench, nipype
+- Updated frontmatter with proper tags (software-tvb, software-brain-modeling, whole-brain-modeling, api)
