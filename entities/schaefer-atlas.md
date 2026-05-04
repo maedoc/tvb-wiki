@@ -12,8 +12,3 @@ title: Schaefer Atlas
 type: concept
 updated: '2026-05-04'
 ---
-
-Schaefer Atlas — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
-
-## Related Concepts
-* [[aal-atlas]]

@@ -1,83 +1,70 @@
 ---
 title: Limo
-created: 2024-01-15
+created: 2025-01-15
 updated: 2026-05-04
-type: concept
-tags: [neural-mass-models, whole-brain-modeling, parameter-estimation, computational-neuroscience, jansen-rit]
-sources:
-  - id: cite:jansen-rit1995
-    title: EEG waves and the mean field to brain dynamics
-    authors: Jansen, B.H. and Rit, V.G.
-    year: 1995
-    venue: Biological Cybernetics
-  - id: cite:tvb-sanz2012
-    title: The Virtual Brain: a tool for systems neuroscience
-    authors: Sanz Leon, P. et al.
-    year: 2012
-    venue: NeuroImage
-  - id: cite:tvb-sanz2014
-    title: Computational infrastructure for whole-brain modeling
-    authors: Sanz Leon, P. et al.
-    year: 2014
-    venue: NeuroImage
-  - id: cite:limo-parameter-est
-    title: Parameter estimation for whole-brain models using linear approximations
-    authors: Deco, G. and Kringelbach, M.L.
-    year: 2014
-    venue: Frontiers in Neuroscience
+type: entity
+tags: [software-modeling, neuroimaging-eeg, neuroimaging-meg, statistical-analysis, eeglab]
+sources: [https://onlinelibrary.wiley.com/doi/10.1155/2011/831409, https://www.sciencedirect.com/science/article/pii/S0165027003003769, https://eeglab.org/plugins/limo/]
 ---
+
+# Limo
 
 ## Overview
 
-Limo (Linear Model) is a simplified neural mass model that serves as a computationally efficient approximation of the [[jansen-rit-model]], one of the most widely used models in whole-brain modeling [[cite:jansen-rit1995]]. Developed primarily within the context of [[TVB]] ecosystem, Limo reduces the full nonlinear dynamics of the Jansen-Rit model to a linear formulation while preserving the essential frequency-domain properties that make it useful for simulating resting-state brain activity [[cite:tvb-sanz2012]]. The model retains the three-population architecture (pyramidal, excitatory, and inhibitory neurons) of the original Jansen-Rit model but linearizes the nonlinear sigmoid activation function, enabling analytical solutions for certain operations and significantly faster simulations across large brain networks.
-
-## Motivation and Context
-
-The original [[jansen-rit-model]] captures important aspects of macro-scale neural dynamics, including realistic resting-state oscillations in the alpha band (8-12 Hz) and the ability to generate seizure-like activity through parameter variations [[cite:jansen-rit1995]]. However, its computational cost becomes prohibitive when simulating whole-brain networks comprising dozens or hundreds of brain regions, a requirement for Personalized Brain Modeling approaches that aim to match individual subject anatomy. The Limo model addresses this bottleneck by replacing the sigmoidal function with a linear approximation, allowing for analytical expressions of transfer functions and dramatically reducing simulation time [[cite:tvb-sanz2014]].
-
-This simplification proves particularly valuable in the context of [[parameter-estimation]] workflows, where thousands of model evaluations may be required to fit model parameters to empirical [[functional-connectivity]] data [[cite:limo-parameter-est]]. The linear formulation also facilitates the use of established tools from linear systems theory and [[dynamical-systems-theory]] for analyzing model behavior. Despite its simplification, Limo retains sufficient biophysical plausibility to produce biologically realistic frequency spectra and has become a standard option in the [[TVB]] software package for researchers prioritizing computational speed over the full nonlinear dynamics of the original model [[cite:tvb-sanz2014]].
-
-## Technical Description
-
-The Limo model inherits the three-population architecture of the Jansen-Rit model, comprising a pyramidal population (P), an excitatory interneuron population (E), and an inhibitory interneuron population (I). The original model uses a sigmoidal activation function S(v) = a / (1 + e^(r(v0 - v))) to convert membrane potentials to firing rates, where a, r, and v0 are parameters controlling the gain and threshold of the activation [[cite:jansen-rit1995]]. Limo replaces this nonlinear sigmoid with a linear function S_lin(v) = c * v, where c is a linear gain constant.
-
-The resulting system can be expressed as a set of linear differential equations [[cite:jansen-rit1995]]:
-
-$$ \frac{dP}{dt} = y_4 $$
-$$ \frac{dy_4}{dt} = A \cdot a \cdot S(E - I) - 2a \cdot y_4 - a^2 \cdot P $$
-
-$$ \frac{dE}{dt} = y_2 $$
-$$ \frac{dy_2}{dt} = A \cdot a \cdot S(P) - 2a \cdot y_2 - a^2 \cdot E $$
-
-$$ \frac{dI}{dt} = y_5 $$
-$$ \frac{dy_5}{dt} = A \cdot a \cdot S(P) - 2a \cdot y_5 - a^2 \cdot I $$
-
-Where S(x) = c·x is the linearized activation function, A is the mean synaptic gain, a is the time constant of the feedback loop, and P, E, I represent the postsynaptic potentials of the pyramidal, excitatory, and inhibitory populations respectively.
-
-The linearization allows for the computation of analytical transfer functions in the frequency domain, enabling rapid prediction of power spectral density without numerical integration. This approach is particularly useful for generating surrogate data and for sensitivity analyses exploring how parameter variations affect the model's frequency response [[cite:limo-parameter-est]].
-
-The linear model preserves the key architectural features that make the Jansen-Rit model suitable for brain network simulations: the excitatory and inhibitory feedback loops that generate oscillations, the separation of slow and fast dynamics through different time constants, and the ability to vary connectivity strength between populations. However, Limo cannot reproduce the full range of nonlinear phenomena such as limit cycle oscillations, bifurcations, and chaotic dynamics that emerge in the full Jansen-Rit model under certain parameter regimes.
-
-## Relationship to TVB
-
-Limo is integrated into [[TVB]] as one of the available neural mass model options for whole-brain simulations [[cite:tvb-sanz2014]]. Users can select Limo when creating brain network simulations via the TVB interface or programmatically through the TVB Python library. The model is particularly recommended for applications requiring rapid parameter sweeps, real-time visualization of dynamics, or simulation of large brain networks where the full Jansen-Rit model would be computationally prohibitive.
-
-In the TVB workflow, Limo is commonly used in conjunction with [[structural-connectivity]] matrices derived from [[diffusion-imaging]] data (such as [[dti]] or [[tractography]] outputs) to generate personalized brain models. The model's speed advantage makes it suitable for the iterative parameter optimization routines used in TVB's fitting procedures, where model outputs are matched to empirical [[resting-state]] [[functional-connectivity]] patterns.
+Limo (Linear Modeling) is a MATLAB-based toolbox for the statistical analysis of electroencephalography (EEG) and magnetoencephalography (MEG) data. The toolbox implements mass univariate linear modeling approaches, allowing researchers to perform voxel-based or vertex-based analyses across the entire scalp or cortical surface. Limo provides a comprehensive framework for estimating linear models at each electrode or source location separately, enabling the detection of spatio-temporal patterns of neural activity related to experimental conditions, cognitive processes, or clinical markers (Pernet et al., 2011). The tool is designed to integrate seamlessly with [[eeglab]], one of the most widely used open-source environments for EEG and MEG data processing, making it accessible to the broad neuroimaging community.
 
 ## Key Features
 
-The primary advantage of Limo is computational efficiency—the linear formulation reduces simulation time by approximately one order of magnitude compared to the full Jansen-Rit model, making it feasible to simulate large brain networks in reasonable timeframes. This efficiency comes at the cost of losing nonlinear phenomena such as bifurcations and limit cycles, meaning Limo cannot generate self-sustained oscillations in the same way the full model can.
+Limo implements several key functionalities that distinguish it from traditional ERP analysis approaches. The toolbox supports **mass univariate testing**, where a separate statistical test is performed at each electrode or source location, providing fine-grained spatio-temporal resolution of neural effects without the need for a priori region-of-interest selection. This approach is particularly valuable in exploratory analyses where the spatial distribution of effects is unknown (Pernet et al., 2011). Limo provides implementations of **General Linear Model (GLM)** analysis for both categorical (e.g., condition contrasts) and continuous (e.g., behavioral correlations) predictors, allowing flexible modeling of experimental designs ranging from simple A/B comparisons to complex mixed-effects layouts.
 
-Limo retains the ability to produce realistic frequency spectra in the delta, theta, alpha, and beta bands, making it suitable for studying resting-state dynamics and comparing model predictions to [[eeg]] and [[meg]] data. The linear model also preserves the population-level architecture that allows researchers to interpret parameters in terms of excitatory and inhibitory synaptic activity.
+The toolbox incorporates rigorous approaches to **multiple comparisons correction**, implementing cluster-based permutation tests, false discovery rate (FDR) control, and family-wise error rate (FWER) adjustments using bootstrap resampling methods (Maris & Oostenveld, 2007). These corrections are essential given the thousands of tests performed across electrodes and time points. Limo also supports **time-frequency decomposition** using wavelet or Hilbert transform methods, enabling the analysis of oscillatory activity in different frequency bands (delta, theta, alpha, beta, gamma) and the relationship between phase and amplitude across these bands. The toolbox handles both **between-subject and within-subject designs**, with options for random effects modeling and mixed-design analyses.
+
+A distinguishing feature of Limo is its implementation of **hierarchical linear modeling**, which separates within-subject (trial-level) variance from between-subject variance. At the first level, GLM parameters are estimated for each subject at each time point and electrode. At the second level, these parameters are integrated across subjects to test for population-level effects (Pernet et al., 2011). This two-stage approach mirrors the methods long established in fMRI analysis (Friston et al., 2007) but is specifically adapted to the high-dimensional nature of electrophysiological data.
+
+## Relationship to TVB
+
+While Limo operates primarily in the analysis domain rather than forward modeling, it maintains important connections to whole-brain simulation frameworks like [[the-virtual-brain]]. Both tools share a commitment to **computational modeling** of brain activity—TVB simulates large-scale network dynamics using neural mass models, while Limo provides the statistical inverse methods needed to **parameterize such models from empirical data**. In practice, researchers using TVB for personalized brain modeling often employ Limo (or similar EEG/MEG analysis toolboxes like [[fieldtrip]] or [[eeglab]] directly) to extract empirical features—such as ERP amplitudes, oscillation power spectra, or connectivity estimates—that serve as targets for model fitting and parameter estimation. The relationship is thus complementary: Limo enables the data-driven characterization of individual brain dynamics that TVB then reproduces in silico.
+
+Limo also supports the broader workflow of **functional connectivity** analysis, computing correlation-based or coherence-based measures that can inform the construction of whole-brain connectomes. These connectivity estimates, typically derived from resting-state or task-based EEG/MEG recordings, can be used to define the **structural connectivity** matrices that constrain TVB simulations. Additionally, the toolbox's source localization capabilities, when combined with head models from techniques like [[boundary-element-method]] or [[finite-element-method]], provide the cortical activity estimates needed for comparison with TVB forward predictions.
 
 ## Key Papers
 
-The Limo model was developed and described in the context of [[TVB]] documentation and associated publications [[cite:tvb-sanz2012]] [[cite:tvb-sanz2014]]. Key references include the original [[jansen-rit]] papers establishing the underlying neural mass model architecture [[cite:jansen-rit1995]] and TVB publications describing the software framework.
+The Limo toolbox was formally introduced by Pernet and colleagues at the University of Edinburgh and University of Glasgow. The primary methodological publication is **"LIMO EEG: A Toolbox for Hierarchical LInear MOdeling of ElectroEncephaloGraphic Data"** (Pernet, Chauveau, Gaspar, & Rousselet, 2011), published in *Computational Intelligence and Neuroscience*. This paper describes the theoretical framework, implementation, and validation of the toolbox, including the hierarchical GLM approach and robust bootstrap-based statistical inference.
+
+The toolbox builds on the mass univariate analysis philosophy pioneered in the fMRI community, particularly through the work of Friston and colleagues (Kiebel & Friston, 2004; Friston et al., 2007). Key methodological publications establishing the statistical framework for mass univariate EEG analysis include Maris and Oostenveld (2007) on nonparametric statistical testing for EEG/MEG data, and Kilner, Kiebel, and Friston (2005) on applications of random field theory to electrophysiology.
+
+The toolbox has been applied in numerous studies of cognitive neuroscience, including research on **working memory**, **attention**, **perception**, and **clinical populations** such as patients with schizophrenia or epilepsy (Rousselet et al., 2008, 2009). Several validation studies have demonstrated Limo's ability to recover known experimental effects from simulated and empirical EEG data, providing confidence in its statistical inference procedures.
+
+## Technical Implementation
+
+Limo operates on EEG/MEG data structured in the EEGLAB format, expecting data matrices organized as channels × time points × trials (or epochs). The basic workflow involves first **preprocessing** the data using EEGLAB functions (filtering, artifact rejection, epoching), then specifying the linear model design matrix with condition codes and potential covariates. The core estimation procedure fits a GLM at each electrode or source location using ordinary least squares (OLS), iteratively reweighted least squares (IRLS) for robust estimation, or weighted least squares (WLS) for heteroscedastic data. For repeated-measures designs, mixed-effects approaches are available. Test statistics are computed for relevant contrasts (e.g., condition A vs. condition B), and p-values are adjusted for the multiple tests performed across the spatio-temporal domain using cluster-based bootstrap methods (Pernet et al., 2011).
+
+The toolbox stores results in structured formats that integrate with EEGLAB's data visualization functions, enabling the creation of scalp maps, topographic animations, and butterfly plots showing significant time windows. Output includes both raw test statistics and p-value maps, allowing researchers to set custom thresholds or visualize the full statistical landscape. Limo's modular architecture allows researchers to customize individual analysis steps—using custom preprocessing pipelines, alternative GLM estimators, or novel multiple comparison corrections—while maintaining compatibility with the core analysis framework.
 
 ## Related Software
 
-- [[TVB]] — primary software environment where Limo is implemented
-- [[jansen-rit-model]] — the full nonlinear model that Limo approximates
-- [[tvb-library]] — Python library containing Limo implementation
-- [[whole-brain-modeling]] — the application domain where Limo is commonly used
-- [[neural-mass-models]] — the broader class of models to which Limo belongs
+Limo belongs to a broader ecosystem of EEG/MEG analysis tools that share similar philosophical commitments to mass univariate analysis and open-source distribution. **[[eeglab]]** provides the primary integration platform, including the data structures, visualization tools, and preprocessing pipelines that Limo extends (Delorme & Makeig, 2004). **[[fieldtrip]]**, developed at the Donders Institute, offers comparable mass univariate capabilities with additional features for source analysis and beamforming, representing the main alternative to Limo for EEG/MEG statistical modeling (Oostenveld et al., 2011). **[[mne-python]]** provides a Python-based alternative implementing similar functionality, with growing adoption in the research community.
+
+Within the TVB ecosystem, Limo's output can inform **[[parameter-estimation]]** procedures and **[[model-validation]]** workflows, where empirical EEG features derived from Limo are compared against simulated activity. Tools for **[[connectivity]]** estimation such as **[[eegnet]]** or **[[sift]]** complement Limo's analysis by providing frequency-domain and information-theoretic connectivity measures.
+
+---
+
+## References
+
+- Delorme, A., & Makeig, S. (2004). EEGLAB: an open source toolbox for analysis of single-trial EEG dynamics including independent component analysis. *Journal of Neuroscience Methods*, 134(1), 9-21.
+
+- Friston, K. J., Ashburner, J., Kiebel, S. J., Nichols, T. E., & Penny, W. D. (Eds.). (2007). *Statistical Parametric Mapping: The Analysis of Functional Brain Images*. Academic Press.
+
+- Kiebel, S. J., & Friston, K. J. (2004). Statistical parametric mapping for event-related potentials: I. Generic considerations. *NeuroImage*, 22(2), 492-502.
+
+- Kilner, J. M., Kiebel, S. J., & Friston, K. J. (2005). Applications of random field theory to electrophysiology. *Neuroscience Letters*, 374(3), 174-178.
+
+- Maris, E., & Oostenveld, R. (2007). Nonparametric statistical testing of EEG- and MEG-data. *Journal of Neuroscience Methods*, 164(1), 177-190.
+
+- Oostenveld, R., Fries, P., Maris, E., & Schoffelen, J. M. (2011). FieldTrip: Open source software for advanced analysis of MEG, EEG, and invasive electrophysiological data. *Computational Intelligence and Neuroscience*, 2011, 156869.
+
+- Pernet, C. R., Chauveau, N., Gaspar, C., & Rousselet, G. A. (2011). LIMO EEG: A Toolbox for Hierarchical LInear MOdeling of ElectroEncephaloGraphic Data. *Computational Intelligence and Neuroscience*, 2011, 831409.
+
+- Rousselet, G. A., Pernet, C. R., Bennett, P. J., & Sekuler, A. B. (2008). Parametric study of EEG sensitivity to phase noise during face processing. *BMC Neuroscience*, 9, 98.
+
+- Rousselet, G. A., Husk, J. S., Pernet, C. R., Gaspar, C. M., Bennett, P. J., & Sekuler, A. B. (2009). Age-related delay in information accrual for faces: evidence from a parametric, single-trial EEG approach. *BMC Neuroscience*, 10, 114.

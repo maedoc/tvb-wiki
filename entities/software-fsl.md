@@ -11,8 +11,3 @@ title: Software Fsl
 type: entity
 updated: '2026-05-04'
 ---
-
-Software Fsl — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
-
-## Related Concepts
-* [[conn]]

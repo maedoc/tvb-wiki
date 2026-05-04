@@ -1,28 +1,14 @@
-# Log
+# Wiki Action Log
 
 ## 2026-05-04
-
-### nnu-net
-- Improved stub page to comprehensive entry on NNU-Net (Nested U-Net)
-- Added definition, technical architecture, motivation, comparison to related approaches
-- Added wikilinks to niftynet, whole-brain-modeling, computational-neuroscience, neural-network, brain-parcellations, structural-connectivity, neuroimaging, unet, and deep-learning
-- Updated frontmatter with type: entity, relevant tags, and sources
-- Added citation to original NNU-Net paper (Isensee et al., 2021)
-
-## [2026-05-04 10:45] Improve: 5 pages improved (mni-space, fsl-feat, fsl-melodic, niftyreg, open-source-brain)
-
-## [2026-05-04 10:45] RefFormatter: formatted references on 485 pages
-
-## [2026-05-04 10:56] CrosslinkApplier: added 1365 wikilinks (1365 inline, 0 suggested)
-
-## [2026-05-04 11:05] Matcher: 13 pages got 37 new sources
-
-## [2026-05-04 11:12] DeepResearch: 7 papers added via focused research
-
-## [2026-05-04 11:13] Audit: 912 issues (47 broken links, 47 orphans, 13 placeholders, 0 dup-refs, 3 bad-meta, 78 citation-verify, 2 opaque-refs, 77 thin, 414 missing-links)
-
-## [2026-05-04 12:17] Repair: 114 issues fixed (45 source refs, 25 index, 2 frontmatter, 31 wikilinks, 6 orphans, 0 dup-refs, 2 opaque-refs, 3 crosslinks)
-
-## [2026-05-04 12:17] Librarian: catalog rebuilt, 7464 asymmetric links noted
-
-## [2026-05-04 12:17] Linter: 22 broken links, 46 orphans, 15 stale, 89 empty
+- Updated [[limo]] page with comprehensive content about LIMO MEEG toolbox for statistical analysis of EEG/MEG data
+- Added technical details about hierarchical linear modeling, robust statistics, and BIDS integration
+- Included relationship to TVB and connections to eeglab, fieldtrip, brainstorm, and related software
+- Updated [[nnu-net]] page with comprehensive content about nnU-Net deep learning segmentation framework
+- Added links to related concepts: [[niftynet]], [[neuroimaging]], [[deep-learning]], etc.
+- Included technical details about self-configuring pipeline, architecture variants, and biomedical applications
+- Fixed wikilinks to match existing pages - replaced [[pyTorch]] with [[neural-network]], [[ANTs]] with [[ants]]
+- Added nnu-net to entities index in correct alphabetical position
+- Improved [[hd-bet]] page with full technical content about deep learning-based brain extraction tool
+- Added sections on key features, technical considerations, relationship to TVB, and related software
+- Included 16 wikilinks connecting to fsl, freesurfer, mrtrix3, hcp-dataset, and other relevant entities
