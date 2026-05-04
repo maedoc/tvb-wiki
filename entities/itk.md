@@ -2,10 +2,10 @@
 created: 2025-01-15
 sources:
 - authors: National Library of Medicine
- id: 3
- title: The Visible Human Project
- url: https://www.nlm.nih.gov/pubs/factsheet/visiblehuman.html
- year: 1993
+  id: 3
+  title: The Visible Human Project
+  url: https://www.nlm.nih.gov/pubs/factsheet/visiblehuman.html
+  year: 1993
 - raw/papers/sanz-leon-2013.md
 - raw/papers/ritter-2013.md
 - raw/papers/semanticscholar-109de470e443.md

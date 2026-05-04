@@ -2,9 +2,9 @@
 created: 2024-01-15
 sources:
 - accessdate: '2026-05-03'
- id: NiWorkflows2021
- title: NiWorkflows v1.11.0 documentation
- url: https://niworkflows.readthedocs.io/
+  id: NiWorkflows2021
+  title: NiWorkflows v1.11.0 documentation
+  url: https://niworkflows.readthedocs.io/
 - raw/papers/semanticscholar-109de470e443.md
 - raw/papers/semanticscholar-a0cce22e2ffc.md
 - raw/papers/semanticscholar-4d73a30d5c84.md
@@ -58,9 +58,9 @@ NiWorkflows occupies a central position in the NiPy ecosystem and connects to nu
 - **Derivatives ecosystem**: [[xcp-d]] and [[ciftify]] produce subsequent-level analyses from NiWorkflows preprocessed data
 - **Pipeline containerization**: BIDS Apps provide containerized execution of NiWorkflows-based tools with standardized interfaces
 
-The framework also relates to broader neuroimaging efforts including the [[human-connectome-project]] pipeline infrastructure, the [[bids-derivatives]] specification for standardized output organization, and containerization solutions like [[neurodesk]] that package NiWorkflows-based tools for portable execution.
+ The framework also relates to broader neuroimaging efforts including the [[human-connectome-project]] pipeline infrastructure, the [[bids-derivatives]] specification for standardized output organization, and containerization solutions like [[neurodesk]] that package NiWorkflows-based tools for portable execution.
 
-## Key Papers
+ ## Key Papers
 
 - Esteban O, et al. (2018). "fMRIPrep: a robust preprocessing pipeline for functional MRI." *Nature Methods* 15: 733–737. The primary fMRIPrep paper, demonstrating the NiWorkflows-based pipeline application that has become the field standard.
 - Gorgolewski K, et al. (2016). "BIDS apps: improving ease of use, accessibility, and [[reproducibility]] in neuroimaging data analysis." *Frontiers in Neuroinformatics* 10: 27. Establishes the BIDS Apps ecosystem that NiWorkflows-powered tools inhabit.
