@@ -13,7 +13,7 @@ tags:
 - excitation-inhibition-balance
 title: Adaptive Neurons
 type: concept
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 Adaptive neurons are [[neuron]] models that incorporate time-dependent mechanisms allowing them to modulate their firing properties based on recent activity history. Unlike simple leaky [[spiking-neural-networks|integrate-and-fire]] neurons, which respond predictably to constant current injection, adaptive neurons exhibit phenomena such as spike-frequency adaptation, accommodation, and afterhyperpolarization that are fundamental to realistic neural dynamics. In the context of [[whole-brain|whole-brain modeling]], adaptive neuron models provide the mechanistic substrate for capturing transient neural responses, fatigue effects under sustained stimulation, and the rich oscillatory patterns observed in electrophysiological recordings.
@@ -75,3 +75,9 @@ Furthermore, the timescales of adaptation in whole-brain models are often tuned 
 - [[epileptor]]
 - [[mean-field-theory]]
 - [[hodgkin-huxley-model]]
+
+## References
+
+1. Rosa Maria Delicado, Gemma Huguet, Pau Clusella. (2025). *Emergent Spatiotemporal Dynamics in Large-Scale Brain Networks with Next Generation Neural Mass Models*. [Link](https://arxiv.org/abs/2512.03907)
+2. Ronja Strömsdörfer, Klaus Obermayer. *Spike-frequency and h-current based adaptation are dynamically equivalent in a Wilson-Cowan field model*. [Link](https://arxiv.org/abs/2510.08436)
+3. Futa Tomita, Jun-nosuke Teramae. (2025). *Dynamical mean-field theory for a highly heterogeneous neural population with graded persistent activity of the entorhinal cortex*. PLoS Comput. Biol.. [DOI](https://doi.org/10.1371/journal.pcbi.1013484)

@@ -14,7 +14,7 @@ tags:
 - software-freesurfer
 title: ABCBIDS
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 # ABCBIDS
@@ -80,3 +80,9 @@ The foundational methodology papers for the ABCBIDS ecosystem include Feczko et 
 - [[functional-connectivity]] — Connectivity analysis
 - [[connectome]] — [[structural-connectivity]] frameworks
 - [[whole-brain-modeling]] — TVB modeling approaches
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. (authors unknown). *The Minimal Preprocessing Pipelines for the Human Connectome Project*.
+3. Sima Soltanpour, Md Taufiq Nasseef, Rachel Utama, Arnold Chang, D. Madularu, Praveen Kulkarni, Craig F. Ferris, Chris Joslin. (2025). *Robust automated preclinical fMRI preprocessing via a multi-stage dilated convolutional Swin Transformer affine registration*. Frontiers in Neuroscience. [DOI](https://doi.org/10.3389/fnins.2025.1621244)
