@@ -1,6 +1,9 @@
 ---
 created: 2025-01-15
-sources: []
+sources:
+- raw/papers/arxiv-2504.17491.md
+- raw/papers/arxiv-2512.10982.md
+- raw/papers/semanticscholar-dd426330093e.md
 tags:
 - oscillator
 - neural-mass-models

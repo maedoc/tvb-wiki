@@ -4,6 +4,7 @@ sources:
 - raw/papers/semanticscholar-b26093d51a70.md
 - raw/papers/avants-2008.md
 - raw/papers/semanticscholar-444387e9c4ec.md
+- raw/papers/semanticscholar-2c80365048c0.md
 tags:
 - software-brain-modeling
 - neuroimaging-processing

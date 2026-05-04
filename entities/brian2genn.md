@@ -6,6 +6,9 @@ sources:
 - nowotny-2014-genn
 - goodman-2008-brian
 - bekolay-2014-nest-gpu
+- raw/papers/arxiv-2505.16861.md
+- raw/papers/semanticscholar-eb704b6f5462.md
+- raw/papers/semanticscholar-bceb6bea8311.md
 tags:
 - software-brian
 - software-neuron

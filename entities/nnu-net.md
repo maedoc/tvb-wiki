@@ -11,6 +11,9 @@ sources:
 - Çiçek, Ö., Abdulkadir, A., Lienkamp, S. S., et al. (2016). 3D U-Net: Learning dense
     volumetric segmentation from sparse annotation. International Conference on Medical
     Image Computing and Computer-Assisted Intervention (MICCAI), 424-432.
+- raw/papers/semanticscholar-97e6ff441097.md
+- raw/papers/semanticscholar-a51325b7fd19.md
+- raw/papers/mijalkov-2017-braph.md
 tags:
 - software-visualization
 - neural-network

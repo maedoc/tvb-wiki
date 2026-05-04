@@ -1,10 +1,12 @@
 ---
-title: CCEytools
 created: 2026-05-04
-updated: 2026-05-04
+sources:
+- raw/papers/sanz-leon-2013.md
+tags:
+- software-brain-modeling
+title: CCEytools
 type: entity
-tags: [software-brain-modeling]
-sources: []
+updated: '2026-05-04'
 ---
 
 # CCEytools

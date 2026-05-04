@@ -3,6 +3,9 @@ created: 2024-01-15
 sources:
 - 10.48550/arXiv.2312.12085
 - 10.48550/arXiv.2112.15284
+- raw/papers/semanticscholar-bceb6bea8311.md
+- raw/papers/arxiv-2509.02799.md
+- raw/papers/semanticscholar-60ca593f7e0c.md
 tags:
 - software-neural-network
 - software-jax

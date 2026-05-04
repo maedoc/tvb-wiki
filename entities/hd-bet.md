@@ -1,6 +1,9 @@
 ---
 created: 2026-05-04
-sources: []
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/schirner-2018.md
+- raw/papers/semanticscholar-109de470e443.md
 tags:
 - software-brain-modeling
 - software-neuroimaging
