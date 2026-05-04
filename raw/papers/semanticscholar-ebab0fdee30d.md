@@ -1,0 +1,15 @@
+# Brain structural modules associated to functional high-order interactions in the human brain
+
+**Source**: semantic-scholar
+**ID**: ebab0fdee30d8e96479127df5174b119b27dd28e
+**DOI**: 10.1101/2025.03.21.644509
+**URL**: https://www.semanticscholar.org/paper/ebab0fdee30d8e96479127df5174b119b27dd28e
+**Date**: 2025-04-01
+**Year**: 2025
+**Authors**: Borja Camino-Pontes, A. Jimenez-Marin, I. Tellaetxe-Elorriaga, Izaro Fernandez-Iriondo, A. Erramuzpe, I. Díez, Paolo Bonifazi, Marilyn Gatica, Fernando E. Rosas, D. Marinazzo, S. Stramaglia, Jesús M. Cortés
+**Venue**: bioRxiv
+**Citations**: 5
+
+## Abstract
+
+The brain’s modular organization, ranging from microcircuits to large-scale networks, has been extensively studied in terms of its structural and functional properties. Particularly insightful has been the investigation of the coupling between structural connectivity (SC) and functional connectivity (FC), whose analysis has revealed important insights into the brain’s efficiency and adaptability related to various cognitive functions. Interestingly, links in SC are intrinsically pairwise but this is not the case for FC; and while recent work demonstrates the relevance of the brain’s high-order interactions (HOI), the coupling of between SC and functional HOI remains unexplored. To address this gap, this study leverages functional MRI and diffusion weighted imaging to delineate the brain’s modular structure by investigating the coupling between SC and functional HOI. Our results demonstrates that structural networks can be associated with both redundant and synergistic functional interactions. In particular, SC exhibits both positive and negative correlations with redundancy, it shows consistent positive correlations with synergy, indicating that a higher density of structural connections is linked to increased synergistic interactions. These findings advance our understanding of the complex relationship between structural and high-order functional properties, shedding light on the brain’s architecture underlying its modular organization. Significance Statement Understanding the intricate relationship between the brain structural and functional connectivity is instrumental for enabling a richer characterization of cognitive functions. This challenge is complex, since it involves comparing pairwise links representing white-matter fibers with higher-order functional interactions that can involve multiple brain regions sharing information — indeed, these interactions can be redundant in presence of shared information, or synergistic when novel information arises in the whole subsystem. Here we advance the investigation of the coupling between brain structure and high-order interactions, offering new insights into how structural properties are associated with both redundant and synergistic functional modules. Furthermore, the approach presented here opens new doors to investigate how this coupling between structural connectivity and functional HOI is modulated during development or under diverse brain pathologies.
