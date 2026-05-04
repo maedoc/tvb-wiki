@@ -18,7 +18,7 @@ tags:
 - tractography
 title: HCP Pipelines
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 # HCP Pipelines
@@ -69,9 +69,9 @@ The **HCP Connectome Workbench** software, distributed alongside the pipelines, 
 
 - [[TVB]] — Whole-brain simulation platform using HCP-derived connectivity
 - [[Human Connectome Project]] — The parent initiative distributing data and tools
-- [[FSL]] — Underlying library for various pipeline stages (FLIRT, TOPUP, BET)
-- [[FreeSurfer]] — Cortical surface reconstruction algorithms
+- [[fsl-melodic]] — Underlying library for various pipeline stages (FLIRT, TOPUP, BET)
+- [[pysurfer]] — Cortical surface reconstruction algorithms
 - [[Connectome Workbench]] — Visualization and data format conversion
-- [[MRtrix3]] — Alternative/complementary tractography tool
+- [[mrtrix3-connectome]] — Alternative/complementary tractography tool
 - [[ANTs]] — Advanced normalization tools compatible with HCP outputs
 - [[DataLad]] — Data management for [[hcp-dataset]] versioning

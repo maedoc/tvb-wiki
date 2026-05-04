@@ -48,6 +48,11 @@
 
 ## [2026-05-04 19:09] Librarian: catalog rebuilt, 6465 asymmetric links noted
 
+## [2026-05-04 19:30] Create: crcns.md - created comprehensive entity page for Collaborative Research in Computational Neuroscience funding program
+- Added overview, motivation, program structure, and relationship to TVB
+- Included 11 wikilinks connecting to the-virtual-brain, jansen-rit-model, wong-wang-model, epileptor, structural-connectivity, functional-connectivity, parameter-estimation, variational-bayes, free-energy-principle, human-connectome-project, ebrains
+- Added crcns entity to entities index under Research Projects & Datasets section
+
 ## [2026-05-04 19:09] Linter: 126 broken links, 60 orphans, 42 stale, 40 empty
 
 ## [2026-05-04 19:09] RefFormatter: formatted references on 2 pages
@@ -65,3 +70,7 @@
 ## [2026-05-04 19:26] Improve: 5 pages improved (mrtrix3, coreneuron, brian2, rabies, fieldtrip)
 
 ## [2026-05-04 19:33] SoftwareMapper: 25 pages created
+
+## [2026-05-04 19:50] Improve: 5 pages improved (crcns, netpyne, cat12, netneurotools, scot)
+
+## [2026-05-04 19:55] Improve: simbrain.md filled in (neural network simulator content)

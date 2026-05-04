@@ -49,7 +49,7 @@ The HCP Pipelines provide essential preprocessing for [[connectome]]-based [[who
 
 - **[[structural-connectivity]]**: The cortical surface meshes (in fs_LR space) serve as the anatomical scaffolding for TVB simulations, with surface vertices mapping to network nodes.
 
-- **Tractography-derived Connectivity**: Preprocessed dMRI enables probabilistic tractography using tools like MRtrix3 or FSL's PROBTRACKX, generating structural connectivity matrices that constrain TVB [[network-dynamics]].
+- **Tractography-derived Connectivity**: Preprocessed dMRI enables probabilistic tractography using tools like [[mrtrix|MRtrix3]] or FSL's PROBTRACKX, generating structural connectivity matrices that constrain TVB [[network-dynamics]].
 
 - **Functional Validation**: The resting-state networks identified in HCP data provide empirical targets for validating TVB simulations against observed [[functional-connectivity]] patterns.
 
@@ -75,12 +75,3 @@ The **HCP Connectome Workbench** software, distributed alongside the pipelines, 
 - [[mrtrix3-connectome]] — Alternative/complementary tractography tool
 - [[ANTs]] — Advanced normalization tools compatible with HCP outputs
 - [[DataLad]] — Data management for [[hcp-dataset]] versioning
-
-## References
-
-1. (authors unknown). *The Minimal Preprocessing Pipelines for the Human Connectome Project*.
-2. (authors unknown). *Resting-State fMRI in the Human Connectome Project*.
-3. (authors unknown). *The WU-Minn Human Connectome Project: An Overview*.
-4. Schirner et al. (2018). *A​n automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2018.05.040)
-5. (authors unknown). *Function in the Human Connectome: Task-fMRI and Individual Differences in Behavior*.
-6. (authors unknown). *The Human Connectome Project: A Data Acquisition Perspective*.

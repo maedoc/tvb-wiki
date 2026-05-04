@@ -1,32 +1,19 @@
 ---
-created: 2025-01-15
-sources:
-- 10.1093/gigascience/giy082
-- 10.1016/j.neuroimage.2013.03.078
-- 10.1016/j.neuroimage.2014.03.032
-- 10.1016/j.neuroimage.2015.10.001
-- raw/papers/huntenburg-2018.md
-tags:
-- software-neuroimaging
-- neuroimaging-mri
-- laminar-imaging
-- cortical-analysis
-- software-python
-- parcellation
-- software-dipy
-- software-ants
 title: Nighres
+created: 2025-01-15
+updated: 2026-05-04
 type: software
-updated: '2026-05-04'
+tags: [software-neuroimaging, neuroimaging-mri, laminar-imaging, cortical-analysis, software-python, parcellation, software-dipy, software-ants]
+sources: [10.1093/gigascience/giy082, 10.1016/j.neuroimage.2013.03.078, 10.1016/j.neuroimage.2014.03.032, 10.1016/j.neuroimage.2015.10.001]
 ---
 
 ## Overview
 
-Nighres is an open-source Python library designed for high-resolution neuroimaging data processing, with a particular focus on laminar and subcortical structure analysis. The name derives from "NIGh RESolution," reflecting its primary purpose of extracting fine-grained structural information from high-resolution magnetic resonance imaging (MRI) scans. The library provides automated segmentation and [[parcellation]] tools that complement broader neuroimaging processing workflows, enabling researchers to probe mesoscale brain anatomy that is obscured in conventional resolution data [[1]].
+Nighres is an open-source Python library designed for high-resolution neuroimaging data processing, with a particular focus on laminar and subcortical structure analysis. The name derives from "NIGh RESolution," reflecting its primary purpose of extracting fine-grained structural information from high-resolution magnetic resonance imaging (MRI) scans. The library provides automated segmentation and parcellation tools that complement broader neuroimaging processing workflows, enabling researchers to probe mesoscale brain anatomy that is obscured in conventional resolution data [[1]].
 
 ## Motivation and Context
 
-Traditional neuroimaging analysis pipelines often operate on voxel sizes of 1–2 mm, which provides adequate sensitivity for [[whole-brain]] analyses but sacrifices anatomical detail at the laminar and sublaminar levels. Cortical layer analysis requires voxel sizes on the order of 0.5–0.7 mm, achieved with specialized protocols like MP2RAGE or multi-shell [[diffusion-imaging]] [[2]]. However, processing these high-resolution datasets introduces substantial computational challenges and requires specialized algorithms that account for partial volume effects, variable Rician noise profiles, and the complex geometry of cortical laminae [[3]].
+Traditional neuroimaging analysis pipelines often operate on voxel sizes of 1–2 mm, which provides adequate sensitivity for whole-brain analyses but sacrifices anatomical detail at the laminar and sublaminar levels. Cortical layer analysis requires voxel sizes on the order of 0.5–0.7 mm, achieved with specialized protocols like MP2RAGE or multi-shell diffusion imaging [[2]]. However, processing these high-resolution datasets introduces substantial computational challenges and requires specialized algorithms that account for partial volume effects, variable Rician noise profiles, and the complex geometry of cortical laminae [[3]].
 
 Nighres emerged to address this gap, providing validated implementations of algorithms specifically designed for laminar analysis that had previously been available only as disparate MATLAB scripts or commercial solutions. By wrapping these methods in a Python library with a unified API, Nighres enables reproducible, large-scale studies of cortical architecture in both research and clinical contexts. The library fits within a broader ecosystem of [[neuroimaging]] tools—particularly [[ANTs]] for registration, [[pysurfer]] for surface-based analysis, and [[dipy]] for diffusion processing—while offering functionality that these general-purpose packages do not provide.
 
@@ -38,7 +25,7 @@ Nighres implements several core algorithms for high-resolution brain analysis. *
 
 **Probabilistic parcellation** tools generate cortical parcellations that respect laminar boundaries, producing "layer-specific" atlases rather than the conventional surface-based parcels. This feature supports analyses of laminar [[functional-connectivity]] and [[effective-connectivity]] that distinguish between feedforward and feedback connections based on their laminar signatures [[5]].
 
-The library maintains compatibility with standard neuroimaging formats ([[nifti]], [[cifti]]) and integrates with [[BIDS]]-compliant processing pipelines through [[nipype]] interfaces.
+The library maintains compatibility with standard neuroimaging formats (NIfTI, CIFTI) and integrates with [[BIDS]]-compliant processing pipelines through [[nipype]] interfaces.
 
 ## Relationship to TVB
 
@@ -52,10 +39,10 @@ Nighres operates within a broader ecosystem of [[neuroimaging]] processing tools
 
 - [[ANTs]] provides the registration and normalization foundation that Nighres builds upon
 - [[pysurfer]] remains the gold standard for automated cortical reconstruction and is often run in parallel with Nighres
-- [[dipy]] handles [[diffusion-mri]] processing including [[tractography]]
+- [[dipy]] handles diffusion MRI processing including tractography
 - [[nilearn]] offers machine-learning utilities for brain decoding that integrate with Nighres outputs
 - [[BrainVISA]] provides related morphometry tools in the French neuroimaging tradition
-- The [[Human [[connectome]] Project]] protocols and the [[HCP-dataset]] provide the high-resolution acquisitions that Nighres excels at processing
+- The [[Human Connectome Project]] protocols and the [[HCP-dataset]] provide the high-resolution acquisitions that Nighres excels at processing
 - **LAYNII** provides complementary tools for laminar fMRI analysis, particularly suited for handling partial brain coverage [[6]]
 
 ## Key Algorithms and Technical Details
@@ -84,7 +71,13 @@ Future development directions include integration with [[Bayesian]] inference fr
 
 4. Waehnert MD, Dinse J, Schäfer A, et al. (2016) A subject-specific framework for in vivo myeloarchitectonic analysis using high resolution quantitative MRI. NeuroImage 125: 94-107. https://doi.org/10.1016/j.neuroimage.2015.10.001 [[7]]
 
-5. Keuken MC, Bazin PL, Crown L, et al. (2014) Quantifying inter-individual anatomical variability in the subcortex using 7T structural MRI. NeuroImage 94: 40-46. https://doi.org/10.1016/j.neuroimage.2014.03.032 [[8]]
+5. Huber L, Handwerker DA, Jangraw DC, et al. (2017) High-resolution CBV-fMRI allows mapping of laminar activity and connectivity of cortical input and output in human M1. Neuron 96(6): 1253-1263. https://doi.org/10.1016/j.neuron.2017.11.005
+
+6. Hubers L, Polimeni JR, Urlins L (2021) LAYNII software for laminar fMRI. https://github.com/layerfMRI/LAYNII
+
+7. Waehnert MD, Dinse J, Schäfer A, et al. (2016) A subject-specific framework for in vivo myeloarchitectonic analysis using high resolution quantitative MRI. NeuroImage 125: 94-107. https://doi.org/10.1016/j.neuroimage.2015.10.001
+
+8. Keuken MC, Bazin PL, Crown L, et al. (2014) Quantifying inter-individual anatomical variability in the subcortex using 7T structural MRI. NeuroImage 94: 40-46. https://doi.org/10.1016/j.neuroimage.2014.03.032
 
 ## References
 
@@ -96,7 +89,7 @@ Future development directions include integration with [[Bayesian]] inference fr
 
 [[4]] Waehnert MD, Dinse J, Weiss M, et al. (2014) Anatomically motivated modeling of cortical laminae. NeuroImage 93(2): 210-220. https://doi.org/10.1016/j.neuroimage.2013.03.078
 
-[[5]] Huber L, Handwerker DA, Jangraw DC, et al. (2017) High-resolution CBV-fMRI allows mapping of laminar activity and [[connectivity]] of cortical input and output in human M1. [[neuron]] 96(6): 1253-1263. https://doi.org/10.1016/j.neuron.2017.11.005
+[[5]] Huber L, Handwerker DA, Jangraw DC, et al. (2017) High-resolution CBV-fMRI allows mapping of laminar activity and connectivity of cortical input and output in human M1. Neuron 96(6): 1253-1263. https://doi.org/10.1016/j.neuron.2017.11.005
 
 [[6]] Hubers L, Polimeni JR, Urlins L (2021) LAYNII software for laminar fMRI. https://github.com/layerfMRI/LAYNII
 

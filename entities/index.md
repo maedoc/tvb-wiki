@@ -41,6 +41,7 @@ A collection of people, software platforms, datasets, and research groups releva
 - [Brian2GeNN](brian2genn.md) - GPU-accelerated spiking neural network simulation via Brian2-GeNN bridge
 - [BCBToolKit](bcbtoolkit.md) - Brain-Computer Interface toolkit for real-time EEG signal processing and BCI applications
 - [SpiNNaker](spinnaker.md) - Neuromorphic many-core platform for real-time spiking neural network simulation
+- [SimBrain](simbrain.md) - Interactive neural network simulator focused on emergent behaviors and learning
 - [Nighres](nighres.md) - High-resolution neuroimaging processing for laminar analysis
 - [NNU-Net](nnu-net.md) - Self-configuring deep learning framework for biomedical image segmentation
 - [NiftyReg](niftyreg.md) - Open-source medical image registration toolkit for neuroimaging
@@ -64,6 +65,7 @@ A collection of people, software platforms, datasets, and research groups releva
 
 - [Human Connectome Project](human-connectome-project.md)
 - [UK Biobank](uk-biobank.md)
+- [CRCNS](crcns.md) - Collaborative Research in Computational Neuroscience funding program
 
 ## People & Labs
 

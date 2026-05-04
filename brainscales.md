@@ -59,9 +59,9 @@ The collaboration between BrainScaleS and TVB research groups has explored hybri
 
 ## Relationship to Related Neuromorphic Systems
 
-BrainScaleS occupies a unique position among neuromorphic platforms. Unlike [[SpiNNaker]], which uses digital multiprocessors to simulate neurons in software 5, BrainScaleS computes neuronal dynamics directly in analog hardware. This provides inherent speed advantages but makes reconfiguration more challenging. Compared to Intel's Loihi chip, which emphasizes专用 learning accelerators for spiking neural networks 6, BrainScaleS emphasizes large-scale network simulations with biological realism. The system shares conceptual heritage with earlier analog neuromorphic work but achieves unprecedented scale and integration.
+BrainScaleS occupies a unique position among neuromorphic platforms. Unlike SpiNNaker, which uses digital multiprocessors to simulate neurons in software 5, BrainScaleS computes neuronal dynamics directly in analog hardware. This provides inherent speed advantages but makes reconfiguration more challenging. Compared to Intel's Loihi chip, which emphasizes专用 learning accelerators for spiking neural networks 6, BrainScaleS emphasizes large-scale network simulations with biological realism. The system shares conceptual heritage with earlier analog neuromorphic work but achieves unprecedented scale and integration.
 
-Other related platforms include [[NEST]] and [[Brian2]], which are software simulators rather than dedicated hardware, and [[Nengo]], which provides neural network abstractions applicable across both conventional and neuromorphic hardware. The choice between these platforms involves tradeoffs between simulation speed, energy efficiency, flexibility, and the degree of biological realism required for any given application.
+Other related platforms include [[NEST]] and [[Brian2]], which are software simulators rather than dedicated hardware, and Nengo, which provides neural network abstractions applicable across both conventional and neuromorphic hardware. The choice between these platforms involves tradeoffs between simulation speed, energy efficiency, flexibility, and the degree of biological realism required for any given application.
 
 ## Related Software
 

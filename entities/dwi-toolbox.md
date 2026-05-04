@@ -40,9 +40,9 @@ The workflow typically involves acquiring diffusion-weighted MRI data, processin
 
 ## Related Software
 
-DWItoolbox exists within a rich ecosystem of diffusion MRI processing tools. The most widely adopted alternative is [[FSL]]'s FMRIB's Diffusion Toolbox (FDT), which provides comprehensive preprocessing, tensor fitting, probabilistic tractography (BedpostX/ProbtrackX), and严格的质星控制工具。FSL's tools are widely used for large-scale studies like the [[mrtrix3-connectome]] and come with extensive documentation and GUI support.
+DWItoolbox exists within a rich ecosystem of diffusion MRI processing tools. The most widely adopted alternative is [[fsl-melodic]]'s FMRIB's Diffusion Toolbox (FDT), which provides comprehensive preprocessing, tensor fitting, probabilistic tractography (BedpostX/ProbtrackX), and严格的质星控制工具。FSL's tools are widely used for large-scale studies like the [[mrtrix3-connectome]] and come with extensive documentation and GUI support.
 
-[[MRtrix3]] represents a more modern approach, with C++ implementations offering highly efficient fiber tracking capabilities, including advanced fiber orientation distribution function estimation and global tractography algorithms that have become popular in many research groups. For users preferring Python-based environments, [[DIPY]] provides a comprehensive open-source platform for diffusion imaging analysis.
+[[MRtrix3]] represents a more modern approach, with C++ implementations offering highly efficient fiber tracking capabilities, including advanced fiber orientation distribution function estimation and global tractography algorithms that have become popular in many research groups. For users preferring Python-based environments, DIPY provides a comprehensive open-source platform for diffusion imaging analysis.
 
 Another related toolbox is DMRITool, written in C++ with MATLAB interface, offering advanced reconstruction methods including Diffusion Spectrum Imaging and orientation distribution function estimation. While DWItoolbox has a narrower scope than these alternatives, its modular design makes it more approachable for teaching purposes and for understanding fundamental diffusion imaging concepts.
 
