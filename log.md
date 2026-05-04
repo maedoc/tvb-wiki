@@ -124,3 +124,5 @@
 ## [2026-05-04 22:01] Improve: 5 pages improved ( Allen SDK, brain-map, brain-life, trajectory, coins)
 
 ## [2026-05-04 22:02] Matcher: 15 pages got 39 new sources
+
+## [2026-05-04 22:07] SoftwareMapper: 18 pages created

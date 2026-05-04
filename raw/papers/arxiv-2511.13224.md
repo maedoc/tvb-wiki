@@ -1,0 +1,13 @@
+# Natural gradient descent for improving variational inference based classification of radio galaxies
+
+**Source**: semantic-scholar
+**ID**: 8ea284b184ea541c8ffd0823bafca6af7ea1cf07
+**URL**: https://www.semanticscholar.org/paper/8ea284b184ea541c8ffd0823bafca6af7ea1cf07
+**Date**: 2025-11-17
+**Year**: 2025
+**Authors**: Devina Mohan, Anna Scaife
+**Citations**: 1
+
+## Abstract
+
+Bayesian neural networks (BNNs) are most commonly optimised with first-order optimisers such as stochastic gradient descent. However, when optimising for parameters of probabilistic models, incorporating second order information during optimisation can lead to a more direct path in the distribution space and faster convergence. In this work we examine whether using natural gradient descent can improve the performance of variational inference based classification of radio galaxies. We use the Improved Variational Online Newton (iVON) algorithm and compare its performance against a recent benchmark for BNNs for radio galaxy classification. We find that iVON results in better uncertainty calibration out of all the methods previously considered while providing similar predictive performance to the best performing inference methods such as Hamiltonian Monte Carlo and Bayes by Backprop based variational inference. Models trained with iVON can distinguish far out-of-distribution optical galaxy data, but they cannot reliably detect radio galaxy images from a telescope with different resolution and sensitivity. We find that the cold posterior effect persists in the models trained with iVON. Our results suggest that the choice of the optimiser can lead to qualitatively different solutions and future work using probabilistic neural network models should carefully consider the inductive biases being encoded through the optimisation process, in addition to the data, architecture and inference method.

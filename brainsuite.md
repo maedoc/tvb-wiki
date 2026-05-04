@@ -4,7 +4,10 @@ created: 2024-01-15
 updated: 2026-05-04
 type: entity
 tags: [software-brain-modeling, brain-parcellations, neuroimaging-dti]
-sources: [raw/papers/brainsuite-tools.md]
+sources:
+  - Shattuck and Leahy 2001 (NeuroImage)
+  - Joshi et al. 2022 (Journal of Neuroscience Methods)
+  - Kim et al. 2023 (arXiv preprint)
 ---
 
 BrainSuite is a collection of open-source software tools developed at the UCLA Brain Mapping Center for processing and analyzing magnetic resonance images (MRI) of the human brain. The primary purpose of BrainSuite is to extract and parameterize the inner and outer surfaces of the cerebral cortex, segment and label gray and white matter structures, analyze diffusion imaging data, and process functional MRI. Originally developed by David W. Shattuck and Richard M. Leahy, the software has evolved into a comprehensive neuroimaging toolkit used primarily for cortical surface reconstruction, parcellation, and regional analysis. The current stable release is BrainSuite23a, which includes the USCBrain atlas, improved cortical thickness estimation, and a fully containerized BIDS App workflow.
@@ -39,4 +42,4 @@ The foundational BrainSuite algorithm for cortical surface extraction was descri
 
 ## Related Software
 
-BrainSuite occupies a similar niche in the neuroimaging ecosystem as other cortical surface extraction tools such as [[afni]] and [[fsl]]. For visualization and further analysis of BrainSuite outputs, the [[connectome-workbench]] tool is commonly used to display cortical surfaces and statistical maps. The BrainSuite BIDS App is designed to integrate with [[bids]]-compatible preprocessing pipelines including [[fmriprep]] for functional MRI processing. For diffusion processing specifically, alternative tools include [[mrrix3-connectome]], [[dsi-studio]], and [[camino]].
+BrainSuite occupies a similar niche in the neuroimaging ecosystem as other cortical surface extraction tools such as [[afni]] and [[fsl]]. For visualization and further analysis of BrainSuite outputs, the [[connectome-workbench]] tool is commonly used to display cortical surfaces and statistical maps. The BrainSuite BIDS App is designed to integrate with [[bids]]-compatible preprocessing pipelines including [[fmriprep]] for functional MRI processing. For diffusion processing specifically, alternative tools include MRtrix3, [[dsi-studio]], and [[camino]].

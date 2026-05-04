@@ -1,27 +1,39 @@
 ---
 title: Neurosift
-created: 2026-05-04
+created: 2025-01-15
 updated: 2026-05-04
 type: entity
-tags: [software-brain-modeling]
-sources: []
+tags: [software-visualization, neuroimaging, neuroimaging-fmri, neuroimaging-dti, connectomics, database-neurovault]
+sources: [https://www.neurosift.app, https://neurovault.org, https://github.com/neurosift/neurosift]
 ---
 
-# Neurosift
+Neurosift is a web-based neuroimaging data visualization and analysis platform that runs directly in modern web browsers without requiring local software installation. Originally developed by Jeremy Moreau with ongoing support from the NeuroVault team, Neurosift provides interactive exploration of volumetric (NIfTI), surface-based (CIFTI/Gifti), and dense connectivity data, making it particularly valuable for whole-brain modeling workflows where researchers need to inspect structural connectivity matrices, functional connectivity maps, and simulation outputs.
 
 ## Overview
-*Placeholder — awaiting content from Ralph Improver.*
+
+Neurosift functions as a zero-install alternative to desktop neuroimaging viewers like [[freeview]], [[fslview]], or [[connectome-workbench]]. The platform loads neuroimaging files directly from URLs or local uploads, rendering them in an interactive 3D environment that supports cutting, rotating, and overlay capabilities. Unlike traditional viewers that require significant disk space and dependencies (FreeSurfer, FSL), Neurosift runs entirely in the browser using WebGL, meaning researchers can share visualizations via simple URL links that embed the exact state of the viewer. This web-first architecture makes it especially useful for collaborative workflows where multiple investigators need to inspect the same data without coordinating software installations.
+
+The platform supports the full range of neuroimaging formats used in connectome-based research, including NIfTI-1/2 for volumetric data, CIFTI for grayordinate-based connectivity results, Gifti for surface data, and dense matrix formats for tractography-derived connectivity data. Neurosift also integrates directly with [[neurovault]], allowing users to search, load, and visualize publicly shared neuroimaging datasets without downloading files first.
 
 ## Key Features
-*Placeholder*
+
+The core strength of Neurosift lies in its handling of multi-file neuroimaging datasets. For whole-brain connectivity analysis, researchers often work with several related files—a parcellation scheme, a connectivity matrix, and associated statistical maps. Neurosift can load these as a cohesive package, displaying the anatomical template while overlaying connectivity-based results. The platform supports transparent overlays with adjustable opacity, allowing users to inspect how statistical results from [[dynamic-causal-modeling]] or [[neural-mass-models]] align with underlying anatomical structures.
+
+Surface-based visualization in Neurosift uses WebGL rendering of cortical and subcortical meshes, enabling smooth rotation, zoom, and slicing operations that would otherwise require heavy desktop software. The platform's CIFTI support is particularly relevant for human connectome project data, where grayordinate-based representations have largely replaced volumetric approaches for cortical analysis. Users can visualize [[resting-state]] networks, task-based activation patterns, and tractography streamlines in a unified interface.
+
+Neurosift also provides basic connectivity matrix visualization, allowing users to view correlation or coherence matrices as heatmaps alongside the anatomical displays. This integrated view supports researchers working with [[structural-connectivity]] matrices derived from [[diffusion-imaging]] and [[tractography]] pipelines, as well as [[functional-connectivity]] matrices from [[fmri]] or [[meg]] data.
 
 ## Relationship to TVB
-*Placeholder*
 
-## Key Papers
-*Placeholder*
+Neurosift can complement [[the-virtual-brain]] workflows in several valuable ways. TVB simulations produce output files in NIfTI format (regional time series, statistical maps) and connectivity matrices that researchers often need to inspect after simulation. Neurosift offers a lightweight way to visualize these outputs without launching the full TVB pipeline or desktop visualization tools. Researchers can upload their TVB simulation results to Neurosift for quick visual inspection, share links with collaborators for feedback, or compare simulation-derived connectivity patterns against empirical data from [[hcp-dataset]] or [[abide]] cohorts.
+
+The platform may be particularly useful for the TVB community as it can help bridge the gap between simulation outputs and standard neuroimaging analysis. When validating whole-brain models against empirical neuroimaging data, investigators often need to overlay model-derived statistical maps onto anatomical templates—a task that Neurosift can handle efficiently for web-based collaboration.
 
 ## Related Software
-* [[TVB]]
 
-## References
+Neurosift occupies a specific niche in the neuroimaging visualization landscape, positioned between lightweight quick viewers and fully featured analysis platforms. [[neurovault]] provides the data repository infrastructure that feeds Neurosift's search and loading capabilities. For more intensive analysis tasks, researchers typically turn to [[connectome-workbench]] (for CIFTI/surface data), [[fsl]], or [[freeview]] paired with FreeSurfer. For web-based quick visualization of simpler datasets, [[nilearn]] provides programmatic access similar to Neurosift's URL-based loading.
+
+## Key Papers
+
+- Moreau, J. (n.d.). Neurosift: Web-based neuroimaging visualization. Retrieved from https://www.neurosift.app
+- NeuroVault Team. (n.d.). NeuroVault: A repository for statistical maps and parcellations. Retrieved from https://neurovault.org

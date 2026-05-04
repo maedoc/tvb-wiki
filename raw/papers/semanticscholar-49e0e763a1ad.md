@@ -1,0 +1,15 @@
+# Spatiotemporal Development and Clinical Correlates of MRI-based Brain Myelination in Term- and Preterm-born Children.
+
+**Source**: semantic-scholar
+**ID**: 49e0e763a1ad9939bf1975458b25aef43453fbca
+**DOI**: 10.1148/radiol.251251
+**URL**: https://www.semanticscholar.org/paper/49e0e763a1ad9939bf1975458b25aef43453fbca
+**Date**: 2025-11-01
+**Year**: 2025
+**Authors**: Yuqi Zhang, Mingyang Li, R. Zhao, Tingting Liu, Jiani Wu, Xinyi Xu, Ruike Chen, Yiwei Chen, Zhiyong Zhao, Can Lai, Chai Ji, Hongxi Zhang, Dan Wu
+**Venue**: Radiology
+**Citations**: 1
+
+## Abstract
+
+Background The spatiotemporal progression of myelination and its associations with neurodevelopmental outcomes and perinatal risks remain insufficiently characterized in large-scale longitudinal studies. Purpose To characterize the myelination process across early childhood using the T1-weighted to T2-weighted MRI signal intensity ratio as a semiquantitative marker of myelination and elucidate its relationship with perinatal adversities and neurodevelopmental outcomes. Materials and Methods In this multicenter study, 3.0-T MRI data of term-born children from the Baby Connectome Project (BCP) (September 2016 to May 2020) and preterm-born infants collected locally at Zhejiang University (ZJU) (January 2019 to September 2020) were analyzed to extract the T1-weighted to T2-weighted signal intensity ratio. Statistical analyses included nonnegative matrix factorization to identify regions with distinct patterns of myelination (PMs), generalized additive mixed-effects models to characterize trajectories, and mediation and correlation analyses to assess brain-behavior relationships. Results In total, 412 children (mean age, 14.6 months ± 13.5 [SD]; 214 male; 307 from BCP and 105 from the ZJU local dataset) with 779 imaging sessions were included. Spatiotemporal maps revealed rapid myelination in the first 2 years of life. Seven PMs with unique developmental trajectories were identified. A full mediating effect of T1-weighted to T2-weighted signal intensity ratio was found on the age-related change of repetitive motor frequency (indirect effect β range, -0.40 to -0.24; false discovery rate [FDR]-corrected P < .001) and restricted behavior frequency (β range, -0.33 to -0.22; FDR-corrected P < .05). Compared with moderately preterm infants, extremely preterm infants had slower myelination across all PMs (t value range, 2.71-3.27; P < .01) and showed delayed fine motor skills (t = -2.47, [P = .03] at 4 months; t = -4.00 [P = .02] at 8 months). The spatiotemporal pattern of myelination in extremely preterm infants was less correlated with the normative term-born group (r = 0.807; P = .03) than that of moderately preterm infants (r = 0.952; P < .001). Conclusion The T1-weighted to T2-weighted signal intensity ratio from MRI was used to identify heterogeneous PMs and elucidated a critical link between myelination and neurodevelopmental outcomes in both term- and preterm-born children. © RSNA, 2025 Supplemental material is available for this article. See also the editorial by Widjaja in this issue.
