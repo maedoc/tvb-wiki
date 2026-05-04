@@ -73,7 +73,7 @@ GLMsingle occupies a distinct niche compared to other HRF estimation approaches:
 
 - **GLMdenoise** — The direct predecessor from Kay's lab; GLMsingle extends it with improved single-trial estimation and library-based selection.
 
-- **fsl FEAT** — Standard GLM analysis with fixed HRF assumptions; GLMsingle provides voxel-wise flexibility.
+- **[[fsl-feat]]** — Standard GLM analysis with fixed HRF assumptions; GLMsingle provides voxel-wise flexibility.
 
 Related approaches include population receptive field (pRF) mapping techniques, which similarly estimate spatially varying response parameters but focus on continuous stimulation paradigms rather than discrete events. For users interested in comparing different HRF estimation approaches, GLMsingle provides a principled alternative to the FIR models implemented in many analysis packages.
 

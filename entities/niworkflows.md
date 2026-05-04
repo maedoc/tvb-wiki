@@ -22,7 +22,7 @@ tags:
 - software-ants
 title: NiWorkflows
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 # NiWorkflows
@@ -62,7 +62,7 @@ The framework also relates to broader neuroimaging efforts including the [[human
 ## Key Papers
 
 - Esteban O, et al. (2018). "fMRIPrep: a robust preprocessing pipeline for functional MRI." *Nature Methods* 15: 733–737. The primary fMRIPrep paper, demonstrating the NiWorkflows-based pipeline application that has become the field standard.
-- Gorgolewski K, et al. (2016). "BIDS apps: improving ease of use, accessibility, and reproducibility in neuroimaging data analysis." *Frontiers in Neuroinformatics* 10: 27. Establishes the BIDS Apps ecosystem that NiWorkflows-powered tools inhabit.
+- Gorgolewski K, et al. (2016). "BIDS apps: improving ease of use, accessibility, and [[reproducibility]] in neuroimaging data analysis." *Frontiers in Neuroinformatics* 10: 27. Establishes the BIDS Apps ecosystem that NiWorkflows-powered tools inhabit.
 - Nichols TE, et al. (2017). "Best practices in data analysis are keeping us from doing good science." *PLoS Computational Biology* 13(6): e1005490. Discusses reproducibility challenges that motivated frameworks like NiWorkflows.
 - Triantafyllou MS, et al. (2021). "Technical considerations for implementing automated preprocessing pipelines." *NeuroImage* 224: 117382. Reviews best practices for neuroimaging preprocessing frameworks.
 
@@ -72,7 +72,7 @@ The framework also relates to broader neuroimaging efforts including the [[human
 - Esteban O, et al. (2018). "fMRIPrep: a robust preprocessing pipeline for functional MRI." *Nature Methods* 15: 733–737. doi:10.1038/s41592-018-0072-9
 - Gorgolewski K, et al. (2016). "BIDS apps: improving ease of use, accessibility, and reproducibility in neuroimaging data analysis." *Frontiers in Neuroinformatics* 10: 27. doi:10.3389/fninf.2016.00027
 - Esteban O, et al. (2019). "fMRIPrep: a robust preprocessing pipeline for functional MRI." *PeerJ* 7:e7568. doi:10.7717/peerj.7568
-- Nixon M, et al. (2019). "Evaluating computational diffusion MRI metrics for discriminating preclinical Alzheimer's disease." *Proceedings of SPIE* 10949: 109492K. doi:10.1117/12.2529534
+- Nixon M, et al. (2019). "Evaluating computational [[diffusion-mri]] metrics for discriminating preclinical Alzheimer's disease." *Proceedings of SPIE* 10949: 109492K. doi:10.1117/12.2529534
 - Nieto-Castañón A, et al. (2022). "fMRIPrep: a robust preprocessing pipeline for functional MRI." *NeuroImage* 251:119034. doi:10.1016/j.neuroimage.2022.119034
 - Xia L, et al. (2023). "QSIPrep: an integrated pipeline for preprocessing diffusion-weighted MRI." *NeuroImage* 268:119820. doi:10.1016/j.neuroimage.2023.119820
-- Clement F, et al. (2023). "The Virtual Brain: neuroscience-based modeling of brain dynamics." *Current Opinion in Neurobiology* 83:102814. doi:10.1016/j.conb.2023.102814
+- Clement F, et al. (2023). "[[tvb|The Virtual Brain]]: neuroscience-based modeling of [[brain-dynamics]]." *Current Opinion in Neurobiology* 83:102814. doi:10.1016/j.conb.2023.102814

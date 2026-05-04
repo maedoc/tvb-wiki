@@ -17,7 +17,7 @@ tags:
 - network-dynamics
 title: Nonlinear Dynamics
 type: concept
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 ## Definition
@@ -51,7 +51,7 @@ where $r$ is the firing rate, $\tau$ is a time constant, $c_1, c_2$ are coupling
 The geometric approach to nonlinear dynamics analyzes the structure of phase space—the space of all possible states of the system. Key objects include:
 
 - **Fixed points** where $\dot{\mathbf{x}} = \mathbf{0}$; their stability is determined by the eigenvalues of the Jacobian matrix $\mathbf{J} = \partial\mathbf{F}/\partial\mathbf{x}$ evaluated at the point
-- **Limit cycles** representing self-sustained oscillations, analyzed via the Poincaré-Bendixson theorem which establishes that a recurrent trajectory in a two-dimensional phase plane must be a limit cycle if the vector field points nowhere outward
+- **Limit cycles** representing self-sustained oscillations, analyzed via the Poincaré-Bendixson theorem which establishes that a recurrent [[trajectory]] in a two-dimensional phase plane must be a limit cycle if the vector field points nowhere outward
 - **Strange attractors** in chaotic systems, characterized by fractal geometry and positive Lyapunov exponents measuring the exponential divergence of nearby trajectories
 
 For neural systems, the classification of fixed points and their bifurcations as parameters vary provides a powerful framework for understanding state transitions. The [[bifurcation theory]] of these transitions—whether saddle-node, transcritical, pitchfork, or Hopf—predicts qualitative changes in neural activity that correspond to observations such as the onset of oscillatory activity or the sudden transition into a seizure-like state.

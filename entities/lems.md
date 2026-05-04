@@ -8,7 +8,7 @@ tags:
 - software-brain-modeling
 title: LEMS
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 LEMS (Low-level Entity Modeling System) is a domain-specific modeling language designed to specify the structure and dynamics of neuronal models in a format-independent, declarative manner. Originally developed as a component of the [[neuroml]] project, LEMS provides a text-based specification that describes the mathematical equations, state variables, and parameter dependencies of neural entities such as neurons, synapses, ion channels, and network populations. By separating model description from simulator-specific implementation, LEMS enables models to be ported across multiple simulation engines—including [[nest]], [[neuron]], [[brian]], and [[pynn]]—thereby enhancing reproducibility and interoperability in computational neuroscience [@cannon2007lems].
@@ -53,12 +53,12 @@ The primary advantage of LEMS lies in its simulator independence: a model specif
 
 LEMS has been particularly influential in supporting the [[neuroml]] ecosystem, enabling the exchange of detailed neuron and network models through databases such as [[modeldb]]. The language has also been used in educational contexts, where its declarative nature helps students focus on the mathematical structure of neural models rather than the intricacies of simulator-specific programming. Projects like [[open-source-brain]] leverage LEMS to provide collaborative repositories of shareable, executable neural models [@gleeson2010neuroconstruct].
 
-Despite its strengths, LEMS has seen limited adoption beyond the NeuroML community, and the availability of backends for specific simulators remains uneven. The XML syntax, while precise, can be verbose compared to modern domain-specific languages, and the learning curve for authoring custom ComponentType definitions can be steep for new users. Nevertheless, LEMS remains a foundational technology for standardized neural model specification and continues to serve as a key interoperability layer in the computational neuroscience software ecosystem.
+Despite its strengths, LEMS has seen limited adoption beyond the NeuroML community, and the availability of backends for specific simulators remains uneven. The XML syntax, while precise, can be verbose compared to modern domain-specific languages, and the learning curve for authoring custom ComponentType definitions can be steep for new users. Nevertheless, LEMS remains a foundational technology for standardized neural model specification and continues to serve as a key interoperability layer in the [[computational-neuroscience]] software ecosystem.
 
 ## Key Papers
 
 1. Cannon, R., Gleeson, P., Crook, S., et al. (2007). LEMS: A language for expressing compact, automated neuron model descriptions. *Neuroinformatics*. [@cannon2007lems]
 
-2. Gleeson, P., Crook, S., Mitchell, M.L., et al. (2010). neuroConstruct: A tool for modeling networks of neurons in 3D space. *IEEE Transactions on Neural Networks*. [@gleeson2010neuroconstruct]
+2. Gleeson, P., Crook, S., Mitchell, M.L., et al. (2010). [[neuroconstruct]]: A tool for modeling networks of neurons in 3D space. *IEEE Transactions on Neural Networks*. [@gleeson2010neuroconstruct]
 
 3. Vogelstein, J.T., Watson, B.O., Panzeri, S., et al. (2010). Ten lessons to conclude a decade of brain modeling. *Biological Cybernetics*. [@vogelstein2010ten]

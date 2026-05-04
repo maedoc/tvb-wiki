@@ -82,11 +82,11 @@ created: 2024-01-15
 sources:
 - raw/papers/rubinov-sporns-2010.md
 tags:
-- neuroimaging-fmri
+- [[neuroimaging]]-fmri
 - neuroimaging-meg
 - neuroimaging-eeg
 - field-of-view
-- whole-brain-modeling
+- [[whole-brain-modeling]]
 - structural-connectivity
 - neuroimaging
 - acquisition-parameters

@@ -18,7 +18,7 @@ tags:
 - brain-oscillations
 title: Dynamical Systems Theory
 type: concept
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 ## Definition
@@ -35,7 +35,7 @@ This mathematical perspective has proven particularly powerful for bridging the 
 
 ### Phase Space and Trajectories
 
-A dynamical system is defined by a set of state variables that completely describe the system's instantaneous condition. For a system of ordinary differential equations written as $\dot{x} = f(x, \mu)$ where $x \in \mathbb{R}^n$ is the state vector and $\mu$ is a parameter vector, the $n$-dimensional space spanned by the state variables is called the **phase space** or **state space**. Each point in phase space corresponds to a unique system configuration, and as time evolves, the system traces a trajectory through this space. The collection of all possible trajectories forms the phase portrait, which reveals the global structure of the system's dynamics.
+A dynamical system is defined by a set of state variables that completely describe the system's instantaneous condition. For a system of ordinary differential equations written as $\dot{x} = f(x, \mu)$ where $x \in \mathbb{R}^n$ is the state vector and $\mu$ is a parameter vector, the $n$-dimensional space spanned by the state variables is called the **phase space** or **state space**. Each point in phase space corresponds to a unique system configuration, and as time evolves, the system traces a [[trajectory]] through this space. The collection of all possible trajectories forms the phase portrait, which reveals the global structure of the system's dynamics.
 
 The concept of **phase space** is particularly important in neuroscience because different brain states correspond to different regions of phase space. For example, the [[resting-state]] network patterns observed in [[fmri]] can be understood as low-dimensional attractors embedded in the high-dimensional phase space of whole-brain dynamics. Similarly, the alpha rhythm visible in [[eeg]] recordings corresponds to a limit cycle attractor in the phase space of thalamocortical circuits.
 

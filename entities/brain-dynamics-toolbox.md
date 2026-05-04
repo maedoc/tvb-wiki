@@ -14,7 +14,7 @@ tags:
 - network-dynamics
 title: Brain Dynamics Toolbox
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 # Brain Dynamics Toolbox
@@ -33,7 +33,7 @@ The Brain Dynamics Toolbox provides several core capabilities for dynamical syst
 
 ### Phase Plane Analysis
 
-Phase plane analysis is a hallmark feature of BDT, enabling researchers to visualize the trajectory of neural activity in state space. By plotting the derivative of one variable against another, phase plane portraits reveal fixed points, limit cycles, and separatrices that characterize system behavior. This approach is particularly valuable for understanding the conditions under which neural populations exhibit oscillatory activity versus steady-state responses. The toolbox supports interactive phase plane exploration, allowing users to manipulate parameters and observe qualitative changes in dynamics in real-time.
+Phase plane analysis is a hallmark feature of BDT, enabling researchers to visualize the [[trajectory]] of neural activity in state space. By plotting the derivative of one variable against another, phase plane portraits reveal fixed points, limit cycles, and separatrices that characterize system behavior. This approach is particularly valuable for understanding the conditions under which neural populations exhibit oscillatory activity versus steady-state responses. The toolbox supports interactive phase plane exploration, allowing users to manipulate parameters and observe qualitative changes in dynamics in real-time.
 
 ### Bifurcation Analysis
 

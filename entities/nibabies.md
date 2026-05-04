@@ -15,7 +15,7 @@ tags:
 - developmental-trajectories
 title: nibabies
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 nibabies is a specialized Python package designed for processing magnetic resonance imaging (MRI) data from human infants, particularly neonates and young children. It extends the popular [[fMRIprep]] preprocessing pipeline to handle the unique anatomical, physiological, and methodological challenges presented by infant brain imaging, which differs substantially from adult [[neuroimaging]] in terms of tissue composition, head size, motion patterns, and developmental trajectories.
@@ -32,7 +32,7 @@ nibabies provides several specialized capabilities that distinguish it from gene
 
 A critical feature is the automated identification and handling of motion artifacts, which are particularly prevalent in infant scanning sessions. The pipeline incorporates custom motion correction strategies that account for the rapid, discontinuous movement patterns typical of awake or sedated infants. Additionally, nibabies provides age-adaptive segmentation that distinguishes between developing [[white-matter]], cortical gray matter, and the cerebrospinal fluid compartments that have not yet achieved the stable contrast properties seen in adult brains.
 
-The software generates comprehensive quality control outputs including motion statistics, registration quality metrics, and tissue segmentation visualizations. These outputs facilitate the identification of problematic volumes and subjects, enabling researchers to make informed decisions about data inclusion in downstream analyses. The pipeline also produces derivatives organized according to the [[BIDS-derivatives]] specification, ensuring compatibility with statistical modeling packages such as [[nilearn]] and nistats.
+The software generates comprehensive quality control outputs including motion statistics, registration quality metrics, and tissue segmentation visualizations. These outputs facilitate the identification of problematic volumes and subjects, enabling researchers to make informed decisions about data inclusion in downstream analyses. The pipeline also produces derivatives organized according to the [[BIDS-derivatives]] specification, ensuring compatibility with statistical modeling packages such as [[nilearn]] and [[nistats]].
 
 ## Relationship to TVB
 

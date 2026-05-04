@@ -1,37 +1,42 @@
 ---
-title: AFNI
 created: 2024-01-15
-updated: 2026-05-04
-type: entity
-tags: [software-brain-modeling, neuroimaging-fmri, neuroimaging-dti, software-visualization, dynamic-causal-modeling]
 sources:
-  - Cox 1996 (Computers and Biomedical Research)
-  - Saad et al. 2004 (NeuroImage)
-  - https://afni.nimh.nih.gov
+- Cox 1996 (Computers and Biomedical Research)
+- Saad et al. 2004 (NeuroImage)
+- https://afni.nimh.nih.gov
+tags:
+- software-brain-modeling
+- neuroimaging-fmri
+- neuroimaging-dti
+- software-visualization
+- dynamic-causal-modeling
+title: AFNI
+type: entity
+updated: '2026-05-04'
 ---
 
 # AFNI
 
 ## Overview
-AFNI (Analysis of Functional NeuroImages) is an open-source software suite for processing, analyzing, and visualizing structural and functional neuroimaging data. Developed primarily at the National Institute of Mental Health (NIMH) by Robert Cox and colleagues beginning in 1994[^1], AFNI represents one of the three dominant neuroimaging analysis platforms alongside [[fsl]] and [[spm]]. The software is written in C with extensive command-line tools and provides both volume- and surface-based analysis capabilities through its integrated SUMA (Surface Mapping with AFNI) component.
+AFNI (Analysis of Functional NeuroImages) is an open-source software suite for processing, analyzing, and visualizing structural and functional [[neuroimaging]] data. Developed primarily at the National Institute of Mental Health (NIMH) by Robert Cox and colleagues beginning in 1994[^1], AFNI represents one of the three dominant neuroimaging analysis platforms alongside [[fsl]] and [[spm]]. The software is written in C with extensive command-line tools and provides both volume- and surface-based analysis capabilities through its integrated [[suma]] (Surface Mapping with AFNI) component.
 
 ## Key Features
 The AFNI distribution encompasses a comprehensive toolchain for neuroimaging analysis:
 
 **Preprocessing Pipeline**: Robust motion correction with Fourier interpolation, slice-timing correction for interleaved acquisitions, susceptibility distortion correction, spatial normalization to standard templates (MNI152, Talairach-Tournoux), Gaussian smoothing, and intensity normalization. AFNI's 3dvolreg and 3dalign tools are widely used for head motion correction in [[fmri]] studies.
 
-**Statistical Framework**: Extensive implementations of general linear models (GLM) for block and event-related designs, mixed-effects models for hierarchical group analysis, ANOVA for factorial designs, and non-parametric permutation testing via 3dttest++ and 3dMEMA. The package provides multiple comparison correction via family-wise error rates, false discovery rate (FDR), and cluster-based thresholding.
+**Statistical Framework**: Extensive implementations of general [[linear]] models (GLM) for block and event-related designs, mixed-effects models for hierarchical group analysis, ANOVA for factorial designs, and non-parametric permutation testing via 3dttest++ and 3dMEMA. The package provides multiple comparison correction via family-wise error rates, false discovery rate (FDR), and cluster-based thresholding.
 
-**Connectivity Analysis**: Dedicated tools for resting-state functional connectivity including seed-based correlation (3dNetCorr), whole-brain covariance analysis, and independent component analysis (ICA) via 3dICA. Effective connectivity can be estimated through beta-series correlation, psychophysiological interaction (PPI), and [[dynamic-causal-modeling]] interfaces.
+**[[connectivity]] Analysis**: Dedicated tools for [[resting-state]] [[functional-connectivity]] including seed-based correlation (3dNetCorr), [[whole-brain]] covariance analysis, and independent component analysis (ICA) via 3dICA. [[effective-connectivity]] can be estimated through beta-series correlation, psychophysiological interaction (PPI), and [[dynamic-causal-modeling]] interfaces.
 
-**Surface Mapping**: SUMA provides cortical surface reconstruction, inflation, and flattening capabilities, supporting FreeSurfer surface formats and CIFTI dense timeseries. Surface-volume alignment allows simultaneous visualization of subcortical and cortical activation patterns[^2].
+**Surface Mapping**: SUMA provides cortical surface reconstruction, inflation, and flattening capabilities, supporting FreeSurfer surface formats and [[cifti]] dense timeseries. Surface-volume alignment allows simultaneous visualization of subcortical and cortical activation patterns[^2].
 
 **Real-Time Capabilities**: Unique among major neuroimaging packages, AFNI supports real-time [[fmri]] processing for neurofeedback experiments and clinical monitoring via the RT-Mon plugin architecture.
 
 ## Relationship to TVB
 AFNI serves as an essential preprocessing and data extraction stage for [[the-virtual-brain]] workflows, bridging empirical neuroimaging and computational modeling:
 
-**Structural Connectivity**: AFNI processes raw diffusion-weighted images and coordinates with [[ants]] (available as an optional extension) to generate structural connectivity matrices through probabilistic or deterministic tractography. These matrices define the anatomical connection weights between TVB network nodes.
+**[[structural-connectivity]]**: AFNI processes raw diffusion-weighted images and coordinates with [[ants]] (available as an optional extension) to generate structural connectivity matrices through probabilistic or deterministic tractography. These matrices define the anatomical connection weights between TVB network nodes.
 
 **Functional Constraints**: AFNI-derived empirical functional connectivity matrices—computed from preprocessed resting-state fMRI via 3dNetCorr—provide target data for fitting [[neural-mass-models]] in TVB. The time series extraction capabilities (3dROIstats) enable comparison between simulated and empirical BOLD signals.
 

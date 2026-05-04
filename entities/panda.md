@@ -9,7 +9,7 @@ tags:
 - software-dipy
 title: PANDA
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 **PANDA** (Pipeline for Analyzing braiN Diffusion imAges) is a MATLAB-based toolbox developed at the [Beijing Normal University](http://bnu.edu.cn/) for automated processing of diffusion magnetic resonance imaging (dMRI) data. The software provides a comprehensive, end-to-end solution for converting raw diffusion-weighted images into fiber orientation distributions and structural brain networks, making it particularly valuable for researchers studying human brain [[connectivity]] and [[white-matter]] architecture.
@@ -40,17 +40,17 @@ For more sophisticated analysis, PANDA supports constraint spherical deconvoluti
 
 The final stage constructs structural brain networks from fiber tracking results. PANDA implements deterministic tractography using the fiber orientation distributions, generating streamlines that trace white matter pathways between cortical and subcortical regions. These streamlines are parcellated according to a user-specified brain atlas (such as the Desikan-Killiany or AAL [[parcellation]] schemes), and connection weights are computed based on the number of reconstructed fibers connecting each region pair <cite>Jiang et al. 2013</cite>.
 
-The output is a weighted connectivity matrix where rows and columns correspond to brain regions and matrix entries reflect the strength of structural connectivity. These matrices serve as the foundational structural constraint for computational models of brain dynamics, including those implemented in [[The Virtual Brain]].
+The output is a weighted connectivity matrix where rows and columns correspond to brain regions and matrix entries reflect the strength of structural connectivity. These matrices serve as the foundational structural constraint for computational models of [[brain-dynamics]], including those implemented in [[The Virtual Brain]].
 
 ## Parallelization and Performance
 
 PANDA was designed for large-scale neuroimaging studies involving hundreds of subjects. The software implements a multi-level parallelization strategy using the PSOM (Pipeline System for Octave and MATLAB) framework <cite>Liu et al. 2013</cite>. At the coarsest level, individual subjects are processed concurrently, maximizing throughput on multi-core computing clusters. Within each subject, parallel processing is applied to independent processing modules—such as the multiple direction sets in diffusion metric computation—enabling efficient utilization of available computational resources.
 
-This architecture allows PANDA to process a typical single-subject dMRI dataset (approximately 60 diffusion directions at 2mm resolution) in under 30 minutes on a standard workstation, while a cohort of 500 subjects can be processed in approximately 4 hours on a 64-core cluster. These performance characteristics make PANDA suitable for large-scale population studies, including those targeting the full human connectome.
+This architecture allows PANDA to process a typical single-subject dMRI dataset (approximately 60 diffusion directions at 2mm resolution) in under 30 minutes on a standard workstation, while a cohort of 500 subjects can be processed in approximately 4 hours on a 64-core cluster. These performance characteristics make PANDA suitable for large-scale population studies, including those targeting the full human [[connectome]].
 
 ## Relationship to The Virtual Brain
 
-PANDA is frequently used in conjunction with [[The Virtual Brain]] (TVB) to generate personalized brain models. The structural connectivity matrices produced by PANDA serve as the anatomical foundation for TVB's whole-brain modeling framework <cite>Liu et al. 2013</cite>. In TVB, the connectivity matrix defines the coupling strength between brain regions, constraining the dynamical equations that govern regional neural activity.
+PANDA is frequently used in conjunction with [[The Virtual Brain]] (TVB) to generate personalized brain models. The structural connectivity matrices produced by PANDA serve as the anatomical foundation for TVB's [[whole-brain|whole-brain modeling]] framework <cite>Liu et al. 2013</cite>. In TVB, the connectivity matrix defines the coupling strength between brain regions, constraining the dynamical equations that govern regional neural activity.
 
 This integration enables researchers to simulate personalized brain dynamics by incorporating individual-specific structural connectivity derived from each subject's dMRI data. Personalized structural connectivity is particularly valuable for clinical applications, where individual differences in white matter organization may correlate with disease states or treatment responses. The combination of PANDA and TVB supports the broader goal of [[personalized-brain-modeling]], where computational models are tailored to individual patients for diagnostic or therapeutic purposes <cite>Jiang et al. 2013</cite>.
 
@@ -62,10 +62,10 @@ PANDA is part of a broader ecosystem of neuroimaging tools that collectively sup
 - '[[mricron]] — MRIcron, a visualization tool for browsing neuroimaging datasets'
 - 'trackvis — TrackVis, for visualizing streamlines from fiber tracking'
 - '[[nipype]] — Nipype, a Python framework for neuroimaging workflow management that can interface with PANDA'
-- '[[the-virtual-brain]] — The Virtual Brain, platform for whole-brain dynamic modeling'
+- '[[the-virtual-brain]] — [[tvb|The Virtual Brain]], platform for whole-brain dynamic modeling'
 - '[[nest]] — NEST, neural simulation tool sometimes combined with TVB for large-scale network simulations'
 - '[[brian2]] — Brian2, neural simulator useful for detailed local cortical modeling'
-- '[[resting-state]] — Resting-state fMRI analysis, complementary to structural connectivity from dMRI'
+- '[[resting-state]] — Resting-state [[fmri]] analysis, complementary to structural connectivity from dMRI'
 
 ## Installation and Availability
 

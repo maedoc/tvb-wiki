@@ -14,7 +14,7 @@ tags:
 - human-connectome-project
 title: Marcus Raichle
 type: concept
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 Marcus Raichle is a Distinguished Professor of Neurology, Radiology, and Neuroscience at Washington University in St. Louis and one of the founding figures of modern functional neuroimaging. His work fundamentally transformed how neuroscientists understand the brain's intrinsic organization—revealing that the resting brain is not idle but continuously engaged in organized, meaningful activity. Raichle's seminal contributions established the conceptual and methodological foundation for [[resting-state]] functional connectivity analysis, the [[default-mode-network]], and the broader field of [[connectomics]] that now permeates both basic and clinical neuroscience research. His work also provided crucial constraints for [[whole-brain|whole-brain modeling]] approaches that simulate large-scale brain dynamics.
@@ -63,6 +63,6 @@ Marcus Raichle's influence extends through his extensive publication record (wit
 - [@raichle2001] Raichle, M. E., MacLeod, A. M., Snyder, A. Z., Powers, W. J., Gusnard, D. A., & Shulman, G. L. (2001). A default mode of brain function. *Proceedings of the National Academy of Sciences*, 98(2), 676–682.
 - [@honey2009] Honey, C. J., Sporns, O., Cammoun, L., Gigandet, X., Thiran, J. P., Meuli, R., & Hagmann, P. (2009). Predicting human resting-state functional connectivity from structural connectivity. *Proceedings of the National Academy of Sciences*, 106(6), 2035–2040.
 - [@hutchison2013] Hutchison, R. M., Womelsdorf, T., Allen, E. A., Bandettini, P. A., Calhoun, V. D., Corbetta, M., ... & Chang, C. (2013). Dynamic functional connectivity: Promise, issues, and interpretations. *Neuroimage*, 80, 360–378.
-- [@vanessen2013] Van Essen, D. C., Smith, S. M., Barch, D. M., Behrens, T. E., Yacoub, E., Ugurbil, K., & WU-Minn HCP Consortium. (2013). The WU-Minn Human Connectome Project: An overview. *Neuroimage*, 80, 62–79.
+- [@vanessen2013] Van Essen, D. C., Smith, S. M., Barch, D. M., Behrens, T. E., Yacoub, E., Ugurbil, K., & WU-Minn HCP Consortium. (2013). The WU-Minn [[human-[[connectome]]-project]]: An overview. *Neuroimage*, 80, 62–79.
 - [@myrov2026] Myrov, G., Maksimenko, V., & Kurkin, S. (2026). Hierarchical whole-brain modeling of critical synchronization dynamics. *Neural Networks*, 156, 234–251.
 - [@raichlebio] Marcus Raichle – Washington University in St. Louis School of Medicine. https:// neurology.wustl.edu/faculty/marcus-raichle/

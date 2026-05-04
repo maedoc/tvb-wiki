@@ -81,7 +81,7 @@ tags:
 - software-visualization
 - neuroimaging-eeg
 - neuroimaging-meg
-- electrophysiology
+- [[electrophysiology]]
 title: LabStreamingLayer
 type: entity
 updated: '2026-05-03'

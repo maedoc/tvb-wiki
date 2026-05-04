@@ -16,7 +16,7 @@ tags:
 - neural-mass-models
 title: AFQ
 type: entity
-updated: '2026-05-01'
+updated: '2026-05-04'
 ---
 
 ## Overview
@@ -39,7 +39,7 @@ AFQ operates as a pipeline that processes raw diffusion MRI data through several
 
 **Fiber tractography**: The method begins with deterministic or probabilistic tractography to reconstruct fiber trajectories across the brain. AFQ can work with multiple diffusion models (tensor, DSI, etc.) and supports common tractography engines including [[mrtrix]] and [[dipy]].
 
-**Automated tract segmentation**: AFQ uses a two‑stage approach to isolate specific fiber tracts. First, it identifies “waypoint” regions (virtual waypoints) that a given tract must pass through based on its known anatomy. For example, the arcuate fasciculus must pass through posterior temporal and inferior frontal regions [5]. Second, it applies a “fiber cleansing” procedure that removes fibers deviating significantly from the main tract trajectory.
+**Automated tract segmentation**: AFQ uses a two‑stage approach to isolate specific fiber tracts. First, it identifies “waypoint” regions (virtual waypoints) that a given tract must pass through based on its known anatomy. For example, the arcuate fasciculus must pass through posterior temporal and inferior frontal regions [5]. Second, it applies a “fiber cleansing” procedure that removes fibers deviating significantly from the main tract [[trajectory]].
 
 **Fiber sampling and metric computation**: Once a tract is isolated, AFQ samples diffusion metrics along the tract's length, typically at 100 equidistant points from one endpoint to the other [1]. This produces a “tract profile” showing how FA, MD, RD, and axial diffusivity (AD) vary along each pathway. Researchers can then compute summary statistics (mean, standard deviation, peak location) or compare profiles across groups.
 

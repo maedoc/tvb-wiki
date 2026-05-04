@@ -22,14 +22,14 @@ tags:
 - personalized-brain-modeling
 title: Personalized Brain Modeling
 type: concept
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 Personalized brain modeling (also termed patient-specific brain modeling or virtual brain建模) refers to the construction of subject-specific computational brain models that are parameterized by an individual's unique [[neuroimaging]] data. Unlike generic brain models that represent average anatomical and functional patterns across a population, personalized models capture the distinctive structural architecture and dynamics of a specific individual—including their unique [[white-matter]] pathways, cortical [[parcellation]], and characteristic neural rhythms. This individualization enables clinically relevant simulations that can predict disease progression, treatment outcomes, and personalized neuromodulation protocols with significantly higher fidelity than population-level models.
 
 ## Motivation and Clinical Context
 
-The motivation for personalized brain modeling emerges from a fundamental limitation of population-average approaches in clinical neuroscience: the high degree of inter-subject variability in brain anatomy, [[connectivity]], and dynamics. While group-level studies have successfully identified canonical brain networks and biomarkers, they often fail to capture the idiosyncratic features that determine an individual patient's disease trajectory or treatment response. For example, the pattern of seizure propagation in [[epilepsy-modeling]] depends critically on the specific white matter pathways connecting epileptogenic zones to downstream regions—pathways that vary substantially across individuals and cannot be adequately represented by a template brain.
+The motivation for personalized brain modeling emerges from a fundamental limitation of population-average approaches in clinical neuroscience: the high degree of inter-subject variability in brain anatomy, [[connectivity]], and dynamics. While group-level studies have successfully identified canonical brain networks and biomarkers, they often fail to capture the idiosyncratic features that determine an individual patient's disease [[trajectory]] or treatment response. For example, the pattern of seizure propagation in [[epilepsy-modeling]] depends critically on the specific white matter pathways connecting epileptogenic zones to downstream regions—pathways that vary substantially across individuals and cannot be adequately represented by a template brain.
 
 Personalized brain modeling addresses this problem by transforming individual neuroimaging data into computational model parameters, creating a "digital twin" of the patient's brain that can be simulated in silico. This approach draws on the theoretical framework of [[whole-brain modeling]], which represents the brain as a network of coupled [[neural-mass-model]]s connected by empirical structural connectivity matrices derived from [[diffusion-mri]] tractography. By parameterizing these models with subject-specific data, researchers can generate predictions that account for individual anatomical differences—something thatpurely data-driven analyses of functional neuroimaging cannot achieve without mechanistic modeling.
 

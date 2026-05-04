@@ -60,7 +60,7 @@ Additionally, the module does not provide tools for advanced dataset management 
 ## Related Software
 
 - nibabel: Python library for reading and writing neuroimaging data formats
-- nistats: Statistical modeling for neuroimaging (merged into nilearn)
+- [[nistats]]: Statistical modeling for neuroimaging (merged into nilearn)
 - fMRIPrep: Robust preprocessing pipeline for fMRI data
 - FSL: FMRIB Software Library for neuroimaging analysis
 - SPM: Statistical Parametric Mapping for neuroimaging
@@ -71,5 +71,5 @@ Additionally, the module does not provide tools for advanced dataset management 
 
 - Haxby, J. V., Gobbini, M. I., Furey, M. L., Ishai, A., Schouten, J. L., & Pietrini, P. (2001). Distributed and overlapping representations of faces and objects in ventral temporal cortex. Science, 293(5539), 2425-2430.
 - ADHD-200 Consortium. (2012). The ADHD-200 dataset: A showcase for resting-state fMRI. Neuroimage, 62, 1303-1314.
-- Glasser, M. F., Sotiropoulos, S. N., Wilson, J. A., Coalson, T. S., Fischl, B., Andersson, J. L., ... & Van Essen, D. C. (2013). The minimal preprocessing pipelines for the Human Connectome Project. Neuroimage, 80, 105-124.
+- Glasser, M. F., Sotiropoulos, S. N., Wilson, J. A., Coalson, T. S., Fischl, B., Andersson, J. L., ... & Van Essen, D. C. (2013). The minimal preprocessing pipelines for the [[human-[[connectome]]-project]]. Neuroimage, 80, 105-124.
 - Abraham, A., Pedregosa, F., Eickenberg, M., Gervais, P., Mueller, A., Kossaifi, J., ... & Thirion, B. (2014). Machine learning for neuroimaging with scikit-learn. Neuroimage, 86, 183-197.

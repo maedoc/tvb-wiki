@@ -10,7 +10,7 @@ tags:
 - neuroimaging
 title: ANTsR
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 **ANTsR** provides R language bindings to the [ANTs](/docs/software/[[ants]]) (Advanced Normalization Tools) C++ library, enabling R users to access state-of-the-art [[neuroimaging]] registration, segmentation, and preprocessing algorithms within the R statistical computing environment. Developed primarily by [[brian-avants]] and [[nick-tustison]], ANTsR extends the powerful image analysis capabilities of ANTs to the R ecosystem, facilitating reproducible research workflows in brain imaging studies. The package serves as a critical bridge between R-based statistical analysis pipelines and the cutting-edge registration techniques developed within the ANTs community.
@@ -35,18 +35,18 @@ For [structural connectivity](/docs/software/[[structural-connectivity]]) analys
 
 ## Related Software Ecosystem
 
-ANTsR exists within a broader ecosystem of ANTs-derived tools. [ANTsPy](/docs/software/antspy) provides Python bindings to the same underlying C++ library, offering similar functionality in the Python ecosystem. ANTsR can interoperate with Python-based workflows through tools like reticulate, and both packages share the same underlying registration and segmentation engines. The template registration workflows benefit from integration with [TemplateFlow](/docs/software/[[templateflow]]), which provides a library of harmonized neuroimaging templates.
+ANTsR exists within a broader ecosystem of ANTs-derived tools. [ANTsPy](/docs/software/[[antspy]]) provides Python bindings to the same underlying C++ library, offering similar functionality in the Python ecosystem. ANTsR can interoperate with Python-based workflows through tools like reticulate, and both packages share the same underlying registration and segmentation engines. The template registration workflows benefit from integration with [TemplateFlow](/docs/software/[[templateflow]]), which provides a library of harmonized neuroimaging templates.
 
-For comparison and validation, ANTsR segmentations can be assessed against those produced by [FreeSurfer](/docs/software/freesurfer) and [FSL](/docs/software/fsl), while the Python ecosystem offers alternative solutions through [nilearn](/docs/software/nilearn) and [nibabel](/docs/software/nibabel) for image I/O. The [BrainGlobe](/docs/software/brainglobe) initiative provides additional tooling for atlas-based analysis that complements ANTsR workflows.
+For comparison and validation, ANTsR segmentations can be assessed against those produced by [FreeSurfer](/docs/software/freesurfer) and [FSL](/docs/software/fsl), while the Python ecosystem offers alternative solutions through [nilearn](/docs/software/nilearn) and [nibabel](/docs/software/[[nibabel]]) for image I/O. The [BrainGlobe](/docs/software/[[brainglobe]]) initiative provides additional tooling for atlas-based analysis that complements ANTsR workflows.
 
 ## Key Researchers
 
-The primary developers of ANTsR and the underlying ANTs library include **Brian Avants** (University of Pennsylvania), who originally created the ANTs framework and continues active development, and **Nick Tustison** (University of Virginia), who contributed major algorithms including N4ITK and DiReCT. Both researchers have published extensively on medical image registration and segmentation, with their work citation counts reflecting significant community adoption.
+The primary developers of ANTsR and the underlying ANTs library include **[[brian]] Avants** (University of Pennsylvania), who originally created the ANTs framework and continues active development, and **Nick Tustison** (University of Virginia), who contributed major algorithms including N4ITK and DiReCT. Both researchers have published extensively on medical image registration and segmentation, with their work citation counts reflecting significant community adoption.
 
 ## References
 
 - Avants BB, Tustison NJ, Song G. Advanced Normalization Tools (ANTs). *The Insight Journal*. 2009.
 - Tustison NJ, Avants BB, Gee JC. Explicitly capturing the shape and variability of medical images with N4ITK. *Medical Image Analysis*. 2009.
 - Tustison NJ, Cook PA, Holbrook AJ, et al. The ANTsX ecosystem for biological image processing. *Journal of Open Source Software*. 2021.
-- Ritter K, Hobolth A, Eaves J, et al. The Virtual Brain: a simulator of primate brain network dynamics. *Neuroinformatics*. 2013.
+- Ritter K, Hobolth A, Eaves J, et al. [[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]. *Neuroinformatics*. 2013.
 - Zuccarello I, Shield J, Katifori E, et al. Comparative analysis of cortical thickness measurement methods. *Human Brain Mapping*. 2020.

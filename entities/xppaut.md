@@ -13,7 +13,7 @@ tags:
 - network-dynamics
 title: XPPAUT
 type: entity
-updated: '2026-05-01'
+updated: '2026-05-04'
 ---
 
 # XPPAUT
@@ -26,7 +26,7 @@ XPPAUT (formerly XPP) is a powerful software environment for the numerical analy
 
 XPPAUT offers a comprehensive suite of capabilities for dynamical systems analysis. The core feature set includes **numerical integration** using a variety of solvers including Euler, Runge-Kutta (4th order), Adams-Bashforth, Gear (stiff/BDF), Backward Euler, CVODE (stiff), Dormand-Prince, and Rosenbrock methods [[cat12]], supporting both stiff and non-stiff systems. The software provides **phase plane visualization** with nullcline plotting and vector fields, and **bifurcation analysis** through interfaces to [[auto-07p|AUTO]] for continuation and detection of fixed points, limit cycles, and bifurcations including Hopf, saddle-node, and period-doubling bifurcations [[homer3]].
 
-The software supports **delay differential equations** with distributed delays, **[[stochastic-differential-equations]]** through stochastic trajectory computation and averaging, and **parameter continuation** for tracking solutions as parameters vary. Users can define models using a simple ASCII format specifying ODEs, parameters, and initial conditions, then interactively explore the model through parameter sweeps, Poincaré sections, and two-parameter bifurcation diagrams. XPPAUT also provides tools for **animation** of trajectories, **Fourier analysis** for studying oscillations, and **interactive graphing** that allows real-time manipulation of parameter values.
+The software supports **delay differential equations** with distributed delays, **[[stochastic-differential-equations]]** through stochastic [[trajectory]] computation and averaging, and **parameter continuation** for tracking solutions as parameters vary. Users can define models using a simple ASCII format specifying ODEs, parameters, and initial conditions, then interactively explore the model through parameter sweeps, Poincaré sections, and two-parameter bifurcation diagrams. XPPAUT also provides tools for **animation** of trajectories, **Fourier analysis** for studying oscillations, and **interactive graphing** that allows real-time manipulation of parameter values.
 
 ## Relationship to TVB and Whole-Brain Modeling
 

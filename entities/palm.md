@@ -1,14 +1,20 @@
 ---
-title: PALM
 created: 2024-01-15
-updated: 2026-05-04
-type: entity
-tags: [neuroimaging, software-fsl, neuroimaging-fmri, bayes-factors, variational-bayes, parameter-estimation]
 sources:
 - doi:10.1016/j.neuroimage.2014.06.007
 - doi:10.1109/IEEESTD.2014.6884100
 - doi:10.1073/pnas.1208412109
 - doi:10.1016/j.neuroimage.2007.02.022
+tags:
+- neuroimaging
+- software-fsl
+- neuroimaging-fmri
+- bayes-factors
+- variational-bayes
+- parameter-estimation
+title: PALM
+type: entity
+updated: '2026-05-04'
 ---
 
 # PALM
@@ -35,7 +41,7 @@ Additionally, PALM integrates with [[fsl]] preprocessing pipelines, which are of
 
 ## Key Papers
 
-The foundational PALM paper describes the permutation‑based inference framework and its application to neuroimaging data (Winkler et al., 2014). This work established the theoretical basis for using permutation tests with arbitrary linear models in high‑dimensional brain imaging contexts. The Bayesian model comparison extension was presented in subsequent work demonstrating the computation of [[bayes‑factors]] for linear models in neuroimaging, enabling evidence‑based model selection at the whole‑brain level.
+The foundational PALM paper describes the permutation‑based inference framework and its application to neuroimaging data (Winkler et al., 2014). This work established the theoretical basis for using permutation tests with arbitrary [[linear]] models in high‑dimensional brain imaging contexts. The Bayesian model comparison extension was presented in subsequent work demonstrating the computation of [[bayes‑factors]] for linear models in neuroimaging, enabling evidence‑based model selection at the whole‑brain level.
 
 ## Related Software
 
@@ -43,7 +49,7 @@ The foundational PALM paper describes the permutation‑based inference framewor
 - [[the‑virtual‑brain]] — [[whole‑brain‑modeling]] platform often used with PALM for statistical validation
 - [[spm]] — alternative [[neuroimaging]] analysis package with its own inference framework
 - [[afni]] — another major [[neuroimaging]] analysis platform with permutation testing capabilities
-- [[brain‑connectivity‑toolbox]] — network analysis toolbox often used alongside PALM for [[connectome]] analysis
+- [[brain‑[[connectivity]]‑toolbox]] — network analysis toolbox often used alongside PALM for [[connectome]] analysis
 
 ## Relationships to Other Concepts
 

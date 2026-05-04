@@ -17,12 +17,12 @@ tags:
 - dynamical-systems-theory
 title: Fokker-Planck Equation
 type: concept
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 ## Definition
 
-The Fokker-Planck equation (FPE), also known as the forward Kolmogorov equation, is a partial differential equation that describes the time evolution of the probability density function for the state of a stochastic dynamical system. It provides a macroscopic, ensemble-level description of systems governed by stochastic differential equations (SDEs), complementing the microscopic, trajectory-level description that one obtains by simulating individual sample paths. The equation is named after Adriaan Fokker and Max Planck, who independently derived it in the early twentieth century to describe Brownian motion, though its mathematical foundations trace back to the work of Andrey Kolmogorov in the 1930s.
+The Fokker-Planck equation (FPE), also known as the forward Kolmogorov equation, is a partial differential equation that describes the time evolution of the probability density function for the state of a stochastic dynamical system. It provides a macroscopic, ensemble-level description of systems governed by stochastic differential equations (SDEs), complementing the microscopic, [[trajectory]]-level description that one obtains by simulating individual sample paths. The equation is named after Adriaan Fokker and Max Planck, who independently derived it in the early twentieth century to describe Brownian motion, though its mathematical foundations trace back to the work of Andrey Kolmogorov in the 1930s.
 
 ## Mathematical Form
 

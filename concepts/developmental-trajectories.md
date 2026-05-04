@@ -19,14 +19,14 @@ tags:
 - network-dynamics
 title: Developmental Trajectories
 type: concept
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 Developmental trajectories describe the patterns of change in brain structure and function across the lifespan, from prenatal development through aging. These trajectories are often non-[[linear]], with different brain regions following distinct developmental curves that reflect the complex interplay between genetic programs and experience-dependent plasticity. Understanding these trajectories is essential for building biologically realistic [[whole-brain-modeling|[[whole-brain]] models]] that can accurately represent age-specific neural dynamics, predict individual outcomes, and identify deviations that may indicate developmental disorders.
 
 ## Definition and Theoretical Foundations
 
-A developmental trajectory is the path of change in a brain measure over time, characterizing how structure, function, or [[connectivity]] evolve across age. Trajectories can be linear or non-linear, and vary across individuals and brain regions. The study of developmental trajectories emerged from longitudinal [[neuroimaging]] studies that revealed the brain is not a static organ but undergoes continuous reorganization throughout life. This understanding has profound implications for both basic neuroscience and clinical applications, as it provides a framework for understanding typical development and identifying atypical patterns that may benefit from early intervention.
+A developmental [[trajectory]] is the path of change in a brain measure over time, characterizing how structure, function, or [[connectivity]] evolve across age. Trajectories can be linear or non-linear, and vary across individuals and brain regions. The study of developmental trajectories emerged from longitudinal [[neuroimaging]] studies that revealed the brain is not a static organ but undergoes continuous reorganization throughout life. This understanding has profound implications for both basic neuroscience and clinical applications, as it provides a framework for understanding typical development and identifying atypical patterns that may benefit from early intervention.
 
 The conceptual foundation for developmental trajectories draws upon several theoretical frameworks. [[neurodevelopment]] encompasses the entire process of brain formation and refinement, from neural tube closure in embryogenesis through the complex synaptic pruning and myelination that continues into the third decade of life. [[plasticity]] refers to the brain's capacity to modify its structure and function in response to experience, and this capacity varies across the lifespan—being highest in early development (critical periods), remaining elevated during adolescence, and declining in adulthood and aging.
 

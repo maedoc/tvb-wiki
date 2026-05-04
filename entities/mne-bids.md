@@ -69,7 +69,7 @@ sources:
 - raw/papers/gramfort-2013.md
 tags:
 - software
-- neuroimaging-eeg
+- [[neuroimaging]]-eeg
 - neuroimaging-meg
 - bids
 - preprocessing-pipeline

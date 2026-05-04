@@ -36,9 +36,9 @@ sources:
 - raw/papers/semanticscholar-9e42d6a25d21.md
 tags:
 - software-visualization
-- neuroimaging-eeg
+- [[neuroimaging]]-eeg
 - neuroimaging-meg
-- electrophysiology
+- [[electrophysiology]]
 - preprocessing
 title: AutoReject
 type: software
@@ -80,11 +80,11 @@ sources:
 tags:
 - software-neurons
 - software-modeling
-- spiking-neural-networks
-- neural-mass-models
-- software-brian
-- software-nest
-- software-neuron
+- [[spiking-neural-networks]]
+- [[neural-mass-models]]
+- software-[[brian]]
+- software-[[nest]]
+- software-[[neuron]]
 title: MUSIC
 type: entity
 updated: '2026-04-30'
