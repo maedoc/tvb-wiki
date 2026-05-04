@@ -18,22 +18,22 @@ tags:
 - neuroimaging
 title: ANTsR
 type: entity
-updated: 2026-05-04
+updated: '2026-05-04'
 ---
 
-ANTsR is an open-source R package that provides bindings to the [ANTs](/ants) (Advanced Normalization Tools) C++ library for biomedical image processing and analysis. Developed primarily at the University of Pennsylvania, ANTsR enables researchers to leverage state-of-the-art image registration, segmentation, and statistical learning techniques within the R statistical environment [@avants2014insight]. The package serves as a bridge between the computational efficiency of ANTs and the rich statistical tooling available in R, making it particularly valuable for large-scale neuroimaging studies requiring rigorous statistical inference.
+[[antsr]] is an open-source R package that provides bindings to the [ANTs](/ants) (Advanced Normalization Tools) C++ library for biomedical image processing and analysis. Developed primarily at the University of Pennsylvania, ANTsR enables researchers to leverage state-of-the-art image registration, segmentation, and statistical learning techniques within the R statistical environment [@avants2014insight]. The package serves as a bridge between the computational efficiency of ANTs and the rich statistical tooling available in R, making it particularly valuable for large-scale [[neuroimaging]] studies requiring rigorous statistical inference.
 
 ## Overview and Purpose
 
 ANTsR addresses a fundamental challenge in neuroimaging research: the need to combine sophisticated image processing pipelines with advanced statistical modeling capabilities. While ANTs provides industry-standard algorithms for image registration and segmentation—particularly for brain imaging— it lacks an integrated statistical framework. Conversely, traditional statistical software was not designed to handle multidimensional medical images directly. ANTsR resolves this by wrapping the ITK-based ANTs core via Rcpp, allowing seamless conversion between image data structures and R objects suitable for statistical analysis [@avants2014insight].
 
-The package excels at transforming raw medical imaging data into analysis-ready formats. Users can read images in various formats (NIfTI, NRRD, MHA), extract voxel-wise information into matrices, apply statistical models, and export results back to standard medical imaging formats. This workflow enables fully reproducible scientific pipelines that track data provenance from scanner to publication [@avants2014insight].
+The package excels at transforming raw medical imaging data into analysis-ready formats. Users can read images in various formats ([[nifti]], NRRD, MHA), extract voxel-wise information into matrices, apply statistical models, and export results back to standard medical imaging formats. This workflow enables fully reproducible scientific pipelines that track data provenance from scanner to publication [@avants2014insight].
 
 ## Core Functionality
 
 ### Image Registration
 
-ANTsR provides comprehensive image registration capabilities through the `antsRegistration` function, which implements the Symmetric Normalization (SyN) algorithm known for its performance in brain mapping studies [@tustison2013explicit]. The registration framework supports multiple transformation types including rigid, affine, and diffeomorphic deformations, with configurable metrics and optimization parameters. Users can register individual brain scans to standardized templates, align multi-modal images (e.g., T1-weighted MRI to BOLD fMRI), and compute transforms for longitudinal analysis.
+ANTsR provides comprehensive image registration capabilities through the `antsRegistration` function, which implements the Symmetric Normalization (SyN) algorithm known for its performance in brain mapping studies [@tustison2013explicit]. The registration framework supports multiple transformation types including rigid, affine, and diffeomorphic deformations, with configurable metrics and optimization parameters. Users can register individual brain scans to standardized templates, align multi-modal images (e.g., T1-weighted MRI to [[bold-signal|BOLD]] [[fmri]]), and compute transforms for longitudinal analysis.
 
 ### Bias Correction
 
@@ -49,7 +49,7 @@ ANTsR includes eigenanatomy and SCCAN (Sparse Canonical Correlation Analysis) me
 
 ## Relationship to TVB
 
-ANTsR plays a complementary role to [TVB](/tvb) in the personalized brain modeling pipeline. While TVB focuses on constructing and simulating computational brain models from connectivity data, ANTsR provides the essential preprocessing tools that convert raw neuroimaging data into the structural inputs required by TVB. Specifically, ANTsR can generate [structural connectivity](/structural-connectivity) matrices from [tractography](/tractography) data, produce [brain parcellations](/brain-parcellations) for defining network nodes, and perform the registration steps needed to map individual anatomy to common coordinate systems. Researchers building [personalized brain models](/personalized-brain-modeling) in TVB frequently use ANTsR-derived white matter tractography and cortical parcellations as foundational data.
+ANTsR plays a complementary role to [TVB](/tvb) in the personalized brain modeling pipeline. While TVB focuses on constructing and simulating computational brain models from [[connectivity]] data, ANTsR provides the essential preprocessing tools that convert raw neuroimaging data into the structural inputs required by TVB. Specifically, ANTsR can generate [structural connectivity](/[[structural-connectivity]]) matrices from [tractography](/[[tractography]]) data, produce [brain parcellations](/[[brain-parcellations]]) for defining network nodes, and perform the registration steps needed to map individual anatomy to common coordinate systems. Researchers building [personalized brain models](/[[personalized-brain-modeling]]) in TVB frequently use ANTsR-derived white matter tractography and cortical parcellations as foundational data.
 
 ## Brain Network Analysis
 
