@@ -22,3 +22,5 @@
 - 2026-05-04: Updated AOMIC page - fixed [[epilepsy]] → [[epileptor]] wikilink, improved sources format in frontmatter
 
 ## [2026-05-04 13:49] CrosslinkApplier: added 1349 wikilinks (1349 inline, 0 suggested)
+
+## [2026-05-04 13:56] Matcher: 10 pages got 26 new sources
