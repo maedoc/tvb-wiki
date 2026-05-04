@@ -136,3 +136,5 @@
 - Updated frontmatter with proper tags (software-tvb, software-brain-modeling, whole-brain-modeling, api)
 
 ## [2026-05-04 22:49] Improve: 5 pages improved (cifti-tools, neurokernel, tvb-rest, lfpykern, brainsuite)
+
+## [2026-05-04 23:10] Improve: 5 pages improved (brain-life, brainsuite, bids-apps, hcp-meg2, neuroml2)

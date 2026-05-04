@@ -74,3 +74,4 @@ The combination of MEG with EEG, [[structural-connectivity]] from DTI, and funct
 7. Ramiro Plüss, Hernán Villota, Patricio Orio. (2025). *Hemispheric-Specific Coupling Improves Modeling of Functional [[connectivity]] Using Wilson-Cowan Dynamics*. [Link](https://arxiv.org/abs/2506.22951)
 8. Wanying Qu, Jianxiong Gao, Wei Wang, Yanwei Fu. *Modeling Spatiotemporal Neural Frames for High Resolution Brain Dynamic*. [Link](https://arxiv.org/abs/2603.24176)
 9. (authors unknown). *[[lean|GLEAN]]: Group Level Exploratory Analysis of Networks*.
+[[coins]]

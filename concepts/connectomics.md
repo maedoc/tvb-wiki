@@ -58,6 +58,7 @@ The analytical backbone of connectomics is **[[network-dynamics|graph theory]]**
 Critically, **[[small-world-networks]]**—characterized by high clustering among neighboring nodes and short path lengths across the network—appear consistently across species and modalities, suggesting an evolutionarily conserved architecture balancing functional segregation (local processing) with global integration (information routing). **[[modularity]]** refers to the brain's organization into semi-independent communities (e.g., motor, visual, attentional systems), while **[[rich-club]]** organization denotes that highly connected hubs form a densely interconnected core that anchors whole-brain communication.
 
 The **[[brain-connectivity-toolbox]]** (BCT), developed by Rubinov and Sporns (2010), standardized these metrics and became the most widely used software package in the field.
+[[ccepytools]]
 
 ## Applications and Significance
 
@@ -81,6 +82,7 @@ Despite progress, fundamental challenges remain. The scale gap—reconciling mac
 - [[parcellation]] – Partitioning the brain into regions for network construction
 - [[human-connectome-project]] – Major mapping initiative
 - [[aging]] – How brain networks change across the lifespan
+- [[antsr]]
 
 ## References
 
@@ -90,3 +92,19 @@ Despite progress, fundamental challenges remain. The scale gap—reconciling mac
 4. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
 5. Wanying Qu, Jianxiong Gao, Wei Wang, Yanwei Fu. *Modeling Spatiotemporal Neural Frames for High Resolution Brain Dynamic*. [Link](https://arxiv.org/abs/2603.24176)
 6. Jose Rodriguez-Acosta, Sharmistha Guha, Jessica Bernard, Thamires Magalhaes, Kaitlin McOwen. *Integrative Predictor-Dependent Learning of Network Data and Spatially Correlated Nodal Attributes for Multimodal Brain Imaging in Aging*. [Link](https://arxiv.org/abs/2603.21032)
+
+## ORPHAN PAGE CONTEXT (ccepytools)
+---
+created: 2026-05-04
+sources:
+- raw/papers/sanz-leon-2013.md
+tags:
+- software-brain-modeling
+title: CCEytools
+type: entity
+updated: '2026-05-04'
+---
+
+# CCEytools
+
+**Note:** This entry appears to have been created as a placeholder for Python-based brain [[connectivity]] and modeling tools. No standalone tool called "CCEytools" specifically exists in the literature; however, this entry serves as a reference point for the ecosystem of Python packages used for brain connectivity analysis, neural
