@@ -55,3 +55,5 @@
 ## [2026-05-04 19:12] Audit: 945 issues (74 broken links, 60 orphans, 33 placeholders, 0 dup-refs, 3 bad-meta, 80 citation-verify, 4 opaque-refs, 74 thin, 330 missing-links)
 
 ## [2026-05-04 19:16] CrosslinkApplier: added 75 wikilinks (75 inline, 0 suggested)
+
+## [2026-05-04 19:20] Improve: 5 pages improved (aomic, itk-snap, fieldtrip, nilearn, rabies)
