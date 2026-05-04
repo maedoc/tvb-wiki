@@ -39,11 +39,11 @@ The AFNI distribution encompasses a comprehensive toolchain for neuroimaging ana
 ## Relationship to TVB
 AFNI serves as an essential preprocessing and data extraction stage for [[the-virtual-brain]] workflows, bridging empirical neuroimaging and computational modeling:
 
-**[[structural-connectivity]]**: AFNI processes raw diffusion-weighted images and coordinates with [[ants]] (available as an optional extension) to generate structural connectivity matrices through probabilistic or deterministic tractography. These matrices define the anatomical connection weights between TVB network nodes.
+**[[structural-connectivity]]**: AFNI processes raw diffusion-weighted images and coordinates with [[ants]] (available as an optional extension) to generate structural connectivity matrices through probabilistic or deterministic [[tractography]]. These matrices define the anatomical connection weights between TVB network nodes.
 
-**Functional Constraints**: AFNI-derived empirical functional connectivity matrices—computed from preprocessed resting-state fMRI via 3dNetCorr—provide target data for fitting [[neural-mass-models]] in TVB. The time series extraction capabilities (3dROIstats) enable comparison between simulated and empirical BOLD signals.
+**Functional Constraints**: AFNI-derived empirical functional connectivity matrices—computed from preprocessed resting-state fMRI via 3dNetCorr—provide target data for fitting [[neural-mass-models]] in TVB. The time series extraction capabilities (3dROIstats) enable comparison between simulated and empirical [[bold-signal|BOLD]] signals.
 
-**Parcellation Alignment**: Through nonlinear registration to standard atlases (e.g., [[desikan-killiany-atlas]], [[glasser-atlas]]), AFNI ensures that region-of-interest time series map accurately to TVB node indices, critical for proper network topology in whole-brain models.
+**[[parcellation]] Alignment**: Through nonlinear registration to standard atlases (e.g., [[desikan-killiany-atlas]], [[glasser-atlas]]), AFNI ensures that region-of-interest time series map accurately to TVB node indices, critical for proper network topology in whole-brain models.
 
 **Cross-Modal Integration**: Tools like 3dBrainSync enable alignment of [[eeg]]/[[meg]] source-localized activity with fMRI data, supporting multimodal validation of TVB simulations.
 
