@@ -46,7 +46,7 @@ CARLsim is built around three core components:
 2. **Synapse Engine**: Manages synaptic transmission and plasticity rules
 3. **GPU Kernel Scheduler**: Optimizes CUDA kernel execution for spike generation and delivery
 
-The simulator uses fixed time-step integration, typically with 1 ms Steps, achieving significant computational speedups over CPU-based alternatives for large networks through massive GPU parallelism.
+The simulator uses fixed time-step integration, typically with 1 ms Steps, achieving significant computational speedups over CPU-based alternatives for large networks through massive GPU parallelism.
 
 ## Relationship to TVB
 
@@ -73,7 +73,7 @@ CARLsim has gained traction in the neuromorphic community due to:
 ## Key Papers
 
 - **Nageswaran et al. (2009)** — Original CARLsim platform introduction, demonstrating GPU acceleration of spiking networks
-- **Beyeler et al. (2015)** — CARLsim 3.0 with multi-GPU support and Python interface
+- **Beyeler et al. (2015)** — CARLsim 3.0 with multi-GPU support and Python interface
 - **Richert et al. (2021)** — Neuromorphic extensions and efficient synaptic plasticity implementations
 
 ## Technical Specifications
@@ -82,13 +82,13 @@ CARLsim has gained traction in the neuromorphic community due to:
 - **Plasticity rules**: STDP, reward-modulated STDP, homeostatic mechanisms
 - **[[connectivity]]**: Sparse random, structured (small-world, scale-free), user-defined
 - **Output formats**: Spike times, membrane potentials, synaptic weights, population firing rates
-- **Hardware requirements**: CUDA-capable NVIDIA GPU (Compute Capability 3.5+)
+- **Hardware requirements**: CUDA-capable NVIDIA GPU (Compute Capability 3.5+)
 
 ## Related Software
 
 - [[NEST]] — CPU-focused spiking network simulator with larger ecosystem
 - [[NEURON]] — Multi-compartment detailed neuron simulations
-- [[Brian]] — Python-based SNN simulator (Brian simulator)
+- [[brian2cuda]] — Python-based SNN simulator (Brian simulator)
 - [[ANNarchy]] — GPU/CPU hybrid for rate-coded and spiking networks
 
 ## Related Concepts
@@ -130,5 +130,5 @@ CARLsim excels when GPU acceleration and spike-level detail are required; NEST i
 
 1. L. Niedermeier, J. L. Krichmar. (2026). *Full Feature Spiking Neural Network Simulation on Micro-Controllers for Neuromorphic Applications at the Edge*. [Link](https://arxiv.org/abs/2604.16474)
 2. Junming Duan, Wasilij Barsukow, Christian Klingenberg. *Active flux methods for hyperbolic conservation laws -- flux vector splitting and bound-preservation: Two-dimensional case*. [Link](https://arxiv.org/abs/2407.13380)
-3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
-4. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](https://doi.org/10.3389/fncom.2025.1731161)
+3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz‑Pier, Thanos Manos. *[[arbor]]‑TVB: A Novel Multi‑Scale Co‑Simulation Framework with a Case Study on Neural‑Level Seizure Generation and Whole‑Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
+4. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz‑Pier, Thanos Manos. (2026). *Arbor‑TVB: a novel multi‑scale co‑simulation framework with a case study on neural‑level seizure generation and whole‑brain propagation*. Frontiers Comput. Neurosci.. [DOI](https://doi.org/10.3389/fncom.2025.1731161)

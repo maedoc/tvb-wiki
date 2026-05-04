@@ -240,10 +240,10 @@ The choice depends on the specific question: use Wilson-Cowan for theoretical in
 ## Related Concepts
 
 - [[neural mass model]] – General framework
-- [[Hugh Wilson]] – Co-developer of Wilson-Cowan
-- [[Jack Cowan]] – Co-developer of Wilson-Cowan
-- [[Benjamin Jansen]] – Co-developer of Jansen-Rit
-- [[Vincent Rit]] – Co-developer of Jansen-Rit
+- [[wilson-cowan-model|Hugh Wilson]] – Co-developer of Wilson-Cowan
+- [[wilson-cowan|Jack Cowan]] – Co-developer of Wilson-Cowan
+- [[jansen-r|Benjamin Jansen]] – Co-developer of Jansen-Rit
+- [[jansen-rit-model|Vincent Rit]] – Co-developer of Jansen-Rit
 - [[eeg]] – Signal generation (Jansen-Rit strength)
 - [[dynamic causal modeling]] – Uses Jansen-Rit
 - [[TVB]] – Supports both models

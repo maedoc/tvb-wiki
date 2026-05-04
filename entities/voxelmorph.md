@@ -41,7 +41,7 @@ This unsupervised approach enables training on any unlabeled image dataset, dram
 The VoxelMorph-diff variant produces diffeomorphic (topology-preserving) registration by predicting a stationary velocity field rather than direct displacements[^3]. Through scaling-and-squaring integration—an iterative composition of velocity field exponentiation—velocity fields generate diffeomorphic deformations that preserve anatomical topology[^3]. This is critical for longitudinal studies and valid Jacobian analysis.
 
 ### Computational Efficiency
-Traditional registration algorithms like [[ANTs]] SyN or [[FSL]] FNIRT require minutes to hours per image pair. VoxelMorph performs registration in under a second on GPU[^1][^2], enabling:
+Traditional registration algorithms like [[ANTs]] SyN or [[fsl-melodic]] FNIRT require minutes to hours per image pair. VoxelMorph performs registration in under a second on GPU[^1][^2], enabling:
 - Real-time registration during image acquisition
 - Large-scale dataset processing
 - Interactive visualization and quality control
@@ -89,8 +89,8 @@ VoxelMorph complements [[TVB]] workflows in several ways:
 ## Related Software
 
 - [[ANTs]] — Traditional diffeomorphic registration (SyN algorithm); often used for comparison and validation
-- [[FSL]] — Comprehensive neuroimaging suite with FLIRT/FNIRT registration tools
-- [[FreeSurfer]] — Surface-based registration and cortical [[parcellation]]
+- [[fsl-melodic]] — Comprehensive neuroimaging suite with FLIRT/FNIRT registration tools
+- [[pysurfer]] — Surface-based registration and cortical [[parcellation]]
 - [[NiftyReg]] — GPU-accelerated traditional registration methods
 - [[SynthSeg]] — Deep learning segmentation tool often paired with VoxelMorph in preprocessing pipelines
 - [[Nibabel]] — Python library for neuroimaging I/O used in VoxelMorph workflows

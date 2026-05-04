@@ -1,7 +1,7 @@
 ---
 title: Neural Mass Model
 created: 2026-04-20
-updated: 2026-04-29
+updated: 2026-05-04
 type: concept
 tags: [neural-mass-models, whole-brain-modeling, computational-neuroscience, dynamical-systems-theory, mean-field-theory, network-dynamics, brain-oscillations, epilepsy-modeling, parameter-estimation, bifurcation-analysis]
 sources: [raw/papers/freeman-1975.md, raw/papers/wilson-cowan-1972.md, raw/papers/jansen-rit-1995.md]
@@ -58,7 +58,7 @@ Neural mass models have become indispensable tools for studying brain disorders 
 
 ## Limitations and Future Directions
 
-Despite their utility, neural mass models carry significant limitations that motivate ongoing research. The homogeneity assumption—that neurons within a population share similar properties—is violated in real cortex, where cell types, dendritic morphologies, and intrinsic properties vary considerably. The mean-field approximation neglects correlations between neurons that may be important for certain phenomena. Most models employ static [[structural-connectivity]] rather than accounting for activity-dependent plasticity. Parameter identifiability remains challenging: multiple parameter sets can produce similar dynamics, making inverse estimation difficult without strong priors. Current research addresses these limitations through data-driven approaches that learn population heterogeneity from recordings, incorporating correlation structures via [[fokker-planck-equation]] descriptions pioneered by [[hannes-risken]], and developing more sophisticated parameter estimation frameworks using [[variational-bayes]] and machine learning approaches.
+Despite their utility, neural mass models carry significant limitations that motivate ongoing research. The homogeneity assumption—that neurons within a population share similar properties—is violated in real cortex, where cell types, dendritic morphologies, and intrinsic properties vary considerably. The mean-field approximation neglects correlations between neurons that may be important for certain phenomena. Most models employ static [[structural-connectivity]] rather than accounting for activity-dependent plasticity. Parameter identifiability remains challenging: multiple parameter sets can produce similar dynamics, making inverse estimation difficult without strong priors. Current research addresses these limitations through data-driven approaches that learn population heterogeneity from recordings, incorporating correlation structures via [[fokker-planck-equation]] descriptions pioneered by hannes-risken, and developing more sophisticated parameter estimation frameworks using [[variational-bayes]] and machine learning approaches.
 
 ## Related Concepts
 

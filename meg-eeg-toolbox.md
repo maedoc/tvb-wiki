@@ -1,7 +1,7 @@
 ---
 title: MEG/EEG Toolbox
 created: 2024-01-15
-updated: 2026-05-03
+updated: 2026-05-04
 type: concept
 tags: [neuroimaging-meg, neuroimaging-eeg, software-visualization, source-localization, forward-model, volume-conduction]
 sources: [oostenveld2011fieldtrip, gramfort2013mne, delorme2004eeglab, tadel2011brainstorm]
@@ -21,7 +21,7 @@ Several major toolboxes form the backbone of MEG/EEG analysis, each with distinc
 
 [[fieldtrip|FieldTrip]], developed primarily at the Donders Institute for Brain, Cognition and Behaviour in Nijmegen, provides an extensive MATLAB-based framework for sensor-level and source-level analysis. Its modular design allows researchers to flexibly compose preprocessing pipelines, perform time-frequency analysis using Morlet wavelets or multitaper methods, and apply beamforming or Minimum Norm Estimates for source reconstruction. FieldTrip integrates closely with [[spm|SPM]], enabling combined MEG/EEG and fMRI analysis, and includes routines for connectivity estimation in the frequency domain [[ref1]].
 
-[[mne-python|MNE-Python]] offers a Python-based alternative that has gained substantial popularity, particularly among researchers working with multimodal neuroimaging datasets. Developed initially by Alexandre Gramfort and now maintained by a large open-source community, MNE-Python provides interfaces to the underlying MNE-C command-line tools while offering a comprehensive Python API. Its strengths include efficient handling of large datasets, integration with [[nilearn]] for visualization, and compatibility with the broader Python scientific computing ecosystem including [[numpy]] and [[scikit-learn]] [[ref3]].
+[[mne-bids-pipeline|MNE-Python]] offers a Python-based alternative that has gained substantial popularity, particularly among researchers working with multimodal neuroimaging datasets. Developed initially by Alexandre Gramfort and now maintained by a large open-source community, MNE-Python provides interfaces to the underlying MNE-C command-line tools while offering a comprehensive Python API. Its strengths include efficient handling of large datasets, integration with [[nilearn]] for visualization, and compatibility with the broader Python scientific computing ecosystem including [[numpy]] and [[scikit-learn]] [[ref3]].
 
 [[eeglab|EEGLAB]] remains one of the most widely used environments for EEG analysis, featuring a graphical user interface that makes it accessible to newcomers while supporting advanced processing through its extension plugins (XDAWN, Artifact Subspace Reconstruction, and MVPA). Originally developed by Scott Makeig and colleagues at the Swartz Center for Computational Neuroscience (SCCN) at UC San Diego, EEGLAB operates in MATLAB and has become a de facto standard for preprocessing and analyzing EEG datasets, particularly those collected in cognitive experiments [[ref4]].
 

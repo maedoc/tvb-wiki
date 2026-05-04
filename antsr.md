@@ -18,7 +18,7 @@ tags:
 - neuroimaging
 title: ANTsR
 type: entity
-updated: 2026-05-03
+updated: 2026-05-04
 ---
 
 ANTsR is an open-source R package that provides bindings to the [ANTs](/ants) (Advanced Normalization Tools) C++ library for biomedical image processing and analysis. Developed primarily at the University of Pennsylvania, ANTsR enables researchers to leverage state-of-the-art image registration, segmentation, and statistical learning techniques within the R statistical environment [@avants2014insight]. The package serves as a bridge between the computational efficiency of ANTs and the rich statistical tooling available in R, making it particularly valuable for large-scale neuroimaging studies requiring rigorous statistical inference.
@@ -61,6 +61,6 @@ ANTsR integrates with and complements numerous neuroimaging packages. The Python
 
 ## Key Contributors
 
-The primary authors and maintainers of ANTs include [Brian Avants](/brian-avants)—the principal developer and maintainer—[Nick Tustison](/nick-tustison), Philip A. Cook, Benjamin M. Kandel, and Jeff T. Duda. Their collective work on ANTs and ANTsR has resulted in extensively validated methods that have become standard practice in neuroimaging research, particularly for cortical thickness measurement and population-based studies.
+The primary authors and maintainers of ANTs include [Brian Avants](/brian2cuda)—the principal developer and maintainer—Nick Tustison, Philip A. Cook, Benjamin M. Kandel, and Jeff T. Duda. Their collective work on ANTs and ANTsR has resulted in extensively validated methods that have become standard practice in neuroimaging research, particularly for cortical thickness measurement and population-based studies.
 
 ## References

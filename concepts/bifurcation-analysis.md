@@ -125,7 +125,7 @@ Despite its power, bifurcation analysis in neuroscience faces several challenges
 
 ## Related Concepts
 
-Bifurcation analysis is fundamentally grounded in **dynamical systems theory** and draws on **nonlinear dynamics** and **bifurcation theory** more broadly. It is applied to [[neural-mass-model]] formulations including [[Jansen-Rit]] and [[Wilson-Cowan]]. The method is essential for understanding **brain oscillations** and for **epilepsy modeling**. The textbook treatment by [[Eugene Izhikevich]] remains foundational for neuroscientists seeking to understand the geometric theory of neural excitability and bursting.
+Bifurcation analysis is fundamentally grounded in **dynamical systems theory** and draws on **nonlinear dynamics** and **bifurcation theory** more broadly. It is applied to [[neural-mass-model]] formulations including [[Jansen-Rit]] and [[Wilson-Cowan]]. The method is essential for understanding **brain oscillations** and for **epilepsy modeling**. The textbook treatment by [[izhikevich]] remains foundational for neuroscientists seeking to understand the geometric theory of neural excitability and bursting.
 
 ## References
 

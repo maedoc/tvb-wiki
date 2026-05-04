@@ -125,7 +125,7 @@ UK Biobank is a large-scale biomedical database and research resource containing
 
 ## Key People
 - patricia miller|Karla Miller – Imaging lead
-- [[fidel alfaro-almagro]] – Processing pipelines
+- fidel alfaro-almagro – Processing pipelines
 
 ## References
 

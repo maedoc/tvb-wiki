@@ -1,7 +1,7 @@
 ---
 title: EBRAINS
 created: 2024-01-15
-updated: 2026-04-27
+updated: 2026-05-04
 type: entity
 tags: [software-brian, software-modeling, software-tvb, database-hcp, database-uk-biobank, brain-atlas, compute-infrastructure, european-infrastructure, research-infrastructure]
 sources:
@@ -20,7 +20,7 @@ EBRAINS (European Brain Research Infrastructure) is a distributed research infra
 
 ## Motivation and Scientific Context
 
-The creation of EBRAINS addresses a fundamental challenge in modern neuroscience: the need to synthesize vast quantities of heterogeneous data—ranging from molecular-level experiments to whole-brain neuroimaging—into coherent computational models that can explain brain function and dysfunction. Prior to EBRAINS, researchers faced significant barriers in accessing standardized datasets, lacked interoperable software frameworks, and had limited opportunities for reproducible computational experiments. The infrastructure was conceived to lower these barriers by providing curated access to large-scale datasets such as the [[human-connectome-project]] (HCP)[^hcp], alongside a growing collection of atlases including the [[julich-atlas]] and [[brainnetome-atlas]]. Beyond data access, EBRAINS enables researchers to run computationally intensive simulations using frameworks like [[the-virtual-brain]] (TVB), [[nest]], and [[brian2]] directly on distributed computing resources, eliminating the need for individual labs to maintain expensive high-performance computing clusters.
+The creation of EBRAINS addresses a fundamental challenge in modern neuroscience: the need to synthesize vast quantities of heterogeneous data—ranging from molecular-level experiments to whole-brain neuroimaging—into coherent computational models that can explain brain function and dysfunction. Prior to EBRAINS, researchers faced significant barriers in accessing standardized datasets, lacked interoperable software frameworks, and had limited opportunities for reproducible computational experiments. The infrastructure was conceived to lower these barriers by providing curated access to large-scale datasets such as the [[human-connectome-project]] (HCP)[^hcp], alongside a growing collection of atlases including the [[jhu-white-matter-atlas]] and [[brainnetome-atlas]]. Beyond data access, EBRAINS enables researchers to run computationally intensive simulations using frameworks like [[the-virtual-brain]] (TVB), [[nest]], and [[brian2]] directly on distributed computing resources, eliminating the need for individual labs to maintain expensive high-performance computing clusters.
 
 ## Key Features
 

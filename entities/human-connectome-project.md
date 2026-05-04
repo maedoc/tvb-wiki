@@ -118,9 +118,9 @@ Seven cognitive domains assessed:
 - multimodal-imaging – Integrated imaging
 
 ## Key People
-- [[david van essen]] – Principal Investigator
+- [[van-der-pol-oscillator]] – Principal Investigator
 - kamil ugurbil – Imaging physics
-- [[steven smith]] – Analysis methods
+- steven smith – Analysis methods
 
 ## References
 

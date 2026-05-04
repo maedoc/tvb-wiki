@@ -1,7 +1,7 @@
 ---
 title: Nighres
 created: 2025-01-15
-updated: 2026-05-01
+updated: 2026-05-04
 type: software
 tags: [software-neuroimaging, neuroimaging-mri, laminar-imaging, cortical-analysis, software-python, parcellation, software-dipy, software-ants]
 sources: [10.1093/gigascience/giy082, 10.1016/j.neuroimage.2013.03.078, 10.1016/j.neuroimage.2014.03.032, 10.1016/j.neuroimage.2015.10.001]
@@ -15,7 +15,7 @@ Nighres is an open-source Python library designed for high-resolution neuroimagi
 
 Traditional neuroimaging analysis pipelines often operate on voxel sizes of 1–2 mm, which provides adequate sensitivity for whole-brain analyses but sacrifices anatomical detail at the laminar and sublaminar levels. Cortical layer analysis requires voxel sizes on the order of 0.5–0.7 mm, achieved with specialized protocols like MP2RAGE or multi-shell diffusion imaging [[2]]. However, processing these high-resolution datasets introduces substantial computational challenges and requires specialized algorithms that account for partial volume effects, variable Rician noise profiles, and the complex geometry of cortical laminae [[3]].
 
-Nighres emerged to address this gap, providing validated implementations of algorithms specifically designed for laminar analysis that had previously been available only as disparate MATLAB scripts or commercial solutions. By wrapping these methods in a Python library with a unified API, Nighres enables reproducible, large-scale studies of cortical architecture in both research and clinical contexts. The library fits within a broader ecosystem of [[neuroimaging]] tools—particularly [[ANTs]] for registration, [[FreeSurfer]] for surface-based analysis, and [[dipy]] for diffusion processing—while offering functionality that these general-purpose packages do not provide.
+Nighres emerged to address this gap, providing validated implementations of algorithms specifically designed for laminar analysis that had previously been available only as disparate MATLAB scripts or commercial solutions. By wrapping these methods in a Python library with a unified API, Nighres enables reproducible, large-scale studies of cortical architecture in both research and clinical contexts. The library fits within a broader ecosystem of [[neuroimaging]] tools—particularly [[ANTs]] for registration, [[pysurfer]] for surface-based analysis, and [[dipy]] for diffusion processing—while offering functionality that these general-purpose packages do not provide.
 
 ## Key Features
 
@@ -38,7 +38,7 @@ In practice, a typical TVB preprocessing pipeline might use Nighres to extract h
 Nighres operates within a broader ecosystem of [[neuroimaging]] processing tools:
 
 - [[ANTs]] provides the registration and normalization foundation that Nighres builds upon
-- [[FreeSurfer]] remains the gold standard for automated cortical reconstruction and is often run in parallel with Nighres
+- [[pysurfer]] remains the gold standard for automated cortical reconstruction and is often run in parallel with Nighres
 - [[dipy]] handles diffusion MRI processing including tractography
 - [[nilearn]] offers machine-learning utilities for brain decoding that integrate with Nighres outputs
 - [[BrainVISA]] provides related morphometry tools in the French neuroimaging tradition

@@ -79,7 +79,7 @@ Freeman's insight that chaotic attractors in KIII sets enable rapid perceptual t
 
 - [[TVB]] — Whole-brain simulation platform with neural mass modeling
 - [[NEST]] — [[spiking-neural-networks|Spiking neural network]] simulator for detailed neuron-level models
-- [[Brian]] — Python-based simulator for spiking and rate-based networks
+- [[brian2cuda]] — Python-based simulator for spiking and rate-based networks
 - [[MOOSE]] — Multiscale simulation environment
 
 ## Related Concepts

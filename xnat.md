@@ -1,7 +1,7 @@
 ---
 title: XNAT
 created: 2024-01-15
-updated: 2026-04-29
+updated: 2026-05-04
 type: entity
 tags: [software-neuroimaging, database-neuroimaging, neuroimaging, reproducibility, software-visualization, bids]
 sources:
@@ -17,7 +17,7 @@ XNAT (eXtensible Neuroimaging Archive Toolkit) is an open-source software platfo
 
 ## Key Features
 
-XNAT's architecture is built around a web-based interface that allows researchers to upload, organize, view, and download neuroimaging datasets without requiring technical expertise in command-line tools. The platform natively supports the DICOM (Digital Imaging and Communications in Medicine) standard, which is the standard format for medical imaging scanner output, automatically parsing and extracting metadata to populate a searchable database. For analysis purposes, XNAT can automatically convert DICOM data to the NIfTI (Neuroimaging Informatics Technology Initiative) format, which is the preferred format for most neuroscience analysis pipelines. This dual-format support enables seamless integration with downstream analysis tools like [[nilearn]], [[FSL]], [[FreeSurfer]], and [[ANTs]].
+XNAT's architecture is built around a web-based interface that allows researchers to upload, organize, view, and download neuroimaging datasets without requiring technical expertise in command-line tools. The platform natively supports the DICOM (Digital Imaging and Communications in Medicine) standard, which is the standard format for medical imaging scanner output, automatically parsing and extracting metadata to populate a searchable database. For analysis purposes, XNAT can automatically convert DICOM data to the NIfTI (Neuroimaging Informatics Technology Initiative) format, which is the preferred format for most neuroscience analysis pipelines. This dual-format support enables seamless integration with downstream analysis tools like [[nilearn]], [[fsl-melodic]], [[pysurfer]], and [[ANTs]].
 
 A defining characteristic of XNAT is its extensible data model. Users can customize the database schema to accommodate project-specific metadata, including clinical assessments, scan parameters, subject demographics, and experimental conditions. This flexibility has made XNAT particularly valuable for multi-site studies where standardization of metadata is critical for harmonizing data across acquisition sites. The platform also implements a sophisticated access control system that allows administrators to define fine-grained permissions at the level of individual projects, subjects, or scans, enabling secure data sharing while protecting sensitive information.
 
@@ -35,7 +35,7 @@ XNAT has been widely adopted across neuroimaging consortia and individual labora
 
 ## Related Software
 
-XNAT operates within a broader ecosystem of neuroimaging software tools. It complements analysis packages like [[FSL]], [[FreeSurfer]], and [[ANTs]] that process the stored images, and integrates with data organization standards like [[BIDS]] that provide machine-readable metadata schemas. For visualization, XNAT's built-in image viewer can work alongside dedicated tools like [[3d-Slicer]], [[ITK-SNAP]], and [[FSLeyes]]. For data sharing and version control, XNAT installations often complement [[DataLad]] and [[GitLab]]-based workflows. Large XNAT installations may also interface with cloud computing platforms for scalable analysis, and the platform supports integration with workflow management systems built on [[Nipype]].
+XNAT operates within a broader ecosystem of neuroimaging software tools. It complements analysis packages like [[fsl-melodic]], [[pysurfer]], and [[ANTs]] that process the stored images, and integrates with data organization standards like [[BIDS]] that provide machine-readable metadata schemas. For visualization, XNAT's built-in image viewer can work alongside dedicated tools like [[3d-Slicer]], [[itk]], and FSLeyes. For data sharing and version control, XNAT installations often complement [[DataLad]] and [[GitLab]]-based workflows. Large XNAT installations may also interface with cloud computing platforms for scalable analysis, and the platform supports integration with workflow management systems built on [[Nipype]].
 
 ---
 

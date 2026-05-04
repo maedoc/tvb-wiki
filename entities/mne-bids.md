@@ -41,7 +41,7 @@ Furthermore, MNE-BIDS supports the export of source‑localized data, which can 
 
 ## Relationship to Other Software
 
-MNE-BIDS occupies a niche complementary to other neuroimaging tools. Unlike [[EEGLAB]] or [[Fieldtrip]], which are primarily interactive environments for EEG/MEG analysis, MNE-BIDS is designed specifically for data archival and standardization. It differs from [[pybids]] in that pybids is a query and manipulation library for existing BIDS datasets, whereas MNE-BIDS creates datasets from raw files. The package works alongside [[BIDS-validator]] to ensure compliance with the BIDS specification and serves as an entry point for pipelines using [[nipype]] orchestration [1][3].
+MNE-BIDS occupies a niche complementary to other neuroimaging tools. Unlike [[EEGLAB]] or Fieldtrip, which are primarily interactive environments for EEG/MEG analysis, MNE-BIDS is designed specifically for data archival and standardization. It differs from [[pybids]] in that pybids is a query and manipulation library for existing BIDS datasets, whereas MNE-BIDS creates datasets from raw files. The package works alongside [[bids-derivatives]] to ensure compliance with the BIDS specification and serves as an entry point for pipelines using [[nipype]] orchestration [1][3].
 
 For researchers utilizing the [[neuromorpho-toolkit]] (BCT) or [[braph]] for network analysis, MNE‑BIDS‑exported data can be readily imported for computing [[functional-connectivity]], [[effective-connectivity]], or graph‑theoretic metrics. Similarly, data processed in MNE‑BIDS format can feed into source estimation routines implemented in [[MNE-Connectivity]] for frequency‑domain connectivity analysis.
 

@@ -61,7 +61,7 @@ TVB and MOOSE can theoretically be linked in multiscale workflows: MOOSE could s
 - [[TVB]] – Whole-brain simulation using neural mass models and [[structural-connectivity|structural connectivity]]
 - [[Neuron]] – Multi-compartment neuron simulation (MOOSE shares conceptual lineage via [[GENESIS]])
 - [[Nest]] – Large-scale spiking network simulator
-- [[Modeldb]] – Repository hosting MOOSE-compatible models
+- [[model-validation]] – Repository hosting MOOSE-compatible models
 - [[GENESIS]] – The precursor simulator that provided foundational architecture for MOOSE's compartmental modeling capabilities[^1]
 
 ## Key Papers

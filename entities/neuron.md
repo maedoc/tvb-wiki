@@ -50,7 +50,7 @@ NEURON provides tools for building and simulating biophysically detailed models 
 
 - [[NEST]] — Point neuron network simulator for large-scale networks
 - [[TVB]] — [[neural-mass-models|Neural mass model]] [[whole-brain]] simulator
-- [[ModelDB]] — Model repository for sharing NEURON simulations
+- [[model-validation]] — Model repository for sharing NEURON simulations
 - Coreneuron — Optimized compute engine for large-scale NEURON simulations
 
 ## Related Concepts
@@ -61,7 +61,7 @@ NEURON provides tools for building and simulating biophysically detailed models 
 
 ## Key Researchers
 
-- [[Michael Hines]] — NEURON lead developer
+- [[michael-schirner]] — NEURON lead developer
 - [[Ted Carnevale]] — NEURON co-developer and educator
 
 ## Use Cases

@@ -1,7 +1,7 @@
 ---
 title: NITRC-CE
 created: 2024-01-15
-updated: 2026-05-01
+updated: 2026-05-04
 type: entity
 tags: [software, neuroimaging, neuroimaging-fmri, neuroimaging-eeg, neuroimaging-meg, neuroimaging-dti, reproducibility, software-bct, software-fsl, software-spm]
 sources:
@@ -18,9 +18,9 @@ NITRC-CE (Neuroimaging Informatics Technology Initiative – Computational Envir
 
 ## Technical Implementation
 
-NITRC-CE leverages container virtualization through Docker to package complete software stacks that include core neuroimaging toolkits such as [[freesurfer]], [[FSL]], [[SPM]], [[MRtrix3]], [[mne-python]], [[eeglab]], [[dipy]], and numerous additional specialized packages. Each container image is built following best practices for neuroimaging workflows, ensuring that software versions are pinned and compatible with each other. This approach addresses one of the most persistent challenges in computational neuroscience: the "dependency hell" that arises when trying to coordinate the diverse software packages required for a typical neuroimaging analysis pipeline, particularly those involving multimodal data integration [2].
+NITRC-CE leverages container virtualization through Docker to package complete software stacks that include core neuroimaging toolkits such as [[pysurfer]], [[fsl-melodic]], [[SPM]], [[mrtrix3-connectome]], [[mne-python]], [[eeglab]], [[dipy]], and numerous additional specialized packages. Each container image is built following best practices for neuroimaging workflows, ensuring that software versions are pinned and compatible with each other. This approach addresses one of the most persistent challenges in computational neuroscience: the "dependency hell" that arises when trying to coordinate the diverse software packages required for a typical neuroimaging analysis pipeline, particularly those involving multimodal data integration [2].
 
-The computational environment supports full neuroimaging workflows spanning [[structural connectivity|diffusion tensor imaging (DTI)]] tractography, [[functional connectivity|fMRI resting-state analysis]], [[EEG]] and [[MEG]] source reconstruction, and voxel-based morphometry. Researchers can instantiate pre-built containers that include complete software ecosystems—for example, a container containing both [[FSL]] and [[MRtrix3]] for integrated diffusion analysis, or another bundling [[mne-python]] with [[eeglab]] for electrophysiology preprocessing. This modular design allows users to select precisely the software combination needed for their specific analysis pipeline.
+The computational environment supports full neuroimaging workflows spanning [[structural connectivity|diffusion tensor imaging (DTI)]] tractography, [[functional connectivity|fMRI resting-state analysis]], [[EEG]] and [[MEG]] source reconstruction, and voxel-based morphometry. Researchers can instantiate pre-built containers that include complete software ecosystems—for example, a container containing both [[fsl-melodic]] and [[mrtrix3-connectome]] for integrated diffusion analysis, or another bundling [[mne-python]] with [[eeglab]] for electrophysiology preprocessing. This modular design allows users to select precisely the software combination needed for their specific analysis pipeline.
 
 ## Relationship to TVB
 
@@ -41,8 +41,8 @@ NITRC-CE occupies a niche distinct from both general container registries and in
 - [[neurodesk]]
 - [[datalad]]
 - [[BIDS]]
-- [[freesurfer]]
-- [[fsl]]
+- [[pysurfer]]
+- [[fsl-melodic]]
 - [[SPM]]
 - [[the-virtual-brain]]
 

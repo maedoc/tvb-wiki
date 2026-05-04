@@ -1,7 +1,7 @@
 ---
 title: ANTs in Whole-Brain Modeling
 created: 2026-04-27
-updated: 2026-05-03
+updated: 2026-05-04
 type: entity
 tags: [software-ants, neuroimaging-processing, whole-brain-modeling, structural-connectivity, connectomics, software-tvb, software-neuroml, tractography]
 sources: [raw/papers/avants-2008.md, raw/papers/avants-2011.md, raw/papers/sanz-leon-2013.md]
@@ -46,8 +46,8 @@ ANTs has become an indispensable tool in the computational neuroscientist's tool
 ## Related Entities
 
 - [[the-virtual-brain]] — Uses ANTs-preprocessed data for whole-brain simulations
-- [[brian-avants]] — Lead developer of ANTs
-- [[nick-tustison]] — Developer of N4ITK and DiReCT algorithms
+- [[brian2cuda]] — Lead developer of ANTs
+- Nick Tustison — Developer of N4ITK and DiReCT algorithms
 - [[connectome-workbench]] — Complementary tool for visualization
 - [[brain-connectivity-toolkit]] — For network analysis post-ANTs processing
 

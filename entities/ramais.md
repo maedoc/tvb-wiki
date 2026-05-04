@@ -40,7 +40,7 @@ The RAMIS framework typically implements several key capabilities relevant to ne
 
 ## Integration with TVB and Related Tools
 
-RAMAIS-type segmentation pipelines can feed directly into [[TVB]] workflows by providing region definitions for [[brain-parcellations]] used in simulations. The resulting parcellations can be combined with [[diffusion-imaging]] derived [[tractography]] to construct comprehensive [[structural-connectivity]] matrices. Similar functions are served by established tools like [[ANTs]], [[FreeSurfer]], and [[3D-Slicer]] in the broader neuroimaging ecosystem.
+RAMAIS-type segmentation pipelines can feed directly into [[TVB]] workflows by providing region definitions for [[brain-parcellations]] used in simulations. The resulting parcellations can be combined with [[diffusion-imaging]] derived [[tractography]] to construct comprehensive [[structural-connectivity]] matrices. Similar functions are served by established tools like [[ANTs]], [[pysurfer]], and [[3D-Slicer]] in the broader neuroimaging ecosystem.
 
 ## Key Papers
 
@@ -49,7 +49,7 @@ RAMAIS-type segmentation pipelines can feed directly into [[TVB]] workflows by p
 ## Related Software
 
 - [[ANTs]] — Advanced Normalization Tools for neuroimaging registration and segmentation
-- [[FreeSurfer]] — Automated cortical and subcortical segmentation
+- [[pysurfer]] — Automated cortical and subcortical segmentation
 - [[3D-Slicer]] — Medical image computing platform
 - [[TVB]] — [[the-virtual-brain]] simulator
 - [[BrainNet Viewer]] — Visualization of brain networks and parcellations

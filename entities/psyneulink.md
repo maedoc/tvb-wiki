@@ -70,10 +70,10 @@ PsyNeuLink and [[TVB]] occupy complementary positions in the brain modeling land
 
 - [[TVB]] – Complementary [[whole-brain]] simulator for large-scale [[neural mass model]] dynamics
 - [[NEST]] – [[spiking-neural-networks|Spiking neural network]] simulator for detailed biophysical models
-- [[Brian]] – Python-based spiking neural network simulator
+- [[brian2cuda]] – Python-based spiking neural network simulator
 - [[ANNarchy]] – Hybrid rate-coded and spiking neural network framework
 - PyTorch / [[tensorflow]] – Machine learning frameworks integrated via PsyNeuLink's optimization interfaces
-- [[NeuroML]] – Model description format for interoperability
+- [[neuromorpho-toolkit]] – Model description format for interoperability
 
 ## References
 

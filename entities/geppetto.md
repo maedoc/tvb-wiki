@@ -29,7 +29,7 @@ The software implements a Model Abstraction layer that handles heterogeneous dat
 
 ### Integration Capabilities
 
-Geppetto integrates with several major [[computational-neuroscience]] platforms and standards. The platform provides native support for [[NEURON]], [[NetPyNE]], and [[NeuroML]], allowing researchers to import models from these ecosystems and run them within the Geppetto computational framework (Cantarelli et al., 2018). This interoperability is essential for [[whole-brain-modeling]] workflows that may combine detailed single-neuron models with population-level approximations at different scales.
+Geppetto integrates with several major [[computational-neuroscience]] platforms and standards. The platform provides native support for [[NEURON]], NetPyNE, and [[neuromorpho-toolkit]], allowing researchers to import models from these ecosystems and run them within the Geppetto computational framework (Cantarelli et al., 2018). This interoperability is essential for [[whole-brain-modeling]] workflows that may combine detailed single-neuron models with population-level approximations at different scales.
 
 For [[neuroimaging]] integration, Geppetto can consume [[structural-connectivity]] matrices in standard formats and use them to constrain [[network-dynamics]] simulations, enabling [[personalized-brain-modeling|personalized brain]] models based on individual [[diffusion-imaging]] data. The platform connects with preprocessing pipelines for neuroimaging data, though specific pipeline integrations (such as particular analysis tools) depend on the deployment context.
 
@@ -53,7 +53,7 @@ A critical capability for comparing simulated dynamics with empirical recordings
 
 ## Related Software
 
-Geppetto shares conceptual territory with several other simulation platforms in computational neuroscience. [[NEST]] provides [[spiking-neural-networks]] simulation with a focus on detailed single-neuron models and large-scale networks of point neurons. [[NEURON]] offers multi-compartment neuron modeling for detailed biophysical simulations. [[NetPyNE]] provides a high-level interface for constructing [[spiking-neural-networks]] and is itself supported by the Geppetto visualization platform. For [[whole-brain-modeling]] specifically, TVB with Geppetto competes with or complements other large-scale simulators including integrated platforms like The VirtualBrain itself.
+Geppetto shares conceptual territory with several other simulation platforms in computational neuroscience. [[NEST]] provides [[spiking-neural-networks]] simulation with a focus on detailed single-neuron models and large-scale networks of point neurons. [[NEURON]] offers multi-compartment neuron modeling for detailed biophysical simulations.NetPyNE provides a high-level interface for constructing [[spiking-neural-networks]] and is itself supported by the Geppetto visualization platform. For [[whole-brain-modeling]] specifically, TVB with Geppetto competes with or complements other large-scale simulators including integrated platforms like The VirtualBrain itself.
 
 ## Use Cases
 

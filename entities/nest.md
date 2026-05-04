@@ -54,7 +54,7 @@ Jordan et al. (2018) demonstrated NEST's near-perfect weak scaling:
 
 - [[TVB]] — [[neural-mass-models|Neural mass model]] simulator for whole-[[brain-dynamics]]
 - [[NEURON]] — Multi-compartment detailed neuron simulations
-- [[ModelDB]] — Repository for sharing NEST and other simulator models
+- [[model-validation]] — Repository for sharing NEST and other simulator models
 
 ## Related Concepts
 

@@ -13,7 +13,7 @@ type: entity
 updated: '2026-05-04'
 ---
 
-**ANTsR** provides R language bindings to the [ANTs](/docs/software/[[ants]]) (Advanced Normalization Tools) C++ library, enabling R users to access current [[neuroimaging]] registration, segmentation, and preprocessing algorithms within the R statistical computing environment. Developed primarily by [[brian-avants]] and [[nick-tustison]], ANTsR extends the powerful image analysis capabilities of ANTs to the R ecosystem, facilitating reproducible research workflows in brain imaging studies. The package serves as a critical bridge between R-based statistical analysis pipelines and the advanced registration techniques developed within the ANTs community.
+**ANTsR** provides R language bindings to the [ANTs](/docs/software/[[ants]]) (Advanced Normalization Tools) C++ library, enabling R users to access current [[neuroimaging]] registration, segmentation, and preprocessing algorithms within the R statistical computing environment. Developed primarily by [[brian2cuda]] and Nick Tustison, ANTsR extends the powerful image analysis capabilities of ANTs to the R ecosystem, facilitating reproducible research workflows in brain imaging studies. The package serves as a critical bridge between R-based statistical analysis pipelines and the advanced registration techniques developed within the ANTs community.
 
 ## Core Functionality
 

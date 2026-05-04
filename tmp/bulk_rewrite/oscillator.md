@@ -1,7 +1,7 @@
 ---
 title: Oscillator
 created: 2026-04-27
-updated: 2026-04-27
+updated: 2026-05-04
 type: concept
 tags: [dynamical-systems-theory, nonlinear-dynamics, neural-mass-models, brain-oscillations, bifurcation-theory, parameter-estimation, whole-brain-modeling]
 sources: [raw/papers/izhikevich-2007.md]
@@ -13,7 +13,7 @@ An oscillator in the context of computational neuroscience refers to a dynamical
 
 ## Motivation and Context
 
-The mathematical framework of oscillators provides the foundation for understanding rhythmic brain activity observed across neuroimaging modalities including [[fmri]], [[eeg]], and [[meg]]. At the cellular level, individual neurons can exhibit oscillatory behavior through ionic feedback mechanisms, as first mathematically characterized by the [[Fitzhugh–Nagumo model|Fitzhugh-Nagumo model]] and later systematized by [[Eugene Izhikevich]]. At the population level, [[neural-mass-model]]s and [[neural-mass-models]] capture the aggregate dynamics of large populations of excitatory and inhibitory neurons, giving rise to macroscopic oscillations in various frequency bands (delta, theta, alpha, beta, gamma). Understanding these oscillatory mechanisms is essential for [[whole-brain-modeling]], where the interaction of multiple brain regions through [[structural-connectivity]] yields coordinated temporal dynamics that can be compared to empirical [[resting-state]] [[functional-connectivity]] measurements.
+The mathematical framework of oscillators provides the foundation for understanding rhythmic brain activity observed across neuroimaging modalities including [[fmri]], [[eeg]], and [[meg]]. At the cellular level, individual neurons can exhibit oscillatory behavior through ionic feedback mechanisms, as first mathematically characterized by the [[Fitzhugh–Nagumo model|Fitzhugh-Nagumo model]] and later systematized by [[izhikevich]]. At the population level, [[neural-mass-model]]s and [[neural-mass-models]] capture the aggregate dynamics of large populations of excitatory and inhibitory neurons, giving rise to macroscopic oscillations in various frequency bands (delta, theta, alpha, beta, gamma). Understanding these oscillatory mechanisms is essential for [[whole-brain-modeling]], where the interaction of multiple brain regions through [[structural-connectivity]] yields coordinated temporal dynamics that can be compared to empirical [[resting-state]] [[functional-connectivity]] measurements.
 
 Oscillators serve multiple roles in brain modeling. First, they provide canonical representations of neural excitability and [[brain-oscillations]] that can be parameterized to match empirical data. Second, they enable [[bifurcation-analysis]], which reveals how systems transition between qualitatively different dynamical regimes—resting, oscillating, or epileptic—as parameters vary. Third, coupled oscillator networks form the basis of models for [[brain-network]] synchronization, which is disrupted in conditions ranging from [[epilepsy-modeling]] to [[schizophrenia-models]].
 
