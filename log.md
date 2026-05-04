@@ -80,3 +80,10 @@
 ## [2026-05-04 20:53] Improve: 5 pages improved (petsurfer, mrtrix, brainstorm, spinal-cord-toolbox, simbrain)
 
 ## [2026-05-04 21:21] Improve: 4 pages improved (dipy, nestml, mrtrix, spinal-cord-toolbox)
+- Improved [[tvb-nest]] page - transformed from placeholder into comprehensive entity page covering the TVB-NEST coupling interface
+- Added sections on motivation, technical implementation (MPI intercommuncator, bidirectional scale translation)
+- Included relationship to TVB and NEST, key applications (epilepsy modeling, validation, pharmacology)
+- Added 18+ wikilinks to nest, tvb, neural-mass-models, spiking-neural-networks, mean-field-theory, and other related entities
+- Updated frontmatter with 4 sources including sanz-leon-2013, gewaltig-diesmann-2007, arxiv-2505.16861, stefanescu-jirsa-2008
+
+## [2026-05-04 21:39] DeepResearch: 16 papers added via focused research

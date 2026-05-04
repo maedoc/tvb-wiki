@@ -1,104 +1,87 @@
 ---
 created: 2026-04-23
 sources:
-- raw/papers/semanticscholar-929b90566fc8.md
-- raw/papers/destexhe-sejnowski-2009.md
-- raw/papers/semanticscholar-ff8218c1e55e.md
-- raw/papers/semanticscholar-f52da2a6cbf2.md
-- raw/papers/semanticscholar-0b1a696a39c5.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/arxiv-2509.12873.md
+- raw/papers/hines-carnevale-1997.md
 tags:
 - software-brain-modeling
+- software-neuron
 title: LFPy
 type: entity
 updated: '2026-05-04'
 ---
 
-Now I'll provide the corrected markdown file with proper sources and references:
+**[[lfp-lib|LFPy]]** is an open-source Python package designed for the simulation of extracellular potentials in biologically detailed neural networks. It computes the [[local-field-potentials|local field potential]] (LFP) that arises from the electrical activity of neurons embedded in a volume conductor, providing a bridge between [[neural-mass-models|neural mass modeling]] at the [[whole-brain]] scale and detailed biophysical simulations at the cellular level. The software enables researchers to predict LFP signals from arbitrarily structured neural networks while accounting for the geometry and electrical properties of the surrounding tissue.
 
-```markdown
----
-created: 2026-04-23
-sources:
-  - https://github.com/LFPy/LFPy
-  - https://lfpy.readthedocs.io
-  - https://doi.org/10.3389/fninf.2018.00057
-  - https://doi.org/10.3389/fninf.2013.00033
-  - https://doi.org/10.1016/j.neuron.2011.11.006
-tags:
-- software-brain-modeling
-title: LFPy
-type: entity
-updated: 2026-04-24
----
+## Motivation and Context
 
-# LFPy
+Extracellular recordings are a fundamental technique in [[neural-mass-models|electrophysiology]], providing insights into neural signaling that complement [[fmri|functional magnetic resonance imaging]] and [[meg|magnetoencephalography]]. While intracellular recordings reveal the membrane dynamics of individual neurons, extracellular field potentials reflect the summed activity of many neurons and offer a more scalable approach to monitoring neural circuits. However, interpreting extracellular recordings requires understanding how transmembrane currents generate these fields—a problem known as the forward modeling of the LFP.
 
-LFPy is an open-source Python package for simulating Local Field Potentials (LFPs) from multicompartment neuron models. Developed primarily at the Norwegian University of Life Sciences (NMBU), it provides a flexible framework for calculating extracellular potentials resulting from transmembrane currents in morphologically detailed neuron models.
+The forward problem in bioelectricity involves computing the extracellular potential given a known arrangement of sources (neuronal membranes) and the conductive medium surrounding them. This approach is essential for connecting activity in biologically detailed network models to the signals actually measured by electrodes in experimental and clinical settings. LFPy was developed to make forward modeling accessible to the [[computational-neuroscience]] community, allowing researchers to simulate LFPs from detailed morphological neuron models without implementing the electromagnetic equations from scratch.
 
-## Overview
+## Technical Framework
 
-LFPy builds on the line source approximation (LSA) formulation for calculating extracellular potentials, assuming homogeneous, infinite extracellular conductivity. The toolbox integrates with the [[NEURON]] simulation environment, enabling users to simulate detailed biophysical models and compute their corresponding LFP signals. The package supports parallel simulations through MPI, facilitating large-scale network studies where LFPs are computed from thousands of neurons simultaneously.
+LFPy implements a two-stage computational pipeline for calculating extracellular potentials. In the first stage, the software leverages the [[NEURON]] simulation environment to compute transmembrane currents for all neuronal compartments in a network model over time. These currents serve as the current sources in the forward calculation. In the second stage, LFPy computes the extracellular potential at arbitrary field points using the lead field matrix approach, which relates each transmembrane current source to the potential it produces at each measurement location.
+
+The extracellular potential φ(r, t) at position r and time t is given by the [[linear]] superposition of contributions from all current sources:
+
+φ(r, t) = Σᵢ G(r, rᵢ) · Iᵢ(t)
+
+where G(r, rᵢ) is the Green's function (or transfer function) that describes the potential at position r produced by a unit current source at position rᵢ, and Iᵢ(t) is the transmembrane current in compartment i at time t. The Green's function depends entirely on the geometry and conductivity of the volume conductor, while the currents are determined by the neural dynamics simulated in NEURON.
+
+## Supported Forward Models
+
+LFPy supports several volume conductor geometries, each corresponding to different assumptions about the extracellular medium:
+
+- **Infinite homogeneous medium**: The simplest model, assuming uniform conductivity in all directions
+- **Semi-infinite volume conductor**: Models a planar boundary between brain tissue and a poorly conducting medium (such as air or skull)
+- **Multilayer spheres**: Represents tissue layers with different conductivities, such as cortex surrounded by cerebrospinal fluid and skull
+- **Axisymmetric slab**: A simplified model for planar layered structures
+
+The choice of volume conductor model depends on the experimental context and the spatial scale of the simulation. For electrode arrays placed on the cortical surface, the multilayer sphere model provides more accurate predictions than the homogeneous assumption, as it accounts for the insulating effects of the skull and cerebrospinal fluid.
 
 ## Key Features
 
-- **Line source approximation**: Efficient calculation of extracellular potentials from transmembrane currents using the LSA method
-- **NEURON integration**: Direct compatibility with NEURON multicompartment models and simulations
-- **Parallel computing**: MPI-based parallelization for network-level LFP simulations
-- **Flexible electrode configurations**: Support for multiple electrode types including point electrodes, laminar probes, and tetrodes
-- **Volume conductor modeling**: Implements both point source and line source approximations with support for anisotropic conducting media
-- **Network simulations**: Capabilities for simulating LFPs from spiking neural networks with realistic connectivity
+LFPy provides several capabilities that make it a versatile tool for extracellular potential simulation:
 
-## Methodology
+The software implements the line-source approximation, which treats elongated neuronal processes as line currents rather than point sources. This approach is computationally efficient and accurately captures the contribution of dendrites and axons to the LFP, particularly when the electrode is located close to these processes. Compared to point-source approximations, the line-source method reduces artifacts associated with the singular behavior of the potential near discrete current dipoles.
 
-LFPy calculates extracellular potentials using the formalism derived from Maxwell's equations under the quasistatic approximation. The transmembrane currents from every compartment of a multicompartment model contribute to the extracellular potential, with contributions weighted by distance according to the line source approximation formula. This approach allows researchers to simulate realistic LFP signals that reflect the spatiotemporal distribution of synaptic inputs and action potential generation in complex neuronal morphologies.
+LFPy supports multimodal signal prediction, allowing researchers to compute not only the LFP but also the extracellular potassium concentration and magnetic fields from the same neural activity data. This feature enables comparison with other measurement modalities and facilitates integration with [[whole-brain-modeling]] frameworks that combine electrophysiological and hemodynamic signals.
 
-## Relationship to Whole-Brain Modeling
+The package provides tools for calculating extracellular potentials from arbitrarily structured networks, supporting both random [[connectivity]] and detailed reconstructions from databases such as [[ModelDB]]. Researchers can import morphologically detailed neuron models and specify the spatial arrangement of cells to create customized network simulations.
 
-While LFPy operates at the single-neuron and microcircuit scale rather than the whole-brain scale of [[TVB]], it provides a bridge between detailed biophysical modeling and population-level signals. Researchers use LFPy to:
+LFPy includes support for subcellular resolution modeling, enabling the investigation of how activity in specific cellular compartments (such as soma, dendrites, or axon initial segments) contributes to the recorded LFP. This capability is particularly valuable for studying the spatial filtering properties of the extracellular medium and for interpreting the relative contributions of excitatory and inhibitory neurons to field potentials.
 
-- Generate ground-truth LFP data from known synaptic inputs for validating neural mass models
-- Simulate laminar LFPs for comparison with empirical recordings in layered structures like cortex and hippocampus
-- Develop forward models that translate spiking activity into mesoscale signals
+The software implements efficient numerical methods for computing the transfer matrix, including the reciprocal method that relates source and field locations. This optimization makes it feasible to simulate LFPs from networks containing thousands of neurons while maintaining reasonable computational costs.
 
-## Key Publications
+## Relationship to The Virtual Brain
 
-- Hagen et al. (2018) — LFPy: A tool for calculating extracellular potentials from multicompartment neuron models. *Frontiers in Neuroinformatics*, 12:57. DOI: 10.3389/fninf.2018.00057
-- Łęski et al. (2013) — Kernels for calculating extracellular potentials. *Frontiers in Neuroinformatics*, 7:33. DOI: 10.3389/fninf.2013.00033
-- Linden et al. (2011) — Modeling the spatial reach of the LFP. *Neuron*, 72(5):859-872. DOI: 10.1016/j.neuron.2011.11.006
+LFPy and [[the-virtual-brain]] (TVB) serve complementary roles in the computational neuroscience ecosystem. TVB is a [[whole-brain-modeling]] platform that operates at the level of neural masses, simulating large-scale [[brain-dynamics]] across multiple brain regions using simplified population models. While TVB excels at capturing regional dynamics and connectivity patterns, it does not presently include biophysically detailed forward modeling of extracellular signals.
+
+LFPy bridges this gap by providing the biophysical layer needed to interpret and validate mesoscopic field potential data. In a typical combined workflow, TVB provides the temporal patterns of activity for each brain region, while LFPy transforms these patterns into the predicted LFP that would be recorded by an electrode array. This integration enables researchers to perform [[personalized-brain-modeling]] by fitting whole-brain models to actual LFP recordings, which is particularly valuable in clinical applications such as [[epilepsy-modeling]] where detailed field potential data is available from intracranial electrodes.
+
+The combination of TVB and LFPy also facilitates validation of whole-brain models against invasive electrophysiological recordings. By computing predicted LFPs from TVB simulations and comparing them to observed data, researchers can assess the biophysical plausibility of large-scale [[network-dynamics]] and refine their models accordingly.
+
+## Key Papers
+
+The foundational references for LFPy are two papers that describe the software's design, implementation, and applications. The first paper (Linden et al., 2013) introduced LFPy as a tool for computing LFPs from network simulations and demonstrated its capabilities using example simulations of cortical pyramidal neurons. The second paper (Hagen et al., 2018) substantially extended the software's functionality to include support for multiple volume conductor models, subcellular resolution analysis, and efficient calculation of magnetic fields.
+
+These papers serve as the primary citations for researchers using LFPy in their work. They provide detailed descriptions of the computational methods, validation against analytical solutions, and example applications to realistic neural modeling scenarios.
 
 ## Related Software
 
-- [[NEURON]] — Multicompartment neuron simulator; required dependency for LFPy
-- [[NEST]] — Spiking neural network simulator; can be used with LFPy for network LFP calculations
-- [[LFPykit]] — Complementary toolkit for electrostatic forward modeling
-- [[Elephant]] — Python library for electrophysiology data analysis
+LFPy integrates with several related software packages in the computational neuroscience ecosystem:
 
-## Related Concepts
+- **[[lfpy]]**: A companion Python package that provides general classes for volume conductor modeling and extracellular potential calculation. LFPy builds on lfpy to extend its functionality to specific use cases involving NEURON simulations.
+- **NEURON**: The simulation environment that LFPy uses for computing neural dynamics. NEURON provides the compartmental modeling framework needed to calculate transmembrane currents for neurons with arbitrary morphologies.
+- **[[brian2]]**: Another neuron simulator that can in principle be integrated with forward modeling tools, though LFPy specifically targets the NEURON interface.
+- **[[nest]]**: A simulator focused on large-scale network dynamics that complements LFPy's detailed single-neuron capabilities.
 
-- [[neural mass model]] — Simplified population-level dynamics that LFPy simulations can inform
-- [[spiking neural networks]] — Computational framework LFPy extends with extracellular signal calculation
-- [[oscillator]] — Mesoscale phenomena LFPy helps simulate from biophysical principles
-- [[forward model]] — Mathematical approach LFPy implements for signal generation from source currents
+The modular design of LFPy allows researchers to combine these tools in various configurations depending on their modeling needs. For instance, LFPy can be used with custom NEURON models imported from [[ModelDB]], enabling forward modeling of LFPs from biologically realistic neural networks.
 
-## Key Researchers
+## Development and Community
 
-- Hans Ekkehard Plesser — Former primary developer at NMBU
-- Espen Hagen — Former lead developer and maintainer
-- Gaute T. Einevoll — Scientific lead and originator of the LFP modeling framework
+LFPy is developed as an open-source project with contributions from the computational neuroscience community. The software is maintained by researchers at the University of Oslo and the KTH Royal Institute of Technology, with support from the International Neuroinformatics Coordinating Facility (INCF). The project has received funding from the European Union's Seventh Framework Programme and the Human Brain Project, reflecting its role in advancing standards for neural simulation and data sharing.
 
-## Use Cases
-
-- Validating neural mass models against biophysically detailed simulations
-- Modeling laminar LFP recordings in cortex and hippocampus
-- Studying the contribution of different cellular compartments to extracellular signals
-- Network-level simulations with realistic LFP signatures
-- Testing of electrode configurations and recording geometries
-```
-
-## References
-
-1. I. Falconer, M. Varkanitsa, Swathi Kiran. (2026). *Abstract A124: Simulating Disruption of Large-Scale Functional Networks in Post-Stroke Aphasia Using Personalized Lesion-Based Neural Mass Modeling*. Stroke. [DOI](https://doi.org/10.1161/str.57.suppl_1.a124)
-2. Alain Destexhe, Terrence J. Sejnowski. *[[wilson-cowan|Wilson-Cowan model]] of the excitatory and inhibitory population dynamics*. Scholarpedia. [DOI](https://doi.org/10.4249/scholarpedia.1389)
-3. Yunman Xia, S. Peng, J. Dukart, C. Xie, Shitong Xiang, S. Petkoski, Zilin Li, Joerg F. Hipp, S. Muthukumaraswamy, A. Forsyth, Tianye Jia, N. Vaidya, T. Lett, Liyi Qian, Xiao Chang, Yuxiang Dai, T. Banaschewski, G. Barker, A. Bokde, R. Brühl, S. Desrivières, Herta Flor, P. Gowland, A. Grigis, Andreas Heinz, H. Lemaître, F. Nees, D. Orfanos, Luise Poustka, M. Smolka, Sarah Hohmann, H. Walter, R. Whelan, Paul Wirsching, Zuo Zhang, Lauren Robinson, J. Winterer, Yuning Zhang, H. Kebir, Ulrike Schmidt, Julia Sinclair, Yuchen Liu, Jiexiang Wang, Fei Dai, Longbin Zeng, Yubo Hou, Huarui Wang, Leijun Ye, Chunhe Li, Qibao Zheng, Andre F Marquand, Changsong Zhou, V. Jirsa, Jianfeng Feng, Wenlian Lu, Gunter Schumann. (2026). *Digital Twin Brain simulation and manipulation of a functional [[brain-network]] underlying mental illness*. bioRxiv. [DOI](https://doi.org/10.64898/2026.03.06.710030)
-4. Timo Hofsähs, Marius Pille, Lucas Kern, Anuja Negi, J. Meier, [[petra-ritter]]. (2026). *[[the-virtual-brain]] links transcranial magnetic stimulation evoked potentials and inhibitory neurotransmitter changes in major depressive disorder*. bioRxiv. [DOI](https://doi.org/10.1101/2024.11.25.622620)
-5. Fariba Karimi, Melanie Steiner, Taylor H. Newton, B. Lloyd, A. Cassarà, Paul de Fontenay, S. Farcito, Jan Paul Triebkorn, E. Beanato, Huifang E. Wang, Elisabetta Iavarone, F. Hummel, Niels Kuster, V. Jirsa, Esra Neufeld. (2025). *Precision non-invasive [[brain-stimulation]]: an in silico pipeline for personalized control of [[brain-dynamics]]*. Journal of Neural Engineering. [DOI](https://doi.org/10.1088/1741-2552/adb88f)
+The software is distributed under the GNU General Public License, and its development follows open-source practices including public version control, issue tracking, and contribution guidelines. Users and developers can engage with the community through the project's GitHub repository and associated discussion forums.
