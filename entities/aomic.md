@@ -4,6 +4,9 @@ sources:
 - https://doi.org/10.1101/2020.07.13.201316
 - https://openneuro.org/datasets/ds000102
 - https://doi.org/10.1016/j.neuroimage.2021.118494
+- raw/papers/semanticscholar-cabf914d6370.md
+- raw/papers/semanticscholar-44da8d4ab79e.md
+- raw/papers/glasser-2013.md
 tags:
 - database
 - neuroimaging

@@ -62,7 +62,7 @@ NEURON provides tools for building and simulating biophysically detailed models 
 ## Key Researchers
 
 - [[michael-schirner]] — NEURON lead developer
-- [[Ted Carnevale]] — NEURON co-developer and educator
+- Ted Carnevale — NEURON co-developer and educator
 
 ## Use Cases
 

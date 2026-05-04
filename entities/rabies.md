@@ -5,6 +5,9 @@ sources:
 - .callaway-2008
 - urban-camaselle-2011
 - chatterjee-2019
+- raw/papers/semanticscholar-ee8a113fe63c.md
+- raw/papers/semanticscholar-60ca593f7e0c.md
+- raw/papers/semanticscholar-b9acfa0a7c80.md
 tags:
 - structural-connectivity
 - virus-based-methods

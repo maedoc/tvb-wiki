@@ -2,6 +2,11 @@
 
 ## 2026-05-04
 - Improved [[coins]] page - replaced placeholder with comprehensive content about COINS (Collaborative Informatics and Neuroimaging Suite)
+- Added sections on overview, key features (MICIS, Assessment Manager, DICOM Receiver, Query Builder, Data Exchange), relationship to TVB, key papers
+- Included 10+ wikilinks connecting to xnat, abide, bids, fmri, dti, eeg, meg, the-virtual-brain, connectome, structural-connectivity, functional-connectivity
+- Added COINS entry to catalog.md in entities section (alphabetical position between Cmtk and Cognitive Reserve)
+- Updated frontmatter with proper tags (software-brain-modeling, database, neuroimaging, data-sharing) and 3 source papers
+- Content covers: data management, study/subject/scan management, HIPAA compliance, data sharing platform, format support (DICOM, NIfTI)
 - Added sections on overview, key features (data acquisition, study management, security, data sharing), relationship to TVB, key papers
 - Included 12+ wikilinks connecting to xnat, bids, fmri, dti, eeg, meg, the-virtual-brain, human-connectome-project, abide, brainlife, epilepsy-modeling, schizophrenia-models
 - Added COINS entry to entities index under software platforms
@@ -101,3 +106,5 @@
 ## [2026-05-04 21:49] RefFormatter: formatted references on 6 pages
 
 ## [2026-05-04 21:53] Audit: 1035 issues (141 broken links, 65 orphans, 22 placeholders, 0 dup-refs, 3 bad-meta, 81 citation-verify, 4 opaque-refs, 73 thin, 342 missing-links)
+
+## [2026-05-04 21:56] CrosslinkApplier: added 160 wikilinks (160 inline, 0 suggested)

@@ -5,6 +5,9 @@ sources:
     of the spinal cord" (NeuroImage)
 - De Leener et al. 2020, "SCT: Spinal Cord Toolbox, version 5.0" (Nature Communications)
 - Levy et al. 2025, "SCT: Spinal Cord Toolbox, version 6.0" (NeuroImage)
+- raw/papers/semanticscholar-a6b8919e7fe8.md
+- raw/papers/huntenburg-2018.md
+- raw/papers/semanticscholar-518ee560ec89.md
 tags:
 - software
 title: Spinal Cord Toolbox

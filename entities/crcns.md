@@ -13,6 +13,9 @@ sources:
 - Jirsa VK, Haken H. Field theory of electromagnetic brain activity. *Phys Rev Lett*.
   1996;77(5):960-963.
 - The Virtual Brain. https://www.thevirtualbrain.org
+- raw/papers/sanz-leon-2013.md
+- raw/papers/breakspear-2017.md
+- raw/papers/ritter-2013.md
 tags:
 - funding-project
 - computational-neuroscience

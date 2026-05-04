@@ -1,6 +1,9 @@
 ---
 created: 2025-01-15
-sources: []
+sources:
+- raw/papers/rubinov-sporns-2010.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/wang-etal-2015-gretna.md
 tags:
 - software
 - structural-connectivity

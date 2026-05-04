@@ -6,6 +6,9 @@ sources:
 - https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5968362/
 - https://journals.sagepub.com/doi/full/10.1177/0271678X20902144
 - https://www.sciencedirect.com/science/article/pii/S1053811919303001
+- raw/papers/semanticscholar-380768cf42a8.md
+- raw/papers/semanticscholar-4d73a30d5c84.md
+- raw/papers/glasser-2013.md
 tags:
 - software-dti
 - diffusion-imaging

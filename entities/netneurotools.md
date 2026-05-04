@@ -4,6 +4,9 @@ sources:
 - https://github.com/netneurolab/netneurotools
 - https://netneurotools.readthedocs.io/
 - https://www.biorxiv.org/content/10.1101/2025.02.14.638374v1
+- raw/papers/wang-etal-2015-gretna.md
+- raw/papers/woodman-2014.md
+- raw/papers/arxiv-2601.03796.md
 tags:
 - software-neuroinformatics
 - network-neuroscience

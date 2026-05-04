@@ -16,6 +16,7 @@ sources:
   title: Adaptive exponential integrate-and-fire model
   url: https://doi.org/10.1152/jn.00691.2005
   venue: Journal of Neurophysiology (2005)
+- raw/papers/semanticscholar-5c84b271b035.md
 tags:
 - software-nest
 - spiking-neural-networks
