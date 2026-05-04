@@ -25,7 +25,7 @@ TVB-NEST is the coupling interface and software framework that integrates [[tvb|
 
 [[computational-neuroscience]] has historically treated brain dynamics at either microscopic or macroscopic scales, rarely bridging the two in unified simulations. Neural mass models like those implemented in TVB operate on the assumption that large populations of neurons can be adequately described by their mean activity, capturing [[brain-dynamics]] at the scale of brain regions connected by anatomical [[structural-connectivity]]. Meanwhile, simulators like NEST excel at modeling the detailed biophysical properties of individual neurons and small circuits, including [[synaptic-plasticity]], specific [[ion-channel]] configurations, and realistic synaptic delays.
 
-The TVB-NEST framework specifically addresses this scale gap by implementing bidirectional communication between simulators. Rather than requiring researchers to choose between biological realism and whole-brain coverage, TVB-NEST enables "selective zoom" modeling where specific brain regions can be instantiated as detailed spiking networks while the rest of the brain continues to operate at the population level. This approach was generalized in the more recent Arbor-TVB framework, demonstrating that the coupling architecture extends to other spiking simulators as well.
+The TVB-NEST framework specifically addresses this scale gap by implementing bidirectional communication between simulators. Rather than requiring researchers to choose between biological realism and [[whole-brain]] coverage, TVB-NEST enables "selective zoom" modeling where specific brain regions can be instantiated as detailed spiking networks while the rest of the brain continues to operate at the population level. This approach was generalized in the more recent Arbor-TVB framework, demonstrating that the coupling architecture extends to other spiking simulators as well.
 
 ## Motivation and Context
 
@@ -49,7 +49,7 @@ The coupling uses Message Passing Interface (MPI) intercommunicators to establis
 
 - Synchronized simulation clocks ensuring temporal alignment between simulators
 - Scalable distributed computing as both TVB and NEST support large-scale parallel execution
-- Minimal latency for real-time coupling essential for closed-loop brain stimulation applications
+- Minimal latency for real-time coupling essential for closed-loop [[brain-stimulation]] applications
 
 The modular design permits each simulator to retain its native model specification—TVB nodes can use any available neural mass model while NEST populations support integrate-and-fire, Hodgkin-Huxley, or custom neuron types. The coupling layer handles translation autonomously once configured.
 
@@ -61,7 +61,7 @@ Users specify which brain regions will be represented by detailed NEST microcirc
 - Laminar specificity: Model specific cortical layers with distinct neuron types in NEST
 - Comparative studies: Directly compare dynamics emerging from neural mass versus spiking implementations of the same brain region
 
-Cross-scale connections maintain anatomical [[structural-connectivity]] constraints—the same DTI-derived connectivity matrices used in standard TVB simulations continue to provide anatomical priors for inter-regional coupling.
+Cross-scale connections maintain anatomical [[structural-connectivity]] constraints—the same DTI-derived [[connectivity]] matrices used in standard TVB simulations continue to provide anatomical priors for inter-regional coupling.
 
 ## Relationship to TVB
 
@@ -78,7 +78,7 @@ For [[nest]] simulations, the TVB integration provides a critical missing elemen
 TVB-NEST addresses this by providing:
 - Realistic whole-brain connectivity as input to spiking networks
 - Structured input reflecting actual anatomical projections rather than artificial stimuli
-- Validation against empirical neuroimaging through TVB's forward models
+- Validation against empirical [[neuroimaging]] through TVB's forward models
 
 This allows NEST simulations to be grounded in patient-specific anatomy and validated against empirical recordings—a capability previously unavailable for detailed spiking network models.
 
@@ -102,7 +102,7 @@ Drug effects on neural circuits often target specific receptor subtypes or ion c
 - [[NEST]] — Spiking neural network simulator
 - [[tvb-multiscale]] — Extended multiscale framework building on TVB-NEST concepts
 - [[ arbor]] — Generalized spiking simulator with TVB coupling (Arbor-TVB)
-- [[elephant]] — Electrophysiology analysis toolkit for post-processing
+- [[elephant]] — [[electrophysiology]] analysis toolkit for post-processing
 - [[NEURON]] — Alternative detailed neuron simulator for potential coupling
 - [[braincogs]] — Brain modeling platform with multiscale capabilities
 
@@ -111,7 +111,7 @@ Drug effects on neural circuits often target specific receptor subtypes or ion c
 - [[neural-mass-models]] — Population-level neural dynamics
 - [[spiking-neural-networks]] — Detailed neuron-level dynamics
 - [[mean-field-theory]] — Mathematical bridge between scales
-- [[whole-brain-modeling]] — Large-scale brain network simulation
+- [[whole-brain-modeling]] — Large-scale [[brain-network]] simulation
 - [[epilepsy-modeling]] — Clinical applications
 - [[structural-connectivity]] — Anatomical constraints
 - [[functional-connectivity]] — Activity-based connectivity
@@ -119,7 +119,7 @@ Drug effects on neural circuits often target specific receptor subtypes or ion c
 
 ## References
 
-1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+1. Sanz Leon et al. (2013). *[[the-virtual-brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
 2. Gewaltig & Diesmann (2007). *NEST (NEural Simulation Tool)*. Scholarpedia. [DOI](https://doi.org/10.4249/scholarpedia.1430)
 3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *Arbor-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
 4. Roxana A. Stefanescu, Viktor K. Jirsa. *A low dimensional description of globally coupled heterogeneous neural networks of excitatory and inhibitory neurons*. PLoS Computational Biology. [DOI](https://doi.org/10.1371/journal.pcbi.1000219)

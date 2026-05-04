@@ -1,26 +1,28 @@
 ---
-title: Spinal Cord Toolbox
 created: 2024-01-15
-updated: 2026-05-04
-type: entity
-tags: [software]
 sources:
-  - De Leener et al. 2017, "SCT: a toolbox for automated segmentation and tractography of the spinal cord" (NeuroImage)
-  - De Leener et al. 2020, "SCT: Spinal Cord Toolbox, version 5.0" (Nature Communications)
-  - Levy et al. 2025, "SCT: Spinal Cord Toolbox, version 6.0" (NeuroImage)
+- De Leener et al. 2017, "SCT: a toolbox for automated segmentation and tractography
+    of the spinal cord" (NeuroImage)
+- De Leener et al. 2020, "SCT: Spinal Cord Toolbox, version 5.0" (Nature Communications)
+- Levy et al. 2025, "SCT: Spinal Cord Toolbox, version 6.0" (NeuroImage)
+tags:
+- software
+title: Spinal Cord Toolbox
+type: entity
+updated: '2026-05-04'
 ---
 
-The Spinal Cord Toolbox (SCT) is a specialized open-source software platform for automated processing and quantitative analysis of spinal cord magnetic resonance imaging (MRI) data. Developed primarily by the [NeuroPoly laboratory](https://neuropoly.github.io/) at the University of Montreal, SCT addresses the unique challenges posed by spinal cord neuroimaging—particularly the small cross-sectional area of the cord (~10mm diameter), its curved geometry within the vertebral canal, and the susceptibility artifacts that plague conventional MRI processing pipelines designed for the brain [@de-leener-2017]. The toolkit provides a comprehensive suite of command-line tools that enable preprocessing, segmentation, registration, and metric extraction across multiple MRI modalities including T1-weighted, T2-weighted, diffusion tensor imaging (DTI), and functional MRI of the spinal cord.
+The Spinal Cord Toolbox (SCT) is a specialized open-source software platform for automated processing and quantitative analysis of spinal cord magnetic resonance imaging (MRI) data. Developed primarily by the [NeuroPoly laboratory](https://neuropoly.github.io/) at the University of Montreal, SCT addresses the unique challenges posed by spinal cord [[neuroimaging]]—particularly the small cross-sectional area of the cord (~10mm diameter), its curved geometry within the vertebral canal, and the susceptibility artifacts that plague conventional MRI processing pipelines designed for the brain [@de-leener-2017]. The toolkit provides a comprehensive suite of command-line tools that enable preprocessing, segmentation, registration, and metric extraction across multiple MRI modalities including T1-weighted, T2-weighted, diffusion tensor imaging (DTI), and functional MRI of the spinal cord.
 
 ## Motivation and Context
 
-The spinal cord has historically received less attention than the brain in neuroimaging research, largely due to technical challenges in imaging and processing. Unlike the cerebral cortex, which benefits from standardized preprocessing workflows developed over decades (see Freesurfer, Fsl, and Nilearn), spinal cord MRI requires specialized algorithms that account for the cord's elongated geometry, surrounding cerebrospinal fluid, and vertebrae that introduce distortion. Researchers studying spinal cord injury, demyelinating diseases such as multiple sclerosis, or neurodegenerative conditions affecting descending motor pathways previously had to develop custom processing scripts for each study, leading to poor reproducibility and methodological heterogeneity. SCT emerged to fill this gap by providing a validated, automated, and open-source pipeline that brings spinal cord neuroimaging to the same level of methodological rigor as brain imaging [@de-leener-2020].
+The spinal cord has historically received less attention than the brain in neuroimaging research, largely due to technical challenges in imaging and processing. Unlike the cerebral cortex, which benefits from standardized preprocessing workflows developed over decades (see Freesurfer, Fsl, and Nilearn), spinal cord MRI requires specialized algorithms that account for the cord's elongated geometry, surrounding cerebrospinal fluid, and vertebrae that introduce distortion. Researchers studying spinal cord injury, demyelinating diseases such as multiple sclerosis, or neurodegenerative conditions affecting descending motor pathways previously had to develop custom processing scripts for each study, leading to poor [[reproducibility]] and methodological heterogeneity. SCT emerged to fill this gap by providing a validated, automated, and open-source pipeline that brings spinal cord neuroimaging to the same level of methodological rigor as brain imaging [@de-leener-2020].
 
 ## Technical Content
 
 SCT implements several core algorithms specifically designed for spinal cord processing. The spinal cord segmentation relies on a deep learning architecture (based on convolutional neural networks) trained on manually annotated datasets, achieving robust and accurate detection of the cord boundary across healthy subjects and patients with pathology. For registration, SCT employs a chain of affine and deformable transformations that align spinal cord images to a template space—the [[mni-space]]-derived PAM50 template—which enables group-level analysis and comparison across subjects. The toolkit additionally provides tools for vertebral labeling, gray matter segmentation, and extraction of quantitative metrics including cross-sectional area, spinal cord diameter, and magnetization transfer ratios.
 
-For diffusion imaging analysis, SCT integrates with established diffusion MRI processing tools including Mrtrix3 and Dipy to perform tractography of white matter pathways in the spinal cord. The pipeline includes automatic detection of the spinal levels (C1-C5, T1-T12) and orientation-specific analysis of diffusion metrics such as fractional anisotropy and mean diffusivity along the cord's central axis. These capabilities make SCT particularly valuable for studying the structural integrity of descending corticospinal tracts and ascending sensory pathways in clinical populations [@levy-2025].
+For [[diffusion-imaging]] analysis, SCT integrates with established [[diffusion-mri]] processing tools including Mrtrix3 and Dipy to perform [[tractography]] of [[white-matter]] pathways in the spinal cord. The pipeline includes automatic detection of the spinal levels (C1-C5, T1-T12) and orientation-specific analysis of diffusion metrics such as [[fractional-anisotropy]] and mean diffusivity along the cord's central axis. These capabilities make SCT particularly valuable for studying the structural integrity of descending corticospinal tracts and ascending sensory pathways in clinical populations [@levy-2025].
 
 ## Key Features
 
@@ -28,7 +30,7 @@ The toolkit offers over 100 command-line functions organized into modular script
 
 ## Relationship to TVB
 
-The Spinal Cord Toolbox occupies a niche somewhat peripheral to The Virtual Brain's [[TVB]] core whole-brain modeling mission. While TVB focuses on large-scale brain network dynamics and simulates cortical and subcortical activity at the systems level, SCT specializes in the spinal cord—a structure typically outside the scope of whole-brain connectivity models. However, the two software platforms share philosophical commitments to open-source development, reproducible neuroimaging pipelines, and standardized preprocessing. Researchers interested in modeling the full neuraxis from cortex to spinal cord could potentially use SCT to preprocess spinal cord MRI data, extract structural connectivity information, and incorporate these findings into extended whole-brain models that include descending motor pathways. The integration remains uncommon in the literature, but SCT's outputs in the form of spinal cord segmentations and templates could theoretically serve as anatomical constraints for extensions of [[whole-brain-modeling]] frameworks.
+The Spinal Cord Toolbox occupies a niche somewhat peripheral to [[the-virtual-brain]]'s [[TVB]] core [[whole-brain|whole-brain modeling]] mission. While TVB focuses on large-scale brain network dynamics and simulates cortical and subcortical activity at the systems level, SCT specializes in the spinal cord—a structure typically outside the scope of whole-brain connectivity models. However, the two software platforms share philosophical commitments to open-source development, reproducible neuroimaging pipelines, and standardized preprocessing. Researchers interested in modeling the full neuraxis from cortex to spinal cord could potentially use SCT to preprocess spinal cord MRI data, extract [[structural-connectivity]] information, and incorporate these findings into extended whole-brain models that include descending motor pathways. The integration remains uncommon in the literature, but SCT's outputs in the form of spinal cord segmentations and templates could theoretically serve as anatomical constraints for extensions of [[whole-brain-modeling]] frameworks.
 
 ## Key Papers
 

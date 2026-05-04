@@ -1,22 +1,27 @@
 ---
-title: TractoFlow
 created: 2024-01-15
-updated: 2026-05-04
-type: entity
-tags: [software-dti, diffusion-imaging, tractography, neuroimaging, software]
 sources:
-  - https://www.biorxiv.org/content/10.1101/2019.03.14.640955v1.full
-  - https://pubmed.ncbi.nlm.nih.gov/30823584/
-  - https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5968362/
-  - https://journals.sagepub.com/doi/full/10.1177/0271678X20902144
-  - https://www.sciencedirect.com/science/article/pii/S1053811919303001
+- https://www.biorxiv.org/content/10.1101/2019.03.14.640955v1.full
+- https://pubmed.ncbi.nlm.nih.gov/30823584/
+- https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5968362/
+- https://journals.sagepub.com/doi/full/10.1177/0271678X20902144
+- https://www.sciencedirect.com/science/article/pii/S1053811919303001
+tags:
+- software-dti
+- diffusion-imaging
+- tractography
+- neuroimaging
+- software
+title: TractoFlow
+type: entity
+updated: '2026-05-04'
 ---
 
-TractoFlow is a fully automated and reproducible **diffusion MRI preprocessing pipeline** specifically designed for tractography analysis. Developed by the team at Université de Sherbrooke (Canada), it provides a standardized end-to-end workflow that transforms raw diffusion-weighted imaging (DWI) data into tractography-ready outputs suitable for structural connectivity estimation in whole-brain modeling frameworks (Moreaux et al., 2019). The pipeline is widely used in the neuroimaging community and has become a standard tool for preprocessing diffusion data in both research and clinical contexts.
+TractoFlow is a fully automated and reproducible **[[diffusion-mri]] preprocessing pipeline** specifically designed for tractography analysis. Developed by the team at Université de Sherbrooke (Canada), it provides a standardized end-to-end workflow that transforms raw diffusion-weighted imaging (DWI) data into tractography-ready outputs suitable for [[structural-connectivity]] estimation in [[whole-brain|whole-brain modeling]] frameworks (Moreaux et al., 2019). The pipeline is widely used in the [[neuroimaging]] community and has become a standard tool for preprocessing diffusion data in both research and clinical contexts.
 
 ## Overview
 
-TractoFlow addresses a critical bottleneck in diffusion imaging workflows: the lack of a unified, validated preprocessing pipeline that produces consistent, high-quality outputs for downstream tractography. Traditional manual preprocessing is time-consuming, error-prone, and difficult to reproduce across studies (Gorgolewski et al., 2016). TractoFlow automates the entire preprocessing chain—from raw DICOM or NIfTI inputs to tractography-ready diffusion tensors and fiber orientation distributions—ensuring methodological consistency and facilitating reproducible research.
+TractoFlow addresses a critical bottleneck in diffusion imaging workflows: the lack of a unified, validated preprocessing pipeline that produces consistent, high-quality outputs for downstream tractography. Traditional manual preprocessing is time-consuming, error-prone, and difficult to reproduce across studies (Gorgolewski et al., 2016). TractoFlow automates the entire preprocessing chain—from raw DICOM or [[nifti]] inputs to tractography-ready diffusion tensors and fiber orientation distributions—ensuring methodological consistency and facilitating reproducible research.
 
 The pipeline is implemented in Python and leverages well-established neuroimaging libraries, primarily [[ANTs]] for registration (Tustison et al., 2021) and Dipy for diffusion-specific processing (Garyfallidis et al., 2014). It follows [[BIDS]] conventions for input and output organization, making it compatible with the broader neuroimaging data ecosystem and facilitating integration with databases like [[UK-Biobank]] and [[HCP-dataset]] that require standardized data formats.
 
@@ -24,9 +29,9 @@ The pipeline is implemented in Python and leverages well-established neuroimagin
 
 TractoFlow implements a sequential processing chain that applies corrections in a principled order. The pipeline begins with **motion correction** using rigid body registration to correct for participant head movement during the DWI acquisition. This is followed by **eddy current correction**, which addresses geometric distortions induced by the rapidly switching gradient fields used in diffusion encoding. A **bias field correction** step removes intensity inhomogeneities caused by RF field non-uniformities, improving the accuracy of subsequent tensor estimation.
 
-The preprocessed data then undergoes **tensor fit** to derive diffusion tensor images (DTI), from which scalar metrics such as [[fractional-anisotropy]] (FA) and mean diffusivity (MD) are computed. Critically, TractoFlow also estimates **fiber orientation distribution functions (FODs)** using constrained spherical deconvolution (CSD), providing more accurate representations of complex fiber configurations than traditional DTI-based approaches. These FODs serve as the input for probabilistic tractography algorithms, enabling the reconstruction of white matter pathways with greater anatomical accuracy.
+The preprocessed data then undergoes **tensor fit** to derive diffusion tensor images (DTI), from which scalar metrics such as [[fractional-anisotropy]] (FA) and mean diffusivity (MD) are computed. Critically, TractoFlow also estimates **fiber orientation distribution functions (FODs)** using constrained spherical deconvolution (CSD), providing more accurate representations of complex fiber configurations than traditional DTI-based approaches. These FODs serve as the input for probabilistic tractography algorithms, enabling the reconstruction of [[white-matter]] pathways with greater anatomical accuracy.
 
-The pipeline outputs include corrected DWI volumes, FA/MD maps, tensor files, and FOD images—all organized according to BIDS derivatives specifications. These outputs can be directly fed into tractography tools such as [[MRtrix3]] or [[AFQ]] to generate streamlines and structural connectivity matrices.
+The pipeline outputs include corrected DWI volumes, FA/MD maps, tensor files, and FOD images—all organized according to [[bids-derivatives]] specifications. These outputs can be directly fed into tractography tools such as [[MRtrix3]] or [[AFQ]] to generate streamlines and structural [[connectivity]] matrices.
 
 ## Key Features
 
@@ -42,7 +47,7 @@ TractoFlow occupies a specific niche in the diffusion preprocessing landscape, a
 
 TractoFlow has direct relevance to [[The-Virtual-Brain]] workflows that require **structural connectivity** matrices derived from empirical diffusion imaging data. Whole-brain models in TVB rely on estimates of white matter connection strength between brain regions, and the quality of these estimates directly impacts model dynamics and validation outcomes (Sanz-Leon et al., 2015).
 
-TractoFlow outputs can be processed through tractography algorithms to generate **streamline-based structural connectivity matrices** that serve as the anatomical scaffold for TVB simulations. The pipeline's emphasis on reproducibility and standardized preprocessing helps ensure that connectivity matrices are comparable across studies and cohorts—a key requirement for personalized brain modeling initiatives that aim to calibrate individual patient models from empirical neuroimaging data.
+TractoFlow outputs can be processed through tractography algorithms to generate **streamline-based structural connectivity matrices** that serve as the anatomical scaffold for TVB simulations. The pipeline's emphasis on [[reproducibility]] and standardized preprocessing helps ensure that connectivity matrices are comparable across studies and cohorts—a key requirement for [[personalized-brain-modeling]] initiatives that aim to calibrate individual patient models from empirical neuroimaging data.
 
 The combination of TractoFlow for preprocessing, [[MRtrix3]] or [[AFQ]] for tractography, and TVB for dynamical modeling represents an established workflow in the TVB ecosystem for building personalized whole-brain models from diffusion MRI data. This integrated approach enables researchers to maintain methodological consistency from raw scanning through to simulation, reducing pipeline-related variability in connectome-derived connectivities.
 

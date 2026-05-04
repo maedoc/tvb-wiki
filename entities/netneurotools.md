@@ -1,17 +1,26 @@
 ---
-title: netneurotools
 created: 2025-01-15
-updated: 2026-05-04
+sources:
+- https://github.com/netneurolab/netneurotools
+- https://netneurotools.readthedocs.io/
+- https://www.biorxiv.org/content/10.1101/2025.02.14.638374v1
+tags:
+- software-neuroinformatics
+- network-neuroscience
+- python-toolbox
+- connectomics
+- brain-network
+- graph-theory
+title: netneurotools
 type: entity
-tags: [software-neuroinformatics, network-neuroscience, python-toolbox, connectomics, brain-network, graph-theory]
-sources: [https://github.com/netneurolab/netneurotools, https://netneurotools.readthedocs.io/, https://www.biorxiv.org/content/10.1101/2025.02.14.638374v1]
+updated: '2026-05-04'
 ---
 
-Netneurotools is a Python toolbox for network neuroscience research, developed by the Network Neuroscience Lab at McGill University's Brain Imaging Centre. The package provides a collection of functions for analyzing brain connectivity data, computing network-level metrics, and working with structural and functional connectomes. It emerged from the increasing availability of large-scale connectome datasets and the need for standardized, reproducible tools in the network neuroscience community [[cite:netneurotools-github]].
+Netneurotools is a Python toolbox for network neuroscience research, developed by the [[netneuroscience|Network Neuroscience]] Lab at McGill University's Brain Imaging Centre. The package provides a collection of functions for analyzing brain [[connectivity]] data, computing network-level metrics, and working with structural and functional connectomes. It emerged from the increasing availability of large-scale [[connectome]] datasets and the need for standardized, reproducible tools in the network neuroscience community [[cite:netneurotools-github]].
 
 ## Overview
 
-Netneurotools serves as a bridge between raw neuroimaging data and network-theoretic analyses that characterize brain connectivity patterns. The toolbox implements graph-theoretic measures from the brain connectivity literature, including metrics for network segregation (clustering coefficient, modularity), integration (path length, efficiency), and centralities (degree, betweenness, eigenvector) [[cite:netneurotools-github]]. Beyond metric computation, netneurotools provides utilities for working with common neuroimaging file formats, brain parcellations, and coordinate systems that facilitate the construction of connectivity matrices from imaging data.
+Netneurotools serves as a bridge between raw [[neuroimaging]] data and network-theoretic analyses that characterize brain connectivity patterns. The toolbox implements graph-theoretic measures from the brain connectivity literature, including metrics for network segregation (clustering coefficient, [[modularity]]), integration (path length, efficiency), and centralities (degree, betweenness, eigenvector) [[cite:netneurotools-github]]. Beyond metric computation, netneurotools provides utilities for working with common neuroimaging file formats, [[brain-parcellations]], and coordinate systems that facilitate the construction of connectivity matrices from imaging data.
 
 The software is designed to integrate with the broader Python neuroimaging ecosystem, particularly libraries such as Nilearn, [[nibabel]], and [[bctpy]]. This interoperability allows researchers to incorporate netneurotools functions into existing preprocessing and analysis pipelines that handle [[fMRI]], [[diffusion-imaging]], or [[dti]] data. The package emphasizes functional convenience, providing high-level functions that combine multiple operations—such as loading a parcellation, extracting time series, and computing connectivity matrices—into single function calls [[cite:netneurotools-docs]].
 
@@ -25,13 +34,13 @@ Network metric computation forms a core component of the toolbox within the **me
 
 The **stats module** provides statistical functions optimized for network neuroscience, including efficient Pearson correlation implementations (efficient_pearsonr, weighted_pearsonr), permutation tests (permtest_1samp, permtest_rel), and regression utilities with dominance analysis (residualize, get_dominance_stats) [[cite:netneurotools-api]].
 
-Additional modules include **plotting** (brain surface visualization using pyvista, heatmaps), **spatial** (Moran's I, Geary's C, Lee's L for spatial autocorrelation), **modularity** (consensus modularity, community detection), and **interface** (CIFTI, GIFTI, FreeSurfer file handling) [[cite:netneurotools-docs]].
+Additional modules include **plotting** (brain surface visualization using pyvista, heatmaps), **spatial** (Moran's I, Geary's C, Lee's L for spatial autocorrelation), **modularity** (consensus modularity, [[community-detection]]), and **interface** ([[cifti]], GIFTI, FreeSurfer file handling) [[cite:netneurotools-docs]].
 
 ## Relationship to TVB
 
 Netneurotools relates to [[the-virtual-brain]] through complementary analysis workflows, though the two tools serve distinct purposes in the computational neuroscience pipeline. TVB focuses on **generating** simulated brain activity through [[whole-brain-modeling]] with [[neural-mass-models]] running on [[structural-connectivity]] scaffolds, while netneurotools focuses on **analyzing** empirical or simulated brain networks using graph-theoretic approaches.
 
-In practice, researchers using TVB may employ netneurotools to analyze the simulated functional connectivity patterns produced by TVB simulations, comparing them against empirical functional connectivity from [[resting-state]] fMRI datasets. The network metrics computed by netneurotools can serve as summary statistics for comparing different TVB parameter configurations, validating models against empirical data, or characterizing the dynamical properties of simulated brain activity. The toolbox's atlas fetching utilities and parcellation handling align well with TVB's use of brain atlases to define regional node structure in whole-brain models.
+In practice, researchers using TVB may employ netneurotools to analyze the simulated [[functional-connectivity]] patterns produced by TVB simulations, comparing them against empirical functional connectivity from [[resting-state]] fMRI datasets. The network metrics computed by netneurotools can serve as summary statistics for comparing different TVB parameter configurations, validating models against empirical data, or characterizing the dynamical properties of simulated brain activity. The toolbox's atlas fetching utilities and [[parcellation]] handling align well with TVB's use of brain atlases to define regional node structure in whole-brain models.
 
 ## Related Software
 

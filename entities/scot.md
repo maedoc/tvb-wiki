@@ -1,13 +1,17 @@
 ---
-title: SCOT
 created: 2025-01-15
-updated: 2026-05-04
-type: entity
-tags: [software, structural-connectivity, connectomics, software-visualization]
 sources: []
+tags:
+- software
+- structural-connectivity
+- connectomics
+- software-visualization
+title: SCOT
+type: entity
+updated: '2026-05-04'
 ---
 
-SCOT (Structural Connectivity Toolbox) is a proposed or lessestablished software package designed for the analysis and visualization of structural brain connectivity data derived from diffusion tensor imaging (DTI) and probabilistic tractography. The toolbox provides a unified interface for computing connectivity matrices, extracting network metrics, and performing comparative analysis across subject groups, making it particularly valuable for whole-brain modeling workflows that require robust structural connectivity estimates as the anatomical backbone for [[neural-mass-model]] simulations [[@rubinov2010complex]]. *Note: This entry requires verification as SCOT may not be a widely documented or established tool in the neuroimaging ecosystem.*
+SCOT ([[structural-connectivity]] Toolbox) is a proposed or lessestablished software package designed for the analysis and visualization of structural brain [[connectivity]] data derived from diffusion tensor imaging (DTI) and probabilistic tractography. The toolbox provides a unified interface for computing connectivity matrices, extracting network metrics, and performing comparative analysis across subject groups, making it particularly valuable for [[whole-brain|whole-brain modeling]] workflows that require robust structural connectivity estimates as the anatomical backbone for [[neural-mass-model]] simulations [[@rubinov2010complex]]. *Note: This entry requires verification as SCOT may not be a widely documented or established tool in the [[neuroimaging]] ecosystem.*
 
 ## Overview
 
@@ -30,6 +34,6 @@ The closest competitors to SCOT are the [[brain-connectivity-toolbox]] (BCT), wh
 ## Key Papers
 
 - Rubinov, M., & Sporns, O. (2010). Complex network measures of brain connectivity: uses and interpretations. *Current Opinion in Neurobiology*, 20(3), 262-267. [[@rubinov2010complex]]
-- Tournier, J. D., et al. (2012). MRtrix: Diffusion imaging, diffusion spectroscopy, and FAQ. Proc. ISMRM. [[@tournier2012mrtrix3]]
-- Sanz-Leon, P., et al. (2015). The Virtual Brain: a simulator of primate brain network dynamics. *NeuroImage*, 111, 385-410. [[@sanz-leon2015virtual]]
+- Tournier, J. D., et al. (2012). MRtrix: [[diffusion-imaging]], diffusion spectroscopy, and FAQ. Proc. ISMRM. [[@tournier2012mrtrix3]]
+- Sanz-Leon, P., et al. (2015). [[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]. *NeuroImage*, 111, 385-410. [[@sanz-leon2015virtual]]
 - Zalesky, A., et al. (2010). Whole-brain anatomical networks: Does the choice of nodes and edges matter? *NeuroImage*, 50(3), 970-983. [[@zalesky2010thresholding]]

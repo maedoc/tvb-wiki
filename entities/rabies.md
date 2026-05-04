@@ -1,17 +1,27 @@
 ---
-title: Rabies Virus Tracing
 created: 2023-01-01
-updated: 2026-05-04
+sources:
+- wickersham-2007
+- .callaway-2008
+- urban-camaselle-2011
+- chatterjee-2019
+tags:
+- structural-connectivity
+- virus-based-methods
+- neural-circuit-mapping
+- tractography
+- anatomical-tracing
+- neuroanatomy
+title: Rabies Virus Tracing
 type: entity
-tags: [structural-connectivity, virus-based-methods, neural-circuit-mapping, tractography, anatomical-tracing, neuroanatomy]
-sources: [wickersham-2007,.callaway-2008,urban-camaselle-2011,chatterjee-2019]
+updated: '2026-05-04'
 ---
 
-Rabies virus tracing is a neuroanatomical technique that exploits the retrograde trans-synaptic properties of rabies virus to map monosynaptic neural circuits in the mammalian brain. Unlike classical anatomical tracing methods that reveal only gross connectivity patterns, rabies-mediated tracing can delineate the directional flow of information through neural networks with single-neuron resolution, making it a powerful tool for understanding the architecture of brain connectivity that underpins computational models.
+Rabies virus tracing is a neuroanatomical technique that exploits the retrograde trans-synaptic properties of rabies virus to map monosynaptic neural circuits in the mammalian brain. Unlike classical anatomical tracing methods that reveal only gross [[connectivity]] patterns, rabies-mediated tracing can delineate the directional flow of information through neural networks with single-[[neuron]] resolution, making it a powerful tool for understanding the architecture of brain connectivity that underpins computational models.
 
 ## Background and Motivation
 
-Understanding the structural basis of brain function requires detailed knowledge of how neurons and brain regions are connected. Traditional methods like anterograde tracing (using substances such as biotinylated dextran amine) or retrograde tracing (using cholera toxin or fast blue) provide valuable connectivity data but have limitations in resolution, completeness, or the ability to trace trans-synaptically across multiple circuit stages. Rabies virus tracing emerged as a solution to these limitations, offering the unique capability to trace neural circuits retrogradely while maintaining the identity of the starting (starter) neurons. This capability is particularly valuable for whole-brain modeling efforts, where accurate structural connectivity matrices are essential for simulating emergent network dynamics.
+Understanding the structural basis of brain function requires detailed knowledge of how neurons and brain regions are connected. Traditional methods like anterograde tracing (using substances such as biotinylated dextran amine) or retrograde tracing (using cholera toxin or fast blue) provide valuable connectivity data but have limitations in resolution, completeness, or the ability to trace trans-synaptically across multiple circuit stages. Rabies virus tracing emerged as a solution to these limitations, offering the unique capability to trace neural circuits retrogradely while maintaining the identity of the starting (starter) neurons. This capability is particularly valuable for [[whole-brain|whole-brain modeling]] efforts, where accurate structural connectivity matrices are essential for simulating emergent [[network-dynamics]].
 
 ## Technical Approach
 
