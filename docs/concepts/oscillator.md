@@ -18,7 +18,7 @@ tags:
 - whole-brain-modeling
 title: Oscillator
 type: concept
-updated: '2026-04-30'
+updated: '2026-05-05'
 ---
 
 # Oscillator

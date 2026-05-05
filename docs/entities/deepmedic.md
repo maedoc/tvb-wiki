@@ -11,11 +11,20 @@ tags:
 - deepmedic
 title: Deepmedic
 type: concept
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 Deepmedic — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
 
 ## Related Concepts
 * [[niftynet]]
-* [[monai]]
+* Monai
+
+## References
+
+1. Yunman Xia, S. Peng, J. Dukart, C. Xie, Shitong Xiang, S. Petkoski, Zilin Li, Joerg F. Hipp, S. Muthukumaraswamy, A. Forsyth, Tianye Jia, N. Vaidya, T. Lett, Liyi Qian, Xiao Chang, Yuxiang Dai, T. Banaschewski, G. Barker, A. Bokde, R. Brühl, S. Desrivières, Herta Flor, P. Gowland, A. Grigis, Andreas Heinz, H. Lemaître, F. Nees, D. Orfanos, Luise Poustka, M. Smolka, Sarah Hohmann, H. Walter, R. Whelan, Paul Wirsching, Zuo Zhang, Lauren Robinson, J. Winterer, Yuning Zhang, H. Kebir, Ulrike Schmidt, Julia Sinclair, Yuchen Liu, Jiexiang Wang, Fei Dai, Longbin Zeng, Yubo Hou, Huarui Wang, Leijun Ye, Chunhe Li, Qibao Zheng, Andre F Marquand, Changsong Zhou, V. Jirsa, Jianfeng Feng, Wenlian Lu, Gunter Schumann. (2026). *Digital Twin Brain simulation and manipulation of a functional [[brain-network]] underlying mental illness*. bioRxiv. [DOI](https://doi.org/10.64898/2026.03.06.710030)
+2. Preksha Girish, Rachana Mysore, Mahanthesha U, Shrey Kumar, Misbah Fatimah Annigeri, Tanish Jain. (2025). *Geometric-Stochastic Multimodal Deep Learning for Predictive Modeling of SUDEP and Stroke Vulnerability*. [Link](https://arxiv.org/abs/2512.08257)
+3. Hongjie Jiang, Yifei Tang, Shuqiang Wang. *Neural Dynamics-Informed Pre-trained Framework for [[personalized-brain-modeling|Personalized Brain]] Functional Network Construction*. [Link](https://arxiv.org/abs/2603.07524)
+4. Alexandre Muzy. *From Brain Models to Executable Digital Twins: Execution Semantics and Neuro-Neuromorphic Systems*. [Link](https://arxiv.org/abs/2604.13574)
+5. Yunlong Gao, Jinbo Yang, Li Xiao, Haiye Huo, Yang Ji, Hao Wang, Aiying Zhang, Yu-Ping Wang. *BrainCast: A Spatio-Temporal Forecasting Model for Whole-Brain [[fmri]] Time Series Prediction*. [Link](https://arxiv.org/abs/2603.13361)
+6. Ying Lei, Yuxuan Liu, Mingli Wang, Nini Yuan, Yujie Hou, Lingjun Ding, Zhiyong Zhu, Zihan Wu, Chao Li, Mingyuan Zheng, Ruiyi Zhang, Ana Rita Ribeiro Gomes, Yuanfang Xu, Zhaoke Luo, Zhen Liu, Qinwen Chai, P. Misery, Yan Zhong, Xinxiang Song, C. Lamy, Wei Cui, Qian Yu, Jiao Fang, Yingjie An, Ye Tian, Yiwen Liu, Xing Sun, Ruiqi Wang, Huanhuan Li, Jingjing Song, Xingjun Tan, He Wang, Shiwen Wang, Ling Han, Yong Zhang, Shenyu Li, Kexin Wang, Guangling Wang, Wanqiu Zhou, Jianfeng Liu, Cong Yu, Shuzhen Zhang, Liang Chang, Dafina Toplanaj, Meng-Meng Chen, Jiabing Liu, Yun Zhao, Biyu Ren, Hanyu Shi, Hui Zhang, Haotian Yan, Jianyun Ma, Lina Wang, Yan Li, Yichen Zuo, Linjie Lu, Liqin Gu, Shuting Li, Yaqian Wang, Yinying He, Shengkang Li, Qi Zhang, Yanbing Lu, Yannong Dou, Yuan Liu, Anqi Zhao, Minyuan Zhang, Xinyan Zhang, Ying Xia, Wei Zhang, Huateng Cao, Zhiyue Lu, Zixian Yu, Xin Li, Xiaofei Wang, Zhifeng Liang, Shengjin Xu, Cirong Liu, C. Zheng, Chun Xu, Zhiyong Liu, Chengyu T. Li, Yansheng Sun, Xun Xu, C. Dehay, J. Vezoli, Muming Poo, Jian Yao, Longqi Liu, Wu Wei, Henry Kennedy, Zhi-jian Shen. (2025). *Single-cell spatial transcriptome atlas and whole-brain [[connectivity]] of the macaque claustrum.*. Cell. [DOI](https://doi.org/10.1016/j.cell.2025.02.037)

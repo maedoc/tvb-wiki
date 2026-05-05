@@ -21,7 +21,7 @@ tags:
 - neural-mass-models
 title: Brain Aging
 type: concept
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 Brain aging encompasses the progressive structural, functional, and connectomic changes that occur in the human brain from early adulthood through senescence. Unlike neurodevelopment, which is characterized by growth and integration, aging involves a complex interplay of decline and adaptation—both normative losses in gray matter volume, white matter integrity, and [[functional-connectivity]], as well as compensatory reorganizations that allow many older adults to maintain cognitive function. Understanding these trajectories is essential for [[whole-brain|whole-brain modeling]] approaches that aim to simulate individual brains, as age-related parameter changes fundamentally alter [[network-dynamics]], synchronization properties, and the brain's computational capacity.
@@ -76,4 +76,12 @@ Applications to personalized modeling involve fitting individual parameters to e
 
 ## See also
 
-- [[andrei-medvedev]]
+- Andrei Medvedev
+
+## References
+
+1. (authors unknown). *Memory and Executive Function in Aging and AD: Multiple Factors that Cause Decline and Reserve Factors that Compensate*.
+2. (authors unknown). *The Cognitive Neuroscience of Ageing and Functional Reserve*.
+3. (authors unknown). *Effects of Aging on Functional Connectivity of the Default Mode Network*.
+4. (authors unknown). *Structural Brain Changes in Aging: Courses, Causes and Cognitive Consequences*.
+5. J. King, M. Prigge, Vincent Koppelmans, John M. Hoffman, Kevin Duff. (2026). *Altered functional connectivity is associated with Repeatable Battery for the Assessment of Neuropsychological Status across the dementia spectrum*. Journal of the International Neuropsychological Society. [DOI](https://doi.org/10.1017/s135561772610191x)

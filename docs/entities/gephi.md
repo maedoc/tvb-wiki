@@ -5,6 +5,8 @@ sources:
 - 2019
 - 2014
 - raw/papers/rubinov-sporns-2010.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/mijalkov-2017-braph.md
 tags:
 - software-visualization
 - software-graphvar
@@ -14,12 +16,12 @@ tags:
 - community-detection
 title: Gephi
 type: entity
-updated: '2026-05-01'
+updated: '2026-05-04'
 ---
 
 ## Overview
 
-Gephi is an open-source network visualization and analysis platform written in Java, originally developed at École Polytechnique de Montréal and now maintained by the Gephi Consortium. It provides interactive tools for exploring, analyzing, and visualizing graphs and networks across many domains, from social media analysis to biological networks. In computational neuroscience, Gephi has become a standard tool for visualizing [[brainsuite]] datasets, particularly [[structural-connectivity]] matrices derived from [[diffusion-imaging]] and [[tractography]], as well as [[functional-connectivity]] networks from [[fmri]] or [[eeg]] data [Bastian et al., 2009]. The platform runs on Windows, macOS, and Linux, and is distributed under the terms of the GNU General Public License.
+Gephi is an open-source network visualization and analysis platform written in Java, originally developed at École Polytechnique de Montréal and now maintained by the Gephi Consortium. It provides interactive tools for exploring, analyzing, and visualizing graphs and networks across many domains, from social media analysis to biological networks. In computational neuroscience, Gephi has become a standard tool for visualizing Brainsuite datasets, particularly [[structural-connectivity]] matrices derived from [[diffusion-imaging]] and [[tractography]], as well as [[functional-connectivity]] networks from [[fmri]] or [[eeg]] data [Bastian et al., 2009]. The platform runs on Windows, macOS, and Linux, and is distributed under the terms of the GNU General Public License.
 
 ## Key Features
 
@@ -44,3 +46,9 @@ The ForceAtlas2 layout algorithm itself is described in "ForceAtlas2, a Continuo
 ## Related Software
 
 Several alternatives and complements to Gephi exist for network visualization and analysis in neuroscience. [[cytoscape]] offers similar visualization capabilities with strong integration into biological pathway databases. [[graph-tool]] provides optimized C++ implementations of graph algorithms for large-scale analysis, though with a steeper learning curve. The [[brain-connectivity-toolbox]] (BCT) is a MATLAB library specifically designed for brain network analysis and integrates well with Gephi through standard graph file formats. For web-based visualization, [[brainnet-viewer]] offers a Three.js-based viewer optimized for brain surfaces. For Python-centric workflows, the NetworkX library combined with matplotlib or pyvis provides programmatic network visualization with greater automation potential.
+
+## References
+
+1. (authors unknown). *Complex Network Measures of Brain [[connectivity]]: Uses and Interpretations*.
+2. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+3. (authors unknown). *[[braph]]: A Pipeline for Brain Connectivity Analysis*.

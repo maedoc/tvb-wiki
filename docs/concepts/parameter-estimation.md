@@ -19,7 +19,7 @@ tags:
 - free-energy-principle
 title: Parameter Estimation
 type: concept
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 Parameter Estimation is a fundamental methodological concept in [[computational-neuroscience]] that refers to the process of inferring the numerical values of free parameters in mathematical models of neural systems by fitting model predictions to empirical observations. In the context of [[whole-brain|whole-brain modeling]], parameter estimation serves as the critical bridge between abstract mathematical formulations of neural dynamics and the empirically measured brain activity obtained through [[neuroimaging]] modalities such as [[fmri]], EEG, and MEG.
@@ -65,3 +65,11 @@ The estimation process is closely tied to [[model-validation]], where one assess
 ## Open Questions
 
 Several challenges remain active research areas. Identifiability issues persist, particularly for whole-brain models where different parameter configurations may produce qualitatively similar functional connectivity. Transfer learning approaches that leverage parameters estimated from large datasets like [[hcp-dataset]] to initialize fits for individual subjects offer one promising direction. Additionally, the development of efficient sensitivity analysis methods for large-scale models remains essential for understanding which parameters the data actually constrains.
+
+## References
+
+1. Ritter et al. (2013). *[[tvb|The Virtual Brain]] integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
+2. A. Craig, Sida Chen, Qianyuan Tang, Changsong Zhou. (2026). *Personalized whole-brain Ising models with heterogeneous nodes capture differences among brain regions*. bioRxiv. [DOI](https://doi.org/10.1101/2025.06.09.658769)
+3. Sam Fatehmanesh Vegas, Matt Thomson, James Gornet, David Prober. (2025). *A Sensing Whole Brain Zebrafish Foundation Model for [[neuron]] Dynamics and Behavior*. [Link](https://arxiv.org/abs/2510.27366)
+4. Gianluca Gaglioti, Alessandra Cardinale, Cosimo Lupo, Thierry Nieus, Federico Marmoreo, Elena Focacci, Robin Gutzen, Michael Denker, Andrea Pigorini, Marcello Massimini, Simone Sarasso, Pier Stanislao Paolucci, Giulia De Bonis. *Emergent complexity and rhythms in evoked and spontaneous dynamics of human whole-brain models after tuning through analysis tools*. [Link](https://arxiv.org/abs/2509.12873)
+5. Yunfei Wang, Yanming Wang, Bensheng Qiu, Xiaoxiao Wang. (2026). *Few-Shot Transfer Learning for Cross-Subject Visual Brain Decoding via Whole-Brain Functional Magnetic Resonance Imaging*. 2026 6th International Conference on Neural Networks, Information and Communication Engineering (NNICE). [DOI](https://doi.org/10.1109/NNICE68970.2026.11466215)

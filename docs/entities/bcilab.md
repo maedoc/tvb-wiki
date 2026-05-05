@@ -15,7 +15,7 @@ tags:
 - open-source
 title: BCILAB
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 # BCILAB
@@ -32,7 +32,7 @@ BCILAB addressed this fragmentation by providing a standardized, extensible plat
 
 ## Technical Capabilities
 
-BCILAB implements a comprehensive suite of signal processing operations organized into a modular pipeline architecture. The toolbox handles preprocessing [[steps]] including filtering (both finite and infinite impulse response filters), artifact rejection (using automated detection of eye blinks, muscle artifacts, and drift), channel re-referencing (including average, Laplacian, and bipolar montages), and epoching for trial-based analysis. These preprocessing stages can be concatenated into processing streams that process data sequentially, with intermediate results visible at each stage.
+BCILAB implements a comprehensive suite of signal processing operations organized into a modular pipeline architecture. The toolbox handles preprocessing Steps including filtering (both finite and infinite impulse response filters), artifact rejection (using automated detection of eye blinks, muscle artifacts, and drift), channel re-referencing (including average, Laplacian, and bipolar montages), and epoching for trial-based analysis. These preprocessing stages can be concatenated into processing streams that process data sequentially, with intermediate results visible at each stage.
 
 For feature extraction, BCILAB supports multiple approaches common in BCI research. Spectral features can be computed using Welch's method or wavelet decomposition, capturing oscillations in specific frequency bands such as theta (4–8 Hz), alpha (8–13 Hz), beta (13–30 Hz), and gamma (30–100 Hz). Spatial features include independent component analysis (ICA) for [[source-separation]], which can isolate artifacts or meaningful neural sources [@makeig_1996; @makeig_2004]. The toolbox also implements common spatial pattern (CSP) algorithms for maximizing class discriminability, particularly useful for motor imagery BCI paradigms [@ramoser_2000]. These extracted features can then be passed to machine learning classifiers including [[linear]] discriminant analysis (LDA), support vector machines (SVMs), and other classification approaches common in [[computational-neuroscience]] research.
 
@@ -44,8 +44,14 @@ While BCILAB focuses on real-time BCI applications and single-subject signal pro
 
 ## Related Software Ecosystem
 
-BCILAB belongs to a broader ecosystem of neurophysiological signal processing toolboxes from the SCCN group. Its closest relative is [[eeglab]], which provides general-purpose EEG processing capabilities from which BCILAB inherits several functions. Unlike EEGLAB's emphasis on exploratory data analysis, BCILAB is optimized for the specific workflows of BCI research. Other related toolboxes include [[fieldtrip]] (an EEG/MEG toolbox from the Donders Institute with strong source localization capabilities), [[brainstorm]] (a comprehensive EEG/MEG/SEEG analysis platform), and commercial systems such as [[bci2000]] and [[openvibe]] that provide complete BCI experimentation environments.
+BCILAB belongs to a broader ecosystem of neurophysiological signal processing toolboxes from the SCCN group. Its closest relative is [[eeglab]], which provides general-purpose EEG processing capabilities from which BCILAB inherits several functions. Unlike EEGLAB's emphasis on exploratory data analysis, BCILAB is optimized for the specific workflows of BCI research. Other related toolboxes include Fieldtrip (an EEG/MEG toolbox from the Donders Institute with strong [[source-localization]] capabilities), Brainstorm (a comprehensive EEG/MEG/SEEG analysis platform), and commercial systems such as Bci2000 and [[openvibe]] that provide complete BCI experimentation environments.
 
 ## Key Features
 
 The features that distinguish BCILAB in the BCI toolbox landscape include its emphasis on [[reproducibility]] through saved processing pipelines, its extensive library of example BCI paradigms (allowing new researchers to quickly set up standard experiments), and its plugin architecture that enables extension with custom algorithms. The toolbox includes built-in support for common BCI paradigms including motor imagery (imagined movements), P300 event-related potentials (the oddball paradigm), and steady-state visual evoked potentials (SSVEP). Additionally, BCILAB provides tools for comparing classifier performance, visualizing feature spaces, and conducting cross-validation studies.
+
+## References
+
+1. Xiaobo Liu. (2026). *MLE-Toolbox: An Open-Source Toolbox for Comprehensive EEG and MEG Data Analysis*. [Link](https://www.semanticscholar.org/paper/e7aaa4f4bb01e70064493684b4500a950f83460f)
+2. Gursimran Singh, Aviral Chharia, Rahul Upadhyay, Vinay Kumar, Luca Longo. (2025). *PyNoetic: A modular python framework for no-code development of EEG brain-computer interfaces*. PLoS ONE. [DOI](https://doi.org/10.1371/journal.pone.0327791)
+3. Neda Abdollahpour, N. Sertac Artan, Ian Daly, Mohammadreza Yazdchi, Zahra Baharlouei. (2025). *[[effective-connectivity]]-Based Unsupervised Channel Selection Method for EEG*. [Link](https://arxiv.org/abs/2510.12910)

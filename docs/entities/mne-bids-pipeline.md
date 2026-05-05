@@ -11,7 +11,7 @@ tags:
 - data-processing
 title: MNE-BIDS-Pipeline
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 ## Overview
@@ -20,7 +20,7 @@ updated: '2026-05-03'
 
 ## Motivation and Context
 
-The analysis of MEG and EEG data has historically suffered from methodological heterogeneity across labs, with each research group developing custom preprocessing scripts that are difficult to share, reproduce, or compare across studies. This "pipeline fragmentation" problem becomes especially acute in [[connectomics]] and [[whole-brain|whole-brain modeling]] applications, where different preprocessing choices can substantially affect estimated [[functional-connectivity]] patterns and subsequent model fits. MNE-BIDS-Pipeline addresses this challenge by implementing a well-documented, configurable, yet default-protected workflow that follows standard practices established by the [[mne-python]] community and the BIDS standard.
+The analysis of MEG and EEG data has historically suffered from methodological heterogeneity across labs, with each research group developing custom preprocessing scripts that are difficult to share, reproduce, or compare across studies. This "pipeline fragmentation" problem becomes especially acute in [[connectomics]] and [[whole-brain|whole-brain modeling]] applications, where different preprocessing choices can substantially affect estimated [[functional-connectivity]] patterns and subsequent model fits. MNE-BIDS-Pipeline addresses this challenge by implementing a well-documented, configurable, yet default-protected workflow that follows standard practices established by the Mne Python community and the BIDS standard.
 
 The pipeline emerged from the recognition that the BIDS format, while excellent for organizing raw neuroimaging data, does not specify how to process that data. By coupling BIDS-compliant data organization with a standardized processing stream, MNE-BIDS-Pipeline enables researchers to deposit processed data in [[bids-derivatives]] format, facilitating data sharing and secondary analyses. This is particularly relevant for projects like the [[mrtrix3-connectome]] (HCP) and the OASIS (Open Access Series of Imaging Studies) initiative, which have released large cohorts of MEG and EEG data that benefit from consistent processing.
 
@@ -30,13 +30,13 @@ The pipeline is implemented in Python and built atop the MNE-Python library, lev
 
 A distinguishing feature of MNE-BIDS-Pipeline is its use of **configurable configuration files** that specify processing parameters, allowing users to customize behavior without modifying code. In recent versions, the pipeline supports both YAML-based configuration files and pyproject.toml-based settings, providing flexibility for different user preferences and integration with modern Python packaging workflows. The pipeline supports both MEG and EEG modalities, handles sensor-space analyses (power spectral density, time-frequency representations) and source-space analyses (cortical connectivity estimates), and can produce parcel-level connectivity matrices suitable for comparison with [[structural-connectivity]] data from DTI [[tractography]].
 
-For source localization, the pipeline interfaces with [[freesurfer]] for cortical reconstruction and can generate lead field matrices using the boundary element method implemented in [[openmeeg]]. This enables researchers to estimate the cortical currents underlying observed sensor activity, which can then be compared against predictions from whole-brain models implemented in software like [[The Virtual Brain]].
+For source localization, the pipeline interfaces with Freesurfer for cortical reconstruction and can generate lead field matrices using the boundary element method implemented in [[openmeeg]]. This enables researchers to estimate the cortical currents underlying observed sensor activity, which can then be compared against predictions from whole-brain models implemented in software like [[The Virtual Brain]].
 
 ## Key Features
 
 The pipeline offers several features that make it particularly useful for [[computational-neuroscience]] research. First, it implements automated bad channel detection using statistical criteria, reducing the need for manual preprocessing. Second, it provides multiple artifact rejection strategies, including Independent Component Analysis (ICA) and Signal Space Projection (SSP), with options for manual review of identified components. Third, the pipeline supports parallel processing via joblib, enabling efficient handling of large datasets on multi-core workstations or HPC clusters.
 
-Critically, MNE-BIDS-Pipeline generates outputs that conform to the BIDS-derivatives specification, including preprocessed sensor data, epoched trials, source estimates, and connectivity matrices in standard file formats (such as FIFF and NITimes). This ensures compatibility with downstream analysis tools including visualization packages like [[pycortex]] and connectivity analysis tools like [[mne-connectivity]].
+Critically, MNE-BIDS-Pipeline generates outputs that conform to the BIDS-derivatives specification, including preprocessed sensor data, epoched trials, source estimates, and connectivity matrices in standard file formats (such as FIFF and NITimes). This ensures compatibility with downstream analysis tools including visualization packages like Pycortex and connectivity analysis tools like [[mne-connectivity]].
 
 ## Relationship to TVB
 
@@ -57,3 +57,7 @@ The combination of MNE-BIDS-Pipeline and TVB represents a powerful workflow for 
 4. Gorgolewski, K., et al. (2015). [[pybids]]: A Python toolbox for organizing neuroimaging data. Frontiers in Neuroinformatics.
 
 5. Gramfort, A., et al. (2013). MEG and EEG data analysis with MNE-Python. Frontiers in Neuroscience.
+
+## References
+
+1. Gramfort et al. (2013). *MEG and EEG: From Acquisition to Analysis*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fnins.2013.00010)

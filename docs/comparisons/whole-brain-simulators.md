@@ -21,7 +21,7 @@ tags:
 - spiking-neural-networks
 title: Whole Brain Simulators
 type: comparison
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 # Whole-Brain Simulation Platforms
@@ -57,7 +57,7 @@ The five principal platforms considered here are as follows. [[the-virtual-brain
 
 NEURON solves cable equations for spatially extended neurons with distributed ion channels and synapses across multiple compartments. The platform has served as the gold standard for detailed neuronal simulation for over two decades [Hines and Carnevale, 1997], providing specialized capabilities for modeling detailed dendritic morphology, axonal propagation, and subcellular processes. When dendritic integration or [[ion-channel]] distributions shape the phenomena under study, NEURON remains essential for validation against intracellular and extracellular electrophysiological recordings.
 
-[[brian2]] provides a Python-based environment where neurons and synapses are described using differential equations in a natural mathematical notation. The platform's primary strength lies in its flexibility and educational use, allowing researchers to rapidly prototype new neuron and synapse models without compiling C++ code. Brian2 has become particularly popular in the computational neuroscience teaching community and for exploratory simulations requiring flexible model definitions, as noted in work on mean-field approximations for spiking networks [Schwalger et al., 2017].
+Brian2 provides a Python-based environment where neurons and synapses are described using differential equations in a natural mathematical notation. The platform's primary strength lies in its flexibility and educational use, allowing researchers to rapidly prototype new neuron and synapse models without compiling C++ code. Brian2 has become particularly popular in the computational neuroscience teaching community and for exploratory simulations requiring flexible model definitions, as noted in work on mean-field approximations for spiking networks [Schwalger et al., 2017].
 
 [[arbor]] represents the newer generation of high-performance neural simulators, designed for modern supercomputers with GPU acceleration. The platform supports both multi-compartment and point neuron models, with sophisticated load balancing and performance optimization for distributed computing environments. Arbor's architecture enables detailed biological simulation at scales previously achievable only with more abstract approaches, representing an important step forward in the capability gap between detailed biophysical modeling and large-scale network simulation.
 
@@ -106,3 +106,15 @@ Recent developments in the whole-brain simulation landscape indicate growing emp
 - [[tvb-vs-nest-vs-neuron]] — Detailed three-way platform comparison
 - [[neural-mass-models]] — Population-level brain modeling approach
 - [[computational-neuroscience]] — Broader field of neural simulation research
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Eppler et al. (2009). *PyNEST: A convenient interface to the NEST simulator*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/neuro.11.012.2008)
+3. Jordan et al. (2018). *Extremely scalable spiking neuronal network simulation code: from laptops to exascale computers*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2018.00002)
+4. Hines & Carnevale (1997). *The NEURON simulation environment*. Neural Computation. [DOI](https://doi.org/10.1162/neco.1997.9.6.1179)
+5. (authors unknown). *Towards a Statistical Theory of Learning and Generalization in Neural Networks*.
+6. Potjans & Diesmann (2014). *The cell-type specific cortical microcircuit: relating structure and activity*. Cerebral Cortex. [DOI](https://doi.org/10.1093/cercor/bhs358)
+7. (authors unknown). *Spontaneous fluctuations in brain activity observed with functional magnetic resonance imaging*.
+8. Leon Martin, Konstantin Bülau, Marius Pille, Rico Schmitt, Christoph Hüttl, J. Meier, Halgurd Taher, Dionysios Perdikis, M. Schirner, L. Stefanovski, [[petra-ritter]]. (2025). *The Virtual Brain Ontology: A Digital Knowledge Framework for Reproducible Brain Network Modeling*. bioRxiv. [DOI](https://doi.org/10.1101/2025.11.19.689211)
+9. Timo Hofsähs, Marius Pille, Lucas Kern, Anuja Negi, J. Meier, Petra Ritter. (2026). *The Virtual Brain links transcranial magnetic stimulation evoked potentials and inhibitory neurotransmitter changes in major depressive disorder*. bioRxiv. [DOI](https://doi.org/10.1101/2024.11.25.622620)

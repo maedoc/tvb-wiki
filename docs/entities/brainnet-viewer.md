@@ -15,7 +15,7 @@ tags:
 - brain-parcellations
 title: BrainNet Viewer
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 ## Overview
@@ -26,7 +26,7 @@ BrainNet Viewer is a MATLAB-based software package for visualizing three-dimensi
 
 BrainNet Viewer provides several core visualization capabilities that address the unique challenges of representing brain network data in three dimensions. The software accepts node definitions from parcellation atlases such as the [[aal-atlas]], [[desikan-killiany-atlas]], [[brainnetome-atlas]], and allows users to map network nodes onto cortical surfaces extracted from reconstructed brain meshes. Edge representations include both line-based and volume-based renderings of white matter tracts, with support for directional information encoded through color gradients or line thickness.
 
-The software supports multiple surface formats including FreeSurfer's curvature files and the NV (NeuroVue) surface format, enabling integration with preprocessing pipelines that rely on [[freesurfer]] or [[fsl]] for cortical reconstruction. BrainNet Viewer can be used to visualize network metrics such as betweenness centrality, clustering coefficient, and [[modularity]] computed by the Brain Connectivity Toolbox (BCT) [rubinov2010complex], allowing these measures to be displayed directly on the brain surface. Users can generate both static publication figures and interactive movies showing dynamic network changes over time, which is particularly useful for visualizing [[resting-state]] fluctuations or task-related connectivity patterns.
+The software supports multiple surface formats including FreeSurfer's curvature files and the NV (NeuroVue) surface format, enabling integration with preprocessing pipelines that rely on Freesurfer or Fsl for cortical reconstruction. BrainNet Viewer can be used to visualize network metrics such as betweenness centrality, clustering coefficient, and [[modularity]] computed by the Brain Connectivity Toolbox (BCT) [rubinov2010complex], allowing these measures to be displayed directly on the brain surface. Users can generate both static publication figures and interactive movies showing dynamic network changes over time, which is particularly useful for visualizing [[resting-state]] fluctuations or task-related connectivity patterns.
 
 A notable feature is the ability to visualize weighted and directed networks, supporting the display of [[effective-connectivity]] estimates from [[dynamic-causal-modeling]] (DCM) or Granger causality analyses. The color mapping system supports arbitrary colormaps, enabling researchers to overlay statistical maps, significance values, or graph theoretical measures alongside structural connectivity.
 
@@ -40,11 +40,11 @@ See also: [[tvb-adapters]], [[tvb-multiscale]], and [[whole-brain-simulators]] f
 
 ## Related Software
 
-BrainNet Viewer occupies a niche in the brain visualization ecosystem that includes several competing and complementary tools. The [[connectome-workbench]] (WB) provides similar surface-based visualization capabilities but with a stronger emphasis on CIFTI format data and close integration with the [[human-connectome-project]] (HCP) pipelines. For volumetric visualization of diffusion data and tractography, tools like [[dsi-studio]], [[mrtrix3]], and [[camino]] offer more specialized functionality.
+BrainNet Viewer occupies a niche in the brain visualization ecosystem that includes several competing and complementary tools. The [[connectome-workbench]] (WB) provides similar surface-based visualization capabilities but with a stronger emphasis on CIFTI format data and close integration with the [[human-connectome-project]] (HCP) pipelines. For volumetric visualization of diffusion data and tractography, tools like [[dsi-studio]], Mrtrix3, and [[camino]] offer more specialized functionality.
 
-The [[brain-connectivity-toolbox]] provides the graph theoretical analysis capabilities that complement BrainNet Viewer's visualizations, while [[brainnetome-atlas]]—developed by the same research group—provides the parcellation scheme most commonly used with the viewer. Other related visualization platforms include [[brainspace]], which specializes in dimensionality reduction and manifold learning visualizations of connectivity data, and [[pycortex]], which offers web-based interactive visualizations of brain data.
+The [[brain-connectivity-toolbox]] provides the graph theoretical analysis capabilities that complement BrainNet Viewer's visualizations, while [[brainnetome-atlas]]—developed by the same research group—provides the parcellation scheme most commonly used with the viewer. Other related visualization platforms include [[brainspace]], which specializes in dimensionality reduction and manifold learning visualizations of connectivity data, and Pycortex, which offers web-based interactive visualizations of brain data.
 
-See also: [[nilearn]] for Python-based brain visualization, [[brainvoyager]] for commercial neuroimaging analysis, and [[3d-slicer]] for general-purpose medical image visualization.
+See also: Nilearn for Python-based brain visualization, [[brainvoyager]] for commercial neuroimaging analysis, and [[3d-slicer]] for general-purpose medical image visualization.
 
 ## Key Papers
 
@@ -52,3 +52,9 @@ See also: [[nilearn]] for Python-based brain visualization, [[brainvoyager]] for
 - **Zhang, J., et al.** (2014). BrainNet Viewer: A network visualization tool for human brain connectomics—updates. *Frontiers in Neuroscience*, 8, 119. [zhang2014brainnetome]
 - **Rubinov, M., & Sporns, O.** (2010). Complex network measures of brain connectivity: Uses and interpretations. *Current Opinion in Neurobiology*, 20(3), 663-670. [rubinov2010complex]
 - **Theis, M., et al.** (2016). Human [[connectome]] Project: The importance of being exchangeable. *Neuroinformatics*, 14(2), 157-166. [theis2016human]
+
+## References
+
+1. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
+2. (authors unknown). *Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems*.
+3. (authors unknown). *Functional Connectomics from Resting-State fMRI*.

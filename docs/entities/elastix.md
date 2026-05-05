@@ -14,7 +14,7 @@ tags:
 - software-visualization
 title: Elastix
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 ## Overview
@@ -27,11 +27,11 @@ Elastix implements a wide range of registration transformations ranging from sim
 
 The toolkit separates transformation models from similarity metrics, allowing users to combine different types of transformations with different objective functions. Similarity metrics include mutual information, normalized mutual information, correlation coefficient, and sum of squared differences—each suited to different imaging modalities and registration scenarios. Elastix supports multi-resolution strategies with image pyramids that progressively refine the alignment from coarse to fine scales, significantly improving convergence speed and robustness.
 
-A distinguishing characteristic of elastix is its command-line interface with parameter files that encode entire registration pipelines as human-readable text. This design facilitates reproducibility and enables systematic comparison of registration parameters across subjects or datasets. The software also provides a Python interface through the elastix Python module, enabling integration with workflow engines like [[nipype]] and [[bids]]-based preprocessing pipelines such as [[fmriprep]] and [[qsiprep]].
+A distinguishing characteristic of elastix is its command-line interface with parameter files that encode entire registration pipelines as human-readable text. This design facilitates reproducibility and enables systematic comparison of registration parameters across subjects or datasets. The software also provides a Python interface through the elastix Python module, enabling integration with workflow engines like [[nipype]] and [[bids]]-based preprocessing pipelines such as [[fmriprep]] and Qsiprep.
 
 ## Relationship to TVB
 
-In the [[the-virtual-brain]] ecosystem, elastix plays an indirect but important role in the preprocessing chain that produces the structural connectivity matrices used to configure whole-brain models. While TVB itself does not directly call elastix, many research workflows that generate [[connectome]] data from [[diffusion-mri]] and tractography pipelines use elastix for registration before applying tools like [[mrtrix3]] or [[dsi-studio]]. The accurate inter-subject alignment produced by elastix ensures that parcellation labels derived from anatomical atlases—such as the [[desikan-killiany-atlas]], [[schaefer-atlas]], or [[glasser-atlas]]—correctly map onto individual diffusion images, which is essential for producing reliable [[structural-connectivity]] networks.
+In the [[the-virtual-brain]] ecosystem, elastix plays an indirect but important role in the preprocessing chain that produces the structural connectivity matrices used to configure whole-brain models. While TVB itself does not directly call elastix, many research workflows that generate [[connectome]] data from [[diffusion-mri]] and tractography pipelines use elastix for registration before applying tools like Mrtrix3 or [[dsi-studio]]. The accurate inter-subject alignment produced by elastix ensures that parcellation labels derived from anatomical atlases—such as the [[desikan-killiany-atlas]], [[schaefer-atlas]], or [[glasser-atlas]]—correctly map onto individual diffusion images, which is essential for producing reliable [[structural-connectivity]] networks.
 
 Additionally, elastix is frequently used in conjunction with [[ants]] (Advanced Normalization Tools) for population-level template creation and longitudinal registration in studies of brain development, [[aging]], and disease progression. These templates can serve as population-averaged reference spaces for whole-brain modeling efforts that aim to characterize differences in [[network-dynamics]] between clinical groups.
 
@@ -43,4 +43,10 @@ Users building connectome-based models should also consult the methods literatur
 
 ## Related Software
 
-Elastix occupies a similar functional niche as [[ants]] and [[fsl]] for image registration tasks, with each tool having distinct strengths. [[fsl]] provides the FLIRT tool for linear registration and FNIRT for non-linear registration within a comprehensive neuroimaging analysis suite. [[ants]] offers symmetric diffeomorphic normalization and extensive tools for template construction. Elastix is distinguished by its modular parameter framework and strong performance on multi-modal registration problems. For visualization of registered results, users often employ [[fsleyes]] (part of [[fsl]]), [[itk-snap]], or [[freeview]] (from [[freesurfer]]), and the resulting connectivity matrices can be analyzed using the [[brain-connectivity-toolbox]].
+Elastix occupies a similar functional niche as [[ants]] and Fsl for image registration tasks, with each tool having distinct strengths. Fsl provides the FLIRT tool for linear registration and FNIRT for non-linear registration within a comprehensive neuroimaging analysis suite. [[ants]] offers symmetric diffeomorphic normalization and extensive tools for template construction. Elastix is distinguished by its modular parameter framework and strong performance on multi-modal registration problems. For visualization of registered results, users often employ Fsleyes (part of Fsl), Itk Snap, or [[freeview]] (from Freesurfer), and the resulting connectivity matrices can be analyzed using the [[brain-connectivity-toolbox]].
+
+## References
+
+1. Avants et al. (2011). *A reproducible evaluation of ANTs similarity metric performance in brain image registration*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2010.09.025)
+2. Mohammadtaha Parsayan, S. Andalib, T. L. Andersen, Habib Ganjgahi, P. Høilund-Carlsen, Abass Alavi, Mojtaba Zarei. (2025). *Odense-Oxford PET Image Analysis (OPETIA): An FSL-based toolbox for multimodal neuroimaging*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2025.121278)
+3. Avants et al. (2008). *Symmetric diffeomorphic image registration with cross-correlation*. Medical Image Analysis. [DOI](https://doi.org/10.1016/j.media.2007.06.004)

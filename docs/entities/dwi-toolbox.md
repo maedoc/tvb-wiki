@@ -11,7 +11,7 @@ tags:
 - tractography
 title: DWItoolbox
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-05'
 ---
 
 # DWItoolbox
@@ -40,8 +40,14 @@ The workflow typically involves acquiring diffusion-weighted MRI data, processin
 
 ## Related Software
 
-DWItoolbox exists within a rich ecosystem of diffusion MRI processing tools. The most widely adopted alternative is [[FSL]]'s FMRIB's Diffusion Toolbox (FDT), which provides comprehensive preprocessing, tensor fitting, probabilistic tractography (BedpostX/ProbtrackX), and严格的质星控制工具。FSL's tools are widely used for large-scale studies like the [[mrtrix3-connectome]] and come with extensive documentation and GUI support.
+DWItoolbox exists within a rich ecosystem of diffusion MRI processing tools. The most widely adopted alternative is [[fsl-melodic]]'s FMRIB's Diffusion Toolbox (FDT), which provides comprehensive preprocessing, tensor fitting, probabilistic tractography (BedpostX/ProbtrackX), and严格的质星控制工具。FSL's tools are widely used for large-scale studies like the [[mrtrix3-connectome]] and come with extensive documentation and GUI support.
 
 [[MRtrix3]] represents a more modern approach, with C++ implementations offering highly efficient fiber tracking capabilities, including advanced fiber orientation distribution function estimation and global tractography algorithms that have become popular in many research groups. For users preferring Python-based environments, [[DIPY]] provides a comprehensive open-source platform for diffusion imaging analysis.
 
 Another related toolbox is DMRITool, written in C++ with MATLAB interface, offering advanced reconstruction methods including Diffusion Spectrum Imaging and orientation distribution function estimation. While DWItoolbox has a narrower scope than these alternatives, its modular design makes it more approachable for teaching purposes and for understanding fundamental diffusion imaging concepts.
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain [[connectivity]]. [DOI](https://doi.org/10.1089/brain.2012.0120)
+3. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2018.05.040)

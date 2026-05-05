@@ -13,10 +13,10 @@ tags:
 - structural-mri
 title: sMRIPrep
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
-sMRIPrep is an automated preprocessing pipeline for structural magnetic resonance imaging (sMRI) data, designed to produce analysis-ready T1-weighted (T1w) images with minimal manual intervention. Developed as a companion to the widely used [[fmriprep]] workflow, sMRIPrep handles the complex sequence of steps required to transform raw MRI acquisitions into clean, standardized outputs suitable for subsequent neuroimaging analyses including [[connectome]] mapping, [[brain-parcellations]] extraction, and [[structural-connectivity]] computation. The pipeline implements a robust, reproducible workflow that integrates industry-standard tools including [[freesurfer]], [[ants]], and [[fsl]] under a unified [[nipype]] framework, ensuring consistency across preprocessing steps while maintaining full [[bids]] compliance in its outputs.
+sMRIPrep is an automated preprocessing pipeline for structural magnetic resonance imaging (sMRI) data, designed to produce analysis-ready T1-weighted (T1w) images with minimal manual intervention. Developed as a companion to the widely used [[fmriprep]] workflow, sMRIPrep handles the complex sequence of steps required to transform raw MRI acquisitions into clean, standardized outputs suitable for subsequent neuroimaging analyses including [[connectome]] mapping, [[brain-parcellations]] extraction, and [[structural-connectivity]] computation. The pipeline implements a robust, reproducible workflow that integrates industry-standard tools including Freesurfer, [[ants]], and Fsl under a unified [[nipype]] framework, ensuring consistency across preprocessing steps while maintaining full [[bids]] compliance in its outputs.
 
 ## Motivation and Context
 
@@ -24,9 +24,9 @@ Structural MRI preprocessing traditionally required neuroscientists to manually 
 
 ## Technical Implementation
 
-The sMRIPrep workflow proceeds through several interconnected stages, beginning with anatomical reference image identification and bias field correction. The pipeline applies ANTs SyN (Symmetric Normalization) to estimate a smooth bias field, which is then removed from the T1w image to produce a bias-corrected version [@Avants2009]. Brain extraction follows, employing a combination of [[freesurfer]]'s mri_mask and ANTs-based skull stripping to isolate cerebral tissue from the cranial volume. Tissue segmentation into gray matter (GM), white matter (WM), and cerebrospinal fluid (CSF) is performed via FreeSurfer's recon-all workflow, which also generates cortical and subcortical segmentations suitable for region-of-interest analyses. For studies requiring volume-based analyses, sMRIPrep registers processed images to standard [[mni-space]] using ANTs symmetric normalization (SyN), producing spatially normalized outputs that facilitate group-level comparisons. The pipeline supports both volumetric and surface-based workflows, outputting processed files in NIfTI format alongside FreeSurfer-generated surfaces suitable for visualization in tools like [[freeview]] or connectivity analysis.
+The sMRIPrep workflow proceeds through several interconnected stages, beginning with anatomical reference image identification and bias field correction. The pipeline applies ANTs SyN (Symmetric Normalization) to estimate a smooth bias field, which is then removed from the T1w image to produce a bias-corrected version [@Avants2009]. Brain extraction follows, employing a combination of Freesurfer's mri_mask and ANTs-based skull stripping to isolate cerebral tissue from the cranial volume. Tissue segmentation into gray matter (GM), [[white-matter]] (WM), and cerebrospinal fluid (CSF) is performed via FreeSurfer's recon-all workflow, which also generates cortical and subcortical segmentations suitable for region-of-interest analyses. For studies requiring volume-based analyses, sMRIPrep registers processed images to standard [[mni-space]] using ANTs symmetric normalization (SyN), producing spatially normalized outputs that facilitate group-level comparisons. The pipeline supports both volumetric and surface-based workflows, outputting processed files in [[nifti]] format alongside FreeSurfer-generated surfaces suitable for visualization in tools like [[freeview]] or [[connectivity]] analysis.
 
-A distinguishing feature of sMRIPrep is its integration with [[templateflow]], enabling researchers to select from multiple template spaces (MNI152NLin2009cAsym, OASIS30ANTs, etc.) for normalization rather than being restricted to a single reference space [@Esteban2019]. The pipeline generates comprehensive HTML reports documenting preprocessing quality for each subject, including registration accuracy metrics and brain extraction boundaries, facilitating rapid identification of problematic cases. All outputs follow the [[bids]] derivatives specification, ensuring compatibility with downstream tools including [[nilearn]], [[bctpy]], and [[mne-python]] for connectivity and statistical analyses.
+A distinguishing feature of sMRIPrep is its integration with [[templateflow]], enabling researchers to select from multiple template spaces (MNI152NLin2009cAsym, OASIS30ANTs, etc.) for normalization rather than being restricted to a single reference space [@Esteban2019]. The pipeline generates comprehensive HTML reports documenting preprocessing quality for each subject, including registration accuracy metrics and brain extraction boundaries, facilitating rapid identification of problematic cases. All outputs follow the [[bids]] derivatives specification, ensuring compatibility with downstream tools including Nilearn, [[bctpy]], and Mne Python for connectivity and statistical analyses.
 
 ## Relationship to The Virtual Brain
 
@@ -38,7 +38,7 @@ sMRIPrep distinguishes itself through several design principles. First, the pipe
 
 ## Related Software
 
-sMRIPrep belongs to the fMRIPrep family of preprocessing tools, which also includes [[fmriprep]] for functional MRI and [[aslprep]] for arterial spin labeling data. Related tools in the broader preprocessing ecosystem include [[mriqc]] for quality control metrics, [[cat12]] for advanced segmentation, and [[freesurfer]] for comprehensive cortical reconstruction. The pipeline builds heavily on [[nipype]] for workflow orchestration and draws upon registration algorithms from [[ants]] and segmentation utilities from [[fsl]].
+sMRIPrep belongs to the fMRIPrep family of preprocessing tools, which also includes [[fmriprep]] for functional MRI and [[aslprep]] for arterial spin labeling data. Related tools in the broader preprocessing ecosystem include [[mriqc]] for quality control metrics, Cat12 for advanced segmentation, and Freesurfer for comprehensive cortical reconstruction. The pipeline builds heavily on [[nipype]] for workflow orchestration and draws upon registration algorithms from [[ants]] and segmentation utilities from Fsl.
 
 ## Key Papers
 
@@ -47,3 +47,9 @@ sMRIPrep belongs to the fMRIPrep family of preprocessing tools, which also inclu
 - Gorgolewski KJ, Wolfers T, Poldrack RA. "The proliferation of reproducible [[neuroimaging]] analysis workflows." Curr Opin Neurobiol. 2017.
 - Nichols TE, Das S, Ebrahim A, et al. "Standard practices in data analysis and sharing in neuroimaging using MRI." NeuroImage. 2017.
 - Taylor PA, G. Chen K, E. L., et al. "A reproducible set of analysis tools forcbids-formatted JSON." Front Neuroinform. 2018.
+
+## References
+
+1. L. Fisch, N. Winter, J. Goltermann, Carlotta B. C. Barkhau, D. Emden, J. Ernsting, M. Konowski, R. Leenings, T. Borgers, K. Flinkenflügel, D. Grotegerd, Anna Kraus, E. Leehr, S. Meinert, F. Stein, L. Teutenberg, F. Thomas-Odenthal, P. Usemann, M. Hermesdorf, H. Jamalabadi, Andreas Jansen, I. Nenadić, Benjamin Straube, T. Kircher, Klaus Berger, Benjamin Risse, U. Dannlowski, T. Hahn. (2026). *deepmriprep: voxel-based morphometry preprocessing via deep neural networks*. Nature Computational Science. [DOI](https://doi.org/10.1038/s43588-026-00953-7)
+2. Sima Soltanpour, Md Taufiq Nasseef, Rachel Utama, Arnold Chang, D. Madularu, Praveen Kulkarni, Craig F. Ferris, Chris Joslin. (2025). *Robust automated preclinical [[fmri]] preprocessing via a multi-stage dilated convolutional Swin Transformer affine registration*. Frontiers in Neuroscience. [DOI](https://doi.org/10.3389/fnins.2025.1621244)
+3. Zhishun Wang, Feng Liu, Rachel Marsh, Gaurav H. Patel, J. Grinband. (2026). *MEPrep: A robust pipeline for multi-echo fMRI denoising and preprocessing*. Imaging Neuroscience. [DOI](https://doi.org/10.1162/IMAG.a.1198)

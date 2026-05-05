@@ -19,7 +19,7 @@ tags:
 - small-world-networks
 title: Modularity
 type: concept
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 Modularity is a fundamental organizational principle in complex networks, including the brain's structural and functional [[connectivity]]. It refers to the degree to which a network can be partitioned into clearly delineated groups—called modules, communities, or sub-networks—wherein nodes within each group exhibit dense interconnections while maintaining relatively sparse connections to nodes in other groups. This organizational scheme balances the competing demands of **segregated local processing** and **integrated global coordination**, making it essential for understanding brain function in both health and disease.
@@ -110,3 +110,14 @@ Despite extensive research, several questions remain: What are the optimal modul
 - [[functional-connectivity]] – Statistical dependencies between brain regions
 - [[structural-connectivity]] – Anatomical [[white-matter]] pathways
 - [[resting-state]] – Spontaneous brain activity patterns
+
+## References
+
+1. (authors unknown). *Networks: An Introduction*.
+2. (authors unknown). *Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems*.
+3. (authors unknown). *Networks of the Brain*.
+4. (authors unknown). *Functional Network Organization of the Human Brain*.
+5. Tingting Liu, Mingyang Li, Y. You, Hongxi Zhang, Ying Lv, Chai Ji, Yuting Li, Dan Wu, Shenghong Ju. (2026). *Maturation and reorganization of structural connectivity in infants within half a year*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2026.121728)
+6. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
+7. Moo K. Chung, Luigi Maccotta, Aaron Struck. (2026). *Counterfactual Analysis of Brain [[network-dynamics]]*. [Link](https://arxiv.org/abs/2603.29843)
+8. (authors unknown). *Emergence of Scaling in [[random-networks]]*.

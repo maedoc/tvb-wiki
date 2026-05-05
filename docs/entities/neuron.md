@@ -12,7 +12,7 @@ tags:
 - neural-mass-models
 title: NEURON
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 # NEURON
@@ -50,8 +50,8 @@ NEURON provides tools for building and simulating biophysically detailed models 
 
 - [[NEST]] — Point neuron network simulator for large-scale networks
 - [[TVB]] — [[neural-mass-models|Neural mass model]] [[whole-brain]] simulator
-- [[ModelDB]] — Model repository for sharing NEURON simulations
-- [[coreneuron]] — Optimized compute engine for large-scale NEURON simulations
+- [[model-validation]] — Model repository for sharing NEURON simulations
+- Coreneuron — Optimized compute engine for large-scale NEURON simulations
 
 ## Related Concepts
 
@@ -61,8 +61,8 @@ NEURON provides tools for building and simulating biophysically detailed models 
 
 ## Key Researchers
 
-- [[Michael Hines]] — NEURON lead developer
-- [[Ted Carnevale]] — NEURON co-developer and educator
+- [[michael-schirner]] — NEURON lead developer
+- Ted Carnevale — NEURON co-developer and educator
 
 ## Use Cases
 
@@ -70,3 +70,11 @@ NEURON provides tools for building and simulating biophysically detailed models 
 - Dendritic integration and computation
 - Pathological neuron modeling
 - Educational neuroscience simulation
+
+## References
+
+1. Hines & Carnevale (1997). *The NEURON simulation environment*. Neural Computation. [DOI](https://doi.org/10.1162/neco.1997.9.6.1179)
+2. Carnevale & Hines (2006). *The NEURON Book*.
+3. Hay et al. (2011). *Models of neocortical layer 5b pyramidal cells capturing a wide range of dendritic and perisomatic active properties*. PLOS Computational Biology. [DOI](https://doi.org/10.1371/journal.pcbi.1002107)
+4. Markram et al. (2015). *Reconstruction and simulation of neocortical microcircuitry*. Cell. [DOI](https://doi.org/10.1016/j.cell.2015.09.029)
+5. Gewaltig & Diesmann (2007). *NEST (NEural Simulation Tool)*. Scholarpedia. [DOI](https://doi.org/10.4249/scholarpedia.1430)

@@ -17,7 +17,7 @@ tags:
 - python
 title: PyMVPA
 type: software
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 # PyMVPA
@@ -40,13 +40,13 @@ It is important to note that MVPA captures patterns of distributed neural activi
 
 ## Related Software
 
-PyMVPA occupies a niche in the neuroimaging Python ecosystem that complements several other tools. [[nilearn]] provides higher-level machine learning functions specifically designed for neuroimaging and can be used alongside PyMVPA for certain applications. [[nipype]] offers workflow automation capabilities that can integrate PyMVPA analyses into larger preprocessing pipelines. For EEG and MEG analysis specifically, [[mne-python]] provides complementary functionality, and PyMVPA can process data exported from these environments.
+PyMVPA occupies a niche in the neuroimaging Python ecosystem that complements several other tools. Nilearn provides higher-level machine learning functions specifically designed for neuroimaging and can be used alongside PyMVPA for certain applications. [[nipype]] offers workflow automation capabilities that can integrate PyMVPA analyses into larger preprocessing pipelines. For EEG and MEG analysis specifically, Mne Python provides complementary functionality, and PyMVPA can process data exported from these environments.
 
-The machine learning foundation of PyMVPA relies on scikit-learn, a general-purpose Python machine learning library that provides the underlying algorithms. The toolbox maintains compatibility with common neuroimaging processing packages including [[freesurfer]], [[fsl]], and [[spm]] through data format conversions.
+The machine learning foundation of PyMVPA relies on scikit-learn, a general-purpose Python machine learning library that provides the underlying algorithms. The toolbox maintains compatibility with common neuroimaging processing packages including Freesurfer, Fsl, and Spm through data format conversions.
 
 ## Implementation and Usage
 
-PyMVPA implements a dataset container called `Dataset` that encapsulates neuroimaging data along with sample attributes (such as experimental labels and behavioral measures) and feature attributes (such as voxel coordinates or ROI labels). This design philosophy mirrors the data structure used in other neuroimaging toolboxes and facilitates interoperability. The toolbox's processing pipeline follows a chainable design pattern: data flows through a sequence of preprocessing [[steps]] (such as feature scaling, feature selection, and dimensionality reduction) before reaching the classifier.
+PyMVPA implements a dataset container called `Dataset` that encapsulates neuroimaging data along with sample attributes (such as experimental labels and behavioral measures) and feature attributes (such as voxel coordinates or ROI labels). This design philosophy mirrors the data structure used in other neuroimaging toolboxes and facilitates interoperability. The toolbox's processing pipeline follows a chainable design pattern: data flows through a sequence of preprocessing Steps (such as feature scaling, feature selection, and dimensionality reduction) before reaching the classifier.
 
 The typical PyMVPA workflow involves loading neuroimaging data, partitioning samples into training and testing sets using a specified cross-validation scheme, training a classifier on the training set, predicting labels for the test set, and quantifying performance using metrics such as classification accuracy, area under the ROC curve, or confusion matrices. For searchlight analysis, this workflow is repeated for each voxel location, and the resulting accuracy map is optionally smoothed and thresholded for statistical inference.
 
@@ -55,3 +55,11 @@ The typical PyMVPA workflow involves loading neuroimaging data, partitioning sam
 The original PyMVPA publication (Hanke et al., 2009) introduced the toolbox and demonstrated its capabilities through applications to fMRI data from multiple studies. This work established many of the design principles that remain central to the toolbox, including the emphasis on cross-validation rigor and the integration of searchlight analysis. The searchlight methodology itself was introduced by Kriegeskorte, Goebel, and Bandettini (2006), who proposed information-based functional brain mapping as a technique for creating voxel-wise maps of discriminability.
 
 Subsequent methodological papers have demonstrated PyMVPA's application to various cognitive neuroscience questions, including the decoding of visual object categories, motor imagery classification for brain-computer interfaces, and the investigation of memory encoding and retrieval patterns.
+
+## References
+
+1. Mohammadtaha Parsayan, S. Andalib, T. L. Andersen, Habib Ganjgahi, P. Høilund-Carlsen, Abass Alavi, Mojtaba Zarei. (2025). *Odense-Oxford PET Image Analysis (OPETIA): An FSL-based toolbox for multimodal neuroimaging*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2025.121278)
+2. Chetan Gohil, Oliver M. Cliff, James M. Shine, Ben D. Fulcher, Joseph T. Lizier. (2026). *Estimating measures of information processing during cognitive tasks using functional magnetic resonance imaging*. [Link](https://arxiv.org/abs/2602.03240)
+3. Peter Yongho Kim, Juhyeon Park, Jungwoo Park, Jubin Choi, Jungwoo Seo, Jiook Cha, Taesup Moon. (2026). *Can Natural Image Autoencoders Compactly Tokenize fMRI Volumes for Long-Range Dynamics Modeling?*. [Link](https://arxiv.org/abs/2604.03619)
+4. Emmanuelle Renauld, Arnaud Boré, Charles Poirier, Alex Valcourt-Caron, Philippe Karan, Antoine Théberge, Guillaume Théaud, Manon Edde, P. Poulin, Gabriel Girard, Jean-Christophe Houde, A. Gagnon, Etienne St-Onge, Graham Little, Jon Haitz Legarreta, Stanislas Thoumyre, G. Grenier, Zineb El Yamani, Mario Ocampo Pineda, Matteo Battochio, Vincent Beaudoin, Alexandre Joanisse, Laurent Petit, F. Rheault, Maxime Descoteaux. (2026). *[[tractography]] analysis with the scilpy toolbox*. Aperture Neuro. [DOI](https://doi.org/10.52294/001c.154022)
+5. Gramfort et al. (2013). *MEG and EEG: From Acquisition to Analysis*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fnins.2013.00010)

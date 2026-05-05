@@ -14,7 +14,7 @@ tags:
 - connectomics
 title: BMTK
 type: entity
-updated: '2026-05-01'
+updated: '2026-05-04'
 ---
 
 # BMTK (Brain Modeling Toolkit)
@@ -33,7 +33,7 @@ The motivation extends beyond mere convenience. As the field of [[whole-brain mo
 
 BMTK's architecture centers on a modular design that separates network specification from simulation execution. The network definition uses the SONATA (SONata ANalysis Tools Architecture) data format[2], a standardized format for describing large-scale neural networks that supports node properties (cell types, morphologies, locations) and edge properties (synaptic connections, weights, delays). This standardization facilitates interoperability with other tools in the neural simulation ecosystem, including [[sonata]]-compatible network viewers and analysis tools.
 
-The toolkit provides three primary simulation backends: a Python-based reference implementation suitable for debugging and small networks, the NEURON backend for production-scale simulations[5], and [[coreneuron]] for extreme-scale simulations leveraging GPU acceleration and advanced optimization techniques[6]. Users can switch between backends without modifying their network definition, enabling rapid iteration during model development followed by performant production runs.
+The toolkit provides three primary simulation backends: a Python-based reference implementation suitable for debugging and small networks, the NEURON backend for production-scale simulations[5], and Coreneuron for extreme-scale simulations leveraging GPU acceleration and advanced optimization techniques[6]. Users can switch between backends without modifying their network definition, enabling rapid iteration during model development followed by performant production runs.
 
 BMTK includes specialized modules for different brain regions and network types. The cortical microcircuit module constructs laminar-specific circuits with layer-appropriate cell-type distributions and connectivity rules derived from experimental data. The thalamocortical module extends this to incorporate thalamic input patterns. For whole-brain applications, BMTK can be integrated with [[the-virtual-brain]] to provide detailed local circuit dynamics within TVB's macroscopic [[brain-network]] model[4].
 
@@ -49,7 +49,7 @@ The coupling typically proceeds as follows: TVB's regional dynamics drive BMTK's
 
 ## Related Software
 
-BMTK occupies a niche alongside several other neural simulation packages. Unlike [[brian]] or [[brian2]], which emphasize simplicity and ease of use for small-to-medium networks, BMTK specifically targets large-scale data-driven construction. Unlike [[nest]], which focuses on point-neuron networks for rapid simulation, BMTK supports morphologically detailed neurons. Unlike [[netpyne]], which provides a Python interface for NEURON with its own high-level specification layer, BMTK uses the SONATA format for network definition and emphasizes integration with Allen Institute experimental datasets.
+BMTK occupies a niche alongside several other neural simulation packages. Unlike Brian or Brian2, which emphasize simplicity and ease of use for small-to-medium networks, BMTK specifically targets large-scale data-driven construction. Unlike [[nest]], which focuses on point-neuron networks for rapid simulation, BMTK supports morphologically detailed neurons. Unlike Netpyne, which provides a Python interface for NEURON with its own high-level specification layer, BMTK uses the SONATA format for network definition and emphasizes integration with Allen Institute experimental datasets.
 
 For connectomics research, BMTK complements tools like the [[brain-connectivity-toolbox]] (BCT) by providing not just topological analysis but dynamical simulation of network behavior. The relationship to [[dynamic-causal-modeling]] is more conceptual: both frameworks can generate predictions about how neural activity propagates through networks, but DCM operates primarily as a Bayesian inversion framework for fitting models to empirical data, while BMTK builds forward models for hypothesis generation.
 
@@ -68,3 +68,9 @@ The following publications form the foundational literature for BMTK and its eco
 - **Carnevale and Hines (2006)** established NEURON as the standard simulation engine for biologically detailed neural modeling[5], which BMTK leverages as its primary backend.
 
 - **Kumbhar et al. (2019)** presented CoreNEURON, the optimized simulation backend that enables BMTK to scale to millions of neurons with GPU acceleration[6].
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
+3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](https://doi.org/10.3389/fncom.2025.1731161)

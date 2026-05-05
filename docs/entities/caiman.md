@@ -4,6 +4,7 @@ sources:
 - raw/papers/arxiv-2509.12873.md
 - raw/papers/sanz-leon-2013.md
 - raw/papers/arxiv-2505.16861.md
+- raw/papers/semanticscholar-eb704b6f5462.md
 tags:
 - software-modeling
 - neuroimaging-analysis
@@ -14,7 +15,7 @@ tags:
 - spike-inference
 title: CaImAn
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 # CaImAn
@@ -62,3 +63,10 @@ CaImAn occupies a niche in the calcium imaging analysis ecosystem alongside seve
 - [[eeg]]
 - [[meg]]
 - [[bids]]
+
+## References
+
+1. Gianluca Gaglioti, Alessandra Cardinale, Cosimo Lupo, Thierry Nieus, Federico Marmoreo, Elena Focacci, Robin Gutzen, Michael Denker, Andrea Pigorini, Marcello Massimini, Simone Sarasso, Pier Stanislao Paolucci, Giulia De Bonis. *Emergent complexity and rhythms in evoked and spontaneous dynamics of human [[whole-brain]] models after tuning through analysis tools*. [Link](https://arxiv.org/abs/2509.12873)
+2. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
+4. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](https://doi.org/10.3389/fncom.2025.1731161)

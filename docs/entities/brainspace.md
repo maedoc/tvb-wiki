@@ -11,7 +11,7 @@ tags:
 - gradient-analysis
 title: BrainSpace
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 ## Overview
@@ -40,7 +40,7 @@ Statistical validation of gradient results requires appropriate null models that
 
 ### Visualization
 
-The toolbox provides integrated visualization capabilities for gradient maps, including surface-based rendering using [[pycortex]] and [[connectome-workbench]] formats. Researchers can visualize individual gradient maps, group-averaged patterns, or overlay gradient information on standard cortical surfaces. The visualization suite supports both publication-quality static figures and interactive exploration of three-dimensional gradient patterns.
+The toolbox provides integrated visualization capabilities for gradient maps, including surface-based rendering using Pycortex and [[connectome-workbench]] formats. Researchers can visualize individual gradient maps, group-averaged patterns, or overlay gradient information on standard cortical surfaces. The visualization suite supports both publication-quality static figures and interactive exploration of three-dimensional gradient patterns.
 
 ## Relationship to The Virtual Brain
 
@@ -54,4 +54,10 @@ The primary reference for the BrainSpace software toolbox is the paper by Vos de
 
 ## Related Software
 
-BrainSpace interacts with several other tools in the [[neuroimaging]] ecosystem. For [[diffusion-mri]] processing, it works alongside [[dipy]] and [[mrtrix3]] for tractography and connectivity reconstruction. For surface visualization, it integrates with [[freesurfer]] outputs and [[connectome-workbench]]. For statistical analysis, it complements [[nilearn]] and the [[brain-connectivity-toolbox]] ([[bctpy]]). For cortical parcel generation, it can be used with [[schaefer-atlas]] and other established parcellation schemes, though gradient analysis specifically aims to characterize continuous organization rather than discrete parcels.
+BrainSpace interacts with several other tools in the [[neuroimaging]] ecosystem. For [[diffusion-mri]] processing, it works alongside Dipy and Mrtrix3 for tractography and connectivity reconstruction. For surface visualization, it integrates with Freesurfer outputs and [[connectome-workbench]]. For statistical analysis, it complements Nilearn and the [[brain-connectivity-toolbox]] ([[bctpy]]). For cortical parcel generation, it can be used with [[schaefer-atlas]] and other established parcellation schemes, though gradient analysis specifically aims to characterize continuous organization rather than discrete parcels.
+
+## References
+
+1. Woodman et al. (2014). *[[graphvar]]: A user-friendly toolbox for comprehensive graph analyses of functional brain connectivity*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2014.07.015)
+2. (authors unknown). *[[braph]]: A Pipeline for Brain Connectivity Analysis*.
+3. Breno C. Bispo, Stefania Sardellitti, Juliano B. Lima, Fernando A. N. Santos. (2026). *Multimodal Higher-Order Brain Networks: A Topological Signal Processing Perspective*. [Link](https://arxiv.org/abs/2603.29903)

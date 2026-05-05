@@ -25,7 +25,7 @@ The [[brain-dynamics]] Toolbox (BDT) is an open-source MATLAB toolbox for simula
 
 Computational neuroscience has increasingly moved toward large-scale brain models that integrate empirical connectivity data with nonlinear neural mass equations. However, the dynamical systems tools required to analyze these models—such as phase plane analysis, continuation algorithms, and stability analysis—were scattered across disparate software packages or required custom implementations. The Brain Dynamics Toolbox emerged to provide a unified environment for constructing, simulating, and analyzing such models, making advanced dynamical systems techniques accessible to researchers without deep expertise in numerical methods [@breakspear2017].
 
-The toolbox fills a specific niche between low-level neural simulators like [[nest]], [[neuron]], and [[brian]] (which focus on spiking neuron dynamics) and whole-brain simulation platforms like [[the-virtual-brain]] (which emphasize clinical translation and empirical data integration). BDT sits at the intermediate level of neural mass modeling [[neural-mass-model]], where populations of neurons are represented by simplified equations describing mean activity levels. This level of abstraction is particularly suitable for studying brain oscillations [[brain-oscillations]], transitions between brain states, and the mechanisms underlying disorders like epilepsy [[epilepsy-modeling]].
+The toolbox fills a specific niche between low-level neural simulators like [[nest]], [[neuron]], and Brian (which focus on spiking neuron dynamics) and whole-brain simulation platforms like [[the-virtual-brain]] (which emphasize clinical translation and empirical data integration). BDT sits at the intermediate level of neural mass modeling [[neural-mass-model]], where populations of neurons are represented by simplified equations describing mean activity levels. This level of abstraction is particularly suitable for studying brain oscillations [[brain-oscillations]], transitions between brain states, and the mechanisms underlying disorders like epilepsy [[epilepsy-modeling]].
 
 ## Technical Description
 
@@ -45,7 +45,7 @@ For whole-brain models [[whole-brain-modeling]], BDT provides tools for coupling
 
 ## Relationships to Related Tools
 
-The Brain Dynamics Toolbox occupies a unique position in the ecosystem of brain simulation software. Unlike [[the-virtual-brain]], which emphasizes clinical workflows and empirical data fitting, BDT focuses on the fundamental dynamical systems behavior of neural mass models. Unlike [[brian2]] or [[nest]], which simulate spiking neurons at the level of individual cells, BDT operates at the population level where mean-field approximations apply.
+The Brain Dynamics Toolbox occupies a unique position in the ecosystem of brain simulation software. Unlike [[the-virtual-brain]], which emphasizes clinical workflows and empirical data fitting, BDT focuses on the fundamental dynamical systems behavior of neural mass models. Unlike Brian2 or [[nest]], which simulate spiking neurons at the level of individual cells, BDT operates at the population level where mean-field approximations apply.
 
 The toolbox complements [[dynamic-causal-modeling]] (DCM), which uses Bayesian inversion to estimate [[effective-connectivity]] from [[neuroimaging]] data. While DCM is primarily inferential, BDT is complementary in being a forward-modeling tool that explores the dynamical consequences of specified connectivity patterns. Together, these approaches form a bidirectional bridge between empirical connectivity estimates and the theoretical dynamics they support.
 
@@ -60,3 +60,10 @@ Typical applications include investigating the mechanisms of brain oscillations 
 Despite its utility, the Brain Dynamics Toolbox operates primarily at the neural mass level of abstraction, which involves [[mean-field-theory|mean-field]] approximations whose validity is not always guaranteed, particularly for small neural populations. The toolbox's reliance on MATLAB limits its adoption in the broader open-source ecosystem. Furthermore, while BDT excels at local stability analysis, its capabilities for analyzing transient dynamics and stochastic dynamics [[stochastic-differential-equations]] remain more limited compared to purpose-built packages.
 
 Future directions include better integration with Python-based neuroscience tools, expanded support for stochastic differential equations using [[fokker-planck-equation]] methods, and enhanced connectivity with empirical structural and [[functional-connectivity]] databases like the Human [[connectome]] Project [[human-connectome-project]].
+
+## References
+
+1. (authors unknown). *[[lean|GLEAN]]: Group Level Exploratory Analysis of Networks*.
+2. (authors unknown). *[[braph]]: A Pipeline for Brain Connectivity Analysis*.
+3. R. Montgomery. (2025). *Applications of Random Matrix Theory in Neuroscience and [[neural-network]] Analysis: Unraveling High-Dimensional Connectivity*. Wired Neuroscience. [DOI](https://doi.org/10.62162/wnsc10606312712241)
+4. Abdoreza Asadpour, Amin Azimi, Kongfatt Wong-Lin. (2025). *Limitations of Variational Laplace-Based Dynamic Causal Modelling for Multistable Cortical Circuits*. bioRxiv. [DOI](https://doi.org/10.1101/2025.03.10.642327)

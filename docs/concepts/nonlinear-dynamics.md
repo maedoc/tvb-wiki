@@ -81,3 +81,13 @@ The study of [[brain oscillations]] is fundamentally a study of nonlinear oscill
 Several fundamental questions in [[computational-neuroscience]] hinge on nonlinear dynamics. The nature of [[brain dynamics]] near criticality—whether the brain operates at a critical point with power-law avalanches, and whether this is a stable attractor of nonlinear dynamics—remains debated. How noise interacts with nonlinearities to enable the flexible switching between functional states observed in [[neuroimaging]] data is poorly understood. And the extension of nonlinear dynamic analysis to whole-brain models with realistic [[structural connectivity]] presents computational challenges: the high-dimensional phase space makes visualization difficult, and the presence of multiple timescales introduces additional nonlinear complexity.
 
 Nevertheless, nonlinear dynamics provides the essential conceptual and mathematical framework for understanding brain function as a dynamic system. Its tools—increasingly integrated into software packages for brain simulation and analysis—are indispensable for advancing from descriptive [[connectivity]] maps to mechanistic models of neural computation, cognition, and disease.
+
+## References
+
+1. (authors unknown). *Nonlinear Dynamics and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering*.
+2. (authors unknown). *Introduction to Applied Nonlinear Dynamical Systems and Chaos*.
+3. Martin Breyton, Viktor Sip, M. Woodman, Meysam Hashemi, S. Petkoski, V. Jirsa. (2025). *Data-driven mean-field within whole-brain models*. [Link](https://www.semanticscholar.org/paper/144ae1f1dabec42c14493d0083d36f168508f886)
+4. Eugene M. [[izhikevich]]. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
+5. Coşkun Çetin, Jose Roberto Castilho Piqueira, Burhaneddin İzgi̇, Ayşe Peker-Dobie, Semra Ahmetolan, Murat Özkaya. (2026). *Deterministic, stochastic, and mean-field PDE models in neuroscience*. Frontiers in Computational Neuroscience. [DOI](https://doi.org/10.3389/fncom.2026.1762692)
+6. Coskun Çetin, J.R.C. Piqueira, Burhaneddin Izgi, Ayse Peker-Dobie, S. Ahmetolan, Murat Özkaya. (2026). *Deterministic, stochastic, and mean-field PDE models in neuroscience*. Frontiers in Computational Neuroscience. [DOI](https://doi.org/10.3389/fncom.2026.1762692)
+7. Roxana A. Stefanescu, Viktor K. Jirsa. *A low dimensional description of globally coupled heterogeneous neural networks of excitatory and inhibitory neurons*. PLoS Computational Biology. [DOI](https://doi.org/10.1371/journal.pcbi.1000219)

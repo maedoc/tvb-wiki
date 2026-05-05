@@ -15,18 +15,18 @@ tags:
 - dataset
 title: ConnectomeDB
 type: entity
-updated: '2026-05-01'
+updated: '2026-05-04'
 ---
 
 # ConnectomeDB
 
 ## Overview
 
-ConnectomeDB is a web-based data repository developed and maintained by the [Human [[connectome]] Project]([[human-connectome-project]]) to store, share, and distribute human [[neuroimaging]] datasets related to brain [[connectivity]] research. The database serves as the primary data distribution platform for the HCP's unprecedented collection of high-quality multimodal brain imaging data, enabling researchers worldwide to access structural and [[functional-connectivity]] data derived from advanced [[diffusion-mri]] (dMRI) and [[resting-state]] functional MRI ([[fmri]]) protocols[1]. ConnectomeDB implements a secure, user-authenticated access system that balances open science principles with appropriate data use agreements, reflecting the HCP's commitment to accelerating progress in [connectomics]([[connectomics]]) research while maintaining ethical standards for human subjects data[3].
+ConnectomeDB is a web-based data repository developed and maintained by the Human [[connectome]] Project [[human-connectome-project]] to store, share, and distribute human [[neuroimaging]] datasets related to brain [[connectivity]] research. The database serves as the primary data distribution platform for the HCP's unprecedented collection of high-quality multimodal brain imaging data, enabling researchers worldwide to access structural and [[functional-connectivity]] data derived from advanced [[diffusion-mri]] (dMRI) and [[resting-state]] functional MRI ([[fmri]]) protocols[1]. ConnectomeDB implements a secure, user-authenticated access system that balances open science principles with appropriate data use agreements, reflecting the HCP's commitment to accelerating progress in [[connectomics]] research while maintaining ethical standards for human subjects data[3].
 
 ## Relationship to TVB
 
-[The Virtual Brain]([[the-virtual-brain]]) (TVB) is a [[whole-brain|whole-brain modeling]] platform that leverages [structural connectivity]([[structural-connectivity]]) data derived from diffusion tensor imaging (DTI) to construct [[personalized-brain-modeling|personalized brain]] network models. ConnectomeDB provides one of the principal sources of such structural connectivity data for TVB users, particularly through the HCP Young Adult dataset, which contains high-resolution tractography reconstructions of white matter pathways between brain regions. The HCP data available through ConnectomeDB has been used extensively in TVB workflows to generate personalized connectomes, where region-to-region white matter tract densities are extracted from the DTI data and used to define the anatomical coupling structure in TVB simulations. Several TVB tutorials and demonstration datasets specifically utilize HCPConnectomeDB data to showcase the platform's capabilities for simulating [[brain-dynamics]] on individualized connectomes derived from this repository.
+The Virtual Brain [[the-virtual-brain]] (TVB) is a [[whole-brain|whole-brain modeling]] platform that leverages structural connectivity [[structural-connectivity]] data derived from diffusion tensor imaging (DTI) to construct [[personalized-brain-modeling|personalized brain]] network models. ConnectomeDB provides one of the principal sources of such structural connectivity data for TVB users, particularly through the HCP Young Adult dataset, which contains high-resolution tractography reconstructions of white matter pathways between brain regions. The HCP data available through ConnectomeDB has been used extensively in TVB workflows to generate personalized connectomes, where region-to-region white matter tract densities are extracted from the DTI data and used to define the anatomical coupling structure in TVB simulations. Several TVB tutorials and demonstration datasets specifically utilize HCPConnectomeDB data to showcase the platform's capabilities for simulating [[brain-dynamics]] on individualized connectomes derived from this repository.
 
 ## Key Features
 
@@ -38,7 +38,7 @@ The data in ConnectomeDB is organized using the HCP's proprietary data layout, w
 
 ## Related Software and Databases
 
-ConnectomeDB interfaces with several software tools in the neuroimaging ecosystem. The [Connectome Workbench]([[connectome-workbench]]) is the primary visualization and analysis tool developed alongside the HCP data, enabling researchers to explore surface-based neuroimaging data downloaded from ConnectomeDB. Similarly, tools like [FSL]([[fsl]]) and [MRTrix3]([[mrtrix3]]) are commonly used for processing downloaded diffusion data. ConnectomeDB complements other major neuroimaging databases including [UK Biobank]([[uk-biobank]]) and [OpenNeuro]([[openneuro]]), each serving different populations and acquisition protocols. The HCP data distributed through ConnectomeDB has also been integrated into processing pipelines such as [QSIPrep]([[qsiprep]]) that can reconstruct connectivity matrices from the raw dMRI data, enabling standardized preprocessing workflows for TVB and similar modeling platforms.
+ConnectomeDB interfaces with several software tools in the neuroimaging ecosystem. The Connectome Workbench [[connectome-workbench]] is the primary visualization and analysis tool developed alongside the HCP data, enabling researchers to explore surface-based neuroimaging data downloaded from ConnectomeDB. Similarly, tools like [FSL](Fsl) and [MRTrix3](Mrtrix3) are commonly used for processing downloaded diffusion data. ConnectomeDB complements other major neuroimaging databases including UK Biobank [[uk-biobank]] and OpenNeuro [[openneuro]], each serving different populations and acquisition protocols. The HCP data distributed through ConnectomeDB has also been integrated into processing pipelines such as [QSIPrep](Qsiprep) that can reconstruct connectivity matrices from the raw dMRI data, enabling standardized preprocessing workflows for TVB and similar modeling platforms.
 
 ## Key Publications
 
@@ -53,4 +53,8 @@ These papers establish the imaging protocols, preprocessing pipelines, and data 
 
 ## Relationship to Connectome Mapper and Related Tools
 
-ConnectomeDB provides the raw and preprocessed imaging data, which can be further processed using specialized software like the [Connectome Mapper 3]([[connectome-mapper-3]]) to generate personalized structural connectivity matrices in formats suitable for whole-brain modeling. This workflow involves parcellating the brain into regions using atlases such as the [Desikan-Killiany Atlas]([[desikan-killiany-atlas]]) or [Schaefer Atlas]([[schaefer-atlas]]), then running tractography algorithms to estimate connection weights between parcel pairs. The resulting connectivity matrices can be directly imported into TVB as the anatomical scaffold for dynamical simulations, making ConnectomeDB an indirect but essential resource for TVB-based research on personalized brain dynamics.
+ConnectomeDB provides the raw and preprocessed imaging data, which can be further processed using specialized software like the Connectome Mapper 3 [[connectome-mapper-3]] to generate personalized structural connectivity matrices in formats suitable for whole-brain modeling. This workflow involves parcellating the brain into regions using atlases such as the Desikan-Killiany Atlas [[desikan-killiany-atlas]] or Schaefer Atlas [[schaefer-atlas]], then running tractography algorithms to estimate connection weights between parcel pairs. The resulting connectivity matrices can be directly imported into TVB as the anatomical scaffold for dynamical simulations, making ConnectomeDB an indirect but essential resource for TVB-based research on personalized brain dynamics.
+
+## References
+
+1. (authors unknown). *The Human Connectome Project: A Data Acquisition Perspective*.

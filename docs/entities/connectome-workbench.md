@@ -16,7 +16,7 @@ tags:
 - database-hcp
 title: Connectome Workbench
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 ## Overview
@@ -43,7 +43,7 @@ Connectome Workbench serves a complementary role to [[The Virtual Brain]] (TVB) 
 
 ## Related Software
 
-Connectome Workbench operates within a broader ecosystem of neuroimaging visualization tools. [[Freeview]] (the FreeSurfer visualization companion) serves similar purposes for FreeSurfer-processed data, while [[fsleyes]] provides another free alternative for volume and surface visualization. For CIFTI-specific operations, the [[cifti]] format is supported by other packages including [[nilearn]] and [[pycortex]], though these lack Workbench's full GUI capabilities. The [[human-connectome-project]] maintains Workbench as part of its data processing pipeline, alongside [[hcp-pipelines]] and related tools for minimal preprocessing of diffusion and functional MRI data.
+Connectome Workbench operates within a broader ecosystem of neuroimaging visualization tools. [[Freeview]] (the FreeSurfer visualization companion) serves similar purposes for FreeSurfer-processed data, while Fsleyes provides another free alternative for volume and surface visualization. For CIFTI-specific operations, the [[cifti]] format is supported by other packages including Nilearn and Pycortex, though these lack Workbench's full GUI capabilities. The [[human-connectome-project]] maintains Workbench as part of its data processing pipeline, alongside [[hcp-pipelines]] and related tools for minimal preprocessing of diffusion and functional MRI data.
 
 ## Key Capabilities Summary
 
@@ -60,3 +60,10 @@ Connectome Workbench operates within a broader ecosystem of neuroimaging visuali
 1. Human Connectome Project. (2015). Human Connectome Project. https://www.humanconnectome.org/
 2. Van Essen, D. C., Smith, S. M., Barch, D. M., Behrens, T. E., Yacoub, E., & Ugurbil, K. (2013). The Human Connectome Project: A data acquisition perspective. NeuroImage, 62, 2222-2231.
 3. Glasser, M. F., Coalson, T. S., Robinson, E. C., Hacker, C. D., Harwell, J., Yacoub, E., ... & Van Essen, D. C. (2016). A multi-modal parcellation of human cerebral cortex. Nature, 536(7615), 171-178.
+
+## References
+
+1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. (authors unknown). *The Human Connectome Project: A Data Acquisition Perspective*.
+3. Amirreza Movahedin, Lennart P. L. Landsmeer, Christos Strydis. (2025). *HUMA: Heterogeneous, Ultra Low-Latency Model Accelerator for The Virtual Brain on a Versal Adaptive SoC*. Symposium on Field Programmable Gate Arrays. [DOI](https://doi.org/10.1145/3706628.3708875)
+4. (authors unknown). *[[lean|GLEAN]]: Group Level Exploratory Analysis of Networks*.

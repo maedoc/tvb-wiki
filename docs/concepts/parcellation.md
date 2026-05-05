@@ -19,7 +19,7 @@ tags:
 - database-hcp
 title: Parcellation
 type: concept
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 Parcellation refers to the process of dividing the brain into spatially discrete, anatomically or functionally coherent regions (called parcels) that serve as the fundamental.nodes in [[whole-brain]] network models. In [[connectomics]] and [[computational neuroscience]], parcellation transforms the continuous, multivariate data obtained from neuroimaging—such as [[fMRI]], [[diffusion-mri]], or [[meg]]—into a finite graph whose nodes correspond to brain areas and whose edges represent [[structural-connectivity]] or [[functional-connectivity]] between those areas. The resulting parcellated network is the starting point for virtually all whole-brain modeling approaches, from [[neural-mass-model]] simulations to graph-theoretic analyses of brain network topology.
@@ -34,7 +34,7 @@ Parcellation addresses this problem by aggregating spatially contiguous voxels i
 
 Parcellation methods can be broadly categorized by the criterion used to define parcel boundaries, each reflecting different assumptions about what makes a brain region "coherent."
 
-**Anatomical parcellations** define parcel boundaries based on macroanatomical features visible on structural MRI—sulcal patterns, gyral landmarks, or recognized cortical subdivisions. Classical examples include the [[desikan-killiany-atlas]], the [[harvard-oxford-atlas]], and the [[aal-atlas]]. These parcellations benefit from neuroanatomical plausibility and are relatively straightforward to implement using standard segmentation tools like [[freesurfer]] or [[fsl]]. However, they may not align with functional boundaries, as the latter can vary across individuals or deviate from gross anatomical landmarks.
+**Anatomical parcellations** define parcel boundaries based on macroanatomical features visible on structural MRI—sulcal patterns, gyral landmarks, or recognized cortical subdivisions. Classical examples include the [[desikan-killiany-atlas]], the Harvard Oxford Atlas, and the [[aal-atlas]]. These parcellations benefit from neuroanatomical plausibility and are relatively straightforward to implement using standard segmentation tools like Freesurfer or Fsl. However, they may not align with functional boundaries, as the latter can vary across individuals or deviate from gross anatomical landmarks.
 
 **Functional parcellations** derive parcel boundaries from the similarity of [[resting-state]] fMRI time series or task-evoked activation patterns. Regions within a functional parcel exhibit correlated blood-oxygen-level-dependent (BOLD) signal fluctuations, suggesting shared cognitive or sensory processing roles. The [[brainnetome-atlas]] and variations of the Glasser atlas represent high-resolution functional parcellations. Functional parcellations are particularly relevant for studies of [[functional-connectivity]] and [[effective-connectivity]], but they can be sensitive to scan parameters, task conditions, and subject state.
 
@@ -50,7 +50,7 @@ The choice of parcellation fundamentally shapes the results of any subsequent ne
 
 **Homogeneity:** A good parcellation should aggregate voxels that are internally homogeneous with respect to the defining feature (anatomy, function, or connectivity). Poor homogeneity leads to "mixing" of distinct signals within a single parcel, blurring distinctions between network modules.
 
-**Inter-subject consistency:** Template-based parcellations derived from group averages may misalign with individual anatomy, particularly in clinical populations with atypical cortical patterns. Individualized parcellations using tools in [[nilearn]] or [[brainlife]] can mitigate this, at the cost of reduced comparability across subjects.
+**Inter-subject consistency:** Template-based parcellations derived from group averages may misalign with individual anatomy, particularly in clinical populations with atypical cortical patterns. Individualized parcellations using tools in Nilearn or [[brainlife]] can mitigate this, at the cost of reduced comparability across subjects.
 
 ## Role in Whole-Brain Modeling
 
@@ -59,3 +59,12 @@ In [[whole-brain modeling]], the parcellation defines the spatial resolution at 
 ## Open Questions
 
 The field has not converged on a single "correct" parcellation, and debates continue about whether functionally defined parcels are preferable to anatomically defined ones, whether parcels should be homologous across individuals or individualized, and whether static parcellations adequately capture the brain's dynamic reconfiguration during different cognitive states. Ongoing work using [[variational-bayes]] and [[bifurcation-analysis]] approaches explores how parcellation choice influences model dynamics and predicts empirical data, suggesting that the "best" parcellation may ultimately be task-dependent rather than universal.
+
+## References
+
+1. Hongjie Jiang, Yifei Tang, Shuqiang Wang. *Neural Dynamics-Informed Pre-trained Framework for [[personalized-brain-modeling|Personalized Brain]] Functional Network Construction*. [Link](https://arxiv.org/abs/2603.07524)
+2. Ramiro Plüss, Hernán Villota, Patricio Orio. (2025). *Hemispheric-Specific Coupling Improves Modeling of Functional Connectivity Using [[wilson-cowan]] Dynamics*. [Link](https://arxiv.org/abs/2506.22951)
+3. Rosa Maria Delicado, Gemma Huguet, Pau Clusella. (2025). *Emergent Spatiotemporal Dynamics in Large-Scale Brain Networks with Next Generation [[neural-mass-models]]*. [Link](https://arxiv.org/abs/2512.03907)
+4. Breno C. Bispo, Stefania Sardellitti, Juliano B. Lima, Fernando A. N. Santos. (2026). *Multimodal Higher-Order Brain Networks: A Topological Signal Processing Perspective*. [Link](https://arxiv.org/abs/2603.29903)
+5. Sakul Mahat, Sharmistha Guha, Jessica Bernard. (2026). *A Bayesian Framework for Quantifying Association Between Functional and Structural Data in Neuroimaging*. [Link](https://arxiv.org/abs/2603.21067)
+6. Christopher Gabaldon, Adria Mulero, Rong Wang, Daniel A. Martin, Sabrina Camargo, Qian-Yuan Tang, Ignacio Cifre, Changsong Zhou, Dante R. Chialvo. (2026). *Data-driven inference of brain dynamical states from the r-spectrum of correlation matrices*. [Link](https://arxiv.org/abs/2601.03796)

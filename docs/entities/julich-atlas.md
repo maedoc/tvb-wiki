@@ -9,7 +9,7 @@ tags:
 - software-brain-modeling
 title: Jülich Atlas
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-05'
 ---
 
 The **Jülich Atlas**, also known as the **Jülich Brain Atlas** or **Julich-Brain**, is a comprehensive probabilistic cytoarchitectonic atlas of the human cerebral cortex developed by the Institute of Neuroscience and Medicine (INM-1) at the Forschungszentrum Jülich (Jülich Research Centre) in Germany. Unlike classical anatomical atlases based on a single brain specimen, the Jülich Atlas provides probabilistic maps that quantify the spatial distribution of different cortical areas across a population of post‑mortem brains, making it particularly valuable for [[neuroimaging]] research where individual variability is a central concern[^1].
@@ -36,17 +36,17 @@ When used with TVB, the Jülich Atlas regions can be mapped to [[neural‑mass�
 
 The Jülich Atlas provides several distinctive features that distinguish it from other [[stochastic‑differential‑equations]]. First, the probabilistic maps explicitly quantify uncertainty in cytoarchitectonic boundaries, acknowledging that individual brains do not conform perfectly to a population average[^4]. Second, the atlas is based on thorough histological analysis rather than purely functional or [[connectivity]]‑based parcellation, providing an anatomical foundation that complements other approaches. Third, the maps are provided in standard stereotaxic spaces, enabling straightforward integration with virtually any neuroimaging processing pipeline.
 
-The data is freely available through multiple channels: directly from the Jülich website, through the [[ebrains]] Knowledge Graph, and integrated into popular neuroimaging software packages including [[fsl]] (as part of the FSL Harvard‑Oxford Atlas toolkit) and [[freesurfer]]. The atlas is distributed under open licenses that permit both academic and commercial use.
+The data is freely available through multiple channels: directly from the Jülich website, through the [[ebrains]] Knowledge Graph, and integrated into popular neuroimaging software packages including Fsl (as part of the FSL Harvard‑Oxford Atlas toolkit) and Freesurfer. The atlas is distributed under open licenses that permit both academic and commercial use.
 
 ## Relationship to Other Atlases
 
-The Jülich Atlas is often compared with other widely‑used brain parcellations such as the [[harvard‑oxford‑atlas|Harvard‑Oxford Atlas]] (which provides broader anatomical divisions), the [[aal‑atlas|Automated Anatomical Labeling]] atlas, and the more recent [[brainnetome‑atlas|Brainnetome Atlas]] (which combines cytoarchitecture with connectivity information)[^7]. Unlike these alternatives, the Jülich Atlas maintains a strong commitment to cytoarchitectonic precision, though this comes with the limitation that not all cortical areas have been fully mapped—particularly in prefrontal and association regions where cytoarchitectonic boundaries are less distinct[^1].
+The Jülich Atlas is often compared with other widely‑used brain parcellations such as the [[jhu-white-matter-atlas|Harvard‑Oxford Atlas]] (which provides broader anatomical divisions), the [[aal‑atlas|Automated Anatomical Labeling]] atlas, and the more recent [[brainnetome‑atlas|Brainnetome Atlas]] (which combines cytoarchitecture with connectivity information)[^7]. Unlike these alternatives, the Jülich Atlas maintains a strong commitment to cytoarchitectonic precision, though this comes with the limitation that not all cortical areas have been fully mapped—particularly in prefrontal and association regions where cytoarchitectonic boundaries are less distinct[^1].
 
 The atlas also relates to the [[mrtrix3‑connectome]] and its derivatives, which provide high‑resolution connectivity‑based parcellations. While HCP parcellations are derived from in‑vivo multi‑modal neuroimaging of living subjects, the Jülich Atlas provides a histological gold standard that can validate and complement these approaches[^8].
 
 ## Related Software and Tools
 
-The Jülich Atlas can be used with standard neuroimaging toolkits including [[fsl]], [[freesurfer]], [[spm|SPM (Statistical Parametric Mapping)]], and [[afni]]. Integration with the [[brain‑connectivity‑toolbox|Brain Connectivity Toolbox]] enables network analysis using cytoarchitectonically‑defined regions. For visualization, tools such as [[brainnet‑viewer]] and [[connectome‑workbench]] can display the probability maps alongside functional data.
+The Jülich Atlas can be used with standard neuroimaging toolkits including Fsl, Freesurfer, SPM (Statistical Parametric Mapping), and [[afni]]. Integration with the [[brain‑connectivity‑toolbox|Brain Connectivity Toolbox]] enables network analysis using cytoarchitectonically‑defined regions. For visualization, tools such as [[brainnet‑viewer]] and [[connectome‑workbench]] can display the probability maps alongside functional data.
 
 ## Key Papers
 
@@ -59,3 +59,10 @@ The Jülich Atlas can be used with standard neuroimaging toolkits including [[fs
 4. Amunts K, Zilles K. (2015). “Architectonic Mapping of the Human Brain.” In: Toga AW (ed). *Brain Mapping: An Encyclopedic Reference*. Academic Press.
 
 5. Evans AC, Collins DL, Mills SR, et al. (1992). “3D Statistical Neuroanatomic Models of 305 Normal Brains.” *Proceedings of the IEEE Nuclear Science Symposium and Medical Imaging Conference*.
+
+## References
+
+1. (authors unknown). *Networks: An Introduction*.
+2. (authors unknown). *Networks of the Brain*.
+3. (authors unknown). *Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems*.
+4. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.

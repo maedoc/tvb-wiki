@@ -9,7 +9,7 @@ tags:
 - software-bids
 title: BIDSkit
 type: entity
-updated: '2026-05-02'
+updated: '2026-05-04'
 ---
 
 # BIDSkit
@@ -20,7 +20,7 @@ BIDSkit is a Python-based command-line tool designed to convert raw neuroimaging
 
 ## Motivation and Context
 
-The proliferation of [[neuroimaging]] datasets in [[computational-neuroscience]] and [[whole-brain modeling]] research created an urgent need for standardized data organization. Raw MRI scanner output arrives in vendor-specific DICOM formats that are difficult to share, reproduce, and process with automated pipelines. While the BIDS specification defines a rigorous file organization scheme (Gorgolewski et al., 2016), manually converting datasets to comply with this standard is time-consuming and error-prone. BIDSkit emerged as part of a broader ecosystem of DICOM-to-BIDS converters (including [[heudiconv]], [[dcm]], and [[bidscoin]]) offering different tradeoffs between flexibility, automation, and user control. The tool specifically addresses the needs of research labs performing [[fMRI]] and [[structural-connectivity]] studies who require a reproducible pipeline that can handle multiple subjects and sessions while preserving metadata necessary for downstream analysis with tools like [[fmriprep]], [[nilearn]], and [[the-virtual-brain]].
+The proliferation of [[neuroimaging]] datasets in [[computational-neuroscience]] and [[whole-brain modeling]] research created an urgent need for standardized data organization. Raw MRI scanner output arrives in vendor-specific DICOM formats that are difficult to share, reproduce, and process with automated pipelines. While the BIDS specification defines a rigorous file organization scheme (Gorgolewski et al., 2016), manually converting datasets to comply with this standard is time-consuming and error-prone. BIDSkit emerged as part of a broader ecosystem of DICOM-to-BIDS converters (including [[heudiconv]], [[dcm]], and Bidscoin) offering different tradeoffs between flexibility, automation, and user control. The tool specifically addresses the needs of research labs performing [[fMRI]] and [[structural-connectivity]] studies who require a reproducible pipeline that can handle multiple subjects and sessions while preserving metadata necessary for downstream analysis with tools like [[fmriprep]], Nilearn, and [[the-virtual-brain]].
 
 ## Key Features
 
@@ -40,7 +40,7 @@ The second pass reads the completed translator and generates the BIDS directory 
 
 ## Relationship to Whole-Brain Modeling
 
-BIDSkit plays a supporting but essential role in [[whole-brain-modeling]] workflows by ensuring that [[neuroimaging]] data used as input to models like [[the-virtual-brain]] is properly organized and documented. Whole-brain simulations require structural [[connectivity]] matrices derived from [[diffusion-imaging]] data (processed via [[tractography]] tools like [[mrtrix3]] or [[fsl]]) and functional time series from [[fMRI]] or [[eeg]]. By standardizing data organization, bidskit facilitates reproducibility across modeling studies and enables seamless integration with preprocessing pipelines such as [[fmriprep]] and [[mriqc]] that produce BIDS-compliant derivatives. The standardized format also simplifies data sharing on platforms like [[openneuro]] and supports meta-analyses across multiple datasets.
+BIDSkit plays a supporting but essential role in [[whole-brain-modeling]] workflows by ensuring that [[neuroimaging]] data used as input to models like [[the-virtual-brain]] is properly organized and documented. Whole-brain simulations require structural [[connectivity]] matrices derived from [[diffusion-imaging]] data (processed via [[tractography]] tools like Mrtrix3 or Fsl) and functional time series from [[fMRI]] or [[eeg]]. By standardizing data organization, bidskit facilitates reproducibility across modeling studies and enables seamless integration with preprocessing pipelines such as [[fmriprep]] and [[mriqc]] that produce BIDS-compliant derivatives. The standardized format also simplifies data sharing on platforms like [[openneuro]] and supports meta-analyses across multiple datasets.
 
 ## Key Papers
 
@@ -52,8 +52,14 @@ BIDSkit plays a supporting but essential role in [[whole-brain-modeling]] workfl
 * [[dcm2niix]] — DICOM to NIfTI converter that bidskit depends upon
 * [[heudiconv]] — Flexible heuristic-based DICOM converter for BIDS
 * [[dcm]] — Alternative DICOM to BIDS converter using dcm2niix
-* [[bidscoin]] — GUI-enabled BIDS converter supporting multiple modalities
+* Bidscoin — GUI-enabled BIDS converter supporting multiple modalities
 * [[pybids]] — Python API for parsing and manipulating BIDS datasets
 * [[fmriprep]] — Preprocessing pipeline accepting BIDS input
-* [[nilearn]] — Machine learning and statistical analysis on BIDS data
+* Nilearn — Machine learning and statistical analysis on BIDS data
 * [[mne-bids]] — BIDS conversion for EEG/MEG data
+
+## References
+
+1. A. Dehsarvi, Lukas Frontzkowski, Anna Dewenter, Michael Schöll, N. Franzmeier. (2025). *ADprep – A Fully‐Automated Software for Large‐scale Multimodal MRI and PET Imaging Workflows*. Alzheimer's & Dementia. [DOI](https://doi.org/10.1002/alz70856_101373)
+2. (authors unknown). *[[braph]]: A Pipeline for Brain Connectivity Analysis*.
+3. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2025). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research*. bioRxiv. [DOI](https://doi.org/10.1101/2025.10.06.680781)

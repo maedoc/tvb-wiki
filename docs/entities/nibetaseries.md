@@ -15,7 +15,7 @@ tags:
 - connectivity
 title: Nibetaseries
 type: software
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 # Nibetaseries
@@ -48,6 +48,13 @@ The mathematical formulation follows: given a design matrix X with trial-specifi
 
 ## Related Software
 
-Nibetaseries is part of the broader Python neuroimaging ecosystem and relies on libraries including [[nibabel]] for reading NIfTI format fMRI data, [[nilearn]] for neuroimaging operations and connectivity routines, and [[pybids]] for parsing BIDS-compliant directory structures (Gorgolewski et al., 2016). It complements other connectivity analysis tools such as [[conn]] (a toolbox commonly used in SPM/MATLAB environments) and the [[brain-connectivity-toolbox]] (BCT), though those tools primarily address resting-state or continuous-task connectivity rather than trial-by-trial beta-series analysis. The package shares conceptual foundations with [[dynamic-causal-modeling]] (DCM), which also attempts to characterize effective connectivity from fMRI data, though DCM uses a generative model approach whereas beta-series provides descriptive correlation-based connectivity estimates.
+Nibetaseries is part of the broader Python neuroimaging ecosystem and relies on libraries including [[nibabel]] for reading NIfTI format fMRI data, Nilearn for neuroimaging operations and connectivity routines, and [[pybids]] for parsing BIDS-compliant directory structures (Gorgolewski et al., 2016). It complements other connectivity analysis tools such as [[conn]] (a toolbox commonly used in SPM/MATLAB environments) and the [[brain-connectivity-toolbox]] (BCT), though those tools primarily address resting-state or continuous-task connectivity rather than trial-by-trial beta-series analysis. The package shares conceptual foundations with [[dynamic-causal-modeling]] (DCM), which also attempts to characterize effective connectivity from fMRI data, though DCM uses a generative model approach whereas beta-series provides descriptive correlation-based connectivity estimates.
 
 Alternative Python-based tools for task-based connectivity analysis include [[afni]]'s 3dLME for linear mixed-effects modeling of trial-wise effects, FSL's FEAT for model specification, and MarsBAR for ROI-based analyses. For researchers interested in comparing beta-series approaches with other trial-level connectivity methods, the GPPI (Generalized Psychophysiological Interaction) toolbox and the CONN toolbox's task-based analysis options provide additional complementary approaches.
+
+## References
+
+1. (authors unknown). *Functional [[connectomics]] from Resting-State fMRI*.
+2. M. M. Esfahani, Vladislav Esaulov, Hemanth Venkateswara, V. Calhoun. (2025). *NEUROMARK DFNC PATTERNS: A FULLY AUTOMATED PIPELINE TO ESTIMATE SUBJECT-SPECIFIC STATES FROM RS-FMRI DATA VIA CONSTRAINED ICA OF DFNC IN +100K SUBJECTS*. bioRxiv. [DOI](https://doi.org/10.1101/2025.01.29.635539)
+3. (authors unknown). *Functional Connectivity: The Principal-Component Analysis of Large (PET and fMRI) Data Sets*.
+4. Micha Burkhardt, Carsten Gießing. (2025). *The Comet Toolbox: Improving robustness in [[netneuroscience|network neuroscience]] through multiverse analysis*. bioRxiv. [DOI](https://doi.org/10.1101/2024.01.21.576546)

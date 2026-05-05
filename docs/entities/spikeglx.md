@@ -14,7 +14,7 @@ tags:
 - neuropixels
 title: SpikeGLX
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 SpikeGLX is an open-source data acquisition (DAQ) system designed for extracellular [[electrophysiology]] recordings, with particular emphasis on high-density neural probes such as NeuroPixels. Developed primarily by Bill Karsh at Janelia Research Campus (HHMI), SpikeGLX provides a unified software platform for streaming, storing, and synchronizing neural data from multiple electrode arrays simultaneously. The software has become a de facto standard in the electrophysiology community since its initial release, enabling researchers to capture large-scale neural recordings with sub-millisecond temporal precision and electrode-level spatial resolution.
@@ -37,7 +37,7 @@ SpikeGLX produces output in a self-describing hierarchical data format that stor
 
 The software operates on standard laboratory PC hardware, requiring a dedicated GPU for real-time visualization of high-channel-count recordings. Data are written to solid-state drives to maintain write speeds commensurate with the incoming data stream. SpikeGLX runs on Windows and Linux operating systems, with the Windows version offering tighter integration with National Instruments DAQ hardware.
 
-Recording sessions are organized into a hierarchical structure: a single recording may contain multiple probes (probe00, probe01, etc.), each with their own set of channels. Channel metadata include physical electrode positions (which can be exported to [[nifti]] format for visualization in tools such as [[fsleyes]]), impedance values, and noise levels. This structured metadata approach facilitates downstream analysis workflows that require knowledge of electrode geometry.
+Recording sessions are organized into a hierarchical structure: a single recording may contain multiple probes (probe00, probe01, etc.), each with their own set of channels. Channel metadata include physical electrode positions (which can be exported to [[nifti]] format for visualization in tools such as Fsleyes), impedance values, and noise levels. This structured metadata approach facilitates downstream analysis workflows that require knowledge of electrode geometry.
 
 ## Relationship to TVB and Whole-Brain Modeling
 
@@ -53,7 +53,7 @@ The software complements other [[neuroimaging]] modalities in multi-modal experi
 
 ## Limitations and Considerations
 
-SpikeGLX represents a specialized tool optimized for high-density probe recordings, and its feature set reflects this focus. Users seeking general-purpose data acquisition for other electrophysiology modalities (e.g., scalp EEG, intracortical LFP) may find alternative platforms such as [[open-ephys]] or [[fieldtrip]] more appropriate. The software requires technical familiarity with command-line interfaces and configuration files, presenting a steeper learning curve than point-and-click alternatives.
+SpikeGLX represents a specialized tool optimized for high-density probe recordings, and its feature set reflects this focus. Users seeking general-purpose data acquisition for other electrophysiology modalities (e.g., scalp EEG, intracortical LFP) may find alternative platforms such as [[open-ephys]] or Fieldtrip more appropriate. The software requires technical familiarity with command-line interfaces and configuration files, presenting a steeper learning curve than point-and-click alternatives.
 
 Storage requirements represent a practical consideration for long-duration recordings. Researchers conducting studies of [[spontaneous-activity]] or [[resting-state]] dynamics spanning hours or days must budget accordingly for storage infrastructure and implement appropriate data management strategies. Compression utilities included with SpikeGLX can reduce footprint at the cost of requiring recompression before analysis.
 
@@ -66,3 +66,10 @@ Despite these limitations, SpikeGLX has established itself as an essential tool 
 - Steinmetz, N. A., et al. (2021). Neuropixels 2.0: A miniaturized high-density probe for stable, long-term brain recordings. *Science*, 372(6539), eabf4588. Describes the second-generation NeuroPixels technology and companion data acquisition requirements addressed by SpikeGLX.
 
 - Rübel, J., et al. (2022). NIX Format: A unified repository format for electrophysiology data. *Frontiers in Neuroinformatics*, 16, 870776. Documents the NIX format and its relationship to SpikeGLX data conversion.
+
+## References
+
+1. Wanying Qu, Jianxiong Gao, Wei Wang, Yanwei Fu. *Modeling Spatiotemporal Neural Frames for High Resolution Brain Dynamic*. [Link](https://arxiv.org/abs/2603.24176)
+2. Christopher Gabaldon, Adria Mulero, Rong Wang, Daniel A. Martin, Sabrina Camargo, Qian-Yuan Tang, Ignacio Cifre, Changsong Zhou, Dante R. Chialvo. (2026). *Data-driven inference of brain dynamical states from the r-spectrum of correlation matrices*. [Link](https://arxiv.org/abs/2601.03796)
+3. Peter Yongho Kim, Juhyeon Park, Jungwoo Park, Jubin Choi, Jungwoo Seo, Jiook Cha, Taesup Moon. (2026). *Can Natural Image Autoencoders Compactly Tokenize fMRI Volumes for Long-Range Dynamics Modeling?*. [Link](https://arxiv.org/abs/2604.03619)
+4. (authors unknown). *BioSemi BDF Format Specification*.

@@ -14,10 +14,10 @@ tags:
 - software-bids
 title: Datalad Containers
 type: entity
-updated: '2026-05-01'
+updated: '2026-05-05'
 ---
 
-Datalad Containers is an extension to the [[datalad]] data management framework that enables packaging, sharing, and running analysis software within containerized environments. The extension bridges the gap between reproducible data versioning and reproducible computational environments by allowing researchers to associate specific software containers with datasets and execute them seamlessly. This capability is particularly valuable in computational neuroscience and neuroimaging, where complex pipelines involving multiple software tools (such as [[freesurfer]], [[fsl]], [[afni]], and [[mrtrix3]]) must be executed with exact versions to ensure reproducibility across experiments.
+Datalad Containers is an extension to the [[datalad]] data management framework that enables packaging, sharing, and running analysis software within containerized environments. The extension bridges the gap between reproducible data versioning and reproducible computational environments by allowing researchers to associate specific software containers with datasets and execute them seamlessly. This capability is particularly valuable in [[computational-neuroscience]] and neuroimaging, where complex pipelines involving multiple software tools (such as Freesurfer, Fsl, [[afni]], and Mrtrix3) must be executed with exact versions to ensure reproducibility across experiments.
 
 ## Overview and Core Functionality
 
@@ -27,11 +27,11 @@ The architectural design emphasizes provenance tracking: every execution through
 
 ## Relationship to TVB and Whole-Brain Modeling
 
-In the context of [[the-virtual-brain]] and whole-brain modeling, DataLad Containers addresses a critical reproducibility challenge: the many-body problem of coordinating multiple software dependencies. Whole-brain simulations often require combining structural connectivity data (processed through tools like [[mrtrix3]] or [[dipy]]), neural mass model implementations (such as [[tvb-library]] or custom [[jansen-rit]] model code), and visualization tools. Each of these components may have complex dependency trees spanning Python packages, compiled binaries, and system libraries. DataLad Containers allows research teams to encapsulate these heterogeneous requirements into a single container image and execute simulations in a manner where the exact computational environment is recorded alongside the results.
+In the context of [[the-virtual-brain]] and whole-brain modeling, DataLad Containers addresses a critical reproducibility challenge: the many-body problem of coordinating multiple software dependencies. Whole-brain simulations often require combining structural connectivity data (processed through tools like Mrtrix3 or Dipy), neural mass model implementations (such as [[tvb-library]] or custom [[jansen-rit]] model code), and visualization tools. Each of these components may have complex dependency trees spanning Python packages, compiled binaries, and system libraries. DataLad Containers allows research teams to encapsulate these heterogeneous requirements into a single container image and execute simulations in a manner where the exact computational environment is recorded alongside the results.
 
-For [[personalized-brain-modeling]] workflows that process individual subject data through [[bids]]-compliant pipelines, containers provide an additional layer of standardization. Researchers can create containerized versions of preprocessing workflows (similar to those embodied in [[fmriprep]] or [[qsiprep]]) and execute them through DataLad Containers, ensuring that every subject's data is processed with the same software versions. This capability is essential for multi-site studies where the goal is to harmonize processing across scanners and institutions—for example, when aggregating data from the [[hcp-dataset]] with data from the [[uk-biobank]] for connectome-based analyses.
+For [[personalized-brain-modeling]] workflows that process individual subject data through [[bids]]-compliant pipelines, containers provide an additional layer of standardization. Researchers can create containerized versions of preprocessing workflows (similar to those embodied in [[fmriprep]] or Qsiprep) and execute them through DataLad Containers, ensuring that every subject's data is processed with the same software versions. This capability is essential for multi-site studies where the goal is to harmonize processing across scanners and institutions—for example, when aggregating data from the [[hcp-dataset]] with data from the [[uk-biobank]] for connectome-based analyses.
 
-The extension also complements platforms like [[brainlife]] and [[cbrain]], which provide managed compute environments for neuroimaging. While those platforms handle infrastructure, DataLad Containers gives researchers portable pipelines that can run anywhere—whether on a local workstation, an HPC cluster, or a cloud VM. This portability is particularly valuable for simulation workflows that require custom configurations, such as large-scale whole-brain modeling simulations using [[the-virtual-brain]] that may need GPU acceleration or custom parameter sweeps not easily accommodated in fixed cloud environments. [@Esteban2019]
+The extension also complements platforms like [[brainlife]] and Cbrain, which provide managed compute environments for neuroimaging. While those platforms handle infrastructure, DataLad Containers gives researchers portable pipelines that can run anywhere—whether on a local workstation, an HPC cluster, or a cloud VM. This portability is particularly valuable for simulation workflows that require custom configurations, such as large-scale [[whole-brain|whole-brain modeling]] simulations using [[the-virtual-brain]] that may need GPU acceleration or custom parameter sweeps not easily accommodated in fixed cloud environments. [@Esteban2019]
 
 ## Key Features
 
@@ -41,11 +41,11 @@ Another notable feature is the integration with container registries. Images can
 
 ## Software Ecosystem Integration
 
-DataLad Containers integrates naturally with other tools in the reproducible neuroimaging ecosystem. It works alongside [[bidscoin]] and [[bidskit]] for dataset harmonization, [[snakemake]] and [[pydra]] for workflow orchestration, and [[neurodesk]] for cloud-based containerized analysis. Unlike [[neurodesk]] which provides pre-built containers for a wide range of neuroimaging tools, DataLad Containers emphasizes user-owned containers that can be tailored to specific project requirements. [@Ricci2020]
+DataLad Containers integrates naturally with other tools in the reproducible neuroimaging ecosystem. It works alongside Bidscoin and [[bidskit]] for dataset harmonization, [[snakemake]] and [[pydra]] for workflow orchestration, and Neurodesk for cloud-based containerized analysis. Unlike Neurodesk which provides pre-built containers for a wide range of neuroimaging tools, DataLad Containers emphasizes user-owned containers that can be tailored to specific project requirements. [@Ricci2020]
 
 ## Limitations and Considerations
 
-DataLad Containers assumes familiarity with the DataLad workflow, which has a learning curve for researchers accustomed to traditional file management approaches. Container building also requires some expertise with Docker or Singularity, and researchers must ensure their institutional computing environments support container execution. For teams seeking a lower-barrier alternative, the [[neurodesk]] project provides ready-to-use containers without requiring dataset-specific configuration. Nonetheless, for projects where full control over the computational environment and tight integration with version-controlled data are paramount, DataLad Containers offers a powerful solution that aligns with standard practices in reproducible science.
+DataLad Containers assumes familiarity with the DataLad workflow, which has a learning curve for researchers accustomed to traditional file management approaches. Container building also requires some expertise with Docker or Singularity, and researchers must ensure their institutional computing environments support container execution. For teams seeking a lower-barrier alternative, the Neurodesk project provides ready-to-use containers without requiring dataset-specific configuration. Nonetheless, for projects where full control over the computational environment and tight integration with version-controlled data are paramount, DataLad Containers offers a powerful solution that aligns with standard practices in reproducible science.
 
 ## Key Papers
 
@@ -54,3 +54,10 @@ DataLad Containers assumes familiarity with the DataLad workflow, which has a le
 - **Gorgolewski et al., 2017** — "Docker: an open source container for science." Background on containerization in scientific workflows.
 - **Esteban et al., 2019** — "fMRIprep: a robust preprocessing pipeline for functional MRI." Example of containerized [[neuroimaging]] pipelines that inspired similar approaches in the community.
 - **Ricci et al., 2020** — "NeuroDesk: flexible and accessible data analysis for reproducible neuroimaging." Describes the ready-to-use container approach as an alternative to user-managed containers.
+
+## References
+
+1. Emmanuelle Renauld, Arnaud Boré, Charles Poirier, Alex Valcourt-Caron, Philippe Karan, Antoine Théberge, Guillaume Théaud, Manon Edde, P. Poulin, Gabriel Girard, Jean-Christophe Houde, A. Gagnon, Etienne St-Onge, Graham Little, Jon Haitz Legarreta, Stanislas Thoumyre, G. Grenier, Zineb El Yamani, Mario Ocampo Pineda, Matteo Battochio, Vincent Beaudoin, Alexandre Joanisse, Laurent Petit, F. Rheault, Maxime Descoteaux. (2026). *[[tractography]] analysis with the scilpy toolbox*. Aperture Neuro. [DOI](https://doi.org/10.52294/001c.154022)
+2. Zhishun Wang, Feng Liu, Rachel Marsh, Gaurav H. Patel, J. Grinband. (2026). *MEPrep: A robust pipeline for multi-echo [[fmri]] denoising and preprocessing*. Imaging Neuroscience. [DOI](https://doi.org/10.1162/IMAG.a.1198)
+3. A. Dehsarvi, Lukas Frontzkowski, Anna Dewenter, Michael Schöll, N. Franzmeier. (2025). *ADprep – A Fully‐Automated Software for Large‐scale Multimodal MRI and PET Imaging Workflows*. Alzheimer's & Dementia. [DOI](https://doi.org/10.1002/alz70856_101373)
+4. (authors unknown). *Neurodesk: an accessible, flexible and portable data analysis environment for reproducible neuroimaging*.

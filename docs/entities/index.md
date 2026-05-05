@@ -41,10 +41,13 @@ A collection of people, software platforms, datasets, and research groups releva
 - [Brian2GeNN](brian2genn.md) - GPU-accelerated spiking neural network simulation via Brian2-GeNN bridge
 - [BCBToolKit](bcbtoolkit.md) - Brain-Computer Interface toolkit for real-time EEG signal processing and BCI applications
 - [SpiNNaker](spinnaker.md) - Neuromorphic many-core platform for real-time spiking neural network simulation
+- [SimBrain](simbrain.md) - Interactive neural network simulator focused on emergent behaviors and learning
 - [Nighres](nighres.md) - High-resolution neuroimaging processing for laminar analysis
+- [NNU-Net](nnu-net.md) - Self-configuring deep learning framework for biomedical image segmentation
 - [NiftyReg](niftyreg.md) - Open-source medical image registration toolkit for neuroimaging
 - [MedPy](medpy.md) - Python library for medical image processing and analysis
 - [NeuroM](neurom.md) - Python library for neuronal morphology analysis and visualization
+- [Neurosift](neurosift.md) - Browser-based NWB visualization and cloud archive exploration tool
 - [neuromaps](neuromaps.md) - Toolbox for multimodal brain map transformation and spatial comparison
 - [NeuroQuery](neuroquery.md) - Model-based quantitative meta-analysis tool using topic models to predict brain activation from cognitive queries
 - [Neurodesk](neurodesk.md) — Containerized neuroimaging analysis environment with 100+ tools
@@ -58,11 +61,13 @@ A collection of people, software platforms, datasets, and research groups releva
 - [LabStreamingLayer](labstreaminglayer.md) — Real-time data acquisition and synchronization framework for multimodal neuroimaging
 - [LEMS](lems.md) — Low-level Entity Meta-Schema for neural model specification and simulator interoperability
 - [LORIS](loris.md) — Web-based data management and processing platform for large-scale neuroimaging datasets
+- [COINS](coins.md) — Collaborative Informatics and Neuroimaging Suite, web-based platform for multi-site neuroimaging data management and sharing
 
 ## Research Projects & Datasets
 
 - [Human Connectome Project](human-connectome-project.md)
 - [UK Biobank](uk-biobank.md)
+- [CRCNS](crcns.md) - Collaborative Research in Computational Neuroscience funding program
 
 ## People & Labs
 

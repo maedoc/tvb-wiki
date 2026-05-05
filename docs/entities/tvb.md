@@ -16,7 +16,7 @@ tags:
 - neural-mass-models
 title: TVB
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-05'
 ---
 
 # TVB (The Virtual Brain)
@@ -56,13 +56,15 @@ TVB combines:
 - [[NEST]] — [[spiking-neural-networks|Spiking neural network]] simulator for detailed neuron models
 - [[NEURON]] — Multi-compartment neuron simulation environment
 - [[ANTs]] — Image registration for preprocessing neuroimaging data
-- [[auryn]]
+- Auryn
+- [[cifti-tools]]
+- [[brainscales]]
 - [[geppetto]]
 - [[gift]]
 - [[amico]]
 - [[brainglobe]]
 - [[braincogs]]
-- [[bindsnet]]
+- Bindsnet
 - [[dipde]]
 - [[deeplabcut]]
 - [[bdftools]]
@@ -74,7 +76,7 @@ TVB combines:
 
 [[cvodes]]
 
-- [[genn]]
+- Genn
 
 - [[bcilab]]
 - [[camino-probtract]]
@@ -86,11 +88,73 @@ TVB combines:
 - [[personalized brain modeling]] — Subject-specific model construction
 - [[functional connectivity]] — Simulated and empirical connectivity patterns
 - [[elephant|Elephant]]
-- [[mrtrix3-connectome|[[mrtrix|Mrtrix3]] Connectome]]
+- [[mrtrix3-connectome|Mrtrix3 Connectome]]
 - [[epilepsy-modeling|Epilepsy Modeling]]
+
 ## Use Cases
 
 - Resting-state functional connectivity modeling
 - Clinical brain simulation for personalized medicine
 - Epilepsy seizure propagation modeling
 - [[brain-stimulation]] and neuromodulation studies
+
+## References
+
+1. Sanz Leon et al. (2013). *[[the-virtual-brain]]: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
+3. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2018.05.040)
+4. Deco et al. (2013). *Resting brains never [[rest]]: computational insights into potential cognitive architectures*. Trends in Neurosciences. [DOI](https://doi.org/10.1016/j.tins.2013.09.002)
+5. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)
+6. Leon Martin, Konstantin Bülau, Marius Pille, Rico Schmitt, Christoph Hüttl, J. Meier, Halgurd Taher, Dionysios Perdikis, M. Schirner, L. Stefanovski, [[petra-ritter]]. (2025). *The Virtual Brain Ontology: A Digital Knowledge Framework for Reproducible Brain Network Modeling*. bioRxiv. [DOI](https://doi.org/10.1101/2025.11.19.689211)
+7. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
+8. Gianluca Gaglioti, Alessandra Cardinale, Cosimo Lupo, Thierry Nieus, Federico Marmoreo, Elena Focacci, Robin Gutzen, Michael Denker, Andrea Pigorini, Marcello Massimini, Simone Sarasso, Pier Stanislao Paolucci, Giulia De Bonis. *Emergent complexity and rhythms in evoked and spontaneous dynamics of human whole-brain models after tuning through analysis tools*. [Link](https://arxiv.org/abs/2509.12873)
+9. Yunman Xia, S. Peng, J. Dukart, C. Xie, S. Xiang, S. Petkoski, Z. Li, J. Hipp, S. Muthukumaraswamy, A. Forsyth, T. Jia, N. Vaidya, T. Lett, L. Qian, X. Chang, Y. Dai, T. Banaschewski, G. Barker, A. Bokde, R. Brühl, S. Desrivières, H. Flor, P. Gowland, A. Grigis, A. Heinz, H. Lemaître, F. Nees, D. Orfanos, L. Poustka, M. Smolka, S. Hohmann, H. Walter, R. Whelan, P. Wirsching, Z. Zhang, L. Robinson, J. Winterer, Y. Zhang, H. Kebir, U. Schmidt, J. Sinclair, Y. Liu, J. Wang, F. Dai, L. Zeng, Y. Hou, H. Wang, L. Ye, C. Li, Q. Zheng, A. Marquand, S. Zhou, V. Jirsa, J. Feng, W. Lu, G. Schumann. (2026). *Digital Twin Brain simulation and manipulation of a functional brain network underlying mental illness*. bioRxiv. [DOI](https://doi.org/10.64898/2026.03.06.710030)
+
+## ORPHAN PAGE CONTEXT (brainscales)
+---
+created: 2024-01-15
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/arxiv-2509.12873.md
+- raw/papers/breakspear-2017.md
+tags:
+- neuromorphic-computing
+- spiking-neural-networks
+- [[adaptive-exponential-integrate-and-fire]]
+- neural-mass-models
+- software-[[neurom]]
+- [[computational-neuroscience]]
+- hardware-implementation
+- [[whole-brain-simulators]]
+title: BrainScaleS
+type: entity
+updated: '2026-05-04'
+---
+
+# BrainScaleS
+
+## Overview
+
+BrainScaleS is a [[neuromorphic-computing]] platform that employs
+
+## ORPHAN PAGE CONTEXT (cifti-tools)
+---
+created: 2025-01-15
+sources:
+- GlasserEtAl2013
+- MarcusEtAl2011
+- [[nibabel]]-docs
+- raw/papers/doi-10-3389-fninf-2011-00004.md
+tags:
+- software-neuroimaging
+- neuroimaging-fmri
+- data-format
+- [[human-[[connectome]]-project]]
+- software-visualization
+- software-[[dti-tk]]
+title: [[cifti]] Tools
+type: entity
+updated: '2026-05-04'
+---
+
+CIFTI (Connectivity InFormatics Initiative) tools encompass a family of software utilities designed to work with the CIFTI data format, a specialized file format developed by the

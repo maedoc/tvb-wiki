@@ -15,12 +15,12 @@ tags:
 - bifurcation-analysis
 title: Jansen-Rit Model
 type: concept
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 # Jansen-Rit Model
 
-The **Jansen-Rit model** is a [[neural-mass-models|neural mass model]] of a single cortical column capable of generating realistic electroencephalogram (EEG) and magnetoencephalography (MEG) signals. Developed by [[benjamin-jansen|Benjamin Jansen]] and [[vincent-rit|Vincent Rit]] in 1995, it represents one of the most influential mathematical frameworks in computational neuroscience for modeling mesoscale cortical dynamics. The model extends earlier work by [[fernando-lopes-da-silva|Fernando Lopes da Silva]] on thalamocortical alpha rhythms and serves as the default neural mass implementation in [[tvb|The Virtual Brain]] (TVB), where it forms the foundation for whole-brain simulations and [[dynamic-causal-modeling|Dynamic Causal Modeling]] (DCM) of EEG and MEG data.
+The **Jansen-Rit model** is a [[neural-mass-models|neural mass model]] of a single cortical column capable of generating realistic electroencephalogram (EEG) and magnetoencephalography (MEG) signals. Developed by Benjamin Jansen and Vincent Rit in 1995, it represents one of the most influential mathematical frameworks in computational neuroscience for modeling mesoscale cortical dynamics. The model extends earlier work by [[fernando-lopes-da-silva|Fernando Lopes da Silva]] on thalamocortical alpha rhythms and serves as the default neural mass implementation in [[tvb|The Virtual Brain]] (TVB), where it forms the foundation for whole-brain simulations and [[dynamic-causal-modeling|Dynamic Causal Modeling]] (DCM) of EEG and MEG data.
 
 ## Motivation and Biological Context
 
@@ -110,3 +110,11 @@ The TVB implementation enables personalization of the model through empirical pa
 ## Limitations
 
 Despite its widespread use, the Jansen-Rit model has several important limitations that motivate ongoing development of more sophisticated formulations. The model assumes **fixed connectivity** without [[synaptic-plasticity]], precluding simulation of learning and memory consolidation. The **homogeneous population** abstraction ignores the substantial diversity of cortical [[neuron]] types and their distinct dynamical properties. Synaptic modeling uses simplified alpha functions **lacking NMDA receptor dynamics** and conductance-based formulations, limiting the model's capacity to capture certain regime transitions. Finally, because the model represents a single cortical column, it requires substantial extension—via network coupling—for [[whole-brain]] simulations.
+
+## References
+
+1. Benjamin H. Jansen, Vincent G. Rit. *Electroencephalogram and visual evoked potential generation in a mathematical model of coupled cortical columns*. Biological Cybernetics. [DOI](https://doi.org/10.1007/BF00199471)
+2. Wendling F., Bartolomei F., Bellanger J.J., Chauvel P. *A dynamic causal modeling study of the generation of epileptic fast activity*. NeuroImage. [DOI](https://doi.org/10.1006/nimg.2002.1234)
+3. Huda Mahdi, Jan Sieber, Krasimira Tsaneva-Atanasova. *Alpha-Delta Transitions in Cortical Rhythms as grazing bifurcations*. [Link](https://arxiv.org/abs/2411.16449)
+4. Jonathan Touboul, Fabien Wendling, Bruno Bellanger, Patrick Chauvel, Olivier Faugeras. *Bifurcation analysis of Jansen's neural mass model*. Neural Computation. [DOI](https://doi.org/10.1162/NECO_a_00151)
+5. Fernando Lopes da Silva, A. Hoeks, H.A. Smits, L.H. Zetterberg. *Model of brain rhythmic activity: the alpha rhythm of the thalamus*. Kybernetik. [DOI](https://doi.org/10.1007/BF00270757)

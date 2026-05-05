@@ -13,7 +13,7 @@ tags:
 - nonlinear-dynamics
 title: PyDSTool
 type: entity
-updated: '2026-05-02'
+updated: '2026-05-04'
 ---
 
 PyDSTool is an open-source Python toolbox for the simulation and analysis of dynamical systems, with particular emphasis on applications in [[computational-neuroscience]]. Developed primarily by Robert Clewley (Clewley, 2005; Clewley, 2012), PyDSTool provides an interactive environment for simulating ODEs (ordinary differential equations), delay differential equations (DDEs), and hybrid systems, combined with powerful bifurcation analysis capabilities through its interface with the AUTO continuation software (Doedel et al., 2007). The tool has established itself as a specialized but well-regarded resource within computational neuroscience for building and analyzing [[neural-mass-models]], conductance-based neuron models, and whole-[[brain-network]] dynamics (Sanz-Leon et al., 2018; Ranganath et al., 2022).
@@ -51,12 +51,18 @@ The relationship between the two tools is thus one of **complementarity rather t
 ## Related Software
 
 - [[the-virtual-brain]] — Whole-brain simulation platform where PyDSTool informs local dynamics
-- [[brian]] — Neural simulation environment with similar capabilities
+- Brian — Neural simulation environment with similar capabilities
 - [[nest]] — Spiking network simulator for large-scale neural modeling
 - [[neuron]] — Established compartmental neuron modeling environment
 - [[auto-07p]] — Continuation and bifurcation analysis software
-- [[matcont]] — MATLAB-based dynamical systems toolbox
+- Matcont — MATLAB-based dynamical systems toolbox
 - [[dynamical-systems-theory]] — Theoretical foundation for analysis performed in PyDSTool
 - [[bifurcation-analysis]] — Methodological framework for AUTO-based computations
 - [[neural-mass-model]] — Model class commonly analyzed using PyDSTool
 - [[network-dynamics]] — Field where PyDSTool analysis supports connectome-scale studies
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)
+3. Martin Breyton, Viktor Sip, M. Woodman, Meysam Hashemi, S. Petkoski, V. Jirsa. (2025). *Data-driven [[mean-field-theory|mean-field]] within whole-brain models*. [Link](https://www.semanticscholar.org/paper/144ae1f1dabec42c14493d0083d36f168508f886)

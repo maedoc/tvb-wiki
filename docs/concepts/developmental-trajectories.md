@@ -19,7 +19,7 @@ tags:
 - network-dynamics
 title: Developmental Trajectories
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 Developmental trajectories describe the patterns of change in brain structure and function across the lifespan, from prenatal development through aging. These trajectories are often non-[[linear]], with different brain regions following distinct developmental curves that reflect the complex interplay between genetic programs and experience-dependent plasticity. Understanding these trajectories is essential for building biologically realistic [[whole-brain-modeling|[[whole-brain]] models]] that can accurately represent age-specific neural dynamics, predict individual outcomes, and identify deviations that may indicate developmental disorders.
@@ -52,7 +52,7 @@ The majority of developmental processes follow non-linear trajectories, reflecti
 
 ### The Gogtay et al. (2004) Framework
 
-The landmark longitudinal study by [[nitin-gogtay|Gogtay et al.]] (2004) established the spatial-temporal pattern of human cortical development using repeated MRI scans of 13 children followed from ages 4 to 21 years. This work revealed that cortical maturation follows a hierarchical "back-to-front" pattern, with phylogenetically older regions maturing before newer ones. The study demonstrated that cortical thinning, far from representing mere loss, reflects the coordinated processes of synaptic pruning and myelination that refine neural circuitry.
+The landmark longitudinal study by Gogtay et al. (2004) established the spatial-temporal pattern of human cortical development using repeated MRI scans of 13 children followed from ages 4 to 21 years. This work revealed that cortical maturation follows a hierarchical "back-to-front" pattern, with phylogenetically older regions maturing before newer ones. The study demonstrated that cortical thinning, far from representing mere loss, reflects the coordinated processes of synaptic pruning and myelination that refine neural circuitry.
 
 **Primary regions** (sensory and motor cortex) demonstrate the earliest maturation, reaching peak thickness in middle childhood and then gradually declining. These regions mature first because they are essential for basic sensorimotor function and have relatively straightforward computational demands. Their earlier maturation also reflects their earlier phylogenetic development, as sensory and motor cortices are conserved across mammalian evolution.
 
@@ -125,5 +125,13 @@ Comprehensive whole-brain models must account for the full lifespan trajectory f
 - [[network-hubs]] – Highly connected regions that integrate networks
 - [[whole-brain-modeling]] – Large-scale computational models of [[brain-dynamics]]
 - [[resting-state]] – Intrinsic brain activity measured without task
-- [[default-mode-network]] – Network active during rest and self-referential processing
+- [[default-mode-network]] – Network active during [[rest]] and self-referential processing
 - [[nonlinear-dynamics]] – Mathematical framework for complex time-dependent systems
+
+## References
+
+1. (authors unknown). *Dynamic Mapping of Human Cortical Development During Childhood Through Early Adulthood*.
+2. (authors unknown). *Functional Brain Networks Develop from a 'Local to Distributed' Organization*.
+3. (authors unknown). *The Development of Human Functional Brain Networks*.
+4. (authors unknown). *Normal Development of Brain Circuits*.
+5. Tingting Liu, Mingyang Li, Y. You, Hongxi Zhang, Ying Lv, Chai Ji, Yuting Li, Dan Wu, Shenghong Ju. (2026). *Maturation and reorganization of structural connectivity in infants within half a year*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2026.121728)

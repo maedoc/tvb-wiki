@@ -14,7 +14,7 @@ tags:
 - software-visualization
 title: Root
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 # ROOT
@@ -72,3 +72,14 @@ ROOT has been used in specific neuroscience applications including analysis of [
 - [[Freesurfer]] — MRI preprocessing; outputs can be stored/analyzed in ROOT
 - [[Nipype]] — Python pipeline framework; can integrate ROOT workflows via PyROOT
 - [[Ants]] — Image registration; statistical analyses can use ROOT histogramming
+
+## References
+
+1. Sanz Leon et al. (2013). *[[the-virtual-brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Mohammadtaha Parsayan, S. Andalib, T. L. Andersen, Habib Ganjgahi, P. Høilund-Carlsen, Abass Alavi, Mojtaba Zarei. (2025). *Odense-Oxford PET Image Analysis (OPETIA): An FSL-based toolbox for multimodal neuroimaging*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2025.121278)
+3. O. David, K.J. Friston. *Dynamic causal modelling*. NeuroImage. [DOI](https://doi.org/10.1016/S1053-8119(03)00202-7)
+4. Yifei Sun, James M. Shine, Robert D. Sanders, Robin F. H. Cash, Sharon L. Naismith, Fernando Calamante, Jinglei Lv. (2026). *A Data-Driven Method to Map the Functional Organisation of Human Brain [[white-matter]]*. [Link](https://arxiv.org/abs/2602.18715)
+5. Sakul Mahat, Sharmistha Guha, Jessica Bernard. (2026). *A Bayesian Framework for Quantifying Association Between Functional and Structural Data in Neuroimaging*. [Link](https://arxiv.org/abs/2603.21067)
+6. Nikita Smirnov, S. Kurkin, Alexander Hramov. (2025). *A Q-analysis package for higher-order interactions analysis in Python and its application in network physiology*. Frontiers in Network Physiology. [DOI](https://doi.org/10.3389/fnetp.2025.1691159)
+7. M. Rubinov. (2025). *Unifying equivalences across unsupervised learning, network science, and imaging/[[netneuroscience|network neuroscience]]*. arXiv.org. [Link](https://www.semanticscholar.org/paper/e4f83ea0f6ed1fe61bfa3931c020df634f459a05)
+8. A. Dehsarvi, Lukas Frontzkowski, Anna Dewenter, Michael Schöll, N. Franzmeier. (2025). *ADprep – A Fully‐Automated Software for Large‐scale Multimodal MRI and PET Imaging Workflows*. Alzheimer's & Dementia. [DOI](https://doi.org/10.1002/alz70856_101373)

@@ -14,7 +14,7 @@ tags:
 - network-dynamics
 title: Wong-Wang Excitatory-Inhibitory Model
 type: concept
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 # Wong-Wang Excitatory-Inhibitory Model
@@ -70,7 +70,7 @@ The model has been extensively used in conjunction with [[tvb]] for simulating w
 
 ## Relationship to Other Models
 
-The Wong-Wang E-I model occupies a specific niche in the landscape of [[neural-mass-models]], sitting between simpler single-population reductions (like the original [[wong-wang]] model or the [[jansen-rit]] model) and more detailed spiking neuron simulations (such as those implementable in [[nest]] or [[brian2]]). Compared to the [[jansen-rit]] model, which uses three populations (excitatory pyramidal, inhibitory, and non-pyramidal excitatory), the Wong-Wang E-I formulation is more parsimonious while retaining the essential E-I interaction dynamics.
+The Wong-Wang E-I model occupies a specific niche in the landscape of [[neural-mass-models]], sitting between simpler single-population reductions (like the original [[wong-wang]] model or the [[jansen-rit]] model) and more detailed spiking neuron simulations (such as those implementable in [[nest]] or Brian2). Compared to the [[jansen-rit]] model, which uses three populations (excitatory pyramidal, inhibitory, and non-pyramidal excitatory), the Wong-Wang E-I formulation is more parsimonious while retaining the essential E-I interaction dynamics.
 
 For researchers interested in [[bifurcation-analysis]] of brain dynamics, the model provides an excellent testbed for studying how changes in E-I parameters shift the system between qualitatively different dynamical regimes—fixed points, limit cycles, and chaotic attractors—using tools from [[nonlinear-dynamics]] and [[bifurcation-theory]]. The model's relative mathematical tractability (compared to large-scale spiking networks) makes it suitable for [[variational-bayes]] approaches to parameter estimation, where the goal is to infer model parameters that best explain observed neuroimaging data.
 
@@ -86,3 +86,11 @@ For researchers interested in [[bifurcation-analysis]] of brain dynamics, the mo
 - [[functional-connectivity]] — Empirical counterpart to model predictions
 - [[resting-state]] — Paradigm for studying spontaneous [[brain-dynamics]]
 - [[dynamic-causal-modeling]] — Related framework for inferring [[effective-connectivity]]
+
+## References
+
+1. Pascal Helson, Etienne Tanré, Romain Veltz. *Mean-field analysis of a [[neural-network]] with stochastic STDP*. [Link](https://arxiv.org/abs/2510.02545)
+2. Soon Ho Kim, Hannah Choi. (2025). *Inhibitory cell type heterogeneity in a spatially structured mean-field model of V1*. bioRxiv. [DOI](https://doi.org/10.1101/2025.03.13.643046)
+3. Potjans & Diesmann (2014). *The cell-type specific cortical microcircuit: relating structure and activity*. Cerebral Cortex. [DOI](https://doi.org/10.1093/cercor/bhs358)
+4. Sanz Leon et al. (2013). *[[the-virtual-brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+5. Ramiro Plüss, Hernán Villota, Patricio Orio. (2025). *Hemispheric-Specific Coupling Improves Modeling of Functional Connectivity Using [[wilson-cowan]] Dynamics*. [Link](https://arxiv.org/abs/2506.22951)

@@ -15,7 +15,7 @@ tags:
 - neurosurgery
 title: Lead-DBS
 type: entity
-updated: '2026-05-01'
+updated: '2026-05-04'
 ---
 
 Lead-DBS is an open-source software toolbox for planning and analyzing deep [[brain-stimulation]] (DBS) procedures. It provides a comprehensive environment for preoperative [[tractography]]-based target selection and postoperative electrode localization analysis, enabling researchers and clinicians to optimize DBS therapy for movement disorders such as Parkinson's disease, essential tremor, and dystonia, as well as emerging applications in psychiatric disorders including major depression and obsessive-compulsive disorder (Horn et al., 2019).
@@ -28,7 +28,7 @@ The software operates primarily within the MATLAB environment (with additional P
 
 ## Key Features
 
-Lead-DBS provides several core functionalities that support the DBS workflow from preprocessing to analysis. The **preprocessing pipeline** incorporates advanced image registration techniques using [[elastix]] and ANTs, enabling accurate alignment of preoperative neuroimaging scans with postoperative CT images to localize electrode contacts. The software supports multiple brain atlases including the [[desikan-killiany-atlas]], [[destrieux-atlas]], [[harvard-oxford-atlas]], [[aal-atlas]], and the [[brainnetome-atlas]], allowing users to define targets according to their preferred [[parcellation]] scheme.
+Lead-DBS provides several core functionalities that support the DBS workflow from preprocessing to analysis. The **preprocessing pipeline** incorporates advanced image registration techniques using [[elastix]] and ANTs, enabling accurate alignment of preoperative neuroimaging scans with postoperative CT images to localize electrode contacts. The software supports multiple brain atlases including the [[desikan-killiany-atlas]], [[destrieux-atlas]], Harvard Oxford Atlas, [[aal-atlas]], and the [[brainnetome-atlas]], allowing users to define targets according to their preferred [[parcellation]] scheme.
 
 A distinctive capability of Lead-DBS is its **tractography integration**, which leverages DTI and tractography data to visualize and analyze [[white-matter]] pathways surrounding the electrode contacts. This functionality enables surgeons to assess whether intended structural pathways are being targeted and to predict stimulation effects based on the distribution of electric fields through anatomically defined fiber tracts. The **distance computation** tools calculate Euclidean and Mahalanobis distances between electrode contacts and anatomical landmarks, while the **volume of activation estimation** module simulates the electric field spreading from each contact given specified stimulation parameters.
 
@@ -40,7 +40,7 @@ The software also supports **group studies** through its export capabilities, al
 
 In practice, Lead-DBS can provide TVB with patient-specific anatomical information, including the exact coordinates of implanted electrodes and the [[structural-connectivity]] patterns derived from tractography. This enables researchers to build personalized whole-brain models that incorporate realistic stimulation parameters, potentially improving predictions of therapeutic outcomes. Conversely, TVB simulation results could inform Lead-DBS planning by identifying optimal stimulation targets that suppress pathological dynamics in silico before surgical implementation.
 
-Both software packages share a commitment to open-source development and have been integrated into broader neuroimaging workflows through compatibility with formats such as [[bids]] and tools including [[nilearn]], [[dipy]], and the [[brain-connectivity-toolbox]].
+Both software packages share a commitment to open-source development and have been integrated into broader neuroimaging workflows through compatibility with formats such as [[bids]] and tools including Nilearn, Dipy, and the [[brain-connectivity-toolbox]].
 
 ## Key Papers
 
@@ -48,6 +48,13 @@ The development and validation of Lead-DBS has been documented in several influe
 
 ## Related Software
 
-Lead-DBS interfaces with several other tools in the computational neuroimaging ecosystem. For visualization, it works with [[brainnet-viewer]] and MRICroGL for displaying electrode positions on brain surfaces. The [[connectome-workbench]] provides additional visualization capabilities for group-level analyses. For tractography processing, Lead-DBS integrates with MRtrix3 and [[dsi-studio]], while the [[freesurfer]] suite handles cortical reconstruction. Surgical planning may also involve 3D Slicer or SimNIBS for neuronavigation, and the software accepts inputs preprocessed with fMRIPrep or QSIPrep for standardized pipeline compliance.
+Lead-DBS interfaces with several other tools in the computational neuroimaging ecosystem. For visualization, it works with [[brainnet-viewer]] and MRICroGL for displaying electrode positions on brain surfaces. The [[connectome-workbench]] provides additional visualization capabilities for group-level analyses. For tractography processing, Lead-DBS integrates with MRtrix3 and [[dsi-studio]], while the Freesurfer suite handles cortical reconstruction. Surgical planning may also involve 3D Slicer or SimNIBS for neuronavigation, and the software accepts inputs preprocessed with fMRIPrep or QSIPrep for standardized pipeline compliance.
 
 TVB can leverage Lead-DBS output for personalized stimulation modeling, and additional Python utilities support integration with the broader Python neuroimaging ecosystem including [[nipype]] for pipeline automation.
+
+## References
+
+1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
+3. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2018.05.040)
+4. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](https://doi.org/10.3389/fncom.2025.1731161)

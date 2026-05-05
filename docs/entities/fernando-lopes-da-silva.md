@@ -16,7 +16,7 @@ tags:
 - brain-oscillations
 title: Fernando Lopes da Silva
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 # Fernando Lopes da Silva
@@ -46,3 +46,14 @@ The Lopes da Silva model's architecture (three interconnected populations) direc
 - [[Jansen-Rit]]
 - [[brain-oscillations]]
 - [[eeg]]
+
+## References
+
+1. Fernando Lopes da Silva, A. Hoeks, H.A. Smits, L.H. Zetterberg. *Model of brain rhythmic activity: the alpha rhythm of the thalamus*. Kybernetik. [DOI](https://doi.org/10.1007/BF00270757)
+2. Walter J. Freeman. *Mass Action in the Nervous System*.
+3. Benjamin H. Jansen, Vincent G. Rit. *Electroencephalogram and visual evoked potential generation in a mathematical model of coupled cortical columns*. Biological Cybernetics. [DOI](https://doi.org/10.1007/BF00199471)
+4. Gianluca Gaglioti, L. Porta, M. Colombo, Simone Russo, Thierry Nieus, G. Deco, M. Corbetta, S. Sarasso, M. V. Sanchez-Vives, M. Massimini. (2026). *Slow wave generation and propagation in a model of brain lesions*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2026.121817)
+5. Potjans & Diesmann (2014). *The cell-type specific cortical microcircuit: relating structure and activity*. Cerebral Cortex. [DOI](https://doi.org/10.1093/cercor/bhs358)
+6. B. Zikopoulos, Natalia Matuk, I. Romanova, Arash Yazdanbakhsh. (2026). *Biophysical Modeling of Thalamocortical Circuit Dynamics: Species-Specific Insights into Neural Synchrony, Sleep Spindles, and Mechanisms of Neuropsychiatric Disorders*. bioRxiv. [DOI](https://doi.org/10.64898/2026.02.01.703170)
+7. Valerio Barabino, F. Callegari, Sérgio Martinoia, P. Massobrio. (2026). *Hierarchical afferent [[connectivity]] drives population-wide bursting dynamics in a computational model of human-derived excitatory neuronal networks*. Journal of Neuroscience. [DOI](https://doi.org/10.1523/jneurosci.0912-25.2026)
+8. R. Lorenzi, Fulvia Palesi, C. Casellato, C. G. Gandini Wheeler-Kingshott, Egidio D’Angelo. (2025). *Region-specific [[mean-field-theory|mean field]] models enhance simulations of local and global [[brain-dynamics]]*. bioRxiv. [DOI](https://doi.org/10.1038/s41540-025-00543-9)

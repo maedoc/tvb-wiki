@@ -10,7 +10,7 @@ tags:
 - software-brain-modeling
 title: CoCoMac
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 CoCoMac (Collation of Connectivity data on the Macaque brain) is a database and computational framework for organizing and mapping anatomical connectivity data from invasive tracer studies in the macaque monkey. Developed primarily by Rolf Kötter and colleagues at the Radboud University Nijmegen, CoCoMac emerged in the early 2000s as one of the first systematic efforts to aggregate published results from histological tracer injection experiments into a unified anatomical framework. The project addresses a fundamental challenge in [[connectomics]]: synthesizing disparate anatomical studies conducted across different brains, parcellation schemes, and methodological approaches into a coherent, searchable database of [[structural connectivity]] estimates suitable for [[whole-brain modeling]] applications.
@@ -35,7 +35,7 @@ The integration with TVB exemplifies the role of curated connectivity databases 
 
 ## Key Features
 
-CoCoMac provides several distinctive capabilities that distinguish it from later, automated connectome databases. First, it captures connectivity information from histological and tracer injection studies that predated modern [[diffusion imaging]], preserving anatomical knowledge that might otherwise be lost. Second, the explicit parcellation mapping allows users to compare connectivity patterns across different [[brainsuite]]—for example, converting connectivity data defined on the Desikan‑Killiany atlas to the [[aal-atlas]] or vice versa. Third, the database includes confidence ratings and literature provenance, enabling users to distinguish well‑established tracts from those with disputed or uncertain anatomical evidence. Fourth, by focusing on macaque connectivity, CoCoMac provides a detailed anatomical ground truth that can inform interpretation of human neuroimaging data, as the macaque monkey shares extensive homologous cortical circuitry with humans.
+CoCoMac provides several distinctive capabilities that distinguish it from later, automated [[connectome]] databases. First, it captures connectivity information from histological and tracer injection studies that predated modern [[diffusion imaging]], preserving anatomical knowledge that might otherwise be lost. Second, the explicit parcellation mapping allows users to compare connectivity patterns across different Brainsuite—for example, converting connectivity data defined on the Desikan‑Killiany atlas to the [[aal-atlas]] or vice versa. Third, the database includes confidence ratings and literature provenance, enabling users to distinguish well‑established tracts from those with disputed or uncertain anatomical evidence. Fourth, by focusing on macaque connectivity, CoCoMac provides a detailed anatomical ground truth that can inform interpretation of human neuroimaging data, as the macaque monkey shares extensive homologous cortical circuitry with humans.
 
 ## Related Software and Databases
 
@@ -44,3 +44,11 @@ CoCoMac predates several later connectome resources, including the [[human-conne
 ## Key Papers
 
 The foundational CoCoMac publication described the database architecture and demonstrated its application to cortical network analysis (Kötter & Stephan, 2007). Subsequent work mapped the database to novel parcellation schemes and explored the relationship between [[structural-connectivity]] and [[functional-connectivity]] measured with [[fmri]] (Kötter et al., 2007; Honey et al., 2007). These studies established the empirical foundation for computational models demonstrating that structural connectivity patterns constrain functional dynamics in large‑scale brain networks.
+
+## References
+
+1. (authors unknown). *Networks of the Brain*.
+2. Ramiro Plüss, Hernán Villota, Patricio Orio. (2025). *Hemispheric-Specific Coupling Improves Modeling of Functional Connectivity Using [[wilson-cowan]] Dynamics*. [Link](https://arxiv.org/abs/2506.22951)
+3. Shengjie Qi, Xinda Song, Le Jia, Hongyu Cui, Yuchen Suo, Teng Long, Zhendong Wu, Xiaolin Ning. (2025). *The impact of channel density, inverse solutions, connectivity metrics and calibration errors on OPM-MEG connectivity analysis: A simulation study*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2025.121056)
+4. A. Craig, Sida Chen, Qianyuan Tang, Changsong Zhou. (2026). *Personalized [[whole-brain]] Ising models with heterogeneous nodes capture differences among brain regions*. bioRxiv. [DOI](https://doi.org/10.1101/2025.06.09.658769)
+5. Jui-To Wang, Ching-Po Lin, Huei-Min Liu, Carlo Pierpaoli, C. Lo. (2025). *Beyond tractography in brain connectivity mapping with dMRI morphometry and functional networks*. Brain Structure and Function. [DOI](https://doi.org/10.1007/s00429-025-03016-1)

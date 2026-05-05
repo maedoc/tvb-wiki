@@ -12,7 +12,7 @@ tags:
 - functional-connectivity
 title: XCP-D
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 XCP-D is a post-processing pipeline for [[resting-state]] functional magnetic resonance imaging ([[fmri]]) data, designed to remove confounding noise artifacts while preserving meaningful neural signals. Developed as part of the Configurable Pipeline for the Analysis of Connectomes (C-PAC) ecosystem, XCP-D takes preprocessed fMRI timeseries and applies a standardized sequence of confound regression, filtering, and quality control procedures to produce clean data suitable for subsequent [[functional-connectivity]] analyses. The pipeline emerged from the growing recognition that reliable estimation of brain [[connectivity]] patterns depends critically on aggressive yet principled removal of motion artifacts, physiological noise, and other non-neural signals that can systematically distort correlations between brain regions.
@@ -25,7 +25,7 @@ The pipeline operates on the principle that a comprehensive confound regression 
 
 ## Technical Approach
 
-XCP-D employs a modular architecture that allows users to customize the confound regression strategy while maintaining a consistent output structure. The core processing [[steps]] include selection of nuisance regressors from a comprehensive menu, application of temporal filtering to isolate relevant frequency bands, and generation of quality control metrics to assess data quality post-processing.
+XCP-D employs a modular architecture that allows users to customize the confound regression strategy while maintaining a consistent output structure. The core processing Steps include selection of nuisance regressors from a comprehensive menu, application of temporal filtering to isolate relevant frequency bands, and generation of quality control metrics to assess data quality post-processing.
 
 The nuisance regression model in XCP-D follows the general form:
 
@@ -45,7 +45,7 @@ The [[conn]] toolbox represents another popular choice for connectivity-focused 
 
 One of XCP-D's distinguishing features is its integration with the broader C-PAC preprocessing ecosystem, allowing seamless application of confound regression following C-PAC's adaptive preprocessing pipeline. The pipeline generates comprehensive quality control outputs including framewise displacement plots, correlation matrices showing the effect of processing on motion-related artifacts, and standardized quality metrics that facilitate identification of problematic scans (Chen et al., 2019). Additionally, XCP-D supports multiple regression models (including aCompCor, Global Signal Regression, and hybrid approaches) giving researchers flexibility to choose the confound strategy best suited to their scientific questions.
 
-The pipeline produces outputs in standard [[nifti]] format compatible with a wide range of connectivity analysis tools including [[nilearn]], [[cifti]], and custom scripts. Outputs include both the cleaned timeseries and the estimated confound parameters, enabling full reproducibility and transparency in preprocessing decisions. XCP-D also generates processed derivatives in the Brain Imaging Data Structure ([[bids]]) specification, facilitating data sharing and integration with other BIDS-compliant tools. Processed outputs include cleaned timeseries files, quality control reports in HTML format, and derivative summary statistics that can be used for cohort-level quality assessment.
+The pipeline produces outputs in standard [[nifti]] format compatible with a wide range of connectivity analysis tools including Nilearn, [[cifti]], and custom scripts. Outputs include both the cleaned timeseries and the estimated confound parameters, enabling full reproducibility and transparency in preprocessing decisions. XCP-D also generates processed derivatives in the Brain Imaging Data Structure ([[bids]]) specification, facilitating data sharing and integration with other BIDS-compliant tools. Processed outputs include cleaned timeseries files, quality control reports in HTML format, and derivative summary statistics that can be used for cohort-level quality assessment.
 
 ## Relationship to TVB
 
@@ -53,8 +53,14 @@ While XCP-D is primarily designed for [[functional-connectivity]] analysis in th
 
 ## Related Software
 
-XCP-D operates within a broader ecosystem of fMRI preprocessing and connectivity analysis tools. Key related software includes [[c-pac]] (the parent pipeline suite from which XCP-D emerged), [[fmriprep]] (a widely used preprocessing pipeline offering different preprocessing approaches), [[nilearn]] (a Python library for connectivity analysis that can consume XCP-D outputs), and [[nipype]] (the workflow engine underlying C-PAC). Additional related tools for connectivity analysis include [[connectome-workbench]] for visualization of connectivity data, [[bctpy]] for graph-theoretic analysis of brain networks, and [[graphvar]] for graph-based network analysis.
+XCP-D operates within a broader ecosystem of fMRI preprocessing and connectivity analysis tools. Key related software includes [[c-pac]] (the parent pipeline suite from which XCP-D emerged), [[fmriprep]] (a widely used preprocessing pipeline offering different preprocessing approaches), Nilearn (a Python library for connectivity analysis that can consume XCP-D outputs), and [[nipype]] (the workflow engine underlying C-PAC). Additional related tools for connectivity analysis include [[connectome-workbench]] for visualization of connectivity data, [[bctpy]] for graph-theoretic analysis of brain networks, and [[graphvar]] for graph-based network analysis.
 
 ## Key Papers
 
 The XCP-D pipeline was introduced alongside the C-PAC software suite, with foundational documentation describing both the technical implementation and validation against established benchmarks for motion artifact removal (Ciric et al., 2017). This seminal work established a taxonomy of confound regression strategies and demonstrated the relative effectiveness of different approaches for motion artifact reduction while preserving neural signal sensitivity. Subsequent studies using XCP-D for preprocessing have demonstrated its utility in improving motion correction and enabling reliable connectivity estimates in clinical populations including individuals with [[alzheimers-disease]] and [[schizophrenia-models]] (Siegel et al., 2017; Chen et al., 2019). Additional foundational references include the work establishing framewise displacement as a quality metric (Power et al., 2012) and the development of aCompCor for physiological noise regression (Behzadi et al., 2007), both of which inform XCP-D's processing strategies.
+
+## References
+
+1. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2018.05.040)
+2. Sali Issa, Qi Wang, Ruinan Qi, Guangxi Peng, Shi Yin, Qinmu Peng. (2026). *An effective alzheimer disease diagnosis using resting state fmri images and broad learning system.*. Psychiatry research. [[neuroimaging]]. [DOI](https://doi.org/10.1016/j.pscychresns.2025.112133)
+3. Sima Soltanpour, Md Taufiq Nasseef, Rachel Utama, Arnold Chang, D. Madularu, Praveen Kulkarni, Craig F. Ferris, Chris Joslin. (2025). *Robust automated preclinical fMRI preprocessing via a multi-stage dilated convolutional Swin Transformer affine registration*. Frontiers in Neuroscience. [DOI](https://doi.org/10.3389/fnins.2025.1621244)

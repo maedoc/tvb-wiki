@@ -1,0 +1,15 @@
+# Quantitative Analysis Using PMOD and FreeSurfer for Three Types of Radiopharmaceuticals for Alzheimer's Disease Diagnosis
+
+**Source**: semantic-scholar
+**ID**: 4b8fddd8aaabc2311b42da3f69605ad9f1290482
+**DOI**: 10.3390/a18020057
+**URL**: https://www.semanticscholar.org/paper/4b8fddd8aaabc2311b42da3f69605ad9f1290482
+**Date**: 2025-01-21
+**Year**: 2025
+**Authors**: H. Yoon, Daye Yoon, Sungmin Jun, Young Jin Jeong, Do-Young Kang
+**Venue**: Algorithms
+**Citations**: 0
+
+## Abstract
+
+In amyloid brain PET, after parcellation using the finite element method (FEM)-based algorithm FreeSurfer and voxel-based algorithm PMOD, SUVr examples can be extracted and compared. This study presents the classification SUVr threshold in PET images of F-18 florbetaben (FBB), F-18 flutemetamol (FMM), and F-18 florapronol (FPN) and compares and analyzes the classification performance according to computational algorithm in each brain region. PET images were co-registered after the generated MRI was registered with standard template information. Using MATLAB script, SUVr was calculated using the built-in parcellation number labeled in the brain region. PMOD and FreeSurfer with different algorithms were used to load the PET image, and after registration in MRI, it was normalized to the MRI template. The volume and SUVr of the individual gray matter space region were calculated using an automated anatomical labeling atlas. The SUVr values of eight regions of the frontal cortex (FC), lateral temporal cortex (LTC), mesial temporal cortex (MTC), parietal cortex (PC), occipital cortex (OC), anterior and posterior cingulate cortex (GCA, GCP), and composite were calculated. After calculating the correlation of SUVr using the FreeSurfer and PMOD algorithms and calculating the AUC for amyloid-positive/negative subjects, the classification ability was calculated, and the SVUr threshold was calculated using the Youden index. The correlation coefficients of FreeSurfer and PMOD SUVr calculations of the eight regions of the brain cortex were FBB (0.95), FMM (0.94), and FPN (0.91). The SUVr threshold was SUVr(LTC,min) = 1.264 and SUVr(THA,max) = 1.725 when calculated using FPN-FreeSurfer, and SUVr(MTC,min) = 1.093 and SUVr(MCT,max) = 1.564 when calculated using FPN-PMOD. The AUC comparison showed that there was no statistically significant difference (p > 0.05) in the SUVr classification results using the three radiopharmaceuticals, specifically for the LTC and OC regions in the PMOD analysis, and the LTC and PC regions in the FreeSurfer analysis. The SUVr calculation using PMOD (voxel-based algorithm) has a strong correlation with the calculation using FreeSurfer (FEM-based algorithm); therefore, they complement each other. Quantitative classification analysis with high accuracy is possible using the suggested SUVr threshold. The SUVr classification performance was good in the order of FMM, FBB, and FPN, and showed a good classification performance in the LTC region regardless of the type of radiotracer and analysis algorithm.

@@ -15,7 +15,7 @@ tags:
 - computational-neuroscience
 title: HERMES
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 # HERMES
@@ -32,11 +32,11 @@ The need for more sophisticated HRF modeling became apparent as fMRI resolution 
 
 ## Technical Framework
 
-HERMES implements several approaches to HRF modeling, each with distinct assumptions and fitting procedures. The toolbox includes parametric models with configurable delay and dispersion parameters, and basis function approaches similar to those used in [[spm]] [2][8]. Users can fit HRF models at the single-voxel level, allowing for spatially varying response functions across the brain.
+HERMES implements several approaches to HRF modeling, each with distinct assumptions and fitting procedures. The toolbox includes parametric models with configurable delay and dispersion parameters, and basis function approaches similar to those used in Spm [2][8]. Users can fit HRF models at the single-voxel level, allowing for spatially varying response functions across the brain.
 
 The mathematical foundation of HERMES typically involves modeling the HRF as a [[linear]] combination of basis functions, most commonly a double-gamma function that captures the characteristic undershoot and post-stimulus overshoot observed in the BOLD response [9]. More flexible formulations allow for variable onset latency, peak time, and undershoot magnitude, effectively parameterizing the HRF shape to accommodate individual differences. The fitting procedure uses [[variational-bayes]] or maximum likelihood estimation to determine optimal parameters for each voxel, producing spatial maps of HRF properties that can be analyzed further [10].
 
-A key feature of HERMES is its integration with the [[spm]] software ecosystem, allowing seamless incorporation into established preprocessing and analysis pipelines. The toolbox accepts standard [[nifti]]-format fMRI data and outputs parameter estimates in formats compatible with downstream statistical analysis. Visualization tools enable researchers to examine HRF shapes across the brain, identify regions with atypical responses, and compare HRF models quantitatively using model selection criteria such as AIC or Bayesian Information Criterion [11].
+A key feature of HERMES is its integration with the Spm software ecosystem, allowing seamless incorporation into established preprocessing and analysis pipelines. The toolbox accepts standard [[nifti]]-format fMRI data and outputs parameter estimates in formats compatible with downstream statistical analysis. Visualization tools enable researchers to examine HRF shapes across the brain, identify regions with atypical responses, and compare HRF models quantitatively using model selection criteria such as AIC or Bayesian Information Criterion [11].
 
 ## Key Features
 
@@ -52,8 +52,14 @@ While HERMES is primarily an fMRI analysis tool rather than a whole-brain simula
 
 ## Related Software
 
-HERMES shares conceptual territory with other neuroimaging tools including [[spm]], which implements the standard canonical HRF basis functions; [[fsl]], which offers alternative HRF modeling approaches through its FEAT tool; and [[eeglab]], which handles [[eeg]] source analysis complementary to fMRI HRF studies. For [[effective-connectivity]] analyses using [[dynamic-causal-modeling]], accurate HRF specification is essential, and insights from HERMES-informed HRF characterizations can improve DCM model specifications.
+HERMES shares conceptual territory with other neuroimaging tools including Spm, which implements the standard canonical HRF basis functions; Fsl, which offers alternative HRF modeling approaches through its FEAT tool; and [[eeglab]], which handles [[eeg]] source analysis complementary to fMRI HRF studies. For [[effective-connectivity]] analyses using [[dynamic-causal-modeling]], accurate HRF specification is essential, and insights from HERMES-informed HRF characterizations can improve DCM model specifications.
 
 ## Key Papers
 
 The development of flexible HRF modeling approaches for event-related fMRI was pioneered by several groups. M. M. M. et al. established early frameworks for characterising HRF variability across the normal adult brain [18]. Subsequent work has explored HRF differences in clinical populations including patients with [[alzheimers-disease]] and [[schizophrenia-models]], where altered neurovascular coupling may represent a biomarker for disease-related changes in brain function [19][20].
+
+## References
+
+1. Chetan Gohil, Oliver M. Cliff, James M. Shine, Ben D. Fulcher, Joseph T. Lizier. (2026). *Estimating measures of information processing during cognitive tasks using functional magnetic resonance imaging*. [Link](https://arxiv.org/abs/2602.03240)
+2. O. David, K.J. Friston. *Dynamic causal modelling*. NeuroImage. [DOI](https://doi.org/10.1016/S1053-8119(03)00202-7)
+3. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)

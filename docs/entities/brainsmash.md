@@ -15,7 +15,7 @@ tags:
 - connectomics
 title: BrainSMASH
 type: entity
-updated: '2026-05-02'
+updated: '2026-05-04'
 ---
 
 ## Overview
@@ -42,13 +42,13 @@ Fourth, BrainSMASH provides **parallel processing capabilities** to accelerate t
 
 BrainSMASH operates in a complementary space to [[the-virtual-brain]] (TVB). While TVB is primarily a forward modeling framework for simulating whole-brain dynamics using [[neural-mass-model]]s and [[connectome]]-based networks, BrainSMASH provides the statistical infrastructure for empirically analyzing real brain connectivity data. Researchers using TVB often validate their simulated dynamics against empirical [[functional-connectivity]] patterns, and BrainSMASH can serve as the analytical tool for comparing simulated and empirical connectivity, or for characterizing group differences in empirical datasets used to parameterize TVB models.
 
-The two tools address different stages of the [[whole-brain-modeling]] workflow: TVB handles the biophysically grounded simulation of brain dynamics, while BrainSMASH provides the statistical comparison framework for connectivity analysis. In practice, a researcher might use TVB to simulate brain activity under certain parameter regimes, then use BrainSMASH to compare the resulting functional connectivity patterns against empirical human [[neuroimaging]] data from tools like [[freesurfer]] or [[fsl]]. BrainSMASH is also relevant for TVB researchers seeking to characterize the statistical significance of empirical connectivity differences that inform model parametrization.
+The two tools address different stages of the [[whole-brain-modeling]] workflow: TVB handles the biophysically grounded simulation of [[brain-dynamics]], while BrainSMASH provides the statistical comparison framework for connectivity analysis. In practice, a researcher might use TVB to simulate brain activity under certain parameter regimes, then use BrainSMASH to compare the resulting functional connectivity patterns against empirical human [[neuroimaging]] data from tools like Freesurfer or Fsl. BrainSMASH is also relevant for TVB researchers seeking to characterize the statistical significance of empirical connectivity differences that inform model parametrization.
 
 ## Relationship to Other Tools
 
 BrainSMASH occupies a niche distinct from other connectivity-related toolboxes. The [[brain-connectivity-toolbox]] (BCT) provides general network analysis metrics and manipulation functions, but lacks the spatially constrained null model generation that BrainSMASH specializes in. Similarly, [[bctpy]] (the Python version of BCT) offers network measures but not the statistical inference framework that BrainSMASH provides.
 
-For [[resting-state]] [[functional-connectivity]] analysis, tools like [[conn]] and [[nilearn]] provide preprocessing and basic connectivity estimation, but the generation of spatially appropriate null models for statistical testing typically requires BrainSMASH or similar specialized tools. The toolbox integrates well with Python-based preprocessing pipelines like [[fmriprep]] and can operate on output from [[dti]] tractography pipelines that produce [[structural-connectivity]] matrices.
+For [[resting-state]] [[functional-connectivity]] analysis, tools like [[conn]] and Nilearn provide preprocessing and basic connectivity estimation, but the generation of spatially appropriate null models for statistical testing typically requires BrainSMASH or similar specialized tools. The toolbox integrates well with Python-based preprocessing pipelines like [[fmriprep]] and can operate on output from [[dti]] tractography pipelines that produce [[structural-connectivity]] matrices.
 
 ## Key Papers and Development
 
@@ -60,8 +60,14 @@ The software is maintained as an open-source Python package (available at https:
 
 - [[brain-connectivity-toolbox]] — general network analysis
 - [[bctpy]] — Python network analysis
-- [[nilearn]] — Python neuroimaging preprocessing
+- Nilearn — Python neuroimaging preprocessing
 - [[the-virtual-brain]] — whole-brain modeling simulator
 - [[connectome-workbench]] — connectivity visualization
-- [[freesurfer]] — cortical reconstruction
+- Freesurfer — cortical reconstruction
 - [[graph-theory]] — mathematical foundation for network analysis
+
+## References
+
+1. Woodman et al. (2014). *[[graphvar]]: A user-friendly toolbox for comprehensive graph analyses of functional brain connectivity*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2014.07.015)
+2. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+3. Gianluca Gaglioti, Alessandra Cardinale, Cosimo Lupo, Thierry Nieus, Federico Marmoreo, Elena Focacci, Robin Gutzen, Michael Denker, Andrea Pigorini, Marcello Massimini, Simone Sarasso, Pier Stanislao Paolucci, Giulia De Bonis. *Emergent complexity and rhythms in evoked and spontaneous dynamics of human whole-brain models after tuning through analysis tools*. [Link](https://arxiv.org/abs/2509.12873)

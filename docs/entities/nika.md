@@ -28,7 +28,7 @@ tags:
 - connectomics
 title: NIAK
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 # NIAK
@@ -45,7 +45,7 @@ NIAK implements a complete fMRI preprocessing workflow that includes motion corr
 
 ### PSOM Framework
 
-The Pipeline System for Octave and Matlab (PSOM) underlying NIAK enables automatic parallel execution of processing [[steps]] across multi-core workstations and high-performance computing clusters. PSOM handles dependency resolution, ensuring that downstream processing steps only execute after their prerequisites complete successfully. This design allows researchers to define complex multi-step workflows with minimal overhead and automatically benefits from parallel processing resources without manual parallelization code.
+The Pipeline System for Octave and Matlab (PSOM) underlying NIAK enables automatic parallel execution of processing Steps across multi-core workstations and high-performance computing clusters. PSOM handles dependency resolution, ensuring that downstream processing steps only execute after their prerequisites complete successfully. This design allows researchers to define complex multi-step workflows with minimal overhead and automatically benefits from parallel processing resources without manual parallelization code.
 
 ### Connectivity Analysis
 
@@ -61,15 +61,21 @@ While NIAK and [[the-virtual-brain]] (TVB) serve different primary purposes—th
 
 ## Key Papers
 
-The foundational paper describing NIAK's pipeline architecture is "The pipeline system for Octave and Matlab (PSOM): a lightweight scripting framework and execution engine for scientific workflows" (Bellec et al., 2012, Frontiers in Neuroinformatics). NIAK played a critical role in preprocessing the ABIDE (Autism Brain Imaging Data Exchange) dataset, making possible numerous studies of [[functional-connectivity]] alterations in autism spectrum disorder. The ABIDE preprocessed dataset using NIAK has been cited extensively in the [[connectomics]] literature.
+The foundational paper describing NIAK's pipeline architecture is "The pipeline system for Octave and Matlab (PSOM): a lightweight scripting framework and execution engine for scientific workflows" (Bellec et al., 2012, Frontiers in Neuroinformatics). NIAK played a critical role in preprocessing the [[abide]] (Autism Brain Imaging Data Exchange) dataset, making possible numerous studies of [[functional-connectivity]] alterations in autism spectrum disorder. The ABIDE preprocessed dataset using NIAK has been cited extensively in the [[connectomics]] literature.
 
 ## Historical Context and Current Status
 
-NIAK was initiated around 2008 and saw active development through approximately 2017, with the SIMEXP laboratory at Université de Montréal assuming maintenance responsibilities. As documented in the GitHub repository, the SIMEXP lab announced cessation of active development around 2022, though the software remains available on GitHub and NITRC for researchers who have existing pipelines or methodological reasons to continue using it. The Python ecosystem, particularly packages like [[nilearn]] and [[bids]]-based workflows (including [[fmriprep]]), has largely absorbed the user community seeking modern, actively maintained neuroimaging preprocessing solutions.
+NIAK was initiated around 2008 and saw active development through approximately 2017, with the SIMEXP laboratory at Université de Montréal assuming maintenance responsibilities. As documented in the GitHub repository, the SIMEXP lab announced cessation of active development around 2022, though the software remains available on GitHub and [[nitrc]] for researchers who have existing pipelines or methodological reasons to continue using it. The Python ecosystem, particularly packages like Nilearn and [[bids]]-based workflows (including [[fmriprep]]), has largely absorbed the user community seeking modern, actively maintained neuroimaging preprocessing solutions.
 
 ## Related Software
 
 - [[fmriprep]] — popular Python-based fMRI preprocessing pipeline
-- [[nilearn]] — Python library for neuroimaging data analysis
+- Nilearn — Python library for neuroimaging data analysis
 - [[bids]] — standard data format for neuroimaging datasets
 - [[aal-atlas]] — Automated Anatomical Labeling atlas used in NIAK pipelines
+
+## References
+
+1. Abigail Kelly, Ramchandra Rimal, Arpan Sainju. (2026). *Graph Attention Network-Based Detection of Autism Spectrum Disorder*. [Link](https://arxiv.org/abs/2603.26971)
+2. (authors unknown). *[[nighres]]: processing tools for high-resolution neuroimaging*.
+3. A. Dehsarvi, Lukas Frontzkowski, Anna Dewenter, Michael Schöll, N. Franzmeier. (2025). *ADprep – A Fully‐Automated Software for Large‐scale Multimodal MRI and PET Imaging Workflows*. Alzheimer's & Dementia. [DOI](https://doi.org/10.1002/alz70856_101373)

@@ -8,7 +8,7 @@ tags:
 - software-brain-modeling
 title: MRIcron
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 ## Overview
@@ -17,11 +17,11 @@ MRIcron is a lightweight, cross-platform [[neuroimaging]] visualization software
 
 ## Relationship to TVB
 
-While [[the-virtual-brain]] (TVB) is a whole-brain simulation platform focused on computational neuroscience and connectome-based modeling, MRIcron serves as a complementary visualization tool in the neuroimaging workflow. Researchers using TVB often require preprocessing pipelines that generate structural and functional MRI data, which then require visualization and quality control checks. MRIcron provides rapid visualization capabilities for examining preprocessed outputs such as [[freesurfer]] segmentations, diffusion tensor imaging derived fractional anisotropy maps, and statistical maps from group comparisons. The lightweight nature of MRIcron makes it particularly useful for quick visual inspection during TVB model parameter optimization, where users may need to quickly examine differences between simulated [[functional-connectivity]] patterns and empirical data. Additionally, MRIcron can display atlas parcellations including [[aal-atlas]] and [[desikan-killiany-atlas]] labels, which are directly relevant for defining brain regions in whole-brain models.
+While [[the-virtual-brain]] (TVB) is a whole-brain simulation platform focused on computational neuroscience and connectome-based modeling, MRIcron serves as a complementary visualization tool in the neuroimaging workflow. Researchers using TVB often require preprocessing pipelines that generate structural and functional MRI data, which then require visualization and quality control checks. MRIcron provides rapid visualization capabilities for examining preprocessed outputs such as Freesurfer segmentations, diffusion tensor imaging derived fractional anisotropy maps, and statistical maps from group comparisons. The lightweight nature of MRIcron makes it particularly useful for quick visual inspection during TVB model parameter optimization, where users may need to quickly examine differences between simulated [[functional-connectivity]] patterns and empirical data. Additionally, MRIcron can display atlas parcellations including [[aal-atlas]] and [[desikan-killiany-atlas]] labels, which are directly relevant for defining brain regions in whole-brain models.
 
 ## Key Features
 
-MRIcron provides several essential neuroimaging viewing capabilities that have made it popular in the research community. The orthographic slice viewer displays sagittal, coronal, and axial views simultaneously with linked crosshairs, allowing precise anatomical localization[@mricronmanual]. The software supports the NIfTI file format as its primary format, which is the de facto standard for neuroimaging data defined by the NIfTI-1 specification, making it compatible with outputs from nearly all major neuroimaging software packages including [[fsl]], [[spm]], [[afni]], and [[freesurfer]][@nifti]. Statistical map overlay functionality enables researchers to display thresholded statistical results on anatomical templates, with adjustable opacity and color lookup tables. The package includes sample datasets and template brains (such as the Colin27 brain[@colin27]) that allow immediate visualization without requiring users to supply their own anatomical images.
+MRIcron provides several essential neuroimaging viewing capabilities that have made it popular in the research community. The orthographic slice viewer displays sagittal, coronal, and axial views simultaneously with linked crosshairs, allowing precise anatomical localization[@mricronmanual]. The software supports the NIfTI file format as its primary format, which is the de facto standard for neuroimaging data defined by the NIfTI-1 specification, making it compatible with outputs from nearly all major neuroimaging software packages including Fsl, Spm, [[afni]], and Freesurfer[@nifti]. Statistical map overlay functionality enables researchers to display thresholded statistical results on anatomical templates, with adjustable opacity and color lookup tables. The package includes sample datasets and template brains (such as the Colin27 brain[@colin27]) that allow immediate visualization without requiring users to supply their own anatomical images.
 
 The software also includes basic region-of-interest analysis capabilities, allowing users to extract statistics (mean, standard deviation, voxel count) from user-defined volumes. For atlas-based analysis, MRIcron can import and display labeled parcellations, enabling quick identification of which brain regions exhibit significant effects. A companion software package called [[mricrogl]] extends MRIcron's capabilities to hardware-accelerated 3D rendering, using WebGL for interactive volume visualization. Both tools share common file format support and can be used in complementary fashion—the lightweight MRIcron for quick 2D inspection and MRIcroGL for more elaborate 3D visualizations and publication-quality renderings.
 
@@ -33,9 +33,9 @@ For researchers transitioning from clinical radiological practice, MRIcron provi
 
 ## Related Software
 
-MRIcron exists within a broader ecosystem of neuroimaging visualization and analysis tools. The most direct related software is [[mricrogl]], developed by the same author (Chris Rorden), which provides hardware-accelerated 3D rendering capabilities while maintaining compatibility with MRIcron's file format support and interface conventions. Other visualization tools in this ecosystem include [[itk-snap]] (for active contour segmentation and manual tracing), [[3d-slicer]] (for comprehensive medical image computing), and [[brainnet-viewer]] (for network visualization on brain surfaces). For full preprocessing and analysis pipelines, researchers typically use [[fsl]], [[spm]], or [[afni]], with MRIcron serving as a complementary visualization component rather than a primary analysis platform.
+MRIcron exists within a broader ecosystem of neuroimaging visualization and analysis tools. The most direct related software is [[mricrogl]], developed by the same author (Chris Rorden), which provides hardware-accelerated 3D rendering capabilities while maintaining compatibility with MRIcron's file format support and interface conventions. Other visualization tools in this ecosystem include Itk Snap (for active contour segmentation and manual tracing), [[3d-slicer]] (for comprehensive medical image computing), and [[brainnet-viewer]] (for network visualization on brain surfaces). For full preprocessing and analysis pipelines, researchers typically use Fsl, Spm, or [[afni]], with MRIcron serving as a complementary visualization component rather than a primary analysis platform.
 
-Statistical visualization in MRIcron overlaps with functionality provided by [[nilearn]] (Python-based visualization), [[connectome-workbench]] (for HCP-style CIFTI files), and [[fsleyes]] (FSL's official viewer). Each tool has distinct strengths—MRIcron prioritizes extreme simplicity and rapid startup, while these alternatives offer more advanced features at the cost of increased complexity. The choice between viewers often reflects institutional conventions and integration with existing preprocessing pipelines; for instance, groups using predominantly FSL workflows may default to fsleyes, while groups using SPM may prefer MRIcron's simpler interface for quick checks.
+Statistical visualization in MRIcron overlaps with functionality provided by Nilearn (Python-based visualization), [[connectome-workbench]] (for HCP-style [[cifti]] files), and Fsleyes (FSL's official viewer). Each tool has distinct strengths—MRIcron prioritizes extreme simplicity and rapid startup, while these alternatives offer more advanced features at the cost of increased complexity. The choice between viewers often reflects institutional conventions and integration with existing preprocessing pipelines; for instance, groups using predominantly FSL workflows may default to fsleyes, while groups using SPM may prefer MRIcron's simpler interface for quick checks.
 
 ## Key Papers
 
@@ -58,3 +58,9 @@ The following publications represent foundational references for MRIcron and its
 [@mricronmanual]: Rorden, C. (2024). MRIcron User Manual. https://www.[[nitrc]].org/projects/mricron/
 
 [@nitrc]: NITRC. (2024). MRIcron. https://www.nitrc.org/projects/mricron
+
+## References
+
+1. (authors unknown). *Permutation inference for the general [[linear|linear model]]*.
+2. M. Cottaar, Zhiyu Zheng, Karla L. Miller, Benjamin C. Tendler, Saad Jbabdi. (2025). *Multi-modal Monte Carlo MRI simulator of tissue microstructure*. bioRxiv. [DOI](https://doi.org/10.1162/IMAG.a.1177)
+3. Qianyu Chen, Shujian Yu. (2026). *Continual Learning for [[fmri]]-Based Brain Disorder Diagnosis via Functional [[connectivity]] Matrices Generative Replay*. [Link](https://arxiv.org/abs/2604.14259)

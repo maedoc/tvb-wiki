@@ -1,9 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- https://github.com/AllenInstitute/dipde
-- https://alleninstitute.github.io/dipde/
-- https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1003248
 - raw/papers/semanticscholar-ad05f8fb9b0d.md
 - raw/papers/arxiv-2512.22093.md
 - raw/papers/semanticscholar-71ffb8153870.md
@@ -15,7 +12,7 @@ tags:
 - population-density-models
 title: DiPDE
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 # DiPDE
@@ -48,7 +45,7 @@ DiPDE differs from other major neural simulators in several important respects. 
 
 Compared to [[NEURON]], which excels at detailed multi-compartment simulations with realistic morphologies, DiPDE sacrifices single-neuron biophysical detail for population-level tractability. NEURON remains the tool of choice when detailed morphology or compartment-specific dynamics are required [<citation>12</citation>].
 
-Compared to [[Brian]] and [[Brian2]], which prioritize code clarity and ease of modification over raw performance, DiPDE takes the opposite approach—optimizing for computational efficiency with a more specialized domain of application [<citation>13</citation>].
+Compared to [[brian2cuda]] and [[brian2cuda]], which prioritize code clarity and ease of modification over raw performance, DiPDE takes the opposite approach—optimizing for computational efficiency with a more specialized domain of application [<citation>13</citation>].
 
 For users interested in whole-brain modeling applications, DiPDE provides a computationally tractable framework that bridges detailed circuit reconstruction efforts and population-level approaches like those implemented in TVB. The simulator is particularly well-suited for investigating mesoscopic cortical dynamics where population-level approximations provide biologically valid results [<citation>14</citation>].
 
@@ -72,7 +69,13 @@ A key distinction from spike-based simulators is that DiPDE tracks the probabili
 - [[The Virtual Brain]]
 - [[NEST]]
 - [[NEURON]]
-- [[Brian]]
-- [[Brian2]]
+- [[brian2cuda]]
+- [[brian2cuda]]
 - [[allen-sdk]]
 - [[neuromorpho-toolkit]]
+
+## References
+
+1. Dayashankar Singh, S.Sangeetha, Raja Thimmarayan, S. Murugan, Dr. E. Punarselvam, PG Student. (2025). *Spiking Neural Networks for Modeling Synaptic Activity in Brain Simulations*. 2025 IEEE 2nd International Conference on Information Technology, Electronics and Intelligent Communication Systems (ICITEICS). [DOI](https://doi.org/10.1109/ICITEICS64870.2025.11341691)
+2. Jeremy B. Goetz, Naruepon Weerawongphrom, Rashid V. Williams-García, John M. Beggs, Gerardo Ortiz. (2025). *A Minimal Network of [[brain-dynamics]]: Hierarchy of Approximations to Quasi-critical Neural [[network-dynamics]]*. [Link](https://arxiv.org/abs/2512.22093)
+3. Valerio Barabino, F. Callegari, Sérgio Martinoia, P. Massobrio. (2026). *Hierarchical afferent connectivity drives population-wide bursting dynamics in a computational model of human-derived excitatory neuronal networks*. Journal of Neuroscience. [DOI](https://doi.org/10.1523/jneurosci.0912-25.2026)

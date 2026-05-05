@@ -13,7 +13,7 @@ tags:
 - aging-brain
 title: UK Biobank
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 # UK Biobank
@@ -125,4 +125,12 @@ UK Biobank is a large-scale biomedical database and research resource containing
 
 ## Key People
 - patricia miller|Karla Miller – Imaging lead
-- [[fidel alfaro-almagro]] – Processing pipelines
+- fidel alfaro-almagro – Processing pipelines
+
+## References
+
+1. (authors unknown). *Multimodal Population Brain Imaging in the UK Biobank: Prospective Epidemiological Study*.
+2. (authors unknown). *Image Processing and Quality Control for the First 100,000 Brain Imaging Datasets from UK Biobank*.
+3. (authors unknown). *Genome-wide Association Studies of Brain Imaging Phenotypes from UK Biobank*.
+4. (authors unknown). *UK Biobank Brain Imaging: Structural MRI in a Massive Population Resource*.
+5. (authors unknown). *The UK Biobank Imaging Study: 100,000 Participants and Beyond*.

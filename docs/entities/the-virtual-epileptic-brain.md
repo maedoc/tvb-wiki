@@ -9,7 +9,7 @@ tags:
 - software-brain-modeling
 title: The Virtual Epileptic Brain
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 The Virtual Epileptic Brain (TVEB) is a specialized computational modeling platform designed to simulate and analyze epileptic dynamics in the human brain. Built as an extension of [[the-virtual-brain]], TVEB integrates [[neural-mass-model]]s such as the [[epileptor]] to model seizure generation, propagation, and the effects of therapeutic interventions like [[brain-stimulation]]. The platform enables researchers to create personalized brain models derived from individual patient neuroimaging data, making it a tool for both basic neuroscience research into seizure mechanisms and clinical translation in pre-surgical planning and treatment optimization.
@@ -40,4 +40,11 @@ The foundational work establishing the TVEB framework includes Jirsa et al. (201
 
 ## Related Software
 
-TVEB operates within a broader ecosystem of computational neuroscience tools. As part of [[the-virtual-brain]], TVEB inherits the core simulation infrastructure, while specialized analysis routines build upon tools like the [[brain-connectivity-toolbox]] for network analysis and [[graphvar]] for dynamical systems analysis. For forward modeling of electrophysiological signals, TVEB can be combined with volume conduction models from packages like [[openmeeg]], while neuroimaging preprocessing leverages tools such as [[freesurfer]] and [[fsl]].
+TVEB operates within a broader ecosystem of computational neuroscience tools. As part of [[the-virtual-brain]], TVEB inherits the core simulation infrastructure, while specialized analysis routines build upon tools like the [[brain-connectivity-toolbox]] for network analysis and [[graphvar]] for dynamical systems analysis. For forward modeling of electrophysiological signals, TVEB can be combined with volume conduction models from packages like [[openmeeg]], while neuroimaging preprocessing leverages tools such as Freesurfer and Fsl.
+
+## References
+
+1. Michael Breakspear, John A. Roberts, John R. Terry, Stefano Rodrigues, Nader Mahmud, Philip Robinson. *Large-scale [[brain-dynamics]] of seizures: asymptotic analysis of a [[neural-field-theory|neural field]] model*. Journal of [[computational-neuroscience]]. [DOI](https://doi.org/10.1007/s10827-006-8135-2)
+2. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+3. Kang You, Gary Green, Jian Zhang. *Differential Dynamic Causal Nets: Model Construction, Identification and Group Comparisons*. [Link](https://arxiv.org/abs/2601.21478)
+4. Amirreza Movahedin, Lennart P. L. Landsmeer, Christos Strydis. (2025). *HUMA: Heterogeneous, Ultra Low-Latency Model Accelerator for The Virtual Brain on a Versal Adaptive SoC*. Symposium on Field Programmable Gate Arrays. [DOI](https://doi.org/10.1145/3706628.3708875)

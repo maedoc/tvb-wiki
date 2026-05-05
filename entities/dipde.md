@@ -12,7 +12,7 @@ tags:
 - population-density-models
 title: DiPDE
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 # DiPDE
@@ -45,7 +45,7 @@ DiPDE differs from other major neural simulators in several important respects. 
 
 Compared to [[NEURON]], which excels at detailed multi-compartment simulations with realistic morphologies, DiPDE sacrifices single-neuron biophysical detail for population-level tractability. NEURON remains the tool of choice when detailed morphology or compartment-specific dynamics are required [<citation>12</citation>].
 
-Compared to [[Brian]] and [[Brian2]], which prioritize code clarity and ease of modification over raw performance, DiPDE takes the opposite approach—optimizing for computational efficiency with a more specialized domain of application [<citation>13</citation>].
+Compared to [[brian2cuda]] and [[brian2cuda]], which prioritize code clarity and ease of modification over raw performance, DiPDE takes the opposite approach—optimizing for computational efficiency with a more specialized domain of application [<citation>13</citation>].
 
 For users interested in whole-brain modeling applications, DiPDE provides a computationally tractable framework that bridges detailed circuit reconstruction efforts and population-level approaches like those implemented in TVB. The simulator is particularly well-suited for investigating mesoscopic cortical dynamics where population-level approximations provide biologically valid results [<citation>14</citation>].
 
@@ -69,8 +69,8 @@ A key distinction from spike-based simulators is that DiPDE tracks the probabili
 - [[The Virtual Brain]]
 - [[NEST]]
 - [[NEURON]]
-- [[Brian]]
-- [[Brian2]]
+- [[brian2cuda]]
+- [[brian2cuda]]
 - [[allen-sdk]]
 - [[neuromorpho-toolkit]]
 

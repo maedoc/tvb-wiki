@@ -1,0 +1,15 @@
+# Predicting cognitive functioning in early psychosis: factors supporting and limiting generalizability of connectome-based models
+
+**Source**: semantic-scholar
+**ID**: d2fe159f30a75f4f43f2ac9c9ae75e749ce1bbff
+**DOI**: 10.1038/s44277-025-00032-1
+**URL**: https://www.semanticscholar.org/paper/d2fe159f30a75f4f43f2ac9c9ae75e749ce1bbff
+**Date**: 2025-06-04
+**Year**: 2025
+**Authors**: Alexandra G. O’Neill, M. Pax, Jourdan H. Parent, Jorge Sepulcre, J. Camprodon, Stephanie Noble, J. Roffman, H. Eryilmaz
+**Venue**: NPP—Digital Psychiatry and Neuroscience
+**Citations**: 0
+
+## Abstract
+
+Cognitive impairment is a core, intractable aspect of psychotic disorders that impacts functional outcomes. Establishing reliable neural predictors of cognitive functioning at the individual level is an important goal of precision psychiatry and may accelerate personalized treatment development. Connectome-based predictive models (CPMs) have shown promise in identifying brain connectivity patterns that predict cognitive outcomes, however, such models do not produce accurate predictions for all individuals or groups, limiting their generalizability. Here, we used CPMs to identify brain network patterns predictive of cognitive functioning in patients with early psychosis and examined individual clinical and sociodemographic factors that may impact prediction accuracy. Leveraging the imaging data from the Human Connectome Project for Early Psychosis (HCP-EP; N = 93), we found that outcomes can be accurately predicted for general and fluid cognition. The generalizability of these models was assessed by predicting cognitive performance in an independent sample of patients (N = 20) with early psychosis, which revealed moderate accuracy but also sensitivity to the number of input features. Although predictive features were generally widespread, a virtual lesioning analysis showed that edges involving the default mode, retrosplenial and somatomotor networks contributed most to the prediction of individual differences in cognition. Finally, dissecting the causes of model failure suggested that sociodemographic and clinical factors that are stereotypically associated with cognitive ability in early psychosis contribute to misprediction particularly in participants who do not fit this stereotypical association. Our findings suggest that individual factors related to misprediction can inform and potentially improve predictive models of cognition in early psychosis. Cognitive difficulties in individuals with psychosis are common and hard to treat. Machine learning models that use MRI data to predict individual patients’ symptoms are increasingly available, however, these algorithms don’t produce accurate predictions for everyone. Our analysis of MRI data from recently diagnosed psychosis patients showed that MRI-based predictions of cognitive symptoms were more accurate for patients who had similar clinical and socioeconomic profiles and that models can potentially be improved considering these factors. Take a Deep Dive into this article

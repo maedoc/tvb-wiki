@@ -22,7 +22,7 @@ updated: '2026-05-04'
 
 ## Definition
 
-Neural mass models (NMMs) are mathematical models that represent the collective dynamics of large populations of neurons using a reduced set of state variables. Rather than simulating individual neurons and synapses, NMMs abstract the behavior of thousands or millions of neurons into a small number of coupled differential equations that describe the mean activity of excitatory and inhibitory neuronal pools. This reductionist approach makes it possible to simulate large-scale brain networks at tractable computational cost while retaining the essential dynamical features of the underlying neurophysiology. Neural mass models were pioneered in the 1990s by [[benjamin-jansen]] and [[vincent-rit]] (the [[jansen-rit]] model) and built upon earlier work by [[hugh-wilson]] and [[wilson-cowan]] on population dynamics.
+Neural mass models (NMMs) are mathematical models that represent the collective dynamics of large populations of neurons using a reduced set of state variables. Rather than simulating individual neurons and synapses, NMMs abstract the behavior of thousands or millions of neurons into a small number of coupled differential equations that describe the mean activity of excitatory and inhibitory neuronal pools. This reductionist approach makes it possible to simulate large-scale brain networks at tractable computational cost while retaining the essential dynamical features of the underlying neurophysiology. Neural mass models were pioneered in the 1990s by Benjamin Jansen and Vincent Rit (the [[jansen-rit]] model) and built upon earlier work by Hugh Wilson and [[wilson-cowan]] on population dynamics.
 
 ## Role in Whole-Brain Modeling
 
@@ -48,7 +48,7 @@ More sophisticated neural mass models incorporate multiple state variables to ca
 
 ### Jansen‑Rit Model
 
-The [[jansen-rit]] model, developed in 1995, is the most widely used neural mass model in [[dynamic-causal-modeling]] (DCM) and [[tvb]] simulations. It consists of three coupled populations (pyramidal cells, excitatory interneurons, and inhibitory interneurons) that generate realistic EEG rhythms in the alpha (8–12 Hz) and beta (13–30 Hz) bands. The model's popularity stems from its relative simplicity and its ability to produce biologically plausible oscillations without extensive parameter tuning. [[fooof]]
+The [[jansen-rit]] model, developed in 1995, is the most widely used neural mass model in [[dynamic-causal-modeling]] (DCM) and [[tvb]] simulations. It consists of three coupled populations (pyramidal cells, excitatory interneurons, and inhibitory interneurons) that generate realistic EEG rhythms in the alpha (8–12 Hz) and beta (13–30 Hz) bands. The model's popularity stems from its relative simplicity and its ability to produce biologically plausible oscillations without extensive parameter tuning. Fooof
 
 ### Wilson‑Cowan Model
 
@@ -64,7 +64,7 @@ The [[epileptor]] model was developed specifically for [[epilepsy-modeling]] and
 
 ## Relationship to Other Approaches
 
-Neural mass models occupy an intermediate position between detailed biophysical models (such as those simulated in [[nest]] or [[brian2]]) and purely descriptive models (such as autoregressive models of fMRI time series). Unlike [[spiking-neural-networks]] that simulate individual neurons with anatomical realism, NMMs aggregate neurons into populations, sacrificing single‑neuron specificity for speed and tractability. However, they retain sufficient biological interpretability to be mapped to physiological mechanisms.
+Neural mass models occupy an intermediate position between detailed biophysical models (such as those simulated in [[nest]] or Brian2) and purely descriptive models (such as autoregressive models of fMRI time series). Unlike [[spiking-neural-networks]] that simulate individual neurons with anatomical realism, NMMs aggregate neurons into populations, sacrificing single‑neuron specificity for speed and tractability. However, they retain sufficient biological interpretability to be mapped to physiological mechanisms.
 
 The relationship between neural mass models and [[dynamic-causal-modeling]] is particularly close: DCM uses the Jansen‑Rit model as its [[forward-model]] for generating synthetic EEG/MEG data, and parameter estimation in DCM amounts to inverting the neural mass model to fit observed neuroimaging data. Similarly, [[tvb]] provides a platform for whole‑brain simulations using multiple neural mass models (Jansen‑Rit, Wong‑Wang, Epileptor) embedded in patient‑specific connectomes.
 
@@ -77,3 +77,11 @@ A critical challenge in applying neural mass models is estimating the free param
 ## Open Questions and Limitations
 
 Despite their widespread use, neural mass models face several open questions. The validity of the mean‑field approximation breaks down when population‑level correlations become strong (as near critical points or during seizures), and it remains unclear how well NMMs capture the effects of cell‑type‑specific [[connectivity]]. Parameter identifiability is also a concern: many parameter combinations can produce similar functional dynamics, complicating biological interpretation. Ongoing research aims to address these limitations through more biophysically grounded neural mass formulations and hybrid models that combine population‑level dynamics with selected single‑[[neuron]] detail.
+
+## References
+
+1. Raul de Palma Aristides, Pau Clusella, R. Sanchez-Todo, G. Ruffini, Jordi García-Ojalvo. (2026). *Emergence of multifrequency activity in a laminar neural mass model*. PLoS Computational Biology. [DOI](https://doi.org/10.1371/journal.pcbi.1014022)
+2. Ramiro Plüss, Hernán Villota, Patricio Orio. (2025). *Hemispheric-Specific Coupling Improves Modeling of Functional Connectivity Using Wilson-Cowan Dynamics*. [Link](https://arxiv.org/abs/2506.22951)
+3. Hugh R. Wilson, Jack D. Cowan. *Excitatory and inhibitory interactions in localized populations of model neurons*. Biophysical Journal. [DOI](https://doi.org/10.1016/S0006-3495(72)86068-5)
+4. Rosa Maria Delicado, Gemma Huguet, Pau Clusella. (2025). *Emergent Spatiotemporal Dynamics in Large-Scale Brain Networks with Next Generation Neural Mass Models*. [Link](https://arxiv.org/abs/2512.03907)
+5. (authors unknown). *[[nonlinear-dynamics]] and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering*.

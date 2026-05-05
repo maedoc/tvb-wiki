@@ -12,7 +12,7 @@ tags:
 - software-visualization
 title: BrainVISA
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 ## Overview
@@ -21,7 +21,7 @@ BrainVISA is a comprehensive open-source software platform for the processing an
 
 ## Motivation and Context
 
-The field of [[neuroimaging]] experienced rapid growth in the early 2000s, with magnetic resonance imaging (MRI) becoming the dominant modality for in vivo brain mapping. However, the proliferation of different software tools—each with its own file formats, processing conventions, and analysis workflows—created significant challenges for reproducibility and interoperability. [[BrainVISA]] emerged as a response to this fragmentation, offering a unified framework that standardized morphological processing steps while remaining flexible enough to integrate with specialized tools like [[freesurfer]] and [[SPM]].
+The field of [[neuroimaging]] experienced rapid growth in the early 2000s, with magnetic resonance imaging (MRI) becoming the dominant modality for in vivo brain mapping. However, the proliferation of different software tools—each with its own file formats, processing conventions, and analysis workflows—created significant challenges for reproducibility and interoperability. [[BrainVISA]] emerged as a response to this fragmentation, offering a unified framework that standardized morphological processing steps while remaining flexible enough to integrate with specialized tools like Freesurfer and [[SPM]].
 
 The software addresses a fundamental need in [[connectomics]] research: the accurate [[parcellation]] of the cerebral cortex into anatomically and functionally meaningful regions. While [[brain-parcellations]] can be derived from [[functional-connectivity]] patterns (as in the case of [[resting-state]] networks) or from anatomical landmarks, BrainVISA emphasizes the latter approach, leveraging the distinctive folding patterns of the human cortex to create subject-specific parcellations. This anatomical parcellation approach complements [[connectivity]]-based parcellation methods and provides a foundation for studying the relationship between cortical structure and function.
 
@@ -47,6 +47,12 @@ The integration between BrainVISA and TVB typically proceeds as follows: structu
 
 ## Related Software
 
-BrainVISA exists within a rich ecosystem of neuroimaging tools, and its design philosophy emphasizes interoperability rather than isolation. The platform maintains formal interfaces with [[SPM]] (Statistical Parametric Mapping) for voxel-based analyses and with [[freesurfer]] for complementary cortical measurements. In the Python ecosystem, BrainVISA functionalities are accessible through [[nilearn]] and [[nipype]], which provide scriptable access to processing workflows and facilitate integration with machine learning pipelines.
+BrainVISA exists within a rich ecosystem of neuroimaging tools, and its design philosophy emphasizes interoperability rather than isolation. The platform maintains formal interfaces with [[SPM]] (Statistical Parametric Mapping) for voxel-based analyses and with Freesurfer for complementary cortical measurements. In the Python ecosystem, BrainVISA functionalities are accessible through Nilearn and [[nipype]], which provide scriptable access to processing workflows and facilitate integration with machine learning pipelines.
 
-Alternative packages for morphological analysis include [[brainsuite]], which provides a streamlined pipeline for cortical reconstruction, and [[ica]], a more recent framework that offers end-to-end processing for clinical neuroimaging studies. For [[connectome]] construction specifically, the [[connectome-mapper-3]] toolkit provides complementary functionality focusing on tractography-based connectivity estimation.
+Alternative packages for morphological analysis include Brainsuite, which provides a streamlined pipeline for cortical reconstruction, and [[ica]], a more recent framework that offers end-to-end processing for clinical neuroimaging studies. For [[connectome]] construction specifically, the [[connectome-mapper-3]] toolkit provides complementary functionality focusing on tractography-based connectivity estimation.
+
+## References
+
+1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2025). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research*. bioRxiv. [DOI](https://doi.org/10.1101/2025.10.06.680781)
+3. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2026). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research.*. [[brain-stimulation]]. [DOI](https://doi.org/10.1016/j.brs.2025.103016)

@@ -18,7 +18,7 @@ tags:
 - epilepsy-modeling
 title: SIFT
 type: software
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 # SIFT (Source Information Flow Toolbox)
@@ -61,7 +61,7 @@ SIFT operates on source-reconstructed time series obtained from EEG/MEG preproce
 
 1. **Preprocessing**: Importing epoched or continuous data from EEGLAB or other formats, applying artifact rejection and filtering. SIFT is developed as an EEGLAB plugin (Mullen et al., 2011), enabling seamless integration with its preprocessing pipeline.
 
-2. **Source Reconstruction**: Using beamforming or minimum-norm estimation to project sensor-space data to cortical sources. This step is often performed with EEGLAB's *dipfit* plugin or external tools like [[fieldtrip]].
+2. **Source Reconstruction**: Using beamforming or minimum-norm estimation to project sensor-space data to cortical sources. This step is often performed with EEGLAB's *dipfit* plugin or external tools like Fieldtrip.
 
 3. **Model Fitting**: Fitting vector autoregressive (VAR) models to the source time series, with automatic model order selection using AIC/BIC criteria. The methodological foundation for this approach was established by Brovelli and colleagues in their analysis of beta oscillations in cortical networks (Brovelli et al., 2004).
 
@@ -86,9 +86,9 @@ SIFT operates on source-reconstructed time series obtained from EEG/MEG preproce
 ## Related Software
 
 - [[eeglab]]: SIFT is developed as an EEGLAB plugin and integrates with its preprocessing pipeline
-- [[fieldtrip]]: An alternative MATLAB toolbox for MEG/EEG analysis with overlapping functionality
+- Fieldtrip: An alternative MATLAB toolbox for MEG/EEG analysis with overlapping functionality
 - [[brain-connectivity-toolbox]]: A Python toolbox for graph-theoretic analysis of brain networks
-- [[dynasim]]: A MATLAB toolbox for dynamical systems analysis that complements SIFT's information-theoretic approach
+- Dynasim: A MATLAB toolbox for dynamical systems analysis that complements SIFT's information-theoretic approach
 - [[mne-connectivity]]: A Python-based toolbox for connectivity analysis that offers some overlap with SIFT's capabilities
 
 ## Limitations and Considerations
@@ -98,3 +98,9 @@ While SIFT provides powerful tools for causal connectivity analysis, several cav
 ## Open Questions
 
 The field of causal connectivity analysis using information-theoretic methods remains actively debated. Questions persist regarding the optimal embedding parameters for transfer entropy estimation in neural data, the relationship between SIFT estimates and [[dynamic-causal-modeling]] (DCM) results, and how to best integrate directed connectivity findings with [[structural-connectivity]] from Diffusion Tensor Imaging (DTI). Future developments may see increased integration between SIFT-style causality analysis and large-scale [[whole-brain-modeling]] frameworks like TVB to create iterative cycles of empirical data analysis and mechanistic model validation.
+
+## References
+
+1. Shengjie Qi, Xinda Song, Le Jia, Hongyu Cui, Yuchen Suo, Teng Long, Zhendong Wu, Xiaolin Ning. (2025). *The impact of channel density, inverse solutions, connectivity metrics and calibration errors on OPM-MEG connectivity analysis: A simulation study*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2025.121056)
+2. Deepa Tilwani, Christian O'Reilly. *Deep [[jansen-rit]] Parameter Inference for Model-Driven Analysis of Brain Activity*. [Link](https://arxiv.org/abs/2406.05002)
+3. Christopher Gabaldon, Adria Mulero, Rong Wang, Daniel A. Martin, Sabrina Camargo, Qian-Yuan Tang, Ignacio Cifre, Changsong Zhou, Dante R. Chialvo. (2026). *Data-driven inference of brain dynamical states from the r-spectrum of correlation matrices*. [Link](https://arxiv.org/abs/2601.03796)

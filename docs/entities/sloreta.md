@@ -10,7 +10,7 @@ tags:
 - software-brain-modeling
 title: sLORETA
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 sLORETA (standardized low-resolution brain electromagnetic tomography) is a computational method for localizing the intracranial sources of electroencephalographic (EEG) or magnetoencephalographic (MEG) signals by solving the inverse problem in neuroelectrophysiology. Developed by Roberto Pascual-Marqui and colleagues at the KEY Institute for Brain-Mind Research, sLORETA belongs to a family of distributed [[source-localization]] algorithms that estimate the three-dimensional distribution of neural current density across the brain from surface voltage (EEG) or magnetic field (MEG) measurements. The method achieves localization by computing a weighted minimum norm estimate followed by a standardization step that converts raw current density values to z-scores, thereby providing an anatomically interpretable solution that accounts for the depth-dependent sensitivity bias inherent in EEG/MEG forward modeling.
@@ -39,7 +39,7 @@ The seminal sLORETA paper appeared in 2002 in *Journal of Clinical Neurophysiolo
 
 ## Related Software and Implementations
 
-sLORETA is implemented in several major neuroimaging software packages. The original implementations are available as open-source packages from the KEY Institute website. Within the MATLAB ecosystem, sLORETA functionality is incorporated into the [[fieldtrip]] toolbox and the [[eeglab]] environment through the DIPFIT plugin and REST-OR plugin. For Python users, the [[mne-python]] library provides sLORETA computation capabilities through its inverse solution modules, while the [[nilearn]] package offers visualization tools for sLORETA images. The method is also compatible with the [[brainvisa]] pipeline for automated preprocessing and analysis workflows. Additionally, sLORETA is integrated into [[the-virtual-brain|TVB]] for whole-brain modeling workflows that require source-localized electrophysiological data.
+sLORETA is implemented in several major neuroimaging software packages. The original implementations are available as open-source packages from the KEY Institute website. Within the MATLAB ecosystem, sLORETA functionality is incorporated into the Fieldtrip toolbox and the [[eeglab]] environment through the DIPFIT plugin and REST-OR plugin. For Python users, the Mne Python library provides sLORETA computation capabilities through its inverse solution modules, while the Nilearn package offers visualization tools for sLORETA images. The method is also compatible with the [[brainvisa]] pipeline for automated preprocessing and analysis workflows. Additionally, sLORETA is integrated into [[the-virtual-brain|TVB]] for whole-brain modeling workflows that require source-localized electrophysiological data.
 
 ## Limitations and Extensions
 
@@ -48,3 +48,11 @@ Despite its advantages, sLORETA has notable limitations. The method assumes a fi
 ## Relationship to Other Source Localization Methods
 
 Compared to other inverse solutions, sLORETA occupies a middle ground between spatial resolution and anatomical accuracy. Beamformers (e.g., LCMV) offer excellent spatial resolution for point sources but struggle with distributed activity patterns. Discrete source approaches (equivalent dipoles) provide physiological interpretability but require accurate pre-specification of source number. [[dcm|Dynamic causal modeling]] takes a complementary model-based approach, fitting parameterized biophysical models to the data rather than computing unconstrained source distributions. sLORETA's primary advantage lies in its combination of minimal anatomical assumptions with depth-corrected source estimates, making it particularly suitable for exploratory analyses of [[whole-brain]] activation patterns where no strong a priori hypotheses about source locations exist.
+
+## References
+
+1. Ritter et al. (2013). *[[tvb|The Virtual Brain]] integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
+2. Peter Yongho Kim, Juhyeon Park, Jungwoo Park, Jubin Choi, Jungwoo Seo, Jiook Cha, Taesup Moon. (2026). *Can Natural Image Autoencoders Compactly Tokenize fMRI Volumes for Long-Range Dynamics Modeling?*. [Link](https://arxiv.org/abs/2604.03619)
+3. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+4. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI): A flexible and integrative toolkit for efficient probabilistic inference on virtual brain models*. bioRxiv. [DOI](https://doi.org/10.1101/2025.01.21.633922)
+5. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI), a flexible and integrative toolkit for efficient probabilistic inference on whole-brain models*. eLife. [DOI](https://doi.org/10.7554/eLife.106194)

@@ -1,7 +1,7 @@
 ---
 title: ilastik
 created: 2025-01-15
-updated: 2026-05-04
+updated: 2026-05-05
 type: entity
 tags: [software-visualization, bioimaging, machine-learning, segmentation, classification]
 sources:
@@ -34,7 +34,7 @@ More recent development has incorporated **deep learning** capabilities through 
 
 ## Related Software
 
-ilastik operates within a broader ecosystem of bioimage analysis tools that share complementary strengths. [[Fiji]] (a distribution of ImageJ) provides extensive plugin architecture for specialized image processing tasks and serves as a common entry point for ilastik workflows. [[Cellpose]] represents a newer alternative for cell segmentation using deep neural networks, with both tools now offering overlapping functionality. [[Deepmedic]] provides convolutional neural network-based segmentation specifically trained for brain tissue in MR images. For visualization and annotation, ilastik integrates with [[napari]] through dedicated plugins. [[ITK-SNAP]] offers manual and semi-automatic segmentation for neuroanatomy, while [[3D Slicer]] provides a comprehensive medical image computing platform. The [[Neuroimaging]] community's adoption of ilastik for customized segmentations reflects the tool's flexibility across modalities.
+ilastik operates within a broader ecosystem of bioimage analysis tools that share complementary strengths. [[Fiji]] (a distribution of ImageJ) provides extensive plugin architecture for specialized image processing tasks and serves as a common entry point for ilastik workflows. [[Cellpose]] represents a newer alternative for cell segmentation using deep neural networks, with both tools now offering overlapping functionality. [[Deepmedic]] provides convolutional neural network-based segmentation specifically trained for brain tissue in MR images. For visualization and annotation, ilastik integrates with [[napari]] through dedicated plugins. [[itk]] offers manual and semi-automatic segmentation for neuroanatomy, while [[3D Slicer]] provides a comprehensive medical image computing platform. The [[Neuroimaging]] community's adoption of ilastik for customized segmentations reflects the tool's flexibility across modalities.
 
 ## Key Papers
 

@@ -12,7 +12,7 @@ tags:
 - brain-atlas
 title: RAMAIS (RAMIS)
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 # RAMAIS (RAMIS)
@@ -40,7 +40,7 @@ The RAMIS framework typically implements several key capabilities relevant to ne
 
 ## Integration with TVB and Related Tools
 
-RAMAIS-type segmentation pipelines can feed directly into [[TVB]] workflows by providing region definitions for [[brain-parcellations]] used in simulations. The resulting parcellations can be combined with [[diffusion-imaging]] derived [[tractography]] to construct comprehensive [[structural-connectivity]] matrices. Similar functions are served by established tools like [[ANTs]], [[FreeSurfer]], and [[3D-Slicer]] in the broader neuroimaging ecosystem.
+RAMAIS-type segmentation pipelines can feed directly into [[TVB]] workflows by providing region definitions for [[brain-parcellations]] used in simulations. The resulting parcellations can be combined with [[diffusion-imaging]] derived [[tractography]] to construct comprehensive [[structural-connectivity]] matrices. Similar functions are served by established tools like [[ANTs]], [[pysurfer]], and [[3D-Slicer]] in the broader neuroimaging ecosystem.
 
 ## Key Papers
 
@@ -49,7 +49,7 @@ RAMAIS-type segmentation pipelines can feed directly into [[TVB]] workflows by p
 ## Related Software
 
 - [[ANTs]] — Advanced Normalization Tools for neuroimaging registration and segmentation
-- [[FreeSurfer]] — Automated cortical and subcortical segmentation
+- [[pysurfer]] — Automated cortical and subcortical segmentation
 - [[3D-Slicer]] — Medical image computing platform
 - [[TVB]] — [[the-virtual-brain]] simulator
 - [[BrainNet Viewer]] — Visualization of brain networks and parcellations
@@ -64,3 +64,10 @@ RAMAIS-type segmentation pipelines can feed directly into [[TVB]] workflows by p
 - [[diffusion-imaging]] — MRI technique for tracking white matter tracts
 - [[tractography]] — Reconstruction of white matter pathways
 - [[neuroimaging]] — Magnetic resonance imaging methodology
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
+3. Wanting Zhang, Jinhua Yue, Bo Liu, Fugen Zhou. (2026). *MSCMH-Net: A multi-scale channel-mixing hybrid network for whole-brain segmentation.*. Neuroscience. [DOI](https://doi.org/10.1016/j.neuroscience.2026.03.022)
+4. Maya Iratni, Amirali Abdullah, Mariam Aldhaheri, Omar Elharrouss, Alaa A. Abd-alrazaq, Zahiriddin Rustamov, Nazar Zaki, Rafat Damseh. (2025). *Transformers for Neuroimage Segmentation: Scoping Review*. Journal of Medical Internet Research. [DOI](https://doi.org/10.2196/57723)

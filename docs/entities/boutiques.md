@@ -13,12 +13,12 @@ tags:
 - neuroml
 title: Boutiques
 type: entity
-updated: '2026-05-02'
+updated: '2026-05-04'
 ---
 
 ## Overview
 
-Boutiques is a JSON-based framework and software tool for describing, discovering, and executing neuroscience computational tools in a standardized, reproducible manner. Developed through the McGill Centre for Integrative Neuroscience (MCIN) with support from the International Neuroinformatics Coordinating Facility (INCF), Boutiques provides a unified schema—the Boutiques Descriptor—that captures the essential characteristics of neuroscience software including input parameters, output files, computational requirements, and execution patterns. The system enables researchers to discover tools via Zenodo-based registries and the [[cbrain]] platform, generate command-line interfaces automatically, and execute tools consistently across different computing environments through semantic descriptions rather than platform-specific configurations.
+Boutiques is a JSON-based framework and software tool for describing, discovering, and executing neuroscience computational tools in a standardized, reproducible manner. Developed through the McGill Centre for Integrative Neuroscience (MCIN) with support from the International Neuroinformatics Coordinating Facility (INCF), Boutiques provides a unified schema—the Boutiques Descriptor—that captures the essential characteristics of neuroscience software including input parameters, output files, computational requirements, and execution patterns. The system enables researchers to discover tools via Zenodo-based registries and the Cbrain platform, generate command-line interfaces automatically, and execute tools consistently across different computing environments through semantic descriptions rather than platform-specific configurations.
 
 ## Motivation and Context
 
@@ -34,9 +34,9 @@ A distinctive feature of Boutiques is its support for **container invocation** t
 
 ## Relationship to TVB and Other Tools
 
-Boutiques maintains close relationships with several major [[neuroimaging]] and computational neuroscience platforms. The [[mrtrix3-connectome]] (HCP) pipelines were among the first large-scale datasets to adopt Boutiques descriptors for their preprocessing workflows, enabling standardized execution of the HCP's sophisticated image processing pipelines. Similarly, tools from the NiPy ecosystem (which includes [[nipype]] and related processing tools), as well as the [[nilearn]] library for statistical learning on neuroimaging data, have been described using the Boutiques schema.
+Boutiques maintains close relationships with several major [[neuroimaging]] and computational neuroscience platforms. The [[mrtrix3-connectome]] (HCP) pipelines were among the first large-scale datasets to adopt Boutiques descriptors for their preprocessing workflows, enabling standardized execution of the HCP's sophisticated image processing pipelines. Similarly, tools from the NiPy ecosystem (which includes [[nipype]] and related processing tools), as well as the Nilearn library for statistical learning on neuroimaging data, have been described using the Boutiques schema.
 
-For [[the-virtual-brain]] (TVB), Boutiques provides a standardization pathway that could enable TVB simulations to be incorporated into larger neuroimaging pipelines with standardized input-output handling. The relationship is bidirectional: TVB's sophisticated [[whole-brain|whole-brain modeling]] capabilities could be described as Boutiques tools, while Boutiques-enabled workflow systems could invoke TVB simulations as part of automated parameter sweeps or validation studies. More broadly, Boutiques complements other standardization efforts in the field, including [[neuroml]] for neural model specification and [[bids]] for neuroimaging data organization, forming a comprehensive stack for reproducible computational neuroscience.
+For [[the-virtual-brain]] (TVB), Boutiques provides a standardization pathway that could enable TVB simulations to be incorporated into larger neuroimaging pipelines with standardized input-output handling. The relationship is bidirectional: TVB's sophisticated [[whole-brain|whole-brain modeling]] capabilities could be described as Boutiques tools, while Boutiques-enabled workflow systems could invoke TVB simulations as part of automated parameter sweeps or validation studies. More broadly, Boutiques complements other standardization efforts in the field, including Neuroml for neural model specification and [[bids]] for neuroimaging data organization, forming a comprehensive stack for reproducible computational neuroscience.
 
 ## Key Features
 
@@ -46,10 +46,16 @@ The descriptor format also includes a **validation framework** that checks descr
 
 ## Related Software
 
-Boutiques exists within a broader ecosystem of neuroscience software standardization tools. It complements [[pynest]] and [[neuron]] by providing a description layer above these simulators, enabling standardized invocation of simulations built with these tools. The framework intersects with [[civet]] and related preprocessing pipelines by enabling standardized execution of cortical reconstruction workflows. Researchers using MATLAB-based tools can benefit from Boutiques containerization to distribute complex dependency stacks, while the JSON-based schema integrates naturally with Python-centric tools like [[dipy]] and [[mne-python]].
+Boutiques exists within a broader ecosystem of neuroscience software standardization tools. It complements [[pynest]] and [[neuron]] by providing a description layer above these simulators, enabling standardized invocation of simulations built with these tools. The framework intersects with [[civet]] and related preprocessing pipelines by enabling standardized execution of cortical reconstruction workflows. Researchers using MATLAB-based tools can benefit from Boutiques containerization to distribute complex dependency stacks, while the JSON-based schema integrates naturally with Python-centric tools like Dipy and Mne Python.
 
 ## External Resources
 
 - Official Boutiques documentation: https://boutiques.github.io/
 - BApps tool registry: https://app.boutiquesandbox.org/
 - Boutiques GitHub repository: https://github.com/boutiques/boutiques
+
+## References
+
+1. Leon Martin, Konstantin Bülau, Marius Pille, Rico Schmitt, Christoph Hüttl, J. Meier, Halgurd Taher, Dionysios Perdikis, M. Schirner, L. Stefanovski, [[petra-ritter]]. (2025). *[[tvb|The Virtual Brain]] Ontology: A Digital Knowledge Framework for Reproducible [[brain-network]] Modeling*. bioRxiv. [DOI](https://doi.org/10.1101/2025.11.19.689211)
+2. Jure Demšar, Aleksij Kraljič, Andraž Matkovič, Samuel Brege, Lining Pan, Zailyn Tamayo, Clara Fonteneau, Markus Helmer, J. Ji, A. Anticevic, Cole Korponay, Melissa Salavrakos, M. Glasser, Lisa D. Nickerson, Youngsun T. Cho, G. Repovš. (2025). *QuNex Recipes: Executable, Human-Readable Workflows for Reproducible Neuroimaging Research*. bioRxiv. [DOI](https://doi.org/10.1101/2025.11.08.687330)
+3. R. A. Benn, Ting Xu, R. Mars, Magdalena Boch, Léa Roumazeilles, K. Heuer, Roberto Toro, D. Margulies, J. Manzano-Patrón, Paula Montesinos, C. Galán-Arriola, G. López-Martín, J. Sanchez-González, E. P. Duff, Borja Ibáñez. (2025). *Precon_all: A species-agnostic automated pipeline for non-human cortical surface reconstruction*. bioRxiv. [DOI](https://doi.org/10.1101/2025.04.16.649072)

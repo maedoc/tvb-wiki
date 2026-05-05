@@ -14,11 +14,11 @@ type: entity
 updated: '2026-05-04'
 ---
 
-Brian2CUDA is a GPU-accelerated backend for the [[brian2]] spiking [[neural-network]] simulator that enables high-performance simulations of neuronal networks on NVIDIA graphics processing units (GPUs) using CUDA. Developed primarily by Denis Alevi, Marcel Stimberg, and colleagues, Brian2CUDA extends Brian2's CPU-based computation framework to leverage the massive parallel processing capabilities of modern GPUs, enabling simulations of neural circuits at scales and speeds previously impractical with conventional CPU-only implementations (Alevi et al., 2022).
+Brian2CUDA is a GPU-accelerated backend for the Brian2 spiking [[neural-network]] simulator that enables high-performance simulations of neuronal networks on NVIDIA graphics processing units (GPUs) using CUDA. Developed primarily by Denis Alevi, Marcel Stimberg, and colleagues, Brian2CUDA extends Brian2's CPU-based computation framework to leverage the massive parallel processing capabilities of modern GPUs, enabling simulations of neural circuits at scales and speeds previously impractical with conventional CPU-only implementations (Alevi et al., 2022).
 
 ## Overview
 
-Brian2CUDA addresses one of the fundamental bottlenecks in computational neuroscience: the computational cost of simulating large-scale neuronal networks. Traditional CPU-based simulators like [[brian]], [[nest]], and [[neuron]] process neuronal and synaptic state updates sequentially, limiting network sizes to thousands or tens of thousands of neurons for practical simulation durations. Brian2CUDA transfers this computational burden to GPUs, which contain thousands of processing cores optimized for parallel operations, allowing researchers to simulate networks with hundreds of thousands to millions of neurons and billions of synapses while maintaining biologically realistic simulation timescales (Alevi et al., 2022).
+Brian2CUDA addresses one of the fundamental bottlenecks in computational neuroscience: the computational cost of simulating large-scale neuronal networks. Traditional CPU-based simulators like Brian, [[nest]], and [[neuron]] process neuronal and synaptic state updates sequentially, limiting network sizes to thousands or tens of thousands of neurons for practical simulation durations. Brian2CUDA transfers this computational burden to GPUs, which contain thousands of processing cores optimized for parallel operations, allowing researchers to simulate networks with hundreds of thousands to millions of neurons and billions of synapses while maintaining biologically realistic simulation timescales (Alevi et al., 2022).
 
 The software functions as a device backend for Brian2, meaning that existing Brian2 simulation scripts can often be accelerated with minimal code modifications. Users simply specify the CUDA standalone device in their simulation code, and Brian2CUDA handles the translation of neuronal dynamics, synaptic connections, and [[plasticity]] rules into CUDA kernels that execute on the GPU. This design philosophy lowers the barrier to entry for researchers familiar with Brian2 but requiring greater computational throughput.
 
@@ -38,12 +38,19 @@ TVB's simulation engine can interface with spiking network simulators including 
 
 ## Related Software
 
-- [[brian2]] — The core simulator that Brian2CUDA extends  
-- [[brian]] — The original Brian simulator (predecessor to Brian2)
-- [[brian2genn]] — Another GPU-accelerated Brian2 backend using [[genn]]
+- Brian2 — The core simulator that Brian2CUDA extends  
+- Brian — The original Brian simulator (predecessor to Brian2)
+- [[brian2genn]] — Another GPU-accelerated Brian2 backend using Genn
 - [[nest]] — A spiking neural network simulator with GPU support
 - [[spiking-neural-networks]] — The broader domain of neural network modeling that Brian2CUDA serves
 - [[computational-neuroscience]] — The field within which this software operates
 - [[the-virtual-brain]] — Related [[whole-brain|whole-brain modeling]] framework
 - [[neural-mass-models]] — Alternative modeling approach used in TVB
 - [[tvb-nest]] — TVB's interface to the NEST simulator
+
+## References
+
+1. J. Bose. (2025). *Pendulum Model of Spiking Neurons*. arXiv.org. [DOI](https://doi.org/10.48550/arXiv.2507.22146)
+2. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+3. Maxime Carriere, Fynn R. Dobler, H. Plesser, Agata Feledyn, Rosario Tomasello, Thomas Wennekers, F. Pulvermüller. (2026). *A brain-constrained neural model of cognition and language with NEST: transitioning from the Felix framework*. Cognitive Neurodynamics. [DOI](https://doi.org/10.1007/s11571-026-10415-5)
+4. Fariba Karimi, Melanie Steiner, Taylor H. Newton, B. Lloyd, A. Cassarà, Paul de Fontenay, S. Farcito, Jan Paul Triebkorn, E. Beanato, Huifang E. Wang, Elisabetta Iavarone, F. Hummel, Niels Kuster, V. Jirsa, Esra Neufeld. (2025). *Precision non-invasive [[brain-stimulation]]: an in silico pipeline for personalized control of [[brain-dynamics]]*. Journal of Neural Engineering. [DOI](https://doi.org/10.1088/1741-2552/adb88f)

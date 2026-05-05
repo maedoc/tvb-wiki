@@ -12,7 +12,7 @@ tags:
 - bids
 title: NiTransforms
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 # NiTransforms
@@ -51,17 +51,17 @@ Recent versions of NiTransforms (25.0.0+) include experimental support for the X
 
 ## Relationship to TVB
 
-While NiTransforms is not specifically designed for [[whole-brain|whole-brain modeling]], it plays an important role in the preprocessing pipelines that prepare neuroimaging data for computational models. [[the-virtual-brain]] (TVB) and related whole-brain simulation frameworks require [[structural-connectivity]] matrices derived from diffusion tensor imaging (DTI) or probabilistic [[tractography]], as well as anatomical segmentations that define brain regions. These processing [[steps]] typically involve multiple registration operations—registering diffusion images to T1 scans, registering T1 scans to standard space templates, and applying inverse transforms to project parcellations into native diffusion space. NiTransforms can serve as a utility within TVB preprocessing workflows, particularly when combining data processed with different software packages (e.g., FreeSurfer for cortical reconstruction and FSL for subcortical segmentation). The library's ability to handle complex transform chains and coordinate system conversions helps ensure that [[connectivity]] estimates are accurately mapped between spaces.
+While NiTransforms is not specifically designed for [[whole-brain|whole-brain modeling]], it plays an important role in the preprocessing pipelines that prepare neuroimaging data for computational models. [[the-virtual-brain]] (TVB) and related whole-brain simulation frameworks require [[structural-connectivity]] matrices derived from diffusion tensor imaging (DTI) or probabilistic [[tractography]], as well as anatomical segmentations that define brain regions. These processing Steps typically involve multiple registration operations—registering diffusion images to T1 scans, registering T1 scans to standard space templates, and applying inverse transforms to project parcellations into native diffusion space. NiTransforms can serve as a utility within TVB preprocessing workflows, particularly when combining data processed with different software packages (e.g., FreeSurfer for cortical reconstruction and FSL for subcortical segmentation). The library's ability to handle complex transform chains and coordinate system conversions helps ensure that [[connectivity]] estimates are accurately mapped between spaces.
 
 ## Related Software
 
 - [[nibabel]] — NiTransforms originated as a feature branch of NiBabel and shares design philosophy; the two libraries remain closely integrated
-- [[nilearn]] — A high-level machine learning library for neuroimaging that includes registration utilities; can use NiTransforms for transform handling
-- [[fsl]] — UK neuroimaging analysis suite; NiTransforms can read and write FSL FLIRT transform files
+- Nilearn — A high-level machine learning library for neuroimaging that includes registration utilities; can use NiTransforms for transform handling
+- Fsl — UK neuroimaging analysis suite; NiTransforms can read and write FSL FLIRT transform files
 - [[afni]] — Analysis of Functional NeuroImages; NiTransforms supports AFNI's transform matrix formats
-- [[freesurfer]] — FreeSurfer's cortical reconstruction suite; NiTransforms reads and writes LTA transform files
+- Freesurfer — FreeSurfer's cortical reconstruction suite; NiTransforms reads and writes LTA transform files
 - [[ants]] — Advanced Normalization Tools; NiTransforms supports ITK HDF5 transform formats
-- [[spm]] — Statistical Parametric Mapping; NiTransforms can convert SPM affine transforms
+- Spm — Statistical Parametric Mapping; NiTransforms can convert SPM affine transforms
 - [[bids]] — BIDS X5 format for standardized transform storage
 - [[nipype]] — Neuroimaging processing pipelines; NiTransforms integrates with nipype workflows for heterogeneous processing chains
 - [[nifti]] — The NIfTI file format used for storing both image data and (in some cases) transformation parameters
@@ -70,3 +70,9 @@ While NiTransforms is not specifically designed for [[whole-brain|whole-brain mo
 ## Key Papers
 
 - **NiTransforms: Transforms for Neuroimaging Data** — R. A. P. Kellner, B. N. P. Moreels, C. R. D. Burns, R. D. J. Miller, A. C. L. Ghoshal, J. M. S. H. Matelsky, "NiTransforms: Transforms for Neuroimaging Data," *Journal of Open Source Software*, vol. 7, no. 70, p. 3459, 2022. DOI: [10.21105/joss.03459](https://doi.org/10.21105/joss.03459)
+
+## References
+
+1. (authors unknown). *[[nighres]]: processing tools for high-resolution neuroimaging*.
+2. Thomas Sanchez, Gerard Mart'i-Juan, David Meunier, M. A. Ballester, Oscar Camara, Gemma Piella, M. Cuadra, G. Auzias. (2025). *Fetpype: An Open-Source Pipeline for Reproducible Fetal Brain MRI Analysis*. [Link](https://www.semanticscholar.org/paper/b1155c0f0a55def1383ea0895df9d4a755597e00)
+3. A. Dehsarvi, Lukas Frontzkowski, Anna Dewenter, Michael Schöll, N. Franzmeier. (2025). *ADprep – A Fully‐Automated Software for Large‐scale Multimodal MRI and PET Imaging Workflows*. Alzheimer's & Dementia. [DOI](https://doi.org/10.1002/alz70856_101373)

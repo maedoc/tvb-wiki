@@ -14,7 +14,7 @@ tags:
 - functional-connectivity
 title: Rich-Club Organization
 type: concept
-updated: '2026-04-30'
+updated: '2026-05-05'
 ---
 
 # Rich-Club Organization
@@ -27,7 +27,7 @@ This organizational principle emerged from the application of [[graph-theory]] t
 
 The rich-club phenomenon can be understood by considering what happens when one ranks all nodes in a network by their degree (the number of connections they possess) and then examines the [[connectivity]] pattern among the highest-ranking nodes. If the subgraph formed by nodes exceeding a degree threshold *k* contains more edges than expected in a comparable random network, the network exhibits rich-club organization. This contrasts with organizations where high-degree nodes primarily serve as bridges between different network modules, connecting mainly to lower-degree nodes within their local neighborhoods.
 
-The conceptual significance of rich-club organization lies in its implications for network function. While modular architecture—such as that captured by [[modularity]]—enables segregated processing of specialized information, the rich-club provides the structural substrate for integrating information across these modules. This duality between segregation and integration is a cornerstone of contemporary models of brain function, and the rich-club represents the integrative pole of this organizational axis. Research by [[olaf-sporns]] and colleagues has emphasized how this architecture supports the brain's capacity to coordinate distributed neural representations during both [[resting-state]] and task-evoked cognition.
+The conceptual significance of rich-club organization lies in its implications for network function. While modular architecture—such as that captured by [[modularity]]—enables segregated processing of specialized information, the rich-club provides the structural substrate for integrating information across these modules. This duality between segregation and integration is a cornerstone of contemporary models of brain function, and the rich-club represents the integrative pole of this organizational axis. Research by Olaf Sporns and colleagues has emphasized how this architecture supports the brain's capacity to coordinate distributed neural representations during both [[resting-state]] and task-evoked cognition.
 
 ## Mathematical Formulation
 
@@ -77,3 +77,12 @@ Despite substantial progress, several open questions remain regarding rich-club 
 - [[connectome]] – Complete map of structural connectivity
 - [[modularity]] – Organization into functionally specialized communities
 - [[functional-connectivity]] – Statistical dependencies between neural regions
+
+## References
+
+1. (authors unknown). *Mapping the Structural Core of Human Cerebral Cortex*.
+2. (authors unknown). *Networks of the Brain*.
+3. Deco et al. (2013). *Resting brains never [[rest]]: computational insights into potential cognitive architectures*. Trends in Neurosciences. [DOI](https://doi.org/10.1016/j.tins.2013.09.002)
+4. (authors unknown). *Functional Network Organization of the Human Brain*.
+5. Breno C. Bispo, Stefania Sardellitti, Juliano B. Lima, Fernando A. N. Santos. (2026). *Multimodal Higher-Order Brain Networks: A Topological Signal Processing Perspective*. [Link](https://arxiv.org/abs/2603.29903)
+6. Marco Zenari, Luca Taffarello, Luca Mazzucato, Amos Maritan, Samir Suweis. (2026). *Topological Origin of the Diversity of Timescales in Recurrent Neural Circuits*. [Link](https://arxiv.org/abs/2603.04149)

@@ -17,7 +17,7 @@ tags:
 - multitaper-methods
 title: Chronux
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 # Chronux
@@ -64,4 +64,10 @@ The following publications form the foundation of Chronux methodology and applic
 
 ## Related Software
 
-The electrophysiology analysis ecosystem includes several alternatives and complementary tools. [[eeglab]] provides a comprehensive graphical environment for EEG preprocessing and analysis with extensive plugin support. [[fieldtrip]] offers a MATLAB toolbox with similar spectral analysis capabilities plus distributed source localization methods. [[brian]] and [[brian2]] are neuronal simulator environments that implement biophysically detailed spiking neural networks, providing the forward modeling capability complementary to Chronux's data analysis role. For users preferring Python-based workflows, the [[mne-python]] library implements equivalent multitaper spectral estimation and connectivity analysis in a free alternative to MATLAB. The [[brain-connectivity-toolbox]] (BCT) provides graph-theoretic analysis of structural and functional networks that extends Chronux's connectivity measures to network-level metrics.
+The electrophysiology analysis ecosystem includes several alternatives and complementary tools. [[eeglab]] provides a comprehensive graphical environment for EEG preprocessing and analysis with extensive plugin support. Fieldtrip offers a MATLAB toolbox with similar spectral analysis capabilities plus distributed [[source-localization]] methods. Brian and Brian2 are neuronal simulator environments that implement biophysically detailed [[spiking-neural-networks]], providing the forward modeling capability complementary to Chronux's data analysis role. For users preferring Python-based workflows, the Mne Python library implements equivalent multitaper spectral estimation and connectivity analysis in a free alternative to MATLAB. The [[brain-connectivity-toolbox]] (BCT) provides graph-theoretic analysis of structural and functional networks that extends Chronux's connectivity measures to network-level metrics.
+
+## References
+
+1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
+3. Xiaobo Liu. (2026). *MLE-Toolbox: An Open-Source Toolbox for Comprehensive EEG and MEG Data Analysis*. [Link](https://www.semanticscholar.org/paper/e7aaa4f4bb01e70064493684b4500a950f83460f)

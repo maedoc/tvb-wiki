@@ -20,7 +20,7 @@ tags:
 - paper-review
 title: Tractography
 type: concept
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 Tractography is a family of computational techniques that reconstruct three-dimensional [[white-matter]] fiber pathways from diffusion-weighted magnetic resonance imaging data. By tracing virtual streamlines through local estimates of water diffusion orientation, tractography provides the only non-invasive method for mapping the structural wiring of the human brain in vivo. These reconstructed pathways form the basis of [[connectome]] construction and constrain computational models of large-scale brain [[network-dynamics]].
@@ -33,7 +33,7 @@ Before the advent of [[diffusion-mri]], knowledge of long-range anatomical conne
 
 Early deterministic algorithms, such as Fiber Assignment by Continuous Tracking (FACT), propagate streamlines by following the principal diffusion direction of the single tensor model. While computationally efficient, these methods are sensitive to noise and fail where multiple fiber populations cross within a single voxel—a limitation Jones (2010) identified as a serious obstacle to reliable [[connectivity]] mapping. Probabilistic approaches address this by generating distributions of possible pathways through bootstrap resampling or Bayesian modeling, yielding more robust estimates at higher computational cost.
 
-A more principled solution came with constrained spherical deconvolution (CSD), introduced by Tournier et al. (2007), which estimates the full fiber orientation distribution (FOD) by deconvolving the measured diffusion signal with a response function from coherent white matter, resolving multiple intra-voxel fiber populations and improving tracking accuracy in regions such as the centrum semiovale and brainstem. Modern pipelines extend beyond local streamline propagation to include global energy-minimization strategies that optimize whole-brain tractograms simultaneously against the diffusion data, as well as anatomically constrained tractography that uses tissue segmentation maps to prevent streamlines from penetrating gray matter boundaries. These advances are implemented in widely used software libraries—[[mrtrix3]], [[dipy]], and [[fsl]]—which support end-to-end connectome reconstruction from raw diffusion data through parcellation and matrix generation.
+A more principled solution came with constrained spherical deconvolution (CSD), introduced by Tournier et al. (2007), which estimates the full fiber orientation distribution (FOD) by deconvolving the measured diffusion signal with a response function from coherent white matter, resolving multiple intra-voxel fiber populations and improving tracking accuracy in regions such as the centrum semiovale and brainstem. Modern pipelines extend beyond local streamline propagation to include global energy-minimization strategies that optimize whole-brain tractograms simultaneously against the diffusion data, as well as anatomically constrained tractography that uses tissue segmentation maps to prevent streamlines from penetrating gray matter boundaries. These advances are implemented in widely used software libraries—Mrtrix3, Dipy, and Fsl—which support end-to-end connectome reconstruction from raw diffusion data through [[parcellation]] and matrix generation.
 
 ## Role in Whole-Brain Modeling
 
@@ -48,3 +48,14 @@ Validation strategies include physical phantoms with known fiber geometry, post-
 ## Related Concepts
 
 Tractography is the primary computational engine that transforms raw diffusion imaging data into the structural connectivity matrices used in connectomics, distinguishing itself from [[dti]]—the broader tensor framework from which it emerged. Tractography-derived connectivity is often compared against [[effective-connectivity]] estimates from [[dynamic-causal-modeling]] or [[functional-connectivity]] from fMRI and EEG, with mismatches providing clues about unmeasured polysynaptic pathways or state-dependent modulation of connection strengths.
+
+## References
+
+1. (authors unknown). *Three-dimensional tracking of axonal projections in the brain by magnetic resonance imaging*.
+2. (authors unknown). *Challenges and limitations of quantifying brain connectivity in vivo with diffusion MRI*.
+3. (authors unknown). *Robust determination of the fibre orientation distribution in diffusion MRI: Non-negativity constrained super-resolved spherical deconvolution*.
+4. (authors unknown). *Building connectomes using diffusion MRI: Why, how and but*.
+5. R. Lorenzi, Fulvia Palesi, C. Casellato, C. G. Gandini Wheeler-Kingshott, Egidio D’Angelo. (2025). *Region-specific [[mean-field-theory|mean field]] models enhance simulations of local and global [[brain-dynamics]]*. bioRxiv. [DOI](https://doi.org/10.1038/s41540-025-00543-9)
+6. (authors unknown). *Functional [[connectomics]] from [[resting-state|Resting-State fMRI]]*.
+7. Wenqi Zhu, Zhong Yin, Yinghua Fu. (2026). *CGLK-GNN : A connectome generation network with large kernels for GNN based Alzheimer's disease analysis*. Neural Networks. [DOI](https://doi.org/10.1016/j.neunet.2026.108689)
+8. Breno C. Bispo, Stefania Sardellitti, Juliano B. Lima, Fernando A. N. Santos. (2026). *Multimodal Higher-Order Brain Networks: A Topological Signal Processing Perspective*. [Link](https://arxiv.org/abs/2603.29903)

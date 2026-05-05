@@ -1,9 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- Cox 1996 (Computers and Biomedical Research)
-- Saad et al. 2004 (NeuroImage)
-- https://afni.nimh.nih.gov
 - raw/papers/semanticscholar-cabf914d6370.md
 - raw/papers/sanz-leon-2013.md
 - raw/papers/arxiv-2511.02457.md
@@ -21,7 +18,7 @@ updated: '2026-05-04'
 # AFNI
 
 ## Overview
-AFNI (Analysis of Functional NeuroImages) is an open-source software suite for processing, analyzing, and visualizing structural and functional [[neuroimaging]] data. Developed primarily at the National Institute of Mental Health (NIMH) by Robert Cox and colleagues beginning in 1994[^1], AFNI represents one of the three dominant neuroimaging analysis platforms alongside [[fsl]] and [[spm]]. The software is written in C with extensive command-line tools and provides both volume- and surface-based analysis capabilities through its integrated [[suma]] (Surface Mapping with AFNI) component.
+AFNI (Analysis of Functional NeuroImages) is an open-source software suite for processing, analyzing, and visualizing structural and functional [[neuroimaging]] data. Developed primarily at the National Institute of Mental Health (NIMH) by Robert Cox and colleagues beginning in 1994[^1], AFNI represents one of the three dominant neuroimaging analysis platforms alongside Fsl and Spm. The software is written in C with extensive command-line tools and provides both volume- and surface-based analysis capabilities through its integrated [[suma]] (Surface Mapping with AFNI) component.
 
 ## Key Features
 The AFNI distribution encompasses a comprehensive toolchain for neuroimaging analysis:
@@ -51,9 +48,15 @@ AFNI serves as an essential preprocessing and data extraction stage for [[the-vi
 The foundational AFNI publication (Cox, 1996) established the software's core philosophy of optimized C implementations for rapid volumetric analysis. Subsequent methodological developments include the SUMA surface mapping system (Saad et al., 2004), real-time fMRI capabilities, and modern statistical frameworks for group analysis. AFNI is widely cited in the neuroimaging literature and remains actively developed with regular updates from the NIMH Scientific and Statistical Computing Core.
 
 ## Related Software
-- [[fsl]] — Alternative comprehensive neuroimaging analysis suite (FMRIB Software Library)
-- [[spm]] — Statistical Parametric Mapping, MATLAB-based neuroimaging toolbox
+- Fsl — Alternative comprehensive neuroimaging analysis suite (FMRIB Software Library)
+- Spm — Statistical Parametric Mapping, MATLAB-based neuroimaging toolbox
 - [[ants]] — Advanced Normalization Tools, integrated with AFNI for registration and segmentation
-- [[freesurfer]] — Cortical surface reconstruction and parcellation, frequently used upstream of AFNI analysis
+- Freesurfer — Cortical surface reconstruction and parcellation, frequently used upstream of AFNI analysis
 - [[the-virtual-brain]] — Whole-brain simulation platform utilizing connectivity matrices derived from AFNI preprocessing
-- [[glmsingle]] — tool for single‑trial fMRI analysis and HRF estimation.
+- Glmsingle — tool for single‑trial fMRI analysis and HRF estimation.
+
+## References
+
+1. M. M. Esfahani, Vladislav Esaulov, Hemanth Venkateswara, V. Calhoun. (2025). *NEUROMARK DFNC PATTERNS: A FULLY AUTOMATED PIPELINE TO ESTIMATE SUBJECT-SPECIFIC STATES FROM RS-FMRI DATA VIA CONSTRAINED ICA OF DFNC IN +100K SUBJECTS*. bioRxiv. [DOI](https://doi.org/10.1101/2025.01.29.635539)
+2. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+3. Mohaddese Qaremohammadlou, Mohammad Bagher Shamsollahi. (2025). *Investigating Brain Connectivity and Information Flow in Mental Workload Using EEG and fNIRS Integration*. [Link](https://arxiv.org/abs/2511.02457)

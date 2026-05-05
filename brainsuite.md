@@ -1,7 +1,7 @@
 ---
 title: BrainSuite
 created: 2025-01-15
-updated: 2026-05-04
+updated: 2026-05-05
 type: entity
 tags: [software-structural-mri, cortical-surface-extraction, neuroimaging-t1, segmentation, surface-registration, atlas]
 sources: [10.1007/978-3-540-40899-4_6, 10.1016/j.neuroimage.2006.08.020, 10.1016/j.jneumeth.2022.109566]
@@ -23,11 +23,11 @@ BrainSuite also includes a **Diffusion Pipeline (BDP)** for processing diffusion
 
 ## Relationship to TVB
 
-BrainSuite outputs are used in [[the-virtual-brain]] (TVB) workflows primarily through the structural connectivity modeling component. While BrainSuite itself extracts cortical surfaces rather than performing tractography, the cortical parcellations and segmentation labels it produces can be used to define regions of interest for subsequent connectivity analyses. The tissue classification outputs (white matter, gray matter, CSF fraction maps) provide anatomical constraints for modeling brain structure in TVB simulations. Additionally, the cortical surface meshes and thickness maps from BrainSuite can inform TVB's anatomical brain models, particularly when constructing personalized brain representations that require accurate cortical geometry. BrainSuite is closely related to other structural processing tools in the TVB ecosystem, including [[freesurfer]] for rival cortical extraction approaches and [[fsl]] for general MRI processing tasks. For TVB users seeking detailed cortical geometry and accurate parcellation labels, BrainSuite provides a robust alternative to FreeSurfer, particularly notable for its rapid processing times and the quality of its included atlases.
+BrainSuite outputs are used in [[the-virtual-brain]] (TVB) workflows primarily through the structural connectivity modeling component. While BrainSuite itself extracts cortical surfaces rather than performing tractography, the cortical parcellations and segmentation labels it produces can be used to define regions of interest for subsequent connectivity analyses. The tissue classification outputs (white matter, gray matter, CSF fraction maps) provide anatomical constraints for modeling brain structure in TVB simulations. Additionally, the cortical surface meshes and thickness maps from BrainSuite can inform TVB's anatomical brain models, particularly when constructing personalized brain representations that require accurate cortical geometry. BrainSuite is closely related to other structural processing tools in the TVB ecosystem, including [[pysurfer]] for rival cortical extraction approaches and [[fsl-melodic]] for general MRI processing tasks. For TVB users seeking detailed cortical geometry and accurate parcellation labels, BrainSuite provides a robust alternative to FreeSurfer, particularly notable for its rapid processing times and the quality of its included atlases.
 
 ## Related Software
 
-BrainSuite integrates with the broader landscape of neuroimaging tools. It complements statistical packages like [[fsl]] for general MRI analysis and [[afni]] for visualization. For cortical parcellation, outputs from BrainSuite can be compared with or combined with region definitions from [[desikan-killiany-atlas]] or [[glasser-atlas]] to define region-of-interest labels. The surface meshes and volume labels are compatible with visualization tools such as [[connectome-workbench]] for viewing cortical data. Researchers using TVB may also use BrainSuite outputs in conjunction with tools like [[brainstorm]] for forward modeling of EEG/MEG source activity, given that BrainSuite surfaces are natively compatible with BrainStorm's cortically-constrained minimum norm imaging capabilities.
+BrainSuite integrates with the broader landscape of neuroimaging tools. It complements statistical packages like [[fsl-melodic]] for general MRI analysis and [[afni]] for visualization. For cortical parcellation, outputs from BrainSuite can be compared with or combined with region definitions from [[desikan-killiany-atlas]] or [[glasser-atlas]] to define region-of-interest labels. The surface meshes and volume labels are compatible with visualization tools such as [[connectome-workbench]] for viewing cortical data. Researchers using TVB may also use BrainSuite outputs in conjunction with tools like [[brain-map]] for forward modeling of EEG/MEG source activity, given that BrainSuite surfaces are natively compatible with BrainStorm's cortically-constrained minimum norm imaging capabilities.
 
 ## Key Papers
 

@@ -21,7 +21,7 @@ updated: '2026-05-04'
 
 ## Overview
 
-AFQ (Automated Fiber Quantification) is an open-source software pipeline for automated segmentation, visualization, and quantitative analysis of [[white-matter]] fiber tracts from [[diffusion-mri]] (dMRI) data. Developed primarily by Jason Yeatman, [[brian]] Wandell, and colleagues at Stanford University [1], AFQ provides a standardized, reproducible method for extracting diffusion metrics—such as fractional anisotropy (FA), mean diffusivity (MD), and radial diffusivity (RD)—along major white matter pathways [2]. The software automates what was previously a labor-intensive manual tractography process, enabling researchers to characterize white matter integrity across the [[whole-brain]] in a computationally efficient manner.
+AFQ (Automated Fiber Quantification) is an open-source software pipeline for automated segmentation, visualization, and quantitative analysis of [[white-matter]] fiber tracts from [[diffusion-mri]] (dMRI) data. Developed primarily by Jason Yeatman, Brian Wandell, and colleagues at Stanford University [1], AFQ provides a standardized, reproducible method for extracting diffusion metrics—such as fractional anisotropy (FA), mean diffusivity (MD), and radial diffusivity (RD)—along major white matter pathways [2]. The software automates what was previously a labor-intensive manual tractography process, enabling researchers to characterize white matter integrity across the [[whole-brain]] in a computationally efficient manner.
 
 ## Motivation and Context
 
@@ -37,13 +37,13 @@ AFQ thus bridges the gap between whole-brain [[connectomics]] and targeted white
 
 AFQ operates as a pipeline that processes raw diffusion MRI data through several stages [4]:
 
-**Fiber tractography**: The method begins with deterministic or probabilistic tractography to reconstruct fiber trajectories across the brain. AFQ can work with multiple diffusion models (tensor, DSI, etc.) and supports common tractography engines including [[mrtrix]] and [[dipy]].
+**Fiber tractography**: The method begins with deterministic or probabilistic tractography to reconstruct fiber trajectories across the brain. AFQ can work with multiple diffusion models (tensor, DSI, etc.) and supports common tractography engines including Mrtrix and Dipy.
 
 **Automated tract segmentation**: AFQ uses a two‑stage approach to isolate specific fiber tracts. First, it identifies “waypoint” regions (virtual waypoints) that a given tract must pass through based on its known anatomy. For example, the arcuate fasciculus must pass through posterior temporal and inferior frontal regions [5]. Second, it applies a “fiber cleansing” procedure that removes fibers deviating significantly from the main tract [[trajectory]].
 
 **Fiber sampling and metric computation**: Once a tract is isolated, AFQ samples diffusion metrics along the tract's length, typically at 100 equidistant points from one endpoint to the other [1]. This produces a “tract profile” showing how FA, MD, RD, and axial diffusivity (AD) vary along each pathway. Researchers can then compute summary statistics (mean, standard deviation, peak location) or compare profiles across groups.
 
-The computational pipeline is implemented in Python and integrates with the [[nipype]] workflow engine, enabling seamless integration with other neuroimaging tools like [[fsl]], [[ants]], and MRVista.
+The computational pipeline is implemented in Python and integrates with the [[nipype]] workflow engine, enabling seamless integration with other [[neuroimaging]] tools like Fsl, [[ants]], and MRVista.
 
 ## Key Features
 
@@ -79,11 +79,18 @@ Researchers studying [[epilepsy-modeling]], [[alzheimers-modeling]], or [[schizo
 
 ## Related Software
 
-- [[dipy]] – General diffusion MRI processing library
-- [[mrtrix]] – Advanced tractography software
-- [[fsl]] – FMRIB Software Library (includes DTIFIT and other diffusion tools)
+- Dipy – General diffusion MRI processing library
+- Mrtrix – Advanced tractography software
+- Fsl – FMRIB Software Library (includes DTIFIT and other diffusion tools)
 - [[ants]] – Advanced Normalization Tools (used for registration in AFQ pipeline)
 - [[afq‑notebooks]] – Cloud‑based interactive AFQ analysis environment
 - [[tractography]] – The broader technique category
 - [[fractional‑anisotropy]] – The primary diffusion metric analyzed by AFQ
 - [[structural‑connectivity]] – The connectivity type AFQ helps quantify
+
+## References
+
+1. Emmanuelle Renauld, Arnaud Boré, Charles Poirier, Alex Valcourt-Caron, Philippe Karan, Antoine Théberge, Guillaume Théaud, Manon Edde, P. Poulin, Gabriel Girard, Jean-Christophe Houde, A. Gagnon, Etienne St-Onge, Graham Little, Jon Haitz Legarreta, Stanislas Thoumyre, G. Grenier, Zineb El Yamani, Mario Ocampo Pineda, Matteo Battochio, Vincent Beaudoin, Alexandre Joanisse, Laurent Petit, F. Rheault, Maxime Descoteaux. (2026). *Tractography analysis with the scilpy toolbox*. Aperture Neuro. [DOI](https://doi.org/10.52294/001c.154022)
+2. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI): A flexible and integrative toolkit for efficient probabilistic inference on virtual brain models*. bioRxiv. [DOI](https://doi.org/10.1101/2025.01.21.633922)
+3. Sanz Leon et al. (2013). *[[the-virtual-brain]]: a simulator of primate [[brain-network]] dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+4. Tingting Liu, Mingyang Li, Y. You, Hongxi Zhang, Ying Lv, Chai Ji, Yuting Li, Dan Wu, Shenghong Ju. (2026). *Maturation and reorganization of structural connectivity in infants within half a year*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2026.121728)

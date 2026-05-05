@@ -69,7 +69,7 @@ The [[bifurcation analysis]] of such models reveals the mechanisms underlying pa
 
 When individual neural mass models are coupled through a connectivity matrix derived from [[diffusion-mri]] [[tractography]], the resulting [[whole-brain]] model is a high-dimensional dynamical system. The state space has dimension $N \times n$ where $N$ is the number of brain regions (typically 68–360 in cortical parcellations) and $n$ is the dimension of each node's local dynamics (often 3–6 for standard neural mass models). The global dynamics emerge from the interplay between the local node dynamics—governed by parameters controlling excitability, inhibition, and coupling strength—and the network topology defined by the structural [[connectome]].
 
-This coupled system displays a rich repertoire of behaviors, including metastable dynamics where the brain wanders between partial attractors without settling into any stable configuration. The concept of ** metastability**, borrowed from dynamical systems theory, has been used to explain how the brain.flexibly integrates information across distributed networks without being trapped in a single static state. This ties directly to the free-energy principle championed by [[giulio-tononi]] and Karl Friston, which posits that brain dynamics minimize free energy by staying in the vicinity of attractors that encode the brain's model of the world.
+This coupled system displays a rich repertoire of behaviors, including metastable dynamics where the brain wanders between partial attractors without settling into any stable configuration. The concept of ** metastability**, borrowed from dynamical systems theory, has been used to explain how the brain.flexibly integrates information across distributed networks without being trapped in a single static state. This ties directly to the free-energy principle championed by Giulio Tononi and Karl Friston, which posits that brain dynamics minimize free energy by staying in the vicinity of attractors that encode the brain's model of the world.
 
 ### Parameter Estimation and Variational Inference
 
@@ -101,3 +101,14 @@ Another frontier is the integration of single-[[neuron]] biophysics with populat
 - [[mean-field theory]] — Dimensional reduction for network dynamical systems
 - [[stochastic differential equations]] — Dynamical systems with random perturbations
 - [[variational-bayes]] — Parameter estimation in dynamical system models
+
+## References
+
+1. (authors unknown). *Nonlinear Dynamics and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering*.
+2. (authors unknown). *Nonlinear Oscillations, Dynamical Systems, and Bifurcations of Vector Fields*.
+3. (authors unknown). *Differential Equations, Dynamical Systems, and an Introduction to Chaos*.
+4. Kashyap Gudibanda, J. Fousek, S. Petkoski, V. Jirsa. (2026). *The role of connectivity for the degeneracy of the brain’s resting state dynamics*. Journal of Computational Neuroscience. [DOI](https://doi.org/10.1007/s10827-025-00919-0)
+5. Rosa Maria Delicado, Gemma Huguet, Pau Clusella. (2025). *Emergent Spatiotemporal Dynamics in Large-Scale Brain Networks with Next Generation Neural Mass Models*. [Link](https://arxiv.org/abs/2512.03907)
+6. Pascal Helson, Etienne Tanré, Romain Veltz. *Mean-field analysis of a [[neural-network]] with stochastic STDP*. [Link](https://arxiv.org/abs/2510.02545)
+7. Eugene M. Izhikevich. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
+8. Manish Yadav. *Emergent E-I Structure in Performance-Evolved Reservoir Networks of Neuronal Population Dynamics*. [Link](https://arxiv.org/abs/2603.13635)

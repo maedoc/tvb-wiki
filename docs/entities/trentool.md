@@ -14,7 +14,7 @@ tags:
 - information-theory
 title: TRENTOOL
 type: entity
-updated: '2026-05-01'
+updated: '2026-05-04'
 ---
 
 TRENTOOL (TRENds TOOLbox) is a MATLAB-based open-source toolbox for estimating information-theoretic measures from neural time series data. Developed primarily for analyzing directed (effective) [[connectivity]] in neurophysiological recordings such as electroencephalography (EEG), magnetoencephalography (MEG), and [[local-field-potentials]] (LFP), TRENTOOL implements algorithms for computing transfer entropy, mutual information, and related metrics that capture directional information flow between brain regions[^wibral_2011]. The toolbox emerged from the [[nonlinear-dynamics]] research community and serves researchers studying [[effective-connectivity]] using model-free information-theoretic approaches rather than [[dynamic-causal-modeling]] (DCM) or regression-based methods.
@@ -29,7 +29,7 @@ The toolbox was developed mainly by Michael Wibral, Raul Vicente, and collaborat
 
 TRENTOOL provides several interrelated functionalities centered on information-theoretic analysis of neural time series. The core algorithm implements transfer entropy estimation using either binning-based (discrete) estimators or kernel-based (continuous) estimators, with appropriate bias correction methods for finite sample sizes. The toolbox includes the TRENDE algorithm for detecting state-dependent changes in connectivity, allowing researchers to identify how information flow varies across different brain states or experimental conditions.
 
-One of TRENTOOL's distinctive features is its integration with source reconstruction capabilities, enabling connectivity analysis in source-space rather than just sensor-space. This is particularly important for [[neuromorpho-toolkit]] and [[neuromorpho-toolkit]] data where sensor-level analyses are confounded by volume conduction and recording artifacts. The toolbox supports integration with [[fieldtrip]] for preprocessing and data handling, making it compatible with standard neurophysiology workflows.
+One of TRENTOOL's distinctive features is its integration with source reconstruction capabilities, enabling connectivity analysis in source-space rather than just sensor-space. This is particularly important for [[neuromorpho-toolkit]] and [[neuromorpho-toolkit]] data where sensor-level analyses are confounded by [[volume-conduction]] and recording artifacts. The toolbox supports integration with Fieldtrip for preprocessing and data handling, making it compatible with standard neurophysiology workflows.
 
 ## Relationship to TVB and Whole-Brain Modeling
 
@@ -39,7 +39,7 @@ The primary use case for TRENTOOL in the context of brain connectivity research 
 
 ## Related Software
 
-TRENTOOL intersects with several other software tools in the neuroimaging and connectivity analysis ecosystem. [[fieldtrip]] is perhaps the closest integration, as TRENTOOL can use fieldtrip's preprocessing pipeline for data cleaning and source reconstruction. For [[dynamic-causal-modeling]] analysis, researchers often compare TRENTOOL results with those from [[spm]]'s DCM implementations. Other related toolboxes include the [[bctpy]] (Brain Connectivity Toolbox) for graph-theoretic analysis. For those interested in model-based approaches to the same problems that TRENTOOL addresses model-free, [[the-virtual-brain]] provides an alternative framework.
+TRENTOOL intersects with several other software tools in the neuroimaging and connectivity analysis ecosystem. Fieldtrip is perhaps the closest integration, as TRENTOOL can use fieldtrip's preprocessing pipeline for data cleaning and source reconstruction. For [[dynamic-causal-modeling]] analysis, researchers often compare TRENTOOL results with those from Spm's DCM implementations. Other related toolboxes include the [[bctpy]] (Brain Connectivity Toolbox) for graph-theoretic analysis. For those interested in model-based approaches to the same problems that TRENTOOL addresses model-free, [[the-virtual-brain]] provides an alternative framework.
 
 ## Technical Considerations
 
@@ -53,3 +53,9 @@ The relationship between transfer entropy and other measures of [[effective-conn
 - Wibral, M., Rahm, B., Riedl, M., et al. (2011). TRENTOOL: A toolbox for the analysis of information flow in time series from complex systems. Conference proceedings: International Conference on Neural Engineering, 336-339[^wibral_2011].
 - Vicente, R., Lindner, M., & Wibral, M. (2011). Transfer entropy—an information-theoretic tool to analyze information flow in brain networks. Proceedings of the 10th International Conference on Numerical Analysis and Systems, 103-109[^vicente_2011].
 - Lindner, M., Vicente, R., Priesemann, V., & Wibral, M. (2015). TRENTOOL v3: Open source toolbox for estimating information-theoretic measures from neural data. Frontiers in Neuroscience, 9, 620[^lindevi_2015].
+
+## References
+
+1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal [[neuroimaging]]*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
+3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and [[whole-brain]] Propagation*. [Link](https://arxiv.org/abs/2505.16861)

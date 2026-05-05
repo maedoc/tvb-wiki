@@ -1,31 +1,31 @@
 ---
 title: netneurotools
 created: 2025-01-15
-updated: 2026-05-04
+updated: 2026-05-05
 type: entity
 tags: [software-neuroinformatics, network-neuroscience, python-toolbox, connectomics, brain-network, graph-theory]
 sources: [https://github.com/netneurolab/netneurotools, https://netneurotools.readthedocs.io/, https://www.biorxiv.org/content/10.1101/2025.02.14.638374v1]
 ---
 
-Netneurotools is a Python toolbox for network neuroscience research, developed by the Network Neuroscience Lab at McGill University's Brain Imaging Centre. The package provides a collection of functions for analyzing brain connectivity data, computing network-level metrics, and working with structural and functional connectomes. It emerged from the increasing availability of large-scale connectome datasets and the need for standardized, reproducible tools in the network neuroscience community [[cite:netneurotools-github]].
+Netneurotools is a Python toolbox for network neuroscience research, developed by the Network Neuroscience Lab at McGill University's Brain Imaging Centre. The package provides a collection of functions for analyzing brain connectivity data, computing network-level metrics, and working with structural and functional connectomes. It emerged from the increasing availability of large-scale connectome datasets and the need for standardized, reproducible tools in the network neuroscience community [[netneurotools]].
 
 ## Overview
 
-Netneurotools serves as a bridge between raw neuroimaging data and network-theoretic analyses that characterize brain connectivity patterns. The toolbox implements graph-theoretic measures from the brain connectivity literature, including metrics for network segregation (clustering coefficient, modularity), integration (path length, efficiency), and centralities (degree, betweenness, eigenvector) [[cite:netneurotools-github]]. Beyond metric computation, netneurotools provides utilities for working with common neuroimaging file formats, brain parcellations, and coordinate systems that facilitate the construction of connectivity matrices from imaging data.
+Netneurotools serves as a bridge between raw neuroimaging data and network-theoretic analyses that characterize brain connectivity patterns. The toolbox implements graph-theoretic measures from the brain connectivity literature, including metrics for network segregation (clustering coefficient, modularity), integration (path length, efficiency), and centralities (degree, betweenness, eigenvector) [[netneurotools]]. Beyond metric computation, netneurotools provides utilities for working with common neuroimaging file formats, brain parcellations, and coordinate systems that facilitate the construction of connectivity matrices from imaging data.
 
-The software is designed to integrate with the broader Python neuroimaging ecosystem, particularly libraries such as [[nilearn]], [[nibabel]], and [[bctpy]]. This interoperability allows researchers to incorporate netneurotools functions into existing preprocessing and analysis pipelines that handle [[fMRI]], [[diffusion-imaging]], or [[dti]] data. The package emphasizes functional convenience, providing high-level functions that combine multiple operations—such as loading a parcellation, extracting time series, and computing connectivity matrices—into single function calls [[cite:netneurotools-docs]].
+The software is designed to integrate with the broader Python neuroimaging ecosystem, particularly libraries such as [[nilearn]], [[nibabel]], and [[bctpy]]. This interoperability allows researchers to incorporate netneurotools functions into existing preprocessing and analysis pipelines that handle [[fMRI]], [[diffusion-imaging]], or [[dti]] data. The package emphasizes functional convenience, providing high-level functions that combine multiple operations—such as loading a parcellation, extracting time series, and computing connectivity matrices—into single function calls [[netneurotools]].
 
 ## Key Features
 
-Netneurotools offers several categories of functionality that support end-to-end network neuroscience analyses. The **datasets module** provides automatic fetching utilities for common brain atlases and template surfaces, including the Schaefer 2018 parcellation [[cite:schaefer2018]], Cammoun 2012 [[cite:cammoun2012]], MMP atlas [[cite:mmp]], Tian [[cite:tian2020]] andVon Economo [[cite:voneconomo]] atlases. Additional fetchers provide access to Freesurfer meshes (fsaverage), FSLR surfaces, CIVET templates, and the Conte69 [[cite:conte69]] hemisphere template [[cite:netneurotools-api]].
+Netneurotools offers several categories of functionality that support end-to-end network neuroscience analyses. The **datasets module** provides automatic fetching utilities for common brain atlases and template surfaces, including the Schaefer 2018 parcellation , Cammoun 2012 , MMP atlas , Tian  andVon Economo  atlases. Additional fetchers provide access to Freesurfer meshes (fsaverage), FSLR surfaces, CIVET templates, and the Conte69  hemisphere template [[netneurotools]].
 
-The **networks module** handles construction and manipulation of brain networks, including functions for creating consensus networks from multiple datasets (func_consensus, struct_consensus), network randomization with degree/length preservation (randmio_und), and thresholding/binarization utilities. These functions support generation of both empirical connectivity networks and surrogate networks for null model comparisons [[cite:netneurotools-api]].
+The **networks module** handles construction and manipulation of brain networks, including functions for creating consensus networks from multiple datasets (func_consensus, struct_consensus), network randomization with degree/length preservation (randmio_und), and thresholding/binarization utilities. These functions support generation of both empirical connectivity networks and surrogate networks for null model comparisons [[netneurotools]].
 
-Network metric computation forms a core component of the toolbox within the **metrics module**, implementing graph-theoretic measures adapted from the Brain Connectivity Toolbox [[cite:bct]]. These include global metrics (characteristic path length, global efficiency, clustering coefficient, modularity) and node-level metrics (degree, strength, betweenness centrality, eigenvector centrality, PageRank). The package also includes advanced metrics such as navigability [[cite:navigability]], search information [[cite:searchinfo]], path transitivity, communicability, diffusion efficiency, and mean first passage time [[cite:netneurotools-api]].
+Network metric computation forms a core component of the toolbox within the **metrics module**, implementing graph-theoretic measures adapted from the Brain Connectivity Toolbox . These include global metrics (characteristic path length, global efficiency, clustering coefficient, modularity) and node-level metrics (degree, strength, betweenness centrality, eigenvector centrality, PageRank). The package also includes advanced metrics such as [[reproducibility]],  path transitivity, communicability, diffusion efficiency, and mean first passage time [[netneurotools]].
 
-The **stats module** provides statistical functions optimized for network neuroscience, including efficient Pearson correlation implementations (efficient_pearsonr, weighted_pearsonr), permutation tests (permtest_1samp, permtest_rel), and regression utilities with dominance analysis (residualize, get_dominance_stats) [[cite:netneurotools-api]].
+The **stats module** provides statistical functions optimized for network neuroscience, including efficient Pearson correlation implementations (efficient_pearsonr, weighted_pearsonr), permutation tests (permtest_1samp, permtest_rel), and regression utilities with dominance analysis (residualize, get_dominance_stats) [[netneurotools]].
 
-Additional modules include **plotting** (brain surface visualization using pyvista, heatmaps), **spatial** (Moran's I, Geary's C, Lee's L for spatial autocorrelation), **modularity** (consensus modularity, community detection), and **interface** (CIFTI, GIFTI, FreeSurfer file handling) [[cite:netneurotools-docs]].
+Additional modules include **plotting** (brain surface visualization using pyvista, heatmaps), **spatial** (Moran's I, Geary's C, Lee's L for spatial autocorrelation), **modularity** (consensus modularity, community detection), and **interface** (CIFTI, GIFTI, FreeSurfer file handling) [[netneurotools]].
 
 ## Relationship to TVB
 
@@ -41,13 +41,13 @@ For whole-brain modeling workflows, netneurotools can be combined with TVB's [[t
 
 ## Key Papers
 
-- Liu ZQ, Bazinet V, Hansen JY, Milisav F, Luppi AI, Ceballos EG, Farahani A, Suarez LE, Shafiei G, Markello RD, Misic B. "netneurotools: a trainee-oriented approach to network neuroscience." *bioRxiv* (2025). [[cite:netneurotools-paper]]
+- Liu ZQ, Bazinet V, Hansen JY, Milisav F, Luppi AI, Ceballos EG, Farahani A, Suarez LE, Shafiei G, Markello RD, Misic B. "netneurotools: a trainee-oriented approach to network neuroscience." *bioRxiv* (2025). [[netneurotools]]
 
-- Hansen JY, Shafiei G, Markello RD, et al. "Mapping neurotransmitter systems to the structural and functional organization of the human neocortex." *Nature Neuroscience* (2022). [[cite:neuromaps]]
+- Hansen JY, Shafiei G, Markello RD, et al. "Mapping neurotransmitter systems to the structural and functional organization of the human neocortex." *Nature Neuroscience* (2022). [[neuromaps]]
 
-- Markello RD, Hansen JY, Liu ZQ, et al. "neuromaps: structural and functional interpretation of brain maps." *Nature Methods* (2022). [[cite:neuromaps-paper]]
+- Markello RD, Hansen JY, Liu ZQ, et al. "neuromaps: structural and functional interpretation of brain maps." *Nature Methods* (2022). [[neurom]]
 
-- Suarez LE, Markello RD, Betzel RF, Misic B. "Linking structure and function in macroscale brain networks." *Trends in Cognitive Sciences* (2020). [[cite:structure-function]]
+- Suarez LE, Markello RD, Betzel RF, Misic B. "Linking structure and function in macroscale brain networks." *Trends in Cognitive Sciences* (2020). [[community-detection]]
 
 ## References
 

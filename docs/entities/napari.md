@@ -17,13 +17,13 @@ updated: '2026-05-04'
 
 ## Overview
 
-Napari is a fast, interactive, and extensible multi-dimensional image viewer built in Python. It provides a graphical user interface for exploring large scientific datasets—particularly those common in [[neuroimaging]] such as volumetric MRI scans, diffusion tensor images, and [[connectome]] matrices—without requiring users to write extensive visualization code. Napari is designed to bridge the gap between lightweight quick-look tools and full-featured desktop applications, offering layer-based visualization, plugin extensibility, and integration with the broader scientific Python ecosystem including NumPy, scikit-image, and [[nilearn]]. Originally developed with support from the Chan Zuckerberg Initiative and emerging primarily from the microscopy and biomedical imaging communities, napari has become a widely adopted tool for visualizing brain imaging data across modalities.
+Napari is a fast, interactive, and extensible multi-dimensional image viewer built in Python. It provides a graphical user interface for exploring large scientific datasets—particularly those common in [[neuroimaging]] such as volumetric MRI scans, diffusion tensor images, and [[connectome]] matrices—without requiring users to write extensive visualization code. Napari is designed to bridge the gap between lightweight quick-look tools and full-featured desktop applications, offering layer-based visualization, plugin extensibility, and integration with the broader scientific Python ecosystem including NumPy, scikit-image, and Nilearn. Originally developed with support from the Chan Zuckerberg Initiative and emerging primarily from the microscopy and biomedical imaging communities, napari has become a widely adopted tool for visualizing brain imaging data across modalities.
 
 ## Motivation and Context
 
-Neuroimaging research produces massive datasets: a single [[fMRI]] run can generate hundreds of gigabytes of volumetric time-series data, while [[diffusion-imaging]] tractography produces complex 3D streamline representations that strain conventional viewers. Traditional tools like [[fsl]]'s fsleyes or [[freesurfer]]'s freeview are powerful but limited to specific file formats and workflows. Meanwhile, general-purpose image viewers lack the domain-specific features neuroscientists need—support for NIfTI headers, atlas overlays, and connectivity matrices.
+Neuroimaging research produces massive datasets: a single [[fMRI]] run can generate hundreds of gigabytes of volumetric time-series data, while [[diffusion-imaging]] tractography produces complex 3D streamline representations that strain conventional viewers. Traditional tools like Fsl's fsleyes or Freesurfer's [[freeview]] are powerful but limited to specific file formats and workflows. Meanwhile, general-purpose image viewers lack the domain-specific features neuroscientists need—support for [[nifti]] headers, atlas overlays, and connectivity matrices.
 
-Napari emerged to address this gap by providing a performant, Python-native viewer that accepts any NumPy array as input. This means researchers can load preprocessed data directly from [[nipype]] pipelines, visualize outputs from tractography tools like [[mrtrix3]] or [[dipy]], or render custom analyses without data conversion. The plugin architecture also allows developers to add domain-specific functionality—plugins have been developed for brain atlases, electrode localization, and various neuroscience visualization needs.
+Napari emerged to address this gap by providing a performant, Python-native viewer that accepts any NumPy array as input. This means researchers can load preprocessed data directly from [[nipype]] pipelines, visualize outputs from tractography tools like Mrtrix3 or Dipy, or render custom analyses without data conversion. The plugin architecture also allows developers to add domain-specific functionality—plugins have been developed for brain atlases, electrode localization, and various neuroscience visualization needs.
 
 ## Key Features
 
@@ -37,7 +37,7 @@ While [[the-virtual-brain]] (TVB) focuses on whole-brain dynamics simulation, na
 
 ## Comparison to Related Tools
 
-Napari occupies a unique position in the neuroimaging visualization landscape. Unlike [[fsleyes]] (part of [[fsl]]) or freeview (part of [[freesurfer]]), napari is format-agnostic—any NumPy-compatible data can be visualized. Compared to [[itk-snap]], napari offers Python scripting capabilities. Against [[brainnet-viewer]] or [[brainrender]], napari provides greater flexibility for arbitrary data types while those tools specialize in specific connectome or anatomy visualizations.
+Napari occupies a unique position in the neuroimaging visualization landscape. Unlike Fsleyes (part of Fsl) or freeview (part of Freesurfer), napari is format-agnostic—any NumPy-compatible data can be visualized. Compared to Itk Snap, napari offers Python scripting capabilities. Against [[brainnet-viewer]] or Brainrender, napari provides greater flexibility for arbitrary data types while those tools specialize in specific connectome or anatomy visualizations.
 
 | Feature | Napari | fsleyes | freeview | brainnet-viewer |
 |---------|--------|---------|----------|-----------------|
@@ -54,18 +54,24 @@ The napari ecosystem includes several plugins particularly relevant to [[computa
 ## Related Software
 
 - [[the-virtual-brain]]
-- [[nilearn]]
+- Nilearn
 - [[nipype]]
-- [[freesurfer]]
-- [[fsl]]
-- [[itk-snap]]
-- [[brainrender]]
-- [[pycortex]]
-- [[dipy]]
-- [[mrtrix3]]
+- Freesurfer
+- Fsl
+- Itk Snap
+- Brainrender
+- Pycortex
+- Dipy
+- Mrtrix3
 - [[connectome-workbench]]
 
 ## Key Papers
 
 - Ahlers, H., et al. (2024). "Napari: a multi-dimensional image viewer for Python." *Nature Methods*. https://www.nature.com/articles/s41592-019-0612-4
 - Sofroniew, N., et al. (2020). "Napari: fast, easy-to-use bioimage analysis." *BioRxiv*. https://www.biorxiv.org/content/10.1101/2020.10.26.248542v1
+
+## References
+
+1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Emmanuelle Renauld, Arnaud Boré, Charles Poirier, Alex Valcourt-Caron, Philippe Karan, Antoine Théberge, Guillaume Théaud, Manon Edde, P. Poulin, Gabriel Girard, Jean-Christophe Houde, A. Gagnon, Etienne St-Onge, Graham Little, Jon Haitz Legarreta, Stanislas Thoumyre, G. Grenier, Zineb El Yamani, Mario Ocampo Pineda, Matteo Battochio, Vincent Beaudoin, Alexandre Joanisse, Laurent Petit, F. Rheault, Maxime Descoteaux. (2026). *[[tractography]] analysis with the scilpy toolbox*. Aperture Neuro. [DOI](https://doi.org/10.52294/001c.154022)
+3. (authors unknown). *[[braph]]: A Pipeline for Brain [[connectivity]] Analysis*.

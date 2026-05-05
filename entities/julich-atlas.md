@@ -9,7 +9,7 @@ tags:
 - software-brain-modeling
 title: Jülich Atlas
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 The **Jülich Atlas**, also known as the **Jülich Brain Atlas** or **Julich-Brain**, is a comprehensive probabilistic cytoarchitectonic atlas of the human cerebral cortex developed by the Institute of Neuroscience and Medicine (INM-1) at the Forschungszentrum Jülich (Jülich Research Centre) in Germany. Unlike classical anatomical atlases based on a single brain specimen, the Jülich Atlas provides probabilistic maps that quantify the spatial distribution of different cortical areas across a population of post‑mortem brains, making it particularly valuable for [[neuroimaging]] research where individual variability is a central concern[^1].
@@ -40,7 +40,7 @@ The data is freely available through multiple channels: directly from the Jülic
 
 ## Relationship to Other Atlases
 
-The Jülich Atlas is often compared with other widely‑used brain parcellations such as the [[harvard‑oxford‑atlas|Harvard‑Oxford Atlas]] (which provides broader anatomical divisions), the [[aal‑atlas|Automated Anatomical Labeling]] atlas, and the more recent [[brainnetome‑atlas|Brainnetome Atlas]] (which combines cytoarchitecture with connectivity information)[^7]. Unlike these alternatives, the Jülich Atlas maintains a strong commitment to cytoarchitectonic precision, though this comes with the limitation that not all cortical areas have been fully mapped—particularly in prefrontal and association regions where cytoarchitectonic boundaries are less distinct[^1].
+The Jülich Atlas is often compared with other widely‑used brain parcellations such as the [[jhu-white-matter-atlas|Harvard‑Oxford Atlas]] (which provides broader anatomical divisions), the [[aal‑atlas|Automated Anatomical Labeling]] atlas, and the more recent [[brainnetome‑atlas|Brainnetome Atlas]] (which combines cytoarchitecture with connectivity information)[^7]. Unlike these alternatives, the Jülich Atlas maintains a strong commitment to cytoarchitectonic precision, though this comes with the limitation that not all cortical areas have been fully mapped—particularly in prefrontal and association regions where cytoarchitectonic boundaries are less distinct[^1].
 
 The atlas also relates to the [[mrtrix3‑connectome]] and its derivatives, which provide high‑resolution connectivity‑based parcellations. While HCP parcellations are derived from in‑vivo multi‑modal neuroimaging of living subjects, the Jülich Atlas provides a histological gold standard that can validate and complement these approaches[^8].
 

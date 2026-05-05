@@ -21,10 +21,10 @@ tags:
 - epilepsy-modeling
 title: Default Mode Network (DMN)
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
-The **Default Mode Network (DMN)** is a large-scale [[brain-network]] identified through [[neuroimaging]] that demonstrates high metabolic activity during wakeful rest and systematic deactivation during externally-oriented goal-directed tasks. First characterized by Raichle et al. (2001) using positron emission tomography (PET), the DMN represents the brain's baseline or "default" mode of operation—the spontaneous neural activity that dominates when an individual is not engaged in explicit task performance. This network has become fundamental to our understanding of intrinsic brain organization and its dysfunction in psychiatric and neurological conditions.
+The **Default Mode Network (DMN)** is a large-scale [[brain-network]] identified through [[neuroimaging]] that demonstrates high metabolic activity during wakeful [[rest]] and systematic deactivation during externally-oriented goal-directed tasks. First characterized by Raichle et al. (2001) using positron emission tomography (PET), the DMN represents the brain's baseline or "default" mode of operation—the spontaneous neural activity that dominates when an individual is not engaged in explicit task performance. This network has become fundamental to our understanding of intrinsic brain organization and its dysfunction in psychiatric and neurological conditions.
 
 ## Conceptual Origin and Significance
 
@@ -108,3 +108,13 @@ The DMN presents both opportunities and challenges for [[whole-brain modeling]] 
 - [[aging]] – Effects of aging on brain networks
 - [[neurodevelopment]] – Developmental processes shaping brain organization
 - [[epilepsy-modeling]] – Computational models of epileptic networks
+
+## References
+
+1. (authors unknown). *A Default Mode of Brain Function*.
+2. (authors unknown). *The Brain's Default Network: Anatomy, Function, and Relevance to Disease*.
+3. (authors unknown). *Functional Connectivity in the Resting Brain: A Network Analysis of the Default Mode Hypothesis*.
+4. (authors unknown). *Functional [[connectomics]] from Resting-State fMRI*.
+5. (authors unknown). *Functional-Anatomic Fractionation of the Brain's Default Network*.
+6. (authors unknown). *Functional Connectivity: The Principal-Component Analysis of Large (PET and fMRI) Data Sets*.
+7. Diego Derman, Damon D. Pham, Amanda F. Mejia, Silvina L. Ferradal. (2025). *Individual patterns of functional connectivity in neonates as revealed by surface-based Bayesian modeling*. Imaging neuroscience. [DOI](https://doi.org/10.1162/imag_a_00504)

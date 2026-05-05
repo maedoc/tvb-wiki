@@ -9,7 +9,7 @@ tags:
 - software-brain-modeling
 title: MarsAtlas
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 ## Overview
@@ -26,7 +26,7 @@ The atlas occupies a middle ground in the spectrum of brain parcellations. Coars
 
 MarsAtlas provides a volumetric representation of cortical and subcortical regions in standard [MNI space][mni-space], with corresponding surface meshes suitable for visualization in tools like [FreeSurfer][freesurfer], [Connectome Workbench][connectome-workbench], or [3D Slicer][3d-slicer]. Each region in the atlas is assigned a unique integer label, enabling straightforward construction of region-by-region [structural connectivity][structural-connectivity] matrices from [diffusion MRI][diffusion-mri] [[tractography]] data [1]. The parcellation scheme follows a hierarchical organization: regions are first grouped by lobe (frontal, parietal, temporal, occipital, cingulate), then further subdivided into finer functional territories.
 
-The typical workflow for using MarsAtlas in [whole-brain modeling][whole-brain-modeling] involves the following [[steps]]: (1) registering individual diffusion-weighted MRI scans to [[mni-space]] using tools like [FSL][fsl] or [ANTs][ants], (2) performing deterministic or probabilistic [tractography][tractography] to reconstruct [[white-matter]] tracts, (3) applying MarsAtlas region labels to extract [[connectivity]] weights between region pairs, (4) normalizing connection densities to account for region size and fiber count, and (5) inputting the resulting connectivity matrix into a [neural mass model][neural-mass-model] such as the [[jansen-rit]] model][jansen-rit-model] or [Epileptor][epileptor] for simulation [7][8]. This pipeline is supported by tools in the [MRtrix3][mrtrix3] and [FSL][fsl] ecosystems, as well as the [Brain Connectivity Toolbox][brain-connectivity-toolbox] for network analysis.
+The typical workflow for using MarsAtlas in [whole-brain modeling][whole-brain-modeling] involves the following Steps: (1) registering individual diffusion-weighted MRI scans to [[mni-space]] using tools like [FSL][fsl] or [ANTs][ants], (2) performing deterministic or probabilistic [tractography][tractography] to reconstruct [[white-matter]] tracts, (3) applying MarsAtlas region labels to extract [[connectivity]] weights between region pairs, (4) normalizing connection densities to account for region size and fiber count, and (5) inputting the resulting connectivity matrix into a [neural mass model][neural-mass-model] such as the [[jansen-rit]] model][jansen-rit-model] or [Epileptor][epileptor] for simulation [7][8]. This pipeline is supported by tools in the [MRtrix3][mrtrix3] and [FSL][fsl] ecosystems, as well as the [Brain Connectivity Toolbox][brain-connectivity-toolbox] for network analysis.
 
 ## Relationship to The Virtual Brain
 
@@ -57,3 +57,10 @@ Related atlases include the [AAL Atlas][aal-atlas], [Brainnetome Atlas][brainnet
 5. Bullmore, E. T., & Sporns, O. (2009). Complex brain networks: graph theoretical analysis of structural and functional systems. *Nature Reviews Neuroscience*, 10(3), 186-198. [[netneuroscience|Network neuroscience]] background
 
 6. Fornito, A., Zalesky, A., & Bullmore, E. (2016). *Fundamentals of [[brain-network]] Analysis*. Academic Press. [Network analysis methods]
+
+## References
+
+1. (authors unknown). *Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems*.
+2. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+3. (authors unknown). *Networks of the Brain*.
+4. Shengjie Qi, Xinda Song, Le Jia, Hongyu Cui, Yuchen Suo, Teng Long, Zhendong Wu, Xiaolin Ning. (2025). *The impact of channel density, inverse solutions, connectivity metrics and calibration errors on OPM-MEG connectivity analysis: A simulation study*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2025.121056)

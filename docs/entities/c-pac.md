@@ -17,7 +17,7 @@ tags:
 - connectomics
 title: C-PAC
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 # C-PAC
@@ -29,7 +29,7 @@ updated: '2026-04-30'
 ## Key Features
 
 ### Configurable Pipeline Architecture
-C-PAC employs a YAML-based configuration system that allows researchers to define preprocessing [[steps]], parameter choices, and analysis options without modifying source code. This configurability supports multiple "pipeline strategies" for key preprocessing decisions—such as motion correction methods, nuisance regression approaches, and spatial smoothing kernels—enabling systematic comparison of preprocessing choices on downstream [[connectivity]] measures.
+C-PAC employs a YAML-based configuration system that allows researchers to define preprocessing Steps, parameter choices, and analysis options without modifying source code. This configurability supports multiple "pipeline strategies" for key preprocessing decisions—such as motion correction methods, nuisance regression approaches, and spatial smoothing kernels—enabling systematic comparison of preprocessing choices on downstream [[connectivity]] measures.
 
 ### Comprehensive Preprocessing
 The platform includes modules for standard [[fmri]] preprocessing including slice-timing correction, motion realignment, spatial normalization to standard templates (MNI152), spatial smoothing, and temporal filtering. C-PAC integrates ANTs for robust registration and implements multiple strategies for nuisance signal removal, including CompCor (Component-based Noise Correction), which identifies nuisance components from [[white-matter]] and CSF signals rather than relying solely on global signal regression.
@@ -63,6 +63,17 @@ C-PAC serves a complementary role to [[tvb|The Virtual Brain]] in [[connectome]]
 - [[tvb|The Virtual Brain]] — Whole-brain simulation platform that can use C-PAC-preprocessed connectivity data
 - [[ants|ANTs]] — Advanced registration toolkit integrated into C-PAC for robust spatial normalization
 - [[nipype|Nipype]] — Python framework for neuroimaging pipelines; C-PAC shares similar architectural principles
-- [[fsl|FSL]] — Alternative preprocessing suite with overlapping functionality
+- FSL — Alternative preprocessing suite with overlapping functionality
 - [[hcp-pipelines|HCP Pipelines]] — Minimal preprocessing pipelines for [[human-connectome-project]] data; often compared with C-PAC strategies
-- [[nilearn|Nilearn]] — Python library for neuroimaging analysis that can work with C-PAC outputs
+- Nilearn — Python library for neuroimaging analysis that can work with C-PAC outputs
+
+## References
+
+1. (authors unknown). *Image Processing and Quality Control for the First 100,000 Brain Imaging Datasets from UK Biobank*.
+2. (authors unknown). *Comparing Dynamic Causal Models*.
+3. Avants et al. (2011). *A reproducible evaluation of ANTs similarity metric performance in brain image registration*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2010.09.025)
+4. Woodman et al. (2014). *[[graphvar]]: A user-friendly toolbox for comprehensive graph analyses of functional brain connectivity*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2014.07.015)
+5. Sanz Leon et al. (2013). *[[the-virtual-brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+6. (authors unknown). *Functional [[connectomics]] from Resting-State fMRI*.
+7. R. A. Benn, Ting Xu, R. Mars, Magdalena Boch, Léa Roumazeilles, K. Heuer, Roberto Toro, D. Margulies, J. Manzano-Patrón, Paula Montesinos, C. Galán-Arriola, G. López-Martín, J. Sanchez-González, E. P. Duff, Borja Ibáñez. (2025). *Precon_all: A species-agnostic automated pipeline for non-human cortical surface reconstruction*. bioRxiv. [DOI](https://doi.org/10.1101/2025.04.16.649072)
+8. Zhishun Wang, Feng Liu, Rachel Marsh, Gaurav H. Patel, J. Grinband. (2026). *MEPrep: A robust pipeline for multi-echo fMRI denoising and preprocessing*. Imaging Neuroscience. [DOI](https://doi.org/10.1162/IMAG.a.1198)

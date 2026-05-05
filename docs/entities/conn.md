@@ -17,7 +17,7 @@ tags:
 - connectomics
 title: CONN
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 # CONN
@@ -66,12 +66,23 @@ CONN serves as a critical preprocessing and analysis tool in the [[connectome]]-
 
 3. **Patient-Specific Models**: Individual subject connectivity maps from CONN can inform [[personalized-brain-modeling|personalized brain models]], particularly in clinical applications such as [[epilepsy-modeling|epilepsy]] and [[alzheimers-modeling|Alzheimer's disease]] where individual functional network alterations guide model parameterization.
 
-4. **Multi-modal Integration**: CONN outputs can be combined with [[dti|structural connectivity data]] from tools like [[software-ants|ANTs]] or FSL to constrain structural-functional coupling in multi-modal modeling approaches.
+4. **Multi-modal Integration**: CONN outputs can be combined with [[dti|structural connectivity data]] from tools like [[ants]] or FSL to constrain structural-functional coupling in multi-modal modeling approaches.
 
 ## Related Software
 
 - [[tvb|TVB]] — [[whole-brain]] simulation platform that can use CONN-derived connectivity as input
-- [[software-ants|ANTs]] — Advanced normalization and processing tools often used prior to CONN analysis
-- [[software-fsl|FSL]] — Alternative fMRI analysis suite for preprocessing and first-level analysis
-- [[software-spm|SPM]] — MATLAB-based statistical parametric mapping software; CONN operates as an SPM toolbox
-- [[software-bct|BCT ([[brain-connectivity-toolbox]])]] — MATLAB toolbox for graph-theoretical analysis of connectivity matrices, complementary to CONN's graph theory functions
+- ANTs — Advanced normalization and processing tools often used prior to CONN analysis
+- FSL — Alternative fMRI analysis suite for preprocessing and first-level analysis
+- SPM — MATLAB-based statistical parametric mapping software; CONN operates as an SPM toolbox
+- BCT ([[brainvoyager]]) — MATLAB toolbox for graph-theoretical analysis of connectivity matrices, complementary to CONN's graph theory functions
+
+## References
+
+1. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
+2. (authors unknown). *Functional [[connectomics]] from Resting-State fMRI*.
+3. Woodman et al. (2014). *[[graphvar]]: A user-friendly toolbox for comprehensive graph analyses of functional brain connectivity*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2014.07.015)
+4. F. Caramia, A. Di Renzo, Irene Giardina, Davide Chiffi, G. Giuliani, G. Sebastianelli, Francesco Casillo, C. Abagnave, Francesca Conti, Francesca Lafavia, Marco Fiorelli, Mao-mei Song, Marta Altieri, Gianluca Coppola. (2026). *Multimodal MRI of episodic cluster headache reveals frontal cortical alterations and network-level connectivity changes*. The Journal of Headache and Pain. [DOI](https://doi.org/10.1186/s10194-026-02282-6)
+5. Ramiro Plüss, Hernán Villota, Patricio Orio. (2025). *Hemispheric-Specific Coupling Improves Modeling of Functional Connectivity Using [[wilson-cowan]] Dynamics*. [Link](https://arxiv.org/abs/2506.22951)
+6. Sanz Leon et al. (2013). *[[the-virtual-brain]]: a simulator of primate [[brain-network]] dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+7. Sali Issa, Qi Wang, Ruinan Qi, Guangxi Peng, Shi Yin, Qinmu Peng. (2026). *An effective alzheimer disease diagnosis using resting state fmri images and broad learning system.*. Psychiatry research. Neuroimaging. [DOI](https://doi.org/10.1016/j.pscychresns.2025.112133)
+8. Wang, J., Wang, X., Xia, M., Liao, X., Evans, A., & He, Y. (2015). *Gretna: a graph theoretical network analysis toolbox for MATLAB*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2015.04.016)

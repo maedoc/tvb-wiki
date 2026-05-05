@@ -1,0 +1,51 @@
+---
+created: 2026-05-04
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/breakspear-2017.md
+- raw/papers/ritter-2013.md
+tags:
+- funding-project
+- computational-neuroscience
+- reproducibility
+- people-researcher
+- lab-institute
+title: CRCNS
+type: entity
+updated: '2026-05-05'
+---
+
+**CRCNS (Collaborative Research in [[computational-neuroscience]])** is a joint funding program established by the **National Institutes of Health (NIH)** and the **National Science Foundation (NSF)** to foster collaborations between experimental and computational neuroscientists. The program was launched in response to a recognized gap between theoretical modeling efforts and the accumulating body of experimental data on neural systems, aiming to accelerate the development of biologically realistic computational models that can explain and predict neural phenomena [1][2].
+
+## Motivation and Scientific Rationale
+
+The theoretical-experiment divide in neuroscience has long been a central challenge in the field. Experimentalists generate vast datasets—from single-unit recordings to [[whole-brain]] imaging—yet theoretical frameworks often fail to integrate these empirical findings into cohesive, predictive models. Conversely, computational modelers may develop sophisticated mathematical descriptions of neural dynamics that lack direct validation against experimental data. The CRCNS program was explicitly designed to bridge this divide by requiring funded projects to combine quantitative theory with data collection, often mandates sharing of primary data collected under the award [1][2].
+
+## Program Structure and Requirements
+
+The CRCNS mechanism operates through joint solicitations issued periodically by NIH and NSF. Key requirements of funded projects include:
+
+- **Collaborative teams**: Applications must involve partnerships between experimentalists and theorists, ensuring that computational work is grounded in empirical reality.
+- **Data sharing**: Awardees are expected to make neural and behavioral datasets publicly available through approved repositories, a policy that has contributed substantially to the growth of open-data neuroscience [1].
+- **Training components**: Many CRCNS awards include provisions for training the next generation of computational neuroscientists, supporting postdoctoral researchers and graduate students in acquiring both theoretical and experimental skills.
+- **Cross-disciplinary methodology**: Funded projects span multiple levels of analysis, from subcellular biophysics to large-scale [[network-dynamics]], reflecting the program's commitment to multiscale modeling.
+
+## Historical Context and Major Initiatives
+
+Since its inception around 1999–2000, the CRCNS program has funded numerous landmark projects that have shaped the field. Early funded work included foundational studies in [[neural-field-theory]], which provided mathematical formalisms for describing cortical activity at the population level [3]. Subsequent awards supported the development of conductance-based [[neuron]] models, [[mean-field-theory|mean-field]] approximations, and large-scale brain simulation platforms [3][4][5].
+
+One of the most significant outcomes of CRCNS-funded research in the European context was the development of **[[the-virtual-brain]] (TVB)**, an open-source simulation platform for whole-brain dynamics. TVB incorporates multiple [[neural-mass-models]]—including the **Jansen-Rit model**, the **Wong-Wang model**, and the **Epileptor**—that were either directly funded through CRCNS mechanisms or emerged from the broader ecosystem of computational neuroscience research that CRCNS helped cultivate [6]. The platform enables the integration of **[[structural-connectivity]]** matrices derived from diffusion imaging with **[[functional-connectivity]]** analyses, embodying the CRCNS philosophy of linking theory, computation, and empirical brain data.
+
+## Relationship to TVB and Whole-Brain Modeling
+
+**[[tvb|The Virtual Brain]]** represents a flagship application of CRCNS principles in the realm of whole-brain modeling. The platform was developed with support from multiple European funding sources, but its theoretical foundations are deeply intertwined with the computational neuroscience traditions that CRCNS has promoted. TVB's emphasis on [[reproducibility]], open-source software, and integration of empirical **structural-[[connectivity]]** data aligns directly with the data-sharing and collaborative mandates of the CRCNS program.
+
+Furthermore, several specific models integrated within TVB have origins in research supported by or related to CRCNS-type funding mechanisms. The **[[jansen-rit]] neural mass model**, originally developed to explain EEG signatures in terms of cortical pyramidal cell interactions, has become a canonical example of computational neuroscience applied to whole-[[brain-dynamics]] [3]. The **[[wong-wang|Wong-Wang model]]**, which captures attractor dynamics in prefrontal cortex, emerged from theoretical efforts to understand decision-making at the neural population level—a classic example of the theory-experiment integration that CRCNS aims to support [4]. The **[[epileptor]]** model, developed to simulate seizure dynamics, similarly represents a case where computational approaches have been tightly coupled with experimental clinical data [5].
+
+The **[[human-[[connectome]]-project]]** and related efforts to map brain wiring have benefited from CRCNS-like data-sharing frameworks, and TVB incorporates connectivity data from these initiatives. Similarly, collaborations with **[[ebrains]]**—the European research infrastructure for neuroscience—reflect the ongoing legacy of CRCNS in promoting open, reproducible neuroscience research that bridges modeling and empirical investigation.
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate [[brain-network]] dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)
+3. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal [[neuroimaging]]*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)

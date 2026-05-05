@@ -8,16 +8,16 @@ tags:
 - software-brain-modeling
 title: OpenNeuro
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-05'
 ---
 
 OpenNeuro is an open-access repository for neuroimaging datasets that has become a cornerstone resource for the computational neuroscience and brain modeling communities. Originally launched as a successor to the OpenfMRI project, OpenNeuro provides a standardized platform for sharing, organizing, and archiving neuroimaging data in the [[bids|Brain Imaging Data Structure (BIDS)]] format. The repository hosts primarily [[fmri|fMRI]], [[eeg|EEG]], [[meg|MEG]], and [[diffusion-mri|diffusion MRI]] datasets contributed by researchers worldwide, enabling reproducibility and facilitating new analyses that build upon existing data. As of 2024, OpenNeuro contains hundreds of curated datasets with tens of thousands of subjects, making it one of the largest publicly available collections of human neuroimaging data [@openneuro].
 
 ## Motivation and Context
 
-The neuroimaging field has long faced a reproducibility crisis, driven in part by the difficulty of sharing raw data and the lack of standardized data organization formats. Historically, researchers who wanted to share their neuroimaging datasets had to do so through ad-hoc solutions—personal websites, institutional repositories, or simply not sharing at all—which made discoverability and reuse extremely challenging. OpenNeuro addresses this problem by providing a curated platform where datasets are archived with persistent identifiers (DOIs), thoroughly validated for BIDS compliance using tools like the [[bids-validator]], and freely accessible to the research community [<cite>@bids</cite>]. The platform's emphasis on BIDS standardization ensures that data are organized consistently across studies, making it straightforward for analysts to apply automated preprocessing pipelines like [[fmriprep]] or [[connectome]]-quality assessment tools.
+The neuroimaging field has long faced a [[reproducibility]] crisis, driven in part by the difficulty of sharing raw data and the lack of standardized data organization formats. Historically, researchers who wanted to share their neuroimaging datasets had to do so through ad-hoc solutions—personal websites, institutional repositories, or simply not sharing at all—which made discoverability and reuse extremely challenging. OpenNeuro addresses this problem by providing a curated platform where datasets are archived with persistent identifiers (DOIs), thoroughly validated for BIDS compliance using tools like the Bids Validator, and freely accessible to the research community [<cite>@bids</cite>]. The platform's emphasis on BIDS standardization ensures that data are organized consistently across studies, making it straightforward for analysts to apply automated preprocessing pipelines like [[fmriprep]] or [[connectome]]-quality assessment tools.
 
-OpenNeuro's creation also reflects a broader cultural shift toward open science in neuroscience. Many large-scale research initiatives, including the [[human-connectome-project]] and the [[uk-biobank]], require data sharing as a condition of grant funding, and OpenNeuro provides the infrastructure to fulfill such mandates elegantly [<cite>@hcp</cite>]. The repository's integration with the [[brainsuite]] platform and tools like [[datalad]] enables sophisticated data provenance tracking and reproducible analysis workflows, further cementing its role in the open science ecosystem.
+OpenNeuro's creation also reflects a broader cultural shift toward open science in neuroscience. Many large-scale research initiatives, including the [[human-connectome-project]] and the [[uk-biobank]], require data sharing as a condition of grant funding, and OpenNeuro provides the infrastructure to fulfill such mandates elegantly [<cite>@hcp</cite>]. The repository's integration with the Brainsuite platform and tools like [[datalad]] enables sophisticated data provenance tracking and reproducible analysis workflows, further cementing its role in the open science ecosystem.
 
 ## Key Features
 
@@ -33,10 +33,16 @@ The availability of high-quality, well-curated datasets on OpenNeuro has enabled
 
 ## Related Software and Infrastructure
 
-OpenNeuro operates within a broader ecosystem of tools and platforms that support open neuroimaging research. The repository is closely integrated with the [[bids]] specification and its ecosystem, including [[pybids]] for dataset indexing, [[bids-validator]] for quality assurance, and [[heudiconv]] for converting vendor-specific data to BIDS format. Downstream processing is supported by [[fmriprep]] for automated fMRI preprocessing, [[mriqc]] for quality control, and various connectivity analysis packages including [[connectome-workbench]], [[nilearn]], and [[braph]]. For version-controlled data management, OpenNeuro supports integration with [[datalad]], enabling researchers to track changes, branch datasets, and collaborate efficiently—features that are particularly valuable for large-scale collaborative projects or longitudinal studies.
+OpenNeuro operates within a broader ecosystem of tools and platforms that support open neuroimaging research. The repository is closely integrated with the [[bids]] specification and its ecosystem, including [[pybids]] for dataset indexing, Bids Validator for quality assurance, and [[heudiconv]] for converting vendor-specific data to BIDS format. Downstream processing is supported by [[fmriprep]] for automated fMRI preprocessing, [[mriqc]] for quality control, and various connectivity analysis packages including [[connectome-workbench]], Nilearn, and [[braph]]. For version-controlled data management, OpenNeuro supports integration with [[datalad]], enabling researchers to track changes, branch datasets, and collaborate efficiently—features that are particularly valuable for large-scale collaborative projects or longitudinal studies.
 
 ## Key Papers
 
-- Gorgolewski, K. J., et al. (2017). BIDS apps: Improving ease of use, functionality, and robustness for [[neuroimaging]]. *NeuroImage*.
+- Gorgolewski, K. J., et al. (2017). [[bids-apps]]: Improving ease of use, functionality, and robustness for [[neuroimaging]]. *NeuroImage*.
 - Esteban, O., et al. (2019). fMRIPrep: A robust preprocessing pipeline for functional MRI. *Nature Methods*.
 -钮文艳等. (2019). OpenNeuro: A flexible and sustainable platform for reproducible neuroimaging research. *Scientific Data*.
+
+## References
+
+1. Zhishun Wang, Feng Liu, Rachel Marsh, Gaurav H. Patel, J. Grinband. (2026). *MEPrep: A robust pipeline for multi-echo fMRI denoising and preprocessing*. Imaging Neuroscience. [DOI](https://doi.org/10.1162/IMAG.a.1198)
+2. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+3. Muhammad Nabi Yasinzai, R. Mito, M. Pedersen. (2025). *BrainScape: An open-source framework for integrating and preprocessing anatomical MRI datasets*. Imaging neuroscience. [DOI](https://doi.org/10.1162/IMAG.a.944)

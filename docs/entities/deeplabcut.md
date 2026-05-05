@@ -12,7 +12,7 @@ tags:
 - behavioral-tracking
 title: DeepLabCut
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 # DeepLabCut
@@ -56,3 +56,9 @@ Mathis, A., Mamidanna, P., Cury, K.M., Abe, T., Murthy, V.N., Mathis, M.W., & Be
 - [[spikeinterface]] — Can integrate with behavioral tracking for multimodal neurophysiology studies
 - [[bids]] — Data format standard applicable to behavioral video datasets
 - [[3d-slicer]] — Visualization platform sometimes used for 3D pose reconstruction
+
+## References
+
+1. Fabian Greifeneder, Wolfgang Fenz, Benedikt Alkin, Johannes Brandstetter, Michael Giretzlehner, Philipp Moser. *Autoregressive deep learning for real-time simulation of soft tissue dynamics during virtual neurosurgery*. [Link](https://arxiv.org/abs/2601.13676)
+2. L. Fisch, N. Winter, J. Goltermann, Carlotta B. C. Barkhau, D. Emden, J. Ernsting, M. Konowski, R. Leenings, T. Borgers, K. Flinkenflügel, D. Grotegerd, Anna Kraus, E. Leehr, S. Meinert, F. Stein, L. Teutenberg, F. Thomas-Odenthal, P. Usemann, M. Hermesdorf, H. Jamalabadi, Andreas Jansen, I. Nenadić, Benjamin Straube, T. Kircher, Klaus Berger, Benjamin Risse, U. Dannlowski, T. Hahn. (2026). *deepmriprep: voxel-based morphometry preprocessing via deep neural networks*. Nature Computational Science. [DOI](https://doi.org/10.1038/s43588-026-00953-7)
+3. S. Buoso, C. Stoeck, Sebastian Kozerke. (2025). *Automatic analysis of three-dimensional cardiac tagged magnetic resonance images using neural networks trained on synthetic data*. Journal of Cardiovascular Magnetic Resonance. [DOI](https://doi.org/10.1016/j.jocmr.2025.101869)

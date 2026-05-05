@@ -11,7 +11,7 @@ tags:
 - brain-dynamics
 title: Nitime
 type: entity
-updated: '2026-05-02'
+updated: '2026-05-04'
 ---
 
 # Nitime
@@ -24,7 +24,7 @@ updated: '2026-05-02'
 
 The analysis of neural time series presents unique challenges that generic signal processing libraries do not adequately address. Neuroscience data often exhibits non-stationarity, contains artifacts from recording hardware, and requires specialized statistical frameworks that account for the autocorrelation structure typical of neural data. Prior to nitime's development, researchers working with [[neuroimaging]] data needed to combine multiple tools—such as matlab-based toolboxes or custom scripts—to perform basic time-frequency decompositions, coherence analyses, and correlation-based [[connectivity]] estimates.
 
-Nitime was developed to provide a unified, neuroscientist-friendly interface to these analytical techniques. The library emerged from the Neuroinformatics community in the late 2000s as a response to the increasing availability of large-scale neural datasets and the growing adoption of Python in scientific computing. By integrating seamlessly with the scientific Python ecosystem—including numpy and scipy—nitime enables reproducible, well-documented analysis pipelines that can be combined with preprocessing tools like [[nipype]] and visualization libraries like [[nilearn]].
+Nitime was developed to provide a unified, neuroscientist-friendly interface to these analytical techniques. The library emerged from the Neuroinformatics community in the late 2000s as a response to the increasing availability of large-scale neural datasets and the growing adoption of Python in scientific computing. By integrating seamlessly with the scientific Python ecosystem—including numpy and scipy—nitime enables reproducible, well-documented analysis pipelines that can be combined with preprocessing tools like [[nipype]] and visualization libraries like Nilearn.
 
 ## Key Features
 
@@ -44,12 +44,18 @@ The canonical reference for nitime is the library's documentation paper by Chung
 
 ## Related Software
 
-Nitime occupies a niche in the neuroscience software landscape that intersects with several related tools. [[mne-python]] is perhaps the closest analog, providing comprehensive preprocessing and analysis pipelines for [[eeg]] and [[meg]] data with a stronger focus on source reconstruction and epoch-based analysis. [[nilearn]] offers complementary functionality for [[fmri]] data analysis with a particular emphasis on decoding and brain parcellation. The [[brain-connectivity-toolbox]] (BCT), written in matlab, provides graph-theoretic network analysis functions that complement nitime'stime-series-based connectivity measures, particularly for structural connectivity derived from [[diffusion-imaging]].
+Nitime occupies a niche in the neuroscience software landscape that intersects with several related tools. Mne Python is perhaps the closest analog, providing comprehensive preprocessing and analysis pipelines for [[eeg]] and [[meg]] data with a stronger focus on source reconstruction and epoch-based analysis. Nilearn offers complementary functionality for [[fmri]] data analysis with a particular emphasis on decoding and brain parcellation. The [[brain-connectivity-toolbox]] (BCT), written in matlab, provides graph-theoretic network analysis functions that complement nitime'stime-series-based connectivity measures, particularly for structural connectivity derived from [[diffusion-imaging]].
 
-For simulation purposes, [[brian]] and [[brian2]] provide point-neuron-level simulations whose output can be analyzed using nitime's spike train analysis utilities, while [[nest]] offers large-scale network simulations appropriate for investigating emergent [[brain-dynamics]]. The library integrates well with [[nibabel]] for reading neuroimaging formats and can be incorporated into preprocessing workflows via [[nipype]], enabling standardized pipelines that combine multiple tools.
+For simulation purposes, Brian and Brian2 provide point-neuron-level simulations whose output can be analyzed using nitime's spike train analysis utilities, while [[nest]] offers large-scale network simulations appropriate for investigating emergent [[brain-dynamics]]. The library integrates well with [[nibabel]] for reading neuroimaging formats and can be incorporated into preprocessing workflows via [[nipype]], enabling standardized pipelines that combine multiple tools.
 
 ## Key Capabilities in Practice
 
 A typical nitime workflow begins with loading time-series data—either from file or generated programmatically—and applying spectral decomposition to characterize oscillatory content. Researchers then compute connectivity metrics between regions of interest defined by a [[brain-parcellations]] such as the [[desikan-killiany-atlas]] or [[schaefer-atlas]], producing connectivity matrices that can be thresholded and analyzed.
 
 For [[effective-connectivity]] analysis, nitime's Granger causality routines have been applied to study directed information flow in [[resting-state]] networks and during task performance. The library's support for multivariate autoregressive models allows investigation of [[network-dynamics]] in the frequency domain, producing frequency-specific directed connectivity estimates that complement model-based approaches like [[dynamic-causal-modeling]]. These capabilities make nitime particularly valuable for researchers investigating the temporal dynamics of large-scale [[brain-network]] organization, whether in the context of [[epilepsy-modeling]], [[schizophrenia-models]], or studies of normal aging and [[alzheimers-modeling]].
+
+## References
+
+1. (authors unknown). *[[braph]]: A Pipeline for Brain Connectivity Analysis*.
+2. Gramfort et al. (2013). *MEG and EEG: From Acquisition to Analysis*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fnins.2013.00010)
+3. (authors unknown). *[[nighres]]: processing tools for high-resolution neuroimaging*.

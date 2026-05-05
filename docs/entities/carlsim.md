@@ -4,6 +4,7 @@ sources:
 - raw/papers/arxiv-2604.16474.md
 - raw/papers/arxiv-2407.13380.md
 - raw/papers/arxiv-2505.16861.md
+- raw/papers/semanticscholar-eb704b6f5462.md
 tags:
 - software-brain-modeling
 - spiking-neural-networks
@@ -11,7 +12,7 @@ tags:
 - whole-brain-modeling
 title: CARLsim
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 - "Nageswaran, J. M., Dutt, N., Krichmar, J. L., Nicolau, A., & Veidenbaum, A. (2009). A configurable simulation environment for the efficient simulation of large-scale spiking neural networks on graphics processors. Neural Networks, 22(5-6), 791-800. doi:10.1016/j.neunet.2009.06.019"
@@ -21,7 +22,7 @@ updated: '2026-04-30'
 
 # CARLsim
 
-CARLsim is an open-source, GPU-accelerated simulator for large-scale spiking neural network (SNN) models.
+CARLsim is an open-source, GPU-accelerated simulator for large-scale spiking [[neural-network]] (SNN) models.
 
 ## Overview
 
@@ -30,8 +31,8 @@ CARLsim enables efficient simulation of biologically realistic spiking neural ne
 ## Key Features
 
 - **GPU acceleration**: Leverages NVIDIA CUDA for massive parallelization of spike calculations
-- **Izhikevich neuron models**: Implements the computationally efficient Izhikevich model capturing diverse firing patterns
-- **Biologically realistic synapses**: Supports spike-timing-dependent plasticity (STDP) and short-term plasticity
+- **[[izhikevich]] neuron models**: Implements the computationally efficient Izhikevich model capturing diverse firing patterns
+- **Biologically realistic synapses**: Supports spike-timing-dependent [[plasticity]] (STDP) and short-term plasticity
 - **Scalability**: Simulates millions of neurons and billions of synapses on consumer GPUs
 - **Multi-GPU support**: Distributes simulations across multiple GPUs for larger networks
 - **Integration with neuromorphic hardware**: Compatible with neuromorphic computing paradigms
@@ -45,7 +46,7 @@ CARLsim is built around three core components:
 2. **Synapse Engine**: Manages synaptic transmission and plasticity rules
 3. **GPU Kernel Scheduler**: Optimizes CUDA kernel execution for spike generation and delivery
 
-The simulator uses fixed time-step integration, typically with 1 ms steps, achieving significant computational speedups over CPU-based alternatives for large networks through massive GPU parallelism.
+The simulator uses fixed time-step integration, typically with 1 ms Steps, achieving significant computational speedups over CPU-based alternatives for large networks through massive GPU parallelism.
 
 ## Relationship to TVB
 
@@ -59,7 +60,7 @@ CARLsim and [[TVB]] represent complementary approaches to brain simulation:
 | **Neuron count** | Millions | Millions of populations |
 | **Simulation speed** | Real-time to faster | Minutes to hours |
 
-While TVB focuses on whole-brain simulations using population-averaged neural mass models, CARLsim provides access to individual spike times and synaptic events. Researchers may use CARLsim for detailed circuit validation before scaling up to TVB for whole-brain studies, or verify TVB mean-field predictions against spiking ground truth.
+While TVB focuses on whole-brain simulations using population-averaged [[neural-mass-models]], CARLsim provides access to individual spike times and synaptic events. Researchers may use CARLsim for detailed circuit validation before scaling up to TVB for whole-brain studies, or verify TVB [[mean-field-theory|mean-field]] predictions against spiking ground truth.
 
 ## Neuromorphic Computing Focus
 
@@ -72,22 +73,22 @@ CARLsim has gained traction in the neuromorphic community due to:
 ## Key Papers
 
 - **Nageswaran et al. (2009)** — Original CARLsim platform introduction, demonstrating GPU acceleration of spiking networks
-- **Beyeler et al. (2015)** — CARLsim 3.0 with multi-GPU support and Python interface
+- **Beyeler et al. (2015)** — CARLsim 3.0 with multi-GPU support and Python interface
 - **Richert et al. (2021)** — Neuromorphic extensions and efficient synaptic plasticity implementations
 
 ## Technical Specifications
 
 - **Supported neuron models**: Izhikevich, Leaky integrate-and-fire, Custom user-defined
 - **Plasticity rules**: STDP, reward-modulated STDP, homeostatic mechanisms
-- **Connectivity**: Sparse random, structured (small-world, scale-free), user-defined
+- **[[connectivity]]**: Sparse random, structured (small-world, scale-free), user-defined
 - **Output formats**: Spike times, membrane potentials, synaptic weights, population firing rates
-- **Hardware requirements**: CUDA-capable NVIDIA GPU (Compute Capability 3.5+)
+- **Hardware requirements**: CUDA-capable NVIDIA GPU (Compute Capability 3.5+)
 
 ## Related Software
 
 - [[NEST]] — CPU-focused spiking network simulator with larger ecosystem
 - [[NEURON]] — Multi-compartment detailed neuron simulations
-- [[Brian]] — Python-based SNN simulator (Brian simulator)
+- [[brian2cuda]] — Python-based SNN simulator (Brian simulator)
 - [[ANNarchy]] — GPU/CPU hybrid for rate-coded and spiking networks
 
 ## Related Concepts
@@ -96,7 +97,7 @@ CARLsim has gained traction in the neuromorphic community due to:
 - [[Izhikevich neuron model]] — Efficient spiking neuron mathematics
 - [[neuromorphic computing]] — Brain-inspired hardware and algorithms
 - [[whole brain]] — Multi-scale modeling from spikes to populations
-- [[brain network]] — Large-scale network dynamics
+- [[brain network]] — Large-scale [[network-dynamics]]
 - [[synaptic plasticity]] — Learning mechanisms in spiking networks
 
 ## Key Developers
@@ -124,3 +125,10 @@ Originally developed by the Cognitive Ante-Robot Learning (CARL) Laboratory at U
 | **Use case** | Fast GPU prototyping, neuromorphic | Large distributed networks |
 
 CARLsim excels when GPU acceleration and spike-level detail are required; NEST is preferred for massive distributed simulations and when ecosystem maturity is prioritized.
+
+## References
+
+1. L. Niedermeier, J. L. Krichmar. (2026). *Full Feature Spiking Neural Network Simulation on Micro-Controllers for Neuromorphic Applications at the Edge*. [Link](https://arxiv.org/abs/2604.16474)
+2. Junming Duan, Wasilij Barsukow, Christian Klingenberg. *Active flux methods for hyperbolic conservation laws -- flux vector splitting and bound-preservation: Two-dimensional case*. [Link](https://arxiv.org/abs/2407.13380)
+3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz‑Pier, Thanos Manos. *[[arbor]]‑TVB: A Novel Multi‑Scale Co‑Simulation Framework with a Case Study on Neural‑Level Seizure Generation and Whole‑Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
+4. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz‑Pier, Thanos Manos. (2026). *Arbor‑TVB: a novel multi‑scale co‑simulation framework with a case study on neural‑level seizure generation and whole‑brain propagation*. Frontiers Comput. Neurosci.. [DOI](https://doi.org/10.3389/fncom.2025.1731161)

@@ -24,12 +24,12 @@ tags:
 - whole-brain-modeling
 title: Variational Bayes
 type: concept
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 ## What is Variational Bayes?
 
-Variational Bayes (VB) is a framework for approximate Bayesian inference that reformulates the problem of computing an intractable posterior distribution as an optimization problem over a simpler, tractable family of distributions. Instead of sampling from the posterior as in Markov chain Monte Carlo (MCMC), VB posits an approximating distribution $q(\theta)$ and adjusts its parameters to minimize the discrepancy—typically the Kullback-Leibler divergence—between $q(\theta)$ and the true posterior $p(\theta \mid y)$. This deterministic approach yields computational savings that have made VB the inference engine underlying much of modern [[neuroimaging]] analysis, including [[dynamic-causal-modeling]] in [[spm]].
+Variational Bayes (VB) is a framework for approximate Bayesian inference that reformulates the problem of computing an intractable posterior distribution as an optimization problem over a simpler, tractable family of distributions. Instead of sampling from the posterior as in Markov chain Monte Carlo (MCMC), VB posits an approximating distribution $q(\theta)$ and adjusts its parameters to minimize the discrepancy—typically the Kullback-Leibler divergence—between $q(\theta)$ and the true posterior $p(\theta \mid y)$. This deterministic approach yields computational savings that have made VB the inference engine underlying much of modern [[neuroimaging]] analysis, including [[dynamic-causal-modeling]] in Spm.
 
 ## Motivation and Context
 
@@ -49,7 +49,7 @@ Two families of approximating distributions dominate applications in neuroscienc
 
 ## Advantages and Trade-offs
 
-The principal advantage of VB is speed: deterministic optimization converges in minutes for models where MCMC might require hours or days. The ELBO also furnishes a natural criterion for model comparison, since improving the bound tightens the approximation to the log evidence—a property heavily exploited in Bayesian model reduction and group-level random-effects analyses within [[spm]]. However, the quality of inference is bounded by the expressiveness of the approximating family $q$. A mean-field approximation that ignores posterior correlations can underestimate uncertainty, and a poorly chosen Laplace center can miss multimodal structure. These biases are acceptable for many neuroimaging applications, where the dominant challenge is scaling inference to large datasets, but they caution against treating VB posteriors as exact.
+The principal advantage of VB is speed: deterministic optimization converges in minutes for models where MCMC might require hours or days. The ELBO also furnishes a natural criterion for model comparison, since improving the bound tightens the approximation to the log evidence—a property heavily exploited in Bayesian model reduction and group-level random-effects analyses within Spm. However, the quality of inference is bounded by the expressiveness of the approximating family $q$. A mean-field approximation that ignores posterior correlations can underestimate uncertainty, and a poorly chosen Laplace center can miss multimodal structure. These biases are acceptable for many neuroimaging applications, where the dominant challenge is scaling inference to large datasets, but they caution against treating VB posteriors as exact.
 
 ## Applications in Whole-Brain Modeling
 
@@ -58,3 +58,16 @@ In computational neuroscience, VB is most visible as the inference backbone of [
 ## Related Concepts
 
 VB sits at the intersection of several lines of work. Its optimization objective shares foundations with the [[free-energy-principle]], while its factorized approximations connect to [[mean-field-theory]] in statistical physics. For models with continuous state dynamics, VB complements methods based on [[stochastic-differential-equations]] and the [[fokker-planck-equation]], which describe population evolution rather than parameter inference. In practice, VB is often compared to sampling-based approaches and to simpler maximum-likelihood or maximum-a-posteriori point estimates; it occupies a middle ground, delivering richer uncertainty quantification than the latter at a fraction of the computational cost of the former.
+
+## References
+
+1. (authors unknown). *Variational Free Energy and the Laplace Approximation*.
+2. (authors unknown). *Variational Algorithms for Approximate Bayesian Inference*.
+3. (authors unknown). *Variational Inference: A Review for Statisticians*.
+4. (authors unknown). *Graphical Models, Exponential Families, and Variational Inference*.
+5. (authors unknown). *Variational Inference with Normalizing Flows*.
+6. Jiaming Liu, Meng Li. *Bend to Mend: Toward Trustworthy Variational Bayes with Valid Uncertainty Quantification*. [Link](https://arxiv.org/abs/2512.22655)
+7. Ritter et al. (2013). *[[the-virtual-brain]] integrates computational modeling and multimodal neuroimaging*. Brain [[connectivity]]. [DOI](https://doi.org/10.1089/brain.2012.0120)
+8. O. David, K.J. Friston. *Dynamic causal modelling*. NeuroImage. [DOI](https://doi.org/10.1016/S1053-8119(03)00202-7)
+9. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI): A flexible and integrative toolkit for efficient probabilistic inference on virtual brain models*. bioRxiv. [DOI](https://doi.org/10.1101/2025.01.21.633922)
+10. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI), a flexible and integrative toolkit for efficient probabilistic inference on whole-brain models*. eLife. [DOI](https://doi.org/10.7554/eLife.106194)

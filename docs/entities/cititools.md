@@ -14,7 +14,7 @@ tags:
 - brain-atlases
 title: CITItools
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 CITItools (ciftiTools) is an R package for reading, writing, visualizing, and manipulating CIFTI ([[connectivity]] Informatics Technology Initiative) format files in [[neuroimaging]] workflows. The package provides a unified environment for working with grayordinate-based brain imaging data, combining cortical surface vertices with subcortical voxel data in a single file format pioneered by the [[human-connectome-project]]. Originally developed by Amanda Mejia, Damon Pham, and John Muschelli, ciftiTools is available on CRAN and has become a standard tool for R-based neuroimaging analysis pipelines [1][2].
@@ -37,7 +37,7 @@ For [[parcellation]] workflows, ciftiTools provides built-in support for the Sch
 
 ciftiTools serves a complementary role in the [[tvb]] ecosystem by enabling preprocessing and analysis of HCP-style datasets that may be used as empirical priors or validation targets for [[whole-brain]] simulations. Researchers can use ciftiTools to extract connectivity matrices from empirical CIFTI data, which can then serve as structural connectome inputs for TVB simulations. Conversely, simulated [[bold-signal|BOLD]] signals from TVB can be visualized and compared with empirical data using ciftiTools.
 
-The package integrates with the broader neuroimaging ecosystem: it depends on [[connectome-workbench]] for computationally intensive operations, uses [[gift]] format for surface geometry, and complements Python tools such as [[nilearn]] and [[pycortex]]. Unlike the cifti R package which supports all CIFTI intents but offers limited functionality, ciftiTools provides a user-friendly interface specifically optimized for dscalar, dtseries, and dlabel intents common in fMRI analysis.
+The package integrates with the broader neuroimaging ecosystem: it depends on [[connectome-workbench]] for computationally intensive operations, uses [[gift]] format for surface geometry, and complements Python tools such as Nilearn and Pycortex. Unlike the cifti R package which supports all CIFTI intents but offers limited functionality, ciftiTools provides a user-friendly interface specifically optimized for dscalar, dtseries, and dlabel intents common in fMRI analysis.
 
 ## Key Packages Summary
 
@@ -51,3 +51,9 @@ The package integrates with the broader neuroimaging ecosystem: it depends on [[
 ## Key Papers
 
 1. Pham, D. D., Muschelli, J., & Mejia, A. F. (2022). ciftiTools: A package for reading, writing, visualizing, and manipulating CIFTI files in R. NeuroImage, 250, 118877.
+
+## References
+
+1. R. A. Benn, Ting Xu, R. Mars, Magdalena Boch, Léa Roumazeilles, K. Heuer, Roberto Toro, D. Margulies, J. Manzano-Patrón, Paula Montesinos, C. Galán-Arriola, G. López-Martín, J. Sanchez-González, E. P. Duff, Borja Ibáñez. (2025). *Precon_all: A species-agnostic automated pipeline for non-human cortical surface reconstruction*. bioRxiv. [DOI](https://doi.org/10.1101/2025.04.16.649072)
+2. Woodman et al. (2014). *[[graphvar]]: A user-friendly toolbox for comprehensive graph analyses of functional brain connectivity*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2014.07.015)
+3. (authors unknown). *[[braph]]: A Pipeline for Brain Connectivity Analysis*.

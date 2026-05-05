@@ -2,6 +2,8 @@
 created: 2024-01-15
 sources:
 - raw/papers/rubinov-sporns-2010.md
+- raw/papers/bullmore-sporns-2009.md
+- raw/papers/semanticscholar-028f7c6ac41d.md
 tags:
 - neuroimaging-fmri
 - neuroimaging-meg
@@ -13,7 +15,7 @@ tags:
 - acquisition-parameters
 title: Field of View
 type: concept
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 # Field of View
@@ -62,3 +64,9 @@ The field of view parameter touches multiple aspects of neuroimaging and computa
 - Jeurissen, B., et al. (2019). Diffusion MRI fiber tracking: A overview and recent developments. *NeuroImage*, 186, 341-349.
 - Saenger, R., et al. (2022). Impact of incomplete brain coverage on connectome reconstruction. *Human Brain Mapping*, 43(8), 2647-2661.
 - The [[human-connectome-project]]. (2013). Toward connectomic disease. *[[neuron]]*, 79(4), 668-681.
+
+## References
+
+1. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
+2. (authors unknown). *Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems*.
+3. Shengjie Qi, Xinda Song, Le Jia, Hongyu Cui, Yuchen Suo, Teng Long, Zhendong Wu, Xiaolin Ning. (2025). *The impact of channel density, inverse solutions, connectivity metrics and calibration errors on OPM-MEG connectivity analysis: A simulation study*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2025.121056)

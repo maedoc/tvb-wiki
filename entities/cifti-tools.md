@@ -37,8 +37,8 @@ The CIFTI format supports several critical features for connectivity analysis. *
 
 ## Key Papers
 
-- Glasser, M. F., et al. (2013). The minimal preprocessing pipelines for the Human Connectome Project. *NeuroImage*, 80, 105-124. [[https://doi.org/10.1016/j.neuroimage.2013.04.127]]
-- Marcus, D., et al. (2011). Informatics and data mining tools and strategies for the Human Connectome Project. *Frontiers in Neuroinformatics*, 5, 4. [[https://doi.org/10.3389/fninf.2011.00004]]
+- Glasser, M. F., et al. (2013). The minimal preprocessing pipelines for the Human Connectome Project. *NeuroImage*, 80, 105-124. https://doi.org/10.1016/j.neuroimage.2013.04.127
+- Marcus, D., et al. (2011). Informatics and data mining tools and strategies for the Human Connectome Project. *Frontiers in Neuroinformatics*, 5, 4. https://doi.org/10.3389/fninf.2011.00004
 
 ## Relationship to TVB
 

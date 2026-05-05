@@ -14,7 +14,7 @@ tags:
 - whole-brain-modeling
 title: Larter-Breakspear Model
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 # Larter-Breakspear Model
@@ -92,3 +92,11 @@ Contemporary work extends the Larter-Breakspear framework in several directions.
 - [[oscillator]] — Rhythmic neural activity and its mechanisms
 - [[structural-connectivity]] — Anatomical [[white-matter]] [[connectivity]]
 - [[the-virtual-epileptic-brain]] — Clinical simulation platform
+
+## References
+
+1. Michael Breakspear, John A. Roberts, John R. Terry, Stefano Rodrigues, Nader Mahmud, Philip Robinson. *Large-scale [[brain-dynamics]] of seizures: asymptotic analysis of a [[neural-field-theory|neural field]] model*. Journal of [[computational-neuroscience]]. [DOI](https://doi.org/10.1007/s10827-006-8135-2)
+2. Wendling F., Bartolomei F., Bellanger J.J., Chauvel P. *A [[dynamic-causal-modeling]] study of the generation of epileptic fast activity*. NeuroImage. [DOI](https://doi.org/10.1006/nimg.2002.1234)
+3. Potjans & Diesmann (2014). *The cell-type specific cortical microcircuit: relating structure and activity*. Cerebral Cortex. [DOI](https://doi.org/10.1093/cercor/bhs358)
+4. Valerio Barabino, F. Callegari, Sérgio Martinoia, P. Massobrio. (2026). *Hierarchical afferent connectivity drives population-wide bursting dynamics in a computational model of human-derived excitatory neuronal networks*. Journal of Neuroscience. [DOI](https://doi.org/10.1523/jneurosci.0912-25.2026)
+5. P.Yu. Kondrakhin, F.A. Kolpakov. (2026). *Modular Model of Neuronal Activity That Captures the Dynamics of Main Molecular Targets of Antiepileptic Drugs*. International Journal of Molecular Sciences. [DOI](https://doi.org/10.3390/ijms27010490)

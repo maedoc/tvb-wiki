@@ -9,14 +9,14 @@ tags:
 - software-brain-modeling
 title: pyedflib
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 ## Motivation and Context
 
 The EDF format emerged in the early 1990s as a standardized file format for storing biomedical signals, motivated by the need for a vendor-neutral, platform-independent method of exchanging neurophysiological data [[eeglab]]. Prior to standardized formats like EDF, different manufacturers used proprietary formats, making data sharing and analysis across institutions cumbersome. EDF addressed this by defining a simple binary structure that could store multi-channel signals with associated metadata (channel labels, sampling rate, physical dimensions, and start time). The EDF+ specification, introduced in the early 2000s, extended the format to support annotations and discontinuous recordings.
 
-pyedflib was created to bridge the gap between this established format and the growing Python-based neuroscience ecosystem. While tools like [[fieldtrip]] and [[eeglab]] (in MATLAB) had robust EDF support, Python users lacked a dedicated, well-maintained library until pyedflib's development. The library is particularly valuable in the context of [[whole-brain-modeling]] and computational neuroscience because EEG data often serves as one of the key input modalities for [[dynamic-causal-modeling]] and [[neural-mass-model]] calibration. Researchers using [[the-virtual-brain]] or similar [[whole-brain-simulators]] frequently need to import empirical EEG recordings to constrain model parameters or validate simulated dynamics against observed brain activity.
+pyedflib was created to bridge the gap between this established format and the growing Python-based neuroscience ecosystem. While tools like Fieldtrip and [[eeglab]] (in MATLAB) had robust EDF support, Python users lacked a dedicated, well-maintained library until pyedflib's development. The library is particularly valuable in the context of [[whole-brain-modeling]] and computational neuroscience because EEG data often serves as one of the key input modalities for [[dynamic-causal-modeling]] and [[neural-mass-model]] calibration. Researchers using [[the-virtual-brain]] or similar [[whole-brain-simulators]] frequently need to import empirical EEG recordings to constrain model parameters or validate simulated dynamics against observed brain activity.
 
 ## Technical Implementation
 
@@ -24,7 +24,7 @@ pyedflib is built as a Python binding to libedflib, a C library that handles the
 
 Key functionalities include reading entire files into memory, writing numpy arrays to EDF format, extracting and modifying header information (channel labels, sampling frequencies, physical units), and handling annotations stored in EDF+ files. The library handles the conversion between EDF's 16-bit integer storage and floating-point representations, allowing users to work with data in their preferred numerical format while maintaining precision during file I/O operations.
 
-The relationship between pyedflib and other Python libraries for neurophysiological data reflects the broader diversification of the Python neuroscience ecosystem. Unlike [[neo]]—which provides a unified interface for multiple formats and is designed for complex data management workflows—pyedflib focuses specifically on EDF format handling with a straightforward API. Similarly, [[mne-python]] offers comprehensive EEG/MEG processing capabilities and includes its own native EDF reader (`mne.io.edf`) for importing EDF files, making pyedflib a complementary option in many analysis pipelines.
+The relationship between pyedflib and other Python libraries for neurophysiological data reflects the broader diversification of the Python neuroscience ecosystem. Unlike [[neo]]—which provides a unified interface for multiple formats and is designed for complex data management workflows—pyedflib focuses specifically on EDF format handling with a straightforward API. Similarly, Mne Python offers comprehensive EEG/MEG processing capabilities and includes its own native EDF reader (`mne.io.edf`) for importing EDF files, making pyedflib a complementary option in many analysis pipelines.
 
 ## Relationship to The Virtual Brain
 
@@ -41,8 +41,8 @@ The integration between pyedflib and TVB is typically indirect—users convert E
 pyedflib exists within a broader ecosystem of format converters and neurophysiological data handling tools:
 
 - [[eeglab]]: MATLAB-based comprehensive EEG processing environment with EDF support
-- [[fieldtrip]]: MATLAB toolbox for EEG/MEG analysis with robust EDF functionality
-- [[mne-python]]: Python library for EEG/MEG processing with its own EDF reader
+- Fieldtrip: MATLAB toolbox for EEG/MEG analysis with robust EDF functionality
+- Mne Python: Python library for EEG/MEG processing with its own EDF reader
 - [[neo]]: Python library providing a unified interface for multiple neurophysiology formats
 - [[neurodata-without-borders]]: Standard format for neurophysiology data (NWB)
 - [[physionet]]: Repository of physiological recordings, many available in EDF format
@@ -52,9 +52,16 @@ pyedflib exists within a broader ecosystem of format converters and neurophysiol
 
 pyedflib distinguishes itself through several design choices: minimal dependencies (only numpy), pure Python API wrapping efficient C code, support for both reading and writing operations, handling of EDF+ annotations, and compatibility with both Python 2 and Python 3 (via the six library). The library is actively maintained and has been integrated into various downstream projects, including EEG preprocessing pipelines and clinical archiving systems.
 
-While pyedflib is relatively specialized compared to comprehensive analysis packages like [[mne-python]], its focused scope provides reliability and simplicity for users whose primary need is EDF format conversion or extraction. For researchers working with legacy EEG datasets stored in EDF format or collaborating with clinical partners using EDF-compatible systems, pyedflib remains the tool of choice for Python-based workflows.
+While pyedflib is relatively specialized compared to comprehensive analysis packages like Mne Python, its focused scope provides reliability and simplicity for users whose primary need is EDF format conversion or extraction. For researchers working with legacy EEG datasets stored in EDF format or collaborating with clinical partners using EDF-compatible systems, pyedflib remains the tool of choice for Python-based workflows.
 
 ## Key Papers
 
 - Kemp, B., Olivan, J. S., & Rietveld, W. J. (2003). EDF+ Annotation: Adding temporal markers to European Data Format recordings. *Clinical Neurophysiology*. [[ica]]
 - Bein, B. (2018). pyedflib. *Journal of Open Source Software*. [[hybrid-architecture]]
+
+## References
+
+1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Rohith Alikkal, Venkat Harshith Akula, B. Shankar, Midhun Krishna, Sandeep Bodda, S. Krishna, Shyam Diwakar. (2025). *Implementing and Deploying a Student Friendly GUI-based Platfrom for EEG signal processing*. International Conference on Robotics and Mechatronics. [DOI](https://doi.org/10.1109/ICRM66809.2025.11349102)
+3. D. Y. Lodema, Herman J van Dellen, W. de Haan, Margot van Hest, A. Hillebrand, E. van Dellen. (2026). *EEG-Pype: An accessible MNE-Python pipeline with graphical user interface for preprocessing and analysis of [[resting-state]] electroencephalography data.*. PLoS Computational Biology. [DOI](https://doi.org/10.1371/journal.pcbi.1014043)
+4. B. Bein (2018). *pyedflib: Python library for reading and writing EDF/BDF files*. Journal of Open Source Software. [DOI](https://doi.org/10.21105/joss.00899)

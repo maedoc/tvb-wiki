@@ -15,7 +15,7 @@ tags:
 - spikeinterface
 title: NeuroConv
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 # NeuroConv
@@ -46,10 +46,16 @@ The use case is particularly relevant for [[epilepsy-modeling]] studies, where i
 
 ## Related Software
 
-NeuroConv operates within a broader ecosystem of neuroscience data conversion and standardization tools. Key related packages include [[neurodata-without-borders]] (the target format standard), [[spikeinterface]] (which shares reader infrastructure), Neo (an alternative Python library for electrophysiology data I/O), NIX (a format specification for scientific data), and the [[ebrains]] data platform [2]. For researchers working with multimodal datasets, the library can be used alongside [[mne-python]] for signal processing or pybids for organizing derivative outputs in BIDS-compliant directory structures. Additionally, NeuroConv complements preprocessing pipelines such as SpikeGLX and Open Ephys that produce the input data it converts.
+NeuroConv operates within a broader ecosystem of neuroscience data conversion and standardization tools. Key related packages include [[neurodata-without-borders]] (the target format standard), [[spikeinterface]] (which shares reader infrastructure), Neo (an alternative Python library for electrophysiology data I/O), NIX (a format specification for scientific data), and the [[ebrains]] data platform [2]. For researchers working with multimodal datasets, the library can be used alongside Mne Python for signal processing or pybids for organizing derivative outputs in BIDS-compliant directory structures. Additionally, NeuroConv complements preprocessing pipelines such as SpikeGLX and Open Ephys that produce the input data it converts.
 
 ## Technical Considerations
 
 The primary technical challenge addressed by NeuroConv involves preserving the semantic fidelity of data during format translation. Proprietary formats often encode information in ways that are not directly mappable to NWB schemas—for example, electrode arrays may be described in manufacturer-specific coordinate systems, or stimulus events may be embedded in custom event codes. NeuroConv's architecture handles these complexities through hierarchical converters that can inject user-provided metadata or infer missing values based on standard conventions.
 
-Users should be aware that while NeuroConv handles most common scenarios automatically, highly customized recording setups may require manual specification of additional metadata fields to achieve full compliance with NWB specifications. Performance considerations are also important: very large recordings (tens of gigabytes) may require significant processing time and disk space during conversion, though NeuroConv's chunked reading approach mitigates memory constraints. For cloud deployment scenarios, the library supports writing directly to remote storage backends compatible with the DANDI Archive [6], enabling scalable data management for multi-laboratory consortium projects.
+Users should be aware that while NeuroConv handles most common scenarios automatically, highly customized recording setups may require manual specification of additional metadata fields to achieve full compliance with NWB specifications. Performance considerations are also important: very large recordings (tens of gigabytes) may require significant processing time and disk space during conversion, though NeuroConv's chunked reading approach mitigates memory constraints. For cloud deployment scenarios, the library supports writing directly to remote storage backends compatible with the [[dandi]] Archive [6], enabling scalable data management for multi-laboratory consortium projects.
+
+## References
+
+1. B. Bein (2018). *[[pyedflib]]: Python library for reading and writing EDF/BDF files*. Journal of Open Source Software. [DOI](https://doi.org/10.21105/joss.00899)
+2. Leon Martin, Konstantin Bülau, Marius Pille, Rico Schmitt, Christoph Hüttl, J. Meier, Halgurd Taher, Dionysios Perdikis, M. Schirner, L. Stefanovski, [[petra-ritter]]. (2025). *[[tvb|The Virtual Brain]] Ontology: A Digital Knowledge Framework for Reproducible [[brain-network]] Modeling*. bioRxiv. [DOI](https://doi.org/10.1101/2025.11.19.689211)
+3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)

@@ -1,7 +1,7 @@
 ---
 title: Neurosift
 created: 2026-05-04
-updated: 2026-05-04
+updated: 2026-05-05
 type: entity
 tags: [software-visualization, dandi, openneuro, neuroimaging, visualization-tools]
 sources: [raw/papers/joss-06590.md, raw/papers/github-flatiron-neurosift.md]

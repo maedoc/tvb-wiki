@@ -15,16 +15,16 @@ tags:
 - epilepsy-modeling
 title: Wilson-Cowan Model
 type: concept
-updated: '2026-04-30'
+updated: '2026-05-05'
 ---
 
-The Wilson-Cowan model is the canonical firing-rate model of coupled excitatory and inhibitory neural populations. Introduced by [[hugh-wilson]] and Jack Cowan in 1972, it provides the mathematical foundation for most subsequent neural mass modeling, including implementations in [[the-virtual-brain]] (TVB) and [[dynamic-causal-modeling]] (DCM). The model describes the mean firing rates of excitatory and inhibitory populations through coupled nonlinear differential equations, capturing fundamental dynamical phenomena such as oscillations, bistability, and pattern formation that are observed in real brain tissue.
+The Wilson-Cowan model is the canonical firing-rate model of coupled excitatory and inhibitory neural populations. Introduced by Hugh Wilson and Jack Cowan in 1972, it provides the mathematical foundation for most subsequent neural mass modeling, including implementations in [[the-virtual-brain]] (TVB) and [[dynamic-causal-modeling]] (DCM). The model describes the mean firing rates of excitatory and inhibitory populations through coupled nonlinear differential equations, capturing fundamental dynamical phenomena such as oscillations, bistability, and pattern formation that are observed in real brain tissue.
 
 ## Historical Context and Motivation
 
 Prior to Wilson and Cowan's work, early efforts to model neural populations relied on crude approximations that could not capture the rich dynamics observed in actual brain recordings. The key innovation was the recognition that the collective behavior of large neural populations could be described by deterministic equations governing mean firing rates, provided that the underlying microscopic dynamics satisfied certain averaging assumptions. Their 1972 paper synthesized earlier work by Beurle (1956) on population activity with the emerging theory of nonlinear dynamical systems, creating a framework that could be analyzed mathematically while remaining biologically grounded.
 
-The 1973 extension added spatial structure through integral equations with spatially extended connectivity kernels, founding what is now known as [[neural-mass-model|neural field]] theory. This spatial extension proved essential for understanding cortical phenomena like waves of activity, standing patterns, and the geometric hallucinations described by [[walter-freeman|Walter Freeman]] and later formalized with [[jack-cowan|Cowan]]'s collaborator Bard Ermentrout. The model thus occupies a central position in theoretical neuroscience as the bridge between single-neuron biophysics and macroscopic brain dynamics observed in neuroimaging.
+The 1973 extension added spatial structure through integral equations with spatially extended connectivity kernels, founding what is now known as [[neural-mass-model|neural field]] theory. This spatial extension proved essential for understanding cortical phenomena like waves of activity, standing patterns, and the geometric hallucinations described by Walter Freeman and later formalized with Cowan's collaborator Bard Ermentrout. The model thus occupies a central position in theoretical neuroscience as the bridge between single-neuron biophysics and macroscopic brain dynamics observed in neuroimaging.
 
 ## Mathematical Formulation
 
@@ -56,7 +56,7 @@ The kernels w_ij(r-r') typically take the form of a Mexican-hat function: excita
 
 ### Fixed Points and Stability
 
-Setting the time derivatives to zero yields steady-state solutions. The nullclines—curves in the E-I phase plane where dE/dt = 0 or dI/dt = 0—can intersect in one to three points depending on parameters. This structure enables three qualitatively distinct dynamical regimes: monostability with a single stable fixed point (typical of [[resting-state]]), bistability with two stable fixed points separated by an unstable saddle (enabling switch-like transitions), and excitability with three fixed points where the system can respond transiently to inputs before returning to rest.
+Setting the time derivatives to zero yields steady-state solutions. The nullclines—curves in the E-I phase plane where dE/dt = 0 or dI/dt = 0—can intersect in one to three points depending on parameters. This structure enables three qualitatively distinct dynamical regimes: monostability with a single stable fixed point (typical of [[resting-state]]), bistability with two stable fixed points separated by an unstable saddle (enabling switch-like transitions), and excitability with three fixed points where the system can respond transiently to inputs before returning to [[rest]].
 
 Linear stability analysis around fixed points uses the Jacobian matrix, with eigenvalues determining whether perturbations decay exponentially (stable node), spiral inward (stable focus), grow exponentially (unstable node), or generate oscillations (pair of complex eigenvalues with positive real part). Near bifurcation points, the system exhibits critical slowing down—a universal signature that can in principle be detected from [[neuroimaging]] data to identify approaching state transitions.
 
@@ -98,3 +98,11 @@ Despite these limitations, the Wilson-Cowan model remains the foundational frame
 - [[whole-brain-modeling]] – [[connectome]]-scale implementations
 - [[tvb|The Virtual Brain]] – Software implementation
 - [[oscillator]] – Neural dynamics phenomena
+
+## References
+
+1. Hugh R. Wilson, Jack D. Cowan. *Excitatory and inhibitory interactions in localized populations of model neurons*. Biophysical Journal. [DOI](https://doi.org/10.1016/S0006-3495(72)86068-5)
+2. Ronja Strömsdörfer, Klaus Obermayer. *Spike-frequency and h-current based adaptation are dynamically equivalent in a Wilson-Cowan field model*. [Link](https://arxiv.org/abs/2510.08436)
+3. Jeremy B. Goetz, Naruepon Weerawongphrom, Rashid V. Williams-García, John M. Beggs, Gerardo Ortiz. (2025). *A Minimal Network of Brain Dynamics: Hierarchy of Approximations to Quasi-critical [[neural-network]] Dynamics*. [Link](https://arxiv.org/abs/2512.22093)
+4. Cyprien Tamekue, ShiNung Ching. *Control of neural field equations with step-function inputs*. [Link](https://arxiv.org/abs/2510.22022)
+5. Valerio Barabino, F. Callegari, Sérgio Martinoia, P. Massobrio. (2026). *Hierarchical afferent connectivity drives population-wide bursting dynamics in a computational model of human-derived excitatory neuronal networks*. Journal of Neuroscience. [DOI](https://doi.org/10.1523/jneurosci.0912-25.2026)

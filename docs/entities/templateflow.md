@@ -15,14 +15,14 @@ tags:
 - database-neuroimaging
 title: TemplateFlow
 type: software
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 # TemplateFlow
 
 ## Overview
 
-TemplateFlow is a Python-based library and repository that provides standardized [[neuroimaging]] templates, [[brain-parcellations]] (atlases), and associated metadata for neuroscientific research. It serves as a centralized, versioned resource for accessing and working with neuroimaging templates in a consistent manner, particularly within the Python neuroimaging ecosystem. The library facilitates reproducible neuroimaging workflows by ensuring that researchers can precisely specify which template version and resolution they are using, eliminating the ambiguity that historically plagued template-based analyses. TemplateFlow is designed to integrate seamlessly with popular neuroimaging Python packages such as [[nilearn]] and [[pybids]], making it an essential component of modern connectome-based analysis pipelines.
+TemplateFlow is a Python-based library and repository that provides standardized [[neuroimaging]] templates, [[brain-parcellations]] (atlases), and associated metadata for neuroscientific research. It serves as a centralized, versioned resource for accessing and working with neuroimaging templates in a consistent manner, particularly within the Python neuroimaging ecosystem. The library facilitates reproducible neuroimaging workflows by ensuring that researchers can precisely specify which template version and resolution they are using, eliminating the ambiguity that historically plagued template-based analyses. TemplateFlow is designed to integrate seamlessly with popular neuroimaging Python packages such as Nilearn and [[pybids]], making it an essential component of modern connectome-based analysis pipelines.
 
 ## Motivation and Context
 
@@ -36,7 +36,7 @@ TemplateFlow is organized around the concept of a "template" – a volumetric im
 
 One of TemplateFlow's most important contributions is its handling of template spaces and resolutions. The library distinguishes between template spaces (such as MNI152, MNI152NLin6Asym, or the original native acquisition space) and resolution specifications (typically 1mm, 2mm, or other isotropic voxel sizes). Researchers can request exactly the template configuration they need without manually downloading files from multiple sources or managing directory structures. The library also provides template metadata including publication references, version histories, and licensing information, enabling proper attribution and compliance with open-science requirements.
 
-TemplateFlow integrates closely with [[nilearn]] and [[pybids]], two foundational libraries in the Python neuroimaging ecosystem. Through this integration, researchers can load template images directly into memory for use in mass-univariate analyses, searchlight analyses, or [[whole-brain|whole-brain modeling]] work. The library supports both volume-based (voxel-wise) and surface-based analyses, accommodating the full range of modern neuroimaging methodologies.
+TemplateFlow integrates closely with Nilearn and [[pybids]], two foundational libraries in the Python neuroimaging ecosystem. Through this integration, researchers can load template images directly into memory for use in mass-univariate analyses, searchlight analyses, or [[whole-brain|whole-brain modeling]] work. The library supports both volume-based (voxel-wise) and surface-based analyses, accommodating the full range of modern neuroimaging methodologies.
 
 ## Relationship to TVB
 
@@ -50,6 +50,14 @@ While TemplateFlow is not itself a whole-brain simulator, it provides essential 
 
 ## Related Software
 
-TemplateFlow exists within a broader ecosystem of neuroimaging software tools. It complements [[nilearn]] for statistical learning approaches to neuroimaging data, [[freesurfer]] for cortical reconstruction and parcellation, [[fsl]] for general-purpose neuroimaging analysis, and [[spm]] (Statistical Parametric Mapping) for classical model-based fMRI analysis. The library also relates to atlases and parcellation resources such as the [[brainnetome-atlas]], the [[glasser-atlas]], the [[brainsuite]] suite of tools, and the [[brainvisa]] platform. For researchers interested in visualization, TemplateFlow templates can be rendered using tools like [[brainnet-viewer]] or [[connectome-workbench]]. The library also interfaces with preprocessing pipelines like [[fmriprep]] and quality control tools like [[mriqc]], which produce outputs in standardized template spaces maintained within the TemplateFlow repository.
+TemplateFlow exists within a broader ecosystem of neuroimaging software tools. It complements Nilearn for statistical learning approaches to neuroimaging data, Freesurfer for cortical reconstruction and parcellation, Fsl for general-purpose neuroimaging analysis, and Spm (Statistical Parametric Mapping) for classical model-based fMRI analysis. The library also relates to atlases and parcellation resources such as the [[brainnetome-atlas]], the [[glasser-atlas]], the Brainsuite suite of tools, and the [[brainvisa]] platform. For researchers interested in visualization, TemplateFlow templates can be rendered using tools like [[brainnet-viewer]] or [[connectome-workbench]]. The library also interfaces with preprocessing pipelines like [[fmriprep]] and quality control tools like [[mriqc]], which produce outputs in standardized template spaces maintained within the TemplateFlow repository.
 
 ---
+
+## References
+
+1. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2018.05.040)
+2. R. A. Benn, Ting Xu, R. Mars, Magdalena Boch, Léa Roumazeilles, K. Heuer, Roberto Toro, D. Margulies, J. Manzano-Patrón, Paula Montesinos, C. Galán-Arriola, G. López-Martín, J. Sanchez-González, E. P. Duff, Borja Ibáñez. (2025). *Precon_all: A species-agnostic automated pipeline for non-human cortical surface reconstruction*. bioRxiv. [DOI](https://doi.org/10.1101/2025.04.16.649072)
+3. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+4. (authors unknown). *[[braph]]: A Pipeline for Brain [[connectivity]] Analysis*.
+5. B. Bein (2018). *[[pyedflib]]: Python library for reading and writing EDF/BDF files*. Journal of Open Source Software. [DOI](https://doi.org/10.21105/joss.00899)

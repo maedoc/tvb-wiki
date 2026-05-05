@@ -13,7 +13,7 @@ tags:
 - software-visualization
 title: TRC Toolkit
 type: entity
-updated: '2026-05-02'
+updated: '2026-05-04'
 ---
 
 # TRC Toolkit
@@ -28,7 +28,7 @@ The TRC Toolkit offers several core capabilities that distinguish it from other 
 
 Second, the toolkit provides robust methods for deconvolution of fMRI [[bold-signal|BOLD]] signals to estimate underlying neural activity, implementing algorithms such as Wiener filtering, Bayesian temporal deconvolution, and adaptive kernel regression. This functionality is particularly valuable for researchers working with [[resting-state]] data who need to characterize intrinsic fluctuations versus stimulus-evoked responses.
 
-Third, the TRC Toolkit includes specialized visualization tools for displaying temporal response properties across cortical regions, with integration hooks for popular neuroimaging packages including [[nilearn]], [[mne-python]], and [[fieldtrip]]. The visualization module supports display of response latencies, amplitudes, and dispersion parameters as cortical maps or region-of-interest time series.
+Third, the TRC Toolkit includes specialized visualization tools for displaying temporal response properties across cortical regions, with integration hooks for popular neuroimaging packages including Nilearn, Mne Python, and Fieldtrip. The visualization module supports display of response latencies, amplitudes, and dispersion parameters as cortical maps or region-of-interest time series.
 
 ## Relationship to TVB
 
@@ -48,6 +48,12 @@ For EEG and MEG data, the toolkit provides equivalent functionality for characte
 
 ## Related Software
 
-The TRC Toolkit complements several established packages in the neuroimaging ecosystem. Unlike general-purpose analysis tools such as [[spm]] or [[fsl]], the TRC Toolkit focuses specifically on temporal response characterization with direct applications to computational modeling. It extends the functionality of [[eeglab]] for ERP analysis by adding Bayesian deconvolution methods, and provides alternative implementations to the temporal response function estimation in [[brainiak]].
+The TRC Toolkit complements several established packages in the neuroimaging ecosystem. Unlike general-purpose analysis tools such as Spm or Fsl, the TRC Toolkit focuses specifically on temporal response characterization with direct applications to computational modeling. It extends the functionality of [[eeglab]] for ERP analysis by adding Bayesian deconvolution methods, and provides alternative implementations to the temporal response function estimation in Brainiak.
 
-For whole-brain modeling workflows, the toolkit integrates with [[connectome-workbench]] for visualization and with [[dipy]] for preprocessing of [[diffusion-imaging]] data when [[structural-connectivity]] estimates are needed alongside temporal response parameters.
+For whole-brain modeling workflows, the toolkit integrates with [[connectome-workbench]] for visualization and with Dipy for preprocessing of [[diffusion-imaging]] data when [[structural-connectivity]] estimates are needed alongside temporal response parameters.
+
+## References
+
+1. Xiaobo Liu. (2026). *MLE-Toolbox: An Open-Source Toolbox for Comprehensive EEG and MEG Data Analysis*. [Link](https://www.semanticscholar.org/paper/e7aaa4f4bb01e70064493684b4500a950f83460f)
+2. Woodman et al. (2014). *[[graphvar]]: A user-friendly toolbox for comprehensive graph analyses of functional brain [[connectivity]]*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2014.07.015)
+3. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)

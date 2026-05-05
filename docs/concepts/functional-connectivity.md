@@ -20,12 +20,12 @@ tags:
 - neuroimaging-meg
 title: Functional Connectivity
 type: concept
-updated: '2026-04-27'
+updated: '2026-05-05'
 ---
 
 # Functional Connectivity
 
-Functional connectivity refers to statistical dependencies between neurophysiological signals measured from different brain regions, revealing communication and coordination between areas.
+Functional [[connectivity]] refers to statistical dependencies between neurophysiological signals measured from different brain regions, revealing communication and coordination between areas.
 
 ## Definition
 
@@ -46,8 +46,8 @@ Unlike [[structural-connectivity]] (anatomical connections), functional connecti
 
 ## Resting-State Networks
 
-Functional connectivity at rest reveals intrinsic-connectivity-networks including:
-- [[default-mode-network]]
+Functional connectivity at [[rest]] reveals intrinsic-connectivity-networks including:
+- [[default-mode-network]] Nancy Andrews Hanna
 - Sensorimotor network
 - Visual network
 - Attention networks
@@ -101,3 +101,41 @@ Functional connectivity can exist without direct structural connections due to:
 - Dynamic synchronization
 
 See honey-2009 for empirical evidence of the SC-FC relationship.
+
+## ORPHAN PAGE CONTEXT (nancy-andrews-hanna)
+---
+created: 2026-04-20
+sources:
+- raw/papers/damoiseaux-2008.md
+- raw/papers/buckner-andrews-hanna-schacter-2008.md
+- raw/papers/andrews-hanna-2010.md
+- raw/papers/grady-2012.md
+- raw/papers/fjell-walhovd-2010.md
+- raw/papers/arxiv-2602.18715.md
+tags:
+- people-researcher
+- default-mode-network
+- [[aging-brain]]
+- [[neuroimaging]]-fmri
+title: Nancy Andrews-Hanna
+type: entity
+updated: '2026-04-29'
+---
+
+# Nancy Andrews-Hanna (Jessica R. Andrews-Hanna)
+
+Cognitive neuroscientist specializing in the default
+
+## References
+
+1. (authors unknown). *Functional connectivity in the motor cortex of resting human brain using echo-planar MRI*.
+2. (authors unknown). *Spontaneous fluctuations in brain activity observed with functional magnetic resonance imaging*.
+3. (authors unknown). *Correspondence of the brain's functional architecture during activation and rest*.
+4. (authors unknown). *Functional Connectivity: The Principal-Component Analysis of Large (PET and fMRI) Data Sets*.
+5. (authors unknown). *Predicting Human Resting-State Functional Connectivity from Structural Connectivity*.
+6. (authors unknown). *Functional Network Organization of the Human Brain*.
+7. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
+8. (authors unknown). *The organization of the human cerebellum estimated by intrinsic functional connectivity*.
+9. Mengyuan Liu, Jing Hu, Zhenzhen Ru, Ruomeng Quan, Xu Zhang, Ning Qiang, Jin Li. (2025). *Exploring the changes in [[brain-network]] SC-FC coupling patterns of partial sleep deprivation based on DTI-fMRI fusion analysis*. [Link](https://arxiv.org/abs/2512.00063)
+10. B. Sarton, Giulia Maria Mattia, Eve Cervoni, Julie Decourt, Patrice Péran, Béatrice Riu, Fanny Bounes, Edouard Naboulsi, P. Barttfeld, Jean-Marc Olivot, Stein Silva, Sylvain Cussat-Blanc. (2026). *Explainable Machine Learning for Coma Outcome Prediction Based on Structural and Functional Brain MRI.*. Critical Care Medicine. [DOI](https://doi.org/10.1097/CCM.0000000000007068)
+11. (authors unknown). *Functional Connectivity in the Resting Brain: A Network Analysis of the Default Mode Hypothesis*.

@@ -8,7 +8,7 @@ tags:
 - software-brain-modeling
 title: DCM
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 # Dynamic Causal Modeling (DCM)
@@ -62,3 +62,9 @@ Several directions are likely to shape the future development of DCM. The integr
 ## Further Reading
 
 For a comprehensive introduction to DCM, see the foundational papers by [[karl-j-fristol]] and colleagues, as well as recent reviews that summarize the current state of the field. The [[SPM]] software package provides a freely available implementation of DCM for fMRI, EEG, and MEG data, along with extensive documentation and tutorials. The [[the-virtual-brain]] platform does not include a native DCM implementation, but DCM‑derived connectivity estimates can be used to parameterize whole‑brain simulations, enabling a synergistic integration of data‑driven inference and mechanistic modeling.
+
+## References
+
+1. (authors unknown). *Dynamic Causal Modelling*.
+2. O. David, K.J. Friston. *Dynamic causal modelling*. NeuroImage. [DOI](https://doi.org/10.1016/S1053-8119(03)00202-7)
+3. Abdoreza Asadpour, Amin Azimi, Kongfatt Wong-Lin. (2025). *Limitations of Variational Laplace-Based Dynamic Causal Modelling for Multistable Cortical Circuits*. bioRxiv. [DOI](https://doi.org/10.1101/2025.03.10.642327)

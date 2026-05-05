@@ -19,7 +19,7 @@ tags:
 - mean-field-theory
 title: Hopfield Network
 type: concept
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 # Hopfield Network
@@ -55,3 +55,16 @@ The Hopfield model stands at the intersection of several traditions in computati
 ## Biological Grounding
 
 Although the Hopfield network is highly abstract, its core mechanisms map onto established neurobiological concepts. The Hebbian learning rule approximates activity-dependent synaptic plasticity, while the attractor dynamics provide a model for persistent activity observed in prefrontal cortex during working-memory tasks. The symmetric weight constraint is the most problematic simplification, since biological synapses are typically asymmetric, but theoretical work has shown that approximate retrieval persists in asymmetric networks if weight correlations remain sufficiently structured. More recent [[whole-brain]] applications have used Hopfield-like attractor dynamics to model stable states of [[functional-connectivity|functional connectivity]] observed in [[resting-state|resting-state fMRI]], treating large-scale [[brain-network]] configurations as attractors of a coupled dynamical system.
+
+## References
+
+1. Yoshiyuki Kabashima, Kazushi Mimura. (2025). *Dynamical mean field approach to associative memory model with non-monotonic transfer functions*. Journal of Statistical Mechanics: Theory and Experiment. [DOI](https://doi.org/10.1088/1742-5468/ae337e)
+2. Simone Betteti, William Retnaraj, Alexander Davydov, Jorge Cortés, Francesco Bullo. *Competition, stability, and functionality in excitatory-inhibitory neural circuits*. [Link](https://arxiv.org/abs/2512.05252)
+3. Irmantas Ratas, Kestutis Pyragas. (2026). *Parameter and hidden-state inference in mean-field models from partial observations of finite-size neural networks*. [Link](https://www.semanticscholar.org/paper/274d3afcf4f54ddb5bd2122157c2ab2a105b41ef)
+4. İhsan Ertuğrul Karakaş, Özden Özel, İlkay Ulusoy, Orhan Murat Koçak. (2026). *Modeling of Self-sustained Neuron Population without External Stimulus*. [Link](https://arxiv.org/abs/2604.13719)
+5. Valerio Barabino, F. Callegari, Sérgio Martinoia, P. Massobrio. (2026). *Hierarchical afferent [[connectivity]] drives population-wide bursting dynamics in a computational model of human-derived excitatory neuronal networks*. Journal of Neuroscience. [DOI](https://doi.org/10.1523/jneurosci.0912-25.2026)
+6. Tirthabir Biswas, Angel Stanoev, S. Romani, James E. Fitzgerald. (2026). *From the fly [[connectome]] to exact ring attractor dynamics*. bioRxiv. [DOI](https://doi.org/10.1101/2024.11.01.621596)
+7. Futa Tomita, Jun-nosuke Teramae. (2025). *Dynamical mean-field theory for a highly heterogeneous neural population with graded persistent activity of the entorhinal cortex*. PLoS Comput. Biol.. [DOI](https://doi.org/10.1371/journal.pcbi.1013484)
+8. Yunman Xia, S. Peng, J. Dukart, C. Xie, Shitong Xiang, S. Petkoski, Zilin Li, Joerg F. Hipp, S. Muthukumaraswamy, A. Forsyth, Tianye Jia, N. Vaidya, T. Lett, Liyi Qian, Xiao Chang, Yuxiang Dai, T. Banaschewski, G. Barker, A. Bokde, R. Brühl, S. Desrivières, Herta Flor, P. Gowland, A. Grigis, Andreas Heinz, H. Lemaître, F. Nees, D. Orfanos, Luise Poustka, M. Smolka, Sarah Hohmann, H. Walter, R. Whelan, Paul Wirsching, Zuo Zhang, Lauren Robinson, J. Winterer, Yuning Zhang, H. Kebir, Ulrike Schmidt, Julia Sinclair, Yuchen Liu, Jiexiang Wang, Fei Dai, Longbin Zeng, Yubo Hou, Huarui Wang, Leijun Ye, Chunhe Li, Qibao Zheng, Andre F Marquand, Changsong Zhou, V. Jirsa, Jianfeng Feng, Wenlian Lu, Gunter Schumann. (2026). *Digital Twin Brain simulation and manipulation of a functional brain network underlying mental illness*. bioRxiv. [DOI](https://doi.org/10.64898/2026.03.06.710030)
+9. Jeremy B. Goetz, Naruepon Weerawongphrom, Rashid V. Williams-García, John M. Beggs, Gerardo Ortiz. (2025). *A Minimal Network of [[brain-dynamics]]: Hierarchy of Approximations to Quasi-critical Neural Network Dynamics*. [Link](https://arxiv.org/abs/2512.22093)
+10. Gianluca Gaglioti, L. Porta, M. Colombo, Simone Russo, Thierry Nieus, G. Deco, M. Corbetta, S. Sarasso, M. V. Sanchez-Vives, M. Massimini. (2026). *Slow wave generation and propagation in a model of brain lesions*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2026.121817)

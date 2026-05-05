@@ -13,7 +13,7 @@ tags:
 - open-source
 title: Kilosort
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 Kilosort is a widely-used open-source spike sorting algorithm designed to automatically detect and cluster neural spikes from high-density extracellular electrophysiology recordings. Originally developed by Marius Pachitariu at the Janelia Research Campus of Howard Hughes Medical Institute, Kilosort has become one of the standard tools in the electrophysiology community for processing data from [[spikeglx]] and [[open-ephys]] recording systems, as well as data converted through [[neo]] and [[spikeinterface]] frameworks (Pachitariu et al., 2016).
@@ -28,7 +28,7 @@ The algorithm operates by first detecting candidate spike events based on amplit
 
 The Kilosort algorithm combines several computational strategies. It uses a whitening transformation to decorrelate noise across channels, improving the signal-to-noise ratio for spike detection. The template matching itself employs a computationally efficient iterative procedure: after an initial pass identifies putative spike events, a subset of the highest-quality events are used to initialize templates via singular value decomposition. Subsequent iterations refine these templates while simultaneously subtracting their contributions from the raw data to isolate additional units.
 
-A distinctive feature of Kilosort compared to earlier spike sorters like those in like those in klusta is its integrated drift correction. Rather than requiring users to run separate preprocessing [[steps]], Kilosort models the position of each template as a smooth function of time, allowing the algorithm to track neurons that gradually move away from their original electrode positions. This is particularly important for data from [[neuromorpho-toolkit]] or silicon-probes, where tissue motion can be substantial.
+A distinctive feature of Kilosort compared to earlier spike sorters like those in like those in klusta is its integrated drift correction. Rather than requiring users to run separate preprocessing Steps, Kilosort models the position of each template as a smooth function of time, allowing the algorithm to track neurons that gradually move away from their original electrode positions. This is particularly important for data from [[neuromorpho-toolkit]] or silicon-probes, where tissue motion can be substantial.
 
 The algorithm outputs a set of "clusters" corresponding to putative single units, along with quality metrics including isolation distance, noise overlap, and false positive rates. These metrics allow researchers to assess the reliability of each sorted unit and make informed decisions about which units to include in downstream analysis.
 
@@ -40,8 +40,15 @@ The spike trains obtained through Kilosort can be used to construct [[neural-mas
 
 ## Key Papers
 
-The original Kilosort paper, "Kilosort: realtime spike-sorting for extracellular electrophysiology with hundreds of channels" (Pachitariu et al., 2016), published in *Nature Methods*, established the method's foundations and demonstrated its ability to sort data from hundreds of recording channels in real time (Pachitariu et al., 2016). A subsequent version, Kilosort 2.0, improved template matching efficiency and drift handling, making it more robust for long-duration recordings (Pachitariu et al., 2018). The algorithm builds on earlier work in spike sorting techniques and incorporates methods from the [[bci2000]] project for signal processing.
+The original Kilosort paper, "Kilosort: realtime spike-sorting for extracellular electrophysiology with hundreds of channels" (Pachitariu et al., 2016), published in *Nature Methods*, established the method's foundations and demonstrated its ability to sort data from hundreds of recording channels in real time (Pachitariu et al., 2016). A subsequent version, Kilosort 2.0, improved template matching efficiency and drift handling, making it more robust for long-duration recordings (Pachitariu et al., 2018). The algorithm builds on earlier work in spike sorting techniques and incorporates methods from the Bci2000 project for signal processing.
 
 ## Related Software
 
-Kilosort is often used alongside [[spikeinterface]], a Python library that provides a unified interface for loading, preprocessing, and analyzing spike-sorted data. For visualization and manual curation, [[phy]] offers a graphical interface compatible with Kilosort outputs (Rossant et al., 2016). Alternative spike sorting tools include klusta, [[MountainSort]], and [[JRClust]], each with different strengths for specific recording configurations. The broader electrophysiology ecosystem includes [[eeglab]] for [[eeg]] analysis, [[mne-python]] for [[meg]] and [[eeg]] processing, and [[elephant]] for spike train analysis within the [[neo]] data standard.
+Kilosort is often used alongside [[spikeinterface]], a Python library that provides a unified interface for loading, preprocessing, and analyzing spike-sorted data. For visualization and manual curation, [[phy]] offers a graphical interface compatible with Kilosort outputs (Rossant et al., 2016). Alternative spike sorting tools include klusta, MountainSort, and JRClust, each with different strengths for specific recording configurations. The broader electrophysiology ecosystem includes [[eeglab]] for [[eeg]] analysis, Mne Python for [[meg]] and [[eeg]] processing, and [[elephant]] for spike train analysis within the [[neo]] data standard.
+
+## References
+
+1. Martin Breyton, Viktor Sip, M. Woodman, Meysam Hashemi, S. Petkoski, V. Jirsa. (2025). *Data-driven [[mean-field-theory|mean-field]] within [[whole-brain]] models*. [Link](https://www.semanticscholar.org/paper/144ae1f1dabec42c14493d0083d36f168508f886)
+2. Peter Yongho Kim, Juhyeon Park, Jungwoo Park, Jubin Choi, Jungwoo Seo, Jiook Cha, Taesup Moon. (2026). *Can Natural Image Autoencoders Compactly Tokenize [[fmri]] Volumes for Long-Range Dynamics Modeling?*. [Link](https://arxiv.org/abs/2604.03619)
+3. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI), a flexible and integrative toolkit for efficient probabilistic inference on whole-brain models*. eLife. [DOI](https://doi.org/10.7554/eLife.106194)
+4. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI): A flexible and integrative toolkit for efficient probabilistic inference on virtual brain models*. bioRxiv. [DOI](https://doi.org/10.1101/2025.01.21.633922)

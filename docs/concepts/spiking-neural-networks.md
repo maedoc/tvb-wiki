@@ -20,7 +20,7 @@ tags:
 - mean-field-theory
 title: Spiking Neural Networks
 type: concept
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 # Spiking Neural Networks
@@ -31,7 +31,7 @@ Spiking neural networks (SNNs) are computational models that simulate the dynami
 
 The development of spiking neural networks emerged from the need to bridge the gap between detailed biophysical models and tractable network simulations. Traditional [[neural-mass-model|neural mass models]] coarse-grain population activity into average firing rates, sacrificing temporal dynamics for computational tractability. However, growing evidence suggests that the precise timing of spikes carriessubstantial information in biological brains—whether through phase coding in hippocampal place cells, coincidence detection in auditory pathways, or the temporal integration of sensory inputs in cortex. Spiking networks address this limitation by maintaining the fundamental unit of neural communication—the action potential—as the core dynamical variable, enabling researchers to investigate how spike timing shapes neural computation and [[network-dynamics]].
 
-The field gained tremendous momentum with the advent of specialized simulation software capable of handling large networks of point neurons. The work of Gewaltig and Diesmann (2007) established [[NEST]] as a cornerstone simulator optimized for massive spiking networks, while [[michael-hines]] and [[ted-carnevale]]'s [[NEURON]] became the standard for detailed multi-compartment simulations. These tools enabled researchers to construct biologically realistic cortical microcircuits (Potjans & Diesmann, 2014) and eventually scale simulations to the order of 10¹¹ synapses—approaching the magnitude of human neocortical connectivity (Jordan et al., 2018).
+The field gained tremendous momentum with the advent of specialized simulation software capable of handling large networks of point neurons. The work of Gewaltig and Diesmann (2007) established [[NEST]] as a cornerstone simulator optimized for massive spiking networks, while Michael Hines and Ted Carnevale's [[NEURON]] became the standard for detailed multi-compartment simulations. These tools enabled researchers to construct biologically realistic cortical microcircuits (Potjans & Diesmann, 2014) and eventually scale simulations to the order of 10¹¹ synapses—approaching the magnitude of human neocortical [[connectivity]] (Jordan et al., 2018).
 
 ## Model Types
 
@@ -61,4 +61,13 @@ Spiking networks and [[neural-mass-model|neural mass models]] occupy complementa
 
 ## Related Concepts
 
-Spiking neural networks connect to numerous other concepts in computational neuroscience. At the network level, [[brain-network]] analysis provides tools for characterizing connectivity patterns and dynamics in large-scale simulations. The [[whole-brain]] modeling paradigm seeks to integrate regional dynamics with structural connectivity derived from diffusion tensor imaging. For researchers comparing simulation approaches, [[tvb-vs-nest-vs-neuron]] provides a detailed comparison of The Virtual Brain, NEST, and NEURON capabilities. Related software ecosystems include [[brian|Brian2]], which offers a flexible Python-based framework for spiking network modeling, and [[pymvpa|PyNN]] for interoperability between simulators.
+Spiking neural networks connect to numerous other concepts in computational neuroscience. At the network level, [[brain-network]] analysis provides tools for characterizing connectivity patterns and dynamics in large-scale simulations. The [[whole-brain]] modeling paradigm seeks to integrate regional dynamics with structural connectivity derived from diffusion tensor imaging. For researchers comparing simulation approaches, [[tvb-vs-nest-vs-neuron]] provides a detailed comparison of The Virtual Brain, NEST, and NEURON capabilities. Related software ecosystems include Brian2, which offers a flexible Python-based framework for spiking network modeling, and [[pymvpa|PyNN]] for interoperability between simulators.
+
+## References
+
+1. Gewaltig & Diesmann (2007). *NEST (NEural Simulation Tool)*. Scholarpedia. [DOI](https://doi.org/10.4249/scholarpedia.1430)
+2. Potjans & Diesmann (2014). *The cell-type specific cortical microcircuit: relating structure and activity*. Cerebral Cortex. [DOI](https://doi.org/10.1093/cercor/bhs358)
+3. Jordan et al. (2018). *Extremely scalable spiking neuronal network simulation code: from laptops to exascale computers*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2018.00002)
+4. Helias et al. (2012). *Supercomputers ready for use as discovery machines for neuroscience*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2012.00026)
+5. Sanz Leon et al. (2013). *[[the-virtual-brain]]: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+6. Martin Breyton, Viktor Sip, M. Woodman, Meysam Hashemi, S. Petkoski, V. Jirsa. (2025). *Data-driven mean-field within whole-brain models*. [Link](https://www.semanticscholar.org/paper/144ae1f1dabec42c14493d0083d36f168508f886)

@@ -19,7 +19,7 @@ tags:
 - variational-bayes
 title: Effective Connectivity
 type: concept
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 ## Overview
@@ -42,7 +42,7 @@ Model-based methods estimate effective connectivity by fitting parametric models
 
 **Structural Equation Modeling (SEM)** offers a simpler, more phenomenological approach, treating brain regions as nodes and effective connections as directed edges in a path model. SEM specifies a set of hypothesized causal relationships and tests how well the model explains the observed covariance structure in the data. While less physiologically grounded than DCM, SEM has been widely used in early connectivity studies and provides a useful bridge between purely statistical and mechanistically motivated approaches.
 
-**Granger Causality** provides a model-free alternative based on temporal precedence. If knowing the past of time series X helps predict the future of time series Y beyond of what is already known from Y's own past, then X is said to Granger-cause Y. This approach has been widely applied to [[eeg]] and [[meg]] data, though its validity as a measure of true causal influence remains debated because Granger causality can detect directed statistical dependencies that may not correspond to direct causal connections.
+**Granger Causality** provides a model-free alternative based on temporal precedence. If knowing the past of time series X helps predict the future of time series Y beyond of what is already known from Y's own past, then X is said to Granger-cause Y. This approach has been widely applied to [[eeg]] and [[meg]] data, though its validity as a measure of true causal influence remains debated because Granger causality can detect directed statistical dependencies that may not correspond to direct causal connections. (see the MVGC toolbox[[mvgc]])
 
 ### Model-Free Approaches
 
@@ -80,3 +80,12 @@ Estimating effective connectivity from observed brain activity remains challengi
 - [[oscillator]] — Rhythmic activity where EC methods are applied
 - [[connectivity-types]] — Overview of connectivity categories
 - [[variational-bayes]] — Inference framework underlying DCM
+
+## References
+
+1. (authors unknown). *Statistical parametric maps in functional imaging: A general linear approach*.
+2. Neda Abdollahpour, N. Sertac Artan, Ian Daly, Mohammadreza Yazdchi, Zahra Baharlouei. (2025). *Effective Connectivity-Based Unsupervised Channel Selection Method for EEG*. [Link](https://arxiv.org/abs/2510.12910)
+3. Peizhen Yang, Xinke Shen, Zongsheng Li, Zixiang Luo, Kexin Lou, Quanying Liu. *Perturbing a [[neural-network]] to Infer Effective Connectivity: Evidence from Synthetic EEG Data*. [Link](https://arxiv.org/abs/2307.09770)
+4. Haiyue Song, Ani Eloyan, Youjin Lee. (2026). *Causal Inference for Unobservable Multivariate Outcomes, with Applications to Brain Effective Connectivity*. [Link](https://arxiv.org/abs/2604.00390)
+5. O. David, K.J. Friston. *Dynamic causal modelling*. NeuroImage. [DOI](https://doi.org/10.1016/S1053-8119(03)00202-7)
+6. Hongjie Jiang, Yifei Tang, Shuqiang Wang. *Neural Dynamics-Informed Pre-trained Framework for [[personalized-brain-modeling|Personalized Brain]] Functional Network Construction*. [Link](https://arxiv.org/abs/2603.07524)

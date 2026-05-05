@@ -14,7 +14,7 @@ tags:
 - open-source
 title: OpenCortex
 type: entity
-updated: '2026-05-03'
+updated: '2026-05-04'
 ---
 
 # OpenCortex
@@ -41,10 +41,16 @@ The primary reference for OpenCortex is a 2019 publication in *Frontiers in Neur
 
 ## Related Software
 
-OpenCortex occupies a niche in the computational neuroscience software ecosystem that bridges several existing tools. Like [[brian2]] and [[nest]], it provides a Python-based environment for spiking neural network simulations, but emphasizes cortical microcircuit architecture. Unlike these general-purpose simulators, OpenCortex includes built-in neural mass implementations similar to those found in [[the-virtual-brain]]. The software complements [[neuroml]]-based workflows for standardized model description and can be compared with other hybrid approaches like [[netpyne]] and [[auryn]] for large-scale neural simulations.
+OpenCortex occupies a niche in the computational neuroscience software ecosystem that bridges several existing tools. Like Brian2 and [[nest]], it provides a Python-based environment for spiking [[neural-network]] simulations, but emphasizes cortical microcircuit architecture. Unlike these general-purpose simulators, OpenCortex includes built-in neural mass implementations similar to those found in [[the-virtual-brain]]. The software complements Neuroml-based workflows for standardized model description and can be compared with other hybrid approaches like Netpyne and Auryn for large-scale neural simulations.
 
 ## Technical Implementation
 
 The software is organized around a hierarchical modeling framework where cortical columns are composed of multiple populations (typically excitatory and inhibitory neurons), each containing many individual neurons or simplified mass representatives. Connectivity between neurons follows Dale's principle (neurons are either excitatory or inhibitory) and can be specified at multiple scales: local recurrent connections, inter-columnar connections, and external inputs. The AdEx neuron model implemented in OpenCortex captures neuronal dynamics through a small number of parameters (typically 8-10) including membrane time constant, adaptation time constant, and spike-triggered adaptation increment, making it amenable to the evolutionary optimization routines built into the platform.
 
 The neural mass implementation follows the [[jansen-rit-model]] formalism, representing populations using mean membrane potentials and variability around these means. This approach captures the collective dynamics of neuronal populations including post-synaptic potentials and includes delay structures that give rise to realistic oscillations in the beta and gamma frequency bands. Researchers can parameterize these models to match empirical findings from [[eeg]] and [[meg]] studies, making OpenCortex useful for translational research connecting microscopic and macroscopic measurements of brain activity.
+
+## References
+
+1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Markram et al. (2015). *Reconstruction and simulation of neocortical microcircuitry*. Cell. [DOI](https://doi.org/10.1016/j.cell.2015.09.029)
+3. Amirreza Movahedin, Lennart P. L. Landsmeer, Christos Strydis. (2025). *HUMA: Heterogeneous, Ultra Low-Latency Model Accelerator for The Virtual Brain on a Versal Adaptive SoC*. Symposium on Field Programmable Gate Arrays. [DOI](https://doi.org/10.1145/3706628.3708875)

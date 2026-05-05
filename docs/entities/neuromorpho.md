@@ -10,7 +10,7 @@ tags:
 - computational-neuroscience
 title: Neuromorpho.Org
 type: entity
-updated: '2026-04-30'
+updated: '2026-05-04'
 ---
 
 # Neuromorpho.Org
@@ -21,7 +21,7 @@ Neuromorpho.Org is a publicly accessible, curated archive of digital reconstruct
 
 ## Key Features
 
-The database distinguishes itself through several important features that make it valuable for computational modeling. First, all morphological reconstructions in Neuromorpho.Org are stored in standardized file formats, primarily SWC and ASC, which are compatible with most major neuronal simulation platforms including [[neuron]], [[brian]], [[brian2]], [[netpyne]], and [[neuroconstruct]] [@state2020bmtk]. Each reconstruction includes detailed morphometric measurements such as total dendritic length, branch order statistics, soma size, and axon length, enabling researchers to select appropriate morphologies for their specific modeling needs.
+The database distinguishes itself through several important features that make it valuable for computational modeling. First, all morphological reconstructions in Neuromorpho.Org are stored in standardized file formats, primarily SWC and ASC, which are compatible with most major neuronal simulation platforms including [[neuron]], Brian, Brian2, Netpyne, and Neuroconstruct [@state2020bmtk]. Each reconstruction includes detailed morphometric measurements such as total dendritic length, branch order statistics, soma size, and axon length, enabling researchers to select appropriate morphologies for their specific modeling needs.
 
 Second, the database maintains rigorous curation standards. Every reconstruction undergoes quality control to ensure proper tree topology, correct identification of soma and dendritic compartments, and appropriate dendritic-axonal polarity. The curation process also standardizes nomenclature using the NeuroNames ontology, ensuring consistency across contributions from different laboratories [@nielsen2008noneuronsource]. This standardization is crucial because raw morphological data from different labs often uses varying conventions, making integration challenging without such curation.
 
@@ -41,9 +41,9 @@ Another important consideration is species scaling. Morphological measurements d
 
 ## Related Software
 
-Neuromorpho.Org integrates with numerous software tools in the computational neuroscience ecosystem. The [[neuron]] simulation environment has built-in import functions for SWC-format morphologies from Neuromorpho. Similarly, [[brian]] and [[brian2]] can directly import these reconstructions for use in detailed single-neuron models. The [[neuroconstruct]] platform provides a graphical interface for managing neuronal simulations with morphologies from the database. For visualization, tools like [[neuron]]'s built-in GUI, [[pycortex]], and [[brainnet-viewer]] can render reconstructed morphologies in three dimensions.
+Neuromorpho.Org integrates with numerous software tools in the computational neuroscience ecosystem. The [[neuron]] simulation environment has built-in import functions for SWC-format morphologies from Neuromorpho. Similarly, Brian and Brian2 can directly import these reconstructions for use in detailed single-neuron models. The Neuroconstruct platform provides a graphical interface for managing neuronal simulations with morphologies from the database. For visualization, tools like [[neuron]]'s built-in GUI, Pycortex, and [[brainnet-viewer]] can render reconstructed morphologies in three dimensions.
 
-Beyond simulation software, Neuromorpho.Org data feeds into analysis tools that quantify neuronal structure. The [[bctpy]] can be extended to analyze topological features of dendritic trees, while specialized tools like [[lfpy]] use detailed morphology to compute local field potentials from network simulations. The database also connects to [[neuroml]] standards, as morphological structure can be encoded in NeuroML format for interoperability across platforms [@gleeson2019sonata].
+Beyond simulation software, Neuromorpho.Org data feeds into analysis tools that quantify neuronal structure. The [[bctpy]] can be extended to analyze topological features of dendritic trees, while specialized tools like [[lfpy]] use detailed morphology to compute [[local-field-potentials]] from network simulations. The database also connects to Neuroml standards, as morphological structure can be encoded in NeuroML format for interoperability across platforms [@gleeson2019sonata].
 
 ## Data Contribution and Curation Process
 
@@ -67,3 +67,9 @@ The database operates as a collaborative resource, welcoming contributions from 
 - [[neuron]]
 - [[brain-network]]
 - [[connectomics]]
+
+## References
+
+1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Hongjie Jiang, Yifei Tang, Shuqiang Wang. *Neural Dynamics-Informed Pre-trained Framework for Personalized Brain Functional Network Construction*. [Link](https://arxiv.org/abs/2603.07524)
+3. Miguel Guillén-Pujadas, David Alaminos, Emili Vizuete Luciano, José M. Merigó, J. Horn. (2025). *Twenty Years of Neuroinformatics: A Bibliometric Analysis*. Neuroinformatics. [DOI](https://doi.org/10.1007/s12021-024-09712-3)

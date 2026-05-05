@@ -11,7 +11,7 @@ tags:
 - bids
 title: MRIQC
 type: entity
-updated: '2026-05-02'
+updated: '2026-05-04'
 ---
 
 # MRIQC
@@ -28,7 +28,7 @@ MRIQC emerged to address this reproducibility crisis in neuroimaging. By providi
 
 ## Technical Implementation
 
-MRIQC is built on top of the [[nipype]] workflow engine, which provides a standardized interface for various neuroimaging libraries including [[nibabel]] for NIfTI file handling, [[nilearn]] for image processing, and various ANTs-based tools for registration and segmentation. The software can be run via command-line interface, Python API, or containerized through [[bidscoin]] and other BIDS-compliant wrappers.
+MRIQC is built on top of the [[nipype]] workflow engine, which provides a standardized interface for various neuroimaging libraries including [[nibabel]] for [[nifti]] file handling, Nilearn for image processing, and various [[ants]]-based tools for registration and segmentation. The software can be run via command-line interface, Python API, or containerized through Bidscoin and other BIDS-compliant wrappers.
 
 The Image Quality Metrics computed by MRIQC fall into several categories. For structural images (T1w, T2w), metrics include measures of contrast-to-noise ratio (CNR), signal-to-noise ratio (SNR), entropy focus criterion (EFC), and artifact detection measures like the percentage of outliers in the background (Esteban et al., 2019). For functional MRI data, MRIQC computes framewise displacement (FD) from the motion parameters, standard deviation of the derivative of the timeseries (DVAR), and temporal SNR. For diffusion MRI, these metrics include eddy-current-induced artifact detection and motion-related signal dropouts. These metrics are computed both at the global level (whole brain) and regional level (segmented regions), and the tool produces comprehensive HTML reports with visualizations including brain masks, ROI overlays, and quality metric distributions.
 
@@ -42,6 +42,12 @@ The typical preprocessing pipeline for TVB involves [[fmriprep]] for functional 
 
 ## Related Software
 
-MRIQC is part of a broader ecosystem of [[bids-derivatives]] tools for neuroimaging preprocessing and quality assurance. [[fmriprep]] is closely related and often used in conjunction with MRIQC—while fmriprep provides full preprocessing of functional and anatomical MRI data with built-in quality metrics, MRIQC offers more detailed, modality-specific image quality metrics computed on raw or minimally processed data. The [[xcp-d]] tool provides additional quality control for processed fMRIPrep outputs, focusing on derivatives quality. For diffusion data specifically, tools like [[mrtrix3]] and [[dipy]] incorporate their own quality assessment capabilities, though these are more integrated into the processing workflow than MRIQC's dedicated quality inspection paradigm.
+MRIQC is part of a broader ecosystem of [[bids-derivatives]] tools for neuroimaging preprocessing and quality assurance. [[fmriprep]] is closely related and often used in conjunction with MRIQC—while fmriprep provides full preprocessing of functional and anatomical MRI data with built-in quality metrics, MRIQC offers more detailed, modality-specific image quality metrics computed on raw or minimally processed data. The [[xcp-d]] tool provides additional quality control for processed fMRIPrep outputs, focusing on derivatives quality. For diffusion data specifically, tools like Mrtrix3 and Dipy incorporate their own quality assessment capabilities, though these are more integrated into the processing workflow than MRIQC's dedicated quality inspection paradigm.
 
-Other relevant tools in the quality control ecosystem include [[afq]] (AFQ-Lite), which provides [[tractography]]-based quality assessment, and the general visualization tools in the [[brainlife]] platform, which incorporate quality metrics into their processing pipelines. The [[brainrender]] toolkit can be used to visualize MRIQC quality metrics and brain images interactively, complementing the quantitative reports. For whole-brain modeling researchers, these tools complement MRIQC by providing quality assessment at different stages of the preprocessing pipeline.
+Other relevant tools in the quality control ecosystem include [[afq]] (AFQ-Lite), which provides [[tractography]]-based quality assessment, and the general visualization tools in the [[brainlife]] platform, which incorporate quality metrics into their processing pipelines. The Brainrender toolkit can be used to visualize MRIQC quality metrics and brain images interactively, complementing the quantitative reports. For whole-brain modeling researchers, these tools complement MRIQC by providing quality assessment at different stages of the preprocessing pipeline.
+
+## References
+
+1. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2018.05.040)
+2. Sima Soltanpour, Md Taufiq Nasseef, Rachel Utama, Arnold Chang, D. Madularu, Praveen Kulkarni, Craig F. Ferris, Chris Joslin. (2025). *Robust automated preclinical fMRI preprocessing via a multi-stage dilated convolutional Swin Transformer affine registration*. Frontiers in Neuroscience. [DOI](https://doi.org/10.3389/fnins.2025.1621244)
+3. L. Fisch, N. Winter, J. Goltermann, Carlotta B. C. Barkhau, D. Emden, J. Ernsting, M. Konowski, R. Leenings, T. Borgers, K. Flinkenflügel, D. Grotegerd, Anna Kraus, E. Leehr, S. Meinert, F. Stein, L. Teutenberg, F. Thomas-Odenthal, P. Usemann, M. Hermesdorf, H. Jamalabadi, Andreas Jansen, I. Nenadić, Benjamin Straube, T. Kircher, Klaus Berger, Benjamin Risse, U. Dannlowski, T. Hahn. (2026). *deepmriprep: voxel-based morphometry preprocessing via deep neural networks*. Nature Computational Science. [DOI](https://doi.org/10.1038/s43588-026-00953-7)
