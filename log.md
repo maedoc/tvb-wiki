@@ -140,3 +140,5 @@
 ## [2026-05-04 23:10] Improve: 5 pages improved (brain-life, brainsuite, bids-apps, hcp-meg2, neuroml2)
 
 ## [2026-05-04 23:20] Repair: 113 issues fixed (27 source refs, 29 index, 2 frontmatter, 37 wikilinks, 8 orphans, 0 dup-refs, 0 opaque-refs, 10 crosslinks)
+
+## [2026-05-05 00:17] DeepResearch: 10 papers added via focused research
