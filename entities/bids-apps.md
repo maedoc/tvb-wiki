@@ -7,6 +7,9 @@ sources:
 - mriqc publication
 - qsiprep publication
 - BIDS Apps GitHub repository
+- raw/papers/semanticscholar-a0cce22e2ffc.md
+- raw/papers/semanticscholar-109de470e443.md
+- raw/papers/semanticscholar-4d73a30d5c84.md
 tags:
 - software-brain-modeling
 - neuroimaging

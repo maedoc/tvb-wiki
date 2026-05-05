@@ -2,6 +2,9 @@
 created: 2025-01-15
 sources:
 - raw/papers/Sanz-LeonEtAl-2015.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-9afbfd2d37be.md
+- raw/papers/semanticscholar-eb4197c24bf2.md
 tags:
 - software-tvb
 - rest

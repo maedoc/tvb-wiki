@@ -9,6 +9,9 @@ sources:
 - Oostenveld et al. (2011)
 - Computational Intelligence and Neuroscience
 - https://doi.org/10.1155/2011/156869
+- raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-5a69b770faf9.md
+- raw/papers/gramfort-2013.md
 tags:
 - software
 - electrophysiology

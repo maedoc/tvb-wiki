@@ -23,6 +23,9 @@ sources:
   id: ccf-paper
   title: Common Coordinate Framework of the Mouse Brain
   year: 2020
+- raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-028f7c6ac41d.md
+- raw/papers/ritter-2013.md
 tags:
 - software
 - connectomics

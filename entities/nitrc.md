@@ -7,6 +7,7 @@ sources:
   for neuroimaging. Neuroinformatics.'
 - 'Sanz Leon, P., et al. (2013). The Virtual Brain: a simulator of primate brain network
   dynamics. Neuroinformatics.'
+- raw/papers/sanz-leon-2013.md
 tags:
 - software
 - neuroimaging
@@ -20,7 +21,7 @@ tags:
 - software-spm
 title: NITRC-CE
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 # NITRC-CE

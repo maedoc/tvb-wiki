@@ -4,6 +4,9 @@ sources:
 - https://www.neurosift.app
 - https://neurovault.org
 - https://github.com/neurosift/neurosift
+- raw/papers/joss-06590.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/mijalkov-2017-braph.md
 tags:
 - software-visualization
 - neuroimaging

@@ -1,6 +1,9 @@
 ---
 created: 2024-03-15
-sources: []
+sources:
+- raw/papers/arxiv-2505.16861.md
+- raw/papers/semanticscholar-eb704b6f5462.md
+- raw/papers/semanticscholar-bceb6bea8311.md
 tags:
 - software
 - lfp

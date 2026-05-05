@@ -6,6 +6,9 @@ sources:
 - wong_wang_2006
 - breakspear_2003
 - fransson_2001
+- raw/papers/semanticscholar-2004e006655b.md
+- raw/papers/breakspear-2017.md
+- raw/papers/arxiv-2509.02799.md
 tags:
 - developmental-trajectories
 - brain-dynamics

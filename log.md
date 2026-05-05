@@ -148,3 +148,5 @@
 ## [2026-05-05 02:54] Audit: 1146 issues (155 broken links, 67 orphans, 20 placeholders, 0 dup-refs, 5 bad-meta, 85 citation-verify, 9 opaque-refs, 73 thin, 354 missing-links)
 
 ## [2026-05-05 03:49] RefFormatter: formatted references on 16 pages
+
+## [2026-05-05 04:03] CrosslinkApplier: added 241 wikilinks (241 inline, 0 suggested)

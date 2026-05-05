@@ -5,6 +5,9 @@ sources:
 - https://doi.org/10.1016/j.neuroimage.2019.06.046
 - https://www.humanconnectomeproject.org/
 - https://openneuro.org/
+- raw/papers/semanticscholar-d576a0f9d2a0.md
+- raw/papers/semanticscholar-a324c47ea982.md
+- raw/papers/semanticscholar-f45e6044c92f.md
 tags:
 - software
 - database

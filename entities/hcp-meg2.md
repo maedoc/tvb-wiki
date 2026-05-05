@@ -4,6 +4,9 @@ sources:
 - https://www.humanconnectome.org/study/hcp-lifespan-studies
 - https://www.humanconnectome.org/storage/app/media/documentation/M MEG2%20v2.0.pdf
 - https://github.com/hcp-fmri/hcp-meg
+- raw/papers/ritter-2013.md
+- raw/papers/semanticscholar-5f347f47ec54.md
+- raw/papers/semanticscholar-adcab180dcd3.md
 tags:
 - database-hcp
 - neuroimaging-meg

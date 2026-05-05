@@ -1,6 +1,9 @@
 ---
 created: 2025-01-15
-sources: []
+sources:
+- raw/papers/semanticscholar-15a38ebf8562.md
+- raw/papers/semanticscholar-a0a9350fb265.md
+- raw/papers/semanticscholar-fcd025fcc10c.md
 tags:
 - software-bids
 - neuroimaging-fmri
@@ -12,7 +15,7 @@ tags:
 - developmental-trajectories
 title: nibabies
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 nibabies is a specialized Python package designed for processing magnetic resonance imaging (MRI) data from human infants, particularly neonates and young children. It extends the popular [[fMRIprep]] preprocessing pipeline to handle the unique anatomical, physiological, and methodological challenges presented by infant brain imaging, which differs substantially from adult [[neuroimaging]] in terms of tissue composition, head size, motion patterns, and developmental trajectories.

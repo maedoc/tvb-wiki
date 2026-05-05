@@ -6,6 +6,9 @@ sources:
 - 10.1016/j.jneumeth.2022.109566
 - raw/papers/doi-10-1006-nimg-2001-0903.md
 - raw/papers/doi-10-1016-j-neuroimage-2012-01-131.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/huntenburg-2018.md
+- raw/papers/arxiv-2505.14017.md
 tags:
 - software-structural-mri
 - cortical-surface-extraction

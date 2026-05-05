@@ -1,4 +1,8 @@
 ---
+sources:
+- raw/papers/semanticscholar-8edd59e14fa3.md
+- raw/papers/semanticscholar-f39245d03faa.md
+- raw/papers/semanticscholar-1a50bb9aedc5.md
 updated: '2026-05-05'
 ---
 

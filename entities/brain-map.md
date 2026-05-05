@@ -11,6 +11,9 @@ sources:
 - '[Glasser Multi-modal Parcellation of Human Cortex](https://www.nature.com/articles/nature26005)'
 - '[Tractography-based structural connectivity: Acquisition and normalization](https://pubmed.ncbi.nlm.nih.gov/19702440/)'
 - '[Destrieux Atlas: Automatic parcellation of the cerebral cortex](https://pubmed.ncbi.nlm.nih.gov/20493346/)'
+- raw/papers/semanticscholar-60ca593f7e0c.md
+- raw/papers/semanticscholar-b9acfa0a7c80.md
+- raw/papers/semanticscholar-ab39183d81dc.md
 tags:
 - connectomics
 - structural-connectivity
