@@ -12,16 +12,16 @@ tags:
 - preprocessing
 title: AutoReject
 type: software
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 AutoReject is a Python library that provides automated rejection and repair of bad trials and bad sensors in magneto-/electroencephalography (M/EEG) data. Developed primarily by Mainak Jas, Denis Engemann, and colleagues [1], AutoReject addresses a persistent challenge in [[electrophysiology]] preprocessing: the need for manual, time-consuming inspection of [[eeg]] or [[meg]] data to identify and remove artifacts. The library employs machine learning and cross-validation techniques to automatically determine optimal thresholds for epoch rejection, significantly accelerating preprocessing workflows while maintaining data quality comparable to expert manual curation [1].
 
 ## Motivation and Context
 
-The preprocessing pipeline for [[neuromorpho-toolkit]] and [[neuromorpho-toolkit]] data traditionally requires substantial manual effort to identify and handle corrupted epochs. Artifacts arise from various sources including eye blinks, muscle contractions, electrode cable movement, and environmental interference. Before conducting analyses such as [[source-localization]], event-related potential averaging, or frequency-domain analysis, researchers must remove these contaminated segments to ensure valid results. Conventionally, this involved visual inspection of every epoch—a labor-intensive process that does not scale well to large datasets and introduces inter-rater variability.
+The preprocessing pipeline for [[neuromorpho-toolkit]] and [[neuromorpho-toolkit]] data traditionally requires substantial manual effort to identify and handle corrupted epochs. Artifacts arise from various sources including eye blinks, muscle contractions, electrode cable movement, and environmental interference. Before conducting analyses such as [[source-localization]], event-related potential averaging, or frequency-domain analysis, researchers must remove these contaminated segments to ensure valid results. Conventionally, this involved visual inspection of every epoch—a labor-intensive process that does not scale well to large datasets and introduces inter‑rater variability.
 
-AutoReject emerged from the recognition that automated, data-driven approaches could match or exceed human performance in artifact detection while eliminating subjectivity and dramatically reducing processing time [1]. The library was designed to integrate seamlessly with [[bids]] and other standard [[electrophysiology]] toolchains, providing a drop‑in solution that learns optimal rejection criteria from the specific dataset being processed.
+AutoReject emerged from the recognition that automated, data‑driven approaches could match or exceed human performance in artifact detection while eliminating subjectivity and dramatically reducing processing time [1]. The library was designed to integrate seamlessly with [[bids]] and other standard [[electrophysiology]] toolchains, providing a drop‑in solution that learns optimal rejection criteria from the specific dataset being processed.
 
 ## Technical Approach
 
@@ -43,7 +43,7 @@ AutoReject offers several features that make it valuable for [[neuromorpho‑too
 
 ## Integration with Ecosystem
 
-AutoReject integrates with the broader [[neuroimaging]] software ecosystem, particularly [[mne‑python]] from which it inherits much of its design philosophy. The library accepts MNE Epochs objects as input and returns cleaned Epochs objects, making it compatible with standard preprocessing pipelines. It is commonly used alongside other preprocessing Steps such as high‑pass filtering, independent component analysis ([[ica]]), and frequency‑domain filtering.
+AutoReject integrates with the broader [[neuroimaging]] software ecosystem, particularly [[mne-bids-pipeline]] from which it inherits much of its design philosophy. The library accepts MNE Epochs objects as input and returns cleaned Epochs objects, making it compatible with standard preprocessing pipelines. It is commonly used alongside other preprocessing Steps such as high‑pass filtering, independent component analysis ([[ica]]), and frequency‑domain filtering.
 
 For researchers using [[eeglab]] or Fieldtrip in earlier stages of preprocessing, data can be exported to MNE‑Python format to leverage AutoReject before converting back to the preferred analysis environment. This flexibility has contributed to the library's adoption across diverse research settings.
 

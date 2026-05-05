@@ -24,7 +24,7 @@ tags:
 - whole-brain-modeling
 title: Variational Bayes
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 ## What is Variational Bayes?
@@ -53,7 +53,7 @@ The principal advantage of VB is speed: deterministic optimization converges in 
 
 ## Applications in Whole-Brain Modeling
 
-In computational neuroscience, VB is most visible as the inference backbone of [[dynamic-causal-modeling]], where it is used to invert generative models of [[fmri]], [[eeg]], and [[meg]] data and to estimate [[effective-connectivity]] among brain regions. The same principles extend to population-level models: when fitting [[neural-mass-models]] to empirical timeseries, VB provides a tractable route to posterior densities over synaptic parameters and connection strengths. More broadly, the [[free-energy-principle]]—which frames perception and action as optimization processes—generalizes the variational idea to dynamic systems, casting VB as a special case of evidence maximization. This theoretical continuity links routine [[parameter-estimation]] in [[whole-brain]] simulators like [[tvb]] to broader accounts of brain function as approximate Bayesian computation.
+In computational neuroscience, VB is most visible as the inference backbone of [[dynamic-causal-modeling]], where it is used to invert generative models of [[fmri]], [[eeg]], and [[meg]] data and to estimate [[effective-connectivity]] among brain regions. The same principles extend to population-level models: when fitting [[neural-mass-models]] to empirical timeseries, VB provides a tractable route to posterior densities over synaptic parameters and connection strengths. More broadly, the [[free-energy-principle]]—which frames perception and action as optimization processes—generalizes the variational idea to dynamic systems, casting VB as a special case of evidence maximization. This theoretical continuity links routine [[parameter-estimation]] in [[whole-brain]] simulators like [[tvb]] to broader accounts of brain function as approximate Bayesian computation. Many of the large-scale datasets leveraged in these studies are publicly shared through the [[crcns]] initiative.
 
 ## Related Concepts
 

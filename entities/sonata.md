@@ -29,7 +29,7 @@ The format gained traction as the Blue Brain Project scaled up its cortical micr
 
 ## Technical Specification
 
-SONATA defines three primary file types: network files (`.h5`), node files (containing cell definitions and positions), and edge files (containing connectivity). Node files specify cell types, their intrinsic parameters (e.g., leak conductance, time constants for [[adaptive-exponential-integrate-and-fire]] or izhikevich [[izhikevich-neuron-model]] models), and optionally their morphological structures. Edge files encode synaptic connections as source-target pairs with associated weight and delay distributions.
+SONATA defines three primary file types: network files (`.h5`), node files (containing cell definitions and positions), and edge files (containing connectivity). Node files specify cell types, their intrinsic parameters (e.g., leak conductance, time constants for [[adaptive-exponential-integrate-and-fire]] or [[izhikevich]] [[izhikevich-neuron-model]] models), and optionally their morphological structures. Edge files encode synaptic connections as source-target pairs with associated weight and delay distributions.
 
 The format supports both virtual tissue configurations (where external drives are injected via virtual sources) and detailed recurrent architectures. Simulation configuration—including timestep, duration, electrode locations for LFP recording, and spike recording settings—is specified in a separate Python configuration file that references the SONATA data files. This separation allows users to reuse the same network definition across multiple simulation configurations or parameter sweeps.
 

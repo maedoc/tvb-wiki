@@ -1,74 +1,54 @@
----
-created: 2024-01-15
-sources:
-- raw/papers/semanticscholar-380768cf42a8.md
-- raw/papers/semanticscholar-4d73a30d5c84.md
-- raw/papers/glasser-2013.md
-tags:
-- software-dti
-- diffusion-imaging
-- tractography
-- neuroimaging
-- software
-title: TractoFlow
-type: entity
-updated: '2026-05-05'
----
+---  
+title: TractoFlow  
+created: 2025-01-15  
+updated: 2026-05-05  
+type: entity  
+tags: [software-brain-modeling, diffusion-imaging, tractography, diffusion-mri, structural-connectivity]  
+sources: [raw/papers/arxiv-1905.05846.md]  
 
-TractoFlow is a fully automated and reproducible **[[diffusion-mri]] preprocessing pipeline** specifically designed for tractography analysis. Developed by the team at Université de Sherbrooke (Canada), it provides a standardized end-to-end workflow that transforms raw diffusion-weighted imaging (DWI) data into tractography-ready outputs suitable for [[structural-connectivity]] estimation in [[whole-brain|whole-brain modeling]] frameworks (Moreaux et al., 2019). The pipeline is widely used in the [[neuroimaging]] community and has become a standard tool for preprocessing diffusion data in both research and clinical contexts.
+---  
 
-## Overview
+## Overview  
 
-TractoFlow addresses a critical bottleneck in diffusion imaging workflows: the lack of a unified, validated preprocessing pipeline that produces consistent, high-quality outputs for downstream tractography. Traditional manual preprocessing is time-consuming, error-prone, and difficult to reproduce across studies (Gorgolewski et al., 2016). TractoFlow automates the entire preprocessing chain—from raw DICOM or [[nifti]] inputs to tractography-ready diffusion tensors and fiber orientation distributions—ensuring methodological consistency and facilitating reproducible research.
+TractoFlow is a fully automated, containerized processing pipeline designed to reconstruct white matter tracts from diffusion-weighted MRI (DW-MRI) data. Developed primarily by François Rheault and colleagues at the University of Sherbrooke, it provides an end-to-end workflow that transforms raw diffusion images into streamlines, tractograms, and structural connectivity matrices ready for downstream network analysis [[Theaud20]]. The pipeline is built around a rigorous preprocessing sequence that includes motion and eddy-current correction, bias field correction, response function estimation, spherical deconvolution, and probabilistic tractography, all orchestrated through Nextflow and Singularity containers for reproducibility across high-performance computing environments.  
 
-The pipeline is implemented in Python and leverages well-established neuroimaging libraries, primarily [[ANTs]] for registration (Tustison et al., 2021) and Dipy for diffusion-specific processing (Garyfallidis et al., 2014). It follows [[BIDS]] conventions for input and output organization, making it compatible with the broader neuroimaging data ecosystem and facilitating integration with databases like [[UK-Biobank]] and [[HCP-dataset]] that require standardized data formats.
+## Motivation and Context  
 
-## Technical Pipeline
+Diffusion MRI is the only non‑invasive method capable of mapping white matter microstructure and fiber orientation in vivo [[LeBihan01]], making it indispensable for whole‑brain connectivity studies. However, tractography workflows historically required manual intervention at multiple stages, using heterogeneous software packages with inconsistent parameter settings—a situation that severely compromised reproducibility across studies. TractoFlow emerged to address this reproducibility crisis by providing a single, validated pipeline that applies state‑of‑the‑art processing methods in a predetermined, transparent sequence [[Theaud20]]. The pipeline was designed to integrate seamlessly with the BIDS standard [[Gorgolewski16]], allowing researchers to feed in properly organized raw data and obtain standardized outputs that can be compared directly across sites and scanners.  
 
-TractoFlow implements a sequential processing chain that applies corrections in a principled order. The pipeline begins with **motion correction** using rigid body registration to correct for participant head movement during the DWI acquisition. This is followed by **eddy current correction**, which addresses geometric distortions induced by the rapidly switching gradient fields used in diffusion encoding. A **bias field correction** step removes intensity inhomogeneities caused by RF field non-uniformities, improving the accuracy of subsequent tensor estimation.
+The development of TractoFlow coincided with growing interest in connectome‑based modeling, particularly as applied through platforms like [[the-virtual-brain]]. Structural connectivity matrices derived from tractography serve as the anatomical scaffold for whole‑brain simulations, and the quality of these matrices directly influences model behavior [[SanzLeon13]]. Poor‑quality tractography can introduce spurious connections, alter edge weights, and ultimately distort simulated dynamics—making robust, automated preprocessing pipelines essential for computational neuroscience applications.  
 
-The preprocessed data then undergoes **tensor fit** to derive diffusion tensor images (DTI), from which scalar metrics such as [[fractional-anisotropy]] (FA) and mean diffusivity (MD) are computed. Critically, TractoFlow also estimates **fiber orientation distribution functions (FODs)** using constrained spherical deconvolution (CSD), providing more accurate representations of complex fiber configurations than traditional DTI-based approaches. These FODs serve as the input for probabilistic tractography algorithms, enabling the reconstruction of [[white-matter]] pathways with greater anatomical accuracy.
+## Technical Overview  
 
-The pipeline outputs include corrected DWI volumes, FA/MD maps, tensor files, and FOD images—all organized according to [[bids-derivatives]] specifications. These outputs can be directly fed into tractography tools such as [[MRtrix3]] or [[AFQ]] to generate streamlines and structural [[connectivity]] matrices.
+TractoFlow implements a multi‑stage processing pipeline that can be divided into three principal phases: preprocessing, tissue segmentation, and tractography. During preprocessing, raw DWIs are corrected for motion and eddy‑current distortions using tools from the [[mrtrix3-connectome]] and [[fsl]] suites [[Jenkinson12]], followed by bias field correction via [[ants]] [[Avants09]] to normalize intensity profiles across the brain. An initial quality control step flags datasets with excessive motion artifacts.  
 
-## Key Features
+For tissue segmentation, the pipeline employs the multi‑tissue constrained spherical deconvolution (MT‑CSD) approach, which simultaneously estimates fiber orientation distribution functions (fODFs) for gray matter, white matter, and CSF. This method provides superior fiber tracking accuracy compared to single‑tissue approaches, particularly at tissue boundaries where partial volume effects are pronounced [[Tournier19]]. The resulting fODFs feed directly into probabilistic tractography using the [[mrtrix3-connectome]] implementation of the iFOD2 (improved Fiber Orientation Distribution 2) algorithm, which uses a particle filter approach with anatomical constraints to produce biologically plausible streamlines [[Theaud20]].  
 
-TractoFlow distinguishes itself from other diffusion preprocessing tools through several notable features. First, it implements **fully automated operation** with sensible defaults optimized for tractography quality, reducing the need for expert parameter tuning. Second, the pipeline is built on **Nextflow** (Di Tommaso et al., 2017), a powerful workflow framework that enables scalable execution on single machines or high-performance computing clusters with automatic parallelization of independent processing steps. Third, TractoFlow produces **BIDS-compliant derivatives**, facilitating data sharing, archival, and integration with analysis tools that respect BIDS conventions.
+TractoFlow outputs several products useful for connectivity analysis: probabilistic streamline tractograms in standard space, tract‑specific segmentations (allowing extraction of major white‑matter pathways), and structural connectivity matrices where edge weights reflect streamline counts or more sophisticated metrics like fractional anisotropy. These outputs are compatible with graph‑theoretic analysis using tools like [[brain-connectivity-toolbox]] or the Connectome Mapper 3.  
 
-Unlike some competing pipelines, TractoFlow focuses specifically on DTI and FOD preprocessing rather than advanced microstructural modeling. While it produces high-quality inputs for tools like MRtrix3 that can perform neurite orientation dispersion and density imaging (NODDI) analysis, TractoFlow itself does not natively perform NODDI modeling.
+## Relationship to TVB  
 
-## Comparison to Alternative Pipelines
+TractoFlow occupies a key position in the TVB ecosystem as a provider of high‑quality structural connectivity data. When constructing personalized brain models in [[the-virtual-brain]], the white‑matter connectome serves as the anatomical substrate upon which neural mass models are coupled [[SanzLeon13]]. The quality of this structural scaffold directly determines whether simulated brain dynamics faithfully represent the individual's observed functional patterns. Researchers using TVB for epilepsy modeling or schizophrenia research often employ TractoFlow‑derived connectivity matrices as the starting point for parameter fitting and simulation. The pipeline's BIDS compatibility also facilitates integration with TVB's data handling infrastructure, which increasingly expects neuroimaging data in standardized formats.  
 
-TractoFlow occupies a specific niche in the diffusion preprocessing landscape, and several alternative tools exist with different capabilities. **FSL's eddy** ( eddy - Oxford Centre for Functional MRI of the Brain) provides eddy current and motion correction but requires separate tools for the full preprocessing chain. **DTIPrep** offers comprehensive DTI preprocessing but lacks the BIDS integration and automated workflow structure of TractoFlow. **MRtrix3's dwifslpreproc** provides a robust preprocessing pipeline integrated within the MRtrix ecosystem and can serve as an alternative to TractoFlow for users already working with MRtrix3 tools (Tournier et al., 2019). TractoFlow's strength lies in its independence from any single tractography tool, making it a versatile choice for workflows that may combine multiple software packages.
+## Key Features  
 
-## Relationship to TVB
+TractoFlow's primary distinction lies in its strict default parameter configuration—all processing decisions are made by the pipeline rather than requiring user expertise in diffusion physics. The use of Nextflow workflow management combined with Singularity containers ensures computational reproducibility across HPC environments [[Kurtzer17]]. The pipeline generates comprehensive quality control reports, including metrics like framewise displacement and bias field smoothness, enabling researchers to assess data quality before proceeding to analysis. Additionally, TractoFlow supports multi‑shell acquisition schemes, leveraging the increased angular information available from multiple b‑values to improve crossing‑fiber resolution.  
 
-TractoFlow has direct relevance to [[The-Virtual-Brain]] workflows that require **structural connectivity** matrices derived from empirical diffusion imaging data. Whole-brain models in TVB rely on estimates of white matter connection strength between brain regions, and the quality of these estimates directly impacts model dynamics and validation outcomes (Sanz-Leon et al., 2015).
+## Key Papers  
 
-TractoFlow outputs can be processed through tractography algorithms to generate **streamline-based structural connectivity matrices** that serve as the anatomical scaffold for TVB simulations. The pipeline's emphasis on [[reproducibility]] and standardized preprocessing helps ensure that connectivity matrices are comparable across studies and cohorts—a key requirement for [[personalized-brain-modeling]] initiatives that aim to calibrate individual patient models from empirical neuroimaging data.
+- **Theaud20**: Theaud, G., Houde, J.-C., Boré, A., Rheault, F., Morency, F., & Descoteaux, M. (2020). TractoFlow: A robust, efficient and reproducible diffusion MRI pipeline leveraging Nextflow & Singularity. *NeuroImage*, 218, 116889. https://doi.org/10.1016/j.neuroimage.2020.116889  
 
-The combination of TractoFlow for preprocessing, [[MRtrix3]] or [[AFQ]] for tractography, and TVB for dynamical modeling represents an established workflow in the TVB ecosystem for building personalized whole-brain models from diffusion MRI data. This integrated approach enables researchers to maintain methodological consistency from raw scanning through to simulation, reducing pipeline-related variability in [[connectome]]-derived connectivities.
+## References  
 
-## Key Papers
+- Theaud, G., Houde, J.-C., Boré, A., Rheault, F., Morency, F., & Descoteaux, M. (2020). TractoFlow: A robust, efficient and reproducible diffusion MRI pipeline leveraging Nextflow & Singularity. *NeuroImage*, 218, 116889. https://doi.org/10.1016/j.neuroimage.2020.116889  
+- Le Bihan, D., Mangin, J. F., Poupon, C., Clark, C. A., Pappata, S., Molko, N., & Chabriat, H. (2001). Diffusion tensor imaging: concepts and applications. *Journal of Magnetic Resonance Imaging*, 13(4), 534‑546.  
+- Gorgolewski, K. J., Auer, T., Calhoun, V. D., Craddock, R. C., Das, S., Duff, E. P., … & Poldrack, R. A. (2016). The brain imaging data structure, a format for organizing and describing outputs of neuroimaging experiments. *Scientific Data*, 3, 160044. https://doi.org/10.1038/sdata.2016.44  
+- Sanz Leon, P., Knock, S. A., Woodman, M. M., Domide, L., Mersmann, J., McIntosh, A. R., & Jirsa, V. (2013). The Virtual Brain: a simulator of primate brain network dynamics. *Frontiers in Neuroinformatics*, 7, 10. https://doi.org/10.3389/fninf.2013.00010  
+- Jenkinson, M., Beckmann, C. F., Behrens, T. E., Woolrich, M. W., & Smith, S. M. (2012). FSL. *NeuroImage*, 62(2), 782‑790. https://doi.org/10.1016/j.neuroimage.2011.09.015  
+- Tournier, J. D., Smith, R. E., Raffelt, D. A., Tabbara, R., Dhollander, T., Pietsch, M., … & Connelly, A. (2019). MRtrix3: A fast, flexible and open software framework for medical image processing and visualisation. *NeuroImage*, 202, 116137. https://doi.org/10.1016/j.neuroimage.2019.116137  
+- Avants, B. B., Tustison, N., & Song, G. (2009). Advanced Normalization Tools (ANTS). *Insight j*, 2, 1‑35.  
+- Kurtzer, G. M., Sochat, V., & Bauer, M. W. (2017). Singularity: Scientific containers for mobility of compute. *PLOS ONE*, 12(5), e0177459. https://doi.org/10.1371/journal.pone.0177459  
 
-- Moreaux, R., Basile, A., Ameil, J., Caruyer, E., &-descoteaux, M. (2019). **TractoFlow: A Robust and Efficient Processing Pipeline for Diffusion MRI.** Proceedings of the ISMRM Annual Meeting.
-- Garyfallidis, E., et al. (2014). **Dipy: A Python Library for the Analysis of Diffusion MRI Data.** Frontiers in Neuroscience, 8, 397.
-- Tournier, J.-D., et al. (2019). **MRtrix3: A Fast, Flexible and Accessible Software Package for Diffusion MRI.** NeuroImage, 202, 116137.
-- Tustison, N. J., et al. (2021). **ANTsX: A Dynamic Ecosystem for Quantitative Biological Image Analysis.** Medical Image Analysis, 70, 101972.
+## Related Software  
 
-## Related Software
-
-- [[ANTs]] — used for registration and transformations
-- Dipy — used for diffusion processing and tensor estimation
-- [[MRtrix3]] — alternative tractography tool often used with TractoFlow outputs
-- [[AFQ]] — automated fiber quantification pipeline
-- [[tractography]] — the broader methodology this pipeline serves
-- [[diffusion-imaging]] — the imaging modality this pipeline processes
-- [[DTI]] — diffusion tensor imaging output by the pipeline
-- [[BIDS]] — data standard convention followed by TractoFlow
-
-## References
-
-1. Emmanuelle Renauld, Arnaud Boré, Charles Poirier, Alex Valcourt-Caron, Philippe Karan, Antoine Théberge, Guillaume Théaud, Manon Edde, P. Poulin, Gabriel Girard, Jean-Christophe Houde, A. Gagnon, Etienne St-Onge, Graham Little, Jon Haitz Legarreta, Stanislas Thoumyre, G. Grenier, Zineb El Yamani, Mario Ocampo Pineda, Matteo Battochio, Vincent Beaudoin, Alexandre Joanisse, Laurent Petit, F. Rheault, Maxime Descoteaux. (2026). *Tractography analysis with the scilpy toolbox*. Aperture Neuro. [DOI](https://doi.org/10.52294/001c.154022)
-2. Zhishun Wang, Feng Liu, Rachel Marsh, Gaurav H. Patel, J. Grinband. (2026). *MEPrep: A robust pipeline for multi-echo [[fmri]] denoising and preprocessing*. Imaging Neuroscience. [DOI](https://doi.org/10.1162/IMAG.a.1198)
-3. (authors unknown). *The Minimal Preprocessing Pipelines for the [[human-connectome-project]]*.
+TractoFlow shares conceptual territory with other tractography pipelines including [[afq]], which provides similar automation but with different default algorithms, and the [[qsiprep]] pipeline that emphasizes preprocessing standardization. For downstream connectivity analysis, [[connectome-mapper-3]] offers complementary functionality, providing a unified framework from segmentation through network construction that can consume TractoFlow outputs. Traditional tractography tools like [[mrtrix3-connectome]] and [[dipy]] offer greater flexibility for expert users willing to tune parameters manually, but lack TractoFlow's out‑of‑the‑box automation.

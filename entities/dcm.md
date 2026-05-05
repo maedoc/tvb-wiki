@@ -8,7 +8,7 @@ tags:
 - software-brain-modeling
 title: DCM
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 # Dynamic Causal Modeling (DCM)
@@ -49,7 +49,7 @@ The estimation procedure involves iteratively updating the variational posterior
 
 DCM is complementary to, but distinct from, the network‑level modeling approaches implemented in [[the-virtual-brain]] and similar platforms. While DCM focuses on inferring effective connectivity from empirical data within a Bayesian framework, [[whole-brain]] models aim to simulate the large‑scale dynamics of the brain using biologically motivated parameterizations. However, the two approaches converge in their shared goal of understanding how brain structure gives rise to function. DCM‑derived effective connectivity matrices can inform the construction of whole‑brain models, providing data‑driven constraints on the parameters that govern inter‑regional interactions. Conversely, insights from whole‑brain simulations can generate hypotheses that can be tested using DCM, creating a productive dialogue between data‑driven inference and mechanistic simulation.
 
-The parameter estimates obtained from DCM can be used to initialize or constrain the parameters of whole‑brain models, reducing the search space and improving the biological plausibility of the simulations. For example, the intrinsic connectivity matrix $A$ estimated by DCM can serve as the basis for the anatomical connectivity matrix in a whole‑brain model, while the modulatory parameters $B$ can inform the inclusion of neuromodulatory effects. This integration of DCM and whole‑brain modeling is particularly promising for clinical applications, where patient‑specific DCM estimates can be used to build personalized models of [[brain-dynamics]] for diagnostic and therapeutic purposes.
+The parameter estimates obtained from DCM can be used to initialize or constrain the parameters of whole‑brain models, reducing the search space and improve the biological plausibility of the simulations. For example, the intrinsic connectivity matrix $A$ estimated by DCM can serve as the basis for the anatomical connectivity matrix in a whole‑brain model, while the modulatory parameters $B$ can inform the inclusion of neuromodulatory effects. This integration of DCM and whole‑brain modeling is particularly promising for clinical applications, where patient‑specific DCM estimates can be used to build personalized models of [[brain-dynamics]] for diagnostic and therapeutic purposes.
 
 ## Clinical Applications
 
@@ -61,7 +61,7 @@ Several directions are likely to shape the future development of DCM. The integr
 
 ## Further Reading
 
-For a comprehensive introduction to DCM, see the foundational papers by [[karl-j-fristol]] and colleagues, as well as recent reviews that summarize the current state of the field. The [[SPM]] software package provides a freely available implementation of DCM for fMRI, EEG, and MEG data, along with extensive documentation and tutorials. The [[the-virtual-brain]] platform does not include a native DCM implementation, but DCM‑derived connectivity estimates can be used to parameterize whole‑brain simulations, enabling a synergistic integration of data‑driven inference and mechanistic modeling.
+For a comprehensive introduction to DCM, see the foundational papers by [[karl-j-fristol]] and colleagues, as well as recent reviews that summarize the current state of the field. The SPM software package provides a freely available implementation of DCM for fMRI, EEG, and MEG data, along with extensive documentation and tutorials. The [[the-virtual-brain]] platform does not include a native DCM implementation, but DCM‑derived connectivity estimates can be used to parameterize whole‑brain simulations, enabling a synergistic integration of data‑driven inference and mechanistic modeling.
 
 ## References
 

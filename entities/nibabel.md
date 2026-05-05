@@ -9,7 +9,7 @@ tags:
 - software-brain-modeling
 title: NiBabel
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 ## Overview
@@ -42,7 +42,7 @@ NiBabel was first described in an influential software note published in Frontie
 
 ## Related Software
 
-NiBabel serves as a dependency for numerous downstream packages in the Python neuroimaging ecosystem. Nilearn uses NiBabel as its primary I/O layer for loading [[nifti]] images and creating mask objects. [[nipype]] relies on NiBabel for handling data between processing nodes in workflow engines. Mne Python leverages NiBabel for certain file format conversions in [[eeg]] and [[meg]] analysis pipelines. For surface-based visualization, NiBabel interfaces with Freesurfer through [[freeview]] and the [[connectome-workbench]] suite, while Fsl provides command-line tools that complement NiBabel's Python functionality. Additional related tools include [[ants]] for advanced image registration, Dipy for diffusion MRI processing, and pitk for general-purpose neuroimaging toolkit operations.
+NiBabel serves as a dependency for numerous downstream packages in the Python neuroimaging ecosystem. Nilearn uses NiBabel as its primary I/O layer for loading [[nifti]] images and creating mask objects. [[nipype]] relies on NiBabel for handling data between processing nodes in workflow engines. Mne Python leverages NiBabel for certain file format conversions in [[eeg]] and [[meg]] analysis pipelines. For surface-based visualization, NiBabel interfaces with Freesurfer through [[freeview]] and the [[connectome-workbench]] suite, while Fsl provides command-line tools that complement NiBabel's Python functionality. Additional related tools include [[ants]] for advanced image registration, Dipy[[flax]] for diffusion MRI processing, and pitk for general-purpose neuroimaging toolkit operations.
 
 ## References
 

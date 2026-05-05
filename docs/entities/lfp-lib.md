@@ -9,7 +9,7 @@ tags:
 - software-neuron
 title: LFPy
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 **[[lfp-lib|LFPy]]** is an open-source Python package designed for the simulation of extracellular potentials in biologically detailed neural networks. It computes the [[local-field-potentials|local field potential]] (LFP) that arises from the electrical activity of neurons embedded in a volume conductor, providing a bridge between [[neural-mass-models|neural mass modeling]] at the [[whole-brain]] scale and detailed biophysical simulations at the cellular level. The software enables researchers to predict LFP signals from arbitrarily structured neural networks while accounting for the geometry and electrical properties of the surrounding tissue.
