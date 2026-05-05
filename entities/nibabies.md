@@ -1,6 +1,9 @@
 ---
 created: 2025-01-15
-sources: []
+sources:
+- raw/papers/semanticscholar-15a38ebf8562.md
+- raw/papers/semanticscholar-fcd025fcc10c.md
+- raw/papers/semanticscholar-a0a9350fb265.md
 tags:
 - software-bids
 - neuroimaging-fmri

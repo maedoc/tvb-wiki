@@ -4,6 +4,9 @@ sources:
 - https://arxiv.org/abs/2205.04554
 - https://academic.oup.com/bioinformatics/article/28/11/1547/340308
 - https://www.nature.com/articles/s41592-022-01668-z
+- raw/papers/huntenburg-2018.md
+- raw/papers/semanticscholar-a0cce22e2ffc.md
+- raw/papers/semanticscholar-a51325b7fd19.md
 tags:
 - software-visualization
 - bioimaging

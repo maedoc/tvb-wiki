@@ -1,6 +1,9 @@
 ---
 created: 2025-01-15
-sources: []
+sources:
+- raw/papers/ritter-2013.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/huntenburg-2018.md
 tags:
 - software-brain-modeling
 - white-matter

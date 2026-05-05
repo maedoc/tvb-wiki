@@ -184,3 +184,5 @@
 ## [2026-05-05 14:52] DeepResearch: 6 papers added via focused research
 
 ## [2026-05-05 15:46] RefFormatter: formatted references on 1 pages
+
+## [2026-05-05 16:01] CrosslinkApplier: added 70 wikilinks (69 inline, 1 suggested)
