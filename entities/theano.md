@@ -52,3 +52,7 @@ Several other Python libraries for numerical computing relate to Theano's domain
 - Ritter, P., et al. (2008). "[[tvb|The Virtual Brain]]: a simulator for primate brain [[network-dynamics]]." *Neuroinformatics*, 6(1), 1-8. Original TVB publication documenting its computational architecture.
 
 - Morrison, A., et al. (2008). "Realistic modeling of small-scale neuronal networks." *Neural Networks*, 21(2-3), 257-265. Background on neural mass modeling approaches used in TVB.
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)

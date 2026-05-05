@@ -77,3 +77,9 @@ The relationship between trajectories and TVB extends to clinical applications w
 [^breakspear_2003]: Breakspear, M., Heitmann, S., & Daffertshofer, A. (2003). Generative models of cortical oscillations: Neurobiological implications of the [[kuramoto]] model. *Frontiers in Human Neuroscience*, 4, 190.
 
 [^fransson_2001]: Fransson, P. (2001). Spontaneous low-frequency BOLD signal fluctuations in humans: An fMRI investigation of their underlying dynamics. *NeuroImage*, 14(5), 1207-1216.
+
+## References
+
+1. Marianna Angiolelli, D. Depannemaecker, H. Agouram, J. Régis, R. Carron, M. Woodman, L. Chiodo, P. Triebkorn, Abolfazl Ziaeemehr, Meysam Hashemi, Alexandre Eusebio, Viktor Jirsa, P. Sorrentino. (2025). *The Virtual Parkinsonian patient*. npj Systems Biology and Applications. [DOI](https://doi.org/10.1038/s41540-025-00516-y)
+2. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)
+3. Martin Breyton, Viktor Sip, M. Woodman, Meysam Hashemi, S. Petkoski, V. Jirsa. (2025). *Data-driven mean-field within whole-brain models*. [Link](https://www.semanticscholar.org/paper/144ae1f1dabec42c14493d0083d36f168508f886)
