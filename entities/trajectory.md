@@ -21,7 +21,7 @@ tags:
 - schizophrenia-models
 title: Trajectory
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 A **trajectory** in the context of [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]] refers to the temporal evolution of brain [[network-dynamics]], capturing how neural activity patterns, [[connectivity]] configurations, and system states change over time. Trajectories can describe healthy developmental processes, disease progression, response to interventions, or the system-level dynamics that emerge during specific cognitive or behavioral states such as seizures. Understanding and modeling trajectories is fundamental to [[whole-brain modeling]] because the brain is not a static system but rather a temporally evolving dynamical entity whose future states depend critically on its past and present configuration.
@@ -34,7 +34,7 @@ $$\dot{\mathbf{x}}(t) = \mathbf{F}(\mathbf{x}(t), \boldsymbol{\theta}, \mathbf{C
 
 where $\mathbf{x}(t) \in \mathbb{R}^N$ represents the state vector (e.g., neural activities across $N$ brain regions) at time $t$, $\boldsymbol{\theta}$ denotes the vector of model parameters (e.g., coupling strengths, time constants, excitability), and $\mathbf{C}$ is the structural connectivity matrix encoding the anatomical wiring between regions. This formulation draws directly from [[dynamical-systems-theory]], which provides mathematical frameworks for describing how systems evolve in state space over time. The trajectory $\mathbf{x}(t)$ traces a path through a high-dimensional state space, where each point corresponds to a specific configuration of neural activity across brain regions.
 
-The concept of trajectory-based brain modeling emerged from the intersection of dynamical systems theory and whole-brain [[connectomics]]. Early work by Fransson and colleagues established that spontaneous brain activity at rest could be characterized as low-dimensional attractor dynamics[^fransson], while Breakspear and colleagues later formalized the framework for analyzing neural trajectories in large-scale brain networks using [[bifurcation-analysis|bifurcation]] theory[^breakspear]. This intellectual lineage laid the groundwork for modern whole-brain trajectory modeling.
+The concept of trajectory-based brain modeling emerged from the intersection of dynamical systems theory and whole-brain [[connectomics]]. Early work by Fransson and colleagues established that spontaneous brain activity at [[rest]] could be characterized as low-dimensional attractor dynamics[^fransson], while Breakspear and colleagues later formalized the framework for analyzing neural trajectories in large-scale brain networks using [[bifurcation-analysis|bifurcation]] theory[^breakspear]. This intellectual lineage laid the groundwork for modern whole-brain trajectory modeling.
 
 ## Conceptual Foundations
 
@@ -68,7 +68,7 @@ The relationship between trajectories and TVB extends to clinical applications w
 - [[tvb-adapters]] — Interoperability modules connecting TVB to external toolkits
 - Epicouch — Toolbox for epileptor-based seizure modeling and analysis
 - TheVirtualBrainCloud — Cloud deployment of TVB for large-scale trajectory computation
-- OpenGraphene — Workflow management for connectome-based simulations
+- OpenGraphene — Workflow management for [[connectome]]-based simulations
 
 [^sanz_leon_p_2013]: Sanz-Leon, P., Knock, S. A., Spiegler, A., & Jirsa, V. K. (2013). Mathematical framework for realistic brain dynamics. *NeuroImage*, 80, 400-412.
 
@@ -76,6 +76,6 @@ The relationship between trajectories and TVB extends to clinical applications w
 
 [^wong_wang_2006]: Wong, K.-F., & Wang, X.-J. (2006). A recurrent network mechanism for time integration in neural mass models. *Journal of Neuroscience*, 26(5), 1319-1334.
 
-[^breakspear_2003]: Breakspear, M., Heitmann, S., & Daffertshofer, A. (2003). Generative models of cortical oscillations: Neurobiological implications of the Kuramoto model. *Frontiers in Human Neuroscience*, 4, 190.
+[^breakspear_2003]: Breakspear, M., Heitmann, S., & Daffertshofer, A. (2003). Generative models of cortical oscillations: Neurobiological implications of the [[kuramoto]] model. *Frontiers in Human Neuroscience*, 4, 190.
 
 [^fransson_2001]: Fransson, P. (2001). Spontaneous low-frequency BOLD signal fluctuations in humans: An fMRI investigation of their underlying dynamics. *NeuroImage*, 14(5), 1207-1216.

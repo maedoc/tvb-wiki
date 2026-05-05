@@ -1,45 +1,52 @@
 ---
-title: Allen SDK
 created: 2024-01-15
-updated: 2026-05-04
-type: entity
-tags: [software, connectomics, structural-connectivity, diffusion-imaging, neuroimaging-dti]
 sources:
-  - id: allen-institute-founding
-    title: Allen Institute for Brain Science Overview
-    year: 2024
-    citation: Allen Institute. "Allen Institute for Brain Science." https://www.alleninstitute.org/about/
-  - id: oh-2014
-    title: A mesoscale connectome of the mouse brain
-    year: 2014
-    citation: Oh, S.W. et al. "A mesoscale connectome of the mouse brain." Nature 508, 207–214 (2014)
-  - id: allen-mouse-connectivity-atlas
-    title: Allen Mouse Brain Connectivity Atlas
-    year: 2024
-    citation: Allen Institute. "Allen Mouse Brain Connectivity Atlas." https://connectivity.brain-map.org/
-  - id: allen-sdk-documentation
-    title: Allen SDK Documentation
-    year: 2024
-    citation: Allen Institute. "Allen SDK." https://sdk.brain-map.org/
-  - id: ccf-paper
-    title: Common Coordinate Framework of the Mouse Brain
-    year: 2020
-    citation: Ding, S.L. et al. "Canonical correspondence between the mouse brain and histological imaging." Nature Neuroscience 2020
+- citation: Allen Institute. "Allen Institute for Brain Science." https://www.alleninstitute.org/about/
+  id: allen-institute-founding
+  title: Allen Institute for Brain Science Overview
+  year: 2024
+- citation: Oh, S.W. et al. "A mesoscale connectome of the mouse brain." Nature 508,
+    207–214 (2014)
+  id: oh-2014
+  title: A mesoscale connectome of the mouse brain
+  year: 2014
+- citation: Allen Institute. "Allen Mouse Brain Connectivity Atlas." https://connectivity.brain-map.org/
+  id: allen-mouse-connectivity-atlas
+  title: Allen Mouse Brain Connectivity Atlas
+  year: 2024
+- citation: Allen Institute. "Allen SDK." https://sdk.brain-map.org/
+  id: allen-sdk-documentation
+  title: Allen SDK Documentation
+  year: 2024
+- citation: Ding, S.L. et al. "Canonical correspondence between the mouse brain and
+    histological imaging." Nature Neuroscience 2020
+  id: ccf-paper
+  title: Common Coordinate Framework of the Mouse Brain
+  year: 2020
+tags:
+- software
+- connectomics
+- structural-connectivity
+- diffusion-imaging
+- neuroimaging-dti
+title: Allen SDK
+type: entity
+updated: '2026-05-05'
 ---
 
-The Allen SDK is a software development kit produced by the Allen Institute for Brain Science that provides programmatic access to the institute's brain mapping datasets, particularly the Allen Mouse Brain Connectivity Atlas. It enables researchers to download, analyze, and visualize detailed anatomical and connectivity data from the mouse brain, serving as a critical resource for constructing data-driven structural connectivity matrices in whole-brain modeling workflows.
+The [[allen-sdk]] is a software development kit produced by the Allen Institute for Brain Science that provides programmatic access to the institute's brain mapping datasets, particularly the Allen Mouse Brain [[connectivity]] Atlas. It enables researchers to download, analyze, and visualize detailed anatomical and connectivity data from the mouse brain, serving as a critical resource for constructing data-driven [[structural-connectivity]] matrices in [[whole-brain|whole-brain modeling]] workflows.
 
 ## Overview
 
-The Allen Institute for Brain Science, established in Seattle in 2003 [@allen-institute-founding], has produced comprehensive brain atlases spanning multiple species and modalities. The Allen SDK emerged as a companion tool to make these rich datasets accessible to the computational neuroscience community through Python-based APIs. The primary dataset accessible through the SDK is the Allen Mouse Brain Connectivity Atlas, which contains detailed axonal tracing data derived from viral labeling experiments performed in the mouse brain [@allen-mouse-connectivity-atlas]. This dataset represents one of the most comprehensive maps of directed anatomical connectivity available at cellular resolution, with experiments spanning hundreds of injection sites across the cortex, subcortical structures, and brainstem nuclei [@oh-2014].
+The Allen Institute for Brain Science, established in Seattle in 2003 [@allen-institute-founding], has produced comprehensive brain atlases spanning multiple species and modalities. The Allen SDK emerged as a companion tool to make these rich datasets accessible to the [[computational-neuroscience]] community through Python-based APIs. The primary dataset accessible through the SDK is the Allen Mouse Brain Connectivity Atlas, which contains detailed axonal tracing data derived from viral labeling experiments performed in the mouse brain [@allen-mouse-connectivity-atlas]. This dataset represents one of the most comprehensive maps of directed anatomical connectivity available at cellular resolution, with experiments spanning hundreds of injection sites across the cortex, subcortical structures, and brainstem nuclei [@oh-2014].
 
-The SDK provides both high-level functions for querying the atlas database and lower-level utilities for working with image volumes, region-of-interest definitions, and connectivity matrices. Unlike traditional neuroimaging pipelines that process raw MRI data, the Allen SDK operates on pre-computed connectivity experiments, allowing researchers to directly access the results of meticulous anatomical tracing studies without requiring sophisticated image analysis infrastructure.
+The SDK provides both high-level functions for querying the atlas database and lower-level utilities for working with image volumes, region-of-interest definitions, and connectivity matrices. Unlike traditional [[neuroimaging]] pipelines that process raw MRI data, the Allen SDK operates on pre-computed connectivity experiments, allowing researchers to directly access the results of meticulous anatomical tracing studies without requiring sophisticated image analysis infrastructure.
 
 ## Key Features
 
 The Allen SDK offers several capabilities that distinguish it from other neuroanatomy tools. First, it provides a unified Python interface to the Allen Brain Atlas API, allowing scripted queries for injection experiments, projection patterns, and regional connectivity summaries without manual web browsing or download management. Users can search for experiments by injection target, projection strength, and anatomical region, enabling targeted extraction of connectivity data relevant to specific brain structures.
 
-Second, the SDK includes tools for working with the Common Coordinate Framework (CCF), a standardized three-dimensional reference space for the mouse brain [@ccf-paper]. The CCF integrates histological imaging, MRI, and manual parcellation into a single anatomical reference, and the SDK provides functions to transform coordinates between native experiment space, CCF space, and named anatomical regions. This coordinate transformation capability is essential for aligning connectivity data with other datasets or for integrating with computational models that operate in standardized space.
+Second, the SDK includes tools for working with the Common Coordinate Framework (CCF), a standardized three-dimensional reference space for the mouse brain [@ccf-paper]. The CCF integrates histological imaging, MRI, and manual [[parcellation]] into a single anatomical reference, and the SDK provides functions to transform coordinates between native experiment space, CCF space, and named anatomical regions. This coordinate transformation capability is essential for aligning connectivity data with other datasets or for integrating with computational models that operate in standardized space.
 
 Third, the SDK supports generation of connectivity matrices at multiple scales, from voxel-level resolution to region-level summaries using standardized parcellations. Researchers can extract directed connectivity weights between brain regions, allowing construction of directed graphs that capture the asymmetric nature of anatomical projections—a feature that many simplified connectivity matrices derived from DWI tractography cannot provide.
 
@@ -59,6 +66,6 @@ The SDK's focus on mouse brain connectivity also positions it as a complement to
 
 ## Key Papers
 
-- Oh, S.W. et al. (2014). "A mesoscale connectome of the mouse brain." *Nature* 508, 207–214. This foundational paper describes the Allen Mouse Brain Connectivity Atlas and its methodology.
+- Oh, S.W. et al. (2014). "A mesoscale [[connectome]] of the mouse brain." *Nature* 508, 207–214. This foundational paper describes the Allen Mouse Brain Connectivity Atlas and its methodology.
 - Ding, S.L. et al. (2020). "Canonical correspondence between the mouse brain and histological imaging." *Nature Neuroscience*. This paper describes the Common Coordinate Framework.
-- Allen Institute. "Allen Mouse Brain Connectivity Atlas." https://connectivity.brain-map.org/ — Official documentation and data access portal.
+- Allen Institute. "Allen Mouse Brain Connectivity Atlas." https://connectivity.[[brain-map]].org/ — Official documentation and data access portal.

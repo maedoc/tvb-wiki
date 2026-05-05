@@ -17,7 +17,7 @@ tags:
 - brain-network
 title: Network Neuroscience
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 Network neuroscience is an interdisciplinary field that applies graph theory and network science to understand brain structure and function as interconnected systems. Rather than studying individual neurons or brain regions in isolation, network neuroscience treats the brain as a complex network of nodes (neurons, populations, or brain regions) linked by edges (synapses, white matter tracts, or statistical dependencies), enabling analysis of emergent properties such as [[small-world-networks]], [[rich-club]] organization, modularity, and [[network-hubs]] [@doi:10.1038/nrn2576].
@@ -52,7 +52,7 @@ The relationship is bidirectional: network analysis characterizes empirical brai
 
 Several software packages implement network neuroscience methods:
 
-- Brainsuite (BCT): MATLAB toolbox for complex network analysis
+- [[brainsuite]] (BCT): MATLAB toolbox for complex network analysis
 - [[bctpy]]: Python implementation of BCT functions
 - [[brainspace]]: Python library for mapping [[connectivity]] patterns
 - [[braph]]: Graph-theoretic analysis of brain connectivity in MATLAB/Python

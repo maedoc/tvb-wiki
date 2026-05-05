@@ -52,7 +52,7 @@ TractoFlow has direct relevance to [[The-Virtual-Brain]] workflows that require 
 
 TractoFlow outputs can be processed through tractography algorithms to generate **streamline-based structural connectivity matrices** that serve as the anatomical scaffold for TVB simulations. The pipeline's emphasis on [[reproducibility]] and standardized preprocessing helps ensure that connectivity matrices are comparable across studies and cohorts—a key requirement for [[personalized-brain-modeling]] initiatives that aim to calibrate individual patient models from empirical neuroimaging data.
 
-The combination of TractoFlow for preprocessing, [[MRtrix3]] or [[AFQ]] for tractography, and TVB for dynamical modeling represents an established workflow in the TVB ecosystem for building personalized whole-brain models from diffusion MRI data. This integrated approach enables researchers to maintain methodological consistency from raw scanning through to simulation, reducing pipeline-related variability in connectome-derived connectivities.
+The combination of TractoFlow for preprocessing, [[MRtrix3]] or [[AFQ]] for tractography, and TVB for dynamical modeling represents an established workflow in the TVB ecosystem for building personalized whole-brain models from diffusion MRI data. This integrated approach enables researchers to maintain methodological consistency from raw scanning through to simulation, reducing pipeline-related variability in [[connectome]]-derived connectivities.
 
 ## Key Papers
 
@@ -75,5 +75,5 @@ The combination of TractoFlow for preprocessing, [[MRtrix3]] or [[AFQ]] for trac
 ## References
 
 1. Emmanuelle Renauld, Arnaud Boré, Charles Poirier, Alex Valcourt-Caron, Philippe Karan, Antoine Théberge, Guillaume Théaud, Manon Edde, P. Poulin, Gabriel Girard, Jean-Christophe Houde, A. Gagnon, Etienne St-Onge, Graham Little, Jon Haitz Legarreta, Stanislas Thoumyre, G. Grenier, Zineb El Yamani, Mario Ocampo Pineda, Matteo Battochio, Vincent Beaudoin, Alexandre Joanisse, Laurent Petit, F. Rheault, Maxime Descoteaux. (2026). *Tractography analysis with the scilpy toolbox*. Aperture Neuro. [DOI](https://doi.org/10.52294/001c.154022)
-2. Zhishun Wang, Feng Liu, Rachel Marsh, Gaurav H. Patel, J. Grinband. (2026). *MEPrep: A robust pipeline for multi-echo fMRI denoising and preprocessing*. Imaging Neuroscience. [DOI](https://doi.org/10.1162/IMAG.a.1198)
-3. (authors unknown). *The Minimal Preprocessing Pipelines for the Human Connectome Project*.
+2. Zhishun Wang, Feng Liu, Rachel Marsh, Gaurav H. Patel, J. Grinband. (2026). *MEPrep: A robust pipeline for multi-echo [[fmri]] denoising and preprocessing*. Imaging Neuroscience. [DOI](https://doi.org/10.1162/IMAG.a.1198)
+3. (authors unknown). *The Minimal Preprocessing Pipelines for the [[human-connectome-project]]*.

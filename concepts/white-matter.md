@@ -8,7 +8,7 @@ tags:
 - white-matter
 title: White Matter
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 White Matter — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
@@ -29,16 +29,16 @@ White Matter — a concept in [[whole-brain|whole-brain modeling]] and [[computa
 created: 2025-01-15
 sources:
 - https://doi.org/10.1101/2020.07.13.201316
-- https://openneuro.org/datasets/ds000102
+- https://[[openneuro]].org/datasets/ds000102
 - https://doi.org/10.1016/j.neuroimage.2021.118494
 - raw/papers/semanticscholar-cabf914d6370.md
 - raw/papers/semanticscholar-44da8d4ab79e.md
 - raw/papers/glasser-2013.md
 tags:
 - database
-- neuroimaging
-- resting-state
-- diffusion-imaging
+- [[neuroimaging]]
+- [[resting-state]]
+- [[diffusion-imaging]]
 - dataset
 title: AOMIC (Amsterdam Open MRI Collection)
 type: entity

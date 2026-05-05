@@ -1,15 +1,20 @@
 ---
-title: Theano
 created: 2024-01-15
-updated: 2026-05-04
-type: entity
-tags: [software-neural-computation, computational-neuroscience, deep-learning, python, machine-learning]
 sources:
-  - https://arxiv.org/abs/1605.02688
-  - https://github.com/Theano/Theano/releases
-  - https://www.reddit.com/r/MachineLearning/comments/6i7l0a/mila_announces_it_will_no_longer_maintain_develop/
-  - https://link.springer.com/article/10.1007/s12021-009-9049-y
-  - https://link.springer.com/article/10.1007/s13752-013-0005-1
+- https://arxiv.org/abs/1605.02688
+- https://github.com/Theano/Theano/releases
+- https://www.reddit.com/r/MachineLearning/comments/6i7l0a/mila_announces_it_will_no_longer_maintain_develop/
+- https://link.springer.com/article/10.1007/s12021-009-9049-y
+- https://link.springer.com/article/10.1007/s13752-013-0005-1
+tags:
+- software-neural-computation
+- computational-neuroscience
+- deep-learning
+- python
+- machine-learning
+title: Theano
+type: entity
+updated: '2026-05-05'
 ---
 
 Theano is a Python library for symbolic mathematical computation that was developed at the Montreal Institute for Learning Algorithms (MILA) at Université de Montréal. Originally released in 2007, Theano enabled researchers to define, optimize, and evaluate mathematical expressions involving multi-dimensional arrays efficiently. It was among the first widely adopted frameworks for deep learning research and played a crucial role in advancing the field during the early to mid-2010s before being largely superseded by TensorFlow and PyTorch. Theano's core innovation lay in its ability to perform symbolic differentiation, compile computations into efficient machine code, and leverage Graphics Processing Units (GPUs) for accelerated computation—capabilities that were novel and transformative at the time of its development.
@@ -28,9 +33,9 @@ However, Theano's architecture proved difficult to maintain and extend as the fi
 
 ## Relationship to The Virtual Brain
 
-The relationship between Theano and [[the-virtual-brain]] (TVB) is primarily historical rather than operational in modern workflows. During TVB's early development phases in the late 2000s and early 2010s, Theano was considered as a potential computational backend for simulating large-scale neural network models due to its efficiency at handling numerical arrays and its GPU acceleration capabilities. Theano's symbolic computation capabilities aligned well with certain [[neural-mass-models]] formulations that require solving systems of differential equations numerically. However, no public documentation confirms Theano was ever adopted as TVB's primary computational backend.
+The relationship between Theano and [[the-virtual-brain]] (TVB) is primarily historical rather than operational in modern workflows. During TVB's early development phases in the late 2000s and early 2010s, Theano was considered as a potential computational backend for simulating large-scale [[neural-network]] models due to its efficiency at handling numerical arrays and its GPU acceleration capabilities. Theano's symbolic computation capabilities aligned well with certain [[neural-mass-models]] formulations that require solving systems of differential equations numerically. However, no public documentation confirms Theano was ever adopted as TVB's primary computational backend.
 
-Modern TVB installations typically utilize NumPy-based computations for the [[neural-mass-model]] level simulations and may integrate with specialized simulators like [[nest]] for detailed spiking network simulations. The computational requirements of TVB's whole-brain simulations—which involve solving large systems of coupled differential equations representing brain region interactions—have led the development team to prioritize flexibility over the low-level optimizations that Theano provided. Today, TVB's simulation engine operates primarily through its own custom-written numerical routines rather than depending on legacy deep learning frameworks.
+Modern TVB installations typically utilize NumPy-based computations for the [[neural-mass-model]] level simulations and may integrate with specialized simulators like [[nest]] for detailed spiking network simulations. The computational requirements of TVB's [[whole-brain]] simulations—which involve solving large systems of coupled differential equations representing brain region interactions—have led the development team to prioritize flexibility over the low-level optimizations that Theano provided. Today, TVB's simulation engine operates primarily through its own custom-written numerical routines rather than depending on legacy deep learning frameworks.
 
 ## Related Software
 
@@ -46,8 +51,8 @@ Several other Python libraries for numerical computing relate to Theano's domain
 
 - LeCun, Y., Bengio, Y., & Hinton, G. (2015). "Deep learning." *Nature*, 521(7553), 436-444. Provides broader context on the deep learning renaissance during which Theano was developed.
 
-- Schweighofer, N., & Doya, K. (2003). "Neural simulators: Lessons from brain modeling." *Neural Networks*, 16(5), 645-653. Context for neural simulation approaches in computational neuroscience.
+- Schweighofer, N., & Doya, K. (2003). "Neural simulators: Lessons from brain modeling." *Neural Networks*, 16(5), 645-653. Context for neural simulation approaches in [[computational-neuroscience]].
 
-- Ritter, P., et al. (2008). "The Virtual Brain: a simulator for primate brain network dynamics." *Neuroinformatics*, 6(1), 1-8. Original TVB publication documenting its computational architecture.
+- Ritter, P., et al. (2008). "[[tvb|The Virtual Brain]]: a simulator for primate brain [[network-dynamics]]." *Neuroinformatics*, 6(1), 1-8. Original TVB publication documenting its computational architecture.
 
 - Morrison, A., et al. (2008). "Realistic modeling of small-scale neuronal networks." *Neural Networks*, 21(2-3), 257-265. Background on neural mass modeling approaches used in TVB.

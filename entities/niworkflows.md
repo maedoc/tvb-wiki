@@ -23,7 +23,7 @@ tags:
 - software-ants
 title: NiWorkflows
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 # NiWorkflows
@@ -56,7 +56,7 @@ NiWorkflows occupies a central position in the NiPy ecosystem and connects to nu
 - **Data standardization**: [[pybids]] handles BIDS dataset parsing; Bidscoin and [[bidskit]] help organize raw data into BIDS format
 - **Registration tools**: [[ants]], Freesurfer, Fsl, and [[afni]] are the underlying tools wrapped by NiWorkflows interfaces
 - **Derivatives ecosystem**: [[xcp-d]] and [[ciftify]] produce subsequent-level analyses from NiWorkflows preprocessed data
-- **Pipeline containerization**: BIDS Apps provide containerized execution of NiWorkflows-based tools with standardized interfaces
+- **Pipeline containerization**: [[bids-apps]] provide containerized execution of NiWorkflows-based tools with standardized interfaces
 
  The framework also relates to broader neuroimaging efforts including the [[human-connectome-project]] pipeline infrastructure, the [[bids-derivatives]] specification for standardized output organization, and containerization solutions like Neurodesk that package NiWorkflows-based tools for portable execution.
 

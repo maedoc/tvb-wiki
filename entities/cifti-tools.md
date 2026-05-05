@@ -17,7 +17,7 @@ type: entity
 updated: '2026-05-05'
 ---
 
-CIFTI (Connectivity InFormatics Initiative) tools encompass a family of software utilities designed to work with the CIFTI data format, a specialized file format developed by the Human Connectome Project (HCP) for storing dense connectivity data from neuroimaging studies [@GlasserEtAl2013]. The format addresses fundamental limitations of older neuroimaging formats by enabling representation of both surface-based (cortical) and volumetric (subcortical) data within a single file, making it particularly well-suited for whole-brain connectivity analyses central to [[whole-brain-modeling]] approaches.
+CIFTI ([[connectivity]] InFormatics Initiative) tools encompass a family of software utilities designed to work with the CIFTI data format, a specialized file format developed by the [[human-connectome-project]] (HCP) for storing dense connectivity data from [[neuroimaging]] studies [@GlasserEtAl2013]. The format addresses fundamental limitations of older neuroimaging formats by enabling representation of both surface-based (cortical) and volumetric (subcortical) data within a single file, making it particularly well-suited for [[whole-brain]] connectivity analyses central to [[whole-brain-modeling]] approaches.
 
 ## Motivation and Context
 
@@ -25,15 +25,15 @@ Traditional neuroimaging formats such as NIfTI were originally designed for volu
 
 ## Key Features
 
-The CIFTI format supports several critical features for connectivity analysis. **Grayordinate representation** combines cortical gray matter surfaces (represented as vertices) with subcortical volumes (voxels) into a unified coordinate system, eliminating the need for separate file handling [@GlasserEtAl2013]. **Dense connectivity** storage enables storage of complete connectivity matrices between all grayordinates rather than just parcel-based summaries, preserving the full information content of [[resting-state]] fMRI analyses. The format specification also supports time series data, allowing storage of complete BOLD-signal time courses alongside connectivity matrices. CIFTI files use extensions `.dtseries.nii` for time series and `.dscalar.nii` for scalar data, both built on the NIfTI-2 header structure for improved metadata handling.
+The CIFTI format supports several critical features for connectivity analysis. **Grayordinate representation** combines cortical gray matter surfaces (represented as vertices) with subcortical volumes (voxels) into a unified coordinate system, eliminating the need for separate file handling [@GlasserEtAl2013]. **Dense connectivity** storage enables storage of complete connectivity matrices between all grayordinates rather than just parcel-based summaries, preserving the full information content of [[resting-state]] fMRI analyses. The format specification also supports time series data, allowing storage of complete [[bold-signal]] time courses alongside connectivity matrices. CIFTI files use extensions `.dtseries.nii` for time series and `.dscalar.nii` for scalar data, both built on the [[nifti]]-2 header structure for improved metadata handling.
 
 ## Primary Software Tools
 
-**Connectome Workbench** serves as the primary visualization and analysis environment for CIFTI data. Developed by the HCP, workbench provides graphical interfaces for viewing surface-based data, creating brain figures, and performing basic connectivity analyses. The command-line utilities (`wb_command`) enable batch processing and scripted workflows essential for reproducible research pipelines. Workbench integrates closely with HCP pipelines but functions independently for general CIFTI manipulation.
+**Connectome Workbench** serves as the primary visualization and analysis environment for CIFTI data. Developed by the HCP, workbench provides graphical interfaces for viewing surface-based data, creating brain figures, and performing basic connectivity analyses. The command-line utilities (`wb_command`) enable batch processing and scripted workflows essential for reproducible research pipelines. Workbench integrates closely with [[hcp-pipelines]] but functions independently for general CIFTI manipulation.
 
 **ciftify** provides a Python-based framework for CIFTI data processing within the [[nipype]] ecosystem. The package offers routines for converting between CIFTI and other formats, surface projection utilities, and integration with [[fmriprep]] outputs. ciftify workflows are commonly used when preparing HCP-style data for [[personalized-brain-modeling]] pipelines that require CIFTI-formatted time series inputs.
 
-**nibabel** provides programmatic Python access to CIFTI files through its `cifti2` module, enabling custom analysis scripts to read and write CIFTI data without external dependencies [@nibabel-docs]. This low-level access is essential for developers building custom connectivity pipelines.
+**[[nibabel]]** provides programmatic Python access to CIFTI files through its `cifti2` module, enabling custom analysis scripts to read and write CIFTI data without external dependencies [@nibabel-docs]. This low-level access is essential for developers building custom connectivity pipelines.
 
 ## Key Papers
 
@@ -49,7 +49,7 @@ The Virtual Brain integrates with CIFTI tools primarily through its connectivity
 - [[TVB]] — The Virtual Brain
 - [[cifti]] — CIFTI format specification
 - [[connectome-workbench]] — Primary visualization environment
-- [[nipype]] — Python workflow framework used by ciftify
+- [[nipype]] — Python workflow framework used by [[ciftify]]
 
 ## References
 

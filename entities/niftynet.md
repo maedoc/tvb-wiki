@@ -1,4 +1,8 @@
 ---
+updated: '2026-05-05'
+---
+
+---
 created: 2026-04-24
 sources:
 - raw/papers/semanticscholar-8edd59e14fa3.md
@@ -12,7 +16,7 @@ sources:
 tags:
 - software-brain-modeling
 - structural-connectivity
-- connectomics
+- [[connectomics]]
 title: NiftyNet
 type: entity
 updated: '2026-05-04'

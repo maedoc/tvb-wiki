@@ -14,7 +14,7 @@ tags:
 - bluepyopt
 title: SONATA
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 ## Overview
@@ -43,7 +43,7 @@ SONATA offers several distinguishing capabilities that have driven its adoption 
 
 ## Relationship to Other Software
 
-SONATA occupies a similar niche to [NeuroML](Neuroml) in providing declarative model specification, but SONATA's focus on large-scale point-neuron networks and tight integration with specific simulators differentiates it from NeuroML's broader scope spanning multiple cell classes and signal types. Unlike TVB's integrated approach, SONATA adopts a more modular philosophy where the network definition is decoupled from the dynamical model specification and the simulator. The format complements [PyNEST]([[pynest]]) libraries and the broader [netpyne](Netpyne) ecosystem for network specification.
+SONATA occupies a similar niche to [NeuroML]([[neuroml]]) in providing declarative model specification, but SONATA's focus on large-scale point-neuron networks and tight integration with specific simulators differentiates it from NeuroML's broader scope spanning multiple cell classes and signal types. Unlike TVB's integrated approach, SONATA adopts a more modular philosophy where the network definition is decoupled from the dynamical model specification and the simulator. The format complements [PyNEST]([[pynest]]) libraries and the broader [netpyne](Netpyne) ecosystem for network specification.
 
 ## Limitations and Open Questions
 

@@ -19,7 +19,7 @@ tags:
 - software-brain-modeling
 title: BrainGlobe
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 BrainGlobe is an open-source computational neuroanatomy suite that provides tools for atlas creation, image registration, cell detection, and three-dimensional visualization of brain structure. Developed as a collaborative effort among neuroscience laboratories, BrainGlobe addresses the need for standardized, reproducible workflows in neuroanatomical analysis. The suite integrates various software components that work together within a unified Python framework, enabling researchers to go from raw imaging data to quantitative anatomical insights without requiring extensive custom coding. BrainGlobe's architecture emphasizes [[modularity]], allowing individual components such as the registration pipeline or visualization engine to be used independently while maintaining compatibility with the broader ecosystem.
@@ -46,7 +46,7 @@ The visualization system supports multiple rendering backends and can operate in
 
 ### Registration and Segmentation
 
-The registration and segmentation components of BrainGlobe are exemplified by Brainsuite, an automated tool for segmenting three-dimensional anatomical images against reference atlases. Brainreg implements a flexible registration pipeline that adapts to different imaging modalities, resolution scales, and species, using iterative refinement to achieve accurate alignment between sample data and reference templates. The tool outputs segmentations as volumetric masks that can be exported in standard formats compatible with downstream analysis packages such as Fsl, Freesurfer, or Dipy. This automation substantially reduces the manual effort traditionally required for neuroanatomical segmentation while maintaining accuracy suitable for quantitative studies.
+The registration and segmentation components of BrainGlobe are exemplified by [[brainsuite]], an automated tool for segmenting three-dimensional anatomical images against reference atlases. Brainreg implements a flexible registration pipeline that adapts to different imaging modalities, resolution scales, and species, using iterative refinement to achieve accurate alignment between sample data and reference templates. The tool outputs segmentations as volumetric masks that can be exported in standard formats compatible with downstream analysis packages such as Fsl, Freesurfer, or Dipy. This automation substantially reduces the manual effort traditionally required for neuroanatomical segmentation while maintaining accuracy suitable for quantitative studies.
 
 For cellular-resolution data, BrainGlobe provides cellfinder, a machine learning-based pipeline for detecting and classifying cells in three-dimensional image stacks. Cellfinder employs a deep learning architecture trained on diverse datasets to distinguish between neuronal and non-neuronal cells across multiple species and preparation types. The detected cells can be registered to atlas coordinates, enabling automated extraction of cell density distributions, spatial statistics, and proximity metrics relative to anatomical boundaries. This capability is particularly valuable for studies investigating [[connectomics]] at the cellular scale, where quantitative comparison of cell distributions across experimental conditions requires robust, reproducible detection pipelines.
 

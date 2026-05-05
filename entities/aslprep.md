@@ -12,7 +12,7 @@ tags:
 - reproducibility
 title: ASLPrep
 type: software
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 # ASLPrep
@@ -60,7 +60,7 @@ ASLPrep is part of a broader ecosystem of BIDS Apps and preprocessing tools for 
 - **ASLPrep: A Robust Preprocessing Pipeline for ASL Data** [@doi:10.1101/2023.04.04.535856] — Original ASLPrep publication describing the pipeline architecture and validation.
 - **fMRIPrep: A Robust Preprocessing Pipeline for Functional MRI** [@doi:10.1016/j.neuroimage.2020.117336] — The foundational paper for the preprocessing philosophy that ASLPrep draws upon.
 - **Recommended ASL Processing Steps and Sources** [@doi:10.1002/mrm.25197] — Consensus paper on standard ASL processing methods and nomenclature.
-- **BIDS Application Specification** [@doi:10.1002/hbm.25230] — Description of the BIDS Apps ecosystem and standardization approach.
+- **BIDS Application Specification** [@doi:10.1002/hbm.25230] — Description of the [[bids-apps]] ecosystem and standardization approach.
 
 ## References
 

@@ -16,7 +16,7 @@ tags:
 - research-infrastructure
 title: EBRAINS
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 # EBRAINS
@@ -45,7 +45,7 @@ EBRAINS maintains a particularly close relationship with [[the-virtual-brain]] (
 
 ## Technical Architecture
 
-The EBRAINS architecture comprises several interconnected layers: a data layer hosting curated datasets and atlases; a compute layer providing scalable processing and simulation capabilities; a tools layer offering integrated software packages for analysis, visualization, and modeling; and a services layer exposing programmatic APIs for automated workflows. The infrastructure follows open-science principles, with much of its software stack available as open-source and datasets released under permissive licenses. Interoperability with other major brain initiatives—including the US brain initiative ecosystem and international partners—is maintained through adoption of community standards like Neuroml for model specification and NWB ([[neurodata-without-borders]]) for data formats.
+The EBRAINS architecture comprises several interconnected layers: a data layer hosting curated datasets and atlases; a compute layer providing scalable processing and simulation capabilities; a tools layer offering integrated software packages for analysis, visualization, and modeling; and a services layer exposing programmatic APIs for automated workflows. The infrastructure follows open-science principles, with much of its software stack available as open-source and datasets released under permissive licenses. Interoperability with other major brain initiatives—including the US brain initiative ecosystem and international partners—is maintained through adoption of community standards like [[neuroml]] for model specification and NWB ([[neurodata-without-borders]]) for data formats.
 
 ## Related Software and Platforms
 

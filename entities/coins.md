@@ -1,17 +1,22 @@
 ---
-title: COINS
 created: 2024-01-15
-updated: 2026-05-04
-type: entity
-tags: [neuroimaging-fmri, neuroimaging-dti, neuroimaging-eeg, neuroimaging-meg, reproducibility]
 sources: []
+tags:
+- neuroimaging-fmri
+- neuroimaging-dti
+- neuroimaging-eeg
+- neuroimaging-meg
+- reproducibility
+title: COINS
+type: entity
+updated: '2026-05-05'
 ---
 
 # COINS
 
 ## Overview
 
-COINS (Collaborative Informatics and Neuroimaging Suite) is a comprehensive, web-based data management platform developed at the Mind Research Network (MRN) in Albuquerque, New Mexico. Designed to address the growing challenges of neuroimaging data storage, retrieval, and sharing, COINS provides an end-to-end solution for managing large-scale, heterogeneous neuroscience research data across multiple institutions. The system integrates study management, neuroimaging data acquisition, neuropsychological assessment collection, radiology review workflows, and secure data sharing capabilities into a unified HIPAA-compliant architecture. COINS represents one of the earliest large-scale institutional implementations of a neuroinformatics repository, predating many contemporary data sharing initiatives and serving as a model for multi-site collaborative research infrastructure.
+COINS (Collaborative Informatics and [[neuroimaging]] Suite) is a comprehensive, web-based data management platform developed at the Mind Research Network (MRN) in Albuquerque, New Mexico. Designed to address the growing challenges of neuroimaging data storage, retrieval, and sharing, COINS provides an end-to-end solution for managing large-scale, heterogeneous neuroscience research data across multiple institutions. The system integrates study management, neuroimaging data acquisition, neuropsychological assessment collection, radiology review workflows, and secure data sharing capabilities into a unified HIPAA-compliant architecture. COINS represents one of the earliest large-scale institutional implementations of a neuroinformatics repository, predating many contemporary data sharing initiatives and serving as a model for multi-site collaborative research infrastructure.
 
 The platform emerged from the recognition that as neuroimaging research expanded in scope—incorporating multiple imaging modalities, longitudinal assessments, and multi-site collaborations—researchers required sophisticated but accessible tools to manage the exponential growth in data volume and complexity. Traditional approaches using disconnected databases and manual workflows proved inadequate for modern multi-center studies. COINS was designed to fill this gap by providing a unified system that could handle the complete data lifecycle from participant enrollment through data analysis and sharing.
 
@@ -21,13 +26,13 @@ The platform emerged from the recognition that as neuroimaging research expanded
 
 COINS employs an automated DICOM receiver that collects and archives MR imaging data directly from scanners, requiring no manual intervention. The system performs automated integrity checks to ensure that inaccurate or incomplete data are not stored; problematic scans are routed to a temporary location until resolution. This automated pipeline significantly reduces the administrative burden on research staff while improving data quality through real-time validation against participant enrollment records.
 
-The Assessment Manager (ASMT) component provides web-based tools for collecting neuropsychological and clinical assessment data. COINS implements a dual-entry system for data collected on paper, wherein two independent data entry operators input the same form, and the system automatically identifies and resolves discrepancies. This approach dramatically reduces data entry errors and ensures high data quality for downstream analyses. The system also supports offline data entry through a browser cache, enabling data collection in environments with unreliable internet connectivity—a critical feature for research conducted in community settings or developing regions.
+The Assessment Manager (ASMT) component provides web-based tools for collecting neuropsychological and clinical assessment data. COINS implements a dual-entry system for data collected on paper, wherein two independent data entry operators input the same form, and the system automatically identifies and resolves discrepancies. This approach dramatically reduces data entry errors and ensures high data quality for downstream analyses. The system also supports offline data entry through a browser cache, enabling data collection in environments with unreliable internet [[connectivity]]—a critical feature for research conducted in community settings or developing regions.
 
 ### Study and Participant Tracking
 
 COINS provides flexible study management tools that accommodate the diverse organizational structures of neuroscience research. Each study can define custom participant types (e.g., control, patient, screened failure), track enrollment against IRB-approved targets, and manage visit schedules across multiple sessions. The system integrates IRB compliance management, automatically notifying principal investigators when study approvals approach expiration and preventing enrollment in expired studies. This feature has proven essential for maintaining regulatory compliance across large, long-duration investigations.
 
-The participant management system includes sophisticated repeat-subject identification capabilities. When a new participant enters the system, COINS performs fuzzy matching on name and address to identify potential duplicates while maintaining privacy controls. This enables longitudinal tracking of participants across multiple studies without compromising confidentiality, supporting richer metadata about individual developmental trajectories or disease progressions.
+The participant management system includes sophisticated repeat-subject identification capabilities. When a new participant enters the system, COINS performs fuzzy matching on name and address to identify potential duplicates while maintaining privacy controls. This enables longitudinal tracking of participants across multiple studies without compromising confidentiality, supporting richer metadata about individual [[developmental-trajectories]] or disease progressions.
 
 ### Security and Privacy
 
@@ -37,15 +42,15 @@ Access controls are role-based, with different permission levels for principal i
 
 ### Data Sharing Infrastructure
 
-COINS includes a robust data exchange framework that facilitates secure sharing of de-identified data among investigators. The "click-to-share" interface allows researchers to rapidly share datasets with collaborators at other institutions, either through direct data transfer or through a mediated access model where collaborators request access to shared resources. The system has hosted several prominent multi-site datasets, including the Autism Brain Imaging Data Exchange (ABIDE) comprising over 1,000 datasets from 15 sites, and the Consortium for Reliability and Reproducibility (CoRR), which has become a benchmark dataset for assessing neuroimaging reliability.
+COINS includes a robust data exchange framework that facilitates secure sharing of de-identified data among investigators. The "click-to-share" interface allows researchers to rapidly share datasets with collaborators at other institutions, either through direct data transfer or through a mediated access model where collaborators request access to shared resources. The system has hosted several prominent multi-site datasets, including the Autism Brain Imaging Data Exchange ([[abide]]) comprising over 1,000 datasets from 15 sites, and the Consortium for Reliability and [[reproducibility]] (CoRR), which has become a benchmark dataset for assessing neuroimaging reliability.
 
 ## Relationship to TVB
 
 COINS relates to [[tvb]] primarily through its role in generating and managing the neuroimaging data that feed whole-brain connectome models. TVB requires structural and functional connectivity data—typically derived from [[diffusion-imaging]] (DTI) and resting-state [[fmri]] scans—as primary inputs for simulation. COINS, as a data management platform, can store and organize exactly these imaging modalities, along with the parcellation schemes and phenotypic information needed to configure TVB simulations.
 
-The structural connectivity matrices used in TVB modeling are commonly derived from [[dti]] tractography pipelines, and the quality of these matrices depends critically on the acquisition and preprocessing of the raw diffusion data. COINS' DICOM receiver and quality control workflows help ensure that diffusion imaging data maintain the integrity needed for tractography. For functional connectivity, COINS supports the storage and management of [[fmri]] time series that can be used to derive seed-based or data-driven connectivity patterns, informing TVB's functional connectivity constraints.
+The [[structural-connectivity]] matrices used in TVB modeling are commonly derived from [[dti]] [[tractography]] pipelines, and the quality of these matrices depends critically on the acquisition and preprocessing of the raw diffusion data. COINS' DICOM receiver and quality control workflows help ensure that diffusion imaging data maintain the integrity needed for tractography. For [[functional-connectivity]], COINS supports the storage and management of [[fmri]] time series that can be used to derive seed-based or data-driven connectivity patterns, informing TVB's functional connectivity constraints.
 
-Furthermore, COINS' multi-site data sharing capabilities position it as infrastructure that could aggregate the large datasets needed for population-level TVB modeling. As personalized brain modeling increasingly requires large samples to parameterize and validate models, platforms like COINS that enable data pooling across institutions become valuable. The phenotypic and clinical assessment data managed by COINS—including cognitive measures, clinical ratings, and demographic information—are precisely the covariates needed to stratify patient populations for TVB modeling applications in conditions such as [[epilepsy-modeling]] or [[schizophrenia-models]].
+Furthermore, COINS' multi-site data sharing capabilities position it as infrastructure that could aggregate the large datasets needed for population-level TVB modeling. As [[personalized-brain-modeling]] increasingly requires large samples to parameterize and validate models, platforms like COINS that enable data pooling across institutions become valuable. The phenotypic and clinical assessment data managed by COINS—including cognitive measures, clinical ratings, and demographic information—are precisely the covariates needed to stratify patient populations for TVB modeling applications in conditions such as [[epilepsy-modeling]] or [[schizophrenia-models]].
 
 ## Key Papers
 

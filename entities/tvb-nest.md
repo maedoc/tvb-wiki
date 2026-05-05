@@ -14,7 +14,7 @@ tags:
 - mean-field-theory
 - epilepsy-modeling
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 # TVB-NEST
@@ -25,7 +25,7 @@ TVB-NEST is the coupling interface and software framework that integrates [[tvb|
 
 [[computational-neuroscience]] has historically treated brain dynamics at either microscopic or macroscopic scales, rarely bridging the two in unified simulations. Neural mass models like those implemented in TVB operate on the assumption that large populations of neurons can be adequately described by their mean activity, capturing [[brain-dynamics]] at the scale of brain regions connected by anatomical [[structural-connectivity]]. Meanwhile, simulators like NEST excel at modeling the detailed biophysical properties of individual neurons and small circuits, including [[synaptic-plasticity]], specific [[ion-channel]] configurations, and realistic synaptic delays.
 
-The TVB-NEST framework specifically addresses this scale gap by implementing bidirectional communication between simulators. Rather than requiring researchers to choose between biological realism and [[whole-brain]] coverage, TVB-NEST enables "selective zoom" modeling where specific brain regions can be instantiated as detailed spiking networks while the rest of the brain continues to operate at the population level. This approach was generalized in the more recent Arbor-TVB framework, demonstrating that the coupling architecture extends to other spiking simulators as well.
+The TVB-NEST framework specifically addresses this scale gap by implementing bidirectional communication between simulators. Rather than requiring researchers to choose between biological realism and [[whole-brain]] coverage, TVB-NEST enables "selective zoom" modeling where specific brain regions can be instantiated as detailed spiking networks while the [[rest]] of the brain continues to operate at the population level. This approach was generalized in the more recent Arbor-TVB framework, demonstrating that the coupling architecture extends to other spiking simulators as well.
 
 ## Motivation and Context
 

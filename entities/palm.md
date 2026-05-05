@@ -13,7 +13,7 @@ tags:
 - parameter-estimation
 title: PALM
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 # PALM
@@ -24,7 +24,7 @@ PALM (Parametric Analysis of Linear Models) is a statistical inference engine de
 
 ## Key Features
 
-PALM addresses several critical challenges in neuroimaging statistical analysis. First, it implements robust permutation-based inference that does not rely on asymptotic normality assumptions, making it valid for small sample sizes and non-Gaussian data distributions commonly encountered in [[fmri]] studies. The permutation framework automatically accounts for family-wise error rates through the generation of empirical null distributions, providing rigorous control over false positives across the thousands of voxels or vertices comprising a brain map.
+PALM addresses several critical challenges in neuroimaging statistical analysis. First, it implements robust permutation-based inference that does not rely on asymptotic normality assumptions, making it valid for small sample sizes and non-Gaussian data distributions commonly encountered in [[fmri]] studies. The permutation framework automatically accounts for family-wise error rates through the generation of empirical null distributions, providing rigorous control over false positives across the thousands of voxels or vertices comprising a [[brain-map]].
 
 Second, PALM implements efficient algorithms for estimating [[bayes-factors]] in linear models, enabling researchers to quantify evidence for competing hypotheses about brain activation patterns or connectivity differences. This Bayesian capability is particularly valuable in [[whole-brain-modeling]] contexts where researchers wish to compare competing [[neural-mass-models]] or assess the evidence for group differences in [[brain-dynamics]] parameters. The implementation uses the [[variational-bayes]] approximation developed by Friston and colleagues, which scales efficiently to high-dimensional imaging data.
 
@@ -48,7 +48,7 @@ The foundational PALM paper describes the permutation-based inference framework 
 - [[the-virtual-brain]] — [[whole-brain-modeling]] platform often used with PALM for statistical validation
 - Spm — alternative [[neuroimaging]] analysis package with its own inference framework
 - [[afni]] — another major [[neuroimaging]] analysis platform with permutation testing capabilities
-- Brainsuite — network analysis toolbox often used alongside PALM for [[connectome]] analysis
+- [[brainsuite]] — network analysis toolbox often used alongside PALM for [[connectome]] analysis
 
 ## Relationships to Other Concepts
 

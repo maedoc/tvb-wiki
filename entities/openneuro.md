@@ -8,7 +8,7 @@ tags:
 - software-brain-modeling
 title: OpenNeuro
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 OpenNeuro is an open-access repository for neuroimaging datasets that has become a cornerstone resource for the computational neuroscience and brain modeling communities. Originally launched as a successor to the OpenfMRI project, OpenNeuro provides a standardized platform for sharing, organizing, and archiving neuroimaging data in the [[bids|Brain Imaging Data Structure (BIDS)]] format. The repository hosts primarily [[fmri|fMRI]], [[eeg|EEG]], [[meg|MEG]], and [[diffusion-mri|diffusion MRI]] datasets contributed by researchers worldwide, enabling reproducibility and facilitating new analyses that build upon existing data. As of 2024, OpenNeuro contains hundreds of curated datasets with tens of thousands of subjects, making it one of the largest publicly available collections of human neuroimaging data [@openneuro].
@@ -37,7 +37,7 @@ OpenNeuro operates within a broader ecosystem of tools and platforms that suppor
 
 ## Key Papers
 
-- Gorgolewski, K. J., et al. (2017). BIDS apps: Improving ease of use, functionality, and robustness for [[neuroimaging]]. *NeuroImage*.
+- Gorgolewski, K. J., et al. (2017). [[bids-apps]]: Improving ease of use, functionality, and robustness for [[neuroimaging]]. *NeuroImage*.
 - Esteban, O., et al. (2019). fMRIPrep: A robust preprocessing pipeline for functional MRI. *Nature Methods*.
 -钮文艳等. (2019). OpenNeuro: A flexible and sustainable platform for reproducible neuroimaging research. *Scientific Data*.
 

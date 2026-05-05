@@ -14,7 +14,7 @@ tags:
 - human-connectome-project
 title: Marcus Raichle
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 Marcus Raichle is a Distinguished Professor of Neurology, Radiology, and Neuroscience at Washington University in St. Louis and one of the founding figures of modern functional neuroimaging. His work fundamentally transformed how neuroscientists understand the brain's intrinsic organization—revealing that the resting brain is not idle but continuously engaged in organized, meaningful activity. Raichle's seminal contributions established the conceptual and methodological foundation for [[resting-state]] functional connectivity analysis, the [[default-mode-network]], and the broader field of [[connectomics]] that now permeates both basic and clinical neuroscience research. His work also provided crucial constraints for [[whole-brain|whole-brain modeling]] approaches that simulate large‑scale brain dynamics.
@@ -45,7 +45,7 @@ Marcus Raichle's influence extends through his extensive publication record (wit
 
 ## Related Concepts
 
-- [[default‑mode‑network]] — The [[brain‑network]] Raichle helped discover, active during rest and internal cognition
+- [[default‑mode‑network]] — The [[brain‑network]] Raichle helped discover, active during [[rest]] and internal cognition
 - [[functional‑connectivity]] — The analytical approach Raichle pioneered using correlated [[bold-signal|BOLD]] fluctuations
 - [[resting‑state]] — The paradigm Raichle established as fundamental to understanding brain organization
 - [[whole‑brain‑modeling]] — Computational approaches that simulate large‑scale dynamics observed in resting‑state data

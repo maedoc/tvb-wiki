@@ -42,10 +42,10 @@ While SimBrain is not directly integrated into TVB's simulation pipeline, both t
 
 ## Related Software
 
-SimBrain exists within a broader ecosystem of neural simulators, each targeting different scales and use cases. Brian and Brian2 provide Python-based spiking neural network simulation with extensive model libraries. [[nest]] emphasizes large-scale point neuron simulations with HPC deployment. For rate-based models commonly used in cognitive modeling, [[psyneulink]] provides a framework that bridges neural and cognitive levels of description. The Neuroml project offers a standardized format for exchanging neural model specifications across simulators, potentially enabling workflow transfer from conceptual models built in SimBrain to production simulations in more capable frameworks.
+SimBrain exists within a broader ecosystem of neural simulators, each targeting different scales and use cases. Brian and Brian2 provide Python-based spiking neural network simulation with extensive model libraries. [[nest]] emphasizes large-scale point neuron simulations with HPC deployment. For rate-based models commonly used in cognitive modeling, [[psyneulink]] provides a framework that bridges neural and cognitive levels of description. The [[neuroml]] project offers a standardized format for exchanging neural model specifications across simulators, potentially enabling workflow transfer from conceptual models built in SimBrain to production simulations in more capable frameworks.
 
 ## References
 
-1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
-2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *Arbor-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
+1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate [[brain-network]] dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
 3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](https://doi.org/10.3389/fncom.2025.1731161)

@@ -1,13 +1,26 @@
 ---
-title: BIDS Apps
 created: 2024-01-15
-updated: 2026-05-04
+sources:
+- Gorgolewski et al. 2017
+- Brain Imaging Data Structure specification
+- fmriprep publication
+- mriqc publication
+- qsiprep publication
+- BIDS Apps GitHub repository
+tags:
+- software-brain-modeling
+- neuroimaging
+- neuroimaging-fmri
+- neuroimaging-meg
+- neuroimaging-eeg
+- reproducibility
+- dataset
+title: BIDS Apps
 type: entity
-tags: [software-brain-modeling, neuroimaging, neuroimaging-fmri, neuroimaging-meg, neuroimaging-eeg, reproducibility, dataset]
-sources: [Gorgolewski et al. 2017, Brain Imaging Data Structure specification, fmriprep publication, mriqc publication, qsiprep publication, BIDS Apps GitHub repository]
+updated: '2026-05-05'
 ---
 
-BIDS Apps are containerized neuroimaging processing pipelines that operate on data organized according to the [[bids]] (Brain Imaging Data Structure) specification. They represent a standardization effort to make neuroimaging analysis workflows portable, reproducible, and interoperable across different computing environments. Each BIDS App is a command-line tool packaged inside a Docker or [[apptainer]] (formerly Singularity) container, accepting BIDS-formatted datasets as input and producing BIDS-compliant derivatives as output. The BIDS Apps framework was introduced by Gorgolewski and colleagues (2017) as a solution to the reproducibility challenges that have long plagued the neuroimaging community.
+BIDS Apps are containerized [[neuroimaging]] processing pipelines that operate on data organized according to the [[bids]] (Brain Imaging Data Structure) specification. They represent a standardization effort to make neuroimaging analysis workflows portable, reproducible, and interoperable across different computing environments. Each BIDS App is a command-line tool packaged inside a Docker or [[apptainer]] (formerly Singularity) container, accepting BIDS-formatted datasets as input and producing BIDS-compliant derivatives as output. The BIDS Apps framework was introduced by Gorgolewski and colleagues (2017) as a solution to the [[reproducibility]] challenges that have long plagued the neuroimaging community.
 
 ## Motivation and Context
 
@@ -29,19 +42,19 @@ Several BIDS Apps have become widely adopted in the neuroimaging community. [[fm
 
 The [[the-virtual-brain]] (TVB) ecosystem leverages BIDS Apps as part of its data preprocessing pipeline for whole-brain modeling. When constructing personalized brain models from empirical neuroimaging data, TVB requires structural connectivity matrices derived from diffusion tensor imaging (DTI) or more advanced diffusion models, as well as functional connectivity matrices from resting-state [[fmri]] or [[meg]] recordings. The preprocessing of raw neuroimaging data to produce these inputs can be facilitated by BIDS-compliant preprocessing chains, including [[qsiprep]] for diffusion data and [[fmriprep]] for functional data.
 
-Moreover, TVB's integration with tools like [[datalad]] enables version-controlled storage and retrieval of large neuroimaging datasets, complementing the BIDS organizational structure. Researchers building personalized brain models increasingly adopt BIDS as the foundation for data management, allowing them to feed preprocessed connectivity estimates directly into TVB's simulation framework. The combination of BIDS data organization, BIDS Apps for preprocessing, and TVB for dynamical modeling creates an end-to-end reproducible workflow from raw MRI scans to whole-brain simulations. This integration is particularly valuable for studies that require both high-quality preprocessing (ensured by validated BIDS Apps) and sophisticated dynamical analysis (provided by TVB), enabling researchers to maintain reproducibility across the entire analysis pipeline while focusing their efforts on the scientific questions at hand.
+Moreover, TVB's integration with tools like [[datalad]] enables version-controlled storage and retrieval of large neuroimaging datasets, complementing the BIDS organizational structure. Researchers building [[personalized-brain-modeling|personalized brain]] models increasingly adopt BIDS as the foundation for data management, allowing them to feed preprocessed [[connectivity]] estimates directly into TVB's simulation framework. The combination of BIDS data organization, BIDS Apps for preprocessing, and TVB for dynamical modeling creates an end-to-end reproducible workflow from raw MRI scans to [[whole-brain]] simulations. This integration is particularly valuable for studies that require both high-quality preprocessing (ensured by validated BIDS Apps) and sophisticated dynamical analysis (provided by TVB), enabling researchers to maintain reproducibility across the entire analysis pipeline while focusing their efforts on the scientific questions at hand.
 
 ## Key Papers
 
 - Gorgolewski, K., Alfaro-Almagro, F., Auer, T., et al. (2017). BIDS Apps: Improving reproducibility in neuroimaging. Neuroimage.
 - Esteban, O., Markiewicz, C.J., Blair, R.W., et al. (2019). fMRIPrep: A robust preprocessing pipeline for functional MRI. Nature Methods.
 - Esteban, O., Birman, D., Schaer, M., et al. (2017). MRIQC: Advancing the automatic prediction of MRI quality. PeerJ.
-- Cieslak, M., Cook, P.A., He, X., et al. (2021). QSIPrep: An integrative pipeline for preprocessing and reconstruction of diffusion MRI data.
+- Cieslak, M., Cook, P.A., He, X., et al. (2021). QSIPrep: An integrative pipeline for preprocessing and reconstruction of [[diffusion-mri]] data.
 
 ## Related Software
 
 - [[bidscoin]] — BIDS dataset conversion and curation tool
 - [[heudiconv]] — DICOM to BIDS converter
 - [[qsiprep]] — Diffusion MRI preprocessing
-- [[mrtrix3]] — Advanced diffusion imaging toolkit
+- [[mrtrix3]] — Advanced [[diffusion-imaging]] toolkit
 - [[datalad]] — Version-controlled data management

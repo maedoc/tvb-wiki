@@ -14,7 +14,7 @@ tags:
 - software-bids
 title: Datalad Containers
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 Datalad Containers is an extension to the [[datalad]] data management framework that enables packaging, sharing, and running analysis software within containerized environments. The extension bridges the gap between reproducible data versioning and reproducible computational environments by allowing researchers to associate specific software containers with datasets and execute them seamlessly. This capability is particularly valuable in [[computational-neuroscience]] and neuroimaging, where complex pipelines involving multiple software tools (such as Freesurfer, Fsl, [[afni]], and Mrtrix3) must be executed with exact versions to ensure reproducibility across experiments.
@@ -35,7 +35,7 @@ The extension also complements platforms like [[brainlife]] and Cbrain, which pr
 
 ## Key Features
 
-The primary feature of DataLad Containers is declarative container specification. Rather than requiring users to manually configure container mounts and paths for each execution, the extension encodes these details once in the dataset configuration. The system supports multiple containers per dataset, enabling different analyses to use different environments—for instance, one container for [[diffusion-mri]] processing and another for graph-theoretic network analysis using the Brainsuite.
+The primary feature of DataLad Containers is declarative container specification. Rather than requiring users to manually configure container mounts and paths for each execution, the extension encodes these details once in the dataset configuration. The system supports multiple containers per dataset, enabling different analyses to use different environments—for instance, one container for [[diffusion-mri]] processing and another for graph-theoretic network analysis using the [[brainsuite]].
 
 Another notable feature is the integration with container registries. Images can be pulled from Docker Hub, Singularity Hub, GitHub Container Registry, or private registries, and DataLad tracks the specific image digest rather than relying on mutable tags. This ensures that re-running an analysis months later retrieves exactly the same image, preventing "silent drift" where updated container images introduce unexpected changes to results. The extension also supports building containers from local `Dockerfile` or Singularity `def` files, allowing teams to customize images while maintaining the [[reproducibility]] benefits. [@Gorgolewski2017]
 

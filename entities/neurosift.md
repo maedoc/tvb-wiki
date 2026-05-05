@@ -1,25 +1,34 @@
 ---
-title: Neurosift
 created: 2025-01-15
-updated: 2026-05-04
+sources:
+- https://www.neurosift.app
+- https://neurovault.org
+- https://github.com/neurosift/neurosift
+tags:
+- software-visualization
+- neuroimaging
+- neuroimaging-fmri
+- neuroimaging-dti
+- connectomics
+- database-neurovault
+title: Neurosift
 type: entity
-tags: [software-visualization, neuroimaging, neuroimaging-fmri, neuroimaging-dti, connectomics, database-neurovault]
-sources: [https://www.neurosift.app, https://neurovault.org, https://github.com/neurosift/neurosift]
+updated: '2026-05-05'
 ---
 
-Neurosift is a web-based neuroimaging data visualization and analysis platform that runs directly in modern web browsers without requiring local software installation. Originally developed by Jeremy Moreau with ongoing support from the NeuroVault team, Neurosift provides interactive exploration of volumetric (NIfTI), surface-based (CIFTI/Gifti), and dense connectivity data, making it particularly valuable for whole-brain modeling workflows where researchers need to inspect structural connectivity matrices, functional connectivity maps, and simulation outputs.
+Neurosift is a web-based [[neuroimaging]] data visualization and analysis platform that runs directly in modern web browsers without requiring local software installation. Originally developed by Jeremy Moreau with ongoing support from the NeuroVault team, Neurosift provides interactive exploration of volumetric ([[nifti]]), surface-based ([[cifti]]/Gifti), and dense [[connectivity]] data, making it particularly valuable for [[whole-brain|whole-brain modeling]] workflows where researchers need to inspect structural connectivity matrices, functional connectivity maps, and simulation outputs.
 
 ## Overview
 
 Neurosift functions as a zero-install alternative to desktop neuroimaging viewers like [[freeview]], [[fslview]], or [[connectome-workbench]]. The platform loads neuroimaging files directly from URLs or local uploads, rendering them in an interactive 3D environment that supports cutting, rotating, and overlay capabilities. Unlike traditional viewers that require significant disk space and dependencies (FreeSurfer, FSL), Neurosift runs entirely in the browser using WebGL, meaning researchers can share visualizations via simple URL links that embed the exact state of the viewer. This web-first architecture makes it especially useful for collaborative workflows where multiple investigators need to inspect the same data without coordinating software installations.
 
-The platform supports the full range of neuroimaging formats used in connectome-based research, including NIfTI-1/2 for volumetric data, CIFTI for grayordinate-based connectivity results, Gifti for surface data, and dense matrix formats for tractography-derived connectivity data. Neurosift also integrates directly with [[neurovault]], allowing users to search, load, and visualize publicly shared neuroimaging datasets without downloading files first.
+The platform supports the full range of neuroimaging formats used in [[connectome]]-based research, including NIfTI-1/2 for volumetric data, CIFTI for grayordinate-based connectivity results, Gifti for surface data, and dense matrix formats for tractography-derived connectivity data. Neurosift also integrates directly with [[neurovault]], allowing users to search, load, and visualize publicly shared neuroimaging datasets without downloading files first.
 
 ## Key Features
 
-The core strength of Neurosift lies in its handling of multi-file neuroimaging datasets. For whole-brain connectivity analysis, researchers often work with several related files—a parcellation scheme, a connectivity matrix, and associated statistical maps. Neurosift can load these as a cohesive package, displaying the anatomical template while overlaying connectivity-based results. The platform supports transparent overlays with adjustable opacity, allowing users to inspect how statistical results from [[dynamic-causal-modeling]] or [[neural-mass-models]] align with underlying anatomical structures.
+The core strength of Neurosift lies in its handling of multi-file neuroimaging datasets. For whole-brain connectivity analysis, researchers often work with several related files—a [[parcellation]] scheme, a connectivity matrix, and associated statistical maps. Neurosift can load these as a cohesive package, displaying the anatomical template while overlaying connectivity-based results. The platform supports transparent overlays with adjustable opacity, allowing users to inspect how statistical results from [[dynamic-causal-modeling]] or [[neural-mass-models]] align with underlying anatomical structures.
 
-Surface-based visualization in Neurosift uses WebGL rendering of cortical and subcortical meshes, enabling smooth rotation, zoom, and slicing operations that would otherwise require heavy desktop software. The platform's CIFTI support is particularly relevant for human connectome project data, where grayordinate-based representations have largely replaced volumetric approaches for cortical analysis. Users can visualize [[resting-state]] networks, task-based activation patterns, and tractography streamlines in a unified interface.
+Surface-based visualization in Neurosift uses WebGL rendering of cortical and subcortical meshes, enabling smooth rotation, zoom, and slicing operations that would otherwise require heavy desktop software. The platform's CIFTI support is particularly relevant for [[human-connectome-project]] data, where grayordinate-based representations have largely replaced volumetric approaches for cortical analysis. Users can visualize [[resting-state]] networks, task-based activation patterns, and tractography streamlines in a unified interface.
 
 Neurosift also provides basic connectivity matrix visualization, allowing users to view correlation or coherence matrices as heatmaps alongside the anatomical displays. This integrated view supports researchers working with [[structural-connectivity]] matrices derived from [[diffusion-imaging]] and [[tractography]] pipelines, as well as [[functional-connectivity]] matrices from [[fmri]] or [[meg]] data.
 

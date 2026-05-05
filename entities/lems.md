@@ -8,10 +8,10 @@ tags:
 - software-brain-modeling
 title: LEMS
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
-LEMS (Low-level Entity Modeling System) is a domain-specific modeling language designed to specify the structure and dynamics of neuronal models in a format-independent, declarative manner. Originally developed as a component of the Neuroml project, LEMS provides a text-based specification that describes the mathematical equations, state variables, and parameter dependencies of neural entities such as neurons, synapses, ion channels, and network populations. By separating model description from simulator-specific implementation, LEMS enables models to be ported across multiple simulation engines—including [[nest]], [[neuron]], Brian, and Pynn—thereby enhancing reproducibility and interoperability in computational neuroscience [@cannon2007lems].
+LEMS (Low-level Entity Modeling System) is a domain-specific modeling language designed to specify the structure and dynamics of neuronal models in a format-independent, declarative manner. Originally developed as a component of the [[neuroml]] project, LEMS provides a text-based specification that describes the mathematical equations, state variables, and parameter dependencies of neural entities such as neurons, synapses, ion channels, and network populations. By separating model description from simulator-specific implementation, LEMS enables models to be ported across multiple simulation engines—including [[nest]], [[neuron]], Brian, and Pynn—thereby enhancing reproducibility and interoperability in computational neuroscience [@cannon2007lems].
 
 ## Motivation and Context
 
@@ -21,7 +21,7 @@ The LEMS language emerged from this need, initially developed by Robert Cannon a
 
 ## Technical Framework
 
-A LEMS model is structured as a collection of ComponentType definitions, each describing a class of biological entity. Each ComponentType specifies a set of parameters (fixed constants), state variables (dynamic quantities that evolve over time), and the equations governing their evolution. For example, a simple leaky integrate-and-fire neuron might be defined in LEMS with parameters for membrane resistance ($R_m$), capacitance ($C_m$), and resting potential ($V_{rest}$), a state variable for membrane potential ($V_m$), and a differential equation:
+A LEMS model is structured as a collection of ComponentType definitions, each describing a class of biological entity. Each ComponentType specifies a set of parameters (fixed constants), state variables (dynamic quantities that evolve over time), and the equations governing their evolution. For example, a simple leaky integrate-and-fire neuron might be defined in LEMS with parameters for membrane resistance ($R_m$), capacitance ($C_m$), and resting potential ($V_{[[rest]]}$), a state variable for membrane potential ($V_m$), and a differential equation:
 
 $$\tau_m \frac{dV_m}{dt} = -(V_m - V_{rest}) + R_m I_{syn}$$
 

@@ -15,7 +15,7 @@ tags:
 - spikeinterface
 title: NeuroConv
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 # NeuroConv
@@ -52,7 +52,7 @@ NeuroConv operates within a broader ecosystem of neuroscience data conversion an
 
 The primary technical challenge addressed by NeuroConv involves preserving the semantic fidelity of data during format translation. Proprietary formats often encode information in ways that are not directly mappable to NWB schemas—for example, electrode arrays may be described in manufacturer-specific coordinate systems, or stimulus events may be embedded in custom event codes. NeuroConv's architecture handles these complexities through hierarchical converters that can inject user-provided metadata or infer missing values based on standard conventions.
 
-Users should be aware that while NeuroConv handles most common scenarios automatically, highly customized recording setups may require manual specification of additional metadata fields to achieve full compliance with NWB specifications. Performance considerations are also important: very large recordings (tens of gigabytes) may require significant processing time and disk space during conversion, though NeuroConv's chunked reading approach mitigates memory constraints. For cloud deployment scenarios, the library supports writing directly to remote storage backends compatible with the DANDI Archive [6], enabling scalable data management for multi-laboratory consortium projects.
+Users should be aware that while NeuroConv handles most common scenarios automatically, highly customized recording setups may require manual specification of additional metadata fields to achieve full compliance with NWB specifications. Performance considerations are also important: very large recordings (tens of gigabytes) may require significant processing time and disk space during conversion, though NeuroConv's chunked reading approach mitigates memory constraints. For cloud deployment scenarios, the library supports writing directly to remote storage backends compatible with the [[dandi]] Archive [6], enabling scalable data management for multi-laboratory consortium projects.
 
 ## References
 

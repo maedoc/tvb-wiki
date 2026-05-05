@@ -1,13 +1,22 @@
 ---
-title: Neurokernel
 created: 2024-01-15
-updated: 2026-05-04
-type: entity
-tags: [software-neurokernel, whole-brain-modeling, spiking-neural-networks, neural-mass-models, computational-neuroscience, python, interoperability, software-nest, software-brian]
 sources: []
+tags:
+- software-neurokernel
+- whole-brain-modeling
+- spiking-neural-networks
+- neural-mass-models
+- computational-neuroscience
+- python
+- interoperability
+- software-nest
+- software-brian
+title: Neurokernel
+type: entity
+updated: '2026-05-05'
 ---
 
-Neurokernel is a Python-based software framework designed to enable interoperability between different neural simulation engines for whole-brain modeling. Developed to address the fragmentation problem in computational neuroscience, Neurokernel provides a standardized interface that allows researchers to specify brain models once and execute them using multiple alternative simulation backends without modifying the model specification. This approach promotes reproducibility, facilitates comparison between simulation engines, and enables users to leverage the strengths of different simulators for different brain regions or model types.
+Neurokernel is a Python-based software framework designed to enable interoperability between different neural simulation engines for [[whole-brain|whole-brain modeling]]. Developed to address the fragmentation problem in [[computational-neuroscience]], Neurokernel provides a standardized interface that allows researchers to specify brain models once and execute them using multiple alternative simulation backends without modifying the model specification. This approach promotes [[reproducibility]], facilitates comparison between simulation engines, and enables users to leverage the strengths of different simulators for different brain regions or model types.
 
 ## Motivation and Context
 
@@ -21,7 +30,7 @@ The neural dynamics in Neurokernel support multiple model types, from simplified
 
 ## Relationship to TVB
 
-Neurokernel and [[The Virtual Brain]] share the common goal of enabling whole-brain simulations but take fundamentally different architectural approaches. While TVB provides an integrated environment with its own simulation engine, visualization tools, and analysis pipelines bundled together, Neurokernel focuses specifically on enabling model execution across multiple existing simulation engines. TVB includes sophisticated support for [[personalized brain modeling]] using empirical connectivity data, while Neurokernel emphasizes the translation layer that allows a single model specification to run on different simulators. Researchers using TVB who wish to benchmark their models against alternative simulation engines, or who need to combine TVB's analysis tools with NEST-based spiking network simulations, can use Neurokernel as a bridge. The two platforms are complementary rather than competing, with TVB emphasizing integrated workflow convenience and Neurokernel emphasizing simulator interoperability and standardization.
+Neurokernel and [[The Virtual Brain]] share the common goal of enabling whole-brain simulations but take fundamentally different architectural approaches. While TVB provides an integrated environment with its own simulation engine, visualization tools, and analysis pipelines bundled together, Neurokernel focuses specifically on enabling model execution across multiple existing simulation engines. TVB includes sophisticated support for [[personalized brain modeling]] using empirical [[connectivity]] data, while Neurokernel emphasizes the translation layer that allows a single model specification to run on different simulators. Researchers using TVB who wish to benchmark their models against alternative simulation engines, or who need to combine TVB's analysis tools with NEST-based spiking network simulations, can use Neurokernel as a bridge. The two platforms are complementary rather than competing, with TVB emphasizing integrated workflow convenience and Neurokernel emphasizing simulator interoperability and standardization.
 
 ## Key Features
 

@@ -16,14 +16,14 @@ tags:
 - neurodevelopment
 title: jNeuroML
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 # jNeuroML
 
 ## Overview
 
-jNeuroML is a Java-based software package that provides both an implementation of the Neuroml specification and a suite of command-line tools for working with NeuroML model descriptions. Developed primarily by [Padraig Gleeson](https://github.com/pgleeson) and the NeuroML community, jNeuroML serves as the reference implementation of the NeuroML specification and provides essential functionality for parsing, validating, simulating, and converting neural models expressed in the NeuroML format. As a cross-platform Java application, it runs on Windows, macOS, and Linux systems, making it accessible to researchers across different computational environments. The software is open-source and available through GitHub, with releases distributed via Maven Central for integration into Java-based projects.
+jNeuroML is a Java-based software package that provides both an implementation of the [[neuroml]] specification and a suite of command-line tools for working with NeuroML model descriptions. Developed primarily by [Padraig Gleeson](https://github.com/pgleeson) and the NeuroML community, jNeuroML serves as the reference implementation of the NeuroML specification and provides essential functionality for parsing, validating, simulating, and converting neural models expressed in the NeuroML format. As a cross-platform Java application, it runs on Windows, macOS, and Linux systems, making it accessible to researchers across different computational environments. The software is open-source and available through GitHub, with releases distributed via Maven Central for integration into Java-based projects.
 
 jNeuroML was the first full implementation of the NeuroML specification and has served as the reference implementation for subsequent tools in the NeuroML ecosystem, including pyneurotml (a Python library providing similar functionality).
 

@@ -8,7 +8,7 @@ tags:
 - the-virtual-brain
 title: The Virtual Brain
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 [[tvb|The Virtual Brain]] — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]]. It complements tools such as Brainsuite for cortical surface analysis.
@@ -36,11 +36,11 @@ sources:
 - raw/papers/Renton2024.md
 tags:
 - software-modeling
-- reproducibility
+- [[reproducibility]]
 - containerization
 - datalad
 - software-neuroimaging
-- software-bids
+- software-[[bids]]
 title: Datalad Containers
 type: entity
 updated: '2026-05-04'

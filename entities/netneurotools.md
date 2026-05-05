@@ -49,7 +49,7 @@ In practice, researchers using TVB may employ netneurotools to analyze the simul
 
 Netneurotools operates within an ecosystem of Python tools for network neuroscience and brain connectivity analysis. Related packages include [[bctpy]] (Brain Connectivity Toolbox in Python), which provides a comprehensive set of network metrics; [[brainspace]] for manifold learning and dimensionality reduction on connectivity data; and Nilearn for general neuroimaging data manipulation and decoding. The toolbox also complements connectivity-focused packages such as [[mne-connectivity]] for EEG/MEG connectivity analysis.
 
-For whole-brain modeling workflows, netneurotools can be combined with TVB's [[tvb-library]] to create analysis pipelines that compare simulated and empirical network properties, supporting the goal of personalized brain modeling through parameter optimization and model validation.
+For [[whole-brain|whole-brain modeling]] workflows, netneurotools can be combined with TVB's [[tvb-library]] to create analysis pipelines that compare simulated and empirical network properties, supporting the goal of [[personalized-brain-modeling]] through parameter optimization and [[model-validation]].
 
 ## Key Papers
 
@@ -57,12 +57,12 @@ For whole-brain modeling workflows, netneurotools can be combined with TVB's [[t
 
 - Hansen JY, Shafiei G, Markello RD, et al. "Mapping neurotransmitter systems to the structural and functional organization of the human neocortex." *Nature Neuroscience* (2022). [[cite:neuromaps]]
 
-- Markello RD, Hansen JY, Liu ZQ, et al. "neuromaps: structural and functional interpretation of brain maps." *Nature Methods* (2022). [[cite:neuromaps-paper]]
+- Markello RD, Hansen JY, Liu ZQ, et al. "[[neuromaps]]: structural and functional interpretation of brain maps." *Nature Methods* (2022). [[cite:neuromaps-paper]]
 
 - Suarez LE, Markello RD, Betzel RF, Misic B. "Linking structure and function in macroscale brain networks." *Trends in Cognitive Sciences* (2020). [[cite:structure-function]]
 
 ## References
 
 1. Wang, J., Wang, X., Xia, M., Liao, X., Evans, A., & He, Y. (2015). *GRETNA: a graph theoretical network analysis toolbox for MATLAB*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2015.04.016)
-2. Woodman et al. (2014). *GraphVar: A user-friendly toolbox for comprehensive graph analyses of functional brain connectivity*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2014.07.015)
+2. Woodman et al. (2014). *[[graphvar]]: A user-friendly toolbox for comprehensive graph analyses of functional brain connectivity*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2014.07.015)
 3. Christopher Gabaldon, Adria Mulero, Rong Wang, Daniel A. Martin, Sabrina Camargo, Qian-Yuan Tang, Ignacio Cifre, Changsong Zhou, Dante R. Chialvo. (2026). *Data-driven inference of brain dynamical states from the r-spectrum of correlation matrices*. [Link](https://arxiv.org/abs/2601.03796)

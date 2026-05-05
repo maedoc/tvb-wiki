@@ -13,7 +13,7 @@ tags:
 - bayes-factors
 title: PyMC
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 # PyMC
@@ -28,7 +28,7 @@ PyMC provides several core capabilities that make it valuable for [[whole-brain|
 
 Beyond MCMC sampling, PyMC supports variational Bayesian inference through the ADVI (Automatic Differentiation Variational Inference) algorithm. This allows for fast approximation of posterior distributions when exact inference is intractable, which is often the case with biologically realistic [[neural-mass-models]] containing nonlinearities and delays. The variational inference approach is especially useful for initial exploration of parameter spaces and for models where MCMC sampling proves computationally prohibitive [@advi-paper].
 
-The library integrates tightly with NumPy and SciPy, using Theano (and now PyTensor) for automatic differentiation. This enables gradient-based inference methods that scale to large models. PyMC also provides built-in tools for model diagnosis, including trace plots, divergent transitions detection, and posterior predictive checks—all essential for validating that inference has proceeded correctly when fitting brain models to empirical data.
+The library integrates tightly with NumPy and SciPy, using [[theano]] (and now PyTensor) for automatic differentiation. This enables gradient-based inference methods that scale to large models. PyMC also provides built-in tools for model diagnosis, including trace plots, divergent transitions detection, and posterior predictive checks—all essential for validating that inference has proceeded correctly when fitting brain models to empirical data.
 
 ## Relationship to TVB
 

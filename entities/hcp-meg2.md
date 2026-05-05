@@ -1,17 +1,26 @@
 ---
-title: HCP MEG2
 created: 2025-01-15
-updated: 2026-05-04
+sources:
+- https://www.humanconnectome.org/study/hcp-lifespan-studies
+- https://www.humanconnectome.org/storage/app/media/documentation/M MEG2%20v2.0.pdf
+- https://github.com/hcp-fmri/hcp-meg
+tags:
+- database-hcp
+- neuroimaging-meg
+- resting-state
+- functional-connectivity
+- source-localization
+- dataset
+title: HCP MEG2
 type: entity
-tags: [database-hcp, neuroimaging-meg, resting-state, functional-connectivity, source-localization, dataset]
-sources: [https://www.humanconnectome.org/study/hcp-lifespan-studies, https://www.humanconnectome.org/storage/app/media/documentation/M MEG2%20v2.0.pdf, https://github.com/hcp-fmri/hcp-meg]
+updated: '2026-05-05'
 ---
 
-The Human Connectome Project (HCP) MEG2 dataset represents one of the highest-quality publicly available magnetoencephalography datasets in the neuroscience community. Released as part of the broader HCP Aging and Young Adult studies, MEG2 provides researchers with heavily preprocessed, minimally analyzed MEG recordings—meaning the data has undergone rigorous artifact rejection and signal cleaning to remove eye movements, cardiac interference, and environmental noise, while remaining in a raw-enough state for users to apply their own analytical approaches such as custom source reconstruction or connectivity modeling. These recordings can be used for functional connectivity analyses, source localization studies, and whole-brain modeling efforts. The dataset addresses a critical need in the field: while functional magnetic resonance imaging (fMRI) provides excellent spatial resolution for mapping brain networks, its temporal resolution is limited by the hemodynamic response, whereas MEG offers millisecond-scale temporal precision that captures the rapid dynamics of brain oscillations underlying cognition and behavior.
+The [[human-[[connectome]]-project]] (HCP) MEG2 dataset represents one of the highest-quality publicly available magnetoencephalography datasets in the neuroscience community. Released as part of the broader HCP [[aging]] and Young Adult studies, MEG2 provides researchers with heavily preprocessed, minimally analyzed MEG recordings—meaning the data has undergone rigorous artifact rejection and signal cleaning to remove eye movements, cardiac interference, and environmental noise, while remaining in a raw-enough state for users to apply their own analytical approaches such as custom source reconstruction or [[connectivity]] modeling. These recordings can be used for [[functional-connectivity]] analyses, [[source-localization]] studies, and [[whole-brain|whole-brain modeling]] efforts. The dataset addresses a critical need in the field: while functional magnetic resonance imaging ([[fmri]]) provides excellent spatial resolution for mapping brain networks, its temporal resolution is limited by the hemodynamic response, whereas MEG offers millisecond-scale temporal precision that captures the rapid dynamics of [[brain-oscillations]] underlying cognition and behavior.
 
 ## Motivation and Context
 
-The original HCP MEG dataset comprised resting-state recordings from young healthy adults collected between 2012-2015, but the community increasingly requested access to larger samples with improved preprocessing pipelines and broader demographic representation. The MEG2 release (formally released in 2017 and updated to v2.0 in 2022) addresses these concerns by providing data from the HCP Aging Study, encompassing cognitively healthy individuals across a broader age range. This expansion is particularly valuable for computational neuroscience efforts such as those implemented in [[The Virtual Brain]] (TVB), where model parameters often need calibration against age-appropriate baseline dynamics. Researchers studying brain oscillations, functional connectivity dynamics, or building personalized brain models can leverage MEG2 to validate their approaches against a well-characterized population dataset with known demographic characteristics and quality-controlled processing history.
+The original HCP MEG dataset comprised resting-state recordings from young healthy adults collected between 2012-2015, but the community increasingly requested access to larger samples with improved preprocessing pipelines and broader demographic representation. The MEG2 release (formally released in 2017 and updated to v2.0 in 2022) addresses these concerns by providing data from the HCP Aging Study, encompassing cognitively healthy individuals across a broader age range. This expansion is particularly valuable for [[computational-neuroscience]] efforts such as those implemented in [[The Virtual Brain]] (TVB), where model parameters often need calibration against age-appropriate baseline dynamics. Researchers studying brain oscillations, functional connectivity dynamics, or building personalized brain models can leverage MEG2 to validate their approaches against a well-characterized population dataset with known demographic characteristics and quality-controlled processing history.
 
 The dataset also fills an important gap in the neuroimaging ecosystem by providing multi-modal data that can be linked to [[structural connectivity]] estimates derived from diffusion imaging (DWI). This combination of structural and functional data at the MEG temporal resolution enables investigators to examine the relationship between anatomical pathways and dynamic functional networks—a central question in [[whole-brain modeling]] and connectomics research.
 

@@ -12,7 +12,7 @@ tags:
 - database-hcp
 title: Neuroscience Gateway
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 ## Overview
@@ -39,7 +39,7 @@ While the Neuroscience Gateway and [[The Virtual Brain]] (TVB) serve complementa
 Researchers using TVB may leverage NSG resources for certain computational tasks, particularly when performing parameter optimization or [[parameter-estimation]] procedures that require significant computing power. The distinction reflects the architectural philosophy: TVB provides a specific modeling framework optimized for whole-brain dynamics, while NSG offers flexible access to diverse simulation tools for varied computational neuroscience applications.
 
 ## Technical Architecture
-The technical architecture of the Neuroscience Gateway consists of several interconnected components that work together to provide seamless access to computational resources. At the frontend, users interact with a web-based portal that allows model upload, parameter specification, and job submission through a graphical interface or programmatic REST APIs (known as NSG-R). This frontend connects to a job management system that handles queueing, scheduling, and execution of simulation tasks across available HPC resources.
+The technical architecture of the Neuroscience Gateway consists of several interconnected components that work together to provide seamless access to computational resources. At the frontend, users interact with a web-based portal that allows model upload, parameter specification, and job submission through a graphical interface or programmatic [[rest]] APIs (known as NSG-R). This frontend connects to a job management system that handles queueing, scheduling, and execution of simulation tasks across available HPC resources.
 
 The backend computing clusters are equipped with multiple neural simulation packages compiled and optimized for the specific hardware, ensuring reasonable execution performance. The gateway maintains user workspaces where simulation results are stored and can be accessed after job completion. Additionally, NSG provides configuration files and tutorials for common simulation scenarios, reducing the learning curve for new users. The system supports both the NEURON interpreter format (hoc and mod files) and [[NeuroML]] representations, promoting model interoperability and reuse across platforms.
 

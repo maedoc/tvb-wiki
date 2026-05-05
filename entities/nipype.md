@@ -13,7 +13,7 @@ tags:
 - whole-brain-modeling
 title: NiPype
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 # NiPype
@@ -57,7 +57,7 @@ Both projects emphasize [[reproducibility]] and open science, with NiPype provid
 
 **Gorgolewski et al. (2011)** - "Nipype: a flexible, lightweight and extensible neuroimaging data processing framework in Python" *Frontiers in Neuroinformatics* 5:13. This seminal paper introduced the NiPype architecture, demonstrating execution speedups of 1.5–14× through parallelization compared to sequential processing, along with comprehensive provenance tracking capabilities.
 
-**Gorgolewski et al. (2017)** - "BIDS-Apps: Improving ease of use, accessibility, and reproducibility of neuroimaging data analysis methods" *PLOS Computational Biology* 13(3):e1005209. Introduced the BIDS-Apps framework for containerized neuroimaging analysis workflows, which leverages pipeline technologies including NiPype to standardize reproducible analyses across different computing environments.
+**Gorgolewski et al. (2017)** - "[[bids-apps]]: Improving ease of use, accessibility, and reproducibility of neuroimaging data analysis methods" *PLOS Computational Biology* 13(3):e1005209. Introduced the BIDS-Apps framework for containerized neuroimaging analysis workflows, which leverages pipeline technologies including NiPype to standardize reproducible analyses across different computing environments.
 
 ## Related Software
 

@@ -15,7 +15,7 @@ tags:
 - epilepsy-modeling
 title: Wilson-Cowan Model
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 The Wilson-Cowan model is the canonical firing-rate model of coupled excitatory and inhibitory neural populations. Introduced by Hugh Wilson and Jack Cowan in 1972, it provides the mathematical foundation for most subsequent neural mass modeling, including implementations in [[the-virtual-brain]] (TVB) and [[dynamic-causal-modeling]] (DCM). The model describes the mean firing rates of excitatory and inhibitory populations through coupled nonlinear differential equations, capturing fundamental dynamical phenomena such as oscillations, bistability, and pattern formation that are observed in real brain tissue.
@@ -56,7 +56,7 @@ The kernels w_ij(r-r') typically take the form of a Mexican-hat function: excita
 
 ### Fixed Points and Stability
 
-Setting the time derivatives to zero yields steady-state solutions. The nullclines—curves in the E-I phase plane where dE/dt = 0 or dI/dt = 0—can intersect in one to three points depending on parameters. This structure enables three qualitatively distinct dynamical regimes: monostability with a single stable fixed point (typical of [[resting-state]]), bistability with two stable fixed points separated by an unstable saddle (enabling switch-like transitions), and excitability with three fixed points where the system can respond transiently to inputs before returning to rest.
+Setting the time derivatives to zero yields steady-state solutions. The nullclines—curves in the E-I phase plane where dE/dt = 0 or dI/dt = 0—can intersect in one to three points depending on parameters. This structure enables three qualitatively distinct dynamical regimes: monostability with a single stable fixed point (typical of [[resting-state]]), bistability with two stable fixed points separated by an unstable saddle (enabling switch-like transitions), and excitability with three fixed points where the system can respond transiently to inputs before returning to [[rest]].
 
 Linear stability analysis around fixed points uses the Jacobian matrix, with eigenvalues determining whether perturbations decay exponentially (stable node), spiral inward (stable focus), grow exponentially (unstable node), or generate oscillations (pair of complex eigenvalues with positive real part). Near bifurcation points, the system exhibits critical slowing down—a universal signature that can in principle be detected from [[neuroimaging]] data to identify approaching state transitions.
 

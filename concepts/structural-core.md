@@ -15,7 +15,7 @@ tags:
 - rich-club
 title: Structural Core
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 The structural core is a set of highly interconnected hub regions that form a central backbone for brain communication. Located predominantly in the posterior medial and parietal cortex, these regions exhibit the highest degree of anatomical [[connectivity]] in the brain and serve as major conduit points for information flow between disparate brain regions. The concept emerged from early [[connectomics]] work applying graph theoretical analysis to diffusion MRI data, revealing that [[brain-network]] organization is not homogeneous but contains a densely interconnected core of regions that anchor global communication.
@@ -28,7 +28,7 @@ The methodology combined deterministic tractography with graph theoretical measu
 
 ## Network Properties and Organization
 
-The structural core displays several distinctive properties that set it apart from the rest of the cortical [[connectome]]. First, its members have among the highest degree values in the whole-brain network, meaning each core region connects to many more other regions than typical cortical areas. Second, core regions exhibit extremely high betweenness centrality, indicating that a disproportionate fraction of shortest paths between other brain regions pass through the core—this makes the core critical for global communication efficiency. Third, the core shows very high clustering coefficients among its members, meaning that core regions are highly interconnected with each other, forming a densely linked subgraph rather than a star-like structure.
+The structural core displays several distinctive properties that set it apart from the [[rest]] of the cortical [[connectome]]. First, its members have among the highest degree values in the whole-brain network, meaning each core region connects to many more other regions than typical cortical areas. Second, core regions exhibit extremely high betweenness centrality, indicating that a disproportionate fraction of shortest paths between other brain regions pass through the core—this makes the core critical for global communication efficiency. Third, the core shows very high clustering coefficients among its members, meaning that core regions are highly interconnected with each other, forming a densely linked subgraph rather than a star-like structure.
 
 These properties are the hallmarks of "rich-club" organization in network science, a principle first described in studies of social networks and later applied to biological systems. The rich-club phenomenon refers to the tendency of high-degree nodes (the "rich") to form dense interconnections among themselves (the "club"). In the brain, this organization suggests an evolutionary optimization where the most connected regions—which are metabolically expensive to maintain—are linked together to maximize the efficiency of whole-brain communication at minimal wiring cost.
 

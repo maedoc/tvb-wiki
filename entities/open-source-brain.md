@@ -12,7 +12,7 @@ tags:
 - software-modeldb
 title: Open Source Brain
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 Open Source Brain (OSB) is an online platform and community repository for sharing, developing, and distributing [[computational-neuroscience]] models in a standardized, reusable format. Founded in the late 2000s by researchers in Angus Silver's group at University College London (UCL) and collaborators across Europe, OSB addresses a fundamental challenge in computational neuroscience: the proliferation of incompatible, poorly documented model implementations that are difficult to reuse, reproduce, or extend. The platform serves as both a model database analogous to Modeldb and a collaborative development environment where researchers can publish nervous system models ranging from single neuron simulations to whole-[[brain-network]] architectures.
@@ -27,7 +27,7 @@ The platform also fills a niche distinct from other model repositories. While Mo
 
 OSB provides several interconnected features that distinguish it from simple code repositories. First, the platform maintains a curated library of neural models organized by brain region, cell type, and complexity level. Models range from detailed multi-compartment neuron models of cortical pyramidal cells to simplified [[neural-mass-model]] representations of cortical columns suitable for [[whole-brain]] simulations. Second, OSB implements automated test suites that validate model behavior against reference traces — when a model is submitted, the platform runs it on multiple simulators (where supported) and reports whether outputs remain within tolerance of the reference behavior. This validation infrastructure catches implementation errors and ensures that models remain functional as simulator software evolves.
 
-Third, OSB serves as a hosting platform for collaborative model development. Researchers can fork existing models, modify parameters or equations, and submit improved versions for inclusion in the main repository. The platform supports version control through Git, allowing detailed tracking of changes over time. Fourth, OSB provides educational resources including tutorials on converting legacy model code to Neuroml format, documentation of best practices for model annotation, and worked examples demonstrating how to connect OSB models to simulation environments like [[neuron]] and Brian2.
+Third, OSB serves as a hosting platform for collaborative model development. Researchers can fork existing models, modify parameters or equations, and submit improved versions for inclusion in the main repository. The platform supports version control through Git, allowing detailed tracking of changes over time. Fourth, OSB provides educational resources including tutorials on converting legacy model code to [[neuroml]] format, documentation of best practices for model annotation, and worked examples demonstrating how to connect OSB models to simulation environments like [[neuron]] and Brian2.
 
 ## Relationship to The Virtual Brain
 

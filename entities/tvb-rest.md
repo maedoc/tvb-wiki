@@ -1,13 +1,19 @@
 ---
-title: TVB-REST
 created: 2025-01-15
-updated: 2026-05-04
+sources:
+- raw/papers/Sanz-LeonEtAl-2015.md
+tags:
+- software-tvb
+- rest
+- api
+- the-virtual-brain
+- whole-brain-modeling
+title: TVB-REST
 type: entity
-tags: [software-tvb, rest, api, the-virtual-brain, whole-brain-modeling]
-sources: [raw/papers/Sanz-LeonEtAl-2015.md]
+updated: '2026-05-05'
 ---
 
-TVB-REST is the application programming interface (API) layer of [[tvb|The Virtual Brain]] that enables programmatic interaction with the TVB simulation engine via HTTP requests. As a RESTful web service, TVB-REST allows researchers to remotely launch brain simulations, retrieve results, manage datasets, and integrate TVB functionality into custom workflows without requiring direct Python execution on the local machine [@Sanz-LeonEtAl-2015]. This architectural choice positions TVB as not merely a desktop application but as a cloud-ready neuroimaging platform capable of supporting distributed whole-brain modeling workflows across institutional research environments.
+TVB-[[rest]] is the application programming interface (API) layer of [[tvb|The Virtual Brain]] that enables programmatic interaction with the TVB simulation engine via HTTP requests. As a RESTful web service, TVB-REST allows researchers to remotely launch brain simulations, retrieve results, manage datasets, and integrate TVB functionality into custom workflows without requiring direct Python execution on the local machine [@Sanz-LeonEtAl-2015]. This architectural choice positions TVB as not merely a desktop application but as a cloud-ready [[neuroimaging]] platform capable of supporting distributed [[whole-brain|whole-brain modeling]] workflows across institutional research environments.
 
 ## Motivation and Context
 
@@ -33,7 +39,7 @@ Deploying TVB-REST requires a server environment with sufficient computational r
 
 ## Key Papers
 
-- [@Sanz-LeonEtAl-2015] — The Virtual Brain: a academic software platform for modeling and simulation of whole-brain dynamics
+- [@Sanz-LeonEtAl-2015] — [[the-virtual-brain]]: a academic software platform for modeling and simulation of whole-[[brain-dynamics]]
 - [@JirsaEtAl-2017] — Performance of Virtual Brain in clinical contexts — The epilepsy use case
 
 ## Related Software

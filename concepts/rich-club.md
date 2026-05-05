@@ -14,7 +14,7 @@ tags:
 - functional-connectivity
 title: Rich-Club Organization
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 # Rich-Club Organization
@@ -82,7 +82,7 @@ Despite substantial progress, several open questions remain regarding rich-club 
 
 1. (authors unknown). *Mapping the Structural Core of Human Cerebral Cortex*.
 2. (authors unknown). *Networks of the Brain*.
-3. Deco et al. (2013). *Resting brains never rest: computational insights into potential cognitive architectures*. Trends in Neurosciences. [DOI](https://doi.org/10.1016/j.tins.2013.09.002)
+3. Deco et al. (2013). *Resting brains never [[rest]]: computational insights into potential cognitive architectures*. Trends in Neurosciences. [DOI](https://doi.org/10.1016/j.tins.2013.09.002)
 4. (authors unknown). *Functional Network Organization of the Human Brain*.
 5. Breno C. Bispo, Stefania Sardellitti, Juliano B. Lima, Fernando A. N. Santos. (2026). *Multimodal Higher-Order Brain Networks: A Topological Signal Processing Perspective*. [Link](https://arxiv.org/abs/2603.29903)
 6. Marco Zenari, Luca Taffarello, Luca Mazzucato, Amos Maritan, Samir Suweis. (2026). *Topological Origin of the Diversity of Timescales in Recurrent Neural Circuits*. [Link](https://arxiv.org/abs/2603.04149)

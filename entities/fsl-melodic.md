@@ -15,7 +15,7 @@ tags:
 - software-analysis
 title: FSL MELODIC
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 FSL MELODIC (Multivariate Exploratory Linear Optimized Decomposition into Independent Components) is a toolbox within the FMRIB Software Library that implements Independent Component Analysis (ICA) for decomposing [[fmri|fMRI]] data into spatially independent source signals [beckmann2004probabilistic]. Originally developed by the Oxford Centre for Functional Magnetic Resonance Imaging of the Brain (FMRIB), MELODIC provides a data-driven approach to analyzing resting-state [[functional-connectivity|functional connectivity]] without requiring a priori specification of seed regions or model waveforms. The tool has become a standard reference in the neuroimaging community for identifying intrinsic brain networks, artifact removal, and exploratory analysis of 4D fMRI time series [smith2009resting].
@@ -45,7 +45,7 @@ Moreover, MELODIC's artifact classification capabilities (via FIX or ICA-AROMA) 
 - Beckmann, C. F., & Smith, S. M. (2004). Probabilistic ICA for fMRI. *NeuroImage* [beckmann2004probabilistic]
 - Beckmann, C. F., DeLuca, M., Devlin, J. T., & Smith, S. M. (2005). Investigations into resting-state connectivity using independent component analysis. *Philosophical Transactions of the Royal Society B* [beckmann2005temporal]
 - Salimi-Khorshidi, G., Douaud, G., Beckmann, C. F., Glasser, M. F., Griffanti, L., & Smith, S. M. (2014). Automatic denoising of functional MRI data: Integrating ICA-AROMA and alternative strategies. *Frontiers in Neuroscience* [salimi2014automatic]
-- Smith, S. M., Fox, P. T., Miller, K. L., Glahn, D. C., Fox, P. M., Mackay, C. E., ... & Beckmann, C. F. (2009). Correspondence of the brain's functional architecture during activation and rest. *Proceedings of the National Academy of Sciences* [smith2009resting]
+- Smith, S. M., Fox, P. T., Miller, K. L., Glahn, D. C., Fox, P. M., Mackay, C. E., ... & Beckmann, C. F. (2009). Correspondence of the brain's functional architecture during activation and [[rest]]. *Proceedings of the National Academy of Sciences* [smith2009resting]
 - Hyvärinen, A. (1999). Fast and robust fixed-point algorithms for independent component analysis. *IEEE Transactions on Neural Networks* [hyvarinen1999fast]
 - McEvoy, L. K., Smith, M. E., & Storey, J. D. (2000). Linear dimensionality reduction. *Advances in Neural Information Processing Systems* [mcevoy2000linear]
 

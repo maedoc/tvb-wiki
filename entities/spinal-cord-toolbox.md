@@ -47,6 +47,6 @@ SCT intersects with several other neuroimaging software packages in the broader 
 
 ## References
 
-1. Quynh Lê, Arichena Manmatharayan, Mashaal Syed, Ki-Sang Kang, Tsao‐Wei Liang, Mahdi Alizadeh, Chengyuan Wu. (2026). *Structural and Functional Connectivity in Parkinson's Disease Patients With Freezing of Gait and Other Gait Disturbances*. Clinical Neuroimaging. [DOI](https://doi.org/10.1002/neo2.70042)
-2. (authors unknown). *Nighres: processing tools for high-resolution neuroimaging*.
+1. Quynh Lê, Arichena Manmatharayan, Mashaal Syed, Ki-Sang Kang, Tsao‐Wei Liang, Mahdi Alizadeh, Chengyuan Wu. (2026). *Structural and [[functional-connectivity]] in Parkinson's Disease Patients With Freezing of Gait and Other Gait Disturbances*. Clinical Neuroimaging. [DOI](https://doi.org/10.1002/neo2.70042)
+2. (authors unknown). *[[nighres]]: processing tools for high-resolution neuroimaging*.
 3. Rohan Banerjee, M. Kaptan, Alexandra Tinnermann, Ali Khatibi, Alice Dabbagh, C. Büchel, Christian W Kündig, C. S. Law, Dario Pfyffer, D. Lythgoe, Dimitra Tsivaka, D. Van de Ville, Falk Eippert, Fauziyya Muhammad, Gary H. Glover, Gergely Dávid, Grace Haynes, Jan Haaker, Jonathan C. W. Brooks, J. Finsterbusch, K. Martucci, K. Hemmerling, Mahdi Mobarak-Abadi, M. Hoggarth, M. Howard, Molly G. Bright, Nawal Kinany, O. Kowalczyk, Patrick Freund, Robert L. Barry, S. Mackey, Shahabeddin Vahdat, Simon Schading, Stephen B McMahon, Todd Parish, Véronique Marchand-Pauvert, Yufen Chen, Z. A. Smith, K. Weber, B. De Leener, Julien Cohen-Adad. (2025). *EPISeg: Automated segmentation of the spinal cord on echo planar images using open-access multi-center data*. bioRxiv. [DOI](https://doi.org/10.1101/2025.01.07.631402)

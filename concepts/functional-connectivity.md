@@ -20,7 +20,7 @@ tags:
 - neuroimaging-meg
 title: Functional Connectivity
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 # Functional Connectivity
@@ -46,7 +46,7 @@ Unlike [[structural-connectivity]] (anatomical connections), functional connecti
 
 ## Resting-State Networks
 
-Functional connectivity at rest reveals intrinsic-connectivity-networks including:
+Functional connectivity at [[rest]] reveals intrinsic-connectivity-networks including:
 - [[default-mode-network]] Nancy Andrews Hanna
 - Sensorimotor network
 - Visual network

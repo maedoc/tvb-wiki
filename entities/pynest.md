@@ -11,7 +11,7 @@ tags:
 - software-simulation
 title: PyNEST
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 PyNEST is the official Python interface to the NEST (Neural Simulation Tool) simulator, one of the most widely used software platforms for [[computational-neuroscience]] and large-scale brain modeling. Developed by the NEST Initiative, PyNEST provides Python developers with direct access to NEST's kernel for simulating [[spiking-neural-networks]], enabling the construction, execution, and analysis of biologically detailed neuronal network models. The tool serves as a critical bridge between high-level Python scripting and the high-performance C++ simulation kernel, making it accessible to researchers who prefer Python's ecosystem while maintaining the computational efficiency required for large-scale simulations [@Diesmann2002; @Eppler2008].
@@ -24,7 +24,7 @@ The simulation engine handles precise spike timing which is essential for studyi
 
 ## Key Features
 
-PyNEST provides several distinguishing capabilities that make it valuable for [[whole-brain|whole-brain modeling]]. First, it supports network sizes exceeding 10⁶ neurons with millions of synaptic connections, making it suitable for brain-scale simulations [@Plesser2007; @Schmidt2018]. Second, the simulator includes built-in support for stimulation devices (Poisson generators, noise generators, DC current sources) and recording devices (multimeter, spike recorder) that simplify experimental setup. Third, PyNEST integrates seamlessly with the broader neuroinformatics ecosystem including support for NeuroML through the PyNEST extension architecture [@Gleeson2010].
+PyNEST provides several distinguishing capabilities that make it valuable for [[whole-brain|whole-brain modeling]]. First, it supports network sizes exceeding 10⁶ neurons with millions of synaptic connections, making it suitable for brain-scale simulations [@Plesser2007; @Schmidt2018]. Second, the simulator includes built-in support for stimulation devices (Poisson generators, noise generators, DC current sources) and recording devices (multimeter, spike recorder) that simplify experimental setup. Third, PyNEST integrates seamlessly with the broader neuroinformatics ecosystem including support for [[neuroml]] through the PyNEST extension architecture [@Gleeson2010].
 
 The tool also offers connection management features including static connections and gap junctions. Users can specify [[connectivity]] patterns using probability-based connections, distance-dependent connectivity, or custom connectivity rules. The parameter system supports both node-specific (individual neuron properties) and kernel-wide (simulation resolution, spike buffer size) configurations.
 

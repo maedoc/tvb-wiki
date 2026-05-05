@@ -14,7 +14,7 @@ tags:
 - software-neuron
 title: MUSIC
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 # MUSIC
@@ -64,7 +64,7 @@ MUSIC occupies a unique niche as an orchestration layer rather than a standalone
 
 ## Open Questions
 
-The primary challenge facing MUSIC lies in ensuring temporal accuracy when simulators with different intrinsic timesteps must coordinate. While the framework provides mechanisms for interpolation and event buffering, mismatches in simulation resolution can introduce artifacts that are only beginning to be systematically characterized. Additionally, the user base remains relatively small compared to standalone simulators, limiting the availability of community resources, tutorials, and third-party integrations. Future development may benefit from tighter integration with Neuroml standardization efforts, which seek to define common model description formats that could further reduce friction in multi-simulator workflows.
+The primary challenge facing MUSIC lies in ensuring temporal accuracy when simulators with different intrinsic timesteps must coordinate. While the framework provides mechanisms for interpolation and event buffering, mismatches in simulation resolution can introduce artifacts that are only beginning to be systematically characterized. Additionally, the user base remains relatively small compared to standalone simulators, limiting the availability of community resources, tutorials, and third-party integrations. Future development may benefit from tighter integration with [[neuroml]] standardization efforts, which seek to define common model description formats that could further reduce friction in multi-simulator workflows.
 
 ## References
 

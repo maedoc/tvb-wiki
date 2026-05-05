@@ -1,13 +1,27 @@
 ---
-title: EEGSynth
 created: 2024-01-15
-updated: 2026-05-04
+sources:
+- Oostenveld & colleagues
+- Donders Centre for Cognitive Neuroimaging
+- https://www.eegsynth.org; GitHub Repository
+- EEGSynth community
+- https://github.com/eegsynth/eegsynth; FieldTrip
+- Oostenveld et al. (2011)
+- Computational Intelligence and Neuroscience
+- https://doi.org/10.1155/2011/156869
+tags:
+- software
+- electrophysiology
+- eeg
+- brain-computer-interface
+- real-time-processing
+- neurofeedback
+title: EEGSynth
 type: entity
-tags: [software, electrophysiology, eeg, brain-computer-interface, real-time-processing, neurofeedback]
-sources: [Oostenveld & colleagues, Donders Centre for Cognitive Neuroimaging, https://www.eegsynth.org; GitHub Repository, EEGSynth community, https://github.com/eegsynth/eegsynth; FieldTrip, Oostenveld et al. (2011), Computational Intelligence and Neuroscience, https://doi.org/10.1155/2011/156869]
+updated: '2026-05-05'
 ---
 
-EEGSynth is an open-source software platform for real-time processing, analysis, and visualization of electroencephalography (EEG) and other electrophysiological signals (Oostenveld & colleagues, Donders Centre for Cognitive Neuroimaging). Originally developed at the Donders Centre for Cognitive Neuroimaging at Radboud University in Nijmegen, Netherlands—most notably by Robert Oostenveld, who also leads the FieldTrip toolbox development—the project was initiated around 2010 as an exploration of affordable open-hardware EEG for creative and research applications (EEGSynth community). Now maintained as a community-driven project registered as a legal Association in France since 2018, EEGSynth enables researchers to build closed-loop experiments, brain-computer interfaces (BCIs), and neurofeedback systems where neural signals are processed and fed back to the subject or experimental setup with minimal latency (GitHub Repository).
+EEGSynth is an open-source software platform for real-time processing, analysis, and visualization of electroencephalography (EEG) and other electrophysiological signals (Oostenveld & colleagues, Donders Centre for Cognitive [[neuroimaging]]). Originally developed at the Donders Centre for Cognitive Neuroimaging at Radboud University in Nijmegen, Netherlands—most notably by Robert Oostenveld, who also leads the FieldTrip toolbox development—the project was initiated around 2010 as an exploration of affordable open-hardware EEG for creative and research applications (EEGSynth community). Now maintained as a community-driven project registered as a legal Association in France since 2018, EEGSynth enables researchers to build closed-loop experiments, brain-computer interfaces (BCIs), and neurofeedback systems where neural signals are processed and fed back to the subject or experimental setup with minimal latency (GitHub Repository).
 
 ## Overview
 
@@ -17,17 +31,17 @@ The architecture consists of input modules that read from EEG amplifiers or reco
 
 ## Key Features
 
-EEGSynth implements several signal processing capabilities essential for real-time electrophysiology research. Spectral analysis modules compute power in user-defined frequency bands (alpha, beta, gamma, etc.) using sliding window approaches that balance temporal resolution against frequency precision. Spatial filtering options include ICA-based artifact rejection and Laplacian unembedding for improving spatial specificity. The software supports common EEG-derived features such as steady-state visually evoked potentials (SSVEP), motor imagery patterns, and event-related spectral perturbations (EEGSynth community).
+EEGSynth implements several signal processing capabilities essential for real-time [[electrophysiology]] research. Spectral analysis modules compute power in user-defined frequency bands (alpha, beta, gamma, etc.) using sliding window approaches that balance temporal resolution against frequency precision. Spatial filtering options include ICA-based artifact rejection and Laplacian unembedding for improving spatial specificity. The software supports common EEG-derived features such as steady-state visually evoked potentials (SSVEP), motor imagery patterns, and event-related spectral perturbations (EEGSynth community).
 
-A distinguishing characteristic of EEGSynth is its integration with the LabStreamingLayer (LSL) protocol, which provides a standardized mechanism for synchronizing data streams across multiple software and hardware components in real time. This allows EEGSynth to exchange data with stimulus presentation software, eye trackers, motion capture systems, and other data sources with sub-millisecond temporal precision. Additionally, EEGSynth can interoperate with OpenVibe—both are independent real-time BCI platforms that can exchange data via LSL, but EEGSynth is not an addon to OpenVibe (GitHub Repository).
+A distinguishing characteristic of EEGSynth is its integration with the [[labstreaminglayer]] (LSL) protocol, which provides a standardized mechanism for synchronizing data streams across multiple software and hardware components in real time. This allows EEGSynth to exchange data with stimulus presentation software, eye trackers, motion capture systems, and other data sources with sub-millisecond temporal precision. Additionally, EEGSynth can interoperate with [[openvibe]]—both are independent real-time BCI platforms that can exchange data via LSL, but EEGSynth is not an addon to OpenVibe (GitHub Repository).
 
 The software is designed for command-line operation using Python 3.8+ and Bash scripts, with a graphical user interface for loading and managing patch configurations. It includes modules for MIDI control (allowing EEG signals to control musical synthesizers), OSC (Open Sound Control) for multimedia applications, Art-Net for lighting control, and DMX for stage effects, reflecting its origins in artistic and musical applications (EEGSynth community).
 
 ## Relationship to TVB
 
-While EEGSynth is primarily oriented toward real-time experimental applications rather than large-scale brain modeling, it interfaces with TVB-related workflows in several important ways. Raw or preprocessed EEG data from EEGSynth can be exported for offline analysis using TVB's connectivity pipeline, particularly when constructing personalized brain models from empirical neuroimaging data. The spectral features computed by EEGSynth provide validation targets for neural-mass-models and whole-brain modeling simulations that aim to reproduce observed brain oscillations.
+While EEGSynth is primarily oriented toward real-time experimental applications rather than large-scale brain modeling, it interfaces with TVB-related workflows in several important ways. Raw or preprocessed EEG data from EEGSynth can be exported for offline analysis using TVB's [[connectivity]] pipeline, particularly when constructing [[personalized-brain-modeling|personalized brain]] models from empirical neuroimaging data. The spectral features computed by EEGSynth provide validation targets for [[neural-mass-models]] and [[whole-brain|whole-brain modeling]] simulations that aim to reproduce observed [[brain-oscillations]].
 
-EEGSynth also demonstrates a complementary approach to neural signal analysis compared to TVB's simulation engine. Where TVB solves large-scale dynamical systems on structural connectomes to generate synthetic activity, EEGSynth measures and decodes actual neural signals in real time. Researchers studying brain-oscillations or building personalized brain modeling frameworks may use EEGSynth for data acquisition and TVB for forward modeling, creating a bridge between empirical electrophysiology and computational whole-brain dynamics. The connection between the two platforms can be facilitated through LSL, which both systems support for real-time data exchange.
+EEGSynth also demonstrates a complementary approach to neural signal analysis compared to TVB's simulation engine. Where TVB solves large-scale dynamical systems on structural connectomes to generate synthetic activity, EEGSynth measures and decodes actual neural signals in real time. Researchers studying brain-oscillations or building personalized brain modeling frameworks may use EEGSynth for data acquisition and TVB for forward modeling, creating a bridge between empirical electrophysiology and computational whole-[[brain-dynamics]]. The connection between the two platforms can be facilitated through LSL, which both systems support for real-time data exchange.
 
 ## Key Papers
 

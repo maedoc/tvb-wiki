@@ -10,7 +10,7 @@ tags:
 - brain-stimulation
 title: BCBToolKit
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 # BCBToolKit
@@ -25,7 +25,7 @@ The toolkit addresses a significant gap in the [[neuroimaging]] field: while tra
 
 BCBToolKit implements several complementary analytical approaches that together provide a multi-dimensional assessment of lesion effects on brain connectivity. The **Tractotron** tool enables rapid assessment of white matter tract disconnection by comparing lesion masks with probabilistic tractography atlases, providing estimates of which major white matter pathways—including the arcuate fasciculus, uncinate fasciculus, and frontal aslant tract—are likely to be disrupted by a given lesion. This approach draws on spherical deconvolution tractography atlases that capture the variability of tract anatomy across the population.
 
-The **Disconnectome Map** tool represents the core innovation of BCBToolKit: rather than relying on atlas-based approximations, it employs tractography from healthy control populations to compute patient-specific maps of directly disconnected brain regions. By propagating streamlines through the lesion region, the method identifies all areas that lose their structural connection to the rest of the brain due to the lesion, producing three-dimensional probability maps that account for inter-individual variability in white matter anatomy.
+The **Disconnectome Map** tool represents the core innovation of BCBToolKit: rather than relying on atlas-based approximations, it employs tractography from healthy control populations to compute patient-specific maps of directly disconnected brain regions. By propagating streamlines through the lesion region, the method identifies all areas that lose their structural connection to the [[rest]] of the brain due to the lesion, producing three-dimensional probability maps that account for inter-individual variability in white matter anatomy.
 
 For network-level analysis, the **Funcon** tool extracts resting-state functional connectivity from regions of interest (such as those identified as directly disconnected) and examines how the lesion affects communication within large-scale brain networks. This approach reveals indirect disconnections—regions that remain structurally connected to the lesion but nonetheless show disrupted functional integration with the broader network due to the loss of their input regions.
 

@@ -12,7 +12,7 @@ tags:
 - neuroimaging-fmri
 title: NeuroVault
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 ## Overview
@@ -67,7 +67,7 @@ The platform's adoption reflects growing recognition that complete statistical m
 - Nilearn — Python library for neuroimaging analysis with NeuroVault integration
 - [[pymvpa|PyMVPA]] — Multivariate pattern analysis library supporting direct NeuroVault import
 - [[nipype|Nipype]] — Pipeline framework that can automate NeuroVault uploads
-- Brainsuite
+- [[brainsuite]]
 
 ## Key Papers
 
