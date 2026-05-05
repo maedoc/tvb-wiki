@@ -31,6 +31,7 @@ from ralph_config import (
     MATCHER_INTERVAL,
     REPAIRER_INTERVAL,
     REF_FORMATTER_INTERVAL, CROSSLINK_APPLIER_INTERVAL,
+    FULL_TEXT_INTERVAL,
     PARALLEL_WRITERS, PI_TIMEOUT,
     get_all_pages,
 )
@@ -58,6 +59,7 @@ class DaemonState:
             'RefFormatter': None,
             'CrosslinkApplier': None,
             'Linter': None,
+            'FullTextFetcher': None,
         }
         self.failures = {k: 0 for k in self.last_run}
         self.disabled = set()
@@ -224,6 +226,19 @@ def run_librarian():
         return False
 
 
+def run_full_text_fetcher():
+    log.info("Starting full-text fetcher cycle")
+    try:
+        from full_text_fetcher import run_full_text_cycle
+        count = run_full_text_cycle()
+        state.record_success('FullTextFetcher')
+        return True
+    except Exception as e:
+        log.error("FullTextFetcher failed: %s", e)
+        state.record_failure('FullTextFetcher')
+        return False
+
+
 def run_orphan_linker():
     log.info("Starting bi-weekly cycle")
     try:
@@ -291,6 +306,7 @@ AGENTS = [
     ('Linter',         LINTER_INTERVAL,                run_linter),
     ('SoftwareMapper', SOFTWARE_MAPPER_INTERVAL,       run_software_mapper),
     ('OrphanLinker',   ORPHAN_LINKER_INTERVAL,         run_orphan_linker),
+    ('FullTextFetcher', FULL_TEXT_INTERVAL,             run_full_text_fetcher),
 ]
 
 

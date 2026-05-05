@@ -174,3 +174,27 @@
 ## [2026-05-05 09:53] Matcher: 1 pages got 3 new sources
 
 ## [2026-05-05 09:55] DeepResearch: 1 papers added via focused research
+
+## [2026-05-05 12:06] Repair: 230 issues fixed (95 source refs, 33 index, 5 frontmatter, 73 wikilinks, 9 orphans, 0 dup-refs, 0 opaque-refs, 15 crosslinks)
+
+## [2026-05-05 12:19] DeepResearch: 1 papers added via focused research
+
+## [2026-05-05 14:51] Audit: 948 issues (95 broken links, 54 orphans, 22 placeholders, 0 dup-refs, 5 bad-meta, 85 citation-verify, 11 opaque-refs, 73 thin, 352 missing-links)
+
+## [2026-05-05 14:52] DeepResearch: 6 papers added via focused research
+
+## [2026-05-05 15:46] RefFormatter: formatted references on 1 pages
+
+## [2026-05-05 16:01] CrosslinkApplier: added 70 wikilinks (69 inline, 1 suggested)
+
+## [2026-05-05 16:02] Matcher: 10 pages got 28 new sources
+
+## [2026-05-05 17:22] DeepResearch: 10 papers added via focused research
+
+## [2026-05-05 19:52] Audit: 941 issues (98 broken links, 54 orphans, 22 placeholders, 0 dup-refs, 5 bad-meta, 85 citation-verify, 11 opaque-refs, 73 thin, 351 missing-links)
+
+## [2026-05-05 21:46] RefFormatter: formatted references on 3 pages
+
+## [2026-05-05 22:09] CrosslinkApplier: added 12 wikilinks (12 inline, 0 suggested)
+
+## [2026-05-05 22:14] Matcher: 4 pages got 12 new sources

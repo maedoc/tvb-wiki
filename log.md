@@ -196,3 +196,5 @@
 ## [2026-05-05 21:46] RefFormatter: formatted references on 3 pages
 
 ## [2026-05-05 22:09] CrosslinkApplier: added 12 wikilinks (12 inline, 0 suggested)
+
+## [2026-05-05 22:14] Matcher: 4 pages got 12 new sources

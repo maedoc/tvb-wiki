@@ -1,0 +1,1059 @@
+                                                 Delay-Constrained Re-entry Governs Large-Scale Brain
+                                                        Seizures and Other Network Pathologies
+                                               Paul Triebkorn1 , Huifang E. Wang1 , Marmaduke Woodman1 , Maxime Guye3,4 ,
+                                                                  Fabrice Bartolomei1,2 , and Viktor Jirsa1
+                                           1
+                                            Aix-Marseille Université, Institut National de la Santé et de la Recherche Médicale,
+                                              Institut de Neurosciences des Systèmes (INS)UMR1106, Marseille 13005, France
+                                            2
+                                              APHM, Epileptology and Clinical Neurophysiology Department, Timone Hospital,
+arXiv:2508.04824v1 [q-bio.NC] 6 Aug 2025
+
+
+
+
+                                                                           Marseille 13005, France
+                                                    3
+                                                      Aix-Marseille Université, CNRS, CRMBM, Marseille 13005, France
+                                                4
+                                                  APHM, Timone University Hospital, CEMEREM, Marseille 13005, France
+
+                                                                                       August 8, 2025
+
+
+                                                                                           Abstract
+                                                    Re-entry of travelling excitation loops is a long-suspected driver of human seizures, yet how
+                                                such loops arise in patient brain networks—and how susceptible they are to targeted disrup-
+                                                tion—remains unclear. We reconstruct a millimetre-scale virtual brain from diffusion MRI of a
+                                                drug-resistant epilepsy patient, embed excitable Epileptor neural fields, and show that realistic
+                                                cortico-cortical delays are sufficient to generate self-sustaining re-entry. Systematic parameter
+                                                sweeps reveal a narrow delay–coupling window that predicts oscillation frequency and seizure
+                                                duration across 184 recorded seizures. Precisely timed biphasic stimuli or sub-millimetre vir-
+                                                tual lesions abort re-entry in silico, yielding phase-dependent termination rules validated in in-
+                                                tracranial recordings. Our framework exposes delay-constrained re-entry as a generic dynamical
+                                                mechanism for large-scale brain synchrony and provides a patient-specific testbed for precision
+                                                neuromodulation and minimally invasive disconnection.
+
+
+                                           1    Introduction
+                                           Epilepsy affects an estimated 46 million people worldwide and remains one of the most debilitat-
+                                           ing neurological disorders despite decades of pharmacological progress [4]. When seizures persist
+                                           under medication, clinicians turn to resective surgery or neurostimulation, both of which demand
+                                           millimetre-scale localisation of the epileptogenic zone (EZ) and a mechanistic understanding of how
+                                           abnormal activity ignites, spreads and terminates [19, 39]. Yet even with invasive stereo-EEG, the
+                                           spatiotemporal dynamics that link a focal trigger to cortex-wide seizures are only partially resolved.
+                                               Computational modelling promises to bridge this gap by providing a controllable, patient-specific
+                                           replica of brain dynamics [13]. The “virtual epileptic patient” (VEP) framework reconstructs each
+                                           individual’s connectome from neuro-imaging, embeds a neural-mass model (the Epileptor) in every
+                                           atlas parcel and infers regional excitability from recorded seizures [25, 68]. VEP has helped guide
+                                           surgery in several centres, but its point-node architecture cannot capture intra-areal travelling waves
+                                           or the sub-second phase lags that shape seizure propagation [34]. Recent extensions to spatially
+                                           continuous neural fields reproduce local wave fronts on simplified 1-D or small cortical patches [43,
+                                           52], yet they omit subject-specific long-range fibre anatomy that could enable network-scale feedback.
+                                               Re-entry—an excitation loop that revisits tissue after its refractory period—offers a unifying mech-
+                                           anism for such feedback. The phenomenon has been demonstrated in hippocampal slice cultures and
+                                           chemically disinhibited rodent cortex, where recurrent excitatory connections sustain self-propagating
+                                           waves [58, 33, 10, 23]. Similar cyclic patterns appear in in-vitro neuronal monolayers, disinhibited
+                                           cat and rat cortex, and large-scale neural-network simulations that combine dense local and sparse
+                                           long-range links [27, 67, 21, 22]. Human evidence is emerging: single-pulse stimulation of frontal
+                                           epileptogenic cortex can provoke delayed or repetitive responses consistent with cortico-cortical loops
+                                                                                                1
+[65, 18, 70]. Together, these studies suggest that delay-mediated re-entry may couple microscopic
+excitability to macroscopic seizure spread, yet no model has tested this hypothesis in a full, patient-
+specific brain geometry.
+    Here we integrate sub-millimetre neural fields with high-resolution diffusion-MRI connectomes
+to create a personalised virtual brain that preserves both local cortical geometry and thousands of
+long-range fibre delays [60, 41]. Each vertex hosts the Epileptor in an excitable regime, allowing
+travelling waves to emerge spontaneously or in response to stimulation. Using this platform we map
+the delay–coupling parameter space and identify a narrow corridor that sustains large-scale re-entry
+consistent with intracranial recordings; we quantify seizure propagation and termination as functions
+of loop length, conduction speed and refractoriness; and we test targeted interventions—biphasic
+stimulation, virtual fibre transection and multiple subpial cuts—to determine how, when and where
+re-entry can be interrupted.
+    By converging patient anatomy, neural-field theory and systematic perturbation, we ask whether
+delay-constrained re-entry is (i) sufficient to explain whole-brain seizure dynamics and (ii) vulnerable
+to clinically feasible disruptions. Our answers, we argue, move virtual-brain modelling from descrip-
+tive replay to predictive neuromodulation design and lay the groundwork for precision therapies in
+drug-resistant epilepsy.
+
+
+2     Results
+2.1    High resolution models and its application in epilepsy
+Using structural T1-weighted MRI and diffusion-weighted tractography of an exemplar patient, we
+reconstructed a millimetre-scale virtual brain to probe re-entry mechanisms and candidate interven-
+tions (Fig. 1A). The cortical ribbon and those subcortical structures that can be unfolded onto a
+surface—the hippocampus and cerebellum—were tessellated as triangulated meshes, whereas nuclei
+such as thalamus and amygdala were represented by volumetric point grids.
+    Local synaptic coupling between neighbouring gray-matter vertices decays exponentially with
+geodesic (surface) or Euclidean (volume) distance, while long-range axonal coupling is derived from
+streamline intersections with surface or volume meshes; the resulting vertex-to-vertex matrices are
+shown in Fig. S1. Each vertex hosts a 2D Epileptor in an excitable regime: while an isolated node
+returns to its fixed point after perturbation, delay-coupling via the white-matter network enables
+sustained circulating oscillations. Known as re-entry, these oscillations are excitation waves that
+circumnavigate an excitable network and revisit their point of origin after a local refractory period,
+facilitated by recurrent connectivity and finite axonal delays. To illustrate the mechanics, we first
+analysed a toy system of two bidirectionally delay-coupled 2D Epileptors. Each unit was tuned slightly
+below the super-critical Hopf bifurcation (x0 = –1.2916), producing a stable focus in the phase plane
+(Fig. 1B). A modest perturbation of the first oscillator triggered a single large excursion, whereas
+the second remained at rest. We then swept coupling strength γgc and distance di,j — the latter sets
+the propagation delay — to map conditions that sustain cycling of activity. With weak coupling and
+short delays, the return excitation arrives during refractoriness and activity extinguishes (example 1
+in Fig. 1C). Increasing either γgc or di,j pushes the downstream oscillator across threshold after it
+has recovered, creating a self-maintained ping-pong loop; larger separations lengthen the inter-spike
+interval (examples 2 and 3 in Fig. 1C) .
+    This platform allows us, first, to chart the parameter space that governs the emergence, persis-
+tence, and self-limitation of re-entry and, second, to test two families of interventions—phase-locked
+electrical stimulation and targeted surgical disconnection—that aim to extinguish ongoing loops by
+manipulating local or global connectivity.
+
+
+
+
+                                                   2
+Figure 1: High-resolution virtual brain model reconstruction for delay-constrained re-entry based
+seizure simulations. (A) T1w and diffusion MRI together with tractography are used to reconstruct
+the cortical surface and to estimate connections between points of the surface (left). Subcortical
+areas are either represented by volumetric grids or surfaces (middle). The resulting connectomes for
+local and global connections are used together with a dynamical model, called the 2D Epileptor, to
+simulate epileptic brain dynamics. The neural activity at each point of the network is given by the
+dynamical equations of the 2D Epileptor together with the sum of global and local connections. The
+2D Epileptor is parameterized to an excitable regime to test the hypothesis of re-entry mechanisms
+in epileptic seizures (right). Subsequently, the model is used to investigate electrical stimulation and
+targeted lesioning to prevent seizures. (B) The phase space of a single 2D Epileptor in an excitable
+regime is displayed. Yellow and green lines indicate nullclines. The time series of the red example
+trajectory is shown below. (C) Re-entry excitation is examined in two delay-coupled 2D Epileptors as
+a function of coupling strength γgc and inter-node distance. Only the 1st Epileptor (red time series)
+is initialized beyond the stable focus, generating the first excitation. The 2nd Epileptor (blue time
+series) is initialized on the stable focus. Simulations are run for 1s and the number of excitations of
+the 2nd Epileptor are counted. Example time series of both 2D Epileptors at numbered positions in
+parameter space are shown on the right. For point 1 in parameter space no re-entry can be observed,
+as the perturbation of the 2nd Epileptor onto the 1st Epileptor is not sufficiently strong or delayed
+enough (black arrow). Increasing the coupling strength or distance leads to re-entry at points 2 and
+3 in parameter space, with different re-entry rate.
+
+
+2.2    Modeling re-entry excitation
+Moving beyond the minimal pair of two delay-coupled 2D Epileptors, we placed the same excitable
+Epileptor on a patient-specific patch of left anterior temporal cortex extracted with the VEP atlas [69]
+(Temporal Pole through Rhinal cortex, plus amygdala) (Fig. 2A). To limit computation we treated
+the remainder of the brain as quiescent and simulated only this patch plus its long-range fibres
+(Fig. 2B). Local γlc and global γgc coupling were scaled in a fixed 1:1 ratio, reflecting anatomical
+estimates[6]. All vertices were initialised at the stable focus except those in the designated onset zone,
+which received a small offset to seed a single pulse.
+
+                                                    3
+    Snapshots from a three-second simulation (Fig. 2B) show activity leaving the onset zone as concen-
+tric surface waves while simultaneously “jumping” via white-matter shortcuts. A corresponding video
+of the simulation is given in Supplementary V1. The space-time raster reveals periodic re-activation
+of distant vertices, diagnostic of large-scale re-entry, and six virtual SEEG contacts reproduce the
+anterior-to-posterior spread observed clinically (Fig. 2C,D). Systematic variation of γgc identified
+three regimes (Fig. 2E): γgc < 0.05: perturbations fail to propagate and die out; 0.05 < γgc < 0.15:
+waves circulate continuously or as self-limiting transients; γgc > 0.15: excitation outruns recovery,
+recruiting the entire patch at once and imposing global refractoriness.
+    Because axonal delays are fixed by anatomy, we next modulated the intrinsic time-scale τ of the
+Epileptor (Fig. 2F). High τ > 0.33 lengthens refractory periods so much that no coupling strength
+can support re-entry; intermediate 0.125 < τ < 0.33 permits loops across a window of γgc ; and very
+low τ < 0.125 raises excitability enough that re-entry emerges above a sharp γgc threshold .
+
+
+
+
+             Figure 2: Modeling re-entry excitation on a patch of the left temporal lobe.
+(A) Mesial view of the patch of cortex on the anterior temporal lobe that was used for simulations.
+   White tissue is modeled as EZ. The black patch is the onset zone, from where activity starts to
+propagate. The rest of the cortex is colored in gray, with very low excitability, not being involved in
+the seizure activity. Green tetrahedra represent the volumetric grid of the Amygdala. White matter
+ tracts are displayed in blue. (B) Example simulation of re-entry on the cortical patch. At the top,
+snapshots of neural activity on the cortical patch are displayed at indicated time points. Excitations
+can be seen as yellow waves traveling across the surface. Below, a space-time plot, shows re-entrant
+neural activity of the full simulation. (C) Superior view of the patch of cortex showing the location
+   and number of implanted virtual contacts. (D) Corresponding recorded electrical signal on the
+contacts of (C) given the simulation in (B). (E) Parameter exploration across coupling strength γgc
+from 0 to 0.2, with τ = 0.25. The variability of re-entry rates is rich in this parameter range. Three
+seconds of neural activity on the cortical patch were simulated across the indicated parameter space.
+The y-axis indicates the number of excitations per second averaged across the tissue. The black and
+red dot indicate the parameter for the simulations in (B) and Fig. (S2), respectively. (F) Parameter
+ exploration across coupling strength γgc and time scale τ of the Epileptor. The color bar indicates
+the number of excitations per second averaged across the tissue, for three-second simulation length.
+
+   Finally, we asked how the extent of the EZ constrains feasible τ . Growing the EZ from 1,000 mm2
+                                                  4
+to 9,000 mm2 increased the maximum τ (i.e. τmax ) that still allows re-entry from 0.2 to 0.4 (Fig.
+3A–D). Larger zones therefore support slower, lower-frequency loops because their intrinsic delays
+are longer. In all cases τmax rose monotonically with EZ area (Fig. 3D).
+    Together, these experiments establish the chain of our mechanistic reasoning: minimal two-node
+loops demonstrate the fundamental delay–gain principle; embedding the same dynamics in patient
+geometry shows how local waves and tract-mediated jumps cooperate; and scaling analyses delineate
+the specific combinations of γgc , τ , and EZ size that permit, limit, or extinguish re-entry in realistic
+tissue.
+
+
+
+
+                 Figure 3: Dependency of re-entry excitation on the size of the EZ.
+ (A) Cortical surface showing the size of the EZ used for simulation. Color indicates the extent of
+ the different EZ, with smaller EZs being subsets of larger ones. (B) Parameter exploration across
+   coupling strength γgc and time scale τ of the Epileptor for an EZ of size 1000 mm2 . For each
+ parameter combination the average number of excitations per second is plotted for a three second
+ simulation. The red dot indicates τmax for which re-entry becomes possible for the given EZ size.
+     (C) Same as (B) but for EZ size 9000 mm2 . (D) The τmax , identified from the parameter
+explorations, as a function of the EZ size, together with the corresponding frequency of the re-entry
+                                               dynamics.
+
+2.3    The effect of stimulation on re-entry
+Having verified that the excitable cortical network sustains large-scale re-entry, we next asked whether
+a brief, local perturbation could extinguish the loop. The guiding idea is classical: if a stimulus excites
+a strategically chosen patch of cortex and immediately drives it into refractoriness, any incoming
+activity that returns via the long-range network will arrive during that refractory window and die
+out.
+    We inserted one SEEG-like depth contact into the anterior temporal lobe, a location accessible
+in clinical practice (Fig. 4A). Neural activity is projected to the contact with the electromagnetic
+forward model, and the same electrode delivers stimulation. To mimic charge-balanced clinical pulses
+we used a biphasic waveform: 210 µs cathodic phase, followed by an anodic phase twice as long at
+half amplitude, a design shown to excite tissue efficiently while limiting electrochemical damage [35].
+Finite-element estimates place the resulting spherical volume of tissue activated (VTA) at 150 mm3 ,
+well within published ranges [7].
+    Re-entry dynamics were simulated for 3 s, the contact signal was Hilbert-transformed, and the
+instantaneous phase of the last full inter-spike interval (ISI) before t = 1.5 s was extracted (Fig. 4B).
+Three identical pulses were then delivered, beginning at a manually-selected phase expressed as a
+percentage of the ISI; successive pulses were separated by exactly one ISI (Fig. 4C).
+    Across the coupling range 0.052 < γgc < 0.08 —where re-entry is otherwise self-sustaining—the
+three-pulse protocol abolished oscillations only when triggered inside narrow phase windows (Fig.
+                                                    5
+4D). Outside those windows the stimulus either failed outright or delayed termination by a few
+cycles. Supplemental sweeps confirmed that varying pulse count (1, 3 or 6) or distributing electrodes
+across six contacts produced qualitatively identical phase-selective success curves (Fig. S3 - S4).
+    In sum, a single depth electrode delivering three well-timed biphasic pulses can reliably halt re-
+entrant seizures in silico, but efficacy hinges sharply on the phase of delivery— an observation that
+directly informs closed-loop neuromodulation algorithms.
+
+
+
+
+                  Figure 4: Electrical stimulation to counteract re-entry excitation.
+    (A) Inferior view of the cortical patch EZ used for simulation. The blue sphere indicates the
+contact used for sensing neural activity and applying an electrical stimulus. The black patch on the
+cortical surface represents the VTA, that gets excited by a stimulus of the contact. (B) Space-time
+  plot with re-entry activity of an example simulation. Below, the filtered signal as recorded on the
+    contact and the corresponding instantaneous phase. (C) Same as (B), but in the lower panel
+  showing the time course of the 3-pulse stimulation applied to the simulation, successfully ending
+  re-entry dynamics. (D) Parameter space exploration across coupling scaling γgc and stimulation
+within the inter-spike interval of 2 subsequent re-entries. The color indicates the average number of
+ excitations per second across the cortical patch after stimulus offset. The white cross indicates the
+                           parameter combination for the simulation in (C).
+
+
+2.4    The effect of connectivity manipulation on re-entry
+To probe surgical strategies that act not through stimulation but through structural disconnection,
+we removed selected edges from the patient’s connectome and measured the change in re-entry burden
+(mean number of excitations per second over the EZ).
+    Monopolar Radio-frequency thermocoagulation (RFTC) of long-range fibres was modelled as 2
+mm-radius spherical lesions around a contact (empirical range is 1.5–3 mm [5]) along two virtual
+SEEG electrodes (8 contacts, 2 mm contact length, 1.5 mm spacing) which were placed in the left
+anterior temporal white matter, mimicking clinically feasible trajectories (Fig. 5A). Every streamline
+intersecting a sphere was deleted; short-range U-fibres were largely spared, whereas long corticocorti-
+cal projections were disproportionately affected (Fig. 5B,D). Across coupling strengths in the range
+0 < γgc < 0.2 the intervention produced a non-monotonic effect (Fig. 5F): at low γgc the lesion
+stabilised the network, truncating loops that were otherwise sustained; near the lower edge of the
+re-entry corridor it destabilised the system, creating loops where none existed; at high γgc it had
+negligible impact because activity already failed through global refractoriness. The duality arises
+because excising a tract both lengthens effective delay and weakens feedback; which influence domi-
+
+                                                  6
+nates depends on baseline γgc and τ (Fig. S5A). Two illustrative simulations — one stabilising, one
+destabilising — are shown in Fig. S6.
+    We next simulated Multiple subpial transection (MST), a technique that severs tangential intra-
+cortical axons while preserving long-range tracts [38]. Parallel cuts, 5 mm apart, were laid across
+the anterior temporal gyri (Fig. 5 C). Only local edges shorter than 10 mm were removed, sharply
+reducing peak degree within the EZ but leaving deep-white-matter connectivity unchanged (Fig.
+5 E). Parameter sweeps again revealed a bidirectional outcome (Fig. 5 G): moderate γgc values
+were most sensitive—some converted sustained loops into transient flickers, others unmasked new
+loops—whereas extreme γgc values were little affected. Notably, MST shifted the upper γgc bound-
+ary of the re-entry corridor downward, implying that weakening local recurrence can substitute for
+stronger global delays (Fig. S5B).
+    Taken together, these in-silico dissections show that surgical success depends on matching the
+lesion type to the patient’s specific delay–coupling operating point — a principle that argues for the
+necessity of individual virtual brain testing before real-world intervention.
+
+
+
+
+                       Figure 5: Probing connectivity lesion effects on re-entry.
+   (A) Mesial view of the cortical patch that was used for simulations. The red spherical volumes
+    (each radius = 2mm) indicate the white matter tissue that gets lesioned by RFTC. (B) Track
+density image of the left temporal lobe white matter prior and after introducing the lesions specified
+in (A). (C) Trajectories (red lines) of MST running parallel across all gyri of the EZ approximately
+   every 5mm. Selected triangles were removed from the surface mesh, resulting in holes and local
+    disconnections between vertices. (D) Histogram of long-range connections in the left anterior
+temporal lobe prior and after RFTC lesioning, sorted by their length. (E) Histogram of short-range
+connections in the left anterior temporal lobe prior and after MST lesioning, sorted by their length.
+  (F) Parameter exploration across coupling strength γgc . Three seconds of neural activity on the
+cortical patch were simulated across the indicated parameter space. The y-axis indicates the change
+ from pre- to post-lesional average number of excitations per second across the tissue. The red and
+    black dot indicate the parameter for the simulations in Fig. S6, showing the destabilizing and
+                     stabilizing effect on re-entry. (G) same as (F) but for MST.
+
+
+
+
+                                                  7
+2.5    Re-entry activity invading a propagation zone
+To examine whether a re-entrant loop can account for the rich propagation repertoire seen in focal
+seizures, we enlarged the virtual brain to include the entire posterior temporal lobe—Hippocampus,
+Parahippocampal cortex, Collateral sulcus, Fusiform gyrus, Occipito-temporal sulcus, posterior por-
+tions of T3, ITS, T2, STS, T1 (lateral) and T1 (planum temporale), plus the gyrus of Heschl (Fig.
+6A). Excitability was distributed as a smooth anterior–posterior gradient: the Epileptor offset x0
+followed a sigmoidal decay with distance from the onset zone (Fig. 6B). Thus the anterior temporal
+lobe formed a highly excitable EZ, while posterior tissue constituted a progressively less excitable
+propagation zone (PZ).
+    Empirical recordings show that seizure frequency falls as termination approaches [30, 24]. To
+reproduce this hallmark we allowed the intrinsic time-scale τ to grow with recent local activity;
+sustained firing therefore slows subsequent cycles until the loop can no longer re-excite upstream
+tissue. With this set-up we ran 20 s episodes from the large EZ (Figs. 6C–E). Three key features
+emerged: 1) Propagation lag—posterior temporal lobe vertices were recruited only after multiple
+cycles; a single wave of excitation could not reach them. 2) Delayed SEEG activation—virtual
+contacts 1–2 (anterior) oscillated from onset, whereas contacts 6–8 (posterior) joined several seconds
+later (Fig. 6E). 2) Synchronous termination—once the oscillation had slowed substantially, activity
+ceased almost simultaneously across EZ and PZ (Fig. 6D).
+    The slow-down created a clear rise in signal auto-correlation and channel-to-channel coherence,
+mirroring human depth-EEG (Figs 6F–H). Supplementary Video V2 shows intermittent spiral waves
+wandering across the inferior temporal surface during the seizure.
+    Increasing global coupling or shifting the sigmoid midpoint d posteriorly enlarged the territory
+that became active (Fig. 6I). Seizure duration was positively correlated with recruited tissue (Fig.
+6J); the longest events continued beyond the 20 s window. Filtering for episodes that did terminate
+revealed a dominant pattern of near-simultaneous offset over wide cortical areas (Fig. 6K). Varying the
+lower asymptote x0min , which controls baseline excitability in the posterior lobe, yielded qualitatively
+identical behaviour (Fig. S7).
+    Together, these results show that a delay-supported re-entrant loop can invade less excitable tissue,
+decelerate through activity-dependent fatigue, and still shut down synchronously across distant areas
+— capturing the main spatial and temporal signatures of human focal seizures.
+
+
+
+
+                                                   8
+                      Figure 6: Re-entrant activity invading the propagation zone.
+ (A) Lateral view of the left temporal lobe used as EZ for simulation. Color indicates the value of
+ excitability (x0 ) across the tissue. Numbers indicate the positions of virtually implanted contacts.
+(B) Left, the sigmoid functions define the decay of x0 with increasing distance from the onset zone
+  on the tip of the anterior temporal pole. Parameters d and x0min indicate the midpoint and the
+   lower horizontal asymptote of the sigmoid function, respectively. Right, histogram of x0 values
+  across the tissue for d = 20mm and x0min = −1.40. (C) Example simulation using the Epileptor
+ with activity dependent slowing for parameters d = 20mm, x0min = −1.40 and γgc = 0.425. Color
+    indicates the timing of the first excitation across the tissue. Grey parts of the tissue were not
+   reached by propagation. (D) Same as (C), but color indicates the timing of the last excitation
+before seizure end. (E) SEEG signals recorded from the simulation in (C) on the contacts displayed
+ in (A). (F) Time frequency plot of the average SEEG signal from (E). (G) Mean (black) and +/-
+   standard deviation (blue) of the evolution of the autocorrelation of the SEEG signals from (E).
+   Precisely, ACW50 indicates the lag in ms at which the autocorrelation decays below 0.50. (H)
+Mean (black) and +/- standard deviation (blue) of the evolution of the pairwise coherence between
+    the SEEG signals from (E). (I) Parameter space exploration across coupling strength γgc for
+x0min = −1.45 and different values of d. The y-axis indicates the amount of tissue that was excited
+at least once during the simulation. (J) Scatter plot of seizure duration as a function of the amount
+  of recruited tissue by re-entry activity for the simulations from (I). (K) Scatter plot showing the
+  percentage of recruited tissue terminating re-entry synchronously as a function of the amount of
+                              recruited tissue for the simulations from (I).
+
+
+2.6    Validation in empirical data
+To test the model predictions in vivo, we analysed 184 seizures recorded from 50 drug-resistant
+epilepsy patients who underwent stereo-EEG. Each recording included a minimum of six depth elec-
+trodes and covered temporal and extra-temporal lobe structures.
+    For every seizure the offset in each channel was marked visually. Channels whose offsets fell within
+1 s were grouped as synchronous. When a seizure terminated at different moments across the brain, we
+retained the largest synchronous group for the primary analysis (Extended Data Fig. S8 shows that
+
+                                                   9
+using all groups yields the same conclusions). Offset frequency was taken as the dominant spectral
+peak during the final 5 s of ictal activity in that group. To approximate the spatial extent—and thus
+the intrinsic delay—of the seizing network, we computed the mean Euclidean distance between all
+contacts in the chosen group.
+    Two representative cases illustrate the extremes (Fig 7A-F). A focal seizure restricted to three
+closely spaced electrodes terminated at 6 Hz after 13 s, whereas a widely distributed seizure spanning
+eleven electrodes ended at 2.5 Hz after 88 s. These examples mirror the model result that small loops
+end quickly and at higher frequencies, large loops linger and slow. Across the full data set, offset
+frequency declined (R2 =0.027, p=0.007, Fig 7G) and seizure duration rose (R2 =0.075, p=1.7E-04,
+Fig 7H) when the mean inter-contact distance increased as predicted by the model in Figs 3D and
+6J.
+    Repeating the analysis for all synchronous groups confirmed both trends (Extended Data Fig. S8
+A). Partitioning by structural imaging (MRI-positive vs MRI-negative) or by EZ extent (temporal,
+temporal-plus, temporal-extra) preserved the duration–size correlation in every subgroup (Extended
+Data Fig. S8B-F). The offset-frequency trend held in all subgroups but reached statistical significance
+only in MRI-positive patients, possibly reflecting better delineation of the active network.
+    Taken together, empirical seizures obey the same inverse relationship between loop size, ter-
+mination frequency and duration that emerges from the high-resolution virtual brain, supporting
+delay-mediated re-entry as a unifying mechanism across patients.
+
+
+
+
+                                 Figure 7: Validation in empirical data
+     (A) A subset of SEEG channels in a bipolar montage from a patient with a short (13s) left
+hippocampal seizure showing synchronous seizure offset. (B) Normalized power spectral density of
+the last 5s of the seizure of each individual channel (gray) and their average (black) with a peak at
+ around 6Hz. (C) 3D cortical surface plots with the SEEG implantation showing the extent of the
+seizing tissue. (D,E,F) Same as (A,B,C) but for a different patient with a long (88s) and spatially
+      extended seizure and offset frequency at around 2.5Hz. (G) Scatter plot of averaged offset
+ frequencies against mean pairwise distance of seizing SEEG contacts. Black line indicates a linear
+model fit with p-value and R2 indicated in the plot. The data show a decreasing trend of the offset
+   frequency with increasing seizing tissue size. (H) Scatter plot of seizure duration against mean
+pairwise distance of seizing SEEG contacts. Black line indicates a linear model fit with p-value and
+  R2 indicated in the plot. The data show an increasing trend in seizure duration with increasing
+                                           seizing tissue size.
+
+
+
+                                                  10
+3    Discussion
+We introduced a patient-specific virtual brain that reproduces re-entrant seizure dynamics at millime-
+tre resolution. By placing the Epileptor in an excitable regime on cortex and sub-cortex, a modest
+perturbation was sufficient to ignite a loop in the temporal lobe; its persistence hinged on coupling
+strength, axonal delay and the spatial extent of the epileptogenic zone (EZ). Parameter sweeps re-
+vealed three canonical behaviours: sustained re-entry, self-limiting transients and fast wave fronts
+that extinguish once all tissue is refractory. Phase-targeted biphasic stimulation aborted re-entry
+within a narrow timing window, whereas local or global virtual lesions either stabilised, destabilised
+or reshaped the circulating wave. The same model reproduced activity-dependent slowing and syn-
+chronous seizure termination—phenomena repeatedly documented in intracranial EEG.
+    This work is, to our knowledge, the first to use sub-millimetre diffusion-MRI connectomes with
+spatially continuous neural fields in epilepsy. Vertex-wise connectomes have illuminated intra-areal
+topology, and neural-field studies have separately captured seizure onset and wave propagation on
+simplified geometries. Only a deep-brain-stimulation simulation has previously combined a high-
+resolution connectome with dynamical units, and that omitted intra-cortical connectivity[1]. Our
+integration therefore represents a substantive step toward a bona fide digital twin for surgical planning.
+    Re-entrant excitation has long been observed in hippocampal slices, where recurrent mossy-fibre
+sprouting sustains self-propagating bursts[58]. Modelling studies that turn select dentate granule
+cells into hubs reproduce those after-discharges, hinting that micro-circuit rewiring can seed macro-
+scale loops [37]. Multi-scale co-simulation now makes it feasible to embed such cellular detail inside
+whole-brain fields, an attractive route for dissecting how local plasticity translates into network-level
+seizures[31].
+    White-matter delays proved to be the key moderator of re-entry. Too little coupling and waves fiz-
+zled; too much coupling triggered rapid, global refractoriness; only an intermediate corridor of delays
+and gains produced loops that matched empirical seizure durations. Within that corridor, propa-
+gation slowed as tissue fatigued, eventually dropping the loop frequency below the delay-supported
+threshold and forcing collapse—an intrinsic self-termination mechanism that requires no slow variable
+or bistability. Single-pulse after-discharges seen during presurgical mapping, and their reproduction
+in spatially extended Jansen–Rit models, likely reflect a similar interaction between delay and refrac-
+toriness [18].
+    Our stimulation experiments align with rodent data showing that single or few phase-locked
+pulses, rather than high-frequency trains, can terminate seizures if precisely timed[59, 42]. Charge-
+balanced waveforms mitigate the cytotoxic risk inherent to DC pulses and may therefore be more
+translatable. Inclusion of thalamic circuits will refine phase targets for spike–wave discharges, where
+cortico-thalamic loops dominate.
+    Structural interventions likewise showed promise. Simulated radiofrequency thermocoagulation
+of white-matter pathways altered re-entry dynamics in ways consistent with emerging ideas of tract-
+focused epilepsy surgery. Multiple subpial transection (MTS) slowed or abolished loops, mirroring
+animal data[57, 20]. In current clinical applications, SEEG-RFTC is mainly used to target gray matter
+malformation, like cortical dysplasia or heterotopia [9] and not white matter pathways. However,
+stimulation of white matter targets to disrupt epileptic networks has already been suggested[17]. The
+lesioning of pathways to prevent seizure spread has been practiced only in lobe-disconnection[29] and
+MTS[46]. A variant of MTS is the hippocampal transection which can reduce seizures, with less
+side effects[51]. These results support the concept that selectively disabling a handful of well-chosen
+long-range fibres may rival larger cortical resections, a process, which can be guided by the virtual
+brain on an individual level.
+    Parallels with cardiac arrhythmia are striking : both heart and brain are delay-coupled excitable
+networks [63, 64] in which spiral-wave re-entry responds to ablation or phase-resetting shocks [28].
+Reflection of travelling waves at heterogeneities — documented at the V1/V2 boundary [71] — could
+further enrich the repertoire of cortical re-entry modes and may surface in our model under stronger
+propagation-dependent slowing.
+    The extended EZ also projected diverse onset–offset signatures onto virtual SEEG. Sites near the
+trigger resembled a saddle-node bifurcation at onset, whereas propagation zones displayed supercrit-
+ical Hopf-like growth; all channels converged onto homoclinic-looking offsets. These patterns emerge
+without local bifurcations, underscoring how network dynamics can mimic classical critical transitions
+on sensors [53]. Activity-dependent slowing increased inter-channel synchrony and autocorrelation,
+again matching patient recordings.
+
+                                                   11
+    Several limitations warrant mention. The model has not yet been fitted to individual electro-
+physiology; spherical-harmonic compression may enable future parameter inference across tens of
+thousands of vertices [11]. Tractography biases remain [72], although forthcoming ultra-high-field
+post-mortem datasets will offer calibration ground truth [3]. Finally, we explored only one or two
+onset/offset archetypes, whereas broader taxonomies of seizure types almost certainly implicate ad-
+ditional network motifs [47].
+    These encouraging in-silico results support a first-in-human, phase-targeted single-pulse-stimulation
+trial guided by high-resolution virtual-brain modelling.
+
+
+4     Methods
+4.1    Patient characteristics and data acquisition
+We analyzed data from 50 patients with drug-resistant focal epilepsy who underwent a standard
+presurgical examination at La Timone Hospital in Marseille, France. Informed written consent was
+obtained from all patients in accordance with the Declaration of Helsinki, and the study protocol was
+approved by the local ethics committee (Comité de Protection des Personnes Sud-Méditerranée 1).
+Each patient underwent a comprehensive presurgical evaluation, including medical history assessment,
+neurological examinations, neuropsychological evaluation, fluorodeoxyglucose PET, high-resolution
+3T MRI, long-term scalp EEG monitoring, and invasive SEEG recordings.
+   Data from a single patient (female, 35y) was selected to build a high resolution virtual brain
+model and simulate re-entry dynamics. This patient underwent SEEG implantation after which the
+EZ was estimated to extend across the left Hippocampus, Amygdala, Temporal pole, Rhinal and
+Parahippocampal cortex. Left anterior temporal lobe resection was performed with a good outcome
+(Engel Score 2). During pre-surgical evaluation a T1 weighted image (sagittal MPRAGE sequence,
+2.98ms/2.3s (TE/TR), voxel size 1.0 × 1.0 × 1.0mm, image dimensions 160 × 256 × 256 voxels)
+and a diffusion weighted scan (88ms/3s (TE/TR), voxel size 2.0 × 2.0 × 2.0mm, image dimension
+126 × 114 × 69 voxels, bval=[0, 1000, 1400, 1800], with an angular gradient set of 193 directions) was
+acquired on a 3T Siemens Verio MRI scanner.
+
+4.2    Structural scaffold construction
+Using neuro-imaging data we build a high resolution virtual brain model of the patient. The T1w
+MR image is processed using the recon-all pipeline of the Freesufer v7.1.1 software package [16] to
+perform volume segmentation and cortical surface reconstruction. The VEP atlas [69] was mapped
+onto the cortical surface of the subject to obtain a regional parcellation of the brain. Additionally,
+the T1w MRI image was processed with the HippUnfold BIDS app [12] in order to obtain a further
+detailed segmentation and surfaces of the hippocampal formation (subiculum, CA1-4 and the dentate
+gyrus). The cortical and hippocampal surfaces were connected to create an anatomical realistic
+surface, in which the hippocampal surface represents the continuation of neocortex [15]. First, the
+part of the cortical surface representing the medial wall was removed. Second, a triangulation was
+inserted connecting the boundary of the rhinal and parahippocampal cortex with the boundary of the
+subiculum of the hippocampal surface. Third, the mesh around the new triangulation was smoothed
+using Laplacian smoothing, to improve the shape and size of triangles. The surface of the cerebellum
+was created using the surface reconstruction stream of Freesurfer’s recon-all pipeline and FSL’s FAST
+algorithm [73]. First, a cerebellar mask was created from the Freesurfer white and gray matter
+cerebellum segmentation and it was used to extract the cerebellum of the T1w image. Second, FAST
+was used on the T1w cerebellum to obtain a detailed white and gray matter segmentation. Third, the
+algorithms of the Freesurfer surface reconstruction pipeline were used, to tesselate a surface around
+the cerebellar white matter, fix its topology and project it onto the gray matter - cerebrospinal
+fluid boundary of the cerebellum. Surfaces are a natural representation of the hippocampus and
+the cerebellum. Other subcortical structures however can not be represented by a surface, because
+they fill a volume with multiple nuclei of cell bodies. Therefore we chose a point grid filling the
+volume of thalamus, caudate nucleus, putamen, pallidum, amygdala and nucleus accumbens, as their
+representation in the high-resolution model. These structures are readily segmented by the recon-all
+pipeline. However, we would like to represent volumetric structures at a comparable resolution to
+surfacic structures. Each vertex of the cortical surface mesh, does not only represent an area of the
+surface, but also a volume of the corresponding cortical gray matter ribbon. In order to assign a
+
+                                                  12
+comparable volume to each volumetric grid point we calculated the area that each cortical vertex
+represents. Because the pial surface is a projection of the white matter surface along the voxel gray
+level intensities, the vertices and triangles of the two surfaces correspond to each other. Thus, a
+natural way to compute the volume of a vertex, is to compute the volume of the ”triangular prism”-
+like shape that results from the projection of a triangle from white to pial surface and add a third of
+this volume to each corner vertex. Since this shape is not an exact triangular prism, but a truncated,
+rotated and shifted version, we use numeric integration to estimate its volume. The ”triangular
+prism”-like shape is subdivided by projecting the white surface triangle towards its corresponding
+pial surface triangle in 100 steps, resulting in 101 triangular prism like subvolumes. Each subvolume
+is computed by using a convex hull approach. Finally, the mean vertex volume across the whole
+cortical surface was used to resample the subcortical segmentation to an equal isotropic voxel size
+(=1.77mm3 ).
+
+4.3    Connectivity estimation
+To assess structural connectivity between cortical and subcortical vertices we processed the diffusion
+imaging data using the MRtrix3 software package [62]. First, the diffusion data was denoised [66] and
+Gibbs ringing artifact corrected [26]. Second, movement, epi-distortion and eddy current correction
+was performed [2]. Because the diffusion data was acquired in anterior to posterior phase encoding
+direction only, we used Synb0 DisCo [50] to estimate a synthetic undistorted b0 image that was
+used for distortion correction. The algorithm from [14] was used to estimate response functions for
+gray matter, white matter and cerebrospinal fluid diffusion signal. Subsequently, fiber orientation
+distributions (FOD) were estimated per voxel using multi-shell multi-tissue constrained spherical
+deconvolution [14] and corrected for intensity inhomogeneities [45]. 10M streamlines were sampled
+using probabilistic tractography (iFOD2) [61] with anatomical constraints [55]. Streamlines were
+weighted according to the SIFT2 algorithm [56], to match the streamline densities with the underlying
+fiber densities as estimated through spherical deconvolution. Anatomical constraints were given by the
+Freesurfer anatomical segmentation, in which we substituted the hippocampal and cerebellar volume
+by the segmentation from HippUnfold and FSL’s FAST, respectively. Due to the probabilistic nature
+of tractography spurious tracts can be generated. We noticed this primarily when constraining our
+simulation to the EZ of the subjects. Tracts would start within the anterior temporal lobe, travel
+towards the occipital lobe and return. These few tracts would cause long delays in the system and
+would overestimate the re-entry effect. Therefore we thresholded the tracts connecting within the
+EZ to the 95th percentile, corresponding to a maximum tract length of 42.87mm. Any longer tracts
+were removed. We visually confirmed that the remaining fibers would reside inside the volume of
+the EZ. Subsequently, a vertex to vertex based connectome was constructed. For each streamline a
+radial search was performed at both end points to find a subcortical grid point that it can be assigned
+to. The search is performed within a radius of subcortical voxel edge length (1.21mm) + 0.01 mm.
+If no subcortical grid point is found, the Möller-Trumbore ray triangle intersection algorithm [36] is
+used to find an intersection of the ray, that is given by the last 2 points of the streamline, with a
+triangle of the cortical mesh. A triangle of the mesh was only checked for intersection, if all 3 vertices
+of the triangle were on average not further distant to the ray origin than 5mm. If an intersection
+of the ray and a triangle was found, the streamline was assigned to be connected to the vertex of
+the triangle that is closest to the intersection point. If one or both of the streamline ends could
+not be assigned to either a subcortical grid point or to a cortical vertex, the tract was ignored and
+not used to construct the connectome. To compute connection weights and lengths, we used the
+sum of SIFT2 weights and the average lengths of all connecting streamlines between two vertices,
+respectively. Next to long range connections through white matter fibers, our model accounts for
+distance based local coupling between neighboring vertices on the surface or the volumetric grid.
+Therefore a vertex to vertex distance matrix is computed. We use geodesic and euclidean distances
+for surfaces and subcortical grids, respectively. Distances are only computed between vertices of the
+same surface or subcortical grid region, because they are otherwise topologically disconnected. An
+exception to this is the connection between hippocampal structures CA3/CA4 and the dentate gyrus.
+Even if the surfaces are topologically disconnected, both structures are in close spatial proximity and
+are connected via local connections [40]. We therefore added to the distance matrix the euclidean
+distances between boundary vertices belonging to the CA3/CA4 part of the hippocampal surface and
+the vertices of the dentate gyrus surface. Distances were only computed between vertices which are
+in the same range along the anterior-posterior axis, given the unfolded space from HippUnfold.
+
+                                                   13
+4.4    Model simulation
+To investigate seizure like dynamics with re-entrant excitation in the high resolution virtual brain
+model we equip the structural scaffold with a dynamical neural field model. The Epileptor [24] is
+a phenomenological neural mass model which describes seizure onset, propagation and offset and
+which was recently extended to neural fields [43]. Using averaging methods and exploiting time scale
+separation the Epileptor can be reduced to a two dimensional dynamical system, the 2D Epileptor
+[44]. The system of differential equations that governs the dynamics of every vertex i in the brain
+network is given by :
+                                   1         3         2
+                       ẋi (t) =   τ (−xi (t) − 2xi (t) − z(t) + I
+                                        Pn                   d
+                                   +γgc j=0 wi,j H(xj (t − vi,jgc
+                                                                  ), θ)
+                                                                                                        (1)
+                                          Pn                         gi,j
+                                   +γlc     j=0 Vj L(gi,j )H(xj (t − vlc ), θ) + Iext (t))
+                                   1        ϵ
+                       z˙i (t) =   τ ( xi (t)2 +1 (4(xi (t) − x0 ) − zi (t)))
+
+with                                                      (
+                                                         1, if x ≥ θ
+                                          H(x, θ)     =
+                                                         0, otherwise                                   (2)
+                                                        1 −|g|
+                                          L(g)        = 2e
+x and z represent a fast and slow state variable, respectively, describing the switching between ictal
+and inter-ictal states. However, for our purpose we will use it to describe oscillatory activity during
+seizures. We slightly modified the equation from the original 2D Epileptor [44] by dividing ϵ by (x2i +1)
+in the equation for z˙i . This was done to bias the duration of the oscillatory cycle towards the refractory
+period, as has been observed empirically that the spike-width is shorter than the inter-spike interval
+[54]. This modification does not change the original bifurcation structure and phase plane of the mode.
+It simply scales the derivative differently across different parts of the phase plane. Each Epileptor
+generates outputs and receives inputs to and from the other n − 1 vertices of the network. These
+interactions are global or local. Global connections between vertices i and j, through white matter
+tracts, are scaled by γgc , weighted by the corresponding element wi,j of the connectivity matrix and
+delayed by the fraction of tract length di,j over global conduction speed vgc . A Heaviside step function
+H(x, θ) with threshold θ is used for coupling Epileptors and can be interpreted as a firing rate function,
+i.e. only when an Epileptor is seizing it would project to other nodes of the network. Local connection
+weights, based on the geodesic or euclidean distance gi,j between neighboring vertices of the cortical
+mesh or subcortical grid, respectively, are computed using a Laplacian kernel L(g). In the continuous
+case, adding up the local connections corresponds to calculating a surface integral for cortical surfaces
+or a volume integral for subcortical volumes. To enable comparison, we assign a volume to the cortical
+surface by taking into consideration the thickness between white and pial surface. Thus each vertex
+of the network is weighted by its volume Vj . Finally, external stimulation can be applied to the model
+via Iext (t). We use following values for the parameters if not stated otherwise in the results section
+ϵ = 0.015, x0 = −1.2916, I = 1, θ = 0.2, vgc = 3.9mm/ms [32], vlc = 0.33mm/ms [48].
+     To mimic the slowing in frequency during seizures, we implemented an activity dependent slowing
+mechanism into the model. The parameter τ becomes the state variable τi (t) for each Epileptor and
+the full dynamical system becomes :
+                                     1            3         2
+                       ẋi (t) =   τi (t) (−xi (t) − 2xi (t) − z(t) + I
+                                           Pn                  d
+                                   +γgc j=0 wi,j H(xj (t − vi,j  gc
+                                                                    ), θ)
+                                                                                                        (3)
+                                          Pn                         gi,j
+                                   +γlc     j=0 Vj L(gi,j )H(xj (t − vlc ), θ) + Iext (t))
+                                     1           ϵ
+                       z˙i (t) =   τi (t) ( xi (t)2 +1 (4(xi (t) − x0 ) − zi (t)))
+
+For which we define µ as the inverse of the timescale µi (t) = τi1(t) , which evolves in time as :
+                                   (
+                                     −µnmax ∗ (µi (t) − µnc ), if xi (t) ≤ 0
+                         µ̇i (t) =                                                                      (4)
+                                     −µpmax ∗ (µi (t) − µpc ), otherwise
+
+The dynamics of µi (t) are controlled by two linear differential equations, respectively increasing and
+decreasing µ towards µnc and µpc whenever the system is in its refractory (xi (t) ≤ 0) or active period
+                                                          14
+otherwise. µi (0) = 8 is initialized sufficiently high to have fast oscillations at the beginning of the
+seizure and decays with ongoing re-entry activity towards µpc = 1 with µpmax = 0.002 controlling the
+rate of decay. The rate of increase µnmax = 0.000004 of µi (t) towards µnc = 8 is chosen sufficiently
+slow, such that during ongoing re-entry activity the system is guaranteed to slow down. The system
+of differential equations is solved numerically using a deterministic Heun integration scheme with a
+step size of 0.01.
+
+4.5    SEEG electromagnetic forward model
+Mapping of neural activity onto SEEG sensors is done through solving the electromagnetic forward
+problem. We assume that the origin of extracellular fields, measurable with SEEG, is mainly at-
+tributed to electrical dipoles stemming from post-synaptic currents of pyramidal cells which are
+oriented normal to the cortical surface [8]. Location and orientation of the dipoles is therefore given
+by the midthickness cortical surface and its surface normal. For subcortical structures, which are
+modeled as volumetric grids, we assume a random dipole orientation at each grid point. We neglect
+possible boundary effects, assuming SEEG contacts are sufficiently close to the electric source and far
+from tissue boundaries with different electrical conductivity, and use the analytical solution for local
+field potentials in an unbounded homogeneous medium from Sarvas et al.[49]. The electric potential
+P that is recorded at SEEG contact k due to neural activity at vertex i is given by
+                                                 ai     rk − ri
+                                       Pi,k =       Q∗                                              (5)
+                                                4πσ    |rk − ri |3
+
+where rk and ri are the position vectors of contact k and source vertex i respectively. |v| represents
+the L2 norm of a vector v. Q is the dipole orientation vector and σ the electrical conductivity. ai
+represents the volume associated with a given source vertex i. Since we assume constant conductivity
+across the brain σ becomes merely a scaling factor which we set to σ = 1.
+
+
+5     Data availability
+The data that support the findings of this study are not publicly available due to privacy restrictions.
+Access to the data may be granted upon reasonable request.
+
+
+6     Code availability
+All code to process brain imaging data and reproduce the results reported in this manuscript can be
+found in the following Ebrains collaboratory which will be made public upon publication
+(https://wiki.ebrains.eu/bin/view/Collabs/reentry-seizure-model).
+
+
+7     Acknowledgments
+This project has received funding from the European Union’s Horizon Europe Programme under the
+Specific Grant Agreement No. 101147319 (EBRAINS 2.0 Project).
+
+
+8     Author contributions
+Conceptualization, P.T., H.W. and V.J.; methodology, P.T., H.W. and V.J.; software P.T. and M.W.;
+writing-original draft, P.T. and V.J.; writing - review and editing, P.T., H.W., M.G., F.B. and V.J.;
+resources, M.G. and F.B.; funding acquisition, V.J.; supervision, H.W. and V.J.
+
+
+9     Competing interests
+The authors declare no competing interests.
+
+
+
+
+                                                    15
+References
+ [1]   Sora An et al. “High-resolution virtual brain modeling personalizes deep brain stimulation for
+       treatment-resistant depression: Spatiotemporal response characteristics following stimulation
+       of neural fiber pathways”. In: NeuroImage 249.November 2021 (2022). Publisher: Elsevier Inc.,
+       p. 118848. issn: 10959572. doi: 10.1016/j.neuroimage.2021.118848. url: https://doi.
+       org/10.1016/j.neuroimage.2021.118848.
+ [2]   Jesper L.R. Andersson and Stamatios N. Sotiropoulos. “An integrated approach to correction
+       for off-resonance effects and subject movement in diffusion MR imaging”. In: NeuroImage 125
+       (2016), pp. 1063–1078. issn: 10959572. doi: 10 . 1016 / j . neuroimage . 2015 . 10 . 019. url:
+       http://dx.doi.org/10.1016/j.neuroimage.2015.10.019.
+ [3]   Justine Beaujoin et al. “CHENONCEAU : towards a novel mesoscopic ( 100 / 200 µ m ) post-
+       mortem human brain MRI atlas at To cite this version : HAL Id : hal-02876136 CHENONCEAU
+       : towards a novel mesoscopic ( 100 / 200 µ m ) post-mortem human brain MRI atlas at 11 .
+       7T”. In: (2020).
+ [4]   Ettore Beghi et al. “Global, regional, and national burden of epilepsy, 1990–2016: a systematic
+       analysis for the Global Burden of Disease Study 2016”. In: The Lancet Neurology 18.4 (2019),
+       pp. 357–375. issn: 14744465. doi: 10.1016/S1474-4422(18)30454-X.
+ [5]   Pierre Bourdillon et al. “Stereo-electro-encephalography−Guided Radiofrequency Thermocoag-
+       ulation: From In Vitro and In Vivo Data to Technical Guidelines”. In: World Neurosurgery 94
+       (2016), pp. 73–79. issn: 18788769. doi: 10.1016/j.wneu.2016.06.095.
+ [6]   Valentino Braitenberg and Almut Schüz. Cortex: Statistics and Geometry of Neuronal Connec-
+       tivity. en. Berlin, Heidelberg: Springer Berlin Heidelberg, 1998. isbn: 978-3-662-03735-5 978-3-
+       662-03733-1. doi: 10.1007/978- 3- 662- 03733- 1. url: http://link.springer.com/10.
+       1007/978-3-662-03733-1 (visited on 04/24/2024).
+ [7]   Christopher R Butson and Cameron C McIntyre. “Role of electrode design on the volume of
+       tissue activated during deep brain stimulation”. In: J Neural Eng (2006). arXiv: NIHMS150003
+       ISBN: 6176321972. issn: 15378276. doi: 10.1088/1741-2560/3/1/001.Role.
+ [8]   György Buzsáki, Costas A. Anastassiou, and Christof Koch. “The origin of extracellular fields
+       and currents-EEG, ECoG, LFP and spikes”. In: Nature Reviews Neuroscience 13.6 (2012),
+       pp. 407–420. issn: 1471003X. doi: 10.1038/nrn3241. arXiv: NIHMS150003. url: http://dx.
+       doi.org/10.1038/nrn3241.
+ [9]   H. Catenoix et al. “SEEG-guided thermocoagulations: A palliative treatment of nonoperable
+       partial epilepsies”. en. In: Neurology 71.21 (Nov. 2008), pp. 1719–1726. issn: 0028-3878, 1526-
+       632X. doi: 10.1212/01.wnl.0000335166.20451.88. url: https://www.neurology.org/
+       doi/10.1212/01.wnl.0000335166.20451.88 (visited on 10/17/2024).
+[10]   E. P. Christian and F. E. Dudek. “Characteristics of local excitatory circuits studied with
+       glutamate microapplication in the CA3 area of rat hippocampal slices”. en. In: Journal of
+       Neurophysiology 59.1 (Jan. 1988), pp. 90–109. issn: 0022-3077, 1522-1598. doi: 10.1152/jn.
+       1988.59.1.90. url: https://www.physiology.org/doi/10.1152/jn.1988.59.1.90 (visited
+       on 08/30/2024).
+[11]   Daniele Daini et al. “Spherical-harmonics mode decomposition of neural field equations”. In:
+       Physical Review E 101.1 (2020). Publisher: American Physical Society, p. 12202. issn: 24700053.
+       doi: 10.1103/PhysRevE.101.012202. url: https://doi.org/10.1103/PhysRevE.101.
+       012202.
+[12]   Jordan Dekraker et al. “HippUnfold: Automated hippocampal unfolding, morphometry, and
+       subfield segmentation”. In: bioRxiv (2021), p. 2021.12.03.471134. url: https://www.biorxiv.
+       org/content/10.1101/2021.12.03.471134v1%0Ahttps://www.biorxiv.org/content/10.
+       1101/2021.12.03.471134v1.abstract.
+[13]   Damien Depannemaecker et al. “Modeling seizures: From single neurons to networks”. In:
+       Seizure 90.June (2021), pp. 4–8. issn: 15322688. doi: 10 . 1016 / j . seizure . 2021 . 06 . 015.
+       url: https://doi.org/10.1016/j.seizure.2021.06.015.
+[14]   Thijs Dhollander et al. “Improved white matter response function estimation for 3-tissue con-
+       strained spherical deconvolution”. In: Proc. Intl. Soc. Mag. Reson. Med May 11-16 (2019),
+       p. 555.
+                                                  16
+[15]   Henri M Duvernoy. The Human Hippocampus An Atlas of Applied Anatomy. J.F. Bergmann
+       Verlag München in, 1988. isbn: 9783642541971.
+[16]   Bruce Fischl. “FreeSurfer”. In: NeuroImage 62.2 (2012), pp. 774–781. issn: 10538119. doi:
+       10.1016/j.neuroimage.2012.01.021.
+[17]   Fady Girgis and Jonathan P. Miller. “White matter stimulation for the treatment of epilepsy”.
+       en. In: Seizure 37 (Apr. 2016), pp. 28–31. issn: 10591311. doi: 10.1016/j.seizure.2016.02.
+       004. url: https://linkinghub.elsevier.com/retrieve/pii/S1059131116000467 (visited
+       on 10/17/2024).
+[18]   Marc Goodfellow, Kaspar Schindler, and Gerold Baier. “Self-organised transients in a neural
+       mass model of epileptogenic tissue dynamics”. In: NeuroImage 59.3 (2012), pp. 2644–2660. issn:
+       10538119. doi: 10.1016/j.neuroimage.2011.08.060. url: http://dx.doi.org/10.1016/j.
+       neuroimage.2011.08.060.
+[19]   Deborah Guery and Sylvain Rheims. “Clinical management of drug resistant epilepsy: A review
+       on current strategies”. In: Neuropsychiatric Disease and Treatment 17.May (2021), pp. 2229–
+       2242. issn: 11782021. doi: 10.2147/NDT.S256699.
+[20]   K Hashizume and T Tanaka. “Multiple subpial transection in kainic acid-induced focal cortical
+       seizure”. en. In: Epilepsy Research 32.3 (Nov. 1998), pp. 389–399. issn: 09201211. doi: 10 .
+       1016/S0920-1211(98)00065-5. url: https://linkinghub.elsevier.com/retrieve/pii/
+       S0920121198000655 (visited on 10/17/2024).
+[21]   Xiaoying Huang et al. “Spiral waves in disinhibited mammalian neocortex”. In: Journal of
+       Neuroscience 24.44 (2004), pp. 9897–9902. issn: 02706474. doi: 10.1523/JNEUROSCI.2705-
+       04.2004.
+[22]   Theju Jacob et al. “A proposed mechanism for spontaneous transitions between interictal and
+       ictal activity”. In: Journal of Neuroscience 39.3 (2019), pp. 557–575. issn: 15292401. doi:
+       10.1523/JNEUROSCI.0719-17.2018.
+[23]   Xiaoming Jin, David A. Prince, and John R. Huguenard. “Enhanced Excitatory Synaptic Con-
+       nectivity in Layer V Pyramidal Neurons of Chronically Injured Epileptogenic Neocortex in
+       Rats”. en. In: The Journal of Neuroscience 26.18 (May 2006), pp. 4891–4900. issn: 0270-6474,
+       1529-2401. doi: 10.1523/JNEUROSCI.4361- 05.2006. url: https://www.jneurosci.org/
+       lookup/doi/10.1523/JNEUROSCI.4361-05.2006 (visited on 08/30/2024).
+[24]   V K Jirsa et al. “On the nature of seizure dynamics”. In: Brain 137.Pt 8 (2014), pp. 2210–2230.
+       doi: 10.1093/brain/awu133.
+[25]   Viktor K Jirsa et al. “The virtual epileptic patient: individualized whole-brain models of epilepsy
+       spread”. In: NeuroImage 145 Part B (15 2017). issn: 10538119. doi: 10.1016/j.neuroimage.
+       2016.04.049. url: http://dx.doi.org/10.1016/j.neuroimage.2016.04.049.
+[26]   Elias Kellner et al. “Gibbs-ringing artifact removal based on local subvoxel-shifts”. In: Magnetic
+       Resonance in Medicine 76.5 (2016), pp. 1574–1581. issn: 15222594. doi: 10.1002/mrm.26054.
+       arXiv: 1501.07758.
+[27]   Hanna Keren and Shimon Marom. “Long-range synchrony and emergence of neural reentry”.
+       In: Scientific Reports 6 (2016), pp. 1–10. issn: 20452322. doi: 10.1038/srep36837.
+[28]   John Kingma, Chantale Simard, and Benoı̂t Drolet. “Overview of Cardiac Arrhythmias and
+       Treatment Strategies”. en. In: Pharmaceuticals 16.6 (June 2023), p. 844. issn: 1424-8247. doi:
+       10 . 3390 / ph16060844. url: https : / / www . mdpi . com / 1424 - 8247 / 16 / 6 / 844 (visited on
+       09/01/2024).
+[29]   Haruhiko Kishima et al. “Which is the Most Appropriate Disconnection Surgery for Refractory
+       Epilepsy in Childhood?” en. In: Neurologia medico-chirurgica 53.11 (2013), pp. 814–820. issn:
+       0470-8105, 1349-8029. doi: 10.2176/nmc.oa2013-0111. url: https://www.jstage.jst.go.
+       jp/article/nmc/53/11/53_oa2013-0111/_article (visited on 08/31/2024).
+[30]   Mark A. Kramer et al. “Human seizures self-terminate across spatial scales via a critical tran-
+       sition”. en. In: Proceedings of the National Academy of Sciences 109.51 (Dec. 2012), pp. 21116–
+       21121. issn: 0027-8424, 1091-6490. doi: 10.1073/pnas.1210047110. url: https://pnas.org/
+       doi/full/10.1073/pnas.1210047110 (visited on 08/29/2024).
+
+
+                                                    17
+[31]   Lionel Kusch et al. “Multiscale co-simulation design pattern for neuroscience applications”. en.
+       In: Frontiers in Neuroinformatics 18 (Feb. 2024), p. 1156683. issn: 1662-5196. doi: 10.3389/
+       fninf.2024.1156683. url: https://www.frontiersin.org/articles/10.3389/fninf.
+       2024.1156683/full (visited on 08/30/2024).
+[32]   Jean Didier Lemarechal et al. “A brain atlas of axonal and synaptic delays based on modelling
+       of cortico-cortical evoked potentials”. In: Brain 145.5 (2022), pp. 1653–1667. issn: 14602156.
+       doi: 10.1093/brain/awab362.
+[33]   Michael Lynch and Thomas Sutula. “Recurrent Excitatory Connectivity in the Dentate Gyrus of
+       Kindled and Kainic Acid–Treated Rats”. en. In: Journal of Neurophysiology 83.2 (Feb. 2000),
+       pp. 693–704. issn: 0022-3077, 1522-1598. doi: 10 . 1152 / jn . 2000 . 83 . 2 . 693. url: https :
+       //www.physiology.org/doi/10.1152/jn.2000.83.2.693 (visited on 08/30/2024).
+[34]   L. E. Martinet et al. “Human seizures couple across spatial scales through travelling wave
+       dynamics”. In: Nature Communications 8 (2017), pp. 1–13. issn: 20411723. doi: 10 . 1038 /
+       ncomms14896.
+[35]   Daniel R. Merrill, Marom Bikson, and John G.R. Jefferys. “Electrical stimulation of excitable
+       tissue: Design of efficacious and safe protocols”. In: Journal of Neuroscience Methods 141.2
+       (2005), pp. 171–198. issn: 01650270. doi: 10.1016/j.jneumeth.2004.10.020.
+[36]   Tomas Möller and Ben Trumbore. “Fast, minimum storage ray/triangle intersection”. In: ACM
+       SIGGRAPH 2005 Courses, SIGGRAPH 2005 1 (2005), pp. 1–7. issn: 1086-7651. doi: 10 .
+       1145/1198555.1198746.
+[37]   Robert J. Morgan and Ivan Soltesz. “Nonrandom connectivity of the epileptic dentate gyrus
+       predicts a major role for neuronal hubs in seizures”. en. In: Proceedings of the National Academy
+       of Sciences 105.16 (Apr. 2008), pp. 6179–6184. issn: 0027-8424, 1091-6490. doi: 10 . 1073 /
+       pnas.0801372105. url: https://pnas.org/doi/full/10.1073/pnas.0801372105 (visited
+       on 08/30/2024).
+[38]   F. Morrell, W. W. Whisler, and T. P. Bleck. “Multiple subpial transection: A new approach to
+       the surgical treatment of focal epilepsy”. In: Journal of Neurosurgery 70.2 (1989), pp. 231–239.
+       issn: 00223085. doi: 10.3171/jns.1989.70.2.0231.
+[39]   Fábio A. Nascimento et al. “Focal epilepsies: Update on diagnosis and classification”. In: Epilep-
+       tic Disorders January (2023), pp. 1–17. issn: 19506945. doi: 10.1002/epd2.20045.
+[40]   A. O. Nastenko and N. S. Veselovsky. “The dentate gyrus: fundamental neuroanatomical or-
+       ganization (dentate gyrus for dummies)”. In: 67.6 (2021), pp. 74–83. issn: 25229036. doi:
+       10.15407/fz67.06.074.
+[41]   Sébastien Naze et al. “Robustness of connectome harmonics to local gray matter and long-
+       range white matter connectivity changes: Sensitivity analysis of Connectome Harmonics”. In:
+       NeuroImage 224.August 2020 (2021). issn: 10959572. doi: 10 . 1016 / j . neuroimage . 2020 .
+       117364.
+[42]   Ivan Osorio and M. G. Frei. “Seizure abatement with single dc pulses: Is phase resetting at
+       play?” In: International Journal of Neural Systems 19.3 (2009), pp. 149–156. issn: 01290657.
+       doi: 10.1142/S0129065709001926.
+[43]   Timothée Proix et al. “Predicting the spatiotemporal diversity of seizure propagation and ter-
+       mination in human focal epilepsy”. In: Nature Communications 9.1 (2018). issn: 20411723. doi:
+       10.1038/s41467- 018- 02973- y. arXiv: 1707.00772. url: http://dx.doi.org/10.1038/
+       s41467-018-02973-y.
+[44]   Timothe´e Proix et al. “Permittivity Coupling across Brain Regions Determines Seizure Recruit-
+       ment in Partial Epilepsy”. In: 34.45 (2014), pp. 15009–15021. doi: 10.1523/JNEUROSCI.1570-
+       14.2014.
+[45]   David Raffelt et al. “Bias field correction and intensity normalisation for quantitative analysis
+       of apparent fiber density”. In: Proc Intl Soc Mag Reson Med 25.April (2017), p. 3541. url:
+       https://www.researchgate.net/publication/315836355.
+[46]   John D Rolston et al. “Multiple Subpial Transections for Medically Refractory Epilepsy: A
+       Disaggregated Review of Patient-Level Data”. en. In: Neurosurgery 82.5 (May 2018), pp. 613–
+       620. issn: 0148-396X, 1524-4040. doi: 10.1093/neuros/nyx311. url: https://journals.
+       lww.com/00006123-201805000-00004 (visited on 08/31/2024).
+                                                    18
+[47]   Maria Luisa Saggio et al. “A taxonomy of seizure dynamotypes”. In: eLife 9 (2020), pp. 1–56.
+       issn: 2050084X. doi: 10.7554/eLife.55632.
+[48]   Mahmoud Salami et al. “Change of conduction velocity by regional myelination yields con-
+       stant latency irrespective of distance between thalamus and cortex”. In: Proceedings of the
+       National Academy of Sciences of the United States of America 100.10 (2003), pp. 6174–6179.
+       issn: 00278424. doi: 10.1073/pnas.0937380100.
+[49]   J. Sarvas. “Basic mathematical and electromagnetic concepts of the biomagnetic inverse prob-
+       lem”. In: Physics in Medicine and Biology 32.1 (1987), pp. 11–22. issn: 00319155. doi: 10.
+       1088/0031-9155/32/1/004.
+[50]   Kurt G. Schilling et al. “Synthesized b0 for diffusion distortion correction (Synb0-DisCo)”. In:
+       Magnetic Resonance Imaging 64.April (2019), pp. 62–70. issn: 18735894. doi: 10.1016/j.mri.
+       2019.05.008. url: https://doi.org/10.1016/j.mri.2019.05.008.
+[51]   Hiroyuki Shimizu et al. “Hippocampal transection for treatment of left temporal lobe epilepsy
+       with preservation of verbal memory”. en. In: Journal of Clinical Neuroscience 13.3 (Apr. 2006),
+       pp. 322–328. issn: 09675868. doi: 10.1016/j.jocn.2005.04.020. url: https://linkinghub.
+       elsevier.com/retrieve/pii/S0967586806000427 (visited on 10/17/2024).
+[52]   Viktor Sip et al. “Computational modeling of seizure spread on a cortical surface”. In: Journal
+       of Computational Neuroscience 0123456789 (2021). issn: 0929-5313. doi: 10.1007/s10827-
+       021-00802-8. url: https://doi.org/10.1007/s10827-021-00802-8.
+[53]   Viktor Sip et al. “Evidence for spreading seizure as a cause of theta-Alpha activity electrographic
+       pattern in stereo-EEG seizure recordings”. In: PLoS Computational Biology 17.2 (2021). ISBN:
+       1111111111, pp. 1–25. issn: 15537358. doi: 10 . 1371 / JOURNAL . PCBI . 1008731. url: http :
+       //dx.doi.org/10.1371/journal.pcbi.1008731.
+[54]   Elliot H. Smith et al. “The ictal wavefront is the spatiotemporal source of discharges during
+       spontaneous human seizures”. In: Nature Communications 7 (2016). Publisher: Nature Pub-
+       lishing Group, pp. 1–12. issn: 20411723. doi: 10.1038/ncomms11098. url: http://dx.doi.
+       org/10.1038/ncomms11098.
+[55]   R E Smith et al. “Anatomically-constrained tractography: improved diffusion MRI streamlines
+       tractography through effective use of anatomical information”. In: Neuroimage 62.3 (2012),
+       pp. 1924–1938. doi: 10.1016/j.neuroimage.2012.06.005.
+[56]   Robert E Smith et al. “SIFT2 : Enabling dense quantitative assessment of brain white matter
+       connectivity using streamlines tractography”. In: NeuroImage 119 (2015), pp. 338–351. issn:
+       1053-8119. doi: 10.1016/j.neuroimage.2015.06.092. url: http://dx.doi.org/10.1016/
+       j.neuroimage.2015.06.092.
+[57]   Shuichi Sugiyama, Masami Fujii, and Haruhide Ito. “The electrophysiological effects of mul-
+       tiple subpial transection (MST) in an experimental model of epilepsy induced by cortical
+       stimulation”. en. In: Epilepsy Research 21.1 (May 1995), pp. 1–9. issn: 09201211. doi: 10 .
+       1016/0920- 1211(95)00003- S. url: https://linkinghub.elsevier.com/retrieve/pii/
+       092012119500003S (visited on 10/17/2024).
+[58]   Thomas P. Sutula and F. Edward Dudek. “Unmasking recurrent excitation generated by mossy
+       fiber sprouting in the epileptic dentate gyrus: an emergent property of a complex system”. en.
+       In: Progress in Brain Research. Vol. 163. Elsevier, 2007, pp. 541–563. isbn: 978-0-444-53015-
+       8. doi: 10 . 1016 / S0079 - 6123(07 ) 63029 - 5. url: https : / / linkinghub . elsevier . com /
+       retrieve/pii/S0079612307630295 (visited on 08/30/2024).
+[59]   Yuichi Takeuchi, Mark Harangozo, and Lizeth Pedraza. “Closed-loop stimulation of the medial
+       septum terminates epileptic seizures”. en. In: Brain (2021).
+[60]   Peter N. Taylor, Yujiang Wang, and Marcus Kaiser. “Within brain area tractography suggests
+       local modularity using high resolution connectomics”. In: Scientific Reports 7.January (2017).
+       Publisher: Nature Publishing Group, pp. 1–9. issn: 20452322. doi: 10.1038/srep39859. url:
+       http://dx.doi.org/10.1038/srep39859.
+[61]   J-D. Tournier, F. Calamante, and A Connelly. “Improved probabilistic streamlines tractography
+       by 2 nd order integration over fibre orientation distributions”. In: Proc. Intl. Soc. Mag. Reson.
+       Med. 88.2003 (2010), p. 2010.
+
+                                                    19
+[62]   J. Donald Tournier et al. “MRtrix3: A fast, flexible and open software framework for medi-
+       cal image processing and visualisation”. In: NeuroImage 202.January (2019), p. 116137. issn:
+       10959572. doi: 10.1016/j.neuroimage.2019.116137. url: https://doi.org/10.1016/j.
+       neuroimage.2019.116137.
+[63]   Natalia A. Trayanova. “Whole-Heart Modeling: Applications to Cardiac Electrophysiology and
+       Electromechanics”. en. In: Circulation Research 108.1 (Jan. 2011). Ed. by Raimond Winslow,
+       pp. 113–128. issn: 0009-7330, 1524-4571. doi: 10.1161/CIRCRESAHA.110.223610. url: https:
+       //www.ahajournals.org/doi/10.1161/CIRCRESAHA.110.223610 (visited on 09/02/2024).
+[64]   Gary Tse. “Mechanisms of cardiac arrhythmias”. In: Journal of Arrhythmia 32.2 (2016), pp. 75–
+       81. issn: 18832148. doi: 10.1016/j.joa.2015.11.003. url: http://dx.doi.org/10.1016/
+       j.joa.2015.11.003.
+[65]   A. Valentı́n et al. “Single-pulse electrical stimulation identifies epileptogenic frontal cortex in
+       the human brain”. In: Neurology 65.3 (2005), pp. 426–435. issn: 00283878. doi: 10.1212/01.
+       wnl.0000171340.73078.c1.
+[66]   Jelle Veraart et al. “Denoising of diffusion MRI using random matrix theory”. In: NeuroImage
+       142 (2016), pp. 394–406. issn: 1053-8119. doi: 10.1016/j.neuroimage.2016.08.016. url:
+       http://dx.doi.org/10.1016/j.neuroimage.2016.08.016.
+[67]   Jonathan Viventi et al. “Flexible, foldable, actively multiplexed, high-density electrode array
+       for mapping brain activity in vivo”. In: Nature Neuroscience 14.12 (2011), pp. 1599–1605. issn:
+       10976256. doi: 10.1038/nn.2973.
+[68]   Huifang E. Wang et al. “Delineating epileptogenic networks using brain imaging data and
+       personalized modeling in drug-resistant epilepsy”. In: Science translational medicine 15.680
+       (2023), eabp8982. issn: 19466242. doi: 10.1126/scitranslmed.abp8982.
+[69]   Huifang E. Wang et al. “VEP atlas: An anatomic and functional human brain atlas dedicated to
+       epilepsy patients”. In: Journal of Neuroscience Methods 348 (2021), p. 108983. issn: 1872678X.
+       doi: 10.1016/j.jneumeth.2020.108983. url: https://doi.org/10.1016/j.jneumeth.
+       2020.108983.
+[70]   F. Wendling et al. “Identification de réseaux épileptogènes par modélisation et analyse non
+       linéaire des signaux SEEG”. fr. In: Neurophysiologie Clinique/Clinical Neurophysiology 31.3
+       (June 2001), pp. 139–151. issn: 09877053. doi: 10.1016/S0987-7053(01)00255-6. url: https:
+       //linkinghub.elsevier.com/retrieve/pii/S0987705301002556 (visited on 03/19/2025).
+[71]   Weifeng Xu et al. “Compression and Reflection of Visually Evoked Cortical Waves”. In: Neuron
+       55.1 (2007), pp. 119–129. issn: 08966273. doi: 10.1016/j.neuron.2007.06.016.
+[72]   Fan Zhang et al. “Quantitative mapping of the brain’s structural connectivity using diffusion
+       MRI tractography: A review”. en. In: NeuroImage 249 (Apr. 2022), p. 118870. issn: 10538119.
+       doi: 10 . 1016 / j . neuroimage . 2021 . 118870. url: https : / / linkinghub . elsevier . com /
+       retrieve/pii/S1053811921011411 (visited on 08/19/2024).
+[73]   Y Zhang, M Brady, and S Smith. “Segmentation of brain MR images through a hidden Markov
+       random field model and the expectation-maximization algorithm.” eng. In: IEEE transactions
+       on medical imaging 20.1 (2001), pp. 45–57. issn: 0278-0062 (Print). doi: 10.1109/42.906424.
+
+
+10      Supplementary Information
+
+
+
+
+                                                    20
+        Figure S1 Global and local connectivity matrix for the high-resolution brain model.
+Global and local connections are estimated between all 332455 vertices of the model which results in
+    2 connectivity matrices. The block-like structure of each matrix is given by the anatomical
+seperation into left- (LH) and right-hemisphere (RH), as well as cerebellum (Cereb) and subcortical
+     structures. The vertex numbering follows the Freesurfer based surface generation process.
+
+
+
+
+              Figure S2 Self limiting re-entry excitation in a patch of the cortex.
+ (A) Space-time plot, showing re-entrant neural activity. (B) Electrical signal on the contacts of
+                             (Fig 2 C) given the simulation in (A).
+
+
+
+
+                                                21
+ Figure S3 Stimulation leads to end of re-entry within a few cycles after stimulation offset.
+Space-time plot with re-entry activity of an example simulation. Below, the filtered signal as
+            recorded on the contact and the corresponding instantaneous phase.
+
+
+
+
+                                             22
+       Figure S4 Stimulation with one, three or six pulses and one or six dsitributed contacts.
+    (A) Inferior view of the cortical patch EZ used for simulation. The blue sphere indicates the
+contact used for sensing neural activity and applying an electrical stimulus. The black patch on the
+cortical surface represents the volume of tissue activated (VTA), that gets excitated by a stimulus of
+   the contact. Below the parameter space exploration for stimulation success across parameters
+coupling strength γgc and stimulation onset time within the inter spike interval. The color indicates
+  the average number of excitations per second across the cortical patch after stimulus offset. The
+ exploration was done for a one-, three- and six-pulses stimulus respectively. (B) Same as (A) but
+                                  for 6 spatially distributed contacts.
+
+                                                 23
+                       Figure S5 Parameter exploration after RFTC and MST.
+(A) Top panel shows the parameter exploration across coupling strength γgc and time scale τ of the
+Epileptor. For each parameter combination the average number of excitations per second is plotted
+  for a three second simulation, after applying radio frequency thermocoagulation (RFTC). Lower
+panel shows the difference of the parameter exploration between pre- and post-RFTC. (B) Same as
+                              (A) but for multiple subpial transsection.
+
+
+
+
+                       Figure S6 Example time series for the effect of RFTC.
+  (A) Left and right panel show the pre- and post-RFTC space-time plots of the simulations with
+  γgc = 0.057, respectively. Below the projection to a SEEG contact from Fig. 2. The pre-RFTC
+  simulation shows sustained re-entry, highlighted by the repeating waves of activity. The RFTC
+ lesions however stabilises the system, preventing re-entry. (B) Same as (A) but with γgc = 0.061.
+                    Showing the possible de-stabilising effect of RFTC lesioning.
+
+                                                24
+     Figure S7 Parameter exploration for x0min and d for spatial distribution of excitability x0 .
+     Each row of scatter plots shows results for a different value of x0min . (A) Parameter space
+ exploration across coupling strength. The y-axis indicates the amount of tissue that was excited at
+least once during the simulation. (B) Scatter plot of seizure duration as a function of the amount of
+   recruted tissue by re-entry activity for the simulations from (A). (C) Scatter plot showing the
+   percentage of recruted tissue terminating re-entry synchronously as a function of the amount of
+                             recruted tissue for the simulations from (A).
+
+
+
+
+                                                 25
+Figure S8 Empirical data analysis for offset frequency and seizure duration for different conditions.
+   (A) Scatter plot of averaged offset frequencies against mean pairwise distance of seizing SEEG
+ contacts. Each dot represents the frequency and mean distance of one synchronous offset group of
+   SEEG channels (n=379). If a seizure has multiple synchronous offsets it can be represented by
+multiple dots in this plot. The black line indicates a linear model fit with p-value and R2 indicated
+   in the plot. (B) Scatter plot of averaged offset frequencies and seizure durations against mean
+     pairwise distance of seizing SEEG contacts only displaying data from MRI-positive patients
+   (n=116). Black line indicates a linear model fit with p-value and R2 indicated in the plot. (C)
+  Same a (B) but for data from MRI-negative patients (n=68). (D) Same a (B) but for data from
+patients with Temporal EZ (n=74). (E) Same a (B) but for data from patients with Temporal-Plus
+      EZ (n=55). (F) Same a (B) but for data from patients with Extra-Temporal EZ (n=55).
+
+
+
+
+                                                 26
+

@@ -1,0 +1,1108 @@
+                                            TVB C++: A Fast and Flexible Back-End for The
+                                            Virtual Brain
+                                            Ignacio Martı́n1 , Gorka Zamora-López2 , Jan Fousek3 , Michael Schirner4 , Petra Ritter4 ,
+                                            Viktor Jirsa3 , Gustavo Deco2,5 , and Gustavo Patow1,2,*
+                                            1 ViRVIG, Universitat de Girona, Girona, Spain
+                                            2 Center for Brain and Cognition, Computational Neuroscience Group, Department of Information and
+
+                                            Communication Technologies, Universitat Pompeu Fabra, Spain
+                                            3 Institut de Neurosciences des Systèmes, Aix Marseille Université, Marseille, France
+arXiv:2405.18788v2 [q-bio.NC] 25 Jun 2024
+
+
+
+
+                                            4 Berlin Institute of Health, Charité – Universitätsmedizin Berlin, Germany
+                                            5 Institució Catalana de la Recerca i Estudis Avançats (ICREA), Barcelona, Spain
+                                            * e-mail: gustavo.patow@udg.edu
+
+
+
+                                            ABSTRACT
+
+                                             This paper introduces TVB C++, a streamlined and fast C++ Back-End for The Virtual Brain (TVB), a renowned platform and a
+                                             benchmark tool for full-brain simulation. TVB C++ is engineered with speed as a primary focus while retaining the flexibility
+                                             and ease of use characteristic of the original TVB platform. Positioned as a complementary tool, TVB serves as a prototyping
+                                             platform, whereas TVB C++ becomes indispensable when performance is paramount, particularly for large-scale simulations
+                                             and leveraging advanced computation facilities like supercomputers. Developed as a TVB-compatible Back-End, TVB C++
+                                             seamlessly integrates with the original TVB implementation, facilitating effortless usage. Users can easily configure TVB C++
+                                             to execute the same code as in TVB but with enhanced performance and parallelism capabilities.
+
+
+
+                                            1 Introduction
+                                            In recent years, technological advancements in noninvasive neuroimaging have opened unprecedented windows into the inner
+                                            workings of the human brain. Techniques such as EEG, MEG, fMRI, and PET have revolutionized our understanding of
+                                            perception, cognition, and behavior, enabling detailed analyses from the microscopic to the macroscopic scale.
+                                                Within this landscape, computational tools have played a pivotal role in unraveling the complexities of neural dynamics.
+                                            While various frameworks exist, including those focusing on microscopic neuron models1–5 or mesoscopic systems6, 7 , the
+                                            emphasis on whole-brain modeling has led to the emergence of platforms like The Virtual Brain (TVB)8–13 . TVB has garnered
+                                            widespread recognition for its ability to simulate, analyze, and infer neurophysiological mechanisms across different brain
+                                            scales.
+                                                Despite its great versatility, TVB faces a competitive challenge in terms of computational speed when compared to other
+                                            simulation platforms, especially when dealing with extensive networks or large-scale simulations. Several approaches have
+                                            been proposed in recent years to boost the performance of TVB, e.g., by porting specific models into the C-language [CITE] or
+                                            interfacing with CUDA [CITE]. However, these attempts lacked the flexibility of TVB because they were restricted to specific
+                                            scientific questions they wanted to address, without resulting in a general setting with the flexibility TVB has.
+                                                Here, we introduce TVB C++, a groundbreaking addition to the TVB family aimed at addressing these limitations
+                                            simultaneously. Developed upon the powerful C++ programming language and the advanced Eigen numeric library14 , TVB
+                                            C++ offers great computational performance without compromising on flexibility or ease of use. Unlike previous efforts
+                                            —focused solely on performance—TVB C++ takes a holistic approach by retaining the same structure of the original TVB
+                                            platform. This allows for TVB C++ to seamlessly integrate with TVB through Python bindings and, therefore, effortlessly
+                                            complement existing workflows, offering a swift and efficient backend solution for bulk simulations where computational
+                                            time is critical. With TVB C++, researchers gain access to a cutting-edge tool that empowers them to explore the intricacies
+                                            of large-scale brain dynamics or conduct extensive parameter explorations, TVB C++ stands ready to help advance the field,
+                                            offering unprecedented speed, performance, and versatility.
+                                                The paper is organized as follows. Section 2 provides a brief overview of existing computational tools to simulate neural and
+                                            brain activity at different scales. In Section 3 we present the original TVB implementation, its purpose, and general structure,
+                                            and in Section 4 we present TVB C++ in detail, with all its input data formats, code structures, models, observables, and, finally,
+                                            its Python bindings. In Section 5 we present some use cases for TVB C++, along with the respective results obtained, and
+finally we summarize the impact and possibilities of TVB C++ in Section 6.
+
+2 Background
+In recent decades, advances in neuroimaging have facilitated unprecedented levels of analysis across various scales, ranging
+from the microscopic realm, which entails simulating the complex interplay among ionic channels, neurotransmitters, receptors,
+and action potentials, to the macroscopic scale encompassing whole-brain simulations.
+    Comprehensive investigations enable the mechanistic comprehension of population dynamics, contributing to the elucidation
+of complex structures such as Resting State Networks15–17 , cognition18, 19 , and pathologies like Epilepsy20, 21 , Stroke22–24 ,
+or Alzheimer’s Disease25, 26 . It is within the realm of whole-brain simulations that true integration occurs, leading to the
+emergence of cognition. Consequently, these models offer a panoramic view of neuronal dynamics at the global macroscopic
+level. Computational tools have evolved to simulate all these effects, both at the algorithmic and at the computational power
+levels. This has enabled the simulation of large neuronal models that, in turn, enabled accurate predictions illuminating
+both theoretical and clinical aspects of our brains. Among the different software frameworks developed to this end, we can
+distinguish three big groups:
+
+    • Class I, or microscopic-level simulators, which aim at simulating the activity of individual neurons with high detail, such
+      as NEST1 , Brian2 , NetPyNE3 , and NEURON4, 5 . These frameworks have proven particularly useful for simulating large
+      networks of spiking neurons. In particular, NEST and Brian had their main target on point neurons, while NetPyNE and
+      NEURON focused primarily on morphologically extended neurons. These frameworks are usually used to simulate and
+      predict the behavior of large networks of neurons, from which neural mass models are often derived.
+
+    • Class II, or mesoscopic-level simulators, intends to simulate networks of interconnected neurons to simulate microscopic
+      and mesoscopic neural circuits such as the internals of subcortical ganglia or cortical columns. There are other frameworks
+      created with the specific objective of simulating mesoscopic systems, such as NENGO6 , focusing on applications in
+      cognitive science, or Brain Modeling Toolkit7 , focusing on multiscale neural population circuits. Despite their obvious
+      and many advantages, these software frameworks are most specifically designed for whole-brain modeling, so they are
+      rarely used in this context given the difficult process of calibrating the models.
+
+    • Class III, or whole-brain simulators, aims at simulating whole-brain network activity at the resolution of interconnected
+      brain regions. The main ingredients of these models are that a neural population model simulates each brain region
+      (ROI), typically interconnected via the white matter fibers as captured by tract tracing or tractography based on diffusion
+      imaging. One of the first and main open platforms for this endeavor is The Virtual Brain (TVB)1 , which, since its
+      inception, has gained wide recognition as the main platform for full-brain simulations, being a key element in the world’s
+      first clinical trial on predictive brain modeling in epilepsy surgery8, 9 . Other options are PyRates27 , and neurolib28 , which
+      have been successfully applied to simulate a few use cases.
+
+    The Virtual Brain is the most extended and popular framework for Class III whole-brain modeling. It is, in essence, a
+neuroinformatics platform with a brain simulator that incorporates a range of neuronal models and dynamics at its core. It
+seamlessly integrates computational modeling and multimodal neuroimaging tools8, 9 , allowing the model-based simulation,
+analysis, and inference of neurophysiological mechanisms over several brain scales that underlie the generation of macroscopic
+neuroimaging signals. With TVB, creating personalized virtual brains is possible10, 29 , as well as studying the intricate multi-
+scale neural mechanisms within the brain30 . The most recent advances in TVB include its integration with cloud services
+through the European platform EBRAINS11 .
+    However, the original TVB implementation —which we will refer to as TVB-Python in the following— has in computational
+speed its biggest drawback. To overcome slow execution speeds, two different strategies have been implemented. The first
+one, TVB-HPC212 , automatically produces high-performance codes for CPUs and GPUs using an easy XML-based language
+called RateML for model specification. RateML is based on the domain-independent language LEMS31 , which allows for the
+declarative description of computational models using a simple XML syntax. The already existing example implementations
+can be easily adapted to test different models, without requiring any knowledge about algorithmic optimization. The second
+one, Fast_TVB (first used in30 ), is a specialized high-performance implementation of the "Reduced Wong Wang" model32
+written in C. It makes use of several optimization strategies and a sparse memory layout to efficiently use CPU resources, which
+makes it possible to simulate extremely large models with millions of nodes even on a standard computer in a reasonable time.
+Aquilué-Llorens et al.33 presented a CPU-based version of the TVB-AdEx model34, 35 , used to study mechanisms underlying
+the emergence of conscious- and unconscious-like brain state dynamics using an MPI multi-node CPU setup. More recently,13
+  1 https://www.thevirtualbrain.org/
+  2 https://wiki.ebrains.eu/bin/view/Collabs/rateml-tvb
+
+
+
+
+                                                                                                                                 2/25
+presented the TVB-HPC framework, a modular set of methods used here to specifically implement the TVB-AdEx model for
+GPU and analyze emergent dynamics, accelerating simulations and thus reducing computational resource requirements, which
+in turn enabled larger parameter-space explorations.
+    However, despite its broad acceptance as the reference platform for whole-brain simulations, it still exhibits some limitations
+when it comes to very large brain simulations, mainly in terms of its speed. For instance, a simulation with a parcellation with
+around 400 ROIs using the Balanced Excitation-Inhibition (BEI) model32 using BOLD signals of around 10-minute recordings
+(approximately XX temporal samples, or volumes) takes around 5 minutes in a high-end processor. Suppose this evaluation is
+inserted into a fitting procedure where hundreds of evaluations take place. In that case, the total time for a single experiment on
+a single subject may rise to 1 week, which can become a serious problem even if using powerful parallel supercomputers.
+
+
+3 TVB Python
+The Virtual Brain (TVB) stands as a neuroinformatics software platform designed for whole-brain network simulations,
+leveraging biologically realistic connectivity to facilitate model-based inference of neurophysiological mechanisms across
+diverse brain scales. See Figure 1. Through the incorporation of such connectivity, TVB enables the generation of macroscopic
+neuroimaging signals, including functional MRI (fMRI), EEG, and MEG, as depicted in Figure 1. By harnessing individual
+subject data, TVB empowers the reproduction and assessment of personalized brain configurations. This personalized approach
+fosters exploration into the ramifications of pathological alterations within the system, thereby facilitating investigations into
+potential strategies to mitigate adverse processes. Within TVB, a biologically plausible, large-scale connectivity of brain
+regions is integrated. This connectivity is mediated through long-range neural fiber tracts identified via tractography-based
+methods. One differential trait of TVB and TVB C++, is their capability to handle connectivity both at the strength level,
+and also the time-delays associated to fiber lengths. In practice, the implementation for weights and tract lengths entails full
+matrices without any inherent symmetry constraints.
+    From a high-level perspective, the architecture of TVB, as illustrated in Figure 2, accommodates interaction through various
+interfaces tailored to specific user needs and deployment scenarios. Structurally, TVB comprises two primary components:
+the backend, referred to as the "scientific computing core," and the supporting framework, which includes the graphical user
+interface and data visualization tools. TVB relies on an efficient and resilient storage data system to manage both metadata
+information and the underlying data. Functionally, TVB backends are designed to seamlessly support various interfaces,
+ensuring consistent functionality regardless of the selected interface.
+    In essence, a TVB application defines the logic necessary for data input, processing based on configurable parameters,
+and visualization of results. In the original Python implementation of TVB, while a single simulation step may not be readily
+distributable across multiple processing threads, each simulation step can be computed independently in different threads,
+potentially across distinct nodes. TVB documentation advises the deployment of complex simulation tasks on clusters to
+mitigate computational expenses.
+    As previously mentioned, TVB-Datatypes serve as a middleware layer facilitating the management and flow of data between
+the scientific kernel and the supporting framework. Essentially, TVB-Datatypes are annotated data structures encompassing one
+or more data attributes alongside associated descriptive information, inclusive of requisite methods for data manipulation.
+    The simulation core, the final module in our delineation, utilizes structural connectivity information within a comprehensive
+model of neural dynamics across the entire brain. Here, users can delineate the spatial structure upon which the model operates,
+as well as the hierarchical connections between nodes through the structural connectivity framework. Subsequently, the system
+numerically integrates the resultant coupled system of differential equations to replicate emergent brain dynamics. Central to
+this process, the Simulator class serves as both a repository for all pertinent information and as the conductor orchestrating the
+various steps associated with the simulation, all transparently to the user.
+
+
+4 TVB C++
+In response to the constrained performance of TVB Python, particularly evident when handling extensive networks or
+simulations necessitating extensive parameter exploration, TVB C++ emerges as a simulator tailored for whole-brain network
+models (BNMs).
+    Reproducing the functionality of TVB-Python, TVB C++ can simulate neural population models coupled by structural
+connectivity, which is an aggregated representation of the brain’s white matter axon fiber bundle network. In addition to being
+implemented as a C++ library, TVB C++ offers Python bindings to seamlessly plug it into existing pipelines, and subsequently
+serve as a fully integrated TVB Back-End. This way, by simply configuring the TVB simulator to use TVB C++ instead of
+the default implementation in Python, existing code can be used without changes. The general architecture of TVB C++ as a
+back-end for TVB is illustrated in Figure 3.
+
+
+                                                                                                                              3/25
+    The architecture of TVB C++ centers on two distinct interfaces tailored to user interaction. Currently, the console interface
+operates independently of the storage layer, storing results solely in memory. Consequently, users utilizing the console interface
+must manually oversee data import and export operations. On the other hand, its back-end comprises blocks that seamlessly
+interface with various top application layers. The data types serve as the common language between different components such
+as analyzers, visualizers, simulators, and uploaders. These datatypes embody "active data," signifying that when TVB C++ is
+configured with a database, instances encapsulating data types are automatically retained.
+    In the following subsections, we will introduce the main TVB C++ components, namely its inputs, code structure, whole-
+brain models, integrators, history, coupling, and monitors. All these components represent functional modules that are
+completely user-configurable (see Section 3), allowing the users to interact with them to tailor their simulation and analysis
+needs.
+
+4.1 Inputs
+In general, TVB C++ can load brain model data from a variety of sources and formats, with easy expandability to new formats
+and registration modalities. One of the main inputs for brain data consists of a structural connectome SC (in our case, weights
+files) and a parameter set (parameter file), plus spontaneous blood-oxygenation-level-dependent (BOLD) as stored in functional
+MRI data (fMRI), together with some regional information that depends on the problem at hand, from neuroreceptor data to
+gene expressions. Optionally, the user can provide information about the lengths of the tracts between the nodes, which would
+introduce delays in the communications between the regions. This is also considered in the TVB C++ implementation.
+
+4.1.1 Data formats
+While TVB allows loading data from Matlab data files (MAT), our version uses the Numpy (NPZ) format. We provide a Python
+script to convert MAT files into NPZ files.
+
+4.2 Code structure
+TVB C++ replicates the same structure of the original TVB library. That means that the structure of the classes is the same,
+providing the same functionality and flexibility. However, TVB C++ only focuses on the simulation part of the original TVB,
+and it does not provide any user interface. The two main parts of the library are the simulator module modulename.py, consisting
+of the population models to simulate the activity of one brain region, e.g., mean-field AdEx, Wong-Wang, FRE; coupling, which
+can be either dense or sparse; the integrator, where the different integration schemes are implemented; the monitors, including
+raw data monitor and the temporal averaging monitor, as well as a convolution-based BOLD; the noise implementation; the
+BOLD conversion system based on the Ballon-Windkessel model; and the simulator module itself, in charge of wrapping all
+the other components in a single, uniform shell. On the other hand, the other big module, the tools, is composed of a series of
+submodules, being the observables, e.g., FC, FCD, and the Phase Interaction Matrices a few examples, as well as the interfaces
+with numpy and Scipy. See Figure 4.
+    While TVB is heavily based on NumPy, no version of this library exists in C++. To provide similar functionality we have
+chosen the Eigen library14 , specifically version 3.9 since it provides advanced matrix indexing similar to NumPy. Moreover,
+Eigen takes advantage of SIMD instruction sets, and it can be combined with BLAS/LAPACK, Intel MKL library, and CUDA.
+    All the objects that can be configured in a simulation are:
+
+    • Whole-Brain Models
+
+    • Integrators
+
+    • History
+
+    • Coupling
+
+    • Monitors
+
+4.3 Population and mean-field models of regional activity
+TVB C++ has a modular design that allows the incorporation of a large variety of whole-brain models. Model definitions are
+very similar to TVB, and with TVB C++ this implies deriving from the abstract class tvb::Model. The main method to
+implement is tvb::Model::operator() (equivalent to the dfun() method in TVB) that computes the derivatives of
+the state variables.
+    Currently, several methods have been implemented and tested, namely, the Balanced Excitation-Inhibition (BEI) model by
+Deco et al.32 , the Montbrió, Pazó and Roxin’s FRE model36, 37 , and the mean-field AdEx34, 38–40 . See Section 5.
+
+
+                                                                                                                             4/25
+4.4 Numerical integrators
+TVB allows the use of different integrators to compute simulations with the same model. TVB C++ follows the same approach
+and provides an abstract class Integrator that can be derived and this way implements different integration strategies. Right
+now we provide the Euler deterministic and stochastic (Euler-Maruyama) integrators. In this latter case, stochastic integrators
+can be combined with different noise generators, in the same way, that TVB does.
+
+4.5 History and time-delays
+TVB takes into account the delay in signal transmission between nodes of the brain model. The delays are computed from the
+tract length matrix and the signal speed. TVB C++ also keeps track of the signal history and provides two modes: a dense
+history that keeps track of all signals at all possible delays, and a no-delay history, which is more efficient and can be used in
+some models.
+
+4.6 Coupling
+The coupling functions allow activity (state variables) that have been propagated over the long-range connectivity to pass
+through these functions before entering the equations (tvb::Model::operator()) describing the local dynamics.
+    At the moment, only linear coupling is implemented, but other functions are straightforward to use.
+
+4.7 Monitors
+Another feature of TVB is the Monitors, objects that record significant values from the simulation. In their simplest form, they
+return all the simulated data, subsampled data, spatially averaged temporally subsampled, or temporally averaged subsamples.
+The current version of TVB C++ implements the two former ones.
+    TVB also has more elaborate monitors that instantiate a physically realistic measurement process on the simulation, such as
+EEG, MEG, and fMRI (BOLD). In TVB C++ we follow a slightly different approach and these measurement processes are
+performed after the simulation, using the monitor data as input.
+
+4.8 Extra tools
+To make TVB C++ a useful tool, the ability to simulate Whole-Brain models is just the first step. There are many extra
+tools needed to analyze the results of such simulations. TVB C++ provides some of these tools, and provides an example
+implementing all the necessary steps to reproduce the main results of the corresponding models enumerated above and described
+in Section 5: The BEI model32 , the FRE model36, 37 and the mean-field AdEx model34, 38–40 . We have chosen this work since it
+allows us to compare standard features already existing in TVB and high-performance implementations. To reproduce these
+works, some steps need to be taken:
+
+    • Perform simulations using the corresponding model
+
+    • Estimate the BOLD signal from the simulated physiological signals.
+
+    • Compute some sort of observable, e.g., sliding-window correlations, from the obtained BOLD signals. See Section 4.8.2.
+
+    • Use a measure, e.g., the L2 metric, between the empirical and simulated observables obtained.
+
+    For the last two items, we had to implement some of the features of NumPy and SciPy into TVB C++, like the Kolmogorov
+statistic.
+
+4.8.1 Estimate BOLD signals from neural output
+Once we have obtained the simulated mean field activity, we need to transform it into a Blood Oxygenation Level Dependent
+(BOLD) signal. Given that the conversion from electrical activity to a BOLD signal is, in its mathematical sense, a low-pass filter,
+this process can be computed in two different ways: as a convolution with Volterra kernels, or as a generalized hemodynamic
+model such as the Balloon-Windkessel model. In the following, we describe both implementations, as TVB C++ implements
+the two methods to create a BOLD signal from a raw signal produced by the simulation, as the original TVB implementation
+also does.
+Haemodynamic Response Function Model One option is to use convolutions with Hemodynamic Response Function
+(HRF) to compute the output BOLD signal, derived using generic techniques from nonlinear system identification41–45 . The
+approach employed allows for the estimation of Volterra kernels, which elucidate the relationship between stimulus presentation
+and consequent hemodynamic responses. This technique represents the BOLD signal as the outcome of a convolution with
+a Volterra series46 , which are, essentially, Taylor expansions extended to encompass dynamical input-state-output systems
+and consider the impact of the input at all times in the recent past42 . As a result, they are regarded as model-independent,
+
+
+                                                                                                                               5/25
+capable of representing any such dynamical system. Serving as high-order extensions of linear convolution or "smoothing,"
+Volterra kernels provide a nonlinear characterization of the hemodynamic response function. Consequently, they facilitate the
+modeling of responses to stimuli across various contexts (e.g., different rates of word presentation) and interactions among
+stimuli. In TVB C++ this is implemented as a special case of a Monitor class, which are tools to record significant values
+from the simulation, in this case using HRF kernels. As we are following TVB’s main implementation, we are also using the
+first-order Volterra kernel, too.
+Balloon-Windkessel Model:         We implemented the generalized hemodynamic model of Stephan et al.47, 48 . We compute
+the BOLD signal in the k-th brain area from the firing rate of the excitatory pools H (E) , such that an increase in the firing
+rate causes an increase in a vasodilatory signal, sk , that is subject to auto-regulatory feedback. Blood inflow fk responds in
+proportion to this signal inducing changes in blood volume vk and deoxyhemoglobin content qk . The equations relating to these
+biophysical variables are:
+
+        dsk         (E)
+             = 0.5rk + 3 − ksk − γ( fk − 1)
+         dt
+        d fk
+             = sk
+         dt
+        dvk             −1
+                                                                                                                               (1)
+      τ      = fk − vαk
+         dt
+                               −1          −1
+        dqk       1 − (1 − ρ) fk       vαk
+      τ      = fk                 − qk
+         dt               ρ              vk
+with finally
+                                                    
+                                    qk
+      Bk = v0 k1 (1 − qk ) + k2 (1 − ) + k3 (1 − vk )
+                                    vk
+being the final measured BOLD signal.
+    We used the updated version49 described later, which consists of introducing the change of variables ẑ = lnz, which induces
+the following change for z = fk , vk and qk , with its corresponding state equation dz
+                                                                                    dt = F(z), as:
+
+      d ẑ d ln(z) dz F(z)
+          =          =
+      dt     dz dt     z
+which results in z(t) = exp(ẑ(t)) always being positive, which guarantees proper support for these non-negative states, and thus
+numerical stability when evaluating the state equations during evaluation.
+4.8.2 Observables
+Functional Connectivity:    It is computed as the Pearson correlation between the model and empirical estimates of static (i.e.,
+time-averaged) Functional Connectivity, estimated across all pairs of brain regions (FC); more specifically, the correlation
+between the values in the upper triangles of the model and empirical FC matrices.
+Sliding-Window Functional Connectivity Dynamics (swFCD):               In50 , to take into account the spatiotemporal fluctuations
+in functional brain dynamics over time, the model is fitted to the spatiotemporal dynamics of the data (i.e., to the Functional
+Connectivity Dynamics [FCD])16, 17, 51 . The measure used is a sliding-window correlation between BOLD signals. To implement
+this, TVB C++ re-implements some functions from NumPy and SciPy.
+Phase Functional Connectivity Dynamics (phFCD):            From each BOLD time series of each ROI, we can Hilbert-transform
+them to yield the phase evolution of the regional signals, which can be averaged, to finally be used to compute the KS distance
+from other identically processed series. This yields the Phase Functional Connectivity Dynamics (phFCD), which is a 3D matrix
+of N × N × T -size, where N is the number of nodes in the parcellation used and T indicates the number of image volumes
+acquired in all considered sessions.
+
+4.9 Python bindings
+Compiling and executing C++ code can be challenging to most neuroscientists who are more used to user-friendly interfaces.
+To provide an easy entry point to use the power of TVB C++, we have developed a Python package that provides easy access
+to the features of this library. This package provides bindings for the different library components, allowing the selection of
+different models (e.g., FRE, Dynamic Mean Field, mean-field AdEx), different monitors (e.g., two different BOLD monitors),
+
+
+                                                                                                                             6/25
+integrators (e.g., Euler or Euler-Maruyama) and observables (e.g., FC, swFCD, phFCD). The API supports interaction with the
+original TVB simulator python class so that it can be used as an alternative Back-End without the need for code adaptation.
+
+   The library is hosted in a Github public repository52 and there is a folder that contains the Python binding including a
+Jupyter notebook3 that makes it easier to test the library. The API as of now is straightforward and it allows to select of different
+neural population models, monitors, integrators, and observables, following the protocols and standards of the original TVB
+implementation, thus allowing for seamless integration as a backend for TVB-python.
+
+    In Listing 1, a comprehensive example of TVB C++ Python bindings is provided. It is essential to note that the TVB
+C++ module operates as a state machine, requiring the configuration of all state variables before execution, starting with the
+integration variables and loading the structural connectivity matrix (lines 6-14). Subsequently, a neuronal mass model, FRE
+model with 6 state variables, is configured, with noise added only to the last two via the Euler-Maruyama (referred to as
+EulerStochastic) integrator (lines 16-21). The initial state of the model’s variables is set to zero (lines 22-25), followed by the
+configuration of global coupling (line 27). While the current implementation only offers linear coupling, the library is designed
+for easy extension. Users can query model parameters before execution by utilizing the get_model_parameters()
+command (line 29), and change them before execution. An example of this can be seen below, in Section 5.3, where an example
+of a change of some complex model parameters is presented.
+
+    A monitor is then added to process the raw simulation data, averaging over 1 ms of state variable 0 (line 32). Finally, the
+simulation is run with the run_sim command, specifying the time interval in milliseconds (line 34). The simulation output
+comprises a list of monitor results, with each result being a tuple containing two arrays: a 1D array with time samples and a 2D
+array with simulation output data, such as time-series data.
+
+    To convert the simulation output to a BOLD signal, three methods are available: Stephan2007, Stephan2007b, and
+the original TVB convolution-based monitor (lines 41-43). Users can select their desired monitor by changing the appropriate
+keyword.
+
+   Finally, the resulting signal is subsampled for illustrative purposes, and the results can be plotted using the code snippet
+provided in Listing 2.
+
+
+
+
+5 Use cases
+
+In this section we provide practical use cases implemented within TVB C++. First, we present a modified version of the
+Balanced Excitation-Inhibition model32 , followed by the implementation of the Mean Field Adaptive Integrate and Fire Neurons
+(mean-field AdEx) in its first order35 and second order34 variants. Finally, the FRE model36, 37 is described.
+
+    We have tested the TVB C++ version against TVB-Python version 2.8.1, the FAST_TVB implementation, and RateML. The
+comparison involves two main tasks, the ones involving whole-brain simulations using a neural model, and other computations
+that use mainly external functions, like BOLD signal generation. It must be taken into account that FAST_TVB only offers
+a reduced set of the full TVB functionality, so we only compared the functionality that was possible for us to compare. All
+comparisons were made in a computed with an Intel i9-13900H CPU (14 cores) and an NVidia laptop RTX 4070 GPU.
+
+
+
+
+5.1 Modified Balanced Excitation-Inhibition
+
+In this section, we will use TVB C++ to reproduce the results previously obtained by Deco et al.50 . The full Balanced
+Excitation/Inhibition (BEI) model32 at the whole-brain level is expressed by the following system of coupled differential
+
+
+
+
+   3 https://github.com/neich/tvb-root-cpp/blob/main/python/tvbcpp.ipynb
+
+
+
+
+                                                                                                                                7/25
+equations:
+        (E)                     (E)                      (E)         (I)
+       Ik     = WE Io + w+ JN Sk + JN G ∑ Ck j S j − Jk Sk + Iext ,
+                                              j
+        (I)             (E)  (I)                               (E)
+       Ik = WI Io + JN Sk − Sk + λ JN G            ∑ Ck j S j ,
+                                                    j
+                                         (E)
+       (E)         (E)          MkE (aE Ik − bE )
+      rk = H (E) (Ik ) =                      (E)
+                                                        ,
+                         1 − exp(−dE MkE (aE Ik − bE ))
+                                             (I)
+        (I)           (I)             MkI (aI Ik − bI )
+       rk = H (I) (Ik ) =                               (I)
+                                                                     ,
+                             1 − exp(−dI MkI (aI Ik − bI ))
+                (E)
+        (E)   Sk             (E)         (E)
+      Ṡk = −       + (1 − Sk ) γH (E) (Ik ),
+               τE
+                (I)
+         (I)  S             (I)
+       Ṡk = − k + H (I) (Ik )
+               τI
+Here, the last two equations should add, when integrating, an uncorrelated standard Gaussian noise term with an amplitude of
+σ = 0.01nA (Euler-Maruyama integration).
+     The parameters of this model were originally defined in Wong and Wang53 to emulate resting-state conditions, such that each
+isolated node displays the typical noisy spontaneous activity with low firing rate (H (E) ∼ 3Hz) observed in electrophysiology
+experiments. Moreover, following Deco et al.32 , the inhibition weight, Jn , was adjusted separately for each node n such that the
+firing rate of the excitatory pools H (E) remains clamped at 3Hz even when receiving excitatory input from connected areas.
+It has been demonstrated that this mechanism leads to a better prediction of the resting-state FC and a more realistic evoked
+activity32 . We refer to this model as the balanced excitation-inhibition (BEI) model.
+     To study the effects of LSD, Deco and co-authors50 used local regional information, introduced in the form of a detailed
+map of 5 − HT2A receptor density of the neuromodulator serotonin, obtained from a new high-resolution human brain in vivo
+atlas. For this, they defined a global gain scaling parameter, added to the original fixed gain parameters (which were the same
+for all regions), and thus scaling the regional 5 − HT2A receptor values influencing the recursive circuits of excitatory and
+inhibitory neurons. In mathematical terms, we modify the value of MkE in the above equations as
+
+      MkE = gE (1 + s 5HT 2Ak )
+
+with gE the value previously used32 , 5HT 2Ak the neuroreceptor density for the k-th region, and s the scaling factor. The
+procedure follows the somewhat standard pipeline in these cases: first, fit the model to the placebo condition but not the LSD
+condition, i.e., assuming zero values of the scaling that correspond to the original gain values. Then, a scaling value that fits the
+LSD condition (using the sensitivity of the functional connectivity dynamics) while still using the original whole-brain placebo
+model, but now including the new element of receptor binding, which modulates each region with the different empirical
+measures of the receptor binding. Thus, here we verify their results with TVB C++, showing that neurotransmitter modulation
+of whole-brain activity dynamics can be quantitatively ascribed to one type of receptor binding (here 5 − HT2A ) that modulates
+brain-wide neural responses.
+    As a first test, we compared TVB C++ with TVB-Python version 2.8.1, with FAST_TVB, and with RateML. In all cases,
+we use a reduced Wong Wang model32 and the Julich-Brain probabilistic cytoarchitectonic maps as a microstructural reference
+parcellation from the multilevel Human Brain Atlas, of 379 regions. All simulations evaluate 10 seconds and use a deterministic
+integration with an integration delta of 0.1 ms. Execution times are shown in Table 1. In Figure 5, top row, we show the plot
+of the first state variables (Se ) of the 379-region model over 10 seconds. Both results shown are numerically identical. For
+the sake of completeness, although the random number generators in Python and C++ are different, we compared one of the
+models, the BEI model, with noise, both for TVB and TVB C++, leading to practically indistinguishable results except for the
+noise itself, see Figure 6.
+
+                                                        TVB          FAST_TVB    TVB C++
+                                                        40.1               5.1     6.4
+
+                      Table 1. Execution times for the reduced Wong Wang model simulation (in seconds).
+
+
+
+                                                                                                                                8/25
+Feedback Inhibition Control:      As a use case beyond brain simulations, we have implemented the Feedback Inhibition Control
+mechanism proposed by Deco et al.32 . We have implemented the optimization method that allows finding the Ji values that
+allow the neuron’s firing rates to stay in a given interval, for every value of the global coupling value G. In particular, we have
+reproduced Figure 2C of Deco et al.32 , see Figure 5, lower right. In this case, the results are not numerically identical since we
+are not using the same data as used in the paper for the test, but, as can be seen, the outcome is completely equivalent.
+
+5.2 Mean Field Adaptive Integrate and Fire Neurons (mean-field AdEx)
+In this section, we will elaborate on the first and second-order Mean-Field Adaptive Integrate and Fire (mean-field AdEx)
+model.
+First Order model:           A mean-field model of conductance-based networks of adaptive exponential integrate-and-fire neurons35
+            ∂ νµ
+        T        = − Fµ (νe , νi ) + νµ , ∀µ ∈ {e, i}
+             ∂t
+            ∂Wk
+                 =Wk /tauw − b ∗ Ek
+             ∂t
+where νµ = {E, I}, and Fλ is the Transfer Function, which should be tailored for each specific type of single neuron model
+desired. Carlu et al.39 used this framework to obtain Transfer Functions for diverse models such as nonlinear integrate-and-fire
+or Hodgkin-Huxley models.
+Second Order model:        A mean-field model of conductance-based networks of spiking neurons with adaptation34 . The
+general formulation for the mean-field AdEx adaptation second order model (a.k.a., Zerlaut’s model, di Volo’s model, ...) as a
+dynamical unit at a node k in a network with l nodes reads ∀µ, λ , η ∈ {e, i}3 :
+
+           ∂ νµ                 1       ∂ 2 Fµ
+         T       =(Fµ − νµ ) + cλ η
+            ∂t                  2     ∂ νλ ∂ νη
+          ∂ cλ η
+        T        =Aλ η + (Fλ − νλ ) (Fη − νη )+
+            ∂t
+                       ∂ Fµ       ∂ Fµ
+                  cλ µ      + cµη        − 2cλ η
+                       ∂ νλ        ∂ νη
+           ∂Wk
+                 =Wk /tauw − b ∗ Ek
+            ∂t
+with:
+                 ( F (1/T −F )
+                        λ
+                            Nλ
+                                 λ
+                                          if λ = η
+        Aλ η =
+                    0                     otherwise
+
+    This model has recently been extended to Whole-Brain modeling40 by adding the coupling through the structural connectivity
+into the synaptic current.
+    We have also performed tests with other, more complex models, like the mean-field AdEx second order model34, 35 . In this
+case, comparison can only be done with TVB, since FAST_TVB only works with the reduced Wong Wang model and does not
+allow new models to be easily incorporated. In both cases (i.e., TVB and TVB C++), testing another model involves only the
+change of a single line of code. In Figure 7a we show the excitatory firing rate of the 379-region model over 10 seconds. Again,
+both results are numerically identical.
+
+                                                            TVB     TVB C++
+                                                           489.65      23.5
+
+                    Table 2. Execution times for the mean-field AdEx first order model simulation (in seconds).
+
+    Execution times are shown in Table 2. As can be seen, simulation times are speeded up about 10x times with TVB C++.
+This takes into account that TVB Python uses Numba to accelerate the core of the simulation and the computation of the
+derivatives of the differential equations of the model. In TVB C++ we have not applied any further specific optimization.
+    Thus, the last set of tests has been performed using the mean-field AdEx model34, 35, 38 . In this case, we have reproduced
+some of the results presented in34 , specifically Figure 2 in the paper. The results are shown in Figure 7.
+
+
+                                                                                                                              9/25
+5.3 FRE Model
+Montbrió and coworkers36, 37 , proposed a method to derive the Firing Rate Equations (FREs) for networks of heterogeneous,
+all-to-all coupled quadratic integrate-and-fire (QIF) neurons, which is exact in the thermodynamic limit, i.e., for large numbers
+of neurons. Their formulation uses mean-field equations to reveal a dual role of electrical synapses: First, they equalize
+membrane potentials favoring the emergence of synchrony. Second, electrical synapses act as “virtual chemical synapses”,
+which can be either excitatory or inhibitory depending upon the spike shape. The original results offer a precise mathematical
+explanation of the intricate effect of electrical synapses in collective synchronization.
+
+                     dr    ∆
+                 τ      =    + 2ru − gr
+                     dt   τπ                                                                                                    (2)
+          du
+      τ      = u2 + η̄ − (πτr)2 + (J + g ln a)τr
+          dt
+The parameters η̄ and ∆ are, respectively, the center and width of the static distribution of inputs to the individual spiking
+neurons, which is considered Lorentzian. Also, we have the recurrent inputs with their synaptic weight J, and the electric
+synapses weighted by their respective weight g.
+   This model can be extended to an Excitatory-Inhibitory (E-I) network of quadratic integrate-and-fire neurons modeling a
+Pyramidal-Interneuronal Network Gamma (PING) rhythm54, 55 , and then extend it again to a whole-brain made of these E-I
+nodes, by formulating the system of equations:
+
+                          drej       ∆e
+                     τe          =       + 2rej uej − ge rej
+                          dt       τ eπ
+                         drij        ∆i
+                      τi       = i + 2rij uij − gi rij
+                           dt       τπ
+                     du  e
+                         j
+                 τe         = uej 2 + η¯e − (πτ e rej )2 + I ej
+                      dt
+                     duij          2
+                  τi         = uij + η¯ i − (πτ i rij )2 + I ij
+                      dt                                                                                                        (3)
+                            dSeej
+                       τN          = −See  j +J
+                                                  N(ee) e
+                                                       rj
+                              dt
+                             dSiej
+                       τN          = −Siej + J N(ie) rej
+                              dt
+      I ej = Iext
+              e
+                  + τ e See j − JjJ
+                                      G(ei) i i
+                                            τ r j + GJ A τ e ∑ Ck j Skee
+                                                                k̸= j
+
+                     I ij = Iext
+                             i
+                                 + τ e Siej − J G(ii) τ i rij
+
+     Observe that, in this last expression, we have the long-range synaptic weight J A , identified with the AMPA current. Also,
+we introduced the slower NMDA gating variable S, which modulates connections from the excitatory population into both the
+excitatory and inhibitory populations, being regulated by its respective time constant τ N . Finally, the inhibitory connections
+have been associated with GABA, so we have labeled its constant as J G (xi), with x being the receiving population (excitatory
+e or inhibitory i). From this system, it is easy to recover the equations used by Sanz Perl and co-workers56 by removing the
+electrical coupling (ge = gi = 0), removing the FIC mechanism, assuming no external stimulation (Iext    e = I i = 0), considering
+                                                                                                                 ext
+        e    i    m
+that τ = τ = τ , equating J     long,e = J , and considering the steady state of all the gating variables Se,i .
+                                          ee
+
+     Once the full whole-brain model is implemented, to recover the original formulation by Montbrió and coworkers37 , we need,
+first, to decouple all populations by setting G = 0, then decouple the inhibitory and excitatory populations by choosing J G = 0,
+and finally approximate the behavior of the gating variable S by its steady state behavior. However, this last step requires setting
+dS
+ dt = 0, which is not possible without modifying the code. However, depending on the integration algorithm used, we could set
+τ N = ∆t, which, for Euler-Maruyama will reduce to the correct expression for S, and for other more advanced integrators (e.g.,
+Runge-Kutta) will lead to an average of the firing rate during the current time-step. In particular, we have reproduced Figure 3
+from the original paper, using three values of the spike asymmetry parameter a: 0.25, 1, and 4 (see Figure 8a).
+     Using the same settings, we can go beyond the results presented in the original papers and extend the model to a whole-brain
+simulation. The results for the behavior of one node, when coupled with all the others for values of G of 1/4 and 1, are shown in
+Figure 8. As expected, the behavior for a given node changes significantly when coupled with the rest of the network, showing
+significant oscillatory behavior.
+
+
+                                                                                                                             10/25
+5.4 BOLD simulations
+Another basic feature of TVB C++ is the ability to use a BOLD monitor to compute fMRI signals from the raw output of the
+models, such as the models presented before. FAST_TVB also computes a BOLD signal from the reduced Wong Wang model
+but is limited to the Balloon-Windkessel hemodynamic model. We have compared BOLD signal generation in our model with
+both TVB 2.8.1 and FAST_TVB. As already mentioned, since the details of the BOLD algorithm used are different for both of
+these systems (see above), TVB C++ implements both of them to perform fair comparisons.
+
+5.4.1 BOLD monitor using HRF convolutions
+TVB 2.8.1 implements, as its main option, a hemodynamic response function (HRF) to compute the BOLD signal. In the
+current implementation, these HRF kernels are implemented using a first-order Volterra kernel. To test BOLD generation we
+have used a smaller parcellation to have shorter execution times. In particular, we used the Desikan parcellation with 68 regions.
+Execution times are shown in Table 3. In figure 5, middle row, we show the plot of a BOLD signal over 2 minutes. As can be
+seen, both are numerically identical.
+
+                                                       TVB       TVB C++
+                                                     250.895        4.41
+
+Table 3. Execution times for the reduced Wang Wong BOLD generation, using the Desikan parcellation (68 ROIs) and with
+the HRF convolution-based model.
+
+    From Table 3 we can observe a speedup of about 50x, which includes both the Reduced Wong Wang model simulations,
+and the BOLD simulation. This result is mainly because the BOLD computations in TVB do not use any kind of acceleration
+(e.g., using the numba library) and are pure Python. In these cases, the performance difference can be quite dramatic.
+
+5.4.2 BOLD monitor using Balloon-Windkessel
+We have also compared BOLD generation from electrical activity obtained from a simulation with FAST_TVB. In this case,
+both FAST_TVB and TVB C++ use a Balloon-Windkessel algorithm. We have used the same smaller parcellation to have a
+meaningful comparison. Execution times are shown in Table 4. In Figure 5, first row, we show the plot of the BOLD signal
+over 2 minutes. Again, both signals are numerically identical.
+
+                                                   FAST_TVB        TVB C++
+                                                       10.89          4.26
+
+Table 4. Execution times for the reduced Wang Wong BOLD generation using the Balloon-Windkesssel model, with the
+Desikan parcellation (68 ROI).
+
+    The 3x speedup found here could be explained because, with this parcellation and this model, the BOLD computations
+take the bulk of the total time, and these operations are vector and matrix intensive, and we strongly believe the optimizations
+provided by the Eigen library are responsible.
+    Up to this point, all comparisons have been conducted within a single-threaded process. However, several algorithms
+necessitate a fitting process of model parameters, thereby requiring parallel execution of numerous simulations. In this regard,
+both FAST_TVB and TVB C++ are equipped to leverage multi-core CPUs for parallel execution. Nevertheless, for extensive
+parallel executions, the utilization of GPUs proves to be more efficient.
+    The TVB project has introduced a GPU backend named RateML, which entails rewriting the model derivative equations to
+enable their use within a CUDA kernel. A comparison between RateML and TVB C++ is presented in Figure 9. The findings
+demonstrate that for a small number of parallel executions (up to 180/190), TVB C++ exhibits superior performance, especially
+at lower numbers. However, in scenarios requiring massive parameter sweeps, RateML surpasses TVB C++ by an order of
+magnitude in terms of efficiency.
+
+6 Summary and Discussion
+As demonstrated, TVB C++ surpasses the original TVB Python implementation in terms of speed and performance while
+preserving its flexibility. The primary role of TVB C++ as an efficient Back-End for demanding computational tasks is seamless
+and economical, thanks to its Python bindings tailored for ease of use and adaptability. It is noteworthy that TVB C++ holds
+significant potential for further optimization, leveraging available libraries such as Intel MKL or CUDA. Additionally, unlike
+
+
+                                                                                                                           11/25
+Python, which is hindered by the Global Interpreter Lock, the C++ version of TVB C++ can effortlessly exploit native threads.
+The current iteration of TVB C++ offers a straightforward thread pool mechanism to capitalize on multicore architectures. TVB
+C++ constitutes a valuable addition to the TVB family owing to its high compatibility, exceptional flexibility, and superior
+performance. It emerges as an ideal backend for computationally intensive tasks, requiring no additional expertise beyond TVB
+basics.
+    In conclusion, TVB C++ stands as a formidable asset in the realm of computational neuroscience, offering a compelling
+blend of speed, flexibility, and ease of use. Through meticulous optimization and seamless integration with the renowned TVB
+platform, TVB C++ elevates the capacity for large-scale simulations and heavy-duty computational tasks to unprecedented
+heights. Its exceptional performance, outpacing the original TVB-Python implementation, underscores its prowess as a backend
+solution for tackling complex neuroscientific inquiries with efficiency and precision. Moreover, TVB C++’s compatibility and
+intuitive Python bindings ensure a smooth transition for users, requiring no additional expertise beyond fundamental TVB
+knowledge.
+    With the potential for further optimization and the ability to harness advanced computing resources like supercomputers,
+TVB C++ emerges as an indispensable tool for researchers seeking to push the boundaries of computational neuroscience.
+By seamlessly marrying speed, flexibility, and ease of use, TVB C++ paves the way for groundbreaking discoveries and
+advancements in our understanding of the brain’s intricate dynamics.
+
+Code availability
+All the code described in this paper can be found in a Github public repository52 .
+
+Author contributions (CRediT)
+PR, VJ and GD: conceptualization, methodology. IM, GZ, JF, MS and GP: methodology. IM: development, software. IM,
+GP, GZ, GD, MS, PR: Visualization, Investigation. PR, VJ, GP: Formal Analysis. IM, GZ, GP: Writing – original draft. GP:
+Funding acquisition. All authors: Validation, Data curation, Writing – review and editing
+
+Acknowledgements
+We thank Michiel van der Vlag for assisting in the comparisons to Rate ML. We thank Alain Destexhe, Damien Depannemaecker
+and Ernest Montbrió for their help adapting the Mean-field AdEx and the ERP population models.
+
+Funding
+IM and GP were partially funded by Grant PID2021-122136OB-C22 funded by MCIN/AEI/10.13039/501100011033 and
+by ERDF A way of making Europe. This work has been supported by the European Union’s Horizon 2020 research and
+innovation program under Specific Grant Agreement No. 785907 (HBP SGA2) and Specific Grant Agreement No. 945539
+(Human Brain Project SGA3). This work was supported by the Virtual Research Environment at the Charité Berlin – a node
+of EBRAINS Health Data Cloud. Part of computation has been performed on the HPC for Research cluster of the Berlin
+Institute of Health. PR acknowledges support by EU Horizon Europe program Horizon EBRAINS2.0 (101147319), Virtual
+Brain Twin (101137289), EBRAINS-PREP 101079717, AISN – 101057655, EBRAIN-Health 101058516, Digital Europe
+TEF-Health 101100700; German Research Foundation SFB 1436 (project ID 425899996); SFB 1315 (project ID 327654276);
+SFB 936 (project ID 178316478; SFB-TRR 295 (project ID 424778381); SPP Computational Connectomics RI 2073/6-1, RI
+2073/10-2,RI 2073/9-1; DFG Clinical Research Group BECAUSE-Y 504745852, PHRASE Horizon EIC grant; 101058240;
+Berlin Institute of Health & Foundation Charité,
+
+Conflict of Interest Statement
+The authors declare that the research was conducted in the absence of any commercial or financial relationships that could be
+construed as a potential conflict of interest.
+
+References
+ 1. Gewaltig, M.-O. & Diesmann, M. Nest (neural simulation tool). Scholarpedia 2, 1430 (2007).
+ 2. Stimberg, M., Brette, R. & Goodman, D. F. Brian 2, an intuitive and efficient neural simulator. eLife 8, e47314, DOI:
+    10.7554/eLife.47314 (2019).
+
+
+                                                                                                                       12/25
+ 3. Dura-Bernal, S. et al. Netpyne, a tool for data-driven multiscale modeling of brain circuits. eLife 8, DOI: 10.7554/elife.
+    44494 (2019).
+ 4. Hines, M. L. & Carnevale, N. T. Neuron: A tool for neuroscientists. The Neurosci. 7, 123–135, DOI: 10.1177/
+    107385840100700207 (2001).
+ 5. Migliore, M., Cannia, C., Lytton, W. W., Markram, H. & Hines, M. L. Parallel network simulations with neuron. J. Comput.
+    Neurosci. 21, 119–129, DOI: 10.1007/s10827-006-7949-5 (2006).
+ 6. Bekolay, T. et al. Nengo: a python tool for building large-scale functional brain models. Front. Neuroinformatics 7, DOI:
+    10.3389/fninf.2013.00048 (2014).
+ 7. Dai, K. et al. Brain modeling toolkit: An open source software suite for multiscale modeling of brain circuits. PLOS
+    Comput. Biol. 16, e1008386, DOI: 10.1371/journal.pcbi.1008386 (2020).
+ 8. Leon, P. S. et al. The virtual brain: a simulator of primate brain network dynamics. Front. Neuroinformatics 7, DOI:
+    10.3389/fninf.2013.00010 (2013).
+ 9. Ritter, P., Schirner, M., McIntosh, A. R. & Jirsa, V. K. The virtual brain integrates computational modeling and multimodal
+    neuroimaging. Brain Connect. 3, 121–145, DOI: 10.1089/brain.2012.0120 (2013).
+10. Sanz-Leon, P., Knock, S. A., Spiegler, A. & Jirsa, V. K. Mathematical framework for large-scale brain network modeling
+    in the virtual brain. NeuroImage 111, 385–430, DOI: 10.1016/j.neuroimage.2015.01.002 (2015).
+11. Schirner, M. et al. Brain simulation as a cloud service: The virtual brain on ebrains. NeuroImage 251, 118973, DOI:
+    10.1016/j.neuroimage.2022.118973 (2022).
+12. van der Vlag, M. et al. RateML: A code generation tool for brain network models. Front. Netw. Physiol. 2, DOI:
+    10.3389/fnetp.2022.826345 (2022).
+13. van der Vlag, M. et al. Vast tvb parameter space exploration: A modular framework for accelerating the multi-scale
+    simulation of human brain dynamics, DOI: 10.48550/ARXIV.2311.13337 (2023).
+14. Guennebaud, G., Jacob, B. et al. Eigen v3. http://eigen.tuxfamily.org (2010).
+15. Thomas Yeo, B. T. et al. The organization of the human cerebral cortex estimated by intrinsic functional connectivity. J.
+    Neurophysiol. 106, 1125–1165, DOI: 10.1152/jn.00338.2011 (2011).
+16. Allen, E. A. et al. Tracking Whole-Brain Connectivity Dynamics in the Resting State. Cereb. Cortex 24, 663–676, DOI:
+    10.1093/cercor/bhs352 (2012). https://academic.oup.com/cercor/article-pdf/24/3/663/14099596/bhs352.pdf.
+17. Hansen, E. C., Battaglia, D., Spiegler, A., Deco, G. & Jirsa, V. K. Functional connectivity dynamics: Modeling the
+    switching behavior of the resting state. NeuroImage 105, 525–535, DOI: https://doi.org/10.1016/j.neuroimage.2014.11.001
+    (2015).
+18. Kringelbach, M. L., McIntosh, A. R., Ritter, P., Jirsa, V. K. & Deco, G. The rediscovery of slowness: Exploring the timing
+    of cognition. Trends Cogn. Sci. 19, 616–628, DOI: 10.1016/j.tics.2015.07.011 (2015).
+19. Deco, G. et al. The arrow of time of brain signals in cognition: Potential intriguing role of parts of the default mode
+    network. Netw. Neurosci. 7, 966–998, DOI: 10.1162/netn_a_00300 (2023).
+20. Jirsa, V. et al. The virtual epileptic patient: Individualized whole-brain models of epilepsy spread. NeuroImage 145,
+    377–388, DOI: 10.1016/j.neuroimage.2016.04.049 (2017).
+21. Makhalova, J. et al. Virtual epileptic patient brain modeling: Relationships with seizure onset and surgical outcome.
+    Epilepsia 63, 1942–1955, DOI: 10.1111/epi.17310 (2022).
+22. Adhikari, M. H. et al. Decreased integration and information capacity in stroke measured by whole brain models of resting
+    state activity. Brain 140, 1068–1085, DOI: 10.1093/brain/awx021 (2017).
+23. Rocha, R. P. et al. Recovery of neural dynamics criticality in personalized whole-brain models of stroke. Nat. Commun.
+    13, DOI: 10.1038/s41467-022-30892-6 (2022).
+24. Idesis, S. et al. A low dimensional embedding of brain dynamics enhances diagnostic accuracy and behavioral prediction
+    in stroke. Sci. Reports 13, DOI: 10.1038/s41598-023-42533-z (2023).
+25. Stefanovski, L. et al. Linking molecular pathways and large-scale computational modeling to assess candidate disease
+    mechanisms and pharmacodynamics in alzheimer’s disease. Front. Comput. Neurosci. 13, 54, DOI: 10.3389/fncom.2019.
+    00054 (2019).
+
+
+                                                                                                                         13/25
+26. Patow, G., Stefanovski, L., Ritter, P., Deco, G. & Kobeleva, X. Whole-brain modeling of the differential influences of
+    amyloid-beta and tau in alzheimer’s disease. Alzheimer’s Res. & Ther. 15, DOI: 10.1186/s13195-023-01349-9 (2023).
+27. Gast, R. et al. Pyrates—a python framework for rate-based neural simulations. PLOS ONE 14, e0225900, DOI:
+    10.1371/journal.pone.0225900 (2019).
+28. Cakan, C., Jajcay, N. & Obermayer, K. neurolib: A simulation framework for whole-brain neural mass modeling. Cogn.
+    Comput. 15, 1132–1152, DOI: 10.1007/s12559-021-09931-9 (2021).
+29. Schirner, M., Rothmeier, S., Jirsa, V. K., McIntosh, A. R. & Ritter, P. An automated pipeline for constructing personalized
+    virtual brains from multimodal neuroimaging data. NeuroImage 117, 343–357, DOI: 10.1016/j.neuroimage.2015.03.055
+    (2015).
+30. Schirner, M., McIntosh, A. R., Jirsa, V., Deco, G. & Ritter, P. Inferring multi-scale neural mechanisms with brain network
+    modelling. eLife 7, DOI: 10.7554/elife.28927 (2018).
+31. Vella, M. et al. libneuroml and pylems: using python to combine procedural and declarative modeling approaches in
+    computational neuroscience. Front. Neuroinformatics 8, DOI: 10.3389/fninf.2014.00038 (2014).
+32. Deco, G. et al. How local excitation–inhibition ratio impacts the whole brain dynamics. J. Neurosci. 34, 7886–7898, DOI:
+    10.1523/JNEUROSCI.5068-13.2014 (2014). http://www.jneurosci.org/content/34/23/7886.full.pdf.
+33. Aquilué-Llorens, D., Goldman, J. S. & Destexhe, A. High-density exploration of activity states in a multi-area brain model.
+    Neuroinformatics DOI: 10.1007/s12021-023-09647-1 (2023).
+34. di Volo, M., Romagnoni, A., Capone, C. & Destexhe, A. Biologically realistic mean-field models of conductance-based
+    networks of spiking neurons with adaptation. Neural Comput. 31, 653–680, DOI: 10.1162/neco_a_01173 (2019).
+35. Zerlaut, Y., Chemla, S., Chavane, F. & Destexhe, A. Modeling mesoscopic cortical dynamics using a mean-field model of
+    conductance-based networks of adaptive exponential integrate-and-fire neurons. J. computational neuroscience 44, 45—61,
+    DOI: 10.1007/s10827-017-0668-2 (2018).
+36. Montbrió, E., Pazó, D. & Roxin, A. Macroscopic description for networks of spiking neurons. Phys. Rev. X 5, DOI:
+    10.1103/physrevx.5.021028 (2015).
+37. Montbrió, E. & Pazó, D. Exact mean-field theory explains the dual role of electrical synapses in collective synchronization.
+    Phys. Rev. Lett. 125, DOI: 10.1103/physrevlett.125.248101 (2020).
+38. El Boustani, S. & Destexhe, A. A Master Equation Formalism for Macroscopic Modeling of Asynchronous Irregular
+    Activity States. Neural Comput. 21, 46–100, DOI: 10.1162/neco.2009.02-08-710 (2009). https://direct.mit.edu/neco/
+    article-pdf/21/1/46/818085/neco.2009.02-08-710.pdf.
+39. Carlu, M. et al. A mean-field approach to the dynamics of networks of complex neurons, from nonlinear integrate-and-fire
+    to hodgkin–huxley models. J. Neurophysiol. 123, 1042–1051, DOI: 10.1152/jn.00399.2019 (2020).
+40. Goldman, J. S. et al. A comprehensive neural simulation of slow-wave sleep and highly responsive wakefulness dynamics.
+    Front. Comput. Neurosci. 16, DOI: 10.3389/fncom.2022.1058957 (2023).
+41. Buxton, R. B. & Frank, L. R. A model for the coupling between cerebral blood flow and oxygen metabolism during neural
+    stimulation. J. Cereb. Blood Flow Metab. 17, 64–72 (1997).
+42. Friston, K. J., Mechelli, A., Turner, R. & Price, C. J. Nonlinear responses in fMRI: the balloon model, volterra kernels, and
+    other hemodynamics. Neuroimage 12, 466–477 (2000).
+43. Boynton, G. M., Engel, S. A., Glover, G. H. & Heeger, D. J. Linear systems analysis of functional magnetic resonance
+    imaging in human V1. J. Neurosci. 16, 4207–4221 (1996).
+44. Polonsky, A., Blake, R., Braun, J. & Heeger, D. J. Neuronal activity in human primary visual cortex correlates with
+    perception during binocular rivalry. Nat. Neurosci. 3, 1153–1159 (2000).
+45. Glover, G. H. Deconvolution of impulse response in event-related BOLD fMRI1. Neuroimage 9, 416–429 (1999).
+46. Friston, K. J., Josephs, O., Rees, G. & Turner, R. Nonlinear event-related responses in fmri. Magn. Reson. Medicine 39,
+    41–52, DOI: 10.1002/mrm.1910390109 (1998).
+47. Obata, T. et al. Discrepancies between BOLD and flow dynamics in primary and supplementary motor areas: application
+    of the balloon model to the interpretation of BOLD transients. NeuroImage 21, 144–153, DOI: 10.1016/j.neuroimage.2003.
+    08.040 (2004).
+48. Stephan, K. E., Weiskopf, N., Drysdale, P. M., Robinson, P. A. & Friston, K. J. Comparing hemodynamic models with
+    DCM. NeuroImage 38, 387–401, DOI: 10.1016/j.neuroimage.2007.07.040 (2007).
+
+
+                                                                                                                           14/25
+49. Stephan, K. E. et al. Nonlinear dynamic causal models for fMRI. NeuroImage 42, 649–662, DOI: 10.1016/j.neuroimage.
+    2008.04.262 (2008).
+50. Deco, G. et al. Whole-brain multimodal neuroimaging model using serotonin receptor maps explains non-linear functional
+    effects of lsd. Curr. Biol. 28, 3065–3074.e6, DOI: https://doi.org/10.1016/j.cub.2018.07.083 (2018).
+51. Deco, G. & Kringelbach, M. L. Metastability and coherence: Extending the communication through coherence hypothesis
+    using a whole-brain computational perspective. Trends Neurosci. 39, 125–135, DOI: https://doi.org/10.1016/j.tins.2016.01.
+    001 (2016).
+52. Martín, I. TVB C++ Library. https://github.com/neich/tvb-root-cpp (2022).
+53. Wong, K.-F. & Wang, X.-J. A recurrent network mechanism of time integration in perceptual decisions. J. Neurosci. 26,
+    1314–1328, DOI: 10.1523/jneurosci.3733-05.2006 (2006).
+54. Dumont, G. & Gutkin, B. Macroscopic phase resetting-curves determine oscillatory coherence and signal transfer in
+    inter-coupled neural circuits. PLOS Comput. Biol. 15, e1007019, DOI: 10.1371/journal.pcbi.1007019 (2019).
+55. Reyner-Parra, D. & Huguet, G. Phase-locking patterns underlying effective communication in exact firing rate models of
+    neural networks. PLoS Comput. Biol. 18, e1009342 (2022).
+56. Sanz Perl, Y. et al. The impact of regional heterogeneity in whole-brain dynamics in the presence of oscillations. Netw.
+    Neurosci. 7, 632–660, DOI: 10.1162/netn_a_00299 (2023).
+
+
+
+
+                                                                                                                      15/25
+Figure Labels
+
+DTI/Tractography
+                                   Structural
+                                  Connectivity
+
+
+
+
+           Parcellation
+
+
+                                                                                              Simulated
+                                    Model FC                                                    BOLD
+
+
+                                                                                                 Fitting
+
+                                  Empirical FC
+
+
+
+      Empirical Resting
+ Correlation of BOLD signals
+
+                   Figure 1. Overview of the original TVB and the TVB C++ system pipelines.
+
+
+
+
+                                                                                                          16/25
+Figure 2. First level of detail of the architecture of the TVB system. Taken from the TVB main documentation.
+
+
+
+
+                                                                                                                17/25
+               Application Interfaces                                  Back-End System
+
+                        Jupyter                              Python
+                                                                               Simulation Component
+                       notebook                             Bindings
+                                                                                Analyzer Component
+
+                       Console                                C++
+                       Interface                              API
+                                                                                DATA TYPES
+
+
+
+
+                 Download component
+
+               Visualization Component                              Storage System
+
+
+
+
+Figure 3. Architecture of the TVB C++ system. The architecture of TVB C++ revolves around two distinct interfaces tailored
+to user interaction. The back-end consists of blocks that seamlessly interface with various top application layers. The data
+types serve as the lingua franca between different components such as analyzers, visualizers, simulators, and uploaders. These
+datatypes embody "active data," meaning that when TVB C++ is configured with a database, data encapsulated data type
+instances are automatically kept. Presently, the console interface operates independently of the storage layer, storing results
+solely in memory. Consequently, users employing the console interface must manually manage data import and export
+operations.
+
+
+                                                        tvb-cpp
+
+
+                       simulator                                                              tools
+
+
+
+      model                              coupling                   observables              numpy                 scipy
+       Zerlaut                             Dense              FC                                                   signal
+      Montbrio                            Sparse              Phase interaction matrix                             stats
+     Wong-wang                                                Sliding window FC
+
+
+
+
+    integrator                           monitor
+ Euler deterministic                        Raw
+   Euler stochastic                  Temporal average
+
+
+
+       noise                              bold
+                                   Bold TVB (convolution)
+                                   Ballon-Windkessel
+
+
+
+                       simulator
+
+
+
+
+Figure 4. Main modules of TVB C++. On the left branch are all the core simulation modules, i.e., model, coupling, integrator,
+monitor, noise, BOLD, and the simulator itself. On the right, are the tools, e.g., observables, and the numpy and scipy
+interfaces.
+
+
+                                                                                                                         18/25
+Figure 5. Different plots comparing different platforms with the Reduced Wong Wang model. Top: Plot of a (direct)
+simulation with TVB, FAST_TVB, and TVB C++. Middle: Plot of a BOLD signal with TVB C++ and TVB, using HRF
+convolutions. Bottom, first two columns: Plot of a BOLD signal from a whole brain simulation with TVB C++ and TVB, using
+the Balloon-Windkesssel model. Observe that in all cases, all platforms compared in the same rows produce the exact same
+result. Bottom right: Plot of the maximum firing rate of the neuron population for the same model, with and without the FIC
+mechanism.
+
+
+
+
+                                                                                                                     19/25
+Figure 6. Different simulations comparing how adding noise changes the results of the simulations with the Modified
+Balanced Excitation-Inhibition model. Left column: 10s simulation comparing TVB and TVB C++. Middle column: 200s
+simulation comparing TVB and TVB C++, both used to generate a BOLD signal. Right column: two examples of a BOLD
+signal computed from the previous simulation, using the same algorithm (standard TVB monitor convolution) with both TVB
+and TVB C++. Observe that in all cases, despite the random number generation is not exactly the same, all comparisons
+produce a very similar global result. Noise used is σ = 1e−5 in both TVB and TVB C++.
+
+
+
+
+                                                                                                                 20/25
+                                                             (a)
+
+
+
+
+                              (b)                                                           (c)
+
+Figure 7. Reproducing the results of mean-field AdEx module from di Volo et al.34 . (a) Plot of a whole brain simulation with
+TVB and TVB C++ for the mean-field AdEx first-order model. (b) the stable firing rate of the model for different values of the
+adaptation parameter be . (c) the firing rate distribution is predicted by the model for be = 60.
+
+
+
+
+                                                                                                                        21/25
+                                                              (a)
+
+
+
+
+                              (b)                                                            (c)
+
+Figure 8. Using TVB C++to reproduce the result of a whole brain simulation using the FRE model37 (Figure 3 in the
+manuscript). (a) Three values of the spike asymmetry parameter a are used: 1/4, 1 and 4. (b-c) Using a Desikan parcellation
+with 70 ROI, setting the spike asymmetry parameter a at 1/4 (b) and 1 (c) and showing the variation in the firing rate when the
+coupling parameter G varies from 0 to 5.
+
+
+
+
+                                                                                                                         22/25
+                              (a)                                                            (b)
+
+Figure 9. On the left panel we see the execution times for RateML as the number of parallel executions grows. From 1 to
+2000 parallel runs, the time is almost constant around 11.5 minutes. However, when the GPU limit is reached, the time starts to
+behave linearly with the number of executions. On the right panel, the execution times of RateML against TVB C++. We can
+observe a linear behavior for TVB C++ almost since the beginning, being more efficient up to 180/190 parallel executions,
+when RateML outperforms it given the massively parallel characteristic of modern GPUs.
+
+
+
+
+                                                                                                                         23/25
+ 1 import tvbcpp
+ 2 import numpy as np
+ 3 import matplotlib.pyplot as plt
+ 4 import scipy.io as sio
+ 5
+ 6 dt = 0.1 # Integration step in [ms]
+ 7 m = sio.loadmat("CNT_S01_structure.mat")["CNT_S01_structure"]
+ 8 m = m / np.max(m) * 0.2 # normallize matrix
+ 9
+10 # Set the structural connectivity matrix
+11 tvbcpp.set_weights(m)
+12 n_rois = m.shape[0]
+13
+14   print(f"Loaded connectivity matrix with {n_rois} number of ROIs")
+15
+16   tvbcpp.set_model("Montbrio")     # Choose the neuronal model
+17
+18 # Configure the integrator.
+19 sigmas = np.array([0.0, 0, 0, 0, 1e-3, 1e-3])
+20 tvbcpp.set_integrator("EulerStochastic", dt, sigmas)
+21
+22 # Configure the initial state of the model
+23 n_state_vars = 6
+24 initial_state = np.zeros((n_rois, n_state_vars))
+25 tvbcpp.set_initial_state(initial_state)
+26
+27   tvbcpp.set_global_coupling(80.1)     # Set the global coupling
+28
+29   tvbcpp.set_model_parameter("delta_i", 1.18)       # Homogeneous working point [SanzPerl’23]
+30
+31   T = 300000 # simulation time in [ms]
+32   tvbcpp.add_temporal_average_monitor(1.0, [0])       # temporal average monitor
+33
+34   result = tvbcpp.run_sim(0, T)     # Run the simulation
+35
+36   data_raw = result[0] # get the result of the first monitor
+37   time_series = data_raw[1][:, :, 0]
+38
+39   tr = 2000 # BOLD sampling rate in [ms]
+40
+41 bold_2007b = tvbcpp.create_bold("Stephan2007b", tr) # Create a BOLD object.
+42 # Compute the BOLD signal from a time series of raw data
+43 ts_2007b, data_bold_2007b = bold_2007b.compute_bold(time_series, 1.0)
+44
+45 # Subsample originial time series from Stephan2007b
+46 n_2007b = T // tr
+47 t_sub_2007b = np.zeros((n_2007b,))
+48 data_sub_2007b = np.zeros((n_2007b, data_bold_2007b.shape[1]))
+49 for n in range(n_2007b):
+50     t_sub_2007b[n] = np.mean(ts_2007b[n*tr:(n+1)*tr])
+51     data_sub_2007b[n, :] = np.mean(data_bold_2007b[n*tr:(n+1)*tr, :], axis=0)
+               Listing 1. Python bindings example. The output from this code gives the results shown in Figure 8.
+
+
+
+
+                                                                                                                    24/25
+1 # Plot for run_sim
+2 fig, axs = plt.subplots(nrows=3, ncols=1, figsize=(10,10), sharex=True)
+3 axs = axs.flatten()
+4
+5 axs[0].plot(data_raw[0][5000:], data_raw[1][5000:,:,0])
+6 axs[1].plot(t_sub_2007b[2:], data_sub_2007b[2:, :])
+7 axs[2].plot(ts_tvb[2:], data_bold_tvb[2:, :])
+8
+9   plt.show()
+                                 Listing 2. Code to plot the output from Listing 1
+
+
+
+
+                                                                                     25/25
+

@@ -10,13 +10,14 @@ tags:
 - connectivity
 title: Connectivity
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 Connectivity — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
 
 ## Related Concepts
 * [[ica]]
+* [[eegsynth]]
 
 ## References
 
@@ -25,3 +26,24 @@ Connectivity — a concept in [[whole-brain|whole-brain modeling]] and [[computa
 3. (authors unknown). *The Human [[connectome]]: A Structural Description of the Human Brain*.
 4. (authors unknown). *Functional [[connectomics]] from [[resting-state|Resting-State fMRI]]*.
 5. (authors unknown). *Networks of the Brain*.
+
+## ORPHAN PAGE CONTEXT (eegsynth)
+---
+created: 2024-01-15
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-5a69b770faf9.md
+- raw/papers/gramfort-2013.md
+tags:
+- software
+- [[electrophysiology]]
+- eeg
+- brain-computer-interface
+- real-time-processing
+- neurofeedback
+title: EEGSynth
+type: entity
+updated: '2026-05-05'
+---
+
+EEGSynth is an open-source software platform for real-time processing, analysis, and visualization of electroencephalography (EEG) and other electrophysiological signals (Oostenveld & colleagues,

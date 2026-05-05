@@ -19,6 +19,7 @@ WIKI_ROOT = os.path.dirname(SCRIPTS_DIR)
 
 META_DIR = os.path.join(WIKI_ROOT, "meta")
 RAW_PAPERS_DIR = os.path.join(WIKI_ROOT, "raw", "papers")
+FULLTEXT_DIR = os.path.join(RAW_PAPERS_DIR, "fulltext")
 ENTITIES_DIR = os.path.join(WIKI_ROOT, "entities")
 CONCEPTS_DIR = os.path.join(WIKI_ROOT, "concepts")
 COMPARISONS_DIR = os.path.join(WIKI_ROOT, "comparisons")
@@ -54,6 +55,7 @@ MATCHER_INTERVAL    = 21600      # 6h
 REPAIRER_INTERVAL = 86400          # daily
 REF_FORMATTER_INTERVAL = 21600     # 6h
 CROSSLINK_APPLIER_INTERVAL = 21600 # 6h
+FULL_TEXT_INTERVAL = 14400         # 4h — fetch OA full texts for priority papers
 
 # ── Git push schedule ─────────────────────────────────────────────────────
 # Push to the remote at most once per 30 min during burst mode. Adjust PUSH_INTERVAL if needed.
@@ -102,6 +104,9 @@ class AgentLogger:
 
     def warn(self, msg, *args):
         self._emit("WARN", msg, *args)
+
+    def debug(self, msg, *args):
+        self._emit("DEBUG", msg, *args)
 
     def error(self, msg, *args):
         self._emit("ERROR", msg, *args)
@@ -556,3 +561,43 @@ def run_pi_with_metrics(prompt: str, model: str = None, tools: str = None,
     logger_dash.info("metrics %s", json.dumps(metrics))
 
     return True, text, metrics
+
+
+# ── Full-text helpers (for cross-agent use) ───────────────────────────
+
+def get_fulltext(slug: str, max_chars: int = 15000) -> str | None:
+    """
+    Read extracted full text for a paper slug, if available.
+    Returns up to max_chars (default 15k ~ 4k tokens).
+    """
+    txt_path = os.path.join(FULLTEXT_DIR, f"{slug}.txt")
+    if not os.path.exists(txt_path):
+        return None
+    try:
+        with open(txt_path, 'r', encoding='utf-8', errors='ignore') as f:
+            text = f.read(max_chars + 1)
+        if len(text) > max_chars:
+            truncated = text[:max_chars]
+            last_para = truncated.rfind('\n\n')
+            if last_para > max_chars * 0.8:
+                truncated = truncated[:last_para]
+            text = truncated + "\n\n[... full text truncated ...]"
+        return text
+    except Exception:
+        return None
+
+
+def enrich_prompt_with_fulltext(slug: str, base_prompt: str, max_chars: int = 12000) -> str:
+    """
+    Append full text excerpt to a prompt if available.
+    Used by Matcher/Improver/DeepResearch before calling run_pi.
+    """
+    ft = get_fulltext(slug, max_chars=max_chars)
+    if not ft:
+        return base_prompt
+    return (
+        base_prompt.rstrip()
+        + "\n\n## FULL TEXT EXCERPT FROM SOURCE PAPER\n\n"
+        + ft
+        + "\n\n## END OF FULL TEXT EXCERPT\n"
+    )

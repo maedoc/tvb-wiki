@@ -52,7 +52,7 @@ Moreover, TVB's integration with tools like [[datalad]] enables version‑contro
 
 - [[bids]] — BIDS dataset conversion and curation tool
 - [[heudiconv]] — DICOM to BIDS converter
-- [[smriprep]] — Diffusion MRI preprocessing
+- [[smriprep]] — [[diffusion-mri]] preprocessing
 - [[mrtrix3-connectome]] — Advanced [[diffusion‑imaging]] toolkit
 - [[datalad]] — Version‑controlled data management
 

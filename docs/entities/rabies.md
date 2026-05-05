@@ -1,17 +1,24 @@
 ---
-title: RABIES
 created: 2025-01-15
-updated: 2026-05-05
+sources:
+- raw/papers/ritter-2013.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/huntenburg-2018.md
+tags:
+- software-brain-modeling
+- white-matter
+- alzheimers-modeling
+- personalized-brain-modeling
+title: RABIES
 type: entity
-tags: [software-brain-modeling, white-matter, alzheimers-modeling, personalized-brain-modeling]
-sources: []
+updated: '2026-05-05'
 ---
 
-RABIES (Robust Astute Segmentation of Images via a Bayesian framework) is an open-source neuroimaging software package designed for automated segmentation of brain structures and pathological lesions in magnetic resonance imaging (MRI) data. The software applies Bayesian probabilistic models to achieve robust segmentation across heterogeneous clinical and research datasets, making it particularly valuable for population studies involving aging brains and neurological disease cohorts.
+RABIES (Robust Astute Segmentation of Images via a Bayesian framework) is an open-source [[neuroimaging]] software package designed for automated segmentation of brain structures and pathological lesions in magnetic resonance imaging (MRI) data. The software applies Bayesian probabilistic models to achieve robust segmentation across heterogeneous clinical and research datasets, making it particularly valuable for population studies involving [[aging]] brains and neurological disease cohorts.
 
 ## Overview
 
-RABIES emerged from the need for reliable, automated segmentation tools that can handle the variability inherent in clinical neuroimaging data. Unlike segmentation algorithms that assume ideal imaging conditions, RABIES incorporates Bayesian inference to model uncertainty in image intensity distributions and anatomical boundaries. This probabilistic approach allows the software to adapt to different scanner types, acquisition protocols, and patient populations without requiring extensive manual parameter tuning. The framework was developed to address specific challenges in segmenting white matter hyperintensities and subcortical structures, which are clinically relevant biomarkers for diseases including [[alzheimers-disease]], vascular dementia, and small vessel disease.
+RABIES emerged from the need for reliable, automated segmentation tools that can handle the variability inherent in clinical neuroimaging data. Unlike segmentation algorithms that assume ideal imaging conditions, RABIES incorporates Bayesian inference to model uncertainty in image intensity distributions and anatomical boundaries. This probabilistic approach allows the software to adapt to different scanner types, acquisition protocols, and patient populations without requiring extensive manual parameter tuning. The framework was developed to address specific challenges in segmenting [[white-matter]] hyperintensities and subcortical structures, which are clinically relevant biomarkers for diseases including [[alzheimers-disease]], vascular dementia, and small vessel disease.
 
 The software operates by constructing a statistical model of expected tissue class distributions and using Bayesian updating to refine segmentation probabilities based on observed image intensities. This contrasts with purely deterministic approaches like threshold-based methods, allowing RABIES to propagate uncertainty estimates through the segmentation pipeline and produce confidence maps alongside hard segmentations. Such uncertainty quantification proves valuable for quality control in large-scale studies and for identifying ambiguous voxels that may require expert review.
 
@@ -21,7 +28,7 @@ RABIES provides several capabilities that distinguish it from other segmentation
 
 Another distinguishing feature is the built-in support for multispectral segmentation, allowing the integration of multiple MRI contrasts (T1-weighted, T2-weighted, FLAIR, PD) to improve segmentation accuracy. This is particularly important for lesion segmentation, where different tissue types may have similar intensities in a single contrast but become distinguishable when multiple contrasts are combined. The framework also includes tools for longitudinal analysis, enabling tracking of lesion load changes over time within individuals.
 
-The software provides automated processing pipelines that integrate preprocessing steps including bias field correction, intensity normalization, and registration to standard space. These pipelines are designed to be modular, allowing users to substitute specific preprocessing steps while retaining the core Bayesian segmentation engine. RABIES outputs results in standard NIfTI format, facilitating integration with downstream analysis tools including [[mrtrix3-connectome]] and connectivity analysis packages.
+The software provides automated processing pipelines that integrate preprocessing steps including bias field correction, intensity normalization, and registration to standard space. These pipelines are designed to be modular, allowing users to substitute specific preprocessing steps while retaining the core Bayesian segmentation engine. RABIES outputs results in standard [[nifti]] format, facilitating integration with downstream analysis tools including [[mrtrix3-connectome]] and [[connectivity]] analysis packages.
 
 ## Relationship to TVB
 
@@ -34,3 +41,9 @@ The software's uncertainty estimates align well with TVB's framework for handlin
 RABIES occupies a similar analytical niche as other segmentation tools in the neuroimaging ecosystem, though its Bayesian methodology distinguishes it from many alternatives. The closest functional equivalents include [[ants]] (Advanced Normalization Tools), which provides segmentation through the ANTsSyN algorithm and includes the Atropos segmentation module; [[fmriprep]], which offers automated preprocessing alongside segmentation capabilities; and [[brainvisa]], which provides comprehensive cortical reconstruction through probabilistic labeling based on Bayesian inference combined with anatomical constraints.
 
 For whole-brain parcellation, RABIES can be used in combination with [[brain-parcellations]] such as the [[schaefer-atlas]], [[glasser-atlas]], or [[desikan-killiany-atlas]] to produce study-specific parcellations that incorporate lesion information. The output formats are compatible with connectomics tools including [[bctpy]] (Brain Connectivity Toolbox) for [[functional-connectivity]] analysis and [[mrtrix3-connectome]] for tractography-based connectivity.
+
+## References
+
+1. Ritter et al. (2013). *[[tvb|The Virtual Brain]] integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
+2. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+3. (authors unknown). *[[nighres]]: processing tools for high-resolution neuroimaging*.

@@ -34,6 +34,7 @@ from ralph_config import (
     ENTITIES_DIR, CONCEPTS_DIR, COMPARISONS_DIR,
     META_DIR, get_all_pages, read_page, get_sources,
     run_pi, WRITER_MODEL, git_commit, append_log,
+    get_fulltext,
 )
 
 log = get_logger("Matcher")
@@ -552,7 +553,7 @@ def find_candidates(top_n: int = TOP_CANDIDATES,
 # ── LLM Evaluation ────────────────────────────────────────────────────
 
 def load_paper_abstract(paper_slug: str) -> str:
-    """Load the title and first ~200 words of a paper's content."""
+    """Load the title, abstract, and (if available) full-text excerpt for a paper."""
     paper_path = os.path.join(RAW_PAPERS_DIR, f"{paper_slug}.md")
     if not os.path.exists(paper_path):
         return f"(paper file not found: {paper_slug})"
@@ -572,9 +573,14 @@ def load_paper_abstract(paper_slug: str) -> str:
                     title = m.group(1).strip('"\'')
                 text = text[end + 4:]
 
-        # Take first ~200 words of body
+        # Take first ~200 words of body (abstract)
         words = text.split()[:200]
         body = ' '.join(words)
+
+        # Include full-text excerpt if available
+        ft = get_fulltext(paper_slug, max_chars=8000)
+        if ft:
+            return f"Title: {title}\nAbstract: {body}\n\nFull Text Excerpt:\n{ft}"
         return f"Title: {title}\nAbstract: {body}"
     except Exception as e:
         return f"(error reading {paper_slug}: {e})"

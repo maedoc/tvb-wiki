@@ -1,0 +1,1310 @@
+                                                                                                                   METHODS ARTICLE
+                                                                                                                         published: 11 June 2013
+NEUROINFORMATICS                                                                                                   doi: 10.3389/fninf.2013.00010
+
+
+
+The Virtual Brain: a simulator of primate brain network
+dynamics
+Paula Sanz Leon 1*, Stuart A. Knock 2 , M. Marmaduke Woodman 1 , Lia Domide 3 , Jochen Mersmann 4 ,
+Anthony R. McIntosh 5 and Viktor Jirsa 1*
+1
+  Institut de Neurosciences des Systèmes, Aix Marseille Université, Marseille, France
+2
+  Department of Neurology, BrainModes Group, Charité University of Medicine, Berlin, Germany
+3
+  Codemart, Cluj-Napoca, Romania
+4
+  CodeBox GmbH, Stuttgart, Germany
+5
+  Rotman Research Institute at Baycrest, Toronto, ON, Canada
+
+
+
+Edited by:                             We present The Virtual Brain (TVB), a neuroinformatics platform for full brain network
+Daniele Marinazzo, University of       simulations using biologically realistic connectivity. This simulation environment enables
+Gent, Belgium
+                                       the model-based inference of neurophysiological mechanisms across different brain scales
+Reviewed by:
+                                       that underlie the generation of macroscopic neuroimaging signals including functional
+Ingo Bojak, University of Reading,
+UK                                     MRI (fMRI), EEG and MEG. Researchers from different backgrounds can benefit from
+Hans Ekkehard Plesser, Norwegian       an integrative software platform including a supporting framework for data management
+University of Life Sciences, Norway    (generation, organization, storage, integration and sharing) and a simulation core written
+Laurent U. Perrinet, Centre National
+de la Recherche Scientifique, France
+                                       in Python. TVB allows the reproduction and evaluation of personalized configurations of
+                                       the brain by using individual subject data. This personalization facilitates an exploration
+*Correspondence:
+Paula Sanz Leon and Viktor Jirsa,      of the consequences of pathological changes in the system, permitting to investigate
+Institut de Neurosciences des          potential ways to counteract such unfavorable processes. The architecture of TVB supports
+Systèmes, Aix Marseille                interaction with MATLAB packages, for example, the well known Brain Connectivity
+Université, 27, Bd. Jean Moulin,
+13005 Marseille, France
+                                       Toolbox. TVB can be used in a client-server configuration, such that it can be remotely
+e-mail: paula.sanz-leon@univ-amu.fr;   accessed through the Internet thanks to its web-based HTML5, JS, and WebGL graphical
+viktor.jirsa@univ-amu.fr               user interface. TVB is also accessible as a standalone cross-platform Python library and
+                                       application, and users can interact with the scientific core through the scripting interface
+                                       IDLE, enabling easy modeling, development and debugging of the scientific kernel. This
+                                       second interface makes TVB extensible by combining it with other libraries and modules
+                                       developed by the Python scientific community. In this article, we describe the theoretical
+                                       background and foundations that led to the development of TVB, the architecture and
+                                       features of its major software components as well as potential neuroscience applications.
+                                       Keywords: connectome, neural masses, time delays, full-brain network model, virtual brain, large-scale simulation,
+                                       web platform, python
+
+
+
+
+1. INTRODUCTION                                                                1992; Hämäläinen et al., 1993; Mosher et al., 1999), and func-
+Brain function is thought to emerge from the interaction of                    tional Magnetic Resonance Imaging (fMRI) (Ogawa et al., 1993,
+large numbers of neurons, under the spatial and temporal con-                  1998; Logothetis et al., 2001) to assess brain dynamics and evalu-
+straints of brain structure and cognitive demands. Contemporary                ate diagnostic and therapeutic strategies. Hence, there is a strong
+network simulations mainly focus on the microscopic and meso-                  motivation to develop an efficient, flexible, neuroinformatics
+scopic level (neural networks and neural masses representing                   platform on this macroscopic level of brain organization for
+a particular cortical region), adding detailed biophysical infor-              reproducing and probing the broad repertoire of brain dynamics,
+mation at these levels of description while too often losing                   enabling quick data analysis and visualization of the results.
+perspective on the global dynamics of the brain. On the other                     The Virtual Brain (TVB) is our response to this need. On the
+hand, the degree of assessment of global cortical dynamics,                    one hand, it provides a general infrastructure to support multi-
+across imaging modalities, in human patients and research sub-                 ple users handling various kinds of empirical and simulated data,
+jects has increased significantly in the last few decades. In                  as well as tools for visualizing and analyzing that data, either via
+particular, cognitive and clinical neuroscience employs imag-                  internal mechanisms or by interacting with other computational
+ing methods of macroscopic brain activity such as intracere-                   systems such as MATLAB. At the same time it provides a simula-
+bral measurements, stereotactic Encephalography (sEEG) (von                    tion toolkit to support a top–down modeling approach to whole
+Ellenrieder et al., 2012), Electroencephalography (EEG) (Nunez                 brain dynamics, where the underlying network is defined by its
+and Srinivasan, 1981; Nunez, 1995; Niedermeyer and Lopes                       structural large-scale connectivity and mesoscopic models that
+Da Silva, 2005), Magnetoencephalography (MEG) (Hämäläinen,                     govern the nodes’ intrinsic dynamics. The interaction with the
+
+
+
+Frontiers in Neuroinformatics                                     www.frontiersin.org                                  June 2013 | Volume 7 | Article 10 | 1
+Sanz Leon et al.                                                                                      The Virtual Brain: a brain dynamics simulator
+
+
+
+
+dynamics of all other network nodes happens through the con-             from CoCoMac neuroinformatics database (Kötter, 2004; Kötter
+nectivity matrix via specific connection weights and time delays,        and Wanke, 2005; Bakker et al., 2012). In TVB, the tract-lengths
+where the latter make a significant contribution to the biological       matrix of the demonstration connectivity dataset is symmetric
+realism of the temporal structure of dynamics.                           due to the fiber detection techniques used to extract the infor-
+    Historically, Jirsa et al. (2002) first demonstrated neural field    mation being insensitive to directionality. On the other hand,
+modeling on a spherical brain hemisphere employing EEG and               the weights matrix is asymmetric as it makes use of directional
+MEG forward solutions to obtain simulation imaging signals. In           information contained in the tracer studies of the CoCoMac
+this work, homogeneous (translationally invariant) connectivity          database. Such details are specific to the connectivity demonstra-
+was implemented along the lines of Jirsa and Haken (1996, 1997);         tion dataset included in the distribution packages of TVB. The
+Bojak and Liley (2010) yielding a neural field equation, which           symmetry (or lack thereof) is neither a modeling constraint nor
+has its roots in classic works (Wilson and Cowan, 1972, 1973;            an imposed restriction on the weights and tract-length matrices.
+Nunez, 1974; Amari, 1975, 1977). At that time more detailed              The general implementation for weights and tract lengths are full
+large-scale connectivity of the full primate brain was unavail-          nodes × nodes matrices without any symmetry restrictions.
+able, hence the homogeneous connectivity scaled up to the full               Two types of structural connectivity are distinguished in TVB,
+brain was chosen as a first approximation (Nunez, 1974). The             that is long- and short-range connectivity, given by the connec-
+approach proved successful for the study of certain phenomena            tivity matrix and the folded cortical surface, respectively. The
+as observed in large-scale brain systems including spontaneous           connectivity matrix defines the connection strengths and time
+activity (Wright and Liley, 1995; Robinson et al., 2001, 2003;           delays via finite signal transmission speed between two regions
+Breakspear et al., 2003; Rowe et al., 2004; Freyer et al., 2011),        of the brain. The cortical surface allows a more detailed spa-
+evoked potentials (Rennie et al., 1999, 2002), anesthesia (Liley         tial sampling resulting in a spatially continuous approximation
+and Bojak, 2005), epilepsy (Breakspear et al., 2006), sensori-           of the neural activity as in neural field modeling (Deco et al.,
+motor coordination (Jirsa and Haken, 1996, 1997), and more               2008; Coombes, 2010; Bressloff, 2012). When using neural mass
+recently, plasticity (Robinson, 2011) [see Deco et al. (2008) and        models, building the network upon the surface allows for the
+Jirsa (2004) for a review].                                              application of arbitrary local connectivity kernels which rep-
+    Careful review of this literature though shows that these mod-       resent short-range intra-cortical connections. Additionally, net-
+els mostly emphasize the temporal domain of brain organization,          works themselves can be defined at two distinct spatial scales
+but leave the spatiotemporal organization untouched. This may            yielding two types of simulations (or brain network models):
+be understood by the fact that the symmetry of the connectivity          surface-based and region-based. In the former case, cortical and
+imposes constraints upon the range of the observable dynamics.           sub-cortical areas are shaped more realistically, each vertex of the
+This was pointed out early by Jirsa et al. (2002) and a sug-             surface is considered a node and is modeled by a neural popula-
+gestion was made to integrate biologically realistic DTI based           tion model; several nodes belong to a specific brain region, and
+connectivity into full brain modeling efforts. Large scale brain         the edges of the network have a distance of the order of a few
+dynamics are basically expected to reflect the underlying anatomi-       millimeters. The influence of delayed activity coming from other
+cal connectivity between brain areas (Bullmore and Sporns, 2009;         brain regions is added to the model via the long-range connectiv-
+Deco et al., 2011), even though structural connectivity is not the       ity. In the latter case of nodes only per region, the connectome
+only constraint, but the transmission delays play an essential role      itself is used as a coarser representation of the brain network
+in shaping the brain network dynamics also (Jirsa and Kelso,             model. The networks comprise discrete nodes, each of which
+2000; Ghosh et al., 2008; Knock et al., 2009; Jirsa et al., 2010).       models the neural population activity of a brain region and the
+Recent studies (Pinotsis et al., 2012) have systematically inves-        edges represent the long-range connectivity (interregional fibers)
+tigated the degree to which homogeneous approximations may               on the order of a few centimeters. Consequently, in surface-based
+serve to understand realistic connection topologies and have con-        simulations both types of connectivity, short- and long-range,
+cluded that homogeneous approximations are more appropriate              coexist whereas in region-based simulations one level of geometry
+for mesoscopic descriptions of brain activity, but less well suited      is lost: the short-range connectivity.
+to address full brain network dynamics. All this underscores the             Neural field models have been developed over many years
+need to incorporate realistic connectivity into large scale brain        for their ability to capture the collective dynamics of relatively
+network models. Thus the simulation side of TVB has evolved out          large areas of the brain in both analytically and computationally
+of a research program seeking to identify and reproduce realistic        tractable forms (Beurle, 1956; Wilson and Cowan, 1972, 1973;
+whole brain network dynamics, on the basis of empirical connec-          Nunez, 1974; Amari, 1975, 1977; Wright and Liley, 1995; Jirsa and
+tivity and neural field models (Jirsa and Stefanescu, 2010; Deco         Haken, 1996, 1997; Robinson et al., 1997; Jirsa et al., 2002; Atay
+et al., 2011).                                                           and Hutt, 2006; Bojak and Liley, 2010). Effectively neural field
+                                                                         equations are tissue level models that describe the spatiotempo-
+1.1. MODELING                                                            ral evolution of coarse grained variables such as synaptic voltage
+In line with these previous studies, TVB incorporates a biologi-         or firing rate activity in populations of neurons. Some of these
+cally realistic, large-scale connectivity of brain regions in the pri-   models include explicit spatial terms while others are formulated
+mate brain. Connectivity is mediated by long-range neural fiber          without an explicit spatial component leaving open the possibil-
+tracts as identified by tractography based methods (Hagmann              ity to apply effectively arbitrary local connectivity kernels. The
+et al., 2008; Honey et al., 2009; Bastiani et al., 2012), or obtained    lumped representation of the dynamics of a set of similar neurons
+
+
+
+Frontiers in Neuroinformatics                                www.frontiersin.org                              June 2013 | Volume 7 | Article 10 | 2
+Sanz Leon et al.                                                                                       The Virtual Brain: a brain dynamics simulator
+
+
+
+
+via a common variable (e.g., mean firing rate and mean postsy-           clinicians could use their patient’s data obtained from DTI stud-
+naptic potential) is known as neural mass modeling (Freeman,             ies). In addition, it enables them to gain a deeper understanding
+1975, 1992; Lopes da Silva et al., 1974). Neural mass models             of the theoretical approaches behind the scenes. On the other
+accounting for parameter dispersion in the neuronal parame-              hand, theoreticians can design their own models and get an idea
+ters include Assisi et al., 2005; Stefanescu and Jirsa, 2008, 2011;      of their biophysical realism, their potential physiological applica-
+Jirsa and Stefanescu, 2010. Networks of neural masses, with-             tions and implications. As both kinds of users may work within
+out an explicit spatial component within the mass but with the           the same framework, the interplay of theory and experiment
+possibility to apply local connectivity kernels (e.g., Gaussian or       or application is accelerated. Additionally, users with stronger
+Laplacian functions) between masses, can be used to approximate          programming skills benefit from all the advantages provided by
+neural field models. Both neural field and neural mass model-            the Python programming language: easy-to-learn, easy-to-use,
+ing approaches embody the concept from statistical physics that          scriptable and with a large choice of scientific modules (Oliphant,
+macroscopic physical systems obey laws that are independent of           2006).
+the details of the microscopic constituents of which they are built          TVB has been principally built in the Python programming
+(Haken, 1983). These and related ideas have been exploited in            language due to its unique combination of flexibility, existing
+neurosciences (Kelso, 1995; Buzsaki, 2006).                              libraries and the ease with which code can be written, docu-
+    In TVB, our main interest lies in using the mesoscopic laws          mented, and maintained by non-programmers. The simulation
+governing the behavior of neural populations and uncovering              core, originally developed in MATLAB, was ported to Python
+the laws driving the processes on the macroscopic brain network          given its current significance in the numerical computing and
+scale. The biophysical mechanisms available to microscopic single        neuroscience community and its already proven efficiency for
+neuron approaches are absorbed in the mean field parameters on           implementing modeling tools (Spacek et al., 2008).
+the mesoscopic scale and are not available for exploration other             Simulations benefit from vectorized numerical computations
+than through variation of the mean field parameters themselves.          with NumPy arrays and are enhanced by the use of the num-
+As a consequence, TVB represents a neuroinformatics tool that is         expr package. Although this allows rather efficient single simu-
+designed to aid in the exploration of large-scale network mecha-         lations, the desire to systematically explore the parameter spaces
+nisms of brain functioning [see Ritter et al. (2013) for an example      of the neural dynamic models, and to compare many connectiv-
+of modeling with TVB].                                                   ity matrices, has lead to the implementation of code generation
+    Furthermore, TVB’s approach to multi-modal neuroimaging              mechanisms for the majority of the simulator core—producing
+integration in conjunction with neural field modeling shares             C code for both native CPU and also graphics processing units
+common features with the work of Bojak et al. (2010, 2011) and           (GPU), leading to a significant speed up of parameter sweeps and
+Babajani-Feremi and Soltanian-Zadeh (2010). The crucial differ-          parallel simulations (5x from Python to C, 40x from C to GPU).
+ence is that the structure upon which TVB has been designed rep-         Such graphics units have become popular in scientific computing
+resents a generalized large-scale “computational neural model” of        for their relatively low price and high computing power. Going
+the whole brain. The components of this large-scale model have           forward, the GPU implementation of TVB will require testing and
+been separated as cleanly as possible, and a specific structure has      optimization before placing it in the hands of users.
+been defined for the individual components. This generic struc-              This article intends to give a comprehensive but non-
+ture is intended to serve the purpose of restricting the form of         exhaustive description of TVB, from both technical and scientific
+models enough to make direct comparison straight forward while           points of view. It will describe the framework’s architecture, the
+still permitting a sufficiently large class of models to be expressed.   simulation core, and the user interfaces. It will also provide
+Likewise, the paradigms presented during the last few years in this      two examples, using specific features of the simulator, extracted
+line of research (Sotero et al., 2007; Sotero and Trujillo-Barreto,      from the demo scripts which are currently available in TVB’s
+2008) could potentially be reproduced, tested and compared in            distribution packages.
+TVB. The mathematics underlying our model-based approach
+have been partially described in various original articles (Deco         2. TVB ARCHITECTURE
+et al., 2011; Deco and Jirsa, 2012) and will be reviewed in more         The architectural model of the system has two main components:
+detail in future articles.                                               the scientific computing core and the supporting framework with
+                                                                         its graphical user interface. Both software components communi-
+1.2. INFORMATICS                                                         cate through an interface represented by TVB-Datatypes, which
+From an informatics perspective, a large-scale simulation project        are described in section 2.2. In Figure 1 TVB’s architectural details
+requires a well defined yet flexible workflow, i.e., adaptable           are illustrated and explained in more depth.
+according to the users profiles. A typical workflow in TVB
+involves managing project information, uploading data, setting           General aspects: TVB is designed for three main deployment con-
+up simulation parameters (model, integration scheme, output              figurations, according to the available hardware resources: (1)
+modality), launching simulations (in parallel if needed), ana-           Stand Alone; (2) Client-Server or, (3) Cluster. In the first, a local
+lyzing and visualizing, and finally storing results and sharing          workstation is assumed to have certain display, computing power
+output data.                                                             and storage capacity resources. In the second, an instance of
+   The web interface allows users without programming knowl-             TVB is running on a server connected through a network link
+edge to access TVB to perform customized simulations (e.g.,              to client units, and thus accessible to a certain number of users.
+
+
+
+Frontiers in Neuroinformatics                                www.frontiersin.org                               June 2013 | Volume 7 | Article 10 | 3
+Sanz Leon et al.                                                                                              The Virtual Brain: a brain dynamics simulator
+
+
+
+
+ FIGURE 1 | The Virtual Brain Architecture: TVB provides two                  “active data” in the sense that, when TVB is configured with a database,
+ independent interfaces depending on the interaction with users.              data contained in TVB-Datatypes instances are automatically persistent.
+ Blocks in the back-end are transparently used by different top application   Currently the console interface works without the storage layer, keeping
+ layers. TVB-Datatypes, are the common language between different             the results just in memory. S-Users need to manually handle data import
+ components (analyzers, visualizers, simulator, uploaders). They represent    and export operations.
+
+
+
+In this deployment model, simulations use the back-end server’s               after completing a validation procedure that includes: adding a
+computing power while visualization tasks use resources from                  corresponding automated unit-test, labeling the task as finished
+the client machine. The third is similar to the client-server con-            from the team member assigned to implement the task and fur-
+figuration, but with the additional advantage of parallelization              ther tagging as closed from a team member responsible for the
+support in the back-end. The cluster itself needs to be configured            module, which means a second level of testing. Before releas-
+separately of TVB.                                                            ing stable packages, there is a period for manual testing, that
+   Based on the usage scenarios and user’s level of program-                  is, a small group of selected users from different institutions
+ming knowledge, two user profiles are represented: a graphical                check the main features and functionalities through both inter-
+user (G-user) and scripting user (S-user). We therefore provide               faces. The navigation and workflows scenarios through the web-
+the corresponding main interfaces based on this classification: a             based interface are evaluated by means of automated integration
+graphical user interface (web) and a scripting interface (IDLE).              tests for web-applications running with Selenium (http://docs.
+S-users and G-users have different levels of control over different           seleniumhq.org/) and Apache-JMeter (http://jmeter.apache.org/)
+parts of the system. The profile of S-users is thought to be that of          on top of a browser engine. Special effort is being made to provide
+scientific developers, that is, researchers who can elaborate com-            good code-coverage, including regression tests. Accordingly, the
+plex modeling scenarios, add their own models or directly modify              simulation engine of TVB has automated unit-tests, to guarantee
+the source code to extend the scientific core of TVB, mostly work-            the proper and coordinated functioning of all the modules, and
+ing with the scientific modules. They do, nevertheless, have the              simple programs (demonstration scripts), that permit qualitative
+possibility to enable the database system. In contrast, G-users               evaluation of the scientific correctness of results.
+are relatively more constrained to the features available in the                  The development version of TVB is currently hosted on a
+stable releases of TVB, since their profile corresponds more to               private cluster, where we use the version control system svn
+that of researchers without a strong background in computational              (subversion). Additionally, as any large collaborative open-source
+modeling. The distinction between these two profiles is mainly a              project, it is also available in a public repository, using the dis-
+categorization due to the design architecture of TVB. For instance,           tributed version control system git (Chacon, 2009) to make
+we could also think of other type of users who want to work with              accessible the scientific core and to gather, manage and inte-
+TVB’s GUI and are comfortable with programming, and there-                    grate contributions from the community. The distribution pack-
+fore they could potentially make modifications in the code and                ages for TVB come with an extensive documentation, including:
+then see the effect of those when launching the application in a              a User Guide, explaining how to install TVB, set up models
+web browser.                                                                  and run them; Tutorials, Use Cases and Script Demos, guid-
+   The development of TVB is managed under Agile tech-                        ing users to achieve predefined simulation scenarios; and a
+niques. In accord therewith, each task is considered as done,                 Developer Guide and API reference. Table 1 provides the links
+
+
+
+Frontiers in Neuroinformatics                                      www.frontiersin.org                                June 2013 | Volume 7 | Article 10 | 4
+Sanz Leon et al.                                                                                        The Virtual Brain: a brain dynamics simulator
+
+
+
+
+Table 1 | TVB links.                                                      as parameter exploration facilities which can launch simulations
+                                                                          in parallel on a cluster or on multiple compute cores of a server.
+TVB official website        http://www.thevirtualbrain.org                The GUI of TVB has six main working areas: USER, PROJECT,
+Distribution packages       http://www.thevirtualbrain.org/register       SIMULATOR, ANALYZE, STIMULUS, and CONNECTIVITY.
+Public repository           https://github.com/the-virtual-brain          In USER, the users manage their accounts and TVB settings.
+User group                  https://groups.google.com/group/tvb-users/    In PROJECT, individual projects are managed and navigation
+                                                                          tools are provided to explore their structure as well as the data
+                                                                          associated with them. A sub-menu within this area provides
+to: the official TVB website, where distribution packages for Linux       a dashboard with a list of all the operations along with their
+and Mac OS (32 and 64 bits) and Windows (32 bits) are avail-              current status (running, error, finished), owner, wall-time and
+able for download; the active users group of TVB hosted in                associated data, among other information. In SIMULATOR the
+Google Groups, where users can ask questions, report issues and           large-scale network model is set up and simulations launched,
+suggest improvements or new features; and the public reposi-              additional viewers for structural and functional data are offered
+tory, where the source code of both the framework and scien-              in 2D and 3D, as well as other displays to visualize the results
+tific library (which contains the simulation engine) are avail-           of a simulation. A history of simulations is also available in this
+able.                                                                     area. In ANALYZE time-series and network analysis methods
+                                                                          are provided. In STIMULUS, users can interactively create stim-
+Installation and System Requirements: When using the web
+                                                                          ulation patterns. Finally, in CONNECTIVITY, users are given
+interface, users are recommended to have a high definition mon-
+                                                                          a responsive interface to edit the connectivity matrices assisted
+itor (at least 1600 × 1000 pixels), a WebGL and WebSockets
+                                                                          by interactive visualization tools. Figure 2 depicts the different
+compatible browser (latest versions of Mozilla Firefox, Apple
+                                                                          working areas, as well as a number of their sub-menus, avail-
+Safari or Google Chrome), and a WebGL-compatible graphics
+                                                                          able through the web UI. A selection of screenshots illustrating
+card, that supports OpenGL version 2.0 or higher (Shreiner et al.,
+                                                                          the interface in a web browser is given in Figure 3.
+2005).
+   Regarding memory and storage capacity, for a stand alone               2.1.2. Data management and exchange
+installation a minimum of 8 GB of RAM is recommended. For                 One of the goals of TVB is to allow researchers from differ-
+multi-users environments 5 GB of space per user is suggested.             ent backgrounds and with different programming skills to have
+This is a storage quota specified by an administrator to manage           quick access to their simulated data. Data from TVB can be
+the maximum hard disk space per user. As for computing power              exchanged with other instances of TVB (copies installed on differ-
+one CPU core is needed for a simulation with a small number               ent computers) or with other applications in the neuroscientific
+of nodes, while simulations with a large number of nodes, such            community, e.g., MATLAB, Octave, The Connectome ToolKit
+as surface simulations, can make use of a few cores if they are           (Gerhard et al., 2011).
+available. When the number of launched simulations is larger
+than the number of available cores, a serialization is recom-             Export: A project created within TVB can be entirely exported
+mended (a serialization mechanism is provided by the supporting           to a .zip file. Besides storing all the data generated within a par-
+framework through the web user interface by specifying the max-           ticular project in binary files, additional XML files are created to
+imum of simultaneous jobs allowed). In order to use the Brain             provide a structured storage of metadata, especially with regard to
+Connectivity Toolbox (Rubinov and Sporns, 2010), MATLAB or                the steps taken to set up a simulation, configuration parameters
+Octave should be installed, activated and accessible for the current      for specific operations, time-stamps and user account informa-
+user.                                                                     tion. This mechanism produces a summary of the procedures
+                                                                          carried on by researchers within a project which is used for shar-
+2.1. TVB FRAMEWORK                                                        ing data across instances of TVB. The second export mechanism
+The supporting framework provides a database back-end, work-              allows the export of individual data objects. The data format used
+flow management and a number of features to support collab-               in TVB is based on the HDF5 format (The HDF Group, 2010)
+orative work. The latter feature permits TVB to be setup as               because it presents a number of advantages over other formats:
+a multi-user application. In this configuration, a login system           (1) huge pieces of data can be stored in a condensed form; (2)
+enables users to access their personal sessions; by default their         it allows grouping of data in a tree structure; (3) it allows meta-
+projects and data are private, but they can be shared with other          data assignment at every level; and (4) it is a widely used format,
+users. The graphical user interface (GUI) is web based, making            accessible in several programming languages and applications.
+use of HTML 5, WebGL, CSS3 and Java Script (Bostock et al.,               Additionally, each object in TVB has a global unique identifier
+2011) tools to provide an intuitive and responsive interface that         (GUID) which makes it easy to identify an object across systems,
+can be locally and remotely accessed.                                     avoiding naming conflicts among files containing objects of the
+                                                                          same type.
+2.1.1. Web-based GUI
+TVB provides a web-based interactive framework to generate,               Import: A set of mechanisms (“uploaders”) is provided in TVB
+manipulate and visualize connectivity and network dynamics.               to import data into the framework, including neuroimaging data
+Additionally, TVB comprises a set of classic time-series analysis         generated independently by other applications. The following for-
+tools, structural and functional connectivity analysis tools, as well     mats are supported: NIFTI-1 (volumetric time- series), GIFTI
+
+
+
+Frontiers in Neuroinformatics                                  www.frontiersin.org                              June 2013 | Volume 7 | Article 10 | 5
+Sanz Leon et al.                                                                                                   The Virtual Brain: a brain dynamics simulator
+
+
+
+
+ FIGURE 2 | Main working areas of The Virtual Brain ’s web interface: in        respectively in SIMULATOR. In this area results can be immediately analyzed
+ USER personal information (account settings) as well as hardware and           and visualized to have a quick overview of the current model. A history of
+ software preferences (technical settings) are configured. Through the          launched simulations is kept to have the traceability of any modifications that
+ PROJECT area users access and organize their projects, data, figures and the   took place in the simulation chain. STIMULUS provides a collection of tools
+ operations dashboard. Input and output simulated data can be exported in       to build stimulation patterns that will be available to use in the simulations.
+ HDF5 format and may be used outside of the framework. Brain network            Finally, CONNECTIVITY provides an interactive environment to the edit and
+ models and execution of simulations are configured and launched,               visualize connectivity matrices.
+
+
+
+(surfaces) and CFF (connectome file). General compression for-                  files generated during that particular operation, and one XML
+mats, such as ZIP and BZIP2 are also supported for certain                      file describing the operation itself. The XML contains tags like
+data import routines that expect a set of ASCII text files com-                 creation date, operation status (e.g., Finished, Error), algorithm
+pressed in an archive. Hence the use of general compression                     reference, operation GUID, and most importantly input param-
+formats means that preparing datasets for TVB is as simple as                   eters dictionary. Sufficiently detailed information is stored in
+generating an archive with the correct ASCII files, in contrast                 the file system to be able to export data from one instance
+to some of the other neuroscientific data formats found else-                   of TVB and to then import it into another instance, correctly
+where. For instance, a Connectivity dataset (connectome) may be                 recreating projects, including all operations and their results.
+uploaded as a zip folder containing the following collection of                 Even though the amount of data generated per operation varies
+files: (1) areas.txt, (2) average_orientations.txt, (3) info.txt, (4)           greatly, since it depends strongly on the Monitors used and
+positions.txt, (5) tract_lengths.txt, and (6) weigths.txt. More con-            parameters of the simulation, some rough estimates are given
+ventions and guidelines to use each uploader routine can be found               below:
+in the User Guide of TVB’s documentation.
+                                                                                • A 1000 ms long, region-based simulation with all the default
+2.1.3. File storage                                                               parameters requires approximatively 1 MB of disk space.
+The storage system is a tree of folders and files. The actual                   • A 10 ms long, surface-based simulation, using a precalculated
+location on disk is configurable by the user, but the default                     sparse matrix to describe the local connectivity kernel and all
+is a folder called “TVB” in the user’s home folder. There is a                    the default parameters, requires about 280 MB.
+sub-folder for each Project in which an XML file containing
+details about the project itself is stored. Then for each opera-                Users can manually remove unused data using the correspond-
+tion, one folder per operation is created containing a set of .h5               ing controls in TVB’s GUI. In this case, all files related to these
+
+
+
+Frontiers in Neuroinformatics                                      www.frontiersin.org                                      June 2013 | Volume 7 | Article 10 | 6
+Sanz Leon et al.                                                                                                     The Virtual Brain: a brain dynamics simulator
+
+
+
+
+ FIGURE 3 | UI screenshots. (A) SIMULATOR Area. Having multiple panels          interface for editing and visualising the structural connectivity, for one of the
+ allows a quick overview of previous simulations (left), model parameters for   six possible connectivity visualisations. (C) PROJECT Area—operations
+ the currently selected simulation (middle), and summary displays of the data   dashboard. On the left column, users can compose filters to search through
+ associated with the currently selected simulation (right). (B) Shows the       all the operations on the list.
+
+
+
+
+data are also deleted, freeing disk space. The amount of phys-                  due to size. A relational database was chosen as it provides
+ical storage space available to TVB can be configured in the                    speed when filtering entities and navigating entity relationship
+USER → Settings working area of the GUI—this is, of course,                     trees.
+limited by the amount of free space available on the users
+hard drives.                                                                    2.2. TVB DATATYPES
+                                                                                In the architecture of TVB, a middleware layer represented by
+2.1.4. Database management system                                               TVB-Datatypes allows the handling and flow of data between the
+Internally, TVB framework uses a relational database (DB),                      scientific kernel and the supporting framework. TVB-Datatypes
+for ordering and linking entities and as an indexing facil-                     are annotated data structures which contain one or more data
+ity to quickly look up data. At install time, users can choose                  attributes and associated descriptive information, as well as meth-
+between SQLite (a file based database and one of the most                       ods for operating on the data they contain. The definition
+used embedded DB systems) and PostgreSQL (a powerful,                           of a Datatype is achieved using TVB’s traiting system, which
+widely spread, open-source object-relational DB system which                    was inspired by the traiting system developed by Enthought
+requires a separate installation by users) as the DB engine.                    (Enthought, 2001). The traiting system of TVB, among other
+In the database, only references to the entities are stored,                    things, provides a mechanism for annotating data, that is, associ-
+with the actual operation results always being stored in files,                 ating additional information with the data which is itself usually
+
+
+
+Frontiers in Neuroinformatics                                       www.frontiersin.org                                       June 2013 | Volume 7 | Article 10 | 7
+Sanz Leon et al.                                                                                                     The Virtual Brain: a brain dynamics simulator
+
+
+
+
+a single number or an array of numbers. A complete descrip-                      as Integer and Boolean, in its definition. An example of a
+tion of TVB’s traiting system is beyond the scope of this article.               FloatArray being used to define an attribute of a Connectivity can
+However, in describing TVB’s Datatypes we will give an example                   be seen in Code 1. The high-level Datatypes currently defined in
+of its use, which should help to provide a basic understanding of                TVB are summarized in Table 2.
+the mechanism.                                                                       An example indicating the usage and features of TVB-
+    A number of basic TVB-Datatypes are defined based on                         Datatypes is provided below. When a user uploads a connectivity
+Types that are part of the traiting system, with these traited                   dataset through the UI, an instance of a Connectivity datatype is
+Types, in turn, wrapping Numpy data types. For instance,                         generated. This Connectivity datatype is one of the required input
+TVB-FloatArray is a datatype derived from the traiting system’s                  arguments when creating an instance of S IMULATOR. As a result
+Array type, which in turn wraps Numpy’s ndarray. The trait-                      of the execution of a simulation, other TVB-Datatypes are gener-
+ing system’s Array type has attributes or annotations, such as:                  ated, for instance one or more TimeSeries datatypes. Specifically,
+dtype, the numerical type of the data contained in the array;                    if the simulation is run using the MEG and EEG recording
+label, a short (typically one or two word) description of what                   modalities then TimeSeriesMEG , TimeSeriesEEG , which
+the Array refers to, this information is used by the support-                    are subclasses of TimeSeries, are returned. Both the Connectivity
+ing framework to create a proper label for the GUI; doc, a
+longer description of what the Array refers to, allowing the
+direct integration of useful documentation into array objects; and
+default, the default value for an instance of an Array type. In                  Code 1 | An instance of TVB’s FloatArray Datatype being used to
+the case of a FloatArray, the dtype attribute is fixed as being                  define the conduction speed between brain regions as an attribute of
+numpy.float64.                                                                   a Connectivity Datatype.
+    More complex, higher-level, TVB-Datatypes are then built
+                                                                                  speed = FloatArray(
+up with attributes that are themselves basic TVB-Datatypes. For                       label = "Conduction speed",
+                                                                                      default = numpy.array([3.0]),
+example, TVB-Connectivity is datatype which includes multi-                           doc = """A single number or matrix of conduction speeds for the
+                                                                                               myelinated fibre tracts between regions.""")
+ple FloatArrays, as well as a number of other traited types, such
+
+
+Table 2 | TVB Datatypes.
+
+Base class datatype       Description                                                                  Derived classes
+
+Connectivity              Maps connectivity matrix data                                                Connectivity
+Surfaces                  Covers surface representations                                               CorticalSurface, SkinAir, BrainSkull, SkullSkin,
+                                                                                                       EEGCap, FaceSurface, Cortex, RegionMapping,
+                                                                                                       LocalConnectivity
+Volumes                   Wraps volumetric data                                                        ParcellationMask, StructuralMRI
+Sensors                   Wraps sensors data used in different acquisition techniques to               SensorsEEG, SensorsMEG, SensorsInternal
+                          generate physiological recordings
+ProjectionMatrix          Wraps matrices defining a linear operator to map the spatial sources         ProjectionRegionEEG, ProjectionSurfaceEEG,
+                          into the leadfield domain                                                    ProjectionRegionMEG
+                          It relates two datatypes: a source of type Connectivity or Surface           ProjectionSurfaceMEG
+                          and a set of Sensors
+                          The matrix is computed using OpenMEEG. (Gramfort et al., 2010)
+Equations                 Commonly used functions for defining local connectivity kernels and
+                          stimulation patterns
+SpatialPattern            Contains patterns mainly used as stimuli. It makes use of Equation           SpatioTemporalPattern, StimuliRegion,
+                          datatypes                                                                    StimuliSurface, SpatialPatternVolume
+TimeSeries                One of the most important TVB-Datatypes. Derived classes wrap                TimeSeriesRegion, TimeSeriesSurface,
+                          measurements recorded under different acquisition modalities                 TimeSeriesVolume, TimeSeriesEEG, TimeSeriesMEG
+Graph                     Wraps results from a covariance analysis or results from BCT                 Covariance, ConnectivityMeasure
+                          analyzers
+MappedValues              Wraps a single value computed from a TimeSeries object
+ModeDecomposition         Wraps results from matrix factorization analysis (i.e., PCA and ICA)         PrincipalComponents, IndependentComponents
+
+
+Spectral                  Wraps results from frequency analysis                                        FourierSpectrum, WaveletCoefficients,
+                                                                                                       ComplexCoherenceSpectrum
+
+Specifications about the requirements to build a TVB-Datatype can be found in the documentation of the distribution packages.
+
+
+
+
+Frontiers in Neuroinformatics                                       www.frontiersin.org                                         June 2013 | Volume 7 | Article 10 | 8
+Sanz Leon et al.                                                                                              The Virtual Brain: a brain dynamics simulator
+
+
+
+
+and TimeSeries datatypes are accepted by a range of appropriate                 2.3.2. Population models
+analysis and visualization methods.                                             A set of default mesoscopic neural models are defined in TVB’s
+   Further, TVB-Datatypes have attributes and metadata which                    MODELS. All these models of local dynamics are classes derived
+remains accessible after exporting in TVB format. The meta-                     from a base Model class.
+data includes a technical description of the data (storage size                     We briefly discuss the implemented population models in
+for instance) as well as scientifically relevant properties and use-            order of increasing complexity. They include a generic two
+ful documentation to properly interpret the dataset. In the shell               dimensional oscillator, a collection of classical population mod-
+interface, the attributes of TVB-Datatype can be accessed by their              els and two recently developed multi-modal neural mass models.
+key-names in the same way as Python dictionaries.                               Below, N refers to the number of state variables or equations
+                                                                                governing the evolution of the model’s temporal dynamics; M
+2.3. TVB SIMULATOR                                                              is the number of modes and by default M = 1 except for the
+The simulation core of TVB brings together a mesoscopic model                   multi-modal models.
+of neural dynamics with structural data. The latter defines both                    The Generic2dOscillator model (N = 2) is a generic
+the spatial support (see Figure 4), upon which the brain net-                   phase-plane oscillator model capable of generating a wide range
+work model is built, and the hierarchy of anatomical connectivity,              of phenomena observed in neuronal population dynamics, such
+that determines the spatial scale represented by the structural                 as multistability, the coexistence of oscillatory and non-oscillatory
+linkages between nodes (Freeman, 1975). Simulations then recre-                 dynamics, as well as displaying dynamics at multiple time
+ate the emergent brain dynamics by numerically integrating this                 scales.
+coupled system of differential equations. All these entities have                   The WilsonCowan model (Wilson and Cowan, 1972)
+their equivalent representation as classes either in the sci-                   (N = 2) describes the firing rate of a neural population con-
+entific MODULES or datatypes, and are bound together in an                      sisting of two subpopulations (one excitatory and the other
+instance of the Simulator class. In the following paragraphs                    inhibitory). It was originally derived using phenomenological
+we describe all the individual components required to build a                   arguments. This neural mass model provides an intermediate
+minimal representation of a brain network model and run a simu-                 between a microscopic and macroscopic level of description of
+lation, as well as the outline of the operations required to initialize         neural assemblies and populations of neurons since it can be
+a Simulator object and the operations of the update scheme.                     derived from pulse-coupled neurons (Haken, 2001) and its con-
+                                                                                tinuum limit resembles neural field equations (Jirsa and Haken,
+2.3.1. Coupling                                                                 1996).
+The brain activity (state variables) that has been propagated over                  The WongWang model (Wong and Wang, 2006) represents
+the long-range Connectivity pass through these functions before                 a reduced system of N = 2 coupled non-linear equations, orig-
+entering the equations of a Model describing the local dynam-                   inally derived for decision making in two-choice tasks. The
+ics. A Coupling function’s primary purpose is to rescale the                    BrunelWang model (Brunel and Wang, 2001, 2003) is a mean
+incoming activity to a level appropriate to the population model.               field model derived from integrate-and-fire spiking neurons and
+The base Coupling class as well as a number of different cou-                   makes the approximation of randomly distributed interspike
+pling functions are implemented in the COUPLING module, for                     intervals. It is notable that this population model shows only
+instance Linear and Sigmoidal.                                                  attractor states of firing rates. It has been extensively used to
+                                                                                study working memory. Its complexity resides in the number of
+                                                                                parameters that it uses to characterize each population (N = 2).
+                                                                                These parameters correspond to physical quantities that can be
+                                                                                measured in neurophysiology experiments. The current imple-
+                                                                                mentation of this model is based on the approach used in (Deco
+                                                                                and Jirsa, 2012).
+                                                                                    The JansenRit model (Jansen and Rit, 1995) is a deriva-
+                                                                                tive of the Wilson-Cowan model and features three coupled
+                                                                                subpopulations of cortical neurons: an excitatory population of
+                                                                                pyramidal cells interacting with two populations of interneu-
+                                                                                rons, one inhibitory and the excitatory. This model can produce
+                                                                                alpha activity consistent with that measured in EEG, and is
+                                                                                capable of simulating evoked potentials (Jansen et al., 1993). It
+                                                                                displays a surprisingly rich and complex oscillatory dynamics
+                                                                                under periodic stimulation (Spiegler et al., 2010). Each popu-
+ FIGURE 4 | Demonstration datasets exist in TVB for the anatomical              lation is described by a second order differential equation. As a
+ structure on which simulations are built, including a triangular mesh          consequence the system is described by a set of N = 6 first order
+ surface representation of the neocortex (A) and white matter fiber             differential equations.
+ lengths (B). However, new data from structural imaging such as MRI, DTI,
+                                                                                    The StefanescuJirsa2D and StefanescuJirsa3D
+ and DSI for individual subjects, as well as data from the literature can be
+ used and wrapped in a TVB-Datatype.
+                                                                                models (Stefanescu and Jirsa, 2008; Jirsa and Stefanescu, 2010;
+                                                                                Stefanescu and Jirsa, 2011) are neural mass models derived from a
+
+
+
+Frontiers in Neuroinformatics                                        www.frontiersin.org                              June 2013 | Volume 7 | Article 10 | 9
+Sanz Leon et al.                                                                                    The Virtual Brain: a brain dynamics simulator
+
+
+
+
+globally coupled population of neurons of a particular kind. The      datatype), i.e., a 3D state vector as a function of time. For
+first one has been derived from coupled FitzHugh-Nagumo neu-          the first kind of Monitors these dimensions correspond to
+rons (FitzHugh, 1961; Nagumo, 1962), which, with N = 2, are           [time, state variables, space, modes] where “space” can be either
+capable of displaying excitable dynamics, as well as oscillations.    brain regions or vertices of a cortical surface plus non-cortical
+The second is derived from coupled Hindmarsh-Rose neurons             brain regions. The number of state variables as well as the num-
+(Hindmarsh and Rose, 1984), which are also capable of pro-            ber of modes strictly depend on the Model. For the second kind
+ducing excitable and oscillatory dynamics, but with N = 3 have        of Monitors, the dimensions are [time, 1, sensors, 1]. The sim-
+the additional capability of displaying transient oscillations and    plest form of low-level Monitor returns all the simulated data,
+bursts. The two Stefanescu-Jirsa models show the most complex         i.e., time points are returned at the sampling rate correspond-
+repertoire of dynamics (including bursting and multi-frequency        ing to the integration scheme’s step size and all state variables
+oscillations). They have been derived using mean field tech-          are returned for all nodes. All other low-level Monitors per-
+niques for parameter dispersion (Assisi et al., 2005) and have an     form some degree of down-sampling, such as returning only a
+additional dimension, the mode M, which partitions the dynam-         reduced set state variables (by default the variables of interest of
+ics into various subtypes of population behavior. These models        a Model), or down-sampling in “space” or time. Some vari-
+are therefore composed of 12 (N = 4, M = 3) and 18 (N = 6,            ations include temporally sub-sampled, spatially averaged and
+M = 3) state variables, respectively.                                 temporally sub-sampled, or temporally averaged. The biophysical
+                                                                      Monitors instantiate a physically realistic measurement pro-
+2.3.3. Integrators                                                    cess on the simulation, such as EEG , MEG , SEEG or BOLD . For
+The base class for integration schemes is called Integrator , an      the first two, a ProjectionMatrix is also required. This matrix
+INTEGRATORS module contains this base class along with a set of       maps source activity (“space”) to sensor activity (“sensors”).
+specific integration scheme classes for solving both deterministic    OpenMEEG (Gramfort et al., 2010) was used to generate the
+and stochastic differential equations. The specific schemes imple-    demonstration projection matrix, also known as lead-field or gain
+mented for brain network simulations include the Euler and            matrix, that corresponds to the EEG/MEEG forward solution.
+Heun methods. The 4th-order Runge-Kutta (rk4) method is               The forward solution modeling the signals from depth electrodes
+only available for solving ordinary differential equations (ODEs),    is based on the point dipole model in homogeneous space (Sarvas,
+i.e., deterministic integration, given that there are various vari-   1987). The BOLD monitor is based on Buxton and Frank (1997)
+ants for the stochastic version of the method, differing rates of     and Friston et al. (2000). Figure 5 summarizes the fundamental
+convergence being one of the points that several attempts of cre-     blocks required to configure a full model, launch a simulation and
+ating a stochastic adaptation fail at [see Burrage et al. (2004)      retrieve the simulated data.
+for an overview]. Therefore, this method is available for drawing         In most neural mass models there is a state variable represent-
+example trajectories in the interactive phase-plane plot tool.        ing some type of neural activity (firing rate, average membrane
+                                                                      potential, etc.), which serves as a basis for the biophysical moni-
+2.3.4. Noise                                                          tors. The state variables used as source of neural activity depend
+Noise plays a crucial role for brain dynamics, and hence for          both on the Model and the biophysical space that it will be pro-
+brain function (McIntosh et al., 2010). The N OISE module con-        jected onto (MEG, EEG, BOLD). Given a neural mass model with
+sists of two base classes: RandomStream that wraps Numpy’s            a set of state variables, G-Users can choose which subset of state
+RandomState class and Noise. The former provides the ability          variables will be fed into a Monitor (independently for each
+to create multiple random streams which can be independently          monitor). However, how a given Monitor operates on this sub-
+seeded or set to an explicit initial state. The latter is the base    set of state variables is an intrinsic property of the monitor. Users
+class from which specific noises, such as white and colored (Fox      with programming experience can, of course, define new moni-
+et al., 1988), are derived. In TVB’s implementation Noise enters      tors according to their needs. Currently, there is not a mechanism
+as an additional term within the stochastic integration schemes,      providing automatic support for general operations over state
+and can be either an Additive or Multiplicative process               variables before they are passed to a monitor. As such, when the
+(Klöden and Platen, 1995). As well as providing a means to gener-     neural activity entering into the monitors is anything other than
+ate reproducible stochastic processes for the integration schemes,    a summation or average over state variables then it is advised to
+the related classes in NOISE are used to set the initial conditions   redefine the Model in a way that one of the state variables actually
+of the system when no explicit initial conditions are specified.      describes the neural activity of interest.
+
+2.3.5. Monitors                                                       2.3.6. Outline of the simulation algorithm
+The data from a simulation is processed and recorded while            The Simulator class has several methods to set up the
+the simulation is running, that is, while the differential equa-      spatiotemporal dimensions of the input and output arrays,
+tions governing the system are being integrated. The base class       based on configurable attributes of the individual
+for these processing and recording methods is the Monitor             components such as integration time step (e.g., INTE-
+class in the M ONITORS module. We consider two main types             GRATORS.HeunDeterministic.dt),         structural    spatial
+of online-processing: (1) raw or low-level; and (2) biophysical       support (e.g., connectivity.Connectivity or surfaces.
+or high-level. The output of a Monitor is a 4-dimensional             CorticalSurface) and transmission speed (e.g., connec-
+array (which can be wrapped in the corresponding TimeSeries           tivity.Connectivity .speed) as well as a cascade of specific
+
+
+
+Frontiers in Neuroinformatics                             www.frontiersin.org                              June 2013 | Volume 7 | Article 10 | 10
+Sanz Leon et al.                                                                                                      The Virtual Brain: a brain dynamics simulator
+
+
+
+
+ FIGURE 5 | Diagram of the configurable elements for building a brain              models defining the local dynamics define a full brain network model.
+ network model and launching a simulation. TVB can incorporate cortical            Additionally, stimulation can be applied to a simulation. The stimulation
+ connectivity information from an individual’s tractographic and cortical          patterns are built in terms of spatial and temporal equations chosen
+ geometry data. The Connectivity object contains matrices defining the             independently. For region-based network models, it is only possible to build
+ connection strengths and time delays via finite signal transmission speed         time dependent stimuli since there is not a spatial extent for a region node.
+ between all regions, while the folded Cortical Surface mesh provides the          However, node-specific weightings can be set to modulate the intensity of
+ spatial support for finer resolution models. In the latter case a Local           the stimulus applied to each node. For surface-based models, equations with
+ Coupling defines the interaction between neighboring nodes. In its simplest       finite spatial support are evaluated as a function of distance from one or more
+ form local connectivity is spatially invariant, however, support exists for       focal points (vertices of the surface), where the equation defines the spatial
+ spatial inhomogeneity. Signal propagation via local connectivity is               profile of the stimuli. The neural source activity from both region or
+ instantaneous (no time delays), which is a reasonable approximation               surface-based approaches can be projected into EEG, MEG and BOLD
+ considering the short distances involved. Together, the cortical surface with     (Buxton and Frank, 1997; Friston et al., 2000) space using a forward model
+ its local connectivity, the long-range connectivity matrix, and the neural mass   (Breakspear and Jirsa, 2007).
+
+
+
+configuration methods to interface them. The Simulator                                 step size, number of statevariables, number
+class coordinates the collection of objects from all the modules                       of modes.
+in the scientific library needed to build the network model and                     6. Set the number of nodes (region-based or surface-based
+yield the simulated data. To perform a simulation a Simulator                          simulation). If a Surface was given the number of nodes
+object needs to be: (1) configured, initializing all the individual                    will correspond to the number of vertices plus the num-
+components and calculating attributes based on the combination                         ber of non-cortical regions, otherwise it will be equal to the
+of objects passed to the Simulator instance; and (2) called in                         number of regions in the Connectivity matrix.
+a loop to obtain simulated data, i.e., to run the simulation (see                   7. Spatialise model parameters if required. Internally, TVB uses
+Code 2). The next paragraphs list the main operations of the                           arrays for model parameters, if the size of the array for a
+simulation algorithm.                                                                  particular parameter is 1, then the same numerical value is
+                                                                                       applied to all nodes. If the size of the parameter array is N,
+Initializing a Simulator                                                               where N is the number of nodes, the parameter value for each
+                                                                                       node is taken from the corresponding element of the array of
+ 1. Check if the transmission speed was provided.                                      parameter values.
+ 2. Configure the Connectivity matrix (connectome). The                             8. If applicable, configure spatial component of stimulation
+    delays matrix is computed using the distance matrix and                            Patterns (requires number of nodes).
+    the transmission speed. Get the number of regions.                              9. Compute delays matrix in integration time steps.
+ 3. Check if a Surface is provided.                                                10. Compute the horizon of the delayed state, that is the
+ 4. Check if a stimulus pattern is provided.                                           maximum delay in integration time steps.
+ 5. Configure individual components: Model, Integrator ,                           11. Set the history shape. The history state contains the activ-
+    Monitors. From here we obtain integration time                                     ity that propagates from the delayed state to the next.
+
+
+
+Frontiers in Neuroinformatics                                         www.frontiersin.org                                     June 2013 | Volume 7 | Article 10 | 11
+Sanz Leon et al.                                                                                            The Virtual Brain: a brain dynamics simulator
+
+
+
+
+12. Determine if the Integrator is deterministic or stochas-           Code 2 | Script example to simulate 1 second of brain activity. Output
+    tic. If the latter, then configure the Noise and the integration   is recorded with two different monitors.
+    method accordingly.
+                                                                       from tvb.simulator.lab import *
+13. Set initial conditions. This is the state from
+                                                                       #Initialise a Model, Connectivity and Global Coupling
+    which the simulation will begin. If none is provided, then         oscilator = models.Generic2dOscillator()
+                                                                       white_matter = connectivity.Connectivity()
+    random initial conditions are set based on the ranges of the       white_matter.speed = numpy.array([4.0]) # [mm/ms]
+                                                                       white_matter_coupling = coupling.Linear(a=0.0042)
+    model’s state variables. Random initial conditions are fed to
+                                                                       #Initialise an Integrator
+    the initial history array providing the minimal state of the       heunint = integrators.HeunDeterministic(dt=2**-4)
+    network with time-delays before t = 0. If initial conditions       #Initialise some Monitors with period in physical time
+    are user-defined but the length along the time dimension           mon_raw = monitors.Raw()
+                                                                       mon_tav = monitors.TemporalAverage(period=2**-2)
+    is shorter than the required horizon, then the history             what_to_watch = (mon_raw, mon_tav)
+
+    array will be padded using the same method of described for        #Initialise a Simulator object
+                                                                       sim = simulator.Simulator(model = oscilator,
+    random initial conditions.                                                                   connectivity = white_matter,
+                                                                                                 coupling = white_matter_coupling,
+14. Configure the monitors for the simulation. Get variables                                     integrator = heunint,
+                                                                                                 monitors = what_to_watch)
+    of interest.
+                                                                       # Configure the Simulator object
+                                                                       sim.configure()
+                                                                       LOG.info("Starting simulation...")
+Calling a Simulator                                                    raw_data, raw_time = [], []
+                                                                       tavg_data, tavg_time = [], []
+
+1. Get simulation length.                                              # Call the Simulator object -- Run simulation
+                                                                       for raw, tavg in sim(simulation_length=2**10):
+2. Compute estimates of run-time, memory usage and storage.                if not raw is None:
+                                                                               raw_time.append(raw[0])
+3. Check if a particular random state was provided (random                     raw_data.append(raw[1])
+                                                                           if not tavg is None:
+   seed). This feature is useful for reproducibility of results, for           tavg_time.append(tavg[0])
+                                                                               tavg_data.append(tavg[1])
+   instance, getting the same stream of random numbers for the         LOG.info("Finished simulation.")
+
+   Noise.
+4. Compute the number of integration steps.
+5. If the simulation is surface-based, then get attributes required    2.4. ANALYZERS AND VISUALIZERS
+   to compute Local Connectivity kernel.                               For the analysis and visualisation of simulated neuronal dynamics
+6. Update state loop:                                                  as well as imported data, such as anatomical structure and exper-
+                                                                       imentally recorded time-series, several algorithms and techniques
+   a. Get the corresponding coupled delayed activity. That is,
+                                                                       are currently available in TVB. Here we list some of the algo-
+      compute the dot product between the weights matrix
+                                                                       rithms and methods that are provided to perform analysis and
+      (connectome) and the delayed state of the coupling
+                                                                       visualization of data through the GUI.
+      variables, transformed by a (long-range) Coupling
+      function.
+   b. Update the state array. This is the numerical integration,       Analyzers are mostly standard algorithms for time-series and
+      i.e., advancing an integration time step, of the differential    network analysis. The analyzers comprise techniques wrapping
+      equations defining the neuron model. Distal delayed activ-       functions from Numpy (Fast Fourier Transform (FFT), auto-
+      ity, local instantaneous activity and stimulation are fed to     correlation, variance metrics), Scipy (cross-correlation), scikit-
+      the integration scheme.                                          learn (ICA) (Pedregosa et al., 2011) and matplotlib-mlab (PCA)
+   c. Update the history.                                              (Hunter, 2007). In addition, there are specific implementations
+   d. Push state data onto the Monitors. Yield any processed           of the wavelet transform, complex coherence (Nolte et al., 2004;
+      time-series data point if available.                             Freyer et al., 2012) and multiscale entropy (MSE) (Costa et al.,
+                                                                       2002, 2005; Lake and Moorman, 2011).
+As a working example, in Code 2, we show a code snippet which
+                                                                       Visualizers are tools designed to correctly handle specific
+uses TVB’s scripting interface and some of the classes and mod-
+                                                                       datatypes and display their content. Representations currently
+ules we have just described to generate one second of brain
+                                                                       available in the GUI include: histogram plots (Figure 6A);
+activity. The for loop in the example code allows scripting users to
+                                                                       interactive time-series plots, EEG (Figure 6C); 2D head topo-
+receive time-series data as available and separately for each of the
+                                                                       graphic maps (Figure 6B); 3D displays of surfaces and animations
+monitors processing simulated raw data. In this implementation,
+                                                                       (Figure 6D) and network plots. Additionally, for shell users there
+at each time step or certain number of steps, data can be directly
+                                                                       is a collection of plotting tools available based on matplotlib and
+stored to disk, reducing the memory footprint of the simula-
+                                                                       mayavi (Ramachandran and Varoquaux, 2011).
+tion. Such a feature is particularly useful when dealing with larger
+simulations. Likewise, data can be accessed while the simulation
+is still running, which proves to be advantageous for modeling         3. PERFORMANCE, REPRODUCIBILITY, AND FLEXIBILITY
+paradigms where one of the output signals is fed back to the net-      3.1. TESTING FOR SPEED
+work model as stimulation for instance (see the paragraph about        In the context of full brain models there is no other platform
+Dynamic modeling in section 3).                                        against which we could compare the performance results for TVB
+
+
+
+Frontiers in Neuroinformatics                              www.frontiersin.org                                     June 2013 | Volume 7 | Article 10 | 12
+Sanz Leon et al.                                      The Virtual Brain: a brain dynamics simulator
+
+
+
+
+ FIGURE 6 | Continued
+
+
+
+
+Frontiers in Neuroinformatics   www.frontiersin.org          June 2013 | Volume 7 | Article 10 | 13
+Sanz Leon et al.                                                                                              The Virtual Brain: a brain dynamics simulator
+
+
+
+
+ FIGURE 6 | Visualizers. (A) Histogram of a graph metric as a function     with the sensors positions and an interactive time-series display. (D) An
+ of nodes in the connectivity matrix. (B) A 2D projection of the head.     animated display of the spatiotemporal pattern applied to the cortical
+ The color map represents a graph metric computed on the connectivity      surface. Red spots represent the focal points of the spatial component
+ matrix. (C) EEG visualizer combines a rendered head surface, an overlay   of the stimulus.
+
+
+
+and define a good ratio run-time/real-time. As a first approxima-          Code 3 | State equations of the generic plane oscillator as scripted to
+tion a simple network of 74 nodes, whose node dynamics were                run the simulation in the Brian simulator. The description of the
+governed by the equations of the Generic2dOscillator                       parameters are explained in the API documentation and will be
+model (see Code 3) was implemented in the Brian spik-                      discussed in the context of dynamical systems elsewhere.
+ing neural network simulator. The integration step size was                # model equations
+
+0.125 ms (dt = 2−3 ms) and the simulation length was 2048 ms.              eqs = ’’’
+                                                                           dV/dt = d * tau * (alpha * W - f * V**3 + e * V**2 + I)
+                                                                           dW/dt = d * (a + b * V + c * V**2 - beta * W) / tau
+This network was evaluated without time delays and using                   ’’’
+a random sparse connectivity matrix. Execution times were
+about 4.5 s in Brian and 15 s in TVB. In contrast, when
+heterogeneous time delays were included, running times of
+the simulations implemented in Brian increased considerably                    In general, human cortical connectomes are derived from
+(approximately 6.5x) whereas in TVB they hardly changed                    anatomical parcellations with a variable number of nodes, from
+(approximately 1.2x). Simulations were run on a CPU Intel®                 less than 100 to over a few thousands nodes (Zalesky et al., 2010).
+Xeon® W3520 @ 2.67 GHz. These results, although informa-                   Preliminary results of simulations (data not shown) using con-
+tive, expose the fact that the architectures of TVB and the Brian          nectivity matrices of different sizes (16, 32, 64, 128, 256, 512,
+simulator are different and therefore they have been optimized             1024, 2048, and 4096 nodes) and a supplementary parameter
+accordingly to serve distinct purposes from a modeling point               (transmission speed that has an effect on the size of the history
+of view.                                                                   array keeping the delayed states of the network) indicate that there
+   To assess the performance of TVB in terms of simulation                 is a quadratic growth of the running times for networks with more
+timings, we also ran simulations for all possible combinations             than 512 nodes. Since performance depends on a large num-
+of two parameters: simulation length and integration time step             ber of parameters which have an effect on both memory (CPU
+(Figure 7A). We made the following estimates: it takes on aver-            cache and RAM) and CPU usage, and therefore resulting run-
+age 16 s to compute 1 s of brain network dynamics [at the region           ning times arise from the interaction between them, we see the
+level, with an integration time step of 0.0625 ms (dt = 2−4 ms)            need to develop more tests to stress in particular memory capacity
+and including time delays of the order of 20 ms which amounts to           and bandwidth in order to fully understand the aforementioned
+store about 320 past states per time step] on CPUs Intel ®Xeon             behavior.
+®X5672 @ 3.20 GHz, CPU cache of 12 MB and Linux kernel                         In Future Work we talk about the approaches to bench-
+3.1.0-1-amd64 as operating system. In Figure 7B we quantify how            mark and improve the execution times of simulations. For the
+running times increase as a function of the integration time step          present work we have restricted ourselves to present performance
+in 64 s long (region-based) simulations for two different sizes of         results looking at the parameters that have the strongest effect on
+the connectivity matrix.                                                   simulations timings.
+
+
+
+Frontiers in Neuroinformatics                                  www.frontiersin.org                                    June 2013 | Volume 7 | Article 10 | 14
+Sanz Leon et al.                                                                                             The Virtual Brain: a brain dynamics simulator
+
+
+
+
+ FIGURE 7 | (A) As expected for fixed time-step schemes, execution           and color code are the same as those displayed in the main plot.
+ times scale linearly with the number of integration steps. We used          (B) Here, execution times are shown as a function of the integration
+ seven values of simulation lengths (1, 2, 4, 8, 16, 32, and 64 s) and       time step size, dt, for two different number of nodes (solid and dashed
+ five values of integration time step (dt = 2−2 = 0.25, dt = 2−3 = 0.125,    lines correspond to connectivity matrices of 64 and 128 nodes,
+ dt = 0.0625 = 2−4 , dt = 0.03125 = 2−5 , and dt = 0.015625 = 2−6 ms). For   respectively) for a specific conduction speed (4 mm/ms) and simulation
+ each possible combination 100 simulations were performed. The network       length (64 s). Both axes are in logarithmic scale with base 2. In this
+ model consisted of 74 nodes (with two state variables and one mode          case, halving dt or doubling the number of nodes in the connectivity
+ per node). Numerical integration was based on Heun’s stochastic             matrix, N, doubles the running time. However, as mentioned in the text,
+ method. We plot the average execution time with the error bars              for larger networks execution times seem to grow quadratically as a
+ representing the standard deviation over simulations. The inset shows a     function of the number of nodes in the network. Further tests need to
+ narrower range for simulation lengths between 1 and 4 s. Axes units         be developed to understand this behavior.
+
+
+
+3.2. REPRODUCIBILITY OF RESULTS FROM THE LITERATURE                          is computed. This metric describes the variability of the tem-
+Ghosh et al. (2008) and Deco et al. (2009) demonstrated the                  poral variance of each node. In the latter all the time-series are
+important role of three large-scale parameters in the emergence              zero-centered and the variance is computed over all data points
+of different cluster synchronization regimes: the global coupling            contained in the output array.
+strength factor, time-delays (introduced via the long-range con-                With this example we intended to expose the possibility to
+nectivity fiber tract lengths and a unique transmission speed)               reproduce workflows, i.e., modeling schemes, found in the liter-
+and noise variance. They built parameter space maps using the                ature. TVB is a modeling platform providing a means of cross-
+Kuramoto synchronization index. Here, using TVB’s scripting                  validating scientific work by encouraging reproducibility of the
+interface, we show it is easily possible to build a similar scheme           results.
+and perform a parameter space exploration in the coupling
+strength (gcs) and transmission speed (s) space. The Connectivity            3.3. HIGHER-LEVEL SIMULATION SCENARIOS USING STIMULATION
+upon which the large-scale network is built was the demonstra-                    PROTOCOLS
+tion dataset. It is bi-hemispheric and consists of 74 nodes, i.e.,           As one possible use case, we have set up an example based on the
+37 regions per hemisphere. It includes all the cortical regions but          scheme used in McIntosh et al. (2010). The goal is to demonstrate
+without any sub-cortical structure such as the thalamic nuclei.              how to build stimulation patterns in TVB, use them in a simu-
+Its weights are quantified by integer values in the range 0–3. The           lation, obtain EEG recordings of both the activity similar to the
+evolution of the local dynamics were represented by the model                resting state (RS) and to evoked responses (ER), and finally make
+Generic2dOscillator, configured in such a way that a single iso-             a differential analysis of the complexity of the resulting time-series
+lated node exhibited 40 Hz oscillations (Figure 8). The variance             by computing MSE.
+of the output time-series was chosen as a simple, yet informa-                   In vision neuroscience, the two-stream hypothesis (Schneider,
+tive measure to represent the collective dynamics (Figure 9A) as             1969) suggests the existence of two streams of information pro-
+a function of the parameters under study. Results are shown in               cessing, the ventral and the dorsal stream. In one of these path-
+Figure 9B. Parameter sweeps can also be launched from TVB                    ways, the ventral stream, the activity from subcortical regions
+web-interface (see Figure 10 for an illustration).                           project to V1 and the activity propagates to the temporal cortices
+    Currently TVB provides two scalar metrics based on the vari-             through V2 and V4 (Goodale and Milner, 1992). We systemat-
+ance of the output time-series to perform data reduction when                ically stimulated the area corresponding to the primary visual
+exploring a certain parameter space. These are Variance of the               cortex (V1) to demonstrate the functioning of TVB stimulation
+nodes Variances and Global Variance. The former zero-centers                 Patterns and observed how the activity elicited by a periodic rect-
+the output time-series and computes the variance over time of                angular pulse propagates to neighboring regions, especially V2.
+the concatenated time-series of each state variable and mode for                 Benefiting from TVB’s flexibility we show in Figure 11 that
+each node and subsequently the variance of the nodes variances               it is possible to systematically stimulate a specific brain region
+
+
+
+Frontiers in Neuroinformatics                                   www.frontiersin.org                                 June 2013 | Volume 7 | Article 10 | 15
+Sanz Leon et al.                                                                                                    The Virtual Brain: a brain dynamics simulator
+
+
+
+
+ FIGURE 8 | Phase portrait using TVB’s interactive phase plane                   integration scheme. In the bottom panel, the corresponding
+ tool (accessible from both shell and graphical interfaces): the                 trajectories of both the v(t) and w(t) state variables of the
+ blue line corresponds to a trajectory of a single oscillator                    model are shown. The activity exhibits oscillations at
+ node isolated and without noise, 4th order Runge-Kutta                          approximately 40 Hz.
+
+
+
+
+ FIGURE 9 | (A) The activity of individual regions are illustrated in colored    parameter space exploration to rapidly gain insights of the whole brain
+ lines. The black line represents the average activity over the network nodes.   dynamics repertoire. In this plot, the magnitude and color scale correspond to
+ Here brain regions are weakly coupled changing both the collective and local    one the variance computed over all the elements of the N-dimensional output
+ dynamics of the network. (B) Using TVB scientific library as a python module    array (Global Variance). Simulations were performed on a cluster based on
+ we can conveniently run thousands of simulations in parallel on a cluster.      the Python demo scripts available in the release packages. On of the major
+ Note that TVB parallelizes different tasks e.g., simulations and analyses,      strengths of The Virtual Brain is that G-Users are enabled to launch parameter
+ taking advantage of multi-core systems, however, it does not parallelize the    sweeps through the UI without the need to know how to submit parallel jobs
+ processes themselves. Simultaneous simulations allow for a systematic           (see Figure 10).
+
+
+
+(e.g., V1) and to highlight the anatomical connection to its target              algorithms to characterize both the “resting” and “evoked”
+region (e.g., V2) by observing the arrival of the delayed activity;              states.
+analyze the responses of the model; handle multi-modal simu-                        Currently, TVB permits the stimulation and read-out of activ-
+lated data; and extract metrics from computationally expensive                   ity from any brain area defined in the anatomical parcellation
+
+
+
+Frontiers in Neuroinformatics                                       www.frontiersin.org                                    June 2013 | Volume 7 | Article 10 | 16
+Sanz Leon et al.                                                                                             The Virtual Brain: a brain dynamics simulator
+
+
+
+
+                                                                                parameters, scaling factors, apply or remove stimulation or spatial
+                                                                                constraints (e.g., local connectivity), or make any other change
+                                                                                that does not alter the spatiotemporal domain of the system or
+                                                                                its output (integration step, transmission speed and spatial sup-
+                                                                                port) and then resumed without the need of creating a new
+                                                                                Simulator instance. Furthermore, this capability opens the
+                                                                                possibility to dynamically update the simulation at runtime. Such
+                                                                                a dynamic approach leads toward an adaptive modeling scheme
+                                                                                where stimuli and other factors may be regulated by the ongoing
+                                                                                activity (this last feature can be handled only from the scripting
+                                                                                interface for the moment).
+
+                                                                                4. DISCUSSION
+                                                                                We have presented the architecture and usage of TVB, a neu-
+                                                                                roinformatics platform developed for simulations of network
+                                                                                models of the full brain. Its scientific core has been developed
+                                                                                by integrating concepts from theoretical, computational, cogni-
+                                                                                tive and clinical neuroscience, with the aim to integrate neu-
+                                                                                roimage modalities along with the interacting mesoscopic and
+                                                                                macroscopic scales of a biophysical model of the brain. From a
+                                                                                computational modeling perspective TVB constitutes an alterna-
+                                                                                tive to approaches such as the work of Riera et al. (2005) and
+ FIGURE 10 | One of TVB’s major strengths is the capability to launch           more recently that of Valdes-Sosa et al. (2009), as well as other
+ parallel simulations through the UI. We show a screenshot of the               relevant studies mentioned in the main text of this article. From
+ resulting display when sweeping across two different parameters of the         a neuroinformatics perspective, TVB lays the groundwork for
+ Generic2dOscillator model. Here each data point represents two metrics:        the integration of existing paradigms in the theory of large-scale
+ size is mapping the Global Variance and color corresponds to the Variance
+ of the nodes Variance. These results provide a topography of the stability
+                                                                                models of the brain, by providing a general and flexible frame-
+ space allowing users to distinguish, and thus select, combinations of          work where the advantages and limitations of each approach may
+ critical parameters values.                                                    be determined. It also provides the community with a technol-
+                                                                                ogy, that until now had not been publicly available, accessible
+                                                                                by researchers with different levels and backgrounds, enabling
+used to derive the connectome. This modeling example was                        systematic implementation and comparison of neural mass and
+built imposing a strong restriction on the number of regions                    neural field models, incorporating biologically realistic connec-
+to stimulate, since global dynamics can quickly become com-                     tivity and cortical geometry and with the potential to become
+plex. Additionally, to demonstrate the many scenarios that can                  a novel tool for clinical interventions. While many other envi-
+be set up in TVB, we simulated the same brain network model                     ronments simulate neural activity at the level of neurons (Brian
+under the influence of a stimulus, first without noise (Figure 11A:             simulator, MOOSE, PCSIM, NEURON, NEST, GENESIS) (Hines
+using Heun deterministic method) and then with white noise                      and Carnevale, 2001; Gewaltig and Diesmann, 2007; Goodman
+(Figure 11B: using Heun stochastic method). The first approach                  and Brette, 2008; Ray and Bhalla, 2008; Pecevski et al., 2009;
+makes it easier to see the perturbations induced by the stimulus                Brette and Goodman, 2011), even mimicking a number of spe-
+and the propagation of activity from one region to the other. The               cific brain functions (Eliasmith et al., 2012), they, most impor-
+second approach is a more realistic representation of the neural                tantly, do not consider the space-time structure of full brain
+activity.                                                                       connectivity constraining whole brain neurodynamics, as a cru-
+    Results of the proposed modeling protocol are presented in                  cial component in their modeling paradigm. Other approaches to
+Figure 12 where the EEG traces from channel Oz for the resting                  multi-modal integration such as Statistical Parametric Mapping
+and evoked states are shown together with the MSE estimates.                    (SPM) perform statistical fitting to experimental data at the level
+    Scripts to reproduce results from Figures 11, 12 are available              of a small set of nodes (Friston et al., 1995, 2003; David et al.,
+in the distribution packages of TVB.                                            2006; Pinotsis and Friston, 2011) [i.e., they are data-driven as in
+    With the availability of surface-based simulations the challenge            Freestone et al. (2011)], thus diverging from our approach that
+of replicating topographic maps of different sensory systems, such              could be categorized as a purely “computational neural modeling”
+as those found in the primary visual cortex (Hinds et al., 2009),               paradigm as described in Bojak et al. (2011). From this perspec-
+could be addressed.                                                             tive, the goal is to capture and reproduce whole brain dynamics by
+                                                                                building a network constrained by its structural large-scale con-
+3.4. DYNAMIC MODELING                                                           nectivity and mesoscopic models governing the nodes intrinsic
+From both the shell and web interface it is possible to exploit                 dynamics.
+another feature of TVB: namely, simulation continuation, i.e.,                      Also, the extension of neuronal level modeling to large brain
+a simulation can be stopped allowing users to modify model                      structures requires vast supercomputers to emulate the large
+
+
+
+Frontiers in Neuroinformatics                                        www.frontiersin.org                            June 2013 | Volume 7 | Article 10 | 17
+Sanz Leon et al.                                                                                                   The Virtual Brain: a brain dynamics simulator
+
+
+
+
+ FIGURE 11 | (A) The upper left blue panel shows the raw traces of nodes V2      space and recorded from channels Oz and O1. The default EEG cap in TVB
+ and V1; the latter stimulated with a rectangular pulse of width equal to 5 ms   consists of 62 scalp electrodes distributed according to the 10–20
+ and repetition frequency of 1 Hz. Signals are normalized by their               international system (Klem et al., 1999). In this simulation a deterministic
+ corresponding maximum value. The right blue panel show the signals for a        integration scheme was employed to obtain the time-series of neural activity,
+ shorter period of time. Amplitudes are not normalized to emphasize the          since noise was not applied to the model’s equations. (B) The same
+ relative difference between the two regions. Middle panels illustrate the       description as in (A) applies. The main difference with the previous
+ stimulus pattern. Lower red panels display the activity as projected onto EEG   simulation is that here white noise was added to the system.
+
+
+
+number of complex functional units. Focusing on the brain’s                      full brain scale on workstations and small computing clusters,
+large-scale architecture, in addition to the dimension reduction                 with no need to use supercomputing resources.
+accomplished through the mean field methods applied on the                           The simulator component of TVB has the goal of simulat-
+mesoscopic scale, TVB allows for computer simulations on the                     ing mesoscopic neural dynamics on large-scale brain networks.
+
+
+
+Frontiers in Neuroinformatics                                       www.frontiersin.org                                    June 2013 | Volume 7 | Article 10 | 18
+Sanz Leon et al.                                                                                                The Virtual Brain: a brain dynamics simulator
+
+
+
+
+ FIGURE 12 | The green and blue panels show EEG recordings from                trace depicts the stimulation pattern. The bottom panel displays multiscale
+ electrode Oz during the resting state , i.e., in the absence of stimulation   entropy estimates computed on the Oz time-series at different temporal
+ and in the stimulated condition, respectively, notice the slow damped         scales using the dataset obtained by means of a stochastic integration
+ oscillations after stimulus onset at a approximately 10 Hz; the light gray    scheme.
+
+
+
+It does not intend to build brain models at the level of neu-                     On the basis of the literature, theoretical and clinical studies
+rons (Goodman and Brette, 2009; Cornelis et al., 2012), how-                   seeking to better understand and describe certain brain functions
+ever, it does leverage information from microscopic models to                  and structure use stimulation as an essential part of their proto-
+add detail and enhance the performance of the neural popula-                   cols. Stimulation is a way to probe how the system respond under
+tion models, which act as building blocks and functional units                 external perturbations adapting itself to the new environmental
+of the network. TVB thus represents a unique tool to system-                   conditions or to categorize responses when stimulation repre-
+atically investigate the dynamics of the brain, emphasizing its                sents real-life (visual, auditory, motor) sensory inputs. Among
+large-scale network nature and moving away from the study                      the current features of TVB, the easy generation of a variety of
+of isolated regional responses, thereby considering the function               stimulation patterns is to be recognized as one of its great advan-
+of each region in terms of the interplay among brain regions.                  tages and contributions to experimental protocol design. TVB
+The primary spatial support (neuroanatomical data) on top of                   permits the development of simple stimulation routines, allowing
+which the large-scale network model is built has a number of                   evaluation of the viability and usefulness of certain stimulation
+implications:                                                                  procedures.
+                                                                                  TVB represents a powerful research platform, combining
+1. It constraints the type of network dynamics; dynamics that                  experimental design and numerical simulations into a collabo-
+   could be further related to physiology and behavior (Senden                 rative framework that allows sharing of results and the integra-
+   et al., 2012).                                                              tion of data from other applications. Naturally, this leads to the
+2. It permits a systematic investigation of the consequences of                potential for an increased level of interaction among researchers
+   the particular restrictions imposed by that large-scale structure           of the broad neuroscience community. In the same direction,
+   and the effect of changes to it.                                            TVB is also an extensible validation platform since it supports
+3. It provides a reliable and geometrically accurate                           the creation of basic modeling refinement loops, making model
+   model of sources of neural activity, enabling realistic                     exploration and validation a relatively automated procedure. For
+   forward solutions to EEG/MEG based on implemen-                             instance, after generating a brain network model, exploring the
+   tations of boundary element methods (BEM) or other                          system’s parameter space by adjusting parameters of both the
+   approaches such as finite difference time domain methods                    local dynamics and the large scale structure can be achieved with
+   (FDTD).                                                                     ease. Further, effects of local dynamics and network structure
+
+
+
+Frontiers in Neuroinformatics                                      www.frontiersin.org                                  June 2013 | Volume 7 | Article 10 | 19
+Sanz Leon et al.                                                                                                               The Virtual Brain: a brain dynamics simulator
+
+
+
+
+can be disentangled by evaluating distinct local dynamic models                            for brain network models is to be presented in future scientific
+on the same structure or the same local dynamic model coupled                              publications.
+through distinct structures. This constrained flexibility makes it                             To allow a most optimal dissemination of knowledge in TVB
+easy for modelers to test new approaches, directly compare them                            we are currently developing a web-based educational platform
+with existing approaches and reproduce their own and other                                 that will allow training on the usage of TVB, as well as serve as
+researchers’ results. Reproducibility is indeed a required feature to                      a key reference.
+validate and consequently increase the reliability of scientific work                          As simulations in TVB are built on the large-scale anatomical
+(Donoho, 2010) and the extensibility of TVB’s scientific compo-                            structure of the human brain, continued work to integrate new,
+nents, granted by its modular design, provides a mechanism to                              reliable, sources of structural data is essential to the progress of
+help researchers achieve this.                                                             the platform. An obvious future resource in this regard will be
+   The brain network models of TVB, being built on explicit                                the newly developed database of the Human Connectome Project
+anatomical structure, enable modeling investigations of practical                          (Essen and Ugurbil, 2012; Essen et al., 2012).
+clinical interest. Specifically, whenever a dysfunction or disease
+expresses itself as a change to the large scale network structure,                         INFORMATION SHARING STATEMENT (LICENSE)
+for instance, in the case of lesions in white-matter pathways, the                         The data and software in this study belong to an ongoing project;
+direct replication of this structural change in TVB’s brain network                        it is free software and licensed under the GNU General Public
+models is straight forward.                                                                License version 2 as published by the Free Software Foundation.
+                                                                                           The latest releases of The Virtual Brain including the source
+FUTURE WORK                                                                                code and demo data are free to download from http://www.
+Regarding performance, of special importance will be to evalu-                             thevirtualbrain.org. The source code available in the public repos-
+ate all the parameters that have an effect on both memory usage                            itory includes the latest experimental features regarding GPU
+and execution time for surface-based simulations. The reason is                            implementation.
+that realistic brain network models are built on top of surface
+meshes constructed by thousands of vertices per hemisphere (213                            ACKNOWLEDGMENTS
+for the TVB demonstration cortical surface) but can easily have                            Funding: The research reported herein was supported by the
+more than 40,000.                                                                          Brain Network Recovery Group through the James S. McDonnell
+    Equally important is to develop more tests to generally evalu-                         Foundation and the FP7-ICT BrainScales. Paula Sanz Leon is sup-
+ate the simulation engine, paying close attention to keep the con-                         ported by a doctoral fellowship from Ministere de la Recherche.
+sistency and stability of the algorithms currently implemented.
+    Another aspect that deserves careful attention is the descrip-                         SUPPLEMENTARY MATERIAL
+tion of our modeling approach that was largely beyond the scope                            The Supplementary Material for this article can be found online
+of this text. Therefore, the theory underlying the different meth-                         at: http://www.frontiersin.org/Neuroinformatics/10.3389/fninf.
+ods involved in the development of a generalized framework                                 2013.00010/abstract
+
+
+REFERENCES                                     Bakker, R., Wachtler, T., and Diesmann,        magnetic resonance imaging data            seizures        through     nonlinear
+Amari, S. (1975). Homogeneous nets                M. (2012). Cocomac 2.0 and the              with realistic neural population           brain modeling and bifurca-
+   of neuron-like elements. Biol.                 future of tract-tracing databases.          meshes. Philos. Trans. R Soc.              tion analysis. Cereb. Cortex 16,
+   Cybern. 17, 211–220. doi: 10.1007/             Front. Neuroinform. 6:30. doi:              Lond. A. 369, 3785–3801. doi:              1296–1313. doi: 10.1093/cercor/
+   bf00339367                                     10.3389/fninf.2012.00030                    10.1098/rsta.2011.0080                     bhj072
+Amari, S. (1977). Dynamics of pat-             Bastiani, M., Shah, N. J., Goebel, R.,      Bojak, I., Oostendorp, T., Reid, A.,       Breakspear, M., Terry, J. R., and
+   tern formation in lateral-inhibition           and Roebroeck, A. (2012). Human             and R, K. (2010). Connecting mean          Friston, K. J. (2003). Modulation
+   type neural fields. Biol. Cybern. 22,          cortical connectome reconstruction          field models of neural activity to         of excitatory synaptic coupling
+   77–87. doi: 10.1007/BF00337259                 from diffusion weighted mri: the            eeg and fmri data. Brain Topogr. 23,       facilitates synchronization and
+Assisi, C., Jirsa, V., and Kelso, J. (2005).      effect of tractography algorithm.           139–149. doi: 10.1007/s10548-010-          complex dynamics in a biophysical
+   Synchrony and clustering in het-               Neuroimage 62, 1732–1749. doi:              0140-3                                     model of neuronal dynam-
+   erogeneous networks with global                10.1016/j.neuroimage.2012.06.002         Bostock, M., Ogievetsky, V., and              ics. Network 14, 703–732. doi:
+   coupling and parameter dispersion.          Beurle, R. L. (1956). Properties of a          Heer, J. (2011). D3 data-driven            10.1088/0954-898X/14/4/305
+   Phys. Rev. Lett. 94:018106. doi:               mass of cells capable of regener-           documents. IEEE Trans. Visual.          Bressloff, P. C. (2012). From invasion to
+   10.1103/PhysRevLett.94.018106                  ating pulses. Philos. Trans. R. Soc.        Comput. Graphics 17, 2301–2309.            extinction in heterogeneous neural
+Atay, F., and Hutt, A. (2006). Neural             Lond. B Biol. Sci. 240, 55–94. doi:         doi: 10.1109/TVCG.2011.185                 fields. JMN 2:6. doi: 10.1186/2190-
+   fields with distributed transmis-              10.1098/rstb.1956.0012                   Breakspear, M., and Jirsa, V. (2007).         8567-2-6
+   sion speeds and long range feed-            Bojak, I., and Liley, D. T. J. (2010).         Handbook of Brain Connectivity          Brette, R., and Goodman, D. F. M.
+   back delays. SIAD 5, 670–698. doi:             Axonal      velocity     distributions      (Understanding Complex Systems) –          (2011). Vectorized algorithms for
+   10.1137/050629367                              in neural field equations. PLoS             Neuronal Dynamics and Brain                spiking neural network simulation.
+Babajani-Feremi, A., and Soltanian-               Comput. Biol. 6:e1000653. doi:              Connectivity. Berlin; Heidelberg:          Neural Comput. 23, 1503–1535. doi:
+   Zadeh, H. (2010). Multi-area                   10.1371/journal.pcbi.1000653                Springer.                                  10.1162/NECO_a_00123
+   neural mass modeling of eeg                 Bojak, I., Oostendorp, T., Reid, A., and    Breakspear, M., Roberts, J. A., Terry,     Brunel, N., and Wang, X.-J. (2001).
+   and meg signals. Neuroimage                    Kötter, R. (2011). Towards a model-         J. R., Rodrigues, S., Mahant, N., and      Effects of neuromodulation in a
+   52,      793–811.      doi:     10.1016/       based integration of co-registered          Robinson, P. A. (2006). A unifying         cortical network model of object
+   j.neuroimage.2010.01.034                       electroencephalography/functional           explanation of primary generalized         working memory dominated by
+
+
+
+
+Frontiers in Neuroinformatics                                                www.frontiersin.org                                       June 2013 | Volume 7 | Article 10 | 20
+Sanz Leon et al.                                                                                                               The Virtual Brain: a brain dynamics simulator
+
+
+
+
+   recurrent inhibition. J. Comput.              resting-state activity in the brain.       neural field modeling. Neuroimage         Gramfort, A., Papadopoulo, T.,
+   Neurosci. 11, 63–85.                          Nat. Rev. Neurosci. 12, 43–56. doi:        56, 1043–1058. doi: 10.1016/                 Olivi, E., and Clerc, M. (2010).
+Brunel, N., and Wang, X.-J. (2003).              10.1038/nrn2961                            j.neuroimage.2011.02.027                     Openmeeg: opensource software
+   What determines the frequency of          Deco, G., Jirsa, V., McIntosh, A.,          Freyer, F., Reinacher, M., Nolte, G.,           for quasistatic bioelectromagnetics.
+   fast network oscillations with irreg-         Sporns, O., and Kötter, R. (2009).         Dinse, H. R., and Ritter, P. (2012).         Biomed. Eng. Online 9:45. doi:
+   ular neural discharges? i. synaptic           Key role of coupling, delay, and           Repetitive      tactile     stimulation      10.1186/1475-925X-9-45
+   dynamics and excitation-inhibition            noise in resting brain fluctua-            changes resting-state functional          Hagmann, P., Cammoun, L., Gigandet,
+   balance. J. Neurophysiol. 90,                 tions. Proc. Natl. Acad. Sci. U.S.A.       connectivity-implications for treat-         X., Meuli, R., Honey, C. J.,
+   415–430. doi: 10.1152/jn.01095.               106, 10302–10307. doi: 10.1073/            ment of sensorimotor decline.                Wedeen, V. J., et al. (2008).
+   2002                                          pnas.0901831106                            Front. Hum. Neurosci. 6:144. doi:            Mapping the structural core of
+Bullmore, E., and Sporns, O. (2009).         Deco, G., Jirsa, V., Robinson, P. A.,          10.3389/fnhum.2012.00144                     human cerebral cortex. PLoS Biol.
+   Complex brain networks: graph                 Breakspear, M., and Friston, K.         Freyer, F., Roberts, J. A., Becker, R.,         6:e159.      doi:      10.1371/journal.
+   theoretical analysis of structural            (2008). The dynamic brain: from            Robinson, P. A., Ritter, P., and             pbio.0060159
+   and functional systems. Nat. Rev.             spiking neurons to neural masses           Breakspear, M. (2011). Biophysical        Haken, H. (1983). Synergetics, an
+   Neurosci. 10, 186–198. doi: 10.1038/          and cortical fields. PLoS Comput.          mechanisms of multistability in              Introduction: Nonequilibrium Phase
+   nrn2575                                       Biol. 4:e1000092. doi: 10.1371/            resting-state cortical rhythms.              Transitions and Self-Organization
+Burrage, K., Burrage, P. M., and Tian,           journal.pcbi.1000092                       J. Neurosci. 31, 6353–6361. doi:             in Physics, Chemistry, and Biology.
+   T. (2004). Numerical methods for          Donoho, D. L. (2010). An invita-               10.1523/JNEUROSCI.6693-10.2011               3rd Edn. New York, NY: Springer
+   strong solutions of stochastic differ-        tion to reproducible computational      Friston, K., Harrison, L., and                  Verlag.
+   ential equations: an overview. Proc.          research. Biostatistics 11, 385–388.       Penny, W. (2003). Dynamic                 Haken, H. (2001). Delay, noise and
+   R. Soc. Lond. A 460, 373–402. doi:            doi: 10.1093/biostatistics/kxq028          causal modelling. Neuroimage                 phase locking in pulse coupled
+   10.1098/rspa.2003.1247                    Eliasmith, C., Stewart, T. C., Choo, X.,       19, 1273–1302. doi: 10.1016/                 neural networks. Biosystems 63,
+Buxton, R., and Frank, L. (1997). A              Bekolay, T., DeWolf, T., Tang, Y.,         S1053-8119(03)00202-7                        15–20. doi: 10.1016/S0303-2647
+   model for the coupling between                et al. (2012). A large-scale model      Friston, K., Holmes, A., Worsley, K.,           (01)00143-5
+   cerebral blood flow and oxygen                of the functioning brain. Science          Poline, J., Frith, C., and Frackowiak,    Hindmarsh, J., and Rose, R. (1984).
+   metabolism during neural stimula-             338, 1202–1205. doi: 10.1126/              R. (1995). Statistical parametric            A model of neuronal bursting
+   tion. J. Cereb. Blood Flow Metab.             science.1225266                            maps in functional imaging: a gen-           using three coupled first order
+   17, 64–72. doi: 10.1097/00004647-         Enthought, I. (2001). The traits               eral linear approach. Hum. Brain             differential equations. Proc. R.
+   199701000-00009                               framework for validation and               Mapp. 2, 189–210. doi: 10.1002/              Soc. Lond. Ser. B 221, 87–122. doi:
+Buzsaki, G. (2006). Rhythms of the               event-driven programming in                hbm.460020402                                10.1098/rspb.1984.0024
+   Brain. Oxford: Oxford University              python. Available online at:            Friston, K. J., Mechelli, A., Turner,        Hinds, O., Polimeni, J. R., Rajendran,
+   Press.                                        http://code.enthought.com/projects/        R., and Price, C. J. (2000).                 N., Balasubramanian, M., Amunts,
+Chacon, S. (2009). Pro Git. Berkeley,            traits/                                    Nonlinear responses in fMRI:                 K., Zilles, K., et al. (2009). Locating
+   CA: Apress.                               Essen, D. C. V., and Ugurbil,                  the balloon model, volterra ker-             the functional and anatomical
+Coombes, S. (2010). Large-scale neu-             K. (2012). The future of the               nels, and other hemodynamics.                boundaries       of      human     pri-
+   ral dynamics: simple and com-                 human connectome. Neuroimage               Neuroimage 12, 466–477. doi:                 mary visual cortex. Neuroimage
+   plex. Neuroimage 52, 731–739. doi:            62, 1299–1310. doi: 10.1016/               10.1006/nimg.2000.0630                       46,     915–922.       doi:    10.1016/
+   10.1016/j.neuroimage.2010.01.045              j.neuroimage.2012.01.032                Gerhard, S., Daducci, A., Lemkaddem,            j.neuroimage.2009.03.036
+Cornelis, H., Rodriguez, A. L., Coop,        Essen, D. C. V., Ugurbil, K., Auerbach,        A., Meuli, R., Thiran, J.-P., and         Hines, M. L., and Carnevale, N. T.
+   A. D., and Bower, J. M. (2012).               E., Barch, D., Behrens, T. E. J.,          Hagmann, P. (2011). The connec-              (2001). Neuron: a tool for neurosci-
+   Python as a federation tool for gen-          Bucholz, R., et al. (2012). The            tome viewer toolkit: an open source          entists. Neuroscientist 7, 123–135.
+   esis 3.0. PLoS ONE 7:e29018. doi:             human connectome project: a data           framework to manage, analyze,             Hämäläinen,         M.       S.    (1992).
+   10.1371/journal.pone.0029018                  acquisition perspective. Neuroimage        and visualize connectomes. Front.            Magnetoencephalography: a tool
+Costa, M., Goldberger, A. L., and                62, 2222–2231. doi: 10.1016/               Neuroinform. 5:3. doi: 10.3389/              for functional brain imaging. Brain
+   Peng, C.-K. (2002). Multiscale                j.neuroimage.2012.02.018                   fninf.2011.00003                             Topogr. 5, 95–102.
+   entropy      analysis     of     com-     FitzHugh, R. (1961). Impulses and           Gewaltig, M., and Diesmann, M.               Hämäläinen, M. S., Hari, R.,
+   plex physiologic time series.                 physiological states in theoreti-          (2007). NEST (neural simulation              Ilmoniemi, R. J., Knuutila, J.,
+   Phys. Rev. Lett. 89:068102. doi:              cal models of nerve membrane.              tool). Scholarpedia 2:1430. doi:             and Lounasmaa, O. V. (1993).
+   10.1103/PhysRevLett.89.068102                 Biophys. J. 1, 445–466. doi: 10.1016/      10.4249/scholarpedia.1430                    Magnetoencephalography-theory,
+Costa, M., Goldberger, A. L., and Peng,          S0006-3495(61)86902-6                   Ghosh, A., Rho, Y., McIntosh, A.,               instrumentation, and applications
+   C.-K. (2005). Multiscale entropy          Fox, R., Gatland, I., Rot, R., and             Kötter, R., and Jirsa, V. (2008). Noise      to noninvasive studies of the work-
+   analysis of biological signals. Phys.         Vemuri, G. (1988). Fast, accu-             during rest enables the exploration          ing human brain. Rev. Modern
+   Rev. E Stat. Nonlin. Soft Matter Phys.        rate algorithm for numerical sim-          of the brain’s dynamic repertoire.           Phys. 65, 413–497. doi: 10.1103/
+   71(2 Pt 1):021906. doi: 10.1103/              ulation of exponentially correlated        PLoS Comput. Biol. 4:e1000196. doi:          revmodphys.65.413
+   PhysRevE.71.021906                            colored noise. Phys. Rev. A 38,            10.1371/journal.pcbi.1000196              Honey, C. J., Sporns, O., Cammoun,
+David, O., Kilner, J. M., and Friston,           5938–5940. doi: 10.1103/PhysRevA.       Goodale, M. A., and Milner, A. D.               L., Gigandet, X., Thiran, J. P.,
+   K. J. (2006). Mechanisms of                   38.5938                                    (1992). Separate visual path-                Meuli, R., et al. (2009). Predicting
+   evoked and induced responses              Freeman, W. J. (1975). Mass Action in          ways for perception and action.              human resting-state functional
+   in      MEG/EEG.          Neuroimage          the Nervous System. New York; San          Trends Neurosci. 15, 20–25. doi:             connectivity       from      structural
+   31, 1580–1591. doi: 10.1016/                  Francisco; London: Academic press.         10.1016/0166-2236(92)90344-8                 connectivity. Proc. Natl. Acad.
+   j.neuroimage.2006.02.034                  Freeman, W. J. (1992). Tutorial on          Goodman, D. F. M., and Brette, R.               Sci. U.S.A. 106, 2035–2040. doi:
+Deco, G., and Jirsa, V. (2012). Ongoing          neurobiology: from single neu-             (2008). Brian: a simulator for               10.1073/pnas.0811168106
+   cortical activity at rest: criticality,       rons to brain chaos. Int. J. Bif.          spiking neural networks in python.        Hunter, J. D. (2007). Matplotlib: a
+   multistability, and ghost attractors.         Chaos 2, 451–482. doi: 10.1142/            Front. Neuroinform. 2:5. doi:                2d graphics environment. Comput.
+   J. Neurosci. 32, 3366–3375. doi:              S0218127492000653                          10.3389/neuro.11.005.2008                    Sci. Eng. 9, 90–95. doi: 10.1109/
+   10.1523/JNEUROSCI.2523-11.2012            Freestone, D. R., Aram, P., Dewar,          Goodman, D. F. M., and Brette,                  mcse.2007.55
+Deco, G., Jirsa, V., and McIntosh, A.            M., Scerri, K., Grayden, D. B.,            R. (2009). The brian simulator.           Jansen, B., and Rit, V. (1995).
+   (2011). Emerging concepts for                 and Kadirkamanathan, V. (2011).            Front. Neurosc. 3, 192–197. doi:             Electroencephalogram and visual
+   the dynamical organization of                 A data-driven framework for                10.3389/neuro.01.026.2009                    evoked potential generation in a
+
+
+
+
+Frontiers in Neuroinformatics                                              www.frontiersin.org                                         June 2013 | Volume 7 | Article 10 | 21
+Sanz Leon et al.                                                                                                                 The Virtual Brain: a brain dynamics simulator
+
+
+
+
+    mathematical model of coupled                 physiologically      plausible    con-   Nunez, P. (1974). The brain wave             Rennie, C. J., Robinson, P. A., and
+    cortical columns. Biol. Cybern. 73,           nectivity structure on local and            equation: a model for the EEG.               Wright, J. J. (2002). Unified neuro-
+    357–366. doi: 10.1007/BF00199471              global dynamics in large scale brain        Math. Biosci. 21, 279–297. doi:              physical model of eeg spectra and
+Jansen, B., Zouridakis, G., and Brandt,           models. J. Neurosci. Methods 183,           10.1016/0025-5564(74)90020-0                 evoked potentials. Biol. Cybern. 86,
+    M. (1993). A neurophysiologically-            86–94. doi: 10.1016/j.jneumeth.          Nunez, P., L., (ed.). (1995). Neocortical       457–471. doi: 10.1007/s00422-002-
+    based mathematical model of                   2009.07.007                                 Dynamics and Human EEG                       0310-9
+    flash visual evoked potentials. Biol.     Kötter, R. (2004). Online retrieval, pro-       Rhythms. New York, NY: Oxford             Riera, J., Aubert, E., Iwata, K.,
+    Cybern. 68, 275–283. doi: 10.1007/            cessing, and visualization of primate       University Press.                            Kawashima, R., Wan, X., and
+    BF00224863                                    connectivity data from the coco-         Nunez, P., L., and Srinivasan, R., (eds.).      Ozaki, T. (2005). Fusing eeg and
+Jirsa, V. (2004). Connectivity and                mac database. Neuroinformatics 2,           (1981). Electric Fields of the Brain:        fmri based on a bottom-up model:
+    dynamics of neural information                127–144. doi: 10.1385/NI:2:2:127            The Neurophysics of EEG. New York,           inferring activation and effective
+    processing. Neuroinformatics 2,           Kötter, R., and Wanke, E. (2005).               NY: Oxford University Press.                 connectivity in neural masses.
+    183–204. doi: 10.1385/NI:2:2:183              Mapping brains without coordi-           Ogawa, S., Menon, R. S., Kim, S. G.,            Philos. Trans. R. Soc. Lond. B. Biol.
+Jirsa, V., and Haken, H. (1996). Field            nates. Philos. Trans. R. Soc. Lond.         and Ugurbil, K. (1998). On                   Sci. 360, 1025–1041. doi: 10.1098/
+    theory of electromagnetic brain               B Biol. Sci. 360, 751–766. doi:             the characteristics of functional            rstb.2005.1646
+    activity. Phys. Rev. Lett. 77, 960–963.       10.1098/rstb.2005.1625                      magnetic resonance imaging of             Ritter, P., Schirner, M., McIntosh, A.,
+    doi: 10.1103/PhysRevLett.77.960           Lake, D. E., and Moorman, J. R. (2011).         the brain. Annu. Rev. Biophys.               and VK, J. (2013). The virtual brain
+Jirsa, V., and Haken, H. (1997). A                Accurate estimation of entropy in           Biomol. Struct. 27, 447–474. doi:            integrates computational modelling
+    derivation of a macroscopic field             very short physiological time series:       10.1146/annurev.biophys.27.1.447             and multimodal neuroimaging.
+    theory of the brain from the quasi-           the problem of atrial fibrillation       Ogawa, S., Menon, R. S., Tank, D. W.,           Brain Connect. 3, 121–145. doi:
+    microscopic neural dynamics. Phys.            detection in implanted ventricu-            Kim, S. G., Merkle, H., Ellermann,           10.1089/brain.2012.0120
+    D 99, 503–526. doi: 10.1016/S0167-            lar devices. Am. J. Physiol. Heart          J. M., et al. (1993). Functional          Robinson, P., Rennie, C., and Wright,
+    2789(96)00166-2                               Circ. Physiol. 300, H319–H325. doi:         brain mapping by blood oxygena-              J. (1997). Propagation and sta-
+Jirsa, V., and Kelso, J. A. (2000).               10.1152/ajpheart.00561.2010                 tion level-dependent contrast mag-           bility of waves of electrical
+    Spatiotemporal pattern formation          Liley, D. T. J., and Bojak, I. (2005).          netic resonance imaging. a compar-           activity in the cerebral cortex.
+    in neural systems with heteroge-              Understanding the transition to             ison of signal characteristics with a        Phys. Rev. E 56, 826–840. doi:
+    neous connection topologies. Phys.            seizure by modeling the epilepti-           biophysical model. Biophys. J. 64,           10.1103/PhysRevE.56.826
+    Rev. E Stat. Phys. Plasmas Fluids             form activity of general anesthetic         803–812. doi: 10.1016/S0006-3495          Robinson, P. A. (2011). Neural field
+    Relat. Interdisciplin. Topics 62(6            agents. J. Clin. Neurophysiol. 22,          (93)81441-3                                  theory of synaptic plasticity. J.
+    Pt B), 8462–8465. doi: 10.1103/               300–313.                                 Oliphant, T. E. (2006). Guide to NumPy.         Theor. Biol. 285, 156–163. doi:
+    PhysRevE.62.8462                          Logothetis, N. K., Pauls, J., Augath,           Trelgol Publishing.                          10.1016/j.jtbi.2011.06.023
+Jirsa, V., Jantzen, K., Fuchs, A., and            M., Trinath, T., and Oeltermann, A.      Pecevski, D., Natschläger, T., and           Robinson,        P.     A.,     Rennie,
+    Kelso, J. (2002). Spatiotemporal              (2001). Neurophysiological investi-         Schuch, K. (2009). Pcsim: a par-             C. J., Rowe, D. L., O’Connor,
+    forward solution of the eeg and               gation of the basis of the fmri             allel simulation environment for             S. C., Wright, J. J., Gordon,
+    meg using network modeling. IEEE              signal. Nature 412, 150–157. doi:           neural circuits fully integrated with        E., et al. (2003). Neurophysical
+    Trans. Med. Imag. 21, 493–504. doi:           10.1038/35084005                            python. Front. Neuroinform. 3:11.            modeling of brain dynam-
+    10.1109/TMI.2002.1009385                  Lopes da Silva, F. H., Hoeks, A., Smits,        doi: 10.3389/neuro.11.011.2009               ics. Neuropsychopharmacology 28
+Jirsa, V., and Stefanescu, R. (2010).             H., and Zetterberg, L. H. (1974).        Pedregosa,      F.,    Varoquaux,     G.,       (Suppl. 1), S74–S79. doi: 10.1038/
+    Neural population modes capture               Model of brain rhythmic activ-              Gramfort, A., Michel, V., Thirion,           sj.npp.1300143
+    biologically realistic large scale net-       ity. Biol. Cybern. 15, 27–37. doi:          B., Grisel, O., et al. (2011). Scikit-    Robinson, P. A., Rennie, C. J., Wright,
+    work dynamics. Bull. Math. Biol. 73,          10.1007/BF00270757                          learn: machine learning in Python.           J. J., Bahramali, H., Gordon, E.,
+    325–343. doi: 10.1007/s11538-010-         McIntosh, A., Kovacevic, N., Lippe, S.,         JMLR 12, 2825–2830.                          and Rowe, D. L. (2001). Prediction
+    9573-9                                        Garrett, D., Grady, C., and Jirsa,       Pinotsis, D. A., and Friston, K. J.             of electroencephalographic spectra
+Jirsa, V., Sporns, O., Breakspear, M.,            V. (2010). The development of a             (2011). Neural fields, spectral              from neurophysiology. Phys. Rev.
+    Deco, G., and McIntosh, A. R.                 noisy brain. Arch. Ital. Biol. 148,         responses and lateral connec-                E 63(2 Pt 1):021903. doi: 10.1103/
+    (2010). Towards the virtual brain:            323–337.                                    tions. Neuroimage 55, 39–48. doi:            PhysRevE.63.021903
+    network modeling of the intact and        Mosher, J., Leahy, R., and Lewis,               10.1016/j.neuroimage.2010.11.081          Rowe, D. L., Robinson, P. A., and
+    the damaged brain. Arch. Ital. Biol.          P. (1999). EEG and MEG: for-             Pinotsis, D. A., Moran, R. J., and              Rennie, C. J. (2004). Estimation
+    148, 189–205.                                 ward solutions for inverse meth-            Friston, K. J. (2012). Dynamic               of neurophysiological parameters
+Kelso, S. (1995). Dynamic Patterns:               ods. IEEE Trans. Biomed. Eng. 46,           causal modeling with neu-                    from the waking EEG using a bio-
+    The Self-Organization of Brain                245–259.                                    ral     fields.    Neuroimage      59,       physical model of brain dynamics.
+    and Behavior (Complex Adaptive            Nagumo, J. (1962). An active pulse              1261–1274. doi: 10.1016/j.neuro              J. Theor. Biol. 231, 413–433. doi:
+    Systems). Cambridge, MA: MIT                  transmission line simulating nerve          image.2011.08.020                            10.1016/j.jtbi.2004.07.004
+    Press.                                        axon. Proc. IRE. 50, 2061–2070. doi:     Ramachandran, P., and Varoquaux, G.          Rubinov, M., and Sporns, O. (2010).
+Klöden and Platen (1995). Numerical               10.1109/jrproc.1962.288235                  (2011). Mayavi: 3D visualization of          Complex network measures of
+    Solution of Stochastic Differential       Niedermeyer,        E.,     and     Lopes       scientific data. Comput. Sci. Eng. 13,       brain connectivity: uses and
+    Equations. Berlin: Springer.                  Da Silva, F., H., (eds.). (2005).           40–51. doi: 10.1109/mcse.2011.35             interpretations. Neuroimage 52,
+Klem, G. H., Lüders, H. O.,                       Electroencephalography:          Basic   Ray, S., and Bhalla, U. S. (2008).              1059–1069. doi: 10.1016/j.neuro
+    Jasper, H. H., and Elger, C.                  Principles, Clinical Applications, and      Pymoose: interoperable script-               image.2009.10.003
+    (1999). The ten-twenty elec-                  Related Fields. Philadelphia, PA:           ing in python for moose. Front.           Sarvas, J. (1987). Basic mathe-
+    trode system of the international             Lippincott Williams & Wilkins.              Neuroinform. 2:6. doi: 10.3389/              matical      and     electromagnetic
+    federation.      the      international   Nolte, G., Bai, O., Wheaton, L., Mari,          neuro.11.006.2008                            concepts of the biomagnetic
+    federation of clinical neurophys-             Z., Vorbach, S., and Hallett, M.         Rennie, C. J., Robinson, P. A., and             inverse problems. Phys. Med. Biol.
+    iology. Electroencephalogr. Clin.             (2004). Identifying true brain inter-       Wright, J. J. (1999). Effects of local       32, 11–22. doi: 10.1088/0031-9155/
+    Neurophysiol. Suppl. 52, 3–6.                 action from eeg data using the              feedback on dispersion of electri-           32/1/004
+Knock, S., McIntosh, A., Sporns,                  imaginary part of coherency. Clin.          cal waves in the cerebral cortex.         Schneider, G. E. (1969). Two visual
+    O., Kötter, R., Hagmann, P., and              Neurophysiol. 115, 2292–2307. doi:          Phys. Rev. E 59, 3320–3329. doi:             systems. Science 163, 895–902. doi:
+    Jirsa, V. (2009). The effects of              10.1016/j.clinph.2004.04.029                10.1103/PhysRevE.59.3320                     10.1126/science.163.3870.895
+
+
+
+
+Frontiers in Neuroinformatics                                                www.frontiersin.org                                         June 2013 | Volume 7 | Article 10 | 22
+Sanz Leon et al.                                                                                                           The Virtual Brain: a brain dynamics simulator
+
+
+
+
+Senden, M., Goebel, R., and Deco,             for    large-scale   electrophysiol-       of brain oscillations. Hum.                 the choice of nodes matter?
+   G. (2012). Structural connec-              ogy. Front. Neuroinform. 2:9. doi:         Brain Mapp. 30, 2701–2721.                  Neuroimage 50, 970–983. doi:
+   tivity allows for multi-threading          10.3389/neuro.11.009.2008                  doi: 10.1002/hbm.20704                      10.1016/j.neuroimage.2009.12.027
+   during rest: the structure of the      Spiegler, A., Kiebel, S. J., Atay, F. M.,   von Ellenrieder, N., Beltrachini, L., and
+   cortex leads to efficient alter-           and Knösche, T. R. (2010).                 Muravchik, C. H. (2012). Electrode
+                                                                                                                                  Conflict of Interest Statement: The
+   nation between resting state               Bifurcation analysis of neu-               and brain modeling in stereo-EEG.
+                                                                                                                                  authors declare that the research
+   exploratory behavior and default           ral mass models: impact of                 Clin. Neurophysiol. 123, 1745–1754.
+                                                                                                                                  was conducted in the absence of any
+   mode processing. Neuroimage                extrinsic inputs and dendritic             doi: 10.1016/j.clinph.2012.01.019
+                                                                                                                                  commercial or financial relationships
+   60, 2274–2284. doi: 10.1016/               time      constants.     Neuroimage     Wilson, H., and Cowan, J. (1972).
+                                                                                                                                  that could be construed as a potential
+   j.neuroimage.2012.02.061                   52, 1041–1058. doi: 10.1016/               Excitatory        and      inhibitory
+                                                                                                                                  conflict of interest.
+Shreiner, D., Woo, M., Neider, J.,            j.neuroimage.2009.12.081                   interactions in localized popu-
+   and Davis, T. (2005). OpenGL(R)        Stefanescu, R., and Jirsa, V. (2008).          lations of model neurons. Biophys.
+   Programming Guide: The Official            A low dimensional description of           J. 12, 1–24. doi: 10.1016/S0006-         Received: 01 March 2013; accepted: 22
+   Guide to Learning OpenGL(R).               globally coupled heterogeneous             3495(72)86068-5                          May 2013; published online: 11 June
+   Version 2, 5th Edn. Addison-Wesley         neural networks of excitatory and       Wilson, H., and Cowan, J. (1973). A         2013.
+   Professional.    Available    online       inhibitory. PLoS Comput. Biol.             mathematical theory of the func-         Citation: Sanz Leon P, Knock SA,
+   at: http://www.glprogramming.com/          4,     26–36.      doi:     10.1371/       tional dynamics of cortical and tha-     Woodman MM, Domide L, Mersmann J,
+   red/about.html                             journal.pcbi.1000219                       lamic nervous tissue. Kybernetik 13,     McIntosh AR and Jirsa V (2013) The Vir-
+Sotero, R. C., and Trujillo-Barreto,      Stefanescu, R., and Jirsa, V. (2011).          55–80. doi: 10.1007/bf00288786           tual Brain: a simulator of primate brain
+   N. J. (2008). Biophysical model            Reduced       representations      of   Wong, K.-F., and Wang, X.-J. (2006).        network dynamics. Front. Neuroinform.
+   for integrating neuronal activ-            heterogeneous      mixed       neural      A recurrent network mechanism of         7:10. doi: 10.3389/fninf.2013.00010
+   ity, EEG, fMRI and metabolism.             networks with synaptic coupling.           time integration in perceptual deci-     Copyright © 2013 Sanz Leon, Knock,
+   Neuroimage 39, 290–309. doi:               Phys. Rev. E 83:026204. doi:               sions. J. Neurosci. 26, 1314–1328.       Woodman,        Domide,      Mersmann,
+   10.1016/j.neuroimage.2007.08.001           10.1103/PhysRevE.83.026204                 doi: 10.1523/JNEUROSCI.3733-05.          McIntosh and Jirsa. This is an
+Sotero, R. C., Trujillo-Barreto, N. J.,   The HDF Group. (2000-2010).                    2006                                     open-access article distributed under
+   Iturria-Medina, Y., Carbonell,             Hierarchical data format version        Wright, J. J., and Liley, D. T. J.          the terms of the Creative Commons
+   F., and Jimenez, J. C. (2007).             5. Available online at: http://www.        (1995). Simulation of electrocorti-      Attribution License, which permits
+   Realistically coupled neural mass          hdfgroup.org/                              cal waves. Biol. Cybern. 72, 347–356.    use, distribution and reproduc-
+   models can generate eeg rhythms.       Valdes-Sosa, P. A., Sanchez-Bornot,            doi: 10.1007/BF00202790                  tion in other forums, provided the
+   Neural Comput. 19, 478–512. doi:           J. M., Sotero, R. C., Iturria-          Zalesky, A., Fornito, A., Harding,          original authors and source are cred-
+   10.1162/neco.2007.19.2.478                 Medina, Y., Aleman-Gomez, Y.,              I. H., Cocchi, L., Yücel, M.,            ited and subject to any copyright
+Spacek, M., Blanche, T., and                  Bosch-Bayard, J., et al. (2009).           Pantelis, C., et al. (2010). Whole-      notices concerning any third-party
+   Swindale, N. (2008). Python                Model driven EEG/fMRI fusion               brain anatomical networks: does          graphics etc.
+
+
+
+
+Frontiers in Neuroinformatics                                           www.frontiersin.org                                        June 2013 | Volume 7 | Article 10 | 23
+

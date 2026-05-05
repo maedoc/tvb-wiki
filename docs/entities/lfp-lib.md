@@ -61,7 +61,7 @@ LFPy and [[the-virtual-brain]] (TVB) serve complementary roles in the computatio
 
 LFPy bridges this gap by providing the biophysical layer needed to interpret and validate mesoscopic field potential data. In a typical combined workflow, TVB provides the temporal patterns of activity for each brain region, while LFPy transforms these patterns into the predicted LFP that would be recorded by an electrode array. This integration enables researchers to perform [[personalized-brain-modeling]] by fitting whole-brain models to actual LFP recordings, which is particularly valuable in clinical applications such as [[epilepsy-modeling]] where detailed field potential data is available from intracranial electrodes.
 
-The combination of TVB and LFPy also facilitates validation of whole-brain models against invasive electrophysiological recordings. By computing predicted LFPs from TVB simulations and comparing them to observed data, researchers can assess the biophysical plausibility of large-scale [[network-dynamics]] and refine their models accordingly.
+The combination of TVB and LFPy also facilitates validation of whole-brain models against invasive electrophysiological recordings. By computing predicted LFPs from TVB simulations and comparing these to observed data, researchers can assess the biophysical plausibility of large-scale [[network-dynamics]] and refine their models accordingly.
 
 ## Key Papers
 
@@ -89,5 +89,5 @@ The software is distributed under the GNU General Public License, and its develo
 ## References
 
 1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate [[brain-network]] dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
-2. Gianluca Gaglioti, Alessandra Cardinale, Cosimo Lupo, Thierry Nieus, Federico Marmoreo, Elena Focacci, Robin Gutzen, Michael Denker, Andrea Pigorini, Marcello Massimini, Simone Sarasso, Pier Stanislao Paolucci, Giulia De Bonis. *Emergent complexity and rhythms in evoked and spontaneous dynamics of human whole-brain models after tuning through analysis tools*. [Link](https://arxiv.org/abs/2509.12873)
+2. Gianluca Gaglioti, Alessandra Cardiale, Cosimo Lupo, Thierry Nieus, Federico Marmoreo, Elena Focacci, Robin Gutzen, Michael Denker, Andrea Pigorini, Marcello Massimini, Simone Sarasso, Pier Stanislao Paolucci, Giulia De Bonis. *Emergent complexity and rhythms in evoked and spontaneous dynamics of human whole‑brain models after tuning through analysis tools*. [Link](https://arxiv.org/abs/2509.12873)
 3. Hines & Carnevale (1997). *The NEURON simulation environment*. Neural Computation. [DOI](https://doi.org/10.1162/neco.1997.9.6.1179)

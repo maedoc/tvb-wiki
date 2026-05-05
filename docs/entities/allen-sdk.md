@@ -53,11 +53,11 @@ The[[ Allen SDK| Allen SDK]] is part of a broader ecosystem of brain atlas tools
 - **Dipy**: For advanced [[diffusion-mri]] tractography processing
 - **[[connectome-workbench]]**: For visualization of [[brain-parcellations]] and connectivity data
 
-The Allen SDK complements other data resources like the [[human-connectome-project]] (HCP) and can be used alongside Nilearn for human neuroimaging data workflows. The data formats used by Allen Institute (NWB, NRRD) align with Neurodata Without Borders standards for neurophysiology data.
+The[[ Allen SDK| Allen SDK]] complements other data resources like the [[human-connectome-project]] (HCP) and can be used alongside Nilearn for human neuroimaging data workflows. The data formats used by Allen Institute (NWB, NRRD) align with Neurodata Without Borders standards for neurophysiology data.
 
 ## Key Papers
 
-1. Allen Institute for Neural Dynamics. "Allen SDK Documentation." Technical documentation for the Allen SDK software package.
+1. Allen Institute for Neural Dynamics. "Allen SDK Documentation." Technical documentation for the[[ Allen SDK| Allen SDK]] software package.
 
 2. Allen Institute for Brain Science. "Mouse Connectivity Atlas: Informatics Data Processing." Technical whitepaper describing the projection mapping studies and data processing pipeline.
 
