@@ -122,5 +122,5 @@ Segmentation outputs from NiftyNet (e.g., region masks, tissue labels) can be us
 ## References
 
 1. Mahsa Karimzadeh, Hadi Seyedarabi, Ata Jodeiri, Reza Afrouzian. (2025). *Enhanced Brain Stroke Lesion Segmentation in MRI Using a 2.5D Transformer Backbone U-Net Model*. Brain Science. [DOI](https://doi.org/10.3390/brainsci15080778)
-2. Mostafa Ahmed, Shady A. Nagy, M. A. Salem. (2025). *Spiking Neural Network for Visual Attention in Brain Tumor Segmentation*. International Conference on the Internet, Cyber Security and Information Systems. [DOI](https://doi.org/10.1109/ICICIS66182.2025.11313103)
+2. Mostafa Ahmed, Shady A. Nagy, M. A. Salem. (2025). *[[spiking-neural-networks|Spiking Neural Network]] for Visual Attention in Brain Tumor Segmentation*. International Conference on the Internet, Cyber Security and Information Systems. [DOI](https://doi.org/10.1109/ICICIS66182.2025.11313103)
 3. Muhammad Alifian Ihtisyamuddin, Rasyid M.Choiroel Anwar, Yeti Kartikasari, Leny Latifah, Gatot Murti, Wibowo Politeknik, Kesehatan Kementrian, Kesehatan Semarang. (2025). *Analysis of Efficient Net Model Using Binary Segmentation Results from Magnetic Resonance Imaging (MRI) T1 Weighted Contrast Images in Classifying Brain Tumors Types*. International Journal of Social Health. [DOI](https://doi.org/10.58860/ijsh.v4i7.311)
