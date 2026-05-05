@@ -142,3 +142,7 @@
 ## [2026-05-04 23:20] Repair: 113 issues fixed (27 source refs, 29 index, 2 frontmatter, 37 wikilinks, 8 orphans, 0 dup-refs, 0 opaque-refs, 10 crosslinks)
 
 ## [2026-05-05 00:17] DeepResearch: 10 papers added via focused research
+
+## [2026-05-05 02:25] DeepResearch: 28 papers added via focused research
+
+## [2026-05-05 02:54] Audit: 1146 issues (155 broken links, 67 orphans, 20 placeholders, 0 dup-refs, 5 bad-meta, 85 citation-verify, 9 opaque-refs, 73 thin, 354 missing-links)
