@@ -7,6 +7,7 @@ sources:
 - raw/papers/arxiv-2505.14017.md
 - raw/papers/semanticscholar-381eab6345ff.md
 - raw/papers/Renton2024.md
+- raw/papers/semanticscholar-7c4b13efd483.md
 tags:
 - software-structural-mri
 - cortical-surface-extraction

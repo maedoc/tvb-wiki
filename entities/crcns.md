@@ -7,6 +7,7 @@ sources:
 - raw/papers/breakspear-2017.md
 - raw/papers/arxiv-2603.04149.md
 - raw/papers/arxiv-2512.05252.md
+- raw/papers/arxiv-2508.02633.md
 tags:
 - funding-project
 - computational-neuroscience

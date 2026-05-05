@@ -6,6 +6,7 @@ sources:
 - raw/papers/semanticscholar-c893f42e33a6.md
 - raw/papers/arxiv-2601.03796.md
 - raw/papers/semanticscholar-2c2bad384885.md
+- raw/papers/semanticscholar-d2dfba2091a2.md
 tags:
 - software-neuroimaging
 - diffusion-imaging
