@@ -152,7 +152,7 @@ tags:
 - [[human-[[connectome]]-project]]
 - software-visualization
 - software-[[dti-tk]]
-title: CIFTI Tools
+title: [[cifti]] Tools
 type: entity
 updated: '2026-05-04'
 ---
