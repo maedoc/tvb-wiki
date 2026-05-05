@@ -57,7 +57,7 @@ The[[ Allen SDK| Allen SDK]] complements other data resources like the [[human-c
 
 ## Key Papers
 
-1. Allen Institute for Neural Dynamics. "Allen SDK Documentation." Technical documentation for the Allen SDK software package.
+1. Allen Institute for Neural Dynamics. "Allen SDK Documentation." Technical documentation for the[[ Allen SDK| Allen SDK]] software package.
 
 2. Allen Institute for Brain Science. "Mouse Connectivity Atlas: Informatics Data Processing." Technical whitepaper describing the projection mapping studies and data processing pipeline.
 

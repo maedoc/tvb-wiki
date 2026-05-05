@@ -192,3 +192,5 @@
 ## [2026-05-05 17:22] DeepResearch: 10 papers added via focused research
 
 ## [2026-05-05 19:52] Audit: 941 issues (98 broken links, 54 orphans, 22 placeholders, 0 dup-refs, 5 bad-meta, 85 citation-verify, 11 opaque-refs, 73 thin, 351 missing-links)
+
+## [2026-05-05 21:46] RefFormatter: formatted references on 3 pages

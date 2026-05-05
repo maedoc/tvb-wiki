@@ -44,14 +44,14 @@ TractoFlow's primary distinction lies in its strict default parameter configurat
 
 ## Key Papers  
 
-- **Theaud20**: Theaud, G., Houde, J.-C., Boré, A., Rheault, F., Morency, F., & Descoteaux, M. (2020). TractoFlow: A robust, efficient and reproducible diffusion MRI pipeline leveraging Nextflow & Singularity. *NeuroImage*, 218, 116889. https://doi.org/10.1016/j.neuroimage.2020.116889  
+- **Theaud20**: Theaud, G., Houde, J.-C., Boré, A., Rheault, F., Morency, F., & Descoteaux, M. (2020). TractoFlow: A robust, efficient and reproducible [[diffusion-mri]] pipeline leveraging Nextflow & Singularity. *NeuroImage*, 218, 116889. https://doi.org/10.1016/j.neuroimage.2020.116889  
 
 ## References  
 
 - Theaud, G., Houde, J.-C., Boré, A., Rheault, F., Morency, F., & Descoteaux, M. (2020). TractoFlow: A robust, efficient and reproducible diffusion MRI pipeline leveraging Nextflow & Singularity. *NeuroImage*, 218, 116889. https://doi.org/10.1016/j.neuroimage.2020.116889  
 - Le Bihan, D., Mangin, J. F., Poupon, C., Clark, C. A., Pappata, S., Molko, N., & Chabriat, H. (2001). Diffusion tensor imaging: concepts and applications. *Journal of Magnetic Resonance Imaging*, 13(4), 534‑546.  
-- Gorgolewski, K. J., Auer, T., Calhoun, V. D., Craddock, R. C., Das, S., Duff, E. P., … & Poldrack, R. A. (2016). The brain imaging data structure, a format for organizing and describing outputs of neuroimaging experiments. *Scientific Data*, 3, 160044. https://doi.org/10.1038/sdata.2016.44  
-- Sanz Leon, P., Knock, S. A., Woodman, M. M., Domide, L., Mersmann, J., McIntosh, A. R., & Jirsa, V. (2013). The Virtual Brain: a simulator of primate brain network dynamics. *Frontiers in Neuroinformatics*, 7, 10. https://doi.org/10.3389/fninf.2013.00010  
+- Gorgolewski, K. J., Auer, T., Calhoun, V. D., Craddock, R. C., Das, S., Duff, E. P., … & Poldrack, R. A. (2016). The brain imaging data structure, a format for organizing and describing outputs of [[neuroimaging]] experiments. *Scientific Data*, 3, 160044. https://doi.org/10.1038/sdata.2016.44  
+- Sanz Leon, P., Knock, S. A., Woodman, M. M., Domide, L., Mersmann, J., McIntosh, A. R., & Jirsa, V. (2013). [[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]. *Frontiers in Neuroinformatics*, 7, 10. https://doi.org/10.3389/fninf.2013.00010  
 - Jenkinson, M., Beckmann, C. F., Behrens, T. E., Woolrich, M. W., & Smith, S. M. (2012). FSL. *NeuroImage*, 62(2), 782‑790. https://doi.org/10.1016/j.neuroimage.2011.09.015  
 - Tournier, J. D., Smith, R. E., Raffelt, D. A., Tabbara, R., Dhollander, T., Pietsch, M., … & Connelly, A. (2019). MRtrix3: A fast, flexible and open software framework for medical image processing and visualisation. *NeuroImage*, 202, 116137. https://doi.org/10.1016/j.neuroimage.2019.116137  
 - Avants, B. B., Tustison, N., & Song, G. (2009). Advanced Normalization Tools (ANTS). *Insight j*, 2, 1‑35.  
