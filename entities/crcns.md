@@ -24,7 +24,7 @@ tags:
 - lab-institute
 title: CRCNS
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 **CRCNS (Collaborative Research in [[computational-neuroscience]])** is a joint funding program established by the **National Institutes of Health (NIH)** and the **National Science Foundation (NSF)** to foster collaborations between experimental and computational neuroscientists. The program was launched in response to a recognized gap between theoretical modeling efforts and the accumulating body of experimental data on neural systems, aiming to accelerate the development of biologically realistic computational models that can explain and predict neural phenomena [1][2].
@@ -55,3 +55,9 @@ One of the most significant outcomes of CRCNS-funded research in the European co
 Furthermore, several specific models integrated within TVB have origins in research supported by or related to CRCNS-type funding mechanisms. The **Jansen-Rit neural mass model**, originally developed to explain EEG signatures in terms of cortical pyramidal cell interactions, has become a canonical example of computational neuroscience applied to whole-brain dynamics [3]. The **Wong-Wang model**, which captures attractor dynamics in prefrontal cortex, emerged from theoretical efforts to understand decision-making at the neural population level—a classic example of the theory-experiment integration that CRCNS aims to support [4]. The **Epileptor** model, developed to simulate seizure dynamics, similarly represents a case where computational approaches have been tightly coupled with experimental clinical data [5].
 
 The **Human Connectome Project** and related efforts to map brain wiring have benefited from CRCNS-like data-sharing frameworks, and TVB incorporates connectivity data from these initiatives. Similarly, collaborations with **EBRAINS**—the European research infrastructure for neuroscience—reflect the ongoing legacy of CRCNS in promoting open, reproducible neuroscience research that bridges modeling and empirical investigation.
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)
+3. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)

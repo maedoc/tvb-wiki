@@ -16,7 +16,7 @@ tags:
 - graph-theory
 title: netneurotools
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 Netneurotools is a Python toolbox for network neuroscience research, developed by the [[netneuroscience|Network Neuroscience]] Lab at McGill University's Brain Imaging Centre. The package provides a collection of functions for analyzing brain [[connectivity]] data, computing network-level metrics, and working with structural and functional connectomes. It emerged from the increasing availability of large-scale [[connectome]] datasets and the need for standardized, reproducible tools in the network neuroscience community [[cite:netneurotools-github]].
@@ -60,3 +60,9 @@ For whole-brain modeling workflows, netneurotools can be combined with TVB's [[t
 - Markello RD, Hansen JY, Liu ZQ, et al. "neuromaps: structural and functional interpretation of brain maps." *Nature Methods* (2022). [[cite:neuromaps-paper]]
 
 - Suarez LE, Markello RD, Betzel RF, Misic B. "Linking structure and function in macroscale brain networks." *Trends in Cognitive Sciences* (2020). [[cite:structure-function]]
+
+## References
+
+1. Wang, J., Wang, X., Xia, M., Liao, X., Evans, A., & He, Y. (2015). *GRETNA: a graph theoretical network analysis toolbox for MATLAB*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2015.04.016)
+2. Woodman et al. (2014). *GraphVar: A user-friendly toolbox for comprehensive graph analyses of functional brain connectivity*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2014.07.015)
+3. Christopher Gabaldon, Adria Mulero, Rong Wang, Daniel A. Martin, Sabrina Camargo, Qian-Yuan Tang, Ignacio Cifre, Changsong Zhou, Dante R. Chialvo. (2026). *Data-driven inference of brain dynamical states from the r-spectrum of correlation matrices*. [Link](https://arxiv.org/abs/2601.03796)

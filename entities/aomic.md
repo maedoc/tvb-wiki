@@ -15,7 +15,7 @@ tags:
 - dataset
 title: AOMIC (Amsterdam Open MRI Collection)
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 The Amsterdam Open MRI Collection (AOMIC) is a large-scale open [[neuroimaging]] dataset originating from the Netherlands, designed to advance research on brain [[connectivity]], cognition, and individual differences in brain structure and function across the adult lifespan. The AOMIC dataset comprises multimodal magnetic resonance imaging (MRI) data from over 1,400 healthy adult participants, including structural MRI, resting-state functional MRI (rs-[[fmri]]), diffusion tensor imaging (DTI), and behavioral measurements. The collection was assembled to address the growing need for publicly accessible neuroimaging datasets that capture individual differences in brain organization across the adult lifespan.
@@ -45,3 +45,9 @@ AOMIC has been used in numerous studies examining [[functional-connectivity]] pa
 ## Relationship to TVB
 
 While AOMIC was not explicitly designed for whole-brain modeling, its multimodal imaging data provide excellent input for constructing personalized brain connectomes in [[the-virtual-brain]] (TVB). The [[structural-connectivity]] matrices derived from AOMIC DTI data can be used as anatomical skeletons in TVB simulations, enabling researchers to investigate how empirical connectivity patterns constrain [[network-dynamics]]. The resting-state fMRI data offer opportunities for validating TVB model outputs against empirical functional connectivity, supporting [[model-validation]] workflows. Because AOMIC is openly available on OpenNeuro, it serves as a useful test case for developing TVB preprocessing pipelines that convert [[bids]]-format data into TVB-compatible connectivity matrices. The dataset thus contributes to the broader ecosystem of neuroimaging resources that enable computational modeling approaches in [[whole-brain-modeling]].
+
+## References
+
+1. M. M. Esfahani, Vladislav Esaulov, Hemanth Venkateswara, V. Calhoun. (2025). *NEUROMARK DFNC PATTERNS: A FULLY AUTOMATED PIPELINE TO ESTIMATE SUBJECT-SPECIFIC STATES FROM RS-FMRI DATA VIA CONSTRAINED ICA OF DFNC IN +100K SUBJECTS*. bioRxiv. [DOI](https://doi.org/10.1101/2025.01.29.635539)
+2. B. Sarton, Giulia Maria Mattia, Eve Cervoni, Julie Decourt, Patrice Péran, Béatrice Riu, Fanny Bounes, Edouard Naboulsi, P. Barttfeld, Jean-Marc Olivot, Stein Silva, Sylvain Cussat-Blanc. (2026). *Explainable Machine Learning for Coma Outcome Prediction Based on Structural and Functional Brain MRI.*. Critical Care Medicine. [DOI](https://doi.org/10.1097/CCM.0000000000007068)
+3. (authors unknown). *The Minimal Preprocessing Pipelines for the Human Connectome Project*.

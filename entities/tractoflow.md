@@ -17,7 +17,7 @@ tags:
 - software
 title: TractoFlow
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 TractoFlow is a fully automated and reproducible **[[diffusion-mri]] preprocessing pipeline** specifically designed for tractography analysis. Developed by the team at Université de Sherbrooke (Canada), it provides a standardized end-to-end workflow that transforms raw diffusion-weighted imaging (DWI) data into tractography-ready outputs suitable for [[structural-connectivity]] estimation in [[whole-brain|whole-brain modeling]] frameworks (Moreaux et al., 2019). The pipeline is widely used in the [[neuroimaging]] community and has become a standard tool for preprocessing diffusion data in both research and clinical contexts.
@@ -71,3 +71,9 @@ The combination of TractoFlow for preprocessing, [[MRtrix3]] or [[AFQ]] for trac
 - [[diffusion-imaging]] — the imaging modality this pipeline processes
 - [[DTI]] — diffusion tensor imaging output by the pipeline
 - [[BIDS]] — data standard convention followed by TractoFlow
+
+## References
+
+1. Emmanuelle Renauld, Arnaud Boré, Charles Poirier, Alex Valcourt-Caron, Philippe Karan, Antoine Théberge, Guillaume Théaud, Manon Edde, P. Poulin, Gabriel Girard, Jean-Christophe Houde, A. Gagnon, Etienne St-Onge, Graham Little, Jon Haitz Legarreta, Stanislas Thoumyre, G. Grenier, Zineb El Yamani, Mario Ocampo Pineda, Matteo Battochio, Vincent Beaudoin, Alexandre Joanisse, Laurent Petit, F. Rheault, Maxime Descoteaux. (2026). *Tractography analysis with the scilpy toolbox*. Aperture Neuro. [DOI](https://doi.org/10.52294/001c.154022)
+2. Zhishun Wang, Feng Liu, Rachel Marsh, Gaurav H. Patel, J. Grinband. (2026). *MEPrep: A robust pipeline for multi-echo fMRI denoising and preprocessing*. Imaging Neuroscience. [DOI](https://doi.org/10.1162/IMAG.a.1198)
+3. (authors unknown). *The Minimal Preprocessing Pipelines for the Human Connectome Project*.

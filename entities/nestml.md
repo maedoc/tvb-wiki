@@ -25,7 +25,7 @@ tags:
 - domain-specific-language
 title: NESTML
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 NESTML (Neural Simulation Tool Modeling Language) is a domain-specific language for specifying [[neuron]] and synapse models in a declarative, simulator-independent format. Originally developed as part of the [[nest]] simulator ecosystem, NESTML provides a concise syntax for describing the mathematical equations governing neural dynamics, allowing researchers to define custom neuron models without implementing them directly in low-level simulation code. The language generates optimized code for the NEST simulator, with ongoing work to extend code generation to other simulation platforms [1][2].
@@ -59,3 +59,7 @@ The language also supports **parameter optimization** workflows through integrat
 ## Related Software
 
 [[NESTML]] is closely related to [[Brian]] and [[Brian2]], which also emphasize executable specifications of neural dynamics, though NESTML takes a compiler-based approach rather than Brian's interpreted method. For users working primarily in Python, [[PyNest]] provides the programmatic interface to the NEST simulator that executes NESTML-compiled models. The [[tvb-nest]] project demonstrates how NESTML-based neural models can be embedded within [[whole-brain modeling]] frameworks, offering a path toward more biophysically grounded large-scale simulations that retain the computational efficiency required for clinical applications.
+
+## References
+
+1. C. Linssen, Pooja N. Babu, Jochen M. Eppler, Luca Koll, Bernhard Rumpe, Abigail Morrison. (2025). *NESTML: a generic modeling language and code generation tool for the simulation of spiking neural networks with advanced plasticity rules*. Frontiers Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2025.1544143)

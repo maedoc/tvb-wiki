@@ -13,7 +13,7 @@ tags:
 - neural-modeling
 title: GENESIS
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 GENESIS (GEneral NEural Simulation System) is a widely-used, open-source neural simulation platform developed for constructing and simulating detailed, biologically realistic models of neural systems. It represents one of the earliest comprehensive frameworks for neural modeling and has had substantial influence on the development of [[computational-neuroscience]] as a discipline. GENESIS provides a modular architecture that allows researchers to construct models ranging from single neurons with arbitrary morphologies to large-scale network simulations containing thousands of interconnected cells.
@@ -69,3 +69,10 @@ Modern neural simulation continues to benefit from the foundational work begun w
 - Bower, J.M. & Beeman, D. (1998). *The Book of GENESIS: Exploring Realistic Neural Models with the GEneral NEural Simulation System*. Springer‑Verlag.
 - Bower, J.M., Beeman, D., & Hucka, M. (1998). The GENESIS Neural Simulation System. In *Computational Neuroscience: Demystifying the Brain* (pp. 47‑63). MIT Press.
 - Wilson, M.A., Bhalla, U.S., Uhley, J.D., & Bower, J.M. (1989). GENESIS: A System for Simulating Neural Networks. *Advances in Neural Information Processing Systems*, 485‑492.
+
+## References
+
+1. Peter Dayan, Larry F. Abbott. *Theoretical Neuroscience: Computational and Mathematical Modeling of Neural Systems*.
+2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *Arbor-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
+3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](https://doi.org/10.3389/fncom.2025.1731161)
+4. (authors unknown). *GLEAN: Group Level Exploratory Analysis of Networks*.

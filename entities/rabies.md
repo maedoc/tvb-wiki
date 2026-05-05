@@ -17,7 +17,7 @@ tags:
 - neuroanatomy
 title: Rabies Virus Tracing
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 Rabies virus tracing is a neuroanatomical technique that exploits the retrograde trans-synaptic properties of rabies virus to map monosynaptic neural circuits in the mammalian brain. Unlike classical anatomical tracing methods that reveal only gross [[connectivity]] patterns, rabies-mediated tracing can delineate the directional flow of information through neural networks with single-[[neuron]] resolution, making it a powerful tool for understanding the architecture of brain connectivity that underpins computational models.
@@ -53,3 +53,9 @@ Compared to competing trans-synaptic tracers, rabies offers unique advantages. *
 Despite its power, rabies virus tracing has several important limitations that researchers must consider. **Viral toxicity** remains a concern—rabies virus infection eventually leads to cytopathic effects in infected neurons, limiting experimental observation windows to approximately 2-3 weeks post-infection before cell health degrades [wickersham-2007]. **Starter cell ambiguity** arises from the fact that the starter population must be defined experimentally through driver lines or intersectional strategies; imprecise starter cell definition can confound interpretation of which neuronal populations are providing input. **Incomplete labeling** occurs because not all presynaptic partners are equally susceptible to rabies infection, and the efficiency of trans-synaptic transfer varies across brain regions and cell types. **Temporal constraints** further limit experiments—longer survival times increase polysynaptic contamination risk, while shorter times may miss weakly infected inputs. Finally, rabies tracing is inherently invasive and cannot be applied to human patients, restricting its direct applicability to post-mortem or surgical specimen studies.
 
 These limitations underscore the importance of using rabies tracing data in conjunction with other connectivity mapping approaches when building computational models of brain circuitry.
+
+## References
+
+1. Zhi-Hang Lin, Osnat Ophir, T. Trimbuch, Bettina Brokowski, Muhammad Tibi, Hermann Schmidt, Christian Rosenmund, Hannah Hochgerner, Amit Zeisel. (2025). *Brain-wide monosynaptic single-neuron connectivity with ROInet-seq*. bioRxiv. [DOI](https://doi.org/10.1101/2024.04.04.588058)
+2. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI): A flexible and integrative toolkit for efficient probabilistic inference on virtual brain models*. bioRxiv. [DOI](https://doi.org/10.1101/2025.01.21.633922)
+3. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI), a flexible and integrative toolkit for efficient probabilistic inference on whole-brain models*. eLife. [DOI](https://doi.org/10.7554/eLife.106194)

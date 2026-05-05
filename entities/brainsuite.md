@@ -15,7 +15,7 @@ tags:
 - atlas
 title: BrainSuite
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 BrainSuite is an open-source software suite for processing and analyzing structural magnetic resonance imaging (MRI) data of the human brain, with particular emphasis on cortical surface extraction, tissue segmentation, and surface-based registration to anatomical atlases. Developed primarily at the University of California, Los Angeles (UCLA) Laboratory of Neuroimaging (LONI) in collaboration with the University of Southern California (USC) Biomedical Imaging Research Group, BrainSuite provides a comprehensive and largely automated pipeline for extracting topologically correct cortical surface models from T1-weighted MRI scans (Shattuck & Leahy, 2000). The suite integrates graphical user interface (GUI) tools for visualization and manual editing with command-line utilities for automated batch processing, making it adaptable to both exploratory analysis and large-scale research pipelines.
@@ -47,3 +47,8 @@ BrainSuite integrates with the broader landscape of neuroimaging tools. It compl
 - Joshi, A.A., Choi, S., Chong, M., et al. (2022). A Hybrid High-Resolution Anatomical MRI Atlas with Sub-parcellation of Cortical Gyri using Resting fMRI. *Journal of Neuroscience Methods*, 374:109566. [doi:10.1016/j.jneumeth.2022.109566](https://doi.org/10.1016/j.jneumeth.2022.109566)
 - Joshi, A.A., Shattuck, D.W., Thompson, P.M., & Leahy, R.M. (2012). Surface-constrained volumetric registration. *NeuroImage*, 60(4): 1889–1900. [doi:10.1016/j.neuroimage.2012.01.131](https://doi.org/10.1016/j.neuroimage.2012.01.131)
 - Joshi, A.A., Shattuck, D.W., & Leahy, R.M. (2007). A method for automatic generation of the cortical sulci based on elastic deformation. *Journal of Neuroscience Methods*, 166(2): 207–217.
+
+## References
+
+1. (authors unknown). *Evidence for Dissociation of Spatial and Nonspatial Auditory Information Processing*.
+2. (authors unknown). *Auditory perceptual decision-making based on semantic categorization of environmental sounds*.

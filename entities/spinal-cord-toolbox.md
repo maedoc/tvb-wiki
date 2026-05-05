@@ -12,7 +12,7 @@ tags:
 - software
 title: Spinal Cord Toolbox
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 The Spinal Cord Toolbox (SCT) is a specialized open-source software platform for automated processing and quantitative analysis of spinal cord magnetic resonance imaging (MRI) data. Developed primarily by the [NeuroPoly laboratory](https://neuropoly.github.io/) at the University of Montreal, SCT addresses the unique challenges posed by spinal cord [[neuroimaging]]—particularly the small cross-sectional area of the cord (~10mm diameter), its curved geometry within the vertebral canal, and the susceptibility artifacts that plague conventional MRI processing pipelines designed for the brain [@de-leener-2017]. The toolkit provides a comprehensive suite of command-line tools that enable preprocessing, segmentation, registration, and metric extraction across multiple MRI modalities including T1-weighted, T2-weighted, diffusion tensor imaging (DTI), and functional MRI of the spinal cord.
@@ -44,3 +44,9 @@ The Spinal Cord Toolbox occupies a niche somewhat peripheral to [[the-virtual-br
 ## Related Software
 
 SCT intersects with several other neuroimaging software packages in the broader ecosystem. For general MRI preprocessing, it complements tools like [[ants]] for registration and Fsl for statistical analysis. For diffusion MRI processing, SCT can be used alongside Mrtrix3 and Dipy for tractography and connectivity analysis. The template-based approach used by SCT shares methodology with brain parcellation tools such as Nilearn and [[templateflow]]. For quality control and visualization, SCT integrates with Freesurfer's freeview and general-purpose medical imaging viewers. Researchers building comprehensive neuroimaging pipelines may combine SCT with brain-focused tools like [[mne-bids]] for combined spinal cord and cortical analysis.
+
+## References
+
+1. Quynh Lê, Arichena Manmatharayan, Mashaal Syed, Ki-Sang Kang, Tsao‐Wei Liang, Mahdi Alizadeh, Chengyuan Wu. (2026). *Structural and Functional Connectivity in Parkinson's Disease Patients With Freezing of Gait and Other Gait Disturbances*. Clinical Neuroimaging. [DOI](https://doi.org/10.1002/neo2.70042)
+2. (authors unknown). *Nighres: processing tools for high-resolution neuroimaging*.
+3. Rohan Banerjee, M. Kaptan, Alexandra Tinnermann, Ali Khatibi, Alice Dabbagh, C. Büchel, Christian W Kündig, C. S. Law, Dario Pfyffer, D. Lythgoe, Dimitra Tsivaka, D. Van de Ville, Falk Eippert, Fauziyya Muhammad, Gary H. Glover, Gergely Dávid, Grace Haynes, Jan Haaker, Jonathan C. W. Brooks, J. Finsterbusch, K. Martucci, K. Hemmerling, Mahdi Mobarak-Abadi, M. Hoggarth, M. Howard, Molly G. Bright, Nawal Kinany, O. Kowalczyk, Patrick Freund, Robert L. Barry, S. Mackey, Shahabeddin Vahdat, Simon Schading, Stephen B McMahon, Todd Parish, Véronique Marchand-Pauvert, Yufen Chen, Z. A. Smith, K. Weber, B. De Leener, Julien Cohen-Adad. (2025). *EPISeg: Automated segmentation of the spinal cord on echo planar images using open-access multi-center data*. bioRxiv. [DOI](https://doi.org/10.1101/2025.01.07.631402)

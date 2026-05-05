@@ -11,7 +11,7 @@ tags:
 - software-visualization
 title: SCOT
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-05'
 ---
 
 SCOT ([[structural-connectivity]] Toolbox) is a proposed or lessestablished software package designed for the analysis and visualization of structural brain [[connectivity]] data derived from diffusion tensor imaging (DTI) and probabilistic tractography. The toolbox provides a unified interface for computing connectivity matrices, extracting network metrics, and performing comparative analysis across subject groups, making it particularly valuable for [[whole-brain|whole-brain modeling]] workflows that require robust structural connectivity estimates as the anatomical backbone for [[neural-mass-model]] simulations [[@rubinov2010complex]]. *Note: This entry requires verification as SCOT may not be a widely documented or established tool in the [[neuroimaging]] ecosystem.*
@@ -40,3 +40,9 @@ The closest competitors to SCOT are the [[brain-connectivity-toolbox]] (BCT), wh
 - Tournier, J. D., et al. (2012). MRtrix: [[diffusion-imaging]], diffusion spectroscopy, and FAQ. Proc. ISMRM. [[@tournier2012mrtrix3]]
 - Sanz-Leon, P., et al. (2015). [[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]. *NeuroImage*, 111, 385-410. [[@sanz-leon2015virtual]]
 - Zalesky, A., et al. (2010). Whole-brain anatomical networks: Does the choice of nodes and edges matter? *NeuroImage*, 50(3), 970-983. [[@zalesky2010thresholding]]
+
+## References
+
+1. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
+2. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+3. Wang, J., Wang, X., Xia, M., Liao, X., Evans, A., & He, Y. (2015). *GRETNA: a graph theoretical network analysis toolbox for MATLAB*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2015.04.016)
