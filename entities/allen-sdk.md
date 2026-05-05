@@ -46,7 +46,7 @@ While the Allen SDK itself provides data access rather than simulator coupling, 
 
 ## Related Software and Resources
 
-The Allen SDK is part of a broader ecosystem of brain atlas tools and data resources:
+The[[ Allen SDK| Allen SDK]] is part of a broader ecosystem of brain atlas tools and data resources:
 
 - **Freesurfer**: For cortical [[parcellation]] and segmentation of human [[neuroimaging]] data
 - **[[brain-connectivity-toolbox]]**: For network analysis of connectivity data

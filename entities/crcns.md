@@ -1,18 +1,6 @@
 ---
 created: 2026-05-04
 sources:
-- NIH and NSF. *Collaborative Research in Computational Neuroscience (CRCNS)*. Program
-  Announcement. https://grants.nih.gov/grants/guide/pa-files/PAR-19-162.html
-- 'Kleinfeld D, Berg RW, Blevin D, et al. The Collaborative Research in Computational
-  Neuroscience (CRCNS) program: a mechanism for supporting experimental-theoretical
-  collaborations in neuroscience. *Neuroinformatics*. 2004;2(1):5-8.'
-- 'Jansen BH, Rit VG. Electroencephalography and neural field modeling: a new approach
-  to the inverse problem. *Biol Cybern*. 1995;73(4):357-366.'
-- Wong KF, Wang XJ. A recurrent network mechanism for time integration in perceptual
-  decisions. *J Neurosci*. 2006;26(12):3213-3224.
-- Jirsa VK, Haken H. Field theory of electromagnetic brain activity. *Phys Rev Lett*.
-  1996;77(5):960-963.
-- The Virtual Brain. https://www.thevirtualbrain.org
 - raw/papers/sanz-leon-2013.md
 - raw/papers/breakspear-2017.md
 - raw/papers/ritter-2013.md

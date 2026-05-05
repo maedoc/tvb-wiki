@@ -1,10 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- oostenveld2011fieldtrip
-- gramfort2013mne
-- delorme2004eeglab
-- tadel2011brainstorm
 - raw/papers/arxiv-2604.16463.md
 tags:
 - neuroimaging-meg

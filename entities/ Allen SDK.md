@@ -1,28 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- citation: Allen Institute. "Allen Institute for Brain Science." https://www.alleninstitute.org/about/
-  id: allen-institute-founding
-  title: Allen Institute for Brain Science Overview
-  year: 2024
-- citation: Oh, S.W. et al. "A mesoscale connectome of the mouse brain." Nature 508,
-    207–214 (2014)
-  id: oh-2014
-  title: A mesoscale connectome of the mouse brain
-  year: 2014
-- citation: Allen Institute. "Allen Mouse Brain Connectivity Atlas." https://connectivity.brain-map.org/
-  id: allen-mouse-connectivity-atlas
-  title: Allen Mouse Brain Connectivity Atlas
-  year: 2024
-- citation: Allen Institute. "Allen SDK." https://sdk.brain-map.org/
-  id: allen-sdk-documentation
-  title: Allen SDK Documentation
-  year: 2024
-- citation: Ding, S.L. et al. "Canonical correspondence between the mouse brain and
-    histological imaging." Nature Neuroscience 2020
-  id: ccf-paper
-  title: Common Coordinate Framework of the Mouse Brain
-  year: 2020
 - raw/papers/sanz-leon-2013.md
 - raw/papers/semanticscholar-028f7c6ac41d.md
 - raw/papers/ritter-2013.md
@@ -72,3 +50,9 @@ The SDK's focus on mouse brain connectivity also positions it as a complement to
 - Oh, S.W. et al. (2014). "A mesoscale [[connectome]] of the mouse brain." *Nature* 508, 207–214. This foundational paper describes the Allen Mouse Brain Connectivity Atlas and its methodology.
 - Ding, S.L. et al. (2020). "Canonical correspondence between the mouse brain and histological imaging." *Nature Neuroscience*. This paper describes the Common Coordinate Framework.
 - Allen Institute. "Allen Mouse Brain Connectivity Atlas." https://connectivity.[[brain-map]].org/ — Official documentation and data access portal.
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Shengjie Qi, Xinda Song, Le Jia, Hongyu Cui, Yuchen Suo, Teng Long, Zhendong Wu, Xiaolin Ning. (2025). *The impact of channel density, inverse solutions, connectivity metrics and calibration errors on OPM-MEG connectivity analysis: A simulation study*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2025.121056)
+3. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)

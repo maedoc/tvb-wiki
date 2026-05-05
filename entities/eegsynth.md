@@ -1,14 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- Oostenveld & colleagues
-- Donders Centre for Cognitive Neuroimaging
-- https://www.eegsynth.org; GitHub Repository
-- EEGSynth community
-- https://github.com/eegsynth/eegsynth; FieldTrip
-- Oostenveld et al. (2011)
-- Computational Intelligence and Neuroscience
-- https://doi.org/10.1155/2011/156869
 - raw/papers/sanz-leon-2013.md
 - raw/papers/semanticscholar-5a69b770faf9.md
 - raw/papers/gramfort-2013.md
@@ -53,3 +45,9 @@ The EEGSynth project does not have a dedicated primary reference paper, but it i
 ## Related Software
 
 EEGSynth occupies a niche in the real-time EEG processing ecosystem that overlaps with several other software platforms. EEGLAB provides comprehensive offline EEG analysis capabilities and can serve as a preprocessing toolchain for data subsequently used in TVB modeling. OpenVibe offers a visual programming environment for real-time BCI applications with a comparable modular architecture. The MNE-Python connectivity module provides Python-native connectivity analysis tools that can process EEG data exported from EEGSynth. For real-time signal processing in Python, the electrophysiology community also includes pyxdf for reading LSL data streams and neuroconv for format conversions.
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. P. S. Shabestari, Delphine Ribes, Lara Défayes, Danpeng Cai, Emily Groves, Harry H. Behjat, D. Van de Ville, Tobias Kleinjung, A. Naas, N. Henchoz, A. Sonderegger, Patrick Neff. (2025). *Advances on Real Time M/EEG Neural Feature Extraction*. 2025 IEEE 38th International Symposium on Computer-Based Medical Systems (CBMS). [DOI](https://doi.org/10.1109/CBMS65348.2025.00074)
+3. Gramfort et al. (2013). *MEG and EEG: From Acquisition to Analysis*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fnins.2013.00010)

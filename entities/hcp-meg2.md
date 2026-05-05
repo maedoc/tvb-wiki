@@ -1,9 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- https://www.humanconnectome.org/study/hcp-lifespan-studies
-- https://www.humanconnectome.org/storage/app/media/documentation/M MEG2%20v2.0.pdf
-- https://github.com/hcp-fmri/hcp-meg
 - raw/papers/ritter-2013.md
 - raw/papers/semanticscholar-5f347f47ec54.md
 - raw/papers/semanticscholar-adcab180dcd3.md
@@ -56,3 +53,9 @@ The primary analysis ecosystem for HCP MEG2 revolves around [[MNE-Python]] and i
 The `hcp-meg` package (available on GitHub) provides utilities for working directly with HCP-formatted MEG data, including CIFTI conversion and preprocessing helpers. The data can also be imported into TVB using adapters from [[tvb-adapters]] for integration with TVB's simulation engines.
 
 For visualization of results, common tools include [[pysurfer]] for cortical surface representations and [[brainViewer]] for interactive exploration. The dataset's structure also facilitates analysis within the [[brain-life]] ecosystem, enabling reproducible containers that can be shared across labs.
+
+## References
+
+1. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
+2. Masashi Kondo, K. Sehara, Rie Harukuni, Ryo Aoki, Shoya Sugimoto, Yasuhiro R. Tanaka, Masanori Matsuzaki, Ken Nakae. (2025). *Multimodal dataset linking wide‐field calcium imaging to behavior changes in operant lever‐pull task in mice*. Scientific Data. [DOI](https://doi.org/10.1038/s41597-025-05482-y)
+3. J. Meier, P. Triebkorn, M. Schirner, Petra Ritter. (2025). *Connectomes, simultaneous EEG-fMRI resting-state data and brain simulation results from 50 healthy subjects*. bioRxiv. [DOI](https://doi.org/10.1101/2024.04.17.589718)

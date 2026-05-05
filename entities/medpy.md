@@ -1,9 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- https://github.com/loli/medpy/
-- https://pypi.org/project/MedPy/
-- https://loli.github.io/medpy/
 - raw/papers/schirner-2018.md
 - raw/papers/semanticscholar-380768cf42a8.md
 - raw/papers/ritter-2013.md

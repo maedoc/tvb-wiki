@@ -1,12 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- 'Neuroimaging Informatics Technology Initiative. (2012). NITRC: Neuroimaging informatics
-  tools repository. Frontiers in Neuroinformatics.'
-- 'Gorgolewski, G., et al. (2017). NITRC-CE: A containerized computational environment
-  for neuroimaging. Neuroinformatics.'
-- 'Sanz Leon, P., et al. (2013). The Virtual Brain: a simulator of primate brain network
-  dynamics. Neuroinformatics.'
 - raw/papers/sanz-leon-2013.md
 tags:
 - software

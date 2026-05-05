@@ -1,9 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- 10.1007/978-3-540-40899-4_6
-- 10.1016/j.neuroimage.2006.08.020
-- 10.1016/j.jneumeth.2022.109566
 - raw/papers/doi-10-1006-nimg-2001-0903.md
 - raw/papers/doi-10-1016-j-neuroimage-2012-01-131.md
 - raw/papers/sanz-leon-2013.md

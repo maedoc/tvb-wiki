@@ -1,11 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- sanz-leon_p_2013
-- jansen_rit_1995
-- wong_wang_2006
-- breakspear_2003
-- fransson_2001
 - raw/papers/semanticscholar-2004e006655b.md
 - raw/papers/breakspear-2017.md
 - raw/papers/arxiv-2509.02799.md

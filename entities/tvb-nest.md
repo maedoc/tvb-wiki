@@ -13,6 +13,7 @@ tags:
 - neural-mass-models
 - mean-field-theory
 - epilepsy-modeling
+title: Tvb Nest
 type: entity
 updated: '2026-05-05'
 ---

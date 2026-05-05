@@ -1,7 +1,6 @@
 ---
 created: 2026-04-20
 sources:
-- raw/papers/destrieux-2010.md
 - raw/papers/power-2011.md
 - raw/papers/semanticscholar-6295d2445697.md
 - raw/papers/glean-github.md
@@ -10,6 +9,7 @@ tags:
 - neuroimaging
 - software-freesurfer
 - structural-connectivity
+title: Destrieux Atlas
 type: entity
 updated: '2026-05-04'
 ---

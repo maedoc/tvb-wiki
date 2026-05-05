@@ -1,9 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- https://www.neurosift.app
-- https://neurovault.org
-- https://github.com/neurosift/neurosift
 - raw/papers/joss-06590.md
 - raw/papers/sanz-leon-2013.md
 - raw/papers/mijalkov-2017-braph.md
@@ -49,3 +46,9 @@ Neurosift occupies a specific niche in the neuroimaging visualization landscape,
 
 - Moreau, J. (n.d.). Neurosift: Web-based neuroimaging visualization. Retrieved from https://www.neurosift.app
 - NeuroVault Team. (n.d.). NeuroVault: A repository for statistical maps and parcellations. Retrieved from https://neurovault.org
+
+## References
+
+1. (authors unknown). *Neurosift: DANDI exploration and NWB visualization in the browser*.
+2. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+3. (authors unknown). *BRAPH: A Pipeline for Brain Connectivity Analysis*.

@@ -42,3 +42,9 @@ Neurokernel provides several distinguishing capabilities that set it apart from 
 ## Related Software
 
 Neurokernel intersects with several other tools in the computational neuroscience ecosystem. For spiking network simulations, it connects to [[NEST]] through the backend abstraction layer and can interoperate with [[Brian]] for prototype modeling. For model specification, it shares conceptual territory with [[NeuroML]] and [[PyNEST]], though Neurokernel's focus on whole-brain integration extends beyond these single-region specification formats. For analysis and visualization, it outputs data compatible with the [[Brain Connectivity Toolbox]], [[Nilearn]], and [[Connectome Workbench]]. Whole-brain modeling researchers may also consider [[The Virtual Brain]], [[TVB-NEST]], and [[Epileptor]]-based approaches as alternative or complementary tools depending on their specific modeling goals and workflow requirements.
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *Arbor-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
+3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](https://doi.org/10.3389/fncom.2025.1731161)

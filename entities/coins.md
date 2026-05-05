@@ -64,3 +64,9 @@ The system was subsequently used to demonstrate data sharing at scale through in
 ## Scale and Adoption
 
 As of the most recent documentation, COINS manages over 71,000 participants across 970 studies, with more than 78,000 scan sessions and 2 million clinical assessments in its repositories. The system has been deployed at multiple research institutions including the Mind Research Network, the Nathan Kline Institute, University of Colorado Boulder, and the Olin Neuropsychiatry Research Center. This broad adoption demonstrates the platform's ability to scale from single-lab studies to enterprise-level multi-site initiatives while maintaining usability for diverse user populations.
+
+## References
+
+1. Muhammad Nabi Yasinzai, R. Mito, M. Pedersen. (2025). *BrainScape: An open-source framework for integrating and preprocessing anatomical MRI datasets*. Imaging neuroscience. [DOI](https://doi.org/10.1162/IMAG.a.944)
+2. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2025). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research*. bioRxiv. [DOI](https://doi.org/10.1101/2025.10.06.680781)
+3. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2026). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research.*. Brain Stimulation. [DOI](https://doi.org/10.1016/j.brs.2025.103016)

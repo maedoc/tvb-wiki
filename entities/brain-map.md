@@ -1,16 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- '[Human Connectome Project: A multimodal parcellation of human cerebral cortex](https://www.nature.com/articles/nature18933)'
-- '[UK Biobank: Imaging-derived phenotypes](https://www.nature.com/articles/s41586-019-1830-y)'
-- '[The Virtual Brain: Whole-brain modeling of electrophysiological dynamics](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4276718/)'
-- '[Allen Human Brain Atlas: Transcriptional mapping](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3613042/)'
-- '[Desikan-Killiany Atlas: An automated labeling system for subdividing the human
-  cerebral cortex](https://pubmed.ncbi.nlm.nih.gov/16641949/)'
-- '[Schaefer Parcellation: Local granularity of the human cerebral cortex](https://pubmed.ncbi.nlm.nih.gov/29971048/)'
-- '[Glasser Multi-modal Parcellation of Human Cortex](https://www.nature.com/articles/nature26005)'
-- '[Tractography-based structural connectivity: Acquisition and normalization](https://pubmed.ncbi.nlm.nih.gov/19702440/)'
-- '[Destrieux Atlas: Automatic parcellation of the cerebral cortex](https://pubmed.ncbi.nlm.nih.gov/20493346/)'
 - raw/papers/semanticscholar-60ca593f7e0c.md
 - raw/papers/semanticscholar-b9acfa0a7c80.md
 - raw/papers/semanticscholar-ab39183d81dc.md
@@ -73,3 +63,9 @@ Brain maps are closely related to [[brain-parcellations]], which focus specifica
 - [[neural-mass-models]] — The dynamical systems instantiated on brain map nodes
 - [[whole-brain-modeling]] — The broader modeling framework that employs brain maps
 - [[functional-connectivity]] — Correlation-based connectivity derived from brain map time series
+
+## References
+
+1. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI): A flexible and integrative toolkit for efficient probabilistic inference on virtual brain models*. bioRxiv. [DOI](https://doi.org/10.1101/2025.01.21.633922)
+2. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI), a flexible and integrative toolkit for efficient probabilistic inference on whole-brain models*. eLife. [DOI](https://doi.org/10.7554/eLife.106194)
+3. Yun Cao, Jiaqin Huang, Danli Zhang, Jianguang Ji, Xiaojing Lei, Zhongjian Tan, Jingling Chang. (2025). *Crosstalk between the gut microbiota and brain network topology in poststroke aphasia patients: perspectives from neuroimaging findings*. Therapeutic Advances in Neurological Disorders. [DOI](https://doi.org/10.1177/17562864251319870)

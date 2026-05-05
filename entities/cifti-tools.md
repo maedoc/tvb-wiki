@@ -1,9 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- GlasserEtAl2013
-- MarcusEtAl2011
-- nibabel-docs
 - raw/papers/doi-10-3389-fninf-2011-00004.md
 - raw/papers/van-essen-2012.md
 - raw/papers/basser-1994.md
