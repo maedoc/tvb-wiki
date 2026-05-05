@@ -168,3 +168,5 @@
 ## [2026-05-05 09:50] Audit: 988 issues (161 broken links, 62 orphans, 20 placeholders, 0 dup-refs, 5 bad-meta, 85 citation-verify, 9 opaque-refs, 73 thin, 354 missing-links)
 
 ## [2026-05-05 09:52] SoftwareMapper: 2 pages created
+
+## [2026-05-05 09:53] CrosslinkApplier: added 39 wikilinks (39 inline, 0 suggested)
