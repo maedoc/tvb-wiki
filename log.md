@@ -174,3 +174,5 @@
 ## [2026-05-05 09:53] Matcher: 1 pages got 3 new sources
 
 ## [2026-05-05 09:55] DeepResearch: 1 papers added via focused research
+
+## [2026-05-05 12:06] Repair: 230 issues fixed (95 source refs, 33 index, 5 frontmatter, 73 wikilinks, 9 orphans, 0 dup-refs, 0 opaque-refs, 15 crosslinks)
