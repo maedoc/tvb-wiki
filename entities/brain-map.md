@@ -40,7 +40,7 @@ Brain maps for whole-brain modeling are constructed from neuroimaging data acqui
 
 Several public datasets provide pre-computed brain maps that have been widely used in the literature. The [[human-connectome-project]] (HCP) provides high-quality diffusion imaging data from over 1,000 subjects, from which group-level structural connectivity matrices have been derived using multiple parcellation schemes. The [[uk-biobank]] similarly provides multimodal imaging data from nearly 40,000 participants, enabling the construction of population-representative brain maps with unprecedented statistical power. For specific applications, the [[allen-brain-atlas]] provides gene expression maps that can be integrated with structural parcellations to create biologically informed brain models.
 
-In [[the-virtual-brain]], brain maps are imported through the [[tvb-library]]'s connectivity pipeline, which accepts parcellation files in GIFTI or NIfTI format along with corresponding connectivity matrices. The software supports multiple parcellation schemes and allows users to define custom brain maps for personalized modeling applications.
+In [[the-virtual-brain]], brain maps are imported through the [[tvb-library]]'s connectivity pipeline, which accepts parcellation files in GIFTI or [[nifti]] format along with corresponding connectivity matrices. The software supports multiple parcellation schemes and allows users to define custom brain maps for personalized modeling applications.
 
 ## Relationship to Connectome
 
@@ -68,4 +68,4 @@ Brain maps are closely related to [[brain-parcellations]], which focus specifica
 
 1. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI): A flexible and integrative toolkit for efficient probabilistic inference on virtual brain models*. bioRxiv. [DOI](https://doi.org/10.1101/2025.01.21.633922)
 2. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI), a flexible and integrative toolkit for efficient probabilistic inference on whole-brain models*. eLife. [DOI](https://doi.org/10.7554/eLife.106194)
-3. Yun Cao, Jiaqin Huang, Danli Zhang, Jianguang Ji, Xiaojing Lei, Zhongjian Tan, Jingling Chang. (2025). *Crosstalk between the gut microbiota and brain network topology in poststroke aphasia patients: perspectives from neuroimaging findings*. Therapeutic Advances in Neurological Disorders. [DOI](https://doi.org/10.1177/17562864251319870)
+3. Yun Cao, Jiaqin Huang, Danli Zhang, Jianguang Ji, Xiaojing Lei, Zhongjian Tan, Jingling Chang. (2025). *Crosstalk between the gut microbiota and [[brain-network]] topology in poststroke aphasia patients: perspectives from neuroimaging findings*. Therapeutic Advances in Neurological Disorders. [DOI](https://doi.org/10.1177/17562864251319870)
