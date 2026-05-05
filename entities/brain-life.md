@@ -55,3 +55,9 @@ The integration between brainlife and TVB is particularly valuable for [[persona
 The platform leverages container technology for all processing tools, primarily using [[apptainer]] containers that can be executed on diverse computational resources. Compute resources include CPU-only nodes for preprocessing workflows and GPU-accelerated nodes for computationally intensive tasks such as deep learning-based segmentation. The distributed architecture enables scalable processing of large datasets while maintaining reasonable execution times for typical analyses.
 
 Brainlife provides both a web-based graphical interface for interactive use and command-line APIs for programmatic access, enabling integration with external workflows and automation pipelines. The platform handles resource allocation, job scheduling, and data storage transparently, allowing researchers to focus on their analysis rather than infrastructure management.
+
+## References
+
+1. Wen-ju Pan, L. Daley, Harrison Watters, Lisa Meyer-Baese, K. Gopinath, Dieter Jaeger, Shella Keilholz. (2026). *An integrated platform for simultaneous wide-field voltage/calcium imaging and fMRI (EPI & ZTE) reveals neuronal infraslow dynamics underlying functional connectivity*. bioRxiv. [DOI](https://doi.org/10.64898/2026.01.26.701889)
+2. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2025). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research*. bioRxiv. [DOI](https://doi.org/10.1101/2025.10.06.680781)
+3. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2026). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research.*. Brain Stimulation. [DOI](https://doi.org/10.1016/j.brs.2025.103016)

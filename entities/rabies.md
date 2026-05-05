@@ -41,3 +41,9 @@ The software's uncertainty estimates align well with TVB's framework for handlin
 RABIES occupies a similar analytical niche as other segmentation tools in the neuroimaging ecosystem, though its Bayesian methodology distinguishes it from many alternatives. The closest functional equivalents include [[ants]] (Advanced Normalization Tools), which provides segmentation through the ANTsSyN algorithm and includes the Atropos segmentation module; [[fmriprep]], which offers automated preprocessing alongside segmentation capabilities; and [[brainvisa]], which provides comprehensive cortical reconstruction through probabilistic labeling based on Bayesian inference combined with anatomical constraints.
 
 For whole-brain parcellation, RABIES can be used in combination with [[brain-parcellations]] such as the [[schaefer-atlas]], [[glasser-atlas]], or [[desikan-killiany-atlas]] to produce study-specific parcellations that incorporate lesion information. The output formats are compatible with connectomics tools including [[bctpy]] (Brain Connectivity Toolbox) for [[functional-connectivity]] analysis and [[mrtrix3-connectome]] for tractography-based connectivity.
+
+## References
+
+1. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
+2. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+3. (authors unknown). *Nighres: processing tools for high-resolution neuroimaging*.
