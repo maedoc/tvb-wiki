@@ -1,26 +1,31 @@
 ---
-title: ilastik
 created: 2025-01-15
-updated: 2026-05-05
-type: entity
-tags: [software-visualization, bioimaging, machine-learning, segmentation, classification]
 sources:
-  - https://arxiv.org/abs/2205.04554
-  - https://academic.oup.com/bioinformatics/article/28/11/1547/340308
-  - https://www.nature.com/articles/s41592-022-01668-z
+- https://arxiv.org/abs/2205.04554
+- https://academic.oup.com/bioinformatics/article/28/11/1547/340308
+- https://www.nature.com/articles/s41592-022-01668-z
+tags:
+- software-visualization
+- bioimaging
+- machine-learning
+- segmentation
+- classification
+title: ilastik
+type: entity
+updated: '2026-05-05'
 ---
 
 # ilastik
 
 ## Overview
 
-**ilastik** is an open-source interactive machine learning tool designed for segmentation, classification, and analysis of bioimaging data. Originally developed at the European Molecular Biology Laboratory (EMBL) in Heidelberg, Germany, ilastik enables neuroscientists and cell biologists to train pixel-level classifiers through an intuitive graphical interface, generating accurate segmentations without requiring extensive programming expertise [1]. The software combines conventional feature extraction with random forest classifiers and, in more recent versions, deep neural networks to achieve robust performance across diverse imaging modalities including electron microscopy, confocal microscopy, light sheet microscopy, and fMRI data processed for structural analysis.
+**ilastik** is an open-source interactive machine learning tool designed for segmentation, classification, and analysis of bioimaging data. Originally developed at the European Molecular Biology Laboratory (EMBL) in Heidelberg, Germany, ilastik enables neuroscientists and cell biologists to train pixel-level classifiers through an intuitive graphical interface, generating accurate segmentations without requiring extensive programming expertise [1]. The software combines conventional feature extraction with random forest classifiers and, in more recent versions, deep neural networks to achieve robust performance across diverse imaging modalities including electron microscopy, confocal microscopy, light sheet microscopy, and [[fmri]] data processed for structural analysis.
 
 ## Key Features
 
 The core strength of ilastik lies in its **workflow-based architecture**, which guides users through a structured pipeline for batch processing of large image volumes. The workflow typically involves: (1) pixel classification, where users annotate example pixels and the system learns to distinguish between different tissue types or cellular structures; (2) object classification, which builds on pixel-level predictions to categorize entire objects; (3) tracking, for following labeled objects across time in time‑lapse imaging; and (4) boundary‑based segmentation, particularly useful for electron microscopy reconstruction of neural circuits. The software exports results in standard formats including [[NIfTI]] for neuroimaging applications, HDF5 for raw data storage, and various microscopy formats through the OME Bio‑Formats ecosystem [2]. Recent versions (1.4+) support GPU acceleration via [[brian2cuda]], enabling processing of datasets exceeding tens of gigabytes within reasonable timeframes.
 
-ilastik's **probability maps** output is particularly valuable for whole‑brain modeling workflows, as the software can generate probabilistic segmentations of brain structures from multiple imaging modalities. These probability maps serve as anatomical priors for parcellation algorithms used in [[structural connectivity]] reconstruction from [[diffusion imaging]] data [3].
+ilastik's **probability maps** output is particularly valuable for whole‑brain modeling workflows, as the software can generate probabilistic segmentations of brain structures from multiple imaging modalities. These probability maps serve as anatomical priors for [[parcellation]] algorithms used in [[structural connectivity]] reconstruction from [[diffusion imaging]] data [3].
 
 ## Relationship to TVB
 

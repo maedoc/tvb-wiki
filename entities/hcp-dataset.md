@@ -19,7 +19,7 @@ type: concept
 updated: '2026-05-05'
 ---
 
-The **HCP Dataset** refers to the publicly released [[neuroimaging]] data from the Human Connectome Project (HCP), a landmark initiative to map the structural and functional connectivity of the healthy adult human brain. Unlike its parent initiative (the [[human-connectome-project]]), which encompasses the broader research program, the HCP Dataset specifically denotes the curated collection of multimodal brain imaging scans acquired using standardized protocols and made openly available to the neuroscience community. The dataset comprises structural MRI, task-based functional MRI, resting-state functional MRI, and diffusion imaging data from approximately 1200 healthy young adults [1], representing the largest and most comprehensively characterized neuroimaging repository of its kind when first released.
+The **HCP Dataset** refers to the publicly released [[neuroimaging]] data from the Human Connectome Project (HCP), a landmark initiative to map the structural and functional connectivity of the healthy adult human brain. Unlike its parent initiative (the [[human-connectome-project]]), which encompasses the broader research program, the HCP Dataset specifically denotes the curated collection of multimodal brain imaging scans acquired using standardized protocols and made openly available to the neuroscience community. The dataset comprises structural MRI, task-based functional MRI, resting-state functional MRI, and [[diffusion-imaging]] data from approximately 1200 healthy young adults [1], representing the largest and most comprehensively characterized neuroimaging repository of its kind when first released.
 
 ## Motivation and Scientific Context
 

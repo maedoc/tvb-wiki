@@ -36,7 +36,7 @@ sources:
 - raw/papers/gramfort-2013.md
 tags:
 - software
-- electrophysiology
+- [[electrophysiology]]
 - eeg
 - brain-computer-interface
 - real-time-processing

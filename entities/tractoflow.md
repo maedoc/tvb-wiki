@@ -1,22 +1,27 @@
----  
-title: TractoFlow  
-created: 2025-01-15  
-updated: 2026-05-05  
-type: entity  
-tags: [software-brain-modeling, diffusion-imaging, tractography, diffusion-mri, structural-connectivity]  
-sources: [raw/papers/arxiv-1905.05846.md]  
-
----  
+---
+created: 2025-01-15
+sources:
+- raw/papers/arxiv-1905.05846.md
+tags:
+- software-brain-modeling
+- diffusion-imaging
+- tractography
+- diffusion-mri
+- structural-connectivity
+title: TractoFlow
+type: entity
+updated: '2026-05-05'
+---
 
 ## Overview  
 
-TractoFlow is a fully automated, containerized processing pipeline designed to reconstruct white matter tracts from diffusion-weighted MRI (DW-MRI) data. Developed primarily by François Rheault and colleagues at the University of Sherbrooke, it provides an end-to-end workflow that transforms raw diffusion images into streamlines, tractograms, and structural connectivity matrices ready for downstream network analysis [[Theaud20]]. The pipeline is built around a rigorous preprocessing sequence that includes motion and eddy-current correction, bias field correction, response function estimation, spherical deconvolution, and probabilistic tractography, all orchestrated through Nextflow and Singularity containers for reproducibility across high-performance computing environments.  
+TractoFlow is a fully automated, containerized processing pipeline designed to reconstruct [[white-matter]] tracts from diffusion-weighted MRI (DW-MRI) data. Developed primarily by François Rheault and colleagues at the University of Sherbrooke, it provides an end-to-end workflow that transforms raw diffusion images into streamlines, tractograms, and [[structural-connectivity]] matrices ready for downstream network analysis [[Theaud20]]. The pipeline is built around a rigorous preprocessing sequence that includes motion and eddy-current correction, bias field correction, response function estimation, spherical deconvolution, and probabilistic [[tractography]], all orchestrated through Nextflow and Singularity containers for [[reproducibility]] across high-performance computing environments.  
 
 ## Motivation and Context  
 
 Diffusion MRI is the only non‑invasive method capable of mapping white matter microstructure and fiber orientation in vivo [[LeBihan01]], making it indispensable for whole‑brain connectivity studies. However, tractography workflows historically required manual intervention at multiple stages, using heterogeneous software packages with inconsistent parameter settings—a situation that severely compromised reproducibility across studies. TractoFlow emerged to address this reproducibility crisis by providing a single, validated pipeline that applies state‑of‑the‑art processing methods in a predetermined, transparent sequence [[Theaud20]]. The pipeline was designed to integrate seamlessly with the BIDS standard [[Gorgolewski16]], allowing researchers to feed in properly organized raw data and obtain standardized outputs that can be compared directly across sites and scanners.  
 
-The development of TractoFlow coincided with growing interest in connectome‑based modeling, particularly as applied through platforms like [[the-virtual-brain]]. Structural connectivity matrices derived from tractography serve as the anatomical scaffold for whole‑brain simulations, and the quality of these matrices directly influences model behavior [[SanzLeon13]]. Poor‑quality tractography can introduce spurious connections, alter edge weights, and ultimately distort simulated dynamics—making robust, automated preprocessing pipelines essential for computational neuroscience applications.  
+The development of TractoFlow coincided with growing interest in [[connectome]]‑based modeling, particularly as applied through platforms like [[the-virtual-brain]]. Structural [[connectivity]] matrices derived from tractography serve as the anatomical scaffold for whole‑brain simulations, and the quality of these matrices directly influences model behavior [[SanzLeon13]]. Poor‑quality tractography can introduce spurious connections, alter edge weights, and ultimately distort simulated dynamics—making robust, automated preprocessing pipelines essential for [[computational-neuroscience]] applications.  
 
 ## Technical Overview  
 
@@ -24,11 +29,11 @@ TractoFlow implements a multi‑stage processing pipeline that can be divided in
 
 For tissue segmentation, the pipeline employs the multi‑tissue constrained spherical deconvolution (MT‑CSD) approach, which simultaneously estimates fiber orientation distribution functions (fODFs) for gray matter, white matter, and CSF. This method provides superior fiber tracking accuracy compared to single‑tissue approaches, particularly at tissue boundaries where partial volume effects are pronounced [[Tournier19]]. The resulting fODFs feed directly into probabilistic tractography using the [[mrtrix3-connectome]] implementation of the iFOD2 (improved Fiber Orientation Distribution 2) algorithm, which uses a particle filter approach with anatomical constraints to produce biologically plausible streamlines [[Theaud20]].  
 
-TractoFlow outputs several products useful for connectivity analysis: probabilistic streamline tractograms in standard space, tract‑specific segmentations (allowing extraction of major white‑matter pathways), and structural connectivity matrices where edge weights reflect streamline counts or more sophisticated metrics like fractional anisotropy. These outputs are compatible with graph‑theoretic analysis using tools like [[brain-connectivity-toolbox]] or the Connectome Mapper 3.  
+TractoFlow outputs several products useful for connectivity analysis: probabilistic streamline tractograms in standard space, tract‑specific segmentations (allowing extraction of major white‑matter pathways), and structural connectivity matrices where edge weights reflect streamline counts or more sophisticated metrics like [[fractional-anisotropy]]. These outputs are compatible with graph‑theoretic analysis using tools like [[brain-connectivity-toolbox]] or the Connectome Mapper 3.  
 
 ## Relationship to TVB  
 
-TractoFlow occupies a key position in the TVB ecosystem as a provider of high‑quality structural connectivity data. When constructing personalized brain models in [[the-virtual-brain]], the white‑matter connectome serves as the anatomical substrate upon which neural mass models are coupled [[SanzLeon13]]. The quality of this structural scaffold directly determines whether simulated brain dynamics faithfully represent the individual's observed functional patterns. Researchers using TVB for epilepsy modeling or schizophrenia research often employ TractoFlow‑derived connectivity matrices as the starting point for parameter fitting and simulation. The pipeline's BIDS compatibility also facilitates integration with TVB's data handling infrastructure, which increasingly expects neuroimaging data in standardized formats.  
+TractoFlow occupies a key position in the TVB ecosystem as a provider of high‑quality structural connectivity data. When constructing [[personalized-brain-modeling|personalized brain]] models in [[the-virtual-brain]], the white‑matter connectome serves as the anatomical substrate upon which [[neural-mass-models]] are coupled [[SanzLeon13]]. The quality of this structural scaffold directly determines whether simulated brain dynamics faithfully represent the individual's observed functional patterns. Researchers using TVB for epilepsy modeling or schizophrenia research often employ TractoFlow‑derived connectivity matrices as the starting point for parameter fitting and simulation. The pipeline's BIDS compatibility also facilitates integration with TVB's data handling infrastructure, which increasingly expects neuroimaging data in standardized formats.  
 
 ## Key Features  
 

@@ -52,9 +52,9 @@ sources:
 - raw/papers/ritter-2013.md
 tags:
 - software
-- connectomics
-- structural-connectivity
-- diffusion-imaging
+- [[connectomics]]
+- [[structural-connectivity]]
+- [[diffusion-imaging]]
 - neuroimaging-dti
 title: Allen SDK
 type: entity
