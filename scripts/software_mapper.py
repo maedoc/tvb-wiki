@@ -149,22 +149,35 @@ OFF_MISSION_BLACKLIST = {
 }
 
 
-# ── Neuroscience relevance keywords for LLM gap filtering ──
-NEURO_KEYWORDS = {
-    'brain', 'neuro', 'neural', 'neuron', 'eeg', 'meg', 'fmri',
-    'mri', 'connectivity', 'connectome', 'simulation',
-    'spike', 'cortex', 'cortical', 'hippocamp', 'synap',
-    'tract', 'fiber', 'fiber', 'atlas', 'parcellat',
-    'electrophys', 'imaging', 'visualiz', 'model', 'dynamical',
-    'bifurcat', 'oscillat', 'signal', 'network', 'graph',
-    'tvb', 'whole-brain', 'multiscale', 'biophysic',
+# ── Whole-brain modeling relevance keywords for LLM gap filtering ──
+TVB_KEYWORDS = {
+    'whole-brain', 'whole brain', 'tvb', 'the virtual brain', 'neural mass',
+    'brain modeling', 'brain simulation', 'connectome-based', 'multiscale',
+    'mean-field', 'mean field', 'network dynamics', 'brain dynamics',
+    'virtual epileptic', 'personalized brain', 'patient-specific',
 }
 
+GENERIC_NEURO_KEYWORDS = {
+    'brain', 'neuro', 'neural', 'neuron', 'connectivity', 'connectome',
+    'simulation', 'cortex', 'cortical', 'model', 'dynamical',
+    'bifurcat', 'oscillat', 'network', 'graph',
+}
 
 def _has_neuro_relevance(item: dict) -> bool:
-    """Quick check if LLM-identified tool might be neuro-related."""
+    """Quick check if LLM-identified tool is actually TVB-relevant (not just generic neuro)."""
     combined = (item.get('description', '') + ' ' + item.get('name', '')).lower()
-    return any(kw in combined for kw in NEURO_KEYWORDS)
+    
+    # Must have at least one TVB-specific term
+    has_tvb = any(kw in combined for kw in TVB_KEYWORDS)
+    if has_tvb:
+        return True
+    
+    # OR have 3+ generic neuro terms (stricter than before which was 1)
+    generic_count = sum(1 for kw in GENERIC_NEURO_KEYWORDS if kw in combined)
+    if generic_count >= 3:
+        return True
+    
+    return False
 
 
 def create_software_page(slug: str, title: str) -> bool:

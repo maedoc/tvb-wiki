@@ -272,12 +272,17 @@ def execute_research_plan(plan: dict) -> int:
     log.info("Rationale: %s", plan.get('rationale', ''))
 
     papers_added = 0
+    MAX_PAPERS_PER_TARGET = 10  # Cap: no more than 10 papers per research query
+    
     queries = plan.get('queries', [])
     sources = plan.get('sources', ['semantic_scholar'])
     since = datetime.datetime.now() - datetime.timedelta(days=365)  # Broader window
 
     for query in queries:
         for source in sources:
+            if papers_added >= MAX_PAPERS_PER_TARGET:
+                log.info("Hit cap of %d papers for this target — stopping.", MAX_PAPERS_PER_TARGET)
+                break
             if source == 'semantic_scholar':
                 # Custom Semantic Scholar search with this specific query
                 params = urllib.parse.urlencode({
@@ -292,6 +297,8 @@ def execute_research_plan(plan: dict) -> int:
                 if raw:
                     data = json.loads(raw)
                     for item in data.get('data', []):
+                        if papers_added >= MAX_PAPERS_PER_TARGET:
+                            break
                         ext_ids = item.get('externalIds', {})
                         authors = [a.get('name', '') for a in item.get('authors', [])
                                    if a.get('name')]
@@ -310,14 +317,26 @@ def execute_research_plan(plan: dict) -> int:
                             'venue': item.get('venue', '') or '',
                             'citation_count': item.get('citationCount'),
                         }
-                        # Relevance filter: skip papers with no TVB-related terms
+                        
+                        # STRICT relevance filter: must have TVB-specific terms
                         text = (paper['title'] + ' ' + paper['abstract']).lower()
-                        tvb_terms = ['brain', 'neural', 'connectiv', 'epilep', 'whole-brain',
-                                     'mass model', 'cortical', 'fmri', 'eeg', 'dti',
-                                     'connectome', 'neuroimag', 'simulation', 'modeling',
-                                     'spiking', 'bifurcation', 'seizure', 'tractograph']
-                        if not any(t in text for t in tvb_terms):
+                        tvb_terms_strict = ['whole-brain', 'tvb', 'virtual brain', 'neural mass',
+                                           'connectome-based', 'brain simulation', 'brain modeling',
+                                           'epilepsy', 'seizure', 'bifurcation', 'mean-field']
+                        # Fallback: at least 3 generic neuro terms
+                        tvb_terms_generic = ['brain', 'neural', 'connectiv', 'cortical', 
+                                            'neuroimag', 'simulation', 'modeling', 'connectome',
+                                            'spiking', 'tractograph', 'fmri', 'eeg']
+                        has_strict = any(t in text for t in tvb_terms_strict)
+                        generic_count = sum(1 for t in tvb_terms_generic if t in text)
+                        if not has_strict and generic_count < 3:
                             continue
+                        
+                        # DOI requirement: skip papers without a DOI
+                        if not paper['doi']:
+                            log.debug("Skipping paper without DOI: %s", paper['title'][:50])
+                            continue
+                        
                         slug = paper_slug(paper)
                         if not is_already_ingested(slug):
                             if save_raw_paper(paper):
@@ -331,6 +350,8 @@ def execute_research_plan(plan: dict) -> int:
                 # Filter: only keep papers matching the query intent
                 query_terms = [t.lower().strip('"') for t in query.split() if len(t) > 3]
                 for paper in arxiv_papers:
+                    if papers_added >= MAX_PAPERS_PER_TARGET:
+                        break
                     text = (paper['title'] + ' ' + paper.get('abstract', '')).lower()
                     if sum(1 for t in query_terms if t in text) >= 2:
                         slug = paper_slug(paper)
@@ -343,10 +364,15 @@ def execute_research_plan(plan: dict) -> int:
             time.sleep(2)  # Rate limit
 
     # Citation chaining: follow citations from any high-value papers found
+    MAX_CITATION_CHAIN = 3  # Cap: max 3 papers from citation chaining
+    citation_papers_added = 0
     if papers_added > 0 and 'semantic_scholar' in sources:
         log.info("Following citation chains...")
         # Find any newly-added papers with S2 IDs
         for fn in sorted(os.listdir(RAW_PAPERS_DIR)):
+            if citation_papers_added >= MAX_CITATION_CHAIN:
+                log.info("Hit citation chain cap of %d — stopping.", MAX_CITATION_CHAIN)
+                break
             if not fn.endswith('.md') or 'semanticscholar' not in fn:
                 continue
             fp = os.path.join(RAW_PAPERS_DIR, fn)
@@ -363,16 +389,24 @@ def execute_research_plan(plan: dict) -> int:
             # Follow forward citations (who cited this paper?)
             cited_by = fetch_citations(s2_id, direction='citations', limit=10)
             for paper in cited_by:
+                if citation_papers_added >= MAX_CITATION_CHAIN:
+                    break
                 slug = paper_slug(paper)
                 if not is_already_ingested(slug):
-                    # Only add if it mentions TVB-related keywords
+                    # STRICT relevance: must mention TVB-specific terms
                     text = (paper.get('title', '') + ' ' + paper.get('abstract', '')).lower()
-                    tvb_terms = ['brain', 'neural', 'connectiv', 'epilep', 'whole-brain',
-                                 'mass model', 'cortical', 'fmri', 'eeg', 'dti']
-                    if sum(1 for t in tvb_terms if t in text) >= 2:
-                        if save_raw_paper(paper):
-                            papers_added += 1
-                            log.info("Citation chain: %s", paper['title'][:60])
+                    has_tvb = any(t in text for t in ['whole-brain', 'tvb', 'virtual brain', 'neural mass',
+                                                       'connectome-based', 'brain simulation', 'brain modeling',
+                                                       'mean-field', 'bifurcation'])
+                    if not has_tvb:
+                        continue
+                    # DOI requirement for citation-chained papers too
+                    if not paper.get('doi', ''):
+                        continue
+                    if save_raw_paper(paper):
+                        citation_papers_added += 1
+                        papers_added += 1
+                        log.info("Citation chain: %s", paper['title'][:60])
             break  # Only chain from one paper per cycle
 
     return papers_added
