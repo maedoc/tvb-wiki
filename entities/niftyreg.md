@@ -14,10 +14,10 @@ tags:
 - tractography
 title: NiftyReg
 type: entity
-updated: '2026-05-05'
+updated: '2026-05-06'
 ---
 
-NiftyReg is an open-source medical image registration toolkit developed primarily at University College London (UCL) that provides algorithms for aligning medical images in both rigid and deformable transformation frameworks. The software implements a variational registration approach based on maximizing mutual information between images, with particular strength in handling the challenging problem of brain image registration across subjects and sessions. NiftyReg has become a widely adopted tool in the [[neuroimaging]] community, particularly for preprocessing pipelines involving structural MRI, functional MRI, and diffusion tensor imaging data.
+NiftyReg is an open-source medical image registration toolkit developed primarily at University College London (UCL) that provides algorithms for aligning medical images in both rigid and deformable transformation frameworks. The software implements a variational registration approach based on maximizing mutual information between images, with particular strength in handling the challenging problem of brain image registration across subjects and sessions. NiftyReg has become a widely adopted tool in the [[neuroimaging]] community, particularly for preprocessing pipelines involving structural MRI, [[neuroimaging-fmri|functional MRI]], and diffusion tensor imaging data.
 
 ## Motivation and Context
 

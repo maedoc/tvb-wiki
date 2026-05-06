@@ -63,7 +63,7 @@ PANDA is part of a broader ecosystem of neuroimaging tools that collectively sup
 - 'trackvis — TrackVis, for visualizing streamlines from fiber tracking'
 - '[[nipype]] — Nipype, a Python framework for neuroimaging workflow management that can interface with PANDA'
 - '[[the-virtual-brain]] — [[tvb|The Virtual Brain]], platform for whole-brain dynamic modeling'
-- '[[nest]] — NEST, neural simulation tool sometimes combined with TVB for large-scale network simulations'
+- '[[nest]] — NEST, [[neural-simulation]] tool sometimes combined with TVB for large-scale network simulations'
 - '[[brian2]] — Brian2, neural simulator useful for detailed local cortical modeling'
 - '[[resting-state]] — Resting-state [[fmri]] analysis, complementary to structural connectivity from dMRI'
 

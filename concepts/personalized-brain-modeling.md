@@ -49,7 +49,7 @@ A robust personalized brain modeling pipeline requires multimodal neuroimaging d
 
 The construction of a personalized brain model proceeds through a well-defined sequence of preprocessing and simulation steps, each of which introduces specific methodological considerations:
 
-1. **Brain parcellation**: The cortical surface is partitioned into between 32 and 200 regions depending on the spatial scale of the model. This step can use anatomical landmarks, functional connectivity parcellations, or hybrid approaches that combine both. The choice of parcellation resolution involves a tradeoff between computational tractability and biological specificity.
+1. **[[brain-parcellation]]**: The cortical surface is partitioned into between 32 and 200 regions depending on the spatial scale of the model. This step can use anatomical landmarks, functional connectivity parcellations, or hybrid approaches that combine both. The choice of parcellation resolution involves a tradeoff between computational tractability and biological specificity.
 
 2. **Tractography and connectivity estimation**: Fiber tracking algorithms applied to diffusion-weighted data reconstruct streamlines representing white matter pathways. These streamlines are mapped onto the parcellation to produce a weighted connectivity matrix, where each entry represents the number of streamlines, [[fractional-anisotropy]], or other metrics of structural coupling between region pairs. Software packages such as [[mrtrix3]], [[dipy]], or [[dsi-studio]] are commonly used for tractography.
 

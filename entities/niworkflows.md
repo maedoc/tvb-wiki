@@ -62,7 +62,7 @@ NiWorkflows occupies a central position in the NiPy ecosystem and connects to nu
 
  ## Key Papers
 
-- Esteban O, et al. (2018). "fMRIPrep: a robust preprocessing pipeline for functional MRI." *Nature Methods* 15: 733–737. The primary fMRIPrep paper, demonstrating the NiWorkflows-based pipeline application that has become the field standard.
+- Esteban O, et al. (2018). "fMRIPrep: a robust preprocessing pipeline for [[neuroimaging-fmri|functional MRI]]." *Nature Methods* 15: 733–737. The primary fMRIPrep paper, demonstrating the NiWorkflows-based pipeline application that has become the field standard.
 - Gorgolewski K, et al. (2016). "BIDS apps: improving ease of use, accessibility, and [[reproducibility]] in neuroimaging data analysis." *Frontiers in Neuroinformatics* 10: 27. Establishes the BIDS Apps ecosystem that NiWorkflows-powered tools inhabit.
 - Nichols TE, et al. (2017). "Standard practices in data analysis are keeping us from doing good science." *PLoS Computational Biology* 13(6): e1005490. Discusses reproducibility challenges that motivated frameworks like NiWorkflows.
 - Triantafyllou MS, et al. (2021). "Technical considerations for implementing automated preprocessing pipelines." *NeuroImage* 224: 117382. Reviews standard practices for neuroimaging preprocessing frameworks.

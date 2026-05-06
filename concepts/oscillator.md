@@ -44,7 +44,7 @@ This canonical form generalizes several classic models including the [[Fitzhugh�
 
 The generic 2D oscillator exhibits four primary dynamical regimes that are directly relevant to neural modeling:
 
-**Fixed point** — A stable equilibrium where the system remains at rest in the absence of sufficient input. This regime corresponds to resting brain states and is characterized by small fluctuations around a mean activity level. Fixed points can undergo bifurcations to produce oscillations as parameters change—a central mechanism in [[epilepsy-modeling]] where resting states transition to seizure-like oscillatory states.
+**Fixed point** — A stable equilibrium where the system remains at [[rest]] in the absence of sufficient input. This regime corresponds to resting brain states and is characterized by small fluctuations around a mean activity level. Fixed points can undergo bifurcations to produce oscillations as parameters change—a central mechanism in [[epilepsy-modeling]] where resting states transition to seizure-like oscillatory states.
 
 **Excitable** — A regime where a sufficiently large perturbation pushes the system away from its stable fixed point through a large excursion in phase space before returning to rest. Excitable systems underlie [[brain-oscillations]] in response to stimuli and are essential for transient information processing in sensory systems.
 

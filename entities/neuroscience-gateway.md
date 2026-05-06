@@ -16,7 +16,7 @@ updated: '2026-05-06'
 ---
 
 ## Overview
-The Neuroscience Gateway (NSG) is a web-based computing portal that provides [[computational-neuroscience]] researchers with access to neural simulation software and high-performance computing (HPC) resources through a simple web interface [@nsg-portal]. Developed to address the increasing computational demands of large-scale brain modeling and to lower barriers to entry for researchers without dedicated computing infrastructure, NSG serves as a central access point for running sophisticated neural simulations without requiring local software installation or significant local computational resources.
+The Neuroscience Gateway (NSG) is a web-based computing portal that provides [[computational-neuroscience]] researchers with access to [[neural-simulation]] software and high-performance computing (HPC) resources through a simple web interface [@nsg-portal]. Developed to address the increasing computational demands of large-scale brain modeling and to lower barriers to entry for researchers without dedicated computing infrastructure, NSG serves as a central access point for running sophisticated neural simulations without requiring local software installation or significant local computational resources.
 
 The project originated from the San Diego Supercomputer Center (SDSC) at UC San Diego, with collaborative development involving Yale University. In 2012, the National Science Foundation (NSF) awarded a collaborative grant (awards DBI 1146949 to UC San Diego and DBI 1146830 to Yale University) to develop the Neuroscience Gateway, which officially launched in early 2013 [@ucsd-news-2012]. The project was led by Amit Majumdar (SDSC) as principal investigator, with Maryann Martone (Neuroscience Information Framework) as co-principal investigator, and Ted Carnevale (Yale) as the Yale principal investigator.
 
@@ -27,9 +27,9 @@ The Neuroscience Gateway provides several critical features that distinguish it 
 
 Second, NSG maintains a curated collection of popular neural simulation engines that are pre-configured and tested on the remote computing clusters, ensuring compatibility and optimal performance across different software packages. The NSG team collaborates with developers of neural simulation tools to optimally install, test, and benchmark these applications on compute resources.
 
-Third, the gateway supports both interactive sessions for exploratory modeling and batch processing for large-scale parameter sweeps, accommodating diverse research workflows. Notably, NSG provides bundled job submission support for Brian, enabling parameter sweep studies to be performed by creating a jobs-list file with multiple executable commands.
+Third, the gateway supports both interactive sessions for exploratory modeling and batch processing for large-scale parameter sweeps, accommodating diverse research workflows. Notably, NSG provides bundled job submission support for [[brian]], enabling parameter sweep studies to be performed by creating a jobs-list file with multiple executable commands.
 
-Fourth, the platform provides access to example models from databases such as [[model-validation]]—users can download models from ModelDB and upload them to NSG for simulation on HPC resources—but direct automated importing from model databases is not a built-in feature.
+Fourth, the platform provides access to example models from databases such as [[model-validation]]—users can download models from [[modeldb]] and upload them to NSG for simulation on HPC resources—but direct automated importing from model databases is not a built-in feature.
 
 Fifth, NSG includes tools for managing simulation outputs and results, facilitating data organization and sharing within research groups. Users receive email notifications upon job completion, and results are downloadable as zip archives containing the entire working directory.
 

@@ -28,7 +28,7 @@ The software builds upon the [[nipype]] workflow engine and leverages existing t
 
 ## Key Features
 
-nibabies provides several specialized capabilities that distinguish it from general-purpose neuroimaging tools. The pipeline implements anatomically-informed processing that accounts for the dynamic nature of infant brain development, including age-appropriate template spaces and tissue probability maps. The software supports T1-weighted, T2-weighted, and diffusion-weighted imaging sequences, along with functional MRI acquisitions in both [[resting-state]] and task-based paradigms.
+nibabies provides several specialized capabilities that distinguish it from general-purpose neuroimaging tools. The pipeline implements anatomically-informed processing that accounts for the dynamic nature of infant brain development, including age-appropriate template spaces and tissue probability maps. The software supports T1-weighted, T2-weighted, and diffusion-weighted imaging sequences, along with [[neuroimaging-fmri|functional MRI]] acquisitions in both [[resting-state]] and task-based paradigms.
 
 A critical feature is the automated identification and handling of motion artifacts, which are particularly prevalent in infant scanning sessions. The pipeline incorporates custom motion correction strategies that account for the rapid, discontinuous movement patterns typical of awake or sedated infants. Additionally, nibabies provides age-adaptive segmentation that distinguishes between developing [[white-matter]], cortical gray matter, and the cerebrospinal fluid compartments that have not yet achieved the stable contrast properties seen in adult brains.
 

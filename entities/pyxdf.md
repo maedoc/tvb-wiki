@@ -11,7 +11,7 @@ tags:
 - neuroimaging-fmri
 title: PyXDF
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 PyXDF is a Python library for reading multi-stream time series data stored in the XDF (eXtensible Data Format) file format[^1]. It provides a robust and efficient interface for parsing XDF files, which have become a standard interchange format for combining multimodal [[neuroimaging]] and [[electrophysiology]] data, particularly in brain-computer interface (BCI) research, neurofeedback experiments, and combined EEG/MEG-fMRI studies[^2]. The library is maintained by the xdf-modules organization and serves as the primary Python solution for working with XDF data, complementing the MATLAB-based implementation in the EEGLAB XDF plugin[^3].
@@ -34,7 +34,7 @@ PyXDF also supports **stream selection and filtering**, allowing users to load o
 
 While PyXDF is primarily used for loading electrophysiology data from experiments and BCI systems, it plays an indirect role in whole-brain modeling workflows such as those supported by [[the-virtual-brain]]. In particular, PyXDF can be used to load empirical [[eeg]] or [[meg]] data that serves as constraints or validation targets for whole-brain simulations. Researchers using [[neural-mass-models]] or [[dynamic-causal-modeling]] approaches often compare model-generated synthetic data against empirical recordings, and PyXDF provides a pathway for importing such data into the analysis pipeline.
 
-More broadly, PyXDF fits into the ecosystem of neuroimaging software tools that support the broader field of [[computational-neuroscience]]. Its compatibility with Mne Python — which can import data from PyXDF-processed files — creates a bridge between raw multimodal recordings and the sophisticated source estimation, [[connectivity]] analysis, and visualization capabilities of tools like Brainstorm or Fieldtrip. This interoperability is essential for researchers working at the intersection of empirical neuroimaging and computational modeling.
+More broadly, PyXDF fits into the ecosystem of neuroimaging software tools that support the broader field of [[computational-neuroscience]]. Its compatibility with Mne Python — which can import data from PyXDF-processed files — creates a bridge between raw multimodal recordings and the sophisticated source estimation, [[connectivity]] analysis, and visualization capabilities of tools like [[brainstorm]] or Fieldtrip. This interoperability is essential for researchers working at the intersection of empirical neuroimaging and computational modeling.
 
 ## Key Technical Details
 

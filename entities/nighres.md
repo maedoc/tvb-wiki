@@ -49,7 +49,7 @@ Nighres operates within a broader ecosystem of [[neuroimaging]] processing tools
 - [[ANTs]] provides the registration and normalization foundation that Nighres builds upon
 - [[pysurfer]] remains the gold standard for automated cortical reconstruction and is often run in parallel with Nighres
 - [[dipy]] handles [[diffusion-mri]] processing including [[tractography]]
-- [[nilearn]] offers machine-learning utilities for brain decoding that integrate with Nighres outputs
+- [[nilearn]] offers machine-learning utilities for [[brain-decoding]] that integrate with Nighres outputs
 - [[BrainVISA]] provides related morphometry tools in the French neuroimaging tradition
 - The [[Human [[connectome]] Project]] protocols and the [[HCP-dataset]] provide the high-resolution acquisitions that Nighres excels at processing
 - **LAYNII** provides complementary tools for laminar fMRI analysis, particularly suited for handling partial brain coverage [[6]]

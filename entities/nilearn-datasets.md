@@ -65,7 +65,7 @@ Additionally, the module does not provide tools for advanced dataset management 
 - fMRIPrep: Robust preprocessing pipeline for fMRI data
 - FSL: FMRIB Software Library for neuroimaging analysis
 - SPM: Statistical Parametric Mapping for neuroimaging
-- Brain Connectivity Toolbox: Graph-theoretic analysis of brain networks
+- [[brain-connectivity-toolkit|Brain Connectivity Toolbox]]: Graph-theoretic analysis of brain networks
 - DataLad: Version control for data and code
 
 ## References
