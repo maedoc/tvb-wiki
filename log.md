@@ -1,6 +1,14 @@
 # Wiki Action Log
 
 ## 2026-05-06
+- Improved [[abide]] page - added technical depth on parameter-estimation workflows relevant to TVB personalized-brain-modeling
+- Added discussion of community-detection algorithms and network-dynamics theory in findings section
+- Added effective-connectivity and dynamic-causal-modeling discussion for directed information flow hypotheses
+- Enhanced connections to neural-mass-models, personalized-brain-modeling, and TVB workflows
+- All wikilinks verified against current page inventory
+- Date already at 2026-05-06 ✓
+
+## 2026-05-06
 - Fixed [[abide]] page - removed invalid "dataset" tag from frontmatter (not in taxonomy)
 - Tags corrected to valid taxonomy entries: [neuroimaging-fmri, resting-state, neurodevelopment]
 - Date already at 2026-05-06 ✓
@@ -364,3 +372,5 @@
 2026-05-06: Updated abide.md - Added source raw/datasets/abide-dataset.md to sources frontmatter
 
 ## [2026-05-06 12:12] Improve: 4 pages improved (neuroml, dmriprep, dandi, nitrc)
+
+## [2026-05-06 12:45] Improve: 4 pages improved (brian2, nilearn, c302, neuroml)
