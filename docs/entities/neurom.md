@@ -19,7 +19,7 @@ updated: '2026-05-04'
 
 ## Overview
 
-NeuroM is a Python-based software toolbox designed for the analysis, processing, and visualization of neuronal morphologies reconstructed from three-dimensional morphological data. Originally developed at the [Blue Brain Project](https://github.com/BlueBrain/NeuroM) at EPFL, NeuroM provides a standardized computational framework for extracting morphometric features from digitally reconstructed neurons — a critical capability for [[computational-neuroscience]] research that requires accurate anatomical models of individual neurons as building blocks for larger-scale network simulations [@neuroM_github; @bluebrain_project].
+NeuroM is a Python-based software toolbox designed for the analysis, processing, and visualization of neuronal morphologies reconstructed from three-dimensional morphological data. Originally developed at the [Blue Brain Project](](https://github.com/BlueBrain/NeuroM)) at EPFL, NeuroM provides a standardized computational framework for extracting morphometric features from digitally reconstructed neurons — a critical capability for [[computational-neuroscience]] research that requires accurate anatomical models of individual neurons as building blocks for larger-scale network simulations [@neuroM_github; @bluebrain_project].
 
 ## Motivation and Context
 
@@ -35,15 +35,15 @@ A particularly notable feature is NeuroM's ability to perform statistical compar
 
 ## Relationship to Whole-Brain Modeling
 
-While NeuroM is primarily positioned as a tool for single-neuron analysis rather than whole-brain simulation, it plays an important supporting role in the broader field of [[connectome]]-based modeling. Whole-brain models [[whole-brain-modeling]] built in frameworks like [The Virtual Brain](the-virtual-brain) typically rely on [[neural-mass-models]] or mean-field approximations that do not require full morphological detail. However, several research groups have explored embedding morphologically detailed neuron models into mesoscale [[brain-network]] simulations, and this is an area of active methodological development.
+While NeuroM is primarily positioned as a tool for single-neuron analysis rather than whole-brain simulation, it plays an important supporting role in the broader field of [[connectome]]-based modeling. Whole-brain models [[whole-brain-modeling]] built in frameworks like [The Virtual Brain](](the-virtual-brain)) typically rely on [[neural-mass-models]] or mean-field approximations that do not require full morphological detail. However, several research groups have explored embedding morphologically detailed neuron models into mesoscale [[brain-network]] simulations, and this is an area of active methodological development.
 
-NeuroM's morphometric analysis capabilities complement other software tools in the computational neuroscience ecosystem. It can be used in conjunction with [Brian](Brian) or [Brian2](Brian2) for generating detailed single-neuron models that are subsequently integrated into network simulations. Similarly, the morphometric features extracted by NeuroM can inform [[parameter-estimation]] for neural mass models that seek to capture the aggregate dynamics of neuronal populations without simulating every synapse individually.
+NeuroM's morphometric analysis capabilities complement other software tools in the computational neuroscience ecosystem. It can be used in conjunction with [Brian](](Brian)) or [Brian2](](Brian2)) for generating detailed single-neuron models that are subsequently integrated into network simulations. Similarly, the morphometric features extracted by NeuroM can inform [[parameter-estimation]] for neural mass models that seek to capture the aggregate dynamics of neuronal populations without simulating every synapse individually.
 
 ## Related Software and Concepts
 
-NeuroM occupies a niche in the morphology analysis ecosystem that connects to several related tools and databases. The [[neuromorpho]].Org [[neuromorpho]] database serves as a primary source of neuronal morphology data compatible with NeuroM, containing thousands of digitally reconstructed neurons from various species and brain regions. Other tools in this space include LFPy [[lfp-lib|lfpy]] for computing extracellular potentials from morphologically detailed neurons, and [NEURON](neuron) itself, which provides simulation capabilities for morphologically complex neurons.
+NeuroM occupies a niche in the morphology analysis ecosystem that connects to several related tools and databases. The [[neuromorpho]].Org [[neuromorpho]] database serves as a primary source of neuronal morphology data compatible with NeuroM, containing thousands of digitally reconstructed neurons from various species and brain regions. Other tools in this space include LFPy [[lfp-lib|lfpy]] for computing extracellular potentials from morphologically detailed neurons, and [NEURON](](neuron)) itself, which provides simulation capabilities for morphologically complex neurons.
 
-The broader conceptual framework underlying NeuroM relates to [morphometrics](morphometrics) — the quantitative analysis of biological form — and to neuromorphic computing [[neuromorphic-computing]], an engineering paradigm that seeks to build hardware architectures inspired by the structural and functional properties of biological neural networks. Researchers using NeuroM often work at the intersection of these domains, employing morphometric analyses to inform both biologically realistic simulations and hardware implementations. NeuroM's features for extracting morphometric data from reconstructed neurons complement neuromorphic research by providing quantitativecharacterizations of biological neural architecture that can inspire novel hardware designs.
+The broader conceptual framework underlying NeuroM relates to [morphometrics](](morphometrics)) — the quantitative analysis of biological form — and to neuromorphic computing [[neuromorphic-computing]], an engineering paradigm that seeks to build hardware architectures inspired by the structural and functional properties of biological neural networks. Researchers using NeuroM often work at the intersection of these domains, employing morphometric analyses to inform both biologically realistic simulations and hardware implementations. NeuroM's features for extracting morphometric data from reconstructed neurons complement neuromorphic research by providing quantitativecharacterizations of biological neural architecture that can inspire novel hardware designs.
 
 ## Key Capabilities and Practical Use
 
@@ -57,12 +57,12 @@ Despite its capabilities, NeuroM and the broader field of morphometric analysis 
 
 ## Related Tools
 
-- [NeuroMorpho.Org](neuromorpho)
-- [Brian2](brian2)
-- [NEURON](neuron)
-- [LFPy](lfpy)
-- [Blender](blender) (for 3D visualization)
-- [PySpark](pyspark) (for large-scale morphometric analysis)
+- [NeuroMorpho.Org](](neuromorpho))
+- [Brian2](](brian2))
+- [NEURON](](neuron))
+- [LFPy](](lfpy))
+- [Blender](](blender)) (for 3D visualization)
+- [PySpark](](pyspark)) (for large-scale morphometric analysis)
 
 ## Key Papers
 
@@ -73,6 +73,6 @@ Despite its capabilities, NeuroM and the broader field of morphometric analysis 
 
 ## References
 
-1. R. A. Benn, Ting Xu, R. Mars, Magdalena Boch, Léa Roumazeilles, K. Heuer, Roberto Toro, D. Margulies, J. Manzano-Patrón, Paula Montesinos, C. Galán-Arriola, G. López-Martín, J. Sanchez-González, E. P. Duff, Borja Ibáñez. (2025). *Precon_all: A species-agnostic automated pipeline for non-human cortical surface reconstruction*. bioRxiv. [DOI](https://doi.org/10.1101/2025.04.16.649072)
-2. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI): A flexible and integrative toolkit for efficient probabilistic inference on virtual brain models*. bioRxiv. [DOI](https://doi.org/10.1101/2025.01.21.633922)
-3. W. Wybo. (2025). *The neural analysis toolkit unifies semi-analytical techniques to simplify, understand, and simulate dendrites*. bioRxiv. [DOI](https://doi.org/10.1101/2025.06.26.661734)
+1. R. A. Benn, Ting Xu, R. Mars, Magdalena Boch, Léa Roumazeilles, K. Heuer, Roberto Toro, D. Margulies, J. Manzano-Patrón, Paula Montesinos, C. Galán-Arriola, G. López-Martín, J. Sanchez-González, E. P. Duff, Borja Ibáñez. (2025). *Precon_all: A species-agnostic automated pipeline for non-human cortical surface reconstruction*. bioRxiv. [DOI](](https://doi.org/10.1101/2025.04.16.649072))
+2. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI): A flexible and integrative toolkit for efficient probabilistic inference on virtual brain models*. bioRxiv. [DOI](](https://doi.org/10.1101/2025.01.21.633922))
+3. W. Wybo. (2025). *The neural analysis toolkit unifies semi-analytical techniques to simplify, understand, and simulate dendrites*. bioRxiv. [DOI](](https://doi.org/10.1101/2025.06.26.661734))

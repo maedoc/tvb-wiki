@@ -49,5 +49,5 @@ Within the [[tvb]] modeling framework and related [[whole-brain]] simulation par
 1. (authors unknown). *Memory and Executive Function in Aging and AD: Multiple Factors that Cause Decline and Reserve Factors that Compensate*.
 2. (authors unknown). *The Cognitive Neuroscience of Ageing and Functional Reserve*.
 3. (authors unknown). *Maintenance, Reserve and Compensation: The Cognitive Neuroscience of Healthy Ageing*.
-4. J. King, M. Prigge, Vincent Koppelmans, John M. Hoffman, Kevin Duff. (2026). *Altered functional connectivity is associated with Repeatable Battery for the Assessment of Neuropsychological Status across the dementia spectrum*. Journal of the International Neuropsychological Society. [DOI](https://doi.org/10.1017/s135561772610191x)
+4. J. King, M. Prigge, Vincent Koppelmans, John M. Hoffman, Kevin Duff. (2026). *Altered functional connectivity is associated with Repeatable Battery for the Assessment of Neuropsychological Status across the dementia spectrum*. Journal of the International Neuropsychological Society. [DOI](](https://doi.org/10.1017/s135561772610191x))
 5. (authors unknown). *Structural Brain Changes in Aging: Courses, Causes and Cognitive Consequences*.

@@ -134,4 +134,4 @@ Comprehensive whole-brain models must account for the full lifespan trajectory f
 2. (authors unknown). *Functional Brain Networks Develop from a 'Local to Distributed' Organization*.
 3. (authors unknown). *The Development of Human Functional Brain Networks*.
 4. (authors unknown). *Normal Development of Brain Circuits*.
-5. Tingting Liu, Mingyang Li, Y. You, Hongxi Zhang, Ying Lv, Chai Ji, Yuting Li, Dan Wu, Shenghong Ju. (2026). *Maturation and reorganization of structural connectivity in infants within half a year*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2026.121728)
+5. Tingting Liu, Mingyang Li, Y. You, Hongxi Zhang, Ying Lv, Chai Ji, Yuting Li, Dan Wu, Shenghong Ju. (2026). *Maturation and reorganization of structural connectivity in infants within half a year*. NeuroImage. [DOI](](https://doi.org/10.1016/j.neuroimage.2026.121728))

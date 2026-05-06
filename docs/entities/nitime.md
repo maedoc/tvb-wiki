@@ -57,5 +57,5 @@ For [[effective-connectivity]] analysis, nitime's Granger causality routines hav
 ## References
 
 1. (authors unknown). *[[braph]]: A Pipeline for Brain Connectivity Analysis*.
-2. Gramfort et al. (2013). *MEG and EEG: From Acquisition to Analysis*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fnins.2013.00010)
+2. Gramfort et al. (2013). *MEG and EEG: From Acquisition to Analysis*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fnins.2013.00010))
 3. (authors unknown). *[[nighres]]: processing tools for high-resolution neuroimaging*.

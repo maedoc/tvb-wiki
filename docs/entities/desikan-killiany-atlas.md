@@ -5,7 +5,7 @@ sources:
 tags: []
 title: Desikan Killiany Atlas
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 The Desikan-Killiany Atlas is a widely used cortical [[parcellation]] scheme that divides the human cerebral cortex into anatomically defined regions based on magnetic resonance imaging (MRI). Developed by Rahul Desikan, Robert Killiany, and colleagues, this atlas provides a standardized framework for quantifying regional brain structure and function in both healthy and clinical populations [[desikan-killiany-atlas]]. The atlas is characterized by its use of easily identifiable anatomical landmarks—primarily sulcal patterns—that allow for reasonably consistent manual delineation across brains, making it particularly suitable for automated segmentation pipelines that require robust anatomical priors.
@@ -34,7 +34,7 @@ The original validation study demonstrated high inter-rater reliability (intracl
 
 The Desikan-Killiany Atlas shares conceptual territory with several other widely used cortical parcellations. The [[Destrieux Atlas]], also available in [[FreeSurfer]], provides a finer-grained parcellation based on the same anatomical principles [[destrieux-atlas]]. The [[Glasser Atlas]], developed using a combination of myelin mapping and task-based fMRI, offers 360 functionally and anatomically defined regions [[glasser-atlas]]. For researchers working with TVB, the choice of atlas involves a tradeoff between granularity and computational efficiency—the Desikan-Killiany Atlas at 68 regions represents a reasonable middle ground.
 
-The atlas is supported by numerous software packages including [[FreeSurfer]], [[FSL]] [[anticevic-2012]], and can be imported into connectivity analysis tools such as the [[Brain Connectivity Toolbox]] (bctpy) Rubinov & Sporns, 2010, Gretna, and the Connectome Workbench. Visualization of Desikan-Killiany parcellations is supported in [[BrainNet Viewer]], [[Connectome Workbench]], and [[FreeSurfer]].
+The atlas is supported by numerous software packages including [[FreeSurfer]], [[fsl-melodic]] [[anticevic-2012]], and can be imported into connectivity analysis tools such as the [[Brain Connectivity Toolbox]] (bctpy) Rubinov & Sporns, 2010, Gretna, and the Connectome Workbench. Visualization of Desikan-Killiany parcellations is supported in [[BrainNet Viewer]], [[Connectome Workbench]], and [[FreeSurfer]].
 
 ## Limitations and Open Questions
 
@@ -42,4 +42,4 @@ Despite its widespread adoption, the Desikan-Killiany Atlas has notable limitati
 
 ## References
 
-1. Federica Franza, M. Cirillo, M. Silvestro, F. Trojsi, Antonio Russo, Fabrizio Esposito, M. A. Pirozzi. (2025). *Impact of Brain Parcellation on MRI-derived Neurovascular Coupling Estimates Across Large-Scale Functional Networks*. 2025 IEEE International Conference on Metrology for eXtended Reality, Artificial Intelligence and Neural Engineering (MetroXRAINE). [DOI](https://doi.org/10.1109/MetroXRAINE66377.2025.11340209)
+1. Federica Franza, M. Cirillo, M. Silvestro, F. Trojsi, Antonio Russo, Fabrizio Esposito, M. A. Pirozzi. (2025). *Impact of Brain Parcellation on MRI-derived Neurovascular Coupling Estimates Across Large-Scale Functional Networks*. 2025 IEEE International Conference on Metrology for eXtended Reality, Artificial Intelligence and Neural Engineering (MetroXRAINE). [DOI](](https://doi.org/10.1109/MetroXRAINE66377.2025.11340209))

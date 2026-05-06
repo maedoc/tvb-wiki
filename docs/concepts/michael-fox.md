@@ -16,4 +16,4 @@ Michael Fox — a concept in [[whole-brain|whole-brain modeling]] and [[computat
 
 ## References
 
-1. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)
+1. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](](https://doi.org/10.1038/s41593-017-0015-4))

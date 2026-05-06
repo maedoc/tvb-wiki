@@ -47,6 +47,6 @@ pyRiemann integrates with the broader Python scientific computing ecosystem, par
 
 ## References
 
-1. Anderson Fernandes P. Santos. (2026). *QRC-Lab: An Educational Toolbox for Quantum Reservoir Computing*. [Link](https://www.semanticscholar.org/paper/dc8f7606dbf698ecf8a7e148e55adcea2ff0ad69)
-2. Sumitro Barua, Dipon Deb Dipu, Tanjila Broti. (2025). *A Hybrid Classical-Quantum Deep Learning Framework for MRI-Guided Alzheimer’s Disease Classification, Comparative Analysis & Explainable AI for Medical Interpretation*. 2025 IEEE 6th India Council International Subsections Conference (INDISCON). [DOI](https://doi.org/10.1109/INDISCON66021.2025.11252366)
+1. Anderson Fernandes P. Santos. (2026). *QRC-Lab: An Educational Toolbox for Quantum Reservoir Computing*. [Link](](https://www.semanticscholar.org/paper/dc8f7606dbf698ecf8a7e148e55adcea2ff0ad69))
+2. Sumitro Barua, Dipon Deb Dipu, Tanjila Broti. (2025). *A Hybrid Classical-Quantum Deep Learning Framework for MRI-Guided Alzheimer’s Disease Classification, Comparative Analysis & Explainable AI for Medical Interpretation*. 2025 IEEE 6th India Council International Subsections Conference (INDISCON). [DOI](](https://doi.org/10.1109/INDISCON66021.2025.11252366))
 3. (authors unknown). *[[lean|GLEAN]]: Group Level Exploratory Analysis of Networks*.

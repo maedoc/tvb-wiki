@@ -67,4 +67,4 @@ For a comprehensive introduction to DCM, see the foundational papers by [[karl-j
 
 1. (authors unknown). *Dynamic Causal Modelling*.
 2. O. David, K.J. Friston. *Dynamic causal modelling*. NeuroImage. [DOI](https://doi.org/10.1016/S1053-8119(03)00202-7)
-3. Abdoreza Asadpour, Amin Azimi, Kongfatt Wong-Lin. (2025). *Limitations of Variational Laplace-Based Dynamic Causal Modelling for Multistable Cortical Circuits*. bioRxiv. [DOI](https://doi.org/10.1101/2025.03.10.642327)
+3. Abdoreza Asadpour, Amin Azimi, Kongfatt Wong-Lin. (2025). *Limitations of Variational Laplace-Based Dynamic Causal Modelling for Multistable Cortical Circuits*. bioRxiv. [DOI](](https://doi.org/10.1101/2025.03.10.642327))

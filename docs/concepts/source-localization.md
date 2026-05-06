@@ -69,9 +69,9 @@ Source localization is closely related to several other concepts in the wiki. It
 
 ## References
 
-1. Deepa Tilwani, Christian O'Reilly. *Deep [[jansen-rit]] Parameter Inference for Model-Driven Analysis of Brain Activity*. [Link](https://arxiv.org/abs/2406.05002)
-2. Yang Liu, YuXuan Han, Chunsheng Li. (2026). *Localizing Target for Transcranial Direct Current Stimulation in Drug-Resistant Epilepsy Using Dynamic EEG Source Network*. IEEE transactions on neural systems and rehabilitation engineering. [DOI](https://doi.org/10.1109/TNSRE.2026.3677891)
-3. V. Myrov, A. Suleimanova, Samanta Knapič, P. Partanen, M. Vesterinen, Wenya Liu, S. Palva, J. M. Palva. (2026). *Hierarchical whole-brain modeling of critical synchronization dynamics in the human brain.*. Proceedings of the National Academy of Sciences of the United States of America. [DOI](https://doi.org/10.1073/pnas.2505768123)
-4. Wanying Qu, Jianxiong Gao, Wei Wang, Yanwei Fu. *Modeling Spatiotemporal Neural Frames for High Resolution Brain Dynamic*. [Link](https://arxiv.org/abs/2603.24176)
-5. Sakul Mahat, Sharmistha Guha, Jessica Bernard. (2026). *A Bayesian Framework for Quantifying Association Between Functional and Structural Data in [[neuroimaging]]*. [Link](https://arxiv.org/abs/2603.21067)
-6. Christopher Gabaldon, Adria Mulero, Rong Wang, Daniel A. Martin, Sabrina Camargo, Qian-Yuan Tang, Ignacio Cifre, Changsong Zhou, Dante R. Chialvo. (2026). *Data-driven inference of brain dynamical states from the r-spectrum of correlation matrices*. [Link](https://arxiv.org/abs/2601.03796)
+1. Deepa Tilwani, Christian O'Reilly. *Deep [[jansen-rit]] Parameter Inference for Model-Driven Analysis of Brain Activity*. [Link](](https://arxiv.org/abs/2406.05002))
+2. Yang Liu, YuXuan Han, Chunsheng Li. (2026). *Localizing Target for Transcranial Direct Current Stimulation in Drug-Resistant Epilepsy Using Dynamic EEG Source Network*. IEEE transactions on neural systems and rehabilitation engineering. [DOI](](https://doi.org/10.1109/TNSRE.2026.3677891))
+3. V. Myrov, A. Suleimanova, Samanta Knapič, P. Partanen, M. Vesterinen, Wenya Liu, S. Palva, J. M. Palva. (2026). *Hierarchical whole-brain modeling of critical synchronization dynamics in the human brain.*. Proceedings of the National Academy of Sciences of the United States of America. [DOI](](https://doi.org/10.1073/pnas.2505768123))
+4. Wanying Qu, Jianxiong Gao, Wei Wang, Yanwei Fu. *Modeling Spatiotemporal Neural Frames for High Resolution Brain Dynamic*. [Link](](https://arxiv.org/abs/2603.24176))
+5. Sakul Mahat, Sharmistha Guha, Jessica Bernard. (2026). *A Bayesian Framework for Quantifying Association Between Functional and Structural Data in [[neuroimaging]]*. [Link](](https://arxiv.org/abs/2603.21067))
+6. Christopher Gabaldon, Adria Mulero, Rong Wang, Daniel A. Martin, Sabrina Camargo, Qian-Yuan Tang, Ignacio Cifre, Changsong Zhou, Dante R. Chialvo. (2026). *Data-driven inference of brain dynamical states from the r-spectrum of correlation matrices*. [Link](](https://arxiv.org/abs/2601.03796))

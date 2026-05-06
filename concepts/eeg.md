@@ -93,7 +93,7 @@ EEG is fundamentally linked to several key concepts in computational neuroscienc
 2. (authors unknown). *Electric Fields of the Brain: The Neurophysics of EEG*.
 3. (authors unknown). *Independent component analysis of electroencephalographic data*.
 4. O. David, K.J. Friston. *Dynamic causal modelling*. NeuroImage. [DOI](https://doi.org/10.1016/S1053-8119(03)00202-7)
-5. Chenghao Yue, Zhiyuan Ma, Zhongye Xia, Xinche Zhang, Yisi Zhang, Xinke Shen, Sen Song. *LI-DSN: A Layer-wise Interactive Dual-Stream Network for EEG Decoding*. [Link](https://arxiv.org/abs/2604.01889)
-6. Wanying Qu, Jianxiong Gao, Wei Wang, Yanwei Fu. *Modeling Spatiotemporal Neural Frames for High Resolution Brain Dynamic*. [Link](https://arxiv.org/abs/2603.24176)
-7. Neda Abdollahpour, N. Sertac Artan, Ian Daly, Mohammadreza Yazdchi, Zahra Baharlouei. (2025). *Effective Connectivity-Based Unsupervised Channel Selection Method for EEG*. [Link](https://arxiv.org/abs/2510.12910)
-8. Mohaddese Qaremohammadlou, Mohammad Bagher Shamsollahi. (2025). *Investigating Brain Connectivity and Information Flow in Mental Workload Using EEG and fNIRS Integration*. [Link](https://arxiv.org/abs/2511.02457)
+5. Chenghao Yue, Zhiyuan Ma, Zhongye Xia, Xinche Zhang, Yisi Zhang, Xinke Shen, Sen Song. *LI-DSN: A Layer-wise Interactive Dual-Stream Network for EEG Decoding*. [Link](](https://arxiv.org/abs/2604.01889))
+6. Wanying Qu, Jianxiong Gao, Wei Wang, Yanwei Fu. *Modeling Spatiotemporal Neural Frames for High Resolution Brain Dynamic*. [Link](](https://arxiv.org/abs/2603.24176))
+7. Neda Abdollahpour, N. Sertac Artan, Ian Daly, Mohammadreza Yazdchi, Zahra Baharlouei. (2025). *Effective Connectivity-Based Unsupervised Channel Selection Method for EEG*. [Link](](https://arxiv.org/abs/2510.12910))
+8. Mohaddese Qaremohammadlou, Mohammad Bagher Shamsollahi. (2025). *Investigating Brain Connectivity and Information Flow in Mental Workload Using EEG and fNIRS Integration*. [Link](](https://arxiv.org/abs/2511.02457))

@@ -71,6 +71,6 @@ While MELODIC remains the most widely cited ICA tool for fMRI, several alternati
 
 ## References
 
-1. Dionysios Perdikis, Rita Sleimen-Malkoun, Viktor Müller, V. Jirsa. (2025). *Developmental and [[aging]] changes in brain network switching dynamics revealed by EEG phase synchronization*. bioRxiv. [DOI](https://doi.org/10.1371/journal.pcbi.1013290)
-2. Winn W Chow, A. Seghouane, M. Seghier. (2025). *A Statistical Characterization of Dynamic Brain Functional Connectivity*. Human Brain Mapping. [DOI](https://doi.org/10.1002/hbm.70145)
-3. Diego Derman, Damon D. Pham, Amanda F. Mejia, Silvina L. Ferradal. (2025). *Individual patterns of functional connectivity in neonates as revealed by surface-based Bayesian modeling*. Imaging neuroscience. [DOI](https://doi.org/10.1162/imag_a_00504)
+1. Dionysios Perdikis, Rita Sleimen-Malkoun, Viktor Müller, V. Jirsa. (2025). *Developmental and [[aging]] changes in brain network switching dynamics revealed by EEG phase synchronization*. bioRxiv. [DOI](](https://doi.org/10.1371/journal.pcbi.1013290))
+2. Winn W Chow, A. Seghouane, M. Seghier. (2025). *A Statistical Characterization of Dynamic Brain Functional Connectivity*. Human Brain Mapping. [DOI](](https://doi.org/10.1002/hbm.70145))
+3. Diego Derman, Damon D. Pham, Amanda F. Mejia, Silvina L. Ferradal. (2025). *Individual patterns of functional connectivity in neonates as revealed by surface-based Bayesian modeling*. Imaging neuroscience. [DOI](](https://doi.org/10.1162/imag_a_00504))

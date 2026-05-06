@@ -45,6 +45,6 @@ ERPLAB operates within the [[eeglab]] ecosystem, which itself is built on MATLAB
 
 ## References
 
-1. Xiaobo Liu. (2026). *MLE-Toolbox: An Open-Source Toolbox for Comprehensive EEG and MEG Data Analysis*. [Link](https://www.semanticscholar.org/paper/e7aaa4f4bb01e70064493684b4500a950f83460f)
-2. D. Y. Lodema, Herman J van Dellen, W. de Haan, Margot van Hest, A. Hillebrand, E. van Dellen. (2026). *EEG-Pype: An accessible Mne Python pipeline with graphical user interface for preprocessing and analysis of [[resting-state]] electroencephalography data.*. PLoS Computational Biology. [DOI](https://doi.org/10.1371/journal.pcbi.1014043)
-3. M. A. van den Boom, Nicholas M. Gregg, G. Valencia, B. Lundstrom, K. J. Miller, D. van Blooijs, G. Huiskamp, F. Leijten, G. Worrell, Dora [[hermes]]. (2025). *ER-detect: a pipeline for robust detection of early evoked responses in [[bids]]-iEEG electrical stimulation data.*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2025.110389)
+1. Xiaobo Liu. (2026). *MLE-Toolbox: An Open-Source Toolbox for Comprehensive EEG and MEG Data Analysis*. [Link](](https://www.semanticscholar.org/paper/e7aaa4f4bb01e70064493684b4500a950f83460f))
+2. D. Y. Lodema, Herman J van Dellen, W. de Haan, Margot van Hest, A. Hillebrand, E. van Dellen. (2026). *EEG-Pype: An accessible Mne Python pipeline with graphical user interface for preprocessing and analysis of [[resting-state]] electroencephalography data.*. PLoS Computational Biology. [DOI](](https://doi.org/10.1371/journal.pcbi.1014043))
+3. M. A. van den Boom, Nicholas M. Gregg, G. Valencia, B. Lundstrom, K. J. Miller, D. van Blooijs, G. Huiskamp, F. Leijten, G. Worrell, Dora [[hermes]]. (2025). *ER-detect: a pipeline for robust detection of early evoked responses in [[bids]]-iEEG electrical stimulation data.*. Journal of Neuroscience Methods. [DOI](](https://doi.org/10.1016/j.jneumeth.2025.110389))

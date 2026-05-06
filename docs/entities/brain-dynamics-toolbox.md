@@ -65,5 +65,5 @@ Future directions include better integration with Python-based neuroscience tool
 
 1. (authors unknown). *[[lean|GLEAN]]: Group Level Exploratory Analysis of Networks*.
 2. (authors unknown). *[[braph]]: A Pipeline for Brain Connectivity Analysis*.
-3. R. Montgomery. (2025). *Applications of Random Matrix Theory in Neuroscience and [[neural-network]] Analysis: Unraveling High-Dimensional Connectivity*. Wired Neuroscience. [DOI](https://doi.org/10.62162/wnsc10606312712241)
-4. Abdoreza Asadpour, Amin Azimi, Kongfatt Wong-Lin. (2025). *Limitations of Variational Laplace-Based Dynamic Causal Modelling for Multistable Cortical Circuits*. bioRxiv. [DOI](https://doi.org/10.1101/2025.03.10.642327)
+3. R. Montgomery. (2025). *Applications of Random Matrix Theory in Neuroscience and [[neural-network]] Analysis: Unraveling High-Dimensional Connectivity*. Wired Neuroscience. [DOI](](https://doi.org/10.62162/wnsc10606312712241))
+4. Abdoreza Asadpour, Amin Azimi, Kongfatt Wong-Lin. (2025). *Limitations of Variational Laplace-Based Dynamic Causal Modelling for Multistable Cortical Circuits*. bioRxiv. [DOI](](https://doi.org/10.1101/2025.03.10.642327))

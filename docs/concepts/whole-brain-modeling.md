@@ -26,10 +26,10 @@ tags:
 - bifurcation-analysis
 title: Whole-Brain Modeling
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
-Whole-brain modeling is a computational neuroscience approach that represents the brain as a network of coupled regions, each governed by detailed neuronal or neural mass dynamics, with regional interactions constrained by empirical [[structural connectivity]] estimates derived from [[diffusion-mri]] or tractography. This methodology enables the simulation of large-scale brain dynamics and the generation of synthetic neuroimaging data—including [[fMRI]], [[EEG]], and [[MEG]] signals—that can be directly compared to empirical recordings. The approach bridges the gap between microscopic neuronal mechanisms and macroscopic brain-wide activity patterns observed in human neuroimaging studies.
+Whole-brain modeling is a computational neuroscience approach that represents the brain as a network of coupled regions, each governed by detailed neuronal or neural mass dynamics, with regional interactions constrained by empirical [[structural connectivity]] estimates derived from [[diffusion-mri]] (or using tools such as [[hd-bet]] for brain extraction) or tractography. This methodology enables the simulation of large-scale brain dynamics and the generation of synthetic neuroimaging data—including [[fMRI]], [[EEG]], and [[MEG]] signals—that can be directly compared to empirical recordings. The approach bridges the gap between microscopic neuronal mechanisms and macroscopic brain-wide activity patterns observed in human neuroimaging studies.
 
 ## Motivation and Scientific Context
 
@@ -59,7 +59,8 @@ Whole-brain models exhibit rich dynamical repertoire including [[bifurcation-ana
 
 ## Software and Implementation
 
-The [[tvb]] platform has become the most widely adopted software for whole-brain modeling, providing Python-based tools for constructing brain networks, simulating diverse neural mass models, and generating synthetic neuroimaging data across modalities. Alternative frameworks include [[nest]] (NEural Simulation Tool) for spiking network implementations, Brian and Brian2 for flexible neuronal modeling, and custom implementations in MATLAB or C++. Model parameter estimation typically involves fitting model-generated functional connectivity correlations to empirical [[resting-state]] or task-based [[fMRI]] or EEG recordings using optimization routines or [[variational-bayes]] inference.
+The [[tvb]] platform has become the most widely adopted software for whole-brain modeling, providing Python-based tools for constructing brain networks, simulating diverse neural mass models, and generating synthetic neuroimaging data across modalities.
+[[ Allen SDK]] Alternative frameworks include [[nest]] (NEural Simulation Tool) for spiking network implementations, Brian and Brian2 for flexible neuronal modeling, and custom implementations in MATLAB or C++. Model parameter estimation typically involves fitting model-generated functional connectivity correlations to empirical [[resting-state]] or task-based [[fMRI]] or EEG recordings using optimization routines or [[variational-bayes]] inference.
 
 ## Applications and Open Questions
 
@@ -67,10 +68,10 @@ Whole-brain modeling has been applied to study individual differences in [[resti
 
 ## References
 
-1. Sanz Leon et al. (2013). *[[the-virtual-brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
-2. Gianluca Gaglioti, Alessandra Cardinale, Cosimo Lupo, Thierry Nieus, Federico Marmoreo, Elena Focacci, Robin Gutzen, Michael Denker, Andrea Pigorini, Marcello Massimini, Simone Sarasso, Pier Stanislao Paolucci, Giulia De Bonis. *Emergent complexity and rhythms in evoked and spontaneous dynamics of human whole-brain models after tuning through analysis tools*. [Link](https://arxiv.org/abs/2509.12873)
-3. R. Lorenzi, Fulvia Palesi, C. Casellato, C. G. Gandini Wheeler-Kingshott, Egidio D’Angelo. (2025). *Region-specific [[mean-field-theory|mean field]] models enhance simulations of local and global [[brain-dynamics]]*. bioRxiv. [DOI](https://doi.org/10.1038/s41540-025-00543-9)
-4. Wanying Qu, Jianxiong Gao, Wei Wang, Yanwei Fu. *Modeling Spatiotemporal Neural Frames for High Resolution Brain Dynamic*. [Link](https://arxiv.org/abs/2603.24176)
-5. Rosa Maria Delicado, Gemma Huguet, Pau Clusella. (2025). *Emergent Spatiotemporal Dynamics in Large-Scale Brain Networks with Next Generation [[neural-mass-models]]*. [Link](https://arxiv.org/abs/2512.03907)
-6. Christopher Gabaldon, Adria Mulero, Rong Wang, Daniel A. Martin, Sabrina Camargo, Qian-Yuan Tang, Ignacio Cifre, Changsong Zhou, Dante R. Chialvo. (2026). *Data-driven inference of brain dynamical states from the r-spectrum of correlation matrices*. [Link](https://arxiv.org/abs/2601.03796)
+1. Sanz Leon et al. (2013). *[[the-virtual-brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
+2. Gianluca Gaglioti, Alessandra Cardinale, Cosimo Lupo, Thierry Nieus, Federico Marmoreo, Elena Focacci, Robin Gutzen, Michael Denker, Andrea Pigorini, Marcello Massimini, Simone Sarasso, Pier Stanislao Paolucci, Giulia De Bonis. *Emergent complexity and rhythms in evoked and spontaneous dynamics of human whole-brain models after tuning through analysis tools*. [Link](](https://arxiv.org/abs/2509.12873))
+3. R. Lorenzi, Fulvia Palesi, C. Casellato, C. G. Gandini Wheeler-Kingshott, Egidio D’Angelo. (2025). *Region-specific [[mean-field-theory|mean field]] models enhance simulations of local and global [[brain-dynamics]]*. bioRxiv. [DOI](](https://doi.org/10.1038/s41540-025-00543-9))
+4. Wanying Qu, Jianxiong Gao, Wei Wang, Yanwei Fu. *Modeling Spatiotemporal Neural Frames for High Resolution Brain Dynamic*. [Link](](https://arxiv.org/abs/2603.24176))
+5. Rosa Maria Delicado, Gemma Huguet, Pau Clusella. (2025). *Emergent Spatiotemporal Dynamics in Large-Scale Brain Networks with Next Generation [[neural-mass-models]]*. [Link](](https://arxiv.org/abs/2512.03907))
+6. Christopher Gabaldon, Adria Mulero, Rong Wang, Daniel A. Martin, Sabrina Camargo, Qian-Yuan Tang, Ignacio Cifre, Changsong Zhou, Dante R. Chialvo. (2026). *Data-driven inference of brain dynamical states from the r-spectrum of correlation matrices*. [Link](](https://arxiv.org/abs/2601.03796))
 7. (authors unknown). *[[lean|GLEAN]]: Group Level Exploratory Analysis of Networks*.

@@ -89,8 +89,8 @@ For researchers interested in [[bifurcation-analysis]] of brain dynamics, the mo
 
 ## References
 
-1. Pascal Helson, Etienne Tanré, Romain Veltz. *Mean-field analysis of a [[neural-network]] with stochastic STDP*. [Link](https://arxiv.org/abs/2510.02545)
-2. Soon Ho Kim, Hannah Choi. (2025). *Inhibitory cell type heterogeneity in a spatially structured mean-field model of V1*. bioRxiv. [DOI](https://doi.org/10.1101/2025.03.13.643046)
-3. Potjans & Diesmann (2014). *The cell-type specific cortical microcircuit: relating structure and activity*. Cerebral Cortex. [DOI](https://doi.org/10.1093/cercor/bhs358)
-4. Sanz Leon et al. (2013). *[[the-virtual-brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
-5. Ramiro Plüss, Hernán Villota, Patricio Orio. (2025). *Hemispheric-Specific Coupling Improves Modeling of Functional Connectivity Using [[wilson-cowan]] Dynamics*. [Link](https://arxiv.org/abs/2506.22951)
+1. Pascal Helson, Etienne Tanré, Romain Veltz. *Mean-field analysis of a [[neural-network]] with stochastic STDP*. [Link](](https://arxiv.org/abs/2510.02545))
+2. Soon Ho Kim, Hannah Choi. (2025). *Inhibitory cell type heterogeneity in a spatially structured mean-field model of V1*. bioRxiv. [DOI](](https://doi.org/10.1101/2025.03.13.643046))
+3. Potjans & Diesmann (2014). *The cell-type specific cortical microcircuit: relating structure and activity*. Cerebral Cortex. [DOI](](https://doi.org/10.1093/cercor/bhs358))
+4. Sanz Leon et al. (2013). *[[the-virtual-brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
+5. Ramiro Plüss, Hernán Villota, Patricio Orio. (2025). *Hemispheric-Specific Coupling Improves Modeling of Functional Connectivity Using [[wilson-cowan]] Dynamics*. [Link](](https://arxiv.org/abs/2506.22951))

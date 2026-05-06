@@ -23,5 +23,5 @@ Plasticity — a concept in [[whole-brain|whole-brain modeling]] and [[computati
 1. (authors unknown). *Mapping the [[structural-core]] of Human Cerebral Cortex*.
 2. (authors unknown). *[[functional-connectivity]]: The Principal-Component Analysis of Large (PET and [[fmri]]) Data Sets*.
 3. (authors unknown). *Emergence of Scaling in [[random-networks]]*.
-4. Irem Topal, Anna Poggialini, Marco Dal Maschio, Daniele De Martino, Oren Shriki, Fabrizio Lombardi. (2026). *Scaling and tuning to criticality in [[resting-state]] human magnetoencephalography*. [Link](https://arxiv.org/abs/2602.17820)
+4. Irem Topal, Anna Poggialini, Marco Dal Maschio, Daniele De Martino, Oren Shriki, Fabrizio Lombardi. (2026). *Scaling and tuning to criticality in [[resting-state]] human magnetoencephalography*. [Link](](https://arxiv.org/abs/2602.17820))
 5. (authors unknown). *Functional Network Organization of the Human Brain*.

@@ -66,6 +66,6 @@ Brain maps are closely related to [[brain-parcellations]], which focus specifica
 
 ## References
 
-1. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI): A flexible and integrative toolkit for efficient probabilistic inference on virtual brain models*. bioRxiv. [DOI](https://doi.org/10.1101/2025.01.21.633922)
-2. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI), a flexible and integrative toolkit for efficient probabilistic inference on whole-brain models*. eLife. [DOI](https://doi.org/10.7554/eLife.106194)
-3. Yun Cao, Jiaqin Huang, Danli Zhang, Jianguang Ji, Xiaojing Lei, Zhongjian Tan, Jingling Chang. (2025). *Crosstalk between the gut microbiota and [[brain-network]] topology in poststroke aphasia patients: perspectives from neuroimaging findings*. Therapeutic Advances in Neurological Disorders. [DOI](https://doi.org/10.1177/17562864251319870)
+1. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI): A flexible and integrative toolkit for efficient probabilistic inference on virtual brain models*. bioRxiv. [DOI](](https://doi.org/10.1101/2025.01.21.633922))
+2. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI), a flexible and integrative toolkit for efficient probabilistic inference on whole-brain models*. eLife. [DOI](](https://doi.org/10.7554/eLife.106194))
+3. Yun Cao, Jiaqin Huang, Danli Zhang, Jianguang Ji, Xiaojing Lei, Zhongjian Tan, Jingling Chang. (2025). *Crosstalk between the gut microbiota and [[brain-network]] topology in poststroke aphasia patients: perspectives from neuroimaging findings*. Therapeutic Advances in Neurological Disorders. [DOI](](https://doi.org/10.1177/17562864251319870))

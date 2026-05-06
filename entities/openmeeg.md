@@ -58,6 +58,6 @@ OpenMEEG integrates with a rich ecosystem of neuroimaging software tools. For EE
 
 ## References
 
-1. Sanz  Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
-2. Derek A. Drumm, Guillermo Nuñez Ponasso, A. Linke, G. Noetscher, Burkhard Maess, T. Knösche, J. Haueisen, J. Lewine, Christopher Abbott, S. Makaroff, Zhi‑De Deng. (2025). *Improved Source Localization of Auditory Evoked Fields using Reciprocal BEM‑FMM*. bioRxiv. [DOI](https://doi.org/10.1101/2025.05.09.653081)
-3. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain [[connectivity]]. [DOI](https://doi.org/10.1089/brain.2012.0120)
+1. Sanz  Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
+2. Derek A. Drumm, Guillermo Nuñez Ponasso, A. Linke, G. Noetscher, Burkhard Maess, T. Knösche, J. Haueisen, J. Lewine, Christopher Abbott, S. Makaroff, Zhi‑De Deng. (2025). *Improved Source Localization of Auditory Evoked Fields using Reciprocal BEM‑FMM*. bioRxiv. [DOI](](https://doi.org/10.1101/2025.05.09.653081))
+3. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain [[connectivity]]. [DOI](](https://doi.org/10.1089/brain.2012.0120))

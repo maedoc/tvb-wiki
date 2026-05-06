@@ -1,6 +1,6 @@
 # Feynman Skills Integration Guide
 
-This wiki now integrates with [Feynman](https://feynman.is) research skills for AI-powered content enrichment. Feynman's research agents can fill placeholder content, find relevant papers, and generate comparison pages.
+This wiki now integrates with [Feynman](](https://feynman.is)) research skills for AI-powered content enrichment. Feynman's research agents can fill placeholder content, find relevant papers, and generate comparison pages.
 
 ## Overview
 
@@ -264,8 +264,8 @@ When copying Feynman output to wiki pages:
 
 ## Further Reading
 
-- [Feynman Documentation](https://feynman.is/docs)
-- [AlphaXiv CLI](https://alphaxiv.org/)
-- [Pi Skills Format](https://github.com/badlogic/pi-skills)
+- [Feynman Documentation](](https://feynman.is/docs))
+- [AlphaXiv CLI](](https://alphaxiv.org/))
+- [Pi Skills Format](](https://github.com/badlogic/pi-skills))
 - Wiki `SCHEMA.md` for tag taxonomy
 - `skills/AGENTS.md` for agent conventions

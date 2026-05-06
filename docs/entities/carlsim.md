@@ -128,7 +128,7 @@ CARLsim excels when GPU acceleration and spike-level detail are required; NEST i
 
 ## References
 
-1. L. Niedermeier, J. L. Krichmar. (2026). *Full Feature Spiking Neural Network Simulation on Micro-Controllers for Neuromorphic Applications at the Edge*. [Link](https://arxiv.org/abs/2604.16474)
-2. Junming Duan, Wasilij Barsukow, Christian Klingenberg. *Active flux methods for hyperbolic conservation laws -- flux vector splitting and bound-preservation: Two-dimensional case*. [Link](https://arxiv.org/abs/2407.13380)
-3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz‑Pier, Thanos Manos. *[[arbor]]‑TVB: A Novel Multi‑Scale Co‑Simulation Framework with a Case Study on Neural‑Level Seizure Generation and Whole‑Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
-4. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz‑Pier, Thanos Manos. (2026). *Arbor‑TVB: a novel multi‑scale co‑simulation framework with a case study on neural‑level seizure generation and whole‑brain propagation*. Frontiers Comput. Neurosci.. [DOI](https://doi.org/10.3389/fncom.2025.1731161)
+1. L. Niedermeier, J. L. Krichmar. (2026). *Full Feature Spiking Neural Network Simulation on Micro-Controllers for Neuromorphic Applications at the Edge*. [Link](](https://arxiv.org/abs/2604.16474))
+2. Junming Duan, Wasilij Barsukow, Christian Klingenberg. *Active flux methods for hyperbolic conservation laws -- flux vector splitting and bound-preservation: Two-dimensional case*. [Link](](https://arxiv.org/abs/2407.13380))
+3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz‑Pier, Thanos Manos. *[[arbor]]‑TVB: A Novel Multi‑Scale Co‑Simulation Framework with a Case Study on Neural‑Level Seizure Generation and Whole‑Brain Propagation*. [Link](](https://arxiv.org/abs/2505.16861))
+4. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz‑Pier, Thanos Manos. (2026). *Arbor‑TVB: a novel multi‑scale co‑simulation framework with a case study on neural‑level seizure generation and whole‑brain propagation*. Frontiers Comput. Neurosci.. [DOI](](https://doi.org/10.3389/fncom.2025.1731161))

@@ -46,22 +46,22 @@ The Destrieux Atlas connects to [[the-virtual-brain]] workflows primarily throug
 
 ## References
 
-1. Destrieux, C., Fischl, B., Dale, A., & Halgren, E. (2010). Automatic parcellation of human cortical gyri and sulci using standard anatomical nomenclature. NeuroImage, 52(4), 1235-1348. [DOI](https://doi.org/10.1016/j.neuroimage.2010.02.041)
+1. Destrieux, C., Fischl, B., Dale, A., & Halgren, E. (2010). Automatic parcellation of human cortical gyri and sulci using standard anatomical nomenclature. NeuroImage, 52(4), 1235-1348. [DOI](](https://doi.org/10.1016/j.neuroimage.2010.02.041))
 
-2. Fischl, B. (2012). FreeSurfer. NeuroImage, 62(2), 774-781. [DOI](https://doi.org/10.1016/j.neuroimage.2012.01.021)
+2. Fischl, B. (2012). FreeSurfer. NeuroImage, 62(2), 774-781. [DOI](](https://doi.org/10.1016/j.neuroimage.2012.01.021))
 
 3. Ono, M., Kubik, S., & Abernathey, C.D. (1990). Atlas of the Cerebral Sulci. Georg Thieme Verlag.
 
-4. FreeSurfer Documentation. (2024). Cortical Parcellation with Destrieux Atlas. [Documentation](https://surfer.nmr.mgh.harvard.edu/fswiki/DestrieuxAtlas)
+4. FreeSurfer Documentation. (2024). Cortical Parcellation with Destrieux Atlas. [Documentation](](https://surfer.nmr.mgh.harvard.edu/fswiki/DestrieuxAtlas))
 
-5. Desikan, R.S., Ségonne, F., Fischl, B., Quinn, B.T., Dickerson, B.C., Blacker, D., ... & Killiany, R.J. (2006). An automated labeling system for subdividing the human cerebral cortex on MRI into and from a probabilistic atlas. NeuroImage, 31(3):968-980. [DOI](https://doi.org/10.1016/j.neuroimage.2006.01.021)
+5. Desikan, R.S., Ségonne, F., Fischl, B., Quinn, B.T., Dickerson, B.C., Blacker, D., ... & Killiany, R.J. (2006). An automated labeling system for subdividing the human cerebral cortex on MRI into and from a probabilistic atlas. NeuroImage, 31(3):968-980. [DOI](](https://doi.org/10.1016/j.neuroimage.2006.01.021))
 
-6. Glasser, M.F., Coalson, T.S., Robinson, E.C., Hacker, C.D., Harwell, J., Yacoub, E., ... & Van Essen, D.C. (2016). A multi-modal parcellation of human cerebral cortex. Nature, 536(7615), 171-178. [DOI](https://doi.org/10.1038/nature18933)
+6. Glasser, M.F., Coalson, T.S., Robinson, E.C., Hacker, C.D., Harwell, J., Yacoub, E., ... & Van Essen, D.C. (2016). A multi-modal parcellation of human cerebral cortex. Nature, 536(7615), 171-178. [DOI](](https://doi.org/10.1038/nature18933))
 
-7. Deco, G., & Kringelbach, M.L. (2014). Great expectations: Using whole-brain models to understand the dynamics of brain function. NeuroImage, 80, 360-374. [DOI](https://doi.org/10.1016/j.neuroimage.2013.10.041)
+7. Deco, G., & Kringelbach, M.L. (2014). Great expectations: Using whole-brain models to understand the dynamics of brain function. NeuroImage, 80, 360-374. [DOI](](https://doi.org/10.1016/j.neuroimage.2013.10.041))
 
-8. Schaefer, A., Kong, R., Gordon, E.M., Laumann, T.O., Zuo, X.N., Holmes, A.J., ... & Yeo, B.T. (2018). Local-Global parcellation of the human cerebral cortex from intrinsic functional connectivity. Cerebral Cortex, 28(9), 3095-3114. [DOI](https://doi.org/10.1093/cercor/bhx035)
+8. Schaefer, A., Kong, R., Gordon, E.M., Laumann, T.O., Zuo, X.N., Holmes, A.J., ... & Yeo, B.T. (2018). Local-Global parcellation of the human cerebral cortex from intrinsic functional connectivity. Cerebral Cortex, 28(9), 3095-3114. [DOI](](https://doi.org/10.1093/cercor/bhx035))
 
-9. Yeo, B.T., Krienen, F.M., Sepulcre, J., Sabuncu, M.R., Lashkari, D., Hollinshead, M., ... & Buckner, R.L. (2011). The organization of the human cerebral cortex estimated by intrinsic functional connectivity. Journal of Neurophysiology, 106(3), 1125-1165. [DOI](https://doi.org/10.1152/jn.00338.2011)
+9. Yeo, B.T., Krienen, F.M., Sepulcre, J., Sabuncu, M.R., Lashkari, D., Hollinshead, M., ... & Buckner, R.L. (2011). The organization of the human cerebral cortex estimated by intrinsic functional connectivity. Journal of Neurophysiology, 106(3), 1125-1165. [DOI](](https://doi.org/10.1152/jn.00338.2011))
 
-10. Esteban, O., Birman, D., Schaer, M., Koyejo, O.O., Poldrack, R.A., & Gorgolewski, K.J. (2017). MRIQC: Advancing the automatic prediction of MRI quality. PeerJ, 5, e3348. [DOI](https://doi.org/10.7717/peerj.3348)
+10. Esteban, O., Birman, D., Schaer, M., Koyejo, O.O., Poldrack, R.A., & Gorgolewski, K.J. (2017). MRIQC: Advancing the automatic prediction of MRI quality. PeerJ, 5, e3348. [DOI](](https://doi.org/10.7717/peerj.3348))

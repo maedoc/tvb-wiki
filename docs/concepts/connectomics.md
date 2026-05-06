@@ -90,8 +90,8 @@ Despite progress, fundamental challenges remain. The scale gap—reconciling mac
 2. (authors unknown). *Networks of the Brain*.
 3. (authors unknown). *Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems*.
 4. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
-5. Wanying Qu, Jianxiong Gao, Wei Wang, Yanwei Fu. *Modeling Spatiotemporal Neural Frames for High Resolution Brain Dynamic*. [Link](https://arxiv.org/abs/2603.24176)
-6. Jose Rodriguez-Acosta, Sharmistha Guha, Jessica Bernard, Thamires Magalhaes, Kaitlin McOwen. *Integrative Predictor-Dependent Learning of Network Data and Spatially Correlated Nodal Attributes for Multimodal Brain Imaging in Aging*. [Link](https://arxiv.org/abs/2603.21032)
+5. Wanying Qu, Jianxiong Gao, Wei Wang, Yanwei Fu. *Modeling Spatiotemporal Neural Frames for High Resolution Brain Dynamic*. [Link](](https://arxiv.org/abs/2603.24176))
+6. Jose Rodriguez-Acosta, Sharmistha Guha, Jessica Bernard, Thamires Magalhaes, Kaitlin McOwen. *Integrative Predictor-Dependent Learning of Network Data and Spatially Correlated Nodal Attributes for Multimodal Brain Imaging in Aging*. [Link](](https://arxiv.org/abs/2603.21032))
 
 ## ORPHAN PAGE CONTEXT (ccepytools)
 ---

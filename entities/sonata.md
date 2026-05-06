@@ -19,11 +19,11 @@ updated: '2026-05-05'
 
 ## Overview
 
-SONATA (Scalable Open Network Architecture TemplAte) is a data format and software ecosystem for defining, configuring, and running large-scale neuronal network simulations. Originally developed jointly by the [Blue Brain Project](https://bluebrain.epfl.ch/) at EPFL and the Allen Institute for Brain Science, SONATA provides a standardized way to specify point-neuron networks—including cell positions, morphologies, [[connectivity]] matrices, and simulation parameters—in a machine-readable HDF5-based format Dai et al. 2020. The format was designed to address the growing need for interoperability between different spiking neural network [[spiking-neural-networks]] simulators and to enable reproducible, scalable brain modeling at the tissue and [[whole-brain]] scale.
+SONATA (Scalable Open Network Architecture TemplAte) is a data format and software ecosystem for defining, configuring, and running large-scale neuronal network simulations. Originally developed jointly by the [Blue Brain Project](](https://bluebrain.epfl.ch/)) at EPFL and the Allen Institute for Brain Science, SONATA provides a standardized way to specify point-neuron networks—including cell positions, morphologies, [[connectivity]] matrices, and simulation parameters—in a machine-readable HDF5-based format Dai et al. 2020. The format was designed to address the growing need for interoperability between different spiking neural network [[spiking-neural-networks]] simulators and to enable reproducible, scalable brain modeling at the tissue and [[whole-brain]] scale.
 
 ## Motivation and Context
 
-Before SONATA, neuronal network models were typically encoded in simulator-specific formats or custom Python scripts, making it difficult to share models across platforms or compare results from different simulators. The proliferation of incompatible file formats created significant barriers to [[reproducibility]] and collaboration in [[computational-neuroscience]]. SONATA emerged as part of the broader effort to standardize brain modeling infrastructure—paralleling developments like [NeuroML](Neuroml) for model specification and PyNEST [[pynest]] for simulator interoperability—by providing a declarative, simulator-agnostic description of network structure and simulation configuration.
+Before SONATA, neuronal network models were typically encoded in simulator-specific formats or custom Python scripts, making it difficult to share models across platforms or compare results from different simulators. The proliferation of incompatible file formats created significant barriers to [[reproducibility]] and collaboration in [[computational-neuroscience]]. SONATA emerged as part of the broader effort to standardize brain modeling infrastructure—paralleling developments like [NeuroML](](Neuroml)) for model specification and PyNEST [[pynest]] for simulator interoperability—by providing a declarative, simulator-agnostic description of network structure and simulation configuration.
 
 The format gained traction as the Blue Brain Project scaled up its cortical microcircuit models from thousands to millions of neurons, requiring a format that could efficiently handle large connectivity matrices, handle morphologies, and support parameterized variations. SONATA's design emphasizes scalability and separation of concerns: network structure, cell models, and simulation configuration are stored in distinct HDF5 groups that can be validated and processed independently Dai et al. 2020.
 
@@ -43,7 +43,7 @@ SONATA offers several distinguishing capabilities that have driven its adoption 
 
 ## Relationship to Other Software
 
-SONATA occupies a similar niche to NeuroML [[neuroml]] in providing declarative model specification, but SONATA's focus on large-scale point-neuron networks and tight integration with specific simulators differentiates it from NeuroML's broader scope spanning multiple cell classes and signal types. Unlike TVB's integrated approach, SONATA adopts a more modular philosophy where the network definition is decoupled from the dynamical model specification and the simulator. The format complements PyNEST [[pynest]] libraries and the broader [netpyne](Netpyne) ecosystem for network specification.
+SONATA occupies a similar niche to NeuroML [[neuroml]] in providing declarative model specification, but SONATA's focus on large-scale point-neuron networks and tight integration with specific simulators differentiates it from NeuroML's broader scope spanning multiple cell classes and signal types. Unlike TVB's integrated approach, SONATA adopts a more modular philosophy where the network definition is decoupled from the dynamical model specification and the simulator. The format complements PyNEST [[pynest]] libraries and the broader [netpyne](](Netpyne)) ecosystem for network specification.
 
 ## Limitations and Open Questions
 
@@ -60,5 +60,5 @@ As of 2026, SONATA remains primarily oriented toward point-neuron architectures.
 ## References
 
 1. (authors unknown). *[[geppetto]] - a reusable modular open platform for exploring neuroscience data and models*.
-2. Duy Pham, Gene J. Yu, G. Lazzi, Jean-Marie C Bouteiller. (2026). *A spatially discretized convolutional neural mass model for studying meso-scale spatio-temporal transformations in the rat hippocampus*. Research Square. [DOI](https://doi.org/10.21203/rs.3.rs-9306977/v1)
+2. Duy Pham, Gene J. Yu, G. Lazzi, Jean-Marie C Bouteiller. (2026). *A spatially discretized convolutional neural mass model for studying meso-scale spatio-temporal transformations in the rat hippocampus*. Research Square. [DOI](](https://doi.org/10.21203/rs.3.rs-9306977/v1))
 3. (authors unknown). *[[lean|GLEAN]]: Group Level Exploratory Analysis of Networks*.

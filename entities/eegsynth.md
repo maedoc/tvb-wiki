@@ -48,6 +48,6 @@ EEGSynth occupies a niche in the real-time EEG processing ecosystem that overlap
 
 ## References
 
-1. Sanz Leon et al. (2013). *[[the-virtual-brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
-2. P. S. Shabestari, Delphine Ribes, Lara Défayes, Danpeng Cai, Emily Groves, Harry H. Behjat, D. Van de Ville, Tobias Kleinjung, A. Naas, N. Henchoz, A. Sonderegger, Patrick Neff. (2025). *Advances on Real Time M/EEG Neural Feature Extraction*. 2025 IEEE 38th International Symposium on Computer-Based Medical Systems (CBMS). [DOI](https://doi.org/10.1109/CBMS65348.2025.00074)
-3. Gramfort et al. (2013). *MEG and EEG: From Acquisition to Analysis*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fnins.2013.00010)
+1. Sanz Leon et al. (2013). *[[the-virtual-brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
+2. P. S. Shabestari, Delphine Ribes, Lara Défayes, Danpeng Cai, Emily Groves, Harry H. Behjat, D. Van de Ville, Tobias Kleinjung, A. Naas, N. Henchoz, A. Sonderegger, Patrick Neff. (2025). *Advances on Real Time M/EEG Neural Feature Extraction*. 2025 IEEE 38th International Symposium on Computer-Based Medical Systems (CBMS). [DOI](](https://doi.org/10.1109/CBMS65348.2025.00074))
+3. Gramfort et al. (2013). *MEG and EEG: From Acquisition to Analysis*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fnins.2013.00010))

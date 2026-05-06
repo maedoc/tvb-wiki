@@ -50,6 +50,6 @@ Apptainer exists within a broader ecosystem of container technologies and reprod
 
 ## References
 
-1. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2025). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research*. bioRxiv. [DOI](https://doi.org/10.1101/2025.10.06.680781)
-2. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2026). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research.*. [[brain-stimulation]]. [DOI](https://doi.org/10.1016/j.brs.2025.103016)
-3. Jure Demšar, Aleksij Kraljič, Andraž Matkovič, Samuel Brege, Lining Pan, Zailyn Tamayo, Clara Fonteneau, Markus Helmer, J. Ji, A. Anticevic, Cole Korponay, Melissa Salavrakos, M. Glasser, Lisa D. Nickerson, Youngsun T. Cho, G. Repovš. (2025). *QuNex Recipes: Executable, Human-Readable Workflows for Reproducible Neuroimaging Research*. bioRxiv. [DOI](https://doi.org/10.1101/2025.11.08.687330)
+1. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2025). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research*. bioRxiv. [DOI](](https://doi.org/10.1101/2025.10.06.680781))
+2. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2026). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research.*. [[brain-stimulation]]. [DOI](](https://doi.org/10.1016/j.brs.2025.103016))
+3. Jure Demšar, Aleksij Kraljič, Andraž Matkovič, Samuel Brege, Lining Pan, Zailyn Tamayo, Clara Fonteneau, Markus Helmer, J. Ji, A. Anticevic, Cole Korponay, Melissa Salavrakos, M. Glasser, Lisa D. Nickerson, Youngsun T. Cho, G. Repovš. (2025). *QuNex Recipes: Executable, Human-Readable Workflows for Reproducible Neuroimaging Research*. bioRxiv. [DOI](](https://doi.org/10.1101/2025.11.08.687330))

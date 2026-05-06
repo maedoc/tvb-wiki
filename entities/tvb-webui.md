@@ -29,7 +29,7 @@ The WebUI emerged as a modern alternative to the original TVB GUI (based on Trai
 
 ## Relationship to TVB
 
-TVB-WebUI is the web-based frontend component of the [The Virtual Brain](/tvb) ecosystem. The core simulation engine remains in the TVB Python library, while the WebUI handles:
+TVB-WebUI is the web-based frontend component of the [The Virtual Brain](](/tvb)) ecosystem. The core simulation engine remains in the TVB Python library, while the WebUI handles:
 
 - User authentication and session management
 - Simulation configuration through declarative forms
@@ -46,7 +46,7 @@ The WebUI can be run as a standalone service that connects to a TVB instance, or
 
 ## Related Software
 
-- [TVB](/tvb) — Core simulation engine and Python library
-- [TVB-Explorer](/tvb-explorer) — Visualization toolkit for connectivity and imaging data
-- [TVB-NEURO](/tvb-neuro) — Clinical neuroscience extensions
-- [TVB-GUI](/tvbgui) — Legacy desktop GUI (deprecated)
+- [TVB](](/tvb)) — Core simulation engine and Python library
+- [TVB-Explorer](](/tvb-explorer)) — Visualization toolkit for connectivity and imaging data
+- [TVB-NEURO](](/tvb-neuro)) — Clinical neuroscience extensions
+- [TVB-GUI](](/tvbgui)) — Legacy desktop GUI (deprecated)

@@ -64,4 +64,4 @@ ASLPrep is part of a broader ecosystem of BIDS Apps and preprocessing tools for 
 
 ## References
 
-1. Sima Soltanpour, Md Taufiq Nasseef, Rachel Utama, Arnold Chang, D. Madularu, Praveen Kulkarni, Craig F. Ferris, Chris Joslin. (2025). *Robust automated preclinical fMRI preprocessing via a multi‑stage dilated convolutional Swin Transformer affine registration*. Frontiers in Neuroscience. [DOI](https://doi.org/10.3389/fnins.2025.1621244)
+1. Sima Soltanpour, Md Taufiq Nasseef, Rachel Utama, Arnold Chang, D. Madularu, Praveen Kulkarni, Craig F. Ferris, Chris Joslin. (2025). *Robust automated preclinical fMRI preprocessing via a multi‑stage dilated convolutional Swin Transformer affine registration*. Frontiers in Neuroscience. [DOI](](https://doi.org/10.3389/fnins.2025.1621244))

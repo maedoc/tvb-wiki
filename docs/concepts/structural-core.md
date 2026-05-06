@@ -56,7 +56,7 @@ Identifying the structural core depends critically on the imaging modality and t
 
 1. (authors unknown). *Mapping the Structural Core of Human Cerebral Cortex*.
 2. (authors unknown). *Networks of the Brain*.
-3. Deco et al. (2013). *Resting brains never rest: computational insights into potential cognitive architectures*. Trends in Neurosciences. [DOI](https://doi.org/10.1016/j.tins.2013.09.002)
+3. Deco et al. (2013). *Resting brains never rest: computational insights into potential cognitive architectures*. Trends in Neurosciences. [DOI](](https://doi.org/10.1016/j.tins.2013.09.002))
 4. (authors unknown). *Functional Network Organization of the Human Brain*.
 5. (authors unknown). *Functional Connectivity in the Resting Brain: A Network Analysis of the Default Mode Hypothesis*.
 6. (authors unknown). *The Brain's Default Network: Anatomy, Function, and Relevance to Disease*.

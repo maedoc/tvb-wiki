@@ -56,6 +56,6 @@ For visualization of results, common tools include [[pysurfer]] for cortical sur
 
 ## References
 
-1. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
-2. Masashi Kondo, K. Sehara, Rie Harukuni, Ryo Aoki, Shoya Sugimoto, Yasuhiro R. Tanaka, Masanori Matsuzaki, Ken Nakae. (2025). *Multimodal dataset linking wide‑field calcium imaging to behavior changes in operant lever‑pull task in mice*. Scientific Data. [DOI](https://doi.org/10.1038/s41597-025-05482-y)
-3. J. Meier, P. Triebkorn, M. Schirner, [[petra-ritter]]. (2025). *Connectomes, simultaneous EEG‑fMRI resting‑state data and brain simulation results from 50 healthy subjects*. bioRxiv. [DOI](https://doi.org/10.1101/2024.04.17.589718)
+1. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](](https://doi.org/10.1089/brain.2012.0120))
+2. Masashi Kondo, K. Sehara, Rie Harukuni, Ryo Aoki, Shoya Sugimoto, Yasuhiro R. Tanaka, Masanori Matsuzaki, Ken Nakae. (2025). *Multimodal dataset linking wide‑field calcium imaging to behavior changes in operant lever‑pull task in mice*. Scientific Data. [DOI](](https://doi.org/10.1038/s41597-025-05482-y))
+3. J. Meier, P. Triebkorn, M. Schirner, [[petra-ritter]]. (2025). *Connectomes, simultaneous EEG‑fMRI resting‑state data and brain simulation results from 50 healthy subjects*. bioRxiv. [DOI](](https://doi.org/10.1101/2024.04.17.589718))

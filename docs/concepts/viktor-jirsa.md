@@ -18,6 +18,6 @@ Viktor Jirsa — a concept in [[whole-brain|whole-brain modeling]] and [[computa
 
 ## References
 
-1. Kashyap Gudibanda, J. Fousek, S. Petkoski, V. Jirsa. (2026). *The role of [[connectivity]] for the degeneracy of the brain’s [[resting-state]] dynamics*. Journal of Computational Neuroscience. [DOI](https://doi.org/10.1007/s10827-025-00919-0)
-2. Deco et al. (2013). *Resting brains never [[rest]]: computational insights into potential cognitive architectures*. Trends in Neurosciences. [DOI](https://doi.org/10.1016/j.tins.2013.09.002)
-3. Atsuko Takahashi, Ling Zhu, Makoto Fukushima. (2025). *The Role of Brain Connectivity Patterns in Applying [[connectome]]-Based Reservoir Computing to Neuroscience Tasks*. IEEE International Joint Conference on [[neural-network]]. [DOI](https://doi.org/10.1109/IJCNN64981.2025.11227896)
+1. Kashyap Gudibanda, J. Fousek, S. Petkoski, V. Jirsa. (2026). *The role of [[connectivity]] for the degeneracy of the brain’s [[resting-state]] dynamics*. Journal of Computational Neuroscience. [DOI](](https://doi.org/10.1007/s10827-025-00919-0))
+2. Deco et al. (2013). *Resting brains never [[rest]]: computational insights into potential cognitive architectures*. Trends in Neurosciences. [DOI](](https://doi.org/10.1016/j.tins.2013.09.002))
+3. Atsuko Takahashi, Ling Zhu, Makoto Fukushima. (2025). *The Role of Brain Connectivity Patterns in Applying [[connectome]]-Based Reservoir Computing to Neuroscience Tasks*. IEEE International Joint Conference on [[neural-network]]. [DOI](](https://doi.org/10.1109/IJCNN64981.2025.11227896))

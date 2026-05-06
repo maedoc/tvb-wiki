@@ -52,6 +52,6 @@ The features that distinguish BCILAB in the BCI toolbox landscape include its em
 
 ## References
 
-1. Xiaobo Liu. (2026). *MLE-Toolbox: An Open-Source Toolbox for Comprehensive EEG and MEG Data Analysis*. [Link](https://www.semanticscholar.org/paper/e7aaa4f4bb01e70064493684b4500a950f83460f)
-2. Gursimran Singh, Aviral Chharia, Rahul Upadhyay, Vinay Kumar, Luca Longo. (2025). *PyNoetic: A modular python framework for no-code development of EEG brain-computer interfaces*. PLoS ONE. [DOI](https://doi.org/10.1371/journal.pone.0327791)
-3. Neda Abdollahpour, N. Sertac Artan, Ian Daly, Mohammadreza Yazdchi, Zahra Baharlouei. (2025). *[[effective-connectivity]]-Based Unsupervised Channel Selection Method for EEG*. [Link](https://arxiv.org/abs/2510.12910)
+1. Xiaobo Liu. (2026). *MLE-Toolbox: An Open-Source Toolbox for Comprehensive EEG and MEG Data Analysis*. [Link](](https://www.semanticscholar.org/paper/e7aaa4f4bb01e70064493684b4500a950f83460f))
+2. Gursimran Singh, Aviral Chharia, Rahul Upadhyay, Vinay Kumar, Luca Longo. (2025). *PyNoetic: A modular python framework for no-code development of EEG brain-computer interfaces*. PLoS ONE. [DOI](](https://doi.org/10.1371/journal.pone.0327791))
+3. Neda Abdollahpour, N. Sertac Artan, Ian Daly, Mohammadreza Yazdchi, Zahra Baharlouei. (2025). *[[effective-connectivity]]-Based Unsupervised Channel Selection Method for EEG*. [Link](](https://arxiv.org/abs/2510.12910))

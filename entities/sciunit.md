@@ -91,10 +91,10 @@ While direct integration between SciUnit and TVB remains an active development a
 
 ## References  
 
-1. Sanz Leon et al. (2013). *[[the‑virtual‑brain]]: a simulator of primate brain [[network‑dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)  
-2. Ritter et al. (2013). *[[the-virtual-brain]] integrates computational modeling and multimodal neuroimaging*. Brain [[connectivity]]. [DOI](https://doi.org/10.1089/brain.2012.0120)  
-3. Hongjie Jiang, Yifei Tang, Shuqiang Wang. *Neural Dynamics‑Informed Pre‑trained Framework for [[personalized-brain-modeling|Personalized Brain]] Functional Network Construction*. [Link](https://arxiv.org/abs/2603.07524)  
-4. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2018.05.040)  
-5. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz‑Pier, Thanos Manos. (2026). *[[arbor]]‑TVB: a novel multi‑scale co‑simulation framework with a case study on neural‑level seizure generation and whole‑brain propagation*. Frontiers Comput. Neurosci.. [DOI](https://doi.org/10.3389/fncom.2025.1731161)  
-6. Nina Baldy, Marmaduke M Woodman, Viktor K Jirsa. (2025). *Amortizing personalization in virtual brain twins*. [Link](https://arxiv.org/abs/2506.21155)  
+1. Sanz Leon et al. (2013). *[[the‑virtual‑brain]]: a simulator of primate brain [[network‑dynamics]]*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))  
+2. Ritter et al. (2013). *[[the-virtual-brain]] integrates computational modeling and multimodal neuroimaging*. Brain [[connectivity]]. [DOI](](https://doi.org/10.1089/brain.2012.0120))  
+3. Hongjie Jiang, Yifei Tang, Shuqiang Wang. *Neural Dynamics‑Informed Pre‑trained Framework for [[personalized-brain-modeling|Personalized Brain]] Functional Network Construction*. [Link](](https://arxiv.org/abs/2603.07524))  
+4. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](](https://doi.org/10.1016/j.neuroimage.2018.05.040))  
+5. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz‑Pier, Thanos Manos. (2026). *[[arbor]]‑TVB: a novel multi‑scale co‑simulation framework with a case study on neural‑level seizure generation and whole‑brain propagation*. Frontiers Comput. Neurosci.. [DOI](](https://doi.org/10.3389/fncom.2025.1731161))  
+6. Nina Baldy, Marmaduke M Woodman, Viktor K Jirsa. (2025). *Amortizing personalization in virtual brain twins*. [Link](](https://arxiv.org/abs/2506.21155))  
 7. (authors unknown). *[[lean|GLEAN]]: Group Level Exploratory Analysis of Networks*.

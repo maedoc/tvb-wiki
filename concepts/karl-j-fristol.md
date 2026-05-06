@@ -24,4 +24,4 @@ Karl J Fristol — a concept in [[whole-brain|whole-brain modeling]] and [[compu
 2. (authors unknown). *Functional [[connectomics]] from [[resting-state|Resting-State fMRI]]*.
 3. (authors unknown). *[[functional-connectivity]]: The Principal-Component Analysis of Large (PET and fMRI) Data Sets*.
 4. (authors unknown). *Functional Network Organization of the Human Brain*.
-5. Diego Derman, Damon D. Pham, Amanda F. Mejia, Silvina L. Ferradal. (2025). *Individual patterns of functional [[connectivity]] in neonates as revealed by surface-based Bayesian modeling*. Imaging neuroscience. [DOI](https://doi.org/10.1162/imag_a_00504)
+5. Diego Derman, Damon D. Pham, Amanda F. Mejia, Silvina L. Ferradal. (2025). *Individual patterns of functional [[connectivity]] in neonates as revealed by surface-based Bayesian modeling*. Imaging neuroscience. [DOI](](https://doi.org/10.1162/imag_a_00504))

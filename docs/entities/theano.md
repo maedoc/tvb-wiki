@@ -55,4 +55,4 @@ Several other Python libraries for numerical computing relate to Theano's domain
 
 ## References
 
-1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate [[brain-network]] dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate [[brain-network]] dynamics*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))

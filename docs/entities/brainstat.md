@@ -80,4 +80,4 @@ Performance considerations arise when analyzing dense connectivity matrices: the
 1. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
 2. (authors unknown). *Permutation inference for the general linear model*.
 3. (authors unknown). *Functional [[connectomics]] from Resting-State fMRI*.
-4. Anass B. El-Yaagoubi, Sipan Aslan, Farah Gomawi, P. V. Redondo, Sarbojit Roy, M. S. Sultan, Mara S. Talento, Francine T. Tarrazona, Haibo Wu, Keiland W Cooper, Norbert J. Fortin, H. Ombao. (2025). *Methods for Brain Connectivity Analysis with Applications to Rat [[local-field-potentials|Local Field Potential]] Recordings*. Entropy. [DOI](https://doi.org/10.3390/e27040328)
+4. Anass B. El-Yaagoubi, Sipan Aslan, Farah Gomawi, P. V. Redondo, Sarbojit Roy, M. S. Sultan, Mara S. Talento, Francine T. Tarrazona, Haibo Wu, Keiland W Cooper, Norbert J. Fortin, H. Ombao. (2025). *Methods for Brain Connectivity Analysis with Applications to Rat [[local-field-potentials|Local Field Potential]] Recordings*. Entropy. [DOI](](https://doi.org/10.3390/e27040328))

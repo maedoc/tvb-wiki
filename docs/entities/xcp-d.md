@@ -61,6 +61,6 @@ The XCP-D pipeline was introduced alongside the C-PAC software suite, with found
 
 ## References
 
-1. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2018.05.040)
-2. Sali Issa, Qi Wang, Ruinan Qi, Guangxi Peng, Shi Yin, Qinmu Peng. (2026). *An effective alzheimer disease diagnosis using resting state fmri images and broad learning system.*. Psychiatry research. [[neuroimaging]]. [DOI](https://doi.org/10.1016/j.pscychresns.2025.112133)
-3. Sima Soltanpour, Md Taufiq Nasseef, Rachel Utama, Arnold Chang, D. Madularu, Praveen Kulkarni, Craig F. Ferris, Chris Joslin. (2025). *Robust automated preclinical fMRI preprocessing via a multi-stage dilated convolutional Swin Transformer affine registration*. Frontiers in Neuroscience. [DOI](https://doi.org/10.3389/fnins.2025.1621244)
+1. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](](https://doi.org/10.1016/j.neuroimage.2018.05.040))
+2. Sali Issa, Qi Wang, Ruinan Qi, Guangxi Peng, Shi Yin, Qinmu Peng. (2026). *An effective alzheimer disease diagnosis using resting state fmri images and broad learning system.*. Psychiatry research. [[neuroimaging]]. [DOI](](https://doi.org/10.1016/j.pscychresns.2025.112133))
+3. Sima Soltanpour, Md Taufiq Nasseef, Rachel Utama, Arnold Chang, D. Madularu, Praveen Kulkarni, Craig F. Ferris, Chris Joslin. (2025). *Robust automated preclinical fMRI preprocessing via a multi-stage dilated convolutional Swin Transformer affine registration*. Frontiers in Neuroscience. [DOI](](https://doi.org/10.3389/fnins.2025.1621244))

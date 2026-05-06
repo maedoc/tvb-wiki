@@ -12,7 +12,7 @@ type: entity
 updated: '2026-05-04'
 ---
 
-**PANDA** (Pipeline for Analyzing braiN Diffusion imAges) is a MATLAB-based toolbox developed at the [Beijing Normal University](http://bnu.edu.cn/) for automated processing of diffusion magnetic resonance imaging (dMRI) data. The software provides a comprehensive, end-to-end solution for converting raw diffusion-weighted images into fiber orientation distributions and structural brain networks, making it particularly valuable for researchers studying human brain [[connectivity]] and [[white-matter]] architecture.
+**PANDA** (Pipeline for Analyzing braiN Diffusion imAges) is a MATLAB-based toolbox developed at the [Beijing Normal University](](http://bnu.edu.cn/)) for automated processing of diffusion magnetic resonance imaging (dMRI) data. The software provides a comprehensive, end-to-end solution for converting raw diffusion-weighted images into fiber orientation distributions and structural brain networks, making it particularly valuable for researchers studying human brain [[connectivity]] and [[white-matter]] architecture.
 
 ## Overview
 
@@ -75,6 +75,6 @@ The current maintenance status reflects its role as established infrastructure w
 
 ## References
 
-1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
-2. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
+2. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](](https://doi.org/10.1089/brain.2012.0120))
 3. (authors unknown). *[[braph]]: A Pipeline for Brain Connectivity Analysis*.

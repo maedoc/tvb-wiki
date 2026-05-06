@@ -73,6 +73,6 @@ Modern neural simulation continues to benefit from the foundational work begun w
 ## References
 
 1. Peter Dayan, Larry F. Abbott. *Theoretical Neuroscience: Computational and Mathematical Modeling of Neural Systems*.
-2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *Arbor‑TVB: A Novel Multi‑Scale Co‑Simulation Framework with a Case Study on Neural‑Level Seizure Generation and [[whole‑brain]] Propagation*. [Link](https://arxiv.org/abs/2505.16861)
-3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz‑Pier, Thanos Manos. (2026). *Arbor‑TVB: a novel multi‑scale co‑simulation framework with a case study on neural‑level seizure generation and whole‑brain propagation*. Frontiers Comput. Neurosci.. [DOI](https://doi.org/10.3389/fncom.2025.1731161)
+2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *Arbor‑TVB: A Novel Multi‑Scale Co‑Simulation Framework with a Case Study on Neural‑Level Seizure Generation and [[whole‑brain]] Propagation*. [Link](](https://arxiv.org/abs/2505.16861))
+3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz‑Pier, Thanos Manos. (2026). *Arbor‑TVB: a novel multi‑scale co‑simulation framework with a case study on neural‑level seizure generation and whole‑brain propagation*. Frontiers Comput. Neurosci.. [DOI](](https://doi.org/10.3389/fncom.2025.1731161))
 4. (authors unknown). *[[lean|GLEAN]]: Group Level Exploratory Analysis of Networks*.

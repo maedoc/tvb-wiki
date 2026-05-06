@@ -48,7 +48,7 @@ The foundational CoCoMac publication described the database architecture and dem
 ## References
 
 1. (authors unknown). *Networks of the Brain*.
-2. Ramiro Plüss, Hernán Villota, Patricio Orio. (2025). *Hemispheric-Specific Coupling Improves Modeling of Functional Connectivity Using [[wilson-cowan]] Dynamics*. [Link](https://arxiv.org/abs/2506.22951)
-3. Shengjie Qi, Xinda Song, Le Jia, Hongyu Cui, Yuchen Suo, Teng Long, Zhendong Wu, Xiaolin Ning. (2025). *The impact of channel density, inverse solutions, connectivity metrics and calibration errors on OPM-MEG connectivity analysis: A simulation study*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2025.121056)
-4. A. Craig, Sida Chen, Qianyuan Tang, Changsong Zhou. (2026). *Personalized [[whole-brain]] Ising models with heterogeneous nodes capture differences among brain regions*. bioRxiv. [DOI](https://doi.org/10.1101/2025.06.09.658769)
-5. Jui-To Wang, Ching-Po Lin, Huei-Min Liu, Carlo Pierpaoli, C. Lo. (2025). *Beyond tractography in brain connectivity mapping with dMRI morphometry and functional networks*. Brain Structure and Function. [DOI](https://doi.org/10.1007/s00429-025-03016-1)
+2. Ramiro Plüss, Hernán Villota, Patricio Orio. (2025). *Hemispheric-Specific Coupling Improves Modeling of Functional Connectivity Using [[wilson-cowan]] Dynamics*. [Link](](https://arxiv.org/abs/2506.22951))
+3. Shengjie Qi, Xinda Song, Le Jia, Hongyu Cui, Yuchen Suo, Teng Long, Zhendong Wu, Xiaolin Ning. (2025). *The impact of channel density, inverse solutions, connectivity metrics and calibration errors on OPM-MEG connectivity analysis: A simulation study*. NeuroImage. [DOI](](https://doi.org/10.1016/j.neuroimage.2025.121056))
+4. A. Craig, Sida Chen, Qianyuan Tang, Changsong Zhou. (2026). *Personalized [[whole-brain]] Ising models with heterogeneous nodes capture differences among brain regions*. bioRxiv. [DOI](](https://doi.org/10.1101/2025.06.09.658769))
+5. Jui-To Wang, Ching-Po Lin, Huei-Min Liu, Carlo Pierpaoli, C. Lo. (2025). *Beyond tractography in brain connectivity mapping with dMRI morphometry and functional networks*. Brain Structure and Function. [DOI](](https://doi.org/10.1007/s00429-025-03016-1))

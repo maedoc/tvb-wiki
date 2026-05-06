@@ -77,6 +77,6 @@ PsyNeuLink and [[TVB]] occupy complementary positions in the brain modeling land
 
 ## References
 
-1. I. Falconer, M. Varkanitsa, Swathi Kiran. (2026). *Abstract A124: Simulating Disruption of Large-Scale Functional Networks in Post-Stroke Aphasia Using Personalized Lesion-Based Neural Mass Modeling*. Stroke. [DOI](https://doi.org/10.1161/str.57.suppl_1.a124)
-2. Shawn T. Schwartz, Haopei Yang, Alice M. Xue, M. He. (2025). *eyeris: A flexible, extensible, and reproducible pupillometry preprocessing framework in R*. bioRxiv. [DOI](https://doi.org/10.1101/2025.06.01.657312)
-3. Kyle M. Jensen, Tricia Z. King, P. Andrés-Camazón, V. Calhoun, A. Iraji. (2025). *Aberrant Cortical-Subcortical-Cerebellar [[connectivity]] in [[resting-state|Resting-State fMRI]] as an Imaging Marker of Schizophrenia and Psychosis: A Systematic Review of Data-Driven Whole-Brain [[functional-connectivity]] Analyses*. medRxiv. [DOI](https://doi.org/10.1101/2025.06.19.25329865)
+1. I. Falconer, M. Varkanitsa, Swathi Kiran. (2026). *Abstract A124: Simulating Disruption of Large-Scale Functional Networks in Post-Stroke Aphasia Using Personalized Lesion-Based Neural Mass Modeling*. Stroke. [DOI](](https://doi.org/10.1161/str.57.suppl_1.a124))
+2. Shawn T. Schwartz, Haopei Yang, Alice M. Xue, M. He. (2025). *eyeris: A flexible, extensible, and reproducible pupillometry preprocessing framework in R*. bioRxiv. [DOI](](https://doi.org/10.1101/2025.06.01.657312))
+3. Kyle M. Jensen, Tricia Z. King, P. Andrés-Camazón, V. Calhoun, A. Iraji. (2025). *Aberrant Cortical-Subcortical-Cerebellar [[connectivity]] in [[resting-state|Resting-State fMRI]] as an Imaging Marker of Schizophrenia and Psychosis: A Systematic Review of Data-Driven Whole-Brain [[functional-connectivity]] Analyses*. medRxiv. [DOI](](https://doi.org/10.1101/2025.06.19.25329865))

@@ -51,6 +51,6 @@ The neural mass implementation follows the [[jansen-rit-model]] formalism, repre
 
 ## References
 
-1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
-2. Markram et al. (2015). *Reconstruction and simulation of neocortical microcircuitry*. Cell. [DOI](https://doi.org/10.1016/j.cell.2015.09.029)
-3. Amirreza Movahedin, Lennart P. L. Landsmeer, Christos Strydis. (2025). *HUMA: Heterogeneous, Ultra Low-Latency Model Accelerator for The Virtual Brain on a Versal Adaptive SoC*. Symposium on Field Programmable Gate Arrays. [DOI](https://doi.org/10.1145/3706628.3708875)
+1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
+2. Markram et al. (2015). *Reconstruction and simulation of neocortical microcircuitry*. Cell. [DOI](](https://doi.org/10.1016/j.cell.2015.09.029))
+3. Amirreza Movahedin, Lennart P. L. Landsmeer, Christos Strydis. (2025). *HUMA: Heterogeneous, Ultra Low-Latency Model Accelerator for The Virtual Brain on a Versal Adaptive SoC*. Symposium on Field Programmable Gate Arrays. [DOI](](https://doi.org/10.1145/3706628.3708875))

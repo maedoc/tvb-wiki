@@ -55,6 +55,6 @@ The choice between these tools often depends on user expertise, specific analysi
 
 ## References
 
-1. Wang, J., Wang, X., Xia, M., Liao, X., Evans, A., & He, Y. (2015). *Gretna: a graph theoretical network analysis toolbox for MATLAB*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2015.04.016)
-2. Sanz Leon et al. (2013). *[[the-virtual-brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
-3. Ritter et al. (2013). *[[tvb|The Virtual Brain]] integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
+1. Wang, J., Wang, X., Xia, M., Liao, X., Evans, A., & He, Y. (2015). *Gretna: a graph theoretical network analysis toolbox for MATLAB*. Journal of Neuroscience Methods. [DOI](](https://doi.org/10.1016/j.jneumeth.2015.04.016))
+2. Sanz Leon et al. (2013). *[[the-virtual-brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
+3. Ritter et al. (2013). *[[tvb|The Virtual Brain]] integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](](https://doi.org/10.1089/brain.2012.0120))

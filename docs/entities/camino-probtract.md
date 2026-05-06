@@ -30,7 +30,7 @@ The mathematical formulation typically involves the **ball-and-stick model**, wh
 
 Probabilistic tractography output from Camino serves as a critical input for structural connectivity [[structural-connectivity]] matrices used in computational neuroscience and whole-brain modeling [[whole-brain-modeling]] frameworks like The Virtual Brain [[the-virtual-brain]]. The probability maps can be thresholded to define connection weights between cortical and subcortical regions defined by a [[parcellation]], yielding a weighted adjacency matrix that encodes both the presence and the strength of anatomical links. These matrices are frequently combined with dynamics from neural mass models [[neural-mass-models]] such as the Jansen-Rit model [[jansen-rit-model]] to simulate emergent brain-wide activity patterns, including resting-state networks and seizure dynamics in epilepsy modeling [[epilepsy-modeling]].
 
-Several alternative software packages implement related approaches, including [MRTRIX3](Mrtrix3) (which uses probabilistic constrained spherical deconvolution), [FSL](Software Fsl) (with its PROBTRACKX module), and DSI Studio [[dsi-studio]]. Each employs different reconstruction models and sampling strategies, leading to variability in the resulting tractograms—a phenomenon that has motivated comparative studies and efforts to harmonize tractography pipelines across platforms.
+Several alternative software packages implement related approaches, including [MRTRIX3](](Mrtrix3)) (which uses probabilistic constrained spherical deconvolution), [FSL](](Software-Fsl)) (with its PROBTRACKX module), and DSI Studio [[dsi-studio]]. Each employs different reconstruction models and sampling strategies, leading to variability in the resulting tractograms—a phenomenon that has motivated comparative studies and efforts to harmonize tractography pipelines across platforms.
 
 ## Key Features
 
@@ -39,16 +39,16 @@ Camino's probabilistic tractography is distinguished by its open-source implemen
 ## Related Software
 
 - Camino [[camino]] — core [[diffusion-mri]] analysis package
-- [MRTRIX3](Mrtrix3) — advanced tractography with spherical deconvolution
+- [MRTRIX3](](Mrtrix3)) — advanced tractography with spherical deconvolution
 - DSI Studio [[dsi-studio]] — deterministic and probabilistic fiber tracking
-- [FSL](Software Fsl) — includes PROBTRACKX for probabilistic tractography
-- [Dipy](Dipy) — Python-based [[diffusion-imaging]] analysis
+- [FSL](](Software-Fsl)) — includes PROBTRACKX for probabilistic tractography
+- [Dipy](](Dipy)) — Python-based [[diffusion-imaging]] analysis
 - AFQ [[afq]] — automated fiber quantification pipeline
 - [[tvb|The Virtual Brain]] [[the-virtual-brain]] — [[whole-brain]] simulator using structural connectivity from tractography
 
 ## References
 
-1. Daniel J. Asay, Timothy M. O'Keefe, Randy L. Buckner, Ross W Mair. (2025). *DWIQC: A Python package for preprocessing and quality assurance of diffusion weighted images*. Journal of Open Source Software. [DOI](https://doi.org/10.21105/joss.06974)
-2. Emmanuelle Renauld, Arnaud Boré, Charles Poirier, Alex Valcourt-Caron, Philippe Karan, Antoine Théberge, Guillaume Théaud, Manon Edde, P. Poulin, Gabriel Girard, Jean-Christophe Houde, A. Gagnon, Etienne St-Onge, Graham Little, Jon Haitz Legarreta, Stanislas Thoumyre, G. Grenier, Zineb El Yamani, Mario Ocampo Pineda, Matteo Battochio, Vincent Beaudoin, Alexandre Joanisse, Laurent Petit, F. Rheault, Maxime Descoteaux. (2026). *Tractography analysis with the scilpy toolbox*. Aperture Neuro. [DOI](https://doi.org/10.52294/001c.154022)
-3. M. Cottaar, Zhiyu Zheng, Karla L. Miller, Benjamin C. Tendler, Saad Jbabdi. (2025). *Multi-modal Monte Carlo MRI simulator of tissue microstructure*. bioRxiv. [DOI](https://doi.org/10.1162/IMAG.a.1177)
-4. Ramiro Plüss, Hernán Villota, Patricio Orio. (2025). *Hemispheric-Specific Coupling Improves Modeling of [[functional-connectivity]] Using [[wilson-cowan]] Dynamics*. [Link](https://arxiv.org/abs/2506.22951)
+1. Daniel J. Asay, Timothy M. O'Keefe, Randy L. Buckner, Ross W Mair. (2025). *DWIQC: A Python package for preprocessing and quality assurance of diffusion weighted images*. Journal of Open Source Software. [DOI](](https://doi.org/10.21105/joss.06974))
+2. Emmanuelle Renauld, Arnaud Boré, Charles Poirier, Alex Valcourt-Caron, Philippe Karan, Antoine Théberge, Guillaume Théaud, Manon Edde, P. Poulin, Gabriel Girard, Jean-Christophe Houde, A. Gagnon, Etienne St-Onge, Graham Little, Jon Haitz Legarreta, Stanislas Thoumyre, G. Grenier, Zineb El Yamani, Mario Ocampo Pineda, Matteo Battochio, Vincent Beaudoin, Alexandre Joanisse, Laurent Petit, F. Rheault, Maxime Descoteaux. (2026). *Tractography analysis with the scilpy toolbox*. Aperture Neuro. [DOI](](https://doi.org/10.52294/001c.154022))
+3. M. Cottaar, Zhiyu Zheng, Karla L. Miller, Benjamin C. Tendler, Saad Jbabdi. (2025). *Multi-modal Monte Carlo MRI simulator of tissue microstructure*. bioRxiv. [DOI](](https://doi.org/10.1162/IMAG.a.1177))
+4. Ramiro Plüss, Hernán Villota, Patricio Orio. (2025). *Hemispheric-Specific Coupling Improves Modeling of [[functional-connectivity]] Using [[wilson-cowan]] Dynamics*. [Link](](https://arxiv.org/abs/2506.22951))

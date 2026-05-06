@@ -46,6 +46,6 @@ Flax occupies a distinct niche alongside other Mne Python-based neural network f
 
 ## References
 
-1. Max C. W. Engelen, River Betting, Christos Strydis. (2025). *SimHH: A Versatile, Multi-GPU Simulator for Extended Hodgkin-Huxley Networks*. IEEE Access. [DOI](https://doi.org/10.1109/ACCESS.2025.3550444)
-2. Martin Breyton, Viktor Sip, M. Woodman, Meysam Hashemi, S. Petkoski, V. Jirsa. (2025). *Data-driven [[mean-field-theory|mean-field]] within [[whole-brain]] models*. [Link](https://www.semanticscholar.org/paper/144ae1f1dabec42c14493d0083d36f168508f886)
-3. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI): A flexible and integrative toolkit for efficient probabilistic inference on virtual brain models*. bioRxiv. [DOI](https://doi.org/10.1101/2025.01.21.633922)
+1. Max C. W. Engelen, River Betting, Christos Strydis. (2025). *SimHH: A Versatile, Multi-GPU Simulator for Extended Hodgkin-Huxley Networks*. IEEE Access. [DOI](](https://doi.org/10.1109/ACCESS.2025.3550444))
+2. Martin Breyton, Viktor Sip, M. Woodman, Meysam Hashemi, S. Petkoski, V. Jirsa. (2025). *Data-driven [[mean-field-theory|mean-field]] within [[whole-brain]] models*. [Link](](https://www.semanticscholar.org/paper/144ae1f1dabec42c14493d0083d36f168508f886))
+3. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI): A flexible and integrative toolkit for efficient probabilistic inference on virtual brain models*. bioRxiv. [DOI](](https://doi.org/10.1101/2025.01.21.633922))

@@ -81,6 +81,6 @@ The **HCP Connectome Workbench** software, distributed alongside the pipelines, 
 1. (authors unknown). *The Minimal Preprocessing Pipelines for the Human Connectome Project*.
 2. (authors unknown). *Resting-State fMRI in the Human Connectome Project*.
 3. (authors unknown). *The WU-Minn Human Connectome Project: An Overview*.
-4. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2018.05.040)
+4. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](](https://doi.org/10.1016/j.neuroimage.2018.05.040))
 5. (authors unknown). *Function in the Human Connectome: Task-fMRI and Individual Differences in Behavior*.
 6. (authors unknown). *The Human Connectome Project: A Data Acquisition Perspective*.

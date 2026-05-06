@@ -52,6 +52,6 @@ PyTorch Geometric operates within the broader Python scientific ecosystem and re
 
 ## References
 
-1. Haewon Byeon, Mungara Kiran Kumar, M. A. Abdul Zahra, Mukesh Soni, Ramgopal Kashyap, Abhishek Jain. (2025). *Graph-Based Deep Learning for Brain Network Analysis and Connectivity Mapping*. 2025 International Conference on Networks and Cryptology (NETCRYPT). [DOI](https://doi.org/10.1109/NETCRYPT65877.2025.11102568)
-2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *[[arbor]]-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and [[whole-brain]] propagation*. Frontiers Comput. Neurosci.. [DOI](https://doi.org/10.3389/fncom.2025.1731161)
-3. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)
+1. Haewon Byeon, Mungara Kiran Kumar, M. A. Abdul Zahra, Mukesh Soni, Ramgopal Kashyap, Abhishek Jain. (2025). *Graph-Based Deep Learning for Brain Network Analysis and Connectivity Mapping*. 2025 International Conference on Networks and Cryptology (NETCRYPT). [DOI](](https://doi.org/10.1109/NETCRYPT65877.2025.11102568))
+2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *[[arbor]]-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and [[whole-brain]] propagation*. Frontiers Comput. Neurosci.. [DOI](](https://doi.org/10.3389/fncom.2025.1731161))
+3. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](](https://doi.org/10.1038/s41593-017-0015-4))

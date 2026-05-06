@@ -41,8 +41,8 @@ SUIT is relevant to [[the-virtual-brain]] (TVB) in several important respects. F
 - Freesurfer — alternative cerebellar segmentation tool
 - [[the-virtual-brain]] — whole-brain simulator that uses anatomical parcellations
 - Dipy — diffusion imaging toolbox for [[tractography]]
-- [thecerebellum.com](http://www.thecerebellum.com/) — alternative cerebellar tools and atlases
-- [CBS Tools](https://www.[[nitrc]].org/projects/cbs_tools/) — complementary cerebellar segmentation in CBSTools/Itk Snap
+- [thecerebellum.com](](http://www.thecerebellum.com/)) — alternative cerebellar tools and atlases
+- [CBS Tools](](https://www.nitrc.org/projects/cbs_tools/)) — complementary cerebellar segmentation in CBSTools/Itk Snap
 
 ## Key Papers
 
@@ -54,6 +54,6 @@ SUIT is relevant to [[the-virtual-brain]] (TVB) in several important respects. F
 
 ## References
 
-1. Siva Venkadesh, Yuhe Tian, Wendy Linn, Jessica Barrios Martinez, Harrison Mansour, J. Cook, David J. Schaeffer, D. Szczupak, Afonso C Silva, Allan Johnson, Fang‐Cheng Yeh. (2025). *A hierarchical framework for cortical and subcortical gray-matter [[parcellation]] across rodents, primates, and humans*. bioRxiv. [DOI](https://doi.org/10.1101/2025.09.08.675002)
+1. Siva Venkadesh, Yuhe Tian, Wendy Linn, Jessica Barrios Martinez, Harrison Mansour, J. Cook, David J. Schaeffer, D. Szczupak, Afonso C Silva, Allan Johnson, Fang‐Cheng Yeh. (2025). *A hierarchical framework for cortical and subcortical gray-matter [[parcellation]] across rodents, primates, and humans*. bioRxiv. [DOI](](https://doi.org/10.1101/2025.09.08.675002))
 2. (authors unknown). *Functional Network Organization of the Human Brain*.
-3. Teppei Matsubara, Abbass Sohrabpur, Seppo Ahlfors, M. Jas, John G. W. Samuelsson, Padmavathi Sundaram, Steven M. Stufflebeam. (2026). *Quantifying Cerebellar Signal Detectability in MEG and EEG in Epilepsy Using Anatomically Informed Source Modeling*. bioRxiv. [DOI](https://doi.org/10.64898/2026.01.14.699512)
+3. Teppei Matsubara, Abbass Sohrabpur, Seppo Ahlfors, M. Jas, John G. W. Samuelsson, Padmavathi Sundaram, Steven M. Stufflebeam. (2026). *Quantifying Cerebellar Signal Detectability in MEG and EEG in Epilepsy Using Anatomically Informed Source Modeling*. bioRxiv. [DOI](](https://doi.org/10.64898/2026.01.14.699512))

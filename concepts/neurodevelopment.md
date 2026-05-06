@@ -94,5 +94,5 @@ Development varies across individuals due to:
 3. (authors unknown). *Functional Brain Networks Develop from a 'Local to Distributed' Organization*.
 4. (authors unknown). *The Development of Human Functional Brain Networks*.
 5. (authors unknown). *The Basics of Brain Development*.
-6. Fatemeh Mahani, Aref Kalantari, M. Diedenhofen, Claudia Green, Dirk Wiedermann, G.R. Fink, Mathias Hoehn, M. Aswendt. (2026). *Dynamic structural connectivity changes in cortical and cortico-striatal strokes in mice.*. Neural Regeneration Research. [DOI](https://doi.org/10.4103/NRR.NRR-D-25-00491)
+6. Fatemeh Mahani, Aref Kalantari, M. Diedenhofen, Claudia Green, Dirk Wiedermann, G.R. Fink, Mathias Hoehn, M. Aswendt. (2026). *Dynamic structural connectivity changes in cortical and cortico-striatal strokes in mice.*. Neural Regeneration Research. [DOI](](https://doi.org/10.4103/NRR.NRR-D-25-00491))
 7. (authors unknown). *[[uk-biobank]] Brain Imaging: Structural MRI in a Massive Population Resource*.

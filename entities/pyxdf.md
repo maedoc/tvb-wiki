@@ -64,5 +64,5 @@ While PyXDF provides robust reading capabilities, some aspects of the XDF ecosys
 ## References
 
 1. Samuele Carcagno. *pybdf: Python library for BioSemi BDF files*.
-2. B. Bein (2018). *pyedflib: Python library for reading and writing EDF/BDF files*. Journal of Open Source Software. [DOI](https://doi.org/10.21105/joss.00899)
-3. Gramfort et al. (2013). *MEG and EEG: From Acquisition to Analysis*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fnins.2013.00010)
+2. B. Bein (2018). *pyedflib: Python library for reading and writing EDF/BDF files*. Journal of Open Source Software. [DOI](](https://doi.org/10.21105/joss.00899))
+3. Gramfort et al. (2013). *MEG and EEG: From Acquisition to Analysis*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fnins.2013.00010))

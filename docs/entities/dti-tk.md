@@ -62,6 +62,6 @@ The field of [[diffusion imaging]] has evolved substantially since DTI‑TK's de
 
 ## References  
 
-1. Daniele Licciardo, Chiara Matti, A. Benelli, V. Isella, I. Appollonio, E. Santarnechi. (2026). *Gray matter atrophy and structural connectivity in Posterior Cortical Atrophy: a voxel‑based meta‑analysis.* Neuroscience and Biobehavioral Reviews. [DOI](https://doi.org/10.1016/j.neubiorev.2026.106554)  
-2. Yifei Sun, James M. Shine, Robert D. Sanders, Robin F. H. Cash, Sharon L. Naismith, Fernando Calamante, Jinglei Lv. (2026). *A Data‑Driven Method to Map the Functional Organisation of Human Brain [[white-matter]]*. [Link](https://arxiv.org/abs/2602.18715)  
-3. Chunxia Yang, Jiaxin Han, N. Sun, Penghong Liu, Kerang Zhang, Aixia Zhang, Zhifen Liu. (2025). *Identifying neurobiological markers as predictors of antidepressant treatment using diffusion tensor imaging: A tract‑based spatial statistical analysis of cingulate bundle*. CNS Spectrums. [DOI](https://doi.org/10.1017/S1092852925000252)
+1. Daniele Licciardo, Chiara Matti, A. Benelli, V. Isella, I. Appollonio, E. Santarnechi. (2026). *Gray matter atrophy and structural connectivity in Posterior Cortical Atrophy: a voxel‑based meta‑analysis.* Neuroscience and Biobehavioral Reviews. [DOI](](https://doi.org/10.1016/j.neubiorev.2026.106554))  
+2. Yifei Sun, James M. Shine, Robert D. Sanders, Robin F. H. Cash, Sharon L. Naismith, Fernando Calamante, Jinglei Lv. (2026). *A Data‑Driven Method to Map the Functional Organisation of Human Brain [[white-matter]]*. [Link](](https://arxiv.org/abs/2602.18715))  
+3. Chunxia Yang, Jiaxin Han, N. Sun, Penghong Liu, Kerang Zhang, Aixia Zhang, Zhifen Liu. (2025). *Identifying neurobiological markers as predictors of antidepressant treatment using diffusion tensor imaging: A tract‑based spatial statistical analysis of cingulate bundle*. CNS Spectrums. [DOI](](https://doi.org/10.1017/S1092852925000252))

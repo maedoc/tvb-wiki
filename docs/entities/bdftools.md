@@ -67,9 +67,9 @@ Finally, while the Python ecosystem provides multiple excellent options for BDF 
 
 ## References
 
-1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
-2. B. Bein (2018). *pyedflib: Python library for reading and writing EDF/BDF files*. Journal of Open Source Software. [DOI](https://doi.org/10.21105/joss.00899)
-3. Gramfort et al. (2013). *MEG and EEG: From Acquisition to Analysis*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fnins.2013.00010)
+1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
+2. B. Bein (2018). *pyedflib: Python library for reading and writing EDF/BDF files*. Journal of Open Source Software. [DOI](](https://doi.org/10.21105/joss.00899))
+3. Gramfort et al. (2013). *MEG and EEG: From Acquisition to Analysis*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fnins.2013.00010))
 4. (authors unknown). *BioSemi BDF Format Specification*.
 5. T. R. Oostendorp and J. C. van den Oever (referenced in methodology literature). *Reference Choice Affects EEG Connectivity Dynamics*. Clinical Neurophysiology.
 6. (authors unknown). *Status Channel Parsing in BioSemi BDF Files*.

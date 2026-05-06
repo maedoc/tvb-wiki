@@ -117,4 +117,4 @@ The DMN presents both opportunities and challenges for [[whole-brain modeling]] 
 4. (authors unknown). *Functional [[connectomics]] from Resting-State fMRI*.
 5. (authors unknown). *Functional-Anatomic Fractionation of the Brain's Default Network*.
 6. (authors unknown). *Functional Connectivity: The Principal-Component Analysis of Large (PET and fMRI) Data Sets*.
-7. Diego Derman, Damon D. Pham, Amanda F. Mejia, Silvina L. Ferradal. (2025). *Individual patterns of functional connectivity in neonates as revealed by surface-based Bayesian modeling*. Imaging neuroscience. [DOI](https://doi.org/10.1162/imag_a_00504)
+7. Diego Derman, Damon D. Pham, Amanda F. Mejia, Silvina L. Ferradal. (2025). *Individual patterns of functional connectivity in neonates as revealed by surface-based Bayesian modeling*. Imaging neuroscience. [DOI](](https://doi.org/10.1162/imag_a_00504))

@@ -64,5 +64,5 @@ Methodological debates continue about the appropriate use of Neurosynth data for
 2. (authors unknown). *Functional Magnetic Resonance Imaging*.
 3. (authors unknown). *Functional Connectivity: The Principal-Component Analysis of Large (PET and fMRI) Data Sets*.
 4. (authors unknown). *Functional Network Organization of the Human Brain*.
-5. Lizhe Sun, Xiao-Feng Han, Aiying Zhang. (2026). *Joint estimation of multiple graphical models for an fMRI study of brain connectivity networks*. Statistical Methods in Medical Research. [DOI](https://doi.org/10.1177/09622802261432804)
-6. Diego Derman, Damon D. Pham, Amanda F. Mejia, Silvina L. Ferradal. (2025). *Individual patterns of functional connectivity in neonates as revealed by surface-based Bayesian modeling*. Imaging neuroscience. [DOI](https://doi.org/10.1162/imag_a_00504)
+5. Lizhe Sun, Xiao-Feng Han, Aiying Zhang. (2026). *Joint estimation of multiple graphical models for an fMRI study of brain connectivity networks*. Statistical Methods in Medical Research. [DOI](](https://doi.org/10.1177/09622802261432804))
+6. Diego Derman, Damon D. Pham, Amanda F. Mejia, Silvina L. Ferradal. (2025). *Individual patterns of functional connectivity in neonates as revealed by surface-based Bayesian modeling*. Imaging neuroscience. [DOI](](https://doi.org/10.1162/imag_a_00504))

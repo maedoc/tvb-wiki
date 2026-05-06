@@ -1,9 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- 10.1007/978-3-540-40899-4_6
-- 10.1016/j.neuroimage.2006.08.020
-- 10.1016/j.jneumeth.2022.109566
 - raw/papers/arxiv-2505.14017.md
 - raw/papers/semanticscholar-381eab6345ff.md
 - raw/papers/Renton2024.md
@@ -44,10 +41,10 @@ BrainSuite integrates with the broader landscape of neuroimaging tools. It compl
 
 ## Key Papers
 
-- Shattuck, D.W., & Leahy, R.M. (2000). BrainSuite: An Automated Cortical Surface Identification Tool. *MICCAI 2000*, 50–61. [doi:10.1007/978-3-540-40899-4_6](https://doi.org/10.1007/978-3-540-40899-4_6)
-- Shattuck, D.W., & Leahy, R.M. (2001). Automated segmentation of white matter lesions. *NeuroImage*, 13(6): 218. [doi:10.1006/nimg.2001.0903](https://doi.org/10.1006/nimg.2001.0903)
-- Joshi, A.A., Choi, S., Chong, M., et al. (2022). A Hybrid High-Resolution Anatomical MRI Atlas with Sub-[[parcellation]] of Cortical Gyri using Resting [[fmri]]. *Journal of Neuroscience Methods*, 374:109566. [doi:10.1016/j.jneumeth.2022.109566](https://doi.org/10.1016/j.jneumeth.2022.109566)
-- Joshi, A.A., Shattuck, D.W., Thompson, P.M., & Leahy, R.M. (2012). Surface-constrained volumetric registration. *NeuroImage*, 60(4): 1889–1900. [doi:10.1016/j.neuroimage.2012.01.131](https://doi.org/10.1016/j.neuroimage.2012.01.131)
+- Shattuck, D.W., & Leahy, R.M. (2000). BrainSuite: An Automated Cortical Surface Identification Tool. *MICCAI 2000*, 50–61. [doi:10.1007/978-3-540-40899-4_6](](https://doi.org/10.1007/978-3-540-40899-4_6))
+- Shattuck, D.W., & Leahy, R.M. (2001). Automated segmentation of white matter lesions. *NeuroImage*, 13(6): 218. [doi:10.1006/nimg.2001.0903](](https://doi.org/10.1006/nimg.2001.0903))
+- Joshi, A.A., Choi, S., Chong, M., et al. (2022). A Hybrid High-Resolution Anatomical MRI Atlas with Sub-[[parcellation]] of Cortical Gyri using Resting [[fmri]]. *Journal of Neuroscience Methods*, 374:109566. [doi:10.1016/j.jneumeth.2022.109566](](https://doi.org/10.1016/j.jneumeth.2022.109566))
+- Joshi, A.A., Shattuck, D.W., Thompson, P.M., & Leahy, R.M. (2012). Surface-constrained volumetric registration. *NeuroImage*, 60(4): 1889–1900. [doi:10.1016/j.neuroimage.2012.01.131](](https://doi.org/10.1016/j.neuroimage.2012.01.131))
 - Joshi, A.A., Shattuck, D.W., & Leahy, R.M. (2007). A method for automatic generation of the cortical sulci based on elastic deformation. *Journal of Neuroscience Methods*, 166(2): 207–217.
 
 ## References

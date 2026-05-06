@@ -1,5 +1,18 @@
 # Wiki Action Log
 
+## 2026-05-06
+- Created [[brica2]] page - comprehensive content about Brain-inspired Computing Architecture version 2
+- Added sections on overview, key features (C++ core, pybind11 bindings, message-passing architecture)
+- Included relationship to TVB explaining complementary purposes (TVB for clinical modeling, BriCA2 for cognitive architecture)
+- Added 12+ wikilinks connecting to neural-mass-models, tvb, nest, brian, pynest, neuroml, brainpy, spiking-neural-networks, network-dynamics, structural-connectivity
+- Updated frontmatter with proper tags and date
+- Improved [[neuroml2]] page - fixed frontmatter tags (replaced invalid open-source-brain with software-brain-modeling), removed invalid source references, removed body citation markers and Key Papers section
+- Fixed all tags to use only taxonomy-compliant tags
+- Included proper relationship to TVB via [[tvb-nest]] module
+- Retained comprehensive technical content about NeuroML2 features, LEMS foundation, and interoperability
+- Content includes: XML-based specification, cellular/network level modeling, validation emphasis, Relationship to Other Standards section
+- 18+ wikilinks connecting to related software and concepts (neuron, nest, neuroml, spiking-neural-networks, neural-mass-model, etc.)
+
 ## 2026-05-04
 - Improved [[coins]] page - replaced placeholder with comprehensive content about COINS (Collaborative Informatics and Neuroimaging Suite)
 - Added sections on overview, key features (MICIS, Assessment Manager, DICOM Receiver, Query Builder, Data Exchange), relationship to TVB, key papers
@@ -45,6 +58,24 @@
 ## [2026-05-04 13:56] Matcher: 10 pages got 26 new sources
 
 ## [2026-05-04 14:05] DeepResearch: 9 papers added via focused research
+
+## 2026-05-06
+- Created [[brica2]] page - comprehensive content about Brain-inspired Computing Architecture version 2
+- Added sections on overview, key features (C++ core, pybind11 bindings, message-passing architecture)
+- Included relationship to TVB explaining complementary purposes (TVB for clinical modeling, BriCA2 for cognitive architecture)
+- Added 12+ wikilinks connecting to neural-mass-models, tvb, nest, brian, pynest, neuroml, brainpy, spiking-neural-networks, network-dynamics, structural-connectivity
+- Updated frontmatter with proper tags and date
+
+## [2026-05-06] Improve: niftynet
+- Fixed duplicate frontmatter (was two YAML blocks concatenated)
+- Removed invalid wikilink tag [[connectomics]] from frontmatter
+- Removed body References section (sources belong in YAML frontmatter only)
+- Fixed all wikilinks to match valid page names: [[TVB]]→[[the-virtual-brain]], [[NiftyReg]]→[[niftyreg]], [[ANTs]]→[[ants]], [[AAL Atlas]]→[[aal-atlas]], [[Desikan-Killiany Atlas]]→[[desikan-killiany-atlas]], etc.
+- Updated frontmatter with proper taxonomy tags (software-brain-modeling, software-neuroimaging, deep-learning, tensorflow, etc.)
+- Added valid source papers to frontmatter sources list
+- Updated date to 2026-05-06
+- Expanded content with core methodology section explaining 5-stage pipeline
+- Includes 15+ wikilinks to related pages
 
 ## [2026-05-04 14:06] Audit: 941 issues (42 broken links, 54 orphans, 20 placeholders, 0 dup-refs, 3 bad-meta, 78 citation-verify, 4 opaque-refs, 75 thin, 421 missing-links)
 
@@ -198,3 +229,48 @@
 ## [2026-05-05 22:09] CrosslinkApplier: added 12 wikilinks (12 inline, 0 suggested)
 
 ## [2026-05-05 22:14] Matcher: 4 pages got 12 new sources
+
+## [2026-05-05 23:42] FullTextFetcher: fetched 5 new full texts (6 total in corpus)
+
+## [2026-05-06 00:53] Audit: 941 issues (98 broken links, 54 orphans, 22 placeholders, 0 dup-refs, 5 bad-meta, 85 citation-verify, 11 opaque-refs, 73 thin, 351 missing-links)
+
+## [2026-05-06 04:19] Matcher: 1 pages got 3 new sources
+
+## [2026-05-06 05:54] Audit: 941 issues (98 broken links, 54 orphans, 22 placeholders, 0 dup-refs, 5 bad-meta, 85 citation-verify, 11 opaque-refs, 73 thin, 351 missing-links)
+
+## [2026-05-06 07:16] Linter: 98 broken links, 54 orphans, 22 stale, 27 empty
+
+## [2026-05-06 07:16] Librarian: catalog rebuilt, 7162 asymmetric links noted
+
+## [2026-05-06 07:17] SoftwareMapper: 3 pages created
+
+## [2026-05-06 08:30] Improve: Improved [[hrf]] page
+- Replaced placeholder with comprehensive content about Hemodynamic Response Function
+- Added sections on overview, mathematical models (double gamma function), HRF variability, fMRI analysis, relationship to TVB
+- Included 10+ wikilinks connecting to the-virtual-brain, jansen-rit-model, wong-wang-model, bold-model, neuroimaging-fmri, functional-connectivity, effective-connectivity, dynamic-causal-modeling, brain-oscillations, whole-brain-modeling, personalized-brain-modeling
+- Updated frontmatter: changed type from entity to concept, added proper tags (neuroimaging-fmri, neural-mass-models, dynamical-systems-theory, brain-dynamics), added 2 source papers
+- Content covers: neurovascular coupling, canonical HRF models, gamma function mathematics, HRF estimation and deconvolution, TVB forward modeling
+
+## [2026-05-06 07:20] FullTextFetcher: fetched 2 new full texts (8 total in corpus)
+
+## [2026-05-06 07:20] Audit: 894 issues (98 broken links, 54 orphans, 22 placeholders, 0 dup-refs, 5 bad-meta, 85 citation-verify, 10 opaque-refs, 73 thin, 352 missing-links)
+- Updated neuroml2.md: Added wikilinks, enhanced technical content, removed redundant References section, updated date
+
+## [2026-05-06 07:24] CrosslinkApplier: added 20 wikilinks (20 inline, 0 suggested)
+
+## [2026-05-06 07:25] DeepResearch: 8 papers added via focused research
+
+## [2026-05-06 07:36] Improve: 5 pages improved (abide, tvb-webui, niftynet, neuroml2, hrf)
+
+## [2026-05-06 08:06] Improve: 3 pages improved (hnn, nifti, neuroml2)
+- Improved [[nitrc-ce]] page - fixed frontmatter source citation error (wrong initiative name), removed unrelated TVB paper from sources
+- Fixed invalid wikilinks (removed [[FSL]], [[trackvis]], [[fsleyes]], [[nilearn]] which don't exist in inventory)
+- Corrected wikilinks to valid pages: [[camino]], [[afq]], [[brain-connectivity-toolbox]], [[dipy]]
+- Added more technical content about containerized neuroimaging workflows and reproducibility
+- Enhanced relationship to TVB section with details on connectivity matrix preprocessing and personalized brain modeling
+- Added content about datalad-containers integration for version-controlled analysis workflows
+- Updated tags to only include taxonomy-compliant tags
+
+## [2026-05-06 08:40] Repair: 77 issues fixed (20 source refs, 23 index, 3 frontmatter, 18 wikilinks, 6 orphans, 0 dup-refs, 1 opaque-refs, 6 crosslinks)
+
+## [2026-05-06 08:43] Improve: 3 pages improved (eegnet, hcp-dataset, abide)

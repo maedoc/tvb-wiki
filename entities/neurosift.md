@@ -50,5 +50,5 @@ Neurosift occupies a specific niche in the neuroimaging visualization landscape,
 ## References
 
 1. (authors unknown). *Neurosift: [[dandi]] exploration and NWB visualization in the browser*.
-2. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
 3. (authors unknown). *[[braph]]: A Pipeline for Brain Connectivity Analysis*.

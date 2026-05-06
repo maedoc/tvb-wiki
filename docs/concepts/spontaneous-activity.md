@@ -20,8 +20,8 @@ Spontaneous Activity — a concept in [[whole-brain|whole-brain modeling]] and [
 
 ## References
 
-1. Deco et al. (2013). *Resting brains never [[rest]]: computational insights into potential cognitive architectures*. Trends in Neurosciences. [DOI](https://doi.org/10.1016/j.tins.2013.09.002)
+1. Deco et al. (2013). *Resting brains never [[rest]]: computational insights into potential cognitive architectures*. Trends in Neurosciences. [DOI](](https://doi.org/10.1016/j.tins.2013.09.002))
 2. (authors unknown). *Model of Global Spontaneous Activity and Local Structured Activity During Delay Periods in the Cerebral Cortex*.
 3. (authors unknown). *[[nonlinear-dynamics]] and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering*.
-4. Peter Yongho Kim, Juhyeon Park, Jungwoo Park, Jubin Choi, Jungwoo Seo, Jiook Cha, Taesup Moon. (2026). *Can Natural Image Autoencoders Compactly Tokenize [[fmri]] Volumes for Long-Range Dynamics Modeling?*. [Link](https://arxiv.org/abs/2604.03619)
+4. Peter Yongho Kim, Juhyeon Park, Jungwoo Park, Jubin Choi, Jungwoo Seo, Jiook Cha, Taesup Moon. (2026). *Can Natural Image Autoencoders Compactly Tokenize [[fmri]] Volumes for Long-Range Dynamics Modeling?*. [Link](](https://arxiv.org/abs/2604.03619))
 5. (authors unknown). *[[lean|GLEAN]]: Group Level Exploratory Analysis of Networks*.

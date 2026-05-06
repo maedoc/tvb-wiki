@@ -66,8 +66,8 @@ VB sits at the intersection of several lines of work. Its optimization objective
 3. (authors unknown). *Variational Inference: A Review for Statisticians*.
 4. (authors unknown). *Graphical Models, Exponential Families, and Variational Inference*.
 5. (authors unknown). *Variational Inference with Normalizing Flows*.
-6. Jiaming Liu, Meng Li. *Bend to Mend: Toward Trustworthy Variational Bayes with Valid Uncertainty Quantification*. [Link](https://arxiv.org/abs/2512.22655)
-7. Ritter et al. (2013). *[[the-virtual-brain]] integrates computational modeling and multimodal neuroimaging*. Brain [[connectivity]]. [DOI](https://doi.org/10.1089/brain.2012.0120)
+6. Jiaming Liu, Meng Li. *Bend to Mend: Toward Trustworthy Variational Bayes with Valid Uncertainty Quantification*. [Link](](https://arxiv.org/abs/2512.22655))
+7. Ritter et al. (2013). *[[the-virtual-brain]] integrates computational modeling and multimodal neuroimaging*. Brain [[connectivity]]. [DOI](](https://doi.org/10.1089/brain.2012.0120))
 8. O. David, K.J. Friston. *Dynamic causal modelling*. NeuroImage. [DOI](https://doi.org/10.1016/S1053-8119(03)00202-7)
-9. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI): A flexible and integrative toolkit for efficient probabilistic inference on virtual brain models*. bioRxiv. [DOI](https://doi.org/10.1101/2025.01.21.633922)
-10. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI), a flexible and integrative toolkit for efficient probabilistic inference on whole-brain models*. eLife. [DOI](https://doi.org/10.7554/eLife.106194)
+9. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI): A flexible and integrative toolkit for efficient probabilistic inference on virtual brain models*. bioRxiv. [DOI](](https://doi.org/10.1101/2025.01.21.633922))
+10. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI), a flexible and integrative toolkit for efficient probabilistic inference on whole-brain models*. eLife. [DOI](](https://doi.org/10.7554/eLife.106194))

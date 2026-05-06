@@ -74,4 +74,4 @@ A persistent controversy in the field concerns global signal regression—a prep
 3. (authors unknown). *Correspondence of the brain's functional architecture during activation and rest*.
 4. (authors unknown). *Functional Network Organization of the Human Brain*.
 5. (authors unknown). *A Default Mode of Brain Function*.
-6. Deco et al. (2013). *Resting brains never rest: computational insights into potential cognitive architectures*. Trends in Neurosciences. [DOI](https://doi.org/10.1016/j.tins.2013.09.002)
+6. Deco et al. (2013). *Resting brains never rest: computational insights into potential cognitive architectures*. Trends in Neurosciences. [DOI](](https://doi.org/10.1016/j.tins.2013.09.002))

@@ -60,6 +60,6 @@ The software maintains active development and documentation through the NiftyReg
 
 ## References
 
-1. Tongtong Che, Lin Zhang, Debin Zeng, Yan Zhao, Haoying Bai, Jichang Zhang, Xiuying Wang, Shuyu Li. (2025). *Nested hierarchical group-wise registration with a graph-based subgrouping strategy for efficient template construction*. Medical Image Anal.. [DOI](https://doi.org/10.1016/j.media.2025.103624)
-2. Avants et al. (2008). *Symmetric diffeomorphic image registration with cross-correlation*. Medical Image Analysis. [DOI](https://doi.org/10.1016/j.media.2007.06.004)
-3. R. Shen, D. Parker, Andrew A. Chen, Benjamin E. Yerys, Birkan Tunç, T. Roberts, Russell T. Shinohara, Ragini Verma. (2025). *Big Data, Small Bias: Harmonizing [[diffusion-mri]]‐Based Structural Connectomes to Mitigate Site‐Related Bias in Data Integration*. Human Brain Mapping. [DOI](https://doi.org/10.1002/hbm.70256)
+1. Tongtong Che, Lin Zhang, Debin Zeng, Yan Zhao, Haoying Bai, Jichang Zhang, Xiuying Wang, Shuyu Li. (2025). *Nested hierarchical group-wise registration with a graph-based subgrouping strategy for efficient template construction*. Medical Image Anal.. [DOI](](https://doi.org/10.1016/j.media.2025.103624))
+2. Avants et al. (2008). *Symmetric diffeomorphic image registration with cross-correlation*. Medical Image Analysis. [DOI](](https://doi.org/10.1016/j.media.2007.06.004))
+3. R. Shen, D. Parker, Andrew A. Chen, Benjamin E. Yerys, Birkan Tunç, T. Roberts, Russell T. Shinohara, Ragini Verma. (2025). *Big Data, Small Bias: Harmonizing [[diffusion-mri]]‐Based Structural Connectomes to Mitigate Site‐Related Bias in Data Integration*. Human Brain Mapping. [DOI](](https://doi.org/10.1002/hbm.70256))

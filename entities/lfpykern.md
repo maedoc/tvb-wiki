@@ -46,6 +46,6 @@ LFPykern builds upon and relates to several other tools in the computational neu
 
 ## References
 
-1. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz‑Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi‑Scale Co‑Simulation Framework with a Case Study on Neural‑Level Seizure Generation and [[whole‑brain]] Propagation*. [Link](https://arxiv.org/abs/2505.16861)
-2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz‑Pier, Thanos Manos. (2026). *Arbor‑TVB: a novel multi‑scale co‑simulation framework with a case study on neural‑level seizure generation and whole‑brain propagation*. Frontiers Comput. Neurosci.. [DOI](https://doi.org/10.3389/fncom.2025.1731161)
-3. Max C. W. Engelen, River Betting, Christos Strydis. (2025). *SimHH: A Versatile, Multi‑GPU Simulator for Extended Hodgkin‑Huxley Networks*. IEEE Access. [DOI](https://doi.org/10.1109/ACCESS.2025.3550444)
+1. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz‑Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi‑Scale Co‑Simulation Framework with a Case Study on Neural‑Level Seizure Generation and [[whole‑brain]] Propagation*. [Link](](https://arxiv.org/abs/2505.16861))
+2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz‑Pier, Thanos Manos. (2026). *Arbor‑TVB: a novel multi‑scale co‑simulation framework with a case study on neural‑level seizure generation and whole‑brain propagation*. Frontiers Comput. Neurosci.. [DOI](](https://doi.org/10.3389/fncom.2025.1731161))
+3. Max C. W. Engelen, River Betting, Christos Strydis. (2025). *SimHH: A Versatile, Multi‑GPU Simulator for Extended Hodgkin‑Huxley Networks*. IEEE Access. [DOI](](https://doi.org/10.1109/ACCESS.2025.3550444))

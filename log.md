@@ -272,3 +272,5 @@
 - Updated tags to only include taxonomy-compliant tags
 
 ## [2026-05-06 08:40] Repair: 77 issues fixed (20 source refs, 23 index, 3 frontmatter, 18 wikilinks, 6 orphans, 0 dup-refs, 1 opaque-refs, 6 crosslinks)
+
+## [2026-05-06 08:43] Improve: 3 pages improved (eegnet, hcp-dataset, abide)

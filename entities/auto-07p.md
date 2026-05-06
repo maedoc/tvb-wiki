@@ -51,15 +51,15 @@ More broadly, Auto-07p enables researchers to move beyond "black box" simulation
 
 ## Key Papers
 
-1. Doedel, E.J. (1981). "Auto: A program for the automatic bifurcation analysis of autonomous systems." *Proceedings of the 1981 ACM Conference on Symbolic and Algebraic Computation*. [doi: 10.1007/978-1-4612-4636-4_1](https://doi.org/10.1007/978-1-4612-4636-4_1)
+1. Doedel, E.J. (1981). "Auto: A program for the automatic bifurcation analysis of autonomous systems." *Proceedings of the 1981 ACM Conference on Symbolic and Algebraic Computation*. [doi: 10.1007/978-1-4612-4636-4_1](](https://doi.org/10.1007/978-1-4612-4636-4_1))
 
-2. Doedel, E.J., Jiang, H., Kevorkov, J., Khibnik, A.I., Kurowsky, M., Roose, D., & Wang, R. (1991). "Numerical analysis and control of bifurcation problems (I)." *International Journal of Bifurcation and Chaos*, 1(3), 493-513. [doi: 10.1007/BF02000046](https://doi.org/10.1007/BF02000046)
+2. Doedel, E.J., Jiang, H., Kevorkov, J., Khibnik, A.I., Kurowsky, M., Roose, D., & Wang, R. (1991). "Numerical analysis and control of bifurcation problems (I)." *International Journal of Bifurcation and Chaos*, 1(3), 493-513. [doi: 10.1007/BF02000046](](https://doi.org/10.1007/BF02000046))
 
-3. Laureys, E., Spiegler, A., & Jirsa, V.K. (2007). "Epileptor: A neural mass model of focus and surround inhibition for epilepsy simulations." *NeuroImage*, 36(1), 45-65. [doi: 10.1162/NETW_a_00020](https://doi.org/10.1162/NETW_a_00020)
+3. Laureys, E., Spiegler, A., & Jirsa, V.K. (2007). "Epileptor: A neural mass model of focus and surround inhibition for epilepsy simulations." *NeuroImage*, 36(1), 45-65. [doi: 10.1162/NETW_a_00020](](https://doi.org/10.1162/NETW_a_00020))
 
-4. Sitt, J.D., Jirsa, V.K., & Wiroto, N. (2008). "Neural mass models." *Journal of Computational Neuroscience*, 25(3), 401-428. [doi: 10.1007/s10827-010-0274-1](https://doi.org/10.1007/s10827-010-0274-1)
+4. Sitt, J.D., Jirsa, V.K., & Wiroto, N. (2008). "Neural mass models." *Journal of Computational Neuroscience*, 25(3), 401-428. [doi: 10.1007/s10827-010-0274-1](](https://doi.org/10.1007/s10827-010-0274-1))
 
-5. Wendler, A., Schanz, M., & Parlitz, U. (2012). "Phase-space reconstruction of the FitzHugh-Nagumo model." *Journal of Physics: Conference Series*, 45(3), 035101. [doi: 10.1088/0953-4075/45/3/035101](https://doi.org/10.1088/0953-4075/45/3/035101)
+5. Wendler, A., Schanz, M., & Parlitz, U. (2012). "Phase-space reconstruction of the FitzHugh-Nagumo model." *Journal of Physics: Conference Series*, 45(3), 035101. [doi: 10.1088/0953-4075/45/3/035101](](https://doi.org/10.1088/0953-4075/45/3/035101))
 
 ## Related Software
 
@@ -79,6 +79,6 @@ More broadly, Auto-07p enables researchers to move beyond "black box" simulation
 
 ## References
 
-1. Duy Pham, Gene J. Yu, G. Lazzi, Jean-Marie C Bouteiller. (2026). *A spatially discretized convolutional neural mass model for studying meso-scale spatio-temporal transformations in the rat hippocampus*. Research Square. [DOI](https://doi.org/10.21203/rs.3.rs-9306977/v1)
-2. Jonathan Touboul, Fabien Wendling, Bruno Bellanger, Patrick Chauvel, Olivier Faugeras. *Bifurcation analysis of Jansen's neural mass model*. Neural Computation. [DOI](https://doi.org/10.1162/NECO_a_00151)
-3. P.Yu. Kondrakhin, F.A. Kolpakov. (2026). *Modular Model of Neuronal Activity That Captures the Dynamics of Main Molecular Targets of Antiepileptic Drugs*. International Journal of Molecular Sciences. [DOI](https://doi.org/10.3390/ijms27010490)
+1. Duy Pham, Gene J. Yu, G. Lazzi, Jean-Marie C Bouteiller. (2026). *A spatially discretized convolutional neural mass model for studying meso-scale spatio-temporal transformations in the rat hippocampus*. Research Square. [DOI](](https://doi.org/10.21203/rs.3.rs-9306977/v1))
+2. Jonathan Touboul, Fabien Wendling, Bruno Bellanger, Patrick Chauvel, Olivier Faugeras. *Bifurcation analysis of Jansen's neural mass model*. Neural Computation. [DOI](](https://doi.org/10.1162/NECO_a_00151))
+3. P.Yu. Kondrakhin, F.A. Kolpakov. (2026). *Modular Model of Neuronal Activity That Captures the Dynamics of Main Molecular Targets of Antiepileptic Drugs*. International Journal of Molecular Sciences. [DOI](](https://doi.org/10.3390/ijms27010490))

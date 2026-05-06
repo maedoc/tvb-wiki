@@ -47,7 +47,7 @@ If Demois represents a specific demonstration framework or validation tool withi
 
 Since the entity cannot be verified, no key features can be documented. Users seeking demonstration or validation capabilities within TVB should consult:
 
-- The official TVB documentation at [docs.thevirtualbrain.org](http://docs.thevirtualbrain.org)
+- The official TVB documentation at [docs.thevirtualbrain.org](](http://docs.thevirtualbrain.org))
 - TVB's collection of Jupyter notebooks and tutorial materials
 - EduCases available through the TVB platform
 
@@ -70,6 +70,6 @@ Due to the unverified status of this entity, the following related pages from th
 
 ## References
 
-1. Amirreza Movahedin, Lennart P. L. Landsmeer, Christos Strydis. (2025). *HUMA: Heterogeneous, Ultra Low-Latency Model Accelerator for The Virtual Brain on a Versal Adaptive SoC*. Symposium on Field Programmable Gate Arrays. [DOI](https://doi.org/10.1145/3706628.3708875)
-2. Leon Martin, Konstantin Bülau, Marius Pille, Rico Schmitt, Christoph Hüttl, J. Meier, Halgurd Taher, Dionysios Perdikis, M. Schirner, L. Stefanovski, [[petra-ritter]]. (2025). *The Virtual Brain Ontology: A Digital Knowledge Framework for Reproducible [[brain-network]] Modeling*. bioRxiv. [DOI](https://doi.org/10.1101/2025.11.19.689211)
-3. J. Meier, P. Triebkorn, M. Schirner, Petra Ritter. (2025). *Connectomes, simultaneous EEG-[[fmri]] resting-state data and brain simulation results from 50 healthy subjects*. bioRxiv. [DOI](https://doi.org/10.1101/2024.04.17.589718)
+1. Amirreza Movahedin, Lennart P. L. Landsmeer, Christos Strydis. (2025). *HUMA: Heterogeneous, Ultra Low-Latency Model Accelerator for The Virtual Brain on a Versal Adaptive SoC*. Symposium on Field Programmable Gate Arrays. [DOI](](https://doi.org/10.1145/3706628.3708875))
+2. Leon Martin, Konstantin Bülau, Marius Pille, Rico Schmitt, Christoph Hüttl, J. Meier, Halgurd Taher, Dionysios Perdikis, M. Schirner, L. Stefanovski, [[petra-ritter]]. (2025). *The Virtual Brain Ontology: A Digital Knowledge Framework for Reproducible [[brain-network]] Modeling*. bioRxiv. [DOI](](https://doi.org/10.1101/2025.11.19.689211))
+3. J. Meier, P. Triebkorn, M. Schirner, Petra Ritter. (2025). *Connectomes, simultaneous EEG-[[fmri]] resting-state data and brain simulation results from 50 healthy subjects*. bioRxiv. [DOI](](https://doi.org/10.1101/2024.04.17.589718))

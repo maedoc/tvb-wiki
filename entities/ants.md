@@ -11,7 +11,7 @@ type: entity
 updated: '2026-05-04'
 ---
 
-[[antsr]] is an open-source R package that provides bindings to the [ANTs](/ants) (Advanced Normalization Tools) C++ library for biomedical image processing and analysis. Developed primarily at the University of Pennsylvania, ANTsR enables researchers to leverage state-of-the-art image registration, segmentation, and statistical learning techniques within the R statistical environment [@avants2014insight]. The package serves as a bridge between the computational efficiency of ANTs and the rich statistical tooling available in R, making it particularly valuable for large-scale [[neuroimaging]] studies requiring rigorous statistical inference.
+[[antsr]] is an open-source R package that provides bindings to the [ANTs](](/ants)) (Advanced Normalization Tools) C++ library for biomedical image processing and analysis. Developed primarily at the University of Pennsylvania, ANTsR enables researchers to leverage state-of-the-art image registration, segmentation, and statistical learning techniques within the R statistical environment [@avants2014insight]. The package serves as a bridge between the computational efficiency of ANTs and the rich statistical tooling available in R, making it particularly valuable for large-scale [[neuroimaging]] studies requiring rigorous statistical inference.
 
 ## Overview and Purpose
 
@@ -39,7 +39,7 @@ ANTsR includes eigenanatomy and SCCAN (Sparse Canonical Correlation Analysis) me
 
 ## Relationship to TVB
 
-ANTsR plays a complementary role to [TVB](/tvb) in the personalized brain modeling pipeline. While TVB focuses on constructing and simulating computational brain models from [[connectivity]] data, ANTsR provides the essential preprocessing tools that convert raw neuroimaging data into the structural inputs required by TVB. Specifically, ANTsR can generate [[structural-connectivity]] matrices from [[tractography]] data, produce [[brain-parcellations]] for defining network nodes, and perform the registration steps needed to map individual anatomy to common coordinate systems. Researchers building [[personalized-brain-modeling]] in TVB frequently use ANTsR-derived white matter tractography and cortical parcellations as foundational data.
+ANTsR plays a complementary role to [TVB](](/tvb)) in the personalized brain modeling pipeline. While TVB focuses on constructing and simulating computational brain models from [[connectivity]] data, ANTsR provides the essential preprocessing tools that convert raw neuroimaging data into the structural inputs required by TVB. Specifically, ANTsR can generate [[structural-connectivity]] matrices from [[tractography]] data, produce [[brain-parcellations]] for defining network nodes, and perform the registration steps needed to map individual anatomy to common coordinate systems. Researchers building [[personalized-brain-modeling]] in TVB frequently use ANTsR-derived white matter tractography and cortical parcellations as foundational data.
 
 ## Brain Network Analysis
 
@@ -47,7 +47,7 @@ Beyond structural processing, ANTsR supports [[functional-connectivity]] analysi
 
 ## Related Software Ecosystem
 
-ANTsR integrates with and complements numerous neuroimaging packages. The Python counterpart [ANTsPy](/antspy) provides equivalent functionality for users preferring the Python ecosystem. ANTsR can exchange data with [nilearn](/nilearn) and [[nibabel]] for visualization and additional analysis, use atlases from [[templateflow]] or traditional packages like [FreeSurfer](/freesurfer) and [FSL](/fsl) for [[parcellation]], and supports [[brainglobe]] atlases for non-human studies.
+ANTsR integrates with and complements numerous neuroimaging packages. The Python counterpart [ANTsPy](](/antspy)) provides equivalent functionality for users preferring the Python ecosystem. ANTsR can exchange data with [nilearn](](/nilearn)) and [[nibabel]] for visualization and additional analysis, use atlases from [[templateflow]] or traditional packages like [FreeSurfer](](/freesurfer)) and [FSL](](/fsl)) for [[parcellation]], and supports [[brainglobe]] atlases for non-human studies.
 
 ## Key Contributors
 

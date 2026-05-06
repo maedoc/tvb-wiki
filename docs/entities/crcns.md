@@ -1,9 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- https://www.ncrrns.org
-- NIH NCRR (National Center for Research Resources)
-- Buzsáki and Draguhn 2017 (Neuron)
 - raw/papers/breakspear-2017.md
 - raw/papers/arxiv-2603.04149.md
 - raw/papers/arxiv-2512.05252.md
@@ -16,7 +13,7 @@ tags:
 - lab-institute
 title: CRCNS
 type: entity
-updated: '2026-05-05'
+updated: '2026-05-06'
 ---
 
 # CRCNS
@@ -50,11 +47,11 @@ CRCNS has played an indirect but meaningful role in the development of [[the-vir
 **Reproducibility Infrastructure**: The program's emphasis on data and code sharing has motivated developments in neuroinformatics infrastructure that TVB leverages, including support for [[bids]]-compliant data formats, [[datalad]] version control for data, and standardized [[neural-mass-models]] description formats.
 
 ## Related Funding and Organizations
-- [[human-[[connectome]]-project]] — NIH-funded consortium for mapping human brain [[connectivity]]
-- [[human-[[connectome]]-project]] — Major neuroimaging dataset initiative
+- [[mrtrix3-connectome]] — NIH-funded consortium for mapping human brain [[connectivity]]
+- [[mrtrix3-connectome]] — Major neuroimaging dataset initiative
 - [[ebrains]] — European research infrastructure for brain simulation
 - [[open-source-brain]] — Platform for collaborative computational neuroscience model development
-- [[modeldb]] — Database of computational neuroscience models
+- [[model-validation]] — Database of computational neuroscience models
 - [[neuroscience-gateway]] — NSF-funded computing resource for neuroscience
 
 ## Key Publications

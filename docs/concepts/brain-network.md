@@ -44,9 +44,9 @@ In [[whole-brain]] modeling, the structural network serves as the anatomical sub
 1. (authors unknown). *Networks of the Brain*.
 2. (authors unknown). *Emergence of Scaling in [[random-networks]]*.
 3. (authors unknown). *Functional [[connectomics]] from Resting-State fMRI*.
-4. Ramiro Plüss, Hernán Villota, Patricio Orio. (2025). *Hemispheric-Specific Coupling Improves Modeling of [[functional-connectivity]] Using [[wilson-cowan]] Dynamics*. [Link](https://arxiv.org/abs/2506.22951)
+4. Ramiro Plüss, Hernán Villota, Patricio Orio. (2025). *Hemispheric-Specific Coupling Improves Modeling of [[functional-connectivity]] Using [[wilson-cowan]] Dynamics*. [Link](](https://arxiv.org/abs/2506.22951))
 5. (authors unknown). *Complex Network Measures of Brain [[connectivity]]: Uses and Interpretations*.
 6. (authors unknown). *Functional Network Organization of the Human Brain*.
-7. Kashyap Gudibanda, J. Fousek, S. Petkoski, V. Jirsa. (2026). *The role of connectivity for the degeneracy of the brain’s resting state dynamics*. Journal of [[computational-neuroscience]]. [DOI](https://doi.org/10.1007/s10827-025-00919-0)
-8. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI), a flexible and integrative toolkit for efficient probabilistic inference on whole-brain models*. eLife. [DOI](https://doi.org/10.7554/eLife.106194)
-9. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI): A flexible and integrative toolkit for efficient probabilistic inference on virtual brain models*. bioRxiv. [DOI](https://doi.org/10.1101/2025.01.21.633922)
+7. Kashyap Gudibanda, J. Fousek, S. Petkoski, V. Jirsa. (2026). *The role of connectivity for the degeneracy of the brain’s resting state dynamics*. Journal of [[computational-neuroscience]]. [DOI](](https://doi.org/10.1007/s10827-025-00919-0))
+8. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI), a flexible and integrative toolkit for efficient probabilistic inference on whole-brain models*. eLife. [DOI](](https://doi.org/10.7554/eLife.106194))
+9. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI): A flexible and integrative toolkit for efficient probabilistic inference on virtual brain models*. bioRxiv. [DOI](](https://doi.org/10.1101/2025.01.21.633922))

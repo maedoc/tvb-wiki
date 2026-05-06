@@ -49,7 +49,7 @@ For researchers utilizing the [[neuromorpho-toolkit]] (BCT) or [[braph]] for net
 
 ## Key Papers
 
-1. Appelhoff, S., Sanderson, M., Brooks, T., Vitzelman, J., Haun, A., Oostenveld, R., ... & Hamilton, L. (2019). MNE-BIDS: A framework for the integration of electrophysiology data in the Brain Imaging Data Structure. *Scientific Data*, 6, 190104. [https://doi.org/10.1038/s41597-019-0104-7](https://doi.org/10.1038/s41597-019-0104-7)
+1. Appelhoff, S., Sanderson, M., Brooks, T., Vitzelman, J., Haun, A., Oostenveld, R., ... & Hamilton, L. (2019). MNE-BIDS: A framework for the integration of electrophysiology data in the Brain Imaging Data Structure. *Scientific Data*, 6, 190104. [https://doi.org/10.1038/s41597-019-0104-7](](https://doi.org/10.1038/s41597-019-0104-7))
 
 2. Niso, G., Gorgolewski, K. J., Bock, E., Brooks, T. L., Vaid, S., Nadeau, C., ... & Poldrack, R. A. (2016). BIDS specification: The Brain Imaging Data Structure for neurophysiology. *Frontiers in Neuroscience*, 10, 325.
 
@@ -57,10 +57,10 @@ For researchers utilizing the [[neuromorpho-toolkit]] (BCT) or [[braph]] for net
 
 ## References
 
-1. P. S. Shabestari, Delphine Ribes, Lara Défayes, Danpeng Cai, Emily Groves, Harry H. Behjat, D. Van de Ville, Tobias Kleinjung, A. Naas, N. Henchoz, A. Sonderegger, Patrick Neff. (2025). *Advances on Real Time M/EEG Neural Feature Extraction*. 2025 IEEE 38th International Symposium on Computer-Based Medical Systems (CBMS). [DOI](https://doi.org/10.1109/CBMS65348.2025.00074)
+1. P. S. Shabestari, Delphine Ribes, Lara Défayes, Danpeng Cai, Emily Groves, Harry H. Behjat, D. Van de Ville, Tobias Kleinjung, A. Naas, N. Henchoz, A. Sonderegger, Patrick Neff. (2025). *Advances on Real Time M/EEG Neural Feature Extraction*. 2025 IEEE 38th International Symposium on Computer-Based Medical Systems (CBMS). [DOI](](https://doi.org/10.1109/CBMS65348.2025.00074))
 
-2. J. Meier, P. Triebkorn, M. Schirner, [[petra-ritter]]. (2025). *Connectomes, simultaneous EEG-[[fmri]] resting-state data and brain simulation results from 50 healthy subjects*. bioRxiv. [DOI](https://doi.org/10.1101/2024.04.17.589718)
+2. J. Meier, P. Triebkorn, M. Schirner, [[petra-ritter]]. (2025). *Connectomes, simultaneous EEG-[[fmri]] resting-state data and brain simulation results from 50 healthy subjects*. bioRxiv. [DOI](](https://doi.org/10.1101/2024.04.17.589718))
 
-3. Rohith Alikkal, Venkat Harshith Akula, B. Shankar, Midhun Krishna, Sandeep Bodda, S. Krishna, Shyam Diwakar. (2025). *Implementing and Deploying a Student Friendly GUI-based Platfrom for EEG signal processing*. International Conference on Robotics and Mechatronics. [DOI](https://doi.org/10.1109/ICRM66809.2025.11349102)
+3. Rohith Alikkal, Venkat Harshith Akula, B. Shankar, Midhun Krishna, Sandeep Bodda, S. Krishna, Shyam Diwakar. (2025). *Implementing and Deploying a Student Friendly GUI-based Platfrom for EEG signal processing*. International Conference on Robotics and Mechatronics. [DOI](](https://doi.org/10.1109/ICRM66809.2025.11349102))
 
-4. Gramfort et al. (2013). *MEG and EEG: From Acquisition to Analysis*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fnins.2013.00010)
+4. Gramfort et al. (2013). *MEG and EEG: From Acquisition to Analysis*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fnins.2013.00010))
