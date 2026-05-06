@@ -1,0 +1,1079 @@
+                                                                 Sketching a Space of Brain States
+                                                    Maria Mannone1,2,3,5∗   Patrizia Ribino1                 Peppino Fazio3,4
+arXiv:2603.22296v1 [q-bio.NC] 15 Mar 2026
+
+
+
+
+                                                                         Norbert Marwan2,5,6
+                                                             1
+                                                                ICAR, National Research Council (CNR), Palermo, Italy
+                                                     2
+                                                         Institute of Physics and Astronomy, University of Potsdam, Germany
+                                                                   3
+                                                                      DSMN, Ca’ Foscari University of Venice, Italy
+                                                                    4
+                                                                      VSB Technical University of Ostrava, Czechia
+                                                          5
+                                                            Potsdam Institute for Climate Impact Research (PIK), Germany
+                                                             6
+                                                               Institute of Geosciences, University of Potsdam, Germany
+
+
+
+                                                                                     Abstract
+                                                          Brain functional connectivity alterations, that is, pathological changes
+                                                      in the signal exchange between areas of the brain, occur in several neu-
+                                                      rological diseases, including neurodegenerative and neuropsychiatric
+                                                      ones. They consist in changes in how brain functional networks oper-
+                                                      ate. By conceptualising a brain space as a space whose points are con-
+                                                      nectome configurations representing brain functional states, changes in
+                                                      brain network functionality can be represented by paths between these
+                                                      points.
+                                                          Paths from a healthy state to a diseased one, or between diseased
+                                                      states as instances of disease progression, are modelled as the action
+                                                      of the Krankheit-Operator, which produces changes from a brain func-
+                                                      tional state to another. This study proposes a formal representation
+                                                      of the space of brain states and presents its computational definition.
+                                                      References to patients affected by Parkinson’s disease, schizophrenia,
+                                                      and Alzheimer–Perusini’s disease are included to discuss the proposed
+                                                      approach and possible developments of the research toward a general-
+                                                      isation.
+                                            Keywords: phase space, brain network, connectome, K-operator
+
+
+                                            1        Introduction
+                                            Mind wandering can be a poetic image. What about a multi-dimensional
+                                            space where brains can actually move through? A space whose points are
+                                                ∗
+                                                    maria.mannone@icar.cnr.it; maria.mannone@uni-potsdam.de
+
+
+                                                                                          1
+brain states. Let us gradually introduce the idea, starting from a construc-
+tion for each brain, the connectome [28, 9]. It is a graph-like representation
+of the most active brain areas, indicated as nodes (often indicated as hubs
+[32]), and connected through links (see Fig.1).
+                                                              1
+
+                                              L         R
+                 L        R                                 0.5
+
+
+                                                              0
+
+
+                                                            -0.5
+
+
+                                                             -1
+
+
+          Figure 1: Different perspectives of a human connectome
+
+    Structural connectivity is investigated via tractography [27], whose start-
+ing point is the anisotropy of diffusion of water molecules, and functional
+connectivity via functional magnetic resonance [4], whose starting point is
+the alteration of blood circulation to replenish oxygen to the most active
+brain areas, at rest, or during a given task.
+    Seeing the brain as an instance of complex networks [18, 1], the alter-
+ations of the connections can be related to diseases. This is widely in-
+vestigated through data analysis in studies dealing with the alteration of
+connectivity in neurological disorders.      Examples range from disconnec-
+tion syndrome [25], to schizophrenia [31], to neurodegenerative disorders,
+such as Alzheimer-Perusini’s disease [29, 8] and Parkinson’s disease [2, 24],
+especially including functional connectivity [17, 16, 20, 3].
+    In an attempt to generalise the approach to neurological disease and
+pave the way towards integrated systems for healing, as desired in [26],
+a formalism joining matrix algebra, a physics-like approach with operators
+acting on observables, and real-data analysis, the Krankheit-Operator (from
+German disease, in short K-operator), has been proposed [12]. Specific
+forms of the operator represent the key features of specific neuropsychiatric
+and neurodegenerative diseases.
+    As a further step in the abstraction, we can imagine a space of connec-
+tomes, where each connectome is a point, and the transformations between
+them are paths. While several studies investigate how space can be repre-
+sented within the human brain [5], we are interested in finding how a brain
+can be represented within a conceptual space, as a parameter space. The
+
+                                      2
+closer attempt to such an endeavour was proposed in [7]. The authors, draw-
+ing upon Waddington’s epigenetic landscape for cell development, propose
+a Hopfield network formalism to build up an attractor model of disease pro-
+gression based on networks of proteins or genetic correlation. Disease pro-
+gression is modelled through the reference to curves within a space, where
+each point is a specific network configuration; however, the focus is more on
+genetics [7]. Normal state and diseased states are space regions considered
+as attractors. In their 3D representation, the axes contain the first principal
+component, the second principal component, and the energy. The presented
+examples include Parkinson’s disease, glioma, and colon cancer.
+     Our representation, developed independently from this study, also con-
+tains states within a space and subspaces for healthy and diseased states, but
+it is built in a completely different way, considering the brain connectome
+and encoding information on brain areas into the three axes. As another
+difference, we shift the attention from attractors within the space to the
+operator leading time evolution, in particular, considering disease time evo-
+lution, that is, the K-operator [12]. Other studies focus on brain diseases,
+seeing them as attractors [11].
+     In this article, inspired by the phase space theory [21] where the set of
+all possible physical states of a system corresponds uniquely to points in the
+phase space, we propose a Brain Space where points represent specific brain
+states and whose paths are the transitions from a brain state to another one,
+as mappings between them. Choosing to describe a brain as its connectome,
+the points of the space are specific connectomic configurations, and the
+paths are transformations of connectomes , i.e., changes in brain-network
+functionality.
+     Before moving forwards, we present in Table 1 a little glossary of the
+most used acronyms in this paper.
+     Our proposed approach is theoretical, and the selected case studies are
+used here to illustrate the method. They are not exhaustive, but they help
+instantiate the definitions, define the methodology, the advantages, and the
+limitations.
+     The rest of the paper is organised as follows. We sketch our theoretical
+idea in Section 2, and we propose a possible implementation of it in Figure
+3, discussing the results in Section 4. Possible research developments are
+listed in the Conclusions.
+
+
+
+
+                                      3
+    Acronym         Complete Name
+    fMRI            Functional magnetic resonance imaging
+    DICOM           Digital Imaging and Commeunications in Medicine
+    NIfTI           Neuroimaging Informatics Technology Initiative
+    ROI             Region of Interest (of the brain)
+    ADNI            Alzheimer’s Disease Neuroimaging Initiative
+    PPMI            Parkinson’s Progression Markers Initiative
+    COBRE           Center for Biomedical Research Excellence
+    FU              Follow-Up
+    AD              Alzheimer(-Perusini)’s disease
+    PD              Parkinson’s disease
+    thal MGN R      Medial Geniculate Right
+    thal LGN R      Lateral Geniculate Right
+
+        Table 1: Table with the most used acronyms in this article.
+
+
+2    Theoretical view
+We propose a Brain Space as a phase space, where each point is a
+connectomic state. But we know that each brain is in itself a nested network,
+from neurons, to neuronal agglomerates, to the connectome (Figure 2). A
+transformation of the connectome over time is a path between points in the
+Brain Space. The size of the connectome depends upon the chosen number
+of nodes, that is, the number of regions of interest (ROIs) the brain can
+be divided into. A brain atlas [30, 34, 10] defines the shape and location of
+brain regions in a common coordinate space. Hence, the degree of resolution
+of brain analysis influences the choice of brain atlas: the more the regions
+of interest, the higher the number of points of the connectome.
+     Let N be the number of ROIs in a chosen atlas and let us consider
+retaining all information, then the number of degrees of freedom in our
+brain space will be N . From phase space theoryif we consider all possible
+values of the position (i.e., the state in which a brain is) and momentum
+(i.e., the movement from one state to another one), then the number of
+degrees of freedom doubles to 2N , resulting in a 2N -dimension brain space.
+     What are position and momentum for the connectome? Since a connec-
+tome is a dynamical model, the position indicates where a connectome is at
+time t, and the momentum determines how it is changing from one state to
+another.
+     The transition from one state to another is a normal process due to
+learning (with the consequent development of brain areas), feeling emotions,
+
+                                     4
+                               Connectome
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                Brain space
+
+  Neuronal
+agglomerates
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                Diseased
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 states
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      0
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   Gjk
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   <latexit sha1_base64="AzsMecnhrx3Snof4e3RTL2ads50=">AAAB+HicbVDLSsNAFL2pr1ofjbp0M1gEVyWRoi6LLnRZwT6gjWEynbRjJ5MwMxFq6Je4caGIWz/FnX/jpO1CWw8MHM65l3vmBAlnSjvOt1VYWV1b3yhulra2d3bL9t5+S8WpJLRJYh7LToAV5UzQpmaa004iKY4CTtvB6Cr3249UKhaLOz1OqBfhgWAhI1gbybfLvQjrIcE8u57cj/wH3644VWcKtEzcOanAHA3f/ur1Y5JGVGjCsVJd10m0l2GpGeF0UuqliiaYjPCAdg0VOKLKy6bBJ+jYKH0UxtI8odFU/b2R4UipcRSYyTymWvRy8T+vm+rwwsuYSFJNBZkdClOOdIzyFlCfSUo0HxuCiWQmKyJDLDHRpquSKcFd/PIyaZ1W3bNq7bZWqV/O6yjCIRzBCbhwDnW4gQY0gUAKz/AKb9aT9WK9Wx+z0YI13zmAP7A+fwD9k5NR</latexit>
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 <latexit sha1_base64="lmOOcHdxl5MtvWHW/PqIDTITvn0=">AAAB/XicbVDLSsNAFL3xWesrPnZugkV0VRIp6rLoQpcV7APaGCbTSTt0MgkzE6GG4K+4caGIW//DnX/jpM1CWw8MHM65l3vm+DGjUtn2t7GwuLS8slpaK69vbG5tmzu7LRklApMmjlgkOj6ShFFOmooqRjqxICj0GWn7o6vcbz8QIWnE79Q4Jm6IBpwGFCOlJc/c74VIDTFi6XXmpSy7T0fHmWdW7Ko9gTVPnIJUoEDDM796/QgnIeEKMyRl17Fj5aZIKIoZycq9RJIY4REakK6mHIVEuukkfWYdaaVvBZHQjytrov7eSFEo5Tj09WSeVc56ufif101UcOGmlMeJIhxPDwUJs1Rk5VVYfSoIVmysCcKC6qwWHiKBsNKFlXUJzuyX50nrtOqcVWu3tUr9sqijBAdwCCfgwDnU4QYa0AQMj/AMr/BmPBkvxrvxMR1dMIqdPfgD4/MHCJ+VnA==</latexit>
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 Glk
+
+
+                                 Gjk
+                                  <latexit sha1_base64="AzsMecnhrx3Snof4e3RTL2ads50=">AAAB+HicbVDLSsNAFL2pr1ofjbp0M1gEVyWRoi6LLnRZwT6gjWEynbRjJ5MwMxFq6Je4caGIWz/FnX/jpO1CWw8MHM65l3vmBAlnSjvOt1VYWV1b3yhulra2d3bL9t5+S8WpJLRJYh7LToAV5UzQpmaa004iKY4CTtvB6Cr3249UKhaLOz1OqBfhgWAhI1gbybfLvQjrIcE8u57cj/wH3644VWcKtEzcOanAHA3f/ur1Y5JGVGjCsVJd10m0l2GpGeF0UuqliiaYjPCAdg0VOKLKy6bBJ+jYKH0UxtI8odFU/b2R4UipcRSYyTymWvRy8T+vm+rwwsuYSFJNBZkdClOOdIzyFlCfSUo0HxuCiWQmKyJDLDHRpquSKcFd/PIyaZ1W3bNq7bZWqV/O6yjCIRzBCbhwDnW4gQY0gUAKz/AKb9aT9WK9Wx+z0YI13zmAP7A+fwD9k5NR</latexit>
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               0
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    Other diseased
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 <latexit sha1_base64="1Z1pnOTfJa8/QcFlBDIAUyyaZxk=">AAAB+3icbVDLSsNAFL2pr1pfsS7dDBbRVUmkqMuiC11WsA9oY5hMJ+3QyYOZiVhCfsWNC0Xc+iPu/BsnbRbaemDgcM693DPHizmTyrK+jdLK6tr6RnmzsrW9s7tn7lc7MkoEoW0S8Uj0PCwpZyFtK6Y47cWC4sDjtOtNrnO/+0iFZFF4r6YxdQI8CpnPCFZacs3qIMBqTDBPb7KHdHKSucw1a1bdmgEtE7sgNSjQcs2vwTAiSUBDRTiWsm9bsXJSLBQjnGaVQSJpjMkEj2hf0xAHVDrpLHuGjrUyRH4k9AsVmqm/N1IcSDkNPD2ZJ5WLXi7+5/UT5V86KQvjRNGQzA/5CUcqQnkRaMgEJYpPNcFEMJ0VkTEWmChdV0WXYC9+eZl0zur2eb1x16g1r4o6ynAIR3AKNlxAE26hBW0g8ATP8ApvRma8GO/Gx3y0ZBQ7B/AHxucPMcCUjQ==</latexit>
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 Gik
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        states
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             0
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <latexit sha1_base64="UMJdOYur6ZXAV6zjRkvvORbZeP4=">AAAB/3icbVC7TsMwFHXKq5RXAImFxaJCMKAqQRUwFhhgLBJ9SG2IHNdpTR0nsh2kKmTgV1gYQIiV32Djb3DaDNByJEtH59yre3y8iFGpLOvbKMzNLywuFZdLK6tr6xvm5lZThrHApIFDFoq2hyRhlJOGooqRdiQICjxGWt7wMvNbD0RIGvJbNYqIE6A+pz7FSGnJNXe6AVIDjFhylbrJ+dF9epcMD1LXLFsVaww4S+yclEGOumt+dXshjgPCFWZIyo5tRcpJkFAUM5KWurEkEcJD1CcdTTkKiHSScf4U7mulB/1Q6McVHKu/NxIUSDkKPD2ZpZXTXib+53Vi5Z85CeVRrAjHk0N+zKAKYVYG7FFBsGIjTRAWVGeFeIAEwkpXVtIl2NNfniXN44p9UqneVMu1i7yOItgFe+AQ2OAU1MA1qIMGwOARPINX8GY8GS/Gu/ExGS0Y+c42+APj8wcC/JYb</latexit>
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     k
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    GA,j
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  K
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  <latexit sha1_base64="LPmTpl832Q3hUcD8uMQu63tCu9M=">AAAB6HicbVDLSgNBEOyNrxhfUY9eBoPgKexKUI9BL4KXBMwDkiXMTnqTMbOzy8ysEEK+wIsHRbz6Sd78GyfJHjSxoKGo6qa7K0gE18Z1v53c2vrG5lZ+u7Czu7d/UDw8auo4VQwbLBaxagdUo+ASG4Ybge1EIY0Cga1gdDvzW0+oNI/lgxkn6Ed0IHnIGTVWqt/3iiW37M5BVomXkRJkqPWKX91+zNIIpWGCat3x3MT4E6oMZwKnhW6qMaFsRAfYsVTSCLU/mR86JWdW6ZMwVrakIXP198SERlqPo8B2RtQM9bI3E//zOqkJr/0Jl0lqULLFojAVxMRk9jXpc4XMiLEllClubyVsSBVlxmZTsCF4yy+vkuZF2bssV+qVUvUmiyMPJ3AK5+DBFVThDmrQAAYIz/AKb86j8+K8Ox+L1pyTzRzDHzifP6TzjNg=</latexit>
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                GA,i
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <latexit sha1_base64="ack+WpSGqHMrBra+NgnrpeV8rgw=">AAAB+nicbVDLSsNAFL3xWesr1aWbwSK4kJJIUZdVF7qsYB/QhjCZTtqhkwczE6XEfIobF4q49Uvc+TdO2iy09cDA4Zx7uWeOF3MmlWV9G0vLK6tr66WN8ubW9s6uWdlryygRhLZIxCPR9bCknIW0pZjitBsLigOP0443vs79zgMVkkXhvZrE1AnwMGQ+I1hpyTUr/QCrEcE8vcnc9PKEZa5ZtWrWFGiR2AWpQoGma371BxFJAhoqwrGUPduKlZNioRjhNCv3E0ljTMZ4SHuahjig0kmn0TN0pJUB8iOhX6jQVP29keJAykng6ck8qJz3cvE/r5co/8JJWRgnioZkdshPOFIRyntAAyYoUXyiCSaC6ayIjLDAROm2yroEe/7Li6R9WrPPavW7erVxVdRRggM4hGOw4RwacAtNaAGBR3iGV3gznowX4934mI0uGcXOPvyB8fkDPsOUAA==</latexit>
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       Gi
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       <latexit sha1_base64="3iBKrA9oAjpPW0S1CbG1GlH3f90=">AAAB9HicbVDLSgMxFL2pr1pfVZdugkVwVWakqMuiC11WsA9oh5JJM21oJjMmmUIZ+h1uXCji1o9x59+YaWehrQcCh3Pu5Z4cPxZcG8f5RoW19Y3NreJ2aWd3b/+gfHjU0lGiKGvSSESq4xPNBJesabgRrBMrRkJfsLY/vs389oQpzSP5aKYx80IylDzglBgreb2QmBElIr2b9Xm/XHGqzhx4lbg5qUCORr/81RtENAmZNFQQrbuuExsvJcpwKtis1Es0iwkdkyHrWipJyLSXzkPP8JlVBjiIlH3S4Ln6eyMlodbT0LeTWUi97GXif143McG1l3IZJ4ZJujgUJAKbCGcN4AFXjBoxtYRQxW1WTEdEEWpsTyVbgrv85VXSuqi6l9XaQ61Sv8nrKMIJnMI5uHAFdbiHBjSBwhM8wyu8oQl6Qe/oYzFaQPnOMfwB+vwB/sSSQg==</latexit>
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   GA,j
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   <latexit sha1_base64="FVIt2CnZl+bErZbuDid+4tgBt3s=">AAAB+nicbVDLSsNAFL2pr1pfqS7dDBbBhZREirqsutBlBfuANoTJdNKOnTyYmSgl5lPcuFDErV/izr9x2mahrQcGDufcyz1zvJgzqSzr2ygsLa+srhXXSxubW9s7Znm3JaNEENokEY9Ex8OSchbSpmKK004sKA48Ttve6Gritx+okCwK79Q4pk6AByHzGcFKS65Z7gVYDQnm6XXmphfH95lrVqyqNQVaJHZOKpCj4ZpfvX5EkoCGinAsZde2YuWkWChGOM1KvUTSGJMRHtCupiEOqHTSafQMHWqlj/xI6BcqNFV/b6Q4kHIceHpyElTOexPxP6+bKP/cSVkYJ4qGZHbITzhSEZr0gPpMUKL4WBNMBNNZERligYnSbZV0Cfb8lxdJ66Rqn1Zrt7VK/TKvowj7cABHYMMZ1OEGGtAEAo/wDK/wZjwZL8a78TEbLRj5zh78gfH5A0BIlAE=</latexit>
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       Gj
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       <latexit sha1_base64="wxZw7PD+7VKJAS6qi23iDYg8mEg=">AAAB9HicbVDLSgMxFL1TX7W+qi7dBIvgqsyIqMuiC11WsA9oh5JJM21skhmTTKEM/Q43LhRx68e482/MtLPQ1gOBwzn3ck9OEHOmjet+O4WV1bX1jeJmaWt7Z3evvH/Q1FGiCG2QiEeqHWBNOZO0YZjhtB0rikXAaSsY3WR+a0yVZpF8MJOY+gIPJAsZwcZKfldgMySYp7fT3mOvXHGr7gxomXg5qUCOeq/81e1HJBFUGsKx1h3PjY2fYmUY4XRa6iaaxpiM8IB2LJVYUO2ns9BTdGKVPgojZZ80aKb+3kix0HoiAjuZhdSLXib+53USE175KZNxYqgk80NhwpGJUNYA6jNFieETSzBRzGZFZIgVJsb2VLIleItfXibNs6p3UT2/P6/UrvM6inAEx3AKHlxCDe6gDg0g8ATP8Apvzth5cd6dj/lowcl3DuEPnM8fAFeSQw==</latexit>
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 Healthy states
+
+
+
+   Neurons
+
+
+
+Figure 2: Left: pictorial representation of the brain as a nested network,
+from neurons, to neuronal agglomerates, to the connectome. Right: Space
+of brain states, where each connectome is a point, and the transformation
+of a specific brain over time can be represented as a path from one state to
+another. Bottom right: the path from a brain of person A from state GA,i
+to state GA,j lies within the healthy states, while the pathological evolution
+brings the brain towards the state GA,jk′ within one of the diseased states’
+
+subspaces. (Drawing and graphics by Maria Mannone).
+
+
+or ageing. A normal time evolution is described with paths within the
+“healthy states” subspace, see the bottom right side of Figure 2, where the
+“healthy evolution” brings a brain of a person generically indicated as A, in
+a healthy state GA,i , towards another healthy state GA,j .
+    On the other hand, abnormal dynamical processes concern the transi-
+tions under the effect of functional neurologic disorder onset, or exceptionally
+overwhelming emotions or trauma. A brain point can move towards states
+outside the healthy-state subspace, reaching a diseased state; see the path
+for the brain of a generic patient A toward GA,j   k′ , under the effect of the
+
+action of K, on the right side of Figure 2.
+    In fact, such a process develops under the action of K (see Fig. 3),
+modelled as an operator altering the weights of links in the connectome,
+reproducing the onset or progression of specific neurological disorders [12,
+13], as in Eq. (1):
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               5
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    K(t)G k (t) = G k (t + 1).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     (1)
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             Krankheit-Operator
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               <latexit sha1_base64="3X+iA2DI+d1KDDZc3ouPbvXkdX0=">AAAB8HicbVDLSgMxFL1TX7W+qi7dBItQQcqMFHUjFN24rGAf0g4lk2ba0CQzJBmhDP0KNy4UcevnuPNvTNtZaOsJgcM593LvPUHMmTau++3kVlbX1jfym4Wt7Z3dveL+QVNHiSK0QSIeqXaANeVM0oZhhtN2rCgWAaetYHQ79VtPVGkWyQczjqkv8ECykBFsrPRY7p5N3+l1r1hyK+4MaJl4GSlBhnqv+NXtRyQRVBrCsdYdz42Nn2JlGOF0UugmmsaYjPCAdiyVWFDtp7OFJ+jEKn0URsp+adBM/d2RYqH1WAS2UmAz1IveVPzP6yQmvPJTJuPEUEnmg8KEIxOh6fWozxQlho8twUQxuysiQ6wwMTajgg3BWzx5mTTPK95FpXpfLdVusjjycATHUAYPLqEGd1CHBhAQ8Ayv8OYo58V5dz7mpTkn6zmEP3A+fwClUI8D</latexit>
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              ( )=
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          k
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         <latexit sha1_base64="ZMUtFWAlLJn4z59fyb3eFY8n80E=">AAAB/HicbVDLSsNAFJ3UV62vaJduBovgQkoiRV1WXeiygn1AG8NkOmnHTiZhZiKEEH/FjQtF3Poh7vwbJ20W2npg4HDOvdwzx4sYlcqyvo3S0vLK6lp5vbKxubW9Y+7udWQYC0zaOGSh6HlIEkY5aSuqGOlFgqDAY6TrTa5yv/tIhKQhv1NJRJwAjTj1KUZKS65ZHQRIjTFi6XXmphfHD9n9xDVrVt2aAi4SuyA1UKDlml+DYYjjgHCFGZKyb1uRclIkFMWMZJVBLEmE8ASNSF9TjgIinXQaPoOHWhlCPxT6cQWn6u+NFAVSJoGnJ/Ooct7Lxf+8fqz8cyelPIoV4Xh2yI8ZVCHMm4BDKghWLNEEYUF1VojHSCCsdF8VXYI9/+VF0jmp26f1xm2j1rws6iiDfXAAjoANzkAT3IAWaAMMEvAMXsGb8WS8GO/Gx2y0ZBQ7VfAHxucPyOeU3g==</latexit>
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         GA,j
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             K                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    Diseased states
+
+
+
+
+                K
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <latexit sha1_base64="3X+iA2DI+d1KDDZc3ouPbvXkdX0=">AAAB8HicbVDLSgMxFL1TX7W+qi7dBItQQcqMFHUjFN24rGAf0g4lk2ba0CQzJBmhDP0KNy4UcevnuPNvTNtZaOsJgcM593LvPUHMmTau++3kVlbX1jfym4Wt7Z3dveL+QVNHiSK0QSIeqXaANeVM0oZhhtN2rCgWAaetYHQ79VtPVGkWyQczjqkv8ECykBFsrPRY7p5N3+l1r1hyK+4MaJl4GSlBhnqv+NXtRyQRVBrCsdYdz42Nn2JlGOF0UugmmsaYjPCAdiyVWFDtp7OFJ+jEKn0URsp+adBM/d2RYqH1WAS2UmAz1IveVPzP6yQmvPJTJuPEUEnmg8KEIxOh6fWozxQlho8twUQxuysiQ6wwMTajgg3BWzx5mTTPK95FpXpfLdVusjjycATHUAYPLqEGd1CHBhAQ8Ayv8OYo58V5dz7mpTkn6zmEP3A+fwClUI8D</latexit>
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ( )=
+                <latexit sha1_base64="LPmTpl832Q3hUcD8uMQu63tCu9M=">AAAB6HicbVDLSgNBEOyNrxhfUY9eBoPgKexKUI9BL4KXBMwDkiXMTnqTMbOzy8ysEEK+wIsHRbz6Sd78GyfJHjSxoKGo6qa7K0gE18Z1v53c2vrG5lZ+u7Czu7d/UDw8auo4VQwbLBaxagdUo+ASG4Ybge1EIY0Cga1gdDvzW0+oNI/lgxkn6Ed0IHnIGTVWqt/3iiW37M5BVomXkRJkqPWKX91+zNIIpWGCat3x3MT4E6oMZwKnhW6qMaFsRAfYsVTSCLU/mR86JWdW6ZMwVrakIXP198SERlqPo8B2RtQM9bI3E//zOqkJr/0Jl0lqULLFojAVxMRk9jXpc4XMiLEllClubyVsSBVlxmZTsCF4yy+vkuZF2bssV+qVUvUmiyMPJ3AK5+DBFVThDmrQAAYIz/AKb86j8+K8Ox+L1pyTzRzDHzifP6TzjNg=</latexit>
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        GA,j
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <latexit sha1_base64="FVIt2CnZl+bErZbuDid+4tgBt3s=">AAAB+nicbVDLSsNAFL2pr1pfqS7dDBbBhZREirqsutBlBfuANoTJdNKOnTyYmSgl5lPcuFDErV/izr9x2mahrQcGDufcyz1zvJgzqSzr2ygsLa+srhXXSxubW9s7Znm3JaNEENokEY9Ex8OSchbSpmKK004sKA48Ttve6Gritx+okCwK79Q4pk6AByHzGcFKS65Z7gVYDQnm6XXmphfH95lrVqyqNQVaJHZOKpCj4ZpfvX5EkoCGinAsZde2YuWkWChGOM1KvUTSGJMRHtCupiEOqHTSafQMHWqlj/xI6BcqNFV/b6Q4kHIceHpyElTOexPxP6+bKP/cSVkYJ4qGZHbITzhSEZr0gPpMUKL4WBNMBNNZERligYnSbZV0Cfb8lxdJ66Rqn1Zrt7VK/TKvowj7cABHYMMZ1OEGGtAEAo/wDK/wZjwZL8a78TEbLRj5zh78gfH5A0BIlAE=</latexit>
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       GA,i
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       <latexit sha1_base64="ack+WpSGqHMrBra+NgnrpeV8rgw=">AAAB+nicbVDLSsNAFL3xWesr1aWbwSK4kJJIUZdVF7qsYB/QhjCZTtqhkwczE6XEfIobF4q49Uvc+TdO2iy09cDA4Zx7uWeOF3MmlWV9G0vLK6tr66WN8ubW9s6uWdlryygRhLZIxCPR9bCknIW0pZjitBsLigOP0443vs79zgMVkkXhvZrE1AnwMGQ+I1hpyTUr/QCrEcE8vcnc9PKEZa5ZtWrWFGiR2AWpQoGma371BxFJAhoqwrGUPduKlZNioRjhNCv3E0ljTMZ4SHuahjig0kmn0TN0pJUB8iOhX6jQVP29keJAykng6ck8qJz3cvE/r5co/8JJWRgnioZkdshPOFIRyntAAyYoUXyiCSaC6ayIjLDAROm2yroEe/7Li6R9WrPPavW7erVxVdRRggM4hGOw4RwacAtNaAGBR3iGV3gznowX4934mI0uGcXOPvyB8fkDPsOUAA==</latexit>
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      Healthy states
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             <latexit sha1_base64="f18JdDgkagQifrQ5DW8ewccnQJw=">AAAB8XicbVDLSgMxFL1TX7W+qi7dBItQQcpMKepGKLoR3FSwD2yHkkkzbWgmMyQZoQz9CzcuFHHr37jzb8y0s9DWEwKHc+7l3nu8iDOlbfvbyq2srq1v5DcLW9s7u3vF/YOWCmNJaJOEPJQdDyvKmaBNzTSnnUhSHHictr3xTeq3n6hULBQPehJRN8BDwXxGsDbS4125d5a+06t+sWRX7BnQMnEyUoIMjX7xqzcISRxQoQnHSnUdO9JugqVmhNNpoRcrGmEyxkPaNVTggCo3mW08RSdGGSA/lOYLjWbq744EB0pNAs9UBliP1KKXiv953Vj7l27CRBRrKsh8kB9zpEOUno8GTFKi+cQQTCQzuyIywhITbUIqmBCcxZOXSatacc4rtftaqX6dxZGHIziGMjhwAXW4hQY0gYCAZ3iFN0tZL9a79TEvzVlZzyH8gfX5Az6ij1g=</latexit>
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             K( ) =                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              GA,i
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 <latexit sha1_base64="ack+WpSGqHMrBra+NgnrpeV8rgw=">AAAB+nicbVDLSsNAFL3xWesr1aWbwSK4kJJIUZdVF7qsYB/QhjCZTtqhkwczE6XEfIobF4q49Uvc+TdO2iy09cDA4Zx7uWeOF3MmlWV9G0vLK6tr66WN8ubW9s6uWdlryygRhLZIxCPR9bCknIW0pZjitBsLigOP0443vs79zgMVkkXhvZrE1AnwMGQ+I1hpyTUr/QCrEcE8vcnc9PKEZa5ZtWrWFGiR2AWpQoGma371BxFJAhoqwrGUPduKlZNioRjhNCv3E0ljTMZ4SHuahjig0kmn0TN0pJUB8iOhX6jQVP29keJAykng6ck8qJz3cvE/r5co/8JJWRgnioZkdshPOFIRyntAAyYoUXyiCSaC6ayIjLDAROm2yroEe/7Li6R9WrPPavW7erVxVdRRggM4hGOw4RwacAtNaAGBR3iGV3gznowX4934mI0uGcXOPvyB8fkDPsOUAA==</latexit>
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               k
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              <latexit sha1_base64="ZMUtFWAlLJn4z59fyb3eFY8n80E=">AAAB/HicbVDLSsNAFJ3UV62vaJduBovgQkoiRV1WXeiygn1AG8NkOmnHTiZhZiKEEH/FjQtF3Poh7vwbJ20W2npg4HDOvdwzx4sYlcqyvo3S0vLK6lp5vbKxubW9Y+7udWQYC0zaOGSh6HlIEkY5aSuqGOlFgqDAY6TrTa5yv/tIhKQhv1NJRJwAjTj1KUZKS65ZHQRIjTFi6XXmphfHD9n9xDVrVt2aAi4SuyA1UKDlml+DYYjjgHCFGZKyb1uRclIkFMWMZJVBLEmE8ASNSF9TjgIinXQaPoOHWhlCPxT6cQWn6u+NFAVSJoGnJ/Ooct7Lxf+8fqz8cyelPIoV4Xh2yI8ZVCHMm4BDKghWLNEEYUF1VojHSCCsdF8VXYI9/+VF0jmp26f1xm2j1rws6iiDfXAAjoANzkAT3IAWaAMMEvAMXsGb8WS8GO/Gx2y0ZBQ7VfAHxucPyOeU3g==</latexit>
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              GA,j
+
+
+
+Figure 3: Pictorial representation of the K-operator on a brain. Drawing
+by Maria Mannone.
+
+    In Eq. (1), K may act on a healthy connectome leading to a diseased
+one or on an already-diseased brain, letting the disease worsen. Hence, the
+action of K leads a brain along a path within subspaces of specific diseases
+or brings a brain out of the healthy subspace or even back and forth, as in
+epilepsy or mood disorders. Thus, the paths in the brain space are governed
+by “simple dynamics” if the states and the paths between them remain
+within the healthy subspace. That is, the brain dynamics can keep the states
+of a brain gravitate within a basin of attraction. The precise shape of the
+dynamics depends upon the changes of the brain: normal ageing, continuous
+learning, new skills development all contribute to the shaping of the brain
+and functional connectivity. While also the anatomic connectivity is affected
+by pathological and, up to a certain extent, also by normal processes (as
+learning how to play a musical instrument), in this study we focus on the
+functional one. An ideal “normal state” considering age range can be treated
+as a probabilistic attractor, towards which the brain states gravitate to. If
+more disorders are present in the same patient, the matrix elements of the
+K-operator for these disorders are also involved. A precise discrimination
+can be performed when we compare the K obtained from patients with
+comorbidities with this Ks obtained from patients affected by only one of
+these diseases.
+    The paths are governed by the K-operator if the states are outside or
+moving from the healthy subset to the outside. A process bringing a brain
+back to the healthy subspace is a healing process. The ideal healing is
+the inverse of the K-operator: K −1 . A sequence of healing steps for a
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         6
+progressive healing process is described in [14], as well as the definition of
+a missing therapy from the ideal healing and the already-existing, partial
+healing strategies.
+    The K-operator is a nonlinear operator, but some linear approximations
+have been proposed. It is time-dependent; in [12], a precise functional, t-
+dependent shape of the operator was proposed for its elements after the
+characteristics of some specific disorders. In other studies [13], only specific
+numerical forms of the K-operators have been computed, between two time
+points.
+    The key idea is the theoretical definition of a space of brain states. The
+use of multi-dimensional scaling (MDS), that will be discussed later, is only
+a possible way to compress the information concerning the ROIs. Thus,
+MDS is only instrumental. The key point is the definition of a conceptual
+framework to represent the transformation of brain states over time, both
+within the healthy domain, and between healthy and pathological states,
+which is characteristic of diseases such as epilepsy or bipolar disorders. The
+K-operator is a novel idea that starts being developed. Our wish is that it
+can also be further adopted and explored by different researchers. However,
+in this study, the concept of K is merely used as label for the trajectory
+of a brain across states including diseased states, that is, to characterise its
+pathological time evolution.
+    Summarizing, we can state that a brain is healthy if all its states
+throughout time remain within the healthy states subspace in a
+stable way. A diseased brain heals if its states move from the
+disease’s subspaces towards the healthy states’ subspace and then
+remain there stably. Remaining within the healthy-state subspace does
+not mean that the brain is not changing: it means that it changes in a
+normal, non-pathological way. It is the case of the growing process, from
+childhood to adulthood, and progressively with healthy ageing. Also learn-
+ing shapes the brain, strengthening some connections and enlarging some
+brain areas. A classic example is constituted by the brain changes in musi-
+cians [19, 23]. Thus, they impact both the anatomic connectivity, as well as
+the functional connectivity.
+
+
+3    A two-stage approach to compute a Brain Space
+Here, we describe the two-stage approach to compute the Brain Space. The
+first stage allows for obtaining a single brain state points of the space starting
+from the fMRI images, while the second one allows for the construction of
+
+
+                                        7
+the whole brain space.
+   As said before, the points of the proposed brain space are connectomes.
+  By focusing on fMRI-derived data from some real patients, we obtain
+connectomes as a connectivity matrix for each brain according to the steps
+described in the following pseudocode.
+
+ Algorithm 1: Brain States Computation
+  Data: fMRIs as DICOM files
+  Result: Brain Space points
+   Step 1: fMRI conversion
+      Convert the DICOM files to NIfTI format;
+   Step 2: Atlas selection
+      Choose a medical atlas to be used as a mask to group matrix
+       elements of NIfTI within specific brain areas;
+   Step 3: Time series extraction
+      Extract time series for each ROI;
+   Step 4: Connectivity matrix computation
+      Compute the connectivity matrix as a correlation matrix1 ,
+       whose elements are the correlation values between pairs of
+       ROIs averaged over time;
+   Step 5: Matrix labelling
+      Label each matrix as Gjk (t) for disease k and patient j at the
+       time visit t;
+
+
+    For instance, the brain matrix of a patient at the first visit and the brain
+matrix of the same patient at the first follow-up will be two different points
+in the space of brains, and the transition from baseline to follow-up will be
+a path in the brain space between these two points. However, no absolute
+time is considered: e.g., the brain state of another patient, whose baseline
+measure was obtained six months before the baseline of the first patient,
+will just be another point in the space. In this way, we obtain the single
+points of our brain space, and that will be used to compute the values on the
+axes via a multi-dimensional scaling (MDS) as described in the following.
+The technique to compute MDS is standard, however here the novelty is
+represented by the overall framework of brain spaces, and by the meaning of
+dimensions in this study. The MDS dimensions are orthogonal, and they are
+computed as the weighted sum of the 160 regions of interest (ROIs) of the
+
+
+                                       8
+human brain for which all the considered brain matrices are non-empty. The
+weights are computed according to the impact of the Frobenius distance be-
+tween corresponding elements of the matrices representing functional brain
+connectivity in each considered brain state. The higher the weight, the more
+important a pair of ROIs is for distinguishing between different brain states.
+The correlation of a single ROI to the axis takes into account its relative
+impact on the different pairs, as it will be further explained later.
+    Let us now describe how a brain space can be obtained, how we can
+shape it as a 3D shape for visualisation, and what meaning can be assigned
+to the axes. Through the MDS algorithm, arbitrarily selecting 3 as the
+number of dimensions, we can automatically arrange the matrix points in
+the space. The closer the points, the more similar the matrices (and thus
+the corresponding brain states). To this aim, here we consider element-
+wise similarity (with Euclidean distance) of the matrices. In particular,
+concerning the distance metric, we finally decided to focus on the Frobenius
+distance. The main steps to represent the brain space are illustrated in the
+following pseudocode.
+
+ Algorithm 2: Brain Space Representation
+   Data: Gjk (t) for disease k and patient j at the time visit t
+   Result: 3D visualization of Brain Space
+   Step 1: ROI selection
+Step 2: Space points distribution
+   Distribute space points according to element-wise similarity;
+Step 3: MDS scaling
+   Perform multi-dimensional scaling according to the space dimension;
+Step 4: Axes value computation
+   Compute the values of the axes as contributions of the ROI with
+    weights automatically chosen according to the inputted brains;
+Step 5: Plotting
+   Plot the Brain Space;
+Step 6: ROI contribution
+   Print list of the ROIs and their correlation to each axis;
+Step 7: Better ROIs selection
+   Finding which ROIs help better differentiate between brain states;
+
+
+
+
+                                      9
+   No ROIs were removed as uninformative; the only regions actually re-
+moved are those missing from one or more matrices of the selected brains.
+But this step was preliminary to the overall analysis, and thus 160 ROIs
+out of 170 ROIs in the Anatomic Automatic Labeling 3 (AAL3) atlas were
+considered. Finally, we provide the details for performing the MDS in step
+4. For each axis, MDS performs a weighted sum of the ROIs, where the
+most influential ones have higher weight (that is, higher correlation as an
+absolute value with the axis).
+
+ Algorithm 3: Projection of 3D Matrices according to their simi-
+ larity
+   Data: Matrix of distances D, labels L, names of the matrices N ,
+         dictionary of visualised indices S
+   Result: Interactive 3D visualization of matrices
+   Step 1: MDS projection
+      Run MDS on D to get a 3D representation P;
+   Step 2: initialization of the 3D graph
+      Create a new empty 3D figure f ig;
+   Step 3: addition of matrices to the graph
+      Add to f ig a scatter plot 3D, by using P, with labels N and
+       colours based on L;
+   Step 4: addition of complex hulls for selected groups
+      if S ̸= ∅ then
+          assign a list of distinct colours C;
+          foreach group g in S do
+              select points Pg corresponding to g;
+              compute the complex hull Hg of Pg ;
+              extract vertices Vg of Hg ;
+              add to f ig a mesh 3D for Hg with colour from C;
+              add to f ig a scatter plot 3D for the points in g with
+               colour from C.
+          end
+      end
+
+
+
+
+                                    10
+4    Experimental Results
+In this section, we provide a computation of a Brain Space obtained from
+a set of patients. In particular, to highlight differences between brain func-
+tional alterations due to different diseases, we choose patients from different
+healthcare datasets relating to different neurological disorders as listed in
+Table 2. We chose states of patients with healthy brains or with diseased
+brain, with features representative of the respective disorders. In particular,
+we focus on patients individually investigated for preliminary applications
+of the K-operator for specific disorders. Moreover, we chose the Anatomic
+Automatic Labeling 3 (AAL3) atlas [22] and selected the 160 ROIs within
+all the fMRIs of the considered patients.
+
+ label            disease               ID patient      time     age     sex    dataset
+ AD                 AD             002 S 5018 [15]    baseline   73     male    ADNI 2
+ PD                 PD                 100878 [13]    baseline   67     male     PPMI
+ schizo        schizophrenia   sub-A00015518 [13]     baseline   60     male    COBRE
+ normal              –                 101195 [13]    baseline   74     male     PPMI
+ AD fem             AD             019 S 5019 [15]    baseline   63    female   ADNI 2
+ AD fem FU          AD             019 S 5019 [15]   follow-up   63    female   ADNI 2
+ AD patC            AD             006 S 4153 [15]    baseline   79     male    ADNI 2
+ AD patC FU         AD             006 S 4153 [15]   follow-up   79     male    ADNI 2
+ PD patB            PD                 100006 [13]    baseline   56    female    PPMI
+ PD patB FU         PD                 100006 [13]   follow-up   56    female    PPMI
+ normal F            –             018 S 4399 [15]    baseline   78    female   ADNI 2
+ PD patient∗        PD                     101050     baseline   50    female    PPMI
+
+Table 2: List of patients in Figure 4 and 5. (∗ is not present in Figure 4,
+but was included in Figure 5). AD stands for Alzheimer-Perusini’s disease,
+PD for Parkinson’s disease. The references indicate preliminary studies on
+the K-operator where these patients have been considered.
+
+    In Figure 4, we can see the Brain Space generated for the patients in
+Table 2.
+    On the other hand, Fig. 5 shows the simplex (violet) of Alzheimer-
+Perusini’s patients and the simplex (blue) of Parkinson’s patients. As we
+can see, there is a clear separation between these disease subspaces.
+    As concerns the schizophrenic patient, he is distant from the PD pa-
+tients and even more distant from the follow-up of one of the PD patients.
+This makes sense since the evolution of PD involves a defect of dopamine
+neurotransmitters due to damage in the substantia nigra, and a consequent
+deficit in dopamine is “opposed” to the excess of dopamine occurring in the
+
+
+
+                                         11
+Figure 4: A quantitative example of brain space for a selection of patients.       MDS Dimension 3
+For the explanation of the points’ labels, see Table 2 (right). The labels
+contain a weighted sum of the regions of interest, automatically computed
+(Table 3). The states belonging to the same patients are identified with the
+same symbol. The arrows, indicating time evolution, are added as post-
+processing.
+
+same region for schizophrenic patients [33].2
+   The axes of Figures 4 and 5 contain the synthetic description of MDS
+dimensions 1, 2, and 3. The MDS algorithm automatically computes a
+weighted sum of the contribution of each region of interest for each axis in
+     2
+       Pathways of dopamine are disrupted in different ways in schizophrenic brains. Ac-
+cording to some authors, the excessive dopamine activity in the mesolimbic neurons is
+caused by an abnormally low prefrontal dopamine activity, leading to cognitive symptoms
+[6].
+
+
+                                          12
+Figure 5: A quantitative example of brain space for the selected patients,
+where we also use the same symbol for the same patient, with the exception
+of the two normal ones, with the same symbol, an × (limitation of the
+available marker shapes in 3D in Python). Here: Euclidean dissimilarity.
+
+
+terms of correlation values. The higher the ROI absolute value, the higher
+the impact of the ROI in the space separation between points.
+    It is worth noting that MDS is a dimension-reduction technique designed
+to project high-dimensional data down to lower dimensions while preserving
+relative distances between observations. Since in our example we reduce 160
+ROIs to obtain a 3D representation of the Brain Space, the more points we
+add to the Brain Space, the more the axes values are refined.
+    Table 3 shows the first five more impacting ROIs on each axis, before
+(left) and after (right) the addition of the last patient of Table 2. With a
+larger population, the classification could become more precise. Neverthe-
+less, with this simple example, we also draw information on the feasibility
+of our brain state definition from a purely theoretical approach to a compu-
+tational one.
+    The MDS are computed after the pairs of ROIs, the most influential
+
+                                    13
+                                   Dimension 1 (axis x)
+ ROI   correlation        ROI name           ROI correlation         ROI name
+  71      0.739          Precuneus L          60       0.702         fusiform R
+  30     -0.724           OFCpost R           72       0.696       precuneus R
+  16      0.724       Supp Motor Area R       66       0.688       parietal inf R
+  66      0.688          parietal inf R       2        0.685       precentral R
+  64      0.719         Parietal Sup R       140       0.680        thal LGN R
+                                   Dimension 2 (axis y)
+ ROI   correlation        ROI name           ROI correlation          ROI name
+ 102      0.866        Cerebellum 4 5 R       20       0.868   frontal superior med R
+  84      0.833            Heschl R           14       0.838       rolandic oper R
+  56      0.794         Occipital Mid R       66       0.835        parietal inf R
+  86      0.750        Temporal Sup R         10       0.830       frontal inf tri R
+  10      0.738        Frontal Inf Tri R      6        0.824       frontal mid 2 R
+                                   Dimension 3 (axis z)
+ ROI   correlation        ROI name           ROI correlation         ROI name
+ 106     -0.877        Cerebellum 7b R       142       0.824        thal MGN R
+  91     -0.875      Temporal Pole Mid L      89      -0.804      temporal mid L
+  89     -0.837        Temporal Mid L         91      -0.800    temporal pole mid L
+  85     -0.820        Temporal Sup L        106      -0.798      cerebellum 7 R
+  99     -0.809         Cerebellum 3 L        55      -0.794      occipital mid L
+
+Table 3: The first five ROIs more heavily affecting (in absolute value) the
+axis content of the brain space, before (left) and after (right) the inclusion
+of the last patient in Table 2.
+
+
+to distinguish between brain states according to the G matrices. They can
+also be related to the single ROIs most influential in those pair variations.
+Our reported ROI correlations are still exploratory, but the analysis can be
+enriched with the features directly derived from the connectivity matrices.
+In fact, the individual impact of ROIs on an MDS axis is obtained via
+the sum of the contributions of all connections involving that ROI. And it
+includes a 1/2 factor, to avoid counting a pair of ROIs twice. By considering
+the impact of the “original” pairs of ROIs, we can listen the first of them
+according to their impact, as shown in Table 4, directly for the case study
+with all patients.
+
+
+
+
+                                         14
+ 1st ROI    2nd ROI    Variance
+   115        116        0.33
+    74        78         0.33
+   114        116        0.32
+    46        70         0.31
+   104        115        0.30
+    49        70         0.30
+   113        116        0.30
+   106        115        0.30
+    98        116        0.29
+    57        86         0.29
+    45        70         0.29
+    61        99         0.29
+   100        116        0.29
+   105        116        0.29
+   151        152        0.28
+   104        116        0.28
+    99        115        0.28
+    61        106        0.28
+    57        115        0.28
+    46        61         0.28
+
+Table 4: The most influential pairs of ROIs. The bold indicates the ROIs
+also present in the list of the first five most influential individual ROIs in
+each axes, or very close ones.
+
+
+
+
+                                     15
+    The MDS distribution is sensitive to the characteristics of inputted brain
+states. In fact, a progressive refinement can be achieved with the addition
+of more patients.
+    To complete the discussion of the brain space, we also give a quantitative
+representation of a path. Within the brain space, the progression of the dis-
+ease is an arrow, labelled as the K-operator, transforming, for instance, the
+brain state of a Parkinsonian patient at the baseline (for example, PD patB)
+to the state at the first follow-up (for example PD patB FU). If we consider
+a space of a number of dimensions equal to the number of ROIs, thus 160
+in the present case, then the brain-state path from baseline to follow-up
+is perfectly described by the K-operator computed between the two states
+and for that choice of atlas. However, in these compressed dimensions via
+a multi-dimensional scaling, some ROIs will contribute more than others,
+depending on the other states in space, see Table 2. Then, the path under
+consideration will be described by a compressed version of the K-operator.
+By extracting the coordinates of the points PD patB and PD patB FU, we
+can write:
+ K|space MDS, 3D : P D patB → P D patB F U
+                   ⇒ [−34.25, −15.81, −3.611] → [−13.48, −47.21, −69.99].
+                                                                       (2)
+
+Hence, the path from PD patB to PD patB FU can be computed
+as the percentage of variation of each of these ROIs. For the MDS
+Dimension 1 we have 60.64%, for Dimension 2 we have 198.61%, and finally
+for Dimension 3 we get 1838.24%. These percentage variations have to be
+reported on the five most influential ROIs and their correlation with the
+axes from Table 3. Limiting ourselves to the first ROIs for each axis, we can
+assess that the strongest alteration occurs for the third MDS dimension, and
+thus mostly impacting the first ROI of the list, cerebellum 7b right or the
+thalamus geniculate (considering the left or right side of Table 3), followed at
+large by the second MDS dimension with cerebellum 4R or frontal superior
+medial R, and the first MDS dimension, whose greater weight is constituted
+by precuneus left or fusiform right. However, due to the two orders of
+magnitude of the change in the third MDS dimension, also the other four
+ROIs that are impacting that axis are worthy of notice (temporal mid-left,
+temporal pole mid-left, cerebellum 7 right, and occipital mid-L).
+    By looking at Fig. 6 taken from [13] representing the K-operator for
+the disease progression of patient B and highlighting the mentioned regions
+(with thicker lines for the first ROIs of the third dimension), we check that
+
+
+                                      16
+they correspond to specific clusters of (mostly blue, i.e., negative) points in
+the K-operator for the 160 ROIs.
+   We can relate the coordinates of the two brain states connected by the
+considered K-operator to the most influential pairs of ROIs. In particular,
+we can focus on the third axis, the one where the higher change is found.
+We thus obtain the list of Table 5. In particular, we notice the pairs:
+
+   • 15-87 supplementary motor area, and temporal pole: superior tempo-
+     ral gyrus;
+
+   • 5-6, both middle frontal gyrus;
+
+   • 27-87 anterior orbital gyrus, and temporal pole: superior medial frontal
+     gyrus,
+
+and in particular the ROIs:
+
+   • 3: superior frontal gyrus,
+
+   • 35: anterior cingulate,
+
+   • 1: precentral gyrus,
+
+   • 37: middle cingulate gyrus,
+
+   • 84: Heschl’s gyrus,
+
+   • 70: angular.
+
+From the evaluation of the complete K-operator (Figure 6), we can notice
+the impact of the nearby pairs of ROIs 89-21, 90-21, near to 15-87 and
+27-87, and we can also notice, from visual inspection, the importance of
+the agglomerates around 5-6, and the small agglomerates in correspondence
+of 71-35. The highlighted areas, near to the regions of Table 5, are the
+following:
+
+   • 89: middle temporal gyrus,
+
+   • 21: superior frontal gyrus,
+
+   • 27: anterior orbital gyrus,
+
+   • 71: precuneus, and
+
+   • 35: anterior cingulate.
+
+
+                                      17
+    ROI-ROI pair     connectivity change   axis estimated contribution
+      15 - 87               1.78                      -1.549
+        5-6                 -1.76                      1.535
+      27 - 87               -1.74                      1.517
+        3-6                 -1.74                      1.511
+       6 - 35               -1.71                      1.489
+       1 - 87               1.71                      -1.485
+       6 - 37               -1.71                      1.484
+      84 - 87               -1.70                      1.483
+      35 - 87               1.70                      -1.481
+      37 - 70               -1.70                      1.478
+
+Table 5: The most influential pairs of ROIs concerning the third axis, MDS
+dimension 3, where the higher change is highlighted for the considered ex-
+ample (patB, from baseline to the first follow-up). The values in the last
+column decrease (in absolute value) from the first to the last column. This
+is more evident if more pairs are printed.
+
+
+    Summarising, the “classic” strategy for the computation of the K-operator
+is: ROIs→ G-matrices→K-operator (without dimensional loss), while the
+strategy proposed in this article, to provide a computational example of
+construction of brain spaces, is: ROIs→ MDS →positioning of Gs as points
+in the brain space, and subsequently the computation of the K-operator
+within the reduced space.
+
+
+
+
+                                    18
+d 12
+
+
+
+
+old 0.5
+
+
+
+
+          19
+5    Conclusions
+In this article, we introduced the concept of brain spaces, where each point
+is the connectivity matrix of a connectome. The closer the points within the
+space, the more similar the connectomic configurations between them. Such
+a representation allows a quantitative analysis of similarity and dissimilar-
+ity between brains in states corresponding to specific diseases, or oscillating
+behaviours between healthy and diseased states, as in the case of mood dis-
+orders or epilepsy. We also quantitatively defined a path connecting two
+points of the space, relating it to the variation of connectivity between pairs
+of brain regions. In particular, the path from a healthy state to a diseased
+one, or between two diseased states as a disease progression, is the result of
+the action of the K-operator, recently proposed as a mathematical opera-
+tor reproducing the key features of a disease, modifying the weights of the
+connections between brain regions. In this research, we chose to focus on
+functional connectivity, and thus the functional magnetic resonance imaging
+was adopted as the original source of our data. Future investigations will
+also include tractography, for a precise information on the anatomic alter-
+ations of the brain cortex. In fact, a more comprehensive investigation will
+also include a comparison between functional and anatomic alterations.
+    Possible research developments concern an extension of the operator,
+including neurotransmitters, neurochemistry, and other biomarkers. This
+would allow a more comprehensive representation of the operator, as its
+action on different levels of the brain, and of other parameters influencing
+the brain states. Considering the healing process as the inverse of disease
+progression [14], an action on de-inflammation and neurochemistry can have
+a decisive role in the connectomic healing.
+    To generalise the K-operator including other parameters, we could refer
+to the work presented in [7], which shapes healthy and diseased states by
+using networks of multi-omic representations.
+    However, to advance this segment of research, we need a source of data
+on neurochemistry inflammation that can be translated into matrices.
+    Another issue to be addressed is stability, and more precisely, how to
+keep a brain’s state within the subspace “healthy”, allowing only fluctu-
+ations within a certain range. In particular, we have assumed, for what
+concerns the subspace of healthy brain states, a basin of attraction of brain
+states. The stability with respect to such a basin characterises a healthy
+brain, whose states are not pathological, or do not involve any patholog-
+ical state. A process of complete healing from a neuropsychiatric disease
+involves the progressive disappearance of pathological states, and a perma-
+
+                                      20
+nence of the brain, after a certain time point, within the basin of attraction
+of healthy states. However, the precise definition of such a basin requires
+further experimental investigation.
+
+
+Declarations
+Ethical Approval
+Not applicable.
+
+Funding
+This paper was developed within the project funded by Next Generation EU
+– “Age-It – Ageing well in an ageing society” project (PE0000015), National
+Recovery and Resilience Plan (NRRP) – PE8 – Mission 4, C2, Intervention
+1.3, CUP B83C22004880006.
+    The research by P.F. was supported by the European Union within the
+REFRESH project – Research Excellence For Region Sustainability and
+High-tech Industries ID No. CZ.10.03.01/00/22 003/0000048 of the Euro-
+pean Just Transition Fund.
+
+Availability of data and materials
+Data availability. Data concerning Alzheimer-Perusini’s patients can be
+downloaded upon request from the Alzheimer’s Disease Neuroimaging Ini-
+tiative (ADNI) database (https://adni.loni.usc.edu). According to the
+guidelines, we state that “as such, the investigators within the ADNI con-
+tributed to the design and implementation of ADNI and/or provided data
+but did not participate in the analysis or writing of this report. A complete
+listing of ADNI investigators can be found at: https://adni.loni.usc.
+edu/wp-content/uploads/how_to_apply/ADNI_Acknowledgement_List.pdf.”
+     Data concerning Parkinson’s disease patients can be downloaded upon
+request from Parkinson’s Progression Markers Initiative (PPMI) dataset,
+with the following licenses and restrictions: “Investigators seeking access to
+PPMI data must sign the Data Use Agreement, submit an Online Appli-
+cation and comply with the study Publications Policy. Requests to access
+these datasets should be directed to PPMI, https://ida.loni.usc.edu/
+collaboration/access/appLicense.jsp.”
+     Data concerning the schizophrenic patient can be downloaded from the
+
+
+
+                                     21
+Center for Biomedical Research Excellence (COBRE) dataset, from the web-
+page https://www.nitrc.org/projects/schizconnect/.
+   Code availability. The code to compute the K-operator, given DI-
+COM files as input for two different time points, can be accessed at https:
+//github.com/medusamedusa/K_operator_parkinson (DOI 10.5281/zen-
+odo.14162649), concerning in particular patient B, #100006, atlas AAL3,
+and https://github.com/medusamedusa/AAL3_K-operator_AD; and the
+detailed discussion of the definition of the operator is proposed in [13].
+   The code to compute the brain space can be accessed at https://
+github.com/medusamedusa/BrainSpaces and https://codeberg.org/medusamedusa/
+BrainSpaces.git, DOI: https://doi.org/10.5281/zenodo.15302779.
+
+
+References
+[1] F. Battiston, G. Cencetti, I. Iacopini, V. Latora, M. Lucas, A. Patania,
+    J.-G. Young, and G. Petri. Networks beyond pairwise interactions:
+    Structure and dynamics. Physics Reports, 874:1–192, 2020.
+
+[2] M. Bergamino, E. G. Keeling, N. J. Ray, A. Macerollo, M. Silverdale,
+    and A. M. Stokes. Structural connectivity and brain network analyses
+    in Parkinson’s disease: A cross-sectional and longitudinal study. Front.
+    Neurol., 14:1137780, 2023.
+
+[3] F. Blandini, G. Nappi, C. Tassorelli, and E. Martignoni. Functional
+    changes of the basal ganglia circuitry in Parkinson’s disease. Prog Neu-
+    robiol., 62(1):63–88, 2000.
+
+[4] R. B. Buxton. The physics of functional magnetic resonance imaging
+    (fMRI). Reports on Progress in Physics, 76(9), 2013.
+
+[5] G. Buzsáki and R. Llinás. Space and time in the brain. Science,
+    358:482–485, 2017.
+
+[6] K. L. Davis, R. S. Kahn, G. Ko, and M. Davidson. Dopamine in
+    schizophrenia: a review and reconceptualization. Am J Psychiatry,
+    148(11):1474–86, 1991.
+
+[7] T. A. Fard and M. A. Ragan. Modeling the Attractor Landscape of
+    Disease Progression: a Network-Based Approach. Front. Genet., 8(48),
+    2017.
+
+
+
+                                    22
+ [8] A. Fathian, Y. Jamali, M.R. Raoufy, and et al. The trend of disrup-
+     tion in the functional brain network topology of Alzheimer’s disease.
+     Scientific Reports, 12:14998, 2022.
+
+ [9] Patric Hagmann. From diffusion MRI to brain connectomics (Thesis).
+     Phd thesis, EPFL, Lausanne, 2005.
+
+[10] D. Kennedy et al. HarvardOxford cort maxprob thr25 2mm .
+
+[11] Q. Li, M. Seraji, V. D. Calhoun, and A. Iraji. Complexity Measures of
+     Psychotic Brain Activity in the fMRI Signal. In 2024 IEEE Southwest
+     Symposium on Image Analysis and Interpretation (SSIAI), pages 9–12,
+     2024.
+
+[12] M. Mannone et al. Modeling a Neurological Disorder as the Result of
+     an Operator Acting on The Brain: A First Sketch Based on Network
+     Channel Modeling. Chaos, 34(5), 2024.
+
+[13] M. Mannone, P. Fazio, J. Kurths, P. Ribino, and N. Marwan. A Brain
+     Network Operator for Modeling Disease: A First Data-Based Applica-
+     tion for Parkinson’s Disease. European Physical Journal, Special Topics,
+     2024.
+
+[14] M. Mannone, P. Fazio, P. Ribino, and N. Marwan. On disease and
+     healing: a theoretical sketch. Frontiers in Applied Mathematics and
+     Statistics, 10, 2024.
+
+[15] Maria Mannone, Norbert Marwan, Peppino Fazio, and Patrizia Rib-
+     ino. Limbic and cerebellar effects in Alzheimer-Perusini’s disease: A
+     physics-inspired approach. Biomedical Signal Processing and Control,
+     103:107355, 2025.
+
+[16] L. A. Morris et al. Altered nucleus accumbens functional connectivity
+     precedes apathy in Parkinson’s disease. Brain, 3(146):2739–2752, 2023.
+
+[17] P. E. Mosley and G. A. Robinson. Functional network reorganization
+     precedes apathy in Parkinson’s disease: a neural marker of risk? Brain,
+     146(7):2661–2662, 2023.
+
+[18] M. E. J. Newman. The Structure and Function of Complex Networks.
+     SIAM Review, 45(2):167—256, 2003.
+
+
+
+
+                                     23
+[19] A.M. Olszewska, M. Gaca, A.M. Herman, K. Jednoróg, and
+     A. Marchewka. How Musical Training Shapes the Adult Brain: Predis-
+     positions and Neuroplasticity. Frontiers in Neuroscience, 15(630829),
+     2021.
+[20] I. M. O’Shea, H. S. Popal, I. R. Olson, and et al. Distinct alterations
+     in cerebellar connectivity with substantia nigra and ventral tegmental
+     area in Parkinson’s disease. Sci Rep, 12(3289), 2022.
+[21] L. E. Reichl. A Modern Course in Statistical Physics. Wiley-VCH,
+     1998.
+[22] E. T. Rolls, C. C. Huang, C.-P. Lin, J. Feng, and M. Joliot. Automated
+     anatomical labelling atlas 3. Neuroimage, 206:116189, 2020.
+[23] O. Sacks. Musicophilia: Tales of Music and the Brain. Alfred A. Knopf,
+     New York, 2007.
+[24] Linqiong Sang, Jiuquan Zhang, Li Wang, Jingna Zhang, Ye Zhang,
+     Pengyue Li, Jian Wang, and Mingguo Qiu. Alteration of brain func-
+     tional networks in early-stage Parkinson’s disease: a resting-state fMRI
+     study. PloS one, 10(10):e0141815, 2015.
+[25] G. Schummer. The Disconnection Syndrome. Biofeedback, 2009.
+[26] W. W. Seeley. Mapping Neurodegenerative Disease Onset and Progres-
+     sion. Cold Spring Harb Perspect. Biol., 9(a023622), 2017.
+[27] Robert E. Smith, Jacques-Donald Tournier, Fernando Calamante, and
+     Alan Connelly. Anatomically-constrained tractography: Improved dif-
+     fusion MRI streamlines tractography through effective use of anatomi-
+     cal information. NeuroImage, 62(3):1924–1938, 2012.
+[28] Olaf Sporns, Giulio Tononi, and Rolf Kötter. The human connectome:
+     A structural description of the human brain. PLoS Computational Bi-
+     ology, 1(4):e42, 2005.
+[29] Healthwise Staff. Areas of the brain affected by Alzheimer’s and other
+     dementias, 2022.
+[30] N. Tzourio-Mazoyer, B. Landeau, D. Papathanassiou, F. Crivello,
+     O. Étard, N. Delcroix, B. Mazoyer, and M. Joliot. Automated Anatom-
+     ical Labeling of Activations in SPM Using a Macroscopic Anatomi-
+     cal Parcellation of the MNI MRI Single-Subject Brain. Neuroimage,
+     15:273–289, 2002.
+
+                                     24
+[31] M. P. van den Heuvel, R. C. Mandl, C. J. Stam, R. S. Kahn, and
+     H. E. H. Pol. Aberrant Frontal and Temporal Complex Network Struc-
+     ture in Schizophrenia: A Graph Theoretical Analysis. The Journal of
+     Neuroscience, 30(47):15915–15926, 2010.
+
+[32] M. P. van den Heuvel and O. Sporns. Network Hubs in the Human
+     Brain. Trends in Cognitive Sciences, 12(12):683–696, 2013.
+
+[33] Carmen F.M. van Hooijdonk, Marieke van der Pluijm, Iris Bosch,
+     Therese A.M.J. van Amelsvoort, Jan Booij, Lieuwe de Haan, Jean-
+     Paul Selten, and Elsmarieke van de Giessen. The substantia nigra in
+     the pathology of schizophrenia: A review on post-mortem and molec-
+     ular imaging findings. European Neuropsychopharmacology, 68:57–77,
+     2023.
+
+[34] G. Varoquaux, A. Gramfort, F. Pedregosa, V. Michel, and B. Thirion.
+     Multisubject dictionary learning to segment an atlas of brain sponta-
+     neous activity. In G. Székely and H.K. Hahn, editors, Information Pro-
+     cessing in Medical Imaging (IPMI 2011), pages 562–573, Cham, 2011.
+     Springer.
+
+
+
+
+                                    25
+

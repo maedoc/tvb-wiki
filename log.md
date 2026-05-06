@@ -25,3 +25,5 @@
 - Clarified Class 1 vs Class 2 excitability distinction
 - Linked AdEx model discussion to its dedicated page
 - Emphasized connection between plastic/neuromodulatory dynamics and excitation-inhibition balance
+
+## [2026-05-06 19:32] Improve: 5 pages improved (random-networks, reproducibility, jansen-rit-model, viktor-jirsa, izhikevich)
