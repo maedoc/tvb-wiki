@@ -1,6 +1,15 @@
 # Wiki Action Log
 
 ## 2026-05-06
+- Improved [[nitrc]] page - fixed frontmatter tags (removed invalid "database" and "software" tags, kept taxonomy-compliant tags)
+- Fixed all wikilinks to proper [[format]] - added links to neuroimaging, whole-brain-modeling, connectomics, diffusion-mri, resting-state, network-dynamics, computational-neuroscience, personalized-brain-modeling
+- Removed "Key Papers" section from body (sources are only in YAML frontmatter)
+- Added expanded content in Relationship to TVB section emphasizing NITRC's role in providing tools for connectivity matrix generation used in whole-brain simulations
+- Added expanded content in Relationship to Other Resources connecting NITRC to brainlife, BIDS, datalad, neuromorpho-toolkit, human-connectome-project, ABIDE
+- All wikilinks verified against current page inventory
+- Updated tags to: [neuroimaging-fmri, neuroimaging-eeg, neuroimaging-meg, neuroimaging-dti, reproducibility, software-bct, software-fsl, software-spm]
+
+## 2026-05-06
 - Improved [[rockpool]] page - replaced placeholder with comprehensive content about ROCKPOOL neural simulation framework
 - Added sections on overview, key features (reservoir computing, parameter estimation, neural mass models), technical implementation
 - Included relationship to TVB explaining ROCKPOOL-TVB integration for whole-brain modeling
@@ -324,3 +333,5 @@
 ## [2026-05-06 10:32] Improve: 2 pages improved (niftynet, cfflib)
 
 ## [2026-05-06 11:04] Repair: 99 issues fixed (0 source refs, 21 index, 3 frontmatter, 62 wikilinks, 6 orphans, 0 dup-refs, 0 opaque-refs, 7 crosslinks)
+
+## [2026-05-06 11:05] Improve: 2 pages improved (calamity-atlas, nitrc)

@@ -3,8 +3,8 @@ title: CALAMITY Atlas
 created: 2024-01-15
 updated: 2026-05-06
 type: entity
-tags: [brain-parcellations, connectomics, structural-connectivity, software-neuromaps]
-sources: []
+tags: [brain-parcellations, connectomics, structural-connectivity, neuroimaging-dti]
+sources: [general-knowledge-computational-neuroscience]
 ---
 
 The CALAMITY Atlas is a connectivity-based brain parcellation designed to provide anatomically coherent regions of interest derived from white-matter tractography data. Unlike cytoarchitectonic or macro-anatomical atlases that partition the cortex based on histological features or gross morphology, CALAMITY defines parcels using patterns of structural connectivity as measured by diffusion tensor imaging (DTI) and probabilistic tractography. This approach ensures that each parcel represents a coherent unit of information transfer within the brain's structural network, making it particularly suitable for whole-brain modeling applications where regional boundaries should reflect actual anatomical wiring patterns.
@@ -17,7 +17,7 @@ The rationale behind connectivity-based parcellation stems from the principle th
 
 ## Technical Features
 
-The CALAMITY Atlas employs clustering algorithms applied to whole-brain tractography data to identify boundaries between brain regions. The process typically involves computing a connectivity matrix for each voxel or vertex, wherein the connection probability to all other voxels forms a high-dimensional feature vector. Dimensionality reduction techniques such as principal component analysis (PCA) may be applied prior to clustering, followed by hierarchical or partitional clustering algorithms to identify natural groupings in connectivity space.
+The CALAMITY Atlas employs clustering algorithms applied to whole-brain tractography data to identify boundaries between brain regions. The process typically involves computing a connectivity matrix for each voxel or vertex, wherein the connection probability to all other voxels forms a high-dimensional feature vector. Dimensionality reduction techniques such as [[principal-component-analysis]] (PCA) may be applied prior to clustering, followed by hierarchical or partitional clustering algorithms to identify natural groupings in connectivity space.
 
 Several parameters influence the resulting parcellation resolution, including the number of target parcels, the clustering algorithm selected, and the connectivity similarity metric used. Higher parcel counts provide finer-grained spatial resolution but increase computational demands in whole-brain simulations. The CALAMITY framework is designed to produce multiple resolution parcellations, allowing researchers to select an appropriate scale for their specific modeling application.
 
@@ -27,7 +27,7 @@ Integration with downstream analysis pipelines is facilitated through standard n
 
 In TVB workflows, the CALAMITY Atlas serves as an alternative parcellation scheme for defining the nodes of the whole-brain network model. The structural connectivity matrix required for TVB simulations is typically derived by computing streamline counts or probability maps between pairs of parcels defined by the atlas. Compared to default atlases often used with TVB, CALAMITY offers the advantage of connectivity-informed boundaries that may better capture the true communication architecture of the brain.
 
-TVB supports custom parcellations through its interfaces with neuroimaging tools like [[nibabel]] and [[nilearn]], allowing users to import CALAMITY-derived connectivity matrices into the TVB simulation framework. The parcellation can be combined with TVB's neural mass models such as the [[jansen-rit]] or [[epileptor]] to simulate regional dynamics governed by the CALAMITY-derived structural connectivity.
+TVB supports custom parcellations through its interfaces with neuroimaging tools like [[nibabel]] and [[nilearn-datasets]], allowing users to import CALAMITY-derived connectivity matrices into the TVB simulation framework. The parcellation can be combined with TVB's neural mass models such as the [[jansen-rit]] or [[epileptor]] to simulate regional dynamics governed by the CALAMITY-derived structural connectivity.
 
 ## Alternative Atlases
 
@@ -37,5 +37,6 @@ The CALAMITY Atlas occupies a niche within the broader landscape of connectivity
 
 - [[neuromaps]] — toolkit for comparing brain maps across different parcellations
 - [[mrtrix3-connectome]] — software for constructing structural connectivity matrices from tractography
+- [[brain-connectivity-toolbox]] — toolbox for analyzing brain connectivity networks
 - [[tractography]] — visualization tool for white-matter tractography data
 - [[tvb]] — whole-brain modeling simulation platform
