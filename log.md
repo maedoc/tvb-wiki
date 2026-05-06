@@ -29,3 +29,5 @@
 ## [2026-05-06 19:32] Improve: 5 pages improved (random-networks, reproducibility, jansen-rit-model, viktor-jirsa, izhikevich)
 
 ## [2026-05-06 19:56] FullTextFetcher: fetched 5 new full texts (28 total in corpus)
+
+## [2026-05-06 19:57] Improve: 3 pages improved (preferential-attachment, reproducibility, volume-conduction)
