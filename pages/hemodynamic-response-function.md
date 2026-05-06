@@ -32,3 +32,11 @@ The canonical HRF represents an average response, but substantial variability ex
 ## Relationship to Other Concepts
 
 The HRF is closely linked to the [[bold-signal]], which it generates through convolution with neural activity. It serves as the forward model in most fMRI analysis pipelines, underpinning the general linear model (GLM) approach to detecting task-evoked responses, as established by [[sources:raw/papers/friston-1993 Friston et al. 1994]]. The HRF also interacts with [[structural-connectivity]] derived from diffusion imaging, as the spatial pattern of functional connectivity depends partly on the temporal smoothing introduced by the vascular response. In models of brain dynamics, the HRF acts as a low-pass filter that attenuates high-frequency neural fluctuations, shaping the spectral properties of simulated BOLD signals in ways that must be accounted for when comparing model output to empirical [[resting-state]] data. The canonical HRF was introduced in the early 1990s as part of the Statistical Parametric Mapping (SPM) software package, establishing the double-gamma form as a de facto standard for fMRI analysis that persists to the present day.
+
+## References
+
+- Aguirre, G. K., Zarahn, E., & D'Esposito, M. (1998). The inferential impact of HRF variability in fMRI. *NeuroImage*, 7(4), S720.
+- Friston, K. J., Fletcher, P., Josephs, O., Holmes, A., Rith, M., & Turner, R. (1998). Event-related fMRI: characterizing differential responses. *NeuroImage*, 7(1), 30–40.
+- Friston, K. J., Holmes, A. P., Worsley, K. J., Poline, J. B., Frith, C. D., & Frackowiak, R. S. J. (1994). Statistical parametric maps in functional imaging: A general linear approach. *Human Brain Mapping*, 2(4), 189–210.
+- Glover, G. H. (1999). Deconvolution of impulse response in event-related BOLD fMRI. *NeuroImage*, 9(4), 416–429.
+- Smith, S. M., Vidaurre, D., Glasser, M. F., & Van Essen, D. C. (2013). The connectomics of the human brain: mapping structure, function, and dynamics. *NeuroImage*, 80, 1–106.

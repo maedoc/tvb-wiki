@@ -23,3 +23,11 @@
 ## [2026-05-06 22:05] CrosslinkApplier: added 329 wikilinks (329 inline, 0 suggested)
 
 ## [2026-05-06 22:05] Matcher: 39 pages got 111 new sources
+
+## [2026-05-06 22:06] Improve: 3 pages improved (brain-oscillations, neuromorphic-computing, successful-aging)
+
+## [2026-05-06 22:15] Improve: bids page
+- Action: Fixed garbled text and expanded BIDS content
+- Details: Removed incorrect characters (通用, 链条), added additional wikilinks to resting-state, openneuro, functional-connectivity, structural-connectivity, brain-network
+- Maintained source: sanz-leon-2013.md
+- Wikilinks added: openneuro, resting-state-fmri, functional-connectivity, structural-connectivity, brain-network, brain-dynamics, diffusion-imaging
