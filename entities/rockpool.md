@@ -21,37 +21,37 @@ ROCKPOOL is a Python-based computational framework for simulating neural dynamic
 
 ## Overview
 
-ROCKPOOL emerged as a response to the growing need for software tools that can seamlessly transition between different levels of neural description. At its core, the framework implements a library of standard neural dynamics modules—including [[adaptive-exponential-integrate-and-fire|adaptive-exponential-integrate-and-fire]] neurons, [[izhikevich-neuron-model|Izhikevich]] spiking neurons, and various rate-based formulations—that can be composed into arbitrary network architectures. Unlike older [[simulators]] such as [[neuron]] or [[brian2]] which focus primarily on rapid prototyping of spiking networks [ref:brian2-documentation], ROCKPOOL places equal emphasis on the parameter optimization workflow, enabling automated tuning of network dynamics through gradient-free and gradient-based optimization methods.
+ROCKPOOL emerged as a response to the growing need for software tools that can seamlessly transition between different levels of neural description. At its core, the framework implements a library of standard neural dynamics modules—including [[adaptive-exponential-integrate-and-fire|adaptive-exponential-integrate-and-fire]] neurons, [[izhikevich-neuron-model|Izhikevich]] spiking neurons, and various rate-based formulations that can be composed into arbitrary network architectures. Unlike older [[whole-brain-simulators]] such as [[neuron]] or [[brian2]] which focus primarily on rapid prototyping of spiking networks [ref:brian2-documentation], ROCKPOOL places equal emphasis on the parameter optimization workflow, enabling automated tuning of network dynamics through gradient-free and gradient-based optimization methods.
 
-The framework adopts a declarative specification approach where users define network topology, neuron types, and synaptic dynamics in configuration files or Python code, after which ROCKPOOL handles the numerical integration, parameter exploration, and analysis [ref:rockpool-documentation]. This design philosophy aligns well with the demands of [[whole-brain modeling]] where researchers must often fit large-scale network models to empirical data from [[neuroimaging-fmri|fMRI]] or [[neuroimaging-eeg|EEG]] recordings.
+The framework adopts a declarative specification approach where users define network topology, neuron types, and synaptic dynamics in configuration files or Python code, after which ROCKPOOL handles the numerical integration, parameter exploration, and analysis [ref:rockpool-documentation]. This design philosophy aligns well with the demands of [[whole-brain modeling]] where researchers must often fit large‑scale network models to empirical data from [[neuroimaging-fmri|fMRI]] or [[neuroimaging-eeg|EEG]] recordings.
 
 ## Key Features
 
-ROCKPOOL distinguishes itself through several capabilities that serve the [[whole-brain modeling]] and [[computational neuroscience]] communities. First, the framework provides a unified interface for working with both [[neural-mass-models]] and [[spiking-neural-networks]], allowing users to seamlessly switch between coarse-grained and fine-grained descriptions within a single simulation script. This is particularly valuable when developing [[personalized-brain-modeling]] pipelines where coarse parameters estimated from [[functional-connectivity]] data must later be refined using more detailed spiking network implementations.
+ROCKPOOL distinguishes itself through several capabilities that serve the [[whole-brain modeling]] and [[computational neuroscience]] communities. First, the framework provides a unified interface for working with both [[neural-mass-models]] and [[spiking-neural-networks]], allowing users to seamlessly switch between coarse‑grained and fine‑grained descriptions within a single simulation script. This is particularly valuable when developing [[personalized-brain-modeling]] pipelines where coarse parameters estimated from [[functional-connectivity]] data must later be refined using more detailed spiking network implementations.
 
-Second, ROCKPOOL includes a sophisticated [[parameter-estimation]] module that supports multiple optimization strategies including evolutionary algorithms, Bayesian optimization, and gradient-based methods. The optimizer can work with arbitrary loss functions defined on simulated neural activity, making it straightforward to fit models to empirical [[resting-state]] connectivity patterns or task-evoked responses. This addresses a central challenge in [[whole-brain modeling]] where the relationship between model parameters and empirical observables is often nonlinear and high-dimensional.
+Second, ROCKPOOL includes a sophisticated [[parameter-estimation]] module that supports multiple optimization strategies including evolutionary algorithms, Bayesian optimization, and gradient‑based methods. The optimizer can work with arbitrary loss functions defined on simulated neural activity, making it straightforward to fit models to empirical [[resting-state]] connectivity patterns or task‑evoked responses. This addresses a central challenge in [[whole-brain modeling]] where the relationship between model parameters and empirical observables is often nonlinear and high‑dimensional.
 
 Third, the framework includes native support for several popular neuromorphic hardware platforms, enabling trained network models to be deployed directly on specialized silicon [ref:neuromorphic-hardware-review]. This capability positions ROCKPOOL as a tool for research groups working at the intersection of [[neuromorphic-computing]] and brain modeling, where the goal is not only to understand biological computation but to implement it efficiently on novel hardware architectures.
 
 ## Relationship to TVB
 
-ROCKPOOL connects to [[the-virtual-brain]] (TVB) through several potential workflow pathways. TVB's [[neural-mass-models]] implementations—such as the [[jansen-rit-model]] or [[wong-wang-model]]—could benefit from ROCKPOOL's optimization routines for parameter fitting to empirical connectivity data. Currently, TVB includes its own parameter estimation tools, but ROCKPOOL's gradient-free optimization approaches may offer advantages for highly non-convex loss landscapes encountered when fitting [[whole-brain]] models.
+ROCKPOOL connects to [[the-virtual-brain]] (TVB) through several potential workflow pathways. TVB's [[neural-mass-models]] implementations—such as the [[jansen-rit-model]] or [[wong-wang-model]]—could benefit from ROCKPOOL's optimization routines for parameter fitting to empirical connectivity data. Currently, TVB includes its own parameter estimation tools, but ROCKPOOL's gradient‑free optimization approaches may offer advantages for highly non‑convex loss landscapes encountered when fitting [[whole-brain]] models.
 
 More fundamentally, ROCKPOOL represents an alternative approach to neural simulation that emphasizes optimization and neuromorphic deployment over the rapid prototyping focus of [[brian2]] or the biophysical detail supported by [[neuron]]. Research groups using TVB for [[epilepsy-modeling]] have explored spiking network implementations that could potentially leverage ROCKPOOL's framework, particularly when moving from abstract [[epileptor]] formulations toward more detailed network models of seizure dynamics.
 
-The two frameworks could also be connected through TVB's [[tvb-nest]] adapter, which provides an interface between TVB's population-level dynamics and the NEST simulator. ROCKPOOL's compatibility with similar abstraction levels makes it a candidate for analogous integration patterns, enabling TVB users to leverage ROCKPOOL's parameter optimization capabilities for fine-tuning whole-brain models. This integration could also facilitate deployment of optimized brain models onto neuromorphic hardware platforms supported by ROCKPOOL, creating an end-to-end workflow from empirical data to hardware-accelerated simulation.
+The two frameworks could also be connected through TVB's [[tvb-nest]] adapter, which provides an interface between TVB's population‑level dynamics and the NEST simulator. ROCKPOOL's compatibility with similar abstraction levels makes it a candidate for analogous integration patterns, enabling TVB users to leverage ROCKPOOL's parameter optimization capabilities for fine‑tuning whole‑brain models. This integration could also facilitate deployment of optimized brain models onto neuromorphic hardware platforms supported by ROCKPOOL, creating an end‑to‑end workflow from empirical data to hardware‑accelerated simulation.
 
 ## Related Software
 
-ROCKPOOL occupies a niche adjacent to several established [[neural simulation]] platforms. Compared to [[brian2]], it places greater emphasis on parameter optimization and hardware deployment; compared to [[nest]], it provides more flexibility in neuron model specification but lacks NEST's parallel execution capabilities for large-scale simulations. For [[whole-brain modeling]], ROCKPOOL complements rather than replaces TVB, offering specialized capabilities in optimization that could enhance TVB-based fitting workflows.
+ROCKPOOL occupies a niche adjacent to several established [[neural simulation]] platforms. Compared to [[brian2]], it places greater emphasis on parameter optimization and hardware deployment; compared to [[nest]], it provides more flexibility in neuron model specification but lacks NEST's parallel execution capabilities for large‑scale simulations. For [[whole-brain modeling]], ROCKPOOL complements rather than replaces TVB, offering specialized capabilities in optimization that could enhance TVB‑based fitting workflows.
 
 - [[brian2]]
 - [[nest]]
 - [[the-virtual-brain]]
-- [[spiking-neural-networks]]
-- [[neuromorphic-computing]]
-- [[parameter-estimation]]
-- [[whole-brain-modeling]]
+- [[spiking-neural‑networks]]
+- [[neuromorphic‑computing]]
+- [[parameter‑estimation]]
+- [[whole‑brain‑modeling]]
 
 ## Key Papers
 
@@ -60,6 +60,6 @@ ROCKPOOL occupies a niche adjacent to several established [[neural simulation]] 
 
 ## References
 
-1. Duy Pham, Gene J. Yu, G. Lazzi, Jean-Marie C Bouteiller. (2026). *A spatially discretized convolutional neural mass model for studying meso-scale spatio-temporal transformations in the rat hippocampus*. Research Square. [DOI](https://doi.org/10.21203/rs.3.rs-9306977/v1)
-2. Martin Breyton, Viktor Sip, M. Woodman, Meysam Hashemi, S. Petkoski, V. Jirsa. (2025). *Data-driven [[mean-field-theory|mean-field]] within whole-brain models*. [Link](https://www.semanticscholar.org/paper/144ae1f1dabec42c14493d0083d36f168508f886)
+1. Duy Pham, Gene J. Yu, G. Lazzi, Jean‑Marie C Bouteiller. (2026). *A spatially discretized convolutional neural mass model for studying meso‑scale spatio‑temporal transformations in the rat hippocampus*. Research Square. [DOI](https://doi.org/10.21203/rs.3.rs-9306977/v1)
+2. Martin Breyton, Viktor Sip, M. Woodman, Meysam Hashemi, S. Petkoski, V. Jirsa. (2025). *Data‑driven [[mean‑field‑theory|mean‑field]] within whole‑brain models*. [Link](https://www.semanticscholar.org/paper/144ae1f1dabec42c14493d0083d36f168508f886)
 3. Nina Baldy, P. Triebkorn, S. Petkoski, Meysam Hashemi, V. Jirsa. (2026). *Normative Modeling of Static and Dynamic Functional [[connectivity]]*. bioRxiv. [DOI](https://doi.org/10.64898/2026.04.03.716292)

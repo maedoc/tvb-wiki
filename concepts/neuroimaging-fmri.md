@@ -1,6 +1,9 @@
 ---
 created: 2026-05-06
-sources: []
+sources:
+- raw/papers/semanticscholar-e08252ec3941.md
+- raw/papers/semanticscholar-a6fa6ab4802f.md
+- raw/papers/semanticscholar-c836b6f72ba9.md
 tags:
 - neuroimaging-fmri
 - bold

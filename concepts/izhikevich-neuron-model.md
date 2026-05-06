@@ -4,6 +4,9 @@ sources:
 - Izhikevich
 - 2003; Izhikevich
 - 2010; Hodgkin-Huxley; Brunel-Hakim-Richard
+- raw/papers/potjans-diesmann-2014.md
+- raw/papers/arxiv-2512.22093.md
+- raw/papers/arxiv-2507.22146.md
 tags:
 - spiking-neural-networks
 - neural-mass-models

@@ -1,6 +1,9 @@
 ---
 created: 2026-05-06
-sources: []
+sources:
+- raw/papers/breakspear-2017.md
+- raw/papers/deco-2013.md
+- raw/papers/david-friston-2003.md
 tags:
 - karl-j-friston
 - free-energy-principle

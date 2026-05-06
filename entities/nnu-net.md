@@ -1,10 +1,18 @@
 ---
-title: "nnU-Net"
 created: 2026-05-06
-updated: 2026-05-06
+sources:
+- raw/papers/semanticscholar-8edd59e14fa3.md
+- raw/papers/semanticscholar-d94ac445ea77.md
+- raw/papers/semanticscholar-6426c5c65760.md
+tags:
+- nnu-net
+- deep-learning
+- medical-image-segmentation
+- neuroimaging
+- python
+title: nnU-Net
 type: entity
-tags: [nnu-net, deep-learning, medical-image-segmentation, neuroimaging, python]
-sources: []
+updated: '2026-05-06'
 ---
 
 # nnU-Net

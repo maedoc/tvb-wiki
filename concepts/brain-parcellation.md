@@ -1,6 +1,9 @@
 ---
 created: 2026-05-06
-sources: []
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-66f887e82e89.md
+- raw/papers/breakspear-2017.md
 tags:
 - brain-parcellation
 - atlas

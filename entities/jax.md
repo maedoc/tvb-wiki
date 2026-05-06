@@ -1,6 +1,9 @@
 ---
 created: 2026-05-06
-sources: []
+sources:
+- raw/papers/arxiv-2507.20990.md
+- raw/papers/semanticscholar-9afbfd2d37be.md
+- raw/papers/semanticscholar-39decd6e7d9f.md
 tags:
 - jax
 - machine-learning

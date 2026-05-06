@@ -53,13 +53,13 @@ FreeSurfer implements several standard parcellations:
 - **Desikan-Killiany** (68 cortical regions) — widely used in TVB
 - **Destrieux** (148/164 regions) — finer-grained atlas
 - **Glasser/MMP** — HCP multi-modal parcellation (via HCP plugin)
-- [[aal]] and [[schaefer]] atlases can be mapped to FreeSurfer surfaces
+- [[aal-atlas]] and [[schaefer-atlas]] atlases can be mapped to FreeSurfer surfaces
 
 ## Software Ecosystem
 
 - [[fsl]] — often used together for preprocessing
 - [[ants]] — alternative registration
-- [[brainstorm]] — MEG/EEG source analysis using FreeSurfer surfaces
+- [[brain-map]] — MEG/EEG source analysis using FreeSurfer surfaces
 - [[tvb]] — imports FreeSurfer surfaces and parcellations directly
 
 ## References

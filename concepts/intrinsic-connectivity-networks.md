@@ -1,6 +1,9 @@
 ---
 created: 2026-05-06
-sources: []
+sources:
+- raw/papers/smith-2009.md
+- raw/papers/arxiv-2501.07394.md
+- raw/papers/power-2011.md
 tags:
 - intrinsic-connectivity-networks
 - resting-state

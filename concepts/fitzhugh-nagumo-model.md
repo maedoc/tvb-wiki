@@ -3,6 +3,8 @@ created: 2026-04-20
 sources:
 - raw/papers/strogatz-1994.md
 - raw/papers/izhikevich-2007.md
+- raw/papers/arxiv-2510.22022.md
+- raw/papers/arxiv-2510.02545.md
 tags:
 - neural-mass-models
 - nonlinear-dynamics

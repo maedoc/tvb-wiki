@@ -429,3 +429,5 @@
 ## [2026-05-06 15:52] Improve: 3 pages improved (brian, neuroimaging, nnu-net)
 
 ## [2026-05-06 15:54] DeepResearch: 6 papers added via focused research
+
+## [2026-05-06 15:54] CrosslinkApplier: added 304 wikilinks (304 inline, 0 suggested)

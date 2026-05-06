@@ -1,6 +1,9 @@
 ---
 created: 2026-05-06
-sources: []
+sources:
+- raw/papers/wilson-cowan-1972.md
+- raw/papers/gerstner-2014.md
+- raw/papers/breakspear-2017.md
 tags:
 - rate-based-neural-networks
 - firing-rate
