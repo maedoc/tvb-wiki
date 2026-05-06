@@ -322,3 +322,5 @@
 ## [2026-05-06 10:02] Improve: 2 pages improved (calamity-atlas, abcbids)
 
 ## [2026-05-06 10:32] Improve: 2 pages improved (niftynet, cfflib)
+
+## [2026-05-06 11:04] Repair: 99 issues fixed (0 source refs, 21 index, 3 frontmatter, 62 wikilinks, 6 orphans, 0 dup-refs, 0 opaque-refs, 7 crosslinks)
