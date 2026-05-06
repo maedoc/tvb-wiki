@@ -13,7 +13,7 @@ tags:
 - whole-brain-modeling
 title: NiPype
 type: entity
-updated: '2026-05-05'
+updated: '2026-05-06'
 ---
 
 # NiPype
@@ -22,7 +22,7 @@ updated: '2026-05-05'
 
 **NiPype** ([[neuroimaging]] in Python: Pipelines and Interfaces) is an open-source Python project that provides a uniform interface to existing neuroimaging software and facilitates interaction between them using an intuitive, flexible workflow engine. Developed by the neuroimaging community, with key contributors including the authors of the seminal 2011 framework paper (Gorgolewski et al., 2011), NiPype addresses the fragmentation in neuroimaging analysis by offering a common framework to integrate heterogeneous tools.
 
-NiPype enables researchers to construct complex neuroimaging workflows that leverage the strengths of multiple software packages simultaneously. Rather than being locked into a single processing pipeline (e.g., FSL-only or SPM-only), users can combine the best tools from different packages—using FSL for preprocessing, ANTs for registration, and FreeSurfer for surface reconstruction—within a single Python script with consistent syntax.
+NiPype enables researchers to construct complex neuroimaging workflows that leverage the strengths of multiple software packages simultaneously. Rather than being locked into a single processing pipeline (e.g., FSL-only or SPM-only), users can combine the best tools from different packages—using FSL for preprocessing, ANTs for registration, and [[freesurfer]] for surface reconstruction—within a single Python script with consistent syntax.
 
 ## Key Features
 
@@ -70,7 +70,7 @@ Both projects emphasize [[reproducibility]] and open science, with NiPype provid
 ## References
 
 1. Sanz Leon et al. (2013). *[[the-virtual-brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
-2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](](https://arxiv.org/abs/2505.16861))
+2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale [[co-simulation]] Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](](https://arxiv.org/abs/2505.16861))
 3. Mohammadtaha Parsayan, S. Andalib, T. L. Andersen, Habib Ganjgahi, P. Høilund-Carlsen, Abass Alavi, Mojtaba Zarei. (2025). *Odense-Oxford PET Image Analysis (OPETIA): An FSL-based toolbox for multimodal neuroimaging*. NeuroImage. [DOI](](https://doi.org/10.1016/j.neuroimage.2025.121278))
 4. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](](https://doi.org/10.3389/fncom.2025.1731161))
 5. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain [[connectivity]]. [DOI](](https://doi.org/10.1089/brain.2012.0120))

@@ -16,7 +16,7 @@ tags:
 - hpc
 title: Apptainer
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 ## Overview
@@ -37,7 +37,7 @@ Within the [[the-virtual-brain]] ecosystem, Apptainer serves as a recommended de
 
 ## Technical Considerations
 
-Implementing Apptainer in a computational neuroscience workflow requires understanding several technical aspects that differ from traditional container approaches. Building Apptainer images involves creating definition files that specify the base operating system (typically a slim Linux distribution), the installation of system-level dependencies, and the addition of neuroscience-specific software packages. For example, building a container for [[epilepsy modeling]] with [[epileptor]] might start from a minimal Ubuntu base, install Python scientific computing libraries via Conda or pip, add NEST or Brian2, and then layer on TVB-specific packages. The resulting .sif (Singularity Image Format) file can be transported to any Apptainer-capable system. Performance considerations are generally favorable—the Apptainer runtime introduces minimal overhead compared to native execution, and the direct filesystem bind-mounting means that large datasets on parallel filesystems can be accessed without the performance penalties associated with Docker volume mounting. However, researchers should be aware of MPI (Message Passing Interface) considerations when running parallel simulations, as proper configuration is required to enable inter-container communication on HPC systems.
+Implementing Apptainer in a computational neuroscience workflow requires understanding several technical aspects that differ from traditional container approaches. Building Apptainer images involves creating definition files that specify the base operating system (typically a slim Linux distribution), the installation of system-level dependencies, and the addition of neuroscience-specific software packages. For example, building a container for [[epilepsy modeling]] with [[epileptor]] might start from a minimal Ubuntu base, install Python scientific computing libraries via Conda or pip, add NEST or [[brian2]], and then layer on TVB-specific packages. The resulting .sif (Singularity Image Format) file can be transported to any Apptainer-capable system. Performance considerations are generally favorable—the Apptainer runtime introduces minimal overhead compared to native execution, and the direct filesystem bind-mounting means that large datasets on parallel filesystems can be accessed without the performance penalties associated with Docker volume mounting. However, researchers should be aware of MPI (Message Passing Interface) considerations when running parallel simulations, as proper configuration is required to enable inter-container communication on HPC systems.
 
 ## Key Papers
 

@@ -19,7 +19,7 @@ tags:
 - whole-brain-modeling
 title: Structural Connectivity
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 **Structural [[connectivity]]** (SC) refers to the anatomical connections between brain regions, typically represented as white matter fiber tracts that enable direct communication between neuronal populations. Unlike [[functional-connectivity]]—which captures statistical dependencies in activity patterns—structural connectivity reflects the physical "wiring diagram" of the brain, comprising axonal fiber bundles that provide the substrate for information transmission across distributed neural circuits. This distinction is fundamental: while functional connectivity can reveal coordinated activity between brain areas even in the absence of direct anatomical links, structural connectivity constrains the possible pathways through which neural signals can propagate.
@@ -50,7 +50,7 @@ The process of constructing a structural connectivity matrix from diffusion MRI 
 
 **Parcellation** defines the nodes of the network by dividing the brain into discrete regions. Common atlases include the [[desikan-killiany-atlas|Desikan-Killiany]] cortical parcellation (34 regions per hemisphere), the [[aal-atlas|Automated Anatomical Label]] (90 regions), and the more recent [[brainnetome-atlas|Brainnetome]] atlas (210 regions). The choice of parcellation fundamentally determines the granularity of connectivity estimates—finer parcellations reveal more detail but yield sparser individual connections.
 
-**Tractography** generates candidate fiber pathways between parcellated regions. Tools like MRTrix3, DIPY, and [[dsi-studio|DSI Studio]] implement various algorithms with different performance characteristics. Probabilistic tractography provides uncertainty estimates but at computational cost.
+**Tractography** generates candidate fiber pathways between parcellated regions. Tools like [[mrtrix3]], [[dipy]], and [[dsi-studio|DSI Studio]] implement various algorithms with different performance characteristics. Probabilistic tractography provides uncertainty estimates but at computational cost.
 
 **Weighting** assigns values to each connection reflecting its anatomical strength. Common metrics include streamline count (the number of reconstructed fibers), [[fractional-anisotropy]] (FA) averaged along tracts, and quantitative anisotropy. Each weighting scheme captures different aspects of connectivity—streamline count reflects anatomical presence, while FA reports microstructural properties.
 
@@ -84,7 +84,7 @@ Despite its centrality to connectomics, structural connectivity estimation faces
 - [[dti]] – Diffusion tensor imaging
 - [[diffusion-mri]] – Broader class of [[diffusion-imaging]] methods
 - [[white-matter]] – Myelinated fiber tracts
-- [[parcellation]] – Brain parcellation schemes
+- [[parcellation]] – [[brain-parcellation]] schemes
 - [[modularity]] – Community structure in networks
 - [[rich-club]] – Hub region connectivity
 - [[personalized-brain-modeling]] – Individualized modeling approaches
@@ -99,7 +99,7 @@ Despite its centrality to connectomics, structural connectivity estimation faces
 1. (authors unknown). *MR diffusion tensor spectroscopy and imaging*.
 2. (authors unknown). *Three-dimensional tracking of axonal projections in the brain by magnetic resonance imaging*.
 3. (authors unknown). *Challenges and limitations of quantifying brain connectivity in vivo with diffusion MRI*.
-4. Sakul Mahat, Sharmistha Guha, Jessica Bernard. (2026). *A Bayesian Framework for Quantifying Association Between Functional and Structural Data in [[neuroimaging]]*. [Link](](https://arxiv.org/abs/2603.21067))
+4. Sakul Mahat, Sharmistha Guha, Jessica Bernard. (2026). *A [[bayesian]] Framework for Quantifying Association Between Functional and Structural Data in [[neuroimaging]]*. [Link](](https://arxiv.org/abs/2603.21067))
 5. Caitlin Lienkaemper, G. Ocker. (2025). *Diverse [[mean-field-theory|mean-field]] dynamics of clustered, inhibition-stabilized Hawkes networks via combinatorial threshold-[[linear]] networks*. [Link](](https://www.semanticscholar.org/paper/fbd6e0d74d7094beee2f373371f61ee03edaa40d))
 6. (authors unknown). *Functional Connectomics from [[resting-state|Resting-State fMRI]]*.
 7. (authors unknown). *Predicting Human Resting-State Functional Connectivity from Structural Connectivity*.

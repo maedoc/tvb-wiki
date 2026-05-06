@@ -16,7 +16,7 @@ tags:
 - reproducibility
 title: PhysioNet
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 ## Overview
@@ -55,7 +55,7 @@ PhysioNet is part of a broader ecosystem of open neuroscience databases that ser
 
 4. Delorme, A., Makeig, S. (2004). EEGLAB: an open source toolbox for analysis of single-trial EEG dynamics including independent component analysis. *Journal of Neuroscience Methods* 134(1): 9-21.
 
-5. Gramfort, A., Luessi, M., Larson, E., Enghoff, M., Strohmeier, D., Brodbeck, C., Goj, R., Jas, M., Brooks, T., Wilson, L., Hämäläinen, M. (2013). MNE-Python software for processing MEG and EEG data. *Neuroimage* 86: 446-460.
+5. Gramfort, A., Luessi, M., Larson, E., Enghoff, M., Strohmeier, D., Brodbeck, C., Goj, R., Jas, M., Brooks, T., Wilson, L., Hämäläinen, M. (2013). [[mne-python]] software for processing MEG and EEG data. *Neuroimage* 86: 446-460.
 
 ## References
 

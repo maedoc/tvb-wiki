@@ -8,7 +8,7 @@ tags:
 - software-brain-modeling
 title: BrainLife.io
 type: entity
-updated: '2026-05-05'
+updated: '2026-05-06'
 ---
 
 ## Overview
@@ -23,7 +23,7 @@ BrainLife.io distinguishes itself through its browser-based interface that abstr
 
 ### Appstore Model and Tool Integration
 
-The BrainLife Appstore provides modular processing tools ("apps") that implement standard neuroimaging algorithms. These include preprocessing pipelines for [[fMRI|fMRI]] data (using tools similar to [[fmriprep]]), diffusion imaging analysis (supporting [[MRtrix3]], [[DIPY]], and [[FSL]]), and cortical reconstruction (integrating [[FreeSurfer]]) [4]. Users can chain multiple apps together to create custom workflows, and the platform maintains versioned archives of all processing outputs. This modular approach allows researchers to mix and match tools from different software ecosystems, combining the strengths of Nilearn-style Python pipelines with traditional [[SPM]] or [[FSL]] workflows.
+The BrainLife Appstore provides modular processing tools ("apps") that implement standard neuroimaging algorithms. These include preprocessing pipelines for [[fMRI|fMRI]] data (using tools similar to [[fmriprep]]), diffusion imaging analysis (supporting [[mrtrix3-connectome]], DIPY, and [[fsl-melodic]]), and cortical reconstruction (integrating [[pysurfer]]) [4]. Users can chain multiple apps together to create custom workflows, and the platform maintains versioned archives of all processing outputs. This modular approach allows researchers to mix and match tools from different software ecosystems, combining the strengths of Nilearn-style Python pipelines with traditional SPM or [[fsl-melodic]] workflows.
 
 ### Data Management and Sharing
 
@@ -43,7 +43,7 @@ EEG and MEG processing includes filtering, artifact rejection, and [[source-loca
 
 ### Integration with Existing Software Ecosystem
 
-Rather than implementing analysis algorithms from scratch, BrainLife.io wraps established neuroimaging tools as deployable apps. This includes native integration with [[AFQ]] (Automated Fiber quantification), [[MRtrix3]] for advanced diffusion analysis, Cat12 for volumetric segmentation, and [[connectome-workbench]] for visualization [9]. The platform's underlying architecture builds on [[nipype]] for workflow orchestration, ensuring compatibility with the broader Python neuroimaging ecosystem. Users can also deploy custom apps, extending the platform's functionality for specialized analysis needs.
+Rather than implementing analysis algorithms from scratch, BrainLife.io wraps established neuroimaging tools as deployable apps. This includes native integration with [[AFQ]] (Automated Fiber quantification), [[mrtrix3-connectome]] for advanced diffusion analysis, Cat12 for volumetric segmentation, and [[connectome-workbench]] for visualization [9]. The platform's underlying architecture builds on [[nipype]] for workflow orchestration, ensuring compatibility with the broader Python neuroimaging ecosystem. Users can also deploy custom apps, extending the platform's functionality for specialized analysis needs.
 
 ## Key Papers
 
@@ -51,7 +51,7 @@ The platform's development and validation have been described in several influen
 
 ## Related Software
 
-BrainLife.io operates within a landscape of neuroimaging processing platforms. Similar web-based solutions include [[CBRAIN]] (a Canadian platform for neuroimaging analysis) and [[neuromorpho-toolkit]]. For local processing, researchers often use [[FSL]], [[FreeSurfer]], or [[SPM]] directly. The platform complements rather than replaces these tools—the strength of BrainLife.io lies in its workflow orchestration and cloud execution rather than novel algorithmic implementations. For connectomics specifically, the platform integrates with the [[Brain Connectivity Toolbox]] ([[bctpy]]) for network analysis and [[brainspace]] for visualization, enabling users to proceed from raw data to network-theoretic metrics within a unified environment.
+BrainLife.io operates within a landscape of neuroimaging processing platforms. Similar web-based solutions include [[open-source-brain]] (a Canadian platform for neuroimaging analysis) and [[neuromorpho-toolkit]]. For local processing, researchers often use [[fsl-melodic]], [[pysurfer]], or SPM directly. The platform complements rather than replaces these tools—the strength of BrainLife.io lies in its workflow orchestration and cloud execution rather than novel algorithmic implementations. For connectomics specifically, the platform integrates with the [[Brain Connectivity Toolbox]] ([[bctpy]]) for network analysis and [[brainspace]] for visualization, enabling users to proceed from raw data to network-theoretic metrics within a unified environment.
 
 ## References
 

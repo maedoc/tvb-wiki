@@ -17,7 +17,7 @@ tags:
 - connectomics
 title: C-PAC
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # C-PAC
@@ -65,7 +65,7 @@ C-PAC serves a complementary role to [[tvb|The Virtual Brain]] in [[connectome]]
 - [[nipype|Nipype]] — Python framework for neuroimaging pipelines; C-PAC shares similar architectural principles
 - FSL — Alternative preprocessing suite with overlapping functionality
 - [[hcp-pipelines|HCP Pipelines]] — Minimal preprocessing pipelines for [[human-connectome-project]] data; often compared with C-PAC strategies
-- Nilearn — Python library for neuroimaging analysis that can work with C-PAC outputs
+- [[nilearn]] — Python library for neuroimaging analysis that can work with C-PAC outputs
 
 ## References
 

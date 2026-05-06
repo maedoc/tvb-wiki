@@ -19,7 +19,7 @@ tags:
 - mean-field-theory
 title: Hopfield Network
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # Hopfield Network
@@ -28,7 +28,7 @@ The Hopfield network is a fully connected recurrent [[neural-network]] that stor
 
 ## Motivation and Context
 
-Before the 1980s, neural network research was fragmented between abstract cybernetics and detailed biophysics. Hopfield's insight was to draw an explicit analogy between neural networks and spin-glass systems in statistical mechanics, showing that memory could be understood as the settling of a high-dimensional system into low-energy states. This reframing made associative memory mathematically rigorous: instead of storing patterns in localized addresses, the network stores them distributed across synaptic weights, and retrieval is a process of energy minimization. The model also provided one of the first clear demonstrations of how [[nonlinear-dynamics|nonlinear recurrent dynamics]] could give rise to useful computation without centralized control, influencing later work on attractor networks, auto-associative memory, and even modern energy-based models in machine learning.
+Before the 1980s, neural network research was fragmented between abstract cybernetics and detailed biophysics. Hopfield's insight was to draw an explicit analogy between neural networks and spin-glass systems in statistical mechanics, showing that memory could be understood as the settling of a high-dimensional system into low-energy states. This reframing made associative memory mathematically rigorous: instead of storing patterns in localized addresses, the network stores them distributed across synaptic weights, and retrieval is a process of energy minimization. The model also provided one of the first clear demonstrations of how [[nonlinear-dynamics|nonlinear recurrent dynamics]] could give rise to useful computation without centralized control, influencing later work on attractor networks, auto-associative memory, and even modern energy-based models in [[machine-learning]].
 
 ## Mathematical Formulation
 

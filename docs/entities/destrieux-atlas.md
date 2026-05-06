@@ -11,7 +11,7 @@ tags:
 - structural-connectivity
 title: Destrieux Atlas
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 The Destrieux Atlas is an anatomical [[parcellation]] of the human cerebral cortex developed by Bruno Destrieux and colleagues [1], widely used in neuroimaging research and whole-brain modeling applications. The atlas provides a systematic division of the cortical surface into 148 distinct regions (74 per hemisphere) based on anatomical landmarks, particularly the pattern of cortical sulci, making it one of the most detailed sulcal-based parcellations available.
@@ -22,7 +22,7 @@ The Destrieux Atlas was developed to address the need for a standardized, anatom
 
 ## Anatomical Framework and Regional Nomenclature
 
-The atlas divides each cerebral hemisphere into regions organized by major cortical lobes: frontal, parietal, temporal, occipital, and limbic (including the cingulate cortex) [1]. Each region is assigned both a name and a numerical identifier, enabling automated labeling in FreeSurfer and other neuroimaging pipelines. The parcellation includes both sulcal-based regions (identified by specific sulcal landmarks) and gyral-based regions (identified by their positions relative to major gyri). This dual approach provides flexibility for different research applications, as some analyses benefit from sulcal boundaries while others require gyral divisions [1]. The regional boundary definitions are stored as annotation files that can be overlaid on individual cortical surfaces, allowing automated labeling of any individual's brain scan.
+The atlas divides each cerebral hemisphere into regions organized by major cortical lobes: frontal, parietal, temporal, occipital, and limbic (including the cingulate cortex) [1]. Each region is assigned both a name and a numerical identifier, enabling automated labeling in [[freesurfer]] and other neuroimaging pipelines. The parcellation includes both sulcal-based regions (identified by specific sulcal landmarks) and gyral-based regions (identified by their positions relative to major gyri). This dual approach provides flexibility for different research applications, as some analyses benefit from sulcal boundaries while others require gyral divisions [1]. The regional boundary definitions are stored as annotation files that can be overlaid on individual cortical surfaces, allowing automated labeling of any individual's brain scan.
 
 ## Integration with FreeSurfer and Neuroimaging Pipelines
 

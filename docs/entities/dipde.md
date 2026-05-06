@@ -12,7 +12,7 @@ tags:
 - population-density-models
 title: DiPDE
 type: entity
-updated: '2026-05-05'
+updated: '2026-05-06'
 ---
 
 # DiPDE
@@ -41,7 +41,7 @@ DiPDE also supports the definition of external populations that provide backgrou
 
 ## Comparison to Related Simulators
 
-DiPDE differs from other major neural simulators in several important respects. Compared to [[NEST]] (Neural Simulation Tool), which simulates individual point neurons at the network scale, DiPDE operates at the population level—modeling groups of neurons statistically rather than explicitly [<citation>11</citation>]. NEST supports more detailed neuron models and synaptic dynamics, while DiPDE optimizes for a narrower class of models but achieves better for appropriate use cases.
+DiPDE differs from other major neural simulators in several important respects. Compared to [[NEST]] ([[neural-simulation]] Tool), which simulates individual point neurons at the network scale, DiPDE operates at the population level—modeling groups of neurons statistically rather than explicitly [<citation>11</citation>]. NEST supports more detailed neuron models and synaptic dynamics, while DiPDE optimizes for a narrower class of models but achieves better for appropriate use cases.
 
 Compared to [[NEURON]], which excels at detailed multi-compartment simulations with realistic morphologies, DiPDE sacrifices single-neuron biophysical detail for population-level tractability. NEURON remains the tool of choice when detailed morphology or compartment-specific dynamics are required [<citation>12</citation>].
 

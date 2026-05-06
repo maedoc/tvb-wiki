@@ -14,7 +14,7 @@ tags:
 - task-based
 title: BrainVoyager
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 - "Goebel, R., Esposito, F., & Formisano, E. (2006). Analysis of functional image analysis contest (FIAC) data with brainvoyager QX: From single-subject to cortically aligned group general [[linear|linear model]] analysis and self-organizing group independent component analysis. Human Brain Mapping, 27(5), 392-401."
@@ -26,7 +26,7 @@ updated: '2026-05-04'
 
 ## Overview
 
-**BrainVoyager** is a commercial [[neuroimaging]] software suite developed by Brain Innovation, designed for the advanced analysis and visualization of structural and functional MRI data. First released in the late 1990s, it has become one of the most widely used platforms for cortical surface-based analysis, real-time fMRI (rt-fMRI), and multi-subject data integration in cognitive neuroscience research.
+**BrainVoyager** is a commercial [[neuroimaging]] software suite developed by Brain Innovation, designed for the advanced analysis and visualization of structural and [[neuroimaging-fmri|functional MRI]] data. First released in the late 1990s, it has become one of the most widely used platforms for cortical surface-based analysis, real-time fMRI (rt-fMRI), and multi-subject data integration in cognitive neuroscience research.
 
 The software is particularly renowned for its **cortex-based alignment (CBA)** approach, which aligns brains based on individual cortical folding patterns rather than volume-based registration, substantially improving cross-subject alignment in functionally corresponding cortical areas. This makes it highly complementary to [[whole-brain|whole-brain modeling]] workflows that require precise anatomical constraints.
 
@@ -96,7 +96,7 @@ BrainVoyager has been cited in thousands of neuroimaging studies. Key methodolog
 - [[TVB]] — Whole-brain simulation platform that can use BrainVoyager-processed connectivity data
 - [[ANTs]] — Alternative neuroimaging registration tools (volume-based)
 - [[3D Slicer]] — Open-source alternative for medical image computing
-- **Freesurfer** — Open-source cortical surface reconstruction (complementary/alternative to BrainVoyager's surface tools)
+- **[[freesurfer]]** — Open-source cortical surface reconstruction (complementary/alternative to BrainVoyager's surface tools)
 - **FSL** — UK-based open-source fMRI analysis suite (volume-based)
 - **SPM** — Statistical parametric mapping toolbox for neuroimaging
 

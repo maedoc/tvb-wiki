@@ -19,7 +19,7 @@ tags:
 - neuroimaging-meg
 title: TVB-NEST multiscale
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # TVB-NEST multiscale
@@ -107,7 +107,7 @@ The framework serves as a testbed for validating neural mass models against grou
 
 - Sanz Leon et al. (2013) — Foundational TVB platform description[^sanz-leon-2013]
 - Gewaltig & Diesmann (2007) — NEST simulation infrastructure[^gewaltig-diesmann-2007]
-- [[arbor]]-TVB co-simulation (2024) — Demonstrates generalization of the TVB-multiscale approach to other spiking simulators[^arxiv-2505.16861]
+- [[arbor]]-TVB [[co-simulation]] (2024) — Demonstrates generalization of the TVB-multiscale approach to other spiking simulators[^arxiv-2505.16861]
 
 ## Technical Implementation
 
@@ -120,7 +120,7 @@ The framework requires:
 ## References
 
 1. Sanz Leon et al. (2013). *[[the-virtual-brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
-2. Gewaltig & Diesmann (2007). *NEST (NEural Simulation Tool)*. Scholarpedia. [DOI](](https://doi.org/10.4249/scholarpedia.1430))
+2. Gewaltig & Diesmann (2007). *NEST ([[neural-simulation]] Tool)*. Scholarpedia. [DOI](](https://doi.org/10.4249/scholarpedia.1430))
 3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *Arbor-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](](https://arxiv.org/abs/2505.16861))
 4. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](](https://doi.org/10.3389/fncom.2025.1731161))
 5. Leon Martin, Konstantin Bülau, Marius Pille, Rico Schmitt, Christoph Hüttl, J. Meier, Halgurd Taher, Dionysios Perdikis, M. Schirner, L. Stefanovski, [[petra-ritter]]. (2025). *The Virtual Brain Ontology: A Digital Knowledge Framework for Reproducible Brain Network Modeling*. bioRxiv. [DOI](](https://doi.org/10.1101/2025.11.19.689211))

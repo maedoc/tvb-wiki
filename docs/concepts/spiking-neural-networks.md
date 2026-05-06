@@ -20,7 +20,7 @@ tags:
 - mean-field-theory
 title: Spiking Neural Networks
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # Spiking Neural Networks
@@ -65,7 +65,7 @@ Spiking neural networks connect to numerous other concepts in computational neur
 
 ## References
 
-1. Gewaltig & Diesmann (2007). *NEST (NEural Simulation Tool)*. Scholarpedia. [DOI](](https://doi.org/10.4249/scholarpedia.1430))
+1. Gewaltig & Diesmann (2007). *NEST ([[neural-simulation]] Tool)*. Scholarpedia. [DOI](](https://doi.org/10.4249/scholarpedia.1430))
 2. Potjans & Diesmann (2014). *The cell-type specific cortical microcircuit: relating structure and activity*. Cerebral Cortex. [DOI](](https://doi.org/10.1093/cercor/bhs358))
 3. Jordan et al. (2018). *Extremely scalable spiking neuronal network simulation code: from laptops to exascale computers*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2018.00002))
 4. Helias et al. (2012). *Supercomputers ready for use as discovery machines for neuroscience*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2012.00026))

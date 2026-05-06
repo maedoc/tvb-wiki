@@ -11,7 +11,7 @@ tags:
 - software-brain-modeling
 title: Neurosynth
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 ## Overview
@@ -22,13 +22,13 @@ Neurosynth is an open-source platform for automated coordinate-based meta-analys
 
 The field of [[neuroimaging]] faced a fundamental challenge in the late 2000s: the rapidly expanding literature on [[fmri]] studies contained thousands of experiments, but no efficient way existed to synthesize these findings into coherent models of brain function. Traditional narrative reviews were subjective and limited in scope, while manual meta-analysis was labor-intensive and could only encompass a fraction of available data. The BrainMap project had pioneered coordinate-based meta-analysis, but required substantial manual curation and was not easily accessible to the broader research community.
 
-Neurosynth addressed this gap by automating the extraction of activation coordinates from published papers (typically from the peak activations reported in figures and tables), then using Bayesian statistical approaches to identify associations between cognitive terms and brain regions [1]. This approach enabled researchers to pose queries like "which brain regions are consistently activated during working memory tasks?" and receive whole-brain maps based on hundreds of published studies. The platform democratized meta-analysis, making it accessible to any researcher with an internet connection and a research question.
+Neurosynth addressed this gap by automating the extraction of activation coordinates from published papers (typically from the peak activations reported in figures and tables), then using [[bayesian]] statistical approaches to identify associations between cognitive terms and brain regions [1]. This approach enabled researchers to pose queries like "which brain regions are consistently activated during working memory tasks?" and receive whole-brain maps based on hundreds of published studies. The platform democratized meta-analysis, making it accessible to any researcher with an internet connection and a research question.
 
 ## Key Features
 
 Neurosynth provides several interconnected capabilities that make it valuable for whole-brain modeling. First, the platform maintains a curated database of activation coordinates extracted from over 15,000 published fMRI studies, each labeled with cognitive terms extracted from the study abstract and keywords [1]. Second, it implements term-based meta-analysis, where users can input cognitive terms (e.g., "emotion," "decision-making," "visual perception") and receive probability maps indicating the likelihood of activation in each voxel given that the term appears in the study. Third, the platform provides reverse inference maps, estimating the probability that a cognitive term is associated with activation in a particular brain region—distinguishing it from forward inference based solely on activation frequency.
 
-The architecture employs Python as its primary implementation language, with the core algorithms using scikit-learn for classification and regression tasks. The web interface allows real-time queries without programming knowledge, while the Python API enables programmatic access for more sophisticated analyses. The data format follows standard neuroimaging conventions, exporting results as [[nifti]] files compatible with tools like Nilearn, Fsl, and Spm.
+The architecture employs Python as its primary implementation language, with the core algorithms using scikit-learn for classification and regression tasks. The web interface allows real-time queries without programming knowledge, while the Python API enables programmatic access for more sophisticated analyses. The data format follows standard neuroimaging conventions, exporting results as [[nifti]] files compatible with tools like [[nilearn]], Fsl, and Spm.
 
 ### Neurosynth 2.0 and NeuroQuery
 
@@ -48,9 +48,9 @@ Neurosynth data also feeds into the construction of [[brain-parcellations]] by p
 
 ## Related Software and Databases
 
-Neurosynth builds upon and complements several other tools in the neuroimaging ecosystem. Brainmap provides the original coordinate-based meta-analysis framework and remains a critical source of manually curated activation data, particularly for specialized cognitive domains. Nilearn offers Python utilities for manipulating and visualizing Neurosynth-derived maps alongside other neuroimaging data, while [[pymvpa]] provides machine learning tools for pattern analysis that extend the classification approaches pioneered on Neurosynth data.
+Neurosynth builds upon and complements several other tools in the neuroimaging ecosystem. Brainmap provides the original coordinate-based meta-analysis framework and remains a critical source of manually curated activation data, particularly for specialized cognitive domains. Nilearn offers Python utilities for manipulating and visualizing Neurosynth-derived maps alongside other neuroimaging data, while [[pymvpa]] provides [[machine-learning]] tools for pattern analysis that extend the classification approaches pioneered on Neurosynth data.
 
-The platform intersects with [[resting-state]] research by providing normative activation maps that can be compared with intrinsic connectivity networks derived from fMRI data acquired in the absence of tasks. Researchers studying functional connectivity often use Neurosynth maps to define regions of interest for connectivity analysis, ensuring that their chosen regions correspond to functionally coherent units. The [[human-connectome-project]] provides high-resolution connectivity data that can be integrated with Neurosynth activation priors for more sophisticated multi-modal analyses.
+The platform intersects with [[resting-state]] research by providing normative activation maps that can be compared with [[intrinsic-connectivity-networks]] derived from fMRI data acquired in the absence of tasks. Researchers studying functional connectivity often use Neurosynth maps to define regions of interest for connectivity analysis, ensuring that their chosen regions correspond to functionally coherent units. The [[human-connectome-project]] provides high-resolution connectivity data that can be integrated with Neurosynth activation priors for more sophisticated multi-modal analyses.
 
 ## Open Questions and Limitations
 

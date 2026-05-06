@@ -28,7 +28,7 @@ tags:
 - connectomics
 title: NIAK
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # NIAK
@@ -70,7 +70,7 @@ NIAK was initiated around 2008 and saw active development through approximately 
 ## Related Software
 
 - [[fmriprep]] — popular Python-based fMRI preprocessing pipeline
-- Nilearn — Python library for neuroimaging data analysis
+- [[nilearn]] — Python library for neuroimaging data analysis
 - [[bids]] — standard data format for neuroimaging datasets
 - [[aal-atlas]] — Automated Anatomical Labeling atlas used in NIAK pipelines
 

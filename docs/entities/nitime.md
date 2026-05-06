@@ -11,7 +11,7 @@ tags:
 - brain-dynamics
 title: Nitime
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # Nitime
@@ -24,7 +24,7 @@ updated: '2026-05-04'
 
 The analysis of neural time series presents unique challenges that generic signal processing libraries do not adequately address. Neuroscience data often exhibits non-stationarity, contains artifacts from recording hardware, and requires specialized statistical frameworks that account for the autocorrelation structure typical of neural data. Prior to nitime's development, researchers working with [[neuroimaging]] data needed to combine multiple tools—such as matlab-based toolboxes or custom scripts—to perform basic time-frequency decompositions, coherence analyses, and correlation-based [[connectivity]] estimates.
 
-Nitime was developed to provide a unified, neuroscientist-friendly interface to these analytical techniques. The library emerged from the Neuroinformatics community in the late 2000s as a response to the increasing availability of large-scale neural datasets and the growing adoption of Python in scientific computing. By integrating seamlessly with the scientific Python ecosystem—including numpy and scipy—nitime enables reproducible, well-documented analysis pipelines that can be combined with preprocessing tools like [[nipype]] and visualization libraries like Nilearn.
+Nitime was developed to provide a unified, neuroscientist-friendly interface to these analytical techniques. The library emerged from the Neuroinformatics community in the late 2000s as a response to the increasing availability of large-scale neural datasets and the growing adoption of Python in scientific computing. By integrating seamlessly with the scientific Python ecosystem—including numpy and scipy—nitime enables reproducible, well-documented analysis pipelines that can be combined with preprocessing tools like [[nipype]] and visualization libraries like [[nilearn]].
 
 ## Key Features
 

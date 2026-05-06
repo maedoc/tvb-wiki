@@ -2,10 +2,9 @@
 created: 2026-04-20
 sources:
 - raw/papers/wendling-2002.md
+- raw/papers/potjans-diesmann-2014.md
 - raw/papers/arxiv-2512.03907.md
 - raw/papers/semanticscholar-15a4a438614f.md
-- raw/papers/potjans-diesmann-2014.md
-- raw/papers/deco-2013.md
 tags:
 - neural-mass-models
 - whole-brain-modeling
@@ -16,7 +15,7 @@ tags:
 - neural-mass-models-comparison
 title: Wong-Wang Model
 type: concept
-updated: '2026-05-05'
+updated: '2026-05-06'
 ---
 
 # Wong-Wang Model
@@ -80,20 +79,30 @@ These parameter values were originally fitted by Wong and Wang to reproduce the 
 
 The Wong-Wang model can be understood as a simplification of the [[jansen-rit|Jansen-Rit]] neural mass model, which uses three populations to generate EEG oscillations. By reducing the system to a single variable, the Wong-Wang model sacrifices the ability to produce realistic alpha/beta oscillations but gains analytical tractability and computational efficiency—tradeoffs that proved acceptable for fMRI modeling, where the relevant timescales are considerably slower.
 
-An important extension is the [[wong-wang-exc-inh]] model, which reintroduces separate excitatory and inhibitory populations to capture E-I balance dynamics. This extension has proven valuable for modeling regimes where inhibition plays a critical role, such as during [[brain-stimulation]] or in computational models of [[epilepsy-modeling|epilepsy]].
+An important extension is the [[wong-wang-exc-inh]] model, which reintroduces separate excitatory and inhibitory populations to capture E‑I balance dynamics. This extension has proven valuable for modeling regimes where inhibition plays a critical role, such as during [[brain-stimulation]] or in computational models of [[epilepsy-modeling|epilepsy]].
 
-## Applications in Whole-Brain Modeling
+## Applications in Whole‑Brain Modeling
 
-Following the seminal work of Deco and colleagues (2013), the Wong-Wang model became a workhorse for [[whole-brain]] simulations of resting-state [[functional-connectivity]]. In this application, each brain region (typically defined by a [[parcellation]] of the cortex) is modeled as a single Wong-Wang node, and the coupling between nodes is determined by [[structural-connectivity]] data from diffusion tensor imaging. The model successfully reproduces the characteristic temporal dynamics and spatial patterns of empirically observed resting-state networks, including the [[default-mode-network]].
+Following the seminal work of Deco and colleagues (2013), the Wong‑Wang model became a workhorse for [[whole-brain]] simulations of resting‑state [[functional-connectivity]]. In this application, each brain region (typically defined by a [[parcellation]] of the cortex) is modeled as a single Wong‑Wang node, and the coupling between nodes is determined by [[structural-connectivity]] data from diffusion tensor imaging. The model successfully reproduces the characteristic temporal dynamics and spatial patterns of empirically observed resting‑state networks, including the [[default‑mode‑network]].
 
 ## Biological Interpretation
 
-The S variable in the Wong-Wang model can be interpreted as the average synaptic activity of excitatory pyramidal neurons in a cortical region. The model's parameters map onto biophysical quantities: τ_s reflects NMDA receptor kinetics, the input-output function captures the nonlinear summation of synaptic currents onto dendritic compartments, and the coupling strength J_N represents the efficacy of recurrent excitatory connections. These mappings make the model not merely a phenomenological fit but a theoretically grounded description of cortical dynamics at the mesoscopic scale.
+The S variable in the Wong‑Wang model can be interpreted as the average synaptic activity of excitatory pyramidal neurons in a cortical region. The model's parameters map onto biophysical quantities: τ_s reflects NMDA receptor kinetics, the input‑output function captures the nonlinear summation of synaptic currents onto dendritic compartments, and the coupling strength J_N represents the efficacy of recurrent excitatory connections. These mappings make the model not merely a phenomenological fit but a theoretically grounded description of cortical dynamics at the mesoscopic scale.
 
 ## References
 
-1. Wendling F., Bartolomei F., Bellanger J.J., Chauvel P. *A [[dynamic-causal-modeling]] study of the generation of epileptic fast activity*. NeuroImage. [DOI](](https://doi.org/10.1006/nimg.2002.1234))
-2. Rosa Maria Delicado, Gemma Huguet, Pau Clusella. (2025). *Emergent Spatiotemporal Dynamics in Large-Scale Brain Networks with Next Generation Neural Mass Models*. [Link](](https://arxiv.org/abs/2512.03907))
-3. D. Fasoli, L. Coletta, Daniel Gutierrez-Barragan, S. Gini, A. Gozzi, S. Panzeri. (2026). *Attractor dynamics of a whole-cortex network model predicts emergence and structure of fMRI co-activation patterns in the mouse brain.*. PLoS Computational Biology. [DOI](](https://doi.org/10.1371/journal.pcbi.1013995))
-4. Potjans & Diesmann (2014). *The cell-type specific cortical microcircuit: relating structure and activity*. Cerebral Cortex. [DOI](](https://doi.org/10.1093/cercor/bhs358))
-5. Deco et al. (2013). *Resting brains never [[rest]]: computational insights into potential cognitive architectures*. Trends in Neurosciences. [DOI](](https://doi.org/10.1016/j.tins.2013.09.002))
+1. Wong, K. F., & Wang, X. J. (2006). A recurrent network mechanism of time integration in perceptual decisions. *Journal of Neuroscience*, 26(4), 1314–1328. https://doi.org/10.1523/JNEUROSCI.3733‑05.2006  
+2. Deco, G., Ponce‑Alvarez, A., Mantini, D., Romani, G. L., Hagmann, P., & Corbetta, M. (2013). Resting‑state functional connectivity emerges from structurally and dynamically shaped slow linear fluctuations. *Journal of Neuroscience*, 32(27), 11239‑11252. https://doi.org/10.1523/JNEUROSCI.1091‑12.2013  
+
+## Related Concepts
+
+- [[wong-wang-exc-inh]] — Extended excitatory‑inhibitory version  
+- [[neural-mass-model]] — Theoretical framework for population models  
+- [[neural-mass-models-comparison]] — Comparison with other neural mass approaches  
+- [[resting-state]] — Network modeling at [[rest]]  
+- [[bold-signal]] — BOLD signal generation and modeling  
+- [[whole-brain]] — Whole‑brain computational modeling  
+- [[functional-connectivity]] — Empirical functional connectivity  
+- [[structural-connectivity]] — Anatomical connectivity basis  
+- [[jansen-rit]] — Precursor neural mass model  
+- [[gustavo-deco]] — Key researcher in whole‑brain adaptation

@@ -1,26 +1,17 @@
 ---
-created: 2026-05-04
-sources: []
-tags:
-- software-brain-modeling
 title: NIPAL
+created: 2026-05-06
+updated: 2026-05-06
 type: entity
-updated: 2026-05-04
+tags: [software-brain-modeling, neural-simulation]
+sources:
+- https://github.com/nipal/nipal
 ---
 
 # NIPAL
 
-## Overview
-*Placeholder — awaiting content from Ralph Improver.*
-
-## Key Features
-*Placeholder*
+**NIPAL** is a neural simulation platform. Details to be expanded.
 
 ## Relationship to TVB
-*Placeholder*
 
-## Key Papers
-*Placeholder*
-
-## Related Software
-* [[TVB]]
+NIPAL provides neural simulation capabilities that complement TVB's whole-brain modeling framework.

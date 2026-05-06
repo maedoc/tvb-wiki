@@ -9,7 +9,7 @@ tags:
 - functional-connectivity
 title: ICA-AROMA
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # ICA-AROMA
@@ -48,13 +48,13 @@ ICA-AROMA is available as a standalone Python package and is integrated into maj
 
 - [[fmriprep]] — post-fMRIPrep ICA-AROMA BIDS App (replaces the built-in workflow in fMRIPrep 23.0 and earlier)
 - Fsl — ICA decomposition via MELODIC
-- Nilearn — includes utilities for ICA-AROMA classification
+- [[nilearn]] — includes utilities for ICA-AROMA classification
 - [[bids-derivatives]] — ICA-AROMA outputs conform to BIDS specification for processed data
 
 ## Key Papers
 
 - Pruim, R. H., Mennes, M., van Rooij, D., Llera, A., Buitelaar, J. K., & Beckmann, C. F. (2015). ICA-AROMA: A robust ICA-based strategy for removing motion artifacts from fMRI data. NeuroImage, 112, 267-277. doi:10.1016/j.neuroimage.2015.02.064
-- Pruim, R. H., Mennes, M., Buitelaar, J. K., & Beckmann, C. F. (2015). Evaluation of ICA-AROMA and alternative strategies for motion artifact removal in resting state fMRI. NeuroImage, 112, 278-287. doi:10.1016/j.neuroimage.2015.05.021
+- Pruim, R. H., Mennes, M., Buitelaar, J. K., & Beckmann, C. F. (2015). Evaluation of ICA-AROMA and alternative strategies for motion artifact removal in [[resting-state-fmri]]. NeuroImage, 112, 278-287. doi:10.1016/j.neuroimage.2015.05.021
 
 ## References
 

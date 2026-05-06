@@ -10,7 +10,7 @@ tags:
 - software-brain-modeling
 title: NeuronUnit
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 created: 2026-04-24
@@ -88,7 +88,7 @@ NeuronUnit and [[TVB|The Virtual Brain]] operate at complementary scales of brai
 
 2. **Parameter grounding**: The electrophysiological parameters extracted and validated through NeuronUnit (e.g., firing rates, synaptic time constants) can inform the biophysical grounding of TVB's [[mean-field-theory|mean-field]] equations, bridging detailed biophysics with population dynamics.
 
-3. **Multi-scale workflows**: Researchers may use NeuronUnit to validate detailed neuron models that are subsequently incorporated into TVB simulations via the [[TVB-Multiscale]] co-simulation framework or used to derive population firing rate functions.
+3. **Multi-scale workflows**: Researchers may use NeuronUnit to validate detailed neuron models that are subsequently incorporated into TVB simulations via the [[TVB-Multiscale]] [[co-simulation]] framework or used to derive population firing rate functions.
 
 4. **Validation methodology**: NeuronUnit's scientific unit testing philosophy—quantitative comparison of model predictions against empirical benchmarks—aligns with emerging approaches for validating whole-brain simulations against [[fMRI]] and [[EEG]]/[[MEG]] recordings.
 
@@ -118,11 +118,11 @@ This paper describes the NeuroElectro database, which serves as NeuronUnit's pri
 
 - [[SciUnit]] — The scientific unit testing framework upon which NeuronUnit is built
 - [[NEURON]] — Multi-compartment neuron simulator; primary backend for detailed model validation
-- Brian2 — Spiking [[neural-network]] simulator; can be integrated via SciUnit interfaces
+- [[brian2]] — Spiking [[neural-network]] simulator; can be integrated via SciUnit interfaces
 - [[NEST]] — Point neuron network simulator for large-scale network modeling
 - [[Neo]] — Data model for electrophysiology; used for spike and signal representation
 - [[Elephant]] — Analysis toolkit for Neo data; complements NeuronUnit with quantitative metrics
-- PyNN — Simulator-independent Python API for neuronal network models
+- [[pynn]] — Simulator-independent Python API for neuronal network models
 - **NeuroElectro** — Database of neuron electrophysiology; NeuronUnit's primary data source for validation targets
 - **[[allen-sdk]]** — Tools for accessing [[allen-brain-atlas]] and Allen Cell Types data
 

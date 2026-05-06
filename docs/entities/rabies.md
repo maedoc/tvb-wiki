@@ -11,10 +11,10 @@ tags:
 - personalized-brain-modeling
 title: RABIES
 type: entity
-updated: '2026-05-05'
+updated: '2026-05-06'
 ---
 
-RABIES (Robust Astute Segmentation of Images via a Bayesian framework) is an open-source [[neuroimaging]] software package designed for automated segmentation of brain structures and pathological lesions in magnetic resonance imaging (MRI) data. The software applies Bayesian probabilistic models to achieve robust segmentation across heterogeneous clinical and research datasets, making it particularly valuable for population studies involving [[aging]] brains and neurological disease cohorts.
+RABIES (Robust Astute Segmentation of Images via a [[bayesian]] framework) is an open-source [[neuroimaging]] software package designed for automated segmentation of brain structures and pathological lesions in magnetic resonance imaging (MRI) data. The software applies Bayesian probabilistic models to achieve robust segmentation across heterogeneous clinical and research datasets, making it particularly valuable for population studies involving [[aging]] brains and neurological disease cohorts.
 
 ## Overview
 

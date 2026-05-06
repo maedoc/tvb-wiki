@@ -14,7 +14,7 @@ tags:
 - database-hcp
 title: Brainnetome Atlas
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 ## Overview
@@ -43,7 +43,7 @@ The granularity of the Brainnetome Atlas (246 regions total) allows researchers 
 
 The Brainnetome Atlas occupies a specific niche in the landscape of human [[brain-parcellations]]. Compared to the [[aal-atlas]], which contains 90 anatomical regions defined primarily from anatomical landmarks, the Brainnetome Atlas provides connectivity-derived regions that are more biologically meaningful for network analyses. The Harvard Oxford Atlas offers probabilistic anatomical parcellations but does not incorporate connectivity information. The [[desikan-killiany-atlas]] provides FreeSurfer-based anatomical parcellations similar in spirit to Harvard-Oxford but with different regional definitions.
 
-The Glasser Atlas represents another major connectivity-based parcellation based on multi-modal imaging data from the [[human-connectome-project]] (HCP), while the Brainnetome Atlas was developed primarily from Chinese population samples. The Schaefer Atlas provides task-based functional parcellations derived from meta-analysis. Each atlas has distinct strengths—the choice depends on the specific research application, with Brainnetome being particularly well-suited for Chinese population studies and connectivity-based modeling applications.
+The Glasser Atlas represents another major connectivity-based parcellation based on multi-modal imaging data from the [[human-connectome-project]] (HCP), while the Brainnetome Atlas was developed primarily from Chinese population samples. The [[schaefer-atlas|Schaefer]] Atlas provides task-based functional parcellations derived from meta-analysis. Each atlas has distinct strengths—the choice depends on the specific research application, with Brainnetome being particularly well-suited for Chinese population studies and connectivity-based modeling applications.
 
 ## Key Features
 
@@ -58,7 +58,8 @@ The Glasser Atlas represents another major connectivity-based parcellation based
 - [[brainnet-viewer]] — Visualization toolkit for Brainnetome data
 - [[the-virtual-brain]] — Whole-brain simulator that can use Brainnetome parcellations
 - [[connectome-workbench]] — General visualization tool compatible with various atlases
-- Nilearn — Python library for [[neuroimaging]] data manipulation, including atlas handling
+- [[nilearn]] — Python library for [[neuroimaging]] data manipulation, including atlas handling
+[[mindboggle]]
 
 ## Related Atlases
 
@@ -82,3 +83,25 @@ The Glasser Atlas represents another major connectivity-based parcellation based
 1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
 2. Konrad Kohnen, Peter Eipert, Laura Budde, Oliver Schmitt. (2025). *neuroVIISAS-based construction of a stereotactic rhesus monkey brain atlas for connectome research.*. Journal of Neuroscience Methods. [DOI](](https://doi.org/10.1016/j.jneumeth.2025.110656))
 3. (authors unknown). *Functional Network Organization of the Human Brain*.
+
+## ORPHAN PAGE CONTEXT (mindboggle)
+---
+created: 2025-01-15
+sources:
+- raw/papers/klein-2017-mindboggling-morphometry.md
+tags:
+- software-visualization
+- software-brain-modeling
+- neuroimaging-mri
+- brain-parcellations
+- parcellation
+- shape-analysis
+- [[open-source-brain]]
+title: Mindboggle
+type: entity
+updated: '2026-05-04'
+---
+
+## Overview
+
+Mindboggle is an open-source brain morphometry platform that takes preprocessed T1-weighted MRI data and outputs volumetric, surface-based, and tabular data containing anatomical labels, cortica

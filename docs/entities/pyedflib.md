@@ -9,7 +9,7 @@ tags:
 - software-brain-modeling
 title: pyedflib
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 ## Motivation and Context
@@ -24,7 +24,7 @@ pyedflib is built as a Python binding to libedflib, a C library that handles the
 
 Key functionalities include reading entire files into memory, writing numpy arrays to EDF format, extracting and modifying header information (channel labels, sampling frequencies, physical units), and handling annotations stored in EDF+ files. The library handles the conversion between EDF's 16-bit integer storage and floating-point representations, allowing users to work with data in their preferred numerical format while maintaining precision during file I/O operations.
 
-The relationship between pyedflib and other Python libraries for neurophysiological data reflects the broader diversification of the Python neuroscience ecosystem. Unlike [[neo]]—which provides a unified interface for multiple formats and is designed for complex data management workflows—pyedflib focuses specifically on EDF format handling with a straightforward API. Similarly, Mne Python offers comprehensive EEG/MEG processing capabilities and includes its own native EDF reader (`mne.io.edf`) for importing EDF files, making pyedflib a complementary option in many analysis pipelines.
+The relationship between pyedflib and other Python libraries for neurophysiological data reflects the broader diversification of the Python neuroscience ecosystem. Unlike [[neo]]—which provides a unified interface for multiple formats and is designed for complex data management workflows—pyedflib focuses specifically on EDF format handling with a straightforward API. Similarly, [[mne-python]] offers comprehensive EEG/MEG processing capabilities and includes its own native EDF reader (`mne.io.edf`) for importing EDF files, making pyedflib a complementary option in many analysis pipelines.
 
 ## Relationship to The Virtual Brain
 

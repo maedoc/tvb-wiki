@@ -14,7 +14,7 @@ tags:
 - software-neuron
 title: MUSIC
 type: entity
-updated: '2026-05-05'
+updated: '2026-05-06'
 ---
 
 # MUSIC
@@ -47,7 +47,7 @@ While [[the-virtual-brain]] (TVB) primarily operates at the level of [[neural-ma
 
 ## Relationship to Other Software
 
-MUSIC occupies a unique niche as an orchestration layer rather than a standalone simulator. It builds upon the MPI standard widely used in high-performance computing and draws inspiration from earlier multi-process coordination efforts in computational neuroscience. Unlike [[nest]] or Brian, which provide complete simulation environments, MUSIC provides only the communication fabric—the actual neuronal dynamics must be supplied by the partnered simulators. The framework shares conceptual ground with Netpyne and [[annarchy]] in enabling hybrid model architectures, though those tools focus on code generation and optimization within single simulators rather than true cross-simulator coordination.
+MUSIC occupies a unique niche as an orchestration layer rather than a standalone simulator. It builds upon the MPI standard widely used in high-performance computing and draws inspiration from earlier multi-process coordination efforts in computational neuroscience. Unlike [[nest]] or [[brian]], which provide complete simulation environments, MUSIC provides only the communication fabric—the actual neuronal dynamics must be supplied by the partnered simulators. The framework shares conceptual ground with Netpyne and [[annarchy]] in enabling hybrid model architectures, though those tools focus on code generation and optimization within single simulators rather than true cross-simulator coordination.
 
 ## Key Features
 
@@ -68,6 +68,6 @@ The primary challenge facing MUSIC lies in ensuring temporal accuracy when simul
 
 ## References
 
-1. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and [[whole-brain]] Propagation*. [Link](](https://arxiv.org/abs/2505.16861))
+1. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale [[co-simulation]] Framework with a Case Study on Neural-Level Seizure Generation and [[whole-brain]] Propagation*. [Link](](https://arxiv.org/abs/2505.16861))
 2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](](https://doi.org/10.3389/fncom.2025.1731161))
 3. Pascal Helson, Etienne Tanré, Romain Veltz. *[[mean-field-theory|Mean-field]] analysis of a [[neural-network]] with stochastic STDP*. [Link](](https://arxiv.org/abs/2510.02545))

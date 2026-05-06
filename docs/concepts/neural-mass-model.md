@@ -80,15 +80,15 @@ Despite their utility, neural mass models carry significant limitations that mot
 ## Related Concepts
 
 - [[mean‑field‑theory]] – Mathematical foundation for population‑averaged descriptions
-- [[dynamic‑causal‑modeling]] – Bayesian inference framework using NMMs
+- [[dynamic‑causal‑modeling]] – [[bayesian|Bayesian inference]] framework using NMMs
 - [[whole‑brain‑modeling]] – Large‑scale network simulations coupling NMMs across regions
 - [[bifurcation‑analysis]] – Mathematical tools for understanding regime transitions
 - [[epilepsy‑modeling]] – Pathological applications to seizure dynamics
 - [[jansen‑rit]] – EEG/MEG‑focused cortical column model
 - [[wong‑wang]] – [[fmri]]/BOLD‑optimized model
 - [[tvb]] – Primary software platform implementing NMMs
-- [[tvb-vs-nest-vs-neuron]]
-- [[tvb-vs-nest-vs-neuron]]
+- [[nest]]
+- [[nest]]
 - Tvb Vs Nest Vs Neuron
 - [[tvb-vs-nest-vs-neuron|Tvb Vs Nest Vs Neuron]]
 

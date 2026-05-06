@@ -14,7 +14,7 @@ tags:
 - neuroimaging-dti
 title: PyDICOM
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 ## Overview
@@ -52,9 +52,9 @@ The library's handling of anonymization deserves particular attention in researc
 - [[nibabel]] — Python library for reading neuroimaging formats including [[nifti]] and CIFTI
 - Dcmtk — C++ DICOM toolkit with command-line utilities
 - [[dcm2niix]] — DICOM to NIfTI/[[bids]] converter
-- Dipy — Diffusion MRI analysis in Python
-- Mrtrix3 — Advanced [[tractography]] and [[connectivity]] analysis
-- Freesurfer — Automated segmentation and cortical parcellation
+- [[dipy]] — Diffusion MRI analysis in Python
+- [[mrtrix3]] — Advanced [[tractography]] and [[connectivity]] analysis
+- [[freesurfer]] — Automated segmentation and cortical parcellation
 - [[mriqc]] — Automated MRI quality control
 - [[nitrc]] — Neuroimaging software resource portal
 - Spm — Statistical Parametric Mapping (also handles DICOM import)

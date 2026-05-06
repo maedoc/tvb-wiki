@@ -12,7 +12,7 @@ tags:
 - computational-neuroscience
 title: XCOS
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # XCOS
@@ -31,7 +31,7 @@ The extended 10-10 system addresses this limitation by introducing intermediate 
 
 Accurate EEG source localization requires transforming electrode positions through multiple coordinate frames. The native or "head" coordinate system is established during digitization, with the origin typically defined at the midpoint between the preauricular points or at the intersection of the nasion and mid-inion line. These native coordinates must then be registered to the scanner's native MRI space, and subsequently transformed to a standard template space such as [[mni-space]] (Montreal Neurological Institute space) to enable group-level analyses and comparison with other neuroimaging modalities including [[fmri]] and [[meg]].
 
-This coregistration process typically involves identifying fiducial landmarks in both the native digitization and MRI datasets, followed by rigid-body transformation and optionally non-rigid deformation for improved accuracy. The transformation matrix (often stored in "-trans.fif" format in Mne Python) encodes the relationship between the head coordinate frame and the MRI scanner space.
+This coregistration process typically involves identifying fiducial landmarks in both the native digitization and MRI datasets, followed by rigid-body transformation and optionally non-rigid deformation for improved accuracy. The transformation matrix (often stored in "-trans.fif" format in [[mne-python]]) encodes the relationship between the head coordinate frame and the MRI scanner space.
 
 ## Forward Modeling and Leadfield Computation
 
@@ -67,7 +67,7 @@ This framework connects to numerous concepts in [[computational-neuroscience]] a
 
 Despite advances in electrode positioning technology and registration algorithms, significant challenges remain in the field. Registration accuracy depends on the quality of anatomical landmark identification, which can vary across operators and participants. Head movement during long-term EEG monitoring—common in epilepsy monitoring units—introduces spatial errors that are difficult to correct without additional reference channels. The assumption of isotropic conductivity in standard volume conductor models may be inadequate for capturing anisotropic effects in [[white-matter]] regions, potentially limiting source localization accuracy for deep brain structures.
 
-Future directions include developing automated, machine learning-driven registration algorithms, incorporating patient-specific conductivity estimates from diffusion imaging and PET data into personalized forward models, and establishing community standards for electrode coordinate file formats to improve software interoperability.
+Future directions include developing automated, [[machine-learning]]-driven registration algorithms, incorporating patient-specific conductivity estimates from diffusion imaging and PET data into personalized forward models, and establishing community standards for electrode coordinate file formats to improve software interoperability.
 
 ## References
 

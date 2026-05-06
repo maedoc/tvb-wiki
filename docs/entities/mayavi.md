@@ -13,7 +13,7 @@ tags:
 - scientific-computing
 title: Mayavi
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 ## Overview
@@ -44,9 +44,9 @@ In practice, Mayavi is employed across several common workflows in computational
 - [[brainnet-viewer]] — specialized connectome visualization tool
 - Pycortex — cortical surface rendering library
 - [[paraview]] — general-purpose scientific visualization (VTK-based)
-- Nilearn — neuroimaging Python library with visualization utilities
-- Dipy — [[diffusion-mri]] processing with visualization capabilities
-- Freesurfer — neuroimaging suite with [[freeview]] viewer
+- [[nilearn]] — neuroimaging Python library with visualization utilities
+- [[dipy]] — [[diffusion-mri]] processing with visualization capabilities
+- [[freesurfer]] — neuroimaging suite with [[freeview]] viewer
 - vtk — underlying visualization toolkit powering Mayavi
 
 ## Key Papers
@@ -56,7 +56,7 @@ In practice, Mayavi is employed across several common workflows in computational
 
 ## Technical Notes
 
-Mayavi requires a working Mne Python installation and depends on VTK, which can be challenging to install on some systems due to its C++ dependencies. The library is most commonly used with Enthought's Python distribution or via conda-forge installations that include pre-built VTK wheels. Recent versions have improved compatibility with Python 3.x, though some users report challenges with newer Python versions. For researchers seeking alternatives with simpler installation, the matplotlib `mplot3d` module provides basic 3D visualization capabilities, though with more limited features than Mayavi's full volume rendering suite.
+Mayavi requires a working [[mne-python]] installation and depends on VTK, which can be challenging to install on some systems due to its C++ dependencies. The library is most commonly used with Enthought's Python distribution or via conda-forge installations that include pre-built VTK wheels. Recent versions have improved compatibility with Python 3.x, though some users report challenges with newer Python versions. For researchers seeking alternatives with simpler installation, the matplotlib `mplot3d` module provides basic 3D visualization capabilities, though with more limited features than Mayavi's full volume rendering suite.
 
 ## References
 

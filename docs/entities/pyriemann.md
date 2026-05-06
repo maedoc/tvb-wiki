@@ -16,10 +16,10 @@ tags:
 - python
 title: pyRiemann
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
-pyRiemann is an open-source Python library that implements machine learning algorithms for electrophysiological brain signals (EEG and MEG) based on Riemannian geometry. The library provides tools for classifying brain states, particularly in the context of brain-computer interfaces (BCIs), by treating covariance matrices as points on a Riemannian manifold rather than as vectors in Euclidean space. This approach has proven particularly effective for handling the high-dimensional, noisy nature of electrophysiological recordings where the second-order statistics (covariance) of signals carry discriminative information about underlying brain states [@pyRiemannGitHub].
+pyRiemann is an open-source Python library that implements [[machine-learning]] algorithms for electrophysiological brain signals (EEG and MEG) based on Riemannian geometry. The library provides tools for classifying brain states, particularly in the context of brain-computer interfaces (BCIs), by treating covariance matrices as points on a Riemannian manifold rather than as vectors in Euclidean space. This approach has proven particularly effective for handling the high-dimensional, noisy nature of electrophysiological recordings where the second-order statistics (covariance) of signals carry discriminative information about underlying brain states [@pyRiemannGitHub].
 
 ## Motivation and Context
 

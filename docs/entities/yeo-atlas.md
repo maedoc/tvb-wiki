@@ -6,7 +6,7 @@ tags:
 - software-brain-modeling
 title: Yeo Atlas
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # Yeo Atlas
@@ -25,7 +25,7 @@ The Yeo Atlas emerged from the recognition that resting-state [[functional-conne
 
 The Yeo Atlas is derived from analysis of high-resolution resting-state fMRI data from approximately 1000 unrelated adult subjects, as described in the original Yeo et al. (2011) study published in the *Journal of Neurophysiology*. The dataset was collected across multiple imaging sites using standardized protocols, and the resulting parcellation represents common organizational features across healthy adults. The parcellation is generated using clustering approaches that identify groups of voxels (or vertices, on the cortical surface) with similar [[bold-signal]] time courses. The clustering is performed on the cortical surface (rather than in volume space) to respect the sheet-like geometry of the cortex and to improve alignment across individuals.
 
-The atlas provides two resolutions of parcellation. The 7-network version divides the cortex into seven large-scale functional networks, each comprising multiple cortical regions that show strong internal connectivity and relative distinct patterns of connectivity with other networks. The 17-network version provides a finer-grained segmentation that subdivides several of the seven major networks into finer sub-networks, offering greater anatomical specificity when the research question requires it. Both versions are available in multiple template spaces, including FreeSurfer fsaverage and MNI152, and can be mapped to individual subject native space using nonlinear registration.
+The atlas provides two resolutions of parcellation. The 7-network version divides the cortex into seven large-scale functional networks, each comprising multiple cortical regions that show strong internal connectivity and relative distinct patterns of connectivity with other networks. The 17-network version provides a finer-grained segmentation that subdivides several of the seven major networks into finer sub-networks, offering greater anatomical specificity when the research question requires it. Both versions are available in multiple template spaces, including [[freesurfer]] fsaverage and MNI152, and can be mapped to individual subject native space using nonlinear registration.
 
 The seven networks defined in the Yeo Atlas are: (1) the visual network, encompassing primary and secondary visual cortex; (2) the somatomotor network, including primary motor and sensory cortices; (3) the dorsal attention network, involving intraparietal sulcus and frontal eye fields; (4) the ventral attention network, including the temporoparietal junction and ventral frontal cortex; (5) the limbic network, comprising orbitofrontal and temporal pole regions; (6) the frontoparietal control network, involving dorsolateral prefrontal cortex and posterior parietal cortex; and (7) the default mode network, encompassing medial prefrontal cortex, posterior cingulate, and angular gyrus.
 

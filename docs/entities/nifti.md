@@ -1,13 +1,25 @@
 ---
-title: NIfTI
 created: 2026-04-20
-updated: 2026-05-06
+sources:
+- raw/papers/friston-1993.md
+- raw/papers/smith-2013-connectomics.md
+- raw/papers/sporns-2011.md
+- raw/papers/semanticscholar-d2dfba2091a2.md
+- raw/papers/semanticscholar-cabf914d6370.md
+- raw/papers/semanticscholar-dacc3b888fa6.md
+- raw/papers/schirner-2018.md
+tags:
+- neuroimaging
+- software-neuroimaging
+- neuroimaging-fmri
+- neuroimaging-dti
+- neuroimaging-eeg
+title: NIfTI
 type: concept
-tags: [neuroimaging, software-neuroimaging, neuroimaging-fmri, neuroimaging-dti, neuroimaging-eeg]
-sources: [raw/papers/friston-1993.md, raw/papers/smith-2013-connectomics.md, raw/papers/sporns-2011.md]
+updated: '2026-05-06'
 ---
 
-NIfTI (Neuroimaging Informatics Technology Initiative) is a file format standard for storing neuroimaging data, particularly volumetric magnetic resonance imaging data such as functional magnetic resonance imaging (fMRI), diffusion tensor imaging (DTI), and structural MRI. The format was developed to address limitations in the earlier Analyze format and has become the de facto standard for sharing neuroimaging data across software platforms, databases, and research laboratories worldwide.
+NIfTI ([[neuroimaging]] Informatics Technology Initiative) is a file format standard for storing neuroimaging data, particularly volumetric magnetic resonance imaging data such as functional magnetic resonance imaging ([[fmri]]), diffusion tensor imaging (DTI), and structural MRI. The format was developed to address limitations in the earlier Analyze format and has become the de facto standard for sharing neuroimaging data across software platforms, databases, and research laboratories worldwide.
 
 ## Historical Context and Motivation
 
@@ -27,11 +39,11 @@ In practice, NIfTI files are often stored in gzip-compressed form with the `.nii
 
 In the context of [[whole-brain-modeling|whole-brain modeling]] and [[the-virtual-brain|TVB]], NIfTI serves as a primary input format for structural and functional connectivity data. TVB accepts structural connectivity matrices derived from diffusion-weighted imaging data, which are typically stored in NIfTI format during preprocessing. Similarly, preprocessed fMRI timeseries used to derive [[functional-connectivity]] matrices are commonly stored as NIfTI files. The format's compatibility with major neuroimaging toolboxes makes it straightforward to prepare data for TVB simulation using preprocessing pipelines built with [[nibabel]], [[nipype]], or other Python-based neuroimaging libraries.
 
-The [[human-connectome-project]] and similar large-scale datasets distribute their imaging data almost exclusively in NIfTI format, making it the standard interchange format for obtaining empirical connectivity data used in personalized brain models. When constructing [[personalized-brain-modeling|personalized brain models]], researchers typically begin with NIfTI-format anatomical scans, diffusion images, and functional timeseries as inputs to TVB's connectivity pipeline.
+The [[mrtrix3-connectome]] and similar large-scale datasets distribute their imaging data almost exclusively in NIfTI format, making it the standard interchange format for obtaining empirical [[connectivity]] data used in personalized brain models. When constructing [[personalized-brain-modeling|personalized brain models]], researchers typically begin with NIfTI-format anatomical scans, diffusion images, and functional timeseries as inputs to TVB's connectivity pipeline.
 
 ## Relationship to Related Formats and Tools
 
-NIfTI shares conceptual territory with several other neuroimaging data formats. The CIFTI format, developed by the Human Connectome Project to address the needs of surface-based neuroimaging, extends NIfTI capabilities to dense timeseries on cortical surfaces, complementing the volumetric representation of traditional NIfTI data [see @hcp-reference, 2013]. The BIDS (Brain Imaging Data Structure) standard provides a recommended directory organization scheme for neuroimaging data and frequently stores primary data in NIfTI format within a standardized hierarchy.
+NIfTI shares conceptual territory with several other neuroimaging data formats. The [[cifti]] format, developed by the [[human-connectome-project]] to address the needs of surface-based neuroimaging, extends NIfTI capabilities to dense timeseries on cortical surfaces, complementing the volumetric representation of traditional NIfTI data [see @hcp-reference, 2013]. The [[bids]] (Brain Imaging Data Structure) standard provides a recommended directory organization scheme for neuroimaging data and frequently stores primary data in NIfTI format within a standardized hierarchy.
 
 The Python library [[nibabel]] provides programmatic access to NIfTI files, allowing researchers to read, write, and manipulate neuroimaging data in Python scripts and pipelines. This library is a dependency of many preprocessing workflows and is directly compatible with TVB's data handling routines. Similarly, [[nipype]] provides a workflow framework that operates on NIfTI data, enabling standardized preprocessing pipelines that produce TVB-ready outputs. These Python libraries have become essential tools in the neuroimaging ecosystem, facilitating reproducible analysis pipelines across laboratories.
 
@@ -39,4 +51,10 @@ The Python library [[nibabel]] provides programmatic access to NIfTI files, allo
 
 NIfTI remains the dominant format for storing and sharing neuroimaging timeseries and volumetric data. However, the format has known limitations that continue to motivate development of alternatives. NIfTI's single-file approach, while simpler than Analyze's two-file system, can be cumbersome for very large datasets common in modern neuroimaging. The format lacks built-in support for data compression, storage of metadata beyond basic header fields, and explicit representation of non-volumetric data such as surfaces or parcels.
 
-Despite these limitations, NIfTI's simplicity, widespread adoption, and robust tool support ensure it will remain central to neuroimaging data interchange for the foreseeable future. Researchers building [[whole-brain]] models frequently encounter NIfTI files as their primary input, making understanding of the format essential for computational neuroscience workflows.
+Despite these limitations, NIfTI's simplicity, widespread adoption, and robust tool support ensure it will remain central to neuroimaging data interchange for the foreseeable future. Researchers building [[whole-brain]] models frequently encounter NIfTI files as their primary input, making understanding of the format essential for [[computational-neuroscience]] workflows.
+
+## References
+
+1. (authors unknown). *Functional Connectivity: The Principal-Component Analysis of Large (PET and fMRI) Data Sets*.
+2. (authors unknown). *Functional [[connectomics]] from [[resting-state|Resting-State fMRI]]*.
+3. (authors unknown). *Networks of the Brain*.

@@ -16,14 +16,14 @@ tags:
 - code-generation
 title: Brian2GeNN
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 Brian2GeNN is a software bridge that connects the Brian2 spiking [[neural-network]] simulator with the GeNN (GPU-enhanced Neuronal Networks) code generation framework, enabling high-performance GPU-accelerated simulations of spiking neural networks. The tool was developed to address the computational bottleneck inherent in large-scale [[spiking-neural-networks]] simulations, which often require millions of neurons and synapses to achieve biologically realistic [[network-dynamics]]. By automatically converting Brian2 model definitions into optimized CUDA code via GeNN, Brian2GeNN allows neuroscientists to write network models in Brian2's intuitive Python-based syntax while transparently benefiting from the massive parallelism of graphics processing units.
 
 ## History and Development
 
-Brian2GeNN was developed by Marcel Stimberg, Dan F. M. Goodman, and Thomas Nowotny, with the initial public release in 2019. The project emerged from the intersection of two established software efforts in computational neuroscience: Brian2, a Python-based spiking neural network simulator developed by Romain Brette and Goodman at the École Normale Supérieure in Paris, and GeNN, a GPU code generation framework originally created by Nowotny and colleagues at the University of Sussex. The motivation for Brian2GeNN was to enable neuroscientists to access the performance benefits of GPU acceleration without abandoning Brian2's accessible Python modeling paradigm.
+Brian2GeNN was developed by Marcel Stimberg, Dan F. M. Goodman, and Thomas Nowotny, with the initial public release in 2019. The project emerged from the intersection of two established software efforts in computational neuroscience: [[brian2]], a Python-based spiking neural network simulator developed by Romain Brette and Goodman at the École Normale Supérieure in Paris, and GeNN, a GPU code generation framework originally created by Nowotny and colleagues at the University of Sussex. The motivation for Brian2GeNN was to enable neuroscientists to access the performance benefits of GPU acceleration without abandoning Brian2's accessible Python modeling paradigm.
 
 The first major version (Brian2GeNN 1.0) was released alongside the publication of the primary reference paper in Frontiers in Neuroinformatics, demonstrating the tool's capability to accelerate Brian2 simulations by orders of magnitude [[brian2genn]]. Subsequent releases have expanded model compatibility and improved integration with newer versions of both Brian2 and GeNN.
 
@@ -59,7 +59,7 @@ Brian2GeNN fits within a broader ecosystem of [[spiking-neural-networks]] simula
 
 GeNN (GPU-enhanced Neuronal Networks) is a C++/CUDA library that generates optimized GPU code for neural network simulations. Originally developed for spiking neural networks with support for detailed neuron models nowotny-2014-genn, GeNN has evolved to support a wide range of model types. Brian2GeNN serves as the bridge between Brian2's Python interface and GeNN's code generation backend, translating the declarative Brian2 model specification into the imperative C++/CUDA code that GeNN compiles and execute.
 
-The relationship is asymmetric: while GeNN can be used independently with manually written C++ models, Brian2GeNN provides the reverse mapping—enabling Brian2 users to leverage GeNN without learning C++. This follows a similar pattern to [[tvb-nest|TVB-NEST]], which connects [[tvb|The Virtual Brain]] with NEST for co-simulation of mass models and spiking networks.
+The relationship is asymmetric: while GeNN can be used independently with manually written C++ models, Brian2GeNN provides the reverse mapping—enabling Brian2 users to leverage GeNN without learning C++. This follows a similar pattern to [[tvb-nest|TVB-NEST]], which connects [[tvb|The Virtual Brain]] with NEST for [[co-simulation]] of mass models and spiking networks.
 
 ## Limitations
 

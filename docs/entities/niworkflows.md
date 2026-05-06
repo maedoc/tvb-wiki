@@ -23,7 +23,7 @@ tags:
 - software-ants
 title: NiWorkflows
 type: entity
-updated: '2026-05-05'
+updated: '2026-05-06'
 ---
 
 # NiWorkflows
@@ -38,7 +38,7 @@ The neuroimaging field has long faced a reproducibility challenge: preprocessing
 
 ## Key Features
 
-NiWorkflows provides several categories of functionality essential to neuroimaging pipeline construction. First, the framework includes a comprehensive **interface layer** that wraps command-line tools from major neuroimaging packages—Freesurfer for cortical reconstruction, Fsl for registration and segmentation, [[ants]] for diffeomorphic registration, and others—exposing them as Python objects that can be connected within workflow graphs. Second, NiWorkflows implements **data layout handlers** that understand the BIDS standard, automatically validating dataset structure, identifying available modalities (structural, functional, diffusion), and organizing outputs in derivative-compatible formats. Third, the framework supplies modular **workflow templates** for common preprocessing stages such as bias field correction, skull-stripping, registration to standard space, and confounds extraction—these templates can be used as-is or customized for specific research needs.
+NiWorkflows provides several categories of functionality essential to neuroimaging pipeline construction. First, the framework includes a comprehensive **interface layer** that wraps command-line tools from major neuroimaging packages—[[freesurfer]] for cortical reconstruction, Fsl for registration and segmentation, [[ants]] for diffeomorphic registration, and others—exposing them as Python objects that can be connected within workflow graphs. Second, NiWorkflows implements **data layout handlers** that understand the BIDS standard, automatically validating dataset structure, identifying available modalities (structural, functional, diffusion), and organizing outputs in derivative-compatible formats. Third, the framework supplies modular **workflow templates** for common preprocessing stages such as bias field correction, skull-stripping, registration to standard space, and confounds extraction—these templates can be used as-is or customized for specific research needs.
 
 A distinguishing feature of NiWorkflows is its integration with [[nipype]], the NiPy workflow and interfaces library. Nipype provides the execution graph infrastructure that allows NiWorkflows components to be composed into complex processing trees while handling parallel execution, caching, and resource management [@nipype2017]. This integration means that pipelines built with NiWorkflows can automatically benefit from Nipype's support for various execution backends including single-machine multi-core processing, distributed computing clusters, and containerized execution via [[apptainer]] or Docker.
 
@@ -62,7 +62,7 @@ NiWorkflows occupies a central position in the NiPy ecosystem and connects to nu
 
  ## Key Papers
 
-- Esteban O, et al. (2018). "fMRIPrep: a robust preprocessing pipeline for functional MRI." *Nature Methods* 15: 733–737. The primary fMRIPrep paper, demonstrating the NiWorkflows-based pipeline application that has become the field standard.
+- Esteban O, et al. (2018). "fMRIPrep: a robust preprocessing pipeline for [[neuroimaging-fmri|functional MRI]]." *Nature Methods* 15: 733–737. The primary fMRIPrep paper, demonstrating the NiWorkflows-based pipeline application that has become the field standard.
 - Gorgolewski K, et al. (2016). "BIDS apps: improving ease of use, accessibility, and [[reproducibility]] in neuroimaging data analysis." *Frontiers in Neuroinformatics* 10: 27. Establishes the BIDS Apps ecosystem that NiWorkflows-powered tools inhabit.
 - Nichols TE, et al. (2017). "Standard practices in data analysis are keeping us from doing good science." *PLoS Computational Biology* 13(6): e1005490. Discusses reproducibility challenges that motivated frameworks like NiWorkflows.
 - Triantafyllou MS, et al. (2021). "Technical considerations for implementing automated preprocessing pipelines." *NeuroImage* 224: 117382. Reviews standard practices for neuroimaging preprocessing frameworks.

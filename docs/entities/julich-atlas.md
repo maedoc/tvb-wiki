@@ -9,7 +9,7 @@ tags:
 - software-brain-modeling
 title: Jülich Atlas
 type: entity
-updated: '2026-05-05'
+updated: '2026-05-06'
 ---
 
 The **Jülich Atlas**, also known as the **Jülich Brain Atlas** or **Julich-Brain**, is a comprehensive probabilistic cytoarchitectonic atlas of the human cerebral cortex developed by the Institute of Neuroscience and Medicine (INM-1) at the Forschungszentrum Jülich (Jülich Research Centre) in Germany. Unlike classical anatomical atlases based on a single brain specimen, the Jülich Atlas provides probabilistic maps that quantify the spatial distribution of different cortical areas across a population of post‑mortem brains, making it particularly valuable for [[neuroimaging]] research where individual variability is a central concern[^1].
@@ -36,7 +36,7 @@ When used with TVB, the Jülich Atlas regions can be mapped to [[neural‑mass�
 
 The Jülich Atlas provides several distinctive features that distinguish it from other [[stochastic‑differential‑equations]]. First, the probabilistic maps explicitly quantify uncertainty in cytoarchitectonic boundaries, acknowledging that individual brains do not conform perfectly to a population average[^4]. Second, the atlas is based on thorough histological analysis rather than purely functional or [[connectivity]]‑based parcellation, providing an anatomical foundation that complements other approaches. Third, the maps are provided in standard stereotaxic spaces, enabling straightforward integration with virtually any neuroimaging processing pipeline.
 
-The data is freely available through multiple channels: directly from the Jülich website, through the [[ebrains]] Knowledge Graph, and integrated into popular neuroimaging software packages including Fsl (as part of the FSL Harvard‑Oxford Atlas toolkit) and Freesurfer. The atlas is distributed under open licenses that permit both academic and commercial use.
+The data is freely available through multiple channels: directly from the Jülich website, through the [[ebrains]] Knowledge Graph, and integrated into popular neuroimaging software packages including Fsl (as part of the FSL Harvard‑Oxford Atlas toolkit) and [[freesurfer]]. The atlas is distributed under open licenses that permit both academic and commercial use.
 
 ## Relationship to Other Atlases
 

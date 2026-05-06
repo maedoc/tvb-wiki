@@ -24,12 +24,12 @@ tags:
 - whole-brain-modeling
 title: Variational Bayes
 type: concept
-updated: '2026-05-05'
+updated: '2026-05-06'
 ---
 
 ## What is Variational Bayes?
 
-Variational Bayes (VB) is a framework for approximate Bayesian inference that reformulates the problem of computing an intractable posterior distribution as an optimization problem over a simpler, tractable family of distributions. Instead of sampling from the posterior as in Markov chain Monte Carlo (MCMC), VB posits an approximating distribution $q(\theta)$ and adjusts its parameters to minimize the discrepancy—typically the Kullback-Leibler divergence—between $q(\theta)$ and the true posterior $p(\theta \mid y)$. This deterministic approach yields computational savings that have made VB the inference engine underlying much of modern [[neuroimaging]] analysis, including [[dynamic-causal-modeling]] in Spm.
+Variational Bayes (VB) is a framework for approximate [[bayesian|Bayesian inference]] that reformulates the problem of computing an intractable posterior distribution as an optimization problem over a simpler, tractable family of distributions. Instead of sampling from the posterior as in Markov chain Monte Carlo (MCMC), VB posits an approximating distribution $q(\theta)$ and adjusts its parameters to minimize the discrepancy—typically the Kullback-Leibler divergence—between $q(\theta)$ and the true posterior $p(\theta \mid y)$. This deterministic approach yields computational savings that have made VB the inference engine underlying much of modern [[neuroimaging]] analysis, including [[dynamic-causal-modeling]] in Spm.
 
 ## Motivation and Context
 

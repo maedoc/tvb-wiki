@@ -12,7 +12,7 @@ tags:
 - brain-atlas
 title: RAMAIS (RAMIS)
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # RAMAIS (RAMIS)
@@ -57,7 +57,7 @@ RAMAIS-type segmentation pipelines can feed directly into [[TVB]] workflows by p
 ## Related Concepts
 
 - [[parcellation]] — Dividing the brain into anatomical regions
-- [[brain-parcellations]] — Brain parcellation methods and atlases
+- [[brain-parcellations]] — [[brain-parcellation]] methods and atlases
 - [[structural-connectivity]] — Anatomical [[white-matter]] connections
 - [[whole-brain-modeling]] — Macro-scale brain network simulations
 - [[personalized-brain-modeling]] — Individual-specific brain models

@@ -13,7 +13,7 @@ tags:
 - structural-mri
 title: sMRIPrep
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 sMRIPrep is an automated preprocessing pipeline for structural magnetic resonance imaging (sMRI) data, designed to produce analysis-ready T1-weighted (T1w) images with minimal manual intervention. Developed as a companion to the widely used [[fmriprep]] workflow, sMRIPrep handles the complex sequence of steps required to transform raw MRI acquisitions into clean, standardized outputs suitable for subsequent neuroimaging analyses including [[connectome]] mapping, [[brain-parcellations]] extraction, and [[structural-connectivity]] computation. The pipeline implements a robust, reproducible workflow that integrates industry-standard tools including Freesurfer, [[ants]], and Fsl under a unified [[nipype]] framework, ensuring consistency across preprocessing steps while maintaining full [[bids]] compliance in its outputs.
@@ -34,7 +34,7 @@ While sMRIPrep does not directly simulate neural dynamics like [[the-virtual-bra
 
 ## Key Features
 
-sMRIPrep distinguishes itself through several design principles. First, the pipeline implements exhaustive data provenance tracking—every intermediate file is preserved with explicit parameters recorded, enabling complete reprocessing if needed. Second, it provides a modular architecture where individual processing stages can be disabled or replaced (e.g., skipping FreeSurfer reconstruction for faster processing). Third, it supports both Docker and Singularity containers, facilitating deployment across computing environments from local workstations to high-performance computing clusters. Fourth, the tool generates quality control visualizations that document registration quality, segmentation accuracy, and overall preprocessing success—a critical feature for multi-site studies where visual inspection remains essential for identifying data artifacts.
+sMRIPrep distinguishes itself through several design principles. First, the pipeline implements exhaustive data provenance tracking—every intermediate file is preserved with explicit parameters recorded, enabling complete reprocessing if needed. Second, it provides a modular architecture where individual processing stages can be disabled or replaced (e.g., skipping [[freesurfer]] reconstruction for faster processing). Third, it supports both Docker and Singularity containers, facilitating deployment across computing environments from local workstations to high-performance computing clusters. Fourth, the tool generates quality control visualizations that document registration quality, segmentation accuracy, and overall preprocessing success—a critical feature for multi-site studies where visual inspection remains essential for identifying data artifacts.
 
 ## Related Software
 
@@ -43,7 +43,7 @@ sMRIPrep belongs to the fMRIPrep family of preprocessing tools, which also inclu
 ## Key Papers
 
 - Esteban O, Birman D, Schaer M, Kuyumba O, Poldrack RA, Gorgolewski KJ. "sMRIPrep: Structural MRI PREProcessing workflow." NeuroImage. 2019.
-- Esteban O, Markiewicz CJ, Blair RW, et al. "fMRIPrep: a robust preprocessing pipeline for functional MRI." Nat Methods. 2019.
+- Esteban O, Markiewicz CJ, Blair RW, et al. "fMRIPrep: a robust preprocessing pipeline for [[neuroimaging-fmri|functional MRI]]." Nat Methods. 2019.
 - Gorgolewski KJ, Wolfers T, Poldrack RA. "The proliferation of reproducible [[neuroimaging]] analysis workflows." Curr Opin Neurobiol. 2017.
 - Nichols TE, Das S, Ebrahim A, et al. "Standard practices in data analysis and sharing in neuroimaging using MRI." NeuroImage. 2017.
 - Taylor PA, G. Chen K, E. L., et al. "A reproducible set of analysis tools forcbids-formatted JSON." Front Neuroinform. 2018.

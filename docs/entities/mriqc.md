@@ -11,7 +11,7 @@ tags:
 - bids
 title: MRIQC
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # MRIQC
@@ -30,7 +30,7 @@ MRIQC emerged to address this reproducibility crisis in neuroimaging. By providi
 
 MRIQC is built on top of the [[nipype]] workflow engine, which provides a standardized interface for various neuroimaging libraries including [[nibabel]] for [[nifti]] file handling, Nilearn for image processing, and various [[ants]]-based tools for registration and segmentation. The software can be run via command-line interface, Python API, or containerized through Bidscoin and other BIDS-compliant wrappers.
 
-The Image Quality Metrics computed by MRIQC fall into several categories. For structural images (T1w, T2w), metrics include measures of contrast-to-noise ratio (CNR), signal-to-noise ratio (SNR), entropy focus criterion (EFC), and artifact detection measures like the percentage of outliers in the background (Esteban et al., 2019). For functional MRI data, MRIQC computes framewise displacement (FD) from the motion parameters, standard deviation of the derivative of the timeseries (DVAR), and temporal SNR. For diffusion MRI, these metrics include eddy-current-induced artifact detection and motion-related signal dropouts. These metrics are computed both at the global level (whole brain) and regional level (segmented regions), and the tool produces comprehensive HTML reports with visualizations including brain masks, ROI overlays, and quality metric distributions.
+The Image Quality Metrics computed by MRIQC fall into several categories. For structural images (T1w, T2w), metrics include measures of contrast-to-noise ratio (CNR), signal-to-noise ratio (SNR), entropy focus criterion (EFC), and artifact detection measures like the percentage of outliers in the background (Esteban et al., 2019). For [[neuroimaging-fmri|functional MRI]] data, MRIQC computes framewise displacement (FD) from the motion parameters, standard deviation of the derivative of the timeseries (DVAR), and temporal SNR. For diffusion MRI, these metrics include eddy-current-induced artifact detection and motion-related signal dropouts. These metrics are computed both at the global level (whole brain) and regional level (segmented regions), and the tool produces comprehensive HTML reports with visualizations including brain masks, ROI overlays, and quality metric distributions.
 
 The output of MRIQC includes: (1) per-subject, per-session IQM tables in JSON format; (2) individual HTML reports featuring interactive visualizations; and (3) group-level summary tables that facilitate cohort-wide quality assessment. The group-level outputs are particularly valuable when preparing large datasets for [[whole-brain-modeling]] studies, as they enable systematic identification of subjects with degraded data quality that should be excluded from [[connectome]] reconstruction.
 

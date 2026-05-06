@@ -8,7 +8,7 @@ tags:
 - software-neuroimaging
 title: Fiji
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # Fiji
@@ -33,7 +33,7 @@ In practice, a typical TVB preprocessing pipeline might involve: (1) acquiring r
 
 ## Relationship to Other Imaging Software
 
-Fiji occupies a unique niche in the neuroimaging software ecosystem that complements rather than competes with other tools. Unlike dedicated neuroimaging packages like Fsl, Freesurfer, or Spm, Fiji is not specialized for any particular modality but instead provides general-purpose image processing applicable across MRI, histology, microscopy, and other imaging domains. This generality makes it especially valuable for researchers working across multiple imaging modalities or developing novel analysis approaches.
+Fiji occupies a unique niche in the neuroimaging software ecosystem that complements rather than competes with other tools. Unlike dedicated neuroimaging packages like Fsl, [[freesurfer]], or Spm, Fiji is not specialized for any particular modality but instead provides general-purpose image processing applicable across MRI, histology, microscopy, and other imaging domains. This generality makes it especially valuable for researchers working across multiple imaging modalities or developing novel analysis approaches.
 
 Compared to 3D visualization tools like [[3d-slicer]] or Itk Snap, Fiji emphasizes 2D slice-by-slice viewing and batch processing more than 3D rendering, though it does support basic 3D visualization through plugins like the **3D Viewer** [[fiji]]. The relationship with [[itk]] (Insight Toolkit) is particularly significant—Fiji's **elastix** plugin integrates the elastix registration library (also used by [[ants]]), enabling sophisticated affine and non-linear registration within Fiji's interface. For researchers needing more advanced 3D visualization, Fiji often serves as a preprocessing companion to these specialized viewers rather than a replacement.
 
@@ -46,7 +46,7 @@ Fiji contributes to whole-brain modeling workflows in several concrete ways that
 - Schindelin, J., Arganda-Carreras, I., Frise, E., Kaynig, V., Longair, M., Pietzsch, T., ... & Cardona, A. (2012). Fiji: an open-source platform for biological-image analysis. *Nature Methods*, 9(7), 676-682. [[fiji]]
 - Ackermann, M. & Schindelin, J. (2014). ImageJ2: An extensible Java library for scientific image analysis. *Nature Methods*, 11(8), 805-806. imagej2
 - Linkert, M., Rueden, C.T., Allan, C., Burel, J.M., Moore, W., Patterson, A., ... & Carpenter, A.E. (2010). Bio-Formats: an open-source software for managing microscopy image format data. *Bioinformatics*, 26(7), 932-939. bioformats
-- Arganda-Carreras, I., Kaynig, V., Rueden, C., Eliceiri, K.W., Schindelin, J., Cardona, A., & Sebastian, H. (2017). Trainable Weka Segmentation: a machine learning tool for microscopy image classification. *Nature Methods*, 14(2), 122-123. weka
+- Arganda-Carreras, I., Kaynig, V., Rueden, C., Eliceiri, K.W., Schindelin, J., Cardona, A., & Sebastian, H. (2017). Trainable Weka Segmentation: a [[machine-learning]] tool for microscopy image classification. *Nature Methods*, 14(2), 122-123. weka
 
 ## Related Software
 

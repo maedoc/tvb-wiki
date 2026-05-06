@@ -1,8 +1,7 @@
 ---
 created: 2026-05-05
 sources:
-- https://www.thevirtualbrain.org
-- https://github.com/thevirtualbrain/tvb-webui
+- raw/papers/sanz-leon-2013.md
 tags:
 - software-brain-modeling
 title: TVB-WebUI
@@ -14,7 +13,7 @@ updated: '2026-05-06'
 
 ## Overview
 
-TVB-WebUI serves as the primary interaction layer for researchers using [[the-virtual-brain]] platform. It abstracts the complexity of large-scale brain network modeling, allowing users to design simulations by selecting brain regions, [[connectivity]] matrices, and neural dynamics without requiring programming expertise. The interface communicates with the TVB computational backend via a [[rest]] API, enabling users to launch simulations on local workstations or remote HPC clusters.
+TVB-WebUI serves as the primary interaction layer for researchers using [[the-virtual-brain]] platform. It abstracts the complexity of large-scale brain network modeling, allowing users to design simulations by selecting brain regions, [[connectivity]] matrices, and neural dynamics without requiring programming expertise. The interface communicates with the TVB computational backend via a [[tvb-rest]] API, enabling users to launch simulations on local workstations or remote HPC clusters.
 
 The WebUI emerged as a modern alternative to the original TVB GUI (based on TraitsUI), addressing cross-platform compatibility and accessibility needs. By leveraging web technologies, it provides a consistent experience across operating systems while enabling collaborative workflows and remote access.
 
@@ -50,3 +49,7 @@ The WebUI can be run as a standalone service that connects to a TVB instance, or
 - [TVB-Explorer](](/tvb-explorer)) — Visualization toolkit for connectivity and imaging data
 - [TVB-NEURO](](/tvb-neuro)) — Clinical neuroscience extensions
 - [TVB-GUI](](/tvbgui)) — Legacy desktop GUI (deprecated)
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))

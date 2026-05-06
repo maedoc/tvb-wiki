@@ -28,7 +28,7 @@ tags:
 - dynamical-systems-theory
 title: Dynamic Causal Modeling
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 **Dynamic Causal Modeling (DCM)** is a Bayesian framework for inferring [[effective-connectivity]] — the directed, causal influence one neural population exerts over another — from non-invasive neuroimaging data. Unlike [[functional-connectivity]], which measures undirected statistical dependencies, DCM estimates _mechanistic_ interactions by fitting biologically grounded [[neural-mass-models]] to observed brain signals and using [[variational-bayes]] to invert the generative model. Introduced by Karl Friston in 2003 and implemented in the Spm software toolbox, DCM has become a cornerstone of hypothesis‑driven connectivity analysis across [[fmri]], [[eeg]], and [[meg]] modalities.
@@ -57,7 +57,7 @@ The neural states $z$ are not directly observable, so DCM includes a forward mod
 
 ## Bayesian Inference and Model Comparison
 
-Inverting a DCM means estimating the posterior distribution over parameters $\theta$ given data $y$ and model $m$: $p(\theta \mid y, m)$. Because the neural and observation equations are nonlinear and the parameter space is high‑dimensional, exact Bayesian inference is intractable. DCM uses [[variational-bayes]] — specifically variational Laplace — to approximate the posterior with a Gaussian distribution centered on the maximum a posteriori estimate. The algorithm iteratively optimizes a lower bound on the log model evidence known as the **negative variational free energy**. This quantity automatically balances model fit (accuracy) against model complexity, enabling principled comparison across competing network architectures.
+Inverting a DCM means estimating the posterior distribution over parameters $\theta$ given data $y$ and model $m$: $p(\theta \mid y, m)$. Because the neural and observation equations are nonlinear and the parameter space is high‑dimensional, exact [[bayesian|Bayesian inference]] is intractable. DCM uses [[variational-bayes]] — specifically variational Laplace — to approximate the posterior with a Gaussian distribution centered on the maximum a posteriori estimate. The algorithm iteratively optimizes a lower bound on the log model evidence known as the **negative variational free energy**. This quantity automatically balances model fit (accuracy) against model complexity, enabling principled comparison across competing network architectures.
 
 Model comparison is central to the DCM philosophy. A typical study specifies a set of 4–16 candidate models that embody different hypotheses about which connections exist or which inputs modulate them. Spm implements both fixed‑effects model selection (assuming the same model for all subjects) and random‑effects Bayesian model selection (treating model identity as a random variable, allowing different subjects to favor different models). Stephan's 2010 guide recommends limiting model spaces to 3–5 regions unless data quality is , because models with many free parameters suffer from identifiability problems.
 
@@ -82,5 +82,5 @@ These limitations point toward the complementary role of [[tvb]] and other whole
 3. (authors unknown). *Dynamic Causal Modelling: A Critical Review of the Biophysical and Statistical Foundations*.
 4. O. David, K.J. Friston. *Dynamic causal modelling*. NeuroImage. [DOI](https://doi.org/10.1016/S1053-8119(03)00202-7)
 5. Roxana A. Stefanescu, Viktor K. Jirsa. *A low dimensional description of globally coupled heterogeneous neural networks of excitatory and inhibitory neurons*. PLoS Computational Biology. [DOI](](https://doi.org/10.1371/journal.pcbi.1000219))
-6. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and [[whole-brain]] Propagation*. [Link](](https://arxiv.org/abs/2505.16861))
+6. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale [[co-simulation]] Framework with a Case Study on Neural-Level Seizure Generation and [[whole-brain]] Propagation*. [Link](](https://arxiv.org/abs/2505.16861))
 7. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](](https://doi.org/10.3389/fncom.2025.1731161))

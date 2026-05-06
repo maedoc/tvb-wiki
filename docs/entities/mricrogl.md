@@ -8,14 +8,14 @@ tags:
 - software-brain-modeling
 title: MRIcroGL
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 MRIcroGL is a lightweight, cross-platform medical imaging visualization program designed primarily for viewing three-dimensional neuroimaging datasets in formats such as [[nifti]] and DICOM. Originally developed as a modern OpenGL-based successor to the older MRIcron application, MRIcroGL provides neuroscientists with a fast, no-frills viewer that loads large brain volumes efficiently without the overhead of more comprehensive neuroimaging software suites. The program is particularly valued in the [[whole-brain|whole-brain modeling]] community for its ability to quickly inspect structural and functional data, verify preprocessing outputs, and perform basic region-of-interest analysis prior to fitting [[whole-brain-modeling|whole-brain models]] in simulators like [[the-virtual-brain|The Virtual Brain]].
 
 ## Overview
 
-MRIcroGL was created to address the need for a simple, high-performance viewer that could handle modern high-resolution neuroimaging datasets without requiring extensive system resources or complex installation procedures. The software renders volumetric data using OpenGL acceleration, enabling smooth navigation through three-dimensional brain images across multiple planes (axial, coronal, sagittal) as well as arbitrary oblique orientations. Unlike full-featured analysis pipelines such as FSL, FreeSurfer, or SPM, MRIcroGL focuses exclusively on visualization and basic manipulation, making it an ideal complementary tool for researchers who need to quickly inspect data at various stages of processing—from raw DICOM conversions using tools like [[dcm2niix|dcm2niix]] to final statistical maps ready for interpretation. <ref>Rorden et al. (2012). Transforming structural data into normalized space. Neuroinformatics.</ref>
+MRIcroGL was created to address the need for a simple, high-performance viewer that could handle modern high-resolution neuroimaging datasets without requiring extensive system resources or complex installation procedures. The software renders volumetric data using OpenGL acceleration, enabling smooth navigation through three-dimensional brain images across multiple planes (axial, coronal, sagittal) as well as arbitrary oblique orientations. Unlike full-featured analysis pipelines such as FSL, [[freesurfer]], or SPM, MRIcroGL focuses exclusively on visualization and basic manipulation, making it an ideal complementary tool for researchers who need to quickly inspect data at various stages of processing—from raw DICOM conversions using tools like [[dcm2niix|dcm2niix]] to final statistical maps ready for interpretation. <ref>Rorden et al. (2012). Transforming structural data into normalized space. Neuroinformatics.</ref>
 
 The program's architecture supports multiple image formats common in neuroimaging research, with primary support for NIfTI-1 format files widely used in the [[neuroimaging]] community. It can also import DICOM files directly, which is useful for working with data directly from scanners before conversion to more portable formats. MRIcroGL operates through a simple graphical user interface with intuitive mouse controls for panning, zooming, and scrolling through image slices, requiring minimal learning curve for new users.
 
@@ -48,7 +48,7 @@ For users requiring more advanced visualization capabilities beyond what MRIcroG
 
 ## Related Software
 
-MRIcroGL should not be confused with its predecessor [[mricron|MRIcron]], which remains available but lacks the OpenGL-based rendering improvements of the newer version. Both tools share a common heritage in the neuroimaging open-source ecosystem and continue to be maintained in parallel. Other visualization alternatives in the ecosystem include FSLeyes (part of the FSL suite), MRTrix3 for advanced [[diffusion-imaging]] visualization, and Nilearn for Python-based programmatic visualization workflows. The choice among these tools typically depends on the specific visualization task, the data format being used, and integration requirements with existing analysis pipelines.
+MRIcroGL should not be confused with its predecessor [[mricron|MRIcron]], which remains available but lacks the OpenGL-based rendering improvements of the newer version. Both tools share a common heritage in the neuroimaging open-source ecosystem and continue to be maintained in parallel. Other visualization alternatives in the ecosystem include FSLeyes (part of the FSL suite), [[mrtrix3]] for advanced [[diffusion-imaging]] visualization, and [[nilearn]] for Python-based programmatic visualization workflows. The choice among these tools typically depends on the specific visualization task, the data format being used, and integration requirements with existing analysis pipelines.
 
 ## References
 

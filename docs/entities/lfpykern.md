@@ -11,7 +11,7 @@ tags:
 - computational-neuroscience
 title: LFPykern
 type: entity
-updated: '2026-05-05'
+updated: '2026-05-06'
 ---
 
 LFPykern is a Python library for computing local field potentials (LFPs) from spiking neural network simulations. The software implements a kernel-based approach to calculating the extracellular electric potential resulting from transmembrane currents in model neurons. Unlike full compartmental models that require detailed morphology, LFPykern works with point neuron simulators such as [[nest]], [[neuron]], and [[brian2cuda]], making it computationally tractable for large-scale network simulations while still providing biophysically grounded LFP predictions.
@@ -34,7 +34,7 @@ where σ is the extracellular conductivity, Iᵢ(s) is the transmembrane current
 
 ## Key Features
 
-The library provides several notable capabilities. First, it supports multiple neuron simulators through a standardized interface, allowing users to run simulations in [[nest]], NEURON, or Brian and compute LFPs without modifying their simulation code. Second, LFPykern implements efficient kernel computation using Cython for performance‑critical sections, achieving near-[[linear]] scaling with neuron count for typical electrode configurations. Third, the software includes built‑in support for various electrode geometries including single‑site contacts, linear probes (such as Michigan‑style arrays), and Utah arrays, enabling simulation of common experimental setups. Fourth, LFPykern provides both Python and MATLAB interfaces, facilitating integration with existing analysis pipelines. Finally, the library includes validation tools comparing computed LFPs against analytical solutions and experimental measurements.
+The library provides several notable capabilities. First, it supports multiple neuron simulators through a standardized interface, allowing users to run simulations in [[nest]], NEURON, or [[brian]] and compute LFPs without modifying their simulation code. Second, LFPykern implements efficient kernel computation using Cython for performance‑critical sections, achieving near-[[linear]] scaling with neuron count for typical electrode configurations. Third, the software includes built‑in support for various electrode geometries including single‑site contacts, linear probes (such as Michigan‑style arrays), and Utah arrays, enabling simulation of common experimental setups. Fourth, LFPykern provides both Python and MATLAB interfaces, facilitating integration with existing analysis pipelines. Finally, the library includes validation tools comparing computed LFPs against analytical solutions and experimental measurements.
 
 ## Relationship to TVB
 

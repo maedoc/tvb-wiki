@@ -15,7 +15,7 @@ tags:
 - neuroimaging-fmri
 title: fMRI
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # fMRI
@@ -36,7 +36,7 @@ The standard framework for analyzing fMRI data was established by [[karl-j-frist
 
 ### Connectivity Analysis
 
-Beyond task-based activation mapping, fMRI enables the characterization of [[functional-connectivity]]—the statistical dependencies between time series recorded from distinct brain regions. Task-free or "resting-state" fMRI, first demonstrated by Bharat Biswal in 1995, revealed that spatially remote brain regions exhibit coherent spontaneous fluctuations even in the absence of explicit tasks. These correlations define intrinsic connectivity networks, including the [[default-mode-network]], which have become central to understanding brain organization and have been extensively replicated across studies and populations.
+Beyond task-based activation mapping, fMRI enables the characterization of [[functional-connectivity]]—the statistical dependencies between time series recorded from distinct brain regions. Task-free or "resting-state" fMRI, first demonstrated by Bharat Biswal in 1995, revealed that spatially remote brain regions exhibit coherent spontaneous fluctuations even in the absence of explicit tasks. These correlations define [[intrinsic-connectivity-networks]], including the [[default-mode-network]], which have become central to understanding brain organization and have been extensively replicated across studies and populations.
 
 ## Role in Whole-Brain Modeling
 

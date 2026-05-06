@@ -12,7 +12,7 @@ tags:
 - dataset
 title: AOMIC (Amsterdam Open MRI Collection)
 type: entity
-updated: '2026-05-05'
+updated: '2026-05-06'
 ---
 
 The Amsterdam Open MRI Collection (AOMIC) is a large-scale open [[neuroimaging]] dataset originating from the Netherlands, designed to advance research on brain [[connectivity]], cognition, and individual differences in brain structure and function across the adult lifespan. The AOMIC dataset comprises multimodal magnetic resonance imaging (MRI) data from over 1,400 healthy adult participants, including structural MRI, resting-state functional MRI (rs-[[fmri]]), diffusion tensor imaging (DTI), and behavioral measurements. The collection was assembled to address the growing need for publicly accessible neuroimaging datasets that capture individual differences in brain organization across the adult lifespan.
@@ -46,5 +46,5 @@ While AOMIC was not explicitly designed for whole-brain modeling, its multimodal
 ## References
 
 1. M. M. Esfahani, Vladislav Esaulov, Hemanth Venkateswara, V. Calhoun. (2025). *NEUROMARK DFNC PATTERNS: A FULLY AUTOMATED PIPELINE TO ESTIMATE SUBJECT-SPECIFIC STATES FROM RS-FMRI DATA VIA CONSTRAINED ICA OF DFNC IN +100K SUBJECTS*. bioRxiv. [DOI](](https://doi.org/10.1101/2025.01.29.635539))
-2. B. Sarton, Giulia Maria Mattia, Eve Cervoni, Julie Decourt, Patrice Péran, Béatrice Riu, Fanny Bounes, Edouard Naboulsi, P. Barttfeld, Jean-Marc Olivot, Stein Silva, Sylvain Cussat-Blanc. (2026). *Explainable Machine Learning for Coma Outcome Prediction Based on Structural and Functional Brain MRI.*. Critical Care Medicine. [DOI](](https://doi.org/10.1097/CCM.0000000000007068))
+2. B. Sarton, Giulia Maria Mattia, Eve Cervoni, Julie Decourt, Patrice Péran, Béatrice Riu, Fanny Bounes, Edouard Naboulsi, P. Barttfeld, Jean-Marc Olivot, Stein Silva, Sylvain Cussat-Blanc. (2026). *Explainable [[machine-learning]] for Coma Outcome Prediction Based on Structural and Functional Brain MRI.*. Critical Care Medicine. [DOI](](https://doi.org/10.1097/CCM.0000000000007068))
 3. (authors unknown). *The Minimal Preprocessing Pipelines for the Human [[connectome]] Project*.

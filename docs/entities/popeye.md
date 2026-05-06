@@ -10,7 +10,7 @@ tags:
 - software-brain-modeling
 title: popeye
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 The wiki page is now complete. Here's a summary of what I've done:
@@ -31,7 +31,7 @@ The wiki page is now complete. Here's a summary of what I've done:
 
 **Frontmatter corrected:**
 - Updated `updated:` to 2026-05-02
-- Fixed tags to use only those in taxonomy: [software-visualization, neuroimaging-fmri, forward-model, [[reproducibility]], brain-dynamics]
+- Fixed tags to use only those in taxonomy: [software-visualization, [[neuroimaging-fmri]], forward-model, [[reproducibility]], brain-dynamics]
 - Added sources from web research
 
 **Log updated:** Added entry documenting this improvement.

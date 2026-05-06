@@ -8,7 +8,7 @@ tags:
 - software-brain-modeling
 title: Brain Connectivity Toolbox
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 The **Brain Connectivity Toolbox** (BCT) is a widely used MATLAB toolbox for the analysis of structural and functional brain networks derived from neuroimaging data. Developed primarily by Mikail Rubinov and Olaf Sporns at Indiana University, with later contributions from Richard Betzel and colleagues, BCT provides a comprehensive set of tools for computing graph-theoretic measures on brain connectomes, enabling researchers to characterize the topological organization of neural networks at multiple scales. The toolbox has become a standard resource in the field of [[connectomics]], with applications spanning [[resting-state]] fMRI analysis, [[diffusion-imaging]] based tractography, and [[whole-brain]] modeling validation.
@@ -33,7 +33,7 @@ While BCT was originally developed for MATLAB, several adaptations and alternati
 
 ## Key Papers and Development History
 
-The Brain Connectivity Toolbox was first released in 2009 alongside a seminal review paper by Rubinov and Sporns that established standardized terminology for complex network analysis in neuroscience. The foundational reference for BCT remains the comprehensive NeuroImage paper by Mikail Rubinov and Olaf Sporns, which describes the toolkit's capabilities, algorithms, and theoretical foundations in detail. The toolbox has undergone continuous development, with major updates adding new algorithms for network comparison, null model generation, and modular decomposition. The 2019 update (BCT 2019) added enhanced support for multilayer network analysis and improved computational efficiency for large-scale networks. Researchers using BCT should cite the original Rubinov and Sporns (2010) NeuroImage paper as the primary reference.
+The [[brain-connectivity-toolkit|Brain Connectivity Toolbox]] was first released in 2009 alongside a seminal review paper by Rubinov and Sporns that established standardized terminology for complex network analysis in neuroscience. The foundational reference for BCT remains the comprehensive NeuroImage paper by Mikail Rubinov and Olaf Sporns, which describes the toolkit's capabilities, algorithms, and theoretical foundations in detail. The toolbox has undergone continuous development, with major updates adding new algorithms for network comparison, null model generation, and modular decomposition. The 2019 update (BCT 2019) added enhanced support for multilayer network analysis and improved computational efficiency for large-scale networks. Researchers using BCT should cite the original Rubinov and Sporns (2010) NeuroImage paper as the primary reference.
 
 ## See Also
 

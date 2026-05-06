@@ -15,7 +15,7 @@ tags:
 - brain-parcellations
 title: BrainNet Viewer
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 ## Overview
@@ -26,13 +26,13 @@ BrainNet Viewer is a MATLAB-based software package for visualizing three-dimensi
 
 BrainNet Viewer provides several core visualization capabilities that address the unique challenges of representing brain network data in three dimensions. The software accepts node definitions from parcellation atlases such as the [[aal-atlas]], [[desikan-killiany-atlas]], [[brainnetome-atlas]], and allows users to map network nodes onto cortical surfaces extracted from reconstructed brain meshes. Edge representations include both line-based and volume-based renderings of white matter tracts, with support for directional information encoded through color gradients or line thickness.
 
-The software supports multiple surface formats including FreeSurfer's curvature files and the NV (NeuroVue) surface format, enabling integration with preprocessing pipelines that rely on Freesurfer or Fsl for cortical reconstruction. BrainNet Viewer can be used to visualize network metrics such as betweenness centrality, clustering coefficient, and [[modularity]] computed by the Brain Connectivity Toolbox (BCT) [rubinov2010complex], allowing these measures to be displayed directly on the brain surface. Users can generate both static publication figures and interactive movies showing dynamic network changes over time, which is particularly useful for visualizing [[resting-state]] fluctuations or task-related connectivity patterns.
+The software supports multiple surface formats including [[freesurfer]]'s curvature files and the NV (NeuroVue) surface format, enabling integration with preprocessing pipelines that rely on Freesurfer or Fsl for cortical reconstruction. BrainNet Viewer can be used to visualize network metrics such as betweenness centrality, clustering coefficient, and [[modularity]] computed by the Brain Connectivity Toolbox (BCT) [rubinov2010complex], allowing these measures to be displayed directly on the brain surface. Users can generate both static publication figures and interactive movies showing dynamic network changes over time, which is particularly useful for visualizing [[resting-state]] fluctuations or task-related connectivity patterns.
 
 A notable feature is the ability to visualize weighted and directed networks, supporting the display of [[effective-connectivity]] estimates from [[dynamic-causal-modeling]] (DCM) or Granger causality analyses. The color mapping system supports arbitrary colormaps, enabling researchers to overlay statistical maps, significance values, or graph theoretical measures alongside structural connectivity.
 
 ## Relationship to TVB
 
-While BrainNet Viewer was not developed specifically as a companion to [[the-virtual-brain]] (TVB), the two tools are complementary in the [[whole-brain|whole-brain modeling]] workflow. TVB generates large-scale brain network models that simulate regional neural activity and can produce synthetic functional MRI signals, EEG, and MEG data. Researchers often use BrainNet Viewer to visualize the structural connectivity matrices that serve as the anatomical backbone of TVB simulations, or to compare simulated activity patterns with empirical connectivity data.
+While BrainNet Viewer was not developed specifically as a companion to [[the-virtual-brain]] (TVB), the two tools are complementary in the [[whole-brain|whole-brain modeling]] workflow. TVB generates large-scale brain network models that simulate regional neural activity and can produce synthetic [[neuroimaging-fmri|functional MRI]] signals, EEG, and MEG data. Researchers often use BrainNet Viewer to visualize the structural connectivity matrices that serve as the anatomical backbone of TVB simulations, or to compare simulated activity patterns with empirical connectivity data.
 
 The integration typically flows in one direction: BrainNet Viewer visualizes output from TVB rather than directly interfacing with TVB's simulation engine. Connectivity matrices exported from TVB's [[tvb-library]] can be loaded into BrainNet Viewer for three-dimensional rendering, allowing investigators to inspect the network topology that underlies their computational models. This workflow bridges the gap between the abstract mathematical representations used in [[whole-brain-modeling]] and the intuitive spatial representations that facilitate interpretation.
 
@@ -44,7 +44,7 @@ BrainNet Viewer occupies a niche in the brain visualization ecosystem that inclu
 
 The [[brain-connectivity-toolbox]] provides the graph theoretical analysis capabilities that complement BrainNet Viewer's visualizations, while [[brainnetome-atlas]]—developed by the same research group—provides the parcellation scheme most commonly used with the viewer. Other related visualization platforms include [[brainspace]], which specializes in dimensionality reduction and manifold learning visualizations of connectivity data, and Pycortex, which offers web-based interactive visualizations of brain data.
 
-See also: Nilearn for Python-based brain visualization, [[brainvoyager]] for commercial neuroimaging analysis, and [[3d-slicer]] for general-purpose medical image visualization.
+See also: [[nilearn]] for Python-based brain visualization, [[brainvoyager]] for commercial neuroimaging analysis, and [[3d-slicer]] for general-purpose medical image visualization.
 
 ## Key Papers
 

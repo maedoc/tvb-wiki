@@ -17,7 +17,7 @@ tags:
 - neuroimaging-dti
 title: Human Connectome Project
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # Human Connectome Project (HCP)
@@ -49,7 +49,7 @@ Funded by 16 components of the NIH Blueprint for Neuroscience Research, with two
 
 ### Imaging Modalities
 - **Structural MRI**: T1w and T2w at 0.7mm resolution
-- **Functional MRI**: [[resting-state]] and task-based
+- **[[neuroimaging-fmri|Functional MRI]]**: [[resting-state]] and task-based
 - **[[diffusion-mri]]**: High angular resolution dMRI
 - **MEG**: Magnetoencephalography (subset)
 

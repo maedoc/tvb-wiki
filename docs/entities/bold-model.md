@@ -56,7 +56,7 @@ One of the central challenges in interpreting BOLD data is that the signal refle
 2. Feeding this input into the Balloon Model (or a simplified version) to generate *v(t)* and *q(t)*
 3. Computing the BOLD output from the state variables
 
-In [[dynamic-causal-modeling]] (DCM), the BOLD forward model is embedded within a Bayesian framework that simultaneously estimates effective [[connectivity]] between brain regions and the hemodynamic parameters themselves (Friston et al., 2003). DCMs can distinguish between direct (feedforward) and modulatory (feedback) connections, making them powerful tools for inferring causal relationships from BOLD data.
+In [[dynamic-causal-modeling]] (DCM), the BOLD forward model is embedded within a [[bayesian]] framework that simultaneously estimates effective [[connectivity]] between brain regions and the hemodynamic parameters themselves (Friston et al., 2003). DCMs can distinguish between direct (feedforward) and modulatory (feedback) connections, making them powerful tools for inferring causal relationships from BOLD data.
 
 ## Relationship to TVB
 
@@ -78,14 +78,14 @@ A fundamental open question is whether **functional connectivity** patterns obse
 
 ## Software Implementations
 
-The BOLD forward model is implemented in several software packages. Spm (Statistical Parametric Mapping) includes the canonical Balloon Model as part of its DCM implementation. The [[dynamic-causal-modeling]] framework in SPM uses a variational Bayes scheme to estimate both neural and hemodynamic parameters. In The Virtual Brain, the BOLD forward model enables comparison of simulated and empirical functional connectivity in whole-brain simulations. Standalone implementations also exist in Python packages such as Nilearn (for HRF modeling) and custom toolboxes for DCM analysis.
+The BOLD forward model is implemented in several software packages. Spm (Statistical Parametric Mapping) includes the canonical Balloon Model as part of its DCM implementation. The [[dynamic-causal-modeling]] framework in SPM uses a variational Bayes scheme to estimate both neural and hemodynamic parameters. In The Virtual Brain, the BOLD forward model enables comparison of simulated and empirical functional connectivity in whole-brain simulations. Standalone implementations also exist in Python packages such as [[nilearn]] (for HRF modeling) and custom toolboxes for DCM analysis.
 
 ## Key Papers
 
 - Ogawa, S., Lee, T. M., Kay, A. R., & Tank, D. W. (1990). Brain magnetic resonance imaging with contrast dependent on blood oxygenation. *Proceedings of the National Academy of Sciences*.
 - Buxton, R. B., Wong, E. C., & Frank, L. R. (1998). Dynamics of blood flow and oxygenation changes during brain activation. *NeuroImage*.
 - Friston, K. J., Harrison, L., & Penny, W. (2003). Dynamic causal modelling. *NeuroImage*.
-- Davis, T. L., Kwong, K. K., Weisskoff, R. M., & Rosen, B. R. (1998). Calibrated functional MRI. *Proceedings of the National Academy of Sciences*.
+- Davis, T. L., Kwong, K. K., Weisskoff, R. M., & Rosen, B. R. (1998). Calibrated [[neuroimaging-fmri|functional MRI]]. *Proceedings of the National Academy of Sciences*.
 - Stephan, K. E., Weiskopf, N., Drydal, P. E., et al. (2007). Comparing hemodynamic and neural responses in somatosensory cortex. *NeuroImage*.
 - Grubb, R. L., Raichle, M. E., Eichling, J. O., & Ter-Pogossian, M. M. (1974). The effects of changes in PaCO2 on cerebral blood volume, blood flow, and vascular mean transit time. *Stroke*.
 - Obata, T., Liu, T. T., Keene, J. L., Buxton, R. B., Frank, L. R., & Wong, E. C. (2004). Dissociating time courses of oxygen and glucose consumption and oxidative phosphorylation using fMRI. *NeuroImage*.
@@ -97,6 +97,6 @@ The BOLD model connects to several core concepts in whole-brain modeling. It ser
 
 ## References
 
-1. Ramiro Plüss, Hernán Villota, Patricio Orio. (2025). *Hemispheric-Specific Coupling Improves Modeling of Functional Connectivity Using [[wilson-cowan]] Dynamics*. [Link](](https://arxiv.org/abs/2506.22951))
-2. Martin Breyton, Viktor Sip, M. Woodman, Meysam Hashemi, S. Petkoski, V. Jirsa. (2025). *Data-driven [[mean-field-theory|mean-field]] within whole-brain models*. [Link](](https://www.semanticscholar.org/paper/144ae1f1dabec42c14493d0083d36f168508f886))
-3. V. Myrov, A. Suleimanova, Samanta Knapič, P. Partanen, M. Vesterinen, Wenya Liu, S. Palva, J. M. Palva. (2026). *Hierarchical whole-brain modeling of critical synchronization dynamics in the human brain.*. Proceedings of the National Academy of Sciences of the United States of America. [DOI](](https://doi.org/10.1073/pnas.2505768123))
+1. Ramiro Plüss, Hernán Villota, Patricio Orio. (2025). *Hemispheric-Specific Coupling Improves Modeling of Functional Connectivity Using [[wilson-cowan]] Dynamics*. [Link](https://arxiv.org/abs/2506.22951))
+2. Martin Breyton, Viktor Sip, M. Woodman, Meysam Hashemi, S. Petkoski, V. Jirsa. (2025). *Data-driven [[mean-field-theory|mean-field]] within whole-brain models*. [Link](https://www.semanticscholar.org/paper/144ae1f1dabec42c14493d0083d36f168508f886))
+3. V. Myrov, A. Suleimanova, Samanta Knapič, P. Partanen, M. Vesterinen, Wenya Liu, S. Palva, J. M. Palva. (2026). *Hierarchical whole-brain modeling of critical synchronization dynamics in the human brain.*. Proceedings of the National Academy of Sciences of the United States of America. [DOI](https://doi.org/10.1073/pnas.2505768123))

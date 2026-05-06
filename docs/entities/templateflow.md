@@ -15,7 +15,7 @@ tags:
 - database-neuroimaging
 title: TemplateFlow
 type: software
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # TemplateFlow
@@ -36,7 +36,7 @@ TemplateFlow is organized around the concept of a "template" – a volumetric im
 
 One of TemplateFlow's most important contributions is its handling of template spaces and resolutions. The library distinguishes between template spaces (such as MNI152, MNI152NLin6Asym, or the original native acquisition space) and resolution specifications (typically 1mm, 2mm, or other isotropic voxel sizes). Researchers can request exactly the template configuration they need without manually downloading files from multiple sources or managing directory structures. The library also provides template metadata including publication references, version histories, and licensing information, enabling proper attribution and compliance with open-science requirements.
 
-TemplateFlow integrates closely with Nilearn and [[pybids]], two foundational libraries in the Python neuroimaging ecosystem. Through this integration, researchers can load template images directly into memory for use in mass-univariate analyses, searchlight analyses, or [[whole-brain|whole-brain modeling]] work. The library supports both volume-based (voxel-wise) and surface-based analyses, accommodating the full range of modern neuroimaging methodologies.
+TemplateFlow integrates closely with [[nilearn]] and [[pybids]], two foundational libraries in the Python neuroimaging ecosystem. Through this integration, researchers can load template images directly into memory for use in mass-univariate analyses, searchlight analyses, or [[whole-brain|whole-brain modeling]] work. The library supports both volume-based (voxel-wise) and surface-based analyses, accommodating the full range of modern neuroimaging methodologies.
 
 ## Relationship to TVB
 

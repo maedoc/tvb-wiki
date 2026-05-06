@@ -15,7 +15,7 @@ tags:
 - personalized-brain-modeling
 title: Brain Maintenance
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 Brain maintenance refers to the preservation of brain structure and function across the lifespan, representing the successful resistance to age-related neurobiological changes. As one of three key mechanisms posited to explain differential cognitive [[aging]] trajectories—alongside [[cognitive-reserve]] and compensation—brain maintenance reflects the relative absence of age-related decline in neural integrity. Individuals who exhibit high brain maintenance demonstrate less cortical thinning, preserved white matter integrity, maintained [[functional-connectivity]] patterns, and stable cognitive performance despite advancing chronological age. This concept has become fundamental to understanding why some older adults maintain sharp cognitive function into late life while others experience significant decline.
@@ -46,7 +46,7 @@ Lifestyle factors provide the most actionable targets for intervention. Physical
 
 Researchers employ both longitudinal and cross-sectional approaches to assess brain maintenance. Longitudinal designs track individuals over time, comparing neurobiological trajectories and identifying "slow agers" whose brains show minimal change relative to their peers. The Alzheimer's Disease Neuroimaging Initiative (ADNI) and similar cohort studies have provided invaluable longitudinal data for these analyses. Cross-sectional approaches compare young and older adults, adjusting for chronological age to identify individuals with "younger-appearing" brains—a method that has proven useful but carries limitations related to cohort effects.
 
-The concept of brain age prediction has emerged as a powerful approach for operationalizing maintenance. Machine learning models trained on MRI data can generate predictions of chronological age, with the difference between predicted brain age and actual chronological age serving as an index of biological brain aging. Individuals showing negative brain age gaps (predicted age younger than actual age) are interpreted as demonstrating successful brain maintenance, representing a quantitative phenotype that integrates multiple structural and functional metrics into a single interpretable value.
+The concept of brain age prediction has emerged as a powerful approach for operationalizing maintenance. [[machine-learning]] models trained on MRI data can generate predictions of chronological age, with the difference between predicted brain age and actual chronological age serving as an index of biological brain aging. Individuals showing negative brain age gaps (predicted age younger than actual age) are interpreted as demonstrating successful brain maintenance, representing a quantitative phenotype that integrates multiple structural and functional metrics into a single interpretable value.
 
 ## Relationship to Reserve and Compensation
 

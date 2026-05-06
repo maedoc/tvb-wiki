@@ -18,7 +18,7 @@ tags:
 - epilepsy-modeling
 title: SIFT
 type: software
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # SIFT (Source Information Flow Toolbox)
@@ -39,7 +39,7 @@ SIFT implements several distinctive capabilities that make it well-suited for an
 
 **Information-Theoretic Connectivity Measures**: The toolbox computes pairwise Granger causality, conditional (multipartite) Granger causality, and transfer entropy. Unlike purely [[linear]] methods, transfer entropy can capture nonlinear causal dependencies that are common in [[neural-mass-models]] and [[brain-oscillations]] dynamics (Vicente et al., 2011). The transfer entropy framework was specifically developed for neuroscientific applications by Vicente and colleagues, who demonstrated its ability to detect effective connectivity without requiring explicit models of neural dynamics.
 
-**Model Order Selection**: Effective estimation of causality requires appropriate embedding parameters (model order for vector autoregressive models or embedding dimension for transfer entropy). SIFT provides automated routines for selecting optimal model orders using criteria such as the Akaike Information Criterion (AIC) and Bayesian Information Criterion (BIC), balancing bias-variance tradeoffs in the estimates (Mullen, 2010). These methods build on earlier work by Kaminski and colleagues on AR-based connectivity estimation (Kaminski et al., 2001).
+**Model Order Selection**: Effective estimation of causality requires appropriate embedding parameters (model order for vector autoregressive models or embedding dimension for transfer entropy). SIFT provides automated routines for selecting optimal model orders using criteria such as the Akaike Information Criterion (AIC) and [[bayesian]] Information Criterion (BIC), balancing bias-variance tradeoffs in the estimates (Mullen, 2010). These methods build on earlier work by Kaminski and colleagues on AR-based connectivity estimation (Kaminski et al., 2001).
 
 **Frequency-Domain Causality**: SIFT transforms time-domain causal measures into the frequency domain, enabling analysis of directed [[brain-oscillations]] in specific frequency bands (delta, theta, alpha, beta, gamma). This capability was pioneered by Korzeniewska and colleagues, who developed the conditional Granger causality spectral measure (Korzeniewska et al., 2003). Frequency-domain analysis is particularly relevant for studying frequency-specific mechanisms in [[epilepsy-modeling]] and [[brain-stimulation]] research.
 

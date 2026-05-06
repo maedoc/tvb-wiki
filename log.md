@@ -57,3 +57,7 @@
 - Details: Added scientific biography focusing on 2009 developmental connectivity paper, expanded explanation of "local to distributed" network organization finding, added implications for whole-brain modeling
 - Sources: raw/papers/fair-2009.md (primary)
 - Wikilinks included: whole-brain-modeling, developmental-trajectories, neurodevelopment, functional-connectivity, resting-state, default-mode-network, small-world-networks, brain-network, structural-connectivity, graph-theory
+
+## [2026-05-06 23:27] Improve: 3 pages improved (michael-fox, neuromorphic-computing, critical-periods)
+
+## [2026-05-06 23:42] Audit: 934 issues (95 broken links, 40 orphans, 0 placeholders, 0 dup-refs, 5 bad-meta, 98 citation-verify, 15 opaque-refs, 45 thin, 421 missing-links)

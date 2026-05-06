@@ -12,7 +12,7 @@ tags:
 - whole-brain-modeling
 title: CARLsim
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 - "Nageswaran, J. M., Dutt, N., Krichmar, J. L., Nicolau, A., & Veidenbaum, A. (2009). A configurable simulation environment for the efficient simulation of large-scale spiking neural networks on graphics processors. Neural Networks, 22(5-6), 791-800. doi:10.1016/j.neunet.2009.06.019"
@@ -88,7 +88,7 @@ CARLsim has gained traction in the neuromorphic community due to:
 
 - [[NEST]] — CPU-focused spiking network simulator with larger ecosystem
 - [[NEURON]] — Multi-compartment detailed neuron simulations
-- [[brian2cuda]] — Python-based SNN simulator (Brian simulator)
+- [[brian2cuda]] — Python-based SNN simulator ([[brian]] simulator)
 - [[ANNarchy]] — GPU/CPU hybrid for rate-coded and spiking networks
 
 ## Related Concepts
@@ -108,7 +108,7 @@ Originally developed by the Cognitive Ante-Robot Learning (CARL) Laboratory at U
 
 - Large-scale cortical circuit modeling
 - Neuromorphic algorithm development
-- Spike-based machine learning with STDP
+- Spike-based [[machine-learning]] with STDP
 - Validation of neural mass model assumptions
 - Real-time brain-machine interfaces
 - Energy-efficient neural computation research

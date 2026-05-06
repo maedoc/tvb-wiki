@@ -1,19 +1,30 @@
 ---
-title: NESTML
 created: 2024-01-15
-updated: 2026-05-06
+sources:
+- raw/papers/semanticscholar-5c84b271b035.md
+tags:
+- software-nest
+- neuromorphic-computing
+- neural-network
+- spiking-neural-networks
+- software-brian
+- software-neuron
+- neural-mass-models
+- neuromorpho-toolkit
+- software-neuroml
+- computational-neuroscience
+title: NESTML
 type: entity
-tags: [software-nest, neuromorphic-computing, neural-network, spiking-neural-networks, software-brian, software-neuron, neural-mass-models, neuroconstruct, software-neuroml, computational-neuroscience]
-sources: ['https://arxiv.org/abs/1606.02882', 'https://www.frontiersin.org/articles/10.3389/fninf.2025.1544143', 'https://nestml.readthedocs.io/en/latest/nestml_language/nestml_language_concepts.html', 'https://nestml.readthedocs.io/en/latest/running/running_nest.html']
+updated: '2026-05-06'
 ---
 
-NESTML (Neural Simulation Tool Markup Language) is a domain-specific modeling language designed to describe neuron and synapse models for simulation in the NEST simulator. Developed primarily at the Institute of Neuroscience and Medicine (INM-6) at Forschungszentrum Jülich, NESTML provides a declarative approach to neuron modeling that separates the mathematical description of neuronal dynamics from the implementation details of particular simulation engines, enabling automatic code generation for multiple target platforms [@nestml-origin].
+NESTML ([[neural-simulation]] Tool Markup Language) is a domain-specific modeling language designed to describe neuron and synapse models for simulation in the NEST simulator. Developed primarily at the Institute of Neuroscience and Medicine (INM-6) at Forschungszentrum Jülich, NESTML provides a declarative approach to neuron modeling that separates the mathematical description of neuronal dynamics from the implementation details of particular simulation engines, enabling automatic code generation for multiple target platforms [@nestml-origin].
 
 ## Overview
 
-NESTML extends the concepts pioneered by NeuroML and related efforts by providing a dedicated language for describing point neuron models with arbitrary complexity. At its core, NESTML allows researchers to define neuronal dynamics through differential equations describing the evolution of membrane potential, gating variables for ion channel states, and synaptic conductance updates. The language supports both integrate-and-fire type models as well as more detailed conductance-based models derived from the [[hodgkin-huxley-model]] formalism.
+NESTML extends the concepts pioneered by NeuroML and related efforts by providing a dedicated language for describing point neuron models with arbitrary complexity. At its core, NESTML allows researchers to define neuronal dynamics through differential equations describing the evolution of membrane potential, gating variables for [[ion-channel]] states, and synaptic conductance updates. The language supports both [[spiking-neural-networks|integrate-and-fire]] type models as well as more detailed conductance-based models derived from the [[hodgkin-huxley-model]] formalism.
 
-The language was developed in response to a perennial challenge in computational neuroscience: the difficulty of implementing complex neuron models in multiple simulation environments. When a researcher develops a novel neuron model described in a research paper, implementing it in NEST, NEURON, or Brian often requires substantial manual effort and introduces the possibility of implementation errors. NESTML addresses this by allowing researchers to write a single model specification that can be automatically translated into optimized simulation code for different targets [@nestml-recent].
+The language was developed in response to a perennial challenge in [[computational-neuroscience]]: the difficulty of implementing complex neuron models in multiple simulation environments. When a researcher develops a novel neuron model described in a research paper, implementing it in NEST, NEURON, or [[brian]] often requires substantial manual effort and introduces the possibility of implementation errors. NESTML addresses this by allowing researchers to write a single model specification that can be automatically translated into optimized simulation code for different targets [@nestml-recent].
 
 ## Key Features
 
@@ -27,7 +38,7 @@ The language was developed in response to a perennial challenge in computational
 
 **Unit System**: NESTML incorporates a physical unit system that enables dimensional analysis during model specification. This catches parameter errors early in the modeling process—for example, preventing the user from accidentally specifying a membrane time constant in seconds when milliseconds are required. The toolchain validates all expressions for unit consistency at parse time [@nestml-recent].
 
-**ODE Solving**: The language supports exact solutions for analytically solvable differential equations (as used in [[adaptive-exponential-integrate-and-fire]] models) and numerical integration using forward Euler or GSL (GNU Scientific Library) for more complex dynamics. For non-linear systems, the GSL integrator provides Runge-Kutta methods with adaptive timestepping [@nestml-ode-docs; @nestml-nest-target].
+**ODE Solving**: The language supports exact solutions for analytically solvable differential equations (as used in [[adaptive-exponential-integrate-and-fire]] models) and numerical integration using forward Euler or GSL (GNU Scientific Library) for more complex dynamics. For non-[[linear]] systems, the GSL integrator provides Runge-Kutta methods with adaptive timestepping [@nestml-ode-docs; @nestml-nest-target].
 
 ## Relationship to NEST and the Ecosystem
 
@@ -35,7 +46,7 @@ NESTML is tightly integrated with the [[nest]] simulator, which provides the pri
 
 Beyond NEST, NESTML shares conceptual territory with other neuronal modeling tools. Unlike the general-purpose [[brian2cuda]] language which uses interpreted Python, NESTML generates compiled simulation code optimized for large-scale network simulations. Compared to NeuroML, which provides a broader but less simulation-specific format, NESTML offers deeper integration with NEST at the cost of narrower target support [@nestml-recent].
 
-The language builds upon concepts from LEMS (Low Entropy Model Specification), sharing a philosophical approach to declarative model definition, though NESTML is specifically optimized for point neuron models rather than the more general morphological neuron descriptions supported by NeuroML which can handle detailed compartmental models with complex dendritic architectures.
+The language builds upon concepts from [[lems]] (Low Entropy Model Specification), sharing a philosophical approach to declarative model definition, though NESTML is specifically optimized for point neuron models rather than the more general morphological neuron descriptions supported by NeuroML which can handle detailed compartmental models with complex dendritic architectures.
 
 ## Relationship to TVB
 
@@ -45,14 +56,14 @@ Integration between TVB and NEST is possible through projects like [[tvb-nest]],
 
 ## Key Papers
 
-The NESTML language was formally introduced by Plotnikov et al. (2016) in *NESTML: a modeling language for spiking neurons* [@nestml-origin]. This foundational paper established the declarative syntax for neuron model specification and demonstrated automatic code generation for the NEST simulator. Subsequent work by Blundell et al. (2018) extended NESTML with the ODE-toolbox for automatic selection of integration schemes. The most comprehensive recent overview is provided by Linssen et al. (2025) in *NESTML: a generic modeling language and code generation tool for the simulation of spiking neural networks with advanced plasticity rules* [@nestml-recent], which covers the full language features, synaptic plasticity support, and performance benchmarks.
+The NESTML language was formally introduced by Plotnikov et al. (2016) in *NESTML: a modeling language for spiking neurons* [@nestml-origin]. This foundational paper established the declarative syntax for neuron model specification and demonstrated automatic code generation for the NEST simulator. Subsequent work by Blundell et al. (2018) extended NESTML with the ODE-toolbox for automatic selection of integration schemes. The most comprehensive recent overview is provided by Linssen et al. (2025) in *NESTML: a generic modeling language and code generation tool for the simulation of spiking neural networks with advanced [[plasticity]] rules* [@nestml-recent], which covers the full language features, [[synaptic-plasticity]] support, and performance benchmarks.
 
 The language has been applied to implement various neuron models including variations of the [[adaptive-exponential-integrate-and-fire]] model and conductance-based neurons with detailed ion channel dynamics.
 
 ## Related Software
 
 - [[nest]] — Neural simulation tool, primary target for NESTML code generation
-- [[brian2cuda]] — Alternative spiking neural network simulator with interpreted Python interface
+- [[brian2cuda]] — Alternative spiking [[neural-network]] simulator with interpreted Python interface
 - [[neuroml]] — Broader neural modeling format with multiple simulation targets
 - [[neuromorpho-toolkit]] — GUI tool for managing neuronal models
 - [[pynest]] — Python interface to NEST

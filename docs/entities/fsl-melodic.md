@@ -15,7 +15,7 @@ tags:
 - software-analysis
 title: FSL MELODIC
 type: concept
-updated: '2026-05-05'
+updated: '2026-05-06'
 ---
 
 FSL MELODIC (Multivariate Exploratory Linear Optimized Decomposition into Independent Components) is a toolbox within the FMRIB Software Library that implements Independent Component Analysis (ICA) for decomposing [[fmri|fMRI]] data into spatially independent source signals [beckmann2004probabilistic]. Originally developed by the Oxford Centre for Functional Magnetic Resonance Imaging of the Brain (FMRIB), MELODIC provides a data-driven approach to analyzing resting-state [[functional-connectivity|functional connectivity]] without requiring a priori specification of seed regions or model waveforms. The tool has become a standard reference in the neuroimaging community for identifying intrinsic brain networks, artifact removal, and exploratory analysis of 4D fMRI time series [smith2009resting].
@@ -32,7 +32,7 @@ MELODIC offers several distinguishing capabilities that have contributed to its 
 
 Following decomposition, MELODIC produces spatial independent component maps and their associated time courses. The subsequent classification of components into neural, artifact, and ambiguous categories is performed by separate tools—most notably FSL's **FIX** (FMRIB's ICM Classification Toolbox) and the related ICA-AROMA method [salimi2014automatic]. This classification framework, formalized in ICA-AROMA, has become a foundation for automated artifact rejection pipelines, but it is important to note that MELODIC itself generates the components while classification is a post-processing step.
 
-The spatial ICA outputs from MELODIC integrate seamlessly with other FSL tools, particularly FEAT for task analysis and randomise for non-parametric statistical inference on component images. Visualization occurs through FSLEyes, FSL's dedicated image viewing platform, though MELODIC results are also compatible with external viewing tools such as Nilearn. Recent versions incorporate dual-regression analysis, enabling back-reconstruction of subject-specific time courses from group-level component maps—a critical capability for individual-level network quantification in clinical applications [beckmann2005temporal].
+The spatial ICA outputs from MELODIC integrate seamlessly with other FSL tools, particularly FEAT for task analysis and randomise for non-parametric statistical inference on component images. Visualization occurs through FSLEyes, FSL's dedicated image viewing platform, though MELODIC results are also compatible with external viewing tools such as [[nilearn]]. Recent versions incorporate dual-regression analysis, enabling back-reconstruction of subject-specific time courses from group-level component maps—a critical capability for individual-level network quantification in clinical applications [beckmann2005temporal].
 
 ## Relationship to TVB and Whole-Brain Modeling
 
@@ -44,8 +44,8 @@ Moreover, MELODIC's artifact classification capabilities (via FIX or ICA-AROMA) 
 
 - Beckmann, C. F., & Smith, S. M. (2004). Probabilistic ICA for fMRI. *NeuroImage* [beckmann2004probabilistic]
 - Beckmann, C. F., DeLuca, M., Devlin, J. T., & Smith, S. M. (2005). Investigations into resting-state connectivity using independent component analysis. *Philosophical Transactions of the Royal Society B* [beckmann2005temporal]
-- Salimi-Khorshidi, G., Douaud, G., Beckmann, C. F., Glasser, M. F., Griffanti, L., & Smith, S. M. (2014). Automatic denoising of functional MRI data: Integrating ICA-AROMA and alternative strategies. *Frontiers in Neuroscience* [salimi2014automatic]
-- Smith, S. M., Fox, P. T., Miller, K. L., Glahn, D. C., Fox, P. M., Mackay, C. E., ... & Beckmann, C. F. (2009). Correspondence of the brain's functional architecture during activation and [[rest]]. *Proceedings of the National Academy of Sciences* [smith2009resting]
+- Salimi-Khorshidi, G., Douaud, G., Beckmann, C. F., Glasser, M. F., Griffanti, L., & Smith, S. M. (2014). Automatic denoising of [[neuroimaging-fmri|functional MRI]] data: Integrating ICA-AROMA and alternative strategies. *Frontiers in Neuroscience* [salimi2014automatic]
+- Smith, S. M., Fox, P. T., Miller, K. L., Glahn, D. C., Fox, P. M., Mackay, C. E., ... & Beckmann, C. F. (2009). Correspondence of the brain's functional architecture during activation and [[tvb-rest]]. *Proceedings of the National Academy of Sciences* [smith2009resting]
 - Hyvärinen, A. (1999). Fast and robust fixed-point algorithms for independent component analysis. *IEEE Transactions on Neural Networks* [hyvarinen1999fast]
 - McEvoy, L. K., Smith, M. E., & Storey, J. D. (2000). Linear dimensionality reduction. *Advances in Neural Information Processing Systems* [mcevoy2000linear]
 
@@ -63,7 +63,7 @@ While MELODIC remains the most widely cited ICA tool for fMRI, several alternati
 
 [salimi2014automatic]: Salimi-Khorshidi, G., Douaud, G., Beckmann, C. F., Glasser, M. F., Griffanti, L., & Smith, S. M. (2014). Automatic denoising of functional MRI data: Integrating ICA-AROMA and alternative strategies. *Frontiers in Neuroscience*, 8, 355.
 
-[smith2009resting]: Smith, S. M., Fox, P. T., Miller, K. L., Glahn, D. C., Fox, P. M., Mackay, C. E., ... & Beckmann, C. F. (2009). Correspondence of the brain's functional architecture during activation and rest. *Proceedings of the National Academy of Sciences*, 106(31), 13040-13045.
+[smith2009resting]: Smith, S. M., Fox, P. T., Miller, K. L., Glahn, D. C., Fox, P. M., Mackay, C. E., ... & Beckmann, C. F. (2009). Correspondence of the brain's functional architecture during activation and [[rest]]. *Proceedings of the National Academy of Sciences*, 106(31), 13040-13045.
 
 [hyvarinen1999fast]: Hyvärinen, A. (1999). Fast and robust fixed-point algorithms for independent component analysis. *IEEE Transactions on Neural Networks*, 10(3), 626-634.
 
@@ -71,6 +71,6 @@ While MELODIC remains the most widely cited ICA tool for fMRI, several alternati
 
 ## References
 
-1. Dionysios Perdikis, Rita Sleimen-Malkoun, Viktor Müller, V. Jirsa. (2025). *Developmental and [[aging]] changes in brain network switching dynamics revealed by EEG phase synchronization*. bioRxiv. [DOI](](https://doi.org/10.1371/journal.pcbi.1013290))
-2. Winn W Chow, A. Seghouane, M. Seghier. (2025). *A Statistical Characterization of Dynamic Brain Functional Connectivity*. Human Brain Mapping. [DOI](](https://doi.org/10.1002/hbm.70145))
-3. Diego Derman, Damon D. Pham, Amanda F. Mejia, Silvina L. Ferradal. (2025). *Individual patterns of functional connectivity in neonates as revealed by surface-based Bayesian modeling*. Imaging neuroscience. [DOI](](https://doi.org/10.1162/imag_a_00504))
+1. Dionysios Perdikis, Rita Sleimen-Malkoun, Viktor Müller, V. Jirsa. (2025). *Developmental and [[aging]] changes in brain network switching dynamics revealed by EEG phase synchronization*. bioRxiv. [DOI](https://doi.org/10.1371/journal.pcbi.1013290))
+2. Winn W Chow, A. Seghouane, M. Seghier. (2025). *A Statistical Characterization of Dynamic Brain Functional Connectivity*. Human Brain Mapping. [DOI](https://doi.org/10.1002/hbm.70145))
+3. Diego Derman, Damon D. Pham, Amanda F. Mejia, Silvina L. Ferradal. (2025). *Individual patterns of functional connectivity in neonates as revealed by surface-based [[bayesian]] modeling*. Imaging neuroscience. [DOI](https://doi.org/10.1162/imag_a_00504))

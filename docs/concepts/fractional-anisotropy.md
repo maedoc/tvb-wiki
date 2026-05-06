@@ -8,7 +8,7 @@ tags:
 - fractional-anisotropy
 title: Fractional Anisotropy
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 Fractional Anisotropy — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
@@ -16,8 +16,10 @@ Fractional Anisotropy — a concept in [[whole-brain|whole-brain modeling]] and 
 ## Related Concepts
 * [[aging]]
 
+For a comparison of [[diffusion-imaging]] models, see [[dti-vs-hardi-vs-noddi]].
+
 ## References
 
 1. (authors unknown). *Functional [[connectomics]] from [[resting-state|Resting-State fMRI]]*.
 2. (authors unknown). *[[functional-connectivity]]: The Principal-Component Analysis of Large (PET and [[fmri]]) Data Sets*.
-3. Jelena Trajkovic, G. Ricci, G. Pirazzini, L. Tarasi, Francesco Di Gregorio, E. Magosso, Mauro Ursino, V. Romei. (2025). *Aberrant Functional [[connectivity]] and [[brain-network]] Organization in High-Schizotypy Individuals: An Electroencephalography Study*. Schizophrenia bulletin. [DOI](](https://doi.org/10.1093/schbul/sbaf004))
+3. Jelena Trajkovic, G. Ricci, G. Pirazzini, L. Tarasi, Francesco Di Gregorio, E. Magosso, Mauro Ursino, V. Romei. (2025). *Aberrant Functional [[connectivity]] and [[brain-network]] Organization in High-Schizotypy Individuals: An Electroencephalography Study*. Schizophrenia bulletin. [DOI](https://doi.org/10.1093/schbul/sbaf004)

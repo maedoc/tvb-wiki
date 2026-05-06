@@ -18,14 +18,14 @@ tags:
 - cortical-thickness
 title: SurfStat
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # SurfStat
 
 ## Overview
 
-SurfStat is a MATLAB toolbox designed for surface-based statistical analysis of [[neuroimaging]] data, particularly cortical surface measurements derived from tools like Freesurfer and [[brainvisa]]. Developed primarily by the Montreal Neurological Institute and associated research groups (Worsley et al., 2009a), SurfStat provides a comprehensive set of statistical routines specifically optimized for analyzing data that resides on the cortical surface manifold rather than in volumetric image space. The toolbox enables researchers to perform vertex-wise statistical tests, cluster-based corrections for multiple comparisons, and region-of-interest analyses across the cortical sheet, making it an essential tool for studies of cortical thickness, surface area, and curvature measurements (Worsley et al., 2009b).
+SurfStat is a MATLAB toolbox designed for surface-based statistical analysis of [[neuroimaging]] data, particularly cortical surface measurements derived from tools like [[freesurfer]] and [[brainvisa]]. Developed primarily by the Montreal Neurological Institute and associated research groups (Worsley et al., 2009a), SurfStat provides a comprehensive set of statistical routines specifically optimized for analyzing data that resides on the cortical surface manifold rather than in volumetric image space. The toolbox enables researchers to perform vertex-wise statistical tests, cluster-based corrections for multiple comparisons, and region-of-interest analyses across the cortical sheet, making it an essential tool for studies of cortical thickness, surface area, and curvature measurements (Worsley et al., 2009b).
 
 ## Key Features
 

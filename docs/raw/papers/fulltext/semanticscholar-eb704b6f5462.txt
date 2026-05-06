@@ -1,0 +1,937 @@
+                                                                                                                 TYPE Methods
+                                                                                                                 PUBLISHED 02 February 2026
+                                                                                                                 DOI 10.3389/fncom.2025.1731161
+
+
+
+
+                                                Arbor-TVB: a novel multi-scale
+OPEN ACCESS                                     co-simulation framework with a
+                                                case study on neural-level
+EDITED BY
+Tiago Ribeiro,
+National Institutes of Health (NIH), United
+States
+
+REVIEWED BY
+                                                seizure generation and
+Gerald Kaushallye Cooray,
+Karolinska Institutet (KI), Sweden
+Gian Marco Duma,
+                                                whole-brain propagation
+Eugenio Medea (IRCCS), Italy
+
+*CORRESPONDENCE
+                                                Thorsten Hater1*, Juliette Courson2,3 , Han Lu1 , Sandra Diaz-Pier1
+Thorsten Hater
+  t.hater@fz-juelich.de                         and Thanos Manos2*
+Thanos Manos
+                                                1
+  thanos.manos@cyu.fr                            Simulation and Data Lab Neuroscience, Jülich Supercomputing Centre (JSC), Forschungszentrum
+                                                Jülich GmbH, Jülich, Germany, 2 ETIS Lab, ENSEA, CNRS, UMR8051, CY Cergy-Paris University, Cergy,
+RECEIVED 23 October 2025
+                                                France, 3 Department of Computer Science, University of Warwick, Coventry, United Kingdom
+REVISED 15 December 2025
+ACCEPTED 17 December 2025
+PUBLISHED 02 February 2026
+
+CITATION
+                                                Computational neuroscience has traditionally focused on isolated scales, limiting
+Hater T, Courson J, Lu H, Diaz-Pier S and       understanding of brain function across multiple levels. While microscopic
+Manos T (2026) Arbor-TVB: a novel               models capture biophysical details of neurons, macroscopic models describe
+multi-scale co-simulation framework with a
+case study on neural-level seizure generation
+                                                large-scale network dynamics. Integrating these scales, however, remains a
+and whole-brain propagation.                    signiﬁcant challenge. In this study, we present a novel co-simulation framework
+Front. Comput. Neurosci. 19:1731161.            that bridges these levels by integrating the neural simulator Arbor with The
+doi: 10.3389/fncom.2025.1731161
+                                                Virtual Brain (TVB) platform. Arbor enables detailed simulations from single-
+COPYRIGHT                                       compartment neurons to populations of such cells, while TVB models whole-
+© 2026 Hater, Courson, Lu, Diaz-Pier and
+Manos. This is an open-access article           brain dynamics based on anatomical features and the mean neural activity of
+distributed under the terms of the Creative     a brain region. By linking these simulators for the ﬁrst time, we provide an
+Commons Attribution License (CC BY). The        example of how to model and investigate the onset of seizures in speciﬁc
+use, distribution or reproduction in other
+forums is permitted, provided the original      areas and their propagation to the whole brain. This framework employs an MPI
+author(s) and the copyright owner(s) are        intercommunicator for real-time bidirectional interaction, translating between
+credited and that the original publication in   discrete spikes from Arbor and continuous TVB activity. Its fully modular design
+this journal is cited, in accordance with
+accepted academic practice. No use,             enables independent model selection for each scale, requiring minimal effort
+distribution or reproduction is permitted       to translate activity across simulators. The novel Arbor-TVB co-simulator allows
+which does not comply with these terms.         replacement of TVB nodes with biologically realistic neuron populations, offering
+                                                insights into seizure propagation and potential intervention strategies. The
+                                                integration of Arbor and TVB marks a signiﬁcant advancement in multi-scale
+                                                modeling, providing a comprehensive computational framework for studying
+                                                neural disorders and optimizing treatments.
+
+                                                KEYWORDS
+
+                                                Arbor, mouse brain connectome, multi-scale neural models, seizures, The Virtual Brain
+
+
+
+                                                1 Introduction
+                                                    The human brain consists of billions of neurons and an equally vast population
+                                                of non-neuronal cells, intricately organized into layers and regions (Herculano-Houzel,
+                                                2009, 2012). Each neuron operates as a highly sophisticated biochemical machinery (West
+                                                et al., 2002; Augustine et al., 2003; Darnell, 2013; Lu et al., 2025), coordinating signal
+                                                transmission within an extensive network in health (Reyes, 2003; Barral et al., 2019; Dicks,
+                                                2022) and disease (see e.g., Tetzlaﬀ et al., 2025). Ever since the Hodgkin-Huxley model
+                                                was introduced to describe membrane potential dynamics (Hodgkin and Huxley, 1952c),
+
+
+
+Frontiers in Computational Neuroscience                              01                                                             frontiersin.org
+Hater et al.                                                                                                            10.3389/fncom.2025.1731161
+
+
+
+
+computational neuroscience has played a pivotal role in enhancing             et al., 2021; Lu et al., 2024). Most microscopic and mesoscopic
+our understanding of brain function. Yet, due to the immense                  models remain theory-driven, using mathematical approximations
+complexity of the brain and computational constraints, most                   to infer neural behavior rather than directly establishing model
+modeling studies focus on a single scale simulator or rely on                 based on large datasets (see e.g., Popovych et al., 2019 for a recent
+standalone simulation codes.                                                  review).
+     Modeling the large-scale electrical activity of the brain is a                Data-driven modeling has gained traction at the macroscopic
+complex task. It not only demands familiarity with advanced                   level with the rise of open-source brain imaging databases [such
+mathematical methods, but also a solid grasp of the brain’s                   as OpenfMRI (Poldrack and Gorgolewski, 2017)]. High-resolution
+physiology and anatomy. Neural ﬁeld theory oﬀers a way to study               structural and functional data from magnetic resonance imaging
+the nonlinear behavior of large groups of neurons at a population             (MRI) and diﬀusion tensor imaging (DTI) enable whole-brain
+level, while still keeping the mathematics manageable. These                  modeling based on real anatomical features. The Virtual Brain
+models give us a strong theoretical framework for understanding               (TVB) (Sanz Leon et al., 2013; Sanz-Leon et al., 2015; Ritter
+key processes in neural tissue, including how the brain transitions           et al., 2013) and Virtual Brain Twin (VBT) (Hashemi et al.,
+between diﬀerent activity states, such as those seen in sleep or              2025) platforms, for instance, integrate functional MRI and DTI
+during epileptic events, see e.g., Cook et al. (2022) for a recent            datasets to build individualized models, using coupled oscillators
+review. Moreover, multi-scale computational modeling provides a               to represent regional activity. TVB has contributed signiﬁcantly to
+framework for connecting neural mechanisms with measurements                  the understanding of neurological disorders and serves as a testing
+ranging from unit recordings to electroencephalogram (EEG),                   ground for therapeutic interventions (see e.g., Stefanovski et al.,
+magnetoencephalography (MEG), and functional magnetic                         2021; Monteverdi et al., 2023; Courson et al., 2024 and references
+resonance imaging (fMRI). Such models clarify how neural systems              therein), for studying self-organization on macroscale (see e.g.,
+compute and interact, and they are essential for integrating                  Fousek et al., 2024), consciousness (see e.g., Breyton et al., 2024)
+empirical ﬁndings into a robust theoretical understanding of brain            and healthy aging (see e.g., Lavanga et al., 2023).
+function, see e.g., Deco et al. (2008) and Cooray et al. (2023).                   With advances in computing resources and simulation
+Along this direction, recently in Cooray et al. (2025), the authors           technologies, the integration of models across diﬀerent scales
+also studied oscillatory activity in cortical tissue arising from not         has become both feasible and essential to strike a balance
+uniform neural connections. and showed that oscillations can be               between retaining detailed information and achieving a broad-
+maintained under a wide range of anisotropic and time-varying                 scale understanding. Recently, a co-simulation framework was
+connectivity patterns.                                                        introduced that employs NEST and TVB to bridge mesoscopic
+     Simulations incorporating biophysical properties and neural              and macroscopic modeling. This work has pioneered cross-scale
+morphology typically concentrate on individual neurons using                  modeling (Kusch et al., 2024) and has demonstrated the beneﬁts of
+simulators such as the NEURON simulator (Carnevale and                        integrating models across spatial levels. A notable application of the
+Hines, 2006). At the microscopic level, studies have explored                 virtual deep brain stimulation model (Meier et al., 2022; Shaheen
+questions such as how the ion channel kinetics inﬂuence neural                et al., 2022; Wang et al., 2025) demonstrated its utility in multiscale
+excitability (see e.g., Gurkiewicz et al., 2011; Suma et al., 2024),          simulations. Similar tools have been made available within the
+how proteins, enzymes, and calcium concentration are distributed              European digital neuroscience platform, EBRAINS (Schirner et al.,
+among neighboring spines to impact plasticity (see e.g., Luboeinski           2022).
+and Tetzlaﬀ, 2021; Chater et al., 2024), and how signal propagation                However, integrating microscopic and macroscopic models
+along axonal ﬁbers relates to neuropathic pain (see e.g., Tigerholm           remains technically challenging. At the core lies the vast amount
+et al., 2014, 2015). Some studies examine how neural morphology—              of information being processed, billions of cells with thousands
+such as dendritic tree growth (see e.g., Yasumatsu et al., 2008)              of connections, and the immense gap in timescales, from
+and morphology-dependent plastic interactions (see e.g., Hananeia             microseconds in ion channel dynamics to minutes or hours for
+et al., 2024)—aﬀects function. These studies, while often limited to          plastic changes of the connectome. To solve this challenge, we used
+small patches of the neural membrane, a few dendritic segments, or            the Arbor simulator (Abi Akar et al., 2019) and, more speciﬁcally,
+a small local network, provide valuable approximations of broader             its most recent next-generation version (Cumming et al., 2024), at
+neural phenomena.                                                             the microscopic end. Designed for single-neuron and large-scale
+     At the mesoscopic level, researchers simplify neuronal                   network simulations, Arbor leverages GPU resources to enhance
+representations using point leaky-integrate-and-ﬁre neurons                   computational speed and energy eﬃciency.
+[based on simulators such as NEST (Gewaltig and Diesmann,                          In this Methods paper, we successfully established eﬃcient
+2007) or Brian/Brian2 (Stimberg et al., 2019)], allowing studies              communication between Arbor and the TVB that respects their
+on larger networks without explicit neuronal morphology or                    diﬀerent operational time scales and provided a use case example
+with some degree of self-customized morphology, using, e.g.,                  of the cross-scale interaction. To demonstrate a ﬁrst showcase,
+NESTML (Linssen et al., 2024). This approach has advanced our                 we used a mouse brain connectome provided by TVB, where
+understanding of neural heterogeneity (Demirtaş et al., 2019;                each region represents the mean mass neural activity of a brain
+Nayebi et al., 2021; Gast et al., 2024), self-organization (Zheng             area modeled by a macroscopic model. Using the co-simulation
+et al., 2013; Diaz-Pier et al., 2016; Miner and Triesch, 2016), neural        interface, we replaced one TVB node with a network of detailed
+capacity (Emina and Kropﬀ, 2022), energy eﬃciency (Sacramento                 neurons modeled in Arbor. An extended Hodgkin-Huxley-based
+et al., 2015), and neural plasticity in disease and health (Manos             neuron model (Depannemaecker et al., 2022) was utilized in Arbor
+
+
+
+
+Frontiers in Computational Neuroscience                                  02                                                            frontiersin.org
+Hater et al.                                                                                                              10.3389/fncom.2025.1731161
+
+
+
+
+to simulate diﬀerent neural activity patterns (e.g., spiking, bursting,        bath, see Figure 1 for a schematic of the dynamics. It describes
+seizure-like, etc.). By tweaking a single parameter, we showcased              the ionic exchanges between the intracellular and extracellular
+that the seizure-like events generated in Arbor propagated to                  spaces (ICS, ECS) of a neuron immersed within an external bath,
+other nodes modeled in TVB. This platform provides users with                  acting as a potassium buﬀer of concentration Kbath . Ions ﬂow
+the freedom to use existing models across scales with minimal                  between the ICS and ECS through a sodium-potassium pump
+additions and enabled future development in building brain digital             and the sodium, potassium and chloride voltage-gated channels,
+twins that contain both micro- and macroscopic information for                 driving changes in the internal (Ki , Nai , Cli ) and external (Ko ,
+therapeutic applications.                                                      Nao , Clo ) ionic concentrations. By gradually increasing the external
+                                                                               bath concentration of potassium ions Kbath , the model sequentially
+                                                                               presents these patterns: resting state (RS), spike train (ST), tonic
+2 Materials and methods                                                        spiking (TS), bursting, seizure-like events (SLE), sustained ictal
+                                                                               activity (SIA) and depolarization block (DB), see Figure 2. The fast
+2.1 The Arbor simulator
+                                                                               dynamics of the membrane potential V is modeled in Arbor via
+                                                                               the cable equations, see above, which require computing the ion
+    Arbor is an open-source library for building simulations of
+                                                                               current densities iX used in the simulator update as:
+biophysically detailed neuron models (Abi Akar et al., 2019). It
+provides an alternative to software like NEURON (Carnevale and                                          iX = gX (V − EX )                   (2)
+Hines, 2006), but with a strong emphasis on modern hardware                                                          
+                                                                                                                      Xo
+and scalability to large-scale systems (Hines, 1984). Its overall                                      EX = C · log                         (3)
+                                                                                                                      Xi
+set of capabilities allows Arbor to model neural networks at a                                                   
+level of resolution beyond point models to explore phenomena                   with the ion species X = K, Na, Cl and a non-ion current density:
+like dendritic computation. Thus, support for bulk-synchronous                                                     ρ
+parallelism via MPI, shared memory parallelism by utilizing a                        ipump =                                                 .    (4)
+                                                                                               (1 + exp(10.5 − 0.5Nai ))(1 + exp(5.5 − Ko ))
+thread-pool and job system is central to Arbor, and certain cell
+types—primarily cable cells—can further leverage SIMD and GPU                      These currents enter the cable equation Equation 1 as the
+hardware. Arbor is written in C++, though most users interface                 trans-membrane current i via:
+                                                                                                                 
+with it through an intuitive, high-level Python interface built on                                   i = ipump +    iX
+top of the lower level implementation. The underlying numerical                                                       X
+model of Arbor is the cable equation:
+                                                                                   Following the Hodgkin-Huxley model, conductivities gX are
+                                        
+                        ∂U     ∂     ∂U                                        written as:
+                      c    =       σ       +i                   (1)
+                        ∂t    ∂x      ∂x
+                                                                               gK = g0,K n + gl,K      gNa = g0,Na mh + gl,Na            gCl = g0,Cl
+where the membrane potential U is computed over the                                                                                              (5)
+morphological structure of the neural tree; the spatial coordinate
+                                                                                 The—internal i and external o—ion concentrations are
+x and the derivative are to be understood within this structure
+                                                                               modeled as:
+(Von Helmholtz, 1850; Thompson and Kelvin, 1855; Hodgkin
+et al., 1952; Hodgkin and Huxley, 1952a,b; Loligo, 1952; Hodgkin                Ki = K0,i + Ki                Nai = Na0,i − Ki        Cli = Cl0,i
+and Huxley, 1952c; Scott, 1975). The parameters c and σ deﬁne                  Ko = K0,o − βKi + Kg           Nao = Na0,o + βKi       Clo = Cl0,o
+the membrane capacitance and longitudinal resistance. The                                                                                       (6)
+trans-membrane current density i models the entirety of ionic                                           
+and non-ionic currents. In both NEURON and Arbor, these                            The variables Ki , Kg evolve as:
+are calculated from user-speciﬁed sets of diﬀerential equations,                                                          
+                                                                                                    dKi
+potentially varying along the morphology. The equations for i                                            = −γ iK − ipump                          (7)
+                                                                                                     dt
+and U are solved in alternation (Lie-Trotter splitting) using a
+                                                                                                     dKg
+ﬁrst-order implicit method.                                                                              =  (Kbath − Ko )                        (8)
+                                                                                                      dt
+                                                                               where γ converts the current density iX to molar ﬂux, summarizing
+2.2 Single neuron and network models in                                        the eﬀect of the ion pump in Figure 1A and the external buﬀer.
+                                                                               Finally, fast dynamics were reduced and adjusted to mammalian
+Arbor
+                                                                               neurons:
+    We begin by selecting a dynamical model that allows for                                         dn   1             
+                                                                                                       =     n − n∞ (V)                           (9)
+relatively easy yet realistic simulation of a broad spectrum of neural                              dt   τ
+activity at the single-neuron level, governed by a small set of                                                       1
+                                                                                                n∞ (V) =                                         (10)
+biophysical parameters. The neural model from Depannemaecker                                             1 + exp(−(19 + V)/18)
+et al. (2022) was formulated for Arbor in the Neuron MODeling                                                        1
+                                                                                           m = m∞ (V) =                                          (11)
+Language (NMODL). The following equations form the slow part                                             1 + exp(−(2 + V/12))
+of the system, describing the evolution of ion concentrations due to                                                     1
+                                                                                              h = h(n) = 1.1 −                                   (12)
+voltage-gated channels, active pumps, and buﬀering by an external                                               1 + exp(3.2 − 0.8n)
+
+
+
+Frontiers in Computational Neuroscience                                   03                                                           frontiersin.org
+Hater et al.                                                                                                                       10.3389/fncom.2025.1731161
+
+
+
+
+    FIGURE 1
+    Biophysical neuron model and Arbor network. (A) For single cell dynamics, three ion concentrations (K, Na, and Cl) are modeled in the cell’s interior
+    and a thin shell of its extracellular medium. The latter is, in turn, surrounded by a bath of a ﬁxed potassium concentration Kbath . The model simulates
+    changes to the concentration in addition to the current contributions based on three voltage-gated ion channels, an active pump between
+    potassium and sodium, and the buffering effect of the surrounding potassium bath. (B) We choose typical values of Kbath for the single models to
+    generate the tonic spiking and seizure-like event behaviors. In most cases, a fully connected network using exponential synapses with weight
+    w = 0.5 is used. As an example, we show here the network instantiation for a network size N = 5 and a ratio of SLE to tonic neurons of f = 0.2.
+
+
+
+based on the observations that the reaction of the sodium gating                    investigate the dynamics of local brain regions embedded within
+variable to changes in V is nigh instantaneous and h(t) + n(t) =                    a large-scale brain network. The mean ﬁring rate H(xI ) and mean
+const.                                                                              synaptic gating variable SI of region I are described by:
+    The resulting ion channel was added to a basic, spherical,
+single-compartment neuron. After implementing this biophysical                                      dSI       SI
+                                                                                                          = − + (1 − SI )γ H(xI )                          (13)
+model, we reproduced the ﬁring patterns using the parameters                                         dt       τs
+of the reported model (Figures 2A–F), see also Depannemaecker                                                      axI − b
+                                                                                                   H(xI ) =                                                (14)
+et al. (2022) for more details and motivation for model parameter                                           1 − exp(−d(axI − b))
+                                                                                                                         
+choices. Note that despite the values given in the original                                           xI = ωJN SI + GJN    cIK SK + I0 ,                   (15)
+publication, neither the Arbor nor the published reference                                                                     K
+implementation produces the depolarization block pattern at
+Kbath = 20mM but only at around Kbath = 22.5mM. From here,                          where xI is the synaptic input to the I-th region, ω = 1 denotes
+a simple model network was developed, comprising N total cells,                     the local excitatory recurrence, cIK is the strength of the structural
+with a mixture of tonic f · N and SLE (1 − f ) · N cells, where both                connection from the local area I to K, and G is a global coupling
+sub-populations are assigned individual values for Kbath , sketched                 strength. The parameters are set to the same values as those used in
+in Figure 1. Cells are connected using exponential synapses with an                 the TVB implementation. JN = 0.2609nA is the synaptic coupling
+internal weight of w = 0.5 chosen to produce an activity similar                    of NMDA receptors and I0 = 0.33nA is the baseline external input.
+to Rabuﬀo et al. (2025) which uses delta synapses.                                  The kinetic parameters are τs = 100ms and γ = 0.641. The
+    In addition to the elementary spherical morphology, we also                     parameters of the input-output function H are a = 0.27nC−1 ,
+investigated two multi-compartmental neuron models. The ﬁrst                        b = 0.108kHz, and d = 154ms. Depending on the tuning of G,
+model included a single dendritic segment of 25μm, subdivided                       the system exhibits a multi-stable regime, with steady states of high
+into 5μm compartments. The second model extended the dendrite                       and low spiking activity. Here, we set G = 0.096.
+into a randomly generated tree composed of 5μm compartments.
+To introduce variability across cells, the random number generator
+was seeded with each cell’s unique identiﬁer (see Figure 3 for                      2.4 Co-simulation framework of Arbor and
+examples). In future work, these synthetic morphologies will be                     TVB
+replaced with reconstructions derived from neural imaging data
+available in public databases. Supporting such models in Arbor will                     Both Arbor and TVB oﬀer support for attaching a second
+require only a simple command to load per-cell morphology data                      simulator to perform co-simulation, potentially at diﬀerent scales.
+from disk.                                                                          Co-simulation from TVB’s viewpoint is the simpler technology of
+                                                                                    the two frameworks, since TVB is designed to execute as a single
+                                                                                    process. TVB allows for exchange of any variable relevant to the
+                                                                                    region models and any number of variables. The co-simulation
+2.3 TVB network model                                                               partner is encapsulated in one or more TVB regions, called proxy
+                                                                                    nodes, see Figure 4. These proxies present a conforming interface
+  Following Deco et al. (2013), we used the reduced Wong-                           to TVB, exchanging the salient variables as a table, one row per
+Wang model (Wang, 2002) to simulate resting-state activity and to                   time-step, one column per variable. As TVB advances in lockstep
+
+Frontiers in Computational Neuroscience                                        04                                                                frontiersin.org
+Hater et al.                                                                                                                   10.3389/fncom.2025.1731161
+
+
+
+
+    FIGURE 2
+    Different neural spiking patterns. (A) Spike Train, Kbath =7.5mM. (B) Tonic Spikes, Kbath =9.5mM. (C) Bursting, Kbath =12.5mM. (D) Seizure-Like Event
+    (SLE), Kbath =17.0mM. (E) Sustained Ictal Activity (SIA), Kbath =17.5mM. (F) Depolarization Block, Kbath =22.5mM. Note that by setting Kbath =4mM, one
+    can obtain Resting State (RS) activity too (result not shown here).
+
+
+
+
+    FIGURE 3
+    Compartmental neuronal morphologies used for simulations. Each morphology comprises a soma (blue) and a dendritic section (violet). For
+    numerical simulations, dendritic segments are discretized into 5μm compartments, whereas the soma is modeled as a single compartment. Since
+    the cable model neglects extracellular effects, a 1.5-dimensional morphology is employed internally, rendering spatial relationships irrelevant to the
+    model dynamics. When multiple connections converge onto a single cell, synaptic assignments follow a round-robin scheme. (A) Soma only.
+    Equivalent to a point model, the cylindrical segment has a radius r and a length of 2r, chosen to yield the same surface area as a sphere of radius r.
+    Both synapses and spike detectors are attached at the center of the soma. (B) Ball and stick. A straight dendritic segment is added, featuring passive
+    current ﬂow and a synapse attached at a ﬁxed distance from the soma. (C) Random trees. More complex morphologies are generated as random
+    binary trees of depth ﬁve. Synapses are placed at a ﬁxed distance from the soma and may be targeted by connections originating from spike
+    detectors, which are positioned at the soma center. See Supplementary Figure S1 for more examples of randomly generated morphologies.
+
+
+
+
+on a global time-step, this is almost identical to normal operation.               the connectome data used to construct a TVB simulation. In the
+However, co-simulation introduces the concept of an ‘epoch’ to                     case that a connectome contains zero-valued delays these must
+TVB, i.e., the length of time that conforms to the smallest delay                  be replaced with a pre-deﬁned ﬁnite value. Further, it is required
+τmin in the set of inter-region connections delays τIJ , with I and                that the time-step evenly divides τmin . Co-simulation thus can
+J referring to two connected regions. These delays are part of                     integrate all nodes’ state, including the proxy, for one epoch τmin
+
+
+
+Frontiers in Computational Neuroscience                                       05                                                                frontiersin.org
+Hater et al.                                                                                                                10.3389/fncom.2025.1731161
+
+
+
+
+without exchanging data. This is correct as an event emanating                    activity through calcium level is implemented as:
+from any region I at time t inﬂuences any other region J at time
+t + τIJ ≥ t + τmin . Only after an epoch, data need to be exchanged                   dCp    Cp (t)      
+                                                                                          =−        +β     δ(t − tspike,p ),          Cp (0) = 0     (16)
+between the proxy and the rest of the TVB regions. A TVB–NEST                          dt     τ        t    spike,p
+demonstration has been published to showcase the interaction
+between a local network of spiking neurons and the whole-brain                    with per cell p having a decay parameter τ and a weight β.
+network dynamics (Kusch et al., 2024).                                            Computing the activity becomes the average:
+     Arbor has a diﬀerent design in terms of connectivity.
+Interaction between physically separate cells is mediated by                                               νP (t) = Cp (t) p∈P ,                     (17)
+action potentials, e.g., when the membrane potential triggered
+by dedicated sources crosses a conﬁgurable threshold. Cells are                   yielding a smooth trace. This method of converting discrete spiking
+connected by wiring these sources to corresponding sinks like                     events into a continuous interval variable is also used in a few
+synapses via an abstract connection object comprising a delay                     plasticity models recruiting a negative feedback control mechanism
+and weight, modeling transmission and attenuation via an axon.                    such as synaptic scaling (Van Rossum et al., 2000) and homeostatic
+In contrast to TVB, Arbor is fundamentally a distributed system                   structural plasticity (Butz and Van Ooyen, 2013; Diaz-Pier et al.,
+and internally employs the same approach to decoupling via                        2016; Lu et al., 2024) models. The choice of the calcium kernel
+the minimum network delay as explained above. To initiate co-                     parameters is based on trial-and-error to match the output of Arbor
+simulation, Arbor utilizes an additional interface to manage the                  and the magnitude of activity generated by TVB. Figure 5 compares
+spike exchange from external connections that are originated from                 the impact of this choice on the macro-scale network. In small
+outside but terminate at cells simulated in Arbor. On the technical               networks and over short timescales deﬁned by the epoch length
+side, the latter part leverages MPI_Allgatherv through an inter-                  as shown in the example, spiking activity occurs in noncontinuous
+communicator and eﬀects that the concatenation of all spikes sent                 bursts, which is dubious in conjunction with the smooth dynamics
+from all MPI ranks running TVB arrive on all ranks running                        of the chosen TVB model. Figure 5A shows the propagation of this
+Arbor and vice versa (Figure 4B). This allows co-simulation in                    noncontinuous activity into the TVB regions, while using the Ca-
+conjunction with arbitrary numbers of ranks on both sides and even                like model (B) provides smooth dynamics in both the Arbor and
+in compounds with more than two simulators.                                       TVB models. We thus will use the latter in all simulations from here
+     Finally, bi-directional translation between TVB’s variable                   on out. In general, both methods require scaling by the number of
+concept and Arbor’s representation of action potentials is required.              cells in the proxy region to arrive at a scale-free activity measure. A
+As the former depends on the region models used, we chose to                      local scaling factor GA is used to convert between the activity of the
+bundle this with the remaining TVB functionality as part of the                   detailed network and the activity of the region modeled in TVB. In
+Arbor proxy node. For the TVB models used in this study, the main                 general, GA needs to be adjusted to the choice of connectome and
+variable is the per-region mean activity rate νI which is conceptually            TVB model, similar to the choice of the global coupling strength G
+compatible with the concept of spike generation. For each region                  in the RWW model. In this study, GA = 100 is used as it produces
+I connected to the proxy node P, i.e., with connectome weight                     seizure-like propagation patterns comparable to those found in
+cIP > 0, a set of synthetic events must be generated such that                    similar studies, see e.g., Melozzi et al. (2017) and Courson et al.
+the mean activity conforms to νI . This is an ambiguous process,                  (2024) and references therein.
+even if we prescribe a population (list of cell identiﬁers) and a per-
+cell distribution, e.g., a Poisson point process, from which to draw
+events, which likely must be resolved by ensembles of simulations.                3 Results
+In general, this is both model dependent and mathematically
+intractable, so we leave the general case as a customization point                    So far, we have described the components of the co-simulation
+in the framework. For our running example, however, we make the                   framework. It consists of the following components: a TVB model
+following choice: Event timings for the current step k will be drawn              based on the connectome and node dynamics, a speciﬁed set
+from a uniform distribution and dispatched to all cells in the Arbor              of TVB nodes where the Arbor models will be placed, one or
+network. Note that while these events are created at given time a                 more internally connected network models in Arbor, a deﬁned
+per-connection delay is applied and thus delivery occurs at a later               mechanism for routing events from TVB to individual cells in
+time.                                                                             Arbor, a method for translating Arbor-generated events into
+     The inverse direction, converting spike events to mean rates,                TVB variables, and a translation process for converting TVB
+while being well-deﬁned, is still subject to customization. We                    variables into events originating from synthetic cells. Each of
+explore two options here. First, simple running averages, i.e., all               these components serves as a customization point for the user.
+spikes that originate within the Arbor network during the current                 While reasonable default conﬁgurations can be provided for some,
+epoch, are collected and sorted into bins of width t. This list is               others require user-deﬁned speciﬁcations to suit speciﬁc modeling
+then normalized to the cell count and time step and sent to TVB as                needs.
+the mean activities as a function of time. Although straightforward,                  The single cell model has been demonstrated to exhibit
+this can lead to unrealistically rough activity traces, especially if cell        the necessary range of behaviors. We have also motivated our
+populations are small. Second, as inspired by high-speed calcium                  choice for converting spikes to rates of using a biologically-
+imaging experiments (Grewe et al., 2010), a mechanism to track cell               inspired exponential smoothing ﬁlter via a Ca-like activity over
+
+
+
+
+Frontiers in Computational Neuroscience                                      06                                                            frontiersin.org
+Hater et al.                                                                                                                    10.3389/fncom.2025.1731161
+
+
+
+
+    FIGURE 4
+    Arbor-TVB co-simulation schematic and communication pattern. (A) In a TVB simulation of regions I, K, and P, one region P will be replaced by a
+    proxy containing a network of detailed cells simulated in Arbor. Regions are connected via the weights of the connectome and produce an activity
+    values based on the chosen region model. When crossing the boundary between TVB and Arbor models, care needs to be taken to convert between
+    discrete action potentials in Arbor to continuous, region-model-speciﬁc variables in TVB. (B) Spikes generated by Arbor and TVB—converted from
+    activity values interpreted as mean spiking rates—are exchanged using an MPI intercommunicator and the All-gather primitive. This is equivalent to
+    concatenating all contributions from all Arbor MPI ranks and sending the result to all TVB ranks and vice-versa.
+
+
+
+
+    FIGURE 5
+    Impact of conversion method on activity exchange. For an all-to-all connected network of a mixture of 10 SLE cells (Kbath = 17.5mM) and 90 tonic
+    (Kbath = 9.5mM) neurons in Arbor, we plot the membrane potential traces for four tonic and one SLE cell in (A). This simulation is repeated for two
+    activity exchanging methods, either spikes were binned into buckets of width t to extract instantaneous rates, or the differential equation
+    Equation 16 emulating the change in Calcium concentration of a biological cell after spiking was used (with τ = 100ms and β = 0.1   N ). The resulting
+    activity traces for the Arbor network (B) and selected TVB nodes (out of 98 regions) are displayed in (C–F).
+
+
+
+
+simple binning and ﬁx parameters to τ = 100ms and β =                                  To induce seizure propagation in mice brain, we use the
+0.1
+ N . This normalization is important, as it produces results that                  structural connectivity derived from the Allen mouse brain atlas
+are invariant under changes in the number of cells N in the                        (Oh et al., 2014), also used in Melozzi et al. (2017), to embed the
+detailed network.                                                                  TVB nodes. Following the work presented in Courson et al. (2024),
+
+
+
+Frontiers in Computational Neuroscience                                       07                                                                 frontiersin.org
+Hater et al.                                                                                                          10.3389/fncom.2025.1731161
+
+
+
+
+the proxy node modeling the Arbor population of tonic-spiking               Even though changes in activity occur in most brain areas, these
+and SLE point neurons is set within left the Hippocampus and in             ﬂuctuations occur within diﬀerent ranges.
+particular in the left-ﬁeld CA1 (l CA1), a region that is prone to               In Figure 7B, we show the time-series of TVB nodes’ ﬁring
+generate widespread seizures.                                               rate throughout the simulation, here with N = 100 in the Arbor
+                                                                            detailed network. A transient period is necessary before all nodes
+                                                                            reach their steady-state. The emergence of recurrent SLE patterns
+3.1 Seizure induction among                                                 in the Arbor node triggers a mixture of periodic and seizure-like
+                                                                            patterns in the dynamics of the TVB nodes. We highlight traces
+morphologically detailed cells
+                                                                            corresponding to the l CA1 region modeled using detailed cells
+                                                                            (orange) and the four regions with the highest activity modeled
+     As an initial step, we examined a network of morphologically
+                                                                            by the neural mass model. The inset shows the highlighted traces,
+detailed cells (comprising of a single-compartment soma and a
+                                                                            excluding l CA1, during a single period.
+random dendritic tree, see bottom-right inset panel of Figure 6)
+                                                                                 In Figure 8, we present the propagation of SLE originating in
+without embedding them into a co-simulation framework. The
+                                                                            l CA1 (star marker), represented as a fully connected network of
+objective was to assess how interactions among neurons exhibiting
+                                                                            N = 10000 SLE point neurons. Colors on the brain template show
+distinct ﬁring patterns inﬂuence network dynamics within a
+                                                                            the time distance between seizure emergence in the diseased area
+small population of SLE neurons at the local (Arbor) level.
+                                                                            and seizure arrival in the diﬀerent brain regions. The systematic
+We constructed a network comprising 80 tonic-spiking neurons
+                                                                            detection of SLE onset in other regions of the whole-brain network
+(Kbath = 9.5mM) and 20 SLE neurons (Kbath = 17.0mM),
+                                                                            (if and when present within the simulation period) is performed
+initially without internal synaptic connectivity. The system was
+                                                                            as follows. First, the baseline ﬁring activity of each region is
+simulated for T = 5s, and the resulting membrane potentials are
+                                                                            deﬁned (ﬁrst time window of the simulation). The non-SLE nodes
+presented in Figure 6 (this initial phase is indicated by the gray-
+                                                                            initially exhibit a relatively stable ﬁring rate, which gradually
+shaded region). During this initial phase, all neurons independently
+                                                                            becomes inﬂuenced by the SLE originating from the Arbor node.
+showed their intrinsic ﬁring behavior, consistent with the activity
+                                                                            When connected to the Arbor node, spiking-tonic brain areas are
+shown in Figure 6. Following this baseline simulation, integration
+                                                                            repeatedly recruited into SLE activity patterns, followed by periods
+was paused, the network was reconﬁgured to full connectivity,
+                                                                            of relaxation. For each region, we deﬁne the baseline ﬁring rate
+and the simulation was resumed. The introduction of connectivity
+                                                                            as the minimum ﬁring rate observed during the relaxation phase
+produced an immediate response across the network. The SLE
+                                                                            immediately preceding any event in the onset region. When a
+neurons progressively transitioned toward tonic-like spiking,
+                                                                            robust increase in ﬁring rate is detected in a region—indicative of a
+mirroring the dominant (80%) tonic-spiking subpopulation. At the
+                                                                            seizure-like event—the corresponding onset timestamp is recorded.
+same time, tonic-spiking neurons began to exhibit the bursting
+                                                                            The baseline ﬁring rate serves as a reference, and seizure activity is
+activity characteristic of the SLE phenotype (Figure 6, T ≥ 5s)).
+                                                                            identiﬁed based on a sustained increase in ﬁring rate over a deﬁned
+Note that the use of diﬀerent Kbath values for neurons within the
+                                                                            duration. We deﬁne the onset of a seizure as the beginning of the
+same group is, at this stage, driven by computational considerations
+                                                                            high-amplitude bursting regime, speciﬁcally the point at which the
+and the need to validate the performance of the Arbor-TVB co-
+                                                                            ﬁring rate begins to rise consistently after the ﬁrst small activity
+simulator. This choice can be adjusted to study more biologically
+                                                                            peak. To ensure that only signiﬁcant deviations are classiﬁed as
+realistic scenarios which involve the interaction of diﬀerent neural
+                                                                            seizures, we require the ﬁring rate to exceed the baseline by at least
+populations or transition of network dynamics, which is further
+                                                                            10% and remain above this threshold for a minimum of 100 ms.
+addressed in the Discussion section.
+                                                                            Our seizure onset detection follows a similar (though not identical)
+                                                                            approach to that used in related studies—for example, Melozzi et al.
+                                                                            (2017) and Courson et al. (2024)—where seizure-like or bursting
+3.2 Seizure induction and propagation                                       activity in mouse brain models is identiﬁed by monitoring a model
+employing point neurons in Arbor-TVB                                        variable and applying a threshold to detect the onset. In Figure 8, we
+co-simulator                                                                also depict the activity time-series of four initially non-SLE nodes of
+                                                                            the brain network being recruited in the seizure, namely the ventral
+    Next, we embedded a network of detailed neurons as a proxy              part of left Lateral Septal Nucleus (l LSv), l CA3, l ENTCl and
+node in a simulation of neural mass models in TVB. The general              r ENTCl. In the main panel (mouse brain template), non-colored
+setup is similar as before, however, the proxy node now consists            regions correspond to areas where seizures either did not occur or
+of only SLE-type point neurons in a fully connected network.                had relatively weak eﬀects.
+Figure 7A illustrates the evolution of the membrane potential of                 The Arbor network was initialized with ﬁxed connection
+individual neurons within the Arbor network, with all neurons               weights (w = 0.5). To assess robustness, we also tested
+exhibiting identical dynamical behavior. The pattern of SLE activity        weights drawn from a normal distribution (μ = 0.5, σ =
+is modulated by neuronal coupling.                                          0.5), truncated to positive values. Neural activity was averaged
+    We run simulations over 20s, and investigate the eﬀect of SLE           over 20 independent realizations (see Supplementary Figures S2,
+emergence in the network once all brain areas have reached their            S3). Experiments with inhibitory/excitatory network variants are
+steady state. The production of these patterns in the Arbor node            also currently in progress. Both baseline and seizure-evoked
+generates changes in the ﬁring rates of local TVB brain areas.              activity diﬀer across brain regions. Due to the symmetrical
+
+
+
+
+Frontiers in Computational Neuroscience                                08                                                            frontiersin.org
+Hater et al.                                                                                                                    10.3389/fncom.2025.1731161
+
+
+
+
+    FIGURE 6
+    Network level effects induced by SLE activity. Simulation of a 100-cell network with 80 tonic-spiking (Kbath = 9.5mM) and 20 SLE (Kbath = 17.0mM)
+    neurons. Membrane potentials are shown for one SLE (top) and four tonic-spiking cells. Each neuron includes a single-compartment soma and a
+    random dendritic tree. The model was integrated for 5s (shaded region) without internal connections, then switched to a fully connected network,
+    which settled into a new equilibrium dominated by SLE activity. Inset: Example morphology of the ﬁrst cell.
+
+
+
+
+    FIGURE 7
+    Multiscale seizure propagation. (A) Membrane potential and raster plot for four neurons in the detailed fully-connected Arbor neural network. Note
+    that the membrane potential time-series are similar across all neurons. (B) Mean ﬁring rate of various TVB local brain areas vs. the Arbor activity. We
+    track a seizure after a transient period, so that all brain areas have reached their baseline activity. The zoomed-in sections show the propagation of
+    the seizure. We highlight and show in detail the four time series with the largest deviation in activity.
+
+
+
+
+Frontiers in Computational Neuroscience                                       09                                                                 frontiersin.org
+Hater et al.                                                                                                            10.3389/fncom.2025.1731161
+
+
+
+
+inter-hemispheric connections in the Allen Mouse Brain SC,                     hippocampus, using the Allen Mouse Brain Structural Connectivity
+l ENTCl and r ENTCl share the same baseline ﬁring rate. As the SLE             data. By tuning the single neural parameter, we modeled the target
+pattern emerges in the left hippocampus, l ENTCl exhibits higher               brain area with a small, fully-connected network of (point and
+spiking rates.                                                                 detailed-compartmental) neurons SLE, which produces scale-free
+                                                                               activity patterns. This network design can be further adapted to
+                                                                               investigate more bio-inspired scenarios, such as the study of: (i)
+3.3 Computational performance of the                                           ensembles of neurons within a given brain area that belong to
+Arbor-TVB co-simulation framework                                              diﬀerent sub-regions (i.e., are relatively distant from one another),
+                                                                               whose dynamical activity may diﬀer signiﬁcantly from that of
+     We next evaluated the performance of the running example                  other sub-groups and (ii) dynamical transition phenomena where
+on a single Apple M1 (2021) laptop. Arbor was built with MPI                   the Kbath value is set near a critical threshold—e.g., inducing a
+and SIMD (Arm Neon/SVE) support, with cells organized into                     transition from regular spiking to bursting activity, see Figures 2A,
+groups of ten to fully exploit SIMD capabilities. The overall runtime          B. The latter consideration is more general, in the sense that for
+consists of four primary components: (1) Arbor model update, (2)               a diﬀerent dynamical model of neural activity, one can choose a
+Conversion from spikes to rates, (3) TVB model update, and (4)                 relevant control parameter that drives transitions in neural activity
+Conversion from rates to spikes.                                               patterns—for example, from slow spiking (representing healthy
+     The Arbor update runs in parallel with the conversions between            activity) to fast bursting (associated with pathological activity) in
+rates and spikes, as well as the TVB update. During spike exchange,            a given region, when the system operates near a critical transition
+both simulations synchronize, meaning the slower part must wait                point (e.g., from spike trains to bursting). Our approach oﬀers
+in the MPI collective, which accounts for the primary time spent               a well-understood and easily controlled platform by showcasing
+in the collective call. Figure 9 illustrates the total runtime of a 10s        its technical usability. By adapting the Arbor nodes with diﬀerent
+simulation for the entire model described above, along with the                cell composition and connectivity, we demonstrated its signiﬁcant
+relative contributions, for system sizes ranging from one to 10,000            potential for more complex cell models untapped.
+cells. Notably, at 10,000 cells, nearly all computational time is spent             Although using seizure propagation as a use case, the
+within the Arbor network model. In future experiments, we plan                 seizure activity patterns established in the present study may not
+to leverage additional hardware, including GPUs, to accelerate the             capture precisely the complex nature of all epileptic seizures.
+Arbor side of the simulation. At this scale, TVB and the spike/rate            For example, there are other types of seizures that occur in
+conversions are potential bottlenecks that will require optimization,          diﬀerent brain disorders, i.e., acute symptomatic seizures, which
+potentially through TVB’s JIT compilation and GPU acceleration.                are not like those caused in epilepsy. For example, patients
+Additionally, further parallelization and porting of the conversion            with Alzheimer’s disease may also experience seizures, which are
+steps to a more performant programming environment remain                      classiﬁed as progressive symptomatic seizures and typically arise
+promising avenues for improvement.                                             from underlying neurodegenerative processes., see e.g., (Mauritz
+                                                                               et al., 2022) for a recent relevant review.
+                                                                                    The implementation in the present study extended the
+4 Discussion                                                                   functionality and application scenarios of Arbor. Arbor has
+                                                                               embarked on many types of computational studies as a new-
+    In this work, we presented a co-simulation framework                       generation simulator. It enables seamless conversion and
+that oﬀers a novel approach to bridging the gap between                        simulation of single-neuron models from the NEURON simulator
+microscopic (spiking neuron) and macroscopic (mean-ﬁeld)                       and supports simulations of both individual neurons and large-
+models. This framework integrates simulators Arbor and TVB                     scale networks. Arbor accommodates various plasticity models,
+within a parallelized MPI environment, enabling a detailed yet                 including spike-timing-dependent plasticity, calcium-based
+computationally feasible representation of neural dynamics across              synaptic tagging and capture, and structural plasticity. It has
+scales. To model large-scale brain network dynamics, we used                   been used to study synaptic tagging and capture via the built-in
+the mean-ﬁeld reduced Wong-Wang model to reproduce resting-                    diﬀusion functionality (Luboeinski et al., 2024, under review).
+state dynamics. Simultaneously, a detailed spiking neural network              Recent developments focus on co-simulation with membrane
+was simulated with Arbor, employing a physiological model of                   dynamics and external kernels, enabling dynamic connectivity
+seizures at the neuron level (Figure 2). The spiking activity of the           modiﬁcations in a distance-dependent manner. With its high
+population was then converted into a smooth trace for the proxy                ﬂexibility and scalability, Arbor stands out as a promising platform
+node, which was communicated with TVB (Figure 4B). This co-                    developed within the EBRAINS initiative to advance cross-scale
+simulation approach successfully captured the interplay between                simulations in computational neuroscience. Arbor is available as
+spiking activity and large-scale brain dynamics, where local neuron            part of the EBRAINS software distribution (ESD) on connected
+dynamics generate global activity wave-fronts. At the microscopic              HPC centers and the EBRAINS collab via Jupyter Lab. Providing
+scale, we demonstrated that the structure of the detailed neural               a bridge between morphologically detailed neurons and neural
+network inﬂuences its activity patterns, thereby aﬀecting the shape            mass models encompassing the full brain spans a gap of scale
+of the activity wavefront (Figure 5).                                          from sub-micrometer to decimeter. It allows for placing the
+    As a proof of concept, and as a technical showcase, we simulated           resolution—using Arbor and detailed models—where needed and
+the emergence of seizure-like activity patterns (SLE) in the mouse             using realistic, data driven environments everywhere else via TVB.
+
+
+
+
+Frontiers in Computational Neuroscience                                   10                                                          frontiersin.org
+Hater et al.                                                                                                                     10.3389/fncom.2025.1731161
+
+
+
+
+    FIGURE 8
+    Propagation of a seizure originating in left-ﬁeld l CA1 area of the mouse brain model. Time distance between seizure emergence in l CA1 (star
+    marker) and spiking rate increase in each brain area. We also depict the ﬁring activity time-series of four initially non-SLE nodes of the brain network
+    being recruited in the seizure, namely the ventral part of left Lateral Septal Nucleus (l LSv), l CA3, l ENTCl and r ENTCl. The red arrows indicate the
+    beginning of the bursting activity. Non-colored regions (panel with the mouse brain template) correspond to areas where seizures either did not
+    occur or had relatively weak effects. See text for more information regarding the onset detection of seizures in other regions. See text for more
+    details.
+
+
+
+
+    Despite its successes, the Arbor-TVB framework has some                         imaging experiments (Grewe et al., 2010) but no exact values are
+limitations. The co-simulation requires careful exploration                         available. Due care should be taken when matching the magnitudes
+and calibration of coupling parameters to ensure meaningful                         of both Arbor output and TVB output. Moreover, within the
+interactions between Arbor and TVB, which remains a challenge                       Arbor-TVB framework, the chosen dynamical model can be
+when generalizing to diverse neural models. The TVB network                         further tuned to generate neural activity—such as BOLD signals
+we used here is homogeneous, in the sense that all model                            or ﬁring rates—that more closely aligns with neuroimaging data,
+parameters are set to be identical. While this is not a highly                      thereby enabling the simulation of more realistic brain dynamics.
+realistic assumption—particularly when assigning a dynamical                        Speciﬁcally, computational costs for large neural networks may
+mean ﬁeld model to simulate the activity of a brain region—it                       necessitate further optimization in model parallelization and data
+is a common choice among researchers when modeling whole-                           handling. A near-term goal would be to incorporate new features,
+brain resting-state dynamics, see e.g., Popovych et al. (2021) and                  such as synaptic plasticity, which could oﬀer valuable insights into
+Manos et al. (2023) and references therein. Note that even with                     how brain networks adapt and reorganize in response to disrupted
+identical initial settings, ﬁring rates vary across regions due to                  activity.
+the inﬂuence of long-distance connectivity weight values and the                        As stated in the Introduction section, it is natural to compare
+resulting complex dynamics. Our use-case simulation of seizure                      the Arbor-TVB co-simulation framework presented in the current
+propagation is not yet directly compared to experimental data                       Method paper with the established NEST-TVB co-simulation
+from mice or humans. Nevertheless, the current Arbor-TVB                            (Kusch et al., 2024). Both simulators have their own merits
+implementation is capable of indirectly capturing biologically                      and application scope. NEST has a longer history (Gewaltig
+realistic brain dynamics and activity propagation, as reported                      and Diesmann, 2007) and a rich proﬁle of neural models and
+for example in Melozzi et al. (2017) and Courson et al. (2024).                     plasticity models. Its performance is excellent in mesoscopic
+The same applies to the choice of calcium kernel parameters.                        modeling of spiking neural networks. Arbor is younger but has
+This kernel is inspired by experimental observations via calcium                    made it possible to eﬃciently simulate networks of the highly
+
+
+
+Frontiers in Computational Neuroscience                                        11                                                                frontiersin.org
+Hater et al.                                                                                                                  10.3389/fncom.2025.1731161
+
+
+
+
+    FIGURE 9
+    Performance of the running example. We graph the overall runtime (A) of the full co-simulation over the number of cells in the Arbor network as well
+    as the fraction of the main contributions (B): time spent in both simulation engines and in converting between rates and spikes. TVB and rate to spike
+    conversion are the most relevant cost center in the limit of vanishing Arbor network sizes while at large sizes, Arbor compute time dominates.
+
+
+
+
+expensive biophysical HH model with multi-compartments (Abi                       parameter tuning, and validation are also feasible using empirical
+Akar et al., 2019). It also accommodates a variety of plasticity                  neuroimaging data, however this was not the primary goal of this
+rules, including heterosynaptic dendritic plasticity rules inside                 work. The simulated neural activity generated in each brain region
+the dendritic shaft (Luboeinski et al., 2024). The Arbor-TVB                      of the connectome can be transformed into a BOLD signal-similar
+co-simulation framework has thereby inherited those merits of                     to the built-in functionality of TVB (Sanz Leon et al., 2013;
+Arbor, while the NEST-TVB co-simulation framework opens the                       Melozzi et al., 2017), which computes the hemodynamic response
+venue for users to freely use NEST functions for co-simulation.                   function (HRF) kernel (i.e., fMRI activity) using the Balloon-
+Those two tools are complementary for distinct research purposes.                 Windkessel model (Friston et al., 2000)—and can ultimately be
+Moreover, since Arbor is designed to make the best use of                         aligned with neuroimaging time series data. Hence, a framework
+both GPU and CPU, Arbor-TVB can also be easily adapted                            like Arbor-TVB can be extended to investigate various brain
+to make use of the cutting-edge exascale GPU computing                            conditions.
+resources.
+     From an epilepsy-seizure perspective, while the framework
+provides insights into seizure propagation, additional validation
+                                                                                  Data availability statement
+against empirical data would enhance its applicability to
+                                                                                      The codes necessary to reproduce selected results of this work
+clinical settings. This co-simulation framework could enable
+                                                                                  are available on GitHub: https://github.com/arbor-contrib/arbor-
+a detailed investigation of the physiological sources of seizures.
+                                                                                  tvb-cosim.
+Understanding the impact of the structure of the diseased area on
+seizure patterns and propagation would be of great interest (see
+e.g., Netoﬀ et al., 2004; Garcia-Ramos et al., 2016). Speciﬁcally,                Author contributions
+we expect the inhibition and excitation ratios in the detailed
+neural network to play a critical role in seizure patterns (see e.g.,                 TH: Writing – review & editing, Software, Validation,
+Engel, 1996; Liu et al., 2020). Moreover, the Arbor-TVB user can                  Resources, Writing – original draft, Formal analysis, Data curation,
+implement various neural models and conﬁguration topologies to                    Methodology, Investigation, Visualization. JC: Investigation,
+simulate diﬀerent brain regions and to computationally investigate                Writing – review & editing, Software, Writing – original draft,
+diverse dynamic activities or the eﬀects of medical interventions–                Validation, Visualization, Data curation, Methodology, Formal
+for example, modeling subthalamic neurons along with synaptic                     analysis. HL: Writing – review & editing, Investigation, Validation,
+and structural plasticity under stimulation in Parkinson’s disease                Writing – original draft, Formal analysis, Methodology, Data
+(Manos et al., 2021; Meier et al., 2022; Shaheen et al., 2022),                   curation, Software, Visualization. SD-P: Project administration,
+Alzheimer’s disease (Stefanovski et al., 2019; Manos et al., 2023)                Funding acquisition, Validation, Conceptualization, Supervision,
+or tinnitus (Manos et al., 2018a,b) etc. Evidently, comparison,                   Writing – review & editing, Methodology. TM: Validation, Formal
+
+
+
+Frontiers in Computational Neuroscience                                      12                                                                frontiersin.org
+Hater et al.                                                                                                                                      10.3389/fncom.2025.1731161
+
+
+
+
+analysis, Methodology, Conceptualization, Supervision, Project                                Generative AI statement
+administration, Resources, Writing – original draft, Writing –
+review & editing, Funding acquisition.                                                            The author(s) declared that generative AI was not used in the
+                                                                                              creation of this manuscript.
+                                                                                                  Any alternative text (alt text) provided alongside ﬁgures in
+Funding                                                                                       this article has been generated by Frontiers with the support of
+                                                                                              artiﬁcial intelligence and reasonable eﬀorts have been made to
+    The author(s) declared that ﬁnancial support was received                                 ensure accuracy, including review by the authors wherever possible.
+for this work and/or its publication. JC was supported by                                     If you identify any issues, please contact us.
+the LABEX MME-DII (ANR-16-IDEX-0008) PhD grant.
+This work was supported by the NIH 1R21AG087888-01
+grant. HL was supported by EBRAINS2.0. EBRAINS 2.0 has
+received funding from the European Union’s Research and
+                                                                                              Publisher’s note
+Innovation Program Horizon Europe under Grant Agreement
+                                                                                                  All claims expressed in this article are solely those of the
+No. 101147319. Open access publication funded by the
+                                                                                              authors and do not necessarily represent those of their aﬃliated
+Deutsche Forschungsgemeinschaft (DFG, German Research
+                                                                                              organizations, or those of the publisher, the editors and the
+Foundation)—491111487.
+                                                                                              reviewers. Any product that may be evaluated in this article, or
+                                                                                              claim that may be made by its manufacturer, is not guaranteed or
+Conﬂict of interest                                                                           endorsed by the publisher.
+
+    The author(s) declared that this work was conducted in the
+absence of any commercial or ﬁnancial relationships that could be                             Supplementary material
+construed as a potential conﬂict of interest.
+    The authors TM, HL declared that they were an editorial board                                 The Supplementary Material for this article can be found
+member of Frontiers, at the time of submission. This had no impact                            online at: https://www.frontiersin.org/articles/10.3389/fncom.
+on the peer review process and the ﬁnal decision.                                             2025.1731161/full#supplementary-material
+
+
+
+
+References
+    Abi Akar, N., Cumming, B., Karakasis, V., Küsters, A., Klijn, W., Peyser, A., et             Cumming, B., Yates, S., Hater, T., Lu, H., Huisman, B., Wouter, K., et al. (2024).
+al. (2019). “Arbor – a morphologically-detailed neural network simulation library for         Arbor v0.10.0. Zenodo.
+contemporary high-performance computing architectures,” in 2019 27th Euromicro
+                                                                                                 Darnell, R. B. (2013). Rna protein interaction in neurons. Annu. Rev. Neurosci. 36,
+International Conference on Parallel, Distributed and Network-Based Processing (PDP)
+                                                                                              243–270. doi: 10.1146/annurev-neuro-062912-114322
+(New York City, NY: IEEE), 274–282.
+   Augustine, G. J., Santamaria, F., and Tanaka, K. (2003). Local calcium signaling in           Deco, G., Jirsa, V. K., Robinson, P. A., Breakspear, M., and Friston, K.
+neurons. Neuron 40, 331–346. doi: 10.1016/S0896-6273(03)00639-1                               (2008). The dynamic brain: from spiking neurons to neural masses and
+                                                                                              cortical ﬁelds. PLoS Comput. Biol. 4:e1000092. doi: 10.1371/journal.pcbi.100
+   Barral, J., Wang, X.-J., and Reyes, A. D. (2019). Propagation of temporal                  0092
+and rate signals in cultured multilayer networks. Nat. Commun. 10:3969.
+doi: 10.1038/s41467-019-11851-0                                                                  Deco, G., Ponce-Alvarez, A., Mantini, D., Romani, G. L., Hagmann, P., and
+                                                                                              Corbetta, M. (2013). Resting-state functional connectivity emerges from structurally
+   Breyton, M., Fousek, J., Rabuﬀo, G., Sorrentino, P., Kusch, L., Massimini, M.,             and dynamically shaped slow linear ﬂuctuations. J. Neurosci. 33, 11239–11252.
+et al. (2024). Spatiotemporal brain complexity quantiﬁes consciousness outside of             doi: 10.1523/JNEUROSCI.1091-13.2013
+perturbation paradigms. eLife, 13:RP98920. doi: 10.7554/eLife.98920
+                                                                                                 Demirtaş, M., Burt, J. B., Helmer, M., Ji, J. L., Adkinson, B. D., Glasser,
+   Butz, M., and Van Ooyen, A. (2013). A simple rule for dendritic spine and axonal           M. F., et al. (2019). Hierarchical heterogeneity across human cortex shapes
+bouton formation can account for cortical reorganization after focal retinal lesions.         large-scale neural dynamics. Neuron 101:1181–1194. doi: 10.1016/j.neuron.2019.
+PLoS Comput. Biol. 9:e1003259. doi: 10.1371/journal.pcbi.1003259                              01.017
+  Carnevale, N. T., and Hines, M. L. (2006). The NEURON Book. Cambridge:                          Depannemaecker, D., Ivanov, A., Lillo, D., Spek, L., Bernard, C., and Jirsa, V.
+Cambridge University Press.                                                                   (2022). A uniﬁed physiological framework of transitions between seizures, sustained
+   Chater, T. E., Eggl, M. F., Goda, Y., and Tchumatchenko, T. (2024). Competitive            ictal activity and depolarization block at the single neuron level. J. Comput. Neurosci.
+processes shape multi-synapse plasticity along dendritic segments. Nat. Commun.               2022, 1–17. doi: 10.1007/s10827-022-00811-1
+15:7572. doi: 10.1038/s41467-024-51919-0                                                         Diaz-Pier, S., Naveau, M., Butz-Ostendorf, M., and Morrison, A. (2016). Automatic
+   Cook, B. J., Peterson, A. D. H., Woldman, W., and Terry, J. R. (2022). Neural ﬁeld         generation of connectivity for large-scale neuronal network models through structural
+models: A mathematical overview and unifying framework. Mathem. Neurosci. Appl. 2,            plasticity. Front. Neuroanat. 10:57. doi: 10.3389/fnana.2016.00057
+1–67. doi: 10.46298/mna.7284                                                                     Dicks, L. M. (2022). Gut bacteria and neurotransmitters. Microorganisms 10:1838.
+   Cooray, G. K., Cooray, V., and Friston, K. J. (2025). Cortical dynamics of neural-         doi: 10.3390/microorganisms10091838
+connectivity ﬁelds. J. Comput. Neurosci. 53, 373–391. doi: 10.1007/s10827-025-00903-8            Emina, F., and Kropﬀ, E. (2022). Selective connectivity enhances storage capacity
+  Cooray, G. K., Rosch, R. E., and Friston, K. J. (2023). Global dynamics of neural           in attractor models of memory function. Front. Systems Neurosci. 104:983147.
+mass models. PLoS Comput. Biol. 19:e1010915. doi: 10.1371/journal.pcbi.1010915                doi: 10.3389/fnsys.2022.983147
+
+   Courson, J., Quoy, M., Timofeeva, Y., and Manos, T. (2024). An exploratory                    Engel, J. (1996). Excitation and inhibition in epilepsy. Canadian J.Neurol. Sci. 23,
+computational analysis in mice brain networks of widespread epileptic seizure                 167–174. doi: 10.1017/S0317167100038464
+onset locations along with potential strategies for eﬀective intervention and                    Fousek, J., Rabuﬀo, G., Gudibanda, K., Sheheitli, H., Petkoski, S., and Jirsa, V.
+propagation control. Front. Comput. Neurosci. 18:1360009. doi: 10.3389/fncom.2024.13          (2024). Symmetry breaking organizes the brain’s resting state manifold. Sci. Rep.
+60009                                                                                         14:31970. doi: 10.1038/s41598-024-83542-w
+
+
+
+
+Frontiers in Computational Neuroscience                                                  13                                                                          frontiersin.org
+Hater et al.                                                                                                                                            10.3389/fncom.2025.1731161
+
+
+
+
+   Friston, K., Mechelli, A., Turner, R., and Price, C. (2000). Nonlinear responses               connectomes. Front. Comput. Neurosci. 17:1295395. doi: 10.3389/fncom.2023.12
+in fmri: The balloon model, volterra kernels, and other hemodynamics. Neuroimage                  95395
+12:466–477. doi: 10.1006/nimg.2000.0630
+                                                                                                     Manos, T., Diaz-Pier, S., and Tass, P. A. (2021). Long-term desynchronization by
+   Garcia-Ramos, C., Lin, J. J., Kellermann, T. S., Bonilha, L., Prabhakaran, V.,                 coordinated reset stimulation in a neural network model with synaptic and structural
+and Hermann, B. P. (2016). Graph theory and cognition: a complementary avenue                     plasticity. Front. Physiol. 12:716556. doi: 10.3389/fphys.2021.716556
+for examining neuropsychological status in epilepsy. Epilepsy Behav. 64, 329–335.
+                                                                                                     Manos, T., Zeitler, M., and Tass, P. A. (2018a). How stimulation frequency and
+doi: 10.1016/j.yebeh.2016.02.032
+                                                                                                  intensity impact on the long-lasting eﬀects of coordinated reset stimulation. PLoS
+   Gast, R., Solla, S. A., and Kennedy, A. (2024). Neural heterogeneity controls                  Comput. Biol. 14(5). doi: 10.1371/journal.pcbi.1006113
+computations in spiking neural networks. Proc. Nat. Acad. Sci. 121:e2311885121.
+                                                                                                     Manos, T., Zeitler, M., and Tass, P. A. (2018b). Short-term dosage regimen
+doi: 10.1073/pnas.2311885121
+                                                                                                  for stimulation-induced long-lasting desynchronization. Front. Physiol. 9:376.
+   Gewaltig, M.-O., and Diesmann, M. (2007). Nest (neural simulation tool).                       doi: 10.3389/fphys.2018.00376
+Scholarpedia 2:1430. doi: 10.4249/scholarpedia.1430
+                                                                                                     Mauritz, M., Hirsch, L. J., Camﬁeld, P., Chin, R., Nardone, R., Lattanzi, S., et al.
+   Grewe, B. F., Langer, D., Kasper, H., Kampa, B. M., and Helmchen, F. (2010). High-             (2022). Acute symptomatic seizures: an educational, evidence-based review. Epileptic
+speed in vivo calcium imaging reveals neuronal network activity with near-millisecond             Disord. 24, 26–49. doi: 10.1684/epd.2021.1376
+precision. Nat. Methods 7, 399–405. doi: 10.1038/nmeth.1453
+                                                                                                      Meier, J. M., Perdikis, D., Blickensdörfer, A., Stefanovski, L., Liu, Q., Maith, O., et
+   Gurkiewicz, M., Korngreen, A., Waxman, S. G., and Lampert, A. (2011). Kinetic                  al. (2022). Virtual deep brain stimulation: Multiscale co-simulation of a spiking basal
+modeling of nav1. 7 provides insight into erythromelalgia-associated f1449v mutation.             ganglia model and a whole-brain mean-ﬁeld model with the virtual brain. Exp. Neurol.
+J Neurophysiol. 105, 1546–1557. doi: 10.1152/jn.00703.2010                                        354:114111. doi: 10.1016/j.expneurol.2022.114111
+   Hananeia, N., Ebner, C., Galanis, C., Cuntz, H., Opitz, A., Vlachos, A., et al. (2024).           Melozzi, F., Woodman, M., Jirsa, V., and Bernard, C. (2017). The virtual mouse
+Multi-scale modelling of location-and frequency-dependent synaptic plasticity induced             brain: A computational neuroinformatics platform to study whole mouse brain
+by transcranial magnetic stimulation in the dendrites of pyramidal neurons. bioRxiv.              dynamics. eNeuro. 4. doi: 10.1523/ENEURO.0111-17.2017
+doi: 10.1101/2024.07.03.601851
+                                                                                                     Miner, D., and Triesch, J. (2016). Plasticity-driven self-organization under
+     Hashemi, M., Depannemaecker, D., Saggio, M., Triebkorn, P., Rabuﬀo, G., Fousek,              topological constraints accounts for non-random features of cortical synaptic wiring.
+J., et al. (2025). Principles and operation of virtual brain twins. IEEE Rev Biomed Eng.          PLoS Comput. Biol. 12:e1004759. doi: 10.1371/journal.pcbi.1004759
+1–29. doi: 10.1109/RBME.2025.3562951
+                                                                                                     Monteverdi, A., Palesi, F., Schirner, M., Argentino, F., Merante, M.,
+   Herculano-Houzel, S. (2009). The human brain in numbers: a linearly                            Redolﬁ, A., et al. (2023). Virtual brain simulations reveal network-speciﬁc
+scaled-up primate brain. Front. Hum. Neurosci. 3:857. doi: 10.3389/neuro.09.                      parameters in neurodegenerative dementias. Front. Aging Neurosci. 15:1204134.
+031.2009                                                                                          doi: 10.3389/fnagi.2023.1204134
+   Herculano-Houzel, S. (2012). The remarkable, yet not extraordinary, human brain                   Nayebi, A., Attinger, A., Campbell, M., Hardcastle, K., Low, I., Mallory, C. S., et al.
+as a scaled-up primate brain and its associated cost. Proc. Nat. Acad. Sci. 109,                  (2021). “Explaining heterogeneity in medial entorhinal cortex with task-driven neural
+10661–10668. doi: 10.1073/pnas.1201895109                                                         networks,” in Advances in Neural Information Processing Systems, eds. M. Ranzato,
+   Hines, G. S. (1984). Advances in simulation software technology. Simulation 42,                A. Beygelzimer, Y. Dauphin, P. Liang, and J. W. Vaughan (Red Hook, NY: Curran
+36–36. doi: 10.1177/003754978404200105                                                            Associates Inc), 12167–12179.
+
+   Hodgkin, A. L., and Huxley, A. F. (1952a). The components of                                      Netoﬀ, T. I., Clewley, R., Arno, S., Keck, T., and White, J. A.
+membrane conductance in the giant axon of loligo. J. Physiol. 116:473.                            (2004). Epilepsy in small-world networks. J. Neurosci. 24, 8075–8083.
+doi: 10.1113/jphysiol.1952.sp004718                                                               doi: 10.1523/JNEUROSCI.1509-04.2004
+   Hodgkin, A. L., and Huxley, A. F. (1952b). Currents carried by sodium and                          Oh, S. W., Harris, J. A., Ng, L., Winslow, B., Cain, N., Mihalas, S., et
+potassium ions through the membrane of the giant axon of loligo. J. Physiol. 116:449.             al. (2014). A mesoscale connectome of the mouse brain. Nature 508, 207–214.
+doi: 10.1113/jphysiol.1952.sp004717                                                               doi: 10.1038/nature13186
+   Hodgkin, A. L., and Huxley, A. F. (1952c). A quantitative description of membrane                 Poldrack, R. A., and Gorgolewski, K. J. (2017). Openfmri: Open sharing of task fMRI
+current and its application to conduction and excitation in nerve. J. Physiol. 117:500.           data. Neuroimage 144, 259–261. doi: 10.1016/j.neuroimage.2015.05.073
+doi: 10.1113/jphysiol.1952.sp004764                                                                   Popovych, O. V., Jung, K., Manos, T., Diaz-Pier, S., Hoﬀstaedter, F., Schreiber,
+   Hodgkin, A. L., Huxley, A. F., and Katz, B. (1952). Measurement of current-                    J., et al. (2021). Inter-subject and inter-parcellation variability of resting-state whole-
+voltage relations in the membrane of the giant axon of loligo. J. Physiol. 116:424.               brain dynamical modeling. Neuroimage 236:118201. doi: 10.1016/j.neuroimage.2021.
+doi: 10.1113/jphysiol.1952.sp004716                                                               118201
+   Kusch, L., Diaz-Pier, S., Klijn, W., Sontheimer, K., Bernard, C., Morrison, A., et al.            Popovych, O. V., Manos, T., Hoﬀstaedter, F., and Eickhoﬀ, S. B. (2019). What can
+(2024). Multiscale co-simulation design pattern for neuroscience applications. Front.             computational models contribute to neuroimaging data analytics? Front. Syst. Neurosci.
+Neuroinform. 18:1156683. doi: 10.3389/fninf.2024.1156683                                          12:68. doi: 10.3389/fnsys.2018.00068
+   Lavanga, M., Stumme, J., Yalcinkaya, B. H., Fousek, J., Jockwitz, C.,                             Rabuﬀo, G., Bandyopadhyay, A., Calabrese, C., Gudibanda, K., Depannemaecker,
+Sheheitli, H., et al. (2023). The virtual aging brain: Causal inference supports                  D., Takarabe, L. M., et al. (2025). Biophysically inspired mean-ﬁeld model of
+interhemispheric dediﬀerentiation in healthy aging. Neuroimage 283:120403.                        neuronal populations driven by ion exchange mechanisms. eLife. 14:RP104249.
+doi: 10.1016/j.neuroimage.2023.120403                                                             doi: 10.7554/eLife.104249.1
+   Linssen, C., Babu, P. N., Bouhadjar, Y., Ewert, L., Wybo, W., Lober, M., et al. (2024).           Reyes, A. D. (2003). Synchrony-dependent propagation of ﬁring rate in iteratively
+Nestml 8.0.0. Zenodo.                                                                             constructed networks in vitro. Nat. Neurosci. 6, 593–599. doi: 10.1038/nn1056
+   Liu, Y., Grigorovsky, V., and Bardakjian, B. (2020). Excitation and inhibition                    Ritter, P., Schirner, M., McIntosh, A. R., and Jirsa, V. K. (2013). The virtual brain
+balance underlying epileptiform activity. IEEE Trans. Biomed. Eng. 67, 2473–2481.                 integrates computational modeling and multimodal neuroimaging. Brain Connect. 3,
+doi: 10.1109/TBME.2019.2963430                                                                    121–145. doi: 10.1089/brain.2012.0120
+   Loligo, A. (1952). The dual eﬀect of membrane potential on sodium conductance in                  Sacramento, J., Wichert, A., and van Rossum, M. C. (2015). Energy eﬃcient
+the giant. J. Physiol. 6, 497–506. doi: 10.1113/jphysiol.1952.sp004719                            sparse connectivity from imbalanced synaptic plasticity rules. PLoS Comput. Biol.
+                                                                                                  11:e1004265. doi: 10.1371/journal.pcbi.1004265
+   Lu, H., Diaz, S., Lenz, M., and Vlachos, A. (2024). The interplay between
+homeostatic synaptic scaling and homeostatic structural plasticity maintains the robust              Sanz Leon, P., Knock, S. A., Woodman, M. M., Domide, L., Mersmann, J., McIntosh,
+ﬁring rate of neural networks. eLife. doi: 10.7554/eLife.88376.2                                  A. R., et al. (2013). The virtual brain: a simulator of primate brain network dynamics.
+                                                                                                  Front. Neuroinform. 7:10. doi: 10.3389/fninf.2013.00010
+   Lu, H., Garg, S., Lenz, M., and Vlachos, A. (2025). Repetitive magnetic
+stimulation with itbs600 induces persistent structural and functional plasticity in                  Sanz-Leon, P., Knock, S. A., Spiegler, A., and Jirsa, V. K. (2015). Mathematical
+mouse organotypic slice cultures. bioRxiv. doi: 10.2139/ssrn.5203072                              framework for large-scale brain network modeling in the virtual brain. Neuroimage
+                                                                                                  111:385–430. doi: 10.1016/j.neuroimage.2015.01.002
+   Luboeinski, J., Schmitt, S., Shaﬁee, S., Hater, T., Bösch, F., and Tetzlaﬀ, C. (2024).
+Plastic arbor: a modern simulation framework for synaptic plasticity-from single                     Schirner, M., Domide, L., Perdikis, D., Triebkorn, P., Stefanovski, L., Pai, R., et al.
+synapses to networks of morphological neurons. arXiv [preprint] arXiv:2411.16445.                 (2022). Brain simulation as a cloud service: the virtual brain on ebrains. Neuroimage
+doi: 10.48550/arXiv.2411.16445                                                                    251:118973. doi: 10.1016/j.neuroimage.2022.118973
+   Luboeinski, J., and Tetzlaﬀ, C. (2021). Memory consolidation and improvement                      Scott, A. C. (1975). The electrophysics of a nerve ﬁber. Rev. Mod. Phys. 47:487.
+by synaptic tagging and capture in recurrent neural networks. Commun. Biol. 4:275.                doi: 10.1103/RevModPhys.47.487
+doi: 10.1038/s42003-021-01778-y                                                                      Shaheen, H., Pal, S., and Melnik, R. (2022). Multiscale co-simulation of deep brain
+  Manos, T., Diaz-Pier, S., Fortel, I., Driscoll, I., Zhan, L., and Leow, A. (2023).              stimulation with brain networks in neurodegenerative disorders. Brain Multiphysics
+Enhanced simulations of whole-brain dynamics using hybrid resting-state structural                3:100058. doi: 10.1016/j.brain.2022.100058
+
+
+
+
+Frontiers in Computational Neuroscience                                                      14                                                                            frontiersin.org
+Hater et al.                                                                                                                                                10.3389/fncom.2025.1731161
+
+
+
+
+   Stefanovski, L., Meier, J. M., Pai, R. K., Triebkorn, P., Lett, T., Martin, L., et al. (2021).        primary aﬀerent c-nociceptors. J. Neurophysiol. 111, 1721–1735. doi: 10.1152/jn.007
+Bridging scales in alzheimer’s disease: biological framework for brain simulation with                   77.2012
+the virtual brain. Front. Neuroinform. 15:630172. doi: 10.3389/fninf.2021.630172
+                                                                                                            Van Rossum, M. C., Bi, G. Q., and Turrigiano, G. G. (2000). Stable hebbian
+    Stefanovski, L., Triebkorn, P., Spiegler, A., Diaz-Cortes, M.-A., Solodkin, A., Jirsa,               learning from spike timing-dependent plasticity. J. Neurosci. 20, 8812–8821.
+V., et al. (2019). Linking molecular pathways and large-scale computational modeling                     doi: 10.1523/JNEUROSCI.20-23-08812.2000
+to assess candidate disease mechanisms and pharmacodynamics in alzheimer’s disease.
+                                                                                                            Von Helmholtz, H. (1850). Messungen über den zeitlichen Verlauf der Zuckung
+Front. Comp. Neurosci. 13:2019. doi: 10.3389/fncom.2019.00054
+                                                                                                         animalischer Muskeln und die Fortpﬂanzungsgeschwindigkeit der Reizung in den
+  Stimberg, M., Brette, R., and Goodman, D. F. (2019). Brian 2, an intuitive and                         Nerven [Measurements of the time course of contraction in animal muscles and the
+eﬃcient neural simulator. eLife 8:e47314. doi: 10.7554/eLife.47314                                       propagation speed of excitation in the nerves]. Archiv für Anatomie, Physiologie und
+                                                                                                         wissenschaftliche Medicin 17, 176–364. German.
+   Suma, A., Sigg, D., Gallagher, S., Gonnella, G., and Carnevale, V. (2024). Ion
+channels in critical membranes: clustering, cooperativity, and memory eﬀects. PRX Life                     Wang, H. E., Dollomaja, B., Triebkorn, P., Duma, G. M., Williamson, A.,
+2:013007. doi: 10.1103/PRXLife.2.013007                                                                  Makhalova, J., et al. (2025). Virtual brain twins for stimulation in epilepsy. Nat.
+                                                                                                         Comput. Sci. 5, 754–768. doi: 10.1038/s43588-025-00841-6
+    Tetzlaﬀ, S. K., Reyhan, E., Layer, N., Bengtson, C. P., Heuer, A., Schroers, J., et
+al. (2025). Characterizing and targeting glioblastoma neuron-tumor networks with                             Wang, X.-J. (2002). Probabilistic decision making by slow reverberation in cortical
+retrograde tracing. Cell 188, 390–411. doi: 10.1016/j.cell.2024.11.002                                   circuits. Neuron 36, 955–968. doi: 10.1016/S0896-6273(02)01092-9
+  Thompson, W., and Kelvin, L. (1855). On the theory of the electric telegraph. Proc.                       West, A. E., Griﬃth, E. C., and Greenberg, M. E. (2002). Regulation of transcription
+Royal Soc. 7, 382–399. doi: 10.1098/rspl.1854.0093                                                       factors by neuronal activity. Nat. Rev. Neurosci. 3, 921–931. doi: 10.1038/nrn987
+   Tigerholm, J., Petersson, M. E., Obreja, O., Eberhardt, E., Namer, B., Weidner, C.,                      Yasumatsu, N., Matsuzaki, M., Miyazaki, T., Noguchi, J., and Kasai, H. (2008).
+et al. (2015). C-ﬁber recovery cycle supernormality depends on ion concentration                         Principles of long-term dynamics of dendritic spines. J. Neurosci. 28, 13592–13608.
+and ion channel permeability. Biophys. J. 108, 1057–1071. doi: 10.1016/j.bpj.2014.                       doi: 10.1523/JNEUROSCI.0603-08.2008
+12.034
+                                                                                                            Zheng, P., Dimitrakakis, C., and Triesch, J. (2013). Network self-organization
+   Tigerholm, J., Petersson, M. E., Obreja, O., Lampert, A., Carr, R., Schmelz, M.,                      explains the statistics and dynamics of synaptic connection strengths in cortex. PLoS
+et al. (2014). Modeling activity-dependent changes of axonal spike conduction in                         Comput. Biol. 9:e1002848. doi: 10.1371/journal.pcbi.1002848
+
+
+
+
+Frontiers in Computational Neuroscience                                                             15                                                                         frontiersin.org
+

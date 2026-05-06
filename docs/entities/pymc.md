@@ -13,14 +13,14 @@ tags:
 - bayes-factors
 title: PyMC
 type: entity
-updated: '2026-05-05'
+updated: '2026-05-06'
 ---
 
 # PyMC
 
 ## Overview
 
-PyMC (formerly PyMC3) is an open-source Python library for probabilistic programming that provides tools for Bayesian statistical modeling and inference. It enables researchers to specify complex probabilistic models using Python code and perform inference using Markov Chain Monte Carlo (MCMC) methods, variational inference, and other approximation techniques. Originally developed by John Salvatier, Thomas Wiecki, and Christopher Fonnesbeck in 2012 [@pymc-docs], PyMC has become one of the most widely used frameworks for Bayesian analysis in Python, with applications spanning [[neuroimaging]], epidemiology, and [[computational-neuroscience]].
+PyMC (formerly PyMC3) is an open-source Python library for probabilistic programming that provides tools for [[bayesian]] statistical modeling and inference. It enables researchers to specify complex probabilistic models using Python code and perform inference using Markov Chain Monte Carlo (MCMC) methods, variational inference, and other approximation techniques. Originally developed by John Salvatier, Thomas Wiecki, and Christopher Fonnesbeck in 2012 [@pymc-docs], PyMC has become one of the most widely used frameworks for Bayesian analysis in Python, with applications spanning [[neuroimaging]], epidemiology, and [[computational-neuroscience]].
 
 ## Key Features
 
@@ -46,12 +46,12 @@ The relationship between PyMC and the [[free-energy-principle]] framework warran
 
 ## Related Software
 
-PyMC occupies a similar niche to other probabilistic programming frameworks including Stan, which offers a domain-specific language for model specification, and [[tensorflow]] Probability, which provides probabilistic modeling primitives within the TensorFlow ecosystem. Within computational neuroscience specifically, PyMC complements the simulation-oriented approaches of Brian and [[neuron]] by providing the inference machinery needed to fit such simulation models to data. The library also interfaces with Nilearn for preprocessing neuroimaging data prior to model fitting.
+PyMC occupies a similar niche to other probabilistic programming frameworks including Stan, which offers a domain-specific language for model specification, and [[tensorflow]] Probability, which provides probabilistic modeling primitives within the TensorFlow ecosystem. Within computational neuroscience specifically, PyMC complements the simulation-oriented approaches of Brian and [[neuron]] by providing the inference machinery needed to fit such simulation models to data. The library also interfaces with [[nilearn]] for preprocessing neuroimaging data prior to model fitting.
 
 ## Key Papers
 
 - Salvatier, J., Wiecki, T. V., & Fonnesbeck, C. (2016). Probabilistic programming in Python using PyMC3. *PeerJ Computer Science* [@pymc-docs]
-- Hoffman, M. D., & Gelman, A. (2014). The No-U-Turn Sampler: adaptively setting path lengths in Hamiltonian Monte Carlo. *Journal of Machine Learning Research* [@hoffman-gelman-nuts]
+- Hoffman, M. D., & Gelman, A. (2014). The No-U-Turn Sampler: adaptively setting path lengths in Hamiltonian Monte Carlo. *Journal of [[machine-learning]] Research* [@hoffman-gelman-nuts]
 - Kucukelbir, A., Ranganath, R., Gelman, A., & Blei, D. M. (2015). Automatic differentiation variational inference. *arXiv preprint* [@advi-paper]
 
 ## References

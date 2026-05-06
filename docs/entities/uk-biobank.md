@@ -13,7 +13,7 @@ tags:
 - aging-brain
 title: UK Biobank
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # UK Biobank
@@ -41,7 +41,7 @@ UK Biobank is a large-scale biomedical database and research resource containing
 
 ### Modalities
 - **Structural MRI**: T1, T2 FLAIR, susceptibility-weighted
-- **Functional MRI**: [[resting-state|Resting-state fMRI]]
+- **[[neuroimaging-fmri|Functional MRI]]**: [[resting-state|Resting-state fMRI]]
 - **[[diffusion-mri]]**: dMRI for [[white-matter]]
 - **Body MRI**: Cardiac, abdominal
 

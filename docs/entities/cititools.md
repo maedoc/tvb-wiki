@@ -14,7 +14,7 @@ tags:
 - brain-atlases
 title: CITItools
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 CITItools (ciftiTools) is an R package for reading, writing, visualizing, and manipulating CIFTI ([[connectivity]] Informatics Technology Initiative) format files in [[neuroimaging]] workflows. The package provides a unified environment for working with grayordinate-based brain imaging data, combining cortical surface vertices with subcortical voxel data in a single file format pioneered by the [[human-connectome-project]]. Originally developed by Amanda Mejia, Damon Pham, and John Muschelli, ciftiTools is available on CRAN and has become a standard tool for R-based neuroimaging analysis pipelines [1][2].
@@ -31,13 +31,13 @@ The package provides comprehensive functionality across several domains. For dat
 
 Processing operations include geodesic surface smoothing and resampling to different mesh resolutions (e.g., 10k, 32k vertices per hemisphere), implemented via the [[connectome-workbench]] command-line tools. The package also includes mathematical operations implemented as S3 methods, allowing direct arithmetic and transformation of xifti objects within R.
 
-For [[parcellation]] workflows, ciftiTools provides built-in support for the Schaefer parcellation (100–1000 parcels) and Yeo functional networks (7 and 17 networks), facilitating region-of-interest analyses common in [[connectome]] studies.
+For [[parcellation]] workflows, ciftiTools provides built-in support for the [[schaefer|Schaefer parcellation]] (100–1000 parcels) and Yeo functional networks (7 and 17 networks), facilitating region-of-interest analyses common in [[connectome]] studies.
 
 ## Relationship to TVB and Other Tools
 
 ciftiTools serves a complementary role in the [[tvb]] ecosystem by enabling preprocessing and analysis of HCP-style datasets that may be used as empirical priors or validation targets for [[whole-brain]] simulations. Researchers can use ciftiTools to extract connectivity matrices from empirical CIFTI data, which can then serve as structural connectome inputs for TVB simulations. Conversely, simulated [[bold-signal|BOLD]] signals from TVB can be visualized and compared with empirical data using ciftiTools.
 
-The package integrates with the broader neuroimaging ecosystem: it depends on [[connectome-workbench]] for computationally intensive operations, uses [[gift]] format for surface geometry, and complements Python tools such as Nilearn and Pycortex. Unlike the cifti R package which supports all CIFTI intents but offers limited functionality, ciftiTools provides a user-friendly interface specifically optimized for dscalar, dtseries, and dlabel intents common in fMRI analysis.
+The package integrates with the broader neuroimaging ecosystem: it depends on [[connectome-workbench]] for computationally intensive operations, uses [[gift]] format for surface geometry, and complements Python tools such as [[nilearn]] and Pycortex. Unlike the cifti R package which supports all CIFTI intents but offers limited functionality, ciftiTools provides a user-friendly interface specifically optimized for dscalar, dtseries, and dlabel intents common in fMRI analysis.
 
 ## Key Packages Summary
 

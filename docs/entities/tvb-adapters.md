@@ -11,7 +11,7 @@ tags:
 - software-tvb-adapters
 title: TVB Adapters
 type: entity
-updated: '2026-05-05'
+updated: '2026-05-06'
 ---
 
 TVB Adapters (tvb-adapters) is a component of [[the-virtual-brain]] framework providing interfaces and adapters for connecting TVB to external tools and data formats.
@@ -31,7 +31,7 @@ TVB Adapters is often used alongside [[tvb]] and other simulation platforms in p
 * [[arbor]]
 * [[bids]] Validator
 * Bidscoin
-* Brainstorm
+* [[brainstorm]]
 [[ Allen SDK]]
 
 ## References

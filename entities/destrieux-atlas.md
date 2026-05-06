@@ -60,7 +60,7 @@ The Destrieux Atlas connects to [[the-virtual-brain]] workflows primarily throug
 
 7. Deco, G., & Kringelbach, M.L. (2014). Great expectations: Using whole-brain models to understand the dynamics of brain function. NeuroImage, 80, 360-374. [DOI](](https://doi.org/10.1016/j.neuroimage.2013.10.041))
 
-8. [[schaefer]], A., Kong, R., Gordon, E.M., Laumann, T.O., Zuo, X.N., Holmes, A.J., ... & Yeo, B.T. (2018). Local-Global parcellation of the human cerebral cortex from intrinsic functional connectivity. Cerebral Cortex, 28(9), 3095-3114. [DOI](](https://doi.org/10.1093/cercor/bhx035))
+8. Schaefer, A., Kong, R., Gordon, E.M., Laumann, T.O., Zuo, X.N., Holmes, A.J., ... & Yeo, B.T. (2018). Local-Global parcellation of the human cerebral cortex from intrinsic functional connectivity. Cerebral Cortex, 28(9), 3095-3114. [DOI](](https://doi.org/10.1093/cercor/bhx035))
 
 9. Yeo, B.T., Krienen, F.M., Sepulcre, J., Sabuncu, M.R., Lashkari, D., Hollinshead, M., ... & Buckner, R.L. (2011). The organization of the human cerebral cortex estimated by intrinsic functional connectivity. Journal of Neurophysiology, 106(3), 1125-1165. [DOI](](https://doi.org/10.1152/jn.00338.2011))
 

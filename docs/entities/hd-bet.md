@@ -9,7 +9,7 @@ tags:
 - software-neuroimaging
 title: HD-BET
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # HD-BET
@@ -41,9 +41,9 @@ HD‑BET serves as a preprocessing component within the [[whole-brain-modeling]]
 HD‑BET operates within a broader ecosystem of brain extraction and neuroimaging preprocessing tools. Classical alternatives include the BET tool from Fsl, [[ants]], and Freesurfer's own brain masking routines, each offering different tradeoffs between automation, accuracy, and computational requirements. For diffusion imaging specifically, Mrtrix3 provides competing brain segmentation through mrrobustify, while pipeline frameworks like [[fmriprep]] and Qsiprep incorporate brain extraction as one stage in full preprocessing chains. The development of HD‑BET reflects the broader transition toward deep learning‑based methods in neuroimaging, alongside tools like [[synthseg]] for volumetric segmentation.
 
 [[TVB]]
-Freesurfer
+[[freesurfer]]
 Fsl
-Mrtrix3
+[[mrtrix3]]
 [[mni-space]]
 [[structural-connectivity]]
 [[mrtrix3-connectome]]

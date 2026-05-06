@@ -9,7 +9,7 @@ tags:
 - software-bids
 title: BIDSkit
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # BIDSkit
@@ -55,7 +55,7 @@ BIDSkit plays a supporting but essential role in [[whole-brain-modeling]] workfl
 * Bidscoin — GUI-enabled BIDS converter supporting multiple modalities
 * [[pybids]] — Python API for parsing and manipulating BIDS datasets
 * [[fmriprep]] — Preprocessing pipeline accepting BIDS input
-* Nilearn — Machine learning and statistical analysis on BIDS data
+* [[nilearn]] — [[machine-learning]] and statistical analysis on BIDS data
 * [[mne-bids]] — BIDS conversion for EEG/MEG data
 
 ## References

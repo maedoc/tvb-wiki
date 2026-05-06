@@ -15,7 +15,7 @@ tags:
 - dynamical-systems-theory
 title: Epilepsy Modeling
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # Epilepsy Modeling
@@ -101,7 +101,7 @@ The clinical workflow typically proceeds through several stages: acquiring [[dif
 
 ### Seizure Prediction and Control
 
-The dynamical systems perspective suggests that seizures may be predictable if the brain's state approaches a bifurcation boundary before clinical onset. Model-based prediction approaches track slow parameter variations—potentially reflecting accumulating excitability or declining inhibition—and detect signatures of approaching criticality in the evolving dynamics. While pure machine learning approaches have dominated the [[seizure-prediction]] literature, models that incorporate dynamical constraints show promise for improving specificity by distinguishing true pre-ictal states from similar-looking interictal variability.
+The dynamical systems perspective suggests that seizures may be predictable if the brain's state approaches a bifurcation boundary before clinical onset. Model-based prediction approaches track slow parameter variations—potentially reflecting accumulating excitability or declining inhibition—and detect signatures of approaching criticality in the evolving dynamics. While pure [[machine-learning]] approaches have dominated the [[seizure-prediction]] literature, models that incorporate dynamical constraints show promise for improving specificity by distinguishing true pre-ictal states from similar-looking interictal variability.
 
 Closed-loop stimulation represents the most direct clinical application of seizure modeling. By monitoring model state in real-time and delivering stimulation when dynamics approach the seizure attractor, these systems can interrupt seizures with minimal latency and energy delivery. The theoretical framework of controlling chaotic dynamical systems provides guidance for stimulation timing: the goal is to push the system away from its current attractor toward a stable low-activity state, rather than simply suppressing all neural activity.
 

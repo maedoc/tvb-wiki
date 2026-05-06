@@ -26,7 +26,7 @@ tags:
 - software-eeglab
 title: MEG
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # MEG
@@ -53,7 +53,7 @@ The source orientation sensitivity differs substantially: EEG detects contributi
 
 ## Analysis Methods
 
-MEG data analysis proceeds through preprocessing stages analogous to EEG, including artifact rejection (eye movements, muscle activity, cardiac signals), filtering, and segmentation. Source reconstruction typically employs beamforming approaches such as the synthetic aperture magnetometry (SAM) or minimum-variance beamforming, or distributed inverse solutions like minimum-norm estimation (MNE). The MNE method implemented in Mne Python has become a standard tool for reconstructing distributed source activity from MEG data.
+MEG data analysis proceeds through preprocessing stages analogous to EEG, including artifact rejection (eye movements, muscle activity, cardiac signals), filtering, and segmentation. Source reconstruction typically employs beamforming approaches such as the synthetic aperture magnetometry (SAM) or minimum-variance beamforming, or distributed inverse solutions like minimum-norm estimation (MNE). The MNE method implemented in [[mne-python]] has become a standard tool for reconstructing distributed source activity from MEG data.
 
 Time-frequency decomposition reveals the spectral content of neural activity, with specific frequency bands linked to distinct cognitive processes. [[Brain-oscillations]] in the gamma band, for example, are associated with feature binding and local processing, while alpha oscillations reflect cortical inhibition and idling states. Connectivity analysis quantifies phase relationships or information flow between brain regions, enabling comparison with [[functional-connectivity]] patterns from fMRI and establishing network-level validity for [[whole-brain]] models.
 

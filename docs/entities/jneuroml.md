@@ -16,7 +16,7 @@ tags:
 - neurodevelopment
 title: jNeuroML
 type: entity
-updated: '2026-05-05'
+updated: '2026-05-06'
 ---
 
 # jNeuroML
@@ -29,7 +29,7 @@ jNeuroML was the first full implementation of the NeuroML specification and has 
 
 ## Relationship to NeuroML and the NeuroML Ecosystem
 
-Neuroml (Neural Markup Language) is a standardized XML-based format for describing computational models of neurons, synapses, and neural networks. The language was developed to address the challenge of model interoperability in computational neuroscience—different simulators (such as [[neuron]], Brian, and [[nest]]) historically used incompatible formats, making it difficult to reuse and share models across platforms. NeuroML provides a modular, hierarchical structure that can represent individual ion channels, cell models, populations, and full networks at multiple levels of abstraction.
+Neuroml (Neural Markup Language) is a standardized XML-based format for describing computational models of neurons, synapses, and neural networks. The language was developed to address the challenge of model interoperability in computational neuroscience—different simulators (such as [[neuron]], [[brian]], and [[nest]]) historically used incompatible formats, making it difficult to reuse and share models across platforms. NeuroML provides a modular, hierarchical structure that can represent individual ion channels, cell models, populations, and full networks at multiple levels of abstraction.
 
 jNeuroML implements the full NeuroML specification and provides several core functions essential to the ecosystem. First, it acts as a **validator**, parsing NeuroML documents and checking them against the schema to ensure compliance with the specification. Second, it serves as a **simulator interface**, capable of running simulations of NeuroML-described networks using its internal simulation engine or by exporting to formats compatible with other simulators. Third, it provides **conversion capabilities**, transforming NeuroML models into formats suitable for other simulation environments, including NEURON (.mod files), Brian (Python scripts), and standalone simulation scripts.
 
@@ -43,7 +43,7 @@ The software includes **network generation capabilities**, supporting the creati
 
 Another important feature is **model unit conversion and scaling**, which allows users to transform models between different parameter regimes or export them with different units. This is valuable when adapting models developed for specific brain regions or species to new contexts. The tool also supports **graph generation**, producing visual representations of network architectures defined in NeuroML documents.
 
-jNeuroML can export NeuroML models to multiple simulator formats including NEURON, Brian2, Matlab, [[moose]], Netpyne, and can even import other formats like SBML into LEMS.
+jNeuroML can export NeuroML models to multiple simulator formats including NEURON, [[brian2]], Matlab, [[moose]], Netpyne, and can even import other formats like SBML into LEMS.
 
 ## Relationship to TVB
 

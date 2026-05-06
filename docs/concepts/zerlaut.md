@@ -17,7 +17,7 @@ tags:
 - software-tvb
 title: Zerlaut Model
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 The **Zerlaut model** is a mean-field representation of cortical microcircuit dynamics that describes the collective activity of interacting excitatory and inhibitory neural populations with spike-frequency adaptation. Developed by Yann Zerlaut and colleagues (2018), this model provides a mathematically tractable bridge between detailed [[spiking-neural-networks]] composed of leaky integrate-and-fire neurons with adaptation currents and the population-level descriptions used in whole-brain modeling frameworks such as [[tvb]]. The model captures essential cortical dynamics including oscillatory behavior, adaptation effects, and excitation-inhibition balance while remaining computationally efficient enough for large-scale brain network simulations.
@@ -66,7 +66,7 @@ The model complements the [[stefanescu-jirsa]] approach, which also derives mean
 
 One of the practical challenges with the Zerlaut model is [[parameter-estimation]]. The model contains multiple parameters including membrane time constants, adaptation time constants and weights, and synaptic coupling strengths. Different regimes of the model can produce qualitatively different dynamics, from simple fixed-point behavior to oscillations and even chaotic dynamics through bifurcation mechanisms familiar from [[dynamical-systems-theory]].
 
-Recent work has explored using data-driven approaches to calibrate mean-field models like Zerlaut. The study by Breyton et al. (2025) demonstrates how machine learning frameworks can learn accurate mean-field descriptions directly from spiking network simulations, potentially providing a systematic way to tune Zerlaut-type models to specific neural substrates. Similarly, region-specific mean-field models (Lorenzi et al., 2025) suggest that different brain regions may require distinct parameterizations of mean-field models to capture their specific microcircuit properties.
+Recent work has explored using data-driven approaches to calibrate mean-field models like Zerlaut. The study by Breyton et al. (2025) demonstrates how [[machine-learning]] frameworks can learn accurate mean-field descriptions directly from spiking network simulations, potentially providing a systematic way to tune Zerlaut-type models to specific neural substrates. Similarly, region-specific mean-field models (Lorenzi et al., 2025) suggest that different brain regions may require distinct parameterizations of mean-field models to capture their specific microcircuit properties.
 
 ## Applications in Whole-Brain Modeling
 

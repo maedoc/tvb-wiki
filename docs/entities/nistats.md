@@ -15,7 +15,7 @@ tags:
 - nilearn
 title: Nistats
 type: entity
-updated: '2026-05-05'
+updated: '2026-05-06'
 ---
 
 Nistats ([[neuroimaging]] STATistics) is a Python library designed for statistical analysis of neuroimaging data, with a primary focus on functional magnetic resonance imaging ([[fmri]]). Originally developed as part of the NiPy ecosystem, nistats provides tools for implementing General [[linear|Linear Model]] (GLM) analysis pipelines for both first-level (single-subject) and second-level (group-level) fMRI experiments. The library enables researchers to perform voxel-wise statistical tests, construct design matrices, run contrast analyses, and generate statistical parametric maps from [[bold-signal|BOLD]] (Blood-Oxygen-Level-Dependent) signal data in [[nifti]] format. [[nistats]]
@@ -32,7 +32,7 @@ Before dedicated Python libraries emerged, researchers relied heavily on MATLAB-
 
 ## Key Features
 
-The nistats library provides several core functionalities for fMRI analysis. First-level analysis tools allow researchers to fit GLM models to individual subject time series, specifying experimental design matrices that encode stimulus onsets, durations, and confounding covariates (such as head motion parameters). The library supports multiple regression approaches including ordinary least squares (OLS) and weighted least squares (WLS) to account for noise heterogeneity. [[nistats]] Once the model is fit, users can define contrasts (linear combinations of parameter estimates) to test specific hypotheses about brain activity differences between conditions. Second-level analysis extends these capabilities to group-level inference, enabling random effects analyses that generalize findings across subjects. Later versions integrated cluster-based multiple comparison correction through nilearn's permutation testing capabilities, allowing researchers to control family-wise error rate across the entire brain volume.  The library's API is designed around scikit-learn conventions, making it accessible to users familiar with machine learning workflows in Python.
+The nistats library provides several core functionalities for fMRI analysis. First-level analysis tools allow researchers to fit GLM models to individual subject time series, specifying experimental design matrices that encode stimulus onsets, durations, and confounding covariates (such as head motion parameters). The library supports multiple regression approaches including ordinary least squares (OLS) and weighted least squares (WLS) to account for noise heterogeneity. [[nistats]] Once the model is fit, users can define contrasts (linear combinations of parameter estimates) to test specific hypotheses about brain activity differences between conditions. Second-level analysis extends these capabilities to group-level inference, enabling random effects analyses that generalize findings across subjects. Later versions integrated cluster-based multiple comparison correction through [[nilearn]]'s permutation testing capabilities, allowing researchers to control family-wise error rate across the entire brain volume.  The library's API is designed around scikit-learn conventions, making it accessible to users familiar with [[machine-learning]] workflows in Python.
 
 ## Relationship to TVB
 
@@ -47,7 +47,7 @@ Nistats shares conceptual and data-processing lineage with several other Python 
 - Friston, K. J., Holmes, A. P., Worsley, K. J., Poline, J. B., Frith, C. D., & Frackowiak, R. S. (1994). Statistical parametric maps in functional imaging: A general linear approach. *Human Brain Mapping*, 2(4), 189-210. 
 - Smith, S. M., Jenkinson, M., Woolrich, M. W., Beckmann, C. F., Behrens, T. E., Johansen‑Berg, H., ... & Matthews, P. M. (2004). Advances in functional and structural MR image analysis and implementation as FSL. *Neuroimage*, 23, S208‑S219. 
 - Abraham, A., Pedregosa, F., Eickenberg, M., Gervais, P., Mueller, A., Kossaifi, J., ... & Gramfort, A. (2014). Machine learning for neuroimaging with scikit‑learn. *Frontiers in Neuroinformatics*, 8, 14. 
-- Gorgolewski, K., Esteban, O., Markiewicz, C. J., Ziegler, E., Gutierrez, D. P., Hutton, C., ... & Poldrack, R. (2018). fmriprep: A robust preprocessing pipeline for functional MRI. *Nature Methods*, 15(11), 875‑878. 
+- Gorgolewski, K., Esteban, O., Markiewicz, C. J., Ziegler, E., Gutierrez, D. P., Hutton, C., ... & Poldrack, R. (2018). fmriprep: A robust preprocessing pipeline for [[neuroimaging-fmri|functional MRI]]. *Nature Methods*, 15(11), 875‑878. 
 
 ## References
 

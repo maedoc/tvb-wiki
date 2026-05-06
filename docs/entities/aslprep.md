@@ -12,7 +12,7 @@ tags:
 - reproducibility
 title: ASLPrep
 type: software
-updated: '2026-05-05'
+updated: '2026-05-06'
 ---
 
 # ASLPrep
@@ -41,7 +41,7 @@ The computational architecture of ASLPrep leverages [[nipype]] for workflow mana
 
 ## Key Features
 
-ASLPrep provides several features that make it suitable for ASL data preprocessing in large‑scale studies. First, the pipeline implements automatic CBF quantification using the simplified kinetic model, the most widely accepted model for quantitative perfusion mapping from pulsed or continuous ASL data. Second, ASLPrep supports multiple ASL acquisition variants including pulsed ASL (PASL), continuous ASL (CASL), and pseudo‑continuous ASL (pCASL), accommodating data from different vendors and acquisition protocols. Third, the pipeline produces outputs in both native space and standardized spaces **including [[mni-space]] space**, facilitating group‑level analyses using tools like Nilearn or [[fsl-melodic]].
+ASLPrep provides several features that make it suitable for ASL data preprocessing in large‑scale studies. First, the pipeline implements automatic CBF quantification using the simplified kinetic model, the most widely accepted model for quantitative perfusion mapping from pulsed or continuous ASL data. Second, ASLPrep supports multiple ASL acquisition variants including pulsed ASL (PASL), continuous ASL (CASL), and pseudo‑continuous ASL (pCASL), accommodating data from different vendors and acquisition protocols. Third, the pipeline produces outputs in both native space and standardized spaces **including [[mni-space]] space**, facilitating group‑level analyses using tools like [[nilearn]] or [[fsl-melodic]].
 
 The pipeline also handles multi‑band accelerated acquisitions common in modern ASL protocols, applying appropriate corrections for reconstruction artifacts specific to accelerated imaging. Integration with [[fsl-melodic]] tools enables advanced processing options including ICA‑based denoising through [[ica‑aroma]] when requested, though users must exercise caution as aggressive denoising can affect perfusion quantification. Additional features include BIDS‑compliant output formatting, automatic metadata extraction, and support for both 2D and 3D acquisition schemes commonly used in clinical settings.
 
@@ -58,7 +58,7 @@ ASLPrep is part of a broader ecosystem of BIDS Apps and preprocessing tools for 
 ## Key Papers
 
 - **ASLPrep: A Robust Preprocessing Pipeline for ASL Data** [@doi:10.1101/2023.04.04.535856] — Original ASLPrep publication describing the pipeline architecture and validation.
-- **fMRIPrep: A Robust Preprocessing Pipeline for Functional MRI** [@doi:10.1016/j.neuroimage.2020.117336] — The foundational paper for the preprocessing philosophy that ASLPrep draws upon.
+- **fMRIPrep: A Robust Preprocessing Pipeline for [[neuroimaging-fmri|Functional MRI]]** [@doi:10.1016/j.neuroimage.2020.117336] — The foundational paper for the preprocessing philosophy that ASLPrep draws upon.
 - **Recommended ASL Processing Steps and Sources** [@doi:10.1002/mrm.25197] — Consensus paper on standard ASL processing methods and nomenclature.
 - **BIDS Application Specification** [@doi:10.1002/hbm.25230] — Description of the [[bids-apps]] ecosystem and standardization approach.
 

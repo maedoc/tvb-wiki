@@ -14,7 +14,7 @@ tags:
 - neuroimaging-dti
 title: NITRC-CE
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 NITRC-CE ([[neuroimaging]] Tools and Resources Collaboratory – Computational Environment) was a cloud-based computing platform developed to address the computational challenges faced by neuroimaging researchers. It provided a web-based interface through which users could execute neuroimaging analysis pipelines without requiring extensive local computational resources or technical expertise in high-performance computing. The platform was offered as part of the broader NITRC ecosystem, which also includes the NITRC resource repository and [[nitrc]] itself as the original resource discovery platform.
@@ -40,7 +40,7 @@ NITRC-CE existed within an ecosystem of cloud-based neuroimaging solutions, each
 - [[the-virtual-brain]]
 - [[nitrc]]
 - Fsl
-- Freesurfer
+- [[freesurfer]]
 - [[afni]]
 - [[brainlife]]
 - Neurodesk

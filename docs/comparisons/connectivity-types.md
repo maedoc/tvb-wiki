@@ -24,7 +24,7 @@ tags:
 - connectomics
 title: Structural vs Functional vs Effective Connectivity
 type: comparison
-updated: '2026-05-05'
+updated: '2026-05-06'
 ---
 
 # Structural vs Functional vs Effective Connectivity
@@ -136,11 +136,11 @@ See honey-2009 for empirical evidence of this relationship.
 5. (authors unknown). *Functional Connectivity: The Principal-Component Analysis of Large (PET and fMRI) Data Sets*.
 6. (authors unknown). *Predicting Human [[resting-state]] Functional Connectivity from Structural Connectivity*.
 7. (authors unknown). *The Human Connectome: A Structural Description of the Human Brain*.
-8. Jianwei Chen, Zhengyang Miao, Wenjie Cai, Jiaxue Tang, Boxing Liu, Yunfan Zhang, Yuhang Yang, Hao Tang, Carola-Bibiane Schönlieb, Zaixu Cui, Du Lei, Shouliang Qi, Chao Li. (2026). *Hierarchical Multiscale Structure-Function Coupling for Brain Connectome Integration*. [Link](](https://arxiv.org/abs/2603.20680))
-9. (authors unknown). *Correspondence of the brain's functional architecture during activation and [[rest]]*.
-10. Sakul Mahat, Sharmistha Guha, Jessica Bernard. (2026). *A Bayesian Framework for Quantifying Association Between Functional and Structural Data in [[neuroimaging]]*. [Link](](https://arxiv.org/abs/2603.21067))
-11. V. Myrov, A. Suleimanova, Samanta Knapič, P. Partanen, M. Vesterinen, Wenya Liu, S. Palva, J. M. Palva. (2026). *Hierarchical whole-brain modeling of critical synchronization dynamics in the human brain.*. Proceedings of the National Academy of Sciences of the United States of America. [DOI](](https://doi.org/10.1073/pnas.2505768123))
-12. Yifei Zhang, Meimei Liu, Zhengwu Zhang. (2026). *Attention-Based Variational Framework for Joint and Individual Components Learning with Applications in [[brain-network]] Analysis*. [Link](](https://arxiv.org/abs/2601.17073))
-13. Peizhen Yang, Xinke Shen, Zongsheng Li, Zixiang Luo, Kexin Lou, Quanying Liu. *Perturbing a [[neural-network]] to Infer Effective Connectivity: Evidence from Synthetic EEG Data*. [Link](](https://arxiv.org/abs/2307.09770))
-14. Breno C. Bispo, Stefania Sardellitti, Juliano B. Lima, Fernando A. N. Santos. (2026). *Multimodal Higher-Order Brain Networks: A Topological Signal Processing Perspective*. [Link](](https://arxiv.org/abs/2603.29903))
+8. Jianwei Chen, Zhengyang Miao, Wenjie Cai, Jiaxue Tang, Boxing Liu, Yunfan Zhang, Yuhang Yang, Hao Tang, Carola-Bibiane Schönlieb, Zaixu Cui, Du Lei, Shouliang Qi, Chao Li. (2026). *Hierarchical Multiscale Structure-Function Coupling for Brain Connectome Integration*. [Link](https://arxiv.org/abs/2603.20680))
+9. (authors unknown). *Correspondence of the brain's functional architecture during activation and [[tvb-rest]]*.
+10. Sakul Mahat, Sharmistha Guha, Jessica Bernard. (2026). *A [[bayesian]] Framework for Quantifying Association Between Functional and Structural Data in [[neuroimaging]]*. [Link](https://arxiv.org/abs/2603.21067))
+11. V. Myrov, A. Suleimanova, Samanta Knapič, P. Partanen, M. Vesterinen, Wenya Liu, S. Palva, J. M. Palva. (2026). *Hierarchical whole-brain modeling of critical synchronization dynamics in the human brain.*. Proceedings of the National Academy of Sciences of the United States of America. [DOI](https://doi.org/10.1073/pnas.2505768123))
+12. Yifei Zhang, Meimei Liu, Zhengwu Zhang. (2026). *Attention-Based Variational Framework for Joint and Individual Components Learning with Applications in [[brain-network]] Analysis*. [Link](https://arxiv.org/abs/2601.17073))
+13. Peizhen Yang, Xinke Shen, Zongsheng Li, Zixiang Luo, Kexin Lou, Quanying Liu. *Perturbing a [[neural-network]] to Infer Effective Connectivity: Evidence from Synthetic EEG Data*. [Link](https://arxiv.org/abs/2307.09770))
+14. Breno C. Bispo, Stefania Sardellitti, Juliano B. Lima, Fernando A. N. Santos. (2026). *Multimodal Higher-Order Brain Networks: A Topological Signal Processing Perspective*. [Link](https://arxiv.org/abs/2603.29903))
 15. (authors unknown). *Functional Connectomics from Resting-State fMRI*.

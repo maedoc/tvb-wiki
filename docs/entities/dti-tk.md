@@ -15,7 +15,7 @@ tags:
 - software-tools
 title: DTI‑TK
 type: entity
-updated: '2026-05-05'
+updated: '2026-05-06'
 ---
 
 # DTI‑TK  
@@ -36,7 +36,7 @@ DTI‑TK's distinguishing contribution is its implementation of tensor‑based s
 
 The software implements sophisticated tensor estimation routines that incorporate spatial regularization constraints, improving the robustness of tensor fits in regions where diffusion‑weighted signals are noisy or where partial volume effects compromise tensor accuracy [@Parker2003]. This regularization approach helps produce more continuous fiber tracking results compared to naive voxel‑by‑voxel tensor estimation.  
 
-The toolkit includes tools for tract‑based spatial statistics (TBSS), a methodology originally developed by Smith et al. [@Smith2006] and implemented in the [[fsl‑melodic]] package. TBSS projects FA values onto a white‑matter skeleton to address registration challenges inherent in voxel‑based analysis of diffusion tensor data, thereby reducing false positives attributable to misaligned white‑matter structures. While DTI‑TK supports TBSS‑style processing, this methodology is fundamentally associated with FSL rather than being a distinctive feature of DTI‑TK.  
+The toolkit includes tools for tract‑based spatial statistics ([[tbss]]), a methodology originally developed by Smith et al. [@Smith2006] and implemented in the [[fsl‑melodic]] package. TBSS projects FA values onto a white‑matter skeleton to address registration challenges inherent in voxel‑based analysis of diffusion tensor data, thereby reducing false positives attributable to misaligned white‑matter structures. While DTI‑TK supports TBSS‑style processing, this methodology is fundamentally associated with FSL rather than being a distinctive feature of DTI‑TK.  
 
 Additionally, DTI‑TK provides utilities for computing [[connectivity]] matrices from tractography results, enabling network‑based analyses of brain connectivity. These connectivity matrices can be exported in formats compatible with the [[Brain Connectivity Toolbox]] (BCT) and other network analysis packages, facilitating integration with [[whole‑brain|whole‑brain modeling]] frameworks that utilize structural connectivity matrices derived from [[diffusion imaging]] data.  
 

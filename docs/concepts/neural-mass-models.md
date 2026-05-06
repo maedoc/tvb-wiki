@@ -64,7 +64,7 @@ The [[epileptor]] model was developed specifically for [[epilepsy-modeling]] and
 
 ## Relationship to Other Approaches
 
-Neural mass models occupy an intermediate position between detailed biophysical models (such as those simulated in [[nest]] or Brian2) and purely descriptive models (such as autoregressive models of fMRI time series). Unlike [[spiking-neural-networks]] that simulate individual neurons with anatomical realism, NMMs aggregate neurons into populations, sacrificing single‑neuron specificity for speed and tractability. However, they retain sufficient biological interpretability to be mapped to physiological mechanisms.
+Neural mass models occupy an intermediate position between detailed biophysical models (such as those simulated in [[nest]] or [[brian2]]) and purely descriptive models (such as autoregressive models of fMRI time series). Unlike [[spiking-neural-networks]] that simulate individual neurons with anatomical realism, NMMs aggregate neurons into populations, sacrificing single‑neuron specificity for speed and tractability. However, they retain sufficient biological interpretability to be mapped to physiological mechanisms.
 
 The relationship between neural mass models and [[dynamic-causal-modeling]] is particularly close: DCM uses the Jansen‑Rit model as its [[forward-model]] for generating synthetic EEG/MEG data, and parameter estimation in DCM amounts to inverting the neural mass model to fit observed neuroimaging data. Similarly, [[tvb]] provides a platform for whole‑brain simulations using multiple neural mass models (Jansen‑Rit, Wong‑Wang, Epileptor) embedded in patient‑specific connectomes.
 
@@ -93,9 +93,9 @@ sources:
 - raw/papers/friston-1998-hrf.md
 - raw/papers/glover-1999-hrf.md
 tags:
-- neuroimaging-fmri
+- [[neuroimaging]]-fmri
 - neural-mass-models
-- dynamical-systems-theory
+- [[dynamical-systems-theory]]
 - brain-dynamics
 type: concept
 updated: '2026-05-06'
@@ -105,7 +105,7 @@ updated: '2026-05-06'
 
 ## Overview
 
-The **[[hemodynamic-response-function]] (HRF)** describes the change in blood oxygen level-dependent (BOLD) signal that follows neural activity in the brain, measured via functional magnetic resonance imaging ([[fmri]]). When neurons fire, they consu
+The **[[hemodynamic-response-function]] (HRF)** describes the change in blood oxygen level-dependent ([[bold-signal|BOLD]]) signal that follows neural activity in the brain, measured via functional magnetic resonance imaging ([[fmri]]). When neurons fire, they consu
 
 ## ORPHAN PAGE CONTEXT (lfpykern)
 ---
@@ -117,11 +117,11 @@ sources:
 tags:
 - software
 - lfp
-- volume-conduction
-- computational-neuroscience
+- [[volume-conduction]]
+- [[computational-neuroscience]]
 title: LFPykern
 type: entity
 updated: '2026-05-05'
 ---
 
-LFPykern is a Python library for computing local field potentials (LFPs) from spiking neural network simulations. The software implements a kernel-based approach to calculating the extracellular electric potential re
+LFPykern is a Python library for computing [[local-field-potentials]] (LFPs) from spiking [[neural-network]] simulations. The software implements a kernel-based approach to calculating the extracellular electric potential re

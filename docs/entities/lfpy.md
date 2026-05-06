@@ -73,16 +73,16 @@ These papers serve as the primary citations for researchers using LFPy in their 
 
 LFPy integrates with several related software packages in the computational neuroscience ecosystem:
 
-- **Lfpykit** [[lfpykern]]: A companion Python package that provides general classes for volume conductor modeling and extracellular potential calculation. LFPy builds on lfpykit to extend its functionality to specific use cases involving NEURON simulations.
+- **Lfpykit**: A companion Python package that provides general classes for volume conductor modeling and extracellular potential calculation. LFPy builds on lfpykit to extend its functionality to specific use cases involving NEURON simulations.
 - **NEURON**: The simulation environment that LFPy uses for computing neural dynamics. NEURON provides the compartmental modeling framework needed to calculate transmembrane currents for neurons with arbitrary morphologies.
-- **Brian2**: Another neuron simulator that can in principle be integrated with forward modeling tools, though LFPy specifically targets the NEURON interface.
+- **[[brian2]]**: Another neuron simulator that can in principle be integrated with forward modeling tools, though LFPy specifically targets the NEURON interface.
 - **[[nest]]**: A simulator focused on large-scale network dynamics that complements LFPy's detailed single-neuron capabilities.
 
 The modular design of LFPy allows researchers to combine these tools in various configurations depending on their modeling needs. For instance, LFPy can be used with custom NEURON models imported from [[model-validation]], enabling forward modeling of LFPs from biologically realistic neural networks.
 
 ## Development and Community
 
-LFPy is developed as an open-source project with contributions from the computational neuroscience community. The software is maintained by researchers at the University of Oslo and the KTH Royal Institute of Technology, with support from the International Neuroinformatics Coordinating Facility (INCF). The project has received funding from the European Union's Seventh Framework Programme and the Human Brain Project, reflecting its role in advancing standards for neural simulation and data sharing.
+LFPy is developed as an open-source project with contributions from the computational neuroscience community. The software is maintained by researchers at the University of Oslo and the KTH Royal Institute of Technology, with support from the International Neuroinformatics Coordinating Facility (INCF). The project has received funding from the European Union's Seventh Framework Programme and the Human Brain Project, reflecting its role in advancing standards for [[neural-simulation]] and data sharing.
 
 The software is distributed under the GNU General
 

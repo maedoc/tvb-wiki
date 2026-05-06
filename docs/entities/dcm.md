@@ -8,7 +8,7 @@ tags:
 - software-brain-modeling
 title: DCM
 type: entity
-updated: '2026-05-05'
+updated: '2026-05-06'
 ---
 
 # Dynamic Causal Modeling (DCM)
@@ -41,7 +41,7 @@ Spectral DCM extends the framework to resting-state fMRI and other data where no
 
 ## Parameter Estimation and Model Comparison
 
-DCM employs [[variational-bayes|variational Bayesian]] inference to estimate the posterior distribution over model parameters. This approach is computationally efficient and provides a principled framework for model comparison using Bayesian model evidence. The evidence quantifies the trade‑off between model fit and complexity, penalizing models that are too flexible and prone to overfitting. Researchers can compare different hypotheses about network architecture by computing the model evidence for each competing model and selecting the one with the highest evidence.
+DCM employs [[variational-bayes|variational Bayesian]] inference to estimate the posterior distribution over model parameters. This approach is computationally efficient and provides a principled framework for model comparison using [[bayesian]] model evidence. The evidence quantifies the trade‑off between model fit and complexity, penalizing models that are too flexible and prone to overfitting. Researchers can compare different hypotheses about network architecture by computing the model evidence for each competing model and selecting the one with the highest evidence.
 
 The estimation procedure involves iteratively updating the variational posterior to minimize the difference between the approximate posterior and the true posterior, as measured by the Kullback‑Leibler divergence. This results in point estimates of the parameters along with their uncertainty, enabling hypothesis testing about specific connections and their modulation by experimental conditions. The use of Bayesian model evidence for model comparison is one of DCM's key strengths, allowing researchers to go beyond mere [[parameter-estimation]] to evaluate the relative support for different mechanistic hypotheses.
 
@@ -57,7 +57,7 @@ DCM has been applied to a wide range of clinical questions, from understanding t
 
 ## Future Directions
 
-Several directions are likely to shape the future development of DCM. The integration of DCM with machine learning methods, such as deep neural networks, could enhance the scalability and flexibility of the inference procedure, enabling the analysis of larger networks and more complex experimental designs. The extension of DCM to multimodal data, combining fMRI, EEG, and MEG, could provide a more comprehensive picture of brain connectivity across different spatial and temporal scales. The development of personalized DCM approaches, tailored to individual patients, could improve the clinical utility of the method, enabling more precise diagnostic and therapeutic interventions.
+Several directions are likely to shape the future development of DCM. The integration of DCM with [[machine-learning]] methods, such as deep neural networks, could enhance the scalability and flexibility of the inference procedure, enabling the analysis of larger networks and more complex experimental designs. The extension of DCM to multimodal data, combining fMRI, EEG, and MEG, could provide a more comprehensive picture of brain connectivity across different spatial and temporal scales. The development of personalized DCM approaches, tailored to individual patients, could improve the clinical utility of the method, enabling more precise diagnostic and therapeutic interventions.
 
 ## Further Reading
 

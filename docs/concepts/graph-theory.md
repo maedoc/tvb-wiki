@@ -17,7 +17,7 @@ tags:
 - software-brain-modeling
 title: Graph Theory
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # Graph Theory
@@ -54,5 +54,5 @@ Graph theory forms the mathematical foundation for [[connectomics]], the compreh
 2. (authors unknown). *Networks: An Introduction*.
 3. (authors unknown). *Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems*.
 4. (authors unknown). *Networks of the Brain*.
-5. Sakul Mahat, Sharmistha Guha, Jessica Bernard. (2026). *A Bayesian Framework for Quantifying Association Between Functional and Structural Data in Neuroimaging*. [Link](](https://arxiv.org/abs/2603.21067))
+5. Sakul Mahat, Sharmistha Guha, Jessica Bernard. (2026). *A [[bayesian]] Framework for Quantifying Association Between Functional and Structural Data in Neuroimaging*. [Link](](https://arxiv.org/abs/2603.21067))
 6. (authors unknown). *Functional Connectomics from Resting-State fMRI*.

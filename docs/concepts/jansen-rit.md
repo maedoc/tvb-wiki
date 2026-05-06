@@ -15,7 +15,7 @@ tags:
 - bifurcation-analysis
 title: Jansen-Rit Model
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # Jansen-Rit Model
@@ -87,7 +87,7 @@ The most influential extension of the original Jansen-Rit model was developed by
 
 ### Dynamic Causal Modeling Integration
 
-The Jansen-Rit model forms the computational basis for EEG and MEG applications of [[dynamic-causal-modeling|DCM]], a Bayesian framework for inferring [[effective-connectivity]] from neuroimaging data. In this context, multiple Jansen-Rit columns are coupled together, and the forward problem (mapping neural activity to sensor-space signals) is solved using established EEG/MEG lead field formulations. DCM estimates the coupling parameters between populations using variational Bayesian methods, enabling researchers to make inferences about the neural mechanisms underlying observed brain responses.
+The Jansen-Rit model forms the computational basis for EEG and MEG applications of [[dynamic-causal-modeling|DCM]], a [[bayesian]] framework for inferring [[effective-connectivity]] from neuroimaging data. In this context, multiple Jansen-Rit columns are coupled together, and the forward problem (mapping neural activity to sensor-space signals) is solved using established EEG/MEG lead field formulations. DCM estimates the coupling parameters between populations using variational Bayesian methods, enabling researchers to make inferences about the neural mechanisms underlying observed brain responses.
 
 ## Relationship to Other Neural Mass Models
 

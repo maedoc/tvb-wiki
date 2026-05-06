@@ -12,7 +12,7 @@ tags:
 - functional-connectivity
 title: XCP-D
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 XCP-D is a post-processing pipeline for [[resting-state]] functional magnetic resonance imaging ([[fmri]]) data, designed to remove confounding noise artifacts while preserving meaningful neural signals. Developed as part of the Configurable Pipeline for the Analysis of Connectomes (C-PAC) ecosystem, XCP-D takes preprocessed fMRI timeseries and applies a standardized sequence of confound regression, filtering, and quality control procedures to produce clean data suitable for subsequent [[functional-connectivity]] analyses. The pipeline emerged from the growing recognition that reliable estimation of brain [[connectivity]] patterns depends critically on aggressive yet principled removal of motion artifacts, physiological noise, and other non-neural signals that can systematically distort correlations between brain regions.
@@ -37,7 +37,7 @@ Temporal filtering represents another critical component of the XCP-D workflow. 
 
 ## Comparison to Alternative Post-Processing Strategies
 
-XCP-D occupies a specific niche within the landscape of fMRI post-processing tools, complementing and sometimes competing with alternative approaches. Unlike [[ica-aroma]] (Independent Component Analysis - Automatic Removal of Motion Artifacts), which uses machine learning to classify and remove motion-related independent components, XCP-D employs a regression-based nuisance model that provides more explicit control over which confounds are regressed but requires a priori specification of the regressor set (Pruim et al., 2015). The fMRIPrep pipeline includes its own companion despiking and bandpass filtering steps, but XCP-D offers more comprehensive confound regression with support for a wider array of regression models including aCompCor (Behzadi et al., 2007) and hybrid approaches that combine multiple strategies (Ciric et al., 2017).
+XCP-D occupies a specific niche within the landscape of fMRI post-processing tools, complementing and sometimes competing with alternative approaches. Unlike [[ica-aroma]] (Independent Component Analysis - Automatic Removal of Motion Artifacts), which uses [[machine-learning]] to classify and remove motion-related independent components, XCP-D employs a regression-based nuisance model that provides more explicit control over which confounds are regressed but requires a priori specification of the regressor set (Pruim et al., 2015). The fMRIPrep pipeline includes its own companion despiking and bandpass filtering steps, but XCP-D offers more comprehensive confound regression with support for a wider array of regression models including aCompCor (Behzadi et al., 2007) and hybrid approaches that combine multiple strategies (Ciric et al., 2017).
 
 The [[conn]] toolbox represents another popular choice for connectivity-focused preprocessing, offering a graphical interface and extensive connectivity analysis capabilities beyond what XCP-D provides. However, CONN's preprocessing is often applied after initial volume-based preprocessing, whereas XCP-D is designed to operate directly on surface-timeseries outputs from C-PAC, making it particularly suited for cusp processing. For users already within the C-PAC ecosystem, XCP-D provides tighter integration and more streamlined workflows, while users preferring greater flexibility or graphical interfaces may find CONN more accessible.
 
@@ -62,5 +62,5 @@ The XCP-D pipeline was introduced alongside the C-PAC software suite, with found
 ## References
 
 1. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](](https://doi.org/10.1016/j.neuroimage.2018.05.040))
-2. Sali Issa, Qi Wang, Ruinan Qi, Guangxi Peng, Shi Yin, Qinmu Peng. (2026). *An effective alzheimer disease diagnosis using resting state fmri images and broad learning system.*. Psychiatry research. [[neuroimaging]]. [DOI](](https://doi.org/10.1016/j.pscychresns.2025.112133))
+2. Sali Issa, Qi Wang, Ruinan Qi, Guangxi Peng, Shi Yin, Qinmu Peng. (2026). *An effective alzheimer disease diagnosis using [[resting-state-fmri]] images and broad learning system.*. Psychiatry research. [[neuroimaging]]. [DOI](](https://doi.org/10.1016/j.pscychresns.2025.112133))
 3. Sima Soltanpour, Md Taufiq Nasseef, Rachel Utama, Arnold Chang, D. Madularu, Praveen Kulkarni, Craig F. Ferris, Chris Joslin. (2025). *Robust automated preclinical fMRI preprocessing via a multi-stage dilated convolutional Swin Transformer affine registration*. Frontiers in Neuroscience. [DOI](](https://doi.org/10.3389/fnins.2025.1621244))

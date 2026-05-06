@@ -16,7 +16,7 @@ tags:
 - neuroimaging-meg
 title: Connectome
 type: concept
-updated: '2026-05-05'
+updated: '2026-05-06'
 ---
 
 The connectome represents a comprehensive structural description of the network of neural elements and connections forming the brain. Introduced as a formal concept by olaf-sporns|Giulio Tononi and rolf-kotter|Rolf Kötter in their seminal 2005 paper, the connectome encompasses the complete mapping of neural pathways—both structural and functional—that underlie brain organization. This concept has fundamentally transformed how neuroscientists conceptualize the brain, shifting from a collection of isolated regions to a network-centric view emphasizing the integration of information across distributed neural systems.
@@ -37,7 +37,7 @@ Measurement of structural connectivity relies primarily on [[diffusion-mri|diffu
 
 The functional connectome captures statistical dependencies between neural elements, reflecting coordinated activity across brain regions. Unlike structural connectivity, which represents fixed anatomical pathways, functional connectivity is dynamic and task-dependent. Time-varying correlations in [[bold-signal|BOLD]] activity measured via [[fmri|fMRI]], or electromagnetic fluctuations captured by [[eeg|EEG]] and [[meg|MEG]], constitute the empirical basis for functional connectivity mapping.
 
-power-2011|Power et al. (2011) provided a comprehensive characterization of functional network organization in the human brain, identifying major resting-state networks including the [[default-mode-network|default mode network]], attention systems, sensorimotor networks, and visual cortex Organization. These intrinsic-connectivity-networks emerge from spontaneous coherent activity in the [[resting-state|resting state]], revealing the underlying functional architecture that supports both task performance and intrinsic brain function.
+power-2011|Power et al. (2011) provided a comprehensive characterization of functional network organization in the human brain, identifying major resting-state networks including the [[default-mode-network|default mode network]], attention systems, sensorimotor networks, and visual cortex Organization. These [[intrinsic-connectivity-networks]] emerge from spontaneous coherent activity in the [[resting-state|resting state]], revealing the underlying functional architecture that supports both task performance and intrinsic brain function.
 
 ## Network Analysis and Graph Theory
 
@@ -73,5 +73,5 @@ The connectome provides the anatomical scaffold upon which brain dynamics unfold
 1. (authors unknown). *The Human Connectome: A Structural Description of the Human Brain*.
 2. (authors unknown). *The WU-Minn Human Connectome Project: An Overview*.
 3. (authors unknown). *Functional Network Organization of the Human Brain*.
-4. (authors unknown). *Correspondence of the brain's functional architecture during activation and [[rest]]*.
+4. (authors unknown). *Correspondence of the brain's functional architecture during activation and [[tvb-rest]]*.
 5. (authors unknown). *Functional Connectomics from Resting-State fMRI*.

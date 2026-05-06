@@ -9,17 +9,38 @@ tags:
 - jansen-rit-model
 title: Jansen Rit Model
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 [[jansen-rit]] Model — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
 
 ## Related Concepts
 * [[oscillator]]
+[[brica2]]
 
 ## References
 
 1. Huda Mahdi, Jan Sieber, Krasimira Tsaneva-Atanasova. *Alpha-Delta Transitions in Cortical Rhythms as grazing bifurcations*. [Link](](https://arxiv.org/abs/2411.16449))
 2. Benjamin H. Jansen, Vincent G. Rit. *Electroencephalogram and visual evoked potential generation in a mathematical model of coupled cortical columns*. Biological Cybernetics. [DOI](](https://doi.org/10.1007/BF00199471))
-3. Alexander Pei. *Phase Alignment Enhances Oscillatory Power in [[neural-mass-models]] Optimized for Class Encoding*. [Link](](https://arxiv.org/abs/2503.05564))
+3. Alexander Pei. *Phase Alignment Enhances Oscillatory Power in [[neural-mass-models]] Optimized for Class Encoding*. [Link](https://arxiv.org/abs/2503.05564))
 4. Gianluca Gaglioti, L. Porta, M. Colombo, Simone Russo, Thierry Nieus, G. Deco, M. Corbetta, S. Sarasso, M. V. Sanchez-Vives, M. Massimini. (2026). *Slow wave generation and propagation in a model of brain lesions*. NeuroImage. [DOI](](https://doi.org/10.1016/j.neuroimage.2026.121817))
+
+## ORPHAN PAGE CONTEXT (brica2)
+---
+created: 2025-01-15
+sources:
+- raw/papers/arxiv-2505.16861.md
+- raw/papers/semanticscholar-eb704b6f5462.md
+- raw/papers/sanz-leon-2013.md
+tags:
+- software-[[brian]]
+- software-brain-modeling
+- [[neural-network]]
+- computational-neuroscience
+- [[hybrid-architecture]]
+title: BriCA2
+type: entity
+updated: '2026-05-06'
+---
+
+BriCA2 (Brain-inspired Computing Architecture version 2) is a modular software platform for composing brain-inspired cognitive architectures from heterogeneous [[machine-learning]] compon

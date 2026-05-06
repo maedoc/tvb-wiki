@@ -10,7 +10,7 @@ tags:
 - eeg
 title: ICLabel
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 **ICLabel** is an [[eeglab]] plugin that uses a deep [[neural-network]] to automatically classify independent components (ICs) derived from EEG recordings arxiv-1903.06496. It categorizes ICs into six main types: brain (cortical), muscle (EMG), eye (EOG), heart (ECG), line noise (powerline interference), and channel noise (sensor artifacts) arxiv-1903.06496. This automated classification addresses a major bottleneck in EEG preprocessing: the traditionally manual and time‑consistent process of identifying and removing artifacts from ICA‑decomposed data.  
@@ -93,6 +93,6 @@ ICLabel contributes to electrophysiology preprocessing workflows that may feed i
 
 ## References
 
-1. D. Y. Lodema, Herman J van Dellen, W. de Haan, Margot van Hest, A. Hillebrand, E. van Dellen. (2026). *EEG-Pype: An accessible Mne Python pipeline with graphical user interface for preprocessing and analysis of resting-state electroencephalography data.*. PLoS Computational Biology. [DOI](](https://doi.org/10.1371/journal.pcbi.1014043))
+1. D. Y. Lodema, Herman J van Dellen, W. de Haan, Margot van Hest, A. Hillebrand, E. van Dellen. (2026). *EEG-Pype: An accessible [[mne-python]] pipeline with graphical user interface for preprocessing and analysis of resting-state electroencephalography data.*. PLoS Computational Biology. [DOI](](https://doi.org/10.1371/journal.pcbi.1014043))
 2. Zhishun Wang, Feng Liu, Rachel Marsh, Gaurav H. Patel, J. Grinband. (2026). *MEPrep: A robust pipeline for multi-echo [[fmri]] denoising and preprocessing*. Imaging Neuroscience. [DOI](](https://doi.org/10.1162/IMAG.a.1198))
 3. (authors unknown). *Independent component analysis of electroencephalographic data*.

@@ -1,18 +1,18 @@
---- 
-created: 2026-04-23 
-sources: 
-- raw/papers/semanticscholar-2a455dab8f2b.md 
-- raw/papers/smith-2013-connectomics.md 
-- raw/papers/arxiv-2604.16463.md 
-- raw/papers/semanticscholar-5f7f3cdfe9e8.md 
-tags: 
-- software-brain-modeling 
-- neuroimaging-eeg 
-- brain-oscillations 
-title: YASA 
-type: entity 
-updated: '2026-05-05' 
---- 
+---
+created: 2026-04-23
+sources:
+- raw/papers/semanticscholar-2a455dab8f2b.md
+- raw/papers/smith-2013-connectomics.md
+- raw/papers/arxiv-2604.16463.md
+- raw/papers/semanticscholar-5f7f3cdfe9e8.md
+tags:
+- software-brain-modeling
+- neuroimaging-eeg
+- brain-oscillations
+title: YASA
+type: entity
+updated: '2026-05-06'
+---
 
 # YASA 
 
@@ -22,7 +22,7 @@ YASA (Yet Another Spindle Algorithm) is an open-source Python toolbox designed f
 
 ## Key Features 
 
-YASA offers an extensive range of functionalities tailored for sleep research and clinical polysomnography analysis. The software's automated sleep staging capability employs machine learning classifiers to predict sleep stages (Wake, N1, N2, N3, and REM) from single or multi-channel EEG recordings, achieving accuracy rates comparable to expert human scorers when validated against gold-standard manual annotations Vallat2021. This automated staging function is particularly valuable for processing large datasets where manual scoring would be prohibitively time-consuming. 
+YASA offers an extensive range of functionalities tailored for sleep research and clinical polysomnography analysis. The software's automated sleep staging capability employs [[machine-learning]] classifiers to predict sleep stages (Wake, N1, N2, N3, and REM) from single or multi-channel EEG recordings, achieving accuracy rates comparable to expert human scorers when validated against gold-standard manual annotations Vallat2021. This automated staging function is particularly valuable for processing large datasets where manual scoring would be prohibitively time-consuming. 
 
 The event detection module forms a core component of YASA's functionality. The software implements validated algorithms for automatic detection of sleep spindles (12-16 Hz oscillatory events characteristic of stage N2 and N3 sleep) Lacourse2018 Bertrand2018, slow-waves (0.5‑4 Hz high‑amplitude waves central to deep sleep), and rapid eye movements (REMs) that define REM sleep. Detection parameters are tunable, allowing researchers to adjust sensitivity thresholds based on their specific data characteristics and research requirements. The output includes detailed summaries of detected events with metrics such as frequency, amplitude, duration, and topographic distribution across recording channels. 
 

@@ -15,7 +15,7 @@ tags:
 - camino
 title: Camino
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 ## Overview
@@ -42,7 +42,7 @@ The software accepts diffusion-weighted images in [[nifti|NIfTI]] format and sup
 
 ## Relationship to Other Tools
 
-Camino occupies a specific niche within the broader landscape of [[diffusion-imaging]] software. Unlike end-to-end processing packages like MRtrix3 or [[dsi-studio|DSI Studio]] that provide complete workflows from raw dMRI acquisition to final connectivity matrices, Camino focuses on the tractography step while leaving preprocessing to companion tools such as FSL's EDDY and BET utilities. This modular design allows researchers to swap components according to their specific pipeline requirements.
+Camino occupies a specific niche within the broader landscape of [[diffusion-imaging]] software. Unlike end-to-end processing packages like [[mrtrix3]] or [[dsi-studio|DSI Studio]] that provide complete workflows from raw dMRI acquisition to final connectivity matrices, Camino focuses on the tractography step while leaving preprocessing to companion tools such as FSL's EDDY and BET utilities. This modular design allows researchers to swap components according to their specific pipeline requirements.
 
 Within the TVB Wiki ecosystem, Camino connects to several related concepts. It provides the [[structural-connectivity]] matrices that serve as anatomical scaffolds for [[whole-brain-modeling]] in [[the-virtual-brain|The Virtual Brain]] and similar simulators. The reconstructed pathways inform [[network-dynamics]] models by defining which brain regions can directly influence each other's activity. Camino's outputs also support [[brain-network]] analysis using packages like [[bctpy|Brain Connectivity Toolbox]], enabling studies of [[structural-core]], [[rich-club]] organization, and [[community-detection]] in the human connectome [Sporns et al. 2005](](raw/papers/sporns-tononi-kotter-2005.md)).
 

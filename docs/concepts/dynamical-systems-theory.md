@@ -18,7 +18,7 @@ tags:
 - brain-oscillations
 title: Dynamical Systems Theory
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 ## Definition
@@ -73,7 +73,7 @@ This coupled system displays a rich repertoire of behaviors, including metastabl
 
 ### Parameter Estimation and Variational Inference
 
- fitting whole-brain models to empirical data requires estimating parameters—coupling strengths, delays, local excitability—that appear in the dynamical system's defining equations. This inverse problem is inherently challenging because dynamical systems can exhibit sensitive dependence on parameters: small changes near bifurcation points can dramatically alter the system's behavior. Modern approaches to [[parameter-estimation]] in computational neuroscience increasingly employ [[variational-bayes]] methods, which frame the problem as Bayesian inference on the parameters of a dynamical system and leverage gradient-based optimization to traverse the high-dimensional parameter landscape.
+ fitting whole-brain models to empirical data requires estimating parameters—coupling strengths, delays, local excitability—that appear in the dynamical system's defining equations. This inverse problem is inherently challenging because dynamical systems can exhibit sensitive dependence on parameters: small changes near bifurcation points can dramatically alter the system's behavior. Modern approaches to [[parameter-estimation]] in computational neuroscience increasingly employ [[variational-bayes]] methods, which frame the problem as [[bayesian|Bayesian inference]] on the parameters of a dynamical system and leverage gradient-based optimization to traverse the high-dimensional parameter landscape.
 
 ## Relationship to Other Frameworks
 

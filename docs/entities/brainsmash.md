@@ -15,7 +15,7 @@ tags:
 - connectomics
 title: BrainSMASH
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 ## Overview
@@ -60,10 +60,10 @@ The software is maintained as an open-source Python package (available at https:
 
 - [[brain-connectivity-toolbox]] — general network analysis
 - [[bctpy]] — Python network analysis
-- Nilearn — Python neuroimaging preprocessing
+- [[nilearn]] — Python neuroimaging preprocessing
 - [[the-virtual-brain]] — whole-brain modeling simulator
 - [[connectome-workbench]] — connectivity visualization
-- Freesurfer — cortical reconstruction
+- [[freesurfer]] — cortical reconstruction
 - [[graph-theory]] — mathematical foundation for network analysis
 
 ## References

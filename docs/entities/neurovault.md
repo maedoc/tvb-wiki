@@ -12,7 +12,7 @@ tags:
 - neuroimaging-fmri
 title: NeuroVault
 type: entity
-updated: '2026-05-05'
+updated: '2026-05-06'
 ---
 
 ## Overview
@@ -33,7 +33,7 @@ The platform exposes a comprehensive RESTful API enabling programmatic access to
 
 **Integration with Analysis Tools**
 
-NeuroVault integrates directly with PyMVPA [@gorgolewski2015], a Python machine learning library for neuroimaging, enabling seamless import of statistical maps into multivariate pattern analysis workflows. The platform also provides links to Nilearn for Python-based neuroimaging analysis and supports export formats compatible with SPM, FSL, and [[afni]].
+NeuroVault integrates directly with PyMVPA [@gorgolewski2015], a Python [[machine-learning]] library for neuroimaging, enabling seamless import of statistical maps into multivariate pattern analysis workflows. The platform also provides links to [[nilearn]] for Python-based neuroimaging analysis and supports export formats compatible with SPM, FSL, and [[afni]].
 
 **Web-Based Visualization**
 

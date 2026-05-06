@@ -12,12 +12,12 @@ tags:
 - open-source-brain
 title: Mindboggle
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 ## Overview
 
-Mindboggle is an open-source brain morphometry platform that takes preprocessed T1-weighted MRI data and outputs volumetric, surface-based, and tabular data containing anatomical labels, cortical features, and shape measures for further analysis. Developed primarily at Massachusetts General Hospital and Harvard Medical School, Mindboggle represents one of the most comprehensive open-source tools for quantifying the three-dimensional structure of the human cerebral cortex. The software integrates outputs from two major [[neuroimaging]] preprocessing pipelines—Freesurfer and [[ants]]—to generate a hybrid segmentation that leverages the complementary strengths of each method, then applies a suite of geometric and topological shape analysis algorithms to characterize both global and local aspects of brain morphology. The primary citation for Mindboggle is Klein et al. (2017) published in PLOS Computational Biology [@sources:klein-2017-mindboggling-morphometry], which documents both the software implementation and a systematic evaluation across the largest set of manually labeled brain images then publicly available.
+Mindboggle is an open-source brain morphometry platform that takes preprocessed T1-weighted MRI data and outputs volumetric, surface-based, and tabular data containing anatomical labels, cortical features, and shape measures for further analysis. Developed primarily at Massachusetts General Hospital and Harvard Medical School, Mindboggle represents one of the most comprehensive open-source tools for quantifying the three-dimensional structure of the human cerebral cortex. The software integrates outputs from two major [[neuroimaging]] preprocessing pipelines—[[freesurfer]] and [[ants]]—to generate a hybrid segmentation that leverages the complementary strengths of each method, then applies a suite of geometric and topological shape analysis algorithms to characterize both global and local aspects of brain morphology. The primary citation for Mindboggle is Klein et al. (2017) published in PLOS Computational Biology [@sources:klein-2017-mindboggling-morphometry], which documents both the software implementation and a systematic evaluation across the largest set of manually labeled brain images then publicly available.
 
 ## Motivation and Context
 

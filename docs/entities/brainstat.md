@@ -9,16 +9,16 @@ tags:
 - software-brain-modeling
 title: BrainStat
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # BrainStat
 
 ## Overview
 
-**BrainStat** is a Python toolbox designed for statistical analysis of brain imaging data, with a particular emphasis on connectivity-based analyses in [[whole-brain|whole-brain modeling]] contexts. The toolbox provides a unified interface for performing mass-univariate and multivariate statistical tests on neuroimaging datasets, including cortical thickness, functional connectivity matrices, and graph-theoretic metrics derived from structural and functional connectomes. BrainStat integrates tightly with established Python neuroimaging libraries such as Nilearn and supports data formats common in the [[mrtrix3-connectome]] and similar large-scale neuroimaging initiatives.
+**BrainStat** is a Python toolbox designed for statistical analysis of brain imaging data, with a particular emphasis on connectivity-based analyses in [[whole-brain|whole-brain modeling]] contexts. The toolbox provides a unified interface for performing mass-univariate and multivariate statistical tests on neuroimaging datasets, including cortical thickness, functional connectivity matrices, and graph-theoretic metrics derived from structural and functional connectomes. BrainStat integrates tightly with established Python neuroimaging libraries such as [[nilearn]] and supports data formats common in the [[mrtrix3-connectome]] and similar large-scale neuroimaging initiatives.
 
-The software addresses a critical gap in the neuroimaging analysis ecosystem: while tools like Spm, Fsl, and Fieldtrip excel at preprocessing and first-level analysis, and libraries like the **Brain Connectivity Toolbox** (BCT, also known as [bctpy](https://github.com/aestivabrainconn/bctpy)) provide sophisticated network metrics, there existed no dedicated Python toolbox bridging the gap between raw connectivity estimates and group-level statistical inference. BrainStat fills this role by offering robust statistical primitives specifically optimized for high-dimensional brain data, as documented in the primary BrainStat publication (Larivière et al., 2021)[^1].
+The software addresses a critical gap in the neuroimaging analysis ecosystem: while tools like Spm, Fsl, and Fieldtrip excel at preprocessing and first-level analysis, and libraries like the **[[brain-connectivity-toolkit|Brain Connectivity Toolbox]]** (BCT, also known as [bctpy](https://github.com/aestivabrainconn/bctpy)) provide sophisticated network metrics, there existed no dedicated Python toolbox bridging the gap between raw connectivity estimates and group-level statistical inference. BrainStat fills this role by offering robust statistical primitives specifically optimized for high-dimensional brain data, as documented in the primary BrainStat publication (Larivière et al., 2021)[^1].
 
 ## Motivations and Context
 
@@ -32,7 +32,7 @@ The toolbox emerged from the recognition that whole-brain modeling workflows req
 
 BrainStat provides several interconnected modules for brain data analysis. The **contrast library** implements standard general [[linear|linear model]] (GLM) formulations for comparing brain metrics across groups, supporting both continuous and categorical predictors with arbitrary confound regression. The implementation handles the peculiar noise characteristics of [[neuroimaging]] data, including heteroscedasticity and spatial autocorrelation.
 
-The **stats** module offers advanced inference procedures including permutation testing with exact family-wise error rate control, bootstrap confidence intervals for connectivity metrics, and Bayesian alternatives to classical hypothesis testing via [[bayes-factors]]. These methods are essential when analyzing [[brain-network]] metrics where the assumption of normality frequently fails (Chen et al., 2019)[^4].
+The **stats** module offers advanced inference procedures including permutation testing with exact family-wise error rate control, bootstrap confidence intervals for connectivity metrics, and [[bayesian]] alternatives to classical hypothesis testing via [[bayes-factors]]. These methods are essential when analyzing [[brain-network]] metrics where the assumption of normality frequently fails (Chen et al., 2019)[^4].
 
 For [[graph-theory]] based analyses, BrainStat provides streamlined workflows for computing network properties (including modularity, [[rich-club]] coefficients, and [[small-world-networks]] metrics) followed by group-level comparison. The toolbox normalizes these metrics against appropriate null models generated via graph matching or random rewiring procedures.
 

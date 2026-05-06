@@ -14,7 +14,7 @@ tags:
 - dataset
 title: BIDS Apps
 type: entity
-updated: '2026-05-05'
+updated: '2026-05-06'
 ---
 
 BIDS Apps are containerized [[neuroimaging]] processing pipelines that operate on data organized according to the [[bids]] (Brain Imaging Data Structure) specification. They represent a standardization effort to make neuroimaging analysis workflows portable, reproducible, and interoperable across different computing environments. Each BIDS App is a command-line tool packaged inside a Docker or [[apptainer]] (formerly Singularity) container, accepting BIDS-formatted datasets as input and producing BIDS-compliant derivatives as output. The BIDS Apps framework was introduced by Gorgolewski and colleagues (2017) as a solution to the [[reproducibility]] challenges that have long plagued the neuroimaging community.
@@ -29,7 +29,7 @@ The BIDS Apps specification defines a common command-line interface that all com
 
 A BIDS App must adhere to the BIDS Apps specification, which mandates several technical requirements. First, the container must accept a BIDS directory as its primary input and write all outputs to a specified derivatives directory that itself conforms to the [[bids-derivatives]] specification. Second, the app should support common preprocessing options through standardized flags, allowing users to enable or disable specific processing steps without modifying the underlying code. Third, BIDS Apps are expected to generate comprehensive log files and JSON sidecars that document the exact software versions, parameters, and environmental conditions used during execution, thereby enhancing reproducibility (Gorgolewski et al., 2017).
 
-The containerization approach relies on [[datalad-containers]] or raw Docker/Singularity images to ensure bit-level reproducibility. Each BIDS App image is pinned to specific versions of all underlying software dependencies—including operating system libraries, Python packages, and specialized neuroimaging tools like [[fsl-melodic]] or FreeSurfer. This stands in contrast to traditional installation methods where users might pip install or apt-get install packages at different times, leading to the so-called "works on my machine" problem. The BIDS Apps GitHub organization hosts the source code for many popular apps, providing a platform for community contributions and standardized development practices.
+The containerization approach relies on [[datalad-containers]] or raw Docker/Singularity images to ensure bit-level reproducibility. Each BIDS App image is pinned to specific versions of all underlying software dependencies—including operating system libraries, Python packages, and specialized neuroimaging tools like [[fsl-melodic]] or [[freesurfer]]. This stands in contrast to traditional installation methods where users might pip install or apt-get install packages at different times, leading to the so-called "works on my machine" problem. The BIDS Apps GitHub organization hosts the source code for many popular apps, providing a platform for community contributions and standardized development practices.
 
 ## Key BIDS Apps
 
@@ -44,9 +44,9 @@ Moreover, TVB's integration with tools like [[datalad]] enables version‑contro
 ## Key Papers
 
 - Gorgolewski, K., Alfaro‑Almagro, F., Auer, T., et al. (2017). BIDS Apps: Improving reproducibility in neuroimaging. Neuroimage.
-- Esteban, O., Markiewicz, C.J., Blair, R.W., et al. (2019). fMRIPrep: A robust preprocessing pipeline for functional MRI. Nature Methods.
+- Esteban, O., Markiewicz, C.J., Blair, R.W., et al. (2019). fMRIPrep: A robust preprocessing pipeline for [[neuroimaging-fmri|functional MRI]]. Nature Methods.
 - Esteban, O., Birman, D., Schaer, M., et al. (2017). MRIQC: Advancing the automatic prediction of MRI quality. PeerJ.
-- Cieslak, M., Cook, P.A., He, X., et al. (2021). QSIPrep: An integrative pipeline for preprocessing and reconstruction of [[diffusion‑mri]] data.
+- Cieslak, M., Cook, P.A., He, X., et al. (2021). [[qsiprep]]: An integrative pipeline for preprocessing and reconstruction of [[diffusion‑mri]] data.
 
 ## Related Software
 

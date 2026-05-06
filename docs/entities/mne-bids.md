@@ -16,7 +16,7 @@ tags:
 - pybids
 title: MNE-BIDS
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 MNE-BIDS is an open-source Python package designed to automate the conversion of [[electrophysiology]] recordings—particularly magnetoencephalography (MEG), electroencephalography (EEG), and intracranial EEG (iEEG)—into the Brain Imaging Data Structure (BIDS) format. Developed as part of the Mne Python ecosystem, MNE-BIDS provides a standardized pipeline for organizing, annotating, and sharing neuroscience datasets, thereby enhancing [[reproducibility]] and data sharing in the field of [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
@@ -29,7 +29,7 @@ The emergence of MNE-BIDS reflects a broader movement toward data standardizatio
 
 ## Key Features
 
-MNE-BIDS provides several capabilities that make it indispensable for electrophysiology workflows. First, the package supports automatic parsing of manufacturer-specific raw data formats, abstracting away the complexities of reading binary formats from different vendors [1]. Second, it generates compliant BIDS sidecar files that capture metadata including sampling frequency, channel types, electrode positions (in Cartesian or spherical coordinates), and task protocols. Third, MNE-BIDS integrates seamlessly with the broader Mne Python preprocessing pipeline, allowing users to apply filters, ICA-based artifact rejection, and source reconstruction directly within a BIDS‑compliant workflow.
+MNE-BIDS provides several capabilities that make it indispensable for electrophysiology workflows. First, the package supports automatic parsing of manufacturer-specific raw data formats, abstracting away the complexities of reading binary formats from different vendors [1]. Second, it generates compliant BIDS sidecar files that capture metadata including sampling frequency, channel types, electrode positions (in Cartesian or spherical coordinates), and task protocols. Third, MNE-BIDS integrates seamlessly with the broader [[mne-python]] preprocessing pipeline, allowing users to apply filters, ICA-based artifact rejection, and source reconstruction directly within a BIDS‑compliant workflow.
 
 The software also implements BIDS validation upon export and supports the derivatives specification for storing processed data—important when sharing preprocessed time series or source estimates that may serve as inputs for [[connectivity]] analysis or [[whole-brain modeling]]. Additional features include anonymization routines that strip personally identifiable information while preserving data integrity, and support for sparse and continuous acquisition paradigms common in [[resting-state]] and task‑based studies. As of BIDS version 1.7.0, the specification includes dedicated extensions for electrophysiology data that MNE-BIDS fully supports [2].
 

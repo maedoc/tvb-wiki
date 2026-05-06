@@ -19,7 +19,7 @@ tags:
 - bifurcation-analysis
 title: Network Dynamics
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 Network Dynamics is the study of how patterns of neural activity emerge, evolve, and interact within the interconnected structure of the brain. In [[computational-neuroscience]] and [[whole-brain|whole-brain modeling]], network dynamics refers to the mathematical description of how large-scale brain networks—that is, collections of brain regions linked by anatomical [[white-matter]] pathways—generate time‑varying activity patterns that can be observed through [[neuroimaging]] modalities such as [[fmri]], EEG, and MEG. The field sits at the intersection of graph theory, [[dynamical-systems-theory]], and [[connectomics]], providing a framework for understanding how the relatively static [[structural‑connectivity]] of the brain gives rise to the rich, dynamic functional patterns observed in vivo.
@@ -65,5 +65,5 @@ Advances in multi‑scale modeling, multimodal neuroimaging integration, and [[p
 1. Coşkun Çetin, Jose Roberto Castilho Piqueira, Burhaneddin İzgi̇, Ayşe Peker-Dobie, Semra Ahmetolan, Murat Özkaya. (2026). *Deterministic, stochastic, and [[mean-field-theory|mean-field]] PDE models in neuroscience*. Frontiers in Computational Neuroscience. [DOI](](https://doi.org/10.3389/fncom.2026.1762692))
 2. Coskun Çetin, J.R.C. Piqueira, Burhaneddin Izgi, Ayse Peker-Dobie, S. Ahmetolan, Murat Özkaya. (2026). *Deterministic, stochastic, and mean-field PDE models in neuroscience*. Frontiers in Computational Neuroscience. [DOI](](https://doi.org/10.3389/fncom.2026.1762692))
 3. Gianluca Gaglioti, Alessandra Cardinale, Cosimo Lupo, Thierry Nieus, Federico Marmoreo, Elena Focacci, Robin Gutzen, Michael Denker, Andrea Pigorini, Marcello Massimini, Simone Sarasso, Pier Stanislao Paolucci, Giulia De Bonis. *Emergent complexity and rhythms in evoked and spontaneous dynamics of human whole-brain models after tuning through analysis tools*. [Link](](https://arxiv.org/abs/2509.12873))
-4. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](](https://arxiv.org/abs/2505.16861))
+4. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale [[co-simulation]] Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](](https://arxiv.org/abs/2505.16861))
 5. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](](https://doi.org/10.3389/fncom.2025.1731161))
