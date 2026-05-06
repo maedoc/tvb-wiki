@@ -1,15 +1,5 @@
 ---
 created: 2026-04-24
-updated: 2026-05-06
-type: entity
-tags:
-- software-brain-modeling
-- software-neuroimaging
-- deep-learning
-- tensorflow
-- neuroimaging
-- structural-connectivity
-- medical-image-segmentation
 sources:
 - raw/papers/semanticscholar-8edd59e14fa3.md
 - raw/papers/semanticscholar-f39245d03faa.md
@@ -20,6 +10,16 @@ sources:
 - raw/papers/semanticscholar-97e6ff441097.md
 - raw/papers/semanticscholar-d4665dd0df61.md
 - raw/papers/semanticscholar-a0cce22e2ffc.md
+tags:
+- software-brain-modeling
+- software-neuroimaging
+- deep-learning
+- tensorflow
+- neuroimaging
+- structural-connectivity
+- medical-image-segmentation
+type: entity
+updated: '2026-05-06'
 ---
 
 # NiftyNet
@@ -82,7 +82,7 @@ Segmentation outputs from NiftyNet—region masks, tissue labels, and lesion map
 ## Related Concepts
 
 - [[structural-connectivity]] — Parcellation-based connectivity matrix generation, supported by NiftyNet segmentations
-- [[connectome]] — Whole-brain network construction from segmented regions
+- [[connectome]] — Whole-[[brain-network]] construction from segmented regions
 - [[personalized-brain-modeling]] — Subject-specific model construction from automated segmentations
 - [[fmri]] — Segmentation supporting functional signal extraction
 - [[diffusion-mri]] — [[white-matter]] segmentation for DTI [[tractography]] masks

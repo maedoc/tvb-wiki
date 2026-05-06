@@ -234,3 +234,4 @@
 ## [2026-05-06 07:20] FullTextFetcher: fetched 2 new full texts (8 total in corpus)
 
 ## [2026-05-06 07:20] Audit: 894 issues (98 broken links, 54 orphans, 22 placeholders, 0 dup-refs, 5 bad-meta, 85 citation-verify, 10 opaque-refs, 73 thin, 352 missing-links)
+- Updated neuroml2.md: Added wikilinks, enhanced technical content, removed redundant References section, updated date

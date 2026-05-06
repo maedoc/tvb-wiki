@@ -7,21 +7,21 @@ tags:
 - software-brain-modeling
 title: TVB-WebUI
 type: entity
-updated: 2026-05-06
+updated: '2026-05-06'
 ---
 
-**TVB-WebUI** is the web-based user interface for [The Virtual Brain](/tvb), an open-source neuroimaging simulation platform. It provides a graphical environment for configuring, running, and visualizing brain network simulations through a modern web browser.
+**TVB-WebUI** is the web-based user interface for [The Virtual Brain](/tvb), an open-source [[neuroimaging]] simulation platform. It provides a graphical environment for configuring, running, and visualizing [[brain-network]] simulations through a modern web browser.
 
 ## Overview
 
-TVB-WebUI serves as the primary interaction layer for researchers using The Virtual Brain platform. It abstracts the complexity of large-scale brain network modeling, allowing users to design simulations by selecting brain regions, connectivity matrices, and neural dynamics without requiring programming expertise. The interface communicates with the TVB computational backend via a REST API, enabling users to launch simulations on local workstations or remote HPC clusters.
+TVB-WebUI serves as the primary interaction layer for researchers using [[the-virtual-brain]] platform. It abstracts the complexity of large-scale brain network modeling, allowing users to design simulations by selecting brain regions, [[connectivity]] matrices, and neural dynamics without requiring programming expertise. The interface communicates with the TVB computational backend via a [[rest]] API, enabling users to launch simulations on local workstations or remote HPC clusters.
 
 The WebUI emerged as a modern alternative to the original TVB GUI (based on TraitsUI), addressing cross-platform compatibility and accessibility needs. By leveraging web technologies, it provides a consistent experience across operating systems while enabling collaborative workflows and remote access.
 
 ## Key Features
 
 - **Simulation Designer**: Visual editor for composing brain network models by selecting regions of interest from anatomical atlases
-- **Connectivity Viewer**: Interactive visualization of structural connectivity matrices derived from diffusion MRI tractography
+- **Connectivity Viewer**: Interactive visualization of [[structural-connectivity]] matrices derived from [[diffusion-mri]] [[tractography]]
 - **Simulation Launcher**: Configure simulation parameters (duration, sampling rate, solvers) and submit jobs to the computational backend
 - **Results Visualization**: Interactive time-series plots, brain surface visualizations, and frequency-domain analysis
 - **Project Management**: Organize simulations into projects with versioned configurations
@@ -40,7 +40,7 @@ The WebUI can be run as a standalone service that connects to a TVB instance, or
 
 ## Key Papers
 
-- Sanz-Leon, P., R. Knock, S. A. Ermentrout, et al. "The Virtual Brain: a simulator of primate brain网络 dynamics." *Frontiers in Neuroinformatics* 8 (2014): 14. doi:10.3389/fninf.2014.00014
+- Sanz-Leon, P., R. Knock, S. A. Ermentrout, et al. "[[tvb|The Virtual Brain]]: a simulator of primate brain网络 dynamics." *Frontiers in Neuroinformatics* 8 (2014): 14. doi:10.3389/fninf.2014.00014
 
 - J. D. K. Lee, J. R. Anderson, L. K. T. Y. M. "TVB-WebUI: A Web-Based Interface for Large-Scale Brain Network Simulation." *Neuroscience* 2015.
 
