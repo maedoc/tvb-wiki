@@ -237,3 +237,5 @@
 - Updated neuroml2.md: Added wikilinks, enhanced technical content, removed redundant References section, updated date
 
 ## [2026-05-06 07:24] CrosslinkApplier: added 20 wikilinks (20 inline, 0 suggested)
+
+## [2026-05-06 07:25] DeepResearch: 8 papers added via focused research
