@@ -61,3 +61,5 @@
 ## [2026-05-06 23:27] Improve: 3 pages improved (michael-fox, neuromorphic-computing, critical-periods)
 
 ## [2026-05-06 23:42] Audit: 934 issues (95 broken links, 40 orphans, 0 placeholders, 0 dup-refs, 5 bad-meta, 98 citation-verify, 15 opaque-refs, 45 thin, 421 missing-links)
+
+## [2026-05-06 23:51] Improve: 5 pages improved (michael-fox, gorgolewski16, white-matter, wong-wang-model, the-virtual-brain)
