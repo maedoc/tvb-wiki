@@ -1,7 +1,9 @@
 # Wiki Action Log
 
 ## 2026-05-06
-- Improved [[abide]] page - renamed from ABIDE.md to abide.md to follow naming convention (lowercase, hyphens)
+- Fixed [[abide]] page - removed invalid "dataset" tag from frontmatter (not in taxonomy)
+- Tags corrected to valid taxonomy entries: [neuroimaging-fmri, resting-state, neurodevelopment]
+- Date already at 2026-05-06 ✓
 - Added ABIDE entry to [[entities/index.md]] under Research Projects & Datasets section
 - Verified all wikilinks in the page content are correct and resolve to existing pages
 - Page content includes comprehensive coverage of ABIDE dataset, its role in ASD neuroimaging research, and Relationship to TVB section

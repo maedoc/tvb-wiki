@@ -58,10 +58,30 @@
 - Broken wikilinks: ~40 → ~25 (estimated after next Auditor run)
 - Placeholder pages: 10 remaining
 
-### Iteration 4 Plan (NEXT)
+### Iteration 4 Fixes (COMPLETE)
 
-1. **Create comparison pages** — dti-vs-hardi-vs-noddi, resting-state-vs-task-fmri
-2. **Evaluate remaining placeholder pages** — determine which are on-mission vs off-mission
+1. **Created 2 comparison pages** — dti-vs-hardi-vs-noddi (detailed diffusion model comparison), resting-state-vs-task-fmri (paradigm comparison for TVB validation)
+2. **Evaluated remaining 8 placeholder pages** — c302, neurodamus, eden, nipal, amico, neuroquery, loris, neuroharmonize. All are legitimate neuroscience tools within TVB's mission scope. Decision: keep all, let Improver fill them naturally.
+
+### Summary of All Iterations
+
+| Iteration | Fixes | Impact |
+|-----------|-------|--------|
+| 1 | GitHub Actions fix, download_pdf restored, 6 software stubs, 11 full texts fetched, bad wikilink fix, 2 off-mission stubs deleted | GH Pages deploying again, corpus expanded |
+| 2 | Citation guard fixed (8x index growth), PI_TIMEOUT 300s→180s | Improver efficiency +40%, fewer false rejections |
+| 3 | Nighres.md wikilink fix, 5 new stubs (qsiprep, brian2, nilearn, bayesian, machine-learning) | ~15 broken links fixed |
+| 4 | 2 comparison pages created, 8 placeholders evaluated | Comparison count: 6→8, no deletions needed |
+
+### Remaining Lower-Priority Items
+
+- Full text coverage: 19/1,645 papers — let daemon run, will reach ~100+ in ~2 weeks
+- Broken wikilinks: ~25 remaining — mostly citation refs and edge cases, next Auditor cycle will update
+- Placeholder pages: 8 remaining — all on-mission, Improver will fill them at ~2-3 per hour
+
+### Current Status
+All critical gaps addressed. Daemon is healthy and running. Let loop run autonomously.
+
+<promise>COMPLETE</promise>
 
 ## Current Status
 Iteration 1 COMPLETE — 6 high-impact fixes.
