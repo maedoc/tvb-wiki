@@ -8,6 +8,7 @@ sources:
 - dalal2014
 - pisetta2024
 - jansen1993
+- raw/papers/gramfort-2013.md
 tags:
 - software
 - neuroimaging-eeg

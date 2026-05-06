@@ -5,6 +5,7 @@ sources:
 - raw/papers/izhikevich-2007.md
 - raw/papers/arxiv-2510.22022.md
 - raw/papers/arxiv-2510.02545.md
+- raw/papers/semanticscholar-35f188e2bba1.md
 tags:
 - neural-mass-models
 - nonlinear-dynamics

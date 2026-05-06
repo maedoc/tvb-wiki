@@ -3,6 +3,9 @@ created: 2026-05-06
 sources:
 - https://neuroimage.usc.edu/brainstorm/
 - https://github.com/brainstorm-tools/brainstorm3
+- raw/papers/arxiv-2604.16463.md
+- raw/papers/mijalkov-2017-braph.md
+- raw/papers/arxiv-2602.00684.md
 tags:
 - software-brainstorm
 - eeg

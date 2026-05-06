@@ -3,6 +3,9 @@ created: 2026-04-20
 sources:
 - raw/papers/friston-1993.md
 - raw/papers/grady-2012.md
+- raw/papers/ritter-2013.md
+- raw/papers/schirner-2018.md
+- raw/papers/arxiv-2509.02799.md
 tags:
 - neuroimaging-fmri
 - neuroimaging-eeg

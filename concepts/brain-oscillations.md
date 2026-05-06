@@ -1,10 +1,24 @@
 ---
-title: Brain Oscillations
 created: 2026-04-20
-updated: 2026-05-06
+sources:
+- raw/papers/deco-2013.md
+- raw/papers/breakspear-2017.md
+- raw/papers/izhikevich-2007.md
+- raw/papers/arxiv-2509.02799.md
+tags:
+- brain-oscillations
+- neural-mass-models
+- network-dynamics
+- brain-stimulation
+- epilepsy-modeling
+- resting-state
+- eeg
+- meg
+- bifurcation-analysis
+- nonlinear-dynamics
+title: Brain Oscillations
 type: concept
-tags: [brain-oscillations, neural-mass-models, network-dynamics, brain-stimulation, epilepsy-modeling, resting-state, eeg, meg, bifurcation-analysis, nonlinear-dynamics]
-sources: [raw/papers/deco-2013.md, raw/papers/breakspear-2017.md, raw/papers/izhikevich-2007.md]
+updated: '2026-05-06'
 ---
 
 Brain oscillations refer to rhythmic patterns of neural activity that emerge from the synchronized firing of large populations of neurons. These oscillations are a fundamental feature of mammalian brains and can be measured using electrophysiological techniques such as [[eeg]] (electroencephalography) and [[meg]] (magnetoencephalography). The study of brain oscillations bridges the gap between single-neuron biophysics and whole-brain [[network-dynamics]], making them essential to [[computational-neuroscience]] and [[whole-brain|whole-brain modeling]].

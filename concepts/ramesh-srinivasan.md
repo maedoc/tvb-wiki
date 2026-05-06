@@ -2,6 +2,9 @@
 created: 2026-04-27
 sources:
 - raw/papers/nunez-srinivasan-2006.md
+- raw/papers/semanticscholar-3ac0a350bdb3.md
+- raw/papers/semanticscholar-dacc3b888fa6.md
+- raw/papers/arxiv-2602.09034.md
 tags:
 - neuroimaging-eeg
 - volume-conduction

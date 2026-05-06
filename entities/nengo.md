@@ -9,6 +9,9 @@ sources:
   and Dynamics in Neurobiological Systems. MIT Press.'
 - Stewart TC, Bekolay T, Eliasmith C (2012) Learning to select actions with spiking
   neurons in a recurrent network. J Neural Eng 9(2):026005.
+- raw/papers/arxiv-2505.16861.md
+- raw/papers/semanticscholar-eb704b6f5462.md
+- raw/papers/sanz-leon-2013.md
 tags:
 - software
 - neural-network

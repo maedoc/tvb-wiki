@@ -4,6 +4,8 @@ sources:
 - raw/papers/strogatz-1994.md
 - raw/papers/izhikevich-2007.md
 - raw/papers/doedel-oldeman-2009.md
+- raw/papers/breakspear-2006.md
+- raw/papers/arxiv-2507.22146.md
 tags:
 - izhikevich
 - bifurcation-analysis

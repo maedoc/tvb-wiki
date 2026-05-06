@@ -4,6 +4,7 @@ sources:
 - raw/papers/friston-1993.md
 - raw/papers/smith-2013-connectomics.md
 - raw/papers/sporns-2011.md
+- raw/papers/semanticscholar-a0a9350fb265.md
 tags:
 - computational-neuroscience
 - neuroimaging-fmri

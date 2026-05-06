@@ -3,6 +3,8 @@ created: 2026-04-20
 sources:
 - raw/papers/potjans-diesmann-2014.md
 - raw/papers/markram-2015.md
+- raw/papers/arxiv-2512.03907.md
+- raw/papers/arxiv-2601.21478.md
 tags:
 - whole-brain-modeling
 - computational-neuroscience

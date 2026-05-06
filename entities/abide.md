@@ -2,6 +2,7 @@
 created: 2025-01-15
 sources:
 - raw/datasets/abide-dataset.md
+- raw/papers/semanticscholar-f83f37e5ad19.md
 tags:
 - neuroimaging-fmri
 - resting-state

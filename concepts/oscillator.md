@@ -2,6 +2,8 @@
 created: 2026-04-27
 sources:
 - raw/papers/izhikevich-2007.md
+- raw/papers/semanticscholar-e5e78e93bf31.md
+- raw/papers/arxiv-2512.03907.md
 tags:
 - dynamical-systems-theory
 - nonlinear-dynamics

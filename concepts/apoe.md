@@ -47,6 +47,9 @@ sources:
   title: Personalized brain models incorporating APOE genotype for Alzheimer's disease
     prediction
   year: 2024
+- raw/papers/arxiv-2512.08756.md
+- raw/papers/doi-10.64898-2026.04.20.719736.md
+- raw/papers/semanticscholar-bb75bdb90ada.md
 tags:
 - alzheimers-modeling
 - aging-brain

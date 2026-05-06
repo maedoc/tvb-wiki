@@ -9,6 +9,8 @@ sources:
 - raw/papers/deco-2012.md
 - raw/papers/breakspear-2010.md
 - raw/papers/buzsaki-2004.md
+- raw/papers/semanticscholar-2004e006655b.md
+- raw/papers/arxiv-2512.03907.md
 tags:
 - neural-mass-models
 - whole-brain-modeling

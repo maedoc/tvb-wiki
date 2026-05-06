@@ -1,6 +1,9 @@
 ---
 created: 2026-05-06
-sources: []
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/breakspear-2017.md
+- raw/papers/ritter-2013.md
 tags:
 - co-simulation
 - multi-scale-modeling

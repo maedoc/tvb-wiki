@@ -7,6 +7,9 @@ sources:
 - Hibar DP et al. Molecular Psychiatry 2017
 - Hoogman M et al. Lancet Psychiatry 2017
 - Boedhoe PS et al. American Journal of Psychiatry 2017
+- raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-57c27f9f72e9.md
+- raw/papers/ritter-2013.md
 tags:
 - neuroimaging-fmri
 - neuroimaging-dti

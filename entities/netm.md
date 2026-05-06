@@ -1,6 +1,9 @@
 ---
 created: 2024-01-15
-sources: []
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/arxiv-2509.08179.md
+- raw/papers/semanticscholar-60ca593f7e0c.md
 tags:
 - software-neuromorphic
 - spiking-neural-networks

@@ -6,6 +6,7 @@ sources:
 - raw/papers/breakspear-2017.md
 - raw/papers/bullmore-sporns-2009.md
 - raw/papers/watts-strogatz-1998.md
+- raw/papers/arxiv-2601.03796.md
 tags:
 - network-dynamics
 - connectomics

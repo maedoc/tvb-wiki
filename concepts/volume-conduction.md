@@ -4,6 +4,7 @@ sources:
 - raw/papers/sarvas-1987.md
 - raw/papers/hamalainen-1993.md
 - raw/papers/plonsey-1969.md
+- raw/papers/nunez-srinivasan-2006.md
 tags:
 - neuroimaging-eeg
 - neuroimaging-meg

@@ -2,6 +2,8 @@
 created: 2025-01-15
 sources:
 - raw/papers/jordan-2018.md
+- raw/papers/Renton2024.md
+- raw/papers/arxiv-2507.22146.md
 tags:
 - reproducibility
 - open-science

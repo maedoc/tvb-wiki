@@ -3,6 +3,7 @@ created: 2026-05-06
 sources:
 - raw/papers/smith-2013-hcp.md
 - raw/papers/deco-2013.md
+- raw/papers/power-2011.md
 tags:
 - resting-state
 - functional-connectivity

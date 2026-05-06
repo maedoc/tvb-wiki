@@ -4,6 +4,8 @@ sources:
 - raw/papers/semanticscholar-a225a1c661a7.md
 - raw/papers/semanticscholar-c92bc1391211.md
 - raw/papers/arxiv-2512.24901.md
+- raw/papers/semanticscholar-b0ceb704952b.md
+- raw/papers/glean-github.md
 tags:
 - brain-decoding
 - machine-learning

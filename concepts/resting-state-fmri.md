@@ -13,6 +13,9 @@ sources:
 - zhang-2016
 - hutchison-2013
 - raichle-2001
+- raw/papers/semanticscholar-dacc3b888fa6.md
+- raw/papers/arxiv-2512.00063.md
+- raw/papers/arxiv-2512.24901.md
 tags:
 - resting-state
 - neuroimaging-fmri

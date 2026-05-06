@@ -3,6 +3,8 @@ created: 2026-04-20
 sources:
 - raw/papers/hagmann-2008.md
 - raw/papers/barabasi-albert-1999.md
+- raw/papers/semanticscholar-ebab0fdee30d.md
+- raw/papers/deco-2013.md
 tags:
 - connectomics
 - structural-connectivity

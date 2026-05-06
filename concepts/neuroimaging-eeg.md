@@ -4,6 +4,8 @@ sources:
 - raw/papers/arxiv-2603.24176.md
 - raw/papers/arxiv-2511.09243.md
 - raw/papers/semanticscholar-dc81089b4fd5.md
+- raw/papers/semanticscholar-6295d2445697.md
+- raw/papers/glean-github.md
 tags:
 - neuroimaging-eeg
 - electrophysiology

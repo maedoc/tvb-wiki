@@ -4,6 +4,7 @@ sources:
 - raw/papers/barabasi-albert-1999.md
 - raw/papers/strogatz-1994.md
 - raw/papers/semanticscholar-7c3337c880fd.md
+- raw/papers/semanticscholar-a0a9350fb265.md
 tags:
 - network-dynamics
 - connectomics
