@@ -55,4 +55,4 @@ XNAT operates within a broader ecosystem of neuroimaging software tools. It comp
 
 - Marcus, D. S., Olsen, T. R., Ramaratnam, M., & Buckwalter, C. (2007). The extensible neuroimaging archive toolkit. *Neuroinformatics*, 5(1), 11‑34. https://doi.org/10.1385/NI:5:1:11  
 
-- Marcus, D. S., Harwell, J., Olsen, T., Mhembre, M., Fleisher, T., Bert, A. Z., … & Van Essen, D. C. (2011). The [[human-[[connectome]]-project]]: A public neuroimaging resource. *Frontiers in Neuroscience*, 5, 29. https://doi.org/10.3389/fnins.2011.00029
+- Marcus, D. S., Harwell, J., Olsen, T., Mhembre, M., Fleisher, T., Bert, A. Z., … & Van Essen, D. C. (2011). The [[mrtrix3-connectome]]: A public neuroimaging resource. *Frontiers in Neuroscience*, 5, 29. https://doi.org/10.3389/fnins.2011.00029

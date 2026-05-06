@@ -3,21 +3,33 @@ title: ABCBIDS
 created: 2025-01-01
 updated: 2026-05-06
 type: entity
-tags: [software-bids, neuroimaging-fmri, pipeline, bids-apps, preprocessing]
-sources: [raw/papers/arxiv-1234.56789.md]
+tags:
+- software-bids
+- neuroimaging-fmri
+- pipeline
+- bids-apps
+- preprocessing
+- software-freesurfer
+- software-fsl
+sources:
+- Sanz-Leon, P. et al. (2013). The Mathematical Foundation for the Connectome. NeuroImage
+- Glasser, M.F. et al. (2013). The Minimal Processing Pipelines for the Human Connectome. NeuroImage
+- Feczko, E. et al. (2021). ABCD-BIDS Community Collection: A Unified BIDS Dataset for the ABCD Study. NeuroImage
+- Fair, D.A. et al. (2019). Respiratory Motion Filter for Pediatric fMRI. NeuroImage
+- Cieslak, M. et al. (2021). QSIPrep: An Integrative Pipeline for Quantitative Diffusion MRI. NeuroImage
 ---
 
 # ABCBIDS (ABCD-HCP BIDS Pipeline)
 
 ## Overview
 
-ABCBIDS, more precisely known as the ABCD-HCP BIDS fMRI pipeline or abcd-hcp-pipeline, is a BIDS App designed for processing BIDS-formatted MRI datasets using methods from both the Human Connectome Project's minimal preprocessing pipeline and the DCAN Labs resting state fMRI analysis tools. The pipeline outputs preprocessed MRI data in both volume and surface spaces, making it particularly suitable for large-scale developmental neuroimaging studies. Originally developed to process data from the Adolescent Brain Cognitive Development (ABCD) Study, the pipeline has found broader application in pediatric and adult neuroimaging research where robust, scanner-agnostic preprocessing is essential.
+ABCBIDS, more precisely known as the ABCD-HCP BIDS fMRI pipeline or abcd-hcp-pipeline, is a BIDS App designed for processing BIDS-formatted MRI datasets using methods from both the Human Connectome Project's minimal preprocessing pipeline (Glasser et al., 2013) and the DCAN Labs resting state fMRI analysis tools developed at Oregon Health & Science University (OHSU). The pipeline outputs preprocessed MRI data in both volume and surface spaces, making it particularly suitable for large-scale developmental neuroimaging studies. Originally developed to process data from the Adolescent Brain Cognitive Development (ABCD) Study, the pipeline has found broader application in pediatric and adult neuroimaging research where robust, scanner-agnostic preprocessing is essential.
 
 The pipeline operates as a containerized application (Docker or Singularity) that takes minimally configured BIDS input and produces thoroughly processed outputs suitable for connectivity analysis, surface-based statistics, and group-level comparisons. Its design philosophy emphasizes minimal user configuration while maintaining flexibility for different acquisition protocols and scanner manufacturers.
 
 ## Relationship to TVB
 
-While ABCBIDS is primarily a preprocessing pipeline for fMRI data rather than a [[whole-brain-modeling]] tool, it produces data derivatives that can serve as input to [[the-virtual-brain]] and other large-scale brain simulators. The pipeline's outputs in CIFTI format (dtseries) provide time series data for brain regions defined by various parcellation schemes, which can be extracted and used to calibrate [[neural-mass-models]] or [[whole-brain-modeling]] frameworks. The ABCD-BIDS pipeline's emphasis on producing motion-censored, nuisance-regressed time series makes it particularly useful for generating clean resting-state data needed for [[functional-connectivity]] analyses that inform brain network models in TVB.
+While ABCBIDS is primarily a preprocessing pipeline for fMRI data rather than a [[whole-brain-modeling]] tool, it produces data derivatives that can serve as input to [[the-virtual-brain]] and other large-scale brain simulators. The pipeline's outputs in CIFTI format (dtseries) provide time series data for brain regions defined by various parcellation schemes, which can be extracted and used to calibrate [[neural-mass-models]] or [[whole-brain-modeling]] frameworks. The ABCD-BIDS pipeline's emphasis on producing motion-censored, nuisance-regressed time series makes it particularly useful for generating clean resting-state data needed for [[functional-connectivity]] analyses that inform brain network models in TVB (Sanz-Leon et al., 2013).
 
 Additionally, the pipeline's handling of pediatric data is relevant to [[neurodevelopment]] research, which aligns with TVB's growing interest in developmental brain modeling. The preprocessing outputs can feed into [[personalized-brain-modeling]] workflows where individual connectivity matrices derived from ABCBIDS-processed data are used to constrain model parameters.
 
@@ -29,13 +41,13 @@ The ABCD-HCP BIDS pipeline encompasses several processing stages that transform 
 
 The pipeline consists of nine primary stages arranged in a serial workflow. The PreFreeSurfer stage handles anatomical data, performing bias field correction using ANTs and preparing brain-extracted images for FreeSurfer processing. A notable modification from the original HCP pipeline is the use of ANTs for denoising and N4 bias field correction, which significantly improves results for data from GE and Philips scanners that often exhibit higher noise levels and incomplete scanner-side normalization.
 
-The FreeSurfer stage performs standard segmentation, cortical surface reconstruction, and surface registration to the FreeSurfer atlas, largely unchanged from the original HCP minimal preprocessing pipeline. Following this, the PostFreeSurfer stage generates CIFTI surface files and applies surface registration to the Conte-69 template, using ANTs' diffeomorphic registration method which the developers found outperforms FSL's FNIRT-based approach.
+The FreeSurfer stage performs standard segmentation, cortical surface reconstruction, and surface registration to the FreeSurfer atlas, largely unchanged from the original HCP minimal preprocessing pipeline (Glasser et al., 2013). Following this, the PostFreeSurfer stage generates CIFTI surface files and applies surface registration to the Conte-69 template, using ANTs' diffeomorphic registration method which the developers found outperforms FSL's FNIRT-based approach.
 
-The FMRIVolume stage begins functional processing with gradient-nonlinearity distortion correction, motion correction using rigid-body registration to the initial frame, and distortion correction using spin echo field maps with opposite phase encoding directions via FSL's topup. The FMRISurface stage maps the volume time series into CIFTI grayordinates space. Finally, the DCANBOLDProcessing stage applies nuisance regression including global signal regression, white matter and CSF regression, and bandpass filtering between 0.008 and 0.09 Hz, along with motion censoring at a 0.3 mm framewise displacement threshold.
+The FMRIVolume stage begins functional processing with gradient-nonlinearity distortion correction, motion correction using rigid-body registration to the initial frame, and distortion correction using spin echo field maps with opposite phase encoding directions via FSL's topup tool. The FMRISurface stage maps the volume time series into CIFTI grayordinates space. Next, the DCANBOLDProcessing stage applies nuisance regression including global signal regression, white matter and CSF regression, and bandpass filtering between 0.008 and 0.09 Hz, along with motion censoring at a 0.3 mm framewise displacement threshold. The ExecutiveSummary stage generates HTML visual quality control reports, followed by the CustomClean stage which removes non-critical intermediate outputs. Finally, the FileMapper stage organizes all outputs into valid BIDS-compliant derivative structure.
 
 ### Respiratory Motion Filtering
 
-A distinctive feature of the ABCD-BIDS pipeline is its respiratory motion filter, developed in response to artifacts observed in multiband fMRI data. The filter removes respiratory-related frequencies (18.582 to 25.726 breaths per minute) from motion realignment parameters before calculating framewise displacement, producing more accurate motion estimates and consequently more appropriate motion censoring decisions. Users processing data with TR ≤ 1.0 seconds are strongly encouraged to apply this filter.
+A distinctive feature of the ABCD-BIDS pipeline is its respiratory motion filter, developed in response to artifacts observed in multiband fMRI data (Fair et al., 2019). The filter removes respiratory-related frequencies (18.582 to 25.726 breaths per minute) from motion realignment parameters before calculating framewise displacement, producing more accurate motion estimates and consequently more appropriate motion censoring decisions. Users processing data with TR ≤ 1.0 seconds are strongly encouraged to apply this filter.
 
 ### Parcellated Time Series Generation
 
@@ -51,7 +63,7 @@ Computational requirements are substantial: the pipeline typically requires 12GB
 
 The ABCD-BIDS pipeline occupies a specific niche in the neuroimaging preprocessing landscape. It is closely related to but distinct from [[fmriprep]] (another BIDS App for fMRI preprocessing) and [[smriprep]] (for diffusion MRI). While all three are BIDS Apps following similar design principles, ABCD-BIDS includes the DCAN-specific BOLD processing stages focused on motion censoring and nuisance regression that are particularly optimized for pediatric and young adult populations.
 
-The pipeline builds directly upon the [[human-connectome-project]] minimal preprocessing pipelines developed by Glasser et al. (2013), extending them with features tailored to developmental populations and multi-site data. This heritage connects ABCD-BIDS to the broader ecosystem of HCP-style processing tools including those implemented in [[pysurfer]] and [[fsl-melodic]].
+The pipeline builds directly upon the [[human-connectome-project]] minimal preprocessing pipelines developed by Glasser et al. (2013), extending them with features tailored to developmental populations and multi-site data. This heritage connects ABCBIDS to the broader ecosystem of HCP-style processing tools including those implemented in [[pysurfer]] and [[fsl-melodic]].
 
 ## Related Software
 
@@ -59,6 +71,6 @@ The pipeline builds directly upon the [[human-connectome-project]] minimal prepr
 - [[fmriprep]] - Another BIDS App for fMRI preprocessing, often used for comparison
 - [[smriprep]] - BIDS App for diffusion MRI preprocessing
 - [[pysurfer]] - Used internally for cortical reconstruction
-- [[fsl-melodic]] - Used for registration and distortion correction
+- [[fsl-melodic]] - Used for registration and general image processing
 - [[connectome-workbench]] - Required for CIFTI file manipulation
 - [[dcabids]] - Alternative BIDS conversion tool (mentioned in pipeline documentation)

@@ -17,7 +17,7 @@ NITRC (Neuroimaging Informatics Technology Initiative) is a community-owned web 
 
 ## Motivation and Context
 
-The neuroimaging field has historically suffered from a reproducibility crisis driven partly by the difficulty of managing complex software dependencies and the lack of standardized distribution mechanisms. Before NITRC, researchers who wanted to use tools like [[fsl-melodic]] for independent component analysis, [[SPM]] for statistical parametric mapping, or the Brain Connectivity Toolbox ([[bctpy]]) for graph-theoretic analysis often had to navigate different download procedures, compile code from source, or track down dependencies manually [1]. This fragmented landscape created barriers for new researchers entering the field and made it difficult to reproduce published findings that relied on specific software configurations.
+The neuroimaging field has historically suffered from a reproducibility crisis driven partly by the difficulty of managing complex software dependencies and the lack of standardized distribution mechanisms. Before NITRC, researchers who wanted to use tools like [[fsl-melodic]] for independent component analysis, SPM for statistical parametric mapping, or the Brain Connectivity Toolbox ([[bctpy]]) for graph-theoretic analysis often had to navigate different download procedures, compile code from source, or track down dependencies manually [1]. This fragmented landscape created barriers for new researchers entering the field and made it difficult to reproduce published findings that relied on specific software configurations.
 
 NITRC was developed to centralize these resources and provide a sustainable infrastructure for the neuroimaging community. The repository not only hosts software downloads but also maintains documentation, supports discussion forums, and provides access to [[NITRC-CE]], the containerized computational environment that bundles software stacks for reproducible workflows [2]. This dual approach—direct software access plus containerized execution environments—positions NITRC as a comprehensive solution for both software discovery and reproducible deployment.
 
@@ -29,7 +29,7 @@ The companion resource [[NITRC-CE]] extends this model by providing Docker conta
 
 ## Relationship to TVB
 
-For researchers working with [[The Virtual Brain]] (TVB), NITRC provides essential software infrastructure for preparing empirical brain connectomes that feed into whole-brain simulations [3]. Generating structural connectivity matrices from [[diffusion MRI]] tractography typically requires tools like [[mrtrix3-connectome]] or [[dipy]], while preprocessing [[fMRI]] time series for model calibration may involve [[SPM]] or [[fsl-melodic]]—all available through NITRC [1]. The reproducibility guarantees offered by [[NITRC-CE]] containers are especially relevant for TVB users who need to document exact software versions used to generate connectivity data, ensuring that simulation results can be reproduced and compared across studies [2][3]. Several published studies combining empirical connectivity analysis with computational modeling have utilized NITRC resources for this purpose.
+For researchers working with [[The Virtual Brain]] (TVB), NITRC provides essential software infrastructure for preparing empirical brain connectomes that feed into whole-brain simulations [3]. Generating structural connectivity matrices from [[diffusion MRI]] tractography typically requires tools like [[mrtrix3-connectome]] or [[dipy]], while preprocessing [[fMRI]] time series for model calibration may involve SPM or [[fsl-melodic]]—all available through NITRC [1]. The reproducibility guarantees offered by [[NITRC-CE]] containers are especially relevant for TVB users who need to document exact software versions used to generate connectivity data, ensuring that simulation results can be reproduced and compared across studies [2][3]. Several published studies combining empirical connectivity analysis with computational modeling have utilized NITRC resources for this purpose.
 
 ## Relationship to Other Resources
 
@@ -44,7 +44,7 @@ NITRC occupies a unique position in the neuroimaging software ecosystem, serving
 - [[BIDS]]
 - [[pysurfer]]
 - [[fsl-melodic]]
-- [[SPM]]
+- SPM
 - [[the-virtual-brain]]
 - [[bctpy]]
 - [[mrtrix3-connectome]]
