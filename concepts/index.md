@@ -60,6 +60,7 @@ A collection of foundational concepts in computational neuroscience and whole-br
 | [Hopfield](hopfield.md) | N | Associative memory |
 | [Oscillator](oscillator.md) | 2D | Universal dynamics |
 | [Linear](linear.md) | 1D | Testing/baseline |
+| [FitzHugh-Nagumo](fitzhugh-nagumo-model.md) | 2D | Excitability, bifurcations |
 
 ## Dynamics & Mathematics
 

@@ -1,23 +1,23 @@
 ---
 title: Brainstorm
 created: 2024-01-15
-updated: 2026-05-04
+updated: 2026-05-06
 type: entity
 tags: [software-brain-modeling, neuroimaging-eeg, neuroimaging-meg, source-localization, connectivity, software-visualization]
-sources: [https://doi.org/10.1152/jn.00193.2020, https://doi.org/10.1109/ISBI.2013.6556619, https://neuroimage.ripueprint.org/articles/brainstorm_tutorial.pdf]
+sources: [raw/papers/brainstorm-tutorial.pdf, raw/papers/brainstorm-mne-2020.pdf, raw/papers/brainstorm-isbi-2013.pdf]
 ---
 
 # Brainstorm
 
 ## Overview
 
-Brainstorm is an open-source MATLAB toolbox for processing and analyzing magnetoencephalography (MEG) and electroencephalography (EEG) data, with particular strength in source reconstruction and connectivity analysis. Developed primarily at the University of Southern California (USC) under the leadership of Sylvain Baillet and François Tadel, Brainstorm provides a comprehensive framework for forward modeling, source imaging, and statistical analysis of electrophysiological data[^1]. The software emphasizes an intuitive graphical user interface while remaining accessible through scripting for automated pipelines, making it suitable for both novice users and advanced researchers conducting large-scale studies.
+Brainstorm is an open-source MATLAB toolbox for processing and analyzing magnetoencephalography (MEG) and electroencephalography (EEG) data, with particular strength in source reconstruction and connectivity analysis. Developed primarily at the University of Southern California (USC) under the leadership of Sylvain Baillet and François Tadel, Brainstorm provides a comprehensive framework for forward modeling, source imaging, and statistical analysis of electrophysiological data. The software emphasizes an intuitive graphical user interface while remaining accessible through scripting for automated pipelines, making it suitable for both novice users and advanced researchers conducting large-scale studies.
 
 ## Key Features
 
 Brainstorm distinguishes itself through its emphasis on distributed source imaging using multiple forward models, including the symmetric boundary element method (BEM) and finite element method (FEM) for realistic head modeling. The software integrates seamlessly with standard neuroimaging file formats, supporting FIF (Elekta/Neuromag), CTF, 4D/BTi, BrainVision, and EDF formats, enabling researchers to work with data from virtually any MEG or EEG system without format conversion overhead. Source reconstruction implements multiple algorithms including minimum norm estimates (MNE), weighted MNE, beamforming via linear constraint minimum variance (LCMV), and dipole fitting for event-related analysis.
 
-The connectivity analysis module in Brainstorm has become particularly influential in the whole-brain modeling community, providing implementations of amplitude envelope correlation, phase-locking value (PLV), phase lag index (PLI), and granger causality among several other metrics[^2]. These tools enable researchers to characterize brain networks from electrophysiological data at millisecond temporal resolution, complementing the slower hemodynamic signals captured by [[fmri]]. Brainstorm also includes a robust pipeline system allowing users to design reproducible processing streams that can be applied across subjects and experimental conditions, with batch processing capabilities essential for group studies.
+The connectivity analysis module in Brainstorm has become particularly influential in the whole-brain modeling community, providing implementations of amplitude envelope correlation, phase-locking value (PLV), phase lag index (PLI), and granger causality among several other metrics[^2]. These tools enable researchers to characterize brain networks from electrophysiological data at millisecond temporal resolution, complementing the slower hemodynamic signals captured by [[fmri]]. Brainstorm also includes a robust pipeline system allowing users to design reproducible processing streams that can be applied across subjects and experimental conditions, with batch processing capabilities essential for group studies
 
 ## Relationship to TVB
 
@@ -33,7 +33,7 @@ Brainstorm maintains a public database of processed datasets (Brainstorm default
 
 ## Key Papers
 
-The foundational description of Brainstorm appeared in a 2009 Neuroimage tutorial article, which established the basic architecture and processing workflows for the toolbox[^1]. This was subsequently updated with comprehensive documentation covering the connectivity analysis features and integration with forward modeling tools[^3].
+The foundational description of Brainstorm appeared in a 2009 Neuroimage tutorial article, which established the basic architecture and processing workflows for the toolbox. This was subsequently updated with comprehensive documentation covering the connectivity analysis features and integration with forward modeling tools.
 
 ## Related Software
 
@@ -41,10 +41,3 @@ Brainstorm intersects with several other toolboxes in the neuroimaging ecosystem
 
 Integration with TVB occurs through standard file formats—the software can export processed data in [[nifti]] or matrix formats that TVB's tvb-library can import for connectivity analysis or use in inverse solutions. Visualization capabilities complement TVB's web-based interface, with Brainstorm providing detailed cortical and volumetric visualization that can be compared against TVB's simulated activation patterns on brain surfaces.
 
-## References
-
-[^1]: Tadel F, Baillet S, Mosher JC, Pantazis D, Leahy RM. Brainstorm: a friendly and open-source toolbox for MEG/EEG analysis. 2009. https://neuroimage.ripueprint.org/articles/brainstorm_tutorial.pdf
-
-[^2]: Tadel F, Bock E, Niso G, Mosher JC, Cousineau M, Pantazis D, Baillet S. MEG/EEG with MNE-Brainstorm: open-source toolbox for meg/eeg. 2020. https://doi.org/10.1152/jn.00193.2020
-
-[^3]: Tadel F, Baillet S. Brainstorm: a comprehensive toolbox for MEG and EEG analysis. IEEE ISBI. 2013. https://doi.org/10.1109/ISBI.2013.6556619

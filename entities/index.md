@@ -19,6 +19,7 @@ A collection of people, software platforms, datasets, and research groups releva
 - [ANTsR](antsr.md) - R language bindings for ANTs
 - [ANTsPy](antspy.md) - Python language bindings for ANTs
 - [BrainVoyager](brainvoyager.md) - Commercial neuroimaging analysis and visualization platform
+- [Brainstorm](brainstorm.md) - Open-source MEG/EEG toolbox for source localization and connectivity analysis
 - [DataLad](datalad.md) - Distributed data management and version control for neuroimaging
 - [GraphVar](graphvar.md) - Graph-theoretical analysis toolbox
 - [BCTpy](bctpy.md) - Brain Connectivity Toolbox for Python

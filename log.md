@@ -2,6 +2,15 @@
 
 ## 2026-05-06
 - Improved [[abide]] page - added technical depth on parameter-estimation workflows relevant to TVB personalized-brain-modeling
+
+## 2026-05-06
+- Created [[izhikevich-neuron-model]] page - comprehensive content about the Izhikevich spiking neuron model
+- Defined mathematical formulation with equations and parameter explanations
+- Covered biological plasticity and diverse firing regimes (tonic/phasic spiking, bursting, Class 1/2 excitability)
+- Added relationship to other neuron models (integrate-and-fire, Hodgkin-Huxley, FitzHugh-Nagumo, AdEx)
+- Included computational implementations in NEST, Brian2, NEURON
+- Added applications in whole-brain modeling and epilepsy
+- Added 8+ wikilinks connecting to spiking-neural-networks, computational-neuroscience, neural-mass-models, nest, brian2, neuron, whole-brain-modeling, epileptor, adaptive-exponential-integrate-and-fire, hodgkin-huxley-model, fitzhugh-nagumo-model, brain-oscillations
 - Added discussion of community-detection algorithms and network-dynamics theory in findings section
 - Added effective-connectivity and dynamic-causal-modeling discussion for directed information flow hypotheses
 - Enhanced connections to neural-mass-models, personalized-brain-modeling, and TVB workflows
@@ -400,3 +409,5 @@
 ## [2026-05-06 15:22] Improve: 5 pages improved (fitzhugh-nagumo-model, izhikevich-neuron-model, nipal, consciousness-models, connectivity)
 
 ## [2026-05-06 15:25] CrosslinkApplier: added 583 wikilinks (583 inline, 0 suggested)
+
+## [2026-05-06 15:29] Matcher: 43 pages got 114 new sources

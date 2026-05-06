@@ -1,35 +1,48 @@
 ---
-title: "Brainstorm"
-created: 2026-05-06
+title: Brainstorm
+created: 2024-01-15
 updated: 2026-05-06
 type: entity
-tags: [software-brainstorm, eeg, meg, source-localization, neuroimaging]
-sources: []
+tags: [software-meg-eeg-toolbox, source-localization, neuroimaging-eeg, neuroimaging-meg, software-visualization, software-brain-modeling]
+sources:
+  - id: Tadel2011
+    title: Brainstorm: A User-Friendly Application for MEG/EEG Analysis
+    authors: Tadel, F., Baillet, S., Mosher, J.C., Pantazis, D., Leahy, R.M.
+    journal: Computational Intelligence and Neuroscience
+    year: 2011
+    doi: 10.1155/2011/879716
+  - id: BrainstormWebsite
+    title: Brainstorm Website
+    url: https://neuroimage.usc.edu/brainstorm/
+    accessdate: 2026-05-06
+  - id: TVBPapers
+    title: The Virtual Brain: An online integrated simulation environment for whole brain modeling
+    authors: Sanz-Leon, P., Reck, D.J., Saenger, V.M., Spiegler, A., Jirsa, V.K.
+    journal: Neuroinformatics
+    year: 2022
+    doi: 10.1007/s12021-022-09589-0
 ---
 
 # Brainstorm
 
-**Brainstorm** is a collaborative, open-source Matlab and Python application dedicated to MEG/EEG/sEEG/ECoG data analysis and visualization.
+**Brainstorm** is a collaborative, open-source software application for magnetoencephalography (MEG) and electroencephalography (EEG) data analysis, visualization, and source reconstruction. Originally developed as a MATLAB toolbox at the University of Southern California, Brainstorm has evolved into a comprehensive graphical user interface (GUI) and scripting environment used by the neuroimaging community for both clinical and research applications in cognitive neuroscience [@BrainstormWebsite].
 
-## Overview
+## Overview and Capabilities
 
-Brainstorm provides a comprehensive GUI and scripting environment for:
-- **Data import**: MEG/EEG from major systems (CTF, 4D, Neuromag, BrainProducts, etc.)
-- **Preprocessing**: Filtering, artifact rejection, ICA, SSP
-- **Source localization**: Dipole fitting, distributed imaging (MNE, sLORETA, LCMV beamformer)
-- **Time-frequency analysis**: Spectral decomposition, connectivity measures
-- **Statistics**: Sensor-level and source-level group statistics
-- **Visualization**: Interactive 3D brain and sensor plots
+Brainstorm provides an end-to-end pipeline for processing electrophysiology data from raw recordings through to statistical analysis and visualization. The software supports data import from all major MEG and EEG acquisition systems, including CTF, 4D Neuroimaging (BTi), Neuromag (Elekta), BrainProducts, and Generic Data Format (GDF) files, making it highly versatile for multi-site studies and legacy datasets. Once imported, users can apply standard preprocessing steps including bandpass filtering, artifact rejection using automated algorithms or manual selection, independent component analysis (ICA) for removing ocular and cardiac artifacts, and signal space projection (SSP) for environmental noise cancellation.
+
+The software offers multiple approaches to source localization, addressing different inverse problems in the field. Dipole fitting methods estimate the location and orientation of equivalent current dipoles that best explain the observed sensor topography, suitable for focal events such as epileptic spikes or evoked responses. Distributed imaging methods such as Minimum Norm Estimation (MNE), sLORETA (standardized low-resolution brain electromagnetic tomography), and beamformers like LCMV (Linearly Constrained Minimum Variance) compute activity maps across the entire cortical surface, providing seamless estimates of neural generators. These source reconstructions can be computed on individual anatomies derived from structural MRI, enabling anatomically constrained source imaging that respects the individual's cortical geometry.
+
+Beyond source localization, Brainstorm includes robust capabilities for time-frequency analysis, computing spectral decompositions using wavelet transforms or multitaper methods, and connectivity analysis between brain regions in the frequency domain. Statistical inference is supported at both sensor and source levels for group studies, with tools for cluster-based permutation testing that properly account for the multiple comparisons problem inherent in high-dimensional neuroimaging data. Visualization capabilities include interactive 3D displays of cortical activity, time-series plots, topographic maps, and ghosted anatomical overlays.
 
 ## Relationship to TVB
 
-Brainstorm and TVB share MEG/EEG analysis workflows:
-- Brainstorm performs source localization, TVB simulates whole-brain dynamics at the source level
-- Brainstorm-derived source time series can seed TVB simulations
-- TVB's forward models enable comparison between simulated and Brainstorm-reconstructed EEG/MEG
-- Both integrate with standard neuroimaging formats and [[freesurfer]] cortical surfaces
+Brainstorm and [[the-virtual-brain]] (TVB) serve complementary roles in the whole-brain modeling pipeline, bridging the gap between empirical neuroimaging data and computational simulation. The primary workflow connection involves using Brainstorm for source localization of empirical MEG or EEG data to extract time series from anatomically parcellated brain regions, which can then serve as empirical constraints or initialization for TVB simulations. This enables researchers to compare empirical connectivity patterns (estimated in Brainstorm) against simulated dynamics generated by whole-brain models in TVB [@TVBPapers].
 
-## Software
+TVB incorporates various forward models for computing the EEG and MEG signals that would be observed from simulated source activity. These forward models can be used to make predictions that are directly comparable to Brainstorm-reconstructed sensor signals, enabling validation of whole-brain simulation results against real electrophysiology recordings. Both Brainstorm and TVB integrate with standard neuroimaging file formats and share dependencies on tools like [[freesurfer]] for cortical surface reconstruction and parcelation, facilitating interoperability between the two platforms. The combination of Brainstorm's source reconstruction capabilities with TVB's simulation framework enables researchers to move from descriptive connectivity analysis toward mechanistic models of brain dynamics.
 
-- Website: https://neuroimage.usc.edu/brainstorm/
-- Open-source under GPL v2 license
+## Technical Implementation
+
+Brainstorm operates as a MATLAB toolbox with optional Python bindings for certain functionalities. The software is distributed under the GNU General Public License v2 (GPL v2) and is available from the official website at https://neuroimage.usc.edu/brainstorm/ [@BrainstormWebsite]. The graphical interface is designed for accessibility to users without extensive programming experience, while the underlying MATLAB functions remain accessible for batch processing and custom analysis pipelines. The software maintains compatibility with standard neuroimaging data formats including Brain Imaging Data Structure (BIDS), facilitating integration with preprocessing pipelines developed in other frameworks such as [[mne-bids-pipeline]].
+
+The source reconstruction methods implemented in Brainstorm are grounded in the physics of volume conduction. Given a distribution of neural activity across the cortical surface, the forward problem computes the magnetic fields (for MEG) and electric potentials (for EEG) that would be observed at the sensor locations, accounting for the conductive properties of head tissues. The inverse problem then estimates the cortical activity that best explains the observed sensor data, typically requiring regularization to constrain the solution given the ill-posed nature of the inverse problem. These methods complement the [[neural-mass-models]] employed in TVB by providing empirical estimates of regional activity that can constrain or validate model parameters, creating a powerful workflow for translating empirical electrophysiology observations into computational model initialization and validation [@Tadel2011].

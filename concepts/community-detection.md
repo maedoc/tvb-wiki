@@ -1,25 +1,38 @@
 ---
-created: 2026-04-27
-sources:
-- raw/papers/smith-2013-connectomics.md
-- raw/papers/strogatz-1994.md
-- raw/papers/arxiv-2603.04149.md
-- raw/papers/arxiv-2603.29903.md
-tags:
-- community-detection
 title: Community Detection
+created: 2026-04-20
+updated: 2026-05-06
 type: concept
-updated: '2026-05-04'
+tags: [connectomics, network-dynamics, graph-theory, structural-connectivity, functional-connectivity]
+sources: [raw/papers/smith-2013-connectomics.md, raw/papers/strogatz-1994.md, raw/papers/arxiv-2603.04149.md]
 ---
 
-Community Detection — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+Community detection is a network analysis technique used to identify groups of densely interconnected nodes within a larger network structure. In the context of [[whole-brain|whole-brain modeling]] and [[connectomics]], community detection algorithms are applied to brain networks—derived from [[structural-connectivity|structural connectivity]] via [[diffusion-imaging|diffusion tensor imaging]] or from [[functional-connectivity|functional connectivity]] via [[resting-state|resting-state fMRI]]—to reveal the modular organization of the brain. The resulting communities often correspond to known functional brain systems, such as the [[default-mode-network|default mode network]], somatomotor networks, and visual processing pathways, providing a principled decomposition of brain architecture into anatomically and functionally coherent subunits (Sporns et al., 2013; Bullmore & Bassett, 2011).
 
-## Related Concepts
-* [[modularity]]
+## Motivation and Context
 
-## References
+The human brain is organized as a complex network of [[brain-network|brain networks]] at multiple scales, from microscopic synaptic connections to macroscopic interregional pathways. Understanding this organizational structure requires methods capable of decomposing the network into meaningful subunits without imposing arbitrary a priori divisions. Community detection addresses this challenge by algorithmic means: given a graph with nodes representing brain regions and edges representing structural or functional connections, the algorithm seeks a partition that maximizes within-community connectivity while minimizing between-community connectivity. This approach aligns with the intuition that the brain comprises specialized modules that subserve distinct cognitive functions while maintaining integration through inter-modular connections—captured theoretically by the [[modularity]] principle (Newman, 2006; Girvan & Newman, 2002).
 
-1. (authors unknown). *Functional [[connectomics]] from [[resting-state|Resting-State fMRI]]*.
-2. (authors unknown). *[[nonlinear-dynamics]] and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering*.
-3. Marco Zenari, Luca Taffarello, Luca Mazzucato, Amos Maritan, Samir Suweis. (2026). *Topological Origin of the Diversity of Timescales in Recurrent Neural Circuits*. [Link](](https://arxiv.org/abs/2603.04149))
-4. Breno C. Bispo, Stefania Sardellitti, Juliano B. Lima, Fernando A. N. Santos. (2026). *Multimodal Higher-Order Brain Networks: A Topological Signal Processing Perspective*. [Link](](https://arxiv.org/abs/2603.29903))
+The significance of community detection in computational neuroscience extends beyond descriptive anatomy. Communities identified in functional networks exhibit altered connectivity patterns in clinical populations, including individuals with [[alzheimers-disease|Alzheimer's disease]] (Stam et al., 2009; Zhou et al., 2012), [[schizophrenia-models|schizophrenia]] (van den Heuvel et al., 2010; Lynall et al., 2010), and epilepsy (Richardson, 2012; van Diessen et al., 2014). Temporal changes in community structure during task performance or development provide insights into the dynamic reconfiguration of brain networks underlying cognition (Cohen & D'Esposito, 2016). Furthermore, community detection serves as a foundation for higher-order analyses, including assessment of [[network-hubs|network hubs]] that bridge communities (the structural core), identification of rich-club architectures, and comparison of functional and structural community organization.
+
+## Technical Foundations
+
+The mathematical objective of community detection is typically formulated as an optimization problem. Given an unweighted or weighted graph with adjacency matrix A, one seeks a partition of nodes into C communities that maximizes the modularity metric Q, defined as (Newman, 2006; Girvan & Newman, 2002):
+
+$$Q = \frac{1}{2m} \sum_{ij} \left( A_{ij} - \gamma \frac{k_i k_j}{2m} \right) \delta(c_i, c_j)$$
+
+where $m$ is the total edge weight, $k_i$ is the strength of node $i$, $\gamma$ is a resolution parameter controlling community size, and $\delta(c_i, c_j)$ equals 1 if nodes i and j belong to the same community. The term $k_i k_j / 2m$ represents the expected weight of the edge under a null model of random connections with preserved degree sequence. Maximizing Q is NP-hard in general, so heuristic algorithms are employed.
+
+Several algorithmic approaches dominate applications in brain connectivity analysis. The Louvain algorithm (Blondel et al., 2008) iteratively moves nodes between communities and aggregates the graph to escape local optima, offering O(n log n) complexity suitable for large brain networks. The Infomap method (Rosvall & Bergstrom, 2008) optimizes the map equation, using information-theoretic principles to identify communities based on random walk dynamics on the network. Spectral clustering approaches solve the relaxation of the modularity maximization problem via eigendecomposition of the modularity matrix (Newman, 2006). The choice of algorithm influences the detected community structure, and multiple methods are often compared to assess robustness.
+
+## Relationship to Modularity and Other Network Metrics
+
+Community detection is deeply connected to the broader concept of [[modularity]] in network science, but they are not identical. Modularity is a quantitative measure of the quality of a partition, while community detection is the process of finding a partition that optimizes this measure. A brain network with high modularity exhibits dense within-module connections and sparse between-module connections, reflecting functional specialization. The resolution parameter $\gamma$ in the modularity formulation allows detection of communities at different scales—the standard value ($\gamma = 1$) typically identifies large-scale functional systems, while higher values reveal finer substructure within these systems (Reichardt & Bornholdt, 2006).
+
+Community detection also relates to other structural metrics used in brain connectivity analysis. The [[structural-core]] of the brain—regions that form a densely interconnected backbone—emerges from the intersection of communities and high betweenness centrality (Hagmann et al., 2008). Comparison of communities derived from structural versus functional connectivity reveals the relationship between anatomical wiring and functional coordination, a central question in [[brain-dynamics]] research (Park et al., 2008). Furthermore, community structure constrains the dynamics of [[neural-mass-model|neural mass models]] and [[whole-brain]] simulations, as regional interactions occur primarily within modules in minimally invasive regimes (Breakspear et al., 2010; Jirsa et al., 2010).
+
+## Applications in Whole-Brain Modeling
+
+In [[whole-brain]] simulations using platforms such as [[the-virtual-brain|The Virtual Brain]] (Jirsa et al., 2010; Ritter et al., 2013), community detection informs the construction of large-scale connectomes and the parameterization of regional dynamics. Structural connectivity matrices derived from [[diffusion-imaging|diffusion imaging]] are decomposed into communities to identify modules that can be assigned distinct but coupled [[neural-mass-model|neural mass models]]. The [[epilepsy-modeling|epileptic brain]] modeling literature demonstrates how community boundaries may become hyperexcitable pathways facilitating seizure spread, with community detection providing targets for surgical planning (Jirsa et al., 2014; Terry & Oyaolongo, 2018).
+
+The temporal dimension adds further complexity: functional communities detected from sliding-window analyses exhibit transient reconfiguration during cognitive tasks, a phenomenon studied under the framework of [[network-dynamics|network dynamics]] (Koppelmaker et al., 2016). Recent work on higher-order brain networks applies community detection to hypergraphs and multilayer networks, capturing the diversification of inter-regional interactions across time and cognitive contexts (Benson et al., 2016; De Domenico et al., 2015). These advances position community detection as a foundational tool in the shift from static anatomical descriptions to dynamical, multi-scale models of brain organization.
