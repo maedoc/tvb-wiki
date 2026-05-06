@@ -48,7 +48,7 @@ FSL tools are commonly used in TVB preprocessing pipelines:
 - **Segmentation** (FAST) produces grey matter, [[white-matter]], and CSF maps
 - **Registration** (FLIRT/FNIRT) aligns subject anatomy to standard atlases
 - **Tractography** (BEDPOSTX + PROBTRACKX) generates [[structural-connectivity]] matrices used as TVB input
-- [[tbss]] and bedpostx outputs feed into whole-brain connectome construction for [[the-virtual-brain]] simulations
+- [[tbss]] and bedpostx outputs feed into [[whole-brain]] [[connectome]] construction for [[the-virtual-brain]] simulations
 
 ## Software Ecosystem
 

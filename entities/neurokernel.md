@@ -16,7 +16,7 @@ tags:
 - software-brian
 title: Neurokernel
 type: entity
-updated: '2026-05-05'
+updated: '2026-05-06'
 ---
 
 Neurokernel is a Python-based software framework designed to enable interoperability between different neural simulation engines for [[whole-brain|whole-brain modeling]]. Developed to address the fragmentation problem in [[computational-neuroscience]], Neurokernel provides a standardized interface that allows researchers to specify brain models once and execute them using multiple alternative simulation backends without modifying the model specification. This approach promotes [[reproducibility]], facilitates comparison between simulation engines, and enables users to leverage the strengths of different simulators for different brain regions or model types.
@@ -46,5 +46,5 @@ Neurokernel intersects with several other tools in the computational neuroscienc
 ## References
 
 1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
-2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](](https://arxiv.org/abs/2505.16861))
+2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale [[co-simulation]] Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](](https://arxiv.org/abs/2505.16861))
 3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](](https://doi.org/10.3389/fncom.2025.1731161))

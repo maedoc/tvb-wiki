@@ -12,7 +12,7 @@ tags:
 - software-neuroscience
 title: Phy
 type: entity
-updated: '2026-05-05'
+updated: '2026-05-06'
 ---
 
 Phy is an [[open-source-brain]] graphical user interface (GUI) application designed for manual and semi-automated spike sorting of extracellular electrophysiology data, particularly from high-density silicon probes and tetrode recordings. Developed primarily by **Cyrille Rossant** and **Kenneth Harris** at Cold Spring Harbor Laboratory, along with contributions from the broader community, Phy provides a flexible platform for visualizing, annotating, and refining sorted neural spike data — the fundamental unit of information in [[spiking-neural-networks]] and [[neural-mass-models]][1]. While Phy is not a whole-brain simulator itself, it plays a crucial role in the pipeline of converting raw [[electrophysiology]] data into spike trains that can be analyzed using connectivity inference methods and fed into computational models of brain dynamics[2].
@@ -55,4 +55,4 @@ The following publications are foundational to understanding Phy and its context
 
 1. Sanz Leon et al. (2013). *[[the-virtual-brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
 2. Song Yang, Haotian Fu, Herui Zhang, Peng Zhang, Wei Li, Dongrui Wu. (2025). *Spiking Neural Network for Intra-cortical Brain Signal Decoding*. Knowledge-Based Systems. [DOI](](https://doi.org/10.48550/arXiv.2504.09213))
-3. D. Y. Lodema, Herman J van Dellen, W. de Haan, Margot van Hest, A. Hillebrand, E. van Dellen. (2026). *EEG-Pype: An accessible MNE-Python pipeline with graphical user interface for preprocessing and analysis of [[resting-state]] electroencephalography data.*. PLoS Computational Biology. [DOI](](https://doi.org/10.1371/journal.pcbi.1014043))
+3. D. Y. Lodema, Herman J van Dellen, W. de Haan, Margot van Hest, A. Hillebrand, E. van Dellen. (2026). *EEG-Pype: An accessible [[mne-python]] pipeline with graphical user interface for preprocessing and analysis of [[resting-state]] electroencephalography data.*. PLoS Computational Biology. [DOI](](https://doi.org/10.1371/journal.pcbi.1014043))

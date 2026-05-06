@@ -1,15 +1,26 @@
 ---
-title: Plasticity
 created: 2026-04-20
-updated: 2026-05-06
+sources:
+- Bliss1973
+- BiPoo1998
+- Bienenstock1982
+- Oja1982
+- Abbott2000
+- Gerstner2002
+tags:
+- synaptic-plasticity
+- neural-mass-models
+- whole-brain-modeling
+- network-dynamics
+- spiking-neural-networks
+title: Plasticity
 type: concept
-tags: [synaptic-plasticity, neural-mass-models, whole-brain-modeling, network-dynamics, spiking-neural-networks]
-sources: [Bliss1973, BiPoo1998, Bienenstock1982, Oja1982, Abbott2000, Gerstner2002]
+updated: '2026-05-06'
 ---
 
 ## Overview
 
-Plasticity refers to the brain's capacity to modify its structural and functional organization in response to experience, learning, and environmental change. In computational neuroscience, plasticity encompasses a family of mathematical models that describe how synaptic strengths change over time as a function of neural activity. These models are essential for understanding learning and memory, adaptation to injury, the formation and refinement of brain networks during development, and the pathological dynamics observed in conditions ranging from epilepsy to neurodegenerative diseases. Plasticity mechanisms operate across multiple timescales—from milliseconds for spike-timing-dependent plasticity to days or weeks for structural changes in dendrites and axons—and their computational representation is a cornerstone of any [[whole-brain-modeling]] framework.
+Plasticity refers to the brain's capacity to modify its structural and functional organization in response to experience, learning, and environmental change. In [[computational-neuroscience]], plasticity encompasses a family of mathematical models that describe how synaptic strengths change over time as a function of neural activity. These models are essential for understanding learning and memory, adaptation to injury, the formation and refinement of brain networks during development, and the pathological dynamics observed in conditions ranging from epilepsy to neurodegenerative diseases. Plasticity mechanisms operate across multiple timescales—from milliseconds for spike-timing-dependent plasticity to days or weeks for structural changes in dendrites and axons—and their computational representation is a cornerstone of any [[whole-brain-modeling]] framework.
 
 ## Biological Foundations
 
@@ -37,7 +48,7 @@ where $\phi$ is a learning rate, $r_{\text{pre}}$ and $r_{\text{post}}$ are pre-
 
 $$\frac{dw}{dt} = \eta \cdot r_{\text{pre}} \cdot r_{\text{post}} - \gamma \cdot w \cdot r_{\text{post}}^2$$
 
-These rate-based formulations are computationally more tractable for large-scale brain network simulations and are commonly employed in [[the-virtual-brain]] and similar [[whole-brain-simulators]].
+These rate-based formulations are computationally more tractable for large-scale [[brain-network]] simulations and are commonly employed in [[the-virtual-brain]] and similar [[whole-brain-simulators]].
 
 ## Role in Whole-Brain Modeling
 
@@ -45,13 +56,13 @@ Plasticity mechanisms are integrated into contemporary [[whole-brain-modeling]] 
 
 The integration of [[spiking-neural-networks]] with plasticity into whole-brain models remains computationally intensive but is an active research area. Simulators such as [[nest]] and [[brian2]] provide the low-level machinery for STDP implementation, and the TVB-NEST co-simulation framework enables coupling between population-level whole-brain models and detailed spiking networks where plasticity operates. This hybrid approach allows researchers to study how fine-grained synaptic changes propagate to macroscopic dynamics measurable with [[neuroimaging-fmri]] or [[neuroimaging-eeg]].
 
-Beyond representing learning directly, plasticity in whole-brain models serves as a computational bridge between empirical observations at different scales. Synaptic weight changes inferred from STDP experiments in slice preparations can be mapped onto effective coupling parameters in mass models, allowing predictions about how repetitive activation patterns—whether endogenous (oscillatory states) or exogenous (stim protocols)—reshape large-scale network dynamics over time.
+Beyond representing learning directly, plasticity in [[whole-brain]] models serves as a computational bridge between empirical observations at different scales. Synaptic weight changes inferred from STDP experiments in slice preparations can be mapped onto effective coupling parameters in mass models, allowing predictions about how repetitive activation patterns—whether endogenous (oscillatory states) or exogenous (stim protocols)—reshape large-scale network dynamics over time.
 
 ## Applications and Open Questions
 
 Plasticity plays a central role in several applied modeling domains. In [[epilepsy-modeling]], homeostatic plasticity mechanisms are thought to contribute to the progression from interictal to ictal states, and seizure generation models like the [[epileptor]] can incorporate plasticity-like terms to reproduce ictal recruitment. Additionally, theoretical work connects plasticity to seizure threshold dynamics through the concept of excitatory-inhibitory recurrent loops that can become hyperexcitable when homeostatic mechanisms fail.
 
-Several open questions remain. The relationship between synaptic-level STDP and macroscopic [[functional-connectivity]] changes observed over minutes to hours in fMRI studies is poorly understood and represents a key gap in multi-scale modeling. Parameter estimation for plasticity rules in whole-brain models is challenging because the relevant empirical data often come from slice physiology or simplified paradigms that may not translate directly to the parameter regime of large-scale networks [Abbott2000]. Additionally, the interaction between different plasticity mechanisms—synaptic, homeostatic, and structural—operating simultaneously on different timescales remains theoretically and computationally complex.
+Several open questions remain. The relationship between synaptic-level STDP and macroscopic [[functional-connectivity]] changes observed over minutes to hours in [[fmri]] studies is poorly understood and represents a key gap in multi-scale modeling. [[parameter-estimation]] for plasticity rules in whole-brain models is challenging because the relevant empirical data often come from slice physiology or simplified paradigms that may not translate directly to the parameter regime of large-scale networks [Abbott2000]. Additionally, the interaction between different plasticity mechanisms—synaptic, homeostatic, and structural—operating simultaneously on different timescales remains theoretically and computationally complex.
 
 ## Related Concepts
 

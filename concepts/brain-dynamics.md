@@ -46,7 +46,7 @@ Beyond The Virtual Brain, several other computational neuroscience platforms imp
 
 ## Open Questions and Challenges
 
-Despite significant progress, fundamental questions remain about brain dynamics. The precise relationship between [[structural-connectivity]] and [[functional-connectivity]]—how the fixed anatomical scaffold gives rise to flexible functional states—remains incompletely understood, particularly regarding the relative roles of direct anatomical pathways versus indirect polysynaptic pathways. The appropriate level of abstraction for modeling—whether neural mass models, neural field models, or spiking networks—depends on the questions being asked, and no consensus exists on which framework is optimal for which applications.
+Despite significant progress, fundamental questions remain about brain dynamics. The precise relationship between [[structural-connectivity]] and [[functional-connectivity]]—how the fixed anatomical scaffold gives rise to flexible functional states—remains incompletely understood, particularly regarding the relative roles of direct anatomical pathways versus indirect polysynaptic pathways. The appropriate level of abstraction for modeling—whether neural mass models, [[neural-field-theory|neural field]] models, or spiking networks—depends on the questions being asked, and no consensus exists on which framework is optimal for which applications.
 
 Parameter estimation remains a central challenge: whole-brain models contain numerous parameters that cannot be directly measured in vivo, and fitting them to individual subjects requires solving high-dimensional inverse problems. Recent approaches using [[variational-bayes]] and machine learning show promise but require further validation. Additionally, the relationship between brain dynamics in healthy individuals and in clinical populations—such as in [[schizophrenia-models]] or [[alzheimers-modeling]]—offers both a motivation and a testbed for improved models.
 
@@ -59,5 +59,5 @@ Brain dynamics connects to several foundational concepts in the wiki. [[bifurcat
 ## References
 
 1. (authors unknown). *Nonlinear Dynamics and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering*.
-2. Eugene M. Izhikevich. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
+2. Eugene M. [[izhikevich]]. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
 3. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)

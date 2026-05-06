@@ -14,7 +14,7 @@ tags:
 - information-theory
 title: TRENTOOL
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 TRENTOOL (TRENds TOOLbox) is a MATLAB-based open-source toolbox for estimating information-theoretic measures from neural time series data. Developed primarily for analyzing directed (effective) [[connectivity]] in neurophysiological recordings such as electroencephalography (EEG), magnetoencephalography (MEG), and [[local-field-potentials]] (LFP), TRENTOOL implements algorithms for computing transfer entropy, mutual information, and related metrics that capture directional information flow between brain regions[^wibral_2011]. The toolbox emerged from the [[nonlinear-dynamics]] research community and serves researchers studying [[effective-connectivity]] using model-free information-theoretic approaches rather than [[dynamic-causal-modeling]] (DCM) or regression-based methods.
@@ -58,4 +58,4 @@ The relationship between transfer entropy and other measures of [[effective-conn
 
 1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
 2. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal [[neuroimaging]]*. Brain Connectivity. [DOI](](https://doi.org/10.1089/brain.2012.0120))
-3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and [[whole-brain]] Propagation*. [Link](](https://arxiv.org/abs/2505.16861))
+3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale [[co-simulation]] Framework with a Case Study on Neural-Level Seizure Generation and [[whole-brain]] Propagation*. [Link](](https://arxiv.org/abs/2505.16861))

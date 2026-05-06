@@ -18,7 +18,7 @@ tags:
 - bids-validator
 title: PyBIDS
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # PyBIDS
@@ -33,7 +33,7 @@ The proliferation of large-scale neuroimaging datasets—such as the [[hcp-datas
 
 ## Key Features
 
-PyBIDS offers several core capabilities that make it indispensable for neuroimaging workflows. First, the `BIDSLayout` class serves as the primary interface for dataset interaction, providing methods to query files based on demographic variables (subject, session), data types (anat, func, dwi), and imaging modality. Second, the library handles metadata extraction automatically, pulling information from JSON sidecar files and combining them with file-level attributes into a coherent dictionary. Third, PyBIDS implements a robust path template system that generates file paths according to BIDS rules, ensuring that any new files written to disk maintain specification compliance. The library also integrates with the BIDS Validator to check dataset integrity before analysis, and supports derivative datasets including preprocessing outputs from tools like [[fmriprep|fMRIPrep]] and MNE-Python.
+PyBIDS offers several core capabilities that make it indispensable for neuroimaging workflows. First, the `BIDSLayout` class serves as the primary interface for dataset interaction, providing methods to query files based on demographic variables (subject, session), data types (anat, func, dwi), and imaging modality. Second, the library handles metadata extraction automatically, pulling information from JSON sidecar files and combining them with file-level attributes into a coherent dictionary. Third, PyBIDS implements a robust path template system that generates file paths according to BIDS rules, ensuring that any new files written to disk maintain specification compliance. The library also integrates with the BIDS Validator to check dataset integrity before analysis, and supports derivative datasets including preprocessing outputs from tools like [[fmriprep|fMRIPrep]] and [[mne-python]].
 
 ## Relationship to TVB
 

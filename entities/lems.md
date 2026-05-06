@@ -23,7 +23,7 @@ The LEMS language emerged from this need, initially developed by Robert Cannon a
 
 A LEMS model is structured as a collection of ComponentType definitions, each describing a class of biological entity. Each ComponentType specifies a set of parameters (fixed constants), state variables (dynamic quantities that evolve over time), and the equations governing their evolution. For example, a simple leaky integrate-and-fire neuron might be defined in LEMS with parameters for membrane resistance ($R_m$), capacitance ($C_m$), and resting potential ($V_{[[tvb-rest]]}$), a state variable for membrane potential ($V_m$), and a differential equation:
 
-$$\tau_m \frac{dV_m}{dt} = -(V_m - V_{rest}) + R_m I_{syn}$$
+$$\tau_m \frac{dV_m}{dt} = -(V_m - V_{[[rest]]}) + R_m I_{syn}$$
 
 where $\tau_m = R_m C_m$ is the membrane time constant and $I_{syn}$ represents synaptic current input. The ComponentType would also define the spike reset condition and threshold detection logic that determines when the neuron fires.
 
@@ -66,5 +66,5 @@ Despite its strengths, LEMS has seen limited adoption beyond the NeuroML communi
 ## References
 
 1. C. Linssen, Pooja N. Babu, Jochen M. Eppler, Luca Koll, Bernhard Rumpe, Abigail Morrison. (2025). *[[nestml]]: a generic modeling language and code generation tool for the simulation of spiking neural networks with advanced plasticity rules*. Frontiers Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2025.1544143))
-2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and [[whole-brain]] Propagation*. [Link](](https://arxiv.org/abs/2505.16861))
+2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale [[co-simulation]] Framework with a Case Study on Neural-Level Seizure Generation and [[whole-brain]] Propagation*. [Link](](https://arxiv.org/abs/2505.16861))
 3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](](https://doi.org/10.3389/fncom.2025.1731161))

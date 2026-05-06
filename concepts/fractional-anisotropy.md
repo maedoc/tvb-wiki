@@ -16,7 +16,7 @@ Fractional Anisotropy — a concept in [[whole-brain|whole-brain modeling]] and 
 ## Related Concepts
 * [[aging]]
 
-For a comparison of diffusion imaging models, see [[dti-vs-hardi-vs-noddi]].
+For a comparison of [[diffusion-imaging]] models, see [[dti-vs-hardi-vs-noddi]].
 
 ## References
 

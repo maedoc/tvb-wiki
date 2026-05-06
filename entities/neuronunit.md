@@ -88,7 +88,7 @@ NeuronUnit and [[TVB|The Virtual Brain]] operate at complementary scales of brai
 
 2. **Parameter grounding**: The electrophysiological parameters extracted and validated through NeuronUnit (e.g., firing rates, synaptic time constants) can inform the biophysical grounding of TVB's [[mean-field-theory|mean-field]] equations, bridging detailed biophysics with population dynamics.
 
-3. **Multi-scale workflows**: Researchers may use NeuronUnit to validate detailed neuron models that are subsequently incorporated into TVB simulations via the [[TVB-Multiscale]] co-simulation framework or used to derive population firing rate functions.
+3. **Multi-scale workflows**: Researchers may use NeuronUnit to validate detailed neuron models that are subsequently incorporated into TVB simulations via the [[TVB-Multiscale]] [[co-simulation]] framework or used to derive population firing rate functions.
 
 4. **Validation methodology**: NeuronUnit's scientific unit testing philosophy—quantitative comparison of model predictions against empirical benchmarks—aligns with emerging approaches for validating whole-brain simulations against [[fMRI]] and [[EEG]]/[[MEG]] recordings.
 

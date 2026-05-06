@@ -18,7 +18,7 @@ updated: '2026-05-06'
 
 # Machine Learning
 
-**Machine learning** refers to computational methods that learn patterns from data without explicit programming. In neuroscience, machine learning is used for brain decoding, predictive modeling, automated segmentation, and discovering biomarkers from [[neuroimaging]] data.
+**Machine learning** refers to computational methods that learn patterns from data without explicit programming. In neuroscience, machine learning is used for [[brain-decoding]], predictive modeling, automated segmentation, and discovering biomarkers from [[neuroimaging]] data.
 
 ## Overview
 

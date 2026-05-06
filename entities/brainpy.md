@@ -41,7 +41,7 @@ For researchers working at the intersection of detailed neural circuitry and who
 
 The foundational BrainPy publication appeared in eLife in 2023, introducing the framework's architecture and demonstrating its capabilities across various brain modeling applications. This work established the conceptual framework of "Brain Dynamics Programming" as a paradigm for computational neuroscience, emphasizing the need for general‑purpose tools that bridge model building, simulation, training, and analysis. Earlier conference publications documented the Just‑In‑Time compilation approach for neural dynamics simulation, demonstrating performance improvements over traditional interpreters.
 
-Related work on brain dynamics modeling using BrainPy includes implementations of excitation‑inhibition balanced networks that reproduce biologically realistic irregular neuronal firing patterns, decision‑making models based on Wang's probabilistic accumulation framework, and whole‑brain simulations coupling neural mass models through structural connectivity matrices derived from [[human-connectome-project]] data.
+Related work on brain dynamics modeling using BrainPy includes implementations of excitation‑inhibition balanced networks that reproduce biologically realistic irregular neuronal firing patterns, decision‑making models based on Wang's probabilistic accumulation framework, and whole‑brain simulations coupling neural mass models through [[structural-connectivity]] matrices derived from [[human-connectome-project]] data.
 
 ## Technical Architecture
 

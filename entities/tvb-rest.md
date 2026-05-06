@@ -37,7 +37,7 @@ The deployment of TVB-REST forms the backbone of TVB's cloud-based offerings and
 
 ## Technical Considerations
 
-Deploying TVB-REST requires a server environment with sufficient computational resources to run whole-brain simulations, which can demand substantial CPU or GPU capacity depending on model complexity and simulation duration. The API supports asynchronous execution patterns wherein long-running simulations are queued and executed in background processes, with clients polling for completion. Authentication and authorization mechanisms ensure that multi-user deployments maintain data isolation between researchers. The API communicates using JSON for request/response payloads, and standard HTTP status codes indicate success or error conditions. Client libraries exist for several programming languages, facilitating integration into existing analysis codebases.
+Deploying TVB-[[rest]] requires a server environment with sufficient computational resources to run whole-brain simulations, which can demand substantial CPU or GPU capacity depending on model complexity and simulation duration. The API supports asynchronous execution patterns wherein long-running simulations are queued and executed in background processes, with clients polling for completion. Authentication and authorization mechanisms ensure that multi-user deployments maintain data isolation between researchers. The API communicates using JSON for request/response payloads, and standard HTTP status codes indicate success or error conditions. Client libraries exist for several programming languages, facilitating integration into existing analysis codebases.
 
 ## Key Papers
 

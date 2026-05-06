@@ -40,7 +40,7 @@ It is important to note that MVPA captures patterns of distributed neural activi
 
 ## Related Software
 
-PyMVPA occupies a niche in the neuroimaging Python ecosystem that complements several other tools. [[nilearn]] provides higher-level machine learning functions specifically designed for neuroimaging and can be used alongside PyMVPA for certain applications. [[nipype]] offers workflow automation capabilities that can integrate PyMVPA analyses into larger preprocessing pipelines. For EEG and MEG analysis specifically, Mne Python provides complementary functionality, and PyMVPA can process data exported from these environments.
+PyMVPA occupies a niche in the neuroimaging Python ecosystem that complements several other tools. [[nilearn]] provides higher-level machine learning functions specifically designed for neuroimaging and can be used alongside PyMVPA for certain applications. [[nipype]] offers workflow automation capabilities that can integrate PyMVPA analyses into larger preprocessing pipelines. For EEG and MEG analysis specifically, [[mne-python]] provides complementary functionality, and PyMVPA can process data exported from these environments.
 
 The machine learning foundation of PyMVPA relies on scikit-learn, a general-purpose Python machine learning library that provides the underlying algorithms. The toolbox maintains compatibility with common neuroimaging processing packages including [[freesurfer]], Fsl, and Spm through data format conversions.
 

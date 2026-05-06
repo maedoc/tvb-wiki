@@ -13,7 +13,7 @@ tags:
 - neural-mass-models
 title: PyEEG
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # PyEEG
@@ -22,7 +22,7 @@ updated: '2026-05-04'
 
 PyEEG is an open-source Python library for analyzing electroencephalography (EEG) data, developed primarily by Forrest Sheng Bao and colleagues at Texas Tech University. The library provides efficient implementations of feature extraction algorithms commonly used in EEG-based research, particularly those derived from [[nonlinear-dynamics]] and information theory. Originally released in 2010, PyEEG has become a foundational tool in the [[computational-neuroscience]] and [[neuroimaging]] communities for quantifying neural dynamics from electrophysiological recordings. The package is designed to complement existing EEG analysis frameworks such as [[EEGLAB]] and Fieldtrip by providing optimized Python implementations of advanced analytical methods that were previously available only in MATLAB toolboxes or required custom implementation.
 
-The library focuses on extracting features that capture the nonlinear and complex dynamics of neural activity, which standard spectral methods often fail to adequately characterize. These nonlinear measures have proven particularly valuable for studying conditions such as epilepsy, where seizure dynamics exhibit highly nonlinear behavior, and for investigating cognitive processes involving neural oscillations and synchronization. PyEEG's modular design allows researchers to easily integrate its functions into larger analysis pipelines built with tools like [[nipype]] or Mne Python.
+The library focuses on extracting features that capture the nonlinear and complex dynamics of neural activity, which standard spectral methods often fail to adequately characterize. These nonlinear measures have proven particularly valuable for studying conditions such as epilepsy, where seizure dynamics exhibit highly nonlinear behavior, and for investigating cognitive processes involving neural oscillations and synchronization. PyEEG's modular design allows researchers to easily integrate its functions into larger analysis pipelines built with tools like [[nipype]] or [[mne-python]].
 
 ## Key Features
 

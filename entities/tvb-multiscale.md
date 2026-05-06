@@ -107,7 +107,7 @@ The framework serves as a testbed for validating neural mass models against grou
 
 - Sanz Leon et al. (2013) — Foundational TVB platform description[^sanz-leon-2013]
 - Gewaltig & Diesmann (2007) — NEST simulation infrastructure[^gewaltig-diesmann-2007]
-- [[arbor]]-TVB co-simulation (2024) — Demonstrates generalization of the TVB-multiscale approach to other spiking simulators[^arxiv-2505.16861]
+- [[arbor]]-TVB [[co-simulation]] (2024) — Demonstrates generalization of the TVB-multiscale approach to other spiking simulators[^arxiv-2505.16861]
 
 ## Technical Implementation
 

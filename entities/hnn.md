@@ -109,7 +109,7 @@ Simulations produce:
 - [Neuron](](neuron)) — Simulator for biophysical neurons
 - [MNE](](MNE)) — Software for processing EEG/MEG data
 - [Brain-oscillations](](brain-oscillations)) — Rhythmic neural activity
-- [Neuroimaging-EEG](](neuroimaging-eeg)) — Electroencephalography
+- [[[neuroimaging]]-EEG](](neuroimaging-eeg)) — Electroencephalography
 - [Neuroimaging-MEG](](neuroimaging-meg)) — Magnetoencephalography
 - [Local-field-potentials](](local-field-potentials)) — Microscale electrical fields
 - [Source-localization](]([[source-localization]])) — Estimating brain activity sources
@@ -120,4 +120,4 @@ Simulations produce:
 
 1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
 2. Gianluca Gaglioti, Alessandra Cardinale, Cosimo Lupo, Thierry Nieus, Federico Marmoreo, Elena Focacci, Robin Gutzen, Michael Denker, Andrea Pigorini, Marcello Massimini, Simone Sarasso, Pier Stanislao Paolucci, Giulia De Bonis. *Emergent complexity and rhythms in evoked and spontaneous dynamics of human whole-brain models after tuning through analysis tools*. [Link](](https://arxiv.org/abs/2509.12873))
-3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](](https://arxiv.org/abs/2505.16861))
+3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale [[co-simulation]] Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](](https://arxiv.org/abs/2505.16861))

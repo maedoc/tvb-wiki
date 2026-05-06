@@ -29,9 +29,9 @@ nnU-Net is built on U-Net architecture principles but adds automatic pipeline co
 
 ## Relationship to TVB
 
-nnU-Net enables automated brain segmentation that feeds into TVB connectivity pipelines:
-- **Tissue segmentation** — rapid, accurate grey/white matter and CSF segmentation from T1w MRI
-- **Parcellation** — nnU-Net can segment anatomical or functional parcels for TVB node definitions
+nnU-Net enables automated brain segmentation that feeds into TVB [[connectivity]] pipelines:
+- **Tissue segmentation** — rapid, accurate grey/[[white-matter]] and CSF segmentation from T1w MRI
+- **[[parcellation]]** — nnU-Net can segment anatomical or functional parcels for TVB node definitions
 - **Lesion segmentation** — automatic lesion masks for TVB lesion simulations in stroke and tumor patients
 - **Quality control** — automated segmentation QC that informs downstream TVB pipeline decisions
 

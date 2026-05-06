@@ -49,6 +49,6 @@ ICNs provide empirical validation targets for TVB:
 
 ## References
 
-1. (authors unknown). *Correspondence of the brain's functional architecture during activation and rest*.
+1. (authors unknown). *Correspondence of the brain's functional architecture during activation and [[rest]]*.
 2. Shiang Hu, Xiao Gong, Xiaolong Huang, Jie Ruan, P. Valdés-Sosa. (2025). *Exploring the distribution of connectivity weights in resting-state EEG networks*. arXiv.org. [DOI](https://doi.org/10.48550/arXiv.2501.07394)
 3. (authors unknown). *Functional Network Organization of the Human Brain*.

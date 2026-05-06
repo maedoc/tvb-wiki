@@ -45,7 +45,7 @@ From a methodological standpoint, GIFT implements one approach to [[source-separ
 
 The primary use cases for GIFT include identification of **resting‑state networks** (RSNs)—patterns like the [[default‑mode‑network]], salience network, and sensorimotor networks that emerge consistently across individuals. Researchers use GIFT to compare network topology across clinical populations, identify biomarkers in disorders like schizophrenia and Alzheimer's disease, and assess developmental changes in functional organization. The toolbox also supports **task‑related analysis**, decomposing task fMRI data to identify task‑evoked networks versus intrinsic [[connectivity]] patterns.
 
-A notable application is the Enigma consortium's protocols, which draw on ICA‑based approaches for standardized analysis of functional connectivity patterns across sites. GIFT's ability to handle multi‑site data with appropriate batch effects correction has made it valuable for consortium science where harmonization across scanners is essential.
+A notable application is the [[enigma]] consortium's protocols, which draw on ICA‑based approaches for standardized analysis of functional connectivity patterns across sites. GIFT's ability to handle multi‑site data with appropriate batch effects correction has made it valuable for consortium science where harmonization across scanners is essential.
 
 ## Related Software
 

@@ -43,7 +43,7 @@ The MEG/EEG Toolbox ecosystem connects to [[the-virtual-brain|TVB]] through mult
 The following publications form the foundational literature for the major MEG/EEG toolboxes:
 
 - **Oostenveld et al. (2011)** — "FieldTrip: Open Source Software for Advanced Analysis of MEG, EEG, and Electrophysiological Applications"
-- **Gramfort et al. (2013)** — "MEG and EEG data analysis with MNE-Python"
+- **Gramfort et al. (2013)** — "MEG and EEG data analysis with [[mne-python]]"
 - **Delorme & Makeig (2004)** — "EEGLAB: an open source toolbox for analysis of single-trial EEG dynamics including independent component analysis"eeglab
 - **Tadel et al. (2011)** — "[[brainstorm]]: a user-friendly toolbox for brain source imaging"[[brain-map]]
 

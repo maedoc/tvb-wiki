@@ -1,13 +1,22 @@
 ---
-title: Random Networks
 created: 2026-04-20
-updated: 2026-05-06
+sources:
+- raw/papers/barabasi-albert-1999.md
+- raw/papers/hagmann-2008.md
+- raw/papers/breakspear-2017.md
+- raw/papers/bullmore-sporns-2009.md
+- raw/papers/watts-strogatz-1998.md
+tags:
+- network-dynamics
+- connectomics
+- graph-theory
+- whole-brain-modeling
+title: Random Networks
 type: concept
-tags: [network-dynamics, connectomics, graph-theory, whole-brain-modeling]
-sources: [raw/papers/barabasi-albert-1999.md, raw/papers/hagmann-2008.md, raw/papers/breakspear-2017.md, raw/papers/bullmore-sporns-2009.md, raw/papers/watts-strogatz-1998.md]
+updated: '2026-05-06'
 ---
 
-Random networks represent a fundamental class of network topologies in which edges between nodes are established according to a stochastic process, lacking the hierarchical or modular structure characteristic of many biological networks [1]. In the context of [[whole-brain]] modeling, random networks serve as important null models against which the organizational properties of brain connectivity can be compared, and they provide baseline dynamics against which emergent properties of more structured networks can be evaluated [2].
+Random networks represent a fundamental class of network topologies in which edges between nodes are established according to a stochastic process, lacking the hierarchical or modular structure characteristic of many biological networks [1]. In the context of [[whole-brain]] modeling, random networks serve as important null models against which the organizational properties of brain [[connectivity]] can be compared, and they provide baseline dynamics against which emergent properties of more structured networks can be evaluated [2].
 
 ## Definition and Mathematical Formulation
 
@@ -19,7 +28,7 @@ The mean degree is given by $\langle k \rangle = p(N-1)$, and the clustering coe
 
 ## Role in Brain Connectivity Research
 
-In [[connectomics]], random networks provide essential reference topologies for assessing whether observed brain networks deviate from chance expectations [2]. The seminal work by Hagmann et al. used random network comparisons to demonstrate that the human brain's structural connectivity possesses a non-random "structural core" of highly interconnected hub regions in posterior medial and parietal cortex—a finding that resisted explanation by random topology alone [3]. Similarly, the Barabási-Albert model demonstrated that networks grown through preferential attachment exhibit scale-free properties fundamentally different from random networks [4].
+In [[connectomics]], random networks provide essential reference topologies for assessing whether observed brain networks deviate from chance expectations [2]. The seminal work by Hagmann et al. used random network comparisons to demonstrate that the human brain's [[structural-connectivity]] possesses a non-random "structural core" of highly interconnected hub regions in posterior medial and parietal cortex—a finding that resisted explanation by random topology alone [3]. Similarly, the Barabási-Albert model demonstrated that networks grown through [[preferential-attachment]] exhibit scale-free properties fundamentally different from random networks [4].
 
 ## Comparison with Other Network Models
 
@@ -37,7 +46,7 @@ In the context of [[whole-brain]] modeling within the TVB framework, random netw
 
 ### Null Dynamics and Baseline Behavior
 
-Neural mass models such as those implemented in TVB, when coupled through random connectivity matrices, typically exhibit dynamics that are spatially less structured and temporally more homogeneous compared to models using empirical connectivity [6]. The absence of hub structures means that activity propagation occurs through a relatively uniform medium without the amplification effects that hubs provide in structured networks. This baseline is essential for understanding what aspects of brain dynamics emerge specifically from the organization of empirical connectivity rather than from generic network properties.
+[[neural-mass-models]] such as those implemented in TVB, when coupled through random connectivity matrices, typically exhibit dynamics that are spatially less structured and temporally more homogeneous compared to models using empirical connectivity [6]. The absence of hub structures means that activity propagation occurs through a relatively uniform medium without the amplification effects that hubs provide in structured networks. This baseline is essential for understanding what aspects of [[brain-dynamics]] emerge specifically from the organization of empirical connectivity rather than from generic network properties.
 
 ### Comparison with Empirical Connectivity
 
@@ -45,7 +54,7 @@ Studies usingTVB-style models have demonstrated that replacing empirical structu
 
 ### Implications for Model Validation
 
-The systematic comparison of model dynamics on random versus empirical connectivity serves as a validation tool for whole-brain models. When a model produces qualitatively similar dynamics on both random and empirical connectivity, this suggests the model is not sensitive to topological details and may be too generic. Conversely, models that capture known empirical findings—such as the presence of resting-state networks, realistic frequency bands, and appropriate scaling of avalanche statistics—only when seeded with empirical connectivity provide evidence that the model captures meaningful structure-function relationships [6].
+The systematic comparison of model dynamics on random versus empirical connectivity serves as a validation tool for whole-brain models. When a model produces qualitatively similar dynamics on both random and empirical connectivity, this suggests the model is not sensitive to topological details and may be too generic. Conversely, models that capture known empirical findings—such as the presence of [[resting-state]] networks, realistic frequency bands, and appropriate scaling of avalanche statistics—only when seeded with empirical connectivity provide evidence that the model captures meaningful structure-function relationships [6].
 
 ## Related Concepts
 
@@ -64,7 +73,7 @@ The systematic comparison of model dynamics on random versus empirical connectiv
 
 2. Edward T. Bullmore and Olaf Sporns. "Complex Brain Networks: Graph Theoretical Analysis of Structural and Functional Systems." *Nature Reviews Neuroscience* 10, no. 3 (2009): 186–198. https://doi.org/10.1038/nrn2575
 
-3. Patric Hagmann, Leila Cammoun, Xavier Gigandet, Reto Meuli, Christopher J. Honey, Van J. Wedeen, and Olaf Sporns. "Mapping the Structural Core of Human Cerebral Cortex." *PLoS Biology* 6, no. 7 (2008): e159. https://doi.org/10.1371/journal.pbio.0060159
+3. [[patric-hagmann]], Leila Cammoun, Xavier Gigandet, Reto Meuli, Christopher J. Honey, Van J. Wedeen, and Olaf Sporns. "Mapping the Structural Core of Human Cerebral Cortex." *PLoS Biology* 6, no. 7 (2008): e159. https://doi.org/10.1371/journal.pbio.0060159
 
 4. Albert-László Barabási and Réka Albert. "Emergence of Scaling in Random Networks." *Science* 286, no. 5439 (1999): 509–512. https://doi.org/10.1126/science.286.5439.509
 

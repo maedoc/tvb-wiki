@@ -58,7 +58,7 @@ The modular design permits each simulator to retain its native model specificati
 
 Users specify which brain regions will be represented by detailed NEST microcircuits versus TVB neural mass models. This "selective zoom" approach enables several notable configurations:
 
-- Focal replacement: Replace a single region of interest (e.g., epileptogenic zone) with detailed spiking networks while modeling the rest of the brain with efficient neural masses
+- Focal replacement: Replace a single region of interest (e.g., epileptogenic zone) with detailed spiking networks while modeling the [[rest]] of the brain with efficient neural masses
 - Laminar specificity: Model specific cortical layers with distinct neuron types in NEST
 - Comparative studies: Directly compare dynamics emerging from neural mass versus spiking implementations of the same brain region
 
@@ -122,5 +122,5 @@ Drug effects on neural circuits often target specific receptor subtypes or ion c
 
 1. Sanz Leon et al. (2013). *[[the-virtual-brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
 2. Gewaltig & Diesmann (2007). *NEST ([[neural-simulation]] Tool)*. Scholarpedia. [DOI](https://doi.org/10.4249/scholarpedia.1430))
-3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *Arbor-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861))
+3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *Arbor-TVB: A Novel Multi-Scale [[co-simulation]] Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861))
 4. Roxana A. Stefanescu, Viktor K. Jirsa. *A low dimensional description of globally coupled heterogeneous neural networks of excitatory and inhibitory neurons*. PLoS Computational Biology. [DOI](https://doi.org/10.1371/journal.pcbi.1000219))

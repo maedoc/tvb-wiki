@@ -1,39 +1,44 @@
 ---
-created: 2026-04-27
-sources:
-- raw/papers/deco-2013.md
-- raw/papers/breakspear-2017.md
-- raw/papers/izhikevich-2007.md
-- raw/papers/semanticscholar-e1fa0a868dbe.md
-- raw/papers/arxiv-2512.03907.md
-- raw/papers/semanticscholar-dd426330093e.md
-tags:
-- brain-oscillations
 title: Brain Oscillations
+created: 2026-04-20
+updated: 2026-05-06
 type: concept
-updated: '2026-05-06'
+tags: [brain-oscillations, neural-mass-models, network-dynamics, brain-stimulation, epilepsy-modeling, resting-state, eeg, meg, bifurcation-analysis, nonlinear-dynamics]
+sources: [raw/papers/deco-2013.md, raw/papers/breakspear-2017.md, raw/papers/izhikevich-2007.md]
 ---
 
-Brain Oscillations is a key concept in [[computational-neuroscience]] and [[whole-brain|whole-brain modeling]]. This page provides an overview of Brain Oscillations and its role in the broader landscape of brain modeling and analysis.
+Brain oscillations refer to rhythmic patterns of neural activity that emerge from the synchronized firing of large populations of neurons. These oscillations are a fundamental feature of mammalian brains and can be measured using electrophysiological techniques such as [[eeg]] (electroencephalography) and [[meg]] (magnetoencephalography). The study of brain oscillations bridges the gap between single-neuron biophysics and whole-brain [[network-dynamics]], making them essential to [[computational-neuroscience]] and [[whole-brain|whole-brain modeling]].
 
-## Definition
-**
+## Definition and Frequency Bands
 
-## Role in Whole-Brain Modeling
-**
+Brain oscillations are classified by their frequency, with distinct bands historically associated with different cognitive and behavioral states. **Delta waves** (0.5–4 Hz) dominate during deep sleep and are thought to reflect slow cortical dynamics and restoration processes. **Theta waves** (4–8 Hz) appear during drowsiness, REM sleep, and certain memory processes, particularly in the hippocampus. **Alpha waves** (8–13 Hz) characterize the relaxed, awake state and likely represent idling cortical regions or inhibition of visual processing. **Beta waves** (13–30 Hz) are associated with active concentration, sensory processing, and motor planning. **Gamma waves** (30–100 Hz) are linked to higher-order cognitive functions including attention, working memory, and sensory binding.
 
-## Related Concepts
-* [[dynamical-systems-theory]]
-* [[bionet]]
-* [[eeg]]
-* [[meg]]
-* [[nonlinear-dynamics]]
+The emergence of these oscillations can be understood through [[nonlinear-dynamics]] and [[bifurcation-analysis]]. Neural populations can transition between different dynamical regimes—resting, oscillating, or bursting—through bifurcations such as the saddle-node on invariant circle (SNIC) or Andronov-Hopf bifurcations. This framework, developed extensively by [[izhikevich]] (2007), provides a mathematical basis for understanding how oscillations arise from the interaction of excitatory and inhibitory neural populations.
 
-## References
+## Role in Neural Mass Models
 
-1. Deco et al. (2013). *Resting brains never [[tvb-rest]]: computational insights into potential cognitive architectures*. Trends in Neurosciences. [DOI](https://doi.org/10.1016/j.tins.2013.09.002))
-2. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4))
-3. Eugene M. [[izhikevich]]. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
-4. R. Lorenzi, Fulvia Palesi, C. Casellato, C. G. Gandini Wheeler-Kingshott, Egidio D’Angelo. (2025). *Region-specific [[mean-field-theory|mean field]] models enhance simulations of local and global [[brain-dynamics]]*. bioRxiv. [DOI](https://doi.org/10.1038/s41540-025-00543-9))
-5. Rosa Maria Delicado, Gemma Huguet, Pau Clusella. (2025). *Emergent Spatiotemporal Dynamics in Large-Scale Brain Networks with Next Generation [[neural-mass-models]]*. [Link](https://arxiv.org/abs/2512.03907))
-6. Jelena Trajkovic, G. Ricci, G. Pirazzini, L. Tarasi, Francesco Di Gregorio, E. Magosso, Mauro Ursino, V. Romei. (2025). *Aberrant [[functional-connectivity]] and [[brain-network]] Organization in High‑Schizotypy Individuals: An Electroencephalography Study*. Schizophrenia bulletin. [DOI](https://doi.org/10.1093/schbul/sbaf004))
+[[neural-mass-models]] provide a mathematical framework for modeling the collective activity of large neuronal populations. These models typically represent cortical regions as coupled oscillators, where each population (pyramidal cells, interneurons) is described by equations governing membrane potentials and synaptic conductances. The [[jansen-rit-model]] and its variants are canonical examples, producing alpha-range oscillations through the interaction of excitatory and inhibitory populations with appropriate delay times (Jansen & Rit, 1995; Lorenzi et al., 2025).
+
+The [[wong-wang-model]] and similar [[excitation-inhibition-balance]] models demonstrate how oscillations emerge from the competition between excitatory and inhibitory synaptic currents (Wong & Wang, 2006). When the system approaches a bifurcation point, small perturbations can trigger large-amplitude oscillations—the neural correlate of pathological states such as seizures. This mathematical structure makes neural mass models particularly suited for studying [[epilepsy-modeling]], where the transition from normal oscillations to pathological epileptiform activity is a central concern (Delicado et al., 2025; Trajkovic et al., 2025).
+
+## Connection to Whole-Brain Modeling
+
+In [[whole-brain|whole-brain modeling]], brain oscillations arise from the interaction of multiple cortical and subcortical regions connected through [[structural-connectivity]] derived from diffusion imaging (DTI). The [[the-virtual-brain]] (TVB) platform implements this approach by coupling neural mass models across regions using empirically measured connectomes (Ritter et al., 2023). This framework has revealed that resting-state [[functional-connectivity]] patterns emerge from noise-driven fluctuations around stable fixed points in a network constrained by structural connectivity (Deco et al., 2013).
+
+Breakspear (2017) synthesized this perspective by showing that large-scale brain dynamics depend critically on [[network-dynamics]] principles: time delays between brain regions, the topology of anatomical connections, and the balance of excitation and inhibition. The [[brain-dynamics]] that emerge from these models—including traveling waves, synchronization, and metastable states—directly relate to observed brain oscillations measured in electrophysiological data.
+
+## Measurement and Analysis
+
+Brain oscillations are measured primarily through [[neuroimaging-eeg]] and [[neuroimaging-meg]], which provide direct measures of electrical and magnetic fields generated by synchronized neural activity. The spatial resolution of EEG is limited by volume conduction effects, while MEG offers better spatial specificity for detecting cortical oscillations. These signals are analyzed using spectral decomposition, which reveals the frequency content of the data, and coherence analysis, which measures the phase synchronization between different brain regions and quantifies the strength of coupling between oscillatory networks.
+
+In the context of whole-brain models, the relationship between structural connectivity and functional dynamics is mediated by oscillations. Changes in the coupling between brain regions—whether through maturation, disease, or stimulation—alter the oscillatory patterns measurable by EEG and MEG. This makes oscillations a key biomarker for understanding both normal brain function and pathological states.
+
+## Oscillations in Health and Disease
+
+Brain oscillations serve crucial cognitive functions, and their disruption is implicated in numerous neurological and psychiatric conditions. In [[epilepsy-modeling]], pathological oscillations manifest as epileptiform discharges—high-amplitude, synchronized activities that can spread across the brain. The [[epileptor]] model, implemented in TVB, captures these dynamics through a set of equations describing the transition to seizure-like oscillations.
+
+Altered oscillations are also observed in [[alzheimers-modeling]] and [[schizophrenia-models]]. Gamma oscillations, in particular, are disrupted in schizophrenia, potentially contributing to cognitive deficits. Understanding these alterations requires computational models that can reproduce the oscillatory signatures seen in patient data.
+
+## Relationship to Other Concepts
+
+Brain oscillations connect to several related concepts in the wiki. They emerge from [[dynamical-systems-theory]] applied to neural populations, following principles of [[bionet]] and [[bifurcation-theory]] (Izhikevich, 2007). The [[neural-field-theory]] extends these ideas to continuous spatial domains. Brain oscillations are also relevant to [[brain-stimulation]], where external inputs can entrain or suppress specific frequency bands, and to [[consciousness-models]], where specific oscillatory patterns correlate with states of awareness.

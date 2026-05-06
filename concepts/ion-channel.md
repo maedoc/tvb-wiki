@@ -1,10 +1,16 @@
 ---
-title: Ion Channel
 created: 2026-04-20
-updated: 2026-05-06
+sources:
+- raw/papers/hodgkin-huxley-model.md
+tags:
+- computational-neuroscience
+- neural-mass-models
+- spiking-neural-networks
+- excitation-inhibition-balance
+- brain-oscillations
+title: Ion Channel
 type: concept
-tags: [computational-neuroscience, neural-mass-models, spiking-neural-networks, excitation-inhibition-balance, brain-oscillations]
-sources: [raw/papers/hodgkin-huxley-model.md]
+updated: '2026-05-06'
 ---
 
 Ion channels are pore-forming proteins in neuronal membranes that allow the selective passage of specific ions (such as Na⁺, K⁺, Ca²⁺, and Cl⁻) down their electrochemical gradients. These proteins constitute the fundamental biophysical substrate for electrical signaling in neurons and are therefore central to [[computational-neuroscience]] modeling at both the microscopic level of single neurons and the mesoscopic level of [[neural-mass-model]]s used in [[whole-brain]] modeling. The opening and closing (gating) of ion channels produces transmembrane currents that generate action potentials, subthreshold oscillations, and synaptic integration—phenomena that must be captured either explicitly or phenomenologically in any biologically realistic brain model.
@@ -19,7 +25,7 @@ While [[neural-mass-model]]s like the [[jansen-rit-model]] [@jansen-rit-1995] an
 
 ## Types and Their Computational Significance
 
-Several classes of ion channels are particularly relevant for whole-brain modeling. **Voltage-gated sodium channels** mediate the fast depolarization phase of action potentials and are essential for the excitability of pyramidal neurons. **Voltage-gated potassium channels** enable repolarization and determine firing rate and spike-frequency adaptation. **L-type calcium channels** contribute to slower oscillatory dynamics and are implicated in seizure-like bursting [@vreugdenhil-etal-2004]. **Leak channels** provide a constant conductance that sets the resting membrane potential. In spiking neural network simulators like [[brian2]] and [[neuron]], users can choose between simplified point neuron models that abstract away explicit channel dynamics and more detailed multi-compartment models that implement the full Hodgkin-Huxley equations, enabling the study of how specific ion channelopathies propagate through large-scale brain networks.
+Several classes of ion channels are particularly relevant for whole-brain modeling. **Voltage-gated sodium channels** mediate the fast depolarization phase of action potentials and are essential for the excitability of pyramidal neurons. **Voltage-gated potassium channels** enable repolarization and determine firing rate and spike-frequency adaptation. **L-type calcium channels** contribute to slower oscillatory dynamics and are implicated in seizure-like bursting [@vreugdenhil-etal-2004]. **Leak channels** provide a constant conductance that sets the resting membrane potential. In [[spiking-neural-networks|spiking neural network]] simulators like [[brian2]] and [[neuron]], users can choose between simplified point neuron models that abstract away explicit channel dynamics and more detailed multi-compartment models that implement the full Hodgkin-Huxley equations, enabling the study of how specific ion channelopathies propagate through large-scale brain networks.
 
 ## Relationship to Whole-Brain Modeling
 

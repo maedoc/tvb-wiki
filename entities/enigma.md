@@ -1,13 +1,29 @@
 ---
-title: ENIGMA
 created: 2024-01-15
-updated: 2026-05-06
+sources:
+- Stein JL et al. Nature Genetics 2012
+- van Erp TGM et al. Molecular Psychiatry 2016
+- Schmaal L et al. Molecular Psychiatry 2016
+- Hibar DP et al. Molecular Psychiatry 2017
+- Hoogman M et al. Lancet Psychiatry 2017
+- Boedhoe PS et al. American Journal of Psychiatry 2017
+tags:
+- neuroimaging-fmri
+- neuroimaging-dti
+- database-hcp
+- database-uk-biobank
+- connectomics
+- structural-connectivity
+- functional-connectivity
+- whole-brain-modeling
+- personalized-brain-modeling
+- dataset
+title: ENIGMA
 type: entity
-tags: [neuroimaging-fmri, neuroimaging-dti, database-hcp, database-uk-biobank, connectomics, structural-connectivity, functional-connectivity, whole-brain-modeling, personalized-brain-modeling, dataset]
-sources: ["Stein JL et al. Nature Genetics 2012", "van Erp TGM et al. Molecular Psychiatry 2016", "Schmaal L et al. Molecular Psychiatry 2016", "Hibar DP et al. Molecular Psychiatry 2017", "Hoogman M et al. Lancet Psychiatry 2017", "Boedhoe PS et al. American Journal of Psychiatry 2017"]
+updated: '2026-05-06'
 ---
 
-ENIGMA (Enhancing NeuroImaging Genetics through Meta-Analysis) is an international consortium that brings together neuroimaging researchers from dozens of institutions worldwide to perform large-scale collaborative studies on brain structure and function. Founded in 2009 by Professor Paul Thompson of the University of Southern California (USC) and colleagues, ENIGMA pioneered the use of mega-analyses (combining individual participant data rather than summary statistics) to achieve statistical power previously impossible in single-site studies. The consortium has grown to include over 800 investigators across more than 340 institutions in 35 countries, with working groups focused on schizophrenia, major depressive disorder (MDD), bipolar disorder, ADHD, autism, obsessive-compulsive disorder (OCD), and healthy aging. This distributed approach to neuroimaging research has become a template for open science collaboration in the field.
+ENIGMA (Enhancing [[neuroimaging]] Genetics through Meta-Analysis) is an international consortium that brings together neuroimaging researchers from dozens of institutions worldwide to perform large-scale collaborative studies on brain structure and function. Founded in 2009 by Professor Paul Thompson of the University of Southern California (USC) and colleagues, ENIGMA pioneered the use of mega-analyses (combining individual participant data rather than summary statistics) to achieve statistical power previously impossible in single-site studies. The consortium has grown to include over 800 investigators across more than 340 institutions in 35 countries, with working groups focused on schizophrenia, major depressive disorder (MDD), bipolar disorder, ADHD, autism, obsessive-compulsive disorder (OCD), and healthy [[aging]]. This distributed approach to neuroimaging research has become a template for open science collaboration in the field.
 
 ## ENIGMA-Schizophrenia
 
@@ -31,7 +47,7 @@ Before ENIGMA, neuroimaging genetic studies were severely underpowered, typicall
 
 ## Key Datasets and Outputs
 
-ENIGMA has produced several landmark datasets and analytical resources that are widely used in the whole-brain modeling community. The ENIGMA cortical thickness and surface area normative maps provide quantitative estimates of regional brain structure differences across the lifespan and in clinical populations. These effect size maps, expressed as standardized z-scores relative to healthy controls, have been published for schizophrenia (over 4,500 patients), bipolar disorder (over 4,300 patients), major depression (over 10,000 subjects), ADHD (over 3,200 subjects), and OCD (over 3,500 subjects), creating a curated resource for disease biomarker discovery. ENIGMA also maintains public genome-wide association study (GWAS) results through the ENIGMA-Vis interactive portal, allowing researchers to query the effects of specific genetic variants on brain structure measures. All harmonized protocols and analysis pipelines are freely available through the ENIGMA website (enigma.ini.usc.edu), enabling other research groups to implement standardized processing workflows.
+ENIGMA has produced several landmark datasets and analytical resources that are widely used in the [[whole-brain|whole-brain modeling]] community. The ENIGMA cortical thickness and surface area normative maps provide quantitative estimates of regional brain structure differences across the lifespan and in clinical populations. These effect size maps, expressed as standardized z-scores relative to healthy controls, have been published for schizophrenia (over 4,500 patients), bipolar disorder (over 4,300 patients), major depression (over 10,000 subjects), ADHD (over 3,200 subjects), and OCD (over 3,500 subjects), creating a curated resource for disease biomarker discovery. ENIGMA also maintains public genome-wide association study (GWAS) results through the ENIGMA-Vis interactive portal, allowing researchers to query the effects of specific genetic variants on brain structure measures. All harmonized protocols and analysis pipelines are freely available through the ENIGMA website (enigma.ini.usc.edu), enabling other research groups to implement standardized processing workflows.
 
 ## Relationship to TVB
 

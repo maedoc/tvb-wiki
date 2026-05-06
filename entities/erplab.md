@@ -11,7 +11,7 @@ tags:
 - neural-mass-models
 title: ERPLAB
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 ERPLAB is a popular open-source MATLAB toolbox for processing and analyzing event-related potential (ERP) data, designed as a plugin extension to [[eeglab]]. The toolbox provides comprehensive functionality for preprocessing, filtering, artifact rejection, and statistical analysis of ERP waveforms, making it an essential tool for researchers studying cognitive electrophysiology. ERPLAB was developed to address the growing need for specialized ERP analysis tools within the EEGLAB environment, allowing users to leverage EEGLAB's general EEG processing capabilities while adding ERP-specific workflows tailored to the unique requirements of cognitive neuroscience experiments.
@@ -46,5 +46,5 @@ ERPLAB operates within the [[eeglab]] ecosystem, which itself is built on MATLAB
 ## References
 
 1. Xiaobo Liu. (2026). *MLE-Toolbox: An Open-Source Toolbox for Comprehensive EEG and MEG Data Analysis*. [Link](](https://www.semanticscholar.org/paper/e7aaa4f4bb01e70064493684b4500a950f83460f))
-2. D. Y. Lodema, Herman J van Dellen, W. de Haan, Margot van Hest, A. Hillebrand, E. van Dellen. (2026). *EEG-Pype: An accessible Mne Python pipeline with graphical user interface for preprocessing and analysis of [[resting-state]] electroencephalography data.*. PLoS Computational Biology. [DOI](](https://doi.org/10.1371/journal.pcbi.1014043))
+2. D. Y. Lodema, Herman J van Dellen, W. de Haan, Margot van Hest, A. Hillebrand, E. van Dellen. (2026). *EEG-Pype: An accessible [[mne-python]] pipeline with graphical user interface for preprocessing and analysis of [[resting-state]] electroencephalography data.*. PLoS Computational Biology. [DOI](](https://doi.org/10.1371/journal.pcbi.1014043))
 3. M. A. van den Boom, Nicholas M. Gregg, G. Valencia, B. Lundstrom, K. J. Miller, D. van Blooijs, G. Huiskamp, F. Leijten, G. Worrell, Dora [[hermes]]. (2025). *ER-detect: a pipeline for robust detection of early evoked responses in [[bids]]-iEEG electrical stimulation data.*. Journal of Neuroscience Methods. [DOI](](https://doi.org/10.1016/j.jneumeth.2025.110389))

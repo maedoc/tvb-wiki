@@ -23,7 +23,7 @@ Resting-state functional magnetic resonance imaging (rs-fMRI) is a neuroimaging 
 
 The seminal work of Bharat Biswal and colleagues demonstrated that spontaneous low-frequency fluctuations in the BOLD signal exhibit bilateral correlations in the motor cortex of healthy subjects during [[tvb-rest]], even in the absence of any motor task. This discovery, reported in their 1995 paper "Functional [[connectivity]] in the motor cortex of resting human brain using echo-planar MRI," established the phenomenon of resting‑state functional connectivity and launched an entire field of research. The key insight was that temporally correlated [[spontaneous-activity]] could reveal the underlying functional organization of the brain—what would later be formalized as the brain's intrinsic connectivity network architecture.
 
-Subsequent research expanded this initial observation dramatically. The 2007 review by [[michael-fox]] and [[marcus-raichle]] in Nature Reviews Neuroscience provided a comprehensive synthesis of the field, characterizing the default mode network and other major resting‑state networks, discussing the physiological basis of spontaneous fluctuations, and outlining clinical applications. Their work articulated the fundamental paradox that the resting brain exhibits rich, structured spontaneous activity despite the absence of explicit task demands—a finding that challenged the then‑dominant view that baseline brain activity was merely noise. Complementing this, Steven Smith and colleagues (2009) demonstrated striking correspondence between task‑evoked activation patterns and resting‑state connectivity, providing evidence that intrinsic networks reflect the brain's functional organization for task execution, thereby validating resting‑state as a window into cognitive architecture.
+Subsequent research expanded this initial observation dramatically. The 2007 review by [[michael-fox]] and [[marcus-raichle]] in Nature Reviews Neuroscience provided a comprehensive synthesis of the field, characterizing the [[default-mode-network]] and other major resting‑state networks, discussing the physiological basis of spontaneous fluctuations, and outlining clinical applications. Their work articulated the fundamental paradox that the resting brain exhibits rich, structured spontaneous activity despite the absence of explicit task demands—a finding that challenged the then‑dominant view that baseline brain activity was merely noise. Complementing this, Steven Smith and colleagues (2009) demonstrated striking correspondence between task‑evoked activation patterns and resting‑state connectivity, providing evidence that intrinsic networks reflect the brain's functional organization for task execution, thereby validating resting‑state as a window into cognitive architecture.
 
 ## Intrinsic Connectivity Networks
 
@@ -38,7 +38,7 @@ Resting‑state fMRI data, when analyzed using techniques such as independent co
 | Salience | Anterior insula, ACC | Attention, salience detection |
 | Dorsal Attention | FEF, IPS | Spatial attention, eye movements |
 
-The [[default‑mode‑network]] (DMN), perhaps the most extensively studied ICN, exhibits elevated activity during rest and deactivation during task performance—a pattern initially interpreted as reflecting self‑referential mental processes. The DMN's anti‑correlation with task‑positive networks (including the frontoparietal and dorsal attention networks) remains a topic of active investigation and some controversy regarding the appropriate preprocessing methods to employ.
+The [[default‑mode‑network]] (DMN), perhaps the most extensively studied ICN, exhibits elevated activity during [[rest]] and deactivation during task performance—a pattern initially interpreted as reflecting self‑referential mental processes. The DMN's anti‑correlation with task‑positive networks (including the frontoparietal and dorsal attention networks) remains a topic of active investigation and some controversy regarding the appropriate preprocessing methods to employ.
 
 ## Role in Whole‑Brain Modeling
 
@@ -48,7 +48,7 @@ This approach, reviewed extensively by Gustavo Deco and colleagues, has demonstr
 
 ## Reliability, Reproducibility, and Methodological Considerations
 
-Resting‑state fMRI has demonstrated reasonable test‑retest reliability across scanning sessions, supporting its use as a stable target for model parameterization. However, the field has grappled with significant methodological challenges. Head motion introduces systematic artifacts that can spuriously inflate or deflate estimates of functional connectivity—this is particularly problematic for developmental and clinical populations who may have difficulty remaining still during scanning. Physiological artifacts arising from cardiac and respiratory fluctuations also contaminate the BOLD signal and require appropriate filtering or regression strategies.
+Resting‑state fMRI has demonstrated reasonable test‑retest reliability across scanning sessions, supporting its use as a stable target for model parameterization. However, the field has grappled with significant methodological challenges. Head motion introduces systematic artifacts that can spuriously inflate or deflate estimates of functional connectivity—this is particularly problematic for developmental and clinical populations who may have difficulty remaining still during scanning. Physiological artifacts arising from cardiac and respiratory fluctuations also contaminate the [[bold-signal]] and require appropriate filtering or regression strategies.
 
 A persistent controversy in the field concerns global signal regression—a preprocessing step that removes the global mean time series from each voxel's time series. While this approach effectively removes many artifacts, it also introduces anti‑correlations that may not reflect genuine neural activity and can complicate the interpretation of group differences. Alternative approaches include temporal filtering to isolate the relevant frequency band (typically 0.01‑0.1 Hz), component‑based denoising (e.g., CompCor), and ICA‑based artifact removal. The preprocessing pipeline choices can substantially impact the resulting connectivity estimates and thus require careful consideration when using resting‑state data to constrain whole‑brain models.
 
@@ -60,7 +60,7 @@ A persistent controversy in the field concerns global signal regression—a prep
 - [[default‑mode‑network]] – The most extensively studied intrinsic connectivity network
 - [[structural‑connectivity]] – [[white‑matter]] connectivity derived from [[diffusion‑imaging]]
 - [[brain‑network]] – Graph‑theoretic representation of brain connectivity
-- [[dti]] – Diffusion tensor imaging used to estimate structural connectivity
+- [[dti]] – Diffusion tensor imaging used to estimate [[structural-connectivity]]
 - [[whole‑brain]] – Computational models simulating large‑scale [[brain‑dynamics]]
 - [[connectomics]] – The study of the brain's connectome
 - [[spontaneous‑activity]] – Ongoing neural dynamics in the absence of tasks

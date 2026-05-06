@@ -14,7 +14,7 @@ tags:
 - whole-brain-modeling
 title: Larter-Breakspear Model
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # Larter-Breakspear Model
@@ -23,7 +23,7 @@ The Larter-Breakspear model is a conductance-based neural mass model that extend
 
 ## Historical Context and Motivation
 
-The model emerged from a need to understand the collective dynamics of neuronal populations during epileptic seizures. The original lattice model by Larter, Speelman, and Worth (1999) formulated a system of coupled ordinary differential equations describing the membrane potentials of excitatory and inhibitory neural populations. This work built upon the Morris-Lecar formulation, which itself was an extension of the Hodgkin-Huxley model reduced to two variables. The key innovation was the inclusion of coupling between populations that could transition from stable resting dynamics to seizure-like oscillations through parameter variations.
+The model emerged from a need to understand the collective dynamics of neuronal populations during epileptic seizures. The original lattice model by Larter, Speelman, and Worth (1999) formulated a system of coupled ordinary differential equations describing the membrane potentials of excitatory and inhibitory neural populations. This work built upon the Morris-Lecar formulation, which itself was an extension of the [[hodgkin-huxley-model]] reduced to two variables. The key innovation was the inclusion of coupling between populations that could transition from stable resting dynamics to seizure-like oscillations through parameter variations.
 
 Breakspear, Terry, and Friston (2003) substantially refined the model by introducing a third "modulatory" population that captures slow inhibitory dynamics mediated by GABA-B receptors and voltage-dependent conductances. This extension enabled the model to reproduce a richer repertoire of dynamical behaviors including alpha oscillations, burst synchronization, and the transition to seizure-like epileptiform activity. The model thus bridges the gap between single-[[neuron]] conductance-based models and population-level [[neural-mass-models]] like the [[jansen-rit]] model.
 

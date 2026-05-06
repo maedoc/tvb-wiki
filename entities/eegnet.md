@@ -52,5 +52,5 @@ Another significant direction of research has focused on **domain adaptation** a
 ## References
 
 1. Xiangyu Xue, Liankun Ren, Hongyu Zhou, Anqi Dai, Di Wang, Huaqiang Zhang. (2026). *DiffLSTM-MTE: A Hybrid LSTM-Diffusion Framework for Virtual iEEG Reconstruction From MEG*. IEEE Access. [DOI](](https://doi.org/10.1109/ACCESS.2026.3665952))
-2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and [[whole-brain]] Propagation*. [Link](](https://arxiv.org/abs/2505.16861))
+2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale [[co-simulation]] Framework with a Case Study on Neural-Level Seizure Generation and [[whole-brain]] Propagation*. [Link](](https://arxiv.org/abs/2505.16861))
 3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](](https://doi.org/10.3389/fncom.2025.1731161))

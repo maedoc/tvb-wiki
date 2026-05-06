@@ -28,7 +28,7 @@ The TRC Toolkit offers several core capabilities that distinguish it from other 
 
 Second, the toolkit provides robust methods for deconvolution of fMRI [[bold-signal|BOLD]] signals to estimate underlying neural activity, implementing algorithms such as Wiener filtering, Bayesian temporal deconvolution, and adaptive kernel regression. This functionality is particularly valuable for researchers working with [[resting-state]] data who need to characterize intrinsic fluctuations versus stimulus-evoked responses.
 
-Third, the TRC Toolkit includes specialized visualization tools for displaying temporal response properties across cortical regions, with integration hooks for popular neuroimaging packages including [[nilearn]], Mne Python, and Fieldtrip. The visualization module supports display of response latencies, amplitudes, and dispersion parameters as cortical maps or region-of-interest time series.
+Third, the TRC Toolkit includes specialized visualization tools for displaying temporal response properties across cortical regions, with integration hooks for popular neuroimaging packages including [[nilearn]], [[mne-python]], and Fieldtrip. The visualization module supports display of response latencies, amplitudes, and dispersion parameters as cortical maps or region-of-interest time series.
 
 ## Relationship to TVB
 

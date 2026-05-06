@@ -63,7 +63,7 @@ While MELODIC remains the most widely cited ICA tool for fMRI, several alternati
 
 [salimi2014automatic]: Salimi-Khorshidi, G., Douaud, G., Beckmann, C. F., Glasser, M. F., Griffanti, L., & Smith, S. M. (2014). Automatic denoising of functional MRI data: Integrating ICA-AROMA and alternative strategies. *Frontiers in Neuroscience*, 8, 355.
 
-[smith2009resting]: Smith, S. M., Fox, P. T., Miller, K. L., Glahn, D. C., Fox, P. M., Mackay, C. E., ... & Beckmann, C. F. (2009). Correspondence of the brain's functional architecture during activation and rest. *Proceedings of the National Academy of Sciences*, 106(31), 13040-13045.
+[smith2009resting]: Smith, S. M., Fox, P. T., Miller, K. L., Glahn, D. C., Fox, P. M., Mackay, C. E., ... & Beckmann, C. F. (2009). Correspondence of the brain's functional architecture during activation and [[rest]]. *Proceedings of the National Academy of Sciences*, 106(31), 13040-13045.
 
 [hyvarinen1999fast]: Hyvärinen, A. (1999). Fast and robust fixed-point algorithms for independent component analysis. *IEEE Transactions on Neural Networks*, 10(3), 626-634.
 

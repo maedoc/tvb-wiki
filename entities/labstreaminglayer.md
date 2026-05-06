@@ -11,7 +11,7 @@ tags:
 - electrophysiology
 title: LabStreamingLayer
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # LabStreamingLayer
@@ -40,7 +40,7 @@ The relationship between LSL and TVB is therefore one of complementary tools rat
 
 ## Related Software and Tools
 
-LSL integrates with several other software packages in the neuroimaging ecosystem. The [[eeglab]] environment includes the **LSL Plugin** for streaming EEG data directly from LSL streams into EEGLAB for analysis, enabling researchers to combine real-time preprocessing with the extensive analysis capabilities of the EEGLAB toolbox [@eeglab-lsl-plugin]. The Mne Python library provides native LSL support through its `mne.io.Stream` module, allowing seamless integration with the MNE ecosystem for source reconstruction and [[connectivity]] analysis.
+LSL integrates with several other software packages in the neuroimaging ecosystem. The [[eeglab]] environment includes the **LSL Plugin** for streaming EEG data directly from LSL streams into EEGLAB for analysis, enabling researchers to combine real-time preprocessing with the extensive analysis capabilities of the EEGLAB toolbox [@eeglab-lsl-plugin]. The [[mne-python]] library provides native LSL support through its `mne.io.Stream` module, allowing seamless integration with the MNE ecosystem for source reconstruction and [[connectivity]] analysis.
 
 For brain-computer interface applications, LSL is commonly used alongside [[bcilab]] (which was developed by the same group at SCCN) to implement real-time classifier training and decoding pipelines. The system also works with Fieldtrip for near-real-time analysis and with the Brainstorm software for visualization. In terms of data format, LSL data can be exported to standard neuroimaging formats like [[nifti]] or [[bids]]-compliant formats for offline analysis, bridging the gap between real-time experimentation and post-hoc processing in tools like Freesurfer or Spm.
 

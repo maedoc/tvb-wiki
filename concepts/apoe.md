@@ -1,43 +1,64 @@
 ---
-title: APOE
 created: 2026-04-20
-updated: 2026-05-06
-type: concept
-tags: [alzheimers-modeling, aging-brain, personalized-brain-modeling, brain-reserve, cognitive-reserve]
 sources:
-  - id: apoe-genetics-review
-    title: "APOE and Alzheimer's disease: genetics, pathophysiology, and therapeutic opportunities"
-    authors: ["Siddhartha Kumar", "Kumar K", "John H. K. Chen"]
-    journal: "Trends in Molecular Medicine"
-    year: 2023
-    doi: "10.1016/j.molmed.2023.01.003"
-  - id: apoe-imaging-meta
-    title: "APOE ε4 affects brain structure and function in cognitively normal individuals: a meta-analysis"
-    authors: ["Chen Y", "Dou X", "Zhou Q"]
-    journal: "Neurology"
-    year: 2022
-    doi: "10.1212/WNL.0000000000207456"
-  - id: apoe-white-matter
-    title: "White matter integrity in APOE ε4 carriers: a diffusion tensor imaging study"
-    authors: ["Heise V", "Filippini N", "Ebmeier KP"]
-    journal: "Neurobiology of Aging"
-    year: 2021
-    doi: "10.1016/j.neurobiolaging.2020.08.016"
-  - id: apoe-population-freq
-    title: "APOE allele frequencies in worldwide populations: a systematic review"
-    authors: ["Eisenstein M"]
-    journal: "Human Genetics"
-    year: 2021
-    doi: "10.1007/s00439-021-02320-0"
-  - id: apoe-tvb-integration
-    title: "Personalized brain models incorporating APOE genotype for Alzheimer's disease prediction"
-    authors: ["Zhu G", "Zhou Y", "McIntosh AL"]
-    journal: "PLoS Computational Biology"
-    year: 2024
-    doi: "10.1371/journal.pcbi.1012345"
+- authors:
+  - Siddhartha Kumar
+  - Kumar K
+  - John H. K. Chen
+  doi: 10.1016/j.molmed.2023.01.003
+  id: apoe-genetics-review
+  journal: Trends in Molecular Medicine
+  title: 'APOE and Alzheimer''s disease: genetics, pathophysiology, and therapeutic
+    opportunities'
+  year: 2023
+- authors:
+  - Chen Y
+  - Dou X
+  - Zhou Q
+  doi: 10.1212/WNL.0000000000207456
+  id: apoe-imaging-meta
+  journal: Neurology
+  title: 'APOE ε4 affects brain structure and function in cognitively normal individuals:
+    a meta-analysis'
+  year: 2022
+- authors:
+  - Heise V
+  - Filippini N
+  - Ebmeier KP
+  doi: 10.1016/j.neurobiolaging.2020.08.016
+  id: apoe-white-matter
+  journal: Neurobiology of Aging
+  title: 'White matter integrity in APOE ε4 carriers: a diffusion tensor imaging study'
+  year: 2021
+- authors:
+  - Eisenstein M
+  doi: 10.1007/s00439-021-02320-0
+  id: apoe-population-freq
+  journal: Human Genetics
+  title: 'APOE allele frequencies in worldwide populations: a systematic review'
+  year: 2021
+- authors:
+  - Zhu G
+  - Zhou Y
+  - McIntosh AL
+  doi: 10.1371/journal.pcbi.1012345
+  id: apoe-tvb-integration
+  journal: PLoS Computational Biology
+  title: Personalized brain models incorporating APOE genotype for Alzheimer's disease
+    prediction
+  year: 2024
+tags:
+- alzheimers-modeling
+- aging-brain
+- personalized-brain-modeling
+- brain-reserve
+- cognitive-reserve
+title: APOE
+type: concept
+updated: '2026-05-06'
 ---
 
-Apolipoprotein E (APOE) is a polymorphic glycoprotein encoded by the APOE gene on chromosome 19 that plays a critical role in lipid transport and neuronal maintenance in the central nervous system. In the context of whole-brain modeling and computational neuroscience, APOE represents a key biological factor that modulates brain network dynamics, structural connectivity integrity, and the progression of age-related neurodegenerative diseases. The protein is synthesized primarily by astrocytes in the brain, where it facilitates the redistribution of lipids between neurons and glial cells, supporting synaptic maintenance, membrane reconstruction, and myelin sheath stability. Three common alleles—APOE ε2, ε3, and ε4—produce proteins with distinct functional properties that have been extensively studied in relation to cognitive decline, Alzheimer's disease risk, and brain network organization.
+Apolipoprotein E (APOE) is a polymorphic glycoprotein encoded by the APOE gene on chromosome 19 that plays a critical role in lipid transport and neuronal maintenance in the central nervous system. In the context of [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]], APOE represents a key biological factor that modulates brain [[network-dynamics]], structural [[connectivity]] integrity, and the progression of age-related neurodegenerative diseases. The protein is synthesized primarily by astrocytes in the brain, where it facilitates the redistribution of lipids between neurons and glial cells, supporting synaptic maintenance, membrane reconstruction, and myelin sheath stability. Three common alleles—APOE ε2, ε3, and ε4—produce proteins with distinct functional properties that have been extensively studied in relation to cognitive decline, Alzheimer's disease risk, and [[brain-network]] organization.
 
 ## Genetic Polymorphism and Functional Consequences
 
@@ -66,7 +87,7 @@ Despite extensive research, several open questions remain regarding APOE's mecha
 - [[brain-reserve]] – The neurobiological substrate that APOE may influence across the lifespan
 - [[cognitive-reserve]] – Functional capacity that shows APOE-related variation
 - [[default-mode-network]] – Functional network showing APOE-associated connectivity changes
-- [[structural-connectivity]] – White matter architecture modulated by APOE genotype
+- [[structural-connectivity]] – [[white-matter]] architecture modulated by APOE genotype
 - [[whole-brain-modeling]] – Modeling framework where APOE can inform personalized parameters
 - [[personalized-brain-modeling]] – The approach of incorporating individual biological factors including genetics
 - [[the-virtual-brain]] – Platform for whole-brain modeling that can integrate genetic factors

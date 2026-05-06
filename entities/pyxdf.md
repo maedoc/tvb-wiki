@@ -51,7 +51,7 @@ A notable aspect of XDF is its support for **embedded meta-events**, including m
 PyXDF exists within a broader ecosystem of data format tools and analysis frameworks:
 
 - [[eeglab]] — MATLAB-based toolbox for EEG/MEG processing; the xdf-EEGLAB plugin provides XDF loading capabilities in MATLAB[^3]
-- Mne Python — Python library for MEG and EEG analysis that can import data processed through PyXDF
+- [[mne-python]] — Python library for MEG and EEG analysis that can import data processed through PyXDF
 - Fieldtrip — MATLAB toolbox for neuroimaging analysis with strong support for epoching and source reconstruction
 - Brainstorm — Open-source MATLAB toolbox focused on EEG and MEG source estimation
 - [[pyedflib]] — Python library for reading EDF (European Data Format) files, another common electrophysiology format

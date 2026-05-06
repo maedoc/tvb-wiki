@@ -31,7 +31,7 @@ The extended 10-10 system addresses this limitation by introducing intermediate 
 
 Accurate EEG source localization requires transforming electrode positions through multiple coordinate frames. The native or "head" coordinate system is established during digitization, with the origin typically defined at the midpoint between the preauricular points or at the intersection of the nasion and mid-inion line. These native coordinates must then be registered to the scanner's native MRI space, and subsequently transformed to a standard template space such as [[mni-space]] (Montreal Neurological Institute space) to enable group-level analyses and comparison with other neuroimaging modalities including [[fmri]] and [[meg]].
 
-This coregistration process typically involves identifying fiducial landmarks in both the native digitization and MRI datasets, followed by rigid-body transformation and optionally non-rigid deformation for improved accuracy. The transformation matrix (often stored in "-trans.fif" format in Mne Python) encodes the relationship between the head coordinate frame and the MRI scanner space.
+This coregistration process typically involves identifying fiducial landmarks in both the native digitization and MRI datasets, followed by rigid-body transformation and optionally non-rigid deformation for improved accuracy. The transformation matrix (often stored in "-trans.fif" format in [[mne-python]]) encodes the relationship between the head coordinate frame and the MRI scanner space.
 
 ## Forward Modeling and Leadfield Computation
 

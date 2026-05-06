@@ -23,7 +23,7 @@ The Python ecosystem for brain connectivity analysis has matured considerably, w
 
 [[the-virtual-brain]] (TVB) is a comprehensive platform for whole-brain modeling that integrates [[structural-connectivity]] derived from [[diffusion-imaging]] with [[neural-mass-models]] to simulate [[brain-dynamics]]. While TVB provides its own built-in analysis tools through the [[tvb-library]], researchers often complement TVB workflows with external Python packages for specialized tasks such as:
 
-- Preprocessing of neuroimaging data using packages like Mne Python for [[electrophysiology]]
+- Preprocessing of neuroimaging data using packages like [[mne-python]] for [[electrophysiology]]
 - Advanced connectivity metrics unavailable in TVB's core distribution
 - Graph-theoretical analyses using [[bctpy]] or similar packages
 - Connectivity-based [[parcellation]] using Nilearn functionality

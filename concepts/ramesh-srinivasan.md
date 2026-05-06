@@ -1,10 +1,17 @@
 ---
-title: EEG Neurophysics
 created: 2026-04-27
-updated: 2026-05-06
+sources:
+- raw/papers/nunez-srinivasan-2006.md
+tags:
+- neuroimaging-eeg
+- volume-conduction
+- source-localization
+- neural-mass-models
+- brain-oscillations
+- tutorial
+title: EEG Neurophysics
 type: concept
-tags: [neuroimaging-eeg, volume-conduction, source-localization, neural-mass-models, brain-oscillations, tutorial]
-sources: [raw/papers/nunez-srinivasan-2006.md]
+updated: '2026-05-06'
 ---
 
 The neurophysics of electroencephalography (EEG) encompasses the physical principles underlying the generation, propagation, and measurement of electric fields produced by neural activity in the brain. This domain bridges [[computational-neuroscience]] with electromagnetic theory, providing the foundational framework for interpreting scalp-recorded EEG signals and for relating [[neural-mass-model]] activity to measurable electrophysiological data.
@@ -29,13 +36,13 @@ Reconstructing the intracranial sources of observed scalp potentials constitutes
 - **Distributed source models**: Estimating activation across a dense grid of candidate locations, typically constrained by anatomical priors from [[brain-parcellation|parcellation]] schemas
 - **Beamforming**: Spatial filtering techniques that pass neural activity from specific locations while attenuating contributions from other regions
 
-The choice of inverse solution profoundly affects the interpretation of EEG data in [[whole-brain-modeling]], where model parameters are often fit to empirical connectivity estimates derived from source-space EEG.
+The choice of inverse solution profoundly affects the interpretation of EEG data in [[whole-brain-modeling]], where model parameters are often fit to empirical [[connectivity]] estimates derived from source-space EEG.
 
 ## Relationship to Whole-Brain Modeling
 
 The [[the-virtual-brain]] and similar [[whole-brain-modeling]] frameworks require forward models to predict EEG (and [[neuroimaging-meg|MEG]]) signals from simulated neural activity. Understanding volume conduction is essential for:
 
-1. **Model validation**: Comparing simulated source activity to empirical EEG recordings requires a biophysically realistic forward model
+1. **[[model-validation]]**: Comparing simulated source activity to empirical EEG recordings requires a biophysically realistic forward model
 2. **Connectivity estimation**: EEG-derived functional connectivity depends critically on how volume conduction effects are handled in preprocessing
 3. **Source-space analysis**: Moving from sensor space to source space enables comparison with [[structural-connectivity]] anatomy derived from [[dti|DTI]]
 

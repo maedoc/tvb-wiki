@@ -30,7 +30,7 @@ Several separate, independent projects provide BDF reading capabilities and can 
 
 - **pybdf**: Authored by Samuele Carcagno, this Python library provides focused functionality specifically for BioSemi BDF files, offering low-level header access and efficient data reading with optional parameters for time window or channel subset selection
 - **[[pyedflib]]**: A general EDF/BDF read/write toolbox (published by Bein, 2018 in the Journal of Open Source Software) based on EDFlib by Teunis van Beelen, supporting both reading and writing of BDF files
-- **MNE-Python**: The comprehensive EEG/MEG analysis package (Gramfort et al., 2013, Frontiers in Neuroinformatics) includes native BDF import via `mne.io.read_raw_bdf()`, automatically handling channel type inference, montage assignment, and conversion to MNE's internal Raw object representation
+- **[[mne-python]]**: The comprehensive EEG/MEG analysis package (Gramfort et al., 2013, Frontiers in Neuroinformatics) includes native BDF import via `mne.io.read_raw_bdf()`, automatically handling channel type inference, montage assignment, and conversion to MNE's internal Raw object representation
 - **eegtools**: A Python package that includes BDF loader components for legacy data handling
 
 ## Motivation and Context

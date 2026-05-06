@@ -33,12 +33,12 @@ sources:
 - raw/papers/ritter-2013.md
 - raw/papers/arxiv-2512.03907.md
 tags:
-- neural-mass-models
-- spiking-neural-networks
-- neuron
-- neuroml
-- connectomics
-- parameter-estimation
+- [[neural-mass-models]]
+- [[spiking-neural-networks]]
+- [[neuron]]
+- [[neuroml]]
+- [[connectomics]]
+- [[parameter-estimation]]
 title: c302
 type: entity
 updated: '2026-05-06'

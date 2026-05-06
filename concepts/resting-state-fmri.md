@@ -1,13 +1,32 @@
 ---
-title: Resting-State fMRI
 created: 2025-01-15
-updated: 2026-05-06
+sources:
+- biswal-1995
+- greicius-2004
+- fox-2007
+- buckner-2008
+- van-den-heuvel-2010
+- bullmore-2009
+- menon-2013
+- smith-2009
+- powers-2014
+- zhang-2016
+- hutchison-2013
+- raichle-2001
+tags:
+- resting-state
+- neuroimaging-fmri
+- functional-connectivity
+- brain-network
+- resting-state-fmri
+- default-mode-network
+- intrinsic-connectivity-networks
+title: Resting-State fMRI
 type: concept
-tags: [resting-state, neuroimaging-fmri, functional-connectivity, brain-network, resting-state-fmri, default-mode-network, intrinsic-connectivity-networks]
-sources: [biswal-1995, greicius-2004, fox-2007, buckner-2008, van-den-heuvel-2010, bullmore-2009, menon-2013, smith-2009, powers-2014, zhang-2016, hutchison-2013, raichle-2001]
+updated: '2026-05-06'
 ---
 
-Resting-state fMRI (rs-fMRI) is a neuroimaging technique that measures spontaneous low-frequency fluctuations (< 0.1 Hz) in the blood-oxygen-level-dependent (BOLD) signal while a subject lies quietly in the scanner without performing any explicit task [[biswal-1995]]. Unlike task-based fMRI, which probes evoked responses to external stimuli or internal cognitive operations, resting-state fMRI captures the brain's intrinsic organization—the architecture of coherent spontaneous activity that emerges in the absence of goal-directed behavior.
+[[resting-state|Resting-state fMRI]] (rs-[[fmri]]) is a [[neuroimaging]] technique that measures spontaneous low-frequency fluctuations (< 0.1 Hz) in the blood-oxygen-level-dependent ([[bold-signal|BOLD]]) signal while a subject lies quietly in the scanner without performing any explicit task [[biswal-1995]]. Unlike task-based fMRI, which probes evoked responses to external stimuli or internal cognitive operations, resting-state fMRI captures the brain's intrinsic organization—the architecture of coherent [[spontaneous-activity]] that emerges in the absence of goal-directed behavior.
 
 ## Motivation and Historical Context
 
@@ -33,7 +52,7 @@ A key distinction in functional neuroimaging is between [[resting-state-vs-task-
 
 ## Current Applications and Open Questions
 
-Resting-state fMRI has revealed altered connectivity patterns in numerous neurological and psychiatric conditions, including Alzheimer's disease [[zhang-2016]], schizophrenia [[menon-2013]], major depression, and epilepsy. Biomarkers derived from resting-state connectivity show promise for differential diagnosis, treatment response prediction, and longitudinal disease monitoring. For example, connectivity changes in the default-mode network have been associated with treatment response in depression and schizophrenia, while altered interhemispheric synchronization patterns serve as biomarkers for early detection of epileptogenic zones.
+Resting-state fMRI has revealed altered [[connectivity]] patterns in numerous neurological and psychiatric conditions, including Alzheimer's disease [[zhang-2016]], schizophrenia [[menon-2013]], major depression, and epilepsy. Biomarkers derived from resting-state connectivity show promise for differential diagnosis, treatment response prediction, and longitudinal disease monitoring. For example, connectivity changes in the default-mode network have been associated with treatment response in depression and schizophrenia, while altered interhemispheric synchronization patterns serve as biomarkers for early detection of epileptogenic zones.
 
 However, several open questions remain regarding the physiological interpretation of functional connectivity—correlation does not imply direct anatomical connection, and the relationship between slow BOLD fluctuations and faster neural oscillations (as measured by [[eeg]] or [[meg]]) remains incompletely understood. Methodological considerations such as global signal regression, motion artifact mitigation, and test-retest reliability continue to be active areas of investigation, with reproducibility initiatives highlighting both the power and limitations of current approaches [[power-2014]].
 

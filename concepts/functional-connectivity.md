@@ -130,7 +130,7 @@ Cognitive neuroscientist specializing in the default
 
 1. (authors unknown). *Functional connectivity in the motor cortex of resting human brain using echo-planar MRI*.
 2. (authors unknown). *Spontaneous fluctuations in brain activity observed with functional magnetic resonance imaging*.
-3. (authors unknown). *Correspondence of the brain's functional architecture during activation and rest*.
+3. (authors unknown). *Correspondence of the brain's functional architecture during activation and [[rest]]*.
 4. (authors unknown). *Functional Connectivity: The Principal-Component Analysis of Large (PET and fMRI) Data Sets*.
 5. (authors unknown). *Predicting Human Resting-State Functional Connectivity from Structural Connectivity*.
 6. (authors unknown). *Functional Network Organization of the Human Brain*.

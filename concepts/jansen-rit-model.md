@@ -33,11 +33,11 @@ sources:
 - raw/papers/semanticscholar-eb704b6f5462.md
 - raw/papers/sanz-leon-2013.md
 tags:
-- software-brian
+- software-[[brian]]
 - software-brain-modeling
-- neural-network
+- [[neural-network]]
 - computational-neuroscience
-- hybrid-architecture
+- [[hybrid-architecture]]
 title: BriCA2
 type: entity
 updated: '2026-05-06'

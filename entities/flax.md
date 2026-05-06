@@ -36,7 +36,7 @@ The relationship between Flax and neuroscience software extends to the broader P
 
 ## Relationship to Other Libraries
 
-Flax occupies a distinct niche alongside other Mne Python-based neural network frameworks. Compared to [[tensorflow]] with Keras, Flax offers more granular control over training loops and better integration with JAX's functional ecosystem. Compared to [[pytorch-geometric]], Flax provides different semantics that may require a learning adjustment but offer advantages for mathematical modeling. Within the JAX ecosystem, Flax competes with haiku (also from Google Research) and equinox (a community library), each with different design tradeoffs. For researchers already invested in the JAX ecosystem—common in scientific computing due to JAX's strong automatic differentiation capabilities—Flax represents a mature choice for implementing neural network components in brain modeling pipelines.
+Flax occupies a distinct niche alongside other [[mne-python]]-based neural network frameworks. Compared to [[tensorflow]] with Keras, Flax offers more granular control over training loops and better integration with JAX's functional ecosystem. Compared to [[pytorch-geometric]], Flax provides different semantics that may require a learning adjustment but offer advantages for mathematical modeling. Within the JAX ecosystem, Flax competes with haiku (also from Google Research) and equinox (a community library), each with different design tradeoffs. For researchers already invested in the JAX ecosystem—common in scientific computing due to JAX's strong automatic differentiation capabilities—Flax represents a mature choice for implementing neural network components in brain modeling pipelines.
 
 ## Key Papers
 
