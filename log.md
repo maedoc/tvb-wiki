@@ -8,6 +8,13 @@
 - Updated frontmatter with proper tags (software-neural-simulators, reservoir-computing, recurrent-neural-networks, spiking-neural-networks, python, whole-brain-modeling, network-dynamics)
 
 ## 2026-05-06
+- Improved [[abide]] page - fixed frontmatter tags (removed incorrect database-hcp tag), added [[bids]] and [[graph-theory]] wikilinks
+- Tags now correctly set to [neuroimaging-fmri, resting-state, neurodevelopment]
+- Added wikilink for graph-theory in analysis methods section
+- Added wikilink for BIDS in data access section
+- All wikilinks verified against current page inventory
+
+## 2026-05-06
 - Created [[brica2]] page - comprehensive content about Brain-inspired Computing Architecture version 2
 - Added sections on overview, key features (C++ core, pybind11 bindings, message-passing architecture)
 - Included relationship to TVB explaining complementary purposes (TVB for clinical modeling, BriCA2 for cognitive architecture)
@@ -303,3 +310,5 @@
 ## [2026-05-06 09:12] Audit: 909 issues (82 broken links, 48 orphans, 17 placeholders, 0 dup-refs, 5 bad-meta, 85 citation-verify, 11 opaque-refs, 72 thin, 358 missing-links)
 
 ## [2026-05-06 09:16] CrosslinkApplier: added 107 wikilinks (107 inline, 0 suggested)
+
+## [2026-05-06 09:21] DeepResearch: 2 papers added via focused research
