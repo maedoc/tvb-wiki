@@ -90,18 +90,18 @@ Future development directions include integration with [[Bayesian]] inference fr
 
 ## References
 
-[[1]] Huntenburg JM, Steele CJ, Bazin P-L (2018) Nighres: processing tools for high-resolution neuroimaging. GigaScience 7: giy082. https://doi.org/10.1093/gigascience/giy082
+[1] Huntenburg JM, Steele CJ, Bazin P-L (2018) Nighres: processing tools for high-resolution neuroimaging. GigaScience 7: giy082. https://doi.org/10.1093/gigascience/giy082
 
-[[2]] Marques JP, Kober T, Krueger G, et al. (2010) MP2RAGE, a self bias-field corrected sequence for improved segmentation and T1-mapping at high field. NeuroImage 49(2): 1271-81. https://doi.org/10.1016/j.neuroimage.2009.10.002
+[2] Marques JP, Kober T, Krueger G, et al. (2010) MP2RAGE, a self bias-field corrected sequence for improved segmentation and T1-mapping at high field. NeuroImage 49(2): 1271-81. https://doi.org/10.1016/j.neuroimage.2009.10.002
 
-[[3]] Bazin PL, Weiss M, Dinse J, et al. (2014) A computational framework for ultra-high resolution cortical segmentation at 7Tesla. NeuroImage 93(2): 201-209. https://doi.org/10.1016/j.neuroimage.2013.03.077
+[3] Bazin PL, Weiss M, Dinse J, et al. (2014) A computational framework for ultra-high resolution cortical segmentation at 7Tesla. NeuroImage 93(2): 201-209. https://doi.org/10.1016/j.neuroimage.2013.03.077
 
-[[4]] Waehnert MD, Dinse J, Weiss M, et al. (2014) Anatomically motivated modeling of cortical laminae. NeuroImage 93(2): 210-220. https://doi.org/10.1016/j.neuroimage.2013.03.078
+[4] Waehnert MD, Dinse J, Weiss M, et al. (2014) Anatomically motivated modeling of cortical laminae. NeuroImage 93(2): 210-220. https://doi.org/10.1016/j.neuroimage.2013.03.078
 
-[[5]] Huber L, Handwerker DA, Jangraw DC, et al. (2017) High-resolution CBV-fMRI allows mapping of laminar activity and connectivity of cortical input and output in human M1. Neuron 96(6): 1253-1263. https://doi.org/10.1016/j.neuron.2017.11.005
+[5] Huber L, Handwerker DA, Jangraw DC, et al. (2017) High-resolution CBV-fMRI allows mapping of laminar activity and connectivity of cortical input and output in human M1. Neuron 96(6): 1253-1263. https://doi.org/10.1016/j.neuron.2017.11.005
 
-[[6]] Hubers L, Polimeni JR, Urlins L (2021) LAYNII software for laminar fMRI. https://github.com/layerfMRI/LAYNII
+[6] Hubers L, Polimeni JR, Urlins L (2021) LAYNII software for laminar fMRI. https://github.com/layerfMRI/LAYNII
 
-[[7]] Waehnert MD, Dinse J, Schäfer A, et al. (2016) A subject-specific framework for in vivo myeloarchitectonic analysis using high resolution quantitative MRI. NeuroImage 125: 94-107. https://doi.org/10.1016/j.neuroimage.2015.10.001
+[7] Waehnert MD, Dinse J, Schäfer A, et al. (2016) A subject-specific framework for in vivo myeloarchitectonic analysis using high resolution quantitative MRI. NeuroImage 125: 94-107. https://doi.org/10.1016/j.neuroimage.2015.10.001
 
-[[8]] Keuken MC, Bazin PL, Crown L, et al. (2014) Quantifying inter-individual anatomical variability in the subcortex using 7T structural MRI. NeuroImage 94: 40-46. https://doi.org/10.1016/j.neuroimage.2014.03.032
+[8] Keuken MC, Bazin PL, Crown L, et al. (2014) Quantifying inter-individual anatomical variability in the subcortex using 7T structural MRI. NeuroImage 94: 40-46. https://doi.org/10.1016/j.neuroimage.2014.03.032
