@@ -4,6 +4,9 @@ sources:
 - https://doi.org/10.7554/eLife.86365
 - https://brainpy.readthedocs.io/
 - https://github.com/PKU-NIP-Lab/BrainPy
+- raw/papers/arxiv-2509.02799.md
+- raw/papers/arxiv-2505.16861.md
+- raw/papers/semanticscholar-eb704b6f5462.md
 tags:
 - software-brain-modeling
 - spiking-neural-networks

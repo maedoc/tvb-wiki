@@ -1,6 +1,9 @@
 ---
 created: 2026-05-04
-sources: []
+sources:
+- raw/papers/semanticscholar-de2622579d45.md
+- raw/papers/semanticscholar-5c84b271b035.md
+- raw/papers/sanz-leon-2013.md
 tags:
 - software-neuroml
 - spiking-neural-networks

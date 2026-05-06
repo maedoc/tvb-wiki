@@ -1,4 +1,8 @@
 ---
+sources:
+- raw/papers/schirner-2018.md
+- raw/papers/ritter-2013.md
+- raw/papers/sanz-leon-2013.md
 updated: '2026-05-06'
 ---
 

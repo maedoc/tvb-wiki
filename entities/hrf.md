@@ -3,6 +3,9 @@ created: 2026-05-04
 sources:
 - raw/papers/friston-1998-hrf.md
 - raw/papers/glover-1999-hrf.md
+- raw/papers/semanticscholar-a6fa6ab4802f.md
+- raw/papers/semanticscholar-93f48c3ba433.md
+- raw/papers/semanticscholar-c836b6f72ba9.md
 tags:
 - neuroimaging-fmri
 - neural-mass-models

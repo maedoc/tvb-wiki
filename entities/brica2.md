@@ -4,6 +4,9 @@ sources:
 - https://github.com/BriCA/BriCA2
 - https://pypi.org/project/BriCA2/
 - https://link.springer.com/chapter/10.1007/978-3-319-46687-3_37
+- raw/papers/arxiv-2505.16861.md
+- raw/papers/semanticscholar-eb704b6f5462.md
+- raw/papers/sanz-leon-2013.md
 tags:
 - software-brian
 - software-brain-modeling

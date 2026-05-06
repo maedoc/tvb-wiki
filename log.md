@@ -301,3 +301,5 @@
 ## [2026-05-06 09:11] Ingest: 2 new papers, 0 stubs created
 
 ## [2026-05-06 09:12] Audit: 909 issues (82 broken links, 48 orphans, 17 placeholders, 0 dup-refs, 5 bad-meta, 85 citation-verify, 11 opaque-refs, 72 thin, 358 missing-links)
+
+## [2026-05-06 09:16] CrosslinkApplier: added 107 wikilinks (107 inline, 0 suggested)

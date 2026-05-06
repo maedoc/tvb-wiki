@@ -3,6 +3,7 @@ created: 2026-05-05
 sources:
 - https://www.thevirtualbrain.org
 - https://github.com/thevirtualbrain/tvb-webui
+- raw/papers/sanz-leon-2013.md
 tags:
 - software-brain-modeling
 title: TVB-WebUI

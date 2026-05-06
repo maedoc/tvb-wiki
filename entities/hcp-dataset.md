@@ -4,6 +4,7 @@ sources:
 - raw/papers/van-essen-2013.md
 - raw/papers/barch-2013.md
 - raw/papers/smith-2013-hcp.md
+- raw/papers/arxiv-2510.05325.md
 tags:
 - database-hcp
 - neuroimaging-fmri
