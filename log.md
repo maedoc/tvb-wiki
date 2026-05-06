@@ -413,3 +413,7 @@
 ## [2026-05-06 15:29] Matcher: 43 pages got 114 new sources
 
 ## [2026-05-06 15:38] Improve: 5 pages improved (consciousness-models, community-detection, brainstorm, izhikevich-neuron-model, fitzhugh-nagumo-model)
+
+## [2026-05-06 15:45] Librarian: catalog rebuilt, 8198 asymmetric links noted
+
+## [2026-05-06 15:45] Linter: 78 broken links, 45 orphans, 18 stale, 9 empty
