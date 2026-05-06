@@ -1,10 +1,16 @@
 ---
-title: Reproducibility
 created: 2025-01-15
-updated: 2026-05-06
+sources:
+- raw/papers/jordan-2018.md
+tags:
+- reproducibility
+- open-science
+- software-tools
+- data-formats
+- best-practices
+title: Reproducibility
 type: concept
-tags: [reproducibility, open-science, software-tools, data-formats, best-practices]
-sources: [raw/papers/jordan-2018.md]
+updated: '2026-05-06'
 ---
 
 # Reproducibility
@@ -46,3 +52,7 @@ Despite significant progress, reproducibility remains challenging in practice. C
 ## Relationship to Related Concepts
 
 Reproducibility intersects with multiple other concepts in this wiki. It serves as a prerequisite for effective [[model-validation]], enabling independent verification that models capture target phenomena. The standardization efforts underlying reproducible pipelines connect closely to [[bids]] and [[neurodata-without-borders]] data formats. Software containers support reproducible execution across the spectrum of [[spiking-neural-networks]] simulations (via [[nest]] and [[brian2]]) and [[neural-mass-models]] implementations (via [[the-virtual-brain]]). The growing emphasis on reproducibility reflects broader trends in [[open-science]] and [[reproducibility]] movements across computational science more broadly.
+
+## References
+
+1. Jordan et al. (2018). *Extremely scalable spiking neuronal network simulation code: from laptops to exascale computers*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2018.00002)

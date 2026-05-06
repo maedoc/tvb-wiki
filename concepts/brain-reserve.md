@@ -1,10 +1,17 @@
 ---
-title: Brain Reserve
 created: 2026-04-20
-updated: 2026-05-06
+sources:
+- raw/papers/buckner-2004.md
+- raw/papers/cabeza-2018.md
+tags:
+- brain-reserve
+- cognitive-reserve
+- aging-brain
+- brain-maintenance
+- compensation
+title: Brain Reserve
 type: concept
-tags: [brain-reserve, cognitive-reserve, aging-brain, brain-maintenance, compensation]
-sources: [raw/papers/buckner-2004.md, raw/papers/cabeza-2018.md]
+updated: '2026-05-06'
 ---
 
 Brain reserve refers to the structural capacity of the brain to withstand pathology and functional decline without exhibiting overt cognitive impairment. This concept emerged from the observation that seemingly identical levels of neuropathology can produce markedly different cognitive outcomes across individuals. Brain reserve is fundamentally a **passive** reserve mechanism — it represents the structural substrate, such as total brain volume, neuron count, synaptic density, and white matter integrity, that provides a buffer against age-related or disease-related neurodegeneration. The concept was formalized in cognitive neuroscience by Randy Buckner's seminal 2004 review, which distinguished brain reserve from its functional counterpart, cognitive reserve, establishing a framework for understanding individual differences in aging and disease trajectories [@buckner-2004].
@@ -30,3 +37,8 @@ In practical terms, individuals may differ in their combination of these three m
 ## Implications for Whole-Brain Modeling
 
 In the context of [[whole-brain modeling]], brain reserve provides a conceptual framework for modeling individual differences in resilience to neurodegeneration. Computational models of brain dynamics can incorporate reserve as initial conditions or model parameters that determine the system's tolerance to pathological insults. For example, models of functional connectivity in aging populations can examine how different levels of baseline structural integrity influence network dynamics and cognitive performance. The relationship between brain reserve and cognitive reserve also suggests that whole-brain models should account for both structural and functional aspects of individual differences — structural parameters might represent passive reserve capacity, while parameters controlling network flexibility and recruitment might represent cognitive reserve mechanisms.
+
+## References
+
+1. (authors unknown). *Memory and Executive Function in Aging and AD: Multiple Factors that Cause Decline and Reserve Factors that Compensate*.
+2. (authors unknown). *Maintenance, Reserve and Compensation: The Cognitive Neuroscience of Healthy Ageing*.

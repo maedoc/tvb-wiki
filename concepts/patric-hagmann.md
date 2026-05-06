@@ -1,10 +1,20 @@
 ---
-title: Patric Hagmann
 created: 2026-04-20
-updated: 2026-05-06
+sources:
+- raw/papers/hagmann-2008.md
+- raw/papers/barabasi-albert-1999.md
+tags:
+- connectomics
+- structural-connectivity
+- network-hubs
+- rich-club
+- neuroimaging-dti
+- people-researcher
+- tractography
+- brain-network
+title: Patric Hagmann
 type: concept
-tags: [connectomics, structural-connectivity, network-hubs, rich-club, neuroimaging-dti, people-researcher, tractography, brain-network]
-sources: [raw/papers/hagmann-2008.md, raw/papers/barabasi-albert-1999.md]
+updated: '2026-05-06'
 ---
 
 Patric Hagmann is a neuroscientist whose work on mapping the structural connectome of the human brain has been foundational to the field of connectomics. His research group at the École Polytechnique Fédérale de Lausanne (EPFL) developed methodologies for reconstructing white matter pathways using diffusion spectrum imaging (DSI) and tractography, enabling the first comprehensive maps of the brain's anatomical wiring diagram at the macroscale level. This work established the technical and conceptual foundations for modern whole-brain modeling, where structurally constrained computational models can reproduce observed functional connectivity patterns.
@@ -32,3 +42,8 @@ In the context of [[whole-brain modeling]], Hagmann's structural connectivity ma
 - [[human-connectome-project]] – Large-scale initiative that built on Hagmann's methodological foundations
 - [[brain-connectivity-toolbox]] – Software for analyzing network properties of brain connectivity
 - [[resting-state]] – Spontaneous neural activity in the absence of task demands
+
+## References
+
+1. (authors unknown). *Mapping the Structural Core of Human Cerebral Cortex*.
+2. (authors unknown). *Emergence of Scaling in Random Networks*.

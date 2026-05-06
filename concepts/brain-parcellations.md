@@ -1,10 +1,18 @@
 ---
-title: Brain Parcellations
 created: 2026-04-20
-updated: 2026-05-06
+sources:
+- raw/papers/hagmann-2008.md
+- raw/papers/power-2011.md
+- raw/papers/arxiv-2603.07524.md
+tags:
+- whole-brain-modeling
+- connectomics
+- structural-connectivity
+- functional-connectivity
+- neuroimaging
+title: Brain Parcellations
 type: concept
-tags: [whole-brain-modeling, connectomics, structural-connectivity, functional-connectivity, neuroimaging]
-sources: [raw/papers/hagmann-2008.md, raw/papers/power-2011.md, raw/papers/arxiv-2603.07524.md]
+updated: '2026-05-06'
 ---
 
 Brain parcellations refer to the partitioning of the cerebral cortex (and sometimes subcortical structures) into discrete, spatially contiguous regions called parcels or regions of interest (ROIs). Each parcel is treated as a unit of analysis in whole-brain modeling, enabling the construction of connectivity matrices that describe the statistical dependencies (functional connectivity), anatomical pathways (structural connectivity), or causal interactions (effective connectivity) between brain regions. The choice of parcellation scheme is a foundational decision in any whole-brain analysis, as it determines the spatial resolution at which network dynamics are represented and fundamentally influences the extracted connectivity patterns.
@@ -38,3 +46,9 @@ In the context of whole-brain modeling, parcellations serve to define the nodes 
 ## Related Concepts
 
 Brain parcellations are closely linked to several other concepts in the wiki: [[structural-connectivity]] (the anatomical pathways between parcels), [[functional-connectivity]] (statistical dependencies between parcels), and [[connectome]] (the complete set of structural connections). The parcels themselves are often referred to using terms like [[brain-region]], and the process of creating a parcellation is related to [[community-detection]] algorithms when performed data-driven. Common atlases used in TVB workflows include the [[aal-atlas]], [[schaefer-atlas]], [[desikan-killiany-atlas]], and [[glasser-atlas]].
+
+## References
+
+1. (authors unknown). *Mapping the Structural Core of Human Cerebral Cortex*.
+2. (authors unknown). *Functional Network Organization of the Human Brain*.
+3. Hongjie Jiang, Yifei Tang, Shuqiang Wang. *Neural Dynamics-Informed Pre-trained Framework for Personalized Brain Functional Network Construction*. [Link](https://arxiv.org/abs/2603.07524)

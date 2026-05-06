@@ -1,10 +1,23 @@
 ---
-title: Brain Dynamics
 created: 2026-04-20
-updated: 2026-05-06
+sources:
+- raw/papers/strogatz-1994.md
+- raw/papers/izhikevich-2007.md
+- raw/papers/breakspear-2017.md
+- raw/papers/kuramoto-1974.md
+- raw/papers/coherence-resonance-1998.md
+- raw/papers/deco-2012.md
+- raw/papers/breakspear-2010.md
+- raw/papers/buzsaki-2004.md
+tags:
+- neural-mass-models
+- whole-brain-modeling
+- network-dynamics
+- nonlinear-dynamics
+- brain-oscillations
+title: Brain Dynamics
 type: concept
-tags: [neural-mass-models, whole-brain-modeling, network-dynamics, nonlinear-dynamics, brain-oscillations]
-sources: [raw/papers/strogatz-1994.md, raw/papers/izhikevich-2007.md, raw/papers/breakspear-2017.md, raw/papers/kuramoto-1974.md, raw/papers/coherence-resonance-1998.md, raw/papers/deco-2012.md, raw/papers/breakspear-2010.md, raw/papers/buzsaki-2004.md]
+updated: '2026-05-06'
 ---
 
 Brain dynamics refers to the temporal evolution of neural activity across spatial scales ranging from individual neurons to entire brain regions. In the context of [[whole-brain modeling]], brain dynamics encompasses the mathematical description of how large-scale neural networks generate time-varying patterns of activity that give rise to [[functional connectivity]] observed in [[neuroimaging-fmri]], [[neuroimaging-eeg]], and [[neuroimaging-meg]] recordings. The field sits at the intersection of [[computational-neuroscience]], [[dynamical-systems-theory]], and [[connectomics]], providing a framework for understanding how the brain's fixed [[structural-connectivity]] (derived from [[diffusion-imaging]] tractography) gives rise to flexible [[functional-connectivity]] states.
@@ -42,3 +55,9 @@ Parameter estimation remains a central challenge: whole-brain models contain num
 Brain dynamics connects to several foundational concepts in the wiki. [[bifurcation-analysis]] provides the mathematical toolkit for understanding regime changes. [[neural-mass-models]] are the primary building blocks. [[network-dynamics]] encompasses the study of how network structure shapes temporal evolution. The [[mindboggle]] toolbox provides tools for extracting dynamical features from neuroimaging data. Finally, [[brain-oscillation]]s represent one of the key empirical signatures of brain dynamics observable across neuroimaging modalities.
 
 ---
+
+## References
+
+1. (authors unknown). *Nonlinear Dynamics and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering*.
+2. Eugene M. Izhikevich. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
+3. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)

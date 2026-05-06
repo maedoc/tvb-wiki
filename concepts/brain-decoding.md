@@ -41,3 +41,9 @@ Brain decoding validates TVB models by bridging simulation and empirical data:
 - [[machine-learning]] — algorithms and methods for brain decoding
 - [[bayesian]] — probabilistic frameworks for decoding
 - [[nilearn]] — Python library for [[neuroimaging]] machine learning
+
+## References
+
+1. Yunfei Wang, Yanming Wang, Bensheng Qiu, Xiaoxiao Wang. (2026). *Few-Shot Transfer Learning for Cross-Subject Visual Brain Decoding via Whole-Brain Functional Magnetic Resonance Imaging*. 2026 6th International Conference on Neural Networks, Information and Communication Engineering (NNICE). [DOI](https://doi.org/10.1109/NNICE68970.2026.11466215)
+2. P. Pawar, Nilima Kulkarni. (2025). *NeuroClean: A Benchmarking and Optimization Framework for EEG Preprocessing in Semantic Brain-to-Text Decoding*. 2025 3rd International Conference on Computational Intelligence and Network Systems (CINS). [DOI](https://doi.org/10.1109/CINS67018.2025.11412037)
+3. Debasis Maji, Arghya Banerjee, Debaditya Barman. *Spectral Graph Neural Networks for Cognitive Task Classification in fMRI Connectomes*. [Link](https://arxiv.org/abs/2512.24901)

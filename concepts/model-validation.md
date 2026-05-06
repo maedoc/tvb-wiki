@@ -1,10 +1,19 @@
 ---
-title: Model Validation
 created: 2026-04-20
-updated: 2026-05-06
+sources:
+- raw/papers/potjans-diesmann-2014.md
+- raw/papers/markram-2015.md
+tags:
+- whole-brain-modeling
+- computational-neuroscience
+- parameter-estimation
+- reproducibility
+- neural-mass-models
+- spiking-neural-networks
+- bifurcation-analysis
+title: Model Validation
 type: concept
-tags: [whole-brain-modeling, computational-neuroscience, parameter-estimation, reproducibility, neural-mass-models, spiking-neural-networks, bifurcation-analysis]
-sources: [raw/papers/potjans-diesmann-2014.md, raw/papers/markram-2015.md]
+updated: '2026-05-06'
 ---
 
 Model validation is the process of systematically assessing whether a computational model of the brain produces outputs that are consistent with empirically observed neural dynamics, connectivity patterns, and physiological measurements. In the context of whole-brain modeling and computational neuroscience, validation serves as the critical bridge between theoretical construction and scientific credibility—without it, a model remains an abstract exercise rather than a testable representation of biological reality. The validation process encompasses quantitative comparison of model predictions against experimental data, qualitative assessment of whether the model captures known phenomena, and rigorous testing of robustness across parameter regimes. It is distinct from model parameter estimation (the process of fitting model parameters to data) and model selection (the comparison of alternative model architectures), though all three processes are intimately connected in the practice of building reliable brain models.
@@ -24,3 +33,8 @@ Several software platforms used in whole-brain modeling provide built-in or inte
 Model validation in computational neuroscience faces several outstanding challenges that remain active areas of research. The identifiability problem—where different parameter sets can produce similar outputs—complicates the interpretation of validation success, as a model that matches empirical data may do so for the wrong reasons. Validation at one spatial or temporal scale does not guarantee validity at other scales, raising questions about how to appropriately validate multiscale models that attempt to bridge microscale synaptic dynamics with macroscale network behavior. Additionally, the field grapples with questions about validation rigor: what statistical thresholds constitute acceptable model fit, how to appropriately validate models on held-out data, and how to balance model complexity against validation performance. The integration of Bayesian approaches, including variational Bayes and parameter estimation using inversion methods, offers promising frameworks for formalizing these questions, though substantial methodological development remains active. As whole-brain modeling moves toward clinical applications in personalized brain modeling, validation becomes not merely scientific but ultimately clinical—requiring frameworks that can establish with sufficient confidence that a model is reliable enough to inform surgical planning, stimulation targeting, or disease progression prediction.
 
 ---
+
+## References
+
+1. Potjans & Diesmann (2014). *The cell-type specific cortical microcircuit: relating structure and activity*. Cerebral Cortex. [DOI](https://doi.org/10.1093/cercor/bhs358)
+2. Markram et al. (2015). *Reconstruction and simulation of neocortical microcircuitry*. Cell. [DOI](https://doi.org/10.1016/j.cell.2015.09.029)

@@ -43,3 +43,9 @@ fMRI is the primary empirical constraint for TVB [[whole-brain]] models:
 - [[resting-state-vs-task-fmri]] — comparison of paradigms
 - [[neuroimaging-eeg]] — complementary electrophysiological imaging
 - [[dandi]] — archive for neurophysiology and neuroimaging data
+
+## References
+
+1. Mennahtullah Mabrouk, Reem Reda, Hana Hisham, Abdelrahman Hazem, Bola Hosny, Hossam Elsawaf, Saif Elaswad, Sameh Sherif. (2025). *A Hybrid Learning Approach for Detection of Autism Spectrum Disorder Using fMRI Data*. 2025 13th International Japan-Africa Conference on Electronics, Communications, and Computations (JAC-ECC). [DOI](https://doi.org/10.1109/JAC-ECC67970.2025.11417627)
+2. L. Raimondo, Jurjen Heij, Tomas Knapen, Jeroen C. W. Siero, W. van der Zwaag, Serge O. Dumoulin. (2025). *Does the Cortical-Depth Dependence of the Hemodynamic Response Function Differ Between Age Groups?*. Brain Topography. [DOI](https://doi.org/10.1007/s10548-025-01107-0)
+3. N. J. Fesharaki, Artemy Vinogradov, David Ress, Jung Hwan Kim. (2026). *Spatial evolution in temporal dynamics of hemodynamic response function in human superior colliculi with ultra-high-resolution MRI at 9.4T*. Frontiers in Neuroscience. [DOI](https://doi.org/10.3389/fnins.2026.1741923)

@@ -1,10 +1,19 @@
 ---
-title: Source Separation
 created: 2026-04-20
-updated: 2026-05-06
+sources:
+- raw/papers/friston-1993.md
+- raw/papers/smith-2013-connectomics.md
+- raw/papers/sporns-2011.md
+tags:
+- computational-neuroscience
+- neuroimaging-fmri
+- neuroimaging-eeg
+- neuroimaging-meg
+- functional-connectivity
+- machine-learning
+title: Source Separation
 type: concept
-tags: [computational-neuroscience, neuroimaging-fmri, neuroimaging-eeg, neuroimaging-meg, functional-connectivity, machine-learning]
-sources: [raw/papers/friston-1993.md, raw/papers/smith-2013-connectomics.md, raw/papers/sporns-2011.md]
+updated: '2026-05-06'
 ---
 
 # Source Separation
@@ -38,3 +47,9 @@ Advanced extensions include tied-component analysis, which imposes constraints o
 ## Related Concepts
 
 Source separation intersects with several other concepts in the wiki. As a method for decomposing neuroimaging data, it is closely related to [[functional-connectivity]], which measures statistical dependencies between regions, and to [[principal-component-analysis]], which provides the dimensional reduction foundation for many source separation approaches. The technique is fundamentally tied to [[machine-learning]] frameworks for unsupervised pattern discovery. In electrophysiological contexts, source separation relates to [[source-localization]] (the problem of estimating the cortical origins of measured signals) and [[volume-conduction]] (the physical process by which neural sources mix at the scalp). For EEG/MEG analysis, source separation is often used in conjunction with the [[eeg]] and [[meg]] modalities and the broader category of [[neuroimaging]] methods. The extracted networks are instances of [[brain-network]] organizations that can be characterized using [[graph-theory]].
+
+## References
+
+1. (authors unknown). *Functional Connectivity: The Principal-Component Analysis of Large (PET and fMRI) Data Sets*.
+2. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
+3. (authors unknown). *Networks of the Brain*.

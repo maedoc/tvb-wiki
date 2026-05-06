@@ -1,10 +1,22 @@
 ---
-title: Hodgkin-Huxley Model
 created: 2024-01-15
-updated: 2026-05-06
+sources:
+- raw/papers/semanticscholar-ce89e593c89e.md
+- raw/papers/semanticscholar-71ffb8153870.md
+- raw/papers/semanticscholar-cc2129666e15.md
+tags:
+- neural-mass-models
+- computational-neuroscience
+- ion-channel
+- spiking-neural-networks
+- dynamical-systems-theory
+- bifurcation-theory
+- stochastic-differential-equations
+- whole-brain-modeling
+- brain-oscillations
+title: Hodgkin-Huxley Model
 type: concept
-tags: [neural-mass-models, computational-neuroscience, ion-channel, spiking-neural-networks, dynamical-systems-theory, bifurcation-theory, stochastic-differential-equations, whole-brain-modeling, brain-oscillations]
-sources: [raw/papers/semanticscholar-ce89e593c89e.md, raw/papers/semanticscholar-71ffb8153870.md, raw/papers/semanticscholar-cc2129666e15.md]
+updated: '2026-05-06'
 ---
 
 The Hodgkin-Huxley model is a mathematical framework describing how [[action-potential]]s in [[neuron|neurons]] are generated and propagate along [[axon|axons]]. Proposed by Alan Hodgkin and Andrew Huxley in 1952, the model provides a biophysically grounded description of [[ion-channel]] dynamics using a system of coupled differential equations that capture the voltage-dependent gating of sodium (Na⁺) and potassium (K⁺) channels, alongside a leak conductance. The Hodgkin-Huxley formalism represents the foundational pillar upon which modern [[neural-mass-models]] and [[spiking-neural-networks]] are built, and it remains essential for understanding the cellular basis of large-scale [[brain-dynamics]] observed in [[neuroimaging-fmri]], [[neuroimaging-eeg]], and [[neuroimaging-meg]] data.
@@ -44,3 +56,9 @@ The [[neuroml]] standard provides a declarative format for specifying Hodgkin-Hu
 ## Related Concepts
 
 The Hodgkin-Huxley model connects to several other foundational concepts in computational neuroscience. It provides the dynamical-systems-theoretic foundation for [[bifurcation-analysis]] of neuronal models, where transitions between resting states and repetitive spiking arise through [[andronov-hopf-bifurcation]] as applied to the voltage equation. The model also relates to [[mean-field-theory]], which provides the mathematical apparatus for aggregating millions of Hodgkin-Huxley-style neurons into population-level descriptions. The [[fokker-planck-equation]] provides a framework for describing the probability distribution of membrane states in the presence of stochastic channel noise, bridging the gap between deterministic Hodgkin-Huxley dynamics and the variability observed in real neurons.
+
+## References
+
+1. V. Myrov, A. Suleimanova, Samanta Knapič, P. Partanen, M. Vesterinen, Wenya Liu, S. Palva, J. M. Palva. (2026). *Hierarchical whole-brain modeling of critical synchronization dynamics in the human brain.*. Proceedings of the National Academy of Sciences of the United States of America. [DOI](https://doi.org/10.1073/pnas.2505768123)
+2. Valerio Barabino, F. Callegari, Sérgio Martinoia, P. Massobrio. (2026). *Hierarchical afferent connectivity drives population-wide bursting dynamics in a computational model of human-derived excitatory neuronal networks*. Journal of Neuroscience. [DOI](https://doi.org/10.1523/jneurosci.0912-25.2026)
+3. Gianluca Gaglioti, L. Porta, M. Colombo, Simone Russo, Thierry Nieus, G. Deco, M. Corbetta, S. Sarasso, M. V. Sanchez-Vives, M. Massimini. (2026). *Slow wave generation and propagation in a model of brain lesions*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2026.121817)

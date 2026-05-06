@@ -64,3 +64,9 @@ Within [[the-virtual-brain]] framework, the Izhikevich model is not directly use
 ## Limitations
 
 Despite its versatility, the Izhikevich model has several known limitations. First, the four parameters ($a$, $b$, $c$, $d$) lack direct biophysical interpretability—unlike conductance-based models where parameters correspond to specific ion channel properties, the Izhikevich parameters are phenomenological and must be fitted empirically to match desired firing patterns. Second, the standard model cannot reproduce subthreshold oscillations without explicit extensions or additional variables; real neurons often exhibit graded subthreshold responses that require modifications to the vanilla formulation. Third, the hard voltage reset (the instantaneous jump to $c$ when $v$ reaches 30 mV) is a mathematical artifact that discards information about the exact spike shape and timing, limiting the model's utility for studying spike-timing-dependent [[plasticity]] or precise spike coordination. These limitations should be considered when selecting the Izhikevich model for applications requiring biophysical detail or subthreshold dynamics.
+
+## References
+
+1. Potjans & Diesmann (2014). *The cell-type specific cortical microcircuit: relating structure and activity*. Cerebral Cortex. [DOI](https://doi.org/10.1093/cercor/bhs358)
+2. Jeremy B. Goetz, Naruepon Weerawongphrom, Rashid V. Williams-García, John M. Beggs, Gerardo Ortiz. (2025). *A Minimal Network of Brain Dynamics: Hierarchy of Approximations to Quasi-critical Neural Network Dynamics*. [Link](https://arxiv.org/abs/2512.22093)
+3. J. Bose. (2025). *Pendulum Model of Spiking Neurons*. arXiv.org. [DOI](https://doi.org/10.48550/arXiv.2507.22146)

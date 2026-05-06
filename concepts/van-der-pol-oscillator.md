@@ -1,10 +1,19 @@
 ---
-title: Van der Pol Oscillator
 created: 2026-04-20
-updated: 2026-05-06
+sources:
+- raw/papers/strogatz-1994.md
+- raw/papers/semanticscholar-b299aa3db60e.md
+- raw/papers/arxiv-2601.03796.md
+tags:
+- nonlinear-dynamics
+- neural-mass-models
+- brain-oscillations
+- bifurcation-theory
+- network-dynamics
+- dynamical-systems-theory
+title: Van der Pol Oscillator
 type: concept
-tags: [nonlinear-dynamics, neural-mass-models, brain-oscillations, bifurcation-theory, network-dynamics, dynamical-systems-theory]
-sources: [raw/papers/strogatz-1994.md, raw/papers/semanticscholar-b299aa3db60e.md, raw/papers/arxiv-2601.03796.md]
+updated: '2026-05-06'
 ---
 
 The Van der Pol oscillator is a classic nonlinear dynamical system that serves as a fundamental model in [[computational-neuroscience]] for understanding neural mass oscillations, collective brain dynamics, and bifurcations between different oscillatory regimes. Originally derived to describe electrical circuits with nonlinear damping, it has become one of the most extensively studied examples of a system exhibiting limit cycle oscillations with biologically realistic relaxation behavior.
@@ -70,3 +79,9 @@ For practical implementation, the Van der Pol oscillator can be integrated using
 - [[dynamical-systems-theory]] — Mathematical framework for studying change over time
 - [[fitzhugh-nagumo-model]] — Related simplified neuron model
 - [[network-dynamics]] — Dynamics of coupled neural systems
+
+## References
+
+1. (authors unknown). *Nonlinear Dynamics and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering*.
+2. Sophie Benitez Stulz, Samy Castro, B. Gutkin, Mathieu Gilson, Demian Battaglia. (2026). *Phase-dependent stimulation response is shaped by the brain’s dynamic functional connectivity*. Network Neuroscience. [DOI](https://doi.org/10.1162/netn.a.548)
+3. Christopher Gabaldon, Adria Mulero, Rong Wang, Daniel A. Martin, Sabrina Camargo, Qian-Yuan Tang, Ignacio Cifre, Changsong Zhou, Dante R. Chialvo. (2026). *Data-driven inference of brain dynamical states from the r-spectrum of correlation matrices*. [Link](https://arxiv.org/abs/2601.03796)

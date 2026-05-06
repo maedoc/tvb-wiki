@@ -1,10 +1,18 @@
 ---
-title: Preferential Attachment
 created: 2026-01-15
-updated: 2026-05-06
+sources:
+- raw/papers/barabasi-albert-1999.md
+- raw/papers/strogatz-1994.md
+- raw/papers/semanticscholar-7c3337c880fd.md
+tags:
+- network-dynamics
+- connectomics
+- scale-free-networks
+- graph-theory
+- structural-connectivity
+title: Preferential Attachment
 type: concept
-tags: [network-dynamics, connectomics, scale-free-networks, graph-theory, structural-connectivity]
-sources: [raw/papers/barabasi-albert-1999.md, raw/papers/strogatz-1994.md, raw/papers/semanticscholar-7c3337c880fd.md]
+updated: '2026-05-06'
 ---
 
 Preferential attachment is a network growth mechanism whereby newly added nodes preferentially connect to existing nodes that already have many connections, leading to the emergence of [[scale-free-networks]] with [[network-hubs|hub]] nodes. Originally formalized by [[barabasi-albert-1999]] in their seminal work on [[random-networks]], this process has become a foundational concept in [[network-dynamics]] and has been extensively applied to understand the organization of [[brain-network|brain networks]].
@@ -40,3 +48,9 @@ The [[graph-theory]] framework underlying preferential attachment analysis provi
 ## Open Questions
 
 Several questions remain regarding preferential attachment in brain networks. Whether the brain's scale-free architecture arises primarily through developmental preferential attachment, or through other mechanisms such as cost optimization or activity-dependent plasticity, remains debated. The relationship between structural preferential attachment and [[functional-connectivity]] patterns measured in [[neuroimaging-fmri|fMRI]] or [[neuroimaging-eeg|EEG]] studies is incompletely understood. Additionally, how hub regions in the brain maintain their connectivity in the face of development, aging, or disease involves complex interactions beyond the simple preferential attachment rule.
+
+## References
+
+1. (authors unknown). *Emergence of Scaling in Random Networks*.
+2. (authors unknown). *Nonlinear Dynamics and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering*.
+3. Kashyap Gudibanda, J. Fousek, S. Petkoski, V. Jirsa. (2026). *The role of connectivity for the degeneracy of the brain’s resting state dynamics*. Journal of Computational Neuroscience. [DOI](https://doi.org/10.1007/s10827-025-00919-0)

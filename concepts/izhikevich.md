@@ -61,3 +61,9 @@ Despite the comprehensive framework established by Izhikevich's work, several op
 The relationship between the geometric framework and data-driven modeling continues to evolve. As [[personalized-brain-modeling]] becomes more sophisticated, researchers seek to map individual patient parameters onto the bifurcation structure, enabling prediction of individual responses to brain stimulation and disease progression. This requires bridging the gap between the abstract parameter spaces analyzed mathematically and the biophysically interpretable parameters used in clinical applications.
 
 The integration of Izhikevich's classification with modern machine learning approaches represents an emerging frontier. [[spiking-neural-networks]] trained for specific tasks can be analyzed through the lens of dynamical systems theory, revealing how learned connectivity shapes the neural dynamics and what bifurcation transitions might occur as the network processes information.
+
+## References
+
+1. (authors unknown). *Nonlinear Dynamics and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering*.
+2. Eugene M. Izhikevich. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
+3. (authors unknown). *AUTO-07P: Continuation and Bifurcation Software for Ordinary Differential Equations*.

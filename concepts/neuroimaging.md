@@ -1,10 +1,20 @@
 ---
-title: Neuroimaging
 created: 2026-04-20
-updated: 2026-05-06
+sources:
+- raw/papers/friston-1993.md
+- raw/papers/grady-2012.md
+tags:
+- neuroimaging-fmri
+- neuroimaging-eeg
+- neuroimaging-meg
+- neuroimaging-pet
+- neuroimaging-dti
+- structural-connectivity
+- functional-connectivity
+- connectomics
+title: Neuroimaging
 type: concept
-tags: [neuroimaging-fmri, neuroimaging-eeg, neuroimaging-meg, neuroimaging-pet, neuroimaging-dti, structural-connectivity, functional-connectivity, connectomics]
-sources: [raw/papers/friston-1993.md, raw/papers/grady-2012.md]
+updated: '2026-05-06'
 ---
 
 Neuroimaging encompasses the suite of techniques used to directly or indirectly image the structure, function, or pharmacology of the nervous system. In the context of whole-brain modeling and computational neuroscience, neuroimaging provides the essential empirical data that constrains connectome-based models, enables validation of simulated dynamics, and bridges the gap between mathematical abstraction and biological reality. The field has transformed from simple anatomical mapping to a sophisticated toolkit for probing brain network organization across multiple spatiotemporal scales.
@@ -43,3 +53,8 @@ Recent harmonization frameworks such as [[neuroharmonize]] facilitate cross-site
 [[ Allen SDK]]
 
 [[cfflib]]
+
+## References
+
+1. (authors unknown). *Functional Connectivity: The Principal-Component Analysis of Large (PET and fMRI) Data Sets*.
+2. (authors unknown). *The Cognitive Neuroscience of Ageing and Functional Reserve*.
