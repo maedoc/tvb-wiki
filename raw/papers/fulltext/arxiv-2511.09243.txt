@@ -1,0 +1,752 @@
+                                                    Characterizing sleep stages through the complexity-entropy plane in human
+                                                                   intracranial data and in a whole-brain model
+
+                                                              Helena Bordini de Lucas,1, 2, ∗ Leonardo Dalla Porta,3 Alain Destexhe,4 Maria V.
+                                                         Sanchez-Vives,3, 5 Osvaldo A. Rosso,1 Cláudio R. Mirasso,2 and Fernanda Selingardi Matias1
+                                                                             1
+                                                                                Instituto de Física, Universidade Federal de Alagoas, Brazil
+                                                           2
+                                                             Instituto de Física Interdisciplinar y Sistemas Complejos, Universitat de les Illes Balears, Spain
+                                                       3
+                                                         Institute of Biomedical Research August Pi Sunyer (IDIBAPS), Systems Neuroscience, Barcelona, Spain
+                                                          4
+                                                            Paris-Saclay University, CNRS, Paris-Saclay Institute of Neuroscience (NeuroPSI), Saclay, France
+                                                                                                 5
+                                                                                                   ICREA, Barcelona, Spain
+                                                              Characterizing the brain dynamics during different cortical states can reveal valuable information
+                                                           about its patterns across various cognitive processes. In particular, studying the differences between
+                                                           awake and sleep stages can shed light on the understanding of brain processes essential for physical
+                                                           and mental well-being, such as memory consolidation, information processing, and fatigue recovery.
+                                                           Alterations in these patterns may indicate disorders and pathologies such as obstructive sleep apnea,
+                                                           narcolepsy, as well as Alzheimer’s and Parkinson’s diseases. Here, we analyze time series obtained
+arXiv:2511.09243v1 [q-bio.NC] 12 Nov 2025
+
+
+
+
+                                                           from intracranial recordings of 106 patients, covering four sleep stages: Wake, N2, N3, and REM.
+                                                           Intracranial electroencephalography (iEEG), which can include electrocorticography (ECoG) and
+                                                           depth recordings, represents the state-of-the-art measurements of brain activity, offering unparalleled
+                                                           spatial and temporal resolution for investigating neural dynamics. We characterize the signals using
+                                                           Bandt and Pompe symbolic methodology to calculate the Weighted Permutation Entropy (WPE)
+                                                           and the Statistical Complexity Measure (SCM) based on the Jensen and Shannon disequilibrium.
+                                                           By mapping the data onto the complexity-entropy plane, we observe that each stage occupies a
+                                                           distinct region, revealing its own dynamic signature. We show that our empirical results can be
+                                                           reproduced by a whole-brain computational model, in which each cortical region is described by
+                                                           a mean-field formulation based on networks of Adaptive Exponential Integrate-and-Fire (AdEx)
+                                                           neurons, adjusting the adaptation parameter to simulate the different sleep stages. Finally, we
+                                                           show that a classification approach using Support Vector Machine (SVM) provides high accuracy
+                                                           in distinguishing between cortical states.
+
+                                                           PACS numbers:
+
+
+                                                                I.   INTRODUCTION                               tions provides a framework for mapping the brain’s func-
+                                                                                                                tional landscape and identifying how distinct patterns of
+                                                                                                                activity support different computational modes of oper-
+                                               The brain can be understood as a dynamical sys-                  ation [4, 5].
+                                            tem whose activity continuously reconfigures across a                  Among the many manifestations of the brain’s dy-
+                                            vast repertoire of functional states, each supporting dis-          namic repertoire, the sleep-wake cycle provides a model
+                                            tinct modes of information processing, perception, cog-             for studying state-dependent neural activity under con-
+                                            nition, and behavior [1, 2]. These configurations, which            trolled physiological conditions. The investigation and
+                                            span physiological states such as sleep and wakefulness,            identification of sleep stages is critical in neuroscience,
+                                            pharmacological states (e.g., anesthesia), and pathologi-           unifying two critical domains: the fundamental under-
+                                            cal states (e.g., epilepsy and disorders of consciousness),         standing of brain dynamics and information processing
+                                            emerge from nonlinear interactions among neural pop-                across functional states, and the clinical relevance of iden-
+                                            ulations coupled across multiple spatial and temporal               tifying altered dynamic patterns that characterize numer-
+                                            scales. This multiscale coupling, shaped by intrinsic cel-          ous sleep disorders. These alterations can be primary,
+                                            lular properties, synaptic connectivity, and neuromodu-             such as dyssomnias (insomnia, narcolepsy), parasomnias,
+                                            latory tone, gives rise to specific organizations of net-           obstructive sleep apnea [6, 7] or nocturnal epilepsy [8, 9].
+                                            work dynamics. Across this space, cortical activity tran-           They can also be secondary to other pathological con-
+                                            sitions between two extremes: low-entropy, highly syn-              ditions, including neuropsychiatric diseases, cardiovas-
+                                            chronized regimes (e.g., deep sleep) and high-entropy,              cular diseases [10], or neurodegenerative disorders such
+                                            desynchronized dynamics (e.g., wakefulness) [3]. Such               as Alzheimer’s and Parkinson’s diseases [11–14], among
+                                            transitions define the brain’s operational modes and also           others. In the current study, we investigate the use of
+                                            delineate shifts between unconscious and conscious pro-             Weighted Permutation Entropy (WPE) and the Statisti-
+                                            cessing. Quantitatively, characterizing these configura-            cal Complexity Measure (SCM) to characterize the dif-
+                                                                                                                ferent sleep stages by mapping them onto the complexity-
+                                                                                                                entropy plane. By doing so, we aim to gain a quantitative
+                                                                                                                understanding of the information processing capabilities
+                                            ∗ helena.bordini@fis.ufal.br                                        and inherent dynamics associated with each state, simul-
+                                                                                                                            2
+
+taneously developing a novel tool for sleep stage identifi-   proach while allowing us to extend these analyses to
+cation.                                                       large-scale intracranial data and the full spectrum of hu-
+   Human sleep comprises three major states: wakeful-         man sleep stages.
+ness (Wake), non-rapid eye movement (NREM) sleep,                Beyond empirical characterization, we also sought to
+and rapid eye movement (REM) sleep, which alternate           uncover the mechanisms that could account for the
+cyclically throughout the night [15]. Each state ex-          observed relationships between WPE and SCM across
+hibits characteristic patterns of neural dynamics that can    sleep stages. To this end, we employed a biophysi-
+be quantified using spectral and connectivity measures.       cally grounded mean-field model of adaptive exponential
+Wakefulness is dominated by fast, low-amplitude activity.     integrate-and-fire (AdEx) neurons embedded within the
+In contrast, the transition into NREM sleep is marked by      human structural connectome. By systematically varying
+the emergence of alpha rhythms (8–12 Hz) during relaxed       the strength of activity-dependent adaptation, a mech-
+wakefulness, followed by a progressive slowing and syn-       anism that reflects the modulatory influence of neuro-
+chronization of cortical activity. NREM stages display        transmitters involved in the regulation of the sleep–wake
+distinct oscillatory patterns, including theta (4–8 Hz) and   cycle [28], we reproduced and extended the range of
+delta (0.5–4 Hz) waves, as well as transient events such      dynamical regimes observed in the iEEG data, thereby
+as spindles (12–14 Hz) and K-complexes. REM sleep,            providing a mechanistic account of how the system can
+in turn, is characterized by desynchronized, fast activity    explore different configurations within the WPE–SCM
+resembling the waking state [15, 16].                         plane. Finally, to illustrate the broader applicability of
+   Building on these physiological characterizations,         our framework, we combined information-theoretic in-
+quantitative analysis of sleep–wake states has tradition-     dices with a machine-learning classifier to automatically
+ally relied on polysomnography, the clinical gold standard    distinguish sleep stages. Our results suggest that inter-
+for sleep staging. Recent advances, however, have sought      pretable complexity measures improve data-driven anal-
+to move beyond manual scoring and fixed spectral bound-       yses and could support clinical and translational investi-
+aries by applying computational approaches that capture       gations in healthy and pathological conditions.
+the complex, nonlinear structure of neural dynamics. Al-
+though machine learning and deep learning methods have
+                                                               II. INFORMATION THEORY QUANTIFIERS:
+achieved impressive accuracy in automatic sleep stag-
+                                                               WEIGHTED PERMUTATION ENTROPY AND
+ing, they often provide limited interpretability with re-         STATISTICAL COMPLEXITY MEASURE
+spect to the underlying neural mechanisms. Information-
+theoretic analyses offer a complementary and more trans-
+parent framework, enabling the quantification of neural          Consider P a probability distribution of N possible
+complexity and organization in physiologically meaning-       events associated with probabilities p1 , p2 , . . . , pN , with
+                                                                                PN
+ful terms [17–20]. Despite these advances, most stud-         0 ≤ pi ≤ 1 and i=1 pi = 1. Shannon Entropy, S(P ),
+ies have relied on noninvasive recordings such as scalp       which quantifies the average of the information contained
+EEG, MEG, or fMRI, which primarily reflect large-scale        in P , is given by [29]:
+or hemodynamic activity rather than the dynamics of
+local neuronal populations. In contrast, invasive record-                                  N
+ings such as intracranial electroencephalography (iEEG)
+                                                                                           X
+                                                                               S(P ) = −         pi log2 (pi ).           (1)
+provide a unique opportunity to examine these dynam-                                       i=1
+ics directly at the neuronal population level, yielding a
+higher-fidelity view of the mechanisms underlying these         From Eq. (1), the system is completely predictable
+states.                                                       when S(P ) = 0. On the other hand, when all N possible
+   To investigate the dynamical organization of sleep         states are equally likely, the entropy reaches its maximum
+states at the neuronal population level, we analyzed          value, S(P )max = log2 (N ), making the system maximally
+iEEG recordings from 106 patients with focal epilepsy         unpredictable.
+( MNI Open iEEG Atlas [21–23]), focusing exclusively
+on channels unaffected by pathology. To quantify the
+temporal structure of neural activity, we applied an               A.   Weighted Permutation Entropy (WPE)
+information-theoretic framework based on symbolic dy-
+namics. Specifically, each time series was characterized        Permutation Entropy (PE) is a natural technique used
+by its WPE, reflecting signal unpredictability, and its       to analyze the ordinal patterns of neighboring elements
+SCM, capturing the balance between order and disorder.        within a time series, constructing a probability density
+The resulting values were represented in the complex-         function (PDF) that reflects the underlying time series
+ity–entropy plane, where each sleep stage (Wake, N2, N3,      dynamics. The original formulation of PE, introduced
+and REM) occupied a distinct region of the state space.       by Bandt and Pompe [30], considers only the relative
+Information-theoretic metrics have previously been used       order of values in the time series, without accounting
+to explore neural complexity across different recording       for their actual amplitudes. A natural extension of this
+modalities [24–27], providing a foundation for our ap-        method is Weighted Permutation Entropy (WPE), which
+                                                                                                                              3
+
+integrates amplitude information into the construction of          In Fig. 1(d), this process is represented as a histogram,
+the PDF [31]..                                                  where each bar corresponds to the relative frequency pi
+   Consider a time series X (t) of length M , represented       of each symbol πi identified in Fig. 1(c), along with their
+in Fig. 1(a). The first step of the approach consists of        respective weights.
+dividing this series into overlapping vectors with D (em-          Finally, normalized Weighted Permutation Entropy is
+bedding dimension) elements, defined by:                        calculated based on this probability distribution P ac-
+                                                                cording to the equation:
+        ⃗j = (xj , xj+τ , xj+2τ , . . . , xj+(D−1)τ ) ,
+        Y                                                 (2)
+                                                                                                         D!
+  where τ is the embedding time or time delay (τ ∈                                                 1    X
+                                                                                WPE = −                     pi log2 (pi ).   (7)
+N, τ ≥ 1) and j varies from 1 to M − (D − 1)τ . This                                            log2 D! i=1
+segmentation process can be seen in Fig. 1(b), where a
+subset of the time series is highlighted to exemplify the          This metric quantifies the uncertainty in the distri-
+construction of the vectors Y⃗j .                               bution of permutation patterns. A uniform distribu-
+  Each vector is then converted into a permutation sym-         tion, where all probabilities are equally likely, indicates
+bol πi based on the relative ordering of its elements,          a highly unpredictable dynamics in the system (WPE →
+where j indexes the symbolic pattern extracted from the         1), whereas a distribution concentrated in a few symbols
+original time series. The ordering is defined by assigning      suggests more regular and predictable behavior (WPE →
+to each component of the vector Y  ⃗j its rank among the        0).
+D components:
+                                                                    (a)
+                                                                                                 Time Series
+                   πi = [r1 , r2 , . . . , rD ] ,         (3)
+   where each rk represents the position (or rank) of the          x(t)
+k-th element of Y
+                ⃗j in the ascending ordering of its values,
+with 1 assigned to the smallest and D to the largest value                 t
+of magnitude, e.g. Y⃗1 = (3, 5, 1) 7→ π5 = [231], since the         (b)
+value 3 is the second smallest, 5 is the largest (third),                               Element order analysis
+and 1 is the smallest (first) among the elements of the
+vector.
+   This correspondence between the vectors Y  ⃗j and their
+respective symbols πi is shown in Fig. 1(c), where all
+possible permutation patterns for D = 3 are presented.
+Since there are N = D! possible distinct orderings of               (c)                          Symbols
+the elements in each vector, there are exactly six distinct                       π1       π2     π3   π4        π5     π6
+                                                                            3
+symbols (N = 3! = 6) representing all possible configu-                     2
+rations.                                                                    1
+
+   Each vector Y
+               ⃗j has an associated weight wj , based on                          123    132      213 312       231    321
+its variance,                                                       (d)                 Probability distribution
+
+                        D                                                 P(πi)
+                   1 X                2
+            wj =       xj+(k−1)τ − X j ,                  (4)
+                   D
+                       k=1
+                                                                                                πi
+  where X j stands for the mean value of the embedded
+                                                                    (e)           Permutation Entropy
+vector Y
+       ⃗j .
+                                                                FIG. 1: Illustration
+                                                                         PE(P ) = ‒pof1log(p
+                                                                                         the Bandt-Pompe      methodology
+                                                                                               )‒p2log(p2)‒p3log(p   )      for
+  Then the relative frequencies pi of each symbol πi is                           l
+                                                                                             1
+                                                                transforming a time series into                    3
+                                                                                                 a probability distribution us-
+calculated as:                                                                     ‒p4log(p4)‒p5log(p5)‒p6log(p6)
+                                                                ing a symbolic approach. (a) Representative time series. (b)
+                                                                Segmentation process for D = 3. (c) The six possible permu-
+                      P                                         tation patterns, where N = D!. (d) Probability distribution
+                          j≤M −(D−1)τ δij wj
+               pi = P                               ,     (5)   corresponding to the permutation patterns and their associ-
+                            j≤M −(D−1)τ wj                      ated weights.
+
+  where δij selects if Y
+                       ⃗j is of symbol type πi
+                                                                  Consider a numerical example: given the time series
+                (                                               X (t) = (3, 5, 1, 20, 9, 7, 90, 1, 8, 10), with M = 10, we
+                  1 if Y ⃗j is of symbol type πj
+                                                                evaluate the BP-PDF with D = 3 (six possible ordinal
+         δij =                                            (6)
+                  0 otherwise.                                  patterns π) and τ = 1. Thus, we obtain M −(D−1)τ = 8
+                                                                                                                            4
+
+embedding vectors:                                                where WPE represents the normalized Weighted Per-
+                                                               mutation Entropy (Eq. 7) and QJ (P, Pe ) is the disequilib-
+               ⃗1 = (3, 5, 1) 7→ π5 = [231];
+               Y                                               rium, defined in terms of the Jensen-Shannon divergence:
+               ⃗2 = (5, 1, 20) 7→ π3 = [213];
+               Y
+               ⃗3 = (1, 20, 9) 7→ π2 = [132];
+               Y                                                                QJ (P, Pe ) = Q0 · J(P, Pe ),              (9)
+               ⃗4 = (20, 9, 7) 7→ π6 = [321];
+               Y                                                 with
+               ⃗5 = (9, 7, 90) 7→ π3 = [213];
+               Y
+                                                                                                
+               ⃗6 = (7, 90, 1) 7→ π5 = [231];
+               Y                                                                        P + Pe           S(P ) S(Pe )
+                                                                    J(P, Pe ) = S                    −        −       .   (10)
+               ⃗7 = (90, 1, 8) 7→ π4 = [312];                                             2               2      2
+               Y
+               ⃗8 = (1, 8, 10) 7→ π1 = [123].
+               Y                                                 Here, Q0 is a normalization constant (0 ≤ QJ ≤ 1),
+                                                               given by the inverse of the maximum possible value of
+   The weights associated with each vector, com-               J(P, Pe ), i.e., Q0 = 1/J(P0 , Pe ). The function S repre-
+puted according to Eq. 4, are w(Y       ⃗j ) = wj =            sents the Shannon Entropy (Eq. 1), where Pe denotes the
+{2.66, 66.8, 60.6, 32.6, 1494.8, 1649.5, 1632.6, 14.8}         equiprobable probability distribution (all symbols have
+                              P8
+with a total variance is wt = i=1 wi = 4954.4.                 the same probability of occurrence), P0 corresponds to
+   The weighted relative frequencies (probabilities) asso-     a Dirac delta distribution, where only one element has a
+ciated with each ordinal pattern are then:                     nonzero probability, and P is the empirical probability
+                                                               distribution constructed according to Eq. 5.
+                                                                 The statistical complexity measure offers complemen-
+             p1 (π1 ) = w8 /wt = 0.002                         tary insights to entropy, as it compares our probability
+                                                               density function P with an equiprobable one (Pe ). Ad-
+             p2 (π2 ) = w3 /wt = 0.012                         ditionally, it can be shown that for a fixed value of nor-
+             p3 (π3 ) = (w2 + w5 )/wt = 0.315                  malized entropy, the associated complexity lies within a
+             p4 (π4 ) = w7 /wt = 0.329                         range bounded by Cmin and Cmax , whose limits are de-
+                                                               termined solely by the embedding dimension (D) [33–35].
+             p5 (π5 ) = (w1 + w6 )/wt = 0.333
+             p6 (π6 ) = w4 /wt = 0.006.
+                                                                                    III.    THE DATA
+  Finally, the normalized WPE is given by the Eq. 7:
+                                                                           A.    Experimental Time Series
+                     WPE ≈ 0.663.
+                                                                  The experimental data in this work were obtained from
+                                                               an open and online database, available at the follow-
+     B.   Statistical Complexity Measure (SCM)                 ing link: MNI Open iEEG Atlas. The dataset con-
+                                                               tains intracranial electroencephalography (iEEG) record-
+  Between the two extremes of entropy (0 and 1) lie dy-        ings from 106 patients with refractory focal epilepsy, that
+namical systems of great interest, as many natural pro-        is, patients who did not respond to any other treatment
+cesses are governed by dynamics that fall within this in-      method and, therefore, were candidates for surgery. How-
+termediate range. Since the ordinal structures present         ever, only the channels from regions unaffected by the
+in a process are not fully captured by entropy measures        disease were analyzed.
+alone, it becomes necessary to use statistical or structural      The time series corresponds to different sleep stages:
+complexity measures to obtain a more detailed charac-          wakefulness (Wake), non-REM sleep (stages N2 and N3),
+terization of the underlying dynamics represented by the       and REM sleep. Each stage, in this study, has an aver-
+time series [32].                                              age duration of 60 seconds and was recorded in 1,772
+  Statistical Complexity allows for the identification of      channels, representing approximately 2.7 channels per
+essential details of the dynamics and, more importantly,       cubic centimeter of gray matter. These channels are dis-
+characterizes the correlational structure of the orderings     tributed across five brain lobes: occipital, parietal, in-
+present in time series [32]. A fundamental property of         sula, frontal, and temporal [21–23].
+this measure is that its value must be zero at the two ex-        Signal preprocessing included resampling to 200 Hz
+tremes of entropy and reach a maximum for intermediate         with a low-pass anti-aliasing filter at 80 Hz. Line noise
+entropy values. The Statistical Complexity Measure pro-        was mitigated through adaptive filtering, incorporating a
+posed to use here is defined by [33–35]:                       high-pass filter at 48 Hz and phase/amplitude estimation
+                                                               for harmonic components [21, 23]. Artifact removal was
+                                                               performed visually by a neurophysiologist, with concate-
+                SCM = WPE · QJ (P, Pe ),                (8)    nated segments using 2-second zero-amplitude buffers.
+                                                                                                                                    5
+
+All channels were normalized to a length of 68 seconds
+(13,600 samples) [21–23] and, subsequently, exclusively              L                R    L               R    L               R
+for this work, adjusted to 60 seconds, resulting in a time
+series of 13,000 samples.
+
+   (a)                 (b)                (c)
+
+
+                                                                   FIG. 3: Location of the 1,012 intracranial channels. The
+                                                                   colors represent different brain lobes: occipital (light pur-
+                                                                   ple), parietal (light blue), insula (light orange), frontal (light
+                                                                   green), and temporal (light red).
+
+
+                                                                   interference from anesthesia or surgical procedures. The
+                                                                   electrode location maps excluded regions with epileptic
+                                                                   activity or other brain anomalies, focusing on the normal
+                                                                   sleep physiology [21–23].
+                                                                      Intracranial electrodes not only play an essential role in
+                                                                   the treatment of refractory epilepsy through techniques
+                                                                   such as deep brain stimulation (DBS), but they also pro-
+FIG. 2: Representative time series of sleep stages. (a) Five-      vide valuable insights into normal neurophysiology. How-
+second segment of the average signal across all channels, in-      ever, the scarcity of normative iEEG data represents a
+cluding the mean (solid line) and standard deviation (shaded
+                                                                   significant challenge for standardization, especially when
+area) for each of the four sleep stages. (b) Five-second seg-
+ment showing the mean (solid line) and standard deviation
+                                                                   compared to scalp EEG [21].
+(shaded area) of the electrical signals across all channels from      Strict inclusion criteria were applied to ensure the rep-
+a single participant (patient 47), also for the four studied       resentativeness and quality of the data. These criteria
+stages. (c) Five-second segment of the signal from an indi-        included the availability of channels with normal activity,
+vidual channel (channel 297) across the same sleep stages,         detailed peri-implant images, recordings beyond the spec-
+illustrating the similarity between the average and individual     ified post-implantation intervals, and a minimum sam-
+dynamics.                                                          pling frequency of 200 Hz [21]. The final dataset, cov-
+                                                                   ering recordings from September 2015 to January 2020,
+   For this study, only channels with data available across        constitutes a valuable resource for understanding iEEG
+all sleep stages were included, resulting in a total of 1,012      patterns [23].
+analyzed channels. Fig. 2(a) shows a 5-second segment
+of the time series, displaying the mean and standard de-
+                                                                                 B.    Computational modeling
+viation across all channels for the four sleep stages. To
+illustrate the correspondence between the average signal
+and the individual behavior, Fig. 2(b) and (c) present 5-             To simulate whole-brain dynamics, we modeled each
+second segments of the time series from a representative           cortical region as a node using a mean-field (MF) descrip-
+participant (patient 47, who has the largest number of             tion of a network of Adaptive Exponential Integrate and
+channels — 43 channels) and from an individual repre-              Fire (AdEx) neurons [36–39]. The MF framework cap-
+sentative channel (channel 297), respectively, across all          tures the evolution of the firing rate of interacting local
+sleep stages. From this point onward, the color scheme             excitatory (e) and inhibitory (i) populations, including
+used to represent each sleep stage will follow the same            activity-dependent neuronal adaptation, as follows:
+pattern as shown in Fig. 2. The distribution of chan-
+nels by brain lobe is as follows: occipital (69 channels),              ∂νµ                 1    ∂ 2 Fµ
+parietal (204 channels), insula (49 channels), frontal (469           T     = (Fµ − νµ ) + cλη          ,
+                                                                         ∂t                 2    ∂λ∂η
+channels), and temporal (221 channels). The spatial lo-
+cations of these channels are shown in Fig. 3.                         ∂cλη   Fλ (T −1 − Fη )
+                                                                     T      =                 + (Fλ − νλ )(Fη − νη )
+   Data collection was performed at three distinct cen-                 ∂t          Nλ
+ters, employing different electrode implantation strate-                      ∂Fλ        ∂Fη
+                                                                            +     cηµ +       cλµ − 2cλη ,
+gies, which ensured a diverse representation of brain ac-                     ∂νµ         ∂νµ
+tivity during sleep. Ethical approval was obtained from                ∂Wµ      Wµ             aµ [µV (ηe , ηi , Wµ ) − ELµ ]
+the Montreal Neurological Institute.                                        =−       + bµ νµ +                                ,
+                                                                        ∂t      τW                           τW
+   The iEEG recordings were acquired after a minimum
+interval of 72 hours post-electrode implantation or one              where νµ is the mean firing rate of population µ =
+week after the placement of other devices, minimizing              {e, i}, cλη is the covariance between population λ and η,
+                                                                                                                                       6
+
+Wµ is the mean adaptation, bµ is the adaptation level,
+aµ is the subthrehsold adaptation, T is the MF charac-                                                         X
+teristic time constant. Fµ = Fµ (νe , νi , Wµ ) is the trans-      νµin (k, t) = νe (k, t) + νaff (k, t) + G       Ckj νe (j, t − Dkj ),
+fer function (TF) of a given neuron type µ. Excitatory                                                         j
+and inhibitory neurons were modeled as regular-spiking
+(RS) and fast-spiking (FS), respectively [39]. The TF                 where the sum runs over all nodes j, Ckj is the con-
+characterizes the dependence of the output firing rate on          nection strength between nodes j and k, and Dkj is the
+the excitatory (νe ) and inhibitory (νi ) inputs, and can          matrix of delays. G is a constant coupling factor that
+be written as a function of its mean subthreshold mem-             rescales the connection strength while maintaining the
+brane voltage µV , its standard deviation σV , and its time        ratio between different values. νaff = νdrive + σζ(t), rep-
+correlation time decay τV [38]:                                    resent the afferent input, where νdrive is constant ex-
+                                                                   ternal input, σ = 4 is the noise weight, and ζ denotes
+                                                                   an Ornstein-Uhlenbeck process: ζ(t) = −(ζ(t)dt/τOU ) +
+                                               eff
+                                                                   dWt , with dWt representing a Wiener process of ampli-
+                                                          
+                            1                Vthr   − µV
+           F = νout =          · erfc          √               ,   tude one and average zero.
+                           2τV                     2σV
+                                                                      The connectivity between each MF node was defined
+where (µV ,σV ,τV ) are obtained by solving a set of equa-         by human tractography data from the Berlin empirical
+tions as described in [39]. Vthr
+                               eff
+                                   is a phenomenological           data, and the Desikan-Killiany parcellation was used to
+spike threshold voltage taken as a second-order polyno-            define 68 cortical regions [41]. Connections among corti-
+mial:                                                              cal regions and propagation delays were defined by tract
+                                                                   lengths and with estimates in human diffusion tensor
+                                                                 imaging (DTI) data [42, 43].
+     eff
+                                            X         x − x0          This MF model constrained by the human connectome
+   Vthr  (µV , σV , τVN ) = P0 +                  Px
+                                 x∈{µV ,σV ,τVN }
+                                                        δx0        has been shown to replicate the dynamics of different
+                                                               brain states, such as awake- and sleep-like states [40, 44,
+                       X                x − x0       y − y0        45]. Both states are dependent on the level of adap-
+            +                     Pxy                         ,
+                              N 2
+                x,y∈{µV ,σV ,τV }
+                                          δx0          δy0         tation (b), such that for low values the dynamics are
+                                                                   more asynchronous, standing for awake-like states. For
+   with τVN = τCVmgl , where gl is the leakage conductance         high levels of b the system displays slow wave dynam-
+and Cm the membrane capacitance. The constant values               ics, a fingerprint of slow wave sleep (NREM phase 3).
+used were the same obtained in [39]: µ0V = −60 mV,                 To simulate a continuous transition among these two
+σV0 = 0.004 mV, (τVN )0 = 0.5, δµ0V = 0.001 mV,                    states, we varied b from 40 to 95 pA. All the simulations
+δσV0 = 0.006 mV, and δ(σVN )0 = 1. Accordingly, the fit-           were performed using The Virtual Brain software [42, 46].
+ted polynomials P , for the excitatory (e) and inhibitory          The code used for simulations is publicly available at
+                                                                   http://www.github.com.
+(i) types of neurons are: P0e,i = (−0.0498, −0.0514),
+Pµe,i
+   V
+       = (0.00506, 0.004), Pσe,i  V
+                                      = (−0.025, −0.0083),
+PτV = (0.0014, 0.0002), Pµe,i
+  e,i
+                                2   =  (−0.00041, −0.0005),                   TABLE I: AdEx mean-field parameters
+                                     V
+
+Pσe,i
+   2   = (0.0105, 0.0014),          Pτe,i
+                                = (−0.036, −0.0146),
+                                       2
+   V                                   V
+PµV σV = (0.0074, 0.0045), PµV τV = (0.0012, 0.0028),              Parameter      Value       Parameter            Value
+PσV τV = (−0.0407, −0.0153). µV is a function that rep-                T         20 ms           Cm               200 pF
+resents the average membrane potential of a given popu-              EL;e,i  {−64, −65} mV       Qe,i           {1.5, 5} nS
+                                                                      Ne,i    {8, 2} × 103        τe,i           {5, 5} ms
+lation:                                                                                            ext
+                                                                       p           5%            νe,i       {0.315, 0.315} Hz
+                                                                       be        varied          Ke,i             {400, 0}
+                    µGe Ee + µGi Ei + gL EL − W                        bi         0 pA           Ee,i            {0, −80}
+            µV =                                ,                     ae,i      {0, 0}nS         τOU               5 ms
+                           µGe + µGi + gL
+                                                                      τw         500 ms      noise weight      3 × 10−4 nS
+   where µGe = νe Ke ue Qe , and similarly to the popula-             gL          10 nS    conduction speed        4 ms
+tion i. Qµ is the conductance weight, uµ is the synaptic
+time decay, and Kµ = N p is a constant that depends
+on the number N = 104 of neurons and the probability
+p = 0.05 of connection. All parameters were obtained
+                                                                                           IV.   RESULTS
+from [39, 40] and are summarized in Table III B.
+   Previous equations describe the population dynamics
+of a single cortical region of excitatory and inhibitory                              A.    Intracranial data
+populations. To extend it to account for a large network
+of interconnected cortical regions, the network transfer             In this study, we used a symbolic information ap-
+function can be rewritten as Fµ (νein (k), νi (k), W (k)):         proach, namely Weighted Permutation Entropy (WPE)
+                                                                                                                           7
+
+(a)                                                             sures as a function of τ . Then we chose to use τ = 10,
+                                                                which maximizes the sum of the Euclidean distances.
+                                                                This result can be interpreted as the identification of
+                                                                a relevant characteristic timescale at which the time se-
+                                                                ries of the different stages exhibit the greatest distinction
+                                                                from one another.
+                                                                   Unless otherwise stated, this value was adopted for all
+                                                                subsequent analyses.
+                                                                   For a comprehensive analysis of these brain states, we
+                                                                projected the information-theoretic measures onto the
+                                                                complexity–entropy (SCM × WPE) plane for /tau = 10,
+                                                                computed from the representative time series shown in
+(b)                                                             Fig. 2 (a), which corresponds to the average signal across
+                                                                all 1,012 channels. Projection onto the SCM×WPE plane
+                                                                revealed a structure organization of brain states, which
+                                                                represents the primary finding of our study: each brain
+                                                                state occupied a distinct region in the complexity-entropy
+                                                                plane (Fig. 5(a)). Wakefulness was characterized by the
+                                                                highest entropy and lowest complexity, reflecting a highly
+                                                                irregular, less structured signal. In contrast, the deep
+                                                                sleep stage N3 exhibited the lowest entropy and highest
+                                                                complexity, indicating more regular but highly organized
+                                                                dynamics. Both quantifiers displayed a gradual transi-
+                                                                tion across the sleep-wake cycle following the sequence
+                                                                Wake, REM, N2, and N3. This behavior can be explained
+FIG. 4: Variation of (a) Weighted Permutation Entropy           by the intrinsic characteristics of the time series associ-
+(WPE) and (b) Statistical Complexity Measure (SCM) as a         ated with each stage. Wake and REM stages are marked
+function of the embedding delay τ , reflecting different tem-   by higher frequency and intense brain activity, which re-
+poral resolutions of the mean iEEG signal obtained from the     sults in higher disorder, while the N2 and N3 stages are
+1,012 recording channels. Values of τ range from 1 (5 ms) to    widely known for their slow waves and reduced neural
+100 (500 ms). The four curves correspond to the canonical       activity, leading to lower entropy. A similar pattern can
+brain states—Wake, N2, N3, and REM. The dashed vertical         be observed in the SCM×PE plane for data from rats in
+line marks τ = 10 (50 ms), the timescale at which the separa-   different brain states (Fig. 5 of [47]), as well as in hu-
+tion between brain states is maximal and used in subsequent     man EEG recordings across different sleep stages (Fig. 4
+analyses.
+                                                                of [18]).
+                                                                   Furthermore, the same pattern of brain state distri-
+                                                                bution in the SCM×WPE plane can be observed at the
+and Statistical Complexity Measure (SCM), to charac-            individual level (Fig. 5(b)). To illustrate this, we se-
+terize canonical brain states across the human sleep-           lected the subject with the highest number of valid chan-
+wake cycle, including wakefulness, REM, N2, and N3              nels (subject 47) and computed the average signal across
+sleep stages (Fig. 2). We analyzed iEEG recordings ob-          those channels to generate a representative time series,
+tained from an open-access database, which, after pre-          which can be seen in Fig. 2 (b). The corresponding pro-
+processing, comprised data from 106 patients and 1,012          jection onto the SCM×WPE plane revealed a distribu-
+electrodes distributed across widespread cortical regions       tion of brain states consistent with that observed at the
+(Fig. 3).                                                       group level, reinforcing the robustness of our findings. In
+   As a first approach, WPE and SCM were computed               Fig. 5(b), the points follow the same trajectory: Wake at
+from the average signal of the 1, 012 channels. The single      high entropy/low complexity, progressing through REM
+representative time series for each brain state is shown in     and N2 to N3 at low entropy/high complexity, with min-
+Fig. 2(a). To identify the temporal scale at which WPE          imal overlap between states, underscoring the method’s
+and SCM were most sensitive to brain state differences,         ability to capture individual variability while preserving
+we first characterized the embedding delay τ . Fig. 4 il-       the overall pattern.
+lustrates the two indices as a function of τ from 1 up to          In addition, Fig. 5(c) shows the projection for a rep-
+100, which corresponds to 5 ms to 500 ms. As illustrated        resentative channel (channel 297), whose time series is
+in Fig. 4(a) for WPE and (b) for SCM, the separation            also shown in Fig. 2(c). This single-channel example re-
+between brain states was maximized close to τ = 10,             veals the same structured organization of brain states
+corresponding to 50 ms.                                         observed at both the group and individual levels. Each
+   In fact, we computed the Euclidean distance between          sleep stage occupies a distinct region in the SCM×WPE
+all pairs of brain states for entropy and complexity mea-       plane, following the sequence Wake, REM, N2, and N3,
+                                                                                                                            8
+
+  (a)                                      (b)                                      (c)
+
+
+
+
+FIG. 5: Projection of brain states onto the complexity–entropy (SCM×WPE) plane for τ = 10. (a) Group-level projection
+based on the average signal across all 1,012 iEEG channels, showing that each sleep stage occupies a distinct region following
+the sequence Wake, REM, N2, and N3, with entropy decreasing and complexity increasing along the sleep–wake cycle. (b)
+Subject-level projection for the individual with the highest number of valid channels (subject 47), where the same ordered
+distribution of brain states is preserved, demonstrating the consistency of the pattern across subjects. (c) Projection for a
+representative single channel (channel 297), revealing that the same structured organization of brain states observed at the
+group and individual levels is maintained even at the local scale.
+
+
+consistent with the overall tendency identified across the       approach allowed us to identify the adaptation range
+1,012 channels. This finding highlights that the char-           that best reproduced the empirical organization of brain
+acteristic pattern of decreasing entropy and increasing          states, if any. As illustrated in Fig. 6(a), increasing adap-
+complexity along the sleep–wake cycle is preserved even          tation shifted the system across the SCM×WPE plane,
+at the single-channel level.                                     from higher entropy and lower complexity at low adap-
+   Indeed, the same organizational structure observed in         tation values to lower entropy and higher complexity
+Fig. 5, with decreasing entropy and increasing complex-          at higher values. Remarkably, the resulting trajectories
+ity following the sequence Wake, REM, N2, and N3, was            closely mirrored those observed in the iEEG recordings
+found in 44.6% of patients for entropy and 41.5% for             (Fig. 6(b)). The adaptation levels that showed the closest
+complexity. At the single-channel level, this pattern ap-        correspondence with the empirical data were 40, 60, 80,
+peared in 42.7% of channels for entropy and 41.5% for            and 95 pA, corresponding to wakefulness, REM, N2, and
+complexity                                                       N3, respectively, whose points had already been shown
+                                                                 and discussed in Fig. 5(a).
+                                                                    Together, these results indicate that the neuromodula-
+                B.   Whole-brain Model
+                                                                 tory tone can drive the system through the SCM×WPE
+                                                                 space. Furthermore, the agreement between simulated
+                                                                 and empirical data aligns with prior findings: lower adap-
+   Mechanistically, what could account for the organiza-         tation levels, typical of wakefulness and REM sleep, are
+tion of these brain states in the SCM×WPE plane? To              associated with elevated neuromodulatory tone and more
+address this question, we implemented a human whole-             desynchronized dynamics, whereas higher adaptation lev-
+brain computational model capable of reproducing dy-             els, as observed in N2 and N3 sleep states, reflect reduced
+namic features of the sleep-wake cycle [44, 45]. Connec-         neuromodulatory tone resulting in strongly synchronized
+tivity among different brain regions was determined by           activity manifested as slow-wave oscillations [28, 50].
+structural tractography [43], and each cortical region was
+modeled using the MF-AdEX model [37, 39]. This model
+incorporates activity-dependent adaptation [36], a bio-
+physical mechanism that, when modulated by neuromod-                     C.   Support Vector Machine Classifier
+ulatory input such as ACh, enables transitions between
+awake-like and sleep-like dynamic regimes [28, 39, 48, 49].         Overall, our findings demonstrate the potential of
+   To investigate these transitions and map each state           information-theoretic quantifiers to discriminate among
+onto the SCM×WPE plane, we systematically varied the             brain states across the sleep-wake cycle. While re-
+adaptation level from 40 to 95 pA, following the same            cent developments in machine learning and deep learn-
+procedure used for the empirical data. Specifically, the         ing have introduced various approaches to brain state
+electrical signals from each simulation channel were av-         classification[51–55], here we aimed to illustrate how our
+eraged for each adaptation value, after which the corre-         methodology can be integrated with such techniques. To
+sponding entropy and complexity were computed. This              this end, we implemented a Support Vector Machine
+                                                                                                                          9
+
+    (a)                                                         tially compromising the temporal resolution. To address
+                                                                this trade-off, we evaluated window lengths ranging from
+                                                                1, 400 to 2, 000 points. Based on improved SVM accu-
+                                                                racy, we identified 1, 800 points as the optimal window
+                                                                size, resulting in 29 windows of 9 seconds each.
+                                                                   The entropy and complexity values for each window
+                                                                were used as classification features. Fig. 7 (a) shows
+                                                                the SCM×WPE plane for all windows used in the SVM,
+                                                                where a clear distinction among sleep stages can already
+                                                                be observed within the plane. Fig. 7 (b) presents the con-
+                                                                fusion matrix obtained using the SVM classifier trained
+                                                                on these features. A 5-fold cross-validation was em-
+                                                                ployed, with 80% of the windows used for training and
+                                                                20% for testing in each fold. The classifier used a poly-
+                                                                nomial kernel of order 2 and included data standardiza-
+                                                                tion. As illustrated in Fig. 7 (b), the model achieved an
+                                                                overall accuracy of 92.25%. Notice that the wake, N2,
+    (b)                                                         and N3 states were classified with the highest accuracy
+                                                                (> 90%). In contrast, the REM state showed the lowest
+                                                                performance, often misclassified as N2 (20.7%).
+                                                                   When the same window-based segmentation and SVM
+                                                                approach is applied to patient 47 ( 2(b) and 5(b)) and to
+                                                                channel 297 ( 2(c) and 5(c)), average accuracies of 86%
+                                                                and 91.38% are obtained, respectively, again revealing
+                                                                only a mild confusion between the N2 and REM stages
+                                                                in both cases.
+                                                                   Finally, we evaluated the SVM using a hybrid ap-
+                                                                proach, training the classifier with empirical data (Fig. 7
+                                                                (a)) and testing it with simulated data. The same
+                                                                window segmentation was applied to the mean electri-
+                                                                cal signals corresponding to the b values selected from
+                                                                Fig. 6 (b), ensuring consistency between the empiri-
+                                                                cal and simulated datasets. The goal was to define
+                                                                regions in the SCM×WPE plane associated with each
+                                                                brain state, enabling their identification in future appli-
+FIG. 6: Mapping of simulated brain states in the SCM×WPE        cations. In Fig. 8(a), the SCM×WPE plane is shown
+plane. (a) Systematic variation of the adaptation level         with the decision boundaries established by the SVM,
+b (40–95 pA) drove transitions across the plane from            along with the overlaid simulated data points. Fig. 8(b)
+high-entropy/low-complexity to low-entropy/high-complexity      presents the corresponding confusion matrix, indicating
+regimes. (b) Adaptation levels of 40, 60, 80, and 95 pA re-     that the model accurately classified the different brain
+produced the empirical organization of wakefulness, REM,        states (88.79% overall accuracy). As observed, precision
+N2, and N3 states, respectively, closely matching the trajec-   was higher for the Wake, N2, and REM states, while the
+tories observed in iEEG recordings. Note that the points cor-   N3 state was most frequently misclassified as N2.
+responding to Wake, REM, N2, and N3 have already been
+shown and discussed in Fig. 5 (a).
+
+                                                                                  V.   CONCLUSION
+(SVM) classifier using the extracted quantifiers, SCM,
+and WPE, as input features, exemplifying its applicabil-           In summary, we demonstrated the effectiveness of
+ity to automated brain state classification.                    quantifiers Weighted Permutation Entropy (WPE) and
+   Our approach consisted of taking the average iEGG            Statistical Complexity Measure (SCM) in uniquely char-
+signals (Fig. 2 (a)) corresponding to each brain state          acterizing sleep stages. For the data analyzed in this
+and segmenting them into overlapping windows (80%               study, we identified the time delay that maximized the
+overlap), while maintaining a fixed embedding delay of          separation between stages. By projecting brain states
+τ = 10. Due to a limitation of Permutation Entropy, each        onto the complexity-entropy plane, we observed that each
+window must contain at least 1, 400 data points when            sleep stage occupies well-defined regions, demonstrating
+using an embedding dimension of D = 6, which yields             the robustness of the proposed approach across differ-
+720 possible ordinal patterns. However, excessively long        ent levels of analysis: global (averaging electrical signals
+windows reduce the total number of segments, poten-             across all channels), individual (averaging signals from
+                                                                                                                               10
+
+        (a)                                                                (b)
+
+
+
+
+FIG. 7: (a) Projection of the windows onto the SCM×WPE plane used for SVM training. The windows correspond to
+overlapping segments derived from the average signal across all channels. A clear separation among sleep stages can be
+observed in most windows, which is further confirmed by (b) the confusion matrix obtained with the 5-fold SVM classifier,
+showing an overall accuracy of 92.25%. Notice that the Wake, N2, and N3 states exhibited the highest classification rates,
+whereas the REM stage was most frequently misclassified as N2.
+
+         (a)                                                               (b)
+
+
+                                                        Test Points
+                                                             = 40
+                                                             = 60
+                                                             = 80
+                                                             = 95
+                                                        Decision Regions
+                                                          Wake
+                                                          REM
+                                                          N2
+                                                          N3
+
+
+
+
+FIG. 8: Classification performance of the SVM trained with experimental data and tested with simulated data. (a) Com-
+plexity–entropy plane showing the decision boundaries defined by the SVM trained on experimental windows, with simulated
+data points overlaid. (b) Confusion matrix illustrating the classification results for the simulated windows, achieving an overall
+accuracy of 88.79%. The model showed higher precision for the Wake, N2, and REM stages, while N3 was most frequently
+misclassified as N2.
+
+
+each patient), and local (projection corresponding to a               The integration of a Support Vector Machine (SVM)
+single channel).                                                   classifier, trained on features extracted from WPE and
+                                                                   SCM computed over windowed segments of the signals,
+   The same pattern of localization in the complexity-             achieved an overall accuracy of 92.25% in classifying the
+entropy plane was observed with the implementation of              experimental data. Using the same classifier, it was also
+a human whole-brain computational model capable of                 possible to define decision regions in the SCM×PE plane
+reproducing the dynamics of the sleep-wake cycle. By               corresponding to each sleep stage, this time using the
+varying the adaptation parameter, we were able to accu-            simulated data as test input, resulting in an accuracy of
+rately reproduce the empirical progression of brain states         88.79%.
+throughout this cycle. Moreover, we identified the adap-
+tation values that best matched each experimental stage,              The results suggest that the use of these tools is ef-
+based on their positions in the plane. These findings not          fective for uniquely characterizing different sleep stages,
+only reflect the organization observed in empirical data           enabling their classification within this dataset. Further-
+but are also biologically meaningful, aligning with known          more, this approach shows potential for application to
+mechanisms of neuromodulation across sleep and wake-               other datasets, demonstrating its robustness and gener-
+fulness.                                                           alizability.
+                                                                                                                               11
+
+                    Acknowledgments                               (Grants 88887.607492/2021-00, and 88881.690510/2022-
+                                                                  01), and L’ORÉAL- UNESCO-ABC For Women In Sci-
+  The authors thank UFAL, UIB, CNPq (Grants                       ence (Para Mulheres na Ciência) for financial support.
+No. 402359/2022-4, 314092/2021-8, and 444500/2024-                This research is also supported by INCT-NeuroComp
+3), FAPEAL (Grant No. APQ2022021000015), CAPES                    (CNPq Grant 408389/2024-9).
+
+
+
+
+ [1] H. S. Vignesh, D. and S. Banerjee, Nonlinear Dynamics        [24] H. B. de Lucas, S. L. Bressler, F. S. Matias, and O. A.
+     (2025).                                                           Rosso, Nonlinear Dynamics 104, 4401 (2021).
+ [2] T. McKenna, T. McMullen, and M. Shlesinger, Neuro-           [25] N. Lotfi, T. Feliciano, L. A. Aguiar, T. P. L. Silva, T. T.
+     science 60, 587 (1994), ISSN 0306-4522.                           Carvalho, O. A. Rosso, M. Copelli, F. S. Matias, and
+ [3] M. V. Sánchez-Vives et al.,             arXiv preprint            P. V. Carelli, Physical review. E 103 (2021).
+     arXiv:2510.05815 (2025).                                     [26] O. A. Rosso, M. Martin, A. Figliola, K. Keller, and
+ [4] A. Camassa, A. Nghiem, G. Northoff, G. Deco, A. Sor-              A. Plastino, Journal of neuroscience methods 153, 163
+     rentino, D. R. Chialvo, D. Van De Ville, and A. Sor-              (2006).
+     rentino, Scientific Reports 14, 24271 (2024),                [27] F. L. P. Carlos, M. C. Navas, Ícaro Rodolfo Soares
+ [5] A. Destexhe, A. Nghiem, M. V. Sanchez-Vives, et al.,              Coelho Da Paz, H. B. de Lucas, M.-M. Ubirakitan,
+     arXiv preprint arXiv:2510.07956 (2025).                           M. C. A. Rodrigues, M. Aguilar Domingo, E. Herrera-
+ [6] M. V. DiCaro, K. Lei, B. Yee, and T. Tak, Journal of              Gutiérrez, O. A. Rosso, L. Bavassi, et al., Physica D:
+     Clinical Medicine 13, 3223 (2024).                                Nonlinear Phenomena 483, 134955 (2025), ISSN 0167-
+ [7] B. K. Dredla and P. R. Castillo, Current cardiology re-           2789.
+     ports 21, 1 (2019).                                          [28] D. A. McCormick, D. B. Nestvogel, and B. J. He, Annual
+ [8] J. L. Moore, D. Z. Carvalho, E. K. St Louis, and C. Bazil,        review of neuroscience 43, 391 (2020).
+     Neurotherapeutics 18, 170 (2021).                            [29] C. E. Shannon, The Bell system technical journal 27, 379
+ [9] M. Carreño and S. Fernández, Current treatment options            (1948).
+     in neurology 18, 1 (2016).                                   [30] C. Bandt and B. Pompe, Physical review letters 88,
+[10] M. R. Birză, A. G. Negru, È. M. Frent, A.-R. Florescu,            174102 (2002).
+     A. M. Popa, A. R. Manzur, A. Lascu, and S. MihaicuÈ›a,       [31] B. Fadlallah, B. Chen, A. Keil, and J. Príncipe, Phys-
+     Journal of Clinical Medicine 14, 1922 (2025).                     ical Review E—Statistical, Nonlinear, and Soft Matter
+[11] R. K. Malhotra, Sleep medicine clinics 13, 63 (2018).             Physics 87, 022911 (2013).
+[12] D. Petit, J.-F. Gagnon, M. L. Fantini, L. Ferini-Strambi,    [32] H. M. R. López-Ruiz and X. Calbet, Physics Letters A
+     and J. Montplaisir, Journal of psychosomatic research             209, 321 (1995).
+     56, 487 (2004).                                              [33] O. A. Rosso, H. A. Larrondo, M. T. Martín, A. Plas-
+[13] K. Suzuki, M. Miyamoto, T. Miyamoto, M. Iwanami, and              tino, and M. Fuentes, Physical Review Letters 99, 154102
+     K. Hirata, Parkinson’s disease 2011, 219056 (2011).               (2007).
+[14] Y.-E. S. Ju, B. P. Lucey, and D. M. Holtzman, Nature         [34] P. Lamberti, M. Martin, A. Plastino, and O. Rosso, Phys-
+     Reviews Neurology 10, 115 (2014).                                 ica A: Statistical Mechanics and its Applications 334, 119
+[15] K. N. DEMENT W, Electroencephalogr Clin Neurophys-                (2004), ISSN 0378-4371.
+     iol 9(4), 673 (1957).                                        [35] M. Martin, A. Plastino, and O. A. Rosso, Physica A: Sta-
+[16] R. Boostani, F. Karimzadeh, and M. Nami, Computer                 tistical Mechanics and its Applications 369, 439 (2006).
+     Methods and Programs in Biomedicine 140, 77 (2017),          [36] R. Brette and W. Gerstner, Journal of neurophysiology
+     ISSN 0169-2607.                                                   94, 3637 (2005).
+[17] N. Nicolaou and J. Georgiou, Clinical EEG and Neuro-         [37] S. El Boustani and A. Destexhe, Neural computation 21,
+     science 42, 24 (2011).                                            46 (2009).
+[18] D. M. Mateos, J. Gómez-Ramírez, and O. A. Rosso,             [38] Y. Zerlaut, S. Chemla, F. Chavane, and A. Destexhe,
+     Chaos, Solitons & Fractals 146, 110798 (2021).                    Journal of computational neuroscience 44, 45 (2018).
+[19] C. D. Duarte, M. Pacheco, F. R. Iaconis, O. A. Rosso,        [39] M. Di Volo, A. Romagnoni, C. Capone, and A. Destexhe,
+     G. Gasaneo, and C. A. Delrieux, Entropy 27, 76 (2025).            Neural computation 31, 653 (2019).
+[20] W. Shi, P. Shang, Y. Ma, S. Sun, and C.-H. Yeh, Commu-       [40] M. Sacha, F. Tesler, R. Cofre, and A. Destexhe, Nature
+     nications in Nonlinear Science and Numerical Simulation           Computational Science 5, 405 (2025).
+     44, 292 (2017).                                              [41] R. S. Desikan, F. Ségonne, B. Fischl, B. T. Quinn,
+[21] B. Frauscher, N. von Ellenrieder, R. Zelmann,                     B. C. Dickerson, D. Blacker, R. L. Buckner, A. M. Dale,
+     I. Doležalová, L. Minotti, A. Olivier, J. Hall, D. Hoff-          R. P. Maguire, B. T. Hyman, et al., Neuroimage 31, 968
+     mann, D. K. Nguyen, P. Kahane, et al., Brain 141, 1130            (2006).
+     (2018).                                                      [42] P. Sanz-Leon, S. A. Knock, A. Spiegler, and V. K. Jirsa,
+[22] B. Frauscher, N. Von Ellenrieder, R. Zelmann, C. Rogers,          Neuroimage 111, 385 (2015).
+     D. K. Nguyen, P. Kahane, F. Dubeau, and J. Gotman,           [43] M. Schirner, S. Rothmeier, V. K. Jirsa, A. R. McIntosh,
+     Annals of neurology 84, 374 (2018).                               and P. Ritter, NeuroImage 117, 343 (2015).
+[23] N. von Ellenrieder, J. Gotman, R. Zelmann, C. Rogers,        [44] J. S. Goldman, L. Kusch, D. Aquilue, B. H. Yalçınkaya,
+     D. K. Nguyen, P. Kahane, F. Dubeau, and B. Frauscher,             D. Depannemaecker, K. Ancourt, T.-A. E. Nghiem,
+     Annals of Neurology 87, 289 (2020).                               V. Jirsa, and A. Destexhe, Frontiers in Computational
+                                                                                                                           12
+
+     Neuroscience 16, 1058957 (2023).                             [51] A. Marin-Llobet, S. Sánchez-Manso, A. Manasanch,
+[45] L. Dalla Porta, J. Fousek, A. Destexhe, and M. V.                 L. Tresserras, X. Zhang, Y. Hua, H. Zhao, M. Torao-
+     Sanchez-Vives, bioRxiv (2025).                                    Angosto, M. V. Sanchez-Vives, and L. Dalla Porta, Ad-
+[46] M. Schirner, L. Domide, D. Perdikis, P. Triebkorn, L. Ste-        vanced Intelligent Systems (2025).
+     fanovski, R. Pai, P. Prodan, B. Valean, J. Palmer,           [52] A. Marin-Llobet, A. Manasanch, L. Dalla Porta,
+     C. Langford, et al., NeuroImage 251, 118973 (2022).               M. Torao-Angosto, and M. V. Sanchez-Vives, Commu-
+[47] R. M. Jungmann, T. Feliciano, L. A. Aguiar, C. Soares-            nications Biology 8, 599 (2025).
+     Cunha, B. Coimbra, A. J. Rodrigues, M. Copelli, F. S.        [53] A. Bandyopadhyay and C. Goldstein, Sleep and Breath-
+     Matias, N. A. de Vasconcelos, and P. V. Carelli, Physical         ing 27, 39 (2023).
+     Review E 110, 014402 (2024).                                 [54] M. Lee, L. R. Sanz, A. Barra, A. Wolff, J. O. Nieminen,
+[48] L. Dalla Porta, A. Barbero-Castillo, J. M. Sanchez-               M. Boly, M. Rosanova, S. Casarotto, O. Bodart, J. An-
+     Sanchez, and M. V. Sanchez-Vives, PLoS Computational              nen, et al., Nature communications 13, 1064 (2022).
+     Biology 19, e1011246 (2023).                                 [55] D. A. Weiss, A. M. Borsa, A. Pala, A. J. Sederberg, and
+[49] M. Bazhenov, I. Timofeev, M. Steriade, and T. J. Se-              G. B. Stanley, Journal of neural engineering 21, 016016
+     jnowski, Journal of neuroscience 22, 8691 (2002).                 (2024).
+[50] S.-H. Lee and Y. Dan, neuron 76, 209 (2012).
+

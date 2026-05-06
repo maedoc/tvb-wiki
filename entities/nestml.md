@@ -18,13 +18,13 @@ type: entity
 updated: '2026-05-06'
 ---
 
-NESTML (Neural Simulation Tool Markup Language) is a domain-specific modeling language designed to describe neuron and synapse models for simulation in the NEST simulator. Developed primarily at the Institute of Neuroscience and Medicine (INM-6) at Forschungszentrum Jülich, NESTML provides a declarative approach to neuron modeling that separates the mathematical description of neuronal dynamics from the implementation details of particular simulation engines, enabling automatic code generation for multiple target platforms [@nestml-origin].
+NESTML ([[neural-simulation]] Tool Markup Language) is a domain-specific modeling language designed to describe neuron and synapse models for simulation in the NEST simulator. Developed primarily at the Institute of Neuroscience and Medicine (INM-6) at Forschungszentrum Jülich, NESTML provides a declarative approach to neuron modeling that separates the mathematical description of neuronal dynamics from the implementation details of particular simulation engines, enabling automatic code generation for multiple target platforms [@nestml-origin].
 
 ## Overview
 
 NESTML extends the concepts pioneered by NeuroML and related efforts by providing a dedicated language for describing point neuron models with arbitrary complexity. At its core, NESTML allows researchers to define neuronal dynamics through differential equations describing the evolution of membrane potential, gating variables for [[ion-channel]] states, and synaptic conductance updates. The language supports both [[spiking-neural-networks|integrate-and-fire]] type models as well as more detailed conductance-based models derived from the [[hodgkin-huxley-model]] formalism.
 
-The language was developed in response to a perennial challenge in [[computational-neuroscience]]: the difficulty of implementing complex neuron models in multiple simulation environments. When a researcher develops a novel neuron model described in a research paper, implementing it in NEST, NEURON, or Brian often requires substantial manual effort and introduces the possibility of implementation errors. NESTML addresses this by allowing researchers to write a single model specification that can be automatically translated into optimized simulation code for different targets [@nestml-recent].
+The language was developed in response to a perennial challenge in [[computational-neuroscience]]: the difficulty of implementing complex neuron models in multiple simulation environments. When a researcher develops a novel neuron model described in a research paper, implementing it in NEST, NEURON, or [[brian]] often requires substantial manual effort and introduces the possibility of implementation errors. NESTML addresses this by allowing researchers to write a single model specification that can be automatically translated into optimized simulation code for different targets [@nestml-recent].
 
 ## Key Features
 

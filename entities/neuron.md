@@ -12,7 +12,7 @@ tags:
 - neural-mass-models
 title: NEURON
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # NEURON
@@ -30,7 +30,7 @@ NEURON provides tools for building and simulating biophysically detailed models 
 - **Implicit numerical methods**: Efficient handling of stiff differential equations
 - **hoc and Python interfaces**: Scripting for model construction and control
 - **Parallel network simulation**: Large-scale network models
-- **ModelDB integration**: Direct sharing and access to published models
+- **[[modeldb]] integration**: Direct sharing and access to published models
 
 ## Applications
 
@@ -77,4 +77,4 @@ NEURON provides tools for building and simulating biophysically detailed models 
 2. Carnevale & Hines (2006). *The NEURON Book*.
 3. Hay et al. (2011). *Models of neocortical layer 5b pyramidal cells capturing a wide range of dendritic and perisomatic active properties*. PLOS Computational Biology. [DOI](](https://doi.org/10.1371/journal.pcbi.1002107))
 4. Markram et al. (2015). *Reconstruction and simulation of neocortical microcircuitry*. Cell. [DOI](](https://doi.org/10.1016/j.cell.2015.09.029))
-5. Gewaltig & Diesmann (2007). *NEST (NEural Simulation Tool)*. Scholarpedia. [DOI](](https://doi.org/10.4249/scholarpedia.1430))
+5. Gewaltig & Diesmann (2007). *NEST ([[neural-simulation]] Tool)*. Scholarpedia. [DOI](](https://doi.org/10.4249/scholarpedia.1430))

@@ -1,10 +1,15 @@
 ---
-title: "Neural Simulation"
 created: 2026-05-06
-updated: 2026-05-06
-type: concept
-tags: [neural-simulation, computational-neuroscience, spiking-neural-networks, neural-mass-model, whole-brain-modeling]
 sources: []
+tags:
+- neural-simulation
+- computational-neuroscience
+- spiking-neural-networks
+- neural-mass-model
+- whole-brain-modeling
+title: Neural Simulation
+type: concept
+updated: '2026-05-06'
 ---
 
 # Neural Simulation
@@ -23,11 +28,11 @@ sources: []
 
 ## Relationship to TVB
 
-TVB operates primarily at the **macroscale** level, simulating whole-brain dynamics using neural mass and mean-field models:
-- TVB can **couple to microscale simulators** (NEST, NESTML, Brian2) via co-simulation interfaces
-- TVB's neural mass models are **derived from** lower-level spiking dynamics using mean-field approximations
-- TVB integrates structural connectivity data to constrain large-scale network simulations
-- TVB generates predictions at the level of BOLD fMRI, EEG, and MEG that can be compared to empirical neuroimaging
+TVB operates primarily at the **macroscale** level, simulating whole-[[brain-dynamics]] using neural mass and [[mean-field-theory|mean-field]] models:
+- TVB can **couple to microscale simulators** ([[nest]], [[nestml]], [[brian2]]) via co-simulation interfaces
+- TVB's [[neural-mass-models]] are **derived from** lower-level spiking dynamics using mean-field approximations
+- TVB integrates [[structural-connectivity]] data to constrain large-scale network simulations
+- TVB generates predictions at the level of [[bold-signal|BOLD]] [[fmri]], EEG, and MEG that can be compared to empirical [[neuroimaging]]
 
 ## Related
 

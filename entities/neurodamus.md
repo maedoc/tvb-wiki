@@ -34,7 +34,7 @@ Parameter optimization represents another key capability. Neurodamus integrates 
 
 Neurodamus is tightly integrated with TVB through the [[tvb-nest]] module, which provides the main interface for running combined simulations. The workflow typically begins with TVB generating or loading a connectivity matrix—either from public datasets like [[hcp-dataset]] or from custom [[diffusion-imaging]] data processed through tools like [[mrtrix3-connectome]]. This connectivity matrix is then used to construct the interregional coupling in the spiking network simulation.
 
-The simulation proceeds in a hybrid mode where TVB handles the macroscopic coupling between brain regions while Neurodamus manages the microscopic dynamics within each region. Signals can be extracted at multiple levels: spike trains from individual neurons, local field potentials computed from synaptic currents, or population firing rates that feed back into TVB's neural mass framework.
+The simulation proceeds in a hybrid mode where TVB handles the macroscopic coupling between brain regions while Neurodamus manages the microscopic dynamics within each region. Signals can be extracted at multiple levels: spike trains from individual neurons, [[local-field-potentials]] computed from synaptic currents, or population firing rates that feed back into TVB's neural mass framework.
 
 This integration makes Neurodamus particularly valuable for [[personalized-brain-modeling]] applications. Researchers can construct patient-specific whole-brain models by combining individual [[structural-connectivity]] data with detailed neural simulations. Applications include [[epilepsy-modeling]] where detailed neuron models help capture seizure dynamics, and [[brain-stimulation]] studies where precise timing of neural responses matters.
 
@@ -44,4 +44,4 @@ Neurodamus connects TVB to the broader ecosystem of neural simulation tools. [[n
 
 ## References
 
-1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)

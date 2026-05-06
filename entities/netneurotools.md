@@ -26,7 +26,7 @@ The software is designed to integrate with the broader Python neuroimaging ecosy
 
 ## Key Features
 
-Netneurotools offers several categories of functionality that support end-to-end network neuroscience analyses. The **datasets module** provides automatic fetching utilities for common brain atlases and template surfaces, including the Schaefer 2018 parcellation , Cammoun 2012 , MMP atlas , Tian  andVon Economo  atlases. Additional fetchers provide access to [[freesurfer]] meshes (fsaverage), FSLR surfaces, [[civet]] templates, and the Conte69  hemisphere template .
+Netneurotools offers several categories of functionality that support end-to-end network neuroscience analyses. The **datasets module** provides automatic fetching utilities for common brain atlases and template surfaces, including the [[schaefer]] 2018 parcellation , Cammoun 2012 , MMP atlas , Tian  andVon Economo  atlases. Additional fetchers provide access to [[freesurfer]] meshes (fsaverage), FSLR surfaces, [[civet]] templates, and the Conte69  hemisphere template .
 
 The **networks module** handles construction and manipulation of brain networks, including functions for creating consensus networks from multiple datasets (func_consensus, struct_consensus), network randomization with degree/length preservation (randmio_und), and thresholding/binarization utilities. These functions support generation of both empirical connectivity networks and surrogate networks for null model comparisons [[netneurotools]].
 
