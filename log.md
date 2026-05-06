@@ -15,3 +15,7 @@
 
 ## [2026-05-06 18:06] Improve: 4 pages improved (resting-state-fmri, source-separation, brain-dynamics, plasticity)
 - Improved brain-reserve.md: expanded from stub to full concept page with ~900 words covering theoretical context, distinction from cognitive reserve, neural substrates, measurement approaches, implications for whole-brain modeling, and relationship to neurodegenerative disease; added wikilinks to 10 related concepts
+
+## [2026-05-06 18:31] Improve: 4 pages improved (plasticity, jansen-rit-model, brain-reserve, ion-channel)
+
+2026-05-06: Improved izhikevich.md - removed hallucinated Gaglioti citation, added link to izhikevich-neuron-model page, fixed extra spacing issue
