@@ -1,11 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- Marcus, D. S., Olsen, T. R., Ramaratnam, M., & Buckwalter, C. (2007). The extensible
-  neuroimaging archive toolkit. Neuroinformatics, 5(1), 11-34. https://doi.org/10.1385/NI:5:1:11
-- ? Marcus, D. S., Harwell, J., Olsen, T., Mhembre, M., Fleisher, T., Bert, A. Z.,
-    ... & Van Essen, D. C. (2011). The Human Connectome Project
-  : A public neuroimaging resource. Frontiers in Neuroscience, 5, 29. https://doi.org/10.3389/fnins.2011.00029
 - raw/papers/barch-2013.md
 - raw/papers/Renton2024.md
 - raw/papers/semanticscholar-5f347f47ec54.md

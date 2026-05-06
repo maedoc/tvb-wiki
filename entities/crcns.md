@@ -1,9 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- https://www.ncrrns.org
-- NIH NCRR (National Center for Research Resources)
-- Buzsáki and Draguhn 2017 (Neuron)
 - raw/papers/breakspear-2017.md
 - raw/papers/arxiv-2603.04149.md
 - raw/papers/arxiv-2512.05252.md

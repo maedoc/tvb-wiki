@@ -1,7 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- raw/papers/arxiv-1905.05846.md
 - raw/papers/semanticscholar-380768cf42a8.md
 - raw/papers/arxiv-2503.07263.md
 - raw/papers/sanz-leon-2013.md

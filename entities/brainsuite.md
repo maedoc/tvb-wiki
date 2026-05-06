@@ -1,9 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- 10.1007/978-3-540-40899-4_6
-- 10.1016/j.neuroimage.2006.08.020
-- 10.1016/j.jneumeth.2022.109566
 - raw/papers/arxiv-2505.14017.md
 - raw/papers/semanticscholar-381eab6345ff.md
 - raw/papers/Renton2024.md
