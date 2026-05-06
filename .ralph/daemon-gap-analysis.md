@@ -47,12 +47,21 @@
 
 6. **Citation guard fixed** — citation_verify.py now parses body-text format raw papers (arxiv/semanticscholar style with `**DOI**: ...` and `# Title`). Stub index grew from 521 to 4,287 entries (8x). Citation verification now finds most raw papers.
 
-### Iteration 3 Plan (IN PROGRESS)
+### Iteration 3 Fixes (COMPLETE)
 
-Priority gaps to address:
-1. **Create remaining comparison pages** — tvb-vs-nest-vs-neuron, fsl-vs-ants, fmri-vs-eeg-meeg
-2. **Fix remaining broken wikilinks** — qsiprep, nnu-net, jenkinson12, tournier19, intrinsic-connectivity-networks  
-3. **Evaluate placeholder pages** — determine which 10 remaining stubs are on-mission vs off-mission
+1. **Fixed nighres.md broken wikilinks** — removed numeric wikilink references `[[1]]` through `[[8]]`, fixed nested `[[Human [[connectome]] Project]]`, removed journal name links in citations
+2. **Created 5 missing stubs** — qsiprep, brian2, nilearn, bayesian (concept), machine-learning (concept)
+3. **Fixed ~15 broken inbound links** across the corpus
+
+### Current Status
+- Total pages: 437 → 443 (6 new)
+- Broken wikilinks: ~40 → ~25 (estimated after next Auditor run)
+- Placeholder pages: 10 remaining
+
+### Iteration 4 Plan (NEXT)
+
+1. **Create comparison pages** — dti-vs-hardi-vs-noddi, resting-state-vs-task-fmri
+2. **Evaluate remaining placeholder pages** — determine which are on-mission vs off-mission
 
 ## Current Status
 Iteration 1 COMPLETE — 6 high-impact fixes.
