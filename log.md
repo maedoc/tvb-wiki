@@ -441,3 +441,7 @@
 ## [2026-05-06 15:58] Matcher: 18 pages got 53 new sources
 
 ## [2026-05-06 16:12] Improve: 3 pages improved (van-der-pol-oscillator, model-validation, neuroimaging)
+
+## [2026-05-06 16:41] Improve: 5 pages improved (van-der-pol-oscillator, nengo, apoe, model-validation, izhikevich)
+
+## [2026-05-06 16:52] Audit: 859 issues (65 broken links, 45 orphans, 1 placeholders, 0 dup-refs, 5 bad-meta, 98 citation-verify, 15 opaque-refs, 67 thin, 398 missing-links)

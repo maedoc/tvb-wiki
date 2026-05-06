@@ -25,7 +25,7 @@ dMRIprep is a [[bids]]-compatible preprocessing pipeline for diffusion magnetic 
 
 dMRIprep addresses a fundamental challenge in [[diffusion-mri]] analysis: the raw images acquired on MRI scanners suffer from various artifacts including head motion between volumes, eddy current distortions induced by the rapidly switching diffusion gradients, bias field inhomogeneities inherent to echo-planar imaging, and spatial distortions particularly problematic at air-tissue boundaries (Andersson & Sotiropoulos, 2016). Manually correcting these artifacts is time-consuming, requires substantial expertise, and introduces non-reproducibility across studies. dMRIprep automates this pipeline using established algorithms from the neuroinformatics community while maintaining full provenance tracking through the BIDS (Brain Imaging Data Structure) specification (Gorgolewski et al., 2016).
 
-The pipeline is built on [[nipype]] for workflow orchestration, ensuring modularity and allowing users to swap individual processing components if needed. Internally, it leverages algorithms from [[fsl]] (including eddy and DTIFIT), [[ants]] for registration and bias field correction (Tustison et al., 2010), and [[mr-trix3]] for additional processing steps. All outputs follow the BIDS Derivatives specification, making them immediately compatible with downstream analysis tools including tractography packages, connectivity estimation frameworks, and statistical analysis pipelines.
+The pipeline is built on [[nipype]] for workflow orchestration, ensuring modularity and allowing users to swap individual processing components if needed. Internally, it leverages algorithms from [[fsl]] (including eddy and DTIFIT), [[ants]] for registration and bias field correction (Tustison et al., 2010), and [[mrtrix3]] for additional processing steps. All outputs follow the BIDS Derivatives specification, making them immediately compatible with downstream analysis tools including tractography packages, connectivity estimation frameworks, and statistical analysis pipelines.
 
 ## Key Preprocessing Steps
 
@@ -39,7 +39,7 @@ The pipeline includes robust skull stripping using [[hd-bet]] (Koch et al., 2021
 
 dMRIprep plays an important role in [[whole-brain modeling]] workflows that require [[structural connectivity]] matrices derived from [[diffusion-imaging]] data. The pipeline's outputs—particularly the motion-corrected, distortion-corrected diffusion-weighted images and derived tensor metrics—serve as inputs for tractography algorithms that estimate white matter pathways between brain regions.
 
-In TVB workflows, dMRIprep-processed data typically feeds into tractography tools such as [[mr-trix3]]-connectome, MRTrix3, or DIPY (Garyfallidis et al., 2014) to generate streamlines representing white matter connections. These streamlines are then used to construct [[structural connectivity]] matrices where connection weights reflect either streamline counts, fractional anisotropy values, or other microstructural metrics. The resulting connectivity matrices form the anatomical scaffold for [[whole-brain]] simulations in [[the-virtual-brain]], enabling personalized brain models that integrate individual anatomical connectivity.
+In TVB workflows, dMRIprep-processed data typically feeds into tractography tools such as [[mrtrix3]]-connectome, MRTrix3, or DIPY (Garyfallidis et al., 2014) to generate streamlines representing white matter connections. These streamlines are then used to construct [[structural connectivity]] matrices where connection weights reflect either streamline counts, fractional anisotropy values, or other microstructural metrics. The resulting connectivity matrices form the anatomical scaffold for [[whole-brain]] simulations in [[the-virtual-brain]], enabling personalized brain models that integrate individual anatomical connectivity.
 
 The BIDS-compliant outputs from dMRIprep ensure compatibility with TVB's data handling utilities and facilitate reproducible preprocessing pipelines across research sites. Given that TVB supports multiple parcellation schemes including [[aal-atlas]], [[desikan-killiany-atlas]], and [[brainnetome-atlas]], dMRIprep's standardized outputs can be readily mapped to any desired brain parcellation for connectivity matrix construction.
 
@@ -59,9 +59,9 @@ The choice between pipelines depends on the specific acquisition protocol, recon
 
 ## Related Software
 
-dMRIprep exists within a broader ecosystem of BIDS-apps and diffusion imaging tools. Related preprocessing pipelines include [[fmriprep]] for functional MRI, [[qsiprep]] for quantitative susceptibility imaging, and [[smriprep]] for structural MRI. For tractography specifically, users often combine dMRIprep outputs with [[mr-trix3]], [[dsi-studio]], or [[camino]] to generate streamline reconstructions suitable for connectivity analysis.
+dMRIprep exists within a broader ecosystem of BIDS-apps and diffusion imaging tools. Related preprocessing pipelines include [[fmriprep]] for functional MRI, [[qsiprep]] for quantitative susceptibility imaging, and [[smriprep]] for structural MRI. For tractography specifically, users often combine dMRIprep outputs with [[mrtrix3]], [[dsi-studio]], or [[camino]] to generate streamline reconstructions suitable for connectivity analysis.
 
-Related analysis frameworks include [[tvb-nr]] for network reconstruction, [[connectome-workbench]] for visualization, and [[afq]] for automated fiber quantification.
+Related analysis frameworks include [[tvb-nest]] for network reconstruction, [[connectome-workbench]] for visualization, and [[afq]] for automated fiber quantification.
 
 ## References
 

@@ -58,9 +58,9 @@ The Connectome Viewer Toolkit—comprising cfflib, the Connectome Viewer applica
 - [[the-virtual-brain]] — Whole-brain simulation platform
 - [[dipy]] — Diffusion MRI reconstruction and tractography
 - [[nibabel]] — Python library for neuroimaging format I/O
-- [[brain-connectivity-toolkit]] — Network analysis toolbox
+- [[neuromorpho-toolkit]] — Network analysis toolbox
 - [[connectome-mapper-3]] — Connectome mapping pipeline
-- [[hcp-datasets]] — Human Connectome Project datasets
+- [[hcp-dataset]] — Human Connectome Project datasets
 
 ## References
 
