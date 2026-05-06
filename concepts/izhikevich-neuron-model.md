@@ -1,17 +1,25 @@
 ---
-title: Izhikevich Neuron Model
 created: 2026-04-20
-updated: 2026-05-06
+sources:
+- Izhikevich
+- 2003; Izhikevich
+- 2010; Hodgkin-Huxley; Brunel-Hakim-Richard
+tags:
+- spiking-neural-networks
+- neural-mass-models
+- dynamical-systems-theory
+- bifurcation-analysis
+- computational-neuroscience
+title: Izhikevich Neuron Model
 type: concept
-tags: [spiking-neural-networks, neural-mass-models, dynamical-systems-theory, bifurcation-analysis, computational-neuroscience]
-sources: [Izhikevich, 2003; Izhikevich, 2010; Hodgkin-Huxley; Brunel-Hakim-Richard]
+updated: '2026-05-06'
 ---
 
 The Izhikevich neuron model is a reduced two-dimensional dynamical system that reproduces the spike-generating dynamics of cortical neurons with remarkable biological fidelity while maintaining computational tractability. Originally proposed by Eugene Izhikevich in 2003 (see [[izhikevich-2003]]), the model can generate all known types of cortical neuron firing patterns—including regular spiking, fast spiking, intrinsically bursting, and chattering—through variation of just four parameters. Its formulation bridges the gap between simplistic integrate-and-fire models that lack biological realism and biophysically detailed models like the [[hodgkin-huxley-model]] that require expensive numerical integration of dozens of state variables (see [[izhikevich-2010]] for review).
 
 ## Motivation and Context
 
-The development of the Izhikevich model addressed a fundamental challenge in [[computational-neuroscience]]: the need for neuron models that are both biologically realistic and computationally efficient enough to simulate large-scale networks. Traditional conductance-based models such as Hodgkin-Huxley accurately capture ion channel dynamics but impose prohibitive computational costs when simulating brain-scale circuits. Conversely, leaky integrate-and-fire models are computationally efficient but cannot capture the diverse firing patterns observed in real neurons—such as adaptation, bursting, and frequency modulation—without ad hoc extensions.
+The development of the [[izhikevich]] model addressed a fundamental challenge in [[computational-neuroscience]]: the need for [[neuron]] models that are both biologically realistic and computationally efficient enough to simulate large-scale networks. Traditional conductance-based models such as Hodgkin-Huxley accurately capture [[ion-channel]] dynamics but impose prohibitive computational costs when simulating brain-scale circuits. Conversely, leaky integrate-and-fire models are computationally efficient but cannot capture the diverse firing patterns observed in real neurons—such as adaptation, bursting, and frequency modulation—without ad hoc extensions.
 
 Izhikevich's insight was to formulate a minimal two-variable system that captures the essential dynamics of neuronal spiking through a combination of voltage and recovery variables. The model achieves this by combining the quadratic integrate-and-fire mechanism (which produces realistic spike upstrokes) with a linear recovery variable that accounts for the interplay of ionic currents responsible for spike repolarization and adaptation. This balance between simplicity and biological fidelity has made the model a workhorse in large-scale [[spiking-neural-networks]] simulations, particularly in studies of [[brain-oscillations]] and [[network-dynamics]] (see also [[brunel-hakim-2005]] for Applications to network simulations).
 
@@ -34,7 +42,7 @@ The quadratic term in the voltage equation ($0.04v^2$) generates the exponential
 
 The power of the Izhikevich model lies in its ability to reproduce diverse cortical firing patterns through systematic parameter variation. Regular spiking pyramidal neurons are obtained with parameters $(a = 0.02, b = 0.2, c = -65, d = 8)$, where moderate values of $a$ and $d$ produce spike-frequency adaptation. Fast-spiking interneurons, characterized by high firing rates without adaptation, correspond to $(a = 0.1, b = 0.2, c = -65, d = 2)$—larger $a$ produces faster recovery. Intrinsically bursting neurons, which emit bursts of 2–4 spikes at resting potential before transitioning to tonic spiking, use parameters $(a = 0.02, b = 0.2, c = -55, d = 4)$ where the lower reset voltage $c$ initiates subsequent burst cycles. Chattering or rhythmic bursting neurons exhibit high-frequency burst onset and are captured by $(a = 0.02, b = 0.2, c = -50, d = 2)$.
 
-These parameter regimes map onto biophysical mechanisms in real neurons: the $b$ parameter influences the coupling between $u$ and $v$, capturing the balance between depolarizing sodium and hyperpolarizing potassium currents; $d$ controls after-hyperpolarization depth, relating to calcium-activated potassium currents that produce accommodation; $c$ determines the voltage trajectory following spike termination, reflecting sodium channel inactivation dynamics.
+These parameter regimes map onto biophysical mechanisms in real neurons: the $b$ parameter influences the coupling between $u$ and $v$, capturing the balance between depolarizing sodium and hyperpolarizing potassium currents; $d$ controls after-hyperpolarization depth, relating to calcium-activated potassium currents that produce accommodation; $c$ determines the voltage [[trajectory]] following spike termination, reflecting sodium channel inactivation dynamics.
 
 ## Relationship to Other Models
 
@@ -52,4 +60,4 @@ Within [[the-virtual-brain]] framework, the Izhikevich model is not directly use
 
 ## Limitations
 
-Despite its versatility, the Izhikevich model has several known limitations. First, the four parameters ($a$, $b$, $c$, $d$) lack direct biophysical interpretability—unlike conductance-based models where parameters correspond to specific ion channel properties, the Izhikevich parameters are phenomenological and must be fitted empirically to match desired firing patterns. Second, the standard model cannot reproduce subthreshold oscillations without explicit extensions or additional variables; real neurons often exhibit graded subthreshold responses that require modifications to the vanilla formulation. Third, the hard voltage reset (the instantaneous jump to $c$ when $v$ reaches 30 mV) is a mathematical artifact that discards information about the exact spike shape and timing, limiting the model's utility for studying spike-timing-dependent plasticity or precise spike coordination. These limitations should be considered when selecting the Izhikevich model for applications requiring biophysical detail or subthreshold dynamics.
+Despite its versatility, the Izhikevich model has several known limitations. First, the four parameters ($a$, $b$, $c$, $d$) lack direct biophysical interpretability—unlike conductance-based models where parameters correspond to specific ion channel properties, the Izhikevich parameters are phenomenological and must be fitted empirically to match desired firing patterns. Second, the standard model cannot reproduce subthreshold oscillations without explicit extensions or additional variables; real neurons often exhibit graded subthreshold responses that require modifications to the vanilla formulation. Third, the hard voltage reset (the instantaneous jump to $c$ when $v$ reaches 30 mV) is a mathematical artifact that discards information about the exact spike shape and timing, limiting the model's utility for studying spike-timing-dependent [[plasticity]] or precise spike coordination. These limitations should be considered when selecting the Izhikevich model for applications requiring biophysical detail or subthreshold dynamics.

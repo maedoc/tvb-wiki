@@ -419,3 +419,7 @@
 ## [2026-05-06 15:45] Linter: 78 broken links, 45 orphans, 18 stale, 9 empty
 
 ## [2026-05-06 15:45] RefFormatter: formatted references on 25 pages
+
+## [2026-05-06 15:45] LinkRepair: fixed 24 files (8 wikilink-in-URL, 18 abs-path)
+
+## [2026-05-06 15:50] Audit: 884 issues (78 broken links, 45 orphans, 1 placeholders, 0 dup-refs, 5 bad-meta, 98 citation-verify, 14 opaque-refs, 70 thin, 398 missing-links)

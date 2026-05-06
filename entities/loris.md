@@ -35,7 +35,7 @@ A central strength of LORIS lies in its support for longitudinal study designs, 
 
 While LORIS is fundamentally a data management infrastructure rather than a simulation or analysis tool, it plays an important supporting role in [[whole-brain-modeling]] workflows that rely on high-quality, well-curated neuroimaging datasets. Projects using [[the-virtual-brain]] to construct [[personalized-brain-modeling|personalized brain]] models require [[structural-connectivity]] matrices derived from diffusion imaging data, along with corresponding anatomical parcellations and functional timeseries. These datasets often originate from large-scale studies that use LORIS as their primary repository.
 
-The integration between LORIS and TVB typically proceeds in one of two ways. First, researchers may export preprocessed connectivity data directly from a LORIS instance—either through the web interface or programmatically via the API—as input for TVB's connectivity simulator. Second, investigators conducting longitudinal studies can leverage LORIS's temporal tracking capabilities to manage the multiple imaging sessions required for estimating time-varying connectivity patterns that inform personalized models of brain dynamics. The system's ability to maintain provenance metadata also helps ensure that the structural connectomes used in TVB simulations are derived from explicitly documented processing pipelines, facilitating reproducibility and rigorous model validation.
+The integration between LORIS and TVB typically proceeds in one of two ways. First, researchers may export preprocessed [[connectivity]] data directly from a LORIS instance—either through the web interface or programmatically via the API—as input for TVB's connectivity simulator. Second, investigators conducting longitudinal studies can leverage LORIS's temporal tracking capabilities to manage the multiple imaging sessions required for estimating time-varying connectivity patterns that inform personalized models of [[brain-dynamics]]. The system's ability to maintain provenance metadata also helps ensure that the structural connectomes used in TVB simulations are derived from explicitly documented processing pipelines, facilitating reproducibility and rigorous [[model-validation]].
 
 ## Key Features
 
@@ -52,7 +52,7 @@ The permission system supports granular role-based access controls essential for
 
 - [[TVB]] — The Virtual Brain simulation platform
 - [[bids]] — Brain Imaging Data Structure specification
-- [[human-connectome-project]] — HCP database and infrastructure
+- [[human-[[connectome]]-project]] — HCP database and infrastructure
 - [[nipype]] — Neuroimaging analysis pipeline framework
 
 ## Related Software
@@ -73,6 +73,6 @@ LORIS interacts with a rich ecosystem of neuroimaging tools. The [[human-connect
 
 ## References
 
-1. (authors unknown). *Nighres: processing tools for high-resolution neuroimaging*.
-2. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+1. (authors unknown). *[[nighres]]: processing tools for high-resolution neuroimaging*.
+2. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
 3. (authors unknown). *Neurodesk: an accessible, flexible and portable data analysis environment for reproducible neuroimaging*.

@@ -14,7 +14,7 @@ tags:
 - software-bids
 title: Datalad Containers
 type: entity
-updated: '2026-05-05'
+updated: '2026-05-06'
 ---
 
 Datalad Containers is an extension to the [[datalad]] data management framework that enables packaging, sharing, and running analysis software within containerized environments. The extension bridges the gap between reproducible data versioning and reproducible computational environments by allowing researchers to associate specific software containers with datasets and execute them seamlessly. This capability is particularly valuable in [[computational-neuroscience]] and neuroimaging, where complex pipelines involving multiple software tools (such as Freesurfer, Fsl, [[afni]], and Mrtrix3) must be executed with exact versions to ensure reproducibility across experiments.
@@ -52,7 +52,7 @@ DataLad Containers assumes familiarity with the DataLad workflow, which has a le
 - **Wagner et al., 2021** — "DataLad: distributed data product management with git and git-annex." This is the primary reference for the DataLad Containers extension within the broader DataLad framework.
 - **Halchenko et al., 2021** — "Open Data Products: a framework for creating portable, distributed data products." Describes the philosophy behind treating data and computational environments as versioned units.
 - **Gorgolewski et al., 2017** — "Docker: an open source container for science." Background on containerization in scientific workflows.
-- **Esteban et al., 2019** — "fMRIprep: a robust preprocessing pipeline for functional MRI." Example of containerized [[neuroimaging]] pipelines that inspired similar approaches in the community.
+- **Esteban et al., 2019** — "fMRIprep: a robust preprocessing pipeline for [[neuroimaging-fmri|functional MRI]]." Example of containerized [[neuroimaging]] pipelines that inspired similar approaches in the community.
 - **Ricci et al., 2020** — "NeuroDesk: flexible and accessible data analysis for reproducible neuroimaging." Describes the ready-to-use container approach as an alternative to user-managed containers.
 
 ## References

@@ -1,29 +1,34 @@
 ---
-title: "Karl J. Friston"
 created: 2026-05-06
-updated: 2026-05-06
-type: concept
-tags: [karl-j-friston, free-energy-principle, dynamic-causal-modeling, bayesian, computational-neuroscience]
 sources: []
+tags:
+- karl-j-friston
+- free-energy-principle
+- dynamic-causal-modeling
+- bayesian
+- computational-neuroscience
+title: Karl J. Friston
+type: concept
+updated: '2026-05-06'
 ---
 
 # Karl J. Friston
 
-**Karl J. Friston** is a British neuroscientist and theoretical biologist at University College London. He is the main architect of the **free energy principle** and **dynamic causal modeling (DCM)**, two of the most influential theoretical frameworks in modern computational neuroscience.
+**Karl J. Friston** is a British neuroscientist and theoretical biologist at University College London. He is the main architect of the **[[free-energy-principle]]** and **[[dynamic-causal-modeling]] (DCM)**, two of the most influential theoretical frameworks in modern [[computational-neuroscience]].
 
 ## Key Contributions
 
-- **Free Energy Principle** — a unified theory of brain function based on Bayesian inference and predictive coding
-- **Dynamic Causal Modeling (DCM)** — Bayesian framework for inferring effective connectivity from neuroimaging data
+- **Free Energy Principle** — a unified theory of brain function based on [[bayesian|Bayesian inference]] and predictive coding
+- **Dynamic Causal Modeling (DCM)** — Bayesian framework for inferring [[effective-connectivity]] from [[neuroimaging]] data
 - **Generalized filtering** — variational methods for system identification in neuroscience
 - **Active inference** — extension of the free energy principle to action and behavior
 
 ## Relationship to TVB
 
 Friston's work deeply informs TVB:
-- DCM structural effective connectivity estimates are used to constrain TVB models
+- DCM structural effective [[connectivity]] estimates are used to constrain TVB models
 - The free energy principle provides the theoretical foundation for TVB's neural mass dynamics
-- Friston's variational Bayesian methods inspire TVB parameter estimation approaches
+- Friston's variational Bayesian methods inspire TVB [[parameter-estimation]] approaches
 - TVB simulations test predictions derived from active inference and predictive coding frameworks
 
 ## References

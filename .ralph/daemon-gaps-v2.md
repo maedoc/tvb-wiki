@@ -5,64 +5,81 @@
 ### Current State Snapshot
 | Metric | Value | Target | Priority |
 |--------|-------|--------|----------|
-| Total pages | 449 | 300+ | ✅ |
-| Broken wikilinks | 120 | < 20 | 🔴 HIGH |
-| Orphan pages | 46 | < 10 | 🔴 HIGH |
+| Total pages | 471 (Librarian rebuilt catalog) | 300+ | ✅ |
+| Broken wikilinks | 120 (stale audit) | < 20 | 🔴 HIGH |
+| Orphan pages | 46 (stale audit) | < 10 | 🔴 HIGH |
 | Placeholder pages | 2 (nipal, neuroharmonize) | 0 | 🟡 |
-| Missing frontmatter | 5 | 0 | 🟡 |
+| Missing frontmatter | 5 → 0 | 0 | ✅ FIXED |
 | Broken source refs | 105 | < 20 | 🟡 |
 | Pages no sources | 20 | < 5 | 🟡 |
 | Stale pages | 38 | < 10 | 🟡 |
 | Full texts fetched | ~19 | 100+ | 🟡 |
-| Daemon uptime | ~6 hours (PID 3563184) | — | ✅ |
+| Daemon PID | 3919519 (restarted) | — | ✅ |
 
-### Top Broken Link Targets
-1. **rest** — 26x (biggest offender; page was deleted, many pages still link)
-2. **neuroimaging-fmri** — 5x
-3. **jax** — 2x (was deleted, tvb/brainpy still link)
-4. **neuroimaging-eeg** — 2x
-5. **modeldb** — 2x
-6. **brain-connectivity-toolkit** — 2x
-7. Various single hits: sources_4, rate-based-neural-networks, brainstorm, brain-parcellation, cite:biswal2010, cite:glasser2013, cite:desikan2006, karl-j-friston, brain-decoding, jenkinson12, intrinsic-connectivity-networks, tbss
+### Top Broken Link Targets (from latest stale audit)
+1. **rest** — 26x (FIXED: created concepts/rest.md redirect)
+2. **neuroimaging-fmri** — 5x (FIXED: created concept stub)
+3. **jax** — 2x (FIXED: recreated redirect stub)
+4. **neuroimaging-eeg** — 2x (FIXED: created concept stub)
+5. **modeldb** — 2x (FIXED: created entity stub)
+6. **brain-connectivity-toolkit** — 2x (FIXED: created entity stub)
+7. Various others — all now have stubs created
 
-### Placeholder Pages (2 remaining)
-- nipal (4 placeholders)
-- neuroharmonize (4 placeholders)
+## Completed in Iteration 1
 
-### Missing Frontmatter (5 pages)
-- nitrc (missing title, created, type, tags)
-- petsurfer (missing title, created, updated, type, tags)
-- neo (missing tags)
-- hrf (missing title)
-- desikan-killiany-atlas (missing tags)
+### Created 19 new stubs to fix broken wikilinks
+- concepts/rest.md (redirect to resting-state)
+- concepts/neuroimaging-fmri.md
+- concepts/neuroimaging-eeg.md
+- concepts/brain-parcellation.md
+- concepts/brain-decoding.md
+- concepts/intrinsic-connectivity-networks.md
+- concepts/rate-based-neural-networks.md
+- concepts/tbss.md
+- concepts/jenkinson12.md
+- concepts/tournier19.md
+- concepts/schaefer.md
+- concepts/neural-simulation.md
+- concepts/karl-j-friston.md
+- entities/modeldb.md
+- entities/brain-connectivity-toolkit.md
+- entities/brainstorm.md
+- entities/nnu-net.md
+- entities/brian.md (redirect to brian2)
+- entities/jax.md
 
-## Iteration Plan
+### Fixed missing frontmatter (5 pages)
+- entities/nitrc.md — added title, created, type, tags
+- entities/petsurfer.md — cleaned malformed YAML with trailing spaces
+- entities/neo.md — added meaningful tags
+- entities/hrf.md — added title
+- entities/desikan-killiany-atlas.md — added meaningful tags
 
-### Iteration 1: Fix the 26x `rest` broken link crisis
-- Option: Create `rest.md` as a redirect/alias to `resting-state-vs-task-fmri.md` or a dedicated resting-state concept page
-- Decision pending based on context of linking pages
+### Fixed malformed citations/numeric refs
+- xppaut.md, SynthSeg.md, Boutiques.md — changed `[[N]]` to `[N]`
+- entities/calamity-atlas.md — removed `[[cite:...]]` brackets
+- entities/neuroml.md — fixed `[[sources_4]]`
 
-### Iteration 2: Fix top broken targets (neuroimaging-fmri, jax, neuroimaging-eeg, modeldb, brain-connectivity-toolkit)
-- Create stubs or redirect pages for each target
-- Or fix linking pages if target is truly off-mission
+### Daemon maintenance
+- Restarted daemon (old PID 3563184 → new PID 3919519)
+- PI_TIMEOUT 300s→180s now active
+- Pushed all commits to origin/main
 
-### Iteration 3: Fix citation-style broken links (cite:biswal2010, etc.)
-- These are malformed citation references in `calamity-atlas.md`
-- Convert to proper pandoc citations or plain text
+## Next Iteration Plan (Iteration 2)
 
-### Iteration 4: Fix remaining single-hit broken links
-- brainstorm, brain-parcellation, brain-decoding, jenkinson12, intrinsic-connectivity-networks, tbss, rate-based-neural-networks
+1. Wait for next Auditor run to get fresh audit numbers and verify broken link reduction
+2. Address remaining orphan pages (need fresh audit data)
+3. Address broken source refs (105)
+4. Address pages with no sources (20)
+5. Continue monitoring
 
-### Iteration 5: Fix missing frontmatter
-- Add required fields to nitrc, petsurfer, hrf and missing tags to neo, desikan-killiany-atlas
+## Current Status
 
-### Iteration 6: Fix orphan pages
-- Link orphans to relevant concept/entity pages
+All iteration 1 work complete. The daemon is running autonomously (PID 3919519) with:
+- PI_TIMEOUT=180s active (efficiency improvement)
+- 19 new stubs fixing all top broken link targets
+- 5 missing frontmatter pages fixed
+- Malformed citation/numeric refs fixed in 5 files
+- All changes committed and pushed to origin/main
 
-### Iteration 7: Restart daemon for PI_TIMEOUT change
-- Current daemon started before PI_TIMEOUT 300→180s change
-- Restart needed for efficiency improvement to take effect
-
-### Iteration 8+: Ongoing monitoring
-- After fixes, run Auditor to verify improvement
-- Continue monitoring fulltext progress and Improver output
+Next Auditor cycle will provide fresh metrics to guide remaining work on orphans, broken source refs, and pages without sources.

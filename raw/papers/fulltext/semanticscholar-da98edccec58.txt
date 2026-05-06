@@ -1,0 +1,1422 @@
+    A next generation neural mass model with neuromodulation
+      Damien Depannemaecker, Chloé Duprat, Gabriele Casagrande, Marisa Saggio,
+   Anastasios Polykarpos Athanasiadis, Marianna Angiolelli, Carola Sales Carbonell,
+                    Huifang Wang, Spase Petkoski, Pierpaolo Sorrentino, et al.
+
+
+
+      To cite this version:
+     Damien Depannemaecker, Chloé Duprat, Gabriele Casagrande, Marisa Saggio, Anastasios Polykarpos
+     Athanasiadis, et al.. A next generation neural mass model with neuromodulation. Journal of Computational
+     Neuroscience, 2026, 54 (1), pp.23-43. ⟨10.1007/s10827-026-00920-1⟩. ⟨hal-05540784⟩
+
+
+
+
+                                        HAL Id: hal-05540784
+                              https://hal.science/hal-05540784v1
+                                           Submitted on 6 Mar 2026
+
+
+
+
+    HAL is a multi-disciplinary open access archive             L’archive ouverte pluridisciplinaire HAL, est des-
+for the deposit and dissemination of scientific re-        tinée au dépôt et à la diffusion de documents scien-
+search documents, whether they are published or not.       tifiques de niveau recherche, publiés ou non, émanant
+The documents may come from teaching and research          des établissements d’enseignement et de recherche
+institutions in France or abroad, or from public or pri-   français ou étrangers, des laboratoires publics ou
+vate research centers.                                     privés.
+
+
+ Distributed under a Creative Commons CC BY-NC 4.0 - Attribution - Non-commercial use - International
+                                             License
+1    A next generation neural mass model with neuromodulation
+
+2           Damien Depannemaecker1 , Chloé Duprat1 , Gabriele Casagrande1 , Marisa
+3    Saggio1 , Anastasios Polykarpos Athanasiadis1 , Marianna Angiolelli1,2 , Carola Sales
+4         Carbonell1 , Huifang Wang1 , Spase Petkoski1 , Pierpaolo Sorrentino1 , Anthony
+5                               Randal McIntosh3 , Hiba Sheheitli*1,3,4 , Viktor Jirsa*               1
+
+
+                            1
+6                               Aix Marseille Univ, INSERM, INS, Inst Neurosci Syst, Marseille, France
+                     2
+7                        Department of Engineering, Università Campus Bio-Medico di Roma, Rome, Italy
+                 3
+8                    Department of Neurology, University of Minnesota, Minneapolis, MN, United States
+     4
+9        Department of Psychiatry and Behavioral Sciences, University of Minnesota, Minneapolis, MN, United
+10                                                               States
+                                   5
+11                                     Simon Fraser University, Vancouver, British Columbia, Canada
+
+
+
+
+12            damien.depannemaecker@univ-amu.fr, shehe003@umn.edu, viktor.jirsa@univ-amu.fr
+13
+
+
+14         *co-senior authors
+
+15                                                             Abstract
+
+16              The study of brain activity and its function requires the development of computational
+17           models alongside experimental investigations to explore different effects of multiple mecha-
+18           nisms at play in the central nervous system. Chemical neuromodulators, such as dopamine,
+19           play central roles in regulating the dynamics of neuronal populations. In this work, we propose
+20           a modular framework to capture the effects of neuromodulators at the neural mass level. Using
+21           this framework, we formulate a specific model for dopamine dynamics affecting D1-type recep-
+22           tors. We detail the dynamical repertoire associated with dopamine concentration evolution
+23           and characterize the transitions across qualitatively different oscillatory states as a function
+24           of relevant parameters, along with the variations in frequency of the emergent multi-scale
+25           oscillations.
+
+
+
+
+                                                                   1
+26   1     Introduction
+27   Neuromodulators, such as dopamine and serotonin, play central roles in regulating the dynamics
+28   of neuronal populations within the central nervous system. These biochemical agents modulate
+29   the activities of multiple neurons simultaneously, acting on the global dynamics of the brain.
+30       Neuromodulators can regulate the intrinsic excitability of neurons, influencing their firing rates
+31   and patterns of activity [51, 56]. Additionally, at the synaptic level, they can modify the strength
+32   of connections between neurons, impacting synaptic transmission and plasticity.
+33       On a broader scale, neuromodulators contribute to the synchronization and coordination of
+34   neuronal ensembles, thereby shaping network dynamics involved in various cognitive and behavioral
+35   processes [6,22,54,59,64,68]. For instance, dopamine is implicated in reward processing, motivation
+36   and motor control [7], while serotonin is associated with mood regulation, sleep-wake cycles, and
+37   emotional processing. Dopaminergic pathways have also been implicated in cognitive processes
+38   and behaviors such as wakefulness, working memory, and cognitive control [58].
+39       Whole-brain models incorporating the effects of various neuromodulators have been used to
+40   investigate the variability in cognitive decline associated with aging [12]. In [38], aging-related
+41   changes in dopaminergic regulation have been linked to cognitive performance [5] and hypothe-
+42   sized to play a crucial role in dynamic compensation as a marker of improved cognitive abilities
+43   during aging. Impairment in dopamine neuromodulation is also known to play a role in different
+44   neurological disorders [36], such as Parkinson’s disease (PD) or Schizophrenia [35].
+45       Psychiatric disorders encompass a heterogeneous group of conditions that disrupt cognition,
+46   emotional regulation, and behavior, affecting 970 million people worldwide in 2019, according to
+47   the World Health Organization [50]. Among them, schizophrenia impacts approximately 24 million
+48   individuals globally. PD and psychiatric disorders are distinct neurological conditions with unique
+49   clinical features and prevalence rates. PD, the second most common neurodegenerative disorder,
+50   primarily presents with motor symptoms such as tremors, rigidity, and bradykinesia, along with
+51   non-motor symptoms. Its prevalence increases with age, affecting 0.04% of individuals aged 40-49
+52   and 2% of those over 80 [4, 53].
+53       In particular, the pathophysiology of PD is characterized by the degeneration of dopamine-
+54   producing neurons in the substantia nigra of the basal ganglia, leading to the loss of dopaminergic
+55   nigrostriatal neurons along the nigrostriatal pathways, with milder losses in the mesolimbic and
+56   mesocortical circuits.
+57       While empirical data provide critical insights into dopamine’s role, computational models are
+58   essential for integrating diverse experimental findings, testing mechanistic hypotheses, and predict-
+
+
+                                                       2
+59   ing emergent neural dynamics that may not be directly observable. Models allow for the systematic
+60   manipulation of parameters, simulation of pathological states, and exploration of causal relation-
+61   ships. To model the neuromodulatory aspects of these pathways within personalized whole-brain
+62   network models, we need to capture structural changes reflecting synaptic connectivity alterations,
+63   particularly within the basal ganglia-thalamocortical circuit [4].
+64      Dopaminergic pathways are also known to play a role in psychiatric disorders via a variety
+65   of distinctive mechanisms or dysfunctions in neurotransmission and neuromodulation, primarily
+66   featuring the mesolimbic dopamine pathway. This pathway, extending from the ventral tegmental
+67   area to limbic regions, takes a central role in the generation of positive psychotic symptoms integral
+68   to Schizophrenia. Integrating these diverse neuromodulatory pathways into whole-brain network
+69   models will require accounting for inter-regional connection between source and target regions in
+70   conjunction with other region-specific parameters. This will be a key ingredient for the development
+71   of whole brain network models that can advance our comprehension of the intricate interplay of
+72   mechanisms contributing to the emergence of psychiatric and neurological disorders [45, 48].
+73      Furthermore, both PD and psychiatric disorders are accompanied by local and brain-wide
+74   changes in neural dynamics. In the context of PD, aberrant dynamics manifest in anomalous
+75   bursting activity in the beta frequency range across the basal ganglia-thalamocortical motor net-
+76   work [70], a phenomenon closely associated with clinical disability [69]. Similarly, in psychiatric
+77   disorders, there is a disruption in the balance between excitation and inhibition within cortical re-
+78   gions. This imbalance may result from synaptic pruning or alterations in neurotransmitter systems,
+79   contributing to the pathophysiology of these conditions [24, 30].
+80      Deep brain stimulation is a therapeutic intervention strategy aimed at rebalancing synchrony
+81   dynamics of target neuronal populations in both conditions. Computational modeling studies play
+82   a crucial role in providing insight on underlying mechanisms and informing the design of optimal
+83   stimulation patterns in silico, thereby advancing the effectiveness of treatment and deepening our
+84   understanding of these disorders [19, 40, 63, 71].
+85      Understanding the intricate interplay between neuromodulators action and electrophysiological
+86   features of brain is fundamental for elucidating the neural mechanisms underlying complex brain
+87   functions and disorders. Mathematical models are indispensable for understanding the workings
+88   of multi-scale non-linear interactions out of which emerges the different dynamical repertoires of
+89   observed electrophysiological activity.
+90      Additionally, the application of brain network models offers promise of informing the classifica-
+91   tion and stratification of various forms of these multidimensional neurological conditions. Recent
+
+
+
+                                                          3
+92    studies underscore this potential of enhancing the classification of PD patients or individuals with
+93    psychiatric disorders by supplementing empirical data with simulated data generated from patient-
+94    specific brain network models [34].
+95       Integrating personalized whole-brain network models and computational methodologies [23,67]
+96    can contribute to our understanding of the dynamic aspects of these disorders, facilitating refined
+97    treatment strategies and a deeper comprehension of their multifaceted etiologies, as it has been
+98    done previously for other conditions, such as epilepsy [14]. For that aim, there is a need for
+99    a mathematical model that incorporates how neuromodulators influence the electrophysiological
+100   activity patterns in the human brain. In order to capture macroscopic brain wide effects and allow
+101   for comprehensive parameter exploration, the said model ought to provide a level of description
+102   [13,15] able to capture relevant features observed in human data [1,3] in a computationally efficient
+103   framework; As such, it will be formulated on the mesoscopic scale as a neural mass model to be
+104   implemented in the simulation environment of The Virtual Brain (TVB) [2, 57].
+105      It is crucial to consider the impact of degeneracy and multi-realizability [18] (i.e. multiple
+106   models or parametrizations can lead to similar observable behaviors), as well as experimental chal-
+107   lenges associated with biophysical mechanisms that are difficult to access, which could impede the
+108   interpretability of the model. The selected model should thus incorporate identifiable and measur-
+109   able parameters that allow for linking biophysical mechanisms to observables of neural dynamics
+110   such as known inhibitory and excitatory connections along with accompanying neuromodulation
+111   affects on different synaptic receptors activity. It ultimately aims to possess a broad range of
+112   dynamic behaviors that is rich enough to encompass complex spatiotemporal features of healthy
+113   and aberrant neural activity.
+114      To tackle this challenge, this paper introduces a generic framework for modeling neuromodu-
+115   lator dynamics within a next generation neural mass model [10]. We specifically concentrate on
+116   dopamine by presenting a tailored formulation of the corresponding model and an examination of
+117   how dopamine dynamics influence neural activity. We present a bifurcation analysis that delin-
+118   eates transitions between qualitatively different oscillatory regimes as the relevant parameters are
+119   varied, and provide a quantitative characterization of the variations in the frequencies of emergent
+120   multi-scale oscillations in population firing rate.
+
+
+
+
+                                                            4
+121   2     Methods
+122   The starting point for this work is a neural-mass model [9], derived by applying a mean-field
+123   approach [49] to a network of adaptive quadratic integrate-and-fire model (aQIF) neurons [28].
+124   The key feature of this model, for our purposes, is that it enables the consideration of different
+125   conductance-based synaptic inputs.
+126       The aim is to include neuromodulation as a variable in our model. We follow the formalism
+127   adopted by Kringelbach et al. [37], which introduces the effects of serotonin on the neural mass level
+128   as an additive current, denoted by M, using the Michaelis-Menten equation [31, 46] to capture the
+129   dynamics of neuromodulator re-uptake. In our study, we adapt this formalism to account for the
+130   generic dynamics of neuromodulators by including the Michaelis-Menten equation for the evolution
+131   of neuromodulator concentration, but we depart from [37] by formulating the modulatory effect,
+132   M , as a multiplicative scaling of the synaptic conductances rather than as an additive current
+133   term. This modification aims to enhance the precision and relevance of our model in capturing
+134   the nonlinear influence of neuromodulators on neural excitability. Then we propose a specific
+135   application for dopamine, with a possible further reduction for this specific case brought about by
+136   the relatively slow timescale of dopamine concentration evolution. In the following subsection, we
+137   detail the model construction.
+
+
+138   2.1    Neural mass model
+
+139   The set of equations for the neural mass model for the dynamics of a population of N neurons
+140   is a modified version of that studied in the work of Chen and Campbell [9] and Sheheitli and
+141   Jirsa [60]. The mean-field derivation invokes the Lorentzian ansatz [49]. Assuming a neuronal
+142   heterogeneity that takes the form of additive currents, ηi , the distribution of the membrane voltages
+143   converges, in the thermodynamic limit N → ∞, to a Lorentzian-shaped function, regardless of the
+144   initial conditions. The resulting mean-field variables correspond to the population mean firing
+145   rate r, mean membrane potential V and mean adaptation variable u. We consider conductance-
+146   based synapses of two types, excitatory AMPA receptors of maximal conductance ga and reversal
+147   potential Ea , and inhibitory GABA receptors of maximal conductance gg and reversal potential
+148   Eg . This adds two other variables to the model, Sa and Sg , for the evolution of the activation of
+149   AMPA and GABA synapses. The resulting mean-field equations become:
+
+
+
+
+                                                        5
+                   dr                                    a∆
+                      = 2arV + br − ga rSa − gg rSg +                                                  (1)
+                   dt                                     π
+                  dV       2                  π2 r2
+                      = aV + bV + c + η̄ −          + ga Sa (Ea − V ) + gg Sg (Eg − V ) + Iext − u     (2)
+                  dt                            a
+                  du
+                      = α(βV − u) + ud r                                                               (3)
+                   dt
+                 dSa      Sa
+                      =−      + Sja cexc + Ja r                                                        (4)
+                  dt      τSa
+                 dSg      Sg
+                      =−      + Sjg cinh                                                               (5)
+                  dt      τSg
+
+150   where a, b, c are parameters from the original Izhikevich formulation of the aQIF [28]; α, β, ud are
+151   respectively, kinetic constant, scaling factor and quantal increment at each spike of the adaptation;
+152   τSa , τSg are time constants for AMPA and GABA synapses respectively, cexc , cinh are external
+153   excitatory and inhibitory inputs Sja and Sjg are the post-synaptic strengths of these inputs; Ja is
+154   the strength of the recurring connections
+155      This neural mass model set of equations serves as a low-dimensional representation to captures
+156   the dynamics of a microscopic neuronal population at the mesoscopic level. We then incorporate
+157   in it the dynamics of neuromodulation for the particular case of dopamine.
+
+
+158   2.2    Generic equations for neuromodulation
+
+159   At least two aspects are important in neuromodulation dynamics. First, the availability of the
+160   neuromodulator is considered, i.e. the evolution of the local concentration. Secondly, its effect on
+161   neural activities through specific receptors. One equation for each type of chemical neuromodu-
+162   lation (i.e. capturing the evolution of the concentration) and one equation for each receptor type
+163   (i.e. capturing the activation of each of these receptors) are necessary. The functional form for
+164   the concentration is made up of two terms, where the first corresponds to the mechanisms leading
+165   to an increase of the local concentration which often depend on the activity of a specific brain
+166   region that is afferent to the considered node. The second term corresponds to the decrease in
+167   concentration due to re-uptake mechanisms that can be captured by Michaelis-Menten formalism.
+168   In the following subsection, we describe the construction of the equations specific for dopamine.
+169   The variable denoted M , captures the proportion of target receptors activated by the neuromod-
+170   ulator. The typical functional form is a sigmoid function [33], the parametrization of which must
+171   be specific for each receptor type. In this case, given the slope of the sigmoid function, receptors
+172   can either increase (positive slope) or decrease (negative slope) the activity of the correspondent
+
+
+                                                        6
+173   synapse. Then the M variable enters the mean membrane potential equation according to the
+174   considered receptor’s specific biophysical properties. It can either modulate a non-synaptic con-
+175   ductance through an additional term of the form M gi (Ei − V ) with gi and Ei associated with a
+176   charged molecule; or directly modulate the synaptic conductances, as it is the case for dopamine.
+177   In the following subsection, we take the example of D1 receptors modulating the conductance of
+178   AMPA synapses.
+
+
+179   2.2.1   Dopamine reuptake
+
+180   The reuptake of dopamine is a process in which dopamine is returned to the presynaptic neuron
+181   from the synaptic cleft. The primary molecular mechanism responsible for dopamine reuptake in-
+182   volves a protein known as the dopamine transporter (DAT). The reuptake process can be described
+183   by the following simplified equation:
+
+                                                       Reuptake
+                                         [Dp ]e + DAT −−−−−−→ [Dp ]i
+
+184      In this equation: [Dp ]e represents dopamine molecules in the extracellular space, DAT repre-
+185   sents the dopamine transporter protein on the neuron membrane, and [Dp ]i represents dopamine
+186   molecules that have been taken back into the neuron.
+187      The dopamine transporter (DAT) actively transports dopamine from the extracellular space
+188   back into the presynaptic neuron, terminating the signal transmission at the synapse. This reuptake
+189   process is crucial for regulating the dopamine concentration in the synaptic cleft and maintaining
+190   proper neurotransmission. Additionally, it serves as a target for various drugs, including certain
+191   antidepressants and psychostimulants, which can modulate dopamine reuptake.
+
+
+192   2.2.2   Michaelis-Menten Formalism for Dopamine Reuptake
+
+193   The dynamics of dopamine reuptake can be described using Michaelis-Menten (M-M) formalism,
+194   which involves applying the M-M equation to represent the process of dopamine transport via the
+195   dopamine transporter (DAT).
+196      The general form of the M-M equation is:
+
+                                                       Vmax · [S]
+                                              VM M =
+                                                       Km + [S]
+
+197      and is a mathematical description of the relationship between substrate concentration [S] and
+198   reaction rate V , characterized by the maximum reaction rate (Vmax ) and the Michaelis constant
+
+
+                                                       7
+199   (Km ). We can adapt this equation to describe the dynamics of dopamine reuptake:
+
+                                                       Vmax · [Dp ]e
+                                              VDpr =
+                                                       Km + [Dp ]e
+
+200   where: VDpr is the reuptake rate and represents the velocity dopamine returns to the neuron.
+201   Vmax is the maximum reuptake rate, which corresponds to the rate when the dopamine trans-
+202   porter (DAT) is fully saturated with dopamine. Km is the Michaelis constant, representing the
+203   extracellular dopamine concentration at which the reuptake rate is half of Vmax . [Dp ]e is the
+204   concentration of dopamine in the extracellular space.
+205      This formulation represents a deliberate simplification, as the actual dynamics of dopamine
+206   reuptake are shaped by a multitude of cellular and molecular factors. Beyond simple enzymatic
+207   kinetics, dopamine clearance depends on the density and conformational state of dopamine trans-
+208   porters (DATs), which are themselves modulated by phosphorylation, membrane potential, in-
+209   tracellular signaling cascades, and protein–protein interactions [26, 62]. Moreover, extracellular
+210   conditions and competing substrates can dynamically alter transporter efficiency, making reup-
+211   take a highly regulated and context-dependent process rather than a static reaction. While the
+212   Michaelis–Menten formalism offers a tractable approximation that captures the saturating nature
+213   of transporter-mediated uptake [11], it does not aim to reproduce all the mechanistic intricacies
+214   of dopamine signaling at the synaptic level. Given that our objective is to model the collective,
+215   population-level regulation of neuronal excitability, this coarse-grained representation provides an
+216   appropriate balance between biological plausibility and analytical tractability, preserving the essen-
+217   tial temporal and functional properties of dopaminergic modulation without introducing excessive
+218   microscopic detail.
+219      The local concentration increase is driven by input projections from dopaminergic neurons,
+220   through the dopaminergic coupling cdopa , scaled in each efferent region by a factor k:
+
+
+                                                   VDpi = kcdopa
+
+221      Thus, the change over time (with time constant τDp ) in the extracellular dopamine concentra-
+222   tion corresponds to the net result of increase at the rate of local input and decrease at the rate of
+223   reuptake:
+
+                                                 d[Dp ]e
+                                           τDp           = VDpi − VDpr                                  (6)
+                                                   dt
+
+224      Given the M-M equation for dynamics of dopamine reuptake and the local dopamine concen-
+
+
+                                                         8
+225   tration, we obtain:
+
+                                             d[Dp ]e            Vmax [Dp ]e
+                                       τDp           = kcdopa −                                         (7)
+                                               dt               Km + [Dp ]e
+
+226      Here, the variation in dopamine concentration occurs on a much slower timescale (∼ 500 ms)
+227   than that of the evolution of the firing rate dynamics (∼ 1 ms) and can be treated as a constant that
+228   does not alter the derivation of the mean-field equations associated with the faster variables [9].
+
+
+229   2.2.3   Modulatory dynamics for D1 receptors
+
+230   The following equation represents a mathematical model (inspired from previous work [37]) de-
+231   scribing the dynamics of receptors within the populations. It uses a phenomenological activation
+232   function and an exponential decrease over time. It can be specifically formulated for the D1-type
+233   dopamine receptor.
+
+                                     dMD1                   Rd
+                                τm        = −MD1 +
+                                      dt           1 + exp(−Sp ([Dp ]e + 1))
+
+234      Where: MD1 is the modulation effect associated with the D1-type dopamine receptor. The
+235   modulation effect decreases over time (−MD1 ). Rd is the receptor density in a given receptor
+236   population. [Dp ]e is the extracellular dopamine concentration. Sp is a parameter that influences
+237   the sensitivity of the receptor to changes in extracellular dopamine concentration. The term
+             Rd
+238
+      1+exp(Sp ([Dp ]e +1)) represents the influence of extracellular dopamine on the modulation effect. The
+
+239   sigmoidal function introduces a non-linear activation of the receptor and simulates a saturation
+240   effect as dopamine concentration increases.
+
+
+241   2.3     Neural mass model including neuromodulation
+
+242   The modeling framework can be adjusted to account for various neuromodulators and receptor
+243   types (see Figure 1).We will here focus on dopamine and its corresponding receptors as a represen-
+244   tative proof of concept example. Dopamine affects AMPA excitatory conductances [21, 52, 62]. In
+245   this case, the MD variable modulates the conductance ga through the term MD + B, the variable
+246   MD evolves in a range from 0 to Rd and B = 1 is the basal level to enable the minimal AMPA
+247   conductance even in the absence of modulation by the extracellular dopamine [Dp ].
+
+                              dr                                           a∆
+                                 = 2arV + br − (MD + B)ga Sa r − gg Sg r +                              (8)
+                              dt                                            π
+
+
+
+                                                         9
+248
+          dV                       π2 r2
+             = aV 2 + bV + c + η −       + (MD + B)ga Sa (Ea − V ) + gg Sg (Eg − V ) − u + Iext       (9)
+          dt                        a
+249
+                                               du
+                                                  = α(βV − u) + ud r                                (10)
+                                               dt
+250
+                                          dSa   −Sa
+                                              =     + Sja cexc + Ja r                               (11)
+                                           dt   τSa
+251
+                                               dSg   −Sg
+                                                   =     + Sjg cinh                                 (12)
+                                                dt   τSg
+252
+                                             d[Dp ]             Vmax [Dp ]
+                                       τDp          = kcdopa −                                      (13)
+                                               dt              (Km + [Dp ])
+253
+                                     dMD1                   Rd
+                                τm        = −MD1 +                                                  (14)
+                                      dt           1 + exp(−Sp ([Dp ]e + 1))
+
+254      This neural mass model, describing the behavior of a neural population, is derived by the
+255   equations of single neuron through a mathematical framework which allow obtaining observables
+256   averaged over the all network of neurons. Details of the derivation can be found in [8, 9].
+257   In the following, we focus specifically on the modulatory effects of dopamine, using the equa-
+258   tions described above. Nonetheless, it is important to emphasize the generality of the proposed
+259   formalism, which can, in principle, accommodate the simultaneous action of multiple distinct neu-
+260   romodulators. This can be achieved by introducing, for each additional neuromodulator, two
+261   analogous terms: one describing the extracellular concentration of the chemical species of interest
+262   (as in Eq. 13) and another governing the dynamics of the corresponding receptor type (as in Eq.
+263   14) [47]. The resulting receptor-specific modulatory equations would then enter the firing rate
+264   and mean membrane potential equations (Eqs. 8 and 9), according to the biophysical properties of
+265   each receptor type, thereby influencing either one or more synaptic conductances and/or additional
+266   membrane conductances.
+267   The framework is schematized in Figure 1.
+
+
+
+
+                                                         10
+      Figure 1: Schematic of the model. (a) A generic neural mass model framework with neuromod-
+      ulation. Neural activity is characterized by the firing rate r, the mean membrane potential V ,
+      and mean adaptation u. It receives different synaptic inputs S1 , S2 , ... , and undergoes modulation
+      through receptors M1A , M2B , M3B , ... associated with different neuromodulators N MA , N MB , ...
+      released by projecting neurons. The modulation can affect either post-synaptic receptors (e.g., M1
+      or M2 in the schematic) or receptors on the neuronal membrane (e.g., M3 ). This flexible framework
+      allows for the consideration of multiple neuromodulators and receptors as needed by the scientific
+      question. (b) The model schematic for a neural mass model, as introduced in section 2.3. It can be
+      parameterized for excitatory AMPA and inhibitory GABA synapses, with activation variables Sa
+      and Sg , respectively. It also accounts for recurrent excitatory synaptic connections among neurons
+      within the same population. Moreover, it can be tailored for specific cases such as dopamine ([Dp ])
+      modulation, which linearly affects AMPA conductance.
+
+
+268      The time constant in Eq.14 reflects that dopamine’s modulatory effects are not instantaneous
+269   but mediated by a cascade of biochemical processes. After release, dopamine must diffuse and
+270   bind to D1 receptors, which activate G-proteins and the cAMP/PKA signaling pathway, leading
+271   to phosphorylation and insertion of AMPA receptors that modify synaptic efficacy. These steps
+272   introduce delays on the order of hundreds of milliseconds to seconds [44, 61, 62]. Accordingly, we
+273   represent receptor activation as a first-order relaxation process with τm = 500ms, which aggregates
+274   these mechanisms into a single effective timescale. This formulation can be adapted for other
+275   neuromodulators, with τm adjusted according to their specific receptor kinetics and downstream
+276   signaling cascades. In the specific case of dopamine, the time scale of modulation and that of
+277   concentration evolution are similar and M is strongly correlated with the [Dp ] variable. It is
+278   important to note that the simplification of Eq.(14), where the receptor activation dynamics are
+279   treated as instantaneous, is a modeling approximation specific to dopamine in the present context.
+280   This assumption cannot be generally extended to other neuromodulators, as many of them act
+281   involving multistep signaling cascades with slower kinetics, including ligand binding/unbinding, G-
+282   protein activation, second-messenger production, and phosphorylation events [41]. These processes
+
+
+                                                       11
+283   can integrate neuromodulatory signals over hundreds of milliseconds to seconds, or even minutes,
+284   depending on receptor subtype and cellular context. And thus the dynamics of the receptor is
+285   not necessarily in the same time scale of the concentration evolution. For example, serotonin
+286   and muscarinic acetylcholine receptors display slower or more sustained effects than dopaminergic
+287   D1 signaling, making the instantaneous approximation less appropriate. Consequently, the full
+288   kinetic formulation of Eq.(14) should be retained when modeling neuromodulators whose receptor
+289   dynamics are not on the timescale of its corresponding neuromodulator concentration dynamics.
+290       In the analysis to follow, we will thus consider only the linear part of the sigmoid of the MD1
+291   equation (specific for D1 receptors), effectively assuming that M can be absorbed into the [Dp ]
+292   variable by rescaling. Then, we obtain the linear relation with the form AD1 [Dp ] + BD1 , and the
+293   equations become:
+
+                            dr                                                     a∆
+                               = 2arV + br − (ADp [Dp ] + BDp )ga Sa r − gg Sg r +                    (15)
+                            dt                                                      π
+294
+       dV                       π2 r2
+          = aV 2 + bV + c + η −       + (ADp [Dp ] + BDp )ga Sa (Ea − V ) + gg Sg (Eg − V ) − u + Iext (16)
+       dt                        a
+295
+                                               du
+                                                  = α(βV − u) + ud r                                  (17)
+                                               dt
+296
+                                          dSa   −Sa
+                                              =     + Sja cexc + Ja r                                 (18)
+                                           dt   τSa
+297
+                                               dSg   −Sg
+                                                   =     + Sjg cinh                                   (19)
+                                                dt   τSg
+298
+                                             d[Dp ]             Vmax [Dp ]
+                                       τDp          = kcdopa −                                        (20)
+                                               dt              (Km + [Dp ])
+
+299   These equations establish our general neural mass modeling framework with neuromodulation.
+300   All fixed parameters are given in the Appendix, and are taken from previous work [9, 28] or
+301   tuned in a range that ensures the dynamical repertoire. We used python for simulation and
+302   bifurcation analysis and numerical continuation are performed by exploiting the Julia package
+303   BifurcationKit.jl [65].
+
+
+
+304   3     Results
+305   We studied the emerging dynamics of this model. We considered an excitatory population, with
+306   recurrent connections receiving excitatory and dopaminergic inputs. Given the number of dimen-
+307   sions of the system which obstructs an analytical study of its bifurcation structure, we resort to
+
+
+                                                         12
+308   numerical analysis to unfold the different dynamical regimes that can emerge as the different pa-
+309   rameters are varied. Specifically, similarly to previous works [29, 55], we leverage the time scale
+310   separation that exists in the system, between the fast sub-system associated with the r, V and Sa ,
+311   on one hand, and the slow variable u and ultra-slow [Dp ], on the other. We start with a bifurcation
+312   analysis of the fast sub-system constituted by the r, V, Sa variables, considering the slow variables
+313   u and [Dp] as parameters of this subsystem. Then, through numerical simulations, we characterize
+314   the full model’s behaviors for different excitatory and dopamine inputs. The parameter values used
+315   in the following subsections are given in the Appendix.
+
+
+316   3.1    Fast-subsystem r, V, Sa
+
+317   In this first subsection, we focused on the sub-system r, V, Sa , the three fast variables of the system,
+318   revealing diverse qualitative behaviors, notably the first emergence of a limit cycle, and a region
+319   of bistability. The variables r and V were selected as primary observables constituting the fast
+320   sub-system. Synaptic activation Sa exhibits nearly the same rapid dynamics, depending on r.
+321   Importantly, this variable is influenced by dopamine levels in the r and V equations. Therefore,
+322   r, V and Sa are the 3 fast variables, while u and [Dp ] being respectively slow and ultra-slow
+323   variables, are considered fixed here (i.e. treated as parameters). Thus, to investigate the dynamics
+324   of the fast sub-system we performed bifurcation analysis with respect to parameters u and [Dp ]. In
+325   previous work [9] u has been identified as responsible for bursting behaviors. Here, bursting refers
+326   to population-level activity in spiking neurons, characterized by periods of synchronized firing
+327   separated by phases of reduced, asynchronous activity. We chose [Dp ] as the second bifurcation
+328   parameter as we would like to see how the external dopamine concentration affects the behavior of
+329   our neural population. The result of the analysis is shown in 2. In the chosen range of parameters,
+330   we observe the emergence of a region, in white in Fig. 2 I, with a single stable fixed-point (Fig. 2
+331   II (a)). In the light blue region, delimited by a Hopf curve, the fixed point loses stability in favor
+332   of an attracting limit-cycle, leading to the oscillations shown in Fig. 2 II (b). For higher values of
+333   [Dp ] and/or u, after crossing again the Hopf curve, the system returns to a fixed point, associated
+334   with saturation, at a low firing rate r and high value of mean membrane potential V , as shown
+335   in Fig. 2 II (c). Two curves of fold (saddle-node) bifurcations delimit a region, shaded in orange,
+336   within which the fast sub-system presents a bistable behavior, characterized by the co-existence of
+337   an up and a down state. An example of the dynamics of the system for parameters value inside this
+338   region is represented in 2d, which shows the co-existence of a state of higher activity, characterized
+339   also by higher mean membrane potential, with another state of low firing rate, with the value of V
+
+
+                                                         13
+340   close to the resting membrane potential. Finally, the overlap between the orange and blue regions
+341   is characterized by the bistability between a fixed point and a limit cycle, as observed in Fig. 2 II
+342   (e).
+
+
+
+
+                                                       14
+I
+
+
+
+
+II
+
+
+
+
+               (a)                               (b)                               (c)
+
+
+
+
+                                (d)                               (e)
+
+Figure 2: Dynamical patterns of the fast sub-system: I. Bifurcation diagram of the fast
+sub-system (r, V , Sa ) with respect to Dp and u, and the corresponding time series for each Dp.
+Each time series is associated with a sketch of the phase portrait, where black (white) dots
+represent stable (unstable) fixed point and solid black circle represents stable limit-cycles. II. (A)
+fixed-point behavior of high activity (r > 0.5, (B) oscillation associated with a limit-cycle
+corresponding to synchronious activity, (C) fixed-point behavior of low activity (r < 0.05, (D)
+bistable fixed-point behaviors, (E) bistability between limit-cycle and fixed-point.
+
+
+
+
+                                                 15
+343   3.2    Full system dynamics
+
+344   After having described the possible dynamics of the fast r, V, Sa subsystem, we present the dy-
+345   namical repertoire of the full system of equations. The two slower variables u and [Dp ], enable
+346   transitions between the qualitatively different behaviors described in the previous subsection.
+347      In this section, we present the results of numerical simulations of the model for different values of
+348   external inputs, cdopa and cexc , with different values of the parameter ud associated with adaptation
+349   mechanisms and different cell types [28]. The rationale behind choosing these three parameters
+350   is that this neural mass model is built to be used in whole-brain models [3], where the nodes
+351   representing different brain regions (possibly associated with different cell properties capture by
+352   ud ), are interconnected through dopaminergic cdopa and long-range excitatory cexc projections.
+353   We performed simulations using numerical integration, allowing the complete system to evolve for
+354   10000 ms and, then eliminating the transient period of 6500 ms, after which the system stabilizes
+355   into a steady-state; we not only focus on the mean firing rate of the steady state but also on the
+356   standard deviation to identify parameter values for which the dynamics undergo significant changes
+357   in amplitude variability that is indicative of oscillatory behavior. These metrics are presented
+358   in Figure 3, where various qualitative behaviors are illustrated, as also depicted in Figure 4.
+359   Specifically, fixing the excitation and adaptation parameters, ( cexc = 0.2, ud = 12), it is evident
+360   that as cdopa increases, the system undergoes transitions in its dynamical behavior, reflected in
+361   changes in both the average firing rate and its standard deviation.
+362      Successively, we analyze the transient behavior of the neural mass, focusing on excitatory,
+363   dopaminergic, and adaptive inputs. Our findings highlight how the mean firing rate and standard
+364   deviation of the system change while varying the values of these parameters (see Fig. 3). When
+365   analyzing dopaminergic and adaptive inputs together, we observe that, both high mean firing rates
+366   and standard deviations, occur when excitatory or dopaminergic inputs are low. Non-zero standard
+367   deviations indicate the presence of oscillatory behavior. To better identify the transition between
+368   fixed-point and periodic dynamics, we use continuation tools [65]. By doing so we identify the Hopf
+369   bifurcation lines (light-blue) in Fig. 3 (b) and (d), which mark the boundary where the system
+370   changes behavior from fixed-point to limit cycle or bursting behavior.
+371      This is illustrated in Figure 4 where we present time series of several variables of the full
+372   system, for increasing values of cdopa , together with the path defined by the slow variables in the
+373   codimension-2 bifurcation diagram, when considering the evolution of the full system. In Figure
+374   4.I, ” With further increase in the value of cdopa , the system approaches the separation line for
+375   the values of standard deviation visible in Figure 3. Hence, it transitions briefly to stable fixed
+
+
+                                                        16
+376   behavior, before becoming oscillatory again, with a higher frequency (Fig. 4.I-c and Fig. 4.I-d).
+377   With an additional increment in the dopaminergic parameter, both the amplitude and frequency
+378   of oscillations decrease (Fig. 4.I-e) until reaching another separation line, as depicted in Figure
+379   3. Beyond this boundary, the dynamics settle into a stable fixed point, similar to the scenario at
+380   lower cdopa , albeit at different values for each variable of interest (Fig. 4.I-f). In Figure 4.II, we
+381   observe how transitions among the different dynamical behaviors for the full system are possible as
+382   the ”slow” variables are allowed to evolve in time. Here, black lines and dots represent time series
+383   of u and [Dp ] superimposed to the codimension-2 bifurcation diagram of the fast sub-system that
+384   was previously presented. We point out that, compared to [Dp ], which can just exhibit relaxation
+385   towards a stable equilibrium, u can also display oscillatory behavior due to feedback from the
+386   membrane potential variable (14) via an hysteresis effect [55]. This enables the appearance of
+387   bursting activity, as presented in Figure 4.I-b, where the oscillation of u drives the fast sub-system
+388   to switch from down to up state and vice versa.
+389   Moreover, we emphasize the fact that, for each value of cdopa , keeping the other parameters in
+390   (7) constant, the dopamine concentration reaches a different steady-state value. Thus, in 4.II, we
+391   substitute the values of [Dp ] with the corresponding cdopa value.
+392       This demonstrates the dopaminergic effect on the neural mass model, how changes in the
+393   steady state dopamine concentration value can induce qualitatively different dynamical regimes in
+394   the system. We now proceed to further characterize the oscillatory regimes highlighted in Figure 4.
+395
+
+
+396       More specifically, we quantify the variations in the frequency of oscillation in those specific
+397   regimes. In order to do so, we simulate 8000 ms long time series for different pairs of parameter
+398   values inside each region. Then, we considered just the last 3000 ms to avoid transient effects
+399   and, depending on the identified dynamical regime, we compute the single or multiple periods of
+400   oscillation and obtain the frequency by inverting it.
+401   For the regions displaying fast oscillating behavior, we simply compute the period as the mean
+402   time distance between two consecutive peaks. Results for those are represented in Figure 5a in
+403   the (cexc , cdopa ) plane, and in Figure 5b for the (ud , cdopa ). Both plots show overall decreasing
+404   frequency values when the parameter other than the dopaminergic one is increased. Moreover, we
+405   notice that the range of frequencies obtained in the (ud , cdopa ) plane is much higher than those in
+406   the (cexc , cdopa ) plane.
+407   In the regions characterized by bursting behavior, we identified the peaks of each single burst
+408   event by imposing a threshold on the time difference between two consecutive peaks (18 ms) to be
+
+
+
+                                                        17
+409   assigned as belonging to the same burst event. Then, we compute inter-burst period as the mean
+410   time distance between the first peak of each burst, and the intra-burst period by averaging over
+411   all the time distances of peaks within the same burst. For this analysis the results are presented in
+412   Figures 5c and 5e, for (cexc , cdopa ), and in Figures 5d and 5f for (ud , cdopa ). We observe an inverse
+413   trend for inter-burst and intra-burst frequencies between the different realizations, in the sense
+414   that as the former decreases, the latter instead increases. The observed non-linear relationship
+415   highlights the complexity of dopaminergic neuromodulation, as it influences electrophysiological
+416   activity based on both the excitatory input cexc and intrinsic cellular properties represented by ud .
+
+
+
+
+                                                         18
+                (a) Mean firing rate                           (b) Standard deviation
+
+
+
+
+                (c) Mean firing rate                           (d) Standard deviation
+
+Figure 3: After transient behavior of the complete system for different values of parameters.
+In the first row, effects of excitatory and dopaminergic inputs on a single neural node, with the
+mean firing rate shown on the left (a) and its standard deviation on the right (b). The value of
+the parameter udopa = 12 is fixed. In the pictures, the colour gradient transitions from purple
+to yellow, marking the shift from the lowest to the highest values observed. The highest mean
+firing rates occur mostly for low value of cdopa . Non-zero standard deviation indicate oscillatory
+behaviors. The light-blue lines indicate the bifurcation line found using continuation tools. Below
+the same analysis is shown for different effects of dopaminergic and adaptation inputs, in this case
+cexc = 0.2 is constant. In general mean firing rate (c) and its standard deviation (d) have larger
+values if compared to the previous case. However, once again, high values for the mean firing
+rate are observed for low dopaminergic inputs. Non-zero standard deviation indicate oscillatory
+behaviors.
+
+
+
+
+                                                19
+I
+
+
+
+
+               (a)                              (b)                               (c)
+
+
+
+
+               (d)                              (e)                               (f)
+
+
+
+II
+
+
+
+
+Figure 4: Dynamics of the full system : (I) Time series of distinct variables of the full system for
+increasing values of cdopa , at fixed cexc = 0.2 and ud = 12. (A) Low values of cdopa (∼ 0.02) are
+characterized by a stable fixed point. (B) Increasing the dopaminergic input (∼ 0.1) one notices
+the emergence of bursting behavior. (C) A further increment in cdopa (∼ 0.2) makes the system
+transits to stable behavior before entering again an oscillatory region (D) with higher frequency
+with respect to the previous one (cdopa ∼ 0.25). (E) Further on (∼ 0.45) the system remains in
+oscillatory regime but gradually decreasing both oscillations amplitude an frequency. (F) For
+higher values of cdopa (≥ 0.55) the full system presents a constant stable fixed point, although
+with different values with respect to the initial low dopaminergic one. All simulations were
+conducted with ”resting state” conditions with rinit = 0.01 kHz, Vinit = -70 mV, uinit = 0, Sainit
+= 0.006, Sg,init = 0, [Dp ]init = 0.6. (II) Superposition of time series of the slow variable u and
+[Dp ] to the codimension-2 bifurcation diagram of the fast subsystem. In the abscissa we
+substitute the steady state [Dp ] with the corresponding value of cdopa , since there exist a
+one-to-one relation when [Dp ] reached its steady state.
+                                                   20
+               (a) Oscillation frequency                     (b) Oscillation frequency
+
+
+
+
+               (c) Inter-burst frequency                     (d) Inter-burst frequency
+
+
+
+
+               (e) Intra-burst frequency                     (f) Intra-burst frequency
+
+Figure 5: Frequencies observed for the different oscillatory regimes: (a) Oscillation frequencies for
+different values of cexc and cdopa (b) Oscillation frequencies for different values of ud and cdopa ,
+(c) Slow frequency components of the bursting behavior, i.e. inter-burst for cexc and cdopa , (d)
+similarly for ud and cdopa , (e) and (f) are the corresponding fast frequency component of the intra-
+burst
+
+
+                                                 21
+417      To achieve further insights about the bursting mechanism, we compute additional features for
+418   this specific dynamical regime. Namely, we evaluate the number of spikes within each burst event,
+419   the duration of active and silent phase and the proportion of time spent on the active phase with
+420   respect to the total burst duration.
+421   In Figure (6) results relative to (cexc ,cdopa ) plane are presented. They highlight the presence of a
+422   similar trend between the number of spikes and the duration of the active period in time. Namely,
+423   in both cases there is an increase along the dopaminergic-related parameters. Hence, despite the
+424   higher number of spikes, because of the time span in which they occur is wider, we observe a
+425   drop in intra-burst frequencies values (Figure 5e). Furthermore, the proportion of burst duration
+426   spent on the active phase is enhanced along cexc axes. This means an increase of the population’s
+427   activity, with shorter and more frequent burst events, as also previously reported in Figure 5c.
+
+
+
+
+                                                       22
+                       (a) Number of spikes                       (b) Silent phase duration
+
+
+
+
+                    (c) Active phase duration                    (d) Active phase proportion
+
+      Figure 6: Characteristics of bursting regime in (cexc ,cdopa ) plane. (a) Number of spikes within
+      a single burst event is higher for low values of the excitatory-related parameter. The same can
+      be seen for the duration of the silent time (b), although for different values along the cdopa axes.
+      Duration of the active phase (c) instead increases with the value of cexc . The opposite trends for
+      the duration of both active and silent phases result in an increment of the proportion of time spent
+      on the active state during each burst (d).
+
+
+428      On the other hand, the evolution in the (ud ,cdopa ) plane (Figure 7) is different from that
+429   in the previous case. In fact, we notice that the region characterized by a higher duration of
+430   active phase, and number of spikes within it, coincides with that related to prominent intra-burst
+431   frequencies. This may hint that, although we find bursting regimes for different regions in the
+432   space of parameters, the mechanism for the appearance of this phenomenon may be different.
+433   Moreover, in the range of (ud ,cdopa ) we considered, the proportion of time spent on the active
+434   phase is generally at least half of the total burst duration and increases for decreasing values of
+435   ud , with the same trend as the active phase duration and the number of spikes. This is also in
+
+
+
+                                                      23
+436   contrast to what we previously observed in the (cexc ,cdopa ) case, corroborating the hypothesis of
+437   distinct mechanisms to approach the bursting region.
+
+
+
+
+                       (a) Number of spikes                       (b) Silent phase duration
+
+
+
+
+                    (c) Active phase duration                    (d) Active phase proportion
+
+      Figure 7: Characteristics of bursting regime in (ud ,cdopa ) plane. Both (a) Number of spikes within
+      a single burst event and (b) the duration of the active time are higher for low values of the
+      adaptation-related parameter. Duration of the active phase (c) instead present a peak for central
+      values along of ud axes. The proportion of time spent on the active state during each burst (d)
+      also presents a gradual decrement as ud increases.
+
+
+438      Since this neural mass is designed to be used in neural networks or whole-brain modeling,
+439   the dopaminergic projections originating from different brain regions, mediated by cdopa , become
+440   dynamic and enable transitions between distinct patterns. We illustrated these transitions by
+441   considering a slowly ramped, time-dependent cdopa , as shown in Fig. 8 (a). The system transitions
+442   from a fixed point (low steady state) to bursting behavior, then back to a fixed point, followed
+443   by oscillations, and finally reaches another fixed point (high steady state). We then examined a
+444   sinusoidal cdopa to study a simple case of dopaminergic fluctuations. We first focused on the role
+
+
+                                                      24
+445   of amplitude in the dopaminergic input in Fig. 8 (b) and then on its frequency aspects in Fig. 8
+446   (c). Our results show that the amplitude determines access to the different dynamical patterns
+447   illustrated in panel (a). For very low amplitudes (cdopa <∼ 0.05), the neural activity is entrained
+448   by cdopa . For higher amplitudes, the system progressively explores a richer dynamical repertoire,
+449   transitioning from simple bursting and then transitions to alternating bursting and steady states.
+450   As the amplitude increases further, these alternating patterns become accompanied by sustained
+451   oscillations until finally reaching the upper fixed-point (steady state), as displayed in Fig. 8 (b).
+452   These transitions can be tuned according to the preferences or modeling needs of the user. By
+453   varying the frequency, as shown in Fig. 8 (c), we explored how the temporal characteristics of
+454   dopaminergic input influence the stability and switching speed between dynamical regimes. We
+455   selected a peak amplitude of cdopa ∼ 0.2, which places the system within the alternating regime
+456   characterized by transitions between the low steady state, bursting, and intermediate steady state.
+457   At low frequencies, the system has sufficient time to fully express each dynamical pattern before the
+458   next phase of cdopa modulation, leading to clear transitions between distinct states. As frequencies
+459   increase, the rapid oscillations of cdopa prevent the system from settling into a bursting bistable
+460   regime or reaching the upper stable state. Higher frequencies reduce the amplitude and peak-to-
+461   peak range of Dp . Although Dp integrates the dopaminergic input cdopa , the timescale of cdopa
+462   variations becomes too fast relative to that of Dp , limiting its effective modulation. This indicates
+463   that as the dopaminergic input fluctuates more rapidly, the effective modulation depth decreases,
+464   leading to weaker dynamical transitions and a more compressed range of neural responses. Details
+465   on calibration of the model are given in the caption of Fig. 8.
+
+
+
+
+                                                       25
+                                                 (a)
+
+
+
+
+                                                 (b)
+
+
+
+
+                                                 (c)
+
+Figure 8: Qualitative transition time series of distinct variables of the full system for fluctuating
+values of cdopa , at fixed cexc = 0.2 and ud = 12. The system enters the full dynamical reper-
+toire presented in Fig. 3 as cdopa increases linearly (8a). The effects of a sinusoidally modulated
+dopaminergic input are illustrated through variations in amplitude (8b) and frequency (8c). All
+simulations presented in this figure were conducted using ”resting state” conditions as initial con-
+ditions with rinit = 0.01 kHz, Vinit = -70 mV, uinit = 0, Sainit = 0.006, Sginit = 0, [Dp ]init = 0.6
+and transient periods of 100ms were removed.
+                                                 26
+466   4     Discussion
+467   We proposed a modeling framework to capture the effects of neuromodulator dynamics on the
+468   neuronal electrophysiological activity at a neural mass level. We presented a reduced version,
+469   specific for dopamine dynamics, as a proof of concept, and provided a thorough bifurcation analysis
+470   of the qualitatively different possible dynamical regimes that emerge as steady state dopamine
+471   concentration and input excitation levels are varied.
+472       Such an approach enables us to capture a rich and complex dynamical repertoire with a reduced
+473   number of variables that can still be interpreted or associated with meaningful biophysical units.
+474   Indeed, while the proposed model is phenomenological in nature by its high level of description,
+475   it can nevertheless serve to explicitly represent and capture the evolution of physical variables
+476   that can be directly related to observables, such as firing rates, mean membrane potentials, and
+477   synaptic currents. Thus, this is a biophysically inspired model [23], in which the fast dynamics is
+478   obtained through mean field theory and complemented with slow dynamics in a heuristic efficient
+479   formulation at the mesoscopic scale. The end result is a minimal mechanistic neural mass model
+480   that lends itself to parameter fitting for capturing complex electrophisiological oscillatory dynamics
+481   that may arise in different types of neuronal populations across brain regions.
+482       While fitting the proposed model to specific experimental data is beyond the scope of the
+483   current work, it is worth noting that the frequencies of inter and intra-burst oscillations, emerging
+484   for the parameter values studied here, are in the range of what has been observed in basal ganglia
+485   neuronal activity recorded from implanted deep brain stimulation electrodes in PD patients [43].
+486   More specifically, the administration of dopamine replacement medication (L-DOPA) was reported
+487   to induce a shift in the peaks of the power spectrum of the subthalamic nucleus activity, from
+488   15HZ and 250Hz to 25Hz and 350Hz (see Fig. 2 in [43]). This is inline with what is suggested
+489   by the results in Fig. 5e and 5c, that is, there exists a range of parameter combinations for
+490   which the proposed model would exhibit inter and intra-burst frequencies that would be consistent
+491   with those experimentally reported for the concurrent shift in spectral peaks. More generally,
+492   our model generates oscillations across multiple frequency bands whose emergence and frequency
+493   content depend on dopamine levels. Specifically, the model exhibits oscillation frequency shifts that
+494   span the 5-40Hz range in response to changes in dopamine tone. This is also consistent with the
+495   experimental findings in [27] that acute modulation of dopamine tone leads to frequency shifts in
+496   beta oscillations (8-35Hz) in both cortex and globus pallidus externus (GPe). Their work supports
+497   the view that progressive slowing of beta frequency may serve as a more sensitive biomarker of
+498   Parkinson’s disease progression than beta power.
+
+
+                                                       27
+499      The model also generates high-frequency oscillations (HFOs) in the 100-500Hz range, under spe-
+500   cific dopaminergic and excitatory input states. This is in line with experimental reports from [20],
+501   who observed that dopaminergic medication in Parkinsonian patients induces oscillatory activity
+502   around 300Hz in the STN, suggesting a new dynamic equilibrium driven by dopaminergic input.
+503   Our model replicates this high-frequency regime under increased dopamine conditions, consistent
+504   with this shift, and shows that HFOs can emerge through intrinsic dynamical transitions in the
+505   system. On the other hand, [32] found that HFOs emerge in the internal globus pallidus (GPi)
+506   of MPTP-treated monkeys, and are attenuated with dopaminergic medication in human patients.
+507   This highlights the need to account for network level interactions as our model suggests that the
+508   emergence or attenuation of HFOs in a given brain region can arise from the interplay of dopamin-
+509   ergic modulation and direct inputs from other network nodes. The minimal mean field model that
+510   we present here is designed to serve as an efficient building block for large scale network mod-
+511   els that can sustain such multiscale rhythms and provide insight into their alterations in disease
+512   states brought about by chemical neuromodulatory imbalances, such as in the case of dopaminergic
+513   depletion in PD.
+514      A key feature of our model is the generation of multi-scale oscillations, with activity occurring
+515   simultaneously in the beta and HFO bands. The multiscale oscillation in the population firing rate
+516   represents synchronized neuronal spiking with intrinsic slow and fast timescales reflected in the
+517   inter- and intra-burst periods, respectively. This raises the possibility of cross-frequency interac-
+518   tions between the two timescales that can manifest in the corresponding local field potentials; more
+519   specifically, it can lead to phase-amplitude coupling in which the amplitude of the fast oscillation
+520   (corresponding to the intra-burst oscillation) is coupled to the phase of the slow (inter-burst) cy-
+521   cle. Importantly, [42] demonstrated that in the dopamine-depleted motor state, the amplitude of
+522   HFOs is coupled to the phase of abnormal beta activity in the basal ganglia. This pathological
+523   phase-amplitude coupling (PAC) was reduced with dopaminergic medication, suggesting that such
+524   coupling may reflect abnormal dynamical entrainment contributing to motor impairment. Our
+525   model captures the emergence of mean firing rate states exhibiting nested oscillatory components,
+526   from which both beta and HFO rhythms emerge endogenously within the same population-level
+527   system, thus creating natural conditions for phase-amplitude coupling. Unlike models where PAC
+528   is imposed through an external oscillatory drive, our framework shows that PAC can emerge from
+529   intrinsic nonlinear interactions, modulated by dopamine-dependent parameters. Our model paves
+530   the way for further mechanistic inquiry of how pathological PAC, such as beta-HFO coupling ob-
+531   served in Parkinson’s disease, may originate from altered dopamine-modulated dynamics at the
+
+
+
+                                                       28
+532   population level. In short, the proposed model captures biologically plausible features of dopamine-
+533   regulated brain dynamics, including: frequency shifts in the beta band, emergence and suppression
+534   of high-frequency oscillations (100–500Hz) and nonlinear cross-frequency coupling (PAC) between
+535   beta and HFO bands. Together, these phenomena align with key experimental findings in the
+536   literature and support the model’s relevance for exploring dopaminergic modulation of multiscale
+537   oscillatory brain activity in health and disease.
+538      One novelty of the framework presented here, in comparison to other neural mass modeling
+539   approaches, is the expression of the action of dopamine as a scaling of the synaptic conductance
+540   at the mesoscopic neural mass model level; this formulation can in fact be seen as a natural
+541   extension of the seminal works of Humphries [25] and Durstewitz [16, 17] in which dopaminergic
+542   action was modeled as such but on the microscopic level of individual spiking neurons. This
+543   latter approach was also employed in [39] to capture the effects of dopamine depletion in a multi-
+544   population spiking neural network model of the basal ganglia. As such, our proposed form for
+545   dopamine action on the neural mass model builds on previous work of validated biophysical models
+546   of spiking neurons to provide a computationally efficient framework that extends the modeling of
+547   dopaminergic neuromodulatory action, from the level of populations of spiking neurons, to that of
+548   the whole brain network level.
+549      This modeling framework also enables the introduction of effects on other receptors, such as
+550   NMDA type receptors [60]. The framework is modular and can be adapted to fit the scope of
+551   different applications; that is, it can serve as a foundational building block to be used in person-
+552   alized brain models, such as in the context of virtual brain twins [67]. Virtual brain twins is a
+553   novel concept, in which only features that are of interest to a neurological condition are selected
+554   to be captured by the model, so as to maximize efficiency and relevance to corresponding clini-
+555   cal data [67]. This methodology aims to then personalize the model to the individual patient’s
+556   brain by constraining the model to anatomical and functional patient-specific data using advanced
+557   parameter fitting algorithms. The resulting models can then serve as in-silico simulation engines
+558   for the guidance of more optimal diagnosis and treatment of brain disorders. By tailoring the
+559   modeling to individual subjects, researchers can better understand the intricacies of brain function
+560   and mechanisms of its pathology. In Wang et al. [67], the standard model was presented in a
+561   generic format, including local dynamics with both global and local connectivity. With this work,
+562   we present a first detailed neural mass model that allows the incorporation of neuromodulator dy-
+563   namics on a mesoscopic level in large-scale whole-brain dynamics. Ultimately, the proposed model
+564   paves the way for the development of virtual brain twins [66], particularly in the context of PD [3]
+
+
+
+                                                          29
+565   and psychiatric disorders, for which the disruption in chemical neuromodulator action is known to
+566   play a significant role in the underlying psychophysiology.
+
+
+
+567   5    Acknowledgment
+568   The preparation of this article was funded through the EU’s Horizon Europe Programme SGA
+569   101147319 (EBRAINS 2.0), SGA 101137289 (Virtual Brain Twin), and No. 101057429 (project
+570   environMENTAL), and government grant managed by the Agence Nationale de la Recherche ref-
+571   erence ANR-22-PESN-0012 (France 2030 program). The project leading to this publication has
+572   received funding from the Excellence Initiative of Aix-Marseille Université - AMidex, a French
+573   “Investissements d’Avenir programme” AMX-21-IET-017. We acknowledge the support of the
+574   Government of Canada’s New Frontiers in Research Fund (NFRF). This work was supported in
+575   part by funding from the University of Minnesota’s MnDRIVE (Minnesota’s Discovery, Research
+576   and Innovation Economy) initiative to author H.S.
+
+
+
+577   References
+578    [1] Hasnae Agouram, Matteo Neri, Marianna Angiolelli, Damien Depannemaecker, Jyotika
+579       Bahuguna, Antoine Schwey, Jean Régis, Romain Carron, Alexandre Eusebio, Nicole Mal-
+580       fait, Emmanuel Daucé, and Pierpaolo Sorrentino. L-dopa-induced changes in aperiodic bursts
+581       dynamics relate to individual clinical improvement in parkinson’s disease. medRxiv, 2024.
+
+582    [2] Katrin Amunts, Markus Axer, Swati Banerjee, Lise Bitsch, Jan G Bjaalie, Philipp Brauner,
+583       Andrea Brovelli, Navona Calarco, Marcel Carrere, Svenja Caspers, et al. The coming decade
+584       of digital brain research: A vision for neuroscience at the intersection of technology and
+585       computing. Imaging Neuroscience, 2:1–35, 2024.
+
+586    [3] Marianna Angiolelli, Damien Depannemaecker, Hasnae Agouram, Jean Ŕegis, Romain Car-
+587       ron, Marmaduke Woodman, Letizia Chiodo, Paul Triebkorn, Abolfazl Ziaeemehr, Meysam
+588       Hashemi, Alexandre Eusebio, Viktor Jirsa, and Pierpaolo Sorrentino. The virtual parkinso-
+589       nian patient. medRxiv, 2024.
+
+590    [4] R. Balestrino and A. H.V. Schapira. Parkinson disease. European Journal of Neurology,
+591       27(1):27–42, 2020.
+
+
+
+
+                                                      30
+592    [5] Anne S Berry, Vyoma D Shah, Suzanne L Baker, Jacob W Vogel, James P O’Neil, Mustafa
+593       Janabi, Henry D Schwimmer, Shawn M Marks, and William J Jagust. Aging affects dopamin-
+594       ergic neural mechanisms of cognitive flexibility. Journal of Neuroscience, 36(50):12559–12569,
+595       2016.
+
+596    [6] Rasmus M. Birn, Alexander K. Converse, Abigail Z. Rajala, Andrew L. Alexander, Wal-
+597       ter F. Block, Alan B. McMillan, Bradley T. Christian, Caitlynn N. Filla, Dhanabalan Murali,
+598       Samuel A. Hurley, Rick L. Jenison, and Luis C. Populin. Changes in endogenous dopamine in-
+599       duced by methylphenidate predict functional connectivity in nonhuman primates. The Journal
+600       of Neuroscience, 39(8):1436–1444, December 2018.
+
+601    [7] Ethan S. Bromberg-Martin, Masayuki Matsumoto, and Okihide Hikosaka. Dopamine in mo-
+602       tivational control: Rewarding, aversive, and alerting. Neuron, 68(5):815–834, December 2010.
+
+603    [8] Gabriele Casagrande, Augustinas Fedaravicius, Chloe Duprat, Anthony Randal McIntosh,
+604       Pierpaolo Sorrentino, Spase Petkoski, Ausra Saudargiene, Viktor Jirsa, and Damien Depan-
+605       nemaecker. Next generation neural mass model with dopamine modulation mediated by d1-
+606       type receptors. bioRxiv, 2025.
+
+607    [9] Liang Chen and Sue Ann Campbell. Exact mean-field models for spiking neural networks
+608       with adaptation. Journal of Computational Neuroscience, jul 2022.
+
+609   [10] Stephen Coombes. Next generation neural population models. Frontiers in Applied Mathe-
+610       matics and Statistics, 9:1128224, 2023.
+
+611   [11] Stephanie J. Cragg, Christopher J. Hille, and Susan A. Greenfield. Dopamine release and
+612       uptake dynamics within nonhuman primate striatumin vitro. The Journal of Neuroscience,
+613       20(21):8209–8217, November 2000.
+
+614   [12] Martin J Dahl, Shelby L Bachman, Shubir Dutt, Sandra Düzel, Nils C Bodammer, Ulman
+615       Lindenberger, Simone Kühn, Markus Werkle-Bergner, and Mara Mather. The integrity of
+616       dopaminergic and noradrenergic brain regions is associated with different aspects of late-life
+617       memory performance. Nature Aging, 3(9):1128–1143, 2023.
+
+618   [13] Damien Depannemaecker. Would you publish unrealistic models?          Biological Cybernetics,
+619       119(1), December 2024.
+
+
+
+
+                                                     31
+620   [14] Damien Depannemaecker, Aitakin Ezzati, Huifang E. Wang, Viktor Jirsa, and Christophe
+621       Bernard. From phenomenological to biophysical models of seizures. Neurobiology of Disease,
+622       182:106131, June 2023.
+
+623   [15] Damien Depannemaecker, Léo Pio-Lopez, and Christophe Gauld. Does deep learning have
+624       epileptic seizures? on the modeling of the brain. Cognitive Computation, 16(5):2382–2388,
+625       February 2023.
+
+626   [16] Daniel Durstewitz. Dopaminergic modulation of prefrontal cortex network dynamics. In
+627       Monoaminergic Modulation of Cortical Excitability, pages 217–234. Springer, 2007.
+
+628   [17] Daniel Durstewitz, Marian Kelc, and Onur Güntürkün. A neurocomputational theory of the
+629       dopaminergic modulation of working memory functions. Journal of Neuroscience, 19(7):2807–
+630       2822, 1999.
+
+631   [18] Egidio D’Angelo and Viktor Jirsa. The quest for multiscale brain modeling. Trends in neuro-
+632       sciences, 2022.
+
+633   [19] Martin Ebert, Christian Hauptmann, and Peter A. Tass. Coordinated reset stimulation
+634       in a large-scale model of the STN-GPE circuit. Frontiers in Computational Neuroscience,
+635       8(NOV):1–20, 2014.
+
+636   [20] G Foffani, A Priori, M Egidi, P Rampini, F Tamma, E Caputo, KA Moxon, S Cerutti, and
+637       S Barbieri. 300-hz subthalamic oscillations in parkinson’s disease. Brain, 126(10):2153–2163,
+638       2003.
+
+639   [21] Can Gao, Xiu Sun, and Marina E. Wolf. Activation of d1 dopamine receptors increases
+640       surface expression of ampa receptors and facilitates their synaptic incorporation in cultured
+641       hippocampal neurons. Journal of Neurochemistry, 98(5):1664–1677, June 2006.
+
+642   [22] Carole Guedj, Elisabetta Monfardini, Amélie J Reynaud, Alessandro Farnè, Martine Meunier,
+643       and Fadila Hadj-Bouziane. Boosting norepinephrine transmission triggers flexible reconfigu-
+644       ration of brain networks at rest. Cerebral Cortex, September 2016.
+
+645   [23] Meysam Hashemi, Damien Depannemaecker, Marisa Saggio, Paul Triebkorn, Giovanni
+646       Rabuffo, Jan Fousek, Abolfazl Ziaeemehr, Viktor Sip, Anastasios Athanasiadis, Martin Brey-
+647       ton, Marmaduke Woodman, Huifang Wang, Spase Petkoski, Pierpaolo Sorrentino, and Viktor
+648       Jirsa. Principles and operation of virtual brain twins. October 2024.
+
+
+
+                                                     32
+649   [24] Oliver D. Howes and Ekaterina Shatalina. Integrating the neurodevelopmental and dopamine
+650       hypotheses of schizophrenia and the role of cortical excitation-inhibition balance. 92(6):501–
+651       513.
+
+652   [25] Mark D Humphries, Nathan Lepora, Ric Wood, and Kevin Gurney. Capturing dopaminergic
+653       modulation and bimodal membrane behaviour of striatal medium spiny neurons in accurate,
+654       reduced models. Frontiers in computational neuroscience, 3:849, 2009.
+
+655   [26] Lars Hunger, Arvind Kumar, and Robert Schmidt. Abundance compensates kinetics: Similar
+656       effect of dopamine signals on d1 and d2 receptor populations. The Journal of Neuroscience,
+657       40(14):2868–2881, February 2020.
+
+658   [27] L Iskhakova, P Rappel, M Deffains, G Fonar, O Marmor, R Paz, Z Israel, R Eitan, and
+659       H Bergman. Modulation of dopamine tone induces frequency shifts in cortico-basal ganglia
+660       beta oscillations. Nature communications, 12(1):7026, 2021.
+
+661   [28] E.M. Izhikevich. Simple model of spiking neurons. IEEE Transactions on Neural Networks,
+662       14(6):1569–1572, 2003.
+
+663   [29] Eugene M. Izhikevich. Dynamical Systems in Neuroscience: The Geometry of Excitability and
+664       Bursting. The MIT Press, 2006.
+
+665   [30] Renaud Jardri and Sophie Denève. Circular inferences in schizophrenia. Brain, 136:3227–3241,
+666       11 2013.
+
+667   [31] Kenneth A. Johnson and Roger S. Goody. The original michaelis constant: Translation of the
+668       1913 michaelis–menten paper. Biochemistry, 50(39):8264–8269, September 2011.
+
+669   [32] Luke A Johnson, Joshua E Aman, Ying Yu, David Escobar Sanabria, Jing Wang, Meghan Hill,
+670       Rajiv Dharnipragada, Remi Patriat, Mark Fiecas, Laura Li, et al. High-frequency oscillations
+671       in the pallidum: a pathophysiological biomarker in parkinson’s disease? Movement Disorders,
+672       36(6):1332–1341, 2021.
+
+673   [33] Alok Joshi, Vahab Youssofzadeh, Vinith Vemana, T. M. McGinnity, Girijesh Prasad, and
+674       KongFatt Wong-Lin. An integrated modelling framework for neural circuits with multiple
+675       neuromodulators. Journal of The Royal Society Interface, 14(126):20160902, January 2017.
+
+676   [34] Kyesam Jung, Esther Florin, Kaustubh R. Patil, Julian Caspers, Christian Rubbert, Simon B.
+677       Eickhoff, and Oleksandr V. Popovych. Whole-brain dynamical modelling for classification of
+678       Parkinson’s disease. Brain Communications, 5(1):1–19, 2023.
+
+
+                                                     33
+679   [35] JP Kesby, DW Eyles, JJ McGrath, and JG Scott. Dopamine, psychosis and schizophrenia: the
+680       widening gap between basic and clinical neuroscience. Translational Psychiatry, 8(1), January
+681       2018.
+
+682   [36] Marianne O. Klein, Daniella S. Battagello, Ariel R. Cardoso, David N. Hauser, Jackson C.
+683       Bittencourt, and Ricardo G. Correa. Dopamine: Functions, signaling, and association with
+684       neurological diseases. Cellular and Molecular Neurobiology, 39(1):31–59, November 2018.
+
+685   [37] Morten L. Kringelbach, Josephine Cruzat, Joana Cabral, Gitte Moos Knudsen, Robin Carhart-
+686       Harris, Peter C. Whybrow, Nikos K. Logothetis, and Gustavo Deco. Dynamic coupling of
+687       whole-brain neuronal and neurotransmitter systems. Proceedings of the National Academy of
+688       Sciences, 117(17):9566–9576, April 2020.
+
+689   [38] Mario Lavanga, Johanna Stumme, Bahar Hazal Yalcinkaya, Jan Fousek, Christiane Jockwitz,
+690       Hiba Sheheitli, Nora Bittner, Meysam Hashemi, Spase Petkoski, Svenja Caspers, et al. The
+691       virtual aging brain: Causal inference supports interhemispheric dedifferentiation in healthy
+692       aging. NeuroImage, 283:120403, 2023.
+
+693   [39] Mikael Lindahl and Jeanette Hellgren Kotaleski. Untangling basal ganglia network dynamics
+694       and function: Role of dopamine depletion and inhibition investigated in a spiking network
+695       model. eneuro, 3(6), 2016.
+
+696   [40] Simon Little, Martijn Beudel, Ludvic Zrinzo, Thomas Foltynie, Patricia Limousin, Marwan
+697       Hariz, Spencer Neal, Binith Cheeran, Hayriye Cagnan, James Gratwicke, et al. Bilateral
+698       adaptive deep brain stimulation is effective in parkinson’s disease. Journal of Neurology,
+699       Neurosurgery & Psychiatry, 87(7):717–721, 2016.
+
+700   [41] M J Lohse, P Hein, C Hoffmann, V O Nikolaev, J-P Vilardaga, and M Bünemann. Kinetics of
+701       g-protein-coupled receptor signals in intact cells. British Journal of Pharmacology, 153(S1),
+702       March 2008.
+
+703   [42] Jon López-Azcárate, Mikel Tainta, Marı́a C Rodrı́guez-Oroz, Miguel Valencia, Rafael
+704       González, Jorge Guridi, Jorge Iriarte, José A Obeso, Julio Artieda, and Manuel Alegre. Cou-
+705       pling between beta and high-frequency activity in the human subthalamic nucleus may be a
+706       pathophysiological mechanism in parkinson’s disease. Journal of Neuroscience, 30(19):6667–
+707       6677, 2010.
+
+
+
+
+                                                     34
+708   [43] Jon López-Azcárate, Mikel Tainta, Marı́a C. Rodrı́guez-Oroz, Miguel Valencia, Rafael
+709       González, Jorge Guridi, Jorge Iriarte, José A. Obeso, Julio Artieda, and Manuel Alegre.
+710       Coupling between beta and high-frequency activity in the human subthalamic nucleus may
+711       be a pathophysiological mechanism in parkinson’s disease. The Journal of Neuroscience,
+712       30(19):6667–6677, May 2010.
+
+713   [44] Simona Mangiavacchi and Marina E. Wolf. D1 dopamine receptor stimulation increases
+714       the rate of ampa receptor insertion onto the surface of cultured nucleus accumbens neu-
+715       rons through a pathway dependent on protein kinase a.             Journal of Neurochemistry,
+716       88(5):1261–1271, February 2004.
+
+717   [45] Robert A. McCutcheon, Anissa Abi-Dargham, and Oliver D. Howes. Schizophrenia, dopamine
+718       and the striatum: From biology to symptoms. 42(3):205–220.
+
+719   [46] M.L. Michaelis, L. Menten. Die kinetik der invertinwirkung. Biochem Z, 1913.
+
+720   [47] CRISTINA MISSALE, S. RUSSEL NASH, SUSAN W. ROBINSON, MOHAMED JABER,
+721       and MARC G. CARON. Dopamine receptors: From structure to function. Physiological
+722       Reviews, 78(1):189–225, January 1998.
+
+723   [48] Joanna Moncrieff, Ruth E. Cooper, Tom Stockmann, Simone Amendola, Michael P. Hengart-
+724       ner, and Mark A. Horowitz. The serotonin theory of depression: a systematic umbrella review
+725       of the evidence. Molecular Psychiatry, 7 2022.
+
+726   [49] Ernest Montbrió, Diego Pazó, and Alex Roxin. Macroscopic description for networks of spiking
+727       neurons. Physical Review X, 5(2), jun 2015.
+
+728   [50] Institute of Health Metrics and Evaluation. Global health data exchange (ghdx). Technical
+729       report, (https://vizhub.healthdata.org/gbd-results/), May 2022.
+
+730   [51] Carlos A. Paladini, Siobhan Robinson, Hitoshi Morikawa, John T. Williams, and Richard D.
+731       Palmiter. Dopamine controls the firing pattern of dopamine neurons via a network feedback
+732       mechanism. Proceedings of the National Academy of Sciences, 100(5):2866–2871, February
+733       2003.
+
+734   [52] Christopher J. Price, Peter Kim, and Lynn A. Raymond. D1 dopamine receptor-induced
+735       cyclic amp-dependent protein kinase phosphorylation and potentiation of striatal glutamate
+736       receptors. Journal of Neurochemistry, 73(6):2441–2446, December 1999.
+
+
+
+                                                      35
+737   [53] Tamara Pringsheim, Nathalie Jette, Alexandra Frolkis, and Thomas D.L. Steeves. The preva-
+738       lence of Parkinson’s disease: A systematic review and meta-analysis. Movement Disorders,
+739       29(13):1583–1590, 2014.
+
+740   [54] Joshua L. Roffman, Alexandra S. Tanner, Hamdi Eryilmaz, Anais Rodriguez-Thompson,
+741       Noah J. Silverstein, New Fei Ho, Adam Z. Nitenson, Daniel B. Chonde, Douglas N. Greve,
+742       Anissa Abi-Dargham, Randy L. Buckner, Dara S. Manoach, Bruce R. Rosen, Jacob M. Hooker,
+743       and Ciprian Catana. Dopamine d 1 signaling organizes network dynamics underlying working
+744       memory. Science Advances, 2(6), June 2016.
+
+745   [55] Maria Luisa Saggio, Andreas Spiegler, Christophe Bernard, and Viktor K. Jirsa. Fast–slow
+746       bursters in the unfolding of a high codimension singularity and the ultra-slow transitions of
+747       classes. The Journal of Mathematical Neuroscience, 7(1), July 2017.
+
+748   [56] T. Sakaguchi and G.A. Bray. Effect of norepinephrine, serotonin and tryptophan on the firing
+749       rate of sympathetic nerves. Brain Research, 492(1–2):271–280, July 1989.
+
+750   [57] Paula Sanz-Leon, Stuart A Knock, Andreas Spiegler, and Viktor K Jirsa. Mathematical
+751       framework for large-scale brain network modeling in the virtual brain. Neuroimage, 111:385–
+752       430, 2015.
+
+753   [58] Wolfram Schultz. Multiple dopamine functions at different time courses. Annu. Rev. Neurosci.,
+754       30:259–288, 2007.
+
+755   [59] Golia Shafiei, Yashar Zeighami, Crystal A Clark, Jennifer T Coull, Atsuko Nagano-Saito,
+756       Marco Leyton, Alain Dagher, and Bratislav Mišić. Dopamine signaling modulates the stability
+757       and integration of intrinsic brain networks. Cerebral Cortex, 29(1):397–409, October 2018.
+
+758   [60] Hiba Sheheitli and Viktor Jirsa. Incorporating slow nmda-type receptors with nonlinear
+759       voltage-dependent magnesium block in a next generation neural mass model: derivation and
+760       dynamics. Journal of Computational Neuroscience, to appear.
+
+761   [61] Tanya Sippy and Nicolas X. Tritsch. Unraveling the dynamics of dopamine release and its
+762       actions on target cells. Trends in Neurosciences, 46(3):228–239, March 2023.
+
+763   [62] Xiu Sun, Yun Zhao, and Marina E. Wolf. Dopamine receptor stimulation modulates ampa
+764       receptor synaptic insertion in prefrontal cortex neurons.     The Journal of Neuroscience,
+765       25(32):7342–7351, August 2005.
+
+
+
+                                                     36
+766   [63] Peter A. Tass. A model of desynchronizing deep brain stimulation with a demand-controlled
+767       coordinated reset of neural subpopulations. Biological Cybernetics, 89(2):81–88, 2003.
+
+768   [64] Janita Turchi, Catie Chang, Frank Q. Ye, Brian E. Russ, David K. Yu, Carlos R. Cortes,
+769       Ilya E. Monosov, Jeff H. Duyn, and David A. Leopold. The basal forebrain regulates global
+770       resting-state fmri fluctuations. Neuron, 97(4):940–952.e4, February 2018.
+
+771   [65] Romain Veltz. BifurcationKit.jl, July 2020.
+
+772   [66] Huifang E. Wang, Christian G. Bénar, Pascale P. Quilichini, Karl J. Friston, Viktor K. Jirsa,
+773       and Christophe Bernard. A systematic framework for functional connectivity measures. Fron-
+774       tiers in Neuroscience, 8:1–22, 12 2014.
+
+775   [67] Huifang E Wang, Paul Triebkorn, Martin Breyton, Borana Dollomaja, Jean-Didier
+776       Lemarechal, Spase Petkoski, Pierpaolo Sorrentino, Damien Depannemaecker, Meysam
+777       Hashemi, and Viktor K Jirsa. Virtual brain twins: from basic neuroscience to clinical use.
+778       National Science Review, 11, 4 2024.
+
+779   [68] Evan Weiss, Michael Kann, and Qi Wang. Neuromodulation of neural oscillations in health
+780       and disease. Biology, 12(3):371, February 2023.
+
+781   [69] Zixiao Yin, Guanyu Zhu, Baotian Zhao, Yutong Bai, Yin Jiang, Wolf Julian Neumann, An-
+782       drea A. Kühn, and Jianguo Zhang. Local field potentials in Parkinson’s disease: A frequency-
+783       based review. Neurobiology of Disease, 155:105372, 2021.
+
+784   [70] Ying Yu, David Escobar Sanabria, Jing Wang, Claudia M Hendrix, Jianyu Zhang, Shane D
+785       Nebeck, Alexia M Amundson, Zachary B Busby, Devyn L Bauer, Matthew D Johnson, et al.
+786       Parkinsonism alters beta burst dynamics across the basal ganglia–motor cortical network.
+787       Journal of Neuroscience, 41(10):2274–2286, 2021.
+
+788   [71] Ying Yu, Xiaomin Wang, Qishao Wang, and Qingyun Wang. A review of computational mod-
+789       eling and deep brain stimulation: applications to Parkinson’s disease. Applied Mathematics
+790       and Mechanics (English Edition), 41(12):1747–1768, 2020.
+
+
+
+
+                                                      37
+791   6    APPENDIX
+
+792   Linear approximation of Md
+
+
+
+
+            (a) Sigmoidal dopaminergic modulation               (b) Linear dopaminergic modulation
+
+      Figure 9: Dp was integrated as a time-varying parameter in the two models. For the sigmoidal
+      dopaminergic modulation (10a), a linear Dp input from −10 to 10 was used to display the full
+      sigmoid of Md and to allow entry into every dynamical state of the repertoire given the model
+      parametrization. For the linear dopaminergic modulation (10b), a linear Dp input starting at 0
+      up to 100 and beyond, in order to fit the sigmoidal values, was incorporated into the model to
+      display similar behaviors of the system. All simulations presented in this figure were conducted
+      using ”resting state” conditions as initial conditions, with rinit = 0.01 kHz, Vinit = -70 mV, uinit
+      = 0, Sainit = 0.006, Sginit = 0, and Mdinit = 0 for the sigmoidal model. 2 s periods were removed
+      to focus on the period of interest.
+
+
+
+
+                                                      38
+            (a) Sigmoidal dopaminergic modulation              (b) Linear dopaminergic modulation
+
+
+
+
+793   Parameters values
+
+794   In the following table, we detail the parameter values used to generate the presented results.
+795
+
+                               Variables                                Symbol     Associated unit
+
+
+          Neuromodulation      Firing rate                                  r             kHz
+             neural mass       Mean membrane potential                     V              mV
+796                            Adaptation                                  u               nA
+                               AMPA synapses activation                    Sa               -
+                               GABA synapses activation                    Sg               -
+                               Extracellular dopamine concentration      [Dp ]e           mM
+                               D1 dopamine receptor modulation            MD1               -
+
+
+
+
+                                                      39
+      Parameters                                          Symbol   Value    Associated unit
+
+
+      aQIF parameter                                        a       0,04           -
+      aQIF parameter                                         b       5             -
+      aQIF parameter                                         c      140            -
+      aQIF parameter                                        α      0,013           -
+      aQIF parameter                                        β       0,4            -
+      Mean additive current                                 η       18            nA
+      Maximal conductance of AMPA                           ga      12            nS
+      Maximal conductance of GABA                           gg      12            nS
+      Additive current half-width distribution              ∆        1             -
+      Linearization factor of dopaminergic receptors       ADp       1          nS/mM
+      Basal level in absence of neuromodulation             B       0,2           nS
+      Reversal potential of AMPA synapses                   Ea       0           mV
+      Reversal potential of GABA synapses                   Eg      -80          mV
+      External current                                     Iext      0            nA
+797
+
+      Adaptation step                                       ud      12            nA
+      Time constant of AMPA synapses                       τSa       5            ms
+      Time constant of GABA synapses                       τSg       5            ms
+      Time constant of dopamine concentration evolution    τDp      500           ms
+      Time constant of dopamine receptor modulation         τm      500           ms
+      Strength of AMPA synapses                            Sj;a     0,8           nS
+      Strength of GABA synapses                            Sj,g     1,2           nS
+      Excitatory coupling                                  cexc      -           kHz
+      Inhitatory coupling                                  cinh      -           kHz
+      Dopamine coupling                                    cdopa     -           mM
+      Maximum dopamine reuptake rate                       Vmax    1300         mM/s
+      Michaelis constant                                   Km       150          mM
+      Dopamine coupling factor                              k      1000            -
+      Receptor density                                      Rd       1             -
+      Receptor sensitivity to dopamine                      Sp       1             -
+      Noise standard deviation                              σ      1e − 3          -
+798
+
+
+
+
+                                                  40
+

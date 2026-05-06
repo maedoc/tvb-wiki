@@ -16,7 +16,7 @@ type: entity
 updated: '2026-05-06'
 ---
 
-Brian2 is a Python-based simulator for [[spiking-neural-networks]] (SNNs) that serves as the successor to the original Brian simulator. Developed primarily by Marcel Stimberg and colleagues, Brian2 is designed to enable rapid prototyping of neural models through an equation-oriented specification language that closely resembles mathematical notation. Unlike traditional simulators that require low-level code, Brian2 allows researchers to define neuron and synapse dynamics using differential equations written in a syntax that mirrors published scientific literature, then automatically generates optimized executable code for simulation.
+Brian2 is a Python-based simulator for [[spiking-neural-networks]] (SNNs) that serves as the successor to the original [[brian]] simulator. Developed primarily by Marcel Stimberg and colleagues, Brian2 is designed to enable rapid prototyping of neural models through an equation-oriented specification language that closely resembles mathematical notation. Unlike traditional simulators that require low-level code, Brian2 allows researchers to define neuron and synapse dynamics using differential equations written in a syntax that mirrors published scientific literature, then automatically generates optimized executable code for simulation.
 
 ## Motivation and Design Philosophy
 
@@ -40,6 +40,6 @@ Brian2 occupies a distinct niche compared to other major neural simulators in th
 
 ## References
 
-1. Gewaltig & Diesmann (2007). *NEST (NEural Simulation Tool)*. Scholarpedia. [DOI](https://doi.org/10.4249/scholarpedia.1430)
+1. Gewaltig & Diesmann (2007). *NEST ([[neural-simulation]] Tool)*. Scholarpedia. [DOI](https://doi.org/10.4249/scholarpedia.1430)
 2. Duy Pham, Gene J. Yu, G. Lazzi, Jean-Marie C Bouteiller. (2026). *A spatially discretized convolutional neural mass model for studying meso-scale spatio-temporal transformations in the rat hippocampus*. Research Square. [DOI](https://doi.org/10.21203/rs.3.rs-9306977/v1)
-3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *Arbor-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
+3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and [[whole-brain]] Propagation*. [Link](https://arxiv.org/abs/2505.16861)

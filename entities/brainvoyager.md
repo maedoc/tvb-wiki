@@ -26,7 +26,7 @@ updated: '2026-05-06'
 
 ## Overview
 
-**BrainVoyager** is a commercial [[neuroimaging]] software suite developed by Brain Innovation, designed for the advanced analysis and visualization of structural and functional MRI data. First released in the late 1990s, it has become one of the most widely used platforms for cortical surface-based analysis, real-time fMRI (rt-fMRI), and multi-subject data integration in cognitive neuroscience research.
+**BrainVoyager** is a commercial [[neuroimaging]] software suite developed by Brain Innovation, designed for the advanced analysis and visualization of structural and [[neuroimaging-fmri|functional MRI]] data. First released in the late 1990s, it has become one of the most widely used platforms for cortical surface-based analysis, real-time fMRI (rt-fMRI), and multi-subject data integration in cognitive neuroscience research.
 
 The software is particularly renowned for its **cortex-based alignment (CBA)** approach, which aligns brains based on individual cortical folding patterns rather than volume-based registration, substantially improving cross-subject alignment in functionally corresponding cortical areas. This makes it highly complementary to [[whole-brain|whole-brain modeling]] workflows that require precise anatomical constraints.
 

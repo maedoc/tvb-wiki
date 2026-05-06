@@ -31,7 +31,7 @@ The motivation extends beyond mere convenience. As the field of [[whole-brain mo
 
 ## Key Features
 
-BMTK's architecture centers on a modular design that separates network specification from simulation execution. The network definition uses the SONATA (SONata ANalysis Tools Architecture) data format[2], a standardized format for describing large-scale neural networks that supports node properties (cell types, morphologies, locations) and edge properties (synaptic connections, weights, delays). This standardization facilitates interoperability with other tools in the neural simulation ecosystem, including [[sonata]]-compatible network viewers and analysis tools.
+BMTK's architecture centers on a modular design that separates network specification from simulation execution. The network definition uses the SONATA (SONata ANalysis Tools Architecture) data format[2], a standardized format for describing large-scale neural networks that supports node properties (cell types, morphologies, locations) and edge properties (synaptic connections, weights, delays). This standardization facilitates interoperability with other tools in the [[neural-simulation]] ecosystem, including [[sonata]]-compatible network viewers and analysis tools.
 
 The toolkit provides three primary simulation backends: a Python-based reference implementation suitable for debugging and small networks, the NEURON backend for production-scale simulations[5], and Coreneuron for extreme-scale simulations leveraging GPU acceleration and advanced optimization techniques[6]. Users can switch between backends without modifying their network definition, enabling rapid iteration during model development followed by performant production runs.
 
@@ -49,7 +49,7 @@ The coupling typically proceeds as follows: TVB's regional dynamics drive BMTK's
 
 ## Related Software
 
-BMTK occupies a niche alongside several other neural simulation packages. Unlike Brian or [[brian2]], which emphasize simplicity and ease of use for small-to-medium networks, BMTK specifically targets large-scale data-driven construction. Unlike [[nest]], which focuses on point-neuron networks for rapid simulation, BMTK supports morphologically detailed neurons. Unlike Netpyne, which provides a Python interface for NEURON with its own high-level specification layer, BMTK uses the SONATA format for network definition and emphasizes integration with Allen Institute experimental datasets.
+BMTK occupies a niche alongside several other neural simulation packages. Unlike [[brian]] or [[brian2]], which emphasize simplicity and ease of use for small-to-medium networks, BMTK specifically targets large-scale data-driven construction. Unlike [[nest]], which focuses on point-neuron networks for rapid simulation, BMTK supports morphologically detailed neurons. Unlike Netpyne, which provides a Python interface for NEURON with its own high-level specification layer, BMTK uses the SONATA format for network definition and emphasizes integration with Allen Institute experimental datasets.
 
 For connectomics research, BMTK complements tools like the [[brain-connectivity-toolbox]] (BCT) by providing not just topological analysis but dynamical simulation of network behavior. The relationship to [[dynamic-causal-modeling]] is more conceptual: both frameworks can generate predictions about how neural activity propagates through networks, but DCM operates primarily as a Bayesian inversion framework for fitting models to empirical data, while BMTK builds forward models for hypothesis generation.
 

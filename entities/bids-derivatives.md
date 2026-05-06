@@ -59,7 +59,7 @@ The standardization of derivatives also facilitates **personalized‑brain‑mod
 ## Key Papers
 
 - **"The BIDS Specification"** — Gorgolewski et al., 2016. The original BIDS paper that established the standard for raw neuroimaging data organization, later extended to derivatives Cat12.
-- **"fMRIPrep: a robust preprocessing pipeline for functional MRI"** — Esteban et al., 2019. Describes the most widely used BIDS Derivatives‑compatible preprocessing pipeline Cat12.
+- **"fMRIPrep: a robust preprocessing pipeline for [[neuroimaging-fmri|functional MRI]]"** — Esteban et al., 2019. Describes the most widely used BIDS Derivatives‑compatible preprocessing pipeline Cat12.
 - **"BIDS Derivatives: A Practical Guide"** — Holdgraf et al., 2019. Community resource for working with derivative data.
 - **"BIDS 2.0: Recent Extensions and Future Directions"** — Taylor et al., 2023. Overview of recent updates to the BIDS ecosystem 4.
 

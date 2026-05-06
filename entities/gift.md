@@ -64,7 +64,7 @@ Several methodological debates surround ICA application in fMRI. The optimal num
 
 ## Key Papers
 
-- Calhoun, V. D., Adali, T., Pearlson, G. D., & Pekar, J. J. (2001). A method for making group inferences from functional MRI data using independent component analysis. *Magnetic Resonance Imaging*, 44(9), 1234–1243. [^calhoun-2001]
+- Calhoun, V. D., Adali, T., Pearlson, G. D., & Pekar, J. J. (2001). A method for making group inferences from [[neuroimaging-fmri|functional MRI]] data using independent component analysis. *Magnetic Resonance Imaging*, 44(9), 1234–1243. [^calhoun-2001]
 - Calhoun, V. D., Liu, J., & Adali, T. (2009). A review of group ICA for fMRI data and ICA for joint inference of imaging, genetic, and ERP data. *Neuroimage*, 45(1), S163–S172. [^calhoun-2009]
 - Allen, E. A., Erhardt, E. B., Damaraju, E., Gruner, W., Segall, J. M., Silva, R. F., ... & Calhoun, V. D. (2011). A baseline for the multivariate comparison of resting‑state networks. *Frontiers in Neuroscience*, 5, 17. [^allen-2011]
 - Erhardt, E. B., Allen, E. A., Wei, Y., Eichele, T., & Calhoun, V. D. (2012). SimTB, a simulation toolbox for fMRI data under a model of spatial stationarity. *Psychophysiology*, 49(6), 853–865. [^erhardt-2012]

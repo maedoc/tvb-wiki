@@ -53,7 +53,7 @@ The module organization separates core functionality into several layers: brainp
 
 Beyond the core BrainPy package, the ecosystem includes several specialized extensions that expand the framework's capabilities. BrainX provides additional brain modeling tools and utilities, while brainpy-state offers a modernization of the simulation interface with improved syntax for state management. The framework maintains comprehensive documentation with tutorials ranging from basic neuron and synapse models to advanced topics including network training with reinforcement learning and whole-brain model calibration.
 
-The community has developed practical applications including implementations of various neural mass models such as the [[wilson-cowan-model|Wilson-Cowan]] equations and [[fitzhugh-nagumo-model|FitzHugh-Nagumo]] dynamics, enabling bifurcation analysis of these classic models within the BrainPy environment. The documentation also includes examples of whole-brain modeling using the FitzHugh-Nagumo model coupled through structural connectivity matrices, demonstrating the framework's capability for connectome-based simulation at scale.
+The community has developed practical applications including implementations of various neural mass models such as the [[wilson-cowan-model|Wilson-Cowan]] equations and [[fitzhugh-nagumo-model|FitzHugh-Nagumo]] dynamics, enabling bifurcation analysis of these classic models within the BrainPy environment. The documentation also includes examples of whole-brain modeling using the FitzHugh-Nagumo model coupled through structural connectivity matrices, demonstrating the framework's capability for [[connectome]]-based simulation at scale.
 
 ## Related Software
 

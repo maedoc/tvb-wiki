@@ -23,7 +23,7 @@ The [[connectome]] File Format Library (cfflib) is a pure Python library designe
 
 The emergence of [[whole-brain modeling]] and large-scale connectomics projects—including the [[human-connectome-project]]—generated an unprecedented need for flexible data management solutions capable of handling multi-modal datasets. Prior to tools like cfflib, researchers lacked standardized mechanisms for bundling the outputs of connectome mapping pipelines, which typically produced diverse file formats including diffusion-weighted images, tractography files, [[parcellation]] volumes, [[connectivity]] matrices, and processing scripts. The Connectome File Format addresses this challenge by providing a container architecture that references existing standard neuroimaging formats—such as [[nifti]] for volumetric data and Gifti for surface geometry—while encapsulating them within a metadata-rich XML structure.
 
-The design philosophy behind cfflib emphasizes metadata flexibility rather than imposing rigid schema requirements. Users can annotate connectome objects with arbitrary tags and structured metadata, enabling integration with database infrastructures like XNAT while preserving provenance information essential for [[reproducibility]]. This approach proved particularly valuable for the Connectome Mapping Toolkit developed at EPFL, where cfflib served as the foundational I/O layer for pipelines producing structural connectivity estimates from diffusion MRI data.
+The design philosophy behind cfflib emphasizes metadata flexibility rather than imposing rigid schema requirements. Users can annotate connectome objects with arbitrary tags and structured metadata, enabling integration with database infrastructures like [[xnat]] while preserving provenance information essential for [[reproducibility]]. This approach proved particularly valuable for the Connectome Mapping Toolkit developed at EPFL, where cfflib served as the foundational I/O layer for pipelines producing structural connectivity estimates from [[diffusion-mri]] data.
 
 ## Key Features and Supported Data Types
 
@@ -35,23 +35,23 @@ The Connectome File Format organizes data into distinct object categories, each 
 
 **CVolume** objects handle volumetric neuroimaging data in NIfTI-1 format, supporting structural MRI, diffusion-weighted images, and statistical parametric maps.
 
-**CTrack** objects store fiber tractography data in TrackVis format, preserving the three-dimensional trajectories of reconstructed white matter pathways derived from diffusion imaging.
+**CTrack** objects store fiber tractography data in TrackVis format, preserving the three-dimensional trajectories of reconstructed white matter pathways derived from [[diffusion-imaging]].
 
-**CTimeseries** objects manage time-varying data, typically storing functional MRI time courses or electrophysiological recordings in HDF5 or NumPy array format, with metadata fields for sampling frequency and channel labels.
+**CTimeseries** objects manage time-varying data, typically storing [[neuroimaging-fmri|functional MRI]] time courses or electrophysiological recordings in HDF5 or NumPy array format, with metadata fields for sampling frequency and channel labels.
 
 **CData** objects provide a general-purpose container for tabular data (CSV, JSON), numerical arrays, and arbitrarypickled Python objects, enabling storage of behavioral measurements, processing parameters, and derived metrics alongside neuroimaging data.
 
 ## Relationship to TVB
 
-The Connectome File Format Library occupies a complementary role relative to [[the-virtual-brain]] within the whole-brain modeling workflow. While TVB focuses on the simulation and dynamical analysis of brain activity given a connectivity substrate, cfflib addresses the upstream challenge of organizing and curating the connectivity data itself. TVB requires structural connectivity matrices—typically derived from diffusion MRI tractography—as primary inputs to define the coupling between brain regions in [[neural-mass-model]] simulations. These connectivity estimates often originate from pipelines that produce heterogeneous output types: diffusion-weighted volumes, tractography files, parcellation labels, and connection matrices.
+The Connectome File Format Library occupies a complementary role relative to [[the-virtual-brain]] within the [[whole-brain|whole-brain modeling]] workflow. While TVB focuses on the simulation and dynamical analysis of brain activity given a connectivity substrate, cfflib addresses the upstream challenge of organizing and curating the connectivity data itself. TVB requires structural connectivity matrices—typically derived from diffusion MRI tractography—as primary inputs to define the coupling between brain regions in [[neural-mass-model]] simulations. These connectivity estimates often originate from pipelines that produce heterogeneous output types: diffusion-weighted volumes, tractography files, parcellation labels, and connection matrices.
 
-cfflib provides mechanisms to package these diverse products within a single, self-documenting CFF archive, preserving metadata about acquisition parameters, processing steps, and parcellation schemes. Researchers preparing TVB simulations can therefore maintain complete provenance of their connectivity data by organizing inputs through cfflib, facilitating reproducibility and enabling sharing of well-characterized connectome datasets. The library's use of standard formats (NIfTI, Gifti, GraphML) ensures compatibility with TVB's import mechanisms, which accept connectivity matrices and brain parcellations in these widely-used representations.
+cfflib provides mechanisms to package these diverse products within a single, self-documenting CFF archive, preserving metadata about acquisition parameters, processing steps, and parcellation schemes. Researchers preparing TVB simulations can therefore maintain complete provenance of their connectivity data by organizing inputs through cfflib, facilitating reproducibility and enabling sharing of well-characterized connectome datasets. The library's use of standard formats (NIfTI, Gifti, GraphML) ensures compatibility with TVB's import mechanisms, which accept connectivity matrices and [[brain-parcellations]] in these widely-used representations.
 
-Furthermore, the metadata annotation capabilities of CFF support documentation of subject-specific attributes—such as age, clinical status, or scan parameters—that may influence personalized brain model construction in TVB workflows. The correspondence identifier system, which maps network nodes to volumetric labels and surface vertices, provides a mechanism for establishing consistent spatial reference frames that TVB's region-based modeling approach requires.
+Furthermore, the metadata annotation capabilities of CFF support documentation of subject-specific attributes—such as age, clinical status, or scan parameters—that may influence [[personalized-brain-modeling|personalized brain]] model construction in TVB workflows. The correspondence identifier system, which maps network nodes to volumetric labels and surface vertices, provides a mechanism for establishing consistent spatial reference frames that TVB's region-based modeling approach requires.
 
 ## Key Papers
 
-The Connectome Viewer Toolkit—comprising cfflib, the Connectome Viewer application, and the Connectome Mapper pipeline—was described in Gerhard et al. (2011), published in Frontiers in Neuroinformatics. This paper outlines the architectural design of the CFF specification, demonstrates multi-modal data integration use cases, and discusses integration with external analysis libraries including NetworkX, Dipy, and Nipype.
+The Connectome Viewer Toolkit—comprising cfflib, the Connectome Viewer application, and the Connectome Mapper pipeline—was described in Gerhard et al. (2011), published in Frontiers in Neuroinformatics. This paper outlines the architectural design of the CFF specification, demonstrates multi-modal data integration use cases, and discusses integration with external analysis libraries including NetworkX, Dipy, and [[nipype]].
 
 ## Related Software
 
@@ -64,6 +64,6 @@ The Connectome Viewer Toolkit—comprising cfflib, the Connectome Viewer applica
 
 ## References
 
-1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
 2. B. Bein (2018). *pyedflib: Python library for reading and writing EDF/BDF files*. Journal of Open Source Software. [DOI](https://doi.org/10.21105/joss.00899)
 3. Woodman et al. (2014). *GraphVar: A user-friendly toolbox for comprehensive graph analyses of functional brain connectivity*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2014.07.015)

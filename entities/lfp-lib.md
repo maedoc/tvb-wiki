@@ -82,7 +82,7 @@ The modular design of LFPy allows researchers to combine these tools in various 
 
 ## Development and Community
 
-LFPy is developed as an open-source project with contributions from the computational neuroscience community. The software is maintained by researchers at the University of Oslo and the KTH Royal Institute of Technology, with support from the International Neuroinformatics Coordinating Facility (INCF). The project has received funding from the European Union's Seventh Framework Programme and the Human Brain Project, reflecting its role in advancing standards for neural simulation and data sharing.
+LFPy is developed as an open-source project with contributions from the computational neuroscience community. The software is maintained by researchers at the University of Oslo and the KTH Royal Institute of Technology, with support from the International Neuroinformatics Coordinating Facility (INCF). The project has received funding from the European Union's Seventh Framework Programme and the Human Brain Project, reflecting its role in advancing standards for [[neural-simulation]] and data sharing.
 
 The software is distributed under the GNU General Public License, and its development follows open-source practices including public version control, issue tracking, and contribution guidelines. Users and developers can engage with the community through the project's GitHub repository and associated discussion forums.
 

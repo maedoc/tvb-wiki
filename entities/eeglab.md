@@ -31,7 +31,7 @@ EEGLAB is often used alongside [[tvb]] and other simulation platforms in pre-pro
 * [[arbor]]
 * [[bids]] Validator
 * Bidscoin
-* Brainstorm
+* [[brainstorm]]
 * [[eegnet]]
 * [[labstreaminglayer]]
 * [[limo]]
@@ -54,7 +54,7 @@ sources:
 - raw/papers/woodman-2014.md
 tags:
 - software-modeling
-- neuroimaging-eeg
+- [[neuroimaging-eeg]]
 - neuroimaging-meg
 - statistical-analysis
 - eeglab

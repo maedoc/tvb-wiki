@@ -25,7 +25,7 @@ updated: '2026-05-06'
 
 # fMRI vs EEG for Whole-Brain Modeling
 
-Comparison of functional MRI and electroencephalography as [[neuroimaging]] modalities for [[whole-brain]] modeling validation and constraint.
+Comparison of [[neuroimaging-fmri|functional MRI]] and electroencephalography as [[neuroimaging]] modalities for [[whole-brain]] modeling validation and constraint.
 
 ## What is Being Compared
 

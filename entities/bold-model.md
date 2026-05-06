@@ -85,7 +85,7 @@ The BOLD forward model is implemented in several software packages. Spm (Statist
 - Ogawa, S., Lee, T. M., Kay, A. R., & Tank, D. W. (1990). Brain magnetic resonance imaging with contrast dependent on blood oxygenation. *Proceedings of the National Academy of Sciences*.
 - Buxton, R. B., Wong, E. C., & Frank, L. R. (1998). Dynamics of blood flow and oxygenation changes during brain activation. *NeuroImage*.
 - Friston, K. J., Harrison, L., & Penny, W. (2003). Dynamic causal modelling. *NeuroImage*.
-- Davis, T. L., Kwong, K. K., Weisskoff, R. M., & Rosen, B. R. (1998). Calibrated functional MRI. *Proceedings of the National Academy of Sciences*.
+- Davis, T. L., Kwong, K. K., Weisskoff, R. M., & Rosen, B. R. (1998). Calibrated [[neuroimaging-fmri|functional MRI]]. *Proceedings of the National Academy of Sciences*.
 - Stephan, K. E., Weiskopf, N., Drydal, P. E., et al. (2007). Comparing hemodynamic and neural responses in somatosensory cortex. *NeuroImage*.
 - Grubb, R. L., Raichle, M. E., Eichling, J. O., & Ter-Pogossian, M. M. (1974). The effects of changes in PaCO2 on cerebral blood volume, blood flow, and vascular mean transit time. *Stroke*.
 - Obata, T., Liu, T. T., Keene, J. L., Buxton, R. B., Frank, L. R., & Wong, E. C. (2004). Dissociating time courses of oxygen and glucose consumption and oxidative phosphorylation using fMRI. *NeuroImage*.

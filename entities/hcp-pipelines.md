@@ -27,7 +27,7 @@ updated: '2026-05-06'
 
 The **HCP Pipelines** are open-source [[neuroimaging]] preprocessing pipelines developed by the Human Connectome Project to standardize the processing of multimodal brain imaging data. These pipelines implement a surface-based analysis framework that emphasizes cross-modal alignment while applying minimal yet effective preprocessing to preserve data quality Glasser et al. (2013)(raw/papers/glasser-2013.md).
 
-The pipelines process three primary imaging modalities acquired on the HCP's customized 3T Siemens Prisma scanners: structural MRI (T1w and T2w at 0.7mm resolution), functional MRI ([[resting-state]] and task-based with multiband acceleration), and [[diffusion-mri]] (high angular resolution with b-values up to 3000 s/mm²). The software is implemented as a set of shell scripts and Python utilities distributed under an open-source license, enabling reproducible processing across research sites Van Essen et al. (2013)(raw/papers/van-essen-2013.md).
+The pipelines process three primary imaging modalities acquired on the HCP's customized 3T Siemens Prisma scanners: structural MRI (T1w and T2w at 0.7mm resolution), [[neuroimaging-fmri|functional MRI]] ([[resting-state]] and task-based with multiband acceleration), and [[diffusion-mri]] (high angular resolution with b-values up to 3000 s/mm²). The software is implemented as a set of shell scripts and Python utilities distributed under an open-source license, enabling reproducible processing across research sites Van Essen et al. (2013)(raw/papers/van-essen-2013.md).
 
 ## Key Features
 

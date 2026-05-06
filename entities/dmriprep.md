@@ -46,14 +46,14 @@ The BIDS-compliant outputs from dMRIprep ensure compatibility with TVB's data ha
 ## Key Papers
 
 - Andersson, J. L., & Sotiropoulos, S. N. (2016). An integrated approach to correction for off-resonance effects and subject movement in diffusion MR imaging. NeuroImage, 125, 1063-1078. https://doi.org/10.1016/j.neuroimage.2015.10.019
-- Esteban, O., Markiewicz, C. J., Poldrack, R. A., & Gorgolewski, K. (2019). fMRIPrep: a robust preprocessing pipeline for functional MRI. Nature Methods, 16(1), 111-114. https://doi.org/10.1038/s41592-018-0235-4
+- Esteban, O., Markiewicz, C. J., Poldrack, R. A., & Gorgolewski, K. (2019). fMRIPrep: a robust preprocessing pipeline for [[neuroimaging-fmri|functional MRI]]. Nature Methods, 16(1), 111-114. https://doi.org/10.1038/s41592-018-0235-4
 - Gorgolewski, K., Auer, T., Calhoun, V. D., et al. (2016). BIDS apps: Improving ease of use, accessibility, and reproducibility of [[neuroimaging]] data analysis methods. PLOS Computational Biology, 13(3), e1005209. https://doi.org/10.1371/journal.pcbi.1005209
 
 ## Limitations and Alternatives
 
 dMRIprep represents an active effort to bring BIDS-app convenience to diffusion MRI preprocessing, but it is important to note its current developmental status and limitations. Unlike its sibling [[fmriprep]], which has undergone extensive validation and widespread community adoption, dMRIprep remains a less mature pipeline with a smaller user base and fewer validation studies.
 
-Users should consider alternative pipelines depending on their specific needs: **QSIPrep** (Quantitative Susceptibility Imaging preprocessing) provides comprehensive diffusion MRI preprocessing with support for multiple reconstruction methods including q-space and mapmap approaches (Cieslak et al., 2021). **[[mrtrix3]]'s own preprocessing pipeline** (Tournier et al., 2019) offers integrated motion correction, intensity normalization, and response function estimation within a unified software ecosystem. **DIPY** (Garyfallidis et al., 2014) provides modular tools for users who prefer custom-built preprocessing workflows with fine-grained control over each step.
+Users should consider alternative pipelines depending on their specific needs: **QSIPrep** (Quantitative Susceptibility Imaging preprocessing) provides comprehensive diffusion MRI preprocessing with support for multiple reconstruction methods including q-space and mapmap approaches (Cieslak et al., 2021). **[[mrtrix3]]'s own preprocessing pipeline** (Tournier et al., 2019) offers integrated motion correction, intensity normalization, and response function estimation within a unified software ecosystem. **[[dipy]]** (Garyfallidis et al., 2014) provides modular tools for users who prefer custom-built preprocessing workflows with fine-grained control over each step.
 
 The choice between pipelines depends on the specific acquisition protocol, reconstruction methodrequirements, and downstream analysis goals. Researchers are encouraged to validate preprocessing outputs visually and consider reporting preprocessing choices thoroughly in methodological descriptions.
 

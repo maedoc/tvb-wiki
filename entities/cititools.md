@@ -31,7 +31,7 @@ The package provides comprehensive functionality across several domains. For dat
 
 Processing operations include geodesic surface smoothing and resampling to different mesh resolutions (e.g., 10k, 32k vertices per hemisphere), implemented via the [[connectome-workbench]] command-line tools. The package also includes mathematical operations implemented as S3 methods, allowing direct arithmetic and transformation of xifti objects within R.
 
-For [[parcellation]] workflows, ciftiTools provides built-in support for the Schaefer parcellation (100–1000 parcels) and Yeo functional networks (7 and 17 networks), facilitating region-of-interest analyses common in [[connectome]] studies.
+For [[parcellation]] workflows, ciftiTools provides built-in support for the [[schaefer|Schaefer parcellation]] (100–1000 parcels) and Yeo functional networks (7 and 17 networks), facilitating region-of-interest analyses common in [[connectome]] studies.
 
 ## Relationship to TVB and Other Tools
 

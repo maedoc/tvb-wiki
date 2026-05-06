@@ -88,7 +88,7 @@ CARLsim has gained traction in the neuromorphic community due to:
 
 - [[NEST]] — CPU-focused spiking network simulator with larger ecosystem
 - [[NEURON]] — Multi-compartment detailed neuron simulations
-- [[brian2cuda]] — Python-based SNN simulator (Brian simulator)
+- [[brian2cuda]] — Python-based SNN simulator ([[brian]] simulator)
 - [[ANNarchy]] — GPU/CPU hybrid for rate-coded and spiking networks
 
 ## Related Concepts

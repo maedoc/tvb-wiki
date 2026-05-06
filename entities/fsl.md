@@ -17,7 +17,7 @@ updated: '2026-05-06'
 
 # FSL
 
-**FSL** (FMRIB Software Library) is a comprehensive library of analysis tools for functional MRI ([[fmri]]), MRI, and DTI brain imaging data. Developed at the Wellcome Centre for Integrative [[neuroimaging]] at the University of Oxford, FSL is one of the most widely used neuroimaging software packages in the world.
+**FSL** (FMRIB Software Library) is a comprehensive library of analysis tools for [[neuroimaging-fmri|functional MRI]] ([[fmri]]), MRI, and DTI brain imaging data. Developed at the Wellcome Centre for Integrative [[neuroimaging]] at the University of Oxford, FSL is one of the most widely used neuroimaging software packages in the world.
 
 ## Overview
 

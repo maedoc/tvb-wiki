@@ -1,10 +1,15 @@
 ---
-title: "Brain Decoding"
 created: 2026-05-06
-updated: 2026-05-06
-type: concept
-tags: [brain-decoding, machine-learning, neuroimaging-fmri, classification, eeg]
 sources: []
+tags:
+- brain-decoding
+- machine-learning
+- neuroimaging-fmri
+- classification
+- eeg
+title: Brain Decoding
+type: concept
+updated: '2026-05-06'
 ---
 
 # Brain Decoding
@@ -23,7 +28,7 @@ Common decoding approaches include:
 ## Relationship to TVB
 
 Brain decoding validates TVB models by bridging simulation and empirical data:
-- TVB generates simulated BOLD or EEG/MEG patterns that can be decoded
+- TVB generates simulated [[bold-signal|BOLD]] or EEG/MEG patterns that can be decoded
 - If TVB captures the right neural mechanisms, its simulated patterns should be decodable in the same ways as empirical data
 - Decoding accuracy from TVB-simulated data can discriminate between competing models
 - TVB parameters can be optimized to maximize alignment between simulated and empirically decoded patterns
@@ -32,4 +37,4 @@ Brain decoding validates TVB models by bridging simulation and empirical data:
 
 - [[machine-learning]] — algorithms and methods for brain decoding
 - [[bayesian]] — probabilistic frameworks for decoding
-- [[nilearn]] — Python library for neuroimaging machine learning
+- [[nilearn]] — Python library for [[neuroimaging]] machine learning
