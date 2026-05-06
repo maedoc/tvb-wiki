@@ -60,6 +60,7 @@ class DaemonState:
             'CrosslinkApplier': None,
             'Linter': None,
             'FullTextFetcher': None,
+            'LinkRepair': None,
         }
         self.failures = {k: 0 for k in self.last_run}
         self.disabled = set()
@@ -239,6 +240,19 @@ def run_full_text_fetcher():
         return False
 
 
+def run_link_repair():
+    log.info("Starting link repair cycle")
+    try:
+        from link_repair import run_link_repair_cycle
+        count = run_link_repair_cycle()
+        state.record_success('LinkRepair')
+        return True
+    except Exception as e:
+        log.error("LinkRepair failed: %s", e)
+        state.record_failure('LinkRepair')
+        return False
+
+
 def run_orphan_linker():
     log.info("Starting bi-weekly cycle")
     try:
@@ -305,8 +319,10 @@ AGENTS = [
     ('Librarian',      LIBRARIAN_INTERVAL,             run_librarian),
     ('Linter',         LINTER_INTERVAL,                run_linter),
     ('SoftwareMapper', SOFTWARE_MAPPER_INTERVAL,       run_software_mapper),
+    ('SoftwareMapper', SOFTWARE_MAPPER_INTERVAL,       run_software_mapper),
     ('OrphanLinker',   ORPHAN_LINKER_INTERVAL,         run_orphan_linker),
     ('FullTextFetcher', FULL_TEXT_INTERVAL,             run_full_text_fetcher),
+    ('LinkRepair',     REPAIRER_INTERVAL,                run_link_repair),
 ]
 
 

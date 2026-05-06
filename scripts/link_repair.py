@@ -10,6 +10,7 @@ Fixes:
 import os
 import re
 import sys
+import argparse
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from ralph_config import get_logger, WIKI_ROOT, get_all_pages, git_commit, append_log
@@ -71,7 +72,7 @@ def repair_file(filepath: str) -> tuple[int, int]:
     return (0, 0)
 
 
-def run_link_repair_cycle():
+def run_link_repair_cycle(no_commit: bool = False):
     """Run repair across all wiki pages."""
     log.info("Starting link repair cycle")
     
@@ -105,7 +106,7 @@ def run_link_repair_cycle():
     log.info("Done: %d files changed, %d wikilink-in-URL fixes, %d abs-path fixes",
              files_changed, wikilink_total, path_total)
     
-    if files_changed > 0:
+    if files_changed > 0 and not no_commit:
         msg = f"LinkRepair: fixed {files_changed} files ({wikilink_total} wikilink-in-URL, {path_total} abs-path)"
         git_commit(msg)
         append_log(msg)
@@ -114,4 +115,8 @@ def run_link_repair_cycle():
 
 
 if __name__ == '__main__':
-    run_link_repair_cycle()
+    parser = argparse.ArgumentParser(description="Repair malformed markdown links")
+    parser.add_argument("--no-commit", action="store_true",
+                        help="Fix files but do not git commit (for CI)")
+    args = parser.parse_args()
+    run_link_repair_cycle(no_commit=args.no_commit)
