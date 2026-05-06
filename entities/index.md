@@ -67,6 +67,7 @@ A collection of people, software platforms, datasets, and research groups releva
 
 - [Human Connectome Project](human-connectome-project.md)
 - [UK Biobank](uk-biobank.md)
+- [ABIDE](abide.md) - Autism Brain Imaging Data Exchange dataset for ASD neuroimaging
 - [CRCNS](crcns.md) - Collaborative Research in Computational Neuroscience funding program
 
 ## People & Labs

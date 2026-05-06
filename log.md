@@ -1,6 +1,20 @@
 # Wiki Action Log
 
 ## 2026-05-06
+- Improved [[abide]] page - renamed from ABIDE.md to abide.md to follow naming convention (lowercase, hyphens)
+- Added ABIDE entry to [[entities/index.md]] under Research Projects & Datasets section
+- Verified all wikilinks in the page content are correct and resolve to existing pages
+- Page content includes comprehensive coverage of ABIDE dataset, its role in ASD neuroimaging research, and Relationship to TVB section
+- All 35+ wikilinks verified against current page inventory
+
+## 2026-05-06
+- Improved [[cfflib]] page - replaced placeholder with comprehensive content about Connectome File Format Library
+- Added sections on overview, motivation/context, key features (supported data types: CNetwork, CSurface, CVolume, CTrack, CTimeseries, CData)
+- Included relationship to TVB explaining cfflib's role in organizing connectivity data as input for whole-brain simulations
+- Added 10+ wikilinks connecting to the-virtual-brain, connectome, connectomics, whole-brain-modeling, human-connectome-project, neural-mass-model, nibabel, dipy, brain-connectivity-toolkit, hcp-dataset, structural-connectivity, functional-connectivity, diffusion-mri, tractography
+- Updated frontmatter with taxonomy-compliant tags and sources
+
+## 2026-05-06
 - Improved [[nitrc]] page - fixed frontmatter tags (removed invalid "database" and "software" tags, kept taxonomy-compliant tags)
 - Fixed all wikilinks to proper [[format]] - added links to neuroimaging, whole-brain-modeling, connectomics, diffusion-mri, resting-state, network-dynamics, computational-neuroscience, personalized-brain-modeling
 - Removed "Key Papers" section from body (sources are only in YAML frontmatter)
@@ -335,3 +349,11 @@
 ## [2026-05-06 11:04] Repair: 99 issues fixed (0 source refs, 21 index, 3 frontmatter, 62 wikilinks, 6 orphans, 0 dup-refs, 0 opaque-refs, 7 crosslinks)
 
 ## [2026-05-06 11:05] Improve: 2 pages improved (calamity-atlas, nitrc)
+
+## [2026-05-06 11:30] DeepResearch: 1 papers added via focused research
+
+## [2026-05-06] Improved [[cfflib]] page - replaced placeholder with comprehensive content about Connectome File Format Library
+- Added sections on overview, technical architecture, supported data types (CMetadata, CNetwork, CSurface, CVolume, CTrack, CTimeserie, CData, CScript, CImagestack)
+- Included relationship to TVB explaining complementary data management approaches (CFF container vs TVB's HDF5 format)
+- Added 10+ wikilinks connecting to the-virtual-brain, connectivity, surface, time-series, whole-brain-modeling, connectomics, structural-connectivity, brain-network, graph-theory, small-world-networks, scale-free-networks, modularity, parameter-estimation, personalized-brain-modeling, diffusion-imaging, tractography, connectome-workbench, cifti-tools, mrtrix3-connectome, trackvis, camino
+- Updated frontmatter with proper tags from taxonomy (connectomics, structural-connectivity, brain-network, computational-neuroscience, python) and date
