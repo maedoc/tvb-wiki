@@ -1,23 +1,31 @@
 ---
-title: BrainPy
 created: 2026-05-05
-updated: 2026-05-06
+sources:
+- https://doi.org/10.7554/eLife.86365
+- https://brainpy.readthedocs.io/
+- https://github.com/PKU-NIP-Lab/BrainPy
+tags:
+- software-brain-modeling
+- spiking-neural-networks
+- neural-mass-models
+- python
+- jax
+title: BrainPy
 type: entity
-tags: [software-brain-modeling, spiking-neural-networks, neural-mass-models, python, jax]
-sources: [https://doi.org/10.7554/eLife.86365, https://brainpy.readthedocs.io/, https://github.com/PKU-NIP-Lab/BrainPy]
+updated: '2026-05-06'
 ---
 
 # BrainPy
 
 ## Overview
 
-BrainPy is a flexible, efficient, and extensible Python-based framework for general-purpose Brain Dynamics Programming (BDP), developed by the Peking University Neural Information Processing Lab (PKU-NIP-Lab). Released in 2020, the framework provides an integrative ecosystem for building, simulating, training, and analyzing brain dynamics models across multiple scales—from individual spiking neurons to large-scale whole-brain networks. BrainPy leverages the Just-In-Time (JIT) compilation capabilities of JAX and XLA to achieve high-performance simulation speeds comparable to native C or CUDA implementations, while running on diverse hardware including CPUs, GPUs, and Google Tensor Processing Units (TPUs). The framework was formally published in eLife in 2023, establishing it as a recognized tool in the computational neuroscience community for brain modeling and brain-inspired computing research.
+BrainPy is a flexible, efficient, and extensible Python-based framework for general-purpose [[brain-dynamics]] Programming (BDP), developed by the Peking University Neural Information Processing Lab (PKU-NIP-Lab). Released in 2020, the framework provides an integrative ecosystem for building, simulating, training, and analyzing brain dynamics models across multiple scales—from individual spiking neurons to large-scale [[whole-brain]] networks. BrainPy leverages the Just-In-Time (JIT) compilation capabilities of JAX and XLA to achieve high-performance simulation speeds comparable to native C or CUDA implementations, while running on diverse hardware including CPUs, GPUs, and Google Tensor Processing Units (TPUs). The framework was formally published in eLife in 2023, establishing it as a recognized tool in the [[computational-neuroscience]] community for brain modeling and brain-inspired computing research.
 
 ## Key Features
 
-BrainPy distinguishes itself through several core capabilities that address the growing need for flexible yet performant brain dynamics simulation tools. The framework provides an extensive library of pre-built neuron models spanning both spiking and rate-based formulations, including conductance-based models like Leaky Integrate-and-Fire (LIF), Izhikevich neurons, and various phenomenological synapse models with exponential, NMDA, and GABAergic dynamics. Users can also define custom dynamical systems through a unified interface, enabling rapid prototyping of novel neural mass models or network architectures.
+BrainPy distinguishes itself through several core capabilities that address the growing need for flexible yet performant brain dynamics simulation tools. The framework provides an extensive library of pre-built [[neuron]] models spanning both spiking and rate-based formulations, including conductance-based models like Leaky Integrate-and-Fire (LIF), [[izhikevich]] neurons, and various phenomenological synapse models with exponential, NMDA, and GABAergic dynamics. Users can also define custom dynamical systems through a unified interface, enabling rapid prototyping of novel neural mass models or network architectures.
 
-A defining characteristic of BrainPy is its differentiable programming architecture, which bridges the gap between traditional brain modeling and modern machine learning approaches. This differentiability enables gradient-based optimization of model parameters using backpropagation, making it particularly valuable for fitting models to empirical neuroimaging data such as resting-state fMRI or EEG recordings. The framework includes dedicated analysis modules for bifurcation analysis, allowing researchers to systematically explore how parameter changes affect system dynamics—a capability especially relevant for studying transitions between healthy and pathological brain states.
+A defining characteristic of BrainPy is its differentiable programming architecture, which bridges the gap between traditional brain modeling and modern machine learning approaches. This differentiability enables gradient-based optimization of model parameters using backpropagation, making it particularly valuable for fitting models to empirical [[neuroimaging]] data such as [[resting-state|resting-state fMRI]] or EEG recordings. The framework includes dedicated analysis modules for [[bifurcation-analysis]], allowing researchers to systematically explore how parameter changes affect system dynamics—a capability especially relevant for studying transitions between healthy and pathological brain states.
 
 The simulation backend supports multiple numerical integration methods with automatic selection based on model characteristics, and the platform provides parallel simulation capabilities for parameter exploration across large parameter spaces. Monitoring tools allow real-time tracking of neuronal variables, synaptic currents, and population-level firing rates during simulation, facilitating both visualization and downstream analysis of simulation outputs.
 
@@ -25,7 +33,7 @@ The simulation backend supports multiple numerical integration methods with auto
 
 BrainPy and [[the-virtual-brain|TVB]] address complementary aspects of whole-brain modeling, representing different levels of abstraction and simulation approaches. While TVB specializes in large-scale connectome-based neural mass modeling using averaged population dynamics (as implemented in models like the [[jansen-rit-model|Jansen-Rit]] and [[wong-wang-model|Wong-Wang]] formulations), BrainPy provides a more general-purpose framework that can implement both detailed spiking neural networks and abstracted rate-based models at various scales.
 
-The two platforms share common computational neuroscience foundations and can potentially be used in complementary workflows: BrainPy's flexible building blocks could be used to develop customized neural population models, which might then be integrated into TVB's whole-brain simulation pipeline for large-scale brain network dynamics. Both frameworks support structural connectivity matrices derived from diffusion tensor imaging (DTI) and tractography, enabling connectivity-based coupling between brain regions. BrainPy's JIT-compiled execution model offers performance advantages for certain classes of simulations, while TVB provides a more mature and integrated platform specifically optimized for the whole-brain modeling workflow.
+The two platforms share common computational neuroscience foundations and can potentially be used in complementary workflows: BrainPy's flexible building blocks could be used to develop customized neural population models, which might then be integrated into TVB's whole-brain simulation pipeline for large-scale brain [[network-dynamics]]. Both frameworks support [[structural-connectivity]] matrices derived from diffusion tensor imaging (DTI) and tractography, enabling connectivity-based coupling between brain regions. BrainPy's JIT-compiled execution model offers performance advantages for certain classes of simulations, while TVB provides a more mature and integrated platform specifically optimized for the whole-brain modeling workflow.
 
 For researchers working at the intersection of detailed neural circuitry and whole-brain dynamics, BrainPy's support for both spiking networks and neural mass models within a unified framework makes it a valuable tool for exploring multi-scale brain modeling approaches that could inform future developments in platforms like TVB.
 

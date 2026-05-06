@@ -1,6 +1,13 @@
 # Wiki Action Log
 
 ## 2026-05-06
+- Improved [[rockpool]] page - replaced placeholder with comprehensive content about ROCKPOOL neural simulation framework
+- Added sections on overview, key features (reservoir computing, parameter estimation, neural mass models), technical implementation
+- Included relationship to TVB explaining ROCKPOOL-TVB integration for whole-brain modeling
+- Added 15+ wikilinks connecting to the-virtual-brain, nest, brian, jansen-rit, wilson-cowan, structural-connectivity, diffusion-imaging, functional-connectivity, whole-brain-modeling, neural-mass-models, spiking-neural-networks, brainpy, annarchy, network-dynamics, personalized-brain-modeling, dynamic-causal-modeling, human-connectome-project, tensor_flow, pytorch
+- Updated frontmatter with proper tags (software-neural-simulators, reservoir-computing, recurrent-neural-networks, spiking-neural-networks, python, whole-brain-modeling, network-dynamics)
+
+## 2026-05-06
 - Created [[brica2]] page - comprehensive content about Brain-inspired Computing Architecture version 2
 - Added sections on overview, key features (C++ core, pybind11 bindings, message-passing architecture)
 - Included relationship to TVB explaining complementary purposes (TVB for clinical modeling, BriCA2 for cognitive architecture)
@@ -282,3 +289,5 @@
 ## [2026-05-06 09:08] Librarian: catalog rebuilt, 7254 asymmetric links noted
 
 ## [2026-05-06 09:08] LinkRepair: fixed 5 files (0 wikilink-in-URL, 5 abs-path)
+
+## [2026-05-06 09:08] RefFormatter: formatted references on 4 pages

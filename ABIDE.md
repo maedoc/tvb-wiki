@@ -3,7 +3,7 @@ title: ABIDE
 created: 2025-01-15
 updated: 2026-05-06
 type: entity
-tags: [neuroimaging-fmri, resting-state, neurodevelopment, dataset]
+tags: [neuroimaging-fmri, resting-state, neurodevelopment]
 sources: [raw/datasets/abide-dataset.md]
 ---
 
