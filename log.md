@@ -19,3 +19,9 @@
 ## [2026-05-06 18:31] Improve: 4 pages improved (plasticity, jansen-rit-model, brain-reserve, ion-channel)
 
 2026-05-06: Improved izhikevich.md - removed hallucinated Gaglioti citation, added link to izhikevich-neuron-model page, fixed extra spacing issue
+
+## [2026-05-06 19:13] Improve: izhikevich.md
+- Added wikilinks to izhikevich-neuron-model, andronov-hopf-bifurcation, parameter-estimation, excitation-inhibition-balance for improved cross-referencing
+- Clarified Class 1 vs Class 2 excitability distinction
+- Linked AdEx model discussion to its dedicated page
+- Emphasized connection between plastic/neuromodulatory dynamics and excitation-inhibition balance
