@@ -433,3 +433,5 @@
 ## [2026-05-06 15:54] CrosslinkApplier: added 304 wikilinks (304 inline, 0 suggested)
 
 ## [2026-05-06 15:58] SoftwareMapper: 1 pages created
+
+## [2026-05-06 15:58] Matcher: 18 pages got 53 new sources

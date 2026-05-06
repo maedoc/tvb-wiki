@@ -59,7 +59,7 @@ TVB combines:
 - [[dpabi]]
 - - [[dmriprep]]
 - Auryn
-- [[jax]]
+- jax
 - [[cifti-tools]]
 - [[brainscales]]
 - [[geppetto]]

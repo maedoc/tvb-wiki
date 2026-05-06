@@ -58,7 +58,7 @@ TVB combines:
 - [[ANTs]] - Image registration for preprocessing neuroimaging data
 - [[dpabi]]
 - Auryn
-- [[jax]]
+- jax
 - [[cifti-tools]]
 - [[brainscales]]
 - [[geppetto]]

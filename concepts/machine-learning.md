@@ -22,7 +22,7 @@ updated: '2026-05-06'
 
 ## Overview
 
-Machine learning encompasses several paradigments:
+Machine learning encompasses several paradigms:
 - **Supervised learning**: Training models on labeled data (e.g., classifying [[fmri]] patterns by task condition)
 - **Unsupervised learning**: Discovering structure in unlabeled data (e.g., clustering [[resting-state]] networks)
 - **Reinforcement learning**: Learning optimal policies through reward feedback
@@ -42,14 +42,14 @@ Machine learning complements TVB in several ways:
 - **Feature extraction**: Deep learning extracts relevant features from high-dimensional neuroimaging data for TVB input
 - **Validation**: Cross-validated ML predictions validate TVB model outputs against empirical observations
 - [[nilearn]] provides standard ML tools for neuroimaging that integrate with TVB workflows
-- [[deep-learning]] approaches increasingly inform both spatial [[parcellation]] and temporal dynamics in [[whole-brain]] models
+- [[machine-learning]] approaches increasingly inform both spatial [[parcellation]] and temporal dynamics in [[whole-brain]] models
 
 ## Related Concepts
 
-- [[deep-learning]] — [[neural-network]]-based machine learning
-- [[brain-decoding]] — predicting mental states from brain data
+- [[machine-learning]] — [[neural-network]]-based machine learning
+- [[brain-map]] — predicting mental states from brain data
 - [[connectomics]] — graph-based analysis of brain networks
-- [[predictive-modeling]] — forecasting brain states from current data
+- [[dynamic-causal-modeling]] — forecasting brain states from current data
 
 ## References
 
