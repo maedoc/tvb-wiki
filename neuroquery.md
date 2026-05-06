@@ -1,64 +1,55 @@
 ---
 title: NeuroQuery
-created: 2025-01-15
+created: 2024-01-15
 updated: 2026-05-06
 type: entity
-tags: [software-neuroquery, meta-analysis, neuroimaging-fmri, machine-learning, brain-mapping, database]
-sources: []
+tags: [software-neuroquery, machine-learning, neuroimaging, meta-analysis, text-mining]
+sources:
+  - NeuroQuery, comprehensive meta-analysis of human brain mapping (Dockès et al., 2020)
+  - Large-scale automated synthesis of human functional neuroimaging data (Yarkoni et al., 2011)
 ---
+
+NeuroQuery is a web-based platform for performing automated meta-analysis of the neuroscience literature. Developed by the team behind Neurosynth, it enables researchers to submit natural language queries and receive relevance-ranked lists of published neuroscience articles alongside estimated brain maps associated with their query terms. The system combines text mining, machine learning, and coordinate-based meta-analysis to provide quantitative summaries of where in the brain particular cognitive processes, disorders, or experimental manipulations have been reported in the neuroimaging literature.
 
 ## Overview
 
-NeuroQuery is a software tool and statistical model for automated meta-analysis of the functional neuroimaging literature. Developed by researchers at Inria and collaborators, it provides a web-based interface and Python package that predicts the spatial distribution of brain activations given an arbitrary text query describing a cognitive process, disease, or experimental paradigm. Unlike traditional coordinate-based meta-analysis methods that perform statistical inference on predefined sets of studies, NeuroQuery Frames meta-analysis as a prediction problem—extrapolating from the literature to generate brain maps for queries that may not have been explicitly studied or are too rare for conventional methods.
+NeuroQuery addresses a fundamental challenge in neuroscience: synthesizing the rapidly expanding body of neuroimaging research into tractable, data-driven summaries. Traditional literature reviews require exhaustive manual searching and coding of hundreds or thousands of papers—a process that does not scale with the growth of publications. NeuroQuery automates this process by indexing tens of thousands of fMRI experiments archived in the literature and training machine learning models that learn associations between cognitive terms and brain regions based on the text of published articles.
 
-The system was trained on a corpus of approximately 13,459 full-text neuroimaging publications containing over 418,000 peak activation coordinates extracted from tables and figures. This corpus represents the largest collection of its kind, substantially exceeding NeuroSynth in raw text volume (approximately 75 million words versus 4 million) while maintaining higher coordinate extraction accuracy. NeuroQuery's vocabulary encompasses 7,547 neuroscience-related terms and phrases drawn from multiple curated ontologies including MeSH, Cognitive Atlas, NeuroNames, and NIF, ensuring comprehensive coverage of anatomical structures, cognitive functions, and neurological disorders.
-
-## Technical Model
-
-NeuroQuery implements a reduced-rank linear regression model that maps text representations onto brain space. The pipeline consists of two primary stages: semantic smoothing and encoding. In the semantic smoothing stage, the system employes non-negative matrix factorization (NMF) to compute a low-rank approximation of term co-occurrence statistics across the corpus, yielding a denoised semantic relatedness matrix. This matrix captures associations between neuroscience terms—for example, demonstrating that "aphasia" relates to "language" or that "prosopagnosia" associates with "fusiform gyrus" and "visual"—enabling predictions for rare or polysemous terms by propagating information through semantically similar vocabulary items.
-
-The encoding stage employs a supervised learning approach where each voxel's activation density (estimated via Gaussian kernel density estimation from reported peak coordinates) is regressed on term frequency-inverse document frequency (TFIDF) features extracted from the publication text. A reweighted ridge regression procedure with adaptive regularization automatically selects approximately 200 keywords that display strong statistical links with brain activity, discarding uninformative terms that would degrade prediction accuracy due to multicollinearity.
-
-The complete prediction pipeline proceeds as follows: a text query is first tokenized and mapped onto the vocabulary; the semantic smoothing matrix expands the query by adding weight to related terms; the expanded representation is projected onto the reduced vocabulary of selected keywords; finally, linear regression coefficients transform this representation into a Z-scored brain map indicating the predicted likelihood of observing activations at each location. The output maps are scaled as Z statistics (effect magnitude divided by standard deviation), providing intuitive thresholds—maps thresholded at |Z| ≈ 3 typically select regions most associated with the query.
-
-## Comparison with NeuroSynth
-
-NeuroQuery and [[neurosynth]] (the predecessor tool it builds upon) share the goal of automating large-scale meta-analysis but differ fundamentally in their statistical approach. NeuroSynth performs coordinate-based meta-analysis (CBMA) using Activation Likelihood Estimation (ALE) or similar methods to test the consistency of reported activations across studies containing a specific term—a classical in-sample inference framework. In contrast, NeuroQuery treats meta-analysis as an out-of-sample prediction problem, learning a multivariate mapping from text to brain space that can generalize to novel queries, rare terms, and combinations not explicitly co-occurring in the training literature.
-
-This distinction has practical consequences: NeuroSynth requires hundreds of supporting studies to generate reliable maps and cannot meaningfully address queries with fewer than ~50–100 matching publications. NeuroQuery, by leveraging semantic smoothing and full-text information, can produce plausible brain maps for terms appearing in few dozen publications and can predict activation patterns for entirely novel term combinations by additive composition of learned term maps. Quantitative comparisons show NeuroQuery achieves a median correlation of 0.85 with left-out data for 1,000 randomly-chosen term pairs never seen together in training, demonstrating robust extrapolation capability.
+When a user enters a query such as "working memory" or "emotion regulation," NeuroQuery searches its database of neuroscience abstracts and returns relevant papers ranked by predicted relevance. Critically, it also produces a brain map—a neuroimaging-style display showing which brain regions are most strongly associated with the query terms based on the aggregation of reported coordinates from the matched literature. This allows researchers to quickly assess the current state of knowledge about which brain structures are implicated in a given cognitive domain, identify potentially understudied regions, and locate relevant primary sources for deeper investigation.
 
 ## Key Features
 
-NeuroQuery's web interface at neuroquery.org provides an accessible way to generate brain maps from arbitrary text queries. Users enter single terms, keyword combinations, or free-text descriptions of experimental paradigms, receiving immediately returned brain maps with associated metadata. The interface displays the list of terms recognized in the query ("in query"), terms added through semantic expansion ("in expansion"), and their respective contributions to the final brain map. Each term shows similarity scores to the original query and weights indicating its influence on the prediction, enabling users to understand and audit the model's reasoning.
+The platform offers several core capabilities that distinguish it from simple keyword-based literature search engines. First, it supports natural language queries rather than strict Boolean searches, meaning users can enter phrases, questions, or conceptual descriptions and receive meaningful results. Second, NeuroQuery performs term expansion—under the hood, it uses semantic smoothing based on term co-occurrence statistics from the literature, enabling retrieval of papers that use synonyms or related terminology even if they do not contain the exact words in the query.
 
-The Python package (`pip install neuroquery`) permits offline usage, integration into analysis pipelines, and training of custom models. Example code demonstrates simple invocation:
+Third, the system can handle arbitrary text queries of any length—not only single words but also detailed descriptions, abstracts, or full papers—by mapping them onto a vocabulary of neuroscience terms and then predicting brain activation patterns. Fourth, NeuroQuery returns statistical brain maps that aggregate peak coordinates from the returned set of studies, providing a quantitative summary of the neuroimaging literature on the queried topic.
 
-```python
-from neuroquery import fetch_neuroquery_model, NeuroQueryModel
-encoder = NeuroQueryModel.from_data_dir(fetch_neuroquery_model())
-result = encoder("Parkinson's disease")
-# result["brain_map"] contains the predicted NIfTI image
-```
+The web interface also allows users to explore individual brain regions and discover which cognitive terms are most strongly associated with them, supporting reverse queries of the form "what cognitive functions involve the hippocampus?"
 
-The package also provides tools for training new models, potentially extending NeuroQuery to additional corpora or domains. All training data—vocabularies, term frequencies, and extracted coordinates—are freely available at github.com/neuroquery/neuroquery_data under BSD license, enabling full reproducibility and extension.
+## Technical Approach
+
+Unlike simple text matching, NeuroQuery employs a sophisticated statistical modeling approach. The system represents documents using Term Frequency-Inverse Document Frequency (TFIDF) features—a method that captures the weighted occurrence frequency of neuroscience terms in each publication. These high-dimensional text representations are then mapped to brain space through a supervised linear regression model trained on over 400,000 peak activation coordinates extracted from more than 13,000 full-text neuroimaging publications.
+
+To handle the challenge of rare or unseen terms, NeuroQuery applies semantic smoothing using Non-negative Matrix Factorization (NMF) to compute a low-rank approximation of term co-occurrence patterns across the corpus. This allows the model to generalize from well-studied terms to related but less frequent concepts, producing useful brain maps even for queries that appear in few direct studies.
+
+The resulting brain maps are predictions of the spatial distribution of neural observations, rather than classical meta-analytic significance maps. This predictive framework enables NeuroQuery to generate maps for novel combinations of cognitive terms that have never been studied together in the literature—a capability that traditional coordinate-based meta-analysis lacks.
+
+## Availability
+
+NeuroQuery is available as a freely accessible web tool at [neuroquery.org](https://neuroquery.org). The source code is published as an open-source Python package on GitHub at [github.com/neuroquery/neuroquery](https://github.com/neuroquery/neuroquery). The training data, including vocabulary lists, document frequencies, and extracted peak coordinates, is separately available at [github.com/neuroquery/neuroquery_data](https://github.com/neuroquery/neuroquery_data).
 
 ## Relationship to TVB
 
-NeuroQuery represents a valuable resource for The Virtual Brain (TVB) workflows in several respects. First, its brain maps can inform parameter priors and region-of-interest (ROI) selection for whole-brain simulations. When constructing personalized brain models based on empirical data, researchers can use NeuroQuery predictions to establish hypotheses about which brain regions should exhibit particular dynamics given the cognitive or clinical context of the study. Second, NeuroQuery's semantic model captures relationships between cognitive terms and brain regions that can inform the设计 of mean-field models embedded in whole-brain connectomes—linking cognitive constructs to neural mass model parameters. Third, the tool facilitates literature synthesis for hypothesis generation, helping TVB users identify relevant brain networks before constructing simulations. Finally, NeuroQuery's coordinate-based approach complements TVB's emphasis on large-scale network dynamics by providing a bridge between the cognitive/clinical domain and the structural connectivity substrates that TVB simulates.
+NeuroQuery serves as a complementary discovery and validation tool for workflows involving [[the-virtual-brain]] (TVB). When building personalized brain models in TVB, researchers often need to specify which brain regions and connections to include, or validate that their model's dynamics appropriately reproduce known functional territories. NeuroQuery provides a rapid literature-mining capability that can inform these decisions—for example, by identifying which brain regions are consistently reported in studies of a particular cognitive state or clinical condition being modeled.
 
-## Limitations
+The brain maps generated by NeuroQuery can be compared against simulated [[functional-connectivity]] patterns or [[bold-signal]] dynamics from TVB simulations, providing an empirical benchmark for model validation. Additionally, the meta-analysis summaries can guide the selection of [[brain-parcellation]] schemes or [[structural-connectivity]] datasets that align with the cognitive domain of interest. While NeuroQuery does not directly interface with TVB's simulation engine, it provides a valuable pre-processing and validation resource for researchers seeking to anchor their whole-brain models in the accumulated neuroimaging literature.
 
-Users should recognize that NeuroQuery produces predictions, not statistical inferences. The Z-scored maps represent expected activation density under the model, not probability of activation under a null hypothesis. Consequently, NeuroQuery maps cannot be thresholded to reject specific null hypotheses about brain function. The tool performs best for cognitive terms and anatomical structures well-represented in the neuroimaging literature; highly specific clinical terms (e.g., rare genetic syndromes) or very abstract concepts may produce unreliable predictions, and the interface warns users when results may not be reliable.
+## Key Papers
 
-The additive linear model assumes that cognitive processes combine purely—sometimes called the "pure insertion" hypothesis—which fails when interactions between processes produce non-additive effects. For example, the query "visual sentence comprehension" produces a map dominated by primary visual cortex because "visual"单独 produces very strong activations, potentially overwhelming the sentence comprehension signal. Careful users should inspect individual term maps and their contribution weights to understand such interactions.
+The seminal publication describing NeuroQuery (Dockès et al., 2020) introduced the methodology and demonstrated its application to several cognitive domains. Published in eLife, the paper describes a predictive approach to meta-analysis that handles arbitrary text queries and can map rare or difficult concepts that are inaccessible to traditional methods. The system builds on the earlier Neurosynth framework (Yarkoni et al., 2011), which pioneered automated coordinate-based meta-analysis using abstracts from the literature, and extends it with improved natural language processing using full-text articles and more sophisticated machine learning models for term prediction.
 
 ## Related Software
 
-- [[neurosynth]] — predecessor automated meta-analysis tool using abstracts rather than full text
-- [[nilearn]] — Python library for neuroimaging data analysis, useful for displaying NeuroQuery outputs
-- [[brain-map]] — database of neuroimaging coordinates and associations
-- [[brain-atlases]] — anatomical parcellations referenced in NeuroQuery vocabulary construction
-- [[machine-learning]] — broader category of statistical approaches to brain mapping
-- [[fmri]] — primary imaging modality in the NeuroQuery training corpus
-- [[resting-state]] — paradigm where NeuroQuery can predict default mode network correlates
-- [[functional-connectivity]] — related analytical approach in the neuroimaging literature
+- [[neurosynth]] — the predecessor project that pioneered coordinate-based meta-analysis
+- [[nilearn]] — Python library for neuroimaging data analysis and visualization
+- [[brain-connectivity-toolbox]] — graph-theoretical analysis of brain networks
+- [[brain-map]] — ontology of cognitive terms linked to brain regions

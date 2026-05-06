@@ -376,3 +376,5 @@
 ## [2026-05-06 12:45] Improve: 4 pages improved (brian2, nilearn, c302, neuroml)
 
 ## [2026-05-06 13:18] Improve: 4 pages improved (nipal, neurodamus, eden, c302)
+
+## [2026-05-06 13:43] DeepResearch: 5 papers added via focused research
