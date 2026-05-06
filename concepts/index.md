@@ -13,6 +13,7 @@ A collection of foundational concepts in computational neuroscience and whole-br
 - [XCOS](xcos.md) – EEG electrode coordinate system for source imaging
 - [MEG](meg.md) – Magnetoencephalography
 - [DTI](dti.md) – Diffusion tensor imaging
+- [Fractional Anisotropy](fractional-anisotropy.md) – White matter integrity measure
 - [Diffusion MRI](diffusion-mri.md) – Structural connectivity from diffusion imaging
 - [Tractography](tractography.md) – White matter fiber tracking
 - [BOLD Signal](bold-signal.md) – Blood oxygen level-dependent contrast

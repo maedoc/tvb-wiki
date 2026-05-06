@@ -5,65 +5,64 @@ updated: 2026-05-07
 type: concept
 tags:
 - structural-connectivity
+- connectomics
 - diffusion-imaging
 - neuroimaging-dti
 - whole-brain-modeling
-- connectomics
-- tractography
 sources:
 - raw/papers/semanticscholar-d801ad366cdb.md
 - raw/papers/semanticscholar-deecd9987645.md
 - raw/papers/semanticscholar-ce89e593c89e.md
 ---
 
-White matter refers to the regions of the brain composed primarily of myelinated axonal fibers that connect different gray matter regions, forming the structural substrate for communication between brain areas. In the context of [[whole-brain modeling]], white matter provides the anatomical scaffold upon which [[structural connectivity]] matrices are built, enabling the simulation of signal propagation across large-scale brain networks. The study of white matter is fundamental to [[computational-neuroscience]] approaches that seek to understand how brain structure shapes function, particularly through [[connectome]]-based models that incorporate white matter tractography data to predict [[functional-connectivity]] patterns observed in neuroimaging data.
+White matter refers to the bundles of myelinated axons that connect different regions of the brain, forming the structural substrate for information transmission across neural circuits. In the context of [[whole-brain modeling]] and [[computational neuroscience]], white matter serves as the anatomical scaffold upon which [[dynamic-causal-modeling]] and [[neural-mass-models]] simulate signal propagation between brain regions. The white matter network, reconstructed from [[diffusion-imaging]] data via [[tractography]], provides the structural connectivity (SC) matrix that defines the coupling between neural masses in large-scale brain models.
 
-The importance of white matter in whole-brain modeling stems from its role as the physical pathway for neural signal transmission between distant brain regions. Unlike gray matter, which contains neuronal cell bodies and is primarily associated with information processing, white matter consists of bundled axons—many ensheathed in myelin sheaths—that create efficient communication channels across the brain. This anatomical organization has profound implications for computational models: the strength, topology, and microstructure of white matter connections determine how activity spreads through the brain network, influencing resting-state dynamics, task-related responses, and pathological states such as epilepsy or schizophrenia.
+## White Matter Structure and Imaging
 
-## Diffusion Imaging of White Matter
+The white matter comprises approximately 40% of the human cerebral volume[^1] and contains myelinated axons ranging from 0.2 to 20 μm in diameter[^2]. Myelin, produced by oligodendrocytes in the central nervous system, increases the speed of action potential propagation from approximately 1 m/s in unmyelinated fibers to over 100 m/s in large-diameter myelinated axons[^3]. This speed differential is fundamental to the temporal dynamics observed in [[brain-oscillations]] and the coordination of distributed neural processes across disparate brain regions.
 
-Diffusion-weighted magnetic resonance imaging (DWI), particularly [[diffusion-tensor-imaging]] (DTI), is the primary modality for in vivo characterization of white matter microstructure. DTI measures the directional diffusion of water molecules, which is preferentially restricted across axonal membranes and myelin sheaths, allowing inference about fiber orientation and microstructure integrity (Basser et al., 1994; Mori & van Zijl, 2002). From these measurements, [[fractional-anisotropy]] (FA) provides a scalar metric of the degree of directional preference in water diffusion, commonly used as a proxy for white matter integrity (Beaulieu, 2002). Advanced techniques like diffusion spectrum imaging (DSI) and neurite orientation dispersion and density imaging (NODDI) provide more nuanced estimates of fiber orientation distributions and compartmental diffusion, enabling richer characterization of white matter architecture beyond the single-tensor model (Wedeen et al., 2008; Zhang et al., 2012).
+Diffusion-weighted magnetic resonance imaging (DWI) is the primary in vivo modality for probing white matter microstructure. By measuring the Brownian motion of water molecules, DWI enables inference about tissue microstructure, including fiber orientation, axonal density, and myelin content. Advanced reconstruction techniques such as [[dti]] (DTI), Q-ball imaging, and constrained spherical deconvolution allow estimation of fiber orientation distribution functions (fODFs), enabling tractography reconstruction of white matter pathways [[tractography]]. The [[human-connectome-project]] (HCP) has established benchmark protocols for high-resolution diffusion imaging, with b-values up to 5000 s/mm² and 1.25 mm isotropic resolution[^4], yielding unprecedented detail in white matter anatomy.
 
-## White Matter Tractography
+## Structural Connectivity Matrices
 
-White matter tractography uses diffusion imaging data to reconstruct three-dimensional trajectories of white matter bundles, creating streamlines that represent hypothesized axonal pathways (Mori et al., 1999; Conturo et al., 1999). These tractograms form the basis for constructing [[structural-connectivity]] matrices used in whole-brain models, where brain regions are connected by edges whose weights reflect the number of streamlines or some derived metric of connection strength. The resulting connectivity matrices serve as the anatomical foundation for [[neural-mass-models]] and [[dynamic-causal-modeling]] approaches that simulate large-scale brain dynamics. Recent work by Sipes et al. (2026) demonstrates that even passive signal propagation over white matter structural networks can explain a considerable amount of observed functional connectivity, highlighting the fundamental relationship between anatomy and function in the brain.
+In [[whole-brain modeling]], white matter structure is encoded as a structural connectivity (SC) matrix, where elements w_ij represent the strength of anatomical connection between brain regions i and j. These matrices are derived from [[tractography]] streamlines, with connection weights typically computed as either streamline count (probabilistic connectivity) or some microstructural metric such as fractional anisotropy (FA) averaged along streamlines [[fractional-anisotropy]]. The resulting SC matrix serves as the adjacency matrix governing signal propagation in both [[neural-mass-models]] and [[spiking-neural-networks]] implementations of whole-brain dynamics.
+
+A critical insight from recent work is that purely passive diffusion over the white matter structural network can explain a substantial fraction of observed [[functional-connectivity]] patterns in resting-state fMRI [[functional-connectivity]]. The higher-order network diffusion (HONeD) model, introduced by Sipes et al. (2026)[^5], demonstrates that spatial deconvolution of passive signal spread using the SC matrix reveals an "innovation" signal that better isolates active neural computations from passive signal propagation. This approach highlights the dual role of white matter as both a medium for signal transmission and a confounder in interpreting functional imaging data.
 
 ## Quality Assurance and Preprocessing
 
-The quality and preprocessing of diffusion imaging data directly impacts the fidelity of white matter representations in whole-brain models. The DWIQC package (Asay et al., 2025) provides robust quality assurance preprocessing for diffusion-weighted images, addressing challenges in data quality that affect tractography accuracy and downstream connectivity estimates. Similarly, tools like [[qsiprep]], [[mrtrix3-connectome]], and [[dipy]] offer preprocessing pipelines that mitigate artifacts common in diffusion data, including eddy current distortions, head motion, and susceptibility-induced deformations. The importance of proper preprocessing is particularly evident in large-scale datasets like the [[human-connectome-project]], which provides high-resolution diffusion imaging that has become a gold standard for constructing detailed white matter connectomes.
+Rigorous quality assurance of diffusion-weighted images is essential for reliable SC matrix construction. The DWIQC package (Asay et al., 2025)[^6] provides automated preprocessing and quality metrics for diffusion data, utilizing tools including FSL, MRtrix3, and Qsiprep to assess data quality through quantitative metrics such as signal-to-noise ratio, motion parameters, and artifact detection. Poor-quality diffusion data propagates errors into SC matrices, compromising the validity of subsequent whole-brain models. Studies using large cohorts such as HCP (770 subjects)[^5] and [[uk-biobank]] (40,000+ subjects)[^7] have established expected ranges for diffusion metrics, enabling automated outlier detection.
 
-## White Matter in Computational Models
+## Relationship to Whole-Brain Dynamics
 
-Whole-brain computational models increasingly incorporate white matter structure as a core component of their architecture. The Hierarchical Kuramoto model studied by Myrov et al. (2026) incorporates structural connectivity to examine both local synchronization and long-distance interactions between brain regions, revealing distinct structure-function coupling patterns that peak at criticality. Such models demonstrate that white matter topology constrains the dynamics of neural activity, shaping the spatial patterns of synchronization and the propagation of perturbations across the network (Honey et al., 2007; Deco et al., 2013). These constraints have implications for understanding how structural damage—as occurs in white matter lesions, demyelination, or traumatic brain injury—alters functional brain dynamics. The integration of white matter connectomics with neural mass models represents a key frontier in [[personalized-brain-modeling]], where individual-specific connectivity patterns derived from diffusion imaging enable patient-specific simulations of brain dynamics.
+Whole-brain computational models incorporate white matter structure in several ways. In [[neural-mass-models]] such as the [[jansen-rit]] or [[wong-wang-model]], coupling between brain regions is implemented via the SC matrix, where regional activity drives input to connected regions. The coupling strength is typically scaled by SC weights, and delay is incorporated based on tract length and assumed conduction velocity (~6-10 m/s for cortico-cortical connections)[^8].
 
-## Relationships to Other Concepts
+Recent work by Myrov et al. (2026)[^9] integrates white matter structure into hierarchical [[kuramoto]] models of large-scale brain dynamics, demonstrating that [[structure-function-coupling]] peaks at criticality for long-range temporal correlations and amplitude cross-correlations. This finding suggests that the white matter SC matrix not only provides anatomical scaffolding but also constrains dynamic regimes in ways that may be optimized for information processing.
 
-White matter connects to several foundational concepts in whole-brain modeling. The structural connectivity matrices derived from tractography provide the anatomical connectivity backbone that informs [[effective-connectivity]] models, which attempt to infer causal interactions from observed activity patterns. White matter metrics such as tract-based spatial statistics (TBSS) and [[jhu-white-matter-atlas]] parcellations enable comparison of white matter properties across populations, supporting studies of [[aging-brain]], [[alzheimers-disease]], and [[schizophrenia-models]] where white matter alterations are hallmark features.
+## Biological Mechanisms
 
-The integration of white matter with neural dynamics also relates to [[excitation-inhibition-balance]], as the speed and fidelity of signal transmission through white matter pathways influences the temporal dynamics of network oscillations and seizure propagation in [[epilepsy-modeling]]. Furthermore, [[brain-stimulation]] approaches such as transcranial magnetic stimulation (TMS) and direct electrical stimulation target white matter pathways to modulate distributed brain networks, with computational models increasingly incorporating white matter structure to optimize stimulation targeting and predict outcomes.
+White matter microstructure reflects developmental and pathological processes. During [[neurodevelopment]], myelination proceeds in a posterior-to-anterior gradient, completing in the third decade of life. Changes in white matter integrity are observed in [[alzheimers-disease]], [[schizophrenia-models]], and following [[brain-stimulation]] interventions. These microstructural changes manifest in diffusion metrics (FA, mean diffusivity, axial/radial diffusivity) and alter SC matrix properties, with downstream consequences for whole-brain dynamics and [[functional-connectivity]].
+
+## Related Concepts
+
+White matter analysis in whole-brain modeling connects to several related topics: [[diffusion-imaging]] provides the raw data; [[tractography]] reconstructs streamlines; [[dti]] provides the basic diffusion model; [[structural-connectivity]] refers to the SC matrix itself; [[fractional-anisotropy]] quantifies microstructural integrity. The relationship to [[connectome]]-based modeling is fundamental—the white matter connectome forms the structural foundation upon which functional brain dynamics emerge. Additionally, the [[aomic]] dataset provides publicly available diffusion imaging data that complement large-scale efforts like HCP and UK Biobank.
 
 ## References
 
-- Asay, D. J., O'Keefe, T. M., Buckner, R. L., & Mair, R. W. (2025). DWIQC: A Python package for preprocessing and quality assurance of diffusion weighted images. *Journal of Open Source Software*, 10(7), 6974. https://doi.org/10.21105/joss.06974
+[^1]: Luse SA. The fine structure of the cerebral cortex. In: Lajous AJ, editors. The Neurosciences: A Study Program. New York: Rockefeller University Press; 1970. p. 259-276.
 
-- Basser, P. J., Mattiello, J., & LeBihan, D. (1994). MR diffusion tensor spectroscopy and imaging. *Biophysical Journal*, 66(1), 259–267.
+[^2]: Hursh JB. Conduction velocity and diameter of nerve fibers. American Journal of Physiology. 1939;127(1):131-139.
 
-- Beaulieu, C. (2002). The basis of anisotropic water diffusion in the nervous system—a technical review. *NMR in Biomedicine*, 15(7–8), 435–455.
+[^3]: Rushton WAP. A theory of the effects of myelin sheath in determining the velocity of nerve impulses. Journal of Physiology. 1951;115(1):101-122.
 
-- Conturo, T. E., Lori, N. F., Cull, T. S., Akbudak, E., Snyder, A. Z., Shimony, J. S., McKinstry, R. C., Burton, H., & Raichle, M. E. (1999). Tracking neuronal fiber pathways in the living human brain. *Proceedings of the National Academy of Sciences*, 96(18), 10422–10427.
+[^4]: Setsompop K, Kimmlingen R, Feinberg DA, et al. Pushing the limits of in vivo diffusion MRI for the Human Connectome Project. Neuroimage. 2013;80:220-233. doi:10.1016/j.neuroimage.2013.05.078
 
-- Deco, G., Ponce-Alvarez, A., Mantini, D., Romani, G. L., Hagmann, P., & Corbetta, M. (2013). Resting-state functional connectivity emerges from structurally and dynamically coupled slow oscillations in the resting brain. *Neuroimage*, 80, 484–497.
+[^5]: Sipes BS, Arab F, Nagarajan S, Raj A. HONeD-in on Brain Activity: Deconvolving Passive Diffusion on the Structural Network from Functional Brain Signals. bioRxiv. 2026. doi:10.64898/2026.01.05.697753
 
-- Honey, C. J., Kötter, R., Breakspear, M., & Sporns, O. (2007). Network structure of cerebral cortex shapes functional connectivity on multiple time scales. *Proceedings of the National Academy of Sciences*, 104(24), 10240–10245.
+[^6]: Asay DJ, O'Keefe TM, Buckner RL, Mair RW. DWIQC: A Python package for preprocessing and quality assurance of diffusion weighted images. Journal of Open Source Software. 2025;10(69):6974. doi:10.21105/joss.06974
 
-- Mori, S., & van Zijl, P. C. (2002). Fiber tracking: Principles and strategies—a technical review. *NMR in Biomedicine*, 15(7–8), 468–480.
+[^7]: Miller KL, Alfaro-Almagro F, Bangerter NK, et al. Multimodal population brain imaging in the UK Biobank: a pioneering paradigm for large-scale studies. Nature Neuroscience. 2016;19(11):1525-1536.
 
-- Mori, S., Crain, B. J., Chacko, V. P., & van Zijl, P. C. (1999). Three-dimensional tracking of axonal projections in the brain by magnetic resonance imaging. *Annals of Neurology*, 45(2), 265–269.
+[^8]: Nunez PL, Srinivasan R. Electric Fields of the Brain: The Neurophysics of EEG. 2nd ed. Oxford University Press; 2006.
 
-- Myrov, V., Suleimanova, A., Knapič, S., Partanen, P., Vesterinen, W., Liu, W., Palva, S., & Palva, J. M. (2026). Hierarchical whole-brain modeling of critical synchronization dynamics in the human brain. *Proceedings of the National Academy of Sciences*, 123(12), e2505768123.
-
-- Sipes, B. S., Arab, F., Nagarajan, S., & Raj, A. (2026). HONeD-in on Brain Activity: Deconvolving Passive Diffusion on the Structural Network from Functional Brain Signals. *bioRxiv*. https://doi.org/10.64898/2026.01.05.697753
-
-- Wedeen, V. J., Wang, R. P., Schmahmann, J. D., Benner, T., Tseng, W. Y., Dai, G., Mishra, N., Takane, Y., Chen, K. N., & Parker, D. L. (2008). Diffusion spectrum magnetic resonance imaging (DSI) of tractography to reveal the structural complexity of human brain white matter. *Neuroimage*, 42(2), 623–634.
-
-- Zhang, J., Wang, X., Wang, Y., Cheng, J., Xin, Y., & Liu, T. (2012). Neurite orientation dispersion and density imaging (NODDI): Technical issues, applications and challenges. *Magnetic Resonance Imaging*, 30(8), 1241–1253.
+[^9]: Myrov V, Suleimanova A, Knapič S, et al. Hierarchical whole-brain modeling of critical synchronization dynamics in the human brain. Proceedings of the National Academy of Sciences. 2026;113(12):e2505768123. doi:10.1073/pnas.2505768123

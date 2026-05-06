@@ -66,3 +66,11 @@ Within the TVB ecosystem, FA-weighted structural connectivity matrices are impor
 - [[aging-brain]] – Age-related white matter changes
 - [[brain-network]] – Network-based brain analysis
 - [[whole-brain-modeling]] – Large-scale brain simulation
+
+## References
+
+1. Smith, S. M., Vidaurre, D., et al. (2013). Functional Connectomics from Resting-State fMRI. *Trends in Cognitive Sciences*. [[smith-2013-connectomics]]
+
+2. Friston, K. J., Frith, C. D., Liddle, P. F., & Frackowiak, R. S. J. (1993). Functional Connectivity: The Principal-Component Analysis of Large (PET and fMRI) Data Sets. *Journal of Cerebral Blood Flow & Metabolism*. [[friston-1993]]
+
+3. Basser, P. J., & Pierpaoli, C. (1996). Microstructural and physiological features of tissues elucidated by quantitative-diffusion-tensor MRI. *Journal of Magnetic Resonance Series B*, 111(3), 209-219.

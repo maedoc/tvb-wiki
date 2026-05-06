@@ -1,5 +1,18 @@
 # TVB Wiki Log
 
+## 2026-05-07 - Entry #2
+- Action: Created fractional-anisotropy page in concepts/
+- Details: Comprehensive concept page covering:
+  - Definition and mathematical formulation of FA
+  - Motivation and biological significance for white matter imaging
+  - Technical foundation with eigenvalue-based formula
+  - Applications in whole-brain modeling and TVB workflows
+  - Relationship to alternative diffusion imaging models
+  - Open questions and limitations
+- Added to: concepts/index.md (Neuroimaging section)
+- Tags: neuroimaging-dti, diffusion-imaging, white-matter, structural-connectivity, tractography
+- Wikilinks included: whole-brain-modeling, computational-neuroscience, dti, structural-connectivity, brain-network, aging-brain, alzheimers-disease, schizophrenia-models, epilepsy-modeling, tractography, diffusion-imaging, dti-vs-hardi-vs-noddi, neuroimaging-dti
+
 ## 2026-05-06 - Entry #1
 - Action: Improved neuromorphic-computing page
 - Details: Expanded from minimal stub to comprehensive concept page covering:
@@ -67,3 +80,5 @@
 ## [2026-05-07 00:01] FullTextFetcher: fetched 2 new full texts (30 total in corpus)
 
 ## [2026-05-07 00:14] Improve: 4 pages improved (andronov-hopf-bifurcation, karl-j-fristol, spontaneous-activity, neural-network)
+
+## [2026-05-07 00:30] DeepResearch: 6 papers added via focused research
