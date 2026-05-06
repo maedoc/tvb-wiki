@@ -35,3 +35,7 @@
 ## [2026-05-06 20:14] DeepResearch: 9 papers added via focused research
 
 ## [2026-05-06 20:22] Improve: 5 pages improved (electrophysiology, schaefer, hodgkin-huxley-model, michael-fox, viktor-jirsa)
+
+## [2026-05-06 20:48] Improve: 4 pages improved (brain-parcellations, electrophysiology, hodgkin-huxley-model, schaefer)
+
+## [2026-05-06 20:51] Audit: 948 issues (82 broken links, 40 orphans, 1 placeholders, 0 dup-refs, 5 bad-meta, 98 citation-verify, 15 opaque-refs, 54 thin, 415 missing-links)
