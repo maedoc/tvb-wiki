@@ -50,7 +50,7 @@ Resting-state fMRI measures spontaneous low-frequency fluctuations in the BOLD s
 **Limitations:**
 - Cannot localize specific cognitive functions to regions
 - Susceptible to head motion, physiological noise, drowsiness
-- Interpretation of "rest" is heterogeneous across subjects
+- Interpretation of "[[rest]]" is heterogeneous across subjects
 - Cannot dissociate activity from connectivity
 
 **TVB relevance:** Resting-state [[functional-connectivity]] is the primary empirical constraint for TVB simulations. TVB models are optimized to reproduce the correlation structure observed during rest.
@@ -103,7 +103,7 @@ The optimal TVB workflow uses both:
 By comparing TVB's simulated task responses against empirical task fMRI, researchers can validate and refine model parameters. This two-step approach has been used to:
 - Calibrate TVB's structural connectivity weights using resting-state FC
 - Validate TVB's ability to reproduce task-evoked BOLD changes
-- Discriminate healthy aging from neurodegeneration via model parameter differences
+- Discriminate healthy [[aging]] from neurodegeneration via model parameter differences
 
 ## Software Ecosystem
 
@@ -115,6 +115,6 @@ By comparing TVB's simulated task responses against empirical task fMRI, researc
 ## References
 
 - Biswal et al. (1995) — Original resting-state fMRI connectivity paper
-- Raichle et al. (2001) — Default mode network discovery
+- Raichle et al. (2001) — [[default-mode-network]] discovery
 - Deco et al. (2011) — Resting-state connectivity constraining TVB models
-- Smith et al. (2013) — Resting-state fMRI in the Human Connectome Project
+- Smith et al. (2013) — Resting-state fMRI in the [[human-connectome-project]]

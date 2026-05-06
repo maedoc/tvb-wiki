@@ -84,7 +84,7 @@ Despite its centrality to connectomics, structural connectivity estimation faces
 - [[dti]] – Diffusion tensor imaging
 - [[diffusion-mri]] – Broader class of [[diffusion-imaging]] methods
 - [[white-matter]] – Myelinated fiber tracts
-- [[parcellation]] – Brain parcellation schemes
+- [[parcellation]] – [[brain-parcellation]] schemes
 - [[modularity]] – Community structure in networks
 - [[rich-club]] – Hub region connectivity
 - [[personalized-brain-modeling]] – Individualized modeling approaches

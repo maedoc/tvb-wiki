@@ -18,5 +18,5 @@ See [[resting-state]] for the full article.
 
 ## References
 
-1. (authors unknown). *Resting-State fMRI in the Human Connectome Project*.
+1. (authors unknown). *Resting-State [[fmri]] in the [[human-[[connectome]]-project]]*.
 2. Deco et al. (2013). *Resting brains never rest: computational insights into potential cognitive architectures*. Trends in Neurosciences. [DOI](https://doi.org/10.1016/j.tins.2013.09.002)

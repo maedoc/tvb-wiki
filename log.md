@@ -425,3 +425,7 @@
 ## [2026-05-06 15:50] Audit: 884 issues (78 broken links, 45 orphans, 1 placeholders, 0 dup-refs, 5 bad-meta, 98 citation-verify, 14 opaque-refs, 70 thin, 398 missing-links)
 
 ## [2026-05-06 15:51] FullTextFetcher: fetched 5 new full texts (23 total in corpus)
+
+## [2026-05-06 15:52] Improve: 3 pages improved (brian, neuroimaging, nnu-net)
+
+## [2026-05-06 15:54] DeepResearch: 6 papers added via focused research

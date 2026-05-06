@@ -19,12 +19,12 @@ tags:
 - spiking-neural-networks
 title: TVB vs NEST vs NEURON
 type: comparison
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # TVB vs NEST vs NEURON
 
-Comparison of major neural simulation platforms for [[whole-brain]] modeling and spiking network simulations.
+Comparison of major [[neural-simulation]] platforms for [[whole-brain]] modeling and spiking network simulations.
 
 ## What is Being Compared
 

@@ -1,20 +1,25 @@
 ---
-title: "TBSS"
 created: 2026-05-06
-updated: 2026-05-06
-type: concept
-tags: [neuroimaging-dti, tract-based-spatial-statistics, white-matter, voxel-wise-analysis, fsl]
 sources: []
+tags:
+- neuroimaging-dti
+- tract-based-spatial-statistics
+- white-matter
+- voxel-wise-analysis
+- fsl
+title: TBSS
+type: concept
+updated: '2026-05-06'
 ---
 
 # TBSS (Tract-Based Spatial Statistics)
 
-**TBSS** is a voxel-wise analysis pipeline for diffusion MRI data that projects fractional anisotropy (FA) and other DTI-derived metrics onto a common “skeleton” of white-matter tracts, enabling robust cross-subject statistical comparison without full tractography.
+**TBSS** is a voxel-wise analysis pipeline for [[diffusion-mri]] data that projects [[fractional-anisotropy]] (FA) and other DTI-derived metrics onto a common “skeleton” of white-matter tracts, enabling robust cross-subject statistical comparison without full [[tractography]].
 
 ## Overview
 
 TBSS addresses a key problem in voxel-wise DTI analysis: alignment of white-matter tracts across subjects is much harder than grey-matter alignment because tract shapes vary substantially. TBSS solves this by:
-1. **Non-linear registration** of all subjects’ FA maps to a common target (usually FMRIB58_FA)
+1. **Non-[[linear]] registration** of all subjects’ FA maps to a common target (usually FMRIB58_FA)
 2. **White-matter tract skeleton creation** — derived from the mean FA image, representing centres of all tracts common to the group
 3. **Projection** of each subject’s highest local FA values onto the skeleton
 4. **Voxel-wise cross-subject statistics** on the skeletonised data
@@ -52,7 +57,7 @@ TBSS produces voxel-wise statistics maps that can be thresholded and viewed on t
 ## Relationship to TVB
 
 TBSS findings often feed into TVB workflows:
-- **Structural connectivity calibration** — TBSS-derived FA values correlate with TVB structural connectivity weights
+- **[[structural-connectivity]] calibration** — TBSS-derived FA values correlate with TVB structural [[connectivity]] weights
 - **Pathology mapping** — TBSS-identified white-matter disruptions can be translated into TVB lesion or structural connectivity perturbation models
 - **Validation** — TVB simulations can predict the functional consequences of TBSS-identified white-matter changes
 - TBSS is implemented in [[fsl]] and integrates with preprocessing pipelines like [[qsiprep]]

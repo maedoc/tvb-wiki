@@ -10,7 +10,7 @@ tags:
 - machine-learning
 title: Theano
 type: entity
-updated: '2026-05-05'
+updated: '2026-05-06'
 ---
 
 Theano is a Python library for symbolic mathematical computation that was developed at the Montreal Institute for Learning Algorithms (MILA) at Université de Montréal. Originally released in 2007, Theano enabled researchers to define, optimize, and evaluate mathematical expressions involving multi-dimensional arrays efficiently. It was among the first widely adopted frameworks for deep learning research and played a crucial role in advancing the field during the early to mid-2010s before being largely superseded by TensorFlow and PyTorch. Theano's core innovation lay in its ability to perform symbolic differentiation, compile computations into efficient machine code, and leverage Graphics Processing Units (GPUs) for accelerated computation—capabilities that were novel and transformative at the time of its development.
@@ -47,7 +47,7 @@ Several other Python libraries for numerical computing relate to Theano's domain
 
 - LeCun, Y., Bengio, Y., & Hinton, G. (2015). "Deep learning." *Nature*, 521(7553), 436-444. Provides broader context on the deep learning renaissance during which Theano was developed.
 
-- Schweighofer, N., & Doya, K. (2003). "Neural simulators: Lessons from brain modeling." *Neural Networks*, 16(5), 645-653. Context for neural simulation approaches in [[computational-neuroscience]].
+- Schweighofer, N., & Doya, K. (2003). "Neural simulators: Lessons from brain modeling." *Neural Networks*, 16(5), 645-653. Context for [[neural-simulation]] approaches in [[computational-neuroscience]].
 
 - Ritter, P., et al. (2008). "[[tvb|The Virtual Brain]]: a simulator for primate brain [[network-dynamics]]." *Neuroinformatics*, 6(1), 1-8. Original TVB publication documenting its computational architecture.
 

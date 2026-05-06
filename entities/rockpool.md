@@ -55,11 +55,11 @@ ROCKPOOL occupies a niche adjacent to several established [[neural simulation]] 
 
 ## Key Papers
 
-- Stimberg et al. (2020). "Brian 2 and beyond: From spiking neurons to silicon neurons, simulations and neuromorphic hardware." *Springer Series in Computational Neuroscience*. [ref:brian2-documentation]
+- Stimberg et al. (2020). "[[brian]] 2 and beyond: From spiking neurons to silicon neurons, simulations and neuromorphic hardware." *Springer Series in Computational Neuroscience*. [ref:brian2-documentation]
 - Rockpool Documentation (2024). Official ROCKPOOL Framework Documentation. [ref:rockpool-documentation]
 
 ## References
 
 1. Duy Pham, Gene J. Yu, G. Lazzi, Jean-Marie C Bouteiller. (2026). *A spatially discretized convolutional neural mass model for studying meso-scale spatio-temporal transformations in the rat hippocampus*. Research Square. [DOI](https://doi.org/10.21203/rs.3.rs-9306977/v1)
-2. Martin Breyton, Viktor Sip, M. Woodman, Meysam Hashemi, S. Petkoski, V. Jirsa. (2025). *Data-driven mean-field within whole-brain models*. [Link](https://www.semanticscholar.org/paper/144ae1f1dabec42c14493d0083d36f168508f886)
-3. Nina Baldy, P. Triebkorn, S. Petkoski, Meysam Hashemi, V. Jirsa. (2026). *Normative Modeling of Static and Dynamic Functional Connectivity*. bioRxiv. [DOI](https://doi.org/10.64898/2026.04.03.716292)
+2. Martin Breyton, Viktor Sip, M. Woodman, Meysam Hashemi, S. Petkoski, V. Jirsa. (2025). *Data-driven [[mean-field-theory|mean-field]] within whole-brain models*. [Link](https://www.semanticscholar.org/paper/144ae1f1dabec42c14493d0083d36f168508f886)
+3. Nina Baldy, P. Triebkorn, S. Petkoski, Meysam Hashemi, V. Jirsa. (2026). *Normative Modeling of Static and Dynamic Functional [[connectivity]]*. bioRxiv. [DOI](https://doi.org/10.64898/2026.04.03.716292)

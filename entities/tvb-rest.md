@@ -12,7 +12,7 @@ tags:
 - whole-brain-modeling
 title: TVB-REST
 type: entity
-updated: '2026-05-05'
+updated: '2026-05-06'
 ---
 
 TVB-[[rest]] is the application programming interface (API) layer of [[tvb|The Virtual Brain]] that enables programmatic interaction with the TVB simulation engine via HTTP requests. As a RESTful web service, TVB-REST allows researchers to remotely launch brain simulations, retrieve results, manage datasets, and integrate TVB functionality into custom workflows without requiring direct Python execution on the local machine [@Sanz-LeonEtAl-2015]. This architectural choice positions TVB as not merely a desktop application but as a cloud-ready [[neuroimaging]] platform capable of supporting distributed [[whole-brain|whole-brain modeling]] workflows across institutional research environments.
@@ -48,7 +48,7 @@ Deploying TVB-REST requires a server environment with sufficient computational r
 
 - [[tvb-library|TVB Library]] — Core simulation engine
 - [[tvb|TVB]] — Complete software ecosystem
-- [[nest|NEST]] — Neural simulation tool compatible with TVB
+- [[nest|NEST]] — [[neural-simulation]] tool compatible with TVB
 - [[brain-dynamics-toolbox|Brain Dynamics Toolbox]] — Alternative whole-brain simulation framework
 - [[pynest|PyNEST]] — Python interface to NEST
 

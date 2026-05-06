@@ -43,7 +43,7 @@ sMRIPrep belongs to the fMRIPrep family of preprocessing tools, which also inclu
 ## Key Papers
 
 - Esteban O, Birman D, Schaer M, Kuyumba O, Poldrack RA, Gorgolewski KJ. "sMRIPrep: Structural MRI PREProcessing workflow." NeuroImage. 2019.
-- Esteban O, Markiewicz CJ, Blair RW, et al. "fMRIPrep: a robust preprocessing pipeline for functional MRI." Nat Methods. 2019.
+- Esteban O, Markiewicz CJ, Blair RW, et al. "fMRIPrep: a robust preprocessing pipeline for [[neuroimaging-fmri|functional MRI]]." Nat Methods. 2019.
 - Gorgolewski KJ, Wolfers T, Poldrack RA. "The proliferation of reproducible [[neuroimaging]] analysis workflows." Curr Opin Neurobiol. 2017.
 - Nichols TE, Das S, Ebrahim A, et al. "Standard practices in data analysis and sharing in neuroimaging using MRI." NeuroImage. 2017.
 - Taylor PA, G. Chen K, E. L., et al. "A reproducible set of analysis tools forcbids-formatted JSON." Front Neuroinform. 2018.

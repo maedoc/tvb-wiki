@@ -67,7 +67,7 @@ ROOT has been used in specific neuroscience applications including analysis of [
 ## Related Software
 
 - [[TVB]] — [[whole-brain]] simulation platform; ROOT can analyze TVB outputs
-- [[NEST]] — Neural simulation tool; ROOT used for spike train statistics
+- [[NEST]] — [[neural-simulation]] tool; ROOT used for spike train statistics
 - [[NEURON]] — Multi-compartment neuron simulator
 - [[Freesurfer]] — MRI preprocessing; outputs can be stored/analyzed in ROOT
 - [[Nipype]] — Python pipeline framework; can integrate ROOT workflows via PyROOT

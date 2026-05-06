@@ -15,7 +15,7 @@ type: entity
 updated: '2026-05-06'
 ---
 
-SPICE (Simulation Package for Intelligent Cerebellar Exploration) is a specialized neural simulation framework designed to model large-scale cerebellar circuits and their integration with cerebral cortex in whole-brain modeling contexts. While primarily developed for cerebellar microcircuit modeling, SPICE has been adapted within the broader ecosystem of [[whole-brain modeling]] tools to study the role of cerebellar-thalamo-cortical loops in brain dynamics and behavior.
+SPICE (Simulation Package for Intelligent Cerebellar Exploration) is a specialized [[neural-simulation]] framework designed to model large-scale cerebellar circuits and their integration with cerebral cortex in whole-brain modeling contexts. While primarily developed for cerebellar microcircuit modeling, SPICE has been adapted within the broader ecosystem of [[whole-brain modeling]] tools to study the role of cerebellar-thalamo-cortical loops in brain dynamics and behavior.
 
 ## Overview
 
