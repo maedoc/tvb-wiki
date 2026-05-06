@@ -1,0 +1,1876 @@
+                                                O N THE ROBUSTNESS OF THE EMERGENT SPATIOTEMPORAL
+                                                     DYNAMICS IN BIOPHYSICALLY REALISTIC AND
+                                                PHENOMENOLOGICAL WHOLE - BRAIN MODELS AT MULTIPLE
+                                                             NETWORK RESOLUTIONS
+arXiv:2504.17491v1 [q-bio.NC] 24 Apr 2025
+
+
+
+
+                                                                                                    P REPRINT
+
+
+                                                     Cristiana Dimulescu 1,2† , Ronja Strömsdörfer 1,3∗† , Agnes Flöel 4,5 , and Klaus Obermayer 1,2,3
+                                                    1
+                                                     Neural Information Processing Group, Fakultät IV, Technische Universität Berlin, Berlin , Germany
+                                                                    2
+                                                                      Bernstein Center for Computational Neuroscience, Berlin, Germany
+                                                                             3
+                                                                               Einstein Center for Neuroscience, Berlin, Germany
+                                                                  4
+                                                                    Department of Neurology, University Medicine, Greifswald, Germany
+                                                                  5
+                                                                    German Center for Neurodegenerative Diseases, Greifswald, Germany
+                                                                                            †
+                                                                                              shared first authorship
+
+
+                                                                                                 April 25, 2025
+
+                                                                                                  A BSTRACT
+                                                     The human brain is a complex dynamical system which displays a wide range of macroscopic and
+                                                     mesoscopic patterns of neural activity, whose mechanistic origin remains poorly understood. Whole-
+                                                     brain modelling allows us to explore candidate mechanisms causing the observed patterns. However,
+                                                     it is not fully established how the choice of model type and the networks’ spatial resolution influence
+                                                     the simulation results hence it remains unclear, to which extent conclusions drawn from these results
+                                                     are limited by modelling artefacts. Here, we compare the dynamics of a biophysically realistic, linear-
+                                                     nonlinear cascade model of whole-brain activity with a phenomenological Wilson-Cowan model
+                                                     using three structural connectomes based on the Schaefer parcellation scheme with 100, 200, and
+                                                     500 nodes. Both neural mass models implement the same mechanistic hypotheses, which specifically
+                                                     address the interaction between excitation, inhibition, and a slow adaptation current which affects
+                                                     the excitatory populations. We quantify the emerging dynamical states in detail and investigate how
+                                                     consistent results are across the different model variants. Then we apply both model types to the
+                                                     specific phenomenon of slow oscillations, which are a prevalent brain rhythm during deep sleep. We
+                                                     investigate the consistency of model predictions when exploring specific mechanistic hypotheses
+                                                     about the effects of both short- and long-range connections and of the antero-posterior structural
+                                                     connectivity gradient on key properties of these oscillations. Overall, our results demonstrate that
+                                                     the coarse-grained dynamics is robust to changes in both model type and network resolution. In
+                                                     some cases, however, model predictions do not generalize. Thus, some care must be taken when
+                                                     interpreting model results.
+
+                                            Keywords whole-brain modeling · network resolution · neural mass modeling · spatiotemporal dynamics · slow
+                                            oscillations · network physiology
+
+                                            1   Introduction
+                                            The human brain is a complex dynamical system. It exhibits a rich variety of spatiotemporally organized activity, where
+                                            different patterns correspond to different functionalities and mechanisms in human cognitive processes. Rasch and
+                                            Born (2013) state that slow oscillations (SOs), that travel as plane waves in an anterior-posterior direction (Massimini
+                                            et al. (2004)), play a crucial role in memory consolidation during non-rapid eye movement (non-REM) sleep, and
+                                            Muller et al. (2016) identified a dominant rotational temporal-parietal-frontal directionality of spindle oscillations that
+                                  Robustness of spatiotemporal whole-brain model dynamics                           P REPRINT
+
+
+
+accompany SOs. Beyond spatiotemporal patterns during sleep, Das et al. (2024) showed that spatial modes that regulate
+plane waves are absent in navigational memory tasks in humans while in verbal memory tasks, they observed different
+clusters of traveling waves depending on the letters that appear in words. Hence, an indicator of the functionality of a
+rhythm is its spatiotemporal organization (see further, Breakspear et al. (2003); Mohan et al. (2024)). While reductionist
+approaches to the temporal dynamics of activity patterns have been widely researched to understand the functionality of
+the more local dynamics in the brain, most recently, neuroscientific research has shown an increasing interest to include
+the identification of the spatial dynamics, especially on a larger scale (see Pessoa (2022); Sporns (2022)).
+In-silico methods can support these investigations by computational modeling of specific brain activity for the evaluation
+of candidate mechanisms. In-silico methods have been applied to surface EEG measurements (Sanchez-Vives et al.
+(2017); Cakan et al. (2022)), and to intracranially recorded activity in humans (Deco et al. (2017); Das et al. (2024);
+Mohan et al. (2024); Muller et al. (2016)), rodents (see Bhattacharya et al. (2022); Liang et al. (2023); Dasilva et al.
+(2021)), and other species (Muller et al. (2014)). Intracranial recording methods measure activity of higher spatial and
+temporal resolutions, hence, in-silico methods require an adjustment to spatially denser models. On a smaller scale (i.e.
+not the whole brain), Capone et al. (2023) showed that different granularity of the recorded space changed the measured
+density of SO wave velocity in mice, where faster waves were neglected on a lower spatial resolution. On a larger scale,
+Popovych et al. (2021) found that the fit of simulated activity to empirical functional connectivity depends both on
+parcellation schemes and spatial resolution, and Proix et al. (2016) shows that the parcellation size affects the dynamics
+of a whole-brain model whereas it was challenging to identify a consistent type of change.
+Key to the emergence of different types of spatiotemporal patterns is the dynamical landscape of a computational
+model that can be decomposed into different regions of interest by the different types of stability a dynamical system
+experiences. Sanchez-Vives et al. (2017) showed that bistability is required for the organization of neocortical SOs both
+in-silico, as well as empirically. Cakan et al. (2022) identified a temporal destabilization of a stable high-activity state
+(up state) by a fatigue mechanism (spike-frequency adaptation) for transitioning into a low-activity state (down state)
+which is interrupted by noise to ultimately alternate at a low frequency (< 2Hz). These SO wavefronts propagate as
+global plane waves. For the formation of more complex patterns, the presence of multi- or metastability is required (see
+Kelso (2012)). These types of stability have been shown to play a crucial role in enabling elaborate spatiotemporal
+organizations in computational models (see, Roberts et al. (2019); Kelso (2012)) with hallmarks of them being present
+in the human brain (see, Freyer et al. (2009, 2011)).
+Different types of instability can also enable the formation of complex local patterns. Townsend and Gong (2018)
+applied methods from the analysis of turbulent flows to determine velocity vector fields over empirically recorded
+brain activity of mice. In those velocity vector fields, outward (sources) or inward (sinks) rotational waves emerge
+from unstable, or stable foci, respectively. Analogously for empirical data of humans, Das et al. (2024) investigated
+the organization of sinks and sources and their role for different memory tasks, showing that in spatial tasks more
+sources, in verbal memory tasks more sinks were detected. Along that line, in the model study of Breakspear et al.
+(2003), the authors emphasized the importance of balance between local short-range versus long-range connections1
+for the transition from independent, locally appearing oscillations to chaotic synchronization to global patterns. Liang
+et al. (2023) supported this observation when investigating the spatiotemporal patterns in awake and anesthetized
+rodents. They not only emphasized the presence of complex local patterns during wakefulness but also showed, with
+computational modeling, that the coherence in low frequency bands is enhanced by stronger long-range connections
+between cortical areas further apart. Information processing has also been shown to be crucially affected by long-range
+connections by Deco et al. (2021), where the authors compared two whole-brain models, one with connections which
+exponentially decayed with distance and one with additional sparse long-range connections that deviated from that rule.
+They investigated complex brain activity that is functionally beneficial for the transmission of information between
+cortical regions and found the information cascade, i.e. the flow of brain activity across different spatial scales, to
+be significantly improved by the presence of these long-range connections. Studies such as the above, where brain
+activity is simulated with networks equipped with empirically informed structure, have been shown to reliably predict
+empirically observed patterns. Cakan et al. (2022), for example, showed that the observed direction of SOs can be
+implicated by the antero-posterior structural connectivity gradient that decreases in connectivity strength from the
+anterior to the posterior direction.
+Given the large number of computational modeling studies which investigate the spatiotemporal organization of neural
+activity on larger scales, we are left with the question in how far results generalize across the different whole-brain
+modeling approaches. Here, we specifically investigate whether, and how strongly, the specific choice of the dynamical
+system and of the spatial resolution changes the observed patterns, and how the connectivity profiles affect the emergent
+dynamics beyond empirically observed variability. We compare the emergent dynamics of whole-brain models based
+on the biophysically realistic adaptive linear-nonlinear cascade (aLN) model (Augustin et al. (2017); Cakan and
+
+   1
+       Breakspear et al. (2003) refer to excitatory couplings between cortical columns as long-range connections.
+
+
+                                                                  2
+                             Robustness of spatiotemporal whole-brain model dynamics                          P REPRINT
+
+
+
+Obermayer (2020); Cakan et al. (2022)) and the phenomenological Wilson-Cowan model (Wilson and Cowan (1972)),
+both equipped with spike-frequency adaptation as a fatigue mechanism. To identify the role of spatial density in the
+models, we show the results for three network parcellations based on the Schaefer local-global parcellation schemes
+(Schaefer et al. (2018)) with 100, 200, and 500 nodes. We find that the coarse-grained dynamical landscape remains
+robust across models and network resolutions. However, results may not generalize when exploring specific dynamical
+states.
+
+
+
+2     Materials and Methods
+
+2.1     Data
+
+2.1.1    Participants
+
+We used diffusion tensor imaging (DTI) data and anatomical T1 scans which were acquired at the Universitätsmedizin
+Greifswald from 27 participants (15 females; age range = 50 - 78 years, mean age = 63.55 years). Prior to participating
+in the study, all participants gave a written informed consent and were subsequently reimbursed for participation.
+The study was approved by the local ethics committee at the Universitätsmedizin Greifswald and was conducted in
+accordance with the Declaration of Helsinki.
+
+
+
+2.1.2    Data acquisition and preprocessing
+
+The acquisition parameters and preprocessing of the DTI and anatomical T1 scans were identical to those described in
+Cakan et al. (2022).
+We defined the anatomical regions according to the Schaefer cortical parcellation scheme (Schaefer et al. (2018)) with
+100, 200, and 500 nodes, respectively. We employed the same probabilistic tractography algorithm with 5,000 randomly
+sampled streamlines per voxel, which yielded one structural connectivity matrix and one fiber length matrix per
+participant. One participant was excluded because the tractography procedure at the highest network resolution failed.
+Following probabilistic tractography, we normalized the resulting structural connectivity matrix for each participant
+by dividing the connection probability Cij from seed region i to target region j by 5,000 (number of streamlines per
+voxel) x n (number of voxels in the seed region i). As probabilistic tractography contains no directional information, we
+estimated Cij by averaging the connection probabilities from i to j and j to i (Cabral et al. (2012)).
+In addition to the individual connectomes, we constructed average structural connectivity matrices C and average fiber
+length matrices D for each parcellation.
+
+
+
+2.2     Whole-brain network models
+
+We used whole-brain networks that consist of N ∈ {100, 200, 500} nodes following the parcellation schemes described
+in Section 2.1.2. Each node represents a brain region and consists of an excitatory (E) and an inhibitory (I) population
+of model neurons. The nodes are connected by edges with the connections strengths given by the connectivity
+matrices C. Each excitatory population is equipped with an activity-dependent adaptation mechanism (A) that acts as a
+hyperpolarising feedback current.
+
+
+
+2.2.1    The aLN model
+
+The adaptive linear-nonlinear (aLN) model is a mean-field neural mass model of a network of coupled adaptive
+exponential integrate-and-fire (AdEx) neurons. It was developed in Augustin et al. (2017) and validated against
+simulations of spiking neural networks in Cakan and Obermayer (2020). We used the neurolib framework introduced in
+Cakan et al. (2021) for the numerical simulations. The dynamics of each node (Cakan et al. (2022)) is summarized by
+
+
+                                                           3
+                              Robustness of spatiotemporal whole-brain model dynamics                            P REPRINT
+
+
+
+the following equations:
+           dµα
+        τα        = −µsyn       ext         ou
+                      α (t) + µα (t) + µα (t) − µα (t),
+             dt
+        µsyn
+         α (t) = JαE s̄αE (t) + JαI s̄αI (t),
+                              2   2
+                     X     2Jαβ  σs,αβ (t)τs,β τm
+          σα2 (t) =                                  2
+                                                  + σext,α
+                          (1 + rαβ (t))τm + τs.β                                                                        (1)
+                    β∈{E,I}
+          ds̄αβ    −1
+                                       
+                = τs,β 1 − s̄αβ(t) (t) · rαβ (t) − s̄αβ (t),
+            dt
+          2
+        dσs,α,β    −1
+                                    2                                        2
+                = τs,β 1 − s̄αβ (t) · ραβ (t) + ραβ (t) − 2τs,β (rαβ (t) + 1) · σs,αβ (t),       for α, β ∈ {E, I},
+          dt
+                                        2
+where s̄αβ represents the mean and σs,αβ     the variance of the fraction of active synapses. Means and variances are
+computed across all neurons within each population. Given µα , the mean membrane current, its standard deviation σα ,
+and a set of nonlinear transfer functions Φγ (µα , σα ), γ ∈ {τ, V, r}, the mean membrane potentials V̄α = ΦV (µα , σα )
+and the population firing rate rα = Φr (µα , σα ) can be calculated from the Fokker-Plank equations as in Richardson
+(2007). The time constant τα is input-dependent with τα = Φτ (µα , σα ). The values for V̄E , τα , and rα are evaluated at
+every time step with precomputed functions such that the effective input rate from population β to α is determined by
+the mean rαβ and the variance ραβ with
+                                                                            N
+                                   cαβ                                     X                      
+                       rαβ (t) =       τs,β Kβ · rβ (t − dα ) + δαβE · Kgl     Cij · rβ (t − Dij )
+                                   Jαβ                                     j=0
+                                                                                                                        (2)
+                                                                          N
+                                 c2αβ 2                                  X
+                                                                              2
+                                                                                                
+                       ραβ (t) =     τs,β Kβ · rβ (t − dα ) + δαβE · Kgl     Cij · rβ (t − Dij ) ,
+                                 Jαβ                                     j=0
+
+The mean adaptation current I¯A is given by
+                                     dI¯A
+                                          = τA−1 a(V̄E (t) − EA ) − I¯A + b · rE (t).
+                                                                       
+                                                                                                                        (3)
+                                      dt
+All parameters not explained above are given and explained in Table 1. Values were chosen as in Cakan et al. (2022)
+with the global coupling strength Kgl fixed to one value for all parcellations, see Table 1. For the determination of units
+for the parameters, see Cakan et al. (2022).
+
+2.2.2   The Wilson-Cowan model
+The Wilson-Cowan model (Wilson and Cowan (1972)) describes the dynamics of the proportions of excitatory (rE (t))
+and inhibitory (rI (t)) neurons firing per unit time (Kilpatrick (2013)). Even though the aLN and Wilson-Cowan models
+represent neuronal firing somewhat differently, we denote both dynamical variables with rk ∈ {E, I} for brevity. The
+framework in Cakan et al. (2021) provides an implementation of the original model equations including a refractory
+term. Since the refractory time only rescales the solutions rE (t), and rI (t) but has no qualitative effect on the dynamics
+(Pinto et al. (1996)), we omitted it for this study. Furthermore, a spike-frequency adaptation current is considered. The
+dynamics in each node is thus determined by the following equations:
+                   drE,j
+                         = − rE,j (t) + FE wEE rE,j (t) − wEI rI,j (t) + µext      ext             ou
+                                                                                                      
+               τE                                                           E + Ij (t) − aj (t) + µE
+                    dt
+                   drI,j
+                         = − rI,j (t) + FI wIE rE,j (t) − wII rI,j (t) + µext + µou
+                                                                                    
+                τI                                                        I      I                                      (4)
+                     dt
+                     daj                          
+                 τa      = − aj (t) + bFA rE,j (t) .
+                      dt
+Ijext (t), the input from other nodes to the excitatory population of node j, is determined by the connectivity matrix
+C = {Cjk } and the delay matrix D = {Djk }, and scaled by a global coupling strength Kgl ∈ R+     0:
+
+                                                            N
+                                                            X
+                                        Ijext (t) = Kgl ·
+                                                                                       
+                                                                  Cjk · rE,k (t − Djk ) .                               (5)
+                                                            k=1
+
+
+                                                                  4
+                                Robustness of spatiotemporal whole-brain model dynamics                           P REPRINT
+
+
+
+To simplify the Equations (4), we consider a mean external input µext
+                                                                   α for α ∈ {E, I} to each node, which is constant
+across nodes. The transfer functions Fα (·), α ∈ {E, I, A}, are chosen to be sigmoidal:
+                                                               1
+                                         Fα (x) =                         .
+                                                  1 + exp −aα (x − να )
+A description for each parameter can be found in Table 2. These parameter values were chosen, because they give
+rise to a dynamical landscape which is similar to other systems that also reliably produce SOs (Cakan and Obermayer
+(2020); Cakan et al. (2022)). The parameter setting required minor adjustments compared to previous studies that used
+the Wilson-Cowan model to simulate various types of spatiotemporal patterns (Levenstein et al. (2019); Papadopoulos
+et al. (2020); Torao-Angosto et al. (2021)).
+
+2.2.3    Noise
+For the investigation of simulated sleep SOs, shown in Figures 11, A18, 12, and A19, noise input to each population
+α ∈ {E, I} in both models was considered. Noise is described by an Ornstein-Uhlenbeck process
+                                                 dµou
+                                                   α (t)    µou
+                                                         = − α + σou ξ(t),
+                                                   dt       τou
+where ξ(t) is sampled from a normal distribution with zero mean and unit variance and τou is the time constant set to 5
+ms for both models. The variance σou , also referred to as noise strength, is different for each model and given in Tables
+1 and 2.
+
+2.3     Analysis
+
+2.3.1    State space analysis
+The analysis of the state space was conducted numerically in the absence of noise. We randomly initialized and
+simulated the model for 101 x 101 parameter values (10,201 simulations in total) for the mean external inputs to the
+E and I populations for a duration of 30 s. The duration was extended to 1 min for the Wilson-Cowan model with
+adaptation, as in some cases rE needed a longer time to return to baseline after the application of the positive stimulus,
+see paragraph below.
+For every point in state space, we applied a negative, but increasing, followed by a positive, but decaying stimulus.
+Examples are shown in Figure 4. Subsequently, we computed the difference between the average rE over the last 2 s of
+simulation and the 2 s prior to the application of the positive stimulus. As in Cakan et al. (2022), the point was classified
+as bistable, if this difference was larger than 10 Hz for the aLN and larger than 0.1 for the Wilson-Cowan model for at
+least one node in the network. These thresholds were chosen because the bistable states displayed differences larger
+than these values across the entire state space in both models for the chosen parameterizations, detailed in Section 2.2.
+Furthermore, we computed the difference between the maximum and minimum value of rE over the last 2 s of
+simulation. We classified each point as oscillating if this value was larger than 10 Hz for the aLN and 0.1 for the
+Wilson-Cowan model for at least one node in the network.
+Figure A1 shows the single-node bifurcation diagrams for both models with and without adaptation obtained using the
+procedures described above.
+
+2.3.2    State classification
+To characterize the temporal dynamics of each point in the oscillatory regions (identified as described in Section 2.3.1),
+we used the procedure summarized in Figure 1. For each point in the slice of state space spanned by the external input
+currents to the excitatory and inhibitory populations, µext          ext
+                                                           E and µI , we simulated network activity in the absence of
+noise over a period of 2 min and for 100 random initializations. The first minute of activity was discarded to account for
+transient effects. Next, for each initialization, we computed recurrence plots with entries:
+                                                        1, if ∥→
+                                                               −
+                                                               x (t) − →
+                                                                       − x (t′ )∥ ≤ ϵ
+                                                      
+                                          R(t, t′ ) =                                                                    (6)
+                                                        0, otherwise,
+where →−
+       x (t), →
+              −x (t′ ) contain the values of r at time points t and t’ across all nodes. ϵ is the recurrence threshold, and
+                                             E
+∥·∥ denotes the Euclidean norm. To account for different amplitudes of rE , which could lead to different results if a
+fixed threshold ϵ were to be used across initializations and parametrizations, we adjusted the recurrence threshold ϵ
+until the recurrence rate (defined as the proportion of non-zero entries in the resulting recurrence plot) of 0.1 (Zbilut
+et al. (2002)) was reached.
+
+
+                                                             5
+                              Robustness of spatiotemporal whole-brain model dynamics                           P REPRINT
+
+
+
+For each parametrization, we clustered the resulting recurrence matrices using the DBSCAN algorithm (Ester et al.
+(1996)). Additionally, we computed the determinism value DET,
+                                                       PN
+                                                         l=lmin lP (l)
+                                             DET = P       N
+                                                                       ,                                     (7)
+                                                           l=1 lP (l)
+
+for each initialization, where P (l) is the fraction of the diagonal lines with length l in the recurrence plot, and lmin
+specifies a minimum diagonal length. The determinism value ranges between 0 and 1.
+We used the number of clusters to classify each state in the limit cycle as either unistable (if the number of clusters was
+equal to 1), multistable (if the number of clusters was ≤30), or metastable (if the number of clusters was >30). The
+thresholds were determined based on the visual inspection of the number of clusters per point in the oscillatory regimes,
+as exemplified in Figure 1 (panel in the fourth column, bottom plot, depicting the number of clusters in the oscillatory
+region of state space). This led to a clear boundary between metastable versus multi- and unistable regions (panel in
+the fourth column, bottom plot of Figure 1, dark red versus multicolored regions) . We further distinguished between
+fast and slow metastable states by the maximum determinism value across the 100 initializations. Fast metastable
+states are characterized by values ≤0.35, with short state durations, while slow metastable states are characterized
+by values >0.35, with longer state durations. We opted for the maximum determinism value as this allowed us to
+identify the presence of at least one slow metastable state across the 100 initializations. The value of 0.35 was chosen
+as the threshold based on the visual inspection of the determinism values computed for all state space locations in the
+oscillatory region. This showed clusters of regimes with determinism values > 0.35, across the state space (see example
+in Figure 1 in the panel in the fourth column, top plot, showing the maximum determinism value in the oscillatory
+region of the state space). Additionally, the choice was confirmed through the visual inspection of the interhemispheric
+cross-correlation (see Section 2.3.4 and examples in Figure 6) for several points in the state space. This allowed us to
+visually confirm the difference in state duration between slow and fast metastable states.
+
+2.3.3   Kuramoto order parameter
+Using the simulation data described in Section 2.3.1, we computed the Kuramoto order parameter R(t),
+                                                                N
+                                                         1 X iθn (t)
+                                                R(t) = |       e     |,                                                (8)
+                                                         N n=1
+where θn (t) denotes the instantaneous phase obtained from the Hilbert transform of the time series rE for each node n,
+and N ∈ {100, 200, 500} denotes the total number of nodes in the network.
+Subsequently, we summarized the results for each model and each network resolution using the mean and the standard
+deviation of R(t). High values of the mean indicate a synchronous solution, whereas low values indicate an asynchronous
+solution. With respect to the standard deviation, high values are indicative of metastability and low values correspond to
+solutions which remain stable over time.
+
+2.3.4   Interhemispheric cross-correlation
+To investigate spatial properties of oscillatory states, we computed the sliding-window time-lagged cross-correlation
+as in Roberts et al. (2019). We calculated the intrahemispheric Kuramoto order parameter for each hemisphere.
+Subsequently, the windowed time-lagged cross-correlation between the two parameters was determined with a window
+of length 100 ms and 90% overlap between consecutive windows, and with a lag l of 50 ms.
+
+2.3.5   Singular value decomposition
+To conduct a singular value decomposition (SVD), we firstly computed the velocity vector fields (cf. Roberts et al.
+(2019)). For each node n, we used the instantaneous Hilbert transform of rE to determine the phase θn , after which we
+calculated the velocity vn using its spatial and temporal derivatives:
+                                                     ∂θn
+                                             vn = −(|     |/||∇θn ||2 )∇θn .                                    (9)
+                                                      ∂t
+The spatial derivative was calculated using the constrained natural element method (Illoul and Lorong (2011)), as
+described in Roberts et al. (2019). This method allows for the calculation of the components of the gradient vector
+without the need for interpolation to and from a 3D grid.
+The SVD was then performed for the velocity vector fields v = {vn }N   n=1 , according to the method used by Liang
+et al. (2023) and introduced in Townsend and Gong (2018). Briefly, for each of the two models and for every network
+
+
+                                                            6
+                             Robustness of spatiotemporal whole-brain model dynamics                          P REPRINT
+
+
+
+resolution, we concatenated the time series v(t) of the velocity vector fields across all four state types identified
+in Section 2.3.2 to obtain a matrix W (time steps and state types in rows and nodes in columns). This matrix was
+decomposed using SVD as:
+                                                   W = U ΣV T ,                                                  (10)
+                                                            T
+where the columns of U represent the left and the rows of V represent the right singular vectors of W . Hence, the
+rows of V T represent the spatial modes of W, the columns of U their time course and the diagonal elements
+                                                                                                       P of Σ the
+eigenvalues σ in descending order of magnitude. The variance explained by each mode is given by σk2 / i σi2 .
+We then projected the spatial modes identified on the concatenated data onto the individual vector velocity fields of
+each parametrization and quantifiedPthe proportion of explained variance by each projected spatial mode m onto the
+                               2          2
+n-th velocity vector field as Mm,n / i Mi,n , where M denotes the projection matrix.
+
+2.3.6    Structural gradient manipulation
+To investigate the effect of the structural gradient on the propagation of SOs, we used the sleep model parametrization
+introduced in Cakan et al. (2022) for the aLN model, with minor adjustments of the adaptation parameters (see Table
+A5). The adjustment was necessary because the parcellations of higher resolution had stronger pairwise connectivity
+strengths compared to the 100 node case, which caused the model to be in the up state for prolonged intervals of time
+due to a shift in state boundaries. The manual increase of the adaptation parameters ensured that the model visually
+displayed SOs (Cakan et al. (2022)). For the Wilson-Cowan model with 100 nodes, we conducted an evolutionary
+optimization in neurolib, with resting-state functional connectivity and functional connectivity dynamics and with power
+spectrum of EEG in sleep stage N3 as optimization objectives (full procedure described in Cakan et al. (2022)). As
+the evolutionary optimization was computationally notfeasible for the networks with 200 and 500 nodes, we manually
+adjusted the adaptation parameters obtained for the network with 100 nodes (see Table A6) in the same manner as
+described above for the aLN model. To compare our results with previous work, compare dynamical landscapes across
+models and resolutions, we used the parameters given in Tables 1, and 2. For the sleep models, we modified a small
+number of parameters to place the model in a regime, where realistic SOs are produced (Tables A5, and A6, for the
+aLN and Wilson-Cowan model respectively).
+The antero-posterior structural connectivity gradient defined as the slope of the linear regression between the node
+degree and its coordinate along the antero-posterior axis of the brain (Cakan et al. (2022)) is shown in Figure A17 for
+the three parcellations.
+We manipulated the strength of the gradient by defining p - the maximum percentage by which the connection strengths
+of the most anterior node were modified - and creating an equally spaced set of N values in [-p, +p], where N is the
+number of nodes in the network. We rank-ordered all nodes according to their coordinate along the antero-posterior
+axis and changed the connection strengths of each node by the corresponding value from this interval. We modified the
+connection strengths based on percentages rather than absolute values to ensure that no negative values were introduced
+in the structural connectivity matrix.
+Additionally, we constructed control models with gradients similar to the networks constructed before in which we
+preserved the total sum of connection strengths, but destroyed the relationship between the connection strength and the
+corresponding fiber length. This was achieved by permuting the entries of the structural connectivity matrix until the
+value of the antero-posterior gradient fell within a predefined range, while maintaining the fiber length matrix intact.
+To determine the direction of propagation of SO up/down state transitions along the antero-posterior axis, we first
+computed the proportion of regions in the down state as a function of time. The down states were identified by
+thresholding the excitatory rE (t) ≤ θ · max(rE (t)), with θ = 0.01 for the aLN and θ = 0.2 for the Wilson-Cowan
+model at every time step. Subsequently, we applied a 0.5 - 2 Hz bandpass filter to the resulting time series, computed
+the Hilbert transform, and identified the transition phase of a node as the phase of the Hilbert transform at the time
+point at which the node transitioned from the up (down) to the down (up) state. Phases were averaged across all
+transitions of each node. We then computed the Pearson correlation coefficient between the average transition phase
+and the node coordinate along the antero-posterior axis. Positive (negative) values of the correlation between the up-to-
+down transition phases and the node coordinates indicate a preferential antero-posterior (postero-anterior) direction of
+propagation, and vice-versa for the down-to-up transitions.
+
+2.4     Manipulation of short- vs. long-range connection strengths
+
+We collected all pairs (n, ñ), n, ñ = 1, ..., N, N ∈ {100, 200, 500}, of indices of nodes connected by short-range
+connections in set SN , and of nodes connected by long-range connections in set LN (see Figure 2,panel on the top left).
+A connection was marked as short range, if the corresponding element Dnñ of the delay matrix D was smaller than
+50 mm.
+
+
+                                                           7
+                              Robustness of spatiotemporal whole-brain model dynamics                             P REPRINT
+
+
+
+We identified the subjects with the weakest short- and the strongest long-range connections
+                                                           X       subject 
+                                           minsubject            Cnñ        ,
+                                                          (n,ñ)∈SN
+                                                             X         subject 
+                                             maxsubject               Cnñ       ,
+                                                          (n,ñ)∈LN
+                                                      emp          emp
+and retained the corresponding connectivity matrices Cweak−long , Cstrong−long (see Figure 2, panel in the middle of
+the top row).
+To artificially manipulate two matrices beyond the empirically observed variability (see Figure 2, panel in the top right),
+                                        |SN |
+we used the factors α = 0.1 and γ = α |L  N|
+                                              , where | · | denotes the cardinality, to manipulate the connectivity strengths
+into a biophysically exaggerated disproportion by
+                                         art
+                                        Cstrong−long = C − αCshort + γClong
+                                          art
+                                         Cweak−long = C + αCshort − γClong .
+Cshort (Clong ) denotes the connectivity matrix between nodes connected by short-range (long-range) connections and
+with the strength for nodes connected by long-range (short-range) connections set to zero. For the non-zero entries, we
+used the corresponding elements of the averaged connectivity matrix Cnñ , i.e.,
+                                                    
+                                                      Cnñ , for (n, ñ) ∈ SN
+                                         Cshort =
+                                                      0,       otherwise,
+                                                    
+                                                      Cnñ , for (n, ñ) ∈ LN
+                                          Clong =
+                                                      0,      otherwise.
+                                                                                          PN               PN         art
+Thus we ensured that the total sum of connections strengths remained constant, i.e. n,ñ=1 Cnñ = n,ñ=1 Cnñ             .
+Figure 2 (plots on the bottom right) shows the correlations between fiber-length and -strength for the empirical and for
+the manipulated connectivity matrices. There was no qualitative change. We also ensured that there was no qualitative
+change in the distribution of node degrees (not shown).
+                                                                                                           art
+Furthermore, we individually inspected the total sum over the short- and long-range connections of Cstrong−long         to
+confirm that long-range connectioned were strengthened, that short-range connections were weakened, and that ther
+                                                       PN             art
+                                                                                        PN             art
+difference between the two sums was enhanced (i.e.        (n,ñ)∈SN Cnñ,strong−long −     (n,ñ)∈LN Cnñ,strong−long >
+ PN            emp               PN          emp
+    (n,ñ)∈SN Cnñ,strong−long −   n,ñ∈LN Cnñ,strong−long , where | · | denotes the absolute value). A similar construc-
+                          art
+tion was conducted for Cweak−long .
+
+2.4.1   Correlation coefficient between spatial modes
+We conducted numerical simulations for four locations in the state space covering unistability, multistability, fast
+and slow metastable patterns (see Figure A13). Simulations wer performed for both models with and without
+                                                                                                emp             emp
+adaptation, for the averaged connectivity matrix C, for the four connectivity matrices Cstrong−long         , Cweak−long   ,
+  art                art
+Cstrong−long , and Cweak−long , and for all resolutions. Then, we computed the velocity vector fields for each resultant
+activity, concatenated them per setting, and applied SVD as described in Section 2.3.5. This resulted in five matrices
+     emp           emp           art                  art
+V, Vstrong−long , Vweak−long , Vstrong−long  , and Vweak−long  of the spatial modes per setting. To identify the similarity
+between spatial modes, we computed the Person correlation coefficient between each row of V T and each row of the
+            emp           emp            art               art
+matrices Vstrong−long , Vweak−long   , Vstrong−long , and Vweak−long :
+                        type
+              Corr(V, Vstrength ) for type ∈ {emp, art}, strength ∈ {strong − long, weak − long}.
+This was done for each selected state, with and without adaptation, for the aLN and the Wilson-Cowan models, and for
+all three parcellations. The resulting correlation coefficient matrices have values ranging between −1 and 1. Values
+close to zero indicate little to no similarity, while values closer to 1, −1 indicate high similarity.
+
+2.4.2   Coherence values
+As in Section 2.3.6, we conducted numerical simulations of SOs for the aLN (parameters, see Table A5) and the
+Wilson-Cowan model (parameters, see Table A6) using the average connectivity matrix C, as well as the modified
+          type
+matrices Cstrength for type ∈ {emp, art}, strength ∈ {strong − long, weak − long}.
+
+
+                                                             8
+                              Robustness of spatiotemporal whole-brain model dynamics                           P REPRINT
+
+
+
+For each numerical simulation, we computed, analogously to Liang et al. (2023), the magnitude-squared coherence
+                                                  Pnñ (f )2
+                                 cohnñ (f ) =                   , with cohnñ (f ) ∈ [0, 1],
+                                                 Pn (f )Pñ (f )
+where Pn (f ) and Pñ (f ) are the power spectra over temporal frequencies of the firing rates of the excitatory population
+for the nodes n and ñ and Pnñ (f ) is the corresponding cross-power spectrum. A value close to one indicates high
+correspondence between nodes (i.e., the nodes are highly correlated) for frequency f and vice versa for values close to
+zero.
+We separately consider the coherence between nodes connected with a short range (i.e. all pairs (n, ñ) of nodes from
+SN ) versus nodes connected with a long range (i.e. all pairs (n, ñ) of nodes from LN ) connection.
+
+3     Results
+3.1   State space
+
+Figures 3 and 5 show the results of the state space analysis for the whole-brain aLN and Wilson-Cowan models. In line
+with previous results for the aLN model (Cakan et al. (2022)), we identify several dynamical regimes: a down-state,
+where all network nodes display no or low activity; an up-state, characterized by constant high firing rate; an oscillatory
+region LCEI , where the activity oscillates between a minimum and a maximum value with frequencies >10 Hz (see
+dominant frequencies in Figure A3 for the aLN and Figure A4 for the Wilson-Cowan model); a bistable regime between
+up- and down-states; and a slow oscillatory region LCEA with frequencies <2 Hz (see bottom panels in Figure A3
+for the aLN and Figure A4 for the Wilson-Cowan model) in the case with adaptation. Similar to Cakan et al. (2022),
+we observe a very small bistable region for the aLN model where an up-state and the fast LCEI coexist. We also find
+a small bistable region where an up-state and the slow LCEA coexist. For both whole-brain models, these states are
+"inherited" from the single-node models (shown in Figure A1), although only very few points displaying bistability
+between oscillatory and up states can be identified here (purple arrow in Figure A1).
+Our results show that, for both models, the state space remains generally robust to changes in network resolution, but
+there are some differences between the aLN and the Wilson-Cowan implementations. For the aLN model, we observe a
+region of bistability between the down-state and the LCEI in the case without adaptation, respectively a heterogeneous
+oscillation (different oscillation frequencies either within the same node or across nodes) in the case with adaptation for
+the network model with 100 nodes (see Figure 4 for an example time series of a nested slow-fast oscillation). Examining
+the top row in Figure 3 reveals that the region of bistability between the down state and the LCEI in the case of no
+adaptation expands as the number of nodes in the network increases. Inspecting the average dominant frequency, as well
+as the standard deviation of the dominant frequency of each node (bottom panels in Figures A3 and A5) confirms that,
+for the case with adaptation, this region corresponds to an expanding regime of heterogeneous slow-fast oscillations
+across nodes.
+For the Wilson-Cowan model, we also find a region of heterogeneous oscillations in the case with adaptation (example
+time series in Figure A2), which expands with increasing network resolution (bottom row in Figures A4 and A6).
+However, in contrast to the aLN model, this region emerges at the border between the LCEI and LCEA and no regime
+of bistability between the down state and the LCEI appears.
+
+3.2   State classification
+
+The analysis methods presented in Section 2.3.2 allowed us to identify four types of states (unistable, multistable, fast
+metastable, and slow metastable) across the LCEI and LCEA regions. Figure 6 shows examples of recurrence plots and
+interhemispheric cross-correlograms for a multistable, a fast metastable, and a slow metastable state. The recurrence
+plots allow us to identify the temporal structure of these states, with the multistable state displaying a clear repetitive
+pattern over the 20 s of activity shown here (Figure 6a), the fast metastable state displaying rapid state switches, as
+evidenced by the noisy recurrence plot in Figure 6b, and the slow metastable state showing states which persist for
+a longer duration, as demonstrated by the appearance of more defined clusters (Figure 6c). The cross-correlograms
+additionally allow us to highlight the spatiotemporal properties of these states. As mentioned in Roberts et al. (2019),
+if short incoherent waves dominate, we would expect the interhemispheric coherence to be close to zero across all
+explored time lags and time points, whereas waves with longer wavelengths would display specific signatures composed
+of alternating high and low correlation values as a function of the time lag that would persist for a longer time. In the
+example highlighted here, the multistable state shows repeating spatiotemporal patterns for both initializations. In
+the fast and slow metastable cases (r.h.s. in Figure 6b and c), we observe signatures of wave patterns which remain
+stable for a few hundred miliseconds (in the fast metastable case) up to a few seconds (in the slow metastable case),
+
+
+                                                              9
+                              Robustness of spatiotemporal whole-brain model dynamics                             P REPRINT
+
+
+
+before rapidly desynchronizing for brief periods of time and transitioning into other wave patterns. To further highlight
+the difference in state durations between the fast and the slow metastable case, we computed the distribution of state
+durations identified for the fast and slow metastable points shown in Figure 6 (Figure A9), where we observe longer
+state durations (up to a few seconds) in the slow compared to the fast metastable case.
+Results of the state classification for the entire slice of state space are summarized in Figures 7 (aLN model) and 8
+(Wilson-Cowan model). Qualitatively, the results are similar across models and resolutions, with all four regimes being
+present in all cases, and with the fast metastable regime occupying the largest portion of the LCEI , while being absent
+from the LCEA region (which is dominated by unistable patterns). However, some quantitative differences are apparent.
+For the aLN model without adaptation, both the multistable and slow metastable regimes emerge on the right side of the
+LCEI region close to the up state. For the Wilson-Cowan model, however, they appear on the left side of this region
+close to the down state.
+As metastability is usually identified based on the mean and the standard deviation (SD) of the Kuramoto order parameter
+(metastability corresponds to a high standard deviation of the Kuramoto order parameter), we report these results for
+completeness in Figures A7 and A8. The results show high synchrony (mean Kuramoto ∼1) and low metastability
+(SD of Kuramoto ≤0.1) in the areas identified above as uni/multistable, lower synchrony (mean ∼0.4 - 0.7) and higher
+metastability (SD ∼0.1 - 0.2) for the corresponding slow metastable points, and lowest values for the corresponding
+fast metastable points (mean and SD <0.1). Given that the Kuramoto order parameter is only sensitive to global states
+and misses local synchrony and that the fast metastable dynamics are also more local, these results are not surprising.
+
+3.3   Spatial modes of activity
+
+Our analysis of the spatial modes of activity reveals that, in general, the modes which explain a larger proportion of
+variance of the activity (percentages given in Tables A1 and A2) in the concatenated data (obtained by concatenating the
+velocity vector fields computed for each point in the oscillatory regions, with time steps in rows and nodes in columns)
+consist of large-scale waves traveling mainly along the horizontal and dorso-ventral axes. The results are summarized
+in Figures 9a,b for the aLN model and in Figures A12a,b in the appendix for the Wilson-Cowan model. For example,
+modes 1 and 4 in the aLN model (Figure 9a) and modes 2 and 4 in the Wilson-Cowan model (Figure A12a) exemplify
+large-scale waves with coherent horizontal and dorso-ventral directions of propagation encompassing approximately
+three quarters of the brain. Another example of a large-scale wave pattern is represented by the hemispheric-segregated
+pattern present in the Wilson-Cowan model (mode 3 in Figure A12a) and in the aLN model (mode 9 in Figure 9).
+Interestingly, these modes explain similar proportions of variance (1.78% in the aLN vs. 1.44% in the Wilson-Cowan
+model). In contrast, modes explaining less variance within each model and each resolution usually capture more
+complex patterns of propagation. For example, in both models, mode 13 (Figures 9a and A12b) displays smaller
+clusters of arrows with the same color and direction (i.e. same horizontal and dorso-ventral directions), as well as more
+neighboring arrows with different colors and directions compared to the large-scale modes indicated above. While we
+identify similar modes in both models (see above), the overall proportion of variance explained by the 15 first modes
+differs (30.28% for the aLN vs. 9.19% for the Wilson-Cowan model with adaptation). There is also a tendency towards
+decreased explained variance per mode with increasing model resolution, as well as differences in the percentages of
+variance explained by the dominant modes between the models with and without adaptation (Tables A1 and A2).
+To verify whether the modes obtained from the decomposition of the concatenated data can be reliably identified in the
+individual velocity vector fields computed for each parametrization in the oscillatory regions LCEI and LCEA , we
+projected these modes and investigated the explained proportion of variance for the state types identified in Section 3.2
+(i.e. fast metastable, slow metastable, uni/multistable). Figures 9c and A12c show that, in general, the most dominant
+five modes, representing global propagation patterns, explain the largest proportion of variance in individual states
+regardless of state type. Nevertheless, the largest proportion of variance is explained in the stable states (>25% explained
+by the first five modes), followed by the slow (> 10%), and the fast metastable states (< 10%). We also observe that the
+first dominant mode identified in the concatenated data does not necessarily capture the largest proportion of variance
+in individual states (Figure 9c in contrast with Figure A12c), suggesting that while this pattern of activity is consistently
+present across states, it may not be dominant in all of them.
+As a further example, we examined the spatial modes of activity in the LCEA region, obtained from the data concatenated
+over all points identified as unistable and with an average dominant frequency ≤2 Hz, for the aLN and Wilson-Cowan
+models with 100 nodes and adaptation. Figures A10 and A11 confirm the presence of large-scale activity patterns
+traveling along the horizontal and dorso-ventral directions similar to the ones described above. For example, mode 1 in
+the aLN model and mode 7 in the Wilson-Cowan model are similar to modes 9, respectively 3, described above, whereas
+modes 2, 3, and 4 in both models are similar to modes 1 and 4, respectively 2 and 4, described above. Furthermore,
+we also observe that most spatial modes contain a small component propagating along the antero-posterior direction
+(for example, the arrows pointing anteriorly/posteriorly in the first two modes of both models, which is in agreement
+
+
+                                                             10
+                              Robustness of spatiotemporal whole-brain model dynamics                            P REPRINT
+
+
+
+with previous reports regarding the antero-posterior direction of SO propagation (Cakan et al. (2022); Massimini et al.
+(2004)). In both cases, the modes obtained from the decomposition of the unistable patterns in the LCEA region of slow
+oscillations explain a significantly higher proportion of variance compared to those obtained from the decomposition
+of the data concatenated over all state types in both oscillatory regions: 73.52% vs. 30.28% for the aLN and 58.99%
+vs. 9.19% for the Wilson-Cowan model, with the first mode explaining 26.71% of the variance (aLN) and 24.33%
+(Wilson-Cowan) vs. 9.31% and 3.72%.
+
+3.4   Similarity of spatial modes of imbalanced short- versus long-range connection strengths
+
+To identify the impact of the balance between short- and long-range connection strength, we compared the 10%-
+most dominant spatial modes (i.e. the spatial modes that explain the largest amount of variance in the spatial
+organization of activity patterns) of the activity induced by empirically informed and artificially manipulated con-
+nectivity matrices. We simulated both models for parameters corresponding to all four types of stability per
+resolution (see Figure A13 for the corresponding locations in state space). We used the average connectivity
+matrix C whose resulting spatial modes are collected in the columns of V , and compared results obtained to
+the results for the empirical and the artificially enhanced matrices with weaker vs. stronger long-range con-
+              emp           art           emp             art
+nections: Cweak−long     , Cweak−long , Cstrong−long  , Cstrong−long , whose resulting spatial modes are collected in
+  emp           art           emp           art
+Vweak−long , Vweak−long , Vstrong−long , Vstrong−long , respectively. Then we estimated the distribution of the values of
+                                         type
+the correlation coefficients Corr(V, Vstrength  ) for type ∈ {emp, art}, strength ∈ {weak − long, strong − long}
+where we normalized each distribution by its’ maximum value to ensure the option of visual comparability. Results are
+shown in Figure 10 for the aLN, and in Figure A16 for the Wilson-Cowan model. Means and standard deviations of the
+distributions are given in Table A3 for the aLN and in in Table A4 for the Wilson-Cowan model. Additionally, we show
+the resulting correlation coefficient matrices for all settings without adaptation in Figures A14 (aLN model) and A15
+(Wilson-Cowan model).
+All distributions are centered around a value of zero. However, we notice that the distributions in Figure 10 for the
+fast metastable states appear visually the broadest (indicating higher similarity between spatial modes). The computed
+standard deviations (Table A3) agree with this observation except for the cases of unistability with adaptation at
+resolutions N ∈ {100, 200}. This is because the activity for those settings converges to a spatially homogeneous
+                                                                     type                                type
+unistable state for all matrices, having a diagonal of Corr(V, Vstrength     )nn ≈ 1, and Corr(V, Vstrength     )nñ ≈ 0,
+for n ̸= ñ. Therefore, the density is distributed around values close to zero and values close to one, broadening
+                                                                       emp
+the width. Note, that the correlation coefficients between V and Vstrong−long      in the unistable state with adaptation
+are all close to zero, causing a peaky distribution for that case (see Figure 10, second column, fourth row, dashed
+                                                       emp
+dark blue line). This is a result of the model with Cstrong−long   converging to not only spatially but also temporally
+homogeneous, i.e., constant, activity. Furthermore, we observe overall lower absolute values for the correlation
+coefficients between spatial modes, which indicates a loss of similarity in the spatial organization of the patterns
+induced by the average connectivity matrix compared to the activity caused by the connectivity matrices with weaker,
+and stronger long-range connections. The Wilson-Cowan model does not align with the highest similarity between
+spatial modes in fast metastable states but rather shows the broadest width in unistable states (see Figure A16, and
+Table A4). It agrees with the same findings that overall the similarity is comparably low for all settings, but lower on
+average than for the aLN model (avg(σ)aLN,100 = 0.040750, avg(σ)aLN,200 = 0.018125, avg(σ)aLN,500 = 0.005,
+avg(σ)wc,100 = 0.027375, avg(σ)wc,200 = 0.011250, avg(σ)wc,500 = 0.004875).
+The above observations lead to three main conclusions. Firstly, we see a higher similarity of spatial organization in states
+of stability that promote more local, complex activity patterns rather than the global, synchronized patterns that appear
+in unistable or multistable states. Exceptions occur if a state of spatially homogeneous activity is reached. Secondly,
+while the states showing the broadest widths differ between both models (multistable states for the Wilson-Cowan
+model vs. unistable or fast metastable states for the aLN model), the overall low similarity in the spatial organization
+between activity patterns caused by the average connectivity matrix vs. by the connectivity matrices with weaker and
+stronger long-range connections generalizes across all resolutions, both model types and all settings. Finally, we see that
+the results of the comparison between the spatial organization of activity patterns induced by the different connectivity
+matrices are predominantly the same for the artificial versus empirical connectivity matrices for both models and all
+resolutions.
+
+3.5   Effect of the antero-posterior gradient of structural connectivity strengths on sleep SO propagation
+
+The results presented above show that for both the aLN and Wilson-Cowan models dynamical features remain generally
+robust to changes in the parcellation. Also, the phenomenological Wilson-Cowan model is capable of producing
+qualitatively similarly complex spatiotemporal dynamics as the biophysically realistic aLN model. In the current
+
+
+                                                            11
+                              Robustness of spatiotemporal whole-brain model dynamics                          P REPRINT
+
+
+
+section, we explore whether this remains to be the case when both models are applied to the phenomenon of sleep
+SO propagation (Cakan et al. (2022)). In particular, we examine whether the relation between the antero-posterior
+structural connectivity gradient and the propagation of sleep SOs as waves of silence from anterior to posterior brain
+areas remains present in both models and for all parcellations. Furthermore, we test whether changes in the strength of
+this connectivity gradient have a causal effect on the direction of propagation of SOs.
+Figure 11 shows that the relation reported in Cakan et al. (2022) is present in both the aLN and Wilson-Cowan models
+for all three network resolutions. Furthermore, decreasing the gradient strength along the antero-posterior axis causes
+a reversal of the direction of SO propagation, with down states being initiated preferentially in posterior areas and
+traveling towards the front of the brain. Increasing the gradient strength increases this preference to propagate from
+anterior to posterior areas. In the Wilson-Cowan model, however, the relation between node degree and the transition
+phase decreases with the increase in resolution, as the magnitude of the correlation coefficients decreases at higher
+resolutions. This could potentially be caused by the fact that in the Wilson-Cowan model the adaptation strength b and
+adaptation time constant τA had to be drastically increased at higher resolutions in order to observe SOs.
+To ensure that the results presented in Figure 11 are not due to changes in the underlying network topology induced by
+the specific gradient manipulation method, we employ a control model in which we preserve the total sum of connection
+strengths in the network and destroy the relation between fiber length and connection strength (cf. Section 2.3.6). Figure
+A18 shows that the relationship described above remains present in the aLN model at all three network resolutions.
+In the Wilson-Cowan model, destroying the relation between the distance and connectivity strength destroys and
+even reverts the propagation direction of SOs, suggesting that the model is more sensitive to changes in the particular
+structure of the connectome.
+
+
+
+
+3.6   Stronger long-range connections lead to an increase in coherence as observed empirically
+
+
+Motivated by the findings that show that rare long-range connections play an effective role in the cascade of information
+processing (see Deco et al. (2021)) and that stronger long-range connections correlate with enhanced coherence between
+cortical regions over lower frequency ranges (Liang et al. (2023)), we investigated how changes in the strength of long-
+versus short-range connections influence waves of SOs.
+Since long-range connections are assumed to play a crucial role in the propagation of global patterns, we assume that the
+stronger the long-range connections, the higher the coherence over lower frequency values induced by slow oscillations.
+We therefore compared results obtained using the matrices Cstrong−long , Cweak−long , and C.
+Figures 12 and A19 show the average power spectra and coherence values for the aLN and the Wilson-Cowan models
+for three different parcellations. In Figure 12a we see that for all parcellations the dominant temporal frequencies
+are < 1Hz. Small differences between the power spectra for the different parcellations caused by the three different
+connectivity matrices Cstrong−long , Cweak−long , and C are more pronounced for the empirical matrices, which is
+confirmed by values for the dominant temporal frequency, given in Table A7. Furthermore, the power for lower
+frequencies decreases with increasing resolution, in particular for the stronger long-range connections (blue line), see
+Table A7. The decrease in power is less pronounced in the artificial compared to the empirical case. We argue that
+this is caused by the matrix C being an average, hence the connection strengths are more evenly distributed rather
+than promoting sparse connectivity profiles, unlike for the empirical matrices C emp . According to our method of
+manipulation, the connection strengths in the artificially manipulated matrices are also more evenly distributed than for
+the empirical matrices.
+In the artificial case, we see that the change of coherence over frequency for the aLN (see Figure 12b) and for the
+Wilson-Cowan model (see Figure A19b) agrees with our expectation. The coherence over low frequencies is higher
+for SOs induced by Cstrong−long (blue lines) than Cweak−long (green lines), both between nodes connected with
+short-range (solid lines) and long-range (dotted lines) connections. This is also observable in the corresponding
+coherence values given in Table 3, where we can see that, in the artificial case, the coherence values are higher at
+f = 0.5 Hz for the SOs induced by Cstrong−long compared to Cweak−long . With an increase in resolution, we see an
+alignment of coherence values over the entire frequency range between nodes connected with short- and long-range
+connections due to an overall decrease of coherence values between nodes connected but short-range connections (see
+Figures 12b, and A19b).
+The results of the Wilson-Cowan model agree mostly with the results of the aLN, however, the dominant temporal
+frequency varies more strongly depending on the parcellation and the used connectivity matrix, see Table A8. The
+coherence values are consistently larger for waves of SOs induced by Cstrong−long in the artificial case, see Table A9.
+
+
+                                                           12
+                              Robustness of spatiotemporal whole-brain model dynamics                           P REPRINT
+
+
+
+We observe the expected effect in neither model for the empirical matrices. We argue that this is due to the fitting
+process applied to the averaged matrix C whose distribution of connection strengths is more similar to the artificially
+manipulated connectivity matrices than to the empirical matrices.
+Overall, models and resolutions agree with the expected increase in coherence values over low frequencies for the
+artificially manipulated matrices, but do not display the same effect for the empirically selected matrices.
+
+
+4   Discussion
+
+In this work, we investigated whether we can employ generalized whole-brain models for the study of complex
+brain dynamics or whether the latter are significantly influenced by the choice details of the dynamical system and
+the parcellation. To that end, we compared a biophysically realistic model (aLN) and a phenomenological model
+(Wilson-Cowan) with similar state spaces and bifurcations at three network resolutions (the Schaefer parcellation
+scheme with 100, 200, 500 nodes). Overall, we found that the results remain relatively robust to changes in both
+model and parcellation, but dynamics at detail appear sensitive to these changes, indicating the need for careful model
+adjustment depending on the application.
+We started our analysis with the exploration of the coarse-grained structure of the dynamical landscape. We found
+that both the aLN and the Wilson-Cowan model display a down state of no or low activity, an up state of constant
+high activity, a fast limit cycle, where the activity oscillates between low and high values with frequencies > 10 Hz, a
+bistable regime, where the activity remains either in a stable up or a stable down state depending on the initial condition
+in the case with and without adaptation, and a slow limit cycle, where the activity oscillates at low frequencies (< 2 Hz)
+in the case of finite adaptation. The state boundaries remained relatively robust to changes in network resolution and
+are in agreement with those previously reported in the literature (Cakan et al. (2022)). Nevertheless, we reported the
+emergence of a region of bistability between the down state and the LCEI in the case without adaptation in the aLN
+model, respectively of heterogeneous oscillations in the case with adaptation for both models. This is not present for a
+single node and it enlarged with increasing network resolution. We hypothesize that this is due to the fact that in the
+parcellations with higher resolutions we observe stronger local connection strengths (Roberts et al. (2019)), which in
+turn favor the emergence of more complex dynamics, such as heterogeneous oscillations.
+In a second step, we classified the oscillatory network states. We identified four types of states, namely unistable,
+multistable, slow, and fast metastable states, in both models and at all resolutions, and observed quantitative changes
+with respect to the distribution of each type of state in the oscillatory regimes both across models and across resolutions
+(Figures 7 and 8). Our detailled analysis of the types of oscillatory network states revealed that complex wave dynamics
+emerge even at low network resolutions and in relatively simple phenomenological models. Furthermore, the detailed
+mapping of the oscillatory regimes presented here can provide useful information for further studies aiming to explore
+induced state transitions, such as, for example, through the application of electrical stimulation (for example, see
+Ladenbauer et al. (2017, 2023)).
+We explored large-scale patterns through the spatial modes obtained from singular value decomposition. We found that
+results are qualitatively similar across models and resolutions, but that specific patterns emerge depending on either
+model or resolution. Given that recent work (Das et al. (2024); Mohan et al. (2024)) investigating the relation between
+spatiotemporal wave patterns and cognitive function has shown an association between specific patterns and specific
+behavioral processes, future modeling work in this direction should take into account the variability introduced by
+model and parcellation when exploring such phenomena.
+We showed that changes in the balance of connectivity strengths between short- and long-range connections alter the
+spatial organization in states exhibiting global patterns (multi- and unistable) as well as complex patterns (fast and slow
+metastable), a result which stays predominantly consistent across models, resolutions, parametrizations, and states (see
+Figures 10 and A16). Artificially manipulating the long- versus short-range connection strengths beyond empirically
+observed variability had no significantly different effect to the loss of similarity between the spatial organization of
+activity patterns induced by the artificially manipulated and the empirical connectivity matrices. Furthermore, we
+noticed that the strongest similarity in the spatial modes collected from the activity patterns caused by the different
+connectivity matrices was observable in the fast and slow metastable states in which complex local activity patterns
+emerge (see Kelso (2012)).
+Furthermore, in the specific case of sleep SOs, we have shown that the aLN model is robust to changes in network
+resolution and even in parcellation scheme (as we used the original parametrization introduced in Cakan et al. (2022)
+with only minimal parameter adjustments). In this case, we were also able to demonstrate that changes in the antero-
+posterior structural connectivity gradient have a causal effect on the propagation of SOs. In contrast, the Wilson-Cowan
+model required optimization for the Schaefer parcellation scheme with 100 nodes and an additional adjustment of its
+
+
+                                                            13
+                              Robustness of spatiotemporal whole-brain model dynamics                           P REPRINT
+
+
+
+parameters for higher resolutions. Here, manipulating the antero-posterior gradient of node degrees showed a robust
+causal effect only in the case where the model parameters were explicitly fitted to data rather than adjusted to support
+SO activity. The model also displayed high sensitivity to the changes in of the relationship between connection strength
+and distance.
+For understanding the impact of changes in the strength of short- vs. long-range connections on SOs, we investigated
+power spectra and coherence values (see Figures 12, and A19). For the case of artificially manipulated connectivity
+matrices we found the coherence in lower frequency bands (< 2 Hz) to be higher in value for matrices with stronger
+                                                                                                             art
+long-range connections, than for the averaged C matrix that was used for the fitting process as well as for Cweak−long .
+This agrees with the results of Liang et al. (2023) who also observed an increase in coherence between cortical regions
+in mice connected by stronger long-range connections. Our results are consistent across models and resolutions. For the
+empirical connectivity matrices C emp we found the opposite effect (see Figures 12b, A19b). This could be due to the
+fitting process being conducted with the averaged C matrix. Since the artificially manipulated connectivity profiles
+are based on the averaged C matrix, they are more similar in the distribution of the connection strengths, unlike the
+empirical connectivity matrices that are characterised by rather sparse connectivity profiles.
+We thus conclude that the deployment of whole-brain models for the investigation of the coarse-grained dynamics
+provides results which are fairly independent of model type and resolution. All model variants enable the same
+dynamical landscape with qualitatively similar changes in dynamical features with resolution and with the manipulation
+of the connectivity profiles. In the specific application to sleep SOs, both the phenomenological and the biophysically
+realistic model show similar changes in the temporal dynamics. While the antero-posterior directionality of simulated
+SOs by the aLN corresponds to the expected changes induced by the manipulation of the underlying antero-posterior
+structural connectivity gradient, the phenomenological Wilson-Cowan model requires a much more careful handling to
+demonstrate the empirically observed directionality. In total, this indicates that both model types are fairly robust to
+the simulation of empirically realistic temporal features, but not so for propagation dynamics. Nonetheless, for the
+investigation of quantitative features, detailed dynamics or specific application cases, the phenomenological Wilson-
+Cowan model requires a much more careful handling and finer tuning, while the biophysically realistic aLN model
+allows the investigation of specific features in a more reliable way.
+
+Conflict of Interest Statement
+The authors declare that the research was conducted in the absence of any commercial or financial relationships that
+could be construed as a potential conflict of interest.
+
+Author Contributions
+CD - Conceptualization, Formal analysis, Methodology, Visualization, Writing - original draft, Writing - review &
+editing; RS - Conceptualization, Formal analysis, Methodology, Visualization, Writing - original draft, Writing -review
+& editing; AF - Experiments & Data Collection, Writing - review & editing; KO - Funding acquisition, Supervision,
+Writing - review & editing.
+
+Funding
+The author(s) declare that financial support was received for the research, authorship, and/or publication of this article.
+This work was funded by the Deutsche Forschungsgemeinschaft (DFG, German Research Foundation) Project number
+327654276, SFB1315, project number B03 (KO and AF) and project grants to AF: Research Unit 5429/1 (467143400),
+FL 379/34-1, FL 379/35-1.
+
+Data Availability Statement
+All simulations for the aLN model were conducted using the neurolib framework (Cakan et al. (2021)), available
+at https://github.com/neurolib-dev/neurolib.git. All simulations for the Wilson-Cowan model were conducted using
+an expanded version of the neurolib framework, available in a different github-repository https://github.com/ronja-
+roevardotter/WC-model_withAdaptation.git. This repository also contains the connectome matrices C and D for all
+three parcellations.
+
+
+
+
+                                                           14
+                              Robustness of spatiotemporal whole-brain model dynamics                         P REPRINT
+
+
+
+Figures
+
+
+
+
+Figure 1: Summary of the procedure used to classify network states into unistable, multistable, fast metastable, and
+slow metastable. For each model (aLN or Wilson-Cowan) and each parcellation (100, 200, or 500 nodes) we conducted
+100 randomly initialized simulations of 2 minutes duration for each point in the slice of parameter space spanned by
+varying the external excitatory (µext                     ext
+                                   E ) and inhibitory (µI ) input currents. We discarded the first minute of activity to
+eliminate transient effects and used the last minute of network activity to compute the recurrence plots. Based on these,
+we computed the maximum determinism value across all 100 seeds, and we clustered the recurrence plots using the
+DBSCAN algorithm. Combining the information from these two sources, we classified each point into one of the four
+states mentioned above.
+
+
+
+
+Figure 2: Summary of the procedure used to manipulate and investigate the effect of weaker versus stronger long-range
+connection strengths on the network dynamics. For an explanation, see text.
+
+
+                                                           15
+                              Robustness of spatiotemporal whole-brain model dynamics                          P REPRINT
+
+
+
+
+Figure 3: Slice of state space of the whole-brain aLN model without (b = 0 pA; top row) and with (b = 20 pA; bottom
+row) adaptation for a brain network with 100 (left column), 200 (middle column), and 500 (right column) nodes
+spanned by the external input currents to the E and I populations. In every panel, the horizontal axis shows the external
+input current to the excitatory population (µext
+                                              E ) and the vertical axis shows the external input current to the inhibitory
+population (µext
+               I ). The heatmap shows the maximum excitatory firing rate rE (Hz) across all nodes in the network.
+State transition boundaries are indicated by solid white lines for the fast (LCEI ) and slow (LCEA ) oscillatory regions
+and by solid grey lines for the bistable regimes (bi - bistability between up and down states; biosc - bistability between
+LCEI and the down state). The white dashed lines indicate the border between the two oscillatory regions. Up state (up)
+and down state (down) regions are also marked. het indicates the areas where we identified heterogeneous slow-fast
+oscillations (for b = 20 pA). Model parameters are given in Table 1.
+
+
+
+
+                                                           16
+                              Robustness of spatiotemporal whole-brain model dynamics                             P REPRINT
+
+
+
+
+Figure 4: Example time series of the firing rate rE of one randomly chosen node (black line) of the whole-brain aLN
+network at several points in the state space: (A), (C), and (E) illustrate bistability between the down state and the
+fast oscillatory region LCEI using a decaying stimulus (red) delivered to all nodes in the network (µext    E = µI
+                                                                                                                    ext
+                                                                                                                        = 0.0
+mV/ms, b = 0 pA for all three parcellations); (B), (D), and (F) illustrate coexisting slow and fast oscillations for the case
+of adaptation (b = 20 pA for all three parcellations, µext                                                ext
+                                                        E = 0.08 mV/ms for the 100 node resolution, µE = 0.04 mV/ms
+for 200 and 500 nodes, µext
+                          I   = 0.0  mV/ms   for all three parcellations). All other model parameters  are  given in Table 1.
+The light (top) and dark green (bottom) insets display enlarged intervals of the time series of the firing rate rE (black)
+and, in case of finite adaptation, the current IA (blue) for the chosen node, and also show the power spectrum for the
+brain network with 500 nodes averaged across all nodes.
+
+
+
+
+                                                            17
+                              Robustness of spatiotemporal whole-brain model dynamics                           P REPRINT
+
+
+
+
+Figure 5: Slice of state space of the whole-brain Wilson-Cowan model without (b = 0; top row) and with (b = 60;
+bottom row) spike-triggered adaptation for a brain network with 100 (left column), 200 (middle column), and 500 (right
+column) nodes spanned by the external input currents to the E and I populations. In every panel, the horizontal axis
+shows the external input current to the excitatory population (µext
+                                                                E ), and the vertical axis shows the external input current
+to the inhibitory population (µext
+                               I ). The heatmap shows the maximum value of rE across all nodes in the network. State
+boundaries are indicated by solid white lines for the fast (LCEI ) and by dotted white lines for the regimes of slow
+(LCEA ) oscillations. Solid grey lines denote the boundary of the regime of bistability between up and down states (bi).
+het indicate the areas where we identified heterogeneous slow-fast oscillations. Up state (up) and down state (down)
+regions are also marked. All model parameters are given in Table 2.
+
+
+
+
+                                                           18
+                             Robustness of spatiotemporal whole-brain model dynamics                          P REPRINT
+
+
+
+
+Figure 6: Examples of multistable (A), fast metastable (B), and slow metastable (C) states of the aLN model with 100
+nodes and without adaptation (b = 0 pA). In each subplot, the left panel shows the recurrence plots, and the right panel
+the corresponding cross-correlograms. The interhemispheric cross-correlations (cc, see Section 2.3.4) range from -1
+(blue) to 1 (red). For the multistable example (A), results are shown for two different random initializations of the
+network (top and bottom rows). Parameters (positions in state space are shown in the inset on the top left): (A) - (µext
+                                                                                                                     E
+= 1.3 mV/ms, µextI  = 0.8 mV/ms), (B) - (µext
+                                           E = 0.4 mV/ms, µI
+                                                               ext
+                                                                   = 0.1 mV/ms), (C) - (µext
+                                                                                          E = 0.9 mV/ms, µI
+                                                                                                               ext
+                                                                                                                   = 0.0
+mV/ms). The simulation time was 20 s. All other parameters are given in Table 1.
+
+
+
+
+                                                          19
+                             Robustness of spatiotemporal whole-brain model dynamics                          P REPRINT
+
+
+
+
+Figure 7: Classification of states inside the oscillatory regions for the aLN whole-brain model in the case without (b =
+0 pA; top row) and with (b = 20 pA; bottom row) adaptation for a parcellation with 100 (left column), 200 (middle
+column), and 500 (right column) nodes. The slice of state space is spanned by the external input current to the E
+and I populations. The white solid contour marks the two oscillatory regions, and the white dashed lines indicate the
+approximate border between them.
+
+
+
+
+                                                          20
+                             Robustness of spatiotemporal whole-brain model dynamics                          P REPRINT
+
+
+
+
+Figure 8: Classification of states inside the oscillatory regions for the Wilson-Cowan whole-brain model in the case
+without (b = 0; top row) and with (b = 60; bottom row) adaptation for a parcellation with 100 (left column), 200 (middle
+column), and 500 (right column) nodes. The slice of state space is spanned by the external input current to the E
+and I populations. The white solid contour marks the two oscillatory regions, and the white dashed lines indicate the
+approximate border between them.
+
+
+
+
+                                                          21
+22
+                                                                                                                                                                                 Robustness of spatiotemporal whole-brain model dynamics
+
+
+
+
+     Figure 9: (A) First 15 modes obtained from the singular value decomposition of the velocity vector fields in the whole-brain aLN model with 100 nodes and
+     spike-triggered adaptation (b = 20 pA). Modes are ordered in decreasing order of explained variance. (B) Left panels: Modes explaining the largest proportion of
+     variance for the whole-brain aLN model without spike-triggered adaptation (b = 0 pA) with a parcellation of 100, 200 and 500 nodes. Right panels: Same as before,
+     but with spike-triggered adaptation (b = 20 pA) and with a parcellation of 200 and 500 nodes. The arrows represent the orientation in the xy plane (left-right and
+     antero-posterior directions) and are color-coded according to the direction along the z-axis (dorso-ventral direction). (C) Percentage of explained variance (mean ±
+     standard deviation across points in the parameter space) of the first 15 modes identified in (A) for the aLN model with 100 nodes and spike-triggered adaptation (b =
+     20 pA). The percentage is shown for the different pattern types identified in Section 3.2: uni/multistable (orange), fast metastable (blue), and slow metastable (green).
+                                                                                                                                                                                  P REPRINT
+                             Robustness of spatiotemporal whole-brain model dynamics                          P REPRINT
+
+
+
+
+                                                                   type
+Figure 10: Distribution of the values from the matrices Corr(V, Vstrengh   ) of correlation coefficients, each normalized
+to its maximum value. Correlation coefficients are computed between the spatial modes obtained with the averaged
+connectivity matrix C and with the spatial modes of the empirically derived (darker colors, V emp ) and the artificially
+manipulated (lighter colors, V art ) matrices, with stronger (dashed, Vstrong−long ) and weaker (solid, Vweak−long )
+long-range connections. Distributions are estimated using kernel density estimation. Each column corresponds to one
+parcellation, each pair of rows (upper row without, lower row with adaptation) to the type of stability (multistable,
+unistable, fast, and slow metastable). Means and standard deviations are provided in Table A3. For parameters, see A13.
+
+
+
+
+                                                          23
+                             Robustness of spatiotemporal whole-brain model dynamics                         P REPRINT
+
+
+
+
+Figure 11: Correlation coefficient between the mean transition phases of the nodes from the up to the down state (blue)
+and vice-versa (orange) and the node coordinates along the antero-posterior axis as a function of the percentage by
+which the connection strengths of the most anterior node were changed. The left (right) column shows results for the
+aLN (Wilson-Cowan) models with 100 (top row), 200 (middle row), and 500 nodes (bottom row). 0% corresponds to
+the unchanged structural antero-posterior gradient where the value of the y-slope was not changed, -100% indicates that
+the gradient was enhanced, whereas +100% indicates that the gradient was reversed. Model parameters are given in
+Tables A5 and A6.
+
+
+
+
+                                                          24
+                              Robustness of spatiotemporal whole-brain model dynamics                          P REPRINT
+
+
+
+
+Figure 12: Power and coherence as a function of frequency for SO activity generated by the aLN model. Results
+are shown for the average connectivity matrix, C, (coral), and the connectivity matrices with weaker, Cweak−long ,
+(green) and stronger, Cstrong−long , (blue) long-range connections. Every column corresponds to one parcellation. (A)
+Averaged power spectra with standard deviation for each activity induced by the three connectivity matrices. The
+top (bottom) row shows the results for the artificially changed (empirically selected) connections. (B) Corresponding
+coherence values plotted separately for nodes that are connected through short- (solid lines) or long-range (dashed lines)
+connections. Model parameters are given in Table A5.
+
+
+
+
+                                                           25
+                         Robustness of spatiotemporal whole-brain model dynamics                        P REPRINT
+
+
+
+Tables
+
+
+
+
+         Table 1: Parameter values used for the aLN model. Values are taken from Cakan et al. (2022).
+                 Parameter            Value                        Description
+                    µext
+                      e          [0 - 4]mV/ms               Mean external input to E
+                    µext
+                      I          [0 - 4]mV/ms                Mean external input to I
+                    σou       0 or 0.37 mV/ms3/2                 Noise strength
+                    τou                5 ms                    Noise time constant
+                     Ke                800           Number of excitatory inputs per neuron
+                     Ki                200           Number of inhibitory inputs per neuron
+                 cEE , cEI         0.3 mV/ms            Maximum AMPA PSC amplitude
+                  cEI , cII        0.5 mV/ms            Maximum GABA PSC amplitude
+                   JEE             2.4 mV/ms         Maximum synaptic current from E to E
+                    JIE            2.6 mV/ms         Maximum synaptic current from I to E
+                    JEI           -3.3 mV/ms         Maximum synaptic current from I to E
+                    JII           -1.6 mV/ms          Maximum synaptic current from I to I
+                    τs,E               2 ms             Excitatory synaptic time constant
+                    τs,I               5 ms             Inhibitory synaptic time constant
+                     dE                4 ms           Synaptic delay to excitatory neurons
+                     dI                2 ms           Synaptic delay to inhibitory neurons
+                      C              200 pF                  Membrane capacitance
+                     gL               10 nS                     Leak conductance
+                     τm                C/gL                 Membrane time constant
+                    EL               -65 mV                  Leak reversal potential
+                     δT              1.5 mV                   Threshold slope factor
+                     VT              -50 mV                     Threshold voltage
+                     Vs              -40 mV                  Spike voltage threshold
+                     Vr              -70 mV                       Reset voltage
+                   Tref               1.5 ms
+                                           √                     Refractory time
+                    σ ext        1.5 mV/ ms            Standard deviation of external input
+                    EA               -80 mV               Adaptation reversal potential
+                      a                0 nS           Subthreshold adaptation conductance
+                      b             0, 20 pA         Spike-triggered adaptation incremenent
+                     τA              600 ms                 Adaptation time constant
+                    Kgl                265                  Global coupling strength
+                     vgl              20 m/s                   Global signal speed
+
+
+                                                     26
+                               Robustness of spatiotemporal whole-brain model dynamics                         P REPRINT
+
+
+                             Table 2: Parameter values used for the Wilson-Cowan model.
+                     Parameter        Value                        Description
+                       µext
+                         e           [0 - 8]               Mean external input to E
+                       µext
+                         I           [0 - 8]                Mean external input to I
+                        σou         0 or 0.49                    Noise strength
+                        τou             5       Time constant of the Ornstein-Uhlenbeck process
+                        τE             2.5            Excitatory membrane time constant
+                         τI           3.75            Inhibitory membrane time constant
+                       wEE             16           Excitatory-excitatory coupling strength
+                       wEI             12           Inhibitory-excitatory coupling strength
+                       wIE             12           Excitatory-inhibitory coupling strength
+                        wII             3           Inhibitory-inhibitory coupling strength
+                        aE              1           Gain factor of the excitatory population
+                        aI              1           Gain factor of the inhibitory population
+                        νE              5            Threshold of the excitatory population
+                         νI             5            Threshold of the inhibitory population
+                        aA              3                    Adaptation gain factor
+                        νA              2                    Adaptation threshold
+                         b            0, 60                   Adaptation strength
+                        τA            4625                 Adaptation time constant
+                        Kgl            0.5                 Global coupling strength
+                        vgl            80                     Global signal speed
+
+
+Table 3: Maximum coherence values for non-zero frequencies for the metastable states of the aLN model for all settings
+shown in Figure 12B. Both for the artificial and the empirical case, values in bold indicate the highest coherence values
+per parcellation, per set of nodes connected on a short-range (long-range). The corresponding frequencies were 0.5 Hz
+for all settings. Parameters are as for Figure 12.
+                                    Property                         coh(fmax )
+                                    Resolution      100             200             500
+                                    Distance        short    long   short long      short   long
+                       artificial   C                0.69    0.40    0.44 0.19       0.29   0.33
+                                    Cweak−long       0.64    0.26    0.45 0.16       0.24   0.24
+                                    Cstrong−long     0.73    0.52    0.49 0.28       0.28   0.31
+                       empirical    C                0.69    0.40    0.44 0.19       0.29   0.33
+                                    Cweak−long       0.69    0.41    0.43 0.19       0.21   0.22
+                                    Cstrong−long     0.68    0.34    0.35 0.13       0.14   0.11
+
+
+
+
+                                                            27
+                              Robustness of spatiotemporal whole-brain model dynamics                          P REPRINT
+
+
+
+References
+Augustin, M., Ladenbauer, J., Baumann, F., and Obermayer, K. (2017). Low-dimensional spike rate models derived
+  from networks of adaptive integrate-and-fire neurons: comparison and implementation. PLoS Computational Biology,
+ 13(6):e1005545.
+Bhattacharya, S., Brincat, S. L., Lundqvist, M., and Miller, E. K. (2022). Traveling waves in the prefrontal cortex
+  during working memory. PLoS Computational Biology, 18(1):e1009827.
+Breakspear, M., Terry, J. R., and Friston, K. J. (2003). Modulation of excitatory synaptic coupling facilitates synchro-
+  nization and complex dynamics in a biophysical model of neuronal dynamics. Network: Computation in Neural
+  Systems, 14(4):703.
+Cabral, J., Kringelbach, M., and Deco, G. (2012). Functional graph alterations in schizophrenia: a result from a global
+  anatomic decoupling? Pharmacopsychiatry, 45(S 01):S57–S64.
+Cakan, C., Dimulescu, C., Khakimova, L., Obst, D., Flöel, A., and Obermayer, K. (2022). Spatiotemporal patterns
+  of adaptation-induced slow oscillations in a whole-brain model of slow-wave sleep. Frontiers in Computational
+  Neuroscience, 15:800101.
+Cakan, C., Jajcay, N., and Obermayer, K. (2021). neurolib: A simulation framework for whole-brain neural mass
+  modeling. Cognitive Computation.
+Cakan, C. and Obermayer, K. (2020). Biophysically grounded mean-field models of neural populations under electrical
+  stimulation. PLoS Computational Biology, 16(4):e1007822.
+Capone, C., De Luca, C., De Bonis, G., Gutzen, R., Bernava, I., Pastorelli, E., Simula, F., Lupo, C., Tonielli, L., Resta,
+  F., et al. (2023). Simulations approaching data: cortical slow waves in inferred models of the whole hemisphere of
+  mouse. Communications Biology, 6(1):266.
+Das, A., Zabeh, E., Ermentrout, B., and Jacobs, J. (2024). Planar, spiral, and concentric traveling waves distinguish
+  cognitive states in human memory. bioRxiv, pages 2024–01.
+Dasilva, M., Camassa, A., Navarro-Guzman, A., Pazienti, A., Perez-Mendez, L., Zamora-López, G., Mattia, M., and
+  Sanchez-Vives, M. V. (2021). Modulation of cortical slow oscillations and complexity across anesthesia levels.
+  NeuroImage, 224:117415.
+Deco, G., Kringelbach, M. L., Jirsa, V. K., and Ritter, P. (2017). The dynamics of resting fluctuations in the brain:
+  metastability and its dynamical cortical core. Scientific Reports, 7(1):3095.
+Deco, G., Perl, Y. S., Vuust, P., Tagliazucchi, E., Kennedy, H., and Kringelbach, M. L. (2021). Rare long-range cortical
+  connections enhance human information processing. Current Biology, 31(20):4436–4448.
+Ester, M., Kriegel, H.-P., Sander, J., Xu, X., et al. (1996). A density-based algorithm for discovering clusters in large
+  spatial databases with noise. In Knowledge Discovery and Data Mining, volume 96, pages 226–231.
+Freyer, F., Aquino, K., Robinson, P. A., Ritter, P., and Breakspear, M. (2009). Bistability and non-gaussian fluctuations
+  in spontaneous cortical activity. Journal of Neuroscience, 29(26):8512–8524.
+Freyer, F., Roberts, J. A., Becker, R., Robinson, P. A., Ritter, P., and Breakspear, M. (2011). Biophysical mechanisms of
+  multistability in resting-state cortical rhythms. Journal of Neuroscience, 31(17):6353–6361.
+Illoul, L. and Lorong, P. (2011). On some aspects of the cnem implementation in 3d in order to simulate high speed
+   machining or shearing. Computers & Structures, 89(11-12):940–958.
+Kelso, J. S. (2012). Multistability and metastability: understanding dynamic coordination in the brain. Philosophical
+  Transactions of the Royal Society B: Biological Sciences, 367(1591):906–918.
+Kilpatrick, Z. P. (2013). Wilson-Cowan Model, pages 1–5. Springer New York, New York, NY.
+Ladenbauer, J., Khakimova, L., Malinowski, R., Obst, D., Tönnies, E., Antonenko, D., Obermayer, K., Hanna, J., and
+  Flöel, A. (2023). Towards optimization of oscillatory stimulation during sleep. Neuromodulation: Technology at the
+  Neural Interface, 26(8):1592–1601.
+Ladenbauer, J., Ladenbauer, J., Külzow, N., de Boor, R., Avramova, E., Grittner, U., and Flöel, A. (2017). Promoting
+  sleep oscillations and their functional coupling by transcranial stimulation enhances memory consolidation in mild
+  cognitive impairment. Journal of Neuroscience, 37(30):7111–7124.
+Levenstein, D., Buzsáki, G., and Rinzel, J. (2019). Nrem sleep in the rodent neocortex and hippocampus reflects
+  excitable dynamics. Nature Communications, 10(1):2478.
+Liang, Y., Liang, J., Song, C., Liu, M., Knöpfel, T., Gong, P., and Zhou, C. (2023). Complexity of cortical wave patterns
+  of the wake mouse cortex. Nature Communications, 14(1):1434.
+
+
+                                                           28
+                              Robustness of spatiotemporal whole-brain model dynamics                          P REPRINT
+
+
+
+Massimini, M., Huber, R., Ferrarelli, F., Hill, S., and Tononi, G. (2004). The sleep slow oscillation as a traveling wave.
+  Journal of Neuroscience, 24(31):6862–6870.
+Mohan, U. R., Zhang, H., Ermentrout, B., and Jacobs, J. (2024). The direction of theta and alpha travelling waves
+  modulates human memory processing. Nature Human Behaviour, pages 1–12.
+Muller, L., Piantoni, G., Koller, D., Cash, S. S., Halgren, E., and Sejnowski, T. J. (2016). Rotating waves during human
+  sleep spindles organize global patterns of activity that repeat precisely through the night. eLife, 5:e17267.
+Muller, L., Reynaud, A., Chavane, F., and Destexhe, A. (2014). The stimulus-evoked population response in visual
+  cortex of awake monkey is a propagating wave. Nature Communications, 5(1):3675.
+Papadopoulos, L., Lynn, C. W., Battaglia, D., and Bassett, D. S. (2020). Relations between large-scale brain connectivity
+  and effects of regional stimulation depend on collective dynamical state. PLOS Computational Biology, 16(9):1–43.
+Pessoa, L. (2022). The entangled brain: How perception, cognition, and emotion are woven together. MIT Press.
+Pinto, D. J., Brumberg, J. C., Simons, D. J., Ermentrout, G. B., and Traub, R. (1996). A quantitative population model of
+  whisker barrels: Re-examining the wilson-cowan equations. Journal of Computational Neuroscience, 3(3):247–264.
+Popovych, O. V., Jung, K., Manos, T., Diaz-Pier, S., Hoffstaedter, F., Schreiber, J., Yeo, B. T., and Eickhoff, S. B.
+  (2021). Inter-subject and inter-parcellation variability of resting-state whole-brain dynamical modeling. NeuroImage,
+  236:118201.
+Proix, T., Spiegler, A., Schirner, M., Rothmeier, S., Ritter, P., and Jirsa, V. K. (2016). How do parcellation size and
+  short-range connectivity affect dynamics in large-scale brain network models? NeuroImage, 142:135–149.
+Rasch, B. and Born, J. (2013). About sleep’s role in memory. Physiological Reviews.
+Richardson, M. J. E. (2007). Firing-rate response of linear and nonlinear integrate-and-fire neurons to modulated
+  current-based and conductance-based synaptic drive. Physical review. E - Statistical, nonlinear, and soft matter
+  physics, 76 2 Pt 1:021919.
+Roberts, J. A., Gollo, L. L., Abeysuriya, R. G., Roberts, G., Mitchell, P. B., Woolrich, M. W., and Breakspear, M.
+  (2019). Metastable brain waves. Nature Communications, 10(1):1056.
+Sanchez-Vives, M. V., Massimini, M., and Mattia, M. (2017). Shaping the default activity pattern of the cortical
+  network. Neuron, 94(5):993–1001.
+Schaefer, A., Kong, R., Gordon, E. M., Laumann, T. O., Zuo, X.-N., Holmes, A. J., Eickhoff, S. B., and Yeo, B. T.
+  (2018). Local-global parcellation of the human cerebral cortex from intrinsic functional connectivity mri. Cerebral
+  Cortex, 28(9):3095–3114.
+Sporns, O. (2022). The complex brain: connectivity, dynamics, information. Trends in Cognitive Sciences, 26(12):1066–
+  1067.
+Torao-Angosto, M., Manasanch, A., Mattia, M., and Sanchez-Vives, M. V. (2021). Up and down states during slow
+  oscillations in slow-wave sleep and different levels of anesthesia. Frontiers in Systems Neuroscience, 15.
+Townsend, R. G. and Gong, P. (2018). Detection and analysis of spatiotemporal patterns in brain activity. PLoS
+  Computational Biology, 14(12):e1006643.
+Wilson, H. R. and Cowan, J. D. (1972). Excitatory and inhibitory interactions in localized populations of model neurons.
+  Biophysical Journal, 12(1):1–24.
+Zbilut, J. P., Zaldivar-Comenges, J.-M., and Strozzi, F. (2002). Recurrence quantification based liapunov exponents for
+  monitoring divergence in experimental data. Physics Letters A, 297(3-4):173–181.
+
+
+
+
+                                                           29
+                              Robustness of spatiotemporal whole-brain model dynamics                           P REPRINT
+
+
+
+Supplementary Material
+
+
+
+
+Figure A1: Slice of state space of the single-node aLN (left column) and Wilson-Cowan (right column) models without
+(b = 0; top row) and with adaptation (b = 20 pA, 60; bottom row) spanned by the external input currents to the E and I
+populations. In every panel, the horizontal (vertical) axis denotes the external input current µext ext
+                                                                                                E (µI ) to the excitatory
+(inhibitory) population. The heatmap shows the maximum excitatory firing rate rE of the model. State boundaries are
+indicated by solid white lines for the fast (LCEI ) and slow (LCEA ) oscillatory regions, and by solid grey lines for the
+regime of bistability between up and down states (bi). The magenta arrow indicates the region where few points with
+bistability between the up and the fast (LCEI ) state are found. Unistable up (up) and down state (down) regions are
+also marked. Model parameters are given in Tables 1 and 2.
+
+
+
+
+Figure A2: Example time series of the proportion rE of active neurons per unit of time of one randomly chosen node
+(black line) of the whole-brain Wilson-Cowan model at several points in state space, without (b = 0; top row) and with
+(b = 60; bottom row) adaptation for a network with 100 (left column), 200 (middle column), and 500 nodes (right
+column). Parameters are as follows: 100 nodes - µext
+                                                   E = 4.3, µI
+                                                               ext
+                                                                   = 2.8; 200 nodes - µextE = 4.3, µI
+                                                                                                     ext
+                                                                                                         = 2.85; 500 nodes
+   ext         ext
+- µE = 4.2, µI = 2.7. The light (top) and dark green (bottom) insets display enlarged intervals of the time series of
+the proportion rE of active neurons per unit of time and, in case of finite adaptation, the current IA for the chosen node,
+and also show the power spectrum for the brain network with 500 nodes averaged across all nodes. All other model
+parameter values are given in Table 2.
+
+
+                                                            30
+                             Robustness of spatiotemporal whole-brain model dynamics                          P REPRINT
+
+
+
+
+Figure A3: Frequency of the peak of the power spectrum averaged over all nodes of the whole-brain aLN model
+without (b = 0 pA; top row) and with (b = 20 pA; bottom row) adaptation for a brain network with 100 (left column),
+200 (middle column), and 500 (right column) nodes as a function of the external input current to the E and I populations.
+In every panel, the horizontal axis shows the external input current to the excitatory population (µext
+                                                                                                    E ) and the vertical
+axis shows the external input current to the inhibitory population (µext
+                                                                     I ). The average dominant frequency (Hz) across
+all nodes in the network is color-coded. The white dashed line indicates the approximate border between the fast LCEI
+and slow LCEA oscillating regions. The magenta solid lines indicate the areas where heterogeneous (het) slow-fast
+oscillations were identified (for b = 20 pA). All model parameters are summarized in Table 1.
+
+
+
+
+                                                           31
+                             Robustness of spatiotemporal whole-brain model dynamics                          P REPRINT
+
+
+
+
+Figure A4: Frequency of the peak of the power spectrum averaged over all nodes of the whole-brain Wilson-Cowan
+model without (b = 0; top row) and with (b = 60; bottom row) adaptation for a brain network with 100 (left column),
+200 (middle column), and 500 (right column) nodes as a function of the external input current to the E and I populations.
+In every panel, the horizontal axis shows the external input current to the excitatory population (µext
+                                                                                                    E ) and the vertical
+axis shows the external input current to the inhibitory population (µext
+                                                                     I ). The average dominant frequency (Hz) across
+all nodes in the network is color-coded. The white dashed line indicates the approximate border between the fast LCEI
+and slow LCEA oscillating regions. The magenta solid lines indicate the areas where heterogeneous (het) slow-fast
+oscillations were identified (for b = 60). All model parameters are summarized in Table 2.
+
+
+
+
+                                                          32
+                             Robustness of spatiotemporal whole-brain model dynamics                        P REPRINT
+
+
+
+
+Figure A5: Standard deviation (SD) of the node dominant frequency of the whole-brain aLN model without (b = 0 pA;
+top row) and with (b = 20 pA; bottom row) adaptation for a brain network with 100 (left column), 200 (middle column),
+and 500 (right column) nodes as a function of the external input current to the E and I populations. In every panel,
+the horizontal axis shows the external input current to the excitatory population (µext
+                                                                                    E ) and the vertical axis shows the
+external input current to the inhibitory population (µext
+                                                      I ). The standard deviation of the node dominant frequency (Hz)
+across all nodes in the network is color-coded. The white dashed line indicates the approximate border between the
+fast LCEI and slow LCEA oscillating regions. The magenta solid lines indicate the areas where heterogeneous (het)
+slow-fast oscillations were identified (for b = 20 pA). All model parameters are summarized in Table 1.
+
+
+
+
+                                                          33
+                              Robustness of spatiotemporal whole-brain model dynamics                          P REPRINT
+
+
+
+
+Figure A6: Standard deviation (SD) of the node dominant frequency of the whole-brain Wilson-Cowan model without
+(b = 0; top row) and with (b = 60; bottom row) adaptation for a brain network with 100 (left column), 200 (middle
+column), and 500 (right column) nodes as a function of the external input current to the E and I populations. In every
+panel, the horizontal axis shows the external input current to the excitatory population (µext
+                                                                                           E ) and the vertical axis shows
+the external input current to the inhibitory population (µext
+                                                            I ). The standard deviation of the node dominant frequency
+(Hz) across all nodes in the network is color-coded. The white dashed line indicates the approximate border between
+the fast LCEI and slow LCEA oscillating regions. The magenta solid lines indicate the areas where heterogeneous
+(het) slow-fast oscillations were identified (for b = 60). All model parameters are summarized in Table 2.
+
+
+
+
+                                                           34
+                             Robustness of spatiotemporal whole-brain model dynamics                         P REPRINT
+
+
+
+
+Figure A7: Mean (A) and standard deviation SD (B) of the Kuramoto order parameter for the aLN whole-brain model
+in the case without (b = 0 pA; top rows) and with (b = 20 pA; bottom rows) adaptation for 100 (left column), 200
+(middle column), and 500 (right column) nodes. The slice of state space is spanned by the external input current to the
+E and I populations. The white dashed lines indicates the approximate border between the fast LCEI and slow LCEA
+oscillating regions.
+
+
+
+
+                                                          35
+                             Robustness of spatiotemporal whole-brain model dynamics                          P REPRINT
+
+
+
+
+Figure A8: Mean (A) and standard deviation SD (B) of the Kuramoto order parameter for the Wilson-Cowan whole-
+brain model in the case without (b = 0; top rows) and with (b = 60; bottom rows) spike-triggered adaptation for 100 (left
+column), 200 (middle column), and 500 (right column) nodes. The slice of state space is spanned by the external input
+current to the E and I populations. The white dashed lines indicates the approximate border between the fast LCEI and
+slow LCEA oscillating regions.
+
+
+
+
+                                                           36
+                             Robustness of spatiotemporal whole-brain model dynamics                          P REPRINT
+
+
+
+
+Figure A9: Histogram of the state durations for one slow metastable (red; location C in Figure 6) and one fast metastable
+point (blue; location B in Figure 6) in state space for the aLN model with 100 nodes and without adaptation (b = 0 pA).
+All other parameters are given in Table 1.
+
+
+
+
+                                                           37
+                            Robustness of spatiotemporal whole-brain model dynamics                     P REPRINT
+
+
+
+
+Figure A10: First 15 modes obtained from the singular value decomposition of the velocity vector fields in the
+whole-brain aLN model with 100 nodes and adaptation (b = 20 pA) for the unistable states in the LCEA region. Modes
+are ordered in decreasing order of explained variance.
+
+
+
+
+                                                       38
+                            Robustness of spatiotemporal whole-brain model dynamics                       P REPRINT
+
+
+
+
+Figure A11: First 15 modes obtained from the singular value decomposition of the velocity vector fields in the
+whole-brain Wilson-Cowan model with 100 nodes and adaptation (b = 60) for the unistable states in the LCEA region.
+Modes are ordered in decreasing order of explained variance.
+
+
+
+
+Table A1: Percentage of explained variance for the dominant 15 modes identified for the aLN model without (b = 0 pA)
+and with (b = 20 pA) adaptation for the whole-brain network with 100, 200, and 500 nodes. The column for 100 nodes
+and b = 20 pA corresponds to the modes shown in Figure 9A.
+                                      b = 0 pA                              b = 20 pA
+               Mode     100 nodes    200 nodes    500 nodes    100 nodes    200 nodes    500 nodes
+                 1        8.42          5.26        5.84         9.31          6.82        3.55
+                 2        6.99          2.10        2.33         7.43          2.76        3.06
+                 3        3.63          1.76        1.70         5.67          1.85        1.63
+                 4        3.31          1.18        1.13         4.74          1.68        1.21
+                 5        2.88          1.04        1.10         3.13          1.26        1.16
+                 6        2.65          1.01        0.83         2.74          1.19        0.99
+                 7        2.20          0.89        0.70         2.57          1.00        0.89
+                 8        1.84          0.76        0.62         1.85          0.88        0.82
+                 9        1.79          0.67        0.53         1.78          0.76        0.70
+                10        1.58          0.65        0.50         1.63          0.74        0.66
+                11        1.40          0.61        0.43         1.56          0.69        0.63
+                12        1.29          0.59        0.40         1.46          0.67        0.62
+                13        1.19          0.58        0.39         1.32          0.66        0.58
+                14        1.13          0.55        0.37         1.18          0.64        0.55
+                15        1.01          0.53        0.37         1.11          0.59        0.49
+
+
+                                                        39
+40
+                                                                                                                                                                                Robustness of spatiotemporal whole-brain model dynamics
+
+
+
+
+     Figure A12: (A) First 15 modes obtained from the singular value decomposition of the velocity vector fields in the whole-brain Wilson-Cowan model with 100 nodes
+     and adaptation (b = 60). Modes are ordered in decreasing order of explained variance. (B) Left panels: modes explaining the largest proportion of variance for the
+     whole-brain Wilson-Cowan model without adaptation (b = 0) with a parcellation of 100, 200, and 500 nodes. Right panels: same as before, but with adaptation (b =
+     60) and with a parcellation of 200, and 500 nodes. The arrows represent the orientation in the xy plane (left-right and antero-posterior directions) and are color-coded
+     according to the direction along the z-axis (dorso-ventral direction). (C) Percentage of explained variance (mean ± standard deviation across points in the parameter
+     space) of the first 15 modes identified in (A) for the Wilson-Cowan model with 100 nodes and adaptation (b = 60). The percentage is shown for the different pattern
+     types identified in Section 3.2: uni/multistable (orange), fast metastable (blue), and slow metastable (green).
+                                                                                                                                                                                 P REPRINT
+                            Robustness of spatiotemporal whole-brain model dynamics                     P REPRINT
+
+
+Table A2: Percentage of explained variance for the dominant 15 modes identified for the Wilson-Cowan model without
+(b = 0) and with (b = 60) adaptation for the whole-brain network with 100, 200, and 500 nodes. The column for 100
+nodes and b = 60 corresponds to the modes shown in Figure A12A.
+                                      b=0                                    b = 60
+               Mode     100 nodes   200 nodes    500 nodes    100 nodes    200 nodes    500 nodes
+                 1        14.91       13.21        6.64         3.72         11.61        5.14
+                 2         7.60        9.35        5.68         1.58          3.17        0.97
+                 3         3.59        2.86        3.05         1.44          0.97        0.57
+                 4         2.89        2.40        2.32         1.26          0.75        0.49
+                 5         2.31        1.64        1.87         1.19          0.71        0.39
+                 6         1.94        1.49        1.56         1.14          0.65        0.38
+                 7         1.75        1.17        1.44         1.10          0.64        0.34
+                 8         1.59        1.01        1.09         1.06          0.62        0.31
+                 9         1.48        0.91        1.04         1.04          0.55        0.31
+                10         1.40        0.88        0.92         1.02          0.52        0.30
+                11         1.15        0.83        0.88         0.95          0.49        0.29
+                12         1.09        0.76        0.83         0.91          0.47        0.28
+                13         1.01        0.69        0.71         0.87          0.46        0.27
+                14         0.98        0.61        0.70         0.84          0.45        0.27
+                15         0.94        0.59        0.64         0.80          0.45        0.27
+
+
+
+
+                                                       41
+                                  Robustness of spatiotemporal whole-brain model dynamics                                       P REPRINT
+
+
+
+
+Figure A13: Locations in state space chosen for the results shown in Figures 10 and A16 for the aLN and Wilson-
+Cowan (wc) models. Multistable state: turquoise, aLN, without adaptation (µext                           ext
+                                                                                                  e , µi ) = (1.3, 0.8), with adaptation
+(µext
+  e   , µext
+         i   ) =  (2.0,  1.0); wc,   without   adaptation   (µ ext
+                                                               e   , µ ext
+                                                                       i   ) =  (1.6,  0.1),   with   adaptation   (µext    ext
+                                                                                                                      e , µi ) = (2.1, 0.1),
+                                                             ext     ext                                             ext   ext
+unistable state: pink, aLN, without adaptation (µe , µi ) = (1.2, 0.3), with adaptation (µe , µi ) = (2.0, 1.7);
+wc, without adaptation (µext             ext                                             ext     ext
+                                 e , µi ) = (1.7, 0.1), with adaptation (µe , µi ) = (6.0, 4.0), fast metastable state:
+yellow, aLN, without adaptation (µext        e  , µext
+                                                   i    ) = (0.4,  0.1),   with   adaptation      (µext    ext
+                                                                                                     e , µi ) = (0.4, 0.1); wc, without
+adaptation (µexte   , µext
+                       i   ) =    (3.0,  1.5), with   adaptation   (µ  ext
+                                                                       e   , µext
+                                                                              i   )  =    (4.0,  1.5),  slow  metastable state: grey, aLN,
+without adaptation (µext   e   , µ ext
+                                   i   )  =  (0.9,  0.0),  with  adaptation     (µ  ext
+                                                                                    e   , µ ext
+                                                                                            i   )  =   (2.0, 0.4);  wc, without adaptation
+(µext    ext                                           ext  ext
+  e , µi ) = (1.5, 0.0), with adaptation (µe , µi ) = (1.9, 0.0). For all simulations and models b = 0 in the case
+of no and b = 20 (b = 60) for the aLN (wc) model in the case of finite adaptation.
+
+
+
+
+                                                                    42
+                             Robustness of spatiotemporal whole-brain model dynamics                         P REPRINT
+
+
+
+
+Figure A14: Matrices of correlation coefficients between spatial modes for the aLN model without adaptation. The left
+(right) column for each parcellation shows the comparison to the case of weak (strong) long-range connections. The
+upper (lower) rows for each class of states show the comparisons to the case of artificial (empirical) matrices. Colors
+denote the values of the correlation coefficients.
+
+
+
+
+                                                          43
+                             Robustness of spatiotemporal whole-brain model dynamics                        P REPRINT
+
+
+
+
+Figure A15: Matrices of correlation coefficients between spatial modes for the Wilson-Cowan model without adaptation.
+The left (right) column for each parcellation shows the comparison to the case of weak (strong) long-range connections.
+The upper (lower) rows for each class of states show the comparisons to the case of artificial (empirical) matrices.
+Colors denote the values of the correlation coefficients.
+
+
+
+
+                                                          44
+                              Robustness of spatiotemporal whole-brain model dynamics                           P REPRINT
+
+
+Table A3: Average standard deviation (σ) and mean (µ) of the density estimates of Figure 10 for the aLN model, per
+type of stability, with and without adaptation, and per resolution. Density estimates of broadest width per resolution are
+highlighted with and without adaptation in bold.
+                                                                  σ                         µ
+                                   Resolution        100         200   500       100       200      500
+               Stability
+               multistable         no adaptation    0.016    0.012     0.003   0.009     0.001     -0.002
+                                   adaptation       0.011    0.003     0.001   0.006     -0.002    0.001
+               unistable           no adaptation    0.019    0.016     0.005   -0.019    0.005        0
+                                   adaptation       0.091    0.036     0.003   0.097        0      -0.001
+               fast metastable     no adaptation    0.061    0.025     0.007   -0.007    0.001     0.001
+                                   adaptation       0.069    0.029      0.01   -0.009    0.002     0.001
+               slow metastable     no adaptation    0.028    0.009     0.004   -0.026    0.002     -0.001
+                                   adaptation       0.031    0.015     0.007   -0.036    -0.002    -0.004
+
+
+
+
+                                                            45
+                             Robustness of spatiotemporal whole-brain model dynamics                          P REPRINT
+
+
+
+
+                                                                    type
+Figure A16: Distribution of the values from the matrices Corr(V, Vstrengh  ) of correlation coefficients, each normalized
+to its maximum value. Correlation coefficients are computed between the spatial modes obtained with the averaged
+connectivity matrix C and with the spatial modes of the empirically derived (darker colors, V emp ) and the artificially
+manipulated (lighter colors, V art ) matrices, with stronger (dashed, Vstrong−long ) and weaker (solid, Vweak−long )
+long-range connections. Distributions are estimated using kernel density estimation. Each column corresponds to one
+parcellation, each pair of rows (upper row without, lower row with adaptation) to the type of stability (multistable,
+unistable, fast, and slow metastable). Means and standard deviatons are provided in Table A4. For parameters, see A13.
+
+
+
+
+                                                          46
+                              Robustness of spatiotemporal whole-brain model dynamics                             P REPRINT
+
+
+Table A4: Average standard deviation (σ) and mean (µ) of density estimates of Figure A16 for the Wilson-Cowan
+model, per type of stability, with and without adaptation, and per resolution. Density estimates of broadest width per
+resolution are highlighted with and without adaptation in bold.
+                                                                     σ                            µ
+                                     Resolution         100         200     500         100      200      500
+               Stability
+               multistable           no adaptation     0.019     0.005     0.001      0.01      0.006       0
+                                     adaptation        0.021     0.015     0.008     -0.015     0.002    0.001
+               unistable             no adaptation     0.041     0.017     0.007     -0.003     -0.006   -0.001
+                                     adaptation        0.026     0.009     0.003        0       0.001       0
+               fast metastable       no adaptation     0.03      0.013     0.004     0.016      0.002    0.001
+                                     adaptation        0.029     0.013     0.004     0.017      -0.003   -0.001
+               slow metastable       no adaptation     0.03      0.008     0.004     -0.026     0.005       0
+                                     adaptation        0.023      0.01     0.008     -0.002     0.002       0
+
+
+
+
+Table A5: Overview of the parameter values used for the whole-brain aLN sleep model with 100, 200, and 500 nodes.
+All other parameters are given in Table 1.
+                                                         Value
+                Parameter                                                                        Description
+                                      100                 200                     500
+                                                                                                Mean external
+                   µext
+                    E            3.3 mV/ms             3.3 mV/ms             3.3 mV/ms
+                                                                                                  input to E
+                                                                                                Mean external
+                   µext
+                    I            3.7 mV/ms             3.7 mV/ms             3.7 mV/ms
+                                                                                                   input to I
+                                                                                                     Noise
+                   σou        0.37 mV/ms3/2          0.37 mV/ms3/2         0.37 mV/ms3/2
+                                                                                                    strength
+                                                                                                  Adaptation
+                    b               3.2 pA               3.2 pA                4.2 pA
+                                                                                                    strength
+                                                                                                  Adaptation
+                   τA               4765 ms             4765 ms               4965 ms
+                                                                                                time constant
+
+
+
+
+Table A6: Overview of the parameter values used for the whole-brain Wilson-Cowan sleep model with 100, 200, and
+500 nodes. All other parameters are given in Table 2.
+                                                     Value
+                           Parameter                                              Description
+                                           100         200      500
+                             µext
+                              E            5.26        5.26    5.26       Mean external input to E
+                             µext
+                              I            5.51        5.61    5.61       Mean external input to I
+                             σou           0.49        0.49    0.49           Noise strength
+                             Kgl           2.18        2.18    2.18         Coupling strength
+                              b           21.45         27       59         Adaptation strength
+                             τA          1629.46      2600     2920       Adaptation time constant
+                             vgl            20          20       20         Global signal speed
+
+
+                                                               47
+                             Robustness of spatiotemporal whole-brain model dynamics                        P REPRINT
+
+
+
+
+Figure A17: Correlation between node degree and the y-coordinate along the antero-posterior axis for the Schaefer
+parcellation scheme with 100 (left; y-slope = -62.29, r = -0.29, p = 0.003), 200 (middle; y-slope = -58.65, r = -0.27,
+p < 0.001), and 500 nodes (right; y-slope = -63.86, r = -0.28, p < 0.001).
+
+
+
+
+                                                         48
+                              Robustness of spatiotemporal whole-brain model dynamics                           P REPRINT
+
+
+
+
+Figure A18: Correlation coefficient between mean transition phases of the nodes from the up to the down state (blue) and
+vice-versa (orange) and the node coordinates along the antero-posterior y-axis as a function of the structural connectivity
+gradient (y-slope) along the antero-posterior axis. These values were set as the targets during the permutation of
+the structural connectivity matrix for the aLN (left column) and the Wilson-Cowan models (right column) with 100
+(top row), 200 (middle row), and 500 nodes (bottom row). The range of slope values that could be achieved through
+permutation was lower compared to those in Figure 11 and was additionally restricted for the 500 nodes case. Model
+parameters are given in Tables A5 and A6.
+
+
+
+
+                                                            49
+                             Robustness of spatiotemporal whole-brain model dynamics                          P REPRINT
+
+
+
+
+Figure A19: Power and coherence as a function of frequency for SO activity generated by the Wilson-Cowan
+model. Results are shown for the average connectivity matrix, C, (coral), and the connectivity matrices with weaker,
+Cweak−long , (green) and stronger, Cstrong−long , (blue) long-range connections. Every column corresponds to one
+parcellation. (A) Averaged power spectra with standard deviation for each activity induced by the three connectivity
+matrices. The top (bottom) row shows the results for the artificially changed (empirically selected) connections. (B)
+Corresponding coherence values plotted separately for nodes that are connected through short- (solid lines) or long-range
+(dashed lines) connections. Model parameters are given in Table A6.
+
+
+
+
+                                                                                 
+Table A7: Values of the dominant temporal frequency fdom = argmaxf avg P SD(f ) of the averaged power spectrum
+and the corresponding peak power spectrum P (fdom ) of Figure 12A per parcellation for the aLN model. Values in
+bold indicate dominant frequencies fdom different from 0.4 Hz which appears in most settings. Lowest row displays
+the standard deviation in feature per column.
+                                                                fdom                  P SD(fdom )
+                                      Resolution       100      200 500         100         200     500
+               artificial             C                0.4       0.4  0.4    422.57      233.90 188.83
+                                      Cweak−long       0.4       0.4  0.5    404.39      296.59 224.61
+                                      Cstrong−long     0.4       0.4  0.4    498.04      246.58 209.31
+               empirical              C                0.4       0.4  0.4    422.57      233.90 188.83
+                                      Cweak−long       0.4       0.4  0.5    558.58      284.15 179.36
+                                      Cstrong−long     0.4       0.4  0.6    482.22      124.25   97.85
+               Standard Deviation                      0.0       0.0 0.08        59          61      44
+
+
+                                                           50
+                               Robustness of spatiotemporal whole-brain model dynamics                      P REPRINT
+
+
+                                                                                          
+Table A8: Values of the dominant temporal frequency fdom = argmaxf avg P SD(f ) of the averaged power
+spectrum and the corresponding peak power spectrum P (fdom ) of Figure A19A per parcellation for the Wilson-Cowan
+model. Values in bold indicate dominant frequencies fdom different from most of the other dominant frequencies per
+parcellation. Lowest row displays the standard deviation in feature per column.
+                                         Property               fdom               P SD(fdom )
+                                         Resolution       100    200     500     100 200 500
+                  artificial             C                0.4    0.2     0.1    0.21 0.44 0.75
+                                         Cweak−long       0.3    0.2      0.2   0.21 0.40 0.54
+                                         Cstrong−long     0.3    0.2     0.1    0.23 0.46 0.73
+                  empirical              C                0.4    0.2     0.1    0.21 0.44 0.75
+                                         Cweak−long       0.4    0.2      0.2   0.19 0.34 0.41
+                                         Cstrong−long     0.3    0.4     0.3    0.20 0.06 0.27
+                  Standard Deviation                     0.05   0.08    0.08    0.01 0.15      0.2
+
+
+Table A9: Maximum coherence values for non-zero frequencies for the metastable states of the Wilson-Cowan model
+for all settings shown in Figure A19B. Both for the artificial and the empirical case, values in bold indicate the
+highest coherence values per parcellation, per set of nodes connected on a short-range (long-range). The corresponding
+frequencies were 0.5 Hz for all settings. Parameters are as for Figure A19.
+                                    Property                       coh(fmax )
+                                    Resolution         100            200             500
+                                    Distance       short long     short long      short long
+                      artificial    C               0.44 0.12      0.36 0.09       0.26 0.23
+                                    Cweak−long      0.43 0.08      0.34 0.07       0.17 0.11
+                                    Cstrong−long    0.45 0.15      0.36 0.10       0.29 0.27
+                      empirical     C               0.44 0.12      0.36 0.09       0.26 0.23
+                                    Cweak−long      0.40 0.11      0.30 0.07       0.12 0.07
+                                    Cstrong−long    0.43 0.11      0.12 0.03       0.09 0.05
+
+
+
+
+                                                         51
+

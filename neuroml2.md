@@ -1,7 +1,7 @@
 ---
 title: NeuroML2
 created: 2026-05-04
-updated: 2026-05-04
+updated: 2026-05-06
 type: entity
 tags: [software-neuroml, neural-mass-models, spiking-neural-networks, software-tvb, software-nest, software-brian, software-neuron, open-source-brain, neuroml, neurodamus, interoperability, standardization]
 sources: [Cannon2014, Gleeson2010, Gleeson2019, NeuroMLDocs]
@@ -15,7 +15,7 @@ The computational neuroscience field historically suffered from fragmentation: m
 
 ## Key Features
 
-NeuroML2 supports several tiers of model complexity. At the cellular level, the language can define arbitrary neuron morphologies with segment-by-segment membrane properties, ion channel implementations (e.g., Hodgkin-Huxley-type channels), and synaptic mechanisms with plasticity rules. At the network level, NeuroML2 specifies populations of cells, their spatial arrangements, and connection rules that may be probabilistic, distance-dependent, or explicitly defined [@Cannon2014]. The specification includes built-in support for common neuroscience experimental paradigms such as current injection, spike trains, and fixed-weight or plastic synapses.
+NeuroML2 supports several tiers of model complexity. At the cellular level, the language can define arbitrary neuron morphologies with segment-by-segment membrane properties, ion channel implementations (e.g., [[hodgkin-huxley-model]]-type channels), and synaptic mechanisms with plasticity rules. The specification includes native support for a variety of [[neural-mass-model]] abstractions including [[izhikevich-neuron-model]], [[adaptive-exponential-integrate-and-fire]], and conductance-based [[izhikevich]] models. At the network level, NeuroML2 specifies populations of cells, their spatial arrangements, and connection rules that may be probabilistic, distance-dependent, or explicitly defined [@Cannon2014]. The specification includes built-in support for common neuroscience experimental paradigms such as current injection, spike trains, and fixed-weight or plastic synapses. Network descriptions in NeuroML2 can specify [[connectome]]-level connectivity patterns suitable for [[brain-network]] analysis.
 
 A distinguishing characteristic of NeuroML2 is its emphasis on validation: compliant models must satisfy schema constraints and, where applicable, produce numerically consistent results across compliant simulators. The NeuroML website provides a curated database of example models, and several tools—including pyNeuroML, jNeuroML, and the NeuroML editor—enable model construction, validation, and export to target simulators. The language also defines extensions for specific use cases, such as NeuroML-LEMS for abstract network models and MorphML (embedded within NeuroML) for morphological specifications.
 

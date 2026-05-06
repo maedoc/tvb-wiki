@@ -46,6 +46,17 @@
 
 ## [2026-05-04 14:05] DeepResearch: 9 papers added via focused research
 
+## [2026-05-06] Improve: niftynet
+- Fixed duplicate frontmatter (was two YAML blocks concatenated)
+- Removed invalid wikilink tag [[connectomics]] from frontmatter
+- Removed body References section (sources belong in YAML frontmatter only)
+- Fixed all wikilinks to match valid page names: [[TVB]]→[[the-virtual-brain]], [[NiftyReg]]→[[niftyreg]], [[ANTs]]→[[ants]], [[AAL Atlas]]→[[aal-atlas]], [[Desikan-Killiany Atlas]]→[[desikan-killiany-atlas]], etc.
+- Updated frontmatter with proper taxonomy tags (software-brain-modeling, software-neuroimaging, deep-learning, tensorflow, etc.)
+- Added valid source papers to frontmatter sources list
+- Updated date to 2026-05-06
+- Expanded content with core methodology section explaining 5-stage pipeline
+- Includes 15+ wikilinks to related pages
+
 ## [2026-05-04 14:06] Audit: 941 issues (42 broken links, 54 orphans, 20 placeholders, 0 dup-refs, 3 bad-meta, 78 citation-verify, 4 opaque-refs, 75 thin, 421 missing-links)
 
 ## [2026-05-04 15:54] Improve: 4 pages improved (nistats, hcp-dataset, aomic, petsurfer)
@@ -210,3 +221,12 @@
 ## [2026-05-06 07:16] Linter: 98 broken links, 54 orphans, 22 stale, 27 empty
 
 ## [2026-05-06 07:16] Librarian: catalog rebuilt, 7162 asymmetric links noted
+
+## [2026-05-06 07:17] SoftwareMapper: 3 pages created
+
+## [2026-05-06 08:30] Improve: Improved [[hrf]] page
+- Replaced placeholder with comprehensive content about Hemodynamic Response Function
+- Added sections on overview, mathematical models (double gamma function), HRF variability, fMRI analysis, relationship to TVB
+- Included 10+ wikilinks connecting to the-virtual-brain, jansen-rit-model, wong-wang-model, bold-model, neuroimaging-fmri, functional-connectivity, effective-connectivity, dynamic-causal-modeling, brain-oscillations, whole-brain-modeling, personalized-brain-modeling
+- Updated frontmatter: changed type from entity to concept, added proper tags (neuroimaging-fmri, neural-mass-models, dynamical-systems-theory, brain-dynamics), added 2 source papers
+- Content covers: neurovascular coupling, canonical HRF models, gamma function mathematics, HRF estimation and deconvolution, TVB forward modeling

@@ -1,7 +1,7 @@
 ---
 title: MEG/EEG Toolbox
 created: 2024-01-15
-updated: 2026-05-05
+updated: 2026-05-06
 type: concept
 tags: [neuroimaging-meg, neuroimaging-eeg, software-visualization, source-localization, forward-model, volume-conduction]
 sources: [oostenveld2011fieldtrip, gramfort2013mne, delorme2004eeglab, tadel2011brainstorm]

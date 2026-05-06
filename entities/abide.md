@@ -1,27 +1,10 @@
 ---
-title: ABIDE
 created: 2026-05-04
-updated: 2026-05-04
-type: entity
-tags: [software-brain-modeling]
 sources: []
+tags:
+- software-brain-modeling
+title: ABIDE
+type: entity
+updated: 2026-05-06
 ---
-
-# ABIDE
-
-## Overview
-*Placeholder — awaiting content from Ralph Improver.*
-
-## Key Features
-*Placeholder*
-
-## Relationship to TVB
-*Placeholder*
-
-## Key Papers
-*Placeholder*
-
-## Related Software
-* [[TVB]]
-
-## References
+/home/duke/src/tvb-wiki/ABIDE.md
