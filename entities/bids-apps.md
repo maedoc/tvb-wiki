@@ -44,7 +44,7 @@ Moreover, TVB's integration with tools like [[datalad]] enables version‑contro
 ## Key Papers
 
 - Gorgolewski, K., Alfaro‑Almagro, F., Auer, T., et al. (2017). BIDS Apps: Improving reproducibility in neuroimaging. Neuroimage.
-- Esteban, O., Markiewicz, C.J., Blair, R.W., et al. (2019). fMRIPrep: A robust preprocessing pipeline for functional MRI. Nature Methods.
+- Esteban, O., Markiewicz, C.J., Blair, R.W., et al. (2019). fMRIPrep: A robust preprocessing pipeline for [[neuroimaging-fmri|functional MRI]]. Nature Methods.
 - Esteban, O., Birman, D., Schaer, M., et al. (2017). MRIQC: Advancing the automatic prediction of MRI quality. PeerJ.
 - Cieslak, M., Cook, P.A., He, X., et al. (2021). [[qsiprep]]: An integrative pipeline for preprocessing and reconstruction of [[diffusion‑mri]] data.
 

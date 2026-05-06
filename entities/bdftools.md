@@ -15,7 +15,7 @@ tags:
 - software-eeg
 title: BDFtools
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # BDFtools
@@ -53,7 +53,7 @@ While [[the-virtual-brain]] (TVB) primarily operates on [[fmri]] data and struct
 
 ## Related Software
 
-Beyond the core BDF libraries, the broader electrophysiology ecosystem includes several tools with which BDF interoperability is essential: [[eeglab]] (a MATLAB-based comprehensive EEG processing environment) can import BDF files through its plugin system; Fieldtrip (another MATLAB toolbox from the Donders Institute) provides BDF reading through its dataio functions; and commercial systems like Brainstorm and Cartool also handle BDF input. For forward modeling and source localization that may follow BDF data import, the boundary element method implementations in [[openmeeg]] and the leadfield computation capabilities in Mne Python enable researchers to project sensor-space EEG data to estimated cortical sources—these sources can then be compared to TVB simulated activity.
+Beyond the core BDF libraries, the broader electrophysiology ecosystem includes several tools with which BDF interoperability is essential: [[eeglab]] (a MATLAB-based comprehensive EEG processing environment) can import BDF files through its plugin system; Fieldtrip (another MATLAB toolbox from the Donders Institute) provides BDF reading through its dataio functions; and commercial systems like [[brainstorm]] and Cartool also handle BDF input. For forward modeling and source localization that may follow BDF data import, the boundary element method implementations in [[openmeeg]] and the leadfield computation capabilities in Mne Python enable researchers to project sensor-space EEG data to estimated cortical sources—these sources can then be compared to TVB simulated activity.
 
 ## Open Questions and Limitations
 
