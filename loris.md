@@ -1,7 +1,7 @@
 ---
 title: LORIS
 created: 2025-01-15
-updated: 2026-05-03
+updated: 2026-05-06
 type: entity
 tags: [software-neuroimaging, database-neuroimaging, data-management, neuroimaging]
 sources: []

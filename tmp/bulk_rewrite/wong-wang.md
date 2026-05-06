@@ -1,7 +1,7 @@
 ---
 title: Wong-Wang Model
 created: 2026-04-20
-updated: 2026-04-27
+updated: 2026-05-06
 type: concept
 tags: [neural-mass-models, whole-brain-modeling, resting-state, functional-connectivity, neuroimaging-fmri, dynamic-causal-modeling, neural-mass-models-comparison]
 sources: [raw/papers/wendling-2002.md]

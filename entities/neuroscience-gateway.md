@@ -16,7 +16,7 @@ updated: '2026-05-06'
 ---
 
 ## Overview
-The Neuroscience Gateway (NSG) is a web-based computing portal that provides [[computational-neuroscience]] researchers with access to [[neural-simulation]] software and high-performance computing (HPC) resources through a simple web interface [@nsg-portal]. Developed to address the increasing computational demands of large-scale brain modeling and to lower barriers to entry for researchers without dedicated computing infrastructure, NSG serves as a central access point for running sophisticated neural simulations without requiring local software installation or significant local computational resources.
+The Neuroscience Gateway (NSG) is a web-based computing portal that provides [[computational-neuroscience]] researchers with access to neural simulation software and high-performance computing (HPC) resources through a simple web interface [@nsg-portal]. Developed to address the increasing computational demands of large-scale brain modeling and to lower barriers to entry for researchers without dedicated computing infrastructure, NSG serves as a central access point for running sophisticated neural simulations without requiring local software installation or significant local computational resources.
 
 The project originated from the San Diego Supercomputer Center (SDSC) at UC San Diego, with collaborative development involving Yale University. In 2012, the National Science Foundation (NSF) awarded a collaborative grant (awards DBI 1146949 to UC San Diego and DBI 1146830 to Yale University) to develop the Neuroscience Gateway, which officially launched in early 2013 [@ucsd-news-2012]. The project was led by Amit Majumdar (SDSC) as principal investigator, with Maryann Martone (Neuroscience Information Framework) as co-principal investigator, and Ted Carnevale (Yale) as the Yale principal investigator.
 
@@ -27,9 +27,9 @@ The Neuroscience Gateway provides several critical features that distinguish it 
 
 Second, NSG maintains a curated collection of popular neural simulation engines that are pre-configured and tested on the remote computing clusters, ensuring compatibility and optimal performance across different software packages. The NSG team collaborates with developers of neural simulation tools to optimally install, test, and benchmark these applications on compute resources.
 
-Third, the gateway supports both interactive sessions for exploratory modeling and batch processing for large-scale parameter sweeps, accommodating diverse research workflows. Notably, NSG provides bundled job submission support for [[brian]], enabling parameter sweep studies to be performed by creating a jobs-list file with multiple executable commands.
+Third, the gateway supports both interactive sessions for exploratory modeling and batch processing for large-scale parameter sweeps, accommodating diverse research workflows. Notably, NSG provides bundled job submission support for Brian, enabling parameter sweep studies to be performed by creating a jobs-list file with multiple executable commands.
 
-Fourth, the platform provides access to example models from databases such as [[model-validation]]—users can download models from [[modeldb]] and upload them to NSG for simulation on HPC resources—but direct automated importing from model databases is not a built-in feature.
+Fourth, the platform provides access to example models from databases such as [[model-validation]]—users can download models from ModelDB and upload them to NSG for simulation on HPC resources—but direct automated importing from model databases is not a built-in feature.
 
 Fifth, NSG includes tools for managing simulation outputs and results, facilitating data organization and sharing within research groups. Users receive email notifications upon job completion, and results are downloadable as zip archives containing the entire working directory.
 
@@ -39,7 +39,7 @@ While the Neuroscience Gateway and [[The Virtual Brain]] (TVB) serve complementa
 Researchers using TVB may leverage NSG resources for certain computational tasks, particularly when performing parameter optimization or [[parameter-estimation]] procedures that require significant computing power. The distinction reflects the architectural philosophy: TVB provides a specific modeling framework optimized for whole-brain dynamics, while NSG offers flexible access to diverse simulation tools for varied computational neuroscience applications.
 
 ## Technical Architecture
-The technical architecture of the Neuroscience Gateway consists of several interconnected components that work together to provide seamless access to computational resources. At the frontend, users interact with a web-based portal that allows model upload, parameter specification, and job submission through a graphical interface or programmatic [[rest]] APIs (known as NSG-R). This frontend connects to a job management system that handles queueing, scheduling, and execution of simulation tasks across available HPC resources.
+The technical architecture of the Neuroscience Gateway consists of several interconnected components that work together to provide seamless access to computational resources. At the frontend, users interact with a web-based portal that allows model upload, parameter specification, and job submission through a graphical interface or programmatic [[tvb-rest]] APIs (known as NSG-R). This frontend connects to a job management system that handles queueing, scheduling, and execution of simulation tasks across available HPC resources.
 
 The backend computing clusters are equipped with multiple neural simulation packages compiled and optimized for the specific hardware, ensuring reasonable execution performance. The gateway maintains user workspaces where simulation results are stored and can be accessed after job completion. Additionally, NSG provides configuration files and tutorials for common simulation scenarios, reducing the learning curve for new users. The system supports both the NEURON interpreter format (hoc and mod files) and [[NeuroML]] representations, promoting model interoperability and reuse across platforms.
 
@@ -55,7 +55,7 @@ Parameter sweep studies that systematically explore the behavior of neural model
 
 The platform also supports educational use cases, allowing students to run simulations without requiring access to dedicated computing infrastructure or installation of specialized software. NSG has been used for teaching neuroscience courses and workshops, where students can access simulation resources without needing individual accounts on HPC systems.
 
-Collaborative research projects benefit from the centralized nature of NSG, where shared workspaces facilitate data sharing and [[reproducibility]] across team members. The free access model (for academic and non-profit users) helps democratize computational neuroscience research, particularly benefiting researchers at institutions with limited computational infrastructure.
+Collaborative research projects benefit from the centralized nature of NSG, where shared workspaces facilitate data sharing and [[reproducibility]] across team members. The free access model (for academic and non‑profit users) helps democratize computational neuroscience research, particularly benefiting researchers at institutions with limited computational infrastructure.
 
 ## Key Papers
 The following publications document the development and use of the Neuroscience Gateway:
@@ -69,5 +69,5 @@ The following publications document the development and use of the Neuroscience 
 ## References
 
 1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
-2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](](https://arxiv.org/abs/2505.16861))
-3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](](https://doi.org/10.3389/fncom.2025.1731161))
+2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi‑Scale Co‑Simulation Framework with a Case Study on Neural‑Level Seizure Generation and Whole‑Brain Propagation*. [Link](](https://arxiv.org/abs/2505.16861))
+3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz‑Pier, Thanos Manos. (2026). *Arbor‑TVB: a novel multi‑scale co‑simulation framework with a case study on neural‑level seizure generation and whole‑brain propagation*. Frontiers Comput. Neurosci.. [DOI](](https://doi.org/10.3389/fncom.2025.1731161))

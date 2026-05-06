@@ -17,7 +17,7 @@ updated: '2026-05-06'
 
 # Schaefer Parcellation
 
-The **[[schaefer-atlas]]** is a widely-used functional [[brain-parcellation]] derived from [[resting-state|resting-state fMRI]] data in the [[human-[[connectome]]-project]]. It provides a hierarchical set of parcels at 100, 200, 300, 400, 500, 600, 800, and 1000 region resolutions, with 7-network or 17-network assignments.
+The **[[schaefer-atlas]]** is a widely-used functional [[brain-parcellation]] derived from [[resting-state|resting-state fMRI]] data in the [[human-connectome-project]]. It provides a hierarchical set of parcels at 100, 200, 300, 400, 500, 600, 800, and 1000 region resolutions, with 7-network or 17-network assignments.
 
 ## Overview
 

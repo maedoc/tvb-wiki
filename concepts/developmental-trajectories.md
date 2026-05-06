@@ -19,7 +19,7 @@ tags:
 - network-dynamics
 title: Developmental Trajectories
 type: concept
-updated: '2026-05-05'
+updated: '2026-05-06'
 ---
 
 Developmental trajectories describe the patterns of change in brain structure and function across the lifespan, from prenatal development through aging. These trajectories are often non-[[linear]], with different brain regions following distinct developmental curves that reflect the complex interplay between genetic programs and experience-dependent plasticity. Understanding these trajectories is essential for building biologically realistic [[whole-brain-modeling|[[whole-brain]] models]] that can accurately represent age-specific neural dynamics, predict individual outcomes, and identify deviations that may indicate developmental disorders.
@@ -125,7 +125,7 @@ Comprehensive whole-brain models must account for the full lifespan trajectory f
 - [[network-hubs]] – Highly connected regions that integrate networks
 - [[whole-brain-modeling]] – Large-scale computational models of [[brain-dynamics]]
 - [[resting-state]] – Intrinsic brain activity measured without task
-- [[default-mode-network]] – Network active during [[rest]] and self-referential processing
+- [[default-mode-network]] – Network active during [[tvb-rest]] and self-referential processing
 - [[nonlinear-dynamics]] – Mathematical framework for complex time-dependent systems
 
 ## References

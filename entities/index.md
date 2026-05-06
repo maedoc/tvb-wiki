@@ -47,6 +47,7 @@ A collection of people, software platforms, datasets, and research groups releva
 - [NNU-Net](nnu-net.md) - Self-configuring deep learning framework for biomedical image segmentation
 - [NiftyReg](niftyreg.md) - Open-source medical image registration toolkit for neuroimaging
 - [MedPy](medpy.md) - Python library for medical image processing and analysis
+- [Nengo](nengo.md) - Neural Engineering Framework simulator for building spiking neural networks
 - [NeuroM](neurom.md) - Python library for neuronal morphology analysis and visualization
 - [Neurosift](neurosift.md) - Browser-based NWB visualization and cloud archive exploration tool
 - [neuromaps](neuromaps.md) - Toolbox for multimodal brain map transformation and spatial comparison

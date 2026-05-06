@@ -54,7 +54,7 @@ JAX intersects with TVB in three main ways:
 
 - [[`[[brainpy]]`](](brainpy.md)) — [[brain-dynamics]] simulation framework built on JAX
 - [[`[[the-virtual-brain]]`](]([[the-virtual-brain]].md)) — TVB platform (future JAX integration planned)
-- [[`[[machine-learning]]`](]([[machine-learning]].md)) — general ML concepts and tools
+- [[[[machine-learning]]`](]([[machine-learning]].md)) — general ML concepts and tools
 
 ## References
 

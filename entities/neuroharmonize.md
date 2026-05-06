@@ -54,7 +54,7 @@ where $\alpha$ is the intercept, $X$ is the biological covariate matrix with coe
 
 ## Key Features
 
-NeuroHarmonize provides a flexible API compatible with the [[nilearn]] and [[numpy]] ecosystems, accepting input data as NumPy arrays or [[nifti]] images. The toolbox supports harmonization of various neuroimaging-derived features, including regional [[bold-signal]] time series, [[functional-connectivity]] matrices computed via [[nilearn]] or custom pipelines, gray matter volumes from VBM preprocessing, and cortical thickness measures from [[freesurfer]].
+NeuroHarmonize provides a flexible API compatible with the [[nilearn]] and NumPy ecosystems, accepting input data as NumPy arrays or [[nifti]] images. The toolbox supports harmonization of various neuroimaging-derived features, including regional [[bold-signal]] time series, [[functional-connectivity]] matrices computed via [[nilearn]] or custom pipelines, gray matter volumes from VBM preprocessing, and cortical thickness measures from [[freesurfer]].
 
 A distinguishing feature is the preservation of known biological variance. Unlike simpler regression approaches that may remove any variance correlated with site, NeuroHarmonize's empirical Bayes framework constrains batch effect estimates to reasonable ranges, reducing the risk of over-harmonization. The method optionally supports including age-by-site or diagnosis-by-site interactions to allow for different site effects across groups. [@pomponio2019harmonization]
 
