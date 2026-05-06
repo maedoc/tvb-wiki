@@ -320,3 +320,5 @@
 ## [2026-05-06 09:27] SoftwareMapper: 1 pages created
 
 ## [2026-05-06 10:02] Improve: 2 pages improved (calamity-atlas, abcbids)
+
+## [2026-05-06 10:32] Improve: 2 pages improved (niftynet, cfflib)

@@ -14,7 +14,7 @@ tags:
 - database-hcp
 title: Brainnetome Atlas
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 ## Overview
@@ -59,6 +59,7 @@ The Glasser Atlas represents another major connectivity-based parcellation based
 - [[the-virtual-brain]] — Whole-brain simulator that can use Brainnetome parcellations
 - [[connectome-workbench]] — General visualization tool compatible with various atlases
 - Nilearn — Python library for [[neuroimaging]] data manipulation, including atlas handling
+[[mindboggle]]
 
 ## Related Atlases
 
@@ -82,3 +83,25 @@ The Glasser Atlas represents another major connectivity-based parcellation based
 1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
 2. Konrad Kohnen, Peter Eipert, Laura Budde, Oliver Schmitt. (2025). *neuroVIISAS-based construction of a stereotactic rhesus monkey brain atlas for connectome research.*. Journal of Neuroscience Methods. [DOI](](https://doi.org/10.1016/j.jneumeth.2025.110656))
 3. (authors unknown). *Functional Network Organization of the Human Brain*.
+
+## ORPHAN PAGE CONTEXT (mindboggle)
+---
+created: 2025-01-15
+sources:
+- raw/papers/klein-2017-mindboggling-morphometry.md
+tags:
+- software-visualization
+- software-brain-modeling
+- neuroimaging-mri
+- brain-parcellations
+- parcellation
+- shape-analysis
+- open-source-brain
+title: Mindboggle
+type: entity
+updated: '2026-05-04'
+---
+
+## Overview
+
+Mindboggle is an open-source brain morphometry platform that takes preprocessed T1-weighted MRI data and outputs volumetric, surface-based, and tabular data containing anatomical labels, cortica

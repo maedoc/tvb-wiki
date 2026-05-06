@@ -1,13 +1,17 @@
 ---
+updated: '2026-05-06'
+---
+
+---
 title: [[nitrc]]
 created: 2024-01-15
 updated: 2026-05-06
 type: entity
-tags: [database, software, neuroimaging-fmri, neuroimaging-eeg, neuroimaging-meg, neuroimaging-dti, reproducibility, software-bct, software-fsl, software-spm]
+tags: [database, software, [[neuroimaging]]-fmri, neuroimaging-eeg, neuroimaging-meg, neuroimaging-dti, [[reproducibility]], software-bct, software-fsl, software-spm]
 sources:
   - "Neuroimaging Informatics Technology Initiative. (2012). NITRC: Neuroimaging informatics tools repository. Frontiers in Neuroinformatics."
   - "Gorgolewski, G., et al. (2017). NITRC-CE: A containerized computational environment for neuroimaging. Neuroinformatics."
-  - "Sanz Leon, P., et al. (2013). The Virtual Brain: a simulator of primate brain network dynamics. Neuroinformatics."
+  - "Sanz Leon, P., et al. (2013). [[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]. Neuroinformatics."
 
 # NITRC
 
@@ -17,7 +21,7 @@ NITRC (Neuroimaging Informatics Technology Initiative) is a community‑owned we
 
 ## Motivation and Context
 
-The neuroimaging field has historically suffered from a reproducibility crisis driven partly by the difficulty of managing complex software dependencies and the lack of standardized distribution mechanisms. Before NITRC, researchers who wanted to use tools like [[fsl-melodic]] for independent component analysis, SPM for statistical parametric mapping, or the Brain Connectivity Toolbox ([[bctpy]]) for graph‑theoretic analysis often had to navigate different download procedures, compile code from source, or track down dependencies manually [1]. This fragmented landscape created barriers for new researchers entering the field and made it difficult to reproduce published findings that relied on specific software configurations.
+The neuroimaging field has historically suffered from a reproducibility crisis driven partly by the difficulty of managing complex software dependencies and the lack of standardized distribution mechanisms. Before NITRC, researchers who wanted to use tools like [[fsl-melodic]] for independent component analysis, SPM for statistical parametric mapping, or the [[brain-[[connectivity]]-toolbox]] ([[bctpy]]) for graph‑theoretic analysis often had to navigate different download procedures, compile code from source, or track down dependencies manually [1]. This fragmented landscape created barriers for new researchers entering the field and made it difficult to reproduce published findings that relied on specific software configurations.
 
 NITRC was developed to centralize these resources and provide a sustainable infrastructure for the neuroimaging community. The repository not only hosts software downloads but also maintains documentation, supports discussion forums, and provides access to [[NITRC-CE]], the containerized computational environment that bundles software stacks for reproducible workflows [2]. This dual approach—direct software access plus containerized execution environments—positions NITRC as a comprehensive solution for both software discovery and reproducible deployment.
 
@@ -57,4 +61,4 @@ NITRC occupies a unique position in the neuroimaging software ecosystem, serving
 
 - Neuroimaging Informatics Technology Initiative. "NITRC: Neuroimaging informatics tools repository." *Frontiers in Neuroinformatics* 6 (2012): 7.
 - Gorgolewski, G., et al. "NITRC‑CE: A containerized computational environment for neuroimaging." *Neuroinformatics* 15, no. 1 (2017): 51‑58.
-- Sanz Leon, P., et al. "The Virtual Brain: a simulator of primate brain network dynamics." *Neuroinformatics* 11, no. 1 (2013): 49‑64.
+- Sanz Leon, P., et al. "The Virtual Brain: a simulator of primate [[brain-network]] dynamics." *Neuroinformatics* 11, no. 1 (2013): 49‑64.

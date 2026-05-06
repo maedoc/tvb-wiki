@@ -15,7 +15,7 @@ tags:
 - effective-connectivity
 title: BOLD Model
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # BOLD Model
@@ -26,7 +26,7 @@ The Blood Oxygen Level Dependent ([[bold-signal|BOLD]]) model is a computational
 
 ## Biophysical Basis
 
-The BOLD signal emerges from the **neurovascular coupling**—the cascade from neural firing to changes in cerebral hemodynamics. When neurons fire, they consume ATP and release vasodilators (such as nitric oxide, adenosine, and prostaglandins), causing arterioles and capillaries to dilate. This increases cerebral blood flow (CBF) by approximately 20–40% above baseline (Buxton et al., 1998). Simultaneously, the cerebral metabolic rate of oxygen (CMRO₂) increases by only 5–15%, creating a **mismatch** wherein the oxygen supply vastly exceeds the metabolic demand. The result is a reduced concentration of deoxyhemoglobin, which produces the positive BOLD signal that peaks approximately 4–6 seconds after neural onset (Obata et al., 2004)—the well-known **[[hemodynamic-response-function]] (HRF)**.
+The BOLD signal emerges from the **neurovascular coupling**—the cascade from neural firing to changes in cerebral hemodynamics. When neurons fire, they consume ATP and release vasodilators (such as nitric oxide, adenosine, and prostaglandins), causing arterioles and capillaries to dilate. This increases cerebral blood flow (CBF) by approximately 20–40% above baseline (Buxton et al., 1998). Simultaneously, the cerebral metabolic rate of oxygen (CMRO₂) increases by only 5–15%, creating a **mismatch** wherein the oxygen supply vastly exceeds the metabolic demand. The result is a reduced concentration of deoxyhemoglobin, which produces the positive BOLD signal that peaks approximately 4–6 seconds after neural onset (Obata et al., 2004)—the well-known **[[hemodynamic-response-function]] (HRF)**. See also [[hrf]].
 
 The original and most influential biophysical model of the BOLD signal is the **Balloon Model**, introduced by Richard Buxton and colleagues in 1998. This model treats the venous compartment as a balloon with elastic walls, subject to inflow of blood from the arterial compartment and outflow to the venous compartment. The Balloon Model comprises several state variables: the venous volume *v*, the deoxyhemoglobin content *q*, and the flow *f* (normalized to baseline). The evolution of these variables is governed by a set of nonlinear differential equations that capture the dynamic expansion and emptying of the venous balloon.
 

@@ -57,6 +57,7 @@ TVB combines:
 - [[NEURON]] - Multi-compartment neuron simulation environment
 - [[ANTs]] - Image registration for preprocessing neuroimaging data
 - [[dpabi]]
+- - [[dmriprep]]
 - Auryn
 - [[jax]]
 - [[cifti-tools]]
@@ -105,15 +106,15 @@ TVB combines:
 
 ## References
 
-1. Sanz Leon et al. (2013). *[[the-virtual-brain]]: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
-2. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](](https://doi.org/10.1089/brain.2012.0120))
-3. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](](https://doi.org/10.1016/j.neuroimage.2018.05.040))
-4. Deco et al. (2013). *Resting brains never [[rest]]: computational insights into potential cognitive architectures*. Trends in Neurosciences. [DOI](](https://doi.org/10.1016/j.tins.2013.09.002))
-5. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](](https://doi.org/10.1038/s41593-017-0015-4))
-6. Leon Martin, Konstantin Bülau, Marius Pille, Rico Schmitt, Christoph Hüttl, J. Meier, Halgurd Taher, Dionysios Perdikis, L. Stefanovski, [[petra-ritter]]. (2025). *The Virtual Brain Ontology: A Digital Knowledge Framework for Reproducible Brain Network Modeling*. bioRxiv. [DOI](](https://doi.org/10.1101/2025.11.19.689211))
-7. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](](https://arxiv.org/abs/2505.16861))
-8. Gianluca Gaglioti, Alessandra Cardinale, Cosimo Lupo, Thierry Nieus, Federico Marmoreo, Elena Focacci, Robin Gutzen, Michael Denker, Andrea Pigorini, Marcello Massimini, Simone Sarasso, Pier Stanislao Paolucci, Giulia De Bonis. *Emergent complexity and rhythms in evoked and spontaneous dynamics of human whole-brain models after tuning through analysis tools*. [Link](](https://arxiv.org/abs/2509.12873))
-9. Yunman Xia, S. Peng, J. Dukart, C. Xie, S. Xiang, S. Petkoski, Z. Li, J. Hipp, S. Muthukumarwedge, A. Forsyth, T. Jia, N. Vaidya, T. Lett, L. Qian, X. Chang, Y. Dai, T. Banaschewski, G. Barker, A. Bokde, R. Brühl, S. Desrivières, H. Flor, P. Gowland, A. Grigis, A. Heinz, H. Lemaître, F. Nees, D. Orfanos, L. Poustka, M. Smolka, S. Hohmann, H. Walter, R. Whelan, P. Wirsching, Z. Zhang, L. Robinson, J. Winterer, Y. Zhang, H. Kebir, U. Schmidt, J. Sinclair, Y. Liu, J. Wang, F. Dai, L. Zeng, Y. Hou, H. Wang, L. Ye, C. Li, Q. Zheng, A. Marquand, S. Zhou, V. Jirsa, J. Feng, W. Lu, G. Schumann. (2026). *Digital Twin Brain simulation and manipulation of a functional brain network underlying mental illness*. bioRxiv. [DOI](](https://doi.org/10.64898/2026.03.06.710030))
+1. Sanz Leon et al. (2013). *[[the-virtual-brain]]: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010))
+2. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120))
+3. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2018.05.040))
+4. Deco et al. (2013). *Resting brains never [[rest]]: computational insights into potential cognitive architectures*. Trends in Neurosciences. [DOI](https://doi.org/10.1016/j.tins.2013.09.002))
+5. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4))
+6. Leon Martin, Konstantin Bülau, Marius Pille, Rico Schmitt, Christoph Hüttl, J. Meier, Halgurd Taher, Dionysios Perdikis, L. Stefanovski, [[petra-ritter]]. (2025). *The Virtual Brain Ontology: A Digital Knowledge Framework for Reproducible Brain Network Modeling*. bioRxiv. [DOI](https://doi.org/10.1101/2025.11.19.689211))
+7. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861))
+8. Gianluca Gaglioti, Alessandra Cardinale, Cosimo Lupo, Thierry Nieus, Federico Marmoreo, Elena Focacci, Robin Gutzen, Michael Denker, Andrea Pigorini, Marcello Massimini, Simone Sarasso, Pier Stanislao Paolucci, Giulia De Bonis. *Emergent complexity and rhythms in evoked and spontaneous dynamics of human whole-brain models after tuning through analysis tools*. [Link](https://arxiv.org/abs/2509.12873))
+9. Yunman Xia, S. Peng, J. Dukart, C. Xie, S. Xiang, S. Petkoski, Z. Li, J. Hipp, S. Muthukumarwedge, A. Forsyth, T. Jia, N. Vaidya, T. Lett, L. Qian, X. Chang, Y. Dai, T. Banaschewski, G. Barker, A. Bokde, R. Brühl, S. Desrivières, H. Flor, P. Gowland, A. Grigis, A. Heinz, H. Lemaître, F. Nees, D. Orfanos, L. Poustka, M. Smolka, S. Hohmann, H. Walter, R. Whelan, P. Wirsching, Z. Zhang, L. Robinson, J. Winterer, Y. Zhang, H. Kebir, U. Schmidt, J. Sinclair, Y. Liu, J. Wang, F. Dai, L. Zeng, Y. Hou, H. Wang, L. Ye, C. Li, Q. Zheng, A. Marquand, S. Zhou, V. Jirsa, J. Feng, W. Lu, G. Schumann. (2026). *Digital Twin Brain simulation and manipulation of a functional brain network underlying mental illness*. bioRxiv. [DOI](https://doi.org/10.64898/2026.03.06.710030))
 
 ## ORPHAN PAGE CONTEXT (brainscales)
 ---

@@ -14,7 +14,7 @@ tags:
 - connectomics
 title: BMTK
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # BMTK (Brain Modeling Toolkit)
@@ -53,6 +53,8 @@ BMTK occupies a niche alongside several other neural simulation packages. Unlike
 
 For connectomics research, BMTK complements tools like the [[brain-connectivity-toolbox]] (BCT) by providing not just topological analysis but dynamical simulation of network behavior. The relationship to [[dynamic-causal-modeling]] is more conceptual: both frameworks can generate predictions about how neural activity propagates through networks, but DCM operates primarily as a Bayesian inversion framework for fitting models to empirical data, while BMTK builds forward models for hypothesis generation.
 
+[[brainpy]]
+
 ## Key Papers
 
 The following publications form the foundational literature for BMTK and its ecosystem:
@@ -74,3 +76,30 @@ The following publications form the foundational literature for BMTK and its eco
 1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
 2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](](https://arxiv.org/abs/2505.16861))
 3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](](https://doi.org/10.3389/fncom.2025.1731161))
+
+## ORPHAN PAGE CONTEXT (brainpy)
+---
+created: 2026-05-05
+sources:
+- https://doi.org/10.7554/eLife.86365
+- https://brainpy.readthedocs.io/
+- https://github.com/PKU-NIP-Lab/BrainPy
+- raw/papers/arxiv-2509.02799.md
+- raw/papers/arxiv-2505.16861.md
+- raw/papers/semanticscholar-eb704b6f5462.md
+tags:
+- software-brain-modeling
+- spiking-neural-networks
+- neural-mass-models
+- python
+- jax
+title: BrainPy
+type: entity
+updated: '2026-05-06'
+---
+
+# Brain Py
+
+## Overview
+
+BrainPy is a flexible, efficient, and extensible Python-based framewor
