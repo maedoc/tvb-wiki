@@ -21,3 +21,5 @@
 - Wikilinks included: resting-state, fmri, neuroimaging-eeg, neuroimaging-meg, dti, the-virtual-brain, human-connectome-project, uk-biobank, pybids, bids-apps, bids-derivatives, nipype, diffusion-imaging, resting-state-fmri, whole-brain-modeling, network-dynamics
 
 ## [2026-05-06 22:05] CrosslinkApplier: added 329 wikilinks (329 inline, 0 suggested)
+
+## [2026-05-06 22:05] Matcher: 39 pages got 111 new sources
