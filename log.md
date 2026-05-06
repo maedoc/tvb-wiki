@@ -235,3 +235,5 @@
 
 ## [2026-05-06 07:20] Audit: 894 issues (98 broken links, 54 orphans, 22 placeholders, 0 dup-refs, 5 bad-meta, 85 citation-verify, 10 opaque-refs, 73 thin, 352 missing-links)
 - Updated neuroml2.md: Added wikilinks, enhanced technical content, removed redundant References section, updated date
+
+## [2026-05-06 07:24] CrosslinkApplier: added 20 wikilinks (20 inline, 0 suggested)
