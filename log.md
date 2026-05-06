@@ -10,6 +10,7 @@
   - Relationship to whole-brain modeling
 - Sources added: arxiv-2506.06234.md, jordan-2018.md, strogatz-1994.md
 - Wikilinks included: whole-brain-modeling, computational-neuroscience, spiking-neural-networks, nest, brian, brainpy, neural-mass-models, mean-field-theory, dynamical-systems-theory, nonlinear-dynamics, epilepsy-modeling, brain-oscillations, structural-connectivity, functional-connectivity, effective-connectivity, the-virtual-brain, brain-dynamics, network-dynamics, wong-wang-model, jansen-rit-model
+
 ## [2026-05-06 21:40] Improve: 3 pages improved (bids, brain-parcellations, michael-fox)
 
 ## [2026-05-06 21:45] RefFormatter: formatted references on 28 pages
@@ -31,3 +32,20 @@
 - Details: Removed incorrect characters (通用, 链条), added additional wikilinks to resting-state, openneuro, functional-connectivity, structural-connectivity, brain-network
 - Maintained source: sanz-leon-2013.md
 - Wikilinks added: openneuro, resting-state-fmri, functional-connectivity, structural-connectivity, brain-network, brain-dynamics, diffusion-imaging
+
+## [2026-05-06 22:32] Improve: 4 pages improved (neuromorphic-computing, critical-periods, bids, hemodynamic-response-function)
+
+## [2026-05-06 22:40] Improve: michael-fox page
+- Action: Created comprehensive entity page for Michael D. Fox
+- Details: Added complete researcher profile including:
+  - Research background and training (MD/PhD Washington University, Harvard appointment)
+  - Key contributions (resting state fcMRI, lesion network mapping, brain stimulation targeting)
+  - Landmark publications with citation context
+  - Center for Brain Circuit Therapeutics overview
+  - Relationship to TVB and whole-brain modeling
+- Tags used: people-researcher, brain-stimulation, functional-connectivity, connectomics, neuroimaging-fmri, resting-state, brain-network, deep-brain-stimulation, transcranial-magnetic-stimulation, human-connectome-project
+- Wikilinks included: human-connectome-project, whole-brain-modeling, functional-connectivity, structural-connectivity, connectome, brain-network, resting-state, deep-brain-stimulation, transcranial-magnetic-stimulation, brain-stimulation, personalized-brain-modeling, the-virtual-brain
+
+## [2026-05-06 22:50] IndexUpdate: Added neuromorphic-computing to entities/index.md
+- Action: Added neuromorphic-computing to Software Platforms section in entities/index.md
+- Details: Entry placed among neuromorphic hardware platforms (SpiNNaker) and neural network simulators

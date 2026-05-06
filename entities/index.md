@@ -42,6 +42,7 @@ A collection of people, software platforms, datasets, and research groups releva
 - [Brian2GeNN](brian2genn.md) - GPU-accelerated spiking neural network simulation via Brian2-GeNN bridge
 - [BCBToolKit](bcbtoolkit.md) - Brain-Computer Interface toolkit for real-time EEG signal processing and BCI applications
 - [SpiNNaker](spinnaker.md) - Neuromorphic many-core platform for real-time spiking neural network simulation
+- [Neuromorphic Computing](neuromorphic-computing.md) - Computing architectures and algorithms inspired by biological neural systems
 - [SimBrain](simbrain.md) - Interactive neural network simulator focused on emergent behaviors and learning
 - [Nighres](nighres.md) - High-resolution neuroimaging processing for laminar analysis
 - [NNU-Net](nnu-net.md) - Self-configuring deep learning framework for biomedical image segmentation

@@ -3,7 +3,7 @@ title: Neuromorphic Computing
 created: 2026-04-20
 updated: 2026-05-06
 type: concept
-tags: [spiking-neural-networks, neural-mass-models, whole-brain-modeling, computational-neuroscience, network-dynamics, dynamical-systems-theory, software-nest, software-brian]
+tags: [spiking-neural-networks, neural-mass-models, whole-brain-modeling, network-dynamics, dynamical-systems-theory, software-nest, software-brian, brain-oscillations, excitation-inhibition-balance]
 sources: [raw/papers/arxiv-2506.06234.md, raw/papers/jordan-2018.md, raw/papers/strogatz-1994.md]
 ---
 
@@ -35,11 +35,15 @@ Several software platforms implement neuromorphic computing principles for neura
 
 [[brainpy]] represents a more recent addition to the ecosystem, providing a framework for simulating [[spiking-neural-networks]] with support for [[mean-field-theory]] approximations and advanced analysis tools. Brainpy emphasizes the integration of [[dynamical-systems-theory]] methods directly into the simulation workflow, enabling bifurcation analysis of network dynamics during simulation.
 
+### Hardware Platforms
+
+Beyond software simulators, several dedicated neuromorphic hardware platforms implement neural computation directly in silicon. [[brainscales]] (developed at Intel Labs) represents a prominent example of analog neuromorphic hardware, featuring ultra-low-latency communication between spiking neurons and efficient event-driven processing that can achieve real-time simulation with dramatically lower power consumption than digital alternatives. [[sinabs]] (SNN-based Accelerator) is another notable platform targeting efficient spiking neural network inference, while [[neurom]] provides a versatile software framework for mapping neural network descriptions onto various neuromorphic hardware targets. These hardware platforms are particularly relevant for [[personalized-brain-modeling]] applications where real-time responsiveness and long-term monitoring are essential.
+
 ## Biological Grounding
 
 Neuromorphic computing aims to capture several fundamental properties of biological neural systems. The event-driven nature of spiking networks, where computation occurs only when neurons fire, mirrors the sparse coding strategy employed by biological brains. This sparsity provides a natural pathway to energy-efficient computation, as only a small fraction of neurons are active at any given time. The inhibition-stabilized network architecture identified in the Lienkaemper and Ocker work represents a fundamental motif in biological brains, where feedback inhibition maintains network stability while allowing diverse dynamical states including oscillations, chaos, and metastable patterns.
 
-The study of [[brain-oscillations]]—a core topic in neuroscience—benefits directly from neuromorphic modeling approaches. The relaxation of fast inhibition assumptions in the Lienkaemper and Ocker study revealed bifurcations between mean-field-like dynamics and global excitatory/inhibitory oscillations, connecting directly to the gamma oscillations, theta rhythms, and other oscillatory patterns observed in EEG and MEG recordings. Neuromorphic simulations thus provide a bridge between cellular-level synaptic mechanisms and mesoscale dynamical phenomena observable in neuroimaging.
+The study of brain-oscillations—a core topic in neuroscience—benefits directly from neuromorphic modeling approaches. The relaxation of fast inhibition assumptions in the Lienkaemper and Ocker study revealed bifurcations between mean-field-like dynamics and global excitatory/inhibitory oscillations, connecting directly to the gamma oscillations, theta rhythms, and other oscillatory patterns observed in EEG and MEG recordings. Neuromorphic simulations thus provide a bridge between cellular-level synaptic mechanisms and mesoscale dynamical phenomena observable in neuroimaging.
 
 ## Relationship to Whole-Brain Modeling
 

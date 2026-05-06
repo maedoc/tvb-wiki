@@ -3,40 +3,72 @@ title: Michael D. Fox
 created: 2026-04-20
 updated: 2026-05-06
 type: entity
-tags: [people-researcher, functional-connectivity, brain-stimulation, neuroimaging-fmri, resting-state]
-sources: [raw/papers/fox-raichle-2007.md]
+tags: [people-researcher, brain-stimulation, functional-connectivity, connectomics, neuroimaging-fmri, resting-state, brain-network, deep-brain-stimulation, transcranial-magnetic-stimulation, human-connectome-project]
+sources: []
 ---
 
-Michael D. Fox is a neurologist and neuroscientist known for pioneering work on mapping brain networks using resting-state functional connectivity magnetic resonance imaging (fcMRI) and for translating these findings into improved brain stimulation therapies for neurological and psychiatric disorders.
+Michael D. Fox, MD, PhD is a physician-scientist and Professor of Neurology at Harvard Medical School who directs the Center for Brain Circuit Therapeutics at Brigham and Women's Hospital in Boston. His research focuses on mapping and modulating human brain circuits to develop new treatments for neurological and psychiatric diseases. Fox is internationally recognized for his work on resting state functional connectivity MRI and its application to understanding brain stimulation therapies.
 
-## Research Overview
+## Research Background and Training
 
-Fox's research focuses on understanding the brain's intrinsic functional organization and applying this knowledge to develop new treatments for brain disease. His work bridges the gap between basic neuroscience and clinical application, particularly in the domain of brain stimulation therapy. The central insight driving his research is that both invasive brain stimulation and noninvasive brain stimulation exert their therapeutic effects by modulating distributed brain networks, rather than acting on isolated brain regions. This network perspective has fundamentally changed how researchers and clinicians think about targeting brain stimulation for conditions including depression, Parkinson's disease, and other neuropsychiatric disorders.
+Fox received his undergraduate degree in Electrical Engineering from Ohio State University, followed by combined MD and PhD training at Washington University in St. Louis. He completed neurology residency and a movement disorders fellowship at Mass General Brigham. This unique training in electrical engineering, neuroimaging, and clinical neurology provides the foundation for his interdisciplinary approach to brain circuit mapping and neuromodulation.
 
-A major contribution of Fox's work has been demonstrating that the efficacy of brain stimulation can be predicted based on functional connectivity between the stimulation site and specific brain circuits. For example, in treatment-resistant depression, the antidepressant efficacy of brain stimulation applied to the dorsolateral prefrontal cortex is related to the strength of anticorrelation with the subgenual cingulate cortex. This finding provided a mechanistic rationale for target selection and led to approaches for personalizing treatment based on individual patient connectivity patterns. The network perspective has been crucial for developing brain stimulation targeting approaches and for understanding the mechanisms of action of different stimulation modalities.
+His clinical practice specializes in both invasive brain stimulation (deep brain stimulation) and non-invasive brain stimulation (transcranial magnetic stimulation) for the treatment of movement disorders, epilepsy, and depression. This dual expertise as a clinician and researcher enables him to directly translate circuit-level insights into therapeutic interventions.
 
-## Key Contributions
+## Key Research Contributions
 
-Fox has authored several highly influential papers that have shaped the field of functional neuroimaging and brain stimulation. His early work established the concept of intrinsically anticorrelated brain networks, demonstrating that spontaneous fluctuations in the blood oxygen level-dependent (BOLD) signal during rest reveal coherent patterns of brain activity that mirror the organization observed during cognitive tasks. This work helped establish resting-state fcMRI as a fundamental tool for mapping the brain's large-scale functional architecture.
+### Resting State Functional Connectivity MRI
 
-Subsequent work focused on the relationship between brain stimulation and functional connectivity. Fox demonstrated that both invasive and noninvasive brain stimulation modalities activate common brain networks, suggesting that diverse stimulation approaches achieve therapeutic effects through similar circuit mechanisms. This insight has been crucial for developing network-based approaches to brain stimulation target selection and for understanding the mechanisms of action of different stimulation modalities.
+Fox has made fundamental contributions to the development and application of resting state functional connectivity MRI (fcMRI), a neuroimaging technique that uses spontaneous fluctuations in blood oxygenation to map intrinsic brain networks. His early work demonstrated that the human brain is intrinsically organized into dynamic, anticorrelated functional networks, revealing the default mode network and its anti-correlation with attention networks. This foundational discovery has become one of the most cited findings in modern neuroimaging.
 
-More recently, Fox has extended this work to demonstrate that focal brain lesions that produce specific symptoms are connected to the same brain circuits that can be modulated by therapeutic brain stimulation. This convergence between brain lesions and stimulation provides a principled approach for identifying novel stimulation targets and for understanding the circuit-basis of psychiatric and neurological symptoms.
+His influential 2007 review article "Spontaneous fluctuations in brain activity observed with functional magnetic resonance imaging" in Nature Reviews Neuroscience remains a landmark paper in the field, describing how spontaneous low-frequency oscillations in the BOLD signal reflect underlying neuronal activity and can be used to delineate functional brain networks without task performance.
 
-## Relationship to TVB
+### Lesion Network Mapping
 
-Fox's research on whole-brain network organization and functional connectivity provides foundational knowledge for [[whole-brain modeling]] approaches that rely on structural and functional connectivity data. His work on mapping resting-state networks and understanding how brain stimulation modulates these networks is directly relevant to the simulation framework used by [[the-virtual-brain]]. Specifically, the connectivity-based targeting approaches pioneered by Fox informed the development of personalized brain models that integrate patient-specific connectivity data to predict network dynamics and therapeutic outcomes.
+A major innovation from Fox's laboratory is the development of lesion network mapping, a technique that uses normative maps of human brain connectivity to understand how focal brain lesions produce neurological and psychiatric symptoms. The key insight is that symptoms from brain lesions often arise from connected brain regions rather than the lesion site itself. By combining lesion locations with human connectome data, Fox's team has mapped symptoms ranging from hallucinations and delusions to disorders of consciousness and involuntary movements.
 
-The theoretical framework underlying Fox's network-based approach to brain stimulation shares conceptual foundations with the large-scale brain modeling paradigm employed in TVB, where brain dynamics emerge from the interaction of regional neural masses through structural connectivity pathways derived from diffusion imaging. Understanding the functional connectivity correlates of therapeutic targets, as demonstrated in Fox's work, provides validation benchmarks for whole-brain simulations and helps ensure that virtual brain models capture physiologically relevant network dynamics.
+This approach represented a paradigm shift in connecting symptoms to brain anatomy, moving beyond correlational neuroimaging to causal inference based on lesion-induced changes. The methodology has been applied to diverse conditions including Parkinson's disease, depression, and disorders of consciousness.
+
+### Brain Stimulation Target Identification
+
+Fox has pioneered the use of human brain connectivity to identify optimal targets for both invasive and non-invasive brain stimulation. His work demonstrated that the efficacy of transcranial magnetic stimulation for depression depends on functional connectivity with the subgenual cingulate cortex, establishing a network-based approach to target selection that has since become standard practice.
+
+Similarly, his research on deep brain stimulation for Parkinson's disease revealed that clinical outcomes are determined by the connectivity of the stimulation site to specific brain networks, rather than just the anatomical location of the electrode. This network-based framework has led to more precise and effective stimulation protocols.
+
+## Landmark Publications
+
+Fox's research has produced over 50,000 citations. Some of his most influential papers include:
+
+- "The human brain is intrinsically organized into dynamic, anticorrelated functional networks" (PNAS, 2005) — Demonstrated the existence of competing brain networks at rest
+- "Spontaneous fluctuations in brain activity observed with functional magnetic resonance imaging" (Nature Reviews Neuroscience, 2007) — Comprehensive review of resting state fcMRI
+- "Clinical applications of resting state functional connectivity" (Frontiers in Systems Neuroscience, 2010) — Translation to clinical research
+- "Efficacy of transcranial magnetic stimulation targets for depression is related to intrinsic functional connectivity with the subgenual cingulate" (Biological Psychiatry, 2012) — Network-based TMS target optimization
+- "Resting-state networks link invasive and noninvasive brain stimulation across diverse psychiatric and neurological diseases" (PNAS, 2014) — Unified framework for brain stimulation
+- "Mapping symptoms to brain networks with the human connectome" (New England Journal of Medicine, 2018) — Authoritative review of lesion network mapping
+
+## Center for Brain Circuit Therapeutics
+
+In 2020, Fox founded the Center for Brain Circuit Therapeutics at Brigham and Women's Hospital, one of the first centers dedicated to translating circuit-level neuroscience into clinical treatments. The Center integrates expertise from Neurology, Psychiatry, Neurosurgery, and Radiology to offer comprehensive neuromodulation therapies including DBS, TMS, and MRI-guided focused ultrasound.
+
+The Center represents a unique model for precision neuromodulation, where treatment selection is guided by individual patient symptom profiles mapped onto brain circuits. This approach promises more personalized and effective treatments for patients with refractory neurological and psychiatric conditions.
+
+## Relationship to TVB and Whole-Brain Modeling
+
+Fox's work is closely related to the mission of The Virtual Brain (TVB) in several important ways. His research on mapping brain symptoms to circuits using the [[human-connectome-project]] data provides essential groundwork for personalized [[whole-brain-modeling]] approaches. The normative connectivity datasets he utilizes, often derived from [[hcp-dataset]], are the same structural connectivity matrices employed in TVB simulations.
+
+The concept of [[functional-connectivity]] emergence from underlying [[structural-connectivity]] is central to both Fox's lesion network mapping and TVB's whole-brain modeling framework. Fox's demonstrations that stimulation effects propagate through brain networks rather than acting locally align with TVB's network-based neural mass modeling approach.
+
+Furthermore, Fox's work on [[brain-stimulation]] target optimization using connectivity profiles parallels TVB's use of [[parameter-estimation]] to identify optimal stimulation sites in personalized brain models. The integration of his network mapping approaches with TVB's simulation capabilities offers promising avenues for improving neuromodulation therapies.
 
 ## Related Concepts
 
-- [[functional-connectivity]]
-- [[resting-state]]
-- [[brain-stimulation]]
-- [[neuroimaging-fmri]]
-- [[default-mode-network]]
-- [[whole-brain-modeling]]
-- [[connectomics]]
-- [[whole-brain]]
-- [[structural-connectivity]]
+- [[functional-connectivity]] — The correlation patterns in brain activity that Fox maps using fcMRI
+- [[structural-connectivity]] — The anatomical wiring that underlies functional networks
+- [[connectome]] — The comprehensive map of neural connections that Fox uses for lesion mapping
+- [[brain-network]] — Intrinsic networks like the default mode network that Fox identified
+- [[resting-state]] — The baseline brain activity that Fox's fcMRI methods examine
+- [[deep-brain-stimulation]] — An invasive neuromodulation therapy Fox uses clinically
+- [[transcranial-magnetic-stimulation]] — A non-invasive therapy whose targets Fox optimizes
+- [[human-connectome-project]] — The source of connectivity data that enables Fox's methods
+- [[brain-stimulation]] — The broader field of neuromodulation Fox pioneers
+- [[personalized-brain-modeling]] — The approach of tailoring models to individual patients

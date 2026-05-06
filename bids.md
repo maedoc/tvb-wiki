@@ -4,7 +4,7 @@ created: 2026-04-20
 updated: 2026-05-06
 type: concept
 tags: [dataset]
-sources: [raw/papers/sanz-leon-2013.md]
+sources: [raw/papers/gorgolewski-2016.md]
 ---
 
 BIDS (Brain Imaging Data Structure) is a standardized specification for organizing and sharing neuroimaging data. It defines a hierarchical file structure with standardized naming conventions, metadata schemas (in JSON sidecar files), and data formats that make neuroimaging datasets interoperable across different analysis tools and laboratories. Originally developed to address the reproducibility crisis in neuroimaging, BIDS has become the de facto community standard for sharing raw neuroimaging data, particularly for [[resting-state]] and task-based [[fmri]] studies, as well as [[neuroimaging-eeg]], [[neuroimaging-meg]], and diffusion-weighted imaging ([[dti]]).
