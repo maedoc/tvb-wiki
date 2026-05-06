@@ -312,3 +312,5 @@
 ## [2026-05-06 09:16] CrosslinkApplier: added 107 wikilinks (107 inline, 0 suggested)
 
 ## [2026-05-06 09:21] DeepResearch: 2 papers added via focused research
+
+## [2026-05-06 09:23] Matcher: 14 pages got 36 new sources
