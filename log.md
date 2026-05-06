@@ -314,3 +314,5 @@
 ## [2026-05-06 09:21] DeepResearch: 2 papers added via focused research
 
 ## [2026-05-06 09:23] Matcher: 14 pages got 36 new sources
+
+## [2026-05-06 09:24] Improve: 4 pages improved (rockpool, sinabs, dcan-tools, nitrc)

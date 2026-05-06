@@ -14,7 +14,7 @@ tags:
 - software-freesurfer
 title: ABCBIDS
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # ABCBIDS
@@ -43,9 +43,9 @@ A notable feature of the conversion process is the optimal spin echo field map s
 
 The ABCD-HCP pipeline is a BIDS App—a containerized software package that takes BIDS-formatted input and produces BIDS-compliant derivatives with minimal user configuration. Built upon the [[Human Connectome Project]]'s minimal preprocessing pipeline (Glasser et al., 2013), it outputs preprocessed MRI data in both volume (NIfTI) and surface ([[cifti]]/GIFTI) spaces. The pipeline is available as both Docker and Singularity images, facilitating deployment across different computing environments including high-performance computing clusters.
 
-The pipeline consists of nine processing stages: PreFreeSurfer (gradient distortion correction, brain extraction, T1w/T2w registration), FreeSurfer (segmentation, cortical surface reconstruction), PostFreeSurfer (CIFTI generation, atlas registration), FMRIVolume (motion correction, distortion correction using [[FSL]]'s topup, volume registration to MNI), FMRISurface (projection to CIFTI grayordinates space), DCANBOLDProcessing (nuisance regression, motion censoring, bandpass filtering), ExecutiveSummary (HTML visual quality control), CustomClean (removal of non-critical outputs), and FileMapper (organizing outputs into valid BIDS derivatives).
+The pipeline consists of nine processing stages: PreFreeSurfer (gradient distortion correction, brain extraction, T1w/T2w registration), FreeSurfer (segmentation, cortical surface reconstruction), PostFreeSurfer (CIFTI generation, atlas registration), FMRIVolume (motion correction, distortion correction using [[fsl-melodic]]'s topup, volume registration to MNI), FMRISurface (projection to CIFTI grayordinates space), DCANBOLDProcessing (nuisance regression, motion censoring, bandpass filtering), ExecutiveSummary (HTML visual quality control), CustomClean (removal of non-critical outputs), and FileMapper (organizing outputs into valid BIDS derivatives).
 
-A distinguishing feature of the ABCD-HCP pipeline is its robust handling of scanner vendor differences. Siemens, Philips, and General Electric scanners produce data with different characteristics—for example, GE anatomical images lack scanner-based intensity normalization. To address this, the pipeline incorporates [[ants]] (Advanced Normalization Tools) denoising and N4 bias field correction in the PreFreeSurfer stage, and uses [[ants]] diffeomorphic registration instead of [[FSL]]'s FNIRT for improved atlas alignment across vendors. Additionally, a respiratory motion filter addresses artifacts specific to multiband acquisition, with bandstop filtering applied to motion parameters in the 18.582–25.726 breaths-per-minute range (the interquartile range for adolescent respiratory rates).
+A distinguishing feature of the ABCD-HCP pipeline is its robust handling of scanner vendor differences. Siemens, Philips, and General Electric scanners produce data with different characteristics—for example, GE anatomical images lack scanner-based intensity normalization. To address this, the pipeline incorporates [[ants]] (Advanced Normalization Tools) denoising and N4 bias field correction in the PreFreeSurfer stage, and uses [[ants]] diffeomorphic registration instead of [[fsl-melodic]]'s FNIRT for improved atlas alignment across vendors. Additionally, a respiratory motion filter addresses artifacts specific to multiband acquisition, with bandstop filtering applied to motion parameters in the 18.582–25.726 breaths-per-minute range (the interquartile range for adolescent respiratory rates).
 
 ## ABCC Dataset
 
@@ -57,9 +57,9 @@ A distinctive aspect of ABCC is its emphasis on quality control at multiple stag
 
 ## Related Software and Pipelines
 
-The ABCBIDS ecosystem integrates with numerous established neuroimaging tools. For preprocessing, [[fMRIPrep]] provides an alternative functional MRI processing stream that ABCD investigators have also applied to the data, with derivatives available for the baseline sample. [[QSIPrep]] serves as the primary diffusion MRI preprocessing pipeline, analogous to fMRIPrep but specialized for DWI data. For quality control, the collection includes outputs from tools like [[MRIQC]] for raw data and custom QC visualizations in the ExecutiveSummary HTML reports.
+The ABCBIDS ecosystem integrates with numerous established neuroimaging tools. For preprocessing, [[fMRIPrep]] provides an alternative functional MRI processing stream that ABCD investigators have also applied to the data, with derivatives available for the baseline sample. [[smriprep]] serves as the primary diffusion MRI preprocessing pipeline, analogous to fMRIPrep but specialized for DWI data. For quality control, the collection includes outputs from tools like [[MRIQC]] for raw data and custom QC visualizations in the ExecutiveSummary HTML reports.
 
-The pipeline dependencies include [[FreeSurfer]] (for segmentation and surface reconstruction), [[FSL]] (for topup, FLIRT, and general image processing), and [[ants]] (for registration and normalization). The DICOM handling relies on [[dcm2niix]] for conversion and DCMTK for metadata extraction. The entire ecosystem uses Docker and Singularity containers for reproducibility and portability.
+The pipeline dependencies include [[pysurfer]] (for segmentation and surface reconstruction), [[fsl-melodic]] (for topup, FLIRT, and general image processing), and [[ants]] (for registration and normalization). The DICOM handling relies on [[dcm2niix]] for conversion and DCMTK for metadata extraction. The entire ecosystem uses Docker and Singularity containers for reproducibility and portability.
 
 ## Key Papers
 
