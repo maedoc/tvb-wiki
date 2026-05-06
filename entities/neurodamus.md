@@ -1,6 +1,7 @@
 ---
 created: 2024-01-15
-sources: []
+sources:
+- raw/papers/sanz-leon-2013.md
 tags:
 - software-tvb
 - spiking-neural-networks

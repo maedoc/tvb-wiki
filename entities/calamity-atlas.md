@@ -1,6 +1,9 @@
 ---
 created: 2025-01-15
-sources: []
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-9538aa9a62c5.md
+- raw/papers/semanticscholar-565d9037ee06.md
 tags:
 - brain-parcellations
 - database-hcp

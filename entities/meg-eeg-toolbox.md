@@ -5,6 +5,7 @@ sources:
 - gramfort2013mne
 - delorme2004eeglab
 - tadel2011brainstorm
+- raw/papers/arxiv-2604.16463.md
 tags:
 - neuroimaging-meg
 - neuroimaging-eeg

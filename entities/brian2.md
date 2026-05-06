@@ -3,6 +3,9 @@ created: 2024-01-15
 sources:
 - stimberg_brian2_2019
 - brette_original_brian_2007
+- raw/papers/gewaltig-diesmann-2007.md
+- raw/papers/semanticscholar-3256c8880985.md
+- raw/papers/arxiv-2505.16861.md
 tags:
 - software-brian
 - spiking-neural-networks

@@ -4,6 +4,8 @@ sources:
 - raw/papers/brette-gerstner-2005.md
 - raw/papers/izhikevich-2007.md
 - raw/papers/naud-maccher-2008.md
+- raw/papers/arxiv-2511.09243.md
+- raw/papers/arxiv-2510.08436.md
 tags:
 - spiking-neural-networks
 - neural-mass-models

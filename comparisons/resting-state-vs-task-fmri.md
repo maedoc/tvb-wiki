@@ -1,6 +1,9 @@
 ---
 created: 2026-05-06
-sources: []
+sources:
+- raw/papers/power-2011.md
+- raw/papers/smith-2013-hcp.md
+- raw/papers/arxiv-2602.03240.md
 tags:
 - neuroimaging-fmri
 - resting-state

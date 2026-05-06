@@ -3,6 +3,9 @@ created: 2024-01-15
 sources:
 - https://www.cmtk.org/cfflib/
 - https://www.frontiersin.org/articles/10.3389/fninf.2011.00003/full
+- raw/papers/sanz-leon-2013.md
+- raw/papers/bein-2018.md
+- raw/papers/woodman-2014.md
 tags:
 - software-connectomics
 - software-neuroimaging

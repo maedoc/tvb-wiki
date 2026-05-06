@@ -5,6 +5,9 @@ sources:
 - jansen1993electroencephalogram
 - wong2006inhibitory
 - freeman1992neural
+- raw/papers/arxiv-2602.19023.md
+- raw/papers/arxiv-2508.02633.md
+- raw/papers/arxiv-2512.05252.md
 tags:
 - neural-mass-models
 - dynamical-systems-theory

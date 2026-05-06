@@ -4,6 +4,9 @@ sources:
 - dandi-2020
 - bids-extension-neurophysiology
 - nwb-overview
+- raw/papers/semanticscholar-9b1cdfcfb89c.md
+- raw/papers/semanticscholar-5f347f47ec54.md
+- raw/papers/semanticscholar-a324c47ea982.md
 tags:
 - database
 - neurophysiology

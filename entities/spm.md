@@ -1,6 +1,9 @@
 ---
 created: 2026-05-06
-sources: []
+sources:
+- raw/papers/david-friston-2003.md
+- raw/papers/glean-github.md
+- raw/papers/sanz-leon-2013.md
 tags:
 - software-spm
 - neuroimaging-fmri

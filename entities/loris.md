@@ -5,6 +5,9 @@ sources:
 - bids2016
 - mcgill-loris-web
 - hcp-database
+- raw/papers/huntenburg-2018.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/Renton2024.md
 tags:
 - software-bids
 - database-hcp

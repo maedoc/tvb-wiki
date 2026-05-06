@@ -1,6 +1,9 @@
 ---
 created: 2026-05-04
-sources: []
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/schirner-2018.md
+- raw/papers/arxiv-2503.15830.md
 tags:
 - software-brain-modeling
 - diffusion-imaging

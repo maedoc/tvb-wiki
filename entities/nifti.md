@@ -7,6 +7,7 @@ sources:
 - raw/papers/semanticscholar-d2dfba2091a2.md
 - raw/papers/semanticscholar-cabf914d6370.md
 - raw/papers/semanticscholar-dacc3b888fa6.md
+- raw/papers/schirner-2018.md
 tags:
 - neuroimaging
 - software-neuroimaging

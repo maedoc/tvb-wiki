@@ -9,6 +9,9 @@ sources:
 - wachinger2020combat
 - zhao2021longitudinal
 - lee2022benchmark
+- raw/papers/semanticscholar-a66d2f0a7ffe.md
+- raw/papers/semanticscholar-2c80365048c0.md
+- raw/papers/woodman-2014.md
 tags:
 - software-neuroharmonize
 - neuroimaging-fmri

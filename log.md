@@ -398,3 +398,5 @@
 - Updated frontmatter with taxonomy-compliant tags and date 2026-05-06
 
 ## [2026-05-06 15:22] Improve: 5 pages improved (fitzhugh-nagumo-model, izhikevich-neuron-model, nipal, consciousness-models, connectivity)
+
+## [2026-05-06 15:25] CrosslinkApplier: added 583 wikilinks (583 inline, 0 suggested)

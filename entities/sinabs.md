@@ -1,6 +1,9 @@
 ---
 created: 2025-01-15
-sources: []
+sources:
+- raw/papers/semanticscholar-ff8218c1e55e.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/semanticscholar-3256c8880985.md
 tags:
 - software
 - spiking-neural-networks

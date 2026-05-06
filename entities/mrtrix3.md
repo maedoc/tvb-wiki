@@ -1,6 +1,9 @@
 ---
 created: 2026-05-06
-sources: []
+sources:
+- raw/papers/semanticscholar-a6b8919e7fe8.md
+- raw/papers/semanticscholar-380768cf42a8.md
+- raw/papers/mijalkov-2017-braph.md
 tags:
 - software-mrtrix
 - neuroimaging-dti

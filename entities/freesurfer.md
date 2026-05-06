@@ -1,6 +1,7 @@
 ---
 created: 2026-05-06
-sources: []
+sources:
+- raw/papers/semanticscholar-182202db91fa.md
 tags:
 - software-freesurfer
 - neuroimaging-fmri

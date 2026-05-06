@@ -1,6 +1,9 @@
 ---
 created: 2026-05-06
-sources: []
+sources:
+- raw/papers/semanticscholar-380768cf42a8.md
+- raw/papers/huntenburg-2018.md
+- raw/papers/semanticscholar-0aeca1b592e6.md
 tags:
 - software-dipy
 - neuroimaging-dti

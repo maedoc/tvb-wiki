@@ -1,6 +1,9 @@
 ---
 created: 2026-05-06
-sources: []
+sources:
+- raw/papers/arxiv-2603.20348.md
+- raw/papers/basser-1994.md
+- raw/papers/doi-10.64898-2026.04.14.718527.md
 tags:
 - neuroimaging-dti
 - diffusion-mri

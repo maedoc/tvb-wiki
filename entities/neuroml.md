@@ -34,6 +34,7 @@ sources:
   title: 'NESTML: modeling neural membranes and synapses'
   url: https://nestml.org/
   year: 2024
+- raw/papers/semanticscholar-5c84b271b035.md
 tags:
 - software-brain-modeling
 - neural-mass-models

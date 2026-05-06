@@ -1,10 +1,24 @@
 ---
-title: ROCKPOOL
 created: 2024-01-15
-updated: 2026-05-06
+sources:
+- rockpool-github
+- rockpool-documentation
+- brian2-documentation
+- neuromorphic-hardware-review
+- raw/papers/semanticscholar-3256c8880985.md
+- raw/papers/arxiv-2509.02799.md
+- raw/papers/semanticscholar-89e6c89fac1d.md
+tags:
+- software-neuromorphic-computing
+- software-brian
+- spiking-neural-networks
+- neural-mass-models
+- network-dynamics
+- parameter-estimation
+- python
+title: ROCKPOOL
 type: entity
-tags: [software-neuromorphic-computing, software-brian, spiking-neural-networks, neural-mass-models, network-dynamics, parameter-estimation, python]
-sources: [rockpool-github, rockpool-documentation, brian2-documentation, neuromorphic-hardware-review]
+updated: '2026-05-06'
 ---
 
 ROCKPOOL is a Python-based computational framework for simulating neural dynamics and optimizing neural network parameters. It provides a flexible environment for building, simulating, and tuning both [[rate-based neural networks|neural-network]] and [[spiking neural networks]], with particular emphasis on models that can be mapped to neuromorphic hardware accelerators [ref:rockpool-github]. The framework is designed to bridge the gap between abstract neural mass formulations used in [[whole-brain modeling]] and the more detailed neuronal simulations employed in [[computational neuroscience]].

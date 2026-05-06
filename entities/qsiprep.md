@@ -1,6 +1,9 @@
 ---
 created: 2026-05-06
-sources: []
+sources:
+- raw/papers/semanticscholar-380768cf42a8.md
+- raw/papers/semanticscholar-a0cce22e2ffc.md
+- raw/papers/Renton2024.md
 tags:
 - software-bids
 - neuroimaging-dti

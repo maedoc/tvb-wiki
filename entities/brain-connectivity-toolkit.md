@@ -1,10 +1,17 @@
 ---
-title: "Brain Connectivity Toolbox"
 created: 2026-05-06
-updated: 2026-05-06
+sources:
+- raw/papers/woodman-2014.md
+- raw/papers/rubinov-sporns-2010.md
+- raw/papers/mijalkov-2017-braph.md
+tags:
+- connectivity
+- graph-theory
+- matlab
+- network-science
+title: Brain Connectivity Toolbox
 type: entity
-tags: [connectivity, graph-theory, matlab, network-science]
-sources: []
+updated: '2026-05-06'
 ---
 
 # Brain Connectivity Toolbox

@@ -1,6 +1,9 @@
 ---
 created: 2026-05-06
-sources: []
+sources:
+- raw/papers/arxiv-2512.24901.md
+- raw/papers/semanticscholar-301489ffb9de.md
+- raw/papers/semanticscholar-25c577d0323b.md
 tags:
 - machine-learning
 - artificial-intelligence

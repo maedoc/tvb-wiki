@@ -4,6 +4,9 @@ sources:
 - https://www.ncrrns.org
 - NIH NCRR (National Center for Research Resources)
 - Buzsáki and Draguhn 2017 (Neuron)
+- raw/papers/breakspear-2017.md
+- raw/papers/arxiv-2508.02633.md
+- raw/papers/arxiv-2512.05252.md
 tags:
 - funding-project
 - computational-neuroscience

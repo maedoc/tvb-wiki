@@ -1,6 +1,9 @@
 ---
 created: 2026-05-06
-sources: []
+sources:
+- raw/papers/david-friston-2003.md
+- raw/papers/semanticscholar-60ca593f7e0c.md
+- raw/papers/semanticscholar-b9acfa0a7c80.md
 tags:
 - bayesian
 - statistics

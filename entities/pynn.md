@@ -1,6 +1,9 @@
 ---
 created: 2026-05-06
-sources: []
+sources:
+- raw/papers/eppler-2009.md
+- raw/papers/arxiv-2602.18072.md
+- raw/papers/semanticscholar-6adce6f156d9.md
 tags:
 - software-pynn
 - spiking-neural-networks

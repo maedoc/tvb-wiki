@@ -1,10 +1,17 @@
 ---
-title: "ModelDB"
 created: 2026-05-06
-updated: 2026-05-06
+sources:
+- raw/papers/migliore-2006.md
+- raw/papers/potjans-diesmann-2014.md
+- raw/papers/semanticscholar-9afbfd2d37be.md
+tags:
+- databse
+- computational-neuroscience
+- spiking-neural-networks
+- models
+title: ModelDB
 type: entity
-tags: [databse, computational-neuroscience, spiking-neural-networks, models]
-sources: []
+updated: '2026-05-06'
 ---
 
 # ModelDB
