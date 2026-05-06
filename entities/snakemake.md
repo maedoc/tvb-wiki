@@ -12,7 +12,7 @@ tags:
 - pipelinetools
 title: Snakemake
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # Snakemake
@@ -45,7 +45,7 @@ Within the context of [[whole-brain-modeling]], Snakemake serves as an orchestra
 
 A typical Snakemake workflow for whole-brain modeling might include: (1) downloading [[hcp-dataset]] parcellated connectivity data; (2) processing [[dwi-toolbox]] data to extract tractography-derived structural matrices; (3) configuring [[epileptor]] or [[wong-wang-model]] parameters; (4) running simulations on a cluster; and (5) extracting [[brain-oscillations]] power spectra from simulated signals. Snakemake's ability to manage these heterogeneous steps—combining Python, shell commands, and compiled tools—makes it well-suited to such pipelines.
 
-The tool complements [[nipype]], which provides uniform interfaces to neuroimaging software. While Nipype standardizes how individual tools are invoked, Snakemake orchestrates the broader workflow structure. Researchers may use Nipype within Snakemake rules to call tools like Freesurfer, Fsl, or [[ants]] with consistent Python interfaces.
+The tool complements [[nipype]], which provides uniform interfaces to neuroimaging software. While Nipype standardizes how individual tools are invoked, Snakemake orchestrates the broader workflow structure. Researchers may use Nipype within Snakemake rules to call tools like [[freesurfer]], Fsl, or [[ants]] with consistent Python interfaces.
 
 ## Comparison to Related Tools
 

@@ -1,19 +1,28 @@
 ---
-title: XNAT
 created: 2024-01-15
-updated: 2026-05-06
-type: entity
-tags: [software-neuroimaging, database-neuroimaging, neuroimaging, reproducibility, software-visualization, bids]
 sources:
-  - Marcus, D. S., Olsen, T. R., Ramaratnam, M., & Buckwalter, C. (2007). The extensible neuroimaging archive toolkit. Neuroinformatics, 5(1), 11-34. https://doi.org/10.1385/NI:5:1:11
-  - Marcus, D. S., Harwell, J., Olsen, T., Mhembre, M., Fleisher, T., Bert, A. Z., ... & Van Essen, D. C. (2011). The Human Connectome Project: A public neuroimaging resource. Frontiers in Neuroscience, 5, 29. https://doi.org/10.3389/fnins.2011.00029
+- Marcus, D. S., Olsen, T. R., Ramaratnam, M., & Buckwalter, C. (2007). The extensible
+  neuroimaging archive toolkit. Neuroinformatics, 5(1), 11-34. https://doi.org/10.1385/NI:5:1:11
+- ? Marcus, D. S., Harwell, J., Olsen, T., Mhembre, M., Fleisher, T., Bert, A. Z.,
+    ... & Van Essen, D. C. (2011). The Human Connectome Project
+  : A public neuroimaging resource. Frontiers in Neuroscience, 5, 29. https://doi.org/10.3389/fnins.2011.00029
+tags:
+- software-neuroimaging
+- database-neuroimaging
+- neuroimaging
+- reproducibility
+- software-visualization
+- bids
+title: XNAT
+type: entity
+updated: '2026-05-06'
 ---
 
 # XNAT
 
 ## Overview
 
-XNAT (eXtensible Neuroimaging Archive Toolkit) is an open-source software platform designed for managing, storing, and sharing neuroimaging data. Originally developed by Dan Marcus and colleagues at Washington University in St. Louis and later maintained by the XNAT Community, it has become one of the most widely adopted imaging informatics platforms in the neuroscience community. XNAT provides a robust infrastructure for organizing complex neuroimaging datasets, supporting the full lifecycle of imaging data from acquisition through analysis and archival. The platform addresses a fundamental challenge in neuroimaging research: the need to organize, search, and share large volumes of imaging data in a way that maintains data provenance, supports reproducibility, and enables collaborative research across distributed teams.
+XNAT (eXtensible [[neuroimaging]] Archive Toolkit) is an open-source software platform designed for managing, storing, and sharing neuroimaging data. Originally developed by Dan Marcus and colleagues at Washington University in St. Louis and later maintained by the XNAT Community, it has become one of the most widely adopted imaging informatics platforms in the neuroscience community. XNAT provides a robust infrastructure for organizing complex neuroimaging datasets, supporting the full lifecycle of imaging data from acquisition through analysis and archival. The platform addresses a fundamental challenge in neuroimaging research: the need to organize, search, and share large volumes of imaging data in a way that maintains data provenance, supports [[reproducibility]], and enables collaborative research across distributed teams.
 
 ## Key Features
 

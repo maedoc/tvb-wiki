@@ -21,7 +21,7 @@ tags:
 - spiking-neural-networks
 title: Whole Brain Simulators
 type: comparison
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # Whole-Brain Simulation Platforms
@@ -57,7 +57,7 @@ The five principal platforms considered here are as follows. [[the-virtual-brain
 
 NEURON solves cable equations for spatially extended neurons with distributed ion channels and synapses across multiple compartments. The platform has served as the gold standard for detailed neuronal simulation for over two decades [Hines and Carnevale, 1997], providing specialized capabilities for modeling detailed dendritic morphology, axonal propagation, and subcellular processes. When dendritic integration or [[ion-channel]] distributions shape the phenomena under study, NEURON remains essential for validation against intracellular and extracellular electrophysiological recordings.
 
-Brian2 provides a Python-based environment where neurons and synapses are described using differential equations in a natural mathematical notation. The platform's primary strength lies in its flexibility and educational use, allowing researchers to rapidly prototype new neuron and synapse models without compiling C++ code. Brian2 has become particularly popular in the computational neuroscience teaching community and for exploratory simulations requiring flexible model definitions, as noted in work on mean-field approximations for spiking networks [Schwalger et al., 2017].
+[[brian2]] provides a Python-based environment where neurons and synapses are described using differential equations in a natural mathematical notation. The platform's primary strength lies in its flexibility and educational use, allowing researchers to rapidly prototype new neuron and synapse models without compiling C++ code. Brian2 has become particularly popular in the computational neuroscience teaching community and for exploratory simulations requiring flexible model definitions, as noted in work on mean-field approximations for spiking networks [Schwalger et al., 2017].
 
 [[arbor]] represents the newer generation of high-performance neural simulators, designed for modern supercomputers with GPU acceleration. The platform supports both multi-compartment and point neuron models, with sophisticated load balancing and performance optimization for distributed computing environments. Arbor's architecture enables detailed biological simulation at scales previously achievable only with more abstract approaches, representing an important step forward in the capability gap between detailed biophysical modeling and large-scale network simulation.
 

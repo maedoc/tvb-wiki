@@ -1,15 +1,20 @@
 ---
-title: "QSIprep"
 created: 2026-05-06
-updated: 2026-05-06
-type: entity
-tags: [software-bids, neuroimaging-dti, preprocessing, neuroimaging-fmri, quality-control]
 sources: []
+tags:
+- software-bids
+- neuroimaging-dti
+- preprocessing
+- neuroimaging-fmri
+- quality-control
+title: QSIprep
+type: entity
+updated: '2026-05-06'
 ---
 
 # QSIprep
 
-**QSIprep** is a BIDS-App for preprocessing and reconstructing diffusion MRI (dMRI) data. It provides a standardized, reproducible pipeline for quality control, preprocessing, and reconstruction of diffusion-weighted imaging data within the Brain Imaging Data Structure (BIDS) framework.
+**QSIprep** is a [[bids]]-App for preprocessing and reconstructing [[diffusion-mri]] (dMRI) data. It provides a standardized, reproducible pipeline for quality control, preprocessing, and reconstruction of diffusion-weighted imaging data within the Brain Imaging Data Structure (BIDS) framework.
 
 ## Overview
 
@@ -32,8 +37,8 @@ QSIprep provides:
 
 ## Relationship to TVB
 
-QSIprep is a key preprocessing tool for TVB connectome construction:
-- Generates preprocessed dMRI data for tractography pipelines
+QSIprep is a key preprocessing tool for TVB [[connectome]] construction:
+- Generates preprocessed dMRI data for [[tractography]] pipelines
 - Produces motion-corrected DWI series that feed into [[mrtrix3]] and [[dipy]] tractography
 - Quality control outputs help identify subjects with poor data quality before connectome construction
 - BIDS-structured outputs facilitate integration with TVB's data management workflows
@@ -41,7 +46,7 @@ QSIprep is a key preprocessing tool for TVB connectome construction:
 
 ## Software Ecosystem
 
-- [[fmriprep]] — companion fMRI preprocessing BIDS-App
+- [[fmriprep]] — companion [[fmri]] preprocessing BIDS-App
 - [[mrtrix3]] — tractography using QSIprep outputs
 - [[dipy]] — Python-based diffusion analysis
 - [[tractoflow]] — alternative automated tractography pipeline

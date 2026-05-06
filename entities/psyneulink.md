@@ -12,7 +12,7 @@ tags:
 - neuroimaging-fmri
 title: PsyNeuLink
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 - raw/papers/cohen-2014.md
@@ -37,7 +37,7 @@ The framework supports implementation at multiple levels of abstraction:
 - **Mechanism level**: Biologically plausible components including transfer functions, integrators, and learning rules
 - **Composition level**: Higher-order compositions of mechanisms representing cognitive processes (e.g., decision-making, working memory, attention)
 
-**Integration with Machine Learning**
+**Integration with [[machine-learning]]**
 PsyNeuLink provides interfaces to optimize model parameters using standard machine learning frameworks, enabling gradient-based fitting to behavioral and [[neuroimaging]] data. This bridges [[computational-psychiatry]] model fitting with deep learning tools.
 
 **Automatic Compilation**

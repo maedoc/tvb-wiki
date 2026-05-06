@@ -1,15 +1,20 @@
 ---
-title: "Resting-State vs Task fMRI"
 created: 2026-05-06
-updated: 2026-05-06
-type: comparison
-tags: [neuroimaging-fmri, resting-state, task-fmri, functional-connectivity, experimental-design]
 sources: []
+tags:
+- neuroimaging-fmri
+- resting-state
+- task-fmri
+- functional-connectivity
+- experimental-design
+title: Resting-State vs Task fMRI
+type: comparison
+updated: '2026-05-06'
 ---
 
 # Resting-State vs. Task fMRI
 
-Resting-state and task-based fMRI are the two dominant paradigms for studying brain function with BOLD imaging. They provide complementary information about brain organization and are both critical for constraining and validating [[whole-brain modeling]] approaches like [[the-virtual-brain]].
+[[resting-state]] and task-based [[fmri]] are the two dominant paradigms for studying brain function with [[bold-signal|BOLD]] imaging. They provide complementary information about brain organization and are both critical for constraining and validating [[whole-brain modeling]] approaches like [[the-virtual-brain]].
 
 ## Overview
 
@@ -30,14 +35,14 @@ Resting-state fMRI measures spontaneous low-frequency fluctuations in the BOLD s
 **Key findings:**
 - Stable, reproducible networks emerge consistently: default mode, salience, frontoparietal, visual, motor, dorsal attention, limbic
 - These networks reflect intrinsic functional organization, not task-specific co-activation
-- Connectivity strength correlates with structural connectivity derived from DTI tractography
-- Individual connectivity fingerprints are highly stable, enabling connectome-based identification
+- [[connectivity]] strength correlates with [[structural-connectivity]] derived from DTI [[tractography]]
+- Individual connectivity fingerprints are highly stable, enabling [[connectome]]-based identification
 
 **Strengths:**
 - Minimal participant burden (scalable to clinical populations)
 - Reveals intrinsic network architecture without task confounds
 - Enables connectivity-based biomarkers for disease
-- Data from thousands of subjects publicly available (ABIDE, HCP, UK Biobank)
+- Data from thousands of subjects publicly available ([[abide]], HCP, [[uk-biobank]])
 
 **Limitations:**
 - Cannot localize specific cognitive functions to regions
@@ -45,7 +50,7 @@ Resting-state fMRI measures spontaneous low-frequency fluctuations in the BOLD s
 - Interpretation of "rest" is heterogeneous across subjects
 - Cannot dissociate activity from connectivity
 
-**TVB relevance:** Resting-state functional connectivity is the primary empirical constraint for TVB simulations. TVB models are optimized to reproduce the correlation structure observed during rest.
+**TVB relevance:** Resting-state [[functional-connectivity]] is the primary empirical constraint for TVB simulations. TVB models are optimized to reproduce the correlation structure observed during rest.
 
 ## Task fMRI
 

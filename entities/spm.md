@@ -1,15 +1,21 @@
 ---
-title: "SPM"
 created: 2026-05-06
-updated: 2026-05-06
-type: entity
-tags: [software-spm, neuroimaging-fmri, neuroimaging-eeg, neuroimaging-meg, statistics, image-processing]
 sources: []
+tags:
+- software-spm
+- neuroimaging-fmri
+- neuroimaging-eeg
+- neuroimaging-meg
+- statistics
+- image-processing
+title: SPM
+type: entity
+updated: '2026-05-06'
 ---
 
 # SPM
 
-**SPM** (Statistical Parametric Mapping) is a software suite for the analysis of brain imaging data sequences (fMRI, PET, SPECT, EEG, MEG). Developed at the Wellcome Centre for Human Neuroimaging at University College London, SPM is one of the most influential neuroimaging analysis packages.
+**SPM** (Statistical Parametric Mapping) is a software suite for the analysis of brain imaging data sequences ([[fmri]], PET, SPECT, EEG, MEG). Developed at the Wellcome Centre for Human [[neuroimaging]] at University College London, SPM is one of the most influential neuroimaging analysis packages.
 
 ## Overview
 
@@ -17,8 +23,8 @@ SPM is built on MATLAB and provides:
 - fMRI preprocessing and statistical inference
 - PET/SPECT kinetic modeling
 - EEG/MEG source reconstruction and time-series analysis
-- Dynamic Causal Modeling (DCM) for effective connectivity
-- Bayesian model selection and averaging
+- Dynamic Causal Modeling (DCM) for [[effective-connectivity]]
+- [[bayesian]] model selection and averaging
 
 ## Core Modules
 
@@ -33,8 +39,8 @@ SPM is built on MATLAB and provides:
 ## Relationship to TVB
 
 SPM and TVB are complementary tools for different scales of brain analysis:
-- **DCM** (Dynamic Causal Modeling) estimates effective connectivity from fMRI/EEG/MEG data — these connectivity matrices can inform TVB simulations
-- **Source reconstruction** (SPM-EEG) provides empirical time series for TVB model validation
+- **DCM** (Dynamic Causal Modeling) estimates effective [[connectivity]] from fMRI/EEG/MEG data — these connectivity matrices can inform TVB simulations
+- **Source reconstruction** (SPM-EEG) provides empirical time series for TVB [[model-validation]]
 - **fMRI preprocessing** outputs from SPM feed into TVB connectivity pipelines
 - SPM's **VBM** structural analysis provides atrophy maps for disease modeling in TVB
 - The [[dynamic-causal-modeling]] framework in SPM shares theoretical foundations with TVB's neural mass modeling approach
@@ -43,8 +49,8 @@ SPM and TVB are complementary tools for different scales of brain analysis:
 
 SPM's DCM is particularly relevant to TVB:
 - DCM estimates directed connectivity using Bayesian inference
-- DCM for fMRI uses a biophysical forward model (Balloon model) similar to TVB's BOLD modeling
-- DCM for MEG/EEG uses neural mass models (Jansen-Rit, Moran-David) that are also implemented in TVB
+- DCM for fMRI uses a biophysical [[forward-model]] (Balloon model) similar to TVB's [[bold-signal|BOLD]] modeling
+- DCM for MEG/EEG uses [[neural-mass-models]] ([[jansen-rit]], Moran-David) that are also implemented in TVB
 - DCM connectivity estimates can seed TVB simulation parameters
 - [[dcm]] pages detail the mathematical connections between the two frameworks
 

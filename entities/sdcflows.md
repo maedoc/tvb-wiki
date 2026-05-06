@@ -8,7 +8,7 @@ tags:
 - software-brain-modeling
 title: SDCflows
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 SDCflows (Susceptibility Distortion Correction flows) is a Python-based software package designed to correct geometric distortions in diffusion-weighted MRI (DWI) data caused by magnetic susceptibility differences between tissues, particularly at air-tissue interfaces in the orbitofrontal and temporal regions. These distortions manifest as geometric warping that can severely compromise the accuracy of [[tractography]]-derived [[structural connectivity]] estimates if left uncorrected. SDCflows provides a modular, automated pipeline for estimating and applying susceptibility-related distortion fields, drawing on established methods from Fsl (notably TOPUP and EDDY while wrapping them in a standardized Nipype-based workflow that integrates seamlessly with larger preprocessing chains like Qsiprep [[smriprep]]).
@@ -23,7 +23,7 @@ Prior to SDCflows, researchers had to manually orchestrate multiple tools—FSL'
 
 SDCflows implements distortion correction through several complementary strategies, selectable based on the available acquisition data. The most accurate method relies on **field mapping**, where a separate B0 field map (acquired with same echo spacing but opposite phase-encoding directions) is used to estimate the off-resonance field through a simple subtraction pipeline. When field maps are unavailable, SDCflows can employ **PE polarity** (phase-encode reversal) methods, computing the field estimate from two volumes acquired with opposite phase-encoding directions—this is the approach underlying FSL's TOPUP algorithm @smith2004topup. More recent implementations support **blip-up/blip-down** distortion modeling within the Eddy correction step itself, allowing joint estimation of motion, eddy currents, and susceptibility distortions @Anderssen2014eddy.
 
-The pipeline proceeds in three stages: first, an *unwarping* stage estimates the susceptibility field from the available field map or PE-polarity data; second, an *apply* stage warps the DWI data by resampling through the computed field; and third, a *merge* stage combines multiple runs after individual distortion corrections. SDCflows represents the warping fields in [[nifti]] format using ITK conventions, ensuring compatibility with tools like [[ants]], Fsl, and Mrtrix3 @esteban2019sdclow.
+The pipeline proceeds in three stages: first, an *unwarping* stage estimates the susceptibility field from the available field map or PE-polarity data; second, an *apply* stage warps the DWI data by resampling through the computed field; and third, a *merge* stage combines multiple runs after individual distortion corrections. SDCflows represents the warping fields in [[nifti]] format using ITK conventions, ensuring compatibility with tools like [[ants]], Fsl, and [[mrtrix3]] @esteban2019sdclow.
 
 ## Relationship to TVB and Whole-Brain Modeling
 
@@ -35,11 +35,11 @@ SDCflows was developed by the NiPreps team, primarily at the University of South
 
 ## Related Software
 
-- Qsiprep — Quantitative Structure Preprocessing, the primary consumer of SDCflows
+- [[qsiprep]] — Quantitative Structure Preprocessing, the primary consumer of SDCflows
 - Fsl — Provides TOPUP and EDDY algorithms used internally
 - Mrtrix3 — Downstream tractography tool requiring distortion-corrected input
 - [[ants]] — Used for registration-based warping operations
-- Dipy — Alternative diffusion analysis library with related capabilities
+- [[dipy]] — Alternative diffusion analysis library with related capabilities
 - [[nipype]] — Workflow framework underlying SDCflows
 - [[tractography]] — The downstream application requiring distortion-free data
 - [[structural-connectivity]] — The matrix derived from corrected tractography

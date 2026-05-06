@@ -396,3 +396,5 @@
 - Integrated four source papers: hierarchical Kuramoto model (Myrov 2026), resting brain dynamics (Deco 2013), data-driven mean-field (Breyton 2025), network degeneracy (Gudibanda 2026)
 - Added 12+ wikilinks connecting to whole-brain-modeling, computational-neuroscience, mean-field-theory, resting-state, functional-connectivity, structural-connectivity, brain-oscillations, dynamic-causal-modeling, bifurcation-theory, network-dynamics, rich-club, the-virtual-brain
 - Updated frontmatter with taxonomy-compliant tags and date 2026-05-06
+
+## [2026-05-06 15:22] Improve: 5 pages improved (fitzhugh-nagumo-model, izhikevich-neuron-model, nipal, consciousness-models, connectivity)

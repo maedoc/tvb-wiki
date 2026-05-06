@@ -15,7 +15,7 @@ tags:
 - preprocessing
 title: TORTOISE
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # TORTOISE
@@ -52,13 +52,13 @@ Most recently, the TORTOISEV4 redesign has been comprehensively documented in a 
 
 ## Technical Considerations
 
-A notable strength of TORTOISE is its batch processing capability and comprehensive quality control output. The pipeline generates detailed logs and visual reports at each processing stage, enabling researchers to identify problematic datasets before proceeding to downstream analyses. The modular design allows individual components to be integrated into other pipelines—for example, DR-BUDDI has been incorporated into QSIPREP, one of the most widely used diffusion MRI preprocessing frameworks, as documented in the QSIPREP documentation and validated in multiple studies.
+A notable strength of TORTOISE is its batch processing capability and comprehensive quality control output. The pipeline generates detailed logs and visual reports at each processing stage, enabling researchers to identify problematic datasets before proceeding to downstream analyses. The modular design allows individual components to be integrated into other pipelines—for example, DR-BUDDI has been incorporated into [[qsiprep]], one of the most widely used diffusion MRI preprocessing frameworks, as documented in the QSIPREP documentation and validated in multiple studies.
 
 The transition to TORTOISEV4 represents a major architectural change, with the software now implemented in C++ (with CUDA acceleration for computationally intensive modules) and maintaining open-source availability under a permissive license. The authors recommend using data acquired with at least two opposite phase-encoding directions (blip-up blip-down) for optimal susceptibility distortion correction, though the pipeline can still process single-phase-encode datasets with reduced correction quality. For single-phase-encode data, the module falls back to alternative correction strategies that are less optimal but still provide meaningful artifact reduction.
 
 ## Related Software
 
-TORTOISE complements and intersects with several other tools in the diffusion MRI ecosystem. The Fsl package provides the [[fsl-randomise]] tool for tract-based statistics and includes the well-established EDDY module for motion and eddy-current correction. For tensor fitting and tractography, researchers often use Mrtrix3 or Dipy in conjunction with TORTOISE-processed data. The [[dti-tk]] software provides alternative tensor-based registration tools, though it operates on different principles than the DR-TAMAS approach. The Qsiprep offers an integrated preprocessing framework that incorporates elements of TORTOISE. For visualization of results, Freesurfer and its associated tools can integrate with TORTOISE outputs for overlay and analysis purposes.
+TORTOISE complements and intersects with several other tools in the diffusion MRI ecosystem. The Fsl package provides the [[fsl-randomise]] tool for tract-based statistics and includes the well-established EDDY module for motion and eddy-current correction. For tensor fitting and tractography, researchers often use [[mrtrix3]] or [[dipy]] in conjunction with TORTOISE-processed data. The [[dti-tk]] software provides alternative tensor-based registration tools, though it operates on different principles than the DR-TAMAS approach. The Qsiprep offers an integrated preprocessing framework that incorporates elements of TORTOISE. For visualization of results, [[freesurfer]] and its associated tools can integrate with TORTOISE outputs for overlay and analysis purposes.
 
 ## References
 

@@ -11,14 +11,14 @@ tags:
 - software-simulation
 title: PyNEST
 type: entity
-updated: '2026-05-05'
+updated: '2026-05-06'
 ---
 
 PyNEST is the official Python interface to the NEST (Neural Simulation Tool) simulator, one of the most widely used software platforms for [[computational-neuroscience]] and large-scale brain modeling. Developed by the NEST Initiative, PyNEST provides Python developers with direct access to NEST's kernel for simulating [[spiking-neural-networks]], enabling the construction, execution, and analysis of biologically detailed neuronal network models. The tool serves as a critical bridge between high-level Python scripting and the high-performance C++ simulation kernel, making it accessible to researchers who prefer Python's ecosystem while maintaining the computational efficiency required for large-scale simulations [@Diesmann2002; @Eppler2008].
 
 ## Technical Architecture
 
-NEST itself is written in C++ for performance, with PyNEST serving as a Python extension module that exposes the simulator's native functions through pybind11. Originally, PyNEST was implemented using Cython for several years to generate Python bindings, but the codebase migrated to pybind11 more recently to leverage its modern C++ integration features and reduce maintenance overhead. This architecture allows users to create neurons, synapses, and network topologies using Python syntax while the underlying simulation runs at near-native speed. The simulator supports various neuron models including leaky integrate-and-fire neurons, adaptive exponential integrate-and-fire models, and [[izhikevich]] spiking neurons. Synaptic connections can be configured with precise timing (spike-timing-dependent [[plasticity]]), conductance-based dynamics, and short-term plasticity mechanisms [@Morrison2007].
+NEST itself is written in C++ for performance, with PyNEST serving as a Python extension module that exposes the simulator's native functions through pybind11. Originally, PyNEST was implemented using Cython for several years to generate Python bindings, but the codebase migrated to pybind11 more recently to leverage its modern C++ integration features and reduce maintenance overhead. This architecture allows users to create neurons, synapses, and network topologies using Python syntax while the underlying simulation runs at near-native speed. The simulator supports various neuron models including leaky integrate-and-fire neurons, [[adaptive-exponential-integrate-and-fire]] models, and [[izhikevich]] spiking neurons. Synaptic connections can be configured with precise timing (spike-timing-dependent [[plasticity]]), conductance-based dynamics, and short-term plasticity mechanisms [@Morrison2007].
 
 The simulation engine handles precise spike timing which is essential for studying synchronization phenomena, oscillations, and temporal coding in neural systems. NEST uses a globally optimized queue for spike delivery and supports both exact and hybrid simulation modes for balancing biological realism against computational tractability.
 
@@ -36,7 +36,7 @@ TVB's architecture includes adapters for connecting to NEST-style simulators, en
 
 ## Relationship to Other Simulators
 
-PyNEST occupies a specific niche among neural simulators. Unlike Brian2 which emphasizes flexibility and ease of modification for new models, NEST prioritizes performance and biological detail for standard neuron and synapse models [@Stimberg2019]. Compared to [[neuron]], NEST offers more straightforward parallel scaling through its message-passing interface [@Carnevale2006]. Benchmark comparisons have shown NEST demonstrating strong scaling characteristics across distributed computing environments [@VanAlbada2021]. The [[nest]] simulator (the underlying C++ engine) has been extensively validated against experimental data and is used by numerous research groups worldwide [@Gewaltig2007].
+PyNEST occupies a specific niche among neural simulators. Unlike [[brian2]] which emphasizes flexibility and ease of modification for new models, NEST prioritizes performance and biological detail for standard neuron and synapse models [@Stimberg2019]. Compared to [[neuron]], NEST offers more straightforward parallel scaling through its message-passing interface [@Carnevale2006]. Benchmark comparisons have shown NEST demonstrating strong scaling characteristics across distributed computing environments [@VanAlbada2021]. The [[nest]] simulator (the underlying C++ engine) has been extensively validated against experimental data and is used by numerous research groups worldwide [@Gewaltig2007].
 
 ## Research Applications
 

@@ -1,25 +1,30 @@
 ---
-title: "PyNN"
 created: 2026-05-06
-updated: 2026-05-06
-type: entity
-tags: [software-pynn, spiking-neural-networks, python, simulation, interoperability]
 sources: []
+tags:
+- software-pynn
+- spiking-neural-networks
+- python
+- simulation
+- interoperability
+title: PyNN
+type: entity
+updated: '2026-05-06'
 ---
 
 # PyNN
 
-**PyNN** (Python Neural Networks) is a Python API for simulator-independent specification of neuronal network models. It provides a common interface to multiple spiking neural network simulators, enabling model portability and interoperability.
+**PyNN** (Python Neural Networks) is a Python API for simulator-independent specification of neuronal network models. It provides a common interface to multiple [[spiking-neural-networks|spiking neural network]] simulators, enabling model portability and interoperability.
 
 ## Overview
 
 PyNN provides:
-- Unified Python API for spiking neural network specification
+- Unified Python API for spiking [[neural-network]] specification
 - Backends for [[nest]], [[neuron]], [[brian]], and other simulators
 - Standardized neuron and synapse models
-- Network topology and connectivity specification
+- Network topology and [[connectivity]] specification
 - Recording and data analysis tools
-- Facilitation of model sharing and reproducibility
+- Facilitation of model sharing and [[reproducibility]]
 
 ## Simulators Supported
 
@@ -35,9 +40,9 @@ PyNN provides:
 
 PyNN and TVB operate at different scales but are complementary:
 - **PyNN** focuses on spiking neuron-level simulation (microscale)
-- **TVB** focuses on neural mass/field models at the whole-brain scale (macroscale)
-- PyNN-generated spiking data can inform TVB neural mass model parameterization
-- TVB mean-field outputs can seed PyNN network states
+- **TVB** focuses on neural mass/field models at the [[whole-brain]] scale (macroscale)
+- PyNN-generated spiking data can inform TVB [[neural-mass-models|neural mass model]] parameterization
+- TVB [[mean-field-theory|mean-field]] outputs can seed PyNN network states
 - Both use Python and share ecosystem tools ([[neo]], [[nibabel]])
 - The [[neuroml]] and [[lems]] standards bridge PyNN and TVB model descriptions
 - Future integration: TVB-PyNN hybrid models combining regional mean-field with local spiking detail

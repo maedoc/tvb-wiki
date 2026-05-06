@@ -16,7 +16,7 @@ tags:
 - neuroimaging-fmri
 title: VoxelMorph
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # VoxelMorph
@@ -54,7 +54,7 @@ VoxelMorph is open-source software available under the Apache 2.0 license. The o
 - Atlas-based and template-building utilities
 - Integration examples for common neuroimaging pipelines
 
-The framework can be integrated as a preprocessing step in FreeSurfer workflows and is compatible with [[fmriprep]]-style processing pipelines for large-scale neuroimaging studies.
+The framework can be integrated as a preprocessing step in [[freesurfer]] workflows and is compatible with [[fmriprep]]-style processing pipelines for large-scale neuroimaging studies.
 
 ## Architecture Details
 

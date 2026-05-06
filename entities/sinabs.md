@@ -1,13 +1,18 @@
 ---
-title: SINABS
 created: 2025-01-15
-updated: 2026-05-06
-type: entity
-tags: [software, spiking-neural-networks, neural-mass-models, software-tvb, whole-brain-simulators]
 sources: []
+tags:
+- software
+- spiking-neural-networks
+- neural-mass-models
+- software-tvb
+- whole-brain-simulators
+title: SINABS
+type: entity
+updated: '2026-05-06'
 ---
 
-SINABS is a spiking neural network simulator designed for large-scale brain modeling applications. It implements networks of leaky integrate-and-fire neurons with conductance-based synaptic interactions, making it suitable for studying neural dynamics at the mesoscopic scale relevant to whole-brain modeling frameworks like [[the-virtual-brain]].
+SINABS is a spiking [[neural-network]] simulator designed for large-scale brain modeling applications. It implements networks of leaky integrate-and-fire neurons with conductance-based synaptic interactions, making it suitable for studying neural dynamics at the mesoscopic scale relevant to [[whole-brain|whole-brain modeling]] frameworks like [[the-virtual-brain]].
 
 ## Overview
 
@@ -17,7 +22,7 @@ The simulator implements a hybrid approach between detailed point-neuron modelin
 
 ## Key Features
 
-The core architectural strength of SINABS lies in its modular design. Network specifications are defined through declarative configuration files that describe neuron populations, synaptic connectivity matrices, and simulation parameters. This separation of model specification from simulation execution facilitates reproducibility and enables systematic parameter exploration—critical requirements for [[parameter-estimation]] in personalized brain models.
+The core architectural strength of SINABS lies in its modular design. Network specifications are defined through declarative configuration files that describe neuron populations, synaptic [[connectivity]] matrices, and simulation parameters. This separation of model specification from simulation execution facilitates [[reproducibility]] and enables systematic parameter exploration—critical requirements for [[parameter-estimation]] in personalized brain models.
 
 SINABS supports several neuron subtypes including regular-spiking and fast-spiking interneurons, allowing researchers to construct networks with realistic excitation-inhibition balance. The synaptic model implements both AMPA-like excitatory and GABA-like inhibitory conductances with configurable time constants, enabling investigation of [[brain-oscillations]] emerging from recurrent network dynamics. Network connectivity can be specified through arbitrary probability distributions over spatial distances, supporting the construction of biologically realistic [[structural-connectivity]] patterns derived from [[diffusion-imaging]] data.
 

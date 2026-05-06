@@ -37,10 +37,10 @@ SUIT is relevant to [[the-virtual-brain]] (TVB) in several important respects. F
 
 ## Related Software
 - Spm — SUIT is developed within the SPM ecosystem
-- Nilearn — Python toolbox that can interface with SUIT outputs
-- Freesurfer — alternative cerebellar segmentation tool
+- [[nilearn]] — Python toolbox that can interface with SUIT outputs
+- [[freesurfer]] — alternative cerebellar segmentation tool
 - [[the-virtual-brain]] — whole-brain simulator that uses anatomical parcellations
-- Dipy — diffusion imaging toolbox for [[tractography]]
+- [[dipy]] — diffusion imaging toolbox for [[tractography]]
 - [thecerebellum.com](](http://www.thecerebellum.com/)) — alternative cerebellar tools and atlases
 - [CBS Tools](](https://www.[[nitrc]].org/projects/cbs_tools/)) — complementary cerebellar segmentation in CBSTools/Itk Snap
 

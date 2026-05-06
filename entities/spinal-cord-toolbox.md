@@ -8,14 +8,14 @@ tags:
 - software
 title: Spinal Cord Toolbox
 type: entity
-updated: '2026-05-05'
+updated: '2026-05-06'
 ---
 
 The Spinal Cord Toolbox (SCT) is a specialized open-source software platform for automated processing and quantitative analysis of spinal cord magnetic resonance imaging (MRI) data. Developed primarily by the [NeuroPoly laboratory](](https://neuropoly.github.io/)) at the University of Montreal, SCT addresses the unique challenges posed by spinal cord [[neuroimaging]]—particularly the small cross-sectional area of the cord (~10mm diameter), its curved geometry within the vertebral canal, and the susceptibility artifacts that plague conventional MRI processing pipelines designed for the brain [@de-leener-2017]. The toolkit provides a comprehensive suite of command-line tools that enable preprocessing, segmentation, registration, and metric extraction across multiple MRI modalities including T1-weighted, T2-weighted, diffusion tensor imaging (DTI), and functional MRI of the spinal cord.
 
 ## Motivation and Context
 
-The spinal cord has historically received less attention than the brain in neuroimaging research, largely due to technical challenges in imaging and processing. Unlike the cerebral cortex, which benefits from standardized preprocessing workflows developed over decades (see Freesurfer, Fsl, and Nilearn), spinal cord MRI requires specialized algorithms that account for the cord's elongated geometry, surrounding cerebrospinal fluid, and vertebrae that introduce distortion. Researchers studying spinal cord injury, demyelinating diseases such as multiple sclerosis, or neurodegenerative conditions affecting descending motor pathways previously had to develop custom processing scripts for each study, leading to poor [[reproducibility]] and methodological heterogeneity. SCT emerged to fill this gap by providing a validated, automated, and open-source pipeline that brings spinal cord neuroimaging to the same level of methodological rigor as brain imaging [@de-leener-2020].
+The spinal cord has historically received less attention than the brain in neuroimaging research, largely due to technical challenges in imaging and processing. Unlike the cerebral cortex, which benefits from standardized preprocessing workflows developed over decades (see [[freesurfer]], Fsl, and [[nilearn]]), spinal cord MRI requires specialized algorithms that account for the cord's elongated geometry, surrounding cerebrospinal fluid, and vertebrae that introduce distortion. Researchers studying spinal cord injury, demyelinating diseases such as multiple sclerosis, or neurodegenerative conditions affecting descending motor pathways previously had to develop custom processing scripts for each study, leading to poor [[reproducibility]] and methodological heterogeneity. SCT emerged to fill this gap by providing a validated, automated, and open-source pipeline that brings spinal cord neuroimaging to the same level of methodological rigor as brain imaging [@de-leener-2020].
 
 ## Technical Content
 
@@ -25,7 +25,7 @@ For [[diffusion-imaging]] analysis, SCT integrates with established [[diffusion-
 
 ## Key Features
 
-The toolkit offers over 100 command-line functions organized into modular scripts that can be combined into processing pipelines. Key features include the `sct_deepseg` command for automated spinal cord segmentation, `sct_register_multimodal` for registration across MRI contrasts, and `sct_extract_metric` for quantitative analysis of cord morphology and diffusion properties. Tractography in SCT is performed through integration with Mrtrix3 rather than a native SCT command, enabling detailed reconstruction of spinal white matter pathways. SCT supports batch processing and integration with workflow managers such as [[snakemake]], enabling reproducible analysis of large datasets. The software is distributed as a Python package and as Docker/Singularity containers through [[apptainer]] for easy installation and deployment in high-performance computing environments.
+The toolkit offers over 100 command-line functions organized into modular scripts that can be combined into processing pipelines. Key features include the `sct_deepseg` command for automated spinal cord segmentation, `sct_register_multimodal` for registration across MRI contrasts, and `sct_extract_metric` for quantitative analysis of cord morphology and diffusion properties. Tractography in SCT is performed through integration with [[mrtrix3]] rather than a native SCT command, enabling detailed reconstruction of spinal white matter pathways. SCT supports batch processing and integration with workflow managers such as [[snakemake]], enabling reproducible analysis of large datasets. The software is distributed as a Python package and as Docker/Singularity containers through [[apptainer]] for easy installation and deployment in high-performance computing environments.
 
 ## Relationship to TVB
 

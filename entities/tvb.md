@@ -94,7 +94,7 @@ TVB combines:
 - [[personalized brain modeling]] - Subject-specific model construction
 - [[functional connectivity]] - Simulated and empirical connectivity patterns
 - [[elephant|Elephant]]
-- [[mrtrix3-connectome|Mrtrix3 Connectome]]
+- [[mrtrix3-connectome|[[mrtrix3]] Connectome]]
 - [[epilepsy-modeling|Epilepsy Modeling]]
 
 ## Use Cases
