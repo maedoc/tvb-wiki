@@ -202,3 +202,7 @@
 ## [2026-05-05 23:42] FullTextFetcher: fetched 5 new full texts (6 total in corpus)
 
 ## [2026-05-06 00:53] Audit: 941 issues (98 broken links, 54 orphans, 22 placeholders, 0 dup-refs, 5 bad-meta, 85 citation-verify, 11 opaque-refs, 73 thin, 351 missing-links)
+
+## [2026-05-06 04:19] Matcher: 1 pages got 3 new sources
+
+## [2026-05-06 05:54] Audit: 941 issues (98 broken links, 54 orphans, 22 placeholders, 0 dup-refs, 5 bad-meta, 85 citation-verify, 11 opaque-refs, 73 thin, 351 missing-links)
