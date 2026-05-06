@@ -1,0 +1,713 @@
+   HUMA: Heterogeneous, Ultra Low-Latency Model Accelerator
+        for The Virtual Brain on a Versal Adaptive SoC
+            Amirreza Movahedin                                  Lennart P. L. Landsmeer                                   Christos Strydis
+           Erasmus Medical Center                              Delft University of Technology                         Erasmus Medical Center
+         Rotterdam, The Netherlands                                Delft, The Netherlands                           Rotterdam, The Netherlands
+        Delft University of Technology                            Erasmus Medical Center                           Delft University of Technology
+            Delft, The Netherlands                              Rotterdam, The Netherlands                             Delft, The Netherlands
+Abstract                                                                                  1   Introduction
+Brain modeling can occur at different levels of abstraction, each                         For centuries, understanding the brain and the way it works has
+aimed at a different purpose. The Virtual Brain (TVB) is an open-                         been of great concern to scientists. The National Academy of En-
+source platform for constructing and simulating personalized brain-                       gineering of the United States has classified reverse engineering
+network models, favoring whole-brain macro-scales while reducing                          the brain as one of the grand challenges of the 21st century [20].
+micro-level detail. Among other purposes, TVB is used to build                            Due to the tremendous leaps in computing capabilities of late, brain
+patient-specific, digital, brain twins that can be used in different                      simulation has become increasingly important in neuroscientific
+clinical settings, such as the study and treatment of epilepsy. How-                      research. Brain simulation can be performed at different levels of
+ever, fitting patient-specific TVB models requires a large number                         abstraction for different purposes [21]. Nowadays, coarse-grained
+of successive and time-consuming simulations. By studying the                             brain models are developed with the goal of clinical use in mind.
+internal structure of TVB, we observed heterogeneous computa-                                The Virtual Brain (TVB) is one of the leading tools in building
+tion needs in its models which could be leveraged to accelerate                           and simulating large-scale brain models [22]. By reducing the com-
+simulations. In this work, we designed and implemented HUMA,                              plexity at the microscopic level, TVB can deliver an overview of
+a heterogeneous, ultra low-latency, dataflow architecture on an                           the brain’s macro-organization. With this modeling strategy, TVB
+AMD Versal Adaptive SoC to accelerate TVB fitting to different                            can produce sufficiently accurate brain signals that can be useful
+patient-brain makeups. Our heterogeneous solution runs about                              in various clinical applications. TVB divides the entire brain into
+27× faster compared to a modern-day, server-class, 32-core CPU                            different regions known as centers. Each center models the activity
+while consuming a fraction of its power. Additionally, it delivers on                     of all the neurons in a given brain region, called a neural mass.
+average about 14× lower latency, 1.7× better power efficiency and                         These centers are typically sparsely interconnected, affecting each
+an order-of-magnitude lower energy consumption when compared                              other’s activity in a process called coupling. The couplings among
+against the high-performance GPU version of TVB. The achieved                             centers bear different strengths (represented with a weight value)
+latency savings reveal a significant potential in model-fitting for                       in addition to delays which are due to the limited speed of signal
+individual patients as well as in closed-loop biohybrid experiments.                      propagation in the brain.
+                                                                                             To make the model more accurate for each patient, TVB encodes
+CCS Concepts                                                                              personal, brain-imaging data in the described base model. This
+• Hardware → Hardware accelerators; • Computer systems                                    means that the brain region that each center represents, in addition
+organization → Data flow architectures.                                                   to the weights and delays associated with the centers’ connectiv-
+                                                                                          ity, are patient-specific. For each patient, the personal brain model
+                                                                                          must be tuned in a process called model fitting. One common fitting
+Keywords                                                                                  method is Bayesian Inference [7, 11] which requires a large num-
+The Virtual Brain, Acceleration, Ultra Low-latency, Versal, Hetero-                       ber of successive simulations. One class of algorithms that can be
+geneous                                                                                   used within the framework of Bayesian inference is Markov-Chain
+                                                                                          Monte Carlo (MCMC) [1, 10]. These fitting strategies are used to in-
+ACM Reference Format:
+                                                                                          fer certain model parameters that are of interest within the setting
+Amirreza Movahedin, Lennart P. L. Landsmeer, and Christos Strydis. 2025.
+HUMA: Heterogeneous, Ultra Low-Latency Model Accelerator for The Vir-                     in which TVB is being used [28]. Under MCMC, a large number
+tual Brain on a Versal Adaptive SoC. In Proceedings of the 2025 ACM/SIGDA                 of simulations is performed one after the other. This means that
+International Symposium on Field Programmable Gate Arrays (FPGA ’25),                     the output of each simulation has to be used as input to the next
+February 27–March 1, 2025, Monterey, CA, USA. ACM, New York, NY, USA,                     simulation.
+11 pages. https://doi.org/10.1145/3706628.3708875                                            Since such model-fitting strategies are typically very time-con-
+                                                                                          suming, achieving low-latency execution of TVB models could
+                                                                                          greatly accelerate this process. Additionally, TVB models can po-
+                This work is licensed under a Creative Commons Attribution Inter-
+                national 4.0 License.                                                     tentially be used in brain-computer interface (BCI) systems [23, 29]
+                                                                                          or biohybrid experiments [15], which require interaction of bio-
+FPGA ’25, February 27–March 1, 2025, Monterey, CA, USA                                    logical with in silico neurons in their control loop. In this case, a
+© 2025 Copyright held by the owner/author(s).
+ACM ISBN 979-8-4007-1396-5/25/02
+                                                                                          low-latency platform that can iterate quickly over many, individual
+https://doi.org/10.1145/3706628.3708875                                                   TVB model simulations would be advantageous.
+
+
+
+
+                                                                                    223
+FPGA ’25, February 27–March 1, 2025, Monterey, CA, USA                                       Amirreza Movahedin, Lennart P. L. Landsmeer, and Christos Strydis
+
+
+   Besides, a key observation is that center and coupling calcu-
+lations are heterogeneous computations with different memory-
+access needs. For all aforementioned reasons, in this work, we
+present HUMA, a heterogeneous accelerator of TVB-model simula-
+tions implemented on a Versal Adaptive SoC [31]. HUMA delivers
+sustained lower latency compared to both multi-threaded CPU
+and high-performance GPU versions of TVB while consuming less
+power. The main contributions of this work are analysis of the TVB
+model and its needs in terms of computation and memory capacity,
+in addition to designing a heterogeneous accelerator for simulat-
+ing TVB models, achieving on average 27× and 14× lower latency
+compared to the CPU and GPU versions of TVB, respectively.
+   The rest of the paper is structured as follows: Section 2 pro-
+vides necessary background information on the problem at hand.
+Section 3 gives an overview of related works done regarding TVB
+acceleration. Section 4 dives into the details of the design and imple-         Figure 1: The Virtual Brain (TVB) model fitting pipeline [19].
+mentation of HUMA for TVB model simulation. Section 5 presents                  A low-latency TVB simulation can reduce the fitting process
+the performance results of HUMA and compares it to the related                  time by speeding up the loop marked with red.
+work. Finally, in Section 6 concluding remarks are presented.
+                                                                                accuracy, these two components are ignored for the rest of this
+2     Background                                                                work since they do not affect the design and implementation of the
+In this section, background information of the accelerated model                accelerator in a meaningful way.
+and the heterogeneous-computing platform used is given.                            The coupling inputs to each center are represented by 𝐶𝑖 (𝑡),
+                                                                                which is added to one of the state variables of the center. The 𝐶𝑖 (𝑡)
+2.1     The Virtual Brain Model                                                 for each center 𝑖 ∈ [1, 𝑁 ] is calculated as formulated in (2).
+As shown in Figure 1, the TVB pipeline starts with MRI imaging                                               𝑁
+to extract the brain regions in addition to the delay and strength                                        ©∑︁                                ª
+                                                                                           𝐶𝑖 (𝑡) = 𝐾𝑝𝑜𝑠𝑡 ­ 𝑊𝑖 𝑗 𝐾𝑝𝑟𝑒 𝑋 𝑗 (𝑡 − 𝑑𝑖 𝑗 ), 𝑋𝑖 (𝑡) ®    (2)
+of the connections between them [28]. To add dynamics to the                                              « 𝑗=1                               ¬
+model, neural masses are added to the information extracted from                where 𝑊𝑖 𝑗 and 𝑑𝑖 𝑗 represent the weight and delay associated with
+MRI imagings. This leads to the personalized TVB model. In order                the connection from center 𝑗 to center 𝑖 respectively. Functions
+to make this model more accurate and patient-specific, it needs                 𝐾𝑝𝑟𝑒 ∈ (R, R) → R and 𝐾𝑝𝑜𝑠𝑡 ∈ R → R are pre- and post-synapse
+to be fitted. To perform the model fitting, the personalized TVB                functions respectively which scale the signals from other centers
+model is simulated, the output of the simulation is compared to                 to more realistically represent their strength when reaching the re-
+the EEG signals taken from the patient, and the model parameters                ceiving center [24]. It is worth noting that the connections between
+are updated accordingly. This process repeats until the model pro-              the centers in the model are usually sparse, meaning that a large
+duces accurate enough outputs. Eventually, this fitted model can                number of weight values (𝑊𝑖 𝑗 ) in the model are zero. This allows
+be used in different applications such as virtual simulation, virtual           for utilizing sparse-storage and -calculation techniques [8] for the
+surgery [28], or real-time closed-loop systems [23, 29].                        coupling calculation shown in (2).
+   As mentioned earlier, TVB divides the brain into different re-                  When we talk about simulating the brain model, we mean solving
+gions called centers. These centers are interconnected via different            differential equations (1) for all the centers in the model over a
+patterns, with each connectivity (or coupling) having a certain                 certain amount of timesteps. There are many methods to solve
+strength (or weight) and delay associated with it. Each center con-             differential equations numerically with different accuracy levels and
+tains internal neural activity called local dynamics, which comprise            computational costs. The method we used in HUMA is the Forward
+the neural-mass model of that center. In addition to local dynamics,            Euler (FE) which provides the required accuracy with minimal
+each center is also affected by other centers which is referred to as           computational cost [14, 24].
+the coupling input to the center. If we assume there are 𝑁 centers                 Since we want our implementation to be as general as possible
+in the model, the activity of each center 𝑖 ∈ [1, 𝑁 ] over time is              and require no re-synthesis when different aspects of the model
+described using a differential equation shown in (1).                           change, we replace the local-dynamics function 𝐹 in (1) with a
+               𝑑 𝑋®𝑖 (𝑡)                                                      Multi-Layer Perceptron (MLP). MLPs are universal function approxi-
+                         = 𝐹 𝑋®𝑖 (𝑡), 𝐶𝑖 (𝑡) + 𝑢 (𝑡) + 𝜂 (𝑡)       (1)          mators [12], which can be leveraged in this system. By changing
+                  𝑑𝑡
+                                                                                the parameters of the MLP, different local-dynamics functions can
+where 𝑋®𝑖 ∈ R𝑀 are the state variables of each center. The activ-               be realized in the model with no need for re-synthesizing the im-
+ity output of each center is one of these state variables. Function             plementation. Additionally, MLPs that are trained to approximate
+𝐹 : R𝑀 → R𝑀 describes the local dynamics of each center, while                  a certain neural-mass model can be used to better infer unknown
+𝑢 (𝑡) and 𝜂 (𝑡) are the external input to the center and the noise              parameters that are of interest within the context in which TVB is
+in the system, respectively. Although important for the model’s                 being used [3] (for example regional excitability in epilepsy [14]).
+
+
+
+
+                                                                          224
+HUMA: Heterogeneous, Ultra Low-Latency Model Accelerator for The Virtual Brain on a Versal Adaptive SoC    FPGA ’25, February 27–March 1, 2025, Monterey, CA, USA
+
+
+                                                                                      coded in Python and shows the basic algorithms and calculations
+                                                                                      performed in the TVB system. The original TVB runs on a CPU and
+                                                                                      does not utilize any parallelism (multithreading or SIMD). Addition-
+                                                                                      ally, the original TVB does not use sparse-calculation techniques
+                                                                                      for the coupling calculations and also does not include an MLP for
+                                                                                      local dynamics evaluation.
+                                                                                         Some optimized versions of TVB on CPU such as Fast TVB [25]
+                                                                                      and TVB C++ [17] have also been developed by the TVB team. Fast
+                                                                                      TVB is a specialized and optimized C implementation of TVB only
+                                                                                      for a specific neural-mass model (meaning specific connectivity
+                                                                                      and local dynamics for the large-scale model). Fast TVB trades the
+                                                                                      generality of the original TVB for the higher performance of a sin-
+                                                                                      gle model. TVB C++ is another, faster version of the original TVB
+                                                                                      which is more general than Fast TVB, providing the flexibility of the
+                                                                                      original TVB to some extent. Both of these implementations utilize
+                                                                                      multithreading and SIMD execution to accelerate the original TVB
+                                                                                      to mostly answer a specific research question. These implemen-
+                                                                                      tations are not considered in this work any further due to their
+Figure 2: Illustration of the problem at hand. (Top) The inter-                       limited generality, the lack of MLP usage for the local dynamics ap-
+connected network of centers with different strengths and                             proximation, as well as inaccessibility for performing performance
+distances, which results in different delays. (Bottom) The                            evaluations.
+coupling calculation, MLP evaluation, and Forward Euler                                  The original TVB is also implemented as a JAX-based [4] Python
+solver calculations within each center.                                               package for parallelized execution on different platforms such as
+                                                                                      CPUs and GPUs called vbjax [6]. This JAX-based TVB implementa-
+   Equation (3) formulates the computation that must be performed                     tion is capable of mapping the numerical calculations of the original
+for each center 𝑖 ∈ [1, 𝑁 ] of the model at each timestep of the                      TVB to the cores of CPU or GPU and, unlike the original TVB, it
+simulation. ℎ is the timestep size of the FE method, 𝑡 is the timestep                uses an MLP for local dynamics evaluation. However, this version
+of the simulation, and 𝐶𝑖 (𝑡) is calculated as shown in (2). Figure 2                 of TVB does not perform sparse coupling calculations either. The
+demonstrates the network of centers and the processes that exist                      main idea behind the acceleration performed in this version of TVB
+within each center. By comparing Equations (2) and (3), we can                        is batching many simulation instances and running them all at the
+see the pre-existing heterogeneous computational need within the                      same time, while parallelizing the calculations withing each simula-
+modified TVB algorithm which makes it a perfect fit for implemen-                     tion as well. To permit efficient batching, all simulations running in
+tation on a heterogeneous platform such as the Versal Adaptive                        parallel are only different in the parameter values of the brain model
+SoC.                                                                                (for example the values of the connection weights), and share all
+           𝑋®𝑖 (𝑡 + 1) = 𝑋®𝑖 (𝑡) + ℎ · 𝑀𝐿𝑃 (𝑋®𝑖 (𝑡)) + 𝐶𝑖 (𝑡)       (3)               other aspects of the model. This means that all simulations running
+                                                                                      concurrently share the same control sequence in their calculation
+                                                                                      and differ only in the values used in those calculations, leading to
+2.2     Versal Adaptive SoC                                                           optimal coalesced memory-access during the calculations, which is
+The Versal Adaptive SoC is a family of heterogeneous computing                        an important constraint when trying to quickly fit patient-specific
+platforms developed by AMD. The Versal platform we used for                           models.
+HUMA, VC1902 (on the VCK190 evaluation board) combines the                               In this work we developed HUMA, the first heterogeneous accel-
+traditional FPGA fabric, referred to as the Programmable Logic (PL),                  erator which promotes simulation speed primarily by minimizing
+with intelligent engines, referred to as the AI Engines (AIE) [31].                   single-simulation latency, effectively permitting the rapid handling
+The Versal VC1902 platform also includes a processing system                          of diverse patient neural makeups.
+(PS) which acts as the control unit of the device. The AIEs of the
+platform consist of 400 VLIW/SIMD processing units organized                          4     HUMA Accelerator for TVB
+in a 2-dimensional interconnected array structure [2]. Each AIE                       In this section, initial problem analysis and design ideas, in addition
+processor has 32 KBytes of data memory, runs at 1.25 GHz, and                         to the implementation details of HUMA on the heterogeneous
+can perform 8 single-precision, floating-point operations per cycle.
+                                                                                      Versal fabric are discussed.
+We refer to the specific VC1902 device on the VCK190 board as the
+Versal platform for the rest of this paper.                                           4.1     Problem Analysis
+                                                                                      The TVB algorithm was provided to us as a Python script [30]. We
+3     Related Work                                                                    ported this Python script to a single-threaded C++ program to use
+The original TVB [22] is a Python-based tool for large-scale brain                    for profiling and implementation validation. Additionally, we added
+modeling available to neuroscientists. The numerical algorithms                       the MLP evaluation and sparse-coupling calculation support to our
+behind the original TVB have been extracted from the main tool by                     C++ port of the original TVB. The profiling of the C++-coded origi-
+the TVB team and are available to the public [30]. This code is also                  nal TVB showed that when not using sparse calculations, 66% of the
+
+
+
+
+                                                                                225
+FPGA ’25, February 27–March 1, 2025, Monterey, CA, USA                                     Amirreza Movahedin, Lennart P. L. Landsmeer, and Christos Strydis
+
+
+Table 1: Computation, memory capacity, and data-exchange
+dependency of each part of the problem on the number of
+centers (𝑁 ) and state variables per center (𝑀), number of MLP
+hidden layers (𝐻 ) and neurons per hidden layer (𝐿), and the
+maximum coupling delay with non-zero weight (𝑑𝑚𝑎𝑥 ).
+
+                                 MLPFE                     CC
+       Computation          O (𝑁 𝑀𝐿 + 𝑁 𝐻 𝐿 2 )          O (𝑁 2 )
+                                                                                      (a) Computation                           (b) Memory
+         Memory           O (𝑀𝐿 + 𝐻 𝐿 2 + 𝑀𝑁 )      O (𝑁 2 + 𝑁𝑑𝑚𝑎𝑥 )
+                                                                               Figure 3: CC requirements under different sparsity values
+      Data Exchange             O (𝑁 + 𝑀 )               O (𝑁 )
+
+
+
+runtime of the simulation is spent on coupling calculations and the           4.2    Design and Implementation
+rest is spent on MLP evaluation. When using sparse calculations,              Design and implementation details of HUMA for each part of the
+around 26% of the runtime is spent on coupling calculations and               problem are discussed first, followed by the overall architecture of
+the rest is spent on MLP evaluation.                                          the system.
+   To analyze the problem and design the heterogeneous system,
+we divided the problem into two parts: 1) MLP evaluation and FE               4.2.1 MLP Evaluation and FE Solver (MLPFE). As mentioned
+solver (MLPFE), and 2) Coupling Calculation (CC). These two parts             earlier, this part of the problem consists of MLP evaluation and
+of the problem have different computational needs. The MLPFE                  Forward Euler solving for all of the centers in the model. We created
+part consists of a series of dense-matrix multiplication workloads            MLPFE Engines that can perform the required computation for a
+with organized, coalesced memory accesses, whereas the CC part                group of centers. All the centers in the model are divided into
+requires unorganized, non-coalesced memory accesses to the state-             different groups and the MLP and FE solving workload of all the
+variable history and performs sparse operations. The different com-           centers in each group are assigned to one MLPFE engine. Since the
+putation needs inherent in the problem motivated us to implement              MLP evaluation of each center only requires the past state of that
+The Virtual Brain on a heterogeneous platform.                                center, the MLPFE engines do not require any communication with
+   Table 1 shows the dependency of computation, memory capacity,              each other and can run in parallel independently. However, the FE
+and data exchange of each part of the problem on the model’s                  solver requires the coupling input for each center which comes
+parameters using big-O notation. As seen in Table 1, the number               from the CC part of the problem, so the MLPFE engines have an
+of centers of the model has a quadratic effect on the computation             input receiving the calculated couplings for the centers they are
+and memory needs of the CC part of the problem. Furthermore,                  responsible for from the CC subsystem at each timestep.
+the memory needs of the CC process have a linear dependency                      Since the majority of MLPFE engines’ workload is the MLP
+on the largest coupling delay with non-zero weight (𝑑𝑚𝑎𝑥 ), which             evaluation (which are majority matrix multiplication), these engines
+indicates how much history of each center is required to be stored.           were implemented on the AIE of the Versal platform. This choice
+   When looking at the MLPFE process, both the computation and                was made because we found that the AIE performance [27] exceeds
+memory needs of this part of the problem have a quadratic depen-              the pure FPGA implementations of DNN inference systems [9, 26]
+dency on the number of neurons per hidden layer of the MLP (𝐿).               in terms of number of calculations per second. Each MLPFE engine
+However, unlike the simulation parameters, the hyperparameters                time-multiplex the MLP evaluation of different centers that are
+of the MLP are fixed throughout the operation of the system. Addi-            assigned to it, receives the coupling inputs for each of those centers,
+tionally, the MLPFE part produces 𝑁 ∗ 𝑀 values at each timestep               and time-multiplex the FE solving step for each of the centers and
+which needs to be transferred to the CC part and the main memory.             outputs the result.
+On the other hand, the CC part only produces 𝑁 coupling values
+per timestep which has to be transferred to the MLPFE part. The               4.2.2 Coupling Calculation (CC). As mentioned in Section 2.1,
+required bandwidths for these value transactions are reflected in             each center for its coupling calculation needs to access past state
+the data-exchange row in Table 1.                                             variables of certain other centers. This can be seen in the history
+   As mentioned in Section 2, the connections between the cen-                space diagrams shown in Figure 4. Therefore, the main question
+ters are sparse. This sparsity affects the computation and memory-            for designing the sub-system for this part of the problem becomes
+capacity requirements of the CC part of the application. According            how to store and access the state variable history of the centers
+to our analysis, if the sparsity of the connections is more than 50%,         efficiently.
+storing data in sparse format would save on memory. Figure 3 shows
+how the computation and memory-capacity requirements of the CC                   Center-based Approach The straightforward method is to store
+part change when the number of centers varies under two different             the state-variable history by dividing the centers into groups, and
+sparsity values. As the figure reveals, with a higher sparsity, the           storing the data for each group in one memory block. A computation
+computing needs still grow quadratically but at a slower rate. On             block resides next to each memory block that performs the coupling
+the other hand, the memory requirements switch to a linear growth             calculation for the centers of that group. The combination of the
+due to the sparse-storage optimization.                                       computation, memory, and necessary control blocks are referred
+
+
+
+
+                                                                        226
+HUMA: Heterogeneous, Ultra Low-Latency Model Accelerator for The Virtual Brain on a Versal Adaptive SoC     FPGA ’25, February 27–March 1, 2025, Monterey, CA, USA
+
+
+
+
+           (a) Center-based Approach where the history data is di-                     (b) Delay-based Approach where the history data is divided
+           vided into groups based on the centers                                      into groups based on the delays
+
+                                 Figure 4: Diagram of different approaches regarding the coupling calculation
+
+
+to as CC Engines. This way of approaching the problem, which we                        different parts that need to be added together (𝐶𝑖𝑒 (𝑡)). These parts
+call a center-based approach, is depicted in Figure 4a.                                are coupling inputs that each has a delay in the range of 𝐷𝑒𝐿 to 𝐷𝑒𝐻 ,
+   In this design, due to inter-center dependencies mentioned ear-                     specific to each group. In this way, the calculations of each part
+lier, the CC engines require to be able to access each others memory.                  require no additional data from other parts, and data movement
+Since these accesses are arbitrary and could change from simulation                    only happens when we move from one timestep to another. To get
+to simulation, a flexible Data Exchange block is required to facili-                   to an architecture based on this parallelization opportunity, and to
+tate inter-engine memory accesses. According to our analysis, the                      increase data locality, we divide the entire range of coupling delays
+bandwidth that the data exchange block is needed to provide has                        in the model into subgroups, and store the history of all the centers
+a complexity of O (𝑁 𝐸), in which 𝐸 is the number of CC engines.                       associated with each delay range in the memory of that delay group.
+With this bandwidth requirement, the data exchange block can                           This can be seen in Figure 4b.
+become a serious bottleneck in the system, in addition to limiting                        There are multiple CC Engines in this design, and as can be seen
+the scalability of the system where increasing the number of CC                        in Figure 4b, the engines are chained together in a way that engine
+engines could worsen the performance.                                                  #1 can send data to engine #2, and engine #2 can send data to engine
+                                                                                       #3, and so on. Each engine calculates the couplings associated with
+   Delay-based Approach In order to increase the data locality and                     a set of connection delays. We take all the unique connection delay
+movement, in addition to mitigating the bandwidth-requirement                          values, sort them, and divide the calculation points associated with
+issue of the center-based approach, we designed and implemented                        those delay values between the CC engines. At each timestep, all the
+a dataflow-style, systolic array architecture for this part of the                     calculated state variables enter the CC engine #1. Each state variable
+problem. The main idea of this design is to change our perspective                     might or might not contribute to a coupling with the delay that
+from a center-based approach, to a delay-based approach (depicted                      engine #1 is responsible for. If it is, the coupling value is calculated
+in Figure 4b) where we group the connectivities with the same                          in the engine using that value. As the simulation advances, the state
+delay and perform the calculations of the groups in parallel. In                       variables are passed from engine to engine until they are no longer
+other words, This design uses the fact that the coupling calculation                   needed for coupling calculation and are absorbed by the last CC
+formula (2) can be rewritten as (4) and (5). 𝐸 indicates the number of                 engine of the chain.
+delay groups, and 𝐷𝑒𝐿 and 𝐷𝑒𝐻 show the lower and upper bounds                             The data exchange block of the center-based design is replaced
+of each delay group respectively.                                                      by an accumulation block in this approach (according to (5)). This is
+                                      𝐸
+                                     ∑︁
+                                                 !                                     because all the calculated couplings in different CC engines must be
+                     𝐶𝑖 (𝑡) = 𝐾𝑝𝑜𝑠𝑡      𝐶𝑖𝑒 (𝑡)                   (4)                 added together to get the final coupling input for each center. This
+                                            𝑒=1                                        accumulation block is faster, more scalable and can be implemented
+                          𝑁                                                            efficiently in the PL of the Versal. Despite these benefits over having
+                          ∑︁
+              𝐶𝑖𝑒 (𝑡) =         𝑊𝑖 𝑗 𝐾𝑝𝑟𝑒 𝑋 𝑗 (𝑡 − 𝑑𝑖 𝑗 ), 𝑋𝑖 (𝑡)
+                                                                                      a centralized data exchange block, the accumulation process can
+                          𝑗=1                                              (5)         quickly become a bottleneck when increasing the number of CC
+                                 For 𝑑𝑖 𝑗 ∈ [𝐷𝑒𝐿 , 𝐷𝑒𝐻 )                               engines. This is because of the fact that values from more and more
+                                                                                       sources are needed to be added together. To mitigate the challenge,
+  This rearrangement of equations presents a parallelization op-                       we implemented this block as a 2-level, pipelined tree. More levels
+portunity where data locality is increased, and data movement is                       can be added when increasing the number of CC engines.
+performed with higher efficiency. For the coupling input of each
+center 𝑖 at each timestep 𝑡 (𝐶𝑖 (𝑡)), its calculation is divided into
+
+
+
+
+                                                                                 227
+FPGA ’25, February 27–March 1, 2025, Monterey, CA, USA                                       Amirreza Movahedin, Lennart P. L. Landsmeer, and Christos Strydis
+
+
+
+
+Figure 5: (Left) Block diagram of HUMA (Right) CC-Engine 12-stage calculation pipeline. 𝑛 is the pointer traversing the sparse
+arrays. Some operations span more than one clock cycle.
+
+
+However, unlike MLPFE engines, having more CC engines does
+not necessarily translate to better performance, regardless of the
+accumulation process. This will be discussed more in Section 5.2.
+   Within each CC engine, a 12-stage pipeline performs the calcula-
+tions. Figure 5 shows the CC engine’s pipeline. The main calculation
+only happens in stages 10 and 11, with the rest of the pipeline re-
+sponsible for calculating the address of the memory accesses and
+transmitting the results to the accumulator. Additionally, the con-
+nectivity data are stored in Compressed Sparse Row (CSR) format
+which would reduce the required memory capacity for these data.
+Furthermore, the calculations done within the CC engines utilize
+the CSR storage format and does not decompress the connectivity
+data. Figure 5 confirms our analysis that the main challenge of the
+coupling calculation process is not the calculation, but the memory
+capacity and access.
+   All of the memory blocks (containing memory for connectivity
+and history data) in the calculation pipelines of the CC engines
+are implemented in the Vitis HLS as true 2-port URAMs. These
+URAM blocks are needed to be operating in 2-port configuration
+because of the pipelining with a minimum initiation interval of                 Figure 6: Details of different parts of the CC engine and its
+1. At the beginning of each simulation, an initialization process               connections to the neighboring engines and the accumula-
+populates the history and connectivity data memories from the                   tion block. BRAM buffers are put between the connections
+main memory. This process can be bypassed if many simulations                   to prevent communication stalls.
+are running back to back with mostly similar connectivity data,
+only needing to update the changes from the main memory.                           In the HUMA implementation shown in Figure 5, at each timestep,
+   For each timestep of the simulation, the calculation pipeline                while the centers’ coupling inputs are calculated in the CC engines,
+shown in Figure 5 starts. During this process, all center calculations          the MLPFE engines evaluate the local dynamic of all the centers
+related to the CC engine are performed and sent to the accumulation             and wait for the values from the CC engines. After receiving the
+block. Additionally, the history data that is needed to be passed               calculated coupling values, the MLPFE engines perform the FE solv-
+to the next CC engine are also transmitted during this process.                 ing and produce the next step of the state variables. These newly
+When the described calculation and transmission process are done,               calculated state variables are shifted into the first CC engine, as
+a receiving process starts that reads the new history values from               the state variable history values across different engines are shifted
+the previous CC engine and updates its history ring buffer. Due to              towards the last CC engine.
+data dependencies within the simulation algorithm, the calculation                 The delay-based, CC engine-chain architecture was initially im-
+and receiving processes are not overlapping and are performed one               plemented exclusively on the AIEs of the Versal alongside the
+after the other. Additionally, for the same reason, each simulation             MLPFE engines [18]. Our initial intuition was that the dataflow
+timestep is calculated when the previous timestep is completely                 nature of the AIEs would make it a good candidate for this design.
+finished. Figure 6 illustrates the details of different parts of the CC         However, the inherent von Neumann architecture of the AIE tiles,
+engine and its connections to different parts of the system.                    in addition to the limited amount of memory available to each tile
+                                                                                did not match the sparse calculation and large memory capacity
+
+
+
+
+                                                                          228
+HUMA: Heterogeneous, Ultra Low-Latency Model Accelerator for The Virtual Brain on a Versal Adaptive SoC        FPGA ’25, February 27–March 1, 2025, Monterey, CA, USA
+
+
+                       Table 2: TVB Datasets [5]                                            Table 3: Specifications of TVB evaluation platforms
+
+                         TVB76      TVB192       TVB600a       TVB998                     TVB
+                                                                                                             CPU               GPU                  HUMA
+      No. of Centers        76         192          600          998                    Platform
+                                                                                                                                                     C++
+      Sparsityb (%)       72.99       90.42        94.80         96.41                  Language          Python (JAX)     Python (JAX)
+                                                                                                                                                   Vitis HLS
+        No. of
+                          1,560       3,532        18,736       35,730                                                                           AMD Versal
+      Connections                                                                                         AMD Ryzen       Nvidia Quadro
+                                                                                         Device                                                   VC1902
+      a A mock-up dataset for performance measurement purposes                                              3970X           RTX6000
+                                                                                                                                               (VCK190 Board)
+      b Percentage of zero-valued elements in connectivity matrix.
+                                                                                            Max                                                 AIE: 1.25 GHz
+                                                                                                            4.5 GHz          1.77 GHz
+                                                                                            Freq.                                               PL: 250 MHz
+needs of the coupling calculations. Unlike the MLPFE engines which
+have organized calculations and coalesced memory accesses that                            No. of            32 Cores          4608                    400
+can benefit greatly from the vector processors of the AIE tiles, the                      Cores           (64 Threads)     CUDA Cores             AI Engines
+CC engines could not leverage this capability due to their sparse,                                      L1: 2 MB
+                                                                                                                            L1: 64 KB            AIE: 12.8 MB
+arbitrary and unorganized calculations and memory accesses. The                                        L2: 16 MB
+                                                                                        Memory                              L2: 6 MB             PL: 20.5 MB
+lower-than-expected performance of this implementation led us to                                       L3: 128 MB
+                                                                                                                           DDR6: 24 GB           DDR4: 8 GB
+leverage the heterogeneous computation and memory needs within                                        DDR4: 128 GB
+the TVB algorithm, and move the CC engines to the PL of the Versal                      RAM BW             95.4 GB/s        672.0 GB/s            136.5 GB/s
+platform.                                                                                Power                            Single: 162 W
+                                                                                                             280 W                                   47 W
+4.2.3 Full System. Figure 5 shows the block diagram of HUMA.                             Cons.a                          Batched: 236 W
+The structure of the MLPFE and CC engines was discussed earlier                          Process             7 nm             12 nm                  7 nm
+in this section. The accumulation process in the Accumulate and                           No. of
+Organize block is implemented as a reduction tree. The organization                                          15.2 B            18.6 B                37 B
+                                                                                          Trans.
+part of this block distributes the calculated couplings among the                       a Measured for GPU using nvidia-smi tool while running single and
+MLPFE engines and gathers the newly calculated state variables                          batched simulations. Extracted for HUMA by measuring the power of
+from these engines.                                                                     the entire board while running. TDP value reported for CPU.
+    Next to the PL and AIE, an ARM processor controls these two en-
+tities. A Python-based pre-processing script takes in the simulation                  parameters, including the number of centers and state variables per
+inputs (such as the size of the model and the connectivity data) and                  center, hyperparameters of the MLP, and FE solver input such as
+generates a configuration file for the MLPFE and CC engines. The                      timestep size can be changed without the need to re-synthesize the
+ARM processor reads this configuration file and configures each                       system.
+MLPFE and CC engine based on it. It then starts the simulation and                       In terms of correctness, the acceleration performed in HUMA did
+reads the outputs when the simulation finishes.                                       not compromise the accuracy of the algorithm. We verified the out-
+                                                                                      put validity of our implementation by comparing it to the original
+5     Evaluation                                                                      TVB for different models. HUMA uses single-precision floating-
+In this section, the performance, power, and area of HUMA are                         point arithmetic, just like CPU and GPU versions, in addition to
+evaluated. Additionally, the comparison between HUMA and the                          implementing the same exact formulas to ensure bit-accuracy.
+related works introduced in Section 3 is also presented in this                          Table 3 shows the specifications of different platforms where
+section.                                                                              TVB has been implemented and are considered here. Comparing
+                                                                                      very different computing platforms is not a straightforward task.
+5.1     Methodology                                                                   However, using different normalization metrics, we try to get an
+HUMA and related works were benchmarked using datasets pro-                           insight into the performance comparison of these systems. For both
+vided by TVB shown in Table 2. It is worth noting that, because of                    CPU and GPU systems, we used the JAX-based implementation
+the large size of the TVB998 model, a subset of this dataset with                     of TVB (vbjax). The multi-threading and SIMD capabilities of the
+600 centers (TVB600) was also used for benchmarking. This subset                      CPU, in addition to the parallel computation capacity of the GPU are
+is not accurate in terms of neuroscientific validity and is used for                  fully utilized in vbjax. Although JAX-based implementations might
+performance measurement purposes only.                                                compromise some performance for the abstraction they provide,
+   For the results presented in this section, we used the state-                      it has been shown that the XLA compiler powering JAX is highly
+variable number of 2 (𝑀 = 2) and an MLP architecture with one                         competitive or can even outperform hand-tuned parallelized or
+hidden layer of 64 neurons (𝐻 = 1 and 𝐿 = 64) which was sufficient                    CUDA implementations for the types of workloads consisting of
+to accurately calculate the local dynamics for the chosen neural-                     local dynamics and coupling calculations [16].
+mass model [3]. The MLP was trained to approximate the local
+dynamics of a Simple 2D Oscillator model [13]. Additionally, the                      5.2     HUMA Results
+reported numbers in this section are for simulations running for                      Table 4 shows the latency, throughput, and power consumption of
+3,000 timesteps with a 0.05-ms step size. All of the mentioned model                  the heterogeneous HUMA implementation with 64 MLPFE and 32
+
+
+
+
+                                                                                229
+FPGA ’25, February 27–March 1, 2025, Monterey, CA, USA                                     Amirreza Movahedin, Lennart P. L. Landsmeer, and Christos Strydis
+
+
+Table 4: HUMA results (on Versal VC1902 and with 64 MLPFE
+and 32 CC engines)
+
+                         TVB76       TVB192       TVB600      TVB998
+      Latencya (ms)         4.1         7.5            21.1    33.8
+       Throughput
+                          726,037    398,830       142,186    88,683
+          ( iters
+              s )
+      Power (Watts)                            46.71
+      a For a simulation with 3,000 timesteps.
+
+
+
+
+CC engines on the Versal device. Additionally, Table 5 shows the
+resource utilization and power consumption breakdown of HUMA.
+As mentioned earlier, HUMA is implemented on a VC1902 device
+on the VCK190 evaluation board. The verification of HUMA, in
+addition to performance and power measurements were all done
+                                                                               Figure 7: Delay value distribution of TVB192 dataset and the
+on the hardware itself. Version 2022.2 of Vivado and Vitis toolsets
+                                                                               workload assigned to each of the 32 CC engines
+were used.
+   HUMA utilizes URAMs of the Versal PL to store the connectivity
+and history data. The BRAM resources of the PL are used as buffers             engine, the pre-processor of the application assigns delay ranges
+between connections to avoid stalls in the transmitting modules.               in a way to balance the workloads, as can be seen in Figure 7. The
+This division of memory resources helped with the acceleration                 way the performance of HUMA changes with regards to different
+of the place-and-route processes when implementing this design.                simulation parameters depends on which part of the system is the
+Table 5 shows that HUMA implementation on Versal, as expected,                 bottleneck, and the formulas shown in Table 1.
+saturates the memory resources of the PL before any of the logic
+and computation resources. In the AIEs of the Versal implementa-               5.3   Comparison to Related Work
+tion, a communication kernel exists next to the 64 MLPFE engines.              In this section, HUMA is compared to the JAX-based CPU and
+However, all of these engines require additional memory to store               GPU versions of TVB introduced in Section 3. For the CPU version,
+the parameters of the MLP. For this reason, each engine uses the               we used an AMD Ryzen Threadripper 3970X with 32 cores. This
+memory bank of its neighboring AIE tile as additional memory to                modern-day, server-class CPU has large cache memories and is
+store the MLP parameters, which brings the utilization of the AIEs             optimized for multithreaded execution. For the GPU version of TVB,
+to 130 tiles.                                                                  we used an Nvidia Quadro RTX6000 GPU, which has a relatively
+   More than 50% of the dynamic power consumption of HUMA is                   high performance per Watt. We benchmarked both these systems
+due to the AI Engines, as shown in Table 5. This is mostly due to              with a range of different models and configurations. Figures 8a
+the fact that in the AIEs of the Versal platform, 64 small vector pro-         and 8b show the latency and throughput results of the CPU and
+cessors (the MLPFE engines) are running at 1.25 GHz, performing                GPU version of TVB next to HUMA, respectively. For latency, the
+the MLP evaluations. The Network-on-Chip (NoC) of the Versal                   single-simulation configuration of the CPU and GPU versions of
+platform consumes around 12.4% of the total power consumption.                 TVB was used, whereas in the throughput results the batched-
+The NoC connects different parts of the platform, including the                simulation performance is reported. Additionally, Figures 8c and 8d
+ARM processor and the CC engines that reside in the PL to the                  show the energy consumption and performance efficiency of the
+off-chip main memory controller.                                               benchmarked patforms, respectively.
+   The MLPFE and CC engines run in parallel, and as a result the                  Table 6 presents a comparison of the different TVB implemen-
+overall performance of the system depends on which of these parts              tations as ported on the CPU, GPU, and Versal platforms. In order
+of the system is running slower. The system’s bottleneck itself is             to make the comparison fairer and easier, reported numbers are
+determined by different simulation parameters such as the number               normalized by the number of centers in the model. This is done by
+of centers, the number of state variables per center, the MLP hyper-           dividing the latency and multiplying the throughput results by the
+parameters, and also the sparsity of the connections. Furthermore,             number of centers in the model, respectively. This normalization
+during our analysis, we realized that the distribution of values in            makes comparison easier across different models, and also fairer
+the delay matrix also affects the performance of the CC part of the            for implementations that experience under-utilization in certain
+application, which in turn can shift the bottleneck of the system.             model sizes.
+Figure 7 shows the distribution of the non-zero values in the delay               In terms of latency, HUMA performs on average 27× and 14×
+matrix of dataset TVB192. As can be seen, the concentration of                 faster compared to the CPU and GPU versions of TVB, respectively.
+values around 300 timesteps is very high. As a result, the workload            Additionally, since it consumes less power compared to the bench-
+assigned to the CC engines responsible for that delay range is high            marked CPU and GPU, the energy efficiency of HUMA is around
+which would bottleneck the CC execution. It is worth noting that               85× and 52× higher compared to the TVB implementation on CPU
+in order to reduce the maximum workload assigned to a single CC                and GPU, respectively.
+
+
+
+
+                                                                         230
+HUMA: Heterogeneous, Ultra Low-Latency Model Accelerator for The Virtual Brain on a Versal Adaptive SoC     FPGA ’25, February 27–March 1, 2025, Monterey, CA, USA
+
+
+                 Table 5: Resource utilization and power consumption breakdown of HUMA on the Versal platform
+
+                                   Resource                   Utilization (–)    % of Total     Power Consumption (W)          % of Total
+                       Programmable Logic                                                                  6.57                 15.06 %
+                                                   LUT            131,255          14.59 %
+                                                                                                           0.78                  1.78 %
+                                                    FF            182,167          10.12 %
+                                                   DSP              191             9.71 %                0.21                  0.48 %
+                                                  BRAM              466            48.19 %                1.15                  2.64 %
+                                                  URAM              386            83.37 %                0.26                  0.60 %
+                                                  Other                                                   4.17                  9.56 %
+                            AI Engines                             130a            32.50 %                15.64                 35.85 %
+                        Network-on-Chip                                                                   5.40                  12.38 %
+                          Device Static                                                                   14.67                 33.62 %
+                                Total                                                                     43.63b                100.0 %
+                       a Half of the utilized AIE tiles only used for their memory.
+                       b This is a post-implementation estimation by the Vivado power tool. The actual power consumption is 46.71 W.
+
+
+
+
+           (a) Latency (as measured for a single simulation with 3,000                (b) Throughput (as measured for the CPU and GPU ver-
+           timesteps)                                                                 sions in the batched-simulation configuration)
+
+
+
+
+           (c) Energy Consumption (as measured for a single simula-                   (d) Performance Efficiency (as measured for the CPU and
+           tion with 3,000 timesteps)                                                 GPU versions in the batched-simulation configuration)
+
+Figure 8: Performance comparison between HUMA (AMD VC1902 on VCK190 board), GPU (Nvidia Quadro RTX6000), and CPU
+(AMD Ryzen Threadripper 3970X) versions of TVB.
+
+
+
+
+                                                                                231
+FPGA ’25, February 27–March 1, 2025, Monterey, CA, USA                                     Amirreza Movahedin, Lennart P. L. Landsmeer, and Christos Strydis
+
+
+       Table 6: Overview of the normalized (by the number of centers) results of different versions of The Virtual Brain
+
+                                Implementation            TVB on CPU [6]          TVB on GPU [6]      TVB on Versal (HUMA)
+                                 Avg. Latencya
+                                                                 1.08                  0.57                       0.04
+                                        (ms)
+                               Avg. Throughput
+                                                                105.9                 243.1                       76.6
+                                  (M iters/s)
+                        Avg. Energy Consumptiona,b
+                                                                150.8                 93.06                       1.91
+                                   (mJ)
+                         Avg. Throughput per Wattb
+                                                                 756.2             1,030.0                      1,626.4
+                                 (K iters/s.Watt)
+                        a For a single simulation with 3000 timesteps.
+                        b Half the reported TDP value is used for CPU calculations.
+
+
+
+   The low latency of HUMA means that it would fit very well                  not possible. Though there is no easy way of calculating that met-
+within the model-fitting processes that utilize MCMC in their Bayesian        ric, by looking at the resource-utilization and power-consumption
+inference framework. This means that, by utilizing HUMA, a patient-           results of HUMA shown in Table 5 and the specifications of the
+specific, TVB brain model can be trained an order of magnitude faster         CPU and GPU used (such as the high-bandwidth, on-board GDDR6
+compared to CPU or GPU while consuming a fraction of their power.             memory), we can claim that HUMA delivers at least equal if not
+This would benefit the patients and doctors who use large-scale               higher throughput per area compared to the both the CPU and GPU
+brain models such as TVB in the course of their treatment signifi-            versions of TVB.
+cantly.
+   In terms of throughput, since the GPU is capable of batching a             6     Conclusion
+large number of simulations and running them at the same time,                In this work we presented HUMA, an ultra low-latency, power-
+the GPU version of TVB performs around 3× better compared to                  efficient, heterogeneous accelerator of The Virtual Brain (TVB) on
+HUMA. This superiority of GPU over the Versal platform in terms               Versal VC1902 Adaptive SoC. The Virtual Brain is one of the lead-
+of throughput was expected since the GPU, with its substantial                ing, large-scale brain modeling tools that can build patient-specific,
+parallel capacity, is designed for delivering very high throughputs.          personalized digital brain twins used for different clinical purposes
+The CPU implementation also outperforms HUMA when it comes                    such as epilepsy. We designed a dataflow, systolic array architec-
+to throughput by around 1.4× on average. However, as can be seen              ture for the TVB algorithm which performed on average around
+in Figure 8b, HUMA has slightly higher throughput when running                27× better compared to a multi-threaded CPU implementation of
+smaller model of 76 centers. Although both GPU and CPU versions               TVB in terms of latency, and more than 2× in terms of power ef-
+outperform HUMA by the throughput metric, when we look at the                 ficiency. When compared to a high-performance GPU version of
+normalized metrics, the comparison turns out differently.                     TVB, HUMA delivered on average 14× lower latency and 55× less
+   When normalizing throughput results by power consumption,                  energy consumption. In terms of throughput, although HUMA had
+we can see that HUMA has on average around 1.7× and 2.3× higher               lower throughput compared to the GPU version, it delivered around
+throughput per Watt compared to the GPU and CPU versions of                   1.7× higher throughput per Watt.
+TVB, respectively. Although both the GPU and CPU implementa-                     TVB models require training for each patient to be as accurate
+tions have higher throughput compared to HUMA, the application-               as possible. However, this training process could be very time-
+specific, dataflow design of the heterogeneous system on the Versal           consuming, and make using these models challenging in practice.
+platform consumes much less power which results in better perfor-             HUMA, the heterogeneous Versal implementation we developed,
+mance efficiency. It is worth noting that for both energy consump-            with its low latency and low power consumption, makes this process
+tion and performance efficiency calculation of the CPU version, we            faster and more efficient for patients and doctors who benefit from
+used half the reported TDP value of the CPU mentioned in Table 3              large-scale brain modeling in the course of their treatment.
+to maintain fairness in comparison. However, realistically, the CPU
+version uses more than half the TDP value when executing many                 Acknowledgments
+simulations at the same time, utilizing all 32 cores of the device.           This paper is partially supported by the European-Union Horizon
+   Finally, a word on area utilization. The Versal VC1902 SoC used            Europe R&I program through projects SEPTON (no. 101094901)
+in HUMA has 37 billion transistors. However, unlike the CPU and               and SECURED (no. 101095717) and through the NWO - Gravitation
+GPU versions of TVB which uses almost all the device capacity in a            Programme DBI2 (no. 024.005.022). We thank AMD/Xilinx and
+high-throughput, batched configuration, HUMA only utilizes a frac-            NVIDIA corporations for their donations. We are grateful to Dr.
+tion of all the resources available in the Versal platform. Because of        Mario Negrello, Freddie Renyard, and Marmaduke Woodman for
+the heterogeneous nature of the Versal platform, calculating exactly          all their help and feedback throughout this work.
+what percentage of all the transistors are actually being used is
+
+
+
+
+                                                                        232
+HUMA: Heterogeneous, Ultra Low-Latency Model Accelerator for The Virtual Brain on a Versal Adaptive SoC                 FPGA ’25, February 27–March 1, 2025, Monterey, CA, USA
+
+
+References                                                                                     [18] Amirreza Movahedin. 2024. Heterogeneous Acceleration of Neural-Mass Models
+ [1] M. Faizan Ahmad, James Murphy, Deniz Vatansever, Emmanuel A. Stamatakis,                       towards Digital Brain Twins. http://resolver.tudelft.nl/uuid:4e1f0693-ae57-42d9-
+     and Simon J. Godsill. [n. d.]. Bayesian Inference of Task-Based Functional Brain               bbfe-8c8d0edd330a
+     Connectivity Using Markov Chain Monte Carlo Methods. 10, 7 ([n. d.]), 1150–               [19] A. Movahedin. 2024. TVB Pipeline. Created in BioRender. https://BioRender.com/
+     1159. https://doi.org/10.1109/JSTSP.2016.2599010                                               g61o515 Parts of the figure from here and here.
+ [2] AMD. 2023. Versal Adaptive SoC AI Engine Architecture Manual (AM009). https:              [20] National Academy of Engineering. 2008. Grand Challenges. https://www.
+     //docs.xilinx.com/r/en-US/am009-versal-ai-engine                                               engineeringchallenges.org/challenges.aspx
+ [3] Nina Baldy, Martin Breyton, Marmaduke M. Woodman, Viktor K. Jirsa, and                    [21] Anagh Pathak, Dipanjan Roy, and Arpan Banerjee. [n. d.]. Whole-Brain Network
+     Meysam Hashemi. 2024. Efficient Inference on a Network of Spiking Neurons                      Models: From Physics to Bedside. 16 ([n. d.]). https://doi.org/10.3389/fncom.
+     using Deep Learning. bioRxiv (2024). https://doi.org/10.1101/2024.01.26.577077                 2022.866517 Publisher: Frontiers.
+ [4] James Bradbury, Roy Frostig, Peter Hawkins, Matthew James Johnson, Chris                  [22] Leon Paula, Knock Stuart, Woodman M., Domide Lia, Mersmann Jochen, McIn-
+     Leary, Dougal Maclaurin, George Necula, Adam Paszke, Jake VanderPlas, Skye                     tosh Anthony, and Jirsa Viktor. 2013. The Virtual Brain: a simulator of pri-
+     Wanderman-Milne, and Qiao Zhang. 2018. JAX: composable transformations of                      mate brain network dynamics. Frontiers in Neuroinformatics 7, 10 (2013).
+     Python+NumPy programs. http://github.com/google/jax                                            https://doi.org/10.3389/fninf.2013.00010
+ [5] The Virtual Brain. 2019. tvb-data. https://zenodo.org/records/3474071#.XZmcU-             [23] Dirk Ridder, Muhammad Ali Siddiqi, Justin Dauwels, Wouter Serdijn, and Christos
+     cza_U                                                                                          Strydis. 2024. NeuroDots: From Single-Target to Brain-Network Modulation:
+ [6] The Virtual Brain. 2024. vbjax. https://github.com/ins-amu/vbjax/tree/main                     Why and What Is Needed? Neuromodulation: Technology at the Neural Interface
+ [7] Shuo Chen, Yishi Xing, Jian Kang, Peter Kochunov, and L Elliot Hong. [n. d.].                  27 (04 2024). https://doi.org/10.1016/j.neurom.2024.01.003
+     Bayesian modeling of dependence in brain connectivity data. 21, 2 ([n. d.]),              [24] Paula Sanz-Leon, Stuart A. Knock, Andreas Spiegler, and Viktor K. Jirsa. 2015.
+     269–286. https://doi.org/10.1093/biostatistics/kxy046                                          Mathematical framework for large-scale brain network modeling in The Virtual
+ [8] Timothy A. Davis. 2006. Direct Methods for Sparse Linear Systems (Fundamentals                 Brain. 111 (2015), 385–430. https://doi.org/10.1016/j.neuroimage.2015.01.002
+     of Algorithms 2). Society for Industrial and Applied Mathematics, USA.                    [25] Michael Schirner, Lia Domide, Dionysios Perdikis, Paul Triebkorn, Leon Ste-
+ [9] Kaiyuan Guo, Shulin Zeng, Jincheng Yu, Yu Wang, and Huazhong Yang. 2019. A                     fanovski, Roopa Kalsank Pai, Paula Prodan, Bogdan Valean, Jessica Palmer,
+     Survey of FPGA-based Neural Network Inference Accelerators. 12, 1, Article 2 (3                Chloê Langford, André Blickensdörfer, Michiel A. van der Vlag, Sandra Díaz-Pier,
+     2019), 26 pages. https://doi.org/10.1145/3289185                                               Alexander Peyser, Wouter Klijn, Dirk Pleiter, Anne Nahm, Oliver Schmid, Mar-
+[10] Imali Hettiarachchi, Shady Mohamed, and Saeid Nahavandi. [n. d.].              A               maduke M. Woodman, Lyuba Zehl, Jan Fousek, Spase Petkoski, Lionel Kusch,
+                                                                                                    Meysam Hashemi, Daniele Marinazzo, J. F. Mangin, Agnes Flöel, Simisola Ak-
+     marginalised Markov Chain Monte Carlo approach for model based analysis of
+                                                                                                    intoye, Bernd Carsten Stahl, Michael Cepic, Emily Johnson, Gustavo Deco,
+     EEG data. In 2012 9th IEEE International Symposium on Biomedical Imaging (ISBI)
+                                                                                                    Anthony Randal Mcintosh, Claus C. Hilgetag, Marc Morgan, Bernd Schuller,
+     (2012-05). 1539–1542. https://doi.org/10.1109/ISBI.2012.6235866
+                                                                                                    Alex Upton, Colin McMurtrie, Timo Dickscheid, Jan G. Bjaalie, Katrin Amunts,
+[11] Max Hinne, Tom M. Heskes, Christian F. Beckmann, and Marcel van Gerven.
+                                                                                                    Jochen Mersmann, Viktor Jirsa, and Petra Ritter. 2022. Brain simulation as a
+     2013. Bayesian inference of structural brain networks. NeuroImage 66 (2013),
+                                                                                                    cloud service: The Virtual Brain on EBRAINS. NeuroImage 251 (2022). https:
+     543–552. https://doi.org/10.1016/j.neuroimage.2012.09.068
+                                                                                                    //doi.org/10.1016/j.neuroimage.2022.118973
+[12] Kurt Hornik, Maxwell B. Stinchcombe, and Halbert L. White. 1989. Multilayer
+                                                                                               [26] Ahmad Shawahna, Sadiq M. Sait, and Aiman El-Maleh. 2019. FPGA-Based Accel-
+     feedforward networks are universal approximators. Neural Networks 2 (1989),
+                                                                                                    erators of Deep Learning Networks for Learning and Classification: A Review.
+     359–366. https://doi.org/10.1016/0893-6080%2889%2990020-8
+                                                                                                    IEEE Access 7 (2019), 7823–7859. https://doi.org/10.1109/ACCESS.2018.2890150
+[13] E.M. Izhikevich. [n. d.]. Which Model to Use for Cortical Spiking Neurons? 15, 5
+                                                                                               [27] Endri Taka, Aman Arora, Kai-Chiang Wu, and Diana Marculescu. 2023. MaxEVA:
+     ([n. d.]), 1063–1070. https://doi.org/10.1109/TNN.2004.832719
+                                                                                                    Maximizing the Efficiency of Matrix Multiplication on Versal AI Engine. In
+[14] V. K. Jirsa, T. Proix, D. Perdikis, M. M. Woodman, H. Wang, J. Gonzalez-Martinez,
+                                                                                                    2023 International Conference on Field Programmable Technology (ICFPT). 96–105.
+     C. Bernard, C. Bénar, M. Guye, P. Chauvel, and F. Bartolomei. 2017. The Virtual
+                                                                                                    https://doi.org/10.1109/ICFPT59805.2023.00016
+     Epileptic Patient: Individualized whole-brain models of epilepsy spread. 145
+                                                                                               [28] Huifang E Wang, Paul Triebkorn, Martin Breyton, Borana Dollomaja, Jean-Didier
+     (2017), 377–388. https://doi.org/10.1016/j.neuroimage.2016.04.049
+                                                                                                    Lemarechal, Spase Petkoski, Pierpaolo Sorrentino, Damien Depannemaecker,
+[15] Farad Khoyratee, Filippo Grassia, Sylvain Saïghi, and Timothée Levi. 2019. Opti-
+                                                                                                    Meysam Hashemi, and Viktor K Jirsa. 2024. Virtual brain twins: from basic
+     mized Real-Time Biomimetic Neural Network on FPGA for Bio-hybridization.
+                                                                                                    neuroscience to clinical use. National Science Review 11, 5 (2024), nwae079.
+     Frontiers in Neuroscience 13 (2019). https://doi.org/10.3389/fnins.2019.00377
+                                                                                                    https://doi.org/10.1093/nsr/nwae079
+[16] Lennart P.L. Landsmeer, Max C.W. Engelen, Rene Miedema, and Christos Strydis.
+                                                                                               [29] Junsong Wang, Ernst Niebur, Jinyu Hu, and Xiaoli Li. 2016. Suppressing epilep-
+     2024. Tricking AI chips into simulating the human brain: A detailed performance
+                                                                                                    tic activity in a neural mass model using a closed-loop proportional-integral
+     analysis. Neurocomputing 598 (2024), 127953. https://doi.org/10.1016/j.neucom.
+                                                                                                    controller. Scientific Reports 6 (2016). https://doi.org/10.1038/srep27344
+     2024.127953
+                                                                                               [30] Marmaduke Woodman. 2020. tvb-algo. https://github.com/maedoc/tvb-algo
+[17] Ignacio Martin, Gorka Zamora, Jan Fousek, Michael Schirner, Petra Ritter, Vik-
+                                                                                               [31] Xilinx. 2020. Versal: The First Adaptive Compute Acceleration Platform (ACAP).
+     tor K. Jirsa, Gustavo Deco, and Gustavo Patow. 2024. TVB C++: A Fast and Flexible
+                                                                                                    https://docs.xilinx.com/v/u/en-US/wp505-versal-acap
+     Back-End for The Virtual Brain. https://doi.org/10.48550/arXiv.2405.18788
+
+
+
+
+                                                                                         233
+

@@ -1,0 +1,575 @@
+                                                           Passivity-Based Control of Electrographic Seizures in a
+                                                                       Neural Mass Model of Epilepsy
+                                                                                            Gagan Acharya and Erfan Nozari
+
+
+                                               Abstract— Recent advances in neurotechnologies and decades          radically different approach to closed-loop control of epileptic
+                                           of scientific and clinical research have made closed-loop electrical    seizures based on the control-theoretic framework of passivity-
+                                           neuromodulation one of the most promising avenues for the               based control (PBC). Passivity provides a robust, energy-based
+                                           treatment of drug-resistant epilepsy (DRE), a condition that
+                                           affects over 15 million individuals globally. Yet, with the existing    framework for analyzing the stability of nonlinear systems and
+                                                                                                                   feedback interconnections, making PBC particularly attractive
+arXiv:2603.25991v1 [eess.SY] 27 Mar 2026
+
+
+
+
+                                           clinical state of the art, only 18% of patients with DRE who
+                                           undergo closed-loop neuromodulation become seizure-free. In             for nonlinear control design [5]. In the context of epilepsy,
+                                           a recent study, we demonstrated that a simple proportional              our proposed PBC-based approach uses neuromodulation to
+                                           feedback policy based on the framework of passivity-based               drain energy from epileptic tissue, rather than injecting energy
+                                           control (PBC) can significantly outperform the clinical state of
+                                           the art. However, this study was purely numerical and lacked            into it (status quo). Using extensive numerical analyses, we
+                                           rigorous mathematical analysis. The present study addresses this        have shown the robust ability of this approach to suppress
+                                           gap and provides the first rigorous analysis of PBC for the closed-     epileptic seizures and its significant advantage over the state
+                                           loop control of epileptic seizures. Using the celebrated Epileptor      of the art [4]. Nevertheless, this study was purely empirical
+                                           neural mass model of epilepsy, we analytically demonstrate that         and, to our knowledge, no theoretical analysis of passivity
+                                           (i) seizure dynamics are, in their standard form, neither passive
+                                           nor passivatable, (ii) epileptic dynamics, despite their lack of        or PBC has been performed for any model of epilepsy. In
+                                           passivity, can be stabilized by sufficiently strong passive feedback,   the present work we address this gap and provide a rigorous
+                                           and (iii) seizure dynamics can be passivated via proper output          analysis of the passivity and passivation of one of the most
+                                           redesign. To our knowledge, our results provide the first rigorous      widely-used computational models of epilepsy.
+                                           passivity-based analysis of epileptic seizure dynamics, as well as
+                                           a theoretically-grounded framework for sensor placement and
+                                                                                                                      Related Work. In this paper we analyze the passivity
+                                           feedback design for a new form of closed-loop neuromodulation           properties of the Epileptor, one of the most widely used
+                                           with the potential to transform seizure management in DRE.              computational models of epileptic dynamics [6]. It provides
+                                                                                                                   a phenomenological neural-mass model of brain dynamics
+                                                                  I. I NTRODUCTION                                 under epilepsy and has been widely used as a testbed for
+                                                                                                                   feedback control, including optimal feedback on networked
+                                              Epilepsy is a chronic neurological disorder affecting more
+                                                                                                                   variants [7] and input shaping tailored to its dynamics [8],
+                                           than 50 million people worldwide, characterized by recurrent
+                                                                                                                   and MPC-based neuromodulation evaluated on Epileptor-
+                                           seizures arising from abnormal, hypersynchronous neural
+                                                                                                                   generated data [9]. Beyond methodological studies, the Epilep-
+                                           activity [1]. While anti-seizure medications effectively control
+                                                                                                                   tor has also served as a core dynamical model in several large-
+                                           seizures for many patients, approximately one-third develop
+                                                                                                                   scale computational and translational projects. In particular, it
+                                           drug-resistant epilepsy (DRE), in which seizures persist de-
+                                                                                                                   has been integrated into whole-brain simulation frameworks
+                                           spite adequate pharmacological therapy. For these individuals,
+                                                                                                                   which combine patient-specific structural connectomes with
+                                           surgical resection of the epileptogenic zone offers the highest
+                                                                                                                   Epileptor-based network models to predict seizure propagation
+                                           chance of seizure freedom, but many are not candidates due
+                                                                                                                   and support presurgical evaluation in clinical epilepsy cohorts
+                                           to the location or distributed nature of epileptic networks.
+                                                                                                                   [10].
+                                           Consequently, implantable neuromodulation technologies
+                                           have emerged as important alternatives. In particular, the                 To our knowledge, passivity-based feedback has not been
+                                           responsive neurostimulation (RNS) system detects abnormal               studied for the Epileptor, or in the context of epilepsy in
+                                           electrographic activity and delivers electrical stimulation in a        general. The clinically available neuromodulation system
+                                           closed-loop manner to disrupt seizure evolution [2]. Despite            that is used for epilepsy [2] as well as various research
+                                           this progress, clinical outcomes remain variable, with only a           studies that have sought to improve it [11]–[14] implement
+                                           minority of patients achieving seizure freedom [3].                     active stimulation paradigms that inject energy into the tissue,
+                                                                                                                   often with empirically tuned stimulation parameters and
+                                              Motivated by the long-standing limitations of existing
+                                                                                                                   no analytical guarantees. In modeling and control studies,
+                                           treatments, in a recent empirical study [4], we proposed a
+                                                                                                                   seizure mitigation is commonly pursued via various active
+                                              G. Acharya is with the Department of Electrical and Computer         forms of proportional/integral feedback, or optimization-based
+                                           Engineering, University of California, Riverside, CA 92521, USA         designs such as LQR or MPC, with stability assessed through
+                                           gacha002@ucr.edu.                                                       linearization, bifurcation analysis, or mere simulation [7]–[9],
+                                              E. Nozari is with the Departments of Mechanical Engineering, Elec-
+                                           trical and Computer Engineering, Bioengineering, and the Neuroscience   [15]. Related energy-oriented efforts have examined passivity
+                                           Graduate Program, University of California, Riverside, CA 92521, USA    observers [16] and Hamiltonian formulations of neural dynam-
+                                           erfan.nozari@ucr.edu.
+                                                                                        (
+ics [17]. However, a structural passivity characterization of                            6(x2 + 0.25),                     x2 ≥ −0.25
+                                                                             f2 (x2 ) =                                               ,
+the Epileptor has been lacking. The present study addresses                              0,                                x2 < −0.25
+this gap and provides the first passivity-based analysis of
+seizure dynamics.                                                   and the constant parameters x0 , y0 , τ0 , τ1 , τ2 , Irest,1 , Irest,2 , γ
+                                                                    are given in Table I. In particular, the constant currents Irest,1
+   Statement of Contributions. Our main contributions are
+                                                                    and Irest,2 represent tonic baseline inputs to the fast and slow
+threefold. First, we prove the asymptotic stability of the
+                                                                    subsystems, respectively, and model persistent background
+Epileptor under passive feedback, characterize the controller
+                                                                    excitation. The exogenous control input u adds to these
+parameters that achieve this, and provide a sparse interpretable
+                                                                    background inputs and will be used in the sequel for feedback
+Lyapunov function as well as an estimate of the region of
+                                                                    control. In this model, the linear combination of the fast and
+attraction of the asymptotically stable equilibrium point for a
+                                                                    slow population activities, i.e.,
+nominal controller. Second, and despite the aforementioned
+stabilization, we prove that the Epileptor model is not passive                               y = c 1 x1 + c 3 x2                         (2)
+in its standard form, both due to a lack of internal energy
+dissipation and a lack of proper input-output matching. We          has been found to exhibit similar dynamics to empirically
+further establish an explicit necessary constraint on the           recorded local field potentials (LFPs) in patients with epilepsy.
+Epileptor’s output (i.e., sensor placement condition) for it        y is thus often taken as the output, with the default values
+to be able to be passive with a smooth storage function.                                       c1 = −c3 = 1.                              (3)
+Finally, motivated by the latter output constraint, we provide
+an optimization-based framework for feedback passivation              Given the separation of timescales imposed by the values
+of the Epileptor, prove the strict passivity of the closed-         of τ0 , τ1 and τ2 , the states
+loop system under a nominal set of controller parameters,                                                  ⊤
+                                                                                x = x1 y1 x2 y2 ζ z ∈ Rn ,
+                                                                                    
+and demonstrate the presence of a general tradeoff between
+asymptotic stability and passivity as well as a sparsity-           of the Epileptor are often grouped into the ‘fast subsystem’
+promoting cost function for addressing it. Together, these          (x1 , y1 ) generating rapid discharges, the ‘slow subsystem’
+results provide the first theoretical analysis of PBC for closed-   (x2 , y2 ) exhibiting spike–wave discharges, the ‘ultraslow
+loop seizure suppression, and a rigorous foundation for our         subsystem’ z governing the transitions between dynamical
+recent numerical observations of the great promise of PBC           regimes (i.e., into and out of seizures, cf. Fig. 1), and the
+in epilepsy [4].                                                    adaptation variable ζ that couples the fast and slow subsys-
+                                                                    tems. For nominal parameter values (Table I), the autonomous
+                     II. P RELIMINARIES                             dynamics (u = 0) has no asymptotically stable equilibria and
+                                                                    instead exhibits a stable limit cycle, where in each period the
+   In this section, we will review some preliminaries that
+                                                                    output (y) transitions between high-frequency ictal (seizure)
+form the foundation for the forthcoming analyses.
+                                                                    oscillations and a meta-stable interictal (normal) baseline
+                                                                    (see Fig. 1). The latter transitions, importantly, are driven by
+A. The Epileptor
+                                                                    the ultraslow state z that acts as a bifurcation parameter for
+   The Epileptor is perhaps the most widely-used mean-field         the remaining states. For more detailed discussions of the
+model of seizure dynamics [18]. Its structure reproduces the        autonomous Epileptor dynamics, see [6].
+coexistence of a stable equilibrium (interictal state) and a           Note that (1) has the control-affine form
+stable limit cycle (ictal oscillations) via slow modulation of
+a permittivity variable. This intrinsic bistability makes the                                  ẋ = f (x) + gu                            (4)
+model particularly suitable for stability and passivity analysis    where f (x) denotes the autonomous vector field and
+from a nonlinear control perspective.                                                                    ⊤
+   The Epileptor dynamics consist of a system of n = 6                             g= 1 0 1 0 0 0 .                                       (5)
+ordinary differential equations, given by                           This explicit input structure will play a central role in the
+                                                                    subsequent passivity analysis.
+   ẋ1 = y1 − f1 (x1 , x2 , z) − z + Irest,1 + u            (1a)
+ τ1 ẏ1 = y0 − 5x21 − y1                                    (1b)
+                                                                    TABLE I: The default values of the Epileptor parameters [6]. The same
+   ẋ2 = −y2 +x2 −x32 +2ζ −0.3(z −3.5) + Irest,2 + u        (1c)    values are used throughout this work.
+ τ2 ẏ2 = −y2 + f2 (x2 )                                    (1d)             Parameter                                       Value
+     ζ̇ = −γ(ζ − 0.1x1 )                                    (1e)             Fast subsystem offset, x0                       −1.6
+                                                                             Fast subsystem baseline, y0                     1
+  τ0 ż = 4(x1 − x0 ) − z                                   (1f)             Fast time constant, τ1                          1
+                                                                             Slow time constant, τ0                          2857
+where                                                                        Slow subsystem time constant, τ2                10
+                     (                                                       Resting input, Irest,1                          3.1
+                      x31 − 3x21 ,           x1 < 0                          Resting input, Irest,2                          0.45
+  f1 (x1 , x2 , z) =                                ,
+                                                                             Permittivity damping, γ                         0.01
+                                       
+                       x2 − 0.6(z − 4)2 x1 , x1 ≥ 0
+                                                                                 the condition in (7) becomes
+                                                                                        ∇V (x)⊤ f (x) + ∇V (x)⊤ g − h(x)⊤ u ≤ 0.
+                                                                                                                         
+
+                                                                                 Since this inequality must hold for all inputs u ∈ R, it follows
+                                                                                 that the so-called matching condition
+                                                                                                      ∇V (x)⊤ g = h(x)⊤                         (8)
+                                                                                 is necessary for passivity of (6). Under (8), passivity reduces
+                                                                                 to the internal dissipation condition
+                                      (a)
+                                                                                                       ∇V (x)⊤ f (x) ≤ 0.                       (9)
+
+                                                                                   The passivity of a dynamical system has important impli-
+                                                                                 cations for its feedback stabilization. In particular, strictly
+                                                                                 passive systems can be stabilized using simple output feed-
+                                                                                 back laws, as shown next.
+                                                                                 Proposition 2.2. (Feedback stabilization of strictly passive
+                                                                                 systems [5]). Assume that system (6) is strictly passive with
+                                      (b)                                        storage function V (x) and ϕ : R → R is a (passive) function
+                                                                                 that satisfies
+Fig. 1: (a) Simulated state trajectories of the autonomous Epileptor model
+(u = 0). One state is selected from each subsystem for illustration. The
+ultraslow modulation by z drives bifurcations in the remaining (faster) states
+                                                                                                   y ϕ(y) > 0     for all y ̸= 0.             (10)
+between interictal and ictal regimes. (b) Phase–plane trajectories of the
+autonomous Epileptor model (same model as in (a)) plotted separately for         Then, the static output feedback law
+the fast (x1 , y1 ) and slow (x2 , y2 ) subsystems. Trajectories converge to a
+stable limit cycle corresponding to ictal oscillations.                                                    u = −ϕ(y),                         (11)
+                                                                                 makes the origin of the closed-loop system asymptotically
+                                                                                 stable since
+B. Passivity
+  In this section, we recall several standard results on                                  V̇ (x) ≤ −y ϕ(y) − κ(x) < 0 for x ̸= 0.                 □
+passivity for nonlinear control-affine systems of the form                         Similar to standard stability analysis, passivity can be
+                                                                                 generalized around any equilibrium point using a change of
+                                                                                 coordinates. In particular, let (x⋆ , u⋆ ) be a forced equilibrium
+                            ẋ = f (x) + gu,                             (6a)    of (6) satisfying
+                            y = h(x),                                   (6b)
+                                                                                              0 = f (x⋆ ) + gu⋆ ,        y ⋆ = h(x⋆ ).        (12)
+                 n
+where x ∈ R and u, y ∈ R, with f (0) = 0 and h(0) = 0.
+The notion of passivity formalizes physical systems that                         Passivity inequalities then need to be satisfied by the shifted
+dissipate energy through the existence of a storage function                     variables
+whose derivative bounds the energy supplied to the system                            x̃ = x − x⋆ ,       ũ = u − u⋆ ,       ỹ = y − y ⋆ ,   (13)
+through its input–output port, as given next.
+                                                                                 and the passive feedback law
+Definition 2.1. (Passivity [5]). System (6) is passive if there
+exists a continuously differentiable positive semidefinite                                            u = u⋆ − ϕ(y − y ⋆ ),                   (14)
+storage function V : Rn → R≥0 such that
+                                                                                 makes a strictly passive system asymptotically stable around
+                              V̇ (x) ≤ u y,                               (7)    x⋆ by Proposition 2.2.
+                                                                                    While the above notions specialize naturally to linear
+for all (x, u) ∈ Rn+1 . The system is called strictly passive if
+                                                                                 systems, the passivity of a linear system admits a complete
+                          V̇ (x) ≤ u y − κ(x)                                    algebraic characterization, as follows.
+for all (x, u) ∈ Rn+1 and some positive definite function κ.                     Proposition 2.3. (Linear passivity conditions [5], [19]).
+The system is called locally passive about the equilibrium                       Consider the linear system
+(x⋆ , u⋆ ) = (0, 0) if (7) holds for all (x, u) in some
+neighborhood N of (x⋆ , u⋆ ).                             □                                              ẋ = Ax + Bu,
+  For control-affine systems of the form (6), the passivity                                              y = Cx.
+inequality can be expressed directly in terms of the system                      Then the system is passive with a quadratic storage function
+vector fields. Since
+                                                                                                                    1 ⊤
+              V̇ (x) = ∇V (x)⊤ f (x) + ∇V (x)⊤ g u,                                                     V (x) =       x Px
+                                                                                                                    2
+if and only if there exists a symmetric matrix P = P⊤                the overall seizure suppression system (e.g., seizure detection,
+satisfying                                                           saturations for safety limits, low/band/high-pass filters, etc.)
+                                                                     as long as the added elements remain passive (e.g., use passive
+                                 P ⪰ 0,                     (15a)
+                                                                     electronic elements).                                         □
+                      A⊤ P + PA ⪯ 0,                        (15b)       We address Problem 1a in Section IV and Problem 1b in
+                               PB = C⊤ .                    (15c)    Section V
+If A⊤ P + PA ≺ 0, the system is strictly passive.         □            IV. S TABILIZATION OF THE E PILEPTOR VIA PASSIVE
+      Proof: The sufficiency is shown in [5, Lemma 6.4]. The                              F EEDBACK
+necessity follows from the quadratic form of V and the fact
+that the dissipative inequality (7) yields                              In this section, we focus on the ability of passive feedback
+                                                                     to stabilize the Epileptor model, as motivated by our recent
+                     1
+    V̇ (x) − u⊤ y = − x⊤ Qx + x⊤ (PB − C⊤ )u ≤ 0,                    affirmative empirical observations [4] and formulated in
+                     2                                               Problem 1. To begin, let
+   where Q = −(A⊤ P + PA).
+                                                                                              x̃˙ = Ax̃ + gũ,                    (17a)
+   Note that in Proposition 2.3, condition (15c) enforces an
+                                                                                                    ⊤
+input–output matching relation while (15b) guarantees internal                                ỹ = c x̃,                         (17b)
+stability. Finally, similar to asymptotic stability, the passivity
+                                                                     denote the linearization of (4), (2) around an equilibrium
+of a local linearization of a nonlinear system is related to the
+                                                                     point (x⋆ , u⋆ ), with
+local passivity of the latter, as shown next.
+                                                                                                              ⊤
+Proposition 2.4. (Local strict passivity from lineariza-                               c = c1 0 c3 0 0 0                    (18)
+tion [20, Cor. 4]). Consider the nonlinear system in (6)             and x̃, ũ, and ỹ denoting the centered variables in (13). As
+and assume that its linearization around an equilibrium point        summarized in Section II-B, if a system is strictly passive,
+(x⋆ , u⋆ , y ⋆ ) is strictly passive. Then the nonlinear system is   it can be asymptotically stabilized by any form of passive
+locally strictly passive about (x⋆ , u⋆ , y ⋆ ).                □    feedback. The first question that arises, therefore, is whether
+                III. P ROBLEM F ORMULATION                           (locally) strictly passive and, perhaps, that allows for its
+                                                                     asymptotic stabilization under passive feedback. The next
+   As noted in Section I, this work is motivated by our recent       result formalizes the rather straightforward observation that
+empirical observations [4] as well as the structural robustness      this is not the case.
+of PBC to model uncertainty, a property that is invaluable in
+feedback control of a complex system such as the brain. Our          Lemma 4.1. (Non-passivity of the Epileptor). The standard
+main goal is to understand what guarantees we can provide            Epileptor model (1)-(3) is not strictly passive around any
+for the empirically-observed stability of the Epileptor model        equilibrium points.
+under passive feedback. We approach this goal in two steps,               Proof: The unforced model (u = 0) has 4 equilibrium
+as formulated next.                                                  points at
+                                                                                                                        ⊤
+Problem 1. Consider the Epileptor model in (1)-(3) and                x⋆1 = −0.75 −1.82 −0.74 0 −0.075 3.39 ,
+                                                                            
+assume that only the output y is available for feedback.                                                                   ⊤
+                                                                      x⋆2 = −0.75 −1.82 −0.23 0.11 −0.075 3.39 ,
+                                                                            
+Determine whether, and under what conditions,
+                                                                                                                        ⊤
+                                                                      x⋆3 = −0.75 −1.82 −0.39 0 −0.075 3.39 ,
+                                                                            
+(a) epileptic seizures in the model can be stabilized using
+    passive feedback;                                                                                              ⊤
+                                                                      x⋆4 = 0.43 0.07 −1.28 0 0.043 8.12 ,
+                                                                            
+(b) the system can be passivated via feedback.           □
+                                                                     The linearization (17) is nevertheless unstable at all of these
+Remark 3.1. Note that the objective of Problem 1b is                 equilibrium points, with
+stronger than that of Problem 1a. Given the input-affine
+nature of the model, a standard feedback form for PBC is (                       α(A1 ) = 0.1766,       α(A2 ) = 0.3698,
+[5, Eq. (14.74)])                                                                α(A3 ) = 0.5416,       α(A4 ) = 11.136,
+                          ⋆            ⋆
+                   u = u − ϕ(y − y ) + v                     (16)                                                             ∂f
+                                                                     where α(·) denotes spectral abscissa and each Ai = ∂x       (x⋆i ).
+where u⋆ and y ⋆ represent the target equilibrium (as in (12)),      Therefore, the unforced nonlinear model is also unstable
+ϕ(·) denotes a passive output feedback law as in (10), and           around all its equilibria [5, Thm 4.7] and, hence, cannot be
+v provides additional capacity for control. In this context,         strictly passive [5, Lem 6.7].
+Problem 1a only seeks asymptotic stability when v = 0,                  Despite Lemma 4.1, strict passivity is only a sufficient con-
+whereas Problem 1b seeks passivity with respect to v. The            dition, and stabilization of Epileptor seizures is still possible
+latter then guarantees that the system remains closed-loop           via passive feedback. We thus next seek to characterize, both
+stable under any passive feedback from y to v, creating an           numerically and analytically, the conditions under which such
+opportunity for adding arbitrarily-many additional elements to       stabilization can be achieved (Problem 1a).
+                                                                                   Proof: It is straightforward to check that x⋆ in (22)
+                                                                             satisfies
+                                                                                                       0 = f (x⋆ ) + gu⋆ ,
+                                                                             and is thus an equilibrium. To assess the local stability of
+                                                                             the nonlinear closed-loop system around x⋆ , note that its
+                                                                             linearization is given by, in shifted coordinates (13),
+                                                                                                   x̃˙ = A − gc⊤ x̃,
+                                                                                                                   
+                                                                                                                                     (24)
+                                                                                       ∂f
+                                                                             where A = ∂x              and c is in (18), (3). The matrix A −
+Fig. 2: The spectral abscissa of the closed-loop Jacobian matrix A − kgc⊤                        x⋆
+                                                                               ⊤
+(cf. (17)) as a function of the control parameters (u⋆ , k) of the passive   gc is Hurwitz (cf. Fig. 2), and thus linearized closed-loop
+feedback controller in (20). Control parameters that fail to stabilize the   system (24) is asymptotically stable.
+system (α(A) > 0 are shown as white. The red dot corresponds to the
+nominal parameters u⋆ = −0.8, k = 1 used in [4] and Theroem 4.2.               Since A − gc⊤ is Hurwitz, there exists a quadratic
+                                                                             Lyapunov function V (x̃) = x̃⊤ Px̃ with P ≻ 0 such that
+                                                                                                  ⊤
+                                                                                         A − gc⊤ P + P A − gc⊤ ≺ 0.
+                                                                                                                      
+                                                                                                                                     (25)
+   Consider again the general feedback form (16) with v = 0
+(cf. Section V for nonzero v) and let, for simplicity,                       One such Lyapunov function among the infinitely many that
+                                                                             satisfy (25), is given by
+                      ϕ(y) = ky,            k ≥ 0.                   (19)
+                                                                                 V (x̃) = 1.1x̃21 + 0.12ỹ12 + 0.05x̃22 + 59.3ỹ22 + 364ζ̃ 2
+The input,                                                                                         + 848z̃ 2 + 0.14ỹ1 x̃2
+                        u = u⋆ − k(y − y ⋆ )                         (20)    which is obtained by solving the sparsity-promoting convex
+                                                                             program
+is then fully determined by the constant baseline input
+u⋆ determining system equilibria and feedback gain k. To
+                                                                                            X
+                                                                                  min           |Pij |
+                                                                                   P⪰δI
+understand the ability of this input to stabilize the system,                                   i̸=j
+we first numerically swept this two-dimensional parameter                                                   ⊤
+                                                                                                A − gc⊤          P + P A − gc⊤ ⪯ −εI,
+                                                                                                                              
+                                                                                       s.t.
+space and tracked the stability of the linearization in (17).
+   The resulting spectral abscissa of closed-loop Jacobian                   with ε = 10−4 and δ = 10−6 .
+matrix A − kgc⊤ is shown in Fig. 2. Since the system is                         To obtain the region of attraction of x⋆ in the full nonlinear
+not strictly passive, there exist passive controllers that fail to           closed-loop system, we solved the following convex sum of
+stabilize it (the white region in the figure). Yet, ‘sufficiently            squares (SOS) program
+strong’ passive controllers can asymptotically stabilize the
+system, namely, when u⋆ is sufficiently negative and/or k is                   max        ρ                                               (26a)
+sufficiently large.                                                             s.t.      V (x̃) ≤ ρ ⇒                             (26b)
+                                                                                                                            
+   Motivated by this numerical observation, the following                                 ∇V (x̃)⊤ f (x⋆ + x̃) + gu⋆ − gc⊤ x̃ ≤ −ϵ∥x̃∥2
+result proves the asymptotic stability of the full nonlinear
+                                                                                                                                    (26c)
+model for a nominal combination of u⋆ and k. The same
+proof can be repeated, generally with different V (x), for                   with ϵ = 10−6 using [21], resulting in the bound ρ⋆ =
+other stabilizing combinations of u⋆ and k as well.                          1.66561 × 10−3 . Since V (x) ≥ λmin (P)∥x̃∥2 , it follows that
+                                                                             the sublevel set
+Theorem 4.2. (Asymptotic stabilization under passive feed-
+back). Consider the Epileptor model (1)-(3) with output                                     Ωρ⋆ = x ∈ Rn V (x̃) ≤ ρ⋆
+                                                                                                  
+y = x1 − x2 and feedback (20). For
+                                                                             contains the Euclidean ball (23) with radius
+                 u⋆ = −0.8,           and       k = 1,               (21)                         p
+                                                                                            r0 = ρ⋆ /λmin (P) ≃ 0.56,
+the closed-loop system is locally asymptotically stable towards
+                                                                             completing the proof.
+the equilibrium point
+                                                                                The simulated trajectories of the closed-loop system at the
+                                                      ⊤                     nominal feedback parameters (21) are shown in Fig. 3. The
+  x⋆ = −1.03 −4.33 −1.08 0 −0.10 2.27 , (22)
+        
+                                                                             same proof as in Theorem 4.2 can also be stated, albeit with
+with a region of attraction that includes (at least) the ball                different V (x), for other stabilizing combinations of u⋆ and
+                                                                             k in Fig. 2.
+             B = x ∈ Rn ∥x − x⋆ ∥ < r0 ,
+                  
+                                                           (23)
+                                                                             Remark 4.3. (Lack of global stability). The feedback sta-
+with r0 = 0.56.                                                              bilization achieved by (16)-(21) is only local. Due to the
+                                                                                   Substituting this into (8) we obtain
+                                                                                                    x̃⊤ Pg + ∇R(x̃)⊤ g = x̃⊤ c
+                                                                                   where c is as in (18). Since this must hold for all x in a
+                                                                                   neighborhood of x⋆ and ∇R(x̃)⊤ g = O(∥x̃∥2 ), we must
+                                                                                   have ∇R(x̃)⊤ g = 0 and equating first-order terms yields
+                                                                                                             Pg = c.                         (28)
+                                                                                   Left-multiplying (28) by g⊤ gives
+     (a) Simulated trajectory                (b) Phase plane (x2 , y2 )                                   g⊤ Pg = g⊤ c.                      (29)
+Fig. 3: Closed-loop behavior of the Epileptor under passive feedback
+with parameters as in Theorem 4.2. Left: asymptotic convergence of two             Since P ⪰ 0, we have g⊤ Pg ≥ 0. Moreover, g⊤ Pg = 0 im-
+representative states to steady-state values. Right: the phase plane of the slow   plies Pg = 0 which, by (28), forces c = 0, contradicting (18).
+subsystem, showing the co-existence of the asymptotically stable equilibrium       Therefore, g⊤ Pg > 0, and thus
+point (red dot) and a stable limit cycle (black). The apparent overlap between
+the regions of attraction of the stable equilibrium and the limit cycle is due                         g⊤ c = c1 + c3 > 0,                   (30)
+to the 2D projection of the 6D state space.
+                                                                                   completing the proof.
+                                                                                      Theorem 5.1 identifies a necessary structural condition for
+intrinsic slow–fast bistability of the Epileptor, the closed-                      passivating the Epileptor seizure dynamics. It can be seen
+loop system retains a coexisting stable limit cycle that is                        from the proof that the condition (27) depends only on c1
+attractive for certain initial conditions. Fig. 3(b) illustrates                   and c3 not because of the sparse choice of the output (2), but
+this coexistence of a stable equilibrium and a stable limit                        rather because of the sparse nature of g. Importantly, (27)
+cycle.                                                        □                    would still remain necessary if other (linear) terms are added
+   Given the ability of passive feedback to stabilize the                          to the output (cf. Section V-C).
+system, one might hypothesize that the resulting closed-
+loop system (1)-(3), (16) also becomes (strictly) passive                          Corollary 5.2. (Matching obstruction for feedback passi-
+with respect to the incremental input v. This is not the case,                     vation of the standard Epileptor). Consider the standard
+however, as discussed next.                                                        Epileptor model (1)-(3) under the feedback input (16). The
+                                                                                   resulting closed-loop system (with v as input) cannot be
+     V. PASSIVATION OF THE E PILEPTOR VIA O UTPUT                                  passive for any choice of ϕ.
+                      R EDESIGN                                                         Proof: From (4), (16), and (2) the resulting closed-loop
+A. Passivation Under the Standard Output                                           system still has the input-affine form
+   In this section, we tackle the more ambitious objective of                                             ẋ = fˆ(x) + gv
+Problem 1b, seeking to not only stabilize but also passivate
+                                                                                                          y = c⊤ x
+the Epileptor via feedback. As seen both from (8)-(9) in the
+nonlinear case and (15b)-(15c) for linear systems, passivity of                    where fˆ(x) = f (x) + gu⋆ − gϕ(c⊤ x − y ⋆ ). Therefore, the
+input-affine systems fundamentally consists of an internal en-                     closed-loop system must still satisfy the necessary condition
+ergy dissipation and an input-output matching condition. The                       of Theorem 5.1 to be passive, which is violated by the
+following result highlights a necessary structural restriction                     standard output (3).
+that the latter imposes on the Epileptor.                                             As noted earlier, the passivity of input-affine systems
+Theorem 5.1. (Matching obstruction for passivity of the                            decouples into an internal dissipation and an input-output
+standard Epileptor model). Assume that the Epileptor model                         matching. The above results show that, while the Epileptor
+in (1)-(2) is passive around an equilibrium point x⋆ with                          can be robustly stabilized by passive feedback, it cannot be
+a twice continuously-differentiable storage function V (x).                        made passive due to a failure of the input-output matching
+Then we must have                                                                  condition.
+
+                        c1 + c3 > 0.                      (27)                     B. Passivation via Output Redesign
+     Proof: Since V (x) is twice continuously differentiable                          To address the matching obstruction shown in Section V-A,
+around x⋆ , it can be expanded as a Taylor series                                  we need to change the output such that the condition (27) is
+                                       1                                           satisfied. A rather straightforward and interpretable choice is
+     V (x) = V (x⋆ ) + ∇V (x⋆ )⊤ x̃ + x̃⊤ Px̃ + R(x̃)
+                                       2                                                                   c1 = c3 = 1,                      (31)
+where R(x̃) = O(∥x̃∥3 ), x̃ = x − x⋆ as in (12), and P =
+                                                                                   corresponding to sensing the sum of the fast and the slow
+∇2 V (x⋆ ). Since V (x) is positive semidefinite, V (x⋆ ) = 0,
+                                                                                   subsystems (cf. Section II-A). The following result proves
+∇V (x⋆ ) = 0, and P ⪰ 0. Thus, ∇V simplifies to
+                                                                                   the passivity of the resulting closed-loop system at a nominal
+                       ∇V (x) = Px̃ + ∇R(x̃).                                      setting of feedback parameters.
+                                                                                   C. Optimal Sensor Placement
+                                                                                      As noted in Section II-A, the standard output (3) was
+                                                                                   motivated by the similarity of y = x1 − x2 to empirically
+                                                                                   recorded EEG in patients with epilepsy. Accordingly, any
+                                                                                   change in the output, such as (31), models an empirical change
+                                                                                   in the number and location of sensors used to record brain
+                                                                                   activity. Therefore, while infinitely many choices of c1 and c3
+                                                                                   can satisfy Theorem 5.1, they may differ significantly in terms
+                                                                                   of both their feasibility and optimality. In this section we
+                                                                                   provide an optimization framework that allows us to design
+                  (a)                                     (b)                      a general linear output
+Fig. 4: The spectral abscissa of the closed-loop Jacobian matrix A − kgc⊤ ,                                                            ⊤
+                                                                                       y = c⊤ x,
+                                                                                                           
+similar to that in Fig. 2, but for new sets of controller and output parameters.
+                                                                                                       c = c1 c2 c3 c4 c5 c6 , (34)
+(a) y = x1 + x2 , u⋆ = −2, k = 0 (Theorem 5.3), (b) y = x1 − 0.29x2 ,
+u⋆ = −2, k = 0 (Example 5.5).                                                      such that the closed-loop system is not only strictly passive,
+                                                                                   but also optimal according to a user-specified objective
+
+                                                                                                                min ℓ(c).                     (35)
+Theorem 5.3. (Strict passivity following output redesign).                                                      c∈R6
+Consider the Epileptor model (1)-(2) with the choice of output
+                                                                                   The loss function ℓ(·) can capture, e.g., the sparsity of c or
+in (31). Let u be given by the feedback form (16), (19) and
+                                                                                   its distance from an empirically-feasible output.
+                    u⋆ = −2,           and        k = 0.                  (32)        Consider again the Epileptor model (1)-(2) under the
+                                                                                   passive feedback (16), (19). Assume, for simplicity, that
+Then, the resulting closed-loop system is locally strictly                         the feedback parameters u⋆ and k are fixed such that the
+passive about x⋆ ; in particular, the passivity inequality holds                   closed-loop system with v = 0 is asymptotically stable. The
+for all u ∈ R and all x in the ball                                                linearization of the closed-loop system around the equilibrium
+                                                                                   x⋆ imposed by u⋆ is then given by
+
+                B := x ∈ Rn            ∥x − x⋆ ∥2 ≤ r1 ,                                              x̃˙ = (A − kgc⊤ )x̃ + gv,              (36a)
+                    
+                                                                                                            ⊤
+                                                                                                      ỹ = c x̃.                             (36b)
+around the equilibrium point
+                                                                    ⊤             Substituting (36) in Proposition 2.3 and combining it with (35)
+ x⋆ = −1.37 −8.39 −1.34
+       
+                                             0    −0.14         0.92 , (33)        results in the following optimization problem.
+
+with radius r1 = 1.008.                                                            Problem 2. Given A ∈ Rn×n , k ≥ 0, g ∈ Rn , and ℓ :
+     Proof: It is straightforward to see that (15a)-(15c)                          Rn → R, find P = P⊤ ∈ Rn×n by solving
+are satisfied strictly for the linearized system (17) and the
+                                                                                              min ℓ(Pg)
+diagonal matrix                                                                                P
+                                                                                            s.t.   A⊤ P + PA − 2kPgg⊤ P ⪯ 0,
+       P = diag 1 0.074 1 125 143 600 .
+                                                                                                    P ⪰ 0.                                     □
+Therefore, the linearized system (17) is strictly passive by                         Once Problem 2 is solved, the desired output vector can be
+Proposition 2.3, and the local strict passivity of the nonlinear                   found by c = Pg. Any solution to Problem 2 satisfies (15a)-
+system follows from Proposition 2.4. The radius r1 = 1.008                         (15c) by construction, and the passivity of the full nonlinear
+is obtained via the same sum of squares (SOS) Lyapunov                             system can be guaranteed similar to Theorem 5.3.
+analysis as in the proof of Theorem 4.2.
+                                                                                   Remark 5.4. (Convexity of Problem 2). Despite the familiar
+   The nominal values of the feedback parameters in (32)                           Riccati-like form of the constraint in Problem 2, it is in
+were chosen for simplicity based on Fig. 2, where u⋆ = −2                          general non-convex. However, if ℓ(·) is convex and k = 0 the
+is sufficient to stabilize the system without further feedback                     problem becomes convex. Note that this requires the baseline
+(k = 0). Nevertheless, the same numerical sweep as in Fig. 2                       input u⋆ to be such that it alone suffices for asymptotic
+can be performed for the new choice of output (31), the                            stabilization of (1). Sufficiently negative u⋆ can achieve this,
+results of which are shown in Fig. 4a. Note that, compared to                      as can be seen from Fig. 2.                                  □
+Fig. 2, the range of feedback parameters that can stabilize the
+system has significantly shrunk. This highlights the presence                      Example 5.5. (Feedback passivation with minimal deviation
+of a tradeoff between stabilization and passivation, where                         from standard output.). Consider the Epileptor model (1) with
+redesigning the output for the latter can deteriorate the former.                  the general output (34) and the passive feedback (16), (19).
+In the following Subsection, we address this issue, as well                        We seek to design c such that y is as close to the standard
+as the general arbitrariness of the choice in (31).                                Epileptor output (3) as possible while the closed-loop system
+is strictly passive. To achieve this, we can solve Problem 2                                        R EFERENCES
+with u⋆ = −2, k = 0, and the ℓ1 loss                                   [1] R. S. Fisher, C. Acevedo, A. Arzimanoglou, et al., “Ilae official report:
+                                        ⊤                                a practical clinical definition of epilepsy,” Epilepsia, vol. 55, no. 4,
+    ℓ(c) = c − 1 0 −1 0 0 0                  1                             pp. 475–482, 2014.
+                                                                       [2] B. Jarosiewicz and M. Morrell, “The rns system: brain-responsive
+         = |c1 − 1| + |c2 | + |c3 + 1| + |c4 | + |c5 | + |c6 |.            neurostimulation for the treatment of epilepsy,” Expert review of medical
+                                                                           devices, vol. 18, no. 2, pp. 129–138, 2021.
+The
+   solution      to Problem
+                             2 then yields c                     =    [3] D. R. Nair, K. D. Laxer, P. B. Weber, A. M. Murro, Y. D. Park,
+ 1 0 −0.29        0 0 0 , and the resulting output                         G. L. Barkley, B. J. Smith, R. P. Gwinn, M. J. Doherty, K. H.
+                                                                           Noe, et al., “Nine-year prospective efficacy and safety of brain-
+                       y = x1 − 0.29x2 ,                      (38)         responsive neurostimulation for focal epilepsy,” Neurology, vol. 95,
+                                                                           no. 9, pp. e1244–e1256, 2020.
+gives the closest choice to (3) such that the closed-loop system       [4] G. Acharya, A. Huang, V. Santhakumar, and E. Nozari, “Passive neuro-
+is strictly passive.                                                       modulation: an energy-driven mechanism for closed-loop suppression
+                                                                           of epileptic seizures,” bioRxiv, 2026.
+   Analytically, the strict passivity of the resulting system can      [5] H. K. Khalil, Nonlinear Systems. Upper Saddle River, NJ: Prentice
+be shown similar to Theorem 5.3 with the storage function                  Hall, 3 ed., 2002.
+                                                                       [6] V. K. Jirsa, W. C. Stacey, P. P. Quilichini, A. I. Ivanov, and C. Bernard,
+V (x) = 12 x̃⊤ Px̃ where                                                   “On the nature of seizure dynamics,” Brain, vol. 137, no. 8, pp. 2210–
+                                                                        2230, 2014.
+   P = diag 0.97 0.08 0.48 2.26 14.45 458 .                            [7] S. A. Moosavi, J. S. Feldman, and W. Truccolo, “Optimal control of
+                                                                           seizure dynamics in large-scale brain networks,” Scientific Reports,
+It can further be shown via sum of squares analysis, similar to            vol. 13, p. 13108, 2023.
+Theorem 5.3, that V (x) solves the optimization problem (26)           [8] J. A. F. Brogin, J. Faber, and D. D. Bueno, “An efficient approach
+around the same equilibrium x⋆ as in (33), with a region of                to define the input stimuli to suppress epileptic seizures described by
+                                                                           the epileptor model,” International Journal of Neural Systems, vol. 30,
+attraction that includes (at least) the ball                               no. 11, p. 2050062, 2020.
+                                                                       [9] S. Chatterjee, O. Romero, A. Ashourvan, and S. Pequito, “Fractional-
+               B = x ∈ Rn ∥x − x⋆ ∥ < r2 ,
+                    
+                                                                           order model predictive control as a framework for electrical neurostim-
+                                                                           ulation in epilepsy,” Journal of Neural Engineering, vol. 17, no. 6,
+where r2 = 1.08 is about twice as large as r0 obtained for                 2020.
+y = x 1 − x2 .                                                        [10] V. K. Jirsa, T. Proix, D. Perdikis, M. M. Woodman, H. Wang,
+                                                                           J. Gonzalez-Martinez, C. Bernard, C. Bénar, M. Guye, P. Chauvel,
+   Furthermore, Fig. 4b shows the result of a similar 2D sweep             et al., “The virtual epileptic patient: individualized whole-brain models
+of feedback parameter space for the optimal output (38).                   of epilepsy spread,” Neuroimage, vol. 145, pp. 377–388, 2017.
+Interestingly, the closed-loop system is asymptotically stable        [11] B. N. Lundstrom, J. V. Gompel, F. Khadjevand, G. Worrell, and
+                                                                           M. Stead, “Chronic subthreshold cortical stimulation and stimulation-
+for a wider range of (u⋆ , k) compared to both Fig. 2 (standard            related eeg biomarkers for focal epilepsy,” Brain communications,
+output y = x1 − x2 ) and Fig. 4a (suboptimal output y =                    vol. 1, no. 1, p. fcz010, 2019.
+x1 + x2 ).                                                   □        [12] R. Zelmann, A. C. Paulk, I. Basu, A. Sarma, A. Yousefi, B. Crocker,
+                                                                           E. Eskandar, Z. Williams, G. R. Cosgrove, D. S. Weisholtz, et al.,
+   The results of Example 5.5 show the promise of Problem 2                “CLoSES: A platform for closed-loop intracranial stimulation in
+for relaxing the tradeoff between stabilization and passivation            humans,” NeuroImage, vol. 223, p. 117314, 2020.
+we had observed in Section V-B. This can be particularly              [13] P. Hamilton, I. Soryal, P. Dhahri, W. Wimalachandra, A. Leat,
+                                                                           D. Hughes, N. Toghill, J. Hodson, V. Sawlani, T. Hayton, et al.,
+valuable in the greater context of PBC for seizure suppression,            “Clinical outcomes of vns therapy with aspiresr®(including cardiac-
+whereby various empirical constraints may restrict the set of              based seizure detection) at a large complex epilepsy and surgery centre,”
+outputs that can be measured and used for PBC.                             Seizure, vol. 58, pp. 120–126, 2018.
+                                                                      [14] Z. Chadaide, D. Fabó, M. Szoboszlay, L. Barcsai, A. Pejin, B. Horváth,
+                                                                           M. Görög, T. Földi, L. Ambrúzs, T. Laszlovszky, et al., “Closed-loop,
+                     VI. C ONCLUSIONS                                      subgaleal intersectional short-pulse stimulation for the treatment of
+   This paper provided a systematic passivity analysis of the              therapy-resistant epilepsy in adults,” medRxiv, pp. 2025–09, 2025.
+                                                                      [15] S. J. Schiff, Neural Control Engineering: The Emerging Intersection
+Epileptor neural mass model of brain dynamics under epilepsy.              between Control Theory and Neuroscience. Cambridge, MA: MIT
+Using a combination of linear and nonlinear analyses, we                   Press, 2010.
+showed that seizure dynamics can be stabilized and rendered           [16] X. Liu, C.-X. Sun, Q. Gao, and Z.-W. Chen, “A passivity-based observer
+                                                                           for neural mass models,” IMA Journal of Mathematical Control and
+passive via linear feedback, despite the open-loop model                   Information, vol. 36, no. 3, pp. 701–711, 2019.
+lacking the internal dissipation and input-output matching            [17] A. van der Schaft and D. Jeltsema, “Port-Hamiltonian systems theory:
+conditions required for passivity. These results provide the               An introductory overview,” Foundations and Trends in Systems and
+                                                                           Control, vol. 1, no. 2–3, pp. 173–378, 2014.
+first rigorous foundation for PBC in seizure suppression and          [18] M. L. Saggio, D. Crisp, J. Scott, P. Karoly, L. Kuhlmann, M. Nakatani,
+establish fundamental structural limitations of input-output               and V. K. Jirsa, “A taxonomy of seizure dynamotypes,” Nature
+matching in this setting. Future work will focus on integrating            Communications, vol. 11, p. 2882, 2020.
+                                                                      [19] B. D. O. Anderson and S. Vongpanitlerd, Network Analysis and
+PBC with predictive seizure forecasting and subject-specific,              Synthesis: A Modern Systems Theory Approach. Englewood Cliffs, NJ:
+data-driven system identification, as well as experimental                 Prentice Hall, 1973.
+validation in animal models and, ultimately, patients with            [20] M. Xia, P. J. Antsaklis, V. Gupta, and M. J. McCourt, “Determining
+                                                                           passivity using linearization for systems with feedthrough terms,” IEEE
+epilepsy.                                                                  Transactions on Automatic Control, vol. 60, no. 9, pp. 2536–2541,
+                                                                           2015.
+                VII. ACKNOWLEDGEMENTS                                 [21] S. Prajna, A. Papachristodoulou, and P. A. Parrilo, “Introducing sostools:
+                                                                           A general purpose sum of squares programming solver,” in Proceedings
+  This work was supported in part by National Science                      of the IEEE Conference on Decision and Control (CDC), pp. 741–746,
+Foundation Award No. 2239654.                                              2002.
+

@@ -357,3 +357,5 @@
 - Included relationship to TVB explaining complementary data management approaches (CFF container vs TVB's HDF5 format)
 - Added 10+ wikilinks connecting to the-virtual-brain, connectivity, surface, time-series, whole-brain-modeling, connectomics, structural-connectivity, brain-network, graph-theory, small-world-networks, scale-free-networks, modularity, parameter-estimation, personalized-brain-modeling, diffusion-imaging, tractography, connectome-workbench, cifti-tools, mrtrix3-connectome, trackvis, camino
 - Updated frontmatter with proper tags from taxonomy (connectomics, structural-connectivity, brain-network, computational-neuroscience, python) and date
+
+## [2026-05-06 11:41] Improve: 2 pages improved (niftynet, calamity-atlas)

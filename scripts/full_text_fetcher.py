@@ -316,7 +316,9 @@ def update_paper_doi(filepath: str, doi: str) -> bool:
         return False
 
 
-# ── Main fetch logic for a single paper ────────────────────────────────
+# ── PDF download ──────────────────────────────────────────────────────
+
+def download_pdf(url: str, dest_path: str, max_bytes: int = MAX_PDF_SIZE_MB * 1024 * 1024) -> bool:
     """Download PDF from url to dest_path with size cap. Returns True on success."""
     log.info("Downloading PDF: %s", url[:100])
     req = urllib.request.Request(url, headers={'User-Agent': 'TVBWiki-Ralph/2.0'})
@@ -337,6 +339,7 @@ def update_paper_doi(filepath: str, doi: str) -> bool:
         return False
 
 
+# ── Main fetch logic for a single paper ────────────────────────────────
 def extract_text_with_pdftotext(pdf_path: str, txt_path: str) -> bool:
     """Run pdftotext -layout on pdf_path. Returns True if text was extracted."""
     try:

@@ -1,0 +1,521 @@
+                                                 Amortizing Personalization in Virtual Brain
+                                                                  Twins
+
+                                                        Nina Baldy1[0009−0000−2444−1837] , Marmaduke M.
+                                                          1[0000−0002−8410−4581]
+                                                Woodman                     , and Viktor K. Jirsa1[0000−0002−8251−8860]
+
+                                                                       Aix Marseille Univ, INSERM,
+arXiv:2506.21155v1 [q-bio.NC] 26 Jun 2025
+
+
+
+
+                                                                 INS, Inst Neurosci Syst, Marseille, France.
+                                                                     marmaduke.woodman@univ-amu.fr
+
+
+
+                                                   Abstract. Virtual brain twins are personalized digital models of indi-
+                                                   vidual human subject or patient’s brains, allowing for mechanistic in-
+                                                   terpretation of neuroimaging data features. Training & inference with
+                                                   these models however presents a pair of challenges: (a) large shared
+                                                   infrastructure do not allow for use of personal data and (b) inference
+                                                   in clinical applications should not require significant resources. We in-
+                                                   troduce "anonymized personalization" to address both by expanding
+                                                   model priors to include personalization which under amortized infer-
+                                                   ence allows training to be performed anonymously, while inference is
+                                                   both personalized and lightweight. We illustrate the basic approach,
+                                                   demonstrate reliability in an example, and discuss the impact on both
+                                                   experimental and computational neuroscience. Code is available at https:
+                                                   //github.com/ins-amu/apvbt.
+
+                                                   Keywords: Virtual brain twins · Amortized inference · Personalized
+                                                   medicine.
+
+
+                                            1    Introduction
+                                            Virtual brain twins (VBTs) represent a synthetic approach in computational
+                                            neuroscience, offering personalized digital models of individual brains that en-
+                                            able mechanistic interpretations of neuroimaging data features [6] [20] [13] [7]
+                                            and the underlying causal organization [10] [5]. These models hold significant po-
+                                            tential for advancing our understanding of brain function, neurological disorders,
+                                            and personalized medicine. However, their broad application present significant
+                                            challenges that must be addressed to fully realize their clinical and research
+                                            utility.
+                                                One major challenge lies in the training and inference processes required for
+                                            these models. Traditional approaches often rely on large shared infrastructure
+                                            [17], which poses a critical barrier due to the sensitivity of brain imaging data.
+                                            The use of such infrastructure requires stringent privacy protections, compli-
+                                            cating the integration of sensitive patient information into model development.
+                                            Additionally, use in the clinic requires efficient and resource-light inference meth-
+                                            ods to ensure practicality in real-world settings.
+2      N. Baldy et al.
+
+    To overcome these challenges, we propose expanding model priors to incor-
+porate personalization within an amortized inference framework. This approach
+allows for anonymous training while enabling personalized and lightweight in-
+ference, addressing both the privacy concerns associated with sensitive data and
+the computational demands of clinical applications. By integrating prior knowl-
+edge about brain structure and function into the model architecture, we can
+train models without direct access to individual patient data, thereby preserv-
+ing privacy while maintaining the ability to generate accurate and personalized
+VBTs.
+    This paper is organized as follows: Section 2 outlines our methodology, detail-
+ing how we expand model priors for personalization and implement amortized
+inference. Section 3 presents our results, including an assessment on a test case.
+Finally, Section 4 discusses the broader implications of this work for computa-
+tional neuroscience and clinical applications.
+
+
+2     Methods
+
+2.1   Virtual brain twins
+
+VBT models describe whole brain neural activity, and, through forward mod-
+els, neuroimaging data such as EEG or fMRI. The models are composed of a
+set of nodes representing regions of the brain, each with dynamics described by
+differential equations, and a connectome, which describes the weighted connec-
+tions between the regions, usually derived from diffusion weighted imaging, as
+described below in Section 2.2. For the models used here, we employ a low di-
+mensional description of neural dynamics [14], in terms of N nodes’ mean firing
+rates r(t) and mean membrane potentials v(t),
+
+
+                           ṙ = ∆/π + 2rv + kCr                                (1)
+                                2                   2 2
+                          v̇ = v + η + Jr + I − π r                            (2)
+
+    where C is the matrix of connectome weights, and default parameter val-
+ues τ = 1.0, I = 0.0, ∆ = 1.0, J = 15.0, η = −5.0 generate bistable dynamics.
+Simulations of the VBT model involves sampling parameters of interest, integrat-
+ing the differential equations (potentially stochastic and/or delayed), computing
+relevant data features. For our tests, we consider as parameters only coupling
+scaling k and noise scaling D as parameters of interest, with uninformative uni-
+form priors, i.e. k ∼ U (0.1, 0.3) and D ∼ U (0.2, 0.4). The data feature used for
+inference is the mean value of ri (t) at steady state.
+    A typical workflow for inference with a VBT is illustrated in Figure 1.
+The canonical computational implementation for simulating such models is pro-
+vided by The Virtual Brain software package [16], freely available from https:
+//thevirtualbrain.org.
+                          Amortizing Personalization in Virtual Brain Twins         3
+
+
+
+
+Fig. 1. Virtual brain twins provide mechanistic interpretation of neuroimag-
+ing data. An example of amortized inference workflow as developed by Hashemi et
+al. [7] for clinical epilepsy. MRI images (T1 & diffusion-weighted) are used to recon-
+struct brain geometry, parcellation & connectome. Nonlinear dynamics are assigned to
+each node, with connectome providing the interactions between nodes. The model is
+simulated for many samples in parameter space, training a deep Bayesian estimator to
+map data features to posterior distributions over model parameters. Once trained, the
+estimator can be rapidly applied to unseen data to provide new inferences. This figure
+from Hashemi et al. [7] was reproduced with permission.
+4      N. Baldy et al.
+
+2.2   Personal data: connectomes
+In typical use of VBTs, the personal data of interest is the set of connection
+weights describing how regions in the brain communicate, enabling the model to
+provide personalized predictions of brain dynamics. In this report, we make use
+of MRI scans 461 subjects across a German cohort in the 1000BRAINS project
+(1KB) over a range of ages collected by [3] and an American cohort of sub-
+jects part of the Human Connectome Project (HCP) described by [19], with the
+connectomes reconstructed under 20 parcellations by [12]. Because the connec-
+tomes represent raw counts of tracks between regions with large variance, they
+are preprocessed by (a) clipping values to 1 to 99th percentiles, (a) normalizing
+between 0 and 1, and (c) taking the square root per connectome, then removing
+the mean over all connectomes, such that subsequent steps work with residual
+deviations around preprocessed mean connectomes.
+
+2.3   Priors over personal data
+While inference with VBTs has generally taken the connectome as a fixed piece of
+data on which the model and posterior are conditioned, we will instead consider
+the connectome as a parameter to be inferred, alongside the other parameters
+of interest. Human connectomes derived from diffusion-weighted imaging are
+symmetric, leading to additional (N 2 − N )/2 parameters (ignoring self connec-
+tions). We regularize this high-dimensional set of parameters by introducing a
+low-rank representation, in an approach similar to an autoencoder [8] that we
+term cross-coder since it collects information across parcellations: each subject
+in the dataset has their connectome represented in 20 parcellations. We train a
+two layer architecture to encode the connectome of a subject shown in Figure
+2, from all parcellations into the same latent space, and decode from that latent
+space to all parcellations, with a l2 loss:
+                        X                                       T
+                 L2 =       ∥cj,k − (ci,k Wie + bei )T Wjd + bdj ∥            (3)
+                         i,j,k
+
+where ci,k is a vector containing the upper triangle of the connectome for the
+kth subject in the ith parcellation, Wie and bei are the weights matrices and
+bias vectors for the encoder from the ith parcellation, Wid and bdi similarly for
+the decoder. Stochastic gradient descent is performed with the Adam optimizer
+[11] in JAX [9], with a learning rate of 3e-4, until convergence, typically 1000
+iterations, with batch size 64, requiring 2 minutes on an RTX 4090 or 20 minutes
+on Apple M3. The choice of a simple linear representation ensures (a) fast con-
+vergence despite small sample size (b) robust generalization and (c) inability to
+learn training data. A set of encoders & decoders were trained per cohort, and
+for each cohort one half of the connectomes were used for training (train-test
+split of 0.5).
+     While the loss function drives the optimization, our application is to per-
+sonalization, and we therefore assess the final result in terms of confusion rate,
+i.e. the probability of the cross-coder producing a connectome from subject k
+                           Amortizing Personalization in Virtual Brain Twins          5
+
+
+
+
+Fig. 2. Cross-coder architecture encodes connectomes. The cross-coder archi-
+tecture, inspired by autoencoder, takes the subject connectome data in the ith par-
+cellation, encodes with a single dense layer to a latent space and decodes to the jth
+parcellation, with a l2 loss on the reconstruction error. Each encoder is informed not
+only by its own parcellation but also errors due to decoding to all other parcellations,
+and similarly for each decoder.
+6       N. Baldy et al.
+
+which is more similar to another subject l than k, with similarity assessed via
+Euclidean distance.
+    Finally, to obtain a Bayesian prior, we compute the mean and covariance over
+the latent project of all (training) subjects’ connectomes from all parcellations.
+The resulting mean and covariance parameterize a multivariate normal distribu-
+tion usable for sampling. We remark that while this distribution is derived from
+personal data, because it averages over many subjects, it is no longer personal
+data subjected to privacy concerns. Such prior distribution of connectivity could
+be referred to as a cohort-based prior.
+
+2.4   Simulation based inference
+Simulation-based inference (SBI) is a family of techniques that formulates Bayesian
+inference as a Bayesian regression problem, in which the data features parame-
+terize (via a neural network) a distribution over the parameters [4]. The process
+starts with a training step in which the prior is sampled, and a simulator com-
+putes corresponding data features for samples from the prior, which then allows
+training the neural network. The posterior distribution is thus shaped through a
+sequence of invertible transformations, and once trained, can be quickly sampled
+from by providing data features. Here we use amortized neural posterior esti-
+mation [15] as implemented by [18] in the PyTorch-based Python package sbi,
+https://sbi-dev.github.io/sbi/latest/. We evaluate the results with model-based
+calibration metrics [1], specifically posterior shrinkage and posterior z-score
+
+
+                                        σn2 (y)
+                               sn = 1 −                                       (4)
+                                        τn2 (y)
+                                    µn (y) − θn
+                               zn =                                           (5)
+                                       σn (y)
+where τn and σn are standard deviations of the prior and posterior, µn is the
+posterior mean and θn is the true parameter value; and posterior predictive 90%
+confidence intervals. An acceptable inference process should show high shrinkage,
+low z-score, and the true value should lie in the 90% confidence region. As the
+main question studied here is replacing per-subject SBI (where the connectome
+is taken as fixed data and not estimated) by cohort-level SBI (i.e. absorbing the
+connectome as a parameter with the prior), we focus on evaluating the degree
+to which cohort-level SBI matches subject-level SBI performance.
+
+
+3     Results
+3.1   Cross-coding sufficient for personalized connectomes
+Training the cross-coder architecture yields a low rank representation of con-
+nectomes, via gradient descent on a training set of 230 connectomes and 230
+connectomes across the 1KB and HCP datasets, for latent dimension of 16.
+                              Amortizing Personalization in Virtual Brain Twins              7
+
+Once validation loss converges, the confusion rate is 2.3% on connectomes in the
+validation set, confirming that low rank representation successfully preserves the
+personalization of the connectomes.
+    Because the cross-coder uses the same latent space for all parcellations, we
+expected the different parcellations to project the same subject to similar la-
+tent coordinates. The middle panel in Figure 2 shows three example subjects
+projected to the latent space of a trained cross-coder, showing much lower intra-
+subject variability compared to inter-subject variability. This verifies a crucial
+aspect of maintaining personalization of the connectomes in the low rank latent
+space.
+
+3.2   Cohort SBI provides reliable subject-level inference
+
+
+
+                                                  14                          prior
+          10                                                                  subject-SBI
+                                                  12
+                                                                              cohort-SBI
+          8                                       10
+          6                                        8
+                                                   6
+          4
+                                                   4
+          2                                        2
+          0                                        0
+               0.10   0.15   0.20   0.25   0.30        0.20   0.25   0.30   0.35      0.40
+                               k                                      D
+
+
+
+Fig. 3. Example of subject vs cohort-level inference. The prior (blue, uniform)
+contracts to the posterior in both subject-level (orange) and cohort-level SBI (green).
+The ground truth value is indicated by the blue vertical line. Both inferences provide
+similar posteriors.
+
+
+We evaluated cohort-level SBI, i.e. SBI over the parameters including the latent
+connectome parameters, vs subject-level SBI, where the connectome is fixed. The
+results shown are for the 79-node Shen 2013 parcellation only. Figure 3 shows
+the prior distribution and posteriors for the two parameters of interest: coupling
+scaling k and noise scaling D. While the posterior obtained with cohort-level SBI
+does not contract as significantly as for the subject-level SBI, there is a clear
+contraction towards the true value.
+    We next sought to evaluate the performance across all subjects in the test set
+(N=230), by performing subject-level SBI for each, and comparing with posterior
+obtained with the cohort-level SBI. In Figure 4, the metrics reveal a very similar
+(correlation 0.8) distribution, and the rates at which the true value lies in the 90%
+CI of the posterior are 0.89 and 0.95 for cohort and subject-level SBI respectively.
+These results suggests that the cohort-level SBI provides a useful approximation
+of subject-level SBI, leveraging an amortized posterior that can be evaluated for
+any subject - while having been trained only once, with only as many simulations
+8       N. Baldy et al.
+
+                                       k                                                               D
+                   3.0                                                  3.0
+                   2.5                                                  2.5
+                   2.0                                                  2.0
+
+         z-score
+
+
+
+
+                                                              z-score
+                   1.5                                                  1.5
+                   1.0                                                  1.0
+                   0.5                                                  0.5
+                   0.0                                                  0.0
+                      0.0    0.2   0.4     0.6    0.8   1.0                0.0         0.2         0.4     0.6       0.8         1.0
+                                    Shrinkage                                                       Shrinkage
+
+
+
+Fig. 4. Cohort-level SBI approximates subject-level SBI. Distributions of
+model-based calibration scores for all subjects in the test set (N=230). Black cross
+represent scores of the cohort-level SBI (applied to each subject), while red dots indi-
+cate scores of each subject-level SBI.
+
+
+as its subject-level counterpart. The computational complexity of the simulation
+process, for N subjects and M simulations, is O(NM) for per subject SBI, and
+O(M) for cohort SBI.
+
+3.3   Cohort inference identifies the connectome
+
+
+
+                   0.0025                                                    5
+         p(u0)
+
+
+
+
+                   0.0000                                                    4
+                            300 200 100    0     100 200 300
+                    0.005                                                    3
+                                                                   z-score
+           p(u1)
+
+
+
+
+                    0.000                                                    2
+                            300 200 100    0     100 200 300
+                                                                             1
+                    0.005
+           p(u2)
+
+
+
+
+                    0.000                                                    0
+                            300 200 100 0 100 200 300                            0.2         0.0       0.2     0.4         0.6
+                                     latent weight                                                   Shrinkage
+
+
+
+Fig. 5. Cohort-level SBI partially identifies latent connectome parameters.
+Left: The prior (blue) contracts to the posterior cohort-level SBI (orange) in most
+cases, here shown three latent connectome parameters. Right: Posterior shrinkage &
+z-scores for all connectomes in the test set, as identified via cohort-level SBI, showing
+a tendency toward identification if not as a strong as for parameters of interest.
+
+
+
+Lastly, for cohort-level SBI, we sought to evaluate how well the connectome is
+identified as a parameter. As shown in Figure 5, there is a tendency towards
+identifying the latent connectome parameters, but not as strong as for parame-
+ters of interest. This may suggest that the model in the regime parameterized for
+each subject may not always be sensitive to the contribution of the individual
+                         Amortizing Personalization in Virtual Brain Twins       9
+
+connectome. In such case, the average connectome derived from a population
+could provide a reasonable fit to a given individual. In the more general case,
+the use of a cohort-based Bayesian prior allows this simplification to take place
+(through the averaging over the latent project) without excluding outliers that
+do not match this average. However, given the metabolic cost of maintaining
+the connectome [2], shrinkage of the posterior over connectomes may signal a
+physiologically-relevant regime of the parameters of interest, helping to guide
+model construction and evaluation.
+
+
+4     Discussion
+The development of VBTs with expanded model priors represents a significant
+advancement in computational neuroscience. We have demonstrated that incor-
+porating cohort-based priors over personal data enables amortized inferences on
+par with per-subject personal inference, allowing new applications where per-
+sonal data is unavailable (because it was not recorded or because of privacy pro-
+tections). While this technique does not replace state of the art, computationally
+intensive workflows involving e.g. MCMC, but rather to a strong compromise be-
+tween performance, flexibility and inference efficiency.
+
+4.1   Limitations
+The proposed cohort-level inference serves as a useful approximation of subject-
+specific models but does not fully capture all the individual details of a person’s
+brain connectivity. This is evidenced by the finding that the posterior distri-
+butions from cohort-level SBI do not contract as significantly as those from
+subject-level SBI. Furthermore, while the model parameters of interest like cou-
+pling and noise are well-identified, the framework is less successful at strongly
+identifying the individual latent connectome parameters themselves. Rather than
+a methodological deficit, we suggest this as degree of model degeneracy where,
+in certain parameter regimes, the model’s dynamics may not be highly sensitive
+to the fine-grained details of an individual’s connectome.
+
+4.2   Implications for translational research
+This framework significantly lowers the barrier for translating VBTs into clinical
+and large-scale research settings. The "anonymized personalization" approach
+allows the computationally expensive training of a model to be performed on
+large, shared high-performance computing infrastructure without requiring ac-
+cess to sensitive personal data. The resulting trained model can then be used
+by clinicians for lightweight and personalized inference on new patients without
+needing complex retraining or patient-specific tuning, enabling practical real-
+time analysis and decision support. This approach also makes it feasible to scale
+personalized inferences across thousands of subjects, overcoming the prohibitive
+computational burden typically associated with large cohorts (computational
+10      N. Baldy et al.
+
+complexity for N subjects and M simulations is reduced from O(NM) for per-
+subject SBI to O(M) for cohort SBI).
+   Our approach also addresses the common research problem of incomplete
+datasets, enabling new analyses where they were previously impossible: per-
+subject diffusion imaging needed to create a structural connectome is not always
+available. This method makes it possible to build and infer parameters for a VBT
+model in such cases by substituting the missing data with a cohort-based prior
+derived from a similar population.
+
+4.3   Future Directions
+A crucial next step is to validate the cohort-based inference framework in specific,
+well-established domains of whole-brain modeling, namely resting-state dynam-
+ics and clinical epilepsy. While this work demonstrates the method’s general
+reliability, applying it to resting-state models would allow for rigorous valida-
+tion against empirical functional connectivity, a standard benchmark in the field.
+In epilepsy, where personalized models are already used to delineate epilepto-
+genic networks, this approach could significantly accelerate clinical translation
+by enabling models to be trained on large, anonymized cohorts and then rapidly
+applied to new patients, testing the framework’s ability to capture both norma-
+tive and pathological brain states.
+    A second extension exploiting amortization lies in high-resolution brain mod-
+els. The brain models employed in this study are based on "low resolution" con-
+nectomes with tens to hundreds of regions. Recent work [20] clearly motivated
+the need for spatially detailed models for resolving causal effects, however these
+models require even more resources to run. To ensure inference is tractable for
+a wide range of users, our amortized approach should be evaluated.
+    Finally, the computational efficiency of the amortized inference process makes
+this approach a prime candidate for novel real-time clinical applications, such as
+model-based neurofeedback. Standard inference methods are too slow for real-
+world clinical use , but once a cohort model is trained, the amortized posterior
+can be evaluated almost instantly for a new subject. This speed is essential for
+neurofeedback, where a subject’s brain state must be inferred and fed back to
+them with minimal delay. A VBT operating in real-time could offer mechanistic
+insights to help guide a patient in modulating their own brain activity, represent-
+ing a powerful therapeutic avenue that is infeasible with current computationally
+intensive techniques.
+
+4.4   Conclusions
+Amortizing personalization in VBTs represents a significant step toward mak-
+ing sophisticated, mechanistic brain models practical tools for both science and
+medicine. By expanding model priors to include cohort-level information, our
+method successfully enables anonymous training and lightweight, efficient in-
+ference while still retaining individual personalization. This approach provides
+a strong compromise between performance and efficiency, overcoming critical
+                            Amortizing Personalization in Virtual Brain Twins          11
+
+barriers related to data privacy and computational cost that have hindered the
+widespread adoption of VBTs. Ultimately, this work helps bridge the gap be-
+tween complex research models and actionable insights in real-world clinical
+environments.
+
+Acknowledgments. This project/research has received funding from the European
+Union’s Horizon Europe Programme under the Specific Grant Agreements No. 101147319
+(EBRAINS 2.0 Project) and No. 101137289 (Virtual Brain Twin Project).
+
+Disclosure of Interests. The authors have no competing interests to declare that
+are relevant to the content of this article.
+
+
+References
+ 1. Betancourt, M.: Calibrating model-based inferences and decisions. arXiv preprint
+    arXiv:1803.08393 (2018)
+ 2. Bullmore, E., Sporns, o.: The economy of brain network organization. Nature Re-
+    views Neuroscience 13, 336–349 (2012). https://doi.org/10.1038/nrn3214
+ 3. Caspers, S., Moebus, S., Lux, S., Pundt, N., Schütz, H., Mühleisen, T.W., Gras,
+    V., Eickhoff, S.B., Romanzetti, S., Stöcker, T., et al.: Studying variability in hu-
+    man brain aging in a population-based german cohort—rationale and design of
+    1000brains. Frontiers in aging neuroscience 6, 149 (2014)
+ 4. Cranmer, K., Brehmer, J., Louppe, G.: The frontier of simulation-based inference.
+    Proceedings of the National Academy of Sciences 117(48), 30055–30062 (2020)
+ 5. Fousek, J., Rabuffo, G., Gudibanda, K., Sheheitli, H., Petkoski, S., Jirsa, V.:
+    Symmetry breaking organizes the brain’s resting state manifold. Scientific reports
+    14(1), 31970 (2024)
+ 6. Hashemi, M., Depannemaecker, D., Saggio, M., Triebkorn, P., Rabuffo, G., Fousek,
+    J., Ziaeemehr, A., Sip, V., Athanasiadis, A., Breyton, M., Woodman, M., Wang,
+    H., Petkoski, S., Sorrentino, P., Jirsa, V.: Principles and operation of virtual brain
+    twins. IEEE Reviews in Biomedical Engineering pp. 1–25 (2025). https://doi.org/
+    10.1109/RBME.2025.3562951
+ 7. Hashemi, M., Vattikonda, A.N., Jha, J., Sip, V., Woodman, M.M., Bartolomei, F.,
+    Jirsa, V.K.: Amortized bayesian inference on generative dynamical network models
+    of epilepsy using deep neural density estimators. Neural Networks 163, 178–194
+    (2023)
+ 8. Hinton, G.E.: Connectionist learning procedures. Artificial Intelligence 40(1), 185–
+    234 (1989). https://doi.org/https://doi.org/10.1016/0004-3702(89)90049-0
+ 9. JAX-authors: Jax: Composable transformations of python+numpy programs
+    (2025), https://github.com/google/jax, accessed: 2025-02-06
+10. Jirsa, V., Sheheitli, H.: Entropy, free energy, symmetry and dynamics in the brain.
+    Journal of Physics: Complexity 3(1), 015007 (2022)
+11. Kingma, D.P., Ba, J.: Adam: A method for stochastic optimization. arXiv preprint
+    arXiv:1412.6980 (2014)
+12. Kyesam, J., Eickhoff, S.B., Popovych, O.V.: Parcellation-based structural and
+    resting-state functional whole-brain connectomes of 1000brains cohort (v1.1)
+    (2022)
+12      N. Baldy et al.
+
+13. Lavanga, M., Stumme, J., Yalcinkaya, B.H., Fousek, J., Jockwitz, C., Sheheitli,
+    H., Bittner, N., Hashemi, M., Petkoski, S., Caspers, S., et al.: The virtual ag-
+    ing brain: Causal inference supports interhemispheric dedifferentiation in healthy
+    aging. NeuroImage 283, 120403 (2023)
+14. Montbrió, E., Pazó, D., Roxin, A.: Macroscopic description for networks of spiking
+    neurons. Physical Review X 5(2), 021028 (2015)
+15. Papamakarios, G., Murray, I.: Fast ε-free inference of simulation models with
+    bayesian conditional density estimation. Advances in neural information processing
+    systems 29 (2016)
+16. Sanz Leon, P., Knock, S.A., Woodman, M.M., Domide, L., Mersmann, J., McIn-
+    tosh, A.R., Jirsa, V.: The virtual brain: a simulator of primate brain network
+    dynamics. Frontiers in neuroinformatics 7, 10 (2013)
+17. Schirner, M., Domide, L., Perdikis, D., Triebkorn, P., Stefanovski, L., Pai, R.,
+    Prodan, P., Valean, B., Palmer, J., Langford, C., et al.: Brain simulation as a
+    cloud service: The virtual brain on ebrains. NeuroImage 251, 118973 (2022)
+18. Tejero-Cantero, A., Boelts, J., Deistler, M., Lueckmann, J.M., Durkan, C.,
+    Gonçalves, P.J., Greenberg, D.S., Macke, J.H.: sbi: A toolkit for simulation-
+    based inference. Journal of Open Source Software 5(52), 2505 (2020). https:
+    //doi.org/10.21105/joss.02505, https://doi.org/10.21105/joss.02505
+19. Van Essen, D.C., Smith, S.M., Barch, D.M., Behrens, T.E., Yacoub, E., Ugurbil,
+    K., Consortium, W.M.H., et al.: The wu-minn human connectome project: an
+    overview. Neuroimage 80, 62–79 (2013)
+20. Wang, H.E., Woodman, M., Triebkorn, P., Lemarechal, J.D., Jha, J., Dollomaja,
+    B., Vattikonda, A.N., Sip, V., Medina Villalon, S., Hashemi, M., et al.: Delineating
+    epileptogenic networks using brain imaging data and personalized modeling in
+    drug-resistant epilepsy. Science Translational Medicine 15(680), eabp8982 (2023)
+

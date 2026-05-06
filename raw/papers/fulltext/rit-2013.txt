@@ -1,0 +1,668 @@
+Characterization of K-Complexes and Slow Wave Activity
+in a Neural Mass Model
+Arne Weigenand1,2., Michael Schellenberger Costa1,3.*, Hong-Viet Victor Ngo1,2,3,
+Jens Christian Claussen1,4", Thomas Martinetz1,2"
+1 Institute for Neuro- and Bioinformatics, University of Lübeck, Lübeck, Germany, 2 Graduate School for Computing in Medicine and Life Science, University of Lübeck,
+Lübeck, Germany, 3 Institute for Medical Psychology and Behavioral Neurobiology, University of Tübingen, Tübingen, Germany, 4 Computational Systems Biology, Jacobs
+University Bremen, Bremen, Germany
+
+
+
+     Abstract
+     NREM sleep is characterized by two hallmarks, namely K-complexes (KCs) during sleep stage N2 and cortical slow oscillations
+     (SOs) during sleep stage N3. While the underlying dynamics on the neuronal level is well known and can be easily measured,
+     the resulting behavior on the macroscopic population level remains unclear. On the basis of an extended neural mass
+     model of the cortex, we suggest a new interpretation of the mechanisms responsible for the generation of KCs and SOs. As
+     the cortex transitions from wake to deep sleep, in our model it approaches an oscillatory regime via a Hopf bifurcation.
+     Importantly, there is a canard phenomenon arising from a homoclinic bifurcation, whose orbit determines the shape of
+     large amplitude SOs. A KC corresponds to a single excursion along the homoclinic orbit, while SOs are noise-driven
+     oscillations around a stable focus. The model generates both time series and spectra that strikingly resemble real
+     electroencephalogram data and points out possible differences between the different stages of natural sleep.
+
+  Citation: Weigenand A, Schellenberger Costa M, Ngo H-VV, Claussen JC, Martinetz T (2014) Characterization of K-Complexes and Slow Wave Activity in a Neural
+  Mass Model. PLoS Comput Biol 10(11): e1003923. doi:10.1371/journal.pcbi.1003923
+  Editor: Saad Jbabdi, Oxford University, United Kingdom
+  Received May 17, 2014; Accepted September 19, 2014; Published November 13, 2014
+  Copyright: ß 2014 Weigenand et al. This is an open-access article distributed under the terms of the Creative Commons Attribution License, which permits
+  unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
+  Data Availability: The authors confirm that all data underlying the findings are fully available without restriction. All relevant data are within the paper and its
+  Supporting Information files.
+  Funding: This work was funded by: TR-SFB 654 (http://www.sfb654.uni-luebeck.de/); Graduate School 235 (https://www.gradschool.uni-luebeck.de/); BMBF grant
+  01GQ1008 (http://www.gesundheitsforschung-bmbf.de/de/2550.php); EU Human Brain Project SP3 - Cognitive Architectures (https://www.humanbrainproject.
+  eu/cognitive-architectures). The funders had no role in study design, data collection and analysis, decision to publish, or preparation of the manuscript.
+  Competing Interests: The authors have declared that no competing interests exist.
+  * Email: schellenberger@inb.uni-luebeck.de
+  . These authors contributed equally to this work.
+  " JCC and TM also contributed equally to this work.
+
+
+
+Introduction                                                                            show a high variability in morphology and amplitude, but are
+                                                                                        generally characterized as a negativepositive event with a sharp
+   Several studies indicate a major role of slow wave sleep (SWS) in                    negative peak. Common variations of this theme are multiple
+the consolidation of memories [1,2]. Especially its hallmarks,                          peaks in the negative component or an initial positive bump before
+cortical slow oscillations (SO), are hypothesized to be a key                           the negative-positive complex.
+mechanism for the transfer of memory into the neocortical long-                            The components of evoked KCs were found to have typical
+term storage [3,4]. Furthermore, it has been shown that the                             latencies, namely the P200, N550 and P900 peaks. It was
+efficacy of memory consolidation can be improved with oscillatory                       suggested that these components are not independent and share
+transcranial electric and phase-locked auditory stimulation [5–7].                      a common generation mechanism. Sometimes later components
+   In the human electroencephalogram (EEG) SOs are defined as                           (N1500, P1900) with smaller amplitude are reported too [21,22].
+waves with a frequency of 0.5–2 Hz and a peak-to-peak amplitude                            The complexity of the brain on the structural as well as the
+.75 mV [8,9]. Underlying the SO is a widespread, almost                                 neuronal level has, however, been challenging for theoretical studies
+synchronous alternation of neocortical networks between phases                          and modeling approaches. Neural mass models, pioneered by the
+of depolarization (active or up state) and hyperpolarization (silent                    work of [23] and [24], successfully described many phenomena of
+or down state) [10,11], that behaves like a traveling wave [9,12].                      the human EEG, e.g. alpha and gamma rhythms, evoked responses
+Modeling and experimental studies indicate a role for both,                             and epilepsy [25–27]. See [28] and [29] for reviews.
+synaptic mechanisms and intrinsic currents, in the generation of                           In addition to states of wakefulness sleep has been modeled
+SOs [13–16].                                                                            within the neural mass framework, too. A parameter study by [30]
+   The K-complex (KC) occurs at the pace of the SO [17] and is                          revealed the importance of synaptic gains for the dominant
+believed to be the EEG expression of the cellular slow oscillatory                      frequency of neural mass models. Steyn-Ross et al. [31]
+activity [18]. The negative peak of the KC marks the transition to                      investigated the effect of changes in the efficacy of excitatory
+the cellular up state [19]. A KC during light NREM sleep (N2) was                       connections and the resting membrane voltage, finding multiple
+identified to be an isolated down state [20]. Furthermore, KCs                          stable states which they classified as sleep and wake.
+
+
+PLOS Computational Biology | www.ploscompbiol.org                                   1                       November 2014 | Volume 10 | Issue 11 | e1003923
+                                                                                    K-Complexes and Slow Wave Activity in a Neural Mass Model
+
+
+
+  Author Summary                                                            incorporate a physiological plausible firing rate adaptation,
+                                                                            characteristic for the sleeping cortex.
+  In recent years, sleep has drawn increasing attention due
+  to its multifunctional role, e.g. the involvement in the                  Neural mass framework
+  consolidation of memory. While neural mass models have                       Instead of considering single neurons individually, an averaged
+  been successfully employed to describe the dynamics of                    representation of the respective neuron type describes the behavior
+  the awake brain, the drastic changes that arise during                    of a whole population. The mean membrane voltage Vk of the
+  sleep have been challenging. As intracellular recordings
+                                                                            neural population k is transformed into a firing rate Qk via a
+  point to a bistability in the membrane voltage of individual
+  neurons, previous studies assumed a bistability to be                     sigmoidal mapping [25,47].
+  responsible for the generation of SOs as well as KCs on the
+  macroscopic scale. Here we present a minimal neural mass                                                    Qmax
+                                                                                                               k
+  model of the cortex that we extend by a slow firing rate                                Qk (Vk )~                           :               ð1Þ
+  adaptation, which is assumed to underlie the termination                                             1zexpð{C(Vk {hk )=sk Þ
+  of the cortical up state. A bifurcation analysis reveals the
+  existence of a Hopf bifurcation together with an canard
+  phenomenon. We show that these additional bifurcations                       Here, Qmax
+                                                                                        k    is the maximal firing rate of the respective
+  are able to generate KCs as well as SOs, and reproduce the                population, while hk represents the firing threshold of the
+  electroencephalogram (EEG) of sleeps stages N2 and N3 to                  population and 1=sk the gain or steepness of the transition.
+  a high degree. Based on these findings, we propose a new                         pﬃﬃﬃ
+  route for the sleep/wake transition, that is also consistent              C~p= 3 acts as a scaling factor that links the gain directly to the
+  with the effect of neuromodulators on the brain.                          standard deviation of the change in firing rate dQk =dVk .
+                                                                               At the dendrites, incoming spikes elicit transmitter release
+                                                                            leading to the opening of synaptic channels. At any time, the
+   While those features are generated within a -local- column of            fraction of open channels smk of type m at population k can be
+neural tissue, spatial components have been shown to lead to                described by a convolution with an alpha function am [48],
+complex interactions with the intrinsic dynamics, e.g. Turing               with
+patterns and traveling waves [32,33]. However, within this study
+we focus on the generation of KCs as well as SOs rather than their                                         X
+                                                                                                   smk ~        am Nk0 k 6Qk’ ,
+spatial propagation. Nevertheless, our model can form the basis of                                         k’                                 ð2Þ
+a network of neural masses that covers spatial aspects, such as
+wave propagation.                                                                                  am ~c2m t exp({cm t):
+   Activity-dependent feedback via slow potassium channels has
+been suggested as a mechanism for the generation of SOs and KCs
+because of their sensitivity to the sleep related neuromodulator               Here, the inverse rise time cm determines its shape. The sum is
+acetylcholine and their implication in the slow afterhyperpolariza-         over all spikes from different sources k’ that arrive at the same type
+tion [34,35]. Multiple studies also point out that potassium leak           m of synapses at population k. We consider AMPAergic synapses
+channels can be activated by several anesthetics [36–38]. In the            for excitation and a generic GABAergic type for inhibition,
+neural mass framework additive and multiplicative adaptation                leading to the second order differential equations
+mechanisms have been discussed by [39–41]. So far KCs were
+described as excursions from a stable silent state to an unstable
+active state and the related SOs as oscillations between those two                      €sek    ~c2e ðNek Qe (Ve )zwn {sek Þ{2ce s_ ek ,
+states [42,43].                                                                                                                               ð3Þ
+                                                                                        €sik    ~c2i ðNik Qi (Vi ) {sik Þ{2ci s_ ik :
+   However, while for certain forms of anesthesia it seems plausible
+that the cortex undergoes a phase transition, it is not clear whether
+this necessarily holds for natural sleep [39,44]. Addressing these
+issues we present a neural mass model for the sleeping cortex                  Here, Nk’ k stands for the mean number of synaptic connections
+which is extended by sodium dependent potassium current                     of type k’ to population k. While inhibitory populations only
+[45,46]. This approach links our neural mass model to modeling              spread locally, there are two different sources of excitation: local
+studies on SO generation based on single neurons as well as to              inputs Nek Qe (Ve ) and background noise coming from unspecified
+experimental studies [14,16]. The model output resembles EEG                brain structures wn , which is taken as uncorrelated Gaussian white
+time series of sleep stages N2 and N3 to a high degree and shows            noise with zero mean. To model external stimulation the mean of
+key features of spontaneous and evoked KCs.                                 the background noise is elevated by wstim representing increased
+   Building upon a bifurcation analysis, we characterize the                incoming spike rates.
+dynamic repertoire of the cortex model. Our analysis indicates                 The connectivity structure of our model is given in Figure 1. It
+that cortical SOs and KCs are related but different phenomena.              consists of an excitatory and an inhibitory population coupled all
+We suggest a route for the transition from wake to deep sleep and           to all.
+point out differences between natural sleep and anesthesia.                    An important assumption of most neural mass models is the
+                                                                            existence of an equilibrium state V0 the system is always close to
+                                                                            [23]. However, this is not true for KCs and SOs and the scaling of
+Methods
+                                                                            synaptic currents with respect to the membrane voltage Vk
+  In the following sections, we motivate and describe the                   becomes important. This was addressed by [49] with the
+mathematical foundation of the model. First, we introduce the               introduction of a weighting term (Vk {Erev ).
+concept of neural mass models and define the basic neural module               Their model can be written similar to the classical conductance
+we use as a starting point. Into this basic neural module, we               based form of [50] with one leak and two synaptic currents as
+
+
+PLOS Computational Biology | www.ploscompbiol.org                       2                      November 2014 | Volume 10 | Issue 11 | e1003923
+                                                                                      K-Complexes and Slow Wave Activity in a Neural Mass Model
+
+
+                                                                                 This approach is qualitatively different to changes in the firing
+                                                                              rate function, as utilized by [39]. Gradually switching between two
+                                                                              firing rates alters the overall shape of the sigmoid function in a
+                                                                              multiplicative activity-dependent manner, whereas we employ an
+                                                                              additive threshold modulation.
+
+                                                                              Computational methods
+                                                                                 The model was implemented in C++ and run within MATLAB
+Figure 1. Connectivity of the cortex. The two populations are all to          [56]. The stochastic differential equations were iterated using a
+all coupled. In addition to intrinsic activity both populations receive
+background noise from unspecified brain structures. Circles indicate
+                                                                              stochastic Runge-Kutta method of 4th order [57] with a step size
+excitatory synapses, butts inhibitory synapses.                               of 0.1 ms. Simulation length was chosen as 30 s with a 5 s onset to
+doi:10.1371/journal.pcbi.1003923.g001                                         ensure a steady state. All settings were run multiple times to check
+                                                                              for robustness. Full model equations and parameters are given in
+                                                                              Text S1 and Table S1. Bifurcation analysis is done with XPPaut
+                                                                              [58], and a script is provided in Text S2.
+                 tk V_ k ~{ L (Vk {Ekrest )
+                         { AMPA sek (Vk {EAMPA )                              Results
+                                                                   ð4Þ
+                         { GABA sik (Vk {EGABA ),                                In the following, we analyze the dynamic repertoire of the
+                                                                              model and define multiple dynamic regimes. We stress that the
+                       ~{IL {IAMPA {IGABA :                                   bifurcation analysis is done in the noise free deterministic case.
+                                                                                 However, noise is able to push the system into different regimes,
+                                                                              if the parameters are chosen sufficiently close to the border.
+   Here, g depicts the maximal conductivity, and E corresponds to             Therefore, the analysis provides the repertoire of possible modes,
+the Nernst potentials of the respective channel.                              whereas the corresponding response to external stimuli is captured
+   The potential fluctuations measured in an EEG are mainly                   in a following section.
+generated by pyramidal neurons [51]. Therefore, we use the                       Based on that description we show that the model is able to
+membrane voltage of the excitatory population as our output                   reproduce KCs as well as SOs. Furthermore, the analysis suggests
+variable. Similarly, multiple studies [25,49,52–54] used either the           a distinction between KCs and SOs and provides some insights in
+deviation of the membrane voltage from the resting state,                     the differences between natural sleep and anesthesia. We will
+Ve {Vrest , or the membrane voltage itself. As our system has no              finally present a comparison of the noisy simulation to human
+spatial extension and we only assume ohmic effects of skull and               EEG data.
+scalp, the EEG signal can be approximated by a linear scaling of
+the excitatory membrane voltage. When comparing experimental
+                                                                              Bifurcation analysis
+data and model output both time series are z-scored, because this
+                                                                                 In order to characterize the dynamic repertoire of the cortical
+linear transformation normalizes mean and standard deviation but
+                                                                              model we conducted a numerical bifurcation analysis of the noise-
+preserves the other statistical properties of a signal. As we are only
+                                                                              free system. The qualitative behavior of the model was most
+interested in qualitative properties of the model, e.g. the ratio
+                                                                              sensitive to changes in the inverse gain, se , of the pyramidal
+between medium amplitude background oscillations and large
+                                                                              population and the strength of the adaption, KNa .
+amplitude deflections during N2, the different sleep stages are z-
+                                                                                 Additionally, both parameters are known to be susceptible to
+scored independently. For quantitative statements the same
+                                                                              changes in the neuromodulatory milieu, and the concentration of
+measuring function must be used.
+                                                                              many major neuromodulators is known to change throughout the
+                                                                              sleep-wake cycle. Cortical acetylcholine levels are lowest during
+Model extension with respect to sleep                                         slow wave sleep and highest during wake and REM sleep, whereas
+  As motivated in the introduction, we add the sodium dependent               serotonin and norepinephrine levels are highest during wake,
+potassium current                                                             intermediate during SWS and lowest during REM sleep [59].
+                                                                                 Tonic application of acetylcholine blocks leak and activity-
+                              0:37                                            dependent potassium currents IKLeak , Im , IKNa , IKCa (reviewed in
+             IKNa ~ KNa            (Ve {EK ),                               [60]), as well as INaP [61]. Furthermore, many studies show that se
+                               38:7 3:5
+                           1z                                      ð5Þ        can be altered by norepinephrine, serotonin, acetylcholine as well
+                              ½Na
+                                                                              as dopamine [35,62–69].
+              _ a~(aNa Qe (Ve ){Napump (½Na))=tNa
+             ½N                                                                  Consequently, se and gKNa were chosen as bifurcation
+                                                                              parameters. The adaptation currents are primarily found in
+to the excitatory population, see Equation 4. The current is                  excitatory pyramidal cells and less so in inhibitory interneurons,
+connected to the excitatory membrane voltage by a membrane                    which justifies the restriction of the parameter changes to the
+capacity Cm = 1 mF/cm. Sodium influx responsible for IKNa                     excitatory population.
+activation results from spiking or INaP activation, for which a                  As can be seen in Figure 2 the dynamics of the system is shaped
+depolarization above 260 mV is sufficient. We do not explicitly               by two bifurcations. The first one is a fold created by two saddle
+model these mechanisms but combine their effects via the Ve-                  node bifurcations (black), that vanishes in a cusp. Between the two
+determined spike rate Qe and regard aNa as average sodium influx              saddle nodes there are three equilibrium states, leading to
+per spike. Sodium extrusion is due to an active pump [55], which              bistability or excitability, see Figure 3a or Figure 3b. This is in
+is detailed in Text S1. For simplicity, we neglect synaptic                   good agreement with [31] and [70], as in the case of a fixed
+depression and other candidate mechanisms for additive feedback,              sodium concentration IKNa is constant, and an increase in KNa
+like calcium dependent potassium currents.                                    acts as a decrease in resting potential.
+
+
+PLOS Computational Biology | www.ploscompbiol.org                         3                   November 2014 | Volume 10 | Issue 11 | e1003923
+                                                                                        K-Complexes and Slow Wave Activity in a Neural Mass Model
+
+
+
+
+Figure 2. Bifurcation diagram of the cortex with respect to KNa and se . Overview over the models dynamic regimes, obtained via numerical
+bifurcation analysis of the cortex with respect to se and KNa . Hopf bifurcations are drawn in red, while the black line depicts saddle-node
+bifurcations. The bottom gray line marks the intersection of Hopf and saddle curves, the top gray line the cusp bifurcation. The green line depicts the
+proposed route for the transition from wake to sleep stage N3. The region around wake corresponds to parameter settings commonly used for wake
+EEG. N2 and N3 are settings used within this study for the respective sleep stages, as given in Table 2 and 3. Regions I-VI are described in the text and
+Table 1 (Parameters as in Table S1).
+doi:10.1371/journal.pcbi.1003923.g002
+
+   The second bifurcation is a Hopf arising at the upper stable branch         Because of these properties we assume the waking brain to operate
+(red). Importantly there is a canard explosion, where the small                within this regime.
+amplitude limit cycle of the Hopf bifurcation transitions into a high-           When crossing the curve of saddles to region V two new fixed
+amplitude relaxation cycle. This phenomenon was first described by             points appear (see also Figure 3a). The system becomes bistable,
+[71] and is typical for systems where fast and slow subsystems                 with a stable active and silent state. Positive and negative inputs
+interact. The relaxation cycle vanishes at the left saddle-node via a          can cause a switching between the two stable branches.
+homoclinic bifurcation. At the cusp both saddle nodes coalesce and               A further increase in KNa turns the upper branch (active state)
+the homoclinic bifurcation turns into a second Hopf point.                     unstable. However, within region VI there are still multiple
+   Based on those bifurcations we define multiple dynamical                    equilibria leaving the system excitable. Here a stimulus can
+regimes, see Table 1 for a short overview. Within region I a single            produce a large positive response, which was previously thought to
+stable state exists at depolarized membrane voltages where the                 be responsible for the generation of KCs as well as SOs [72].
+cortex shows relatively high activity (see Figure 3). Especially for             Only after the second saddle node is crossed the upper two
+small values of KNa even large excitatory and inhibitory inputs                equilibria vanish and a single stable state remains. This state is
+only cause a passive response. A switch to the lower branch of the             characterized by hyperpolarized membrane voltages leading to a
+S-shaped curve in Figure 3 (region IV, silent state) is not possible.          quiescent cortex.
+
+
+
+
+Figure 3. One-dimensional bifurcation diagrams for different gain levels se . Low gain corresponds to high values of se . Thick black lines
+depict stable fixed points, dashed lines unstable fixed points and red lines stable periodic solutions. The gray dashed lines mark bifurcations and
+separate the different regimes. (a) Two saddle-node bifurcations lead to excitability in region VI and bistability in region V. (b) A Hopf bifurcation
+appears (between I and III) in addition to the two saddle-nodes. The initial small amplitude limit cycle transitions into a high-amplitude relaxation
+cycle via a canard explosion. The high-amplitude periodic solutions vanish at the left saddle-node via a homoclinic bifurcation. The period of the
+relaxation oscillations goes to infinity as one approaches the homoclinic bifurcation. (c) Only the Hopf bifurcation remains, after the saddle nodes
+disappeared via a cusp bifurcation. Within region II there is no canard anymore.
+doi:10.1371/journal.pcbi.1003923.g003
+
+
+PLOS Computational Biology | www.ploscompbiol.org                          4                    November 2014 | Volume 10 | Issue 11 | e1003923
+                                                                                      K-Complexes and Slow Wave Activity in a Neural Mass Model
+
+
+
+ Table 1. Dynamic regimes of the cortical module.
+
+
+ Region                 dynamical properties
+
+ I                      active cortex
+ II                     limit cycles
+ III                    limit cycles and relaxation cycles
+ IV                     silent cortex
+ V                      bistable
+ VI                     excitable
+
+ doi:10.1371/journal.pcbi.1003923.t001
+
+
+    Region III is characterized by periodic limit cycles or relaxation
+oscillations and, hence, high rhythmicity. The initial Hopf                  Figure 4. Response of the noise-free cortex to artificial stimuli.
+bifurcation is accompanied by a canard explosion: due to an                  Excitatory bursts of 50 ms duration were applied to both populations.
+                                                                             The spike rate of the stimuli wstim varies uniformly from 5 Hz (dark blue)
+exponentially small variation of the bifurcation parameter an                to 100 Hz (dark red). The stimulus is shown in grey. (a) Bifurcation
+abrupt transition from a medium-amplitude limit cycle to a high-             parameters are set to the mark N2 close to region III (see Table 2).
+amplitude relaxation cycle can take place.                                   There, a canard explosion leads to large amplitude responses that
+    This phenomenon was first described in [71] and is typical for           qualitatively resemble a typical evoked KC with its P200, N550 and P900
+systems where fast and slow subsystems interact. The correspond-             components. (b) Parameters are set to mark N3, so that the cortex is
+                                                                             beyond the cusp close to region II (see Table 3). The canard vanished,
+ing one-dimensional bifurcation diagram is shown in Figure 3b.
+                                                                             leading to an even increase in the amplitude of the response.
+The periodic solutions vanish at the left saddle-node via a                  doi:10.1371/journal.pcbi.1003923.g004
+homoclinic bifurcation, and the period of the relaxation oscilla-
+tions goes to infinity as one approaches the homoclinic bifurcation.
+    Additionally, with increasing se the amplitude of the limit cycle        This is in good agreement with the dynamics seen in sleep stage
+increases and approaches the form of relaxation oscillations. This           N2, where medium-amplitude background oscillations are inter-
+explains the similarity between the limit cycles and relaxation              rupted by large amplitude KCs.
+oscillations. Both are shaped by the same homoclinic orbit.                      We assume this mechanism to be responsible for the generation
+    At the cusp the two saddle nodes vanish and the homoclinic               of KCs during sleep stage N2. Furthermore, this requires the
+bifurcation turns into a second Hopf point. Without the                      cortex to be in the active state close to the Hopf bifurcation to
+homoclinic bifurcation there is no canard anymore. Therefore,                region III, rather than being in the silent down state. This is in
+in region II above the cusp bifurcation only limit cycles remain,            good agreement with multiple studies who report that during SWS
+illustrated in Figure 3c, leading to high-amplitude oscillations.            of naturally sleeping animals more time is spent in up states than in
+                                                                             down states [73–78].
+Response to perturbations                                                        Close to the Hopf, an increase of the inverse gain, se , leads to
+   While the bifurcation analysis provides the basic repertoire of           an increase in the amplitude of the background oscillations and
+the unperturbed model, its responsiveness with respect to                    they approach the shape of a relaxation cycle. Beyond the cusp the
+perturbations, e.g. external stimuli or background noise, is crucial         canard vanishes and isolated events in the sense of KCs are not
+for its behavior. As mentioned before, within region I the cortex            possible anymore (see Figure 4b).
+shows only a passive response. However, this changes for larger                 This behavior is well reflected in what is seen during sleep stage
+values of KNa , i.e. closer to the curve of Hopf points (red line in         N3, where SOs appear as large amplitude oscillations, that are not
+Figure 2, separating region I from II and III).                              separated from the ongoing background activity. Furthermore, it
+   There, positive as well as negative inputs may cause a reverse            explains the high similarity between KCs and SOs, as they are
+spike resembling a KC. Additionally, close to the curve of Hopf              both shaped by the same homoclinic orbit. We hypothesize that
+points the stable active state turns into a stable focus, i.e. the           during sleep stage N3 the cortex is in region I close to the Hopf
+system behaves like a damped oscillator upon perturbation. In                bifurcation to region II.
+Figure 4a we show the response to artificial stimuli wstim of varying           Together these findings give rise to a new interpretation of the
+strength, when the cortex is set close to the Hopf bifurcation               sleep/wake transition. At the transition to sleep stage N2, the
+between region I and III.                                                    cortex approaches the Hopf bifurcation close to region III, which
+   Stimuli of low strength lead to damped oscillations whose                 shifts the EEG trace to higher amplitudes and lower frequencies
+amplitudes are considerably larger than during the wake state but            compared to wake activity. By virtue of a canard explosion this
+smaller than KCs or SOs. However, as the strength of the stimuli             background activity is then interrupted by single, isolated
+increases the system is pushed into the canard explosion and the             relaxation cycles. As sleep deepens further, the cortex follows
+amplitude of the response increases rapidly. While in Figure 4a              the route depicted in Figure 2, while the amplitude of the
+there seems to be a threshold separating the two types of responses,         background oscillations increases and ultimately approaches the
+it is actually a smooth transition given sufficiently small increases        form of a KC.
+in stimulation strength.                                                        However, this is in contrast with the view that the cortex
+   The induced relaxation cycles show a good qualitative match               undergoes a phase transition when entering NREM sleep.
+with KCs seen during sleep. In the noise driven simulation the               Interestingly, a similar model was utilized to describe character-
+majority of inputs would lead to medium-amplitude oscillations,              istics of anesthesia [39]. We can reproduce similar behavior, e.g.
+whereas only the rare outliers would trigger a KCs like response.            burst suppression in region VI (See Supplementary Figure S1).
+
+
+PLOS Computational Biology | www.ploscompbiol.org                        5                    November 2014 | Volume 10 | Issue 11 | e1003923
+                                                                                        K-Complexes and Slow Wave Activity in a Neural Mass Model
+
+
+
+Reproduction of sleep stages N2 and N3                                            Parameter settings within region II or III lead to highly regular
+   To verify the ability of the model to reproduce sleep stage N2              relaxation oscillations or limit cycles, that do not resemble human
+we set the model to parameter configuration ‘‘N2’’ from Figure 2               EEG. It is crucial that the cortex must be within region I close to
+(See Table 2). The chosen parameter set is within region I close to            region II or III to reproduce the data. In a study on resting state
+the border of region III, an example time series is shown in                   networks [79] found the awake brain to be in a state of criticality,
+Figure 5.                                                                      which leads to an increased responsiveness. In this study, we also
+   In a region close to the chosen parameters the cortex is in the up          find the sleeping cortex close to a phase transition and suggest that
+state and shows the expected noise-driven medium-amplitude                     the concept of criticality is not restricted to wakefulness, but carries
+oscillations. In addition, background noise may push the model into            over to sleep. However, the phase transition and computational
+high-amplitude deflections that closely resemble KCs seen in human             goal are different.
+EEG. Similar to the data the KCs can show a single pronounced                     Due to the presence of noise bifurcations do not lead to clear-cut
+peak or a prolonged down state, which depends on the noise.                    qualitative changes of the dynamics [43]. Noise can shift critical
+   Following our route for the sleep/wake transition in Figure 2 we            points or induce behavior that is not seen in the deterministic case,
+then moved along the Hopf bifurcation to a setting beyond the                  such as noise-induced transitions.
+cusp and close to region II, labeled as ‘‘N3’’. In Figure 6 a
+representative time series is shown with the parameters given in               Relation to intracellular recordings
+Table 3. There the cortex shows high amplitude oscillations                       Our work deals primarily with the characteristics of EEG signals
+around 0.8 Hz. In contrast to the N2 stage, the cortex does not                during NREM sleep. However, the presented bifurcation analysis
+produce KCs in the sense of isolated events that differ from the               is useful in a broader context. Similar activity is found e.g. during
+background oscillations. Rather, the response increases until it               non-REM sleep, anesthesia, coma and in isolated cortical
+approaches the form of a KC, depending on the strength of the                  preparations. It becomes increasingly clear that there exists a
+perturbation.                                                                  continuum of slow oscillatory states, which are mainly character-
+                                                                               ized by the fraction of time spent in up or down states, the
+Discussion                                                                     temporal regularity with which state transitions occur and the
+                                                                               response to external stimuli.
+Characterization of KCs and SOs                                                   The phenomenon of up and down states in intracellular
+   We explored an extended neural mass model of the cortex and                 recordings is commonly associated with the notion of bistability
+related its multiple dynamical regimes to different sleep stages.              or relaxation oscillations. However, it is important to note that
+   A bifurcation analysis revealed the existence of a fold as well as a        most results on SOs were obtained in deeply anesthetized animals
+Hopf bifurcation accompanied by a canard phenomenon. We                        or slice preparations. Under these conditions, the system is down
+argue that deflections generated by the canard explosion are                   state dominated, i.e. down states last longer than up states, the
+identical to KCs seen in the EEG during natural sleep, leading to              occurrence of up states is often highly rhythmic [76,80] or up
+the spike-like nature of the KCs. Increasing the bifurcation                   states are infrequent and transient [81]. In our model these
+parameter se the canard vanishes, explaining the damped                        classical regimes are also present, namely in regions III, V and VI.
+oscillatory behavior of SOs. Our analysis provides a clear                        Generally, SOs produced by anesthesia are much more regular
+theoretical distinction between KCs and SOs. However, as both                  than during natural sleep [76,82]. Under ketamine-xylazine
+the limit and the relaxation cycle are shaped by the same                      anesthesia neurons spend twice the time in silent states compared
+underlying homoclinic orbit, the actual transition is rather smooth            to natural SWS [76], and in the auditory cortex of awake rats
+even in the noise-free deterministic system (see Figure 4).                    prolonged up states are not even observed at all [83]. Further-
+Therefore, it might be challenging to find this distinction within             more, SO properties differ from one anesthetic to the other [84].
+experimental data.                                                             Ketamine-xylazine anesthesia produces a uniform and continuous
+   Based on the bifurcation analysis we identified parameter regimes           SO state [85], whereas with urethane epochs of stable SOs are
+that show characteristics of sleep stage N2 and N3 and showed that             short-lived and desynchronized periods may occur spontaneously
+our model is able to reproduce the EEG of both sleep stages to a               [86]. This is similar to SWS where one finds waxing and waning of
+high degree. Building upon these findings we propose an alternative            slow wave complexes interleaved with periods reminiscent of
+scenario for the sleep wake transition. Rather than entering a                 active states [74].
+bistable regime the cortex stays primarily within the active state. As            In contrast, [20] pointed out that a KC during light sleep is not
+sleep deepens, the cortex approaches the Hopf bifurcation, leading             always embedded in an ongoing SO, but is mostly an isolated event.
+to an increase in amplitude and slowing of noise-driven background             Clearly, in N2 the active state dominates. Similarly, many studies
+oscillations, as well as large amplitude deflections, i.e. KCs. At the         report that during SWS of naturally sleeping animals more time is
+transition to sleep stage N3 the canard phenomenon vanishes due to             spent in up states than in down states [73–78] Furthermore, it has
+the cusp bifurcation. The remaining Hopf bifurcation is responsible            been reported that SWS contains many episodes of low-amplitude fast
+for the generation of noise-driven SOs. Isolated events as in sleep            oscillations, lasting several seconds and resembling the active state
+stage N2 are not possible within that regime.                                  [87]. This evidence points to natural sleep being up state dominated.
+
+ Table 2. Parameters of regime N2.
+
+
+ Symbol                            Value                            Unit                                    Description
+
+ se                                4.6                              mV                                      inverse gain
+  KNa                              1.33                             mS/cm2                                  conductivity
+
+ doi:10.1371/journal.pcbi.1003923.t002
+
+
+
+PLOS Computational Biology | www.ploscompbiol.org                          6                    November 2014 | Volume 10 | Issue 11 | e1003923
+                                                                                      K-Complexes and Slow Wave Activity in a Neural Mass Model
+
+
+
+
+Figure 5. Comparison of human EEG with model output in regime N2. Qualitative comparison of (a) human EEG data of sleep stage N2 from
+electrode Cz with (b) the isolated cortical module in regime N2 (region IV in the bifurcation diagram in Figure 2). The traces illustrate the medium-
+amplitude background oscillations and the stereotypical shape of spontaneous KCs at the EEG level. It may or may not have an initial bump followed
+by a large negative peak and a pronounced positive overshoot. The model-KC is noise induced and represents a single relaxation cycle. An evoked KC
+in the noise-free case is shown in Figure 4a. Model output is excitatory membrane voltage Ve, and both time series are z-scored (Parameters as in
+Table 2).
+doi:10.1371/journal.pcbi.1003923.g005
+
+
+   Furthermore, bistability is inferred via bimodality in the                 we are aware of that touches this issue is [73]. Our model indicates
+distribution of individual cells’ membrane potential. In local field          that an increase in gain can induce a bistable state when awake,
+potentials, one can observe a markedly conserved waveform of                  moving from region I to region V. Likewise, looking at comatose
+individual SO events [88], but bimodality is already less visible. It         states (region IV) a decrease in gain should induce limit cycle
+is known that collective dynamics can exhibit, e.g. limit-cycle               oscillations.
+regimes, but at the same time emerge from irregular and high-                    Additionally, constant neural activation, i.e. arousal, causes
+dimensional neuronal activity, which is only apparent at small-               relaxation oscillations in the model. Indeed, this phenomenon
+scales [89].                                                                  seems to occur in comatose patients, too, where one observes an
+   The spectrum of SO phenomena cannot be fully captured by                   increase in delta activity after stimulation [90]. This is termed
+the concepts of bimodality or relaxation oscillations. Our analysis           paradoxical arousal and should not be confused with the
+corroborates that the KC can be identified with a single, isolated            paradoxical excitation/biphasic response during the induction
+relaxation cycle and slow wave activity, including prolonged                  process of anesthesia.
+episodes of low-amplitude fast oscillations, stems from noise-driven             Furthermore, given the suggested role of gain change in the
+oscillations around a stable focus. Down states occur frequently in           transition between N2 and N3, an altered slope of the f-I-relation
+the up state dominated cortex, but they are transient.                        of excitatory pyramidal cells could be a key factor in distinguishing
+                                                                              wake and REM sleep.
+Predictions                                                                      Activity-dependent and leak potassium currents (or tonically
+  The assumption that a substantial gain change accompanies the               activated extrasynaptic GABAA receptors) are both able to
+change of sleep stages is reasonable, but still has to be clearly             promote bistability in a cortical population. However, only
+demonstrated experimentally for natural sleep. The only publication           activity-dependent mechanisms contribute to rhythmicity. It
+
+
+
+
+Figure 6. Comparison of human EEG with model output in regime N3. Qualitative comparison of (a) human EEG data of sleep stage N3 from
+electrode Cz with (b) the isolated cortical module in regime N3 (region I in the bifurcation diagram in Figure 2). As the system is close to the Hopf
+bifurcation noise leads to quasiperiodic oscillations around the stable focus (up state). Large amplitude oscillations resemble KCs as both are shaped
+by the same homoclinic orbit. The model output is excitatory membrane voltage Ve, and both time series are z-scored (Parameters as in Table 3).
+doi:10.1371/journal.pcbi.1003923.g006
+
+
+PLOS Computational Biology | www.ploscompbiol.org                         7                   November 2014 | Volume 10 | Issue 11 | e1003923
+                                                                                                     K-Complexes and Slow Wave Activity in a Neural Mass Model
+
+
+
+ Table 3. Parameters of regime N3.
+
+
+ Symbol                                     Value                                         Unit                                      Description
+
+ se                                         6.7                                           mV                                        inverse gain
+   KNa                                      2                                             mS/cm2                                    conductivity
+
+ doi:10.1371/journal.pcbi.1003923.t003
+
+
+would be interesting to see their contributions revealed for natural                       Table S1 Parameters. Description and values of all param-
+sleep and anesthesia.                                                                      eters that are not subject of the bifurcation analysis.
+   A study by Molaee-Ardekani et al. [39] showed that a similar                            (PDF)
+model of slow firing rate adaptation can reproduce the effects seen
+                                                                                           Text S1 Full model equations. Full mathematical description
+under anesthesia. A comparison of our findings with their results
+                                                                                           of the model used within this study.
+suggest that the region of bistability (V) as well as the region of
+excitability (VI) are actually associated with anesthesia.                                 (PDF)
+                                                                                           Text S2 Bifurcation analysis code. Script file used for the
+Sleep: More than bistability and relaxation oscillations                                   bifurcation analysis in XPPaut.
+   A main result of this paper is that on the macroscopic level the                        (PDF)
+cortex is not necessarily in a bistable regime during natural deep
+                                                                                           Video S1 Visualization of the sleep-wake transition.
+sleep. We argue that properties of KCs and SOs at the EEG level
+                                                                                           This video illustrates the change of the evoked response to
+support the view of a monostable active cortex close to a Hopf and
+                                                                                           perturbations, as the model follows the proposed sleep-wake
+a saddle node bifurcation.
+                                                                                           transition depicted in Figure 2. Close to the ‘‘wake’’ state, the
+   We stress that the characterization of KCs and SOs is made on
+                                                                                           system immediately returns to the stable fixed point, without any
+the population level. While the switching between up and down
+                                                                                           oscillatory behavior. At the onset of sleep, KNa and se increase
+states on the cellular level points to relaxation oscillations or
+bistability with noise-driven transitions, relatively regular oscillation                  and the system approaches the Hopf bifurcation, such that
+at the cellular level may appear less regular at the EEG level, due to                     perturbations away from the active state lead to transient, small
+varying spatial synchrony [82]. Relaxation oscillations in the EEG                         and slow oscillatory responses. However, as there are no large
+usually correspond to pathological conditions like epilepsy.                               deflections, which resemble KCs this regime corresponds to sleep
+   We have not explicitly analyzed other adaptation mechanisms                             stage N1. Close to label ‘‘N2’’ in Figure 2, KCs emerge as isolated
+like multiplicative feedback arising due to synaptic depression or                         events through a canard explosion (Sleep stage N2). With further
+depletion of extra-cellular calcium or inhibitory modulation [91].                         transition into deeper sleep, the amplitude of the background
+However, the additive activity-dependent feedback investigated                             oscillations increases and approaches the relaxation cycle of the
+here is sufficient to account for a multitude of phenomena in                              canard. Finally in the proximity of ‘‘N3’’ in Figure 2 there are no
+healthy and pathological conditions. Furthermore, we expect that                           KCs in the sense of isolated events, but large amplitude slow
+the bifurcation structure of the system, i.e. presence of saddle-                          oscillations around a stable focus (Sleep stage N3).
+nodes, Hopf and homoclinic bifurcation, will persist in alternative                        ( MP4)
+settings. Thus, our main conclusions do not depend on the
+particular choice of the feedback mechanism.                                               Acknowledgments
+                                                                                           We thank Jan Born, Lisa Marshall, Matthias Mölle and Lucas Parra for
+Supporting Information                                                                     valuable discussions.
+Figure S1 Burst suppression in region VI. Within region
+VI the system shows characteristics of burst suppression. A                                Author Contributions
+quiescent stable down state is interrupted by large amplitude                              Conceived and designed the experiments: AW MSC HVVN JCC TM.
+excursions around the unstable active state.                                               Performed the experiments: AW MSC. Analyzed the data: AW MSC
+(TIF)                                                                                      HVVN. Wrote the paper: AW MSC HVVN JCC TM.
+
+References
+ 1. Walker MP, Stickgold R (2004) Sleep-dependent learning and memory                       9. Steriade M (2003) The corticothalamic system in sleep. Frontiers in Bioscience 8:
+    consolidation. Neuron 44: 121–33.                                                          878–899.
+ 2. Rasch B, Born J (2013) About sleep’s role in memory. Physiol Rev 93: 681–766.          10. Massimini M, Huber R, Ferrarelli F, Hill S, Tononi G (2004) The sleep slow
+ 3. Rosanova M, Ulrich D (2005) Pattern-specific associative long-term potentiation            oscillation as a traveling wave. The Journal of Neuroscience 24: 6862–70.
+    induced by a sleep spindle-related spike train. The Journal of Neuroscience 25:        11. Peyrache A, Dehghani N, Eskandar EN, Madsen JR, Anderson WS, et al. (2012)
+    9398–9405.                                                                                 Spatiotemporal dynamics of neocortical excitation and inhibition during human
+ 4. Cox R, Hofman WF, Talamini LM (2012) Involvement of spindles in memory                     sleep. Proceedings of the National Academy of Sciences of the United States of
+    consolidation is slow wave sleep-specific. Learn Mem 19: 264–267.                          America 109: 1731–6.
+ 5. Marshall L, Helgadóttir H, Mölle M, Born J (2006) Boosting slow oscillations         12. Sanchez-Vives MV, McCormick DA (2000) Cellular and network mechanisms
+    during sleep potentiates memory. Nature 444: 610–613.                                      of rhythmic recurrent activity in neocortex. Nature Neuroscience 3: 1027–1034.
+ 6. Antonenko D, Diekelmann S, Olsen C, Born J, Mölle M (2013) Napping to                 13. Bazhenov M, Timofeev I, Steriade M, Sejnowski TJ (2002) Model of
+    renew learning capacity: enhanced encoding after stimulation of sleep slow                 thalamocortical slow-wave sleep oscillations and transitions to activated States.
+    oscillations. Eur The Journal of Neuroscience 37: 1142–1151.                               The Journal of Neuroscience 22: 8691–8704.
+ 7. Ngo HVV, Martinetz T, Born J, Mölle M (2013) Auditory closed-loop                     14. Compte A, Sanchez-Vives MV, McCormick DA, Wang XJ (2003) Cellular and
+    stimulation of the sleep slow oscillation enhances memory. Neuron 78: 545–553.             network mechanisms of slow oscillatory activity (,1 Hz) and wave propa-
+ 8. Achermann P, Borbély AA (1997) Low-frequency (,1 Hz) oscillations in the                  gations in a cortical network model. Journal of Neurophysiology 89: 2707–
+    human sleep electroencephalogram. Neuroscience 81: 213–222.                                2725.
+
+
+
+PLOS Computational Biology | www.ploscompbiol.org                                     8                        November 2014 | Volume 10 | Issue 11 | e1003923
+                                                                                                     K-Complexes and Slow Wave Activity in a Neural Mass Model
+
+
+15. Holcman D, Tsodyks M (2006) The emergence of Up and Down states in                     47. Robinson PA, Rennie CJ, Wright J (1997) Propagation and stability of waves of
+    cortical networks. PLoS Computational Biology 2: e23.                                      electrical activity in the cerebral cortex. Phys Rev E 56: 826–840.
+16. Benita JM, Guillamon A, Deco G, Sanchez-Vives MV (2012) Synaptic                       48. Tuckwell HC (1988) Introduction to theoretical neurobiology. Cambridge
+    depression and slow oscillatory activity in a biophysical network model of the             University Press.
+    cerebral cortex. Frontiers in Computational Neuroscience 6: 64.                        49. Liley DTJ, Cadusch PJ, Wright J (1999) A continuum theory of electro-cortical
+17. Amzica F, Steriade M (1997) The K-complex: its slow (,1 Hz) rhythmicity and                activity. Neurocomputing 26–27: 795–800.
+    relation to delta waves. Neurology 49: 952–959.                                        50. Hodgkin AL, Huxley AF, Katz B (1952) Currents carried by sodium and
+18. Steriade M, Amzica F (1998) Slow sleep oscillation, rhythmic K-complexes, and              potassium ions through the membrane of the giant axon of Loligo. The Journal
+    their paroxysmal developments. Journal of Sleep Research 7 Suppl 1: 30–35.                 of Physiology 116: 424–448.
+19. Nir Y, Staba RJ, Andrillon T, Vyazovskiy VV, Cirelli C, et al. (2011) Regional         51. Buzsáki G, Anastassiou CA, Koch C (2012) The origin of extracellular fields and
+    Slow Waves and Spindles in Human Sleep. Neuron 70: 153–169.                                currents–EEG, ECoG, LFP and spikes. Nature Reviews Neuroscience 13: 407–
+20. Cash SS, Halgren E, Dehghani N, Rossetti AO, Thesen T, et al. (2009) The human             420.
+    K-complex represents an isolated cortical down-state. Science 324: 1084–1087.          52. Steyn-Ross DA, Steyn-Ross ML, Wilcocks L, Sleigh JW (2001) Toward a theory
+21. Bastien CH, Crowley KE, Colrain IM (2002) Evoked potential components                      of the general-anesthetic-induced phase transition of the cerebral cortex. II.
+    unique to non-REM sleep: relationship to evoked K-complexes and vertex sharp               Numerical simulations, spectral entropy, and correlation times. Physical
+    waves. International Journal of Psychophysiology 46: 257–274.                              Review E 64: 011918
+22. Colrain IM (2005) The K-complex: a 7-decade history. Sleep 28: 255–273.                53. Suffczyński P, Kalitzin S, Lopes Da Silva FH (2004) Dynamics of non-convulsive
+23. Wilson HR, Cowan JD (1973) A mathematical theory of the functional dynamics                epileptic phenomena modeled by a bistable neuronal network. Neuroscience
+    of cortical and thalamic nervous tissue. Kybernetik 13: 55–80.                             126: 467–84.
+24. Lopes Da Silva FH, Hoeks A, Smits H, Zetterberg LH (1974) Model of brain               54. Sotero RC, Trujillo-Barreto NJ (2008) Biophysical model for integrating
+    rhythmic activity. The alpha-rhythm of the thalamus. Kybernetik 15: 27–37.                 neuronal activity, EEG, fMRI and metabolism. NeuroImage 39: 290–309.
+25. Jansen BH, Zouridakis G, Brandt ME (1993) A neurophysiologically-based                 55. Wang XJ, Liu Y, Sanchez-Vives MV, McCormick DA (2003) Adaptation and
+    mathematical model of flash visual evoked potentials. Biological Cybernetics               temporal decorrelation by single neurons in the primary visual cortex. Journal of
+    283: 275–283.                                                                              Neurophysiology 89: 3279–3293.
+26. Wendling F, Bartolomei F, Bellanger JJ, Chauvel P (2002) Epileptic fast activity       56. MATLAB (2013). MATLAB:R2013b.
+    can be explained by a model of impaired GABAergic dendritic inhibition. Eur            57. Küpper D, Kværnø A, Rößler A (2011) A Runge-Kutta method for index 1
+    The Journal of Neuroscience 15: 1499–1508.                                                 stochastic differential-algebraic equations with scalar noise. BIT Numer Math
+27. David O, Friston KJ (2003) A neural mass model for MEG/EEG:coupling and                    52: 437–455.
+    neuronal dynamics. NeuroImage 20: 1743–1755.                                           58. Ermentrout B (2003) Simulating, Analyzing, and Animating Dynamical Systems:
+28. Coombes S (2005) Waves, bumps, and patterns in neural field theories.                      A Guide to XPPAUT for Researchers and Students. SIAM Rev 45: 150–152.
+    Biological cybernetics 93: 91–108.                                                     59. Léna I, Parrot S, Deschaux O, Muffat-Joly S, Sauvinet V, et al. (2005)
+29. Deco G, Jirsa VK, Robinson PA, Breakspear M, Friston K (2008) The dynamic                  Variations in extracellular levels of dopamine, noradrenaline, glutamate, and
+    brain: from spiking neurons to neural masses and cortical fields. PLoS                     aspartate across the sleep–wake cycle in the medial prefrontal cortex and nucleus
+    Computational Biology 4: e1000092.                                                         accumbens of freely moving rats. Journal of Neuroscience Research 81: 891–9.
+30. Robinson PA, Rennie CJ, Rowe DL (2002) Dynamics of large-scale brain                   60. McCormick DA, Huguenard JR (1992) A model of the electrophysiological
+    activity in normal arousal states and epileptic seizures. Phys Rev E 65: 041924.           properties of thalamocortical relay neurons. Journal of Neurophysiology 68:
+31. Steyn-Ross DA, Steyn-Ross ML, Sleigh JW, Wilson MT, Gillies IP, et al. (2005)              1384–400.
+    The Sleep Cycle Modelled as a Cortical Phase Transition. The Journal of                61. Mittmann T, Alzheimer C (1998) Muscarinic inhibition of persistent Na+
+    Biological Physics 31: 547–569.                                                            current in rat neocortical pyramidal neurons. Journal of Neurophysiology:
+32. Steyn-Ross ML, Steyn-Ross DA, Sleigh JW, Wilson MT (2011) A Mechanism                      1579–1582.
+    for Ultra-Slow Oscillations in the Cortical Default Network. Bulletin of               62. Soma S, Shimegi S (2012) Cholinergic modulation of response gain in the
+    mathematical biology: 73: 398–416.                                                         primary visual cortex of the macaque. Journal of Neurophysiology: 283–291.
+33. Steyn-Ross ML, Steyn-Ross DA, Sleigh JW (2013) Interacting Turing-Hopf                 63. Disney AA, Aoki C, Hawken MJ (2007) Gain modulation by nicotine in
+    Instabilities Drive Symmetry-Breaking Transitions in a Mean-Field Model of the             macaque v1. Neuron: 701–713.
+    Cortex: A Mechanism for the Slow Oscillation. Physical Review X 3: 021005.             64. Polack PO, Friedman J, Golshani P (2013) Cellular mechanisms of brain state-
+34. Steriade M, Nuñez A, Amzica F (1993) A novel slow (,1 hz) oscillation of                  dependent gain modulation in visual cortex. Nature Neuroscience 16: 1331–
+    neocortical neurons in vivo: depolarizing and hyperpolarizing components. The              1339.
+    Journal of Neuroscience 73: 3252–3265.                                                 65. Timmons D, Geisert E, Stewart E, Lorenzon M, Foehring C (2004) Alpha 2 -
+35. Hasselmo ME, Giocomo LM (2006) Cholinergic modulation of cortical function.                Adrenergic receptor-mediated modulation of calcium current in neocortical
+    Journal of Molecular Neuroscience 30: 133–135.                                             pyramidal neurons. Brain Research 1014: 184–196.
+36. Patel AJ, Honoré E, Lesage F, Fink M, Romey G, et al. (1999) Inhalational             66. Thurley K, Senn W, Lüscher H (2008) Dopamine increases the gain of the
+    anesthetics activate two-pore-domain background K+ channels. Nature                        input-output response of rat prefrontal pyramidal neurons. Journal of
+    Neuroscience 2: 422–426.                                                                   Neurophysiology. 99: 2985
+37. Nicoll RA, Malenka RC, Kauer JA (1990) Functional comparison of                        67. Zhang ZW, Arsenault D (2005) Gain modulation by serotonin in pyramidal
+    neurotransmitter receptor subtypes in mammalian central nervous system.                    neurones of the rat prefrontal cortex. The Journal of Physiology 2: 379–394.
+    Physiol Rev 70: 513–565.                                                               68. Mehaffey WH, Doiron B (2005) Deterministic multiplicative gain control with
+38. Talley EM, Bayliss DA (2002) Modulation of TASK-1 (Kcnk3) and TASK-3                       active dendrites. The Journal of Neuroscience 25: 9968–9977.
+    (Kcnk9) potassium channels volatile anesthetics and neurotransmitters share a          69. Gulledge AT, Bucci D (2009) M1 receptors mediate cholinergic modulation of
+    molecular site of action. Journal Biological Chemistry 277: 17733–17742.                   excitability in neocortical pyramidal neurons. The Journal of Neuroscience 29:
+39. Molaee-Ardekani B, Senhadji L, Shamsollahi MB, Vosoughi-Vahdat B, Wodey                    9888–9902.
+    E (2007) Brain activity modeling in general anesthesia: enhancing local mean-          70. Robinson PA, Phillips JK, Fulcher BD, Puckeridge M, Roberts JA (2011)
+    field models using a slow adaptive firing rate. Phys Rev E 76: 41911.                      Quantitative modelling of sleep dynamics. Philos Trans A Math Phys Eng Sci
+40. Loxley PN, Robinson PA (2007) Spike-rate adaptation and neuronal bursting in               369: 3840–3854.
+    a mean-field model of brain activity. Biological Cybernetics 97: 113–122.              71. Benoı̂t E, Callot JL, Diener F, Diener M (1981) Chasse au canard. Collectanea
+41. Ghorbani M, Mehta MR, Bruinsma R, Levine A (2012) Nonlinear-dynamics                       Mathematica 31–32: 37–119.
+    theory of up-down transitions in neocortical neural networks. Phys Rev E 85:           72. Wilson MT, Steyn-Ross ML, Steyn-Ross DA, Sleigh JW (2005) Predictions and
+    021908.                                                                                    simulations of cortical dynamics during natural sleep using a continuum
+42. Wilson MT, Steyn-Ross DA, Sleigh JW, Steyn-Ross ML, Wilcocks L, et al.                     approach. Phys Rev E 72: 51910.
+    (2006) The K-complex and slow oscillation in terms of a mean-field cortical            73. Steriade M, Timofeev I, Grenier F (2001) Natural waking and sleep states: a
+    model. Journal of Computational Neuroscience 21: 243–257.                                  view from inside neocortical neurons. Journal of Neurophysiology 85: 1969–
+43. Curto C, Sakata S, Marguet S, Itskov V, Harris KD (2009) A simple model of                 1985.
+    cortical dynamics explains variability and state dependence of sensory responses       74. Destexhe A, Contreras D, Steriade M (1999) Spatiotemporal analysis of local
+    in urethane-anesthetized auditory cortex. The Journal of Neuroscience 29:                  field potentials and unit discharges in cat cerebral cortex during natural wake
+    10600–12.                                                                                  and sleep states. The Journal of Neuroscience 19: 4595–4608.
+44. Wilson MT, Barry M, Reynolds JNJ, Crump WP, Steyn-Ross AD, et al. (2010)               75. Timofeev I, Grenier F, Steriade M (2001) Disfacilitation and active inhibition in
+    An analysis of the transitions between down and up states of the cortical slow             the neocortex during the natural sleep-wake cycle: an intracellular study.
+    oscillation under urethane anaesthesia. Journal of Biological Physics 36: 245–             Proceedings of the National Academy of Sciences of the United States of
+    259.                                                                                       America 98: 1924–9.
+45. Schwindt PC, Spain WJ, Crill WE (1989) Long-lasting reduction of excitability          76. Chauvette S, Crochet S, Volgushev M, Timofeev I (2011) Properties of slow
+    by a sodium-dependent potassium current in cat neocortical neurons. Journal of             oscillation during slow-wave sleep and anesthesia in cats. The Journal of
+    Neurophysiology 61: 233–244.                                                               Neuroscience 31: 1499815008.
+46. Bischoff U, Vogel W, Safronov BV (1998) Na+-activated K+ channels in small             77. Ji D, Wilson M (2006) Coordinated memory replay in the visual cortex and
+    dorsal root ganglion neurones of rat. The Journal of Physiology 510: 743–54.               hippocampus during sleep. Nature neuroscience 10: 100–107.
+
+
+
+PLOS Computational Biology | www.ploscompbiol.org                                      9                       November 2014 | Volume 10 | Issue 11 | e1003923
+                                                                                                       K-Complexes and Slow Wave Activity in a Neural Mass Model
+
+
+78. Vyazovskiy V, Olcese U, Lazimy Y (2009) Cortical firing and sleep homeostasis.           86. Clement EA, Richard A, Thwaites M, Ailon J, Peters S, et al. (2008) Cyclic and
+    Neuron 63: 865–878.                                                                          sleep-like spontaneous alternations of brain state under urethane anaesthesia.
+79. Deco G, Jirsa VK (2012) Ongoing cortical activity at rest: criticality,                      PLoS ONE 3: e2004.
+    multistability, and ghost attractors. The Journal of Neuroscience 32: 3366–3375.         87. Destexhe A, Sejnowski TJ (2003) Interactions between membrane conductances
+80. Deco G, Martı́ D, Ledberg A (2009) Effective reduced diffusion-models: a data                underlying thalamocortical slow-wave oscillations. Physiological reviews 83:
+    driven approach to the analysis of neuronal dynamics. PLoS Computational                     1401–53.
+    Biology 5: e1000587                                                                      88. Crunelli V, Hughes SW (2010) The slow (,1 Hz) rhythm of non-REM sleep: a
+81. Poskanzer KE, Yuste R (2011) Astrocytic regulation of cortical UP states.                    dialogue between three cardinal oscillators. Nature neuroscience 13: 9–17.
+    Proceedings of the National Academy of Sciences of the United States of                  89. Boustani SE, Destexhe A (2010) Brain dynamics at multiple scales: can one
+    America 108: 18453–8.                                                                        reconcile the apparent low-dimensional chaos of macroscopic variables with the
+82. Amzica F, Steriade M (1998) Electrophysiological correlates of sleep delta waves.            seemingly stochastic behavior of single neurons? International Journal of
+    Electroencephalogr Clin Neurophysiol 107: 6983.                                              Bifurcation and Chaos 20: 1687–1702.
+83. Hromadka T, Zador AM, DeWeese MR (2013) Up states are rare in awake                      90. Evans BM (1976) Patterns of arousal in comatose patients. Journal of Neurology,
+    auditory cortex. Journal of Neurophysiology 109: 1989–1995.
+                                                                                                 Neurosurgery, and Psychiatry 39: 392–402.
+84. Amzica F, Steriade M (1997) Cellular substrates and laminar profile of sleep k-
+                                                                                             91. Sanchez-Vives MV, Mattia M, Compte A, Perez-Zabalza M, Winograd M,
+    complex. Neuroscience 82: 671–686.
+                                                                                                 et al. (2010) Inhibitory modulation of cortical up states. Journal of
+85. Ruiz-Mejias M, Ciria-Suarez L, Mattia M, Sanchez-Vives MV (2011) Slow and
+                                                                                                 Neurophysiology 104: 1314–24.
+    fast rhythms generated in the cerebral cortex of the anesthetized mouse. Journal
+    of Neurophysiology 106: 2910–21.
+
+
+
+
+PLOS Computational Biology | www.ploscompbiol.org                                       10                      November 2014 | Volume 10 | Issue 11 | e1003923
+
