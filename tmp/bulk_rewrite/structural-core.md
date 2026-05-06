@@ -1,7 +1,7 @@
 ---
 title: Structural Core
 created: 2026-04-20
-updated: 2026-04-27
+updated: 2026-05-06
 type: concept
 tags: [connectomics, structural-connectivity, network-dynamics, network-hubs, rich-club]
 sources: [raw/papers/hagmann-2008.md, raw/papers/sporns-2011.md]

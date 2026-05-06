@@ -34,7 +34,7 @@ The broader context for DCAN Tools lies in the growing recognition that [[restin
 
 ### Preprocessing Pipeline
 
-The DCAN preprocessing pipeline (often referred to as DCAN [[fmri]] or the DCAN BIDS processing pipeline) incorporates several specialized steps for pediatric data. The pipeline begins with robust [[motion]] correction using a combination of volume-to-volume registration and ICA-based Automatic Removal of Motion Artifacts (ICA-AROMA, available in the wiki as [[ica-aroma]]). Unlike adult-focused pipelines that may apply standard framewise displacement thresholds, DCAN incorporates motion censoring and scrubbing techniques that adaptively exclude timepoints with excessive motion while preserving as much of the temporal information as possible. This approach is particularly important for pediatric populations where in-scanner motion is more prevalent.
+The DCAN preprocessing pipeline (often referred to as DCAN [[fmri]] or the DCAN BIDS processing pipeline) incorporates several specialized steps for pediatric data. The pipeline begins with robust motion correction using a combination of volume-to-volume registration and ICA-based Automatic Removal of Motion Artifacts (ICA-AROMA, available in the wiki as [[ica-aroma]]). Unlike adult-focused pipelines that may apply standard framewise displacement thresholds, DCAN incorporates motion censoring and scrubbing techniques that adaptively exclude timepoints with excessive motion while preserving as much of the temporal information as possible. This approach is particularly important for pediatric populations where in-scanner motion is more prevalent.
 
 The anatomical processing stream includes a custom infant-tissue-segmentation algorithm that adapts to the developmental timeline of [[white-matter]] myelination. This addresses a limitation of adult-trained segmentation models that can produce biased results when applied to pediatric brains. The pipeline also incorporates registration to age-appropriate templates rather than adult templates, reducing registration failures and improving parcellation accuracy.
 
@@ -52,7 +52,7 @@ DCAN Tools is distributed as a set of BIDS Apps (available in the wiki as [[bids
 
 While DCAN Tools was developed specifically for pediatric developmental neuroimaging and the ABCD Study, it shares conceptual foundations with [[whole-brain-modeling]] approaches implemented in [[the-virtual-brain]] (TVB). Both frameworks are concerned with characterizing [[brain-dynamics]] at the level of large-scale networks, and both leverage [[structural-connectivity]] information—typically derived from [[diffusion-imaging]] tractography—to constrain analyses of functional interactions. DCAN Tools' emphasis on [[resting-state]] [[functional-connectivity]] dynamics complements TVB's simulation-based approach to whole-brain dynamics: DCAN provides empirical characterization of connectivity patterns that can inform parameterization of TVB models, while TVB simulations can generate predictions about developmental trajectories that DCAN-derived data can test.
 
-In practice, researchers working with TVB may use DCAN Tools for preprocessing their empirical [[neuroimaging-fmri]] data before extracting time series for brain region parcellations that feed into TVB Connectome viewers. The [[bids]] compliance of both DCAN Tools and TVB's data adapters facilitates this integration. Furthermore, DCAN's network analysis capabilities—particularly its implementation of [[graph-theory]] metrics for characterizing brain network organization—provide complementary analytical perspectives to TVB's simulation-driven approach to understanding [[network-dynamics]].
+In practice, researchers working with TVB may use DCAN Tools for preprocessing their empirical [[neuromorpho-toolkit]] data before extracting time series for brain region parcellations that feed into TVB Connectome viewers. The [[bids]] compliance of both DCAN Tools and TVB's data adapters facilitates this integration. Furthermore, DCAN's network analysis capabilities—particularly its implementation of [[graph-theory]] metrics for characterizing brain network organization—provide complementary analytical perspectives to TVB's simulation-driven approach to understanding [[network-dynamics]].
 
 ## Key Papers
 
@@ -70,4 +70,4 @@ The canonical publications describing DCAN Tools include the methodological pape
 
 ## References
 
-1. (authors unknown). *Function in the Human [[connectome]]: Task-fMRI and Individual Differences in Behavior*.
+1. (authors unknown). *Function in the Human [[connectome]]: Task-FMRI and Individual Differences in Behavior*.

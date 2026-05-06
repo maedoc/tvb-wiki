@@ -23,7 +23,7 @@ updated: '2026-05-06'
 
 PyNN provides:
 - Unified Python API for spiking [[neural-network]] specification
-- Backends for [[nest]], [[neuron]], [[brian]], and other simulators
+- Backends for [[nest]], [[neuron]], [[brian2]], and other simulators
 - Standardized neuron and synapse models
 - Network topology and [[connectivity]] specification
 - Recording and data analysis tools
@@ -54,7 +54,7 @@ PyNN and TVB operate at different scales but are complementary:
 
 - [[nest]] — primary large-scale backend for PyNN
 - [[neuron]] — detailed morphological backend
-- [[brian]] — Python-native, rapid prototyping backend
+- [[brian2]] — Python-native, rapid prototyping backend
 - [[neuroml2]] — model exchange format compatible with both PyNN and TVB
 - [[sonata]] — network description format used by both ecosystems
 

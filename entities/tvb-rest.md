@@ -15,7 +15,7 @@ type: entity
 updated: '2026-05-06'
 ---
 
-TVB-[[rest]] is the application programming interface (API) layer of [[tvb|The Virtual Brain]] that enables programmatic interaction with the TVB simulation engine via HTTP requests. As a RESTful web service, TVB-REST allows researchers to remotely launch brain simulations, retrieve results, manage datasets, and integrate TVB functionality into custom workflows without requiring direct Python execution on the local machine [@Sanz-LeonEtAl-2015]. This architectural choice positions TVB as not merely a desktop application but as a cloud-ready [[neuroimaging]] platform capable of supporting distributed [[whole-brain|whole-brain modeling]] workflows across institutional research environments.
+TVB-[[tvb-rest]] is the application programming interface (API) layer of [[tvb|The Virtual Brain]] that enables programmatic interaction with the TVB simulation engine via HTTP requests. As a RESTful web service, TVB-REST allows researchers to remotely launch brain simulations, retrieve results, manage datasets, and integrate TVB functionality into custom workflows without requiring direct Python execution on the local machine [@Sanz-LeonEtAl-2015]. This architectural choice positions TVB as not merely a desktop application but as a cloud-ready [[neuroimaging]] platform capable of supporting distributed [[whole-brain|whole-brain modeling]] workflows across institutional research environments.
 
 ## Motivation and Context
 
@@ -56,4 +56,4 @@ Deploying TVB-REST requires a server environment with sufficient computational r
 
 1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
 2. Leon Martin, Konstantin Bülau, Marius Pille, Rico Schmitt, Christoph Hüttl, J. Meier, Halgurd Taher, Dionysios Perdikis, M. Schirner, L. Stefanovski, [[petra-ritter]]. (2025). *The Virtual Brain Ontology: A Digital Knowledge Framework for Reproducible [[brain-network]] Modeling*. bioRxiv. [DOI](](https://doi.org/10.1101/2025.11.19.689211))
-3. Amirreza Movahedin, Lennart P. L. Landsmeer, Christos Strydis. (2025). *HUMA: Heterogeneous, Ultra Low-Latency Model Accelerator for The Virtual Brain on a Versal Adaptive SoC*. Symposium on Field Programmable Gate Arrays. [DOI](](https://doi.org/10.1145/3706628.3708875))
+3. Amirreza Movahedin, Lennart P. L. Landsmeer, Christos Strydis. (2025). *HUMA: Heterogeneous, Ultra Low-Latency Model Accelerator for The Virtual Brain on a Versal Adaptive SoC*. Symposium on Field Programmable Gate Arrays. [DOI](https://doi.org/10.1145/3706628.3708875))

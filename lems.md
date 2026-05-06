@@ -1,7 +1,7 @@
 ---
 title: LEMS
 created: 2024-01-15
-updated: 2026-05-03
+updated: 2026-05-06
 type: concept
 tags: [computational-neuroscience, neural-mass-models, dynamical-systems-theory, software-neuroml, software-brian, software-neuron, spiking-neural-networks]
 sources: []

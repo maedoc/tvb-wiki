@@ -45,7 +45,7 @@ Moreover, MELODIC's artifact classification capabilities (via FIX or ICA-AROMA) 
 - Beckmann, C. F., & Smith, S. M. (2004). Probabilistic ICA for fMRI. *NeuroImage* [beckmann2004probabilistic]
 - Beckmann, C. F., DeLuca, M., Devlin, J. T., & Smith, S. M. (2005). Investigations into resting-state connectivity using independent component analysis. *Philosophical Transactions of the Royal Society B* [beckmann2005temporal]
 - Salimi-Khorshidi, G., Douaud, G., Beckmann, C. F., Glasser, M. F., Griffanti, L., & Smith, S. M. (2014). Automatic denoising of [[neuroimaging-fmri|functional MRI]] data: Integrating ICA-AROMA and alternative strategies. *Frontiers in Neuroscience* [salimi2014automatic]
-- Smith, S. M., Fox, P. T., Miller, K. L., Glahn, D. C., Fox, P. M., Mackay, C. E., ... & Beckmann, C. F. (2009). Correspondence of the brain's functional architecture during activation and [[rest]]. *Proceedings of the National Academy of Sciences* [smith2009resting]
+- Smith, S. M., Fox, P. T., Miller, K. L., Glahn, D. C., Fox, P. M., Mackay, C. E., ... & Beckmann, C. F. (2009). Correspondence of the brain's functional architecture during activation and [[tvb-rest]]. *Proceedings of the National Academy of Sciences* [smith2009resting]
 - Hyvärinen, A. (1999). Fast and robust fixed-point algorithms for independent component analysis. *IEEE Transactions on Neural Networks* [hyvarinen1999fast]
 - McEvoy, L. K., Smith, M. E., & Storey, J. D. (2000). Linear dimensionality reduction. *Advances in Neural Information Processing Systems* [mcevoy2000linear]
 
@@ -71,6 +71,6 @@ While MELODIC remains the most widely cited ICA tool for fMRI, several alternati
 
 ## References
 
-1. Dionysios Perdikis, Rita Sleimen-Malkoun, Viktor Müller, V. Jirsa. (2025). *Developmental and [[aging]] changes in brain network switching dynamics revealed by EEG phase synchronization*. bioRxiv. [DOI](](https://doi.org/10.1371/journal.pcbi.1013290))
-2. Winn W Chow, A. Seghouane, M. Seghier. (2025). *A Statistical Characterization of Dynamic Brain Functional Connectivity*. Human Brain Mapping. [DOI](](https://doi.org/10.1002/hbm.70145))
-3. Diego Derman, Damon D. Pham, Amanda F. Mejia, Silvina L. Ferradal. (2025). *Individual patterns of functional connectivity in neonates as revealed by surface-based [[bayesian]] modeling*. Imaging neuroscience. [DOI](](https://doi.org/10.1162/imag_a_00504))
+1. Dionysios Perdikis, Rita Sleimen-Malkoun, Viktor Müller, V. Jirsa. (2025). *Developmental and [[aging]] changes in brain network switching dynamics revealed by EEG phase synchronization*. bioRxiv. [DOI](https://doi.org/10.1371/journal.pcbi.1013290))
+2. Winn W Chow, A. Seghouane, M. Seghier. (2025). *A Statistical Characterization of Dynamic Brain Functional Connectivity*. Human Brain Mapping. [DOI](https://doi.org/10.1002/hbm.70145))
+3. Diego Derman, Damon D. Pham, Amanda F. Mejia, Silvina L. Ferradal. (2025). *Individual patterns of functional connectivity in neonates as revealed by surface-based [[bayesian]] modeling*. Imaging neuroscience. [DOI](https://doi.org/10.1162/imag_a_00504))

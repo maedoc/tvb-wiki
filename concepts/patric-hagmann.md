@@ -12,7 +12,7 @@ tags:
 - patric-hagmann
 title: Patric Hagmann
 type: concept
-updated: '2026-05-05'
+updated: '2026-05-06'
 ---
 
 Patric Hagmann — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
@@ -23,7 +23,7 @@ Patric Hagmann — a concept in [[whole-brain|whole-brain modeling]] and [[compu
 ## References
 
 1. (authors unknown). *Emergence of Scaling in [[random-networks]]*.
-2. Deco et al. (2013). *Resting brains never [[rest]]: computational insights into potential cognitive architectures*. Trends in Neurosciences. [DOI](](https://doi.org/10.1016/j.tins.2013.09.002))
+2. Deco et al. (2013). *Resting brains never [[tvb-rest]]: computational insights into potential cognitive architectures*. Trends in Neurosciences. [DOI](](https://doi.org/10.1016/j.tins.2013.09.002))
 3. (authors unknown). *[[functional-connectivity]]: The Principal-Component Analysis of Large (PET and [[fmri]]) Data Sets*.
 4. (authors unknown). *[[nonlinear-dynamics]] and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering*.
 5. Kashyap Gudibanda, J. Fousek, S. Petkoski, V. Jirsa. (2026). *The role of [[connectivity]] for the degeneracy of the brain’s [[resting-state]] dynamics*. Journal of Computational Neuroscience. [DOI](](https://doi.org/10.1007/s10827-025-00919-0))

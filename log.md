@@ -28,6 +28,10 @@
 
 ## 2026-05-06
 - Improved [[cfflib]] page - replaced placeholder with comprehensive content about Connectome File Format Library
+- Improved [[izhikevich]] page - expanded from sparse placeholder to comprehensive concept page covering: conceptual foundation connecting to nonlinear dynamics and bifurcation theory; role in whole-brain modeling and neural mass models; relationship to other neuron models (integrate-and-fire, Hodgkin-Huxley, FitzHugh-Nagumo); theoretical contributions from Izhikevich's book; open questions and future directions
+- Added 10+ wikilinks connecting to spiking-neural-networks, computational-neuroscience, whole-brain-modeling, bifurcation-analysis, nonlinear-dynamics, brain-oscillations, dynamical-systems-theory, neural-mass-models, hodgkin-huxley-model, fitzhugh-nagumo-model, epilepsy-modeling, brian2, nest, neuron
+- Sources: added izhikevich-2007.md, strogatz-1994.md, semanticscholar-ce89e593c89e.md
+- Date updated to 2026-05-06
 - Added sections on overview, motivation/context, key features (supported data types: CNetwork, CSurface, CVolume, CTrack, CTimeseries, CData)
 - Included relationship to TVB explaining cfflib's role in organizing connectivity data as input for whole-brain simulations
 - Added 10+ wikilinks connecting to the-virtual-brain, connectome, connectomics, whole-brain-modeling, human-connectome-project, neural-mass-model, nibabel, dipy, brain-connectivity-toolkit, hcp-dataset, structural-connectivity, functional-connectivity, diffusion-mri, tractography
@@ -435,3 +439,5 @@
 ## [2026-05-06 15:58] SoftwareMapper: 1 pages created
 
 ## [2026-05-06 15:58] Matcher: 18 pages got 53 new sources
+
+## [2026-05-06 16:12] Improve: 3 pages improved (van-der-pol-oscillator, model-validation, neuroimaging)

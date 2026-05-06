@@ -22,7 +22,7 @@ updated: '2026-05-06'
 
 NiftyNet is an open-source deep learning framework for medical image analysis and computer-assisted intervention, built on [[tensorflow]]. Developed at UCL's Centre for Medical Image Computing (CMIC), NiftyNet provides a modular platform for implementing and evaluating deep learning approaches in [[neuroimaging]], specifically designed to handle the unique challenges of medical imaging data. The framework supports tasks including semantic segmentation, image regression, and autoencoder-based representation learning, abstracting common medical imaging deep learning workflows to enable researchers to focus on network architectures and clinical applications (Gibson et al., 2018).
 
-> **Status Note:** NiftyNet has been archived since approximately 2020 with no active development. While its modular design and educational value remain relevant for understanding medical imaging deep learning architecture, newer frameworks like [[nnU-Net]] have superseded it in benchmark performance through automatic hyperparameter optimization and cross-validation strategies (Isensee et al., 2021).
+> **Status Note:** NiftyNet has been archived since approximately 2020 with no active development. While its modular design and educational value remain relevant for understanding medical imaging deep learning architecture, newer frameworks like [[nnu-net]] have superseded it in benchmark performance through automatic hyperparameter optimization and cross-validation strategies (Isensee et al., 2021).
 
 ## Overview
 
@@ -73,7 +73,7 @@ Segmentation outputs from NiftyNet—region masks, tissue labels, and lesion map
 - [[fsl-melodic]] — Comprehensive neuroimaging suite with BET and FAST segmentation tools
 - [[pysurfer]] — Surface‑based reconstruction and cortical parcellation
 - [[deepmedic]] — Brain lesion segmentation architecture, implemented within NiftyNet
-- [[nnU-Net]] — Self‑configuring deep learning framework, successor approach to NiftyNet with current benchmark performance (Isensee et al., 2021)
+- [[nnu-net]] — Self‑configuring deep learning framework, successor approach to NiftyNet with current benchmark performance (Isensee et al., 2021)
 
 ## Related Concepts
 

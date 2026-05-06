@@ -21,7 +21,7 @@ The LEMS language emerged from this need, initially developed by Robert Cannon a
 
 ## Technical Framework
 
-A LEMS model is structured as a collection of ComponentType definitions, each describing a class of biological entity. Each ComponentType specifies a set of parameters (fixed constants), state variables (dynamic quantities that evolve over time), and the equations governing their evolution. For example, a simple leaky integrate-and-fire neuron might be defined in LEMS with parameters for membrane resistance ($R_m$), capacitance ($C_m$), and resting potential ($V_{[[rest]]}$), a state variable for membrane potential ($V_m$), and a differential equation:
+A LEMS model is structured as a collection of ComponentType definitions, each describing a class of biological entity. Each ComponentType specifies a set of parameters (fixed constants), state variables (dynamic quantities that evolve over time), and the equations governing their evolution. For example, a simple leaky integrate-and-fire neuron might be defined in LEMS with parameters for membrane resistance ($R_m$), capacitance ($C_m$), and resting potential ($V_{[[tvb-rest]]}$), a state variable for membrane potential ($V_m$), and a differential equation:
 
 $$\tau_m \frac{dV_m}{dt} = -(V_m - V_{rest}) + R_m I_{syn}$$
 
