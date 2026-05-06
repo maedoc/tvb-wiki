@@ -17,7 +17,7 @@ tags:
 - epilepsy-modeling
 title: Neural Mass Models
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 ## Definition
@@ -26,9 +26,9 @@ Neural mass models (NMMs) are mathematical models that represent the collective 
 
 ## Role in Whole-Brain Modeling
 
-In the context of [[whole-brain]] modeling, neural mass models serve as the fundamental dynamical unit that is embedded in a network defined by [[structural-connectivity]] matrices derived from diffusion imaging and tractography. Each brain region is represented by a neural mass model whose state evolves over time according to its intrinsic dynamics and the inputs it receives from other regions via the connectome. The resulting simulations produce synthetic [[functional-connectivity]] patterns that can be compared with empirically observed [[resting-state]] networks measured via [[fmri]], [[eeg]], [[meg]], or the [[meg-eeg-toolbox]].
+In the context of [[whole-brain]] modeling, neural mass models serve as the fundamental dynamical unit that is embedded in a network defined by [[structural-connectivity]] matrices derived from diffusion imaging and tractography. Each brain region is represented by a neural mass model whose state evolves over time according to its intrinsic dynamics and the inputs it receives from other regions via the connectome. The resulting simulations produce synthetic [[functional-connectivity]] patterns that can be compared with empirically observed [[resting-state]] networks measured via [[fmri]] [[hrf]], [[eeg]], [[meg]], or the [[meg-eeg-toolbox]].
 
-The appeal of neural mass models for whole-brain simulations lies in their computational efficiency. A single neural mass model typically requires only 3–8 state variables and can be integrated in real-time or faster on modest hardware. When coupled across 68–360 brain regions (depending on the [[parcellation]] used), whole-brain simulations using neural mass models can complete in minutes rather than the hours or days required by [[spiking-neural-networks]] that simulate individual neurons. This efficiency enables parameter sweeps, [[bifurcation-analysis]], and clinical applications such as [[personalized-brain-modeling]] for epilepsy Surgical planning.
+The appeal of neural mass models for whole-brain simulations lies in their computational efficiency. A single neural mass model typically requires only 3–8 state variables and can be integrated in real-time or faster on modest hardware. When coupled across 68–360 brain regions (depending on the [[parcellation]] used), whole-brain simulations using neural mass models can complete in minutes rather than the hours or days required by [[spiking-neural-networks]] (for which the [[lfpykern]] library offers LFP computation tools) that simulate individual neurons. This efficiency enables parameter sweeps, [[bifurcation-analysis]], and clinical applications such as [[personalized-brain-modeling]] for epilepsy Surgical planning.
 
 ## Mathematical Framework
 
@@ -85,3 +85,43 @@ Despite their widespread use, neural mass models face several open questions. Th
 3. Hugh R. Wilson, Jack D. Cowan. *Excitatory and inhibitory interactions in localized populations of model neurons*. Biophysical Journal. [DOI](https://doi.org/10.1016/S0006-3495(72)86068-5)
 4. Rosa Maria Delicado, Gemma Huguet, Pau Clusella. (2025). *Emergent Spatiotemporal Dynamics in Large-Scale Brain Networks with Next Generation Neural Mass Models*. [Link](https://arxiv.org/abs/2512.03907)
 5. (authors unknown). *[[nonlinear-dynamics]] and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering*.
+
+## ORPHAN PAGE CONTEXT (hrf)
+---
+created: 2026-05-04
+sources:
+- raw/papers/friston-1998-hrf.md
+- raw/papers/glover-1999-hrf.md
+tags:
+- neuroimaging-fmri
+- neural-mass-models
+- dynamical-systems-theory
+- brain-dynamics
+type: concept
+updated: '2026-05-06'
+---
+
+# HRF
+
+## Overview
+
+The **[[hemodynamic-response-function]] (HRF)** describes the change in blood oxygen level-dependent (BOLD) signal that follows neural activity in the brain, measured via functional magnetic resonance imaging ([[fmri]]). When neurons fire, they consu
+
+## ORPHAN PAGE CONTEXT (lfpykern)
+---
+created: 2024-03-15
+sources:
+- raw/papers/arxiv-2505.16861.md
+- raw/papers/semanticscholar-eb704b6f5462.md
+- raw/papers/semanticscholar-bceb6bea8311.md
+tags:
+- software
+- lfp
+- volume-conduction
+- computational-neuroscience
+title: LFPykern
+type: entity
+updated: '2026-05-05'
+---
+
+LFPykern is a Python library for computing local field potentials (LFPs) from spiking neural network simulations. The software implements a kernel-based approach to calculating the extracellular electric potential re

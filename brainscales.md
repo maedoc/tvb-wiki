@@ -1,7 +1,7 @@
 ---
 title: BrainScaleS
 created: 2024-01-15
-updated: 2026-05-05
+updated: 2026-05-06
 type: entity
 tags: [neuromorphic-computing, spiking-neural-networks, adaptive-exponential-integrate-and-fire, neural-mass-models, software-neurom, computational-neuroscience, hardware-implementation, whole-brain-simulators]
 sources:

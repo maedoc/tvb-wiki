@@ -1,7 +1,7 @@
 ---
 title: Allen SDK
 created: 2025-01-15
-updated: 2026-04-30
+updated: 2026-05-06
 type: entity
 tags: [software-brain-modeling, database-hcp, neuroimaging, connectomics, software-visualization]
 sources:

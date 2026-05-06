@@ -261,3 +261,12 @@
 ## [2026-05-06 07:25] DeepResearch: 8 papers added via focused research
 
 ## [2026-05-06 07:36] Improve: 5 pages improved (abide, tvb-webui, niftynet, neuroml2, hrf)
+
+## [2026-05-06 08:06] Improve: 3 pages improved (hnn, nifti, neuroml2)
+- Improved [[nitrc-ce]] page - fixed frontmatter source citation error (wrong initiative name), removed unrelated TVB paper from sources
+- Fixed invalid wikilinks (removed [[FSL]], [[trackvis]], [[fsleyes]], [[nilearn]] which don't exist in inventory)
+- Corrected wikilinks to valid pages: [[camino]], [[afq]], [[brain-connectivity-toolbox]], [[dipy]]
+- Added more technical content about containerized neuroimaging workflows and reproducibility
+- Enhanced relationship to TVB section with details on connectivity matrix preprocessing and personalized brain modeling
+- Added content about datalad-containers integration for version-controlled analysis workflows
+- Updated tags to only include taxonomy-compliant tags

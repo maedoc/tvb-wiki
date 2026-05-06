@@ -26,10 +26,10 @@ tags:
 - bifurcation-analysis
 title: Whole-Brain Modeling
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
-Whole-brain modeling is a computational neuroscience approach that represents the brain as a network of coupled regions, each governed by detailed neuronal or neural mass dynamics, with regional interactions constrained by empirical [[structural connectivity]] estimates derived from [[diffusion-mri]] or tractography. This methodology enables the simulation of large-scale brain dynamics and the generation of synthetic neuroimaging data—including [[fMRI]], [[EEG]], and [[MEG]] signals—that can be directly compared to empirical recordings. The approach bridges the gap between microscopic neuronal mechanisms and macroscopic brain-wide activity patterns observed in human neuroimaging studies.
+Whole-brain modeling is a computational neuroscience approach that represents the brain as a network of coupled regions, each governed by detailed neuronal or neural mass dynamics, with regional interactions constrained by empirical [[structural connectivity]] estimates derived from [[diffusion-mri]] (or using tools such as [[hd-bet]] for brain extraction) or tractography. This methodology enables the simulation of large-scale brain dynamics and the generation of synthetic neuroimaging data—including [[fMRI]], [[EEG]], and [[MEG]] signals—that can be directly compared to empirical recordings. The approach bridges the gap between microscopic neuronal mechanisms and macroscopic brain-wide activity patterns observed in human neuroimaging studies.
 
 ## Motivation and Scientific Context
 
@@ -59,7 +59,8 @@ Whole-brain models exhibit rich dynamical repertoire including [[bifurcation-ana
 
 ## Software and Implementation
 
-The [[tvb]] platform has become the most widely adopted software for whole-brain modeling, providing Python-based tools for constructing brain networks, simulating diverse neural mass models, and generating synthetic neuroimaging data across modalities. Alternative frameworks include [[nest]] (NEural Simulation Tool) for spiking network implementations, Brian and Brian2 for flexible neuronal modeling, and custom implementations in MATLAB or C++. Model parameter estimation typically involves fitting model-generated functional connectivity correlations to empirical [[resting-state]] or task-based [[fMRI]] or EEG recordings using optimization routines or [[variational-bayes]] inference.
+The [[tvb]] platform has become the most widely adopted software for whole-brain modeling, providing Python-based tools for constructing brain networks, simulating diverse neural mass models, and generating synthetic neuroimaging data across modalities.
+[[ Allen SDK]] Alternative frameworks include [[nest]] (NEural Simulation Tool) for spiking network implementations, Brian and Brian2 for flexible neuronal modeling, and custom implementations in MATLAB or C++. Model parameter estimation typically involves fitting model-generated functional connectivity correlations to empirical [[resting-state]] or task-based [[fMRI]] or EEG recordings using optimization routines or [[variational-bayes]] inference.
 
 ## Applications and Open Questions
 
