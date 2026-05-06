@@ -11,7 +11,7 @@ tags:
 - computational-neuroscience
 title: FitLins
 type: entity
-updated: '2026-05-05'
+updated: '2026-05-06'
 ---
 
 # FitLins
@@ -22,7 +22,7 @@ FitLins (Fitting Linear Models) is a Python software package designed for model-
 
 ## Motivation and Context
 
-The proliferation of BIDS-compliant neuroimaging datasets has dramatically improved data sharing and reproducibility in the field, yet a gap remained between preprocessing pipelines like [[fMRIprep]] and the statistical modeling steps required for hypothesis testing. Researchers traditionally relied on interactive tools such as [[SPM]] or custom Python scripts to specify and estimate GLM models, which introduced inconsistency across studies and labs. FitLins was developed to fill this gap by providing a fully configurable, pipeline-compatible solution that reads BIDS-organized data, extracts model specifications from sidecar files, and produces design matrices and contrast maps that can be analyzed using tools like Nilearn for group-level inference or exported to formats compatible with [[FSL]] randomise for non-parametric inference.
+The proliferation of BIDS-compliant neuroimaging datasets has dramatically improved data sharing and reproducibility in the field, yet a gap remained between preprocessing pipelines like [[fMRIprep]] and the statistical modeling steps required for hypothesis testing. Researchers traditionally relied on interactive tools such as SPM or custom Python scripts to specify and estimate GLM models, which introduced inconsistency across studies and labs. FitLins was developed to fill this gap by providing a fully configurable, pipeline-compatible solution that reads BIDS-organized data, extracts model specifications from sidecar files, and produces design matrices and contrast maps that can be analyzed using tools like Nilearn for group-level inference or exported to formats compatible with [[FSL]] randomise for non-parametric inference.
 
 The tool emerged from the broader movement toward fully reproducible neuroimaging pipelines, following the success of preprocessing workflows in establishing standardized practices. By decoupling model estimation from the interactive analysis environment, FitLins enables researchers to version-control their analysis specifications, run identical models across multiple datasets, and integrate GLM estimation into automated workflows managed by tools like [[snakemake]] or [[nipype]]. This approach is particularly valuable for large-scale analyses involving multiple subjects or datasets, such as those from the [[UK-biobank]] or [[HCP-dataset]], where manual model specification becomes impractical.
 
@@ -42,7 +42,7 @@ Users should note several technical requirements when deploying FitLins in their
 
 ## Related Software
 
-FitLins operates within a broader ecosystem of BIDS‑compatible neuroimaging tools. Key related packages include [[fMRIprep]] for preprocessing, Nilearn for statistical modeling, [[nipype]] for pipeline orchestration, [[FSL]] for randomise‑based non‑parametric inference, and [[SPM]] for traditional GLM analysis. The tool also complements BIDS validation utilities like [[bids-derivatives]] and derivative processing tools such as [[ciftify]] for surface‑based analyses.
+FitLins operates within a broader ecosystem of BIDS‑compatible neuroimaging tools. Key related packages include [[fMRIprep]] for preprocessing, Nilearn for statistical modeling, [[nipype]] for pipeline orchestration, [[FSL]] for randomise‑based non‑parametric inference, and SPM for traditional GLM analysis. The tool also complements BIDS validation utilities like [[bids-derivatives]] and derivative processing tools such as [[ciftify]] for surface‑based analyses.
 
 ## Key Papers
 

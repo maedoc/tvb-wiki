@@ -1,7 +1,7 @@
 ---
 title: CRCNS
 created: 2024-01-15
-updated: 2026-05-05
+updated: 2026-05-06
 type: entity
 tags: [funding-project, computational-neuroscience, reproducibility, people-researcher, lab-institute]
 sources:
@@ -45,7 +45,7 @@ CRCNS has played an indirect but meaningful role in the development of [[the-vir
 - [[human-connectome-project]] — Major neuroimaging dataset initiative
 - [[ebrains]] — European research infrastructure for brain simulation
 - [[open-source-brain]] — Platform for collaborative computational neuroscience model development
-- [[modeldb]] — Database of computational neuroscience models
+- [[model-validation]] — Database of computational neuroscience models
 - [[neuroscience-gateway]] — NSF-funded computing resource for neuroscience
 
 ## Key Publications
