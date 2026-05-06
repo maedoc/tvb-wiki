@@ -319,7 +319,6 @@ AGENTS = [
     ('Librarian',      LIBRARIAN_INTERVAL,             run_librarian),
     ('Linter',         LINTER_INTERVAL,                run_linter),
     ('SoftwareMapper', SOFTWARE_MAPPER_INTERVAL,       run_software_mapper),
-    ('SoftwareMapper', SOFTWARE_MAPPER_INTERVAL,       run_software_mapper),
     ('OrphanLinker',   ORPHAN_LINKER_INTERVAL,         run_orphan_linker),
     ('FullTextFetcher', FULL_TEXT_INTERVAL,             run_full_text_fetcher),
     ('LinkRepair',     REPAIRER_INTERVAL,                run_link_repair),
