@@ -47,3 +47,11 @@ Similarly, transitions between wakefulness and sleep involve changes in neuromod
 ## Relationship to TVB
 
 In [[the-virtual-brain]] workflows, bifurcation analysis informs the default parameter regimes used in whole-brain simulations. The software includes implementations of neural mass models (such as the [[jansen-rit-model]] and [[wong-wang-model]]) where users can explore how changes in local model parameters and structural connectivity weights shift the system toward or away from bifurcation boundaries. Visualization tools within TVB allow inspection of criticality metrics, and the integration with tools like AUTO-07P enables advanced users to perform formal bifurcation analyses on reduced models derived from their connectomes. The theoretical framework linking healthy brain dynamics to operation near critical bifurcation points directly motivates TVB's approach to personalized brain modeling, where individual structural connectivity matrices are used to configure models that capture both normal and pathological dynamical regimes.
+
+## References
+
+[1] Izhikevich, E. M. (2007). *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*. MIT Press.
+
+[2] Deco, G., Jirsa, V. K., & McIntosh, A. R. (2012). Emerging concepts for the dynamical organization of resting-state activity in the brain. *Nature Reviews Neuroscience*, 13(1), 43–56. https://doi.org/10.1038/nrn3241
+
+[3] Doedel, E. J., Champneys, A., Dercole, F., Fairgrieve, T. F., Kuznetsov, Y. A., Oldeman, B. E., Paffenroth, R., Sandstede, B., Wang, X. J., & Zhang, C. H. (2009). *AUTO-07P: Continuation and Bifurcation Software for Ordinary Differential Equations*. Technical Report, Concordia University.
