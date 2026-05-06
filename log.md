@@ -230,3 +230,7 @@
 - Included 10+ wikilinks connecting to the-virtual-brain, jansen-rit-model, wong-wang-model, bold-model, neuroimaging-fmri, functional-connectivity, effective-connectivity, dynamic-causal-modeling, brain-oscillations, whole-brain-modeling, personalized-brain-modeling
 - Updated frontmatter: changed type from entity to concept, added proper tags (neuroimaging-fmri, neural-mass-models, dynamical-systems-theory, brain-dynamics), added 2 source papers
 - Content covers: neurovascular coupling, canonical HRF models, gamma function mathematics, HRF estimation and deconvolution, TVB forward modeling
+
+## [2026-05-06 07:20] FullTextFetcher: fetched 2 new full texts (8 total in corpus)
+
+## [2026-05-06 07:20] Audit: 894 issues (98 broken links, 54 orphans, 22 placeholders, 0 dup-refs, 5 bad-meta, 85 citation-verify, 10 opaque-refs, 73 thin, 352 missing-links)
