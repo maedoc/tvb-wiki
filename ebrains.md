@@ -42,7 +42,7 @@ The EBRAINS architecture comprises several interconnected layers: a data layer h
 
 ## Related Software and Platforms
 
-EBRAINS integrates with numerous software tools in the computational neuroscience ecosystem. For neuroimaging analysis, the platform supports [[nilearn]] and [[nipype]] for pipeline construction, along with [[mne-python]] for electrophysiology data processing. Simulation platforms including [[neuron]], [[arbor]], and [[carlsim]] are available for detailed neural modeling. Visualization tools like [[brainnet-viewer]] and [[connectome-workbench]] enable exploration of connectomic datasets. The infrastructure also provides access to databases including [[neuromorpho]] for morphological data and [[modeldb]] for computational models.
+EBRAINS integrates with numerous software tools in the computational neuroscience ecosystem. For neuroimaging analysis, the platform supports [[nilearn]] and [[nipype]] for pipeline construction, along with [[mne-python]] for electrophysiology data processing. Simulation platforms including [[neuron]], [[arbor]], and [[carlsim]] are available for detailed neural modeling. Visualization tools like [[brainnet-viewer]] and [[connectome-workbench]] enable exploration of connectomic datasets. The infrastructure also provides access to databases including [[neuromorpho]] for morphological data and [[ModelDB]] for computational models.
 
 ## External Relationships
 

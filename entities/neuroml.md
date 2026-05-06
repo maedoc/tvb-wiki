@@ -80,7 +80,7 @@ In the context of whole-brain simulations, NeuroML can serve as a specification 
 
 NeuroML occupies a niche similar to but distinct from other model specification approaches in computational neuroscience. [[nestml]] represents an alternative domain-specific language focused specifically on neuron and synapse modeling, generating optimized code for multiple simulator targets [[source-separation]]. Unlike NeuroML's XML-based declarative approach, NESTML employs a more procedural specification style with automatic code generation. [[pynn]] provides a Python-based API for simulator-independent network specification that overlaps in scope with NeuroML's network layer, though PyNN emphasizes programmatic model construction over declarative specification.
 
-The [[open-source-brain]] platform serves as a repository for NeuroML models, enabling community contribution and sharing of validated specifications source [4]. This resource complements the model sharing capabilities of [[modeldb]] and similar repositories by providing simulator-ready specifications in a standardized format.
+The [[open-source-brain]] platform serves as a repository for NeuroML models, enabling community contribution and sharing of validated specifications source [4]. This resource complements the model sharing capabilities of [[ModelDB]] and similar repositories by providing simulator-ready specifications in a standardized format.
 
 ## Current Status and Open Questions
 

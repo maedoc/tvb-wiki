@@ -30,7 +30,7 @@ NEURON provides tools for building and simulating biophysically detailed models 
 - **Implicit numerical methods**: Efficient handling of stiff differential equations
 - **hoc and Python interfaces**: Scripting for model construction and control
 - **Parallel network simulation**: Large-scale network models
-- **[[modeldb]] integration**: Direct sharing and access to published models
+- **[[ModelDB]] integration**: Direct sharing and access to published models
 
 ## Applications
 

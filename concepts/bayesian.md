@@ -45,7 +45,7 @@ Bayesian methods are central to TVB [[model-validation]] and personalization:
 
 - [[variational-bayes]] — approximate Bayesian inference for large models
 - [[dynamic-causal-modeling]] — Bayesian framework for effective connectivity
-- [[modeldb]] — comparing alternative brain models
+- [[ModelDB]] — comparing alternative brain models
 - [[connectomedb]] — inferring connectivity from data
 
 ## References

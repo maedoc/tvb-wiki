@@ -73,5 +73,5 @@ The connectome provides the anatomical scaffold upon which brain dynamics unfold
 1. (authors unknown). *The Human Connectome: A Structural Description of the Human Brain*.
 2. (authors unknown). *The WU-Minn Human Connectome Project: An Overview*.
 3. (authors unknown). *Functional Network Organization of the Human Brain*.
-4. (authors unknown). *Correspondence of the brain's functional architecture during activation and [[rest]]*.
+4. (authors unknown). *Correspondence of the brain's functional architecture during activation and [[tvb-rest]]*.
 5. (authors unknown). *Functional Connectomics from Resting-State fMRI*.

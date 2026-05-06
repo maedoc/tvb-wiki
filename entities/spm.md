@@ -61,7 +61,7 @@ SPM's DCM is particularly relevant to TVB:
 
 - [[fsl]] — alternative fMRI analysis
 - [[eeglab]] — alternative EEG analysis
-- [[fieldtrip]] — alternative MEG/EEG analysis
+- fieldtrip — alternative MEG/EEG analysis
 - [[the-virtual-brain]] — [[whole-brain]] simulation using DCM-derived connectivity
 
 ## References
