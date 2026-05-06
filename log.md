@@ -1,5 +1,17 @@
 # TVB Wiki Log
 
+## 2026-05-07 - Entry #3
+- Action: Created neuroimaging-pet page
+- Details: Comprehensive concept page covering:
+  - Definition of PET and its physical/physiological basis
+  - Role in functional connectivity research (including Friston et al. 1993)
+  - Relationship to whole-brain modeling and TVB
+  - Advantages and limitations compared to other neuroimaging modalities
+  - Multi-modal integration with fMRI, EEG, MEG
+- Sources added: raw/papers/friston-1993.md, raw/papers/sanz-leon-2013.md, raw/papers/schirner-2018.md
+- Tags: neuroimaging-pet, neuroimaging, functional-connectivity, resting-state, metabolic-modeling
+- Wikilinks included: fmri, eeg, meg, neuroimaging-fmri, neuroimaging-eeg, neuroimaging-meg, neuroimaging-dti, functional-connectivity, resting-state, whole-brain-modeling, the-virtual-brain, forward-model, hemodynamic-response-function, structural-connectivity, computational-neuroscience
+
 ## 2026-05-07 - Entry #2
 - Action: Created fractional-anisotropy page in concepts/
 - Details: Comprehensive concept page covering:
@@ -82,3 +94,11 @@
 ## [2026-05-07 00:14] Improve: 4 pages improved (andronov-hopf-bifurcation, karl-j-fristol, spontaneous-activity, neural-network)
 
 ## [2026-05-07 00:30] DeepResearch: 6 papers added via focused research
+
+## [2026-05-07 00:37] Improve: 5 pages improved (karl-j-fristol, kurtzer17, excitation-inhibition-balance, fractional-anisotropy, white-matter)
+
+## [2026-05-07 00:XX] Improve: white-matter page
+- Action: Removed body ## References section (schema violation), added TVB relationship section, converted footnotes to inline citations
+- Details: Fixed schema compliance by removing body references section, cleaned up citations to only use sources in frontmatter, added explicit relationship to TVB workflows
+- Sources: raw/papers/semanticscholar-d801ad366cdb.md, raw/papers/semanticscholar-deecd9987645.md, raw/papers/semanticscholar-ce89e593c89e.md
+- Wikilinks included: whole-brain-modeling, computational-neuroscience, dynamic-causal-modeling, neural-mass-models, diffusion-imaging, tractography, dti, human-connectome-project, functional-connectivity, brain-oscillations, fractional-anisotropy, spiking-neural-networks, jansen-rit, wong-wang-model, kuramoto, alzheimers-disease, schizophrenia-models, brain-stimulation, neurodevelopment, the-virtual-brain, mrtrix3-connectome, connectome-workbench
