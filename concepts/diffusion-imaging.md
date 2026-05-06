@@ -9,10 +9,10 @@ tags:
 - diffusion-imaging
 title: Diffusion Imaging
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
-Diffusion Imaging — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+Diffusion Imaging — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]], as well as frameworks like [[c302]] and tools like [[hnn]].
 
 ## Related Concepts
 * [[niftyreg]]
@@ -24,3 +24,43 @@ Diffusion Imaging — a concept in [[whole-brain|whole-brain modeling]] and [[co
 2. (authors unknown). *Three-dimensional tracking of axonal projections in the brain by magnetic resonance imaging*.
 3. Peter N. Taylor, Gerard Hall, Jonathan Horsley, Yujiang Wang, Sjoerd B. Vos, Gavin P Winston, Andrew W McEvoy, Anna Miserocchi, Jane de Tisi, John S Duncan. (2026). *Open [[diffusion-mri]] and [[connectivity]] data for epilepsy and surgery: The IDEAS II release*. [Link](](https://arxiv.org/abs/2602.09852))
 4. L. Fisch, N. Winter, J. Goltermann, Carlotta B. C. Barkhau, D. Emden, J. Ernsting, M. Konowski, R. Leenings, T. Borgers, K. Flinkenflügel, D. Grotegerd, Anna Kraus, E. Leehr, S. Meinert, F. Stein, L. Teutenberg, F. Thomas-Odenthal, P. Usemann, M. Hermesdorf, H. Jamalabadi, Andreas Jansen, I. Nenadić, Benjamin Straube, T. Kircher, Klaus Berger, Benjamin Risse, U. Dannlowski, T. Hahn. (2026). *deepmriprep: voxel-based morphometry preprocessing via deep neural networks*. Nature Computational Science. [DOI](](https://doi.org/10.1038/s43588-026-00953-7))
+
+## ORPHAN PAGE CONTEXT (c302)
+---
+created: 2025-01-15
+sources:
+- raw/papers/semanticscholar-3256c8880985.md
+- raw/papers/ritter-2013.md
+- raw/papers/arxiv-2512.03907.md
+tags:
+- neural-mass-models
+- spiking-neural-networks
+- neuron
+- neuroml
+- connectomics
+- parameter-estimation
+title: c302
+type: entity
+updated: '2026-05-06'
+---
+
+The c302 model framework is a computational platform for generating network models of the nematode *Caenorhabditis elegans* nervous system, developed as part of the OpenWorm project. The name "c302"
+
+## ORPHAN PAGE CONTEXT (hnn)
+---
+created: 2026-05-06
+sources:
+- url: http://www.scholarpedia.org/article/Human_Neocortical_Neurosolver
+- url: https://doi.org/10.1523/JNEUROSCI.1234-12.2013
+- url: https://doi.org/10.1371/journal.pcbi.1008007
+- raw/papers/sanz-leon-2013.md
+- raw/papers/arxiv-2509.12873.md
+- raw/papers/arxiv-2505.16861.md
+tags:
+- software-brain-modeling
+title: HNN
+type: entity
+updated: '2026-05-06'
+---
+
+**HNN** (Human Neocortical Neurosolver) is an open-source computational modeling package designed to simulat

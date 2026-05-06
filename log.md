@@ -6,3 +6,5 @@
 - Added Nengo entry to entities/index.md
 ## [2026-05-06 17:15] Improve: 5 pages improved (mne-python, van-der-pol-oscillator, nengo, netm, enigma)
 - Updated izhikevich.md: added semantic scholar source (ce89e593c89e) to frontmatter, added wikilink to adaptive-exponential-integrate-and-fire for AdEx mention
+
+## [2026-05-06 17:41] Improve: 4 pages improved (apoe, source-separation, patric-hagmann, karl-j-friston)

@@ -31,8 +31,15 @@ Functional connectivity, as introduced by Friston and colleagues in their semina
 
 ## Relationship to The Virtual Brain
 
-[[the-virtual-brain]] (TVB) integrates neuroimaging data at multiple stages of the modeling pipeline. The structural connectivity matrix used in TVB simulations is typically derived from dMRI tractography, often preprocessed with tools like [[diffusion-mri]] or tractography software packages. TVB accepts connectivity matrices in various formats, including from atlases such as [[aal-atlas]] or [[desikan-killiany-atlas]]. Functional data from fMRI or EEG provides empirical reference for model validation, and TVB can generate simulated BOLD signals and intracranial field potentials for comparison. The TVB ecosystem includes adapters for interfacing with neuroimaging preprocessing pipelines, enabling seamless integration of empirical data into whole-brain simulations.
+[[the-virtual-brain]] (TVB) integrates neuroimaging data at multiple stages of the modeling pipeline. The structural connectivity matrix used in TVB simulations is typically derived from dMRI tractography, often preprocessed with tools like [[diffusion-mri]] or tractography software packages. TVB accepts connectivity matrices in various formats, including from atlases such as [[aal-atlas]] or [[desikan-killiany-atlas]]. Functional data from fMRI or EEG provides empirical reference for model validation, and TVB can generate simulated BOLD signals and intracranial field potentials for comparison. The TVB ecosystem includes adapters for interfacing with neuroimaging preprocessing pipelines, enabling seamless integration of empirical data into whole-brain simulations. Tools such as [[neurodamus]] extend this integration to spiking network simulators.
+Web‑based visualization platforms such as [[neurosift]] enable interactive exploration of neuroimaging datasets.
 
 ## Open Questions
 
 Significant challenges remain in the integration of neuroimaging with whole-brain models. The spatial resolution mismatch between microscopic neural dynamics and macroscopic neuroimaging signals necessitates careful model specification. Measurement artifacts in both structural (e.g., false positives in tractography) and functional (e.g., head motion in fMRI) connectivity estimation propagate into models. Additionally, the temporal aggregation inherent in the BOLD signal obscures fast neural dynamics, requiring careful modeling of the [[hemodynamic-response-function]]. Future directions include higher-resolution diffusion imaging, improved tractography algorithms, and tighter integration between models and empirical data through parameter estimation frameworks.
+
+Recent harmonization frameworks such as [[neuroharmonize]] facilitate cross-site data integration.
+
+[[ Allen SDK]]
+
+[[cfflib]]
