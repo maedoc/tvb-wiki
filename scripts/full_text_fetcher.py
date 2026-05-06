@@ -192,7 +192,131 @@ def arxiv_pdf_url(arxiv_id: str) -> str | None:
     return f"https://arxiv.org/pdf/{arxiv_id}.pdf"
 
 
-def download_pdf(url: str, dest_path: str, max_bytes: int = MAX_PDF_SIZE_MB * 1024 * 1024) -> bool:
+# ── DOI lookup ─────────────────────────────────────────────────────────
+
+def lookup_doi_crossref(title: str, authors: list[str]) -> str | None:
+    """Query Crossref API for DOI by title + author. Returns DOI or None."""
+    if not title:
+        return None
+    # Build query: title + first author surname if available
+    query_parts = [title]
+    if authors:
+        first_author = authors[0].split()[-1]  # last name
+        query_parts.append(first_author)
+    query = ' '.join(query_parts)
+
+    params = urllib.parse.urlencode({
+        'query': query,
+        'rows': 5,
+        'select': 'DOI,title,author,score',
+    })
+    url = f"https://api.crossref.org/works?{params}"
+    data = _urlopen_json(url, headers={'User-Agent': 'TVBWiki-Ralph/2.0'})
+
+    items = data.get('message', {}).get('items', [])
+    if not items:
+        return None
+
+    # Score matches by title similarity
+    best_doi = None
+    best_score = 0.0
+    title_lower = title.lower()
+    for item in items:
+        item_title = item.get('title', [''])[0].lower() if isinstance(item.get('title'), list) else str(item.get('title', '')).lower()
+        # Simple matching: check if query title is substantially contained in result
+        if title_lower in item_title or item_title in title_lower:
+            score = item.get('score', 0)
+            if score > best_score:
+                best_score = score
+                best_doi = item.get('DOI')
+
+    return best_doi
+
+
+def lookup_doi_semantic_scholar(title: str, authors: list[str]) -> str | None:
+    """Query Semantic Scholar search API for DOI by title."""
+    if not title:
+        return None
+    params = urllib.parse.urlencode({
+        'query': title,
+        'limit': 5,
+        'fields': 'title,externalIds',
+    })
+    url = f"https://api.semanticscholar.org/graph/v1/paper/search?{params}"
+    data = _urlopen_json(url, headers={'User-Agent': 'TVBWiki-Ralph/2.0'})
+
+    for item in data.get('data', []):
+        item_title = item.get('title', '').lower()
+        if title.lower() in item_title or item_title in title.lower():
+            ext_ids = item.get('externalIds', {})
+            doi = ext_ids.get('DOI', '')
+            if doi:
+                return doi
+    return None
+
+
+def lookup_doi_openalex(title: str, authors: list[str]) -> str | None:
+    """Query OpenAlex API for DOI by title."""
+    if not title:
+        return None
+    params = urllib.parse.urlencode({
+        'search': title,
+        'per-page': 5,
+    })
+    url = f"https://api.openalex.org/works?{params}"
+    data = _urlopen_json(url, headers={'User-Agent': 'TVBWiki-Ralph/2.0'})
+
+    for item in data.get('results', []):
+        item_title = item.get('display_name', '').lower()
+        if title.lower() in item_title or item_title in title.lower():
+            doi = item.get('doi', '')
+            if doi:
+                # OpenAlex returns full URL like https://doi.org/10.xxxx/yyyy
+                if doi.startswith('https://doi.org/'):
+                    doi = doi.replace('https://doi.org/', '')
+                return doi
+    return None
+
+
+def update_paper_doi(filepath: str, doi: str) -> bool:
+    """Update a raw paper markdown file to add the DOI. Returns True if modified."""
+    if not doi or not os.path.exists(filepath):
+        return False
+    try:
+        with open(filepath, 'r', encoding='utf-8') as f:
+            content = f.read()
+
+        # Check if DOI already present
+        if '**DOI**' in content:
+            return False
+
+        # Insert DOI line after the ID line (early in the file)
+        id_match = re.search(r'(\*\*ID\*\*:\s*.+\n)', content)
+        if id_match:
+            insert_pos = id_match.end()
+            new_content = content[:insert_pos] + f"**DOI**: {doi}\n" + content[insert_pos:]
+            with open(filepath, 'w', encoding='utf-8') as f:
+                f.write(new_content)
+            log.info("Annotated DOI %s in %s", doi, os.path.basename(filepath))
+            return True
+
+        # Fallback: insert after Source line
+        src_match = re.search(r'(\*\*Source\*\*:\s*.+\n)', content)
+        if src_match:
+            insert_pos = src_match.end()
+            new_content = content[:insert_pos] + f"**DOI**: {doi}\n" + content[insert_pos:]
+            with open(filepath, 'w', encoding='utf-8') as f:
+                f.write(new_content)
+            log.info("Annotated DOI %s in %s", doi, os.path.basename(filepath))
+            return True
+
+        return False
+    except Exception as e:
+        log.warn("Failed to update DOI in %s: %s", filepath, e)
+        return False
+
+
+# ── Main fetch logic for a single paper ────────────────────────────────
     """Download PDF from url to dest_path with size cap. Returns True on success."""
     log.info("Downloading PDF: %s", url[:100])
     req = urllib.request.Request(url, headers={'User-Agent': 'TVBWiki-Ralph/2.0'})
@@ -259,7 +383,48 @@ def parse_paper_markdown(filepath: str) -> dict:
     except Exception:
         return result
 
-    # Extract fields with regex
+    # Extract YAML frontmatter DOI first (manually curated papers)
+    fm_text = ""
+    if content.startswith('---'):
+        fm_end = content.find('---', 3)
+        if fm_end != -1:
+            fm_text = content[3:fm_end]
+            # Look for doi: in frontmatter
+            fm_doi_match = re.search(r'^doi:\s*["\']?(.+?)["\']?\s*$', fm_text, re.MULTILINE)
+            if fm_doi_match:
+                result['doi'] = fm_doi_match.group(1).strip().strip('"\'')
+                # Strip https://doi.org/ prefix if present
+                if result['doi'].startswith('https://doi.org/'):
+                    result['doi'] = result['doi'].replace('https://doi.org/', '')
+            # Look for arxiv_id in frontmatter
+            fm_arxiv_match = re.search(r'^arxiv_id?:\s*["\']?(.+?)["\']?\s*$', fm_text, re.MULTILINE | re.IGNORECASE)
+            if fm_arxiv_match:
+                result['arxiv_id'] = fm_arxiv_match.group(1).strip().strip('"\'')
+            # Look for url in frontmatter
+            fm_url_match = re.search(r'^url:\s*["\']?(.+?)["\']?\s*$', fm_text, re.MULTILINE)
+            if fm_url_match:
+                result['url'] = fm_url_match.group(1).strip().strip('"\'')
+            # Look for authors in frontmatter (YAML list format: - Name)
+            fm_authors = re.findall(r'^(?:-\s*(.+)|^authors?:\s*\n(?:\s+-\s*(.+)\n?)+)', fm_text, re.MULTILINE)
+            if fm_authors:
+                # Extract author names from YAML list
+                yaml_list = re.findall(r'^\s+-\s*(.+)$', fm_text, re.MULTILINE)
+                if yaml_list:
+                    result['authors'] = [a.strip().strip('"\'') for a in yaml_list]
+            # Look for title in frontmatter
+            fm_title = re.search(r'^title:\s*["\']?(.+?)["\']?\s*$', fm_text, re.MULTILINE)
+            if fm_title:
+                result['title'] = fm_title.group(1).strip().strip('"\'')
+            # Look for year in frontmatter
+            fm_year = re.search(r'^year:\s*(\d{4})\s*$', fm_text, re.MULTILINE)
+            if fm_year:
+                result['year'] = fm_year.group(1)
+            # Look for venue in frontmatter
+            fm_venue = re.search(r'^venue:\s*["\']?(.+?)["\']?\s*$', fm_text, re.MULTILINE)
+            if fm_venue:
+                result['venue'] = fm_venue.group(1).strip().strip('"\'')
+
+    # Extract fields with regex from body (fallback)
     m = re.search(r'^# (.+)$', content, re.MULTILINE)
     if m:
         result['title'] = m.group(1).strip()
@@ -319,10 +484,32 @@ def try_fetch_fulltext(filepath: str, progress: dict) -> dict:
         except Exception:
             pass
 
-    # Skip if no identifiers
+    # Try to look up missing DOI before giving up
     if not meta['doi'] and not meta['arxiv_id'] and not meta['s2_id']:
-        progress["skipped"][slug] = {"reason": "no identifiers", "marked_at": datetime.datetime.now().isoformat()}
-        return {"status": "skipped", "details": {"reason": "no doi/arxiv/s2_id"}}
+        log.info("[%s] No identifiers — attempting DOI lookup...", slug)
+        found_doi = None
+        # Try Crossref first
+        found_doi = lookup_doi_crossref(meta['title'], meta['authors'])
+        if found_doi:
+            log.info("  Crossref found DOI: %s", found_doi)
+        else:
+            # Fallback to Semantic Scholar
+            time.sleep(0.5)
+            found_doi = lookup_doi_semantic_scholar(meta['title'], meta['authors'])
+            if found_doi:
+                log.info("  Semantic Scholar found DOI: %s", found_doi)
+            else:
+                # Fallback to OpenAlex
+                time.sleep(0.5)
+                found_doi = lookup_doi_openalex(meta['title'], meta['authors'])
+                if found_doi:
+                    log.info("  OpenAlex found DOI: %s", found_doi)
+        if found_doi:
+            meta['doi'] = found_doi
+            update_paper_doi(filepath, found_doi)
+        else:
+            progress["skipped"][slug] = {"reason": "no identifiers and DOI lookup failed", "marked_at": datetime.datetime.now().isoformat()}
+            return {"status": "skipped", "details": {"reason": "no doi/arxiv/s2_id and DOI lookup failed"}}
 
     os.makedirs(TEMP_PDF_DIR, exist_ok=True)
     os.makedirs(FULLTEXT_DIR, exist_ok=True)
