@@ -106,3 +106,7 @@
 ## [2026-05-07 00:58] Improve: 5 pages improved (kurtzer17, excitation-inhibition-balance, wilson-cowan-model, neuroimaging-pet, white-matter)
 
 ## [2026-05-07 01:22] Improve: 5 pages improved (neuroimaging-pet, kurtzer17, wilson-cowan-model, hybrid-architecture, excitation-inhibition-balance)
+
+## [2026-05-07 01:44] Improve: 4 pages improved (neuroimaging-pet, local-field-potentials, wilson-cowan-model, hybrid-architecture)
+
+## [2026-05-07 01:52] Audit: 978 issues (113 broken links, 41 orphans, 0 placeholders, 0 dup-refs, 5 bad-meta, 99 citation-verify, 14 opaque-refs, 37 thin, 429 missing-links)
