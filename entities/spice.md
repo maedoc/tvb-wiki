@@ -42,3 +42,9 @@ The software supports both detailed spiking neuron simulations using [[spiking-n
 SPICE operates within an ecosystem of neural simulation tools that address different scales and brain regions. For detailed cerebral cortical modeling, researchers often use [[nest]] or [[brian2]], while [[the-virtual-brain]] provides the framework for integrating regional models into whole-brain simulations. The [[epileptor]] model developed for seizure modeling shares conceptual similarities with SPICE in its focus on specific brain regions and their pathological dynamics.
 
 Related packages include [[neuroml]] for standardized model description, [[pynest]] for Python interfaces to NEST, and [[brainpy]] which provides similar flexible modeling capabilities for various brain regions. The [[whole-brain-simulators]] landscape includes both detailed simulators like SPICE and reduced models operating at the [[neural-mass-models]] level of abstraction.
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *Arbor-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
+3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](https://doi.org/10.3389/fncom.2025.1731161)

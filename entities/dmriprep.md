@@ -64,3 +64,9 @@ The choice between pipelines depends on the specific acquisition protocol, recon
 dMRIprep exists within a broader ecosystem of BIDS-apps and diffusion imaging tools. Related preprocessing pipelines include [[fmriprep]] for functional MRI, [[qsiprep]] for quantitative susceptibility imaging, and [[smriprep]] for structural MRI. For tractography specifically, users often combine dMRIprep outputs with [[mr-trix3]], [[dsi-studio]], or [[camino]] to generate streamline reconstructions suitable for connectivity analysis.
 
 Related analysis frameworks include [[tvb-nr]] for network reconstruction, [[connectome-workbench]] for visualization, and [[afq]] for automated fiber quantification.
+
+## References
+
+1. (authors unknown). *An integrated approach to correction for off-resonance effects and subject movement in diffusion MR imaging*.
+2. (authors unknown). *fMRIPrep: a robust preprocessing pipeline for functional MRI*.
+3. (authors unknown). *BIDS apps: Improving ease of use, accessibility, and reproducibility of neuroimaging data analysis methods*.

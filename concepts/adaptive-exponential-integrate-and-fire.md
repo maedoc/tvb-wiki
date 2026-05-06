@@ -1,10 +1,21 @@
 ---
-title: Adaptive Exponential Integrate-and-Fire
 created: 2025-01-15
-updated: 2026-05-06
+sources:
+- raw/papers/brette-gerstner-2005.md
+- raw/papers/izhikevich-2007.md
+- raw/papers/naud-maccher-2008.md
+tags:
+- spiking-neural-networks
+- neural-mass-models
+- nonlinear-dynamics
+- bifurcation-analysis
+- parameter-estimation
+- network-dynamics
+- excitation-inhibition-balance
+- brain-oscillations
+title: Adaptive Exponential Integrate-and-Fire
 type: concept
-tags: [spiking-neural-networks, neural-mass-models, nonlinear-dynamics, bifurcation-analysis, parameter-estimation, network-dynamics, excitation-inhibition-balance, brain-oscillations]
-sources: [raw/papers/brette-gerstner-2005.md, raw/papers/izhikevich-2007.md, raw/papers/naud-maccher-2008.md]
+updated: '2026-05-06'
 ---
 
 The Adaptive Exponential Integrate-and-Fire (AdEx) model is a [[spiking-neural-networks]] that combines a membrane potential equation with an exponential term for action potential generation and an adaptation variable that tracks the history of spiking activity. Developed by Romain Brette and Wulfram Gerstner in 2005 [@brette-gerstner-2005], the AdEx model has become one of the most widely used neuron models in computational neuroscience due to its ability to reproduce a rich variety of firing patterns while maintaining mathematical tractability that scales well to large network simulations.
@@ -61,3 +72,7 @@ The AdEx model's combination of computational efficiency and rich dynamics makes
 Studies using AdEx-based networks have explored the mechanisms underlying transition between wakefulness and sleep states, where the adaptation properties of excitatory neurons play a key role in generating slow oscillations. The spike-triggered adaptation provides a natural mechanism for suppressing sustained activity, allowing the network to transition into the silent Down states characteristic of slow-wave sleep. Similarly, in models of epilepsy, perturbations that push AdEx neurons into the bursting regime can capture the pathological high-frequency oscillations observed in seizure onset.
 
 The AdEx model has also proven valuable for studying the effects of neuromodulation on neural circuits. Since the adaptation parameters a and b can be modulated by neurotransmitters like acetylcholine and norepinephrine—which alter the intrinsic excitability of cortical neurons—AdEx networks provide a biologically grounded framework for exploring how neuromodulatory tone shifts the operating point of cortical circuits between states of high and low responsiveness.
+
+## References
+
+1. Eugene M. Izhikevich. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.

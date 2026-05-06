@@ -1,9 +1,5 @@
 ---
-title: NiftyNet
 created: 2026-04-24
-updated: 2026-05-06
-type: entity
-tags: [software-brain-modeling, neuroimaging]
 sources:
 - raw/papers/arxiv-2603.19844.md
 - raw/papers/semanticscholar-8edd59e14fa3.md
@@ -14,6 +10,12 @@ sources:
 - raw/papers/semanticscholar-97e6ff441097.md
 - raw/papers/semanticscholar-d4665dd0df61.md
 - raw/papers/semanticscholar-a0cce22e2ffc.md
+tags:
+- software-brain-modeling
+- neuroimaging
+title: NiftyNet
+type: entity
+updated: '2026-05-06'
 ---
 
 # NiftyNet
@@ -89,3 +91,15 @@ Segmentation outputs from NiftyNet—region masks, tissue labels, and lesion map
 - Cortical surface extraction for TVB connectivity modeling
 - Multi‑site harmonization through domain adaptation techniques
 - Real‑time segmentation for neurosurgical planning
+
+## References
+
+1. Lokendra Kumar, Shubham Aggarwal. *Hyper-Connections for Adaptive Multi-Modal MRI Brain Tumor Segmentation*. [Link](https://arxiv.org/abs/2603.19844)
+2. Mahsa Karimzadeh, Hadi Seyedarabi, Ata Jodeiri, Reza Afrouzian. (2025). *Enhanced Brain Stroke Lesion Segmentation in MRI Using a 2.5D Transformer Backbone U-Net Model*. Brain Science. [DOI](https://doi.org/10.3390/brainsci15080778)
+3. Mostafa Ahmed, Shady A. Nagy, M. A. Salem. (2025). *Spiking Neural Network for Visual Attention in Brain Tumor Segmentation*. International Conference on the Internet, Cyber Security and Information Systems. [DOI](https://doi.org/10.1109/ICICIS66182.2025.11313103)
+4. Muhammad Alifian Ihtisyamuddin, Rasyid M.Choiroel Anwar, Yeti Kartikasari, Leny Latifah, Gatot Murti, Wibowo Politeknik, Kesehatan Kementrian, Kesehatan Semarang. (2025). *Analysis of Efficient Net Model Using Binary Segmentation Results from Magnetic Resonance Imaging (MRI) T1 Weighted Contrast Images in Classifying Brain Tumors Types*. International Journal of Social Health. [DOI](https://doi.org/10.58860/ijsh.v4i7.311)
+5. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2025). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research*. bioRxiv. [DOI](https://doi.org/10.1101/2025.10.06.680781)
+6. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2026). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research.*. Brain Stimulation. [DOI](https://doi.org/10.1016/j.brs.2025.103016)
+7. R. A. Benn, Ting Xu, R. Mars, Magdalena Boch, Léa Roumazeilles, K. Heuer, Roberto Toro, D. Margulies, J. Manzano-Patrón, Paula Montesinos, C. Galán-Arriola, G. López-Martín, J. Sanchez-González, E. P. Duff, Borja Ibáñez. (2025). *Precon_all: A species-agnostic automated pipeline for non-human cortical surface reconstruction*. bioRxiv. [DOI](https://doi.org/10.1101/2025.04.16.649072)
+8. G. Deepali, H. Anitha, B. P. Swathi, M. V. Suhas. (2025). *Autoencoder-Driven Fiducial Landmark Identification in 3D Brain MRI for Neuroimaging Alignment*. IEEE Access. [DOI](https://doi.org/10.1109/ACCESS.2025.3582273)
+9. L. Fisch, N. Winter, J. Goltermann, Carlotta B. C. Barkhau, D. Emden, J. Ernsting, M. Konowski, R. Leenings, T. Borgers, K. Flinkenflügel, D. Grotegerd, Anna Kraus, E. Leehr, S. Meinert, F. Stein, L. Teutenberg, F. Thomas-Odenthal, P. Usemann, M. Hermesdorf, H. Jamalabadi, Andreas Jansen, I. Nenadić, Benjamin Straube, T. Kircher, Klaus Berger, Benjamin Risse, U. Dannlowski, T. Hahn. (2026). *deepmriprep: voxel-based morphometry preprocessing via deep neural networks*. Nature Computational Science. [DOI](https://doi.org/10.1038/s43588-026-00953-7)

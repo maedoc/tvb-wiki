@@ -1,10 +1,20 @@
 ---
-title: Principal Component Analysis
 created: 2026-04-20
-updated: 2026-05-06
+sources:
+- raw/papers/friston-1993.md
+- raw/papers/arxiv-2601.03796.md
+tags:
+- computational-neuroscience
+- whole-brain-modeling
+- functional-connectivity
+- neuroimaging-fmri
+- neuroimaging-eeg
+- neuroimaging-meg
+- network-dynamics
+- dimensionality-reduction
+title: Principal Component Analysis
 type: concept
-tags: [computational-neuroscience, whole-brain-modeling, functional-connectivity, neuroimaging-fmri, neuroimaging-eeg, neuroimaging-meg, network-dynamics, dimensionality-reduction]
-sources: [raw/papers/friston-1993.md, raw/papers/arxiv-2601.03796.md]
+updated: '2026-05-06'
 ---
 
 Principal Component Analysis (PCA) is a linear dimensionality reduction technique that transforms high-dimensional data into a set of orthogonal components ordered by the amount of variance they explain. In the context of whole-brain modeling and computational neuroscience, PCA serves as a foundational tool for identifying dominant patterns of co-variation in neuroimaging data, enabling the extraction of spatially distributed networks that reflect underlying neurophysiological processes.
@@ -44,3 +54,8 @@ Several considerations arise when applying PCA to brain imaging data. The choice
 ---
 
 The conceptual foundations established by early PCA applications to functional connectivity continue to influence modern whole-brain modeling approaches, where dimensionality reduction remains essential for linking high-dimensional empirical data to tractable computational models of brain dynamics.
+
+## References
+
+1. (authors unknown). *Functional Connectivity: The Principal-Component Analysis of Large (PET and fMRI) Data Sets*.
+2. Christopher Gabaldon, Adria Mulero, Rong Wang, Daniel A. Martin, Sabrina Camargo, Qian-Yuan Tang, Ignacio Cifre, Changsong Zhou, Dante R. Chialvo. (2026). *Data-driven inference of brain dynamical states from the r-spectrum of correlation matrices*. [Link](https://arxiv.org/abs/2601.03796)

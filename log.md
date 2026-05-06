@@ -385,3 +385,5 @@
 2026-05-06: Improved abide.md - added dataset tag to frontmatter
 
 ## [2026-05-06 14:27] Improve: 4 pages improved (connectivity, principal-component-analysis, neuroharmonize, abide)
+
+## [2026-05-06 14:56] Improve: 5 pages improved (neuroharmonize, connectivity, consciousness-models, nipal, adaptive-exponential-integrate-and-fire)

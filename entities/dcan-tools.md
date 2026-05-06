@@ -1,10 +1,20 @@
 ---
-title: DCAN Tools
 created: 2024-01-15
-updated: 2026-05-06
+sources:
+- raw/papers/barch-2013.md
+- raw/papers/casey-2018.md
+- raw/papers/dcan-nature.md
+tags:
+- software-brain-modeling
+- neuroimaging-fmri
+- neuroimaging-dti
+- functional-connectivity
+- resting-state
+- connectomics
+- bids-apps
+title: DCAN Tools
 type: entity
-tags: [software-brain-modeling, neuroimaging-fmri, neuroimaging-dti, functional-connectivity, resting-state, connectomics, bids-apps]
-sources: [raw/papers/barch-2013.md, raw/papers/casey-2018.md, raw/papers/dcan-nature.md]
+updated: '2026-05-06'
 ---
 
 # DCAN Tools
@@ -56,3 +66,7 @@ The canonical publications describing DCAN Tools include the methodological pape
 - [[the-virtual-brain]] - Simulation platform that can use DCAN-processed connectivity data
 - [[bids]] - The data organization standard DCAN Tools adheres to
 - [[ica-aroma]] - Component of the DCAN motion correction strategy
+
+## References
+
+1. (authors unknown). *Function in the Human Connectome: Task-fMRI and Individual Differences in Behavior*.

@@ -38,3 +38,9 @@ Within the [[the-virtual-brain]] ecosystem, NeuroML2 interfaces with TVB through
 ## Relationship to Other Standards
 
 NeuroML2 intersects with several other neuroscience modeling standards. Unlike [[pyNN]], which provides a Python API for simulator interoperability, NeuroML2 is a declarative XML format that can be parsed and instantiated by multiple backends. It shares philosophical goals with [[neuroml]] (its predecessor) [cite:Gleeson2010] and the SONATA format from the Blue Brain Project, though each targets somewhat different scopes and communities. The language builds on [[lems]] (Low Entropy Model Specification), which provides the mathematical foundation for defining dynamical systems and is maintained as a related but distinct specification [cite:LEMSspec]. In contrast to [[dynamic-causal-modeling]] approaches used in neuroimaging analysis, NeuroML2 is designed for forward simulation rather than Bayesian inversion of measured signals.
+
+## References
+
+1. Sotirios Panagiotou, Rene Miedema, Dimitrios Soudris, Christos Strydis. (2025). *Decoupling model descriptions from execution: a modular paradigm for extensible neurosimulation with EDEN*. Frontiers Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2025.1572782)
+2. C. Linssen, Pooja N. Babu, Jochen M. Eppler, Luca Koll, Bernhard Rumpe, Abigail Morrison. (2025). *NESTML: a generic modeling language and code generation tool for the simulation of spiking neural networks with advanced plasticity rules*. Frontiers Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2025.1544143)
+3. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)

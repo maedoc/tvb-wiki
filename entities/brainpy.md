@@ -74,3 +74,9 @@ The community has developed practical applications including implementations of 
 ## Use Cases
 
 BrainPy has been applied to several computational neuroscience research directions requiring high-performance simulation and parameter optimization. The E-I balanced network implementation demonstrates realistic cortical dynamics with irregular spiking arising from cooperative excitation and inhibition. Decision-making network simulations reproduce probabilistic choice behavior through evidence accumulation, with applications in studying cognitive control and working memory. The framework's support for delay-based coupling through structural connectivity matrices enables whole-brain simulations where distinct brain regions interact through white matter tract-derived communication delays, relevant for studying resting-state dynamics and clinical applications in epilepsy and Alzheimer's disease modeling.
+
+## References
+
+1. Martin Breyton, Viktor Sip, M. Woodman, Meysam Hashemi, S. Petkoski, V. Jirsa. (2025). *Data-driven mean-field within whole-brain models*. [Link](https://www.semanticscholar.org/paper/144ae1f1dabec42c14493d0083d36f168508f886)
+2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *Arbor-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
+3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](https://doi.org/10.3389/fncom.2025.1731161)
