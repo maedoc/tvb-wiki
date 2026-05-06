@@ -93,9 +93,9 @@ sources:
 - raw/papers/friston-1998-hrf.md
 - raw/papers/glover-1999-hrf.md
 tags:
-- neuroimaging-fmri
+- [[neuroimaging]]-fmri
 - neural-mass-models
-- dynamical-systems-theory
+- [[dynamical-systems-theory]]
 - brain-dynamics
 type: concept
 updated: '2026-05-06'
@@ -105,7 +105,7 @@ updated: '2026-05-06'
 
 ## Overview
 
-The **[[hemodynamic-response-function]] (HRF)** describes the change in blood oxygen level-dependent (BOLD) signal that follows neural activity in the brain, measured via functional magnetic resonance imaging ([[fmri]]). When neurons fire, they consu
+The **[[hemodynamic-response-function]] (HRF)** describes the change in blood oxygen level-dependent ([[bold-signal|BOLD]]) signal that follows neural activity in the brain, measured via functional magnetic resonance imaging ([[fmri]]). When neurons fire, they consu
 
 ## ORPHAN PAGE CONTEXT (lfpykern)
 ---
@@ -117,11 +117,11 @@ sources:
 tags:
 - software
 - lfp
-- volume-conduction
-- computational-neuroscience
+- [[volume-conduction]]
+- [[computational-neuroscience]]
 title: LFPykern
 type: entity
 updated: '2026-05-05'
 ---
 
-LFPykern is a Python library for computing local field potentials (LFPs) from spiking neural network simulations. The software implements a kernel-based approach to calculating the extracellular electric potential re
+LFPykern is a Python library for computing [[local-field-potentials]] (LFPs) from spiking [[neural-network]] simulations. The software implements a kernel-based approach to calculating the extracellular electric potential re

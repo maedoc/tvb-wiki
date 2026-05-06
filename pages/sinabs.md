@@ -36,3 +36,11 @@ SINABS shares conceptual territory with other [[spiking-neural-networks]] simula
 ## Key Papers
 
 SINABS has been applied to studying epilepsy dynamics and [[brain-stimulation]] outcomes in collaborative projects between computational neuroscience groups. The simulator has been particularly influential in the [[epilepsy-modeling]] community, where detailed spiking network simulations provide mechanistic insight into seizure initiation, propagation, and termination. Related work on the [[epileptor]] model within TVB draws on insights derived from spiking network investigations using SINABS-type simulators.
+
+## References
+
+1. Brette, R., & Destexhe, A. (Eds.). (2012). *Computational Neuroscience: Large-Scale Modeling*. Academic Press.
+2. Destexhe, A., &Sejnowski, T. J. (2009). The Wilson-Cowan model, 36 years later. *Biological Cybernetics*, 101(1-2), 1-2.
+3. Jirsa, V. K., Stacey, W. C., Quigley, P. P., &Stefanescu, R. A. (2014). On the nature of seizure dynamics. *Brain*, 137(8), 2210-2230.
+4. Nunez, P. L., &Srinivasan, R. (2006). *Electric Fields of the Brain: The Neurophysics of EEG* (2nd ed.). Oxford University Press.
+5. Wendling, F., Bartolomei, F., Bellanger, J. J., &Chauvel, P. (2002). Epileptic fast activity can be explained by a model of impaired GABAergic dendritic inhibition. *European Journal of Neuroscience*, 15(9), 1499-1508.

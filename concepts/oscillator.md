@@ -17,7 +17,7 @@ updated: '2026-05-06'
 
 # Oscillator 
 
-An oscillator in the context of computational neuroscience refers to a dynamical system capable of producing sustained periodic or quasiperiodic behavior, either as an isolated unit or embedded within a larger network of interacting units. Oscillatory dynamics arise naturally in neural systems at multiple scales—from individual ion channels and single neurons to neural populations and entire brain regions—and they play fundamental roles in information processing, perception, motor coordination, and cognitive function. The study of neural oscillators draws heavily from [[dynamical-systems-theory]], where oscillators are understood as nonlinear systems exhibiting limit cycles, i.e., isolated closed trajectories in phase space toward which nearby trajectories converge. 
+An oscillator in the context of [[computational-neuroscience]] refers to a dynamical system capable of producing sustained periodic or quasiperiodic behavior, either as an isolated unit or embedded within a larger network of interacting units. Oscillatory dynamics arise naturally in neural systems at multiple scales—from individual ion channels and single neurons to neural populations and entire brain regions—and they play fundamental roles in information processing, perception, motor coordination, and cognitive function. The study of neural oscillators draws heavily from [[dynamical-systems-theory]], where oscillators are understood as nonlinear systems exhibiting limit cycles, i.e., isolated closed trajectories in phase space toward which nearby trajectories converge. 
 
 ## Motivation and Context 
 
@@ -34,7 +34,7 @@ dV/dt = d·τ·(-f(V) - W + I)
 dW/dt = d·(g(V) - b·W + a)
 ``` 
 
-In this formulation, V typically represents the membrane potential variable (or a proxy for neural activity), while W represents a recovery variable that captures slower processes such as ion channel gating or synaptic feedback. The parameter d controls the timescale separation between the fast variable V and the slow recovery variable W—a small value of d yields slow recovery dynamics typical of integrator neurons, while larger values produce oscillator-like behavior. The function f(V) is typically a cubic nonlinearity representing the voltage-dependent sodium conductance, while g(V) is often linear or cubic depending on the specific model variant. The parameter I represents external input current, and a and b are constant parameters controlling the position and slope of the nullcline. 
+In this formulation, V typically represents the membrane potential variable (or a proxy for neural activity), while W represents a recovery variable that captures slower processes such as [[ion-channel]] gating or synaptic feedback. The parameter d controls the timescale separation between the fast variable V and the slow recovery variable W—a small value of d yields slow recovery dynamics typical of integrator neurons, while larger values produce oscillator-like behavior. The function f(V) is typically a cubic nonlinearity representing the voltage-dependent sodium conductance, while g(V) is often [[linear]] or cubic depending on the specific model variant. The parameter I represents external input current, and a and b are constant parameters controlling the position and slope of the nullcline. 
 
 This canonical form generalizes several classic models including the [[Fitzhugh–Nagumo model]] and the [[Van der Pol oscillator]], which was originally developed to model electrical circuits but shares many mathematical properties with neural oscillators. For [[bifurcation-analysis]], the [[bifurcation-theory]] of these systems reveals that transitions between dynamical regimes occur through specific codimension-one bifurcations including saddle-node, [[Andronov-Hopf bifurcation]], and saddle-node on invariant circle (SNIC) bifurcations. 
 
@@ -42,7 +42,7 @@ This canonical form generalizes several classic models including the [[Fitzhugh�
 
 The generic 2D oscillator exhibits four primary dynamical regimes that are directly relevant to neural modeling: 
 
-**Fixed point** — A stable equilibrium where the system remains at rest in the absence of sufficient input. This regime corresponds to resting brain states and is characterized by small fluctuations around a mean activity level. Fixed points can undergo bifurcations to produce oscillations as parameters change—a central mechanism in [[epilepsy-modeling]] where resting states transition to seizure-like oscillatory states. 
+**Fixed point** — A stable equilibrium where the system remains at [[rest]] in the absence of sufficient input. This regime corresponds to resting brain states and is characterized by small fluctuations around a mean activity level. Fixed points can undergo bifurcations to produce oscillations as parameters change—a central mechanism in [[epilepsy-modeling]] where resting states transition to seizure-like oscillatory states. 
 
 **Excitable** — A regime where a sufficiently large perturbation pushes the system away from its stable fixed point through a large excursion in phase space before returning to rest. Excitable systems underlie [[brain-oscillations]] in response to stimuli and are essential for transient information processing in sensory systems. 
 
