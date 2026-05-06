@@ -5,6 +5,7 @@ sources:
 - raw/papers/semanticscholar-380768cf42a8.md
 - raw/papers/arxiv-2503.07263.md
 - raw/papers/sanz-leon-2013.md
+- raw/papers/arxiv-2508.04568.md
 tags:
 - software-brain-modeling
 - diffusion-imaging
@@ -13,7 +14,7 @@ tags:
 - structural-connectivity
 title: TractoFlow
 type: entity
-updated: '2026-05-05'
+updated: '2026-05-06'
 ---
 
 ## Overview  
