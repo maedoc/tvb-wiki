@@ -14,7 +14,7 @@ tags:
 - software-freesurfer
 title: ABCBIDS
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # ABCBIDS
@@ -51,7 +51,7 @@ A distinguishing feature of the ABCD-HCP pipeline is its robust handling of scan
 
 The ABCD-BIDS Community Collection (ABCC) is a curated release of ABCD Study neuroimaging data following BIDS standards and the NMIND [[reproducibility]] framework. As of release 3.1.0, the dataset includes approximately 11,751 participants with ABCD-HCP derivatives and 8,852 participants with QSIPrep derivatives from the baseline session, with corresponding numbers for the 2-year, 4-year, and 6-year follow-up visits.
 
-The ABCC derivatives span multiple modalities and processing streams. For structural MRI, FreeSurfer 5.3.0-HCP outputs include segmentation statistics and surface morphometrics. For functional MRI, the ABCD-HCP pipeline produces both volume-based (processed with FSL) and surface-based (CIFTI format) outputs, including connectivity matrices at multiple frame-displacement thresholds. For [[diffusion-mri]], QSIPrep provides preprocessed DWI data with options like Gibbs ringing removal and multiple phase-encoding direction handling, while QSIRecon generates various diffusion models including DTI, DKI, NODDI, and MSMT [[tractography]].
+The ABCC derivatives span multiple modalities and processing streams. For structural MRI, FreeSurfer 5.3.0-HCP outputs include segmentation statistics and surface morphometrics. For [[neuroimaging-fmri|functional MRI]], the ABCD-HCP pipeline produces both volume-based (processed with FSL) and surface-based (CIFTI format) outputs, including connectivity matrices at multiple frame-displacement thresholds. For [[diffusion-mri]], QSIPrep provides preprocessed DWI data with options like Gibbs ringing removal and multiple phase-encoding direction handling, while QSIRecon generates various diffusion models including DTI, DKI, NODDI, and MSMT [[tractography]].
 
 A distinctive aspect of ABCC is its emphasis on quality control at multiple stages. Raw data quality is ensured through DAIRC (Data Analysis and Informatics Resource Center) operator QC, while processed data quality is assessed through BrainSwipes, a community-driven visual QC platform. The collection also provides versioned releases with detailed changelogs, enabling reproducible science—researchers can trace exactly which pipeline version and parameter settings produced specific derivatives.
 

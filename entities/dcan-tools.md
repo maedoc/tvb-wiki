@@ -2,8 +2,6 @@
 created: 2024-01-15
 sources:
 - raw/papers/barch-2013.md
-- raw/papers/casey-2018.md
-- raw/papers/dcan-nature.md
 - raw/papers/semanticscholar-a4903437bfa5.md
 - raw/papers/arxiv-2503.21414.md
 - raw/papers/semanticscholar-d70e1661858c.md

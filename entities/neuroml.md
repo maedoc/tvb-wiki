@@ -87,3 +87,7 @@ The [[open-source-brain]] platform serves as a repository for NeuroML models, en
 NeuroML continues to evolve with periodic specification updates expanding its coverage of neural modeling components. The language has achieved significant adoption in the computational neuroscience community, with numerous published models available in NeuroML format. However, some open questions remain regarding the optimal balance between expressivity and simulator compatibility—highly detailed specifications may not map efficiently onto all target platforms.
 
 The relationship to data standards also presents ongoing challenges. While NeuroML excels at specifying dynamical models, the interface between model specifications and experimental data (such as morphological reconstructions from [[neuromorpho]] or electrophysiological recordings) requires continued development. Future extensions may better integrate with [[bids]]-compatible data formats to streamline workflows from experimental measurement to computational modeling.
+
+## References
+
+1. C. Linssen, Pooja N. Babu, Jochen M. Eppler, Luca Koll, Bernhard Rumpe, Abigail Morrison. (2025). *NESTML: a generic modeling language and code generation tool for the simulation of spiking neural networks with advanced plasticity rules*. Frontiers Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2025.1544143)

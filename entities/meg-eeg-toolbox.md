@@ -1,10 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- oostenveld2011fieldtrip
-- gramfort2013mne
-- delorme2004eeglab
-- tadel2011brainstorm
 - raw/papers/arxiv-2604.16463.md
 tags:
 - neuroimaging-meg
@@ -50,3 +46,7 @@ The following publications form the foundational literature for the major MEG/EE
 - **Gramfort et al. (2013)** — "MEG and EEG data analysis with MNE-Python"
 - **Delorme & Makeig (2004)** — "EEGLAB: an open source toolbox for analysis of single-trial EEG dynamics including independent component analysis"eeglab
 - **Tadel et al. (2011)** — "BrainStorm: a user-friendly toolbox for brain source imaging"[[brain-map]]
+
+## References
+
+1. Xiaobo Liu. (2026). *MLE-Toolbox: An Open-Source Toolbox for Comprehensive EEG and MEG Data Analysis*. [Link](https://www.semanticscholar.org/paper/e7aaa4f4bb01e70064493684b4500a950f83460f)

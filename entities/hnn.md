@@ -1,35 +1,9 @@
 ---
 created: 2026-05-06
 sources:
-- author: Jones, L.M.
-- title: Human Neocortical Neurosolver (HNN)
-- year: 2016
-- venue: Scholarpedia
-- id: jones2016hnn
 - url: http://www.scholarpedia.org/article/Human_Neocortical_Neurosolver
-- tags: null
-- software
-- brain modeling
-- neocortical circuits
-- author: Lee, R.G. and Jones, L.M.
-- title: ' Laminar organization of neocortical pyramidal neurons: a computational
-    study'
-- year: 2013
-- venue: J. Neurosci.
-- id: lee2013laminar
 - url: https://doi.org/10.1523/JNEUROSCI.1234-12.2013
-- tags: null
-- laminar modeling
-- pyramidal neurons
-- author: Neymotin, S.A. et al.
-- title: Optimizing neural coding in the human neocortical neurosolver
-- year: 2020
-- venue: PLoS Comput Biol
-- id: neymotin2020optimizing
 - url: https://doi.org/10.1371/journal.pcbi.1008007
-- tags: null
-- optimization
-- neural coding
 - raw/papers/sanz-leon-2013.md
 - raw/papers/arxiv-2509.12873.md
 - raw/papers/arxiv-2505.16861.md
@@ -131,19 +105,19 @@ Simulations produce:
 
 - [TVB](](TVB)) — [[tvb|The Virtual Brain]] platform
 - [Neural-mass-models](](neural-mass-models)) — Macroscale population models
-- [Jansen-Rit-model](]([[jansen-rit-model]])) — Three-population neural mass model
+- [Jansen-Rit-model](](jansen-rit-model)) — Three-population neural mass model
 - [Neuron](](neuron)) — Simulator for biophysical neurons
 - [MNE](](MNE)) — Software for processing EEG/MEG data
 - [Brain-oscillations](](brain-oscillations)) — Rhythmic neural activity
 - [Neuroimaging-EEG](](neuroimaging-eeg)) — Electroencephalography
 - [Neuroimaging-MEG](](neuroimaging-meg)) — Magnetoencephalography
 - [Local-field-potentials](](local-field-potentials)) — Microscale electrical fields
-- [Source-localization](]([[source-localization]])) — Estimating brain activity sources
-- [Excitation-inhibition-balance](]([[excitation-inhibition-balance]])) — E/I ratio in neural circuits
+- [Source-localization](](source-localization)) — Estimating brain activity sources
+- [Excitation-inhibition-balance](](excitation-inhibition-balance)) — E/I ratio in neural circuits
 - [Structural-connectivity](](structural-connectivity)) — Anatomical brain wiring
 
 ## References
 
-1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
-2. Gianluca Gaglioti, Alessandra Cardinale, Cosimo Lupo, Thierry Nieus, Federico Marmoreo, Elena Focacci, Robin Gutzen, Michael Denker, Andrea Pigorini, Marcello Massimini, Simone Sarasso, Pier Stanislao Paolucci, Giulia De Bonis. *Emergent complexity and rhythms in evoked and spontaneous dynamics of human whole-brain models after tuning through analysis tools*. [Link](https://arxiv.org/abs/2509.12873)
-3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
+2. Gianluca Gaglioti, Alessandra Cardinale, Cosimo Lupo, Thierry Nieus, Federico Marmoreo, Elena Focacci, Robin Gutzen, Michael Denker, Andrea Pigorini, Marcello Massimini, Simone Sarasso, Pier Stanislao Paolucci, Giulia De Bonis. *Emergent complexity and rhythms in evoked and spontaneous dynamics of human whole-brain models after tuning through analysis tools*. [Link](](https://arxiv.org/abs/2509.12873))
+3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](](https://arxiv.org/abs/2505.16861))

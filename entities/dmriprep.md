@@ -1,9 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- https://doi.org/10.5281/zenodo.4571808
-- https://bids-apps.neuroimaging.io/
-- https://doi.org/10.3389/fninf.2021.00037
 - raw/papers/doi-10-1016-j-neuroimage-2015-10-019.md
 - raw/papers/doi-10-1038-s41592-018-0235-4.md
 - raw/papers/doi-10-1371-journal-pcbi-1005209.md

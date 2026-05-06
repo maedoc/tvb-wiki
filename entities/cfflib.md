@@ -1,8 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- https://www.cmtk.org/cfflib/
-- https://www.frontiersin.org/articles/10.3389/fninf.2011.00003/full
 - raw/papers/sanz-leon-2013.md
 - raw/papers/bein-2018.md
 - raw/papers/woodman-2014.md
@@ -63,3 +61,9 @@ The Connectome Viewer Toolkit—comprising cfflib, the Connectome Viewer applica
 - [[brain-connectivity-toolkit]] — Network analysis toolbox
 - [[connectome-mapper-3]] — Connectome mapping pipeline
 - [[hcp-datasets]] — Human Connectome Project datasets
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. B. Bein (2018). *pyedflib: Python library for reading and writing EDF/BDF files*. Journal of Open Source Software. [DOI](https://doi.org/10.21105/joss.00899)
+3. Woodman et al. (2014). *GraphVar: A user-friendly toolbox for comprehensive graph analyses of functional brain connectivity*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2014.07.015)

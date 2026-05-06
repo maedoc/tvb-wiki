@@ -46,3 +46,9 @@ BCT and TVB are complementary tools in the connectivity analysis pipeline:
 - [[connectome]] — structural brain network definitions
 - [[graph-theory]] — mathematical foundations
 - [[the-virtual-brain]] — simulation framework that generates networks for BCT analysis
+
+## References
+
+1. Woodman et al. (2014). *GraphVar: A user-friendly toolbox for comprehensive graph analyses of functional brain connectivity*. Journal of Neuroscience Methods. [DOI](](https://doi.org/10.1016/j.jneumeth.2014.07.015))
+2. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
+3. (authors unknown). *BRAPH: A Pipeline for Brain Connectivity Analysis*.

@@ -83,3 +83,9 @@ The relationship is primarily at the data preparation stage rather than direct s
 NeuroHarmonize addresses a similar problem to other harmonization tools in the neuroimaging ecosystem. [[graphvar]] provides graph-theoretical analysis of connectivity matrices and includes some harmonization capabilities. The R package `neuroCombat` offers ComBat harmonization for neuroimaging data. [[nilearn]] includes utilities for confound regression that address some harmonization use cases, though with less sophisticated statistical machinery. Tools like [[c-pac]] and [[fmriprep]] include optional harmonization modules that integrate ComBat-style approaches. Cross-platform harmonization methods are an active area of development in the [[reproducibility]] literature for multi-site neuroimaging studies.
 
 The choice between tools depends on the specific study design: NeuroHarmonize offers flexibility for custom analyses, while integrated pipelines like [[c-pac]] provide end-to-end processing for standardized datasets.
+
+## References
+
+1. Zheng Ren, Patrick S. Sadil, Martin A. Lindquist. (2026). *MV-ComBat and MV-CovBat: Multivariate Frameworks for Joint Harmonization of Multi-Metric Neuroimaging Data*. bioRxiv. [DOI](https://doi.org/10.64898/2026.02.05.704069)
+2. Zhen Zhou, B. Fischl, I. Aganj. (2025). *Harmonization of Structural Brain Connectivity Through Distribution Matching*. Human Brain Mapping. [DOI](https://doi.org/10.1002/hbm.70257)
+3. Woodman et al. (2014). *GraphVar: A user-friendly toolbox for comprehensive graph analyses of functional brain connectivity*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2014.07.015)

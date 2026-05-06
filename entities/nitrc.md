@@ -1,13 +1,13 @@
 ---
-title: NITRC
-created: 2025-01-15
-updated: '2026-05-06'
-type: entity
-tags: [software-repository, neuroimaging, tools]
+created: '2026-05-06'
 sources:
 - raw/papers/sanz-leon-2013.md
 - raw/papers/woodman-2014.md
 - raw/papers/Renton2024.md
+tags: []
+title: Nitrc
+type: entity
+updated: '2026-05-06'
 ---
 
 # NITRC
@@ -39,3 +39,9 @@ The [[connectome-workbench]] visualization suite, also distributed through NITRC
 NITRC occupies a unique position in the neuroimaging software ecosystem, serving as both a software repository and a gateway to computational environments. Unlike [[brainlife]]—which offers fully‑managed cloud computing services with graphical interfaces—NITRC provides direct access to software packages with more granular control suitable for users comfortable with command‑line execution [1]. The platform complements data standards like [[BIDS]] and version control systems like [[datalad]] by providing the analysis tools in which these standards can be operationalized. Resources like [[neuromorpho-toolkit]] similarly provide containerized neuroimaging environments, but NITRC's broader community adoption and longer history have established it as the canonical source for neuroimaging software distribution [2]. The repository also interfaces with specialty databases such as [[human-connectome-project]] data releases and the [[ABIDE]] dataset for neuroimaging benchmarks.
 
 The relationship between NITRC and emerging platforms like [[brainlife]] represents a broader shift in the neuroimaging ecosystem toward cloud‑based computation. While NITRC continues to serve researchers who prefer local execution with full control over their computational environment, platforms like [[brainlife]] offer convenience advantages for users who prioritize ease of use over granular control. Both approaches complement rather than replace each other, serving different researcher preferences and use cases within the community.
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Woodman et al. (2014). *GraphVar: A user-friendly toolbox for comprehensive graph analyses of functional brain connectivity*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2014.07.015)
+3. (authors unknown). *Neurodesk: an accessible, flexible and portable data analysis environment for reproducible neuroimaging*.

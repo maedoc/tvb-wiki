@@ -1,8 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- stimberg_brian2_2019
-- brette_original_brian_2007
 - raw/papers/gewaltig-diesmann-2007.md
 - raw/papers/semanticscholar-3256c8880985.md
 - raw/papers/arxiv-2505.16861.md
@@ -39,3 +37,9 @@ Brian2 and [[the-virtual-brain]] operate at complementary scales within the hier
 ## Relationship to Other Simulators
 
 Brian2 occupies a distinct niche compared to other major neural simulators in the field. [[NEST]] (Neural Simulation Tool) specializes in large-scale point neuron networks and is optimized for simulations exceeding the memory capacity of single workstations, making it the preferred choice for brain-scale simulations. [[NEURON]] excels at detailed single-neuron models with complex morphologies and biophysical properties, offering sophisticated support for ion channel dynamics and dendritic integration. In contrast, Brian2 emphasizes rapid model development and flexibility, making it ideal for exploratory work and methodological development. The [[neuroml]] standard provides a pathway for model exchange between these simulators, and Brian2 includes robust support for exporting and importing Neuroml-encoded models. The [[brian2genn]] and [[brian2cuda]] extensions enable Brian2 to scale toward brain-simulator-level counts when needed, partially closing the gap with NEST for large network simulations. This ecosystem of simulators reflects the diversity of computational neuroscience problems—one tool rarely suffices for all requirements, and interoperability through standards like PyNN and NeuromL enables researchers to leverage multiple tools within unified workflows.
+
+## References
+
+1. Gewaltig & Diesmann (2007). *NEST (NEural Simulation Tool)*. Scholarpedia. [DOI](https://doi.org/10.4249/scholarpedia.1430)
+2. Duy Pham, Gene J. Yu, G. Lazzi, Jean-Marie C Bouteiller. (2026). *A spatially discretized convolutional neural mass model for studying meso-scale spatio-temporal transformations in the rat hippocampus*. Research Square. [DOI](https://doi.org/10.21203/rs.3.rs-9306977/v1)
+3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *Arbor-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)

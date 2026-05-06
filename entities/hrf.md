@@ -1,9 +1,6 @@
 ---
-title: HRF
 created: 2026-05-04
 sources:
-- raw/papers/friston-1998-hrf.md
-- raw/papers/glover-1999-hrf.md
 - raw/papers/semanticscholar-a6fa6ab4802f.md
 - raw/papers/semanticscholar-93f48c3ba433.md
 - raw/papers/semanticscholar-c836b6f72ba9.md
@@ -12,6 +9,7 @@ tags:
 - neural-mass-models
 - dynamical-systems-theory
 - brain-dynamics
+title: Hrf
 type: concept
 updated: '2026-05-06'
 ---
@@ -58,6 +56,6 @@ The HRF relates closely to the [[bold-model]]—the biophysical model describing
 
 ## References
 
-1. L. Raimondo, Jurjen Heij, Tomas Knapen, Jeroen C. W. Siero, W. van der Zwaag, Serge O. Dumoulin. (2025). *Does the Cortical-Depth Dependence of the Hemodynamic Response Function Differ Between Age Groups?*. Brain Topography. [DOI](https://doi.org/10.1007/s10548-025-01107-0)
-2. Kai-Cheng Chuang, Maryam Naseri, Sreekrishna Ramakrishnapillai, Kaitlyn Madden, J. S. Amant, Kevin Mcklveen, Kathryn Gwizdala, Ramasudhakar Dhullipudi, L. Bazzano, Owen Carmichael. (2025). *Cardiovascular risk in childhood and young adulthood is associated with the hemodynamic response function in midlife: The Bogalusa Heart Study*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2025.121338)
-3. N. J. Fesharaki, Artemy Vinogradov, David Ress, Jung Hwan Kim. (2026). *Spatial evolution in temporal dynamics of hemodynamic response function in human superior colliculi with ultra-high-resolution MRI at 9.4T*. Frontiers in Neuroscience. [DOI](https://doi.org/10.3389/fnins.2026.1741923)
+1. L. Raimondo, Jurjen Heij, Tomas Knapen, Jeroen C. W. Siero, W. van der Zwaag, Serge O. Dumoulin. (2025). *Does the Cortical-Depth Dependence of the Hemodynamic Response Function Differ Between Age Groups?*. Brain Topography. [DOI](](https://doi.org/10.1007/s10548-025-01107-0))
+2. Kai-Cheng Chuang, Maryam Naseri, Sreekrishna Ramakrishnapillai, Kaitlyn Madden, J. S. Amant, Kevin Mcklveen, Kathryn Gwizdala, Ramasudhakar Dhullipudi, L. Bazzano, Owen Carmichael. (2025). *Cardiovascular risk in childhood and young adulthood is associated with the hemodynamic response function in midlife: The Bogalusa Heart Study*. NeuroImage. [DOI](](https://doi.org/10.1016/j.neuroimage.2025.121338))
+3. N. J. Fesharaki, Artemy Vinogradov, David Ress, Jung Hwan Kim. (2026). *Spatial evolution in temporal dynamics of hemodynamic response function in human superior colliculi with ultra-high-resolution MRI at 9.4T*. Frontiers in Neuroscience. [DOI](](https://doi.org/10.3389/fnins.2026.1741923))

@@ -1,7 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- raw/papers/arxiv-1409.7900.md
 - raw/papers/mijalkov-2017-braph.md
 - raw/papers/arxiv-2604.16463.md
 - raw/papers/woodman-2014.md
@@ -33,3 +32,9 @@ The decoding capabilities in nilearn support both classification and regression 
 ## Relationship to TVB
 
 Nilearn complements [[the-virtual-brain]] in several important ways in the [[whole-brain|whole-brain modeling]] pipeline. First, nilearn is frequently used to estimate functional connectivity matrices from [[resting-state|resting-state fMRI]] data, which serve as empirical targets for TVB model fitting or as initialization for model coupling parameters. Second, machine learning decoding approaches in nilearn can identify brain regions and networks relevant for validating TVB model predictions against experimental data— researchers can decode cognitive states from simulated TVB activity and compare to actual fMRI patterns. Third, nilearn's visualization routines produce figures of brain networks and connectivity matrices that mirror TVB output, facilitating comparison between empirical and simulated connectomes. Both nilearn and TVB are Python-based tools that integrate with the broader neuroimaging ecosystem, and nilearn-derived connectivity matrices commonly seed TVB neural mass model parameters in [[personalized-brain-modeling]] workflows. Additionally, nilearn's atlas handling and parcellation tools ([[brain-parcellations]]) can generate region definitions used to configure TVB brain network simulations.
+
+## References
+
+1. (authors unknown). *BRAPH: A Pipeline for Brain Connectivity Analysis*.
+2. Xiaobo Liu. (2026). *MLE-Toolbox: An Open-Source Toolbox for Comprehensive EEG and MEG Data Analysis*. [Link](https://www.semanticscholar.org/paper/e7aaa4f4bb01e70064493684b4500a950f83460f)
+3. Woodman et al. (2014). *GraphVar: A user-friendly toolbox for comprehensive graph analyses of functional brain connectivity*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2014.07.015)

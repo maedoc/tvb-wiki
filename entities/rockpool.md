@@ -1,10 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- rockpool-github
-- rockpool-documentation
-- brian2-documentation
-- neuromorphic-hardware-review
 - raw/papers/semanticscholar-3256c8880985.md
 - raw/papers/arxiv-2509.02799.md
 - raw/papers/semanticscholar-89e6c89fac1d.md

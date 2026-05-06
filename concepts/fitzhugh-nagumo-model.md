@@ -1,10 +1,17 @@
 ---
-title: FitzHugh-Nagumo Model
 created: 2026-04-20
-updated: 2026-05-06
+sources:
+- raw/papers/strogatz-1994.md
+- raw/papers/izhikevich-2007.md
+tags:
+- neural-mass-models
+- nonlinear-dynamics
+- bifurcation-analysis
+- brain-oscillations
+- dynamical-systems-theory
+title: FitzHugh-Nagumo Model
 type: concept
-tags: [neural-mass-models, nonlinear-dynamics, bifurcation-analysis, brain-oscillations, dynamical-systems-theory]
-sources: [raw/papers/strogatz-1994.md, raw/papers/izhikevich-2007.md]
+updated: '2026-05-06'
 ---
 
 The FitzHugh-Nagumo model is a two-dimensional reduction of the four-dimensional [[hodgkin-huxley-model]] that captures the essential nonlinear dynamics of neural excitability. Originally proposed by Richard FitzHugh in 1961 and later formalized with J. Nagumo [strogatz-1994], this minimal model demonstrates how neurons transition between resting and spiking states through well-characterized bifurcations. The model's importance lies in its ability to reproduce the fundamental dynamical behaviors of excitable media—including excitability, [[brain-oscillations]], and spike generation—while requiring only two coupled nonlinear differential equations, making it amenable to analytical treatment and Phase plane analysis that would be intractable with more biophysically detailed formulations.
@@ -48,3 +55,8 @@ The [[bifurcation-analysis]] techniques applied to FitzHugh-Nagumo extend natura
 ## Open Questions and Extensions
 
 Despite its age, the FitzHugh-Nagumo model continues to inform research on neural dynamics. Open questions include: how stochasticity modifies bifurcation transitions in biologically realistic noise regimes, how network coupling between multiple FitzHugh-Nagumo units gives rise to synchronized population oscillations, and how the model's insights might inform refined approaches to [[personalized-brain-modeling]] where individual parameter variations capture clinical heterogeneity. Extensions incorporating multiple time scales, noise, and coupling have kept the model relevant for addressing contemporary questions in [[computational-neuroscience]] and [[brain-dynamics]].
+
+## References
+
+1. (authors unknown). *Nonlinear Dynamics and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering*.
+2. Eugene M. Izhikevich. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.

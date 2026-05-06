@@ -55,11 +55,11 @@ These measures can be thresholded and segmented to produce tractograms and struc
 
 ## Relationship to TVB
 
-AMICO plays an important role in The Virtual Brain (TVB) workflows for personalized whole-brain modeling. The TVB pipeline for building subject-specific brain models requires a structural connectivity matrix that encodes the strength of anatomical connections between brain regions. This matrix is typically derived from diffusion MRI tractography, and AMICO serves as one of several options for the underlying microstructure reconstruction.
+AMICO plays an important role in [[the-virtual-brain]] (TVB) workflows for personalized whole-brain modeling. The TVB pipeline for building subject-specific brain models requires a structural connectivity matrix that encodes the strength of anatomical connections between brain regions. This matrix is typically derived from diffusion MRI tractography, and AMICO serves as one of several options for the underlying microstructure reconstruction.
 
 Users processing their own MRI data can use AMICO to generate fiber orientation distributions, which are then passed to tractography algorithms (e.g., [[MRtrix3]] or [[Camino]]) to reconstruct white matter streamlines. These streamlines are subsequently segmented by a [[brain-parcellations|brain parcellation]] (such as [[Desikan-Killiany atlas]] or [[Schaefer atlas]]) to produce a region-by-region connectivity matrix. This matrix directly constrains the [[whole-brain-modeling|whole-brain]] simulation in TVB, determining which brain areas are coupled and with what coupling strength.
 
-The integration typically follows this pipeline: raw DICOM or NIfTI diffusion data → AMICO reconstruction → deterministic or probabilistic tractography → connectivity matrix generation → TVB simulation. Several TVB tutorials and documentation pages reference AMICO as a recommended preprocessing step for data acquired on 3T scanners with multi-shell diffusion protocols. Notably, AMICO output can be combined with [[FreeSurfer]] cortical segmentations to ensure consistent segmentation between structural (T1) and diffusion modalities.
+The integration typically follows this pipeline: raw DICOM or [[nifti]] diffusion data → AMICO reconstruction → deterministic or probabilistic tractography → connectivity matrix generation → TVB simulation. Several TVB tutorials and documentation pages reference AMICO as a recommended preprocessing step for data acquired on 3T scanners with multi-shell diffusion protocols. Notably, AMICO output can be combined with [[FreeSurfer]] cortical segmentations to ensure consistent segmentation between structural (T1) and diffusion modalities.
 
 ## Key Features
 
@@ -78,7 +78,7 @@ AMICO occupies a specific niche in the diffusion MRI ecosystem. Alternative fram
 - [[Camino]] - Diffusion toolkit with Monte Carlo simulation capabilities
 - [[DTI-TK]] - Tensor-based toolkit for high-precision tractography
 - [[FSL]] - General neuroimaging suite including diffusion tools
-- [[FreeSurfer]] - Cortical reconstruction for parcellation
+- [[FreeSurfer]] - Cortical reconstruction for [[parcellation]]
 - [[TVB]] - Whole-brain simulation platform
 - [[tractography]] - Parent concept for deterministic and probabilistic fiber tracking
 - [[structural-connectivity]] - Connection matrices derived from tractography
@@ -87,3 +87,9 @@ AMICO occupies a specific niche in the diffusion MRI ecosystem. Alternative fram
 ## Key Papers
 
 The original AMICO paper established the convex optimization framework and demonstrated its application to both synthetic and real human data. Subsequent work extended the method to handle multiple diffusion compartments, enabling separate estimation of intracellular (axonal) and extracellular (tissue) diffusion fractions. The method has been validated against histology in animal models and against gold-standard techniques in human studies.
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
+2. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](](https://doi.org/10.1016/j.neuroimage.2018.05.040))
+3. Martin Cole, Yang Xiang, Will Consagra, Anuj Srivastava, Xin Qiu, Zhengwu Zhang. (2025). *Alignment of Continuous Brain Connectivity*. [Link](](https://www.semanticscholar.org/paper/e2f5bab42e2d6184495327924fdcb7ce59670424))

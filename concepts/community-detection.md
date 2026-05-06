@@ -1,10 +1,18 @@
 ---
-title: Community Detection
 created: 2026-04-20
-updated: 2026-05-06
+sources:
+- raw/papers/smith-2013-connectomics.md
+- raw/papers/strogatz-1994.md
+- raw/papers/arxiv-2603.04149.md
+tags:
+- connectomics
+- network-dynamics
+- graph-theory
+- structural-connectivity
+- functional-connectivity
+title: Community Detection
 type: concept
-tags: [connectomics, network-dynamics, graph-theory, structural-connectivity, functional-connectivity]
-sources: [raw/papers/smith-2013-connectomics.md, raw/papers/strogatz-1994.md, raw/papers/arxiv-2603.04149.md]
+updated: '2026-05-06'
 ---
 
 Community detection is a network analysis technique used to identify groups of densely interconnected nodes within a larger network structure. In the context of [[whole-brain|whole-brain modeling]] and [[connectomics]], community detection algorithms are applied to brain networks—derived from [[structural-connectivity|structural connectivity]] via [[diffusion-imaging|diffusion tensor imaging]] or from [[functional-connectivity|functional connectivity]] via [[resting-state|resting-state fMRI]]—to reveal the modular organization of the brain. The resulting communities often correspond to known functional brain systems, such as the [[default-mode-network|default mode network]], somatomotor networks, and visual processing pathways, providing a principled decomposition of brain architecture into anatomically and functionally coherent subunits (Sporns et al., 2013; Bullmore & Bassett, 2011).
@@ -36,3 +44,9 @@ Community detection also relates to other structural metrics used in brain conne
 In [[whole-brain]] simulations using platforms such as [[the-virtual-brain|The Virtual Brain]] (Jirsa et al., 2010; Ritter et al., 2013), community detection informs the construction of large-scale connectomes and the parameterization of regional dynamics. Structural connectivity matrices derived from [[diffusion-imaging|diffusion imaging]] are decomposed into communities to identify modules that can be assigned distinct but coupled [[neural-mass-model|neural mass models]]. The [[epilepsy-modeling|epileptic brain]] modeling literature demonstrates how community boundaries may become hyperexcitable pathways facilitating seizure spread, with community detection providing targets for surgical planning (Jirsa et al., 2014; Terry & Oyaolongo, 2018).
 
 The temporal dimension adds further complexity: functional communities detected from sliding-window analyses exhibit transient reconfiguration during cognitive tasks, a phenomenon studied under the framework of [[network-dynamics|network dynamics]] (Koppelmaker et al., 2016). Recent work on higher-order brain networks applies community detection to hypergraphs and multilayer networks, capturing the diversification of inter-regional interactions across time and cognitive contexts (Benson et al., 2016; De Domenico et al., 2015). These advances position community detection as a foundational tool in the shift from static anatomical descriptions to dynamical, multi-scale models of brain organization.
+
+## References
+
+1. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
+2. (authors unknown). *Nonlinear Dynamics and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering*.
+3. Marco Zenari, Luca Taffarello, Luca Mazzucato, Amos Maritan, Samir Suweis. (2026). *Topological Origin of the Diversity of Timescales in Recurrent Neural Circuits*. [Link](https://arxiv.org/abs/2603.04149)

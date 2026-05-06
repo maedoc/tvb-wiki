@@ -2,11 +2,7 @@
 created: '2026-05-01'
 sources:
 - raw/papers/semanticscholar-9afbfd2d37be.md
-tags:
-- electrophysiology
-- python
-- data-formats
-- neural-signaling
+tags: []
 title: Neo
 type: entity
 updated: '2026-05-04'

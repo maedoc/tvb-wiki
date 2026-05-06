@@ -1,10 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- https://arxiv.org/abs/1606.02882
-- https://www.frontiersin.org/articles/10.3389/fninf.2025.1544143
-- https://nestml.readthedocs.io/en/latest/nestml_language/nestml_language_concepts.html
-- https://nestml.readthedocs.io/en/latest/running/running_nest.html
 - raw/papers/semanticscholar-5c84b271b035.md
 tags:
 - software-nest

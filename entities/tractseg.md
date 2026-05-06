@@ -58,4 +58,4 @@ TractSeg operates within a broader ecosystem of diffusion MRI and tractography t
 1. (authors unknown). *The Human Connectome Project: A Data Acquisition Perspective*.
 2. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
 3. (authors unknown). *BRAPH: A Pipeline for Brain Connectivity Analysis*.
-4. Haolin He, Ce Zhu, Le Zhang, Yipeng Liu, Xiao Xu, Yuqeng Chen, L. Zekelman, Jarrett Rushmore, Y. Rathi, N. Makris, L. O’Donnell, Fan Zhang. (2025). *DeepNuParc: A novel deep clustering framework for fine-scale [[parcellation]] of brain nuclei using diffusion MRI tractography*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2025.121421)
+4. Haolin He, Ce Zhu, Le Zhang, Yipeng Liu, Xiao Xu, Yuqeng Chen, L. Zekelman, Jarrett Rushmore, Y. Rathi, N. Makris, L. O’Donnell, Fan Zhang. (2025). *DeepNuParc: A novel deep clustering framework for fine-scale [[parcellation]] of brain nuclei using diffusion MRI tractography*. NeuroImage. [DOI](](https://doi.org/10.1016/j.neuroimage.2025.121421))

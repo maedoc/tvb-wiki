@@ -1,9 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- NeuroQuery, comprehensive meta-analysis of human brain mapping (Dockès et al., 2020)
-- Large-scale automated synthesis of human functional neuroimaging data (Yarkoni et
-  al., 2011)
 - raw/papers/sanz-leon-2013.md
 - raw/papers/winkler-2014-palm.md
 - raw/papers/Renton2024.md
@@ -44,7 +41,7 @@ The resulting brain maps are predictions of the spatial distribution of neural o
 
 ## Availability
 
-NeuroQuery is available as a freely accessible web tool at [neuroquery.org](https://neuroquery.org). The source code is published as an open-source Python package on GitHub at [github.com/neuroquery/neuroquery](https://github.com/neuroquery/neuroquery). The training data, including vocabulary lists, document frequencies, and extracted peak coordinates, is separately available at [github.com/neuroquery/neuroquery_data](https://github.com/neuroquery/neuroquery_data).
+NeuroQuery is available as a freely accessible web tool at [neuroquery.org](](https://neuroquery.org)). The source code is published as an open-source Python package on GitHub at [github.com/neuroquery/neuroquery](](https://github.com/neuroquery/neuroquery)). The training data, including vocabulary lists, document frequencies, and extracted peak coordinates, is separately available at [github.com/neuroquery/neuroquery_data](](https://github.com/neuroquery/neuroquery_data)).
 
 ## Relationship to TVB
 
@@ -62,3 +59,9 @@ The seminal publication describing NeuroQuery (Dockès et al., 2020) introduced 
 - [[nilearn]] — Python library for neuroimaging data analysis and visualization
 - [[brain-[[connectivity]]-toolbox]] — graph-theoretical analysis of brain networks
 - [[brain-map]] — ontology of cognitive terms linked to brain regions
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. (authors unknown). *Permutation inference for the general linear model*.
+3. (authors unknown). *Neurodesk: an accessible, flexible and portable data analysis environment for reproducible neuroimaging*.

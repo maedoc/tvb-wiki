@@ -1,10 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- das2011
-- bids2016
-- mcgill-loris-web
-- hcp-database
 - raw/papers/huntenburg-2018.md
 - raw/papers/sanz-leon-2013.md
 - raw/papers/Renton2024.md
@@ -74,3 +70,9 @@ LORIS interacts with a rich ecosystem of neuroimaging tools. The [[human-connect
 [@hcp-database]: Human Connectome Project. LORIS database documentation. https://www.humanconnectome.org/
 
 [@mcgill-loris-web]: LORIS Official Website. Montreal Neurological Institute. https://loris.ca/
+
+## References
+
+1. (authors unknown). *Nighres: processing tools for high-resolution neuroimaging*.
+2. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+3. (authors unknown). *Neurodesk: an accessible, flexible and portable data analysis environment for reproducible neuroimaging*.

@@ -41,3 +41,7 @@ This integration makes Neurodamus particularly valuable for [[personalized-brain
 ## Related Software
 
 Neurodamus connects TVB to the broader ecosystem of neural simulation tools. [[nest]] provides the primary backend for large-scale parallel simulations, while [[neuron]] enables biophysically detailed single-neuron modeling. [[brian2]] offers flexibility for custom model specification. The [[tvb-multiscale]] framework extends these capabilities further, allowing coordination across multiple simulation engines simultaneously. Researchers comparing different approaches may consult the [[tvb-vs-nest-vs-neuron]] comparison as well as the [[neural-mass-models-comparison]] overview.
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
