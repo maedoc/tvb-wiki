@@ -54,3 +54,17 @@ A critical aspect of applying the Wong-Wang model to empirical data involves fit
 The model has been employed to study [[brain-oscillations]] at rest, working memory processes, and the effects of [[brain-stimulation]] on network dynamics. Its relatively low computational cost makes it suitable for parameter sweeps and sensitivity analyses across large cohorts, enabling investigations of individual differences in dynamical parameters and their relationship to behavioral measures or clinical outcomes[^deco-et-al-2013][^deco-et-al-2014].
 
 ---
+
+## References
+
+[^wong-wang-2006]: Wong, K.-F., & Wang, X.-J. (2006). A recurrent network mechanism for time integration of oscillatory patterns in the visual cortex. *Journal of Neuroscience*, 26(5), 1314-1328.
+
+[^deco-et-al-2013]: Deco, G., Ponce-Alvarez, A., Mantini, D., Romani, G. L., Hagmann, P., & Corbetta, M. (2013). Resting-state functional connectivity emerges from structurally and dynamically coupled slow-waves in the large-scale cortical resting state. *Journal of Neuroscience*, 33(15), 6339-6352.
+
+[^deco-et-al-2014]: Deco, G., Kringelbach, M. L., Jirsa, V. K., & Ritter, P. (2014). The dynamics of resting fluctuations in the brain: metastability and its putative computational and interpretative roles. *Frontiers in Neuroscience*, 8, 439.
+
+[^tvb-documentation]: The Virtual Brain. (2024). Neural Field Theory and Mass Models. *TVB Documentation*. https://docs.thevirtualbrain.org
+
+[^breakspear-2004]: Breakspear, M. (2004). System of self-organized neural models underpinning spontaneous cortical activity. *NeuroImage*, 22(3), 1151-1162.
+
+[^jansen-rit-1995]: Jansen, B. H., & Rit, V. G. (1995). Electroencephalogram and visual evoked potential generation in a mathematical model of combined cortical and thalamic neuronal populations. *Biological Cybernetics*, 73(4), 357-366.
