@@ -378,3 +378,7 @@
 ## [2026-05-06 13:18] Improve: 4 pages improved (nipal, neurodamus, eden, c302)
 
 ## [2026-05-06 13:43] DeepResearch: 5 papers added via focused research
+
+## [2026-05-06 13:50] Improve: 3 pages improved (loris, amico, neuroquery)
+
+## [2026-05-06 14:13] Audit: 1025 issues (120 broken links, 46 orphans, 2 placeholders, 0 dup-refs, 5 bad-meta, 88 citation-verify, 14 opaque-refs, 72 thin, 385 missing-links)
