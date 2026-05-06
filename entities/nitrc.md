@@ -1,9 +1,13 @@
 ---
+title: NITRC
+created: 2025-01-15
+updated: '2026-05-06'
+type: entity
+tags: [software-repository, neuroimaging, tools]
 sources:
 - raw/papers/sanz-leon-2013.md
 - raw/papers/woodman-2014.md
 - raw/papers/Renton2024.md
-updated: '2026-05-06'
 ---
 
 # NITRC

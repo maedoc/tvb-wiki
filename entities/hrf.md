@@ -1,4 +1,5 @@
 ---
+title: HRF
 created: 2026-05-04
 sources:
 - raw/papers/friston-1998-hrf.md

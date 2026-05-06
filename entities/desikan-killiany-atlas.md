@@ -2,7 +2,11 @@
 created: '2026-05-03'
 sources:
 - raw/papers/semanticscholar-66f887e82e89.md
-tags: []
+tags:
+- brain-parcellation
+- atlas
+- neuroimaging-mri
+- structural-connectivity
 title: Desikan Killiany Atlas
 type: entity
 updated: '2026-05-06'
