@@ -31,3 +31,5 @@
 ## [2026-05-06 19:56] FullTextFetcher: fetched 5 new full texts (28 total in corpus)
 
 ## [2026-05-06 19:57] Improve: 3 pages improved (preferential-attachment, reproducibility, volume-conduction)
+
+## [2026-05-06 20:14] DeepResearch: 9 papers added via focused research

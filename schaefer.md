@@ -1,0 +1,38 @@
+---
+title: Schaefer Parcellation
+created: 2026-04-20
+updated: 2026-05-06
+type: entity
+tags: [brain-parcellation, functional-connectivity, resting-state, neuroimaging-fmri, connectomics, database-hcp]
+sources: [raw/papers/schaefer-2018.md, raw/papers/power-2011.md, raw/papers/smith-2013-hcp.md]
+---
+
+The **Schaefer Parcellation** is a widely-used functional brain parcellation derived from resting-state functional magnetic resonance imaging (fMRI) data collected by the [[human-connectome-project]] [schaefer-2018]. It provides a hierarchical set of cortical parcels at multiple region resolutions (100, 200, 300, 400, 500, 600, 800, and 1000 regions), with each parcel assigned to either 7-network or 17-network labels based on the intrinsic [[functional-connectivity]] organization of the cerebral cortex. The atlas was developed by Schaefer et al. (2018) to address the need for a data-driven, anatomically principled parcellation scheme that could serve as a standardized node definition for whole-brain connectivity analyses and computational modeling.
+
+## Motivation and Context
+
+The development of the Schaefer Parcellation emerged from a fundamental challenge in network neuroscience: how to parcellate the cerebral cortex into anatomically meaningful and functionally coherent regions that can serve as nodes in brain network analyses. Prior approaches relied heavily on either anatomical landmarks from cytoarchitectonic studies or ad hoc anatomical divisions, which often failed to capture the true functional organization revealed by [[resting-state]] [[intrinsic-connectivity-networks]]. The Human Connectome Project's acquisition of high-quality, multi-band resting-state fMRI data at 3T field strength provided an unprecedented opportunity to derive a data-driven parcellation based directly on patterns of spontaneous brain activity [schaefer-2018].
+
+The Schaefer Parcellation was designed to bridge the gap between high-resolution voxel-wise analyses and coarse region-based network descriptions. By providing parcels at multiple spatial scales, researchers can choose an appropriate level of granularity for their specific research question—coarser resolutions (100–200 regions) are often preferred for tractable computational models and clear network-level interpretation, while finer resolutions (800–1000 regions) enable more detailed investigations of sub-network organization and region-specific dynamics. The hierarchical structure means that parcels can be seamlessly aggregated or subdivided across resolutions, facilitating comparisons across studies using different node counts.
+
+## Technical Methodology
+
+The parcellation was derived using a gradient-based boundary detection approach applied to group-level functional connectivity patterns from approximately 1,500 young adult participants in the Human Connectome Project Q3 and S900 data releases [schaefer-2018]. The algorithm identifies boundaries between functional regions by detecting locations where connectivity patterns change most rapidly—these boundaries align with transitions between major [[intrinsic-connectivity-networks]] [yeo-2011]. This approach differs from clustering methods that directly partition regions; instead, it identifies network boundaries first and then delineates coherent parcels within each network boundary.
+
+Each parcel in the Schaefer Parcellation is assigned to one of seven or seventeen functional networks originally described by Yeo et al. (2011), based on the predominant connectivity profile of that parcel [yeo-2011]. The 7-network assignment includes the Visual, Somatomotor, Dorsal Attention, Ventral Attention, Limbic, Frontoparietal, and Default Mode networks. The 17-network assignment provides finer-grained subdivision of these major systems—for example, splitting the Default Mode network into medial and lateral components, and separating dorsal and ventral attention systems into multiple subsystems. This dual network assignment enables researchers to analyze brain organization at different levels of network granularity.
+
+The parcellation is provided on the [[freesurfer]] fsaverage surface template, facilitating integration with standard neuroimaging preprocessing pipelines and surface-based analysis tools. The surface-based representation ensures that parcels follow cortical anatomy rather than being artificially constrained by volumetric grid boundaries, which is particularly important for visualizing results and comparing across individuals. The parcels are also available in volume format for researchers preferring volumetric approaches.
+
+## Relationship to Other Parcellations
+
+The Schaefer Parcellation occupies a specific niche in the landscape of available brain parcellations. Unlike purely anatomically-driven atlases such as the [[desikan-killiany-atlas]] or [[destrieux-atlas]], which are based on macroanatomical features visible on MRI, the Schaefer Parcellation is fundamentally derived from functional connectivity patterns. This gives it an advantage for studies focused on functional network organization, as parcels are by construction coherent in their functional connectivity profiles. Compared to other functional parcellations like the [[yeo-atlas]] (which provides only the network assignments without parcel boundaries), Schaefer provides both network labels and specific regional boundaries within each network.
+
+Compared to the [[glasser-atlas]], which was derived from a combination of task-based fMRI, resting-state connectivity, and myelin mapping, the Schaefer Parcellation is more purely connectivity-based and provides a broader range of spatial resolutions. The Glasser atlas (360 regions) represents a "gold standard" for multi-modal parcellation but offers only a single resolution. For computational neuroscience applications requiring tractable models, the Schaefer Parcellation's multiple resolution options provide greater flexibility.
+
+## Relationship to The Virtual Brain
+
+The Schaefer Parcellation is one of the most common [[parcellation]] choices for [[the-virtual-brain]] (TVB) whole-brain simulations. In TVB workflows, the parcellation serves several critical functions: defining network nodes for the connectome, providing network-level annotations for analyzing simulation outputs, and enabling comparison of model dynamics across functional networks. The 400-region resolution represents a popular compromise between computational tractability and spatial detail for large-scale simulations.
+
+TVB's structural connectivity matrices are typically computed by averaging [[diffusion-imaging]] based tractography between all pairs of Schaefer parcels, yielding a weighted, directed connectivity matrix that describes the white matter pathways linking each region pair. Functional connectivity matrices can similarly be computed from simulated neural activity or empirical fMRI data aggregated to the parcel level. The Yeo network assignments embedded in the Schaefer Parcellation enable researchers to compare dynamics across functional systems—for example, examining whether simulation parameters that produce realistic default-mode network dynamics also capture the Temporal Attention and frontal network behaviors observed empirically.
+
+The hierarchical nature of the atlas (with resolutions from 100 to 1000) also enables TVB researchers to perform resolution convergence studies, examining whether conclusions about network dynamics are robust across different spatial granularities or whether they depend on the specific parcellation choice. This flexibility has made the Schaefer Parcellation a de facto standard for TVB-based connectome research.
