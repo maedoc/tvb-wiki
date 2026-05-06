@@ -33,3 +33,5 @@
 ## [2026-05-06 19:57] Improve: 3 pages improved (preferential-attachment, reproducibility, volume-conduction)
 
 ## [2026-05-06 20:14] DeepResearch: 9 papers added via focused research
+
+## [2026-05-06 20:22] Improve: 5 pages improved (electrophysiology, schaefer, hodgkin-huxley-model, michael-fox, viktor-jirsa)
