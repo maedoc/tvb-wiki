@@ -242,28 +242,61 @@ def verify_citation(citation: dict, stub_index: dict) -> dict:
 
 
 def _extract_title_from_stub(path: str) -> str:
-    """Extract title from raw stub frontmatter."""
+    """Extract title from raw stub (YAML frontmatter or body-text fallback)."""
     try:
         with open(path, "r", encoding="utf-8") as f:
             text = f.read(2048)
     except OSError:
         return ""
+    # YAML frontmatter
     m = re.search(r"^title:\s*['\"]?(.*?)$", text, re.MULTILINE)
-    return m.group(1).strip().strip("'\"") if m else ""
+    if m:
+        return m.group(1).strip().strip("'\"")
+    # Body-text format: # Title at first heading
+    m = re.search(r"^#\s+(.+)$", text, re.MULTILINE)
+    if m:
+        return m.group(1).strip()
+    return ""
 
 
 def _extract_doi_from_stub(path: str) -> str | None:
-    """Extract DOI from raw stub frontmatter."""
+    """Extract DOI from raw stub (YAML frontmatter or body-text fallback)."""
     try:
         with open(path, "r", encoding="utf-8") as f:
             text = f.read(2048)
     except OSError:
         return None
+    # YAML frontmatter
     m = re.search(r"^doi:\s*(\S+)", text, re.MULTILINE)
     if m:
         d = m.group(1).strip().strip("'\"")
+        if d.startswith("10."):
+            return d
+    # Body-text format: **DOI**: 10.xxxx
+    m = re.search(r"\*\*DOI\*\*:\s*10\.\S+", text)
+    if m:
+        d = m.group(0).split(":", 1)[1].strip()
         return d if d.startswith("10.") else None
     return None
+
+
+def _extract_authors_from_stub(path: str) -> list[str]:
+    """Extract author list from raw stub (YAML frontmatter or body-text fallback)."""
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            text = f.read(2048)
+    except OSError:
+        return []
+    # YAML frontmatter (list format: - Author Name)
+    authors = re.findall(r"^-\s*(.+)$", text, re.MULTILINE)
+    if authors:
+        return [a.strip().strip("'\"") for a in authors]
+    # Body-text format: **Authors**: Author1, Author2, ...
+    m = re.search(r"\*\*Authors\*\*:\s*(.+)", text, re.MULTILINE)
+    if m:
+        raw = m.group(1).strip()
+        return [a.strip() for a in raw.split(",") if a.strip()]
+    return []
 
 
 def _title_similarity(a: str, b: str) -> float:
@@ -277,7 +310,7 @@ def _title_similarity(a: str, b: str) -> float:
 
 def build_stub_index(raw_papers_dir: str) -> dict:
     """
-    Build a lookup dict for raw stubs indexed by DOI or author_year key.
+    Build a lookup dict for raw stubs indexed by DOI, author_year, or title.
     """
     index = {}
     for fname in os.listdir(raw_papers_dir):
@@ -286,23 +319,38 @@ def build_stub_index(raw_papers_dir: str) -> dict:
         fpath = os.path.join(raw_papers_dir, fname)
         title = _extract_title_from_stub(fpath)
         doi = _extract_doi_from_stub(fpath)
+        authors = _extract_authors_from_stub(fpath)
 
         # Index by DOI
         if doi:
             index[doi] = fpath
             index[f"doi:{doi}"] = fpath
 
-        # Index by author_year
+        # Index by author_year (from filename slug like "schirner-2018")
         author_year = None
         slug = os.path.splitext(fname)[0]
         parts = slug.rsplit("-", 1)
         if len(parts) == 2 and parts[1].isdigit():
             author_year = slug
-
         if author_year:
             index[author_year] = fpath
+
+        # Index by first author + year from extracted authors
+        if authors:
+            first_last = authors[0].split()[-1].lower()
+            # Try to get year from title or filename
+            year_match = re.search(r'\b(19\d{2}|20\d{2})\b', title)
+            if year_match:
+                key = f"{first_last}-{year_match.group(1)}"
+                index[key] = fpath
+            # Also try year from filename
+            parts = slug.rsplit("-", 1)
+            if len(parts) == 2 and parts[1].isdigit():
+                key = f"{first_last}-{parts[1]}"
+                index[key] = fpath
+
+        # Index by lowercased title keywords for fuzzy matching
         if title:
-            # Also index by lowercased title keywords for fuzzy matching
             key = re.sub(r"[^a-z0-9]", "", title.lower())[:40]
             if key:
                 index[key] = fpath
