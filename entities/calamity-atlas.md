@@ -1,13 +1,18 @@
 ---
-title: Calamity Atlas
 created: 2025-01-15
-updated: 2026-05-06
-type: entity
-tags: [brain-parcellations, database-hcp, neuroimaging-dti, connectomics, dataset]
 sources: []
+tags:
+- brain-parcellations
+- database-hcp
+- neuroimaging-dti
+- connectomics
+- dataset
+title: Calamity Atlas
+type: entity
+updated: '2026-05-06'
 ---
 
-The Calamity Atlas is a specialized brain parcellation scheme designed to characterize pathological brain states, particularly those associated with neurological and psychiatric disorders affecting large-scale brain networks. Unlike conventional anatomical atlases that primarily depict healthy brain structure, the Calamity Atlas focuses on identifying network-level alterations corresponding to disease-related changes in functional and structural connectivity. The atlas serves as a computational framework for mapping dysfunction across brain regions in conditions such as epilepsy, schizophrenia, and Alzheimer's disease, providing researchers with a standardized nomenclature for studying disease-specific network perturbations in whole-brain models. [[cite:desai2005]] [[cite:fornito2013]]
+The Calamity Atlas is a specialized brain [[parcellation]] scheme designed to characterize pathological brain states, particularly those associated with neurological and psychiatric disorders affecting large-scale brain networks. Unlike conventional anatomical atlases that primarily depict healthy brain structure, the Calamity Atlas focuses on identifying network-level alterations corresponding to disease-related changes in functional and structural [[connectivity]]. The atlas serves as a computational framework for mapping dysfunction across brain regions in conditions such as epilepsy, schizophrenia, and Alzheimer's disease, providing researchers with a standardized nomenclature for studying disease-specific network perturbations in [[whole-brain]] models. [[cite:desai2005]] [[cite:fornito2013]]
 
 The development of disease-oriented atlases like Calamity addresses a fundamental limitation in computational neuroscience: standard parcellations are derived from healthy populations and may not adequately capture the reorganization of brain networks observed in pathological states. [[cite:fornito2015]] In whole-brain modeling applications, particularly those using platforms like [[the-virtual-brain]], the choice of atlas determines the node definition for connectivity matrices and governs how regional dynamics are coupled. [[cite:jirsa2002]] When modeling disease states, using an atlas designed for healthy brains can obscure disease-specific network changes or misrepresent the topological properties of altered connectomes. The Calamity Atlas attempts to bridge this gap by incorporating insights from neuroimaging studies of patient populations to create a parcellation scheme optimized for computational modeling of pathological brain dynamics.
 

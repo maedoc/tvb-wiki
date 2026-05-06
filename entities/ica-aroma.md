@@ -9,7 +9,7 @@ tags:
 - functional-connectivity
 title: ICA-AROMA
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # ICA-AROMA
@@ -48,7 +48,7 @@ ICA-AROMA is available as a standalone Python package and is integrated into maj
 
 - [[fmriprep]] — post-fMRIPrep ICA-AROMA BIDS App (replaces the built-in workflow in fMRIPrep 23.0 and earlier)
 - Fsl — ICA decomposition via MELODIC
-- Nilearn — includes utilities for ICA-AROMA classification
+- [[nilearn]] — includes utilities for ICA-AROMA classification
 - [[bids-derivatives]] — ICA-AROMA outputs conform to BIDS specification for processed data
 
 ## Key Papers

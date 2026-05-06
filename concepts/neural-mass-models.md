@@ -64,7 +64,7 @@ The [[epileptor]] model was developed specifically for [[epilepsy-modeling]] and
 
 ## Relationship to Other Approaches
 
-Neural mass models occupy an intermediate position between detailed biophysical models (such as those simulated in [[nest]] or Brian2) and purely descriptive models (such as autoregressive models of fMRI time series). Unlike [[spiking-neural-networks]] that simulate individual neurons with anatomical realism, NMMs aggregate neurons into populations, sacrificing single‑neuron specificity for speed and tractability. However, they retain sufficient biological interpretability to be mapped to physiological mechanisms.
+Neural mass models occupy an intermediate position between detailed biophysical models (such as those simulated in [[nest]] or [[brian2]]) and purely descriptive models (such as autoregressive models of fMRI time series). Unlike [[spiking-neural-networks]] that simulate individual neurons with anatomical realism, NMMs aggregate neurons into populations, sacrificing single‑neuron specificity for speed and tractability. However, they retain sufficient biological interpretability to be mapped to physiological mechanisms.
 
 The relationship between neural mass models and [[dynamic-causal-modeling]] is particularly close: DCM uses the Jansen‑Rit model as its [[forward-model]] for generating synthetic EEG/MEG data, and parameter estimation in DCM amounts to inverting the neural mass model to fit observed neuroimaging data. Similarly, [[tvb]] provides a platform for whole‑brain simulations using multiple neural mass models (Jansen‑Rit, Wong‑Wang, Epileptor) embedded in patient‑specific connectomes.
 

@@ -15,7 +15,7 @@ tags:
 - neuroimaging-dti
 title: DSI Studio
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # DSI Studio
@@ -45,11 +45,11 @@ DSI Studio generates [[structural-connectivity]] matrices that can be directly i
 
 ## Related Software
 
-* Mrtrix3
+* [[mrtrix3]]
 * Fsl
 * [[ants]]
 * [[tvb]]
-* Dipy
+* [[dipy]]
 * [[brainlife]]
 
 ## References

@@ -12,7 +12,7 @@ tags:
 - dynamic-causal-modeling
 title: AFNI
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # AFNI
@@ -29,7 +29,7 @@ The AFNI distribution encompasses a comprehensive toolchain for neuroimaging ana
 
 **[[connectivity]] Analysis**: Dedicated tools for [[resting-state]] [[functional-connectivity]] including seed-based correlation (3dNetCorr), [[whole-brain]] covariance analysis, and independent component analysis (ICA) via 3dICA. [[effective-connectivity]] can be estimated through beta-series correlation, psychophysiological interaction (PPI), and [[dynamic-causal-modeling]] interfaces.
 
-**Surface Mapping**: SUMA provides cortical surface reconstruction, inflation, and flattening capabilities, supporting FreeSurfer surface formats and [[cifti]] dense timeseries. Surface-volume alignment allows simultaneous visualization of subcortical and cortical activation patterns[^2].
+**Surface Mapping**: SUMA provides cortical surface reconstruction, inflation, and flattening capabilities, supporting [[freesurfer]] surface formats and [[cifti]] dense timeseries. Surface-volume alignment allows simultaneous visualization of subcortical and cortical activation patterns[^2].
 
 **Real-Time Capabilities**: Unique among major neuroimaging packages, AFNI supports real-time [[fmri]] processing for neurofeedback experiments and clinical monitoring via the RT-Mon plugin architecture.
 

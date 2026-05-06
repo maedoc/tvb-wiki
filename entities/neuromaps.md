@@ -16,7 +16,7 @@ tags:
 - software-visualization
 title: neuromaps
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # neuromaps
@@ -49,7 +49,7 @@ A distinctive feature of neuromaps is its implementation of spatial null models 
 
 ### Parcellation and Resampling Utilities
 
-neuromaps provides utilities for parcellating volumetric and surface data into region-based representations, as well as functions for resampling images to common spaces and resolutions. The `Parcellater` class implements flexible parcellation workflows that can handle arbitrary atlas definitions, while resampling functions ensure that maps being compared exist in compatible spatial configurations. These utilities complement the transformation pipeline and enable seamless integration with downstream analyses in tools like Nilearn or [[the-virtual-brain]].
+neuromaps provides utilities for parcellating volumetric and surface data into region-based representations, as well as functions for resampling images to common spaces and resolutions. The `Parcellater` class implements flexible parcellation workflows that can handle arbitrary atlas definitions, while resampling functions ensure that maps being compared exist in compatible spatial configurations. These utilities complement the transformation pipeline and enable seamless integration with downstream analyses in tools like [[nilearn]] or [[the-virtual-brain]].
 
 ## Relationship to TVB
 
@@ -67,7 +67,7 @@ neuromaps intersects with several other tools in the neuroimaging ecosystem. Nil
 
 ## Technical Implementation
 
-neuromaps is written in Python (version 3.8+) (@neuromaps-docs) and depends on established scientific computing libraries including [[nibabel]] for neuroimaging file I/O, Nilearn for basic image operations, NumPy/SciPy for numerical computing, and scikit-learn for machine learning utilities. The toolbox provides both a programmatic Python API and command-line interfaces for common operations. Installation is available via PyPI (`pip install neuromaps`) or directly from the GitHub repository. Notably, full transformation functionality requires [[connectome-workbench]] to be installed and accessible on the system PATH, as neuromaps delegates computational heavy-lifting to Workbench's `wb_command` utility.
+neuromaps is written in Python (version 3.8+) (@neuromaps-docs) and depends on established scientific computing libraries including [[nibabel]] for neuroimaging file I/O, Nilearn for basic image operations, NumPy/SciPy for numerical computing, and scikit-learn for [[machine-learning]] utilities. The toolbox provides both a programmatic Python API and command-line interfaces for common operations. Installation is available via PyPI (`pip install neuromaps`) or directly from the GitHub repository. Notably, full transformation functionality requires [[connectome-workbench]] to be installed and accessible on the system PATH, as neuromaps delegates computational heavy-lifting to Workbench's `wb_command` utility.
 
 The toolbox's architecture is organized into functional modules: `datasets` for annotation and atlas fetching, `transforms` for coordinate space conversions, `nulls` for spatial null model generation, `parcellate` for region-based summarization, `stats` for statistical comparisons, and `plotting` for visualization utilities. This modular design enables users to employ specific components in isolation while maintaining interoperability across the full analysis pipeline.
 
@@ -75,6 +75,6 @@ The toolbox's architecture is organized into functional modules: `datasets` for 
 
 1. (authors unknown). *Permutation inference for the general [[linear|linear model]]*.
 2. Shengjie Qi, Xinda Song, Le Jia, Hongyu Cui, Yuchen Suo, Teng Long, Zhendong Wu, Xiaolin Ning. (2025). *The impact of channel density, inverse solutions, connectivity metrics and calibration errors on OPM-MEG connectivity analysis: A simulation study*. NeuroImage. [DOI](](https://doi.org/10.1016/j.neuroimage.2025.121056))
-3. Sakul Mahat, Sharmistha Guha, Jessica Bernard. (2026). *A Bayesian Framework for Quantifying Association Between Functional and Structural Data in Neuroimaging*. [Link](](https://arxiv.org/abs/2603.21067))
+3. Sakul Mahat, Sharmistha Guha, Jessica Bernard. (2026). *A [[bayesian]] Framework for Quantifying Association Between Functional and Structural Data in Neuroimaging*. [Link](](https://arxiv.org/abs/2603.21067))
 4. Jui-To Wang, Ching-Po Lin, Huei-Min Liu, Carlo Pierpaoli, C. Lo. (2025). *Beyond [[tractography]] in brain connectivity mapping with dMRI morphometry and functional networks*. Brain Structure and Function. [DOI](](https://doi.org/10.1007/s00429-025-03016-1))
 5. Borja [[camino]]-Pontes, A. Jimenez-Marin, I. Tellaetxe-Elorriaga, Izaro Fernandez-Iriondo, A. Erramuzpe, I. Díez, Paolo Bonifazi, Marilyn Gatica, Fernando E. Rosas, D. Marinazzo, S. Stramaglia, Jesús M. Cortés. (2025). *Brain structural modules associated to functional high-order interactions in the human brain*. bioRxiv. [DOI](](https://doi.org/10.1101/2025.03.21.644509))

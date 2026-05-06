@@ -1,13 +1,24 @@
 ---
-title: DANDI
 created: 2024-01-15
-updated: 2026-05-06
+sources:
+- dandi-2020
+- bids-extension-neurophysiology
+- nwb-overview
+tags:
+- database
+- neurophysiology
+- data-archive
+- bids
+- datalad
+- nwb
+- electrophysiology
+- software
+title: DANDI
 type: entity
-tags: [database, neurophysiology, data-archive, bids, datalad, nwb, electrophysiology, software]
-sources: [dandi-2020, bids-extension-neurophysiology, nwb-overview]
+updated: '2026-05-06'
 ---
 
-DANDI is a specialized archive and publishing platform for neurophysiology data, providing version-controlled storage, DOI-assigned citations, and BIDS-compliant data organization for the broader computational neuroscience community. Founded as a successor to the previous generation of neuroscience data repositories, DANDI addresses the growing need for standardized, accessible, and reproducible storage of electrophysiology datasets including local field potentials, intracranial EEG, spike trains, and related neural recordings. The platform operates as both a data repository and a coordination hub, enabling researchers to deposit, discover, and download neural datasets while maintaining rigorous metadata standards that facilitate interoperability with popular analysis frameworks.
+DANDI is a specialized archive and publishing platform for neurophysiology data, providing version-controlled storage, DOI-assigned citations, and BIDS-compliant data organization for the broader [[computational-neuroscience]] community. Founded as a successor to the previous generation of neuroscience data repositories, DANDI addresses the growing need for standardized, accessible, and reproducible storage of electrophysiology datasets including [[local-field-potentials]], intracranial EEG, spike trains, and related neural recordings. The platform operates as both a data repository and a coordination hub, enabling researchers to deposit, discover, and download neural datasets while maintaining rigorous metadata standards that facilitate interoperability with popular analysis frameworks.
 
 ## Motivation and Context
 
@@ -15,7 +26,7 @@ The proliferation of large-scale neurophysiology recordings across the field has
 
 ## Key Features
 
-DANDI implements several features that distinguish it from generic data repositories. Each dataset receives a persistent digital object identifier (DOI) upon publication, enabling proper academic citation and ensuring long-term resolvability of data links regardless of platform migration or organizational changes. The platform enforces BIDS compliance through automated validation, ensuring that uploaded datasets include required sidecar JSON metadata describing recording parameters, electrode layouts, and stimulus specifications. DANDI supports the [[nwb]] (Neurodata Without Borders) data standard, which provides a unified schema for neurophysiology data that maps naturally onto the BIDS hierarchy while enabling seamless interoperability with analysis tools in Python (via PyNWB) and MATLAB. Versioning is baked into the platform at multiple levels: individual files can be updated while preserving history, and entire datasets can branch to create variants without central coordination. The platform provides both web-based browsing through a graphical dashboard and programmatic access through a Python API, enabling integration with automated preprocessing pipelines and reproducibility tooling.
+DANDI implements several features that distinguish it from generic data repositories. Each dataset receives a persistent digital object identifier (DOI) upon publication, enabling proper academic citation and ensuring long-term resolvability of data links regardless of platform migration or organizational changes. The platform enforces BIDS compliance through automated validation, ensuring that uploaded datasets include required sidecar JSON metadata describing recording parameters, electrode layouts, and stimulus specifications. DANDI supports the [[nwb]] (Neurodata Without Borders) data standard, which provides a unified schema for neurophysiology data that maps naturally onto the BIDS hierarchy while enabling seamless interoperability with analysis tools in Python (via PyNWB) and MATLAB. Versioning is baked into the platform at multiple levels: individual files can be updated while preserving history, and entire datasets can branch to create variants without central coordination. The platform provides both web-based browsing through a graphical dashboard and programmatic access through a Python API, enabling integration with automated preprocessing pipelines and [[reproducibility]] tooling.
 
 ## Relationship to TVB
 

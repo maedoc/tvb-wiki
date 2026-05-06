@@ -1,21 +1,38 @@
 ---
-title: NeuroHarmonize
 created: 2025-01-15
-updated: 2026-05-06
+sources:
+- johnson2007combat
+- fortin2018 harmonization
+- neuroharmonize-github
+- pomponio2019harmonization
+- chen2012removing
+- wachinger2020combat
+- zhao2021longitudinal
+- lee2022benchmark
+tags:
+- software-neuroharmonize
+- neuroimaging-fmri
+- neuroimaging-eeg
+- resting-state
+- connectomics
+- functional-connectivity
+- software-graphvar
+- software-nilearn
+- reproducibility
+title: NeuroHarmonize
 type: software
-tags: [software-neuroharmonize, neuroimaging-fmri, neuroimaging-eeg, resting-state, connectomics, functional-connectivity, software-graphvar, software-nilearn, reproducibility]
-sources: [johnson2007combat, fortin2018 harmonization, neuroharmonize-github, pomponio2019harmonization, chen2012removing, wachinger2020combat, zhao2021longitudinal, lee2022benchmark]
+updated: '2026-05-06'
 ---
 
-NeuroHarmonize is a Python toolbox for harmonizing neuroimaging data across sites, scanners, and acquisition sessions. It implements statistical methods to remove technical variability—such as differences in scanner hardware, acquisition parameters, and preprocessing pipelines—while preserving biologically meaningful signal. The tool is widely used in multi-site neuroimaging studies, particularly those analyzing [[resting-state]] [[functional-connectivity]] patterns, where uncontrolled site effects can confound true inter-individual differences and obscure group-level effects. [@fortin2018; @pomponio2019harmonization]
+NeuroHarmonize is a Python toolbox for harmonizing [[neuroimaging]] data across sites, scanners, and acquisition sessions. It implements statistical methods to remove technical variability—such as differences in scanner hardware, acquisition parameters, and preprocessing pipelines—while preserving biologically meaningful signal. The tool is widely used in multi-site neuroimaging studies, particularly those analyzing [[resting-state]] [[functional-connectivity]] patterns, where uncontrolled site effects can confound true inter-individual differences and obscure group-level effects. [@fortin2018; @pomponio2019harmonization]
 
 ## Motivation and Context
 
 The proliferation of multi-site neuroimaging consortia—such as the [[human-connectome-project]], [[abide]] (Autism Brain Imaging Data Exchange), [[uk-biobank]], and various clinical consortia—has greatly expanded the scale of available neuroimaging data. However, this expansion introduces a fundamental challenge: data collected across different institutions, scanner manufacturers (Siemens, Philips, GE), field strengths (1.5T, 3T, 7T), and acquisition protocols exhibit systematic differences that are unrelated to the biological variables of interest. These batch effects can manifest as spurious spatial patterns in [[functional-connectivity]] matrices, bias group comparisons, and undermine the reproducibility of findings. [@chen2012removing]
 
-Traditional approaches to addressing site effects include ad hoc regression of site labels, linear detrending, and inclusion of site as a covariate in statistical models. These methods assume that site effects are simple and homogeneous, which often fails to capture the complex, signal-dependent nature of scanner artifacts. Moreover, some approaches risk removing true biological variance along with technical variance, particularly when site effects interact with the amplitude of the [[bold-signal]].
+Traditional approaches to addressing site effects include ad hoc regression of site labels, [[linear]] detrending, and inclusion of site as a covariate in statistical models. These methods assume that site effects are simple and homogeneous, which often fails to capture the complex, signal-dependent nature of scanner artifacts. Moreover, some approaches risk removing true biological variance along with technical variance, particularly when site effects interact with the amplitude of the [[bold-signal]].
 
-NeuroHarmonize addresses these limitations by implementing ComBat (ComBat Harmonization), originally developed for genomic data, in conjunction with neurobiologically-informed extensions. [@johnson2007combat] The method uses an empirical Bayes framework to borrow strength across features (e.g., brain regions or connectivity edges), yielding more stable estimates of site effects than feature-by-feature regression.
+NeuroHarmonize addresses these limitations by implementing ComBat (ComBat Harmonization), originally developed for genomic data, in conjunction with neurobiologically-informed extensions. [@johnson2007combat] The method uses an empirical Bayes framework to borrow strength across features (e.g., brain regions or [[connectivity]] edges), yielding more stable estimates of site effects than feature-by-feature regression.
 
 ## Technical Approach
 
@@ -38,7 +55,7 @@ NeuroHarmonize provides a flexible API compatible with the [[nilearn]] and [[num
 
 A distinguishing feature is the preservation of known biological variance. Unlike simpler regression approaches that may remove any variance correlated with site, NeuroHarmonize's empirical Bayes framework constrains batch effect estimates to reasonable ranges, reducing the risk of over-harmonization. The method optionally supports including age-by-site or diagnosis-by-site interactions to allow for different site effects across groups. [@pomponio2019harmonization]
 
-The toolbox includes diagnostic utilities for assessing harmonization efficacy: comparison of connectivity distributions before and after harmonization, site-stratified principal component analysis, and tests for residual site effects. These tools help researchers verify that harmonization has succeeded without inadvertently removing biological signal. [@lee2022benchmark]
+The toolbox includes diagnostic utilities for assessing harmonization efficacy: comparison of connectivity distributions before and after harmonization, site-stratified [[principal-component-analysis]], and tests for residual site effects. These tools help researchers verify that harmonization has succeeded without inadvertently removing biological signal. [@lee2022benchmark]
 
 ## Relationship to TVB
 

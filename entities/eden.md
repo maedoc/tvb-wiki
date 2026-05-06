@@ -1,13 +1,22 @@
 ---
-title: EDEN
 created: 2024-01-15
-updated: 2026-05-06
+sources:
+- friston2008variational
+- jansen1993electroencephalogram
+- wong2006inhibitory
+- freeman1992neural
+tags:
+- neural-mass-models
+- dynamical-systems-theory
+- network-dynamics
+- whole-brain-modeling
+- computational-neuroscience
+title: EDEN
 type: concept
-tags: [neural-mass-models, dynamical-systems-theory, network-dynamics, whole-brain-modeling, computational-neuroscience]
-sources: [friston2008variational, jansen1993electroencephalogram, wong2006inhibitory, freeman1992neural]
+updated: '2026-05-06'
 ---
 
-EDEN (often expanded as **E**ntropic **D**ifferential **E**quation **N**etwork, though this expansion may not be formally established in the literature) refers to a class of neural mass models that incorporate information-theoretic principles into their dynamical formulation. Originally developed to address the relationship between neural activity and entropy production in cortical systems, EDEN models extend classical neural mass formulations by including terms that capture the energy efficiency and information processing capacity of neural ensembles. The framework treats neural populations as thermodynamic systems where entropy production serves as a regularization term in the governing differential equations, leading to dynamics that naturally converge toward metabolically efficient states [@freeman1992neural].
+EDEN (often expanded as **E**ntropic **D**ifferential **E**quation **N**etwork, though this expansion may not be formally established in the literature) refers to a class of [[neural-mass-models]] that incorporate information-theoretic principles into their dynamical formulation. Originally developed to address the relationship between neural activity and entropy production in cortical systems, EDEN models extend classical neural mass formulations by including terms that capture the energy efficiency and information processing capacity of neural ensembles. The framework treats neural populations as thermodynamic systems where entropy production serves as a regularization term in the governing differential equations, leading to dynamics that naturally converge toward metabolically efficient states [@freeman1992neural].
 
 ## Overview
 
@@ -21,7 +30,7 @@ where $\mu$ represents the mean field activity, $f(\mu)$ captures the standard n
 
 $$H(\mu) = -\int p(x|\mu) \log p(x|\mu) dx$$
 
-By treating the mean field activity as a probability distribution over neural states, the model can compute entropy production as a functional of the population dynamics, allowing optimization of the model parameters to minimize information-theoretic cost functions. This framework has proven particularly useful for understanding resting-state dynamics, where the brain maintains a delicate balance between exploration and exploitation that can be quantified through entropic measures [@friston2008variational].
+By treating the mean field activity as a probability distribution over neural states, the model can compute entropy production as a functional of the population dynamics, allowing optimization of the model parameters to minimize information-theoretic cost functions. This framework has proven particularly useful for understanding [[resting-state]] dynamics, where the brain maintains a delicate balance between exploration and exploitation that can be quantified through entropic measures [@friston2008variational].
 
 ## Relationship to TVB
 
@@ -43,12 +52,12 @@ The model also relates to [[bifurcation-analysis]] approaches in dynamical syste
 
 ## Key Papers
 
-- Friston, K. (2008). Variational inference. In *Bayesian Statistics 8* [@friston2008variational]
+- Friston, K. (2008). Variational inference. In *[[bayesian]] Statistics 8* [@friston2008variational]
 - Jansen, B.H., & Rit, V.G. (1995). Electroencephalogram and visual evoked potential generation in a mathematical model of combined cortical columns. *Biological Cybernetics* [@jansen1993electroencephalogram]
 - Wong, K.F., & Wang, X.J. (2006). A recurrent network mechanism for time integration in perceptual decisions. *Journal of Neuroscience* [@wong2006inhibitory]
 - Freeman, W.J. (1992). Neural modeling. In *The Neurobiology of Neural Networks* [@freeman1992neural]
 
 ## Related Software
 
-- [[TVB]] - The Virtual Brain
+- [[TVB]] - [[the-virtual-brain]]
 - TVB Library neural mass implementations

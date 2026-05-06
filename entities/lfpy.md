@@ -9,7 +9,7 @@ tags:
 - software-neuron
 title: LFPy
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 **[[lfp-lib|LFPy]]** is an open-source Python package designed for the simulation of extracellular potentials in biologically detailed neural networks. It computes the [[local-field-potentials|local field potential]] (LFP) that arises from the electrical activity of neurons embedded in a volume conductor, providing a bridge between [[neural-mass-models|neural mass modeling]] at the [[whole-brain]] scale and detailed biophysical simulations at the cellular level. The software enables researchers to predict LFP signals from arbitrarily structured neural networks while accounting for the geometry and electrical properties of the surrounding tissue.
@@ -75,7 +75,7 @@ LFPy integrates with several related software packages in the computational neur
 
 - **Lfpykit**: A companion Python package that provides general classes for volume conductor modeling and extracellular potential calculation. LFPy builds on lfpykit to extend its functionality to specific use cases involving NEURON simulations.
 - **NEURON**: The simulation environment that LFPy uses for computing neural dynamics. NEURON provides the compartmental modeling framework needed to calculate transmembrane currents for neurons with arbitrary morphologies.
-- **Brian2**: Another neuron simulator that can in principle be integrated with forward modeling tools, though LFPy specifically targets the NEURON interface.
+- **[[brian2]]**: Another neuron simulator that can in principle be integrated with forward modeling tools, though LFPy specifically targets the NEURON interface.
 - **[[nest]]**: A simulator focused on large-scale network dynamics that complements LFPy's detailed single-neuron capabilities.
 
 The modular design of LFPy allows researchers to combine these tools in various configurations depending on their modeling needs. For instance, LFPy can be used with custom NEURON models imported from [[model-validation]], enabling forward modeling of LFPs from biologically realistic neural networks.

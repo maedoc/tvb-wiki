@@ -3,8 +3,8 @@ title: NIPAL
 created: 2024-01-01
 updated: 2026-05-06
 type: entity
-tags: []
-sources: []
+tags: [connectomics, functional-connectivity, structural-connectivity, whole-brain-modeling, brain-dynamics, software-visualization, model-validation, personalized-brain-modeling, neural-mass-models]
+sources: [domain-knowledge]
 ---
 
 NIPAL (Neuroimaging Pattern Analysis Library) is a Python-based software package that provides tools for analyzing patterns in neuroimaging data, with particular emphasis on connectivity-based analyses relevant to whole-brain modeling. While not as widely adopted as packages such as [[nilearn]] or [[nipype]], NIPAL fills a specialized niche in the neuroimaging software ecosystem by offering pattern recognition and machine learning utilities specifically designed for brain connectivity data.

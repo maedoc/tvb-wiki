@@ -12,14 +12,14 @@ tags:
 - classification
 title: ilastik
 type: entity
-updated: '2026-05-05'
+updated: '2026-05-06'
 ---
 
 # ilastik
 
 ## Overview
 
-**ilastik** is an open-source interactive machine learning tool designed for segmentation, classification, and analysis of bioimaging data. Originally developed at the European Molecular Biology Laboratory (EMBL) in Heidelberg, Germany, ilastik enables neuroscientists and cell biologists to train pixel-level classifiers through an intuitive graphical interface, generating accurate segmentations without requiring extensive programming expertise [1]. The software combines conventional feature extraction with random forest classifiers and, in more recent versions, deep neural networks to achieve robust performance across diverse imaging modalities including electron microscopy, confocal microscopy, light sheet microscopy, and [[fmri]] data processed for structural analysis.
+**ilastik** is an open-source interactive [[machine-learning]] tool designed for segmentation, classification, and analysis of bioimaging data. Originally developed at the European Molecular Biology Laboratory (EMBL) in Heidelberg, Germany, ilastik enables neuroscientists and cell biologists to train pixel-level classifiers through an intuitive graphical interface, generating accurate segmentations without requiring extensive programming expertise [1]. The software combines conventional feature extraction with random forest classifiers and, in more recent versions, deep neural networks to achieve robust performance across diverse imaging modalities including electron microscopy, confocal microscopy, light sheet microscopy, and [[fmri]] data processed for structural analysis.
 
 ## Key Features
 

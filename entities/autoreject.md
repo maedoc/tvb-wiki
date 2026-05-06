@@ -12,7 +12,7 @@ tags:
 - preprocessing
 title: AutoReject
 type: software
-updated: '2026-05-05'
+updated: '2026-05-06'
 ---
 
 AutoReject is a Python library that provides automated rejection and repair of bad trials and bad sensors in magneto-/electroencephalography (M/EEG) data. Developed primarily by Mainak Jas, Denis Engemann, and colleagues [1], AutoReject addresses a persistent challenge in [[electrophysiology]] preprocessing: the need for manual, time-consuming inspection of [[eeg]] or [[meg]] data to identify and remove artifacts. The library employs machine learning and cross-validation techniques to automatically determine optimal thresholds for epoch rejection, significantly accelerating preprocessing workflows while maintaining data quality comparable to expert manual curation [1].
@@ -29,7 +29,7 @@ AutoReject employs a cross‑validation‑based optimization approach to determi
 
 The algorithm works by computing channel‑level thresholds for each epoch using peak‑to‑peak amplitude criteria. Rather than applying a single global threshold, AutoReject evaluates different combinations of the consensus and interpolation parameters across cross‑validation folds. The optimal configuration minimizes the difference between the original epoch and its repaired version, effectively balancing the trade‑off between aggressive artifact removal and preservation of genuine neural signal. This approach allows the method to adapt to the specific noise characteristics of each dataset, unlike fixed‑threshold methods that assume uniform artifact distributions.
 
-Beyond the main AutoReject class, the library includes several specialized functions. **get_rejection_threshold** provides a simpler interface that computes a global rejection threshold based on the data distribution. **RANSAC** implements the Random Sample Consensus algorithm adapted from the PREP pipeline [2], which identifies bad sensors by comparing their signals to predictions based on the majority of channels. **compute_thresholds** calculates channel‑specific amplitude thresholds using various estimation methods including Bayesian optimization and random search.
+Beyond the main AutoReject class, the library includes several specialized functions. **get_rejection_threshold** provides a simpler interface that computes a global rejection threshold based on the data distribution. **RANSAC** implements the Random Sample Consensus algorithm adapted from the PREP pipeline [2], which identifies bad sensors by comparing their signals to predictions based on the majority of channels. **compute_thresholds** calculates channel‑specific amplitude thresholds using various estimation methods including [[bayesian]] optimization and random search.
 
 ## Relationship to TVB and Whole‑Brain Modeling
 
@@ -55,7 +55,7 @@ AutoReject is part of a broader ecosystem of [[neuromorpho‑toolkit]] preproces
 - Fieldtrip: An open‑source MATLAB toolbox for [[meg]] and [[eeg]] analysis from the Donders Institute
 - [[mne‑bids]]: Pipeline tools for converting [[eeg]]/[[meg]] data to BIDS format
 - Pycortex: Visualization toolkit for surface‑based neuroimaging data
-- Nilearn: Python library for fast and easy statistical learning on neuroimaging data
+- [[nilearn]]: Python library for fast and easy statistical learning on neuroimaging data
 
 These tools collectively enable fully automated preprocessing pipelines that minimize manual intervention while maximizing data quality and [[reproducibility]].
 

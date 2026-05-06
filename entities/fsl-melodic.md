@@ -15,7 +15,7 @@ tags:
 - software-analysis
 title: FSL MELODIC
 type: concept
-updated: '2026-05-05'
+updated: '2026-05-06'
 ---
 
 FSL MELODIC (Multivariate Exploratory Linear Optimized Decomposition into Independent Components) is a toolbox within the FMRIB Software Library that implements Independent Component Analysis (ICA) for decomposing [[fmri|fMRI]] data into spatially independent source signals [beckmann2004probabilistic]. Originally developed by the Oxford Centre for Functional Magnetic Resonance Imaging of the Brain (FMRIB), MELODIC provides a data-driven approach to analyzing resting-state [[functional-connectivity|functional connectivity]] without requiring a priori specification of seed regions or model waveforms. The tool has become a standard reference in the neuroimaging community for identifying intrinsic brain networks, artifact removal, and exploratory analysis of 4D fMRI time series [smith2009resting].
@@ -32,7 +32,7 @@ MELODIC offers several distinguishing capabilities that have contributed to its 
 
 Following decomposition, MELODIC produces spatial independent component maps and their associated time courses. The subsequent classification of components into neural, artifact, and ambiguous categories is performed by separate tools—most notably FSL's **FIX** (FMRIB's ICM Classification Toolbox) and the related ICA-AROMA method [salimi2014automatic]. This classification framework, formalized in ICA-AROMA, has become a foundation for automated artifact rejection pipelines, but it is important to note that MELODIC itself generates the components while classification is a post-processing step.
 
-The spatial ICA outputs from MELODIC integrate seamlessly with other FSL tools, particularly FEAT for task analysis and randomise for non-parametric statistical inference on component images. Visualization occurs through FSLEyes, FSL's dedicated image viewing platform, though MELODIC results are also compatible with external viewing tools such as Nilearn. Recent versions incorporate dual-regression analysis, enabling back-reconstruction of subject-specific time courses from group-level component maps—a critical capability for individual-level network quantification in clinical applications [beckmann2005temporal].
+The spatial ICA outputs from MELODIC integrate seamlessly with other FSL tools, particularly FEAT for task analysis and randomise for non-parametric statistical inference on component images. Visualization occurs through FSLEyes, FSL's dedicated image viewing platform, though MELODIC results are also compatible with external viewing tools such as [[nilearn]]. Recent versions incorporate dual-regression analysis, enabling back-reconstruction of subject-specific time courses from group-level component maps—a critical capability for individual-level network quantification in clinical applications [beckmann2005temporal].
 
 ## Relationship to TVB and Whole-Brain Modeling
 
@@ -73,4 +73,4 @@ While MELODIC remains the most widely cited ICA tool for fMRI, several alternati
 
 1. Dionysios Perdikis, Rita Sleimen-Malkoun, Viktor Müller, V. Jirsa. (2025). *Developmental and [[aging]] changes in brain network switching dynamics revealed by EEG phase synchronization*. bioRxiv. [DOI](](https://doi.org/10.1371/journal.pcbi.1013290))
 2. Winn W Chow, A. Seghouane, M. Seghier. (2025). *A Statistical Characterization of Dynamic Brain Functional Connectivity*. Human Brain Mapping. [DOI](](https://doi.org/10.1002/hbm.70145))
-3. Diego Derman, Damon D. Pham, Amanda F. Mejia, Silvina L. Ferradal. (2025). *Individual patterns of functional connectivity in neonates as revealed by surface-based Bayesian modeling*. Imaging neuroscience. [DOI](](https://doi.org/10.1162/imag_a_00504))
+3. Diego Derman, Damon D. Pham, Amanda F. Mejia, Silvina L. Ferradal. (2025). *Individual patterns of functional connectivity in neonates as revealed by surface-based [[bayesian]] modeling*. Imaging neuroscience. [DOI](](https://doi.org/10.1162/imag_a_00504))

@@ -13,7 +13,7 @@ tags:
 - software-visualization
 title: Allen SDK
 type: entity
-updated: '2026-05-05'
+updated: '2026-05-06'
 ---
 
 The Allen SDK (Software Development Kit) is a Python-based toolkit developed by the Allen Institute for Brain Science that provides programmatic access to the extensive datasets produced by the [[allen-brain-atlas]] project. Initially released in 2015, the SDK enables researchers to query, download, and work with brain atlas data including gene expression maps, cell type classifications, connectivity datasets, and reference atlases without requiring manual data curation or web-based downloads [@allen-sdk-github]. The toolkit has become an essential infrastructure component for researchers working in [[connectomics]], [[structural-connectivity]] analysis, and [[computational-neuroscience]] who require high-quality anatomical and physiological reference data for their whole-brain modeling efforts.
@@ -48,12 +48,12 @@ While the Allen SDK itself provides data access rather than simulator coupling, 
 
 The[[ Allen SDK| Allen SDK]] is part of a broader ecosystem of brain atlas tools and data resources:
 
-- **Freesurfer**: For cortical [[parcellation]] and segmentation of human [[neuroimaging]] data
+- **[[freesurfer]]**: For cortical [[parcellation]] and segmentation of human [[neuroimaging]] data
 - **[[brain-connectivity-toolbox]]**: For network analysis of connectivity data
-- **Dipy**: For advanced [[diffusion-mri]] tractography processing
+- **[[dipy]]**: For advanced [[diffusion-mri]] tractography processing
 - **[[connectome-workbench]]**: For visualization of [[brain-parcellations]] and connectivity data
 
-The[[ Allen SDK| Allen SDK]] complements other data resources like the [[human-connectome-project]] (HCP) and can be used alongside Nilearn for human neuroimaging data workflows. The data formats used by Allen Institute (NWB, NRRD) align with Neurodata Without Borders standards for neurophysiology data.
+The[[ Allen SDK| Allen SDK]] complements other data resources like the [[human-connectome-project]] (HCP) and can be used alongside [[nilearn]] for human neuroimaging data workflows. The data formats used by Allen Institute (NWB, NRRD) align with Neurodata Without Borders standards for neurophysiology data.
 
 ## Key Papers
 

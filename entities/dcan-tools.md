@@ -25,7 +25,7 @@ DCAN Tools (Developmental Cognition and Neuroimaging Tools) is a suite of open-s
 
 ## Motivation and Context
 
-TheABCD Study presented unprecedented challenges for neuroimaging analysis. With over 10,000 participants aged 9-10 at baseline, scanned annually across 21 sites using diverse MRI scanner manufacturers and field strengths, the need for standardized, motion-robust preprocessing became critical. Traditional preprocessing pipelines developed for adult populations often performed suboptimally on pediatric data due to differences in head size, tissue composition, and the higher likelihood of motion during scanning. DCAN Tools was developed to address these issues by incorporating state-of-the-art techniques for motion correction, anatomical parcellation, and connectivity analysis specifically tuned for developmental populations.
+TheABCD Study presented unprecedented challenges for [[neuroimaging]] analysis. With over 10,000 participants aged 9-10 at baseline, scanned annually across 21 sites using diverse MRI scanner manufacturers and field strengths, the need for standardized, motion-robust preprocessing became critical. Traditional preprocessing pipelines developed for adult populations often performed suboptimally on pediatric data due to differences in head size, tissue composition, and the higher likelihood of motion during scanning. DCAN Tools was developed to address these issues by incorporating state-of-the-art techniques for motion correction, anatomical [[parcellation]], and [[connectivity]] analysis specifically tuned for developmental populations.
 
 The broader context for DCAN Tools lies in the growing recognition that [[resting-state]] [[functional-connectivity]] patterns undergo substantial reorganization during childhood and adolescence. Research has demonstrated that brain networks transition from a more local, fragmented organization in childhood to a more integrated, global efficiency in adolescence, following trajectories influenced by both maturation and experience. By providing validated preprocessing pipelines optimized for detecting these developmental changes, DCAN Tools has enabled researchers to investigate how [[brain-network]] organization relates to cognitive development, mental health outcomes, and environmental influences.
 
@@ -33,9 +33,9 @@ The broader context for DCAN Tools lies in the growing recognition that [[restin
 
 ### Preprocessing Pipeline
 
-The DCAN preprocessing pipeline (often referred to as DCAN fmri or the DCAN BIDS processing pipeline) incorporates several specialized steps for pediatric data. The pipeline begins with robust [[motion]] correction using a combination of volume-to-volume registration and ICA-based Automatic Removal of Motion Artifacts (ICA-AROMA, available in the wiki as [[ica-aroma]]). Unlike adult-focused pipelines that may apply standard framewise displacement thresholds, DCAN incorporates motion censoring and scrubbing techniques that adaptively exclude timepoints with excessive motion while preserving as much of the temporal information as possible. This approach is particularly important for pediatric populations where in-scanner motion is more prevalent.
+The DCAN preprocessing pipeline (often referred to as DCAN [[fmri]] or the DCAN BIDS processing pipeline) incorporates several specialized steps for pediatric data. The pipeline begins with robust [[motion]] correction using a combination of volume-to-volume registration and ICA-based Automatic Removal of Motion Artifacts (ICA-AROMA, available in the wiki as [[ica-aroma]]). Unlike adult-focused pipelines that may apply standard framewise displacement thresholds, DCAN incorporates motion censoring and scrubbing techniques that adaptively exclude timepoints with excessive motion while preserving as much of the temporal information as possible. This approach is particularly important for pediatric populations where in-scanner motion is more prevalent.
 
-The anatomical processing stream includes a custom infant-tissue-segmentation algorithm that adapts to the developmental timeline of white matter myelination. This addresses a limitation of adult-trained segmentation models that can produce biased results when applied to pediatric brains. The pipeline also incorporates registration to age-appropriate templates rather than adult templates, reducing registration failures and improving parcellation accuracy.
+The anatomical processing stream includes a custom infant-tissue-segmentation algorithm that adapts to the developmental timeline of [[white-matter]] myelination. This addresses a limitation of adult-trained segmentation models that can produce biased results when applied to pediatric brains. The pipeline also incorporates registration to age-appropriate templates rather than adult templates, reducing registration failures and improving parcellation accuracy.
 
 ### Connectivity Analysis
 
@@ -69,4 +69,4 @@ The canonical publications describing DCAN Tools include the methodological pape
 
 ## References
 
-1. (authors unknown). *Function in the Human Connectome: Task-fMRI and Individual Differences in Behavior*.
+1. (authors unknown). *Function in the Human [[connectome]]: Task-fMRI and Individual Differences in Behavior*.

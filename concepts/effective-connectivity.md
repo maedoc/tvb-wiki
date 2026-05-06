@@ -19,7 +19,7 @@ tags:
 - variational-bayes
 title: Effective Connectivity
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 ## Overview
@@ -38,7 +38,7 @@ The study of brain connectivity has become central to modern neuroscience becaus
 
 Model-based methods estimate effective connectivity by fitting parametric models to observed neural data. These approaches require specifying a generative model—a mathematical description of how neural activity in one region arises from inputs and internal dynamics—and then inverting this model given observed data.
 
-**Dynamic Causal Modeling (DCM)** is the dominant framework for estimating effective connectivity from neuroimaging data. Developed by Karl Friston and colleagues, DCM uses Bayesian inference to estimate the parameters of a deterministic [[neural-mass-models|neural mass model]] given observed [[bold-signal]] or electromagnetic data. The key insight behind DCM is that effective connectivity parameters describe how the dynamics of one neural population are modulated by the activity of others. The model specifies three sets of parameters: the A matrix captures endogenous (intrinsic) connectivity—the default interactions between regions that exist even in the absence of external input; the B matrix captures modulation—the changes in connectivity induced by experimental conditions or tasks; and the C matrix captures driving inputs—the direct effects of external stimuli on specific regions.
+**Dynamic Causal Modeling (DCM)** is the dominant framework for estimating effective connectivity from neuroimaging data. Developed by Karl Friston and colleagues, DCM uses [[bayesian|Bayesian inference]] to estimate the parameters of a deterministic [[neural-mass-models|neural mass model]] given observed [[bold-signal]] or electromagnetic data. The key insight behind DCM is that effective connectivity parameters describe how the dynamics of one neural population are modulated by the activity of others. The model specifies three sets of parameters: the A matrix captures endogenous (intrinsic) connectivity—the default interactions between regions that exist even in the absence of external input; the B matrix captures modulation—the changes in connectivity induced by experimental conditions or tasks; and the C matrix captures driving inputs—the direct effects of external stimuli on specific regions.
 
 **Structural Equation Modeling (SEM)** offers a simpler, more phenomenological approach, treating brain regions as nodes and effective connections as directed edges in a path model. SEM specifies a set of hypothesized causal relationships and tests how well the model explains the observed covariance structure in the data. While less physiologically grounded than DCM, SEM has been widely used in early connectivity studies and provides a useful bridge between purely statistical and mechanistically motivated approaches.
 

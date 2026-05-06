@@ -1,24 +1,29 @@
 ---
-title: "FSL"
 created: 2026-05-06
-updated: 2026-05-06
-type: entity
-tags: [software-fsl, neuroimaging-fmri, neuroimaging-dti, image-processing, statistics]
 sources: []
+tags:
+- software-fsl
+- neuroimaging-fmri
+- neuroimaging-dti
+- image-processing
+- statistics
+title: FSL
+type: entity
+updated: '2026-05-06'
 ---
 
 # FSL
 
-**FSL** (FMRIB Software Library) is a comprehensive library of analysis tools for functional MRI (fMRI), MRI, and DTI brain imaging data. Developed at the Wellcome Centre for Integrative Neuroimaging at the University of Oxford, FSL is one of the most widely used neuroimaging software packages in the world.
+**FSL** (FMRIB Software Library) is a comprehensive library of analysis tools for functional MRI ([[fmri]]), MRI, and DTI brain imaging data. Developed at the Wellcome Centre for Integrative [[neuroimaging]] at the University of Oxford, FSL is one of the most widely used neuroimaging software packages in the world.
 
 ## Overview
 
 FSL provides tools for:
 - fMRI preprocessing and statistical analysis
 - Structural MRI segmentation and registration
-- Diffusion MRI tractography and analysis
+- [[diffusion-mri]] [[tractography]] and analysis
 - Brain extraction (BET) and tissue segmentation
-- General linear model (GLM) and mixed-effects analysis
+- General [[linear|linear model]] (GLM) and mixed-effects analysis
 
 ## Key Tools
 
@@ -37,9 +42,9 @@ FSL provides tools for:
 
 FSL tools are commonly used in TVB preprocessing pipelines:
 - **Brain extraction** (BET) generates the cortical surface mask
-- **Segmentation** (FAST) produces grey matter, white matter, and CSF maps
+- **Segmentation** (FAST) produces grey matter, [[white-matter]], and CSF maps
 - **Registration** (FLIRT/FNIRT) aligns subject anatomy to standard atlases
-- **Tractography** (BEDPOSTX + PROBTRACKX) generates structural connectivity matrices used as TVB input
+- **Tractography** (BEDPOSTX + PROBTRACKX) generates [[structural-connectivity]] matrices used as TVB input
 - [[tbss]] and [[bedpostx]] outputs feed into whole-brain connectome construction for [[the-virtual-brain]] simulations
 
 ## Software Ecosystem

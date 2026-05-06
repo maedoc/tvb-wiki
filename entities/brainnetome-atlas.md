@@ -58,7 +58,7 @@ The Glasser Atlas represents another major connectivity-based parcellation based
 - [[brainnet-viewer]] — Visualization toolkit for Brainnetome data
 - [[the-virtual-brain]] — Whole-brain simulator that can use Brainnetome parcellations
 - [[connectome-workbench]] — General visualization tool compatible with various atlases
-- Nilearn — Python library for [[neuroimaging]] data manipulation, including atlas handling
+- [[nilearn]] — Python library for [[neuroimaging]] data manipulation, including atlas handling
 [[mindboggle]]
 
 ## Related Atlases
@@ -96,7 +96,7 @@ tags:
 - brain-parcellations
 - parcellation
 - shape-analysis
-- open-source-brain
+- [[open-source-brain]]
 title: Mindboggle
 type: entity
 updated: '2026-05-04'

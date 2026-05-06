@@ -15,7 +15,7 @@ tags:
 - neuroimaging-fmri
 title: ITK
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # ITK
@@ -28,7 +28,7 @@ The **Insight Toolkit (ITK)** is an open-source, cross-platform software library
 
 ITK offers a comprehensive suite of image processing algorithms that are essential for preprocessing neuroimaging data. **Image registration** is one of ITK's most developed capabilities, implementing rigid, affine, and deformable transformation models that align anatomical images to standard spaces (e.g., MNI space) or co-register multi-modal data (e.g., registering T1-weighted MRI to [[diffusion-imaging]]). The toolkit implements various optimization schemes including gradient descent, conjugate gradient, and stochastic gradient descent for finding optimal transformation parameters.
 
-**Image segmentation** in ITK encompasses both classical methods (thresholding, region growing, watershed) and advanced techniques (level-set methods, fuzzy connectedness, Markov random field models). The toolkit's implementation of the Chan-Vese active contours and geodesic active contours provides tools for delineating anatomical structures in MRI data[^4]. For diffusion imaging applications, ITK's tractography capabilities enable fiber tracking through diffusion tensor fields, though specialized tools like Mrtrix3 and Dipy have become more common for modern tractography workflows.
+**Image segmentation** in ITK encompasses both classical methods (thresholding, region growing, watershed) and advanced techniques (level-set methods, fuzzy connectedness, Markov random field models). The toolkit's implementation of the Chan-Vese active contours and geodesic active contours provides tools for delineating anatomical structures in MRI data[^4]. For diffusion imaging applications, ITK's tractography capabilities enable fiber tracking through diffusion tensor fields, though specialized tools like [[mrtrix3]] and [[dipy]] have become more common for modern tractography workflows.
 
 ITK's **filtering infrastructure** includes Gaussian smoothing, anisotropic diffusion, bilateral filtering, and morphological operations. These preprocessing steps are critical for reducing noise in [[fmri]] and [[dti]] data while preserving important structural boundaries. The toolkit uses the ITK MetaImage format (.mha) natively but provides robust support for common neuroimaging formats including [[nifti]] through integration with [[nibabel]] and other libraries.
 
@@ -36,13 +36,13 @@ ITK's **filtering infrastructure** includes Gaussian smoothing, anisotropic diff
 
 While [[the-virtual-brain]] focuses on dynamical whole-brain modeling and simulation, ITK plays a supporting role in the preprocessing pipeline that generates structural connectivity matrices. TVB workflows typically begin with [[neuroimaging]] data—T1-weighted anatomical scans and diffusion-weighted images—that require processing through ITK-based tools before network construction. The structural connectivity matrices derived from [[tractography]] processed with ITK directly feed into TVB's connectome-based models[^6].
 
-ITK is not directly used within TVB's simulation engine but appears in the broader ecosystem of TVB's data processing pipelines. Researchers preparing [[personalized-brain-modeling|personalized brain]] models often use Freesurfer or Fsl for parcellation, with ITK providing underlying registration functions. The emphasis on [[structural-connectivity]] in whole-brain modeling means that preprocessing tools like ITK, while not model components themselves, are essential infrastructure for the field.
+ITK is not directly used within TVB's simulation engine but appears in the broader ecosystem of TVB's data processing pipelines. Researchers preparing [[personalized-brain-modeling|personalized brain]] models often use [[freesurfer]] or Fsl for parcellation, with ITK providing underlying registration functions. The emphasis on [[structural-connectivity]] in whole-brain modeling means that preprocessing tools like ITK, while not model components themselves, are essential infrastructure for the field.
 
 ## Related Software
 
 ITK serves as the underlying engine for several specialized neuroimaging tools. [[ants]] (Advanced Normalization Tools) is built directly on ITK and provides current registration algorithms widely used for longitudinal MRI processing and multi-atlas segmentation[^5]. Itk Snap provides a graphical interface for semi-automatic segmentation using level-set methods implemented in ITK. [[3d-slicer]], a comprehensive medical imaging platform, uses ITK for its core image processing operations.
 
-Python wrappers are available through [[simpleitk]], which provides a simplified interface to ITK's functionality and integrates well with the scientific Python ecosystem including Nilearn. Tools like Fsl, Spm, and Freesurfer use ITK under the hood for various operations, making ITK a ubiquitous but often invisible component of neuroimaging preprocessing.
+Python wrappers are available through [[simpleitk]], which provides a simplified interface to ITK's functionality and integrates well with the scientific Python ecosystem including [[nilearn]]. Tools like Fsl, Spm, and Freesurfer use ITK under the hood for various operations, making ITK a ubiquitous but often invisible component of neuroimaging preprocessing.
 
 ## Key Papers
 

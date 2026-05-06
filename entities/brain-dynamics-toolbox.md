@@ -14,7 +14,7 @@ tags:
 - network-dynamics
 title: Brain Dynamics Toolbox
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # Brain Dynamics Toolbox
@@ -45,7 +45,7 @@ For whole-brain models [[whole-brain-modeling]], BDT provides tools for coupling
 
 ## Relationships to Related Tools
 
-The Brain Dynamics Toolbox occupies a unique position in the ecosystem of brain simulation software. Unlike [[the-virtual-brain]], which emphasizes clinical workflows and empirical data fitting, BDT focuses on the fundamental dynamical systems behavior of neural mass models. Unlike Brian2 or [[nest]], which simulate spiking neurons at the level of individual cells, BDT operates at the population level where mean-field approximations apply.
+The Brain Dynamics Toolbox occupies a unique position in the ecosystem of brain simulation software. Unlike [[the-virtual-brain]], which emphasizes clinical workflows and empirical data fitting, BDT focuses on the fundamental dynamical systems behavior of neural mass models. Unlike [[brian2]] or [[nest]], which simulate spiking neurons at the level of individual cells, BDT operates at the population level where mean-field approximations apply.
 
 The toolbox complements [[dynamic-causal-modeling]] (DCM), which uses Bayesian inversion to estimate [[effective-connectivity]] from [[neuroimaging]] data. While DCM is primarily inferential, BDT is complementary in being a forward-modeling tool that explores the dynamical consequences of specified connectivity patterns. Together, these approaches form a bidirectional bridge between empirical connectivity estimates and the theoretical dynamics they support.
 

@@ -1,15 +1,21 @@
 ---
-title: Brian2
 created: 2024-01-15
-updated: 2026-05-06
-type: entity
-tags: [software-brian, spiking-neural-networks, computational-neuroscience, neural-mass-models, software-neuron, software-nest]
 sources:
-  - stimberg_brian2_2019
-  - brette_original_brian_2007
+- stimberg_brian2_2019
+- brette_original_brian_2007
+tags:
+- software-brian
+- spiking-neural-networks
+- computational-neuroscience
+- neural-mass-models
+- software-neuron
+- software-nest
+title: Brian2
+type: entity
+updated: '2026-05-06'
 ---
 
-Brian2 is a Python-based simulator for spiking neural networks (SNNs) that serves as the successor to the original Brian simulator. Developed primarily by Marcel Stimberg and colleagues, Brian2 is designed to enable rapid prototyping of neural models through an equation-oriented specification language that closely resembles mathematical notation. Unlike traditional simulators that require low-level code, Brian2 allows researchers to define neuron and synapse dynamics using differential equations written in a syntax that mirrors published scientific literature, then automatically generates optimized executable code for simulation.
+Brian2 is a Python-based simulator for [[spiking-neural-networks]] (SNNs) that serves as the successor to the original Brian simulator. Developed primarily by Marcel Stimberg and colleagues, Brian2 is designed to enable rapid prototyping of neural models through an equation-oriented specification language that closely resembles mathematical notation. Unlike traditional simulators that require low-level code, Brian2 allows researchers to define neuron and synapse dynamics using differential equations written in a syntax that mirrors published scientific literature, then automatically generates optimized executable code for simulation.
 
 ## Motivation and Design Philosophy
 
@@ -17,7 +23,7 @@ The development of Brian2 addressed a fundamental tension in computational neuro
 
 ## Technical Capabilities
 
-Brian2's core innovation lies in its equation-based model specification system. Neuron models are defined using strings of differential equations written in a custom syntax that supports variables, constants, and temporal derivatives. For example, a leaky integrate-and-fire neuron can be specified as `C * dvm/dt = -gL * (vm - EL) + I`, making it trivial to modify parameters or swap in different ionic currents. The simulator supports heterogeneous synaptic delays, allowing per-connection delay specification that is critical for modeling realistic temporal dynamics in recurrent networks. Brian2 provides automatic code generation for multiple computational backends including pure [[numpy]] for prototyping, Cython for moderate-speed simulations, and standalone C++ for high-performance production runs. The software includes extensive support for multiple synapse types with various plasticity mechanisms, complex connectivity patterns including gap junctions and dendritic processing, and sophisticated stimulus handling through arbitrary temporal functions.
+Brian2's core innovation lies in its equation-based model specification system. Neuron models are defined using strings of differential equations written in a custom syntax that supports variables, constants, and temporal derivatives. For example, a leaky integrate-and-fire neuron can be specified as `C * dvm/dt = -gL * (vm - EL) + I`, making it trivial to modify parameters or swap in different ionic currents. The simulator supports heterogeneous synaptic delays, allowing per-connection delay specification that is critical for modeling realistic temporal dynamics in recurrent networks. Brian2 provides automatic code generation for multiple computational backends including pure [[numpy]] for prototyping, Cython for moderate-speed simulations, and standalone C++ for high-performance production runs. The software includes extensive support for multiple synapse types with various [[plasticity]] mechanisms, complex [[connectivity]] patterns including gap junctions and dendritic processing, and sophisticated stimulus handling through arbitrary temporal functions.
 
 ## Code Generation and Performance
 

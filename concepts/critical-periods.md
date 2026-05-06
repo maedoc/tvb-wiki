@@ -11,7 +11,7 @@ tags:
 - critical-periods
 title: Critical Periods
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 Critical Periods — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
@@ -26,4 +26,4 @@ Critical Periods — a concept in [[whole-brain|whole-brain modeling]] and [[com
 3. Tingting Liu, Mingyang Li, Y. You, Hongxi Zhang, Ying Lv, Chai Ji, Yuting Li, Dan Wu, Shenghong Ju. (2026). *Maturation and reorganization of [[structural-connectivity]] in infants within half a year*. NeuroImage. [DOI](](https://doi.org/10.1016/j.neuroimage.2026.121728))
 4. (authors unknown). *Normal Development of Brain Circuits*.
 5. Xiaoyan Wu, Chuang Liang, J. Bustillo, Peter V. Kochunov, Xuyun Wen, Jing Sui, Rongtao Jiang, Xiao Yang, Zening Fu, Daoqiang Zhang, V. Calhoun, S. Qi. (2025). *The Impact of Atlas [[parcellation]] on [[functional-connectivity]] Analysis Across Six Psychiatric Disorders*. Human Brain Mapping. [DOI](](https://doi.org/10.1002/hbm.70206))
-6. Diego Derman, Damon D. Pham, Amanda F. Mejia, Silvina L. Ferradal. (2025). *Individual patterns of functional [[connectivity]] in neonates as revealed by surface-based Bayesian modeling*. Imaging neuroscience. [DOI](](https://doi.org/10.1162/imag_a_00504))
+6. Diego Derman, Damon D. Pham, Amanda F. Mejia, Silvina L. Ferradal. (2025). *Individual patterns of functional [[connectivity]] in neonates as revealed by surface-based [[bayesian]] modeling*. Imaging neuroscience. [DOI](](https://doi.org/10.1162/imag_a_00504))

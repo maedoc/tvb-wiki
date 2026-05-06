@@ -15,7 +15,7 @@ tags:
 - whole-brain-simulators
 title: BrainScaleS
 type: entity
-updated: '2026-05-05'
+updated: '2026-05-06'
 ---
 
 # BrainScaleS
@@ -32,7 +32,7 @@ The project emerged from the recognition that biological brains achieve computat
 
 ## Technical Implementation
 
-The BrainScaleS hardware comprises multiple generations of neuromorphic chips, each containing thousands of silicon neurons implemented as analog VLSI circuits. The neuronal dynamics are modeled primarily using the Adaptive Exponential Integrate-and-Fire (AdEx) model—a two-dimensional neuron model that reproduces key features of cortical pyramidal cells including spike-frequency adaptation, refractory periods, and subthreshold oscillations [[homer3]]. The AdEx model is described by the following equations:
+The BrainScaleS hardware comprises multiple generations of neuromorphic chips, each containing thousands of silicon neurons implemented as analog VLSI circuits. The neuronal dynamics are modeled primarily using the [[adaptive-exponential-integrate-and-fire]] (AdEx) model—a two-dimensional neuron model that reproduces key features of cortical pyramidal cells including spike-frequency adaptation, refractory periods, and subthreshold oscillations [[homer3]]. The AdEx model is described by the following equations:
 
 $$C_m \frac{dV}{dt} = -g_L(V - E_L) + g_L \Delta_T \exp\left(\frac{V - V_T}{\Delta_T}\right) - w + I$$
 
@@ -44,7 +44,7 @@ Unlike purely digital simulations where equations are solved numerically at disc
 
 The communication architecture uses a digital spike router capable of transmitting millions of spikes per second across the network. This hybrid approach—analog computation combined with digital communication—provides the best of both worlds: the speed and efficiency of analog circuits for neuronal dynamics, and the flexibility and scalability of digital systems for network [[connectivity]]. The system supports various synaptic connection topologies including random connectivity, structured receptive fields, and biologically realistic motifs derived from experimental data.
 
-Several software stacks have been developed to interface with BrainScaleS hardware. The Pynn interface allows users to define networks using the standardized Python Neural Networks API, enabling portability across neuromorphic . Low-level access is provided through the Marocco software framework, which handles the mapping between network descriptions and hardware configurations. These tools have enabled researchers to implement diverse neural models ranging from single-population rate models to large-scale cortical microcircuit simulations [[homer3]].
+Several software stacks have been developed to interface with BrainScaleS hardware. The [[pynn]] interface allows users to define networks using the standardized Python Neural Networks API, enabling portability across neuromorphic . Low-level access is provided through the Marocco software framework, which handles the mapping between network descriptions and hardware configurations. These tools have enabled researchers to implement diverse neural models ranging from single-population rate models to large-scale cortical microcircuit simulations [[homer3]].
 
 ## Relationship to The Virtual Brain and Whole-Brain Modeling
 

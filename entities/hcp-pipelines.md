@@ -18,7 +18,7 @@ tags:
 - tractography
 title: HCP Pipelines
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # HCP Pipelines
@@ -32,7 +32,7 @@ The pipelines process three primary imaging modalities acquired on the HCP's cus
 ## Key Features
 
 ### Structural Preprocessing
-The structural pipeline performs: bias field correction, brain extraction, tissue segmentation, and cortical surface reconstruction using FreeSurfer algorithms adapted for the HCP acquisition protocol. The pipeline generates cortical surface meshes in both native and standard space (fs_LR 32k), enabling vertex-wise analysis across subjects.
+The structural pipeline performs: bias field correction, brain extraction, tissue segmentation, and cortical surface reconstruction using [[freesurfer]] algorithms adapted for the HCP acquisition protocol. The pipeline generates cortical surface meshes in both native and standard space (fs_LR 32k), enabling vertex-wise analysis across subjects.
 
 ### Functional Preprocessing
 The [[fmri]] pipeline implements: gradient nonlinearity distortion correction, motion correction using FLIRT, EPI distortion correction using TOPUP, registration to structural images, and minimal temporal filtering. Critically, the pipeline maps volumetric fMRI data to the cortical surface, enabling surface-based [[connectivity]] analysis Smith et al. (2013)(raw/papers/smith-2013-hcp.md).
@@ -49,7 +49,7 @@ The HCP Pipelines provide essential preprocessing for [[connectome]]-based [[who
 
 - **[[structural-connectivity]]**: The cortical surface meshes (in fs_LR space) serve as the anatomical scaffolding for TVB simulations, with surface vertices mapping to network nodes.
 
-- **Tractography-derived Connectivity**: Preprocessed dMRI enables probabilistic tractography using tools like MRtrix3 or FSL's PROBTRACKX, generating structural connectivity matrices that constrain TVB [[network-dynamics]].
+- **Tractography-derived Connectivity**: Preprocessed dMRI enables probabilistic tractography using tools like [[mrtrix3]] or FSL's PROBTRACKX, generating structural connectivity matrices that constrain TVB [[network-dynamics]].
 
 - **Functional Validation**: The resting-state networks identified in HCP data provide empirical targets for validating TVB simulations against observed [[functional-connectivity]] patterns.
 

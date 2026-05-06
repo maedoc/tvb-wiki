@@ -15,7 +15,7 @@ tags:
 - brain-oscillations
 title: Epileptor Resting State
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # Epileptor Resting State
@@ -40,7 +40,7 @@ The parameter space of the EpileptorRS spans a wider range than its deterministi
 
 ## Applications in Research and Clinical Translation
 
-The EpileptorRS has proven particularly valuable for applications requiring long-duration simulations ofbrain activity. In seizure prediction, baseline fluctuations must be characterized to develop classifiers that can distinguish pre-ictal transitions from ordinary variability. The stochastic model enables the generation of synthetic datasets that match the statistical properties of individual patients' recordings, facilitating the training and validation of machine learning algorithms without requiring lengthy data collection periods. Furthermore, the model supports investigation of the relationship between interictal spike statistics and seizure susceptibility—emerging evidence suggests that the distribution of spike intervals carries information about the proximity to the next seizure event.
+The EpileptorRS has proven particularly valuable for applications requiring long-duration simulations ofbrain activity. In seizure prediction, baseline fluctuations must be characterized to develop classifiers that can distinguish pre-ictal transitions from ordinary variability. The stochastic model enables the generation of synthetic datasets that match the statistical properties of individual patients' recordings, facilitating the training and validation of [[machine-learning]] algorithms without requiring lengthy data collection periods. Furthermore, the model supports investigation of the relationship between interictal spike statistics and seizure susceptibility—emerging evidence suggests that the distribution of spike intervals carries information about the proximity to the next seizure event.
 
 Sleep modeling represents another important application domain. During non-rapid eye movement (NREM) sleep, the brain exhibits characteristic oscillations (sleep spindles, K-complexes) that arise from the interaction between thalamic and cortical circuits. The EpileptorRS can reproduce these patterns when parameterized appropriately, providing a framework for understanding how sleep-dependent changes in neuromodulation and [[connectivity]] affect seizure risk. The integration of metabolic considerations into the model further allows investigation of how energy budget constraints—reduced glucose metabolism in epileptogenic tissue, for example—influence the propensity for seizure generation.
 
@@ -56,7 +56,7 @@ Integration with whole-brain simulators such as [[tvb]] enables the construction
 
 ## Open Questions and Future Directions
 
-Several important questions remain open in the development and application of the EpileptorRS. Parameter estimation for individual patients—identifying the noise amplitude, metabolic coupling strength, and other parameters that best match observed data—remains computationally challenging due to the model's nonlinearities and the stochastic nature of the data. Bayesian approaches, including particle filtering and variational inference, have shown promise but require further validation. Additionally, the relationship between the stochastic fluctuations in the model and the biophysical sources of variability in real neural tissue—including [[ion-channel]] noise, synaptic vesicle release failure, and network-level fluctuations—is not yet fully characterized.
+Several important questions remain open in the development and application of the EpileptorRS. Parameter estimation for individual patients—identifying the noise amplitude, metabolic coupling strength, and other parameters that best match observed data—remains computationally challenging due to the model's nonlinearities and the stochastic nature of the data. [[bayesian]] approaches, including particle filtering and variational inference, have shown promise but require further validation. Additionally, the relationship between the stochastic fluctuations in the model and the biophysical sources of variability in real neural tissue—including [[ion-channel]] noise, synaptic vesicle release failure, and network-level fluctuations—is not yet fully characterized.
 
 The extension of the EpileptorRS to include spatial propagation effects, transitioning from a neural mass to a neural field formulation, represents an active area of development. Such extensions would enable more accurate modeling of seizure spread patterns and the interaction between the seizure focus and connected brain regions. Finally, the integration of multimodal imaging data—including simultaneous EEG-[[fmri]] recordings—into the parameter estimation framework could provide additional constraints that improve the model's predictive validity.
 

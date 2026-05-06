@@ -19,7 +19,7 @@ tags:
 - parameter-estimation
 title: Forward Model
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 A **Forward Model** in computational neuroscience is a mathematical framework that predicts observable electrophysiological or hemodynamic signals from underlying neural dynamics. It constitutes the generative component of brain modeling: given a specification of neural states (such as firing rates of [[neural-mass-models|neural mass]] populations or spiking activity of [[spiking-neural-networks|detailed neuron models]]), the forward model produces synthetic measurements that would be captured by neuroimaging modalities such as [[eeg|EEG]], [[meg|MEG]], or [[fmri|fMRI]]. In this sense, forward models answer the question: "What would the brain look like from the outside if these particular neural dynamics were occurring?"
@@ -54,7 +54,7 @@ where the HRF is typically modeled as the difference of two gamma functions capt
 
 ## Relationship to Inverse Modeling and DCM
 
-Forward models and inverse problems are complementary. While the forward model maps neural states to observations, the inverse problem attempts the reverse mapping—estimating neural states from observations. In practice, this is often framed as Bayesian inference: the forward model serves as the likelihood function, specifying how likely each observation is given particular neural states. This framework underlies [[dynamic-causal-modeling|Dynamic Causal Modeling]], which uses forward models to generate predicted sensor data and then updates posterior beliefs about model parameters (such as connection strengths) using variational Bayesian inversion.
+Forward models and inverse problems are complementary. While the forward model maps neural states to observations, the inverse problem attempts the reverse mapping—estimating neural states from observations. In practice, this is often framed as [[bayesian|Bayesian inference]]: the forward model serves as the likelihood function, specifying how likely each observation is given particular neural states. This framework underlies [[dynamic-causal-modeling|Dynamic Causal Modeling]], which uses forward models to generate predicted sensor data and then updates posterior beliefs about model parameters (such as connection strengths) using variational Bayesian inversion.
 
 The distinction between forward and inverse problems is central to the **generative model** concept in computational neuroscience. A forward model is literally a generative model: it generates observations from hidden causes. The [[free-energy-principle|free energy principle]] and related frameworks from theoretical neuroscience emphasize that biological brains may themselves implement forward models (or their inverses) for perception and action.
 

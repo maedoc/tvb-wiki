@@ -13,12 +13,12 @@ tags:
 - neuroimaging-mri
 title: FreeView
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # FreeView
 
-FreeView is the native 3D visualization and inspection tool provided with the FreeSurfer [[neuroimaging]] software suite. It serves as the primary graphical interface for viewing processed MRI data including cortical reconstructions, [[white-matter]] segmentations, subcortical segmentations, and various overlay maps such as cortical thickness, curvature, and statistical maps cite:Fischl2012. Developed and maintained by the Martinos Center for Biomedical Imaging at Massachusetts General Hospital cite:Dale1999, FreeView enables researchers to visually quality-check FreeSurfer processing pipelines and to explore neuroanatomical data in both 2D slice views and interactive 3D renderings.
+FreeView is the native 3D visualization and inspection tool provided with the [[freesurfer]] [[neuroimaging]] software suite. It serves as the primary graphical interface for viewing processed MRI data including cortical reconstructions, [[white-matter]] segmentations, subcortical segmentations, and various overlay maps such as cortical thickness, curvature, and statistical maps cite:Fischl2012. Developed and maintained by the Martinos Center for Biomedical Imaging at Massachusetts General Hospital cite:Dale1999, FreeView enables researchers to visually quality-check FreeSurfer processing pipelines and to explore neuroanatomical data in both 2D slice views and interactive 3D renderings.
 
 ## Relationship to FreeSurfer
 
@@ -58,7 +58,7 @@ FreeView plays a supporting role in workflows involving [[the-virtual-brain]] (T
 - [[3d-slicer]]
 - Itk Snap
 - [[connectome-workbench]]
-- Mrtrix3
+- [[mrtrix3]]
 
 ## References
 

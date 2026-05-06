@@ -15,14 +15,14 @@ tags:
 - open-source
 title: BCILAB
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # BCILAB
 
 ## Overview
 
-BCILAB is an open-source MATLAB toolbox for developing, testing, and applying brain-computer interface (BCI) systems. The name stands for "Brain-Computer Interface LABoratory" and reflects its design as a comprehensive development environment for real-time and offline analysis of neurophysiological signals, particularly electroencephalography (EEG) and magnetoencephalography (MEG) data. BCILAB provides a unified framework that combines signal processing, feature extraction, machine learning classification, and visualization tools, making it one of the most complete BCI development platforms available to the research community. The toolbox is maintained by the SCCN (Swartz Center for Computational Neuroscience) at UC San Diego, the same group behind the influential EEGLAB toolbox, with which it shares architectural principles and some underlying data structures [@sccn_bcilab; @kothe_makeig_2013].
+BCILAB is an open-source MATLAB toolbox for developing, testing, and applying brain-computer interface (BCI) systems. The name stands for "Brain-Computer Interface LABoratory" and reflects its design as a comprehensive development environment for real-time and offline analysis of neurophysiological signals, particularly electroencephalography (EEG) and magnetoencephalography (MEG) data. BCILAB provides a unified framework that combines signal processing, feature extraction, [[machine-learning]] classification, and visualization tools, making it one of the most complete BCI development platforms available to the research community. The toolbox is maintained by the SCCN (Swartz Center for Computational Neuroscience) at UC San Diego, the same group behind the influential EEGLAB toolbox, with which it shares architectural principles and some underlying data structures [@sccn_bcilab; @kothe_makeig_2013].
 
 ## Motivation and Context
 

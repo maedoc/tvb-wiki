@@ -8,7 +8,7 @@ tags:
 - software-brain-modeling
 title: LEMS
 type: entity
-updated: '2026-05-05'
+updated: '2026-05-06'
 ---
 
 LEMS (Low-level Entity Modeling System) is a domain-specific modeling language designed to specify the structure and dynamics of neuronal models in a format-independent, declarative manner. Originally developed as a component of the [[neuroml]] project, LEMS provides a text-based specification that describes the mathematical equations, state variables, and parameter dependencies of neural entities such as neurons, synapses, ion channels, and network populations. By separating model description from simulator-specific implementation, LEMS enables models to be ported across multiple simulation engines—including [[nest]], [[neuron]], Brian, and Pynn—thereby enhancing reproducibility and interoperability in computational neuroscience [@cannon2007lems].
@@ -39,7 +39,7 @@ The approach taken by LEMS differs fundamentally from that of domain-specific la
 
 LEMS also relates to the [[neuronunit]] framework, which provides a testing infrastructure for neuron models. While neuronunit focuses on validating model behavior against experimental data, LEMS provides the specification layer that enables such models to be ported and tested across multiple simulators in a standardized way.
 
-Additionally, LEMS intersects with the PyNN approach, which like LEMS seeks to provide simulator-independent model specification. However, PyNN uses a procedural API approach (defining simulations through Python code) while LEMS employs a declarative specification format. The two approaches are complementary: PyNN can serve as a simulation execution layer for models originally specified in LEMS [@vogelstein2010ten].
+Additionally, LEMS intersects with the [[pynn]] approach, which like LEMS seeks to provide simulator-independent model specification. However, PyNN uses a procedural API approach (defining simulations through Python code) while LEMS employs a declarative specification format. The two approaches are complementary: PyNN can serve as a simulation execution layer for models originally specified in LEMS [@vogelstein2010ten].
 
 ## Relationship to TVB
 

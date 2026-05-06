@@ -12,7 +12,7 @@ tags:
 - software-visualization
 title: BrainVISA
 type: entity
-updated: '2026-05-05'
+updated: '2026-05-06'
 ---
 
 ## Overview
@@ -27,7 +27,7 @@ The software addresses a fundamental need in [[connectomics]] research: the accu
 
 ## Technical Features
 
-BrainVISA provides a modular architecture organized into several interconnected toolboxes. The cortical mesh processing module enables the reconstruction of cortical surfaces from T1-weighted MRI scans, supporting both mesh generation and topological correction. The sulcal identification system applies a combination of geometric analysis and pattern-matching algorithms to automatically label major sulci and gyri, producing standardized anatomical parcellations that can be compared across subjects. These algorithms rely on anatomical constraints and statistical shape models derived from labeled training datasets rather than contemporary machine learning approaches such as deep neural networks.
+BrainVISA provides a modular architecture organized into several interconnected toolboxes. The cortical mesh processing module enables the reconstruction of cortical surfaces from T1-weighted MRI scans, supporting both mesh generation and topological correction. The sulcal identification system applies a combination of geometric analysis and pattern-matching algorithms to automatically label major sulci and gyri, producing standardized anatomical parcellations that can be compared across subjects. These algorithms rely on anatomical constraints and statistical shape models derived from labeled training datasets rather than contemporary [[machine-learning]] approaches such as deep neural networks.
 
 The platform includes comprehensive tools for morphometric analysis, allowing researchers to quantify cortical thickness, surface area, and curvature metrics at each point on the cortical mantle. These measures are essential for studying neurodevelopmental changes, as well as alterations associated with neurological and psychiatric conditions. BrainVISA's implementation of voxel-based morphometry (VBM) follows established protocols while providing enhanced visualization capabilities through its integration with dedicated rendering tools.
 
@@ -47,7 +47,7 @@ The integration between BrainVISA and TVB typically proceeds as follows: structu
 
 ## Related Software
 
-BrainVISA exists within a rich ecosystem of neuroimaging tools, and its design philosophy emphasizes interoperability rather than isolation. The platform maintain​s formal interfaces with SPM (Statistical Parametric Mapping) for voxel-based analyses and with Freesurfer for complementary cortical measurements. In the Python ecosystem, BrainVISA functionalities are accessible through Nilearn and [[nipype]], which provide scriptable access to processing workflows and facilitate integration with machine learning pipelines.
+BrainVISA exists within a rich ecosystem of neuroimaging tools, and its design philosophy emphasizes interoperability rather than isolation. The platform maintain​s formal interfaces with SPM (Statistical Parametric Mapping) for voxel-based analyses and with [[freesurfer]] for complementary cortical measurements. In the Python ecosystem, BrainVISA functionalities are accessible through [[nilearn]] and [[nipype]], which provide scriptable access to processing workflows and facilitate integration with machine learning pipelines.
 
 Alternative packages for morphological analysis include Brainsuite, which provides a streamlined pipeline for cortical reconstruction, and [[ica]], a more recent framework that offers end-to-end processing for clinical neuroimaging studies. For [[connectome]] construction specifically, the [[connectome-mapper-3]] toolkit provides complementary functionality focusing on tractography-based connectivity estimation.
 

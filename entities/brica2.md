@@ -18,7 +18,7 @@ type: entity
 updated: '2026-05-06'
 ---
 
-BriCA2 (Brain-inspired Computing Architecture version 2) is a modular software platform for composing brain-inspired cognitive architectures from heterogeneous machine learning components. Developed primarily at Keio University, RIKEN QBiC, and Dwango AI Laboratory in Japan, BriCA2 provides a framework for combining multiple algorithmic modules—such as deep neural networks, reinforcement learning agents, and biologically inspired neural models—into unified cognitive systems that operate in real time.
+BriCA2 (Brain-inspired Computing Architecture version 2) is a modular software platform for composing brain-inspired cognitive architectures from heterogeneous [[machine-learning]] components. Developed primarily at Keio University, RIKEN QBiC, and Dwango AI Laboratory in Japan, BriCA2 provides a framework for combining multiple algorithmic modules—such as deep neural networks, reinforcement learning agents, and biologically inspired neural models—into unified cognitive systems that operate in real time.
 
 ## Overview
 
@@ -63,6 +63,6 @@ The foundational description of the BriCA platform appeared in "BriCA: A Modular
 
 ## References
 
-1. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *Arbor-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
+1. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
 2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](https://doi.org/10.3389/fncom.2025.1731161)
-3. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+3. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)

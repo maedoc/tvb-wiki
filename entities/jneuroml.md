@@ -16,7 +16,7 @@ tags:
 - neurodevelopment
 title: jNeuroML
 type: entity
-updated: '2026-05-05'
+updated: '2026-05-06'
 ---
 
 # jNeuroML
@@ -43,7 +43,7 @@ The software includes **network generation capabilities**, supporting the creati
 
 Another important feature is **model unit conversion and scaling**, which allows users to transform models between different parameter regimes or export them with different units. This is valuable when adapting models developed for specific brain regions or species to new contexts. The tool also supports **graph generation**, producing visual representations of network architectures defined in NeuroML documents.
 
-jNeuroML can export NeuroML models to multiple simulator formats including NEURON, Brian2, Matlab, [[moose]], Netpyne, and can even import other formats like SBML into LEMS.
+jNeuroML can export NeuroML models to multiple simulator formats including NEURON, [[brian2]], Matlab, [[moose]], Netpyne, and can even import other formats like SBML into LEMS.
 
 ## Relationship to TVB
 

@@ -36,7 +36,7 @@ The simulation backend supports multiple numerical integration methods with auto
 
 BrainPy and [[the-virtual-brain|TVB]] address complementary aspects of whole-brain modeling, representing different levels of abstraction and simulation approaches. While TVB specializes in large-scale connectome-based neural mass modeling using averaged population dynamics (as implemented in models like the [[jansen-rit-model|Jansen-Rit]] and [[wong-wang-model|Wong-Wang]] formulations), BrainPy provides a more general-purpose framework that can implement both detailed spiking neural networks and abstracted rate-based models at various scales.
 
-The two platforms share common computational neuroscience foundations and can potentially be used in complementary workflows: BrainPy's flexible building blocks could be used to develop customized neural population models, which might then be integrated into TVB's whole-brain simulation pipeline for large-scale brain [[network-dynamics]]. Both frameworks support [[structural-connectivity]] matrices derived from diffusion tensor imaging (DTI) and tractography, enabling connectivity-based coupling between brain regions. BrainPy's JIT-compiled execution model offers performance advantages for certain classes of simulations, while TVB provides a more mature and integrated platform specifically optimized for the whole-brain modeling workflow.
+The two platforms share common computational neuroscience foundations and can potentially be used in complementary workflows: BrainPy's flexible building blocks could be used to develop customized neural population models, which might then be integrated into TVB's whole-brain simulation pipeline for large-scale brain [[network-dynamics]]. Both frameworks support [[structural-connectivity]] matrices derived from diffusion tensor imaging (DTI) and [[tractography]], enabling [[connectivity]]-based coupling between brain regions. BrainPy's JIT-compiled execution model offers performance advantages for certain classes of simulations, while TVB provides a more mature and integrated platform specifically optimized for the whole-brain modeling workflow.
 
 For researchers working at the intersection of detailed neural circuitry and whole-brain dynamics, BrainPy's support for both spiking networks and neural mass models within a unified framework makes it a valuable tool for exploring multi-scale brain modeling approaches that could inform future developments in platforms like TVB.
 
@@ -44,13 +44,13 @@ For researchers working at the intersection of detailed neural circuitry and who
 
 The foundational BrainPy publication appeared in eLife in 2023, introducing the framework's architecture and demonstrating its capabilities across various brain modeling applications. This work established the conceptual framework of "Brain Dynamics Programming" as a paradigm for computational neuroscience, emphasizing the need for general-purpose tools that bridge model building, simulation, training, and analysis. Earlier conference publications documented the Just-In-Time compilation approach for neural dynamics simulation, demonstrating performance improvements over traditional interpreters.
 
-Related work on brain dynamics modeling using BrainPy includes implementations of excitation-inhibition balanced networks that reproduce biologically realistic irregular neuronal firing patterns, decision-making models based on Wang's probabilistic accumulation framework, and whole-brain simulations coupling neural mass models through structural connectivity matrices derived from Human Connectome Project data.
+Related work on brain dynamics modeling using BrainPy includes implementations of excitation-inhibition balanced networks that reproduce biologically realistic irregular neuronal firing patterns, decision-making models based on Wang's probabilistic accumulation framework, and whole-brain simulations coupling neural mass models through structural connectivity matrices derived from [[human-[[connectome]]-project]] data.
 
 ## Technical Architecture
 
 BrainPy's architecture is built upon JAX, a functional transformation library developed by Google Research that provides automatic differentiation, vectorization, and JIT compilation capabilities. This foundation enables BrainPy models to automatically benefit from hardware acceleration without manual CUDA or TPU code writing. The framework employs a declarative modeling approach where users define neurons, synapses, and networks as objects that encapsulate both state variables and update dynamics.
 
-The module organization separates core functionality into several layers: brainpy.dyn provides dynamical system components including neurons, synapses, and network structures; brainpy.math offers NumPy-like array operations that are JIT-compilable; brainpy.train implements machine learning algorithms for parameter optimization; and brainpy.analysis provides tools for bifurcation analysis, phase space exploration, and sensitivity analysis. This layered architecture supports both novice users working with pre-built models and advanced users requiring customized dynamical system definitions.
+The module organization separates core functionality into several layers: brainpy.dyn provides dynamical system components including neurons, synapses, and network structures; brainpy.math offers NumPy-like array operations that are JIT-compilable; brainpy.train implements [[machine-learning]] algorithms for parameter optimization; and brainpy.analysis provides tools for bifurcation analysis, phase space exploration, and sensitivity analysis. This layered architecture supports both novice users working with pre-built models and advanced users requiring customized dynamical system definitions.
 
 ## Ecosystem and Extensions
 
@@ -61,7 +61,7 @@ The community has developed practical applications including implementations of 
 ## Related Software
 
 - [[TVB]] — Whole-brain neural mass simulator for connectome-based dynamics
-- [[NEST]] — Spiking neural network simulator with focus on biological realism
+- [[NEST]] — Spiking [[neural-network]] simulator with focus on biological realism
 - [[Brian2]] — Python-based spiking neural network simulator
 - [[bmtk]] — Brain Modeling Toolkit for large-scale neural simulations
 - [[bindsnet]] — Python package for training spiking neural networks
@@ -73,10 +73,10 @@ The community has developed practical applications including implementations of 
 
 ## Use Cases
 
-BrainPy has been applied to several computational neuroscience research directions requiring high-performance simulation and parameter optimization. The E-I balanced network implementation demonstrates realistic cortical dynamics with irregular spiking arising from cooperative excitation and inhibition. Decision-making network simulations reproduce probabilistic choice behavior through evidence accumulation, with applications in studying cognitive control and working memory. The framework's support for delay-based coupling through structural connectivity matrices enables whole-brain simulations where distinct brain regions interact through white matter tract-derived communication delays, relevant for studying resting-state dynamics and clinical applications in epilepsy and Alzheimer's disease modeling.
+BrainPy has been applied to several computational neuroscience research directions requiring high-performance simulation and parameter optimization. The E-I balanced network implementation demonstrates realistic cortical dynamics with irregular spiking arising from cooperative excitation and inhibition. Decision-making network simulations reproduce probabilistic choice behavior through evidence accumulation, with applications in studying cognitive control and working memory. The framework's support for delay-based coupling through structural connectivity matrices enables whole-brain simulations where distinct brain regions interact through [[white-matter]] tract-derived communication delays, relevant for studying resting-state dynamics and clinical applications in epilepsy and Alzheimer's disease modeling.
 
 ## References
 
-1. Martin Breyton, Viktor Sip, M. Woodman, Meysam Hashemi, S. Petkoski, V. Jirsa. (2025). *Data-driven mean-field within whole-brain models*. [Link](https://www.semanticscholar.org/paper/144ae1f1dabec42c14493d0083d36f168508f886)
-2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *Arbor-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
+1. Martin Breyton, Viktor Sip, M. Woodman, Meysam Hashemi, S. Petkoski, V. Jirsa. (2025). *Data-driven [[mean-field-theory|mean-field]] within whole-brain models*. [Link](https://www.semanticscholar.org/paper/144ae1f1dabec42c14493d0083d36f168508f886)
+2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
 3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](https://doi.org/10.3389/fncom.2025.1731161)

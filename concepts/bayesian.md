@@ -1,15 +1,20 @@
 ---
-title: "Bayesian Inference"
 created: 2026-05-06
-updated: 2026-05-06
-type: concept
-tags: [bayesian, statistics, computational-neuroscience, inference, modeling]
 sources: []
+tags:
+- bayesian
+- statistics
+- computational-neuroscience
+- inference
+- modeling
+title: Bayesian Inference
+type: concept
+updated: '2026-05-06'
 ---
 
 # Bayesian Inference
 
-**Bayesian inference** is a statistical framework for updating beliefs about parameters or hypotheses based on observed evidence. In computational neuroscience, Bayesian methods are used for parameter estimation, model comparison, and uncertainty quantification in brain models.
+**Bayesian inference** is a statistical framework for updating beliefs about parameters or hypotheses based on observed evidence. In [[computational-neuroscience]], Bayesian methods are used for [[parameter-estimation]], model comparison, and uncertainty quantification in brain models.
 
 ## Overview
 
@@ -18,20 +23,20 @@ Bayesian inference treats parameters as random variables with prior distribution
 $$P(\theta | D) = \frac{P(D | \theta) P(\theta)}{P(D)}$$
 
 Key applications in neuroscience include:
-- Dynamic Causal Modeling (DCM) for effective connectivity
+- Dynamic Causal Modeling (DCM) for [[effective-connectivity]]
 - Bayesian model selection and averaging
-- Parameter estimation in neural mass models
+- Parameter estimation in [[neural-mass-models]]
 - Source reconstruction in EEG/MEG
-- Connectivity estimation from neuroimaging data
+- [[connectivity]] estimation from [[neuroimaging]] data
 
 ## Relationship to TVB
 
-Bayesian methods are central to TVB model validation and personalization:
+Bayesian methods are central to TVB [[model-validation]] and personalization:
 - **Parameter estimation**: Bayesian approaches estimate neural mass model parameters from empirical data
 - **Model comparison**: Bayesian model evidence compares competing TVB configurations (different connectivity, different models)
-- **Uncertainty quantification**: Bayesian posterior distributions capture parameter uncertainty in whole-brain models
+- **Uncertainty quantification**: Bayesian posterior distributions capture parameter uncertainty in [[whole-brain]] models
 - [[dynamic-causal-modeling]] in SPM uses Bayesian inference, and DCM connectivity estimates inform TVB simulations
-- The [[variational-bayes]] algorithm enables scalable Bayesian inference for large-scale connectome models
+- The [[variational-bayes]] algorithm enables scalable Bayesian inference for large-scale [[connectome]] models
 
 ## Related Concepts
 

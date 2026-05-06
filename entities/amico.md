@@ -1,23 +1,28 @@
 ---
-title: AMICO
 created: 2026-05-04
-updated: 2026-05-06
-type: entity
-tags: [software-brain-modeling, diffusion-imaging, tractography, structural-connectivity, diffusion-mri]
 sources: []
+tags:
+- software-brain-modeling
+- diffusion-imaging
+- tractography
+- structural-connectivity
+- diffusion-mri
+title: AMICO
+type: entity
+updated: '2026-05-06'
 ---
 
 # AMICO
 
 ## Overview
 
-AMICO (Accelerated Microstructure Imaging via Convex Optimization) is an open-source computational framework for solving the white matter microstructure estimation problem from diffusion magnetic resonance imaging (dMRI) data. Unlike traditional diffusion tensor imaging (DTI) approaches that assume a single Gaussian diffusion process per voxel, AMICO employs convex optimization to reconstruct fiber orientation distributions (FODs) and extract quantitative microstructure metrics such as fiber density, fractional anisotropy, and orientation dispersion index. The framework was developed to address the computational bottleneck inherent in modern HARDI (High Angular Resolution Diffusion Imaging) and Q-ball imaging techniques, which traditionally required expensive non-convex optimization routines that could trap in local minima. By reformulating the problem as a convex optimization task, AMICO achieves both computational efficiency and robustness to noise, making it practical for processing large neuroimaging datasets including those from the Human Connectome Project (HCP).
+AMICO (Accelerated Microstructure Imaging via Convex Optimization) is an open-source computational framework for solving the [[white-matter]] microstructure estimation problem from diffusion magnetic resonance imaging (dMRI) data. Unlike traditional diffusion tensor imaging (DTI) approaches that assume a single Gaussian diffusion process per voxel, AMICO employs convex optimization to reconstruct fiber orientation distributions (FODs) and extract quantitative microstructure metrics such as fiber density, [[fractional-anisotropy]], and orientation dispersion index. The framework was developed to address the computational bottleneck inherent in modern HARDI (High Angular Resolution [[diffusion-imaging]]) and Q-ball imaging techniques, which traditionally required expensive non-convex optimization routines that could trap in local minima. By reformulating the problem as a convex optimization task, AMICO achieves both computational efficiency and robustness to noise, making it practical for processing large [[neuroimaging]] datasets including those from the [[human-connectome-project]] (HCP).
 
 ## Motivation and Context
 
-The fundamental challenge in diffusion MRI is inferring the underlying white matter microstructure from measurements of water molecule displacement patterns. Water diffuses more freely along axonal fibers than across them, and this anisotropy provides the basis for inferring fiber orientation. However, the inverse problem—going from measured signals to microstructure parameters—is severely ill-posed: multiple fiber configurations can produce identical observed signals. Traditional approaches like DTI assume a single tensor per voxel, which fails in regions where multiple fiber populations cross, branch, or kiss. Advanced techniques like diffusion spectrum imaging (DSI) and Q-ball imaging can resolve multiple fiber orientations but at prohibitive computational cost for large-scale studies.
+The fundamental challenge in [[diffusion-mri]] is inferring the underlying white matter microstructure from measurements of water molecule displacement patterns. Water diffuses more freely along axonal fibers than across them, and this anisotropy provides the basis for inferring fiber orientation. However, the inverse problem—going from measured signals to microstructure parameters—is severely ill-posed: multiple fiber configurations can produce identical observed signals. Traditional approaches like DTI assume a single tensor per voxel, which fails in regions where multiple fiber populations cross, branch, or kiss. Advanced techniques like diffusion spectrum imaging (DSI) and Q-ball imaging can resolve multiple fiber orientations but at prohibitive computational cost for large-scale studies.
 
-AMICO emerged from the need to bridge the gap between sophisticated microstructure reconstruction methods and practical neuroimaging pipelines. The original implementation (Daducci et al., 2014) demonstrated that the microstructure problem could be expressed as a linear combination of dictionary atoms, enabling efficient convex optimization via the ADMM (Alternating Direction Method of Multipliers) algorithm. This breakthrough made it feasible to process whole-brain datasets in minutes rather than hours, democratizing advanced microstructure imaging for research groups without dedicated HPC resources. The framework has since become a standard tool in the connectomics community, particularly for generating structural connectivity matrices used in whole-brain modeling workflows.
+AMICO emerged from the need to bridge the gap between sophisticated microstructure reconstruction methods and practical neuroimaging pipelines. The original implementation (Daducci et al., 2014) demonstrated that the microstructure problem could be expressed as a [[linear]] combination of dictionary atoms, enabling efficient convex optimization via the ADMM (Alternating Direction Method of Multipliers) algorithm. This breakthrough made it feasible to process whole-brain datasets in minutes rather than hours, democratizing advanced microstructure imaging for research groups without dedicated HPC resources. The framework has since become a standard tool in the [[connectomics]] community, particularly for generating structural [[connectivity]] matrices used in [[whole-brain|whole-brain modeling]] workflows.
 
 ## Technical Framework
 

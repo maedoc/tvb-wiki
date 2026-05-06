@@ -387,3 +387,12 @@
 ## [2026-05-06 14:27] Improve: 4 pages improved (connectivity, principal-component-analysis, neuroharmonize, abide)
 
 ## [2026-05-06 14:56] Improve: 5 pages improved (neuroharmonize, connectivity, consciousness-models, nipal, adaptive-exponential-integrate-and-fire)
+
+## [2026-05-06 15:08] RefFormatter: formatted references on 15 pages
+
+## 2026-05-06
+- Improved [[consciousness-models]] page - replaced minimal stub with comprehensive content on consciousness models in whole-brain modeling
+- Added sections on theoretical foundations, critical synchronization and brain states, degeneracy and resting state manifold
+- Integrated four source papers: hierarchical Kuramoto model (Myrov 2026), resting brain dynamics (Deco 2013), data-driven mean-field (Breyton 2025), network degeneracy (Gudibanda 2026)
+- Added 12+ wikilinks connecting to whole-brain-modeling, computational-neuroscience, mean-field-theory, resting-state, functional-connectivity, structural-connectivity, brain-oscillations, dynamic-causal-modeling, bifurcation-theory, network-dynamics, rich-club, the-virtual-brain
+- Updated frontmatter with taxonomy-compliant tags and date 2026-05-06

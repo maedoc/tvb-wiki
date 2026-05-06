@@ -14,7 +14,7 @@ tags:
 - human-connectome-project
 title: Marcus Raichle
 type: concept
-updated: '2026-05-05'
+updated: '2026-05-06'
 ---
 
 Marcus Raichle is a Distinguished Professor of Neurology, Radiology, and Neuroscience at Washington University in St. Louis and one of the founding figures of modern functional neuroimaging. His work fundamentally transformed how neuroscientists understand the brain's intrinsic organization—revealing that the resting brain is not idle but continuously engaged in organized, meaningful activity. Raichle's seminal contributions established the conceptual and methodological foundation for [[resting-state]] functional connectivity analysis, the [[default-mode-network]], and the broader field of [[connectomics]] that now permeates both basic and clinical neuroscience research. His work also provided crucial constraints for [[whole-brain|whole-brain modeling]] approaches that simulate large‑scale brain dynamics.
@@ -58,5 +58,5 @@ Marcus Raichle's influence extends through his extensive publication record (wit
 
 1. V. Myrov, A. Suleimanova, Samanta Knapič, P. Partanen, M. Vesterinen, Wenya Liu, S. Palva, J. M. Palva. (2026). *Hierarchical whole‑brain modeling of critical synchronization dynamics in the human brain.*. Proceedings of the National Academy of Sciences of the United States of America. [DOI](](https://doi.org/10.1073/pnas.2505768123))
 2. Kashyap Gudibanda, J. Fousek, S. Petkoski, V. Jirsa. (2026). *The role of connectivity for the degeneracy of the brain’s resting state dynamics*. Journal of [[computational-neuroscience]]. [DOI](](https://doi.org/10.1007/s10827-025-00919-0))
-3. Diego Derman, Damon D. Pham, Amanda F. Mejia, Silvina L. Ferradal. (2025). *Individual patterns of functional connectivity in neonates as revealed by surface‑based Bayesian modeling*. Imaging neuroscience. [DOI](](https://doi.org/10.1162/imag_a_00504))
+3. Diego Derman, Damon D. Pham, Amanda F. Mejia, Silvina L. Ferradal. (2025). *Individual patterns of functional connectivity in neonates as revealed by surface‑based [[bayesian]] modeling*. Imaging neuroscience. [DOI](](https://doi.org/10.1162/imag_a_00504))
 4. (authors unknown). *[[lean|GLEAN]]: Group Level Exploratory Analysis of Networks*.

@@ -31,7 +31,7 @@ tags:
 - information-theory
 title: MVGC (Multi-Variate Granger Causality)
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # MVGC (Multi-Variate Granger Causality)
@@ -92,7 +92,7 @@ MVGC includes rigorous statistical tests for assessing the significance of causa
 
 Within the [[the-virtual-brain]] ecosystem, MVGC serves as an important tool for validating simulated [[functional-connectivity]] against empirical data. When building personalized brain models using [[personalized-brain-modeling]] approaches, researchers can use MVGC to characterize the effective connectivity pattern in empirical neuroimaging data, then compare these patterns to causal interactions emerging from simulations. This validation step is essential for establishing that [[whole-brain-modeling]] frameworks accurately capture not just statistical correlations but the directional information flow that underlies cognition.
 
-MVGC complements rather than replaces TVB's model-based effective connectivity approaches such as [[dynamic-causal-modeling]]. While DCM relies on biophysically plausible forward models and Bayesian model comparison to infer neural mechanisms, MVGC provides a fully data-driven alternative that makes minimal assumptions about the underlying architecture. In practice, researchers may use MVGC as an exploratory tool to generate hypotheses about causal brain networks, then test specific hypotheses using DCM {% cite url=https://link.springer.com/article/10.1007/s11571-009-9095-y %}. MVGC can also inform the [[parameter-estimation]] pipeline in TVB by providing target statistics that models should reproduce.
+MVGC complements rather than replaces TVB's model-based effective connectivity approaches such as [[dynamic-causal-modeling]]. While DCM relies on biophysically plausible forward models and [[bayesian]] model comparison to infer neural mechanisms, MVGC provides a fully data-driven alternative that makes minimal assumptions about the underlying architecture. In practice, researchers may use MVGC as an exploratory tool to generate hypotheses about causal brain networks, then test specific hypotheses using DCM {% cite url=https://link.springer.com/article/10.1007/s11571-009-9095-y %}. MVGC can also inform the [[parameter-estimation]] pipeline in TVB by providing target statistics that models should reproduce.
 
 ### MVGC in the TVB Analysis Pipeline
 

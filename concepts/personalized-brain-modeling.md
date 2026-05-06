@@ -22,7 +22,7 @@ tags:
 - personalized-brain-modeling
 title: Personalized Brain Modeling
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 Personalized brain modeling (also termed patient-specific brain modeling or virtual brain建模) refers to the construction of subject-specific computational brain models that are parameterized by an individual's unique [[neuroimaging]] data. Unlike generic brain models that represent average anatomical and functional patterns across a population, personalized models capture the distinctive structural architecture and dynamics of a specific individual—including their unique [[white-matter]] pathways, cortical [[parcellation]], and characteristic neural rhythms. This individualization enables clinically relevant simulations that can predict disease progression, treatment outcomes, and personalized neuromodulation protocols with significantly higher fidelity than population-level models.
@@ -51,7 +51,7 @@ The construction of a personalized brain model proceeds through a well-defined s
 
 1. **Brain parcellation**: The cortical surface is partitioned into between 32 and 200 regions depending on the spatial scale of the model. This step can use anatomical landmarks, functional connectivity parcellations, or hybrid approaches that combine both. The choice of parcellation resolution involves a tradeoff between computational tractability and biological specificity.
 
-2. **Tractography and connectivity estimation**: Fiber tracking algorithms applied to diffusion-weighted data reconstruct streamlines representing white matter pathways. These streamlines are mapped onto the parcellation to produce a weighted connectivity matrix, where each entry represents the number of streamlines, [[fractional-anisotropy]], or other metrics of structural coupling between region pairs. Software packages such as Mrtrix3, Dipy, or [[dsi-studio]] are commonly used for tractography.
+2. **Tractography and connectivity estimation**: Fiber tracking algorithms applied to diffusion-weighted data reconstruct streamlines representing white matter pathways. These streamlines are mapped onto the parcellation to produce a weighted connectivity matrix, where each entry represents the number of streamlines, [[fractional-anisotropy]], or other metrics of structural coupling between region pairs. Software packages such as [[mrtrix3]], [[dipy]], or [[dsi-studio]] are commonly used for tractography.
 
 3. **Model parameterization**: Each brain region is equipped with a [[neural-mass-model]] that captures the collective dynamics of neurons in that region. Popular choices include the [[jansen-rit]] model (a neural mass model originally developed for EEG generation), the [[wong-wang]] model (a excitatory-inhibitory population model useful for simulating resting-state fMRI), or the [[epileptor]] model (specifically designed for seizures in epilepsy modeling). The structural connectivity matrix defines the coupling strengths between these regional models.
 
@@ -69,7 +69,7 @@ Several software platforms have been developed specifically to support personali
 
 [[GraphVar]] is a MATLAB-based toolbox for graph-theoretic analysis of brain connectivity networks. While not a simulation platform itself, GraphVar provides the connectivity analysis tools needed for validating personalized models by comparing simulated and empirical network metrics (e.g., [[modularity]], [[rich-club]] coefficients, small-world properties).
 
-Additional tools commonly used in personalized modeling pipelines include Freesurfer for cortical parcellation, [[mrtrix3-connectome]] for tractography-based connectivity estimation, and [[nipype]] for workflow orchestration.
+Additional tools commonly used in personalized modeling pipelines include [[freesurfer]] for cortical parcellation, [[mrtrix3-connectome]] for tractography-based connectivity estimation, and [[nipype]] for workflow orchestration.
 
 ## Applications
 
@@ -87,7 +87,7 @@ Personalized brain modeling has found application across a range of clinical and
 
 ## Emerging Methods and Future Directions
 
-Recent advances in machine learning have begun to influence personalized brain modeling, particularly through deep learning approaches that can learn personalized representations directly from functional data. The Neural Dynamics-Informed Pre-trained Framework proposed by Jiang et al. (arxiv-2603.07524) represents a notable step in this direction, using [[neural-network]] architectures that embed inductive biases about [[brain-dynamics]] to construct personalized functional networks without relying on predefined atlases.
+Recent advances in [[machine-learning]] have begun to influence personalized brain modeling, particularly through deep learning approaches that can learn personalized representations directly from functional data. The Neural Dynamics-Informed Pre-trained Framework proposed by Jiang et al. (arxiv-2603.07524) represents a notable step in this direction, using [[neural-network]] architectures that embed inductive biases about [[brain-dynamics]] to construct personalized functional networks without relying on predefined atlases.
 
 Another frontier is the development of amortized personalization methods that can generate personalized models more efficiently by learning a mapping from empirical data to model parameters through a single forward pass, rather than requiring lengthy optimization procedures. Such approaches could make personalized modeling feasible for large cohort studies or real-time clinical applications.
 

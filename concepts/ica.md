@@ -17,7 +17,7 @@ tags:
 - source-separation
 title: Independent Component Analysis (ICA)
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 Independent Component Analysis (ICA) is a blind source separation technique that decomposes multivariate observations into statistically independent non-Gaussian components. In the context of [[neuroimaging]], ICA has become a foundational computational tool for separating overlapping signals from mixed recordings, enabling researchers to isolate neural sources from artifacts and identify functionally coherent brain networks without requiring explicit models of the underlying sources.
@@ -62,7 +62,7 @@ ICA relates to several other signal decomposition and [[connectivity]] methods. 
 
 1. (authors unknown). *Independent component analysis of electroencephalographic data*.
 2. Neda Abdollahpour, N. Sertac Artan, Ian Daly, Mohammadreza Yazdchi, Zahra Baharlouei. (2025). *Effective Connectivity-Based Unsupervised Channel Selection Method for EEG*. [Link](](https://arxiv.org/abs/2510.12910))
-3. Sunia Tanweer, Narayan Puthanmadam Subramaniyam, Firas A. Khasawneh. (2026). *Classification of Epileptic iEEG using Topological Machine Learning*. [Link](](https://arxiv.org/abs/2604.11971))
+3. Sunia Tanweer, Narayan Puthanmadam Subramaniyam, Firas A. Khasawneh. (2026). *Classification of Epileptic iEEG using Topological [[machine-learning]]*. [Link](](https://arxiv.org/abs/2604.11971))
 4. Moo K. Chung, D. Vijay Anand, Anass B El-Yaagoubi, Jae-Hun Jung, Anqi Qiu, Hernando Ombao. (2026). *Causality as a Minimum Energy Principle*. [Link](](https://arxiv.org/abs/2604.17151))
 5. Christopher Gabaldon, Adria Mulero, Rong Wang, Daniel A. Martin, Sabrina Camargo, Qian-Yuan Tang, Ignacio Cifre, Changsong Zhou, Dante R. Chialvo. (2026). *Data-driven inference of brain dynamical states from the r-spectrum of correlation matrices*. [Link](](https://arxiv.org/abs/2601.03796))
 6. Yifei Sun, James M. Shine, Robert D. Sanders, Robin F. H. Cash, Sharon L. Naismith, Fernando Calamante, Jinglei Lv. (2026). *A Data-Driven Method to Map the Functional Organisation of Human Brain [[white-matter]]*. [Link](](https://arxiv.org/abs/2602.18715))

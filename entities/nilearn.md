@@ -1,17 +1,23 @@
 ---
-title: Nilearn
 created: 2024-01-15
-updated: 2026-05-06
+sources:
+- raw/papers/arxiv-1409.7900.md
+tags:
+- neuroimaging
+- machine-learning
+- software-visualization
+- functional-connectivity
+- resting-state
+title: Nilearn
 type: entity
-tags: [neuroimaging, machine-learning, software-visualization, functional-connectivity, resting-state]
-sources: [raw/papers/arxiv-1409.7900.md]
+updated: '2026-05-06'
 ---
 
-**Nilearn** is a Python library for fast and easy statistical learning on neuroimaging data. It provides tools for decoding, predictive modeling, connectivity analysis, and visualization of functional MRI data, making it a bridge between the broader machine learning ecosystem and the specific data structures used in neuroscience research.
+**Nilearn** is a Python library for fast and easy statistical learning on [[neuroimaging]] data. It provides tools for decoding, predictive modeling, [[connectivity]] analysis, and visualization of functional MRI data, making it a bridge between the broader [[machine-learning]] ecosystem and the specific data structures used in neuroscience research.
 
 ## Overview
 
-Nilearn provides a comprehensive suite of functionalities designed to make advanced neuroimaging analysis accessible to researchers without deep expertise in computer vision or low-level image processing. The library excels at machine learning utilities for brain decoding, including multivariate pattern analysis (MVPA) and searchlight mapping techniques that can identify distributed neural representations. For connectivity analysis, nilearn estimates functional connectivity matrices from fMRI time series and provides graph theory metrics for analyzing brain network topology. The visualization capabilities encompass plotting brain maps onto anatomical templates, displaying connectivity matrices as circular graphs, and rendering statistical results as volumetric overlays. All these tools integrate seamlessly with [[scikit-learn]], enabling standard machine learning workflows (classification, regression, feature selection) to operate directly on neuroimaging datasets.
+Nilearn provides a comprehensive suite of functionalities designed to make advanced neuroimaging analysis accessible to researchers without deep expertise in computer vision or low-level image processing. The library excels at machine learning utilities for brain decoding, including multivariate pattern analysis (MVPA) and searchlight mapping techniques that can identify distributed neural representations. For connectivity analysis, nilearn estimates [[functional-connectivity]] matrices from [[fmri]] time series and provides [[network-dynamics|graph theory]] metrics for analyzing [[brain-network]] topology. The visualization capabilities encompass plotting brain maps onto anatomical templates, displaying connectivity matrices as circular graphs, and rendering statistical results as volumetric overlays. All these tools integrate seamlessly with [[scikit-learn]], enabling standard machine learning workflows (classification, regression, feature selection) to operate directly on neuroimaging datasets.
 
 ## Motivation and Context
 
@@ -23,4 +29,4 @@ The decoding capabilities in nilearn support both classification and regression 
 
 ## Relationship to TVB
 
-Nilearn complements [[the-virtual-brain]] in several important ways in the whole-brain modeling pipeline. First, nilearn is frequently used to estimate functional connectivity matrices from resting-state fMRI data, which serve as empirical targets for TVB model fitting or as initialization for model coupling parameters. Second, machine learning decoding approaches in nilearn can identify brain regions and networks relevant for validating TVB model predictions against experimental data— researchers can decode cognitive states from simulated TVB activity and compare to actual fMRI patterns. Third, nilearn's visualization routines produce figures of brain networks and connectivity matrices that mirror TVB output, facilitating comparison between empirical and simulated connectomes. Both nilearn and TVB are Python-based tools that integrate with the broader neuroimaging ecosystem, and nilearn-derived connectivity matrices commonly seed TVB neural mass model parameters in personalized brain modeling workflows. Additionally, nilearn's atlas handling and parcellation tools ([[brain-parcellations]]) can generate region definitions used to configure TVB brain network simulations.
+Nilearn complements [[the-virtual-brain]] in several important ways in the [[whole-brain|whole-brain modeling]] pipeline. First, nilearn is frequently used to estimate functional connectivity matrices from [[resting-state|resting-state fMRI]] data, which serve as empirical targets for TVB model fitting or as initialization for model coupling parameters. Second, machine learning decoding approaches in nilearn can identify brain regions and networks relevant for validating TVB model predictions against experimental data— researchers can decode cognitive states from simulated TVB activity and compare to actual fMRI patterns. Third, nilearn's visualization routines produce figures of brain networks and connectivity matrices that mirror TVB output, facilitating comparison between empirical and simulated connectomes. Both nilearn and TVB are Python-based tools that integrate with the broader neuroimaging ecosystem, and nilearn-derived connectivity matrices commonly seed TVB neural mass model parameters in [[personalized-brain-modeling]] workflows. Additionally, nilearn's atlas handling and parcellation tools ([[brain-parcellations]]) can generate region definitions used to configure TVB brain network simulations.

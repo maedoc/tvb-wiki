@@ -20,7 +20,7 @@ tags:
 - neuroimaging-eeg
 title: fMRI vs EEG for Whole-Brain Modeling
 type: comparison
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # fMRI vs EEG for Whole-Brain Modeling
@@ -100,7 +100,7 @@ Neither modality alone is sufficient. fMRI provides the spatial organization tha
 2. (authors unknown). *Neurophysiological investigation of the basis of the fMRI signal*.
 3. (authors unknown). *Electroencephalography: Basic Principles, Clinical Applications, and Related Fields*.
 4. (authors unknown). *Electric Fields of the Brain: The Neurophysics of EEG*.
-5. Sakul Mahat, Sharmistha Guha, Jessica Bernard. (2026). *A Bayesian Framework for Quantifying Association Between Functional and Structural Data in Neuroimaging*. [Link](](https://arxiv.org/abs/2603.21067))
+5. Sakul Mahat, Sharmistha Guha, Jessica Bernard. (2026). *A [[bayesian]] Framework for Quantifying Association Between Functional and Structural Data in Neuroimaging*. [Link](](https://arxiv.org/abs/2603.21067))
 6. Wanying Qu, Jianxiong Gao, Wei Wang, Yanwei Fu. *Modeling Spatiotemporal Neural Frames for High Resolution Brain Dynamic*. [Link](](https://arxiv.org/abs/2603.24176))
 7. Breno C. Bispo, Stefania Sardellitti, Juliano B. Lima, Fernando A. N. Santos. (2026). *Multimodal Higher-Order Brain Networks: A Topological Signal Processing Perspective*. [Link](](https://arxiv.org/abs/2603.29903))
 8. Cristiana Dimulescu, Ronja Strömsdörfer, Agnes Flöel, Klaus Obermayer. (2025). *On the robustness of the emergent spatiotemporal dynamics in biophysically realistic and phenomenological whole-brain models at multiple network resolutions*. [Link](](https://arxiv.org/abs/2504.17491))

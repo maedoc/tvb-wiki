@@ -1,19 +1,28 @@
 ---
-title: CFFlib
 created: 2024-01-15
-updated: 2026-05-06
+sources:
+- https://www.cmtk.org/cfflib/
+- https://www.frontiersin.org/articles/10.3389/fninf.2011.00003/full
+tags:
+- software-connectomics
+- software-neuroimaging
+- connectome
+- multi-modal-data
+- data-format
+- data-management
+- software-python
+title: CFFlib
 type: entity
-tags: [software-connectomics, software-neuroimaging, connectome, multi-modal-data, data-format, data-management, software-python]
-sources: [https://www.cmtk.org/cfflib/, https://www.frontiersin.org/articles/10.3389/fninf.2011.00003/full]
+updated: '2026-05-06'
 ---
 
-The Connectome File Format Library (cfflib) is a pure Python library designed for multi-modal connectome data management, integration, and metadata annotation. Developed at the Signal Processing Laboratory 5 (LTS5) at École Polytechnique Fédérale de Lausanne (EPFL), cfflib provides researchers with a unified interface for handling the diverse data types that arise in macroscale [[connectomics]] research, including structural connectivity matrices, white matter tractography, cortical and subcortical surface meshes, volumetric neuroimaging data, and time series from functional MRI or electrophysiology recordings. The library operates on files conforming to the Connectome File Format (CFF), an XML-based container specification that packages heterogeneous data files alongside structured metadata within a single archive.
+The [[connectome]] File Format Library (cfflib) is a pure Python library designed for multi-modal connectome data management, integration, and metadata annotation. Developed at the Signal Processing Laboratory 5 (LTS5) at École Polytechnique Fédérale de Lausanne (EPFL), cfflib provides researchers with a unified interface for handling the diverse data types that arise in macroscale [[connectomics]] research, including [[structural-connectivity]] matrices, [[white-matter]] [[tractography]], cortical and subcortical surface meshes, volumetric [[neuroimaging]] data, and time series from functional MRI or [[electrophysiology]] recordings. The library operates on files conforming to the Connectome File Format (CFF), an XML-based container specification that packages heterogeneous data files alongside structured metadata within a single archive.
 
 ## Motivation and Context
 
-The emergence of [[whole-brain modeling]] and large-scale connectomics projects—including the [[human-connectome-project]]—generated an unprecedented need for flexible data management solutions capable of handling multi-modal datasets. Prior to tools like cfflib, researchers lacked standardized mechanisms for bundling the outputs of connectome mapping pipelines, which typically produced diverse file formats including diffusion-weighted images, tractography files, parcellation volumes, connectivity matrices, and processing scripts. The Connectome File Format addresses this challenge by providing a container architecture that references existing standard neuroimaging formats—such as NIfTI for volumetric data and Gifti for surface geometry—while encapsulating them within a metadata-rich XML structure.
+The emergence of [[whole-brain modeling]] and large-scale connectomics projects—including the [[human-connectome-project]]—generated an unprecedented need for flexible data management solutions capable of handling multi-modal datasets. Prior to tools like cfflib, researchers lacked standardized mechanisms for bundling the outputs of connectome mapping pipelines, which typically produced diverse file formats including diffusion-weighted images, tractography files, [[parcellation]] volumes, [[connectivity]] matrices, and processing scripts. The Connectome File Format addresses this challenge by providing a container architecture that references existing standard neuroimaging formats—such as [[nifti]] for volumetric data and Gifti for surface geometry—while encapsulating them within a metadata-rich XML structure.
 
-The design philosophy behind cfflib emphasizes metadata flexibility rather than imposing rigid schema requirements. Users can annotate connectome objects with arbitrary tags and structured metadata, enabling integration with database infrastructures like XNAT while preserving provenance information essential for reproducibility. This approach proved particularly valuable for the Connectome Mapping Toolkit developed at EPFL, where cfflib served as the foundational I/O layer for pipelines producing structural connectivity estimates from diffusion MRI data.
+The design philosophy behind cfflib emphasizes metadata flexibility rather than imposing rigid schema requirements. Users can annotate connectome objects with arbitrary tags and structured metadata, enabling integration with database infrastructures like XNAT while preserving provenance information essential for [[reproducibility]]. This approach proved particularly valuable for the Connectome Mapping Toolkit developed at EPFL, where cfflib served as the foundational I/O layer for pipelines producing structural connectivity estimates from diffusion MRI data.
 
 ## Key Features and Supported Data Types
 

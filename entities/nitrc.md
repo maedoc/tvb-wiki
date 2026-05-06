@@ -1,6 +1,7 @@
 ---
 updated: '2026-05-06'
 ---
+
 # NITRC
 
 ## Overview
@@ -9,7 +10,7 @@ NITRC (Neuroimaging Informatics Technology Initiative) is a community‑owned we
 
 ## Motivation and Context
 
-The neuroimaging field has historically suffered from a reproducibility crisis driven partly by the difficulty of managing complex software dependencies and the lack of standardized distribution mechanisms. Before NITRC, researchers who wanted to use tools like [[fsl-melodic]] for independent component analysis, SPM for statistical parametric mapping, or the [[brain-connectivity-toolbox]] for graph‑theoretic analysis often had to navigate different download procedures, compile code from source, or track down dependencies manually [1]. This fragmented landscape created barriers for new researchers entering the field and made it difficult to reproduce published findings that relied on specific software configurations.
+The [[neuroimaging]] field has historically suffered from a [[reproducibility]] crisis driven partly by the difficulty of managing complex software dependencies and the lack of standardized distribution mechanisms. Before NITRC, researchers who wanted to use tools like [[fsl-melodic]] for independent component analysis, SPM for statistical parametric mapping, or the [[brain-[[connectivity]]-toolbox]] for graph‑theoretic analysis often had to navigate different download procedures, compile code from source, or track down dependencies manually [1]. This fragmented landscape created barriers for new researchers entering the field and made it difficult to reproduce published findings that relied on specific software configurations.
 
 The emergence of large‑scale neuroimaging datasets—such as those from the [[human-connectome-project]] and [[ABIDE]]—further amplified the need for standardized software distribution. As studies began combining data from multiple acquisition sites and scanners, the challenge of ensuring computational consistency across analyses became critical. NITRC was developed to centralize these resources and provide a sustainable infrastructure for the neuroimaging community. The repository not only hosts software downloads but also maintains documentation, supports discussion forums, and provides access to [[NITRC-CE]], the containerized computational environment that bundles software stacks for reproducible workflows [2]. This dual approach—direct software access plus containerized execution environments—positions NITRC as a comprehensive solution for both software discovery and reproducible deployment.
 

@@ -13,10 +13,10 @@ tags:
 - bids
 title: Connectome Mapper 3
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
-Connectome Mapper 3 is an open-source neuroimaging software pipeline designed to process multimodal magnetic resonance imaging (MRI) data—particularly diffusion tensor imaging (DTI) and diffusion spectrum imaging (DSI)—for the purpose of reconstructing structural [[connectivity|connectome]] matrices from human brain white matter tractography. Developed primarily at the École Polytechnique Fédérale de Lausanne (EPFL) under the Connectome Lab, the pipeline provides a standardized, fully automated end-to-end workflow that transforms raw diffusion-weighted MRI scans into ready-to-use connectivity matrices and associated cortical/subcortical parcellations. The software integrates several established neuroimaging tools—including FreeSurfer, FSL, MRtrix3, and Dipy—into a cohesive framework that handles preprocessing, distortion correction, fiber tracking, parcellation, and network construction with minimal user intervention (Daducci et al., 2014; Tourbier et al., 2021).
+Connectome Mapper 3 is an open-source neuroimaging software pipeline designed to process multimodal magnetic resonance imaging (MRI) data—particularly diffusion tensor imaging (DTI) and diffusion spectrum imaging (DSI)—for the purpose of reconstructing structural [[connectivity|connectome]] matrices from human brain white matter tractography. Developed primarily at the École Polytechnique Fédérale de Lausanne (EPFL) under the Connectome Lab, the pipeline provides a standardized, fully automated end-to-end workflow that transforms raw diffusion-weighted MRI scans into ready-to-use connectivity matrices and associated cortical/subcortical parcellations. The software integrates several established neuroimaging tools—including [[freesurfer]], FSL, [[mrtrix3]], and [[dipy]]—into a cohesive framework that handles preprocessing, distortion correction, fiber tracking, parcellation, and network construction with minimal user intervention (Daducci et al., 2014; Tourbier et al., 2021).
 
 ## Motivation and Context
 

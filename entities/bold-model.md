@@ -56,7 +56,7 @@ One of the central challenges in interpreting BOLD data is that the signal refle
 2. Feeding this input into the Balloon Model (or a simplified version) to generate *v(t)* and *q(t)*
 3. Computing the BOLD output from the state variables
 
-In [[dynamic-causal-modeling]] (DCM), the BOLD forward model is embedded within a Bayesian framework that simultaneously estimates effective [[connectivity]] between brain regions and the hemodynamic parameters themselves (Friston et al., 2003). DCMs can distinguish between direct (feedforward) and modulatory (feedback) connections, making them powerful tools for inferring causal relationships from BOLD data.
+In [[dynamic-causal-modeling]] (DCM), the BOLD forward model is embedded within a [[bayesian]] framework that simultaneously estimates effective [[connectivity]] between brain regions and the hemodynamic parameters themselves (Friston et al., 2003). DCMs can distinguish between direct (feedforward) and modulatory (feedback) connections, making them powerful tools for inferring causal relationships from BOLD data.
 
 ## Relationship to TVB
 
@@ -78,7 +78,7 @@ A fundamental open question is whether **functional connectivity** patterns obse
 
 ## Software Implementations
 
-The BOLD forward model is implemented in several software packages. Spm (Statistical Parametric Mapping) includes the canonical Balloon Model as part of its DCM implementation. The [[dynamic-causal-modeling]] framework in SPM uses a variational Bayes scheme to estimate both neural and hemodynamic parameters. In The Virtual Brain, the BOLD forward model enables comparison of simulated and empirical functional connectivity in whole-brain simulations. Standalone implementations also exist in Python packages such as Nilearn (for HRF modeling) and custom toolboxes for DCM analysis.
+The BOLD forward model is implemented in several software packages. Spm (Statistical Parametric Mapping) includes the canonical Balloon Model as part of its DCM implementation. The [[dynamic-causal-modeling]] framework in SPM uses a variational Bayes scheme to estimate both neural and hemodynamic parameters. In The Virtual Brain, the BOLD forward model enables comparison of simulated and empirical functional connectivity in whole-brain simulations. Standalone implementations also exist in Python packages such as [[nilearn]] (for HRF modeling) and custom toolboxes for DCM analysis.
 
 ## Key Papers
 

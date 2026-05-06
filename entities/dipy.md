@@ -1,15 +1,20 @@
 ---
-title: "Dipy"
 created: 2026-05-06
-updated: 2026-05-06
-type: entity
-tags: [software-dipy, neuroimaging-dti, tractography, python, image-processing]
 sources: []
+tags:
+- software-dipy
+- neuroimaging-dti
+- tractography
+- python
+- image-processing
+title: Dipy
+type: entity
+updated: '2026-05-06'
 ---
 
 # Dipy
 
-**Dipy** (Diffusion Imaging in Python) is an open-source Python library for the analysis of diffusion MRI data. It provides tools for preprocessing, reconstruction, tractography, and statistical analysis of diffusion-weighted imaging (DWI).
+**Dipy** ([[diffusion-imaging]] in Python) is an open-source Python library for the analysis of [[diffusion-mri]] data. It provides tools for preprocessing, reconstruction, [[tractography]], and statistical analysis of diffusion-weighted imaging (DWI).
 
 ## Overview
 
@@ -34,18 +39,18 @@ Dipy provides:
 
 ## Relationship to TVB
 
-Dipy is a critical preprocessing tool for TVB connectome construction:
-- **Fiber tracking** (tractography) generates the structural connectivity matrix used in TVB simulations
-- **FOD reconstruction** (CSD) improves fiber crossing detection, yielding more accurate connectivity
+Dipy is a critical preprocessing tool for TVB [[connectome]] construction:
+- **Fiber tracking** (tractography) generates the [[structural-connectivity]] matrix used in TVB simulations
+- **FOD reconstruction** (CSD) improves fiber crossing detection, yielding more accurate [[connectivity]]
 - **Denoising** and **correction** improve the quality of DWI data before tractography
-- Dipy-generated tractograms can be parcellated using FreeSurfer or AAL atlases for TVB input
-- Dipy integrates with [[nibabel]] for neuroimaging I/O and with [[tvb]] via Python scripting
+- Dipy-generated tractograms can be parcellated using [[freesurfer]] or AAL atlases for TVB input
+- Dipy integrates with [[nibabel]] for [[neuroimaging]] I/O and with [[tvb]] via Python scripting
 
 ## Software Ecosystem
 
 - [[mrtrix3]] — alternative tractography suite with complementary algorithms
 - [[fsl]] — FSL's BEDPOSTX/PROBTRACKX is an alternative DTI pipeline
-- [[nibabel]] — Dipy depends on nibabel for NIfTI/CIFTI handling
+- [[nibabel]] — Dipy depends on nibabel for [[nifti]]/[[cifti]] handling
 - [[tvb]] — imports Dipy-generated connectivity matrices
 
 ## References

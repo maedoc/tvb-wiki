@@ -15,7 +15,7 @@ tags:
 - computational-neuroscience
 title: HERMES
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # HERMES
@@ -36,7 +36,7 @@ HERMES implements several approaches to HRF modeling, each with distinct assumpt
 
 The mathematical foundation of HERMES typically involves modeling the HRF as a [[linear]] combination of basis functions, most commonly a double-gamma function that captures the characteristic undershoot and post-stimulus overshoot observed in the BOLD response [9]. More flexible formulations allow for variable onset latency, peak time, and undershoot magnitude, effectively parameterizing the HRF shape to accommodate individual differences. The fitting procedure uses [[variational-bayes]] or maximum likelihood estimation to determine optimal parameters for each voxel, producing spatial maps of HRF properties that can be analyzed further [10].
 
-A key feature of HERMES is its integration with the Spm software ecosystem, allowing seamless incorporation into established preprocessing and analysis pipelines. The toolbox accepts standard [[nifti]]-format fMRI data and outputs parameter estimates in formats compatible with downstream statistical analysis. Visualization tools enable researchers to examine HRF shapes across the brain, identify regions with atypical responses, and compare HRF models quantitatively using model selection criteria such as AIC or Bayesian Information Criterion [11].
+A key feature of HERMES is its integration with the Spm software ecosystem, allowing seamless incorporation into established preprocessing and analysis pipelines. The toolbox accepts standard [[nifti]]-format fMRI data and outputs parameter estimates in formats compatible with downstream statistical analysis. Visualization tools enable researchers to examine HRF shapes across the brain, identify regions with atypical responses, and compare HRF models quantitatively using model selection criteria such as AIC or [[bayesian]] Information Criterion [11].
 
 ## Key Features
 

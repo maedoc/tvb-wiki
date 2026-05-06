@@ -9,7 +9,7 @@ tags:
 - software-brain-modeling
 title: NiBabel
 type: entity
-updated: '2026-05-05'
+updated: '2026-05-06'
 ---
 
 ## Overview
@@ -38,7 +38,7 @@ Additionally, TVB's simulation outputs can be processed through NiBabel if resea
 
 ## Key Papers
 
-NiBabel was first described in an influential software note published in Frontiers in Neuroinformatics (2014), which established its role in supporting open scientific software development (Brett et al., 2014). The library has since become cited across thousands of neuroimaging papers, with usage spanning [[fmriprep]] preprocessing workflows, Nilearn machine learning pipelines, and connectivity analyses using [[brain-connectivity-toolbox]]. The development of NiBabel paralleled the rise of Python as a dominant language in neuroimaging research, with the library serving as a cornerstone for reproducible computational pipelines (Gorgolewski et al., 2016).
+NiBabel was first described in an influential software note published in Frontiers in Neuroinformatics (2014), which established its role in supporting open scientific software development (Brett et al., 2014). The library has since become cited across thousands of neuroimaging papers, with usage spanning [[fmriprep]] preprocessing workflows, [[nilearn]] [[machine-learning]] pipelines, and connectivity analyses using [[brain-connectivity-toolbox]]. The development of NiBabel paralleled the rise of Python as a dominant language in neuroimaging research, with the library serving as a cornerstone for reproducible computational pipelines (Gorgolewski et al., 2016).
 
 ## Related Software
 

@@ -1,19 +1,18 @@
----  
-created: 2026-04-29  
-sources:  
-- raw/papers/sanz-leon-2013.md  
-- raw/papers/ritter-2013.md  
-- raw/papers/schirner-2018.md  
-tags:  
-- software-brain-modeling  
-- diffusion-imaging  
-- diffusion-mri  
-- tractography  
-title: DWItoolbox  
-type: entity  
-updated: '2026-05-06'  
-
----  
+---
+created: 2026-04-29
+sources:
+- raw/papers/sanz-leon-2013.md
+- raw/papers/ritter-2013.md
+- raw/papers/schirner-2018.md
+tags:
+- software-brain-modeling
+- diffusion-imaging
+- diffusion-mri
+- tractography
+title: DWItoolbox
+type: entity
+updated: '2026-05-06'
+---
 
 # DWItoolbox  
 
@@ -43,7 +42,7 @@ The workflow typically involves acquiring diffusion‑weighted MRI data, process
 
 DWItoolbox exists within a rich ecosystem of diffusion MRI processing tools. The most widely adopted alternative is [[fsl-melodic]]'s FMRIB's Diffusion Toolbox (FDT), which provides comprehensive preprocessing, tensor fitting, probabilistic tractography (BedpostX/ProbtrackX), and严格的质星控制工具。FSL's tools are widely used for large‑scale studies like the [[mrtrix3-connectome]] and come with extensive documentation and GUI support.  
 
-[[mrtrix3-connectome]] represents a more modern approach, with C++ implementations offering highly efficient fiber tracking capabilities, including advanced fiber orientation distribution function estimation and global tractography algorithms that have become popular in many research groups. For users preferring Python‑based environments, DIPY provides a comprehensive open‑source platform for diffusion imaging analysis.  
+[[mrtrix3-connectome]] represents a more modern approach, with C++ implementations offering highly efficient fiber tracking capabilities, including advanced fiber orientation distribution function estimation and global tractography algorithms that have become popular in many research groups. For users preferring Python‑based environments, [[dipy]] provides a comprehensive open‑source platform for diffusion imaging analysis.  
 
 Another related toolbox is DMRITool, written in C++ with MATLAB interface, offering advanced reconstruction methods including Diffusion Spectrum Imaging and orientation distribution function estimation. While DWItoolbox has a narrower scope than these alternatives, its modular design makes it more approachable for teaching purposes and for understanding fundamental diffusion imaging concepts.  
 

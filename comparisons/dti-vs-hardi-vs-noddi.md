@@ -1,15 +1,20 @@
 ---
-title: "DTI vs HARDI vs NODDI"
 created: 2026-05-06
-updated: 2026-05-06
-type: comparison
-tags: [neuroimaging-dti, diffusion-mri, tractography, models, comparison]
 sources: []
+tags:
+- neuroimaging-dti
+- diffusion-mri
+- tractography
+- models
+- comparison
+title: DTI vs HARDI vs NODDI
+type: comparison
+updated: '2026-05-06'
 ---
 
 # DTI vs. HARDI vs. NODDI
 
-Diffusion MRI encompasses several modeling approaches that differ in the complexity of tissue microstructure they can resolve. Understanding these differences is essential for selecting appropriate preprocessing for [[whole-brain modeling]] and [[tractography]] pipelines.
+[[diffusion-mri]] encompasses several modeling approaches that differ in the complexity of tissue microstructure they can resolve. Understanding these differences is essential for selecting appropriate preprocessing for [[whole-brain modeling]] and [[tractography]] pipelines.
 
 ## Overview
 
@@ -24,19 +29,19 @@ Diffusion MRI encompasses several modeling approaches that differ in the complex
 
 ## Diffusion Tensor Imaging (DTI)
 
-DTI models water diffusion with a single 3D Gaussian (tensor). It provides three eigenvalues and eigenvectors, from which fractional anisotropy (FA), mean diffusivity (MD), and principal diffusion direction are derived.
+DTI models water diffusion with a single 3D Gaussian (tensor). It provides three eigenvalues and eigenvectors, from which [[fractional-anisotropy]] (FA), mean diffusivity (MD), and principal diffusion direction are derived.
 
 **Strengths:**
 - Fast acquisition and processing
-- Robust and well-validated biomarkers (FA, MD) in stroke, aging, neurodegeneration
+- Robust and well-validated biomarkers (FA, MD) in stroke, [[aging]], neurodegeneration
 - Widely available on clinical scanners
 
 **Limitations:**
-- Cannot resolve crossing fibers (found in ~90% of white matter voxels)
+- Cannot resolve crossing fibers (found in ~90% of [[white-matter]] voxels)
 - Single tensor is a gross oversimplification of tissue microstructure
 - Biased orientation estimates in crossing-fiber regions
 
-**TVB relevance:** DTI-derived FA maps inform local coupling strengths in structural connectivity matrices.
+**TVB relevance:** DTI-derived FA maps inform local coupling strengths in [[structural-connectivity]] matrices.
 
 ## High Angular Resolution Diffusion Imaging (HARDI / Q-Ball)
 
@@ -52,7 +57,7 @@ HARDI acquires diffusion-weighted images at many gradient directions and uses mo
 - Requires more directions for accurate ODF reconstruction
 - Does not directly quantify tissue compartments
 
-**TVB relevance:** HARDI-derived ODFs enable more accurate [[tractography]], producing structural connectivity matrices with fewer false positives in crossing-fiber regions.
+**TVB relevance:** HARDI-derived ODFs enable more accurate [[tractography]], producing structural [[connectivity]] matrices with fewer false positives in crossing-fiber regions.
 
 ## Neurite Orientation Dispersion and Density Imaging (NODDI)
 
@@ -69,7 +74,7 @@ NODDI is a multi-compartment model that separates intra-cellular, extra-cellular
 - Assumes simplified compartment geometries
 - Parameter tradeoffs can be sensitive to acquisition design
 
-**TVB relevance:** NODDI-derived density maps provide biologically grounded weights for structural connectivity, potentially improving the accuracy of whole-brain simulations by incorporating microstructural heterogeneity.
+**TVB relevance:** NODDI-derived density maps provide biologically grounded weights for structural connectivity, potentially improving the accuracy of [[whole-brain]] simulations by incorporating microstructural heterogeneity.
 
 ## Which Model for TVB?
 
@@ -89,8 +94,8 @@ All three approaches feed into TVB's structural connectivity pipeline:
 
 ## Software Implementations
 
-These models are implemented across multiple neuroimaging packages:
-- [[mrtrix3]] — CSD, multi-tissue CSD, SIFT
+These models are implemented across multiple [[neuroimaging]] packages:
+- [[mrtrix3]] — CSD, multi-tissue CSD, [[sift]]
 - [[dipy]] — DTI, DKI, CSD, NODDI in Python
 - [[fsl]] — BedpostX (crossing-fiber model)
 - [[qsiprep]] — Automated preprocessing pipeline supporting all three

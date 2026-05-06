@@ -13,7 +13,7 @@ tags:
 - scientific-computing
 title: Mayavi
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 ## Overview
@@ -44,9 +44,9 @@ In practice, Mayavi is employed across several common workflows in computational
 - [[brainnet-viewer]] — specialized connectome visualization tool
 - Pycortex — cortical surface rendering library
 - [[paraview]] — general-purpose scientific visualization (VTK-based)
-- Nilearn — neuroimaging Python library with visualization utilities
-- Dipy — [[diffusion-mri]] processing with visualization capabilities
-- Freesurfer — neuroimaging suite with [[freeview]] viewer
+- [[nilearn]] — neuroimaging Python library with visualization utilities
+- [[dipy]] — [[diffusion-mri]] processing with visualization capabilities
+- [[freesurfer]] — neuroimaging suite with [[freeview]] viewer
 - vtk — underlying visualization toolkit powering Mayavi
 
 ## Key Papers

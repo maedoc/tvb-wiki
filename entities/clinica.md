@@ -18,10 +18,10 @@ tags:
 - database-uk-biobank
 title: Clinica
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
-Clinica is an open-source software platform designed for clinical neuroimaging data processing and analysis, with a particular focus on large-scale studies of neurological and psychiatric disorders. Developed primarily by the Aramis team at Inria (France), Clinica provides a unified framework that integrates current neuroimaging processing tools into standardized, reproducible pipelines that adhere to the [[bids]] (Brain Imaging Data Structure) specification. The platform emerged from the recognition that clinical neuroimaging research often suffers from methodological heterogeneity, making cross-study comparisons difficult and limiting the reproducibility of findings. By wrapping established software packages—including Spm (Statistical Parametric Mapping), Freesurfer, Cat12 (Computational Anatomy Toolbox), and various tractography tools—into a cohesive command-line interface, Clinica enables researchers to process neuroimaging data consistently without manually orchestrating disparate processing steps.
+Clinica is an open-source software platform designed for clinical neuroimaging data processing and analysis, with a particular focus on large-scale studies of neurological and psychiatric disorders. Developed primarily by the Aramis team at Inria (France), Clinica provides a unified framework that integrates current neuroimaging processing tools into standardized, reproducible pipelines that adhere to the [[bids]] (Brain Imaging Data Structure) specification. The platform emerged from the recognition that clinical neuroimaging research often suffers from methodological heterogeneity, making cross-study comparisons difficult and limiting the reproducibility of findings. By wrapping established software packages—including Spm (Statistical Parametric Mapping), [[freesurfer]], Cat12 (Computational Anatomy Toolbox), and various tractography tools—into a cohesive command-line interface, Clinica enables researchers to process neuroimaging data consistently without manually orchestrating disparate processing steps.
 
 ## Key Features
 

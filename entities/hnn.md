@@ -91,7 +91,7 @@ The two platforms can be combined in a multi-scale framework:
 2. TVB output serves as input to HNN simulations of specific regions of interest
 3. HNN predictions inform the parameterization of TVB's neural mass models
 
-This combination leverages TVB's strength in whole-brain dynamics with HNN's mechanistic detail at the cortical column level.
+This combination leverages TVB's strength in [[whole-brain]] dynamics with HNN's mechanistic detail at the cortical column level.
 
 ## Technical Implementation
 
@@ -125,25 +125,25 @@ Simulations produce:
 - **Intracellular voltages**: Voltage traces for modeled neurons
 - **Local field potentials**: LFPs at each cortical layer
 - **Current source densities**: CSDs indicating current flow patterns
-- ** scalp EEG/MEG**: Forward-modeled signals using dipole or boundary element methods (can be compared to [neuroimaging-eeg](](neuroimaging-eeg.html)) and [neuroimaging-meg](](neuroimaging-meg.html)) data)
+- ** scalp EEG/MEG**: Forward-modeled signals using dipole or boundary element methods (can be compared to [[[neuroimaging]]-eeg](](neuroimaging-eeg.html)) and [neuroimaging-meg](](neuroimaging-meg.html)) data)
 
 ## See Also
 
-- [TVB](](TVB)) — The Virtual Brain platform
+- [TVB](](TVB)) — [[tvb|The Virtual Brain]] platform
 - [Neural-mass-models](](neural-mass-models)) — Macroscale population models
-- [Jansen-Rit-model](](jansen-rit-model)) — Three-population neural mass model
+- [Jansen-Rit-model](]([[jansen-rit-model]])) — Three-population neural mass model
 - [Neuron](](neuron)) — Simulator for biophysical neurons
 - [MNE](](MNE)) — Software for processing EEG/MEG data
 - [Brain-oscillations](](brain-oscillations)) — Rhythmic neural activity
 - [Neuroimaging-EEG](](neuroimaging-eeg)) — Electroencephalography
 - [Neuroimaging-MEG](](neuroimaging-meg)) — Magnetoencephalography
 - [Local-field-potentials](](local-field-potentials)) — Microscale electrical fields
-- [Source-localization](](source-localization)) — Estimating brain activity sources
-- [Excitation-inhibition-balance](](excitation-inhibition-balance)) — E/I ratio in neural circuits
+- [Source-localization](]([[source-localization]])) — Estimating brain activity sources
+- [Excitation-inhibition-balance](]([[excitation-inhibition-balance]])) — E/I ratio in neural circuits
 - [Structural-connectivity](](structural-connectivity)) — Anatomical brain wiring
 
 ## References
 
-1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
 2. Gianluca Gaglioti, Alessandra Cardinale, Cosimo Lupo, Thierry Nieus, Federico Marmoreo, Elena Focacci, Robin Gutzen, Michael Denker, Andrea Pigorini, Marcello Massimini, Simone Sarasso, Pier Stanislao Paolucci, Giulia De Bonis. *Emergent complexity and rhythms in evoked and spontaneous dynamics of human whole-brain models after tuning through analysis tools*. [Link](https://arxiv.org/abs/2509.12873)
-3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *Arbor-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
+3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *[[arbor]]-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)

@@ -19,7 +19,7 @@ tags:
 - free-energy-principle
 title: Parameter Estimation
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 Parameter Estimation is a fundamental methodological concept in [[computational-neuroscience]] that refers to the process of inferring the numerical values of free parameters in mathematical models of neural systems by fitting model predictions to empirical observations. In the context of [[whole-brain|whole-brain modeling]], parameter estimation serves as the critical bridge between abstract mathematical formulations of neural dynamics and the empirically measured brain activity obtained through [[neuroimaging]] modalities such as [[fmri]], EEG, and MEG.
@@ -42,7 +42,7 @@ The field has also been shaped by theoretical developments beyond traditional st
 
 ### Variational Bayes and Free Energy Minimization
 
-The dominant framework for parameter estimation in [[dynamic-causal-modeling]] and many whole-brain applications relies on [[variational-bayes]]. Under this approach, the posterior distribution over parameters p(θ|y) is approximated using an variational distribution q(θ) that minimizes the free energy F(y, q) = D_{KL}(q||p(θ|y)) - log p(y). This approximates the model evidence log p(y), enabling both parameter estimation and model comparison through Bayesian model selection.
+The dominant framework for parameter estimation in [[dynamic-causal-modeling]] and many whole-brain applications relies on [[variational-bayes]]. Under this approach, the posterior distribution over parameters p(θ|y) is approximated using an variational distribution q(θ) that minimizes the free energy F(y, q) = D_{KL}(q||p(θ|y)) - log p(y). This approximates the model evidence log p(y), enabling both parameter estimation and model comparison through [[bayesian]] model selection.
 
 ### Classical Optimization Methods
 

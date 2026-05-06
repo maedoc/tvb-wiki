@@ -1,15 +1,20 @@
 ---
-title: "FreeSurfer"
 created: 2026-05-06
-updated: 2026-05-06
-type: entity
-tags: [software-freesurfer, neuroimaging-fmri, image-processing, parcellation, cortical-surface]
 sources: []
+tags:
+- software-freesurfer
+- neuroimaging-fmri
+- image-processing
+- parcellation
+- cortical-surface
+title: FreeSurfer
+type: entity
+updated: '2026-05-06'
 ---
 
 # FreeSurfer
 
-**FreeSurfer** is a neuroimaging software suite for MRI brain image analysis and visualization. Developed at the Martinos Center for Biomedical Imaging at Massachusetts General Hospital, it specializes in cortical surface reconstruction and parcellation.
+**FreeSurfer** is a [[neuroimaging]] software suite for MRI brain image analysis and visualization. Developed at the Martinos Center for Biomedical Imaging at Massachusetts General Hospital, it specializes in cortical surface reconstruction and [[parcellation]].
 
 ## Overview
 
@@ -36,9 +41,9 @@ FreeSurfer provides tools for:
 
 FreeSurfer outputs are essential for TVB personalized modeling:
 - **Cortical parcellation** (aparc) defines region labels for the 68-region or 164-region brain model
-- **Surface meshes** (pial, white matter) provide anatomical geometry for visualization
-- **Cortical thickness** and **surface area** inform region-specific parameter choices in neural mass models
-- **Subcortical segmentation** (aseg) adds deep brain structures to the connectome
+- **Surface meshes** (pial, [[white-matter]]) provide anatomical geometry for visualization
+- **Cortical thickness** and **surface area** inform region-specific parameter choices in [[neural-mass-models]]
+- **Subcortical segmentation** (aseg) adds deep brain structures to the [[connectome]]
 - FreeSurfer-derived parcellations are used by the [[human-connectome-project]] and many TVB workflows
 
 ## Parcellation Schemes

@@ -14,7 +14,7 @@ tags:
 - source-separation
 title: GIFT (Group ICA of fMRI Toolbox)
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # GIFT (Group ICA of fMRI Toolbox)
@@ -54,7 +54,7 @@ GIFT is part of a broader ecosystem of ICA and connectivity analysis tools:
 - Melodic (FSL) — another widely‑used ICA toolbox for fMRI
 - [[eeglab]] — EEG/MEG ICA toolbox with conceptually similar functionality
 - [[ica]] — standalone ICA algorithm implementations
-- Nilearn — Python‑based neuroimaging machine learning including ICA
+- [[nilearn]] — Python‑based neuroimaging [[machine-learning]] including ICA
 - [[brainspace]] — connectivity visualization and manifold learning
 - Brainiak — advanced fMRI pattern analysis including ICA variants
 

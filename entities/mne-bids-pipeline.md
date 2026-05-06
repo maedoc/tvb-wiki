@@ -11,7 +11,7 @@ tags:
 - data-processing
 title: MNE-BIDS-Pipeline
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 ## Overview
@@ -30,7 +30,7 @@ The pipeline is implemented in Python and built atop the MNE-Python library, lev
 
 A distinguishing feature of MNE-BIDS-Pipeline is its use of **configurable configuration files** that specify processing parameters, allowing users to customize behavior without modifying code. In recent versions, the pipeline supports both YAML-based configuration files and pyproject.toml-based settings, providing flexibility for different user preferences and integration with modern Python packaging workflows. The pipeline supports both MEG and EEG modalities, handles sensor-space analyses (power spectral density, time-frequency representations) and source-space analyses (cortical connectivity estimates), and can produce parcel-level connectivity matrices suitable for comparison with [[structural-connectivity]] data from DTI [[tractography]].
 
-For source localization, the pipeline interfaces with Freesurfer for cortical reconstruction and can generate lead field matrices using the boundary element method implemented in [[openmeeg]]. This enables researchers to estimate the cortical currents underlying observed sensor activity, which can then be compared against predictions from whole-brain models implemented in software like [[The Virtual Brain]].
+For source localization, the pipeline interfaces with [[freesurfer]] for cortical reconstruction and can generate lead field matrices using the boundary element method implemented in [[openmeeg]]. This enables researchers to estimate the cortical currents underlying observed sensor activity, which can then be compared against predictions from whole-brain models implemented in software like [[The Virtual Brain]].
 
 ## Key Features
 

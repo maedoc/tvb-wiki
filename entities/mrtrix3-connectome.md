@@ -31,7 +31,7 @@ The pipeline was developed to provide reproducible, standardized connectome gene
 ## Key Features
 
 ### Automated Pipeline Stages
-The Mrtrix3 [[connectome]] script executes the following stages in sequence:
+The [[mrtrix3]] [[connectome]] script executes the following stages in sequence:
 
 1. **Preprocessing**: Denoising using the Marchenko-Perret PCA (MP-PCA) method^1, Gibbs ringing removal, distortion correction using FSL TOPUP^2, bias field correction, and intensity normalization across subjects
 
@@ -87,8 +87,8 @@ The quality of MRtrix3 Connectome outputs directly impacts TVB simulation result
 - [[tvb]] – [[the-virtual-brain]]; primary destination software for connectome matrices
 - Mrtrix – Parent software suite containing the connectome pipeline
 - Fsl – Used internally for distortion correction (TOPUP, eddy)^2
-- Freesurfer – Often used for cortical parcellation input
-- Dipy – Alternative diffusion analysis Python library
+- [[freesurfer]] – Often used for cortical parcellation input
+- [[dipy]] – Alternative diffusion analysis Python library
 - [[ants]] – Optional registration tool for atlas alignment
 
 ## References

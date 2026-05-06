@@ -14,7 +14,7 @@ tags:
 - task-based
 title: BrainVoyager
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 - "Goebel, R., Esposito, F., & Formisano, E. (2006). Analysis of functional image analysis contest (FIAC) data with brainvoyager QX: From single-subject to cortically aligned group general [[linear|linear model]] analysis and self-organizing group independent component analysis. Human Brain Mapping, 27(5), 392-401."
@@ -96,7 +96,7 @@ BrainVoyager has been cited in thousands of neuroimaging studies. Key methodolog
 - [[TVB]] — Whole-brain simulation platform that can use BrainVoyager-processed connectivity data
 - [[ANTs]] — Alternative neuroimaging registration tools (volume-based)
 - [[3D Slicer]] — Open-source alternative for medical image computing
-- **Freesurfer** — Open-source cortical surface reconstruction (complementary/alternative to BrainVoyager's surface tools)
+- **[[freesurfer]]** — Open-source cortical surface reconstruction (complementary/alternative to BrainVoyager's surface tools)
 - **FSL** — UK-based open-source fMRI analysis suite (volume-based)
 - **SPM** — Statistical parametric mapping toolbox for neuroimaging
 

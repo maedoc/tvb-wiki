@@ -15,7 +15,7 @@ tags:
 - developmental-trajectories
 title: nibabies
 type: entity
-updated: '2026-05-05'
+updated: '2026-05-06'
 ---
 
 nibabies is a specialized Python package designed for processing magnetic resonance imaging (MRI) data from human infants, particularly neonates and young children. It extends the popular [[fMRIprep]] preprocessing pipeline to handle the unique anatomical, physiological, and methodological challenges presented by infant brain imaging, which differs substantially from adult [[neuroimaging]] in terms of tissue composition, head size, motion patterns, and [[developmental-trajectories]].
@@ -73,4 +73,4 @@ Registration to standard template spaces requires age‑appropriate atlases, as 
 
 1. Zhexian Sun, Jian Huang, Xiaohui Ma, Jiawei Liang, Chensheng Sun, Lanyin Hu, Hongjian He, Gang Yu. (2025). *A Low-Field MRI Dataset For Spatiotemporal Analysis of Developing Brain*. Scientific Data. [DOI](](https://doi.org/10.1038/s41597-025-04450-w))
 2. Mathias Goncalves, Julia Moser, Thomas J. Madison, rae McCollum, Jacob T. Lundquist, Begim Fayzullobekova, Lidia Hadera, Han H. N. Pham, Lucille A. Moore, Audrey Houghton, Greg Conan, M. Styner, Dimitrios Alexopoulos, C. Smyser, Sally M Stoyell, Sanju Koirala, Steven M. Nelson, Kimberly B. Weldon, Erik G. Lee, R. Hermosillo, L. Vizioli, E. Yacoub, G. H. Patel, Juan Sanchez, K. Wengler, T. Salo, T. Satterthwaite, J. Elison, C. Markiewicz, R. Poldrack, E. Feczko, Oscar Esteban, D. Fair. (2025). *fMRIPrep Lifespan: Extending A Robust Pipeline for Functional MRI Preprocessing to Developmental Neuroimaging*. bioRxiv. [DOI](](https://doi.org/10.1101/2025.05.14.654069))
-3. Diego Derman, Damon D. Pham, Amanda F. Mejia, Silvina L. Ferradal. (2025). *Individual patterns of [[functional-connectivity]] in neonates as revealed by surface-based Bayesian modeling*. Imaging neuroscience. [DOI](](https://doi.org/10.1162/imag_a_00504))
+3. Diego Derman, Damon D. Pham, Amanda F. Mejia, Silvina L. Ferradal. (2025). *Individual patterns of [[functional-connectivity]] in neonates as revealed by surface-based [[bayesian]] modeling*. Imaging neuroscience. [DOI](](https://doi.org/10.1162/imag_a_00504))

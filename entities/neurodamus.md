@@ -1,19 +1,23 @@
 ---
-title: Neurodamus
 created: 2024-01-15
-updated: 2026-05-06
-type: entity
-tags: [software-tvb, spiking-neural-networks, whole-brain-modeling, neural-mass-models]
 sources: []
+tags:
+- software-tvb
+- spiking-neural-networks
+- whole-brain-modeling
+- neural-mass-models
+title: Neurodamus
+type: entity
+updated: '2026-05-06'
 ---
 
-Neurodamus is a neural simulation interface developed within the [[tvb-nest]] ecosystem that connects [[the-virtual-brain]] (TVB) to detailed spiking neural network simulators. It serves as a bridge between macroscopic brain network modeling and microscopic neural simulations, enabling researchers to run whole-brain simulations using biologically detailed neuron models while maintaining the large-scale connectivity structure provided by TVB.
+Neurodamus is a neural simulation interface developed within the [[tvb-nest]] ecosystem that connects [[the-virtual-brain]] (TVB) to detailed spiking [[neural-network]] simulators. It serves as a bridge between macroscopic [[brain-network]] modeling and microscopic neural simulations, enabling researchers to run [[whole-brain]] simulations using biologically detailed neuron models while maintaining the large-scale [[connectivity]] structure provided by TVB.
 
 ## Overview
 
-Neurodamus addresses a fundamental challenge in computational neuroscience: the need to combine the scalability of [[whole-brain-modeling]] approaches with the biological detail of [[spiking-neural-networks]]. While TVB traditionally operates at the level of neural mass models—treating brain regions as coupled oscillators or mean-field representations—Neurodamus allows the platform to leverage detailed neuron and synapse dynamics from established simulators. The software acts as an adapter layer, translating between TVB's coarse-grained region-based framework and the fine-grained point-neuron simulations supported by backends like NEST and NEURON.
+Neurodamus addresses a fundamental challenge in [[computational-neuroscience]]: the need to combine the scalability of [[whole-brain-modeling]] approaches with the biological detail of [[spiking-neural-networks]]. While TVB traditionally operates at the level of [[neural-mass-models]]—treating brain regions as coupled oscillators or [[mean-field-theory|mean-field]] representations—Neurodamus allows the platform to leverage detailed neuron and synapse dynamics from established simulators. The software acts as an adapter layer, translating between TVB's coarse-grained region-based framework and the fine-grained point-neuron simulations supported by backends like NEST and NEURON.
 
-The project emerged from the recognition that different modeling scales serve different scientific questions. Neural mass models excel at capturing large-scale brain dynamics and can be fit to neuroimaging data such as [[fmri]] and [[eeg]] signals. However, when researchers need to investigate cellular-level mechanisms—synaptic plasticity, specific ion channel contributions, or microcircuit interactions—detailed spiking network simulations become necessary. Neurodamus provides the infrastructure to combine these scales within a unified workflow.
+The project emerged from the recognition that different modeling scales serve different scientific questions. Neural mass models excel at capturing large-scale [[brain-dynamics]] and can be fit to [[neuroimaging]] data such as [[fmri]] and [[eeg]] signals. However, when researchers need to investigate cellular-level mechanisms—[[synaptic-plasticity]], specific ion channel contributions, or microcircuit interactions—detailed spiking network simulations become necessary. Neurodamus provides the infrastructure to combine these scales within a unified workflow.
 
 ## Key Features
 

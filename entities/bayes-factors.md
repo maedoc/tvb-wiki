@@ -15,12 +15,12 @@ tags:
 - computational-neuroscience
 title: Bayes Factors
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 ## Overview
 
-Bayes Factors (BF) are a foundational quantity in Bayesian statistics that quantify the relative evidence provided by observed data for one statistical model versus another. Formally, the Bayes Factor comparing model $\mathcal{M}_1$ to model $\mathcal{M}_0$ is defined as the ratio of their marginal likelihoods:
+Bayes Factors (BF) are a foundational quantity in [[bayesian]] statistics that quantify the relative evidence provided by observed data for one statistical model versus another. Formally, the Bayes Factor comparing model $\mathcal{M}_1$ to model $\mathcal{M}_0$ is defined as the ratio of their marginal likelihoods:
 
 $$\text{BF}_{10} = \frac{p(\mathbf{y} \mid \mathcal{M}_1)}{p(\mathbf{y} \mid \mathcal{M}_0)} = \frac{\int p(\mathbf{y} \mid \boldsymbol{\theta}_1, \mathcal{M}_1) p(\boldsymbol{\theta}_1 \mid \mathcal{M}_1) \, d\boldsymbol{\theta}_1}{\int p(\mathbf{y} \mid \boldsymbol{\theta}_0, \mathcal{M}_0) p(\boldsymbol{\theta}_0 \mid \mathcal{M}_0) \, d\boldsymbol{\theta}_0}$$
 

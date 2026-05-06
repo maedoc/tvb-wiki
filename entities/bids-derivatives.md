@@ -17,7 +17,7 @@ tags:
 - preprocessing
 title: BIDS Derivatives
 type: concept
-updated: '2026-05-05'
+updated: '2026-05-06'
 ---
 
 ## Overview
@@ -36,7 +36,7 @@ The adoption of BIDS Derivatives has been accelerated by the availability of val
 
 ## Key Features
 
-The BIDS Derivatives specification defines several categories of derived data, each with its own organizational principles. **Preprocessed data** includes outputs like motion‑corrected timeseries, skull‑stripped anatomical images, and spatially normalized images—typically the end‑products of standardized preprocessing workflows. **Derived anatomical data** includes tissue probability maps, cortical parcellations (such as those from Freesurfer or [[brainsuite]]), and subcortical segmentations. **Statistical results** encompass contrast maps, beta maps, and statistical parametric maps from model fitting, as well as region‑of‑interest summaries and [[connectivity]] matrices.
+The BIDS Derivatives specification defines several categories of derived data, each with its own organizational principles. **Preprocessed data** includes outputs like motion‑corrected timeseries, skull‑stripped anatomical images, and spatially normalized images—typically the end‑products of standardized preprocessing workflows. **Derived anatomical data** includes tissue probability maps, cortical parcellations (such as those from [[freesurfer]] or [[brainsuite]]), and subcortical segmentations. **Statistical results** encompass contrast maps, beta maps, and statistical parametric maps from model fitting, as well as region‑of‑interest summaries and [[connectivity]] matrices.
 
 A key feature of BIDS Derivatives is the concept of **pipeline provenance** through the use of `source` and `pipeline` fields in filenames. Derivatives can explicitly reference which other derivatives or raw data they were derived from, creating a directed acyclic graph of data transformations. This is supplemented by JSON sidecar files that encode processing parameters—filter settings, normalization transforms, model specifications—as key‑value pairs that travel with the data [[homer3]].
 
@@ -46,7 +46,7 @@ The specification also defines **output space** descriptors (`space-*` entities)
 
 BIDS Derivatives has spawned an ecosystem of tools that consume, produce, or validate derivative data. [[fmriprep]] is perhaps the most widely used pipeline for fMRI preprocessing, generating a comprehensive suite of preprocessed fMRI data, movement parameters, quality control reports, and confounds that conform to the BIDS Derivatives specification Cat12. The [[mriqc]] tool produces quality metrics for raw and derived data, generating HTML reports and JSON files that are themselves organized as BIDS Derivatives.
 
-Validation tools like Bids Validator check both raw BIDS datasets and their derivatives for specification compliance, catching common errors like missing required fields or inconsistent entity values. Researchers can also use [[pybids]] or Nilearn to programmatically query derivative directories, loading specific files into memory for downstream analysis without manual file system navigation.
+Validation tools like Bids Validator check both raw BIDS datasets and their derivatives for specification compliance, catching common errors like missing required fields or inconsistent entity values. Researchers can also use [[pybids]] or [[nilearn]] to programmatically query derivative directories, loading specific files into memory for downstream analysis without manual file system navigation.
 
 ## Relationship to TVB
 

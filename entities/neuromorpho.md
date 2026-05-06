@@ -10,7 +10,7 @@ tags:
 - computational-neuroscience
 title: Neuromorpho.Org
 type: entity
-updated: '2026-05-04'
+updated: '2026-05-06'
 ---
 
 # Neuromorpho.Org
@@ -21,7 +21,7 @@ Neuromorpho.Org is a publicly accessible, curated archive of digital reconstruct
 
 ## Key Features
 
-The database distinguishes itself through several important features that make it valuable for computational modeling. First, all morphological reconstructions in Neuromorpho.Org are stored in standardized file formats, primarily SWC and ASC, which are compatible with most major neuronal simulation platforms including [[neuron]], Brian, Brian2, Netpyne, and Neuroconstruct [@state2020bmtk]. Each reconstruction includes detailed morphometric measurements such as total dendritic length, branch order statistics, soma size, and axon length, enabling researchers to select appropriate morphologies for their specific modeling needs.
+The database distinguishes itself through several important features that make it valuable for computational modeling. First, all morphological reconstructions in Neuromorpho.Org are stored in standardized file formats, primarily SWC and ASC, which are compatible with most major neuronal simulation platforms including [[neuron]], Brian, [[brian2]], Netpyne, and Neuroconstruct [@state2020bmtk]. Each reconstruction includes detailed morphometric measurements such as total dendritic length, branch order statistics, soma size, and axon length, enabling researchers to select appropriate morphologies for their specific modeling needs.
 
 Second, the database maintains rigorous curation standards. Every reconstruction undergoes quality control to ensure proper tree topology, correct identification of soma and dendritic compartments, and appropriate dendritic-axonal polarity. The curation process also standardizes nomenclature using the NeuroNames ontology, ensuring consistency across contributions from different laboratories [@nielsen2008noneuronsource]. This standardization is crucial because raw morphological data from different labs often uses varying conventions, making integration challenging without such curation.
 

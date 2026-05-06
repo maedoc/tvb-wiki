@@ -13,7 +13,7 @@ tags:
 - whole-brain-modeling
 title: NiPype
 type: entity
-updated: '2026-05-05'
+updated: '2026-05-06'
 ---
 
 # NiPype
@@ -22,7 +22,7 @@ updated: '2026-05-05'
 
 **NiPype** ([[neuroimaging]] in Python: Pipelines and Interfaces) is an open-source Python project that provides a uniform interface to existing neuroimaging software and facilitates interaction between them using an intuitive, flexible workflow engine. Developed by the neuroimaging community, with key contributors including the authors of the seminal 2011 framework paper (Gorgolewski et al., 2011), NiPype addresses the fragmentation in neuroimaging analysis by offering a common framework to integrate heterogeneous tools.
 
-NiPype enables researchers to construct complex neuroimaging workflows that leverage the strengths of multiple software packages simultaneously. Rather than being locked into a single processing pipeline (e.g., FSL-only or SPM-only), users can combine the best tools from different packages—using FSL for preprocessing, ANTs for registration, and FreeSurfer for surface reconstruction—within a single Python script with consistent syntax.
+NiPype enables researchers to construct complex neuroimaging workflows that leverage the strengths of multiple software packages simultaneously. Rather than being locked into a single processing pipeline (e.g., FSL-only or SPM-only), users can combine the best tools from different packages—using FSL for preprocessing, ANTs for registration, and [[freesurfer]] for surface reconstruction—within a single Python script with consistent syntax.
 
 ## Key Features
 
