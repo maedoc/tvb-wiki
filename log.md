@@ -383,3 +383,5 @@
 
 ## [2026-05-06 14:13] Audit: 1025 issues (120 broken links, 46 orphans, 2 placeholders, 0 dup-refs, 5 bad-meta, 88 citation-verify, 14 opaque-refs, 72 thin, 385 missing-links)
 2026-05-06: Improved abide.md - added dataset tag to frontmatter
+
+## [2026-05-06 14:27] Improve: 4 pages improved (connectivity, principal-component-analysis, neuroharmonize, abide)
