@@ -19,6 +19,12 @@
 - Retained comprehensive technical content about NeuroML2 features, LEMS foundation, and interoperability
 - Content includes: XML-based specification, cellular/network level modeling, validation emphasis, Relationship to Other Standards section
 - 18+ wikilinks connecting to related software and concepts (neuron, nest, neuroml, spiking-neural-networks, neural-mass-model, etc.)
+- Improved [[brainpy]] page - replaced placeholder with comprehensive content about BrainPy brain dynamics programming framework
+- Added sections on overview, key features (JAX-based JIT compilation, spiking neural networks, neural mass models, bifurcation analysis)
+- Included relationship to TVB explaining complementary purposes (TVB for whole-brain neural mass, BrainPy for detailed SNN and multi-scale modeling)
+- Added 12+ wikilinks connecting to the-virtual-brain, nest, brian2, bmtk, bindsnet, pynest, jax, neural-mass-models, spiking-neural-networks, whole-brain-modeling, jansen-rit-model, wong-wang-model, wilson-cowan-model
+- Updated frontmatter with proper tags (software-brain-modeling, spiking-neural-networks, neural-mass-models, python, jax) and sources (eLife paper, documentation)
+- Content includes: technical architecture, ecosystem (BrainX, brainpy-state), use cases (E-I balanced networks, decision-making, whole-brain modeling)
 
 ## 2026-05-04
 - Improved [[coins]] page - replaced placeholder with comprehensive content about COINS (Collaborative Informatics and Neuroimaging Suite)
@@ -291,3 +297,7 @@
 ## [2026-05-06 09:08] LinkRepair: fixed 5 files (0 wikilink-in-URL, 5 abs-path)
 
 ## [2026-05-06 09:08] RefFormatter: formatted references on 4 pages
+
+## [2026-05-06 09:11] Ingest: 2 new papers, 0 stubs created
+
+## [2026-05-06 09:12] Audit: 909 issues (82 broken links, 48 orphans, 17 placeholders, 0 dup-refs, 5 bad-meta, 85 citation-verify, 11 opaque-refs, 72 thin, 358 missing-links)
