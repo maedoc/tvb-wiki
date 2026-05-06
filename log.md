@@ -49,3 +49,11 @@
 ## [2026-05-06 22:50] IndexUpdate: Added neuromorphic-computing to entities/index.md
 - Action: Added neuromorphic-computing to Software Platforms section in entities/index.md
 - Details: Entry placed among neuromorphic hardware platforms (SpiNNaker) and neural network simulators
+
+## [2026-05-06 23:02] Improve: 2 pages improved (critical-periods, bids)
+
+## [2026-05-06 23:20] Improve: damien-fair page
+- Action: Expanded Damien Fair stub to comprehensive concept page
+- Details: Added scientific biography focusing on 2009 developmental connectivity paper, expanded explanation of "local to distributed" network organization finding, added implications for whole-brain modeling
+- Sources: raw/papers/fair-2009.md (primary)
+- Wikilinks included: whole-brain-modeling, developmental-trajectories, neurodevelopment, functional-connectivity, resting-state, default-mode-network, small-world-networks, brain-network, structural-connectivity, graph-theory
