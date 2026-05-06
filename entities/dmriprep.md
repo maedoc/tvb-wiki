@@ -1,10 +1,24 @@
 ---
-title: dMRIprep
 created: 2025-01-15
-updated: 2026-05-06
+sources:
+- https://doi.org/10.5281/zenodo.4571808
+- https://bids-apps.neuroimaging.io/
+- https://doi.org/10.3389/fninf.2021.00037
+- raw/papers/doi-10-1016-j-neuroimage-2015-10-019.md
+- raw/papers/doi-10-1038-s41592-018-0235-4.md
+- raw/papers/doi-10-1371-journal-pcbi-1005209.md
+tags:
+- software-bids-apps
+- diffusion-imaging
+- neuroimaging-dti
+- tractography
+- structural-connectivity
+- software-nipype
+- bids-derivatives
+- preprocessing
+title: dMRIprep
 type: entity
-tags: [software-bids-apps, diffusion-imaging, neuroimaging-dti, tractography, structural-connectivity, software-nipype, bids-derivatives, preprocessing]
-sources: [https://doi.org/10.5281/zenodo.4571808, https://bids-apps.neuroimaging.io/, https://doi.org/10.3389/fninf.2021.00037]
+updated: '2026-05-06'
 ---
 
 dMRIprep is a BIDS-compatible preprocessing pipeline for diffusion magnetic resonance imaging (dMRI) data, designed to produce analysis-ready derivatives suitable for subsequent tractography and structural connectivity analysis. Part of the growing family of BIDS-apps that includes the more widely developed [[fmriprep]], dMRIprep aims to automate the complex series of correction steps required to transform raw diffusion-weighted images into clean, motion-corrected outputs suitable for quantitative analysis. The pipeline implements a philosophy of minimal manual intervention while maintaining reproducibility and transparent reporting of processing steps (Esteban et al., 2019).

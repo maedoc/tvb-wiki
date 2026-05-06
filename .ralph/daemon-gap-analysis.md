@@ -7,10 +7,10 @@
 |--------|-------|------------------|-----|
 | Total pages | 437 | 300+ | ✅ |
 | Raw papers | 1,645 | 300+ | ✅ |
-| Full texts fetched | 8 (~0.5%) | N/A | 🔴 CRITICAL |
-| Broken wikilinks | 82 | < 20 | 🔴 |
+| Full texts fetched | 19 (~1.2%) | N/A | 🟡 IMPROVING |
+| Broken wikilinks | 82 → ~40 (after fsl/freesurfer/spm/dipy/mrtrix3/pynn stubs) | < 20 | 🟡 |
 | Orphan pages | 48 | < 10 | 🟡 |
-| Placeholder pages | 13 | 0 | 🟡 |
+| Placeholder pages | 13 → 10 (deleted jax/rest) | 0 | 🟡 |
 | Entities | 295 | 60+ | ✅ |
 | Concepts | 140 | 65+ | ✅ |
 | Comparisons | 6 | 10+ | 🔴 |
@@ -18,42 +18,45 @@
 | Avg words/concept | 681 | 500+ | ✅ |
 | Pages with sources | 438 (>99%) | >50% | ✅ |
 
-### Gap 1: Full Text Coverage Nearly Zero (🔴 CRITICAL)
-- **Only 8 of 1,645 papers have extracted full text**
-- FullTextFetcher has only run ~2 cycles since deployment
-- Top unfetched foundational papers: Breakspear 2017 (score 73), Ritter 2013 (69), Schirner 2018 (55), Deco 2013 (54)
-- These are the most-cited, most-relevant papers — their absence cripples the Improver's ability to write deep, sourced content
-- **Root cause**: 4h interval + daemon launch timing means it's barely fired; also many old papers lacked DOIs until yesterday's fix
+### Iteration 1 Fixes (COMPLETE)
 
-### Gap 2: Missing Core Software Pages (🔴)
-- **fsl** (9 broken inbound links), **freesurfer** (8), **spm** (5), **dipy** (4), **mrtrix3** (3), **pynn** (3)
-- These are foundational neuroimaging tools referenced everywhere but have no wiki pages
-- SoftwareMapper creates pages but the blacklist/filter may be too conservative, or the pages were deleted and never recreated
+1. **Fixed GitHub Actions** — `link_repair.py` agent repairs wikilink-in-URL and absolute-path links that crash mkdocs; wired into CI and daemon
+2. **Restored `download_pdf`** in FullTextFetcher — function was accidentally deleted during DOI lookup patch
+3. **Created 6 core software stubs** — fsl, freesurfer, spm, dipy, mrtrix3, pynn (fixes 32 broken inbound links)
+4. **Batch-fetched 11 full texts** — rit-2013, schwalger-2017, 5 arxiv papers, 4 others (total now 19)
+5. **Fixed bad wikilink** — `[[rest]]` in tvb.md (shouldn't link within paper title)
+6. **Deleted off-mission stubs** — jax.md (Google ML framework), rest.md (ambiguous)
 
-### Gap 3: Improver Inefficiency (🟡)
-- Pi timeouts after 300s (3 retries) = 15 min burned per failed page
-- Citation guard rejecting pages with citations that don't exist in raw/papers (e.g., niftynet's Gibson 2018)
-- Word count dropping significantly on some edits (848 → 160), causing revert
-- 3/5 pages failing per cycle recently
-- **Impact**: ~60% of Improver cycles are wasted on retries/reverts
+### Remaining Gaps for Next Iterations
 
-### Gap 4: Placeholder Pages Persist (🟡)
-- 13 pages still have `*Placeholder*` text
-- Improver is working through them at ~2-3/hour but some keep failing validation
+1. **Full text coverage still low** — 19/1,645 papers. Need ~100+ for meaningful Improver enrichment.
+   - Plan: Let daemon run; FullTextFetcher will fetch ~20 per day at 4h intervals
+   - Top unfetched: Breakspear 2017, Schirner 2018, Deco 2013, Petkoski-Jirsa 2019
 
-### Gap 5: Low Comparison Page Count (🟡)
-- Only 6 comparison pages vs target of 10+
-- The SoftwareMapper should be creating more comparison pages (TVB vs NEST, ANTs vs FSL, etc.)
+2. **Broken wikilinks** — ~40 remain after fixing the big ones
+   - qsiprep, nnu-net, intrinsic-connectivity-networks, jenkinson12, tournier19
+   - Plan: Run Repairer + manually create stubs for most-referenced missing targets
 
-### Gap 6: Daemon Agent Scheduling Gaps (🟡)
-- FullTextFetcher has only launched once or twice since daemon restart
-- Some agents may be getting starved by long-running Improver cycles
-- The concurrent thread model means all agents share the same process — if one hangs, others may not check in properly
+3. **Placeholder pages** — 10 remain (c302, neurodamus, eden, nipal, amico, neuroquery, loris, neuroharmonize, etc.)
+   - Plan: Let Improver fill them; some may be off-mission and should be deleted
 
-## Remediation Plan
+4. **Comparison pages** — Only 6 vs target 10+
+   - Plan: Create tvb-vs-nest-vs-neuron, fsl-vs-ants, fmri-vs-eeg-meeg
 
-1. **Batch-fetch full texts NOW** — manually run FullTextFetcher with increased cap to catch up on all foundational papers
-2. **Create missing core software stubs** — fsl, freesurfer, spm, dipy, mrtrix3, pynn
-3. **Fix Improver citation guard** — allow citations to raw papers that exist as arxiv/semanticscholar slugs, not just exact title matches
-4. **Bulk-remove remaining placeholders** — either fill or delete the last 13 placeholder pages
-5. **Verify all agents are running** — check daemon state, ensure no agents are stuck
+5. **Improver efficiency** — Pi timeouts (300s × 3 retries) burn 15 min per failed page
+   - Plan: Reduce PI_TIMEOUT to 180s, add smarter retry backoff
+
+6. **Citation guard** — Rejecting papers with citations that exist as arxiv/semanticscholar slugs
+   - Plan: Fix citation_verify.py to match against all raw paper variants
+
+## Current Status
+Iteration 1 COMPLETE — 6 high-impact fixes deployed and committed.
+
+## Iteration 2 Plan (IN PROGRESS)
+
+Priority gaps to address:
+1. **Fix Improver efficiency** — reduce PI_TIMEOUT from 300s to 180s, add smarter retry backoff
+2. **Fix citation guard** — citation_verify.py should match arxiv/semanticscholar slugs, not just exact titles
+3. **Create remaining comparison pages** — tvb-vs-nest-vs-neuron, fsl-vs-ants, fmri-vs-eeg-meeg
+4. **Fix remaining broken wikilinks** — qsiprep, nnu-net, jenkinson12, tournier19, intrinsic-connectivity-networks
+5. **Evaluate placeholder pages** — determine which 10 remaining stubs are on-mission vs off-mission

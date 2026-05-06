@@ -359,3 +359,4 @@
 - Updated frontmatter with proper tags from taxonomy (connectomics, structural-connectivity, brain-network, computational-neuroscience, python) and date
 
 ## [2026-05-06 11:41] Improve: 2 pages improved (niftynet, calamity-atlas)
+2026-05-06: Updated abide.md - Added source raw/datasets/abide-dataset.md to sources frontmatter
