@@ -104,3 +104,5 @@
 - Wikilinks included: whole-brain-modeling, computational-neuroscience, dynamic-causal-modeling, neural-mass-models, diffusion-imaging, tractography, dti, human-connectome-project, functional-connectivity, brain-oscillations, fractional-anisotropy, spiking-neural-networks, jansen-rit, wong-wang-model, kuramoto, alzheimers-disease, schizophrenia-models, brain-stimulation, neurodevelopment, the-virtual-brain, mrtrix3-connectome, connectome-workbench
 
 ## [2026-05-07 00:58] Improve: 5 pages improved (kurtzer17, excitation-inhibition-balance, wilson-cowan-model, neuroimaging-pet, white-matter)
+
+## [2026-05-07 01:22] Improve: 5 pages improved (neuroimaging-pet, kurtzer17, wilson-cowan-model, hybrid-architecture, excitation-inhibition-balance)
