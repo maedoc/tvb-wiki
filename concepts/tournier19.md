@@ -1,10 +1,16 @@
 ---
-title: "Tournier et al. 2019"
 created: 2026-05-06
-updated: 2026-05-06
+sources:
+- raw/papers/Renton2024.md
+- raw/papers/semanticscholar-380768cf42a8.md
+tags:
+- references
+- mrtrix3
+- diffusion-mri
+- tractography
+title: Tournier et al. 2019
 type: concept
-tags: [references, mrtrix3, diffusion-mri, tractography]
-sources: []
+updated: '2026-05-06'
 ---
 
 # Tournier et al. 2019

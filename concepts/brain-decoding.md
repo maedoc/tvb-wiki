@@ -1,6 +1,9 @@
 ---
 created: 2026-05-06
-sources: []
+sources:
+- raw/papers/semanticscholar-a225a1c661a7.md
+- raw/papers/semanticscholar-c92bc1391211.md
+- raw/papers/arxiv-2512.24901.md
 tags:
 - brain-decoding
 - machine-learning
