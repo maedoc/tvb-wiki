@@ -1,7 +1,7 @@
 ---
 title: TVB Wiki
 created: 2026-04-23
-updated: 2026-05-05
+updated: 2026-05-06
 type: index
 tags: [tvb, whole-brain-modeling, wiki-index, navigation]
 ---

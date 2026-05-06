@@ -1,7 +1,7 @@
 ---
 title: NESTML
 created: 2024-01-15
-updated: 2026-05-05
+updated: 2026-05-06
 type: entity
 tags: [software-nest, neuromorphic-computing, neural-network, spiking-neural-networks, software-brian, software-neuron, neural-mass-models, neuroconstruct, software-neuroml, computational-neuroscience]
 sources: ['https://arxiv.org/abs/1606.02882', 'https://www.frontiersin.org/articles/10.3389/fninf.2025.1544143', 'https://nestml.readthedocs.io/en/latest/nestml_language/nestml_language_concepts.html', 'https://nestml.readthedocs.io/en/latest/running/running_nest.html']
@@ -54,7 +54,7 @@ The language has been applied to implement various neuron models including varia
 - [[nest]] — Neural simulation tool, primary target for NESTML code generation
 - [[brian2cuda]] — Alternative spiking neural network simulator with interpreted Python interface
 - [[neuroml]] — Broader neural modeling format with multiple simulation targets
-- [[neuroconstruct]] — GUI tool for managing neuronal models
+- [[neuromorpho-toolkit]] — GUI tool for managing neuronal models
 - [[pynest]] — Python interface to NEST
 - [[neuron]] — NEURON simulator for detailed neuronal simulations
 

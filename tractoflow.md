@@ -1,7 +1,7 @@
 ---
 title: TractoFlow
 created: 2025-01-15
-updated: 2026-05-05
+updated: 2026-05-06
 type: entity
 tags: [software-brain-modeling, diffusion-imaging, tractography, diffusion-mri, structural-connectivity]
 sources: [raw/papers/arxiv-1905.05846.md]
@@ -19,7 +19,7 @@ The development of TractoFlow coincided with growing interest in connectome-base
 
 ## Technical Overview
 
-TractoFlow implements a multi-stage processing pipeline that can be divided into three principal phases: preprocessing, tissue segmentation, and tractography. During preprocessing, raw DWIs are corrected for motion and eddy-current distortions using tools from the [[mrtrix3-connectome]] and [[fsl]] suites [[Jenkinson12]], followed by bias field correction via [[ants]] [[Avants09]] to normalize intensity profiles across the brain. An initial quality control step flags datasets with excessive motion artifacts.
+TractoFlow implements a multi-stage processing pipeline that can be divided into three principal phases: preprocessing, tissue segmentation, and tractography. During preprocessing, raw DWIs are corrected for motion and eddy-current distortions using tools from the [[mrtrix3-connectome]] and [[fsl-melodic]] suites [[Jenkinson12]], followed by bias field correction via [[ants]] to normalize intensity profiles across the brain. An initial quality control step flags datasets with excessive motion artifacts.
 
 For tissue segmentation, the pipeline employs the multi-tissue constrained spherical deconvolution (MT-CSD) approach, which simultaneously estimates fiber orientation distribution functions (fODFs) for gray matter, white matter, and CSF. This method provides superior fiber tracking accuracy compared to single-tissue approaches, particularly at tissue boundaries where partial volume effects are pronounced [[Tournier19]]. The resulting fODFs feed directly into probabilistic tractography using the [[mrtrix3-connectome]] implementation of the iFOD2 (improved Fiber Orientation Distribution 2) algorithm, which uses a particle filter approach with anatomical constraints to produce biologically plausible streamlines [[Theaud20]].
 
@@ -50,4 +50,4 @@ TractoFlow's primary distinction lies in its strict default parameter configurat
 
 ## Related Software
 
-TractoFlow shares conceptual territory with other tractography pipelines including [[afq]], which provides similar automation but with different default algorithms, and the [[qsiprep]] pipeline that emphasizes preprocessing standardization. For downstream connectivity analysis, [[connectome-mapper-3]] offers complementary functionality, providing a unified framework from segmentation through network construction that can consume TractoFlow outputs. Traditional tractography tools like [[mrtrix3-connectome]] and [[dipy]] offer greater flexibility for expert users willing to tune parameters manually, but lack TractoFlow's out-of-the-box automation.
+TractoFlow shares conceptual territory with other tractography pipelines including [[afq]], which provides similar automation but with different default algorithms, and the [[smriprep]] pipeline that emphasizes preprocessing standardization. For downstream connectivity analysis, [[connectome-mapper-3]] offers complementary functionality, providing a unified framework from segmentation through network construction that can consume TractoFlow outputs. Traditional tractography tools like [[mrtrix3-connectome]] offer greater flexibility for expert users willing to tune parameters manually, but lack TractoFlow's out-of-the-box automation.

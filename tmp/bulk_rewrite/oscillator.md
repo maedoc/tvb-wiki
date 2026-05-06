@@ -1,7 +1,7 @@
 ---
 title: Oscillator
 created: 2026-04-27
-updated: 2026-05-04
+updated: 2026-05-06
 type: concept
 tags: [dynamical-systems-theory, nonlinear-dynamics, neural-mass-models, brain-oscillations, bifurcation-theory, parameter-estimation, whole-brain-modeling]
 sources: [raw/papers/izhikevich-2007.md]

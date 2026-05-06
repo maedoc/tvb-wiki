@@ -1,23 +1,22 @@
----
-created: 2026-04-20
-sources:
-- raw/papers/van-essen-2013.md
-- raw/papers/barch-2013.md
-- raw/papers/smith-2013-hcp.md
-tags:
-- database-hcp
-- neuroimaging-fmri
-- neuroimaging-dti
-- connectomics
-- structural-connectivity
-- functional-connectivity
-- resting-state
-- task-based
-- dataset
-title: HCP Dataset
-type: concept
-updated: '2026-05-05'
----
+---  
+created: 2026-04-20  
+sources:  
+- raw/papers/van-essen-2013.md  
+- raw/papers/barch-2013.md  
+- raw/papers/smith-2013-hcp.md  
+tags:  
+- database-hcp  
+- neuroimaging-fmri  
+- neuroimaging-dti  
+- connectomics  
+- structural-connectivity  
+- functional-connectivity  
+- resting-state  
+- task-based  
+- dataset  
+title: HCP Dataset  
+type: concept  
+updated: '2026-05-06'  
 
 The **HCP Dataset** refers to the publicly released [[neuroimaging]] data from the Human Connectome Project (HCP), a landmark initiative to map the structural and functional connectivity of the healthy adult human brain. Unlike its parent initiative (the [[human-connectome-project]]), which encompasses the broader research program, the HCP Dataset specifically denotes the curated collection of multimodal brain imaging scans acquired using standardized protocols and made openly available to the neuroscience community. The dataset comprises structural MRI, task-based functional MRI, resting-state functional MRI, and [[diffusion-imaging]] data from approximately 1200 healthy young adults [1], representing the largest and most comprehensively characterized neuroimaging repository of its kind when first released.
 
@@ -37,7 +36,7 @@ A distinguishing feature of the HCP Dataset is the extensive preprocessing pipel
 
 ## Relationship to The Virtual Brain
 
-The HCP Dataset serves as a critical data source for [[the-virtual‑brain]] (TVB) workflows that construct personalized [[whole‑brain model]]s from empirical connectivity data. TVB's [[tvb‑adapters]] and connectivity pipeline tools can ingest HCP‑derived structural connectivity matrices to define the anatomical coupling between neural populations in simulations of brain dynamics. The resting‑state fMRI data enables validation of simulated functional connectivity against empirical patterns, facilitating parameter‑optimization routines that tune model parameters to match observed brain states. Studies employing HCP data within TVB have investigated [[brain‑oscillations]], [[epilepsy‑modeling]], and personalized approaches to [[personalized‑brain‑modeling]] where individual subject connectivity profiles inform simulation parameters. Additionally, the dataset provides the structural basis for [[aal‑atlas]]‑based connectivity analyses and supports integration with alternative parcellation schemes for comparative whole‑brain modeling studies.
+The HCP Dataset serves as a critical data source for [[the-virtual‑brain]] (TVB) workflows that construct personalized [[bold-model]]s from empirical connectivity data. TVB's [[tvb‑adapters]] and connectivity pipeline tools can ingest HCP‑derived structural connectivity matrices to define the anatomical coupling between neural populations in simulations of brain dynamics. The resting‑state fMRI data enables validation of simulated functional connectivity against empirical patterns, facilitating parameter‑optimization routines that tune model parameters to match observed brain states. Studies employing HCP data within TVB have investigated [[brain‑oscillations]], [[epilepsy‑modeling]], and personalized approaches to [[personalized‑brain‑modeling]] where individual subject connectivity profiles inform simulation parameters. Additionally, the dataset provides the structural basis for [[aal‑atlas]]‑based connectivity analyses and supports integration with alternative parcellation schemes for comparative whole‑brain modeling studies.
 
 ## Related Concepts
 
@@ -45,6 +44,6 @@ The HCP Dataset intersects numerous concepts in the [[connectomics]] and neuroim
 
 ## References
 
-1. (authors unknown). *The WU‑Minn Human Connectome Project: An Overview*.
-2. (authors unknown). *Function in the Human Connectome: Task‑fMRI and Individual Differences in Behavior*.
+1. (authors unknown). *The WU‑Minn Human Connectome Project: An Overview*.  
+2. (authors unknown). *Function in the Human Connectome: Task‑fMRI and Individual Differences in Behavior*.  
 3. (authors unknown). *Resting‑State fMRI in the Human Connectome Project*.

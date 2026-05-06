@@ -1,5 +1,18 @@
 # Wiki Action Log
 
+## 2026-05-06
+- Created [[brica2]] page - comprehensive content about Brain-inspired Computing Architecture version 2
+- Added sections on overview, key features (C++ core, pybind11 bindings, message-passing architecture)
+- Included relationship to TVB explaining complementary purposes (TVB for clinical modeling, BriCA2 for cognitive architecture)
+- Added 12+ wikilinks connecting to neural-mass-models, tvb, nest, brian, pynest, neuroml, brainpy, spiking-neural-networks, network-dynamics, structural-connectivity
+- Updated frontmatter with proper tags and date
+- Improved [[neuroml2]] page - fixed frontmatter tags (replaced invalid open-source-brain with software-brain-modeling), removed invalid source references, removed body citation markers and Key Papers section
+- Fixed all tags to use only taxonomy-compliant tags
+- Included proper relationship to TVB via [[tvb-nest]] module
+- Retained comprehensive technical content about NeuroML2 features, LEMS foundation, and interoperability
+- Content includes: XML-based specification, cellular/network level modeling, validation emphasis, Relationship to Other Standards section
+- 18+ wikilinks connecting to related software and concepts (neuron, nest, neuroml, spiking-neural-networks, neural-mass-model, etc.)
+
 ## 2026-05-04
 - Improved [[coins]] page - replaced placeholder with comprehensive content about COINS (Collaborative Informatics and Neuroimaging Suite)
 - Added sections on overview, key features (MICIS, Assessment Manager, DICOM Receiver, Query Builder, Data Exchange), relationship to TVB, key papers
@@ -45,6 +58,13 @@
 ## [2026-05-04 13:56] Matcher: 10 pages got 26 new sources
 
 ## [2026-05-04 14:05] DeepResearch: 9 papers added via focused research
+
+## 2026-05-06
+- Created [[brica2]] page - comprehensive content about Brain-inspired Computing Architecture version 2
+- Added sections on overview, key features (C++ core, pybind11 bindings, message-passing architecture)
+- Included relationship to TVB explaining complementary purposes (TVB for clinical modeling, BriCA2 for cognitive architecture)
+- Added 12+ wikilinks connecting to neural-mass-models, tvb, nest, brian, pynest, neuroml, brainpy, spiking-neural-networks, network-dynamics, structural-connectivity
+- Updated frontmatter with proper tags and date
 
 ## [2026-05-06] Improve: niftynet
 - Fixed duplicate frontmatter (was two YAML blocks concatenated)
@@ -239,3 +259,5 @@
 ## [2026-05-06 07:24] CrosslinkApplier: added 20 wikilinks (20 inline, 0 suggested)
 
 ## [2026-05-06 07:25] DeepResearch: 8 papers added via focused research
+
+## [2026-05-06 07:36] Improve: 5 pages improved (abide, tvb-webui, niftynet, neuroml2, hrf)

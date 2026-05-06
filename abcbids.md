@@ -1,7 +1,7 @@
 ---
 title: ABCBIDS
 created: 2025-01-01
-updated: 2026-05-04
+updated: 2026-05-06
 type: entity
 tags: [software-bids, neuroimaging-fmri, pipeline, bids-apps, preprocessing]
 sources: [raw/papers/arxiv-1234.56789.md]
@@ -51,14 +51,14 @@ Computational requirements are substantial: the pipeline typically requires 12GB
 
 The ABCD-BIDS pipeline occupies a specific niche in the neuroimaging preprocessing landscape. It is closely related to but distinct from [[fmriprep]] (another BIDS App for fMRI preprocessing) and [[smriprep]] (for diffusion MRI). While all three are BIDS Apps following similar design principles, ABCD-BIDS includes the DCAN-specific BOLD processing stages focused on motion censoring and nuisance regression that are particularly optimized for pediatric and young adult populations.
 
-The pipeline builds directly upon the [[human-connectome-project]] minimal preprocessing pipelines developed by Glasser et al. (2013), extending them with features tailored to developmental populations and multi-site data. This heritage connects ABCD-BIDS to the broader ecosystem of HCP-style processing tools including those implemented in [[freesurfer]] and [[fsl]].
+The pipeline builds directly upon the [[human-connectome-project]] minimal preprocessing pipelines developed by Glasser et al. (2013), extending them with features tailored to developmental populations and multi-site data. This heritage connects ABCD-BIDS to the broader ecosystem of HCP-style processing tools including those implemented in [[pysurfer]] and [[fsl-melodic]].
 
 ## Related Software
 
 - [[bids]] - The Brain Imaging Data Structure standard that ABCBIDS inputs must conform to
 - [[fmriprep]] - Another BIDS App for fMRI preprocessing, often used for comparison
 - [[smriprep]] - BIDS App for diffusion MRI preprocessing
-- [[freesurfer]] - Used internally for cortical reconstruction
-- [[fsl]] - Used for registration and distortion correction
+- [[pysurfer]] - Used internally for cortical reconstruction
+- [[fsl-melodic]] - Used for registration and distortion correction
 - [[connectome-workbench]] - Required for CIFTI file manipulation
 - [[dcabids]] - Alternative BIDS conversion tool (mentioned in pipeline documentation)
