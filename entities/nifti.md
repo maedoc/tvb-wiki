@@ -1,10 +1,18 @@
 ---
-title: NIfTI
 created: 2026-04-20
-updated: 2026-05-06
+sources:
+- raw/papers/friston-1993.md
+- raw/papers/smith-2013-connectomics.md
+- raw/papers/sporns-2011.md
+tags:
+- neuroimaging
+- software-neuroimaging
+- neuroimaging-fmri
+- neuroimaging-dti
+- neuroimaging-eeg
+title: NIfTI
 type: concept
-tags: [neuroimaging, software-neuroimaging, neuroimaging-fmri, neuroimaging-dti, neuroimaging-eeg]
-sources: [raw/papers/friston-1993.md, raw/papers/smith-2013-connectomics.md, raw/papers/sporns-2011.md]
+updated: '2026-05-06'
 ---
 
 NIfTI (Neuroimaging Informatics Technology Initiative) is a file format standard for storing neuroimaging data, particularly volumetric magnetic resonance imaging data such as functional magnetic resonance imaging (fMRI), diffusion tensor imaging (DTI), and structural MRI. The format was developed to address limitations in the earlier Analyze format and has become the de facto standard for sharing neuroimaging data across software platforms, databases, and research laboratories worldwide.
@@ -40,3 +48,9 @@ The Python library [[nibabel]] provides programmatic access to NIfTI files, allo
 NIfTI remains the dominant format for storing and sharing neuroimaging timeseries and volumetric data. However, the format has known limitations that continue to motivate development of alternatives. NIfTI's single-file approach, while simpler than Analyze's two-file system, can be cumbersome for very large datasets common in modern neuroimaging. The format lacks built-in support for data compression, storage of metadata beyond basic header fields, and explicit representation of non-volumetric data such as surfaces or parcels.
 
 Despite these limitations, NIfTI's simplicity, widespread adoption, and robust tool support ensure it will remain central to neuroimaging data interchange for the foreseeable future. Researchers building [[whole-brain]] models frequently encounter NIfTI files as their primary input, making understanding of the format essential for computational neuroscience workflows.
+
+## References
+
+1. (authors unknown). *Functional Connectivity: The Principal-Component Analysis of Large (PET and fMRI) Data Sets*.
+2. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
+3. (authors unknown). *Networks of the Brain*.

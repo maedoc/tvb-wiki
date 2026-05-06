@@ -10,14 +10,7 @@ sources:
 - raw/papers/semanticscholar-97e6ff441097.md
 - raw/papers/semanticscholar-d4665dd0df61.md
 - raw/papers/semanticscholar-a0cce22e2ffc.md
-tags:
-- software-brain-modeling
-- software-neuroimaging
-- deep-learning
-- tensorflow
-- neuroimaging
-- structural-connectivity
-- medical-image-segmentation
+tags: []
 type: entity
 updated: '2026-05-06'
 ---

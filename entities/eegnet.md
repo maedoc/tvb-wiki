@@ -1,5 +1,4 @@
 ---
-title: EEGNet
 created: 2026-04-29
 sources:
 - raw/papers/semanticscholar-554ba2bab0d7.md
@@ -8,8 +7,9 @@ sources:
 tags:
 - software-brain-modeling
 - neuroimaging-eeg
+title: EEGNet
 type: entity
-updated: 2026-05-06
+updated: '2026-05-06'
 ---
 
 ## Overview
@@ -48,3 +48,9 @@ The seminal EEGNet paper, "EEGNet: A Compact CNN for EEG‑based Brain‑Compute
 Subsequent work has extended EEGNet in various directions. Architectural variants such as ShallowConvNet and DeepConvNet were developed with different kernel configurations (Schirrmeister et al., 2017), while attention mechanisms have been incorporated to improve interpretability by highlighting the temporal and spatial features most relevant to classification decisions (Mawed et al., 2021). More recent work has explored EEGNet for sleep stage classification, epilepsy detection, and cognitive workload estimation, expanding its applicability beyond BCI to clinical neuroscientific applications. In the clinical domain, EEGNet has shown promise for automated seizure detection,Sleep stage scoring, and cognitive state monitoring, demonstrating the transferability of features learned on one EEG paradigm to others.
 
 Another significant direction of research has focused on **domain adaptation** and **transfer learning** with EEGNet. Because EEG data collection is expensive and time‑consuming, and because electrode layouts and recording protocols vary across laboratories, the question of how to transfer a trained EEGNet classifier from one dataset to another has received considerable attention (Zanetti et al., 2021). Recent work has explored using the learned temporal and spatial filters from EEGNet as generalizable features that can be fine‑tuned with limited data from new subjects or new paradigms. This is particularly relevant for clinical applications where data from individual patients may be limited, but where pre‑training on large datasets (such as those available through [[physionet]]) can provide valuable feature representations that generalize across subjects.
+
+## References
+
+1. Xiangyu Xue, Liankun Ren, Hongyu Zhou, Anqi Dai, Di Wang, Huaqiang Zhang. (2026). *DiffLSTM-MTE: A Hybrid LSTM-Diffusion Framework for Virtual iEEG Reconstruction From MEG*. IEEE Access. [DOI](https://doi.org/10.1109/ACCESS.2026.3665952)
+2. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *Arbor-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)
+3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Díaz-Pier, Thanos Manos. (2026). *Arbor-TVB: a novel multi-scale co-simulation framework with a case study on neural-level seizure generation and whole-brain propagation*. Frontiers Comput. Neurosci.. [DOI](https://doi.org/10.3389/fncom.2025.1731161)

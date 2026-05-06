@@ -1,11 +1,19 @@
---- 
-title: Oscillator 
-created: 2026-04-27 
-updated: 2026-05-06 
-type: concept 
-tags: [dynamical-systems-theory, nonlinear-dynamics, neural-mass-models, brain-oscillations, bifurcation-theory, parameter-estimation, whole-brain-modeling] 
-sources: [raw/papers/izhikevich-2007.md] 
---- 
+---
+created: 2026-04-27
+sources:
+- raw/papers/izhikevich-2007.md
+tags:
+- dynamical-systems-theory
+- nonlinear-dynamics
+- neural-mass-models
+- brain-oscillations
+- bifurcation-theory
+- parameter-estimation
+- whole-brain-modeling
+title: Oscillator
+type: concept
+updated: '2026-05-06'
+---
 
 # Oscillator 
 
@@ -51,3 +59,7 @@ In the context of [[whole-brain-modeling]], the [[Epileptor]] model exemplifies 
 ## Open Questions 
 
 A central challenge in applying oscillator models to whole-brain modeling lies in parameter estimation—determining which model parameters best fit empirical [[resting-state]] data remains an active area of research. Furthermore, the relationship between microscopic single-neuron oscillations and macroscopic population rhythms observed in [[fmri]] and [[eeg]] is not fully understood, requiring multi-scale modeling approaches that bridge [[neural-mass-models]] with [[spiking-neural-networks]]. Recent work on [[fokker-planck-equation]] approaches and [[stochastic-differential-equations]] aims to capture the effects of noise on oscillator synchronization across brain networks.
+
+## References
+
+1. Eugene M. Izhikevich. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.

@@ -1,8 +1,9 @@
 ---
-title: HCP Dataset
 created: 2026-04-20
-updated: 2026-05-06
-type: concept
+sources:
+- raw/papers/van-essen-2013.md
+- raw/papers/barch-2013.md
+- raw/papers/smith-2013-hcp.md
 tags:
 - database-hcp
 - neuroimaging-fmri
@@ -13,10 +14,9 @@ tags:
 - resting-state
 - task-based
 - dataset
-sources:
-- raw/papers/van-essen-2013.md
-- raw/papers/barch-2013.md
-- raw/papers/smith-2013-hcp.md
+title: HCP Dataset
+type: concept
+updated: '2026-05-06'
 ---
 
 The **HCP Dataset** refers to the publicly released [[neuroimaging]] data from the Human Connectome Project (HCP), a landmark initiative to map the structural and functional connectivity of the healthy adult human brain. Unlike its parent initiative (the [[human-connectome-project]]), which encompasses the broader research program, the HCP Dataset specifically denotes the curated collection of multimodal brain imaging scans acquired using standardized protocols and made openly available to the neuroscience community. The dataset comprises structural MRI, task-based functional MRI, resting-state functional MRI, and [[diffusion-imaging]] data from approximately 1200 healthy young adults, representing the largest and most comprehensively characterized neuroimaging repository of its kind when first released [1].
@@ -62,3 +62,9 @@ Alternative large-scale neuroimaging resources include [[abide]] for autism rese
 ## Known Limitations
 
 While the HCP Dataset represents a landmark resource, users should be aware of several limitations. The sample, while large, is not representative of the general population—it comprises predominantly Caucasian individuals with high socioeconomic status, limiting generalizability of findings to more diverse populations [1]. Additionally, the scanning protocol, while state-of-the-art, employs multiband sequences that introduce unique artifacts (such as SARI and cross-scan contamination) that require specialized handling. The extensive preprocessing applied by the HCP consortium, while reducing burden on users, also limits transparency regarding how raw data has been transformed. Despite these limitations, the HCP Dataset remains one of the most comprehensive and widely used neuroimaging resources for studying human brain connectivity and serves as a foundational dataset for the field of computational neuroscience.
+
+## References
+
+1. (authors unknown). *The WU-Minn Human Connectome Project: An Overview*.
+2. (authors unknown). *Function in the Human Connectome: Task-fMRI and Individual Differences in Behavior*.
+3. (authors unknown). *Resting-State fMRI in the Human Connectome Project*.
