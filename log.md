@@ -274,3 +274,5 @@
 ## [2026-05-07 16:22] FullTextFetcher: fetched 7 new full texts (52 total in corpus)
 
 ## [2026-05-07 16:37] CrosslinkApplier: added 33 wikilinks (33 inline, 0 suggested)
+
+## [2026-05-07 16:37] Matcher: 3 pages got 9 new sources
