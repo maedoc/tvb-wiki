@@ -266,3 +266,5 @@
 ## [2026-05-07 15:45] LinkRepair: fixed 143 files (18 wikilink-in-URL, 127 abs-path)
 
 ## [2026-05-07 15:52] Ingest: 1 new papers, 0 stubs created
+
+## [2026-05-07 15:58] Improve: 1 pages improved (connectivity)

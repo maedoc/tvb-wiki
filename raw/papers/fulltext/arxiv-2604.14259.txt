@@ -1,0 +1,1510 @@
+                                                Continual Learning for fMRI-Based Brain Disorder
+                                                  Diagnosis via Functional Connectivity Matrices
+                                                                Generative Replay
+
+
+                                                           Qianyu Chen†                                     Shujian Yu‡,§
+arXiv:2604.14259v1 [q-bio.TO] 15 Apr 2026
+
+
+
+
+                                                †                                        ‡                  §
+                                                    Nanyang Technological University         VU Amsterdam; UiT The Arctic University of Norway
+                                                        CHEN1981@e.ntu.edu.sg                              yusj9011@gmail.com
+
+
+
+                                                                                               Abstract
+                                                         Functional magnetic resonance imaging (fMRI) is widely used for studying and
+                                                         diagnosing brain disorders, with functional connectivity (FC) matrices providing
+                                                         powerful representations of large-scale neural interactions. However, existing
+                                                         diagnostic models are trained either on a single site or under full multi-site ac-
+                                                         cess, making them unsuitable for real-world scenarios where clinical data arrive
+                                                         sequentially from different institutions. This results in limited generalization and
+                                                         severe catastrophic forgetting. This paper presents the first continual learning
+                                                         framework specifically designed for fMRI-based diagnosis across heterogeneous
+                                                         clinical sites. Our framework introduces a structure-aware variational autoencoder
+                                                         that synthesizes realistic FC matrices for both patient and control groups. Built
+                                                         on this generative backbone, we develop a multi-level knowledge distillation strat-
+                                                         egy that aligns predictions and graph representations between new-site data and
+                                                         replayed samples. To further enhance efficiency, we incorporate a hierarchical
+                                                         contextual bandit scheme for adaptive replay sampling. Experiments on multi-site
+                                                         datasets for major depressive disorder (MDD), schizophrenia (SZ), and autism
+                                                         spectrum disorder (ASD) show that the proposed generative model enhances data
+                                                         augmentation quality, and the overall continual learning framework substantially
+                                                         outperforms existing methods in mitigating catastrophic forgetting. Our code is
+                                                         available at https://github.com/4me808/FORGE.
+
+
+                                            1        Introduction
+                                            Functional magnetic resonance imaging (fMRI) is a non-invasive technique that measures brain
+                                            activity through blood-oxygen-level-dependent (BOLD) signals. Functional connectivity (FC) matri-
+                                            ces derived from these signals encode pairwise correlations between brain regions, characterizing
+                                            large-scale network organization and inter-regional interaction patterns. As such, FC provides a
+                                            principled representation of brain network topology and a powerful modality for probing neuro-
+                                            biological mechanisms and disease-related alterations [8, 11, 31]. FC matrices, combined with
+                                            graph-based modeling techniques [8, 16], have been widely employed for brain disorder diagnosis.
+                                            However, existing fMRI-based diagnostic models still exhibit limited reliability for practical clinical
+                                            deployment [1, 7, 31]. Clinical data typically arrive sequentially from different sites, yet most models
+                                            are trained offline on a single dataset or assume immediate access to all data. Consequently, they
+                                            lack mechanisms for continual generalization to newly arriving data and suffer from the overwriting
+                                            of previously learned information, a phenomenon known as catastrophic forgetting [30, 41]. When
+                                            such models are adapted to new sites, updates to accommodate new distributions often overwrite
+                                            prior knowledge, substantially undermining their clinical utility in real-world deployment [7, 20, 29].
+                                            This limitation motivates the development of continual learning (CL) frameworks that can integrate
+                                            new-site data incrementally while preserving previously acquired knowledge [1, 30].
+
+                                            43rd CVPR (2026).
+Various strategies have been proposed to preserve knowledge from previous tasks in CL, with notable
+examples including Elastic Weight Consolidation (EWC) [20] and PackNet [28]. Among them,
+rehearsal-based approaches alleviate forgetting by explicitly storing and replaying a few representative
+samples from previous tasks in a memory buffer. In healthcare, however, experience replay is often
+constrained by privacy regulations that prohibit sharing raw patient data across institutions [5, 7, 12].
+Furthermore, most CL research has focused on image-based tasks, leaving graph-structured medical
+data, especially fMRI, largely underexplored [8, 23, 30, 41, 54]. These considerations highlight the
+urgent need for a graph-specific, privacy-friendly CL framework tailored for streaming fMRI data.
+In this paper, we propose FORGE (Functional cOnnectivity Replay with Graph rEpresentation), a
+CL framework tailored for FC matrices collected across multiple clinical sites. FORGE addresses
+catastrophic forgetting by replaying both low-level FC matrices and higher-level knowledge in the
+form of classification logits and graph embeddings within a unified knowledge distillation framework.
+A central contribution of this work is FCM-VAE, a novel generative model specifically designed for
+FC matrices. FCM-VAE enables privacy-preserving generative replay by synthesizing realistic FC
+patterns without exposing raw patient data. Unlike existing VAEs, it employs a structure-aware graph
+transformer encoder with local adjacency encoding and spectral positional encoding to capture the
+intrinsic topological and spectral properties of FC networks. Moreover, we introduce a low-rank
+decoder, which is well suited for FC matrices because large-scale functional connectivity is known to
+exhibit strong low-rank structure [35].
+Our main contributions include:
+
+       • We propose FORGE, the first CL framework tailored for cross-site fMRI-based disease
+         diagnosis under realistic streaming and privacy-friendly settings. FORGE unifies dual-level
+         knowledge distillation with generative replay.
+       • We develop FCM-VAE, a conditional variational autoencoder specifically designed for FC
+         matrices. FCM-VAE synthesizes realistic and diverse brain network patterns by integrating
+         local adjacency encoding, spectral positional encoding, and a low-rank decoder, and it
+         outperforms existing graph generative models in sample fidelity.
+       • Extensive experiments on large-scale neuroimaging datasets, including ABIDE [8], REST-
+         meta-MDD [44], and BSNIP [6], show that FCM-VAE significantly improves augmentation
+         quality, and FORGE consistently exceeds state-of-the-art baselines in predictive accuracy
+         and resistance to catastrophic forgetting.
+
+
+2     RELATED WORK
+
+2.1   Continual Learning and its Extensions to Graph Data
+
+Existing continual learning (CL) approaches generally fall into four main categories. Regularization-
+based methods constrain parameter updates or enforce consistency with earlier predictions to preserve
+prior knowledge [20, 24]. Parameter-isolation methods allocate task-specific model capacity to
+reduce interference and forgetting [28, 34, 46]. Rehearsal-based strategies replay real or synthetic
+samples from previous tasks to maintain performance over time [2, 4, 17, 32]. Knowledge-distillation
+methods adopt a teacher–student paradigm, guiding the current model to align with the outputs or
+representations of earlier models [37, 47, 50]. However, most CL frameworks are developed for
+image-based data. When applied to graph-structured domains, they often struggle with non-Euclidean
+topologies and evolving relational structures, limiting their ability to prevent forgetting and maintain
+generalization [39].
+Recent work has begun to develop CL frameworks for graph data [51, 53]. These approaches typically
+extend conventional CL paradigms with graph-aware mechanisms such as structure-guided replay,
+topology-regularized updates, and subgraph sampling, aiming to improve node representations and
+retain knowledge over time [21, 49, 53, 55]. However, most existing studies focus on node-level
+classification, while graph-level classification remains largely underexplored [39]. A few works
+address graph continual classification using basic rehearsal strategies that replay stored graphs
+to alleviate forgetting [3, 14], or by preserving topology-aware features to reduce representation
+drift [25, 52]. Notably, none of these methods have been extended to or evaluated on brain network
+classification tasks.
+
+
+                                                   2
+2.2   Continual Learning for Brain Signals
+
+Several recent studies have begun exploring CL for neural recording signals, but the literature
+has largely focused on subject-specific adaptation for EEG. For example, Shi et al. [36] proposes
+a memory projection strategy that aligns gradients between new and old tasks through dynamic
+projection matrices, reducing forgetting in seizure prediction. Duan et al. [9] introduces a balanced
+replay buffer that maintains a small class-balanced subset of samples to alleviate forgetting in online
+EEG decoding. More recently, Zhou et al. [56] presents BrainUICL, an unsupervised framework
+that adapts to new subjects without labels while preserving performance on previously observed
+subjects. In contrast, our work addresses a substantially more challenging cross-site setting for fMRI,
+where heterogeneity across institutions, scanners, and acquisition protocols introduces far greater
+distributional shift. Our goal is to mitigate forgetting under this site-level variability while ensuring
+accuracy, generalization, and privacy preservation in practical deployment. From a neuroscience
+perspective, fMRI and EEG differ markedly in their spatial resolution, temporal dynamics [27], and
+network-level representations, implying fundamentally different challenges for CL.
+
+
+3     FORGE
+
+3.1   Problem Setup
+
+We first describe how resting-state fMRI (rs-fMRI) data are transformed into FC matrices for
+classification, and then formalize the diagnosis task under CL. rs-fMRI Data Processing Pipeline:
+
+                                                            Functional Correlation
+                                                                 (FC) Matrix
+                                                                                                  FC - Threshold
+                                        BOLD signal                    ROIs
+                                                                                    1.0
+
+
+                                                                                    0.5
+                                                             ROIs
+
+
+
+
+                                                                                    0
+
+
+                rs-fMRI Data                                                        -0.5
+
+
+                                                                                    -1.0
+
+
+
+
+                                                                          Node
+                                                                         Features                        Edges
+
+
+
+
+              Brain Parcellation                          Functional
+                 (AAL atlas)                                Graph
+
+Figure 1: Pipeline for transforming raw rs-fMRI data into brain networks for the classification task.
+
+For each subject, we preprocess the raw rs-fMRI scans following standard neuroimaging protocols.
+The brain is divided into 116 predefined regions of interest (ROIs) using the AAL-116 atlas [40].
+For every ROI, we extract the blood-oxygen-level-dependent (BOLD) time series and compute
+Pearson correlation coefficients between all ROI pairs, yielding a symmetric 116 × 116 functional
+connectivity (FC) matrix. For subject i, we construct an undirected weighted graph Gi = (Vi , Ei ),
+where |Vi | = 116 nodes correspond to ROIs, and edges Ei are obtained by thresholding the FC matrix
+at τ = 0.4. Each node feature is defined as the correlation profile of that ROI with all other ROIs,
+forming a 116-dimensional feature vector. A complete visualization of the preprocessing pipeline is
+provided in Fig. 1.
+Continual Learning Setup: Let M = {M1 , . . . , MT } denote T clinical sites. Each site Mt provides
+                                                                                        N train
+its own dataset, which we split into a training set Dttrain = {(Gti , yit )}i=1
+                                                                              t
+                                                                                                  of size Nttrain and a test
+                           Nttest
+set Dttest = {(Gtj , yjt )}j=1 of size Nttest , where Gti ∈ G is the functional connectivity graph for
+subject i and yit ∈ Y is the diagnostic label. Tasks (sites) arrive sequentially. During training on task
+t, the model has access only to Dttrain and cannot revisit {Dktrain }k<t . After finishing the final site T ,
+we evaluate performance on all test sets {D1test , . . . , DTtest } to assess cross-site generalization and
+forgetting. See Appendix A for details.
+
+
+                                                      3
+                       Task t-1                                                                 Task t
+
+
+
+
+                        Site t-1                                                                Site t
+                                               Parameter Sharing
+
+
+
+
+                                                                  Dual-Level
+               Teacher                                       Knowledge Distillation   Student
+                Model                         FCM-VAE                                  Model                          FCM-VAE
+
+
+
+                                  Hierarchical                                                              Hierarchical
+                               Contextual Sampling                                                       Contextual Sampling
+
+
+
+
+                   Replay
+                     ReplayBuffer
+                            Buffer 2 ℛ 𝓉-1                                               Replay Buffer ℛ𝓉
+
+
+
+Figure 2: The continual learning workflow of FORGE across consecutive sites. At site t−1, FCM-
+VAE (Section 3.3) is trained to generate functional connectivity (FC) matrices, which are stored in a
+replay buffer. When moving to site t, a student classifier is trained to align with the previously learned
+model from site t−1, matching both graph-level representations and classification logits using data
+from the current site and replayed samples selected via the hierarchical contextual sampling strategy
+(Section 3.4). After training, a new FCM-VAE is updated at site t to produce site-specific synthetic
+samples for future learning.
+
+
+
+3.2   Dual-Level Knowledge Distillation Framework
+
+Our framework integrates generative replay into a dual-level knowledge distillation scheme. A graph
+classifier fθ is trained sequentially over tasks. For an input graph G, we denote the output logits by
+hθ (G) and the corresponding predictive distribution by fθ (G) = softmax(hθ (G)).
+At the current task tc , we update the model parameters θ to perform well on Dttrainc
+                                                                                         while matching
+the behavior of the frozen teacher model fθt∗ from earlier tasks t < tc . Here, θt∗ is the optimal set of
+parameters at the end of task t. Formally, we minimize:
+
+                                                    c −1
+                                                   tX
+                                                                          
+                   E(G,y)∼Dttrain ℓ y, fθ (G) + λ1       E(G,y)∼Rt ℓ y, fθ (G)
+                                    c
+                                                                    t=1
+                                                                                                                                (1)
+                                   c −1
+                                  tX                  h                      i
+                       + λ2               E(G,u)∼Rt       ∥hθ (G) − u∥22         ,
+                                   t=1
+
+
+
+where λ1 , λ2 > 0, u ≜ hθt∗ (G) denotes the stored teacher logits, and Rt is the replay buffer for task
+t. Note that replayed samples are not real FC matrices but synthetic data generated by FCM-VAE
+trained at each task t. The first term fits the current task, the second term uses generative replay to
+preserve performance on earlier tasks, and the third term aligns student logits with teacher logits.
+Restricting alignment to the output logits overlooks discrepancies that may arise in intermediate
+representations. We further introduce a graph-readout distillation mechanism that directly aligns
+graph-level representations between
+                                    the student and the teacher. For each graph G, we store the
+teacher readout r ≜ ρ Eθt∗ (G) , where Eθ (·) is the graph encoder and ρ(·) is the readout function
+that aggregates node embeddings into a graph-level representation. The final unified objective
+
+
+                                                                4
+becomes:
+                                                     c −1
+                                                    tX
+                                                                           
+                    E(G,y)∼Dttrain ℓ y, fθ (G) + λ1       E(G,y)∼Rt ℓ y, fθ (G)
+                                           c
+                                                                                        t=1
+                                       c −1
+                                      tX                               h                              i
+                                                                                                 2
+                            + λ2                 E(G,u)∼Rt ∥hθ (G) − u∥2                                                                                       (2)
+                                          t=1
+                                       c −1
+                                      tX
+                                                                       2
+                            + λ3                 E(G,r)∼Rt ρ Eθ (G) − r 2 ,
+                                          t=1
+
+where λ1 , λ2 , λ3 > 0 are weighting coefficients.
+For each site Mt , the replay buffer Rt stores tuples of the form (G, y, u, r), where
+                                                                                   G is a synthesized
+graph with label y, u = hθt∗ (G) denotes the teacher logits, and r = ρ Eθt∗ (G) is the corresponding
+teacher graph-level representation. The teacher outputs u and r are computed once when the sample
+is added to the buffer and remain fixed thereafter, providing stable and consistent supervision during
+replay. See Fig. 2 for the entire framework.
+
+3.3   Constructing Replay Buffer with FCM-VAE
+
+We describe the construction of our VAE-based generative model (see Fig. 3) designed specifically
+for FC matrices.
+
+                                                                                                                                               Label
+
+
+
+                  FCM-VAE Framework                                                                                  Predictor                  𝒚𝒊
+
+
+                                                                            Mean
+                                                                                                                 FCM-VAE Decoder
+                                                                               𝝁
+                                           FCM-VAE                                                         GNN                        Gating
+                      𝑿𝒊                    Encoder               𝒉𝒊                             𝒛𝒊                  𝑿 𝒊 𝒛𝒊                     𝑨𝒊
+                                                                               𝝈
+                     Input                                   Head Output   Variance        Latent Variable                             Reconstructed Output
+
+                                                 𝒉𝒊
+                                                                                           V1   V2    V3   V4   V5
+
+                                               MatMul                                 V1
+                                                                                                                             FCM-VAE Encoder
+                                 𝓐h                                                   V2
+                                                                           𝒃𝑳𝑨𝑬
+                                 SoftMax                                    𝒉
+                                                                                      V3
+
+                                                                                      V4
+
+                                                                                      V5
+
+                                  Scale                                                                                                         V2
+                                                                                       Local Adjacency Encoding
+                                                                                                                                 V1
+
+                                 MatMul                                                                                                                   V5
+
+
+
+                                                                                           V1   V2    V3   V4   V5
+                                                                                                                                 V3
+                       Linear              Linear            Linear                   V1
+                      Linear              Linear            Linear                                                                                   V4
+                                                                                      V2
+
+                             Q             K                  V            𝒃𝒉𝑺𝑮𝑬
+                                                                                      V3
+
+                                                                                      V4
+
+                                                                                      V5
+             Node Feature
+                                                                                      Spectral Positional Encoding
+
+                 Functional Connectivity              Spectral Embedding    Degree
+
+
+
+
+Figure 3: Framework of FCM-VAE. Given an input FC graph G, the encoder extracts a hidden
+representation h, which parameterizes a diagonal Gaussian distribution with mean µ and variance σ,
+from which the latent variable z is sampled. The decoder, implemented as a gated GNN, reconstructs
+the adjacency matrix A and predicts the phenotype y through a linear Gaussian supervision head
+applied directly to z. In the encoder, each node feature is formed by concatenating its functional
+connectivity profile, spectral embedding, and node degree. The attention layers incorporate both
+a local adjacency bias and a spectral positional bias, enabling the encoder to capture the intrinsic
+topological and spectral structure of FC networks.
+
+
+
+                                                                                  5
+3.3.1   Structure-aware Graph Transformer Encoder
+To address the challenges of limited samples and high-dimensional FC matrices, we embed the
+topological structure and spectral geometry of each individual into the encoder for more robust and
+personalized representations. Concretely, we propose a Structure-aware Graph Transformer that
+integrates adjacency and spectral positional biases into the multi-head attention, thereby leveraging
+both local connectivity patterns and global geometric features. First, for each subject and their ROI
+node p ∈ {1, . . . , |V|}, we augment the initial node feature vector xp as:
+                               x(0) = AROI     , ϕp , degp ∈ R |V|+k+1 ,
+                                                          
+                                p          p                                                       (3)
+
+where AROI
+        p    ∈ R|V| denotes the p-th column of the FC matrix, Φ ∈ R|V|×k is the spectral embedding
+matrix formed by the top k non-trivial Laplacian eigenvectors, and ϕp ∈ Rk is the spectral coor-
+dinate of node p in Φ, and degp denotes the degree of node p, encoding its local reachability. We
+                                                                             (0) (0)           (0) 
+concatenate the |V| node features to form the initial feature matrix X (0) = x1 ; x2 ; . . . ; x|V| ∈
+R|V|×(|V|+k+1) . Next, we feed X (0) into a multi-head self-attention layer. For each head h, three
+learnable projection matrices WhQ , WhK , and WhV ∈ R(|V|+k+1)×dh are used to obtain Qh , Kh , and
+Vh ∈ R|V |×dh , respectively, where dh = (|V | + k + 1)/H and H is the number of heads [45].
+Each head further incorporates a local adjacency bias and a spectral positional bias into the attention
+scores. Local Adjacency Encoding leverages the adjacency matrix to enforce local topological
+constraints and guide attention towards neighboring nodes. The attention bias is defined as:
+                               bLAE
+                                h   = Ã = Aadj + I ∈ R|V|×|V| ,                                     (4)
+         adj      |V|×|V|
+where A       ∈ R       is the binary adjacency matrix and I adds self-loops so that each node
+includes itself when computing attention.
+Spectral positional encoding focuses on capturing global geometric information and allows nodes
+with similar spectral coordinates to attend more closely to each other. The attention bias is defined as:
+                                                       ⊤
+                                          ΦWhϕ ΦWhϕ
+                                               
+                                SGE
+                               bh =           √             ∈ R|V|×|V| ,                             (5)
+                                                 dh
+where Whϕ ∈ Rk×dh is a learnable projection that maps the spectral embedding into the dh dimen-
+sional subspace of head h.
+By integrating both local adjacency encoding and spectral positional encoding as additive biases, we
+obtain the final attention score:
+                                                            ⊤
+                                              ΦWhϕ ΦWhϕ
+                                                   
+                               Qh K⊤
+                         Hh =    √   h
+                                       + Ã +      √             ∈ R|V|×|V| .                     (6)
+                                   dh                dh
+
+Using additive biases preserves the expressiveness of full-graph attention. As a result, the proposed
+attention mechanism remains robust and expressive even in small-sample scenarios with complex
+graph structures.
+From the attention score matrix, we obtain the attention weights Ah = softmax(Hh ), and head
+outputs Hh = Ah Vh . Multi-head outputs are concatenated and passed through feed-forward and
+                                                                  (L) |V|
+normalization layers for L layers to yield node representations {xp }p=1 . The graph-level embedding
+                                                                             P              
+                                                                               1    |V|  (L)
+is obtained through a permutation-invariant readout function h = Readout |V|        p=1 xp     , where
+Readout(·) applies mean pooling over node representations followed by a linear projection.
+We then employ h to parameterize the approximate posterior of the latent variable as a diagonal-
+covariance Gaussian distribution, following the design principle of VAE:
+                       qϕ (z | h) = N µϕ (h), diag[σϕ2 (h)] ,      z ∈ Rdz
+                                                           
+                                                                                             (7)
+where µϕ (h), σϕ2 (h) ∈ Rdz are encoder outputs that parameterize the mean and variance of the
+Gaussian posterior. This design preserves permutation invariance at the graph level while keeping the
+posterior parameterization simple.
+
+
+                                                   6
+3.3.2   Low-rank Decoder with Reachability Gating
+On the decoder side, we reconstruct the functional connectivity matrix from the low-dimensional
+latent variable z. We assume that the reconstructed edge entries are conditionally independent given
+z ∈ Rdz [26]. Accordingly, the likelihood of the reconstructed graph A b factorizes as:
+                                                |V|(|V|−1)/2
+                                                      Y                      
+                               b = a | z) =
+                         pψ (L(A)                                 be = ae | z ,
+                                                               pψ A                               (8)
+                                                      e=1
+
+          be | z) denotes the generative model for edge e, and we impose a Gaussian prior
+where pψ (A
+p(z) = N (0, Idz ).
+To model connectivity strengths with positive support, we first transform each Pearson correlation
+entry re ∈ [−1, 1] into a nonnegative intensity. Specifically, we apply the Fisher-z transform,
+standardize it using training-set statistics, and then exponentiate:
+                                                     se − µs
+                         se = atanh(re ), s̃e =              , xe = exp(s̃e ),                    (9)
+                                                        σs
+where µs and σs are the mean and standard deviation estimated from the training data. In Eq. (8), we
+therefore let ae denote the transformed intensity xe .
+Given z, the decoder models each transformed edge intensity with a Poisson likelihood:
+                                                                      
+                        z ∼ N (0, Idz ),    Abe | z ∼ Poisson λ be (z) ,                        (10)
+where the rate is parameterized with the canonical log link,
+                                                             
+                                     λ
+                                     be (z) = exp νe + ωe (z) ,                                 (11)
+where νe is an edge-specific baseline parameter shared across subjects, capturing the common
+connectivity tendency for edge e, while ωe (z) models the subject-specific deviation induced by the
+latent representation z [26].
+For edge e = [u, v], the interaction term is defined as:
+                                              R
+                                              X
+                                   ωe (z) =         αr Uur (z) Uvr (z),                         (12)
+                                              r=1
+
+where
+                                                                                  ⊤
+           U (z) = [Uur (z)] ∈ R|V|×R ,        Ur (z) = U1r (z), . . . , U|V|r (z) = gr (z).    (13)
+Here, U (z) is a decoder-generated node-factor matrix, αr controls the contribution of the r-th
+latent factor, and gr (·) is a nonlinear mapping parameterized by ψ. This factorization defines a
+low-rank bilinear decoder, in which each edge strength is reconstructed from the interaction of the
+two nodes across R latent factors [15]. Finally, all predicted edge intensities are assembled to form
+the reconstructed functional connectivity matrix A.
+                                                  b
+Since FC matrices typically exhibit sparse individual-specific variations across subjects, we adopt a
+soft gating mechanism based on the adjacency matrix to constrain the strengths of the reconstructed
+edges, while avoiding spurious edge formation. We project the adjacency matrix of each subject into
+a gating matrix that modulates the decoder outputs:
+                          G = σ Aadj + logit(ε) ,        Apred = G ⊙ A.
+                                                  
+                                                                         b                       (14)
+Here, σ(·) denotes the element-wise sigmoid function, ⊙ is the Hadamard product, and ε is a small
+constant (e.g., 10−2 ).
+
+3.3.3   Linear Gaussian Supervised Head and Conditional Generation
+To jointly reconstruct the graph and predict the phenotype y, we attach a linear–Gaussian supervision
+module on z. We posit a linear Gaussian relationship between the phenotype and the latent factors,
+leading to the following formulation:
+                                    p(y | z) = N β0 + β ⊤ z, σy2 ,
+                                                                
+                                                                                                 (15)
+
+
+                                                      7
+Here, β0 and β are learnable parameters, and σy2 denotes the observation noise variance. The linear
+Gaussian supervision head introduces minimal inductive bias by directly linking the label y to the
+latent variable, improving interpretability and calibration of the latent space. At inference, prediction
+is obtained from the posterior mean as ŷ = β0 + β ⊤ µϕ (h), where µϕ (h) is the mean of the latent
+posterior given h.
+
+3.3.4    Overall Training Objective
+FCM-VAE is trained under a supervised evidence lower bound that jointly optimizes graph recon-
+struction and class prediction. The training objective is formulated as:
+            L = Eqϕ log pψ (AROI | z) + Eqϕ log pθ (y | z) − β DKL (qϕ (z | ·) ∥ p(z))
+                                                           
+                                                                                          (16)
+where AROI and y denote the observed FC matrix and phenotype label of the current subject, and
+β > 1 serves as a regularization strength that encourages a compact latent representation and mitigates
+overfitting. The first term enforces accurate reconstruction between Apred and AROI . The second term
+is a supervised likelihood that shapes the latent space so that z captures information predictive of the
+phenotype y. The third term encourages the variational posterior qϕ (z | ·) to remain close to the prior
+distribution p(z), chosen as a standard Gaussian as in the conventional VAE.
+
+3.4     Hierarchical Contextual Thompson Sampling
+
+To make efficient use of a limited replay memory, we propose a Hierarchical Contextual Thompson
+Sampling (HCTS) framework that adaptively allocates replay capacity across hospital sites (site level)
+and selects the most informative samples within each site (sample level).
+
+3.4.1    Site-Level Sampling
+We assume a total replay capacity of KPsamples shared across all sites. The goal is to allocate
+ki samples to each site Mi , such that i ki = K. For each site, we define a context vector
+ϕi = [Acci , Forgeti ], where Acci denotes current accuracy and Forgeti measures performance
+decay. The expected replay utility is modeled as:
+                               ri = ϕ⊤i w + ϵi ,  ϵi ∼ N (0, σ 2 ),                       (17)
+where w is the latent weight vector with posterior p(w | D). At each training round, Thompson
+Sampling draws a posterior sample w̃ and estimates the utility:
+                                              r̃i = ϕ⊤
+                                                     i w̃.                                          (18)
+
+The replay quota for each site is then determined by a normalized softmax allocation:
+                                                   exp(r̃i )
+                                        ki = K · P             ,                      (19)
+                                                   j exp(r̃j )
+         P
+ensuring i ki = K. This mechanism prioritizes sites with higher uncertainty or forgetting,
+enhancing global stability.
+
+3.4.2    Sample-Level Sampling
+Given the site-specific quota ki , we further identify the most beneficial samples from each buffer
+Ri . Each sample u ∈ Ri is described by a context vector ψu = [marginu , closenessu ], capturing
+uncertainty and representativeness. The expected utility is modeled as:
+                               ru = ψu⊤ v + ϵu , ϵu ∼ N (0, σ 2 ),                           (20)
+where v denotes the sample-level relevance weights. Thompson Sampling draws ṽ from the posterior
+to compute:
+                                           r̃u = ψu⊤ ṽ.                                     (21)
+The top-ki samples with the highest r̃u values are selected with a greedy farthest-first traversal in
+the readout embedding space {ρ(Eθ (G)) | G ∈ Ci }, thereby improving coverage and reducing
+redundancy. The selection objective is formulated as:
+                   Si = arg      max        min
+                                              ′
+                                                   ρ(Eθ (G)) − ρ(Eθ (G′ )) 2 .                  (22)
+                               S⊆Ci : |S|=ki G, G ∈S
+                                              G̸=G′
+
+
+                                                   8
+This hierarchical design ensures replay focuses both on where forgetting occurs (site level) and which
+samples are most valuable for continual adaptation (sample level). We refer interested readers to
+Appendix C for details.
+
+4     Experiments and Results
+4.1    The Datasets and Preprocessing
+
+To rigorously assess the proposed FORGE framework, we conduct experiments on three widely used,
+large-scale, multi-site fMRI datasets: the Autism Brain Imaging Data Exchange I (ABIDE-I) [8],
+the REST-meta-MDD dataset [44], and the Bipolar and Schizophrenia Network for Intermediate
+Phenotypes (BSNIP) [6]. The ABIDE-I dataset consists of rs-fMRI scans from 1099 participants
+across 17 independent sites. To ensure statistical reliability, we focus on the four largest sites in
+the ABIDE-I dataset: Site 6 (184 samples), Site 14 (99), Site 15 (145), and Site 16 (101). For the
+REST-meta-MDD dataset, the largest rs-fMRI resource for major depressive disorder (MDD), we
+follow the quality-control criteria [54] and select the five largest sites: Site 1 (146 samples), Site 6
+(96), Site 10 (93), Site 14 (470), and Site 15 (144). The BSNIP contains 1,142 individuals, comprising
+640 healthy controls and 502 participants diagnosed with schizophrenia. Similarly, we retain the five
+largest sites: Hartford (297 samples), Chicago (239), Dallas (197), Georgia (152), and Baltimore
+(120). All three datasets were preprocessed using a standard rs-fMRI pipeline implemented with the
+Statistical Parametric Mapping (SPM12) software and the DPABI toolbox [43]; details are provided
+in Appendix B.
+
+4.2    Evaluation of FCM-VAE with Data Augmentation
+
+Table 1: FC classification results with data augmentation using different graph generation methods.
+Columns report ACC, PRE, REC, and F1. Bold numbers denote the best results, and underlined
+numbers indicate the second-best.
+                                            ASD                                BSNIP                           MDD
+ Classifier   Gen. Method
+                                ACC     PRE     REC      F1         ACC     PRE     REC      F1     ACC     PRE     REC      F1
+              No Augmentation   0.762   0.748   0.772   0.758       0.688   0.733   0.456   0.502   0.756   0.733   0.699   0.700
+              ReGate            0.724   0.688   0.806   0.740       0.639   0.618   0.318   0.361   0.724   0.701   0.725   0.676
+ GCN          BrainNetGan       0.758   0.757   0.752   0.747       0.686   0.747   0.458   0.488   0.748   0.707   0.745   0.712
+              GR-SPD-GAN        0.780   0.761   0.812   0.780       0.703   0.785   0.452   0.513   0.767   0.666   0.866   0.745
+              FCM-VAE (Ours)    0.783   0.776   0.775   0.771       0.727   0.727   0.547   0.597   0.787   0.733   0.784   0.735
+
+
+We begin by quantitatively assessing the quality of synthetic FC matrices generated by FCM-VAE.
+Specifically, for each site in each dataset, we split the data into 70% training and 30% testing, generate
+a synthetic FC graph for every training sample, and augment the training set with an equal number
+of synthetic samples. A GCN classifier [19] is trained on the augmented data and evaluated on the
+held-out test split. We compare FCM-VAE against three state-of-the-art brain network generative
+models, including ReGate [26], BrainNetGAN [22], and GR-SPD-GAN [38], and also report results
+without augmentation. Performance is measured using accuracy, precision, recall, and F1-score.
+As shown in Table 1, FCM-VAE consistently yields the best or second-best performance across all
+datasets, particularly in classification accuracy, with GR-SPD-GAN ranking second overall.
+Additional results using other classifiers, such as GAT [42], GraphSAGE [13], GAE [18], and
+GraphTransformer [10], as well as visualizations of synthesized FC matrices produced by different
+approaches (e.g., FCM-VAE and GR-SPD-GAN), are provided in Appendix D.
+
+4.3    Evaluation of FORGE
+
+In this section, we systematically evaluate the proposed continual learning framework FORGE
+under a unified experimental protocol. To comprehensively assess its adaptability and resilience to
+catastrophic forgetting in multi-task and cross-site settings, four representative categories of continual
+learning methods are adopted as baselines for comparison: regularization-based methods (EWC [20],
+SI [48]), parameter isolation approaches (PackNet [28]), rehearsal-based strategies (ER [33]), and
+knowledge distillation methods (LwF [24], DER [2], DER++ [2]). In addition, we also consider
+three modern frameworks specifically designed for continual learning on graph classification tasks,
+
+
+                                                                9
+including TWP [25], UGCL [14], and PDGNNs [52]. According to the results in Table 1, GCN
+achieves the highest average accuracy among all candidate classifiers and is therefore adopted as the
+backbone for all continual learning frameworks. For each site, the data are split into a 7:3 ratio for
+training and testing, and we fix the replay buffer size to 256 for ER, DER, DER++, and FORGE.
+To evaluate continual learning performance, we adopt two standard metrics that respectively reflect
+stability and plasticity: Average Anytime Accuracy (AAA) and Forgetting Rate (FOR). AAA
+measures the overall generalization ability across sequential tasks, while FOR quantifies the degree
+of catastrophic forgetting. Formally,
+                 T     t                                T
+              1 X1X                                1X                                        
+    AAA =                 ACCt,i ,        FOR =                  max          ACCt,i − ACCT,i .   (23)
+              T t=1 t i=1                          T i=1     t∈{1,...,T −1}
+
+where T is the total number of tasks, ACCt,i denotes the accuracy on task i after completing task t,
+and ACCT,i is the final accuracy on task i after learning all tasks. To ensure fair comparison, we
+evaluate each method under all task orders and report the averaged performance across sequences.
+
+    Table 2: Performance of different continual learning methods on ASD, BSNIP, and MDD.
+
+                                       ASD                  BSNIP               MDD
+               CL Method         AAA↑      FOR↓     AAA↑       FOR↓      AAA↑       FOR↓
+               Base              0.6074   0.2757    0.5512     0.2296    0.5929     0.2770
+               DER               0.6627   0.2018    0.6320     0.1254    0.6655     0.1753
+               DER++             0.6719   0.1893    0.6225     0.1384    0.6950     0.1471
+               ER                0.6369   0.2397    0.5967     0.1702    0.6482     0.1757
+               EWC               0.5963   0.1925    0.5688     0.1897    0.6074     0.2018
+               LwF               0.6464   0.2222    0.6218     0.1423    0.6388     0.1858
+               PackNet           0.6632   0.2030    0.6178     0.1355    0.6235     0.1864
+               SI                0.6684   0.1746    0.6553     0.1365    0.6475     0.1757
+               TWP               0.6735   0.1659    0.6391     0.1472    0.6777     0.1795
+               UGCL              0.6795   0.1589    0.6398     0.1439    0.6915     0.1613
+               PDGNNs            0.7113   0.1313    0.6588     0.1281    0.7050     0.1392
+               FORGE (Ours)      0.7300   0.1160    0.6850     0.1010    0.7380     0.1050
+
+
+
+
+Figure 4: Visualization of the averaged AAA and FOR across sequential tasks under a fixed task
+order on ASD, BSNIP, and MDD.
+
+From the results in Table 2, FORGE consistently achieves the best balance between stability and
+plasticity across all three benchmarks, obtaining the highest AAA scores and the lowest FOR values.
+
+
+                                                   10
+Relative to the strongest baseline on each dataset, FORGE improves AAA by 2.7%, 3.9%, and 4.7%
+on ASD, BSNIP, and MDD, respectively, and reduces forgetting by 11.5%, 21.1%, and 24.5%. While
+PDGNNs stands as the second-best method overall, highlighting the benefits of topology design for
+mitigating catastrophic forgetting in graph-based continual learning. Meanwhile, knowledge distilla-
+tion–based approaches such as DER and DER++ also exhibit competitive performance, demonstrating
+the strong potential of distillation strategies in preserving both stability and plasticity.
+Furthermore, we visualize the averaged AAA and FOR across all task learning stages, as illustrated
+in Figure 4. It can be observed that FORGE maintains superior accuracy throughout the continual
+learning process. In contrast, other methods suffer from noticeable performance drops, particularly in
+later stages, revealing their limited ability to retain previous knowledge and adapt stably over time.
+
+4.4   Ablation Study and Sensitivity Analysis
+
+Table 3: Ablation study assessing the contributions of Graph Knowledge Distillation (GKD), Logits
+Knowledge Distillation (LKD), and Hierarchical Contextual Thompson Sampling (HCTS) to the
+overall performance of FORGE.
+
+                                            ASD               BSNIP                   MDD
+                  Method            AAA↑       FOR↓       AAA↑      FOR↓      AAA↑       FOR↓
+                  Full Framework    0.7300    0.1160    0.6850      0.1010    0.7380     0.1050
+                  w/o GKD           0.6830    0.1424    0.6374      0.1313    0.6913     0.1410
+                  w/o LKD           0.6807    0.1508    0.6380      0.1252    0.6954     0.1331
+                  w/o HCTS          0.6759    0.1629    0.6342      0.1365    0.6848     0.1439
+
+
+To further investigate the contribution of each component in our framework, we conduct an ablation
+study as summarized in Table 3. Removing different components from FORGE leads to distinct
+performance degradations. The absence of GKD results in higher forgetting and lower AAA, while
+removing LKD further weakens task-specific retention. Eliminating the HCTS causes the most severe
+drop, yielding the highest forgetting across all datasets.
+
+Table 4: Performance of continual learning methods under different buffer sizes on the ASD dataset.
+
+                        FORGE (Ours)              ER                   DER                  DER++
+        Buffer Size     AAA↑       FOR↓      AAA↑      FOR↓      AAA↑        FOR↓      AAA↑         FOR↓
+            128        0.6853      0.1570    0.6008    0.2746    0.6278      0.2214    0.6265     0.2285
+            256        0.7300      0.1160    0.6370    0.2400    0.6630      0.2020    0.6720     0.1890
+            384        0.7194      0.1285    0.6424    0.2154    0.6577      0.2166    0.6693     0.2096
+
+
+To assess the impact of memory capacity, we evaluate FORGE and competing methods using buffer
+under different buffer sizes, as reported in Table 4. FORGE consistently achieves the best performance
+across all settings, with the advantage most evident in the low-buffer regime. This robustness stems
+from HCTS, which effectively selects more informative and diverse synthetic samples to maximize
+the utility of the constrained buffer. Interestingly, performance declines slightly as the buffer size
+increases. This may be because a larger buffer size introduces more redundant or less informative
+generated samples.
+
+                           Table 5: Sensitivity to the FC threshold τ on ASD.
+
+                           Base              DER++              PDGNN           FORGE (Ours)
+              τ       AAA↑    FOR↓      AAA↑      FOR↓      AAA↑      FOR↓      AAA↑        FOR↓
+              0.2     0.595     0.306   0.655     0.200     0.709     0.123      0.727      0.109
+              0.3     0.589     0.273   0.670     0.197     0.707     0.125      0.721      0.114
+              0.4     0.607     0.276   0.672     0.189     0.711     0.131      0.730      0.116
+              0.5     0.613     0.293   0.680     0.213     0.716     0.143      0.735      0.120
+
+
+                                                       11
+We further examine the sensitivity of our framework to different threshold values of τ in graph
+construction. As shown in Table 5, FORGE demonstrates strong robustness to different τ values,
+consistently yielding the best AAA and the lowest FOR. This suggests that the observed gains are
+stable rather than tied to a particular threshold setting. Additional ablation results are provided in
+Appendix E.
+
+5   Conclusion
+We introduced FORGE, the first continual learning framework for fMRI-based brain disorder diag-
+nosis. At its core, FCM-VAE is a structure-aware generative model that synthesizes high-quality
+functional connectivity matrices, providing a viable solution for privacy-preserving replay in clin-
+ical environments. FORGE further stabilizes learning through dual-level distillation and adaptive
+sampling, ensuring knowledge retention as new sites arrive. Experiments on three large-scale neu-
+roimaging datasets demonstrate consistent improvements in accuracy and substantial reductions in
+forgetting compared with state-of-the-art approaches.
+
+References
+ [1] Fatemeh Amrollahi, Supreeth P Shashikumar, Andre L Holder, and Shamim Nemati. Leveraging
+     clinical data across healthcare institutions for continual learning of predictive risk models.
+     Scientific reports, 12(1):8380, 2022.
+ [2] Pietro Buzzega, Matteo Boschini, Angelo Porrello, Davide Abati, and Simone Calderara. Dark
+     experience for general continual learning: a strong, simple baseline. Advances in neural
+     information processing systems, 33:15920–15930, 2020.
+ [3] Antonio Carta, Andrea Cossu, Federico Errica, and Davide Bacciu. Catastrophic forgetting
+     in deep graph networks: an introductory benchmark for graph classification. arXiv preprint
+     arXiv:2103.11750, 2021.
+ [4] Arslan Chaudhry, Marc’Aurelio Ranzato, Marcus Rohrbach, and Mohamed Elhoseiny. Efficient
+     lifelong learning with a-GEM. In International Conference on Learning Representations, 2019.
+ [5] Arslan Chaudhry, Marcus Rohrbach, Mohamed Elhoseiny, Thalaiyasingam Ajanthan, Puneet K
+     Dokania, Philip HS Torr, and Marc’Aurelio Ranzato. On tiny episodic memories in continual
+     learning. arXiv preprint arXiv:1902.10486, 2019.
+ [6] Brett A Clementz, David A Parker, Rebekah L Trotti, Jennifer E McDowell, Sarah K Keedy,
+     Matcheri S Keshavan, Godfrey D Pearlson, Elliot S Gershon, Elena I Ivleva, Ling-Yu Huang,
+     et al. Psychosis biotypes: replication and validation from the b-snip consortium. Schizophrenia
+     bulletin, 48(1):56–68, 2022.
+ [7] Pradnya Desai, Phung Lai, NhatHai Phan, and My T Thai. Continual learning with differential
+     privacy. In International Conference on Neural Information Processing, pages 334–343.
+     Springer, 2021.
+ [8] Adriana Di Martino, Chao-Gan Yan, Qingyang Li, Erin Denio, Francisco X Castellanos, Kaat
+     Alaerts, Jeffrey S Anderson, Michal Assaf, Susan Y Bookheimer, Mirella Dapretto, et al. The
+     autism brain imaging data exchange: towards a large-scale evaluation of the intrinsic brain
+     architecture in autism. Molecular psychiatry, 19(6):659–667, 2014.
+ [9] Tiehang Duan, Zhenyi Wang, Fang Li, Gianfranco Doretto, Donald A Adjeroh, Yiyi Yin, and
+     Cui Tao. Online continual decoding of streaming eeg signal with a balanced and informative
+     memory buffer. Neural Networks, 176:106338, 2024.
+[10] Vijay Prakash Dwivedi and Xavier Bresson. A generalization of transformer networks to graphs.
+     arXiv preprint arXiv:2012.09699, 2020.
+[11] Selene Gallo, Ahmed El-Gazzar, Paul Zhutovsky, Rajat M Thomas, Nooshin Javaheripour,
+     Meng Li, Lucie Bartova, Deepti Bathula, Udo Dannlowski, Christopher Davey, et al. Func-
+     tional connectivity signatures of major depressive disorder: machine learning analysis of two
+     multicenter neuroimaging studies. Molecular Psychiatry, 28(7):3013–3022, 2023.
+
+
+                                                 12
+[12] Aris Gkoulalas-Divanis and Grigorios Loukides. Introduction to medical data privacy. In
+     Medical data privacy handbook, pages 1–14. Springer, 2015.
+[13] Will Hamilton, Zhitao Ying, and Jure Leskovec. Inductive representation learning on large
+     graphs. Advances in neural information processing systems, 30, 2017.
+[14] Thanh Duc Hoang, Do Viet Tung, Duy-Hung Nguyen, Bao-Sinh Nguyen, Huy Hoang Nguyen,
+     and Hung Le. Universal graph continual learning. arXiv preprint arXiv:2308.13982, 2023.
+[15] Peter D Hoff, Adrian E Raftery, and Mark S Handcock. Latent space approaches to social
+     network analysis. Journal of the american Statistical association, 97(460):1090–1098, 2002.
+[16] Jeremy Kawahara, Colin J Brown, Steven P Miller, Brian G Booth, Vann Chau, Ruth E Grunau,
+     Jill G Zwicker, and Ghassan Hamarneh. Brainnetcnn: Convolutional neural networks for brain
+     networks; towards predicting neurodevelopment. NeuroImage, 146:1038–1049, 2017.
+[17] Junsu Kim, Hoseong Cho, Jihyeon Kim, Yihalem Yimolal Tiruneh, and Seungryul Baek.
+     Sddgr: Stable diffusion-based deep generative replay for class incremental object detection. In
+     Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition, pages
+     28772–28781, 2024.
+[18] Thomas N Kipf and Max Welling.           Variational graph auto-encoders.      arXiv preprint
+     arXiv:1611.07308, 2016.
+[19] Thomas N Kipf and Max Welling. Semi-supervised classification with graph convolutional
+     networks. arXiv preprint arXiv:1609.02907, 2016.
+[20] James Kirkpatrick, Razvan Pascanu, Neil Rabinowitz, Joel Veness, Guillaume Desjardins,
+     Andrei A Rusu, Kieran Milan, John Quan, Tiago Ramalho, Agnieszka Grabska-Barwinska, et al.
+     Overcoming catastrophic forgetting in neural networks. Proceedings of the national academy of
+     sciences, 114(13):3521–3526, 2017.
+[21] Jihoon Ko, Shinhwan Kang, Taehyung Kwon, Heechan Moon, and Kijung Shin. Begin:
+     Extensive benchmark scenarios and an easy-to-use framework for graph continual learning.
+     ACM Transactions on Intelligent Systems and Technology, 16(1):1–22, 2025.
+[22] Chao Li, Yiran Wei, Xi Chen, and Carola-Bibiane Schönlieb. Brainnetgan: Data augmentation
+     of brain connectivity using generative adversarial network for dementia classification. In
+     MICCAI Workshop on Deep Generative Models, pages 103–111. Springer, 2021.
+[23] Xiaoxiao Li, Yufeng Gu, Nicha Dvornek, Lawrence H Staib, Pamela Ventola, and James S
+     Duncan. Multi-site fmri analysis using privacy-preserving federated learning and domain
+     adaptation: Abide results. Medical image analysis, 65:101765, 2020.
+[24] Zhizhong Li and Derek Hoiem. Learning without forgetting. IEEE transactions on pattern
+     analysis and machine intelligence, 40(12):2935–2947, 2017.
+[25] Huihui Liu, Yiding Yang, and Xinchao Wang. Overcoming catastrophic forgetting in graph
+     neural networks. In Proceedings of the AAAI conference on artificial intelligence, volume 35,
+     pages 8653–8661, 2021.
+[26] Meimei Liu, Zhengwu Zhang, and David B Dunson. Graph auto-encoding brain networks with
+     applications to analyzing large-scale brain imaging datasets. Neuroimage, 245:118750, 2021.
+[27] Nikos K Logothetis. What we can do and what we cannot do with fmri. Nature, 453(7197):
+     869–878, 2008.
+[28] Arun Mallya and Svetlana Lazebnik. Packnet: Adding multiple tasks to a single network by
+     iterative pruning. In Proceedings of the IEEE conference on Computer Vision and Pattern
+     Recognition, pages 7765–7773, 2018.
+[29] Michael McCloskey and Neal J Cohen. Catastrophic interference in connectionist networks:
+     The sequential learning problem. In Psychology of learning and motivation, volume 24, pages
+     109–165. Elsevier, 1989.
+
+
+                                                13
+[30] German I Parisi, Ronald Kemker, Jose L Part, Christopher Kanan, and Stefan Wermter. Continual
+     lifelong learning with neural networks: A review. Neural networks, 113:54–71, 2019.
+[31] Mark Plitt, Kelly Anne Barnes, and Alex Martin. Functional connectivity classification of autism
+     identifies highly predictive brain features but falls short of biomarker standards. NeuroImage:
+     Clinical, 7:359–366, 2015.
+[32] Sylvestre-Alvise Rebuffi, Alexander Kolesnikov, Georg Sperl, and Christoph H Lampert. icarl:
+     Incremental classifier and representation learning. In Proceedings of the IEEE conference on
+     Computer Vision and Pattern Recognition, pages 2001–2010, 2017.
+[33] David Rolnick, Arun Ahuja, Jonathan Schwarz, Timothy Lillicrap, and Gregory Wayne. Expe-
+     rience replay for continual learning. Advances in neural information processing systems, 32,
+     2019.
+[34] Andrei A Rusu, Neil C Rabinowitz, Guillaume Desjardins, Hubert Soyer, James Kirkpatrick,
+     Koray Kavukcuoglu, Razvan Pascanu, and Raia Hadsell. Progressive neural networks. arXiv
+     preprint arXiv:1606.04671, 2016.
+[35] Manish Saggar, Olaf Sporns, Javier Gonzalez-Castillo, Peter A Bandettini, Gunnar Carlsson,
+     Gary Glover, and Allan L Reiss. Towards a new approach to reveal dynamical organization of
+     the brain using topological data analysis. Nature communications, 9(1):1399, 2018.
+[36] Yufei Shi, Shishi Tang, Yuxuan Li, Zhipeng He, Shengsheng Tang, Ruixuan Wang, Weishi
+     Zheng, Ziyi Chen, and Yi Zhou. Continual learning for seizure prediction via memory projection
+     strategy. Computers in Biology and Medicine, 181:109028, 2024.
+[37] Yiping Song, Juhua Zhang, Zhiliang Tian, Yuxin Yang, Minlie Huang, and Dongsheng Li.
+     Llm-based privacy data augmentation guided by knowledge distillation with a distribution tutor
+     for medical text classification. arXiv preprint arXiv:2402.16515, 2024.
+[38] Yee-Fan Tan, Fuad Noman, Raphaël C-W Phan, Hernando Ombao, and Chee-Ming Ting.
+     Graph-regularized manifold-aware conditional wasserstein gan for brain functional connectivity
+     generation. Human Brain Mapping, 46(12):e70322, 2025.
+[39] Zonggui Tian, Du Zhang, and Hong-Ning Dai. Continual learning on graphs: A survey. arXiv
+     preprint arXiv:2402.06330, 2024.
+[40] Nathalie Tzourio-Mazoyer, Brigitte Landeau, Dimitri Papathanassiou, Fabrice Crivello, Octave
+     Etard, Nicolas Delcroix, Bernard Mazoyer, and Marc Joliot. Automated anatomical labeling of
+     activations in spm using a macroscopic anatomical parcellation of the mni mri single-subject
+     brain. Neuroimage, 15(1):273–289, 2002.
+[41] Gido M Van de Ven and Andreas S Tolias. Three scenarios for continual learning. arXiv preprint
+     arXiv:1904.07734, 2019.
+[42] Petar Veličković, Guillem Cucurull, Arantxa Casanova, Adriana Romero, Pietro Lio, and Yoshua
+     Bengio. Graph attention networks. arXiv preprint arXiv:1710.10903, 2017.
+[43] Chao-Gan Yan, Xin-Di Wang, Xi-Nian Zuo, and Yu-Feng Zang. Dpabi: data processing &
+     analysis for (resting-state) brain imaging. Neuroinformatics, 14(3):339–351, 2016.
+[44] Chao-Gan Yan, Xiao Chen, Le Li, Francisco Xavier Castellanos, Tong-Jian Bai, Qi-Jing Bo,
+     Jun Cao, Guan-Mao Chen, Ning-Xuan Chen, Wei Chen, et al. Reduced default mode network
+     functional connectivity in patients with recurrent major depressive disorder. Proceedings of the
+     National Academy of Sciences, 116(18):9078–9083, 2019.
+[45] Chengxuan Ying, Tianle Cai, Shengjie Luo, Shuxin Zheng, Guolin Ke, Di He, Yanming Shen,
+     and Tie-Yan Liu. Do transformers really perform badly for graph representation? Advances in
+     neural information processing systems, 34:28877–28888, 2021.
+[46] Jaehong Yoon, Eunho Yang, Jeongtae Lee, and Sung Ju Hwang. Lifelong learning with
+     dynamically expandable networks. In International Conference on Learning Representations,
+     2018.
+
+
+                                                 14
+[47] Shikang Yu, Jiachen Chen, Hu Han, and Shuqiang Jiang. Data-free knowledge distillation via
+     feature exchange and activation region constraint. In Proceedings of the IEEE/CVF Conference
+     on Computer Vision and Pattern Recognition, pages 24266–24275, 2023.
+[48] Friedemann Zenke, Ben Poole, and Surya Ganguli. Continual learning through synaptic
+     intelligence. In International conference on machine learning, pages 3987–3995. Pmlr, 2017.
+[49] Ding Zhang, Jane Downer, Can Chen, and Ren Wang. Efficient and robust continual graph
+     learning for graph classification in biology. IEEE Transactions on Signal and Information
+     Processing over Networks, 2025.
+[50] Qifan Zhang, Yunhui Guo, and Yu Xiang. Continual distillation learning: Knowledge distillation
+     in prompt-based continual learning. arXiv preprint arXiv:2407.13911, 2024.
+[51] Xikun Zhang, Dongjin Song, and Dacheng Tao. Hierarchical prototype networks for continual
+     graph representation learning. IEEE Transactions on Pattern Analysis and Machine Intelligence,
+     45(4):4622–4636, 2022.
+[52] Xikun Zhang, Dongjin Song, Yixin Chen, and Dacheng Tao. Topology-aware embedding
+     memory for continual learning on expanding networks. In Proceedings of the 30th ACM
+     SIGKDD Conference on Knowledge Discovery and Data Mining, pages 4326–4337, 2024.
+[53] Zhiyu Zhang, Wei Chen, Youfang Lin, and Huaiyu Wan. A generative adaptive replay continual
+     learning model for temporal knowledge graph reasoning. In Proceedings of the 63rd Annual
+     Meeting of the Association for Computational Linguistics (Volume 1: Long Papers), pages
+     10964–10977, 2025.
+[54] Kaizhong Zheng, Shujian Yu, Baojuan Li, Robert Jenssen, and Badong Chen. Brainib: Inter-
+     pretable brain network-based psychiatric diagnosis with graph information bottleneck. IEEE
+     Transactions on Neural Networks and Learning Systems, 36(7):13066–13079, 2024.
+[55] Fan Zhou and Chengtai Cao. Overcoming catastrophic forgetting in graph neural networks with
+     experience replay. In Proceedings of the AAAI conference on artificial intelligence, volume 35,
+     pages 4714–4722, 2021.
+[56] Yangxuan Zhou, Sha Zhao, Jiquan Wang, Haiteng Jiang, Shijian Li, Tao Li, and Gang Pan.
+     Brainuicl: An unsupervised individual continual learning framework for eeg applications. In
+     The Thirteenth International Conference on Learning Representations, 2025.
+
+
+
+
+                                                15
+Continual Learning for fMRI-Based Brain Disorder Diagnosis
+  via Functional Connectivity Matrices Generative Replay
+                                    Supplementary Material
+Our supplementary materials are organized as follows:
+
+          • Detailed Description of the Cross-Site Continual Learning Pipeline
+          • rs-fMRI Preprocessing
+          • Details in Hierarchical Contextual Thompson Sampling
+          • Extended Evaluation and Ablation Studies of FCM-VAE
+          • Additional Ablation Results
+
+A       Detailed Description of the Cross-Site Continual Learning Pipeline
+Figure 1 provides an overview of our cross-site continual learning pipeline. For each clinical site,
+we formulate a site-specific classification task that maps rs-fMRI data to diagnostic labels. Starting
+from the raw rs-fMRI scans acquired at site i, we first apply a standardized preprocessing procedure,
+as described in Section B. The preprocessed volumes are subsequently parcellated into cortical and
+subcortical regions using the AAL atlas, yielding a fixed set of 116 regions of interest (ROIs). For each
+ROI, we extract its blood-oxygen-level-dependent (BOLD) time series by averaging the voxelwise
+signals. Functional connectivity (FC) matrices are then computed as the Pearson correlation between
+every pair of ROI time series, resulting in a subject-specific 116 × 116 symmetric FC matrix.
+Each FC matrix is interpreted as a weighted brain graph and fed into a graph classifier that outputs
+a diagnostic prediction. The classification labels distinguish subjects with the target disorder from
+healthy controls. Across clinical sites, we cast the problem as a continual learning scenario in which
+each site i defines a task Ti that arrives sequentially.
+After completing task Ti−1 , the trained GCN model from site Mi−1 is frozen and used as a teacher
+network. When task Ti arrives with data from a new clinical site, we process the rs-fMRI data through
+the same pipeline and train a student classifier on the new site’s FC graphs.
+During this stage, the student model is trained jointly on two types of data: (i) the current site’s FC
+matrices and (ii) replayed samples retrieved from the replay buffer. For each training batch, the frozen
+teacher network produces supervision signals from the same FC inputs, while the student extracts
+graph embeddings that pass through its prediction head.
+As illustrated in Figure 2, the student model is optimized using three complementary objectives:
+(i) a graph readout distillation loss that aligns the student’s graph-level embeddings with those of
+the teacher, (ii) a logits distillation loss that enforces agreement between the teacher’s and student’s
+predictive distributions, and (iii) a replay loss applied to samples from previous sites. Together, these
+losses enable the student to retain cross-site knowledge while adapting to newly arriving data, thereby
+mitigating catastrophic forgetting across tasks.
+
+B       rs-fMRI Preprocessing
+All rs-fMRI datasets were preprocessed using a standardized pipeline to ensure consistency across
+clinical sites, following established practices in previous studies. Preprocessing was performed using
+the FMRIB Software Library (FSL)1 and the Statistical Parametric Mapping toolbox (SPM12)2 .
+For each subject, the first several volumes were removed to allow for magnetization stabilization.
+Slice-timing correction was applied to account for inter-slice acquisition delays, followed by rigid-
+body motion correction to align all volumes to a reference frame and reduce head-motion artifacts.
+Distortion correction, addressing susceptibility-induced warps using scans with varying acquisition
+parameters, was conducted with the top-up toolbox in FSL using default settings.
+    1
+        https://fsl.fmrib.ox.ac.uk/fsl/docs/
+    2
+        https://www.fil.ion.ucl.ac.uk/spm/software/spm12/
+
+
+                                                   1
+                                                                                                         blood-oxygen-          Functional
+                                                                                 Brain Parcellation                                                                              Prediction Results
+                           Clinical Site i-1                  rs-fMRI data                              level-dependent   Correlation (FC) Matrix                     GCN
+                                                                                    (AAL atlas)
+                                                                                                         (BOLD) signal                      brain regions
+                                                                                                                                                            1.0
+
+
+
+
+                                                                                                                            brain regions
+                                                                                                                                                            0.5
+
+                                                                                                                                                                    Teacher
+                                                                             +                                                                              0
+                                                                                                                                                                    Classifier
+                                                                                                                                                            -0.5
+
+
+                                                                                                                                                            -1.0
+
+                                                                                                                                                                                   Healthy control subjects
+                              Task i-1
+                                                                                                                                                                                   Subjects with ASD
+
+
+
+
+                                                                                                         blood-oxygen-          Functional
+                                                                                 Brain Parcellation                                                                              Prediction Results
+                            Clinical Site i                   rs-fMRI data                              level-dependent   Correlation (FC) Matrix                    GCN
+                                                                                    (AAL atlas)
+                                                                                                         (BOLD) signal                      brain regions
+                                                                                                                                                            1.0
+
+
+
+
+                                                                                                                            brain regions
+                                                                                                                                                            0.5
+                                                                                                                                                                    Student
+                                                                             +                                                                              0
+                                                                                                                                                                    Classifier
+                                                                                                                                                            -0.5
+
+
+                                                                                                                                                            -1.0
+
+                                                                                                                                                                                   Healthy control subjects
+                               Task i
+                                                                                                                                                                                   Subjects with ASD
+
+
+
+
+Figure 1: Continual Learning pipeline for transforming raw rs-fMRI data into inputs for the classifi-
+cation task.
+
+                                                                                                      Graph Teacher Features
+
+
+
+
+                                                              Teacher Backbone                                                                                     Pred                  Teacher Logits
+                                                                                                                                                                   Head
+
+
+
+
+                              Replay Buffer
+                                                                                                          Graph Readout                                                                        Logits
+                                                                                                            Knowledge                                                                        Knowledge
+                                                                                                            Distillation                                                                     Distillation
+    Replay Cross Entropy
+
+
+
+
+                                 Site Data
+                                         Site Cross Entropy
+
+
+
+
+                                                                                                                                                                   Pred
+                                                              Student Backbone                                                                                                           Student Logits
+                                                                                                                                                                   Head
+
+
+
+
+                                                                                                      Graph Student Features
+
+
+
+               Figure 2: Dual-Level Knowledge Distillation Framework for Continual Graph Learning
+
+
+The preprocessed fMRI volumes were parcellated into anatomically defined regions using the AAL-
+116 atlas. For each of the 116 ROIs, we extracted the mean BOLD time series by averaging the
+voxelwise signals within the region. Functional connectivity (FC) matrices were then computed
+by calculating the Pearson correlation between the time series of every pair of ROIs, resulting in a
+116 × 116 symmetric FC matrix for each subject.
+
+
+C        Details in Hierarchical Contextual Thompson Sampling
+
+While a generative replay buffer Ri enables privacy-preserving rehearsal, using a fixed replay bud-
+get is both inefficient and oblivious to distributional shifts across hospitals, ultimately weakening
+cross-domain generalization. To overcome this, we introduce a Hierarchical Contextual Thompson
+Sampling mechanism that dynamically allocates replay capacity at two levels: (i) site-level replay
+quotas adapt to accuracy–forgetting trade-offs; (ii) sample-level quotas enforce diversity and repre-
+sentativeness. Both layers leverage hierarchical contextual features and linear Gaussian posteriors for
+Thompson sampling, enabling online adaptive optimization. We next detail the sampling strategies at
+both the site and sample levels.
+
+
+                                                                                                                2
+C.1   Details of Site-Level Thompson Sampling Allocation
+
+In cross-hospital continual learning, a fixed replay budget R restricts each round to a limited number
+of generated samples. To allocate this budget effectively, we design a site-level adaptive mechanism
+that jointly accounts for current accuracy and historical forgetting. Concretely, for each site Mi ∈ M,
+we define a context vector as:
+                                                                  
+                                             ϕi = Acci , Forgeti
+
+                          (xi ,yi )∈D test 1{fθ (xi ) = yi } denotes the current accuracy of fθ on site Mi ,
+                   1
+                        P
+where Acci = |Dtest   |
+                   i               i
+
+and 1 is the indicator function. Forgeti = max(0, Accpast
+                                                     i    − Acccurr
+                                                               i    ) denotes forgetting at site Mi ,
+           past                                curr
+where Acci is the best past accuracy and Acci is the current one.
+The expected replay utility is modeled as
+
+                                 ri = ϕ⊤
+                                       i w + ϵi ,                  ϵi ∼ N (0, σ 2 ),                                 (1)
+where w is a latent weight vector whose posterior distribution p(w|D) encodes uncertainty con-
+ditioned on the history D of previously observed contexts and rewards. At each update round,
+Thompson Sampling draws a posterior sample w̃ ∼ p(w|D) and computes the predicted utility
+r̃i = ϕ⊤
+       i w̃. Meanwhile, we introduce a closed-loop update mechanism to incorporate performance
+feedback. We define the reward change as
+                                            CEprev  − CEnew
+                                                            
+                                 (t)           i         i
+                                ri = σ                         ,                            (2)
+                                                    τ
+
+where σ(·) is the sigmoid function, CEprev
+                                        h    and CEnew
+                                                    h  are the cross-entropy losses of site i before
+and after the update, and τ is a temperature parameter
+To maintain a Bayesian estimate of the latent weight vector w, each site keeps sufficient statistics Ai
+and bi , updated at each step as:
+                                   (t+1)            (t)                        (t)    (t) ⊤
+                                 Ai        ← γAi + (1 − γ) ϕi ϕi                              ,
+                                                                                                                     (3)
+                                   (t+1)           (t)                         (t) (t)
+                                 bi        ← γbi + (1 − γ) ϕi ri ,
+                                                        (0)                     (0)
+where γ is a forgetting factor. We initialize Ai              = λI and bi             = 0 for numerical stability.
+The posterior mean and covariance of the Thompson sampling model are approximated as
+                          (t)      (t) −1 (t)     (t)       (t) −1
+                         µi = Ai          bi ,   Σi = σ 2 Ai         .                                               (4)
+                                  
+                   (t)    (t)  (t)
+A Thompson sample wi ∼ N µi , Σi     yields the predicted utility
+
+                                             (t)               (t) ⊤     (t)
+                                            r̂i     = ϕi               wi .                                          (5)
+
+These predicted utilities are then standardized using z-score normalization and converted into alloca-
+tion weights
+                                                                       (t)
+                                            (t)  exp(r̂i )
+                                           wi = P         (t)
+                                                              ,                                                      (6)
+                                                  j exp(r̂j )
+
+from which the final replay allocation is obtained via
+                                                  (t)                  (t)
+                                              ki         = K wi .                                                    (7)
+
+                                                        (t)
+After each update, the replay buffer draws ki samples from each site’s generative memory, the
+model is updated, and new rewards and contexts are computed, forming a closed-loop adaptive replay
+strategy.
+
+
+                                                              3
+C.2   Sample-Level Contextual Thompson Sampling
+
+Given the site-specific replay quota ki , we further identify the most beneficial samples within each
+replay buffer Ri . To model sample utility, we introduce a sample-level context vector that captures
+predictive uncertainty and geometric consistency. For a candidate sample u from site Mi , the context
+is defined as                                                    
+                                   ψu = marginu , closenessu .                                     (8)
+
+The first component, marginu , measures predictive uncertainty. Let p = softmax(hθ (u)) denote the
+model output probabilities. The margin is computed as
+                                          marginu = max pc − max
+                                                              ′
+                                                                 pc′ ,                                      (9)
+                                                         c                 c ̸=c
+
+where a smaller value implies greater ambiguity. Theoretically, low-margin samples generally lie
+closer to the decision boundary and thus provide higher learning value.
+The second component, closenessu , quantifies how well u aligns with its site-specific data manifold.
+Let                                                    
+                                                  (t)
+                                      zu(t) = ρ Eθ (u)
+denote the latent representation at update step t. The closeness score is defined as
+                            closenessu = 1−
+                                 q
+                                       (t)  i,(t) ⊤  i,(t) −1 (t)  i,(t) 
+                                                                                                          (10)
+                            tanh      zu − µyu       Σyu       zu − µyu        ,
+         i,(t)         i,(t)
+where µyu and Σyu are the prototype mean and covariance for class yu at site Mi , updated
+                                                                                (t)
+through exponential moving averages over the replay-augmented dataset D̃i . This Mahalanobis-
+based criterion encourages selecting samples that best preserve site structure while respecting privacy
+constraints.
+To incorporate feedback and maintain Bayesian estimates over sample utilities, each site maintains
+sufficient statistics Ci and di , which capture second-order correlations among sample contexts and
+                                                                (t)                     (t)
+their rewards. After selecting a provisional sample subset Si , the site-level reward ri is evenly
+assigned to its samples, and the statistics are updated using a forgetting factor γ:
+                               (t)       (t−1)
+                                                          X                ⊤
+                             Ci ← γCi          + (1 − γ)        ψu(t) ψu(t) ,
+                                                                                 (t)
+                                                                        u∈Si
+
+                                                                                                (t)
+                                                                                                           (11)
+                                  (t)   (t−1)
+                                                                         X                     ri
+                                 di ← γdi     + (1 − γ)                                ψu(t)     (t)
+                                                                                                       .
+                                                                           (t)                 |Si |
+                                                                        u∈Si
+
+                 (0)               (0)
+We initialize Ci = λI and di = 0 for numerical stability. The posterior mean and covariance are
+then estimated as
+                             (t)     (t)   (t)     (t)        (t)
+                           µi = (Ci )−1 di , Σi = σ 2 (Ci )−1 ,
+where σ 2 denotes the reward variance. Thompson sampling is applied by drawing
+                                                 (t)             (t)       (t)
+                                                vi ∼ N (µi , Σi ),
+and scoring each candidate u via
+                                                             (t) ⊤
+                                                 s(t)
+                                                  u = vi               ψu(t) .                             (12)
+To select a final replay subset, we combine value-based ranking and diversity promotion. Candidates
+     (t)                     (t)                                    (t)
+in D̃i are first ranked by su , and the top 2ki form a shortlist Ci . The final ki samples are chosen
+using a greedy farthest-first strategy in the representation space:
+                        (t)
+                       Si      = arg       max         min
+                                                        ′
+                                                           ∥ρ(Eθ (G)) − ρ(Eθ (G′ ))∥2 .                    (13)
+                                          (t)
+                                       S⊆Ci , |S|=ki G,G ∈S
+                                                      G̸=G′
+
+This ensures that replayed samples are both high-value and distributionally diverse.
+
+
+                                                             4
+                  Origin            ReGate            BrainNetGan        GR-SPD-GAN        FCM-VAE (Ours)
+
+
+
+
+Negative
+
+
+
+
+                  Origin            ReGate            BrainNetGan        GR-SPD-GAN        FCM-VAE (Ours)
+
+
+
+
+ Positive
+
+
+
+
+Figure 3: Visualization of functional connectivity (FC) matrices generated by different FC-graph
+generation methods on the ASD dataset. Columns correspond to different generation method, while
+rows show negative and positive samples.
+
+
+D      Extended Evaluation and Ablation Studies of FCM-VAE
+To better understand the behavior of different FC-graph generators, we first visualize their outputs on
+the ASD dataset, as shown in Figure 3. For a representative negative and positive subject, we compare
+the original FC matrix with those produced by ReGate [26], BrainNetGAN [22], GR-SPD-GAN [38]
+and our proposed FCM-VAE. Existing methods roughly recover the coarse modular structure =,
+but tend to over-smooth fine-grained connectivity patterns or introduce spurious high-magnitude
+edges, leading to visually distorted or overly homogenized graphs. In contrast, FCM-VAE yields
+FC matrices that closely follow the original both in global organization and local edge patterns,
+preserving salient functional modules while suppressing artifacts.
+To further validate the robustness of the synthetic FC matrices produced by FCM-VAE, we extend
+the data augmentation experiment to a broader set of graph classifiers. While the main paper reports
+results using a GCN backbone, Table 1 evaluates five widely used architectures under different FC
+generation strategies. Below, we briefly summarize the key modeling characteristics of each classifier:
+
+            • GAE [18]: A graph autoencoder that employs a encoder to map nodes into latent embeddings
+              and an inner-product decoder to reconstruct the graph. It was originally proposed for
+              unsupervised node representation learning and link prediction; in our setting, we use its
+              encoder followed by global pooling as a graph-level classifier.
+            • GAT [42]: A graph attention network where node representations are aggregated using
+              learned attention coefficients, enabling the model to weigh neighbor contributions adaptively
+              based on edge importance.
+            • GCN [19]: The standard graph convolutional network that propagates information through
+              normalized message passing.
+            • GraphSAGE [13]: An inductive graph representation learning framework that learns node
+              embeddings by sampling and aggregating information from local neighborhoods using
+              parametric aggregators.
+            • GraphTransformer [10]: A transformer-based architecture extended to graphs via posi-
+              tional encodings and attention over structural distances.
+
+The main architectural and optimization hyperparameters of these classifiers are summarized in
+Table 2. All models are trained for 100 epochs under identical data splits and optimization settings to
+ensure a fair comparison.
+For each classifier, we fix the model and vary the FC generation method among five options: no
+augmentation, ReGate [26], BrainNetGAN [22], GR-SPD-GAN [38], and our FCM-VAE. Perfor-
+
+
+                                                       5
+Table 1: FC classification results with data augmentation using different graph generation methods.
+Each row fixes a classifier and varies the generation model to assess the quality of synthetic FC
+graphs. Columns report accuracy (ACC), precision (PRE), recall (REC), and F1 score on the ASD,
+BSNIP, and MDD datasets. Bold numbers denote the best performance, while underlined numbers
+indicate the second-best results.
+                                                  ASD                             BSNIP                           MDD
+ Classifier         Gen. Method
+                                      ACC     PRE      REC      F1     ACC     PRE     REC      F1     ACC     PRE     REC      F1
+                    No Augmentation   0.726   0.753    0.669   0.683   0.662   0.779   0.414   0.421   0.767   0.733   0.795   0.731
+                    ReGate            0.711   0.728    0.715   0.689   0.630   0.542   0.421   0.434   0.722   0.668   0.761   0.688
+ GAE                BrainNetGan       0.723   0.743    0.701   0.696   0.660   0.727   0.440   0.455   0.749   0.669   0.816   0.726
+                    GR-SPD-GAN        0.704   0.651    0.846   0.734   0.663   0.723   0.377   0.434   0.747   0.712   0.768   0.710
+                    FCM-VAE (Ours)    0.760   0.728    0.831   0.772   0.671   0.737   0.376   0.433   0.765   0.648   0.885   0.745
+                    No Augmentation   0.713   0.668    0.823   0.735   0.652   0.698   0.397   0.408   0.683   0.582   0.763   0.653
+                    ReGate            0.683   0.687    0.734   0.674   0.624   0.622   0.315   0.330   0.686   0.589   0.746   0.649
+ GAT                BrainNetGan       0.721   0.722    0.716   0.709   0.643   0.684   0.444   0.442   0.683   0.596   0.699   0.635
+                    GR-SPD-GAN        0.762   0.768    0.735   0.747   0.679   0.800   0.406   0.441   0.717   0.679   0.702   0.600
+                    FCM-VAE (Ours)    0.776   0.767    0.786   0.770   0.690   0.765   0.403   0.493   0.724   0.694   0.697   0.608
+                    No Augmentation   0.762   0.748    0.772   0.758   0.688   0.733   0.456   0.502   0.756   0.733   0.699   0.700
+                    ReGate            0.724   0.688    0.806   0.740   0.639   0.618   0.318   0.361   0.724   0.701   0.725   0.676
+ GCN                BrainNetGan       0.758   0.757    0.752   0.747   0.686   0.747   0.458   0.488   0.748   0.707   0.745   0.712
+                    GR-SPD-GAN        0.780   0.761    0.812   0.780   0.703   0.785   0.452   0.513   0.767   0.666   0.866   0.745
+                    FCM-VAE (Ours)    0.783   0.776    0.775   0.771   0.727   0.727   0.547   0.597   0.787   0.733   0.784   0.735
+                    No Augmentation   0.740   0.720    0.784   0.736   0.656   0.621   0.425   0.449   0.751   0.712   0.707   0.671
+                    ReGate            0.708   0.727    0.758   0.725   0.623   0.542   0.460   0.467   0.725   0.681   0.720   0.657
+ GraphSage          BrainNetGan       0.695   0.706    0.652   0.658   0.648   0.634   0.365   0.432   0.716   0.678   0.685   0.667
+                    GR-SPD-GAN        0.729   0.716    0.753   0.729   0.658   0.644   0.365   0.455   0.744   0.811   0.594   0.612
+                    FCM-VAE (Ours)    0.740   0.722    0.795   0.745   0.666   0.702   0.357   0.452   0.763   0.681   0.796   0.730
+                    No Augmentation   0.694   0.663    0.781   0.709   0.643   0.689   0.393   0.426   0.692   0.605   0.700   0.636
+                    Regate            0.679   0.653    0.781   0.700   0.612   0.602   0.260   0.281   0.680   0.671   0.647   0.571
+ GraphTransformer   BrainNetGan       0.692   0.666    0.766   0.705   0.632   0.567   0.528   0.524   0.702   0.628   0.809   0.678
+                    GR-SPD-GAN        0.725   0.708    0.756   0.720   0.667   0.642   0.480   0.507   0.719   0.609   0.859   0.710
+                    FCM-VAE (Ours)    0.711   0.716    0.684   0.696   0.664   0.658   0.444   0.459   0.723   0.627   0.837   0.709
+
+
+          Table 2: Hyperparameter summary for the graph classifiers used in our experiments.
+
+                    Model                     Layers           Hidden Dim            Dropout           LR
+                    GCN                           4       [128,128,128,128]            0.3       1 × 10−3
+                    GAT                           3         [128,128,128]              0.4       5 × 10−4
+                    GraphSAGE                     4       [128,128,128,128]            0.3       1 × 10−3
+                    GraphTransformer              3         [128,128,128]              0.3       5 × 10−4
+                    GAE                           3         [128,128,128]              0.2       1 × 10−3
+
+
+
+mance is reported using accuracy (ACC), precision (PRE), recall (REC), and F1 score on the ASD,
+BSNIP, and MDD datasets. Across all classifiers and datasets, FCM-VAE consistently achieves
+either the best or second-best performance, reflecting its ability to generate FC graphs. Notably, even
+when paired with simple backbones, FCM-VAE offers substantial improvements over alternative
+generative models, while GR-SPD-GAN typically ranks second overall. These results reinforce that
+the advantages of FCM-VAE are not tied to a specific classifier architecture. This demonstrates that
+incorporating global topological structure and local information into the generative process enhances
+the quality of the synthesized FC graphs.
+We further evaluate the contribution of each component in FCM-VAE by removing them individually.
+As shown in Table 4, the absence of any module degrades performance across all datasets, validating
+their complementary roles. In particular, removing the node feature encoder causes the most signifi-
+cant accuracy drop, emphasizing the importance of incorporating node features with local connectivity
+patterns and global geometric features. Both the Local Adjacency Encoding (LAE) and Spectral
+
+
+               Table 3: Grid search ranges for the three hyperparameters λ1 , λ2 , and λ3 .
+
+                                  Coefficient                   Search space
+                                      λ1              {0.20, 0.25, 0.30, 0.35, 0.40}
+                                      λ2              {0.20, 0.25, 0.30, 0.35, 0.40}
+                                      λ3              {0.10, 0.15, 0.20, 0.25, 0.30}
+
+
+                                                               6
+Table 4: Ablation study of FCM-VAE. Each row fixes a classifier backbone and varies the ablation
+setting. Columns report accuracy (ACC), precision (PRE), recall (REC), and F1 score on the ASD,
+BRI, and MDD datasets. Full Framework denotes the complete FCM-VAE model.
+                                                    ASD                            BSNIP                           MDD
+ Classifier         Ablation
+                                       ACC      PRE     REC      F1     ACC     PRE     REC      F1     ACC     PRE     REC      F1
+                    Full Framework     0.760    0.728   0.831   0.772   0.671   0.737   0.376   0.433   0.765   0.648   0.885   0.745
+                    w/o Node Feature   0.723    0.701   0.769   0.731   0.656   0.732   0.368   0.414   0.710   0.694   0.632   0.582
+ GAE
+                    w/o LAE            0.744    0.714   0.813   0.755   0.664   0.799   0.345   0.390   0.753   0.688   0.776   0.709
+                    w/o SGE            0.734    0.782   0.658   0.706   0.653   0.661   0.379   0.411   0.737   0.618   0.796   0.687
+                    Full Framework     0.776    0.767   0.786   0.770   0.690   0.765   0.403   0.493   0.724   0.694   0.697   0.608
+                    w/o Node Feature   0.737    0.761   0.688   0.719   0.658   0.764   0.395   0.420   0.706   0.712   0.580   0.563
+ GAT
+                    w/o LAE            0.743    0.752   0.692   0.720   0.688   0.684   0.459   0.528   0.720   0.688   0.657   0.585
+                    w/o SGE            0.735    0.728   0.741   0.730   0.681   0.739   0.448   0.501   0.697   0.688   0.608   0.563
+                    Full Framework     0.783    0.776   0.775   0.771   0.727   0.727   0.547   0.597   0.787   0.733   0.784   0.735
+                    w/o Node Feature   0.746    0.762   0.694   0.712   0.693   0.747   0.429   0.489   0.761   0.638   0.887   0.739
+ GCN
+                    w/o LAE            0.762    0.740   0.775   0.754   0.701   0.733   0.439   0.517   0.763   0.705   0.773   0.718
+                    w/o SGE            0.760    0.730   0.786   0.755   0.687   0.635   0.517   0.550   0.745   0.672   0.801   0.720
+                    Full Framework     0.740    0.722   0.795   0.745   0.666   0.702   0.357   0.452   0.763   0.681   0.796   0.730
+                    w/o Node Feature   0.721    0.727   0.721   0.701   0.644   0.599   0.411   0.474   0.741   0.688   0.713   0.685
+ GraphSAGE
+                    w/o LAE            0.738    0.722   0.795   0.745   0.664   0.653   0.394   0.483   0.735   0.694   0.725   0.698
+                    w/o SGE            0.721    0.726   0.708   0.704   0.645   0.704   0.369   0.390   0.742   0.711   0.711   0.694
+                    Full Framework     0.711    0.716   0.684   0.696   0.664   0.658   0.444   0.459   0.723   0.627   0.837   0.709
+                    w/o Node Feature   0.693    0.685   0.700   0.686   0.651   0.591   0.398   0.426   0.698   0.657   0.713   0.659
+ GraphTransformer
+                    w/o LAE            0.708    0.694   0.725   0.702   0.653   0.591   0.484   0.502   0.702   0.662   0.730   0.669
+                    w/o SGE            0.690    0.696   0.672   0.668   0.649   0.602   0.435   0.489   0.698   0.674   0.607   0.619
+
+
+
+
+Positional Encoding (SGE) also contribute to preserving local and global structural information,
+respectively, confirming that their joint design enables more reliable FC graph generation.
+
+
+
+
+E      Additional Ablation Results
+
+
+E.1     Component Contributions in FORGE over DER++
+
+
+DER++ is a particularly strong and widely adopted continual-learning baseline, making it a rigorous
+reference point for evaluating FORGE. To clarify what specifically drives FORGE improvements
+over DER++, we design a controlled ablation that incrementally introduces our key components on
+top of the DER++ pipeline.
+Concretely, starting from DER++ with real sample replay (Real), we replace only the replay source
+with our generative replay (Gen.) while keeping all other settings fixed. Then, with generative replay
+held constant, we swap only the sampling strategy (HCTS) or only the distillation objective (Dual-
+KD). As summarized in Table 5, it shows that HCTS yields the strongest performance, indicating
+that replay selection is a key driver of the gains, likely because fMRI data quality strongly affects
+both stability and forgetting. Meanwhile, Dual-KD maintain competitive AAA while achieving lower
+FOR, suggesting that distillation primarily contributes to reducing forgetting.
+
+
+
+    Method                                     Replay         Sampling                          Distillation        AAA↑ FOR↓
+    DER++-Real                                 Real           Reservoir Sampling                LKD                  0.669 0.187
+    DER++-Gen.                                 Gen.           Reservoir Sampling                LKD                  0.671 0.183
+    DER++-Gen. + HCTS                          Gen.           HCTS                              LKD                  0.685 0.141
+    DER++-Gen. + Dual-KD                       Gen.           Reservoir Sampling                Dual-KD              0.677 0.160
+    FORGE                                      Gen.           HCTS                              Dual-KD              0.730 0.116
+                     Table 5: Ablation variants by replay, sampling, and distillation.
+
+
+
+
+                                                                 7
+E.2   Hyperparameter Analysis on regularization weight coefficients
+
+We study the sensitivity of our continual learning objective by varying the three weights λ1 , λ2 , λ3 in:
+                                                    c −1
+                                                   tX
+                                                                          
+                   E(G,y)∼Dttrain ℓ y, fθ (G) + λ1       E(G,y)∼Rt ℓ y, fθ (G)
+                               c
+                                                        t=1
+                              c −1
+                             tX               h                   i
+                                                              2
+                      + λ2           E(G,u)∼Rt ∥hθ (G) − u∥2                                         (14)
+                             t=1
+                              c −1
+                             tX
+                                                           2
+                      + λ3           E(G,r)∼Rt ρ Eθ (G) − r 2 ,
+                             t=1
+
+We perform a grid search over a predefined set of values for these coefficients, with the search ranges
+informed by parameter choices commonly used in related work [2] as summarized in Table 3. Across
+all evaluated configurations, the best-performing setting differs slightly across datasets. Specifically,
+the optimal coefficients for ASD correspond to λ1 = 0.20, λ2 = 0.35, and λ3 = 0.15. For the
+BSNIP dataset, the best configuration is λ1 = 0.25, λ2 = 0.30, and λ3 = 0.15, while for the MDD
+dataset the optimal setting becomes λ1 = 0.30, λ2 = 0.30, and λ3 = 0.20.
+
+
+
+
+Figure 4: Sensitivity analysis of λ1 , λ2 , and λ3 on the ASD dataset. For each hyperparameter, we
+vary its value while keeping the other two coefficients fixed at their default settings.
+
+As illustrated in Figure 4, the overall performance remains stable as the hyperparameters are varied
+on the ASD dataset. This demonstrates that our framework does not rely on finely tuned loss weights
+and that the model consistently maintains strong accuracy and low forgetting under a wide range of
+(λ1 , λ2 , λ3 ) configurations. Such behavior highlights the inherent robustness and adaptability of our
+method, indicating that strong performance is retained even under large variations in the coefficients.
+
+
+
+
+                                                    8
+
