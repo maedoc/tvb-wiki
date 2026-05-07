@@ -1,0 +1,971 @@
+                                         JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021                                                                                      1
+
+
+
+
+                                              Variational Mixture of Graph Neural Experts for
+                                               Alzheimer’s Disease Biomarker Recognition in
+                                                           EEG Brain Networks
+                                                           Jun-En Ding, Anna Zilverstand, Shihao Yang, Albert Chih-Chieh Yang, and Feng Liu*
+
+
+
+                                            Abstract—Dementia disorders such as Alzheimer’s disease                     biomarkers for analysis. However, many studies show contro-
+                                         (AD) and frontotemporal dementia (FTD) exhibit overlapping                     versial results in FTD band analysis. For example, both AD
+                                         electrophysiological signatures in EEG that challenge accurate
+arXiv:2510.11917v1 [cs.LG] 13 Oct 2025
+
+
+
+
+                                                                                                                        and FTD typically exhibit spectral slowing, characterized by
+                                         diagnosis. Existing EEG-based methods are limited by full-band
+                                         frequency analysis that hinders precise differentiation of demen-              increased delta/theta power and reduced α/β power, which
+                                         tia subtypes and severity stages. We propose a variational mixture             correlates with cognitive decline [5], [6]. Early-onset AD
+                                         of graph neural experts (VMoGE) that integrates frequency-                     often demonstrates widespread delta enhancement, whereas
+                                         specific biomarker identification with structured variational in-              FTD shows more region-specific abnormalities and distinct
+                                         ference for enhanced dementia diagnosis and staging. VMoGE                     microstate alterations [5]. Power ratios such as theta/alpha
+                                         employs a multi-granularity transformer to extract multi-scale
+                                         temporal patterns across four frequency bands, followed by a                   and theta/beta, along with gamma band changes, have been
+                                         variational graph convolutional encoder using Gaussian Markov                  proposed as sensitive markers for prodromal and clinical
+                                         Random Field priors. Through structured variational inference                  AD [7].
+                                         and adaptive gating, VMoGE links neural specialization to                         The success of deep learning (DL) has greatly enhanced
+                                         physiologically meaningful EEG frequency bands. Evaluated                      feature extraction from multi-band EEG signals, such as
+                                         on two diverse datasets for both subtype classification and
+                                         severity staging, VMoGE achieves superior performance with                     convolutional neural networks (CNNs), long short-term mem-
+                                         AUC improvements of +4% to +10% over state-of-the-art meth-                    ory networks (LSTMs), and hybrid architectures, which can
+                                         ods. Moreover, VMoGE provides interpretable insights through                   automatically learn spatiotemporal features across frequency
+                                         expert weights that correlate with clinical indicators and spatial             bands [8], [9]. Specifically, Transformer architectures have
+                                         patterns aligned with neuropathological signatures, facilitating               demonstrated significant potential for EEG-based AD classi-
+                                         EEG biomarker discovery for comprehensive dementia diagnosis
+                                         and monitoring.                                                                fication [10]–[12]. The field has progressed to convolutional-
+                                                                                                                        Transformer hybrid architectures such as CEEDNet and DICE-
+                                           Index Terms—Alzheimer’s disease, EEG, Mixture of experts,                    Net [13] to large-scale foundation models with cross-dataset
+                                         Graph neural networks, Variational inference
+                                                                                                                        pretraining, with models like LEAD achieving classification
+                                                                                                                        accuracies exceeding 93% and establishing Transformers as a
+                                                                   I. I NTRODUCTION                                     pivotal direction in EEG-based dementia diagnosis [14].
+                                            Alzheimer’s disease (AD) represents the most prevalent                         Building on these advancements, and unlike traditional
+                                         form of dementia worldwide, affecting an estimated 6.9 mil-                    EEG feature extraction approaches, more recent research has
+                                         lion individuals aged 65 years and above in the United States                  explored graph neural networks (GNNs), which have emerged
+                                         as of 2024 [1], compared to around 0.35 million individuals in                 as a powerful architecture for modeling EEG brain connec-
+                                         the same age group in Taiwan [2]. Specifically, frontotemporal                 tivity and capturing complex spatial, spectral, and temporal
+                                         dementia (FTD) is a major cause of young-onset dementia,                       dependencies. Furthermore, multi-path, multi-frequency, and
+                                         typically presenting between ages 35 and 75. It is marked by                   attention-based GNN architectures demonstrate superior per-
+                                         early behavioral and language changes, including disinhibi-                    formance in distinguishing dementia-related disorders, offer-
+                                         tion, emotional blunting, stereotyped behaviors, and dietary                   ing promising tools for accurate and interpretable diagno-
+                                         alterations, reflecting selective degeneration of the frontal                  sis [15]–[19].
+                                         and temporal lobes [3], [4]. Electroencephalogram (EEG)                           Research on GNNs integrated with variational inference
+                                         serves as the most mainstream and cost-effective measurement                   has demonstrated strong potential in handling graph data with
+                                         method, effectively reflecting cortical activities through brain               inherent uncertainty and noise. To further enrich representa-
+                                         signals. Recent research findings indicate that analyzing time-                tion learning, the MoVGAE integrates first- and high-order
+                                         frequency differences across bands can effectively serve as                    neighborhood information, achieving superior results on clas-
+                                                                                                                        sification, clustering, and link prediction tasks [20]. Extending
+                                            J. Ding, S. Yang, and F. Liu are with the Department of Systems Engineer-   to spatiotemporal settings, the DVGNN leverages diffusion
+                                         ing at Stevens Institute of Technology, Hoboken, NJ 07030, USA (emails:
+                                         {fliu22, jding17}@stevens.edu).                                                processes and variational inference to uncover dynamic causal
+                                            A. Yang is with the Institute of Brain Science, College of Medicine,        relationships with enhanced accuracy and interpretability [21].
+                                         National Yang-Ming Chiao Tung University, Taipei City,Taiwan.                  Although these approaches often consider standard Gaussian
+                                            A. Zilverstand is with the Department of Psychiatry and Behavioral
+                                         Sciences, University of Minnesota, Minneapolis, MN 55414, USA.                 priors as prior distributions, variational approximations remain
+                                            * Corresponding author: Feng Liu (email: fliu22@stevens.edu).               insufficient to fully capture complex distributions, particularly
+JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021                                                                          2
+
+
+
+brain signal networks with graph structures.                       EEG sequences that preserve low-frequency spectral character-
+   Recently, Mixture of Experts (MoE) has gained significant       istics [40]. Building on graph-based approaches, [41] proposed
+attention due to its key advantage of dynamic task allocation,     variational pathway reasoning (VPR), which uses random
+which leverages expert specialization to significantly reduce      walks within brain regions to model emotion-related pathways
+computational costs while maintaining high performance, es-        and Bayesian processes to learn pathway importance, achiev-
+pecially in Large Language Models (LLMs) [22] or dynamics          ing 94.3% accuracy on the SEED dataset with interpretable
+of multimodal fusion [23], [24]. Furthermore, GNN integrated       visualizations. To address individual variability through their
+with MoE has significantly improved graph and node classifi-       Variational Instance-Adaptive Graph (V-IAG) method, com-
+cation accuracy [25]–[27]. For example, GraphDIVE employs          bining deterministic instance-adaptive graphs with probabilis-
+mixture-of-experts with semantic partitioning to address im-       tic variational graphs to capture both subject-specific depen-
+balanced graph classification by optimizing the evidence lower     dencies and underlying uncertainties [42]. Complementing
+bound, effectively reducing bias toward majority classes [28].     these approaches, [43] explored variational predictive coding
+In both molecular property prediction and multivariate time        through hierarchical recurrent state-space models that balance
+series anomaly detection, GNNs provide powerful structural         active learning and active inference, enabling multi-level EEG
+representations, while MoE introduces specialized expert mod-      prediction while maintaining biological plausibility. Moreover,
+ules dynamically routed by gating mechanisms [29], [30].           the EEG graph combines a variational spatial encoder with a
+   Nevertheless, while many approaches have been devel-            Gaussian temporal encoder to capture both structural brain
+oped to decode potential brain-based biomarkers for AD             priors and delayed cross-regional temporal dependencies [44].
+using EEG, but are limited by different signal preprocessing
+procedures [31], variations in experimental design protocols       B. Mixture-of-Experts for Brain Network Analysis
+across subjects [14], [32], or focus solely on deep learning          Generally, MoE architectures enable efficient neural net-
+models for EEG signal feature extraction, which significantly      work scaling through conditional computation, where spe-
+reduces the interpretability of effective biomarkers for demen-    cialized expert subnetworks process different input types via
+tia diagnosis [33]–[36]. Furthermore, several existing studies     gating
+                                                                   P       mechanisms. The core formulation follows P (y|x) =
+employ full-band frequency analysis for AD assessment [37],             g
+                                                                      i i (x)P  (y|x, θi ), where gi (x) represents gating weights
+[38], which may result in cross-frequency interference and         and P (y|x, θi ) denotes expert outputs [45]. Recent develop-
+hinder the precise differentiation of FTD variations among AD      ments in MoE have established them as a robust solution
+patients. Moreover, apart from differentiating AD from FTD,        for modeling the complex heterogeneity observed in brain
+various characteristics of AD necessitate evaluation through       signals from EEG [46]–[49] and fMRI [50], [51]. By in-
+daily behavioral patterns, including the assessment of cognitive   corporating specialized expert modules and adaptive gating
+function and neuropsychiatric symptoms using clinical scales.      strategies, these frameworks successfully accommodate the in-
+These limitations have constrained the development of effec-       herent subject variability, diverse task requirements, and multi-
+tive, straightforward, and objective biomarkers in EEG-based       scale dynamics present in neuroimaging applications [52].
+diagnostic applications [39].                                      Specifically, MoE models have shown notable promise in
+   To bridge this gap, we first develop a multi-granularity        neurophysiological signal processing. In psychiatric and neu-
+EEG feature extractor designed to learn node-level repre-          rological disorder research, cognition-aware MoE frameworks
+sentations that capture both different-scale temporal patterns.    utilize functional brain atlases to capture the dynamics of
+Subsequently, we introduce a variational mixture of graph          cognitive regions [53], while disease-specific routing strategies
+neural experts (VMoGE) where each expert is modeled under          incorporate specialized sub-networks to construct comprehen-
+a GMRF prior corresponding to a distinct EEG frequency             sive whole-brain embeddings [54]. Similarly, Seizure-MoE
+band. By embedding structured variational inference into the       and Mix-MoE for EEG-based seizure subtype classification
+mixture-of-experts paradigm, our VMoGE adaptively assigns          effectively mitigate class imbalance and integrate manual fea-
+responsibilities among experts while maintaining the intrinsic     tures, while Neuro-MoBRE further demonstrates robust multi-
+graph topology and effectively representing epistemic uncer-       task decoding across subjects through brain-regional expert
+tainty, which contributes to the classification and staging of     specialization, including applications in epileptic seizure di-
+dementia.                                                          agnosis [48], [51].
+                                                                      Despite the promising ability of MoE models to capture
+                      II. R ELATED W ORK                           features across distinct dynamic regions of EEG brain net-
+                                                                   works, current approaches seldom integrate more fine-grained
+A. Variational Inference Framework in EEG                          frequency-based graph structures as prior distributions. This
+   Existing variational inference methods have established a       limitation is particularly relevant in FTD research, where elec-
+robust framework for EEG analysis, providing principled            trophysiological signatures differ from those observed in AD.
+solutions for representation learning, uncertainty quantifica-     For instance, AD is often characterized by rostral dominance
+tion, and modeling individual differences in brain activity        in fractal complexity, whereas FTD exhibits caudal dominance,
+patterns. For example, EEG2Vec uses a conditional variational      alongside distinct alterations in slow-frequency activity [55].
+autoencoder that learns both generative and discriminative         In this work, we demonstrate that incorporating structure-
+representations from affective EEG data, achieving 68.49%          specific graph priors that reflect such frequency-band asym-
+accuracy in emotion classification while generating synthetic      metries can substantially improve the interpretability of EEG
+JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021                                                                                            3
+
+
+
+                                                                   kernel of length Φ(g), a stride s(g), and a pooling operator
+                                                                   Pg (·). Given the input signal xc,k ∈ RT , the temporal token
+                                                                   at granularity g is defined as
+                                                                                                                  
+                                                                    T(c,k)
+                                                                      g     =  P g  σ Conv1D    x c,k ; Φ(g), s(g)     ∈ RLg ×DT ,
+                                                                                                                                (1)
+                                                                   where σ(·) is a nonlinear activation (e.g., LeakyReLU), DT is
+                                                                   the number of temporal filters, and Lg is the resulting temporal
+                                                                   length after stride and pooling. By concatenating the tokens
+Fig. 1: Diagram of MGT-NFE for node feature extraction,            across all granularities, we obtain
+incorporating multi-granularity hierarchical feature extraction
+and spatial positional encoding at different granularities.                                                                             X
+                                                                    T(c,k) = Concat g∈G T(c,k)   ∈ RL×DT ,
+                                                                                              
+                                                                                         g                                        L=          Lg .
+                                                                                                                                        g∈G
+                                                                                                                             (2)
+biomarkers, enabling MoE frameworks to better distinguish
+                                                                     2) Transformer Encoding: To preserve temporal ordering,
+between FTD and AD cohorts.
+                                                                   we add a positional encoding PE ∈ RL×DT to the concate-
+                                                                   nated tokens before feeding them into the Transformer layers:
+                          III. M ETHODS
+A. Problem Formulation                                                 E(0) = T(c,k) + PE,                                                      (3)
+                                                                                                                 
+   In this work, we implement the same preprocessing pipeline      E (l+1)
+                                                                             = TransformerBlock E           (l)
+                                                                                                                      ,   l = 0, 1, . . . , Ltr − 1,
+in two datasets. The feature extraction process was imple-
+                                                                                                                                                 (4)
+mented through a systematic epoching and spectral analysis
+pipeline. We define each instance of raw EEG timeseries as
+                                                                   where Ltr denotes the total number of Transformer lay-
+Xraw ∈ RC×T with C channels and time step of T . The
+                                                                   ers. Each TransformerBlock(·) consists of multi-head self-
+EEG data were first segmented into non-overlapping epochs
+                                                                   attention and position-wise feed-forward networks, producing
+by calculating the epoch length T ′ in samples and determining
+                                                                   outputs of the same shape RL×DT .
+the total number of epochs that could be extracted. For each
+                                                                      After Ltr transformer layers, we obtain the final encoded
+epoch, the algorithm extracted temporal segments across all
+                                                                   features E(Ltr ,c,k) for each channel-band pair. We then extract
+channels and performed channel-wise spectral analysis. We
+                                                                   representative node features from the final transformer output:
+compute the PSD with Welch’s method and define the total
+power over 0.5–45 Hz. We then compute relative band power
+                                                                                         hc,k = Aggregate(E(Ltr ,c,k) )                         (5)
+(RBP) in four non-overlapping bands δ (0.5–4 Hz), θ (4–8
+Hz), α (8–13 Hz), and β (13–45 Hz), using left-closed, right-
+                                                                   where E(Ltr ,c,k) denotes the final transformer output for chan-
+open intervals so that bands partition the total power. Given
+                                                                   nel c and band k, and Aggregate(·) can be mean pooling, max
+the extracted feature set {(Xi , yi )}N
+                                      i=1 , where Xi ∈ R
+                                                        B×C×F
+                                                                   pooling, or learned attention pooling. Next, we aggregate the
+represents the RBP feature matrix for the i-th samples (with
+                                                                   encoding features to form the final node feature matrix for all
+B = 4 frequency bands, C = 19 channels) containing F -
+                                                                   channels:
+dimensional features, and yi ∈ {0, 1} is the corresponding
+binary class label.
+                                                                                            H = [h1 ; h2 ; . . . ; hC ]                         (6)
+B. Multi-Granularity Transformer for Node Features Extrac-
+tion (MGT-NFE)                                                     where each channel-specific node feature hc is defined as the
+                                                                   concatenation of band-wise features:
+   Aiming to capture multi-scale temporal patterns in EEG
+signals while extracting meaningful node representations for
+                                                                       hc = Concat[hc,δ , hc,θ , hc,α , hc,β ],           c = 1, 2, ..., C      (7)
+each channel, the MGFormer [56] architecture was designed
+to more effectively capture multi-level features encompassing                        ′
+                                                                   where hc ∈ RD with D′ = 4dh being the total node feature
+both local and long-range temporal signals. As shown in Fig. 1,
+                                                                   dimension, and dh is the dimension of each band-specific
+the components include self-attention to capture long-range
+                                                                   feature. This creates a unified node feature representation that
+temporal dependencies, one-dimensional convolutional neural
+                                                                   preserves frequency-specific information. For multi-band EEG
+network (1-D CNN) to extract local temporal details, and Fast
+                                                                   processing, we apply the MGT-NFE to each frequency band
+Fourier Transform (FFT) features.
+                                                                   independently:
+   1) Multi-Granularity Token Encoder: For each channel c
+and frequency band k ∈ {δ, θ, α, β}, multi-scale temporal
+patterns are extracted using convolutional layers with kernel                             H(k) = MGT-NFE(X(k)
+                                                                                                          raw )                                 (8)
+sizes tailored to different temporal granularities. Let G denote
+                                                                                                                          ′
+the set of temporal granularity indices and each granularity       where k ∈ {δ, θ, α, β} and H(k) ∈ RC×D represents the node
+g ∈ G is associated with a one-dimensional convolutional           feature matrix for frequency band k.
+JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021                                                                               4
+
+
+
+
+Fig. 2: Overview of the VMoGE framework for AD biomarker identification and prediction. VMoGE framework first
+extracts node features from multi-channel EEG signals (channels C1–C19) by integrating spatial and frequency band features
+through a 1D-CNN and FFT-based MGT-NFE module. The prior graph structure is constructed using a GMRF, and a variational
+router models the latent distribution to capture structural correlations across multiple frequency bands. Finally, the framework
+performs a weighted summation of four expert networks based on k-th gating probabilities to obtain the final classification
+result.
+
+
+C. GMRF Prior Modeling                                                representations in Z(k) , enabling the model to leverage EEG
+   In this section, we formulate the extracted node features          brain connectivity patterns specific to each frequency band.
+H(k) for each band k as a corresponding band graph G(k) =
+{(E (k) , V (k) ), A(k) } with vertex V (k) = {vi }C
+                                                   i=1 and adja-      D. Variational Graph Convolutional Encoder
+cency matrix A(k) ∈ RC×C . As shown in Fig. 2, our goal is
+to establish a gating network from a variational perspective as          In this work, we design a simple two-layer graph convo-
+the most suitable MoE weighting mechanism. Existing EEG               lutional network (GCN) to encode the node features H(k)
+research has demonstrated that the characteristic differences         from the MGT-NFE of the k-th frequency band into latent
+across different frequency bands in early AD can serve as             representations. Specifically, given the adjacency matrix A(k)
+clinical biomarkers for diagnostic interpretation [6], [57]. To       and node feature matrix H(k) , the output of the GCN encoder
+characterize and encode different band graph features, we in-         is computed as:
+troduce latent variables Z(k) ∈ RC×dz for each band k, where
+dz is the latent dimension. We model each latent band graph                            H̃(k) = GCN(k) (H(k) , Â(k) )               (11)
+as having a prior distribution that follows a Gaussian Markov                                −1/2            −1/2
+Random Field (GMRF). The precision matrix Q(k) ∈ RC×C                 where Â(k) = D(k)           A(k) D(k)       is the symmetrically
+encodes the graph structure and satisfies the Markov property,        normalized adjacency matrix. These GCN embeddings H̃(k) =
+                                         (k)                             (k)   (k)        (k)
+has edges (i, j)(k) ∈ E (k) ⇐⇒ Qij ̸= 0 for all i ̸= j.               [h̃1 , h̃2 , ..., h̃C ] serve as inputs to a node-level variational
+In practice, the precision matrix Q(k) is derived from the            encoder, which approximates the posterior distribution over
+                                                                                                     (k)       (k)
+symmetric normalized graph Laplacian:                                 latent variables Z(k) = [z1 , . . . , zC ]. The graph encoder
+                                                                      produces a mean field Gaussian variational posterior of the
+                                 −1/2               −1/2
+              Q(k) = I − D(k)           A(k) D(k)          ,    (9)   form:
+
+where I ∈ RC×C is the identity matrix and D(k) ∈ RC×C is
+                                                                                                   C
+the degree matrix of A(k) . The structured GMRF prior is then                                      Y      
+                                                                                                            (k)  (k)
+                                                                                                                         
+                                                                                                                            (k)
+                                                                                                                                
+defined as:                                                           qϕ (Z(k) | H(k) , A(k) ) =         N zi | µi , diag (σi )2 ,
+                                                                                                   i=1
+                                                                                                                                   (12)
+            p(Z(k) | A(k) ) = N (Z(k) ; 0, (Q(k) )−1 ).        (10)   where the mean µi
+                                                                                            (k)
+                                                                                                ∈ Rdz and log standard deviation
+                                                                            (k)                                                     (k)
+in which the prior distribution encodes the smoothness as-            log σi ∈ Rdz are computed from the node embedding h̃i
+sumption of the graph structure, where if two nodes are               the k-th expert, the mean and log-variance of the latent variable
+strongly connected through in A(k) should have similar latent         are computed via simple MLP mappings:
+JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021                                                                                        5
+
+
+
+                                                                              A. Predictive Distribution for VMoGE
+          (k)      (k)                   (k)          (k)
+         µi = Wµ h̃i ,              log σi = Wlog σ h̃i ,              (13)     Our predictive distribution over the output label y integrates
+                                                                              over the latent variables from all frequency band experts,
+  To enable gradient-based optimization through stochastic                    weighted by the input-dependent gating mechanism. Formally,
+sampling, we apply the reparameterization trick [58] to obtain:               the predictive distribution can be expressed as:
+
+            (k)      (k)        (k)
+           zi     = µi     + σi       ⊙ ϵi ,    ϵi ∼ N (0, I),         (14)                                       K
+                                                                                                                  X
+                                                                                 p(y | {H(k) , A(k) }K
+                                                                                                     k=1 ; Θ) =         π (k) (H′ )
+where ⊙ denotes element-wise multiplication. This guaran-                                                         k=1
+tees the sampling process to be differentiable and supports
+                                                                                                                       h                 i
+                                                                                              × Eqϕ (Z(k) |H(k) ,A(k) ) p(y | Z(k) ; θk ) ,   (19)
+efficient backpropagation during training. The resulting latent
+                 (k)
+representations zi are then used for downstream tasks, such
+                                                                              where Θ = {{θk }K  k=1 , ϕ} denotes the complete set of model
+as graph-level classification through mean pooling.
+                                                                              parameters, including the expert-specific parameters θk , and
+                                                                              encoder parameters ϕ. Here, gating weights π (k) (H′ ) are
+  IV. VARIATIONAL M IXTURE OF G RAPH -S TRUCTURED                             computed dynamically for each input. Here, the likelihood
+                      E XPERTS                                                term p(y | Z(k) ; θk ) represents the conditional probability
+                                                                              of the class label given the latent representation for the k-th
+   1) Graph-Level Representation and Expert Decoder: For                      expert.
+classification, we aggregate the node-level latent representa-
+tions using mean pooling:
+                                                                              B. Optimizing Variational Structured Inference Lower Bounds
+                             C
+                      (k) 1 X (k)                                                Unlike traditional optimization methods that use lower
+                    z̄ =       z ∈ Rdz                                 (15)
+                          C i=1 i                                             bounds, we incorporate the structured properties of each band’s
+                                                                              relational graph into the variational lower bound objective. We
+where z̄(k) is then passed through an expert-specific decoder                 aim to effectively approximate the latent posterior distributions
+network to produce the k-th expert’s logit output:                            and preserve the structural dependencies embedded in the
+                                                                              graph data. Specifically, we formulate our training objective
+                         ŷ (k) = MLP(z̄(k) ; θk )                     (16)   based on the evidence lower bound (ELBO), which balances
+                                                                              two critical components: predictive performance and latent
+where MLP is a multi-layer perceptron and θk represents the                   regularization. Our goal is to maximize the ELBO defined as:
+learnable parameters of the k-th expert decoder.
+   2) Mixture of Experts with Gating Network: In contrast to                                 h                                        i
+conventional fixed mixture models [59], [60], we propose an                   max LELBO =Eqϕ log p(y | {Z(k) | H(k) }K k=1 , A
+                                                                                                                              (k)
+                                                                                                                                  ; Θ)
+                                                                               Θ
+adaptive gating mechanism grounded in graph structural priors                                                                           
+within the MoE framework, which enables each input sample                           − λ · DKL qϕ (Z(k) | H(k) , A(k) ) ∥ p(Z(k) | A(k) )
+to dynamically modulate the relative contribution of individual                                                                               (20)
+frequency-band experts based on the underlying graph-prior
+information. Formally, the gating coefficients for the k-th                   where the first term encourages accurate prediction by maxi-
+expert are obtained through a softmax operation applied over                  mizing the expected log-likelihood under the variational poste-
+all experts, and can be formulated as:                                        rior qϕ ({Z(k) | H(k) }Kk=1 , A
+                                                                                                              (k)
+                                                                                                                  ). The second term imposes a
+                                                                              Kullback–Leibler (KL) divergence that regularizes the learned
+                                exp(wkT ϕ(H′ ))                               latent representations toward the conditional mixture of GMRF
+                π (k) (H′ ) = PK                                       (17)
+                                         T      ′                             priors p(Z(k) | A(k) ) defined in Eq. 10, ensuring that the latent
+                               j=1 exp(wj ϕ(H ))
+                                                                              space respects the structural dependencies encoded in each
+where ϕ(H′ ) denotes a learnable feature mapping applied to                   band-specific graph. The coefficient λ controls the strength of
+the concatenated input H′ = Concat([H(1) , H(2) , . . . , H(K) ]),            this structural regularization.
+and wk is the parameter vector associated with the k-th                             a) GMRF Expert KL Divergence: To model struc-
+expert. Then, the final prediction is computed as a weighted                  tured prior information from band-specific relational graphs,
+combination of all expert outputs:                                            we construct a structured variational posterior distribution
+                                                                              qϕ (Z(k) | H(k) , A(k) ) and a prior distribution p(Z(k) | A(k) )
+                             K
+                             X                                                to formulate the KL divergence DKL (q(·) || p(·)). We assume
+                     ŷ =          π (k) (H′ ) · ŷ (k)                (18)   that both the variational posterior and the expert-specific prior
+                             k=1                                              follow multivariate Gaussian distributions. Specifically, for
+                                        PK                                    each node j, the variational posterior is defined as:
+where the softmax ensures                   k=1 π
+                                                    (k)
+                                                          (H′ )   =   1 and
+                                                                                                  (k)          (k)      (k)   (k)
+π (k) (H′ ) ∈ [0, 1].                                                                        qϕ (zj ) = N (zj ; µj , Σj ),                    (21)
+JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021                                                                           6
+
+
+
+                              (k)           (k)
+in which Σ(k) = diag([(σ1 )2 , . . . , (σC )2 ]) ∈ RC×C . The       where λ controls the strength of the structural regularization
+expert-specific GMRF prior incorporates the structural infor-       and Lcls is the binary classification loss computed as the
+mation from the adjacency matrix A(k) through a precision           weighted mixture of expert outputs as defined in Eq. (18).
+matrix Q(k) :
+                    (k)             (k)                                                   V. E XPERIMENTS
+                p(zj ) = N (zj ; 0, (Q(k) )−1 )             (22)
+                                                                        To evaluate our proposed VMoGE on two EEG datasets, we
+where Q(k) ∈ RC×C is the precision matrix derived from designed our experiments to address our research questions as
+the graph structure for expert k. The Kullback–Leibler (KL) follows:
+divergence between qϕ (z) and p(z) is given by                          • RQ1: Does the proposed VMoGE framework improve
+                                                                        AUC and accuracy for EEG-based AD and FTD diagnosis
+                        qϕ (z)
+DKL = Eqϕ (z) log                                                         compared to state-of-the-art feature extraction and graph-
+                         p(z)                                             based models?
+                 
+                      1         (k)     1        (k) ⊤  (k) −1      (k) • RQ2: How does integrating multiple frequency-band
+       = Eqϕ (z) − log |Σ | − (z − µ ) (Σ ) (z − µ )
+                      2                 2                                 experts within the MoEs framework influence the dis-
+                                          
+            1                 1                                           criminative power and robustness of EEG-based dementia
+          + log |Q(k) | + z⊤ Q(k) z ,                          (23)       classification?
+            2                 2
+                                                                        • RQ3: Can the incorporation of GMRF priors enhance
+More specifically, we compute the expectations of the                     model stability and generalization across heterogeneous
+quadratic forms. For the quadratic form under qϕ (z), since               datasets, especially under limited-sample conditions?
+z ∼ N (µ(k) , Σ(k) ), we have:                                          • RQ4: Do the expert gating weights learned by VMoGE
+
+            h                                      i                      reflect clinically meaningful associations with cognitive
+                     (k) ⊤     (k) −1
+    Eqϕ (z) (z − µ ) (Σ ) (z − µ )            (k)                         indicators (e.g., MMSE scores) and age-related EEG
+                      h                                     i           spectral changes, thus providing interpretable biomarkers
+            = Eqϕ (z) tr (Σ(k) )−1 (z − µ(k) )(z − µ(k) )⊤                for dementia progression?
+                                                             
+            = tr (Σ(k) )−1 Eqϕ (z) [(z − µ(k) )(z − µ(k) )⊤ ]
+                                                                   A. Data Acquisition
+            = tr (Σ(k) )−1 Σ(k)                                         • Open AD dataset: [61] The EEG dataset contained
+                                                                          resting-state recordings from 88 elderly subjects: 36
+            = tr(I) = C.                                       (24)
+                                                                          AD patients, 23 FTD patients, and 29 healthy controls
+   For the non-centered quadratic form involving the prior                (HC). EEG signals were acquired using a 19-channel
+precision, we obtain                                                      clinical system (10-20 electrode placement) at 500 Hz
+                                                                          during eyes-closed conditions, with recording durations
+  Eqϕ (z) [z⊤ Q(k) z] = Eqϕ (z) [tr(Q(k) zz⊤ )]                           averaging 12-14 minutes per subject. Participants under-
+                               (k)
+                      = tr(Q Eqϕ (z) [zz ])  ⊤                            went Mini-Mental State Examination (MMSE) with mean
+                                                                          scores of 17.75 (AD), 22.17 (FTD), and 30 (Healthy Con-
+                      = tr(Q(k) (Σ(k) + µ(k) (µ(k) )⊤ ))                  trols). The dataset includes both raw and preprocessed
+                      = tr(Q(k) Σ(k) ) + tr(Q(k) µ(k) (µ(k) )⊤ )          data with bandpass filtering (0.5-45 Hz), artifact subspace
+                               (k) (k)         (k) ⊤ (k) (k)
+                      = tr(Q Σ ) + (µ ) Q µ . (25)                        reconstruction, and independent component analysis for
+                                                                          denoising.
+Combining the Eq. 24 and Eq. 25, we obtain the closed-form              • Session-based AD dataset [39] To validate the proposed
+expression for the expert-specific KL divergence of the closed-           method, this study enrolled 123 participants. We excluded
+form expression as:                                                       cases with other secondary causes of dementia or signif-
+                                                                          icant psychiatric history. Patients were categorized into
+                1
+                                                                       three CDR types: CDR=0 (n = 15), CDR=1 (n = 84),
+       DKL =        tr Q(k) Σ(k) + µ(k)⊤ Q(k) µ(k) − C                    and CDR≥2 (n = 24). The AD patients were diag-
+                2
+                                                                         nosed with probable Alzheimer’s disease according to
+                − log Σ(k) + log Q(k) .                        (26)       the NINCDS-ADRDA diagnostic criteria, with a mean
+                                                                          age of 78.0 years (SD=8.6). EEG data were recorded
+                                     (k) (k)
+where the trace term tr(Q Σ ) reflecting the mis-                         using the Nicolet EEG system. Participants underwent
+match between the posterior and the quadratic mean term                   a five-minute adaptation period before the test, followed
+µ (k)⊤ (k) (k)
+       Q µ capturing the deviation of the posterior mean                  by three segments of alternating 10- to 20-second closed-
+from the prior mean.                                                      eye and open-eye periods, along with a light stimulation
+     b) Overall Optimization: In practice, we implement the               test. Electrodes were placed according to the international
+negative ELBO as our overall loss function for the training               10–20 system, totaling 19 leads. The sampling frequency
+stage as follows:                                                         was 256 Hz, with filtering set to high-pass 0.05 Hz and
+                                                                          low-pass 70 Hz, supplemented by a 60 Hz notch filter.
+                       Ltotal = Lcls + λ · LKL .               (27)       Electrode impedance was maintained below 3 kΩ. All
+JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021                                                                                                                               7
+
+
+
+TABLE I: Comparative analysis of VMoGE for two EEG dementia subtype classifications. Performance metrics, including
+the AUC and ACC, are evaluated under Open AD and Session-based settings for three classification tasks. Best results are
+highlighted in bold.
+Model                            HC vs FTD / CDR=0 vs CDR=1                             HC vs AD / CDR=0 vs CDR=2                             FTD vs AD / CDR=1 vs CDR=2
+                                Open AD               Session-based AD                 Open AD              Session-based AD                Open AD                Session-based AD
+                          AUC             ACC        AUC           ACC           AUC             ACC        AUC           ACC           AUC           ACC         AUC           ACC
+EEGNet [62]            0.64 ± 0.25   0.62 ± 0.17   0.53 ± 0.04   0.49 ± 0.09   0.81 ± 0.11   0.76 ± 0.13 0.52 ± 0.15    0.54 ± 0.12   0.71 ± 0.19 0.69 ± 0.13   0.59 ± 0.04   0.57 ± 0.02
+EEGViT [63]            0.64 ± 0.20   0.56 ± 0.15   0.45 ± 0.10   0.41 ± 0.08   0.83 ± 0.14   0.76 ± 0.17 0.60 ± 0.14    0.58 ± 0.04   0.68 ± 0.18 0.61 ± 0.11   0.58 ± 0.12   0.53 ± 0.08
+DTCA-Net [64]          0.55 ± 0.08   0.63 ± 0.10   0.46 ± 0.15   0.56 ± 0.12   0.83 ± 0.10   0.74 ± 0.08 0.62 ± 0.09    0.62 ± 0.07   0.62 ± 0.23 0.58 ± 0.19   0.50 ± 0.06   0.47 ± 0.09
+Deformer [65]          0.75 ± 0.14   0.72 ± 0.12   0.41 ± 0.13   0.49 ± 0.06   0.84 ± 0.18   0.80 ± 0.13 0.59 ± 0.16    0.61 ± 0.14   0.68 ± 0.20 0.61 ± 0.15   0.59 ± 0.10   0.62 ± 0.07
+ADformer [37]          0.70 ± 0.21   0.61 ± 0.17   0.47 ± 0.06   0.53 ± 0.10   0.85 ± 0.23   0.78 ± 0.17 0.45 ± 0.15    0.44 ± 0.08   0.77 ± 0.14 0.74 ± 0.15   0.43 ± 0.10   0.41 ± 0.11
+MGformer [56]          0.64 ± 0.18   0.53 ± 0.17   0.54 ± 0.18   0.54 ± 0.13   0.72 ± 0.15   0.72 ± 0.15 0.72 ± 0.10    0.67 ± 0.09   0.67 ± 0.13 0.56 ± 0.11   0.57 ± 0.10   0.57 ± 0.07
+GraphMoRE [66]         0.63 ± 0.10   0.61 ± 0.05   0.52 ± 0.19   0.48 ± 0.16   0.85 ± 0.07   0.76 ± 0.03 0.53 ± 0.12    0.60 ± 0.10   0.70 ± 0.20 0.69 ± 0.04   0.49 ± 0.13   0.52 ± 0.15
+MoGE [67]              0.60 ± 0.18   0.46 ± 0.02   0.39 ± 0.10   0.50 ± 0.00   0.85 ± 0.03   0.56 ± 0.07 0.52 ± 0.13    0.52 ± 0.04   0.57 ± 0.15 0.48 ± 0.04   0.43 ± 0.07   0.50 ± 0.00
+Mowst [68]             0.64 ± 0.23   0.59 ± 0.18   0.52 ± 0.11   0.49 ± 0.06   0.84 ± 0.17   0.78 ± 0.14 0.64 ± 0.09    0.62 ± 0.02   0.72 ± 0.10 0.63 ± 0.15   0.50 ± 0.12   0.52 ± 0.03
+GraphDIVE [28]         0.42 ± 0.15   0.47 ± 0.12   0.53 ± 0.14   0.48 ± 0.09   0.61 ± 0.19   0.56 ± 0.16 0.68 ± 0.16    0.64 ± 0.09   0.62 ± 0.12 0.63 ± 0.12   0.58 ± 0.11   0.55 ± 0.07
+VMoGE (w/o MGT-NFE) 0.57 ± 0.24 0.56 ± 0.16 0.54 ± 0.07 0.54 ± 0.08 0.73 ± 0.09 0.69 ± 0.08 0.74 ± 0.08 0.71 ± 0.06 0.61 ± 0.25 0.60 ± 0.18 0.58 ± 0.12 0.58 ± 0.08
+VMoGE               0.78 ± 0.12 0.74 ± 0.12 0.67 ± 0.07 0.59 ± 0.08 0.89 ± 0.07 0.83 ± 0.09 0.73 ± 0.10 0.72 ± 0.09 0.79 ± 0.07 0.70 ± 0.08 0.65 ± 0.11 0.61 ± 0.13
+
+
+
+
+        signals used the earlobe as the reference point. Tech-                                         TABLE II: Temporal granularity configurations.
+        nicians monitored subjects’ alertness throughout testing,                                                      Configuration        Granularities
+        prompting them to stay awake when drowsiness signs                                                             Fine                 [0.02, 0.03, 0.04]
+                                                                                                                       Medium               [0.04, 0.06, 0.08]
+        appeared. After manual review, three 10-second segments                                                        Coarse               [0.08, 0.10, 0.12]
+        free of significant noise were extracted from the closed-                                                      Mixed-1              [0.02, 0.06, 0.10]
+        eye phase of the raw EEG data for subsequent data                                                              Mixed-2              [0.03, 0.07, 0.11]
+                                                                                                                       Single-Fine          [0.02]
+        collection.                                                                                                    Single-Medium        [0.06]
+                                                                                                                       Single-Coarse        [0.10]
+B. Baseline Methods
+   In this work, we employ two diverse datasets using five-                                  Under the Curve (AUC) and Accuracy (ACC), which respec-
+fold cross-validation and compare our proposed VMoGE                                         tively reflect discriminative capability and overall performance
+against a wide range of baseline approaches, covering tradi-                                 for EEG classification. Conventional CNN or Transformer-
+tional EEG feature extraction models, transformer-based deep                                 based EEG feature extraction models (e.g., EEGNet, EEGViT,
+learning methods, as well as GNN models combined with                                        DTCA-Net, Deformer, ADformer, MGFormer) achieved lim-
+MoE mechanisms. For EEG signal classification, traditional                                   ited performance in most tasks. For instance, in the HC vs
+methods include EEGNet and EEGViT, where the former                                          AD with Open AD dataset, Deformer and ADformer achieved
+employs a lightweight convolutional neural network design to                                 AUCs of 0.84 and 0.85, respectively, whereas our VMoGE
+extract spatiotemporal and spectral features, while the latter                               reached 0.89, corresponding to an improvement of +4.7%.
+introduces the vision transformer architecture to capture long-                              In the HC vs FTD task, the best baseline (Deformer, AUC
+range dependencies in EEG sequences. In addition, methods                                    = 0.75) was still lower than our VMoGE (AUC = 0.78),
+such as DTCA-Net, Deformer, and ADformer are represen-                                       with an improvement of +4%. Moreover, in the Session-based
+tative transformer-based frameworks that focus on channel                                    FTD vs AD classification, conventional methods yielded poor
+selection and multi-scale feature modeling, and have been                                    performance (best AUC = 0.59 to 0.62), while our method
+widely applied to AD-related EEG analysis. Meanwhile, MG-                                    achieved 0.65, reflecting an improvement of approximately
+former leverages a multi-granularity encoder design to extract                               +8% to 10%.
+temporal patterns across frequency bands, thereby enhancing
+                                                                                                2) Comparison With Graph-MoE Models: Among GNNs
+the discriminative power of node representations within brain
+                                                                                             incorporating MoE mechanisms (e.g., GraphMoRE, MoGE,
+networks.
+                                                                                             Mowst, GraphDIVE), some methods performed well on indi-
+   For graph-based comparative methods, we incorporated
+                                                                                             vidual tasks but lacked robustness across datasets. For exam-
+several Graph-MoE models, including GraphMoRE, MoGE,
+                                                                                             ple, MoGE obtained an AUC of 0.85 in HC vs AD (Open AD
+Mowst, and GraphDIVE. Additionally, we compare against
+                                                                                             dataset), but its performance dropped to an ACC of only 0.50
+recent graph neural network models, combined graph neural
+                                                                                             on the Session-based AD. In contrast, our VMoGE achieved
+networks with expert routing strategies to effectively model the
+                                                                                             AUC = 0.89 and ACC = 0.83, improving over MoGE by +4.7%
+heterogeneity of brain networks, and demonstrate robustness
+                                                                                             (AUC) and +48% (ACC). Similarly, in FTD vs AD (Open
+in cross-subject classification tasks.
+                                                                                             dataset), the best baseline achieved AUC = 0.72, whereas our
+                                                                                             method reached 0.79, yielding an improvement of +9.7%.
+C. Ablation study for MGT-NFE using different granularity                                       In overall comparison, VMoGE achieved AUC = 0.78,
+components for EEG feature extraction.                                                       ACC = 0.74 in HC vs FTD (Open dataset), representing
+  1) Comparison With EEG Feature Extraction Models:                                          improvements of +21.8% (AUC) and +19.4% (ACC) over
+Table. I presents the VMoGE performance, including Area                                      EEGNet. In HC vs AD (Session-based AD), our method
+JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021                                                                                    8
+
+
+
+
+       Fig. 3: Ablation study of MGT-NFE module using different granularity components for EEG feature extraction.
+
+TABLE III: The λ value ablation study results showing AUC scores across different tasks and datasets. The highlighted red
+values indicate the highest AUC, and the second best values are highlighted blue values for each prior type within each task.
+                                                                   Open AD
+                                       HC vs FTD                                 HC vs AD                            FTD vs AD
+                           0.1     0.2    0.6    0.8        1.0    0.1     0.2     0.6    0.8    1.0    0.1    0.2      0.6    0.8    1.0
+  No Prior                 0.76    0.68   0.67    0.60      0.62   0.83   0.78     0.75   0.70   0.77   0.68   0.66     0.68   0.61   0.79
+  GMRF (L + λI)            0.73    0.72   0.68    0.66      0.70   0.77   0.78     0.81   0.63   0.74   0.69   0.75     0.76   0.71   0.60
+  GMRF (Lnorm + λI)        0.74    0.71   0.69    0.67      0.47   0.80   0.78     0.83   0.72   0.74   0.74   0.70     0.67   0.68   0.72
+  GMRF                     0.77    0.58   0.69    0.66      0.65   0.78   0.77     0.78   0.77   0.78   0.70   0.68     0.67   0.84   0.74
+                                                                Session-based AD
+                                   CDR=0 vs CDR=1                          CDR=0 vs CDR=2                      CDR=1 vs CDR=2
+                           0.1     0.2  0.6   0.8           1.0     0.1     0.2  0.6  0.8        1.0    0.1    0.2  0.6   0.8         1.0
+  No Prior                 0.66    0.65   0.66    0.67      0.61   0.66   0.73     0.71   0.77   0.68   0.59   0.60     0.47   0.58   0.56
+  GMRF (L + λI)            0.55    0.61   0.63    0.73      0.66   0.70   0.72     0.71   0.67   0.64   0.59   0.59     0.59   0.61   0.62
+  GMRF (Lnorm + λI)        0.69    0.65   0.64    0.60      0.70   0.73   0.75     0.70   0.70   0.75   0.56   0.57     0.59   0.63   0.56
+  GMRF                     0.64    0.66   0.64    0.61      0.59   0.72   0.76     0.81   0.67   0.79   0.56   0.47     0.56   0.48   0.52
+
+
+
+achieved AUC = 0.89, ACC = 0.83, outperforming EEGNet                     various temporal granularity configurations, as detailed in
+(AUC = 0.81, ACC = 0.76) by +9.9% and +9.2%, respectively.                Table II, and evaluated classification performance across two
+In the most challenging FTD vs AD classification, our method              datasets as shown in Fig. 3. Each configuration corresponds
+consistently improved AUC and ACC by approximately +8%                    to a distinct temporal resolution. The Fine setting, defined by
+to 10% and +6 to +8%, respectively, compared with the best                temporal intervals of 0.02, 0.03, and 0.04 seconds, is designed
+performing baseline.                                                      to capture short-term neural events. The Medium configuration,
+                                                                          consisting of time windows of 0.04, 0.06, and 0.08 seconds,
+D. Ablation study for MGT-NFE using different granularity                 provides a balance between temporal stability and discrim-
+components for EEG feature extraction.                                    inability. In contrast, the Coarse configuration, with intervals
+                                                                          of 0.08, 0.10, and 0.12 seconds, emphasizes long-term rhyth-
+  1) Granularities Module Ablation: We assessed the contri-
+                                                                          mic dependencies in EEG dynamics. Furthermore, the Mixed-1
+bution of the MGT-NFE layer to EEG feature extraction under
+JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021                                                                                   9
+
+
+
+and Mixed-2 configurations integrate multiple temporal scales
+to model cross-frequency interactions. Single-scale variants,
+including Single-Fine, Single-Medium, and Single-Coarse, are
+employed as baselines to isolate the effects of individual
+temporal resolutions.
+   As shown in Fig. 3 (a), on the Open AD dataset, the Medium
+granularity achieved the highest F1-score of 0.860 in the HC
+vs AD classification task, with an overall mean of 0.783.
+This indicates that the medium-scale temporal range of 0.04
+to 0.08 seconds effectively captures stable and representative
+EEG dynamics associated with cognitive decline. For the HC
+vs FTD and FTD vs AD tasks, the Mixed-2 configuration,
+defined by time windows of 0.03, 0.07, and 0.11 seconds, and
+the Single-Fine configuration, using a 0.02-second window,
+yielded the best performance (F1 ≈ 0.589–0.783). These
+results suggest that incorporating both fine- and coarse-scale
+temporal cues enhances cross-scale discriminability among            Fig. 4: Box plots showing the distribution of mixture weights
+dementia subtypes. In the Session-based dataset in Fig. 3 (b),       across different bands under three subtyping comparison con-
+the Coarse granularity, which applies time windows between           ditions. The weights represent the contribution of different
+0.08 and 0.12 seconds, achieved the highest F1-score of 0.712        components in distinguishing between HC, FTD, and AD in
+in the CDR=0 vs CDR=2 task. This finding indicates that              the Open AD dataset in Fig. (a), and Session-based AD staging
+longer temporal windows are more effective for capturing             based on CDR=0, CDR=1, and CDR=2 in Fig.(b).
+extended cognitive progression patterns, particularly under
+small-sample and high-variance conditions.
+                                                                     spatial structure.
+   2) Sensitivity Analysis for GMRF Priors Influence: To
+investigate the impact of the regularization parameter λ on the      TABLE IV: Ablation study results comparison: AUC and ACC
+prior of GMRF. We compare two GMRF prior specifications,             across different tasks.
+the no-prior baseline and the structured prior defined in Eq. 9,
+                                                                                                  Open AD
+with analysis focusing on precision matrices of the form
+                                                                                 HC vs FTD             HC vs AD               FTD vs AD
+L + λI and Lnorm + λI. Table III presents the AUC scores             Model
+                                                                                AUC       ACC       AUC       ACC            AUC       ACC
+for λ values ranging from 0.1 to 1.0 across three types of           S-E (δ) 0.78±0.16 0.63±0.17 0.85±0.14 0.65±0.17      0.78±0.18 0.54±0.12
+                                                                     S-E (θ) 0.69±0.17 0.57±0.09 0.89±0.10 0.73±0.21      0.85±0.16 0.63±0.10
+binary classification tasks on both Open and Session-based           S-E (α) 0.74±0.09 0.54±0.14 0.80±0.18 0.57±0.13      0.79±0.20 0.74±0.15
+AD datasets, with red highlighting indicating the optimal λ          S-E (β) 0.67±0.20 0.54±0.09 0.76±0.16 0.60±0.16      0.74±0.13 0.52±0.13
+                                                                     VMoGE 0.77±0.08 0.65±0.15   0.92±0.10 0.78±0.12      0.87±0.12 0.70±0.08
+value for each prior type within each task. We report that                                      Session-based
+no prior GMRF achieves optimal performance at small λ                         CDR=0 vs CDR=1      CDR=0 vs CDR=2           CDR=1 vs CDR=2
+                                                                     Model
+values on the Open dataset (AUC = 0.83 at λ = 0.1 for                           AUC       ACC       AUC       ACC            AUC       ACC
+                                                                     S-E (δ) 0.66±0.11 0.58±0.07 0.78±0.11 0.57±0.09      0.68±0.10 0.58±0.06
+HC vs AD), indicating that weaker regularization benefits            S-E (θ) 0.59±0.08 0.47±0.06 0.78±0.06 0.64±0.08      0.52±0.08 0.54±0.08
+data-driven learning when spatial structure is not enforced.         S-E (α) 0.66±0.06 0.56±0.05 0.82±0.06 0.68±0.11      0.63±0.09 0.50±0.00
+                                                                     S-E (β) 0.64±0.10 0.51±0.07 0.74±0.16 0.53±0.10      0.55±0.12 0.54±0.12
+Conversely, GMRF methods exhibit distinct optimal ranges             VMoGE 0.69±0.11 0.60±0.16 0.72±0.09 0.62±0.12        0.68±0.09 0.60±0.07
+such as standard GMRF (L + λI) performs best at moderate             S-E: Single-Expert using individual frequency band networks.
+values (λ = 0.2 to 0.6), normalized GMRF ( Lnorm + λI)
+achieves the highest overall score (AUC = 0.83 at λ = 0.6 for           3) Single-Expert and Full-Expert Ablation: In this section,
+HC vs AD), and pure GMRF excels at both extremes, reaching           we observe that flexible prior gating facilitates optimal allo-
+the highest score with 0.84 at λ = 0.8 for FTP vs AD across          cation of frequency band expert outputs. In the experiments
+all configurations.                                                  presented in Table IV, we compare the Single-Expert (S-
+   On the Session-based dataset, GMRF methods signifi-               E) model, which uses only a single frequency band expert,
+cantly improved classification performance for CDR=0 versus          with the Full-Expert (VMoGE) model, which integrates all
+CDR=2 (pure GMRF: 0.81 vs no prior: 0.77) at λ = 0.6 and             frequency bands. In the Open AD, the performance of S-
+λ = 0.8. Performance progressively increased as λ increased          E models varied substantially across frequency bands. For
+from 0.1 to 0.6, suggesting that spatial regularization provides     example, δ (AUC = 0.85) and θ (AUC = 0.89) showed
+greater benefits for datasets with limited sample sizes. More        advantages in the HC vs AD task, while α achieved the highest
+broadly, the optimal λ values reflect the distinct characteristics   accuracy in the FTD vs AD task (ACC = 0.74). In contrast,
+of different datasets: small values (0.1-0.2) are suitable for       β generally underperformed, suggesting that high-frequency
+FTD and AD with larger samples, moderate values (0.6) for            activity alone is insufficient for robust classification. In the
+balanced scenarios with clear spatial structure, and large values    Session-based dataset, the α band performed best in HC vs
+(0.8-1.0) for limited samples requiring stronger graph prior         AD (AUC = 0.82), but overall accuracies were low and task-
+constraints. These results indicate that spatial priors provide      dependent fluctuations indicated the limitations of single-band
+substantial gains when EEG brain networks exhibit inherent           experts in heterogeneous clinical data.
+JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021                                                                      10
+
+
+
+
+  (a) Age Comparisons
+                     HC vs FTD                               HC vs AD                                  FTD vs AD
+
+
+
+
+  (b) MMSE Comparisons
+                        HC vs FTD                            HC vs AD                                   FTD vs AD
+
+
+
+
+Fig. 5: The expert gating weight analysis for different dementia indicator analysis. The top row shows age-based comparisons,
+and the bottom row shows MMSE-based comparisons. Each column represents different pairwise comparisons between HC
+and FTD, HC and AD, and FTD and AD.
+
+
+                                                                 For cross-group discrimination in Open AD tasks, the model
+                                                                 assigned markedly higher weights to the δ and β-bands in HC
+                                                                 vs AD group, while reducing the contribution of the α-band.
+                                                                 This aligns with the well-established pathological slowing in
+                                                                 AD, characterized by enhanced slow-wave (δ/θ) activity and
+                                                                 attenuated α/β rhythms. In contrast, for HC vs FTD group,
+                                                                 the α-band dominated the gating weights that highlight the
+                                                                 diagnostic relevance of α-rhythm alterations in distinguishing
+                                                                 frontotemporal dementia from normal aging. When comparing
+                                                                 FTD vs AD, the gating weights were more balanced, with δ, β,
+                                                                 and α receiving relatively higher contributions, indicating that
+                                                                 a combination of slow-wave and high-frequency abnormalities
+Fig. 6: Diagram of electrode spatial positions and correspond-   best captures the differences between these two dementia
+ing brain regions in the EEG 10–20 system [69], where            subtypes.
+different colors represent distinct cortical areas.                 For disease progression analysis in Session-based AD tasks,
+                                                                 the weight distribution demonstrated a different pattern. As
+                                                                 the disease progressed to CDR=2, the θ and α-bands exhibited
+   By contrast, VMoGE exhibited more stable and superior         further elevated weights, reflecting the progressive prominence
+performance across both datasets. In the Open AD dataset, it     of slow-wave activity, while these bands displayed greater
+achieved the best results in HC vs AD (AUC = 0.92, ACC           variability, indicating that in some individuals, high-frequency
+= 0.78) and maintained strong performance in FTD vs AD           abnormalities remained pronounced. Overall, across the pro-
+(AUC = 0.87). In the Session-based AD, VMoGE produced            gression from CDR=0 to CDR=2, the model gradually shifted
+balanced outcomes (AUC = 0.69, 0.72, and 0.68, ACC ≈             from balanced reliance on multiple bands toward emphasizing
+0.60), demonstrating robustness against heterogeneous and        slow-wave and β-band signals, consistent with the clinical
+small sample EEG data size.                                      trajectory from mild to severe dementia.
+
+                VI. E XPLAINABLE D IAGNOSIS                      B. Effects of Cognitive Function and Age on Expert Weight
+A. Gating Weights for Biomarker Analysis                         Allocation
+  In Fig. 4, we further examine the dynamic allocation of          In this section, we further investigate the interpretability
+expert weights across frequency bands in the VMoGE model.        of the VMoGE in AD diagnosis by analyzing the associa-
+JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021                                                                          11
+
+
+
+
+Fig. 7: Combined visualization of topographical maps (upper) and heatmaps (lower), showing spatial distributions and activation
+patterns across different conditions.
+
+
+tions between the gating weights of frequency band-specific         in δ waves observed in AD patients, suggesting that δ waves
+experts and clinical variables (e.g., age and MMSE scores) as       become a more prominent neurophysiological marker in the
+presented in Fig. 5. In analyzing the Open AD dataset, the          late stages of the disease. In contrast, the β-band demonstrated
+influence of age on expert weight allocation, we found that no      a potential value in early diagnosis (r = 0.303, p = 0.0404)
+frequency bands demonstrated significant correlations in the        suggesting that patients with better cognitive function retained
+HC vs FTD group, indicating that the EEG features learned by        more β wave characteristics.
+the model are relatively stable and unaffected by age factors. In
+HC vs AD comparison, the α-band showed higher diagnostic            C. Gating Weights for Spatial Brain Attribute Activation Anal-
+value in elderly subjects, as evidenced by increased discrimi-      ysis
+native weights assigned by the model (r = 0.300, p = 0.0431).
+                                                                       Following prior research [69], [70], we aligned the channel
+This likely reflects the diagnostic contrast between preserved
+                                                                    clustering of electrodes’ spatial regions across major cortical
+α characteristics in normal aging and AD-related pathological
+                                                                    regions, including Frontal Lobe (FL), Central Region (C),
+changes (e.g., α slowing and desynchronization). In FTD vs
+                                                                    Occipital Lobe (OL), Parietal Lobe (PL), and Temporal Lobe
+AD, the β-band exhibited a significant negative correlation
+                                                                    (TL), as shown in Fig. 6. This alignment enables us to analyze
+(r = −0.313, p = 0.0341), indicating that it possesses greater
+                                                                    and compare the spatial gating weights of different bands
+discriminative capacity in younger patients.
+                                                                    according to their spatial heatmaps, as illustrated in Fig. 7 (A)
+  To better measure cognitive function using MMSE scores,           and topographical maps in Fig. 7 (B). In the Open AD dataset,
+we observe that in HC vs AD classification, the δ-band              the HC vs AD comparison revealed that the α and θ-bands
+exhibited a significant negative correlation (r = −0.336,           exhibited the highest discriminative weights (approximately
+p = 0.0226), indicating that patients with poorer cognitive         0.35-0.40) in the occipital and parietal regions, reflecting the
+function showed higher discriminative value in this frequency       characteristic posterior cognitive network impairment and α-
+band. This finding is consistent with the pathological increase     rhythm slowing in AD. For HC vs FTD classification, the β-
+JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021                                                                                    12
+
+
+
+band dominated the weight allocation and was concentrated in      differentiation between FTD and AD primarily relied on β-
+central and occipital regions (C3, Cz, C4, O1, O2), revealing     band activity in temporal and central regions, highlighting the
+the diagnostic value of high-frequency oscillatory abnormal-      central role of frontotemporal networks in FTD pathology [80],
+ities. The FTD vs AD comparison demonstrated that delta           [81]. Session-based analysis further demonstrated that as CDR
+waves were prominent in frontal and central regions while beta    severity increased from 0 to 2, β-band abnormalities in central
+waves were pronounced in lateral temporal positions, with this    (C3, Cz, C4) and temporal (T7/T8) regions progressively
+multi-band, multi-region complementary pattern effectively        expanded and intensified, suggesting these regions serve as
+distinguishing the pathological signatures of both diseases.      sensitive indicators for tracking disease progression.
+   In the Session-based AD, disease progression from CDR=0           By integrating frequency-specific GMRF priors into the
+to CDR=2 was accompanied by the spatial expansion of brain        variational inference framework, this study successfully cap-
+region activation. The activation weights of θ and α-bands        tured the structured dependencies of EEG brain networks.
+gradually diffused from posterior to anterior regions, with       Ablation experiments shown in Table III demonstrated that
+central and temporal regions showing intensity increases from     GMRF priors yielded significant performance improvements
+0.20 to 0.35-0.40 in the θ band. Topographical maps illustrated   on the sample-limited session-based dataset, with AUC in-
+the C3, Cz, C4, T7, T8 regions transitioning from blue to         creasing from 0.77 (CDR=0 vs CDR=2, λ = 0.8) to 0.81
+orange-red, and the β-band exhibited progressive enhancement      (CDR=0 vs CDR=2, λ = 0.6). This confirmed the regulariza-
+in central regions.                                               tion benefits of graph-structured priors in small-sample sce-
+                                                                  narios. The task-dependent optimal λ values also reflected the
+                                                                  heterogeneity of spatial smoothness in brain networks across
+D. Discussion
+                                                                  different pathological states, with FTD/AD tasks favored λ
+   In this section, we further discuss VMoGE across three         ranging from 0.2 to 0.8, while CDR=1/CDR=2 staging tasks
+dimensions: (1) frequency-specific biomarkers in EEG that         favored λ ranging from 0.6 to 0.8.
+reveal distinct pathophysiological signatures, (2) spatial pat-
+terns, and (3) neurophysiological mechanisms. We first discuss
+                                                                                           VII. C ONCLUSIONS
+how the proposed VMoGE model revealed unique patholog-
+ical signatures of AD and FTD across different frequency             In this paper, we propose the VMoGE framework, a vari-
+bands. Experimental results demonstrated that the δ and θ         ational mixture of graph neural experts framework that in-
+bands received the highest expert weights in the HC vs            tegrates an MGT-NFE extractor capable of capturing multi-
+AD classification in Fig. 4. This finding aligns with the         scale EEG features with GMRF-based structural graph priors.
+characteristic pathological slowing observed in AD patients,      Through structured variational inference, the model dynam-
+such as enhanced slow-wave activity (δ/θ) and attenuated          ically allocates expert weights, enabling adaptive integration
+fast-wave activity (α/β) [57], [71], [72]. Notably, in patients   of multi-frequency band information to achieve precise de-
+with poorer cognitive function, the δ band exhibited stronger     mentia diagnosis based on frequency-specific EEG biomark-
+discriminative value (r = −0.336, p = 0.0226), supporting         ers. Furthermore, VMoGE reveals critical neurophysiological
+the clinical significance of delta waves as neurophysiological    insights across two AD diagnostic datasets. These frequency-
+markers in late-stage AD [57], [73], [74]. In contrast, the       specific and spatially-localized biomarkers not only align
+α band dominated expert weight allocation in the HC vs            closely with established neuropathological mechanisms but
+FTD classification, while the β-band played a critical role in    also demonstrate the effectiveness of the structured variational
+distinguishing FTD from AD. This finding is consistent with       inference framework in capturing brain network heterogeneity.
+prior research indicating that FTD exhibits distinct spectral     This work provides a deep learning solution that combines
+features from AD, particularly high-frequency abnormalities       both accuracy and clinical interpretability for early dementia
+in frontotemporal networks [75]. Notably, the β-band demon-       screening and disease subtype differentiation.
+strated stronger discriminative capacity in younger patients
+(r = −0.313, p = 0.0341), suggesting its potential as a
+                                                                                                R EFERENCES
+biomarker for early-onset dementia. Furthermore, the β-band
+progressive changes identified by VMoGE in central (C3, Cz,        [1] “2025 alzheimer’s disease facts and figures,” Alzheimer’s & Dementia,
+C4) and temporal regions across CDR severity levels represent          vol. 21, p. e70235, Apr. 2025.
+                                                                   [2] Ministry of Health and Welfare, Taiwan, “Mohw announces latest
+a critical early marker [8], [76], [77].                               epidemiological survey results on dementia in taiwan communities.”
+   At the spatial level, Fig. 7 revealed distinct patterns of          https://www.mohw.gov.tw/cp-16-78102-1.html, 2024. Accessed: 2025-
+region-specific alterations across different dementia types. In        08-30.
+                                                                   [3] N. D. Weder, R. Aziz, K. Wilkins, and R. R. Tampi, “Frontotemporal
+the HC vs AD comparison, the most prominent differences                dementias: a review,” Annals of general psychiatry, vol. 6, no. 1, p. 15,
+emerged in the α and θ bands within occipital and parietal re-         2007.
+gions, reflecting early impairment of posterior brain networks     [4] D. Bathgate, J. Snowden, A. Varma, A. Blackshaw, and D. Neary,
+                                                                       “Behaviour in frontotemporal dementia, alzheimer’s disease and vascular
+associated with memory and visuospatial processing in AD               dementia,” Acta neurológica scandinavica, vol. 103, no. 6, pp. 367–378,
+patients [78], [79]. This posterior-dominant pattern of alter-         2001.
+ation corresponds to the typical pathological progression of       [5] N. Lin, J. Gao, C. Mao, H. Sun, Q. Lu, and L. Cui, “Differences
+                                                                       in multimodal electroencephalogram and clinical correlations between
+AD, which begins in medial temporal structures and gradually           early-onset alzheimer’s disease and frontotemporal dementia,” Frontiers
+spreads to the posterior association cortex [74]. By contrast,         in Neuroscience, vol. 15, p. 687053, 2021.
+JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021                                                                                                     13
+
+
+
+ [6] B. Jiao, R. Li, H. Zhou, K. Qing, H. Liu, H. Pan, Y. Lei, W. Fu, X. Wang,   [27] Y. Shi, Y. Wang, W. Liang, J. Zhang, P. Dong, and A. Li, “Mixture of
+     X. Xiao, et al., “Neural biomarker diagnosis and prediction to mild              experts for node classification,” in Proceedings of the 2025 International
+     cognitive impairment and alzheimer’s disease using eeg technology,”              Conference on Multimedia Retrieval, pp. 1154–1162, 2025.
+     Alzheimer’s research & therapy, vol. 15, no. 1, p. 32, 2023.                [28] F. Hu, L. Wang, S. Wu, L. Wang, and T. Tan, “Graph classification by
+ [7] C. A. Chetty, H. Bhardwaj, G. P. Kumar, T. Devanand, C. A. Sekhar,               mixture of diverse experts,” arXiv preprint arXiv:2103.15622, 2021.
+     T. Aktürk, I. Kiyi, G. Yener, B. Güntekin, J. Joseph, et al., “Eeg          [29] V. Y. Shirasuna, E. Soares, E. V. Brazil, K. F. A. Gutierrez, R. Cerqueira,
+     biomarkers in alzheimer’s and prodromal alzheimer’s: A comprehensive             S. Takeda, and A. Kishimoto, “A multi-view mixture-of-experts based
+     analysis of spectral and connectivity features,” Alzheimer’s Research &          on language and graphs for molecular properties prediction,” in ICML
+     Therapy, vol. 16, no. 1, p. 236, 2024.                                           2024 AI for Science Workshop, 2024.
+ [8] W. Khan, M. S. Khan, S. N. Qasem, W. Ghaban, F. Saeed, M. Hanif,            [30] X. Huang, W. Chen, B. Hu, and Z. Mao, “Graph mixture of experts and
+     and J. Ahmad, “An explainable and efficient deep learning framework              memory-augmented routers for multivariate time series anomaly detec-
+     for eeg-based diagnosis of alzheimer’s and frontotemporal dementia,”             tion,” in Proceedings of the AAAI Conference on Artificial Intelligence,
+     Frontiers in Medicine, vol. 12, p. 1590201, 2025.                                vol. 39, pp. 17476–17484, 2025.
+ [9] K. Rezaee and M. Zhu, “Diagnose alzheimer’s disease and mild cogni-         [31] F. Del Pup, A. Zanola, L. F. Tshimanga, A. Bertoldo, and M. Atzori,
+     tive impairment using deep cascadenet and handcrafted features from eeg          “The more, the better? evaluating the role of eeg preprocessing for
+     signals,” Biomedical Signal Processing and Control, vol. 99, p. 106895,          deep learning applications.,” IEEE Transactions on Neural Systems and
+     2025.                                                                            Rehabilitation Engineering, 2025.
+[10] B. Cansiz, H. ILHAN, N. Aydin, and G. Serbes, “Olfactory eeg                [32] S. Rezaei, F. Asadirad, A. Motamedi, M. Kamran, F. Parsa, H. Samimi,
+     based alzheimer disease classification through transformer based feature         P. Ghannadikhosh, M. Zahmatyar, S. A. Hosseinzadeh, and H. Arabi,
+     fusion with tunable q-factor wavelet coefficient mapping,” Frontiers in          “Future of alzheimer’s detection: Advancing diagnostic accuracy
+     Neuroscience, vol. 19, p. 1638922, 2025.                                         through the integration of qeeg and artificial intelligence,” NeuroImage,
+[11] S. Latif, N. U. Islam, Z. Uddin, K. M. Cheema, S. S. Ahmed, and                  p. 121373, 2025.
+     M. F. Khan, “Deep ensemble learning with transformer models for             [33] M. Lopes, R. Cassani, and T. H. Falk, “Using cnn saliency maps and
+     enhanced alzheimer’s disease detection,” Scientific Reports, vol. 15,            eeg modulation spectra for improved and more interpretable machine
+     no. 1, p. 24720, 2025.                                                           learning-based alzheimer’s disease diagnosis,” Computational Intelli-
+[12] M. Şeker and M. S. Özerdem, “Investigating convolutional and                    gence and Neuroscience, vol. 2023, no. 1, p. 3198066, 2023.
+     transformer-based models for classifying mild cognitive impairment          [34] W. Xia, R. Zhang, X. Zhang, and M. Usman, “A novel method for
+     using 2d spectral images of resting-state eeg,” Biomedical Signal Pro-           diagnosing alzheimer’s disease using deep pyramid cnn based on eeg
+     cessing and Control, vol. 105, p. 107667, 2025.                                  signals,” Heliyon, vol. 9, no. 4, 2023.
+[13] A. Miltiadous, E. Gionanidis, K. D. Tzimourta, N. Giannakeas, and           [35] A. Kowshiga, T. Pavithra, V. Priyanka, et al., “Deep learning into
+     A. T. Tzallas, “Dice-net: a novel convolution-transformer architecture           the future: Hybrid cnn-rnn for early detection of alzheimer’s disease,”
+     for alzheimer detection in eeg signals,” IEEe Access, vol. 11, pp. 71840–        in 2024 5th International Conference on Electronics and Sustainable
+     71858, 2023.                                                                     Communication Systems (ICESC), pp. 940–946, IEEE, 2024.
+[14] Y. Wang, N. Huang, N. Mammone, M. Cecchi, and X. Zhang, “Lead:
+                                                                                 [36] J. Sreedhar, U. Pattapu, M. B. Reddy, S. Dara, K. K. Agrawal, P. Ku-
+     Large foundation model for eeg-based alzheimer’s disease detection,”
+                                                                                      mar, J. Ali, and A. Alkhayyat, “Fuzzy rnn model-based classification
+     arXiv preprint arXiv:2502.01678, 2025.
+                                                                                      of alzheimer’s disease and dementia using brain eeg signals,” IEEE
+[15] D. Zhang and C. Zhu, “A dual path graph neural network framework for
+                                                                                      Transactions on Consumer Electronics, 2025.
+     dementia diagnosis,” Scientific Reports, vol. 15, no. 1, p. 23319, 2025.
+                                                                                 [37] Y. Wang, N. Mammone, D. Petrovsky, A. T. Tzallas, F. C. Morabito,
+[16] Q. Xu, L. An, H. Yang, and K.-S. Hong, “A multi-graph convolutional
+                                                                                      and X. Zhang, “Adformer: A multi-granularity transformer for eeg-based
+     network method for alzheimer’s disease diagnosis based on multi-
+                                                                                      alzheimer’s disease assessment,” arXiv preprint arXiv:2409.00032,
+     frequency eeg data with dual-mode connectivity,” Frontiers in Neuro-
+                                                                                      2024.
+     science, vol. 19, p. 1555657, 2025.
+[17] Z. Zhou, Q. Wang, X. An, S. Chen, Y. Sun, G. Wang, and G. Yan, “A           [38] Y. Liu, L. An, H. Yang, and S. S. Ge, “Multi-frequency eeg and multi-
+     novel graph neural network method for alzheimer’s disease classifica-            functional connectivity graph convolutional network based detection
+     tion,” Computers in Biology and Medicine, vol. 180, p. 108869, 2024.             method of patients with alzheimer’s disease,” Complex & Intelligent
+[18] A. T. Adebisi, H.-W. Lee, and K. C. Veluvolu, “Eeg-based brain                   Systems, vol. 11, no. 8, pp. 1–17, 2025.
+     functional network analysis for differential identification of dementia-    [39] A. C. Yang, S.-J. Wang, K.-L. Lai, C.-F. Tsai, C.-H. Yang, J.-P.
+     related disorders and their onset,” IEEE Transactions on Neural Systems          Hwang, M.-T. Lo, N. E. Huang, C.-K. Peng, and J.-L. Fuh, “Cognitive
+     and Rehabilitation Engineering, vol. 32, pp. 1198–1209, 2024.                    and neuropsychiatric correlates of eeg dynamic complexity in patients
+[19] D. Klepl, F. He, M. Wu, D. J. Blackburn, and P. Sarrigiannis, “Adap-             with alzheimer’s disease,” Progress in Neuro-Psychopharmacology and
+     tive gated graph convolutional network for explainable diagnosis of              Biological Psychiatry, vol. 47, pp. 52–61, 2013.
+     alzheimer’s disease using eeg data,” IEEE Transactions on Neural            [40] D. Bethge, P. Hallgarten, T. Grosse-Puppendahl, M. Kari, L. L. Chuang,
+     Systems and Rehabilitation Engineering, vol. 31, pp. 3978–3987, 2023.            O. Özdenizci, and A. Schmidt, “Eeg2vec: Learning affective eeg rep-
+[20] S. J. Ahn and M. Kim, “Variational graph normalized autoencoders,” in            resentations via variational autoencoders,” in 2022 IEEE international
+     Proceedings of the 30th ACM international conference on information              conference on systems, man, and cybernetics (SMC), pp. 3150–3157,
+     & knowledge management, pp. 2827–2831, 2021.                                     IEEE, 2022.
+[21] G. Liang, P. Tiwari, S. Nowaczyk, S. Byttner, and F. Alonso-Fernandez,      [41] T. Zhang, Z. Cui, C. Xu, W. Zheng, and J. Yang, “Variational pathway
+     “Dynamic causal explanation based diffusion-variational graph neural             reasoning for eeg emotion recognition,” in Proceedings of the AAAI
+     network for spatiotemporal forecasting,” IEEE Transactions on Neural             Conference on Artificial Intelligence, vol. 34, pp. 2709–2716, 2020.
+     Networks and Learning Systems, 2024.                                        [42] T. Song, S. Liu, W. Zheng, Y. Zong, Z. Cui, Y. Li, and X. Zhou,
+[22] W. Cai, J. Jiang, F. Wang, J. Tang, S. Kim, and J. Huang, “A survey              “Variational instance-adaptive graph for eeg emotion recognition,” IEEE
+     on mixture of experts in large language models,” IEEE Transactions on            Transactions on Affective Computing, vol. 14, no. 1, pp. 343–356, 2021.
+     Knowledge and Data Engineering, 2025.                                       [43] A. Ofner and S. Stober, “Balancing active inference and active learning
+[23] C. Wu, Z. Shuai, Z. Tang, L. Wang, and L. Shen, “Dynamic modeling                with deep variational predictive coding for eeg,” in 2020 IEEE Interna-
+     of patients, modalities and tasks via multi-modal multi-task mixture             tional Conference on Systems, Man, and Cybernetics (SMC), pp. 3839–
+     of experts,” in The Thirteenth International Conference on Learning              3844, IEEE, 2020.
+     Representations, 2025.                                                      [44] C. Liu, X. Zhou, J. Xiao, Z. Zhu, L. Zhai, Z. Jia, and Y. Liu, “Vsgt:
+[24] B. Wang, Z. Shuai, F. Zhu, C. Huang, Y. Shen, Z. Zhang, Q. Yang,                 variational spatial and gaussian temporal graph models for eeg-based
+     S. Muhaidat, and M. Debbah, “Dynamical multimodal fusion with                    emotion recognition,” in Proceedings of the Thirty-Third International
+     mixture-of-experts for localizations,” arXiv preprint arXiv:2507.01337,          Joint Conference on Artificial Intelligence, pp. 3078–3086, 2024.
+     2025.                                                                       [45] L. Xu, M. Jordan, and G. E. Hinton, “An alternative model for mixtures
+[25] Y. Xu, J. Wang, M. Guang, and C. Jiang, “Graph multi-convolution and             of experts,” Advances in neural information processing systems, vol. 7,
+     attention pooling for graph classification,” IEEE Transactions on Pattern        1994.
+     Analysis and Machine Intelligence, 2024.                                    [46] M. Liu, Y. Liu, W. Shi, Y. Lou, Y. Sun, Q. Meng, D. Wang, F. Xu,
+[26] Y. Wang, Z. Yang, and X. Che, “A hierarchical mixture-of-experts frame-          Y. Zhang, L. Zhang, et al., “Empt: a sparsity transformer for eeg-
+     work for few labeled node classification,” Neural Networks, vol. 188,            based motor imagery recognition,” Frontiers in Neuroscience, vol. 18,
+     p. 107285, 2025.                                                                 p. 1366294, 2024.
+JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021                                                                                                      14
+
+
+
+[47] Y. Gui, M. Chen, Y. Su, G. Luo, and Y. Yang, “Eegmamba: Bidirectional        [68] H. Zeng, H. Lyu, D. Hu, Y. Xia, and J. Luo, “Mixture of weak and
+     state space model with mixture of experts for eeg multi-task classifica-          strong experts on graphs,” in The Twelfth International Conference on
+     tion,” arXiv preprint arXiv:2407.20254, 2024.                                     Learning Representations, 2024.
+[48] Z. Du, R. Peng, W. Liu, W. Li, and D. Wu, “Mixture of experts for            [69] J. Sanchis, S. García-Ponsoda, M. A. Teruel, J. Trujillo, and I.-Y. Song,
+     eeg-based seizure subtype classification,” IEEE Transactions on Neural            “A novel approach to identify the brain regions that best classify adhd
+     Systems and Rehabilitation Engineering, vol. 31, pp. 4781–4789, 2023.             by means of eeg and deep learning,” Heliyon, vol. 10, no. 4, 2024.
+[49] E. D. Übeyli, “Wavelet/mixture of experts network structure for eeg          [70] J. N. Acharya, A. J. Hani, J. Cheek, P. Thirumala, and T. N. Tsuchida,
+     signals classification,” Expert systems with applications, vol. 34, no. 3,        “American clinical neurophysiology society guideline 2: guidelines for
+     pp. 1954–1962, 2008.                                                              standard electrode position nomenclature,” The Neurodiagnostic Journal,
+[50] X. Zhu, Y. Chai, R. Li, M. Lan, and L. Gao, “Decoding the moving mind:            vol. 56, no. 4, pp. 245–252, 2016.
+     Multi-subject fmri-to-video retrieval with mllm semantic grounding,”         [71] M. Kopčanová, L. Tait, T. Donoghue, G. Stothart, L. Smith, A. A. Flores-
+     bioRxiv, pp. 2025–04, 2025.                                                       Sandoval, P. Davila-Perez, S. Buss, M. M. Shafi, A. Pascual-Leone,
+[51] D. Wu, Y. Jia, S. Li, S. Zhao, J. Yang, and M. Sawan, “Neuro-mobre:               et al., “Resting-state eeg signatures of alzheimer’s disease are driven by
+     Exploring multi-subject multi-task intracranial decoding via explicit             periodic but not aperiodic changes,” Neurobiology of Disease, vol. 190,
+     heterogeneity resolving,” arXiv preprint arXiv:2508.04128, 2025.                  p. 106380, 2024.
+                                                                                  [72] N. Benz, F. Hatz, H. Bousleiman, M. M. Ehrensperger, U. Gschwandt-
+[52] L. Yang, D. Liu, Q. Zhang, S. Chao, P. Ni, Q. Wang, and H. Sun, “Eeg
+                                                                                       ner, M. Hardmeier, S. Ruegg, C. Schindler, R. Zimmermann, A. U.
+     emotion recognition via identity based multi-gate mixture-of-experts
+                                                                                       Monsch, et al., “Slowing of eeg background activity in parkinson’s and
+     network,” in 2022 IEEE International Conference on Bioinformatics and
+                                                                                       alzheimer’s disease with early cognitive dysfunction,” Frontiers in aging
+     Biomedicine (BIBM), pp. 2498–2505, IEEE, 2022.
+                                                                                       neuroscience, vol. 6, p. 314, 2014.
+[53] X. Zhu, Y. Wang, Y. Ma, Z. Zhang, and Y. Gao, “Cognitmoe: A                  [73] C. Babiloni, G. Frisoni, M. Steriade, L. Bresciani, G. Binetti, C. Del Per-
+     cognition-aware collaborative multi-expert network for bipolar disorder           cio, C. Geroldi, C. Miniussi, F. Nobili, G. Rodriguez, et al., “Frontal
+     diagnosis,” Neural Networks, p. 107854, 2025.                                     white matter volume and delta eeg sources negatively correlate in
+[54] J. Zhang, X. Yu, T. Chen, C. Cao, M. Chen, Y. Zhuang, Y. Lyu,                     awake subjects with mild cognitive impairment and alzheimer’s disease,”
+     L. Zhang, L. Su, T. Liu, et al., “Brainnet-moe: Brain-inspired mixture-of-        Clinical Neurophysiology, vol. 117, no. 5, pp. 1113–1129, 2006.
+     experts learning for neurological disease identification,” arXiv preprint    [74] R. Lizio, F. Vecchio, G. B. Frisoni, R. Ferri, G. Rodriguez, and C. Ba-
+     arXiv:2503.07640, 2025.                                                           biloni, “Electroencephalographic rhythms in Alzheimer’s disease,” In-
+[55] K. Ghassemkhani, K. S. Saroka, and B. T. Dotta, “Evaluating eeg com-              ternational Journal of Alzheimer’s Disease, vol. 2011, no. 1, p. 927573,
+     plexity and spectral signatures in alzheimer’s disease and frontotemporal         2011.
+     dementia: evidence for rostrocaudal asymmetry,” npj Aging, vol. 11,          [75] Y. Olğun, C. Aksoy Poyraz, M. Bozluolçay, and B. Ç. Poyraz, “Quanti-
+     no. 1, p. 50, 2025.                                                               tative eeg in the differential diagnosis of dementia subtypes,” Journal of
+[56] R. Rahman, A. K. al Azad, and S. Momen, “Mgformer: A lightweight                  geriatric psychiatry and neurology, vol. 37, no. 5, pp. 368–378, 2024.
+     multi-granular transformer for subject-independent alzheimer’s classifi-     [76] X. Ye, Y. Yan, Y. Wang, and J. Shi, “Eeg-based minimum spanning tree
+     cation,” Biomedical Signal Processing and Control, vol. 110, p. 108230,           analysis reveals network disruptions in alzheimer’s disease spectrum:
+     2025.                                                                             An observational study,” Frontiers in Aging Neuroscience, vol. 17,
+[57] A. H. Meghdadi, M. Stevanović Karić, M. McConnell, G. Rupp,                     p. 1604345.
+     C. Richard, J. Hamilton, D. Salat, and C. Berka, “Resting state eeg          [77] T. Zikereya, Y. Lin, Z. Zhang, I. Taguas, K. Shi, and C. Han, “Different
+     biomarkers of cognitive decline associated with alzheimer’s disease and           oscillatory mechanisms of dementia-related diseases with cognitive
+     mild cognitive impairment,” PloS one, vol. 16, no. 2, p. e0244180, 2021.          impairment in closed-eye state,” Neuroimage, vol. 304, p. 120945, 2024.
+[58] D. P. Kingma and M. Welling, “Auto-encoding variational bayes,” in           [78] H. J. Choong, E.-j. Kim, and F. He, “Evaluating brain electroencephalo-
+     Proceedings of the 2nd International Conference on Learning Repre-                gram signal dynamics across cognitive disorders using information
+     sentations (ICLR), 2014. arXiv:1312.6114.                                         geometry,” PLOS Complex Systems, vol. 2, no. 7, p. e0000059, 2025.
+[59] R. A. Jacobs, M. I. Jordan, S. J. Nowlan, and G. E. Hinton, “Adaptive        [79] K. Baik, J. H. Jung, S. H. Jeong, S. J. Chung, H. S. Yoo, P. H. Lee,
+     mixtures of local experts,” Neural computation, vol. 3, no. 1, pp. 79–87,         Y. H. Sohn, S. W. Kang, and B. S. Ye, “Implication of eeg theta/alpha
+     1991.                                                                             and theta/beta ratio in alzheimer’s and lewy body disease,” Scientific
+[60] F. Hu, L. Wang, S. Wu, L. Wang, and T. Tan, “Graph classification by              Reports, vol. 12, no. 1, p. 18706, 2022.
+     mixture of diverse experts,” arXiv preprint arXiv:2103.15622, 2021.          [80] H. Zheng, H. Xiao, Y. Zhang, H. Jia, X. Ma, and Y. Gan, “Time-
+[61] A. Miltiadous, K. D. Tzimourta, T. Afrantou, P. Ioannidis, N. Grigo-              frequency functional connectivity alterations in alzheimer’s disease and
+     riadis, D. G. Tsalikakis, P. Angelidis, M. G. Tsipouras, E. Glavas,               frontotemporal dementia: An eeg analysis using machine learning,”
+     N. Giannakeas, et al., “A dataset of scalp eeg recordings of alzheimer’s          Clinical Neurophysiology, vol. 170, pp. 110–119, 2025.
+     disease, frontotemporal dementia and healthy subjects from routine eeg,”     [81] K. Nishida, M. Yoshimura, T. Isotani, T. Yoshida, Y. Kitaura, A. Saito,
+     Data, vol. 8, no. 6, p. 95, 2023.                                                 H. Mii, M. Kato, Y. Takekita, A. Suwa, et al., “Differences in quanti-
+                                                                                       tative eeg between frontotemporal dementia and alzheimer’s disease as
+[62] V. J. Lawhern, A. J. Solon, N. R. Waytowich, S. M. Gordon, C. P. Hung,
+                                                                                       revealed by loreta,” Clinical Neurophysiology, vol. 122, no. 9, pp. 1718–
+     and B. J. Lance, “Eegnet: a compact convolutional neural network for
+                                                                                       1725, 2011.
+     eeg-based brain–computer interfaces,” Journal of neural engineering,
+     vol. 15, no. 5, p. 056013, 2018.
+[63] R. Yang and E. Modesitt, “Vit2eeg: leveraging hybrid pretrained vision
+     transformers for eeg data,” arXiv preprint arXiv:2308.00454, 2023.
+[64] S. Y. Dharia, Q. Liu, S. D. Smith, and C. E. Valderrama, “Dual-
+     transformer cross-attention framework for alzheimer’s disease detection
+     via dpte-guided eeg channel selection and multi-modal integration,”
+     Biomedical Signal Processing and Control, vol. 112, p. 108390, 2026.
+[65] Y. Ding, Y. Pan, R. C. Geyer, F. J. Vizeacoumar, F. S. Vizeacoumar,
+     and F.-X. Wu, “Deciphering bladder cancer-related circrna biomarkers:
+     An ensemble model integrating deep learning and statistics for circrna
+     analysis,” in Proceedings of the 15th ACM International Conference on
+     Bioinformatics, Computational Biology and Health Informatics, pp. 1–
+     10, 2024.
+[66] Z. Guo, Q. Sun, H. Yuan, X. Fu, M. Zhou, Y. Gao, and J. Li,
+     “Graphmore: Mitigating topological heterogeneity via mixture of rie-
+     mannian experts,” in Proceedings of the AAAI Conference on Artificial
+     Intelligence, vol. 39, pp. 11754–11762, 2025.
+[67] X.-H. Liu, W.-B. Jiang, W.-L. Zheng, and B.-L. Lu, “Moge: Mixture of
+     graph experts for cross-subject emotion recognition via decomposing
+     eeg,” in 2024 ieee international conference on bioinformatics and
+     biomedicine (bibm), pp. 3515–3520, IEEE, 2024.
+

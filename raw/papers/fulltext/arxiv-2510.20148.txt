@@ -1,0 +1,2509 @@
+                                         Understanding Mechanistic Role of Structural and
+                                           Functional Connectivity in Tau Propagation
+                                                 Through Multi-Layer Modeling
+
+                                                   Tingting Dan1† , Xinwei Huang2† , Jiaqi Ding1,3 ,
+                                                         Yinggang Zheng2 , Guorong Wu1,3,4*
+arXiv:2510.20148v1 [cs.LG] 23 Oct 2025
+
+
+
+
+                                           1
+                                              Department of Psychiatry, University of North Carolina at Chapel
+                                         Hill, 333 S. Columbia Street, Chapel Hill, 27599, NC, United States of
+                                                                            America.
+                                               2
+                                                 School of Medicine, Tongji University, Shanghai, 200434, China.
+                                             3
+                                               Department of Computer Science, University of North Carolina at
+                                         Chapel Hill, 201 S. Columbia St, Chapel Hill, 27599, NC, United States
+                                                                          of America.
+                                          4
+                                            Department of Statistics and Operations Research (STOR), Carolina
+                                            Institute for Developmental Disabilities, and the UNC NeuroScience
+                                         Center, University of North Carolina at Chapel Hill, Chapel Hill, 27599,
+                                                                 NC, United States of America.
+
+
+                                                *Corresponding author(s). E-mail(s): grwu@med.unc.edu;
+                                                       Contributing authors: tdan@email.unc.edu;
+                                                    huanggenetics@tongji.edu.cn; jiaqid@cs.unc.edu;
+                                                                ygzheng@tongji.edu.cn;
+                                                    †
+                                                      These authors contributed equally to this work.
+
+
+                                                                              Abstract
+                                           Emerging neuroimaging evidence shows that pathological tau proteins build up
+                                           along specific brain networks, suggesting that large-scale network architecture
+                                           plays a key role in the progression of Alzheimer’s disease (AD). However, the
+                                           extent to which structural connectivity (SC) and functional connectivity (FC)
+                                           interact to influence the propagation of tau aggregates is largely unexplored.
+                                           Leveraging an unprecedented volume of longitudinal neuroimaging data, we
+                                           investigate the roles of structural and functional connectivity in tau propagation
+                                           using a multi-layer graph diffusion model that explicitly incorporates SC–FC
+
+
+
+                                                                                   1
+     interactions. In addition to the evidence that tau propagation is shaped by con-
+     nectome architectures, our model reveals a regionally asymmetric contribution of
+     SC and FC. Specifically, FC predominantly drives tau spread in subcortical areas,
+     the insula, frontal and temporal cortices, whereas SC plays a more significant role
+     in occipital, parietal, and limbic regions. However, the relative dominance of SC
+     versus FC in driving tau propagation shifts throughout the course of disease pro-
+     gression, with FC generally playing a predominant role in the early stages of AD,
+     followed by a shift toward SC as the primary driver in later stages. Furthermore,
+     the spatial patterns of SC- and FC-dominant regions involved in tau propagation
+     show strong correspondence with the regional expression of several AD-associated
+     genes implicated in inflammation, apoptosis, and lysosomal function, including
+     CHUK (IKK-α), TMEM106B, MCL1, NOTCH1, and TH. In parallel, we have
+     discovered that other non-modifiable risk factors (such as APOE genotype and
+     biological sex) and biological mechanisms (such as amyloid deposition) can selec-
+     tively alter the landscape of tau propagation by shifting dominant routes from
+     anatomical to functional pathways (or vice versa) in a regionally specific man-
+     ner. Our discoveries have been validated in an independent AD cohort, yielding
+     consistent findings.
+
+     Keywords: Brain network, Tau propagation, Alzheimer’s disease, Computational
+     modeling
+
+
+
+
+1 Introduction
+Alzheimer’s disease (AD) is a progressive neurodegenerative disorder marked by the
+pathological accumulation and propagation of tau proteins [1]. Tau pathology, ini-
+tially localized in the entorhinal cortex, gradually spreads to connected brain regions
+in a pattern that correlates with cognitive decline and disease severity. Mounting evi-
+dence supports the hypothesis that this spread occurs in a prion-like manner, whereby
+misfolded tau seeds propagate trans-synaptically through neural networks [2]. This
+insight has shifted the focus from region-specific atrophy to network-based degenera-
+tion, assuming the brain’s large-scale connectivity architecture as a key determinant
+of pathological progression.
+    In this regard, a growing body of research has developed connectome-based dif-
+fusion models to simulate and predict the spatial and temporal dynamics of tau
+propagation across the brain [3–5]. These models typically leverage information from
+structural connectivity (SC), derived from diffusion-weighted imaging (DWI), or func-
+tional connectivity (FC), measured via resting-state functional magnetic resonance
+imaging (fMRI), to model tau spread as a network-driven diffusion process. By model-
+ing tau dynamics within the topology of the brain connectome, these frameworks offer
+a mechanistic perspective on how pathological burden evolves across regions. Given
+the connectome-constrained assumption on tau propagation, such models have shown
+potential in forecasting future tau accumulation [3, 5], identifying vulnerable brain
+circuits [5], and stratifying individuals based on progression risk [6], thereby informing
+early diagnosis and therapeutic targeting.
+
+
+
+                                             2
+    While recent computational approaches have achieved notable success in forecast-
+ing future pathological burdens, they generally do not model pathology propagation
+by jointly considering both structural connectivity (SC) and functional connectivity
+(FC), let alone their interactions. As a result, these methods often fail to reflect the
+true complexity of disease spread, neglecting the synergistic and potentially nonlinear
+dynamics linking anatomical connections and neural activity. Given the growing body
+of evidence that both SC and FC influence the dissemination of pathological processes,
+elucidating the mechanistic role of their interplay is essential for understanding the
+progression of neurodegenerative disorders.
+    To that end, we investigate the joint effect of SC and FC on the propagation of tau
+aggregates using a multi-layer network diffusion model [7], which is trained to predict
+the trajectory of tau evolution underlying SC-FC topology. Our framework is grounded
+in the physical principles of graph heat diffusion, where tau accumulation is modeled
+as a dynamic process governed by the topology of the underlying connectome. This
+principled foundation not only enhances interpretability but also offers a biologically
+plausible mechanism for simulating how pathology propagates through complex multi-
+layer brain networks. By disentangling the contributions of structural and functional
+connectivity to tau accumulation, our computational model enables us to address the
+following key questions: (1) What is the interplay between SC and FC on the change
+of tau aggregates at each brain region? (2) What is the role of non-modifiable factors,
+such as AD-relevant risk genes and biological sex, in the mechanism of SC-FC on tau
+propagation? (3) Does SC/FC contribution to tau propagation vary during disease
+progression? and (4) Does the accumulation of Aβ plaque modify the joint effect of
+SC and FC on tau propagation?
+    We have applied our computational model on longitudinal tau-PET images in the
+ADNI dataset [8] and the OASIS [9] datasets separately. The most prominent and
+reproducible findings are as follows:
+
+  • Tau propagation is shaped by both SC and FC. However, the dynamic pro-
+    cess of tau aggregation exhibits region-specific selectivity, with some regions
+    predominantly influenced by SC and others by FC.
+  • The SC-FC selective mechanism evolves throughout the course of disease pro-
+    gression. FC generally predominates in the early stages, while SC becomes more
+    influential as the disease advances.
+  • At the population level, the spatial distribution of SC-FC selectivity closely
+    aligns with the expression profiles of key AD risk genes, such as CHUK (IKK-
+    α), TMEM106B, MCL1, NOTCH1, and TH, known to regulate inflammation,
+    apoptosis, and lysosomal pathways.
+  • Both non-modifiable factors and the presence of other AD pathology can alter the
+    spatial pattern of SC-FC selective mechanism for tau propagation. For example,
+    APOE genotype alters the landscape of tau propagation by shifting dominant
+    routes from anatomical to functional pathways (or vice versa) in a regionally
+    specific manner. Excessive Aβ deposition promotes a shift in tau propagation
+    dynamics, making SC the predominant factor in the frontal cortex.
+
+
+
+
+                                           3
+  • Biological sex does not substantially alter SC–FC dominance, except in the
+    occipital cortex where males show a slight shift from SC- to FC-dominant
+    propagation.
+
+    Furthermore, we investigate the causal hypotheses of whether SC influences tau
+propagation through FC (or vice versa), which allows us to effectively inform ther-
+apeutic targets. For example, if the effect of FC on tau propagation is mediated by
+SC, interventions aimed at preserving axonal integrity or white matter health may
+prove more effective. Together, our findings provide novel insights into the mechanis-
+tic pathways that govern tau propagation, with potential applications in evaluating
+risk, tracking progression, and informing the design of targeted interventions.
+
+2 Results
+Prologue. First, an overview of subject demographics and imaging data character-
+istics is provided in Section 2.1. Second, we present the evidence supporting that the
+evolution of tau aggregation throughout the human brain is shaped by both struc-
+tural and functional connectome architecture. Additionally, our model reveals that
+tau propagation is not a single-phase phenomenon, but rather a dynamic, multi-stage
+process over time. Together, the supporting evidence presented in Section 2.2 and 2.3
+sets the stage for investigating the mechanistic role of SC and FC in tau propaga-
+tion, for conducting stratified analysis by age, APOE4 status, biological sex, and Aβ
+burden, and for underlying genetic mechanisms in Section 2.4. Third, we identify the
+potential causal pathways between the interplay between SC-derived tau aggregation,
+FC-derived tau aggregation, and cognitive decline, in Section 2.5,
+
+2.1 Summary statistics of tau evolution
+Data description. To investigate the relationship between tau propagation and both
+the functional and structural connectomes during the progression of AD, we leveraged
+multi-modal neuroimaging data, including tau PET, resting-state fMRI, and diffusion
+MRI, from two longitudinal cohort comprising 839 brain scans from 539 participants
+(aged 55–94 years 75.06 ± 7.70, female: male= 278:261) in the Alzheimer’s Disease
+Neuroimaging Initiative (ADNI cohort). Among the participants, 329 underwent a
+single scan, 136 underwent two scans separated by an average interval of 1.25 years, and
+60 underwent three scans separated by an average interval of 1.11 years, 12 underwent
+four scans separated by an average interval of 1.11 years, 2 underwent five scans
+separated by an average interval of 0.92 years. Baseline diagnostic categories were:
+Alzheimer’s disease (AD, N = 54, 85 scans in total, 55y-94y), cognitively normal (CN,
+N = 157, 237 scans in total, 56y-94y), early mild cognitive impairment (EMCI, N
+= 117, 186 scans in total, 58y-93y), late mild cognitive impairment (LMCI, N = 60,
+105 scans in total, 56y-92y), and subjective memory complaints (SMC, N = 145, 210
+scans in total, 57y-90y); diagnosis was unavailable for 14 participants (16 scans, 58y-
+85y). Fig. 1a illustrates the longitudinal follow-up of participants with more than one
+scan, alongside the changes in average regional tau standardized uptake value ratio
+(SUVR) stratified by clinical labels. Participants were stratified into two groups based
+
+
+                                           4
+on clinical diagnosis (disease severity): ‘CN’-group, comprising CN, SMC, and EMCI
+participants; and ‘AD’-group, comprising LMCI and AD participants. This binary
+grouping provided the framework for subsequent group-level analyses.
+    Regional evolution of tau PET uptake from CN to AD. For each par-
+ticipant, the brain was parcellated into 148 cortical and 12 subcortical regions using
+the Destrieux atlas [10]. We then derived regional tau SUVR from positron emission
+tomography (PET) (see Appendix B.1 for full image pre-processing details).
+    To identify the spatial pattern of tau propagation, we first examined the regional
+differences of SUVR between the CN and AD groups via a mixed-effects linear model
+[11], including sex as a covariate. Significant increases in tau deposition (Bonferroni-
+corrected p < 0.05, t-value> 4.0) were primarily detected in the dorsolateral prefrontal
+cortex, lateral temporal cortex, and medial temporal pole/entorhinal cortex (Fig. 1b).
+
+
+ a Longitudinal Distribution of Participants Over Time Tau SUVR Changes Across Clinical Labels           b Tau accumulation: CN - AD              4.0   t-value 6.0
+
+                                                                               28:26
+
+
+                                             2.2
+
+                                                                                       c           Destrieux Lobes       ∗          d     Power functional communities      ∗
+                                                                         35:25                          ∗
+                                             1.1
+
+
+
+
+               Male
+                                                                              70:47
+               Female
+               Average
+
+                                                                                                               ∗ 𝑝!"#$ < 1𝑒 − 5                                             ∗
+                                                                              48:97                                      ∗                               ∗ 𝑝!"#$ < 1𝑒 − 5
+
+
+                                                                                                        ∗
+
+                                                                           76:81                       𝑝!"#$ = 0.024
+
+                                                                                           + z-score: indicates accelerated tau deposition relative to the null-model prediction
+                                                                                           - z-score: indicates decelerated tau deposition relative to the null-model prediction
+
+
+
+
+Fig. 1 Typical trajectory of tau evolution in aging brains. (a) Left: Scatter of participant
+ages at longitudinal tau PET scan, with lines linking multiple scans per individual. The cortical map-
+pings represent the average tau SUVR for each clinical cohort. Right: Regional tau SUVR values
+grouped by clinical diagnosis (CN, SMC, EMCI, LMCI, AD), with black dots marking group means,
+illustrating the progressive increase in tau burden across disease stages. (b) Surface map of regional
+SUVR differences (CN vs. AD) by a linear mixed-effects model (random intercept per subject; sex
+covariate; Bonferroni-corrected p < 5 × 10−5 , two-sided). Higher positive t-values (darker blue) indi-
+cate stronger tau propagation. (c,d) Community-level aggregation of tau progression. Regions were
+assigned to anatomical lobes based on the Destrieux atlas [10] (c) and to functional modules by
+Power et al. [12] (d). For each community, mean t-values were converted to z-scores via 1,000 spin-
+permutation tests 1 to correct for spatial autocorrelation [13, 14], generating a null-model of regional
+t-values. Positive z-scores denote accelerated tau deposition relative to the null model. Asterisks indi-
+cate pspin < 0.05 (e.g. Temporal lobe: p = 0.024, Subcortical: p < 10−5 ). SUVRs mapped in ParaView
+(v5.10.1) 2 .
+
+
+
+  1
+    https://brainspace.readthedocs.io/en/latest/pages/matlab doc/main functionality/spin permutations.
+html
+  2
+    https://www.paraview.org/
+
+
+
+                                                                                           5
+     Next, we grouped the 148 cortical and 12 subcortical nodes into six anatomical
+lobes (frontal, insula, temporal, occipital, parietal, limbic) [10] plus subcortex, and
+performed 1,000 spin-permutation tests to correct for spatial autocorrelation [13, 14]
+to assess whether tau propagation concentrates in specific large-scale systems. We then
+computed each lobe’s average t–value and expressed it as a z –score relative to the null
+distribution. Although raw SUVR increases were observed across all lobes, only the
+temporal lobe (pspin = 0.024) and subcortical regions (pspin < 10−5 ) showed signifi-
+cantly accelerated tau aggregation. The other lobes did not exceed—and in some cases
+fell below—their null expectations (Fig. 1c). We then mapped each of the 160 regions
+onto the 13 canonical functional modules of Power et al. [12] and re-ran the spin-
+permutation test (Fig. 1d). While most networks showed z -scores at or below zero once
+spatial autocorrelation was accounted for, the subcortical module again emerged as a
+pronounced area that is significantly associated with tau increase (pspin < 10−5 ). No
+other functional system exceeded its null-model expectation, even those with modest
+SUVR increases. This confirms that tau accumulation from CN to AD is not evenly
+distributed across large-scale functional networks but is instead highly concentrated
+in subcortical circuits only. Together, our analyses demonstrate that temporal lobe
+and subcortical regions exhibit accelerated tau deposition, indicating their role as key
+epicenters that anchor the connectome-mediated propagation of disease.
+
+2.2 Supporting evidence I: Tau propagation is shaped by
+    structural and functional networks
+In this section, we examine whether regional patterns of tau accumulation underlie the
+brain’s intrinsic connectivity architecture. In this work, we parcelate brain into 148
+cortical regions and 12 sub-cortical regions, yielding a 160 × 160 structural network
+(derived from diffusion-weighted MRI tractography) and a corresponding 160 × 160
+functional network (derived from region-to-region correlation of blood-oxygen-level
+dependent (BOLD) signals from resting-state fMRI). The group average 1 of SC and
+FC are shown in Fig. 2a. Full details of the SC and FC preprocessing pipelines are
+provided in Appendix B.1.
+    First, we employed a mixed-effects model to predict diagnostic labels based on lon-
+gitudinal tau SUVR measurements at each brain region, where age, sex, and APOE4
+status are confounders. This analysis yielded a regional tau extent, denoted as Ti ,
+represented by the t-value from the model. Since Ti characterize the effect size of tau
+aggregates on clinical outcome, it is less influenced by inter-subject variability in tau
+SUVR. In this regard, we focus on tau extent Ti , instead of original tau SUVR, in the
+following network autocorrelation test to examine whether AD-specific change of tau
+aggregates is shaped by SC or FC 2 . To do so, we evaluate whether AD-related tau
+accumulation at a given brain region can be predicted from the tau changes observed
+in its anatomically or functionally connected neighboring regions, which is an essential
+premise underlying the connectome-based tau propagation framework. Specifically, the
+statistical analysis involves two main steps: (1) For the ith brain region, calculate the
+
+  1
+    For simplification, element-wise average is used to demonstrate the average of brain networks across
+individuals.
+  2
+    The network autocorrelation test result on the change ratio of tau SUVR is shown in Fig. 3e.
+
+
+                                                   6
+mean tau extent of its directly connected neighbors through SC T̂iS = j∈NS (i) Tj
+                                                                            P
+
+and FC T̂iF = j∈NF (i) Tj respectively, as demonstrated in Fig. 2b, where NS (i) and
+                P
+
+NF (i) are SC- and FC-based graph neighborhood of the ith brain region, respectively.
+(2) examine the correlations of Ti ∼ T̂iS and Ti ∼ T̂iF . A strong correlation indicates
+that the spatial pattern of tau burden is closely shaped by the brain’s intrinsic con-
+nectivity architecture, suggesting that tau propagation likely follows a network-based
+spreading mechanism. Otherwise, tau burden is randomly distributed.
+    Across all nodes, both T̂iS and T̂iF were strongly predictive of the underlying
+region’s own tau extent Ti (Fig. 2c, SC: adjusted r = 0.783, p < 0.001, FC: r = 0.736,
+p < 0.001, two-sided), indicating that the increase of tau aggregates from CN to AD
+is associated with the topology of SC and FC. To ensure these relationships were
+not driven by spatial autocorrelation, we aggregate nodes into seven anatomical lobes
+and ran 1,000 spin-permutation tests on the lobe-wise SC/FC correlations, control-
+ling FDR at pspin=0.01 , one-tailed). Only multi-sensory areas—particularly frontal,
+temporal, and parietal cortices—and subcortical circuits exhibited correlations that
+significantly exceeded their null expectations (Fig. 2d). This pattern confirms that tau
+spread preferentially follows both white-matter tracts and functional pathways within
+higher-order, multi-sensory and subcortical networks, in line with established Braak
+staging and PET findings [1, 15].
+    We then investigate whether the longitudinal change of tau pathology follows FC
+or SC networks. To do so, we conduct node-wise multiple linear regression analy-
+ses, separately modeling FC and SC measures (nodal connectivity degree) to predict
+regional tau accumulation rates (∆Tau) and cognitive performance (MMSE), con-
+trolling for age, sex, and APOE genotype (Fig. 2e–f). Our analyses revealed distinct
+connectivity patterns: FC predominantly explained regional variance in tau propa-
+gation, implying functional networks as primary pathways facilitating the spread of
+tau pathology. In contrast, SC was more strongly associated with cognitive perfor-
+mance, suggesting that intact structural networks are critical for supporting cognitive
+resilience. These findings underscore dissociable roles of brain connectivity modalities
+in AD progression, i.e., functional networks primarily mediate tau pathology spread
+through neuronal activity-dependent mechanisms, whereas structural networks serve
+as essential anatomical substrates underpinning cognitive reserve. This aligns closely
+with current neuroimaging evidence [4, 16, 17] and contributes to our understanding
+of the complementary yet distinct roles of functional and structural networks in AD
+pathology and cognition.
+
+2.3 Supporting evidence II: Tau aggregation progresses
+    through multiple distinct stages
+To determine whether connectivity-guided tau spread persists across the adult lifes-
+pan, we conducted two complementary analyses (Fig. 3): a continuous-age generalized
+additive model (GAM) [18] and an individual-level longitudinal analysis.
+    GAM-estimated age effects: We fit a GAM in which chronological age serves
+as a smooth predictor of tau extent Ti for each brain region. After Bonferroni correc-
+tion at p < 5 × 10−5 (two-sided), we mapped the age effect on tau extent onto the
+
+
+                                           7
+                                                                                                                               node 𝒊                                                                                       1
+ a1                  Group-level Structural and Functional Connectome                                b                                                                 d                        𝑐𝑜𝑟𝑟(𝑇( , 𝑁#→( )
+
+
+
+
+                                                                                                                                                                                                                          Correlation
+                                                                                                                                                                             𝑐𝑜𝑟𝑟(𝑇# , 𝑁(→# )
+   74
+
+
+
+
+  160
+    1                      74           160 1             74                 160                " 𝒊𝑺 = $
+                                                                                                𝑻                         𝑻𝒋
+                                                                                                               𝒋𝝐𝓝𝒔 (𝒊)                 " 𝑭𝒊 = $
+ c                                                                  ' 𝑺𝒊 )
+                                                         𝑹 = 𝒇(𝑻𝒋 , 𝑻
+                                                                                        2
+                                                                                                                                        𝑻
+                                                                                                                                                   𝒋𝝐𝓝𝑭 (𝒊)
+                                                                                                                                                              𝑻𝒋                                                            0
+                     𝑟!"# = 0.783                                                                                                                                                                          𝑺
+                                                                                                                                                                                                𝑐𝑜𝑟𝑟(𝑇( , 𝓝#→𝒊 )            1
+                     𝑝 < 0.001                                                          1      𝑟!"# = 0.736                                                ' 𝑭𝒊 )
+                                                                                                                                                𝑹 = 𝒇(𝑻𝒋 , 𝑻
+                                                                                               𝑝 < 0.001
+
+
+
+
+                                                                                                                                                                            𝑐𝑜𝑟𝑟(𝑇# , 𝓝𝑺(→𝒋 )
+                                                                                        0
+
+
+
+
+                                                                     Nodal Tau extent
+
+
+
+
+                                                                                                                                                                                                                          Correlation
+  Nodal Tau extent
+
+
+
+
+                                                                                        -1
+
+                                                                                        -2
+
+                                                                                        -3
+
+                                                                                                                                                 FDR corrected
+                                                                                        -4
+                                                                                                                                                 at 𝒑 = 𝟎. 𝟎𝟏
+                                                                                        -5
+                                                                                                                                                                                                                            0
+                                                                                        -6
+                                                                                          -6    -5        -4         -3            -2      -1        0             1
+                         Averaged Tau extent based on SC                                                 Averaged Tau extent based on FC
+
+
+
+  e                                                                                                                       f
+
+
+
+                                        FC                     SC                                                                                                      FC                           SC
+                                                                                                          𝒑 < 𝟎. 𝟎𝟎𝟎𝟏
+                     ∆ 𝑻𝒂𝒖 ~ 4 𝑭𝑪𝒊𝒋 𝒐𝒓 4 𝑺𝑪𝒊𝒋 + [Age, Sex, APOE4]                                                                         MMSE ~ 4 𝑭𝑪𝒊𝒋 𝒐𝒓 4 𝑺𝑪𝒊𝒋 + [Age, Sex, APOE4]
+                                    𝒋                𝒋                                                                                                             𝒋              𝒋
+                            Frontal lobe          Insula lobe                       Temporal lobe                         Occipital lobe                 Parietal lobe      Limbic lobe                    Sub-cortical
+
+
+
+
+Fig. 2 Tau propagation is anchored to structural and functional network backbones.
+(a). Group-average structural (left) and functional (right) connectivity matrices (160 × 160) thresh-
+olded to their backbone edges. (b). Schematic illustrating how we relate regional tau propagation
+to network structure: (1) for each node i (red), we compute the tau extent Ti (t-value derived from
+mix-effect model of predicting diagnostic label using longitudinal regional tau SUVR); (2) compute
+averaged tau extent of its directly connected neighbors T̂iS based on SC (green edges) and T̂iF
+based on FC (gray edges), then correlate T̂iS ∼ Ti and T̂iF ∼ Ti , respectively. (c). Ti ∼ T̂iS (left)
+and Ti ∼ T̂iF (right) across all nodes reveals strong positive associations (Pearson correlation, SC:
+radj = 0.783, p < 0.01, FC: radj = 0.736, p < 0.01, two sided). Lines show least-squares fits; shaded
+areas denote 95% confidence intervals. (d). Lobe-level spin-permutation testing (FDR corrected at
+pspin = 0.01, one-tailed) confirms that only multi-sensory area (frontal, temporal, and parietal) and
+subcortical systems exhibit connectivity–tau correlations exceeding spatial-null expectations (colored
+boxes). Multiple linear regression analyses of FC and SC associations with (e) tau accumulation rate
+(∆Tau) and (f ) MMSE, respectively. Both models include age, sex, and APOE genotype as covari-
+ates to control for potential confounding effects. Our analyses revealed that FC primarily drives tau
+propagation, while SC is more closely linked to cognitive performance, indicating distinct roles in
+disease spread and resilience.
+
+
+cortical surface (Fig. 3a). The resulting − log10 (p) map highlights that medial tempo-
+ral (entorhinal, parahippocampal) and sub-cortical (hippocampus, amygdala, caudate
+and putamen) regions exhibit the strongest positive associations between age and
+tau∼(disease) phase relationship, indicating that aging might escalate the effect of tau
+aggregation on disease progression in these identified areas.
+
+
+
+
+                                                                                                                               8
+     Regional GAM trajectories: To illustrate the non-linear age trajectories cap-
+tured by the GAM, we plot the SUVR data points and the fitted age curves (green)
+with 95 % confidence intervals (gray shading) for four key regions in tau propagation:
+entorhinal cortex, middle temporal gyrus, amygdala, and hippocampus (Fig. 3b). Each
+curve represents region-specific dynamics:
+     - The entorhinal cortex shows an early plateau or slight mid-life decline (ages
+60–75) followed by renewed late-age acceleration—mirroring Braak I/II progression
+[1].
+     - The middle temporal attains a high plateau in mid-life and then maintains only
+gradual increases through older age, consistent with Braak III/IV staging.
+     - The amygdala exhibits a near-monotonic, approximately linear rise in SUVR
+across the entire age span, reflecting steady limbic tau buildup.
+     - The hippocampus likewise demonstrates continuous upward drift, with particu-
+larly steep increases in mid- to late life and no late-age downturn, as expected for this
+early-affected region.
+     Age-window propagation rates: By fitting the relationship between regional
+tau accumulation and age using GAM for each brain region, we have identified four
+distinct stages based on tau propagation rates ( ∆T     au
+                                                     ∆age ) as: <60, [61–75], [76–85], and
+>85 years (Fig. 3c). The spatiotemporal pattern of tau pathology in each stage is
+summarized below:
+     - <60 years : Propagation concentrates in neocortical association zones (lateral
+temporal, inferior parietal), while medial temporal and subcortical rates remain
+modest.
+     - 61–75 years : Spread intensifies within heteromodal hubs 3 (middle temporal, tem-
+poral pole) and begins encroaching on limbic structures (amygdala, parahippocampal
+gyrus), in line with Braak III/IV [1].
+     - 76–85 years : The focus shifts to medial temporal and subcortical circuits
+(entorhinal cortex, hippocampus, striatum (caudate nucleus and putamen)), reflecting
+advanced Braak V/VI pathology [1].
+     - >85 years : Overall rates diminish, yet subcortical regions retain the highest resid-
+ual propagation velocity, indicating they remain the last loci of active tau accumulation
+in the oldest individuals.
+     Brain mapping of tau propagation rate. To assess tau propagation pro-
+file across individuals, we calculate each subject’s nodal tau propagation rate
+(∆Tau/∆Age) between consecutive PET visits. We then average these rates at each
+node across all 210 participants and project the resulting group-mean rate map
+onto the cortical and subcortical surfaces (Fig. 3d). This group-average map high-
+lights that, collectively, medial temporal and subcortical regions exhibit the highest
+tau propagation velocities, closely matching the individual-level and continuous-age
+analyses.
+     Tau propagation rate is shaped by both SC and FC. For every individual, we
+correlated their nodal propagation rates with the averaged rate of directly connected
+
+  3
+    Network nodes with exceptionally high connectivity that integrate information across multiple functional
+systems. These hubs not only exhibit dense structural links but also strong functional coupling with diverse
+brain regions, facilitating coordination and information flow. Typical examples are the posterior cingulate
+cortex and dorsolateral prefrontal cortex.
+
+
+                                                     9
+ a                                             b          Entorhinal                                                                                       Middle temporal
+
+
+
+
+                    −𝒍𝒐𝒈𝟏𝟎 (𝒑)
+               4                 >15
+
+
+
+
+                                                        Amygdala                                                                                             Hippocampus
+         Significance of age effect
+
+ c
+
+
+
+                    -0.01    0.01
+
+
+
+
+                                                                                 Nodal Tau SUVR propagation rate Nodal Tau SUVR propagation rate
+                                                                                                                                                   e
+                                                   d                                                                                                   𝑟#$% = 0.855
+                                                                                                                                                       𝑝 < 0.001
+
+
+
+      40-60 years                61-75 years
+                -0.01       0.01
+
+
+
+
+                                                                                                                                                    SC-defined mean neighbor rate
+                                                                                                                                                    𝑟#$% = 0.835
+               -0.005       0.005                                                                                                                   𝑝 < 0.001
+                                                                       SUVR
+
+                                                                   Nodal Tau
+                                                                   propagation
+                                               -0.04   0.04        rate
+                                                                     ∆ 𝑻𝒂𝒖
+     76-85 years                   >85 years                       =
+                                                                     ∆ 𝑨𝒈𝒆
+         Rate of Tau propagation                                                                                                                   FC-defined mean neighbor rate
+
+
+
+Fig. 3 Age-related and individual-level analyses of tau propagation along SC and FC.
+Panels a–c: GAM with age as a continuous predictor. (a) Cortical surface map of the effect
+size of age on tau accumulation, Bonferroni-corrected at p < 5 × 10−5 , two-sided. (b) Example GAM
+fits for entorhinal cortex, middle temporal gyrus, amygdala, and hippocampus: green lines denote the
+estimated age-trajectory of tau SUVR; shaded gray bands show 95% confidence intervals. (c) Spatial
+maps of the first derivative of the GAM fit (tau propagation rate) plotted for four age windows: <60,
+61–75, 76–85, and >85 years. Panels d–e: individual-level longitudinal analysis. (d) Illustration
+of how nodal tau propagation rates are computed from each subject’s serial scans. (∆Tau/∆Age),
+and the resulting group-mean surface map (averaged over all 210 participants) showing the spatial
+distribution of propagation velocities—highest in medial temporal and subcortical regions. (e) Scatter
+plot of nodal rate versus neighbor-mean rate in SC (gray) and FC (green), with linear fits and 95%
+confidence intervals (red shading). Reported correlations: SC radj = 0.855, FC radj = 0.835, both
+p < 0.001, two-sided.
+
+
+neighbors in SC and FC (scatter plots, Fig. 3e). At a significant level p < 0.001, SC-
+neighbor and FC-neighbor rates explain 85.5 % and 83.5 % of the variance in nodal
+rates, respectively. Across all participants, the adjusted R-squared radj ranges from
+0.679 ∼ 0.855 for SC-based and 0.622 ∼ 0.835 for FC-based analysis (p < 0.001 after
+spinning test).
+
+
+
+                                                              10
+2.4 Explore novel mechanism in connectome-based Tau
+    propagation hypothesis
+To investigate the respective and combined influences of structural and functional
+connectivity on tau propagation, we developed a multi-layer transport framework
+(detailed in Sec. 5) that jointly models SC and FC pathways to capture the spa-
+tiotemporal spread of tau SUVR from longitudinal PET imaging [7]. Specifically, we
+integrate SC and FC graphs into a unified diffusion-reaction operator where the SC-FC
+interaction are learned via a physics-informed neural network (PINN), enabling us to
+evaluate propagation rates directly from baseline scans and forecast future tau accu-
+mulation. Our multi-layer model has achieved promising accuracy in predicting future
+tau aggregation with a prediction error of less than 6.2%, indicating the potential
+of our computational approach for uncovering novel mechanisms in tau propagation.
+Full details of the model formulation, training procedure, and evaluation protocols
+are provided in the Methods section 5. In addition, we disentangle the SC-specific tau
+propagation as us and the FC-specific tau propagation uf , which allows us to explore
+how anatomical wiring and functional co-activation jointly shape pathology spread by
+examining the following hypotheses.
+    Hypothesis I: The mechanistic role of SC and FC in tau propagation
+might vary across different brain regions In the left panel of Fig. 4a, we show
+the bar plot of the disentangled volumes of tau aggregation associated with SC (us
+in blue) and FC (uf in red), across brain lobes, using all ADNI subjects that have
+longitudinal tau PET scans. For each brain region, we examine whether SC leads
+the predominant role in local tau propagation (i.e., us > uf at a significant level of
+p < 0.05) or vice versa, using a one-sided paired t-test. In the right panel of Fig. 4a,
+brain regions where tau propagation is primarily driven by SC and FC are shown in
+blue and red, respectively, with node size reflecting the magnitude of the difference
+between us and uf .
+    Discussion. The results shown in Fig. 4a indicate the following findings. (1) Tau
+propagation at association cortices 4 and subcortical hubs is primarily driven by FC.
+Specifically, the frontal, insula, temporal, and subcortical regions all exhibit median
+FC-fractions of 60–70%, well above chance. This indicates that, over a short-term evo-
+lution (e.g., 1-2 year), tau accumulation in these areas follows patterns of synchronous
+activity (“who-fires-together”) more than anatomical fiber tracts. (2) Posterior and
+paralimbic cortices remain tract-anchored. By contrast, the occipital, parietal, and
+limbic lobes each show median SC-fractions just above 50%, revealing that one-
+year tau increases here still rely more on white-matter pathways than on functional
+co-activation.
+    Hypothesis II: Tau propagation might be shaped by time-varying con-
+tributions from both SC and FC. To investigate age-related shifts in the spatial
+patterns of SC-dominant and FC-dominant tau propagation, we stratified participants
+into four age groups as defined in Fig. 3c and applied the same statistical framework
+
+  4
+    High-order cortical regions outside primary sensory and motor areas that integrate multimodal infor-
+mation (e.g., visual, auditory, somatosensory) and support complex cognitive functions such as attention,
+memory, language, and decision-making. Examples include the prefrontal cortex, posterior parietal cortex,
+and superior temporal sulcus.
+
+
+
+                                                   11
+      a                                      All Subjects
+                                               SC                  FC
+                                SC-specific tau propagation 𝑢!
+                                FC-specific tau propagation 𝑢"
+                  ∗
+                                               ∗
+                                                                                          ∗∗
+
+                                                                                                                                                                                                          𝒖𝒔 *                      𝒖𝒇 *                  𝒑 < 𝟎. 𝟎𝟓
+                                                                                                           ∗∗
+                                                                                                                                                                                                                                                                 FC dominate
+                                                                                                                                                                                                         SC dominate
+                                                                                                                                                                                                                                                                 Group diff
+
+
+
+
+                         l
+
+
+
+
+                                                                           la
+                        l
+
+
+
+
+                       c
+                      ta
+                       l
+
+
+
+
+                                                                                                         l
+                                                                                                        l
+                    ita
+                     ta
+
+
+
+
+                                                                                                      ca
+                                                                                                      ra
+                    bi
+
+                                                                        su
+                  rie
+                on
+
+
+
+
+                                                                                    po
+
+
+                                                                                                  rti
+              Lim
+               c ip
+
+
+
+
+                                                                     In
+             Pa
+
+
+
+
+                                                                                               co
+             Fr
+
+
+
+
+                                                                                   m
+            Oc
+
+
+
+
+                                                                                Te
+
+
+                                                                                             b-
+                                                                                          Su
+                                                                                                                           Age group
+       b
+
+                         This multimodal PET/MRI study shows exactly how Aβ burden “boosts” tau spread along functional circuits (especially in frontal cortex) once structural-tract-mediated seeding (in limbic and primary sensory areas) has already taken place.z
+
+
+                                     Limbic                                                                                                                                                                                                   Frontal Occipital Insula
+                                                                                                             Limbic                                             Frontal Occipital
+                 𝑨𝒈𝒆 ≤ 𝟔𝟎                                                  𝑨𝒈𝒆𝝐[𝟔𝟏, 𝟕𝟓]                                                                   𝑨𝒈𝒆𝝐[𝟕𝟔, 𝟖𝟓]                                                                               𝑨𝒈𝒆 > 𝟖𝟓
+                                                   Sex effect                                                                                                                                            Aβ status
+      c                                                                     FC-dominant                       SC-dominant                              FC-dominant                        SC-dominant                                                                          d
+
+                                                                                                     vs                                                                         vs
+
+                                                                             Occipital                           Occipital
+                                                                                                                                                            Frontal                            Frontal
+                                                                               𝑴𝒂𝒍𝒆                           𝑭𝒆𝒎𝒂𝒍𝒆                                                   −                                   +
+                                                                                                                                                             𝑨𝜷                                  𝑨𝜷
+
+      e                             APOE4 status                                                                                                                                                               Disease phrase
+                                                                                                                                                                                                                                                                                 f
+       FC-dominant SC-dominant                       SC-dominant FC-dominant                                                                                                        FC-dominant SC-dominant                                   SC-dominant FC-dominant
+          Occipital                                      Occipital                                                                                                                     Occipital                                                 Occipital
+
+                                                                                                                                                                                                                                       vs
+                                              vs
+       Frontal    Insula Parietal Limbic             Frontal            Insula Parietal Limbic                                                                                       Frontal            Insula Parietal Limbic Frontal                          Insula Parietal Limbic
+
+           𝒏𝒐𝒏- 𝒄𝒂𝒓𝒓𝒊𝒆𝒓𝒔                                           𝒄𝒂𝒓𝒓𝒊𝒆𝒓𝒔                                                                                                                    "𝑪𝑵 − 𝒍𝒊𝒌𝒆"                                                  "𝑨𝑫 − 𝒍𝒊𝒌𝒆"
+
+Fig. 4 Mechanistic role of SC and FC on tau propagation. (a) Main findings. Left:
+TProportions of tau propagation attributed to structural connectivity (us , blue) and functional con-
+nectivity (uf , red) across different brain lobes. Right: Comparative mapping of us versus uf , where
+blue marks regions with stronger SC-driven propagation and red highlights those with stronger
+FC-driven propagation. Node sizes scale with the absolute difference in magnitude, |us − uf |. (b)
+Dynamic contribution of SC and FC to tau propagation. SC and FC contributions to tau
+propagation across four age stages: <60, 61–75, 76–85, and >85 years. Age-dependent shift in tau
+propagation, with younger individuals showing FC-dominant spread and older individuals showing
+increasing reliance on SC pathways. (c) Stratification analysis by biological sex. Sex-dependent
+effect only manifests a minor modulatory effect on tau propagation, with a modest occipital differ-
+ence that does not alter the overall SC-to-FC propagation architecture. (d) Impact of amyloid-β
+deposition. SC vs. FC comparisons between Aβ+ and Aβ− individuals suggest that Aβ burden
+“boosts” tau spread along functional circuits (especially in frontal cortex). (e) The effect of APOE4
+status on region-specific network conduit in tau propagation. APOE4 carriers show a tran-
+sition from FC- to SC-dominant tau spread in the frontal, occipital, and insula cortex. (f ) Stratified
+results on disease phrase. Group-wise propagation patterns across clinical diagnoses (e.g., CN,
+AD). Except for the temporal and subcortical regions, all other lobes exhibited a reversal in SC–FC
+dominance between AD and CN groups. .
+
+
+used to test Hypothesis I within each subgroup. As illustrated in Fig. 4b, younger
+
+
+
+                                                                                                                                          12
+individuals (age < 60 years) exhibited a spatial pattern in which tau spread was pri-
+marily driven by FC, with dominant effects observed in the frontal, temporal, and
+subcortical regions. However, this pattern shifted progressively with age. In individu-
+als aged 61–75 years, structural connectivity began to play an increasingly prominent
+role, particularly in the frontal and occipital cortices. This trend continued into older
+age groups: among participants aged 76–85 years, SC-driven propagation extended into
+the insular and limbic cortices. In the oldest group (age > 85 years), SC dominance
+became widespread, with structural pathways emerging as the principal conduits for
+tau diffusion across nearly several cortical lobes.
+    Discussion. These findings suggest a dynamic shift in the mechanisms underlying
+tau spread in the aging brain, whereby functional pathways dominate in early stages
+and structural pathways progressively assume control as the brain ages, which are
+consistent with prior studies showing that tau initially spreads through functional con-
+nectivity but progressively depends more on anatomical pathways as aging or disease
+progresses [13, 19]. The evolving mechanism of tau spread has important implications
+for both early intervention and disease prevention in AD. In preclinical or prodro-
+mal stages when tau is likely disseminating via functional networks, interventions that
+target network hyperactivity [20], synaptic dysfunction [21], or excitatory-inhibitory
+imbalance [22] may be especially effective in halting or slowing the initiation of tau
+propagation. Functional imaging biomarkers, such as resting-state fMRI or MEG-
+based connectivity, could therefore play a crucial role in identifying individuals at
+risk and monitoring early treatment response. As the disease advances and structural
+pathways begin to dominate, therapeutic strategies may need to pivot toward pre-
+serving axonal integrity, promoting white matter health, and enhancing neurovascular
+support. For instance, treatments aimed at reducing myelin degradation [23], main-
+taining cytoskeletal stability [24], or improving glymphatic clearance [25] might be
+more effective at this stage. This mechanistic shift also implies the value of longitu-
+dinal, multimodal imaging to capture the dynamic interplay between functional and
+structural connectivity, enabling stage-specific therapeutic targeting.
+    Hypothesis III: The mechanistic role of SC and FC in tau propaga-
+tion might be altered by non-modified AD risk factors. APOE4 is one of the
+strongest genetic AD risk factors. Meanwhile, accumulating evidence indicates that AD
+manifests with sex-specific differences, with a higher prevalence reported in females.
+To examine how these biological factors influence the mechanisms of tau propagation,
+we stratified our analysis by (1) APOE4 carrier status 5 (Fig. 4e) and (2) biological
+sex (Fig. 4c), and assessed the regional dominance of SC versus FC in driving tau
+spread. Sex-stratified analyses revealed largely consistent SC–FC dominance patterns
+across most brain regions between males and females. However, a notable divergence
+emerged in the occipital cortex, where males exhibited a shift toward FC-dominant
+tau propagation. This localized difference may reflect sex-specific vulnerabilities in
+posterior functional networks or divergent neurodegenerative trajectories across sexes,
+which aligns with prior reports of sex-based distinctions in brain connectivity and dis-
+ease progression trajectories [26, 27]. By contrast, APOE4 carrier status exerted a
+
+ 5
+     APOE4 carrier indicates carrying either one copy or two copies of ϵ4.
+
+
+
+
+                                                    13
+more substantial effect on the regional dynamics of tau propagation. In APOE4 car-
+riers, we observed a pronounced shift from FC- to SC-dominant tau spread in the
+frontal, occipital, and insular cortices—potentially reflecting a compensatory reliance
+on preserved structural pathways amid functional network disruption. Conversely, the
+parietal and limbic regions exhibited a transition from SC- to FC-dominance, indi-
+cating increased vulnerability of these heteromodal and memory-related systems to
+network-based propagation. This reconfiguration was widespread: all lobes except the
+temporal and subcortical regions demonstrated a reversal in SC–FC dominance, sug-
+gesting a global restructuring of propagation mechanisms in individuals with elevated
+genetic risk. These findings align with prior evidence linking APOE4 to early break-
+down of default mode network hubs and accelerated cortical disintegration, which
+may shape the evolving pathways through which tau pathology spreads across disease
+stages [28]. Full statistical details and additional results are provided in Fig. A1 of
+Appendix A.
+    Discussion. The effect of APOE4 status on tau propagation appears to be hetero-
+geneous. The transition toward SC-dominance in frontal and insular cortices among
+APOE4 carriers suggests that individuals with elevated genetic risk may engage
+alternate anatomical routes for pathological spread, which may represent a form of
+structural compensation potentially due to early impairment of functional integrity.
+Meanwhile, the observed shift toward FC-dominance in parietal and limbic regions
+may reflect increased vulnerability of association networks central to memory and
+cognitive control.
+    Given that APOE, especially the APOE ϵ4 allele, is crucial for lipid transport and
+metabolism and its function is modulated by sex hormones, carrying APOE4 confers a
+greater risk for AD in females than in males [29]. In light of this, we further investigate
+the sex-by-APOE4 effect on the tau propagation volume separately driven by SC, FC,
+and their difference, alongside the main effects of sex and APOE4 individually. At
+a significant level of p < 0.05, none of the brain regions manifests a significant joint
+effect within the sensitivity limits of our cohort and multi-layer modeling framework.
+    Furthermore, we stratified subjects into “CN-like” (CN, SMC, EMCI) and “AD-
+like” (LMCI, AD) phases based on disease severity reflected in the diagnostic labels
+and investigated the contribution of SC and FC in tau propagation. As shown in Fig.
+4f, the outcome of disease progression exhibits very similar spatial patterns of SC↔FC
+transition as the effect of APOE4 shown in Fig. 4e. That is, a shift from FC- to
+SC-dominant tau propagation in the frontal, occipital, and insular cortices, while the
+parietal and limbic regions exhibited a transition from SC- to FC-dominance.
+    Hypothesis IV: Excessive amyloid accumulation may shift the balance
+between SC and FC in driving tau propagation. We stratified subjects based
+on Aβ status using a threshold of 192 pg/mL (Aβ + : <192; Aβ − : ≥192) on CSF
+biomarker. As shown in Fig. 4d, the increase of Aβ burden at the frontal cortex is
+associated with the shift of connectome driving factors from FC to SC. While Aβ
+deposition does not substantially alter the overall dominance pattern between SC and
+FC, it appears to selectively modulate this balance in specific regions, most notably
+the frontal cortex [30].
+
+
+
+
+                                            14
+     Discussion. One possible interpretation for the observed transition from FC-
+dominant to SC-dominant tau propagation in frontal cortex with elevated amyloid
+plaque accumulation is as follows: Multiple threads of evidence show that Aβ pref-
+erentially targets highly interconnected functional hubs, especially within the default
+mode and frontoparietal control networks, leading to early synaptic dysfunction and
+disintegration of functional coherence [28, 31, 32]. In this context, FC degradation may
+precede and facilitate tau spread by weakening activity-dependent clearance mech-
+anisms and disrupting the propagation of neuronal signals that normally constrain
+pathological spread. As functional networks lose integrity under the toxic influence of
+Aβ , the brain may increasingly rely on residual anatomical pathways to support the
+transneuronal transmission of tau aggregates. This compensatory shift from FC to SC
+dominance mirrors recent evidence showing that functional vulnerability is an early
+hallmark of Aβ -related pathology, while structural degeneration becomes more pro-
+nounced as the disease progresses [16, 33]. Importantly, the selective modulation of tau
+propagation by Aβ burden supports the view that amyloid and tau act synergistically
+yet distinctly on brain networks, and that Aβ may not only trigger tau pathology but
+also reshape its preferred routes of spread. Understanding how regional Aβ deposi-
+tion alters the balance between functional and structural propagation pathways may
+inform more targeted therapeutic interventions aimed at preserving network integrity
+and slowing disease progression.
+     Hypothesis V: The spatial pattern of SC/FC dominance in tau propa-
+gation might be linked to genetic risk factors. To identify molecular drivers of
+spatial SC-dominant and FC-dominant patterns in tau propagation, we performed a
+weighted gene co-expression network analysis (WGCNA) [34] and functional enrich-
+ment analysis from 15,633 genes. Specifically, we first retrieved 764 AD-related genes
+from the MalaCards Human Disease Database [35]. On top of these, 579 genes were
+mapped to the Abagen-derived [36] expression matrix for N = 160 Destrieux parcels
+(see the Appendix B.2, Table B2) and used for WGCNA. This analysis identified a key
+gene module (“salmon” module) containing 18 AD-related genes—including RCAN1,
+NOTCH1, PICALM, ADAM10, HSPD1, NFE2L2, HSPA5, MCL1, MAP2K7, CHUK,
+IKBKB, CTNNB1, RHOA, SIRT1, SP1, TH, TMEM106B, and CSNK1A1 (resulting
+in G = 18 × N gene expression data matrix)—that was preferentially expressed in 12
+subcortical regions. Further analysis of this module, including gene expression speci-
+ficity, co-expression correlations, and protein-protein interaction networks, is presented
+in Appendix B.2.
+     Next, we determined which risk genes contribute to SC/FC-dominant brain map-
+ping in tau propagation. To do so, we applied non-negative least absolute shrinkage
+and selection operator (LASSO) regression with B = 100 bootstrap resamples. First,
+we conducted group comparisons between AD and CN subjects for both us and uf
+components using mixed-effects modeling to identify significant cortical regions. The
+resulting two-sided p-values were transformed into −   log 10 p scores and used as the tar-
+                                                         1
+get variable in LASSO regression, i.e., β̂ = arg min 2n ∥ − log10 (p) − Gβ∥22 + λ∥β∥1 .
+These scores were regressed against the N × G gene expression matrix G, and the
+frequency sj of each gene j being
+                                 selected with a nonzero coefficient across resamples
+                       1
+                         PB         (b)
+was recorded:sj = B b=1 I βj ̸= 0 . Here, λ is a regularization parameter that
+
+
+                                            15
+controls sparsity in the regression model: higher values of λ enforce greater sparsity
+by penalizing large coefficients, leading to fewer genes being selected. We explored a
+logarithmic grid of 15 values ranging from 0.0001 to 1 to determine robust gene sig-
+natures. The vector β in the LASSO regression represents the regression coefficients
+assigned to each gene. Each element βj quantifies how strongly the expression of gene
+j contributes to predicting the regional sensitivity to SC–FC propagation asymmetry
+(measured by − log10 p). If βj = 0, gene j is not predictive (excluded by LASSO). If
+βj ̸= 0, gene j contributes to the model and is considered a candidate biomarker (i.e., I
+is an indicator function). Genes with consistently high selection frequency (sj ) across
+bootstraps were considered stable predictors.
+
+                                1                                                          1 %
+ LASSO Regression: 𝛽" = ar𝑔𝑚𝑖𝑛{   −𝑙𝑜𝑔!" 𝒑 − 𝑮𝛽 ## + 𝝀 𝛽 ! } Gene selection frequency: 𝒔𝒋 = ) 𝕀(𝛽8!(#) ≠ 0)
+                               2𝑛                                                          𝐵 #&'
+                                                                                                         ADNI
+ 𝑢!                                                      HS P
+                                                                A5                         𝑢"                            HS P
+                                                                                                                                  D1 TM
+                                                                                                                                       EM106B NOTCH1 CTN
+                                                                                                                                                        NB1
+                                                                                                                                                                IKB
+                                                                                                                                                                                        𝑢" |𝑢!                CHU
+                                                                                                                                                                                                                  K
+                                                                                                                                                                                                                      MCL1       SP1
+                                                                                                                                                                                                                                                      RH
+                      L1                                             SP                                            L1                                              KB                                                                                    O
+                                                                          1                                      MC                                                                                                                                          A
+                    MC
+                                                                              RH                                                                                                                                                                                 HS
+              H1                                                                 O                                                                                                                                                                                    PA
+            TC                                                                       A                  TH                                                                                          TH                                                                     5
+         NO
+                                              𝑮                                                                                                𝑮                                                                             𝑮
+
+
+
+
+                                                                                                                                                                                             1
+                                                                                         PIC
+
+
+
+
+                                                                                                                                                                                                                                                                                HS
+                                                                                                                                                                                          CH
+  KU
+
+
+
+
+                                                                                            AL
+
+
+
+
+                                                                                                                                                                                                                                                                                   PD
+                                                                                                                                                                                           T
+CH
+
+
+
+
+                                                                                                                                                                                        NO
+                                                                                           M
+
+
+
+
+                                                                                                                                                                                                                                                                                       1
+       𝒔𝒋                                     𝕀                                                   𝒔𝒋                                        𝕀                                                  𝒔𝒋                            𝕀                             1                         𝟑
+                                                                      1                                                                                              1
+                               𝝀                                                                                             𝝀                                                                                𝝀
+
+
+
+
+                                                                                                                                                                                                                                                                               t-value
+                                                           01                                                                                              01                                                                              01
+                                                        0.0                                                                                             0.0                                                                             0.0
+
+
+                                                                                                                                                                                                                                                                                −𝟑
+                                                                                           𝒕 − 𝒗𝒂𝒍𝒖𝒆 𝒊𝒏 𝑪𝑵 𝒗𝒔 𝑨𝑫 𝒈𝒓𝒐𝒖𝒑 𝒄𝒐𝒎𝒑𝒂𝒓𝒊𝒔𝒐𝒏
+                                       CHUK       SP1                                                                                  IKBKB                                                                          SP1        MCL1
+                                                                                                                                                                                                                                         HS P A
+                                                                                                                                                                                                                                                                  OASIS
+                               MCL
+                                   1                     HS P
+                                                                A5                                                           NO   TCH1                                                                        CHU
+                                                                                                                                                                                                                  K                               5
+                                                                                                                        6B
+                   PIC
+                      AL
+                           M
+                                                                                                                 EM
+                                                                                                                   10                              𝕀                                                     TH
+                                                                                                               TM                                                        CT
+                                                                                                           1                                                                NN
+
+
+
+
+                                                                                                                                                                                                                                                                 RH
+                                                                                                        CL                                                                    B1
+
+
+
+
+                                                                                                                                                                                                                                                                    O
+                                                                                                       M
+
+
+
+
+                                                                                                                                                                                                                                                                      A
+                                              𝑮                                                                                                𝑮                                                                             𝑮
+
+
+                                                                                                                                                                                             1
+     1
+
+
+
+
+                                                                                                                                                                                                                                                                               HS
+                                                                                                                                                                                   HS
+                                                                                         RH
+
+
+
+
+                                                                                                                                                                                          CH
+  CH
+
+
+
+
+                                                                                                 TH
+
+
+
+
+                                                                                                                                                                                                                                                                                  PD
+                                                                                                                                                                                   PD
+   T
+
+
+
+
+                                                                                            O
+
+
+
+
+                                                                                                                                                                                           T
+NO
+
+
+
+
+                                                                                                                                                                                        NO
+                                                                                           A
+
+
+
+
+                                                                                                                                                                                                                                                                                      1
+                                                                                                                                                                                    1
+                                                                                                                                                                                                                                                                                     𝟏
+   𝒔𝒋                                                                                             𝒔𝒋                                                                                       𝒔𝒋
+                                          𝕀                           1                                                                        𝕀                 1                                                           𝕀                         1
+                               𝜆                                                                                             𝜆                                                                                𝝀
+
+
+
+
+                                                                                                                                                                                                                                                                                𝕀
+                                                           01                                                                                             01                                                                               01
+                                                        0.0                                                                                            0.0                                                                              0.0
+
+                                                                                                                                                                                                                                                                                     𝟎
+
+                                                                                                𝒕 − 𝒗𝒂𝒍𝒖𝒆 𝒊𝒏 𝑪𝑵 𝒗𝒔 𝑨𝑫 𝒈𝒓𝒐𝒖𝒑 𝒄𝒐𝒎𝒑𝒂𝒓𝒊𝒔𝒐𝒏
+                                                                                                                             Gene expression
+                                                                                                                                                                                                                                                                                  𝟎. 𝟗
+
+
+
+
+                                                                                                                                                                                                                                                                                expression
+                                                                     TMEM106B                                                                                                                                                    NOTCH1
+                       CHUK                                                                                                            TH                                          MCL1
+
+                                                                                                                                                                                                                                                                                      𝟎
+
+
+
+Fig. 5 Gene correlates of SC- and FC-dominant tau propagation on ADNI and OASIS
+datasets. Top: LASSO selection results using tau propagation associated with FC (uf ) (left), asso-
+ciated with SC (us ) (middle), and the selection pattern of SC-FC dominance that both us and uf
+exhibit significant difference between CN and AD (right). Pie chart–selection paths across regular-
+ization (λ) for the top 10 genes (first six genes are more stable). Violin diagram: Gene selection
+frequency over 100 non-negative LASSO bootstrap resamples. Brain mapping under the violin dia-
+gram: t-value in each CN vs AD group comparison (p < 0.05). Shaded genes are the common genes
+on both ADNI and OASIS datasets. Star denotes the common genes across us and uf . Bottom:
+Abagen-derived expression maps of nine consensus genes plotted on Destrieux cortical (top rows)
+and subcortical (bottom rows) surfaces. Color scale denotes normalized expression (0–0.9). CHUK:
+Conserved Helix-Loop-Helix Ubiquitous Kinase, TH: Tyrosine Hydroxylase, TMEM106B: Transmem-
+brane Protein 106B, MCL1: Myeloid Cell Leukemia 1, NOTCH1: Notch receptor 1
+
+
+
+
+                                                                                                                                            16
+    As shown in Fig. 5, the top six genes selected by frequency show a modest dif-
+ference between SC- and FC-dominant patterns. Notably, the LASSO regression for
+FC-dominant patterns identified a consistent set of genes across both ADNI and
+OASIS datasets—including CHUK, NOTCH1, MCL1, HSPA5, and SP1 (Fig. 5, left,
+shaded). These genes were robustly selected across bootstrap resamples (blue sectors
+in the pie chart), suggesting a stable association with FC-dominant tau propagation.
+Many of the genes are involved in cellular stress responses, synaptic signaling, and
+neuroinflammation processes implicated in activity-dependent tau spread. In contrast,
+SC-dominant propagation was associated with distinct expression patterns of TH,
+MCL1, TMEM106B, NOTCH1, and IKBKB (Fig. 5, middle, shaded). These genes
+are enriched for functions supporting axonal structure and white matter integrity. For
+example, TMEM106B is involved in lysosomal trafficking and myelination; NOTCH1
+and CTNNB1 regulate neurodevelopment and synaptic plasticity; IKBKB controls
+inflammatory cascades that may accelerate axonal degeneration; and HSPD1, a mito-
+chondrial chaperonin, aids neuronal protein folding and protects against oxidative
+damage. Together, these findings indicate a biologically meaningful distinction: FC-
+dominant tau propagation reflects activity-driven vulnerability tied to synaptic and
+inflammatory pathways [37, 38], while SC-dominant spread aligns with mechanisms
+maintaining axonal health and glial support.
+    Discussion. CHUK, MCL1, TH, TMEM106B, and NOTCH1 were shared across
+both SC- and FC-dominant gene lists, suggesting that these genes play a robust
+and substrate-independent role in tau propagation. Their consistent selection across
+models and datasets provides evidence that there exists a set of molecular drivers
+that may be fundamentally involved in the spread of tau pathology, regardless of
+whether it is shaped primarily by functional dynamics or structural pathways. This
+convergence supports the notion that both network types may act through common
+biological processes, such as inflammation (CHUK, IKBKB ), mitochondrial function
+(MCL1 ), neurodevelopment (NOTCH1 ), and lysosomal trafficking (TMEM106B ),
+which together modulate vulnerability to tau dissemination across the brain.
+    Fig. 5 (bottom) visualizes the spatial expression gradients of these five consensus
+genes on Destrieux-parcellated cortical and subcortical surfaces, confirming that their
+expression patterns broadly co-localize with regions of high tau deposition. From the
+spatial maps, we observed that each gene exhibits a distinct but biologically plausible
+gradient that mirrors tau-vulnerable regions:
+
+  • CHUK expression exhibits striking regional specificity in the human brain, with
+    relatively high levels observed in the medial prefrontal cortex, anterior cingulate
+    cortex, and medial temporal lobe—including the hippocampus and entorhinal
+    cortex—regions critically involved in cognitive control, emotional regulation, and
+    memory processing. These areas are among the earliest affected by tau pathology
+    and neurodegeneration in AD [1, 33]. In contrast, CHUK expression is markedly
+    lower in primary sensory and visual cortices, suggesting a preferential involve-
+    ment in higher-order associative regions rather than unimodal processing areas.
+    Notably, the expression pattern is bilaterally symmetric and includes deep cortical
+    and limbic structures, supporting a potential role in global regulatory processes
+
+
+
+                                          17
+    across hemispheres. Functionally, CHUK encodes IKKα, a central kinase in the
+    canonical NF-kB signaling pathway, which is a key mediator of inflammation and
+    cellular stress responses. CHUK has been implicated in astrocyte and microglia
+    activation under neuroinflammatory conditions [39], processes known to con-
+    tribute to region-specific vulnerability in AD [40]. Elevated CHUK expression in
+    tau-vulnerable areas may thus reflect glial-driven innate immune activity that
+    exacerbates tau pathology via cytokine release, oxidative stress, or blood–brain
+    barrier dysfunction.
+  • TMEM106B exhibits moderate yet widespread cortical expression, with rela-
+    tive enrichment in the dorsolateral prefrontal cortex and angular gyrus—regions
+    associated with executive and semantic functions. In subcortical areas, expres-
+    sion peaks in the hippocampal formation and limbic structures adjacent to the
+    insula, which are known epicenters of early tau accumulation in Alzheimer’s dis-
+    ease [1, 41]. TMEM106B encodes a lysosomal membrane protein essential for
+    endo-lysosomal trafficking and autophagic clearance; its dysfunction exacerbates
+    tau and TDP-43 pathologies in cellular and animal models [42, 43]. Together,
+    these spatial and mechanistic patterns suggest that TMEM106B may contribute
+    to regional tau aggregation by impairing lysosomal.
+  • Tyrosine Hydroxylase (TH) shows highest expression in medial temporal
+    regions—particularly the entorhinal cortex and parahippocampal gyrus—as well
+    as in subcortical structures such as the hippocampus, amygdala, and striatum.
+    Expression is comparatively lower in lateral parietal and frontal cortices. This
+    spatial profile aligns with TH’s role in catecholamine biosynthesis and overlaps
+    with regions susceptible to early tau pathology in Alzheimer’s disease [1, 44].
+  • MCL1 shows relatively low expression throughout the neocortex but exhibits
+    pronounced upregulation in medial temporal and subcortical regions, particularly
+    the hippocampus, amygdala, and thalamus. This spatial pattern is consistent
+    with MCL1’s role in regulating mitochondrial-dependent apoptosis, a process
+    implicated in tau-related neurodegeneration and neuronal survival in AD [44].
+  • NOTCH1 exhibits moderate expression in heteromodal association cortices,
+    including the middle temporal and inferior parietal regions, as well as in sub-
+    cortical limbic structures. This pattern aligns with NOTCH1’s established role
+    in neural development and synaptic plasticity, processes that are increasingly
+    recognized as relevant to neurodegenerative disease progression [45, 46].
+
+    Furthermore, we identified the genetic risk factors that are linked to the SC-FC
+dominance selection pattern that both us (tau propagation associated with SC) and
+uf (tau propagation associated with FC) exhibit, showing group differences between
+CN and AD. We first selected cortical regions that showed significant differences in
+us and uf between AD and CN groups based on mixed-effects modeling. For these
+significant regions, we constructed a binary dominance index vector as the response
+variable: regions where SC predominated (us > uf ) were assigned a label of +1, while
+regions where FC predominated (uf > us ) were labeled −1. We then applied non-
+negative LASSO regression using this dominance vector as the target y and the gene
+expression matrix as predictors, again recording the selection frequency sj of each
+
+
+
+                                         18
+gene across B = 100 bootstrap resamples. This approach allowed us to pinpoint AD
+risk genes whose spatial expression patterns are predictive of whether structural or
+functional pathways more strongly influence tau propagation in a given brain region.
+The top-right panel of Fig. 5 highlights risk genes identified through non-negative
+LASSO regression as predictive of SC- versus FC-dominant tau propagation. Interest-
+ingly, many of the top-selected genes overlapped with those identified in earlier us and
+uf –based analyses, suggesting that these genes not only track with tau burden but
+also differentiate the relative contribution of structural and functional pathways to tau
+spread. Among these, NOTCH1, TH, CHUK, and MCL1 stood out as consistently
+selected across both analyses, reinforcing their relevance as core modulators of regional
+tau vulnerability. SP1, a transcription factor known to regulate tau phosphorylation
+and amyloid precursor protein (APP) expression, was also robustly selected—pointing
+to its potential role at the intersection of amyloid and tau pathology. Several addi-
+tional genes were identified that may refine the SC–FC dichotomy, including those
+involved in axonal transport (e.g., KIF5C ), immune signaling (e.g., TNFAIP3 ), and
+calcium homeostasis (e.g., ATP2B2 ). These findings collectively suggest that the
+structural–functional balance of tau propagation is shaped not only by macroscale
+connectome features but also by spatially distributed molecular programs that govern
+neuroinflammation, mitochondrial integrity, transcriptional regulation, and neuronal
+excitability.
+
+2.5 Mediation analysis for the interplay between SC-driven,
+    FC-driven tau propagation, and cognitive decline in AD
+Since tau pathology directly reflects neurodegeneration and cognitive impairment in
+AD, Tau accumulation is associated with Mini-Mental State Examination (MMSE)
+scores [47]. The disentangled tau accumulation us driven by SC and uf by FC provides
+a new opportunity to elucidate the causal relationship between us , uf , and MMSE. In
+this context, a set of structural equation models (SEMs) are listed below (Table 1):
+
+Table 1 Summary of mediation analysis paths and variables.
+
+                         Effect of uf on MMSE           Effect of us on MMSE
+       Description
+                         mediated by us (Fig. 6a)       mediated by uf (Fig. 6b)
+       Direct path             uf → M M SE                    us → M M SE
+       Indirect path        uf → us → M M SE               us → uf → M M SE
+       Predictor X       functional propagation uf      structural propagation us
+       Mediator M        structural propagation us      functional propagation uf
+       Outcome Y                   MMSE                           MMSE
+       Confounders        age, sex, APOE4 status         age, sex, APOE4 status
+
+
+    Brain regions exhibiting significant direct or indirect effects on MMSE at the
+p < 0.05 level are displayed at the bottom of Fig. 6 (left: SEM results correspond-
+ing to the second column of Table 1; right: third column). Regions identified from the
+
+
+
+                                             19
+ADNI and OASIS datasets are highlighted with green and red backgrounds, respec-
+tively. While both SC and FC pathways contribute to tau accumulation, our findings
+indicate that functional connectivity plays a more prominent role in directly linking
+tau pathology to cognitive decline. In contrast, tau spread mediated by structural
+connectivity shows a substantially weaker association with cognitive impairment, indi-
+cating the critical influence of functional network disruption on cognitive outcomes. In
+summary, neither SC nor FC alone fully explains cognition. Instead, global cognitive
+performance emerges from their dynamic interplay to the extent that white-matter
+scaffolds seed functional co-activations which in turn promote anatomical constraints
+to drive cognitive decline.
+    Discussion. In addition to mediation analyses, we also examined the role of demo-
+graphic and genetic confounders in the SEM. Among the covariates, age emerged as a
+significant factor associated with cognitive decline via tau propagation in the frontal
+and temporal lobes across both cohorts, pointing to increased susceptibility of these
+lobes to age-related cognitive decline. In contrast, APOE4 genotype and sex exhibited
+minimal regional effects, indicating a more modest modulatory role in the observed
+relationship between connectivity-driven tau propagation and cognitive decline. This
+pattern is consistent with prior studies demonstrating that age is a primary driver of
+cognitive decline in AD, particularly in frontal and temporal regions, while the effects
+of APOE4 and sex are often more indirect or context-dependent [48–50].
+
+3 Method validation
+3.1 Rigorous model validation across data cohorts
+To fully evaluate our model’s ability to forecast longitudinal tau burden, we trained
+and tested on baseline-to-follow-up SUVR data using a 5-fold cross-validation. We
+benchmarked against following leading deep-learning approaches on ADNI and OASIS
+datasets: (1) Graph neural networks including GCN [51], GCNII [52], GAT, and
+GATv2 [53]. For these methods, the baseline SUVR vector serves as node features,
+and SC and/or FC define the adjacency. (2) Recurrent neural network (RNN ) [54]
+(Sequential model), which ingests the baseline SUVR without explicit graph structure.
+(3) Liquid time-constant network (LTCNet ) [55] (Dynamical systems model), which
+is designed under a continuous-time recurrent architecture.
+    To disentangle the contributions of white-matter versus functional pathways, we
+performed ablations using (i) SC alone, (ii) FC alone, and (iii) both SC and FC
+(“SC+FC”). For non-graph models, we concatenated separate SC- and FC-driven
+propagations via a final fully-connected layer. Table 2 reports mean absolute error
+(MAE) across all methods and input settings.
+    Our multi-layer neural transport model outperforms every competitor (paired t-
+test, p < 0.05) under all ablation conditions, demonstrating that explicitly modeling
+SC–FC interactions yields superior accuracy in predicting future tau burden.
+    There is a clear gain in performance when both SC and FC are modeled jointly.
+To quantify their individual contributions, we performed an ablation study with our
+multi-layer transport model. Fig. 7 (top) shows scatter plots of observed follow-
+up SUVR versus model predictions under three regimes—SC only (left), FC only
+
+
+                                          20
+Fig. 6 Mediation analysis of structural and functional contributions to cognition
+through tau propagation. Top: SEM: uf → us →MMSE (a) and SEM us → uf →MMSE (b).
+Bottom: Identified brain region showing significant direct effect (1st row) and in-direct effect (2nd
+row), at a significance level p < 0.05, where we show the mediation result for ADNI (with green back-
+ground) and OASIS (with red background) respectively. Age, sex, and APOE genotype are included
+as covariates. The purple dashed box highlights regions where age showed significant effects on MMSE
+(p < 0.01) in both datasets, particularly within the frontal and temporal lobes.
+
+
+(middle), and SC+FC interaction (right)—with each point colored by its anatom-
+ical lobe. Fitting a simple linear regression yields: SC only (ADNI: slope=0.93,
+R2 = 0.99, OASIS: slope=0.70, R2 = 0.94), FC only (ADNI: slope=0.89, R2 = 0.97,
+OASIS: slope=0.59, R2 = 0.96) and SC+FC (ADNI: slope=0.98, R2 = 0.99, OASIS:
+slope=0.89, R2 = 0.97). Our multi-layer model (SC+FC) not only recovers an unbi-
+ased (near unity) relationship to ground truth but also explains substantially more
+variance, indicating the critical role of SC–FC interactions in accurate tau forecasting.
+Fig. 7 (bottom) summarizes regional prediction errors (MAE) averaged within each of
+the seven lobes (frontal, insula, temporal, occipital, parietal, limbic, subcortical). Box-
+plots denote MAE for SC only (left), FC only (middle), and SC+FC (right). Across
+every lobe—most notably temporal and subcortical regions—the combined SC–FC
+model consistently achieves the lowest error. Together, these ablation results provide
+converging evidence that explicitly modeling the interplay between anatomical wiring
+and functional co-activation is essential for maximizing the fidelity of tau-propagation
+predictions.
+
+
+
+                                                 21
+Table 2 Mean Absolute Error (MAE) of different models using SC, FC, or combined SC+FC
+inputs. Values are mean ± SD.
+
+ Dataset     Method                        SC               FC             SC+FC
+             GCN                       0.204 ± 0.047    0.193 ± 0.026    0.189 ± 0.011
+             GCNII                     0.221 ± 0.021    0.315 ± 0.039    0.347 ± 0.040
+             GAT                       0.466 ± 0.072    0.420 ± 0.065    0.509 ± 0.053
+ ADNI        GATv2                     0.371 ± 0.027    0.432 ± 0.021    0.353 ± 0.051
+             RNN                       0.334 ± 0.051    0.368 ± 0.029    0.291 ± 0.046
+             LTC-Net                   0.238 ± 0.032    0.252 ± 0.067    0.234 ± 0.029
+             Our Multi-layer Model    0.093 ± 0.023    0.134 ± 0.036    0.062 ± 0.014
+             GCN                       0.482 ± 0.058    0.501 ± 0.040    0.479 ± 0.032
+             GCNII                     0.533 ± 0.023    0.575 ± 0.023    0.577 ± 0.038
+             GAT                       0.526 ± 0.027    0.570 ± 0.016    0.517 ± 0.029
+ OASIS3      GATv2                     0.471 ± 0.033    0.551 ± 0.024    0.495 ± 0.026
+             RNN                       0.519 ± 0.045    0.552 ± 0.039    0.522 ± 0.027
+             LTC-Net                   0.457 ± 0.048    0.469 ± 0.023    0.442 ± 0.029
+             Our Multi-layer Model    0.392 ± 0.133    0.415 ± 0.156    0.356 ± 0.137
+
+
+    Although anatomical tracts are known being associated with the prion-like tau
+propagation theory, our multilayer model shows that functional co-activation can fur-
+ther amplify accumulation—particularly in later-affected regions (temporal lobe and
+subcortical nuclei), which are FC-dominant. This suggests a stage-dependent shift
+from predominantly SC-driven seeding to FC-mediated propagation in advanced AD.
+To validate the generalizability of the identified tau propagation patterns, we further
+examined SC versus FC contributions using the independent OASIS dataset (Fig. 8).
+Consistent with our main analyses, tau propagation showed differential reliance on SC
+and FC networks across cortical regions, with a notable transition from FC-dominant
+to SC-dominant pathways with increasing age. Stratified analyses by sex revealed only
+subtle modulatory effects, with minimal sex-related variations largely restricted to
+occipital regions. In contrast, comparisons across clinical diagnostic groups demon-
+strated significant shifts toward structural dominance in AD relative to cognitively
+normal subjects, aligning closely with patterns observed in the ADNI cohort. Addi-
+tionally, carriers of the APOE4 allele exhibited greater reliance on SC-mediated tau
+propagation, underscoring genetic modulation of SC–FC interactions. These conver-
+gent findings from OASIS strongly support the robustness and consistency of our
+observed tau propagation mechanisms across diverse populations.
+
+4 Conclusion and future work
+In this study, we developed a novel multi-layer neural transport model to investigate
+how structural and functional connectivity jointly shape the propagation of patho-
+logical tau in Alzheimer’s disease. By explicitly modeling SC–FC interactions, our
+framework captures complex, region-specific dynamics of tau spread underlining the
+topology of human connectome. Our findings reveal that functional connectivity pri-
+marily drives tau propagation in subcortical, insular, frontal, and temporal regions,
+
+
+                                           22
+ ADNI             SC                                    FC                         SC+FC
+
+
+
+                                                                                                         0.3
+
+
+                                                                                                         0
+
+
+ OASIS
+
+
+
+                                                                                                         0.8
+
+
+                                                                                                         0
+
+
+
+
+          ADNI                                               OASIS
+
+          **     ** 𝒑 < 𝟏𝟎!𝟓   **     **
+                                **           **
+           **                          **     **
+                  **
+                   **                                                                               **
+                                                                                            *
+                                                   **          *
+                        **
+                         **          * 𝒑 < 𝟎. 𝟎𝟓    *           *    * 𝒑 < 𝟎. 𝟎𝟓      ** 𝒑 < 𝟏𝟎!𝟓
+
+
+
+
+Fig. 7 The predicted performance by our model on ADNI and OASIS datasets. Top: MAE
+between follow-up PET-derived tau distributions and model predictions based on SC alone (left), FC
+alone (middle), and the combined SC–FC interaction (right). Colors denote different cerebral lobes.
+The accompanying brain maps illustrate the regional average MAE for each modeling approach,
+with orange indicating higher error and purple indicating lower error. Bottom: Lobar-wise mean and
+standard deviation of MAE for predicting future tau burden using SC only, FC only, and SC–FC
+interaction.
+
+
+whereas structural connectivity plays a greater role in occipital, parietal, and lim-
+bic areas. Overall, the relative contribution of structural and functional connectivity
+to tau propagation evolves throughout the course of disease progression, where FC
+predominates in the early stages while SC plays a more prominent role as the dis-
+ease advances. Moreover, we demonstrate that the spatial distribution of SC- and
+FC-dominant regions aligns with the expression patterns of AD risk genes, includ-
+ing CHUK, TMEM106B, MCL1, NOTCH1, and TH. Meanwhile, we observe dynamic
+shifts in SC–FC contributions across disease stages, regionally specific modulation by
+APOE genotype and Aβ deposition, and subtle sex- and age-related alterations in
+the dominant pathways of tau propagation. These findings are robust across indepen-
+dent AD cohorts and offer mechanistic insights into the network-level basis of disease
+progression.
+
+
+
+
+                                                        23
+Fig. 8 Group-wise analysis of structural vs. functional propagation on the OASIS
+dataset. (a) All subjects. Left: Proportion of tau spread attributed to structural connectivity (u1s ,
+blue) and functional connectivity (u1f , red) across brain lobes. Right: Comparative map of u1s versus
+u1f , where blue marks regions with stronger SC-driven propagation and red marks those dominated
+by FC-driven propagation. Node sizes scale with the absolute magnitude of the difference, |u1s − u1f |.
+(b) Age groups. SC and FC contributions to tau propagation across three age stages: <60, 61–75,
+and >75 years. With increasing age, tau propagation shifts toward greater reliance on structural con-
+nectivity, reflecting an age-dependent transition from FC- to SC-dominant pathways—a pattern that
+aligns with findings from the ADNI cohort. (c) Sex groups. SC vs. FC propagation stratified by
+sex. Sex exerts only a minor modulatory effect on tau propagation, with a modest occipital difference
+that does not alter the overall SC-to-FC propagation architecture. (d) Diagnostic groups. Group-
+wise propagation patterns across clinical diagnoses (e.g., CN, AD). A widespread shift in SC–FC
+dominance is observed between Alzheimer’s disease and cognitively normal groups, with most brain
+regions exhibiting either subtle or pronounced transitions—mirroring patterns reported in the ADNI
+cohort. (e) APOE4 status. SC and FC contributions based on the presence or absence of the
+APOE4 allele. APOE-4 genotype modulates the balance between SC- and FC-mediated tau propa-
+gation, with carriers showing a regional shift toward SC dominance, consistent with ADNI findings.
+
+
+    Our current computational framework is based on the assumption that tau prop-
+agation is shaped by the underlying network topology. Although we explore the
+influence of other biomarkers, such as Aβ plaques, on tau propagation in post-
+hoc analyses, additional AD-relevant biomarkers have not yet been incorporated
+into the model. In future work, we plan to generalize our modeling framework to
+take biomarker-to-biomarker interactions into account. We will apply our multi-layer
+model to other neurodegenerative disorders to uncover shared or distinct principles of
+pathological spread across brain networks.
+
+
+                                                  24
+5 Methods
+5.1 Problem Definition
+We aim to characterize how large-scale brain network architecture shapes the prop-
+agation of tau pathology throughout the course of Alzheimer’s disease (AD). Each
+subject’s structural and functional connectomes are represented as a weighted graph
+G = (V, W ), where V = {vi }N                                             N
+                              i=1 denotes N brain regions and W = [wij ]i,j=1 encodes
+connection strengths. Regional tau burden is quantified using standardized uptake
+value ratios (SUVRs), denoted as x = [xi ]N                           0
+                                            i=1 . Given baseline tau x , our goal is to
+                      1
+predict future tau x by leveraging both anatomical and functional connectivity. The
+structural connectivity (SC) matrix S = [sij ] and functional connectivity (FC) matrix
+F = [fij ] serve as the graph adjacency representations.
+
+5.2 Tau Propagation as Network-Guided Transport
+Neuropathological evidence suggests that tau does not diffuse randomly, but pref-
+erentially spreads along large-scale brain networks. To mechanistically capture this
+phenomenon, we embed tau burden into an energy-based latent space u = ϕ(x), where
+ϕ is a learnable mapping. The spatiotemporal evolution of u follows a conservative
+mass-transport principle, analogous to diffusion:
+
+                                   ∂u
+                                      + div(q ) = 0,                                (1)
+                                   ∂t
+
+where div(·) denotes the graph divergence and q represents the flux along edges.
+Following Fourier’s law:
+
+                         q = −c∇u,    (∇u)ij = wij (ui − uj ),                      (2)
+
+where c denotes diffusivity and ∇ is the graph gradient. Substituting into the
+continuity equation gives:
+
+                       ∂u
+                          = −div(c∇u) = −c∆u,          u = ϕ(x),                    (3)
+                       ∂t
+where ∆ is the graph Laplacian. This formulation provides a physics-inspired and
+biologically informed model of how connectome topology influences tau spread.
+
+5.3 Multi-Layer SC–FC Propagation Model
+Tau pathology may propagate along distinct but interacting anatomical and functional
+pathways. To account for this, we introduce two coupled latent states, us and uf ,
+representing SC-driven and FC-driven propagation, respectively. Each state evolves
+on its own connectivity network while interacting through learnable cross-layer terms,
+forming a bi-layer network model (Fig. 9). Let ∆s and ∆f denote the Laplacians of
+
+
+
+
+                                          25
+                       𝑢"#       Feedback       𝑢"#
+                                                          PDE Solver
+                                                            {𝑀! }
+                                                                         𝑢"$
+
+                                 LQR {𝐾! }                                         MLP
+    !      GCN                                                              +                 𝑥&
+𝑥        {𝐻! , 𝐻" }
+                                                                                   {Θ}
+
+                       𝑢%#       Feedback       𝑢%#
+                                                          PDE Solver
+                                                            {𝑀" }
+                                                                         𝑢%$
+                                 LQR {𝐾" }
+
+
+
+Fig. 9 Architecture of the proposed closed-loop multi-layer neural transport model.
+Baseline tau SUVR values x0 are mapped to SC- and FC-specific latent potentials us , uf governed
+by coupled transport equations with feedback control. The final output x̂1 predicts tau at the next
+time point. The design enables mechanistic interpretability of SC vs. FC propagation pathways.
+
+
+the SC and FC graphs:
+
+                             ∂us                      ∂uf
+                                 = −c ∆s us ,             = −c ∆f uf .                         (4)
+                              ∂t                       ∂t
+    To model cross-talk between layers, we introduce bidirectional feedback via
+trainable coupling matrices Ms , Mf and weights λs , λf :
+                                (
+                                    ∂us
+                                     ∂t = −∆s us + λs Ms uf ,                                  (5)
+                                    ∂uf
+                                     ∂t = −∆f uf + λf Mf us .
+
+
+This can be expressed compactly as:
+                                                
+                               ∂ us      −∆s λs Ms us
+                                     =                 ,                                       (6)
+                               ∂t uf     λf Mf −∆f uf
+                                       |     {z   }
+                                                      A
+
+
+with the constraint ϕ−1 (us + uf ) = x.
+
+5.4 Closed-Loop Control for SC–FC Coupling
+We incorporate a feedback control formulation to dynamically balance the contribu-
+tions of SC and FC over time. This mechanism learns subject- and region-specific
+weights, indicating when and where tau propagation is predominantly anatomical ver-
+sus functional. Designed for mechanistic interpretability, the latent variables us and
+uf explicitly capture SC- and FC-driven propagation components, allowing the detec-
+tion of regional shifts in dominant pathways as the disease progresses. Such shifts can
+be quantitatively examined against known biological and genetic factors, including
+APOE genotype, amyloid burden, and inflammation-related gene expression. Formally,
+
+
+                                                26
+we cast the coupled dynamics as a controllable linear system and apply a full-state
+feedback control framework:
+                         ∂u
+                            = ∆u − M Ku,        M = [Ms , Mf ],                       (7)
+                         ∂t
+where feedback gains Ks , Kf regulate SC- and FC-driven propagation. The energy
+cost functional is:
+                              L = 21 u⊤        1 ⊤
+                                      s Qus + 2 uf Ruf ,                       (8)
+where Q, R are diagonal weight matrices. Using Pontryagin’s Minimum Principle, we
+define:                                                    
+                                 1 ⊤               Pss Psf
+                         J (u) = 2 u P u, P =       ⊤         .                (9)
+                                                  Psf  Pf f
+The optimal feedback law has closed-form K = −R−1 M P , where P satisfies the
+algebraic Riccati equation:
+                                                 
+                                              Q 0
+                             P A + A⊤ P +           = 0.                     (10)
+                                              0 R
+
+This decomposition allows separate optimization of intra-layer (Pss , Pf f ) and cross-
+layer (Psf ) effects.
+
+5.5 Learning Strategy and Implementation
+The learnable parameters include: Γ = {Hs , Hf , Ms , Mf , Ks , Kf }, where Hs , Hf map
+SUVR to potential energy, Ms , Mf capture SC–FC feedback, and Ks , Kf encode feed-
+back control. The coupled PDE is numerically integrated to obtain us , uf , and a
+supervised neural network maps (us , uf ) to predicted tau x̂1 . The objective minimizes:
+∥x1 − x̂1 ∥2F , ensuring faithful prediction while maintaining biological interpretability
+of SC–FC contributions.
+
+6 Resource Availability
+Data Availability. The involved disease-based data can be found and downloaded
+in the Image and Data Archive (IDA) -ADNI. OASIS3 can be found in here.
+
+7 Author contributions
+Conceptualization, T.D. and G.W.; methodology, T.D., and G.W.; software, X.H. and
+Y.Z.; validation, T.D. and Y.Z.; formal analysis, T.D., X.H. and J.D.; investigation,
+T.D. and X.H.; data curation, T.D. X.H., J.D.and Y.Z.; writing—original draft, T.D.,
+X.H. G.W. and J.D.; writing—review and editing, T.D., X.H. and G.W.; visualization,
+T.D. and X.H.; supervision, G.W.; project administration, G.W.
+
+8 Declaration of interests
+The authors declare no competing interests.
+
+
+                                           27
+Appendix A              Experimental results
+We present detailed statistical analyses in Fig. A1 based on the proposed multi-
+layer neural transport model, quantifying the region-specific and stage-dependent
+contributions of structural and functional connectivity to tau propagation.
+
+Appendix B              Data proprecessing
+B.1     Neuroimage data preprocessing
+Data Description
+We evaluate our proposed method using two publicly available datasets: the
+Alzheimer’s Disease Neuroimaging Initiative (ADNI) [56] and the Open Access Series
+of Imaging Studies-3 (OASIS3) [57], both widely used in Alzheimer’s disease research.
+    ADNI dataset. The ADNI dataset includes 539 tau-PET scans and 1012 pro-
+cessed structural connectomes. For our study, we selected 163 subjects who have
+diffusion-weighted imaging (DWI), fMRI, and longitudinal tau-PET scans (2–5 time
+points), ensuring that each subject has complete tau, structural, and functional
+connectivity data.
+    OASIS3 dataset. OASIS3 comprises 1379 subjects with 2842 MRI sessions and
+2157 PET sessions. From this dataset, we identified 81 subjects with DWI, fMRI,
+and longitudinal tau-PET scans (2 time points) to provide a comparable multi-modal
+dataset for model evaluation.
+    Table B1 lists the detailed demographic statistics for ADNI and OASIS3 (high-
+lighted in gray shadow) data. We show age, MMSE (mini-mental state examination
+for baseline), gender, and longitudinal PET image acquisition interval period (from
+baseline to the last follow-up visit).
+
+Table B1 Demographic statistics for ADNI and OASIS3 (shaded) data. M/F denotes male/female
+and Y denotes year.
+
+
+       ADNI          Age     MMSE         Gender        Period       APOE4
+       Mean±std 75.1±7.7 28.0±2.0  48%/52%    1.5±0.5 23,33,43/24,34,44
+       Range    55 ∼ 94 20 ∼ 30 261/278 (M/F) 1∼4 (Y)   68.4%/31.6%
+       OASIS3     Age    MMSE             Gender       Period      APOE4
+       Mean±std 61.8±7.1 29.0±1.0       71.6%/28.4%    0.6±0.5 23,33,43/24,34,44
+       Range    46 ∼ 77 24 ∼ 30         58/23 (M/F)    0∼1 (Y)   62.9%/37.1%
+
+
+
+
+Multimodal Imaging Processing Pipelines
+The data preprocessing (Fig. B2) involves the following steps to derive FC/SC matrices
+and SUVR values:
+
+
+
+                                           28
+Fig. A1 Group-wise analysis of structural vs. functional propagation on ADNI dataset.
+(a) all subjects. Left: Fraction of tau propagation attributed to SC (us , blue) and FC (uf ,
+red) across brain lobes. Right: Comparison between us and uf . Blue nodes indicate regions where
+SC-driven tau propagation (us ) exceeds FC-driven propagation (uf ), while red nodes indicate the
+opposite. Node size reflects the magnitude of the difference, |us − uf |. (b) Age groups: SC and
+FC contributions to tau propagation across four age stages: <60, 61–75, 76–85, and >85 years.
+Age-dependent shift in tau propagation, with younger individuals showing FC-dominant spread and
+older individuals showing increasing reliance on SC pathways. (c) Amyloid-β status: Comparisons
+between Aβ+ (defined as Aβ < 192) and Aβ− (Aβ ≥ 192) individuals. Aβ burden “boosts” tau
+spread along functional circuits (especially in frontal cortex). (d) Sex groups: SC vs. FC propaga-
+tion stratified by sex. Sex exerts only a minor modulatory effect on tau propagation, with a modest
+occipital difference that does not alter the overall SC-to-FC propagation architecture. (e) APOE4
+status: SC and FC contributions based on presence or absence of the APOE4 allele. APOE4 carri-
+ers show a transition from FC- to SC-dominant tau spread in the frontal, occipital and insula cortex.
+(f ) Diagnostic groups: Group-wise propagation patterns across clinical diagnoses (e.g., CN, AD).
+Except for the temporal and subcortical regions, all other lobes exhibited a reversal in SC–FC dom-
+inance between APOE-4/AD and non-carrier/CN groups.
+
+
+      • Functional Connectivity (FC) construction from fMRI6 :
+
+  6
+      https://fmriprep.org/en/stable/
+
+
+
+
+                                                 29
+    ▷ Structural MRI (T1-weighted) preprocessing : includes brain extraction, tissue
+segmentation, spatial normalization, cost function masking, longitudinal processing,
+and brain mask refinement.
+    ▷ BOLD preprocessing : comprises reference image creation, head-motion correc-
+tion, slice-timing correction, susceptibility distortion correction, EPI-to-T1 registra-
+tion, resampling to standard spaces, projection onto FreeSurfer surfaces and HCP
+Grayordinates, and confound estimation.
+    ▷ BOLD time-series extraction : used for constructing functional connectivity
+matrices.
+    • SC Construction from DWI7 :
+    ▷ Initial processing, including image and gradient orientation conformity, distortion
+grouping, denoising, distortion correction, head motion correction, and B0 template
+construction.
+    ▷ Reconstruction steps, such as ODF/FOD estimation, anisotropy scalar compu-
+tation, and tractography.
+    • SUVR Generation from PET:
+    ▷ Frame selection and averaging: From the 4D PET series, select tracer-specific
+equilibrium frames (e.g. 80–100 min post-injection) and average them into a single
+static image.
+    ▷ Motion correction: Rigid-body register frames (or the static average) to correct
+head motion.
+    ▷ MRI co-registration: Align the motion-corrected PET to the subject’s T1w MRI
+via mutual-information registration.
+    ▷ Spatial normalization: Warp the co-registered PET into a standard template
+(e.g. MNI152).
+    ▷ Smoothing: Apply a Gaussian kernel (e.g. 6–8 mm full width at half maximum
+(FWHM)).
+    ▷ SUVR computation: Divide each ROI uptake by the mean uptake in a reference
+region (e.g. cerebellar gray matter).
+    ▷ Feature extraction: Use an anatomical (Destrieux [10]) to extract mean SUVRs
+per region or network.
+    ▷ Quality control and analysis: Inspect registration and SUVR maps; exclude poor-
+quality scans; perform statistical tests (group- or network-based).
+
+B.2        Gene Expression Data Processing
+Regional microarray expression data were obtained from six post-mortem adult human
+brains (one female; age range: 24.0–57.0 years; mean age: 42.50 ± 13.38) provided by
+the Allen Human Brain Atlas (AHBA) [58]. Data processing was conducted using the
+abagen toolbox (v0.1.3) with a 160-region volumetric brain atlas in MNI space. This
+atlas comprises 148 cortical regions from the volumetric Destrieux atlas [10] and 12
+subcortical regions from the volumetric Desikan-Killiany atlas [59].
+
+ 7
+     https://qsiprep.readthedocs.io/en/latest/
+
+
+
+
+                                                 30
+Fig. B2 Workflow of generating FC/SC matrices and SUVR values.
+
+
+Probe Selection
+Microarray probes were reannotated using updated mappings provided by [60], and
+any probes without valid Entrez Gene IDs were discarded. Subsequently, probes were
+filtered based on their expression intensity relative to background noise [61]; probes
+with intensity below background in more than 50% of samples were removed, resulting
+in 31,569 retained probes.
+     For genes represented by multiple probes, the probe with the most consistent
+spatial expression pattern across donors was selected based on differential stability
+[62]:
+                                      N −1 N
+                                  1 X X
+                        ∆S (p) = N             ρ[Bi (p), Bj (p)],                (B1)
+                                   2   i=1 j=i+1
+where ρ denotes Spearman’s rank correlation of probe p expression across regions in
+donors Bi and Bj , and N is the total number of donors.
+
+Region Assignment
+To assign tissue samples to brain regions:
+
+
+
+
+                                           31
+Fig. B3 Identification of modules associated with the 160 brain regions. Heatmap of the
+correlation between the module eigengenes and brain regions. We selected the ME salmon-grade block
+for subsequent analysis. Red means over-expression, green indicates under-expression; numbers in
+each cell give the corresponding t-test p-value. The numbers on the axis (001-160) correspond to the
+brain regions in Table B2.
+
+
+  • Coordinate update: Tissue sample MNI coordinates were updated using non-
+    linear registration via ANTs
+  • Sample augmentation: Samples were mirrored bilaterally across hemispheres
+    to improve spatial coverage [63].
+  • Tolerance: Samples were assigned to a region if their MNI coordinate was within
+    2 mm of a parcel.
+
+
+                                                32
+  • Misassignment prevention: Sample-to-region assignment was restricted by
+    hemisphere and gross anatomical division (e.g., cortex, subcortex/brainstem,
+    cerebellum) [60].
+  • Missing regions: Regions without any assigned sample were filled by mapping
+    each voxel in the region to its nearest donor sample. Regional expression was
+    estimated as a distance-weighted average over all voxels.
+  • Unassigned samples: Samples not assigned to any atlas-defined region were
+    discarded.
+
+Normalization
+To address inter-subject variability, tissue sample expression values were normalized
+across genes using a robust sigmoid function [64]:
+
+                                                1
+                             xnorm =                                               (B2)
+                                        1 + exp − (x−⟨x⟩)
+                                                   IQR  x
+
+
+
+where ⟨x⟩ is the sample median and IQRx is the interquartile range. These normalized
+values were rescaled to the unit interval:
+
+                                        xnorm − min(xnorm )
+                          xscaled =                                                  (B3)
+                                      max(xnorm ) − min(xnorm )
+
+    The same procedure was applied across tissue samples for each gene. For each
+donor, gene expression values were averaged across samples assigned to the same brain
+region, yielding a 160-region by 15,633-gene expression matrix.
+
+Gene expression data selection
+We first selected 579 Alzheimer’s disease (AD)–associated genes from an initial pool
+of 15,633 genes, based on their spatial correlation with tau pathology. We then
+performed weighted gene co-expression network analysis (WGCNA) and functional
+enrichment assessment on these genes using the Abagen-derived gene expression atlas
+mapped to 160 Destrieux parcels (Table B2). As illuminated in Fig. B4a, we obtained
+764 recognized genes associated with AD from MalaCards Human Disease Database
+(https://www.malacards.org/). A total of 579 genes corresponding to the names in
+the Abagen-derived gene expression probe matrix were utilized for WGCNA. In this
+analysis, the soft-threshold power of this gene co-expression network construction was
+calibrated to 9 (scale-free R2 = 0.90) (Fig. B4b). Sixteen meaningful modules were
+identified, except that the gray module is a set of genes that are not suitable for any
+specified module (Fig. B4c, d). Among the 16 modules, we found that the salmon
+module, which contains 18 AD-related genes including RCAN1, NOTCH1, PICALM,
+ADAM10, HSPD1, NFE2L2, HSPA5, MCL1, MAP2K7, CHUK, IKBKB, CTNNB1,
+RHOA, SIRT1, SP1, TH, TMEM106B, and CSNK1A1, shows a positive association
+with 12 brain regions, including thalamusproper (149, left; 155, right), caudate (150,
+left; 156, right), putamen (151, left; 157, right), pallidum (152, left; 158, right), hip-
+pocampus (153, left; 159, right), and amygdala (154, left; 160, right) (Fig. B5). All of
+
+
+                                            33
+Fig. B4 Identification of the important Alzheimer’s disease genes among 160 brain
+regions. (a) Screening process for Alzheimer’s disease pathology genes. (b) Choosing the best soft-
+threshold power. This analysis includes the scale-free index for various soft-threshold powers (β)
+and the mean connectivity for various soft-threshold powers. (c) Hierarchical clustering dendrogram
+of genes for determining consensus modules. The color band exhibits the results obtained from the
+automatic single-block analysis. (d) Heatmap plot of topological overlap in the gene network. In this
+heatmap, each row and column represents a gene, with lighter colors indicating low topological overlap
+and progressively darker red shades indicating higher topological overlap. The darker squares along the
+diagonal correspond to modules. The gene dendrogram and module assignments are displayed on the
+left and top sides, respectively. (e) A scatterplot illustrating the relationship between gene significance
+(GS) for the corresponding brain region and module membership (MM) in the salmon module. The
+analysis reveals a highly significant correlation between GS and MM, indicating that hub genes within
+the salmon module are also likely to have a strong association with the corresponding brain region.
+(f) Spearman correlation analysis between 12 brain regions based on the expression matrices of 18
+Alzheimer’s disease genes. (g) Spearman correlation analysis between 18 Alzheimer’s disease genes
+based on their expression matrices across 12 brain regions. (h) Protein-Protein interaction analysis for
+18 Alzheimer’s disease genes. (i) The pathological functions of 18 Alzheimer’s disease genes. ∗p <0.05.
+
+
+
+
+                                                    34
+these genes demonstrated a positive relationship with the module and most of the 12
+brain regions (Fig. B4e). In comparison to the other 148 brain regions, these 18 genes
+exhibited consistently high and specific expression levels in the 12 brain regions (Fig.
+B3). Spearman correlation analysis conducted on the expression matrices of 18 genes
+across 12 brain regions revealed a highly positive correlation between the expression
+profiles of corresponding left and right brain regions (R > 0.99, p < 0.05), suggest-
+ing no significant difference in the expression of the 18 genes between the left and
+right brain regions (Fig. B4f). In addition, most of the 18 genes were observed to
+exhibit significant correlations at the mRNA level (Fig. B4g). Protein-Protein inter-
+action analysis at the protein level also confirmed the existence of interactions among
+those genes (Fig. B4h). Furthermore, functional enrichment assessment exhibited that
+those genes are involved in aging, cognition, learning or memory (PICALM, RCAN,
+and TH), AD, and multiple AD-related pathological processes such as tau protein
+binding (PICALM), protein folding (HSPA5 and HSPD1), ubiquitin-like protein lig-
+ase binding (HSPA5 and HSPD1), lysosomal protein catabolic process (TMEM106B),
+amyloid precursor protein catabolic process (ADAM10, PICALM, and SP1), neuron
+death (CTNNB1, HSPA5, MAP2K7, MCL1, PICALM, RHOA, and SIRT1), and etc.
+(Fig. B4i). Those findings indicate that the above brain regions and AD genes may
+play the crucial roles in the onset of AD.
+
+
+Table B2 Destrieux parcellation labels with region IDs (001–160).
+ID Label                        ID Label                        ID Label                        ID Label
+001 L G and S frontomargin      002 L G and S occipital inf     003 L G and S paracentral       004 L G and S subcentral
+005 L G and S transv frontopol  006 L G and S cingul-Ant        007 L G and S cingul-Mid-Ant    008 L G and S cingul-Mid-Post
+009 L G cingul-Post-dorsal      010 L G cingul-Post-ventral     011 L G cuneus                  012 L G front inf-Opercular
+013 L G front inf-Orbital       014 L G front inf-Triangul      015 L G front middle            016 L G front sup
+017 L G Ins lg and S cent ins   018 L G insular short           019 L G occipital middle        020 L G occipital sup
+021 L G oc-temp lat-fusifor     022 L G oc-temp med-Lingual     023 L G oc-temp med-Parahip     024 L G orbital
+025 L G pariet inf-Angular      026 L G pariet inf-Supramar     027 L G parietal sup            028 L G postcentral
+029 L G precentral              030 L G precuneus               031 L G rectus                  032 L G subcallosal
+033 L G temp sup-G T transv     034 L G temp sup-Lateral        035 L G temp sup-Plan polar     036 L G temp sup-Plan tempo
+037 L G temporal inf            038 L G temporal middle         039 L Lat Fis-ant-Horizont      040 L Lat Fis-ant-Vertical
+041 L Lat Fis-post              042 L Pole occipital            043 L Pole temporal             044 L S calcarine
+045 L S central                 046 L S cingul-Marginalis       047 L S circular insula ant     048 L S circular insula inf
+049 L S circular insula sup     050 L S collat transv ant       051 L S collat transv post      052 L S front inf
+053 L S front middle            054 L S front sup               055 L S interm prim-Jensen      056 L S intrapariet and P trans
+057 L S oc middle and Lunatus   058 L S oc sup and transversal 059 L S occipital ant            060 L S oc-temp lat
+061 L S oc-temp med and Lingual 062 L S orbital lateral         063 L S orbital med-olfact      064 L S orbital-H Shaped
+065 L S parieto occipital       066 L S pericallosal            067 L S postcentral             068 L S precentral-inf-part
+069 L S precentral-sup-part     070 L S suborbital              071 L S subparietal             072 L S temporal inf
+073 L S temporal sup            074 L S temporal transverse     075 R G and S frontomargin      076 R G and S occipital inf
+077 R G and S paracentral       078 R G and S subcentral        079 R G and S transv frontopol  080 R G and S cingul-Ant
+081 R G and S cingul-Mid-Ant    082 R G and S cingul-Mid-Post 083 R G cingul-Post-dorsal        084 R G cingul-Post-ventral
+085 R G cuneus                  086 R G front inf-Opercular     087 R G front inf-Orbital       088 R G front inf-Triangul
+089 R G front middle            090 R G front sup               091 R G Ins lg and S cent ins   092 R G insular short
+093 R G occipital middle        094 R G occipital sup           095 R G oc-temp lat-fusifor     096 R G oc-temp med-Lingual
+097 R G oc-temp med-Parahip     098 R G orbital                 099 R G pariet inf-Angular      100 R G pariet inf-Supramar
+101 R G parietal sup            102 R G postcentral             103 R G precentral              104 R G precuneus
+105 R G rectus                  106 R G subcallosal             107 R G temp sup-G T transv     108 R G temp sup-Lateral
+109 R G temp sup-Plan polar     110 R G temp sup-Plan tempo 111 R G temporal inf                112 R G temporal middle
+113 R Lat Fis-ant-Horizont      114 R Lat Fis-ant-Vertical      115 R Lat Fis-post              116 R Pole occipital
+117 R Pole temporal             118 R S calcarine               119 R S central                 120 R S cingul-Marginalis
+121 R S circular insula ant     122 R S circular insula inf     123 R S circular insula sup     124 R S collat transv ant
+125 R S collat transv post      126 R S front inf               127 R S front middle            128 R S front sup
+129 R S interm prim-Jensen      130 R S intrapariet and P trans 131 R S oc middle and Lunatus   132 R S oc sup and transversal
+133 R S occipital ant           134 R S oc-temp lat             135 R S oc-temp med and Lingual 136 R S orbital lateral
+137 R S orbital med-olfact      138 R S orbital-H Shaped        139 R S parieto occipital       140 R S pericallosal
+141 R S postcentral             142 R S precentral-inf-part     143 R S precentral-sup-part     144 R S suborbital
+145 R S subparietal             146 R S temporal inf            147 R S temporal sup            148 R S temporal transverse
+149 L thalamusproper            150 L caudate                   151 L putamen                   152 L pallidum
+153 L hippocampus               154 L amygdala                  155 R thalamusproper            156 R caudate
+157 R putamen                   158 R pallidum                  159 R hippocampus               160 R amygdala
+
+
+
+
+                                                        35
+                                                                               Type       4
+                                                                               CHUK
+                                                                               CSNK1A1
+                                                                               TH         2
+                                                                               HSPA5
+                                                                               HSPD1
+                                                                               NOTCH1     0
+                                                                               MCL1
+                                                                               RHOA
+                                                                               ADAM10     −2
+                                                                               PICALM
+                                                                               NFE2L2
+                                                                               SP1        −4
+                                                                               CTNNB1
+                                                                               MAP2K7
+                                                                               TMEM106B
+                                                                               SIRT1
+                                                                               IKBKB
+                                                                               RCAN1
+
+
+
+
+  152
+  158
+  153
+  159
+  149
+  155
+  150
+  156
+  151
+  157
+  154
+  160
+  11
+  85
+  132
+  58
+  125
+  51
+  22
+  96
+  116
+  42
+  7
+  81
+  23
+  97
+  35
+  78
+  17
+  4
+  2
+  76
+  118
+  44
+  139
+  65
+  133
+  59
+  131
+  57
+  20
+  94
+  19
+  93
+  148
+  146
+  72
+  74
+  41
+  107
+  33
+  115
+  1
+  64
+  138
+  75
+  13
+  87
+  88
+  99
+  126
+  52
+  127
+  53
+  24
+  98
+  113
+  39
+  15
+  89
+  8
+  82
+  129
+  102
+  28
+  100
+  55
+  83
+  9
+  12
+  86
+  14
+  114
+  40
+  91
+  6
+  80
+  92
+  144
+  5
+  124
+  50
+  26
+  108
+  34
+  106
+  105
+  31
+  70
+  79
+  95
+  135
+  61
+  25
+  112
+  38
+  21
+  111
+  37
+  147
+  73
+  104
+  101
+  27
+  142
+  68
+  141
+  67
+  110
+  36
+  134
+  60
+  117
+  43
+  109
+  122
+  48
+  136
+  62
+  120
+  46
+  121
+  47
+  128
+  16
+  90
+  54
+  137
+  63
+  18
+  123
+  49
+  143
+  69
+  3
+  77
+  103
+  29
+  32
+  10
+  84
+  145
+  71
+  119
+  45
+  140
+  66
+  30
+  130
+  56
+Fig. B5 Heatmap of average expression value of 18 Alzheimer’s disease genes across
+160 Abagen-derived brain regions.
+
+
+   Specific analysis methods are as follows:
+
+  • Extraction of gene expression atlas for hub Alzheimer’s disease
+    genes. A total of 764 recognized genes associated with AD were obtained from
+    the MalaCards Human Disease Database (https://www.malacards.org/), which
+    aggregates data from multiple sources to present detailed profiles of various dis-
+    eases. By matching these genes with those in the Abagen-derived gene matrix,
+    the expression matrix of 579 genes was extracted for subsequent analysis.
+  • GO and KEGG pathway enrichment analysis of 579 genes. Gene
+    Ontology (GO) and KEGG enrichment analyses were conducted using the
+    clusterProfiler v4.4.4 R package to explore the biological functions and
+    pathways associated with the 579 AD-related genes. Terms with a p < 0.05 were
+    considered significantly enriched.
+  • Weighted Gene Co-expression Network Analysis (WGCNA). WGCNA
+    was performed on the expression matrix of the 579 AD-related genes using
+    the WGCNA R package [34]. Genes and samples were filtered using the
+    goodSamplesGenes function. A scale-free network was constructed with a soft
+    threshold of β = 9 (achieving a scale-free fit R2 = 0.9). The adjacency matrix was
+    transformed into a topological overlap matrix (TOM), and hierarchical clustering
+    (minimum module size = 10) was applied to define gene modules. Module eigen-
+    genes were calculated to summarize expression profiles per module and relate
+    them to 160 brain regions.
+  • Protein-protein interaction analysis. PPI analysis for 18 AD-related genes
+    was conducted using the STRING database (https://string-db.org/) with the
+    default confidence score threshold. The resulting networks were visualized using
+    Cytoscape v3.10.2.
+  • Spearman correlation analysis. Associations between 18 AD genes and 12
+    brain regions—including left/right thalamusproper (149, 155), caudate (150,
+    156), putamen (151, 157), pallidum (152, 158), hippocampus (153, 159), and
+    amygdala (154, 160)—were evaluated using Spearman correlation via the R pack-
+    age ggplot2 v3.4.4. Associations with p < 0.05 were considered statistically
+    significant.
+
+References
+ [1] Braak, H., Braak, E.: Neuropathological stageing of alzheimer-related changes.
+     Acta neuropathologica 82(4), 239–259 (1991)
+
+
+                                         36
+ [2] Palop, J.J., Mucke, L.: Network abnormalities and interneuron dysfunction in
+     alzheimer disease. Nature Reviews Neuroscience 17(12), 777–792 (2016)
+
+ [3] Raj, A., Kuceyeski, A., Weiner, M.: A network diffusion model of disease
+     progression in dementia. Neuron 73(6), 1204–1215 (2012)
+
+ [4] Vogel, J.W., Iturria-Medina, Y., Strandberg, O.T., Smith, R., Levitis, E., Evans,
+     A.C., Hansson, O.: Spread of pathological tau proteins through communicating
+     neurons in human alzheimer’s disease. Nature communications 11(1), 2612 (2020)
+
+ [5] Dan, T., Dere, M., Kim, W.H., Kim, M., Wu, G.: Tauflownet: Revealing latent
+     propagation mechanism of tau aggregates using deep neural transport equations.
+     Medical Image Analysis 95, 103210 (2024)
+
+ [6] Vogel, J.W., Young, A.L., Oxtoby, N.P., Smith, R., Ossenkoppele, R., Strandberg,
+     O.T., La Joie, R., Aksman, L.M., Grothe, M.J., Iturria-Medina, Y., et al.: Four
+     distinct trajectories of tau deposition identified in alzheimer’s disease. Nature
+     medicine 27(5), 871–881 (2021)
+
+ [7] Huang, H., Wang, Y., Dan, T., Yang, Y., Wu, G.: A multi-layer neural transport
+     model for characterizing pathology propagation in neurodegenerative diseases. In:
+     2025 Information Processing in Medical Imaging (IPMI) (2025). Springer
+
+ [8] Mueller, S.G., Weiner, M.W., Thal, L.J., Petersen, R.C., Jack, C., Jagust, W.,
+     Trojanowski, J.Q., Toga, A.W., Beckett, L.: Ways toward an early diagnosis
+     in alzheimer’s disease: the alzheimer’s disease neuroimaging initiative (adni).
+     Alzheimer’s & Dementia 1(1), 55–66 (2005)
+
+ [9] LaMontagne, P., Benzinger, T.L.S., Koenig, L., Morris, J.C.: Oasis-4: Clinical
+     cohort with mr, clinical, cognitive, and biomarker assessments in memory disor-
+     ders and dementia. NeuroImage: Clinical 27, 102248 (2020) https://doi.org/10.
+     1016/j.nicl.2020.102248
+
+[10] Destrieux, C., Fischl, B., Dale, A., Halgren, E.: Automatic parcellation of human
+     cortical gyri and sulci using standard anatomical nomenclature. Neuroimage
+     53(1), 1–15 (2010)
+
+[11] Laird, N.M., Ware, J.H.: Random-effects models for longitudinal data. Biometrics,
+     963–974 (1982)
+
+[12] Power, J.D., Cohen, A.L., Nelson, S.M., Wig, G.S., Barnes, K.A., Church, J.A.,
+     Vogel, A.C., Laumann, T.O., Miezin, F.M., Schlaggar, B.L., et al.: Functional
+     network organization of the human brain. Neuron 72(4), 665–678 (2011)
+
+[13] Alexander-Bloch, A.F., Shou, H., Liu, S., Satterthwaite, T.D., Glahn, D.C., Shino-
+     hara, R.T., Vandekar, S.N., Raznahan, A.: On testing for spatial correspondence
+     between maps of human brain structure and function. Neuroimage 178, 540–551
+
+
+                                          37
+    (2018)
+
+[14] Liang, X., Sun, L., Liao, X., Lei, T., Xia, M., Duan, D., Zeng, Z., Li, Q., Xu,
+     Z., Men, W., et al.: Structural connectome architecture shapes the maturation
+     of cortical morphology from childhood to adolescence. Nature Communications
+     15(1), 784 (2024)
+
+[15] Jack Jr, C.R., Bennett, D.A., Blennow, K., Carrillo, M.C., Dunn, B., Haeberlein,
+     S.B., Holtzman, D.M., Jagust, W., Jessen, F., Karlawish, J., et al.: Nia-aa research
+     framework: toward a biological definition of alzheimer’s disease. Alzheimer’s &
+     dementia 14(4), 535–562 (2018)
+
+[16] Franzmeier, N., Neitzel, J., Rubinski, A., Smith, R., Strandberg, O., Ossenkop-
+     pele, R., Hansson, O., Ewers, M.: Functional brain architecture is associated with
+     the rate of tau accumulation in alzheimer’s disease. Nature communications 11(1),
+     347 (2020)
+
+[17] Heuvel, M.P., Sporns, O.: A cross-disorder connectome landscape of brain
+     dysconnectivity. Nature reviews neuroscience 20(7), 435–446 (2019)
+
+[18] Wood, S.N.: Stable and efficient multiple smoothing parameter estimation for gen-
+     eralized additive models. Journal of the American Statistical Association 99(467),
+     673–686 (2004)
+
+[19] Franzmeier, N., Rubinski, A., Neitzel, J., Kim, Y., Damm, A., Na, D.L., Kim,
+     H.J., Lyoo, C.H., Cho, H., Finsterwalder, S., et al.: Functional connectivity associ-
+     ated with tau levels in ageing, alzheimer’s, and small vessel disease. Brain 142(4),
+     1093–1107 (2019)
+
+[20] Penalba-Sánchez, L., Oliveira-Silva, P., Sumich, A.L., Cifre, I.: Increased func-
+     tional connectivity patterns in mild alzheimer’s disease: A resting-state fmri
+     study. Frontiers in Aging Neuroscience 14, 1037347 (2023) https://doi.org/10.
+     3389/fnagi.2022.1037347
+
+[21] Shankar, G.M., Walsh, D.M.: Alzheimer’s disease: synaptic dysfunction
+     and αβ . Molecular Neurodegeneration 4, 48 (2009) https://doi.org/10.1186/
+     1750-1326-4-48
+
+[22] Wang, H., Liu, W., Yan, H., Dong, Q., Liu, T., Qiu, J., Hu, D.: Revealing
+     excitation–inhibition imbalance in alzheimer’s disease using multiscale neural
+     model inversion of resting-state functional mri. Communications Medicine 5(1),
+     36 (2025) https://doi.org/10.1038/s43856-025-00736-7
+
+[23] Depp, C., Sun, T., Sasmita, A.O., Spieth, L., Berghoff, S.A., Nazarenko, T., al.:
+     Myelin dysfunction drives amyloid-β deposition in models of alzheimer’s disease.
+     Nature 618(7979), 349–357 (2023) https://doi.org/10.1038/s41586-023-06120-6
+
+
+
+                                           38
+[24] Brunden, K.R., Clippinger, A.J., Goux, W.J., Trojanowski, J.Q., Lee, V.M.-Y.,
+     Ballatore, C.: Enhancing microtubule stabilization rescues cognitive deficits and
+     attenuates tau and amyloid pathology in a mouse model of alzheimer’s disease.
+     Scientific Reports 10, 7174 (2020) https://doi.org/10.1038/s41598-020-71767-4
+
+[25] Murdock, M.H., Jiang-Xie, L., et al.: Multisensory gamma stimulation promotes
+     glymphatic clearance of amyloid in alzheimer’s disease model. Nature 627, 149–
+     156 (2024) https://doi.org/10.1038/s41586-024-07132-6
+
+[26] Ferretti, M.T., Iulita, M.F., Cavedo, E., Chiesa, P.A., Schumacher Dimech, A.,
+     Santuccione Chadha, A., Baracchi, F., Girouard, H., Misoch, S., Giacobini, E.,
+     et al.: Sex differences in alzheimer disease—the gateway to precision medicine.
+     Nature Reviews Neurology 14(8), 457–469 (2018)
+
+[27] Satterthwaite, T.D., Vandekar, S., Wolf, D.H., Ruparel, K., Roalf, D.R., Jack-
+     son, C., Elliott, M.A., Bilker, W.B., Calkins, M.E., Prabhakaran, K., et al.: Sex
+     differences in the effect of puberty on hippocampal morphology. Journal of the
+     American Academy of Child & Adolescent Psychiatry 53(3), 341–350 (2014)
+
+[28] Jagust, W.: Imaging the evolution and pathophysiology of alzheimer disease.
+     Nature Reviews Neuroscience 19(11), 687–700 (2018)
+
+[29] Altmann, A., Tian, L., Henderson, V.W., Greicius, M.D., Investigators, A.D.N.I.:
+     Sex modifies the apoe-related risk of developing alzheimer disease. Annals of
+     neurology 75(4), 563–573 (2014)
+
+[30] Nabizadeh, F., Fardin, A.D.N.I.N.: Aβ remotely and locally facilitates alzheimer’s
+     disease tau spreading. Cerebral Cortex 34(9), 386 (2024)
+
+[31] Buckner, R.L., Andrews-Hanna, J.R., Schacter, D.L.: Molecular, structural, and
+     functional characterization of alzheimer’s disease: evidence for a relationship
+     between default activity, amyloid, and memory. Journal of Neuroscience 25(34),
+     7709–7717 (2005) https://doi.org/10.1523/JNEUROSCI.5102-04.2005
+
+[32] Palop, J.J., Mucke, L.: Network dysfunction and cognitive impairment in
+     alzheimer’s disease. Nature Reviews Neuroscience 11, 108–119 (2010) https:
+     //doi.org/10.1038/nrn2977
+
+[33] Seeley, W.W., Crawford, R.K., Zhou, J., Miller, B.L., Greicius, M.D.: Neurode-
+     generative diseases target large-scale human brain networks. Neuron 62(1), 42–52
+     (2009) https://doi.org/10.1016/j.neuron.2009.03.024
+
+[34] Langfelder, P., Horvath, S.: Wgcna: an r package for weighted correlation network
+     analysis. BMC bioinformatics 9(1), 559 (2008)
+
+[35] Rappaport, N., Twik, M., Plaschkes, I., Nativ, N., Stelzer, G., Bahir, I., Stein, T.,
+     Safran, M., Lancet, D.: Malacards: an amalgamated human disease compendium
+
+
+                                           39
+    with diverse clinical and genetic annotation and structured search. Nucleic Acids
+    Research 45(D1), 877–887 (2017) https://doi.org/10.1093/nar/gkw1012
+
+[36] Markello, R., Shafiei, G., Zheng, Y., Mišić, B.: abagen: A toolbox for the Allen
+     Brain Atlas genetics data v. 0.1. 3. Zenodo
+
+[37] Hetz, C.: The unfolded protein response: controlling cell fate decisions under er
+     stress and beyond. Nature reviews Molecular cell biology 13(2), 89–102 (2012)
+
+[38] Perciavalle, R.M., Stewart, D.P., Koss, B., Lynch, J., Milasta, S., Bathina, M.,
+     Temirov, J., Cleland, M.M., Pelletier, S., Schuetz, J.D., et al.: Anti-apoptotic
+     mcl-1 localizes to the mitochondrial matrix and couples mitochondrial fusion to
+     respiration. Nature cell biology 14(6), 575–583 (2012)
+
+[39] Ghosh, S., Karin, M.: Missing pieces in the nf-κb puzzle. cell 109(2), 81–96 (2002)
+
+[40] Heneka, M.T., Carson, M.J., El Khoury, J., Landreth, G.E., Brosseron, F., Fein-
+     stein, D.L., Jacobs, A.H., Wyss-Coray, T., Vitorica, J., Ransohoff, R.M., et al.:
+     Neuroinflammation in alzheimer’s disease. The Lancet Neurology 14(4), 388–405
+     (2015)
+
+[41] Maass, A., Berron, D., Harrison, T.M., Adams, J.N., La Joie, R., Baker, S.,
+     Mellinger, T., Bell, R.K., Swinnerton, K., Inglis, B., et al.: Alzheimer’s pathology
+     targets distinct memory networks in the ageing brain. brain 142(8), 2492–2509
+     (2019)
+
+[42] Feng, T., Du, H., Yang, C., Wang, Y., Hu, F.: Loss of tmem106b exacerbates tau
+     pathology and neurodegeneration in ps19 mice. Acta neuropathologica 147(1),
+     62 (2024)
+
+[43] Jiao, H.-S., Yuan, P., Yu, J.-T.: Tmem106b aggregation in neurodegenerative
+     diseases: linking genetics to function. Molecular Neurodegeneration 18(1), 54
+     (2023)
+
+[44] Goralski, T., Meyerdirk, L., Breton, L., Brasseur, L., Kurgat, K., DeWeerd, D.,
+     Turner, L., Becker, K., Adams, M., Newhouse, D., et al.: Spatial transcriptomics
+     reveals molecular dysfunction associated with lewy pathology. BiorXiv (2023)
+
+[45] Ables, J.L., Breunig, J.J., Eisch, A.J., Rakic, P.: Not (ch) just development: Notch
+     signalling in the adult brain. Nature Reviews Neuroscience 12(5), 269–283 (2011)
+
+[46] Zhou, B., Lin, W., Long, Y., Yang, Y., Zhang, H., Wu, K., Chu, Q.: Notch sig-
+     naling pathway: architecture, disease, and therapeutics. Signal transduction and
+     targeted therapy 7(1), 95 (2022)
+
+[47] Jack, C.R., Bennett, D.A., Blennow, K., Carrillo, M.C., Dunn, B., Haeberlein,
+     S.B., Holtzman, D.M., Jagust, W., Jessen, F., Karlawish, J., et al.: Nia-aa research
+
+
+
+                                           40
+    framework: Toward a biological definition of alzheimer’s disease. Alzheimer’s &
+    Dementia 14(4), 535–562 (2018) https://doi.org/10.1016/j.jalz.2018.02.018
+
+[48] Chen, H., Yang, Q., Liao, W., Gong, Q., Shen, S.: Evaluation of the effective
+     connectivity of supplementary motor areas during motor imagery using granger
+     causality mapping. Neuroimage 47(4), 1844–1853 (2009)
+
+[49] Sarin, S., Zuniga-Sanchez, E., Kurmangaliyev, Y.Z., Cousins, H., Patel, M., Her-
+     nandez, J., Zhang, K.X., Samuel, M.A., Morey, M., Sanes, J.R., et al.: Role for
+     wnt signaling in retinal neuropil development: analysis via rna-seq and in vivo
+     somatic crispr mutagenesis. Neuron 98(1), 109–126 (2018)
+
+[50] Larsson, S.C., Scott, R.A., Traylor, M., Langenberg, C.C., Hindy, G., Melander,
+     O., Orho-Melander, M., Seshadri, S., Wareham, N.J., Markus, H.S., et al.:
+     Type 2 diabetes, glucose, insulin, bmi, and ischemic stroke subtypes: Mendelian
+     randomization study. Neurology 89(5), 454–460 (2017)
+
+[51] Kipf, T.N., Welling, M.: Semi-supervised classification with graph convolutional
+     networks. arXiv preprint arXiv:1609.02907 (2016)
+
+[52] Chen, M., Wei, Z., Huang, Z., Ding, B., Li, Y.: Simple and deep graph convolu-
+     tional networks. In: International Conference on Machine Learning, pp. 1725–1735
+     (2020). PMLR
+
+[53] Brody, S., Alon, U., Yahav, E.: How attentive are graph attention net-
+     works? In: International Conference on Learning Representations (2022).
+     https://openreview.net/forum?id=F72ximsx7C1
+
+[54] Nguyen, M., He, T., An, L., Alexander, D.C., Feng, J., Yeo, B.T., Initiative,
+     A.D.N., et al.: Predicting alzheimer’s disease progression using deep recurrent
+     neural networks. Neuroimage 222, 117203 (2020)
+
+[55] Hasani, R., Lechner, M., Amini, A., Rus, D., Grosu, R.: Liquid time-constant
+     networks. In: Proceedings of the AAAI Conference on Artificial Intelligence, vol.
+     35, pp. 7657–7666 (2021)
+
+[56] Petersen, R.C., Aisen, P.S., Beckett, L.A., Donohue, M.C., Gamst, A.C., Har-
+     vey, D.J., Jack, C.R., Jagust, W.J., Shaw, L.M., Toga, A.W., Trojanowski, J.Q.,
+     Weiner, M.W.: Alzheimer’s disease neuroimaging initiative (adni). Neurology
+     74(3), 201–209 (2010)
+
+[57] Marcus, D.S., Wang, T.H., Parker, J., Csernansky, J.G., Morris, J.C., Buck-
+     ner, R.L.: Open access series of imaging studies (oasis): cross-sectional mri data
+     in young, middle aged, nondemented, and demented older adults. Journal of
+     cognitive neuroscience 19(9), 1498–1507 (2007)
+
+[58] Hawrylycz, M.J., Lein, E.S., Guillozet-Bongaarts, A.L., Shen, E.H., Ng, L., Miller,
+
+
+                                          41
+    J.A., Van De Lagemaat, L.N., Smith, K.A., Ebbert, A., Riley, Z.L., et al.: An
+    anatomically comprehensive atlas of the adult human brain transcriptome. Nature
+    489(7416), 391–399 (2012)
+
+[59] Desikan, R.S., Ségonne, F., Fischl, B., Quinn, B.T., Dickerson, B.C., Blacker, D.,
+     Buckner, R.L., Dale, A.M., Maguire, R.P., Hyman, B.T., Albert, M.S., Killiany,
+     R.J.: An automated labeling system for subdividing the human cerebral cortex on
+     mri scans into gyral based regions of interest. NeuroImage 31(3), 968–980 (2006)
+     https://doi.org/10.1016/j.neuroimage.2006.01.021
+
+[60] Arnatkeviciūtė, A., Fulcher, B.D., Fornito, A.: A practical guide to linking brain-
+     wide gene expression and neuroimaging data. Neuroimage 189, 353–367 (2019)
+
+[61] Quackenbush, J.: Microarray data normalization and transformation. Nature
+     genetics 32(4), 496–501 (2002)
+
+[62] Hawrylycz, M., Miller, J.A., Menon, V., Feng, D., Dolbeare, T., Guillozet-
+     Bongaarts, A.L., Jegga, A.G., Aronow, B.J., Lee, C.-K., Bernard, A., et al.:
+     Canonical genetic signatures of the adult human brain. Nature neuroscience
+     18(12), 1832–1844 (2015)
+
+[63] Romero-Garcia, R., Whitaker, K.J., Váša, F., Seidlitz, J., Shinn, M., Fonagy,
+     P., Dolan, R.J., Jones, P.B., Goodyer, I.M., Bullmore, E.T., et al.: Structural
+     covariance networks are coupled to expression of genes enriched in supragranular
+     layers of the human cortex. Neuroimage 171, 256–267 (2018)
+
+[64] Fulcher, B.D., Little, M.A., Jones, N.S.: Highly comparative time-series analysis:
+     the empirical structure of time series and their methods. Journal of the Royal
+     Society Interface 10(83), 20130048 (2013)
+
+
+
+
+                                           42
+
