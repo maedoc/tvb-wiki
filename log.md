@@ -1,5 +1,15 @@
 # TVB Wiki Log
 
+## 2026-05-07 - Entry #8
+- Action: Improved braincogs page - incorporated available source papers
+- Details: Added references to three available source papers:
+  - Comet Toolbox (semanticscholar-cb501cd33451.md) - mentioned in Relationship to Other Projects for network neuroscience robustness
+  - Dark Signals in the Brain (arxiv-2509.24715.md) - mentioned in Key Papers for physics-informed whole-brain modeling
+  - BRAPH 2.0 Genesis (braph-2 genesis.md) - mentioned in Relationship to Other Projects as complementary brain connectivity toolbox
+- Updated frontmatter sources to include all three paper references
+- Updated date to 2026-05-07
+- Maintained all existing wikilinks and content structure
+
 ## 2026-05-07 - Entry #7
 - Action: Improved anticevic-2012 page
 - Details: Converted minimal stub into comprehensive concept page covering:
@@ -192,3 +202,5 @@
 ## [2026-05-07 04:50] DeepResearch: 5 papers added via focused research
 
 ## [2026-05-07 04:55] Improve: 3 pages improved (compensation, jansen-r, aging-brain)
+
+## [2026-05-07 05:26] Improve: 3 pages improved (alzheimers-disease, cmtk, 3d-slicer)
