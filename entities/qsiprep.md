@@ -14,7 +14,6 @@ title: QSIprep
 type: entity
 updated: '2026-05-06'
 ---
-
 # QSIprep
 
 **QSIprep** is a [[bids]]-App for preprocessing and reconstructing [[diffusion-mri]] (dMRI) data. It provides a standardized, reproducible pipeline for quality control, preprocessing, and reconstruction of diffusion-weighted imaging data within the Brain Imaging Data Structure (BIDS) framework.
@@ -54,8 +53,3 @@ QSIprep is a key preprocessing tool for TVB [[connectome]] construction:
 - [[dipy]] — Python-based diffusion analysis
 - [[tractoflow]] — alternative automated tractography pipeline
 - [[afq]] — automated fiber quantification
-
-## References
-
-- QSIprep documentation: https://qsiprep.readthedocs.io/
-- Cieslak et al. (2021) — QSIprep: an integrative platform for preprocessing and reconstructing diffusion MRI data

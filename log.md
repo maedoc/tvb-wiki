@@ -1,5 +1,15 @@
 # TVB Wiki Log
 
+## 2026-05-07 - Entry #9
+- Action: Improved anticevic-2012 page - replaced with comprehensive content based on actual research
+- Details: Replaced minimal stub with full concept page based on actual Anticevic 2012 papers:
+  - "The role of default network deactivation in cognition and disease" (Trends in Cognitive Sciences, 2012)
+  - "NMDA receptor function in large-scale anti-correlated neural systems with implications for cognition and schizophrenia" (PNAS, 2012)
+- Content covers: DMN suppression mechanism, ketamine pharmacological model, biophysically realistic computational modeling, E/I balance alterations, multi-scale bridging from synapses to whole-brain
+- Added wikilinks: brain-dynamics, default-mode-network, neuroimaging-fmri, dynamical-systems-theory, personalized-brain-modeling
+- Updated date to 2026-05-07
+- Removed placeholder sources, added accurate content from web research
+
 ## 2026-05-07 - Entry #8
 - Action: Improved braincogs page - incorporated available source papers
 - Details: Added references to three available source papers:
@@ -206,3 +216,5 @@
 ## [2026-05-07 05:26] Improve: 3 pages improved (alzheimers-disease, cmtk, 3d-slicer)
 
 ## [2026-05-07 05:46] Improve: 2 pages improved (braincogs, anticevic-2012)
+
+## [2026-05-07 06:10] Improve: 1 pages improved (fsl)
