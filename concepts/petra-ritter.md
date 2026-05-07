@@ -61,3 +61,9 @@ Ritter's academic contributions include several landmark papers that have shaped
 ## Related Concepts
 
 The methodological framework Ritter employs draws on multiple theoretical traditions. [[neural-mass-models]] provide the local dynamical description of cortical columns, while [[structural-connectivity]] derived from [[diffusion-imaging]] and [[tractography]] provides the coupling structure. [[functional-connectivity]] patterns observed in empirical data serve as targets for model fitting. The approach also connects to [[dynamic-causal-modeling]] (DCM), which similarly uses neural mass models but frames parameter estimation in a Bayesian framework. The broader research program relates to [[personalized-brain-modeling]], where the goal is to create individually calibrated digital replicas of patient brains for clinical prognostic applications. See also [[whole-brain-modeling]], [[brain-dynamics]], and [[connectome]]-based approaches.
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)
+3. Amirreza Movahedin, Lennart P. L. Landsmeer, Christos Strydis. (2025). *HUMA: Heterogeneous, Ultra Low-Latency Model Accelerator for The Virtual Brain on a Versal Adaptive SoC*. Symposium on Field Programmable Gate Arrays. [DOI](https://doi.org/10.1145/3706628.3708875)

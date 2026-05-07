@@ -37,3 +37,9 @@ Conversely, TVB's realistic forward models can generate synthetic MEG/EEG data t
 ## Software Ecosystem
 
 Brainstorm operates as a MATLAB-based toolbox with optional Python bindings, distributed under the GPL v2 open-source license [[citation:1]]. The software maintains active development and a user community through its website (https://neuroimage.usc.edu/brainstorm/). Related toolboxes in the MEG/EEG ecosystem include [[eeglab]], [[fieldtrip]], and [[mne-python]], which share overlapping functionality but differ in their primary focus—EEGLAB emphasizes EEG preprocessing [[citation:7]], MNE-Python offers Python-native source imaging [[citation:8]], while Brainstorm balances comprehensiveness with accessibility for clinical users. The MLE-Toolbox represents a more recent addition to this ecosystem, offering integrated machine learning classifiers and automated report generation while maintaining interoperability with established platforms including Brainstorm [[citation:9]].
+
+## References
+
+1. Xiaobo Liu. (2026). *MLE-Toolbox: An Open-Source Toolbox for Comprehensive EEG and MEG Data Analysis*. [Link](https://www.semanticscholar.org/paper/e7aaa4f4bb01e70064493684b4500a950f83460f)
+2. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+3. Thorsten Hater, Juliette Courson, Han Lu, Sandra Diaz-Pier, Thanos Manos. *Arbor-TVB: A Novel Multi-Scale Co-Simulation Framework with a Case Study on Neural-Level Seizure Generation and Whole-Brain Propagation*. [Link](https://arxiv.org/abs/2505.16861)

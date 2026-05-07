@@ -240,3 +240,5 @@
 ## [2026-05-07 07:22] Improve: 1 pages improved (pynn)
 
 ## [2026-05-07 08:10] FullTextFetcher: fetched 5 new full texts (40 total in corpus)
+
+## [2026-05-07 09:15] DeepResearch: 11 papers added via focused research

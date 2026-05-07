@@ -70,3 +70,9 @@ A critical aspect of applying the Wong-Wang model to empirical data involves fit
 The model has been employed to study [[brain-oscillations]] at [[rest]], working memory processes, and the effects of [[brain-stimulation]] on [[network-dynamics]]. Its relatively low computational cost makes it suitable for parameter sweeps and sensitivity analyses across large cohorts, enabling investigations of individual differences in dynamical parameters and their relationship to behavioral measures or clinical outcomes[^deco-et-al-2013][^deco-et-al-2014].
 
 ---
+
+## References
+
+1. Hugh R. Wilson, Jack D. Cowan. *Excitatory and inhibitory interactions in localized populations of model neurons*. Biophysical Journal. [DOI](https://doi.org/10.1016/S0006-3495(72)86068-5)
+2. Rosa Maria Delicado, Gemma Huguet, Pau Clusella. (2025). *Emergent Spatiotemporal Dynamics in Large-Scale Brain Networks with Next Generation Neural Mass Models*. [Link](https://arxiv.org/abs/2512.03907)
+3. V. Myrov, A. Suleimanova, Samanta Knapič, P. Partanen, M. Vesterinen, Wenya Liu, S. Palva, J. M. Palva. (2026). *Hierarchical whole-brain modeling of critical synchronization dynamics in the human brain.*. Proceedings of the National Academy of Sciences of the United States of America. [DOI](https://doi.org/10.1073/pnas.2505768123)

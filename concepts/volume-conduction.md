@@ -64,3 +64,9 @@ Several open questions in the field relate to volume conduction. The accuracy of
 - [[the-virtual-brain]]
 - [[jansen-rit-model]]
 - [[functional-connectivity]]
+
+## References
+
+1. Amjad Sultan Awan, Mary Baker. (2026). *Towards Physics-Informed Neural Networks (PINN) for EEG Source Localization: Finite Element Head Model Development and Data Generation*. 2026 International Conference on Artificial Intelligence, Computer, Data Sciences and Applications (ACDSA). [DOI](https://doi.org/10.1109/ACDSA67686.2026.11468152)
+2. Deepa Tilwani, Christian O'Reilly. *Deep Jansen-Rit Parameter Inference for Model-Driven Analysis of Brain Activity*. [Link](https://arxiv.org/abs/2406.05002)
+3. (authors unknown). *Electric Fields of the Brain: The Neurophysics of EEG*.

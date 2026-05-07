@@ -60,3 +60,9 @@ Singularity containers are used extensively in the [[neurodesk]] ecosystem for r
 While Singularity represented a significant advance for scientific computing, it has limitations worth noting. The single-image approach means that unlike Docker's layered filesystem, containers cannot share common base layers efficiently when many images are stored on a system. The build process, while straightforward, still requires some familiarity with Linux system administration and the Singularity definition file format. These factors created barriers for researchers seeking the lowest-possible entry barrier to reproducible computing.
 
 The technology landscape has also evolved since the 2017 publication. The Singularity project was later rebranded as Apptainer under the Linux Foundation, maintaining the core architecture while improving governance and community support. Docker has implemented rootless mode options that partially address the HPC compatibility concerns. Alternative approaches like Nix and Guix provide purely declarative environments without container encapsulation. Despite these developments, Singularity remains widely deployed on HPC systems worldwide and continues to serve as a foundational reference for containerization in scientific computing.
+
+## References
+
+1. (authors unknown). *Neurodesk: an accessible, flexible and portable data analysis environment for reproducible neuroimaging*.
+2. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2025). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research*. bioRxiv. [DOI](https://doi.org/10.1101/2025.10.06.680781)
+3. Max C. W. Engelen, River Betting, Christos Strydis. (2025). *SimHH: A Versatile, Multi-GPU Simulator for Extended Hodgkin-Huxley Networks*. IEEE Access. [DOI](https://doi.org/10.1109/ACCESS.2025.3550444)

@@ -68,3 +68,12 @@ Major empirical papers documenting the consortium's cortical and subcortical ima
 ## Related Software
 
 The BrainCoGS ecosystem encompasses several software tools developed specifically for the project's goals. The consortium maintains repositories on GitHub including the **brain_atlas_toolkit** for navigating hierarchical brain atlases, **Microscope** for two-photon microscope design documentation, and **HPC_manifolds** for analysis of high-dimensional neural activity manifolds. These tools complement rather than compete with established whole-brain simulation platforms like [[the-virtual-brain]] or [[nest]], serving instead as data analysis infrastructure that could ultimately feed into larger-scale modeling frameworks. The project's emphasis on reproducible, open-source analysis pipelines reflects the broader trend in computational neuroscience toward transparent, community-available methods that can be applied beyond the original experimental context.
+
+## References
+
+1. Micha Burkhardt, Carsten Gießing. (2025). *The Comet Toolbox: Improving robustness in network neuroscience through multiverse analysis*. bioRxiv. [DOI](https://doi.org/10.1101/2024.01.21.576546)
+2. Jiangnan Zhang, Chengyuan Qian, Wenlian Lu, Gustavo Deco, Weiyang Ding, Jianfeng Feng. (2025). *Dark Signals in the Brain: Augment Brain Network Dynamics to the Complex-valued Field*. [Link](https://arxiv.org/abs/2509.24715)
+3. (authors unknown). *BRAPH 2.0 Genesis: An Open-Source Toolbox for Brain Connectivity Analysis*.
+4. (authors unknown). *GLEAN: Group Level Exploratory Analysis of Networks*.
+5. Xiaoyan Wu, Chuang Liang, J. Bustillo, Peter V. Kochunov, Xuyun Wen, Jing Sui, Rongtao Jiang, Xiao Yang, Zening Fu, Daoqiang Zhang, V. Calhoun, S. Qi. (2025). *The Impact of Atlas Parcellation on Functional Connectivity Analysis Across Six Psychiatric Disorders*. Human Brain Mapping. [DOI](https://doi.org/10.1002/hbm.70206)
+6. Jui-To Wang, Ching-Po Lin, Huei-Min Liu, Carlo Pierpaoli, C. Lo. (2025). *Beyond tractography in brain connectivity mapping with dMRI morphometry and functional networks*. Brain Structure and Function. [DOI](https://doi.org/10.1007/s00429-025-03016-1)

@@ -105,3 +105,7 @@ While challenges in model fidelity, scaling, and software tooling remain, the fi
 [^spinnaker_2013]: Furber, S. B., et al. (2013). The SpiNNaker project. *Proceedings of the IEEE*, 102(5), 652-665.
 
 [^tvb_nest_coupling]: Ritter, P., et al. (2017). The virtual brain connects computational modeling to empirical data. *Neuroscience* (for TVB-NEST coupling reference).
+
+## References
+
+1. Guang Chen, Meng Xu, Yuying Chen, F. Yuan, Lanqi Qin, Jian Ren. (2026). *A New Era in Computing: A Review of Neuromorphic Computing Chip Architecture and Applications*. Chips. [DOI](https://doi.org/10.3390/chips5010003)

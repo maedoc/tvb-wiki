@@ -1,10 +1,16 @@
 ---
-title: Compensation
 created: 2026-01-15
-updated: 2026-05-07
+sources:
+- raw/papers/arxiv-2603.29843.md
+tags:
+- network-dynamics
+- whole-brain-modeling
+- computational-neuroscience
+- brain-network
+- dynamical-systems-theory
+title: Compensation
 type: concept
-tags: [network-dynamics, whole-brain-modeling, computational-neuroscience, brain-network, dynamical-systems-theory]
-sources: [raw/papers/arxiv-2603.29843.md]
+updated: '2026-05-07'
 ---
 
 Compensation denotes the capacity of [[brain-network]]s to maintain functional performance despite structural damage, pathway disruption, or pathological changes. In the framework of [[whole-brain modeling]], compensation is not merely a passive failure tolerance but an active reconfiguration of [[network-dynamics]] wherein remaining pathways reorganize to preserve information processing and cognitive function. This concept emerges at the intersection of [[computational-neuroscience]], [[structural-connectivity]], and [[functional-connectivity]] analysis, providing a quantitative lens for understanding how the brain responds to insult, aging, or disease progression.
@@ -38,3 +44,7 @@ In practical terms, individuals with higher cognitive reserve may exhibit strong
 Several fundamental questions about compensation remain open. First, the temporal dynamics of compensatory reconfiguration are poorly characterized—is compensation an immediate automatic response, or does it require network learning over hours to days? Second, the relationship between structural and functional compensation remains debated: does functional compensation always require structural rewiring through [[plasticity]], or can existing latent pathways be recruited without structural change? Third, individual variability in compensatory capacity is not fully explained by current models; understanding why some individuals demonstrate remarkable compensation while others with similar pathology show rapid decline remains a central challenge in [[personalized-brain-modeling]].
 
 Future directions include integrating compensation metrics with [[neuroimaging-fmri]], [[neuroimaging-eeg]], and [[neuroimaging-meg]] data to validate computational predictions against empirical observations, and developing clinical applications where compensatory capacity informs prognosis and treatment selection.
+
+## References
+
+1. Moo K. Chung, Luigi Maccotta, Aaron Struck. (2026). *Counterfactual Analysis of Brain Network Dynamics*. [Link](https://arxiv.org/abs/2603.29843)

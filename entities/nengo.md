@@ -51,3 +51,9 @@ Nengo and [[the-virtual-brain]] address different spatial scales in brain modeli
 [^3]: Nengo Website. (2024). Neural Engineering Framework. https://www.nengo.ai/
 
 [^4]: Sanz-Leon, P., FitzGerald, D. B., deco, G. A., Jirsa, V. K., & McIntosh, A. R. (2014). [[tvb|The Virtual Brain]]: a whole-brain modelling framework. *BMC Neuroscience*, 15(S1), P178.
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Martin Breyton, Viktor Sip, M. Woodman, Meysam Hashemi, S. Petkoski, V. Jirsa. (2025). *Data-driven mean-field within whole-brain models*. [Link](https://www.semanticscholar.org/paper/144ae1f1dabec42c14493d0083d36f168508f886)
+3. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)

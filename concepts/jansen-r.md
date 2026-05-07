@@ -1,10 +1,21 @@
 ---
-title: Jansen-Rit Model
 created: 2026-04-20
-updated: 2026-05-07
+sources:
+- raw/papers/jansen-rit-1995.md
+- raw/papers/rit-2013.md
+- raw/papers/arxiv-2411.16449.md
+tags:
+- neural-mass-models
+- neuroimaging-eeg
+- neuroimaging-meg
+- whole-brain-modeling
+- bifurcation-analysis
+- dynamical-systems-theory
+- brain-oscillations
+- computational-neuroscience
+title: Jansen-Rit Model
 type: concept
-tags: [neural-mass-models, neuroimaging-eeg, neuroimaging-meg, whole-brain-modeling, bifurcation-analysis, dynamical-systems-theory, brain-oscillations, computational-neuroscience]
-sources: [raw/papers/jansen-rit-1995.md, raw/papers/rit-2013.md, raw/papers/arxiv-2411.16449.md]
+updated: '2026-05-07'
 ---
 
 The Jansen-Rit model is a [[neural-mass-models|neural mass model]] of a cortical column that generates realistic electroencephalogram (EEG) and magnetoencephalography (MEG) signals through the interaction of three neuronal populations. Originally developed by Benjamin H. Jansen and Vincent G. Rit in their seminal 1995 paper [@jansen-rit-1995], the model has become the default neural mass implementation in [[the-virtual-brain|TVB]] for whole-brain simulations [@rit-2013] and serves as a foundational framework for studying brain oscillations, evoked potentials, and pathological dynamics in disorders such as epilepsy.
@@ -62,3 +73,9 @@ The TVB implementation includes the full set of parameters from the original for
 Despite its widespread use, the Jansen-Rit model leaves several questions unresolved. The three-population architecture, while more detailed than single-population models, still abstracts away the heterogeneity of cortical neuron types. Recent work suggests that incorporating more realistic cellular diversity may be necessary to capture certain oscillation types, particularly gamma rhythms that require precise timing between specific interneuron subclasses.
 
 Parameter estimation for personalized models remains challenging, as the model's many parameters cannot be uniquely determined from macroscopic signals alone. Bayesian approaches and [[variational-bayes|variational inference]] methods are active areas of research for constraining model parameters using empirical EEG or fMRI data. The relationship between the model's abstract "population" variables and underlying cellular mechanisms continues to be refined as more detailed models become computationally tractable.
+
+## References
+
+1. Benjamin H. Jansen, Vincent G. Rit. *Electroencephalogram and visual evoked potential generation in a mathematical model of coupled cortical columns*. Biological Cybernetics. [DOI](https://doi.org/10.1007/BF00199471)
+2. Vincent G. Rit, Benjamin H. Jansen. *A neural mass model for the generation of electroencephalograms*. Critical Reviews in Biomedical Engineering.
+3. Huda Mahdi, Jan Sieber, Krasimira Tsaneva-Atanasova. *Alpha-Delta Transitions in Cortical Rhythms as grazing bifurcations*. [Link](https://arxiv.org/abs/2411.16449)

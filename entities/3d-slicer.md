@@ -1,10 +1,19 @@
 ---
-title: 3D Slicer
 created: 2026-05-07
-updated: 2026-05-07
+sources:
+- raw/papers/tustison-2010.md
+- raw/papers/alfaro-almagro-2018.md
+- raw/papers/semanticscholar-301489ffb9de.md
+tags:
+- software-brain-modeling
+- software-visualization
+- neuroimaging-dti
+- neuroimaging-fmri
+- diffusion-imaging
+- tractography
+title: 3D Slicer
 type: entity
-tags: [software-brain-modeling, software-visualization, neuroimaging-dti, neuroimaging-fmri, diffusion-imaging, tractography]
-sources: [raw/papers/tustison-2010.md, raw/papers/alfaro-almagro-2018.md, raw/papers/semanticscholar-301489ffb9de.md]
+updated: '2026-05-07'
 ---
 
 # 3D Slicer
@@ -46,3 +55,9 @@ Slicer's architecture centers on a modular plugin system where core functionalit
 - [[mrtrix3]] — Advanced diffusion MRI analysis and tractography
 - [[dipy]] — Python-based diffusion MRI analysis
 - [[the-virtual-brain]] — Whole-brain simulation platform
+
+## References
+
+1. Tustison et al. (2010). *N4ITK: improved N3 bias correction*. IEEE Transactions on Medical Imaging. [DOI](https://doi.org/10.1109/TMI.2010.2046908)
+2. (authors unknown). *Image Processing and Quality Control for the First 100,000 Brain Imaging Datasets from UK Biobank*.
+3. Muhammad Nabi Yasinzai, R. Mito, M. Pedersen. (2025). *BrainScape: An open-source framework for integrating and preprocessing anatomical MRI datasets*. Imaging neuroscience. [DOI](https://doi.org/10.1162/IMAG.a.944)

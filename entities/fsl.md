@@ -12,8 +12,9 @@ tags:
 - statistics
 title: FSL
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
+
 # FSL
 
 **FSL** (FMRIB Software Library) is a comprehensive library of analysis tools for [[neuroimaging-fmri|functional MRI]] ([[fmri]]), MRI, and DTI brain imaging data. Developed at the Wellcome Centre for Integrative [[neuroimaging]] at the University of Oxford, FSL is one of the most widely used neuroimaging software packages in the world [Smith et al. 2004].
@@ -58,3 +59,9 @@ FSL is part of a broader neuroimaging toolchain:
 - [[spm]] — alternative statistical analysis package
 - [[mrtrix3]] — alternative DTI/tractography suite
 - [[dipy]] — Python-based diffusion analysis
+
+## References
+
+1. Mohammadtaha Parsayan, S. Andalib, T. L. Andersen, Habib Ganjgahi, P. Høilund-Carlsen, Abass Alavi, Mojtaba Zarei. (2025). *Odense-Oxford PET Image Analysis (OPETIA): An FSL-based toolbox for multimodal neuroimaging*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2025.121278)
+2. (authors unknown). *Neurodesk: an accessible, flexible and portable data analysis environment for reproducible neuroimaging*.
+3. (authors unknown). *Nighres: processing tools for high-resolution neuroimaging*.

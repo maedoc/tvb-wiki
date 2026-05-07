@@ -1,8 +1,9 @@
 ---
-title: Metabolic Modeling
 created: 2026-04-27
-updated: 2026-05-07
-type: concept
+sources:
+- raw/papers/semanticscholar-ce89e593c89e.md
+- raw/papers/semanticscholar-9afbfd2d37be.md
+- raw/papers/arxiv-2509.02799.md
 tags:
 - metabolic-modeling
 - neuroimaging-fmri
@@ -12,10 +13,9 @@ tags:
 - brain-dynamics
 - neurovascular-coupling
 - neural-mass-models
-sources:
-- raw/papers/semanticscholar-ce89e593c89e.md
-- raw/papers/semanticscholar-9afbfd2d37be.md
-- raw/papers/arxiv-2509.02799.md
+title: Metabolic Modeling
+type: concept
+updated: '2026-05-07'
 ---
 
 Metabolic modeling in the context of whole-brain modeling refers to the computational representation of energy metabolism and its coupling to neural activity in the brain. This includes biophysical models of the hemodynamic response that transform neural dynamics into the blood-oxygen-level-dependent (BOLD) signal measured by functional magnetic resonance imaging (fMRI), as well as broader frameworks that account for the metabolic costs of neuronal signaling, synaptic transmission, and network-level energy consumption. Metabolic models serve as the bridge between the electrophysiological dynamics simulated by [[neural-mass-models]] and the macroscopic neuroimaging signals that provide empirical validation for whole-brain simulations.
@@ -55,3 +55,9 @@ Several open questions remain active areas of research. The precise cellular and
 ## Related Concepts
 
 Metabolic modeling connects to several core concepts in the wiki. The [[bold-signal]] page provides detailed treatment of the BOLD contrast mechanism. The [[hemodynamic-response-function]] page describes the canonical impulse response of the vascular system to neural activity. [[Neural-mass-model]] pages document the population-level neural dynamics that drive metabolic demand. The relationship between structure and function in metabolic terms is explored through [[structural-connectivity]] and [[functional-connectivity]] concepts.
+
+## References
+
+1. V. Myrov, A. Suleimanova, Samanta Knapič, P. Partanen, M. Vesterinen, Wenya Liu, S. Palva, J. M. Palva. (2026). *Hierarchical whole-brain modeling of critical synchronization dynamics in the human brain.*. Proceedings of the National Academy of Sciences of the United States of America. [DOI](https://doi.org/10.1073/pnas.2505768123)
+2. Leon Martin, Konstantin Bülau, Marius Pille, Rico Schmitt, Christoph Hüttl, J. Meier, Halgurd Taher, Dionysios Perdikis, M. Schirner, L. Stefanovski, Petra Ritter. (2025). *The Virtual Brain Ontology: A Digital Knowledge Framework for Reproducible Brain Network Modeling*. bioRxiv. [DOI](https://doi.org/10.1101/2025.11.19.689211)
+3. Martin Breyton, Viktor Sip, M. Woodman, Meysam Hashemi, S. Petkoski, V. Jirsa. (2025). *Data-driven mean-field within whole-brain models*. [Link](https://www.semanticscholar.org/paper/144ae1f1dabec42c14493d0083d36f168508f886)
