@@ -248,3 +248,7 @@
 ## [2026-05-07 10:26] CrosslinkApplier: added 140 wikilinks (140 inline, 0 suggested)
 
 ## [2026-05-07 10:26] Matcher: 24 pages got 60 new sources
+
+## [2026-05-07 11:31] DeepResearch: 2 papers added via focused research
+
+## [2026-05-07 11:54] Audit: 987 issues (136 broken links, 43 orphans, 0 placeholders, 0 dup-refs, 5 bad-meta, 99 citation-verify, 14 opaque-refs, 26 thin, 433 missing-links)
