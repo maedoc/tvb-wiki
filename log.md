@@ -112,3 +112,5 @@
 ## [2026-05-07 01:52] Audit: 978 issues (113 broken links, 41 orphans, 0 placeholders, 0 dup-refs, 5 bad-meta, 99 citation-verify, 14 opaque-refs, 37 thin, 429 missing-links)
 
 ## [2026-05-07 02:13] Improve: 5 pages improved (petra-ritter, neuroimaging-pet, hybrid-architecture, local-field-potentials, anticevic-2012)
+
+## [2026-05-07 02:39] Improve: 4 pages improved (petra-ritter, local-field-potentials, rest, karen-friston)
