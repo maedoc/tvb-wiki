@@ -256,3 +256,7 @@
 ## [2026-05-07 12:16] FullTextFetcher: fetched 5 new full texts (45 total in corpus)
 
 ## [2026-05-07 13:36] DeepResearch: 11 papers added via focused research
+
+## [2026-05-07 15:45] Librarian: catalog rebuilt, 9347 asymmetric links noted
+
+## [2026-05-07 15:45] Linter: 136 broken links, 43 orphans, 1 stale, 4 empty
