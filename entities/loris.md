@@ -1,6 +1,9 @@
 ---
 created: 2025-01-15
-sources: []
+sources:
+- raw/papers/schirner-2018.md
+- raw/papers/mijalkov-2017-braph.md
+- raw/papers/arxiv-2604.16463.md
 tags:
 - software-neuroimaging
 - database-neuroimaging

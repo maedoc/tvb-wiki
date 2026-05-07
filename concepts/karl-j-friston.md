@@ -2,6 +2,8 @@
 created: 2026-04-20
 sources:
 - raw/papers/david-friston-2003.md
+- raw/papers/semanticscholar-f05f8cbafb78.md
+- raw/papers/breakspear-2017.md
 tags:
 - people-researcher
 - dynamic-causal-modeling

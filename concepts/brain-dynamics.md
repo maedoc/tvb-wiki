@@ -6,6 +6,7 @@ sources:
 - raw/papers/breakspear-2017.md
 - raw/papers/semanticscholar-2004e006655b.md
 - raw/papers/arxiv-2512.03907.md
+- raw/papers/semanticscholar-60ca593f7e0c.md
 tags:
 - neural-mass-models
 - whole-brain-modeling

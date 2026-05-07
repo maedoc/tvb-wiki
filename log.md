@@ -24,3 +24,5 @@
 ## [2026-05-07 22:05] Improve: 1 pages improved (schaefer)
 
 ## [2026-05-07 22:25] DeepResearch: 1 papers added via focused research
+
+## [2026-05-07 22:48] CrosslinkApplier: added 128 wikilinks (128 inline, 0 suggested)

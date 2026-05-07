@@ -5,6 +5,9 @@ sources:
   paper'
 - '[NeuroQuery website](https://neuroquery.org)'
 - '[NeuroQuery GitHub](https://github.com/neuroquery/neuroquery)'
+- raw/papers/glean-github.md
+- raw/papers/arxiv-2601.03796.md
+- raw/papers/semanticscholar-ab726d866649.md
 tags:
 - software-neuroquery
 - neuroimaging-fmri

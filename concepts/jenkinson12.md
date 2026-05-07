@@ -2,6 +2,9 @@
 created: 2024-01-15
 sources:
 - raw/papers/jenkinsonsm12.md
+- raw/papers/gorgolewski-2016.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/ritter-2013.md
 tags:
 - software-fsl
 - neuroimaging

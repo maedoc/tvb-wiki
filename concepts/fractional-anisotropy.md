@@ -3,6 +3,7 @@ created: 2026-04-20
 sources:
 - raw/papers/smith-2013-connectomics.md
 - raw/papers/friston-1993.md
+- raw/papers/anticevic-2012.md
 tags:
 - diffusion-imaging
 - neuroimaging-dti
