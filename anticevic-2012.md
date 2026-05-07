@@ -3,7 +3,7 @@ title: "Anticevic 2012"
 created: 2024-01-15
 updated: 2026-05-07
 type: concept
-tags: [paper-review, computational-psychiatry, schizophrenia-models, excitation-inhibition-balance, brain-dynamics, whole-brain-modeling, neural-mass-models, functional-connectivity]
+tags: [paper-review, schizophrenia-models, whole-brain-modeling, neural-mass-models, functional-connectivity, brain-oscillations]
 sources: [raw/papers/deco-2013.md]
 ---
 
