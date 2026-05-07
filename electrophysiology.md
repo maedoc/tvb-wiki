@@ -1,7 +1,7 @@
 ---
 title: Electrophysiology
 created: 2026-04-20
-updated: 2026-05-06
+updated: 2026-05-07
 type: concept
 tags: [neuroimaging-eeg, neuroimaging-meg, neural-mass-models, whole-brain-modeling, computational-neuroscience, source-localization, volume-conduction, local-field-potentials]
 sources: [raw/papers/nunez-srinivasan-2006.md, raw/papers/semanticscholar-1a3ed92b9f5a.md, raw/papers/semanticscholar-cc2129666e15.md]
@@ -19,7 +19,7 @@ Electrophysiological measurements in the human brain are acquired through severa
 
 Recent methodological advances have expanded the toolkit for cerebellar investigations, which have historically been challenging due to the cerebellum's depth and complex folding. The work by Matsubara et al. (2026) demonstrates the application of anatomically informed source modeling to quantify cerebellar signal detectability in both MEG and EEG, systematically investigating how source orientation, sensor-source distance, and head size affect signal-to-noise ratio across patient populations. Their findings reveal that while cerebellar signals remain challenging to detect with conventional clinical systems, optically pumped magnetometer (OPM) configurations optimized for posterior fossa coverage substantially improve sensitivity.
 
-Analysis of electrophysiological data often relies on specialized software toolkits. The [[erplab]] package provides comprehensive workflows for event-related potential (ERP) analysis, enabling preprocessing, baseline correction, artifact rejection, and statistical comparison of experimental conditions. Reproducible research pipelines benefit from unit testing frameworks such as [[sciunit]], which allow researchers to validate electrophysiology processing steps against ground-truth datasets and ensure consistency across analysis versions.
+Analysis of electrophysiological data often relies on specialized software toolkits. The [[erplab]] package provides comprehensive workflows for event-related potential (ERP) analysis, enabling preprocessing, baseline correction, artifact rejection, and statistical comparison of experimental conditions. Tools such as [[autoreject]] offer automated rejection and repair of bad trials and sensors. Reproducible research pipelines benefit from unit testing frameworks such as [[sciunit]], which allow researchers to validate electrophysiology processing steps against ground-truth datasets and ensure consistency across analysis versions.
 
 ## Relationship to Whole-Brain Modeling
 

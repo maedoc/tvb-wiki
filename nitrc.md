@@ -1,7 +1,7 @@
 ---
 title: NITRC
 created: 2024-01-15
-updated: 2026-05-06
+updated: 2026-05-07
 type: entity
 tags: [neuroimaging-fmri, neuroimaging-eeg, neuroimaging-meg, neuroimaging-dti, reproducibility, software-bct, software-fsl, software-spm]
 sources:
@@ -13,7 +13,7 @@ sources:
 
 ## Overview
 
-NITRC (Neuroimaging Informatics Technology Initiative) is a community‑owned web repository that provides researchers with centralized access to neuroimaging software tools, resources, and computational environments. Established as part of the NIH Blueprint for Enhancing the Development of Neuroimaging Technologies, NITRC serves as the primary distribution mechanism for hundreds of neuroimaging analysis packages across multiple modalities, including [[fMRI]], [[EEG]], [[MEG]], and [[diffusion tensor imaging (DTI)]] [1]. The platform addresses a fundamental challenge in computational neuroscience: the fragmentation of software tools across different labs, websites, and distribution channels, which historically made it difficult for researchers to discover, obtain, and reproduce neuroimaging analyses. NITRC consolidates these resources into a single, searchable repository with version‑controlled downloads, documentation, and community support forums [1]. As a cornerstone of the [[neuroimaging]] ecosystem, NITRC facilitates both software discovery and [[reproducibility]] best practices for researchers working with large‑scale brain datasets.
+NITRC (Neuroimaging Informatics Technology Initiative) is a community‑owned web repository that provides researchers with centralized access to neuroimaging software tools, resources, and computational environments. Established as part of the NIH Blueprint for Enhancing the Development of Neuroimaging Technologies, NITRC serves as the primary distribution mechanism for hundreds of neuroimaging analysis packages across multiple modalities, including [[fMRI]], [[EEG]], [[MEG]], and [[[[neuroimaging]]]] [1]. The platform addresses a fundamental challenge in computational neuroscience: the fragmentation of software tools across different labs, websites, and distribution channels, which historically made it difficult for researchers to discover, obtain, and reproduce neuroimaging analyses. NITRC consolidates these resources into a single, searchable repository with version‑controlled downloads, documentation, and community support forums [1]. As a cornerstone of the [[neuroimaging]] ecosystem, NITRC facilitates both software discovery and [[reproducibility]] best practices for researchers working with large‑scale brain datasets.
 
 ## Motivation and Context
 

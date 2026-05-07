@@ -1,7 +1,7 @@
 ---
 title: Wong-Wang Model
 created: 2026-04-20
-updated: 2026-05-06
+updated: 2026-05-07
 type: concept
 tags: [neural-mass-models, whole-brain-modeling, resting-state, functional-connectivity, neuroimaging-fmri, dynamic-causal-modeling, neural-mass-models-comparison]
 sources: [raw/papers/wendling-2002.md]
@@ -95,4 +95,4 @@ The S variable in the Wong-Wang model can be interpreted as the average synaptic
 - [[functional-connectivity]] — Empirical functional connectivity
 - [[structural-connectivity]] — Anatomical connectivity basis
 - [[jansen-rit]] — Precursor neural mass model
-- [[gustavo-deco]] — Key researcher in whole-brain adaptation
+- gustavo-deco — Key researcher in whole-brain adaptation

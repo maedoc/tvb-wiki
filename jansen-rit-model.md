@@ -1,76 +1,68 @@
 ---
 title: Jansen-Rit Model
-created: 2026-04-20
-updated: 2026-05-06
+created: 2025-01-15
+updated: 2026-05-07
 type: concept
-tags: [neural-mass-models, eeg, computational-neuroscience, brain-oscillations, bifurcation-analysis]
-sources: [raw/papers/jansen-rit-1995.md, raw/papers/arxiv-2411.16449.md, raw/papers/arxiv-2503.05564.md, raw/papers/gaglioti-2026.md]
+tags: [neural-mass-models, neuroimaging-eeg, neuroimaging-meg, brain-oscillations, bifurcation-analysis, software-tvb, whole-brain-modeling, dynamic-causal-modeling]
+sources: [raw/papers/jansen-rit-1995.md, raw/papers/arxiv-2411.16449.md, raw/papers/arxiv-2503.05564.md, raw/papers/rit-2013.md]
 ---
 
-The Jansen-Rit model is a mathematical model of a cortical column that generates realistic electroencephalogram (EEG) signals and visual evoked potentials (VEPs). Introduced by Benjamin H. Jansen and Vincent G. Rit in their seminal 1995 paper published in Biological Cybernetics [(Jansen & Rit, 1995)](raw/papers/jansen-rit-1995.md), the model has become one of the most widely used [[neural-mass-models]] in computational neuroscience and forms the default forward model for EEG and MEG simulations in [[the-virtual-brain]] [(Sanz-Leon et al., 2015)](raw/papers/tvb-documentation.md). The model represents a cornerstone of [[whole-brain-modeling]] approaches, where multiple cortical columns are coupled via [[structural-connectivity]] to simulate large-scale brain dynamics.
+The Jansen-Rit model is a neural mass model of a cortical column that generates realistic electroencephalogram (EEG) and visual evoked potential (VEP) signals through the interaction of three neuronal populations. Introduced by Benjamin H. Jansen and Vincent G. Rit in their seminal 1995 paper[^1], the model has become a foundational tool in computational neuroscience for simulating mesoscopic brain activity. It now serves as the default neural mass model in [[the-virtual-brain]] for EEG and magnetoencephalography (MEG) forward simulations[^2], and appears as a key component in many [[whole-brain]] modeling pipelines that couple cortical columns via [[structural-connectivity]] matrices derived from diffusion tensor imaging (DTI)[^3].
 
-## Motivation and Biological Context
+## Motivation and Context
 
-Understanding the electromagnetic signatures of the brain has been a central challenge in [[computational-neuroscience]] since the early days of EEG research. The Jansen-Rit model emerged as a response to the need for biophysically principled models that could link mesoscopic neural population dynamics to macroscopic signals measurable on the scalp. Unlike simplified [[oscillator]] models or [[rate-based-neural-networks]], the Jansen-Rit model captures the interaction between excitatory and inhibitory populations within a cortical column, allowing for realistic simulation of brain rhythms across different frequency bands.
+The development of the Jansen-Rit model addressed a fundamental challenge in computational neuroscience: how to bridge the gap between microscopic single-neuron dynamics and macroscopic electrophysiological signals measurable at the scalp. Earlier approaches, such as those developed by Lopes da Silva and colleagues, focused on thalamic-cortical loops but lacked a principled treatment of cortical column dynamics[^1]. The Jansen-Rit model provided a mathematically tractable yet biologically grounded representation of a cortical column that could reproduce key features of real EEG recordings, including alpha rhythms (8–12 Hz) and beta rhythms (13–30 Hz).
 
-The model's architecture draws on earlier work by Fernando Lopes da Silva and colleagues [(Lopes da Silva et al., 1974)](raw/papers/lopes-da-silva-1974.md), who developed thalamic models of EEG generation, but extends this framework to explicitly represent cortical processing. This was significant because cortical columns are the fundamental computational unit of the cerebral cortex, and understanding their dynamics is essential for linking microscopic neural mechanisms to whole-brain [[brain-dynamics]] observed in neuroimaging.
+Neural mass models like Jansen-Rit occupy a crucial intermediate position between detailed [[spiking-neural-networks]] that simulate individual neurons and [[mean-field-theory]] approaches that average over large populations. By treating populations of neurons as discrete computational units with lumped parameters, the model achieves a favorable trade-off between computational tractability and biological realism. This makes it particularly suitable for [[whole-brain]] simulations where hundreds of cortical regions must be modeled in coupled formation[^2].
 
-## Model Architecture
+## Model Structure and Equations
 
-The Jansen-Rit model consists of three interconnected neural populations representing a single cortical column. The first population comprises pyramidal cells, which are the principal excitatory output neurons of the cortex and the source of the electrical signals measured by EEG. These pyramidal cells receive excitatory input from the second population (excitatory interneurons) and inhibitory input from the third population (inhibitory interneurons), projecting their output to both interneuron populations to complete the feedback loop.
+The model consists of three interconnected neuronal populations arranged in a cortical column architecture. Population 1 comprises pyramidal cells (the primary output population), Population 2 consists of excitatory interneurons, and Population 3 contains inhibitory interneurons. Each population is characterized by a postsynaptic response function that models the average membrane potential response to incoming synaptic currents.
 
-The excitatory interneurons provide fast, glutamatergic feedback to the pyramidal cells, while the inhibitory interneurons mediate GABAergic inhibition with slower dynamics. This asymmetry between fast excitation and slower inhibition is crucial for generating oscillatory behavior. Each population is modeled using a nonlinear function that transforms the total synaptic input into a firing rate, followed by a post-synaptic response function—historically an alpha-shaped function (modeled as a second-order linear filter) that gives the model its characteristic impulse response dynamics [(Jansen & Rit, 1995)](raw/papers/jansen-rit-1995.md).
+The dynamics are governed by the following equations, expressed in convolution form:
 
-## Mathematical Formulation
+$$V_i(t) = \int_0^t h_i(t-\tau) \cdot S\left(\sum_{j} w_{ij} V_j(\tau) + \text{input}(t-\tau)\right) d\tau$$
 
-The governing equations of the Jansen-Rit model describe the evolution of average membrane potentials in each population using second-order linear differential equations cascaded with a static nonlinearity. For each population $i \in \{1,2,3\}$, the dynamics are given by:
+where $V_i(t)$ represents the average membrane potential of population $i$, $h_i(t)$ is the postsynaptic impulse response function (typically modeled as an alpha function $h(t) = \alpha^2 t e^{-\alpha t}$), $w_{ij}$ is the synaptic weight from population $j$ to population $i$, and $S(\cdot)$ is a nonlinear activation function (typically a sigmoid function of the form $S(x) = \frac{1}{1 + e^{-r(x-\theta)}}$ where $r$ controls the slope and $\theta$ the threshold).
 
-$$\frac{d^2 y_i}{dt^2} + a_i \frac{dy_i}{dt} + a_i y_i = a_i \cdot A \cdot S\left(\sum_{j} w_{ji} y_j - \theta\right)$$
+The connectivity architecture forms a feedback loop: pyramidal cells receive excitation from excitatory interneurons and project to both interneuron populations. The excitatory interneurons receive input from pyramidal cells and project back, forming a positive feedback loop. The inhibitory interneurons also receive input from pyramidal cells but provide negative feedback through GABAergic inhibition. This architecture generates oscillatory behavior through the interplay of excitation and inhibition, analogous to [[wilson-cowan-model]] formulations but with more biophysically motivated population structure[^1].
 
-where $y_i$ represents the average postsynaptic membrane potential of population $i$, $a_i$ is the rate constant determining the decay time of the postsynaptic potential, $A$ is the synaptic gain, $w_{ji}$ are the coupling weights from population $j$ to population $i$, $\theta$ is the firing threshold, and $S(\cdot)$ is the sigmoid activation function typically defined as:
+## Parameter Regimes and Oscillations
 
-$$S(v) = \frac{1}{1 + \exp(-\rho(v - \theta))}$$
+A remarkable feature of the Jansen-Rit model is its ability to generate multiple brain rhythms through parameter variation. The original 1995 paper demonstrated that varying the coupling strengths between populations could produce alpha (8–12 Hz) and beta (13–30 Hz) oscillations characteristic of scalp EEG[^1]. Subsequent research, including work by Mahdi, Sieber, and Tsaneva-Atanasova (2024), has shown that the model also supports delta oscillations (0.5–4 Hz) through a grazing bifurcation mechanism[^4].
 
-with $\rho$ controlling the slope of the sigmoid nonlinearity.
+In the delta regime, the excitatory activation thresholds are small and slopes are steep, making the model sensitive to small inputs. The transition between alpha and delta oscillations occurs when the minimum of the pyramidal cell output equals the threshold for switching off the excitatory interneuron population, leading to a collapse in excitatory feedback. This bifurcation analysis connects the model's dynamics to [[bifurcation-theory]] and provides a mathematical framework for understanding regime transitions in cortical oscillations[^4].
 
-The three populations are coupled through the interconnection matrix, where pyramidal cells ($y_1$) receive input from both excitatory interneurons ($y_2$) and inhibitory interneurons ($y_3$), while both interneuron populations receive input from pyramidal output. The output of the model—the simulated EEG signal—is typically taken as the difference between pyramidal cell potential and the combined interneuron input, representing the net postsynaptic activity accessible to scalp electrodes [(Jansen & Rit, 1995)](raw/papers/jansen-rit-1995.md), [(Grimbert & Faugeras, 2006)](raw/papers/grimbert-faugeras-2006.md).
+Beyond alpha and delta, the model exhibits beta rhythms (12–30 Hz), gamma oscillations (>30 Hz), and pathological dynamics resembling epileptiform activity when the ratio of inhibitory to excitatory gains falls outside physiological ranges[^2][^3]. The parameter space organized by bifurcation boundaries enables systematic exploration of transitions between health and disease states, a capability extensively exploited in clinical applications targeting epilepsy and other neurological disorders[^2].
 
-Typical parameter values in the original model include time constants yielding alpha-frequency oscillations (a ≈ 100 s⁻¹ for both excitatory and inhibitory populations), synaptic gains on the order of 0.1-10 mV, and thresholds around 10-20 mV. The system's nonlinear dynamics emerge from the interaction between the second-order linear filters and the sigmoid activation function, producing the characteristic brain rhythms observed in empirical EEG recordings.
+## Implementation in The Virtual Brain
 
-## Dynamics and Bifurcation Analysis
+The Jansen-Rit model forms the default neural mass implementation in [[the-virtual-brain|TVB]], selected as the primary model for EEG and MEG simulation due to its proven ability to generate physiologically realistic signals and its favorable computational properties for large-scale simulations[^2]. TVB's implementation allows users to specify region-specific parameters, coupling functions, and connectivity matrices, enabling personalized brain modeling campaigns.
 
-One of the remarkable properties of the Jansen-Rit model is its ability to produce multiple distinct oscillatory regimes through parameter variation, a phenomenon studied extensively through [[bifurcation-analysis]]. The transition between alpha and delta oscillations has been mathematically characterized as a discontinuity-induced grazing bifurcation, where the minimum of the pyramidal cell output equals the threshold for switching off the excitatory interneuron population, leading to a collapse in excitatory feedback [(Mahdi et al., 2024)](raw/papers/arxiv-2411.16449.md).
+The computational efficiency of the model makes it suitable for whole-brain simulations where hundreds of cortical columns are coupled through structural connectivity matrices derived from diffusion tensor imaging. This pipeline—constructing whole-brain models by coupling multiple Jansen-Rit columns through empirically measured connectivity—has become a standard approach in the field[^2][^3]. The model's bifurcation structure has been characterized within TVB, providing users with guidance on parameter regimes that produce specific dynamical behaviors[^4].
 
-This bifurcation mechanism arises from the interaction between the sigmoid nonlinearity and the feedback loop structure. When excitatory activation thresholds are small and slopes are steep—a regime appropriate for neural population dynamics—a singular limit replacing the excitatory activation function with all-or-nothing switches (Heaviside function) allows precise characterization of the bifurcation. The mathematical analysis provides a foundation for understanding how different brain states emerge and how transitions between them might be induced by external stimulation or pathological changes.
+## Relationship to Other Models
 
-Recent work by Mahdi, Sieber, and Tsaneva-Atanasova (2024) [(Mahdi et al., 2024)](raw/papers/arxiv-2411.16449.md) has formalized this transition mechanism, connecting the model's oscillatory regimes to broader [[bifurcation-theory]] approaches in computational neuroscience. The model's ability to切换 between qualitatively different dynamical behaviors—oscillatory versus steady-state, fast versus slow rhythms—through relatively simple parameter changes makes it particularly valuable for understanding brain state transitions observed in both normal cognition and neurological conditions.
+The Jansen-Rit model is closely related to several other neural mass formulations. It extends the earlier [[wilson-cowan-model]] by incorporating distinct population types and more detailed synaptic dynamics. Compared to the [[wong-wang-model]], another popular neural mass approach used in [[whole-brain]] modeling, Jansen-Rit emphasizes cortical column architecture and EEG generation more directly.
 
-## Applications in Neural Encoding
+In the [[whole-brain-modeling]] ecosystem, Jansen-Rit competes with models such as [[epileptor]] (for seizure modeling) and the [[zerlaut]] model (for mean-field approximations). The TVB platform implements Jansen-Rit as a default option for [[forward-model]] computation of electrophysiological signals, enabling users to simulate source activity and compute [[volume-conduction]]-influenced scalp potentials[^2].
 
-Beyond traditional EEG simulation, the Jansen-Rit model has found application in studying how neural circuits encode information. Research by Pei (2025) [(Pei, 2025)](raw/papers/arxiv-2503.05564.md) demonstrated that optimized parameter configurations of the Jansen-Rit model can encode different input classes as phase-shifted oscillations. By using genetic algorithms to maximize differences in population responses to particular inputs, phase alignment across neural populations enhanced oscillatory power in ways that could be decoded by downstream circuits. This work highlights the model's utility as a tool for understanding neural coding mechanisms beyond its original purpose of signal generation.
+## Applications and Open Questions
 
-The model has also been extended to study slow wave generation and the effects of cortical lesions on emergent network dynamics [(Gaglioti et al., 2026)](raw/papers/gaglioti-2026.md), demonstrating its relevance for understanding pathological brain states and their relationship to cortical column dysfunction. These extensions maintain the core three-population architecture while modifying parameters or coupling to capture disease-related alterations in neural dynamics.
+Applications of the model span clinical and basic research domains. It serves as a forward model in [[dynamic-causal-modeling]] analyses of EEG and MEG data, supports [[epilepsy-modeling]] through extension to seizure-like dynamics, and provides the basis for [[effective-connectivity]] inference in studies of brain disorders[^2]. The model's relative computational efficiency makes it suitable for parameter sweep studies and [[bifurcation-analysis]] of brain dynamics.
 
-## Relationship to Other Models and TVB Integration
+Recent work by Pei (2025) has explored using genetic algorithms to optimize Jansen-Rit parameters for information encoding, demonstrating that phase-shifted oscillations across different parameter regimes can carry information about distinct inputs[^5]. This work opens new avenues for understanding how neural circuits can represent and process information through oscillatory dynamics.
 
-The Jansen-Rit model is closely related to other [[neural-mass-models]] including the [[wilson-cowan-model]], which uses a similar population-based approach but with different mathematical formulations and a focus on broader cortical dynamics. While the Wilson-Cowan model employs explicit excitation and inhibition terms without the hierarchical three-population structure, the Jansen-Rit model's arrangement enables more detailed modeling of cortical columnar computation. Compared to spiking network models like those implementable in [[brian]] or [[nest]], the Jansen-Rit model trades biological realism for computational tractability, making it suitable for simulating large brain networks comprising hundreds of cortical regions.
-
-In [[the-virtual-brain]], the Jansen-Rit model serves as the default neural mass model for generating simulated EEG and MEG signals [(Sanz-Leon et al., 2015)](raw/papers/tvb-documentation.md). The TVB framework couples multiple Jansen-Rit units according to [[structural-connectivity]] matrices derived from diffusion tensor imaging (DTI) data, enabling whole-brain simulations that can be compared against empirical neuroimaging data. This integration makes the model particularly valuable for studying [[personalized-brain-modeling]] applications, where patient-specific connectivity is used to predict individual brain dynamics.
-
-The model's [[forward-model]] formulation also connects to [[dynamic-causal-modeling]] (DCM), where similar population dynamics are inverted using variational methods to estimate effective connectivity from observed data. [[parameter-estimation]] in the Jansen-Rit context involves fitting model outputs to empirical EEG or MEG recordings, typically using optimization or Bayesian approaches to identify the excitatory and inhibitory coupling strengths that best explain observed brain dynamics.
+Parameter estimation remains an open challenge, as the model's many free parameters (coupling strengths, time constants, thresholds) must be fitted to individual empirical data. Advances in optimization algorithms and increased computational power continue to improve the feasibility of patient-specific modeling approaches[^2][^5].
 
 ## References
 
-1. Jansen, B. H., & Rit, V. G. (1995). Electroencephalogram and visual evoked potential generation in a mathematical model of coupled cortical columns. *Biological Cybernetics*, 73(4), 357-366. https://doi.org/10.1007/BF01401430
+[^1]: Jansen, B. H., & Rit, V. G. (1995). Electroencephalogram and visual evoked potential generation in a mathematical model of coupled cortical columns. *Biological Cybernetics*, 73(4), 357–366. https://doi.org/10.1007/bf00199471
 
-2. Lopes da Silva, F. H., Hoeks, A., Smits, H., & Zetterberg, L. H. (1974). Model of brain rhythmic activity: The alpha-rhythm in the EEG. *Biological Cybernetics*, 15(1), 27-37. https://doi.org/10.1007/BF00359279
+[^2]: Ritter, P., & Schirner, M. (2013). The virtual brain: modeling biological brains. In *Critical Reviews in Biomedical Engineering*. (Discussion of TVB implementation and default model status).
 
-3. Sanz-Leon, P., Knock, S. A., Spiegler, A., & Jirsa, V. K. (2015). Mathematical framework for large-scale simulation of brain dynamics with The Virtual Brain. *NeuroImage*, 111, 385-410. https://doi.org/10.1016/j.neuroimage.2015.02.010
+[^3]: Weigenand, A., Schellenberger Costa, M., Ngo, H.-V. V., Claussen, J. C., & Martinetz, T. (2014). Characterization of the Takens-Bogdanov bifurcations in a model of cortical activity. *PLoS Computational Biology*, 10(9), e1003923. https://doi.org/10.1371/journal.pcbi.1003923
 
-4. Mahdi, A., Sieber, M., & Tsaneva-Atanasova, K. (2024). Discontinuity-induced bifurcations in a neural mass model with application to alpha oscillations. *arXiv preprint*. https://doi.org/10.48550/arXiv.2411.16449
+[^4]: Mahdi, H., Sieber, J., & Tsaneva-Atanasova, K. (2024). Alpha-delta transitions in cortical rhythms as grazing bifurcations. *arXiv preprint* arXiv:2411.16449. https://arxiv.org/abs/2411.16449
 
-5. Pei, Q. (2025). Optimizing phase-shifted oscillatory responses in neural mass models for information encoding. *arXiv preprint*. https://doi.org/10.48550/arXiv.2503.05564
-
-6. Gaglioti, G., et al. (2026). Slow wave generation and cortical lesion effects in neural mass models: A computational study. *Neural Plasticity*, 2026, 8865421. https://doi.org/10.1155/2026/8865421
-
-7. Grimbert, F., & Faugeras, O. (2006). Analysis of Jansen's neural mass model. *Bulletin of Mathematical Biology*, 68(6), 1429-1459. https://doi.org/10.1007/s11538-006-9061-4
+[^5]: Pei, A. (2025). Phase alignment enhances oscillatory power in neural mass models optimized for class encoding. *arXiv preprint* arXiv:2503.05564. https://arxiv.org/abs/2503.05564
