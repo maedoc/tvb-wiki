@@ -1,5 +1,8 @@
 # Wiki Activity Log
 
+## 2026-05-08
+- Verified [[michael-fox]] page meets schema requirements (15 wikilinks, valid taxonomy tags, complete content)
+
 ## 2026-05-07
 
 - Updated [[michael-fox]] page: fixed source citation (replaced incorrect breakspear-2017 with fox-raichle-2007), removed invalid tags not in taxonomy, added page to entities index
@@ -31,3 +34,7 @@
 ## [2026-05-07 22:48] Matcher: 14 pages got 36 new sources
 
 ## [2026-05-07 22:50] Improve: 1 pages improved (schaefer)
+
+## [2026-05-08 00:33] DeepResearch: 6 papers added via focused research
+
+## [2026-05-08 00:33] FullTextFetcher: fetched 5 new full texts (64 total in corpus)
