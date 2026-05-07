@@ -2,6 +2,7 @@
 
 ## 2026-05-08
 - Verified [[michael-fox]] page meets schema requirements (15 wikilinks, valid taxonomy tags, complete content)
+- Improved [[michael-fox]] page: expanded TVB relationship section with neural-mass-model and dynamic-causal-modeling links, added epilepsy-modeling cross-reference, expanded related concepts to 11 items
 
 ## 2026-05-07
 
@@ -38,3 +39,5 @@
 ## [2026-05-08 00:33] DeepResearch: 6 papers added via focused research
 
 ## [2026-05-08 00:33] FullTextFetcher: fetched 5 new full texts (64 total in corpus)
+
+## [2026-05-08 00:52] Improve: 1 pages improved (michael-fox)
