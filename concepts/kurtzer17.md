@@ -1,26 +1,26 @@
 ---
 created: 2026-05-06
 sources:
-  - raw/papers/kurtzer17.md
+- raw/papers/kurtzer17.md
 tags:
-  - reproducibility
-  - containerization
-  - software-tools
-  - software-apptainer
-  - hpc
-  - singular-containers
+- reproducibility
+- containerization
+- software-tools
+- software-apptainer
+- hpc
+- singular-containers
 title: Kurtzer et al. 2017 (Singularity)
 type: concept
-updated: 2026-05-07
+updated: '2026-05-07'
 ---
 
 # Kurtzer et al. 2017 (Singularity)
 
-The paper "Singularity: Scientific containers for mobility of compute" by Kurtzer, Sochat, and Bauer, published in 2017 in PLOS ONE, introduced the Singularity container platform specifically designed for high-performance computing (HPC) environments. Unlike general-purpose container solutions, Singularity was architected from the ground up to address the unique security, privilege, and interoperability requirements of scientific computing on cluster and supercomputer systems. The publication became a foundational reference for containerization in computational neuroscience, neuroimaging, and broader scientific research, enabling researchers to create portable, reproducible computational environments that could seamlessly execute across diverse computing infrastructure—from individual laptops to national HPC facilities.
+The paper "Singularity: Scientific containers for mobility of compute" by Kurtzer, Sochat, and Bauer, published in 2017 in PLOS ONE, introduced the Singularity container platform specifically designed for high-performance computing (HPC) environments. Unlike general-purpose container solutions, Singularity was architected from the ground up to address the unique security, privilege, and interoperability requirements of scientific computing on cluster and supercomputer systems. The publication became a foundational reference for containerization in [[computational-neuroscience]], [[neuroimaging]], and broader scientific research, enabling researchers to create portable, reproducible computational environments that could seamlessly execute across diverse computing infrastructure—from individual laptops to national HPC facilities.
 
 ## Motivation for Scientific Containerization
 
-Traditional container technologies, particularly Docker, revolutionized software deployment by packaging applications with their dependencies into portable images. However, Docker's design assumed a host where the user has root privileges and can run a daemon—a model incompatible with multi-user HPC environments where users submit jobs through schedulers like SLURM, PBS, or SGE without elevated privileges. The security model of Docker also created concerns on shared computing resources, as containers running as root could potentially escape their isolation and access the host system. These limitations meant that the reproducibility benefits of containers were largely inaccessible to academic researchers working on institutional clusters, who constituted a significant portion of the computational neuroscience community.
+Traditional container technologies, particularly Docker, revolutionized software deployment by packaging applications with their dependencies into portable images. However, Docker's design assumed a host where the user has [[root]] privileges and can run a daemon—a model incompatible with multi-user HPC environments where users submit jobs through schedulers like SLURM, PBS, or SGE without elevated privileges. The security model of Docker also created concerns on shared computing resources, as containers running as root could potentially escape their isolation and access the host system. These limitations meant that the reproducibility benefits of containers were largely inaccessible to academic researchers working on institutional clusters, who constituted a significant portion of the computational neuroscience community.
 
 The Singularity project addressed these constraints by implementing a fundamentally different architectural approach. Containers in Singularity run as the invoking user without requiring root access on the host system, and the container runtime is designed to be invoked directly rather than through a daemon. This design preserves the security model of the underlying HPC system while still providing complete isolation of the containerized environment. The containers can be built on any system (where root access may be available) and then transported to and executed on any HPC cluster without modification—a capability that Kurtzer and colleagues termed "mobility of compute."
 
@@ -28,7 +28,7 @@ The Singularity project addressed these constraints by implementing a fundamenta
 
 Singularity achieves containers by encapsulating the entire filesystem within a single squashfs or ext3 image file, which is mounted directly by the Singularity runtime rather than using layered filesystem union approaches. This single-file approach offers several advantages for scientific computing: images can be easily transferred between systems using standard file transfer mechanisms, the entire computational environment is self-contained including all libraries and system dependencies, and the immutable image format prevents runtime modifications that could introduce non-determinism. The build process can either start from a Docker image (enabling access to the vast Docker Hub ecosystem) or from a definition file specifying the precise contents of the container.
 
-A defining feature of Singularity is its approach to host system integration. Unlike Docker containers which typically run in isolated network namespaces, Singularity containers by default share the host's network namespace and can bind-mount specific host directories into the container. This design enables natural interaction with HPC job schedulers, where the container can access the scheduler's allocated resources, output files, and existing data stores without special configuration. The container can also access graphics devices for GPU acceleration, making Singularity particularly valuable for machine learning workloads common in modern neuroimaging analysis.
+A defining feature of Singularity is its approach to host system integration. Unlike Docker containers which typically run in isolated network namespaces, Singularity containers by default share the host's network namespace and can bind-mount specific host directories into the container. This design enables natural interaction with HPC job schedulers, where the container can access the scheduler's allocated resources, output files, and existing data stores without special configuration. The container can also access graphics devices for GPU acceleration, making Singularity particularly valuable for [[machine-learning]] workloads common in modern neuroimaging analysis.
 
 The paper demonstrated Singularity's capabilities through several scientific computing case studies, including molecular dynamics simulations, bioinformatics pipelines, and neuroimaging analysis workflows. Each case study illustrated how a container built on a developer's laptop could be deployed unchanged on remote HPC resources, eliminating the common "it works on my machine" problem that plagues scientific software distribution.
 

@@ -15,7 +15,7 @@ tags:
 - dynamical-systems-theory
 title: Epilepsy Modeling
 type: concept
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 # Epilepsy Modeling
@@ -73,7 +73,7 @@ This perspective has direct clinical applications for surgical planning. By simu
 
 ### Generalized Seizures
 
-Generalized seizures arise from global parameter changes that affect the entire network simultaneously, such as diffuse changes in excitation-inhibition balance or global modulation of cortical excitability. The absence seizure—a hallmark of childhood absence epilepsy—provides a particularly clear modeling target: the characteristic 3 Hz spike-wave pattern emerges naturally from torus bifurcation in neural mass models, where the system's [[trajectory]] winds around a torus before settling into periodic locking.
+Generalized seizures arise from global parameter changes that affect the entire network simultaneously, such as diffuse changes in [[excitation-inhibition-balance]] or global modulation of cortical excitability. The absence seizure—a hallmark of childhood absence epilepsy—provides a particularly clear modeling target: the characteristic 3 Hz spike-wave pattern emerges naturally from torus bifurcation in neural mass models, where the system's [[trajectory]] winds around a torus before settling into periodic locking.
 
 The distinction between focal and generalized seizures in computational models reflects the broader classification in clinical epilepsy, though the boundary can be blurred. Some seizures begin focally but recruit widespread networks, producing secondary generalization that combines elements of both mechanisms. Understanding these hybrid cases requires models that can represent both local parameter heterogeneity and global state changes—a requirement that motivates the multiscale approaches discussed below.
 

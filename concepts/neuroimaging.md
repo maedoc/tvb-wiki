@@ -17,7 +17,7 @@ tags:
 - connectomics
 title: Neuroimaging
 type: concept
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 Neuroimaging encompasses the suite of techniques used to directly or indirectly image the structure, function, or pharmacology of the nervous system. In the context of [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]], neuroimaging provides the essential empirical data that constrains [[connectome]]-based models, enables validation of simulated dynamics, and bridges the gap between mathematical abstraction and biological reality. The field has transformed from simple anatomical mapping to a sophisticated toolkit for probing [[brain-network]] organization across multiple spatiotemporal scales.
@@ -34,13 +34,13 @@ Diffusion MRI (dMRI) and [[tractography]] enable reconstruction of white matter 
 
 ## Relationship to Whole-Brain Modeling
 
-In connectome-based whole-brain modeling, neuroimaging serves as the primary source of empirical constraint. The structural connectivity matrix derived from dMRI tractography provides the anatomical topology—the set of nodes (brain regions) and edges (white matter tracts) that define the network. Functional MRI and EEG/MEG provide the empirical dynamics against which model simulations are validated. A central challenge in the field is the mismatch between the spatial scale of individual neurons (microns) and the spatial resolution of non-invasive neuroimaging (millimeters), requiring mean-field approximations that aggregate population-level activity.
+In connectome-based whole-brain modeling, neuroimaging serves as the primary source of empirical constraint. The [[structural-connectivity]] matrix derived from dMRI tractography provides the anatomical topology—the set of nodes (brain regions) and edges (white matter tracts) that define the network. Functional MRI and EEG/MEG provide the empirical dynamics against which model simulations are validated. A central challenge in the field is the mismatch between the spatial scale of individual neurons (microns) and the spatial resolution of non-invasive neuroimaging (millimeters), requiring [[mean-field-theory|mean-field]] approximations that aggregate population-level activity.
 
-The relationship between empirical neuroimaging data and computational models is inherently bidirectional. Models make predictions about network dynamics that can be tested against empirical recordings, while neuroimaging provides boundary conditions and initial states for simulations. Parameter estimation in whole-brain models often involves fitting simulated functional connectivity patterns to empirically observed patterns from fMRI or MEG.
+The relationship between empirical neuroimaging data and computational models is inherently bidirectional. Models make predictions about [[network-dynamics]] that can be tested against empirical recordings, while neuroimaging provides boundary conditions and initial states for simulations. [[parameter-estimation]] in whole-brain models often involves fitting simulated [[functional-connectivity]] patterns to empirically observed patterns from fMRI or MEG.
 
 ## Key Concepts
 
-Functional connectivity, as introduced by Friston and colleagues in their seminal 1993 work, refers to the temporal correlation between spatially remote neurophysiological events. This concept revolutionized how researchers conceptualize brain organization, shifting focus from isolated regional activation to distributed networks. Structural connectivity, in contrast, refers to the physical white matter pathways linking brain regions, measurable through diffusion imaging. The relationship between structural and functional connectivity remains an active research question—while strong structural connections generally predict strong functional coupling, the mapping is neither one-to-one nor linear, as indirect paths and polysynaptic activity shape functional dynamics.
+Functional [[connectivity]], as introduced by Friston and colleagues in their seminal 1993 work, refers to the temporal correlation between spatially remote neurophysiological events. This concept revolutionized how researchers conceptualize brain organization, shifting focus from isolated regional activation to distributed networks. Structural connectivity, in contrast, refers to the physical white matter pathways linking brain regions, measurable through [[diffusion-imaging]]. The relationship between structural and functional connectivity remains an active research question—while strong structural connections generally predict strong functional coupling, the mapping is neither one-to-one nor [[linear]], as indirect paths and polysynaptic activity shape functional dynamics.
 
 ## Relationship to The Virtual Brain
 

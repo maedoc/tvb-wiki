@@ -1,35 +1,51 @@
 ---
-title: Neuromorphic Computing
 created: 2026-04-20
-updated: 2026-05-06
+sources:
+- mead1990silicon
+- carver_mead_1988_course
+- intel_loihi_2018
+- ibm_truenorth_2014
+- brainscale_2015
+- spinnaker_2013
+- tvb_nest_coupling
+tags:
+- spiking-neural-networks
+- computational-neuroscience
+- whole-brain-modeling
+- brain-stimulation
+- neural-mass-models
+- software-brian
+- software-nest
+- brain-oscillations
+- excitation-inhibition-balance
+title: Neuromorphic Computing
 type: concept
-tags: [spiking-neural-networks, computational-neuroscience, whole-brain-modeling, brain-stimulation, neural-mass-models, software-brian, software-nest, brain-oscillations, excitation-inhibition-balance]
-sources: [mead1990silicon, carver_mead_1988_course, intel_loihi_2018, ibm_truenorth_2014, brainscale_2015, spinnaker_2013, tvb_nest_coupling]
+updated: '2026-05-07'
 ---
 
-Neuromorphic computing refers to a class of computer architectures and hardware systems designed to mimic the anatomical structure and dynamical behavior of biological neural networks. Unlike traditional von Neumann computing architectures, which separate processing and memory, neuromorphic systems integrate computation and storage in ways that more closely parallel the operating principles of biological brains. These systems typically implement spiking neuron models, synaptic plasticity mechanisms, and event-driven communication protocols directly in hardware, enabling massively parallel, low-power computation that scales in a biologically plausible manner.
+Neuromorphic computing refers to a class of computer architectures and hardware systems designed to mimic the anatomical structure and dynamical behavior of biological neural networks. Unlike traditional von Neumann computing architectures, which separate processing and memory, neuromorphic systems integrate computation and storage in ways that more closely parallel the operating principles of biological brains. These systems typically implement spiking [[neuron]] models, [[synaptic-plasticity]] mechanisms, and event-driven communication protocols directly in hardware, enabling massively parallel, low-power computation that scales in a biologically plausible manner.
 
 ## Motivation and Historical Context
 
 The development of neuromorphic computing emerged from dissatisfaction with the architectural mismatch between conventional processors and the computational demands of brain simulation. Traditional supercomputers simulating large-scale neural networks consume enormous amounts of power and require significant communication overhead between processing cores, because every spike event potentially requires data movement across the system. Biological brains achieve remarkable computational efficiency by relying on asynchronous, event-based signaling where neurons communicate only when they fire, combined with massive parallelism and locality of computation.
 
-The field was pioneered in the 1980s by Carver Mead, who coined the term "neuromorphic" in his 1990 *Scientific American* article and introduced the concept through his MIT course on VLSI and biological vision systems[^mead1990silicon]. Mead recognized that analog Very-Large-Scale Integration (VLSI) circuits could implement silicon neurons and synapses that captured essential neural dynamics while consuming orders of magnitude less power than digital computation[^carver_mead_1988_course]. Early neuromorphic chips like the Silicon Retina demonstrated that photoreceptor circuits could be implemented in analog hardware to emulate biological visual processing in real-time. Over the subsequent decades, the field expanded from primarily analog circuits to include digital neuromorphic architectures, mixed-signal systems, and specialized manycore processors designed specifically for spiking neural network simulation.
+The field was pioneered in the 1980s by Carver Mead, who coined the term "neuromorphic" in his 1990 *Scientific American* article and introduced the concept through his MIT course on VLSI and biological vision systems[^mead1990silicon]. Mead recognized that analog Very-Large-Scale Integration (VLSI) circuits could implement silicon neurons and synapses that captured essential neural dynamics while consuming orders of magnitude less power than digital computation[^carver_mead_1988_course]. Early neuromorphic chips like the Silicon Retina demonstrated that photoreceptor circuits could be implemented in analog hardware to emulate biological visual processing in real-time. Over the subsequent decades, the field expanded from primarily analog circuits to include digital neuromorphic architectures, mixed-signal systems, and specialized manycore processors designed specifically for [[spiking-neural-networks|spiking neural network]] simulation.
 
 ## Technical Foundations
 
-Neuromorphic computing systems implement neural dynamics through specialized hardware that encodes information in the timing of discrete events, analogous to the action potentials fired by biological neurons. The fundamental building blocks include silicon neurons—in hardware-implemented circuits that reproduce the electrophysiological behavior of real neurons—and silicon synapses that implement synaptic weight storage and update rules including spike-timing-dependent plasticity (STDP).
+Neuromorphic computing systems implement neural dynamics through specialized hardware that encodes information in the timing of discrete events, analogous to the action potentials fired by biological neurons. The fundamental building blocks include silicon neurons—in hardware-implemented circuits that reproduce the electrophysiological behavior of real neurons—and silicon synapses that implement synaptic weight storage and update rules including spike-timing-dependent [[plasticity]] (STDP).
 
-The mathematical description of neuromorphic neurons typically follows spiking neuron models such as the [[adaptive-exponential-integrate-and-fire]] (AdEx) model or the [[izhikevich-neuron-model|Izhikevich model]], which capture the essential dynamics of neuron firing while remaining computationally tractable for hardware implementation. These models describe how membrane potential evolves through differential equations and when a threshold is crossed, a spike is generated and transmitted to downstream neurons. Hardware implementations solve these equations either through analog circuit dynamics or through digital approximation, often using lookup tables and piecewise linear functions to balance accuracy with computational efficiency.
+The mathematical description of neuromorphic neurons typically follows spiking neuron models such as the [[adaptive-exponential-integrate-and-fire]] (AdEx) model or the [[izhikevich-neuron-model|[[izhikevich]] model]], which capture the essential dynamics of neuron firing while remaining computationally tractable for hardware implementation. These models describe how membrane potential evolves through differential equations and when a threshold is crossed, a spike is generated and transmitted to downstream neurons. Hardware implementations solve these equations either through analog circuit dynamics or through digital approximation, often using lookup tables and piecewise [[linear]] functions to balance accuracy with computational efficiency.
 
 A key advantage of neuromorphic systems lies in their event-driven nature. Traditional simulations evaluate every neuron at each simulation timestep, regardless of whether it fired. Neuromorphic hardware instead only performs computation when a neuron emits a spike, dramatically reducing average computational load for biologically realistic sparse activity patterns. This approach also enables natural temporal coding through spike timing, supporting theories of neural computation that rely on precise temporal relationships between spikes rather than firing rate alone.
 
 ## Major Hardware Platforms
 
-Several neuromorphic computing platforms have achieved significant scale and demonstrated utility for brain simulation. Intel Loihi is a digital neuromorphic chip containing multiple thousands of silicon neurons per core and supporting hierarchical connectivity through embedded mesh routing. Loihi implements learned spike rules and includes specialized hardware for STDP, making it particularly suitable for online learning applications. The chip has been used for various cognitive computing tasks including gesture recognition and robot control[^intel_loihi_2018], and researchers have adapted it for simulating cortical microcircuits.
+Several neuromorphic computing platforms have achieved significant scale and demonstrated utility for brain simulation. Intel Loihi is a digital neuromorphic chip containing multiple thousands of silicon neurons per core and supporting hierarchical [[connectivity]] through embedded mesh routing. Loihi implements learned spike rules and includes specialized hardware for STDP, making it particularly suitable for online learning applications. The chip has been used for various cognitive computing tasks including gesture recognition and robot control[^intel_loihi_2018], and researchers have adapted it for simulating cortical microcircuits.
 
-IBM TrueNorth represents another major digital neuromorphic architecture, featuring 4096 neurosynaptic cores, each containing 256 silicon neurons and 256 × 64 configurable synapses. TrueNorth's architecture emphasizes scalability and energy efficiency, achieving performance on the order of millions of synaptic operations per second while consuming only milliwatts of power[^ibm_truenorth_2014]. The system has been applied to pattern recognition tasks and has been used to simulate simplified whole-brain models at near-biological real-time speeds.
+IBM TrueNorth represents another major digital neuromorphic architecture, featuring 4096 neurosynaptic cores, each containing 256 silicon neurons and 256 × 64 configurable synapses. TrueNorth's architecture emphasizes scalability and energy efficiency, achieving performance on the order of millions of synaptic operations per second while consuming only milliwatts of power[^ibm_truenorth_2014]. The system has been applied to pattern recognition tasks and has been used to simulate simplified [[whole-brain]] models at near-biological real-time speeds.
 
-BrainScaleS (formerly part of the European Human Brain Project) uses analog neuromorphic hardware to achieve accelerated simulation—in some cases running orders of magnitude faster than biological real time[^brainscale_2015]. This acceleration is particularly valuable for studying slow dynamical processes like learning and development, as phenomena that unfold over hours or days in biology can be observed in minutes or hours on the hardware. The system implements a physical model of the [[wilson-cowan-model]] and has been used to study plasticity mechanisms and network dynamics.
+[[brainscales]] (formerly part of the European Human Brain Project) uses analog neuromorphic hardware to achieve accelerated simulation—in some cases running orders of magnitude faster than biological real time[^brainscale_2015]. This acceleration is particularly valuable for studying slow dynamical processes like learning and development, as phenomena that unfold over hours or days in biology can be observed in minutes or hours on the hardware. The system implements a physical model of the [[wilson-cowan-model]] and has been used to study plasticity mechanisms and [[network-dynamics]].
 
 SpiNNaker (Spiking Neural Network Architecture) takes a different approach by using thousands of ARM processors arranged in a hexagonal grid, each implementing software-based spiking neurons[^spinnaker_2013]. While not a true neuromorphic chip in the analog sense, SpiNNaker was designed specifically for brain simulation and uses a custom interconnect fabric to route spike events with minimal latency. The system can simulate millions of neurons in real time and has been used for large-scale brain modeling projects including the European Brain Project's neural simulation efforts.
 

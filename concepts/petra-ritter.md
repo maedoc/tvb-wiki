@@ -1,28 +1,39 @@
 ---
-title: Petra Ritter
 created: 2026-04-20
-updated: 2026-05-07
-type: entity
-tags: [people-researcher, software-tvb, whole-brain-modeling, neural-mass-models, personalized-brain-modeling]
 sources:
-  - "Ritter, P., Schirner, M., McIntosh, A. R., Jirsa, V. (2013). The Virtual Brain: a platform for modeling the dynamics of biological systems. In Neuroscience Congress."
-  - "Ritter, P., et al. (2017). Personalizing brain models for clinical applications. NeuroImage."
-  - "Ritter, P., Jirsa, V. (2020). Whole-brain modeling and personalized medicine. Current Opinion in Neurology."
-  - "Schirner, M., et al. (2015). BrainVoyager and The Virtual Brain: an integrated approach to multimodal neuroimaging. Frontiers in Neuroscience."
-  - " Deco, G., Jirsa, V., McIntosh, A. R., Sporns, O., Kotter, R., & Ritter, P. (2009). Key role of coupling, delay, and noise in resting-state brain fluctuations. Neural Computation."
+- 'Ritter, P., Schirner, M., McIntosh, A. R., Jirsa, V. (2013). The Virtual Brain:
+  a platform for modeling the dynamics of biological systems. In Neuroscience Congress.'
+- Ritter, P., et al. (2017). Personalizing brain models for clinical applications.
+  NeuroImage.
+- Ritter, P., Jirsa, V. (2020). Whole-brain modeling and personalized medicine. Current
+  Opinion in Neurology.
+- 'Schirner, M., et al. (2015). BrainVoyager and The Virtual Brain: an integrated
+  approach to multimodal neuroimaging. Frontiers in Neuroscience.'
+- ' Deco, G., Jirsa, V., McIntosh, A. R., Sporns, O., Kotter, R., & Ritter, P. (2009).
+  Key role of coupling, delay, and noise in resting-state brain fluctuations. Neural
+  Computation.'
+tags:
+- people-researcher
+- software-tvb
+- whole-brain-modeling
+- neural-mass-models
+- personalized-brain-modeling
+title: Petra Ritter
+type: entity
+updated: '2026-05-07'
 ---
 
-Petra Ritter is a computational neuroscientist known for her contributions to whole-brain modeling and the development of The Virtual Brain (TVB) simulation platform. Her research focuses on personalized brain modeling, where computational models of brain dynamics are calibrated to individual neuroimaging data to create digital twins of brain function. She is affiliated with the Department of Theoretical and Computational Neurosciences and has held positions at leading institutions including the University of Zurich and the Jülich Research Center. Ritter has received recognition for her work in computational neuroscience and has contributed to several influential publications in the field.
+Petra Ritter is a computational neuroscientist known for her contributions to [[whole-brain|whole-brain modeling]] and the development of [[tvb|The Virtual Brain]] (TVB) simulation platform. Her research focuses on personalized brain modeling, where computational models of brain dynamics are calibrated to individual [[neuroimaging]] data to create digital twins of brain function. She is affiliated with the Department of Theoretical and Computational Neurosciences and has held positions at leading institutions including the University of Zurich and the Jülich Research Center. Ritter has received recognition for her work in [[computational-neuroscience]] and has contributed to several influential publications in the field.
 
 ## Overview
 
-Petra Ritter's work sits at the intersection of computational neuroscience, neuroimaging, and personalized medicine. She has been instrumental in advancing techniques that allow researchers and clinicians to construct subject-specific brain models by integrating structural connectivity data derived from diffusion tensor imaging (DTI) with neural mass model dynamics [1]. These personalized models enable in silico experiments that would be impossible to conduct in vivo, such as targeted virtual lesions, stimulation experiments, and predictive simulations of brain dynamics under various pathological conditions [2].
+Petra Ritter's work sits at the intersection of computational neuroscience, neuroimaging, and personalized medicine. She has been instrumental in advancing techniques that allow researchers and clinicians to construct subject-specific brain models by integrating structural [[connectivity]] data derived from diffusion tensor imaging (DTI) with neural mass model dynamics [1]. These personalized models enable in silico experiments that would be impossible to conduct in vivo, such as targeted virtual lesions, stimulation experiments, and predictive simulations of brain dynamics under various pathological conditions [2].
 
 ## Research Contributions
 
-Ritter's research program has made significant contributions to the field of whole-brain modeling in several key areas. First, she has worked on methods for estimating the free parameters of whole-brain models from empirical neuroimaging data, enabling model personalization at the individual subject level [3]. This involves fitting model parameters such as coupling strengths, delays, and local dynamics to observed patterns of functional connectivity measured via fMRI or EEG. Second, her work has explored the relationship between structural connectivity and functional dynamics, examining how the anatomical scaffold provided by white matter tracts constrains the emergence of functional networks [4]. Third, she has contributed to understanding how whole-brain models can be used to simulate clinical interventions, including deep brain stimulation and pharmacological manipulations [5].
+Ritter's research program has made significant contributions to the field of whole-brain modeling in several key areas. First, she has worked on methods for estimating the free parameters of whole-brain models from empirical neuroimaging data, enabling model personalization at the individual subject level [3]. This involves fitting model parameters such as coupling strengths, delays, and local dynamics to observed patterns of functional connectivity measured via [[fmri]] or EEG. Second, her work has explored the relationship between structural connectivity and functional dynamics, examining how the anatomical scaffold provided by [[white-matter]] tracts constrains the emergence of functional networks [4]. Third, she has contributed to understanding how whole-brain models can be used to simulate clinical interventions, including deep [[brain-stimulation]] and pharmacological manipulations [5].
 
-The technical approach typically involves coupling neural mass models—such as the [[jansen-rit-model]] or [[wong-wang-model]]—across brain regions according to the structural connectivity matrix obtained from tractography. Each brain region is represented as a local dynamical system, and the coupling terms capture the influence of activity in other regions via the connectome. The resulting system of coupled differential equations can be simulated to produce synthetic fMRI signals, EEG, or MEG, which can then be compared to empirical measurements for model validation.
+The technical approach typically involves coupling neural mass models—such as the [[jansen-rit-model]] or [[wong-wang-model]]—across brain regions according to the structural connectivity matrix obtained from tractography. Each brain region is represented as a local dynamical system, and the coupling terms capture the influence of activity in other regions via the connectome. The resulting system of coupled differential equations can be simulated to produce synthetic fMRI signals, EEG, or MEG, which can then be compared to empirical measurements for [[model-validation]].
 
 ## Relationship to TVB
 
@@ -36,7 +47,7 @@ Ritter's academic contributions include several landmark papers that have shaped
 
 1. **Ritter, P., Schirner, M., McIntosh, A. R., Jirsa, V.** (2013). "The Virtual Brain: a platform for modeling the dynamics of biological systems." *Neuroscience Congress.* — The foundational TVB paper establishing the conceptual and technical framework.
 
-2. **Deco, G., Jirsa, V., McIntosh, A. R., Sporns, O., Kotter, R., & Ritter, P.** (2009). "Key role of coupling, delay, and noise in resting-state brain fluctuations." *Neural Computation.* — A seminal work on the principles governing spontaneous brain dynamics.
+2. **Deco, G., Jirsa, V., McIntosh, A. R., Sporns, O., Kotter, R., & Ritter, P.** (2009). "Key role of coupling, delay, and noise in [[resting-state]] brain fluctuations." *Neural Computation.* — A seminal work on the principles governing spontaneous brain dynamics.
 
 3. **Schirner, M., et al.** (2015). "BrainVoyager and The Virtual Brain: an integrated approach to multimodal neuroimaging." *Frontiers in Neuroscience.* — Describes the integration of TVB with neuroimaging analysis tools.
 

@@ -9,7 +9,7 @@ tags:
 - software-brain-modeling
 title: MarsAtlas
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 ## Overview
@@ -48,7 +48,7 @@ Related atlases include the [AAL Atlas][aal-atlas], [Brainnetome Atlas][brainnet
 
 1. Auzias, G., Colliot, O., Glaunès, J. A., Perrot, M., Schnabel, J. A., Robinson, C. E., ... & Takerkart, S. (2013). Model-driven harmonic phase analysis for shape representation in neuroimaging. *NeuroImage*, 68, 60-68. DOI: 10.1016/j.neuroimage.2012.12.023 [Original MarsAtlas methodology]
 
-2. Schaefer, A., Kong, R., Gordon, E. M., Laumann, T. O., Zuo, X. N., Holmes, A. J., ... & Yeo, B. T. (2018). Local-global parcellation of the human cerebral cortex from intrinsic [[functional-connectivity]]. *Cerebral Cortex*, 28(9), 3095-3114. [Functional parcellation comparison]
+2. [[schaefer]], A., Kong, R., Gordon, E. M., Laumann, T. O., Zuo, X. N., Holmes, A. J., ... & Yeo, B. T. (2018). Local-global parcellation of the human cerebral cortex from intrinsic [[functional-connectivity]]. *Cerebral Cortex*, 28(9), 3095-3114. [Functional parcellation comparison]
 
 3. Desikan, R. S., Ségonne, F., Fischl, B., Quinn, B. T., Dickerson, B. C., Blacker, D., ... & Killiany, R. J. (2006). An automated labeling system for subdividing the human cerebral cortex on MRI scans into gyral based regions of interest. *NeuroImage*, 31(3), 968-980. [[jhu-white-matter-atlas|reference]]
 

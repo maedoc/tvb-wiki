@@ -40,17 +40,17 @@ The reserve concept receives support from studies showing that education, occupa
 
 Whole-brain models offer a unique tool for testing hypotheses about successful aging mechanisms. By simulating age-related changes in structural connectivity, neural parameters, or coupling strength, models can generate predictions about downstream effects on functional dynamics and cognitive performance. Several modeling approaches have been applied to aging research:
 
-**Neural mass models** can incorporate age-related changes in parameters such as excitatory-inhibitory balance, synaptic time constants, or noise levels, then examine how these changes affect network-level dynamics. Bifurcation analysis can identify parameter regimes corresponding to healthy versus pathological aging.
+**Neural mass models** can incorporate age-related changes in parameters such as excitatory-inhibitory balance, synaptic time constants, or noise levels, then examine how these changes affect network-level dynamics. [[bifurcation-analysis]] can identify parameter regimes corresponding to healthy versus pathological aging.
 
 **Connectome simulations** using the [[the-virtual-brain]] platform can incorporate empirical structural connectivity matrices from older adults, allowing researchers to examine how individual differences in white matter integrity propagate to functional dynamics. The personalisation of model parameters to individual neuroimaging data is a key approach in [[personalized-brain-modeling]].
 
-**Network models** examining topological changes with age can relate alterations in community structure, hub connectivity, or rich-club organization to cognitive outcomes, providing a mechanistic link between structure and function.
+**Network models** examining topological changes with age can relate alterations in community structure, hub connectivity, or [[rich-club|rich-club organization]] to cognitive outcomes, providing a mechanistic link between structure and function.
 
 ## Open Questions and Challenges
 
 Despite significant progress, fundamental questions remain about the neural basis of successful aging. The relative contributions of maintenance, reserve, and compensation to individual outcomes remain difficult to disentangle empirically, as these mechanisms may operate simultaneously and interact bidirectionally [1]. Computational models offer a promising approach to this problem through in silico experiments that manipulate individual mechanisms in isolation.
 
-The relationship between structural and functional changes in aging is incompletely understood. While diffusion imaging reveals white matter alterations, and T1-weighted imaging shows gray matter loss, these structural changes incompletely predict functional connectivity differences. Whole-brain models that integrate multiple neuroimaging modalities may help resolve this relationship.
+The relationship between structural and functional changes in aging is incompletely understood. While [[diffusion-imaging]] reveals white matter alterations, and T1-weighted imaging shows gray matter loss, these structural changes incompletely predict functional connectivity differences. Whole-brain models that integrate multiple neuroimaging modalities may help resolve this relationship.
 
 Finally, the translation of successful aging research into interventions remains challenging. While lifestyle factors such as physical exercise, cognitive training, and social engagement are associated with better outcomes, the mechanistic pathways through which these interventions act are unclear. Computational models that predict individual responses to interventions could guide personalized prevention strategies.
 

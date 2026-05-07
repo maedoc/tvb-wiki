@@ -13,7 +13,7 @@ type: concept
 updated: '2026-05-07'
 ---
 
-The hemodynamic response function (HRF) is a mathematical description of the way in which blood flow and the blood oxygenation level-dependent (BOLD) signal change over time in response to neural activity in the [[brain|brain]]. It represents the impulse response of the neurovascular coupling system—the chain of physiological processes that transform brief episodes of neuronal firing into the measurable fMRI signal. Understanding the HRF is fundamental to any analysis of [[functional-connectivity]] derived from fMRI data, as it determines the temporal relationship between underlying neural events and the observed signal.
+The hemodynamic response function (HRF) is a mathematical description of the way in which blood flow and the blood oxygenation level-dependent (BOLD) signal change over time in response to neural activity in the [[brain|brain]]. It represents the impulse response of the neurovascular coupling system—the chain of physiological processes that transform brief episodes of neuronal firing into the measurable [[fmri]] signal. Understanding the HRF is fundamental to any analysis of [[functional-connectivity]] derived from fMRI data, as it determines the temporal relationship between underlying neural events and the observed signal.
 
 ## Physiological Basis
 
@@ -25,7 +25,7 @@ The HRF is typically modeled using basis functions that capture its characterist
 
 $$ h(t) = A \left( \frac{t^{\alpha_1-1} \beta_1^{\alpha_1} e^{-\beta_1 t}}{\Gamma(\alpha_1)} - c \frac{t^{\alpha_2-1} \beta_2^{\alpha_2} e^{-\beta_2 t}}{\Gamma(\alpha_2)} \right) $$
 
-where the first term models the main peak (typically with $\alpha_1 \approx 6$ and $\beta_1 \approx 1$) and the second term captures the undershoot (with $\alpha_2 \approx 16$, $\beta_2 \approx 1$, and $c$ controlling its amplitude relative to the peak). Alternative formulations include the canonical HRF with fixed parameters, temporal derivatives to capture peak timing variations, and dispersion derivatives to account for differences in HRF width across [[brain-region]]s or individuals. The [[sources:raw/papers/smith-2013-connectomics|Smith et al. 2013]] review of connectomics highlights how these parameter choices propagate through to estimates of functional connectivity patterns.
+where the first term models the main peak (typically with $\alpha_1 \approx 6$ and $\beta_1 \approx 1$) and the second term captures the undershoot (with $\alpha_2 \approx 16$, $\beta_2 \approx 1$, and $c$ controlling its amplitude relative to the peak). Alternative formulations include the canonical HRF with fixed parameters, temporal derivatives to capture peak timing variations, and dispersion derivatives to account for differences in HRF width across [[brain-region]]s or individuals. The [[sources:raw/papers/smith-2013-connectomics|Smith et al. 2013]] review of [[connectomics]] highlights how these parameter choices propagate through to estimates of functional [[connectivity]] patterns.
 
 ## Role in Whole-Brain Modeling
 

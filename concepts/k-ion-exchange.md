@@ -16,7 +16,7 @@ tags:
 - seizure-dynamics
 title: K-Ion Exchange Model
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-07'
 ---
 
 # K-Ion Exchange Model
@@ -64,7 +64,7 @@ More recent extensions have incorporated calcium dynamics alongside potassium, r
 - [[epileptor]] - Phenomenological model of seizure dynamics
 - [[neural-mass-model]] - General class of population-level models
 - [[jansen-r]] - Canonical synaptic neural mass model
-- [[wong-wang]] - Excitation-inhibition balance model
+- [[wong-wang]] - [[excitation-inhibition-balance]] model
 - [[epilepsy-modeling]] - Computational approaches to epilepsy
 - [[dynamical-systems-theory]] - Mathematical framework for analyzing model dynamics
 - [[whole-brain-modeling]] - Integration of regional models into brain-scale simulations

@@ -17,7 +17,7 @@ type: concept
 updated: '2026-05-07'
 ---
 
-The **Andronov-Hopf bifurcation** (also called the Hopf bifurcation) is a dynamical systems phenomenon in which a stable equilibrium point loses stability and gives rise to a stable periodic orbit, or limit cycle. Named after the Soviet mathematician Alexandr Andronov and German-American mathematician Ernst Hopf who independently characterized the bifurcation in the 1920s–1930s, this transition represents one of the principal mechanisms by which oscillatory behavior emerges in nonlinear systems. In the context of [[whole-brain modeling]], the Andronov-Hopf bifurcation provides a mathematical foundation for understanding how brain regions transition from stationary (resting) activity to rhythmic oscillations, and how pathological states such as epileptic seizures can arise from such transitions [[1]].
+The **Andronov-Hopf [[bifurcation-analysis|bifurcation]]** (also called the Hopf bifurcation) is a dynamical systems phenomenon in which a stable equilibrium point loses stability and gives rise to a stable periodic orbit, or limit cycle. Named after the Soviet mathematician Alexandr Andronov and German-American mathematician Ernst Hopf who independently characterized the bifurcation in the 1920s–1930s, this transition represents one of the principal mechanisms by which oscillatory behavior emerges in nonlinear systems. In the context of [[whole-brain modeling]], the Andronov-Hopf bifurcation provides a mathematical foundation for understanding how brain regions transition from stationary (resting) activity to rhythmic oscillations, and how pathological states such as epileptic seizures can arise from such transitions [[1]].
 
 ## Mathematical Formulation
 
@@ -32,7 +32,7 @@ where the parameter $\alpha(\mu)$ changes sign at $\mu_c$ (typically $\alpha(\mu
 
 ## Relevance to Neural Mass Models
 
-In [[computational-neuroscience]], neural mass models describe the collective activity of large neuronal populations using mean-field approximations. These models typically represent the average membrane potentials and firing rates of excitatory and inhibitory neuronal pools. The [[epileptor]] model, for instance, is a neural mass model specifically designed to capture seizure dynamics and includes two distinct populations (pyramidal cells and interneurons) with nonlinear coupling. Analysis of the Epileptor reveals that seizures can emerge through Andronov-Hopf bifurcations: the system transitions from a stable resting state (corresponding to normal brain activity) to a limit cycle (representing rhythmic seizure-like oscillations) as specific parameters—such as the coupling strength between populations or the excitatory-inhibitory balance—cross critical thresholds.
+In [[computational-neuroscience]], [[neural-mass-models]] describe the collective activity of large neuronal populations using [[mean-field-theory|mean-field]] approximations. These models typically represent the average membrane potentials and firing rates of excitatory and inhibitory neuronal pools. The [[epileptor]] model, for instance, is a neural mass model specifically designed to capture seizure dynamics and includes two distinct populations (pyramidal cells and interneurons) with nonlinear coupling. Analysis of the Epileptor reveals that seizures can emerge through Andronov-Hopf bifurcations: the system transitions from a stable resting state (corresponding to normal brain activity) to a limit cycle (representing rhythmic seizure-like oscillations) as specific parameters—such as the coupling strength between populations or the excitatory-inhibitory balance—cross critical thresholds.
 
 More generally, the work of Deco, Jirsa, and McIntosh [[2]] on [[resting-state]] dynamics proposed that the brain operates in a regime of **criticality** close to bifurcations, allowing for optimal information processing, metastability, and flexible switching between behavioral states. This theoretical framework suggests that the healthy brain maintains parameters near the edge of instability, where subtle changes in connectivity or neuromodulation can trigger transitions to oscillatory states via Hopf bifurcations. The [[wong-wang-model]] and similar [[neural-mass-model]] implementations have been used to demonstrate how structural connectivity derived from diffusion imaging shapes the eigenvalues of the Jacobian, thereby influencing where the system sits relative to bifurcation boundaries [[2]].
 
@@ -50,9 +50,9 @@ In [[brain-oscillations]] at the macroscale, both Andronov-Hopf and SNIC bifurca
 
 ## Biological Grounding
 
-The biological significance of Andronov-Hopf bifurcations extends beyond theoretical interest. In epilepsy modeling, the transition from interictal (between-seizure) to ictal (seizure) states has been characterized as a bifurcation, with changes in excitatory-inhibitory balance, extracellular ion concentrations, and gap-junction coupling serving as bifurcation parameters. Computational studies using the Epileptor model have shown that the transition occurs through either a saddle-node or Hopf bifurcation depending on the specific pathophysiological mechanism, providing testable predictions about seizure onset dynamics that can be compared against intracranial EEG recordings.
+The biological significance of Andronov-Hopf bifurcations extends beyond theoretical interest. In [[epilepsy-modeling]], the transition from interictal (between-seizure) to ictal (seizure) states has been characterized as a bifurcation, with changes in excitatory-inhibitory balance, extracellular ion concentrations, and gap-junction coupling serving as bifurcation parameters. Computational studies using the Epileptor model have shown that the transition occurs through either a saddle-node or Hopf bifurcation depending on the specific pathophysiological mechanism, providing testable predictions about seizure onset dynamics that can be compared against intracranial EEG recordings.
 
-Similarly, transitions between wakefulness and sleep involve changes in neuromodulatory tone that shift neural populations across bifurcation boundaries, affecting the stability of cortical dynamics and the emergence of slow-wave and spindling oscillations during non-REM sleep. Understanding these transitions through the lens of bifurcation theory enables principled analysis of brain state changes and may guide therapeutic interventions that aim to stabilize pathological dynamics.
+Similarly, transitions between wakefulness and sleep involve changes in neuromodulatory tone that shift neural populations across bifurcation boundaries, affecting the stability of cortical dynamics and the emergence of slow-wave and spindling oscillations during non-REM sleep. Understanding these transitions through the lens of [[bifurcation-theory]] enables principled analysis of brain state changes and may guide therapeutic interventions that aim to stabilize pathological dynamics.
 
 ## Relationship to TVB
 
@@ -60,6 +60,6 @@ In [[the-virtual-brain]] workflows, bifurcation analysis informs the default par
 
 ## References
 
-1. Eugene M. Izhikevich. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
+1. Eugene M. [[izhikevich]]. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
 2. (authors unknown). *Emerging concepts for the dynamical organization of resting-state activity in the brain*.
 3. (authors unknown). *AUTO-07P: Continuation and Bifurcation Software for Ordinary Differential Equations*.

@@ -168,3 +168,5 @@
 ## [2026-05-07 03:45] RefFormatter: formatted references on 31 pages
 
 ## [2026-05-07 04:00] Improve: 3 pages improved (volume-conduction, brainstorm, aging-brain)
+
+## [2026-05-07 04:05] FullTextFetcher: fetched 5 new full texts (35 total in corpus)

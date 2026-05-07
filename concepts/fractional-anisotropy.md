@@ -14,13 +14,13 @@ type: concept
 updated: '2026-05-07'
 ---
 
-Fractional anisotropy (FA) is a scalar measure derived from diffusion tensor imaging (DTI) that quantifies the degree of directional preference in water diffusion within neural tissue. Mathematically, FA is computed from the eigenvalues of the diffusion tensor (λ₁, λ₂, λ₃) and ranges from 0 to 1, where 0 indicates isotropic diffusion (equal in all directions, as would occur in freely diffusing water) and 1 indicates totally anisotropic diffusion (restricted to a single axis). This measure serves as one of the most widely used indices of white matter integrity in neuroimaging research, providing a window into the microstructural organization of neural pathways that is otherwise invisible to conventional anatomical MRI.
+Fractional anisotropy (FA) is a scalar measure derived from diffusion tensor imaging (DTI) that quantifies the degree of directional preference in water diffusion within neural tissue. Mathematically, FA is computed from the eigenvalues of the diffusion tensor (λ₁, λ₂, λ₃) and ranges from 0 to 1, where 0 indicates isotropic diffusion (equal in all directions, as would occur in freely diffusing water) and 1 indicates totally anisotropic diffusion (restricted to a single axis). This measure serves as one of the most widely used indices of [[white-matter]] integrity in [[neuroimaging]] research, providing a window into the microstructural organization of neural pathways that is otherwise invisible to conventional anatomical MRI.
 
 ## Motivation and Context
 
 The development of diffusion tensor imaging in the 1990s revolutionized our ability to visualize white matter architecture in vivo [[diffusion-tensor-imaging]]. Prior to DTI, assessing white matter integrity required post-mortem histological examination, limiting both sample sizes and longitudinal research designs. FA emerged as a quantitative summary metric that could be computed from DTI data to characterize the coherence and organization of white matter tracts across the entire brain.
 
-In whole-brain modeling contexts, FA values are commonly used to weight structural connectivity matrices, where higher FA indicates stronger and more reliable structural connections between brain regions. This weighting scheme reflects the empirical observation that tracts with higher anisotropy tend to support more robust functional integration between distant cortical areas, as measured by [[resting-state]] functional connectivity [[smith-2013-connectomics]].
+In whole-brain modeling contexts, FA values are commonly used to weight structural [[connectivity]] matrices, where higher FA indicates stronger and more reliable structural connections between brain regions. This weighting scheme reflects the empirical observation that tracts with higher anisotropy tend to support more robust functional integration between distant cortical areas, as measured by [[resting-state]] functional connectivity [[smith-2013-connectomics]].
 
 The significance of FA extends beyond basic neuroanatomy into clinical and cognitive neuroscience applications. Reduced FA has been documented in numerous neurological and psychiatric conditions, including multiple sclerosis [[ms]], stroke [[stroke]], schizophrenia [[schizophrenia]], and Alzheimer's disease [[alzheimers]], making it a valuable biomarker for disease progression and treatment response. In the context of [[whole-brain modeling]], FA-weighted structural connectivity serves as the anatomical substrate from which [[brain-network]] dynamics emerge, enabling researchers to simulate how structural damage (reflected in lowered FA) might propagate through large-scale brain networks to produce functional deficits [[smith-2013-connectomics]].
 
@@ -48,7 +48,7 @@ One of the most significant limitations of FA is its inability to resolve crossi
 
 ### Axonal Density vs. Myelination
 
-FA cannot distinguish between changes in axonal density and changes in myelin content, as both factors increase directional coherence. This ambiguity limits the interpretability of FA changes in developmental studies, aging research [[aging-brain]], and disease contexts where demyelination and axonal loss may occur in parallel or isolation. Researchers interested in dissociating these microstructural contributions must turn to advanced diffusion models that provide separate indices.
+FA cannot distinguish between changes in axonal density and changes in myelin content, as both factors increase directional coherence. This ambiguity limits the interpretability of FA changes in developmental studies, [[aging]] research [[aging-brain]], and disease contexts where demyelination and axonal loss may occur in parallel or isolation. Researchers interested in dissociating these microstructural contributions must turn to advanced diffusion models that provide separate indices.
 
 ## Alternative Diffusion Metrics
 
@@ -76,5 +76,5 @@ Within the TVB ecosystem, FA-weighted structural connectivity matrices are impor
 
 ## References
 
-1. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
+1. (authors unknown). *Functional Connectomics from Resting-State [[fmri]]*.
 2. (authors unknown). *Functional Connectivity: The Principal-Component Analysis of Large (PET and fMRI) Data Sets*.

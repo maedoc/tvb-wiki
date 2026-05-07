@@ -27,7 +27,7 @@ Friston's 1993 paper "Functional Connectivity: The Principal-Component Analysis 
 
 The 2003 paper "Dynamic causal modelling"[3] (co-authored with O. David and K.J. Friston) introduced DCM as a framework for inferring [[effective connectivity]] from neuroimaging data. DCM treats brain regions as nodes in a dynamical system and uses [[neural mass models]]—most notably the [[jansen-rit-model]]—as generative models that are coupled to forward models appropriate for each neuroimaging modality. The key innovation was the separation of neural state equations from observation equations, combined with Bayesian model inversion to estimate connectivity parameters from fMRI, EEG, or MEG measurements. This approach enabled researchers to move beyond correlational [[functional-connectivity]] analyses to make causal inferences about how brain regions influence one another.
 
-DCM has become a cornerstone of [[effective-connectivity]] analysis in neuroimaging. The framework has been extended to accommodate nonlinear interactions, modular architectures, and hierarchical models of brain connectivity. Its Bayesian inversion approach, based on [[variational-bayes]] methods, provides principled model comparison and parameter estimation that accounts for uncertainty in both the model structure and the inferred parameters.
+DCM has become a cornerstone of [[effective-connectivity]] analysis in neuroimaging. The framework has been extended to accommodate nonlinear interactions, modular architectures, and hierarchical models of brain [[connectivity]]. Its [[bayesian]] inversion approach, based on [[variational-bayes]] methods, provides principled model comparison and [[parameter-estimation]] that accounts for uncertainty in both the model structure and the inferred parameters.
 
 ## Theoretical Frameworks: Free Energy Principle
 
@@ -44,5 +44,5 @@ Friston's contributions have enabled or influenced numerous methods and concepts
 ## References
 
 1. O. David, K.J. Friston. *Dynamic causal modelling*. NeuroImage. [DOI](https://doi.org/10.1016/S1053-8119(03)00202-7)
-2. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
+2. (authors unknown). *Functional Connectomics from Resting-State [[fmri]]*.
 3. (authors unknown). *Functional Connectivity: The Principal-Component Analysis of Large (PET and fMRI) Data Sets*.

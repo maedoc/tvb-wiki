@@ -11,7 +11,7 @@ type: concept
 updated: '2026-05-07'
 ---
 
-The Virtual Brain (TVB) is an open-source neuroinformatics platform for simulating large-scale primate brain network dynamics. It enables researchers to construct personalized whole-brain models by combining empirical structural connectivity data—typically derived from diffusion MRI tractography—with biologically realistic neural mass models. TVB provides forward models for electroencephalography (EEG), magnetoencephalography (MEG), and functional magnetic resonance imaging (fMRI), allowing simulated brain activity to be compared directly against empirical neuroimaging recordings. The platform has become a cornerstone tool in computational neuroscience for studying brain dynamics, disease mechanisms, and individualized virtual brain models (Sanz Leon et al., 2013).
+[[tvb|The Virtual Brain]] (TVB) is an open-source neuroinformatics platform for simulating large-scale primate brain [[network-dynamics]]. It enables researchers to construct personalized [[whole-brain]] models by combining empirical structural [[connectivity]] data—typically derived from [[diffusion-mri]] [[tractography]]—with biologically realistic [[neural-mass-models]]. TVB provides forward models for electroencephalography (EEG), magnetoencephalography (MEG), and functional magnetic resonance imaging (fMRI), allowing simulated brain activity to be compared directly against empirical [[neuroimaging]] recordings. The platform has become a cornerstone tool in [[computational-neuroscience]] for studying [[brain-dynamics]], disease mechanisms, and individualized virtual brain models (Sanz Leon et al., 2013).
 
 ## Motivation and Historical Context
 

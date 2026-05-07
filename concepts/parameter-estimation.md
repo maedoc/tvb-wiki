@@ -19,7 +19,7 @@ tags:
 - free-energy-principle
 title: Parameter Estimation
 type: concept
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 Parameter Estimation is a fundamental methodological concept in [[computational-neuroscience]] that refers to the process of inferring the numerical values of free parameters in mathematical models of neural systems by fitting model predictions to empirical observations. In the context of [[whole-brain|whole-brain modeling]], parameter estimation serves as the critical bridge between abstract mathematical formulations of neural dynamics and the empirically measured brain activity obtained through [[neuroimaging]] modalities such as [[fmri]], EEG, and MEG.
@@ -34,7 +34,7 @@ The parameter vector θ may include biologically meaningful quantities such as s
 
 The development of whole-brain models that can reproduce empirical functional [[connectivity]] patterns demands careful calibration of model parameters. Without rigorous parameter estimation, models remain academic curiosities that cannot make contact with experimental data or generate testable predictions. This problem becomes particularly acute when one considers that whole-brain models may contain thousands of regional parameters, while the empirical data—particularly fMRI time series—offers limited information content due to the slow hemodynamic response and the resulting temporal smoothing.
 
- Parameter estimation in whole-brain modeling addresses several key challenges. First, it enables personalization of models to individual subjects, accounting for the substantial inter-subject variability in structural brain organization revealed by diffusion imaging and [[tractography]]. Second, it provides a principled framework for comparing competing model architectures—through metrics like model evidence or cross-validated prediction error—one can assess which model complexity is justified by the data. Third, parameter estimates themselves carry scientific value, as their deviation from healthy control values may indicate disease-related alterations in excitation-inhibition balance or neurotransmitter function.
+ Parameter estimation in whole-brain modeling addresses several key challenges. First, it enables personalization of models to individual subjects, accounting for the substantial inter-subject variability in structural brain organization revealed by diffusion imaging and [[tractography]]. Second, it provides a principled framework for comparing competing model architectures—through metrics like model evidence or cross-validated prediction error—one can assess which model complexity is justified by the data. Third, parameter estimates themselves carry scientific value, as their deviation from healthy control values may indicate disease-related alterations in [[excitation-inhibition-balance]] or neurotransmitter function.
 
 The field has also been shaped by theoretical developments beyond traditional statistical estimation. The [[free-energy-principle]] and its associated variational Bayes framework, pioneered by [[karen-friston]], provides an information-theoretic interpretation of neural inference that unifies perception, learning, and action within a single optimization framework. Similarly, concepts from [[bifurcation-analysis]] inform parameter estimation by identifying critical parameters that drive qualitative transitions between brain states—an approach that has proven particularly valuable in [[epilepsy-modeling]] where seizure onset corresponds to a bifurcation in neural dynamics.
 

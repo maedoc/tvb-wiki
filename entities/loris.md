@@ -60,5 +60,5 @@ LORIS intersects with several categories of neuroimaging software in the broader
 ## References
 
 1. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2018.05.040)
-2. (authors unknown). *BRAPH: A Pipeline for Brain Connectivity Analysis*.
+2. (authors unknown). *[[braph]]: A Pipeline for Brain [[connectivity]] Analysis*.
 3. Xiaobo Liu. (2026). *MLE-Toolbox: An Open-Source Toolbox for Comprehensive EEG and MEG Data Analysis*. [Link](https://www.semanticscholar.org/paper/e7aaa4f4bb01e70064493684b4500a950f83460f)

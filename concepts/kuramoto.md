@@ -14,9 +14,9 @@ type: concept
 updated: '2026-05-07'
 ---
 
-The Kuramoto model is a mathematical framework for describing the synchronous behavior of large populations of coupled oscillators. Originally proposed by the Japanese physicist Yoshiki Kuramoto in 1975[^kuramoto-1975], it has become one of the most influential models in computational neuroscience for understanding how neural populations transition from disordered, asynchronous activity to coherent oscillations. The model captures the essential physics of synchronization without requiring detailed biophysical specifications of individual neurons, making it particularly useful for whole-brain modeling where the focus is on population-level dynamics rather than single-cell physiology.
+The Kuramoto model is a mathematical framework for describing the synchronous behavior of large populations of coupled oscillators. Originally proposed by the Japanese physicist Yoshiki Kuramoto in 1975[^kuramoto-1975], it has become one of the most influential models in [[computational-neuroscience]] for understanding how neural populations transition from disordered, asynchronous activity to coherent oscillations. The model captures the essential physics of synchronization without requiring detailed biophysical specifications of individual neurons, making it particularly useful for whole-brain modeling where the focus is on population-level dynamics rather than single-cell physiology.
 
-[^kuramoto-1975]: Kuramoto, Y. (1975). Self-entrainment of a population of coupled non-linear oscillators. In *International Symposium on Mathematical Problems in Theoretical Physics* (pp. 420–422). Springer.
+[^kuramoto-1975]: Kuramoto, Y. (1975). Self-entrainment of a population of coupled non-[[linear]] oscillators. In *International Symposium on Mathematical Problems in Theoretical Physics* (pp. 420–422). Springer.
 
 ## Mathematical Formulation
 
@@ -24,19 +24,19 @@ The standard Kuramoto model consists of $N$ phase oscillators with natural frequ
 
 $$\frac{d\theta_i}{dt} = \omega_i + \frac{K}{N} \sum_{j=1}^{N} \sin(\theta_j - \theta_i)$$
 
-where $\theta_i$ is the phase of oscillator $i$, $K$ is the global coupling strength, and the sum runs over all other oscillators. The key insight of the Kuramoto model is that this deceptively simple equation exhibits a phase transition: when the coupling strength $K$ exceeds a critical threshold $K_c$, the oscillators spontaneously synchronize, forming a coherent collective mode. Below this threshold, the system remains incoherent, with each oscillator rotating at its natural frequency.
+where $\theta_i$ is the phase of [[oscillator]] $i$, $K$ is the global coupling strength, and the sum runs over all other oscillators. The key insight of the Kuramoto model is that this deceptively simple equation exhibits a phase transition: when the coupling strength $K$ exceeds a critical threshold $K_c$, the oscillators spontaneously synchronize, forming a coherent collective mode. Below this threshold, the system remains incoherent, with each oscillator rotating at its natural frequency.
 
 The order parameter $r$ measures the degree of synchronization:
 
 $$r e^{i\psi} = \frac{1}{N} \sum_{j=1}^{N} e^{i\theta_j}$$
 
-where $r \in [0,1]$ quantifies coherence (0 = fully incoherent, 1 = complete synchrony) and $\psi$ is the average phase. Using this order parameter, the dynamics can be rewritten in a self-consistent form that reveals the bifurcation structure: the incoherent state loses stability via a continuous bifurcation (saddle-node or pitchfork depending on the frequency distribution) when $K$ crosses $K_c$, giving birth to partially synchronized solutions[^strogatz-1994].
+where $r \in [0,1]$ quantifies coherence (0 = fully incoherent, 1 = complete synchrony) and $\psi$ is the average phase. Using this order parameter, the dynamics can be rewritten in a self-consistent form that reveals the [[bifurcation-analysis|bifurcation]] structure: the incoherent state loses stability via a continuous bifurcation (saddle-node or pitchfork depending on the frequency distribution) when $K$ crosses $K_c$, giving birth to partially synchronized solutions[^strogatz-1994].
 
 [^strogatz-1994]: Strogatz, S. H. (1994). *Sync: The Emerging Science of Spontaneous Order* (Chapter 2). Hyperion. See also: Strogatz, S. H. (2000). From Kuramoto to Crawford: Exploring the onset of synchronization in populations of coupled oscillators. *Physica D: Nonlinear Phenomena*, 143(1-4), 1–20.
 
 ### Ott-Antonsen Reduction
 
-A major theoretical development was the Ott-Antonsen reduction (2008), which provides an exact low-dimensional description of the Kuramoto model for specific frequency distributions[^ott-2008]. This reduction shows that when the natural frequencies follow a Cauchy (Lorentzian) distribution, the infinite-dimensional system collapses onto a finite set of equations for the order parameter itself. This result is particularly relevant for whole-brain modeling in TVB because it provides an analytically tractable mean-field approximation that captures the essential synchronization dynamics without requiring simulations of thousands of individual oscillators.
+A major theoretical development was the Ott-Antonsen reduction (2008), which provides an exact low-dimensional description of the Kuramoto model for specific frequency distributions[^ott-2008]. This reduction shows that when the natural frequencies follow a Cauchy (Lorentzian) distribution, the infinite-dimensional system collapses onto a finite set of equations for the order parameter itself. This result is particularly relevant for whole-brain modeling in TVB because it provides an analytically tractable [[mean-field-theory|mean-field]] approximation that captures the essential synchronization dynamics without requiring simulations of thousands of individual oscillators.
 
 [^ott-2008]: Ott, E., & Antonsen, T. M. (2008). Low dimensional behavior of large arrays of globally coupled oscillators. *Chaos: An Interdisciplinary Journal of Nonlinear Science*, 18(3), 037113.
 
@@ -44,7 +44,7 @@ A major theoretical development was the Ott-Antonsen reduction (2008), which pro
 
 The Kuramoto model maps directly onto several key phenomena in [[brain-oscillations]]. Cortical neurons exhibit diverse firing rates and intrinsic frequencies, yet large populations can synchronize to produce oscillatory field potentials measurable via [[neuroimaging-eeg|EEG]] or [[neuroimaging-meg|MEG]]. The Kuramoto model provides a theoretical framework for understanding this emergence of coherence from heterogeneous neural populations, capturing how [[excitation-inhibition-balance]] and coupling strength determine whether the brain operates in a synchronized or asynchronous regime.
 
-The model is particularly relevant to [[epilepsy-modeling]], where pathological synchronization underlies seizure initiation and propagation. The transition from healthy asynchronous dynamics to hypersynchronized seizure states can be analyzed using the same bifurcation theory that characterizes the Kuramoto synchronization transition[^izhikevich-2007]. The [[epileptor]] model used in The Virtual Brain is a coupled ODE system with fast/slow subsystems that captures seizure-like oscillations; while conceptually related to synchronization phenomena, it differs from classic Kuramoto-style phase-coupled oscillators in its formulation[^jirsa-2014].
+The model is particularly relevant to [[epilepsy-modeling]], where pathological synchronization underlies seizure initiation and propagation. The transition from healthy asynchronous dynamics to hypersynchronized seizure states can be analyzed using the same [[bifurcation-theory]] that characterizes the Kuramoto synchronization transition[^[[izhikevich]]-2007]. The [[epileptor]] model used in [[the-virtual-brain]] is a coupled ODE system with fast/slow subsystems that captures seizure-like oscillations; while conceptually related to synchronization phenomena, it differs from classic Kuramoto-style phase-coupled oscillators in its formulation[^jirsa-2014].
 
 [^izhikevich-2007]: Izhikevich, E. M. (2007). *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting* (Chapter 10). MIT Press.
 
@@ -52,7 +52,7 @@ The model is particularly relevant to [[epilepsy-modeling]], where pathological 
 
 ## Extensions for Whole-Brain Modeling
 
-Several extensions of the basic Kuramoto model address limitations for brain modeling. The **Kuramoto with delay** incorporates finite propagation delays in white matter pathways:
+Several extensions of the basic Kuramoto model address limitations for brain modeling. The **Kuramoto with delay** incorporates finite propagation delays in [[white-matter]] pathways:
 
 $$\frac{d\theta_i}{dt} = \omega_i + \frac{K}{N} \sum_{j=1}^{N} a_{ij} \sin(\theta_j(t - \tau) - \theta_i(t))$$
 
@@ -86,5 +86,5 @@ Despite extensive study, several open questions remain regarding the Kuramoto mo
 
 ## References
 
-1. (authors unknown). *Nonlinear Dynamics and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering*.
+1. (authors unknown). *[[nonlinear-dynamics]] and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering*.
 2. Eugene M. Izhikevich. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.

@@ -1,17 +1,30 @@
 ---
-title: Wong-Wang Model
 created: 2025-01-15
-updated: 2026-05-06
+sources:
+- wong-wang-2006
+- deco-et-al-2013
+- deco-et-al-2014
+- tvb-documentation
+- breakspear-2004
+- jansen-rit-1995
+tags:
+- neural-mass-model
+- whole-brain-modeling
+- rate-based-neural-networks
+- excitation-inhibition-balance
+- computational-neuroscience
+- brain-oscillations
+- network-dynamical-systems-theory
+title: Wong-Wang Model
 type: concept
-tags: [neural-mass-model, whole-brain-modeling, rate-based-neural-networks, excitation-inhibition-balance, computational-neuroscience, brain-oscillations, network-dynamical-systems-theory]
-sources: [wong-wang-2006, deco-et-al-2013, deco-et-al-2014, tvb-documentation, breakspear-2004, jansen-rit-1995]
+updated: '2026-05-07'
 ---
 
-The Wong-Wang model is a neural mass model that describes the dynamics of excitatory and inhibitory neural populations through coupled firing-rate equations. Originally developed by Kong-Feng Wong and Xiao-Jing Wang in 2006, this model provides a computationally tractable framework for simulating large-scale brain dynamics while retaining sufficient biological detail to capture key phenomena such as oscillations, multistability, and state transitions[^wong-wang-2006]. The model has become one of the most widely adopted canonical models in whole-brain modeling frameworks, particularly within The Virtual Brain (TVB), where it serves as a default option for simulating regional cortical dynamics[^deco-et-al-2014][^tvb-documentation].
+The [[wong-wang|Wong-Wang model]] is a [[neural-mass-models|neural mass model]] that describes the dynamics of excitatory and inhibitory neural populations through coupled firing-rate equations. Originally developed by Kong-Feng Wong and Xiao-Jing Wang in 2006, this model provides a computationally tractable framework for simulating large-scale [[brain-dynamics]] while retaining sufficient biological detail to capture key phenomena such as oscillations, multistability, and state transitions[^wong-wang-2006]. The model has become one of the most widely adopted canonical models in [[whole-brain|whole-brain modeling]] frameworks, particularly within [[the-virtual-brain]] (TVB), where it serves as a default option for simulating regional cortical dynamics[^deco-et-al-2014][^tvb-documentation].
 
 ## Motivation and Context
 
-The development of the Wong-Wang model addressed a fundamental challenge in computational neuroscience: bridging the gap between detailed single-neuron models and macroscopic brain dynamics observable through neuroimaging. Biologically realistic neuron-by-neuron simulations of whole-brain-scale networks remain computationally prohibitive, while earlier abstract models lacked the capacity to capture important features of real neural circuitry. The Wong-Wang model strikes a balance by representing populations of excitatory pyramidal cells and inhibitory interneurons as unified units, capturing the essential dynamics of recurrent excitation and inhibition without the overhead of simulating individual spiking neurons[^wong-wang-2006].
+The development of the Wong-Wang model addressed a fundamental challenge in [[computational-neuroscience]]: bridging the gap between detailed single-[[neuron]] models and macroscopic brain dynamics observable through [[neuroimaging]]. Biologically realistic neuron-by-neuron simulations of whole-brain-scale networks remain computationally prohibitive, while earlier abstract models lacked the capacity to capture important features of real neural circuitry. The Wong-Wang model strikes a balance by representing populations of excitatory pyramidal cells and inhibitory interneurons as unified units, capturing the essential dynamics of recurrent excitation and inhibition without the overhead of simulating individual spiking neurons[^wong-wang-2006].
 
 This modeling approach fits within a broader tradition of neural mass models including the [[jansen-rit-model]][^jansen-rit-1995], [[wilson-cowan-model]], and [[larter-breakspear]][^breakspear-2004] model. However, the Wong-Wang model distinguishes itself through its relative mathematical tractability and its explicit formulation of excitatory-inhibitory interactions that give rise to asynchronous and oscillatory regimes. The model enables researchers to investigate how changes in the balance between excitation and inhibition—a key factor in numerous brain disorders—impact large-scale network dynamics observable in fMRI and EEG[^wong-wang-2006].
 
@@ -51,6 +64,6 @@ For comparison, the [[epileptor]] model in TVB represents a specialized extensio
 
 A critical aspect of applying the Wong-Wang model to empirical data involves fitting its parameters—particularly the coupling strengths $J_{EE}$, $J_{EI}$, $J_{IE}$, and $J_{II}$—to match observed [[functional-connectivity]] patterns. This falls within the broader framework of [[parameter-estimation]] methods used throughout whole-brain modeling. Typical approaches include gradient-based optimization, evolutionary algorithms, and more recently, approaches based on [[variational-bayes]] and machine-learning surrogate models[^deco-et-al-2014].
 
-The model has been employed to study [[brain-oscillations]] at rest, working memory processes, and the effects of [[brain-stimulation]] on network dynamics. Its relatively low computational cost makes it suitable for parameter sweeps and sensitivity analyses across large cohorts, enabling investigations of individual differences in dynamical parameters and their relationship to behavioral measures or clinical outcomes[^deco-et-al-2013][^deco-et-al-2014].
+The model has been employed to study [[brain-oscillations]] at [[rest]], working memory processes, and the effects of [[brain-stimulation]] on [[network-dynamics]]. Its relatively low computational cost makes it suitable for parameter sweeps and sensitivity analyses across large cohorts, enabling investigations of individual differences in dynamical parameters and their relationship to behavioral measures or clinical outcomes[^deco-et-al-2013][^deco-et-al-2014].
 
 ---

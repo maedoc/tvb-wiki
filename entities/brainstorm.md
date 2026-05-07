@@ -1,10 +1,18 @@
 ---
-title: Brainstorm
 created: 2024-01-15
-updated: 2026-05-07
+sources:
+- https://neuroimage.usc.edu/brainstorm/
+- raw/papers/10.1152-jn.00194.2011.md
+- raw/papers/10.1016-j.neuroimage.2011.09.015.md
+tags:
+- software-neuroimaging
+- neuroimaging-eeg
+- neuroimaging-meg
+- software-visualization
+- software-brain-modeling
+title: Brainstorm
 type: entity
-tags: [software-neuroimaging, neuroimaging-eeg, neuroimaging-meg, software-visualization, software-brain-modeling]
-sources: [https://neuroimage.usc.edu/brainstorm/, raw/papers/10.1152-jn.00194.2011.md, raw/papers/10.1016-j.neuroimage.2011.09.015.md]
+updated: '2026-05-07'
 ---
 
 **Brainstorm** is a collaborative, open-source MATLAB and Python application dedicated to magnetoencephalography (MEG), electroencephalography (EEG), stereo-EEG (sEEG), and electrocorticography (ECoG) data analysis and visualization [[citation:1]]. Developed primarily at the University of Southern California, Brainstorm provides an integrated graphical user interface (GUI) and scripting environment that encompasses the full pipeline from raw recordings to statistical analysis and visualization of source-reconstructed brain activity.
@@ -15,7 +23,7 @@ Brainstorm is designed to address the complete neuroimaging analysis workflow wi
 
 The software offers multiple approaches to source localization, which refers to the inference of brain activity origins from sensor-level recordings. Brainstorm implements distributed inverse solutions including minimum norm estimation (MNE) [[citation:3]], dynamic statistical parametric mapping (dSPM) [[citation:4]], and standardized low-resolution brain electromagnetic tomography (sLORETA) [[citation:5]], each with different assumptions about source smoothness and depth weighting. Beamforming approaches such as the linearly constrained minimum variance (LCMV) beamformer enable spatially selective reconstruction of activity from specific brain regions [[citation:3]]. Users can also perform equivalent current dipole fitting for focal epileptic activity or event-related responses. Forward models incorporating realistic head geometry derived from [[freesurfer]] cortical reconstructions account for skull and tissue conductivity effects.
 
-For time-frequency analysis, Brainstorm provides spectral decomposition using multitaper methods and Morlet wavelets, enabling computation of oscillatory power across canonical frequency bands (delta, theta, alpha, beta, gamma) [[citation:1]]. Functional connectivity measures including coherence, phase-locking value, and granger causality can be computed at both sensor and source levels, facilitating investigation of inter-regional coupling in [[resting-state]] and task-based paradigms. The software includes statistical tools for group-level analysis using parametric tests and nonparametric permutations, with correction for multiple comparisons across space and time.
+For time-frequency analysis, Brainstorm provides spectral decomposition using multitaper methods and Morlet wavelets, enabling computation of oscillatory power across canonical frequency bands (delta, theta, alpha, beta, gamma) [[citation:1]]. [[functional-connectivity]] measures including coherence, phase-locking value, and granger causality can be computed at both sensor and source levels, facilitating investigation of inter-regional coupling in [[resting-state]] and task-based paradigms. The software includes statistical tools for group-level analysis using parametric tests and nonparametric permutations, with correction for multiple comparisons across space and time.
 
 ## Relationship to TVB
 

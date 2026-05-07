@@ -11,7 +11,7 @@ tags:
 - software-eeglab
 title: EEGLAB
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 EEGLAB (eeglab) is a open-source MATLAB environment for processing and analyzing electroencephalographic (EEG) and magnetoencephalographic (MEG) data.
@@ -55,7 +55,7 @@ sources:
 tags:
 - software-modeling
 - [[neuroimaging-eeg]]
-- neuroimaging-meg
+- [[neuroimaging-meg]]
 - statistical-analysis
 - eeglab
 title: Limo

@@ -22,17 +22,17 @@ Karl Friston — a foundational contributor to [[computational-neuroscience]] wh
 
 The term "Karl Friston" in this wiki refers to the methodological framework developed by Karl Friston and collaborators at the Wellcome Trust Centre for Neuroimaging [@friston1994; @friston2003]. Rather than referring to a specific software entity, this concept encompasses a collection of mathematical and statistical approaches that enable inference about the underlying neural dynamics generating observed neuroimaging data. The framework provides a principled way to estimate the parameters of [[neural-mass-models]] from empirical data, particularly [[neuroimaging-fmri]] and [[eeg]] measurements [@kiebel2008].
 
-The core contribution of this framework is the treatment of the brain as a deterministic nonlinear dynamical system whose parameters are estimated using Bayesian inversion. This approach addresses a fundamental challenge in [[whole-brain modeling]]: how to constrain large-scale brain models with empirical observations while accounting for uncertainty in both the model parameters and the data itself.
+The core contribution of this framework is the treatment of the brain as a deterministic nonlinear dynamical system whose parameters are estimated using [[bayesian]] inversion. This approach addresses a fundamental challenge in [[whole-brain modeling]]: how to constrain large-scale brain models with empirical observations while accounting for uncertainty in both the model parameters and the data itself.
 
 ## Dynamic Causal Modeling
 
-[[dynamic-causal-modeling]] (DCM) provides a mathematical framework for estimating effective connectivity between brain regions from neuroimaging data [@friston2003]. Unlike functional connectivity, which measures statistical dependencies between regional time series, DCM aims to infer the causal influence that one brain region exerts on another. The method treats the brain as a network of coupled differential equations, where the coupling strengths between regions are the parameters to be estimated [@daunizeau2009].
+[[dynamic-causal-modeling]] (DCM) provides a mathematical framework for estimating effective [[connectivity]] between brain regions from [[neuroimaging]] data [@friston2003]. Unlike functional connectivity, which measures statistical dependencies between regional time series, DCM aims to infer the causal influence that one brain region exerts on another. The method treats the brain as a network of coupled differential equations, where the coupling strengths between regions are the parameters to be estimated [@daunizeau2009].
 
 The standard DCM formulation uses a bilinear approximation to the nonlinear brain dynamics:
 
 $$\dot{x} = (A + \sum_{j} u_j B^{(j)})x + Cu$$
 
-where $x$ represents the state vector of regional activities, $A$ defines the intrinsic connectivity matrix, $B^{(j)}$ captures the modulatory effect of input $u_j$ on connectivity, and $C$ defines the direct driving input. This equation is combined with a forward model that transforms neural states into observed data (BOLD signal for fMRI, electrode potentials for EEG) [@friston2000].
+where $x$ represents the state vector of regional activities, $A$ defines the intrinsic connectivity matrix, $B^{(j)}$ captures the modulatory effect of input $u_j$ on connectivity, and $C$ defines the direct driving input. This equation is combined with a [[forward-model]] that transforms neural states into observed data ([[bold-signal]] for [[fmri]], electrode potentials for EEG) [@friston2000].
 
  DCM has been extensively used to study [[resting-state]] networks and task-based connectivity changes, providing insights into how the brain's [[functional-connectivity]] patterns arise from underlying [[effective-connectivity]] [@friston2011].
 
@@ -58,7 +58,7 @@ This framework enables estimation of [[stochastic-differential-equations]] param
 
 The Friston framework provides essential tools for [[personalized-brain-modeling]] workflows. By estimating effective connectivity parameters from individual subjects' neuroimaging data, DCM enables the construction of personalized [[brain-dynamics]] models. These individualized models can then be used to simulate pathological states, predict seizure propagation in [[epilepsy-modeling]], or test the effects of targeted [[brain-stimulation]] interventions.
 
-The framework has been integrated with [[the-virtual-brain]] through the TVB-DCM adapter, allowing users to import DCM-inferred connectivity matrices as the structuralbasis for whole-brain simulations. This combination leverages the strong theoretical foundations of DCM's parameter estimation with TVB's capabilities for simulating large-scale networkdynamics.
+The framework has been integrated with [[the-virtual-brain]] through the TVB-DCM adapter, allowing users to import DCM-inferred connectivity matrices as the structuralbasis for [[whole-brain]] simulations. This combination leverages the strong theoretical foundations of DCM's parameter estimation with TVB's capabilities for simulating large-scale networkdynamics.
 
 ## Limitations and Alternatives
 
@@ -82,6 +82,6 @@ Alternative approaches to connectivity inference include Granger causality, whic
 
 ## References
 
-1. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
-2. (authors unknown). *Emergence of Scaling in Random Networks*.
+1. (authors unknown). *Functional [[connectomics]] from Resting-State fMRI*.
+2. (authors unknown). *Emergence of Scaling in [[random-networks]]*.
 3. Kashyap Gudibanda, J. Fousek, S. Petkoski, V. Jirsa. (2026). *The role of connectivity for the degeneracy of the brain’s resting state dynamics*. Journal of Computational Neuroscience. [DOI](https://doi.org/10.1007/s10827-025-00919-0)

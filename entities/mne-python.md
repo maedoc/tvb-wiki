@@ -34,7 +34,7 @@ The time-frequency analysis module implements multitaper spectral estimation, Mo
 
 ## Key Features
 
-Several features distinguish MNE-Python as a leading platform for electrophysiological analysis. The integration with the MNE-C command-line tools ensures backward compatibility with established preprocessing workflows. The objects-based data structure (Raw, Epochs, Evoked, SourceEstimate) provides intuitive interfaces while maintaining computational efficiency through lazy evaluation and memory mapping for large datasets. The connectivity module implements phase-locking value, coherence, imaginary coherence, and granger causality for investigating [[functional-connectivity]] between brain regions. The cortical parcellation system enables extraction of regional time courses for region-of-interest analyses, which is particularly relevant for comparing empirical data with whole-brain model outputs.
+Several features distinguish MNE-Python as a leading platform for electrophysiological analysis. The integration with the MNE-C command-line tools ensures backward compatibility with established preprocessing workflows. The objects-based data structure (Raw, Epochs, Evoked, SourceEstimate) provides intuitive interfaces while maintaining computational efficiency through lazy evaluation and memory mapping for large datasets. The connectivity module implements phase-locking value, coherence, imaginary coherence, and granger causality for investigating [[functional-connectivity]] between brain regions. The cortical [[parcellation]] system enables extraction of regional time courses for region-of-interest analyses, which is particularly relevant for comparing empirical data with [[whole-brain-modeling|whole-brain model]] outputs.
 
 ## Relationship to TVB
 

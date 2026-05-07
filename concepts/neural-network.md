@@ -31,19 +31,19 @@ The network perspective emerges from [[connectomics]] research, notably Hagmann 
 
 ## Mathematical Formulation
 
-Neural network models in whole-brain modeling take several forms, each with different levels of biological detail. The simplest are **rate-based models**, where the activity of a population $i$ evolves according to:
+Neural network models in [[whole-brain|whole-brain modeling]] take several forms, each with different levels of biological detail. The simplest are **rate-based models**, where the activity of a population $i$ evolves according to:
 
 $$\frac{dx_i}{dt} = -x_i + S\left(\sum_j w_{ij} x_j + I_i\right)$$
 
-where $x_i$ is the mean firing rate of population $i$, $w_{ij}$ is the connection weight from $j$ to $i$, $I_i$ is external input, and $S(\cdot)$ is a sigmoidal activation function. The [[wilson-cowan-model]] [4] and [[wong-wang-model]] [5] are paradigmatic examples that have been used to study resting-state dynamics and transitions between brain states.
+where $x_i$ is the mean firing rate of population $i$, $w_{ij}$ is the connection weight from $j$ to $i$, $I_i$ is external input, and $S(\cdot)$ is a sigmoidal activation function. The [[wilson-cowan-model]] [4] and [[wong-wang-model]] [5] are paradigmatic examples that have been used to study [[resting-state]] dynamics and transitions between brain states.
 
-More biophysically detailed are conductance-based models such as the [[hodgkin-huxley-model]] [6], which describes membrane potential $V$ through coupled differential equations for sodium, potassium, and leakage currents. These give rise to realistic spiking behavior but are computationally expensive when scaled to whole-brain simulations. The [[izhikevich-neuron-model]] [7] offers a reduced two-dimensional formulation that captures the essential phenomenology of various spiking modes (tonic, phasic, bursting) with minimal computational cost.
+More biophysically detailed are conductance-based models such as the [[hodgkin-huxley-model]] [6], which describes membrane potential $V$ through coupled differential equations for sodium, potassium, and leakage currents. These give rise to realistic spiking behavior but are computationally expensive when scaled to whole-brain simulations. The [[izhikevich-[[neuron]]-model]] [7] offers a reduced two-dimensional formulation that captures the essential phenomenology of various spiking modes (tonic, phasic, bursting) with minimal computational cost.
 
 For oscillatory dynamics, the [[kuramoto]] model [8] provides a powerful framework:
 
 $$\frac{d\theta_i}{dt} = \omega_i + \frac{K}{N}\sum_{j=1}^{N} \sin(\theta_j - \theta_i)$$
 
-where $\theta_i$ is the phase of oscillator $i$, $\omega_i$ its natural frequency, and $K$ the coupling strength. This model has been used to study synchronization phenomena in large-scale brain networks, particularly in the context of [[brain-oscillations]] across frequency bands.
+where $\theta_i$ is the phase of [[oscillator]] $i$, $\omega_i$ its natural frequency, and $K$ the coupling strength. This model has been used to study synchronization phenomena in large-scale brain networks, particularly in the context of [[brain-oscillations]] across frequency bands.
 
 ## Whole-Brain Modeling with Neural Networks
 
@@ -51,7 +51,7 @@ In [[whole-brain modeling]], neural networks are instantiated at each brain regi
 
 The choice of neural mass model significantly affects the simulated dynamics. The [[jansen-rit-model]] [9]—a three-population model (pyramidal, excitatory, inhibitory)—has been extensively used for EEG/MEG simulation and can generate realistic alpha oscillations. The [[epileptor]] model specializes in seizure dynamics, employing a fast-slow subsystem architecture to capture the transition from interictal to ictal states relevant for [[epilepsy-modeling]]. The [[wong-wang-exc-inh]] model captures excitation-inhibition balance and has been used to simulate resting-state fMRI signals.
 
-Parameter estimation in these models involves fitting simulated functional connectivity to empirical data, typically using optimization routines or Bayesian approaches. This yields personalized brain models that can predict individual responses to [[brain-stimulation]] or disease progression, a core goal of [[personalized-brain-modeling]].
+[[parameter-estimation]] in these models involves fitting simulated functional [[connectivity]] to empirical data, typically using optimization routines or [[bayesian]] approaches. This yields personalized brain models that can predict individual responses to [[brain-stimulation]] or disease progression, a core goal of [[personalized-brain-modeling]].
 
 ## Relationship to Machine Learning Architectures
 

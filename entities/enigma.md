@@ -58,6 +58,6 @@ ENIGMA-derived effect size maps provide group-average empirical constraints that
 
 ## References
 
-1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
-2. Xinyu Wang, Sicheng Chen, Yanrong Chen, Xinian Zuo, Jingping Zhao, Yufeng Zang, Chao-Gan Yan. (2025). *The academic impact of open data: Bibliometric evidence from the DIRECT consortium and the REST-meta-MDD database*. China Scientific Data. [DOI](https://doi.org/10.11922/11-6035.csd.2025.0033.zh)
-3. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
+1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Xinyu Wang, Sicheng Chen, Yanrong Chen, Xinian Zuo, Jingping Zhao, Yufeng Zang, Chao-Gan Yan. (2025). *The academic impact of open data: Bibliometric evidence from the DIRECT consortium and the [[rest]]-meta-MDD database*. China Scientific Data. [DOI](https://doi.org/10.11922/11-6035.csd.2025.0033.zh)
+3. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain [[connectivity]]. [DOI](https://doi.org/10.1089/brain.2012.0120)

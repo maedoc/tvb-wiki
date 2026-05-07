@@ -44,6 +44,6 @@ The integration with [[whole-brain-modeling]] frameworks allows researchers to c
 
 ## References
 
-1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
-2. A. Herrera, H. Shaheen. (2025). *Computational modelling of Parkinson’s disease: A multiscale approach with deep brain stimulation and stochastic noise*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2026.110752)
+1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. A. Herrera, H. Shaheen. (2025). *Computational modelling of Parkinson’s disease: A multiscale approach with deep [[brain-stimulation]] and stochastic noise*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2026.110752)
 3. Abolfazl Ziaeemehr, M. Woodman, Lia Domide, S. Petkoski, V. Jirsa, Meysam Hashemi. (2025). *Virtual Brain Inference (VBI): A flexible and integrative toolkit for efficient probabilistic inference on virtual brain models*. bioRxiv. [DOI](https://doi.org/10.1101/2025.01.21.633922)
