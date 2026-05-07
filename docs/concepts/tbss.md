@@ -13,7 +13,7 @@ tags:
 - fsl
 title: TBSS
 type: concept
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 # TBSS (Tract-Based Spatial Statistics)
@@ -68,9 +68,9 @@ TBSS findings often feed into TVB workflows:
 
 ## Related
 
-- [[diffusion-tensor-imaging]] — underlying data modality
+- [[neuroimaging]] — underlying data modality
 - [[fsl]] — software implementing TBSS
-- [[whole-brain-tractography]] — complementary approach preserving tract topology
+- [[tractography]] — complementary approach preserving tract topology
 - [[white-matter]] — anatomy and function
 
 ## References

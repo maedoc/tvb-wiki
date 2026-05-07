@@ -1,9 +1,7 @@
 ---
 created: 2025-01-15
 sources:
-- raw/papers/brette-gerstner-2005.md
 - raw/papers/izhikevich-2007.md
-- raw/papers/naud-maccher-2008.md
 - raw/papers/arxiv-2511.09243.md
 - raw/papers/arxiv-2510.08436.md
 - raw/papers/anticevic-2012.md

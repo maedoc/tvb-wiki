@@ -1,7 +1,6 @@
 ---
 created: 2026-04-20
 sources:
-- raw/papers/hodgkin-huxley-model.md
 - raw/papers/izhikevich-2007.md
 - raw/papers/breakspear-2006.md
 - raw/papers/semanticscholar-ff8218c1e55e.md

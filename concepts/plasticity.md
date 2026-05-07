@@ -1,12 +1,6 @@
 ---
 created: 2026-04-20
 sources:
-- Bliss1973
-- BiPoo1998
-- Bienenstock1982
-- Oja1982
-- Abbott2000
-- Gerstner2002
 - raw/papers/arxiv-2510.02545.md
 - raw/papers/semanticscholar-3256c8880985.md
 - raw/papers/arxiv-2512.03907.md

@@ -1,12 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- Stein JL et al. Nature Genetics 2012
-- van Erp TGM et al. Molecular Psychiatry 2016
-- Schmaal L et al. Molecular Psychiatry 2016
-- Hibar DP et al. Molecular Psychiatry 2017
-- Hoogman M et al. Lancet Psychiatry 2017
-- Boedhoe PS et al. American Journal of Psychiatry 2017
 - raw/papers/sanz-leon-2013.md
 - raw/papers/semanticscholar-57c27f9f72e9.md
 - raw/papers/ritter-2013.md

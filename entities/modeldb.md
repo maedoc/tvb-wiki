@@ -16,7 +16,7 @@ updated: '2026-05-06'
 
 # ModelDB
 
-**ModelDB** is a curated database of computational neuroscience models. It provides a searchable repository of published models from simulation codes including [[neuron]], [[netm]], [[brian2]], and [[genesis]].
+**ModelDB** is a curated, web-accessible repository for computational neuroscience models, established to address the growing need for reproducible, shareable model implementations in the field. Originally focused on [[neuron|NEURON]]-based simulations, the database has expanded to host models across multiple simulators including [[brian2]], [[genesis]], and [[netm]], making it a heterogeneous archive of neural dynamics implementations. Each model entry in ModelDB is linked to its corresponding peer-reviewed publication, providing runnable source code alongside metadata that describes the model's architecture, parameters, and computational requirements. The database provides a submission interface accessible to non-programmers, lowering barriers for authors to share their computational work, and integrates with PubMed and other bibliographic resources to establish clear provenance chains from code to citation. Over the years, ModelDB has grown to host thousands of models spanning single-neuron biophysics, network-level simulations, and simplified population models, becoming an essential infrastructure for reproducibility in [[computational-neuroscience]]. The database also integrates with [[open-source-brain]] (OSB) to provide web-based simulation capabilities, allowing researchers to run models directly in the browser without local software installation.
 
 ## Overview
 

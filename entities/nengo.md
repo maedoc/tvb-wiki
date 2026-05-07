@@ -1,17 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- 'Bekolay, T., Berg, J., Blanzieri, C., Bower, J., Dafny, N., Frost, C., ... & Eliasmith,
-  C. (2014). Nengo: a Python tool for building large-scale functional brain models.
-  Frontiers in Neuroinformatics, 7, 48.'
-- 'Eliasmith, C., & Anderson, C. H. (2003). Neural engineering: Computation, representation,
-  and dynamics in neurobiological systems. MIT Press.'
-- Nengo Website. (2024). Neural Engineering Framework. https://www.nengo.ai/
-- 'Sanz-Leon, P., FitzGerald, D. B., deco, G. A., Jirsa, V. K., & McIntosh, A. R.
-  (2014). The Virtual Brain: a whole-brain modelling framework. BMC Neuroscience,
-  15(S1), P178.'
-- Ravikumar, P., & Hutt, A. (2015). Efficient computation of neural field dynamics
-  on CPU and GPU. BMC Neuroscience, 16(S1), P95.
 - raw/papers/sanz-leon-2013.md
 - raw/papers/arxiv-2509.02799.md
 - raw/papers/breakspear-2017.md

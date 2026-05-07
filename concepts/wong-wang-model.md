@@ -1,12 +1,6 @@
 ---
 created: 2025-01-15
 sources:
-- wong-wang-2006
-- deco-et-al-2013
-- deco-et-al-2014
-- tvb-documentation
-- breakspear-2004
-- jansen-rit-1995
 - raw/papers/wilson-cowan-1972.md
 - raw/papers/arxiv-2512.03907.md
 - raw/papers/semanticscholar-ce89e593c89e.md

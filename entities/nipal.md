@@ -1,7 +1,6 @@
 ---
 created: 2026-05-06
 sources:
-- https://github.com/nipal/nipal
 - raw/papers/sanz-leon-2013.md
 tags:
 - software-brain-modeling

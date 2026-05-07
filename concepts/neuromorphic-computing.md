@@ -1,13 +1,6 @@
 ---
 created: 2026-04-20
 sources:
-- mead1990silicon
-- carver_mead_1988_course
-- intel_loihi_2018
-- ibm_truenorth_2014
-- brainscale_2015
-- spinnaker_2013
-- tvb_nest_coupling
 - raw/papers/semanticscholar-23faea8464f1.md
 tags:
 - spiking-neural-networks

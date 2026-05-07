@@ -1,13 +1,13 @@
 ---
 title: Hodgkin-Huxley Model
 created: 2024-01-15
-updated: 2026-05-06
+updated: 2026-05-07
 type: concept
 tags: [neural-mass-models, computational-neuroscience, ion-channel, spiking-neural-networks, dynamical-systems-theory, bifurcation-theory, stochastic-differential-equations, whole-brain-modeling, brain-oscillations]
 sources: [raw/papers/semanticscholar-ce89e593c89e.md, raw/papers/semanticscholar-71ffb8153870.md, raw/papers/semanticscholar-cc2129666e15.md]
 ---
 
-The Hodgkin-Huxley model is a mathematical framework describing how [[action-potential]]s in [[neuron|neurons]] are generated and propagate along [[axon|axons]]. Proposed by Alan Hodgkin and Andrew Huxley in 1952, the model provides a biophysically grounded description of [[ion-channel]] dynamics using a system of coupled differential equations that capture the voltage-dependent gating of sodium (Na⁺) and potassium (K⁺) channels, alongside a leak conductance. The Hodgkin-Huxley formalism represents the foundational pillar upon which modern [[neural-mass-models]] and [[spiking-neural-networks]] are built, and it remains essential for understanding the cellular basis of large-scale [[brain-dynamics]] observed in [[neuroimaging-fmri]], [[neuroimaging-eeg]], and [[neuroimaging-meg]] data.
+The Hodgkin-Huxley model is a mathematical framework describing how action-potentials in [[neuron|neurons]] are generated and propagate along axons. Proposed by Alan Hodgkin and Andrew Huxley in 1952, the model provides a biophysically grounded description of [[ion-channel]] dynamics using a system of coupled differential equations that capture the voltage-dependent gating of sodium (Na⁺) and potassium (K⁺) channels, alongside a leak conductance. The Hodgkin-Huxley formalism represents the foundational pillar upon which modern [[neural-mass-models]] and [[spiking-neural-networks]] are built, and it remains essential for understanding the cellular basis of large-scale [[brain-dynamics]] observed in [[neuroimaging-fmri]], [[neuroimaging-eeg]], and [[neuroimaging-meg]] data.
 
 ## Historical Context and Motivation
 
@@ -29,7 +29,7 @@ where *x* ∈ {*n*, *m*, *h*} and *α* and *β* are voltage-dependent rate const
 
 The exponents 3 and 4 on the *m* and *n* variables were chosen by Hodgkin and Huxley empirically to provide the best fit to their voltage-clamp data; they do not correspond to literal molecular gate structures that were unknown at the time (Hodgkin & Huxley, 1952). The interpretation of *m*³*h* as "three activation gates and one inactivation gate" reflects the mathematical convenience of the m³h formalism rather than structurally identified components. The actual structural biology of sodium channels (four repeat domains, each contributing a voltage sensor) and potassium channels (four separate subunits) was determined decades later through molecular biology and crystallography.
 
-This system exhibits rich [[nonlinear-dynamics]], including [[bifurcation-theory|bifurcations]] between resting and oscillatory states as parameters are varied, and it serves as a prototype for studying [[brain-oscillations]] and [[excitation-inhibition-balance]] at the single-neuron level. The model can be extended to include [[stochastic-differential-equations]] to capture the random opening and closing of ion channels at small membrane areas, which is particularly relevant for modeling [[noise]] in [[neural-mass-model|neural mass]] approximations used in [[whole-brain]] simulations.
+This system exhibits rich [[nonlinear-dynamics]], including [[bifurcation-theory|bifurcations]] between resting and oscillatory states as parameters are varied, and it serves as a prototype for studying [[brain-oscillations]] and [[excitation-inhibition-balance]] at the single-neuron level. The model can be extended to include [[stochastic-differential-equations]] to capture the random opening and closing of ion channels at small membrane areas, which is particularly relevant for modeling noise in [[neural-mass-model|neural mass]] approximations used in [[whole-brain]] simulations.
 
 ## Relationship to Neural Mass Models and Whole-Brain Modeling
 

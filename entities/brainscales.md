@@ -15,20 +15,20 @@ tags:
 - whole-brain-simulators
 title: BrainScaleS
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 # BrainScaleS
 
 ## Overview
 
-BrainScaleS is a [[neuromorphic-computing]] platform that employs analog very-large-scale integration (VLSI) circuits to emulate [[spiking-neural-networks]] at speeds substantially faster than biological real-time [[anticevic-2012]]. Developed primarily at Heidelberg University under the European Union's Future and Emerging Technologies (FET) program, and later integrated into the Human Brain Project, BrainScaleS represents a large-scale neuromorphic hardware implementation capable of simulating cortical-scale neural networks with biologically realistic dynamics [[hcp-meg2]]. The system uses physical analog circuits to solve the differential equations governing neuronal dynamics, resulting in simulation speeds that can exceed real-time by orders of magnitude—a capability that proves invaluable for studying slow processes like [[synaptic-plasticity]], development, and disease progression.
+BrainScaleS is a [[neuromorphic-computing]] platform that employs analog very-large-scale integration (VLSI) circuits to emulate [[spiking-neural-networks]] at speeds substantially faster than biological real-time anticevic-2012. Developed primarily at Heidelberg University under the European Union's Future and Emerging Technologies (FET) program, and later integrated into the Human Brain Project, BrainScaleS represents a large-scale neuromorphic hardware implementation capable of simulating cortical-scale neural networks with biologically realistic dynamics [[hcp-meg2]]. The system uses physical analog circuits to solve the differential equations governing neuronal dynamics, resulting in simulation speeds that can exceed real-time by orders of magnitude—a capability that proves invaluable for studying slow processes like [[synaptic-plasticity]], development, and disease progression.
 
 ## Motivation and Context
 
 Traditional digital computers face fundamental limitations when simulating large-scale neural networks. Even with modern supercomputers, simulating a single second of activity in a million-[[neuron]] network can require hours or days of computation. This "time bottleneck" severely constrains researchers' ability to study processes that unfold over seconds, minutes, or longer—including learning, memory consolidation, and disease progression. BrainScaleS addresses this challenge by leveraging the inherent parallelism and energy efficiency of analog circuits, where the dynamics of each neuron are computed continuously in hardware rather than step-by-step in software.
 
-The project emerged from the recognition that biological brains achieve computational efficiency through fundamentally different principles than digital computers. Neural tissue computes through continuous analog dynamics while communicating via discrete electrical pulses (spikes). BrainScaleS mimics this [[hybrid-architecture]]: analog circuits implement continuous neuronal dynamics, while spike communication uses digital routing circuitry. This approach yields energy consumption orders of magnitude lower than conventional supercomputers for [[neural-simulation]] workloads [[anticevic-2012]].
+The project emerged from the recognition that biological brains achieve computational efficiency through fundamentally different principles than digital computers. Neural tissue computes through continuous analog dynamics while communicating via discrete electrical pulses (spikes). BrainScaleS mimics this [[hybrid-architecture]]: analog circuits implement continuous neuronal dynamics, while spike communication uses digital routing circuitry. This approach yields energy consumption orders of magnitude lower than conventional supercomputers for [[neural-simulation]] workloads anticevic-2012.
 
 ## Technical Implementation
 
@@ -48,7 +48,7 @@ Several software stacks have been developed to interface with BrainScaleS hardwa
 
 ## Relationship to The Virtual Brain and Whole-Brain Modeling
 
-BrainScaleS is relevant to [[whole-brain|whole-brain modeling]] through its potential role in co-simulation frameworks where the neuromorphic hardware serves as an accelerated backend for neural network simulations. [[The Virtual Brain]] (TVB), a widely used platform for whole-brain modeling, has explored integration with neuromorphic systems to achieve real-time simulation of large-scale brain networks. While such integrations remain largely theoretical or in early development stages, they represent a promising direction for future research, particularly in clinical applications requiring rapid simulation—such as personalized [[epilepsy-modeling]] where real-time feedback could guide therapeutic interventions.
+BrainScaleS is relevant to [[whole-brain|whole-brain modeling]] through its potential role in co-simulation frameworks where the neuromorphic hardware serves as an accelerated backend for neural network simulations. [[The Virtual Brain]] (TVB) a widely used platform for whole-brain modeling, has explored integration with neuromorphic systems to achieve real-time simulation of large-scale brain networks. While such integrations remain largely theoretical or in early development stages, they represent a promising direction for future research, particularly in clinical applications requiring rapid simulation—such as personalized [[epilepsy-modeling]] where real-time feedback could guide therapeutic interventions.
 
 The collaboration between BrainScaleS and TVB research groups has explored hybrid approaches where TVB's large-scale connectivity matrices (derived from [[structural-connectivity]] data via [[diffusion-imaging]] and [[tractography]]) could be mapped onto the neuromorphic hardware. This would enable simulations that combine the anatomical fidelity of TVB's whole-brain models with the temporal acceleration of neuromorphic computing.
 
@@ -58,7 +58,7 @@ The collaboration between BrainScaleS and TVB research groups has explored hybri
 
 - Pfeil, T., et al. (2013). "Six networks on a universal neuromorphic computing substrate." *Frontiers in Neuroscience* — Demonstrates cortical microcircuit implementations on the hardware [[homer3]].
 
-- Wunderlich, T., et al. (2015). "Demonstrating hybrid cognitive capabilities on a neuromorphic processor." *Frontiers in Neuroscience* — Shows learning and [[plasticity]] on the analog substrate [[anticevic-2012]].
+- Wunderlich, T., et al. (2015). "Demonstrating hybrid cognitive capabilities on a neuromorphic processor." *Frontiers in Neuroscience* — Shows learning and [[plasticity]] on the analog substrate anticevic-2012.
 
 - Aamir, S. A., et al. (2018). "BrainScaleS-2: An analog neuromorphic chip with 1 million neurons." *arXiv preprint* — Documents the second-generation system with accelerated .
 

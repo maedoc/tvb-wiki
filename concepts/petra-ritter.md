@@ -1,17 +1,6 @@
 ---
 created: 2026-04-20
 sources:
-- 'Ritter, P., Schirner, M., McIntosh, A. R., Jirsa, V. (2013). The Virtual Brain:
-  a platform for modeling the dynamics of biological systems. In Neuroscience Congress.'
-- Ritter, P., et al. (2017). Personalizing brain models for clinical applications.
-  NeuroImage.
-- Ritter, P., Jirsa, V. (2020). Whole-brain modeling and personalized medicine. Current
-  Opinion in Neurology.
-- 'Schirner, M., et al. (2015). BrainVoyager and The Virtual Brain: an integrated
-  approach to multimodal neuroimaging. Frontiers in Neuroscience.'
-- ' Deco, G., Jirsa, V., McIntosh, A. R., Sporns, O., Kotter, R., & Ritter, P. (2009).
-  Key role of coupling, delay, and noise in resting-state brain fluctuations. Neural
-  Computation.'
 - raw/papers/sanz-leon-2013.md
 - raw/papers/breakspear-2017.md
 - raw/papers/semanticscholar-eb4197c24bf2.md

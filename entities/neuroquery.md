@@ -1,9 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- NeuroQuery, comprehensive meta-analysis of human brain mapping (Dockès et al., 2020)
-- Large-scale automated synthesis of human functional neuroimaging data (Yarkoni et
-  al., 2011)
 - raw/papers/sanz-leon-2013.md
 - raw/papers/winkler-2014-palm.md
 - raw/papers/Renton2024.md

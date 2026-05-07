@@ -1,13 +1,6 @@
 ---
 created: 2024-01-15
 sources:
-- gramfort2013
-- gramfort2014
-- hauk2004
-- lin2006
-- dalal2014
-- pisetta2024
-- jansen1993
 - raw/papers/gramfort-2013.md
 - raw/papers/semanticscholar-9e42d6a25d21.md
 - raw/papers/semanticscholar-5a69b770faf9.md
