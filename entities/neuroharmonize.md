@@ -86,6 +86,6 @@ The choice between tools depends on the specific study design: NeuroHarmonize of
 
 ## References
 
-1. Zheng Ren, Patrick S. Sadil, Martin A. Lindquist. (2026). *MV-ComBat and MV-CovBat: Multivariate Frameworks for Joint Harmonization of Multi-Metric Neuroimaging Data*. bioRxiv. [DOI](https://doi.org/10.64898/2026.02.05.704069)
-2. Zhen Zhou, B. Fischl, I. Aganj. (2025). *Harmonization of Structural Brain Connectivity Through Distribution Matching*. Human Brain Mapping. [DOI](https://doi.org/10.1002/hbm.70257)
-3. Woodman et al. (2014). *GraphVar: A user-friendly toolbox for comprehensive graph analyses of functional brain connectivity*. Journal of Neuroscience Methods. [DOI](https://doi.org/10.1016/j.jneumeth.2014.07.015)
+1. Zheng Ren, Patrick S. Sadil, Martin A. Lindquist. (2026). *MV-ComBat and MV-CovBat: Multivariate Frameworks for Joint Harmonization of Multi-Metric Neuroimaging Data*. bioRxiv. [DOI](](https://doi.org/10.64898/2026.02.05.704069))
+2. Zhen Zhou, B. Fischl, I. Aganj. (2025). *Harmonization of Structural Brain Connectivity Through Distribution Matching*. Human Brain Mapping. [DOI](](https://doi.org/10.1002/hbm.70257))
+3. Woodman et al. (2014). *GraphVar: A user-friendly toolbox for comprehensive graph analyses of functional brain connectivity*. Journal of Neuroscience Methods. [DOI](](https://doi.org/10.1016/j.jneumeth.2014.07.015))

@@ -47,4 +47,4 @@ Future directions include integrating compensation metrics with [[neuroimaging-f
 
 ## References
 
-1. Moo K. Chung, Luigi Maccotta, Aaron Struck. (2026). *Counterfactual Analysis of Brain Network Dynamics*. [Link](https://arxiv.org/abs/2603.29843)
+1. Moo K. Chung, Luigi Maccotta, Aaron Struck. (2026). *Counterfactual Analysis of Brain Network Dynamics*. [Link](](https://arxiv.org/abs/2603.29843))

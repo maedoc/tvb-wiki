@@ -67,6 +67,6 @@ Despite its versatility, the Izhikevich model has several known limitations. Fir
 
 ## References
 
-1. Potjans & Diesmann (2014). *The cell-type specific cortical microcircuit: relating structure and activity*. Cerebral Cortex. [DOI](https://doi.org/10.1093/cercor/bhs358)
-2. Jeremy B. Goetz, Naruepon Weerawongphrom, Rashid V. Williams-García, John M. Beggs, Gerardo Ortiz. (2025). *A Minimal Network of [[brain-dynamics]]: Hierarchy of Approximations to Quasi-critical [[neural-network]] Dynamics*. [Link](https://arxiv.org/abs/2512.22093)
-3. J. Bose. (2025). *Pendulum Model of Spiking Neurons*. arXiv.org. [DOI](https://doi.org/10.48550/arXiv.2507.22146)
+1. Potjans & Diesmann (2014). *The cell-type specific cortical microcircuit: relating structure and activity*. Cerebral Cortex. [DOI](](https://doi.org/10.1093/cercor/bhs358))
+2. Jeremy B. Goetz, Naruepon Weerawongphrom, Rashid V. Williams-García, John M. Beggs, Gerardo Ortiz. (2025). *A Minimal Network of [[brain-dynamics]]: Hierarchy of Approximations to Quasi-critical [[neural-network]] Dynamics*. [Link](](https://arxiv.org/abs/2512.22093))
+3. J. Bose. (2025). *Pendulum Model of Spiking Neurons*. arXiv.org. [DOI](](https://doi.org/10.48550/arXiv.2507.22146))

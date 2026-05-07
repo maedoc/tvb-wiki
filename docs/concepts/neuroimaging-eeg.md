@@ -52,6 +52,6 @@ EEG/MEG provide critical validation for TVB at the temporal dynamics level:
 
 ## References
 
-1. Wanying Qu, Jianxiong Gao, Wei Wang, Yanwei Fu. *Modeling Spatiotemporal Neural Frames for High Resolution Brain Dynamic*. [Link](https://arxiv.org/abs/2603.24176)
-2. Helena Bordini de Lucas, Leonardo Dalla Porta, Alain Destexhe, Maria V. Sanchez-Vives, Osvaldo A. Rosso, Cláudio R. Mirasso, Fernanda Selingardi Matias. (2025). *Characterizing sleep stages through the complexity-entropy plane in human intracranial data and in a [[whole-brain-modeling|[[whole-brain]] model]]*. [Link](https://arxiv.org/abs/2511.09243)
-3. Kexin Wang, Zhengyang Liu, Song Yin, Qixin Liu, Xiaowei He, Yudan Ren. (2025). *Identification of Spatio-Temporal Features in Volumetric Task-Based fMRI Data Using 3D Variational Autoencoder*. Annual International Conference of the IEEE Engineering in Medicine and Biology Society. [DOI](https://doi.org/10.1109/EMBC58623.2025.11253419)
+1. Wanying Qu, Jianxiong Gao, Wei Wang, Yanwei Fu. *Modeling Spatiotemporal Neural Frames for High Resolution Brain Dynamic*. [Link](](https://arxiv.org/abs/2603.24176))
+2. Helena Bordini de Lucas, Leonardo Dalla Porta, Alain Destexhe, Maria V. Sanchez-Vives, Osvaldo A. Rosso, Cláudio R. Mirasso, Fernanda Selingardi Matias. (2025). *Characterizing sleep stages through the complexity-entropy plane in human intracranial data and in a [[whole-brain-modeling|[[whole-brain]] model]]*. [Link](](https://arxiv.org/abs/2511.09243))
+3. Kexin Wang, Zhengyang Liu, Song Yin, Qixin Liu, Xiaowei He, Yudan Ren. (2025). *Identification of Spatio-Temporal Features in Volumetric Task-Based fMRI Data Using 3D Variational Autoencoder*. Annual International Conference of the IEEE Engineering in Medicine and Biology Society. [DOI](](https://doi.org/10.1109/EMBC58623.2025.11253419))

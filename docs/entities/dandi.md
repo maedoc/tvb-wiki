@@ -42,6 +42,6 @@ DANDI operates within an ecosystem of tools for neurophysiology data management.
 
 ## References
 
-1. Masashi Kondo, K. Sehara, Rie Harukuni, Ryo Aoki, Shoya Sugimoto, Yasuhiro R. Tanaka, Masanori Matsuzaki, Ken Nakae. (2025). *A multimodal dataset linking wide-field calcium imaging to behavior changes in mice during an operant lever-pull task*. bioRxiv. [DOI](https://doi.org/10.1101/2025.02.03.631599)
-2. Masashi Kondo, K. Sehara, Rie Harukuni, Ryo Aoki, Shoya Sugimoto, Yasuhiro R. Tanaka, Masanori Matsuzaki, Ken Nakae. (2025). *Multimodal dataset linking wide‐field calcium imaging to behavior changes in operant lever‐pull task in mice*. Scientific Data. [DOI](https://doi.org/10.1038/s41597-025-05482-y)
-3. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2025). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research*. bioRxiv. [DOI](https://doi.org/10.1101/2025.10.06.680781)
+1. Masashi Kondo, K. Sehara, Rie Harukuni, Ryo Aoki, Shoya Sugimoto, Yasuhiro R. Tanaka, Masanori Matsuzaki, Ken Nakae. (2025). *A multimodal dataset linking wide-field calcium imaging to behavior changes in mice during an operant lever-pull task*. bioRxiv. [DOI](](https://doi.org/10.1101/2025.02.03.631599))
+2. Masashi Kondo, K. Sehara, Rie Harukuni, Ryo Aoki, Shoya Sugimoto, Yasuhiro R. Tanaka, Masanori Matsuzaki, Ken Nakae. (2025). *Multimodal dataset linking wide‐field calcium imaging to behavior changes in operant lever‐pull task in mice*. Scientific Data. [DOI](](https://doi.org/10.1038/s41597-025-05482-y))
+3. Ido Haber, Aksel Jackson, A. Thielscher, Aviad Hai, G. Tononi. (2025). *TI-Toolbox: An Open-Source Software for Temporal Interference Stimulation Research*. bioRxiv. [DOI](](https://doi.org/10.1101/2025.10.06.680781))

@@ -85,4 +85,4 @@ Alternative approaches to connectivity inference include Granger causality, whic
 
 1. (authors unknown). *Functional [[connectomics]] from Resting-State fMRI*.
 2. (authors unknown). *Emergence of Scaling in [[random-networks]]*.
-3. Kashyap Gudibanda, J. Fousek, S. Petkoski, V. Jirsa. (2026). *The role of connectivity for the degeneracy of the brain’s resting state dynamics*. Journal of Computational Neuroscience. [DOI](https://doi.org/10.1007/s10827-025-00919-0)
+3. Kashyap Gudibanda, J. Fousek, S. Petkoski, V. Jirsa. (2026). *The role of connectivity for the degeneracy of the brain’s resting state dynamics*. Journal of Computational Neuroscience. [DOI](](https://doi.org/10.1007/s10827-025-00919-0))

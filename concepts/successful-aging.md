@@ -63,4 +63,4 @@ Successful aging intersects with several related concepts in the wiki. The [[bra
 1. (authors unknown). *Maintenance, Reserve and Compensation: The Cognitive Neuroscience of Healthy Ageing*.
 2. (authors unknown). *Memory and Executive Function in Aging and AD: Multiple Factors that Cause Decline and Reserve Factors that Compensate*.
 3. (authors unknown). *The Cognitive Neuroscience of Ageing and Functional Reserve*.
-4. Changi Kim, Mi‐Young Oh. (2025). *Brain Resilience and Its Association with Post‐Stroke Dementia: A Neuroimaging‐Based Study*. Alzheimer's & Dementia. [DOI](https://doi.org/10.1002/alz70856_101113)
+4. Changi Kim, Mi‐Young Oh. (2025). *Brain Resilience and Its Association with Post‐Stroke Dementia: A Neuroimaging‐Based Study*. Alzheimer's & Dementia. [DOI](](https://doi.org/10.1002/alz70856_101113))

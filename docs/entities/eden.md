@@ -64,6 +64,6 @@ The model also relates to [[bifurcation-analysis]] approaches in dynamical syste
 
 ## References
 
-1. Gunn Kim. (2026). *Critical Scaling and Metabolic Regulation in a Ginzburg--Landau Theory of Cognitive Dynamics*. [Link](https://arxiv.org/abs/2602.19023)
-2. Luca di Carlo, Francesca Mignacco, Christopher W. Lynn, W. Bialek. (2025). *Neural subspaces, minimax entropy, and mean-field theory for networks of neurons*. [Link](https://www.semanticscholar.org/paper/642ec656cb51e0404de1ea18bad2db64ca14a8d6)
-3. Simone Betteti, William Retnaraj, Alexander Davydov, Jorge Cortés, Francesco Bullo. *Competition, stability, and functionality in excitatory-inhibitory neural circuits*. [Link](https://arxiv.org/abs/2512.05252)
+1. Gunn Kim. (2026). *Critical Scaling and Metabolic Regulation in a Ginzburg--Landau Theory of Cognitive Dynamics*. [Link](](https://arxiv.org/abs/2602.19023))
+2. Luca di Carlo, Francesca Mignacco, Christopher W. Lynn, W. Bialek. (2025). *Neural subspaces, minimax entropy, and mean-field theory for networks of neurons*. [Link](](https://www.semanticscholar.org/paper/642ec656cb51e0404de1ea18bad2db64ca14a8d6))
+3. Simone Betteti, William Retnaraj, Alexander Davydov, Jorge Cortés, Francesco Bullo. *Competition, stability, and functionality in excitatory-inhibitory neural circuits*. [Link](](https://arxiv.org/abs/2512.05252))

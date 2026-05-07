@@ -42,6 +42,6 @@ nnU-Net enables automated brain segmentation that feeds into TVB [[connectivity]
 
 ## References
 
-1. Mahsa Karimzadeh, Hadi Seyedarabi, Ata Jodeiri, Reza Afrouzian. (2025). *Enhanced Brain Stroke Lesion Segmentation in MRI Using a 2.5D Transformer Backbone U-Net Model*. Brain Science. [DOI](https://doi.org/10.3390/brainsci15080778)
-2. Maya Iratni, Amirali Abdullah, Mariam Aldhaheri, Omar Elharrouss, Alaa A. Abd-alrazaq, Zahiriddin Rustamov, Nazar Zaki, Rafat Damseh. (2025). *Transformers for Neuroimage Segmentation: Scoping Review*. Journal of Medical Internet Research. [DOI](https://doi.org/10.2196/57723)
-3. Mahaboob Khan Pathan, M. Sucharitha. (2025). *A Hybrid Deep Learning and Voxel-Based Morphometry Framework for Structural MRI-Based Autism Spectrum Disorder Classification*. 2025 IEEE International Conference on Computer Vision and Machine Intelligence (CVMI). [DOI](https://doi.org/10.1109/CVMI66673.2025.11337713)
+1. Mahsa Karimzadeh, Hadi Seyedarabi, Ata Jodeiri, Reza Afrouzian. (2025). *Enhanced Brain Stroke Lesion Segmentation in MRI Using a 2.5D Transformer Backbone U-Net Model*. Brain Science. [DOI](](https://doi.org/10.3390/brainsci15080778))
+2. Maya Iratni, Amirali Abdullah, Mariam Aldhaheri, Omar Elharrouss, Alaa A. Abd-alrazaq, Zahiriddin Rustamov, Nazar Zaki, Rafat Damseh. (2025). *Transformers for Neuroimage Segmentation: Scoping Review*. Journal of Medical Internet Research. [DOI](](https://doi.org/10.2196/57723))
+3. Mahaboob Khan Pathan, M. Sucharitha. (2025). *A Hybrid Deep Learning and Voxel-Based Morphometry Framework for Structural MRI-Based Autism Spectrum Disorder Classification*. 2025 IEEE International Conference on Computer Vision and Machine Intelligence (CVMI). [DOI](](https://doi.org/10.1109/CVMI66673.2025.11337713))

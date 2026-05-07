@@ -44,7 +44,7 @@ The resulting brain maps are predictions of the spatial distribution of neural o
 
 ## Availability
 
-NeuroQuery is available as a freely accessible web tool at [neuroquery.org](https://neuroquery.org). The source code is published as an open-source Python package on GitHub at [github.com/neuroquery/neuroquery](https://github.com/neuroquery/neuroquery). The training data, including vocabulary lists, document frequencies, and extracted peak coordinates, is separately available at [github.com/neuroquery/neuroquery_data](https://github.com/neuroquery/neuroquery_data).
+NeuroQuery is available as a freely accessible web tool at [neuroquery.org](](https://neuroquery.org)). The source code is published as an open-source Python package on GitHub at [github.com/neuroquery/neuroquery](](https://github.com/neuroquery/neuroquery)). The training data, including vocabulary lists, document frequencies, and extracted peak coordinates, is separately available at [github.com/neuroquery/neuroquery_data](](https://github.com/neuroquery/neuroquery_data)).
 
 ## Relationship to TVB
 

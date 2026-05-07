@@ -59,6 +59,6 @@ For researchers interested in whole‑brain modeling, BCBToolKit provides anatom
 
 ## References
 
-1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network‑dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain [[network‑dynamics]]*. Frontiers in Neuroinformatics. [DOI](](https://doi.org/10.3389/fninf.2013.00010))
 2. (authors unknown). *Complex Network Measures of Brain Connectivity: Uses and Interpretations*.
 3. (authors unknown). *[[braph]]: A Pipeline for Brain Connectivity Analysis*.

@@ -53,6 +53,6 @@ Machine learning complements TVB in several ways:
 
 ## References
 
-1. Debasis Maji, Arghya Banerjee, Debaditya Barman. *Spectral Graph Neural Networks for Cognitive Task Classification in fMRI Connectomes*. [Link](https://arxiv.org/abs/2512.24901)
-2. Muhammad Nabi Yasinzai, R. Mito, M. Pedersen. (2025). *BrainScape: An open-source framework for integrating and preprocessing anatomical MRI datasets*. Imaging neuroscience. [DOI](https://doi.org/10.1162/IMAG.a.944)
-3. Mai P. Ho, Yang Song, Perminder S. Sachdev, Lei Fan, Jiyang Jiang, Wei Wen. (2026). *A prior-sampling conditional variational autoencoder for neuroimaging normative modelling: Benchmarking deep learning against statistical approaches*. Imaging neuroscience. [DOI](https://doi.org/10.1162/IMAG.a.1098)
+1. Debasis Maji, Arghya Banerjee, Debaditya Barman. *Spectral Graph Neural Networks for Cognitive Task Classification in fMRI Connectomes*. [Link](](https://arxiv.org/abs/2512.24901))
+2. Muhammad Nabi Yasinzai, R. Mito, M. Pedersen. (2025). *BrainScape: An open-source framework for integrating and preprocessing anatomical MRI datasets*. Imaging neuroscience. [DOI](](https://doi.org/10.1162/IMAG.a.944))
+3. Mai P. Ho, Yang Song, Perminder S. Sachdev, Lei Fan, Jiyang Jiang, Wei Wen. (2026). *A prior-sampling conditional variational autoencoder for neuroimaging normative modelling: Benchmarking deep learning against statistical approaches*. Imaging neuroscience. [DOI](](https://doi.org/10.1162/IMAG.a.1098))
