@@ -3,8 +3,8 @@ title: 3D Slicer
 created: 2026-05-07
 updated: 2026-05-07
 type: entity
-tags: [software-brain-modeling, software-visualization, neuroimaging-dti, neuroimaging-mri, diffusion-imaging, tractography]
-sources: [raw/papers/tustison-2010.md, raw/papers/alfaro-almagro-2018.md]
+tags: [software-brain-modeling, software-visualization, neuroimaging-dti, neuroimaging-fmri, diffusion-imaging, tractography]
+sources: [raw/papers/tustison-2010.md, raw/papers/alfaro-almagro-2018.md, raw/papers/semanticscholar-301489ffb9de.md]
 ---
 
 # 3D Slicer
@@ -23,7 +23,7 @@ Slicer's architecture centers on a modular plugin system where core functionalit
 
 **Registration and Normalization**: Built-in registration modules leverage [[elastix]] and [[ants]] algorithms for both rigid and deformable alignment of neuroimaging data to standard spaces.^[tustison-2010] This enables coordinate transformation between native and [[mni-space]] templates, critical for comparing data across subjects and studies. Large-scale neuroimaging pipelines such as those developed for population datasets rely on similar registration frameworks to achieve reproducible spatial normalization across thousands of participants.^[alfaro-almagro-2018]
 
-**Extensibility Framework**: The Slicer extension manager provides one-click installation of community-contributed modules extending functionality into specialized domains. This framework has enabled the creation of over 200 extensions covering diverse applications from radiotherapy planning to fetal MRI analysis.
+**Extensibility Framework**: The Slicer extension manager provides one-click installation of community-contributed modules extending functionality into specialized domains. This framework has enabled the creation of over 200 extensions covering diverse applications from radiotherapy planning to fetal MRI analysis. Similar extensibility principles have guided frameworks like BrainScape, which provide plugin-based architectures for integrating heterogeneous MRI datasets across research studies.^[semanticscholar-301489ffb9de]
 
 ## Relationship to TVB
 

@@ -164,3 +164,5 @@
 ## [2026-05-07 03:05] Improve: 4 pages improved (kuramoto, karen-friston, paul-nunez, rest)
 
 ## [2026-05-07 03:40] Improve: 3 pages improved (nengo, aging-brain, rest)
+
+## [2026-05-07 03:45] RefFormatter: formatted references on 31 pages
