@@ -1,0 +1,1148 @@
+                                              Graph Attention Network-Based Detection of
+                                                      Autism Spectrum Disorder
+                                                               Abigail Kelly[0009-0009-6850-468X]1 ,
+                                                             Ramchandra Rimal[0000-0001-8182-0593]2*,
+                                                               Arpan Sainju[0000-0001-5668-194X]3
+arXiv:2603.26971v1 [stat.AP] 27 Mar 2026
+
+
+
+
+                                           1 Computational and Data Science, Middle Tennessee State University,
+
+                                                       1301 E. Main St., Murfreesboro, 37132, TN, USA.
+                                              2* Department of Mathematical Sciences, Middle Tennessee State
+
+                                                University, 1301 E. Main St., Murfreesboro, 37132, TN, USA.
+                                           2 Department of Computer Science, Middle Tennessee State University,
+
+                                                       1301 E. Main St., Murfreesboro, 37132, TN, USA.
+
+
+                                             *Corresponding author(s). E-mail(s): ramchandra.rimal@mtsu.edu;
+                                           Contributing authors: amk7r@mtmail.mtsu.edu; arpan.sainju@mtsu.edu;
+
+
+                                                                                Abstract
+                                             Autism Spectrum Disorder (ASD) is a neurodevelopmental condition character-
+                                             ized by atypical brain connectivity. One of the crucial steps in addressing ASD
+                                             is its early detection. This study introduces a novel computational framework
+                                             that employs an Attention-Based Graph Convolutional Network, referred to as
+                                             the GATGraphClassifier, for detecting ASD. We utilize Functional Magnetic Res-
+                                             onance Imaging (fMRI) data from the Autism Brain Imaging Data Exchange
+                                             (ABIDE) repository to construct functional connectivity matrices using Pear-
+                                             son correlation, which captures interactions between various brain regions. These
+                                             matrices are then transformed into graph representations, where the nodes and
+                                             edges represent the brain regions and functional connections, respectively. The
+                                             GATGraphClassifier employs attention mechanisms to identify critical connec-
+                                             tivity patterns, thereby enhancing the model’s interpretability and diagnostic
+                                             accuracy. Our proposed framework demonstrates superior performance across
+                                             all standard classification metrics compared to existing state-of-the-art methods.
+                                             Notably, we achieved an average accuracy of 88.79% on the test data over 30
+                                             independent runs, surpassing the benchmark model’s performance by 12.27%. In
+                                             addition, we identified the crucial brain regions associated with ASD consistent
+                                             with the previous studies and a few novel regions. This study not only contributes
+                                             to the advancement of ASD detection but also shows the potential for broader
+
+
+                                                                                     1
+     adaptability of GATGraphClassifier in analyzing complex relational data in var-
+     ious fields, where understanding intricate connectivity and interaction patterns
+     is essential.
+
+     Keywords: brain imaging, ASD, GAT, fMRI, GCN
+
+
+
+
+1 Introduction
+Autism Spectrum Disorder (ASD) is a neurodevelopmental condition characterized by
+challenges in social communication, repetitive behaviors, and restricted interests. Its
+prevalence has steadily increased, making early detection and intervention critically
+important (Lord et al., 2018). According to estimates from the CDC’s Autism and
+Developmental Disabilities Monitoring Network, about 1 in 36 children have been
+identified with ASD. Research indicates that early diagnosis can significantly improve
+developmental outcomes, enabling targeted therapies during crucial stages of brain
+development (Kohli et al., 2022; Bivarchi et al., 2021). Emerging evidence points to
+disruptions in brain connectivity patterns as a hallmark of ASD, making these patterns
+a promising avenue for diagnostic tools (Belmonte et al., 2004; O’Reilly et al., 2017).
+One of the emerging tools for early detection of ASD is Functional Magnetic Resonance
+Imaging (fMRI).
+    fMRI is a widely used non-invasive neuroimaging technique to capture brain activ-
+ity over time. It operates by detecting fluctuations in the blood-oxygen-level-dependent
+(BOLD) signal, which reflects changes in neural activity within small volumetric units
+called voxels at distinct time points. Consequently, fMRI data is structured as a
+time series, representing the dynamic activity of each voxel throughout the scanning
+(Canario et al., 2021). Among its various applications, resting-state fMRI (rs-fMRI)
+is particularly valuable in studying brain disorders, as it enables the examination
+of intrinsic functional connectivity patterns while the subject is not engaged in any
+task. This approach has been instrumental in early detection and identifying biomark-
+ers for neurological and psychiatric conditions, including ASD, schizophrenia, and
+Alzheimer’s disease (Feng et al., 2022; Almuqhim and Saeed, 2021; Chelladurai et al.,
+2023; Wang et al., 2023; Algumaei et al., 2022).
+    Recent advancements in graph-based neural networks, particularly Attention-
+Based Graph Convolutional Networks (GCNs), offer a novel approach to detecting
+ASD. The use of attention mechanisms allows these models to focus on the most
+relevant connections within the brain’s functional network, potentially improving diag-
+nostic accuracy (Gu et al., 2023; Yin et al., 2021). This approach is particularly suited
+for capturing the complex, non-linear relationships inherent in functional connectivity
+data, which traditional methods may overlook.
+    In this study, we leverage fMRI data to analyze the functional connectivity patterns
+of the brain, representing these patterns as graphs, where nodes correspond to specific
+brain regions and edges denote their functional relationships (Stanley et al., 2013).
+By applying Attention-Based GCNs to this graph representation, we aim to uncover
+subtle connectivity disruptions indicative of ASD.
+
+
+                                            2
+     Our study contributes to the field in several ways: (1) we propose a novel appli-
+cation of attention-based GCNs for ASD detection, (2) we evaluate the performance
+of this method on fMRI-based functional connectivity data significantly outperform-
+ing the previous results, (3) we explore the interpretability of attention mechanisms
+in identifying the most diagnostically relevant brain connections, and (4) we employ
+SHapley Additive exPlanations (SHAP) to investigate the associations between spe-
+cific brain regions and ASD. This work aims to advance the understanding of
+ASD-related brain connectivity and demonstrate the potential of graph-based deep
+learning methods in neurodevelopmental disorder diagnosis.
+
+2 Related Work
+The application of machine learning in diagnosing mental disorders has gained pop-
+ularity and demonstrated significant success. Over time, more advanced techniques
+have been developed to better capture the complex structures and relationships
+inherent in mental health data. The common early approaches included logistic regres-
+sion (LR), support vector machine (SVM), and random forest (RF). More recently,
+deep learning-based methods have become more prevalent, particularly deep neural
+networks (DNNs), convolutional neural networks (CNNs), and recurrent neural net-
+works (RNNs). Additionally, graph-based methods, such as Graph Neural Networks
+(GNNs), have gained prominence for their ability to model relationships within graph-
+structured data. In particular, Graph Attention Networks (GATs) have emerged as a
+powerful extension, utilizing attention mechanisms to assign varying levels of impor-
+tance to connections within the graph. This capability allows GATs to capture complex
+dependencies more effectively, making them a promising approach for diagnosing
+mental disorders.
+
+2.1 Traditional Machine Learning Approaches
+The early approaches to ASD classification relied mainly on LR, SVM, RF, and vari-
+ous advanced techniques derived from these foundational methods (Wang et al., 2024).
+These methods often required handcrafted feature extraction from imaging modalities
+such as structural MRI (sMRI), fMRI, and diffusion tensor imaging (DTI) (Eslami
+et al., 2019). For example, LR and SVM were frequently combined with feature extrac-
+tion techniques to classify neuroimaging data (Zafar et al., 2017; Xie et al., 2009). Some
+studies leveraged SVM to analyze spatial and temporal aspects of fMRI data (Song
+and Wyrwicz, 2009), achieving improved results at the single-subject level (Mourao-
+Miranda et al., 2006). However, while existing methods rely on temporal and spatial
+feature extraction techniques, they often fail to fully integrate these features into the
+model development process (Wang et al., 2024). This limitation hindered their ability
+to comprehensively capture the complex patterns inherent in brain connectivity data.
+
+2.2 Deep Learning
+The advent of deep learning has facilitated the development of advanced methodolo-
+gies capable of automatically extracting hierarchical features from neuroimaging data.
+
+
+                                            3
+CNNs and RNNs are increasingly being employed for disease classification using neu-
+roimaging data. In particular, studies utilizing CNNs for classifying fMRI data have
+gained significant attention due to their ability to autonomously extract meaningful
+features (Horikawa and Kamitani, 2017; Meszlényi et al., 2017). RNNs are particu-
+larly valued for their efficacy in capturing long-term dependencies within sequential
+data (Khan and Katarya, 2024; Rimal, 2024; Rimal et al., 2023). These methods have
+been applied not only for the identification of ASD, but also to differentiate various
+stages of Alzheimer’s disease (Jo et al., 2019; Zhao et al., 2023; Arya et al., 2023) and
+to detect schizophrenia (Zhang et al., 2023; Zheng et al., 2021).
+    In addition, hybrid approaches that combine these models with other techniques
+have gained prominence as they have the potential to enhance performance. For exam-
+ple, CNNs are being used in conjunction with SVMs (Nie et al., 2016), as well as with
+autoencoders (Huang et al., 2017), auto-decoder networks (Wen et al., 2018), and 3D
+convolutional autoencoders (Zhao et al., 2017). RNNs are currently being explored for
+the early detection of Alzheimer’s disease and are also being utilized in conjunction
+with autoencoders for the classification of Attention-Deficit/Hyperactivity Disorder
+(ADHD) from fMRI data (Qiang et al., 2021; İsmail and Dalveren, 2024). Further-
+more, CNNs are under active investigation for their potential to detect a range of
+brain disorders (Lin et al., 2022). While these methods demonstrate the potential to
+learn hierarchical feature representations directly from fMRI data, they struggle to
+incorporate the inherent graph structure of brain connectivity data, leading to the
+exploration of graph-based approaches. We discuss the work on graph-based methods
+in more detail in the following two sections.
+
+2.2.1 Graph Neural Networks
+GNNs provide a natural and powerful framework for modeling brain connectivity
+data, which is typically represented as a graph G = (V, E), where V denotes the set
+of brain regions (nodes), and E represents the functional or structural connections
+(edges) between them. Connectivity strength can be encoded as edge weights, forming
+an adjacency matrix A, while node attributes can capture regional activity features
+derived from fMRI or other neuroimaging modalities.
+    GNNs have shown promise in various neuroimaging applications. For instance,
+they are being used to predict brain age in patients with Alzheimer’s disease
+based on rsfMRI data (Gao et al., 2023; Chen et al., 2024). Furthermore, recent
+advancements have adapted GNNs for fMRI analysis, incorporating task-aware brain
+connectivity (Yu et al., 2022), modeling spatiotemporal dynamics in resting-state
+fMRI data (Azevedo et al., 2022), and investigating topological properties of GNNs
+in fMRI-based applications (Pitsik et al., 2023; Mohammadi and Karwowski, 2024).
+Additionally, graph representation learning techniques are proving effective in identi-
+fying ASD patients through graph embedding methods (Yousefian et al., 2023). Other
+research focuses on leveraging GNNs for predictive modeling by capturing the 3D
+spatial structures present in rsfMRI data (Jiang et al., 2022).
+    Despite their flexibility in capturing complex graph-structured data, GNNs face
+limitations. One major challenge is their difficulty in accounting for the varying impor-
+tance of nodes and edges within heterogeneous brain networks, which can lead to
+
+
+                                           4
+suboptimal feature extraction. To address this, recent studies have explored attention-
+based GNN variants that assign adaptive weights to different connections, enhancing
+the interpretability and predictive power of brain connectivity models.
+
+2.2.2 Graph Attention Networks
+GATs address the limitations of GCNs by incorporating attention mechanisms that
+dynamically assign learnable weights to nodes and edges, enabling more nuanced
+feature extraction from graph-structured data. Recent advances demonstrate GATs’
+effectiveness in neurodevelopmental and neurological disorder diagnosis, including
+ASD detection using spatial-constrained sparse functional brain networks (Yang et al.,
+2021), multimodal brain connectomics-based prediction of Parkinson’s disease (Safai
+et al., 2022), and schizophrenia diagnosis via multi-GATs (Yu et al., 2023). Fur-
+ther innovations include relational GATs for ASD classification (Gu et al., 2023),
+spatiotemporal attention models for dynamic brain connectome representation (Kim
+et al., 2021), and adversarial learning-based node-edge GATs (Chen et al., 2022).
+These approaches highlight GATs’ ability to model complex functional and struc-
+tural relationships in brain networks, offering superior interpretability and predictive
+performance over traditional GCNs, by selectively attending to the most informative
+connections.
+    The benchmark approach used in this paper, ASD-SWNet (Zhang et al., 2024),
+introduces a shared-weight framework combining an autoencoder for unsupervised
+feature learning and a custom CNN for supervised classification. To mitigate chal-
+lenges posed by small sample sizes, the model employs data augmentation and is
+evaluated on a preprocessed ABIDE-I dataset (N=871 subjects) using nested ten-fold
+cross-validation. ASD-SWNet achieves state-of-the-art results with 76.52% accuracy
+and an AUC of 0.81, outperforming existing baselines. This success underscores the
+potential of integrating GAT-inspired attention mechanisms with hybrid deep learning
+architectures for improved ASD diagnosis.
+
+
+
+   Start
+
+                      fMRI                    Time series      Functional connectivity   Functional brain
+                                                               (Pearson’s Correlation) network (per subject)
+
+
+                                                              Model
+                             Parameter Tuning
+         Model                                              Evaluation
+                             •   Learning rate
+                                                       •    Accuracy                ASD
+       Construction          •   Hidden dim.
+                                                       •    Precision                                 End
+      •    GAT               •   Batch size                                     Classification
+                                                       •    F1 score
+      •    GNN               •   Dropout
+                                                       •    Recall
+                             •   Num. of layers
+                                                       •    AUC
+
+
+                                  Fig. 1 Flow of Overall Approach
+
+
+
+
+                                                       5
+3 Methods
+The overall flow of our approach is shown in Fig. 1. We began by collecting the fMRI
+data and extracting the time series. Next, the functional connectivity was calculated
+using Pearson’s correlation, followed by the functional brain network where a func-
+tional brain network is created per subject. Finally, the models are constructed, tuned,
+and tested. More details are explained in this section.
+
+3.1 Data Acquisition
+For our experiment, we use the Autism Brain Imaging Data Exchange (ABIDE) data
+set accessed using the Nilearn library (Di Martino and Mostofsky, 2023; contribu-
+tors). The ABIDE-I data set is publicly available and contains brain imaging data
+of 1,035 resting-state fMRI data with 505 subjects with ASD and 530 subjects that
+are healthy. The data is pooled from 17 different research institutions around the
+world. We adopt the Configurable Pipeline for the Analysis of Connectomes (C-PAC)
+for the collection of data (Craddock et al., 2013). This pipeline builds upon existing
+software packages, such as Analysis of Functional NeuroImages (AFNI) (Cox, 1996),
+FMRIB Software Library (FSL) (Smith et al., 2004), and Advanced Normalization
+Tools (ANTs) (Avants et al., 2009). This pipeline ensures standardized preprocessing,
+including steps like motion correction and spatial normalization. Additionally, band-
+pass filtering was applied to the data to remove high-frequency noise and low-frequency
+drift.
+    For region-of-interest (ROI) analysis, we chose the Automated Anatomical Label-
+ing (AAL) atlas (Tzourio-Mazoyer et al., 2002). The atlas divides the brain into 116
+anatomically distinct regions, facilitating the extraction of representative time series
+from predefined areas. To extract ROI-specific time series data, we used the NiftiL-
+abelsMasker class from Nilearn (Weber et al., 2022). This masker maps the volumetric
+fMRI data onto the AAL atlas by associating each voxel with an anatomical label.
+The time series is standardized by applying Z-score normalization. The missing values
+in the time series are replaced with zero using SimpleImputer.
+
+3.2 Graph Construction
+Constructing a graph enables the integration of imaging data, such as fMRI, with
+non-imaging information (Gu et al., 2023). To achieve this, we compute functional
+connectivity to represent the time series data as a graph. Functional connectivity is
+calculated using the Pearson correlation coefficient, which is the most common method
+in the literature (Sedgwick, 2012; Hyde et al., 2019; Nawghare and Prasad, 2024).
+This correlation measures the temporal coherence between pairs of regions of interest
+(ROIs) (Linke et al., 2020), offering valuable insights into inter-regional functional
+relationships within the brain.
+    Let G = {V, E, A} represent an undirected connected graph, where V is the set
+of nodes (|V | = n), E is the set of edges, and A is the adjacency matrix. The entry
+A(i, j) in the adjacency matrix denotes whether an edge exists between nodes i and
+j. Specifically, A(i, j) = 1 if an edge exists; otherwise, A(i, j) = 0 (Zhang et al.,
+2019). Additionally, let a vector x ∈ Rn represent a graph signal defined on the nodes
+
+
+                                           6
+of G, where x(i) corresponds to the signal value at node i. This signal can also be
+interpreted as a node attribute. We further denote X ∈ Rn×d as the node attribute
+matrix of the graph, where each column in X represents one of the d signals associated
+with the graph (Zhang et al., 2019). In this framework, brain regions based on the
+AAL atlas serve as nodes in the graph. An edge connects two nodes if a meaningful
+relationship exists between them. To determine connectivity, we apply a threshold of
+absolute correlation at 0.2. We construct the graph once the edge set for all 116 brain
+regions is established based on this threshold. The weights of the edges correspond to
+the pairwise Pearson correlation values between ROIs.
+
+3.3 Graph Convolution
+GCNs are neural networks designed to process graph-structured data (Kipf and
+Welling, 2016; Wu et al., 2020; Zhou et al., 2020). In a typical CNN, as shown in Fig. 2,
+a grid is placed over an image, and a filter is moved across it. CNNs are effective for
+grid-like data structures such as images but are not well-suited for data without a
+predefined structure. GCNs, on the other hand, as shown in Fig. 3, extend the convo-
+lution operation used in CNNs to non-grid-like structures, making them appropriate
+for analyzing graph-based data (Khemani et al., 2024).
+    In GCNs, the convolution operation involves aggregating features from a node’s
+neighbors. During this process, each node updates its features by combining its own
+features with those of its neighbors, typically using a weighted sum or mean to capture
+the local graph structure and relationships. Following this aggregation, a transforma-
+tion is applied, usually consisting of a linear layer followed by a non-linear activation
+function. The mathematical formulation for a single GCN layer is:
+
+                         H (l+1) = σ(D̃−1/2 ÃD̃−1/2 H (l) W (l) )
+
+where:
+• H (l) : Node features at layer l
+• Ã: Adjacency matrix of the graph with added self-loops (Ã = A + I), where I is the
+  identity matrix
+• D̃: Diagonal degree matrix of Ã
+• W (l) : Trainable weight matrix for layer l
+• σ: Activation function
+This formulation highlights the iterative process of aggregation and transformation of
+features. The inclusion of D̃−1/2 provides normalization for the adjacency matrix Ã,
+ensuring that the contributions from a node’s neighbors are appropriately scaled. This
+normalization helps prevent numerical instabilities during training. By stacking mul-
+tiple GCN layers, the model can capture higher-order and more complex relationships
+by aggregating information from increasingly distant neighbors in the graph (Khemani
+et al., 2024).
+    This design enables GCNs to learn rich, context-aware node embeddings that effec-
+tively incorporate both graph structure and node features. This capability has driven
+their widespread adoption across diverse applications, from social network analysis
+
+
+                                            7
+to molecular graph prediction and brain connectivity studies (Khemani et al., 2024;
+Pitsik et al., 2023; Mohammadi and Karwowski, 2024). In neuroimaging applications,
+nodes typically represent ROIs while edges denote functional or structural connections,
+creating a natural framework for analyzing graph-structured brain data.
+    Despite their strengths in capturing local graph structure, GCNs face certain limi-
+tations. A significant challenge is the oversmoothing phenomenon (Chen et al., 2020),
+where node embeddings become increasingly similar and eventually indistinguishable
+after stacking multiple layers. This limitation has motivated the development of several
+GCN variants, including GATs (Velickovic et al., 2017) and spectral graph convo-
+lutions (Wang et al., 2018), which aim to improve performance and address these
+inherent constraints.
+
+3.4 Attention-based GCN Mechanism
+While traditional GCNs rely on a fixed aggregation scheme (typically a weighted sum
+or mean) to update node features, GATs introduce an attention mechanism that allows
+nodes to assign different levels of importance to their neighbors. This attention mecha-
+nism adapts the aggregation process based on the relevance of each neighboring node,
+making the model more flexible and expressive in capturing complex relationships
+within the graph structure.
+    In GATs, instead of using a uniform aggregation function, each edge is assigned an
+attention coefficient, which is computed using a self-attention mechanism (Velickovic
+et al., 2017). Specifically, the attention coefficients between node i and node j are
+determined by a learned attention function αij , which is applied to the feature vectors
+of the nodes. The attention coefficient is typically computed as:
+
+                            exp(LeakyReLU(aT [W hi ||W hj ]))
+                   α= P                          T
+                          k∈N (i) exp(LeakyReLU(a [W hi ||W hk ]))
+where
+• W : Weight matrix applied to node features
+• hi and hj : Feature vectors for nodes i and j
+• a: Learnable attention vector
+• ||: Concatenation operation
+    The attention coefficient αij quantifies the importance of the features of node j
+when updating the features of node i. The denominator ensures that the attention
+scores are normalized across all neighbors of node i, making them comparable (Vra-
+hatis et al., 2024).
+    Once the attention coefficients are computed, the feature updates are performed
+as follows:
+                                                           
+                              (l+1)
+                                           X
+                           Hi       = σ       αij W (l) hj 
+                                         j∈N (i)
+
+   where N (i) denotes the set of neighbors of node i, and the update equation aggre-
+gates the weighted features of neighboring nodes using the attention coefficients. This
+
+
+                                           8
+mechanism allows the model to learn a dynamic weighting scheme, assigning more
+importance to some neighbors while down-weighting less relevant ones (Vrahatis et al.,
+2024).
+    The attention mechanism offers several advantages in graph-based learning. By
+enabling the model to focus on the most relevant parts of the graph (Vrahatis et al.,
+2024), it effectively mitigates the impact of noisy or irrelevant neighbors. Moreover,
+the dynamic computation of attention coefficients allows GATs to adapt to diverse
+graph structures and tasks, demonstrating their versatility across a wide range of
+applications, including node classification, graph classification, and link prediction.
+The incorporation of multi-head attention further enhances the model’s expressiveness
+by computing multiple sets of attention coefficients in parallel (Cheng et al., 2021).
+This approach enables GATs to capture a broader spectrum of relationships, thereby
+improving their ability to learn more informative and robust node representations.
+    In the context of brain connectivity analysis, GATs are particularly advanta-
+geous when it is necessary to assign varying levels of importance to different brain
+regions or connections. This capability allows the model to focus on the most relevant
+regions for tasks such as disease prediction or brain state classification. By learning
+adaptive weights for each connection, GATs provide a more flexible and robust solu-
+tion compared to traditional GCNs, making them well-suited for analyzing complex
+neuroimaging data.
+
+
+
+
+          Fig. 2 CNN Structure                        Fig. 3 GCN Structure
+
+
+
+
+3.5 Model Architecture
+In this study, we conducted an in-depth examination of two models: GCN and GAT.
+We systematically experimented with a range of hyperparameters, including learning
+rate (1×10−3 to 1×10−6 ), hidden dimension (128, 256, 512, 1024), batch size (8, 16, 32,
+64), dropout rate (0.1-0.6), the number of heads in the GAT (2, 4, 6, 8) and the number
+of layers (4-7 GAT/GCN layers and 1-4 dense layers) for each model. Our experimental
+results demonstrated that GAT outperformed GCN, thus supporting the conclusion of
+the literature review. As a result, all experiments presented in this paper were carried
+out using the GAT-based model, which we refer to as GATGraphClassifier.
+    The GATGraphClassifier is a GAT-based architecture specifically designed for
+graph-based classification tasks. It was built utilizing the networkx library and the
+
+
+                                           9
+PyTorch Geometric library built upon PyTorch. It consists of seven GATConv layers,
+each utilizing eight attention heads to effectively aggregate information from neighbor-
+ing nodes. To enhance model stability and mitigate overfitting, batch normalization
+and dropout layers are incorporated following each GATConv layer. The final node
+embeddings are aggregated through global mean pooling and subsequently processed
+by two fully connected (FC) layers, which project the learned representations into
+the output space. Different activation functions are employed at various stages of the
+network to introduce non-linearity and facilitate effective learning. The Exponential
+Linear Unit (ELU) activation function is applied after each GAT layer to stabilize
+gradient flow, while the Rectified Linear Unit (ReLU) activation function is used in
+the fully connected layers. Finally, the log-softmax activation function is applied in
+the output layer to compute class probabilities for binary classification. The complete
+final model architecture is detailed in Table 1.
+
+
+
+                       Table 1 GAT-Based Model Architecture
+      Layer(s)                    Details                  Output Shape     Activation
+        Input                       -                         (N, 316)           -
+                       GATConv (8 heads), BatchNorm,
+   GAT Block (1)                                              (N, 2048)         ELU
+                             Dropout (p=0.1)
+                       GATConv (8 heads), BatchNorm,
+  GAT Blocks (2–7)                                            (N, 2048)         ELU
+                             Dropout (p=0.2)
+       Pooling                Global Mean Pool                (N, 2048)          -
+                            Linear (2048 → 1024),
+        FC1                                                   (N, 1024)        ReLU
+                               Dropout (p=0.2)
+        FC2                   Linear (1024 → 2)                (N, 2)       LogSoftmax
+
+
+
+
+      Fig. 4 Average Metric Values                  Fig. 5 Metric Values over Runs
+
+
+
+
+                                            10
+  Fig. 6 Confusion Matrix of Best Run             Fig. 7 Cumulative Gain of Best Run
+
+
+                                                           Shapley
+                                                           Attention
+                                                           Both
+
+                                                                              Cingulum Ant R
+                                                Supp Motor Area L
+
+
+
+
+                                                                                 Temporal Inf R
+                                                Temporal Inf L
+                                                                                  SupraMarginal R
+
+                                                                                 Cerebelum 4 5 R
+                                                                                Vermis 9
+
+                                                                               Vermis 8
+                                                                             Vermis 6
+
+
+
+
+ Fig. 8 Decision Boundary for Best Run               Fig. 9 Most Useful Brain Regions
+
+
+4 Results
+In this study, we examined the effectiveness of our proposed method by conduct-
+ing a comparative evaluation against the benchmark state-of-the-art model using the
+ABIDE-I dataset. While we did not make any attempts to replicate the results pub-
+lished in the comparative articles, our findings represent the average performance
+scores achieved on test data, a dataset that was not utilized during the training phase
+of our model. Specifically, we allocated 80% of the dataset for training purposes, 10%
+for validation, and the remaining 10% for testing.
+    The performance results presented in this work are based on the average metrics
+obtained over 30 independent testing runs. In each run, the dataset was randomly
+split into training, validation, and testing sets using stratified sampling to preserve
+class distribution. The model was reloaded and evaluated on a new test set each time,
+and the standard classification metrics such as accuracy, precision, recall, F1 score,
+and area under the curve (AUC) were recorded. We report the mean and standard
+deviation of these metrics across all 30 runs to ensure a robust and reliable evaluation.
+These scores are displayed in Table 2 and visually represented in Fig. 4. We analyzed
+the performance across all the metrics listed above, reporting their average, minimum,
+
+
+
+                                           11
+maximum, and standard deviations across the replicates. For a more detailed under-
+standing of performance across different iterations, the metrics from each individual
+run are illustrated in Fig. 5. We observe that there is a slightly high variation in the
+precision and recall scores, followed by the F1 score and accuracy, and the lowest vari-
+ation in the AUC score. However, the lowest performance score across the replicates
+was still higher than the best performance we observed in the literature review. These
+results underscore the superior classification capabilities of our model.
+    The maximum accuracy achieved by our model was 96.59%. The confusion matrix
+corresponding to this run is presented in Fig. 6. In this instance, the model produced
+one false positive, indicating that one normal subject was incorrectly classified as an
+ASD subject, and two false negatives, meaning two ASD subjects were mistakenly
+classified as normal, among a total of 88 subjects in the test data. The model cor-
+rectly classifies the remaining 85 subjects. Additionally, the cumulative gain for the
+best-performing run of our model is illustrated in Fig. 7. The plotted line represents
+the cumulative gain in correctly detecting fMRI images associated with ASD. Notably,
+the model achieves maximal cumulative true positives at a significantly faster rate
+compared to the random baseline model. Furthermore, it is observed that after pro-
+cessing approximately 58% of the samples, the accuracy plateaus, indicating no further
+improvement.
+    The decision boundary of the best-performing model was also analyzed. Fig. 8
+illustrates the decision boundary for this run, generated using t-SNE applied to the
+embeddings extracted from the model’s layer preceding the classification layer. This
+visualization provides insight into how the model organizes graph embeddings in the
+feature space. The results demonstrate that the model effectively separates the two
+classes, with only minor misclassifications observed.
+    The performance of our model, compared to the benchmark approach and other
+existing representative methods, is summarized in Table 3. Additionally, the average,
+minimum, maximum, and standard deviation of performance metrics across 30 repli-
+cates are presented in Table 2. The results indicate that the accuracy scores of our
+model range from 0.79 to 0.97, precision ranges from 0.75 to 0.95, recall from 0.75 to
+0.98, AUC from 0.90 to 0.99, and the F1 score ranges between 0.78 and 0.96. Look-
+ing at average performance scores, the recall score of 90.16% shows that, on average,
+our model successfully identifies 90.16% cases of ASD among all patients with ASD
+in the test dataset. Furthermore, when our model predicts that a patient has ASD, it
+is accurate approximately 87% of the time on average. Finally, across all subjects, our
+model achieves an average accuracy of approximately 89% in classifying individuals
+as either ASD or non-ASD.
+    While there is modest variation in performance across replicates, even the scores
+within two standard deviations below the mean outperform the benchmark used in this
+study. Specifically, our best accuracy is 95.59%, the average accuracy is 88.79%, and
+the worst-case accuracy is 79.55%. Notably, even the worst-case accuracy of our model
+exceeds the average accuracies reported for other models in Table 3. Additionally, our
+worst recall and AUC values surpass those of all other approaches, while the worst
+precision of our model outperforms all models except for ASD-SWNet, which achieves
+a slightly higher precision. When comparing the average performance metrics of our
+
+
+
+                                          12
+model to those reported for other approaches, our approach significantly outperforms
+all comparable methods across all metrics. The performance metrics for comparison
+with other models listed in Table 3 are sourced from (Zhang et al., 2024).
+    Finally, Table 4 presents the top five most important brain regions identified
+through SHAP scores and attention mechanism scores. SHAP assigns each feature an
+importance value for a particular prediction (Lundberg and Lee, 2017). The SHAP
+scores were computed by first flattening the feature matrix of each subject into a one-
+dimensional vector. A wrapper prediction function was then employed to reshape the
+vector back into the original feature matrix size, after which the features were aggre-
+gated using the mean before being fed into the GAT. The KernelExplainer from the
+SHAP library was used to reduce the background dataset and compute SHAP values
+for the flattened input. For each brain region, the average SHAP value was calculated
+to quantify its contribution to the model’s predictions. Our analysis revealed that only
+9 out of 116 brain regions exhibited nonzero SHAP values, indicating that these nine
+regions are the primary contributors to our model’s decision-making process. Among
+these, the top five brain regions ranked by SHAP value are Vermis 8, Cingulum Ant
+R, Temporal Inf L, SupraMarginal R, and Supp Motor Area L.
+    The attention mechanism scores were obtained from the attention weights calcu-
+lated during the evaluation of the test set for each GAT convolution layer. Each GAT
+layer was configured with return attention weights=True, which allowed for the
+extraction of attention weights during the model evaluation process. For each of the
+30 runs, the attention weights across multiple attention heads were averaged to gener-
+ate a per-edge coefficient. Node importance was subsequently determined by summing
+the incoming attention values for all edges connected to a specific node. Based on this
+analysis, the top five brain regions ranked by attention weights were Vermis 6, Vermis
+8, Vermis 9, Temporal Inf R, and Cerebellum 4 5 R.
+    The top brain regions identified using the SHAP score and attention weights are
+different, as shown in Fig. 9. This difference is not unexpected due to the fact that
+the two methods capture different aspects of our model’s behavior. The SHAP values
+measure the impact of perturbing each region’s features on the final output, while the
+attention weights measure where the model is looking or what the model is focusing
+on at specific layers. These different perspectives can yield different results, so caution
+must be used when interpreting results, as multiple interpretability methods should
+be used to gain a fuller understanding of model decisions.
+    Many of the important brain regions identified by the proposed model agree with
+alterations reported in previous studies. These include functional abnormalities in
+cerebellar vermis lobules (Courchesne et al., 2013; Hashimoto et al., 1995; Webb et al.,
+2009; Riva et al., 2013; Khan et al., 2015), reduced connectivity involving the right
+anterior cingulate cortex (Cingulum Ant R) (Assaf et al., 2010; Cherkassky et al.,
+2006), altered connectivity involving the inferior temporal regions associated with
+facial recognition and language processing (Temporal Inf L and R) (Cheng et al.,
+2015; Cai et al., 2018; Lim et al., 2015; Foster et al., 2015), atypical connectivity
+patterns within the supramarginal gyrus (SupraMarginal R) related to social cogni-
+tion (Gotts et al., 2012; Maximo et al., 2013), disruptions in supplementary motor
+area (Supp Motor Area L) connectivity relevant to motor planning and repetitive
+
+
+
+                                            13
+                        Table 2 Performance Metrics of our Model
+      Metric         Average       Minimum            Maximum      Standard Deviation
+      Accuracy       88.79         79.55              96.59        3.72
+      Precision      86.50         75.00              95.24        4.34
+      Recall         90.16         75.61              97.56        5.02
+      AUC            0.96          0.90               0.99         0.02
+      F1 Score       0.88          0.78               0.96         0.04
+
+
+
+ Table 3 Performance of our Model vs. Existing Models (from (Zhang et al., 2024))
+    Method                                 Accuracy        Precision     Recall   AUC
+    ASD-DiagNet (Eslami et al., 2019)      69.07           65.25         69.58    0.71
+    ASD-SWNet (Zhang et al., 2024)         76.52           76.15         80.65    0.81
+    Hi-GCN (Jiang et al., 2020)            72.63           65.16         70.54    0.79
+    GCN (Parisot et al., 2018)             70.58           68.32         74.29    0.72
+    Our Approach                           88.79           86.50         90.16    0.96
+
+
+
+              Table 4 Top 5 Most Important Brain Regions based on
+              Shapley Score and Attention Mechanism Score
+                  Shapley (with Score)                 Attention (with Score)
+                  Vermis 8 (3.294 × 10−4 )             Vermis 6 (3.706)
+                  Cingulum Ant R (3.292 × 10−4 )       Vermis 8 (3.658)
+                  Temporal Inf L (2.004 × 10−4 )       Vermis 9 (3.625)
+                  SupraMarginal R (1.947 × 10−4 )      Temporal Inf R (3.558)
+                  Supp Motor Area L (1.800 × 10−4 )    Cerebelum 4 5 R (3.444)
+
+
+behaviors (Cheng et al., 2015; Mellema et al., 2022), and altered sensorimotor con-
+nectivity involving cerebellar lobules 4 and 5 (Cerebelum 4 5 R) (Cakar et al., 2024;
+Mellema et al., 2022). Notably, our model revealed novel brain regions associated with
+ASD that have not been highlighted in prior literature. These regions warrant further
+investigation and may contribute to a deeper understanding of the pathophysiology of
+ASD.
+
+5 Discussion
+The findings of this study highlight the effectiveness of graph-based mod-
+els—particularly attention-based GCNs—for the early detection of ASD using fMRI
+data. We found that integrating attention mechanisms significantly improves the
+model’s capability to prioritize crucial regions and connections within the brain graph,
+allowing for a more effective focus on the most pertinent features for classification. Our
+proposed framework, GATGraphClassifier, outperforms current state-of-the-art meth-
+ods across all key performance metrics, demonstrating its superiority and potential
+for clinical application.
+    A key advantage of attention-based GCNs is their interpretability, which is a key
+consideration in clinical applications. This is achieved by assigning attention weights to
+
+
+                                               14
+specific regions and connections between regions in the brain. This capability enables
+the model to capture subtle yet meaningful patterns in brain connectivity associated
+with ASD, thereby improving both classification accuracy and explanatory power.
+Notably, GATGraphClassifier also identified novel brain regions, specifically Frontal
+Sup R and Frontal Inf Tri R, that have not been commonly reported in prior ASD
+research. While these findings require further validation, they represent promising
+avenues for future investigation and may contribute to biomarker discovery and a
+deeper understanding of ASD neurobiology.
+    Despite these strengths, a notable limitation of GATGraphClassifier lies in the
+increased computational complexity introduced by attention-based GCNs, which may
+hinder scalability for large datasets or real-time clinical applications. Future work will
+focus on optimizing the model to enhance efficiency and facilitate broader deployment
+in clinical settings.
+
+6 Conclusion
+In this study, we proposed a novel application of attention-based GCNs for detecting
+ASD using fMRI data. The attention mechanism enables nodes to assign varying levels
+of importance to their neighbors, enhancing the model’s flexibility and expressiveness
+in capturing complex relationships within the brain connectivity graph.
+    We thoroughly experimented with GCN and GAT models by systematically tun-
+ing key hyperparameters, including learning rate, hidden dimensions, batch size,
+dropout rate, number of attention heads, and model depth. Our results demonstrate
+that GATGraphClassifier achieves state-of-the-art performance in ASD classification
+across all performance metrics, with an average accuracy of 88.79%, outperforming
+the benchmark model by 12.27%. Beyond classification performance, we explored the
+statistical interpretability of the models by analyzing attention scores and SHAP val-
+ues. This analysis identified several brain regions consistent with previous studies and
+novel regions that may warrant further investigation, offering new directions for ASD
+research and potential biomarker discovery. Moreover, our computational framework
+is both customizable and user-friendly, making it suitable for analyzing fMRI data
+related to other neurological disorders such as Alzheimer’s disease and schizophrenia.
+The broader utility of attention-based GCNs extends to domains including health-
+care, neuroscience, social network analysis, urban planning, and finance. GCNs hold
+significant promise in advancing ASD diagnosis and understanding by improving
+diagnostic accuracy, facilitating biomarker identification, offering insights into ASD
+pathophysiology, and supporting the goals of precision medicine.
+
+Declarations
+• Funding: Ramchandra Rimal and Arpan Sainju were partially supported by MTSU Data
+  Science Institute Seed Grant.
+• Conflict of interest/Competing interests: The authors have no conflict of
+  interest to declare that are relevant to the content of this article.
+• Ethics approval and consent to participate: Not Applicable.
+• Consent for publication: Not Applicable.
+
+
+                                           15
+• Data availability: All data used in this study are derived from publicly available
+  datasets.
+• Materials availability: Not Applicable.
+• Code availability: Codes will be made available on GitHub to the public once the
+  manuscript is accepted for publication.
+• Author contribution: R.R., A.K., and A.S. conceptualized the research problem and
+  methodology. R.R collected and prepared the data. A.K. worked on implementing models
+  and wrote the initial draft. R.R. revised the draft, and A.S. reviewed the final draft. All
+  authors contributed to the figures, the final review, and the editing of the manuscript.
+
+
+References
+Algumaei, A.H., Algunaid, R.F., Rushdi, M.A., Yassine, I.A.: Feature and decision-
+  level fusion for schizophrenia detection based on resting-state fmri data. Plos one
+  17(5), 0265300 (2022)
+
+Azevedo, T., Campbell, A., Romero-Garcia, R., Passamonti, L., Bethlehem, R.A.,
+  Lio, P., Toschi, N.: A deep graph neural network architecture for modelling spatio-
+  temporal dynamics in resting-state functional mri data. Medical Image Analysis 79,
+  102471 (2022)
+
+Assaf, M., Jagannathan, K., Calhoun, V.D., Miller, L., Stevens, M.C., Sahl, R.,
+  O’Boyle, J.G., Schultz, R.T., Pearlson, G.D.: Abnormal functional connectivity of
+  default mode sub-networks in autism spectrum disorder patients. Neuroimage 53(1),
+  247–256 (2010)
+
+Almuqhim, F., Saeed, F.: Asd-saenet: a sparse autoencoder, and deep-neural network
+  model for detecting autism spectrum disorder (asd) using fmri data. Frontiers in
+  Computational Neuroscience 15, 654315 (2021)
+
+Avants, B.B., Tustison, N., Song, G., et al.: Advanced normalization tools (ants).
+  Insight j 2(365), 1–35 (2009)
+
+Arya, A.D., Verma, S.S., Chakarabarti, P., Chakrabarti, T., Elngar, A.A., Kamali,
+  A.-M., Nami, M.: A systematic review on machine learning and deep learning tech-
+  niques in the effective diagnosis of alzheimer’s disease. Brain Informatics 10(1), 17
+  (2023)
+
+Belmonte, M.K., Allen, G., Beckel-Mitchener, A., Boulanger, L.M., Carper, R.A.,
+  Webb, S.J.: Autism and abnormal development of brain connectivity. Journal of
+  Neuroscience 24(42), 9228–9231 (2004)
+
+Bivarchi, F.A., Kehyayan, V., Al-Kohji, S.M.: Barriers to the early detection and
+  intervention of children with autism spectrum disorders: A literature. Journal of
+  Nursing Education and Practice 11(11), 72–80 (2021)
+
+Canario, E., Chen, D., Biswal, B.: A review of resting-state fmri and its use to examine
+
+
+                                            16
+  psychiatric disorders. Psychoradiology 1(1), 42–53 (2021)
+
+Cai, J., Hu, X., Guo, K., Yang, P., Situ, M., Huang, Y.: Increased left inferior temporal
+  gyrus was found in both low function autism and high function autism. Frontiers in
+  psychiatry 9, 542 (2018)
+
+Cherkassky, V.L., Kana, R.K., Keller, T.A., Just, M.A.: Functional connectivity in a
+  baseline resting-state network in autism. Neuroreport 17(16), 1687–1690 (2006)
+
+Chen, D., Lin, Y., Li, W., Li, P., Zhou, J., Sun, X.: Measuring and relieving the
+  over-smoothing problem for graph neural networks from the topological view. In:
+  Proceedings of the AAAI Conference on Artificial Intelligence, vol. 34, pp. 3438–3445
+  (2020)
+
+Chelladurai, A., Narayan, D.L., Divakarachari, P.B., Loganathan, U.: fmri-based
+  alzheimer’s disease detection using the sas method with multi-layer perceptron
+  network. Brain Sciences 13(6), 893 (2023)
+
+Cakar, M.E., Okada, N.J., Cummings, K.K., Jung, J., Bookheimer, S.Y., Dapretto,
+  M., Green, S.A.: Functional connectivity of the sensorimotor cerebellum in autism:
+  associations with sensory over-responsivity. Frontiers in Psychiatry 15, 1337921
+  (2024)
+
+contributors, N.: nilearn. https://doi.org/10.5281/zenodo.8397156 . https://github.
+  com/nilearn/nilearn
+
+Cox, R.W.: Afni: software for analysis and visualization of functional magnetic
+  resonance neuroimages. Computers and Biomedical research 29(3), 162–173 (1996)
+
+Cheng, W., Rolls, E.T., Gu, H., Zhang, J., Feng, J.: Autism: reduced connectivity
+  between cortical areas involved in face expression, theory of mind, and the sense of
+  self. Brain 138(5), 1382–1393 (2015)
+
+Craddock, C., Sikka, S., Cheung, B., Khanuja, R., Ghosh, S.S., Yan, C., Li, Q., Lurie,
+  D., Vogelstein, J., Burns, R., et al.: Towards automated analysis of connectomes:
+  The configurable pipeline for the analysis of connectomes (c-pac). Front Neuroinform
+  42(10.3389) (2013)
+
+Chen, K., Weng, Y., Hosseini, A.A., Dening, T., Zuo, G., Zhang, Y.: A comparative
+  study of gnn and mlp based machine learning for the diagnosis of alzheimer’s disease
+  involving data synthesis. Neural Networks 169, 442–452 (2024)
+
+Courchesne, E., Yeung-Courchesne, R., Press, G., Hesselink, J., Jernigan, T.: Hypopla-
+  sia of cerebellar vermal lobules vi and vii in autism. In: Autism, pp. 197–202.
+  Routledge, UK (2013)
+
+Chen, Y., Yan, J., Jiang, M., Zhang, T., Zhao, Z., Zhao, W., Zheng, J., Yao, D., Zhang,
+
+
+
+                                           17
+  R., Kendrick, K.M., et al.: Adversarial learning based node-edge graph attention
+  networks for autism spectrum disorder identification. IEEE Transactions on Neural
+  Networks and Learning Systems (2022)
+
+Cheng, Z., Yan, C., Wu, F.-X., Wang, J.: Drug-target interaction prediction using
+ multi-head self-attention and graph attention network. IEEE/ACM Transactions on
+ Computational Biology and Bioinformatics 19(4), 2208–2218 (2021)
+
+Di Martino, A., Mostofsky, S.: Autism Brain Imaging Data Exchange (ABIDE). https:
+  //doi.org/10.21227/y3v9-b041 . https://dx.doi.org/10.21227/y3v9-b041
+
+Eslami, T., Mirjalili, V., Fong, A., Laird, A.R., Saeed, F.: Asd-diagnet: a hybrid learn-
+  ing approach for detection of autism spectrum disorder using fmri data. Frontiers
+  in neuroinformatics 13, 70 (2019)
+
+Foster, N.E., Doyle-Thomas, K.A., Tryfon, A., Ouimet, T., Anagnostou, E., Evans,
+  A.C., Zwaigenbaum, L., Lerch, J.P., Lewis, J.D., Hyde, K.L., et al.: Structural gray
+  matter differences during childhood development in autism spectrum disorder: a
+  multimetric approach. Pediatric neurology 53(4), 350–359 (2015)
+
+Feng, W., Liu, G., Zeng, K., Zeng, M., Liu, Y.: A review of methods for classification
+  and recognition of asd using fmri data. Journal of neuroscience methods 368, 109456
+  (2022)
+
+Gao, J., Liu, J., Xu, Y., Peng, D., Wang, Z.: Brain age prediction using the graph
+ neural network based on resting-state functional mri in alzheimer’s disease. Frontiers
+ in Neuroscience 17, 1222751 (2023)
+
+Gotts, S.J., Simmons, W.K., Milbury, L.A., Wallace, G.L., Cox, R.W., Martin, A.:
+ Fractionation of social brain circuits in autism spectrum disorders. Brain 135(9),
+ 2711–2725 (2012)
+
+Gu, X., Xie, L., Xia, Y., Cheng, Y., Liu, L., Tang, L.: Autism spectrum disorder
+ diagnosis using the relational graph attention network. Biomedical Signal Processing
+ and Control 85, 105090 (2023)
+
+Huang, H., Hu, X., Zhao, Y., Makkie, M., Dong, Q., Zhao, S., Guo, L., Liu, T.:
+ Modeling task fmri data via deep convolutional autoencoder. IEEE transactions on
+ medical imaging 37(7), 1551–1561 (2017)
+
+Horikawa, T., Kamitani, Y.: Generic decoding of seen and imagined objects using
+ hierarchical visual features. Nature communications 8(1), 15037 (2017)
+
+Hyde, K.K., Novack, M.N., LaHaye, N., Parlett-Pelleriti, C., Anden, R., Dixon, D.R.,
+ Linstead, E.: Applications of supervised machine learning in autism spectrum dis-
+ order research: a review. Review Journal of Autism and Developmental Disorders
+ 6, 128–146 (2019)
+
+
+                                           18
+Hashimoto, T., Tayama, M., Murakawa, K., Yoshimoto, T., Miyazaki, M., Harada,
+  M., Kuroda, Y.: Development of the brainstem and cerebellum in autistic patients.
+  Journal of autism and developmental disorders 25, 1–18 (1995)
+
+İsmail, A., Dalveren, G.G.M.: Use of 3d-capsnet and rnn models for 4d fmri-based
+   alzheimer’s disease pre-detection. Turkish Journal of Science and Technology 19(1),
+   223–235 (2024)
+
+Jiang, H., Cao, P., Xu, M., Yang, J., Zaiane, O.: Hi-gcn: A hierarchical graph convo-
+  lution network for graph embedding learning of brain network and brain disorders
+  prediction. Computers in Biology and Medicine 127, 104096 (2020)
+
+Jiang, W., Liu, S., Zhang, H., Sun, X., Wang, S.-H., Zhao, J., Yan, J.: Cnng: a con-
+  volutional neural networks with gated recurrent units for autism spectrum disorder
+  classification. Frontiers in Aging Neuroscience 14, 948704 (2022)
+
+Jo, T., Nho, K., Saykin, A.J.: Deep learning in alzheimer’s disease: diagnostic clas-
+  sification and prognostic prediction using neuroimaging data. Frontiers in aging
+  neuroscience 11, 220 (2019)
+
+Khan, K., Katarya, R.: Aff-bpl: An adaptive feature fusion technique for the diag-
+ nosis of autism spectrum disorder using bat-pso-lstm based framework. Journal of
+ Computational Science 83, 102447 (2024)
+
+Kohli, M., Kar, A.K., Sinha, S.: The role of intelligent technologies in early detection of
+ autism spectrum disorder (asd): A scoping review. IEEE Access 10, 104887–104913
+ (2022)
+
+Khan, A.J., Nair, A., Keown, C.L., Datko, M.C., Lincoln, A.J., Müller, R.-A.: Cerebro-
+ cerebellar resting-state functional connectivity in children and adolescents with
+ autism spectrum disorder. Biological psychiatry 78(9), 625–634 (2015)
+
+Khemani, B., Patil, S., Kotecha, K., Tanwar, S.: A review of graph neural networks:
+ concepts, architectures, techniques, challenges, datasets, applications, and future
+ directions. Journal of Big Data 11(1), 18 (2024)
+
+Kipf, T.N., Welling, M.: Semi-supervised classification with graph convolutional
+  networks. arXiv preprint arXiv:1609.02907 (2016)
+
+Kim, B.-H., Ye, J.C., Kim, J.-J.: Learning dynamic graph representation of brain con-
+  nectome with spatio-temporal attention. Advances in Neural Information Processing
+  Systems 34, 4314–4327 (2021)
+
+Lim, L., Chantiluke, K., Cubillo, A., Smith, A., Simmons, A., Mehta, M., Rubia,
+  K.: Disorder-specific grey matter deficits in attention deficit hyperactivity disorder
+  relative to autism spectrum disorder. Psychological medicine 45(5), 965–976 (2015)
+
+
+
+
+                                            19
+Lord, C., Elsabbagh, M., Baird, G., Veenstra-Vanderweele, J.: Autism spectrum
+  disorder. The lancet 392(10146), 508–520 (2018)
+
+Lin, K., Jie, B., Dong, P., Ding, X., Bian, W., Liu, M.: Convolutional recurrent neu-
+  ral network for dynamic functional mri analysis and brain disease identification.
+  Frontiers in Neuroscience 16, 933660 (2022)
+
+Lundberg, S.M., Lee, S.-I.: A unified approach to interpreting model predictions.
+  Advances in neural information processing systems 30 (2017)
+
+Linke, A.C., Mash, L.E., Fong, C.H., Kinnear, M.K., Kohli, J., Wilkinson, M., Tung,
+  R., Keehn, R.J., Carper, R.A., Fishman, I., et al.: Dynamic time warping outper-
+  forms pearson correlation in detecting atypical functional connectivity in autism
+  spectrum disorders. NeuroImage 223, 117383 (2020)
+
+Meszlényi, R.J., Buza, K., Vidnyánszky, Z.: Resting state fmri functional connectivity-
+ based classification using a convolutional neural network architecture. Frontiers in
+ neuroinformatics 11, 61 (2017)
+
+Mohammadi, H., Karwowski, W.: Graph neural networks in brain connectivity studies:
+ Methods, challenges, and future directions. Brain Sciences 15(1), 17 (2024)
+
+Maximo, J.O., Keown, C.L., Nair, A., Müller, R.-A.: Approaches to local connectiv-
+ ity in autism using resting state functional connectivity mri. Frontiers in human
+ neuroscience 7, 605 (2013)
+
+Mourao-Miranda, J., Reynaud, E., McGlone, F., Calvert, G., Brammer, M.: The
+ impact of temporal compression and space selection on svm analysis of single-subject
+ and multi-subject fmri data. Neuroimage 33(4), 1055–1065 (2006)
+
+Mellema, C.J., Nguyen, K.P., Treacher, A., Montillo, A.: Reproducible neuroimaging
+ features for diagnosis of autism spectrum disorder with machine learning. Scientific
+ reports 12(1), 3057 (2022)
+
+Nawghare, P., Prasad, J.R.: Early detection of autism spectrum disorder using ai and
+  machine learning models: A systematic review for effective intervention. In: 2024
+  IEEE Pune Section International Conference (PuneCon), pp. 1–6 (2024). IEEE
+
+Nie, D., Zhang, H., Adeli, E., Liu, L., Shen, D.: 3d deep learning for multi-modal
+  imaging-guided survival time prediction of brain tumor patients. In: Medical Image
+  Computing and Computer-Assisted Intervention–MICCAI 2016: 19th International
+  Conference, Athens, Greece, October 17-21, 2016, Proceedings, Part II 19, pp. 212–
+  220 (2016). Springer
+
+O’Reilly, C., Lewis, J.D., Elsabbagh, M.: Is functional brain connectivity atypical in
+  autism? a systematic review of eeg and meg studies. PloS one 12(5), 0175870 (2017)
+
+
+
+
+                                           20
+Parisot, S., Ktena, S.I., Ferrante, E., Lee, M., Guerrero, R., Glocker, B., Rueckert,
+  D.: Disease prediction using graph convolutional networks: application to autism
+  spectrum disorder and alzheimer’s disease. Medical image analysis 48, 117–130
+  (2018)
+
+Pitsik, E.N., Maximenko, V.A., Kurkin, S.A., Sergeev, A.P., Stoyanov, D., Paunova,
+  R., Kandilarova, S., Simeonova, D., Hramov, A.E.: The topology of fmri-based net-
+  works defines the performance of a graph neural network for the classification of
+  patients with major depressive disorder. Chaos, Solitons & Fractals 167, 113041
+  (2023)
+
+Qiang, N., Dong, Q., Liang, H., Ge, B., Zhang, S., Sun, Y., Zhang, C., Zhang, W., Gao,
+  J., Liu, T.: Modeling and augmenting of fmri data using deep recurrent variational
+  auto-encoder. Journal of neural engineering 18(4), 0460–6 (2021)
+
+Riva, D., Annunziata, S., Contarino, V., Erbetta, A., Aquino, D., Bulgheroni, S.: Gray
+  matter reduction in the vermis and crus-ii is associated with social and interaction
+  deficits in low-functioning children with autistic spectrum disorders: a vbm-dartel
+  study. The Cerebellum 12, 676–685 (2013)
+
+Rimal, R., Brannon, M., Wang, Y., Yang, X.: Comparative study of various machine
+  learning methods on asd classification. International Journal of Data Science and
+  Analytics, 1–15 (2023)
+
+Rimal, R.: Identifying the neurocognitive difference between two groups using super-
+  vised learning. Statistics, Optimization & Information Computing 12(1), 15–33
+  (2024)
+
+Sedgwick, P.: Pearson’s correlation coefficient. Bmj 345 (2012)
+
+Smith, S.M., Jenkinson, M., Woolrich, M.W., Beckmann, C.F., Behrens, T.E.,
+  Johansen-Berg, H., Bannister, P.R., De Luca, M., Drobnjak, I., Flitney, D.E., et al.:
+  Advances in functional and structural mr image analysis and implementation as fsl.
+  Neuroimage 23, 208–219 (2004)
+
+Stanley, M.L., Moussa, M.N., Paolini, B.M., Lyday, R.G., Burdette, J.H., Lauri-
+  enti, P.J.: Defining nodes in complex brain networks. Frontiers in computational
+  neuroscience 7, 169 (2013)
+
+Safai, A., Vakharia, N., Prasad, S., Saini, J., Shah, A., Lenka, A., Pal, P.K., Ingal-
+  halikar, M.: Multimodal brain connectomics-based prediction of parkinson’s disease
+  using graph attention networks. Frontiers in Neuroscience 15, 741489 (2022)
+
+Song, X., Wyrwicz, A.M.: Unsupervised spatiotemporal fmri data analysis using
+  support vector machines. NeuroImage 47(1), 204–212 (2009)
+
+
+
+
+                                          21
+Tzourio-Mazoyer, N., Landeau, B., Papathanassiou, D., Crivello, F., Etard, O., Del-
+  croix, N., Mazoyer, B., Joliot, M.: Automated anatomical labeling of activations
+  in spm using a macroscopic anatomical parcellation of the mni mri single-subject
+  brain. Neuroimage 15(1), 273–289 (2002)
+
+Velickovic, P., Cucurull, G., Casanova, A., Romero, A., Lio, P., Bengio, Y., et al.:
+  Graph attention networks. stat 1050(20), 10–48550 (2017)
+
+Vrahatis, A.G., Lazaros, K., Kotsiantis, S.: Graph attention networks: A comprehen-
+  sive review of methods and applications. Future Internet 16(9), 318 (2024)
+
+Wang, R., He, Q., Han, C., Wang, H., Shi, L., Che, Y.: A deep learning frame-
+ work for identifying alzheimer’s disease using fmri-based brain network. Frontiers
+ in Neuroscience 17, 1177424 (2023)
+
+Wu, Z., Pan, S., Chen, F., Long, G., Zhang, C., Philip, S.Y.: A comprehensive sur-
+ vey on graph neural networks. IEEE transactions on neural networks and learning
+ systems 32(1), 4–24 (2020)
+
+Webb, S.J., Sparks, B.-F., Friedman, S.D., Shaw, D.W., Giedd, J., Dawson, G., Dager,
+ S.R.: Cerebellar vermal volumes and behavioral correlates in children with autism
+ spectrum disorder. Psychiatry Research: Neuroimaging 172(1), 61–67 (2009)
+
+Wang, C., Samari, B., Siddiqi, K.: Local spectral graph convolution for point set
+ feature learning. In: Proceedings of the European Conference on Computer Vision
+ (ECCV), pp. 52–66 (2018)
+
+Wen, H., Shi, J., Zhang, Y., Lu, K.-H., Cao, J., Liu, Z.: Neural encoding and decoding
+ with deep learning for dynamic natural vision. Cerebral cortex 28(12), 4136–4160
+ (2018)
+
+Weber, K.A., Teplin, Z.M., Wager, T.D., Law, C.S., Prabhakar, N.K., Ashar, Y.K.,
+ Gilam, G., Banerjee, S., Delp, S.L., Glover, G.H., et al.: Confounds in neuroimaging:
+ A clear case of sex as a confound in brain-based prediction. Frontiers in Neurology
+ 13, 960760 (2022)
+
+Wang, X., Zhang, X., Chen, Y., Yang, X.: Ifc-gnn: Combining interactions of functional
+ connectivity with multimodal graph neural networks for asd brain disorder analysis.
+ Alexandria Engineering Journal 98, 44–55 (2024)
+
+Xie, S.-y., Guo, R., Li, N.-f., Wang, G., Zhao, H.-t.: Brain fmri processing and classifi-
+  cation based on combination of pca and svm. In: 2009 International Joint Conference
+  on Neural Networks, pp. 3384–3389 (2009). IEEE
+
+Yu, Y., Kan, X., Cui, H., Xu, R., Zheng, Y., Song, X., Zhu, Y., Zhang, K., Nabi, R.,
+  Guo, Y., et al.: Learning task-aware effective brain connectivity for fmri analysis
+  with graph neural networks. In: 2022 IEEE International Conference on Big Data
+
+
+                                           22
+  (Big Data), pp. 4995–4996 (2022). IEEE
+
+Yin, W., Li, L., Wu, F.-X.: A graph attention neural network for diagnosing asd
+  with fmri data. In: 2021 IEEE International Conference on Bioinformatics and
+  Biomedicine (BIBM), pp. 1131–1136 (2021). IEEE
+
+Yu, R., Pan, C., Fei, X., Chen, M., Shen, D.: Multi-graph attention networks with
+  bilinear convolution for diagnosis of schizophrenia. IEEE Journal of Biomedical and
+  Health Informatics 27(3), 1443–1454 (2023)
+
+Yousefian, A., Shayegh, F., Maleki, Z.: Detection of autism spectrum disorder using
+  graph representation learning algorithms and deep neural network, based on fmri
+  signals. Frontiers in Systems Neuroscience 16, 904770 (2023)
+
+Yang, C., Wang, P., Tan, J., Liu, Q., Li, X.: Autism spectrum disorder diagnosis
+  using graph attention network based on spatial-constrained sparse functional brain
+  networks. Computers in biology and medicine 139, 104963 (2021)
+
+Zhou, J., Cui, G., Hu, S., Zhang, Z., Yang, C., Liu, Z., Wang, L., Li, C., Sun, M.:
+  Graph neural networks: A review of methods and applications. AI open 1, 57–81
+  (2020)
+
+Zhao, Z., Chuah, J.H., Lai, K.W., Chow, C.-O., Gochoo, M., Dhanalakshmi, S.,
+  Wang, N., Bao, W., Wu, X.: Conventional machine learning and deep learn-
+  ing in alzheimer’s disease diagnosis using neuroimaging: A review. Frontiers in
+  computational neuroscience 17, 1038636 (2023)
+
+Zhao, Y., Dong, Q., Chen, H., Iraji, A., Li, Y., Makkie, M., Kou, Z., Liu, T.: Con-
+  structing fine-granularity functional brain network atlases via deep convolutional
+  autoencoder. Medical image analysis 42, 200–211 (2017)
+
+Zhang, J., Guo, J., Lu, D., Cao, Y.: Asd-swnet: a novel shared-weight feature extrac-
+  tion and classification network for autism spectrum disorder diagnosis. Scientific
+  Reports 14(1), 13696 (2024)
+
+Zafar, R., Malik, A.S., Shuaibu, A.N., Rehman, M.J., Dass, S.C.: Classification of fmri
+  data using support vector machine and convolutional neural network. In: 2017 IEEE
+  International Conference on Signal and Image Processing Applications (ICSIPA),
+  pp. 324–329 (2017). IEEE
+
+Zhang, J., Rao, V.M., Tian, Y., Yang, Y., Acosta, N., Wan, Z., Lee, P.-Y., Zhang, C.,
+  Kegeles, L.S., Small, S.A., et al.: Detecting schizophrenia with 3d structural brain
+  mri using deep learning. Scientific reports 13(1), 14433 (2023)
+
+Zhang, S., Tong, H., Xu, J., Maciejewski, R.: Graph convolutional networks: a
+  comprehensive review. Computational Social Networks 6(1), 1–23 (2019)
+
+
+
+
+                                          23
+Zheng, J., Wei, X., Wang, J., Lin, H., Pan, H., Shi, Y.: Diagnosis of schizophrenia
+  based on deep learning using fmri. Computational and Mathematical Methods in
+  Medicine 2021(1), 8437260 (2021)
+
+A Appendix
+Results of the GCN that we tested. These results are the average metrics from 30 runs
+using the same data set and split as our GAT approach.
+
+
+                   Table 5 Performance metrics of GCN model
+     Metric       Average      Minimum        Maximum      Standard Deviation
+     Accuracy     46.45        42.05          51.17        2.40
+     Precision    46.27        43.90          48.78        1.30
+     Recall       94.23        87.80          100.00       2.92
+     AUC          0.46         0.29           0.62         0.07
+     F1 Score     0.62         0.59           0.96         0.02
+
+
+
+
+                                         24
+

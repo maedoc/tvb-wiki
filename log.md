@@ -1,5 +1,17 @@
 # TVB Wiki Log
 
+## 2026-05-07 - Entry #10
+- Action: Enhanced anticevic-2012 page with proper wikilinks
+- Details: Added comprehensive wikilinking (20+ links) to related wiki pages:
+  - neural-mass-models, wong-wang-model, excitation-inhibition-balance
+  - schizophrenia-models, brain-oscillations, functional-connectivity
+  - structural-connectivity, resting-state-fmri, brain-dynamics
+  - personalized-brain-modeling, computational-psychiatry
+  - diffusion-imaging, tractography, the-virtual-brain
+  - default-mode-network, dynamical-systems-theory, brain-stimulation, epileptor
+- Ensured minimum 2 outbound links (exceeds requirement with 20+ wikilinks)
+- Updated date to 2026-05-07
+
 ## 2026-05-07 - Entry #9
 - Action: Improved anticevic-2012 page - replaced with comprehensive content based on actual research
 - Details: Replaced minimal stub with full concept page based on actual Anticevic 2012 papers:
@@ -224,3 +236,5 @@
 ## [2026-05-07 06:53] Audit: 992 issues (132 broken links, 43 orphans, 0 placeholders, 0 dup-refs, 5 bad-meta, 100 citation-verify, 14 opaque-refs, 27 thin, 433 missing-links)
 
 ## [2026-05-07 07:00] DeepResearch: 9 papers added via focused research
+
+## [2026-05-07 07:22] Improve: 1 pages improved (pynn)

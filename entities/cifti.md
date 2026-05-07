@@ -16,7 +16,11 @@ type: concept
 updated: '2026-05-04'
 ---
 
-Cifti — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
+CIFTI (Connectivity Informatics Technology Initiative) is a specialized neuroimaging data format developed by the [[human-connectome-project]] (HCP) for storing dense whole-brain connectivity data. It addresses fundamental limitations of older neuroimaging formats such as [[nifti]] by unifying surface-based cortical representations with volumetric subcortical data into a single coherent structure known as "grayordinates" — a portmanteau combining "gray matter" with "coordinates" that encompasses both cortical surface vertices and subcortical voxels.
+
+The format was developed to handle the challenges of modern multi-modal connectivity analyses where researchers combine [[functional-connectivity]] matrices from [[fmri]] with [[structural-connectivity]] estimates from diffusion imaging. Traditional formats like NIfTI were designed primarily for volumetric data, creating significant file management challenges when working with both surface-based cortical representations and volumetric subcortical structures. CIFTI resolves this by enabling storage of complete connectivity matrices between all grayordinates rather than just parcel-based summaries, preserving the full information content of [[resting-state]] analyses.
+
+CIFTI files use extensions such as `.dtseries.nii` for time series data and `.dscalar.nii` for scalar data, both built on the NIfTI-2 header structure for improved metadata handling. The format is maintained as CIFTI-2 and has become a standard for HCP data releases. It is particularly well-suited for [[whole-brain]] connectivity analyses central to [[whole-brain-modeling]] approaches, and serves as the primary data format for [[the-virtual-brain]] workflows that combine multiple neuroimaging modalities to construct personalized [[connectome]]-based models. See also: [[connectome-workbench]], [[ciftify]], [[hcp-pipelines]], and [[hcp-dataset]]. Related tool: [[cifti-tools]].
 
 ## Related Concepts
 * [[nipype]]
