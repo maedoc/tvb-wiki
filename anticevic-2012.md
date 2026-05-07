@@ -17,7 +17,7 @@ Anticevic's 2012 work addressed this gap by combining pharmacological neuroimagi
 
 ## Computational Framework
 
-The computational models developed in these papers represent extensions of neural mass models that had been previously applied to whole-brain dynamics. The key innovation was parameterizing the models to capture the effects of reduced NMDA receptor conductance preferentially onto GABAergic interneurons—a leading hypothesis for ketamine's mechanism of action. This produces a state of cortical disinhibition where excitatory pyramidal cells receive less feedback inhibition, fundamentally altering the dynamics of local circuits.
+The computational models developed in these papers represent extensions of [[Jansen-Rit model]] neural mass formulations that had been previously applied to whole-brain dynamics. The key innovation was parameterizing the models to capture the effects of reduced NMDA receptor conductance preferentially onto GABAergic interneurons—a leading hypothesis for ketamine's mechanism of action. This produces a state of cortical disinhibition where excitatory pyramidal cells receive less feedback inhibition, fundamentally altering the dynamics of local circuits.
 
 The mathematical framework involves two interacting neural mass modules: a task-activated module representing working memory circuitry in prefrontal cortex, and a task-deactivated module representing the DMN. These modules interact through long-range inhibitory projections, creating the anti-correlated dynamics observed empirically. When NMDA conductance onto inhibitory cells is reduced (simulating ketamine effects or GABAergic dysfunction), the task-deactivated module becomes hyperactive and less responsive to suppressive inputs from the task-activated module. This produces a characteristic pattern of findings: reduced task-positive activation combined with failure to suppress the DMN during working memory performance.
 
@@ -25,11 +25,11 @@ The models were validated against empirical fMRI data from ketamine administrati
 
 ## Relationship to Whole-Brain Modeling
 
-This work established a template for multi-scale computational modeling that bridges cellular neuroscience and systems-level brain dynamics. The approach demonstrated that whole-brain models constrained by structural connectivity could serve not merely as descriptive tools but as explanatory frameworks that make specific predictions about the effects of molecular perturbations.
+This work established a template for multi-scale computational modeling that bridges cellular neuroscience and systems-level brain dynamics. The approach demonstrated that [[whole-brain modeling]] frameworks constrained by structural connectivity could serve not merely as descriptive tools but as explanatory frameworks that make specific predictions about the effects of molecular perturbations.
 
 The framework connects to broader developments in whole-brain modeling, particularly work by Deco et al. (2013) on how structured networks constrained by empirical connectivity can reproduce resting-state dynamics through noise-driven fluctuations around stable fixed points. Anticevic's contribution extended these frameworks by explicitly incorporating parameters that could be directly linked to molecular findings from pharmacological and postmortem studies.
 
-For The Virtual Brain and similar whole-brain simulators, this work demonstrated the feasibility of linking molecular-level parameters (such as NMDA receptor conductance) to whole-brain dynamics observable in fMRI. Subsequent work has incorporated more biophysically detailed neural mass formulations, including Wong-Wang-type models that capture excitation-inhibition balance at the level of recurrent neural circuits.
+For The Virtual Brain and similar whole-brain simulators, this work demonstrated the feasibility of linking molecular-level parameters (such as NMDA receptor conductance) to whole-brain dynamics observable in fMRI. Subsequent work has incorporated more biophysically detailed neural mass formulations, including [[Wong-Wang model]] formulations that capture [[excitation-inhibition balance]] at the level of recurrent neural circuits.
 
 ## Implications for Schizophrenia
 
