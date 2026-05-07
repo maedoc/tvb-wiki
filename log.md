@@ -1,5 +1,17 @@
 # TVB Wiki Log
 
+## 2026-05-07 - Entry #7
+- Action: Improved anticevic-2012 page
+- Details: Converted minimal stub into comprehensive concept page covering:
+  - Background on whole-brain E-I balance modeling
+  - Technical equations for excitatory-inhibitory neural mass dynamics
+  - Relationship to resting-state functional connectivity
+  - Computational psychiatry implications
+  - Connection to TVB framework (Wong-Wang model)
+- Added 12 wikilinks: whole-brain-modeling, computational-neuroscience, excitation-inhibition-balance, resting-state, functional-connectivity, computational-psychiatry, brain-dynamics, default-mode-network, intrinsic-connectivity-networks, structural-connectivity, dti, the-virtual-brain, wong-wang-model, wong-wang-exc-inh, resting-state-fmri, dynamic-causal-modeling, neural-mass-models, fmri
+- Tags updated: whole-brain-modeling, computational-neuroscience, excitation-inhibition-balance, resting-state, functional-connectivity, computational-psychiatry, brain-dynamics
+- Added proper frontmatter with type: concept, updated date to 2026-05-07
+
 ## 2026-05-07 - Entry #6
 - Action: Improved 3d-slicer page - added available source citations
 - Details: Added actual source references from available papers:
@@ -174,3 +186,5 @@
 ## [2026-05-07 04:15] CrosslinkApplier: added 231 wikilinks (231 inline, 0 suggested)
 
 ## [2026-05-07 04:16] Matcher: 33 pages got 83 new sources
+
+## [2026-05-07 04:25] Improve: 1 pages improved (aging-brain)
