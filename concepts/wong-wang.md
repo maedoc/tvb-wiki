@@ -5,6 +5,7 @@ sources:
 - raw/papers/potjans-diesmann-2014.md
 - raw/papers/arxiv-2512.03907.md
 - raw/papers/semanticscholar-15a4a438614f.md
+- raw/papers/anticevic-2012.md
 tags:
 - neural-mass-models
 - whole-brain-modeling
@@ -15,7 +16,7 @@ tags:
 - neural-mass-models-comparison
 title: Wong-Wang Model
 type: concept
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 # Wong-Wang Model

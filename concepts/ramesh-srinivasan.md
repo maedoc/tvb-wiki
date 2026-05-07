@@ -5,6 +5,7 @@ sources:
 - raw/papers/semanticscholar-3ac0a350bdb3.md
 - raw/papers/semanticscholar-dacc3b888fa6.md
 - raw/papers/arxiv-2602.09034.md
+- raw/papers/anticevic-2012.md
 tags:
 - neuroimaging-eeg
 - volume-conduction
@@ -14,7 +15,7 @@ tags:
 - tutorial
 title: EEG Neurophysics
 type: concept
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 The neurophysics of electroencephalography (EEG) encompasses the physical principles underlying the generation, propagation, and measurement of electric fields produced by neural activity in the brain. This domain bridges [[computational-neuroscience]] with electromagnetic theory, providing the foundational framework for interpreting scalp-recorded EEG signals and for relating [[neural-mass-model]] activity to measurable electrophysiological data.

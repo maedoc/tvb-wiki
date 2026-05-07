@@ -10,6 +10,8 @@ sources:
 - raw/papers/izhikevich-2003.md
 - raw/papers/kuramoto-1975.md
 - raw/papers/jansen-rit-1995.md
+- raw/papers/anticevic-2012.md
+- raw/papers/arxiv-2512.03907.md
 tags:
 - neural-mass-models
 - network-dynamics

@@ -8,6 +8,7 @@ sources:
 - raw/papers/andrews-hanna-2010.md
 - raw/papers/friston-1993.md
 - raw/papers/semanticscholar-a0a9350fb265.md
+- raw/papers/anticevic-2012.md
 tags:
 - default-mode-network
 - resting-state

@@ -4,6 +4,8 @@ sources:
 - raw/papers/tustison-2010.md
 - raw/papers/alfaro-almagro-2018.md
 - raw/papers/semanticscholar-301489ffb9de.md
+- raw/papers/semanticscholar-a324c47ea982.md
+- raw/papers/semanticscholar-f45e6044c92f.md
 tags:
 - software-brain-modeling
 - software-visualization

@@ -6,6 +6,7 @@ sources:
 - raw/papers/semanticscholar-d70e1661858c.md
 - raw/papers/semanticscholar-543815c79209.md
 - raw/papers/semanticscholar-d2dfba2091a2.md
+- raw/papers/anticevic-2012.md
 tags:
 - diffusion-imaging
 - neuroimaging-dti

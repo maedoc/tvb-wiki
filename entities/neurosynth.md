@@ -7,11 +7,12 @@ sources:
 - raw/papers/power-2011.md
 - raw/papers/semanticscholar-eadc34d87ac8.md
 - raw/papers/semanticscholar-a0a9350fb265.md
+- raw/papers/anticevic-2012.md
 tags:
 - software-brain-modeling
 title: Neurosynth
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 ## Overview

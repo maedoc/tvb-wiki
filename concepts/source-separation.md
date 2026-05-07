@@ -5,6 +5,7 @@ sources:
 - raw/papers/smith-2013-connectomics.md
 - raw/papers/sporns-2011.md
 - raw/papers/semanticscholar-a0a9350fb265.md
+- raw/papers/anticevic-2012.md
 tags:
 - computational-neuroscience
 - neuroimaging-fmri
@@ -14,7 +15,7 @@ tags:
 - machine-learning
 title: Source Separation
 type: concept
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 # Source Separation

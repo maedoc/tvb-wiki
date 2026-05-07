@@ -5,6 +5,7 @@ sources:
 - raw/papers/power-2011.md
 - raw/papers/smith-2013-hcp.md
 - raw/papers/semanticscholar-66f887e82e89.md
+- raw/papers/anticevic-2012.md
 tags:
 - brain-parcellation
 - resting-state
@@ -13,7 +14,7 @@ tags:
 - nodes
 title: Schaefer Parcellation
 type: concept
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 # Schaefer Parcellation

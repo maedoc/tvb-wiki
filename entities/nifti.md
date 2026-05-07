@@ -9,6 +9,7 @@ sources:
 - raw/papers/semanticscholar-dacc3b888fa6.md
 - raw/papers/schirner-2018.md
 - raw/papers/gorgolewski-2016.md
+- raw/papers/anticevic-2012.md
 tags:
 - neuroimaging
 - software-neuroimaging

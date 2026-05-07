@@ -5,6 +5,7 @@ sources:
 - raw/papers/smith-2013-connectomics.md
 - raw/papers/friston-1993.md
 - raw/papers/semanticscholar-f05f8cbafb78.md
+- raw/papers/anticevic-2012.md
 tags:
 - people-researcher
 - dynamic-causal-modeling

@@ -6,6 +6,7 @@ sources:
 - raw/papers/arxiv-2510.22022.md
 - raw/papers/arxiv-2510.02545.md
 - raw/papers/semanticscholar-35f188e2bba1.md
+- raw/papers/anticevic-2012.md
 tags:
 - neural-mass-models
 - nonlinear-dynamics
@@ -14,7 +15,7 @@ tags:
 - dynamical-systems-theory
 title: FitzHugh-Nagumo Model
 type: concept
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 The FitzHugh-Nagumo model is a two-dimensional reduction of the four-dimensional [[hodgkin-huxley-model]] that captures the essential [[nonlinear-dynamics]] of neural excitability. Originally proposed by Richard FitzHugh in 1961 and later formalized with J. Nagumo [strogatz-1994], this minimal model demonstrates how neurons transition between resting and spiking states through well-characterized bifurcations. The model's importance lies in its ability to reproduce the fundamental dynamical behaviors of excitable media—including excitability, [[brain-oscillations]], and spike generation—while requiring only two coupled nonlinear differential equations, making it amenable to analytical treatment and Phase plane analysis that would be intractable with more biophysically detailed formulations.

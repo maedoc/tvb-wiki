@@ -7,6 +7,7 @@ sources:
 - raw/papers/semanticscholar-3256c8880985.md
 - raw/papers/arxiv-2512.03907.md
 - raw/papers/arxiv-2509.02799.md
+- raw/papers/semanticscholar-ce89e593c89e.md
 tags:
 - neuroimaging-eeg
 - neural-mass-models

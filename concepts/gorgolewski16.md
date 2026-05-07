@@ -4,6 +4,8 @@ sources:
 - raw/papers/gorgolewski16.md
 - raw/papers/doi-10-1038-sdata-2016-44.md
 - raw/papers/gorgolewski-2016.md
+- raw/papers/semanticscholar-adcab180dcd3.md
+- raw/papers/semanticscholar-301489ffb9de.md
 tags:
 - paper-review
 - neuroimaging-fmri

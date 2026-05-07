@@ -7,6 +7,7 @@ sources:
 - raw/papers/arxiv-2509.12873.md
 - raw/papers/semanticscholar-a225a1c661a7.md
 - raw/papers/semanticscholar-5f0323429934.md
+- raw/papers/semanticscholar-2df7f31d5f27.md
 tags:
 - parameter-estimation
 - whole-brain-modeling

@@ -6,11 +6,12 @@ sources:
 - raw/papers/jordan-2018.md
 - raw/papers/sanz-leon-2013.md
 - raw/papers/semanticscholar-565d9037ee06.md
+- raw/papers/anticevic-2012.md
 tags:
 - neuroelectro
 title: Neuroelectro
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-07'
 ---
 
 Neuroelectro — a concept in [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]].
