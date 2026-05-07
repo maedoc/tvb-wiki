@@ -104,6 +104,7 @@ A collection of people, software platforms, datasets, and research groups releva
 - [Patricia Miller](patricia-miller.md)
 - [Duncan Watts](duncan-watts.md)
 - [Ed Bullmore](ed-bullmore.md)
+- [Michael Fox](michael-fox.md)
 - [Mark Newman](mark-newman.md)
 - [Albert-Laszlo Barabasi](albert-laszlo-barabasi.md)
 

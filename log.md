@@ -2,6 +2,7 @@
 
 ## 2026-05-07
 
+- Updated [[michael-fox]] page: fixed source citation (replaced incorrect breakspear-2017 with fox-raichle-2007), removed invalid tags not in taxonomy, added page to entities index
 - Updated [[nipal]] page with expanded content about NIPAL neural simulation platform
 ## [2026-05-07 18:46] Improve: 1 pages improved (nipal)
 
@@ -28,3 +29,5 @@
 ## [2026-05-07 22:48] CrosslinkApplier: added 128 wikilinks (128 inline, 0 suggested)
 
 ## [2026-05-07 22:48] Matcher: 14 pages got 36 new sources
+
+## [2026-05-07 22:50] Improve: 1 pages improved (schaefer)

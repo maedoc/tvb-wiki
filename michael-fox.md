@@ -1,10 +1,10 @@
 ---
 title: Michael D. Fox
 created: 2026-04-20
-updated: 2026-05-06
+updated: 2026-05-08
 type: entity
-tags: [people-researcher, brain-stimulation, functional-connectivity, connectomics, neuroimaging-fmri, resting-state, brain-network, deep-brain-stimulation, transcranial-magnetic-stimulation, human-connectome-project]
-sources: [raw/papers/breakspear-2017.md]
+tags: [people-researcher, brain-stimulation, functional-connectivity, connectomics, neuroimaging-fmri, resting-state, network-dynamics, database-hcp]
+sources: [raw/papers/fox-raichle-2007.md]
 ---
 
 Michael D. Fox, MD, PhD is a physician-scientist and Professor of Neurology at Harvard Medical School who directs the Center for Brain Circuit Therapeutics at Brigham and Women's Hospital in Boston. His research focuses on mapping and modulating human brain circuits to develop new treatments for neurological and psychiatric diseases. Fox is internationally recognized for his work on resting state functional connectivity MRI and its application to understanding brain stimulation therapies.
@@ -67,8 +67,6 @@ Furthermore, Fox's work on [[brain-stimulation]] target optimization using conne
 - [[connectome]] — The comprehensive map of neural connections that Fox uses for lesion mapping
 - [[brain-network]] — Intrinsic networks like the default mode network that Fox identified
 - [[resting-state]] — The baseline brain activity that Fox's fcMRI methods examine
-- [[deep-brain-stimulation]] — An invasive neuromodulation therapy Fox uses clinically
-- [[transcranial-magnetic-stimulation]] — A non-invasive therapy whose targets Fox optimizes
-- [[human-connectome-project]] — The source of connectivity data that enables Fox's methods
 - [[brain-stimulation]] — The broader field of neuromodulation Fox pioneers
+- [[human-connectome-project]] — The source of connectivity data that enables Fox's methods
 - [[personalized-brain-modeling]] — The approach of tailoring models to individual patients

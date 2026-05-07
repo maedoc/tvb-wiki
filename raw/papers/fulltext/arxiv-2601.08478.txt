@@ -1,0 +1,1339 @@
+                                                  A whole-brain model of amyloid beta accumulation and cerebral
+                                                               hypoperfusion in Alzheimer’s disease
+                                               Mattia Corti     1,2 , Andrew Ahern       3 , Alain Goriely     3 , Ellen Kuhl     4,5 , and Paola F. Antonietti        1
+
+                                                                       1
+                                                                         MOX-Dipartimento di Matematica, Politecnico di Milano, Milan, Italy
+                                                        2
+                                                          Faculty of Mathematics, University of Vienna, Oskar-Morgenstern-Platz 1, 1090 Vienna, Austria
+                                                                            3
+                                                                              Mathematical Institute, University of Oxford, Oxford, UK
+                                                    4
+                                                      Institute of Applied Mechanics, Friedrich-Alexander-Universität Erlangen-Nürnberg, Erlangen, Germany
+arXiv:2601.08478v1 [math.NA] 13 Jan 2026
+
+
+
+
+                                                                  5
+                                                                    Department of Mechanical Engineering, Stanford University, Stanford, CA, USA
+
+
+
+
+                                                                                                     Abstract
+                                                      Accumulation of amyloid beta proteins is a defining feature of Alzheimer’s disease, and is usually accom-
+                                                  panied by cerebrovascular pathology. Evidence suggests that amyloid beta and cerebrovascular pathology are
+                                                  mutually reinforcing; in particular, amyloid beta suppresses perfusion by constricting capillaries, and hypoper-
+                                                  fusion promotes the production of amyloid beta. Here, we propose a whole-brain model coupling amyloid beta
+                                                  and blood vessel through a hybrid model consisting of a reaction–diffusion system for the protein dynamics
+                                                  and porous–medium model of blood flow within and between vascular networks: arterial, capillary and venous.
+                                                  We discretize the resulting parabolic–elliptic system of PDEs by means of a high-order discontinuous Galerkin
+                                                  method in space and an implicit Euler scheme in time. Simulations in realistic brain geometries demonstrate
+                                                  the emergence of multistability, implying that a sufficiently large pathogenic protein seeds is necessary to trig-
+                                                  ger disease outbreak. Motivated by the ‘two-hit vascular hypothesis’ of Alzheimer’s disease that hypoperfusive
+                                                  vascular damage triggers amyloid beta pathology, we also demonstrate that localized hypoperfusion, in response
+                                                  to injury, can destabilize the healthy steady state and trigger brain-wide disease outbreak.
+
+
+                                           1     Introduction
+                                           Alzheimer’s disease (AD) is a progressive neurodegenerative disorder characterized by neuronal loss and impaired
+                                           synaptic communication. It has long been established that the spread of misfolded, prion-like proteins plays a
+                                           central role in AD and related disorders [54]. In particular, disease onset is associated with the accumulation of two
+                                           pathological proteins: amyloid-beta (Aβ) and tau [22]. Cerebrovascular abnormalities frequently accompany AD
+                                           pathology—for instance, cerebral amyloid angiopathy occurs in more than 90% of AD cases [27], and reductions in
+                                           cerebral blood flow (CBF) represent one of the earliest measurable biomarkers of the disease [28].
+                                               The interplay between Aβ and cerebral blood flow is well documented. Aβ acts as a vasoconstrictor, increasing
+                                           vascular resistance and thereby reducing CBF [62, 45]. Oligomeric Aβ induces the release of vasoconstrictive agents
+                                           such as endothelin-1 and generates oxidative stress, which can result in capillary occlusion [15, 46]. Conversely,
+                                           hypoxia accelerates amyloid precursor protein (APP) processing and impairs its clearance across the blood–brain
+                                           barrier, promoting Aβ accumulation [36, 60]. Hypoperfusion-induced injury can further exacerbate APP aggrega-
+                                           tion, possibly as a compensatory mechanism [58, 25]. Collectively, these mechanisms give rise to a positive feedback
+                                           loop between Aβ buildup and vascular dysfunction [26, 32, 36]. Several studies even suggest that vascular damage
+                                           may act as an early trigger for Aβ pathology in AD [69, 35].
+
+                                           Mathematical models. In recent years, several mathematical models for the dynamics of prion-like proteins have
+                                           been proposed. The description of the phenomena requires models based on partial differential equations (PDEs)
+                                           able to describe both the temporal and the spatial dynamics of the phenomena, typically at organ scale. One
+                                           example developed to describe the dynamics of Aβ are the Smoluchowski-type models [6, 19], which are derived
+                                           from microscopical interactions and distinguishes different sizes of pathological aggregates [21]. Some simplified
+                                           models focus on the interactions between healthy and misfolded proteins, such as the heterodimer model [20, 44], or
+                                           only on the misfolded proteins population, such as the Fisher-Kolmogorov equation [66]. These simplified models
+                                           have the advantage that they can be fully validated against existing data and correctly predict the evolution of
+                                           the disease at personalized and regional levels [9]. They have also been extended to describe connections with
+
+
+                                                                                                          1
+Figure 1: Synthetic representation of the article structure. Description of the Aβ–vascular interaction in AD
+(left panel), patients-specific geometry (right panel), and mathematical models and resulting numerical simulations
+(center panel).
+
+
+other physical phenomena occurring in AD. For example, the elastic deformations due to atrophy [56, 67, 47], the
+clearance mechanisms [7], the interactions with tau proteins [63], and brain activity [24, 3].
+    However, little attention has been devoted to the development of models coupling Aβ and CBF. In [1], the
+authors propose a modification of the heterodimer model on networks which takes into account CBF reduction.
+The first goal of the current work is to build on this idea by developing a continuous PDE model of Aβ accumulation
+in the brain describing also the interactions with the cerebral microvasculature through (a) vasoconstriction and
+(b) perfusion-dependent Aβ production and clearance (see Figure 1). Our model is based on the heterodimer model
+for the Aβ-dynamics description and on a multiple-network porous-medium model for the blood perfusion.
+    Porous-medium models have been extensively used in the context of brain poromechanics to study strokes
+[31, 29, 30]. Moreover, a poroelastic version of those models have been proposed to study the brain hemodynamics
+on the heartbeat scale [11, 38, 49, 64], and clearance mechanisms [40, 65].
+    In our model, we analyze the impact of Aβ on the blood flow in the capillaries, altering transfer between
+compartments and capillaries permeability.
+
+Numerical methods and patient-specific simulations. The potential clinical utility of the constructed math-
+ematical models strongly depend on the design quality of numerical methods to simulate PDEs in patient-specific
+geometries. In the context of proteinopathies, connectome graph-based simulations for the models introduced in
+the previous section have been fully implemented [1, 7, 13, 20, 63]. However, the construction of a graph-based
+model for our purposes would suffer from the limitation of describing the brain’s microvasculature as a collection
+of small independent capillary networks, losing the coupling with the complete vasculature structure at the organ
+level [1].
+    To study physical effects in the brain, multiple works have introduced numerical discretizations of PDEs in
+brain geometries based on continuous finite elements [8, 38, 49, 65] and discontinuous Galerkin (dG) methods
+[4, 14, 11, 12, 47]. The advantage of using these high-fidelity discretizations is the possibility of constructing patient-
+specific computational grids from medical images and taking into account geometrical and functional information
+in the PDE model.
+    For our mathematical model, we propose a discretization based on a discontinuous Galerkin method in space and
+implicit Euler time stepping in time. The dG methods provide numerous advantages in our context. Indeed, they
+are naturally oriented to high-order approximations that are of primary importance for the heterodimer system,
+which typically admits travelling-wave solutions [34, 4, 10]. Moreover, the construction of a dG method allows local
+adjustment of the polynomial degree p, which is useful to maintain a low computational cost [39]. Additionally,
+
+
+                                                            2
+they allow the use of polygonal mesh elements which is particularly useful to reduce computational costs in brain
+applications. Indeed, using mesh agglomeration strategies [5], the complex boundary and internal interfaces can
+be accurately described with a low number of mesh elements. Concerning the time discretization, the implicit
+Euler method is combined with a loosely-coupled strategy to solve the parabolic (heterodimer model) and elliptic
+(multiple-network porous-medium model) parts of the system separately.
+    In this work, we first carry out simulations in simplified geometries to study and understand the fundamental
+properties of our mathematical model. Then we perform realistic numerical simulations in brain geometries. In par-
+ticular, we show the existence of multiple stable states starting from different levels of initial seeding of Aβ. Finally,
+we evaluate the injury-induced initiation of AD pathology, by imposing different levels of initial hypoperfusion in
+the frontal lobe.
+
+Structure of the manuscript. Section 2 is dedicated to the mathematical development of our model. We start
+from the presentation of the heterodimer model for Aβ spreading in Section 2.1 and the multiple-network porous-
+medium model in Section 2.2. Then, in Section 2.3, we propose a novel coupled mathematical model to describe
+the connections between Aβ and CBF and in Section 2.4 we derive the weak formulation of the system. In Section 3
+we introduce the discretization of the problem based on a dG-space discretization and implicit Euler time stepping.
+In Section 4, we present numerical simulations in simple geometries to validate the numerical solver and analyze
+properties of the mathematical model. In Section 5, we simulate the system in realistic three-dimensional brain
+geometries to study both the multistability of the system depending on the magnitude of the initial seeding and
+the hypoperfusion-induced pathology. Finally, in Section 6, we conclude and discuss further developments.
+
+
+2     Mathematical model
+2.1    Heterodimer model
+We adapt Prusiner’s heterodimer prion model [50] for the protein kinetics of Aβ. That is, we assume that Aβ
+monomers can be either normal or pathogenic, with concentrations u = u(x, t) and ũ = ũ(x, t), respectively.
+Pathogenic monomers can bind to normal monomers to form a pathogenic–normal heterodimer, which then dissoci-
+ates into two pathogenic monomers. We assume that the dissociation step is fast and treat this conversion process
+as a single second-order chemical reaction, with rate k12 . Normal proteins are produced at rate k0 and cleared at
+rate k1 , and pathogenic proteins are cleared at rate k̃1 .
+   The resulting reaction–diffusion system with zero-flux boundary conditions is given by:
+                               ∂u
+                             
+                             
+                                   = ∇ · (D∇u) − k1 u − k12 u ũ + k0 , in Ω × (0, T ],
+                             
+                             
+                               ∂t
+                              ∂ ũ = ∇ · (D∇ũ) − k̃ ũ + k ũ u,
+                             
+                             
+                             
+                                                     1       12          in Ω × (0, T ],
+                                ∂t                                                                             (1)
+                             
+                             
+                             
+                             
+                              (D∇u)   · n Ω = 0,   (D∇ũ)    · n Ω = 0, on ∂Ω ×  (0,  T ],
+                             
+                             
+                             
+                               u(x, 0) = u0 (x),     ũ(x, 0) = ũ0 (x), in Ω,
+                             
+
+where D is the diffusion tensor, Ω is the spatial domain (i.e. the brain), nΩ is a boundary normal, and u0 , ũ0 are
+the initial protein concentrations. The model thus comprises an initial–boundary value problem for a parabolic
+system of two PDEs coupled by a nonlinear term.
+    The spatial transport of Aβ proteins is a combination of diffusion in the extracellular space and axonal transport.
+Following [67, 66], we model this combination as anisotropic diffusion whose principal direction is aligned with the
+brain’s axon fibers:
+                              D(x) = dext I + daxn ā(x) ⊗ ā(x) = dext I + daxn Daxn (x).                          (2)
+The vector field of fiber directions, ā = ā(x), is obtained as the principal eigenvector of the diffusion tensor
+computed from diffusion-weighted MRI (see [14, 42]). The construction of ā and choice of diffusion constants is
+discussed in Section 5.
+    If the kinetic rate constants are all assumed constant, then there are two spatially-homogeneous equilibria,
+namely:
+                                healthy:       u ≡ k0 /k1 ,    ũ ≡ 0,
+                                                                                                               (3)
+                                pathogenic:    u ≡ k̃1 /k12 ,  ũ ≡ k0 /k̃1 − k1 /k12 .
+
+
+
+                                                            3
+Crucially, the pathogenic equilibrium is positive, and therefore physically relevant, if and only if the dimensionless
+basic reproduction number R0 := k0 k12 /k1 k̃1 is greater than unity. Indeed, as R0 increases through unity, a
+transcritical bifurcation occurs: when R0 < 1, the healthy equilibrium is stable and no other (physical) equilibrium
+exists, and when R0 > 1, the healthy equilibrium is unstable and the pathogenic equilibrium is stable.
+
+Nondimensionalization
+We scale the variables as follows, where tildes indicate the new dimensionless variables [1]:
+                                                                            s
+                                    k0            k0 ˆ           1             dext
+                               u = û,       ũ = ũ,       t = t̂,     x=          x̂.
+                                    k1            k̃1           k̃1             k̃1
+
+Substitution into the system (1) and dropping the tildes for notational convenience, we obtain the following dimen-
+sionless system:
+                                 ∂u
+                              
+                              ϵ
+                                    = ∇ · (ϵδ∇u) − u − R0 u ũ + 1     in Ω × (0, T ],
+                              
+                              
+                                ∂t
+                               ∂ ũ = ∇ · (δ∇ũ) − ũ + R ũ u
+                              
+                              
+                              
+                                                            0           in Ω × (0, T ],
+                                 ∂t                                                                             (4)
+                              
+                              
+                              
+                              
+                               (δ∇u)  · n =  0,  (δ∇ũ) · n  = 0       on ∂Ω ×  (0,  T ],
+                              
+                              
+                              
+                                u(x, 0) = u0 (x),    ũ(x, 0) = ũ0 (x) in Ω,
+                              
+
+where
+                                            k̃1                 k0 k12           D
+                                       ϵ=       ,        R0 =          ,   δ=        ,
+                                            k1                  k1 k̃1          dext
+and the initial data u0 and ũ0 have been suitably rescaled and nondimensionlalized.
+
+2.2     Multiple-network porous media model
+For the perfusion model, our starting point is the multiple-network porous medium model proposed in [11], which
+is in turn inspired by [31, 30, 64].
+    We suppose there are three vascular networks, namely arterial, capillary, and venous, with corresponding pressure
+fields pA (x, t), pC (x, t), pV (x, t). Because the protein concentrations u, ũ evolve on timescales of hours to days,
+whereas pA , pC , pV adjust to permeability changes (e.g. due to vasoconstriction) within seconds, we assume that
+all pressures are quasi-static. Conservation of mass then yields the following elliptic system:
+                              
+                              
+                                −∇ · (KA ∇pA ) + βAC (pA − pC ) = 0,                   in Ω,
+                              
+                              
+                                 −∇ · (kC ∇pC ) − βAC (pA − pC ) + βCV (pC − pV ) = 0, in Ω,                        (5)
+                              
+                              
+                              
+                                 −∇ · (KV ∇pV ) − βCV (pC − pV ) = 0,                   in Ω.
+                              
+
+where βAC and βCV are the arterial-to-capillary and capillary-to-venous transfer coefficients. Since the brain’s
+capillary network is isotropic, we have assumed KC = kC I, and we will specify the arterial and venous permeability
+tensors KA and KV on a case-by-case basis in Sections 4 and 5.
+    Arteries spanning the pial surface of the cortex supply the brain with blood; similarly, blood is drained by the
+pial venous network. Accordingly, we prescribe Dirichlet boundary conditions for the arterial and venous blood
+pressures on the pial surface ΓPial ⊂ ∂Ω, together with a zero-flux condition for the capillary compartment:
+
+                             pA = pArteries ,       pV = pVeins ,   ∇pC · nΩ = 0         on ΓPial .                (6)
+
+The remaining part of the boundary is the brain’s ventricular surface, ΓVent := ∂Ω \ ΓPial , where we prescribe
+zero-flux conditions:
+                            ∇pA · nΩ = ∇pC · nΩ = ∇pV · nΩ = 0,         on ΓVent .                          (7)
+
+
+
+
+                                                                4
+Nondimensionalization
+We scale the pressure fields so as to map the interval [pVeins , pArteries ] uniformly onto [0, 1]:
+
+  pA = (pArteries − pVeins )p̂A + pVeins ,   pC = (pArteries − pVeins )p̂C + pVeins ,     pV = (pArteries − pVeins )p̂V + pVeins ,
+
+and time and space are scaled as in Section 2.1. Substitution into (5) and the boundary conditions and omission of
+the tildes yields the dimensionless boundary value problem:
+
+                               −∇ · (σ A ∇pA ) + pA − pC = 0,
+                             
+                                                                             in Ω,
+                             
+                             
+                             
+                               −∇ · (σC ∇pC ) + pC − pA + B(pC − pV ) = 0, in Ω,
+                             
+                             
+                             
+                             
+                             
+                             
+                             
+                             −∇ · (σ V ∇pV ) + B(pV − pC ) = 0,
+                             
+                                                                             in Ω
+                                                                                                               (8)
+                             
+                             
+                              pA = 1,     pV = 0,                            on ΓPial ,
+                             
+                             
+                             
+                               ∇pA · nΩ = ∇pV · nΩ = 0,
+                             
+                             
+                             
+                                                                             on ΓVent ,
+                             
+                             
+                             
+                               ∇pC · nΩ = 0,
+                             
+                                                                              on ∂Ω,
+
+where
+                                 k̃1 KA                k̃1 kC                 k̃1 KV                 βCV
+                        σA =             ,     σC =            ,      σV =            ,        B=        .
+                                dext βAC              dext βAC               dext βAC                βAC
+
+2.3     Coupled Aβ and perfusion model
+In order to model the interaction between Aβ and the brain’s microvasculature, we couple the protein and perfusion
+models of Sections 2.1 and 2.2, respectively. The biological mechanisms modeled here are reviewed in [36].
+    First, Aβ is vasoconstrictive, i.e. it induces blood vessels to become narrow [62, 45], thus increasing vascular
+resistance. In particular, Nortley et al. recently found that Aβ oligomers cause brain capillaries to constrict within
+seconds, through a mechanism involving oxidative stress and the vasoconstrictor endothelin 1 [46]. Therefore, we
+assume that the permeability of the capillary bed, kC , is a decreasing sigmoidal function of the pathogenic protein
+concentration ũ:                                                
+                                                               Aβ
+                                         k̃C (ũ) = kC − kC − kC    tanh (αkC ũ),                                 (9)
+                                                                                Aβ
+where kC is the base permeability (in the absence of pathogenic proteins), kC      is the permeability for very large ũ,
+and αkC modulates the sensitivity to ũ. At the same time, we adopt a similar strategy for the transfer coefficients
+βAC and βCV . In particular, for a generic couple (i, j), we define:
+                                                                
+                                                              Aβ
+                                     β̃ij (ũ) = βij − βij − βij   tanh (αβij ũ),                                  (10)
+
+where αβij is a constant that modulates the impact of misfolded Aβ on the flow between compartments. Indeed,
+according to the multiple-network porous medium theory developed in [2] for geophysical applications and later
+adapted for brain circulation in [64], the parameter βij models fluid exchange between networks. As discussed in
+[48], βij must be proportional to the exchange area between compartments. In Alzheimer’s disease, Aβ induces
+capillary constriction [46], thus reducing capillary lumen and thus decreasing βAC and βCV . Through these cou-
+plings, pathogenic Aβ causes local decreases in permeability (i.e. increases in resistance), which we expect to cause
+hypoperfusion (reduced blood flow).
+    Conversely, hypoperfusion increases the production rate of Aβ [58, 60, 68]; it may also decrease its clearance
+rate [36], though this is less certain. Therefore, we let the rates of Aβ production and clearance depend on the
+rate of blood flow, as follows. We define the “CBF rate” at a point x ∈ Ω as the rate of flow from the arterial
+compartment into the capillary bed per unit mass of tissue:
+                                                            βAC                
+                                         Q pA (x , pC (x)) =     pA (x) − pC (x) ,                                             (11)
+                                                              ρ
+
+where ρ is the brain tissue density estimated 1000 kg m−3 [29]. In particular, we denote by QH = QH (x) the healthy
+CBF rate, i.e. corresponding to the pressure fields pA , pC when pathogenic proteins are absent (so that there is no
+
+
+
+                                                                5
+vasoconstriction). We now assume that the Aβ production rate increases in response to hypoperfusion, which we
+define as the relative decrease in Q from its healthy rate QH :
+                                                                                
+                                       B                        QH − Q(pA , pC )
+                                      k0 (pA , pC ) = k0 + κ0                      ,                      (12)
+                                                                     QH
+
+where k0 is the base rate, and κ0 is the sensitivity to hypoperfusion. Similarly, we assume the clearance rates
+decrease in response to hypoperfusion:
+                                                                                                       
+              B                        QH − Q(pA , pC )       B                          QH − Q(pA , pC )
+             k1 (pA , pC ) = k1 − κ1                      , k̃1 (pA , pC ) = k̃1 − κ̃1                      . (13)
+                                            QH                                                QH
+
+The coupled protein–perfusion model is a parabolic–elliptic initial–boundary value problem to be solved for the
+concentrations u(x, t), ũ(x, t) and the pressures pA (x, t), pC (x, t), pV (x, t):
+               
+               
+               
+                −∇ · (KA ∇pA ) + β̃AC (ũ)(pA − pC ) = 0                           in Ω × (0, T ],
+               
+                                   
+               
+                 −∇ · k̃C (ũ)∇pC − β̃AC (ũ)(pA − pC ) + β̃CV (ũ)(pC − pV ) = 0 in Ω × (0, T ],
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+                −∇ · (KV ∇pV ) − β̃CV (ũ)(pC − pV ) = 0                           in Ω × (0, T ],
+               
+                ∂u = ∇ · (D∇u) − k B (p , p ) u − k u ũ + k B (p , p )
+               
+               
+               
+                                        1   A C          12       0    A C         in Ω × (0, T ],
+                ∂t
+               
+               
+                ∂ ũ = ∇ · (D∇ũ) − k̃ B (p , p ) ũ + k ũ u
+               
+               
+               
+                                         1   A C          12                        in Ω × (0, T ],
+                  ∂t                                                                                       (14)
+               
+               
+               
+               
+                ∇pA · n = ∇pV · n = 0,                                             on ΓVent × (0, T ],
+               
+               
+               
+                 ∇pC · n = 0,                                                       on ∂Ω × (0, T ],
+               
+               
+               
+               
+               
+               
+               
+                 pA = pArteries ,        pV = pVeins ,                              on ΓPial × (0, T ],
+               
+               
+               
+               
+               
+               
+               
+                 (D∇u) · n = 0,         (D∇ũ) · n = 0                              on ∂Ω × (0, T ],
+               
+               
+               
+               
+               
+               
+               
+               
+               u(0, x) = u (x),        ũ(0, x) = ũ0 (x)                          in Ω.
+                               0
+
+
+Nondimensionalization
+Rescaling as in previous sections, we obtain the dimensionless system:
+               
+               −∇ · (σ A ∇pA ) + γ̃AC (ũ)(pA − pC ) = 0
+               
+               
+                                                                                        in Ω × (0, T ],
+               
+               
+                 −∇ · (σ̃C (ũ)∇pC ) − γ̃AC (ũ)(pA − pC ) + Bγ̃CV (ũ)(pC − pV ) = 0   in Ω × (0, T ],
+               
+               
+               
+               
+               
+               
+               
+                 −∇ · (σ V ∇pV ) − Bγ̃CV (ũ)(pC − pV ) = 0                             in Ω × (0, T ],
+               
+               
+               
+               
+               
+               
+                   ∂u
+               
+               
+                      = ∇ · (ϵδ∇u) − λB                             B
+                                          1 (pA , pC )u − R u ũ + µ0 (pA , pC )        in Ω × (0, T ],
+               
+               
+                ϵ
+               
+               
+                  ∂t
+                ∂ ũ = ∇ · (δ∇ũ) − λ̃B (p , p )ũ + R ũ u
+               
+               
+               
+                                         1   A C                                        in Ω × (0, T ],
+                   ∂t                                                                                         (15)
+               
+               
+               
+               
+                pA = 1,       pV = 0,                                                  on ΓPial × (0, T ],
+               
+               
+               
+                 ∇pA · n = ∇pV · n = 0,                                                 on ΓVent × (0, T ],
+               
+               
+               
+               
+               
+               
+               
+                 ∇pC · n = 0,                                                           on ∂Ω × (0, T ],
+               
+               
+               
+               
+               
+               
+               
+                 (ϵδ∇u) · n = 0,       (δ∇ũ) · n = 0,                                  on ∂Ω × (0, T ],
+               
+               
+               
+               
+               
+               
+               
+               
+                 u(0, x) = u0 (x),      ũ(0, x) = ũ0 (x),                             in Ω,
+
+
+
+
+                                                           6
+where
+                              k̃1 k̃C (ũ)                                1                                      1
+                    σ̃C (ũ) =             ,               γ̃AC (ũ) =         β̃AC (ũ),           γ̃CV (ũ) =     β̃CV (ũ),
+                              dext βAC                                  βAC                                     βCV
+                               1 B                                       1 B                                    1 B
+              λB
+               1 (pA , pC ) =     k (pA , pC ),        λ̃B
+                                                         1 (pA , pC ) =     k̃1 (pA , pC ),     µB
+                                                                                                 0 (pA , pC ) =   k (pA , pC ).
+                              k1 1                                      k̃1                                     k0 0
+
+2.4      Weak formulation
+To introduce a numerical approximation to Equation (14), we recall its variational formulation. We define the
+following Sobolev spaces
+                                 V = H 1 (Ω),
+                                              V0 = H01 (Ω) = {v ∈ H 1 (Ω) : v = 0 on ΓPial },
+                                             VAD = {v ∈ H 1 (Ω) : v = p̃Arteries on ΓPial },
+                                             VVD = {v ∈ H 1 (Ω) : v = p̃Veins on ΓPial }.
+We denote by (·, ·)Ω the standard L2 (Ω) inner product. Given k ∈ N and a Hilbert space H, we denote by
+C k ([0, T ]; H) the space of functions v = v(x, t) such that v is k-times continuously differentiable with respect to t
+and v(·, t) ∈ H for each t ∈ [0, T ].
+     The weak formulation of problem (14) is to find, for each t ≥ 0, functions
+
+                                        (pA (t), pC (t), pV (t), u(t), ũ(t)) ∈ VAD × V × VVD × V × V
+
+that satisfy:
+                                                                                     
+                                           (KA ∇pA , ∇qA )Ω + β̃AC (ũ)(pA − pC ), qA   = 0,                             ∀qA ∈ V0 , (16a)
+                                                                                               Ω
+                                                                                
+     k̃C (ũ)∇pC , ∇qC           − β̃AC (ũ)(pA − pC ), qC + β̃CV (ũ)(pC − pV ), qC   = 0,                              ∀qC ∈ V,   (16b)
+                             Ω                             Ω                                   Ω
+                                                                                    
+                                          (KV ∇pV , ∇qV )Ω − β̃CV (ũ)(pC − pV ), qV   = 0,                              ∀qV ∈ V0 , (16c)
+                                                                                               Ω
+
+                         (u̇, v)Ω + (D∇u, ∇v)Ω + k1B (pA , pC )u, v Ω + (k12 ũ u, v)Ω = (k0B (pA , pC ), v)Ω ,
+                                                                     
+                                                                                                                         ∀v ∈ V,    (16d)
+                                                                    
+                          ˙ ṽ + (D∇ũ, ∇ṽ) + k̃1B (pA , pC ) ũ, ṽ − (k12 u ũ, ṽ) = 0,
+                              
+                         ũ,    Ω           Ω                                         Ω                                  ∀ṽ ∈ V,   (16e)
+                                                                             Ω
+
+                                                             u(0, x) = u0 (x),           ũ(0, x) = ũ0 (x),             in Ω,      (16f)
+
+where •˙ = ∂•
+           ∂t .
+
+
+
+3      Discrete formulation
+In this section, we introduce the discretization scheme for the resolution of the system in equation (16). In particular,
+in Section 3.1, we discuss the discretization in space, by means of a dG (discontinuous Galerkin) method, and in
+Section 3.2, we discretize in time by means of an implicit Euler time stepping algorithm.
+
+3.1      Space discretization: discontinuous Galerkin method
+First of all, let us introduce a mesh partition Th of the domain Ω made of simplicial elements K such that:
+                                                                              [
+                            ∀Ki , Kj ∈ Th     |Ki ∩ Kj | = 0 if i ̸= j, and     Kj = Ω,
+                                                                                                    j
+
+where, for each element K ∈ Th , we denote by |K| the measure of the element and by hK its diameter. Moreover, we
+define h := maxK∈Th {hK }. If two elements share a common face F (e.g. the triangular interface of two tetrahedra),
+we call it an interior face, F ∈ FhI . Otherwise, we call F a boundary face, F ∈ FhB . We also partition the boundary
+faces into those on the pial and ventricular parts of ∂Ω, i.e. FhB = FhB,Vent ∪ FhB,Pial . We denote by Fh the set of
+all faces.
+
+
+                                                                        7
+   Let us now introduce the so-called trace operators. Let F ∈ FhI be a face shared by two elements K ± . We
+denote by n± the unit normal to F pointing out of K ± , respectively (see [51, Fig 11.1]). Then, for sufficiently
+regular scalar-valued functions q and vector-valued functions v, we define the following operators:
+   • Average operator {{·}} on F ∈ FhI such that {{q}} = 21 (q + + q − ), and {{v}} = 12 (v + + v − ).
+   • Jump operator [[·]] on F ∈ FhI such that [[q]] = q + n+ + q − n− , and [[v]] = v + · n+ + v − · n− .
+
+The ± superscripts denote the traces on the face F of the functions defined on K ± [51, § 11.1]. In the same way,
+we define analogous operators on the face F ∈ FhB of a cell K ∈ Th , where n is the outward unit normal on ∂Ω:
+   • Average operator {{·}} on F ∈ FhB such that {{q}} = q and {{v}} = v,
+   • Jump operator [[·]] on F ∈ FhB associated with a Neumann boundary condition such that [[q]] = qn and
+     [[v]] = v · n,
+   • Jump operator [[·]] on F ∈ FhB , with Dirichlet boundary conditions g and g, associated with q and v, respec-
+     tively, such that [[q]] = (q − g)n, and [[v]] = (v − g) · n.
+    Let us define Pℓ (K) as the space of polynomials of total degree ℓ ≥ 1 over a mesh element K. Then we can
+introduce the following definitions of dG finite element spaces:
+
+                                          VhdG = {v ∈ L2 (Ω) :              v|K ∈ Pℓ (K)      ∀K ∈ Th },                                       (17)
+                                                                                                     R      P    R
+From now on, we introduce also a shorthand notation for the integrals over the faces F =                     F ∈F F . These
+definitions can be used to introduce the following bilinear forms:
+                Z                   Z
+    AA (v, w) =    KA ∇h v · ∇h w +              (η[[v]] · [[w]] − {{KA ∇v}} · [[w]] − [[v]] · {{KA ∇w}}) dσ ∀v, w ∈ VhdG ,
+                       Ω                          FhI ∪FhB,Pial
+                   Z                                Z
+ AC (v, w; ũ) =           kc (ũ)∇h v · ∇h w +           (η(ũ)[[v]] · [[w]] − {{kc (ũ)∇v}} · [[w]] − [[v]] · {{kc (ũ)∇w}}) dσ   ∀v, w ∈ VhdG ,
+                       Ω                            FhI
+                   Z                            Z
+    AV (v, w) =            KV ∇h v · ∇h w +                        (η[[v]] · [[w]] − {{KV ∇v}} · [[w]] − [[v]] · {{KV ∇w}}) dσ      ∀v, w ∈ VhdG ,
+                       Ω                          FhI ∪FhB,Pial
+                   Z                        Z
+    AH (v, w) =            D∇h v · ∇h w +           (η[[v]] · [[w]] − {{D∇v}} · [[w]] − [[v]] · {{D∇w}}) dσ                         ∀v, w ∈ VhdG ,
+                       Ω                      FhI
+
+The semi-discrete formulation in space reads as follows. Given the initial conditions uh (0) = u0h and ũh (0) = ũ0h ,
+for each t ∈ (0, T ), find (pAh (t), pCh (t), pVh (t), uh (t), ũh (t)) ∈ (VhdG )5 such that:
+
+                                                             AA (pAh , qAh ) + (β̃AC (ũh )(pAh − pCh ), qAh )Ω = 0,          ∀qA ∈ VhdG , (18a)
+
+            AC (pCh , qCh ; ũh ) − (β̃AC (ũh )(pAh − pCh ), qCh )Ω + (β̃CV (ũh )(pCh − pVh ), qCh )Ω = 0,                  ∀qC ∈ VhdG , (18b)
+
+                                                             AV (pVh , qVh ) − (β̃CV (ũh )(pCh − pVh ), qVh )Ω = 0,          ∀qV ∈ VhdG , (18c)
+
+ (u̇h , vh )Ω + AH (uh , vh ) + (k1B (pAh , pCh )uh , vh )Ω + (k12 ũh uh , vh )Ω − (k0B (pAh , pCh ), vh )Ω =0               ∀v ∈ VhdG ,    (18d)
+
+                             ũ˙ h , ṽh Ω + AH (ũh , ṽh ) + (k̃1B (pAh , pCh ) ũh , ṽh )Ω − (k12 uh ũh , ṽh )Ω = 0,    ∀ṽ ∈ VhdG .
+                                        
+                                                                                                                                              (18e)
+
+Algebraic formulation
+Let {φj }N                                                        dG
+         j=1 be suitable basis functions for the discrete spaces Vh . Then we can write the unknowns as an
+expansion in the polynomial basis:
+                 N
+                 X                                           N
+                                                             X                                        Nu
+                                                                                                      X
+   uh (x, t) =         Un (t)φj (x),        ũh (x, t) =           Ũn (t)φj (x),      pkh (x, t) =         Pkn (t)φj (x),       k = {A, C, V}.
+                 j=1                                         j=1                                      j=1
+
+
+
+
+                                                                             8
+We denote by U := [Un ]N             N             N          N        N
+                           n=1 ∈ R , Ũ := [Ũn ]n=1 ∈ R , Pk := [Pkn ]n=1 ∈ R
+                                                                              N
+                                                                                the vectors of the expansion
+coefficients, and define the following matrices for i, j = 1, ..., N :
+
+                 [AA ]ij = AA (φj , φi )                                       (Arterial stiffness matrix);        (19a)
+                 [AC (Ũh )]ij = AC (φj , φi ; ũh )                          (Capillary stiffness matrix);        (19b)
+                 [AV ]ij = AV (φj , φi )                                        (Venous stiffness matrix);         (19c)
+                 [MβAC (Ũh )]ij = (β̃AC (ũh )φj , φi )Ω            (Arterial–capillary coupling matrix);         (19d)
+                 [MβCV (Ũh )]ij = (β̃CV (ũh )φj , φi )Ω           (Capillary–veinous coupling matrix);           (19e)
+                 [M]ij = (φj , φi )Ω                                                       (Mass matrix);          (19f)
+                 [AH ]ij = AH (φj , φi )                                  (Heterodimer stiffness matrix);          (19g)
+                 [Mk1 (PAh , PCh )]ij = (k1B (pAh , pCh ) φj , φi )Ω (Healthy protein clearance matrix);           (19h)
+                 [Mk̃1 (PAh , PCh )]ij = (k̃1B (pAh , pCh ) φj , φi )Ω (Misfolded protein clearance matrix);        (19i)
+                 [Mk12 (Vh )]ij = (k12 vh φj , φi )Ω                         (Protein misfolding matrix).          (19j)
+
+Moreover we define the forcing term Fk0 (PAh , PCh ) = [(k0B (pAh , pCh ), φj )Ω ]N
+                                                                                  j=1 . The algebraic form of (18) can be
+written as: given Uh (0) = Uh,0 and Ũh (0) = Ũh,0 , find (PAh (t), PCh (t), PVh (t), Uh (t), Ũh (t)) ∈ R5N such that
+∀t ∈ (0, T ] we have:
+
+                                                       AA PAh + MβAC (Ũh ) (PAh − PCh ) = 0,                      (20a)
+
+               AC (Ũh )PCh − MβAC (Ũh ) (PAh − PCh ) + MβCV (Ũh ) (PCh − PVh ) = 0,                             (20b)
+
+                                                       AV PVh − MβCV (Ũh ) (PCh − PVh ) = 0,                      (20c)
+
+                               MU̇h + AH Uh + Mk1 (PAh , PCh )Uh + Mk12 (Ũh )Uh = Fk0 (PAh , PCh ),               (20d)
+
+                                 ˙ + A Ũ + M (P , P )Ũ − M (U )Ũ = 0.
+                               MŨ                                                                                 (20e)
+                                   h  H h    k̃1 Ah Ch  h   k12 h  h
+
+
+3.2    Time discretization: implicit Euler finite difference scheme
+Finally, we must construct a fully discrete formulation, providing time discretization. For this purpose, we adopt
+an implicit Euler scheme to discretize the problem. We construct a time discretization of the interval [0, T ] by
+defining a partition of N intervals 0 = t0 < t1 < ... < tN = T . We assume a constant timestep ∆t = tn+1 − tn ,
+n = 0, ..., N − 1. Moreover, we split the resolution of the nonlinear problem into two steps, using a loosely-coupled
+scheme for the resolution of the porous media problem and the heterodimer one. Given Unh and Ũnh , solve
+
+                                       AA Pn+1              n    n+1     n+1
+                                                                             
+                                            Ah + MβAC (Ũh ) PAh − PCh         = 0,                             (21a)
+
+  AC (Ũnh )Pn+1            n     n+1      n+1
+                                                 + MβCV (Ũnh ) Pn+1     n+1
+                                                                            
+              Ch − MβAC (Ũh ) PAh − PCh                         Ch − PVh      = 0,                             (21b)
+
+                                      AV Pn+1               n    n+1     n+1
+                                                                             
+                                            Vh − MβCV (Ũh ) PCh − PVh         = 0,                             (21c)
+                                                                   
+                     M + ∆t AH + Mk1 (Pn+1         n+1             n
+                                             Ah , PCh ) + Mk12 (Ũh )   Un+1
+                                                                          h    = MUnh + ∆tFk0 (Pn+1      n+1
+                                                                                                  Ah , PCh ), (21d)
+
+
+                        M + ∆t AH + Mk̃1 (Pn+1   n+1           n
+                                                                   n+1
+                                           Ah , PCh ) − Mk12 (Uh )  Ũh = MŨnh .                                  (21e)
+
+                                                                                                                   (21f)
+
+In practice, first, we solve the porous media problem at time tn+1 by using the solution ũnh
+                                                                                               n+1   
+           AA + MβAC (Ũnh )              −MβAC (Ũnh )
+          
+                                                                                     0          PAh      0
+                                                                                              n+1   
+           −Mβ (Ũn )       AC (Ũnh ) + MβAC (Ũnh ) + MβCV (Ũnh )          −MβCV (Ũnh ) 
+                                                                                              PCh  = 0 .
+                                                                                                      
+                AC   h
+
+                    0                           −MβCV (Ũnh )               AV + MβCV (Ũnh )     Pn+1
+                                                                                                   Vh          0
+
+
+                                                                9
+Figure 2: Test Case 1: Pressures computed in healthy conditions in the domain Ω. We report the arterial pA (upper-
+left), capillary pC (upper-right), and venous pV (lower-left) pressures and the healthy CBF rate QH = βAC
+                                                                                                       ρ (pA − pC )
+(lower right).
+
+
+Then, we solve the heterodimer model at the same time by using the pressures pn+1  A    and pn+1
+                                                                                             C   with a decoupled
+strategy for the two variables (see [4])
+                                                               
+                M + ∆t AH + Mk1 (Pn+1          n+1            n
+                                         Ah , PCh ) + Mk12 (Ũh )   Unh = MUnh + ∆tFk0 (Pn+1    n+1
+                                                                                          Ah , PCh ),
+
+
+                M + ∆t AH + Mk̃1 (Pn+1   n+1           n
+                                                                       Ũnh = MŨnh .
+                                                                  
+                                   Ah , PCh ) − Mk12 (Uh )
+
+
+4     Numerical validation in simple geometries
+We now present some simple test cases to highlight some properties of the model introduced in Equation (14). We
+consider an idealized rectangular domain Ω = (0 m, 0.1 m) × (0 m, 0.4 m) and a final time T = 100 years. We impose
+Dirichlet boundary conditions on ∂Ω for the pressures, representing constant arterial and venous blood pressures at
+the brain–body vascular interface. We use a structured triangular mesh with 15 000 elements, a polynomial degree
+ℓ = 1 for all five discretized fields, and a time step of ∆t = 0.05 years. Unless otherwise indicated, all spatial
+coordinates in this section represent values in metres (m).
+
+4.1    Test Case 1: Multistability dependent on the initial condition
+In this test case, we consider a rectangular domain and prescribe initial data with a localized region of high
+pathogenic protein concentration, called the “seeding region”. We are interested in whether all such “pathogenic
+seeds” trigger disease spread, as is the case for most reaction–diffusion models of Aβ in the literature [66, 20, 4, 10].
+The parameter values used in this test case are given in Appendix A (Table 1).
+    We must first compute the healthy perfusion rate QH from Equation (5), which represents the heathy CBF rate
+in the absence of Aβ or other vascular pathologies. Figure 2 shows the numerical solution. The gradients in arterial
+and venous pressure near the boundary determine the flux into and out of the domain. The capillary pressure is
+spatially almost constant because the the value used for the permeability kC (reported in Table 1 in Appendix A)
+is relatively large.
+    As initial data for the normal (u0 ) and misfolded (ũ0 ) protein concentrations, we first consider a seeding region
+
+
+
+                                                           10
+Figure 3: Numerical solution for Test Case 1 with large seeding region. Misfolded proteins ũ (first row), healthy
+proteins u (second row), and reduction of CBF (third row). Disease propagation succeeds.
+
+
+
+
+        Figure 4: Numerical solution for Test Case 1 with small seeding region. Disease propagation fails.
+
+
+with large radius (see Figure 3, t = 0):
+                                                            (
+                                                             0.6 µg · mm−3   (x − 0.08)2 + (y − 0.02)2 < 5 × 10−4 ,
+      Large:   u0 (x, y) = 1.0 µg · mm−3 ,   ũ0 (x, y) =
+                                                             0.0 µg · mm−3   elsewhere.
+
+
+                                                              11
+Figure 3 shows the simulation’s evolution: the pathogenic protein concentration increases and saturates locally,
+and spreads through space like a travelling wave. Behind the wave front, the system is in a diseased state, which
+invades the healthy region ahead of the wave front. The CBF rate exhibits a reduction of approximately 20% in
+the diseased region.
+   Next, we consider a seeding region with a smaller radius (see Figure 4, t = 0):
+                                                    (
+                                    −3                0.6 µg · mm−3 (x − 0.08)2 + (y − 0.02)2 < 5 × 10−5 ,
+      Small: u0 (x, y) = 1.0 µg · mm , ũ0 (x, y) =
+                                                      0.0 µg · mm−3 elsewhere.
+
+In contrast to the previous case, the results in Figure 4 reveal that propagation fails, i.e. the initial pathogenic seed
+decays and the system returns to the healthy state.
+    This test case demonstrates that (1) the coupled model (14) has multiple stable equilibrium states, and (2)
+disease outbreak is dependent on the initial data. Specifically, if the initial seed of pathogenic proteins is sufficiently
+small (small concentration and/or small seeding region), then it decays back to the healthy equilibrium; but if the
+seed is large enough, then disease outbreak occurs locally and spreads like a wave through space. This behaviour is
+reminiscent of bistable reaction–diffusion systems (see [33]), and contrasts with most reaction–diffusion models of
+Aβ in the literature, which are monostable and exhibit disease spread for every ũ0 ̸≡ 0.
+
+4.2    Test Case 2: Injury-induced initiation of the pathology
+The following test case is motivated by the two-hit vascular hypothesis of AD (see Section 1), which states that
+the initial cause of AD is vascular damage, which then triggers Aβ dyshomeostasis and disease spread [69, 53, 35].
+We suppose that a vascular injury affects a localized region of space, Ωinj ⊂ Ω, causing CBF to decrease. Focal
+ischaemia of this kind can arise from stroke (symptomatic or asymptomatic), small vessel disease (e.g. in a watershed
+region), or atherosclerosis of an upstream artery [23, 41, 59, 52].
+    We model the injury as a localized decrease in the transfer coefficients from the arterial to capillary compart-
+ments, representing a decrease in the supply of oxygenated arterial blood to the capillary bed. We also decrease
+the capillary to venous transfer coefficient and the capillary bed’s permeability to model the constriction of the
+capillaries typically induced by those injuries [52]:
+                    (                                               (
+                      4.25 × 10−7 (Pa · s)−1 in Ωinj ,               3.25 × 10−7 (Pa · s)−1 in Ωinj ,
+            βAC =                                             βCV =
+                      5.00 × 10−7 (Pa · s)−1 in Ω \ Ωinj ,           4.00 × 10−7 (Pa · s)−1 in Ω \ Ωinj ,
+                                             (
+                                              2.00 × 10−7 (Pa · s)−1       in Ωinj ,
+                                      kC =
+                                                          −7          −1
+                                              5.00 × 10        (Pa · s)    in Ω \ Ωinj .
+All other parameters are spatially homogeneous and are given in Appendix A (Table 1). The initial protein
+concentrations are given by:
+                                  u0 ≡ 1.0 µg · mm−3 , ũ0 ≡ 0.05 µg · mm−3 ,
+representing a small perturbation from the healthy equilibrium state. The healthy CBF rate field QH = QH (x) is
+the same as in Test Case 1 (Figure 2).
+   We first consider an injury site with large radius:
+
+                    Large injury site:   Ωinj = {(x, y) ∈ Ω | (x − 0.05)2 + (y − 0.02)2 < 5 × 10−4 }
+
+The simulation results are shown in Figure 5. The reductions in βAC , βCV and kC inside Ωinj cause a ∼16.5% CBF
+rate decrease inside Ωinj at t = 0. This injury-induced hypoperfusion triggers accumulation of misfolded proteins
+at the injury site, as seen in Figure 5, followed by disease spread from the injury site to the rest of space. We note
+that the initial increase in u within Ωinj is caused by the hypoperfusion-induced increase in its production rate—see
+(12)—and decrease in its clearance rate; after some time, (u, ũ) switches to its diseased state behind the invading
+wave front, which explains the decrease in u from t = 10 on.
+    Next, we consider an injury site with a smaller radius:
+
+                    Small injury site:   Ωinj = {(x, y) ∈ Ω | (x − 0.05)2 + (y − 0.02)2 < 5 × 10−5 }
+
+In this case, we observe from the simulation results in Figure 6 that the induced focal hypoperfusion is not sufficient
+to trigger disease outbreak, and the healthy state remains stable, in contrast to the case of the large injury site.
+
+
+                                                               12
+   Figure 5: Numerical solution for Test Case 2 with large injury site. Localized injury triggers disease spread.
+
+
+
+
+Figure 6: Numerical solution for Test Case 2 with small injury site. Injury is insufficient to trigger disease spread.
+
+
+    This test case is of considerable interest biologically and mathematically, as it represents the possibility of locally-
+induced global disease outbreak. The intuition is that localized hypoperfusion due to vascular injury, provided it
+is sufficiently severe, can trigger disease outbreak locally, thus creating a bridgehead from which to invade healthy
+tissue; see [1, §5], which introduced this idea.
+
+
+
+
+                                                            13
+Figure 7: Tetrahedral mesh of the brain (left), directions of permeability tensors KA and KV (centre), and axonal
+directions of the diffusion tensor Daxn (right). In the visualization of the permeability and axonal directions, blue
+indicates directions in the x-axis, green indicates directions in the y-axis, and red indicates directions in the z-axis.
+
+
+5    Numerical simulations across the whole brain
+We extend the two test cases from Section 4 to a realistic brain geometry. The goal is to demonstrate how the
+properties of the mathematical model in equation (14) enable simulation of realistic pathological scenarios. Starting
+from a structural MRI in the OASIS-3 database [37], we generate a brain segmentation using FreeSurfer [18]. We
+then construct a tetrahedral mesh with 142 658 elements (see Figure 7, left) using the SVMToolkit library [42].
+   For the simulation setup, we set a final time T = 40 years and time step ∆t = 0.05 years. Polynomial degrees
+are ℓ = 1 for pressures pA , pC , pV and ℓ = 2 for protein concentrations u and ũ. Physical parameters are listed
+in Appendix A, Table 2. Simulations were run on the GALILEO100 supercomputer (528 nodes, each with 2×Intel
+Cascade Lake 8260 CPUs, 24 cores, 2.4 GHz, 384 GB RAM) at the CINECA supercomputing center.
+
+Construction of the permeability and diffusion tensors
+To solve the perfusion porous-medium problem, we describe the perfusion tensors KA and KV for the arterioles
+and venules, respectively. Specifically, we follow the strategy proposed in [31] to derive directions approximately
+orthogonal to the pial surface, consistent with medical knowledge [55]. The resulting principal direction fibers k(x),
+such that Kj = kj (k ⊗ k) for j = A, V, are shown in Figure 7 (center).
+    We compute the axonal component of the diffusion tensor Daxn from Diffusion Weighted Images (DWI) using
+FreeSurfer [18]. We then extract the principal eigenvector a(x) to obtain the fiber directions, shown in Figure 7
+(right).
+
+Healthy CBF rate and pressures
+As discussed in Section 4, to solve problem (14), we first solve (5) for the healthy CBF rate QH = QH (x) (in the
+absence of pathogenic proteins). In all brain simulations, we impose Dirichlet boundary conditions for both arterial
+and venous pressures on the brain’s pial surface ΓPial and homogeneous Neumann conditions on the ventricular
+surface ΓVent [11].
+    The solution is shown in Figure 8. The arterial pressure pA reaches its maximum (∼ 70 mmHg) at the pial
+surface. The peaks of the capillary and venous pressures pC and pV occur near the center of the domain, around
+the ventricular wall. These computed values agree with the literature [31]. We estimate the CBF rate inside the
+brain at 25–40 ml · min−1 · (100 g)−1 , consistent in magnitude with medical measurements, which show a decay in
+white matter relative to grey matter [17].
+
+
+
+
+                                                           14
+Figure 8: Pressures computed in healthy conditions in the brain. From left to right, we report the arterial pA ,
+capillary pC , and venous pV pressures and the healthy perfusion flow QH .
+
+
+
+
+        (a) Small initial seeding solution ũ0 = 0.15.             (b) Large initial seeding solution ũ0 = 0.60.
+
+Figure 9: Test Case 3: Numerical solution comparing two different initial seeding magnitude: small seeding (a)
+and large seeding (b). In each panel, misfolded proteins ũ (first column), healthy proteins u (second column), and
+reduction of CBF (third column) are reported.
+
+
+5.1    Test Case 3: Sensitivity to Aβ-seeding region
+As in Test Case 1, we examine the impact of the initial pathogenic Aβ distribution on the model’s dynamics.
+Depending on its magnitude, an initial pathogenic seed can grow and spread like a wave through space or it can
+decay completely. Here, we simulate two initial conditions, one large and one small, both located in the basal
+temporal and orbitofrontal neocortex, Ωseed , typical regions for the first phase of amyloid progression [22].
+   First, we test a small localized concentration of misfolded protein (ũ0 = 0.15 µg · mm−3 in Ωseed ) with constant
+healthy protein u = 1 µg · mm−3 throughout the domain. Figure 9a shows the result. Hypoperfusion in the temporal
+lobe—automatically induced by our initial condition—agrees with early AD literature [16]. The pathology does not
+
+
+                                                         15
+Figure 10: Test Case 4: Reduction of CBF at different times t = 0, 5, 15, 25 years and for three different dimensions
+of the hypoperfusion region: severe (first row), moderate (second row), and mild (third row).
+
+
+develop: Aβ concentration decays, restoring the neocortex to the healthy equilibrium.
+    Next, we increase the seeding magnitude to ũ0 = 0.60 µg · mm−3 in Ωseed . As shown in Figure 9b, this large
+initial seeding causes Aβ spreading through the cortical area, with associated neocortical hypoperfusion. This rise
+in misfolded proteins coincides with a local decrease in healthy protein population. The computed CBF rate drops
+by ∼ 20%, consistent with the literature [36]. The spreading pattern first involves the temporal lobe [43], then
+diffuses to the upper cortex (occipital and frontal) [61], with the parietal lobe, brainstem, and cerebellum affected
+last—matching the stages in [22]. This reflects the spatial path length of the pathological wavefront.
+    These simulations extend Test Case 1 to a realistic scenario with clinical relevance. They demonstrate the
+model’s multistability, which implies that arbitrary pathogenic seeds do not guarantee disease accumulation and
+spread, in contrast to existing monostable models of Aβ pathology [66, 20].
+
+5.2    Test Case 4: Injury-induced initiation of Aβ misfolding
+As an extension of Test Case 2, we analyze the effect of an injured subdomain size |Ωinj | on Aβ misfolding and
+spreading through the brain. We adopt the physical parameters from Appendix A (Table 2), except for
+               (                                                   (
+                 8.50 × 10−7 (Pa · s)−1 in Ωinj ,                    4.50 × 10−7 (Pa · s)−1 in Ωinj ,
+        βAC =                                               βCV =
+                 1.00 × 10−6 (Pa · s)−1 in Ω \ Ωinj ,                3.00 × 10−6 (Pa · s)−1 in Ω \ Ωinj ,
+                 (
+                     2.50 × 10−13 (Pa · s)−1       in Ωinj ,
+          kC =
+                                 −13          −1
+                     4.28 × 10         (Pa · s)    in Ω \ Ωinj ,
+
+which induce injury in the frontal lobe of the left hemisphere. The hypoperfusion region is
+                           Ωinj = {(x, y, z) ∈ Ω | (x − 0.01)2 + (y − 0.08)2 + (z − 0.015)2 < ρ},
+with radii ρ ∈ {0.01, 0.02, 0.04} m for mild, moderate, and severe injuries, respectively. Initial conditions are
+constant: u0 = 1.0 µg·mm−3 and ũ0 = 0.05 µg·mm−3 for healthy and misfolded proteins, respectively—representing
+a small perturbation from the healthy equilibrium. In Figure 10, we observe that already at the initial time t = 0,
+the parameters induce a significant reduction of the CBF rate in the injured region (approximately 15%) in all
+cases.
+
+
+                                                                   16
+Figure 11: Test Case 4: Misfolded protein concentration u at different times t = 5, 10, 15, 20, 25 years and for three
+different dimensions of the hypoperfusion region: severe (first row), moderate (second row), and mild (third row).
+
+
+
+
+Figure 12: Test Case 4: Healthy protein concentration u at different times t = 5, 10, 15, 20, 25 years and for three
+different dimensions of the hypoperfusion region: severe (first row), moderate (second row), and mild (third row).
+
+
+   Figures 11 and 12 show the dynamics of misfolded and healthy protein concentrations, respectively. Moderate
+and severe injuries increase the pathogenic Aβ concentration (ũ) in the hypoperfused region, which then propagates
+through the frontal brain area—especially in the severe case. For the healthy Aβ concentration, we observe an initial
+concentration increase within the injured region, consistent with hypoperfusion-induced APP upregulation [25],
+
+
+
+                                                         17
+followed by a decrease in concentration as the injured region switches to the diseased equilibrium, for which u < 1.
+Figure 10 shows an expansion of the hypoperfused region outward from the initial injury site in the severe and
+moderate cases, caused by the pathogenic Aβ distribution which induces vasoconstriction as it spreads.
+    In the mild injury case, the pathogenic Aβ concentration decays nearly vanishes within 5 years, while healthy
+protein shows slight upregulation to mitigate neuronal injury [25] (see Figures 11 and 12). The initial hypoperfusion
+region remains unchanged.
+    These results mirror those in Test Case 2. They reveal that hypoperfusive injury, if sufficiently severe, may be
+capable of inducing the outbreak of mixed Aβ –vascular pathology and its spatial invasion of otherwise healthy
+brain regions. This model behavior aligns with prior modelling work [1].
+
+
+6    Conclusion
+Alzheimer’s disease, the most common cause of dementia, is characterized by the accumumulation and spread of
+misfolded Aβ proteins in the brain, and is also associated with chronic cerebrovascular pathology [41]. The work
+presented here is motivated by the growing recognition of a positive feedback loop between Aβ accumulation and
+hypoperfusion in AD [26, 32, 36]. Our model describes the coupling between Aβ and cerebral blood flow (CBF)
+associated with Aβ-induced vascoconstriction [46, 62, 45] and hypoperfusion-induced modulation of Aβ metabolism
+[57, 58, 60, 68].
+    The model is similar in spirit to that of Ahern et al. [1], who assumed the same biological mechanisms. Whereas
+these authors used a network-based model of the brain and a semi-mechanistic model of blood flow within the
+network regions, the model presented here is continuous in space as well as in time, and its description of perfusion
+is based on multiple-network porous medium model. Interestingly, the emergent dynamics of the two models are
+qualitatively similar. Both exhibit multistability (Test Cases 1 and 3) and a capacity for vascular injury-induced
+disease outbreak (Test Cases 2 and 4), adding to the argument that these processes emerge generically.
+    From a numerical point of view, the differential equation has been discretized using a high-order discontinuous
+Galerkin method in space and implicit Euler time stepping in time. The model’s multistability was demonstrated for
+both idealized and realistic brain geometries. Moreover, we analyzed the possibility of describing the hypoperfusion-
+induction of the AD by introducing an initial hypoperfusion in the mathematical model. Finally, the numerical
+simulations on realistic brain geometries have been performed to highlight the importance of vascular–protein
+coupling in the mathematical description of AD pathology. Those simulations provided the typical spreading
+patterns of the pathology and confirmed the model quality in describing the physical phenomena.
+    A limitation of the present model concerns the adoption of the heterodimer model, which provides a simplified
+description of Aβ kinetics and axonal transport. Furthermore, all parameters were assumed to be constant, thus
+disregarding spatial heterogeneities in the underlying brain tissue. A possible direction for future research is the
+development of more detailed mathematical formulations for protein dynamics. Another promising extension would
+be the inclusion of additional aspects of Alzheimer’s disease pathology, such as brain atrophy, tau protein misfolding,
+and impaired clearance pathways.
+    From a numerical perspective, an inherent drawback of the current model is its inability to automatically preserve
+the positivity of protein concentrations. The design of structure-preserving numerical schemes therefore represents
+a relevant avenue for future development. Moreover, a complete a priori analysis of the proposed numerical method
+would provide further theoretical insight into its stability and convergence properties. Finally, the introduction of
+local discontinuous Galerkin strategies could enhance the robustness of the numerical treatment, particularly in
+handling the nonlinear diffusion terms.
+
+
+Acknowledgments
+OASIS-3 provided the brain MRI images: Longitudinal Multimodal Neuroimaging: Principal Investigators: T. Ben-
+zinger, D. Marcus, J. Morris; NIH P30 AG066444, P50 AG00561, P30 NS09857781, P01 AG026276, P01 AG003991,
+R01 AG043434, UL1 TR000448, R01 EB009352. AV-45 doses were provided by Avid Radiopharmaceuticals, a
+wholly-owned subsidiary of Eli Lilly.
+
+Funding This work is partially funded by the European Union (ERC SyG, NEMESIS, project number 101115663).
+Views and opinions expressed are, however, those of the authors only and do not necessarily reflect those of the
+European Union or the European Research Council Executive Agency. Neither the European Union nor the granting
+authority can be held responsible for them. MC was funded in part by the Austrian Science Fund (FWF) project
+
+
+                                                          18
+10.55776/F65. PFA has been partially supported by ICSC—Centro Nazionale di Ricerca in High Performance
+Computing, Big Data, and Quantum Computing, funded by the European Union—NextGeneration EU. Further,
+this work was supported by the NSF CMMI Award 2320933 Automated Model Discovery for Soft Matter and
+by the ERC Advanced Grant 101141626 DISCOVER to EK. The present research is part of the activities of the
+Dipartimento di Eccellenza 2023-2027 grant, funded by MUR. The authors acknowledge the CINECA award under
+the ISCRA initiative, for the availability of high-performance computing resources and support under the project
+IsCc9 NeuroDG, PI M. Corti, 2025–2026. PFA and MC are members of INdAM-GNCS.
+
+
+A     Parameter values for test cases
+Tables 1 and 2 below report the parameter values used in the simulations of Sections 4 and 5, respectively.
+
+         Parameter                   Value
+          KA = kA I          10−2    [mm2 · (Pa · s)−1 ]
+          KV = kV I          10−2    [mm2 · (Pa · s)−1 ]
+              kC         5 × 10−3    [mm2 · (Pa · s)−1 ]
+             βAC         5 × 10−7    [(Pa · s)−1 ]                   Parameter                    Value
+             βCV         4 × 10−7    [(Pa · s)−1 ]                      dext         8.00    [mm2 · years−1 ]
+           pArteries        70.00    [mmHg]                             daxn         0.00    [mm2 · years−1 ]
+            pVeins            7.00   [mmHg]                              k1          1.00    [years−1 ]
+               Aβ
+             kC              10−4    [mm2 · (Pa · s)−1 ]                 k̃1         1.50    [years−1 ]
+             αkC              2.00   [years]                             k0          1.00    [µg · years−1 · mm−3 ]
+               Aβ
+             βAC         4 × 10−7    [(Pa · s)−1 ]                      k12          1.00    [mm3 · µg−1 · years−2 ]
+            αβAC              2.00   [years]                             κ1          1.25    [years−1 ]
+               Aβ
+             βCV         3 × 10−7    [(Pa · s)−1 ]                       κ̃1         3.75    [years−1 ]
+            αβCV              2.00   [years]                             κ0          1.25    [µg · years−1 · mm−3 ]
+         (a) Physical parameters of perfusion equations             (b) Physical parameters of heterodimer equations
+
+                                                                      Dimensionless         Healthy      Misfolded
+         Dimensionless        Healthy Misfolded                        Parameter             Value         Value
+            Parameter           Value          Value                      δext                        1.00
+                        
+         σ A = σA k ⊗ k             3.00 × 104                           δaxn                        0.00
+         σ V = σV k ⊗ k              3.00 × 104                             ϵ                         1.50
+                  B                       0.75                              R                         0.66
+                                        4
+             σ C = σC I       1.50 × 10      3.00 × 102                    λB1               1.00           0.75
+                γ̃CV             1.00           0.75                       λ̃B
+                                                                             1               1.00           0.50
+                γ̃AC             1.00           0.80                       µB0               1.00           0.75
+       (c) Dimensionless parameters of perfusion equations        (d) Dimensionless parameters of heterodimer equations
+
+Table 1: Test Cases of Section 4: Physical parameters appearing in Equation (14). The values are arbitrarily chosen
+for the simulation on the idealized geometry.
+
+
+
+References
+ [1] A. Ahern, T. B. Thompson, H. Oliveri, S. Lorthois, and A. Goriely. Modelling cerebrovascular pathology and
+     the spread of amyloid beta in Alzheimer’s disease. Proceedings of the Royal Society A: Mathematical, Physical
+     and Engineering Sciences, 481(2311):20240548, 2025.
+ [2] E. C. Aifantis. Continuum basis for diffusion in regions with multiple diffusivity. Journal of Applied Physics,
+     50:1334, 1979.
+
+
+
+
+                                                             19
+      Parameter                           Value
+                           1.23 × 10−3     [mm2 · (Pa · s)−1 ]
+                   
+     KA = kA k ⊗ k
+     KV = kV k ⊗ k         1.23 × 10−3     [mm2 · (Pa · s)−1 ]
+       KC = kC I           4.28 × 10−7     [mm2 · (Pa · s)−1 ]
+          βAC              1.00 × 10−6     [(Pa · s)−1 ]              Parameter                    Value
+          βCV              3.00 × 10−6     [(Pa · s)−1 ]                 dext          8.00    [mm2 · years−1 ]
+        pArteries                70.00     [mmHg]                        daxn         80.00    [mm2 · years−1 ]
+         pVeins                    7.00    [mmHg]                         k1           1.00    [years−1 ]
+           Aβ
+          kC               1.00 × 10−7     [mm2 · (Pa · s)−1 ]            k̃1          1.50    [years−1 ]
+          αkC                      2.50    [years]                        k0           1.00    [µg · years−1 · mm−3 ]
+           Aβ
+          βAC              8.00 × 10−7     [(Pa · s)−1 ]                 k12           1.20    [mm3 · µg−1 · years−2 ]
+         αβAC                      2.50    [years]                        κ1           1.25    [years−1 ]
+           Aβ
+          βCV              2.40 × 10−6     [(Pa · s)−1 ]                  κ̃1          3.75    [years−1 ]
+         αβCV                      2.50    [years]                        κ0           1.25    [µg · years−1 · mm−3 ]
+         (a) Physical parameters of perfusion equations.             (b) Physical parameters of heterodimer equations.
+
+                                                                       Dimensionless          Healthy    Misfolded
+        Dimensionless         Healthy        Misfolded                  Parameter              Value        Value
+           Parameter            Value          Value                       δext                       1.00
+                       
+        σ A = σA k ⊗ k               2.31 × 102                           δaxn                       10.00
+        σ V = σV k ⊗ k                2.31 × 102                             ϵ                        1.50
+                 B                       3.00                                R                        0.80
+            σ C = σC I       8.02 × 10−2 1.87 × 10−2                        λB1                1.00          0.75
+               γ̃CV              1.00            0.80                       λ̃B
+                                                                              1                1.00          0.50
+               γ̃AC              1.00            0.80                       µB0                1.00          0.75
+       (c) Dimensionless parameters of perfusion equations.        (d) Dimensionless parameters of heterodimer equations.
+
+Table 2: Test Cases of Section 5: Physical and dimensionless parameters of the model. The values of the parameters
+of the uncoupled problems of (a) from [31] and of (b) from [4].
+
+
+ [3] C. G. Alexandersen, W. de Haan, C. Bick, and A. Goriely. A multi-scale model explains oscillatory slowing
+     and neuronal hyperactivity in alzheimer’s disease. Journal of The Royal Society Interface, 20(198):20220607,
+     2023.
+ [4] P. F. Antonietti, F. Bonizzoni, M. Corti, and A. Dall’Olio. Discontinuous Galerkin approximations of the
+     heterodimer model for protein-protein interaction. Computer Methods in Applied Mechanics and Engineering,
+     431:117282, 2024.
+ [5] P. F. Antonietti, M. Corti, and G. Martinelli. Polytopal mesh agglomeration via geometrical deep learning for
+     three-dimensional heterogeneous domains. Mathematics and Computers in Simulation, 241:335–353, 2026.
+ [6] M. Bertsch, B. Franchi, N. Marcello, M. C. Tesi, and A. Tosin. Alzheimer’s disease: a mathematical model for
+     onset and progression. Mathematical medicine and biology : a journal of the IMA, 34(2):193–214, 2017.
+ [7] G. S. Brennan, T. B. Thompson, H. Oliveri, M. E. Rognes, and A. Goriely. The role of clearance in neurode-
+     generative diseases. SIAM Journal on Applied Mathematics, 84(3):S172–S198, 2024.
+ [8] M. Causemann, V. Vinje, and M. E. Rognes. Human intracranial pulsatility during the cardiac cycle: a
+     computational modelling framework. Fluids and Barriers of the CNS, 19:84, 2022.
+ [9] P. Chaggar, J. W. Vogel, A. P. Binette, T. B. Thompson, O. Strandberg, N. Mattsson-Carlgren, L. Karlsson,
+     E. Stomrud, S. Jbabdi, S. Magon, et al. Personalised regional modelling predicts tau progression in the human
+     brain. PLoS Biology, 23(7):e3003241, 2025.
+[10] M. Corti. Exploring tau protein and amyloid-beta propagation: a sensitivity analysis of mathematical models
+     based on biological data. Brain Multiphysics, 7:100098, 2024.
+
+
+                                                              20
+[11] M. Corti, P. F. Antonietti, L. Dede’, and A. M. Quarteroni. Numerical modeling of the brain poromechan-
+     ics by high-order discontinuous Galerkin methods. Mathematical Models and Methods in Applied Sciences,
+     33(08):1577–1609, 2023.
+[12] M. Corti, F. Bonizzoni, and P. F. Antonietti. Structure preserving polytopal discontinuous Galerkin methods
+     for the numerical modeling of neurodegenerative diseases. Journal of Scientific Computing, 100(2):39, 2024.
+[13] M. Corti, F. Bonizzoni, P. F. Antonietti, and A. M. Quarteroni. Uncertainty quantification for Fisher-
+     Kolmogorov equation on graphs with application to patient-specific Alzheimer’s disease. ESAIM: Mathematical
+     Modelling and Numerical Analysis, 58(6):2135–2154, 2024.
+[14] M. Corti, F. Bonizzoni, L. Dede’, A. M. Quarteroni, and P. F. Antonietti. Discontinuous Galerkin methods
+     for Fisher–Kolmogorov equation with application to α-synuclein spreading in Parkinson’s disease. Computer
+     Methods in Applied Mechanics and Engineering, 417:116450, 2023.
+[15] J. C. Cruz Hernández, O. Bracko, C. J. Kersbergen, V. Muse, M. Haft-Javaherian, M. Berg, L. Park, L. K.
+     Vinarcsik, I. Ivasyk, D. A. Rivera, Y. Kang, M. Cortes-Canteli, M. Peyrounette, V. Doyeux, A. Smith, J. Zhou,
+     G. Otte, J. D. Beverly, E. Davenport, Y. Davit, C. P. Lin, S. Strickland, C. Iadecola, S. Lorthois, N. Nishimura,
+     and C. B. Schaffer. Neutrophil adhesion in brain capillaries reduces cortical blood flow and impairs memory
+     function in Alzheimer’s disease mouse models. Nature Neuroscience, 22(3):413–420, 2019.
+[16] J. Eberling, W. Jagust, B. Reed, and M. Baker. Reduced temporal lobe blood flow in Alzheimer’s disease.
+     Neurobiology of Aging, 13(4):483–491, 1992.
+[17] S. Fantini, A. Sassaroli, K. Tgavalekos, and J. Kornbluth. Cerebral blood flow and autoregulation: current
+     measurement techniques and prospects for noninvasive optical methods. Neurophotonics, 21(3):031411, 2016.
+[18] B. Fischl. FreeSurfer. NeuroImage, 62(2):774–781, 2012.
+[19] S. Fornari, A. Schäfer, E. Kuhl, and A. Goriely. Spatially-extended nucleation-aggregation-fragmentation
+     models for the dynamics of prion-like neurodegenerative protein-spreading in the brain and its connectome.
+     Journal of Theoretical Biology, 486:110102, 2020.
+[20] S. Fornari, A. Schäfer, M. Jucker, A. Goriely, and E. Kuhl. Prion-like spreading of Alzheimer’s disease within
+     the brain’s connectome. Journal of The Royal Society Interface, 16(159):20190356, 2019.
+[21] B. Franchi and S. Lorenzani. From a microscopic to a macroscopic model for Alzheimer disease: two-scale
+     homogenization of the Smoluchowski equation in perforated domains. Journal of Nonlinear Science, 24:717–753,
+     2016.
+[22] M. Geodert. Alzheimer’s and Parkinson’s diseases: The prion concept in relation to assembled Aβ, tau, and
+     α-synuclein. Science, 349:1255555, 2015.
+[23] P. B. Gorelick, A. Scuteri, S. E. Black, C. Decarli, S. M. Greenberg, C. Iadecola, L. J. Launer, S. Laurent, O. L.
+     Lopez, D. Nyenhuis, R. C. Petersen, J. A. Schneider, C. Tzourio, D. K. Arnett, D. A. Bennett, H. C. Chui, R. T.
+     Higashida, R. Lindquist, P. M. Nilsson, G. C. Roman, F. W. Sellke, and S. Seshadri. Vascular contributions
+     to cognitive impairment and dementia: A statement for healthcare professionals from the American Heart
+     Association/American Stroke Association. Stroke, 42(9):2672–2713, 2011.
+[24] A. Goriely, E. Kuhl, and C. Bick. Neuronal oscillations on evolving networks: dynamics, damage, degradation,
+     decline, dementia, and death. Physical Review Letters, 125(12):128102, 2020.
+[25] D. Hefter and A. Draguhn. APP as a protective factor in acute neuronal insults. Frontiers in Molecular
+     Neuroscience, 10:22, 2017.
+[26] C. Iadecola. Neurovascular regulation in the normal brain and in Alzheimer’s disease. Nature Reviews
+     Neuroscience, 5(5):347–360, 2004.
+[27] C. Iadecola. The pathobiology of vascular dementia. Neuron, 80(4):844–866, 2013.
+[28] Y. Iturria-Medina, R. Sotero, P. Toussaint, J. Mateos-Pérez, A. Evans, and the Alzheimer’s Disease Neuroimag-
+     ing Initiative. Early role of vascular dysregulation on late-onset Alzheimer’s disease based on multifactorial
+     data-driven analysis. Nature Communications, 7:11934, 2016.
+
+
+                                                          21
+[29] T. Józsa, J. Petr, S. Payne, and H. Mutsaerts. MRI-based parameter inference for cerebral perfusion modelling
+     in health and ischaemic stroke. Computers in Biology and Medicine, 166:107543, 2023.
+[30] T. I. Józsa, R. M. Padmos, W. K. El-Bouri, A. G. Hoekstra, and S. J. Payne. On the sensitivity analysis of
+     porous finite element models for cerebral perfusion estimation. Annals of Biomedical Engineering, 49(12):3647–
+     3665, 2021.
+
+[31] T. I. Józsa, R. M. Padmos, N. Samuels, W. K. El-Bouri, A. G. Hoekstra, and S. J. Payne. A porous circulation
+     model of the human brain for in silico clinical trials in ischaemic stroke. Interface Focus, 11:20190127, 2021.
+[32] R. N. Kalaria, R. Akinyemi, and M. Ihara. Does vascular pathology contribute to Alzheimer changes? Journal
+     of the Neurological Sciences, 322(1-2):141—-147, 2012.
+
+[33] J. P. Keener. Biology in time and space: a partial differential equation modeling approach, volume 50. Amer-
+     ican Mathematical Soc., 2021.
+[34] P. Kevrekidis, T. B. Thompson, and A. Goriely. Anisotropic diffusion and traveling waves of toxic proteins in
+     neurodegenerative diseases. Physics Letters A, 384(36):126935, 2020.
+[35] K. Kisler, A. Nelson, A. Montagne, and B. Zlokovic. Cerebral blood flow regulation and neurovascular dys-
+     function in Alzheimer disease. Nature Reviews Neuroscience, 18(7):419–434, 2017.
+[36] N. Korte, R. Nortley, and D. Attwell. Cerebral blood flow decrease as an early pathological mechanism in
+     Alzheimer’s disease. Acta Neuropathologica, 140(6):793–810, 2020.
+[37] P. J. LaMontagne, T. L. Benzinger, J. C. Morris, S. Keefe, R. Hornbeck, C. Xiong, E. Grant, J. Hassen-
+     stab, K. Moulder, A. G. Vlassenko, M. E. Raichle, C. Cruchaga, and D. Marcus. OASIS-3: Longitudinal
+     neuroimaging, clinical, and cognitive dataset for normal aging and Alzheimer disease, 2019.
+[38] J. J. Lee, E. Piersanti, K.-A. Mardal, and M. E. Rognes. A mixed finite element method for nearly incom-
+     pressible multiple-network poroelasticity. SIAM Journal on Scientific Computing, 41(2):A722–A747, 2019.
+[39] C. L. Leimer Saglio, S. Pagani, and Antonietti. A p-adaptive polytopal discontinuous galerkin method for high-
+     order approximation of brain electrophysiology. Computer Methods in Applied Mechanics and Engineering,
+     446:118249, 2025.
+[40] Z. Li, D. Chen, Z. Li, H. Fan, L. Guo, B. Sui, and Y. Ventikos. A computational study of fluid transport
+     characteristics in the brain parenchyma of dementia subtypes. Journal of Biomechanics, 159:111803, 2023.
+[41] S. Love and J. S. Miners. Cerebrovascular disease in ageing and Alzheimer’s disease. Acta Neuropathologica,
+     131(5):645—-658, 2016.
+[42] K.-A. Mardal, M. E. Rognes, T. B. Thompson, and L. M. Valnes. Mathematical Modeling of the Human Brain:
+     From Magnetic Resonance Images to Finite Element Simulation, volume 10. Springer International Publishing,
+     2022.
+[43] S. Marks, S. Lockhart, S. Baker, and W. Jagust. Tau and β-Amyloid are associated with medial temporal lobe
+     structure, function, and memory encoding in normal aging. The Journal of Neuroscience, 37(12):3192–3201,
+     2017.
+[44] F. Matthäus. Diffusion versus network models as descriptions for the spread of prion diseases in the brain.
+     Journal of Theoretical Biology, 240(1):104–113, 2006.
+
+[45] K. Niwa, V. A. Porter, K. E. Kazama, D. Cornfield, G. A. Carlson, and C. Iadecola. Aβ-peptides enhance
+     vasoconstriction in cerebral circulation. American Journal of Physiology - Heart and Circulatory Physiology,
+     281(6):2417–2424, 2001.
+[46] R. Nortley, N. Korte, P. Izquierdo, C. Hirunpattarasilp, A. Mishra, Z. Jaunmuktane, V. Kyrargyri, T. Pfeiffer,
+     L. Khennouf, C. Madry, H. Gong, A. Richard-Loendt, W. Huang, T. Saito, T. C. Saido, S. Brandner, H. Sethi,
+     and D. Attwell. Amyloid β oligomers constrict human capillaries in Alzheimer’s disease via signaling to
+     pericytes. Science, 365(6450):eaav9518, 2019.
+
+
+
+                                                        22
+[47] V. Pederzoli, M. Corti, D. Riccobelli, and P. F. Antonietti. A coupled mathematical and numerical model for
+     protein spreading and tissue atrophy applied to Alzheimer’s disease. Computer Methods in Applied Mechanics
+     and Engineering, 444:118118, 2025.
+[48] M. Peyrounette, Y. Davit, M. Quintard, and S. Lorthois. Multiscale modelling of blood flow in cerebral
+     microcirculation: Details at capillary scale control accuracy at the level of the cortex. Plos One, 13(1):e0189474,
+     2018.
+[49] E. Piersanti, J. Lee, T. Thompson, K.-A. Mardal, and M. Rognes. Parameter robust preconditioning by
+     congruence for multiple-network poroelasticity. SIAM Journal on Scientific Computing, 43:B984–B1007, 2021.
+[50] S. B. Prusiner. Molecular biology of prion diseases. Science, 252(5012):1515–1522, 1991.
+
+[51] A. M. Quarteroni. Numerical Models for Differential Problems, volume 8. Springer International Publishing,
+     2013.
+[52] A. E. Roher, C. Esh, A. Rahman, T. A. Kokjohn, and T. G. Beach. Atherosclerosis of cerebral arteries in
+     Alzheimer disease. Stroke, 35(11 suppl. 1):2623—-2627, 2004.
+[53] A. P. Sagare, R. D. Bell, and B. V. Zlokovic. Neurovascular dysfunction and faulty amyloid β-peptide clearance
+     in Alzheimer disease. Cold Spring Harbor Perspectives in Medicine, 2(10):1–18, 2012.
+[54] P. Scheltens, B. De Strooper, M. Kivipelto, H. Holstege, G. Chételat, C. E. Teunissen, J. Cummings, and
+     W. M. van der Flier. Alzheimer’s disease. The Lancet, 397:1577–1590, 2021.
+[55] F. Schmid, P. S. Tsai, D. Kleinfeld, P. Jenny, and B. Weber. Depth-dependent flow and pressure characteristics
+     in cortical microvascular networks. PLOS Computational Biology, 13(2):e1005392, 2017.
+
+[56] A. Schäfer, J. Weickenmeier, and E. Kuhl. The interplay of biochemical and biomechanical degeneration in
+     Alzheimer’s disease. Computer Methods in Applied Mechanics and Engineering, 352:369–388, 2019.
+[57] J. Shi, K. S. Panickar, S.-H. Yang, O. Rabbani, A. L. Day, and J. W. Simpkins. Estrogen attenuates over-
+     expression of β-amyloid precursor protein messager RNA in an animal model of focal ischemia. Brain research,
+     810(1-2):87—-92, 1998.
+[58] J. Shi, S. H. Yang, L. Stubley, A. L. Day, and J. W. Simpkins. Hypoperfusion induces overexpression of
+     β-amyloid precursor protein mRNA in a focal ischemic rodent model. Brain Research, 853(1):1–4, 2000.
+[59] H. M. Snyder, R. A. Corriveau, S. Craft, J. E. Faber, S. M. Greenberg, D. Knopman, B. T. Lamb, T. J. Montine,
+     M. Nedergaard, C. B. Schaffer, J. A. Schneider, C. Wellington, D. M. Wilcock, G. J. Zipfel, B. Zlokovic, L. J.
+     Bain, F. Bosetti, Z. S. Galis, W. Koroshetz, and M. C. Carrillo. Vascular contributions to cognitive impairment
+     and dementia including Alzheimer’s disease. Alzheimer’s and Dementia, 11(6):710–717, 2015.
+[60] X. Sun, G. He, H. Qing, W. Zhou, F. Dobie, F. Cai, M. Staufenbiel, L. E. Huang, and W. Song. Hypoxia
+     facilitates Alzheimer’s disease pathogenesis by up-regulating BACE1 gene expression. Proceedings of the
+     National Academy of Sciences, 103(49):18727–18732, 2006.
+
+[61] D. Thal, U. Rub, M. Orantes, and H. Braak. Phases of a beta-deposition in the human brain and its relevance
+     for the development of AD. Neurology, 58(12):1791–1800, 2022.
+[62] T. Thomas, G. Thomas, C. McLendon, T. Sutton, and M. Mullan. β-amyloid-mediated vasoactivity and
+     vascular endothelial damage. Nature, 380(6570):168–171, 1996.
+
+[63] T. B. Thompson, P. Chaggar, E. Kuhl, A. Goriely, and ADNI. Protein-protein interactions in neurodegenerative
+     diseases: A conspiracy theory. PLOS Computational Biology, 16(10):e1008267, 2020.
+[64] B. J. Tully and Y. Ventikos. Cerebral water transport using multiple-network poroelastic theory: application
+     to normal pressure hydrocephalus. Journal of Fluid Mechanics, 667:188–215, 2011.
+[65] J. C. Vardakis, D. Chou, L. Guo, and Y. Ventikos. Exploring neurodegenerative disorders using a novel
+     integrated model of cerebral transport: Initial results. Proceedings of the Institution of Mechanical Engineers,
+     Part H: Journal of Engineering in Medicine, 234(11):1223–1234, 2020.
+
+
+
+                                                          23
+[66] J. Weickenmeier, M. Jucker, A. Goriely, and E. Kuhl. A physics-based model explains the prion-like features
+     of neurodegeneration in Alzheimer’s disease, Parkinson’s disease, and amyotrophic lateral sclerosis. Journal of
+     the Mechanics and Physics of Solids, 124:264–281, 2019.
+[67] J. Weickenmeier, E. Kuhl, and A. Goriely. Multiphysics of prionlike diseases: Progression and atrophy. Physical
+     Review Letters, 121(15):158101, 2018.
+
+[68] X. Zhang, K. Zhou, R. Wang, J. Cui, S. A. Lipton, F.-F. Liao, H. Xu, and Y.-w. Zhang. Hypoxia-inducible factor
+     1α (HIF-1α)-mediated hypoxia increases BACE1 expression and β-amyloid generation. Journal of Biological
+     Chemistry, 282(15):10873–10880, 2007.
+[69] B. V. Zlokovic. Neurovascular pathways to neurodegeneration in Alzheimer’s disease and other disorders.
+     Nature Reviews Neuroscience, 12(12):723—-738, 2011.
+
+
+
+
+                                                        24
+
