@@ -4,6 +4,7 @@ sources:
 - raw/papers/jansen-rit-1995.md
 - raw/papers/rit-2013.md
 - raw/papers/arxiv-2411.16449.md
+- raw/papers/anticevic-2012.md
 tags:
 - neural-mass-models
 - neuroimaging-eeg

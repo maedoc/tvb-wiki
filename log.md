@@ -272,3 +272,5 @@
 ## [2026-05-07 16:20] Improve: 2 pages improved (connectivity, consciousness-models)
 
 ## [2026-05-07 16:22] FullTextFetcher: fetched 7 new full texts (52 total in corpus)
+
+## [2026-05-07 16:37] CrosslinkApplier: added 33 wikilinks (33 inline, 0 suggested)

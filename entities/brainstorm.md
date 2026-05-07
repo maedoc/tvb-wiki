@@ -7,6 +7,7 @@ sources:
 - raw/papers/arxiv-2604.16463.md
 - raw/papers/sanz-leon-2013.md
 - raw/papers/arxiv-2505.16861.md
+- raw/papers/semanticscholar-e06960bf0ace.md
 tags:
 - software-neuroimaging
 - neuroimaging-eeg
