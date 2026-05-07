@@ -16,3 +16,7 @@
 ## [2026-05-07 21:04] Improve: 1 pages improved (jansen-rit-model)
 
 ## [2026-05-07 21:23] Improve: 1 pages improved (schaefer)
+
+## [2026-05-07 21:45] RefFormatter: formatted references on 8 pages
+
+## [2026-05-07 22:03] Audit: 798 issues (57 broken links, 34 orphans, 0 placeholders, 0 dup-refs, 5 bad-meta, 99 citation-verify, 14 opaque-refs, 22 thin, 438 missing-links)
