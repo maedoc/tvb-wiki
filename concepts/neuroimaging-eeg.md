@@ -6,6 +6,7 @@ sources:
 - raw/papers/semanticscholar-dc81089b4fd5.md
 - raw/papers/semanticscholar-6295d2445697.md
 - raw/papers/glean-github.md
+- raw/papers/semanticscholar-61edbfd4025d.md
 tags:
 - neuroimaging-eeg
 - electrophysiology
@@ -14,7 +15,7 @@ tags:
 - source-localization
 title: EEG / MEG
 type: concept
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 # EEG / MEG

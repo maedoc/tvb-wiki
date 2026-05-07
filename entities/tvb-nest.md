@@ -5,6 +5,7 @@ sources:
 - raw/papers/gewaltig-diesmann-2007.md
 - raw/papers/arxiv-2505.16861.md
 - raw/papers/stefanescu-jirsa-2008.md
+- raw/papers/semanticscholar-eb704b6f5462.md
 tags:
 - software-tvb
 - software-nest
@@ -15,7 +16,7 @@ tags:
 - epilepsy-modeling
 title: Tvb Nest
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 # TVB-NEST

@@ -4,11 +4,12 @@ sources:
 - raw/papers/sanz-leon-2013.md
 - raw/papers/ritter-2013.md
 - raw/papers/van-essen-2013.md
+- raw/papers/gorgolewski-2016.md
 tags:
 - software-brain-modeling
 title: Neurodata Without Borders
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 ## Overview

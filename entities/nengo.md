@@ -12,6 +12,9 @@ sources:
   15(S1), P178.'
 - Ravikumar, P., & Hutt, A. (2015). Efficient computation of neural field dynamics
   on CPU and GPU. BMC Neuroscience, 16(S1), P95.
+- raw/papers/sanz-leon-2013.md
+- raw/papers/arxiv-2509.02799.md
+- raw/papers/breakspear-2017.md
 tags:
 - software-neural-modeling
 - neural-mass-models

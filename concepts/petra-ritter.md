@@ -12,6 +12,9 @@ sources:
 - ' Deco, G., Jirsa, V., McIntosh, A. R., Sporns, O., Kotter, R., & Ritter, P. (2009).
   Key role of coupling, delay, and noise in resting-state brain fluctuations. Neural
   Computation.'
+- raw/papers/sanz-leon-2013.md
+- raw/papers/breakspear-2017.md
+- raw/papers/semanticscholar-eb4197c24bf2.md
 tags:
 - people-researcher
 - software-tvb

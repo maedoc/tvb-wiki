@@ -4,6 +4,9 @@ sources:
 - raw/papers/nunez-srinivasan-2006.md
 - raw/papers/sporns-2011.md
 - raw/papers/semanticscholar-567c5507b87b.md
+- raw/papers/semanticscholar-3256c8880985.md
+- raw/papers/arxiv-2512.03907.md
+- raw/papers/arxiv-2509.02799.md
 tags:
 - neuroimaging-eeg
 - neural-mass-models

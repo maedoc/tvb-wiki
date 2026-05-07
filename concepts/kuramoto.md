@@ -3,6 +3,9 @@ created: 2026-04-20
 sources:
 - raw/papers/strogatz-1994.md
 - raw/papers/izhikevich-2007.md
+- raw/papers/breakspear-2006.md
+- raw/papers/arxiv-2512.03907.md
+- raw/papers/semanticscholar-2004e006655b.md
 tags:
 - neural-mass-models
 - network-dynamics

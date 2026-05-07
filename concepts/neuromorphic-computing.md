@@ -8,6 +8,7 @@ sources:
 - brainscale_2015
 - spinnaker_2013
 - tvb_nest_coupling
+- raw/papers/semanticscholar-23faea8464f1.md
 tags:
 - spiking-neural-networks
 - computational-neuroscience

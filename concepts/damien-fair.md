@@ -2,6 +2,8 @@
 created: 2026-04-27
 sources:
 - raw/papers/fair-2009.md
+- raw/papers/tau-peterson-2010.md
+- raw/papers/power-2010.md
 tags:
 - neurodevelopment
 - functional-connectivity

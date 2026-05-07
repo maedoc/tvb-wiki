@@ -4,6 +4,7 @@ sources:
 - raw/papers/smith-2013-connectomics.md
 - raw/papers/barabasi-albert-1999.md
 - raw/papers/semanticscholar-7c3337c880fd.md
+- raw/papers/semanticscholar-f05f8cbafb78.md
 tags:
 - dynamic-causal-modeling
 - free-energy-principle

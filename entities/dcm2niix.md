@@ -4,11 +4,12 @@ sources:
 - raw/papers/sanz-leon-2013.md
 - raw/papers/semanticscholar-f45e6044c92f.md
 - raw/papers/basser-1994.md
+- raw/papers/gorgolewski-2016.md
 tags:
 - software-brain-modeling
 title: dcm2niix
 type: entity
-updated: '2026-05-05'
+updated: '2026-05-07'
 ---
 
 dcm2niix is an open-source command-line tool designed to convert medical imaging data from DICOM format to NIfTI (Neuroimaging Informatics Technology Initiative) format. Developed by Chris Rorden, dcm2niix has become an essential utility in the neuroimaging processing pipeline because it robustly handles the complexity and variability of DICOM headers produced by different scanner manufacturers, sequence types, and acquisition protocols. Unlike simple format converters, dcm2niix performs intelligent metadata extraction and correction, producing NIfTI files that preserve critical spatial orientation information, slice timing, and acquisition parameters necessary for downstream neuroimaging analysis in tools like [[fsl-melodic]], SPM, and [[TVB]].

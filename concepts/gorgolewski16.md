@@ -3,6 +3,7 @@ created: 2024-01-15
 sources:
 - raw/papers/gorgolewski16.md
 - raw/papers/doi-10-1038-sdata-2016-44.md
+- raw/papers/gorgolewski-2016.md
 tags:
 - paper-review
 - neuroimaging-fmri

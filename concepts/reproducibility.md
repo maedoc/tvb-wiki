@@ -4,6 +4,7 @@ sources:
 - raw/papers/jordan-2018.md
 - raw/papers/Renton2024.md
 - raw/papers/arxiv-2507.22146.md
+- raw/papers/gorgolewski-2016.md
 tags:
 - reproducibility
 - open-science

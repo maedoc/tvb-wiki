@@ -4,6 +4,8 @@ sources:
 - raw/papers/izhikevich-2007.md
 - raw/papers/deco-jirsa-mcintosh-2012.md
 - raw/papers/doedel-oldeman-2009.md
+- raw/papers/breakspear-2006.md
+- raw/papers/arxiv-2509.02799.md
 tags:
 - bifurcation-analysis
 - nonlinear-dynamics

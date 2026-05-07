@@ -1,6 +1,9 @@
 ---
 created: 2026-05-06
-sources: []
+sources:
+- raw/papers/semanticscholar-cd05b14603f7.md
+- raw/papers/arxiv-2501.07394.md
+- raw/papers/arxiv-2511.09243.md
 tags:
 - neuroimaging-meg
 - electrophysiology

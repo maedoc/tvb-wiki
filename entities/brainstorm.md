@@ -4,6 +4,9 @@ sources:
 - https://neuroimage.usc.edu/brainstorm/
 - raw/papers/10.1152-jn.00194.2011.md
 - raw/papers/10.1016-j.neuroimage.2011.09.015.md
+- raw/papers/arxiv-2604.16463.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/arxiv-2505.16861.md
 tags:
 - software-neuroimaging
 - neuroimaging-eeg

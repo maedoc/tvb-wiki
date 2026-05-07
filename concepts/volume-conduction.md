@@ -5,6 +5,9 @@ sources:
 - Hamalainen1993
 - Breakspear2017
 - Schaworonkow2021
+- raw/papers/semanticscholar-3ac0a350bdb3.md
+- raw/papers/arxiv-2406.05002.md
+- raw/papers/nunez-srinivasan-2006.md
 tags:
 - neuroimaging-eeg
 - neuroimaging-meg

@@ -4,6 +4,7 @@ sources:
 - raw/papers/semanticscholar-301489ffb9de.md
 - raw/papers/semanticscholar-a324c47ea982.md
 - raw/papers/semanticscholar-f45e6044c92f.md
+- raw/papers/gorgolewski-2016.md
 tags:
 - neuroimaging-fmri
 - neuroimaging-dti
@@ -12,7 +13,7 @@ tags:
 - reproducibility
 title: COINS
 type: entity
-updated: '2026-05-05'
+updated: '2026-05-07'
 ---
 
 # COINS

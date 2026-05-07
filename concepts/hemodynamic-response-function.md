@@ -3,6 +3,9 @@ created: 2026-04-20
 sources:
 - raw/papers/friston-1993.md
 - raw/papers/smith-2013-connectomics.md
+- raw/papers/semanticscholar-eadc34d87ac8.md
+- raw/papers/semanticscholar-93f48c3ba433.md
+- raw/papers/semanticscholar-d2dfba2091a2.md
 tags:
 - neuroimaging-fmri
 - neural-mass-models

@@ -6,6 +6,7 @@ sources:
 - raw/papers/ritter-2013.md
 - raw/papers/schirner-2018.md
 - raw/papers/arxiv-2509.02799.md
+- raw/papers/gorgolewski-2016.md
 tags:
 - neuroimaging-fmri
 - neuroimaging-eeg

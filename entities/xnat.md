@@ -4,6 +4,7 @@ sources:
 - raw/papers/Renton2024.md
 - raw/papers/semanticscholar-f45e6044c92f.md
 - raw/papers/semanticscholar-a324c47ea982.md
+- raw/papers/gorgolewski-2016.md
 tags:
 - software-neuroimaging
 - database-neuroimaging
@@ -13,7 +14,7 @@ tags:
 - bids
 title: XNAT
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 # XNAT

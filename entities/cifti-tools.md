@@ -5,6 +5,7 @@ sources:
 - raw/papers/van-essen-2012.md
 - raw/papers/basser-1994.md
 - raw/papers/huntenburg-2018.md
+- raw/papers/gorgolewski-2016.md
 tags:
 - software-neuroimaging
 - neuroimaging-fmri
@@ -14,7 +15,7 @@ tags:
 - software-dti-tk
 title: CIFTI Tools
 type: entity
-updated: '2026-05-05'
+updated: '2026-05-07'
 ---
 
 CIFTI ([[connectivity]] InFormatics Initiative) tools encompass a family of software utilities designed to work with the CIFTI data format, a specialized file format developed by the [[human-connectome-project]] (HCP) for storing dense connectivity data from [[neuroimaging]] studies [@GlasserEtAl2013]. The format addresses fundamental limitations of older neuroimaging formats by enabling representation of both surface-based (cortical) and volumetric (subcortical) data within a single file, making it particularly well-suited for [[whole-brain]] connectivity analyses central to [[whole-brain-modeling]] approaches.

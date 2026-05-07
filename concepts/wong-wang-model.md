@@ -7,6 +7,9 @@ sources:
 - tvb-documentation
 - breakspear-2004
 - jansen-rit-1995
+- raw/papers/wilson-cowan-1972.md
+- raw/papers/arxiv-2512.03907.md
+- raw/papers/semanticscholar-ce89e593c89e.md
 tags:
 - neural-mass-model
 - whole-brain-modeling
