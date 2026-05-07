@@ -14,7 +14,7 @@ tags:
 - human-connectome-project
 title: Marcus Raichle
 type: concept
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 Marcus Raichle is a Distinguished Professor of Neurology, Radiology, and Neuroscience at Washington University in St. Louis and one of the founding figures of modern functional neuroimaging. His work fundamentally transformed how neuroscientists understand the brain's intrinsic organization—revealing that the resting brain is not idle but continuously engaged in organized, meaningful activity. Raichle's seminal contributions established the conceptual and methodological foundation for [[resting-state]] functional connectivity analysis, the [[default-mode-network]], and the broader field of [[connectomics]] that now permeates both basic and clinical neuroscience research. His work also provided crucial constraints for [[whole-brain|whole-brain modeling]] approaches that simulate large‑scale brain dynamics.
@@ -41,7 +41,7 @@ As a co‑investigator on the Human Connectome Project, Raichle contributed to e
 
 ## Legacy and Ongoing Influence
 
-Marcus Raichle's influence extends through his extensive publication record (with seminal papers cited thousands of times), his mentorship of generations of neuroimaging researchers, and his conceptual contributions that continue to shape the field. His work established that the brain's intrinsic activity—not just its responses to external events—deserves dedicated study, a perspective now mainstream in neuroscience. The [[default‑mode‑network]] he helped discover remains a major focus of research on [[aging]], Alzheimer's disease, schizophrenia, and consciousness. Raichle's career exemplifies how rigorous empirical observation, when combined with methodological innovation, can transform an entire field's understanding of fundamental questions.
+Marcus Raichle's influence extends through his extensive publication record (with seminal papers cited thousands of times), his mentorship of generations of neuroimaging researchers, and his conceptual contributions that continue to shape the field. His work established that the brain's intrinsic activity—not just its responses to external events—deserves dedicated study, a perspective now mainstream in neuroscience. The [[default‑mode‑network]] he helped discover remains a major focus of research on [[aging]], [[alzheimers-disease|Alzheimer's disease]], schizophrenia, and consciousness. Raichle's career exemplifies how rigorous empirical observation, when combined with methodological innovation, can transform an entire field's understanding of fundamental questions.
 
 ## Related Concepts
 

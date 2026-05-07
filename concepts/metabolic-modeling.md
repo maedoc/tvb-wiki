@@ -18,7 +18,7 @@ type: concept
 updated: '2026-05-07'
 ---
 
-Metabolic modeling in the context of whole-brain modeling refers to the computational representation of energy metabolism and its coupling to neural activity in the brain. This includes biophysical models of the hemodynamic response that transform neural dynamics into the blood-oxygen-level-dependent (BOLD) signal measured by functional magnetic resonance imaging (fMRI), as well as broader frameworks that account for the metabolic costs of neuronal signaling, synaptic transmission, and network-level energy consumption. Metabolic models serve as the bridge between the electrophysiological dynamics simulated by [[neural-mass-models]] and the macroscopic neuroimaging signals that provide empirical validation for whole-brain simulations.
+Metabolic modeling in the context of [[whole-brain|whole-brain modeling]] refers to the computational representation of energy metabolism and its coupling to neural activity in the brain. This includes biophysical models of the hemodynamic response that transform neural dynamics into the blood-oxygen-level-dependent (BOLD) signal measured by functional magnetic resonance imaging ([[fmri]]), as well as broader frameworks that account for the metabolic costs of neuronal signaling, synaptic transmission, and network-level energy consumption. Metabolic models serve as the bridge between the electrophysiological dynamics simulated by [[neural-mass-models]] and the macroscopic [[neuroimaging]] signals that provide empirical validation for whole-brain simulations.
 
 ## Motivation and Context
 
@@ -30,15 +30,15 @@ The field of metabolic modeling emerged from the recognition that [[bold-signal]
 
 ### The Balloon Model and BOLD Signal Generation
 
-The standard approach to metabolic modeling in computational neuroscience derives from the balloon model, which treats the vasculature as a windkessel system with compartments for blood volume and deoxygenated hemoglobin content. The model captures the dynamic relationships between neural activity, blood flow induction, blood volume changes, and the resulting BOLD signal. Mathematically, the balloon model can be expressed as a set of coupled differential equations that describe how a neural input signal propagates through the hemodynamic cascade.
+The standard approach to metabolic modeling in [[computational-neuroscience]] derives from the balloon model, which treats the vasculature as a windkessel system with compartments for blood volume and deoxygenated hemoglobin content. The model captures the dynamic relationships between neural activity, blood flow induction, blood volume changes, and the resulting BOLD signal. Mathematically, the balloon model can be expressed as a set of coupled differential equations that describe how a neural input signal propagates through the hemodynamic cascade.
 
-The canonical formulation includes parameters governing the transit time of blood through the capillary bed, the rate of blood volume change, and the relationship between volume and the BOLD signal. These parameters can be fit to individual subject data, enabling personalized metabolic models that account for vascular physiology differences across individuals. Extensions of the balloon model incorporate [[hemodynamic-response-function]] variations, allowing for more accurate simulation of task-based and resting-state fMRI data.
+The canonical formulation includes parameters governing the transit time of blood through the capillary bed, the rate of blood volume change, and the relationship between volume and the BOLD signal. These parameters can be fit to individual subject data, enabling personalized metabolic models that account for vascular physiology differences across individuals. Extensions of the balloon model incorporate [[hemodynamic-response-function]] variations, allowing for more accurate simulation of task-based and [[resting-state|resting-state fMRI]] data.
 
 ### Neurovascular Coupling in Neural Mass Models
 
 Modern [[neural-mass-models]] increasingly incorporate explicit or implicit models of neurovascular coupling. The [[bold-model]] extends population-level neural dynamics with a hemodynamic module that generates simulated BOLD time series. This integration is essential for validation against empirical fMRI data, as highlighted by the work on data-driven [[mean-field-theory]] within whole-brain models, where synthetic fMRI data serves as ground truth for parameter inference algorithms.
 
-The relationship between mean-field neural activity and metabolic demand depends on assumptions about the metabolic cost per unit of neural signaling. Simplified models assume a linear relationship between firing rate and oxygen consumption, while more sophisticated approaches account for the nonlinearities introduced by synaptic activity, which dominates the energy budget of activated cortex.
+The relationship between mean-field neural activity and metabolic demand depends on assumptions about the metabolic cost per unit of neural signaling. Simplified models assume a [[linear]] relationship between firing rate and oxygen consumption, while more sophisticated approaches account for the nonlinearities introduced by synaptic activity, which dominates the energy budget of activated cortex.
 
 ## Relationship to Whole-Brain Modeling
 
@@ -48,7 +48,7 @@ The integration of metabolic models with whole-brain dynamics enables several im
 
 ## Current Approaches and Open Questions
 
-Contemporary approaches to metabolic modeling span a spectrum from simplified [[hemodynamic-response-function]] convolutions to biophysically detailed balloon models. The choice of approach involves trade-offs between computational efficiency and physiological realism. Simplified models enable rapid parameter estimation across large datasets, while detailed hemodynamic models provide mechanistic insight into the vascular basis of fMRI signals.
+Contemporary approaches to metabolic modeling span a spectrum from simplified [[hemodynamic-response-function]] convolutions to biophysically detailed balloon models. The choice of approach involves trade-offs between computational efficiency and physiological realism. Simplified models enable rapid [[parameter-estimation]] across large datasets, while detailed hemodynamic models provide mechanistic insight into the vascular basis of fMRI signals.
 
 Several open questions remain active areas of research. The precise cellular and molecular mechanisms of neurovascular coupling remain incompletely characterized, limiting the biophysical grounding of current models. Inter-individual variability in vascular physiology introduces heterogeneity that current models handle through parameter fitting rather than mechanistic explanation. Furthermore, the metabolic demands of different neural activity types—spiking versus subthreshold activity, excitatory versus inhibitory signaling—require more nuanced treatment in comprehensive models.
 
@@ -59,5 +59,5 @@ Metabolic modeling connects to several core concepts in the wiki. The [[bold-sig
 ## References
 
 1. V. Myrov, A. Suleimanova, Samanta Knapič, P. Partanen, M. Vesterinen, Wenya Liu, S. Palva, J. M. Palva. (2026). *Hierarchical whole-brain modeling of critical synchronization dynamics in the human brain.*. Proceedings of the National Academy of Sciences of the United States of America. [DOI](https://doi.org/10.1073/pnas.2505768123)
-2. Leon Martin, Konstantin Bülau, Marius Pille, Rico Schmitt, Christoph Hüttl, J. Meier, Halgurd Taher, Dionysios Perdikis, M. Schirner, L. Stefanovski, Petra Ritter. (2025). *The Virtual Brain Ontology: A Digital Knowledge Framework for Reproducible Brain Network Modeling*. bioRxiv. [DOI](https://doi.org/10.1101/2025.11.19.689211)
+2. Leon Martin, Konstantin Bülau, Marius Pille, Rico Schmitt, Christoph Hüttl, J. Meier, Halgurd Taher, Dionysios Perdikis, M. Schirner, L. Stefanovski, [[petra-ritter]]. (2025). *[[tvb|The Virtual Brain]] Ontology: A Digital Knowledge Framework for Reproducible Brain Network Modeling*. bioRxiv. [DOI](https://doi.org/10.1101/2025.11.19.689211)
 3. Martin Breyton, Viktor Sip, M. Woodman, Meysam Hashemi, S. Petkoski, V. Jirsa. (2025). *Data-driven mean-field within whole-brain models*. [Link](https://www.semanticscholar.org/paper/144ae1f1dabec42c14493d0083d36f168508f886)

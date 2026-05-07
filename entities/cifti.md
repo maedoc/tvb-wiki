@@ -13,10 +13,10 @@ tags:
 - cifti
 title: Cifti
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-07'
 ---
 
-CIFTI (Connectivity Informatics Technology Initiative) is a specialized neuroimaging data format developed by the [[human-connectome-project]] (HCP) for storing dense whole-brain connectivity data. It addresses fundamental limitations of older neuroimaging formats such as [[nifti]] by unifying surface-based cortical representations with volumetric subcortical data into a single coherent structure known as "grayordinates" — a portmanteau combining "gray matter" with "coordinates" that encompasses both cortical surface vertices and subcortical voxels.
+CIFTI ([[connectivity]] Informatics Technology Initiative) is a specialized [[neuroimaging]] data format developed by the [[human-connectome-project]] (HCP) for storing dense whole-brain connectivity data. It addresses fundamental limitations of older neuroimaging formats such as [[nifti]] by unifying surface-based cortical representations with volumetric subcortical data into a single coherent structure known as "grayordinates" — a portmanteau combining "gray matter" with "coordinates" that encompasses both cortical surface vertices and subcortical voxels.
 
 The format was developed to handle the challenges of modern multi-modal connectivity analyses where researchers combine [[functional-connectivity]] matrices from [[fmri]] with [[structural-connectivity]] estimates from diffusion imaging. Traditional formats like NIfTI were designed primarily for volumetric data, creating significant file management challenges when working with both surface-based cortical representations and volumetric subcortical structures. CIFTI resolves this by enabling storage of complete connectivity matrices between all grayordinates rather than just parcel-based summaries, preserving the full information content of [[resting-state]] analyses.
 

@@ -18,7 +18,7 @@ type: concept
 updated: '2026-05-07'
 ---
 
-The Jansen-Rit model is a [[neural-mass-models|neural mass model]] of a cortical column that generates realistic electroencephalogram (EEG) and magnetoencephalography (MEG) signals through the interaction of three neuronal populations. Originally developed by Benjamin H. Jansen and Vincent G. Rit in their seminal 1995 paper [@jansen-rit-1995], the model has become the default neural mass implementation in [[the-virtual-brain|TVB]] for whole-brain simulations [@rit-2013] and serves as a foundational framework for studying brain oscillations, evoked potentials, and pathological dynamics in disorders such as epilepsy.
+The [[jansen-rit|Jansen-Rit model]] is a [[neural-mass-models|neural mass model]] of a cortical column that generates realistic electroencephalogram (EEG) and magnetoencephalography (MEG) signals through the interaction of three neuronal populations. Originally developed by Benjamin H. Jansen and Vincent G. Rit in their seminal 1995 paper [@jansen-rit-1995], the model has become the default neural mass implementation in [[the-virtual-brain|TVB]] for [[whole-brain]] simulations [@rit-2013] and serves as a foundational framework for studying [[brain-oscillations]], evoked potentials, and pathological dynamics in disorders such as epilepsy.
 
 ## Model Architecture
 
@@ -42,11 +42,11 @@ where $S(v)$ is the sigmoidal activation function:
 
 $$S(v) = \frac{1}{1 + e^{r(v_0 - v)}}$$
 
-In this formulation, $A$ is the amplitude parameter (typically $A = 2.5$ mV for excitatory PSPs and $A = -2.5$ mV for inhibitory PSPs), $\tau_e$ and $\tau_i$ are the excitatory and inhibitory time constants (typically $\tau_e = 10$ ms and $\tau_i = 20$ ms), $C_{ij}$ are connectivity constants representing the number of synapses from population $j$ to population $i$, $v_0$ is the threshold potential (typically $v_0 = 6$ mV), and $r$ is the slope of the sigmoid (typically $r = 0.56$ mV$^{-1}$).
+In this formulation, $A$ is the amplitude parameter (typically $A = 2.5$ mV for excitatory PSPs and $A = -2.5$ mV for inhibitory PSPs), $\tau_e$ and $\tau_i$ are the excitatory and inhibitory time constants (typically $\tau_e = 10$ ms and $\tau_i = 20$ ms), $C_{ij}$ are [[connectivity]] constants representing the number of synapses from population $j$ to population $i$, $v_0$ is the threshold potential (typically $v_0 = 6$ mV), and $r$ is the slope of the sigmoid (typically $r = 0.56$ mV$^{-1}$).
 
 The connectivity matrix for the three-population architecture is typically parameterized as follows: $C_{pyramidal \leftarrow excitatory} = 108$, $C_{pyramidal \leftarrow inhibitory} = 33.75$, $C_{excitatory \leftarrow pyramidal} = 108$, $C_{inhibitory \leftarrow pyramidal} = 108$, and $C_{self} = 1$ for each population.
 
-The nonlinearity introduced by the sigmoid function creates the bistable dynamics that underlie transitions between resting states and oscillatory regimes. A critical feature of the model is its sensitivity to parameter variations. Small changes in the balance between excitation and inhibition can shift the system from steady-state dynamics through alpha oscillations to slower delta-range rhythms. Recent bifurcation analysis [@arxiv-2411.16449] has shown that alpha-to-delta transitions occur via discontinuity-induced grazing bifurcations, where the minimum of the pyramidal cell output equals the threshold for switching off the excitatory interneuron population.
+The nonlinearity introduced by the sigmoid function creates the bistable dynamics that underlie transitions between resting states and oscillatory regimes. A critical feature of the model is its sensitivity to parameter variations. Small changes in the balance between excitation and inhibition can shift the system from steady-state dynamics through alpha oscillations to slower delta-range rhythms. Recent [[bifurcation-analysis]] [@arxiv-2411.16449] has shown that alpha-to-delta transitions occur via discontinuity-induced grazing bifurcations, where the minimum of the pyramidal cell output equals the threshold for switching off the excitatory interneuron population.
 
 ## Relationship to Other Neural Mass Models
 
@@ -56,7 +56,7 @@ Compared to other [[neural-mass-models]] such as the [[wong-wang-model|Wong-Wang
 
 ## Applications and Extensions
 
-The model has been extended in numerous directions since its introduction. Multi-column implementations couple multiple Jansen-Rit units via delay-distance-dependent connectivity matrices derived from [[diffusion-imaging|diffusion MRI]] tractography, forming the basis of large-scale whole-brain models in TVB [@rit-2013]. These coupled systems can reproduce resting-state networks and simulate how lesions or stimulation affects global brain dynamics.
+The model has been extended in numerous directions since its introduction. Multi-column implementations couple multiple Jansen-Rit units via delay-distance-dependent connectivity matrices derived from [[diffusion-imaging|diffusion MRI]] [[tractography]], forming the basis of large-scale whole-brain models in TVB [@rit-2013]. These coupled systems can reproduce [[resting-state]] networks and simulate how lesions or stimulation affects global [[brain-dynamics]].
 
 Extensions to sleep modeling [@weigenand-2014] have demonstrated that the model can generate K-complexes and slow-wave oscillations characteristic of NREM sleep through a Hopf bifurcation mechanism. The model also serves as the foundation for the [[epileptor]] model of seizure dynamics, which embeds Jansen-Rit-like dynamics within a larger framework capable of reproducing ictal and interictal activity.
 
@@ -64,9 +64,9 @@ Pharmacological applications have explored how anesthetic agents affect the bala
 
 ## Relationship to The Virtual Brain
 
-The Jansen-Rit model is the default neural mass model in [[the-virtual-brain|TVB]] for EEG and MEG forward simulations. When users import structural connectivity matrices from DTI tractography and configure cortical brain regions, TVB instantiates one Jansen-Rit model per region, coupling them according to the anatomical weights. The model's relatively low computational cost (compared to spiking network simulations) enables whole-brain simulations at the scale of the human connectome, making it ideal for clinical applications including presurgical mapping and personalized medicine.
+The Jansen-Rit model is the default neural mass model in [[the-virtual-brain|TVB]] for EEG and MEG forward simulations. When users import structural connectivity matrices from DTI tractography and configure cortical brain regions, TVB instantiates one Jansen-Rit model per region, coupling them according to the anatomical weights. The model's relatively low computational cost (compared to spiking network simulations) enables whole-brain simulations at the scale of the human [[connectome]], making it ideal for clinical applications including presurgical mapping and personalized medicine.
 
-The TVB implementation includes the full set of parameters from the original formulation, with default values tuned to produce alpha-band oscillations in the resting state. Users can modify synaptic gains ($A$), time constants ($\tau_e$, $\tau_i$), connectivity strengths ($C_{ij}$), and sigmoid parameters ($v_0$, $r$) to explore how changes in excitation-inhibition balance affect network dynamics.
+The TVB implementation includes the full set of parameters from the original formulation, with default values tuned to produce alpha-band oscillations in the resting state. Users can modify synaptic gains ($A$), time constants ($\tau_e$, $\tau_i$), connectivity strengths ($C_{ij}$), and sigmoid parameters ($v_0$, $r$) to explore how changes in [[excitation-inhibition-balance]] affect network dynamics.
 
 ## Open Questions
 

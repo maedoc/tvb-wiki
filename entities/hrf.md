@@ -11,7 +11,7 @@ tags:
 - brain-dynamics
 title: Hrf
 type: concept
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 # HRF
@@ -36,7 +36,7 @@ Single gamma functions are sometimes used for rapid event‑related designs wher
 
 Empirical studies consistently reveal substantial HRF variability across brain regions, individuals, and experimental contexts. The primary visual cortex typically shows earlier and narrower HRF peaks (∼4–5 seconds) compared to frontal regions (∼6–8 seconds), reflecting regional differences in vascular anatomy and neurovascular coupling efficiency. This spatial variability has motivated the development of region‑specific HRF templates and the use of basis functions that allow the HRF shape to vary within the general [[linear|linear model]] (GLM) framework.
 
-Subject‑level HRF estimates differ by approximately 20–30% across individuals, and within‑subject variability across sessions can reach 10–15%, demanding attention in longitudinal studies and clinical applications. Pathological conditions—stroke, Alzheimer's disease, and vascular dementia—can substantially alter HRF characteristics, complicating interpretation of patient data. These considerations have driven development of methods for **HRF estimation** via deconvolution, basis function approaches (Fourier, gamma, smooth basis sets), and parametric models that allow flexible fitting to empirical data.
+Subject‑level HRF estimates differ by approximately 20–30% across individuals, and within‑subject variability across sessions can reach 10–15%, demanding attention in longitudinal studies and clinical applications. Pathological conditions—stroke, [[alzheimers-disease|Alzheimer's disease]], and vascular dementia—can substantially alter HRF characteristics, complicating interpretation of patient data. These considerations have driven development of methods for **HRF estimation** via deconvolution, basis function approaches (Fourier, gamma, smooth basis sets), and parametric models that allow flexible fitting to empirical data.
 
 ## HRF in fMRI Analysis
 

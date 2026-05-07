@@ -5,7 +5,7 @@ sources:
 tags: []
 title: Desikan Killiany Atlas
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 The Desikan-Killiany Atlas is a widely used cortical [[parcellation]] scheme that divides the human cerebral cortex into anatomically defined regions based on magnetic resonance imaging (MRI). Developed by Rahul Desikan, Robert Killiany, and colleagues, this atlas provides a standardized framework for quantifying regional brain structure and function in both healthy and clinical populations [[desikan-killiany-atlas]]. The atlas is characterized by its use of easily identifiable anatomical landmarks—primarily sulcal patterns—that allow for reasonably consistent manual delineation across brains, making it particularly suitable for automated segmentation pipelines that require robust anatomical priors.
@@ -28,7 +28,7 @@ The atlas is frequently used in TVB workflows for both epilepsy modeling and res
 
 ## Key Papers and Validation
 
-The original validation study demonstrated high inter-rater reliability (intraclass correlation coefficients > 0.9) for manual delineation and strong correspondence between automated and manual segmentations [[desikan-killiany-atlas]]. Subsequent studies have validated the atlas in diverse populations including children, elderly individuals, and clinical groups with neurological and psychiatric conditions [[anticevic-2012]]. The atlas has been particularly influential in studies of Alzheimer's disease, where regional cortical thinning in areas such as the entorhinal cortex and superior temporal gyrus—both defined in this parcellation—has been shown to be a sensitive biomarker for early neurodegeneration.
+The original validation study demonstrated high inter-rater reliability (intraclass correlation coefficients > 0.9) for manual delineation and strong correspondence between automated and manual segmentations [[desikan-killiany-atlas]]. Subsequent studies have validated the atlas in diverse populations including children, elderly individuals, and clinical groups with neurological and psychiatric conditions [[anticevic-2012]]. The atlas has been particularly influential in studies of [[alzheimers-disease|Alzheimer's disease]], where regional cortical thinning in areas such as the entorhinal cortex and superior temporal gyrus—both defined in this parcellation—has been shown to be a sensitive biomarker for early neurodegeneration.
 
 ## Related Atlases and Software
 

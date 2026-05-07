@@ -21,7 +21,7 @@ tags:
 - epilepsy-modeling
 title: Default Mode Network (DMN)
 type: concept
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 The **Default Mode Network (DMN)** is a large-scale [[brain-network]] identified through [[neuroimaging]] that demonstrates high metabolic activity during wakeful [[rest]] and systematic deactivation during externally-oriented goal-directed tasks. First characterized by Raichle et al. (2001) using positron emission tomography (PET), the DMN represents the brain's baseline or "default" mode of operation—the spontaneous neural activity that dominates when an individual is not engaged in explicit task performance. This network has become fundamental to our understanding of intrinsic brain organization and its dysfunction in psychiatric and neurological conditions.
@@ -58,7 +58,7 @@ The dorsal medial prefrontal subsystem includes the dmPFC, temporoparietal junct
 
 ### Medial Temporal Lobe Subsystem
 
-The medial temporal lobe subsystem encompasses the hippocampus, parahippocampal cortex, and ventromial prefrontal cortex. This subsystem operates as an "episodic memory system," supporting retrieval of autobiographical memories and construction of simulated future events. The famous "scene construction" process—mentally visualizing detailed scenarios for memory encoding or future planning—depends critically on this subsystem's integrity. Disruption to hippocampal-prefrontal connectivity compromises these functions, as observed in conditions ranging from normal aging to Alzheimer's disease.
+The medial temporal lobe subsystem encompasses the hippocampus, parahippocampal cortex, and ventromial prefrontal cortex. This subsystem operates as an "episodic memory system," supporting retrieval of autobiographical memories and construction of simulated future events. The famous "scene construction" process—mentally visualizing detailed scenarios for memory encoding or future planning—depends critically on this subsystem's integrity. Disruption to hippocampal-prefrontal connectivity compromises these functions, as observed in conditions ranging from normal aging to [[alzheimers-disease|Alzheimer's disease]].
 
 ## Anticorrelation with Task-Positive Networks
 

@@ -52,7 +52,7 @@ Ritter's academic contributions include several landmark papers that have shaped
 
 2. **Deco, G., Jirsa, V., McIntosh, A. R., Sporns, O., Kotter, R., & Ritter, P.** (2009). "Key role of coupling, delay, and noise in [[resting-state]] brain fluctuations." *Neural Computation.* — A seminal work on the principles governing spontaneous brain dynamics.
 
-3. **Schirner, M., et al.** (2015). "BrainVoyager and The Virtual Brain: an integrated approach to multimodal neuroimaging." *Frontiers in Neuroscience.* — Describes the integration of TVB with neuroimaging analysis tools.
+3. **Schirner, M., et al.** (2015). "[[brainvoyager]] and The Virtual Brain: an integrated approach to multimodal neuroimaging." *Frontiers in Neuroscience.* — Describes the integration of TVB with neuroimaging analysis tools.
 
 4. **Ritter, P., Jirsa, V.** (2020). "Whole-brain modeling and personalized medicine." *Current Opinion in Neurology.* — Reviews the clinical applications of personalized brain modeling.
 
@@ -64,6 +64,6 @@ The methodological framework Ritter employs draws on multiple theoretical tradit
 
 ## References
 
-1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain [[network-dynamics]]*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
 2. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)
 3. Amirreza Movahedin, Lennart P. L. Landsmeer, Christos Strydis. (2025). *HUMA: Heterogeneous, Ultra Low-Latency Model Accelerator for The Virtual Brain on a Versal Adaptive SoC*. Symposium on Field Programmable Gate Arrays. [DOI](https://doi.org/10.1145/3706628.3708875)

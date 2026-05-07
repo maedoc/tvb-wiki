@@ -11,7 +11,7 @@ tags:
 - network-dynamics
 title: Power Atlas
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 The Power Atlas, formally known as the Power 2011 atlas, is a widely-used brain [[parcellation]] scheme that divides the human cerebral cortex into 264 discrete regions of interest (ROIs) based on [[functional-connectivity]] patterns derived from [[resting-state|resting-state fMRI]]. Developed by Jonathan Power and colleagues at Washington University in St. Louis, this atlas represents a landmark contribution to [[connectomics]] research, providing a data-driven organizational framework that has shaped our understanding of the brain's intrinsic functional architecture. Unlike anatomical parcellations that rely solely on cytoarchitecture or macroanatomical landmarks, the Power Atlas emerges from empirical patterns of coherent [[bold-signal]] fluctuations, offering a parcellation scheme that reflects the brain's underlying functional organization rather than its purely structural divisions.
@@ -42,7 +42,7 @@ Compared to other functionally-derived parcellations, the Power Atlas stands alo
 
 ## Applications in Neuroimaging Research
 
-The Power Atlas has found extensive application across numerous domains of neuroimaging research. In studies of typical and atypical brain development, researchers have used the atlas to examine how functional connectivity networks mature from childhood through adulthood, revealing characteristic patterns of strengthening within-network connectivity and pruning of between-network correlations. In clinical research, the atlas has been employed to identify altered patterns of functional connectivity in psychiatric and neurological disorders, including schizophrenia, autism, Alzheimer's disease, and epilepsy.
+The Power Atlas has found extensive application across numerous domains of neuroimaging research. In studies of typical and atypical brain development, researchers have used the atlas to examine how functional connectivity networks mature from childhood through adulthood, revealing characteristic patterns of strengthening within-network connectivity and pruning of between-network correlations. In clinical research, the atlas has been employed to identify altered patterns of functional connectivity in psychiatric and neurological disorders, including schizophrenia, autism, [[alzheimers-disease|Alzheimer's disease]], and epilepsy.
 
 The atlas has also proven valuable in the context of the [[human-connectome-project]] and other large-scale efforts to characterize the healthy human brain. By applying consistent parcellation schemes like the Power Atlas across large datasets, researchers can establish normative ranges for connectivity metrics and identify deviations that may indicate pathology. The atlas's inclusion in widely-used Python toolboxes such as [[nilearn]] has further democratized its use, making it accessible to researchers across the neuroimaging community.
 

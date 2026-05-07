@@ -21,7 +21,7 @@ updated: '2026-05-07'
 
 ## History and Motivation
 
-FSL emerged from the Oxford FMRIB (Functional Magnetic Resonance Imaging of the Brain) group in the 1990s, driven by the need for robust, automated analysis pipelines capable of handling the growing volume of neuroimaging data [Smith et al. 2004]. Prior to FSL, researchers relied on fragmented, often manual processing workflows with limited reproducibility. FSL addressed this gap by providing an integrated suite of tools that cover the full analysis pipeline — from raw acquisition to statistical inference — within a cohesive framework [Jenkinson et al. 2012]. The software remains freely available to academic users, contributing to its widespread adoption across the neuroimaging community.
+FSL emerged from the Oxford FMRIB (Functional Magnetic Resonance Imaging of the Brain) group in the 1990s, driven by the need for robust, automated analysis pipelines capable of handling the growing volume of neuroimaging data [Smith et al. 2004]. Prior to FSL, researchers relied on fragmented, often manual processing workflows with limited [[reproducibility]]. FSL addressed this gap by providing an integrated suite of tools that cover the full analysis pipeline — from raw acquisition to statistical inference — within a cohesive framework [Jenkinson et al. 2012]. The software remains freely available to academic users, contributing to its widespread adoption across the neuroimaging community.
 
 ## Overview
 
@@ -38,7 +38,7 @@ FSL comprises a comprehensive suite of command-line tools that form the backbone
 
 For tissue segmentation, **FAST** (FMRIB's Automated Segmentation Tool) uses a hidden Markov random field model to classify brain volumes into grey matter, white matter, and CSF [Smith et al. 2004].
 
-In fMRI analysis, **FEAT** (FMRIB's Expert Analysis Tool) provides a complete first-level pipeline encompassing preprocessing (motion correction, spatial smoothing, high-pass filtering), hemodynamic response modeling via the general linear model, and mixed-effects group statistics [Smith et al. 2004]. **MELODIC** performs probabilistic independent component analysis (ICA) for data-driven decomposition of resting-state or task fMRI into spatially independent networks, enabling identification of [[intrinsic-connectivity-networks]] [Jenkinson et al. 2012].
+In fMRI analysis, **FEAT** (FMRIB's Expert Analysis Tool) provides a complete first-level pipeline encompassing preprocessing (motion correction, spatial smoothing, high-pass filtering), hemodynamic response modeling via the general linear model, and mixed-effects group statistics [Smith et al. 2004]. **MELODIC** performs probabilistic independent component analysis (ICA) for data-driven decomposition of [[resting-state]] or task fMRI into spatially independent networks, enabling identification of [[intrinsic-[[connectivity]]-networks]] [Jenkinson et al. 2012].
 
 In diffusion imaging, **TBSS** (Tract-Based Spatial Statistics) enables voxelwise analysis of [[fractional-anisotropy]] maps by projecting white-matter skeletons onto which group differences can be tested [Smith et al. 2004]. **BEDPOSTX** fits a ball-and-stick model to estimate diffusion parameters and principal fiber orientations per voxel, while **PROBTRACKX** uses these estimates to perform probabilistic tractography for reconstructing [[structural-connectivity]] pathways. These diffusion tools are integrated into broader [[whole-brain]] workflows including [[the-virtual-brain]] simulations and [[connectome]] construction pipelines, and are distributed through containerized platforms like Neurodesk for reproducible analysis across computing environments.
 
@@ -64,4 +64,4 @@ FSL is part of a broader neuroimaging toolchain:
 
 1. Mohammadtaha Parsayan, S. Andalib, T. L. Andersen, Habib Ganjgahi, P. Høilund-Carlsen, Abass Alavi, Mojtaba Zarei. (2025). *Odense-Oxford PET Image Analysis (OPETIA): An FSL-based toolbox for multimodal neuroimaging*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2025.121278)
 2. (authors unknown). *Neurodesk: an accessible, flexible and portable data analysis environment for reproducible neuroimaging*.
-3. (authors unknown). *Nighres: processing tools for high-resolution neuroimaging*.
+3. (authors unknown). *[[nighres]]: processing tools for high-resolution neuroimaging*.

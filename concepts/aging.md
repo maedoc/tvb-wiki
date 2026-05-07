@@ -21,14 +21,14 @@ tags:
 - neural-mass-models
 title: Brain Aging
 type: concept
-updated: '2026-05-04'
+updated: '2026-05-07'
 ---
 
 Brain aging encompasses the progressive structural, functional, and connectomic changes that occur in the human brain from early adulthood through senescence. Unlike neurodevelopment, which is characterized by growth and integration, aging involves a complex interplay of decline and adaptation—both normative losses in gray matter volume, white matter integrity, and [[functional-connectivity]], as well as compensatory reorganizations that allow many older adults to maintain cognitive function. Understanding these trajectories is essential for [[whole-brain|whole-brain modeling]] approaches that aim to simulate individual brains, as age-related parameter changes fundamentally alter [[network-dynamics]], synchronization properties, and the brain's computational capacity.
 
 ## Definition and Scope
 
-Brain aging represents a lifespan process beginning in the third decade of life, though the rate and magnitude of changes vary substantially across individuals and brain regions. The field distinguishes between normal aging, which involves predictable but benign changes, and pathological aging associated with neurodegenerative diseases such as Alzheimer's disease. Critically, aging is not a uniform process: some circuits and cognitive systems show preservation while others exhibit marked decline. This heterogeneity poses both a challenge and an opportunity for [[personalized-brain-modeling]], as individual differences in aging trajectories must be captured by computational models to make accurate predictions about cognitive outcomes and disease progression.
+Brain aging represents a lifespan process beginning in the third decade of life, though the rate and magnitude of changes vary substantially across individuals and brain regions. The field distinguishes between normal aging, which involves predictable but benign changes, and pathological aging associated with neurodegenerative diseases such as [[alzheimers-disease|Alzheimer's disease]]. Critically, aging is not a uniform process: some circuits and cognitive systems show preservation while others exhibit marked decline. This heterogeneity poses both a challenge and an opportunity for [[personalized-brain-modeling]], as individual differences in aging trajectories must be captured by computational models to make accurate predictions about cognitive outcomes and disease progression.
 
 ## Structural Changes
 
