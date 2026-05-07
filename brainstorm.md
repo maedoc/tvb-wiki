@@ -1,7 +1,7 @@
 ---
 title: Brainstorm
 created: 2024-01-15
-updated: 2026-05-06
+updated: 2026-05-07
 type: entity
 tags: [software-brain-modeling, neuroimaging-eeg, neuroimaging-meg, source-localization, connectivity, software-visualization]
 sources: [raw/papers/brainstorm-tutorial.pdf, raw/papers/brainstorm-mne-2020.pdf, raw/papers/brainstorm-isbi-2013.pdf]
@@ -37,7 +37,7 @@ The foundational description of Brainstorm appeared in a 2009 Neuroimage tutoria
 
 ## Related Software
 
-Brainstorm intersects with several other toolboxes in the neuroimaging ecosystem. For electrophysiological analysis, [[eeglab]] provides a competing MATLAB-based environment with different emphasis (component-based analysis rather than source imaging), while [[fieldtrip]] offers an alternative MATLAB toolbox with strong open-source development and academic backing. For source localization specifically, [[mne]] (originally Python-based) implements related algorithms with different computational approaches.
+Brainstorm intersects with several other toolboxes in the neuroimaging ecosystem. For electrophysiological analysis, [[eeglab]] provides a competing MATLAB-based environment with different emphasis (component-based analysis rather than source imaging), while fieldtrip offers an alternative MATLAB toolbox with strong open-source development and academic backing. For source localization specifically, [[mne]] (originally Python-based) implements related algorithms with different computational approaches.
 
 Integration with TVB occurs through standard file formats—the software can export processed data in [[nifti]] or matrix formats that TVB's tvb-library can import for connectivity analysis or use in inverse solutions. Visualization capabilities complement TVB's web-based interface, with Brainstorm providing detailed cortical and volumetric visualization that can be compared against TVB's simulated activation patterns on brain surfaces.
 

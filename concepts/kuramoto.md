@@ -65,7 +65,7 @@ The **Kuramoto-Sakaguchi model** replaces the sine coupling with a more general 
 
 $$\frac{d\theta_i}{dt} = \omega_i + \frac{K}{N} \sum_{j=1}^{N} \sin(\theta_j - \theta_i - \alpha)$$
 
-where $\alpha$ is a phase lag parameter. This lag term can be interpreted as representing a phenomenological frustration that may loosely correspond to the effect of [[inhibition]] in neural circuits, where inhibitory interactions introduce a phase shift between pre- and post-synaptic activity[^breakspear-2010]. However, the phase lag $\alpha$ is fundamentally a mathematical parameter that captures the net effect of delayed interactions rather than a direct model of inhibitory synapses.
+where $\alpha$ is a phase lag parameter. This lag term can be interpreted as representing a phenomenological frustration that may loosely correspond to the effect of [[excitation-inhibition-balance]] in neural circuits, where inhibitory interactions introduce a phase shift between pre- and post-synaptic activity[^breakspear-2010]. However, the phase lag $\alpha$ is fundamentally a mathematical parameter that captures the net effect of delayed interactions rather than a direct model of inhibitory synapses.
 
 [^breakspear-2010]: Breakspear, M., Heitmann, S., & Daffertshofer, A. (2010). Generative models of cortical oscillations: A tutorial review of the Kuramoto model. *Frontiers in Neuroscience*, 4, 190.
 
@@ -77,7 +77,7 @@ The [[wilson-cowan-model]] and [[jansen-rit-model]] represent intermediate appro
 
 [^lubenkaemper-2018]: Lienkaemper, C., & Ocker, S. Y. (2018). Phase reduction and synchronization of coupled neural mass models. *Physical Review E*, 98(5), 052215.
 
-The [[fokker-planck-equation]] provides a complementary perspective by describing the evolution of the probability distribution over phases, enabling analysis of the collective dynamics through methods from statistical physics. This approach allows exact derivation of the Kuramoto model from a microscopic description of randomly coupled oscillators, providing a rigorous foundation for its application to neural systems.
+The [[fokker-planet-equation]] provides a complementary perspective by describing the evolution of the probability distribution over phases, enabling analysis of the collective dynamics through methods from statistical physics. This approach allows exact derivation of the Kuramoto model from a microscopic description of randomly coupled oscillators, providing a rigorous foundation for its application to neural systems.
 
 ## Applications in Brain Stimulation
 

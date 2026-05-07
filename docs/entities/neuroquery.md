@@ -60,5 +60,5 @@ The seminal publication describing NeuroQuery (Dockès et al., 2020) introduced 
 
 - [[neurosynth]] — the predecessor project that pioneered coordinate-based meta-analysis
 - [[nilearn]] — Python library for neuroimaging data analysis and visualization
-- [[brain-[[connectivity]]-toolbox]] — graph-theoretical analysis of brain networks
+- [[brain-map]] — graph-theoretical analysis of brain networks
 - [[brain-map]] — ontology of cognitive terms linked to brain regions

@@ -13,14 +13,14 @@ tags:
 - structural-connectivity
 title: Preferential Attachment
 type: concept
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
-Preferential attachment is a network growth mechanism whereby newly added nodes preferentially connect to existing nodes that already have many connections, leading to the emergence of [[scale-free-networks]] with [[network-hubs|hub]] nodes. Originally formalized by [[barabasi-albert-1999]] in their seminal work on [[random-networks]], this process has become a foundational concept in [[network-dynamics]] and has been extensively applied to understand the organization of [[brain-network|brain networks]].
+Preferential attachment is a network growth mechanism whereby newly added nodes preferentially connect to existing nodes that already have many connections, leading to the emergence of [[scale-free-networks]] with [[network-hubs|hub]] nodes. Originally formalized by barabasi-albert-1999 in their seminal work on [[random-networks]], this process has become a foundational concept in [[network-dynamics]] and has been extensively applied to understand the organization of [[brain-network|brain networks]].
 
 ## Biological and Network Context
 
-In the context of [[whole-brain|whole-brain modeling]], preferential attachment provides a mechanistic explanation for how [[structural-connectivity|anatomical connectivity]] in the brain achieves its characteristic architecture. [[connectomics|Brain connectivity]] datasets from diffusion tensor imaging (DTI) and probabilistic tractography reveal that white matter networks exhibit power-law degree distributions, meaning the probability of finding a node with k connections follows P(k) ~ k^(-γ) with typical scaling exponents γ between 2 and 3 [1]. This scale-free property implies the existence of highly connected hub regions—such as the posterior cingulate cortex, precuneus, and superior frontal cortex—that serve as major integration points for information flow across the brain [2].
+In the context of [[whole-brain|whole-brain modeling]], preferential attachment provides a mechanistic explanation for how [[structural-connectivity|anatomical connectivity]] in the brain achieves its characteristic architecture. [[connectomics|Brain connectivity]] datasets from diffusion tensor imaging (DTI) and probabilistic tractography reveal that white matter networks exhibit power-law degree distributions, meaning the probability of finding a node with k connections follows P(k) ~ k^(-γ) with typical scaling exponents γ between 2 and 3 [1]. This scale-free property implies the existence of highly connected hub regions—such as the posterior cingulate cortex, precuneus, and superior frontal cortex that serve as major integration points for information flow across the brain [2].
 
 The preferential attachment mechanism naturally produces such architectures through a simple growth rule: when a new node is added to the network, the probability Π that it connects to an existing node i is proportional to that node's current degree k_i:
 
@@ -30,13 +30,13 @@ This proportional (or "[[linear]]") attachment rule generates networks with powe
 
 ## Mathematical Framework and Extensions
 
-The original Barabási-Albert model assumes network growth through the sequential addition of new nodes, each connecting to m existing nodes via preferential attachment. Analytical treatment yields a degree distribution P(k) ~ k^(-3), independent of m in the large-network limit [3]. [[strogatz-1994|Steven Strogatz's]] treatment of [[nonlinear-dynamics]] provides foundational tools for analyzing such growing networks, though the preferential attachment model is typically studied through [[mean-field-theory|mean-field]] approximations or master equations.
+The original Barabási-Albert model assumes network growth through the sequential addition of new nodes, each connecting to m existing nodes via preferential attachment. Analytical treatment yields a degree distribution P(k) ~ k^(-3), independent of m in the large-network limit [3]. Steven Strogatz's treatment of [[nonlinear-dynamics]] provides foundational tools for analyzing such growing networks, though the preferential attachment model is typically studied through [[mean-field-theory|mean-field]] approximations or master equations.
 
 Several extensions to the basic model are relevant for brain network modeling. **Accelerated growth** networks, where the rate of node addition varies over time, produce degree exponents γ < 3 as observed in empirical brain networks [1]. **Initial attractiveness** accounts for the observation that new nodes may have intrinsic fitness beyond their initial [[connectivity]], making the attachment probability Π(k_i) = A_i + k_i where A_i represents initial attractiveness. **Nonlinear attachment** generalizes the attachment probability to Π(k_i) ~ k_i^α, with α > 1 accelerating hub formation and α < 1 yielding exponential degree distributions.
 
 ## Relationship to Brain Network Organization
 
-In brain connectivity research, preferential attachment has been investigated both as a descriptive property and as a generative mechanism. Empirical studies using [[neuroimaging-dti|diffusion imaging]] and [[tractography]] have demonstrated that [[white-matter]] networks reconstructed from human connectomes exhibit scale-free properties consistent with preferential attachment [1][2]. However, the degree to which actual brain wiring follows preferential attachment during [[neurodevelopment]] remains an active research question.
+In brain connectivity research, preferential attachment has been investigated both as a descriptive property and as a generative mechanism. Empirical studies using [[neuromorpho-toolkit|diffusion imaging]] and [[tractography]] have demonstrated that [[white-matter]] networks reconstructed from human connectomes exhibit scale-free properties consistent with preferential attachment [1][2]. However, the degree to which actual brain wiring follows preferential attachment during [[neurodevelopment]] remains an active research question.
 
 Recent work on [[resting-state]] dynamics, including the 2026 study by Gudibanda et al. on connectivity degeneracy in brain resting state, connects these structural properties to functional dynamics [4]. The structural core—regions with high degree and high betweenness centrality—reflects architectural principles that may emerge partly from preferential attachment during brain development. Understanding how these structural patterns constrain the [[brain-dynamics|dynamics]] of [[neural-mass-models|neural mass models]] is central to [[whole-brain]] simulation frameworks like [[the-virtual-brain]].
 

@@ -1,7 +1,7 @@
 ---
 title: Karl J. Friston
 created: 2026-04-20
-updated: 2026-05-06
+updated: 2026-05-07
 type: entity
 tags: [people-researcher, dynamic-causal-modeling, free-energy-principle, variational-bayes, bayesian, effective-connectivity, neuroimaging-fmri, neuroimaging-eeg, neuroimaging-meg, predictive-coding, active-inference]
 sources: [raw/papers/david-friston-2003.md]
@@ -13,7 +13,7 @@ sources: [raw/papers/david-friston-2003.md]
 
 ### The Free Energy Principle
 
-The [[free-energy-principle]] represents one of Friston's most ambitious theoretical achievements—a unified mathematical framework that attempts to explain how biological systems, particularly the brain, maintain their organization in the face of a constantly changing environment. The principle rests on the idea that any self-organizing system that resists entropy must minimize its free energy, which serves as a bound on surprise (or, equivalently, the negative log-probability of sensory observations) [@friston-2010-free-energy]. In practical terms, this means that the brain can be understood as a [[bayesian]] inference machine that constantly generates predictions about incoming sensory data and updates its internal model when predictions are violated. This framework has been particularly influential in connecting [[predictive-coding]] theories of cortical function with [[variational-bayes]] methods for model inversion, providing a formal mathematical language for understanding how hierarchical neural circuits process information and learn from experience.
+The [[free-energy-principle]] represents one of Friston's most ambitious theoretical achievements—a unified mathematical framework that attempts to explain how biological systems, particularly the brain, maintain their organization in the face of a constantly changing environment. The principle rests on the idea that any self-organizing system that resists entropy must minimize its free energy, which serves as a bound on surprise (or, equivalently, the negative log-probability of sensory observations) [@friston-2010-free-energy]. In practical terms, this means that the brain can be understood as a [[bayesian]] inference machine that constantly generates predictions about incoming sensory data and updates its internal model when predictions are violated. This framework has been particularly influential in connecting [[brain-decoding]] theories of cortical function with [[variational-bayes]] methods for model inversion, providing a formal mathematical language for understanding how hierarchical neural circuits process information and learn from experience.
 
 ### Dynamic Causal Modeling
 
@@ -25,7 +25,7 @@ Friston has also made major methodological contributions through his development
 
 ### Active Inference
 
-Building on the free energy principle, Friston has developed the active inference framework, which extends [[predictive-coding]] from purely perceptual processing to include action and behavior [@friston-2010-active-inference]. In active inference, action is conceived as a way to change sensory inputs so as to minimize free energy—specifically, the brain selects actions that are most likely to confirm its predictions and avoid surprising sensory consequences. This framework provides a principled account of goal-directed behavior, exploration-exploitation trade-offs, and the embodiment of cognitive processes, connecting accounts of motor control, reinforcement learning, and decision-making under a single theoretical umbrella.
+Building on the free energy principle, Friston has developed the active inference framework, which extends [[brain-decoding]] from purely perceptual processing to include action and behavior [@friston-2010-active-inference]. In active inference, action is conceived as a way to change sensory inputs so as to minimize free energy—specifically, the brain selects actions that are most likely to confirm its predictions and avoid surprising sensory consequences. This framework provides a principled account of goal-directed behavior, exploration-exploitation trade-offs, and the embodiment of cognitive processes, connecting accounts of motor control, reinforcement learning, and decision-making under a single theoretical umbrella.
 
 ## Relationship to TVB
 

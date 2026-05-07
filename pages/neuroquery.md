@@ -1,7 +1,7 @@
 ---
 title: NeuroQuery
 created: 2025-01-15
-updated: 2026-05-03
+updated: 2026-05-07
 type: entity
 tags: [software-neuroquery, neuroimaging-fmri, meta-analysis, functional-connectivity, resting-state]
 sources:
