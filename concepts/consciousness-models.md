@@ -1,10 +1,25 @@
 ---
-title: Consciousness Models
 created: 2025-01-15
-updated: 2026-05-07
+sources:
+- raw/papers/deco-2013.md
+- raw/papers/arxiv-2509.02799.md
+- raw/papers/semanticscholar-ce89e593c89e.md
+tags:
+- consciousness-models
+- whole-brain-modeling
+- computational-neuroscience
+- neural-mass-models
+- brain-dynamics
+- network-dynamics
+- mean-field-theory
+- free-energy-principle
+- bifurcation-analysis
+- resting-state
+- functional-connectivity
+- structural-connectivity
+title: Consciousness Models
 type: concept
-tags: [consciousness-models, whole-brain-modeling, computational-neuroscience, neural-mass-models, brain-dynamics, network-dynamics, mean-field-theory, free-energy-principle, bifurcation-analysis, resting-state, functional-connectivity, structural-connectivity]
-sources: [raw/papers/deco-2013.md, raw/papers/arxiv-2509.02799.md, raw/papers/semanticscholar-ce89e593c89e.md]
+updated: '2026-05-07'
 ---
 
 Consciousness models in computational neuroscience attempt to formalize the relationship between neural activity and subjective experience. These models range from philosophical frameworks translated into mathematics to phenomenological approaches grounded in [[whole-brain|whole-brain modeling]] frameworks. The central challenge is bridging the gap between measurable brain dynamics—which can be captured through neuroimaging modalities like [[neuroimaging-fmri|fMRI]], [[neuroimaging-meg|MEG]], and [[neuroimaging-eeg|EEG]]—and the qualitative nature of conscious experience. Within the context of connectome-based modeling, consciousness is often approached as an emergent property of large-scale brain networks, where the interplay between [[structural-connectivity|structural connectivity]] and [[functional-connectivity|functional connectivity]] gives rise to states associated with awareness, perception, and cognition.
@@ -42,3 +57,9 @@ The field of [[computational-psychiatry|computational psychiatry]] has also enga
 Despite significant theoretical and computational progress, fundamental questions remain about the nature of consciousness and how to model it adequately. The relationship between information integration, [[bifurcation-theory|bifurcation theory]], and subjective experience continues to be debated. Methodologically, the field faces challenges in validating computational models against the full complexity of human consciousness, which encompasses not only perception and awareness but also self-consciousness, qualia, and the sense of agency.
 
 Future directions include the development of more sophisticated [[personalized-brain-modeling|personalized brain models]] that can account for individual differences in network architecture and their relationship to variations in conscious experience. The integration of [[neural-mass-models|neural mass models]] with [[spiking-neural-networks|spiking neural networks]] at multiple scales, combined with advances in neuroimaging and [[tractography|tractography]], promises more biologically detailed models of the large-scale networks underlying consciousness.
+
+## References
+
+1. Deco et al. (2013). *Resting brains never rest: computational insights into potential cognitive architectures*. Trends in Neurosciences. [DOI](https://doi.org/10.1016/j.tins.2013.09.002)
+2. Martin Breyton, Viktor Sip, M. Woodman, Meysam Hashemi, S. Petkoski, V. Jirsa. (2025). *Data-driven mean-field within whole-brain models*. [Link](https://www.semanticscholar.org/paper/144ae1f1dabec42c14493d0083d36f168508f886)
+3. V. Myrov, A. Suleimanova, Samanta Knapič, P. Partanen, M. Vesterinen, Wenya Liu, S. Palva, J. M. Palva. (2026). *Hierarchical whole-brain modeling of critical synchronization dynamics in the human brain.*. Proceedings of the National Academy of Sciences of the United States of America. [DOI](https://doi.org/10.1073/pnas.2505768123)

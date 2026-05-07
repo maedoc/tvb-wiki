@@ -1,10 +1,19 @@
 ---
-title: Viktor Jirsa
 created: 2026-04-20
-updated: 2026-05-07
+sources:
+- raw/papers/deco-2013.md
+- raw/papers/semanticscholar-7c3337c880fd.md
+tags:
+- people-researcher
+- whole-brain-modeling
+- neural-mass-models
+- the-virtual-brain
+- computational-neuroscience
+- epilepsy-modeling
+- connectivity
+title: Viktor Jirsa
 type: entity
-tags: [people-researcher, whole-brain-modeling, neural-mass-models, the-virtual-brain, computational-neuroscience, epilepsy-modeling, connectivity]
-sources: [raw/papers/deco-2013.md, raw/papers/semanticscholar-7c3337c880fd.md]
+updated: '2026-05-07'
 ---
 
 Viktor Jirsa is a computational neuroscientist and professor at Aix-Marseille Université in France, where he leads the Systems Neuroscience group at the Institut de Neurosciences des Systèmes. His research focuses on large-scale brain modeling, neural mass models, and the development of whole-brain simulation frameworks. He is best known for co-founding [[the-virtual-brain]], a software platform for personalized brain modeling, and for developing the Epileptor model—a seminal computational model of epileptic seizures that has become a cornerstone of computational epilepsy research.
@@ -28,3 +37,8 @@ The software ecosystem developed under Jirsa's leadership, primarily [[the-virtu
 ## Relationship to TVB
 
 Viktor Jirsa is the scientific director and co-founder of [[the-virtual-brain]], one of the most widely used [[whole-brain-modeling]] software platforms in computational neuroscience. TVB implements several neural mass models originally developed or adapted by Jirsa's group, including the [[epileptor]] for seizure modeling and variants of the [[jansen-rit-model]] for generic whole-brain simulations. The platform's connectivity pipeline can ingest [[diffusion-imaging]] data processed with tools like [[mrtrix3-connectome]] or [[dipy]] to construct patient-specific structural connectivity matrices, which then serve as the anatomical scaffold for simulations. Jirsa's research directly informs TVB's model repertoire, parameter estimation routines, and the theoretical framework connecting structural and functional brain dynamics.
+
+## References
+
+1. Deco et al. (2013). *Resting brains never rest: computational insights into potential cognitive architectures*. Trends in Neurosciences. [DOI](https://doi.org/10.1016/j.tins.2013.09.002)
+2. Kashyap Gudibanda, J. Fousek, S. Petkoski, V. Jirsa. (2026). *The role of connectivity for the degeneracy of the brain’s resting state dynamics*. Journal of Computational Neuroscience. [DOI](https://doi.org/10.1007/s10827-025-00919-0)

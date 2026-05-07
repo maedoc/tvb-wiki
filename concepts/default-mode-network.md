@@ -1,10 +1,23 @@
 ---
-title: Default Mode Network (DMN)
 created: 2026-04-20
-updated: 2026-05-07
+sources:
+- raw/papers/raichle-2001.md
+- raw/papers/buckner-andrews-hanna-schacter-2008.md
+- raw/papers/greicius-2003.md
+tags:
+- default-mode-network
+- resting-state
+- functional-connectivity
+- brain-oscillations
+- neuroimaging-fmri
+- network-hubs
+- aging
+- neurodevelopment
+- schizophrenia-models
+- epilepsy-modeling
+title: Default Mode Network (DMN)
 type: concept
-tags: [default-mode-network, resting-state, functional-connectivity, brain-oscillations, neuroimaging-fmri, network-hubs, aging, neurodevelopment, schizophrenia-models, epilepsy-modeling]
-sources: [raw/papers/raichle-2001.md, raw/papers/buckner-andrews-hanna-schacter-2008.md, raw/papers/greicius-2003.md]
+updated: '2026-05-07'
 ---
 
 The **Default Mode Network (DMN)** is a large-scale [[brain-network]] identified through neuroimaging that demonstrates high metabolic activity during wakeful rest and systematic deactivation during externally-oriented goal-directed tasks. First characterized by [[raichle-2001]] using positron emission tomography (PET), the DMN represents the brain's baseline or "default" mode of operation—the spontaneous neural activity that dominates when an individual is not engaged in explicit task performance. This network has become fundamental to our understanding of intrinsic brain organization and its dysfunction in psychiatric and neurological conditions.
@@ -91,3 +104,9 @@ Personalized brain modeling approaches increasingly incorporate DMN parameters t
 - [[aging]] – Effects of aging on brain networks
 - [[neurodevelopment]] – Developmental processes shaping brain organization
 - [[epilepsy-modeling]] – Computational models of epileptic networks
+
+## References
+
+1. (authors unknown). *A Default Mode of Brain Function*.
+2. (authors unknown). *The Brain's Default Network: Anatomy, Function, and Relevance to Disease*.
+3. (authors unknown). *Functional Connectivity in the Resting Brain: A Network Analysis of the Default Mode Hypothesis*.

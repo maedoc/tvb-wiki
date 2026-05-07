@@ -1,10 +1,23 @@
 ---
-title: Connectivity
 created: 2024-01-15
-updated: 2026-05-07
+sources:
+- raw/papers/arxiv-2506.06234.md
+- raw/papers/friston-1993.md
+- raw/papers/sporns-tononi-kotter-2005.md
+tags:
+- connectomics
+- structural-connectivity
+- functional-connectivity
+- effective-connectivity
+- network-dynamics
+- neuroimaging-fmri
+- neuroimaging-eeg
+- neuroimaging-meg
+- diffusion-imaging
+- whole-brain-modeling
+title: Connectivity
 type: concept
-tags: [connectomics, structural-connectivity, functional-connectivity, effective-connectivity, network-dynamics, neuroimaging-fmri, neuroimaging-eeg, neuroimaging-meg, diffusion-imaging, whole-brain-modeling]
-sources: [raw/papers/arxiv-2506.06234.md, raw/papers/friston-1993.md, raw/papers/sporns-tononi-kotter-2005.md]
+updated: '2026-05-07'
 ---
 
 Connectivity is a fundamental concept in [[whole-brain modeling|whole-brain]] and [[computational-neuroscience]] that describes the patterns of anatomical, statistical, or causal relationships between distinct brain regions. Rather than treating the brain as a collection of isolated units, connectivity frameworks acknowledge that neural activity in any given region depends on—and influences—activity in other regions through a complex web of connections. Understanding these connection patterns is essential for building predictive models of brain dynamics, understanding how information integrates across spatially distributed neural systems, and characterizing the network-level fingerprints of both healthy brain function and clinical disorders.
@@ -42,3 +55,9 @@ In [[whole-brain]] simulation frameworks like [[the-virtual-brain|The Virtual Br
 Connectivity analysis relies heavily on [[graph-theory|graph theory]] and [[community-detection|community detection]] algorithms to identify network modules and [[network-hubs|hub structures]]. The [[brain-connectivity-toolbox|Brain Connectivity Toolbox]] and its Python counterpart [[bctpy|bct]] provide standard implementations for computing graph metrics on connectivity matrices. The distinction between different connectivity types connects to broader theoretical debates in neuroscience about whether brain function is better characterized as "integrated" (distributed processing) or "segregated" (specialized modules)—functional connectivity analyses have revealed both modular structure and long-range integration in the same networks, leading to the concept of [[modularity|modular small-world]] organization.
 
 Key methodological tools for connectivity analysis include [[ica|independent component analysis]], which decomposes multivariate neuroimaging data into spatially independent components that often correspond to functional networks, and [[eegsynth|EEG synthesis]], which provides forward models for simulating how cortical activity propagates to sensor space.
+
+## References
+
+1. Caitlin Lienkaemper, G. Ocker. (2025). *Diverse mean-field dynamics of clustered, inhibition-stabilized Hawkes networks via combinatorial threshold-linear networks*. [Link](https://www.semanticscholar.org/paper/fbd6e0d74d7094beee2f373371f61ee03edaa40d)
+2. (authors unknown). *Functional Connectivity: The Principal-Component Analysis of Large (PET and fMRI) Data Sets*.
+3. (authors unknown). *The Human Connectome: A Structural Description of the Human Brain*.
