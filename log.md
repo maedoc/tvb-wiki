@@ -218,3 +218,7 @@
 ## [2026-05-07 05:46] Improve: 2 pages improved (braincogs, anticevic-2012)
 
 ## [2026-05-07 06:10] Improve: 1 pages improved (fsl)
+
+## [2026-05-07 06:33] Improve: 1 pages improved (qsiprep)
+
+## [2026-05-07 06:53] Audit: 992 issues (132 broken links, 43 orphans, 0 placeholders, 0 dup-refs, 5 bad-meta, 100 citation-verify, 14 opaque-refs, 27 thin, 433 missing-links)
