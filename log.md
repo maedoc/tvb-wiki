@@ -279,4 +279,10 @@
 
 ## [2026-05-07 16:48] Improve: 2 pages improved (consciousness-models, connectivity)
 
+## [2026-05-07 17:06] Improve: Fixed consciousness-models page
+- Removed invalid wikilink to integrated-information (not in wiki inventory)
+- Updated sources to reference only valid paper files
+- Maintained comprehensive content on theoretical frameworks
+- Kept all valid wikilinks to existing pages in inventory
+
 ## [2026-05-07 17:01] Audit: 985 issues (139 broken links, 43 orphans, 0 placeholders, 0 dup-refs, 5 bad-meta, 99 citation-verify, 13 opaque-refs, 25 thin, 434 missing-links)
