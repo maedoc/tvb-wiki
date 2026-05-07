@@ -35,7 +35,7 @@ $$\frac{dx_i}{dt} = -x_i + S\left(\sum_j w_{ij} x_j + I_i\right)$$
 
 where $x_i$ is the mean firing rate of population $i$, $w_{ij}$ is the connection weight from $j$ to $i$, $I_i$ is external input, and $S(\cdot)$ is a sigmoidal activation function. The [[wilson-cowan-model]] [4] and [[wong-wang-model]] [5] are paradigmatic examples that have been used to study [[resting-state]] dynamics and transitions between brain states.
 
-More biophysically detailed are conductance-based models such as the [[hodgkin-huxley-model]] [6], which describes membrane potential $V$ through coupled differential equations for sodium, potassium, and leakage currents. These give rise to realistic spiking behavior but are computationally expensive when scaled to whole-brain simulations. The [[izhikevich-[[neuron]]-model]] [7] offers a reduced two-dimensional formulation that captures the essential phenomenology of various spiking modes (tonic, phasic, bursting) with minimal computational cost.
+More biophysically detailed are conductance-based models such as the [[hodgkin-huxley-model]] [6], which describes membrane potential $V$ through coupled differential equations for sodium, potassium, and leakage currents. These give rise to realistic spiking behavior but are computationally expensive when scaled to whole-brain simulations. The [[neuron]] [7] offers a reduced two-dimensional formulation that captures the essential phenomenology of various spiking modes (tonic, phasic, bursting) with minimal computational cost.
 
 For oscillatory dynamics, the [[kuramoto]] model [8] provides a powerful framework:
 
@@ -62,7 +62,7 @@ The field faces several open challenges. **Neural mass models remain phenomenolo
 ## References
 
 1. (authors unknown). *Nonlinear Dynamics and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering*.
-2. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](](https://doi.org/10.1038/s41593-017-0015-4))
+2. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4))
 3. (authors unknown). *Mapping the Structural Core of Human Cerebral Cortex*.
 4. Hugh R. Wilson, Jack D. Cowan. *Excitatory and inhibitory interactions in localized populations of model neurons*. Biophysical Journal. [DOI](https://doi.org/10.1016/S0006-3495(72)86068-5)
-5. Benjamin H. Jansen, Vincent G. Rit. *Electroencephalogram and visual evoked potential generation in a mathematical model of coupled cortical columns*. Biological Cybernetics. [DOI](](https://doi.org/10.1007/BF00199471))
+5. Benjamin H. Jansen, Vincent G. Rit. *Electroencephalogram and visual evoked potential generation in a mathematical model of coupled cortical columns*. Biological Cybernetics. [DOI](https://doi.org/10.1007/BF00199471))

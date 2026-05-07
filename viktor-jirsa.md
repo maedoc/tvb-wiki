@@ -1,7 +1,7 @@
 ---
 title: Viktor Jirsa
 created: 2026-04-20
-updated: 2026-05-06
+updated: 2026-05-07
 type: entity
 tags: [people-researcher, whole-brain-modeling, neural-mass-models, the-virtual-brain, computational-neuroscience, epilepsy-modeling, connectivity]
 sources: [raw/papers/deco-2013.md, raw/papers/semanticscholar-7c3337c880fd.md]
@@ -21,7 +21,7 @@ The Epileptor model, developed by Jirsa and colleagues, represents one of the mo
 
 ## Impact on Whole-Brain Modeling
 
-Jirsa's collaboration with [[gustavo-deco]] established a theoretical framework demonstrating that noise-driven fluctuations around stable fixed points in structured brain networks can reproduce empirically observed [[resting-state]] [[functional-connectivity]] patterns, as detailed in their seminal 2013 paper. This work provided computational validation for the hypothesis that the resting brain continuously explores a repertoire of functional states, many of which overlap with task-evoked activation patterns—a perspective that has profoundly influenced contemporary theories of intrinsic brain activity.
+Jirsa's collaboration with gustavo-deco established a theoretical framework demonstrating that noise-driven fluctuations around stable fixed points in structured brain networks can reproduce empirically observed [[resting-state]] [[functional-connectivity]] patterns, as detailed in their seminal 2013 paper. This work provided computational validation for the hypothesis that the resting brain continuously explores a repertoire of functional states, many of which overlap with task-evoked activation patterns—a perspective that has profoundly influenced contemporary theories of intrinsic brain activity.
 
 The software ecosystem developed under Jirsa's leadership, primarily [[the-virtual-brain]], enables researchers to construct personalized brain models from individual neuroimaging data. These models integrate [[structural-connectivity]] matrices (typically derived from [[diffusion-imaging]] and tractography) with neural mass models to generate simulated brain dynamics that can be compared against empirical fMRI, EEG, or MEG recordings. This framework has applications in [[personalized-brain-modeling]], preoperative planning, and basic research into the principles governing brain organization.
 

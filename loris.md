@@ -1,7 +1,7 @@
 ---
 title: LORIS
 created: 2025-01-15
-updated: 2026-05-06
+updated: 2026-05-07
 type: entity
 tags: [software-neuroimaging, database-neuroimaging, data-management, neuroimaging]
 sources: []
@@ -39,12 +39,12 @@ LORIS was developed primarily at the Montreal Neurological Institute under the d
 
 ## Related Software
 
-LORIS intersects with several categories of neuroimaging software in the broader ecosystem. For data management, it shares functionality with platforms like [[XNAT]] and [[cbrain]], though LORIS is distinguished by its native pipeline integration and close ties to the MNI processing environment. For preprocessing and quality control, LORIS integrates with [[freesurfer]], [[fsl]], and [[afni]], as well as quality control tools like [[mriqc]] from the [[bids]] preprocessing ecosystem. For connectome generation from processed imaging data, LORIS-compatible data can feed into tools like [[mrtrix3-connectome]] or the [[brain-connectivity-toolkit]] (BCT).
+LORIS intersects with several categories of neuroimaging software in the broader ecosystem. For data management, it shares functionality with platforms like [[XNAT]] and [[open-source-brain]], though LORIS is distinguished by its native pipeline integration and close ties to the MNI processing environment. For preprocessing and quality control, LORIS integrates with [[freesurfer]], [[fsl]], and [[afni]], as well as quality control tools like [[mriqc]] from the [[bids]] preprocessing ecosystem. For connectome generation from processed imaging data, LORIS-compatible data can feed into tools like [[mrtrix3-connectome]] or the [[brain-connectivity-toolkit]] (BCT).
 
 ## Related Pages
 
 - [[neuroimaging]]
-- [[data-management]]
+- data-management
 - [[structural-connectivity]]
 - [[human-connectome-project]]
 - [[the-virtual-brain]]

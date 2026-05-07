@@ -1,7 +1,7 @@
 ---
 title: Default Mode Network (DMN)
 created: 2026-04-20
-updated: 2026-04-27
+updated: 2026-05-07
 type: concept
 tags: [default-mode-network, resting-state, functional-connectivity, brain-oscillations, neuroimaging-fmri, network-hubs, aging, neurodevelopment, schizophrenia-models, epilepsy-modeling]
 sources: [raw/papers/raichle-2001.md, raw/papers/buckner-andrews-hanna-schacter-2008.md, raw/papers/greicius-2003.md]
@@ -45,7 +45,7 @@ The medial temporal lobe subsystem encompasses the hippocampus, parahippocampal 
 
 ## Anticorrelation with Task-Positive Networks
 
-A fundamental feature of DMN dynamics is its systematic anticorrelation with networks supporting externally-directed cognition. When individuals engage in goal-directed tasks requiring external attention, the DMN shows systematic deactivation while the "task-positive network" (including dorsolateral prefrontal cortex and intraparietal sulcus) activates. [[anticevic-2012]] demonstrated that this anticorrelation is not merely a methodological artifact but reflects genuine competitive interactions between network dynamics.
+A fundamental feature of DMN dynamics is its systematic anticorrelation with networks supporting externally-directed cognition. When individuals engage in goal-directed tasks requiring external attention, the DMN shows systematic deactivation while the "task-positive network" (including dorsolateral prefrontal cortex and intraparietal sulcus) activates. anticevic-2012 demonstrated that this anticorrelation is not merely a methodological artifact but reflects genuine competitive interactions between network dynamics.
 
 This push-pull relationship suggests that the brain operates in a balanced state between internally-directed (DMN-mediated) and externally-directed (task-positive network-mediated) processing modes. The degree of DMN suppression during tasks predicts performance on demanding cognitive operations, and individual differences in this relationship correlate with behavioral measures of cognitive control. Disrupted DMN-task network balance has been implicated inmultiple psychiatric conditions, including [[schizophrenia-models]] wherein failure to appropriately suppress DMN activity during tasks may contribute to attentional deficits and self-referential processing disturbances.
 

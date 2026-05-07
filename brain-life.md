@@ -1,7 +1,7 @@
 ---
 title: Brainlife
 created: 2025-01-15
-updated: 2026-05-06
+updated: 2026-05-07
 type: entity
 tags: [software, database, neuroimaging, computational-neuroscience, neuroimaging-fmri, neuroimaging-dti, neuroimaging-eeg, neuroimaging-meg, reproducibility, dataset]
 sources: [https://brainlife.io/, https://doi.org/10.1016/j.neuroimage.2019.06.046, https://www.humanconnectomeproject.org/, https://openneuro.org/]

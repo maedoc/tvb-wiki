@@ -12,7 +12,7 @@ tags:
 - computational-neuroscience
 title: Ion Channel
 type: concept
-updated: 2026-05-06
+updated: 2026-05-07
 ---
 
 Ion channels are transmembrane proteins that form aqueous pores in neuronal membranes, allowing the controlled passage of specific ions such as sodium (Na⁺), potassium (K⁺), calcium (Ca²⁺), and chloride (Cl⁻). These proteins are fundamental to electrochemical signaling in neurons, mediating both the resting membrane potential and the regenerative depolarization that constitutes the action potential. In computational neuroscience, ion channels are represented through mathematical models that capture their voltage-dependent gating kinetics, conductance properties, and modulation by second messengers. The level of biophysical detail incorporated into these models ranges from highly abstract representations that distil channel behavior into a few parameters to biologically realistic formulations that explicitly track the conformations of individual gating particles.

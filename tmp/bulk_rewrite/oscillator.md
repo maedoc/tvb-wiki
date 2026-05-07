@@ -1,7 +1,7 @@
 ---
 title: Oscillator
 created: 2026-04-27
-updated: 2026-05-06
+updated: 2026-05-07
 type: concept
 tags: [dynamical-systems-theory, nonlinear-dynamics, neural-mass-models, brain-oscillations, bifurcation-theory, parameter-estimation, whole-brain-modeling]
 sources: [raw/papers/izhikevich-2007.md]
@@ -46,7 +46,7 @@ The generic 2D oscillator exhibits four primary dynamical regimes that are direc
 
 The generic 2D oscillator serves as a simplification of more biophysically detailed models. The [[bold-model]] provides a canonical reduction of the [[bold-model|Hodgkin–Huxley model]] to two variables while preserving the essential excitable and oscillatory dynamics. At the population level, the [[bold-model|Jansen–Rit model]] and [[bold-model|Wilson–Cowan model]] extend these principles to neural ensembles, incorporating spatial interactions and delays that yield realistic oscillatory spectra. More recent formulations such as the [[Zerlaut]] model incorporate [[mean-field-theory]] and [[adaptive-exponential-integrate-and-fire]] approaches to better capture frequency-dependent effects.
 
-In the context of [[whole-brain-modeling]], the [[Epileptor]] model exemplifies how oscillator dynamics are specialized to capture seizure generation and propagation through coupled slow and fast subsystems. Similarly, the [[Wong–Wang model]] provides a reduction of detailed cortical microcircuits to excitatory-inhibitory oscillator units suitable for large-scale [[connectome]] simulation in [[The Virtual Brain]].
+In the context of [[whole-brain-modeling]], the [[Epileptor]] model exemplifies how oscillator dynamics are specialized to capture seizure generation and propagation through coupled slow and fast subsystems. Similarly, the [[bold-model]] provides a reduction of detailed cortical microcircuits to excitatory-inhibitory oscillator units suitable for large-scale [[connectome]] simulation in [[The Virtual Brain]].
 
 ## Open Questions
 

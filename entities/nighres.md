@@ -13,7 +13,7 @@ tags:
 - software-ants
 title: Nighres
 type: software
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 ## Overview
@@ -32,7 +32,7 @@ Nighres implements several core algorithms for high-resolution brain analysis. *
 
 **Subcortical segmentation** extends classical atlas-based approaches with refined boundary detection for structures like the hippocampus, thalamus, and basal ganglia. These routines are particularly valuable for [[whole-brain modeling]] applications where precise definitions of subcortical nuclei are required for accurate neural mass model placement.
 
-**Probabilistic parcellation** tools generate cortical parcellations that respect laminar boundaries, producing "layer-specific" atlases rather than the conventional surface-based parcels. This feature supports analyses of laminar [[functional-connectivity]] and [[effective-connectivity]] that distinguish between feedforward and feedback connections based on their laminar signatures [[5]].
+**Probabilistic parcellation** tools generate cortical parcellations that respect laminar boundaries, producing "layer-specific" atlases rather than the conventional surface-based parcels. This feature supports analyses of laminar [[functional-connectivity]] and [[effective-connectivity]] that distinguish between feedforward and feedback connections based on their laminar signatures 5.
 
 The library maintains compatibility with standard neuroimaging formats ([[nifti]], [[cifti]]) and integrates with [[BIDS]]-compliant processing pipelines through [[nipype]] interfaces.
 
@@ -51,8 +51,8 @@ Nighres operates within a broader ecosystem of [[neuroimaging]] processing tools
 - [[dipy]] handles [[diffusion-mri]] processing including [[tractography]]
 - [[nilearn]] offers machine-learning utilities for [[brain-decoding]] that integrate with Nighres outputs
 - [[BrainVISA]] provides related morphometry tools in the French neuroimaging tradition
-- The [[Human [[connectome]] Project]] protocols and the [[HCP-dataset]] provide the high-resolution acquisitions that Nighres excels at processing
-- **LAYNII** provides complementary tools for laminar fMRI analysis, particularly suited for handling partial brain coverage [[6]]
+- The [[mrtrix3-connectome]] protocols and the [[HCP-dataset]] provide the high-resolution acquisitions that Nighres excels at processing
+- **LAYNII** provides complementary tools for laminar fMRI analysis, particularly suited for handling partial brain coverage [[gorgolewski16]]
 
 ## Key Algorithms and Technical Details
 

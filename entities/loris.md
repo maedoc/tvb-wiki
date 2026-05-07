@@ -1,24 +1,17 @@
 ---
-created: 2025-01-15
-sources:
-- raw/papers/schirner-2018.md
-- raw/papers/mijalkov-2017-braph.md
-- raw/papers/arxiv-2604.16463.md
-tags:
-- software-neuroimaging
-- database-neuroimaging
-- data-management
-- neuroimaging
 title: LORIS
+created: 2025-01-15
+updated: 2026-05-07
 type: entity
-updated: '2026-05-07'
+tags: [software-neuroimaging, database-neuroimaging, data-management, neuroimaging]
+sources: []
 ---
 
 # LORIS
 
 ## Overview
 
-LORIS (Laboratory for Neuro Imaging Research System) is a web-based data management and processing platform originally developed at the Montreal Neurological Institute (MNI) for managing large-scale neuroimaging datasets. It serves as an integrated solution for organizing, tracking, and processing neuroimaging data acquired through modalities such as MRI, [[fmri]], EEG, and MEG. LORIS provides a flexible database architecture that supports the full lifecycle of neuroimaging research data, from acquisition through quality control, preprocessing, and analysis. The platform has been widely adopted by major neuroimaging consortia and individual research laboratories seeking a robust, scalable solution for data management.
+LORIS (Laboratory for Neuro Imaging Research System) is a web-based data management and processing platform originally developed at the Montreal Neurological Institute (MNI) for managing large-scale neuroimaging datasets. It serves as an integrated solution for organizing, tracking, and processing neuroimaging data acquired through modalities such as MRI, fMRI, EEG, and MEG. LORIS provides a flexible database architecture that supports the full lifecycle of neuroimaging research data, from acquisition through quality control, preprocessing, and analysis. The platform has been widely adopted by major neuroimaging consortia and individual research laboratories seeking a robust, scalable solution for data management.
 
 ## Key Features
 
@@ -30,9 +23,9 @@ LorIs also includes comprehensive quality control capabilities, with tools for v
 
 ## Relationship to TVB
 
-While LORIS is primarily a data management and preprocessing platform rather than a whole-brain modeling tool, it plays an important supporting role in workflows that feed into [[whole-brain-modeling]] research using [[the-virtual-brain]]. Large-scale neuroimaging datasets managed by LORIS—in particular structural [[dti]] (diffusion tensor imaging) data used to construct [[structural-connectivity]] matrices—can serve as empirical inputs for [[whole-brain]] simulations. The preprocessing pipelines within LORIS produce quality‑controlled neuroimaging data that can be subsequently used to derive [[brain-network]] connectivity estimates required for personalized brain modeling.
+While LORIS is primarily a data management and preprocessing platform rather than a whole-brain modeling tool, it plays an important supporting role in workflows that feed into [[whole-brain-modeling]] research using [[the-virtual-brain]]. Large-scale neuroimaging datasets managed by LORIS—in particular structural [[dti]] (diffusion tensor imaging) data used to construct [[structural-connectivity]] matrices—can serve as empirical inputs for [[whole-brain]] simulations. The preprocessing pipelines within LORIS produce quality-controlled neuroimaging data that can subsequently be used to derive [[brain-network]] connectivity estimates required for personalized brain modeling.
 
-Research groups using [[the-virtual-brain]] to perform [[personalized-brain-modeling]] often require high‑quality structural and functional MRI data as starting points. LORIS facilitates this by providing well‑organized, QC'd datasets that can be processed through [[connectome-mapper-3]] or similar tools to generate [[connectome]] data suitable forTVB simulations. The platform also supports data sharing across research consortia, which aligns with the collaborative nature of many TVB‑based research projects.
+Research groups using [[the-virtual-brain]] to perform [[personalized-brain-modeling]] often require high-quality structural and functional MRI data as starting points. LORIS facilitates this by providing well-organized, QC'd datasets that can be processed through [[connectome-mapper-3]] or similar tools to generate [[connectome]] data suitable forTVB simulations. The platform also supports data sharing across research consortia, which aligns with the collaborative nature of many TVB-based research projects.
 
 ## Technical Architecture
 
@@ -42,23 +35,17 @@ The pipeline system uses a modular architecture where individual processing stag
 
 ## Key Papers and Development History
 
-LORIS was developed primarily at the Montreal Neurological Institute under the direction of D. Louis Collins and later further developed by the LORIS team. The system has been used by major neuroimaging projects including the [[human-connectome-project]] consortium for data management and has influenced the development of neuroimaging data standards. While specific citations for LORIS vary by version and institutional deployment, the platform has been instrumental in enabling large‑scale multi‑site neuroimaging studies.
+LORIS was developed primarily at the Montreal Neurological Institute under the direction of D. Louis Collins and later further developed by the LORIS team. The system has been used by major neuroimaging projects including the [[human-connectome-project]] consortium for data management and has influenced the development of neuroimaging data standards. While specific citations for LORIS vary by version and institutional deployment, the platform has been instrumental in enabling large-scale multi-site neuroimaging studies.
 
 ## Related Software
 
-LORIS intersects with several categories of neuroimaging software in the broader ecosystem. For data management, it shares functionality with platforms like [[XNAT]] and [[cbrain]], though LORIS is distinguished by its native pipeline integration and close ties to the MNI processing environment. For preprocessing and quality control, LORIS integrates with [[freesurfer]], [[fsl]], and [[afni]], as well as quality control tools like [[mriqc]] from the [[bids]] preprocessing ecosystem. For connectome generation from processed imaging data, LORIS‑compatible data can feed into tools like [[mrtrix3-connectome]] or the [[brain-connectivity-toolkit]] (BCT).
+LORIS intersects with several categories of neuroimaging software in the broader ecosystem. For data management, it shares functionality with platforms like [[XNAT]] and [[open-source-brain]], though LORIS is distinguished by its native pipeline integration and close ties to the MNI processing environment. For preprocessing and quality control, LORIS integrates with [[freesurfer]], [[fsl]], and [[afni]], as well as quality control tools like [[mriqc]] from the [[bids]] preprocessing ecosystem. For connectome generation from processed imaging data, LORIS-compatible data can feed into tools like [[mrtrix3-connectome]] or the [[brain-connectivity-toolkit]] (BCT).
 
 ## Related Pages
 
 - [[neuroimaging]]
-- [[data-management]]
-- [[structural‑connectivity]]
+- data-management
+- [[structural-connectivity]]
 - [[human-connectome-project]]
 - [[the-virtual-brain]]
 - [[whole-brain-modeling]]
-
-## References
-
-1. Schirner et al. (2018). *An automated pipeline for constructing personalized virtual brains*. NeuroImage. [DOI](](https://doi.org/10.1016/j.neuroimage.2018.05.040))
-2. (authors unknown). *[[braph]]: A Pipeline for Brain [[connectivity]] Analysis*.
-3. Xiaobo Liu. (2026). *MLE-Toolbox: An Open-Source Toolbox for Comprehensive EEG and MEG Data Analysis*. [Link](](https://www.semanticscholar.org/paper/e7aaa4f4bb01e70064493684b4500a950f83460f))

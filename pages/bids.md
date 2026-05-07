@@ -1,7 +1,7 @@
 ---
 title: Brain Imaging Data Structure (BIDS)
 created: 2026-04-20
-updated: 2026-05-06
+updated: 2026-05-07
 type: concept
 tags: [neuroimaging-fmri, neuroimaging-eeg, neuroimaging-meg, software-neuroimaging, data-standard, neuroimaging-dti]
 sources: [raw/papers/jordan-2018.md, raw/papers/sanz-leon-2013.md, raw/papers/arxiv-2604.03619.md]
@@ -27,7 +27,7 @@ BIDS is designed around several core principles that have contributed to its wid
 
 ## Relationship to Whole-Brain Modeling
 
-In the context of [[whole-brain-modeling]] and [[the-virtual-brain]], BIDS plays an important role in the data preprocessing pipeline that precedes simulation. TVB and similar simulators require structural connectivity matrices derived from [[diffusion-mri]] tractography as primary inputs. When researchers share datasets in BIDS format, the standardized directory structure and metadata make it straightforward to extract diffusion-weighted images (DWI) and compute [[structural-connectivity]] matrices using tools like [[mrtrix3]], [[tracktography]], or [[dipy]]. The metadata in BIDS JSON sidecar files captures the acquisition parameters needed to properly preprocess DWI data—such as b-values, b-vectors, and phase encoding information—ensuring consistent processing across subjects and studies.
+In the context of [[whole-brain-modeling]] and [[the-virtual-brain]], BIDS plays an important role in the data preprocessing pipeline that precedes simulation. TVB and similar simulators require structural connectivity matrices derived from [[diffusion-mri]] tractography as primary inputs. When researchers share datasets in BIDS format, the standardized directory structure and metadata make it straightforward to extract diffusion-weighted images (DWI) and compute [[structural-connectivity]] matrices using tools like [[mrtrix3]], [[tractography]], or [[dipy]]. The metadata in BIDS JSON sidecar files captures the acquisition parameters needed to properly preprocess DWI data—such as b-values, b-vectors, and phase encoding information—ensuring consistent processing across subjects and studies.
 
 BIDS also facilitates the integration of functional neuroimaging data for model validation. Resting-state fMRI data organized in BIDS format can be used to compute [[functional-connectivity]] matrices that serve as empirical benchmarks for comparing simulated brain dynamics against observed [[brain-dynamics]]. Researchers can use tools like [[pybids]] to programmatically query BIDS datasets, extracting specific runs, sessions, or modalities for analysis without manual file navigation. This programmatic access is particularly valuable when constructing personalized brain models that require processing multiple subjects or longitudinal sessions.
 

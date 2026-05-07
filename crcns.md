@@ -1,7 +1,7 @@
 ---
 title: CRCNS
 created: 2024-01-15
-updated: 2026-05-06
+updated: 2026-05-07
 type: entity
 tags: [funding-project, computational-neuroscience, reproducibility, people-researcher, lab-institute]
 sources:
