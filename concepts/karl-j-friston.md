@@ -1,10 +1,22 @@
 ---
-title: Karl J. Friston
 created: 2026-04-20
-updated: 2026-05-07
+sources:
+- raw/papers/david-friston-2003.md
+tags:
+- people-researcher
+- dynamic-causal-modeling
+- free-energy-principle
+- variational-bayes
+- bayesian
+- effective-connectivity
+- neuroimaging-fmri
+- neuroimaging-eeg
+- neuroimaging-meg
+- predictive-coding
+- active-inference
+title: Karl J. Friston
 type: entity
-tags: [people-researcher, dynamic-causal-modeling, free-energy-principle, variational-bayes, bayesian, effective-connectivity, neuroimaging-fmri, neuroimaging-eeg, neuroimaging-meg, predictive-coding, active-inference]
-sources: [raw/papers/david-friston-2003.md]
+updated: '2026-05-07'
 ---
 
 **Karl J. Friston** is a British neuroscientist and theoretical biologist who holds positions at University College London and the Wellcome Trust Centre for Neuroimaging. He is widely regarded as one of the most influential theoretical neuroscientists of his generation, having developed several foundational frameworks that bridge [[computational-neuroscience]], [[bayesian]] inference, and [[neuroimaging]] analysis. His work on the [[free-energy-principle]] and [[dynamic-causal-modeling]] has shaped how researchers conceptualize brain function, connectivity, and the relationship between structure and dynamics in large-scale brain networks.
@@ -21,7 +33,7 @@ The [[free-energy-principle]] represents one of Friston's most ambitious theoret
 
 ### Generalized Filtering and Variational Bayes
 
-Friston has also made major methodological contributions through his development of generalized filtering and variational Bayesian methods for system identification in neuroscience. These approaches address the challenge of inverting complex, nonlinear dynamical systems—a problem that arises frequently when trying to fit [[neural-mass-model]]s or whole-brain models to empirical data. The variational Bayesian approach recasts the difficult problem of computing posterior distributions over model parameters as an optimization problem, minimizing variational free energy [@friston-2008-variational]. This framework has become foundational for [[parameter-estimation]] in tools like SPM (Statistical Parametric Mapping) and has influenced how researchers think about model validation and comparison in neuroimaging.
+Friston has also made major methodological contributions through his development of generalized filtering and variational Bayesian methods for system identification in neuroscience. These approaches address the challenge of inverting complex, nonlinear dynamical systems—a problem that arises frequently when trying to fit [[neural-mass-model]]s or [[whole-brain]] models to empirical data. The variational Bayesian approach recasts the difficult problem of computing posterior distributions over model parameters as an optimization problem, minimizing variational free energy [@friston-2008-variational]. This framework has become foundational for [[parameter-estimation]] in tools like SPM (Statistical Parametric Mapping) and has influenced how researchers think about [[model-validation]] and comparison in neuroimaging.
 
 ### Active Inference
 
@@ -31,7 +43,7 @@ Building on the free energy principle, Friston has developed the active inferenc
 
 Friston's theoretical and methodological contributions have profound implications for [[the-virtual-brain]] (TVB) modeling platforms that implement [[whole-brain-modeling]] approaches. The [[dynamic-causal-modeling]] framework provides a key bridge between empirical neuroimaging data and personalized brain models: DCM-derived estimates of effective connectivity can be used to constrain the coupling parameters of TVB's neural mass networks, enabling data-driven personalization of whole-brain simulations. This integration allows researchers to move beyond generic brain network architectures toward models that reflect individual patterns of causal connectivity.
 
-The [[free-energy-principle]] offers the theoretical foundation for understanding why TVB's neural mass dynamics exhibit the patterns they do—spontaneous fluctuations, state transitions, and responses to perturbation can all be understood as manifestations of variational minimization in large-scale brain networks. Furthermore, Friston's variational Bayesian methods continue to inspire approaches to [[parameter-estimation]] in TVB, where model inversion is needed to fit personalized models to empirical functional or electrophysiological data. TVB simulations also serve as testbeds for predictions derived from active inference and predictive coding frameworks, enabling researchers to evaluate whether the mathematical consequences of these theories match empirical observations in large-scale brain dynamics.
+The [[free-energy-principle]] offers the theoretical foundation for understanding why TVB's neural mass dynamics exhibit the patterns they do—spontaneous fluctuations, state transitions, and responses to perturbation can all be understood as manifestations of variational minimization in large-scale brain networks. Furthermore, Friston's variational Bayesian methods continue to inspire approaches to [[parameter-estimation]] in TVB, where model inversion is needed to fit personalized models to empirical functional or electrophysiological data. TVB simulations also serve as testbeds for predictions derived from active inference and predictive coding frameworks, enabling researchers to evaluate whether the mathematical consequences of these theories match empirical observations in large-scale [[brain-dynamics]].
 
 ## References
 
@@ -39,4 +51,4 @@ The [[free-energy-principle]] offers the theoretical foundation for understandin
 - Friston, K. J. (2010). The free-energy principle: a unified brain theory? *Nature Reviews Neuroscience*, 11(2), 127–138.
 - Friston, K. J., Mattout, J., Trujillo-Barreto, N., Ashburner, J., & Penny, W. (2008). Variational free energy and the Laplace approximation. *NeuroImage*, 34(1), 220–234.
 - Friston, K. J., Adams, R. A., Perrinet, L., & Breakspear, M. (2012). Perceptions as hypotheses: Saccades as active inferences. *Frontiers in Neuroscience*, 6, 26.
-- David, O., & Friston, K. J. (2003). A neural mass model for MEG/EEG: coupling and neuronal dynamics. *NeuroImage*, 20(3), 1743–1755.
+- David, O., & Friston, K. J. (2003). A [[neural-mass-models|neural mass model]] for MEG/EEG: coupling and neuronal dynamics. *NeuroImage*, 20(3), 1743–1755.

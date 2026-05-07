@@ -22,3 +22,5 @@
 ## [2026-05-07 22:03] Audit: 798 issues (57 broken links, 34 orphans, 0 placeholders, 0 dup-refs, 5 bad-meta, 99 citation-verify, 14 opaque-refs, 22 thin, 438 missing-links)
 
 ## [2026-05-07 22:05] Improve: 1 pages improved (schaefer)
+
+## [2026-05-07 22:25] DeepResearch: 1 papers added via focused research

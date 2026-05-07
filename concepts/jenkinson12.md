@@ -1,27 +1,37 @@
 ---
-title: Jenkinson et al. 2012
 created: 2024-01-15
-updated: 2026-05-07
+sources:
+- raw/papers/jenkinsonsm12.md
+tags:
+- software-fsl
+- neuroimaging
+- neuroimaging-fmri
+- neuroimaging-dti
+- neuroimaging-meg
+- tractography
+- diffusion-imaging
+- functional-connectivity
+- structural-connectivity
+title: Jenkinson et al. 2012
 type: entity
-tags: [software-fsl, neuroimaging, neuroimaging-fmri, neuroimaging-dti, neuroimaging-meg, tractography, diffusion-imaging, functional-connectivity, structural-connectivity]
-sources: [raw/papers/jenkinsonsm12.md]
+updated: '2026-05-07'
 ---
 
 The Jenkinson et al. 2012 paper, published in NeuroImage as "FSL," represents one of the most cited foundational works in computational neuroimaging. This entity page references the software paper authored by Mark Jenkinson, Christian F. Beckmann, Timothy E.J. Behrens, Mark W. Woolrich, and Stephen M. Smith, which describes the suite of tools collectively known as FMRIB Software Library (FSL). The paper serves as a key citation in many whole-brain modeling workflows, particularly those involving [[tractography]] and [[diffusion-imaging]] preprocessing pipelines that feed into [[connectome]] construction for [[the-virtual-brain]] and similar simulators.
 
 ## Background and Motivation
 
-Prior to FSL, neuroimaging analysis required cobbling together disparate tools, often with steep learning curves and limited interoperability. The FSL project, originating from the Oxford Centre for Functional MRI of the Brain (FMRIB), aimed to provide an integrated, user-friendly software suite that could handle the full pipeline from raw [[neuroimaging]] data to statistical analysis. The 2012 paper consolidated years of development work into a comprehensive reference that became the standard citation for dozens of FSL tools used in brain connectivity research.
+Prior to FSL, neuroimaging analysis required cobbling together disparate tools, often with steep learning curves and limited interoperability. The FSL project, originating from the Oxford Centre for Functional MRI of the Brain (FMRIB), aimed to provide an integrated, user-friendly software suite that could handle the full pipeline from raw [[neuroimaging]] data to statistical analysis. The 2012 paper consolidated years of development work into a comprehensive reference that became the standard citation for dozens of FSL tools used in brain [[connectivity]] research.
 
 The motivation for creating such an integrated platform stemmed from the rapid adoption of [[resting-state]] [[functional-connectivity]] analysis and [[diffusion-mri]] tractography in the mid-2000s. Researchers needed robust, validated tools for processing [[fMRI]], [[dti]], and [[meg]] data, and FSL filled this gap by implementing state-of-the-art algorithms with careful attention to methodological rigor.
 
 ## Technical Contributions
 
-The Jenkinson et al. 2012 paper describes several core FSL components that are essential for whole-brain connectivity analysis:
+The Jenkinson et al. 2012 paper describes several core FSL components that are essential for [[whole-brain]] connectivity analysis:
 
 **BET (Brain Extraction Tool)** provides automated skull-stripping, removing non-brain tissue from [[neuroimaging-fmri]] and [[diffusion-imaging]] volumes with adjustable threshold parameters that balance completeness and accuracy. This preprocessing step is critical for ensuring clean inputs to subsequent connectivity pipelines.
 
-**FEAT (FMRIB's Automated Analysis Tool)** implements the standard [[fMRI]] preprocessing pipeline including motion correction, spatial smoothing, high-pass filtering, and registration to standard [[mni-space]]. FEAT's linear registration using FLIRT (FMRIB's Linear Image Registration Tool) and nonlinear registration via FNIRT became de facto standards.
+**FEAT (FMRIB's Automated Analysis Tool)** implements the standard [[fMRI]] preprocessing pipeline including motion correction, spatial smoothing, high-pass filtering, and registration to standard [[mni-space]]. FEAT's [[linear]] registration using FLIRT (FMRIB's Linear Image Registration Tool) and nonlinear registration via FNIRT became de facto standards.
 
 **MELODIC** performs [[ica]] (Independent Component Analysis) decomposition of [[resting-state-fmri]] data, enabling data-driven identification of [[intrinsic-connectivity-networks]]. This capability proved essential for [[functional-connectivity]] analysis and [[default-mode-network]] characterization.
 
@@ -41,7 +51,7 @@ The paper is cited in [[tractoflow]] documentation and numerous preprocessing pi
 
 FSL coexisted with and influenced other major neuroimaging platforms including [[spm]] (Statistical Parameter Mapping, developed primarily at University College London) and [[afni]] (Analysis of Functional NeuroImages, from the NIH). While SPM emphasizes voxel-based analysis in a [[mass-univariate]] framework, FSL pioneered tools optimized for [[resting-state]] analysis and diffusion imaging. The three platforms (FSL, SPM, AFNI) collectively form the "big three" in neuroimaging preprocessing.
 
-Modern pipelines like [[dmriprep]] and [[qsiprep]] incorporate elements of FSL but wrap them in more modular, BIDS-compliant frameworks. However, many TVB-related workflows still invoke FSL tools directly or cite the Jenkinson et al. 2012 paper for methodological justification.
+Modern pipelines like [[dmriprep]] and [[qsiprep]] incorporate elements of FSL but wrap them in more modular, [[bids]]-compliant frameworks. However, many TVB-related workflows still invoke FSL tools directly or cite the Jenkinson et al. 2012 paper for methodological justification.
 
 ## Relationship to TVB
 

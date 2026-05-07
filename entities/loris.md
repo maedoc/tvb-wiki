@@ -1,17 +1,21 @@
 ---
-title: LORIS
 created: 2025-01-15
-updated: 2026-05-07
-type: entity
-tags: [software-neuroimaging, database-neuroimaging, data-management, neuroimaging]
 sources: []
+tags:
+- software-neuroimaging
+- database-neuroimaging
+- data-management
+- neuroimaging
+title: LORIS
+type: entity
+updated: '2026-05-07'
 ---
 
 # LORIS
 
 ## Overview
 
-LORIS (Laboratory for Neuro Imaging Research System) is a web-based data management and processing platform originally developed at the Montreal Neurological Institute (MNI) for managing large-scale neuroimaging datasets. It serves as an integrated solution for organizing, tracking, and processing neuroimaging data acquired through modalities such as MRI, fMRI, EEG, and MEG. LORIS provides a flexible database architecture that supports the full lifecycle of neuroimaging research data, from acquisition through quality control, preprocessing, and analysis. The platform has been widely adopted by major neuroimaging consortia and individual research laboratories seeking a robust, scalable solution for data management.
+LORIS (Laboratory for Neuro Imaging Research System) is a web-based data management and processing platform originally developed at the Montreal Neurological Institute (MNI) for managing large-scale neuroimaging datasets. It serves as an integrated solution for organizing, tracking, and processing neuroimaging data acquired through modalities such as MRI, [[fmri]], EEG, and MEG. LORIS provides a flexible database architecture that supports the full lifecycle of neuroimaging research data, from acquisition through quality control, preprocessing, and analysis. The platform has been widely adopted by major neuroimaging consortia and individual research laboratories seeking a robust, scalable solution for data management.
 
 ## Key Features
 

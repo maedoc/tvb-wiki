@@ -1,21 +1,32 @@
 ---
-title: Alzheimer's Disease
 created: 2025-01-01
-updated: 2026-05-07
+sources:
+- raw/papers/semanticscholar-fbbb20a58ced.md
+- raw/papers/arxiv-2603.13598.md
+- raw/papers/semanticscholar-ff8218c1e55e.md
+tags:
+- alzheimers-modeling
+- neuroimaging-fmri
+- functional-connectivity
+- whole-brain-modeling
+- personalized-brain-modeling
+- brain-network
+- structural-connectivity
+- aging-brain
+title: Alzheimer's Disease
 type: concept
-tags: [alzheimers-modeling, neuroimaging-fmri, functional-connectivity, whole-brain-modeling, personalized-brain-modeling, brain-network, structural-connectivity, aging-brain]
-sources: [raw/papers/semanticscholar-fbbb20a58ced.md, raw/papers/arxiv-2603.13598.md, raw/papers/semanticscholar-ff8218c1e55e.md]
+updated: '2026-05-07'
 ---
 
 Alzheimer's disease (AD) is a progressive neurodegenerative disorder characterized by the accumulation of amyloid-beta plaques and tau protein tangles, leading to regional brain atrophy and the gradual disruption of large-scale [[functional-connectivity]] networks. Within the framework of [[whole-brain modeling]], AD represents a particularly compelling application area because the disease fundamentally alters the structural and functional architecture of the brain at the [[network-dynamics]] level, making computational approaches essential for understanding its progression and developing therapeutic interventions.
 
 ## The Decoupling Hypothesis
 
-A central conceptual framework in computational models of AD is the "decoupling hypothesis," which posits that network disconnection occurs as a direct consequence of gray matter atrophy [1]. This hypothesis has received strong support from contemporary computational work using variational Bayes frameworks to model time-dependent connectome dynamics during neurodegeneration [1]. The temporal diffusion network framework proposed by Xie et al. segments pathological progression into discrete time windows and optimizes connectome distributions for biomarker Bayesian regression, effectively treating the learning of disease progression as an optimization problem [1]. Their approach demonstrates that eigenvalue-based metrics can reveal pathological destabilization in AD brains, providing novel quantitative evidence for the decoupling phenomenon [1]. This framework was evaluated using both synthetic and real-world MRI and PET clinical datasets measuring amyloid beta, tau, and glucose metabolism, successfully distinguishing normative aging from AD pathology [1].
+A central conceptual framework in computational models of AD is the "decoupling hypothesis," which posits that network disconnection occurs as a direct consequence of gray matter atrophy [1]. This hypothesis has received strong support from contemporary computational work using [[variational-bayes]] frameworks to model time-dependent [[connectome]] dynamics during neurodegeneration [1]. The temporal diffusion network framework proposed by Xie et al. segments pathological progression into discrete time windows and optimizes connectome distributions for biomarker [[bayesian]] regression, effectively treating the learning of disease progression as an optimization problem [1]. Their approach demonstrates that eigenvalue-based metrics can reveal pathological destabilization in AD brains, providing novel quantitative evidence for the decoupling phenomenon [1]. This framework was evaluated using both synthetic and real-world MRI and PET clinical datasets measuring amyloid beta, tau, and glucose metabolism, successfully distinguishing normative [[aging]] from AD pathology [1].
 
 ## Tau-Driven Atrophy and Functional Connectivity
 
-The work by Jiang et al. represents a significant advance in linking molecular-level pathology to network-level dysfunction through a multiphysics framework [2]. Their model integrates anisotropic tau reaction-diffusion, finite-deformation biomechanics, and [[neural-mass-models|neural mass]] network modeling to connect tau-driven atrophy with [[functional-connectivity]] changes [2]. By combining longitudinal structural and functional MRI, they identified an approximately linear relationship between regional atrophy rates and FC change, suggesting that the mapping from structural degradation to functional disruption may be more straightforward than previously assumed [2]. The atrophy-informed degradation matrix constructed from model-predicted region-specific atrophy rates, when embedded into a neural oscillation model, successfully captures both the direction and relative magnitude of regional FC disruption [2].
+The work by Jiang et al. represents a significant advance in linking molecular-level pathology to network-level dysfunction through a multiphysics framework [2]. Their model integrates anisotropic tau reaction-diffusion, finite-deformation biomechanics, and [[neural-mass-models|neural mass]] network modeling to connect tau-driven atrophy with [[functional-connectivity]] changes [2]. By combining longitudinal structural and [[neuroimaging-fmri|functional MRI]], they identified an approximately [[linear]] relationship between regional atrophy rates and FC change, suggesting that the mapping from structural degradation to functional disruption may be more straightforward than previously assumed [2]. The atrophy-informed degradation matrix constructed from model-predicted region-specific atrophy rates, when embedded into a neural oscillation model, successfully captures both the direction and relative magnitude of regional FC disruption [2].
 
 This multiphysics approach addresses a critical gap in the field: while tau propagation and tissue degeneration have been widely modeled individually, the translation mechanism from atrophy dynamics to functional degradation has remained unclear [2]. The framework offers a clinically interpretable pathway for forecasting disease progression and informing clinical trial design, as it provides testable predictions about how tau accumulation in specific brain regions will affect corresponding functional networks [2].
 
@@ -29,7 +40,7 @@ Within the [[the-virtual-brain]] ecosystem, AD modeling represents an important 
 
 ## Open Questions
 
-Several critical questions remain open in computational modeling of AD: (1) The precise mathematical relationship between tau accumulation rates and functional network degradation remains debated, with some models suggesting linearity while others propose nonlinear threshold effects [2]. (2) The relative contributions of amyloid versus tau to network-level dysfunction are difficult to disentangle in vivo. (3) How to validate computational predictions against longitudinal clinical outcomes at the individual patient level remains a significant challenge. (4) The integration of molecular-level biomarkers (PET imaging of amyloid and tau) with macro-scale connectivity models requires further methodological development.
+Several critical questions remain open in computational modeling of AD: (1) The precise mathematical relationship between tau accumulation rates and functional network degradation remains debated, with some models suggesting linearity while others propose nonlinear threshold effects [2]. (2) The relative contributions of amyloid versus tau to network-level dysfunction are difficult to disentangle in vivo. (3) How to validate computational predictions against longitudinal clinical outcomes at the individual patient level remains a significant challenge. (4) The integration of molecular-level biomarkers (PET imaging of amyloid and tau) with macro-scale [[connectivity]] models requires further methodological development.
 
 ## Related Concepts
 

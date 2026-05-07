@@ -51,7 +51,7 @@ Functional [[connectivity]], as introduced by Friston and colleagues in their se
 
 [[the-virtual-brain]] (TVB) integrates neuroimaging data at multiple stages of the modeling pipeline. The structural connectivity matrix used in TVB simulations is typically derived from dMRI tractography, often preprocessed with tools like [[diffusion-mri]] or tractography software packages. TVB accepts connectivity matrices in various formats, including from atlases such as [[aal-atlas]] or [[desikan-killiany-atlas]]. Functional data from fMRI or EEG provides empirical reference for model validation, and TVB can generate simulated BOLD signals and intracranial field potentials for comparison. The TVB ecosystem includes adapters for interfacing with neuroimaging preprocessing pipelines, enabling seamless integration of empirical data into whole-brain simulations. Tools such as [[neurodamus]] extend this integration to spiking network simulators.
 [[ Allen SDK]]
-Web‑based visualization platforms such as [[neurosift]] enable interactive exploration of neuroimaging datasets. The R package [[cititools]] also supports CIFTI file manipulation for advanced analyses.
+Web‑based visualization platforms such as [[neurosift]] enable interactive exploration of neuroimaging datasets. The R package [[cititools]] also supports [[cifti]] file manipulation for advanced analyses.
 
 ## Open Questions
 
@@ -75,7 +75,7 @@ sources:
 - raw/papers/ritter-2013.md
 tags:
 - software
-- connectomics
+- [[connectomics]]
 - structural-connectivity
 - diffusion-imaging
 - neuroimaging-dti
@@ -94,13 +94,13 @@ sources:
 - raw/papers/glasser-2013.md
 - raw/papers/semanticscholar-109de470e443.md
 tags:
-- software-bids
+- software-[[bids]]
 - dataset
 - neuroimaging-fmri
 - neuroimaging-dti
 - database-hcp
 - software-fsl
-- software-freesurfer
+- software-[[freesurfer]]
 title: ABCBIDS
 type: entity
 updated: '2026-05-06'

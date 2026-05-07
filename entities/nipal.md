@@ -14,7 +14,7 @@ type: entity
 updated: '2026-05-07'
 ---
 
-**NIPAL** (Neural Integration Platform for Anatomical Levels) is a Python-based neural simulation framework designed for large-scale brain network modeling. It provides the computational backend for simulating neural mass dynamics at the regional level, forming an integral component of the [[the-virtual-brain]] ecosystem for [[whole-brain modeling]].
+**NIPAL** (Neural Integration Platform for Anatomical Levels) is a Python-based [[neural-simulation]] framework designed for large-scale [[brain-network]] modeling. It provides the computational backend for simulating neural mass dynamics at the regional level, forming an integral component of the [[the-virtual-brain]] ecosystem for [[whole-brain modeling]].
 
 ## Overview
 
@@ -24,15 +24,15 @@ The platform implements several canonical [[neural-mass-models]] including the [
 
 ## Technical Architecture
 
-NIPAL is written primarily in Python and leverages efficient numerical libraries for solving the ordinary and partial differential equations that govern neural mass dynamics. The platform implements a modular design where neural populations are defined by their intrinsic dynamics (oscillatory or excitable behavior), coupling functions (describing inter-regional connectivity), and input driving terms. This modularity enables researchers to combine different neural mass implementations with various [[structural-connectivity]] matrices derived from individual subject neuroimaging data.
+NIPAL is written primarily in Python and leverages efficient numerical libraries for solving the ordinary and partial differential equations that govern neural mass dynamics. The platform implements a modular design where neural populations are defined by their intrinsic dynamics (oscillatory or excitable behavior), coupling functions (describing inter-regional [[connectivity]]), and input driving terms. This [[modularity]] enables researchers to combine different neural mass implementations with various [[structural-connectivity]] matrices derived from individual subject [[neuroimaging]] data.
 
-The numerical integration in NIPAL employs adaptive step-size solvers capable of handling the multiple timescales present in neural systems—fast synaptic dynamics alongside slower neuromodulatory influences. The platform also supports [[parameter-estimation]] workflows, allowing model parameters to be fitted to empirical neuroimaging data (EEG, MEG, or fMRI) through optimization routines that minimize the discrepancy between simulated and observed signals.
+The numerical integration in NIPAL employs adaptive step-size solvers capable of handling the multiple timescales present in neural systems—fast synaptic dynamics alongside slower neuromodulatory influences. The platform also supports [[parameter-estimation]] workflows, allowing model parameters to be fitted to empirical neuroimaging data (EEG, MEG, or [[fmri]]) through optimization routines that minimize the discrepancy between simulated and observed signals.
 
 ## Relationship to TVB
 
 NIPAL provides the neural simulation capabilities that complement TVB's [[whole-brain]] framework. While TVB handles the high-level workflow management, data preprocessing (including [[connectome]] reconstruction from [[diffusion-mri]] tractography), and forward modeling for neuroimaging modalities, NIPAL executes the actual neural mass simulations that generate the time series of regional activity. This separation of concerns allows TVB to serve as a user-friendly interface while NIPAL handles the computationally intensive simulation core.
 
-The integration between NIPAL and TVB enables [[personalized-brain-modeling]] workflows where individual subject structural connectivity data informs the coupling between brain regions. Researchers can simulate resting-state dynamics and compare the resulting [[functional-connectivity]] patterns against empirical observations, facilitating investigations into how structural alterations (from development, disease, or stimulation) affect functional brain dynamics.
+The integration between NIPAL and TVB enables [[personalized-brain-modeling]] workflows where individual subject structural connectivity data informs the coupling between brain regions. Researchers can simulate [[resting-state]] dynamics and compare the resulting [[functional-connectivity]] patterns against empirical observations, facilitating investigations into how structural alterations (from development, disease, or stimulation) affect functional [[brain-dynamics]].
 
 ## Relationship to Other Simulators
 
@@ -42,8 +42,8 @@ The platform differs from [[annarchy]] and [[pynest]] in its tight integration w
 
 ## Key Features
 
-The platform provides several capabilities essential for whole-brain modeling: efficient simulation of network dynamics with heterogeneous regional properties, incorporation of time delays reflecting white-matter tract lengths, support for both lumped and distributed parameter representations, and seamless data exchange with TVB's visualization and analysis tools. NIPAL's Python API enables customization of model parameters and coupling functions, facilitating research into novel [[neural-mass-models]] and [[network-dynamics]] phenomena.
+The platform provides several capabilities essential for whole-brain modeling: efficient simulation of network dynamics with heterogeneous regional properties, incorporation of time delays reflecting [[white-matter]] tract lengths, support for both lumped and distributed parameter representations, and seamless data exchange with TVB's visualization and analysis tools. NIPAL's Python API enables customization of model parameters and coupling functions, facilitating research into novel [[neural-mass-models]] and [[network-dynamics]] phenomena.
 
 ## References
 
-1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+1. Sanz Leon et al. (2013). *[[tvb|The Virtual Brain]]: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)

@@ -16,13 +16,13 @@ type: entity
 updated: '2026-05-07'
 ---
 
-Viktor Jirsa is a computational neuroscientist and professor at Aix-Marseille Université in France, where he leads the Systems Neuroscience group at the Institut de Neurosciences des Systèmes. His research focuses on large-scale brain modeling, neural mass models, and the development of whole-brain simulation frameworks. He is best known for co-founding [[the-virtual-brain]], a software platform for personalized brain modeling, and for developing the Epileptor model—a seminal computational model of epileptic seizures that has become a cornerstone of computational epilepsy research.
+Viktor Jirsa is a computational neuroscientist and professor at Aix-Marseille Université in France, where he leads the Systems Neuroscience group at the Institut de Neurosciences des Systèmes. His research focuses on large-scale brain modeling, neural mass models, and the development of [[whole-brain]] simulation frameworks. He is best known for co-founding [[the-virtual-brain]], a software platform for personalized brain modeling, and for developing the Epileptor model—a seminal computational model of epileptic seizures that has become a cornerstone of computational epilepsy research.
 
 ## Research Contributions
 
 Jirsa's work bridges the gap between [[neural-mass-models]] and [[connectomics]], developing mathematical frameworks that capture how large-scale brain connectivity shapes emergent neural dynamics. His research demonstrates that the brain's structural connectivity—the anatomical white-matter pathways mapped via diffusion imaging—imposes constraints on functional dynamics, enabling predictions of resting-state networks, seizure propagation patterns, and the effects of brain stimulation. This work operates at the intersection of [[dynamical-systems-theory]] and neuroimaging, using [[stochastic-differential-equations]] to model noise-driven exploration of brain state spaces.
 
-A significant contribution from Jirsa and collaborators is the concept of the **Resting State Manifold (RSM)**—a low-dimensional representation of brain states that emerges from the interplay between local dynamics and anatomical connectivity patterns. In recent work (Gudibanda et al., 2026), this framework was used to explore network degeneracy: the phenomenon whereby different configurations of brain connectivity can generate similar functional outputs. Understanding degeneracy is crucial for interpreting how the brain maintains function despite structural variations or lesions, and it has implications for predicting the outcomes of neurosurgical interventions.
+A significant contribution from Jirsa and collaborators is the concept of the **Resting State Manifold (RSM)**—a low-dimensional representation of brain states that emerges from the interplay between local dynamics and anatomical [[connectivity]] patterns. In recent work (Gudibanda et al., 2026), this framework was used to explore network degeneracy: the phenomenon whereby different configurations of brain connectivity can generate similar functional outputs. Understanding degeneracy is crucial for interpreting how the brain maintains function despite structural variations or lesions, and it has implications for predicting the outcomes of neurosurgical interventions.
 
 ## The Epileptor Model
 
@@ -40,5 +40,5 @@ Viktor Jirsa is the scientific director and co-founder of [[the-virtual-brain]],
 
 ## References
 
-1. Deco et al. (2013). *Resting brains never rest: computational insights into potential cognitive architectures*. Trends in Neurosciences. [DOI](https://doi.org/10.1016/j.tins.2013.09.002)
-2. Kashyap Gudibanda, J. Fousek, S. Petkoski, V. Jirsa. (2026). *The role of connectivity for the degeneracy of the brain’s resting state dynamics*. Journal of Computational Neuroscience. [DOI](https://doi.org/10.1007/s10827-025-00919-0)
+1. Deco et al. (2013). *Resting brains never [[rest]]: computational insights into potential cognitive architectures*. Trends in Neurosciences. [DOI](https://doi.org/10.1016/j.tins.2013.09.002)
+2. Kashyap Gudibanda, J. Fousek, S. Petkoski, V. Jirsa. (2026). *The role of connectivity for the degeneracy of the brain’s resting state dynamics*. Journal of [[computational-neuroscience]]. [DOI](https://doi.org/10.1007/s10827-025-00919-0)

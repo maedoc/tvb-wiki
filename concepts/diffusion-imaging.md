@@ -82,4 +82,4 @@ updated: '2026-05-04'
 
 ## Overview
 
-NeuSIGHT (Neural Simulation and Imaging for Hemodynamic Tracking) is an open-source software platform for personalized whole-brain modeling that integrates neuroimaging data with neural mass models to simulate brain dynamics. Developed as a complement to [[the-virtual-
+NeuSIGHT ([[neural-simulation]] and Imaging for Hemodynamic Tracking) is an open-source software platform for personalized whole-brain modeling that integrates [[neuroimaging]] data with neural mass models to simulate [[brain-dynamics]]. Developed as a complement to [[the-virtual-

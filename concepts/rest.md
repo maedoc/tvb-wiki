@@ -25,7 +25,7 @@ The modern era of resting-state neuroscience began with the discovery that spati
 
 ## Computational Modeling of Resting State
 
-Computational approaches to understanding resting-state activity have made significant contributions by revealing the mechanisms from which spontaneous fluctuations emerge. The work by Deco, Jirsa, and McIntosh (2013) [Deco et al., 2013] demonstrated, using large-scale neural mass models, that noise-driven fluctuations in a structured network—constrained by empirical structural connectivity derived from diffusion imaging—can reproduce empirical resting-state functional connectivity patterns. Their framework emphasized that resting-state dynamics arise from the interaction between the anatomical scaffold provided by white matter tracts and the stochastic activity inherent to neural systems, with the brain continuously exploring a repertoire of functional states that overlap substantially with patterns evoked during task performance [Deco et al., 2013].
+Computational approaches to understanding [[resting-state]] activity have made significant contributions by revealing the mechanisms from which spontaneous fluctuations emerge. The work by Deco, Jirsa, and McIntosh (2013) [Deco et al., 2013] demonstrated, using large-scale [[neural-mass-models]], that noise-driven fluctuations in a structured network—constrained by empirical structural [[connectivity]] derived from [[diffusion-imaging]]—can reproduce empirical resting-state functional connectivity patterns. Their framework emphasized that resting-state dynamics arise from the interaction between the anatomical scaffold provided by [[white-matter]] tracts and the stochastic activity inherent to neural systems, with the brain continuously exploring a repertoire of functional states that overlap substantially with patterns evoked during task performance [Deco et al., 2013].
 
 The relationship between [[structural-connectivity]] and resting-state [[functional-connectivity]] is neither deterministic nor trivial. While structural connections provide the necessary substrate for functional coupling, the mapping from anatomy to function is highly nonlinear. Honey and colleagues (2009) demonstrated that structural connectivity explains only a portion of the variance in functional connectivity, with the remainder arising from dynamic interactions and shared input. This insight has been incorporated into [[whole-brain-modeling]] frameworks that use empirical structural connectivity matrices—typically derived from [[neuroimaging-dti]] or tractography—as the primary constraint for simulating resting-state dynamics. The work by Smith and colleagues (2013) in the [[human-connectome-project]] provided high-resolution maps of resting-state networks in over 200 subjects, establishing reference datasets that computational models can be validated against [Smith et al., 2013].
 
@@ -35,7 +35,7 @@ Power and colleagues (2011) provided a comprehensive mapping of the human brain'
 
 ## Methodological Considerations
 
-Several methodological debates continue to shape resting-state research. Global signal regression remains controversial, as it can effectively remove structured noise (cardiac, respiratory) but may also eliminate valid neural signal of whole-brain origin [Power et al., 2011]. Motion artefacts pose significant challenges, particularly in clinical populations where head motion is often increased; strategies such as scrubbing and framewise displacement censoring have become standard preprocessing steps [Power et al., 2011]. Additionally, the influence of physiological confounds—including respiration and cardiac pulsation—on resting-state BOLD fluctuations continues to be refined through improved acquisition protocols and denoising strategies.
+Several methodological debates continue to shape resting-state research. Global signal regression remains controversial, as it can effectively remove structured noise (cardiac, respiratory) but may also eliminate valid neural signal of [[whole-brain]] origin [Power et al., 2011]. Motion artefacts pose significant challenges, particularly in clinical populations where head motion is often increased; strategies such as scrubbing and framewise displacement censoring have become standard preprocessing steps [Power et al., 2011]. Additionally, the influence of physiological confounds—including respiration and cardiac pulsation—on resting-state [[bold-signal|BOLD]] fluctuations continues to be refined through improved acquisition protocols and denoising strategies.
 
 ## Clinical Applications
 
@@ -47,11 +47,11 @@ REST provides the foundational brain state for several related concepts in this 
 
 ## Open Questions
 
-Despite substantial progress, fundamental questions remain about the biological significance of resting‑state activity and its relationship to cognition. Whether resting‑state fluctuations primarily reflect ongoing processing, passive maintenance of neural circuitry, or emergent properties of neural architecture remains debated. The field continues to advance through combinations of improved neuroimaging at higher temporal and spatial resolution, more sophisticated computational models, and rigorous validation against empirical data.
+Despite substantial progress, fundamental questions remain about the biological significance of resting‑state activity and its relationship to cognition. Whether resting‑state fluctuations primarily reflect ongoing processing, passive maintenance of neural circuitry, or emergent properties of neural architecture remains debated. The field continues to advance through combinations of improved [[neuroimaging]] at higher temporal and spatial resolution, more sophisticated computational models, and rigorous validation against empirical data.
 
 ## References
 
-1. (authors unknown). *Resting-State fMRI in the Human Connectome Project*.
+1. (authors unknown). *Resting-State fMRI in the Human [[connectome]] Project*.
 2. Deco et al. (2013). *Resting brains never rest: computational insights into potential cognitive architectures*. Trends in Neurosciences. [DOI](https://doi.org/10.1016/j.tins.2013.09.002)
 3. (authors unknown). *Functional Network Organization of the Human Brain*.
 4. (authors unknown). *Functional connectivity in the motor cortex of resting human brain using echo-planar MRI*.

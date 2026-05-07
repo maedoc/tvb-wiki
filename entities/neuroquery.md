@@ -1,18 +1,24 @@
 ---
-title: NeuroQuery
 created: 2025-01-15
-updated: 2026-05-07
-type: entity
-tags: [software-neuroquery, neuroimaging-fmri, meta-analysis, functional-connectivity, resting-state]
 sources:
-  - "[Dockès et al. 2020](https://elifesciences.org/articles/53385) - Primary NeuroQuery paper"
-  - "[NeuroQuery website](https://neuroquery.org)"
-  - "[NeuroQuery GitHub](https://github.com/neuroquery/neuroquery)"
+- '[Dockès et al. 2020](https://elifesciences.org/articles/53385) - Primary NeuroQuery
+  paper'
+- '[NeuroQuery website](https://neuroquery.org)'
+- '[NeuroQuery GitHub](https://github.com/neuroquery/neuroquery)'
+tags:
+- software-neuroquery
+- neuroimaging-fmri
+- meta-analysis
+- functional-connectivity
+- resting-state
+title: NeuroQuery
+type: entity
+updated: '2026-05-07'
 ---
 
 ## Overview
 
-NeuroQuery is a web-based meta-analysis framework for neuroimaging that allows researchers to make data-driven predictions about brain activation patterns given cognitive or behavioral terms, and conversely, to infer likely cognitive processes from observed activation patterns. Developed primarily by Jérôme Dockès and colleagues at INRIA with contributions from Stanford University's Poldrack Lab, NeuroQuery represents a significant advance in model-based meta-analysis of the neuroimaging literature, enabling researchers to leverage the accumulated findings from thousands of published fMRI studies to generate hypotheses and interpret empirical results. The system combines natural language processing techniques with coordinate-based meta-analysis to map cognitive terms to probabilistic brain activation estimates across the [[cortex]].
+NeuroQuery is a web-based meta-analysis framework for [[neuroimaging]] that allows researchers to make data-driven predictions about brain activation patterns given cognitive or behavioral terms, and conversely, to infer likely cognitive processes from observed activation patterns. Developed primarily by Jérôme Dockès and colleagues at INRIA with contributions from Stanford University's Poldrack Lab, NeuroQuery represents a significant advance in model-based meta-analysis of the neuroimaging literature, enabling researchers to leverage the accumulated findings from thousands of published [[fmri]] studies to generate hypotheses and interpret empirical results. The system combines natural language processing techniques with coordinate-based meta-analysis to map cognitive terms to probabilistic brain activation estimates across the [[cortex]].
 
 ## Key Features
 
