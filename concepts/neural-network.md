@@ -1,10 +1,24 @@
 ---
-title: Neural Network
 created: 2026-04-20
-updated: 2026-05-07
+sources:
+- raw/papers/strogatz-1994.md
+- raw/papers/breakspear-2017.md
+- raw/papers/hagmann-2008.md
+- raw/papers/wilson-cowan-1972.md
+- raw/papers/wong-wang-2006.md
+- raw/papers/hodgkin-huxley-1952.md
+- raw/papers/izhikevich-2003.md
+- raw/papers/kuramoto-1975.md
+- raw/papers/jansen-rit-1995.md
+tags:
+- neural-mass-models
+- network-dynamics
+- dynamical-systems-theory
+- nonlinear-dynamics
+- bifurcation-theory
+title: Neural Network
 type: concept
-tags: [neural-mass-models, network-dynamics, dynamical-systems-theory, nonlinear-dynamics, bifurcation-theory]
-sources: [raw/papers/strogatz-1994.md, raw/papers/breakspear-2017.md, raw/papers/hagmann-2008.md, raw/papers/wilson-cowan-1972.md, raw/papers/wong-wang-2006.md, raw/papers/hodgkin-huxley-1952.md, raw/papers/izhikevich-2003.md, raw/papers/kuramoto-1975.md, raw/papers/jansen-rit-1995.md]
+updated: '2026-05-07'
 ---
 
 A **neural network** in the context of whole-brain modeling refers to a mathematical framework composed of interacting units that represent neural populations or individual neurons. Unlike machine learning neural networks—which are black-box function approximators trained via gradient descent—neural networks in computational neuroscience are explicitly designed to capture biologically motivated dynamics, often derived from conductance-based equations or mean-field approximations of spiking populations. These models form the dynamical core of [[whole-brain modeling]] platforms such as [[the-virtual-brain]], where they generate simulated brain activity that can be compared to empirical [[neuroimaging-fmri]], [[neuroimaging-eeg]], or [[neuroimaging-meg]] data.
@@ -46,3 +60,11 @@ While neural networks in computational neuroscience share the name with deep lea
 ## Open Questions and Future Directions
 
 The field faces several open challenges. **Neural mass models remain phenomenological**—while they capture population dynamics effectively, their parameters do not always map cleanly to biological quantities. Bridging the gap between microscopic spiking neural networks (see [[spiking-neural-networks]]) and macroscopic mean-field models remains an active research area. Additionally, the relationship between structural connectivity reconstructed via [[tractography]] and true anatomical pathways remains contested, directly affecting the validity of whole-brain simulations. Future directions include integrating [[variational-bayes]] and [[free-energy-principle]] frameworks for robust parameter estimation, and using [[neuroml]] standards to ensure interoperability between simulators.
+
+## References
+
+1. (authors unknown). *Nonlinear Dynamics and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering*.
+2. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)
+3. (authors unknown). *Mapping the Structural Core of Human Cerebral Cortex*.
+4. Hugh R. Wilson, Jack D. Cowan. *Excitatory and inhibitory interactions in localized populations of model neurons*. Biophysical Journal. [DOI](https://doi.org/10.1016/S0006-3495(72)86068-5)
+5. Benjamin H. Jansen, Vincent G. Rit. *Electroencephalogram and visual evoked potential generation in a mathematical model of coupled cortical columns*. Biological Cybernetics. [DOI](https://doi.org/10.1007/BF00199471)

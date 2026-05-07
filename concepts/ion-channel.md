@@ -13,7 +13,7 @@ tags:
 - brain-oscillations
 title: Ion Channel
 type: concept
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 Ion channels are pore-forming proteins in neuronal membranes that allow the selective passage of specific ions (such as Na⁺, K⁺, Ca²⁺, and Cl⁻) down their electrochemical gradients. These proteins constitute the fundamental biophysical substrate for electrical signaling in neurons and are therefore central to [[computational-neuroscience]] modeling at both the microscopic level of single neurons and the mesoscopic level of [[neural-mass-model]]s used in [[whole-brain]] modeling. The opening and closing (gating) of ion channels produces transmembrane currents that generate action potentials, subthreshold oscillations, and synaptic integration—phenomena that must be captured either explicitly or phenomenologically in any biologically realistic brain model.
@@ -37,3 +37,9 @@ In [[whole-brain]] frameworks like [[the-virtual-brain]], the microscopic biophy
 ## Related Concepts
 
 Ion channels interface with several other concepts in this wiki. The [[hodgkin-huxley-model]] provides the foundational formalism, while [[brian2]], [[neuron]], and related simulation platforms implement channel dynamics at various levels of abstraction. The [[fokker-planck-equation]] provides a mathematical framework for describing the stochastic gating of ion channels at the population level. Understanding ion channel behavior is essential for [[bifurcation-analysis]] of neural models, as transitions between qualitatively different firing patterns (e.g., from resting to oscillating to bursting) often correspond to bifurcations in the ion channel parameter space. Ion channels are also studied through [[neuronunit]] [@neuronunit], which provides standardized testing frameworks for neuron models, and are linked to [[synaptic-plasticity]] mechanisms that modulate channel conductances over time.
+
+## References
+
+1. Eugene M. Izhikevich. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
+2. Michael Breakspear, John A. Roberts, John R. Terry, Stefano Rodrigues, Nader Mahmud, Philip Robinson. *Large-scale brain dynamics of seizures: asymptotic analysis of a neural field model*. Journal of Computational Neuroscience. [DOI](https://doi.org/10.1007/s10827-006-8135-2)
+3. Yunman Xia, S. Peng, J. Dukart, C. Xie, Shitong Xiang, S. Petkoski, Zilin Li, Joerg F. Hipp, S. Muthukumaraswamy, A. Forsyth, Tianye Jia, N. Vaidya, T. Lett, Liyi Qian, Xiao Chang, Yuxiang Dai, T. Banaschewski, G. Barker, A. Bokde, R. Brühl, S. Desrivières, Herta Flor, P. Gowland, A. Grigis, Andreas Heinz, H. Lemaître, F. Nees, D. Orfanos, Luise Poustka, M. Smolka, Sarah Hohmann, H. Walter, R. Whelan, Paul Wirsching, Zuo Zhang, Lauren Robinson, J. Winterer, Yuning Zhang, H. Kebir, Ulrike Schmidt, Julia Sinclair, Yuchen Liu, Jiexiang Wang, Fei Dai, Longbin Zeng, Yubo Hou, Huarui Wang, Leijun Ye, Chunhe Li, Qibao Zheng, Andre F Marquand, Changsong Zhou, V. Jirsa, Jianfeng Feng, Wenlian Lu, Gunter Schumann. (2026). *Digital Twin Brain simulation and manipulation of a functional brain network underlying mental illness*. bioRxiv. [DOI](https://doi.org/10.64898/2026.03.06.710030)

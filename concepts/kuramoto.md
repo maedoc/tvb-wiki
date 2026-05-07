@@ -1,10 +1,17 @@
 ---
-title: Kuramoto
 created: 2026-04-20
-updated: 2026-05-07
+sources:
+- raw/papers/strogatz-1994.md
+- raw/papers/izhikevich-2007.md
+tags:
+- neural-mass-models
+- network-dynamics
+- brain-oscillations
+- nonlinear-dynamics
+- bifurcation-analysis
+title: Kuramoto
 type: concept
-tags: [neural-mass-models, network-dynamics, brain-oscillations, nonlinear-dynamics, bifurcation-analysis]
-sources: [raw/papers/strogatz-1994.md, raw/papers/izhikevich-2007.md]
+updated: '2026-05-07'
 ---
 
 The Kuramoto model is a mathematical framework for describing the synchronous behavior of large populations of coupled oscillators. Originally proposed by the Japanese physicist Yoshiki Kuramoto in 1975[^kuramoto-1975], it has become one of the most influential models in computational neuroscience for understanding how neural populations transition from disordered, asynchronous activity to coherent oscillations. The model captures the essential physics of synchronization without requiring detailed biophysical specifications of individual neurons, making it particularly useful for whole-brain modeling where the focus is on population-level dynamics rather than single-cell physiology.
@@ -76,3 +83,8 @@ Understanding synchronization in the Kuramoto framework has direct implications 
 ## Open Questions
 
 Despite extensive study, several open questions remain regarding the Kuramoto model in neuroscience contexts. The relationship between the simplified phase descriptions and actual neural dynamics remains an area of active research, particularly regarding when phase reduction is valid and when more detailed modeling is necessary. The incorporation of [[plasticity]] mechanisms (synaptic scaling, homeostatic plasticity) into Kuramoto-style frameworks to model learning and adaptation remains challenging. Furthermore, how the model's predictions scale to the human connectome with its specific topology and delay structure continues to be explored in [[whole-brain]] simulations.
+
+## References
+
+1. (authors unknown). *Nonlinear Dynamics and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering*.
+2. Eugene M. Izhikevich. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.

@@ -1,10 +1,19 @@
 ---
-title: Brain Imaging Data Structure (BIDS)
 created: 2026-04-20
-updated: 2026-05-06
+sources:
+- raw/papers/jordan-2018.md
+- raw/papers/sanz-leon-2013.md
+- raw/papers/arxiv-2604.03619.md
+tags:
+- neuroimaging-fmri
+- neuroimaging-eeg
+- neuroimaging-meg
+- software-neuroimaging
+- data-standard
+- neuroimaging-dti
+title: Brain Imaging Data Structure (BIDS)
 type: concept
-tags: [neuroimaging-fmri, neuroimaging-eeg, neuroimaging-meg, software-neuroimaging, data-standard, neuroimaging-dti]
-sources: [raw/papers/jordan-2018.md, raw/papers/sanz-leon-2013.md, raw/papers/arxiv-2604.03619.md]
+updated: '2026-05-07'
 ---
 
 The Brain Imaging Data Structure (BIDS) is a **standard specification for organizing neuroimaging datasets** that enables reproducible, tool-independent data sharing across the computational neuroscience community. BIDS defines a hierarchical file structure and naming convention for brain imaging data, along with metadata specifications in JSON sidecar files that capture acquisition parameters, processing history, and subject metadata. The specification has become the de facto standard for data sharing in neuroimaging, supported by over 200 software tools and required by major data repositories including the [[human-connectome-project]] (HCP), [[openneuro]], and [[uk-biobank]].
@@ -40,3 +49,9 @@ Several major preprocessing pipelines expect BIDS-formatted input, including [[f
 ## Related Concepts
 
 BIDS interacts with several related standards and tools in the neuroimaging ecosystem. [[nipype]] provides a workflow system that can operate on BIDS datasets, connecting different processing tools into reproducible pipelines. [[neurovault]] serves as a repository for statistical maps and parcellations that often originate from BIDS-analyzed datasets. The relationship between BIDS and other data standards reflects a broader trend toward formalization in neuroimaging, supporting the goals of open science and reproducible research.
+
+## References
+
+1. Jordan et al. (2018). *Extremely scalable spiking neuronal network simulation code: from laptops to exascale computers*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2018.00002)
+2. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+3. Peter Yongho Kim, Juhyeon Park, Jungwoo Park, Jubin Choi, Jungwoo Seo, Jiook Cha, Taesup Moon. (2026). *Can Natural Image Autoencoders Compactly Tokenize fMRI Volumes for Long-Range Dynamics Modeling?*. [Link](https://arxiv.org/abs/2604.03619)

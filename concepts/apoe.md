@@ -58,7 +58,7 @@ tags:
 - cognitive-reserve
 title: APOE
 type: concept
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 Apolipoprotein E (APOE) is a polymorphic glycoprotein encoded by the APOE gene on chromosome 19 that plays a critical role in lipid transport and neuronal maintenance in the central nervous system. In the context of [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]], APOE represents a key biological factor that modulates brain [[network-dynamics]], structural [[connectivity]] integrity, and the progression of age-related neurodegenerative diseases. The protein is synthesized primarily by astrocytes in the brain, where it facilitates the redistribution of lipids between neurons and glial cells, supporting synaptic maintenance, membrane reconstruction, and myelin sheath stability. Three common alleles—APOE ε2, ε3, and ε4—produce proteins with distinct functional properties that have been extensively studied in relation to cognitive decline, Alzheimer's disease risk, and [[brain-network]] organization.
@@ -95,3 +95,9 @@ Despite extensive research, several open questions remain regarding APOE's mecha
 - [[personalized-brain-modeling]] – The approach of incorporating individual biological factors including genetics
 - [[the-virtual-brain]] – Platform for whole-brain modeling that can integrate genetic factors
 - [[diffusion-imaging]] – Neuroimaging modality for measuring white matter integrity affected by APOE
+
+## References
+
+1. Keshav Motwani, Ali Shojaie, Ariel Rokem, Eardi Lila. (2025). *Genetic Regression Analysis of Human Brain Connectivity Using an Efficient Estimator of Genetic Covariance*. [Link](https://arxiv.org/abs/2512.08756)
+2. Sarayut Phasuk, Kyla B. Tooley, Julianna L. Sun, Vishwajeeth Pagala, Gustavo Palacios, Sean Deats, Gaven Garland, Laura Robinson, X Wang, Bonn Belingon, Jenn Cook, Haiyan Tan, Ankhbayar Lkhagva, Zuo-Fei Yuan, Wu Long, Amanda Johnson, Mazdak Bradberry, Camenzind G. Robinson, Anthony A. High, Ron Korstanje, Jason Vevea. (2026). *APOE is a presynaptic protein that accumulates with age and modulates neurotransmitter release*. bioRxiv (Cold Spring Harbor Laboratory). [DOI](https://doi.org/10.64898/2026.04.20.719736)
+3. A. Craig, Sida Chen, Qianyuan Tang, Changsong Zhou. (2026). *Personalized whole-brain Ising models with heterogeneous nodes capture differences among brain regions*. bioRxiv. [DOI](https://doi.org/10.1101/2025.06.09.658769)

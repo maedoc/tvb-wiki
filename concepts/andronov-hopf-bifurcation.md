@@ -1,10 +1,20 @@
 ---
-title: Andronov-Hopf Bifurcation
 created: 2026-04-20
-updated: 2026-05-07
+sources:
+- raw/papers/izhikevich-2007.md
+- raw/papers/deco-jirsa-mcintosh-2012.md
+- raw/papers/doedel-oldeman-2009.md
+tags:
+- bifurcation-analysis
+- nonlinear-dynamics
+- dynamical-systems-theory
+- brain-oscillations
+- neural-mass-models
+- epilepsy-modeling
+- whole-brain-modeling
+title: Andronov-Hopf Bifurcation
 type: concept
-tags: [bifurcation-analysis, nonlinear-dynamics, dynamical-systems-theory, brain-oscillations, neural-mass-models, epilepsy-modeling, whole-brain-modeling]
-sources: [raw/papers/izhikevich-2007.md, raw/papers/deco-jirsa-mcintosh-2012.md, raw/papers/doedel-oldeman-2009.md]
+updated: '2026-05-07'
 ---
 
 The **Andronov-Hopf bifurcation** (also called the Hopf bifurcation) is a dynamical systems phenomenon in which a stable equilibrium point loses stability and gives rise to a stable periodic orbit, or limit cycle. Named after the Soviet mathematician Alexandr Andronov and German-American mathematician Ernst Hopf who independently characterized the bifurcation in the 1920s–1930s, this transition represents one of the principal mechanisms by which oscillatory behavior emerges in nonlinear systems. In the context of [[whole-brain modeling]], the Andronov-Hopf bifurcation provides a mathematical foundation for understanding how brain regions transition from stationary (resting) activity to rhythmic oscillations, and how pathological states such as epileptic seizures can arise from such transitions [[1]].
@@ -47,3 +57,9 @@ Similarly, transitions between wakefulness and sleep involve changes in neuromod
 ## Relationship to TVB
 
 In [[the-virtual-brain]] workflows, bifurcation analysis informs the default parameter regimes used in whole-brain simulations. The software includes implementations of neural mass models (such as the [[jansen-rit-model]] and [[wong-wang-model]]) where users can explore how changes in local model parameters and structural connectivity weights shift the system toward or away from bifurcation boundaries. Visualization tools within TVB allow inspection of criticality metrics, and the integration with tools like AUTO-07P enables advanced users to perform formal bifurcation analyses on reduced models derived from their connectomes. The theoretical framework linking healthy brain dynamics to operation near critical bifurcation points directly motivates TVB's approach to personalized brain modeling, where individual structural connectivity matrices are used to configure models that capture both normal and pathological dynamical regimes.
+
+## References
+
+1. Eugene M. Izhikevich. *Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting*.
+2. (authors unknown). *Emerging concepts for the dynamical organization of resting-state activity in the brain*.
+3. (authors unknown). *AUTO-07P: Continuation and Bifurcation Software for Ordinary Differential Equations*.

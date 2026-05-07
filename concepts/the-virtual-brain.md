@@ -8,7 +8,7 @@ tags:
 - the-virtual-brain
 title: The Virtual Brain
 type: concept
-updated: 2026-05-06
+updated: '2026-05-07'
 ---
 
 The Virtual Brain (TVB) is an open-source neuroinformatics platform for simulating large-scale primate brain network dynamics. It enables researchers to construct personalized whole-brain models by combining empirical structural connectivity data—typically derived from diffusion MRI tractography—with biologically realistic neural mass models. TVB provides forward models for electroencephalography (EEG), magnetoencephalography (MEG), and functional magnetic resonance imaging (fMRI), allowing simulated brain activity to be compared directly against empirical neuroimaging recordings. The platform has become a cornerstone tool in computational neuroscience for studying brain dynamics, disease mechanisms, and individualized virtual brain models (Sanz Leon et al., 2013).
@@ -46,3 +46,9 @@ The platform integrates with data management tools such as [[datalad]] and the b
 TVB has been applied extensively in computational psychiatry and neurology research. Personalized whole-brain models have been used to study [[epilepsy-modeling]], where the [[epileptor]] model can capture seizure dynamics and evaluate stimulation interventions. The platform supports investigation of [[schizophrenia-models]] and [[alzheimers-modeling]] by exploring how structural connectivity alterations propagate through large-scale networks to produce functional abnormalities.
 
 The [[personalized-brain-modeling]] framework enables the construction of virtual patient models from individual neuroimaging data. This approach holds promise for clinical translation, potentially allowing clinicians to simulate the effects of stimulation interventions (e.g., transcranial magnetic stimulation or deep brain stimulation) before surgical planning, or to predict disease progression based on individual connectome profiles. By combining [[structural-connectivity]] information with dynamic models, TVB provides a mechanistic bridge between anatomical structure and functional dynamics that is essential for understanding both healthy brain function and the pathophysiology of neurological disorders. Integration with clinical platforms such as [[clinica]] enables seamless processing of clinical neuroimaging data into TVB-compatible formats.
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. Ritter et al. (2013). *The Virtual Brain integrates computational modeling and multimodal neuroimaging*. Brain Connectivity. [DOI](https://doi.org/10.1089/brain.2012.0120)
+3. Michael Breakspear. *Dynamic models of large-scale brain activity*. Nature Neuroscience (Review). [DOI](https://doi.org/10.1038/s41593-017-0015-4)

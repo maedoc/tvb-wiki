@@ -17,7 +17,7 @@ tags:
 - source-localization
 title: MNE-Python
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 **MNE-Python** is an open-source Python library for the analysis of magnetoencephalography (MEG), electroencephalography (EEG), stereotactic EEG (sEEG), and electrocorticography (ECoG) data. Developed primarily at the Martinos Center for Biomedical Imaging at Massachusetts General Hospital, MNE-Python provides comprehensive tools for preprocessing, [[source-localization]], time-frequency analysis, statistical inference, and visualization of neurophysiological data. The library implements the minimum norm estimation (MNE) method after which it is named, along with numerous other inverse solving approaches, making it a cornerstone tool for translating sensor-level recordings into anatomically interpretable source-space estimates.
@@ -39,3 +39,7 @@ Several features distinguish MNE-Python as a leading platform for electrophysiol
 ## Relationship to TVB
 
 MNE-Python and [[the-virtual-brain]] share complementary roles in whole-brain electrophysiology research. While MNE-Python performs source localization to transform sensor-level MEG/EEG recordings into anatomically constrained time series, TVB simulates whole-brain dynamics at the source level using neural mass models such as the [[jansen-rit-model]] or [[wong-wang-model]]. The two platforms integrate through the TVB forward modeling pipeline: TVB accepts leadfield matrices computed by MNE-Python to generate predicted EEG and MEG sensor data from simulated source activity, enabling direct comparison between empirical and model-derived signals. Conversely, MNE-Python-derived source time courses can seed TVB simulations as empirical constraints, providing personalized initial conditions for whole-brain models. This bidirectional workflow is particularly valuable in [[epilepsy-modeling]], where patient-specific source estimates from MEG or EEG inform seizure propagation simulations in TVB. The [[forward-model]] infrastructure in both platforms ensures compatibility, though users must carefully align sourcemaps, anatomies, and sampling frequencies when transferring data between systems.
+
+## References
+
+1. Gramfort et al. (2013). *MEG and EEG: From Acquisition to Analysis*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fnins.2013.00010)

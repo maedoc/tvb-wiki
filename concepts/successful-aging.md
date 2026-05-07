@@ -13,7 +13,7 @@ tags:
 - compensation
 title: Successful Aging
 type: concept
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 Successful [[aging]] refers to the maintenance of cognitive function despite age-related changes in brain structure and function. In the context of [[whole-brain|whole-brain modeling]] and [[computational-neuroscience]], successful aging represents a target state that models aim to reproduce—the capacity of the aging brain to preserve or compensate for declining neural resources to maintain behavioral performance. This concept bridges [[cognitive-reserve]] theory with empirical neuroimaging findings, providing a framework for understanding individual differences in aging trajectories and informing personalized interventions.
@@ -57,3 +57,10 @@ Finally, the translation of successful aging research into interventions remains
 ## Related Concepts
 
 Successful aging intersects with several related concepts in the wiki. The [[brain-maintenance]] page elaborates on preservation mechanisms, while [[cognitive-reserve]] provides deeper treatment of reserve theory. The [[compensation]] concept page covers neural compensation specifically. For neuroimaging methodology, see [[neuroimaging-fmri]] and [[functional-connectivity]]. For modeling approaches, see [[whole-brain-modeling]] and [[neural-mass-models]]. The [[aging]] page covers broader aging processes, while [[alzheimers-modeling]] addresses pathological aging. The [[brain-reserve]] page discusses structural reserve specifically.
+
+## References
+
+1. (authors unknown). *Maintenance, Reserve and Compensation: The Cognitive Neuroscience of Healthy Ageing*.
+2. (authors unknown). *Memory and Executive Function in Aging and AD: Multiple Factors that Cause Decline and Reserve Factors that Compensate*.
+3. (authors unknown). *The Cognitive Neuroscience of Ageing and Functional Reserve*.
+4. Changi Kim, Mi‐Young Oh. (2025). *Brain Resilience and Its Association with Post‐Stroke Dementia: A Neuroimaging‐Based Study*. Alzheimer's & Dementia. [DOI](https://doi.org/10.1002/alz70856_101113)

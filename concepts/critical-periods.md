@@ -1,10 +1,21 @@
 ---
-title: Critical Periods
 created: 2026-04-20
-updated: 2026-05-06
+sources:
+- raw/papers/gogtay-2004.md
+- raw/papers/power-2010.md
+- raw/papers/semanticscholar-34ef3bcd7c8b.md
+tags:
+- neurodevelopment
+- developmental-trajectories
+- brain-oscillations
+- brain-stimulation
+- structural-connectivity
+- functional-connectivity
+- whole-brain-modeling
+- personalized-brain-modeling
+title: Critical Periods
 type: concept
-tags: [neurodevelopment, developmental-trajectories, brain-oscillations, brain-stimulation, structural-connectivity, functional-connectivity, whole-brain-modeling, personalized-brain-modeling]
-sources: [raw/papers/gogtay-2004.md, raw/papers/power-2010.md, raw/papers/semanticscholar-34ef3bcd7c8b.md]
+updated: '2026-05-07'
 ---
 
 Critical periods represent temporally bounded windows during brain development when neural circuits exhibit heightened plasticity and are particularly receptive to specific experiential inputs. During these phases, experience-dependent sculpting of [[structural-connectivity]] and [[functional-connectivity]] proceeds at rates far exceeding those observed in adulthood, and the resulting circuit configurations tend to be relatively stable thereafter. The concept originates from seminal work in sensory cortex development, where Hubel and Wiesel demonstrated that monocular deprivation during defined postnatal windows permanently alters binocular integration. In the context of whole-brain modeling, critical periods inform how [[personalized-brain-modeling]] approaches should incorporate age-appropriate parameters, as network dynamics differ substantially between developing and mature brains.
@@ -46,3 +57,9 @@ Several outstanding questions remain regarding critical periods in human brain d
 - [[brain-oscillations]] — rhythmic neural activity relevant to development
 - [[structural-connectivity]] — anatomical pathways between brain regions
 - [[functional-connectivity]] — statistical dependencies between regional activity
+
+## References
+
+1. (authors unknown). *Dynamic Mapping of Human Cortical Development During Childhood Through Early Adulthood*.
+2. (authors unknown). *The Development of Human Functional Brain Networks*.
+3. Tingting Liu, Mingyang Li, Y. You, Hongxi Zhang, Ying Lv, Chai Ji, Yuting Li, Dan Wu, Shenghong Ju. (2026). *Maturation and reorganization of structural connectivity in infants within half a year*. NeuroImage. [DOI](https://doi.org/10.1016/j.neuroimage.2026.121728)

@@ -1,10 +1,21 @@
 ---
-title: Excitation-Inhibition Balance
 created: 2025-01-15
-updated: 2026-05-07
+sources:
+- raw/papers/arxiv-2601.15032.md
+- raw/papers/semanticscholar-ff8218c1e55e.md
+- raw/papers/arxiv-2603.29903.md
+tags:
+- neural-mass-models
+- whole-brain-modeling
+- computational-psychiatry
+- brain-oscillations
+- dynamical-systems-theory
+- nonlinear-dynamics
+- schizophrenia-models
+- network-dynamics
+title: Excitation-Inhibition Balance
 type: concept
-tags: [neural-mass-models, whole-brain-modeling, computational-psychiatry, brain-oscillations, dynamical-systems-theory, nonlinear-dynamics, schizophrenia-models, network-dynamics]
-sources: [raw/papers/arxiv-2601.15032.md, raw/papers/semanticscholar-ff8218c1e55e.md, raw/papers/arxiv-2603.29903.md]
+updated: '2026-05-07'
 ---
 
 Excitation-Inhibition (E/I) balance refers to the dynamical equilibrium between excitatory synaptic currents that promote neuronal firing and inhibitory synaptic currents that suppress it. This balance is a fundamental organizing principle in cortical and subcortical circuits, enabling stable yet flexible neural dynamics that support sensation, cognition, and behavior. In mathematical models of neural populations, E/I balance typically emerges from the interplay between coupling strengths, time constants, and nonlinear response functions, where excessive excitation relative to inhibition can lead to hyperexcitability, seizures, or pathological oscillations, while excessive inhibition can produce neural suppression and cognitive deficits.
@@ -26,3 +37,9 @@ $$\tau_i \frac{dI}{dt} = -I + S(w_{ie}E - w_{ii}I + \text{input})$$
 where $E$ and $I$ represent excitatory and inhibitory population activities, $w_{xy}$ denotes the coupling strength from population $y$ to $x$, $\tau$ are time constants, and $S(\cdot)$ is a nonlinear activation function, often sigmoidal. The fixed points of these equations determine the system's stable operating states, while linear stability analysis around fixed points reveals conditions for oscillatory instability through Andronov-Hopf bifurcations, providing a theoretical framework for understanding transitions between normal and pathological dynamics.
 
 Open questions in the field include determining the precise mechanisms by which E/I balance is maintained in healthy brains versus how it breaks down in disease, the role of neuromodulatory systems in regulating E/I dynamics across behavioral states, and the development of personalized E/I models that capture individual differences in pharmacological response and disease progression. Advances in personalized brain modeling using frameworks like The Virtual Brain, combined with high-resolution neuroimaging and invasive electrophysiology, promise to resolve these questions by enabling detailed comparison between model predictions and individual patient data.
+
+## References
+
+1. Zhengdi Zhang, Yan Xu, Wenjun Xia. *Single-Node Wilson--Cowan Model Accounts for Speech-Evoked $γ$-Band Deficits in Schizophrenia*. [Link](https://arxiv.org/abs/2601.15032)
+2. Yunman Xia, S. Peng, J. Dukart, C. Xie, Shitong Xiang, S. Petkoski, Zilin Li, Joerg F. Hipp, S. Muthukumaraswamy, A. Forsyth, Tianye Jia, N. Vaidya, T. Lett, Liyi Qian, Xiao Chang, Yuxiang Dai, T. Banaschewski, G. Barker, A. Bokde, R. Brühl, S. Desrivières, Herta Flor, P. Gowland, A. Grigis, Andreas Heinz, H. Lemaître, F. Nees, D. Orfanos, Luise Poustka, M. Smolka, Sarah Hohmann, H. Walter, R. Whelan, Paul Wirsching, Zuo Zhang, Lauren Robinson, J. Winterer, Yuning Zhang, H. Kebir, Ulrike Schmidt, Julia Sinclair, Yuchen Liu, Jiexiang Wang, Fei Dai, Longbin Zeng, Yubo Hou, Huarui Wang, Leijun Ye, Chunhe Li, Qibao Zheng, Andre F Marquand, Changsong Zhou, V. Jirsa, Jianfeng Feng, Wenlian Lu, Gunter Schumann. (2026). *Digital Twin Brain simulation and manipulation of a functional brain network underlying mental illness*. bioRxiv. [DOI](https://doi.org/10.64898/2026.03.06.710030)
+3. Breno C. Bispo, Stefania Sardellitti, Juliano B. Lima, Fernando A. N. Santos. (2026). *Multimodal Higher-Order Brain Networks: A Topological Signal Processing Perspective*. [Link](https://arxiv.org/abs/2603.29903)

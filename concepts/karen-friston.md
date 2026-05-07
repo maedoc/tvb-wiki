@@ -1,10 +1,19 @@
 ---
-title: Karl Friston
 created: 2026-04-20
-updated: 2026-05-07
+sources:
+- raw/papers/smith-2013-connectomics.md
+- raw/papers/barabasi-albert-1999.md
+- raw/papers/semanticscholar-7c3337c880fd.md
+tags:
+- dynamic-causal-modeling
+- free-energy-principle
+- variational-bayes
+- computational-neuroscience
+- whole-brain-modeling
+- parameter-estimation
+title: Karl Friston
 type: concept
-tags: [dynamic-causal-modeling, free-energy-principle, variational-bayes, computational-neuroscience, whole-brain-modeling, parameter-estimation]
-sources: [raw/papers/smith-2013-connectomics.md, raw/papers/barabasi-albert-1999.md, raw/papers/semanticscholar-7c3337c880fd.md]
+updated: '2026-05-07'
 ---
 
 Karl Friston — a foundational contributor to [[computational-neuroscience]] whose work on [[dynamic-causal-modeling]], the [[free-energy-principle]], and [[variational-bayes]] methods has shaped modern approaches to [[whole-brain modeling]] and [[neural-mass-models]].
@@ -70,3 +79,9 @@ Alternative approaches to connectivity inference include Granger causality, whic
 - [[parameter-estimation]] – Key technical challenge
 - [[brain-dynamics]] – Phenomena being modeled
 - [[the-virtual-brain]] – Related simulator software
+
+## References
+
+1. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
+2. (authors unknown). *Emergence of Scaling in Random Networks*.
+3. Kashyap Gudibanda, J. Fousek, S. Petkoski, V. Jirsa. (2026). *The role of connectivity for the degeneracy of the brain’s resting state dynamics*. Journal of Computational Neuroscience. [DOI](https://doi.org/10.1007/s10827-025-00919-0)

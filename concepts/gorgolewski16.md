@@ -13,7 +13,7 @@ tags:
 - reproducibility
 title: Gorgolewski et al. 2016
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 # Gorgolewski et al. 2016
@@ -45,3 +45,7 @@ Several BIDS-compliant preprocessing pipelines emerged that leverage the standar
 Within the [[the-virtual-brain]] ecosystem, BIDS plays an important role in data acquisition and preprocessing workflows. Researchers using TVB to construct [[whole-brain-modeling|whole-brain models]] frequently import structural and functional connectivity data derived from BIDS-organized datasets, particularly from major repositories like the Human Connectome Project (HCP) and the UK Biobank. The standardized metadata in BIDS datasets facilitates automated extraction of imaging parameters needed for constructing biologically realistic connectomes, including diffusion imaging protocols for [[structural-connectivity]] estimation and resting-state fMRI acquisition details for [[functional-connectivity]] analysis.
 
 The TVB community has developed tools and tutorials demonstrating how to convert BIDS datasets into TVB-compatible formats, enabling researchers to leverage the growing ecosystem of publicly shared neuroimaging data for personalized brain modeling. This integration exemplifies how BIDS standardization benefits the broader computational neuroscience community by reducing the technical barriers to data reuse. Specifically, TVB's ability to import diffusion tractography outputs and resting-state functional connectivity matrices aligns naturally with BIDS derivatives, as both frameworks emphasize provenance tracking and standardized data representation.
+
+## References
+
+1. (authors unknown). *The brain imaging data structure, a format for organizing and describing outputs of neuroimaging experiments*.

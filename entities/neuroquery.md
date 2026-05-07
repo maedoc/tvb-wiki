@@ -15,7 +15,7 @@ tags:
 - text-mining
 title: NeuroQuery
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 NeuroQuery is a web-based platform for performing automated meta-analysis of the neuroscience literature. Developed by the team behind Neurosynth, it enables researchers to submit natural language queries and receive relevance-ranked lists of published neuroscience articles alongside estimated brain maps associated with their query terms. The system combines text mining, [[machine-learning]], and coordinate-based meta-analysis to provide quantitative summaries of where in the brain particular cognitive processes, disorders, or experimental manipulations have been reported in the [[neuroimaging]] literature.
@@ -62,3 +62,9 @@ The seminal publication describing NeuroQuery (Dockès et al., 2020) introduced 
 - [[nilearn]] — Python library for neuroimaging data analysis and visualization
 - [[brain-[[connectivity]]-toolbox]] — graph-theoretical analysis of brain networks
 - [[brain-map]] — ontology of cognitive terms linked to brain regions
+
+## References
+
+1. Sanz Leon et al. (2013). *The Virtual Brain: a simulator of primate brain network dynamics*. Frontiers in Neuroinformatics. [DOI](https://doi.org/10.3389/fninf.2013.00010)
+2. (authors unknown). *Permutation inference for the general linear model*.
+3. (authors unknown). *Neurodesk: an accessible, flexible and portable data analysis environment for reproducible neuroimaging*.

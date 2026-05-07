@@ -1,10 +1,17 @@
 ---
-title: Fractional Anisotropy
 created: 2026-04-20
-updated: 2026-05-07
+sources:
+- raw/papers/smith-2013-connectomics.md
+- raw/papers/friston-1993.md
+tags:
+- diffusion-imaging
+- neuroimaging-dti
+- structural-connectivity
+- white-matter
+- connectomics
+title: Fractional Anisotropy
 type: concept
-tags: [diffusion-imaging, neuroimaging-dti, structural-connectivity, white-matter, connectomics]
-sources: [raw/papers/smith-2013-connectomics.md, raw/papers/friston-1993.md]
+updated: '2026-05-07'
 ---
 
 Fractional anisotropy (FA) is a scalar measure derived from diffusion tensor imaging (DTI) that quantifies the degree of directional preference in water diffusion within neural tissue. Mathematically, FA is computed from the eigenvalues of the diffusion tensor (λ₁, λ₂, λ₃) and ranges from 0 to 1, where 0 indicates isotropic diffusion (equal in all directions, as would occur in freely diffusing water) and 1 indicates totally anisotropic diffusion (restricted to a single axis). This measure serves as one of the most widely used indices of white matter integrity in neuroimaging research, providing a window into the microstructural organization of neural pathways that is otherwise invisible to conventional anatomical MRI.
@@ -66,3 +73,8 @@ Within the TVB ecosystem, FA-weighted structural connectivity matrices are impor
 - [[aging-brain]] – Age-related white matter changes
 - [[brain-network]] – Network-based brain analysis
 - [[whole-brain-modeling]] – Large-scale brain simulation
+
+## References
+
+1. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
+2. (authors unknown). *Functional Connectivity: The Principal-Component Analysis of Large (PET and fMRI) Data Sets*.

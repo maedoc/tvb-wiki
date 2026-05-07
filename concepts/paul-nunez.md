@@ -1,10 +1,17 @@
 ---
-title: Paul Nunez
 created: 2026-04-20
-updated: 2026-05-07
+sources:
+- raw/papers/nunez-srinivasan-2006.md
+- raw/papers/sporns-2011.md
+- raw/papers/semanticscholar-567c5507b87b.md
+tags:
+- neuroimaging-eeg
+- neural-mass-models
+- computational-neuroscience
+- textbook
+title: Paul Nunez
 type: concept
-tags: [neuroimaging-eeg, neural-mass-models, computational-neuroscience, textbook]
-sources: [raw/papers/nunez-srinivasan-2006.md, raw/papers/sporns-2011.md, raw/papers/semanticscholar-567c5507b87b.md]
+updated: '2026-05-07'
 ---
 
 Paul Nunez — a researcher whose work on the neurophysics of EEG forms a foundational resource for whole-brain modeling and computational neuroscience.
@@ -42,3 +49,9 @@ The textbook sits at the intersection of several domains relevant to whole-brain
 In the broader ecosystem of whole-brain modeling resources, Nunez's textbook complements the network-theoretical perspective provided by Sporns's *Networks of the Brain*—while Sporns focuses on the organization of brain connectivity at the systems level, Nunez provides the physical scaffolding for understanding how network-level activity produces measurable electromagnetic signatures. Together, these texts form part of the theoretical foundation upon which modern [[whole-brain]] simulators are built.
 
 The mathematical frameworks discussed in the textbook also relate to other approaches in the field, including [[dynamic-causal-modeling]] (which shares the goal of inverting generative models of neural dynamics) and methods from [[nonlinear-dynamics]] and [[bifurcation-theory]] used to analyze transitions between brain states.
+
+## References
+
+1. (authors unknown). *Electric Fields of the Brain: The Neurophysics of EEG*.
+2. (authors unknown). *Networks of the Brain*.
+3. G. Deco, Morten L. Kringelbach. (2026). *Whole-brain modelling*. [DOI](https://doi.org/10.1093/oso/9780198991250.001.0001)

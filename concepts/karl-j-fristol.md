@@ -1,10 +1,20 @@
 ---
-title: Karl J. Friston
 created: 2026-04-20
-updated: 2026-05-07
+sources:
+- raw/papers/david-friston-2003.md
+- raw/papers/smith-2013-connectomics.md
+- raw/papers/friston-1993.md
+tags:
+- people-researcher
+- dynamic-causal-modeling
+- functional-connectivity
+- effective-connectivity
+- variational-bayes
+- free-energy-principle
+- neuroimaging-fmri
+title: Karl J. Friston
 type: entity
-tags: [people-researcher, dynamic-causal-modeling, functional-connectivity, effective-connectivity, variational-bayes, free-energy-principle, neuroimaging-fmri]
-sources: [raw/papers/david-friston-2003.md, raw/papers/smith-2013-connectomics.md, raw/papers/friston-1993.md]
+updated: '2026-05-07'
 ---
 
 Karl J. Friston is a British neuroscientist whose work has fundamentally shaped the fields of [[computational-neuroscience]], [[neuroimaging]], and [[whole-brain modeling]]. He is best known for developing [[dynamic causal modeling]] (DCM), the [[free-energy-principle]], and numerous methodological frameworks that remain standard in neuroimaging analysis today. His contributions span the theoretical foundations of brain connectivity, Bayesian approaches to neural modeling, and the statistical foundations of [[functional connectivity]] analysis.
@@ -30,3 +40,9 @@ Friston's work intersects with [[the-virtual-brain]] (TVB) in several critical w
 ## Related Concepts and Legacy
 
 Friston's contributions have enabled or influenced numerous methods and concepts in the wiki, including [[dynamic causal modeling]], [[effective-connectivity]], [[variational-bayes]], [[free-energy-principle]], [[functional-connectivity]], [[connectomics]], and [[resting-state]] analysis. His development of [[statistical parametric mapping]] (SPM) established the computational foundation for voxel-based neuroimaging analysis, and his emphasis on Bayesian approaches to model comparison has shaped how the field evaluates competing hypotheses about brain organization. The conceptual and methodological tools Friston developed continue to support research into [[brain-dynamics]], [[brain-oscillations]], and [[personalized-brain-modeling]], making his work a cornerstone of computational approaches to understanding brain function.
+
+## References
+
+1. O. David, K.J. Friston. *Dynamic causal modelling*. NeuroImage. [DOI](https://doi.org/10.1016/S1053-8119(03)00202-7)
+2. (authors unknown). *Functional Connectomics from Resting-State fMRI*.
+3. (authors unknown). *Functional Connectivity: The Principal-Component Analysis of Large (PET and fMRI) Data Sets*.

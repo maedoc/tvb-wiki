@@ -1,10 +1,21 @@
 ---
-title: Spontaneous Activity
 created: 2026-04-20
-updated: 2026-05-07
+sources:
+- raw/papers/deco-2013.md
+- raw/papers/amit-brunel-1997.md
+- raw/papers/strogatz-1994.md
+tags:
+- resting-state
+- whole-brain-modeling
+- neural-mass-models
+- functional-connectivity
+- brain-oscillations
+- mean-field-theory
+- spiking-neural-networks
+- nonlinear-dynamics
+title: Spontaneous Activity
 type: concept
-tags: [resting-state, whole-brain-modeling, neural-mass-models, functional-connectivity, brain-oscillations, mean-field-theory, spiking-neural-networks, nonlinear-dynamics]
-sources: [raw/papers/deco-2013.md, raw/papers/amit-brunel-1997.md, raw/papers/strogatz-1994.md]
+updated: '2026-05-07'
 ---
 
 Spontaneous activity refers to neural dynamics that arise endogenously within the brain in the absence of external sensory stimuli or task demands. This intrinsic activity constitutes the predominant mode of brain operation, consuming the majority of the brain's metabolic resources [[raichle-2006]] and reflecting fundamental organizational principles of neural circuitry. Understanding spontaneous activity has become central to computational neuroscience because it provides insight into how structured connectivity [[whole-brain|whole-brain]] networks generate meaningful patterns without external drive—a question that bridges [[computational-neuroscience]] theory with empirical neuroimaging findings.
@@ -29,3 +40,9 @@ Several open questions remain active areas of research. The precise relationship
 - [[bifurcation-analysis]]
 - [[connectomics]]
 - [[the-virtual-brain]]
+
+## References
+
+1. Deco et al. (2013). *Resting brains never rest: computational insights into potential cognitive architectures*. Trends in Neurosciences. [DOI](https://doi.org/10.1016/j.tins.2013.09.002)
+2. (authors unknown). *Model of Global Spontaneous Activity and Local Structured Activity During Delay Periods in the Cerebral Cortex*.
+3. (authors unknown). *Nonlinear Dynamics and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering*.

@@ -1,8 +1,7 @@
 ---
-title: Damien Fair
 created: 2026-04-27
-updated: 2026-05-06
-type: concept
+sources:
+- raw/papers/fair-2009.md
 tags:
 - neurodevelopment
 - functional-connectivity
@@ -10,8 +9,9 @@ tags:
 - developmental-trajectories
 - whole-brain-modeling
 - neuroimaging-fmri
-sources:
-- raw/papers/fair-2009.md
+title: Damien Fair
+type: concept
+updated: '2026-05-07'
 ---
 
 Damien Fair is a cognitive neuroscientist whose research has fundamentally shaped understanding of how functional brain networks develop across childhood and adolescence. His seminal work demonstrated that the organization of functional connectivity undergoes a profound transformation from predominantly local, regionally clustered configurations in childhood to increasingly distributed patterns in adulthood—a finding that has become foundational in developmental neuroscience and has important implications for whole-brain modeling approaches that seek to represent age-specific neural dynamics.
@@ -44,3 +44,7 @@ The use of resting-state fMRI in Fair's work connects to the [[resting-state]] p
 - [[default-mode-network]] – Brain network active during rest and self-referential processing
 - [[small-world-networks]] – Network topology with efficient global integration
 - [[brain-network]] – Large-scale network organization of the brain
+
+## References
+
+1. (authors unknown). *Functional Brain Networks Develop from a 'Local to Distributed' Organization*.

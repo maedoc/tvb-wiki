@@ -14,7 +14,7 @@ tags:
 - neuroimaging
 title: Brainstorm
 type: entity
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 # Brainstorm
@@ -43,3 +43,9 @@ Brainstorm and TVB share MEG/EEG analysis workflows:
 
 - Website: https://neuroimage.usc.edu/brainstorm/
 - Open-source under GPL v2 license
+
+## References
+
+1. Xiaobo Liu. (2026). *MLE-Toolbox: An Open-Source Toolbox for Comprehensive EEG and MEG Data Analysis*. [Link](https://www.semanticscholar.org/paper/e7aaa4f4bb01e70064493684b4500a950f83460f)
+2. (authors unknown). *BRAPH: A Pipeline for Brain Connectivity Analysis*.
+3. F. G. Prieto, Takfarinas Medani, Chinmay Chinara, Richard M. Leahy, S. Pursiainen. (2026). *Multi-Compartment Volume Conductor with Complete Electrode Model: Simulated Stereo-EEG Source Localization using Brainstorm-Zeffiro Plugin*. [Link](https://www.semanticscholar.org/paper/f4b56506ccb9de875ba54551883b3e41fd2b1a8b)

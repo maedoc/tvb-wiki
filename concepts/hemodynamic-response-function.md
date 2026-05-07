@@ -1,10 +1,16 @@
 ---
-title: Hemodynamic Response Function
 created: 2026-04-20
-updated: 2026-05-06
+sources:
+- raw/papers/friston-1993.md
+- raw/papers/smith-2013-connectomics.md
+tags:
+- neuroimaging-fmri
+- neural-mass-models
+- whole-brain-modeling
+- parameter-estimation
+title: Hemodynamic Response Function
 type: concept
-tags: [neuroimaging-fmri, neural-mass-models, whole-brain-modeling, parameter-estimation]
-sources: [raw/papers/friston-1993.md, raw/papers/smith-2013-connectomics.md]
+updated: '2026-05-07'
 ---
 
 The hemodynamic response function (HRF) is a mathematical description of the way in which blood flow and the blood oxygenation level-dependent (BOLD) signal change over time in response to neural activity in the [[brain|brain]]. It represents the impulse response of the neurovascular coupling system—the chain of physiological processes that transform brief episodes of neuronal firing into the measurable fMRI signal. Understanding the HRF is fundamental to any analysis of [[functional-connectivity]] derived from fMRI data, as it determines the temporal relationship between underlying neural events and the observed signal.
@@ -32,3 +38,8 @@ The canonical HRF represents an average response, but substantial variability ex
 ## Relationship to Other Concepts
 
 The HRF is closely linked to the [[bold-signal]], which it generates through convolution with neural activity. It serves as the forward model in most fMRI analysis pipelines, underpinning the general linear model (GLM) approach to detecting task-evoked responses, as established by [[sources:raw/papers/friston-1993 Friston et al. 1994]]. The HRF also interacts with [[structural-connectivity]] derived from diffusion imaging, as the spatial pattern of functional connectivity depends partly on the temporal smoothing introduced by the vascular response. In models of brain dynamics, the HRF acts as a low-pass filter that attenuates high-frequency neural fluctuations, shaping the spectral properties of simulated BOLD signals in ways that must be accounted for when comparing model output to empirical [[resting-state]] data. The canonical HRF was introduced in the early 1990s as part of the Statistical Parametric Mapping (SPM) software package, establishing the double-gamma form as a de facto standard for fMRI analysis that persists to the present day.
+
+## References
+
+1. (authors unknown). *Functional Connectivity: The Principal-Component Analysis of Large (PET and fMRI) Data Sets*.
+2. (authors unknown). *Functional Connectomics from Resting-State fMRI*.

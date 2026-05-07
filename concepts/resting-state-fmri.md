@@ -26,7 +26,7 @@ tags:
 - intrinsic-connectivity-networks
 title: Resting-State fMRI
 type: concept
-updated: '2026-05-06'
+updated: '2026-05-07'
 ---
 
 [[resting-state|Resting-state fMRI]] (rs-[[fmri]]) is a [[neuroimaging]] technique that measures spontaneous low-frequency fluctuations (< 0.1 Hz) in the blood-oxygen-level-dependent ([[bold-signal|BOLD]]) signal while a subject lies quietly in the scanner without performing any explicit task [[biswal-1995]]. Unlike task-based fMRI, which probes evoked responses to external stimuli or internal cognitive operations, resting-state fMRI captures the brain's intrinsic organization—the architecture of coherent [[spontaneous-activity]] that emerges in the absence of goal-directed behavior.
@@ -60,3 +60,9 @@ Resting-state fMRI has revealed altered [[connectivity]] patterns in numerous ne
 However, several open questions remain regarding the physiological interpretation of functional connectivity—correlation does not imply direct anatomical connection, and the relationship between slow BOLD fluctuations and faster neural oscillations (as measured by [[eeg]] or [[meg]]) remains incompletely understood. Methodological considerations such as global signal regression, motion artifact mitigation, and test-retest reliability continue to be active areas of investigation, with reproducibility initiatives highlighting both the power and limitations of current approaches [[power-2014]].
 
 Recent methodological developments address these limitations, including the development of [[dynamical-causal-modeling]] approaches that enable causal inference about effective connectivity, and hybrid [[neuroimaging-eeg]]/[[neuroimaging-meg]] studies that directly compare hemodynamic and electrophysiological resting-state networks. The field continues to advance toward standardized acquisition protocols, improved preprocessing pipelines (see [[fmriprep]]), and robust biomarker validation through large-scale reproducibility initiatives.
+
+## References
+
+1. Jui-To Wang, Ching-Po Lin, Huei-Min Liu, Carlo Pierpaoli, C. Lo. (2025). *Beyond tractography in brain connectivity mapping with dMRI morphometry and functional networks*. Brain Structure and Function. [DOI](https://doi.org/10.1007/s00429-025-03016-1)
+2. Mengyuan Liu, Jing Hu, Zhenzhen Ru, Ruomeng Quan, Xu Zhang, Ning Qiang, Jin Li. (2025). *Exploring the changes in brain network SC-FC coupling patterns of partial sleep deprivation based on DTI-fMRI fusion analysis*. [Link](https://arxiv.org/abs/2512.00063)
+3. Debasis Maji, Arghya Banerjee, Debaditya Barman. *Spectral Graph Neural Networks for Cognitive Task Classification in fMRI Connectomes*. [Link](https://arxiv.org/abs/2512.24901)
