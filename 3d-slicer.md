@@ -11,7 +11,7 @@ sources: [raw/papers/tustison-2010.md, raw/papers/alfaro-almagro-2018.md, raw/pa
 
 ## Overview
 
-3D Slicer (simply called "Slicer") is a free, open-source software platform for medical image visualization, processing, and analysis. Developed by a collaborative community centered at Brigham and Women's Hospital and funded primarily through NIH grants, Slicer serves as a general-purpose toolkit for translational medical imaging research, surgical planning, and image-guided interventions. The platform provides an extensible architecture built upon the [[itk]] (Insight Toolkit) for image processing and [[vtk]] (Visualization Toolkit) for rendering, enabling researchers to develop, test, and deploy custom image analysis workflows in a unified environment.^[tustison-2010]
+3D Slicer (simply called "Slicer") is a free, open-source software platform for medical image visualization, processing, and analysis. Developed by a collaborative community centered at Brigham and Women's Hospital and funded primarily through NIH grants, Slicer serves as a general-purpose toolkit for translational medical imaging research, surgical planning, and image-guided interventions. The platform provides an extensible architecture built upon the [[itk]] (Insight Toolkit) for image processing and VTK (Visualization Toolkit) for rendering, enabling researchers to develop, test, and deploy custom image analysis workflows in a unified environment.^[tustison-2010]
 
 ## Key Features
 
@@ -40,7 +40,7 @@ Slicer's architecture centers on a modular plugin system where core functionalit
 ## Related Software
 
 - [[itk]] — Insight Toolkit, core image processing library underlying Slicer
-- [[vtk]] — Visualization Toolkit, core rendering engine for Slicer
+- VTK — Visualization Toolkit, core rendering engine for Slicer
 - [[freesurfer]] — Cortical surface reconstruction and parcellation
 - [[ants]] — Advanced Normalization Tools for registration and segmentation
 - [[mrtrix3]] — Advanced diffusion MRI analysis and tractography

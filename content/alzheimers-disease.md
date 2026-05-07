@@ -41,3 +41,11 @@ Several critical questions remain open in computational modeling of AD: (1) The 
 - [[personalized-brain-modeling]] — patient-specific computational approaches
 - [[whole-brain-modeling]] — the broader framework for brain simulation
 - [[neural-mass-models]] — the mathematical framework for network oscillations
+
+## References
+
+[1] Xie, J., Tandon, R., & Mitchell, C.S. (2025). Network diffusion-constrained variational generative models for investigating the molecular dynamics of brain connectomes under neurodegeneration. *International Journal of Molecular Sciences*, 26(3), 1062. https://doi.org/10.3390/ijms26031062
+
+[2] Jiang, K., Liao, C., Jiang, S., Lin, H., Hou, J., Liu, T., Li, G., Wu, T., Mao, Y., Kuhl, E., Wang, X., Chen, X. (2026). Tau-induced atrophy drives functional connectivity disruption in Alzheimer's disease. *arXiv preprint* arXiv:2603.13598. https://arxiv.org/abs/2603.13598
+
+[3] Xia, Y., Peng, S., Dukart, J., Xie, C., Xiang, S., Petkoski, S., Li, Z., Hipp, J.F., Muthukumaraswamy, S., Forsyth, A., Jia, T., Vaidya, N., Lett, T., Qian, L., Chang, X., Dai, Y., Banaschewski, T., Barker, G., Bokde, A., Brühl, R., Desrivières, S., Flor, H., Gowland, P., Grigis, A., Heinz, A., Lemaître, H., Nees, F., Orfanos, D., Poustka, L., Smolka, M., Hohmann, S., Walter, H., Whelan, R., Wirsching, P., Zhang, Z., Robinson, L., Winterer, J., Zhang, Y., Kebir, H., Schmidt, U., Sinclair, J., Liu, Y., Wang, J., Dai, F., Zeng, L., Hou, Y., Wang, H., Ye, L., Li, C., Zheng, Q., Marquand, A.F., Zhou, C., Jirsa, V., Feng, J., Lu, W., & Schumann, G. (2026). Digital twin brain simulation and manipulation of a functional brain network underlying mental illness. *bioRxiv preprint*. https://doi.org/10.64898/2026.03.06.710030

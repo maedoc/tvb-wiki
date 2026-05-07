@@ -190,3 +190,5 @@
 ## [2026-05-07 04:25] Improve: 1 pages improved (aging-brain)
 
 ## [2026-05-07 04:50] DeepResearch: 5 papers added via focused research
+
+## [2026-05-07 04:55] Improve: 3 pages improved (compensation, jansen-r, aging-brain)
