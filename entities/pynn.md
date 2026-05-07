@@ -14,7 +14,6 @@ title: PyNN
 type: entity
 updated: '2026-05-06'
 ---
-
 # PyNN
 
 **PyNN** (Python Neural Networks) is a Python API for simulator-independent specification of neuronal network models. It provides a common interface to multiple [[spiking-neural-networks|spiking neural network]] simulators, enabling model portability and interoperability.
@@ -57,9 +56,3 @@ PyNN and TVB operate at different scales but are complementary:
 - [[brian2]] — Python-native, rapid prototyping backend
 - [[neuroml2]] — model exchange format compatible with both PyNN and TVB
 - [[sonata]] — network description format used by both ecosystems
-
-## References
-
-- PyNN website: http://neuralensemble.org/PyNN/
-- Davison et al. (2009) — PyNN: a common interface for neuronal network simulators
-- Davison et al. (2008) — Coordination of neuronal network simulators

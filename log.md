@@ -222,3 +222,5 @@
 ## [2026-05-07 06:33] Improve: 1 pages improved (qsiprep)
 
 ## [2026-05-07 06:53] Audit: 992 issues (132 broken links, 43 orphans, 0 placeholders, 0 dup-refs, 5 bad-meta, 100 citation-verify, 14 opaque-refs, 27 thin, 433 missing-links)
+
+## [2026-05-07 07:00] DeepResearch: 9 papers added via focused research
