@@ -1,0 +1,1670 @@
+                                            Multimodal Connectome Fusion via Cross-Attention for Autism
+                                               Spectrum Disorder Classification Using Graph Learning
+
+                                                           Ansar Rahman1a,b , Hassan Shojaee-Mendc , Sepideh Hatamikiaa,b,d
+                                                              a Department of Medicine, Danube Private University (DPU), Krems, Austria
+                                               b Department of Medical Physics and Biomedical Engineering, Medical University of Vienna, Vienna, Austria
+                                            c Department of Medical Informatics, Faculty of Medicine, Gonabad University of Medical Sciences, Gonabad, Iran
+                                                      d Austrian Center for Medical Innovation and Technology (ACMIT), Wiener Neustadt, Austria
+arXiv:2603.15168v1 [cs.CV] 16 Mar 2026
+
+
+
+
+                                         Abstract
+
+                                         Autism spectrum disorder (ASD) is a complex neurodevelopmental condition characterized by atyp-
+
+                                         ical functional brain connectivity and subtle structural alterations. Resting-state fMRI (rs-fMRI)
+
+                                         has been widely used to identify disruptions in large-scale brain networks, while structural MRI
+
+                                         (sMRI) provides complementary information about morphological organization. Despite their com-
+
+                                         plementary nature, effectively integrating these heterogeneous imaging modalities within a unified
+
+                                         framework remains challenging. This study proposes a multimodal graph learning framework that
+
+                                         preserves the dominant role of functional connectivity while integrating structural imaging and phe-
+
+                                         notypic information for ASD classification.
+
+                                            The proposed multimodal graph-based framework is evaluated on the multi-site ABIDE-I dataset.
+
+                                         Each subject is represented as a node within a population graph. Functional and structural features
+
+                                         are extracted as modality-specific node attributes, while inter-subject relationships are modeled us-
+
+                                         ing a pairwise association encoder (PAE) based on phenotypic information. Two edge-variational
+
+                                         graph convolutional networks (EV-GCNs) are trained to learn subject-level embeddings. To enable
+
+                                         effective multimodal integration, we introduce a novel asymmetric transformer-based cross-attention
+
+                                         mechanism that allows functional embeddings to selectively incorporate complementary structural
+
+                                         information while preserving functional dominance. The fused embeddings are then passed to a
+
+                                         feed-forward multilayer perceptron (MLP) for ASD classification.
+
+                                            Using stratified 10-fold cross-validation, the framework achieved an AUC of 87.3% and an ac-
+
+                                         curacy of 84.4%. Under leave-one-site-out cross-validation (LOSO-CV), the model achieved an
+
+                                         average cross-site accuracy of 82.0%, outperforming existing methods by approximately 3% under
+
+                                         10-fold cross-validation and 7% under LOSO-CV. The proposed framework effectively integrates
+
+                                         heterogeneous multimodal data from the multi-site ABIDE-I dataset, improving automated ASD
+classification across imaging sites.
+Keywords:
+
+Autism Spectrum Disorder, Resting-State fMRI, Structural MRI, Multimodal Data Fusion,
+
+Cross-Attention, Graph Learning
+
+
+1. Introduction
+
+   The complex neurodevelopmental disorder known as ASD is characterized by limited and repet-
+
+itive patterns of behavior, as well as ongoing impairments in social interaction and communication
+
+[1]. ASD manifests clinically in a very diverse way, with significant individual differences in in-
+
+tensity of symptoms, developmental pathways, and underlying neurobiological processes. Because
+
+of this heterogeneity, objective diagnosis is severely hampered, and there is increasing interest in
+
+data-driven methods that can identify diffuse and subtle neural patterns.
+
+   Neuroimaging research has increasingly shown that ASD is linked to widespread changes in
+
+both brain structure and functional connectivity rather than isolated abnormalities in particular brain
+
+regions [2]. Anatomical organization and morphological characteristics can be thoroughly under-
+
+stood through sMRI, whereas rs-fMRI records spontaneous neural activity and functional interac-
+
+tions throughout dispersed brain networks. No single imaging modality can adequately capture the
+
+intricate neurobiological signatures of ASD, even though each one provides insightful information.
+
+Thus, one of the main challenges in ASD research continues to be the efficient integration of com-
+
+plementary multimodal information.
+
+   For the classification and characterization of ASD, automated analysis of high-dimensional neu-
+
+roimaging data has become more popular due to advancements in machine learning, especially deep
+
+learning [3, 4]. Single-modality functional connectivity was the main focus of early deep learning
+
+techniques. For instance, the efficacy of transfer learning on extensive ASD datasets and using au-
+
+toencoders to learn latent representations of whole-brain functional connectivity was shown [5, 6].
+
+In order to supplement imaging data and enhance diagnostic performance, researchers [7] started
+
+adding non-imaging variables within a machine learning framework, such as age, sex, genetic infor-
+
+mation, and cognitive measures, as larger cohorts and richer non-imaging phenotypic data became
+
+available. However, the representational capacity of conventional machine learning techniques is
+
+frequently limited by the high dimensionality and heterogeneous nature of such multimodal data
+
+
+
+                                                  2
+[8].
+
+       Thus, deep-learning-based multimodal fusion techniques have attracted interest for their ability
+
+to jointly model heterogeneous data sources. Previous research has demonstrated the efficacy of
+
+deep architectures in related neuroimaging tasks, including sex prediction and brain age estimation
+
+[9]. Using large, diverse datasets, convolutional neural networks (CNNs) have also been investigated
+
+for the classification of ASD [10]. Regardless of their achievements, these non-graph-based methods
+
+are frequently limited to single-modality inputs and usually work with Euclidean data representa-
+
+tions, which limits their capacity to model population-level structure and inter-subject relationships
+
+explicitly. At the same time, although multimodal learning has attracted increasing attention in ASD
+
+research, most existing approaches remain limited in how multiple data sources are integrated. In
+
+practice, many studies primarily combine rs-fMRI with non-imaging or demographic variables such
+
+as age, sex, and acquisition site. While these variables provide important contextual information,
+
+they do not fully exploit the complementary neurobiological insights available from sMRI. In par-
+
+ticular, sMRI captures morphological and anatomical variations that are not directly observable in
+
+functional connectivity alone. To date, multimodal integration of rs-fMRI and sMRI remains a rarely
+
+explored area in ASD classification.
+
+       To address the limitations of conventional multimodal approaches, graph-based learning frame-
+
+works have emerged as a promising alternative. Unlike standard deep learning models that process
+
+subjects independently, graph models explicitly encode relationships between individuals at the pop-
+
+ulation level. By representing subjects as nodes and modeling inter-subject relationships through
+
+edges, graph neural networks enable the joint use of imaging and non-imaging information within
+
+a unified representation [11]. Graph convolutional networks (GCNs) further extend convolutional
+
+operations to non-Euclidean domains, making them well-suited for capturing subject associations
+
+and brain connectivity patterns [12]. Early work demonstrated that population graphs constructed
+
+using non-imaging phenotypic similarities could improve ASD classification performance [11], mo-
+
+tivating a growing body of graph-based ASD research. Subsequent studies have explored increas-
+
+ingly sophisticated graph architectures, including hierarchical GCNs that jointly model subject-level
+
+associations and network topology [13], as well as adaptive graph constructions such as the Edge-
+
+Variational GCN (EV-GCN) by [14], which learns edge weights through a pairwise association
+
+encoder. While these methods have shown promising results, most graph-based ASD studies re-
+
+
+
+                                                    3
+main limited in two important aspects. First, they primarily rely on a single imaging modality,
+
+typically rs-fMRI augmented with non-imaging phenotypic information. Second, even when deeper
+
+GCN architectures are employed [15], increasing network depth alone does not address the chal-
+
+lenge of effectively integrating complementary structural and functional information across different
+
+modalities. Therefore, despite these advances, multimodal graph-based ASD classification remains
+
+relatively underexplored, particularly with respect to joint rs-fMRI and sMRI integration. To the best
+
+of our knowledge, only a limited number of studies have explicitly incorporated both structural MRI
+
+and functional MRI alongside non-imaging phenotypic data within the ABIDE dataset. Dong et al.
+
+[16] conducted a comprehensive and standardized comparison of multiple machine learning models
+
+using functional connectivity, structural volumetric measures, and non-imaging phenotypic features.
+
+However, this study primarily relies on machine-learning-based feature-level integration and en-
+
+semble strategies, and also does not explicitly modeled cross-modal interactions or joint learning
+
+population graph structure in an end-to-end multimodal framework. Similarly, Ashrafi et al. [17]
+
+proposed a multi-branch GCN architecture that integrates rs-fMRI, sMRI, and non-imaging phe-
+
+notypic information from the ABIDE dataset, demonstrating improved classification performance
+
+over several baselines. While effective, the proposed approach processes each modality largely in-
+
+dependently before fusion through concatenation, which limits explicit modeling of cross-modal
+
+dependencies and constrains joint optimization of multimodal representations.
+
+    Advances in multimodal learning have highlighted the importance of modeling interactions be-
+
+tween heterogeneous data sources rather than relying on simple feature concatenation. Fixed fusion
+
+strategies often fail to capture nuanced, context-dependent relationships between modalities, partic-
+
+ularly when functional and structural brain representations encode distinct but interrelated aspects
+
+of neurobiology. Recently, attention-based mechanisms have emerged as an effective approach for
+
+selectively integrating complementary information across modalities by explicitly modeling inter-
+
+modality dependencies [18]. Within a graph learning context, such mechanisms offer the potential
+
+to align modality-specific node representations while preserving population-level relational struc-
+
+ture.
+
+    To address the existing challenges, we propose a multimodal graph learning framework for ASD
+
+classification that jointly integrates functional and structural brain connectivity derived from rs-fMRI
+
+and sMRI using an asymmetric cross-attention-based fusion mechanism. By treating modality-
+
+
+
+                                                   4
+specific population graphs as complementary representations of brain organization, the proposed
+
+approach explicitly learns how information from one modality can guide and refine feature repre-
+
+sentations in the other. This design enables adaptive weighting of modality-specific features, facil-
+
+itates the extraction of discriminative connectivity patterns, and enhances robustness to site-related
+
+variability. To evaluate the proposed framework, we conduct extensive experiments on the large and
+
+heterogeneous multi-site ABIDE-I neuroimaging dataset, comprising data collected from 17 acqui-
+
+sition centers (CALTECH, CMU, KKI, LEUVEN, MAX-MUN, NYU, OHSU, OLIN, PITT, SBL,
+
+SDSU, STANFORD, TRINITY, UCLA, UM, USM, and YALE). The dataset includes multimodal
+
+brain imaging and phenotypic information acquired across diverse clinical sites, reflecting the het-
+
+erogeneity commonly encountered in real-world ASD studies. In clinical practice, ASD diagnosis
+
+primarily relies on behavioral observations and interview-based assessments as illustrated in Fig. 1,
+
+which can be subjective and time-consuming [19]. In contrast, recent advances in machine learning
+
+demonstrate that AI-based analysis of neuroimaging data can provide more objective and efficient
+
+diagnostic support by automatically learning discriminative patterns from multimodal brain data
+
+[20, 21]. Experimental results show that the proposed framework effectively leverages multimodal
+
+information and consistently outperforms existing state-of-the-art graph-based and multimodal fu-
+
+sion approaches for ASD classification.
+
+
+
+
+                                                  5
+                                        ABIDE Multi-Site Data
+
+
+
+
+                                     Multimodal Brain Imaging
+
+
+
+
+                 Rs-fMRI                               sMRI                        Non-Imaging
+
+                                               ASD Diagnosis
+              Clinician Evaluation                                  AI-Powered Diagnosis
+
+                       ASD vs          TD
+
+
+
+
+                                                                        ASD                       TD
+
+
+
+           Subjective decision-making                              ✓ Objective decisions-making
+           Challenging to interpret                                ✓ Learns from multimodal
+           multimodal data together                                  data jointly
+           Time-consuming assessment                               ✓ Fast and efficient evaluation
+
+
+
+Figure 1: Overview of multimodal ASD diagnosis using heterogeneous ABIDE multi-site data, highlighting the transition
+from clinician-based assessment to AI-driven multimodal analysis
+
+
+
+    The main contributions of the proposed work are summarized as follows:
+
+
+
+                                                           6
+    • We propose a multimodal population graph learning framework for ASD classification that
+
+      models rs-fMRI and sMRI connectivity using separate modality-specific population graphs
+
+      with shared phenotypic-driven edge weights, enabling robust integration of structural and
+
+      functional information across sites.
+
+    • We introduce a novel transformer-based asymmetric cross-attention–based fusion mechanism
+
+      that captures directional inter-modality dependencies by using rs-fMRI features as queries and
+
+      sMRI features as keys and values, enabling adaptive integration of complementary structural
+
+      information while preserving the dominant role of functional connectivity.
+
+    • We perform comprehensive evaluations on the multi-site ABIDE-I dataset using both stratified
+
+      10-fold cross-validation and LOSO-CV to rigorously assess classification performance and
+
+      cross-site generalization. Compared to existing state-of-the-art multimodal and graph-based
+
+      approaches, the proposed method demonstrates performance improvements of approximately
+
+      3% (in 10-fold cross-validation) and 7% (in LOSO-CV), highlighting enhanced discriminative
+
+      capability, improved robustness, and superior generalization across imaging sites.
+
+
+2. Proposed Methodology
+
+    In this study, we propose an end-to-end population-graph–based multimodal learning frame-
+
+work for ASD classification that integrates rs-fMRI, sMRI, and non-imaging phenotypic informa-
+
+tion. Each subject is represented as a node in modality-specific population graphs, where node
+
+attributes are derived from imaging-based connectivity features and inter-subject relationships are
+
+modeled through adaptive, learnable edge weights computed from non-imaging attributes. To this
+
+end, we used a Pairwise Association Encoder (PAE) that constructs a data-driven population graph
+
+by learning non-imaging phenotypic affinities in a latent space optimized for the downstream classi-
+
+fication task.
+
+    Modality-specific EV-GCNs [14] are employed to learn complementary subject-level represen-
+
+tations from rs-fMRI and sMRI population graphs, jointly optimizing node embeddings and graph
+
+structure in an end-to-end manner. The resulting modality-specific embeddings are then integrated
+
+using an asymmetric cross-attention fusion mechanism, in which rs-fMRI representations act as
+
+queries, and sMRI representations serve as keys and values. This design explicitly prioritizes func-
+
+tional connectivity while allowing structural information to selectively modulate functional repre-
+
+
+                                                 7
+sentations. Finally, the fused embeddings are passed to a feed-forward MLP for binary ASD classi-
+
+fication. An overview of the complete framework is illustrated in Fig. 2.
+
+             Data Preprocessing                           Adaptive Population Graph                                                                              EV-GCN & Cross-attention Fusion
+                 Resting-state fMRI              Population                                                                                                                         EV-GCN
+                                                                                                                    𝑽𝟑
+                                                 graph fMRI                                   𝑽𝟐                   𝑾𝒊.𝒋
+                                                                                                                                               𝑮𝒇𝑴𝑹𝑰                                                                              𝑯𝒇𝑴𝑹𝑰
+
+
+
+
+                                                                                                                                                                              GC Layer
+
+                                                                                                                                                                                         GC Layer
+
+                                                                                                                                                                                                     GC Layer
+
+                                                                                                                                                                                                                GC Layer
+                                                      RFE                                                  𝑽𝟏         𝑽𝟒
+                                                Ridge Classifier
+
+
+
+
+                                                                                                                                                                        ED
+                                                                                            𝑽𝟓
+                                                                                                                                               𝑮𝒔𝑴𝑹𝑰                                                                              𝑯𝒔𝑴𝑹𝑰
+                                                                                                                    𝑽𝑵
+         Resting State         f-Connectivity
+             fMRI                  matrix
+                                                                      𝑮𝒇𝑴𝑹𝑰 = (𝑽, 𝑬, 𝑾)
+                                                                                                                                                                       Graph Convolutional Layers
+
+                  Structural MRI                Population                                                                                                         Cross-Attention Fusion
+                                                                                                                      𝑽𝟑
+                                                graph sMRI                                 𝑽𝟐
+                                                                                                                     𝑾𝒊.𝒋
+
+                                                      RFE
+                                                                                                           𝑽𝟏        𝑽𝟒
+                                                Ridge Classifier                                                                                                         𝑸𝒇                         𝑲𝒔           𝑽𝒔
+
+                               s-Connectivity                                              𝑽𝟓
+         Structural                                                                                                𝑽𝑵
+            MRI                   matrix                            𝑮𝒔𝑴𝑹𝑰 = (𝑽, 𝑬, 𝑾)                                                                                   𝑭𝒖𝒔𝒆𝒅 𝑬𝒎𝒃𝒆𝒅𝒅𝒊𝒏𝒈
+
+
+                                                                              PAE Network                                                                            Classification & Evaluation
+                 Phenotypic Data
+
+
+
+
+                                                                                                                                               𝑭𝒖𝒔𝒆𝒅 𝑬𝒎𝒃𝒆𝒅𝒅𝒊𝒏𝒈
+                                                                                                                            Similarity Score
+                                                                          ReLU,BatchNorm
+
+
+           Age           Gender        Site      𝑿𝒊
+                                                                                            Linear Layer                                                                                                                      AUC
+                                                           Linear Layer
+
+
+
+
+                                                                                                            Cosine
+                                                                                                                                                                                                     ASD
+                                                                              Dropout
+
+
+
+                                                                                                           Similarity                                                                                                      Accuracy
+                                                                                                           Cos (𝒉𝒊 , 𝒉𝒋 )                                                                              TD
+                                                 𝑿𝒋                                                                                                                                                                        Sensitivity
+
+                                                Feature                                                                                                              Classification MLP                                    Evaluation
+                                                 Vector
+
+
+                         (a)                                                               (b)                                                                                           (c)
+
+
+Figure 2: End-to-End Workflow Diagram(a) rs-fMRI, sMRI, and phenotypic data are processed to extract functional and
+structural connectivity features; (b) modality-specific population graphs are constructed and processed using EV-GCN to learn
+functional and structural node embeddings;(c) the resulting embeddings are integrated through asymmetric cross-attention
+fusion and passed to a Feed Forward MLP classifier to predict ASD vs. TD
+
+
+
+2.1. Dataset and Preprocessing
+
+    The proposed framework was evaluated on the ABIDE-I dataset [22], which provides rs-fMRI,
+
+sMRI, and non-imaging phenotypic data for ASD and typically developing (TD) subjects. Following
+
+the curation protocol in [23] to ensure fair comparison with prior population-graph approaches [23,
+
+24], subjects with incomplete coverage or inconsistent scanner information were excluded, yielding
+
+871 participants (403 TD, 468 ASD).
+
+    Experiments were conducted using both stratified 10-fold and LOSO-CV. In each fold, feature
+
+selection and population graph construction were performed exclusively on the training set to prevent
+
+information leakage. Test subjects’ imaging and non-imaging phenotypic information were not used
+
+during training.
+
+    rs-fMRI: Preprocessed rs-fMRI data were obtained from the ABIDE Preprocessed Connec-
+
+tomes Project [25]. Regional mean BOLD time series were extracted via atlas-based parcellation,
+
+
+                                                                                             8
+and Pearson correlation was used to compute symmetric functional connectivity matrices as shown
+
+in Fig.2 (a). Brain regions were defined using the Harvard–Oxford (HO) atlas (111 ROIs), whose
+
+probabilistic definition accommodates inter-subject anatomical variability in multi-site data.
+
+   sMRI: sMRI data were processed using FreeSurfer [26] with the standard recon-all pipeline for
+
+automated segmentation of cortical, subcortical, and white matter regions. Each brain was parcel-
+
+lated using the AAL atlas (116 ROIs), and region-wise morphological connectivity matrices were
+
+computed to capture inter-regional structural relationships. Only the upper-triangular values of these
+
+symmetric matrices were extracted as node features for each subject, as shown in Fig.2 (a). This
+
+representation encodes morphological variations across cortical thickness, subcortical volumes, and
+
+white matter properties while maintaining a compact feature set.
+
+   Non-Imaging Phenotypic Data: The most commonly used non-imaging features in literature
+
+[16, 14, 27] Age, gender, and acquisition site were selected to capture inter-subject similarity in the
+
+multi-site setting. These variables were numerically encoded and used solely for population graph
+
+construction through the Pairwise Association Encoder (PAE) as depicted in Fig.2 (b), which learns
+
+adaptive edge weights. They were not used as node features or direct inputs to the classifier, thereby
+
+avoiding information leakage while incorporating non-imaging phenotypic context into graph learn-
+
+ing.
+
+
+2.2. Multimodal Brain Network Construction
+
+   In this study, multimodal brain networks are constructed from standardized, preprocessed con-
+
+nectivity features derived from the ABIDE-I dataset, as described in Section 2.1. Rather than op-
+
+erating on raw neuroimaging volumes, we focus on population-level graph modeling [14], which
+
+improves reproducibility across acquisition sites and enables effective integration of multimodal in-
+
+formation.
+
+   Each subject is represented as a node in a population graph, with node attributes derived from
+
+modality-specific connectivity features. For rs-fMRI and sMRI modalities based on connectome
+
+data, distinct graphs are constructed as shown in Fig.2 (b), allowing each modality to maintain its
+
+inherent representational properties while sharing a connectivity structure driven by non-imaging
+
+phenotypic data. For each modality, vectorized connectivity features are used as node attributes,
+
+while inter-subject similarities are encoded through adaptive edge weights derived from non-imaging
+
+
+
+
+                                                  9
+phenotypic information. These population graphs serve as the basis for graph convolutional repre-
+
+sentation learning.
+
+
+2.2.1. Feature Selection and Standardization
+
+   Connectivity matrices derived from both resting-state functional and structural imaging are in-
+
+herently high-dimensional due to the large number of inter-regional connections. For each modality,
+
+the symmetric connectivity matrix C ∈ RR×R was transformed into a feature vector by extracting
+
+the upper triangular elements while excluding the diagonal, where R represents the number of brain
+
+regions. This procedure retains all unique pairwise relationships and removes redundant information
+
+arising from matrix symmetry.
+
+   To reduce the risk of overfitting, feature selection was performed separately for each modality
+
+within every training fold. Recursive Feature Elimination (RFE) [28] with ridge regression was used
+
+to rank features based on their contribution to classification performance. At each iteration, features
+
+with the smallest weight magnitudes were removed, and a fixed number of features (D = 2400)
+
+was retained for each modality. The selected features were subsequently standardized using z-score
+
+normalization and used as node attributes in the corresponding modality-specific population graphs.
+
+
+2.2.2. Adaptive Population Graph Construction
+
+   Let G = (V, E, W) denote a population graph, where V represents a set of N nodes corre-
+
+sponding to subjects, E is the set of edges, and W contains edge weights. Each node vi ∈ V is
+
+associated with an imaging-derived feature vector zi ∈ RD , which captures discriminative diagnostic
+
+information from imaging modalities such as rs-fMRI and sMRI.
+
+   To model inter-subject relationships, we define graph connectivity using non-imaging attributes
+
+(sex, age, site), which provide complementary contextual information. Instead of relying on fixed or
+
+statistically defined similarities, we used a learnable function to model edge weights. Specifically,
+
+the edge weight wi j ∈ W between subjects i and j is computed as
+
+
+                                          wi j = f (xi , x j ; Ω),                                 (1)
+
+
+where xi and x j denote non-imaging features and Ω represents trainable parameters of the Pairwise
+
+Association Encoder (PAE).
+
+
+
+                                                    10
+2.2.3. Pairwise Association Encoder (PAE)
+
+   The PAE first normalizes each modality of the non-imaging features to zero mean and unit vari-
+
+ance to reduce scale discrepancies across modalities [11]. The normalized features are then projected
+
+into a shared latent space via a multi-layer perceptron (MLP). In this work, the latent dimensionality
+
+is set to Dh = 128.
+
+   The association strength between subjects is computed using cosine similarity in the latent space:
+
+                                                  h⊤i h j
+                                       wi j =                + 0.5,                                (2)
+                                                2∥hi ∥∥h j ∥
+
+which rescales similarity scores to ensure numerical stability. Defining edge weights in the latent
+
+space yields more robust graph connectivity than directly operating on raw non-imaging features.
+
+
+2.2.4. Edge-Variational Graph Convolution on Adaptive Population Graphs
+
+   Given the adaptively constructed population graph G = (V, E, W), EV-GCN performs edge-
+
+weighted graph convolution to propagate information across subjects and learn population-aware
+
+node representations. Each node corresponds to a subject and is initialized with modality-specific
+
+connectivity features, while edges encode adaptive inter-subject relationships learned from non-
+
+imaging phenotypic information via the Pairwise Association Encoder (PAE).
+
+   Graph convolution is performed using spectral filtering based on Chebyshev polynomial approx-
+
+imation, which enables efficient aggregation of information from multi-hop neighborhoods without
+
+explicitly computing eigen-decompositions. In this formulation, learned edge weights directly mod-
+
+ulate the message-passing process, controlling the influence of neighboring subjects during feature
+
+aggregation.
+
+   Since these edge weights are generated by the differentiable PAE, gradients from the classifi-
+
+cation objective propagate jointly through both the graph convolution layers and the edge-weight
+
+learning module. This joint optimization enables simultaneous learning of node embeddings and
+
+population graph structure, allowing inter-subject relationships to adapt dynamically to the down-
+
+stream ASD classification task.
+
+
+2.2.5. EV-GCN Encoder
+
+   For each imaging modality, a dedicated EV-GCN encoder [14] learns population-aware subject
+
+representations from graph-structured connectivity data. Each encoder consists of multiple stacked
+
+
+                                                    11
+edge-weighted graph convolution layers with shared hidden dimensionality. Nonlinear activation
+
+functions and feature-level dropout are applied after each layer to improve generalization and reduce
+
+overfitting. EV-GCN block diagram is depicted in Fig.2 (c).
+
+   To preserve information across multiple neighborhood scales and prevent over-smoothing, node
+
+embeddings from all graph convolution layers are concatenated using a multi-scale aggregation strat-
+
+egy. This allows the model to integrate both local connectivity patterns and global population-level
+
+structures, capturing diagnostically relevant differences across subjects.
+
+   The resulting embeddings provide a rich, structured representation for each subject and serve as
+
+the input for the subsequent cross-attention-based multimodal fusion module.
+
+
+2.3. Transformer-based Asymmetric Cross-Attention for Multimodal Fusion
+
+   Building upon the modality-specific embeddings learned from the EV-GCN encoders, we pro-
+
+posed a novel transformer-based asymmetric cross-attention fusion mechanism to integrate func-
+
+tional and structural brain connectivity. This mechanism enables rs-fMRI embeddings to selectively
+
+attend to complementary information from the sMRI, capturing cross-modal interactions more ef-
+
+fectively than conventional feature concatenation or averaging, and forming a key component of our
+
+multimodal framework as shown in Fig.3.
+
+   Let H f ∈ RN×D and H s ∈ RN×D denote the node embeddings learned from the rs-fMRI and
+
+sMRI population graphs, respectively, where N is the number of subjects and D is the embedding
+
+dimensionality produced by the EV-GCN encoders.
+
+
+
+
+                                                  12
+                          Asymmetric Cross Attention
+                   fMRI-Embedding                            sMRI-Embedding
+
+                      𝑯 𝒇𝑴𝑹𝑰 𝑵 × 𝑫                             𝑯 𝒔𝑴𝑹𝑰 𝑵 × 𝑫
+
+                     Linear Projection
+
+
+                                   Multi-Head Cross-Attention
+
+                                   𝑸𝒇                           𝑲𝒔                𝑽𝒔
+
+
+                                     𝒁 (𝑭𝒖𝒔𝒆𝒅 𝑬𝒎𝒃𝒆𝒅𝒅𝒊𝒏𝒈𝒔)
+
+
+                                           𝑹𝒆𝒔𝒊𝒅𝒖𝒂𝒍 𝑨𝒅𝒅𝒊𝒕𝒊𝒐𝒏
+                                                𝒁 + 𝑯𝒇 𝒑𝒓𝒐𝒋
+
+                                     𝑭𝒆𝒆𝒅 𝑭𝒐𝒓𝒘𝒂𝒓𝒅 𝑵𝒆𝒕𝒘𝒐𝒓𝒌
+
+                                                   𝑳𝒊𝒏𝒆𝒂𝒓
+
+                                                  𝑺𝒐𝒇𝒕𝒎𝒂𝒙
+
+
+Figure 3: Transformer-based asymmetric cross-attention fusion integrating modality-specific EV-GCN embeddings from
+functional and structural brain connectivity.
+
+
+
+
+                                                       13
+2.3.1. Asymmetric Cross-Attention Formulation
+
+    To prioritize functional connectivity while incorporating structural context, in this study, we
+
+propose the rs-fMRI embeddings to be treated as queries, while the sMRI embeddings serve as
+
+keys and values. The functional embeddings are first projected into a shared latent space, while
+
+the structural embeddings are directly used as keys and values without an additional projection to
+
+retain their original relational structure, enabling them to act as stable contextual references during
+
+attention.
+
+    Formally, the attention inputs are defined as
+
+
+                                Q f = H f WQ ,      Ks = Hs ,   Vs = Hs                            (3)
+
+
+where WQ ∈ RD×D are learnable projection matrices. Multi-head attention is then applied to compute
+
+fused representations:
+
+                                  Z = MultiHeadAttn(Q f , K s , V s ),                             (4)
+
+
+allowing each subject’s functional representation to selectively attend to structurally relevant pat-
+
+terns across the population graph. Because the attention mechanism is driven by the functional
+
+query representation, the resulting fusion process is naturally guided by functional connectivity pat-
+
+terns, while structural embeddings provide complementary contextual information. This asymmetric
+
+formulation ensures that functional connectivity remains the principal source of information in the
+
+fused representation while structural connectivity contributes additional context that enhances cross-
+
+modal interaction.
+
+
+2.3.2. Residual Refinement
+
+    To stabilize training and preserve the discriminative properties of the functional embeddings, a
+
+residual connection is applied between the projected functional embeddings and the attention output,
+
+maintaining the intended asymmetry of the fusion process:
+
+
+                                            Zr = Z + Q f .                                         (5)
+
+
+
+
+                                                    14
+The fused representations are subsequently refined using a feed-forward MLP with layer normaliza-
+
+tion and non-linear activation:
+
+                                           Z̃ = MLP(Zr ),                                          (6)
+
+
+where the MLP consists of a sequence of layer normalization, linear transformation, GELU activa-
+
+tion, dropout, and a final linear projection. This refinement step enhances the expressive capacity of
+
+the fused embeddings while maintaining the original functional signal.
+
+
+2.4. Classification Module
+
+    The refined embeddings Z̃ ∈ RN×D are then passed to a linear classification layer:
+
+
+                                           Ŷ = Z̃Wc + b,                                          (7)
+
+
+where Wc ∈ RD×C and b ∈ RC are learnable parameters, and C denotes the number of diagnos-
+
+tic classes. The entire framework, comprising the dual EV-GCN encoders, the asymmetric cross-
+
+attention fusion module, and the classification layer, is trained end-to-end using the cross-entropy
+
+loss:
+                                             N X
+                                             X C
+                                      L=−               yic log ŷic .                             (8)
+                                              i=1 c=1
+
+This joint optimization enables coordinated learning of modality-specific embeddings and cross-
+
+modal interactions, effectively capturing complex relationships in functional and structural connec-
+
+tivity for ASD classification.
+
+
+3. Experiments and Results
+
+    This section presents a comprehensive evaluation of the proposed multimodal population-graph
+
+framework for ASD classification using the ABIDE-I dataset. The experimental analysis investigates
+
+the effectiveness of the proposed framework under different modality configurations and examines
+
+the contribution of the proposed asymmetric cross-attention–based fusion strategy.
+
+    Experiments are performed using both stratified 10-fold and LOSO cross-validation methods
+
+to evaluate robustness and generalization across the sites. The stratified 10-fold cross-validation
+
+setup assesses subject-level generalization by preserving class balance across folds, while LOSO-
+
+CV specifically examines the model’s capacity to generalize to unseen acquisition sites. These
+
+
+                                                 15
+assessment techniques provide a comprehensive evaluation of performance even when multi-center
+
+neuroimaging datasets exhibit inter-site variation.
+
+   In our experiments, the spectral graph convolution is implemented using a Chebyshev polyno-
+
+mial approximation of order K = 3, enabling localized yet expressive graph filtering, while the
+
+network depth is defined by LG = 4 graph convolutional layers to facilitate hierarchical feature ag-
+
+gregation across the population graph. All models are optimized using the Adam optimizer with
+
+an initial learning rate of 0.01 and a weight decay of 5 × 10−5 to control model complexity. To
+
+further reduce overfitting, a dropout rate of 0.2 is applied during training. Each model is trained for
+
+300 epochs. All models are developed on Python with experiments conducted on the open-source
+
+PyTorch framework, with graph computations handled via PyTorch Geometric, and experiments run
+
+on an NVIDIA RTX 4000 Ada Generation GPU.
+
+
+3.1. Performance Evaluation
+
+   The proposed model was evaluated by using Accuracy, Area under the Curve, Sensitivity, Speci-
+
+ficity, and F1-score evaluation metrics. Together, these metrics provide a comprehensive assessment
+
+of classification performance, particularly in multi-site neuroimaging settings where data hetero-
+
+geneity must be carefully considered.
+
+   Accuracy is defined as:
+                                                   TP + TN
+                                    Acc =                        .                                 (9)
+                                             T P + T N + FP + FN
+
+   Sensitivity (True Positive Rate) and Specificity (True Negative Rate) are computed as:
+
+                                          TP                                  TN
+                       Sensitivity =            ,          Specificity =            .             (10)
+                                       T P + FN                            T N + FP
+
+   The F1-score, which provides a balanced measure of precision and recall, is given by:
+
+                                                  Precision · Recall
+                                       F1 = 2 ·                      .                            (11)
+                                                  Precision + Recall
+
+   The Area Under the Receiver Operating Characteristic Curve (AUC) is computed by plotting the
+
+true positive rate against the False Positive Rate.
+
+   All metrics are computed exclusively on held-out test subjects in each validation split and re-
+
+ported as averages across cross-validation folds and acquisition sites, ensuring an unbiased and sta-
+
+
+                                                      16
+tistically reliable assessment of model performance.
+
+3.2. Effect of Multimodal Learning
+
+   To analyze the contribution of different imaging modalities and non-imaging phenotypic in-
+
+formation, we evaluated several configurations of the proposed framework using stratified 10-fold
+
+cross-validation while keeping the baseline EV-GCN architecture unchanged. The results are sum-
+
+marized in Table 1.
+
+               Table 1: Effect of Multimodal Learning, evaluated using stratified 10-fold cross-validation
+             Model          Modality        AUC        Acc      Sensitivity     Specificity     F1-Score
+
+                             rs-fMRI        79.40     77.40        76.70           84.41          80.00
+
+             Proposed       rs-fMRI*        84.80     82.60        83.90           85.30          84.10
+
+             Method           sMRI          73.90     73.30        73.00           81.00          76.40
+
+                              sMRI*         82.30     81.00        86.73           76.50          80.90
+
+                           Multimodal       87.30     84.40        85.20           87.00          85.70
+
+             Note: (*) indicates the inclusion of non-imaging data alongside the specified
+
+             imaging modality.
+
+
+
+   rs-fMRI by itself already produces competitive results, demonstrating the ability of functional
+
+connectivity patterns to discriminate in the categorization of ASD. Incorporating non-imaging phe-
+
+notypic data regularly enhances performance, suggesting that adaptive modeling of inter-subject
+
+connections offers useful context at the population level.
+
+   sMRI alone achieves lower performance compared to rs-fMRI, reflecting its limited sensitivity
+
+to functional brain dynamics. However, when structural connectivity is combined with non-imaging
+
+phenotypic information, classification performance improves substantially, demonstrating the ef-
+
+fectiveness of the adaptive population graph in leveraging complementary non-imaging attributes.
+
+Moreover, when compared with relevant state-of-the-art approach for the sMRI modality, the pro-
+
+posed model achieves superior performance, as summarized in Table 2.
+
+     Table 2: Results comparison for sMRI + non-imaging Data , evaluated using stratified 10-fold cross-validation
+
+                                  Reference               Model      AUC        Acc
+
+                                  [16]                    FCN        69.60     66.20
+
+                                  Proposed Method                    82.30     81.00
+
+
+
+                                                          17
+                     The best overall performance is achieved through multimodal fusion, where functional and struc-
+
+tural information are jointly modeled within the proposed asymmetric cross-attention framework.
+
+This configuration attains an AUC of 87.30%, an accuracy of 84.40%, a sensitivity of 85.20%, a
+
+specificity of 87.00%, and an F1-score of 85.70%, confirming that multimodal integration enables
+
+richer and more robust subject representations than any single imaging modality. For results visual-
+
+ization of the proposed model, ROC curves are plotted in Fig.4
+
+                                                 ROC Curves 10-Fold Cross Validation
+                     1.0
+
+
+                     0.8
+True Positive Rate
+
+
+
+
+                     0.6
+
+
+                     0.4                                                                              Fold 0 (AUC = 0.8267)
+                                                                                                      Fold 1 (AUC = 0.8727)
+                                                                                                      Fold 2 (AUC = 0.9274)
+                                                                                                      Fold 3 (AUC = 0.9303)
+                                                                                                      Fold 4 (AUC = 0.7617)
+                     0.2                                                                              Fold 5 (AUC = 0.8032)
+                                                                                                      Fold 6 (AUC = 0.9798)
+                                                                                                      Fold 7 (AUC = 0.9590)
+                                                                                                      Fold 8 (AUC = 0.8984)
+                                                                                                      Fold 9 (AUC = 0.7649)
+                     0.0                                                                              Mean ROC (AUC = 0.8724)
+                            0.0               0.2                0.4             0.6                   0.8              1.0
+                                                                 False Positive Rate
+
+                                  Figure 4: ROC–AUC curve for the proposed model under 10-fold cross-validation
+
+
+
+3.3. Effect of asymmetric Cross-Attention Fusion
+
+                     To evaluate the effectiveness of the proposed asymmetric cross-attention mechanism for mul-
+
+timodal feature fusion, we compare it against a conventional concatenation [18] and symmetric
+
+cross-attention-based [29] fusion strategies, using stratified 10-fold cross-validation. In the concate-
+
+nation approach, modality-specific embeddings are directly merged and passed to the classification
+
+head, without explicitly modeling inter-modality interactions, and for symmetric (two-stream) cross
+
+
+                                                                       18
+attention, the query is exchanged from each modality. In contrast, the proposed asymmetric cross-
+
+attention fusion selectively integrates structural information by allowing rs-fMRI to attend sMRI,
+
+enabling adaptive and context-aware feature alignment. The quantitative results are reported in Ta-
+
+ble 3. Across all assessment measures, the asymmetric cross-attention-based fusion outperforms
+
+simple concatenation and symmetric cross-attention.
+
+
+Table 3: Effect of the proposed asymmetric cross-attention–based fusion strategy on multimodal ASD classification perfor-
+mance, evaluated using stratified 10-fold cross-validation
+                  Multimodal Fusion Strategy           AUC        Acc     Sens     Spec     F1-Score
+
+                  Concatenation                        84.90      83.00   84.90   84.20       84.30
+
+                  Symmetric Cross-Attention            82.30      81.30   84.40   82.30       82.90
+
+                  Asymmetric Cross-Attention           87.30      84.40   85.20   87.00       85.70
+
+
+
+3.4. Comparison with State-of-the-Art Methods
+
+    We compare the proposed model with existing population-graph and deep learning–based ap-
+
+proaches for ASD classification using stratified 10-fold cross-validation. In particular, the evaluation
+
+includes comparisons with several state-of-the-art methods, including Brain Network Transformer
+
+[30], Com-BrainTF [31], ASDFormer [32], DeepGCN [27], MMGCN [33], GCN [16], EV-GCN
+
+[14], and Enhanced EV-GCN [17]. All these studies used the same 871 number of images from the
+
+ABIDE-I dataset within consistent data pre-processing.
+
+
+
+
+                                                             19
+      Table 4: Stratified 10-fold cross-validation based results comparison with SOTA ASD classification methods
+                Reference                 Model                      Modality         AUC        ACC
+
+                [30]          Brain Network Transformer              rs-fMRI*          80.2      71.0
+
+                [31]                  Com-BrainTF                    rs-fMRI*          79.6      72.5
+
+                [32]                   ASDFormer                     rs-fMRI*         81.17      74.60
+
+                [27]                    DeepGCN                      rs-fMRI*         82.59      77.27
+
+                [33]                     MMGCN                       rs-fMRI*         84.00      78.31
+
+                [14]                     EV-GCN                      rs-fMRI*         84.72      81.06
+
+                [16]                       GCN                    Multimodality       78.00      71.30
+
+                [17]                Enhanced EvGCN                Multimodality       82.00      74.81
+
+                                   Proposed Method               Multimodality        87.30      84.40
+
+                Note:(*) represents integration of non-imaging data into imaging modality
+
+                Multimodality represents all modalities, i.e., rs-fMRI, sMRI, and Non-Imaging.
+
+
+
+   Our proposed multimodal architecture performs better overall across all provided measures, as
+
+shown in Table 4. Although current graph learning techniques and transformer-based models en-
+
+hance performance by modeling population-level interactions and long-range dependencies, they
+
+are still limited by their dependence on a single imaging modality [30, 31, 32, 27, 33, 14].
+
+   Among population-graph approaches, EV-GCN [14] has shown strong performance by jointly
+
+learning node representations and adaptive graph structures from resting-state functional connectiv-
+
+ity and non-imaging phenotypic information. Building on this foundation, the proposed framework
+
+further enhances classification accuracy and area under the curve by explicitly incorporating struc-
+
+tural connectivity alongside functional and non-imaging attributes. Through end-to-end optimiza-
+
+tion of adaptive edge weights, graph convolutional representations, and a novel asymmetric cross-
+
+attention–based fusion mechanism instead of simple concatenation-based fusion like [17], helps the
+
+model to effectively capture both intra-subject characteristics and inter-subject relationships. This
+
+multimodal design enables the extraction of complementary aspects of brain organization that are
+
+not fully accessible from functional data alone, resulting in consistent improvements over strong
+
+baseline methods and offering a robust solution for multi-site autism classification.
+
+
+
+
+                                                         20
+3.5. Leave-One-Site-Out Based Evaluation
+
+    A LOSO-CV was performed using the ABIDE-I dataset to assess the robustness of the proposed
+
+framework to site-specific variability and its capacity to generalize across varied acquisition condi-
+
+tions. Under the LOSO evaluation protocol, data from a single imaging site is held out entirely for
+
+testing, while the model is trained on all remaining sites. This process is repeated until each site
+
+serves once as the unseen test set, allowing a comprehensive assessment of cross-site generalization.
+
+This assessment procedure reveals the model to differences in scanner hardware, acquisition meth-
+
+ods, and demographic distributions, offering a rigorous examination of cross-site generalization.
+
+    Under LOSO-CV, the proposed approach attains the highest average accuracy of 82.0%, out-
+
+performing existing LOSO-CV style evaluation methods [34], [35], and [27] as shown in Table 5.
+
+It achieves superior performance in 12 of the 17 sites as shown in Bar Plots in Fig 4, indicating
+
+improved robustness to variability across imaging centers. Importantly, the performance gains are
+
+evident not only in larger cohorts such as NYU, TRINITY, and UCLA, but also in smaller sites,
+
+including CMU, STANFORD, and YALE. This consistent improvement across both large and small
+
+datasets suggests that the adaptive population graph construction, together with multimodal fusion,
+
+enables the model to better utilize heterogeneous training data and generalize more reliably across
+
+different acquisition settings.
+
+
+
+
+                                                 21
+                     Table 5: Site-wise classification accuracy (%) under LOSO-CV evaluation
+                  Site            Size       ASD-           ASD-     DeepGCN           Our
+
+                                           DiagNet      SAENet                      Proposed
+
+                  CALTECH          15        52.8           56.7         71.7          86.7
+
+                  CMU              11        68.5           70.6         80.5          81.8
+
+                  KKI              33        69.5           72.6         76.2          63.6
+
+                  LEUVEN           56        61.3           64.6         74.3          71.4
+
+                  MAX_MUN          46        48.6           47.5         69.7          87.0
+
+                  NYU              172       68.0           72.0         79.1          91.9
+
+                  OHSU             25        82.0           72.0         78.6          72.0
+
+                  OLIN             28        65.1           66.6         80.0          82.1
+
+                  PITT             50        67.8           73.1         72.4          88.0
+
+                  SBL              26        51.6           56.6         79.7          76.9
+
+                  SDSU             27        63.0           64.2         67.7          81.5
+
+                  STANFORD         25        64.2           53.2         68.3          92.0
+
+                  TRINITY          44        54.1           57.5         66.9          95.5
+
+                  UCLA             85        73.2           68.3         72.8          83.5
+
+                  UM               120       63.8           67.8         81.2          78.3
+
+                  USM              67        68.2           70.0         67.5          79.1
+
+                  YALE             41        63.6           66.0         75.6          82.9
+
+                  Average         51.2       63.8           64.7         74.2          82.0
+
+
+
+    While the model demonstrates consistent improvements across most sites, some performance
+
+variability across sites is evident, particularly for smaller cohorts such as KKI, OHSU, and SBL.
+
+This trend aligns with previous LOSO studies on ABIDE and is likely due to limited sample sizes
+
+and site-specific distribution shifts.
+
+
+
+
+                                                       22
+                                                  Chart Title
+
+
+
+
+120
+
+
+
+100
+
+
+
+80
+
+
+
+60
+
+
+
+40
+
+
+
+20
+
+
+
+ 0
+
+
+
+
+                            ASD-DiagNET     ASD-SAENet        DeepGCN    Proposed Method
+
+
+  Figure 5: Bar plot comparing the performance of the proposed model with SOTA methods under LOSO cross-validation
+
+
+
+4. Discussion
+
+      The experimental findings demonstrate that the proposed multimodal graph-based fusion frame-
+
+work effectively captures complementary functional and structural brain patterns for ASD classifi-
+
+cation. In particular, the integration of adaptive population graph modeling with asymmetric cross-
+
+attention-based multimodal fusion improved performance compared to single-modality and existing
+
+state-of-the-art approaches, as shown in Tables 1 and 4, respectively. These results suggest that
+
+jointly modeling inter-subject relationships and modality-specific representations provides a more
+
+discriminative and biologically meaningful characterization of brain connectivity alterations.
+
+      The ablation analysis indicates that rs-fMRI provides stronger discriminative power than sMRI
+
+when used independently, which is consistent with prior literature highlighting the sensitivity of
+
+functional connectivity to atypical network synchronization in ASD. Transformer-based and graph-
+
+based models operating on rs-fMRI, such as Brain Network Transformer [30], Com-BrainTF [31],
+
+and ASDFormer [32], have demonstrated that modeling long-range dependencies enhances classi-
+
+fication performance. However, these approaches are primarily constrained to functional data. The
+
+results of the present study suggest that although rs-fMRI alone is competitive, incorporating struc-
+
+tural connectivity further enriches the representation space by capturing anatomical organization that
+
+functional measures alone cannot fully characterize.
+
+
+                                                         23
+   For sMRI combined with non-imaging data, the proposed framework substantially outperforms
+
+previously reported model FCN [16]. This improvement highlights the importance of population-
+
+graph modeling when structural connectivity is considered. Unlike conventional deep learning mod-
+
+els that operate at the subject level, the adaptive graph construction enables non-imaging phenotypic
+
+attributes to guide inter-subject relationships, providing contextual information that enhances dis-
+
+crimination even when the imaging modality itself is less sensitive than rs-fMRI. These findings re-
+
+inforce the relevance of incorporating demographic and acquisition-related factors into graph-based
+
+neuroimaging frameworks.
+
+   The superiority of the multimodal configuration further confirms that functional and structural
+
+connectivity encode complementary aspects of brain organization. While functional connectiv-
+
+ity reflects dynamic synchronization patterns, structural connectivity represents relatively stable
+
+anatomical pathways. The asymmetric cross-attention mechanism enables selective information
+
+exchange between modalities, allowing functional embeddings to attend to structural representa-
+
+tions in a context-aware manner. Compared to simple concatenation based fusion [17], which treats
+
+modality-specific embeddings independently before classification, cross-attention explicitly models
+
+inter-modality dependencies, leading to more expressive fused representations. This observation
+
+aligns with emerging evidence that attention-based fusion strategies provide advantages over static
+
+fusion schemes in multimodal neuroimaging analysis.
+
+   In comparison with state-of-the-art methods, the proposed framework achieves improved per-
+
+formance across both transformer and graph-based approaches. Population-graph models such as
+
+EV-GCN [14] demonstrated the effectiveness of jointly learning node embeddings and adaptive
+
+graph structures from rs-fMRI and non-imaging phenotypic data. Building upon this foundation, the
+
+present study extends the modeling capacity by incorporating structural connectivity and introduc-
+
+ing asymmetric cross-attention for multimodal integration. Similarly, multimodal graph frameworks
+
+such as those reported in [16] and enhanced EV-GCN variants [17] improve representation learning
+
+through multi-source information; however, they rely on simpler fusion strategies. The consistent
+
+gains observed in the current experiments suggest that explicitly modeling modality interaction, in
+
+addition to adaptive graph learning, contributes to improved discriminative performance.
+
+   The LOSO-CV evaluation provides further insight into the generalization capability of the frame-
+
+work under realistic multi-center conditions. Compared with ASD-DiagNet [34], SAENet [35], and
+
+
+
+                                                 24
+DeepGCN [27], the proposed model achieves the highest average accuracy and demonstrates supe-
+
+rior performance across the majority of acquisition sites. This indicates that adaptive phenotypic-
+
+driven edge construction, combined with multimodal feature integration, enhances robustness to
+
+inter-site variability. The improved performance across both large cohorts and several smaller
+
+sites suggests that the model effectively leverages heterogeneous training data to learn more sta-
+
+ble population-level representations.
+
+   Nevertheless, variability across certain smaller sites remains observable, particularly in cohorts
+
+with limited sample sizes. Such fluctuations are consistent with previously reported LOSO findings
+
+on ABIDE, where site-specific distribution shifts and demographic imbalance influence generaliza-
+
+tion performance. Although the proposed framework improves the overall average accuracy, these
+
+observations highlight the ongoing challenge of domain heterogeneity in multi-site neuroimaging
+
+studies.
+
+
+5. Conclusion
+
+   In this study, we proposed a multimodal population-graph framework for ASD classification
+
+that integrates rs-fMRI, sMRI, and non-imaging phenotypic information within a unified learning
+
+strategy. By modeling subjects as nodes in an adaptive graph and learning inter-subject relation-
+
+ships through non-imaging phenotypic affinity, the framework effectively captures both individual
+
+connectivity patterns and population-level structure.
+
+   The introduction of an asymmetric cross-attention fusion mechanism allows functional repre-
+
+sentations to selectively incorporate complementary structural information, leading to improved
+
+discriminative performance compared to single imaging modality and simple fusion approaches.
+
+Experimental results under both 10-fold and LOSO cross-validation demonstrate the robustness and
+
+generalization of the proposed model across multi-site data.
+
+   Overall, this work emphasizes how crucial it is to create fusion strategies that use complementary
+
+information while respecting modality hierarchy. The proposed framework provides a scalable and
+
+interpretable approach for multimodal neuroimaging analysis and may serve as a foundation for
+
+future research in computer-aided diagnosis of neurodevelopmental and psychiatric disorders.
+
+
+
+
+                                                 25
+Acknowledgements
+
+   This study was funded by Gesellschaft für Forschungsförderung Niederösterreich m.b.H. under
+
+project number: FTI24-G-024
+
+
+References
+
+ [1] C. Lord, T. S. Brugha, T. Charman, J. Cusack, G. Dumas, T. Frazier, E. J. Jones, R. M. Jones,
+
+     A. Pickles, M. W. State, et al., Autism spectrum disorder, Nature reviews Disease primers 6 (1)
+
+     (2020) 5.
+
+ [2] C. Ecker, S. Y. Bookheimer, D. G. Murphy, Neuroimaging in autism spectrum disorder: brain
+
+     structure and function across the lifespan, The Lancet Neurology 14 (11) (2015) 1121–1134.
+
+ [3] S. S. Dcouto, J. Pradeepkandhasamy, Multimodal deep learning in early autism detec-
+
+     tion—recent advances and challenges, Engineering Proceedings 59 (1) (2024) 205.
+
+ [4] N. Qiang, J. Gao, Q. Dong, J. Li, S. Zhang, H. Liang, Y. Sun, B. Ge, Z. Liu, Z. Wu, et al.,
+
+     A deep learning method for autism spectrum disorder identification based on interactions of
+
+     hierarchical brain networks, Behavioural Brain Research 452 (2023) 114603.
+
+ [5] A. S. Heinsfeld, A. R. Franco, R. C. Craddock, A. Buchweitz, F. Meneguzzi, Identification of
+
+     autism spectrum disorder using deep learning and the abide dataset, NeuroImage: clinical 17
+
+     (2018) 16–23.
+
+ [6] Z. Sherkatghanad, M. Akhondzadeh, S. Salari, M. Zomorodi-Moghadam, M. Abdar, U. R.
+
+     Acharya, R. Khosrowabadi, V. Salari, Automated detection of autism spectrum disorder using
+
+     a convolutional neural network, Frontiers in neuroscience 13 (2020) 1325.
+
+ [7] M. Quaak, L. Van De Mortel, R. M. Thomas, G. Van Wingen, Deep learning applications
+
+     for the classification of psychiatric disorders using neuroimaging data: systematic review and
+
+     meta-analysis, NeuroImage: Clinical 30 (2021) 102584.
+
+ [8] L. Zhang, M. Wang, M. Liu, D. Zhang, A survey on deep learning for neuroimaging-based
+
+     brain disorder analysis, Frontiers in neuroscience 14 (2020) 779.
+
+
+
+
+                                                26
+ [9] H. Peng, W. Gong, C. F. Beckmann, A. Vedaldi, S. M. Smith, Accurate brain age prediction
+
+     with lightweight deep neural networks, Medical image analysis 68 (2021) 101871.
+
+[10] M. Khosla, K. Jamison, A. Kuceyeski, M. R. Sabuncu, Ensemble learning with 3d convolu-
+
+     tional neural networks for functional connectome-based prediction, NeuroImage 199 (2019)
+
+     651–662.
+
+[11] S. Parisot, S. I. Ktena, E. Ferrante, M. Lee, R. Guerrero, B. Glocker, D. Rueckert, Disease
+
+     prediction using graph convolutional networks: application to autism spectrum disorder and
+
+     alzheimer’s disease, Medical image analysis 48 (2018) 117–130.
+
+[12] F. M. Bianchi, D. Grattarola, L. Livi, C. Alippi, Graph neural networks with convolutional
+
+     arma filters, IEEE transactions on pattern analysis and machine intelligence 44 (7) (2021)
+
+     3496–3507.
+
+[13] H. Jiang, P. Cao, M. Xu, J. Yang, O. Zaiane, Hi-gcn: A hierarchical graph convolution network
+
+     for graph embedding learning of brain network and brain disorders prediction, Computers in
+
+     Biology and Medicine 127 (2020) 104096.
+
+[14] Y. Huang, A. C. Chung, Edge-variational graph convolutional networks for uncertainty-aware
+
+     disease prediction, in: International Conference on Medical Image Computing and Computer-
+
+     Assisted Intervention, Springer, 2020, pp. 562–572.
+
+[15] M. Cao, M. Yang, C. Qin, X. Zhu, Y. Chen, J. Wang, T. Liu, Using deepgcn to identify the
+
+     autism spectrum disorder from multi-site resting-state data, Biomedical Signal Processing and
+
+     Control 70 (2021) 103015.
+
+[16] Y. Dong, D. Batalle, M. Deprez, A framework for comparison and interpretation of machine
+
+     learning classifiers to predict autism on the abide dataset, Human Brain Mapping 46 (5) (2025)
+
+     e70190.
+
+[17] A. F. Ashrafi, M. H. Kabir, Enhanced graph convolutional network with chebyshev spectral
+
+     graph and graph attention for autism spectrum disorder classification, in: 2025 40th Interna-
+
+     tional Conference on Image and Vision Computing New Zealand (IVCNZ), IEEE, 2025, pp.
+
+     1–6.
+
+
+
+                                                27
+[18] P. Xu, X. Zhu, D. A. Clifton, Multimodal learning with transformers: A survey, IEEE Trans-
+
+     actions on Pattern Analysis and Machine Intelligence 45 (10) (2023) 12113–12132.
+
+[19] D.-Y. Song, C.-C. Topriceanu, D. C. Ilie-Ablachim, M. Kinali, S. Bisdas, Machine learning
+
+     with neuroimaging data to identify autism spectrum disorder: a systematic review and meta-
+
+     analysis, Neuroradiology 63 (12) (2021) 2057–2072.
+
+[20] C. P. Santana, E. A. de Carvalho, I. D. Rodrigues, G. S. Bastos, A. D. de Souza, L. L. de Brito,
+
+     rs-fmri and machine learning for asd diagnosis: a systematic review and meta-analysis, Scien-
+
+     tific reports 12 (1) (2022) 6030.
+
+[21] L. Pang, X. Zhao, L. Zhao, J. Li, F. Kuo, H. Wang, C. Liu, Multi-modal data analysis for autism
+
+     spectrum disorder in children: State of the art and trends, EngMedicine 3 (1) (2026) 100117.
+
+[22] A. Di Martino, C.-G. Yan, Q. Li, E. Denio, F. X. Castellanos, K. Alaerts, J. S. Anderson, M. As-
+
+     saf, S. Y. Bookheimer, M. Dapretto, et al., The autism brain imaging data exchange: towards a
+
+     large-scale evaluation of the intrinsic brain architecture in autism, Molecular psychiatry 19 (6)
+
+     (2014) 659–667.
+
+[23] A. Abraham, M. P. Milham, A. Di Martino, R. C. Craddock, D. Samaras, B. Thirion, G. Varo-
+
+     quaux, Deriving reproducible biomarkers from multi-site resting-state data: An autism-based
+
+     example, NeuroImage 147 (2017) 736–745.
+
+[24] A. Kazi, S. Shekarforoush, S. Arvind Krishna, H. Burwinkel, G. Vivar, K. Kortüm, S.-A. Ah-
+
+     madi, S. Albarqouni, N. Navab, Inceptiongcn: receptive field aware graph convolutional net-
+
+     work for disease prediction, in: International conference on information processing in medical
+
+     imaging, Springer, 2019, pp. 73–85.
+
+[25] R. C. Craddock, S. Jbabdi, C.-G. Yan, J. T. Vogelstein, F. X. Castellanos, A. Di Martino,
+
+     C. Kelly, K. Heberlein, S. Colcombe, M. P. Milham, Imaging human connectomes at the
+
+     macroscale, Nature methods 10 (6) (2013) 524–539.
+
+[26] B. Fischl, Freesurfer, Neuroimage 62 (2) (2012) 774–781.
+
+[27] M. Wang, J. Guo, Y. Wang, M. Yu, J. Guo, Multimodal autism spectrum disorder diagnosis
+
+     method based on deepgcn, IEEE Transactions on Neural Systems and Rehabilitation Engineer-
+
+     ing 31 (2023) 3664–3674.
+
+
+                                                 28
+[28] X. Ding, F. Yang, F. Ma, An efficient model selection for linear discriminant function-based
+
+     recursive feature elimination, Journal of Biomedical Informatics 129 (2022) 104070.
+
+[29] J. Lu, D. Batra, D. Parikh, S. Lee, Vilbert: Pretraining task-agnostic visiolinguistic represen-
+
+     tations for vision-and-language tasks, Advances in neural information processing systems 32
+
+     (2019).
+
+[30] X. Kan, W. Dai, H. Cui, Z. Zhang, Y. Guo, C. Yang, Brain network transformer, Advances in
+
+     Neural Information Processing Systems 35 (2022) 25586–25599.
+
+[31] A. Bannadabhavi, S. Lee, W. Deng, R. Ying, X. Li, Community-aware transformer for autism
+
+     prediction in fmri connectome, in: International conference on medical image computing and
+
+     computer-assisted intervention, Springer, 2023, pp. 287–297.
+
+[32] M. Izadi, M. Safayani, Asdformer: A transformer with mixtures of pooling-classifier experts
+
+     for robust autism diagnosis and biomarker discovery, arXiv preprint arXiv:2508.14005 (2025).
+
+[33] T. Song, Z. Ren, J. Zhang, M. Wang, Multi-view and multimodal graph convolutional neural
+
+     network for autism spectrum disorder diagnosis, Mathematics 12 (11) (2024) 1648.
+
+[34] T. Eslami, V. Mirjalili, A. Fong, A. R. Laird, F. Saeed, Asd-diagnet: a hybrid learning approach
+
+     for detection of autism spectrum disorder using fmri data, Frontiers in neuroinformatics 13
+
+     (2019) 70.
+
+[35] F. Almuqhim, F. Saeed, Asd-saenet: a sparse autoencoder, and deep-neural network model for
+
+     detecting autism spectrum disorder (asd) using fmri data, Frontiers in Computational Neuro-
+
+     science 15 (2021) 654315.
+
+
+
+
+                                                 29
+
