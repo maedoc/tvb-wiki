@@ -47,8 +47,8 @@ CRCNS has played an indirect but meaningful role in the development of [[the-vir
 **Reproducibility Infrastructure**: The program's emphasis on data and code sharing has motivated developments in neuroinformatics infrastructure that TVB leverages, including support for [[bids]]-compliant data formats, [[datalad]] version control for data, and standardized [[neural-mass-models]] description formats.
 
 ## Related Funding and Organizations
-- [[human-[[connectome]]-project]] — NIH-funded consortium for mapping human brain [[connectivity]]
-- [[human-[[connectome]]-project]] — Major neuroimaging dataset initiative
+- [[mrtrix3-connectome]] — NIH-funded consortium for mapping human brain [[connectivity]]
+- [[mrtrix3-connectome]] — Major neuroimaging dataset initiative
 - [[ebrains]] — European research infrastructure for brain simulation
 - [[open-source-brain]] — Platform for collaborative computational neuroscience model development
 - [[model-validation]] — Database of computational neuroscience models

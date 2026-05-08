@@ -1,7 +1,7 @@
 ---
 title: Hodgkin-Huxley Model
 created: 2024-01-15
-updated: 2026-05-07
+updated: 2026-05-08
 type: concept
 tags: [neural-mass-models, computational-neuroscience, ion-channel, spiking-neural-networks, dynamical-systems-theory, bifurcation-theory, stochastic-differential-equations, whole-brain-modeling, brain-oscillations]
 sources: [raw/papers/semanticscholar-ce89e593c89e.md, raw/papers/semanticscholar-71ffb8153870.md, raw/papers/semanticscholar-cc2129666e15.md]
@@ -39,7 +39,7 @@ The 2026 work by Myrov et al. on hierarchical [[whole-brain]] models demonstrate
 
 ## Reduced Models and Descendants
 
-The Hodgkin-Huxley model has inspired numerous reduced formulations that preserve essential dynamical features while simplifying computational requirements. The [[fitzhugh-nagumo-model]] reduces the four-dimensional HH system to two dimensions by combining the fast sodium dynamics into a single variable while retaining the qualitative behavior of excitation and oscillations. The [[morris-lecar-model]] provides another two-dimensional reduction that captures the essential calcium and potassium dynamics relevant for bursting and plateau potentials. The [[integrate-and-fire]] family of models, including the [[izhikevich-neuron-model]] and the [[adaptive-exponential-integrate-and-fire]] model, offer yet further simplifications that maintain spike generation properties suitable for large-scale network simulations (Izhikevich, 2003).
+The Hodgkin-Huxley model has inspired numerous reduced formulations that preserve essential dynamical features while simplifying computational requirements. The [[fitzhugh-nagumo-model]] reduces the four-dimensional HH system to two dimensions by combining the fast sodium dynamics into a single variable while retaining the qualitative behavior of excitation and oscillations. The [[bold-model]] provides another two-dimensional reduction that captures the essential calcium and potassium dynamics relevant for bursting and plateau potentials. The [[adaptive-exponential-integrate-and-fire]] family of models, including the [[izhikevich-neuron-model]] and the [[adaptive-exponential-integrate-and-fire]] model, offer yet further simplifications that maintain spike generation properties suitable for large-scale network simulations (Izhikevich, 2003).
 
 These reduced models are particularly relevant for the TVB/whole-brain ecosystem, where computational tractability across thousands of brain regions necessitates simplified neuronal dynamics while still preserving the bifurcation structure that gives rise to oscillations, transitions between up and down states, and pathological epileptiform activity.
 
