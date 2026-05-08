@@ -1,0 +1,15 @@
+# Neural mechanisms of spatial navigation in ASD and TD children: insights from EEG microstate and functional connectivity analysis
+
+**Source**: semantic-scholar
+**ID**: c0aa5ba950d0b9fe3589628636ccbfdf4abaa3ec
+**DOI**: 10.3389/fpsyt.2025.1552233
+**URL**: https://www.semanticscholar.org/paper/c0aa5ba950d0b9fe3589628636ccbfdf4abaa3ec
+**Date**: 2025-04-04
+**Year**: 2025
+**Authors**: Yao Wang, Jianing Wang, Chong Lu
+**Venue**: Frontiers in Psychiatry
+**Citations**: 4
+
+## Abstract
+
+Introduction Autism Spectrum Disorder (ASD) is associated with atypical neural dynamics, affecting spatial navigation and information integration. EEG microstates and functional connectivity (FC) are useful tools for investigating these differences. This study examines alterations in EEG microstates and theta-band FC during map-reading tasks in children with ASD (n = 12) compared to typically developing (TD) peers (n = 12), aiming to uncover neural mechanisms underlying spatial processing deficits in ASD. Methods EEG data were collected from children with ASD (n = 12) and TD controls (n = 12) aged 6-10 years during a map-reading task. Microstate analysis quantified the temporal dynamics of four canonical microstates (A, B, C, and D). Theta-band (4-8 Hz) FC was analyzed to assess interregional neural communication during the task. Statistical tests identified group differences in microstate metrics and FC patterns. Results Children with ASD showed significant differences in EEG microstate dynamics compared to TD controls. The ASD group showed reduced occurrence, but longer duration and greater coverage in microstate A, indicating abnormal temporal and spatial brain activity. For microstate B, the ASD group displayed shorter durations and lower coverage, suggesting impairments in cognitive control. In microstate C, the ASD group exhibited reduced duration, coverage, and steady-state distribution, pointing to disruptions in spatial attention. Conversely, microstate D showed increased occurrence and greater coverage in the ASD group, reflecting atypical spatial attention allocation. Theta-band FC analysis revealed significantly reduced connectivity in key brain networks involved in spatial navigation, particularly between fronto-parietal and occipito-temporal regions. This suggests disrupted integration of spatial and cognitive processes in children with ASD. Discussion The alterations in EEG microstate patterns and theta-band FC highlight differences in the neural mechanisms underlying spatial navigation and cognitive integration in ASD. These findings suggest that microstate and FC analyses could serve as biomarkers for understanding visual spatial navigation in ASD, related to perceptual abnormalities. This research provides a basis for individualized rehabilitation plans for children with ASD, using qEEG biomarkers to guide neuromodulation techniques, such as transcranial direct current stimulation (tDCS). Future studies should investigate longitudinal changes and intervention effects on these neural dynamics.
