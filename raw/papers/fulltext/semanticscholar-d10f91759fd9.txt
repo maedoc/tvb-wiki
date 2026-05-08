@@ -1,0 +1,1503 @@
+Aghdam et al. Brain Informatics   (2025) 12:8                                                                                                      Brain Informatics
+https://doi.org/10.1186/s40708-025-00252-3
+
+
+
+
+ REVIEW                                                                                                                                                  Open Access
+
+Machine‑learning models for Alzheimer’s
+disease diagnosis using neuroimaging data:
+survey, reproducibility, and generalizability
+evaluation
+Maryam Akhavan Aghdam1, Serdar Bozdag2, Fahad Saeed1* and Alzheimer’s Disease Neuroimaging Initiative
+
+
+
+  Abstract
+  Clinical diagnosis of Alzheimer’s disease (AD) is usually made after symptoms such as short-term memory loss
+  are exhibited, which minimizes the intervention and treatment options. The existing screening techniques can-
+  not distinguish between stable MCI (sMCI) cases (i.e., patients who do not convert to AD for at least three years)
+  and progressive MCI (pMCI) cases (i.e., patients who convert to AD in three years or sooner). Delayed diagnosis of AD
+  also disproportionately affects underrepresented and socioeconomically disadvantaged populations. The significant
+  positive impact of an early diagnosis solution for AD across diverse ethno-racial and demographic groups is well-
+  known and recognized. While advancements in high-throughput technologies have enabled the generation of vast
+  amounts of multimodal clinical, and neuroimaging datasets related to AD, most methods utilizing these data sets
+  for diagnostic purposes have not found their way in clinical settings. To better understand the landscape, we surveyed
+  the major preprocessing, data management, traditional machine-learning (ML), and deep learning (DL) techniques
+  used for diagnosing AD using neuroimaging data such as structural magnetic resonance imaging (sMRI), functional
+  magnetic resonance imaging (fMRI), and positron emission tomography (PET). Once we had a good understanding
+  of the methods available, we conducted a study to assess the reproducibility and generalizability of open-source ML
+  models. Our evaluation shows that existing models show reduced generalizability when different cohorts of the data
+  modality are used while controlling other computational factors. The paper concludes with a discussion of major chal-
+  lenges that plague ML models for AD diagnosis and biomarker discovery.
+  Keywords Alzheimer’s disease, Machine learning, Deep learning, Structural MRI, Functional MRI, PET, Reproducibility,
+  Generalizability
+
+
+                                                                                         1 Introduction
+                                                                                         Alzheimer’s disease and related dementias (ADRD) is a
+                                                                                         growing public health crisis, affecting about 50 million
+                                                                                         people around the world, and 6 million people in the
+                                                                                         US (expected to rise to 14 million by 2050), leading to
+*Correspondence:                                                                         huge burden to patients, caretakers, and the healthcare
+Fahad Saeed                                                                              sector ($250 Billion in the US alone) [1, 2]. The current
+fsaeed@fiu.edu
+1
+  Knight Foundation School of Computing and Information Science                          clinical screening for AD/ADRD is mainly based on
+(KFSCIS), Florida International University (FIU), Miami, FL, USA                         cognitive, neurological, functional, and behavioral
+2
+  Department of Computer Science and Engineering, University of North                    tests. A combination of tests, including amyloid and
+Texas (UNT), Denton, TX, USA
+                                                                                         tau biomarkers, cerebrospinal fluid, and cognitive tests,
+
+                                       © The Author(s) 2025. Open Access This article is licensed under a Creative Commons Attribution 4.0 International License, which
+                                       permits use, sharing, adaptation, distribution and reproduction in any medium or format, as long as you give appropriate credit to the
+                                       original author(s) and the source, provide a link to the Creative Commons licence, and indicate if changes were made. The images or
+                                       other third party material in this article are included in the article’s Creative Commons licence, unless indicated otherwise in a credit line
+                                       to the material. If material is not included in the article’s Creative Commons licence and your intended use is not permitted by statutory
+                                       regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this
+                                       licence, visit http://creativecommons.org/licenses/by/4.0/.
+Aghdam et al. Brain Informatics   (2025) 12:8                                                                               Page 2 of 27
+
+
+
+
+such as the Mini-Mental State (MMSE) Examination              were recently published [19, 20]. Khojaste-Sarakhsi et al.’s
+and Clinical Dementia Rating (CDR), [3] are some              work [20] is focused on deep-learning methods, includ-
+of the methods currently clinically used. These tests         ing convolutional neural network (CNN), autoencoder
+are shown to exhibit variable performance for ADRD            (AE), recurrent neural network (RNN), restricted Boltz-
+diagnosis depending on the kind of dementia, race, age,       mann machine (RBM), and deep belief network (DBN).
+and other factors. Perhaps the major limitation of these      However, they do not include traditional ML methods in
+methods is that they are executed after symptoms have         their study which might be useful for comparisons with
+appeared, making early intervention almost impossible.        DL methods. Their study also does not include data anal-
+Early interventions may lead to better outcomes for the       ysis strategies and pre-processing pipelines, which may
+patients and their families, and therefore, identifying       significantly affect the performance of ML models. Gao
+people at an early stage of AD is crucial and of              and Lima [19] attempted to fill this gap by incorporating
+significant impact—especially for under-represented and       preprocessing pipelines in their comprehensive review.
+socioeconomically disadvantaged populations [1].              However, traditional ML methods (which are large in
+   ADRD is a heterogeneous and complex disorder, with a       number) were not integrated and they may not provide
+wide spectrum of variations between healthy brains and        vital information to new practitioners in the field. This
+AD. Despite differences in the precise definition, most       paper is also more comprehensive since we investigate
+scientists believe that mild cognitive impairment (MCI)       the reproductivity and generalizability of existing open-
+is an intermediate stage between cognitively unimpaired       source ML models.
+(CU) and dementia cases where people with MCI could             In this study, we attempt to fill the gaps of existing sur-
+experience memory and language problems but can man-          veys (Table 1) and identify research challenges that can
+age their day-to-day activities. Further, certain people      be tackled by students, and new entrants in the field. Our
+diagnosed with MCI do not progress to AD immediately,         study makes the following contributions:
+and others experience a rapid progression [4]. These two
+cases are called stable MCI (sMCI) and progressive MCI          1. Comprehensive     modality    coverage:    Unlike
+(pMCI), respectively. By some estimates, approximately             prior surveys, this study incorporates all major
+12–18% of people aged 60 or older suffer from MCI, and             neuroimaging modalities, including structural
+10–15% of people with MCI are more likely to develop
+AD each year [5]. Discovering biomarkers specific to
+sMCI and pMCI could lead to early AD detection. How-          Table 1 Comparison between existing literature surveys and
+ever, the identification of effective biomarkers remains      this study
+a considerable challenge, which is complicated by het-
+                                                              Study                                          [20]    [19]    This study
+erogeneity in MCI/AD, patient demographics, and highly
+variable and non-linear symptom patterns of MCI/AD            Modality                              sMRI     Y       Y       Y
+[6].                                                                                                fMRI     Y       Y       Y
+   High-throughput neuroimaging data could potentially                                              PET      Y       Y       Y
+be used for early identification and diagnosis of AD.         Pre-processing pipelines                       –       Y       Y
+However, the high dimensionality of the data poses a sig-     Data analysis strategies              VB       ND      Y       Y
+nificant challenge and requires advanced computational        (VB: Voxel-based; SB: Slice-based;    SB       ND      Y       Y
+                                                              RB: ROI-based; PB: Patch-based)
+methods to make inferences and predictions. Machine                                                 RB       ND      Y       Y
+learning (ML) is a branch of artificial intelligence (AI)                                           PB       ND      Y       Y
+that has been proven to process high-dimensional neu-         Traditional ML                        RF       –       –       Y
+roimaging data and detect complex patterns beyond the                                               SVM      –       –       Y
+capabilities of human analysis. Various ML approaches         Deep-Learning Methods                 CNN      Y       Y       Y
+have been successful in diagnosing brain disorders,                                                 AE       Y       Y       Y
+including Autism Spectrum Disorder (ASD) [7–10], Par-                                               DBN      Y       Y       Y
+kinson’s disease [11–13]. ML-based characterization,                                                RBM      Y       Y       Y
+diagnosis, and prediction of AD using neuroimaging data                                             RNN      Y       Y       Y
+[14–18] is an active area of research and, therefore there                                          ViT      –       –       Y
+is an increased interest in survey papers, and empirical      Model Reproducibility evaluation               –       –       Y
+studies that can capture the current state of the art. Such   Model Generalizability evaluation              –       –       Y
+studies are useful for current practitioners, and more        Y Yes, ND Not described in detail, RF Random Forest, SVM Support Vector
+importantly to new entrants in the field, including stu-      Machine, CNN Convolutional Neural Network, AE Auto-Encoder, DBN Deep Belief
+                                                              Network, RBM Restricted Boltzmann Machine, RNN Recurrent Neural Network,
+dents and scientists. Indeed, there are two surveys that      ViT Vision Transformer
+Aghdam et al. Brain Informatics   (2025) 12:8                                                                    Page 3 of 27
+
+
+
+
+     MRI (sMRI), functional MRI (fMRI), and positron            describes each of those components with a commentary
+     emission tomography (PET), as well as combinations         on the state of art in that field of work.
+     of these modalities (e.g., sMRI & PET, sMRI & fMRI).
+     This provides a holistic view of data sources and their    2.1 Neuroimaging modalities
+     role in AD diagnosis.                                      This section provides a brief overview of the neuroimag-
+  2. Emphasis on preprocessing and data analysis strate-        ing modalities that could be used for the characterization
+     gies: While previous works often overlook the influ-       of ADRD. While the number of neuroimaging modalities
+     ence of preprocessing pipelines, this study delves into    is large, we will focus on structural MRI (sMRI), func-
+     voxel-based, slice-based, ROI-based, and patch-based       tional MRI (fMRI) and positron emission tomography
+     methods. The impact of widely used preprocessing           (PET) that have been frequently used by ML models.
+     tools such as FSL, FreeSurfer, and SPM is evaluated,          The structural MRI (sMRI) MRI is a non-invasive imag-
+     ensuring that practitioners understand how these           ing technique that provides exquisite detail of brain,
+     steps affect ML model performance.                         spinal cord, and vascular anatomy and can visualize
+  3. Integration of traditional and deep learning methods:      anatomy in all three planes: axial, sagittal, and coronal of
+     Existing surveys, such as Khojaste-Sarakhsi et al.[20],    the brain’s structure. Magnetic resonance imaging (MRI)
+     focus exclusively on deep learning methods. This           leverages the inherent magnetic properties of atomic
+     study bridges the gap by providing a comprehensive         nuclei. A potent, homogenous external magnetic field
+     review of both traditional ML and deep learning            is applied to induce alignment of the typically randomly
+     techniques, facilitating comparisons, and offering         oriented protons within the water molecules of the target
+     valuable insights to both seasoned researchers and         tissue. The established nuclear alignment, or magnetiza-
+     newcomers.                                                 tion, is subsequently perturbed by the introduction of
+  4. Reproducibility and generalizability evaluations: A        an external radiofrequency (RF) pulse. By strategically
+     key distinguishing feature of this work is the empiri-     manipulating the sequence and timing of these applied
+     cal evaluation of open-source ML models for repro-         and received RF pulses, distinct image contrasts can be
+     ducibility and generalizability. By replicating experi-    generated. Repetition Time (TR) signifies the interval
+     ments with the same preprocessing pipelines and            between consecutive pulse sequences targeting the same
+     data cohorts, and by assessing model performance           tissue slice. Conversely, Time to Echo (TE) defines the
+     across different datasets, this study addresses a criti-   duration between the application of the RF pulse and the
+     cal barrier to clinical adoption.                          acquisition of the corresponding echo signal. Most com-
+                                                                mon sMRI sequences include T1-weighted (longitudinal
+                                                                relaxation time) scans which are produced using short TE
+   We believe that this paper is substantially different        and TR times; T2-weighted (transverse relaxation time)
+from surveys [19, 20] (as illustrated in Table 1), and adds     scans which are produced using longer TE and TR times.
+immense value that can be used by ML and clinical scien-        Differentiation between T1 and T2 weighted scans can be
+tists alike.                                                    done using CSF contrast which is dark for T1 weighted
+   The rest of this review is organized as follows: In          and bright for T2 weighted [21].
+Sects. 2.1, 2.2, and 2.3, we explain neuroimaging modali-          The functional MRI (fMRI) Functional magnetic reso-
+ties, data sources, and necessary pre-processing steps,         nance imaging (fMRI) utilizes the blood-oxygen-level-
+respectively. In Sect. 2.4, we discuss data analysis strat-     dependent (BOLD) contrast to indirectly map neural
+egies. Section 2.5 describes the traditional ML and DL          activity. Using established MRI principles, a strong mag-
+models used for AD diagnosis. In Sect. 3, we perform a          netic field aligns tissue protons, and radio wave pulses
+comparative analysis of the deep-learning models for AD.        at specific frequencies induce energy absorption and
+In Sect. 4, we report on a reproducibility and generaliz-       realignment of these protons. When radio wave cessa-
+ability study of existing open-source models. Section 5         tion occurs, the protons release the absorbed energy
+concludes the paper with a discussion on the current            which generates a readable signal that can be used. The
+state of the art in the field, and in Sect. 6, we provide       blood-oxygen-level-dependent (BOLD) contrast exploits
+future directions.                                              the differing magnetic properties of oxygenated hemo-
+                                                                globin (oxyHb) compared to deoxygenated hemoglobin
+2 Material and methods                                         (deoxyHb). The implicit assumption that increased neu-
+There are various key components that work together to          ral activity is correlated with increased oxygenated blood
+form a diagnostic method for ADRD. Each of the com-             flow will lead to localized shifts in the magnetic field due
+ponents informs or affects the overall accuracy, reliabil-      to increased oxyHb. These BOLD signal changes are cap-
+ity, and efficiency of the ML model. The following section      tured using pulse sequences, which are reconstructed in a
+Aghdam et al. Brain Informatics   (2025) 12:8                                                                     Page 4 of 27
+
+
+
+
+3-dimensional image. By detecting changes in blood flow,       2.2 Data sources
+fMRI helps researchers understand which brain areas are        This survey investigates papers that utilize data from the
+active during specific tasks or cognitive processes [21].      Alzheimer’s Disease Neuroimaging Initiative (ADNI)
+   The PET Positron emission tomography (PET) is a             database (adni.loni.usc.edu). The ADNI is a longitudi-
+nuclear medicine imaging technique that uses a small           nal study that was launched in 2003 as a public–private
+amount of a radioactive tracer (radiopharmaceutical) to        partnership and its primary goal is to provide data with
+visualize molecular processes in the body. In brain imag-      different modalities including MRI, PET, clinical and
+ing, PET scans can measure metabolic activity, blood           neuropsychological assessment specific to progression
+flow, and specific neurotransmitter receptor bindings.         of AD. The ADNI study now comprises four different
+It is commonly used to study brain metabolism and to           cohorts: ADNI1, ADNIGO, ADNI2, and ADNI3. The
+assess changes associated with neurodegenerative disor-        existing labels of ADNI are AD, cognitive normal con-
+ders like AD [21].                                             trol (CN), MCI, and significant memory concern (SMC).
+   Since each technique provides unique information            The MCI category in the ADNI GO and ADNI2 cohorts
+about brain structure and function, researchers have           is further divided into early MCI (EMCI) and late MCI
+used all these modalities to develop computational             (LMCI). Moreover, in the evaluation model section, we
+techniques to identify signatures that can be used for         utilized Open Access Series of Imaging Studies (OASIS)
+the classification of MCI and AD. While each technique         datasets (oasis-brains.org) dataset to assess the generaliz-
+provides unique information about the brain’s structure        ability of the ML models.
+or function and is crucial in investigating neurological
+conditions and studying brain activity, it was unclear         2.3 Neuroimaging preprocessing methods
+what fraction of modality was being used for developing        Raw neuroimaging data often contain various artifacts
+machine-learning models. Figure 1 provides a clear             and biases that can affect the accuracy and reliability of
+birds-eye-view picture of what fraction of papers              subsequent analyses. Preprocessing aims to correct these
+are focusing on different modalities, different data           issues and standardize the data across subjects for mean-
+analysis systems, various kinds of ML models, and              ingful comparisons and interpretations. The preprocess-
+what classification classes are being used. Each of the        ing steps for sMRI, fMRI, and PET data may vary slightly
+different levels will be referenced in the appropriate         based on the specific software and methods used. How-
+sections of the paper. Figure 1 (first level) represents the   ever, the following are the general preprocessing steps for
+percentage of reviewed papers using these neuroimaging         each of these modalities used by many of the studies.
+modalities across 70 papers and shows the research               Pre-processing of sMRI data For sMRI data, the pro-
+community’s interest in specific modalities due to their       cess begins with bias field correction to rectify intensity
+perceived efficacy, availability, and relevance in AD          inhomogeneities using methods such as SPM’s bias field
+research. As can be seen in the figure, sMRI stands out        correction (fil.ion.ucl.ac.uk/spm/). This step is critical for
+as the most utilized modality, comprising 63% of the           ensuring that the brightness across the image is uniform,
+surveyed literature due to its ability to provide detailed     allowing a more accurate interpretation of the tissue con-
+anatomical information, which is crucial for assessing         trasts. Skull stripping follows a procedure that removes
+structural changes in the brain associated with AD. The        non-brain elements like the scalp and skull, isolating
+fMRI is the second most utilized modality, accounting          the brain tissue for focused analysis. Image registration
+for 21% of the studies, reflecting a significant interest      is another crucial step involving aligning the structural
+in understanding the functional dynamics of the                image to a standardized template, such as the Montreal
+brain in the context of AD. While offering valuable            Neurological Institute (MNI) space, facilitating group
+metabolic and neurochemical information, PET-only              analyses. Spatial normalization further processes the
+imaging represented only 3% of the studies; models that        image to normalize it to a standard space using transfor-
+integrate sMRI with PET constituted 11% of the studies,        mation matrices computed during registration, allow-
+highlighting increased interest in multimodal approaches       ing for inter-subject comparison. Tissue segmentation
+that leverage the complementary strengths of structural        partitions the sMRI data into different tissue types, such
+and metabolic information. Lastly, despite a clear inter-      as gray matter (GM), white matter (WM), and cerebro-
+related modality, the combination of sMRI and fMRI is          spinal fluid (CSF), using tools like FSL’s FAST (fsl.fmrib.
+the least represented modality, representing only 2% of        ox.ac.uk/fsl/fslwiki/FAST) or SPM’s New Segment. Each
+the studies.                                                   segment is vital for different analyses. Finally, intensity
+                                                               normalization normalizes the intensity values across the
+                                                               image to minimize intensity variations caused by scanner
+                                                               differences or acquisition parameters.
+Aghdam et al. Brain Informatics       (2025) 12:8                                                                                              Page 5 of 27
+
+
+
+
+ Fig. 1 Overview of our survey paper based on modalities, data analysis strategies, classification methods, and tasks on the ADNI dataset. This
+ figure provides a comprehensive birds-eye view of the distribution of papers across different modalities (e.g., sMRI, fMRI), data analysis systems (e.g.,
+ voxel-based, ROI-based), and machine learning models (e.g., CNN, ViT). It highlights the fraction of studies focusing on each combination, offering
+ insight into current trends and research focus areas in ADNI-based studies
+
+
+
+
+  Pre-processing of fMRI data The preprocessing of                              smoothing. Spatial normalization aligns the fMRI data
+fMRI data begins with slice timing correction to correct                        to a standardized space using the transformation matrix
+acquisition time differences between slices of the                              computed during sMRI preprocessing, allowing group
+fMRI sequence using techniques such as interpolation.                           analyses and comparison across subjects. Temporal
+Motion correction is paramount in fMRI preprocessing,                           filtering involves applying filters to the data to remove
+as even slight movements by the subject during the                              low-frequency drifts (high-pass filtering) and high-
+scan can lead to errors. This step aligns all the scan                          frequency noise (low-pass filtering).
+volumes to a reference volume to mitigate these effects.                           Pre-processing of PET data PET data preprocessing
+Spatial smoothing is then applied to reduce noise and                           shares similarities with the previously mentioned modali-
+increase the signal-to-noise ratio using tools like FSL’s                       ties, particularly in motion correction and image regis-
+SUSAN (fsl.fmrib.ox.ac.uk/fsl/fslwiki/SUSAN) or SPM’s                           tration steps. Motion correction for PET aims to correct
+Aghdam et al. Brain Informatics   (2025) 12:8                                                                   Page 6 of 27
+
+
+
+
+motion artifacts during the PET scan using tools like             lyze them separately. This approach simplifies data
+SPM’s Realignment. Image registration aligns PET image            management and reduces computational costs for
+to sMRI image using intramodal or intermodal registra-            managing and analyzing data. However, slice-based
+tion techniques to improve spatial accuracy and facilitate        methods and data may lack 3D spatial context and
+anatomical reference. In addition, co-registration and            information about the spatial relationship between
+intensity normalization are critical steps in PET preproc-        neighboring slices may be lost. This can be a draw-
+essing, standardizing the data for subsequent analysis.           back when studying brain structures or functional
+Co-registration involves mapping the registered PET               connectivity patterns that are distributed in 3D space.
+image onto a standard space using the transformation              The slice-based method is a commonly employed
+matrix derived from the co-registered sMRI. Intensity             approach in AD ML studies, including studies using
+normalization aims to normalize the PET image intensity           sMRI [16–18, 38–53], fMRI [17, 18, 50, 54–56], and
+values to account for differences in scanner calibration          PET [57, 58].
+and acquisition parameters.                                    3. ROI-based: ROIs are specific areas within the brain
+  These preprocessing steps help to minimize artifacts,           that the neuroscience community has defined to
+improve image quality, and standardize the data across            ensure consistency and standardization in research.
+subjects, thus enabling accurate and reliable analysis and        Researchers can select specific brain regions or ana-
+interpretation of neuroimaging data.                              tomical structures relevant to AD pathology for in-
+                                                                  depth analysis. This method allows for increased
+2.4 Data analysis strategies                                     specificity in the analysis by targeting specific regions
+There are four primary strategies for analysis neuroimag-         of interest within the brain and is particularly advan-
+ing data: voxel-based, slice-based, patch-based, and ROI-         tageous when studying localized brain regions or
+based [22, 23], which have been used when developing              specific networks. By narrowing down the analysis to
+machine-learning models.                                          relevant ROIs, researchers can gain a more targeted
+                                                                  understanding of the functions and connectivity of
+  1. Voxel-based: The voxel-based method refers to the            these regions related to AD. However, the ROI-based
+     analysis approaches that operate at the level of indi-       approach could potentially lose spatial and functional
+     vidual voxels of data acquired from techniques such          information and, researchers may miss out on valua-
+     as sMRI, fMRI, and PET. This method typically pro-           ble information from surrounding regions that could
+     cesses full-brain images, capturing the global brain         contribute to a comprehensive understanding of the
+     structure, function, or connectivity patterns. The           brain’s functioning related to AD. The ROI-based
+     voxel-based analysis allows researchers to examine           method is also a widely utilized approach in single-
+     volumetric or intensity changes in brain regions,            modality ML studies of AD, including those involv-
+     investigate functional connectivity between differ-          ing sMRI [59–61], fMRI[62–73], and PET [74]. Fur-
+     ent voxels, or detect abnormalities in specific brain        thermore, ROI-based method can also be applied in
+     areas. The voxel-based method is widely used in sin-         multi-modal studies, such as combining sMRI with
+     gle-modality studies of AD, such as sMRI [15, 24–33]         PET [75], or fMRI [76].
+     and fMRI [34, 35]. These methods enable researchers       4. Patch-based: The patch-based approach is a data
+     to investigate brain structural, functional, and meta-       management technique that involves dividing the
+     bolic changes associated with AD by analyzing indi-          brain image, such as sMRI, fMRI, and PET, into
+     vidual voxels in the images. Additionally, voxel-based       smaller patches or subregions. Depending on the
+     method can be applied in multi-modal studies that            specific analysis, these patches typically have a fixed
+     combine different imaging modalities such as com-            size and can overlap or be non-overlapping. Instead
+     bining sMRI, and PET [36, 37] which may result in            of analyzing the entire image or voxel-by-voxel analy-
+     comprehensive analysis of AD-related changes.                sis, the patch-based approach focuses on extract-
+  2. Slice-based: Slice-based method refers to an approach        ing features and information from these localized
+     where brain image analysis is performed on individ-          patches. Patch-based analysis is an emerging tech-
+     ual brain slices rather than the entire brain volume.        nique that combines aspects of both voxel, and ROI-
+     This method involves dividing the three-dimensional          based approaches and may strike a balance between
+     (3D) brain volume into two-dimensional (2D) slices,          capturing local information and maintaining compu-
+     typically using standard projections like sagittal           tational efficiency. This approach is particularly well-
+     (from left to right), coronal (from front to back), and      suited for detecting subtle, localized abnormalities in
+     horizontal (from top to bottom) planes. By extracting        AD, as it allows for fine-grained analysis while reduc-
+     2D slices from 3D brain scans, researchers can ana-          ing the risk of overfitting. The patch-based method
+Aghdam et al. Brain Informatics   (2025) 12:8                                                                           Page 7 of 27
+
+
+
+
+      has found its usage in AD studies based on sMRI             Deep learning (DL) is a subset of machine learning
+      [77–80], PET [81, 82], sMRI and PET [83–85].             which employs artificial neural networks with multiple
+                                                               layers to model complex patterns within data. Inspired
+  Each data analysis strategy has advantages and               by the human brain’s structure, these models learn from
+limitations, and the choice depends on the AD research         the data using hidden layers, and complex patterns
+objectives and available resources. The second level           of connections and activations [89] For the training
+of Fig. 1 visually shows the percentage of reviewed            of a neural network, Rumelhart et al. [90] introduced
+papers utilizing these four methods across 70 papers.          backpropagation which minimizes the error between the
+Our analysis reveals that sMRI studies predominantly           actual and the desired output by adjusting the weights of
+favor slice-based approach with approx. 44% of studies         the connections in the network in an iterative fashion.
+employing this method. Voxel-based methods are also            The output of a node in a neural network, containing
+well-represented in sMRI research at 33%, indicating a         multiple inputs (x1 , x2 , . . . , xN ), weights
+                                                                                                        m (w1 , w2 ,. . . , wN ),
+significant interest in leveraging the 3D aspects of brain     and bias (b), is calculated by f             i=1 wi xi + b . In this
+structure. Patch-based and ROI-based methods are less          equation, f is a non-linear activation function [91]
+prevalent, each utilized by 11% of the studies.                allows neural networks to learn non-linear and complex
+  For fMRI, the data shows a clear inclination towards         functions. Sigmoid, tangent hyperbolic (tanh) [92],
+ROI-based and slice-based approaches, both accounting          and rectified linear (ReLU) [93] are the main activation
+for 46% of the studies. In contrast, voxel-based methods       functions in neural networks. DL algorithms use these
+are considerably less represented in fMRI studies, con-        networks to learn and extract patterns and features from
+stituting only 8%, potentially due to the higher computa-      large amounts of data, similar to how the brain processes
+tional demands.                                                and recognizes patterns [94]. Deep feed-forward
+  In PET imaging, researchers employ an equitable dis-         networks (FFNs) are the most straightforward kind of
+tribution of data analysis strategies, with 25% of papers      deep-neural networks (DNN), where each layer’s node is
+utilizing each patch-based, ROI-based, slice-based,            linked to each following layer’s node [95–97].
+and voxel-based approach. It is worth noting that when
+sMRI and PET are combined, around 50% of the studies           2.5.1 Traditional machine learning methods for AD
+utilize a patch-based approach to take advantage of the               diagnosis
+additional information provided by both structural and         Traditional ML refers to a set of algorithms and tech-
+metabolic data. About 21% of these combined studies use        niques that have been developed before the rise of DL.
+ROI-based methods, while voxel-based methods make              These methods are commonly used for various tasks
+up 29%.                                                        such as classification, regression, and clustering and have
+  Studies that combine sMRI and fMRI data have con-            been widely used for the diagnosis of AD. Several stud-
+sistently shown a preference for using ROI-based meth-         ies have applied support vector machine (SVM) [62–64,
+ods. We are not aware of any studies that have shown the       67, 68, 70–73, 76, 98, 99] and random forest (RF) [71] as
+comparative advantages or disadvantages when using             traditional ML methods to the classification of AD. These
+other data-management methods.                                 traditional ML methods have shown promise in AD
+                                                               diagnosis, achieving reasonable accuracy in differentiat-
+2.5 Introduction to machine learning and deep learning        ing ADRD patients from healthy individuals. However,
+Machine learning is a branch of artificial intelligence that   MCI and AD have very non-linear boundary conditions
+enables learning directly from the data [86], with two         which are exacerbated with co-founding factors includ-
+main categories: supervised learning and unsupervised          ing related to data acquisition and pre-processing. While
+learning. In supervised learning, the ML algorithm is          these methods have been used in the past, their gener-
+trained using data that has output labels or target values.    alizability with increasing complex data sets are subject
+The algorithm learns to map input data to output labels        to discussion. A brief discussion on the two of the most
+by generalizing from the provided examples. Tasks such         common traditional ML models are discussed below.
+as classification (assigning labels to data) and regression
+(predicting numerical values) [87] are common forms            2.5.1.1 Support vector machine SVMs are supervised
+of supervised learning models. Unsupervised learning           learning methods that are commonly used for
+involves training an ML algorithm on an unlabeled data-        classification problems. SVMs maximize the margin
+set without predefined output labels. The objective for        between hyperplanes of different data types by
+such a model is to discover patterns, structures, or rela-     mapping the input to points in multidimensional
+tionships within the data [88].                                space. Multidimensional space is mapped into a
+                                                               higher-dimensional space by a kernel function,
+Aghdam et al. Brain Informatics   (2025) 12:8                                                                     Page 8 of 27
+
+
+
+
+such as a Gaussian or polynomial function [100].              networks (RNN), autoencoders (AE), restricted Boltz-
+Considering SVM’s relatively good performance, SVMs           mann machines (RBM), deep belief networks (DBN),
+are extensively evaluated in AD classification using          and vision transformers (ViT), demonstrate the variety
+neuroimaging data [62–64, 67, 68, 70–73, 76, 98, 99].         of approaches used to tackle the challenge of AD diag-
+For example, Zhang et al. [100] trained a linear SVM          nosis (Table 2).
+classifier with land-mark-based morphological features
+of sMRI to classify a testing image as CN or AD. In           2.5.2.1 Convolutional neural network (CNN) LeCun
+another study, Zhang et al. [72] used a linear SVM for CN     et al. introduced Convolutional Neural Networks (CNN)
+and MCI classification based on the multi-view feature        in 1989 [102], which have proven to be particularly
+learning method with the multi-atlas-based functional         effective due to their ability to leverage spatial information
+connectivity network of rs-fMRI data. Hojjati et al.          and extract features through stacked convolutional
+[64] developed a model based on a sequential features         layers. By utilizing convolutional layers, CNNs can learn
+collection algorithm to find optimal subset features of       hierarchical representations of images, where each layer
+rs-fMRI data and linear SVM for classifying pMCI and          focuses on capturing increasingly complex features [103].
+sMCI. Zhao et al. [73] used linear SVM for CN and AD          This hierarchical representation allows CNNs to achieve
+classification based on functional connectivity between       remarkable results in tasks like image classification, object
+white matter (WM) and Gray Matter (GM) of rs-fMRI.            detection, and segmentation [104, 105]. One of the main
+Chen et al. [62] integrated two linear SVMs for CN and        advantages of CNNs is their ability to combine feature
+MCI classification based on functional information in         extraction and classification within the same network
+both GM and WM. Yu et al. [70] employed a linear SVM          architecture [103]. This end-to-end learning approach
+for CN and MCI classification based on brain functional       allows CNN to learn discriminative features directly from
+networks from rs-fMRI data. SVMs with multi-kernel            the raw input data. However, it is important to note that
+architectures are more flexible than those with single-       CNNs typically require a large amount of labeled training
+kernel architectures. Despite the excellent performance       data to learn effectively, and avoid overfitting [106].
+of multi-kernel SVMs, they have much higher                      The architecture of a CNN usually includes convolu-
+computational complexity than single-kernel SVMs.             tional layers, activation layers, pooling layers, fully con-
+Sadiq et al. [68] proposed a wavelet-based fractal analysis   nected layers, and a softmax layer [106]. Several famous
+of rs-fMRI brain connectivity for AD classification using     CNN architectures have been developed over the years,
+linear SVM. Qian et al. [67] employed a nonlinear SVM         each with its unique design characteristics and advan-
+classifier with a radial basis function (RBF) kernel to       tages. Some of these architectures include AlexNet
+accurately identify MCI individuals from CN accurately.       [107], VGGNet [108], CaffeNet [109], GoogLeNet [110],
+                                                              DenseNet [111], LeNet [112], Inception [113], and
+2.5.1.2 Random forest The Random Forest (RF) is an            ResNet [114]. Two stages are required to train a CNN:
+ensemble algorithm composed of several decision trees         a feed-forward stage and a backward stage. In the feed-
+as classifiers. A majority voting strategy determines         forward stage, the loss cost can be calculated using the
+the final output of the RF. It can handle thousands of        prediction output along with the ground truth labels. In
+input variables and is effective on large datasets [101].     the backward stage, the chain rules calculate the gradi-
+However, it is a resource-consuming strategy due to           ent of each parameter based on the calculated error, and
+calculating multiple tree branches and merging their          then all parameters are updated based on the gradients.
+outputs. Zhang et al. [71] proposed a two-layer RF            Training (or learning) of CNN can be stopped after suf-
+approach, with the first layer for feature selection and      ficient iterations of both stages. The first layer is convolu-
+the second for classification of CN and MCI, combining        tional, convolving the input image with the learned filters
+neuropsychological assessments and rs-fMRI network            to produce appropriate feature maps. CNNs extract fea-
+analysis after feature selection implemented via the RF       tures in their first layers, whereas in their last layers, they
+approach.                                                     use those features to classify tasks [115]. A nonlinear
+                                                              activation function such as a sigmoid, tanh, and ReLU
+                                                              is applied after the convolutional layer to build a feature
+2.5.2 Deep learning methods for AD diagnosis                 map for each filter. In this way, models can learn complex
+Deep Learning has emerged as a promising tool for             representations because of the nonlinear functions. The
+diagnosing AD, and its utilization in medical applica-        pooling layer is applied after each convolutional layer,
+tions continues to grow. Different variations in the          and the feature map is down sampled by applying pooling
+architectures of deep-learning networks, including con-       functions, such as the maximum, minimum, or average.
+volutional neural networks (CNN), recurrent neural            The fully connected layer is implemented after a series of
+Aghdam et al. Brain Informatics    (2025) 12:8                                                                         Page 9 of 27
+
+
+
+
+Table 2 Literature review of AD diagnosis based on modality, data management, traditional machine learning, deep learning
+methods, and their accuracy on ADNI dataset
+Study    Modality        Data analysis strategy   Classification method                Task                                 Accuracy
+                                                                                                                            (%)
+
+[39]     sMRI            Slice-based              2D CNN                               AD vs. CN                            82.8
+                                                                                       MCI vs. CN                           66
+                                                                                       AD vs. MCI                           62.5
+[42]                     Slice-based              2D CNN                               CN vs. AD                            89.5
+                                                  (ResNet-18)                          CN vs. MCI                           81.7
+                                                  +
+                                                  RNN
+                                                  (LSTM)
+[61]                     Slice-based              2D CNN                               AD vs. CN                            99.14
+                                                  (VGGNet-16)                          AD vs. MCI                           99.30
+                                                                                       CN vs. MCI                           99.22
+                                                                                       AD vs. CN vs. MCI                    95.73
+[40]                     Slice-based              2D CNN                               AD vs. CN                            98.33
+                                                  (Modified VGGNet-16)                 AD vs. MCI                           93.89
+                                                                                       CN vs. MCI                           91.67
+                                                                                       AD vs. CN vs. MCI                    91.85
+[52]                     Slice-based              2D CNN                               AD vs. CN                            81.3
+                                                  (ResNet)                             AD vs. CN vs. MCI                    56.8
+[44]                     Slice-based              2D CNN                               AD vs. CN                            94.97
+                                                  (Modified DenseNet-121)              AD vs. MCI                           91.98
+                                                                                       MCI vs. CN                           74.70
+[41]                     Slice-based              2D CNN                               AD vs. MCI vs. LMCI vs. CN           98.88
+                                                  (GoogLeNet, ResNet-18,                                                    97.02
+                                                  ResNet-152)                                                               99.7
+[16]                     Slice-based              2D CNN                               AD vs. MCI vs. LMCI vs. CN           98.88
+                                                  (GoogLeNet, ResNet-18, ResNet-152)                                        98.01
+                                                                                                                            98.14
+[53]                     Slice-based              2D CNN                               CN vs. sMCI vs. pMCI                 87.78
+                                                  (GoogLeNet, CaffeNet)                                                     83.23
+[17]                     Slice-based              2D CNN                               AD vs. CN                         99.9
+                                                                                       AD vs. MCI                        99.7
+                                                                                       CN vs. MCI                        100
+                                                                                       AD vs. CN vs. MCI                 100
+[50]                     Slice-based              2D CNN                               AD vs. CN                         98.74
+                                                  (GoogLeNet, LeNet)                                                     97.88
+[49]                     Slice-based              stacked SAEs and stacked DAEs        AD vs. EMCI vs. LMCI vs. CN       92.44
+                                                                                                                         97.11
+[47]                     Slice-based              ViT                                  AD vs. CN                         96.8
+[43]                     Slice-based              ViT                                  sMCI vs. pMCI                     83.27
+[46]                     Slice-based              ViT                                  AD vs. CN                         88.2
+[18]                     Slice-based              ViT                                  AD vs. CN                         100
+                                                                                       MCI vs. CN                        100
+                                                                                       AD vs. CN vs. MCI                 87
+[79]                     Patch-based              2.5D CNN                             sMCI vs. pMCI                     79.9
+[77]                     Patch-based              3D CNN                               AD vs. CN                         86.98
+[78]                     Patch-based              3D CNN                               AD vs. CN                         89.5
+                                                                                       MCI vs. CN                        73.8
+[80]                     Patch-based              stacked DSAE                         AD vs. CN                         88.73
+                                                                                       MCI vs. CN                        80.91
+[81]                     Patch-based              3D CNN                               AD vs. CN                         87.15
+[99]                     patch-based              SVM                                  AD vs. CN                         83.1
+                                                                                       MCI vs. CN                        73.6
+[30]                     Voxel-based              SAE and 3D CNN                       AD vs. CN                         95.39
+                                                                                       AD vs. MCI                        86.84
+                                                                                       CN vs. MCI                        92.11
+                                                                                       AD vs. CN vs. MCI                 89.47
+Aghdam et al. Brain Informatics      (2025) 12:8                                                                         Page 10 of 27
+
+
+
+
+Table 2 (continued)
+Study    Modality        Data analysis strategy    Classification method   Task                                             Accuracy
+                                                                                                                            (%)
+
+[25]                     Voxel-based               3D CNN                  AD vs. CN vs. MCI                                94.1
+[27]     sMRI            Voxel-based               3D CNN                  AD vs. CN                                        94
+                                                                           MCI vs. CN                                       90
+                                                                           AD vs. CN vs. MCI                                87
+                                                                           AD vs. LMCI vs. MCI vs. CN                       66
+[28]                     Voxel-based               3D CNN                  AD vs. CN                                        88
+                                                                           AD vs. EMCI                                      66
+                                                                           AD vs. LMCI                                      61
+                                                                           LMCI vs. CN                                      67
+                                                                           LMCI vs. EMCI                                    47
+                                                                           EMCI vs. CN                                      57
+[33]                     Voxel-based               3D CNN                  AD vs. CN                                        58.5
+[15]                     Voxel-based               3D CNN                  AD vs. CN                                        98.74
+[29]                     Voxel-based               3D CNN                  AD vs. CN                                        88.31
+                                                   +
+                                                   3D CAEs
+[26]                     Voxel-based               3D CAE                  AD vs. CN                                        97.6
+                                                   +                       AD vs. MCI                                       95
+                                                   3D CNN                  MCI vs. CN                                       90.8
+                                                                           AD CN vs. MCI                                    89.1
+[24]                     Voxel-based               MLP                     AD vs. CN                                        89.7
+                                                   +
+                                                   RNN (BRGU)
+[31]                     Voxel-based               3D ConvLSTM             AD vs. CN                                        86
+[124]                    Voxel-based               RBM                     AD vs. CN                                        98.6
+[60]                     ROI-based                 Stacked DA              AD vs. CN                                        94
+[61]                     ROI-based                 DBN + DNN               AD vs. CN                                        90.28
+                                                                           MCI vs. CN                                       74.2
+                                                                           pMCI vs. sMCI                                    73.28
+[59]     sMRI            ROI-based                 DBN                     AD vs. CN                                        90
+                                                                           sMCI vs. AD                                      84
+                                                                           pMCI vs. CN                                      83
+[98]                     ROI-based                 SVM                     AD vs. CN                                        98.83
+                                                                           pMCI vs. sMCI                                    80.9
+[58]                     Slice-based               2D CNN                  AD vs. CN                                        99.95
+                                                   (VGG-16)
+[54]                     Slice-based               2D CNN                  CN vs. SMC vs. EMCI vs. LMCI vs. AD              97.64
+                                                   (AlexNet)
+[50]                     Slice-based               2D CNN                  AD vs. CN                                        94.24
+                                                   (GoogLeNet, LeNet)                                                       94.32
+[55]                     Slice-based               2D CNN                  AD vs. CN                                        96.85
+                                                   (LeNet-5)
+[17]                     Slice-based               2D CNN                  AD vs. CN                                        97.5
+                                                                           AD vs. MCI                                       98.3
+                                                                           CN vs. MCI                                       97.59
+                                                                           AD vs. CN vs. MCI                                97.43
+[56]     fMRI            Slice-based               2D CNN                  CN vs. SMC vs. EMCI vs. LMCI vs. MCI vs. AD      97.92
+                                                   (ResNet-18)
+[18]                     Slice-based               ViT                     AD vs. CN                                        99
+                                                                           MCI vs. CN                                       97
+                                                                           AD vs. CN vs. MCI                                97
+[34]                     Voxel-based               3D CNN                  AD vs. CN                                        85.27
+[35]                     Voxel-based               3D CNN                  AD vs. EMCI vs. LMCI vs. CN                      93
+[65]                     ROI-based                 Deep AE                 MCI vs. CN                                       87.5
+[66]                     ROI-based                 Deep AE                 MCI vs. CN                                       86.47
+[69]                     ROI-based                 Deep AE                 MCI vs. CN                                       72.58
+Aghdam et al. Brain Informatics        (2025) 12:8                                                                                              Page 11 of 27
+
+
+
+
+Table 2 (continued)
+Study     Modality         Data analysis strategy       Classification method                      Task                                             Accuracy
+                                                                                                                                                    (%)
+
+[68]                       ROI-based                    SVM                                        AD vs. CN                                        83.3
+[63]                       ROI-based                    SVM                                        AD vs. CN                                        91.6
+[72]                       ROI-based                    SVM                                        MCI vs. CN                                       85.5
+[64]                       ROI-based                    SVM                                        pMCI vs. sMCI                                    91.4
+[73]                       ROI-based                    SVM                                        AD vs. CN                                        81.11
+[62]                       ROI-based                    SVM                                        MCI vs. CN                                       78.7
+[70]                       ROI-based                    SVM                                        MCI vs. CN                                       84.8
+[67]      fMRI             ROI-based                    SVM                                        MCI vs. CN                                       93.33
+[71]                       ROI-based                    RF                                         MCI vs. CN                                       91.4
+[58]      PET              Slice-based                  2D CNN                                     AD vs. CN                                        73.46
+                                                        (VGG-16)
+[128]                      Patch-based                  3D CNN                                     AD vs. CN                                        92.2
+[127]                      Voxel-based                  ViT                                        AD vs. CN                                        91.34
+[74]                       ROI-based                    2D CNNs                                    Mild MCI vs. Severe MCI                          85
+                                                        (AlexNets)
+[83]      sMRI + PET       Patch-based                  CAE                                        AD vs. CN                                        98.8
+                                                        +                                          AD vs. MCI                                       93
+                                                        3D CNN                                     MCI vs. CN                                       95
+                                                        (3D-VGG16)                                 AD vs. MCI vs. CN                                91.13
+[84]                       Patch-based                  DNN                                        sMCI vs. pMCI                                    82.93
+[85]                       Patch-based                  SAE                                        AD vs. CN                                        90.3
+                                                        +                                          MCI vs. CN                                       87.9
+                                                        3D CNN
+[36]                       Voxel-based                  3D CNN                                     AD vs. CN                                        94.29
+                                                        +                                          pMCI vs. CN                                      84.66
+                                                        SBi-RNN                                    sMCI vs. CN                                      64.47
+[37]                       Voxel-based                  3D CNN                                     AD vs. CN                                        89.64
+                                                        +
+                                                        2D CNN
+[75]                       ROI-based                    Stacked AEs                                AD vs. CN                                        91.4
+                                                                                                   CN vs. MCI                                       82.1
+                                                                                                   CN vs. sMCI vs. pMCI vs. AD                      53.79
+[76]      sMRI + fMRI      ROI-based                    SVM                                        LMCI vs. CN                                      88.5
+                                                                                                   EMCI vs. CN                                      82.7
+                                                                                                   LMCI vs. EMCI                                    79.6
+CNN Convolutional neural network, RNN Recurrent neural network, DBN deep belief network, DNN Deep neural network, ViT Vision transformer, MLP Multi-layer
+perceptron, SVM Support vector machine, RF Random forest, AE Auto-encoder, SAE Sparse auto-encoder, DAE Denoising auto-encoder, DSAE Denoising sparse auto-
+encoder, CAE Convolutional auto-encoder, SDA Stacked denoising auto-encoder, BRGU​ Bidirectional gated-recurrent unit, SBI-RNN Stacked bidirectional recurrent
+neural network, ConvLSTM Convolutional long short-term memory, CN Cognitive normal control, MCI Mild cognitive impairment, EMCI Early MCI, LMCI Late MCI, sMCI
+stable MCI, pMCI progressive MCI, AD Alzheimer’s Disease, SMC Significant memory concern
+
+
+
+convolutional and pooling layers. A fully connected layer                         slices obtained from sMRI [51] and fMRI scans [55].
+connects features from the previous layer to the output                           Farooq et al. applied 2D GoogLeNet and ResNet models
+layer. In the final layer, the softmax function is applied for                    to sMRI slices [16]. Kazemi and Houghten evaluated the
+the classification. Below we discuss few of the CNN mod-                          effectiveness of GoogLeNet and AlexNet in classifying
+els that have been used for classification in the ADRD                            different stages of AD using 2D fMRI data [54]. Pre-
+domain.                                                                           trained CNNs such as VGG-16 have also been used
+   2D CNN: Many neuroimaging studies have employed                                to classify different stages of AD based on 2D slices of
+2D CNNs for AD diagnosis [16, 17, 39–42, 44, 45, 50, 52–                          modalities [40, 45]. Some studies have combined 2D
+56, 58, 74]. For example, Aderghal et al. used a 2D CNN                           CNNs with other architectures. For example, Gao et al.
+with two convolutional layers applied to hippocampus                              utilized a combination of fine-tuned ResNet-18 and RNN
+slices of sMRI [39]. Other studies have employed LeNet                            for AD diagnosis [42].
+and GoogLeNet, trained from scratch, for classifying
+Aghdam et al. Brain Informatics   (2025) 12:8                                                                 Page 12 of 27
+
+
+
+
+   3D CNN: As neuroimaging data inherently has                suffer from the vanishing or exploding gradient problem,
+three dimensions, 3D CNNs can capture the spatial             leading to difficulties in learning long-term dependencies.
+relationships between voxels within the volume. This          To overcome this issue, more advanced forms of RNNs
+makes them well-suited for analyzing and classifying          have been developed, such as Long Short-Term Memory
+AD as they can learn spatial patterns and dependencies        (LSTM) and Gated Recurrent Unit (GRU) [116]. These
+that may be important for detecting abnormalities or          variants use specialized memory cells and gating
+subtle changes associated with the disease. Therefore,        mechanisms to capture long-term dependencies better
+as compared to 2D CNNs that only consider individual          and alleviate the vanishing gradient problem.
+slices or 2D views of the data, 3D CNNs have gained             RNNs have been applied in neuroimaging studies for
+popularity in many studies for AD diagnosis. Duc et al.       AD diagnosis [24, 36, 42]. Feng et al., multiple 3D CNNs
+[34] and Parmar et al. [35] proposed 3D CNN models            are applied to each modality of the input data. It helps
+with fMRI data. Cui and Liu constructed a 3D CNN-             capture detailed information from each modality. Then,
+based model to analyze the hippocampus in 3D sMRI             bidirectional RNNs are stacked at the end to obtain more
+[77]. Esmaeilzadeh et al. trained a 3D CNN to classify        comprehensive and contextual information from the
+AD and CN subjects and then used transfer learning to         sequential input data [36]. In the architecture designed
+classify subjects into AD, CN, and MCI groups based           by Cui et al., two stacked GRU layers are used for longitu-
+on sMRI data [25]. Karasawa et al. developed a 3D             dinal feature learning. The GRU layers help overcome the
+ResNet-based architecture to prevent feature loss in          short-term memory problem in RNNs, and retain infor-
+sMRI data [27]. Some studies have combined 3D CNNs            mation from previous iterations. This architecture effec-
+with other architectures to improve the performance of        tively captures temporal dependencies in the input data
+AD diagnosis [36, 81, 85]. Li et al. constructed a model      [24]. Gao et al. developed an architecture based on LSTM
+based on 3D CNN and a 3D convolutional autoencoder            to extract longitudinal features that could effectively cap-
+(CAE) with sMRI data [29]. Payan and Montana designed         ture and retain long-term dependencies in the input data
+a hybrid DL framework that applied stacked AEs and            [42].
+3D CNNs to sMRI data [30]. Moreover, combining 3D
+CNNs with other architectures has been explored in            2.5.2.3 Auto‑encoder (AE) The AE is a type of
+multi-modality studies to leverage the complementary          neural network architecture that consists of two main
+information provided by different modalities. For             components: an encoder and a decoder. An AE aims to
+instance, Vu et al. combined two 3D CNNs with a               learn an efficient representation or encoding of the input
+stacked AE on fused sMRI and PET [85]. Feng et al.            data, typically by compressing it into a lower-dimensional
+proposed a hybrid model based on 3D CNN and stacked           latent space. This compressed representation is then
+bidirectional RNN for extracting discriminative features      decoded back to the original input space [118, 119].
+from sMRI and PET modalities [36]. Vu et al. designed a         During the training process, the AE aims to minimize
+hybrid AD classification architecture based on a CAE and      the reconstruction error, which measures how well the
+3D-VGG16 applied to sMRI and PET scans [83].                  decoder can reconstruct the original input from the
+                                                              encoded representation [118]. By doing so, the AE learns
+2.5.2.2 Recurrent neural network (RNN) An RNN is              to capture the most important features or patterns in the
+a type of neural network designed to process sequential       data while discarding irrelevant or redundant informa-
+data. It differs from traditional FFNs because it has         tion. Several variations of AEs have been used in different
+an internal memory or hidden state that enables it to         studies. Stacked AEs are created by stacking multiple lay-
+retain information about past inputs and use it to make       ers of encoders and decoders together. Each layer in the
+predictions or decisions. The key feature of an RNN is its    stack takes the encoded representation from the previ-
+ability to operate on sequences of data, where each element   ous layer as input and further compresses it [118, 119]. It
+in the sequence is processed one at a time. The output at     allows for discovering more complex and nonlinear pat-
+each time step depends on the current and previous inputs     terns in the data. Sparse AE (SAEs) introduces sparsity
+processed by the network [116, 117]. An RNN combines          constraints during training, encouraging the model to
+an input with the hidden state from the previous time step    learn sparse representations [118]. Denoising AE (DAE)
+to produce an output at each time step. The hidden state      adds noise to the input data during training, forcing the
+serves as a memory of the past inputs and helps capture       model to learn robust representations that can handle
+temporal dependencies in the sequence. The output can         noisy inputs [118, 120]. Convolutional AE (CAE) utilizes
+be used for making predictions, and the hidden state is       convolutional layers, which are particularly effective for
+updated and passed on to the next time step. However,         processing spatial data such as images [118, 121].
+one limitation of traditional RNNs is their tendency to
+Aghdam et al. Brain Informatics     (2025) 12:8                                                                                        Page 13 of 27
+
+
+
+
+  In various AD research studies, stacked SAEs with                         involves two main steps: the forward and the backward
+two [65, 66, 75, 122] or three [82, 84] hidden layers and                   pass. In the forward pass, the visible units are used
+a softmax layer have been employed for both single-                         to calculate the activations of the hidden units. In the
+modality [65, 66, 82] and multi-modality [75, 84, 122]                      backward pass, the activations of the hidden units are
+data. In the study by Shi et al., they proposed a model                     used to reconstruct the activations of the visible units.
+based on stacked denoising SAEs, allowing for the                           The difference between the original and the reconstructed
+extraction of hierarchical and abstract features from the                   visible units is used to update the weights to minimize
+sMRI data [80]. In another study, Moussavi-Khalkhali                        the reconstruction error. Building upon RBMs, Singh
+et al. utilized an architecture based on SAEs and DAEs                      and Junghel [124] developed a model using three layers
+consisting of three hidden layers and a softmax layer [49].                 of RBMs based on sMRI data for early detection and
+The SAEs and DAEs were stacked together, allowing the                       classification of AD. Ortiz et al. [59] applied an ensemble
+model to learn representations of the sMRI data with                        of DBNs, constructed by stacking multiple layers of
+increased depth and complexity. Integrating DAEs and                        RBMs, to all ROIs of sMRI data, and the final prediction
+SAEs can provide complementary benefits in denoising                        was determined using a voting strategy.
+the input and learning more robust and informative
+representations.                                                            2.5.2.5 Vision transformer The Transformer model,
+                                                                            introduced by Vaswani et al. [125], is a DL model with
+2.5.2.4 Restricted Boltzmann machine (RBM) In 2007,                         an encoder-decoder structure. It has been widely used
+Hinton [123] proposed the RBM algorithm, an undirected                      in various natural language processing tasks. The Vision
+generative stochastic neural network consisting of two                      Transformer (ViT), proposed by Dosovitskiy et al. [126],
+layers: visible and hidden. These two layers are connected                  is a variant of the Transformer model specifically designed
+symmetrically, meaning no intralayer connections are                        for image classification tasks. It only utilizes the encoder
+within the visible or hidden layers. The visible units                      part of the Transformer model. The ViT consists of a stack
+represent the input data, while the hidden units capture                    of self-attention mechanisms, a normalization layer, and
+higher-level abstract representations or features learned                   an FFN. Figure 2 shows the architecture of ViT. First, it
+from the input data. The connections between the visible                    divides a given image into patches and then flattens each
+and hidden units are weighted, and the weights are                          patch into a vector. These patch vectors are then linearly
+adjusted during the training process using a technique                      projected, and a learnable positional embedding is added.
+known as contrastive divergence or other gradient-based                     Finally, a class embedding vector is concatenated with the
+optimization algorithms. The RBM training process                           patch vectors and fed into the Transformer encoder.
+
+
+
+
+ Fig. 2 Transformer architecture is shown to process MRI imaging data. Transformers process sequential data using self-attention mechanisms
+ that allow them to weigh the importance of different parts of the input sequence, enabling efficient learning of dependencies and relationships
+ between elements
+Aghdam et al. Brain Informatics   (2025) 12:8                                                                   Page 14 of 27
+
+
+
+
+   The use of ViTs in AD research has gained attention         2D CNN, 3D CNN, and ViT are equally favored classifi-
+in recent years. Sarraf et al. [18] proposed an extension      cation methods across all data analysis strategies. When
+of the ViT model called OViTAD, which utilizes both            researchers combine different modalities like sMRI and
+sMRI and fMRI data to predict different stages of AD.          PET, it becomes challenging to classify and analyze the
+They reported that the OViTAD model outperformed               data. In such cases, complex neural network architec-
+CNN-based models in their experiments. Lyu et al. [47]         tures or ensemble methods are used in about 80% of the
+also explored the use of ViT for AD classification. They       studies. These methods are chosen to integrate and lever-
+proposed a cross-domain transfer learning method using         age each modality’s strengths effectively.
+ViT and achieved comparable classification performance           sMRI + fMRI studies In studies that use sMRI and
+to recent studies. Hoang et al. [43] applied the ViT model     fMRI data, the ROI-based methods reveal a unanimous
+to mid-sagittal sMRI data to predict the conversion from       preference for SVM. Overall, across all these studies,
+MCI to AD. They found that the ViT model improved              there has been a shift towards more advanced ML
+the prediction accuracy compared to other techniques.          approaches in AD research. However, traditional ML
+Kushol et al. [46] presented a fusion transformer model        methods such as SVM are still significant depending on
+called Addformer for AD detection using selected coro-         the specific data analysis strategy and modality. Using a
+nal 2D slices of sMRI data. Their experimental results         combination of techniques highlights the development of
+showed that Addformer outperformed traditional meth-           more comprehensive and nuanced diagnostic ML models
+ods in terms of classification accuracy. Xing et al. [127]     in the study of AD.
+developed a new ViT model called Advit for AD diagno-
+sis using multi-modality PET scans. They reported that         3.2 Categorization based on ML model type
+Advit achieved better performance than 3D CNN base-            Table 2 and Fig. 1 provides detailed information on the
+line models.                                                   literature review of AD diagnosis, including modalities,
+                                                               data analysis strategies, and traditional ML and DL meth-
+3 Comparative analysis of deep learning models                ods for this survey.
+   for AD diagnosis                                               2D models Aderghal et al. [39], Jain et al. [45], and Bil-
+The comparative analysis of models that are available for      lones et al. [40] predominantly used slice-based methods
+classification can be categorized into three parts. While      with 2D CNNs. These studies leverage the strong feature
+there is no way to compare fairly among different models,      extraction capabilities of CNNs on individual sMRI slices
+these categorizations enable us to learn emphasis, or lack     to classify between AD, MCI, and CN. An advantage of
+thereof, for many of the modalities, models, and classes.      this approach is the CNN’s ability to capture intricate
+                                                               patterns in 2D slices, which is critical for identifying the
+3.1 Categorization based on data‑modality                     subtle changes associated with AD. However, one limita-
+The third level of Fig. 1 visually represents the percentage   tion is the potential loss of spatial context when consider-
+of reviewed papers that have used traditional ML and DL        ing slices individually rather than as part of a whole 3D
+methods for diagnosing AD across 70 papers.                    structure.
+  sMRI studies According to this figure, in AD-reviewed           3D models Some studies, such as Cui and Liu [77]
+papers, particularly within sMRI studies, there is a nota-     and Payan and Montana [30], utilized patch-based and
+ble tendency to rely on 2D CNNs for slice-based meth-          voxel-based approaches with 3D CNNs. These methods
+ods, accounting for about 77% of the studies. When it          consider the 3D nature of brain images, preserving spa-
+comes to voxel-based approach, 3D CNNs likely take             tial relationships that might be crucial for AD diagnosis.
+precedence, potentially being used in around 46% of            However, these methods can be computationally expen-
+the cases, leveraging their capability to handle the 3D        sive and may require significant data preprocessing to
+spatial context. On the other hand, about one-third of         manage the higher dimensionality of the input data.
+sMRI studies that use the ROI-based method tend to use            Hybrid models Some studies used hybrid models,
+DBN, DBN + DNN, and SVM. Studies involving sMRI                which combine different neural network architectures
+and patch-based methods adopted DL and traditional             like CNNs with AEs, aiming to leverage the strengths
+ML methods, such as 3D CNN and SVM, accounting for             of each approach. These models can provide a rich fea-
+about 44% and 22%, respectively.                               ture set for classification tasks. However, the complexity
+  fMRI studies Slice-based fMRI studies are likely to favor    of these models may lead to overfitting, especially in the
+2D CNNs (about 75%). On the other hand, 3D CNNs are            case of limited training data typical of medical imaging
+used in all voxel-based fMRI studies. Regarding ROI-           datasets. For example, Gao et al. [42] introduced a novel
+based methods in fMRI, SVMs are the most popular               combination of CNNs with RNNs, specifically LSTM
+choice, used in around 67% of studies. In PET imaging,         units, to capture temporal dependencies across slices.
+Aghdam et al. Brain Informatics      (2025) 12:8                                                                                             Page 15 of 27
+
+
+
+
+This method could recognize patterns over sequen-                              3.3 Categorization based on classification class
+tial slices, offering a more comprehensive analysis than                       The heterogeneity of ADRD diagnosis, and a lack of
+single-slice methods. While this provides a richer rep-                        standard definition of various longitudinal stages of
+resentation of the brain’s structure, the increased model                      ADRD lends multiple classes to various benchmarks
+complexity can lead to longer training times and require                       available to computational scientists. These benchmarks
+more data for optimal performance.                                             and their categorization, for most part, leads to various
+  Transformer models Recent studies by Lyu et al. [47],                        classes that are used by different models. Since different
+Sarraf et al. [18], and Xing et al. [127] have adopted                         classes are used in models, it is difficult to compare the
+ViTs for AD classification. ViTs represent a significant                       results since some classes are easier to classify than
+shift from traditional CNNs, as they treat the image as a                      others e.g. it is “easier” to classify between healthy control
+sequence of patches and can capture long-range depend-                         and AD classes, as compared to stable MCI (sMCI) and
+encies between them. This approach has the advantage of                        progressive MCI (pMCI). Nevertheless, presenting data
+focusing on global information, which could be particu-                        for different models with different classes will enable us
+larly beneficial in capturing the widespread effects of AD                     to understand the current landscape of ML models and
+on brain structure. Nonetheless, ViTs are data-hungry                          their effectiveness.
+models that require substantial computational resources,                         Figure 3 comprehensively compares the accuracy of
+making them less accessible for smaller research settings.                     various classification methods across different binary
+
+
+
+
+ Fig. 3 Classification methods and their associated accuracy for binary classification tasks for various classification methods across different binary
+ tasks related to AD, CN, and MCI spectrum (sMCI, pMCI, MCI, EMCI, LMCI). Each box plot displays the median accuracy as a line within the box,
+ the interquartile range (IQR) as the box itself, and the range excluding outliers by the lines or whiskers that extend from the box. Individual points
+ outside the whiskers indicate outliers
+Aghdam et al. Brain Informatics      (2025) 12:8                                                                                          Page 16 of 27
+
+
+
+
+tasks related to AD, CN, and MCI spectrum (sMCI,                             stages of MCI (sMCI vs. pMCI, LMCI vs. EMCI, and
+pMCI, MCI, EMCI, LMCI). Each box plot displays the                           Mild MCI vs. Severe MCI) using various models. The
+median accuracy as a line within the box, the interquartile                  accuracy percentages span from just above 45% to
+range (IQR) as the box itself, and the range excluding                       approximately 90%. For sMCI and pMCI classification,
+outliers by the lines or whiskers that extend from the box.                  the box for the SVM classification method shows a
+Individual points outside the whiskers indicate outliers.                    median accuracy of around 85%, with the lower quartile
+This figure shows that methods like 2D CNN and ViT                           close to 82% and the upper quartile around 88%. Other
+demonstrate high median accuracies for distinguishing                        classification methods show only individual data points,
+between AD and CN, with a relatively compact IQR,                            indicating only a small number of models for such a
+suggesting consistent results. In differentiating CN from                    classification highlighting challenges in distinguishing
+the MCI spectrum, the 2D CNN and ViT methods stand                           between MCI spectrum conditions. These points
+out with a high median accuracy, albeit accompanied by                       indicate wide variability in accuracy among the
+a broad range and lower outliers, pointing to occasional                     methods, with most achieving around 70% to 90%.
+performance dips. Similarly, classifying the AD vs. MCI                        Figure 5 presents a comparison of the accuracy of
+spectrum reveals high median accuracies. Notably, the                        various classification methods for distinguishing multi-
+3D CNN method has a lower median accuracy and a                              label classification tasks (AD vs. CN vs. MCI, CN vs.
+more extensive spread in results for this task, highlighting                 sMCI vs. pMCI, AD vs. MCI vs. LMCI vs. CN, AD
+challenges in distinguishing between AD and MCI                              vs. EMCI vs. LMCI vs. CN, CN vs. SMC vs. EMCI vs.
+spectrum conditions.                                                         LMCI vs. AD, and CN vs. SMC vs. EMCI vs. LMCI
+  Figure 4 focuses on comparing the binary                                   vs. MCI vs. AD) based on the papers reviewed in this
+classification accuracy for differentiating various                          survey. The box plot reveals a substantial variation in
+
+
+
+
+ Fig. 4 Classification methods and their associated accuracy for binary MCI spectrum tasks for all the studies that were analyzed for this paper. As
+ can be seen in the figure that there are only some papers on classifying between sMCI and pMCI, with some variation in the results for SVM based
+ methods. Deep learning models have not been sufficiently investigated
+Aghdam et al. Brain Informatics      (2025) 12:8                                                                                            Page 17 of 27
+
+
+
+
+ Fig. 5 Classification methods and their associated accuracy for multi-label classification tasks (AD vs. CN vs. MCI, CN vs. sMCI vs. pMCI, AD vs.
+ MCI vs. LMCI vs. CN, AD vs. EMCI vs. LMCI vs. CN, CN vs. SMC vs. EMCI vs. LMCI vs. AD, and CN vs. SMC vs. EMCI vs. LMCI vs. MCI vs. AD). In addition
+ to significant variation in how different classes are used by ML models, there is significant variation in the reported accuracy for these models
+
+
+
+
+the performance of different classification methods,                           cohort of data. Figure 6 shows the evaluation workflow
+spanning from the lower 60 s to 100%, considering the                          for our paper.
+multi-label nature of the tasks. The 2D CNN method                               Evaluating reproducibility and generalizability is cru-
+displays a wide range of accuracy percentages, with                            cial for ensuring the reliability and broader applicabil-
+several points lying far outside the box, denoting a                           ity of ML models in clinical settings. Reproducibility
+less consistent performance. However, the ViT and                              establishes whether the models’ performance can be
+3D CNN methods showcase higher median accuracies                               replicated under the same experimental conditions,
+with smaller variation in the results indicating further                       while generalizability assesses their ability to handle
+investigation is warranted.                                                    unseen data with different characteristics. Together,
+                                                                               these evaluations highlight the robustness of ML mod-
+4 Evaluating the reproducibility                                              els and their potential for real-world deployment.
+   and generalizability of ML models
+In this section, we will evaluate the reproducibility
+and generalizability of ML models that are available as                        4.1 Datasets and preprocessing methods
+open-source, namely Jain et al. [45], Tomassini et al.                         The evaluation of reproducibility and generalizability
+[31], and Mehmood et al. [48]. Reproducibility of the                          was conducted using ADNI and OASIS datasets. Both
+model will be evaluated by using the same data set                             datasets consist of T1-weighted sMRI data used to dis-
+that was reported in their study, while generalizability                       tinguish AD patients from CN subjects.
+will be studied by evaluating the model on a different                           Ensuring consistency in data selection and
+                                                                               experimentation Ensuring consistency in data selection
+Aghdam et al. Brain Informatics       (2025) 12:8                                                                                             Page 18 of 27
+
+
+
+
+ Fig. 6 Evaluation workflow followed for the following studies: A Jain et al. [45], B Tomassini et al. [31], C Mehmood et al. [48]. The evaluation
+ workflow enables us to investigate both the reproducibility and generalizability of the models for a given data set
+
+
+
+
+and preparation is critical for achieving reliable and                          details, including preprocessing steps, hyperparameters,
+comparable results in ML studies. In this work, we                              and software versions, were meticulously documented to
+aligned our experiments with prior research by using                            ensure reproducibility and transparency.
+standardized datasets, specifically ADNI and OASIS,
+which are widely recognized in AD research. To ensure                           4.2 Methods
+fair evaluation, we pre-processed data using the same                           Each of the open-source studies introduced a distinct
+pipeline reported in the original study: Jain et al. [45]                       classification model. Jain et al. [45] utilized a VGG-16
+using FreeSurfer software for motion correction,                                architecture with a fully connected layer for classifica-
+intensity normalization, Talairach transformation,                              tion, while Tomassini et al. [31] adopted a 3D ConvLSTM
+and skull stripping; Tomassini et al. [31] employed                             model. Mehmood et al. [48] used a VGG-19 model with
+FSL for non-brain tissue removal, registration, and                             specific layers frozen during training to leverage pre-
+normalization; Mehmood et al. [48] used SPM for GM                              learned features. The differences in these architectures
+segmentation, spatial normalization, and smoothing.                             provided a diverse perspective on reproducibility and
+This ensures that we minimize variability introduced                            generalizability within the context of AD diagnosis.
+by preprocessing differences. Additionally, we adhered
+to the same data splits used in the original studies, such                      4.3 Evaluating the robustness of the existing models
+as 80:20 or 60:20:20 splits for training, validation, and                            reproducibility and generalizability assessment
+testing, ensuring fair comparisons. The experiments                             4.3.1 Reproducibility assessment
+were run multiple times to ensure that the results were                         All three models have reported results for ADNI data
+consistent, and average of the results were reported. To                        sets. Therefore, we re-executed experiments using the
+evaluate generalizability, we conducted cross-dataset                           same preprocessing pipeline and ADNI data sets for all
+validation by training models on one dataset (e.g., ADNI)                       three models. The reproducibility analysis revealed sig-
+and testing on another (e.g., OASIS). This approach                             nificant variations among the models when tested using
+allowed us to assess the robustness of models across                            the same experimental conditions and datasets. Jain et al.
+diverse cohorts and imaging protocols. All experimental                         [45] demonstrated strong reproducibility, achieving an
+Aghdam et al. Brain Informatics   (2025) 12:8                                                                  Page 19 of 27
+
+
+
+
+accuracy of 97.96% compared to the reported 99.14%.          OASIS training/ADNI testing (67.9%)) were observed.
+This high level of reproducibility underscores the robust-   These numbers suggest high within-dataset accuracies,
+ness of Jain et al.’s model.                                 while the reduction in cross-dataset accuracies suggests
+  In contrast, the models by Tomassini et al. [31] and       that the model is prone to data bias but may generalize
+Mehmood et al. [48] showed significant gaps in repro-        well for the same population or demographics subset.
+ducibility. Tomassini et al.’s reproduced accuracy of 58%    The higher numbers are also consistent with the high
+was markedly lower than the reported 86%, indicating         reproducibility numbers observed for this model [45].
+potential overfitting in the original study or the omis-     These results align with the high reproducibility of Jain
+sion of critical details in their methodology. Similarly,    et al.’s model, reinforcing its potential for broader clinical
+Mehmood et al.’s reproduced accuracy of 74.2% fell far       use.
+short of the reported 98.7%, suggesting that the original      When Mehmood et al.’s [48] model was subjected to
+results may have been influenced by specific experimen-      the generalizability protocol, we observed mixed results.
+tal conditions that were not explicitly disclosed. These     When trained and tested within the same data group
+findings highlight the importance of comprehensive           (ADNI training/ADNI testing (74.2%), OASIS train-
+reporting in ML studies, including detailed descriptions     ing/OASIS testing (71.6%)), and when tested cross-data
+of preprocessing steps, hyperparameter settings, and data    group (ADNI training/OASIS testing (78.3%), OASIS
+handling, to enable accurate replication.                    training/ADNI testing (64%)) were observed. While the
+                                                             model does drop in numbers when tested, we observe
+4.3.2 Generalizability assessment                           that the numbers we get from the generalizability proto-
+Generalizability, which assesses a model’s ability to per-   col are within a margin of error compared to the num-
+form well on unseen data from different distributions, is    bers we got when trying to reproduce these results. This
+equally critical for real-world deployment. The general-     suggests that the model [48], while it does not exhibit
+izability was evaluated by cross testing the models using    very high accuracy numbers, performs well when tested
+the ADNI and OASIS datasets. The evaluation using            against other data cohorts, and the changes in the accu-
+cross-dataset testing between ADNI and OASIS datasets        racy number may not be statistically significant, suggest-
+revealed stark differences in the generalization capabili-   ing the robustness of the model.
+ties of the models. Table 3 shows each model’s repro-
+duced and generalized classification performance based       4.3.3 Implications
+on ADNI and OASIS datasets.                                  The results of this evaluation underscore several chal-
+  When Tomassini et al.’s [31] model was subjected to a      lenges in developing reproducible and generalizable ML
+generalizability study, significant drop in accuracy was     models for AD diagnosis. High reproducibility does not
+observed both when trained and tested within the same        always translate to high generalizability, as seen in Jain
+data group (ADNI training/ADNI testing (74%), OASIS          et al. [45], where strong reproducibility was accompa-
+training/OASIS testing(49%)), and when tested outside        nied by moderate performance on out-of-distribution
+the same data-group (ADNI training/OASIS testing             data. This highlights the need for models to not only
+(50%), OASIS training/ADNI testing (48%)). When doing        replicate well under controlled conditions but also adapt
+the experimentation, it seemed that when tested within       to diverse and unseen datasets. The poor generalizabil-
+the same group, the model seemed to perform well, but        ity of Tomassini et al. [31] and the mixed results from
+this did not extend when another data set was used to do     Mehmood et al. [48] suggest that dataset-specific biases
+the same experiment. Therefore, we conclude that this        and overfitting remain significant obstacles. These issues
+model did not generalize well, especially when tested in     are exacerbated by the lack of diversity in training data-
+the out-of-distribution data. These results suggest that     sets, which may not capture the full range of variability in
+the model overfitted to its training data and struggled to   real-world clinical data. Cross-dataset validation, as per-
+adapt to out-of-distribution samples. This lack of robust-   formed in this study, is a critical step for identifying and
+ness limits its applicability in clinical scenarios, where   addressing these biases, ensuring that models are robust
+patient demographics and imaging protocols often vary.       and reliable across different populations and imaging
+  When Jain et al. [45] model was subjected to general-      protocols. In addition, it is not yet clear what signature
+izability protocol, the model demonstrated better gener-     these ML models are learning since variability in imag-
+alizability though significant drops in the numbers were     ing protocols, as well as site-specific changes (e.g. differ-
+observed. When trained and tested within the same data       ent MRI machines) can results in models learn different
+group (ADNI training/ADNI testing (97%), OASIS train-        signatures that may be specific to the site but not nec-
+ing/OASIS testing (95.7%)), and when tested outside the      essarily the biological or neurological markers that the
+same data group (ADNI training/OASIS testing (66.8%),        models are intended to learn. Computational scientists
+                                                                                                                                                                                          Aghdam et al. Brain Informatics
+
+
+
+
+Table 3 Reproduced and generalized classification performance in ADNI and OASIS datasets using tools that were available as open source
+Study                     Preprocessing tool                      Method               Train data   Test data   Accuracy                                         Test type         Task
+                                                                                                                (%)
+                                                                                                                                                                                          (2025) 12:8
+
+
+
+
+                          Original study        This paper                                                      Original study   Our experiments
+                                                                                                                                 Reproduced        Generalized
+                                                                                                                                 results           Results
+
+Tomassini et al. [31]     FSL                   FSL               3D sMRI + ConvLSTM   ADNI         ADNI        –                –                 74            Train:Val: Test   AD
+                                                                                                    OASIS       –                –                 50            (60:20:20)        vs
+                                                                                                                                                                                   CN
+                                                                                       OASIS        ADNI        –                –                 48
+                                                                                                    OASIS       –                –                 49
+                                                                                       ADNI         ADNI        86               58                –
+                                                                                       +            +
+                                                                                       OASIS        OASIS
+Jain et al.[45]           Free-Surfer           Free-Surfer       2D Slices + 2D CNN   ADNI         ADNI        99.14            97.96             –             Train:Test
+                                                                                                    OASIS       –                –                 66.87         (80:20)
+                                                                                       OASIS        ADNI        –                –                 67.96
+                                                                                                    OASIS       –                –                 95.78
+Mehmood et al. [48]       SPM                   SPM               2D Slices + 2D CNN   ADNI         ADNI        98.73            74.19             –             Train:Test
+                                                                                                    OASIS       –                –                 78.33         (80:20)
+                                                                                       OASIS        ADNI        –                –                 64
+                                                                                                    OASIS       –                –                 71.66
+Expt Experiments, CN Cognitive normal control, AD Alzheimer’s Disease
+                                                                                                                                                                                          Page 20 of 27
+Aghdam et al. Brain Informatics   (2025) 12:8                                                                 Page 21 of 27
+
+
+
+
+must work out the details to devise methods that can dif-     be addressed for better understanding and utilization of
+ferentiate between site-specific protocols and neurologi-     these models.
+cal signatures.                                                 One of the primary challenges researchers faces is
+                                                              heterogeneity, both in how data is collected and how it is
+5 Discussion                                                 interpreted. For the collection side, the heterogeneity is
+Given that the brain changes due to AD prior to any           expressed in terms of scanner types, imaging parameters,
+symptoms, brain imaging intrinsically has the data            and clinical protocols used. On the interpretation side,
+that can distinguish between AD, progressive MCI and          heterogeneity is introduced due to varying clinical
+stable MCI. Comparison across literature indicates            diagnostic criteria that are used to classify patients
+increased average accuracy for (AD vs. HC) or (MCI            at different stages of ADRD. Non-uniformity in the
+vs. HC) approaches for single modality (88.4%) and            diagnostic criteria leads to non-uniformity in the class
+multiple modality (87.5%) when compared to the                labels that are used to express the imaging data. Since
+methods that classify between pMCI vs. sMCI (77.3%            class labels are non-uniform, the training and learning
+for single modality and 81.3% for multiple modalities).       from the models remain inconsistent at best and non-
+Further, average accuracy for DL models (87.9%) across        usable at worst. There is a wide variation in classification
+all modalities relative to traditional ML models (85.5%)      classes, ranging from binary classification (e.g., AD vs.
+revealed modest gains. However, significant research          CN) to multi-class classification (e.g., AD vs. CN vs.
+gaps were observed for pMCI vs. sMCI classification           MCI vs. LMCI), increasing the complexity of the task
+using fMRI + sMRI data despite overwhelming evidence          and requiring more robust and generalized models.
+that multiple modalities may reveal better classification.    Other factors, such as demographics, age, gender, and
+Furthermore, DL models for pMCI vs. sMCI using only           pre-processing pipelines, introduce variability, and
+sMRI data have an average accuracy of 84.5%, indicating       while useful and important, must be considered when
+that fMRI integration may be useful, and further formal       training these models—something that has not been
+evaluation is warranted. In addition, models that can         systematically investigated.
+classify between HC, MCI, and AD (and their variants)           Another major challenge is the reliability, reproduc-
+seem to perform better for single modalities (90.7%)          ibility, and generalizability of the machine learning mod-
+as compared to multiple modalities (72.5%), indicating        els. Our extensive literature review demonstrates that
+that more systematic and formal investigations are            there is a whole range of machine-learning models that
+needed to design and develop multimodal models. While         have been proposed including traditional models, deep-
+these are all reported numbers, the reproducibility and       learning models, and multimodal models. We selected
+generalizability of these models were systematically          three different models available as open source to test
+investigated, which leads us to believe that more research    the reproducibility, and generalizability of those mod-
+is warranted to ensure the reliability and robustness of      els [31, 45, 48]. Our ablation study (Table 3) shows that
+these models that can reach clinical practice.                some of the models may not be reliable, and others may
+   The technical hurdle of using a limited labeled data       not be generalizable across different cohorts. Note that
+set (Table 3), which may not traverse the feature search      the three models available to us were trained on exten-
+space, results in the subpar performance of these models      sive ADNI data and were trained using a single modality
+with data distribution shift, contributing to the ongoing     (sMRI data). Optimization techniques, interpretability of
+reproducibility crisis. Overall, our extensive experimenta-   models, and the computational demands of training com-
+tion with models available as open-source code and prior      plex models also add complexity to the development of
+literature demonstrates limited accuracy and generaliz-       accurate diagnostic tools for AD.
+ability in assessing biomarkers using current ML meth-          Our survey reviewed various neuroimaging modalities,
+ods, especially when unknown data (from other races or        including sMRI, fMRI, and PET, including preprocessing
+other cohorts) is fed to these ML models (Table 3). Con-      and data management techniques, both traditional ML
+sequently, the existing ML models increase, rather than       and DL approaches, and a comprehensive evaluation
+decrease, the biases in diagnostic criteria, leading to an    of the models with different cohorts. This evaluation
+increase in health disparities related to AD/ADRD linked      provides valuable insights into the practical applicability
+to environmental, sociocultural, behavioral, and biologi-     of these models in real-world scenarios, highlighting
+cal factors.                                                  the challenges and potential pitfalls of using ML for
+   In scouting through the literature related to ML           AD diagnosis. As a result of this survey, a few of the
+models for ADRD diagnosis and classification, we have         recommendations and best practices are listed below.
+identified two separate but related challenges that must      For computational scientists developing various ML
+                                                              models, the evaluation and experimentation with
+Aghdam et al. Brain Informatics   (2025) 12:8                                                                  Page 22 of 27
+
+
+
+
+different data cohorts can broaden the scope of their          interpretable visualizations and reports tailored to the
+studies by considering alternative datasets beyond a           needs of medical professionals, enabling them to make
+single (e.g., ADNI) cohort. Including datasets such as         more informed and confident decisions based on ML
+OASIS, Biomarker and Lifestyle Flagship Study of Ageing        model outputs.
+(AIBL) [129], and National Alzheimer’s Coordinating
+Centers (NACC) [130] could offer a more comprehensive          5.1.2 Enhancing model robustness and generalizability
+perspective on AD diagnosis using neuroimaging and             ML models often struggle to generalize across diverse
+machine learning, potentially revealing variations in          datasets, particularly when faced with variations in
+results and enhancing generalizability. The variability of     demographics, imaging modalities, or acquisition pro-
+the results (Figs. 3, 4, and 5) shows room for investigating   tocols as shown our results in this paper. Future stud-
+different ML approaches beyond those covered in                ies should conduct large-scale evaluations of model
+the survey paper. Alternative algorithms, ensemble             performance across heterogeneous datasets to assess
+methods, or hybrid models could be explored to enhance         their robustness and identify biases. Domain adaptation
+diagnostic accuracy and effectiveness. Validating and          techniques and transfer learning offer promising solu-
+replicating findings across multiple datasets is crucial       tions for mitigating cohort-specific biases and improving
+for enhancing the credibility and generalizability of          model performance on underrepresented populations.
+ML models for AD diagnosis. Similarly, formulating a           For example, transfer learning can leverage knowledge
+uniform criterion for different classes of ADRD diagnosis      from well-annotated datasets to enhance performance on
+will help ensure that models are learning consistent           smaller, less-represented datasets. Additionally, research-
+information for a given label. With the current variability,   ers should explore ensemble learning methods that
+the models learn different signatures for the same label,      combine predictions from multiple models to improve
+leading to inconsistencies across the board. Lastly, the       robustness and reduce the risk of overfitting. A concerted
+evaluation of the model must be completed with no data         effort to create benchmarks that account for demo-
+leakage to ensure that metrics and results are consistent,     graphic and modality variability will also enable a more
+reproducible, and robust.                                      standardized evaluation of model performance, ensuring
+                                                               broader applicability in real-world clinical settings.
+5.1 Future directions
+While ML approaches show significant promise in
+advancing early AD/ADRD diagnosis, several critical            5.1.3 Multimodal data integration
+challenges must be addressed to enable broader applica-        AD is a multifactorial condition, with its diagnosis and
+bility in clinical settings. Below, we outline key areas for   progression influenced by a combination of genetic, neu-
+future research, with a focus on overcoming existing bar-      roimaging, proteomic, clinical and social determinants of
+riers and driving meaningful advancements in the field.        health factors. Future research should prioritize the inte-
+                                                               gration of multimodal data sources to improve diagnostic
+5.1.1 Improving clinical interpretability                     accuracy and the discovery of novel biomarkers. Combin-
+One of the primary barriers to the adoption of ML mod-         ing sMRI, fMRI, and PET imaging with complementary
+els in clinical practice is their lack of interpretability.    data such as genetic profiles, cerebrospinal fluid biomark-
+Clinicians require models that not only provide predic-        ers, and cognitive assessments can enable a more holis-
+tions but also offer actionable insights into the underlying   tic understanding of disease mechanisms. Furthermore,
+mechanisms driving those predictions. Future research          researchers can consider the use of real-time health
+should focus on developing interpretable ML frame-             monitoring tools, such as wearable devices and electronic
+works that employ methods such as attention mecha-             health records to complement neuroimaging data. These
+nisms, feature attribution, and SHAP (SHapley Additive         multimodal approaches can capture the dynamic nature
+exPlanations) to highlight the most critical neuroimag-        of AD progression, allowing for earlier and more precise
+ing biomarkers for AD diagnosis. For instance, attention       diagnoses. Advances in data fusion techniques, such as
+mechanisms can pinpoint specific regions of interest in        tensor decomposition and graph neural networks, could
+brain scans, while SHAP values can quantify the contri-        further facilitate the integration and analysis of multi-
+bution of individual features to model predictions. Fur-       modal datasets, unlocking new opportunities for person-
+thermore, integrating explainability frameworks into           alized medicine.
+ML workflows will ensure that the outputs align with
+clinical decision-making processes, fostering trust and
+transparency among healthcare providers. Additionally,
+researchers should collaborate with clinicians to create
+Aghdam et al. Brain Informatics   (2025) 12:8                                                                                     Page 23 of 27
+
+
+
+
+5.1.4 Data augmentation and synthetic data generation          researchers should establish robust frameworks for han-
+The scarcity of labeled neuroimaging data, particularly for     dling sensitive neuroimaging and clinical data, emphasiz-
+underrepresented populations, poses a significant chal-         ing privacy preservation and data security. Techniques
+lenge for training robust ML models. Generative mod-            such as federated learning, which enables model training
+els, such as Generative Adversarial Networks (GANs),            without sharing raw data, can be employed to enhance
+hold immense potential for creating realistic synthetic         data privacy while maintaining model performance.
+datasets that address class imbalance and augment lim-          Efforts should also focus on ensuring equitable access
+ited datasets. For instance, GANs can generate synthetic        to ML-driven diagnostic tools, preventing disparities in
+MRI scans that closely resemble real-world samples, ena-        healthcare delivery across different regions and commu-
+bling researchers to train models on a more diverse range       nities. Transparent reporting and community engage-
+of data. This approach not only improves model perfor-          ment will be essential for fostering trust and acceptance
+mance but also preserves patient privacy by eliminating         of these technologies.
+the need to share sensitive medical data. Future research         By addressing these future directions, the field of ML-
+should explore advanced data augmentation techniques,           driven AD diagnosis can move closer to achieving clini-
+such as style transfer and domain-specific augmentation,        cally viable models that improve early diagnosis, enhance
+to further enhance the diversity and quality of training        patient outcomes, and reduce healthcare disparities. As
+datasets. Additionally, validating the clinical relevance of    ML methods continue to evolve, their integration with
+synthetic data through expert evaluation will be critical       multimodal neuroimaging and clinical workflows holds
+to ensure its utility in real-world applications.               the potential to transform the landscape of AD/ADRD
+                                                                diagnosis and care.
+5.1.5 Real‑world clinical deployment
+                                                                Acknowledgements
+The transition from research to clinical practice requires      We acknowledge the following initiatives for providing data: ADNI: Data collec-
+the development of user-friendly tools and systems that         tion and sharing for this project was funded by the Alzheimer’s Disease Neu-
+integrate seamlessly into existing healthcare workflows.        roimaging Initiative (ADNI) (National Institutes of Health Grant U01 AG024904)
+                                                                and DOD ADNI (Department of Defense award number W81XWH-12-2-0012).
+Future efforts should focus on designing software plat-         ADNI is funded by the National Institute on Aging, the National Institute of
+forms that enable clinicians to deploy and interpret ML         Biomedical Imaging and Bioengineering, and through generous contribu-
+models with minimal technical expertise. These plat-            tions from the following: AbbVie, Alzheimer’s Association; Alzheimer’s Drug
+                                                                Discovery Foundation; Araclon Biotech; BioClinica, Inc.; Biogen; Bristol-Myers
+forms should include intuitive interfaces, explainability       Squibb Company; CereSpir, Inc.; Cogstate; Eisai Inc.; Elan Pharmaceuticals, Inc.;
+features, and real-time feedback mechanisms to support          Eli Lilly and Company; EuroImmun; F. Hoffmann-La Roche Ltd and its affili-
+clinical decision-making. Additionally, prospective clini-      ated company Genentech, Inc.; Fujirebio; GE Healthcare; IXICO Ltd.;Janssen
+                                                                Alzheimer Immunotherapy Research & Development, LLC.; Johnson &
+cal trials are essential to validate the effectiveness of ML-   Johnson Pharmaceutical Research & Development LLC.; Lumosity; Lundbeck;
+based diagnostic tools in real-world settings. These trials     Merck & Co., Inc.;Meso Scale Diagnostics, LLC.; NeuroRx Research; Neurotrack
+should evaluate not only the diagnostic accuracy of the         Technologies; Novartis Pharmaceuticals Corporation; Pfizer Inc.; Piramal Imag-
+                                                                ing; Servier; Takeda Pharmaceutical Company; and Transition Therapeutics.
+models but also their impact on patient outcomes, care          The Canadian Institutes of Health Research is providing funds to support
+efficiency, and clinician satisfaction. Researchers should      ADNI clinical sites in Canada. Private sector contributions are facilitated by the
+also explore scalable deployment strategies, such as            Foundation for the National Institutes of Health (www.​fnih.​org). The grantee
+                                                                organization is the Northern California Institute for Research and Education,
+cloud-based and edge-computing solutions, to ensure             and the study is coordinated by the Alzheimer’s Therapeutic Research Institute
+accessibility in resource-constrained settings, including       at the University of Southern California. ADNI data are disseminated by the
+rural or underfunded clinics. By addressing these chal-         Laboratory for Neuro Imaging at the University of Southern California. OASIS-3:
+                                                                Longitudinal Multimodal Neuroimaging: Principal Investigators: T. Benzinger,
+lenges, ML models can be effectively translated into tools      D. Marcus, J. Morris; NIH P30 AG066444, P50 AG00561, P30 NS09857781, P01
+that improve patient care.                                      AG026276, P01 AG003991, R01 AG043434, UL1 TR000448, R01 EB009352.
+                                                                AV-45 doses were provided by Avid Radiopharmaceuticals, a wholly owned
+                                                                subsidiary of Eli Lilly.
+                                                                Data used in preparation of this article were obtained from the Alzheimer’s
+5.1.6 Addressing ethical and societal considerations           Disease Neuroimaging Initiative (ADNI) database (adni.loni.usc.edu). As such,
+Ethical considerations are paramount when develop-              the investigators within the ADNI contributed to the design and implementa-
+                                                                tion of ADNI and/or provided data but did not participate in analysis or writing
+ing ML models for medical applications, particularly in         of this study. A complete listing of ADNI investigators can be found at: http://​
+ensuring fairness and inclusivity. Future research must         adni.​loni.​usc.​edu/​wp-​conte​nt/​uploa​ds/​how_​to_​apply/​ADNI_​Ackno​wledg​
+prioritize the design of models that account for under-         ement_​List.​pdf.
+
+represented populations, including those with unique            Author contributions
+demographic, geographic, and socioeconomic character-           FS and SB conceived and designed the project. FS and MAA acquired the neu-
+istics. For example, datasets should be curated to include      roimaging data. FS and MAA gathered the literature, analyzed the data, and
+                                                                designed the experiments. MAA wrote the code and scripts and pipelines. FS,
+diverse patient groups to mitigate biases that dispropor-       SB and MAA wrote the paper and all authors contributed to the revisions and
+tionately affect vulnerable populations. Additionally,          approved the final version. FS contributed to all aspects of the project.
+Aghdam et al. Brain Informatics             (2025) 12:8                                                                                                     Page 24 of 27
+
+
+
+
+Funding                                                                                         International Symposium on Computer-Based Medical Systems (CBMS),
+Research reported in this publication was supported by the National Institute                   Karlstad: IEEE, pp. 345–350. https://​doi.​org/​10.​1109/​CBMS.​2018.​00067
+of General Medical Sciences of the National Institutes of Health under award              15.   Backstrom K, Nazari M, Gu IY-H, Jakola AS (2018) An efficient 3D deep
+number: R35GM153434 (PI Saeed). The research was additionally supported                         convolutional network for Alzheimer’s disease diagnosis using MR
+by NSF OAC-2312599. The content is solely the responsibility of the authors                     images. In 2018 IEEE 15th International Symposium on Biomedical
+and does not necessarily represent the official views of the National Institutes                Imaging (ISBI 2018), Washington, DC: IEEE, pp. 149–153. https://​doi.​org/​
+of Health.                                                                                      10.​1109/​ISBI.​2018.​83635​43
+                                                                                          16.   Farooq A, Anwar S, Awais M, Rehman S (2017) A deep CNN based
+Data availability                                                                               multi-class classification of Alzheimer’s disease using MRI. In 2017 IEEE
+No datasets were generated or analysed during the current study.                                International Conference on Imaging Systems and Techniques (IST),
+                                                                                                Beijing: IEEE, pp. 1–6. https://​doi.​org/​10.​1109/​IST.​2017.​82614​60
+                                                                                          17.   Sarraf S, Desouza DD, Anderson JAE, Saverino C (2019) MCADNNet:
+Declarations                                                                                    recognizing stages of cognitive impairment through efficient
+                                                                                                convolutional fMRI and MRI neural network topology models. IEEE
+Competing interests                                                                             Access 7:155584–155600. https://​doi.​org/​10.​1109/​ACCESS.​2019.​29495​
+The authors declare no competing interests.                                                     77
+                                                                                          18.   Sarraf S, Sarraf A, DeSouza DD, Anderson JAE, Kabia M, The Alzheimer’s
+                                                                                                Disease Neuroimaging Initiative (2023) OViTAD: optimized vision
+Received: 29 October 2024 Accepted: 16 February 2025                                            transformer to predict various stages of Alzheimer’s disease using
+                                                                                                resting-state fMRI and structural MRI data. Brain Sci 13(2):260. https://​
+                                                                                                doi.​org/​10.​3390/​brain​sci13​020260
+                                                                                          19.   Gao S, Lima D (2022) A review of the application of deep learning in the
+                                                                                                detection of Alzheimer’s disease. Int J Cogn Comput Eng 3:1–8. https://​
+References                                                                                      doi.​org/​10.​1016/j.​ijcce.​2021.​12.​002
+  1. Karantzoulis S, Galvin JE (2011) Distinguishing Alzheimer’s disease from             20.   Khojaste-Sarakhsi M, Haghighi SS, Ghomi SMTF, Marchiori E (2022)
+      other major forms of dementia. Expert Rev Neurother 11(11):1579–                          Deep learning for Alzheimer’s disease diagnosis: a survey. Artif Intell
+      1591. https://​doi.​org/​10.​1586/​ern.​11.​155                                           Med 130:102332. https://​doi.​org/​10.​1016/j.​artmed.​2022.​102332
+  2. What is Alzheimer’s Disease? | CDC. https://​www.​cdc.​gov/​aging/​aging​            21.   Annavarapu RN, Kathi S, Vadla VK (2019) Non-invasive imaging
+      info/​alzhe​imers.​htm. Accessed 29 Dec 2023                                              modalities to study neurodegenerative diseases of aging brain. J Chem
+  3. Shaw LM et al (2020) Detection of Alzheimer disease pathology in                           Neuroanat 95:54–69. https://​doi.​org/​10.​1016/j.​jchem​neu.​2018.​02.​006
+      patients using biochemical biomarkers: prospects and challenges for                 22.   Ebrahimighahnavieh MA, Luo S, Chiong R (2020) Deep learning to
+      use in clinical practice. J Appl Lab Med 5(1):183–193. https://​doi.​org/​10.​            detect Alzheimer’s disease from neuroimaging: a systematic literature
+      1373/​jalm.​2019.​029587                                                                  review. Comput Methods Programs Biomed 187:105242. https://​doi.​
+  4. Rozzini L et al (2007) Conversion of amnestic mild cognitive                               org/​10.​1016/j.​cmpb.​2019.​105242
+      impairment to dementia of Alzheimer type is independent to memory                   23.   Zheng C, Xia Y, Pan Y, Chen J (2016) Automated identification of
+      deterioration. Int J Geriatr Psychiatry 22(12):1217–1222. https://​doi.​org/​             dementia using medical imaging: a survey from a pattern classification
+      10.​1002/​gps.​1816                                                                       perspective. Brain Inform 3(1):17–27. https://​doi.​org/​10.​1007/​
+  5. New Alzheimer’s Association Report, Alzheimer’s Association. https://​                     s40708-​015-​0027-x
+      www.​alz.​org/​news/​2022/​facts-​figur​es-​alzhe​imers-​mild-​cogni​tive-​impai​   24.   Cui R, Liu M, Li G (2018) Longitudinal analysis for Alzheimer’s disease
+      rment. Accessed 29 Dec 2023                                                               diagnosis using RNN. In 2018 IEEE 15th International Symposium on
+  6. Health and economic costs of chronic diseases | CDC. https://​www.​cdc.​                   Biomedical Imaging (ISBI 2018), Washington, DC: IEEE, pp. 1398–1401.
+      gov/​chron​icdis​ease/​about/​costs/​index.​htm. Accessed 29 Dec 2023                     https://​doi.​org/​10.​1109/​ISBI.​2018.​83638​33
+  7. Akhavan Aghdam M, Sharifi A, Pedram MM (2018) Combination of                         25.   Esmaeilzadeh S, Belivanis DI, Pohl KM, Adeli E (2018) End-to-end
+      rs-fMRI and sMRI data to discriminate autism spectrum disorders in                        Alzheimer’s disease diagnosis and biomarker identification. In Shi Y,
+      young children using deep belief network. J Digit Imaging 31(6):895–                      Suk H-I, Liu M (Eds) Machine Learning in Medical Imaging, in Lecture
+      903. https://​doi.​org/​10.​1007/​s10278-​018-​0093-8                                     Notes in Computer Science, vol. 11046, Cham: Springer International
+  8. Eslami T, Mirjalili V, Fong A, Laird AR, Saeed F (2019) ASD-DiagNet: a                     Publishing, pp. 337–345. https://​doi.​org/​10.​1007/​978-3-​030-​00919-9_​39
+      hybrid learning approach for detection of autism spectrum disorder                  26.   Hosseini-Asl E, Keynton R, El-Baz A (2016) Alzheimer’s disease
+      using fMRI data. Front Neuroinform 13:70. https://​doi.​org/​10.​3389/​fninf.​            diagnostics by adaptation of 3D convolutional network. In 2016 IEEE
+      2019.​00070                                                                               International Conference on Image Processing (ICIP), Phoenix, AZ, USA:
+  9. Nogay HS, Adeli H (2020) Machine learning (ML) for the diagnosis of                        IEEE, pp. 126–130. https://​doi.​org/​10.​1109/​ICIP.​2016.​75323​32
+      autism spectrum disorder (ASD) using brain imaging. Rev Neurosci                    27.   Karasawa H, Liu C-L, Ohwada H (2018) Deep 3D convolutional neural
+      31(8):825–841. https://​doi.​org/​10.​1515/​revne​uro-​2020-​0043                         network architectures for Alzheimer’s disease diagnosis. In Intelligent
+ 10. Almuqhim F, Saeed F (2021) ASD-SAENet: a sparse autoencoder, and                           information and database systems. In: Nguyen NT, Hoang DH, Hong
+      deep-neural network model for detecting autism spectrum disorder                          T-P, Pham H, Trawiński B (Eds) Lecture Notes in Computer Science, vol.
+      (ASD) using fMRI data. Front Comput Neurosci 15:654315. https://​doi.​                    10751. Cham: Springer International Publishing, pp. 287–296. https://​
+      org/​10.​3389/​fncom.​2021.​654315                                                        doi.​org/​10.​1007/​978-3-​319-​75417-8_​27
+ 11. Gong B et al (2018) Neuroimaging-based diagnosis of Parkinson’s                      28.   Korolev S, Safiullin A, Belyaev M, Dodonova Y (2017) Residual and plain
+      disease with deep neural mapping large margin distribution machine.                       convolutional neural networks for 3D brain MRI classification. In 2017
+      Neurocomputing 320:141–149. https://​doi.​org/​10.​1016/j.​neucom.​2018.​                 IEEE 14th International Symposium on Biomedical Imaging (ISBI 2017),
+      09.​025                                                                                   Melbourne, Australia: IEEE, pp. 835–838. https://​doi.​org/​10.​1109/​ISBI.​
+ 12. Hirschauer TJ, Adeli H, Buford JA (2015) Computer-aided diagnosis of                       2017.​79506​47
+      Parkinson’s disease using enhanced probabilistic neural network. J Med              29.   Li F, Cheng D, Liu M (2017) Alzheimer’s disease classification based
+      Syst 39(11):179. https://​doi.​org/​10.​1007/​s10916-​015-​0353-9                         on combination of multi-model convolutional networks. In 2017 IEEE
+ 13. Rubbert C et al (2019) Machine-learning identifies Parkinson’s                             international conference on imaging systems and techniques (IST),
+      disease patients based on resting-state between-network functional                        Beijing: IEEE, pp. 1–5. https://​doi.​org/​10.​1109/​IST.​2017.​82615​66
+      connectivity. Br J Radiol 92(1101):20180886. https://​doi.​org/​10.​1259/​bjr.​     30.   Payan A, Montana G (2015) Predicting Alzheimer’s disease: a
+      20180​886                                                                                 neuroimaging study with 3D convolutional neural networks. https://​
+ 14. Aderghal K, Khvostikov A, Krylov A, Benois-Pineau J, Afdel K, Catheline                    doi.​org/​10.​48550/​ARXIV.​1502.​02506
+      G (2018) Classification of Alzheimer disease on imaging modalities                  31.   Tomassini S, Falcionelli N, Sernani P, Muller H, Dragoni AF (2021) An
+      with deep CNNs using cross-modal transfer learning. In 2018 IEEE 31st                     end-to-end 3D ConvLSTM-based framework for early diagnosis of
+Aghdam et al. Brain Informatics            (2025) 12:8                                                                                                      Page 25 of 27
+
+
+
+
+       Alzheimer’s disease from full-resolution whole-brain sMRI scans. In              46. Kushol R, Masoumzadeh A, Huo D, Kalra S, Yang Y-H (2022) Addformer:
+       2021 IEEE 34th International Symposium on Computer-Based Medical                     Alzheimer’s disease detection from structural MRI using fusion
+       Systems (CBMS), Aveiro, Portugal: IEEE, pp. 74–78. https://​doi.​org/​10.​           transformer. In 2022 IEEE 19th International Symposium on Biomedical
+       1109/​CBMS5​2027.​2021.​00081                                                        Imaging (ISBI), Kolkata, India: IEEE, pp. 1–5. https://​doi.​org/​10.​1109/​ISBI5​
+ 32.   Wang H et al (2019) Ensemble of 3D densely connected convolutional                   2829.​2022.​97614​21
+       network for diagnosis of mild cognitive impairment and Alzheimer’s               47. Lyu Y, Yu X, Zhu D, Zhang L (2022) Classification of Alzheimer’s disease
+       disease. Neurocomputing 333:145–156. https://​doi.​org/​10.​1016/j.​                 via vision transformer: classification of Alzheimer’s disease via vision
+       neucom.​2018.​12.​018                                                                transformer. In Proceedings of the 15th international conference on
+ 33.   Yang C, Rangarajan A, Ranka S (2018) Visual explanations from deep                   PErvasive technologies related to assistive environments, Corfu Greece:
+       3D convolutional neural networks for Alzheimer’s disease classification.             ACM, pp. 463–468. https://​doi.​org/​10.​1145/​35291​90.​35347​54
+       AMIA Annu Symp Proc AMIA Symp 2018:1571–1580                                     48. Mehmood A et al (2021) A transfer learning approach for early
+ 34.   Duc NT, Ryu S, Qureshi MNI, Choi M, Lee KH, Lee B (2020) 3D-deep                     diagnosis of Alzheimer’s disease on MRI images. Neuroscience
+       learning based automatic diagnosis of Alzheimer’s disease with joint                 460:43–52. https://​doi.​org/​10.​1016/j.​neuro​scien​ce.​2021.​01.​002
+       MMSE prediction using resting-state fMRI. Neuroinformatics 18(1):71–             49. Moussavi-Khalkhali A, Jamshidi M, Wijemanne S (2016) Feature fusion
+       86. https://​doi.​org/​10.​1007/​s12021-​019-​09419-w                                for denoising and sparse autoencoders: application to neuroimaging
+ 35.   Parmar H, Nutter B, Long R, Antani S, Mitra S (2020) Spatiotemporal                  data. In 2016 15th IEEE International Conference on Machine Learning
+       feature extraction and classification of Alzheimer’s disease using deep              and Applications (ICMLA), Anaheim, CA, USA: IEEE, pp. 605–610. https://​
+       learning 3D-CNN for fMRI data. J Med Imaging. https://​doi.​org/​10.​                doi.​org/​10.​1109/​ICMLA.​2016.​0106
+       1117/1.​JMI.7.​5.​056001                                                         50. Sarraf S, DeSouza DD, Anderson J, Tofighi G, The A. D. N. Initiativ (2017)
+ 36.   Feng C, Elazab A, Yang P, Wang T, Lei B, Xiao X (2018) 3D convolutional              DeepAD: Alzheimer’s disease classification via deep convolutional
+       neural network and stacked bidirectional recurrent neural network                    neural networks using MRI and fMRI. bioRxiv. https://​doi.​org/​10.​1101/​
+       for Alzheimer’s disease diagnosis. In: Rekik I, Unal G, Adeli E, Park SH             070441
+       (eds) PRedictive Intelligence in MEdicine: First International Workshop,         51. Sarraf S, Tofighi G (2017) Classification of Alzheimer’s disease structural
+       PRIME 2018, Held in Conjunction with MICCAI 2018, Granada, Spain,                    MRI data by deep learning convolutional neural networks. arXiv: arXiv:​
+       September 16, 2018, Proceedings. Springer International Publishing,                  1607.​06583. Accessed 30 Dec 2023. http://​arxiv.​org/​abs/​1607.​06583
+       Cham, pp 138–146. https://​doi.​org/​10.​1007/​978-3-​030-​00320-3_​17           52. Valliani A, Soni A (2017) Deep residual nets for improved Alzheimer’s
+ 37.   Cheng D, Liu M (2017) CNNs based multi-modality classification for                   diagnosis. In Proceedings of the 8th ACM International Conference on
+       AD diagnosis. In 2017 10th International Congress on Image and                       Bioinformatics, Computational Biology, and Health Informatics, Boston
+       Signal Processing, BioMedical Engineering and Informatics (CISP-BMEI),               Massachusetts USA: ACM, pp. 615–615. https://​doi.​org/​10.​1145/​31074​
+       Shanghai: IEEE, pp. 1–5. https://​doi.​org/​10.​1109/​CISP-​BMEI.​2017.​83022​       11.​31082​24
+       81                                                                               53. Wu C, Guo S, Hong Y, Xiao B, Wu Y, Zhang Q (2018) Discrimination
+ 38.   Aderghal K, Benois-Pineau J, Afdel K, Gwenaëlle C (2017) FuseMe:                     and conversion prediction of mild cognitive impairment using
+       classification of sMRI images by fusion of Deep CNNs in 2D+ε                         convolutional neural networks. Quant Imaging Med Surg 8(10):992–
+       projections. In Proceedings of the 15th international workshop on                    1003. https://​doi.​org/​10.​21037/​qims.​2018.​10.​17
+       content-based multimedia indexing, Florence Italy: ACM, pp. 1–7.                 54. Kazemi Y, Houghten S (2018) A deep learning pipeline to classify
+       https://​doi.​org/​10.​1145/​30957​13.​30957​49                                      different stages of Alzheimer’s disease from fMRI data. In 2018 IEEE
+ 39.   Aderghal K, Manuel B, Benois-Pineau J, Gwenaêlle C, Afdel K (2017)                   conference on computational intelligence in bioinformatics and
+       Classification of sMRI for AD diagnosis with convolutional neuronal                  computational biology (CIBCB), St. Louis, MO: IEEE, pp. 1–8. https://​doi.​
+       networks: a pilot 2-D+ϵ study on ADNI. presented at the International                org/​10.​1109/​CIBCB.​2018.​84049​80
+       Conference, MMM 2017, http://​www.​sprin​ger.​com/, pp 690. https://​doi.​       55. Sarraf S, Tofighi G (2016) Deep learning-based pipeline to recognize
+       org/​10.​1007/​978-3-​319-​51811-4_​56                                               Alzheimer’s disease using fMRI data. In 2016 Future Technologies
+ 40.   Billones CD, Demetria OJLD, Hostallero DED, Naval PC (2016) DemNet:                  Conference (FTC), San Francisco, CA, USA: IEEE, pp. 816–820. https://​doi.​
+       a convolutional neural network for the detection of Alzheimer’s disease              org/​10.​1109/​FTC.​2016.​78216​97
+       and mild cognitive impairment. In 2016 IEEE Region 10 Conference                 56. Ramzan F et al (2020) A deep learning approach for automated
+       (TENCON), Singapore: IEEE, pp. 3724–3727. https://​doi.​org/​10.​1109/​              diagnosis and multi-class classification of Alzheimer’s disease stages
+       TENCON.​2016.​78487​55                                                               using resting-state fMRI and residual neural networks. J Med Syst
+ 41.   Farooq A, Anwar S, Awais M, Alnowami M (2017) Artificial intelligence                44(2):37. https://​doi.​org/​10.​1007/​s10916-​019-​1475-2
+       based smart diagnosis of alzheimer’s disease and mild cognitive                  57. Liu M, Cheng D, Yan W, Alzheimer’s Disease Neuroimaging Initiative
+       impairment. In 2017 International Smart Cities Conference (ISC2), Wuxi:              (2018) Classification of Alzheimer’s disease by combination of
+       IEEE, pp. 1–4. https://​doi.​org/​10.​1109/​ISC2.​2017.​80908​71                     convolutional and recurrent neural networks using FDG-PET images.
+ 42.   Gao L, Pan H, Liu F, Xie X, Zhang Z, Han J (2018) Brain disease diagnosis            Front Neuroinform 12:35. https://​doi.​org/​10.​3389/​fninf.​2018.​00035
+       using deep learning features from longitudinal MR images. In: Cai Y,             58. Janghel RR, Rathore YK (2021) Deep convolution neural network based
+       Ishikawa Y, Jianliang X (eds) Web and big data: second international                 system for early diagnosis of Alzheimer’s disease. IRBM 42(4):258–267.
+       joint conference, APWeb-WAIM 2018, Macau, China, July 23–25,                         https://​doi.​org/​10.​1016/j.​irbm.​2020.​06.​006
+       2018, Proceedings, Part I. Springer International Publishing, Cham, pp           59. Ortiz A, Munilla J, Górriz JM, Ramírez J (2016) Ensembles of deep
+       327–339. https://​doi.​org/​10.​1007/​978-3-​319-​96890-2_​27                        learning architectures for the early diagnosis of the Alzheimer’s disease.
+ 43.   Hoang GM, Kim U-H, Kim JG (2023) Vision transformers for the                         Int J Neural Syst 26(07):1650025. https://​doi.​org/​10.​1142/​S0129​06571​
+       prediction of mild cognitive impairment to Alzheimer’s disease                       65002​58
+       progression using mid-sagittal sMRI. Front Aging Neurosci 15:1102869.            60. Ortiz A, Munilla J, Martínez-Murcia FJ, Górriz JM, Ramírez J (2017)
+       https://​doi.​org/​10.​3389/​fnagi.​2023.​11028​69                                   Learning longitudinal MRI patterns by SICE and deep learning:
+ 44.   Islam J, Zhang Y (2018) Deep convolutional neural networks for                       assessing the Alzheimer’s disease progression. In: Hernández MV,
+       automated diagnosis of Alzheimer’s disease and mild cognitive                        González-Castro V (eds) Medical image understanding and analysis.
+       impairment using 3D brain MRI. In: Wang S, Yamamoto V, Jianzhong S,                  Springer International Publishing, Cham, pp 413–424. https://​doi.​org/​
+       Yang Y, Jones E, Iasemidis L, Mitchell T (eds) Brain informatics, Lecture            10.​1007/​978-3-​319-​60964-5_​36
+       Notes in Computer Science. Springer International Publishing, Cham,              61. Suk H-I, Lee S-W, Shen D (2017) Deep ensemble learning of sparse
+       pp 359–369. https://​doi.​org/​10.​1007/​978-3-​030-​05587-5_​34                     regression models for brain disease diagnosis. Med Image Anal
+ 45.   Jain R, Jain N, Aggarwal A, Hemanth DJ (2019) Convolutional neural                   37:101–113. https://​doi.​org/​10.​1016/j.​media.​2017.​01.​008
+       network based Alzheimer’s disease classification from magnetic                   62. Chen X, Zhang H, Zhang L, Shen C, Lee S, Shen D (2017) Extraction of
+       resonance brain images. Cogn Syst Res 57:147–159. https://​doi.​org/​10.​            dynamic functional connectivity from brain grey matter and white
+       1016/j.​cogsys.​2018.​12.​015                                                        matter for MCI classification. Hum Brain Mapp 38(10):5019–5034.
+                                                                                            https://​doi.​org/​10.​1002/​hbm.​23711
+Aghdam et al. Brain Informatics          (2025) 12:8                                                                                                 Page 26 of 27
+
+
+
+
+ 63. Guo H, Zhang F, Chen J, Xu Y, Xiang J (2017) Machine learning                     81. Cheng D, Liu M, Fu J, Wang Y (2017) Classification of MR brain images
+     classification combining multiple features of a hyper-network of fMRI                 by combination of multi-CNNs for AD diagnosis. In: Falco CM, Jiang X
+     data in Alzheimer’s disease. Front Neurosci 11:615. https://​doi.​org/​10.​           (Eds) Presented at the Ninth International Conference on Digital Image
+     3389/​fnins.​2017.​00615                                                              Processing (ICDIP 2017), Hong Kong, China, p. 1042042. https://​doi.​org/​
+ 64. Hojjati SH, Ebrahimzadeh A, Khazaee A, Babajani-Feremi A (2017)                       10.​1117/​12.​22818​08
+     Predicting conversion from MCI to AD using resting-state fMRI, graph              82. Lu D, Popuri K, Ding GW, Balachandar R, Beg MF (2018) Multiscale
+     theoretical approach and SVM. J Neurosci Methods 282:69–80. https://​                 deep neural network based analysis of FDG-PET images for the early
+     doi.​org/​10.​1016/j.​jneum​eth.​2017.​03.​006                                        diagnosis of Alzheimer’s disease. Med Image Anal 46:26–34. https://​doi.​
+ 65. Hu C, Ju R, Shen Y, Zhou P, Li Q (2016) Clinical decision support for                 org/​10.​1016/j.​media.​2018.​02.​002
+     Alzheimer’s disease based on deep learning and brain network. In 2016             83. Vu T-D, Ho N-H, Yang H-J, Kim J, Song H-C (2018) Non-white matter
+     IEEE International Conference on Communications (ICC), Kuala Lumpur,                  tissue extraction and deep convolutional neural network for
+     Malaysia: IEEE, pp. 1–6. https://​doi.​org/​10.​1109/​ICC.​2016.​75108​31             Alzheimer’s disease detection. Soft Comput 22(20):6825–6833. https://​
+ 66. Ju R, Hu C, Zhou P, Li Q (2019) Early diagnosis of Alzheimer’s disease                doi.​org/​10.​1007/​s00500-​018-​3421-5
+     based on resting-state brain networks and deep learning. IEEE/ACM                 84. Lu D, Popuri K, Ding GW, Balachandar R, Beg MF (2018) Multimodal and
+     Trans Comput Biol Bioinform 16(1):244–257. https://​doi.​org/​10.​1109/​              multiscale deep neural networks for the early diagnosis of Alzheimer’s
+     TCBB.​2017.​27769​10                                                                  disease using structural MR and FDG-PET images. Sci Rep 8(1):Art 1.
+ 67. Qian L, Zheng L, Shang Y, Zhang Y, Zhang Y (2018) Intrinsic frequency                 https://​doi.​org/​10.​1038/​s41598-​018-​22871-z
+     specific brain networks for identification of MCI individuals using               85. Vu TD, Yang H-J, Nguyen VQ, Oh A-R, Kim M-S (2017) Multimodal
+     resting-state fMRI. Neurosci Lett 664:7–14. https://​doi.​org/​10.​1016/j.​           learning using convolution neural network and Sparse Autoencoder.
+     neulet.​2017.​10.​052                                                                 In 2017 IEEE international conference on big data and smart
+ 68. Sadiq A, Yahya N, Tang TB, Hashim H, Naseem I (2022) Wavelet-based                    computing (BigComp), Jeju: IEEE, pp. 309–312. https://​doi.​org/​10.​
+     fractal analysis of rs-fMRI for classification of Alzheimer’s disease.                1109/​BIGCO​MP.​2017.​78816​83
+     Sensors 22(9):3102. https://​doi.​org/​10.​3390/​s2209​3102                       86. Alpaydin E (2016) Machine learning: the new AI. MIT Press
+ 69. Suk H-I, Wee C-Y, Lee S-W, Shen D (2016) State-space model with deep              87. Caruana R, Niculescu-Mizil A (2006) An empirical comparison
+     learning for functional dynamics estimation in resting-state fMRI.                    of supervised learning algorithms. In Proceedings of the 23rd
+     Neuroimage 129:292–307. https://​doi.​org/​10.​1016/j.​neuro​image.​2016.​            international conference on Machine learning—ICML ’06, Pittsburgh,
+     01.​005                                                                               Pennsylvania: ACM Press, 2006, pp. 161–168. https://​doi.​org/​10.​1145/​
+ 70. Yu R, Zhang H, An L, Chen X, Wei Z, Shen D (2017) Connectivity                        11438​44.​11438​65
+     strength-weighted sparse group representation-based brain network                 88. Hinton G, Sejnowski TJ (1999) Unsupervised learning: foundations of
+     construction for M CI classification. Hum Brain Mapp 38(5):2370–2383.                 neural computation. MIT Press
+     https://​doi.​org/​10.​1002/​hbm.​23524                                           89. LeCun Y, Bengio Y, Hinton G (2015) Deep learning. Nature
+ 71. Zhang L et al (2020) Investigation on the alteration of brain functional              521(7553):436–444. https://​doi.​org/​10.​1038/​natur​e14539
+     network and its role in the identification of mild cognitive impairment.          90. Rumelhart DE, Hinton GE, Williams RJ (1986) Learning representations
+     Front Neurosci 14:558434. https://​doi.​org/​10.​3389/​fnins.​2020.​558434            by back-propagating errors. Nature 323(6088):6088. https://​doi.​org/​
+ 72. Zhang Y, Zhang H, Adeli E, Chen X, Liu M, Shen D (2022) Multiview                     10.​1038/​32353​3a0
+     feature learning with multiatlas-based functional connectivity networks           91. Huang G-B, Babri HA (1998) Upper bounds on the number of hidden
+     for MCI diagnosis. IEEE Trans Cybern 52(7):6822–6833. https://​doi.​org/​             neurons in feedforward networks with arbitrary bounded nonlinear
+     10.​1109/​TCYB.​2020.​30169​53                                                        activation functions. IEEE Trans Neural Netw 9(1):224–229. https://​
+ 73. Zhao J, Ding X, Du Y, Wang X, Men G (2019) Functional connectivity                    doi.​org/​10.​1109/​72.​655045
+     between white matter and gray matter based on fMRI for Alzheimer’s                92. Schmidhuber J (2015) Deep learning in neural networks: an
+     disease classification. Brain Behav 9(10):e01407. https://​doi.​org/​10.​             overview. Neural Netw 61:85–117. https://​doi.​org/​10.​1016/j.​neunet.​
+     1002/​brb3.​1407                                                                      2014.​09.​003
+ 74. Zheng C, Xia Y, Chen Y, Yin X, Zhang Y (2018) Early Diagnosis of                  93. Nair V, Hinton GE (2010) Rectified linear units improve restricted
+     Alzheimer’s Disease by Ensemble Deep Learning Using FDG-PET.                          boltzmann machines. In Proceedings of the 27th International
+     In Peng Y, Yu K, Lu J, Jiang X (Eds) Intelligence science and big data                Conference on International Conference on Machine Learning, in
+     engineering, in Lecture Notes in Computer Science. Cham: Springer                     ICML’10. Madison, WI, USA: Omnipress, pp. 807–814
+     International Publishing, 2018, pp. 614–622. https://​doi.​org/​10.​1007/​        94. Goodfellow I, Bengio Y, Courville A (2016) Deep Learning. MIT Press
+     978-3-​030-​02698-1_​53                                                           95. Glorot X, Bengio Y (2023) Understanding the difficulty of training
+ 75. Liu S et al (2015) Multimodal neuroimaging feature learning for                       deep feedforward neural networks. In Proceedings of the Thirteenth
+     multiclass diagnosis of Alzheimer’s disease. IEEE Trans Biomed Eng                    International Conference on Artificial Intelligence and Statistics, JMLR
+     62(4):1132–1140. https://​doi.​org/​10.​1109/​TBME.​2014.​23720​11                    Workshop and Conference Proceedings, Mar. 2010, pp. 249–256.
+ 76. Liu J, Pan Y, Wu F-X, Wang J (2020) Enhancing the feature representation              https://​proce​edings.​mlr.​press/​v9/​gloro​t10a.​html. Accessed 21 Mar
+     of multi-modal MRI data by combining multi-view information for MCI                   2023
+     classification. Neurocomputing 400:322–332. https://​doi.​org/​10.​1016/j.​       96. Gardner MW, Dorling SR (1998) Artificial neural networks (the multilayer
+     neucom.​2020.​03.​006                                                                 perceptron)—a review of applications in the atmospheric sciences.
+ 77. Cui R, Liu M (2018) Hippocampus analysis based on 3D CNN for                          Atmos Environ 32(14):2627–2636. https://​doi.​org/​10.​1016/​S1352-​
+     Alzheimer’s disease diagnosis. In Jiang X, Hwang JN (Eds) Tenth                       2310(97)​00447-0
+     International Conference on Digital Image Processing (ICDIP 2018),                97. Hornik K, Stinchcombe M, White H (1989) Multilayer feedforward
+     Shanghai, China: SPIE, Aug. 2018, p. 275. https://​doi.​org/​10.​1117/​12.​           networks are universal approximators. Neural Netw 2(5):359–366.
+     25031​94                                                                              https://​doi.​org/​10.​1016/​0893-​6080(89)​90020-8
+ 78. Li F, Liu M (2018) Alzheimer’s disease diagnosis based on multiple                98. Liu M, Zhang D, Adeli E, Shen D (2016) Inherent structure-based
+     cluster dense convolutional networks. Comput Med Imaging Graph                        multiview learning with multitemplate feature representation for
+     70:101–110. https://​doi.​org/​10.​1016/j.​compm​edimag.​2018.​09.​009                Alzheimer’s disease diagnosis. IEEE Trans Biomed Eng 63(7):1473–1482.
+ 79. Lin W et al (2018) Convolutional neural networks-based MRI image                      https://​doi.​org/​10.​1109/​TBME.​2015.​24962​33
+     analysis for the Alzheimer’s disease prediction from mild cognitive               99. Zhang J, Gao Y, Gao Y, Munsell BC, Shen D (2016) Detecting anatomical
+     impairment. Front Neurosci 12:777. https://​doi.​org/​10.​3389/​fnins.​2018.​         landmarks for fast Alzheimer’s disease diagnosis. IEEE Trans Med
+     00777                                                                                 Imaging 35(12):2524–2533. https://​doi.​org/​10.​1109/​TMI.​2016.​25823​86
+ 80. Shi B, Chen Y, Zhang P, Smith CD, Liu J (2017) Nonlinear feature                 100. Noble WS (2006) What is a support vector machine? Nat Biotechnol
+     transformation and deep fusion for Alzheimer’s Disease staging                        24(12):1565–1567. https://​doi.​org/​10.​1038/​nbt12​06-​1565
+     analysis. Pattern Recognit 63:487–498. https://​doi.​org/​10.​1016/j.​patcog.​   101. Parmar A, Katariya R, Patel V (2019) A review on random forest:
+     2016.​09.​032                                                                         an ensemble classifier. In Hemanth J, Fernando X, Lafata P, Baig Z
+Aghdam et al. Brain Informatics             (2025) 12:8                                                                                                          Page 27 of 27
+
+
+
+
+       (Eds.) International Conference on Intelligent Data Communication                         Proceedings of the 25th international conference on Machine learning
+       Technologies and Internet of Things (ICICI) 2018, vol. 26, in Lecture                     - ICML ’08, Helsinki, Finland: ACM Press, pp. 1096–1103. https://​doi.​org/​
+       Notes on Data Engineering and Communications Technologies, Cham:                          10.​1145/​13901​56.​13902​94
+       Springer International Publishing, 2019, pp. 758–763. https://​doi.​org/​10.​      121.   Masci J, Meier U, Cireşan D, Schmidhuber J (2011) Stacked
+       1007/​978-3-​030-​03146-6_​86                                                             convolutional auto-encoders for hierarchical feature extraction. In
+102.   LeCun Y et al (1989) Backpropagation applied to handwritten zip code                      Honkela T, Duch W, Girolami M, Kaski S (Eds) Artificial neural networks
+       recognition. Neural Comput 1(4):541–551. https://​doi.​org/​10.​1162/​                    and machine learning—ICANN 2011, vol. 6791, in Lecture Notes
+       neco.​1989.1.​4.​541                                                                      in Computer Science, vol. 6791, Berlin, Heidelberg: Springer Berlin
+103.   Khan A, Sohail A, Zahoora U, Qureshi AS (2020) A survey of the recent                     Heidelberg, pp. 52–59. https://​doi.​org/​10.​1007/​978-3-​642-​21735-7_7
+       architectures of deep convolutional neural networks. Artif Intell Rev              122.   Liu S, Liu S, Cai W, Pujol S, Kikinis R, Feng DD (2015) Multi-phase feature
+       53(8):5455–5516. https://​doi.​org/​10.​1007/​s10462-​020-​09825-6                        representation learning for neurodegenerative disease diagnosis. In
+104.   Litjens G et al (2017) A survey on deep learning in medical image                         Chalup SK, Blair AD, Randall M (Eds) Artificial life and computational
+       analysis. Med Image Anal 42:60–88. https://​doi.​org/​10.​1016/j.​media.​                 intelligence. in Lecture Notes in Computer Science. Cham: Springer
+       2017.​07.​005                                                                             International Publishing, pp. 350–359. https://​doi.​org/​10.​1007/​978-3-​
+105.   Razzak MI, Naz S, Zaib A (2018) deep learning for medical image                           319-​14803-8_​27
+       processing: overview, challenges and the future. In Dey N, Ashour AS,              123.   Hinton GE (2007) Learning multiple layers of representation. Trends
+       Borra S (Eds) Classification in BioApps: automation of decision making,                   Cogn Sci 11(10):428–434. https://​doi.​org/​10.​1016/j.​tics.​2007.​09.​004
+       in Lecture Notes in Computational Vision and Biomechanics. Cham:                   124.   Singh S, Janghel RR (2022) Classification and diagnosis of Alzheimer’s
+       Springer International Publishing, pp. 323–350. https://​doi.​org/​10.​1007/​             disease from ADNI dataset using RBM classifier. In Khanna A, Gupta D,
+       978-3-​319-​65981-7_​12                                                                   Bhattacharyya S, Hassanien AE, Anand S, Jaiswal A (Eds) International
+106.   Alzubaidi L et al (2021) Review of deep learning: concepts, CNN                           conference on innovative computing and communications, vol. 1388,
+       architectures, challenges, applications, future directions. J Big Data                    in Advances in Intelligent Systems and Computing, Singapore: Springer
+       8(1):53. https://​doi.​org/​10.​1186/​s40537-​021-​00444-8                                Singapore, pp. 517–529. https://​doi.​org/​10.​1007/​978-​981-​16-​2597-8_​44
+107.   Krizhevsky A, Sutskever I, Hinton GE (2012) ImageNet classification with           125.   Vaswani A et al (2017) Attention is all you need. In Advances in neural
+       deep convolutional neural networks. In Advances in neural information                     information processing systems, Curran Associates, Inc. https://​proce​
+       processing systems, Curran Associates, Inc. https://​papers.​nips.​cc/​                   edings.​neuri​ps.​cc/​paper/​2017/​hash/​3f5ee​24354​7dee9​1fbd0​53c1c​
+       paper_​files/​paper/​2012/​hash/​c3998​62d3b​9d6b7​6c843​6e924​a68c4​5b-​                 4a845​aa-​Abstr​act.​html . Accessed 21 Mar 2023
+       Abstr​act.​html . Accessed 21 Mar 2023                                             126.   Dosovitskiy A et al (2021) An image is worth 16x16 words: transformers
+108.   Simonyan K, Zisserman A (2015) Very deep convolutional networks for                       for image recognition at scale. arXiv: arXiv:​2010.​11929. https://​doi.​org/​
+       large-scale image recognition. arXiv: arXiv:​1409.​1556. https://​doi.​org/​10.​          10.​48550/​arXiv.​2010.​11929
+       48550/​arXiv.​1409.​1556                                                           127.   Xing X, Liang G, Zhang Y, Khanal S, Lin AL, Jacobs N (2022) Advit: vision
+109.   Jia Y et al (2014) Caffe: Convolutional architecture for fast feature                     transformer on multi-modality pet images for Alzheimer disease
+       embedding. In Proceedings of the 22nd ACM international conference                        diagnosis. In 2022 IEEE 19th International Symposium on Biomedical
+       on Multimedia, in MM ’14. New York, NY, USA: Association for                              Imaging (ISBI), Kolkata, India: IEEE, pp. 1–4. https://​doi.​org/​10.​1109/​ISBI5​
+       Computing Machinery, pp. 675–678. https://​doi.​org/​10.​1145/​26478​68.​                 2829.​2022.​97615​84
+       26548​89                                                                           128.   Cheng D, Liu M (2017) Classification of Alzheimer’s disease by cascaded
+110.   Szegedy C et al (2015) Going deeper with convolutions. In Proceedings                     convolutional neural networks using PET images. In Wang Q, Shi Y, Suk
+       of the IEEE conference on computer vision and pattern recognition,                        HI, Suzuki K (Eds) Machine learning in medical imaging, vol. 10541,
+       pp. 1–9. https://​www.​cv-​found​ation.​org/​opena​ccess/​conte​nt_​cvpr_​                in Lecture Notes in Computer Science, Cham: Springer International
+       2015/​html/​Szege​dy_​Going_​Deeper_​With_​2015_​CVPR_​paper.​html .                      Publishing, pp. 106–113. https://​doi.​org/​10.​1007/​978-3-​319-​67389-9_​13
+       Accessed 12 Sep 2024                                                               129.   AIBL https://​aibl.​csiro.​au/. Accessed 5 Jun 2023
+111.   Huang G, Liu Z, Van Der Maaten L, Weinberger KQ (2017) Densely                     130.   National Alzheimer’s Coordinating Center. https://​naccd​ata.​org/.
+       connected convolutional networks. In Proceedings of the IEEE                              Accessed 5 Jun 2023
+       conference on computer vision and pattern recognition, pp. 4700–
+       4708. http://​opena​ccess.​thecvf.​com/​conte​nt_​cvpr_​2017/​html/​Huang_​
+       Dense​ly_​Conne​cted_​Convo​lutio​nal_​CVPR_​2017_​paper.​html. Accessed           Publisher’s Note
+       12 Sep 2024                                                                        Springer Nature remains neutral with regard to jurisdictional claims in pub-
+112.   LeCun Y, Bottou L, Bengio Y, Haffner P (1998) Gradient-based learning              lished maps and institutional affiliations.
+       applied to document recognition. Proc IEEE 86(11):2278–2324
+113.   Szegedy C, Ioffe S, Vanhoucke V, Alemi A (2017) Inception-v4, inception-
+       ResNet and the impact of residual connections on learning. Proc AAAI
+       Conf Artif Intell. 31(1):Art 1. https://​doi.​org/​10.​1609/​aaai.​v31i1.​11231
+114.   He K, Zhang X, Ren S, Sun J (2015) Deep residual learning for image
+       recognition. arXiv: arXiv:​1512.​03385. https://​doi.​org/​10.​48550/​arXiv.​
+       1512.​03385
+115.   Guo Y, Liu Y, Oerlemans A, Lao S, Wu S, Lew MS (2016) Deep learning for
+       visual understanding: a review. Neurocomputing 187:27–48. https://​
+       doi.​org/​10.​1016/j.​neucom.​2015.​09.​116
+116.   Lipton ZC, Berkowitz J, Elkan C (2015) A critical review of recurrent
+       neural networks for sequence learning. arXiv: arXiv:​1506.​00019. http://​
+       arxiv.​org/​abs/​1506.​00019. Accessed 2 Jan 2024
+117.   Schmidt RM (2019) Recurrent Neural Networks (RNNs): a gentle
+       introduction and overview. arXiv: arXiv:​1912.​05911. http://​arxiv.​org/​abs/​
+       1912.​05911. Accessed 3 Jan 2024
+118.   Hinton GE, Salakhutdinov RR (2006) Reducing the dimensionality of
+       data with neural networks. Science 313(5786):504–507. https://​doi.​org/​
+       10.​1126/​scien​ce.​11276​47
+119.   Bourlard H, Kabil SH (2022) Autoencoders reloaded. Biol Cybern
+       116(4):389–406. https://​doi.​org/​10.​1007/​s00422-​022-​00937-6
+120.   Vincent P, Larochelle H, Bengio Y, Manzagol P-A (2008) Extracting
+       and composing robust features with denoising autoencoders. In
+
